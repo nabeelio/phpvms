@@ -5,12 +5,16 @@
 
 CURR_PATH=$(shell pwd)
 
-help:
+all: build
 
-all:
+
+build:
 	composer install
 
 install:
+
+schema:
+	php artisan infyom:scaffold airlines --fieldsFile=database/schema/airlines.json
 
 docker:
 	@mkdir -p $(CURR_PATH)/tmp/mysql
