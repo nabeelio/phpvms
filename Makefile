@@ -7,6 +7,10 @@ CURR_PATH=$(shell pwd)
 
 help:
 
+all:
+	composer install
+
+install:
 
 docker:
 	@mkdir -p $(CURR_PATH)/tmp/mysql
