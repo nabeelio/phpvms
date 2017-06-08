@@ -14,7 +14,7 @@ build:
 install:
 
 schema:
-	php artisan infyom:scaffold airlines --fieldsFile=database/schema/airlines.json
+	php artisan infyom:scaffold Airlines --fieldsFile=database/schema/airlines.json
 
 docker:
 	@mkdir -p $(CURR_PATH)/tmp/mysql
