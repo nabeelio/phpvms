@@ -20,7 +20,7 @@ class Airlines extends Model
     public $fillable = [
         'code',
         'name',
-        'enabled'
+        'active'
     ];
 
     /**
@@ -31,7 +31,7 @@ class Airlines extends Model
     protected $casts = [
         'code' => 'string',
         'name' => 'string',
-        'enabled' => 'boolean'
+        'active' => 'boolean'
     ];
 
     /**

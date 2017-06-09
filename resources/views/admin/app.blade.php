@@ -25,7 +25,7 @@
 
             <!-- Logo -->
             <a href="#" class="logo">
-                <b>phpVMS<sup>nxt</sup></b>
+                <b>phpvms<sup>next</sup></b>
             </a>
 
             <!-- Header Navbar -->

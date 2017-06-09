@@ -16,10 +16,10 @@
     <p>{!! $airlines->name !!}</p>
 </div>
 
-<!-- Enabled Field -->
+<!-- Active Field -->
 <div class="form-group">
-    {!! Form::label('enabled', 'Enabled:') !!}
-    <p>{!! $airlines->enabled !!}</p>
+    {!! Form::label('active', 'Active:') !!}
+    <p>{!! $airlines->active !!}</p>
 </div>
 
 <!-- Created At Field -->

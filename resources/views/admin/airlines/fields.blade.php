@@ -10,12 +10,12 @@
     {!! Form::text('name', null, ['class' => 'form-control']) !!}
 </div>
 
-<!-- Enabled Field -->
+<!-- Active Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('enabled', 'Enabled:') !!}
+    {!! Form::label('active', 'Active:') !!}
     <label class="checkbox-inline">
-        {!! Form::hidden('enabled', false) !!}
-        {!! Form::checkbox('enabled', 'True', null) !!} 1
+        {!! Form::hidden('active', false) !!}
+        {!! Form::checkbox('active', 'True', null) !!} 1
     </label>
 </div>
 
