@@ -3,7 +3,7 @@ language: php
 php:
   - '7.0'
   - '7.1'
-  - hhvm
+#  - hhvm
 
 before_script:
   - cp .env.travis .env
