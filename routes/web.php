@@ -16,5 +16,18 @@ Route::get('/', function () {
 });
 
 
-Auth::routes();
 Route::get('/home', 'HomeController@index');
+
+
+//Auth::routes();
+
+/**
+ * Admin routes
+ */
+Route::group([
+    'namespace' => 'Admin',
+    'middleware' => 'auth',
+    'prefix' => 'admin',
+], function () {
+    Route::resource('airlines', 'AirlinesController');
+});

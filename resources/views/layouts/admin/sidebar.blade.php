@@ -11,7 +11,7 @@
             </div>
             <div class="pull-left info">
                 @if (Auth::guest())
-                <p>InfyOm</p>
+                <p>phpVMS Admin</p>
                 @else
                     <p>{{ Auth::user()->name}}</p>
                 @endif
@@ -33,7 +33,7 @@
         <!-- Sidebar Menu -->
 
         <ul class="sidebar-menu">
-            @include('layouts.menu')
+            @include('layouts.admin.menu')
         </ul>
         <!-- /.sidebar-menu -->
     </section>

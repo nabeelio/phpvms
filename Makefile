@@ -12,9 +12,19 @@ build:
 	composer install
 
 install:
+	echo ""
+
+db:
+	sqlite3 tmp/database.sqlite ""
+	php artisan migrate
+
+reset-db:
+	rm tmp/database.sqlite
+	make db
 
 schema:
-	php artisan infyom:scaffold Airlines --fieldsFile=database/schema/airlines.json
+	#php artisan infyom:scaffold Airlines --fieldsFile=database/schema/airlines.json
+	echo ""
 
 docker:
 	@mkdir -p $(CURR_PATH)/tmp/mysql
@@ -32,3 +42,5 @@ docker-clean:
 	-docker rm -rf phpvms
 	-rm core/local.config.php
 	-rm -rf tmp/mysql
+
+.PHONY: all build install db reset-db schema docker docker-clean
