@@ -1,17 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Frontend;
 
-use Illuminate\Http\Request;
-
-class HomeController extends Controller
+class DashboardController extends BaseController
 {
     /**
      * Show the application dashboard.
+     *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        return view('home');
+        return view('frontend/dashboard');
     }
 }

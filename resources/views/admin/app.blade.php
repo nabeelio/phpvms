@@ -25,7 +25,7 @@
 
             <!-- Logo -->
             <a href="#" class="logo">
-                <b>phpvms<sup>next</sup></b>
+                <b>phpvms<sup>4</sup></b>
             </a>
 
             <!-- Header Navbar -->

@@ -11,35 +11,16 @@
 |
 */
 
-Route::get('/', function () {
-    return redirect('home');
-});
+Auth::routes();
 
-
+Route::get('/', 'HomeController@index');
 Route::get('/home', 'HomeController@index');
-Route::get('/login', 'Auth\LoginController@index');
 
-/**
- * User routes that require auth
- */
-
-/*Route::group([
-    'namespace' => 'User',
-    'middleware' => 'auth',
-], function () {
-
-});*/
-
-Route::get('/admin', function () {
-    return redirect('/admin/airlines');
-});
 
 Route::group([
-    'namespace' => 'Admin',
+    'namespace' => 'Frontend',
     'middleware' => 'auth',
-    'prefix' => 'admin',
 ], function () {
-    Route::resource('airlines', 'AirlinesController');
-    Route::resource('aircraft', 'AircraftController');
+    Route::resource('dashboard', 'DashboardController');
 });
 

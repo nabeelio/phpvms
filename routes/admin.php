@@ -9,7 +9,7 @@ Route::get('/admin', function () {
 
 Route::group([
     'namespace' => 'Admin',
-    //'middleware' => 'auth',
+    'middleware' => 'auth',
     'prefix' => 'admin',
 ], function () {
     Route::resource('airlines', 'AirlinesController');
