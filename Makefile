@@ -16,7 +16,7 @@ install:
 	echo ""
 
 db:
-	# sqlite3 database/testing.sqlite ""
+	sqlite3 database/testing.sqlite ""
 	php artisan migrate
 
 reset-db:
