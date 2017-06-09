@@ -23,6 +23,8 @@ reset-db:
 	rm database/testing.sqlite
 	make db
 
+tests: test
+
 test:
 	vendor/bin/phpunit --testdox tests
 
