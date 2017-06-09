@@ -5,8 +5,8 @@
     "license": "MIT",
     "type": "project",
     "require": {
-        "php": ">=7.*",
-        "laravel/framework": "^7.0",
+        "php": ">=7.0",
+        "laravel/framework": "5.3.*",
         "yajra/laravel-datatables-oracle": "~6.0",
         "barryvdh/laravel-ide-helper": "^2.1",
         "infyomlabs/laravel-generator": "5.3.x-dev",
