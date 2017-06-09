@@ -24,6 +24,7 @@ reset-db:
 
 schema:
 	#php artisan infyom:scaffold Airlines --fieldsFile=database/schema/airlines.json
+	php artisan infyom:scaffold Aircraft --fieldsFile=database/schema/aircraft.json
 	echo ""
 
 docker:
