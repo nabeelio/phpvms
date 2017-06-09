@@ -6,7 +6,7 @@ return [
     | Application Name
     */
 
-    'name' => 'phpVMS',
+    'name' => 'phpvms',
 
     /*
     | Application Environment
