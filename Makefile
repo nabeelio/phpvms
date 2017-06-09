@@ -10,6 +10,7 @@ all: build
 
 build:
 	composer install
+	make db
 
 install:
 	echo ""
