@@ -17,21 +17,18 @@ Route::get('/', function () {
 
 
 Route::get('/home', 'HomeController@index');
+Route::get('/login', 'Auth\LoginController@index');
 
 /**
  * User routes that require auth
  */
 
-Route::group([
+/*Route::group([
     'namespace' => 'User',
     'middleware' => 'auth',
 ], function () {
 
-});
-
-/**
- * Admin routes
- */
+});*/
 
 Route::get('/admin', function () {
     return redirect('/admin/airlines');
@@ -45,5 +42,4 @@ Route::group([
     Route::resource('airlines', 'AirlinesController');
     Route::resource('aircraft', 'AircraftController');
 });
-
 

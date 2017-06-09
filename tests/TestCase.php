@@ -7,7 +7,12 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
      *
      * @var string
      */
+    protected $app;
     protected $baseUrl = 'http://localhost';
+
+    public function __construct($name = null, array $data = [], $dataName = '') {
+        parent::__construct($name, $data, $dataName);
+    }
 
     /**
      * Creates the application.
@@ -17,9 +22,12 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
     public function createApplication()
     {
         $app = require __DIR__.'/../bootstrap/app.php';
-
         $app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
-
         return $app;
+    }
+
+    public function createRepository($repo_name) {
+        $app = $this->createApplication();
+        return $app->make('App\Repositories\\' + $repo_name);
     }
 }
