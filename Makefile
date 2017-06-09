@@ -16,6 +16,7 @@ install:
 	echo ""
 
 db:
+	mkdir -p tmp/
 	sqlite3 tmp/database.sqlite ""
 	php artisan migrate
 
