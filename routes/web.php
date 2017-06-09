@@ -18,7 +18,16 @@ Route::get('/', function () {
 
 Route::get('/home', 'HomeController@index');
 
+/**
+ * User routes that require auth
+ */
 
+Route::group([
+    'namespace' => 'User',
+    'middleware' => 'auth',
+], function () {
+
+});
 
 /**
  * Admin routes
