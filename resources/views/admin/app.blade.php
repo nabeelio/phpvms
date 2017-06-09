@@ -80,7 +80,7 @@
         </header>
 
         <!-- Left side column. contains the logo and sidebar -->
-        @include('layouts.admin.sidebar')
+        @include('admin.sidebar')
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
             @yield('content')
@@ -88,7 +88,7 @@
 
         <!-- Main Footer -->
         <footer class="main-footer" style="max-height: 100px;text-align: center">
-            <strong>Copyright © 2016 <a href="#">Company</a>.</strong> All rights reserved.
+            <strong>Copyright © 2017 <a href="#">phpvms</a>.</strong> All rights reserved.
         </footer>
 
     </div>
@@ -108,7 +108,7 @@
 
                 <!-- Branding Image -->
                 <a class="navbar-brand" href="{!! url('/') !!}">
-                    InfyOm Generator
+                    phpVMS
                 </a>
             </div>
 
