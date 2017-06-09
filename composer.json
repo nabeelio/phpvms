@@ -1,7 +1,7 @@
 {
     "name": "phpvms/phpvms",
     "description": "phpVMS - Virtual Airline Administration",
-    "keywords": ["phpvms", "virtual", "airlines",],
+    "keywords": ["phpvms", "virtual", "airlines"],
     "license": "MIT",
     "type": "project",
     "require": {
