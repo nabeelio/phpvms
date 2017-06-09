@@ -9,19 +9,18 @@ all: build
 
 
 build:
-	composer install
-	make db
+	composer install --no-interaction
+	@make db
 
 install:
 	echo ""
 
 db:
-	mkdir -p tmp/
-	sqlite3 tmp/database.sqlite ""
+	# sqlite3 database/testing.sqlite ""
 	php artisan migrate
 
 reset-db:
-	rm tmp/database.sqlite
+	rm database/testing.sqlite
 	make db
 
 schema:

@@ -5,5 +5,11 @@ php:
   - '7.1'
   - hhvm
 
-install:
-  - make
+before_script:
+  - cp .env.travis .env
+#  - mysql -e 'create database phpvms_test;'
+  - composer self-update
+  - make build
+
+script:
+  - vendor/bin/phpunit
