@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\AircraftClass;
-use InfyOm\Generator\Common\BaseRepository;
 
 class AircraftClassRepository extends BaseRepository
 {

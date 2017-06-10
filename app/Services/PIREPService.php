@@ -5,7 +5,7 @@ namespace App\Services;
 use App\Repositories\AircraftRepository;
 
 
-class PIREPService {
+class PIREPService extends BaseService {
 
     protected $aircraft;
 

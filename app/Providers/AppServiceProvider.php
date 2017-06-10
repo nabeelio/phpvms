@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
+use App\Services\AircraftService;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -23,6 +25,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        // bind all the app services...
+        $this->app->bind('App\Services\AircraftService', function($app) {
+            return new \App\Services\AircraftService();
+        });
+
+        $this->app->bind('App\Services\AircraftFareService', function($app) {
+            return new \App\Services\AircraftFareService();
+        });
     }
 }
