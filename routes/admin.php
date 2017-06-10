@@ -14,4 +14,5 @@ Route::group([
 ], function () {
     Route::resource('airlines', 'AirlinesController');
     Route::resource('aircraft', 'AircraftController');
+    Route::resource('aircraftclasses', 'AircraftClassController');
 });

@@ -19,6 +19,11 @@ db:
 	sqlite3 database/testing.sqlite ""
 	php artisan migrate
 
+unittest-db:
+	rm -f database/unittest.sqlite
+	sqlite3 database/unittest.sqlite ""
+	php artisan migrate:refresh --seed --env unittest
+
 reset-db:
 	rm database/testing.sqlite
 	make db

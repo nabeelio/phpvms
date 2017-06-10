@@ -1,8 +1,10 @@
 <?php
 
+namespace Database\Seeds;
+
 use Illuminate\Database\Seeder;
 
-class DatabaseSeeder extends Seeder
+class AircraftClassesSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,6 +13,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-//         $this->call(AircraftClassesSeeder::class);
+
     }
 }

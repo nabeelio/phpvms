@@ -46,12 +46,6 @@ return [
 
     'connections' => [
 
-        'testing' => [
-            'driver' => 'sqlite',
-            'database' => database_path('testing.sqlite'),
-            'prefix' => '',
-        ],
-
         'mysql' => [
             'driver' => 'mysql',
             'host' => env('DB_HOST', 'localhost'),
@@ -64,6 +58,24 @@ return [
             'prefix' => '',
             'strict' => true,
             'engine' => null,
+        ],
+
+        'local' => [
+            'driver' => 'sqlite',
+            'database' => database_path('testing.sqlite'),
+            'prefix' => '',
+        ],
+
+        'unittest' => [
+            'driver' => 'sqlite',
+            'database' => database_path('unittest.sqlite'),
+            'prefix' => '',
+        ],
+
+        'testing' => [
+            'driver' => 'sqlite',
+            'database' => ':memory:',
+            'prefix' => '',
         ],
 
     ],

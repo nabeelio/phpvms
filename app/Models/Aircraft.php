@@ -15,12 +15,10 @@ class Aircraft extends Model
     use SoftDeletes;
 
     public $table = 'aircraft';
-
-
     protected $dates = ['deleted_at'];
 
-
     public $fillable = [
+        'aircraft_class_id',
         'icao',
         'name',
         'full_name',
@@ -51,5 +49,17 @@ class Aircraft extends Model
         'name' => 'required',
         'full_name' => 'required',
         'registration' => 'required',
+        'active' => 'default:1'
     ];
+
+    /**
+     * foreign key
+     */
+    public function class()
+    {
+        return $this->belongsTo(
+            'App\Models\AircraftClass',
+            'aircraft_class_id'
+        );
+    }
 }
