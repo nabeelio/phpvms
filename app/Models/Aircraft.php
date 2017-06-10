@@ -62,4 +62,9 @@ class Aircraft extends Model
             'aircraft_class_id'
         );
     }
+
+    public function fares() {
+        # aircraft_fare == table name
+        return $this->belongsToMany('App\Models\Fare', 'aircraft_fare');
+    }
 }

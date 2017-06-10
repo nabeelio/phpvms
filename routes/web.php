@@ -34,3 +34,13 @@ Route::patch('admin/aircraftClasses/{aircraftClasses}', ['as'=> 'admin.aircraftC
 Route::delete('admin/aircraftClasses/{aircraftClasses}', ['as'=> 'admin.aircraftClasses.destroy', 'uses' => 'AircraftClassController@destroy']);
 Route::get('admin/aircraftClasses/{aircraftClasses}', ['as'=> 'admin.aircraftClasses.show', 'uses' => 'AircraftClassController@show']);
 Route::get('admin/aircraftClasses/{aircraftClasses}/edit', ['as'=> 'admin.aircraftClasses.edit', 'uses' => 'AircraftClassController@edit']);
+
+
+Route::get('admin/fares', ['as'=> 'admin.fares.index', 'uses' => 'FareController@index']);
+Route::post('admin/fares', ['as'=> 'admin.fares.store', 'uses' => 'FareController@store']);
+Route::get('admin/fares/create', ['as'=> 'admin.fares.create', 'uses' => 'FareController@create']);
+Route::put('admin/fares/{fares}', ['as'=> 'admin.fares.update', 'uses' => 'FareController@update']);
+Route::patch('admin/fares/{fares}', ['as'=> 'admin.fares.update', 'uses' => 'FareController@update']);
+Route::delete('admin/fares/{fares}', ['as'=> 'admin.fares.destroy', 'uses' => 'FareController@destroy']);
+Route::get('admin/fares/{fares}', ['as'=> 'admin.fares.show', 'uses' => 'FareController@show']);
+Route::get('admin/fares/{fares}/edit', ['as'=> 'admin.fares.edit', 'uses' => 'FareController@edit']);

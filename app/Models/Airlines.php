@@ -44,5 +44,4 @@ class Airlines extends Model
         'name' => 'required',
     ];
 
-
 }
