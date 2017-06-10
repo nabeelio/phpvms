@@ -1,7 +1,5 @@
 <?php
 
-use App\Models\Aircraft;
-use App\Services\AircraftService;
 
 class AircraftTest extends TestCase
 {
@@ -24,19 +22,19 @@ class AircraftTest extends TestCase
         factory(App\Models\Fare::class)->create();
     }
 
-    protected function get_ac_class()
+    protected function getAircraftClass()
     {
         return app('App\Repositories\AircraftClassRepository')
             ->findByField('code', 'H')->first();
     }
 
-    protected function find_by_icao($icao)
+    protected function findByICAO($icao)
     {
         $ac_repo = app('App\Repositories\AircraftRepository');
         return $ac_repo->findByICAO($icao);
     }
 
-    protected function get_fare_by_code($code)
+    protected function getFareByCode($code)
     {
         return app('App\Repositories\FareRepository')->findByCode($code);
     }
@@ -46,25 +44,25 @@ class AircraftTest extends TestCase
      * Mostly to experiment with the ORM type stuff. This isn't
      * where most of the testing, etc is required.
      */
-    protected function add_aircraft()
+    protected function addAircraft()
     {
         $svc = app('App\Services\AircraftService');
         $err = $svc->create([
             'icao' => $this->ICAO,
             'name' => 'Boeing 777',
-        ], $this->get_ac_class());
+        ], $this->getAircraftClass());
 
         $this->assertNotFalse($err);
 
-        return $this->find_by_icao($this->ICAO);
+        return $this->findByICAO($this->ICAO);
     }
 
     public function testAircraftClasses()
     {
-        $aircraft = $this->add_aircraft();
+        $aircraft = $this->addAircraft();
         $this->assertEquals($this->ICAO, $aircraft->icao, 'ICAO matching');
         $this->assertEquals(
-            $this->get_ac_class(),
+            $this->getAircraftClass(),
             $aircraft->class,
             'Check belongsTo relationship'
         );
@@ -74,11 +72,11 @@ class AircraftTest extends TestCase
     {
         $fare_svc = app('App\Services\FareService');
 
-        $aircraft = $this->add_aircraft();
-        $fare = $this->get_fare_by_code('Y');
+        $aircraft = $this->addAircraft();
+        $fare = $this->getFareByCode('Y');
 
-        $fare_svc->set_for_aircraft($aircraft, $fare);
-        $ac_fares = $fare_svc->get_for_aircraft($aircraft);
+        $fare_svc->setForAircraft($aircraft, $fare);
+        $ac_fares = $fare_svc->getForAircraft($aircraft);
 
         $this->assertCount(1, $ac_fares);
         $this->assertEquals($fare->price, $ac_fares[0]->price);
@@ -87,34 +85,34 @@ class AircraftTest extends TestCase
         #
         # set an override now
         #
-        $fare_svc->set_for_aircraft($aircraft, $fare, [
+        $fare_svc->setForAircraft($aircraft, $fare, [
             'price' => 50, 'capacity' => 400
         ]);
 
         # look for them again
-        $ac_fares = $fare_svc->get_for_aircraft($aircraft);
+        $ac_fares = $fare_svc->getForAircraft($aircraft);
 
         $this->assertCount(1, $ac_fares);
         $this->assertEquals(50, $ac_fares[0]->price);
         $this->assertEquals(400, $ac_fares[0]->capacity);
 
         # delete
-        $fare_svc->delete_from_aircraft($aircraft, $fare);
-        $this->assertCount(0, $fare_svc->get_for_aircraft($aircraft));
+        $fare_svc->delFromAircraft($aircraft, $fare);
+        $this->assertCount(0, $fare_svc->getForAircraft($aircraft));
     }
 
     public function testAircraftFaresOverride()
     {
         $fare_svc = app('App\Services\FareService');
 
-        $aircraft = $this->add_aircraft();
-        $fare = $this->get_fare_by_code('Y');
+        $aircraft = $this->addAircraft();
+        $fare = $this->getFareByCode('Y');
 
-        $fare_svc->set_for_aircraft($aircraft, $fare, [
+        $fare_svc->setForAircraft($aircraft, $fare, [
             'price' => 50, 'capacity' => 400
         ]);
 
-        $ac_fares = $fare_svc->get_for_aircraft($aircraft);
+        $ac_fares = $fare_svc->getForAircraft($aircraft);
 
         $this->assertCount(1, $ac_fares);
         $this->assertEquals(50, $ac_fares[0]->price);
@@ -124,19 +122,19 @@ class AircraftTest extends TestCase
         # update the override to a different amount and make sure it updates
         #
 
-        $fare_svc->set_for_aircraft($aircraft, $fare, [
+        $fare_svc->setForAircraft($aircraft, $fare, [
             'price' => 150, 'capacity' => 50
         ]);
 
-        $ac_fares = $fare_svc->get_for_aircraft($aircraft);
+        $ac_fares = $fare_svc->getForAircraft($aircraft);
 
         $this->assertCount(1, $ac_fares);
         $this->assertEquals(150, $ac_fares[0]->price);
         $this->assertEquals(50, $ac_fares[0]->capacity);
 
         # delete
-        $fare_svc->delete_from_aircraft($aircraft, $fare);
-        $this->assertCount(0, $fare_svc->get_for_aircraft($aircraft));
+        $fare_svc->delFromAircraft($aircraft, $fare);
+        $this->assertCount(0, $fare_svc->getForAircraft($aircraft));
     }
 
     /**

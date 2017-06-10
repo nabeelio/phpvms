@@ -16,7 +16,7 @@ class FareService extends BaseService {
      *
      * @return Aircraft
      */
-    public function set_for_aircraft(
+    public function setForAircraft(
         Aircraft &$aircraft,
         Fare &$fare,
         array $override=[]
@@ -40,7 +40,7 @@ class FareService extends BaseService {
      * @param Aircraft $aircraft
      * @return Fare[]
      */
-    public function get_for_aircraft(Aircraft &$aircraft)
+    public function getForAircraft(Aircraft &$aircraft)
     {
         $fares = [];
         foreach($aircraft->fares as $fare) {
@@ -61,7 +61,7 @@ class FareService extends BaseService {
         return $fares;
     }
 
-    public function delete_from_aircraft(Aircraft &$aircraft, Fare &$fare)
+    public function delFromAircraft(Aircraft &$aircraft, Fare &$fare)
     {
         $aircraft->fares()->detach($fare->id);
         $aircraft = $aircraft->fresh();

@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Models\Aircraft;
 use App\Models\AircraftClass;
 use Dompdf\Exception;
 
