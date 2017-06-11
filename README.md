@@ -6,6 +6,39 @@
 
 The next phpvms version built on the laravel framework. work in progress. If you're looking for the old, phpVMS classic, it's [available here](https://github.com/nabeelio/phpvms_v2).
 
-## license
+# installation
+
+run the following commands. for right now, we're running on sqlite. for mysql, set `DB_CONNECTION` to `mysql` in the `.env` file, and skip the `sqlite3` step below.
+
+```
+cp .env.example .env
+composer install --no-interaction
+sqlite3 database/testing.sqlite ""
+php artisan migrate:refresh --seed
+```
+
+then point your webserver to the `/public` folder. for example, in nginx:
+
+```
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server ipv6only=on;
+
+    root /var/www/laravel/public;
+    index index.php index.html index.htm;
+
+    server_name localhost;
+
+    location / {
+            try_files $uri $uri/ =404;
+    }
+}
+```
+
+see [this article](https://www.digitalocean.com/community/tutorials/how-to-install-laravel-with-an-nginx-web-server-on-ubuntu-14-04) for more detailed instructions.
+
+(TODO: redis information, etc)
+
+# license
 
 phpVMS is open-sourced software licensed under the [The 3-Clause BSD License](https://opensource.org/licenses/BSD-3-Clause).
