@@ -13,6 +13,7 @@ run the following commands. for right now, we're running on sqlite. for mysql, s
 ```bash
 cp .env.example .env
 composer install --no-interaction
+php artisan optimize
 sqlite3 database/testing.sqlite ""
 php artisan migrate:refresh --seed
 ```

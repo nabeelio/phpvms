@@ -10,23 +10,29 @@ all: build
 
 build:
 	composer install --no-interaction
+	php artisan optimize
+	php artisan config:cache
 	@make db
 
-install:
+install: db
 	echo ""
+
+reset:
+	@rm database/testing.sqlite
+	@php artisan optimize
+	@php artisan config:clear
+	@sqlite3 database/testing.sqlite ""
+	@php artisan migrate:refresh --seed
 
 db:
 	sqlite3 database/testing.sqlite ""
 	php artisan migrate
+	php artisan db:seed
 
 unittest-db:
 	rm -f database/unittest.sqlite
 	sqlite3 database/unittest.sqlite ""
 	php artisan migrate:refresh --seed --env unittest
-
-reset-db:
-	rm database/testing.sqlite
-	make db
 
 tests: test
 
@@ -35,7 +41,7 @@ test:
 
 schema:
 	#php artisan infyom:scaffold Airlines --fieldsFile=database/schema/airlines.json
-	php artisan infyom:scaffold Aircraft --fieldsFile=database/schema/aircraft.json
+	#php artisan infyom:scaffold Aircraft --fieldsFile=database/schema/aircraft.json
 	echo ""
 
 docker:

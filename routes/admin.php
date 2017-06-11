@@ -3,18 +3,19 @@
  * Admin routes
  */
 
-Route::get('/admin', [
+/*Route::get('/admin', [
     'middleware' => ['role:admin'],
-    'uses' => 'DashboardController@index'
+    'uses' => 'Http\Controllers\Admin\DashboardController@index'
 ]);
 
 Route::group([
-    'namespace' => 'Admin',
-    'middleware' => ['role:admin'],
+    'namespace' => 'Http\Controllers\Admin',
+    //'middleware' => ['role:admin'],
     'prefix' => 'admin',
 ], function () {
+    Route::resource('airports', 'AirportController');
     Route::resource('airlines', 'AirlinesController');
     Route::resource('aircraft', 'AircraftController');
     Route::resource('aircraftclasses', 'AircraftClassController');
     Route::resource('fares', 'FareController');
-});
+});*/
