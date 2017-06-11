@@ -10,7 +10,7 @@ The next phpvms version built on the laravel framework. work in progress. If you
 
 run the following commands. for right now, we're running on sqlite. for mysql, set `DB_CONNECTION` to `mysql` in the `.env` file, and skip the `sqlite3` step below.
 
-```
+```bash
 cp .env.example .env
 composer install --no-interaction
 sqlite3 database/testing.sqlite ""
@@ -39,6 +39,10 @@ see [this article](https://www.digitalocean.com/community/tutorials/how-to-insta
 
 (TODO: redis information, etc)
 
-# license
+# updating
 
-phpVMS is open-sourced software licensed under the [The 3-Clause BSD License](https://opensource.org/licenses/BSD-3-Clause).
+extract files and run the migrations:
+
+```bash
+php artisan migrate
+```
