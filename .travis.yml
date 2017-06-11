@@ -6,8 +6,9 @@ php:
 #  - hhvm
 
 before_script:
-  - cp .env.travis .env
-#  - mysql -e 'create database phpvms_test;'
+  #- cp .env.travis .env
+  - cp .env.example .env
+  #- mysql -e 'create database phpvms_test;'
   - composer self-update
   - make build
 
