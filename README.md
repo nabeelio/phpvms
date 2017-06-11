@@ -36,6 +36,10 @@ server {
 }
 ```
 
+## using laradock
+
+[laradock](http://laradock.io/) is probably the simplest way to get an env working, and is what I use. just follow the instructions and point `APPLICATION=../phpvms` to your phpvms path.
+
 see [this article](https://www.digitalocean.com/community/tutorials/how-to-install-laravel-with-an-nginx-web-server-on-ubuntu-14-04) for more detailed instructions.
 
 (TODO: redis information, etc)
