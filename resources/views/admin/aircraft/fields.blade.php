@@ -1,6 +1,6 @@
 <!-- ICAO Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('icao', 'ICAO:') !!}
+    {!! Form::label('icao', 'ICAO:') !!} (<a class="small" href="https://www.icao.int/publications/DOC8643/Pages/Search.aspx" target="_blank">find</a>)
     {!! Form::text('icao', null, ['class' => 'form-control']) !!}
 </div>
 
@@ -10,16 +10,16 @@
     {!! Form::text('name', null, ['class' => 'form-control']) !!}
 </div>
 
-<!-- Full Name Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('full_name', 'Full Name:') !!}
-    {!! Form::text('full_name', null, ['class' => 'form-control']) !!}
-</div>
-
 <!-- Registration Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('registration', 'Registration:') !!}
     {!! Form::text('registration', null, ['class' => 'form-control']) !!}
+</div>
+
+<!-- Tail Number Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('tail_number', 'Tail Number:') !!}
+    {!! Form::text('tail_number', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Active Field -->
@@ -27,7 +27,7 @@
     {!! Form::label('active', 'Active:') !!}
     <label class="checkbox-inline">
         {!! Form::hidden('active', false) !!}
-        {!! Form::checkbox('active', '1', null) !!} 1
+        {!! Form::checkbox('active', '1', true) !!}
     </label>
 </div>
 

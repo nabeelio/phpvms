@@ -24,8 +24,8 @@ class Aircraft extends Model
             'aircraft_class_id',
             'icao',
             'name',
-            'full_name',
             'registration',
+            'tail_number',
             'active',
         ];
 
@@ -38,7 +38,6 @@ class Aircraft extends Model
         = [
             'icao'         => 'string',
             'name'         => 'string',
-            'full_name'    => 'string',
             'registration' => 'string',
             'active'       => 'boolean',
         ];
@@ -50,11 +49,9 @@ class Aircraft extends Model
      */
     public static $rules
         = [
-            'icao'         => 'required|max:4',
+            'icao'         => 'required|max:5',
             'name'         => 'required',
-            'full_name'    => 'required',
-            'registration' => 'required',
-            'active'       => 'default:1',
+            'active'       => '',
         ];
 
     /**

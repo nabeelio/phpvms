@@ -9,7 +9,7 @@
     <tbody>
     @foreach($aircraft as $ac)
         <tr>
-            <td>{!! $ac->icao !!}</td>
+            <td><a href="{!! route('admin.aircraft.show', [$ac->id]) !!}">{!! $ac->icao !!}</a></td>
             <td>{!! $ac->name !!}</td>
             <td>{!! $ac->registration !!}</td>
             <td>{!! $ac->active !!}</td>

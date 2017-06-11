@@ -53,7 +53,6 @@ class Fare extends Model
         = [
             'code' => 'required',
             'name' => 'required',
-            'cost' => 'default:0.0',
         ];
 
     public function aircraft() {

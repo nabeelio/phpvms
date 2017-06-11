@@ -12,7 +12,6 @@ class CreateAircraftsTable extends Migration
             $table->integer('aircraft_class_id')->unsigned()->nullable();
             $table->string('icao');
             $table->string('name');
-            $table->string('full_name')->nullable();
             $table->string('registration')->nullable();
             $table->string('tail_number')->nullable();
             $table->string('cargo_capacity')->nullable();
