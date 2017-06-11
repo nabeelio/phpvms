@@ -6,15 +6,16 @@
     "type": "project",
     "require": {
         "php": ">=7.0",
-        "laravel/framework": "5.3.*",
+        "laravel/framework": "5.4.*",
         "yajra/laravel-datatables-oracle": "~6.0",
         "barryvdh/laravel-ide-helper": "^2.1",
-        "infyomlabs/laravel-generator": "5.3.x-dev",
-        "laravelcollective/html": "dev-master",
+        "infyomlabs/laravel-generator": "dev-master",
+        "laravelcollective/html": "5.4.x",
         "infyomlabs/adminlte-templates": "5.3.x-dev",
         "infyomlabs/swagger-generator": "dev-master",
         "jlapp/swaggervel": "dev-master",
-        "doctrine/dbal": "~2.3"
+        "doctrine/dbal": "~2.3",
+        "zizaco/entrust": "5.2.x-dev"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -32,6 +33,9 @@
         }
     },
     "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        },
         "classmap": [
             "tests/TestCase.php"
         ]
