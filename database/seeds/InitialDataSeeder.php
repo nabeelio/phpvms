@@ -19,19 +19,21 @@ class InitialDataSeeder extends Seeder
      */
     protected function user_seeder()
     {
-        # 2 main groups
-        DB::table('roles')->insert(['id' => 1, 'name' => 'Administrators']);
-        DB::table('roles')->insert(['id' => 2, 'name' => 'Pilots']);
+        foreach ([
+            ['id' => 1,'name' => 'admin', 'display_name' => 'Administrators'],
+            ['id' => 2, 'name' => 'user', 'display_name' => 'Pilot'],
+        ] as $group) { DB::table('roles')->insert($group); }
 
         DB::table('users')->insert([
-            'id'        => 1,
-            'name'      => 'Admin User',
-            'email'     => 'admin@phpvms.net',
-            'password'  => bcrypt('admin'),
+            'id'       => 1,
+            'name'     => 'Admin User',
+            'email'    => 'admin@phpvms.net',
+            'password' => bcrypt('admin'),
         ]);
 
         DB::table('role_user')->insert([
-            'user_id' => 1, 'role_id' => 1
+            'user_id' => 1,
+            'role_id' => 1,
         ]);
     }
 }
