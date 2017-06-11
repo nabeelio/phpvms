@@ -10,7 +10,7 @@ use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 
-class AircraftController extends AdminBaseController
+class AircraftController extends BaseController
 {
     /** @var  AircraftRepository */
     private $aircraftRepository;

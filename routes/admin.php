@@ -5,7 +5,7 @@
 
 Route::get('/admin', [
     'middleware' => ['role:admin'],
-    'uses' => 'DashboardAdminController@index'
+    'uses' => 'DashboardController@index'
 ]);
 
 Route::group([

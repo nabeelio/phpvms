@@ -10,7 +10,7 @@ use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 
-class AirlinesController extends AdminBaseController
+class AirlinesController extends BaseController
 {
     /** @var  AirlinesRepository */
     private $airlinesRepository;
@@ -46,7 +46,6 @@ class AirlinesController extends AdminBaseController
     public function store(CreateAirlinesRequest $request)
     {
         $input = $request->all();
-
         $airlines = $this->airlinesRepository->create($input);
 
         Flash::success('Airlines saved successfully.');
@@ -59,7 +58,7 @@ class AirlinesController extends AdminBaseController
      *
      * @param  int $id
      *
-     * @return Response
+     * @return mixed
      */
     public function show($id)
     {
@@ -67,7 +66,6 @@ class AirlinesController extends AdminBaseController
 
         if (empty($airlines)) {
             Flash::error('Airlines not found');
-
             return redirect(route('airlines.index'));
         }
 
@@ -87,7 +85,6 @@ class AirlinesController extends AdminBaseController
 
         if (empty($airlines)) {
             Flash::error('Airlines not found');
-
             return redirect(route('airlines.index'));
         }
 
@@ -108,7 +105,6 @@ class AirlinesController extends AdminBaseController
 
         if (empty($airlines)) {
             Flash::error('Airlines not found');
-
             return redirect(route('airlines.index'));
         }
 
@@ -132,7 +128,6 @@ class AirlinesController extends AdminBaseController
 
         if (empty($airlines)) {
             Flash::error('Airlines not found');
-
             return redirect(route('airlines.index'));
         }
 

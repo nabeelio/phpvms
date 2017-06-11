@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Flash;
 use Response;
 
-class DashboardAdminController extends AdminBaseController
+class DashboardController extends BaseController
 {
     /**
      * Display a listing of the Airlines.

@@ -5,13 +5,12 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\CreateAircraftClassRequest;
 use App\Http\Requests\UpdateAircraftClassRequest;
 use App\Repositories\AircraftClassRepository;
-use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 
-class AircraftClassController extends AppBaseController
+class AircraftClassController extends BaseController
 {
     /** @var  AircraftClassRepository */
     private $aircraftClassRepository;
@@ -33,7 +32,7 @@ class AircraftClassController extends AppBaseController
         $aircraftClasses = $this->aircraftClassRepository->all();
 
         return view('admin.aircraft_classes.index')
-            ->with('aircraftClasses', $aircraftClasses);
+                ->with('aircraftClasses', $aircraftClasses);
     }
 
     /**
@@ -56,7 +55,6 @@ class AircraftClassController extends AppBaseController
     public function store(CreateAircraftClassRequest $request)
     {
         $input = $request->all();
-
         $aircraftClass = $this->aircraftClassRepository->create($input);
 
         Flash::success('Aircraft Class saved successfully.');
@@ -77,7 +75,6 @@ class AircraftClassController extends AppBaseController
 
         if (empty($aircraftClass)) {
             Flash::error('Aircraft Class not found');
-
             return redirect(route('admin.aircraftClasses.index'));
         }
 
@@ -89,7 +86,7 @@ class AircraftClassController extends AppBaseController
      *
      * @param  int $id
      *
-     * @return Response
+     * @return mixed
      */
     public function edit($id)
     {
@@ -97,7 +94,6 @@ class AircraftClassController extends AppBaseController
 
         if (empty($aircraftClass)) {
             Flash::error('Aircraft Class not found');
-
             return redirect(route('admin.aircraftClasses.index'));
         }
 
@@ -118,7 +114,6 @@ class AircraftClassController extends AppBaseController
 
         if (empty($aircraftClass)) {
             Flash::error('Aircraft Class not found');
-
             return redirect(route('admin.aircraftClasses.index'));
         }
 
@@ -142,7 +137,6 @@ class AircraftClassController extends AppBaseController
 
         if (empty($aircraftClass)) {
             Flash::error('Aircraft Class not found');
-
             return redirect(route('admin.aircraftClasses.index'));
         }
 
