@@ -120,4 +120,24 @@ class AircraftController extends BaseController
 
         return redirect(route('admin.aircraft.index'));
     }
+
+    public function fares(Request $request)
+    {
+        $id = $request->id;
+
+        $aircraft = $this->aircraftRepository->findWithoutFail($id);
+        if (empty($aircraft)) {
+            return view('admin.aircraft.fares')->with('fares', []);
+        }
+
+        // associate or dissociate the fare with this aircraft
+        if ($request->isMethod('post') || $request->isMethod('put')) {
+
+        } elseif ($request->isMethod('delete')) {
+
+        }
+
+        return view('admin.aircraft.fares')
+               ->with('fare', $aircraft->fares);
+    }
 }
