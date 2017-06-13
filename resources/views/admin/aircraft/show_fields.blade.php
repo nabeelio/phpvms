@@ -3,9 +3,11 @@
     <div class="box box-solid">
         <div class="box-header with-border">
             {{--<i class="fa fa-text-width"></i>--}}
-            <h3 class="box-title">{!! Form::label('icao', 'ICAO:') !!}</h3>
+            <h3 class="box-title">{!! Form::label('icao', 'ICAO') !!}</h3>
         </div>
-        <div class="box-body"><p class="lead">{!! $aircraft->icao !!}</p></div>
+        <div class="box-body">
+            <p class="lead">{!! $aircraft->icao !!}/<strong>{!! $aircraft->class->code !!}</strong> ({!! $aircraft->class->name !!})</p>
+        </div>
     </div>
 </div>
 
@@ -14,7 +16,7 @@
     <div class="box box-solid">
         <div class="box-header with-border">
             {{--<i class="fa fa-text-width"></i>--}}
-            <h3 class="box-title">{!! Form::label('name', 'Name:') !!}</h3>
+            <h3 class="box-title">{!! Form::label('name', 'Name') !!}</h3>
         </div>
         <div class="box-body"><p class="lead">{!! $aircraft->name !!}</p></div>
     </div>
@@ -25,9 +27,10 @@
     <div class="box box-solid">
         <div class="box-header with-border">
             {{--<i class="fa fa-text-width"></i>--}}
-            <h3 class="box-title">{!! Form::label('registration', 'Registration:') !!}</h3>
+            <h3 class="box-title">{!! Form::label('registration', 'Registration') !!}/
+                {!! Form::label('tail_number', 'Tail Number') !!}</h3>
         </div>
-        <div class="box-body"><p class="lead">{!! $aircraft->registration !!}</p></div>
+        <div class="box-body"><p class="lead">{!! $aircraft->registration !!}/{!! $aircraft->tail_number !!}</p></div>
     </div>
 </div>
 

@@ -16,6 +16,20 @@ class AircraftController extends BaseController
     /** @var  AircraftRepository */
     private $aircraftRepository, $fareRepository;
 
+    protected function getAvailFares($all_fares, $attached_fares)
+    {
+        $retval = [];
+        $avail_fares = $all_fares->except($attached_fares->modelKeys());
+        foreach ($avail_fares as $fare) {
+            $retval[$fare->id] = $fare->name.
+                                 ' (price: '.$fare->price.
+                                 ', cost: '.$fare->cost.
+                                 ', capacity: '.$fare->capacity.')';
+        }
+
+        return $retval;
+    }
+
     public function __construct(AircraftRepository $aircraftRepo, FareRepository $fareRepo)
     {
         $this->fareRepository = $fareRepo;
@@ -69,7 +83,7 @@ class AircraftController extends BaseController
 
         $attached_fares = $aircraft->fares;
         $all_fares = $this->fareRepository->all();
-        $avail_fares = $all_fares->except($attached_fares->modelKeys());
+        $avail_fares = $this->getAvailFares($all_fares, $attached_fares);
 
         return view('admin.aircraft.show')
                 ->with('aircraft', $aircraft)
@@ -132,9 +146,10 @@ class AircraftController extends BaseController
 
     protected function return_fares_view($aircraft)
     {
+        $aircraft->refresh();
         $attached_fares = $aircraft->fares;
         $all_fares = $this->fareRepository->all();
-        $avail_fares = $all_fares->except($attached_fares->modelKeys());
+        $avail_fares = $this->getAvailFares($all_fares, $attached_fares);
 
         return view('admin.aircraft.fares')
                ->with('aircraft', $aircraft)
@@ -151,11 +166,15 @@ class AircraftController extends BaseController
             return view('admin.aircraft.fares')->with('fares', []);
         }
 
+        $fare_svc = app('App\Services\FareService');
+
         // associate or dissociate the fare with this aircraft
         if ($request->isMethod('post') || $request->isMethod('put')) {
-            // add
+            $fare = $this->fareRepository->findWithoutFail($request->fare_id);
+            $fare_svc->setForAircraft($aircraft, $fare);
         } elseif ($request->isMethod('delete')) {
-            print_r($request->request);
+            $fare = $this->fareRepository->findWithoutFail($request->fare_id);
+            $fare_svc->delFromAircraft($aircraft, $fare);
         }
 
         return $this->return_fares_view($aircraft);

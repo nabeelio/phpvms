@@ -24,8 +24,8 @@
 @section('scripts')
 <script>
 $(document).ready(function() {
+    $(".ac-fare-dropdown").select2();
     $(document).on('submit', 'form.rm_fare', function(event) {
-        console.log('saving!');
         event.preventDefault();
         $.pjax.submit(event, '#aircraft_fares_wrapper', {push: false});
     });

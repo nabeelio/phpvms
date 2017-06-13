@@ -56,5 +56,25 @@
         </tbody>
     </table>
     <hr />
-    {!! $avail_fares !!}
+    <div class="row">
+        <div class="col-xs-12" style="text-align: right;">
+            <div class="input-group input-group-lg">
+            {!! Form::open(['url' => '/admin/aircraft/'.$aircraft->id.'/fares',
+                            'method' => 'post',
+                            'class' => 'rm_fare form-inline'
+                            ])
+            !!}
+            {!! Form::select('fare_id', $avail_fares, null, [
+                    'placeholder' => 'Select Fare',
+                    'class' => 'ac-fare-dropdown form-control input-lg',
+
+                ])
+            !!}
+            {!! Form::button('<i class="glyphicon glyphicon-plus"></i> add',
+                             ['type' => 'submit',
+                              'class' => 'btn btn-success btn-s']) !!}
+            {!! Form::close() !!}
+            </div>
+        </div>
+    </div>
 </div>
