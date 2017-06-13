@@ -18,17 +18,17 @@
             <th class="sorting" tabindex="0" aria-controls="aircraft_fares"
                 rowspan="1" colspan="1"
                 aria-label="capacity: activate to sort column ascending">
-                capacity
+                capacity (default)
             </th>
             <th class="sorting" tabindex="0" aria-controls="aircraft_fares"
                 rowspan="1" colspan="1"
                 aria-label="price: activate to sort column ascending">
-                price
+                price (default)
             </th>
             <th class="sorting" tabindex="0" aria-controls="aircraft_fares"
                 rowspan="1" colspan="1"
                 aria-label="cost: activate to sort column ascending">
-                cost
+                cost (default)
             </th>
             <th></th>
         </tr>
@@ -38,9 +38,13 @@
             <tr role="row" class="@if ($loop->iteration%2) even @else odd @endif">
                 <td class="sorting_1">{!! $atf->name !!}</td>
                 <td>{!! $atf->code !!}</td>
-                <td>{!! $atf->capacity !!}</td>
-                <td>{!! $atf->price !!}</td>
-                <td>{!! $atf->cost !!}</td>
+                <td><a href="#" data-pk="{!! $atf->id !!}" data-name="capacity">{!! $atf->pivot->capacity !!}</a>
+                    <span class="small background-color-grey-light">({!! $atf->capacity !!})</span>
+                </td>
+                <td><a href="#" data-pk="{!! $atf->id !!}" data-name="price">{!! $atf->pivot->price !!}</a>
+                    <span class="small background-color-grey-light">({!! $atf->price !!})</span></td>
+                <td><a href="#" data-pk="{!! $atf->id !!}" data-name="cost">{!! $atf->pivot->cost !!}</a>
+                    <span class="small background-color-grey-light">({!! $atf->cost!!})</span></td>
                 <td style="text-align: right; width:3%;">
                     <div class='btn-group'>
                         {!! Form::open(['url' => '/admin/aircraft/'.$aircraft->id.'/fares', 'method' => 'delete', 'class' => 'rm_fare']) !!}

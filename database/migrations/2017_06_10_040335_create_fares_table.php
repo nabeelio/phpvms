@@ -17,7 +17,7 @@ class CreateFaresTable extends Migration
             $table->increments('id');
             $table->string('code');
             $table->string('name');
-            $table->float('price');
+            $table->float('price')->default(0.0);
             $table->float('cost')->default(0.0);
             $table->integer('capacity')->default(0);
             $table->string('notes')->nullable();
@@ -32,7 +32,7 @@ class CreateFaresTable extends Migration
             $table->integer('fare_id');
             $table->float('price')->nullable();
             $table->float('cost')->nullable();
-            $table->float('capacity')->nullable();
+            $table->integer('capacity')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

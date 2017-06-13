@@ -168,11 +168,28 @@ class AircraftController extends BaseController
 
         $fare_svc = app('App\Services\FareService');
 
-        // associate or dissociate the fare with this aircraft
-        if ($request->isMethod('post') || $request->isMethod('put')) {
+        if ($request->isMethod('get')) {
+            return $this->return_fares_view($aircraft);
+        }
+
+        /**
+         * update specific fare data
+         */
+        if ($request->isMethod('post')) {
             $fare = $this->fareRepository->findWithoutFail($request->fare_id);
             $fare_svc->setForAircraft($aircraft, $fare);
-        } elseif ($request->isMethod('delete')) {
+        }
+
+        // update the pivot table with overrides for the fares
+        elseif ($request->isMethod('put')) {
+            $override = [];
+            $fare = $this->fareRepository->findWithoutFail($request->fare_id);
+            $override[$request->name] = $request->value;
+            $fare_svc->setForAircraft($aircraft, $fare, $override);
+        }
+
+        // dissassociate fare from teh aircraft
+        elseif ($request->isMethod('delete')) {
             $fare = $this->fareRepository->findWithoutFail($request->fare_id);
             $fare_svc->delFromAircraft($aircraft, $fare);
         }

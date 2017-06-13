@@ -31,16 +31,20 @@ airlines:
 
 airports:
   - icao: KAUS
-    name: Austin-Bergstrom International Airport
+    name: Austin-Bergstrom
     location: Austin, Texas, USA
     lat: 30.1945278
     lon: -97.6698889
   - icao: KJFK
-    name: John F Kennedy International Airport
+    name: John F Kennedy
     location: New York, New York, USA
     lat: 40.6399257
     lon: -73.7786950
-
+  - icao: EGLL
+    name: London Heathrow
+    location: London, England
+    lat: 51.4775
+    lon: -0.4614
 #
 aircraft_classes:
   - id: 1
@@ -70,12 +74,35 @@ fares:
     price: 100
     capacity: 200
   - id: 2
-    code: F
-    name: First-Class
+    code: B
+    name: Business
     price: 500
     capacity: 10
+  - id: 3
+    code: F
+    name: First-Class
+    price: 800
+    capacity: 5
 
-#
+# add a few mods to aircraft and fares
 aircraft_fare:
+
+    # Fare classes on the 747
   - aircraft_id: 1
     fare_id: 1
+    price: 200
+    capacity: 400
+  - aircraft_id: 1
+    fare_id: 2
+    capacity: 20
+  - aircraft_id: 1
+    fare_id: 3
+    price: 1000
+    capacity: 10
+
+  # Fare classes on the 777
+  - aircraft_id: 2
+    fare_id: 1
+  - aircraft_id: 2
+    fare_id: 3
+    capacity: 10
