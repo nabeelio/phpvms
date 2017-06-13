@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\CreateAircraftRequest;
 use App\Http\Requests\UpdateAircraftRequest;
 use App\Repositories\AircraftRepository;
+use App\Repositories\FareRepository;
 use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
@@ -13,10 +14,11 @@ use Response;
 class AircraftController extends BaseController
 {
     /** @var  AircraftRepository */
-    private $aircraftRepository;
+    private $aircraftRepository, $fareRepository;
 
-    public function __construct(AircraftRepository $aircraftRepo)
+    public function __construct(AircraftRepository $aircraftRepo, FareRepository $fareRepo)
     {
+        $this->fareRepository = $fareRepo;
         $this->aircraftRepository = $aircraftRepo;
     }
 
@@ -65,7 +67,14 @@ class AircraftController extends BaseController
             return redirect(route('admin.aircraft.index'));
         }
 
-        return view('admin.aircraft.show')->with('aircraft', $aircraft);
+        $attached_fares = $aircraft->fares;
+        $all_fares = $this->fareRepository->all();
+        $avail_fares = $all_fares->except($attached_fares->modelKeys());
+
+        return view('admin.aircraft.show')
+                ->with('aircraft', $aircraft)
+                ->with('attached_fares', $attached_fares)
+                ->with('avail_fares', $avail_fares);
     }
 
     /**
@@ -121,6 +130,18 @@ class AircraftController extends BaseController
         return redirect(route('admin.aircraft.index'));
     }
 
+    protected function return_fares_view($aircraft)
+    {
+        $attached_fares = $aircraft->fares;
+        $all_fares = $this->fareRepository->all();
+        $avail_fares = $all_fares->except($attached_fares->modelKeys());
+
+        return view('admin.aircraft.fares')
+               ->with('aircraft', $aircraft)
+               ->with('attached_fares', $attached_fares)
+               ->with('avail_fares', $avail_fares);
+    }
+
     public function fares(Request $request)
     {
         $id = $request->id;
@@ -132,12 +153,11 @@ class AircraftController extends BaseController
 
         // associate or dissociate the fare with this aircraft
         if ($request->isMethod('post') || $request->isMethod('put')) {
-
+            // add
         } elseif ($request->isMethod('delete')) {
-
+            print_r($request->request);
         }
 
-        return view('admin.aircraft.fares')
-               ->with('fare', $aircraft->fares);
+        return $this->return_fares_view($aircraft);
     }
 }

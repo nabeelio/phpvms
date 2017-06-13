@@ -24,11 +24,13 @@
 
 <!-- Active Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('active', 'Active:') !!}
-    <label class="checkbox-inline">
-        {!! Form::hidden('active', false) !!}
-        {!! Form::checkbox('active', '1', true) !!}
-    </label>
+    <div class="checkbox">
+        <label class="checkbox-inline">
+            {!! Form::hidden('active', false) !!}
+            {!! Form::checkbox('active', '1', true) !!}
+        {!! Form::label('active', 'Active') !!}
+        </label>
+    </div>
 </div>
 
 <!-- Submit Field -->
@@ -36,3 +38,8 @@
     {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
     <a href="{!! route('admin.aircraft.index') !!}" class="btn btn-default">Cancel</a>
 </div>
+<script>
+jQuery('input#active').iCheck('check');
+//$(document).ready(function() {
+//})
+</script>

@@ -1,36 +1,43 @@
 <!-- Icao Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('icao', 'ICAO:') !!}
-    <p>{!! $aircraft->icao !!}</p>
+    <div class="box box-solid">
+        <div class="box-header with-border">
+            {{--<i class="fa fa-text-width"></i>--}}
+            <h3 class="box-title">{!! Form::label('icao', 'ICAO:') !!}</h3>
+        </div>
+        <div class="box-body"><p class="lead">{!! $aircraft->icao !!}</p></div>
+    </div>
 </div>
 
 <!-- Name Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('name', 'Name:') !!}
-    <p>{!! $aircraft->name !!}</p>
+    <div class="box box-solid">
+        <div class="box-header with-border">
+            {{--<i class="fa fa-text-width"></i>--}}
+            <h3 class="box-title">{!! Form::label('name', 'Name:') !!}</h3>
+        </div>
+        <div class="box-body"><p class="lead">{!! $aircraft->name !!}</p></div>
+    </div>
 </div>
 
 <!-- Registration Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('registration', 'Registration:') !!}
-    <p>{!! $aircraft->registration !!}</p>
+    <div class="box box-solid">
+        <div class="box-header with-border">
+            {{--<i class="fa fa-text-width"></i>--}}
+            <h3 class="box-title">{!! Form::label('registration', 'Registration:') !!}</h3>
+        </div>
+        <div class="box-body"><p class="lead">{!! $aircraft->registration !!}</p></div>
+    </div>
 </div>
 
 <!-- Active Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('active', 'Active:') !!}
-    <p>{!! $aircraft->active !!}</p>
+    <div class="box box-solid">
+        <div class="box-header with-border">
+            {{--<i class="fa fa-text-width"></i>--}}
+            <h3 class="box-title">{!! Form::label('active', 'Active:') !!}</h3>
+        </div>
+        <div class="box-body"><p class="lead">@if ($aircraft->active == '1') yes @else no @endif</p></div>
+    </div>
 </div>
-
-<!-- Created At Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('created_at', 'Created At:') !!}
-    <p>{!! $aircraft->created_at !!}</p>
-</div>
-
-<!-- Updated At Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('updated_at', 'Updated At:') !!}
-    <p>{!! $aircraft->updated_at !!}</p>
-</div>
-
