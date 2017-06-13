@@ -29,13 +29,13 @@ class DevelopmentSeeder extends Seeder
             foreach ($rows as $row) {
 
                 # encrypt any password fields
-                if(in_array('password', $row, true)) {
+                if(array_key_exists('password', $row)) {
                     $row['password'] = bcrypt($row['password']);
                 }
 
                 # if any time fields are == to "now", then insert the right time
                 foreach($time_fields as $tf) {
-                    if(in_array($tf, $row, true) && $row[$tf] === 'now') {
+                    if(array_key_exists($tf, $row) && $row[$tf] === 'now') {
                         $row[$tf] = $this->time();
                     }
                 }
