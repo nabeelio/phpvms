@@ -18,12 +18,12 @@ install: db
 	echo ""
 
 reset:
-	@rm database/testing.sqlite
+	-@rm database/testing.sqlite
 	@php artisan optimize
 	@php artisan route:clear
 	@php artisan config:clear
 	@sqlite3 database/testing.sqlite ""
-	@php artisan migrate:refresh --seed
+	@php artisan migrate:refresh --seed --seeder DevelopmentSeeder
 
 db:
 	sqlite3 database/testing.sqlite ""

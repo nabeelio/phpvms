@@ -25,7 +25,8 @@
         "mockery/mockery": "0.9.*",
         "phpunit/phpunit": "~5.7",
         "symfony/css-selector": "3.1.*",
-        "symfony/dom-crawler": "3.1.*"
+        "symfony/dom-crawler": "3.1.*",
+        "laravel/homestead": "^5.4"
     },
     "autoload": {
         "classmap": [
@@ -60,6 +61,9 @@
         ]
     },
     "config": {
-        "preferred-install": "dist"
+        "preferred-install": "dist",
+        "bin-dir": "vendor/bin/",
+        "secure-http": false,
+        "disable-tls": true
     }
 }

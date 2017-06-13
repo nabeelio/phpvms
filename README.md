@@ -36,11 +36,49 @@ server {
 }
 ```
 
-## using laradock
+## development environment
 
-[laradock](http://laradock.io/) is probably the simplest way to get an env working, and is what I use. just follow the instructions and point `APPLICATION=../phpvms` to your phpvms path.
+For development, copy the included `.env.example` to `.env` file. By default, it uses sqlite
+instead of mysql. This makes it much easier to be able to clear the database and new fixtures. 
 
-see [this article](https://www.digitalocean.com/community/tutorials/how-to-install-laravel-with-an-nginx-web-server-on-ubuntu-14-04) for more detailed instructions.
+### makefile commands
+
+I use Makefiles to be able to quickly setup the environment.
+
+```bash
+# to do an initial setup of the composer deps and install the DB
+make
+```
+
+Then to reset the database/clear cache, use:
+
+```bash
+make reset
+```
+
+### database seeding
+
+There is a `database/seeds/dev.yml` which contains the initial seed data that can be used
+for testing. For production use, there is a `prod.yml` file. The `make reset` handles seeding
+the database with the data from the `dev.yml`.
+
+### virtual machine
+
+Using [Laravel Homestead](https://laravel.com/docs/5.4/homestead) is probably the easiest 
+way to get this working. Follow their instructions for install. A `Vagrantfile` and `Homestead.yaml`
+is included here. Add this to your `/etc/hosts`:
+
+```bash
+127.0.0.1       phpvms.app
+```
+
+And then to launch:
+
+```bash
+vagrant up
+```
+
+And then accessing it via `http://phpvms.app` should just work.
 
 (TODO: redis information, etc)
 
