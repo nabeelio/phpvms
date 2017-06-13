@@ -13,7 +13,8 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->user_seeder();
-        $this->airport_seeder();
+        $this->seed_from_yaml();
+        //$this->airport_seeder();
     }
 
     protected function time() {
@@ -43,30 +44,14 @@ class DatabaseSeeder extends Seeder
         DB::table('role_user')->insert(['user_id' => 1, 'role_id' => 2]);
     }
 
-    /**
-     * Add a few initial airports
-     */
-    protected function airport_seeder()
+    protected function seed_from_yaml()
     {
-        $airports = [
-            [
-                'icao' => 'KAUS',
-                'name' => 'Austin-Bergstrom International Airport',
-                'location' => 'Austin, Texas, USA',
-                'lat' => 30.1945278,
-                'lon' => -97.6698889,
-            ],
-            [
-                'icao' => 'KJFK',
-                'name' => 'John F Kennedy International Airport',
-                'location' => 'New York, New York, USA',
-                'lat' => 40.6399257,
-                'lon' => -73.7786950,
-            ],
-        ];
-
-        foreach($airports as $airport) {
-            DB::table('airports')->insert($airport);
+        $yml = Yaml::parse(file_get_contents(database_path('seeds/seed.yml')));
+        foreach ($yml as $table => $rows) {
+            foreach($rows as $row) {
+                DB::table($table)->insert($row);
+            }
         }
     }
+
 }

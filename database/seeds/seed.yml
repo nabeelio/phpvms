@@ -1,0 +1,58 @@
+#
+airlines:
+  - id: 1
+    code: VMS
+    name: phpvms airlines
+    active: 1
+
+#
+airports:
+  - icao: KAUS
+    name: Austin-Bergstrom International Airport
+    location: Austin, Texas, USA
+    lat: 30.1945278
+    lon: -97.6698889
+  - icao: KJFK
+    name: John F Kennedy International Airport
+    location: New York, New York, USA
+    lat: 40.6399257
+    lon: -73.7786950
+
+#
+aircraft_classes:
+  - id: 1
+    code: H
+    name: Heavy
+
+#
+aircraft:
+  - id: 1
+    aircraft_class_id: 1
+    icao: B744
+    name: Boeing 747-400
+    registration: NC17
+    tail_number: 17
+  - id: 2
+    aircraft_class_id: 1
+    icao: B772
+    name: Boeing 777-200
+    registration: NC20
+    tail_number: 20
+
+#
+fares:
+  - id: 1
+    code: Y
+    name: Economy
+    price: 100
+    capacity: 200
+  - id: 2
+    code: F
+    name: First-Class
+    price: 500
+    capacity: 10
+
+#
+aircraft_fare:
+  - aircraft_id: 1
+    fare_id: 1
