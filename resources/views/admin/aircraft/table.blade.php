@@ -3,8 +3,8 @@
         <th>ICAO</th>
         <th>Name</th>
         <th>Registration</th>
-        <th>Active</th>
-        <th colspan="3">Action</th>
+        <th style="text-align: center;">Active</th>
+        <th style="text-align: center;">Actions</th>
     </thead>
     <tbody>
     @foreach($aircraft as $ac)
@@ -12,8 +12,11 @@
             <td><a href="{!! route('admin.aircraft.show', [$ac->id]) !!}">{!! $ac->icao !!}</a></td>
             <td>{!! $ac->name !!}</td>
             <td>{!! $ac->registration !!}</td>
-            <td>{!! $ac->active !!}</td>
-            <td>
+            <td style="text-align: center;">
+                <i class="fa fa-{{$ac->active == 1?"check":""}}-square-o" aria-hidden="true"
+                   style="color: {{$ac->active==1?"darkgreen":"darkred"}};font-size:20px;"></i>
+            </td>
+            <td style="width: 10%; text-align: center;" class="form-inline">
                 {!! Form::open(['route' => ['admin.aircraft.destroy', $ac->id], 'method' => 'delete']) !!}
                 <div class='btn-group'>
                     <a href="{!! route('admin.aircraft.show', [$ac->id]) !!}" class='btn btn-default btn-xs'><i class="glyphicon glyphicon-eye-open"></i></a>

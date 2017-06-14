@@ -5,15 +5,19 @@
     <title>phpvms4 admin</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
 
+    <link rel="shortcut icon" type="image/x-icon" href="/img/admin/favicon.ico" />
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/css/select2.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.3.3/css/AdminLTE.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.3.3/css/skins/_all-skins.min.css">
 
     <!-- Ionicons -->
-    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    {{--<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">--}}
 
+    <style>
+    section.content-header h1 { margin-bottom: 8px; }
+    </style>
     @yield('css')
 </head>
 
@@ -121,9 +125,9 @@
         </div>
 
         <!-- Main Footer -->
-        <footer class="main-footer" style="max-height: 100px;text-align: center">
+        {{--<footer class="main-footer" style="max-height: 100px;text-align: center">
             <strong>Copyright © 2017 <a href="#">phpvms</a>.</strong> All rights reserved.
-        </footer>
+        </footer>--}}
 
     </div>
 @else

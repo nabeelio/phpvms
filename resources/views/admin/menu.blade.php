@@ -1,17 +1,17 @@
 <li class="active">
-    <a href="{!! url('/admin/dashboard') !!}"><i class="fa fa-circle-o"></i>dashboard</a>
+    <a href="{!! url('/admin/dashboard') !!}"><i class="fa fa-dashboard"></i>dashboard</a>
 </li>
 
 <li class="header">operations</li>
-<li><a href="{!! url('/admin/pireps') !!}"><i class="fa fa-circle-o"></i>
-        pireps
+<li><a href="{!! url('/admin/pireps') !!}"><i class="fa fa-inbox"></i>&nbsp;pireps
         <span data-toggle="tooltip" title="3 New" class="badge bg-light-blue pull-right">3</span>
     </a>
 </li>
-<li><a href="{!! url('/admin/aircraft') !!}"><i class="fa fa-circle-o"></i>fleet</a></li>
-<li><a href="{!! url('/admin/fares') !!}"><i class="fa fa-circle-o"></i>fares</a></li>
+<li><a href="{!! url('/admin/aircraft') !!}"><i class="fa fa-plane" aria-hidden="true"></i>&nbsp;fleet</a></li>
+<li><a href="{!! url('/admin/fares') !!}"><i class="fa fa-dollar"></i>&nbsp;fares</a></li>
 
 <li class="header">config</li>
-<li><a href="{!! url('/admin/airlines') !!}"><i class="fa fa-circle-o"></i>airlines</a></li>
-<li><a href="{!! url('/admin/airports') !!}"><i class="fa fa-circle-o"></i>airports</a></li>
-<li><a href="{!! url('/admin/aircraftclasses') !!}"><i class="fa fa-circle-o"></i>aircraft classes</a></li>
+<li><a href="{!! url('/admin/airlines') !!}"><i class="fa fa-navicon"></i>&nbsp;airlines</a></li>
+<li><a href="{!! url('/admin/airports') !!}"><i class="fa fa-globe"></i>&nbsp;airports</a></li>
+{{--<li><a href="{!! url('/admin/aircraftclasses') !!}"><i class="fa fa-tag"></i>&nbsp;aircraft classes</a></li>--}}
+<li><a href="#"><i class="fa fa-user-circle-o" aria-hidden="true"></i>&nbsp;users</a></li>
