@@ -42,8 +42,7 @@ class FareService extends BaseService {
      */
     public function getForAircraft(Aircraft &$aircraft)
     {
-        $fares = [];
-        foreach($aircraft->fares as $fare) {
+        $fares = $aircraft->fares->map(function($fare) {
             if(!is_null($fare->pivot->price)) {
                 $fare->price = $fare->pivot->price;
             }
@@ -55,8 +54,9 @@ class FareService extends BaseService {
             if(!is_null($fare->pivot->capacity)) {
                 $fare->capacity = $fare->pivot->capacity;
             }
-            array_push($fares, $fare);
-        }
+
+            return $fare;
+        });
 
         return $fares;
     }

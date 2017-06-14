@@ -30,9 +30,9 @@ db:
 	php artisan migrate:refresh --seed
 
 unittest-db:
-	rm -f database/unittest.sqlite
+	-@rm -f database/unittest.sqlite
 	sqlite3 database/unittest.sqlite ""
-	php artisan migrate:refresh --seed --env unittest
+	php artisan migrate:refresh --env unittest
 
 tests: test
 
