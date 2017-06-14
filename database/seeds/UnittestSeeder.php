@@ -12,7 +12,7 @@ class DevelopmentSeeder extends Seeder
      */
     public function run()
     {
-        $this->seed_from_yaml();
+        //$this->seed_from_yaml();
     }
 
     protected function time(): string
