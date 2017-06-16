@@ -25,12 +25,12 @@
             @include('admin.menu')
         </ul>
         <!-- /.sidebar-menu -->
-        <div class="panel-footer" style="position:absolute;bottom: 0; width:100%; text-align: center;">
+        {{-- <div class="panel-footer" style="position:absolute;bottom: 0; width:100%; text-align: center;">
             <p class="small" style="padding-top: 5px;">
                 copyright &copy; 2017
                 <a href="http://www.phpvms.net" target="_blank">phpvms</a>
             </p>
-        </div>
+        </div> --}}
     </section>
     <!-- /.sidebar -->
 </aside>

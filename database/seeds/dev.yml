@@ -50,6 +50,12 @@ aircraft_classes:
   - id: 1
     code: H
     name: Heavy
+  - id: 2
+    code: M
+    name: Medium
+  - id: 3
+    code: L
+    name: Light
 
 #
 aircraft:

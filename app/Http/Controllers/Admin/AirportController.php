@@ -34,7 +34,8 @@ class AirportController extends InfyOmBaseController
         $airports = $this->airportRepository->all();
 
         return view('admin.airports.index')
-            ->with('airports', $airports);
+                ->with('airports', $airports)
+                ->with('coords', ['lat' => '', 'lon' => '']);
     }
 
     /**
@@ -78,11 +79,11 @@ class AirportController extends InfyOmBaseController
 
         if (empty($airport)) {
             Flash::error('Airport not found');
-
             return redirect(route('admin.airports.index'));
         }
 
-        return view('admin.airports.show')->with('airport', $airport);
+        return view('admin.airports.show')
+                ->with('airport', $airport);
     }
 
     /**

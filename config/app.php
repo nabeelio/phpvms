@@ -101,10 +101,12 @@ return [
          * Application Service Providers...
          */
         App\Providers\AppServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class,
+        App\Providers\BroadcastServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+
+        Toin0u\Geotools\GeotoolsServiceProvider::class,
     ],
 
     'aliases' => [
@@ -145,6 +147,7 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
         'Flash' => Laracasts\Flash\Flash::class,
         'Yaml' => Symfony\Component\Yaml\Yaml::class,
+        'Geotools' => Toin0u\Geotools\Facade\Geotools::class,
     ],
 
 ];
