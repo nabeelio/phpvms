@@ -7,6 +7,7 @@
         <span data-toggle="tooltip" title="3 New" class="badge bg-light-blue pull-right">3</span>
     </a>
 </li>
+<li><a href="{!! url('/admin/flights') !!}"><i class="fa fa-map"></i>&nbsp;flights</a></li>
 <li><a href="{!! url('/admin/aircraft') !!}"><i class="fa fa-plane" aria-hidden="true"></i>&nbsp;fleet</a></li>
 <li><a href="{!! url('/admin/fares') !!}"><i class="fa fa-dollar"></i>&nbsp;fares</a></li>
 

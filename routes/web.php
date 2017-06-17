@@ -34,6 +34,11 @@ Route::group([
                  'aircraft/{id}/fares',
                  'AircraftController@fares');
 
+    Route::resource('flights', 'FlightController');
+    Route::match(['get', 'post', 'put', 'delete'],
+                  'flights/{id}/aircraft',
+                  'FlightController@aircraft');
+
     Route::get('', ['uses' => 'DashboardController@index']);
     Route::get('/', ['uses' => 'DashboardController@index']);
     Route::get('/dashboard', ['uses' => 'DashboardController@index','name' => 'dashboard']);
