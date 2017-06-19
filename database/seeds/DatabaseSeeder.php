@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
         $this->seed_from_yaml(App::environment());
     }
 
-    protected function seed_from_yaml($env): void
+    protected function seed_from_yaml($env)
     {
         $path = database_path('seeds/'.$env.'.yml');
 
