@@ -30,21 +30,25 @@ airlines:
     updated_at: now
 
 airports:
-  - icao: KAUS
+  - id: 1
+    icao: KAUS
     name: Austin-Bergstrom
     location: Austin, Texas, USA
     lat: 30.1945278
     lon: -97.6698889
-  - icao: KJFK
+  - id: 2
+    icao: KJFK
     name: John F Kennedy
     location: New York, New York, USA
     lat: 40.6399257
     lon: -73.7786950
-  - icao: EGLL
+  - id: 3
+    icao: EGLL
     name: London Heathrow
     location: London, England
     lat: 51.4775
     lon: -0.4614
+
 #
 aircraft_classes:
   - id: 1
@@ -112,3 +116,10 @@ aircraft_fare:
   - aircraft_id: 2
     fare_id: 3
     capacity: 10
+
+flights:
+    - airline_id: 1
+      flight_number: 100
+      dpt_airport_id: 1
+      arr_airport_id: 2
+      route: KAUS KJFK

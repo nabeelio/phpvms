@@ -1,5 +1,7 @@
 <?php
 
+use Carbon\Carbon;
+
 abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
 {
     /**
@@ -44,5 +46,36 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
     public function createRepository($repo_name) {
         $app = $this->createApplication();
         return $app->make('App\Repositories\\' . $repo_name);
+    }
+
+    public function readYaml($file)
+    {
+        return Yaml::parse(file_get_contents(base_path('tests/data/' . $file . '.yml')));
+    }
+
+    public function addData($file)
+    {
+        $time_fields = ['created_at', 'updated_at'];
+        $curr_time = Carbon::now('UTC')->format('Y-m-d H:i:s');
+
+        $yml = $this->readYaml($file);
+        foreach ($yml as $table => $rows) {
+            foreach ($rows as $row) {
+
+                # encrypt any password fields
+                if (array_key_exists('password', $row)) {
+                    $row['password'] = bcrypt($row['password']);
+                }
+
+                # if any time fields are == to "now", then insert the right time
+                foreach ($time_fields as $tf) {
+                    if (array_key_exists($tf, $row) && $row[$tf] === 'now') {
+                        $row[$tf] = $curr_time;
+                    }
+                }
+
+                DB::table($table)->insert($row);
+            }
+        }
     }
 }
