@@ -18,10 +18,13 @@ class CreateAirportsTable extends Migration
             $table->string('icao', 5)->unique();
             $table->string('name');
             $table->string('location')->nullable();
+            $table->string('country')->nullable();
             $table->float('lat', 7, 4)->default(0.0);
             $table->float('lon', 7, 4)->default(0.0);
             $table->timestamps();
             $table->softDeletes();
+
+            $table->index('icao');
         });
     }
 

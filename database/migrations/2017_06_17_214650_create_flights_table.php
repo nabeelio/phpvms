@@ -17,18 +17,24 @@ class CreateFlightsTable extends Migration
             $table->increments('id');
             $table->integer('airline_id')->unsigned();
             $table->text('flight_number');
-            $table->text('route_code');
-            $table->text('route_leg');
+            $table->text('route_code')->nullable();
+            $table->text('route_leg')->nullable();
             $table->integer('dpt_airport_id')->unsigned();
             $table->integer('arr_airport_id')->unsigned();
-            $table->integer('alt_airport_id')->unsigned();
-            $table->text('route');
-            $table->text('dpt_time');
-            $table->text('arr_time');
-            $table->text('notes');
-            $table->boolean('active');
+            $table->integer('alt_airport_id')->unsigned()->nullable();
+            $table->text('route')->nullable();
+            $table->text('dpt_time')->nullable();
+            $table->text('arr_time')->nullable();
+            $table->text('notes')->nullable();
+            $table->boolean('active')->default(true);
             $table->timestamps();
             $table->softDeletes();
+
+            $table->unique('flight_number');
+
+            $table->index('flight_number');
+            $table->index('dpt_airport_id');
+            $table->index('arr_airport_id');
         });
 
         Schema::create('flight_aircraft', function ($table) {

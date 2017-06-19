@@ -20,6 +20,9 @@ class CreateAirlinesTable extends Migration
             $table->boolean('active');
             $table->timestamps();
             $table->softDeletes();
+
+            $table->index('code');
+            $table->unique('code');
         });
     }
 
