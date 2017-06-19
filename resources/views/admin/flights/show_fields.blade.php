@@ -1,90 +1,81 @@
-<!-- Id Field -->
-<div class="form-group">
-    {!! Form::label('id', 'Id:') !!}
-    <p>{!! $flight->id !!}</p>
+<div class="form-group col-sm-6">
+    <div class="box box-solid">
+        <div class="box-header with-border">
+            {{--<i class="fa fa-text-width"></i>--}}
+            <h3 class="box-title">{!! Form::label('dpt_airport_id', 'Dep ICAO') !!}</h3>
+        </div>
+        <div class="box-body"><p class="lead">
+            {!! $flight->dpt_airport->icao !!} - {!! $flight->dpt_airport->name !!}
+        </p></div>
+    </div>
 </div>
 
-<!-- Airline Id Field -->
-<div class="form-group">
-    {!! Form::label('airline_id', 'Airline Id:') !!}
-    <p>{!! $flight->airline_id !!}</p>
+<div class="form-group col-sm-6">
+    <div class="box box-solid">
+        <div class="box-header with-border">
+            {{--<i class="fa fa-text-width"></i>--}}
+            <h3 class="box-title">{!! Form::label('arr_airport_id', 'Arrival ICAO') !!}</h3>
+        </div>
+        <div class="box-body"><p class="lead">
+            {!! $flight->arr_airport->icao !!} - {!! $flight->arr_airport->name !!}
+            </p>
+        </div>
+    </div>
 </div>
 
-<!-- Flight Number Field -->
-<div class="form-group">
-    {!! Form::label('flight_number', 'Flight Number:') !!}
-    <p>{!! $flight->flight_number !!}</p>
-</div>
 
-<!-- Route Code Field -->
-<div class="form-group">
-    {!! Form::label('route_code', 'Route Code:') !!}
-    <p>{!! $flight->route_code !!}</p>
-</div>
+<div class="form-group col-sm-12">
+    <div class="box box-primary">
+        <div class="box-body">
+            <!-- Route Code Field -->
+            <div class="form-group">
+                {!! Form::label('route_code', 'Route Code:') !!}
+                {!! $flight->route_code !!}
+            </div>
 
-<!-- Route Leg Field -->
-<div class="form-group">
-    {!! Form::label('route_leg', 'Route Leg:') !!}
-    <p>{!! $flight->route_leg !!}</p>
-</div>
+            <!-- Route Leg Field -->
+            <div class="form-group">
+                {!! Form::label('route_leg', 'Route Leg:') !!}
+                {!! $flight->route_leg !!}
+            </div>
 
-<!-- Dpt Airport Id Field -->
-<div class="form-group">
-    {!! Form::label('dpt_airport_id', 'Dpt Airport Id:') !!}
-    <p>{!! $flight->dpt_airport_id !!}</p>
-</div>
+            <!-- Alt Airport Id Field -->
+            @if($flight->alt_airport_id)
+            <div class="form-group">
+                {!! Form::label('alt_airport_id', 'Alt Airport Id:') !!}
+                <p>{!! $flight->alt_airport->icao !!}</p>
+            </div>
+            @endif
 
-<!-- Arr Airport Id Field -->
-<div class="form-group">
-    {!! Form::label('arr_airport_id', 'Arr Airport Id:') !!}
-    <p>{!! $flight->arr_airport_id !!}</p>
-</div>
+            <!-- Route Field -->
+            <div class="form-group">
+                {!! Form::label('route', 'Route:') !!}
+                <p>{!! $flight->route !!}</p>
+            </div>
 
-<!-- Alt Airport Id Field -->
-<div class="form-group">
-    {!! Form::label('alt_airport_id', 'Alt Airport Id:') !!}
-    <p>{!! $flight->alt_airport_id !!}</p>
-</div>
+            <!-- Dpt Time Field -->
+            <div class="form-group">
+                {!! Form::label('dpt_time', 'Departure Time:') !!}
+                {!! $flight->dpt_time !!}
+            </div>
 
-<!-- Route Field -->
-<div class="form-group">
-    {!! Form::label('route', 'Route:') !!}
-    <p>{!! $flight->route !!}</p>
-</div>
+            <!-- Arr Time Field -->
+            <div class="form-group">
+                {!! Form::label('arr_time', 'Arrival Time:') !!}
+                {!! $flight->arr_time !!}
+            </div>
 
-<!-- Dpt Time Field -->
-<div class="form-group">
-    {!! Form::label('dpt_time', 'Dpt Time:') !!}
-    <p>{!! $flight->dpt_time !!}</p>
-</div>
+            <!-- Notes Field -->
+            <div class="form-group">
+                {!! Form::label('notes', 'Notes:') !!}
+                <p>{!! $flight->notes !!}</p>
+            </div>
 
-<!-- Arr Time Field -->
-<div class="form-group">
-    {!! Form::label('arr_time', 'Arr Time:') !!}
-    <p>{!! $flight->arr_time !!}</p>
+            <!-- Active Field -->
+            <div class="form-group">
+                {!! Form::label('active', 'Active:') !!}
+                <p>{!! $flight->active !!}</p>
+            </div>
+        </div>
+    </div>
 </div>
-
-<!-- Notes Field -->
-<div class="form-group">
-    {!! Form::label('notes', 'Notes:') !!}
-    <p>{!! $flight->notes !!}</p>
-</div>
-
-<!-- Active Field -->
-<div class="form-group">
-    {!! Form::label('active', 'Active:') !!}
-    <p>{!! $flight->active !!}</p>
-</div>
-
-<!-- Created At Field -->
-<div class="form-group">
-    {!! Form::label('created_at', 'Created At:') !!}
-    <p>{!! $flight->created_at !!}</p>
-</div>
-
-<!-- Updated At Field -->
-<div class="form-group">
-    {!! Form::label('updated_at', 'Updated At:') !!}
-    <p>{!! $flight->updated_at !!}</p>
-</div>
-

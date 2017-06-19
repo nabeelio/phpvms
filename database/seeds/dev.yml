@@ -123,3 +123,7 @@ flights:
       dpt_airport_id: 1
       arr_airport_id: 2
       route: KAUS KJFK
+
+flight_aircraft:
+    - flight_id: 1
+      aircraft_id: 1

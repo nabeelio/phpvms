@@ -61,8 +61,8 @@
     </table>
     <hr />
     <div class="row">
-        <div class="col-xs-12" style="text-align: right;">
-            <div class="input-group input-group-lg">
+        <div class="col-xs-12">
+            <div class="input-group input-group-lg pull-right">
             {!! Form::open(['url' => '/admin/aircraft/'.$aircraft->id.'/fares',
                             'method' => 'post',
                             'class' => 'rm_fare form-inline'

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\CreateFlightRequest;
 use App\Http\Requests\UpdateFlightRequest;
 use App\Repositories\FlightRepository;
+use App\Repositories\AircraftRepository;
 use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
@@ -13,11 +14,30 @@ use Response;
 class FlightController extends BaseController
 {
     /** @var  FlightRepository */
-    private $flightRepository;
+    private $flightRepository, $aircraftRepository;
 
-    public function __construct(FlightRepository $flightRepo)
+    public function __construct(
+        FlightRepository $flightRepo,
+        AircraftRepository $aircraftRepository
+        )
     {
         $this->flightRepository = $flightRepo;
+        $this->aircraftRepository = $aircraftRepository;
+    }
+
+    protected function getAvailAircraft($flight)
+    {
+        $retval = [];
+
+        $flight->refresh();
+        $all_aircraft = $this->aircraftRepository->all();
+        $avail_aircraft = $all_aircraft->except($flight->aircraft->modelKeys());
+
+        foreach ($avail_aircraft as $ac) {
+            $retval[$ac->id] = $ac->icao.' - '.$ac->registration;
+        }
+
+        return $retval;
     }
 
     /**
@@ -79,7 +99,10 @@ class FlightController extends BaseController
             return redirect(route('admin.flights.index'));
         }
 
-        return view('admin.flights.show')->with('flight', $flight);
+        $avail_aircraft = $this->getAvailAircraft($flight);
+        return view('admin.flights.show')
+                ->with('flight', $flight)
+                ->with('avail_aircraft', $avail_aircraft);
     }
 
     /**
@@ -147,12 +170,20 @@ class FlightController extends BaseController
         return redirect(route('admin.flights.index'));
     }
 
+    protected function return_aircraft_view($flight)
+    {
+        $avail_aircraft = $this->getAvailAircraft($flight);
+        return view('admin.flights.aircraft')
+            ->with('flight', $flight)
+            ->with('avail_aircraft', $avail_aircraft);
+    }
+
     public function aircraft(Request $request)
     {
         $id = $request->id;
+        print_r($request->toArray());
 
         $flight = $this->flightRepository->findWithoutFail($id);
-
         if (empty($flight)) {
             Flash::error('Flight not found');
             return redirect(route('admin.flights.index'));
@@ -165,14 +196,11 @@ class FlightController extends BaseController
             // add
         }
 
-        // update the pivot table with overrides for the fares
-        elseif ($request->isMethod('put')) {
-            // update
-        }
-
         // dissassociate fare from teh aircraft
         elseif ($request->isMethod('delete')) {
             // del
         }
+
+        return $this->return_aircraft_view($flight);
     }
 }

@@ -14,10 +14,12 @@
     @foreach($flights as $flight)
         <tr>
             <td>
+                <a href="{!! route('admin.flights.show', [$flight->id]) !!}">
                 {!! $flight->airline->code !!}{!! $flight->flight_number !!}
                 @if($flight->route_code)
                     (C: {!! $flight->route_code !!} L: {!! $flight->route_leg !!})
                 @endif
+                </a>
             </td>
             <td>{!! $flight->dpt_airport->icao !!}</td>
             <td>
