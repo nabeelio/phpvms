@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\CreateAirlinesRequest;
-use App\Http\Requests\UpdateAirlinesRequest;
-use App\Repositories\AirlinesRepository;
+use App\Http\Requests\CreateAirlineRequest;
+use App\Http\Requests\UpdateAirlineRequest;
+use App\Repositories\AirlineRepository;
 use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
@@ -12,12 +12,12 @@ use Response;
 
 class AirlinesController extends BaseController
 {
-    /** @var  AirlinesRepository */
-    private $airlinesRepository;
+    /** @var  AirlineRepository */
+    private $airlineRepo;
 
-    public function __construct(AirlinesRepository $airlinesRepo)
+    public function __construct(AirlineRepository $airlinesRepo)
     {
-        $this->airlinesRepository = $airlinesRepo;
+        $this->airlineRepo = $airlinesRepo;
     }
 
     /**
@@ -25,8 +25,8 @@ class AirlinesController extends BaseController
      */
     public function index(Request $request)
     {
-        $this->airlinesRepository->pushCriteria(new RequestCriteria($request));
-        $airlines = $this->airlinesRepository->all();
+        $this->airlineRepo->pushCriteria(new RequestCriteria($request));
+        $airlines = $this->airlineRepo->all();
 
         return view('admin.airlines.index')
             ->with('airlines', $airlines);
@@ -43,10 +43,10 @@ class AirlinesController extends BaseController
     /**
      * Store a newly created Airlines in storage.
      */
-    public function store(CreateAirlinesRequest $request)
+    public function store(CreateAirlineRequest $request)
     {
         $input = $request->all();
-        $airlines = $this->airlinesRepository->create($input);
+        $airlines = $this->airlineRepo->create($input);
 
         Flash::success('Airlines saved successfully.');
 
@@ -62,7 +62,7 @@ class AirlinesController extends BaseController
      */
     public function show($id)
     {
-        $airlines = $this->airlinesRepository->findWithoutFail($id);
+        $airlines = $this->airlineRepo->findWithoutFail($id);
 
         if (empty($airlines)) {
             Flash::error('Airlines not found');
@@ -81,7 +81,7 @@ class AirlinesController extends BaseController
      */
     public function edit($id)
     {
-        $airlines = $this->airlinesRepository->findWithoutFail($id);
+        $airlines = $this->airlineRepo->findWithoutFail($id);
 
         if (empty($airlines)) {
             Flash::error('Airlines not found');
@@ -95,20 +95,20 @@ class AirlinesController extends BaseController
      * Update the specified Airlines in storage.
      *
      * @param  int              $id
-     * @param UpdateAirlinesRequest $request
+     * @param UpdateAirlineRequest $request
      *
      * @return Response
      */
-    public function update($id, UpdateAirlinesRequest $request)
+    public function update($id, UpdateAirlineRequest $request)
     {
-        $airlines = $this->airlinesRepository->findWithoutFail($id);
+        $airlines = $this->airlineRepo->findWithoutFail($id);
 
         if (empty($airlines)) {
             Flash::error('Airlines not found');
             return redirect(route('airlines.index'));
         }
 
-        $airlines = $this->airlinesRepository->update($request->all(), $id);
+        $airlines = $this->airlineRepo->update($request->all(), $id);
 
         Flash::success('Airlines updated successfully.');
 
@@ -124,14 +124,14 @@ class AirlinesController extends BaseController
      */
     public function destroy($id)
     {
-        $airlines = $this->airlinesRepository->findWithoutFail($id);
+        $airlines = $this->airlineRepo->findWithoutFail($id);
 
         if (empty($airlines)) {
             Flash::error('Airlines not found');
             return redirect(route('airlines.index'));
         }
 
-        $this->airlinesRepository->delete($id);
+        $this->airlineRepo->delete($id);
 
         Flash::success('Airlines deleted successfully.');
 

@@ -11,7 +11,7 @@
        <div class="box box-primary">
            <div class="box-body">
                <div class="row">
-                   {!! Form::model($airlines, ['route' => ['airlines.update', $airlines->id], 'method' => 'patch']) !!}
+                   {!! Form::model($airlines, ['route' => ['admin.airlines.update', $airlines->id], 'method' => 'patch']) !!}
 
                         @include('admin.airlines.fields')
 

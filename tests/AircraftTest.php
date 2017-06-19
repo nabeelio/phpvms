@@ -9,17 +9,7 @@ class AircraftTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->setup_data();
-    }
-
-    /**
-     * add the fares to a given aircraft
-     * run the factory for incl the fares
-     */
-    protected function setup_data()
-    {
-        factory(App\Models\AircraftClass::class)->create();
-        factory(App\Models\Fare::class)->create();
+        $this->addData('aircraft_test');
     }
 
     protected function getAircraftClass()

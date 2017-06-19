@@ -11,7 +11,7 @@
             <div class="box-body">
                 <div class="row" style="padding-left: 20px">
                     @include('admin.airlines.show_fields')
-                    <a href="{!! route('airlines.index') !!}" class="btn btn-default">Back</a>
+                    <a href="{!! route('admin.airlines.index') !!}" class="btn btn-default">Back</a>
                 </div>
             </div>
         </div>

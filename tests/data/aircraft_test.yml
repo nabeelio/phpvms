@@ -1,0 +1,11 @@
+aircraft_classes:
+  - id: 1
+    code: H
+    name: Heavy
+    notes: Heavy Aircraft
+
+fares:
+  - code: Y
+    name: Economy
+    price: 100
+    capacity: 200

@@ -63,6 +63,12 @@ class Flight extends Model
             'arr_airport_id' => 'required',
         ];
 
+    public function airline()
+    {
+        return $this->belongsTo('App\Models\Airline',
+                                'airline_id');
+    }
+
     public function dpt_airport()
     {
         return $this->belongsTo('App\Models\Airport', 'dpt_airport_id');

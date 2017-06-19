@@ -3,7 +3,6 @@
         <th>Flight #</th>
         <th>Dep</th>
         <th>Arr</th>
-        <th>Alt</th>
         <th>Route</th>
         <th>Dpt Time</th>
         <th>Arr Time</th>
@@ -15,12 +14,18 @@
     @foreach($flights as $flight)
         <tr>
             <td>
-                {!! $flight->airline_id !!}/{!! $flight->flight_number !!}
-                (C: {!! $flight->route_code !!} L: {!! $flight->route_leg !!})
+                {!! $flight->airline->code !!}{!! $flight->flight_number !!}
+                @if($flight->route_code)
+                    (C: {!! $flight->route_code !!} L: {!! $flight->route_leg !!})
+                @endif
             </td>
             <td>{!! $flight->dpt_airport->icao !!}</td>
-            <td>{!! $flight->arr_airport->icao !!}</td>
-            <td>{!! $flight->alt_airport->icao !!}</td>
+            <td>
+                {!! $flight->arr_airport->icao !!}
+                @if($flight->alt_airport)
+                    (Alt: {!! $flight->alt_airport->icao !!})
+                @endif
+            </td>
             <td>{!! $flight->route !!}</td>
             <td>{!! $flight->dpt_time !!}</td>
             <td>{!! $flight->arr_time !!}</td>

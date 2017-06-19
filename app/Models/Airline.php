@@ -6,10 +6,10 @@ use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Class Airlines
+ * Class Airline
  * @package App\Models
  */
-class Airlines extends Model
+class Airline extends Model
 {
     use SoftDeletes;
 

@@ -2,9 +2,9 @@
 
 namespace App\Repositories;
 
-use App\Models\Airlines;
+use App\Models\Airline;
 
-class AirlinesRepository extends BaseRepository
+class AirlineRepository extends BaseRepository
 {
     /**
      * @var array
@@ -19,6 +19,6 @@ class AirlinesRepository extends BaseRepository
      **/
     public function model()
     {
-        return Airlines::class;
+        return Airline::class;
     }
 }
