@@ -16,10 +16,11 @@ class AircraftController extends BaseController
     /** @var  AircraftRepository */
     private $aircraftRepository, $fareRepository;
 
-    protected function getAvailFares($all_fares, $attached_fares)
+    protected function getAvailFares($aircraft)
     {
         $retval = [];
-        $avail_fares = $all_fares->except($attached_fares->modelKeys());
+        $all_fares = $this->fareRepository->all();
+        $avail_fares = $all_fares->except($aircraft->fares->modelKeys());
         foreach ($avail_fares as $fare) {
             $retval[$fare->id] = $fare->name.
                                  ' (price: '.$fare->price.
@@ -81,13 +82,10 @@ class AircraftController extends BaseController
             return redirect(route('admin.aircraft.index'));
         }
 
-        $attached_fares = $aircraft->fares;
-        $all_fares = $this->fareRepository->all();
-        $avail_fares = $this->getAvailFares($all_fares, $attached_fares);
+        $avail_fares = $this->getAvailFares($aircraft);
 
         return view('admin.aircraft.show')
                 ->with('aircraft', $aircraft)
-                ->with('attached_fares', $attached_fares)
                 ->with('avail_fares', $avail_fares);
     }
 
@@ -147,13 +145,10 @@ class AircraftController extends BaseController
     protected function return_fares_view($aircraft)
     {
         $aircraft->refresh();
-        $attached_fares = $aircraft->fares;
-        $all_fares = $this->fareRepository->all();
-        $avail_fares = $this->getAvailFares($all_fares, $attached_fares);
+        $avail_fares = $this->getAvailFares($aircraft);
 
         return view('admin.aircraft.fares')
                ->with('aircraft', $aircraft)
-               ->with('attached_fares', $attached_fares)
                ->with('avail_fares', $avail_fares);
     }
 

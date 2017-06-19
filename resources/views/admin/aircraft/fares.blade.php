@@ -34,7 +34,7 @@
         </tr>
         </thead>
         <tbody>
-        @foreach($attached_fares as $atf)
+        @foreach($aircraft->fares as $atf)
             <tr role="row" class="@if ($loop->iteration%2) even @else odd @endif">
                 <td class="sorting_1">{!! $atf->name !!}</td>
                 <td>{!! $atf->code !!}</td>
