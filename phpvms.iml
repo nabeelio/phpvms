@@ -2,7 +2,20 @@
 <module type="WEB_MODULE" version="4">
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
-    <content url="file://$MODULE_DIR$" />
+    <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/vendor/bpocallaghan/generators" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/dompdf/dompdf" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/jeremeamia/SuperClosure" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/league/fractal" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/maatwebsite/excel" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/nikic/php-parser" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/phenx/php-font-lib" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/phenx/php-svg-lib" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/phpoffice/phpexcel" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/polyfill-php56" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/polyfill-util" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/yajra/laravel-datatables-oracle" />
+    </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library">
       <library name="PHARS">
@@ -12,6 +25,41 @@
         <JAVADOC />
         <SOURCES>
           <root url="phar://$MODULE_DIR$/vendor/phpunit/phpunit/tests/_files/phpunit-example-extension/tools/phpunit.d/phpunit-example-extension-1.0.0.phar/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="PHP" type="php">
+        <CLASSES>
+          <root url="file://$APPLICATION_HOME_DIR$/bin" />
+          <root url="file://$MODULE_DIR$/vendor/bpocallaghan/generators" />
+          <root url="file://$MODULE_DIR$/vendor/dompdf/dompdf" />
+          <root url="file://$MODULE_DIR$/vendor/jeremeamia/SuperClosure" />
+          <root url="file://$MODULE_DIR$/vendor/league/fractal" />
+          <root url="file://$MODULE_DIR$/vendor/maatwebsite/excel" />
+          <root url="file://$MODULE_DIR$/vendor/nikic/php-parser" />
+          <root url="file://$MODULE_DIR$/vendor/phenx/php-font-lib" />
+          <root url="file://$MODULE_DIR$/vendor/phenx/php-svg-lib" />
+          <root url="file://$MODULE_DIR$/vendor/phpoffice/phpexcel" />
+          <root url="file://$MODULE_DIR$/vendor/symfony/polyfill-php56" />
+          <root url="file://$MODULE_DIR$/vendor/symfony/polyfill-util" />
+          <root url="file://$MODULE_DIR$/vendor/yajra/laravel-datatables-oracle" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="file://$APPLICATION_HOME_DIR$/bin" />
+          <root url="file://$MODULE_DIR$/vendor/bpocallaghan/generators" />
+          <root url="file://$MODULE_DIR$/vendor/dompdf/dompdf" />
+          <root url="file://$MODULE_DIR$/vendor/jeremeamia/SuperClosure" />
+          <root url="file://$MODULE_DIR$/vendor/league/fractal" />
+          <root url="file://$MODULE_DIR$/vendor/maatwebsite/excel" />
+          <root url="file://$MODULE_DIR$/vendor/nikic/php-parser" />
+          <root url="file://$MODULE_DIR$/vendor/phenx/php-font-lib" />
+          <root url="file://$MODULE_DIR$/vendor/phenx/php-svg-lib" />
+          <root url="file://$MODULE_DIR$/vendor/phpoffice/phpexcel" />
+          <root url="file://$MODULE_DIR$/vendor/symfony/polyfill-php56" />
+          <root url="file://$MODULE_DIR$/vendor/symfony/polyfill-util" />
+          <root url="file://$MODULE_DIR$/vendor/yajra/laravel-datatables-oracle" />
         </SOURCES>
       </library>
     </orderEntry>

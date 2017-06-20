@@ -38,6 +38,8 @@ tmp/
 .idea/**/dynamic.xml
 .idea/**/uiDesigner.xml
 
+phpvms_next.iml
+
 # Gradle:
 .idea/**/gradle.xml
 .idea/**/libraries

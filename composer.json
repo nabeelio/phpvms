@@ -8,6 +8,7 @@
         "php": ">=7.0",
         "laravel/framework": "5.4.*",
         "barryvdh/laravel-ide-helper": "^2.1",
+        "yajra/laravel-datatables-oracle": "~6.0",
         "infyomlabs/laravel-generator": "dev-master",
         "laravelcollective/html": "5.4.x",
         "infyomlabs/adminlte-templates": "5.3.x-dev",
@@ -28,7 +29,8 @@
         "phpunit/phpunit": "~5.7",
         "symfony/css-selector": "3.1.*",
         "symfony/dom-crawler": "3.1.*",
-        "laravel/homestead": "^5.4"
+        "laravel/homestead": "^5.4",
+        "bpocallaghan/generators": "^4.0"
     },
     "autoload": {
         "classmap": [

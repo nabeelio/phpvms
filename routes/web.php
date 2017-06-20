@@ -5,8 +5,7 @@ Route::get('/home', 'HomeController@index');
 
 
 Route::group([
-    'namespace' => 'Frontend',
-    'as' => 'frontend.',
+    'namespace' => 'Frontend', 'prefix' => 'frontend', 'as' => 'frontend.',
     'middleware' => ['role:admin|user'],
 ], function () {
     Route::resource('dashboard', 'DashboardController');
@@ -19,9 +18,7 @@ Auth::routes();
  */
 
 Route::group([
-    'namespace' => 'Admin',
-    'prefix' => 'admin',
-    'as' => 'admin.',
+    'namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.',
     'middleware' => ['role:admin'],
 ], function () {
     Route::resource('airports', 'AirportController');
@@ -29,16 +26,19 @@ Route::group([
     Route::resource('aircraftclasses', 'AircraftClassController');
     Route::resource('fares', 'FareController');
 
+    # aircraft and fare associations
     Route::resource('aircraft', 'AircraftController');
-    Route::match(['get', 'post', 'put', 'delete'],
-                 'aircraft/{id}/fares',
-                 'AircraftController@fares');
+    Route::match(['get', 'post', 'put', 'delete'], 'aircraft/{id}/fares', 'AircraftController@fares');
 
+    # flights and aircraft associations
     Route::resource('flights', 'FlightController');
-    Route::match(['get', 'post', 'put', 'delete'],
-                  'flights/{id}/aircraft',
-                  'FlightController@aircraft');
+    Route::match(['get', 'post', 'put', 'delete'], 'flights/{id}/aircraft', 'FlightController@aircraft');
 
+    # view/update settings
+    Route::match(['get'], 'settings', 'SettingsController@index');
+    Route::match(['post', 'put'], 'settings', 'SettingsController@update');
+
+    # defaults
     Route::get('', ['uses' => 'DashboardController@index']);
     Route::get('/', ['uses' => 'DashboardController@index']);
     Route::get('/dashboard', ['uses' => 'DashboardController@index','name' => 'dashboard']);

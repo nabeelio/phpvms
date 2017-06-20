@@ -17,11 +17,13 @@ build:
 install: db
 	echo ""
 
-reset:
-	-@rm database/testing.sqlite
+clean:
 	@php artisan optimize
 	@php artisan route:clear
 	@php artisan config:clear
+	@rm -f database/testing.sqlite
+
+reset: clean
 	@sqlite3 database/testing.sqlite ""
 	@php artisan migrate:refresh --seed --seeder DevelopmentSeeder
 
