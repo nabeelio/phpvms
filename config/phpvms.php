@@ -43,5 +43,5 @@ return [
         '10' => '(GMT +10:00) Eastern Australia, Guam, Vladivostok',
         '11' => '(GMT +11:00) Magadan, Solomon Islands, New Caledonia',
         '12' => '(GMT +12:00) Auckland, Wellington, Fiji, Kamchatka'
-    ),
+    ],
 ];
