@@ -1,0 +1,5 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="local debug" type="PhpWebAppRunConfigurationType" factoryName="PHP Web Application" singleton="true" server_name="php-fpm">
+    <method />
+  </configuration>
+</component>

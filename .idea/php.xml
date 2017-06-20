@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="PhpProjectServersManager">
+    <servers>
+      <server host="localhost" id="961f33f9-dcbb-4c0b-a638-949af7addc48" name="php-fpm" port="8080" use_path_mappings="true">
+        <path_mappings>
+          <mapping local-root="$PROJECT_DIR$" remote-root="/Users/nabeelshahzad/dev/projects/phpvms" />
+          <mapping local-root="$PROJECT_DIR$/public" remote-root="/Users/nabeelshahzad/dev/projects/phpvms/public" />
+        </path_mappings>
+      </server>
+    </servers>
+  </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.1" />
   <component name="PhpUnit">
     <phpunit_settings>
