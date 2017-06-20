@@ -96,6 +96,7 @@ return [
         InfyOm\Generator\InfyOmGeneratorServiceProvider::class,
         InfyOm\AdminLTETemplates\AdminLTETemplatesServiceProvider::class,
         Zizaco\Entrust\EntrustServiceProvider::class,
+        anlutro\LaravelSettings\ServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -148,6 +149,7 @@ return [
         'Flash' => Laracasts\Flash\Flash::class,
         'Yaml' => Symfony\Component\Yaml\Yaml::class,
         'Geotools' => Toin0u\Geotools\Facade\Geotools::class,
+        'Setting' => 'anlutro\LaravelSettings\Facade',
     ],
 
 ];

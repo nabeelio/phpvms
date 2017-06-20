@@ -50,7 +50,6 @@ class FlightController extends BaseController
     {
         $this->flightRepository->pushCriteria(new RequestCriteria($request));
         $flights = $this->flightRepository->all();
-
         return view('admin.flights.index')
                 ->with('flights', $flights);
     }
