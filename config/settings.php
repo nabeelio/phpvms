@@ -2,7 +2,7 @@
 return array(
 	// which type of store to use.
 	// valid options: 'json', 'database'
-	'store' => 'json',
+	'store' => env('APP_SETTINGS_STORE', 'database'),
 
 	// if the json store is used, give the full path to the .json file
 	// that the store writes to.
@@ -15,7 +15,7 @@ return array(
 	// set to null, the default connection will be used.
 	'connection' => null,
 
-	// If you want to use custom column names in database store you could 
+	// If you want to use custom column names in database store you could
 	// set them in this configuration
 	'keyColumn' => 'key',
 	'valueColumn' => 'value'

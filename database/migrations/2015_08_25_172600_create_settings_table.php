@@ -26,9 +26,10 @@ class CreateSettingsTable extends Migration
 			$table->increments('id');
 			$table->string($this->keyColumn)->index();
 			$table->text($this->valueColumn);
+            $table->timestamps();
 		});
 
-		Setting::set('timezone', '0');
+		Setting::set('timezone', 'UTC');
 		Setting::set('currency', 'dollar');
 		Setting::save();
 	}

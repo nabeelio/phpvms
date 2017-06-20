@@ -11,6 +11,7 @@ app/storage/
 public/storage
 public/hot
 storage/*.key
+storage/settings.json
 .env.*.php
 .env.php
 .env
