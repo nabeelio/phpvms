@@ -7,7 +7,7 @@ php:
 
 before_script:
   #- cp .env.travis .env
-  - cp .env.example .env
+  - cp .env.travis .env
   #- mysql -e 'create database phpvms_test;'
   - composer self-update
   - make build
