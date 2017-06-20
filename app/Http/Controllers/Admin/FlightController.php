@@ -181,7 +181,6 @@ class FlightController extends BaseController
     public function aircraft(Request $request)
     {
         $id = $request->id;
-        print_r($request->toArray());
 
         $flight = $this->flightRepository->findWithoutFail($id);
         if (empty($flight)) {
@@ -189,16 +188,14 @@ class FlightController extends BaseController
             return redirect(route('admin.flights.index'));
         }
 
-        /**
-         * update specific aircraftdata
-         */
+        // add aircraft to flight
         if ($request->isMethod('post')) {
-            // add
+            $flight->aircraft()->syncWithoutDetaching([$request->aircraft_id]);
         }
 
-        // dissassociate fare from teh aircraft
+        // remove aircraft from flight
         elseif ($request->isMethod('delete')) {
-            // del
+            $flight->aircraft()->detach($request->aircraft_id);
         }
 
         return $this->return_aircraft_view($flight);

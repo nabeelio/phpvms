@@ -14,7 +14,7 @@
             <td>{!! $ac->registration !!}</td>
             <td style="width: 10%; text-align: center;" class="form-inline">
                 {!! Form::open(['url' => '/admin/flights/'.$flight->id.'/aircraft', 'method' => 'delete', 'class' => 'flight_ac_frm']) !!}
-                {!! Form::hidden('flight_id', $flight->id) !!}
+                {!! Form::hidden('aircraft_id', $flight->id) !!}
                 <div class='btn-group'>
                     {!! Form::button('<i class="glyphicon glyphicon-trash"></i>',
                                      ['type' => 'submit',
