@@ -42,7 +42,6 @@ test:
 	vendor/bin/phpunit --testdox tests
 
 schema:
-	#php artisan infyom:scaffold Airlines --fieldsFile=database/schema/airlines.json
 	#php artisan infyom:scaffold Aircraft --fieldsFile=database/schema/aircraft.json
 	echo ""
 

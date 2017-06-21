@@ -17,3 +17,8 @@ elixir(mix => {
     mix.sass('app.scss')
        .webpack('app.js');
 });
+
+
+gulp.task('reset', function() {
+    exec('php artisan migrate:refresh --seed --seeder DevelopmentSeeder');
+});
