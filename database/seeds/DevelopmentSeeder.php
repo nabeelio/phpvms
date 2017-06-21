@@ -20,7 +20,7 @@ class DevelopmentSeeder extends Seeder
         return Carbon::now('UTC')->format('Y-m-d H:i:s');
     }
 
-    protected function seed_from_yaml():
+    protected function seed_from_yaml()
     {
         $time_fields = ['created_at', 'updated_at'];
 
