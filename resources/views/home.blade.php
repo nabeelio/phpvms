@@ -80,8 +80,14 @@
             @if(Entrust::hasRole('admin'))
                 <a href="{{ url('/admin') }}">Admin</a>
             @endif
-            <a href="{{ url('/dashboard') }}">Dashboard</a>
-            <a href="{{ url('/logout') }}">Logout</a>
+            <a href="{{ url('/user/dashboard') }}">Dashboard</a>
+            <a href="{!! url('/logout') !!}" class="btn btn-default btn-flat"
+                                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                            Sign out
+                                        </a>
+                                        <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                                            {{ csrf_field() }}
+                                        </form>
         @endif
     </div>
     @endif
