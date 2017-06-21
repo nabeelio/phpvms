@@ -13,4 +13,8 @@ class DashboardController extends BaseController
     {
         return view('frontend.dashboard');
     }
+	public function test()
+    {
+        return view('frontend.dashboard');
+    }
 }
