@@ -7,40 +7,40 @@ use Illuminate\Support\Facades\Config;
 
 class CreateSettingsTable extends Migration
 {
-	public function __construct()
-	{
+    public function __construct()
+    {
         $this->tablename = Config::get('settings.table');
         $this->keyColumn = Config::get('settings.keyColumn');
         $this->valueColumn = Config::get('settings.valueColumn');
-	}
+    }
 
-	/**
-	 * Run the migrations.
-	 *
-	 * @return void
-	 */
-	public function up()
-	{
-		Schema::create($this->tablename, function(Blueprint $table)
-		{
-			$table->increments('id');
-			$table->string($this->keyColumn)->index();
-			$table->text($this->valueColumn);
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create($this->tablename, function (Blueprint $table) {
+            $table->increments('id');
+            $table->string($this->keyColumn)->index();
+            $table->text($this->valueColumn);
             $table->timestamps();
-		});
+        });
 
-		Setting::set('timezone', 'UTC');
-		Setting::set('currency', 'dollar');
-		Setting::save();
-	}
+        #Setting::set('currency', 'dollar');
+        #Setting::set('currency_descrip', 'Currency to use');
 
-	/**
-	 * Reverse the migrations.
-	 *
-	 * @return void
-	 */
-	public function down()
-	{
-		Schema::drop($this->tablename);
-	}
+        #Setting::save();
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::drop($this->tablename);
+    }
 }

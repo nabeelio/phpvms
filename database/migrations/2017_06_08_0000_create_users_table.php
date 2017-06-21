@@ -27,6 +27,7 @@ class CreateUsersTable extends Migration
             $table->boolean('confirmed')->nullable();
             $table->boolean('retired')->nullable();
             $table->dateTime('last_pirep')->nullable();
+            $table->integer('timezone')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });

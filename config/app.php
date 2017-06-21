@@ -2,57 +2,18 @@
 
 return [
 
-    /*
-    | Application Name
-    */
-
     'name' => 'phpvms',
-
-    /*
-    | Application Environment
-    */
-
     'env' => env('APP_ENV', 'dev'),
-
-    /*
-    | Application Debug Mode
-    */
-
     'debug' => env('APP_DEBUG', true),
-
-    /*
-    | Application URL
-    */
-
     'url' => env('APP_URL', 'http://localhost'),
+    'version' => '2.0',
 
-    /*
-    |--------------------------------------------------------------------------
-    | Application Timezone
-    |--------------------------------------------------------------------------
-    |
-    | Here you may specify the default timezone for your application, which
-    | will be used by the PHP date and date-time functions. We have gone
-    | ahead and set this to a sensible default for you out of the box.
-    |
-    */
-
-    'timezone' => 'UTC',
-    'locale' => 'en',
+    'timezone' => env('APP_TIMEZONE', 'UTC'),
+    'locale' => env('APP_LOCALE', 'en'),
     'fallback_locale' => 'en',
-
-    /*
-    |--------------------------------------------------------------------------
-    | Encryption Key
-    |--------------------------------------------------------------------------
-    */
 
     'key' => env('APP_KEY'),
     'cipher' => 'AES-256-CBC',
-
-    /*
-    | Logging Configuration
-    */
 
     'log' => env('APP_LOG', 'single'),
     'log_level' => env('APP_LOG_LEVEL', 'debug'),
