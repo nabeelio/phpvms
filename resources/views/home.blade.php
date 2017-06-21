@@ -81,6 +81,7 @@
                 <a href="{{ url('/admin') }}">Admin</a>
             @endif
             <a href="{{ url('/user/dashboard') }}">Dashboard</a>
+<<<<<<< HEAD
             <a href="{!! url('/logout') !!}" class="btn btn-default btn-flat"
                                             onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                             Sign out
@@ -88,6 +89,9 @@
                                         <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
                                             {{ csrf_field() }}
                                         </form>
+=======
+            <a href="{{ url('/logout') }}">Logout</a>
+>>>>>>> #26.1 test
         @endif
     </div>
     @endif
