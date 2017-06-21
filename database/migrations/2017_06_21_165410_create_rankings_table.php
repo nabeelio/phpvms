@@ -17,9 +17,9 @@ class CreateRankingsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->integer('hours')->default(0);
-            $table->bool('auto_approval_acars')->default(false);
-            $table->bool('auto_approval_manual')->default(false);
-            $table->bool('auto_promote')->default(true);
+            $table->boolean('auto_approval_acars')->default(false);
+            $table->boolean('auto_approval_manual')->default(false);
+            $table->boolean('auto_promote')->default(true);
             $table->timestamps();
         });
     }
