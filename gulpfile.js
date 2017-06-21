@@ -1,23 +1,17 @@
-const elixir = require('laravel-elixir');
-
-require('laravel-elixir-vue');
-
-/*
- |--------------------------------------------------------------------------
- | Elixir Asset Management
- |--------------------------------------------------------------------------
- |
- | Elixir provides a clean, fluent API for defining some basic Gulp tasks
- | for your Laravel application. By default, we are compiling the Sass
- | file for our application, as well as publishing vendor resources.
- |
+'use strict';
+/**
+ *
  */
 
-elixir(mix => {
-    mix.sass('app.scss')
-       .webpack('app.js');
-});
+var gulp = require('gulp');
+var cp = require('child_process');
 
+function exec(cmd) {
+    cp.exec(cmd, function (err, stdout, stderr) {
+        console.log(stdout);
+        console.log(stderr);
+    });
+}
 
 gulp.task('reset', function() {
     exec('php artisan migrate:refresh --seed --seeder DevelopmentSeeder');
