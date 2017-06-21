@@ -106,13 +106,7 @@
                                         <a href="#" class="btn btn-default btn-flat">Profile</a>
                                     </div>
                                     <div class="pull-right">
-                                        <a href="{!! url('/logout') !!}" class="btn btn-default btn-flat"
-                                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                            Sign out
-                                        </a>
-                                        <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
-                                            {{ csrf_field() }}
-                                        </form>
+                                        <a href="{!! url('/logout') !!}" class="btn btn-default btn-flat">Sign out</a>
                                     </div>
                                 </li>
                             </ul>
@@ -193,7 +187,7 @@
 
     <!-- AdminLTE App -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.3.3/js/app.min.js"></script>
-    
+
     <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"
         integrity="sha512-A7vV8IFfih/D732iSSKi20u/ooOfj/AGehOKq0f4vLT1Zr2Y+RX7C+w8A1gaSasGtRUZpF/NZgzSAu4/Gc41Lg=="
         crossorigin=""></script>

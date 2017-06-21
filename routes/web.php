@@ -15,5 +15,6 @@ Route::group([
 });
 
 Auth::routes();
+Route::get('/logout', 'Auth\LoginController@logout');
 
 require base_path('routes/admin.php');
