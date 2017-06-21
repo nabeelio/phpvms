@@ -22,7 +22,6 @@ class CreateAirportsTable extends Migration
             $table->float('lat', 7, 4)->default(0.0);
             $table->float('lon', 7, 4)->default(0.0);
             $table->timestamps();
-            $table->softDeletes();
 
             $table->index('icao');
         });

@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Eloquent as Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class Flight
@@ -12,8 +11,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Flight extends Model
 {
-    use SoftDeletes;
-
     public $table = 'flights';
 
     protected $dates = ['deleted_at'];

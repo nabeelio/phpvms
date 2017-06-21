@@ -18,7 +18,6 @@ class CreateAircraftsTable extends Migration
             $table->string('fuel_capacity')->nullable();
             $table->boolean('active')->default(true);
             $table->timestamps();
-            $table->softDeletes();
 
             $table->index('icao');
             $table->unique('registration');
@@ -30,7 +29,6 @@ class CreateAircraftsTable extends Migration
             $table->string('name');
             $table->string('notes')->nullable();
             $table->timestamps();
-            $table->softDeletes();
 
             $table->index('code');
         });

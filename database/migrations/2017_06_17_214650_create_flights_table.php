@@ -28,7 +28,6 @@ class CreateFlightsTable extends Migration
             $table->text('notes')->nullable();
             $table->boolean('active')->default(true);
             $table->timestamps();
-            $table->softDeletes();
 
             $table->unique('flight_number');
 
@@ -41,7 +40,6 @@ class CreateFlightsTable extends Migration
             $table->increments('id');
             $table->integer('flight_id')->unsigned();
             $table->integer('aircraft_id')->unsigned();
-
         });
     }
 

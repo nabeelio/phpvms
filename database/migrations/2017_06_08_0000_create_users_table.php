@@ -18,18 +18,18 @@ class CreateUsersTable extends Migration
             $table->string('name')->nullable();
             $table->string('email')->unique();
             $table->string('password');
-            $table->string('code')->nullable();
-            $table->string('location')->nullable();
-            $table->string('hub')->nullable();
-            $table->unsignedBigInteger('flights')->nullable();
-            $table->float('hours')->nullable();
-            $table->float('pay')->nullable();
-            $table->boolean('confirmed')->nullable();
-            $table->boolean('retired')->nullable();
-            $table->dateTime('last_pirep')->nullable();
-            $table->integer('timezone')->default(0);
+            $table->integer('airline_id')->nullable()->unsigned();
+            $table->integer('home_airport_id')->nullable()->unsigned();
+            $table->integer('curr_airport_id')->nullable()->unsigned();
+            $table->bigInteger('last_pirep_id')->nullable()->unsigned();
+            $table->bigInteger('flights')->nullable()->unsigned();
+            $table->bigInteger('flight_time')->nullable()->unsigned();
+            $table->decimal('balance', 19, 2)->nullable();
+            $table->tinyInteger('timezone')->default(0);
+            $table->boolean('active')->nullable();
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
         });
 
         // Create table for storing roles

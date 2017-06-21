@@ -12,8 +12,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class AircraftClass extends Model
 {
-    //use SoftDeletes;
-
     public $table = 'aircraft_classes';
 
     protected $dates = ['deleted_at'];

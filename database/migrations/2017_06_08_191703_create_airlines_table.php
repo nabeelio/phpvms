@@ -19,7 +19,6 @@ class CreateAirlinesTable extends Migration
             $table->string('name');
             $table->boolean('active');
             $table->timestamps();
-            $table->softDeletes();
 
             $table->index('code');
             $table->unique('code');
