@@ -20,6 +20,9 @@ Route::group([
     Route::resource('flights', 'FlightController');
     Route::match(['get', 'post', 'put', 'delete'], 'flights/{id}/aircraft', 'FlightController@aircraft');
 
+    # rankings
+    Route::resource('ranks', 'RankController');
+
     # view/update settings
     Route::match(['get'], 'settings', 'SettingsController@index');
     Route::match(['post', 'put'], 'settings', 'SettingsController@update');

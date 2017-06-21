@@ -2,16 +2,16 @@
 
 namespace App\Repositories;
 
-use App\Models\Ranking;
+use App\Models\Rank;
 use InfyOm\Generator\Common\BaseRepository;
 
-class RankingRepository extends BaseRepository
+class RankRepository extends BaseRepository
 {
     /**
      * @var array
      */
     protected $fieldSearchable = [
-        
+
     ];
 
     /**
@@ -19,6 +19,6 @@ class RankingRepository extends BaseRepository
      **/
     public function model()
     {
-        return Ranking::class;
+        return Rank::class;
     }
 }

@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateRankingsTable extends Migration
+class CreateRanksTable extends Migration
 {
 
     /**
@@ -13,7 +13,7 @@ class CreateRankingsTable extends Migration
      */
     public function up()
     {
-        Schema::create('rankings', function (Blueprint $table) {
+        Schema::create('ranks', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->integer('hours')->default(0);
@@ -21,6 +21,14 @@ class CreateRankingsTable extends Migration
             $table->boolean('auto_approval_manual')->default(false);
             $table->boolean('auto_promote')->default(true);
             $table->timestamps();
+        });
+
+        Schema::create('flight_rank', function(Blueprint $table) {
+           $table->increments('id');
+           $table->integer('flight_id')->unsigned();
+           $table->integer('rank_id')->unsigned();
+           $table->double('manual_pay', 19, 2)->default(0.0)->unsigned();
+           $table->double('acars_pay', 19, 2)->default(0.0)->unsigned();
         });
     }
 
@@ -31,6 +39,7 @@ class CreateRankingsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('rankings');
+        Schema::drop('ranks');
+        Schema::drop('flight_rank');
     }
 }

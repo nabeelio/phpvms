@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
-use App\Models\Ranking;
+use App\Models\Rank;
 
 class UpdateRankingRequest extends Request
 {
@@ -25,6 +25,6 @@ class UpdateRankingRequest extends Request
      */
     public function rules()
     {
-        return Ranking::$rules;
+        return Rank::$rules;
     }
 }

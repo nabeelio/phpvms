@@ -1,25 +1,24 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests;
 use App\Http\Requests\CreateRankingRequest;
 use App\Http\Requests\UpdateRankingRequest;
-use App\Repositories\RankingRepository;
+use App\Repositories\RankRepository;
 use App\Http\Controllers\AppBaseController as InfyOmBaseController;
 use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 
-class RankingController extends InfyOmBaseController
+class RankController extends BaseController
 {
-    /** @var  RankingRepository */
-    private $rankingRepository;
+    /** @var  RankRepository */
+    private $rankRepository;
 
-    public function __construct(RankingRepository $rankingRepo)
+    public function __construct(RankRepository $rankingRepo)
     {
-        $this->rankingRepository = $rankingRepo;
+        $this->rankRepository = $rankingRepo;
     }
 
     /**
@@ -30,11 +29,11 @@ class RankingController extends InfyOmBaseController
      */
     public function index(Request $request)
     {
-        $this->rankingRepository->pushCriteria(new RequestCriteria($request));
-        $rankings = $this->rankingRepository->all();
+        $this->rankRepository->pushCriteria(new RequestCriteria($request));
+        $ranks = $this->rankRepository->all();
 
-        return view('admin.rankings.index')
-            ->with('rankings', $rankings);
+        return view('admin.ranks.index')
+            ->with('ranks', $ranks);
     }
 
     /**
@@ -44,7 +43,7 @@ class RankingController extends InfyOmBaseController
      */
     public function create()
     {
-        return view('admin.rankings.create');
+        return view('admin.ranks.create');
     }
 
     /**
@@ -57,12 +56,11 @@ class RankingController extends InfyOmBaseController
     public function store(CreateRankingRequest $request)
     {
         $input = $request->all();
-
-        $ranking = $this->rankingRepository->create($input);
+        $rank = $this->rankRepository->create($input);
 
         Flash::success('Ranking saved successfully.');
 
-        return redirect(route('admin.rankings.index'));
+        return redirect(route('admin.ranks.index'));
     }
 
     /**
@@ -74,15 +72,14 @@ class RankingController extends InfyOmBaseController
      */
     public function show($id)
     {
-        $ranking = $this->rankingRepository->findWithoutFail($id);
+        $rank = $this->rankRepository->findWithoutFail($id);
 
-        if (empty($ranking)) {
+        if (empty($rank)) {
             Flash::error('Ranking not found');
-
-            return redirect(route('admin.rankings.index'));
+            return redirect(route('admin.ranks.index'));
         }
 
-        return view('admin.rankings.show')->with('ranking', $ranking);
+        return view('admin.ranks.show')->with('rank', $rank);
     }
 
     /**
@@ -94,15 +91,14 @@ class RankingController extends InfyOmBaseController
      */
     public function edit($id)
     {
-        $ranking = $this->rankingRepository->findWithoutFail($id);
+        $rank = $this->rankRepository->findWithoutFail($id);
 
-        if (empty($ranking)) {
+        if (empty($rank)) {
             Flash::error('Ranking not found');
-
-            return redirect(route('admin.rankings.index'));
+            return redirect(route('admin.ranks.index'));
         }
 
-        return view('admin.rankings.edit')->with('ranking', $ranking);
+        return view('admin.ranks.edit')->with('rank', $rank);
     }
 
     /**
@@ -115,19 +111,18 @@ class RankingController extends InfyOmBaseController
      */
     public function update($id, UpdateRankingRequest $request)
     {
-        $ranking = $this->rankingRepository->findWithoutFail($id);
+        $rank = $this->rankRepository->findWithoutFail($id);
 
-        if (empty($ranking)) {
+        if (empty($rank)) {
             Flash::error('Ranking not found');
-
-            return redirect(route('admin.rankings.index'));
+            return redirect(route('admin.ranks.index'));
         }
 
-        $ranking = $this->rankingRepository->update($request->all(), $id);
+        $rank = $this->rankRepository->update($request->all(), $id);
 
         Flash::success('Ranking updated successfully.');
 
-        return redirect(route('admin.rankings.index'));
+        return redirect(route('admin.ranks.index'));
     }
 
     /**
@@ -139,18 +134,17 @@ class RankingController extends InfyOmBaseController
      */
     public function destroy($id)
     {
-        $ranking = $this->rankingRepository->findWithoutFail($id);
+        $rank = $this->rankRepository->findWithoutFail($id);
 
-        if (empty($ranking)) {
+        if (empty($rank)) {
             Flash::error('Ranking not found');
-
-            return redirect(route('admin.rankings.index'));
+            return redirect(route('admin.ranks.index'));
         }
 
-        $this->rankingRepository->delete($id);
+        $this->rankRepository->delete($id);
 
         Flash::success('Ranking deleted successfully.');
 
-        return redirect(route('admin.rankings.index'));
+        return redirect(route('admin.ranks.index'));
     }
 }

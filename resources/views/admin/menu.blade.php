@@ -16,3 +16,4 @@
 <li><a href="{!! url('/admin/airports') !!}"><i class="fa fa-globe"></i>&nbsp;airports</a></li>
 {{--<li><a href="{!! url('/admin/aircraftclasses') !!}"><i class="fa fa-tag"></i>&nbsp;aircraft classes</a></li>--}}
 <li><a href="#"><i class="fa fa-user-circle-o" aria-hidden="true"></i>&nbsp;users</a></li>
+<li><a href="{!! url('/admin/ranks') !!}"><i class="fa fa-user-circle-o" aria-hidden="true"></i>&nbsp;ranks</a></li>

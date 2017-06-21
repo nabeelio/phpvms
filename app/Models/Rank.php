@@ -8,10 +8,10 @@ use Eloquent as Model;
  * Class Ranking
  * @package App\Models
  */
-class Ranking extends Model
+class Rank extends Model
 {
 
-    public $table = 'rankings';
+    public $table = 'ranks';
 
     public $fillable = [
         'name',
