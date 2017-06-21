@@ -110,7 +110,7 @@ return [
         'Flash' => Laracasts\Flash\Flash::class,
         'Yaml' => Symfony\Component\Yaml\Yaml::class,
         'Geotools' => Toin0u\Geotools\Facade\Geotools::class,
-        'Setting' => 'anlutro\LaravelSettings\Facade',
+        'Setting' => anlutro\LaravelSettings\Facade::class,
     ],
 
 ];
