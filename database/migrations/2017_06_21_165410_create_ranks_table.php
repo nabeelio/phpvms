@@ -17,10 +17,12 @@ class CreateRanksTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->integer('hours')->default(0);
-            $table->boolean('auto_approval_acars')->default(false);
-            $table->boolean('auto_approval_manual')->default(false);
+            $table->boolean('auto_approve_acars')->default(false);
+            $table->boolean('auto_approve_manual')->default(false);
             $table->boolean('auto_promote')->default(true);
             $table->timestamps();
+
+            $table->unique('name');
         });
 
         Schema::create('flight_rank', function(Blueprint $table) {

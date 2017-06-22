@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\CreateRankingRequest;
-use App\Http\Requests\UpdateRankingRequest;
+use App\Http\Requests\CreateRankRequest;
+use App\Http\Requests\UpdateRankRequest;
 use App\Repositories\RankRepository;
 use App\Http\Controllers\AppBaseController as InfyOmBaseController;
 use Illuminate\Http\Request;
@@ -49,18 +49,20 @@ class RankController extends BaseController
     /**
      * Store a newly created Ranking in storage.
      *
-     * @param CreateRankingRequest $request
+     * @param CreateRankRequest $request
      *
      * @return Response
      */
-    public function store(CreateRankingRequest $request)
+    public function store(Request $request)
     {
         $input = $request->all();
-        $rank = $this->rankRepository->create($input);
 
+        $model = $this->rankRepository->create($input);
         Flash::success('Ranking saved successfully.');
 
-        return redirect(route('admin.ranks.index'));
+        $ranks = $this->rankRepository->all();
+        return view('admin.ranks.table')
+                ->with('ranks', $ranks);
     }
 
     /**
@@ -105,11 +107,11 @@ class RankController extends BaseController
      * Update the specified Ranking in storage.
      *
      * @param  int              $id
-     * @param UpdateRankingRequest $request
+     * @param UpdateRankRequest $request
      *
      * @return Response
      */
-    public function update($id, UpdateRankingRequest $request)
+    public function update($id, UpdateRankRequest $request)
     {
         $rank = $this->rankRepository->findWithoutFail($id);
 

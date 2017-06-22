@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use App\Http\Requests\Request;
 use App\Models\Rank;
 
-class CreateRankingRequest extends Request
+class UpdateRankRequest extends Request
 {
 
     /**

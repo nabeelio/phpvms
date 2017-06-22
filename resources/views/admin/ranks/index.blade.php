@@ -19,12 +19,11 @@
             </div>
         </div>
 
-        <div id="create_rank_wrapper">
-            @include('admin.ranks.create')
-        </div>
+
+        @include('admin.ranks.create')
     </div>
 @endsection
-
+@section('scripts')
 <script type="text/javascript">
     $(document).ready(function () {
         /*$(".ac-fare-dropdown").select2();
@@ -45,7 +44,7 @@
 
         $(document).on('submit', 'form.add_rank', function (event) {
             event.preventDefault();
-            $.pjax.submit(event, '#create_rank_wrapper', {push: false});
+            $.pjax.submit(event, '#ranks_table_wrapper', {push: false});
         });
     });
 </script>

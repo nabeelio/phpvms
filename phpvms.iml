@@ -3,7 +3,6 @@
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$">
-      <excludeFolder url="file://$MODULE_DIR$/vendor/bpocallaghan/generators" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/dompdf/dompdf" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/jeremeamia/SuperClosure" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/league/fractal" />
@@ -32,7 +31,6 @@
       <library name="PHP" type="php">
         <CLASSES>
           <root url="file://$APPLICATION_HOME_DIR$/bin" />
-          <root url="file://$MODULE_DIR$/vendor/bpocallaghan/generators" />
           <root url="file://$MODULE_DIR$/vendor/dompdf/dompdf" />
           <root url="file://$MODULE_DIR$/vendor/jeremeamia/SuperClosure" />
           <root url="file://$MODULE_DIR$/vendor/league/fractal" />
@@ -48,7 +46,6 @@
         <JAVADOC />
         <SOURCES>
           <root url="file://$APPLICATION_HOME_DIR$/bin" />
-          <root url="file://$MODULE_DIR$/vendor/bpocallaghan/generators" />
           <root url="file://$MODULE_DIR$/vendor/dompdf/dompdf" />
           <root url="file://$MODULE_DIR$/vendor/jeremeamia/SuperClosure" />
           <root url="file://$MODULE_DIR$/vendor/league/fractal" />

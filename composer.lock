@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "aceb14d1910187737873cd904aec5630",
+    "content-hash": "abd8dd8b12ea7f677c5bf93da12e0948",
     "packages": [
         {
             "name": "anlutro/l4-settings",
@@ -1553,16 +1553,16 @@
         },
         {
             "name": "maatwebsite/excel",
-            "version": "2.1.17",
+            "version": "2.1.18",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Maatwebsite/Laravel-Excel.git",
-                "reference": "14d5abf8e20563c80dd074fd7c8cf1c05bf51f1d"
+                "reference": "a43db59e621e8e8d72321e885d1610509cc7b096"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Maatwebsite/Laravel-Excel/zipball/14d5abf8e20563c80dd074fd7c8cf1c05bf51f1d",
-                "reference": "14d5abf8e20563c80dd074fd7c8cf1c05bf51f1d",
+                "url": "https://api.github.com/repos/Maatwebsite/Laravel-Excel/zipball/a43db59e621e8e8d72321e885d1610509cc7b096",
+                "reference": "a43db59e621e8e8d72321e885d1610509cc7b096",
                 "shasum": ""
             },
             "require": {
@@ -1589,6 +1589,16 @@
                 "illuminate/view": "5.0.*|5.1.*|5.2.*|5.3.*|5.4.*"
             },
             "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Maatwebsite\\Excel\\ExcelServiceProvider"
+                    ],
+                    "aliases": {
+                        "Excel": "Maatwebsite\\Excel\\Facades\\Excel"
+                    }
+                }
+            },
             "autoload": {
                 "classmap": [
                     "src/Maatwebsite/Excel"
@@ -1617,7 +1627,7 @@
                 "import",
                 "laravel"
             ],
-            "time": "2017-04-04T18:28:12+00:00"
+            "time": "2017-06-21T20:39:34+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -4238,46 +4248,6 @@
         }
     ],
     "packages-dev": [
-        {
-            "name": "bpocallaghan/generators",
-            "version": "4.0.9",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/bpocallaghan/generators.git",
-                "reference": "53b7e42bcda2409996bb611e3893335d42509830"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/bpocallaghan/generators/zipball/53b7e42bcda2409996bb611e3893335d42509830",
-                "reference": "53b7e42bcda2409996bb611e3893335d42509830",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.4.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Bpocallaghan\\Generators\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Ben-Piet O'Callaghan",
-                    "email": "bpocallaghan@gmail.com"
-                }
-            ],
-            "description": "Custom Laravel 5 File Generators with config and publishable stubs.",
-            "keywords": [
-                "generators",
-                "laravel"
-            ],
-            "time": "2017-05-15T11:04:00+00:00"
-        },
         {
             "name": "doctrine/instantiator",
             "version": "1.0.5",

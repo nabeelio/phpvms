@@ -3,7 +3,6 @@
 Route::get('/', 'HomeController@index');
 Route::get('/home', 'HomeController@index');
 
-
 /**
  * These are only visible to a logged in user
  */

@@ -28,7 +28,10 @@ class Rank extends Model
      */
     protected $casts = [
         'name' => 'string',
-        'hours' => 'integer'
+        'hours' => 'integer',
+        'auto_approve_acars' => 'boolean',
+        'auto_approve_manual' => 'boolean',
+        'auto_promote' => 'boolean',
     ];
 
     /**
@@ -37,6 +40,6 @@ class Rank extends Model
      * @var array
      */
     public static $rules = [
-
+        'name' => 'unique',
     ];
 }

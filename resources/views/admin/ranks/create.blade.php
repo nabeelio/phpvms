@@ -7,7 +7,7 @@
 
         <div class="box-body">
             <div class="row">
-                {!! Form::open(['route' => 'admin.ranks.store', 'class' => 'add_rank']) !!}
+                {!! Form::open(['route' => 'admin.ranks.store', 'class' => 'add_rank', 'method'=>'POST']) !!}
 
                     @include('admin.ranks.fields')
 
