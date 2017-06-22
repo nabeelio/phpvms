@@ -12,6 +12,7 @@ users:
     name: Admin User
     email: admin@phpvms.net
     password: admin
+    rank_id: 1
     created_at: now
     updated_at: now
 
@@ -20,6 +21,25 @@ role_user:
     role_id: 1
   - user_id: 1
     role_id: 2
+
+# ranks
+ranks:
+  - id: 1
+    name: New Pilot
+    hours: 0
+  - id: 2
+    name: Junior First Officer
+    hours: 10
+  - id: 3
+    name: First Officer
+    hours: 15
+    auto_approve_acars: 1
+    auto_approve_manual: 1
+  - id: 4
+    hours: 20
+    auto_approve_acars: 1
+    auto_approve_manual: 1
+    auto_promote: 0
 
 airlines:
   - id: 1
@@ -76,6 +96,14 @@ aircraft:
     registration: NC20
     tail_number: 20
 
+aircraft_rank:
+  - aircraft_id: 1
+    rank_id: 1
+  - aircraft_id: 1
+    rank_id: 2
+    acars_pay: 100
+    manual_pay: 50
+
 #
 fares:
   - id: 1
@@ -97,7 +125,7 @@ fares:
 # add a few mods to aircraft and fares
 aircraft_fare:
 
-    # Fare classes on the 747
+  # Fare classes on the 747
   - aircraft_id: 1
     fare_id: 1
     price: 200
@@ -118,12 +146,12 @@ aircraft_fare:
     capacity: 10
 
 flights:
-    - airline_id: 1
-      flight_number: 100
-      dpt_airport_id: 1
-      arr_airport_id: 2
-      route: KAUS KJFK
+  - airline_id: 1
+    flight_number: 100
+    dpt_airport_id: 1
+    arr_airport_id: 2
+    route: KAUS KJFK
 
 flight_aircraft:
-    - flight_id: 1
-      aircraft_id: 1
+  - flight_id: 1
+    aircraft_id: 1
