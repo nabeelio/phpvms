@@ -36,6 +36,7 @@ ranks:
     auto_approve_acars: 1
     auto_approve_manual: 1
   - id: 4
+    name: Senior Captain
     hours: 20
     auto_approve_acars: 1
     auto_approve_manual: 1
