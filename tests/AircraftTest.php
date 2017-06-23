@@ -20,7 +20,7 @@ class AircraftTest extends TestCase
 
     protected function findByICAO($icao)
     {
-        $ac_repo = app('App\Repositories\AircraftRepository');
+        $ac_repo = app('App\Repositories\SubfleetRepository');
         return $ac_repo->findByICAO($icao);
     }
 
@@ -36,26 +36,12 @@ class AircraftTest extends TestCase
      */
     protected function addAircraft()
     {
-        $svc = app('App\Services\AircraftService');
-        $err = $svc->create([
-            'icao' => $this->ICAO,
-            'name' => 'Boeing 777',
-        ], $this->getAircraftClass());
-
-        $this->assertNotFalse($err);
+        $mdl = new App\Models\Aircraft;
+        $mdl->icao = $this->ICAO;
+        $mdl->name = 'Boeing 777';
+        $mdl->save();
 
         return $this->findByICAO($this->ICAO);
-    }
-
-    public function testAircraftClasses()
-    {
-        $aircraft = $this->addAircraft();
-        $this->assertEquals($this->ICAO, $aircraft->icao, 'ICAO matching');
-        $this->assertEquals(
-            $this->getAircraftClass(),
-            $aircraft->class,
-            'Check belongsTo relationship'
-        );
     }
 
     public function testAircraftFaresNoOverride()

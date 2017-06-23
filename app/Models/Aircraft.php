@@ -18,7 +18,7 @@ class Aircraft extends Model
 
     public $fillable
         = [
-            'aircraft_class_id',
+            'subfleet_id',
             'icao',
             'name',
             'registration',

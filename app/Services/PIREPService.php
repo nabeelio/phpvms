@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Repositories\AircraftRepository;
+use App\Repositories\SubfleetRepository;
 
 
 class PIREPService extends BaseService {
@@ -13,7 +13,7 @@ class PIREPService extends BaseService {
      * return a PIREP model
      */
     public function __construct(
-        AircraftRepository $aircraft
+        SubfleetRepository $aircraft
     ) {
         $this->aircraft = $aircraft;
     }

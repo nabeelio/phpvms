@@ -6,7 +6,10 @@
             <h3 class="box-title">{!! Form::label('icao', 'ICAO') !!}</h3>
         </div>
         <div class="box-body">
-            <p class="lead">{!! $aircraft->icao !!}/<strong>{!! $aircraft->class->code !!}</strong> ({!! $aircraft->class->name !!})</p>
+            <p class="lead">{!! $aircraft->icao !!}
+            @if($aircraft->subfleet)
+                /{!! $aircraft->subfleet->name !!}</p>
+            @endif
         </div>
     </div>
 </div>

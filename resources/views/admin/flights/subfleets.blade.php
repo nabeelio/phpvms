@@ -1,20 +1,18 @@
-<div id="flight_aircraft_wrapper" >
+<div id="subfleet_flight_wrapper">
 <table class="table table-responsive" id="aircrafts-table">
     <thead>
-    <th>ICAO</th>
+    <th>Type</th>
     <th>Name</th>
-    <th>Registration</th>
     <th style="text-align: center;">Actions</th>
     </thead>
     <tbody>
-    @foreach($flight->aircraft as $ac)
+    @foreach($flight->subfleets as $sf)
         <tr>
-            <td>{!! $ac->icao !!}</td>
-            <td>{!! $ac->name !!}</td>
-            <td>{!! $ac->registration !!}</td>
+            <td>{!! $sf->type !!}</td>
+            <td>{!! $sf->name !!}</td>
             <td style="width: 10%; text-align: center;" class="form-inline">
-                {!! Form::open(['url' => '/admin/flights/'.$flight->id.'/aircraft', 'method' => 'delete', 'class' => 'flight_ac_frm']) !!}
-                {!! Form::hidden('aircraft_id', $flight->id) !!}
+                {!! Form::open(['url' => '/admin/flights/'.$flight->id.'/subfleets', 'method' => 'delete', 'class' => 'flight_subfleet']) !!}
+                {!! Form::hidden('subfleet_id', $sf->id) !!}
                 <div class='btn-group'>
                     {!! Form::button('<i class="glyphicon glyphicon-trash"></i>',
                                      ['type' => 'submit',
@@ -31,13 +29,13 @@
 <div class="row">
     <div class="col-xs-12">
         <div class="input-group input-group-lg pull-right">
-            {!! Form::open(['url' => '/admin/flights/'.$flight->id.'/aircraft',
+            {!! Form::open(['url' => '/admin/flights/'.$flight->id.'/subfleets',
                             'method' => 'post',
-                            'class' => 'flight_ac_frm form-inline'
+                            'class' => 'flight_subfleet form-inline'
                             ])
             !!}
-            {!! Form::select('aircraft_id', $avail_aircraft, null, [
-                    'placeholder' => 'Select Aircraft',
+            {!! Form::select('subfleet_id', $avail_subfleets, null, [
+                    'placeholder' => 'Select Subfleet',
                     'class' => 'ac-flight-dropdown form-control input-lg',
                 ])
             !!}

@@ -17,9 +17,9 @@
         <div class="box-body">
             <div class="row">
                 <div class="col-xs-12">
-                    <h3>assigned aircraft</h3>
+                    <h3>assigned subfleets</h3>
                     <div class="box-body">
-                        @include('admin.flights.aircraft')
+                        @include('admin.flights.subfleets')
                     </div>
                 </div>
             </div>
@@ -32,9 +32,9 @@
     $(document).ready(function () {
         $(".ac-flight-dropdown").select2();
 
-        $(document).on('submit', 'form.flight_ac_frm', function (event) {
+        $(document).on('submit', 'form.flight_subfleet', function (event) {
             event.preventDefault();
-            $.pjax.submit(event, '#flight_aircraft_wrapper', {push: false});
+            $.pjax.submit(event, '#subfleet_flight_wrapper', {push: false});
         });
     });
 </script>

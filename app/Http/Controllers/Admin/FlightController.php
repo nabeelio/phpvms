@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\CreateFlightRequest;
 use App\Http\Requests\UpdateFlightRequest;
 use App\Repositories\FlightRepository;
-use App\Repositories\AircraftRepository;
+use App\Repositories\SubfleetRepository;
 use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
@@ -14,27 +14,27 @@ use Response;
 class FlightController extends BaseController
 {
     /** @var  FlightRepository */
-    private $flightRepository, $aircraftRepository;
+    private $flightRepository, $subfleetRepo;
 
     public function __construct(
         FlightRepository $flightRepo,
-        AircraftRepository $aircraftRepository
+        SubfleetRepository $subfleetRepo
         )
     {
         $this->flightRepository = $flightRepo;
-        $this->aircraftRepository = $aircraftRepository;
+        $this->subfleetRepo = $subfleetRepo;
     }
 
-    protected function getAvailAircraft($flight)
+    protected function getAvailSubfleets($flight)
     {
         $retval = [];
 
         $flight->refresh();
-        $all_aircraft = $this->aircraftRepository->all();
-        $avail_aircraft = $all_aircraft->except($flight->aircraft->modelKeys());
+        $all_aircraft = $this->subfleetRepo->all();
+        $avail_fleets = $all_aircraft->except($flight->subfleets->modelKeys());
 
-        foreach ($avail_aircraft as $ac) {
-            $retval[$ac->id] = $ac->icao.' - '.$ac->registration;
+        foreach ($avail_fleets as $ac) {
+            $retval[$ac->id] = $ac->type.' - '.$ac->name;
         }
 
         return $retval;
@@ -98,10 +98,10 @@ class FlightController extends BaseController
             return redirect(route('admin.flights.index'));
         }
 
-        $avail_aircraft = $this->getAvailAircraft($flight);
+        $avail_subfleets = $this->getAvailSubfleets($flight);
         return view('admin.flights.show')
                 ->with('flight', $flight)
-                ->with('avail_aircraft', $avail_aircraft);
+                ->with('avail_subfleets', $avail_subfleets);
     }
 
     /**
@@ -143,7 +143,6 @@ class FlightController extends BaseController
         $flight = $this->flightRepository->update($request->all(), $id);
 
         Flash::success('Flight updated successfully.');
-
         return redirect(route('admin.flights.index'));
     }
 
@@ -169,15 +168,15 @@ class FlightController extends BaseController
         return redirect(route('admin.flights.index'));
     }
 
-    protected function return_aircraft_view($flight)
+    protected function return_subfleet_view($flight)
     {
-        $avail_aircraft = $this->getAvailAircraft($flight);
-        return view('admin.flights.aircraft')
+        $avail_subfleets = $this->getAvailSubfleets($flight);
+        return view('admin.flights.subfleets')
             ->with('flight', $flight)
-            ->with('avail_aircraft', $avail_aircraft);
+            ->with('avail_subfleets', $avail_subfleets);
     }
 
-    public function aircraft(Request $request)
+    public function subfleets(Request $request)
     {
         $id = $request->id;
 
@@ -189,14 +188,14 @@ class FlightController extends BaseController
 
         // add aircraft to flight
         if ($request->isMethod('post')) {
-            $flight->aircraft()->syncWithoutDetaching([$request->aircraft_id]);
+            $flight->subfleets()->syncWithoutDetaching([$request->subfleet_id]);
         }
 
         // remove aircraft from flight
         elseif ($request->isMethod('delete')) {
-            $flight->aircraft()->detach($request->aircraft_id);
+            $flight->subfleets()->detach($request->subfleet_id);
         }
 
-        return $this->return_aircraft_view($flight);
+        return $this->return_subfleet_view($flight);
     }
 }

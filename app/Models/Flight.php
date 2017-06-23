@@ -81,8 +81,8 @@ class Flight extends Model
         return $this->belongsTo('App\Models\Airport', 'alt_airport_id');
     }
 
-    public function aircraft()
+    public function subfleets()
     {
-        return $this->belongsToMany('App\Models\Aircraft', 'flight_aircraft');
+        return $this->belongsToMany('App\Models\Subfleet', 'subfleet_flight');
     }
 }

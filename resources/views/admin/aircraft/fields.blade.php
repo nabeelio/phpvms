@@ -10,6 +10,11 @@
     {!! Form::text('name', null, ['class' => 'form-control']) !!}
 </div>
 
+<div class="form-group col-sm-6">
+    {!! Form::label('subfleet_id', 'Subfleet:') !!}
+    {!! Form::select('subfleet_id', $subfleets, null, ['class' => 'form-control', 'placeholder' => 'Select Subfleet']) !!}
+</div>
+
 <!-- Registration Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('registration', 'Registration:') !!}

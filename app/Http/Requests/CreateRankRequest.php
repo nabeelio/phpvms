@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests;
 
-use App\Http\Requests\Request;
 use App\Models\Rank;
+use Illuminate\Foundation\Http\FormRequest;
 
-class CreateRankRequest extends Request
+class CreateRankRequest extends FormRequest
 {
 
     /**

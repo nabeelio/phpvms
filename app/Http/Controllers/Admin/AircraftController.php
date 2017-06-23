@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Subfleet;
 use App\Http\Requests\CreateAircraftRequest;
 use App\Http\Requests\UpdateAircraftRequest;
-use App\Repositories\AircraftRepository;
+use App\Repositories\SubfleetRepository;
 use App\Repositories\FareRepository;
 use Illuminate\Http\Request;
 use Flash;
@@ -14,7 +14,7 @@ use Response;
 
 class AircraftController extends BaseController
 {
-    /** @var  AircraftRepository */
+    /** @var  SubfleetRepository */
     private $aircraftRepository, $fareRepository;
 
     protected function getAvailFares($aircraft)
@@ -32,7 +32,7 @@ class AircraftController extends BaseController
         return $retval;
     }
 
-    public function __construct(AircraftRepository $aircraftRepo, FareRepository $fareRepo)
+    public function __construct(SubfleetRepository $aircraftRepo, FareRepository $fareRepo)
     {
         $this->fareRepository = $fareRepo;
         $this->aircraftRepository = $aircraftRepo;
@@ -126,7 +126,6 @@ class AircraftController extends BaseController
         $aircraft = $this->aircraftRepository->update($request->all(), $id);
 
         Flash::success('Aircraft updated successfully.');
-
         return redirect(route('admin.aircraft.index'));
     }
 

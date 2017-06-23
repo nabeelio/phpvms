@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests;
 
-use App\Http\Requests\Request;
 use App\Models\Airport;
+use Illuminate\Foundation\Http\FormRequest;
 
-class CreateAirportRequest extends Request
+class CreateAirportRequest extends FormRequest
 {
 
     /**

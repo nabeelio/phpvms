@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests;
 
-use App\Http\Requests\Request;
 use App\Models\Subfleet;
+use Illuminate\Foundation\Http\FormRequest;
 
-class CreateSubfleetRequest extends Request
+class CreateSubfleetRequest extends FormRequest
 {
 
     /**

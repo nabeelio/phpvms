@@ -37,14 +37,6 @@ class CreateFlightsTable extends Migration
             $table->index('dpt_airport_id');
             $table->index('arr_airport_id');
         });
-
-        Schema::create('flight_aircraft', function ($table) {
-            $table->uuid('flight_id');
-            $table->integer('aircraft_id')->unsigned();
-
-            $table->primary(['flight_id', 'aircraft_id']);
-            $table->index(['aircraft_id', 'flight_id']);
-        });
     }
 
     /**
@@ -55,6 +47,5 @@ class CreateFlightsTable extends Migration
     public function down()
     {
         Schema::drop('flights');
-        Schema::drop('flight_aircraft');
     }
 }

@@ -73,11 +73,13 @@ airports:
 #
 aircraft:
   - id: 1
+    subfleet_id: 1
     icao: B744
     name: Boeing 747-400
     registration: NC17
     tail_number: 17
   - id: 2
+    subfleet_id: 2
     icao: B772
     name: Boeing 777-200
     registration: NC20
@@ -139,6 +141,16 @@ flights:
     arr_airport_id: 2
     route: KAUS KJFK
 
-flight_aircraft:
-  - flight_id: 1
-    aircraft_id: 1
+subfleets:
+  - id: 1
+    airline_id: 1
+    name: 747-400 Winglets
+    type: 744W
+  - id: 2
+    airline_id: 1
+    name: 777-200 LR
+    type: 772-LR
+
+subfleet_flight:
+  - subfleet_id: 1
+    flight_id: 1

@@ -13,7 +13,7 @@ class AircraftService extends BaseService
         AircraftClass $class = null
     ) {
 
-        $repo = app('App\Repositories\AircraftRepository');
+        $repo = app('App\Repositories\SubfleetRepository');
         try {
             $model = $repo->create($attributes);
         } catch (Exception $e) {

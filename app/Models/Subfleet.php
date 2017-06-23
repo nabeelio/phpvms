@@ -50,6 +50,11 @@ class Subfleet extends Model
         return $this->belongsTo('App\Models\Airline', 'airline_id');
     }
 
+    public function flights()
+    {
+        return $this->belongsToMany('App\Models\Flight', 'subfleet_flight');
+    }
+
     public function ranks()
     {
         return $this->belongsToMany(
