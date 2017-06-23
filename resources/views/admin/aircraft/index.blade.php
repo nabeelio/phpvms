@@ -4,7 +4,7 @@
     <section class="content-header">
         <h1 class="pull-left">Aircraft</h1>
         <h1 class="pull-right">
-           <a class="btn btn-primary " style="margin-top: -8px;" href="{!! url('/admin/aircraftclasses') !!}">Aircraft Classes</a>
+           <a class="btn btn-primary " style="margin-top: -8px;" href="{!! url('/admin/subfleets') !!}">Subfleets</a>
             &nbsp;&nbsp;
            <a class="btn btn-primary " style="margin-top: -8px;" href="{!! route('admin.aircraft.create') !!}">Add New Aircraft</a>
         </h1>

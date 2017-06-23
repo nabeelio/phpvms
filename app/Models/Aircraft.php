@@ -52,22 +52,19 @@ class Aircraft extends Model
         ];
 
     /**
-     * foreign key
+     * foreign keys
      */
-    public function class()
-    {
-        return $this->belongsTo(
-            'App\Models\AircraftClass',
-            'aircraft_class_id'
-        );
-    }
 
     public function fares()
     {
-        $r = $this->belongsToMany(
+        return $this->belongsToMany(
             'App\Models\Fare',
             'aircraft_fare'
         )->withPivot('price', 'cost', 'capacity');
-        return $r;
+    }
+
+    public function subfleet()
+    {
+        return $this->belongsTo('App\Models\Subfleet', 'subfleet_id');
     }
 }

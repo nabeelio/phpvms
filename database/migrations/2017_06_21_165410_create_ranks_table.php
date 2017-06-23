@@ -24,14 +24,6 @@ class CreateRanksTable extends Migration
 
             $table->unique('name');
         });
-
-        Schema::create('aircraft_rank', function(Blueprint $table) {
-            $table->increments('id');
-            $table->integer('aircraft_id')->unsigned();
-            $table->integer('rank_id')->unsigned();
-            $table->double('acars_pay', 19, 2)->default(0.0)->unsigned();
-            $table->double('manual_pay', 19, 2)->default(0.0)->unsigned();
-        });
     }
 
     /**
@@ -42,6 +34,5 @@ class CreateRanksTable extends Migration
     public function down()
     {
         Schema::drop('ranks');
-        Schema::drop('aircraft_rank');
     }
 }

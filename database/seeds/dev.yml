@@ -71,41 +71,26 @@ airports:
     lon: -0.4614
 
 #
-aircraft_classes:
-  - id: 1
-    code: H
-    name: Heavy
-  - id: 2
-    code: M
-    name: Medium
-  - id: 3
-    code: L
-    name: Light
-
-#
 aircraft:
   - id: 1
-    aircraft_class_id: 1
     icao: B744
     name: Boeing 747-400
     registration: NC17
     tail_number: 17
   - id: 2
-    aircraft_class_id: 1
     icao: B772
     name: Boeing 777-200
     registration: NC20
     tail_number: 20
 
-aircraft_rank:
-  - aircraft_id: 1
-    rank_id: 1
-  - aircraft_id: 1
-    rank_id: 2
-    acars_pay: 100
-    manual_pay: 50
+#aircraft_rank:
+#  - aircraft_id: 1
+#    rank_id: 1
+#  - aircraft_id: 1
+#    rank_id: 2
+#    acars_pay: 100
+#    manual_pay: 50
 
-#
 fares:
   - id: 1
     code: Y

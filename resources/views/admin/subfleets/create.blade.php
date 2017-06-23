@@ -2,9 +2,7 @@
 
 @section('content')
     <section class="content-header">
-        <h1>
-            Aircraft Classes
-        </h1>
+        <h1>Add Subfleet</h1>
     </section>
     <div class="content">
         @include('adminlte-templates::common.errors')
@@ -12,9 +10,9 @@
 
             <div class="box-body">
                 <div class="row">
-                    {!! Form::open(['route' => 'admin.aircraftClasses.store']) !!}
+                    {!! Form::open(['route' => 'admin.subfleets.store']) !!}
 
-                        @include('admin.aircraft_classes.fields')
+                        @include('admin.subfleets.fields')
 
                     {!! Form::close() !!}
                 </div>

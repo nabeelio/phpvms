@@ -3,22 +3,26 @@
 namespace App\Models;
 
 use Eloquent as Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Class Ranking
+ * Class Subfleet
  * @package App\Models
  */
-class Rank extends Model
+class Subfleet extends Model
 {
+    use SoftDeletes;
 
-    public $table = 'ranks';
+    public $table = 'subfleets';
+
+
+    protected $dates = ['deleted_at'];
+
 
     public $fillable = [
+        'airline_id',
         'name',
-        'hours',
-        'auto_approve_acars',
-        'auto_approve_manual',
-        'auto_promote'
+        'type'
     ];
 
     /**
@@ -27,11 +31,9 @@ class Rank extends Model
      * @var array
      */
     protected $casts = [
+        'airline_id' => 'integer',
         'name' => 'string',
-        'hours' => 'integer',
-        'auto_approve_acars' => 'boolean',
-        'auto_approve_manual' => 'boolean',
-        'auto_promote' => 'boolean',
+        'type' => 'string'
     ];
 
     /**
@@ -40,12 +42,18 @@ class Rank extends Model
      * @var array
      */
     public static $rules = [
-        'name' => 'unique',
+
     ];
 
-    public function subfleets() {
+    public function airline()
+    {
+        return $this->belongsTo('App\Models\Airline', 'airline_id');
+    }
+
+    public function ranks()
+    {
         return $this->belongsToMany(
-            'App\Models\Subfleet',
+            'App\Models\Ranks',
             'subfleet_rank'
         )->withPivot('acars_pay', 'manual_pay');
     }

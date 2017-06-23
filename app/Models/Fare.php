@@ -8,7 +8,6 @@ use Eloquent as Model;
  * Class Fare
  *
  * @package App\Models
- * @version June 10, 2017, 4:03 am UTC
  */
 class Fare extends Model
 {
@@ -51,6 +50,10 @@ class Fare extends Model
             'code' => 'required',
             'name' => 'required',
         ];
+
+    /**
+     * any foreign keys
+     */
 
     public function aircraft() {
         return $this->belongsToMany(

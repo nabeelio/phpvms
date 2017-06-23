@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Subfleet;
 use App\Http\Requests\CreateAircraftRequest;
 use App\Http\Requests\UpdateAircraftRequest;
 use App\Repositories\AircraftRepository;
@@ -54,7 +55,9 @@ class AircraftController extends BaseController
      */
     public function create()
     {
-        return view('admin.aircraft.create');
+        return view('admin.aircraft.create', [
+            'subfleets' => Subfleet::all()->pluck('name', 'id'),
+        ]);
     }
 
     /**
@@ -84,9 +87,10 @@ class AircraftController extends BaseController
 
         $avail_fares = $this->getAvailFares($aircraft);
 
-        return view('admin.aircraft.show')
-                ->with('aircraft', $aircraft)
-                ->with('avail_fares', $avail_fares);
+        return view('admin.aircraft.show', [
+            'aircraft' => $aircraft,
+            'avail_fares' => $avail_fares,
+        ]);
     }
 
     /**
@@ -101,7 +105,10 @@ class AircraftController extends BaseController
             return redirect(route('admin.aircraft.index'));
         }
 
-        return view('admin.aircraft.edit')->with('aircraft', $aircraft);
+        return view('admin.aircraft.edit', [
+            'subfleets' => Subfleet::all()->pluck('name', 'id'),
+            'aircraft' => $aircraft,
+        ]);
     }
 
     /**
@@ -147,9 +154,10 @@ class AircraftController extends BaseController
         $aircraft->refresh();
         $avail_fares = $this->getAvailFares($aircraft);
 
-        return view('admin.aircraft.fares')
-               ->with('aircraft', $aircraft)
-               ->with('avail_fares', $avail_fares);
+        return view('admin.aircraft.fares', [
+            'aircraft' => $aircraft,
+            'avail_fares' => $avail_fares,
+        ]);
     }
 
     public function fares(Request $request)
@@ -158,7 +166,7 @@ class AircraftController extends BaseController
 
         $aircraft = $this->aircraftRepository->findWithoutFail($id);
         if (empty($aircraft)) {
-            return view('admin.aircraft.fares')->with('fares', []);
+            return view('admin.aircraft.fares', ['fares' => []]);
         }
 
         $fare_svc = app('App\Services\FareService');

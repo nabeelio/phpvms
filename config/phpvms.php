@@ -8,4 +8,9 @@ return [
      */
     'currency' => 'dollar',
 
+    'fuel_types' => [
+        '100LL' => 0,
+        'JETA' => 1,
+        'MOGAS' => 2,
+    ],
 ];

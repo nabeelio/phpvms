@@ -14,8 +14,10 @@ class CreateAircraftsTable extends Migration
             $table->string('name');
             $table->string('registration')->nullable();
             $table->string('tail_number')->nullable();
-            $table->string('cargo_capacity')->nullable();
-            $table->string('fuel_capacity')->nullable();
+            $table->double('cargo_capacity', 19, 2)->nullable();
+            $table->double('fuel_capacity', 19, 2)->nullable();
+            $table->double('gross_weight', 19, 2)->nullable();
+            $table->tinyInteger('fuel_type')->unsigned()->nullable();
             $table->boolean('active')->default(true);
             $table->timestamps();
 
@@ -23,20 +25,10 @@ class CreateAircraftsTable extends Migration
             $table->unique('registration');
         });
 
-        Schema::create('aircraft_classes', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('code');
-            $table->string('name');
-            $table->string('notes')->nullable();
-            $table->timestamps();
-
-            $table->index('code');
-        });
     }
 
     public function down()
     {
         Schema::drop('aircraft');
-        Schema::drop('aircraft_classes');
     }
 }
