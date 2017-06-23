@@ -22,6 +22,14 @@ class CreateSubfleetsTable extends Migration
             $table->softDeletes();
         });
 
+        Schema::create('subfleet_flight', function(Blueprint $table) {
+            $table->integer('subfleet_id')->unsigned();
+            $table->integer('flight_id')->unsigned();
+
+            $table->primary(['subfleet_id', 'flight_id']);
+            $table->index(['flight_id', 'subfleet_id']);
+        });
+
         Schema::create('subfleet_rank', function(Blueprint $table) {
             $table->integer('rank_id')->unsigned();
             $table->integer('subfleet_id')->unsigned();
@@ -30,14 +38,6 @@ class CreateSubfleetsTable extends Migration
 
             $table->primary(['rank_id', 'subfleet_id']);
             $table->index(['subfleet_id', 'rank_id']);
-        });
-
-        Schema::create('subfleet_flight', function(Blueprint $table) {
-            $table->integer('subfleet_id')->unsigned();
-            $table->integer('flight_id')->unsigned();
-
-            $table->primary(['subfleet_id', 'flight_id']);
-            $table->index(['flight_id', 'subfleet_id']);
         });
     }
 
