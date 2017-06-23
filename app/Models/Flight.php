@@ -62,8 +62,7 @@ class Flight extends Model
 
     public function airline()
     {
-        return $this->belongsTo('App\Models\Airline',
-                                'airline_id');
+        return $this->belongsTo('App\Models\Airline', 'airline_id');
     }
 
     public function dpt_airport()
