@@ -23,12 +23,13 @@ class CreateSubfleetsTable extends Migration
         });
 
         Schema::create('subfleet_rank', function(Blueprint $table) {
-            $table->increments('id');
-            $table->integer('subfleet_id')->unsigned()->nullable();
             $table->integer('rank_id')->unsigned()->nullable();
+            $table->integer('subfleet_id')->unsigned()->nullable();
             $table->double('acars_pay', 19, 2)->unsigned()->nullable();
             $table->double('manual_pay', 19, 2)->unsigned()->nullable();
 
+            $table->primary(['rank_id', 'subfleet_id']);
+            $table->index(['subfleet_id', 'rank_id']);
         });
     }
 

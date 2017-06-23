@@ -26,13 +26,15 @@ class CreateFaresTable extends Migration
         });
 
         Schema::create('aircraft_fare', function (Blueprint $table) {
-            $table->increments('id');
             $table->integer('aircraft_id')->unsigned();
             $table->integer('fare_id')->unsigned();
             $table->decimal('price', 19, 2)->nullable();
             $table->decimal('cost', 19, 2)->nullable();
             $table->integer('capacity')->nullable()->unsigned();
             $table->timestamps();
+
+            $table->primary(['aircraft_id', 'fare_id']);
+            $table->index(['fare_id', 'aircraft_id']);
         });
     }
 

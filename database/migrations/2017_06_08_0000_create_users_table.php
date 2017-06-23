@@ -14,7 +14,7 @@ class CreateUsersTable extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->increments('id');
+            $table->uuid('id');
             $table->string('name')->nullable();
             $table->string('email')->unique();
             $table->string('password');
@@ -22,7 +22,7 @@ class CreateUsersTable extends Migration
             $table->integer('rank_id')->nullable()->unsigned();
             $table->integer('home_airport_id')->nullable()->unsigned();
             $table->integer('curr_airport_id')->nullable()->unsigned();
-            $table->bigInteger('last_pirep_id')->nullable()->unsigned();
+            $table->uuid('last_pirep_id')->nullable();
             $table->bigInteger('flights')->nullable()->unsigned();
             $table->bigInteger('flight_time')->nullable()->unsigned();
             $table->decimal('balance', 19, 2)->nullable();
@@ -31,6 +31,8 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
+
+            $table->primary('id');
         });
 
         // Create table for storing roles
@@ -44,7 +46,7 @@ class CreateUsersTable extends Migration
 
         // Create table for associating roles to users (Many-to-Many)
         Schema::create('role_user', function (Blueprint $table) {
-            $table->integer('user_id')->unsigned();
+            $table->uuid('user_id');
             $table->integer('role_id')->unsigned();
 
             $table->foreign('user_id')->references('id')->on('users')
@@ -53,6 +55,7 @@ class CreateUsersTable extends Migration
                 ->onUpdate('cascade')->onDelete('cascade');
 
             $table->primary(['user_id', 'role_id']);
+            $table->index(['role_id', 'user_id']);
         });
 
         // Create table for storing permissions

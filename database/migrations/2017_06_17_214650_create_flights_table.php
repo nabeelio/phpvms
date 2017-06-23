@@ -14,7 +14,7 @@ class CreateFlightsTable extends Migration
     public function up()
     {
         Schema::create('flights', function (Blueprint $table) {
-            $table->increments('id');
+            $table->uuid('id');
             $table->integer('airline_id')->unsigned();
             $table->text('flight_number');
             $table->text('route_code')->nullable();
@@ -29,6 +29,8 @@ class CreateFlightsTable extends Migration
             $table->boolean('active')->default(true);
             $table->timestamps();
 
+            $table->primary('id');
+
             $table->unique('flight_number');
 
             $table->index('flight_number');
@@ -37,9 +39,11 @@ class CreateFlightsTable extends Migration
         });
 
         Schema::create('flight_aircraft', function ($table) {
-            $table->increments('id');
-            $table->integer('flight_id')->unsigned();
+            $table->uuid('flight_id');
             $table->integer('aircraft_id')->unsigned();
+
+            $table->primary(['flight_id', 'aircraft_id']);
+            $table->index(['aircraft_id', 'flight_id']);
         });
     }
 

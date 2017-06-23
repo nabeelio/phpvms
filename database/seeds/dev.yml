@@ -132,7 +132,8 @@ aircraft_fare:
     capacity: 10
 
 flights:
-  - airline_id: 1
+  - id: 1
+    airline_id: 1
     flight_number: 100
     dpt_airport_id: 1
     arr_airport_id: 2
