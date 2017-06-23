@@ -17,6 +17,7 @@ class CreateAirlinesTable extends Migration
             $table->increments('id');
             $table->string('code');
             $table->string('name');
+            $table->char('country', 2)->nullable();
             $table->boolean('active');
             $table->timestamps();
 
