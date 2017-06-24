@@ -17,23 +17,10 @@ class AircraftController extends BaseController
     /** @var  SubfleetRepository */
     private $aircraftRepository, $fareRepository;
 
-    protected function getAvailFares($aircraft)
-    {
-        $retval = [];
-        $all_fares = $this->fareRepository->all();
-        $avail_fares = $all_fares->except($aircraft->fares->modelKeys());
-        foreach ($avail_fares as $fare) {
-            $retval[$fare->id] = $fare->name.
-                                 ' (price: '.$fare->price.
-                                 ', cost: '.$fare->cost.
-                                 ', capacity: '.$fare->capacity.')';
-        }
-
-        return $retval;
-    }
-
-    public function __construct(SubfleetRepository $aircraftRepo, FareRepository $fareRepo)
-    {
+    public function __construct(
+        SubfleetRepository $aircraftRepo,
+        FareRepository $fareRepo
+    ) {
         $this->fareRepository = $fareRepo;
         $this->aircraftRepository = $aircraftRepo;
     }
@@ -70,6 +57,7 @@ class AircraftController extends BaseController
         $aircraft = $this->aircraftRepository->create($input);
 
         Flash::success('Aircraft saved successfully.');
+
         return redirect(route('admin.aircraft.index'));
     }
 
@@ -85,11 +73,8 @@ class AircraftController extends BaseController
             return redirect(route('admin.aircraft.index'));
         }
 
-        $avail_fares = $this->getAvailFares($aircraft);
-
         return view('admin.aircraft.show', [
-            'aircraft' => $aircraft,
-            'avail_fares' => $avail_fares,
+            'aircraft'    => $aircraft,
         ]);
     }
 
@@ -102,12 +87,13 @@ class AircraftController extends BaseController
 
         if (empty($aircraft)) {
             Flash::error('Aircraft not found');
+
             return redirect(route('admin.aircraft.index'));
         }
 
         return view('admin.aircraft.edit', [
             'subfleets' => Subfleet::all()->pluck('name', 'id'),
-            'aircraft' => $aircraft,
+            'aircraft'  => $aircraft,
         ]);
     }
 
@@ -120,12 +106,14 @@ class AircraftController extends BaseController
 
         if (empty($aircraft)) {
             Flash::error('Aircraft not found');
+
             return redirect(route('admin.aircraft.index'));
         }
 
         $aircraft = $this->aircraftRepository->update($request->all(), $id);
 
         Flash::success('Aircraft updated successfully.');
+
         return redirect(route('admin.aircraft.index'));
     }
 
@@ -138,6 +126,7 @@ class AircraftController extends BaseController
 
         if (empty($aircraft)) {
             Flash::error('Aircraft not found');
+
             return redirect(route('admin.aircraft.index'));
         }
 
@@ -148,54 +137,4 @@ class AircraftController extends BaseController
         return redirect(route('admin.aircraft.index'));
     }
 
-    protected function return_fares_view($aircraft)
-    {
-        $aircraft->refresh();
-        $avail_fares = $this->getAvailFares($aircraft);
-
-        return view('admin.aircraft.fares', [
-            'aircraft' => $aircraft,
-            'avail_fares' => $avail_fares,
-        ]);
-    }
-
-    public function fares(Request $request)
-    {
-        $id = $request->id;
-
-        $aircraft = $this->aircraftRepository->findWithoutFail($id);
-        if (empty($aircraft)) {
-            return view('admin.aircraft.fares', ['fares' => []]);
-        }
-
-        $fare_svc = app('App\Services\FareService');
-
-        if ($request->isMethod('get')) {
-            return $this->return_fares_view($aircraft);
-        }
-
-        /**
-         * update specific fare data
-         */
-        if ($request->isMethod('post')) {
-            $fare = $this->fareRepository->findWithoutFail($request->fare_id);
-            $fare_svc->setForAircraft($aircraft, $fare);
-        }
-
-        // update the pivot table with overrides for the fares
-        elseif ($request->isMethod('put')) {
-            $override = [];
-            $fare = $this->fareRepository->findWithoutFail($request->fare_id);
-            $override[$request->name] = $request->value;
-            $fare_svc->setForAircraft($aircraft, $fare, $override);
-        }
-
-        // dissassociate fare from teh aircraft
-        elseif ($request->isMethod('delete')) {
-            $fare = $this->fareRepository->findWithoutFail($request->fare_id);
-            $fare_svc->delFromAircraft($aircraft, $fare);
-        }
-
-        return $this->return_fares_view($aircraft);
-    }
 }

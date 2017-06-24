@@ -55,14 +55,6 @@ class Aircraft extends Model
      * foreign keys
      */
 
-    public function fares()
-    {
-        return $this->belongsToMany(
-            'App\Models\Fare',
-            'aircraft_fare'
-        )->withPivot('price', 'cost', 'capacity');
-    }
-
     public function subfleet()
     {
         return $this->belongsTo('App\Models\Subfleet', 'subfleet_id');

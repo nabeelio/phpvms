@@ -110,29 +110,6 @@ fares:
     price: 800
     capacity: 5
 
-# add a few mods to aircraft and fares
-aircraft_fare:
-
-  # Fare classes on the 747
-  - aircraft_id: 1
-    fare_id: 1
-    price: 200
-    capacity: 400
-  - aircraft_id: 1
-    fare_id: 2
-    capacity: 20
-  - aircraft_id: 1
-    fare_id: 3
-    price: 1000
-    capacity: 10
-
-  # Fare classes on the 777
-  - aircraft_id: 2
-    fare_id: 1
-  - aircraft_id: 2
-    fare_id: 3
-    capacity: 10
-
 flights:
   - id: 1
     airline_id: 1
@@ -150,6 +127,29 @@ subfleets:
     airline_id: 1
     name: 777-200 LR
     type: 772-LR
+
+# add a few mods to aircraft and fares
+subfleet_fare:
+
+  # Fare classes on the 747
+  - subfleet_id: 1
+    fare_id: 1
+    price: 200
+    capacity: 400
+  - subfleet_id: 1
+    fare_id: 2
+    capacity: 20
+  - subfleet_id: 1
+    fare_id: 3
+    price: 1000
+    capacity: 10
+
+  # Fare classes on the 777
+  - subfleet_id: 2
+    fare_id: 1
+  - subfleet_id: 2
+    fare_id: 3
+    capacity: 10
 
 subfleet_flight:
   - subfleet_id: 1

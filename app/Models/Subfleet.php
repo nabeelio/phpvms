@@ -50,6 +50,14 @@ class Subfleet extends Model
         return $this->belongsTo('App\Models\Airline', 'airline_id');
     }
 
+    public function fares()
+    {
+        return $this->belongsToMany(
+            'App\Models\Fare',
+            'subfleet_fare'
+        )->withPivot('price', 'cost', 'capacity');
+    }
+
     public function flights()
     {
         return $this->belongsToMany('App\Models\Flight', 'subfleet_flight');

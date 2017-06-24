@@ -34,7 +34,7 @@
         </tr>
         </thead>
         <tbody>
-        @foreach($aircraft->fares as $atf)
+        @foreach($subfleet->fares as $atf)
             <tr role="row" class="@if ($loop->iteration%2) even @else odd @endif">
                 <td class="sorting_1">{!! $atf->name !!}</td>
                 <td>{!! $atf->code !!}</td>
@@ -47,7 +47,7 @@
                     <span class="small background-color-grey-light">({!! $atf->cost!!})</span></td>
                 <td style="text-align: right; width:3%;">
                     <div class='btn-group'>
-                        {!! Form::open(['url' => '/admin/aircraft/'.$aircraft->id.'/fares', 'method' => 'delete', 'class' => 'rm_fare']) !!}
+                        {!! Form::open(['url' => '/admin/subfleets/'.$subfleet->id.'/fares', 'method' => 'delete', 'class' => 'rm_fare']) !!}
                         {!! Form::hidden('fare_id', $atf->id) !!}
                         {!! Form::button('<i class="glyphicon glyphicon-trash"></i>',
                                          ['type' => 'submit',
@@ -63,7 +63,7 @@
     <div class="row">
         <div class="col-xs-12">
             <div class="input-group input-group-lg pull-right">
-            {!! Form::open(['url' => '/admin/aircraft/'.$aircraft->id.'/fares',
+            {!! Form::open(['url' => '/admin/subfleets/'.$subfleet->id.'/fares',
                             'method' => 'post',
                             'class' => 'rm_fare form-inline'
                             ])

@@ -23,7 +23,7 @@
                             Fares assigned to the current aircraft. These can be overridden,
                             otherwise, the value used is the default, which comes from the fare.
                         </div>
-                        @include('admin.aircraft.fares')
+                        @include('admin.subfleets.fares')
                     </div>
                 </div>
             </div>

@@ -24,18 +24,6 @@ class CreateFaresTable extends Migration
             $table->boolean('active')->default(true);
             $table->timestamps();
         });
-
-        Schema::create('aircraft_fare', function (Blueprint $table) {
-            $table->integer('aircraft_id')->unsigned();
-            $table->integer('fare_id')->unsigned();
-            $table->decimal('price', 19, 2)->nullable();
-            $table->decimal('cost', 19, 2)->nullable();
-            $table->integer('capacity')->nullable()->unsigned();
-            $table->timestamps();
-
-            $table->primary(['aircraft_id', 'fare_id']);
-            $table->index(['fare_id', 'aircraft_id']);
-        });
     }
 
     /**
@@ -46,6 +34,5 @@ class CreateFaresTable extends Migration
     public function down()
     {
         Schema::drop('fares');
-        Schema::drop('aircraft_fare');
     }
 }

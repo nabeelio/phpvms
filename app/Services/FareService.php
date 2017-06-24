@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Models\Aircraft;
+use App\Models\Subfleet;
 use App\Models\Fare;
 
 class FareService extends BaseService {
@@ -10,39 +10,39 @@ class FareService extends BaseService {
     /**
      * Attach a fare to an aircraft
      *
-     * @param Aircraft $aircraft
+     * @param Aircraft $subfleet
      * @param Fare     $fare
      * @param array    set the price/cost/capacity
      *
      * @return Aircraft
      */
     public function setForAircraft(
-        Aircraft &$aircraft,
+        Subfleet &$subfleet,
         Fare &$fare,
         array $override=[]
     ) {
-        $aircraft->fares()->syncWithoutDetaching([$fare->id]);
+        $subfleet->fares()->syncWithoutDetaching([$fare->id]);
 
         # modify any pivot values?
         if(count($override) > 0) {
-            $aircraft->fares()->updateExistingPivot($fare->id, $override);
+            $subfleet->fares()->updateExistingPivot($fare->id, $override);
         }
 
-        $aircraft->save();
-        $aircraft = $aircraft->fresh();
-        return $aircraft;
+        $subfleet->save();
+        $subfleet = $subfleet->fresh();
+        return $subfleet;
     }
 
     /**
      * return all the fares for an aircraft. check the pivot
      * table to see if the price/cost/capacity has been overridden
      * and return the correct amounts.
-     * @param Aircraft $aircraft
+     * @param Aircraft $subfleet
      * @return Fare[]
      */
-    public function getForAircraft(Aircraft &$aircraft)
+    public function getForAircraft(Subfleet &$subfleet)
     {
-        $fares = $aircraft->fares->map(function($fare) {
+        $fares = $subfleet->fares->map(function($fare) {
             if(!is_null($fare->pivot->price)) {
                 $fare->price = $fare->pivot->price;
             }
@@ -61,10 +61,10 @@ class FareService extends BaseService {
         return $fares;
     }
 
-    public function delFromAircraft(Aircraft &$aircraft, Fare &$fare)
+    public function delFromAircraft(Subfleet &$subfleet, Fare &$fare)
     {
-        $aircraft->fares()->detach($fare->id);
-        $aircraft = $aircraft->fresh();
-        return $aircraft;
+        $subfleet->fares()->detach($fare->id);
+        $subfleet = $subfleet->fresh();
+        return $subfleet;
     }
 }
