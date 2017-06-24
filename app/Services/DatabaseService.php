@@ -13,6 +13,7 @@ class DatabaseService extends BaseService
 
     protected $uuid_tables = [
         'flights',
+        'pireps',
         'users',
     ];
 
