@@ -25,7 +25,7 @@ clean:
 
 reset: clean
 	@sqlite3 database/testing.sqlite ""
-	@php artisan migrate:refresh --seed --seeder DevelopmentSeeder
+	@php artisan migrate:refresh --seed
 
 db:
 	sqlite3 database/testing.sqlite ""
