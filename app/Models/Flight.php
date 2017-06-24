@@ -11,7 +11,10 @@ use Eloquent as Model;
  */
 class Flight extends Model
 {
+    use Uuids;
+
     public $table = 'flights';
+    public $incrementing = false;
 
     protected $dates = ['deleted_at'];
 

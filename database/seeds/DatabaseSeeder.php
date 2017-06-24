@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
         }
 
         $svc = app('App\Services\DatabaseService');
-        $svc->seed_from_yaml($path);
+        $svc->seed_from_yaml_file($path);
     }
 
 }

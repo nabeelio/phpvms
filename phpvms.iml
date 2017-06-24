@@ -13,6 +13,7 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/phpoffice/phpexcel" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/polyfill-php56" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/polyfill-util" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/webpatser/laravel-uuid" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/yajra/laravel-datatables-oracle" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
@@ -41,6 +42,7 @@
           <root url="file://$MODULE_DIR$/vendor/phpoffice/phpexcel" />
           <root url="file://$MODULE_DIR$/vendor/symfony/polyfill-php56" />
           <root url="file://$MODULE_DIR$/vendor/symfony/polyfill-util" />
+          <root url="file://$MODULE_DIR$/vendor/webpatser/laravel-uuid" />
           <root url="file://$MODULE_DIR$/vendor/yajra/laravel-datatables-oracle" />
         </CLASSES>
         <JAVADOC />
@@ -56,6 +58,7 @@
           <root url="file://$MODULE_DIR$/vendor/phpoffice/phpexcel" />
           <root url="file://$MODULE_DIR$/vendor/symfony/polyfill-php56" />
           <root url="file://$MODULE_DIR$/vendor/symfony/polyfill-util" />
+          <root url="file://$MODULE_DIR$/vendor/webpatser/laravel-uuid" />
           <root url="file://$MODULE_DIR$/vendor/yajra/laravel-datatables-oracle" />
         </SOURCES>
       </library>

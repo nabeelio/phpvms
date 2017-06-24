@@ -53,11 +53,9 @@ class AircraftController extends BaseController
     public function store(CreateAircraftRequest $request)
     {
         $input = $request->all();
-
         $aircraft = $this->aircraftRepository->create($input);
 
         Flash::success('Aircraft saved successfully.');
-
         return redirect(route('admin.aircraft.index'));
     }
 
@@ -87,7 +85,6 @@ class AircraftController extends BaseController
 
         if (empty($aircraft)) {
             Flash::error('Aircraft not found');
-
             return redirect(route('admin.aircraft.index'));
         }
 
@@ -106,14 +103,12 @@ class AircraftController extends BaseController
 
         if (empty($aircraft)) {
             Flash::error('Aircraft not found');
-
             return redirect(route('admin.aircraft.index'));
         }
 
         $aircraft = $this->aircraftRepository->update($request->all(), $id);
 
         Flash::success('Aircraft updated successfully.');
-
         return redirect(route('admin.aircraft.index'));
     }
 
@@ -126,14 +121,12 @@ class AircraftController extends BaseController
 
         if (empty($aircraft)) {
             Flash::error('Aircraft not found');
-
             return redirect(route('admin.aircraft.index'));
         }
 
         $this->aircraftRepository->delete($id);
 
         Flash::success('Aircraft deleted successfully.');
-
         return redirect(route('admin.aircraft.index'));
     }
 

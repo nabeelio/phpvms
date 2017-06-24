@@ -3,24 +3,44 @@
 namespace App\Services;
 
 use Carbon\Carbon;
+use Webpatser\Uuid\Uuid;
 use Symfony\Component\Yaml\Yaml;
 use Illuminate\Support\Facades\DB;
 
 
-class DatabaseService extends BaseService {
+class DatabaseService extends BaseService
+{
+
+    protected $uuid_tables = [
+        'flights',
+        'users',
+    ];
 
     protected function time(): string
     {
         return Carbon::now('UTC')->format('Y-m-d H:i:s');
     }
 
-    public function seed_from_yaml($yaml_file)
+    public function seed_from_yaml_file($yaml_file)
+    {
+        $yml = file_get_contents($yaml_file);
+        $this->seed_from_yaml($yml);
+    }
+
+    public function seed_from_yaml($yml)
     {
         $time_fields = ['created_at', 'updated_at'];
-
-        $yml = Yaml::parse(file_get_contents($yaml_file));
+        $yml = Yaml::parse($yml);
         foreach ($yml as $table => $rows) {
             foreach ($rows as $row) {
+
+                # see if this table uses a UUID as the PK
+                # if no ID is specified
+                if(in_array($table, $this->uuid_tables)) {
+                    if(!array_key_exists('id', $row)) {
+                        $row['id'] = Uuid::generate()->string;
+                    }
+                }
 
                 # encrypt any password fields
                 if(array_key_exists('password', $row)) {
