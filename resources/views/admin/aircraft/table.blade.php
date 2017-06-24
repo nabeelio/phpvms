@@ -1,8 +1,7 @@
 <table class="table table-responsive" id="aircrafts-table">
     <thead>
-        <th>ICAO</th>
-        <th>Name</th>
         <th>Subfleet</th>
+        <th>Name</th>
         <th>Registration</th>
         <th style="text-align: center;">Active</th>
         <th style="text-align: center;">Actions</th>
@@ -10,15 +9,14 @@
     <tbody>
     @foreach($aircraft as $ac)
         <tr>
-            <td><a href="{!! route('admin.aircraft.show', [$ac->id]) !!}">{!! $ac->icao !!}</a></td>
-            <td>{!! $ac->name !!}</td>
             <td>
-                @if($ac->subfleet)
+                @if($ac->subfleet_id)
                     {!! $ac->subfleet->name !!}
                 @else
                     -
                 @endif
             </td>
+            <td><a href="{!! route('admin.aircraft.show', [$ac->id]) !!}">{!! $ac->name !!}</a></td>
             <td>{!! $ac->registration !!}</td>
             <td style="text-align: center;">
                 <i class="fa fa-{{$ac->active == 1?"check":""}}-square-o" aria-hidden="true"

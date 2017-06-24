@@ -11,9 +11,7 @@ class AircraftRepository extends BaseRepository
      */
     protected $fieldSearchable
         = [
-            'icao',
             'name',
-            'full_name',
             'registration',
             'active',
         ];
@@ -24,10 +22,5 @@ class AircraftRepository extends BaseRepository
     public function model()
     {
         return Aircraft::class;
-    }
-
-    public function findByICAO($icao)
-    {
-        return $this->findByField('icao', $icao)->first();
     }
 }

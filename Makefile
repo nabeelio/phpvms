@@ -18,10 +18,11 @@ install: db
 	echo ""
 
 clean:
+	@php artisan cache:clear
 	@php artisan optimize
 	@php artisan route:clear
 	@php artisan config:clear
-	@rm -f database/testing.sqlite
+	@rm -f database/*.sqlite
 
 reset: clean
 	@sqlite3 database/testing.sqlite ""

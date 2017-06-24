@@ -19,7 +19,7 @@ class Aircraft extends Model
     public $fillable
         = [
             'subfleet_id',
-            'icao',
+            'airport_id',
             'name',
             'registration',
             'tail_number',
@@ -33,7 +33,7 @@ class Aircraft extends Model
      */
     protected $casts
         = [
-            'icao'         => 'string',
+            'subfleet_id'  => 'string',
             'name'         => 'string',
             'registration' => 'string',
             'active'       => 'boolean',
@@ -46,7 +46,6 @@ class Aircraft extends Model
      */
     public static $rules
         = [
-            'icao'         => 'required|max:5',
             'name'         => 'required',
             'active'       => '',
         ];
@@ -54,6 +53,10 @@ class Aircraft extends Model
     /**
      * foreign keys
      */
+    public function airport()
+    {
+        return $this->belongsTo('App\Models\Airport', 'airport_id');
+    }
 
     public function subfleet()
     {

@@ -1,9 +1,3 @@
-<!-- ICAO Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('icao', 'ICAO:') !!} (<a class="small" href="https://www.icao.int/publications/DOC8643/Pages/Search.aspx" target="_blank">find</a>)
-    {!! Form::text('icao', null, ['class' => 'form-control']) !!}
-</div>
-
 <!-- Name Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('name', 'Name:') !!}

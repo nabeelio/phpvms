@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Subfleet;
 use App\Http\Requests\CreateAircraftRequest;
 use App\Http\Requests\UpdateAircraftRequest;
+use App\Repositories\AircraftRepository;
 use App\Repositories\SubfleetRepository;
 use App\Repositories\FareRepository;
 use Illuminate\Http\Request;
@@ -18,7 +19,7 @@ class AircraftController extends BaseController
     private $aircraftRepository, $fareRepository;
 
     public function __construct(
-        SubfleetRepository $aircraftRepo,
+        AircraftRepository $aircraftRepo,
         FareRepository $fareRepo
     ) {
         $this->fareRepository = $fareRepo;
@@ -106,8 +107,8 @@ class AircraftController extends BaseController
             return redirect(route('admin.aircraft.index'));
         }
 
+//        print_r($request->toArray());
         $aircraft = $this->aircraftRepository->update($request->all(), $id);
-
         Flash::success('Aircraft updated successfully.');
         return redirect(route('admin.aircraft.index'));
     }

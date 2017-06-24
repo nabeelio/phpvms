@@ -10,15 +10,11 @@ class CreateAircraftsTable extends Migration
         Schema::create('aircraft', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('subfleet_id')->unsigned();
+            $table->integer('airport_id')->unsigned()->nullable();
             $table->string('hex_code')->nullable();
-            $table->string('icao');
             $table->string('name');
             $table->string('registration')->nullable();
             $table->string('tail_number')->nullable();
-            $table->double('cargo_capacity', 19, 2)->nullable();
-            $table->double('fuel_capacity', 19, 2)->nullable();
-            $table->double('gross_weight', 19, 2)->nullable();
-            $table->tinyInteger('fuel_type')->unsigned()->nullable();
             $table->boolean('active')->default(true);
             $table->timestamps();
 

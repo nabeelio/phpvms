@@ -18,6 +18,10 @@ class CreateSubfleetsTable extends Migration
             $table->integer('airline_id')->unsigned()->nullable();
             $table->string('name');
             $table->text('type');
+            $table->double('cargo_capacity', 19, 2)->nullable();
+            $table->double('fuel_capacity', 19, 2)->nullable();
+            $table->double('gross_weight', 19, 2)->nullable();
+            $table->tinyInteger('fuel_type')->unsigned()->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

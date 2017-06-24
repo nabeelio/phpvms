@@ -2,13 +2,12 @@
 <div class="form-group col-sm-6">
     <div class="box box-solid">
         <div class="box-header with-border">
-            {{--<i class="fa fa-text-width"></i>--}}
-            <h3 class="box-title">{!! Form::label('icao', 'ICAO') !!}</h3>
+            <h3 class="box-title">{!! Form::label('airport_id', 'Location') !!}</h3>
         </div>
         <div class="box-body">
-            <p class="lead">{!! $aircraft->icao !!}
-            @if($aircraft->subfleet)
-                /{!! $aircraft->subfleet->name !!}</p>
+            <p class="lead">
+            @if($aircraft->airport)
+                {!! $aircraft->airport->icao !!}</p>
             @endif
         </div>
     </div>

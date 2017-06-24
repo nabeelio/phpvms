@@ -74,13 +74,11 @@ airports:
 aircraft:
   - id: 1
     subfleet_id: 1
-    icao: B744
     name: Boeing 747-400
     registration: NC17
     tail_number: 17
   - id: 2
     subfleet_id: 2
-    icao: B772
     name: Boeing 777-200
     registration: NC20
     tail_number: 20
