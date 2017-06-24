@@ -11,7 +11,12 @@ use Illuminate\Support\Facades\DB;
 class DatabaseService extends BaseService
 {
 
-    protected $uuid_tables = [
+    protected static $time_fields = [
+        'created_at',
+        'updated_at'
+    ];
+
+    protected static $uuid_tables = [
         'flights',
         'pireps',
         'users',
@@ -30,7 +35,6 @@ class DatabaseService extends BaseService
 
     public function seed_from_yaml($yml)
     {
-        $time_fields = ['created_at', 'updated_at'];
         $yml = Yaml::parse($yml);
         foreach ($yml as $table => $rows) {
             foreach ($rows as $row) {
@@ -49,7 +53,7 @@ class DatabaseService extends BaseService
                 }
 
                 # if any time fields are == to "now", then insert the right time
-                foreach($time_fields as $tf) {
+                foreach($this->time_fields as $tf) {
                     if(array_key_exists($tf, $row) && $row[$tf] === 'now') {
                         $row[$tf] = $this->time();
                     }
