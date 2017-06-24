@@ -11,15 +11,14 @@ use Illuminate\Support\Facades\DB;
 class DatabaseService extends BaseService
 {
 
-    protected static $time_fields = [
+    protected $time_fields = [
         'created_at',
         'updated_at'
     ];
 
-    protected static $uuid_tables = [
+    protected $uuid_tables = [
         'flights',
         'pireps',
-        'users',
     ];
 
     protected function time(): string

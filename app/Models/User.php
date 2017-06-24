@@ -31,7 +31,6 @@ use Illuminate\Contracts\Auth\CanResetPassword;
  */
 class User extends Authenticatable
 {
-    use Uuids;
     use Notifiable;
     use EntrustUserTrait;
 

@@ -14,7 +14,7 @@ class CreateUsersTable extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->uuid('id');
+            $table->increments('id');
             $table->string('name')->nullable();
             $table->string('email')->unique();
             $table->string('password');
@@ -32,7 +32,6 @@ class CreateUsersTable extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->primary('id');
         });
 
         // Create table for storing roles
@@ -46,7 +45,7 @@ class CreateUsersTable extends Migration
 
         // Create table for associating roles to users (Many-to-Many)
         Schema::create('role_user', function (Blueprint $table) {
-            $table->uuid('user_id');
+            $table->integer('user_id')->unsigned();
             $table->integer('role_id')->unsigned();
 
             $table->foreign('user_id')->references('id')->on('users')
