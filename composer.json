@@ -22,7 +22,9 @@
         "league/geotools": "@stable",
         "toin0u/geotools-laravel": "^1.0",
         "anlutro/l4-settings": "^0.5.0",
-        "webpatser/laravel-uuid": "^2.0"
+        "webpatser/laravel-uuid": "^2.0",
+        "chrisbjr/api-guard": "^4.0",
+        "spatie/laravel-fractal": "^4.01"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
