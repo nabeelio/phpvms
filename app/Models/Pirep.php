@@ -68,14 +68,9 @@ class Pirep extends Model
      * Foreign Keys
      */
 
-    public function user()
+    public function arr_airport()
     {
-        return $this->belongsTo('App\Models\User', 'user_id');
-    }
-
-    public function flight()
-    {
-        return $this->belongsTo('App\Models\Flight', 'flight_id');
+        return $this->belongsTo('App\Models\Airport', 'arr_airport_id');
     }
 
     public function dpt_airport()
@@ -83,9 +78,19 @@ class Pirep extends Model
         return $this->belongsTo('App\Models\Airport', 'dpt_airport_id');
     }
 
-    public function arr_airport()
+    public function fields()
     {
-        return $this->belongsTo('App\Models\Airport', 'arr_airport_id');
+        return $this->hasMany('App\Models\PirepFieldValues', 'pirep_id');
+    }
+
+    public function flight()
+    {
+        return $this->belongsTo('App\Models\Flight', 'flight_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User', 'user_id');
     }
 
 }

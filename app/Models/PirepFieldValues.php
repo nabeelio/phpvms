@@ -42,4 +42,13 @@ class PirepFieldValues extends Model
         = [
             'name' => 'required',
         ];
+
+    /**
+     * Foreign Keys
+     */
+
+    public function pirep()
+    {
+        return $this->belongsTo('App\Models\Pirep', 'pirep_id');
+    }
 }

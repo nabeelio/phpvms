@@ -32,6 +32,7 @@ class CreateUsersTable extends Migration
             $table->timestamps();
             $table->softDeletes();
 
+            $table->index('email');
         });
 
         // Create table for storing roles

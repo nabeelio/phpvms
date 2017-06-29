@@ -71,6 +71,11 @@ class User extends Authenticatable
         return $this->belongsTo('App\Models\Airport', 'curr_airport_id');
     }
 
+    public function pireps()
+    {
+        return $this->hasMany('App\Models\Pirep', 'user_id');
+    }
+
     public function rank()
     {
         return $this->belongsTo('App\Models\Rank', 'rank_id');
