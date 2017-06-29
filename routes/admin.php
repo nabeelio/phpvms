@@ -30,6 +30,10 @@ Route::group([
     Route::match(['get'], 'settings', 'SettingsController@index');
     Route::match(['post', 'put'], 'settings', 'SettingsController@update');
 
+    # pirep related routes
+    Route::resource('pireps', 'PirepController');
+    Route::resource('pirepfields', 'PirepFieldController');
+
     # defaults
     Route::get('', ['uses' => 'DashboardController@index']);
     Route::get('/', ['uses' => 'DashboardController@index']);
