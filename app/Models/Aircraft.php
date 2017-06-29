@@ -53,6 +53,7 @@ class Aircraft extends Model
     /**
      * foreign keys
      */
+
     public function airport()
     {
         return $this->belongsTo('App\Models\Airport', 'airport_id');
