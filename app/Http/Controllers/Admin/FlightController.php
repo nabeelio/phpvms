@@ -50,8 +50,9 @@ class FlightController extends BaseController
     {
         $this->flightRepository->pushCriteria(new RequestCriteria($request));
         $flights = $this->flightRepository->all();
-        return view('admin.flights.index')
-                ->with('flights', $flights);
+        return view('admin.flights.index', [
+            'flights' => $flights,
+        ]);
     }
 
     /**
@@ -78,7 +79,6 @@ class FlightController extends BaseController
         $flight = $this->flightRepository->create($input);
 
         Flash::success('Flight saved successfully.');
-
         return redirect(route('admin.flights.index'));
     }
 
@@ -99,9 +99,10 @@ class FlightController extends BaseController
         }
 
         $avail_subfleets = $this->getAvailSubfleets($flight);
-        return view('admin.flights.show')
-                ->with('flight', $flight)
-                ->with('avail_subfleets', $avail_subfleets);
+        return view('admin.flights.show', [
+            'flight' => $flight,
+            'avail_subfleets' => $avail_subfleets,
+        ]);
     }
 
     /**
@@ -120,7 +121,11 @@ class FlightController extends BaseController
             return redirect(route('admin.flights.index'));
         }
 
-        return view('admin.flights.edit')->with('flight', $flight);
+        $avail_subfleets = $this->getAvailSubfleets($flight);
+        return view('admin.flights.edit', [
+            'flight' => $flight,
+            'avail_subfleets' => $avail_subfleets,
+        ]);
     }
 
     /**
@@ -171,9 +176,10 @@ class FlightController extends BaseController
     protected function return_subfleet_view($flight)
     {
         $avail_subfleets = $this->getAvailSubfleets($flight);
-        return view('admin.flights.subfleets')
-            ->with('flight', $flight)
-            ->with('avail_subfleets', $avail_subfleets);
+        return view('admin.flights.subfleets', [
+            'flight' => $flight,
+            'avail_subfleets' => $avail_subfleets,
+        ]);
     }
 
     public function subfleets(Request $request)

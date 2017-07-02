@@ -29,14 +29,15 @@
 <div class="row">
     <div class="col-xs-12">
         <div class="input-group input-group-lg pull-right">
-            {!! Form::open(['url' => '/admin/flights/'.$flight->id.'/subfleets',
-                            'method' => 'post',
-                            'class' => 'flight_subfleet form-inline'
-                            ])
+            {!! Form::open([
+                    'url' => '/admin/flights/'.$flight->id.'/subfleets',
+                    'method' => 'post',
+                    'class' => 'pjax_form form-inline'
+                ])
             !!}
             {!! Form::select('subfleet_id', $avail_subfleets, null, [
                     'placeholder' => 'Select Subfleet',
-                    'class' => 'ac-flight-dropdown form-control input-lg',
+                    'class' => 'select2_dropdown form-control input-lg',
                 ])
             !!}
             {!! Form::button('<i class="glyphicon glyphicon-plus"></i> add',

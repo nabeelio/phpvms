@@ -26,6 +26,14 @@ class CreateSubfleetsTable extends Migration
             $table->softDeletes();
         });
 
+        Schema::create('subfleet_expenses', function(Blueprint $table) {
+            $table->integer('subfleet_id')->unsigned();
+            $table->string('name');
+            $table->decimal('cost', 19, 2)->unsigned();
+
+            $table->primary(['subfleet_id', 'name']);
+        });
+
         Schema::create('subfleet_fare', function (Blueprint $table) {
             $table->integer('subfleet_id')->unsigned();
             $table->integer('fare_id')->unsigned();
@@ -65,7 +73,9 @@ class CreateSubfleetsTable extends Migration
     public function down()
     {
         Schema::drop('subfleets');
-        Schema::drop('subfleet_rank');
+        Schema::drop('subfleet_expenses');
+        Schema::drop('subfleet_fare');
         Schema::drop('subfleet_flight');
+        Schema::drop('subfleet_rank');
     }
 }

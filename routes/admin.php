@@ -25,6 +25,7 @@ Route::group([
 
     # rankings
     Route::resource('ranks', 'RankController');
+    Route::match(['get', 'post', 'put', 'delete'], 'ranks/{id}/subfleets', 'RankController@subfleets');
 
     # view/update settings
     Route::match(['get'], 'settings', 'SettingsController@index');
