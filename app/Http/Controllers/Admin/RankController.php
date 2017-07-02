@@ -77,10 +77,6 @@ class RankController extends BaseController
         Flash::success('Ranking saved successfully.');
 
         return redirect(route('admin.ranks.edit', ['id' => $model->id]));
-        /*$ranks = $this->rankRepository->all();
-        return view('admin.ranks.table', [
-            'ranks' => $ranks,
-        ]);*/
     }
 
     /**

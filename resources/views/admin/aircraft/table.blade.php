@@ -11,7 +11,9 @@
         <tr>
             <td>
                 @if($ac->subfleet_id)
+                    <a href="{!! route('admin.subfleets.edit', [$ac->subfleet_id]) !!}">
                     {!! $ac->subfleet->name !!}
+                    </a>
                 @else
                     -
                 @endif

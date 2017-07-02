@@ -127,8 +127,10 @@ class SubfleetController extends BaseController
             return redirect(route('admin.subfleets.index'));
         }
 
+        $avail_fares = $this->getAvailFares($subfleet);
         return view('admin.subfleets.edit', [
             'airlines' => Airline::all()->pluck('name', 'id'),
+            'avail_fares' => $avail_fares,
             'subfleet' => $subfleet,
         ]);
     }
