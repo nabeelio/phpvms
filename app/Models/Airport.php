@@ -35,7 +35,7 @@ class Airport extends Model
      * @var array
      */
     public static $rules = [
-        'icao' => 'required'
+        'icao' => 'required|unique:airports'
     ];
 
     public function save(array $options = [])

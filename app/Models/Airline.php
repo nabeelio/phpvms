@@ -37,7 +37,7 @@ class Airline extends Model
      * @var array
      */
     public static $rules = [
-        'code' => 'required|max:3',
+        'code' => 'required|max:3|unique:airlines',
         'name' => 'required',
     ];
 

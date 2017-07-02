@@ -40,7 +40,8 @@ class Rank extends Model
      * @var array
      */
     public static $rules = [
-        'name' => 'unique',
+        'name' => 'required|unique:ranks',
+        'hours' => 'required',
     ];
 
     public function subfleets() {
