@@ -67,6 +67,10 @@ class Pirep extends Model
     /**
      * Foreign Keys
      */
+    public function aircraft()
+    {
+        return $this->belongsTo('App\Models\Aircraft', 'aircraft_id');
+    }
 
     public function arr_airport()
     {

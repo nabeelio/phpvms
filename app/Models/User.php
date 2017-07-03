@@ -52,6 +52,11 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    public function pilot_id()
+    {
+        return $this->airline->code . str_pad($this->id, 3, '0', STR_PAD_LEFT);
+    }
+
     /**
      * Foreign Keys
      */

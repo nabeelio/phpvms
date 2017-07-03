@@ -40,7 +40,7 @@ return [
     'api_version' => 'v1',
 
     'options' => [
-        'softDelete' => true,
+        'softDelete' => false,
         'tables_searchable_default' => false,
     ],
 
@@ -54,7 +54,7 @@ return [
 
 
     'add_on' => [
-        'swagger'       => false,
+        'swagger'       => true,
         'tests'         => true,
         'datatables'    => false,
         'menu'          => [

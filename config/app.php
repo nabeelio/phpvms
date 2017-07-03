@@ -111,6 +111,7 @@ return [
         'Yaml' => Symfony\Component\Yaml\Yaml::class,
         'Geotools' => Toin0u\Geotools\Facade\Geotools::class,
         'Setting' => anlutro\LaravelSettings\Facade::class,
+        'Utils' => App\Facades\Utils::class,
     ],
 
 ];
