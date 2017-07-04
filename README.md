@@ -1,5 +1,3 @@
-![](http://i.imgur.com/bMh1xn6.png)
-
 # phpvms <sup>4</sup>
 
 [![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/nabeelio/phpvms_next) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/d668bebb0a3c46bda381af16ce3d9450)](https://www.codacy.com/app/nabeelio/phpvms?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=nabeelio/phpvms&amp;utm_campaign=Badge_Grade) [![Total Downloads](https://poser.pugx.org/nabeel/phpvms/downloads)](https://packagist.org/packages/nabeel/phpvms) [![Latest Stable Version](https://poser.pugx.org/nabeel/phpvms/v/stable)](https://packagist.org/packages/nabeel/phpvms) [![Latest Unstable Version](https://poser.pugx.org/nabeel/phpvms/v/unstable)](https://packagist.org/packages/nabeel/phpvms) [![License](https://poser.pugx.org/nabeel/phpvms/license)](https://packagist.org/packages/nabeel/phpvms)
@@ -91,3 +89,5 @@ extract files and run the migrations:
 ```bash
 php artisan migrate
 ```
+
+![](http://i.imgur.com/bMh1xn6.png)
