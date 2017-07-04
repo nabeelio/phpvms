@@ -1,11 +1,18 @@
 <?php
 
+# TODO: Remove this ugly hackiness
+if(defined('VMSEnums')) {
+    return;
+} else {
+    define('VMSEnums', true);
+}
+
 class VMSEnums
 {
     public static $sources
         = [
-            'ACARS'  => 0,
-            'MANUAL' => 1,
+            'MANUAL' => 0,
+            'ACARS'  => 1,
         ];
 
     public static $pirep_status

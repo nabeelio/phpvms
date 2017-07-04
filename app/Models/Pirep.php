@@ -29,6 +29,7 @@ class Pirep extends Model
             'route_leg',
             'dpt_airport_id',
             'arr_airport_id',
+            'source',
             'level',
             'route',
             'notes',
@@ -43,14 +44,10 @@ class Pirep extends Model
      */
     protected $casts
         = [
-            'user_id'     => 'integer',
-            'flight_id'   => 'string',
-            'aircraft_id' => 'integer',
             'flight_time' => 'integer',
             'level'       => 'integer',
-            'route'       => 'string',
-            'notes'       => 'string',
-            'raw_data'    => 'string',
+            'source'      => 'integer',
+            'status'      => 'integer',
         ];
 
     /**
@@ -90,6 +87,11 @@ class Pirep extends Model
     public function flight()
     {
         return $this->belongsTo('App\Models\Flight', 'flight_id');
+    }
+
+    public function pilot()
+    {
+        return $this->user();
     }
 
     public function user()

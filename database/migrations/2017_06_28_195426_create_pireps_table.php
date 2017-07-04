@@ -26,7 +26,8 @@ class CreatePirepsTable extends Migration
             $table->integer('level')->unsigned();
             $table->string('route')->nullable();
             $table->string('notes')->nullable();
-            $table->tinyInteger('status');
+            $table->tinyInteger('source')->default(0);
+            $table->tinyInteger('status')->default(0);
             $table->string('raw_data')->nullable();
             $table->timestamps();
             $table->softDeletes();

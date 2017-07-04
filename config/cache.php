@@ -86,6 +86,5 @@ return [
     |
     */
 
-    'prefix' => 'phpvms',
-
+    'prefix' => env('CACHE_PREFIX', ''),
 ];

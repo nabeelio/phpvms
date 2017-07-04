@@ -9,8 +9,7 @@ class AircraftService extends BaseService
 {
 
     public function create(
-        array $attributes,
-        AircraftClass $class = null
+        array $attributes
     ) {
 
         $repo = app('App\Repositories\SubfleetRepository');
@@ -20,10 +19,10 @@ class AircraftService extends BaseService
             return false;
         }
 
-        if ($class != null) {
+        /*if ($class != null) {
             $model->class()->associate($class);
             $model->save();
-        }
+        }*/
 
         return $model;
     }

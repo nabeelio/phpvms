@@ -33,5 +33,14 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind('App\Services\AircraftFareService', function($app) {
             return new \App\Services\AircraftFareService();
         });
+
+        $this->app->bind('App\Services\PilotService', function($app) {
+            return new \App\Services\PilotService();
+        });
+
+        $this->app->bind('App\Services\PIREPService', function($app) {
+            return new \App\Services\PIREPService();
+        });
+
     }
 }
