@@ -23,6 +23,9 @@ class CreatePirepsTable extends Migration
             $table->integer('dpt_airport_id')->unsigned();
             $table->integer('arr_airport_id')->unsigned();
             $table->integer('flight_time')->unsigned();
+            $table->double('gross_weight', 19, 2)->nullable();
+            $table->double('starting_fuel', 19, 2)->nullable();
+            $table->double('landing_fuel', 19, 2)->nullable();
             $table->integer('level')->unsigned();
             $table->string('route')->nullable();
             $table->string('notes')->nullable();
@@ -39,6 +42,30 @@ class CreatePirepsTable extends Migration
             $table->index('arr_airport_id');
         });
 
+        /*
+         * Financial tables/fields
+         */
+        Schema::create('pirep_expenses', function (Blueprint $table) {
+            $table->increments('id');
+            $table->uuid('pirep_id');
+            $table->string('name');
+            $table->double('value', 19, 2)->nullable();
+
+            $table->index('pirep_id');
+        });
+
+        Schema::create('pirep_fares', function (Blueprint $table) {
+            $table->increments('id');
+            $table->uuid('pirep_id');
+            $table->unsignedBigInteger('fare_id');
+            $table->double('count', 19, 2)->nullable();
+
+            $table->index('pirep_id');
+        });
+
+        /*
+         * Additional PIREP data
+         */
         Schema::create('pirep_fields', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
@@ -66,6 +93,8 @@ class CreatePirepsTable extends Migration
     public function down()
     {
         Schema::drop('pireps');
+        Schema::drop('pirep_expenses');
+        Schema::drop('pirep_fares');
         Schema::drop('pirep_fields');
         Schema::drop('pirep_field_values');
     }

@@ -7,7 +7,7 @@ return [
 
     'keys' => [
         'RANKS_PILOT_LIST' => [
-            'key' => 'ranks::pilot_list',
+            'key' => 'ranks:pilot_list',
             'time' => 1440,
         ]
     ],
