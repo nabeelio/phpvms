@@ -46,6 +46,10 @@ class AircraftTest extends TestCase
 
     public function testAircraftFaresNoOverride()
     {
+        $this->markTestIncomplete(
+            'This test has not been implemented yet.'
+        );
+
         return true;
         $fare_svc = app('App\Services\FareService');
 
@@ -80,7 +84,10 @@ class AircraftTest extends TestCase
 
     public function testAircraftFaresOverride()
     {
-        return true;
+        $this->markTestSkipped(
+            'This test has not been implemented yet.'
+        );
+
         $fare_svc = app('App\Services\FareService');
 
         $aircraft = $this->addAircraft();
@@ -120,6 +127,9 @@ class AircraftTest extends TestCase
      */
     public function testAircraftMissingField()
     {
+        $this->markTestSkipped(
+            'This test has not been implemented yet.'
+        );
         return true;
         # missing the name field
         $svc = app('App\Services\AircraftService');
