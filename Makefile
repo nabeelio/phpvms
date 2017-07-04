@@ -48,7 +48,7 @@ tests: test
 .PHONY: test
 test:
 	echo "" > storage/logs/laravel.log
-	vendor/bin/phpunit --testdox tests
+	-vendor/bin/phpunit --testdox tests
 	cat storage/logs/laravel.log
 
 .PHONY: schema
