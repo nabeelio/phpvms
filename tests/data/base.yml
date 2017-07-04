@@ -135,14 +135,3 @@ flights:
     dpt_airport_id: 1
     arr_airport_id: 2
     route: KAUS KJFK
-
-#pireps:
-#  - user_id: 1
-#    flight_id: 1
-#    aircraft_id: 1
-#    dpt_airport_id: 1
-#    arr_airport_id: 2
-#    flight_time: 21600  # 6 hours
-#    level: 320
-#    status: -1
-#    notes: just a pilot report

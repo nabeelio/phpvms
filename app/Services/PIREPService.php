@@ -113,8 +113,8 @@ class PIREPService extends BaseService
             return $pirep;
         }
 
-        $pilot = $pirep->pilot;
         $ft = $pirep->flight_time;
+        $pilot = $pirep->pilot;
 
         $this->pilotSvc->adjustFlightHours($pilot, $ft);
         $this->pilotSvc->adjustFlightCount($pilot, +1);

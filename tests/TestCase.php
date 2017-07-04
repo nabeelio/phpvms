@@ -1,6 +1,8 @@
 <?php
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Mail;
+
 
 abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
 {
@@ -18,16 +20,17 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
     }
 
     protected function reset_db() {
-        exec('make -f ' . __DIR__ . '/../Makefile unittest-db');
+        exec('make -f '.__DIR__.'/../Makefile unittest-db');
     }
 
     public function setUp() {
         parent::setUp();
         $this->reset_db();
-        /*
-        Artisan::call('migrate');
-        Artisan::call('db:seed');
-        */
+
+        Mail::fake();
+
+        #Artisan::call('migrate');
+        #Artisan::call('db:seed');
     }
 
     /**
@@ -48,34 +51,10 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
         return $app->make('App\Repositories\\' . $repo_name);
     }
 
-    public function readYaml($file)
-    {
-        return Yaml::parse(file_get_contents(base_path('tests/data/' . $file . '.yml')));
-    }
-
     public function addData($file)
     {
-        $time_fields = ['created_at', 'updated_at'];
-        $curr_time = Carbon::now('UTC')->format('Y-m-d H:i:s');
-
-        $yml = $this->readYaml($file);
-        foreach ($yml as $table => $rows) {
-            foreach ($rows as $row) {
-
-                # encrypt any password fields
-                if (array_key_exists('password', $row)) {
-                    $row['password'] = bcrypt($row['password']);
-                }
-
-                # if any time fields are == to "now", then insert the right time
-                foreach ($time_fields as $tf) {
-                    if (array_key_exists($tf, $row) && $row[$tf] === 'now') {
-                        $row[$tf] = $curr_time;
-                    }
-                }
-
-                DB::table($table)->insert($row);
-            }
-        }
+        $svc = app('\App\Services\DatabaseService');
+        $file_path = base_path('tests/data/' . $file . '.yml');
+        $svc->seed_from_yaml_file($file_path);
     }
 }

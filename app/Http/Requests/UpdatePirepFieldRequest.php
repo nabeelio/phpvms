@@ -2,10 +2,11 @@
 
 namespace App\Http\Requests;
 
-use App\Http\Requests\Request;
 use App\Models\PirepField;
+use Illuminate\Foundation\Http\FormRequest;
 
-class UpdatePirepFieldRequest extends Request
+
+class UpdatePirepFieldRequest extends FormRequest
 {
 
     /**

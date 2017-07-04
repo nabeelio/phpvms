@@ -2,10 +2,11 @@
 
 namespace App\Http\Requests;
 
-use App\Http\Requests\Request;
 use App\Models\Pirep;
+use Illuminate\Foundation\Http\FormRequest;
 
-class CreatePirepRequest extends Request
+
+class CreatePirepRequest extends FormRequest
 {
 
     /**

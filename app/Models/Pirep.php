@@ -16,6 +16,7 @@ class Pirep extends Model
     use SoftDeletes;
 
     public $table = 'pireps';
+    public $incrementing = false;
 
     protected $dates = ['deleted_at'];
 
