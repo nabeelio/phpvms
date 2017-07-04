@@ -17,7 +17,7 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
         parent::__construct($name, $data, $dataName);
     }
 
-    protected function reset_db(){
+    protected function reset_db() {
         exec('make -f ' . __DIR__ . '/../Makefile unittest-db');
     }
 

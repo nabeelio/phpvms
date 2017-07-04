@@ -4,11 +4,11 @@ use App\Models\Pirep;
 
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class PIREPTest extends TestCase
 {
     use WithoutMiddleware;
+    #use DatabaseMigrations;
 
     protected $pirepSvc;
     protected $SAMPLE_PIREP

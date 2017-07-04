@@ -43,13 +43,15 @@ unittest-db:
 	sqlite3 database/unittest.sqlite ""
 	php artisan migrate:refresh --env unittest
 
+.PHONY: tests
 tests: test
 
 .PHONY: test
 test:
-	echo "" > storage/logs/laravel.log
-	-vendor/bin/phpunit --testdox tests
-	cat storage/logs/laravel.log
+	@echo "" > storage/logs/laravel.log
+	@chmod 0777 storage/logs/*
+	@vendor/bin/phpunit --testdox tests
+	@cat storage/logs/laravel.log
 
 .PHONY: schema
 schema:

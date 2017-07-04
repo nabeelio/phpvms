@@ -9,7 +9,7 @@ class AircraftTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->addData('aircraft_test');
+        $this->addData('aircraft');
     }
 
     protected function getAircraftClass()
@@ -44,7 +44,7 @@ class AircraftTest extends TestCase
         return $this->findByICAO($this->ICAO);
     }
 
-    public function testAircraftFaresNoOverride()
+    public function XtestAircraftFaresNoOverride()
     {
         $this->markTestIncomplete(
             'This test has not been implemented yet.'
@@ -82,7 +82,7 @@ class AircraftTest extends TestCase
         $this->assertCount(0, $fare_svc->getForAircraft($aircraft));
     }
 
-    public function testAircraftFaresOverride()
+    public function XtestAircraftFaresOverride()
     {
         $this->markTestSkipped(
             'This test has not been implemented yet.'
@@ -125,7 +125,7 @@ class AircraftTest extends TestCase
     /**
      * @expectedException Exception
      */
-    public function testAircraftMissingField()
+    public function XtestAircraftMissingField()
     {
         $this->markTestSkipped(
             'This test has not been implemented yet.'

@@ -24,7 +24,7 @@ class FlightTest extends TestCase
     /**
      * mainly to test the model relationships work correctly
      */
-    public function testAddFlight()
+    public function XtestAddFlight()
     {
         $this->markTestSkipped(
             'This test has not been implemented yet.'
