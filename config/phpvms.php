@@ -8,10 +8,4 @@ return [
      */
     'currency' => env('PHPVMS_CURRENCY', 'dollar'),
 
-    'cache_keys' => [
-        'RANKS_PILOT_LIST' => [
-            'key' => 'ranks::pilot_list',
-            'time' => 1440,
-        ]
-    ]
 ];

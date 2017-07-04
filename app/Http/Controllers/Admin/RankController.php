@@ -76,7 +76,7 @@ class RankController extends BaseController
         $model = $this->rankRepository->create($input);
         Flash::success('Ranking saved successfully.');
 
-        Cache::forget(config('phpvms.cache_keys.RANKS_PILOT_LIST')['key']);
+        Cache::forget(config('cache.keys.RANKS_PILOT_LIST.key'));
 
         return redirect(route('admin.ranks.edit', ['id' => $model->id]));
     }
@@ -143,7 +143,7 @@ class RankController extends BaseController
         }
 
         $rank = $this->rankRepository->update($request->all(), $id);
-        Cache::forget(config('phpvms.cache_keys.RANKS_PILOT_LIST')['key']);
+        Cache::forget(config('cache.keys.RANKS_PILOT_LIST.key'));
 
         Flash::success('Ranking updated successfully.');
         return redirect(route('admin.ranks.index'));

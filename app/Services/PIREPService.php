@@ -33,13 +33,13 @@ class PIREPService extends BaseService
 
         # Figure out what default state should be. Look at the default
         # behavior from the rank that the pilot is assigned to
-        if($pirep->source == \VMSEnums::$sources['ACARS']) {
+        if($pirep->source == config('enums.sources.ACARS')) {
             $default_status = $pirep->pilot->rank->auto_approve_acars;
         } else {
             $default_status = $pirep->pilot->rank->auto_approve_manual;
         }
 
-        if ($default_status == \VMSEnums::$pirep_status['ACCEPTED']) {
+        if ($default_status == config('enums.pirep_status.ACCEPTED')) {
             $pirep = $this->accept($pirep);
         }
 
@@ -75,10 +75,10 @@ class PIREPService extends BaseService
         /**
          * Move from a PENDING status into either ACCEPTED or REJECTED
          */
-        if ($pirep->status == \VMSEnums::$pirep_status['PENDING']) {
-            if ($new_status == \VMSEnums::$pirep_status['ACCEPTED']) {
+        if ($pirep->status == config('enums.pirep_status.PENDING')) {
+            if ($new_status == config('enums.pirep_status.ACCEPTED')) {
                 return $this->accept($pirep);
-            } elseif ($new_status == \VMSEnums::$pirep_status['REJECTED']) {
+            } elseif ($new_status == config('enums.pirep_status.REJECTED')) {
                 return $this->reject($pirep);
             } else {
                 return $pirep;
@@ -88,7 +88,7 @@ class PIREPService extends BaseService
         /*
          * Move from a ACCEPTED to REJECTED status
          */
-        elseif ($pirep->status == \VMSEnums::$pirep_status['ACCEPTED']) {
+        elseif ($pirep->status == config('enums.pirep_status.ACCEPTED')) {
             $pirep = $this->reject($pirep);
             return $pirep;
         }
@@ -96,7 +96,7 @@ class PIREPService extends BaseService
         /**
          * Move from REJECTED to ACCEPTED
          */
-        elseif ($pirep->status == \VMSEnums::$pirep_status['REJECTED']) {
+        elseif ($pirep->status == config('enums.pirep_status.REJECTED')) {
             $pirep = $this->accept($pirep);
             return $pirep;
         }
@@ -109,7 +109,7 @@ class PIREPService extends BaseService
     public function accept(Pirep &$pirep): Pirep
     {
         # moving from a REJECTED state to ACCEPTED, reconcile statuses
-        if ($pirep->status == \VMSEnums::$pirep_status['ACCEPTED']) {
+        if ($pirep->status == config('enums.pirep_status.ACCEPTED')) {
             return $pirep;
         }
 
@@ -122,7 +122,7 @@ class PIREPService extends BaseService
         $pirep->pilot->refresh();
 
         # Change the status
-        $pirep->status = \VMSEnums::$pirep_status['ACCEPTED'];
+        $pirep->status = config('enums.pirep_status.ACCEPTED');
         $pirep->save();
 
         return $pirep;
@@ -136,7 +136,7 @@ class PIREPService extends BaseService
     {
         # If this was previously ACCEPTED, then reconcile the flight hours
         # that have already been counted, etc
-        if ($pirep->status == \VMSEnums::$pirep_status['ACCEPTED']) {
+        if ($pirep->status == config('enums.pirep_status.ACCEPTED')) {
             $pilot = $pirep->pilot;
             $ft = $pirep->flight_time * -1;
 
@@ -147,7 +147,7 @@ class PIREPService extends BaseService
         }
 
         # Change the status
-        $pirep->status = \VMSEnums::$pirep_status['REJECTED'];
+        $pirep->status = config('enums.pirep_status.REJECTED');
         $pirep->save();
 
         return $pirep;

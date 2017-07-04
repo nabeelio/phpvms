@@ -36,8 +36,8 @@ class PilotService extends BaseService
 
         # TODO: Cache
         $ranks = Cache::remember(
-            config('phpvms.cache_keys.RANKS_PILOT_LIST')['key'],
-            config('phpvms.cache_keys.RANKS_PILOT_LIST')['time'],
+            config('cache.keys.RANKS_PILOT_LIST.key'),
+            config('cache.keys.RANKS_PILOT_LIST.time'),
             function () {
                 return Rank::where('auto_promote', true)->orderBy('hours', 'asc')->get();
             });

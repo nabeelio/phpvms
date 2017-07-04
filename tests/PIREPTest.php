@@ -39,7 +39,7 @@ class PIREPTest extends TestCase
             $pirep = $this->pirepSvc->create($pirep, []);
             if($accept) {
                 $this->pirepSvc->changeStatus($pirep,
-                    VMSEnums::$pirep_status['ACCEPTED']);
+                    config('enums.pirep_status.ACCEPTED'));
             }
         }
 
@@ -69,12 +69,12 @@ class PIREPTest extends TestCase
          * Check the initial status info
          */
         $this->assertEquals($pirep->pilot->flights, 0);
-        $this->assertEquals($pirep->status, VMSEnums::$pirep_status['PENDING']);
+        $this->assertEquals($pirep->status, config('enums.pirep_status.PENDING'));
 
         /**
          * Now set the PIREP state to ACCEPTED
          */
-        $this->pirepSvc->changeStatus($pirep, VMSEnums::$pirep_status['ACCEPTED']);
+        $this->pirepSvc->changeStatus($pirep, config('enums.pirep_status.ACCEPTED'));
         $this->assertEquals(1, $pirep->pilot->flights);
         $this->assertEquals(21600, $pirep->pilot->flight_time);
         $this->assertEquals(1, $pirep->pilot->rank_id);
@@ -82,7 +82,7 @@ class PIREPTest extends TestCase
         /**
          * Now go from ACCEPTED to REJECTED
          */
-        $this->pirepSvc->changeStatus($pirep, VMSEnums::$pirep_status['REJECTED']);
+        $this->pirepSvc->changeStatus($pirep, config('enums.pirep_status.REJECTED'));
         $this->assertEquals(0, $pirep->pilot->flights);
         $this->assertEquals(0, $pirep->pilot->flight_time);
         $this->assertEquals(1, $pirep->pilot->rank_id);
@@ -117,7 +117,7 @@ class PIREPTest extends TestCase
 
         # The PIREP should have been automatically accepted
         $this->assertEquals(
-            VMSEnums::$pirep_status['ACCEPTED'],
+            config('enums.pirep_status.ACCEPTED'),
             $latest_pirep->status
         );
     }
