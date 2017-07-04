@@ -1,0 +1,11 @@
+aircraft:
+  - id: 1
+    subfleet_id: 1
+    name: Boeing 747-400
+    registration: NC17
+    tail_number: 17
+  - id: 2
+    subfleet_id: 2
+    name: Boeing 777-200
+    registration: NC20
+    tail_number: 20

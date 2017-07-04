@@ -1,0 +1,148 @@
+#
+airlines:
+  - id: 1
+    code: VMS
+    name: phpvms airlines
+    active: 1
+    created_at: now
+    updated_at: now
+
+roles:
+  - id: 1
+    name: admin
+    display_name: Administrators
+  - id: 2
+    name: user
+    display_name: Pilot
+
+users:
+  - id: 1
+    name: Admin User
+    email: admin@phpvms.net
+    password: admin
+    rank_id: 1
+    created_at: now
+    updated_at: now
+
+role_user:
+  - user_id: 1
+    role_id: 1
+  - user_id: 1
+    role_id: 2
+
+ranks:
+  - id: 1
+    name: New Pilot
+    hours: 0
+  - id: 2
+    name: Junior First Officer
+    hours: 10
+    auto_approve_acars: 1
+    auto_approve_manual: 1
+
+  # shouldn't move past this guy
+  - id: 3
+    name: First Officer
+    hours: 15
+    auto_approve_acars: 1
+    auto_approve_manual: 1
+    auto_promote: 0
+
+airports:
+  - id: 1
+    icao: KAUS
+    name: Austin-Bergstrom
+    location: Austin, Texas, USA
+    lat: 30.1945278
+    lon: -97.6698889
+  - id: 2
+    icao: KJFK
+    name: John F Kennedy
+    location: New York, New York, USA
+    lat: 40.6399257
+    lon: -73.7786950
+
+aircraft:
+  - id: 1
+    subfleet_id: 1
+    name: Boeing 747-400
+    registration: NC17
+    tail_number: 17
+  - id: 2
+    subfleet_id: 2
+    name: Boeing 777-200
+    registration: NC20
+    tail_number: 20
+
+fares:
+  - id: 1
+    code: Y
+    name: Economy
+    price: 100
+    capacity: 200
+  - id: 2
+    code: B
+    name: Business
+    price: 500
+    capacity: 10
+  - id: 3
+    code: F
+    name: First-Class
+    price: 800
+    capacity: 5
+
+subfleets:
+  - id: 1
+    airline_id: 1
+    name: 747-400 Winglets
+    type: 744W
+  - id: 2
+    airline_id: 1
+    name: 777-200 LR
+    type: 772-LR
+
+# add a few mods to aircraft and fares
+subfleet_fare:
+
+  # Fare classes on the 747
+  - subfleet_id: 1
+    fare_id: 1
+    price: 200
+    capacity: 400
+  - subfleet_id: 1
+    fare_id: 2
+    capacity: 20
+  - subfleet_id: 1
+    fare_id: 3
+    price: 1000
+    capacity: 10
+
+  # Fare classes on the 777
+  - subfleet_id: 2
+    fare_id: 1
+  - subfleet_id: 2
+    fare_id: 3
+    capacity: 10
+
+subfleet_flight:
+  - subfleet_id: 1
+    flight_id: 1
+
+flights:
+  - id: 1
+    airline_id: 1
+    flight_number: 100
+    dpt_airport_id: 1
+    arr_airport_id: 2
+    route: KAUS KJFK
+
+#pireps:
+#  - user_id: 1
+#    flight_id: 1
+#    aircraft_id: 1
+#    dpt_airport_id: 1
+#    arr_airport_id: 2
+#    flight_time: 21600  # 6 hours
+#    level: 320
+#    status: -1
+#    notes: just a pilot report
