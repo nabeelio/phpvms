@@ -17,7 +17,10 @@ class Airline extends Model
     public $fillable = [
         'code',
         'name',
-        'active'
+        'fuel_100ll_cost',
+        'fuel_jeta_cost',
+        'fuel_mogas_cost',
+        'active',
     ];
 
     /**
@@ -28,7 +31,10 @@ class Airline extends Model
     protected $casts = [
         'code' => 'string',
         'name' => 'string',
-        'active' => 'boolean'
+        'fuel_100ll_cost' => 'double',
+        'fuel_jeta_cost' => 'double',
+        'fuel_mogas_cost' => 'double',
+        'active' => 'boolean',
     ];
 
     /**
