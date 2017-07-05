@@ -20,4 +20,4 @@
         </div>
     </div>
 @endsection
-
+@include('admin.airports.script')

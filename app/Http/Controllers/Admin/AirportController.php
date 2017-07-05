@@ -33,9 +33,10 @@ class AirportController extends InfyOmBaseController
         $this->airportRepository->pushCriteria(new RequestCriteria($request));
         $airports = $this->airportRepository->all();
 
-        return view('admin.airports.index')
-                ->with('airports', $airports)
-                ->with('coords', ['lat' => '', 'lon' => '']);
+        return view('admin.airports.index', [
+            'airports' => $airports,
+            'coords' => ['lat' => '', 'lon' => ''],
+        ]);
     }
 
     /**
@@ -50,27 +51,21 @@ class AirportController extends InfyOmBaseController
 
     /**
      * Store a newly created Airport in storage.
-     *
      * @param CreateAirportRequest $request
-     *
      * @return Response
      */
     public function store(CreateAirportRequest $request)
     {
         $input = $request->all();
-
         $airport = $this->airportRepository->create($input);
 
         Flash::success('Airport saved successfully.');
-
         return redirect(route('admin.airports.index'));
     }
 
     /**
      * Display the specified Airport.
-     *
      * @param  int $id
-     *
      * @return Response
      */
     public function show($id)
@@ -82,15 +77,14 @@ class AirportController extends InfyOmBaseController
             return redirect(route('admin.airports.index'));
         }
 
-        return view('admin.airports.show')
-                ->with('airport', $airport);
+        return view('admin.airports.show', [
+            'airport' => $airport,
+        ]);
     }
 
     /**
      * Show the form for editing the specified Airport.
-     *
      * @param  int $id
-     *
      * @return Response
      */
     public function edit($id)
@@ -99,19 +93,18 @@ class AirportController extends InfyOmBaseController
 
         if (empty($airport)) {
             Flash::error('Airport not found');
-
             return redirect(route('admin.airports.index'));
         }
 
-        return view('admin.airports.edit')->with('airport', $airport);
+        return view('admin.airports.edit', [
+            'airport' => $airport,
+        ]);
     }
 
     /**
      * Update the specified Airport in storage.
-     *
      * @param  int              $id
      * @param UpdateAirportRequest $request
-     *
      * @return Response
      */
     public function update($id, UpdateAirportRequest $request)
@@ -120,22 +113,18 @@ class AirportController extends InfyOmBaseController
 
         if (empty($airport)) {
             Flash::error('Airport not found');
-
             return redirect(route('admin.airports.index'));
         }
 
         $airport = $this->airportRepository->update($request->all(), $id);
 
         Flash::success('Airport updated successfully.');
-
         return redirect(route('admin.airports.index'));
     }
 
     /**
      * Remove the specified Airport from storage.
-     *
      * @param  int $id
-     *
      * @return Response
      */
     public function destroy($id)
@@ -144,14 +133,30 @@ class AirportController extends InfyOmBaseController
 
         if (empty($airport)) {
             Flash::error('Airport not found');
-
             return redirect(route('admin.airports.index'));
         }
 
         $this->airportRepository->delete($id);
 
         Flash::success('Airport deleted successfully.');
-
         return redirect(route('admin.airports.index'));
+    }
+
+    public function fuel(Request $request)
+    {
+        $id = $request->id;
+
+        $airport = $this->airportRepository->findWithoutFail($id);
+        if (empty($airport)) {
+            Flash::error('Flight not found');
+            return redirect(route('admin.flights.index'));
+        }
+
+        // add aircraft to flight
+        if ($request->isMethod('put')) {
+            $airport->{$request->name} = $request->value;
+        }
+
+        $airport->save();
     }
 }

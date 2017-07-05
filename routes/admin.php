@@ -7,8 +7,11 @@ Route::group([
      'namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.',
      'middleware' => ['role:admin'],
  ], function () {
-    Route::resource('airports', 'AirportController');
     Route::resource('airlines', 'AirlinesController');
+
+    Route::match(['get', 'put'], 'airports/fuel', 'AirportController@fuel');
+    Route::resource('airports', 'AirportController');
+
     Route::resource('aircraftclasses', 'AircraftClassController');
     Route::resource('fares', 'FareController');
 

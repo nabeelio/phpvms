@@ -1,6 +1,12 @@
 <?php
 
 return [
+
+    'status' => [
+        'INACTIVE' => 0,
+        'ACTIVE' => 1,
+    ],
+
     'sources' => [
         'MANUAL' => 0,
         'ACARS'  => 1,

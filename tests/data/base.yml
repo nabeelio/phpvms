@@ -55,12 +55,14 @@ airports:
     location: Austin, Texas, USA
     lat: 30.1945278
     lon: -97.6698889
+    fuel_jeta_cost: 100
   - id: 2
     icao: KJFK
     name: John F Kennedy
     location: New York, New York, USA
     lat: 40.6399257
     lon: -73.7786950
+    fuel_jeta_cost: 50
 
 aircraft:
   - id: 1
@@ -96,10 +98,12 @@ subfleets:
     airline_id: 1
     name: 747-400 Winglets
     type: 744W
+    fuel_type: 1
   - id: 2
     airline_id: 1
     name: 777-200 LR
     type: 772-LR
+    fuel_type: 1
 
 # add a few mods to aircraft and fares
 subfleet_fare:

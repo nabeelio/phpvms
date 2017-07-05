@@ -11,13 +11,15 @@ use Eloquent as Model;
 class Airport extends Model
 {
     public $table = 'airports';
-
-
     protected $dates = ['deleted_at'];
 
-
     public $fillable = [
-        'icao'
+        'icao',
+        'name',
+        'location',
+        'fuel_100ll_cost',
+        'fuel_jeta_cost',
+        'fuel_mogas_cost',
     ];
 
     /**
