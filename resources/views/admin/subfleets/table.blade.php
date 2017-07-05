@@ -3,6 +3,7 @@
         <th>Airline</th>
         <th>Name</th>
         <th>Type</th>
+        <th>Fuel Type</th>
         <th colspan="3">Action</th>
     </thead>
     <tbody>
@@ -11,6 +12,17 @@
             <td>{!! $subfleet->airline->name !!}</td>
             <td>{!! $subfleet->name !!}</td>
             <td>{!! $subfleet->type !!}</td>
+            <td>
+                @if($subfleet->fuel_type === config('enums.fuel_types.100LL'))
+                    100LL
+                @elseif($subfleet->fuel_type === config('enums.fuel_types.JETA'))
+                    JETA
+                @elseif($subfleet->fuel_type === config('enums.fuel_types.MOGAS'))
+                    MOGAS
+                @else
+                    -
+                @endif
+            </td>
             <td>
                 {!! Form::open(['route' => ['admin.subfleets.destroy', $subfleet->id], 'method' => 'delete']) !!}
                 <div class='btn-group'>

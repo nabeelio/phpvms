@@ -194,6 +194,11 @@
     {{-- <script src="/vendor/openlayers/ol.js"></script> --}}
     <script src="/js/admin/admin.js"></script>
 
+    <script>
+        $(document).ready(function () {
+            $(".select2").select2();
+        });
+    </script>
     @yield('scripts')
 </body>
 </html>

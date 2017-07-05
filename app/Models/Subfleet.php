@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Eloquent as Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class Subfleet
@@ -11,18 +10,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Subfleet extends Model
 {
-    use SoftDeletes;
-
     public $table = 'subfleets';
-
-
     protected $dates = ['deleted_at'];
-
 
     public $fillable = [
         'airline_id',
         'name',
-        'type'
+        'type',
+        'fuel_type',
     ];
 
     /**
@@ -32,8 +27,7 @@ class Subfleet extends Model
      */
     protected $casts = [
         'airline_id' => 'integer',
-        'name' => 'string',
-        'type' => 'string'
+        'fuel_type' => 'integer',
     ];
 
     /**

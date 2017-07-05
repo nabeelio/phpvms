@@ -20,6 +20,16 @@ class SubfleetController extends BaseController
     /** @var  SubfleetRepository */
     private $subfleetRepo, $fareRepo;
 
+    protected function getFuelTypes()
+    {
+        $retval = [];
+        foreach (config('enums.fuel_types') as $fuel_type => $value) {
+            $retval[$value] = $fuel_type;
+        }
+
+        return $retval;
+    }
+
     protected function getAvailFares($subfleet)
     {
         $retval = [];
@@ -69,6 +79,7 @@ class SubfleetController extends BaseController
     {
         return view('admin.subfleets.create', [
             'airlines' => Airline::all()->pluck('name', 'id'),
+            'fuel_types' => $this->getFuelTypes(),
         ]);
     }
 
@@ -130,6 +141,7 @@ class SubfleetController extends BaseController
         $avail_fares = $this->getAvailFares($subfleet);
         return view('admin.subfleets.edit', [
             'airlines' => Airline::all()->pluck('name', 'id'),
+            'fuel_types' => $this->getFuelTypes(),
             'avail_fares' => $avail_fares,
             'subfleet' => $subfleet,
         ]);
