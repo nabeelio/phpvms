@@ -4,7 +4,9 @@ return [
 
     'status' => [
         'INACTIVE' => 0,
-        'ACTIVE' => 1,
+        'DISABLED' => 0,
+        'ACTIVE'   => 1,
+        'ENABLED'  => 1,
     ],
 
     'sources' => [
@@ -23,5 +25,6 @@ return [
         'JETA'  => 1,
         'MOGAS' => 2,
     ],
+
 ];
 
