@@ -17,6 +17,8 @@ class Airport extends Model
         'icao',
         'name',
         'location',
+        'lat',
+        'lon',
         'fuel_100ll_cost',
         'fuel_jeta_cost',
         'fuel_mogas_cost',
