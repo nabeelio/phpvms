@@ -18,7 +18,6 @@ class CreateAircraftsTable extends Migration
             $table->boolean('active')->default(true);
             $table->timestamps();
 
-            $table->index('icao');
             $table->unique('registration');
         });
 
