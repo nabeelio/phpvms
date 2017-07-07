@@ -16,7 +16,7 @@ class CreateFlightsTable extends Migration
         Schema::create('flights', function (Blueprint $table) {
             $table->uuid('id');
             $table->integer('airline_id')->unsigned();
-            $table->integer('flight_number');
+            $table->integer('flight_number')->unsigned();
             $table->text('route_code')->nullable();
             $table->text('route_leg')->nullable();
             $table->integer('dpt_airport_id')->unsigned();
