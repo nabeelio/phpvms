@@ -20,7 +20,7 @@ class Airline extends Model
         'fuel_100ll_cost',
         'fuel_jeta_cost',
         'fuel_mogas_cost',
-        'active'
+        'active',
     ];
 
     /**
@@ -34,7 +34,7 @@ class Airline extends Model
         'fuel_100ll_cost' => 'double',
         'fuel_jeta_cost' => 'double',
         'fuel_mogas_cost' => 'double',
-        'active' => 'integer'
+        'active' => 'integer',
     ];
 
     /**
@@ -44,7 +44,7 @@ class Airline extends Model
      */
     public static $rules = [
         'code' => 'required|max:3|unique:airlines',
-        'name' => 'required'
+        'name' => 'required',
     ];
 
 }
