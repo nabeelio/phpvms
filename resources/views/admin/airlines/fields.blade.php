@@ -14,8 +14,8 @@
 <div class="form-group col-sm-6">
     {!! Form::label('active', 'Active:') !!}
     <label class="checkbox-inline">
-        {!! Form::hidden('active', false) !!}
-        {!! Form::checkbox('active', 'True', null) !!} 1
+        {!! Form::hidden('active', 0, false) !!}
+        {!! Form::checkbox('active', 1, null) !!}
     </label>
 </div>
 
