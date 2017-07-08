@@ -16,12 +16,12 @@
 
 <div class="form-group col-sm-6">
     {!! Form::label('lat', 'Latitude:') !!}
-    {!! Form::number('lat', null, ['class' => 'form-control']) !!}
+    {!! Form::number('lat', null, ['class' => 'form-control', 'step' => '0.000001']) !!}
 </div>
 
 <div class="form-group col-sm-6">
     {!! Form::label('lon', 'Longitude:') !!}
-    {!! Form::number('lon', null, ['class' => 'form-control']) !!}
+    {!! Form::number('lon', null, ['class' => 'form-control', 'step' => '0.000001']) !!}
 </div>
 
 <!-- Submit Field -->
