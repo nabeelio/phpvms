@@ -41,7 +41,7 @@ class Flight extends Model
      */
     protected $casts
         = [
-            'flight_number' => 'string',
+            'flight_number' => 'integer',
             'route_code'    => 'string',
             'route_leg'     => 'string',
             'route'         => 'string',
