@@ -34,7 +34,7 @@ class Airline extends Model
         'fuel_100ll_cost' => 'double',
         'fuel_jeta_cost' => 'double',
         'fuel_mogas_cost' => 'double',
-        'active' => 'boolean',
+        'active' => 'integer',
     ];
 
     /**

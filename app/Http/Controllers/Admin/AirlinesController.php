@@ -50,7 +50,7 @@ class AirlinesController extends BaseController
 
         Flash::success('Airlines saved successfully.');
 
-        return redirect(route('airlines.index'));
+        return redirect(route('admin.airlines.index'));
     }
 
     /**
@@ -66,7 +66,7 @@ class AirlinesController extends BaseController
 
         if (empty($airlines)) {
             Flash::error('Airlines not found');
-            return redirect(route('airlines.index'));
+            return redirect(route('admin.airlines.index'));
         }
 
         return view('admin.airlines.show')->with('airlines', $airlines);
@@ -85,7 +85,7 @@ class AirlinesController extends BaseController
 
         if (empty($airlines)) {
             Flash::error('Airlines not found');
-            return redirect(route('airlines.index'));
+            return redirect(route('admin.airlines.index'));
         }
 
         return view('admin.airlines.edit')->with('airlines', $airlines);
@@ -105,14 +105,14 @@ class AirlinesController extends BaseController
 
         if (empty($airlines)) {
             Flash::error('Airlines not found');
-            return redirect(route('airlines.index'));
+            return redirect(route('admin.airlines.index'));
         }
 
         $airlines = $this->airlineRepo->update($request->all(), $id);
 
         Flash::success('Airlines updated successfully.');
 
-        return redirect(route('airlines.index'));
+        return redirect(route('admin.airlines.index'));
     }
 
     /**
@@ -128,13 +128,13 @@ class AirlinesController extends BaseController
 
         if (empty($airlines)) {
             Flash::error('Airlines not found');
-            return redirect(route('airlines.index'));
+            return redirect(route('admin.airlines.index'));
         }
 
         $this->airlineRepo->delete($id);
 
         Flash::success('Airlines deleted successfully.');
 
-        return redirect(route('airlines.index'));
+        return redirect(route('admin.airlines.index'));
     }
 }
