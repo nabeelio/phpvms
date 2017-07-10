@@ -44,3 +44,5 @@ phpvms_next.iml
 .idea/**/gradle.xml
 .idea/**/libraries
 public/info.php
+
+local.conf.php

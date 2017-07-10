@@ -152,4 +152,13 @@ class PIREPService extends BaseService
 
         return $pirep;
     }
+
+    /**
+     * Calculate all of the finances for a PIREP
+     * @param Pirep $pirep
+     */
+    public function calculateFinances(Pirep &$pirep)
+    {
+
+    }
 }

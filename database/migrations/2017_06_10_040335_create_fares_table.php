@@ -15,14 +15,16 @@ class CreateFaresTable extends Migration
     {
         Schema::create('fares', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('code');
-            $table->string('name');
+            $table->string('code', 50);
+            $table->string('name', 50);
             $table->decimal('price', 19, 2)->default(0.0);
             $table->decimal('cost', 19, 2)->default(0.0);
             $table->integer('capacity')->default(0)->unsigned();
             $table->string('notes')->nullable();
             $table->boolean('active')->default(true);
             $table->timestamps();
+
+            $table->primary('id');
         });
     }
 

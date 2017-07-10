@@ -16,16 +16,15 @@ class CreatePirepsTable extends Migration
         Schema::create('pireps', function (Blueprint $table) {
             $table->uuid('id');
             $table->integer('user_id');
-            $table->string('flight_id');
+            $table->uuid('flight_id')->nullable();
             $table->integer('aircraft_id');
-            $table->text('route_code')->nullable();
-            $table->text('route_leg')->nullable();
+            $table->string('route_code', 5)->nullable();
+            $table->string('route_leg', 5)->nullable();
             $table->integer('dpt_airport_id')->unsigned();
             $table->integer('arr_airport_id')->unsigned();
-            $table->integer('flight_time')->unsigned();
+            $table->double('flight_time', 19, 2)->unsigned();
             $table->double('gross_weight', 19, 2)->nullable();
-            $table->double('starting_fuel', 19, 2)->nullable();
-            $table->double('landing_fuel', 19, 2)->nullable();
+            $table->double('fuel_used', 19, 2)->nullable();
             $table->integer('level')->unsigned();
             $table->string('route')->nullable();
             $table->string('notes')->nullable();
@@ -68,7 +67,7 @@ class CreatePirepsTable extends Migration
          */
         Schema::create('pirep_fields', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
+            $table->string('name', 50);
             $table->integer('required');
             $table->timestamps();
         });
@@ -76,8 +75,8 @@ class CreatePirepsTable extends Migration
         Schema::create('pirep_field_values', function (Blueprint $table) {
             $table->increments('id');
             $table->uuid('pirep_id');
-            $table->string('name');
-            $table->string('value');
+            $table->string('name', 50);
+            $table->text('value');
             $table->tinyInteger('source')->default(0);
             $table->timestamps();
 

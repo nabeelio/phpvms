@@ -30,6 +30,7 @@ class Pirep extends Model
             'route_leg',
             'dpt_airport_id',
             'arr_airport_id',
+            'fuel_used',
             'source',
             'level',
             'route',
@@ -47,6 +48,7 @@ class Pirep extends Model
         = [
             'flight_time' => 'integer',
             'level'       => 'integer',
+            'fuel_used'   => 'integer',
             'source'      => 'integer',
             'status'      => 'integer',
         ];

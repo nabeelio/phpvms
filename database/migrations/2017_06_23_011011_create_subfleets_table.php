@@ -16,19 +16,18 @@ class CreateSubfleetsTable extends Migration
         Schema::create('subfleets', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('airline_id')->unsigned()->nullable();
-            $table->string('name');
-            $table->text('type');
+            $table->string('name', 50);
+            $table->string('type', 7);
             $table->tinyInteger('fuel_type')->unsigned()->nullable();
             $table->double('cargo_capacity', 19, 2)->nullable();
             $table->double('fuel_capacity', 19, 2)->nullable();
             $table->double('gross_weight', 19, 2)->nullable();
             $table->timestamps();
-            $table->softDeletes();
         });
 
         Schema::create('subfleet_expenses', function(Blueprint $table) {
             $table->integer('subfleet_id')->unsigned();
-            $table->string('name');
+            $table->string('name', 50);
             $table->decimal('cost', 19, 2)->unsigned();
 
             $table->primary(['subfleet_id', 'name']);

@@ -12,8 +12,17 @@
 return [
 
     /**
+     * Start date. Set the date of when your VA has started
+     * Used as an anchor point for some financials and things
+     *
+     * YYYY-MM-DD format
+     */
+    'start_date' => '2017-07-07',
+
+    /**
      * Pick one of:
-     *  dollar, euro, gbp, yen, jpy, rupee, ruble
+     * dollar, euro, gbp, yen, jpy, rupee, ruble
      */
     'currency' => 'dollar',
+
 ];

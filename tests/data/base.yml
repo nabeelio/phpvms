@@ -99,11 +99,13 @@ subfleets:
     name: 747-400 Winglets
     type: 744W
     fuel_type: 1
+    fuel_capacity: 2000
   - id: 2
     airline_id: 1
     name: 777-200 LR
     type: 772-LR
     fuel_type: 1
+    fuel_capacity: 1000
 
 # add a few mods to aircraft and fares
 subfleet_fare:
