@@ -101,6 +101,7 @@ class FlightController extends BaseController
         $avail_subfleets = $this->getAvailSubfleets($flight);
         return view('admin.flights.show', [
             'flight' => $flight,
+            'fields' => $flight->fields(),
             'avail_subfleets' => $avail_subfleets,
         ]);
     }
@@ -124,6 +125,7 @@ class FlightController extends BaseController
         $avail_subfleets = $this->getAvailSubfleets($flight);
         return view('admin.flights.edit', [
             'flight' => $flight,
+            'fields' => $flight->fields(),
             'avail_subfleets' => $avail_subfleets,
         ]);
     }

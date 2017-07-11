@@ -25,7 +25,7 @@ class CreateFlightsTable extends Migration
             $table->text('route')->nullable();
             $table->text('dpt_time', 10)->nullable();
             $table->text('arr_time', 10)->nullable();
-            $table->double('flight_time', 19, 2)->unsigned();
+            $table->double('flight_time', 19, 2)->unsigned()->nullable();
             $table->text('notes')->nullable();
             $table->boolean('active')->default(true);
             $table->timestamps();

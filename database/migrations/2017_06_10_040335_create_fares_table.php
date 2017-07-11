@@ -23,8 +23,6 @@ class CreateFaresTable extends Migration
             $table->string('notes')->nullable();
             $table->boolean('active')->default(true);
             $table->timestamps();
-
-            $table->primary('id');
         });
     }
 

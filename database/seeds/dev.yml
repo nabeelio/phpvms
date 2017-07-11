@@ -153,6 +153,12 @@ flights:
     arr_airport_id: 2
     route: KAUS KJFK
 
+flight_fields:
+  - id: 1
+    flight_id: 1
+    name: terminal
+    value: B
+
 pireps:
   - user_id: 1
     flight_id: 1
