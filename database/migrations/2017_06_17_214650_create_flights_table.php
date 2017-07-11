@@ -44,6 +44,7 @@ class CreateFlightsTable extends Migration
             $table->uuid('flight_id');
             $table->string('name', 50);
             $table->text('value');
+            $table->timestamps();
         });
     }
 

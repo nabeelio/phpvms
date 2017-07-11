@@ -1,6 +1,6 @@
 <!-- Airline Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('airline_id', 'Airline Id:') !!}
+    {!! Form::label('airline_id', 'Airline:') !!}
     {!! Form::select('airline_id', $airlines, null , ['class' => 'form-control select2']) !!}
 </div>
 

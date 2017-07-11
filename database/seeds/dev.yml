@@ -143,10 +143,10 @@ subfleet_fare:
 
 subfleet_flight:
   - subfleet_id: 1
-    flight_id: 1
+    flight_id: flightid_1
 
 flights:
-  - id: 1
+  - id: flightid_1
     airline_id: 1
     flight_number: 100
     dpt_airport_id: 1
@@ -155,13 +155,13 @@ flights:
 
 flight_fields:
   - id: 1
-    flight_id: 1
+    flight_id: flightid_1
     name: terminal
     value: B
 
 pireps:
   - user_id: 1
-    flight_id: 1
+    flight_id: flightid_1
     aircraft_id: 1
     dpt_airport_id: 1
     arr_airport_id: 2

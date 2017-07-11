@@ -1,13 +1,19 @@
 <!-- Airline Id Field -->
-<div class="form-group col-sm-6">
+<div class="form-group col-sm-5">
     {!! Form::label('airline_id', 'Airline:') !!}
-    {!! Form::text('airline_id', null, ['class' => 'form-control']) !!}
+    {!! Form::select('airline_id', $airlines, null , ['class' => 'form-control select2']) !!}
 </div>
 
 <!-- Flight Number Field -->
-<div class="form-group col-sm-6">
+<div class="form-group col-sm-5">
     {!! Form::label('flight_number', 'Flight Number:') !!}
     {!! Form::text('flight_number', null, ['class' => 'form-control']) !!}
+</div>
+
+<!-- Active Field -->
+<div class="form-group col-sm-2">
+    {!! Form::label('active', 'Active:') !!}
+    {!! Form::checkbox('active', $flight->active, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Route Code Field -->
@@ -22,22 +28,42 @@
     {!! Form::text('route_leg', null, ['class' => 'form-control']) !!}
 </div>
 
+<!--
+SAME ROW
+-->
+
 <!-- Dpt Airport Id Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('dpt_airport_id', 'Dpt Airport Id:') !!}
-    {!! Form::text('dpt_airport_id', null, ['class' => 'form-control']) !!}
+<div class="form-group col-sm-4">
+    {!! Form::label('dpt_airport_id', 'Departure Airport:') !!}
+    {!! Form::select('dpt_airport_id', $airports, null , ['class' => 'form-control select2']) !!}
 </div>
 
 <!-- Arr Airport Id Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('arr_airport_id', 'Arr Airport Id:') !!}
-    {!! Form::text('arr_airport_id', null, ['class' => 'form-control']) !!}
+<div class="form-group col-sm-4">
+    {!! Form::label('arr_airport_id', 'Arrival Airport:') !!}
+    {!! Form::select('arr_airport_id', $airports, null , ['class' => 'form-control select2']) !!}
 </div>
 
 <!-- Alt Airport Id Field -->
+<div class="form-group col-sm-4">
+    {!! Form::label('alt_airport_id', 'Alt Airport:') !!}
+    {!! Form::select('alt_airport_id', $airports, null , ['class' => 'form-control select2']) !!}
+</div>
+
+<!--
+END SAME ROW
+-->
+
+<!-- Dpt Time Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('alt_airport_id', 'Alt Airport Id:') !!}
-    {!! Form::text('alt_airport_id', null, ['class' => 'form-control']) !!}
+    {!! Form::label('dpt_time', 'Departure Time:') !!}
+    {!! Form::text('dpt_time', null, ['class' => 'form-control']) !!}
+</div>
+
+<!-- Arr Time Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('arr_time', 'Arrival Time:') !!}
+    {!! Form::text('arr_time', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Route Field -->
@@ -46,28 +72,10 @@
     {!! Form::text('route', null, ['class' => 'form-control']) !!}
 </div>
 
-<!-- Dpt Time Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('dpt_time', 'Dpt Time:') !!}
-    {!! Form::text('dpt_time', null, ['class' => 'form-control']) !!}
-</div>
-
-<!-- Arr Time Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('arr_time', 'Arr Time:') !!}
-    {!! Form::text('arr_time', null, ['class' => 'form-control']) !!}
-</div>
-
 <!-- Notes Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('notes', 'Notes:') !!}
     {!! Form::text('notes', null, ['class' => 'form-control']) !!}
-</div>
-
-<!-- Active Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('active', 'Active:') !!}
-    {!! Form::text('active', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Submit Field -->

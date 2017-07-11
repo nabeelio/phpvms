@@ -24,6 +24,7 @@ Route::group([
 
     # flights and aircraft associations
     Route::resource('flights', 'FlightController');
+    Route::match(['get', 'post', 'put', 'delete'], 'flights/{id}/fields', 'FlightController@fields');
     Route::match(['get', 'post', 'put', 'delete'], 'flights/{id}/subfleets', 'FlightController@subfleets');
 
     # rankings
