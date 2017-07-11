@@ -63,6 +63,10 @@ class Flight extends Model
             'arr_airport_id' => 'required',
         ];
 
+    /**
+     * Relationship
+     */
+
     public function airline()
     {
         return $this->belongsTo('App\Models\Airline', 'airline_id');
@@ -81,6 +85,11 @@ class Flight extends Model
     public function alt_airport()
     {
         return $this->belongsTo('App\Models\Airport', 'alt_airport_id');
+    }
+
+    public function fields()
+    {
+        return $this->hasMany('App\Models\FlightFields', 'flight_id');
     }
 
     public function subfleets()
