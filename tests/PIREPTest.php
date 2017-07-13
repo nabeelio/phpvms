@@ -56,7 +56,6 @@ class PIREPTest extends TestCase
     }
 
     /**
-     * @outputBuffering disabled
      */
     public function testAddPirep()
     {
@@ -91,8 +90,6 @@ class PIREPTest extends TestCase
 
     /**
      * check the stats/ranks, etc have incremented properly
-     * @covers \App\Services\PilotService
-     * @covers \App\Services\PIREPService
      */
     public function testPilotStatsIncr()
     {

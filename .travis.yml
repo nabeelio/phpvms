@@ -18,4 +18,4 @@ before_script:
 
 script:
   - php artisan database:create --reset
-  - vendor/bin/phpunit --debug --verbose --testdox tests
+  - vendor/bin/phpunit --debug --verbose

@@ -1027,7 +1027,7 @@
                 "laravel",
                 "templates"
             ],
-            "time": "2017-05-20 10:43:37"
+            "time": "2017-05-20T10:43:37+00:00"
         },
         {
             "name": "infyomlabs/laravel-generator",
@@ -1082,7 +1082,7 @@
                 "test",
                 "view"
             ],
-            "time": "2016-08-18 14:19:50"
+            "time": "2016-08-18T14:19:50+00:00"
         },
         {
             "name": "infyomlabs/swagger-generator",
@@ -1119,7 +1119,7 @@
                 "swagger",
                 "templates"
             ],
-            "time": "2016-02-14 10:41:03"
+            "time": "2016-02-14T10:41:03+00:00"
         },
         {
             "name": "jeremeamia/SuperClosure",
@@ -1222,7 +1222,7 @@
                 "laravel",
                 "swagger"
             ],
-            "time": "2016-01-25 15:38:17"
+            "time": "2016-01-25T15:38:17+00:00"
         },
         {
             "name": "laracasts/flash",
@@ -4527,7 +4527,7 @@
                 "permission",
                 "roles"
             ],
-            "time": "2016-12-29 06:25:06"
+            "time": "2016-12-29T06:25:06+00:00"
         }
     ],
     "packages-dev": [
