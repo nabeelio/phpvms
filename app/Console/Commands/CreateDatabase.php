@@ -3,20 +3,16 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 
 
 class CreateDatabase extends Command
 {
-    protected $signature = 'database:create {--reset}';
+    protected $signature = 'database:create {--reset} {--conn=?}';
     protected $description = 'Create a database';
 
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         parent::__construct();
@@ -94,7 +90,8 @@ class CreateDatabase extends Command
     {
         $this->info('Using connection "'.config('database.default').'"');
 
-        $dbkey = 'database.connections.' . config('database.default').'.';
+        $conn = config('database.default');
+        $dbkey = 'database.connections.'.$conn.'.';
 
         if(config($dbkey.'driver') === 'mysql') {
             $this->create_mysql($dbkey);

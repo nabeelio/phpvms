@@ -47,8 +47,8 @@ tests: test
 
 .PHONY: test
 test:
-	php artisan database:create --reset
-	vendor/bin/phpunit --debug --verbose --testdox tests
+	#php artisan database:create --reset
+	vendor/bin/phpunit --debug --verbose
 
 .PHONY: schema
 schema:

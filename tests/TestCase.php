@@ -3,6 +3,9 @@
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 
+use Symfony\Component\Process\Process;
+use Symfony\Component\Process\Exception\ProcessFailedException;
+
 
 abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
 {
@@ -20,7 +23,8 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
     }
 
     protected function reset_db() {
-        exec('make -f '.__DIR__.'/../Makefile unittest-db');
+        Artisan::call('database:create', ['--reset' => true]);
+        Artisan::call('migrate:refresh', ['--env' => 'unittest']);
     }
 
     public function setUp() {
