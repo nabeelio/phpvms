@@ -25,11 +25,10 @@ clean:
 	@php artisan optimize
 	@php artisan route:clear
 	@php artisan config:clear
-	@rm -f database/*.sqlite
 
 .PHONY: reset
 reset: clean
-	@sqlite3 database/testing.sqlite ""
+	@php artisan database:create --reset
 	@php artisan migrate:refresh --seed
 
 .PHONY: db

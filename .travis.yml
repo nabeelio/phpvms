@@ -5,10 +5,14 @@ php:
   - '7.1'
 #  - hhvm
 
+services:
+  - mysql
+
+before_install:
+   - mysql -e 'CREATE DATABASE IF NOT EXISTS phpvms;'
+
 before_script:
-  #- cp .env.travis .env
   - cp .env.travis .env
-  #- mysql -e 'create database phpvms_test;'
   - composer self-update
   - make build
 
