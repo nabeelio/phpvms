@@ -10,9 +10,9 @@ all: build
 
 .PHONY:  build
 build:
-	composer install --no-interaction
-	php artisan optimize
-	php artisan config:cache
+	@composer install --no-interaction
+	@php artisan optimize
+	@php artisan config:cache
 	@make db
 
 .PHONY: install
@@ -33,8 +33,8 @@ reset: clean
 
 .PHONY: db
 db:
-	sqlite3 database/testing.sqlite ""
-	php artisan migrate:refresh --seed
+	@php artisan database:create --reset
+	@php artisan migrate:refresh --seed
 
 .PHONY: unittest-db
 unittest-db:
