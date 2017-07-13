@@ -60,7 +60,6 @@ class PIREPTest extends TestCase
      */
     public function testAddPirep()
     {
-        print_r('hi');
         $pirep = new Pirep($this->SAMPLE_PIREP);
         $pirep->save();
 
