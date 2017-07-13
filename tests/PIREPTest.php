@@ -56,11 +56,11 @@ class PIREPTest extends TestCase
     }
 
     /**
-     * @covers \App\Services\PilotService
-     * @covers \App\Services\PIREPService
+     * @outputBuffering disabled
      */
     public function testAddPirep()
     {
+        print_r('hi');
         $pirep = new Pirep($this->SAMPLE_PIREP);
         $pirep->save();
 

@@ -47,10 +47,8 @@ tests: test
 
 .PHONY: test
 test:
-	@echo "" > storage/logs/laravel.log
-	@chmod 0777 storage/logs/*
-	@vendor/bin/phpunit --testdox tests
-	@cat storage/logs/laravel.log
+	#@php artisan database:create --reset > /dev/null
+	vendor/bin/phpunit --debug --verbose --testdox tests
 
 .PHONY: schema
 schema:

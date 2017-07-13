@@ -32,7 +32,8 @@
         "phpunit/phpunit": "~5.7",
         "symfony/css-selector": "3.1.*",
         "symfony/dom-crawler": "3.1.*",
-        "laravel/homestead": "^5.4"
+        "laravel/homestead": "^5.4",
+        "scriptfusion/phpunit-immediate-exception-printer": "^1"
     },
     "autoload": {
         "classmap": [

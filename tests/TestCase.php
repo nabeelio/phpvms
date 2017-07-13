@@ -20,7 +20,7 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
     }
 
     protected function reset_db() {
-        exec('make -f '.__DIR__.'/../Makefile unittest-db');
+//        exec('make -f '.__DIR__.'/../Makefile unittest-db');
     }
 
     public function setUp() {

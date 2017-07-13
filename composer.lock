@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "43f3e5ba26994dd305c74c84a42177dd",
+    "content-hash": "c9fe9a5a21d2f275a62bb5adda58f544",
     "packages": [
         {
             "name": "anlutro/l4-settings",
@@ -838,16 +838,16 @@
         },
         {
             "name": "ellipsesynergie/api-response",
-            "version": "0.14.0",
+            "version": "0.14.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ellipsesynergie/api-response.git",
-                "reference": "79f7a8b63f6fc18ad7be9136d42331e2bc2840cf"
+                "reference": "81b565838f2790c6d857ab5134fa005d493202a1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ellipsesynergie/api-response/zipball/79f7a8b63f6fc18ad7be9136d42331e2bc2840cf",
-                "reference": "79f7a8b63f6fc18ad7be9136d42331e2bc2840cf",
+                "url": "https://api.github.com/repos/ellipsesynergie/api-response/zipball/81b565838f2790c6d857ab5134fa005d493202a1",
+                "reference": "81b565838f2790c6d857ab5134fa005d493202a1",
                 "shasum": ""
             },
             "require": {
@@ -895,7 +895,7 @@
                 "fractal",
                 "json"
             ],
-            "time": "2017-07-05T12:23:19+00:00"
+            "time": "2017-07-06T13:01:20+00:00"
         },
         {
             "name": "erusev/parsedown",
@@ -5433,6 +5433,39 @@
                 "xunit"
             ],
             "time": "2017-06-30T09:13:00+00:00"
+        },
+        {
+            "name": "scriptfusion/phpunit-immediate-exception-printer",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ScriptFUSION/PHPUnit-Immediate-Exception-Printer.git",
+                "reference": "5bd117e530d87533b036ce227493ae1d92018599"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ScriptFUSION/PHPUnit-Immediate-Exception-Printer/zipball/5bd117e530d87533b036ce227493ae1d92018599",
+                "reference": "5bd117e530d87533b036ce227493ae1d92018599",
+                "shasum": ""
+            },
+            "require": {
+                "phpunit/phpunit": "^5.5|^6"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "ScriptFUSION\\PHPUnitImmediateExceptionPrinter\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Bilge",
+                    "email": "bilge@scriptfusion.com"
+                }
+            ],
+            "description": "Immediately prints exception and assertion failures during testing.",
+            "time": "2017-03-11T20:54:55+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
