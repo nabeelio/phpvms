@@ -14,6 +14,7 @@ before_install:
 before_script:
   - cp .env.travis .env
   - composer self-update
+  - composer install --no-interaction
 
 script:
   - php artisan database:create --reset
