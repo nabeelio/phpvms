@@ -42,10 +42,15 @@ class CreateDatabase extends Command
         $mysql_cmd = [
             'mysql',
             '-u' . config($dbkey . 'username'),
-            '-p' . config($dbkey . 'password'),
             '-h' . config($dbkey . 'host'),
             '-P' . config($dbkey . 'port'),
         ];
+
+        # only supply password if it's set
+        $password = config($dbkey . 'password');
+        if($password !== '') {
+            $mysql_cmd[] = '-p' . $password;
+        }
 
         if ($this->option('reset')) {
             $cmd = array_merge(
