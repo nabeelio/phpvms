@@ -47,7 +47,7 @@ class CreateSubfleetsTable extends Migration
 
         Schema::create('subfleet_flight', function(Blueprint $table) {
             $table->integer('subfleet_id')->unsigned();
-            $table->integer('flight_id')->unsigned();
+            $table->uuid('flight_id');
 
             $table->primary(['subfleet_id', 'flight_id']);
             $table->index(['flight_id', 'subfleet_id']);
