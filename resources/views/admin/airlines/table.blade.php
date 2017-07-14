@@ -2,16 +2,19 @@
     <thead>
         <th>Code</th>
         <th>Name</th>
-        <th>Active?</th>
-        <th colspan="3">Action</th>
+        <th style="text-align: center;">Active</th>
+        <th colspan="3" style="text-align: right;">Action</th>
     </thead>
     <tbody>
     @foreach($airlines as $al)
         <tr>
             <td>{!! $al->code !!}</td>
             <td>{!! $al->name !!}</td>
-            <td>{!! $al->active !!}</td>
-            <td>
+            <td style="text-align: center;">
+                <i class="fa fa-{{$al->active == 1?"check":""}}-square-o" aria-hidden="true"
+                   style="color: {{$al->active==1?"darkgreen":"darkred"}};font-size:20px;"></i>
+            </td>
+            <td style="text-align: right;">
                 {!! Form::open(['route' => ['admin.airlines.destroy', $al->id], 'method' => 'delete']) !!}
                 <div class='btn-group'>
                     <a href="{!! route('admin.airlines.show', [$al->id]) !!}" class='btn btn-default btn-xs'><i class="glyphicon glyphicon-eye-open"></i></a>

@@ -7,7 +7,7 @@
             <th style="text-align: center;">100LL</th>
             <th style="text-align: center;">JetA</th>
             <th style="text-align: center;">MOGAS</th>
-            <th colspan="3">Action</th>
+            <th colspan="3" style="text-align: right">Action</th>
         </thead>
         <tbody>
         @foreach($airports as $airport)
@@ -24,7 +24,7 @@
                 <td style="text-align: center;">
                     <a class="inline" href="#" data-pk="{!! $airport->id !!}" data-name="fuel_mogas_cost">{!! $airport->fuel_mogas_cost !!}</a>
                 </td>
-                <td>
+                <td style="text-align: right;">
                     {!! Form::open(['route' => ['admin.airports.destroy', $airport->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>
                         <a href="{!! route('admin.airports.show', [$airport->id]) !!}" class='btn btn-default btn-xs'><i class="glyphicon glyphicon-eye-open"></i></a>

@@ -3,20 +3,29 @@
         <thead>
         <th>Name</th>
         <th>Hours</th>
-        <th>Auto Approve Acars</th>
-        <th>Auto Approve Manual</th>
-        <th>Auto Promote</th>
-        <th colspan="3">Action</th>
+        <th style="text-align: center;">Auto Approve Acars</th>
+        <th style="text-align: center">Auto Approve Manual</th>
+        <th style="text-align: center">Auto Promote</th>
+        <th colspan="3" style="text-align: right;">Action</th>
         </thead>
         <tbody>
         @foreach($ranks as $rank)
             <tr>
                 <td>{!! $rank->name !!}</td>
                 <td>{!! $rank->hours !!}</td>
-                <td>{!! $rank->auto_approve_acars !!}</td>
-                <td>{!! $rank->auto_approve_manual !!}</td>
-                <td>{!! $rank->auto_promote !!}</td>
-                <td>
+                <td style="text-align: center;">
+                    <i class="fa fa-{{$rank->auto_approve_acars == 1?"check":""}}-square-o" aria-hidden="true"
+                       style="color: {{$rank->auto_approve_acars==1?"darkgreen":"darkred"}};font-size:20px;"></i>
+                </td>
+                <td style="text-align: center;">
+                    <i class="fa fa-{{$rank->auto_approve_manual == 1?"check":""}}-square-o" aria-hidden="true"
+                       style="color: {{$rank->auto_approve_manual==1?"darkgreen":"darkred"}};font-size:20px;"></i>
+                </td>
+                <td style="text-align: center;">
+                    <i class="fa fa-{{$rank->auto_promote == 1?"check":""}}-square-o" aria-hidden="true"
+                       style="color: {{$rank->auto_promote==1?"darkgreen":"darkred"}};font-size:20px;"></i>
+                </td>
+                <td style="text-align: right;">
                     {!! Form::open(['route' => ['admin.ranks.destroy', $rank->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>
                         {{--<a href="{!! route('admin.ranks.show', [$rank->id]) !!}"

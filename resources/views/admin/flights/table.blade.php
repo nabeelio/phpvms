@@ -7,14 +7,14 @@
         <th>Dpt Time</th>
         <th>Arr Time</th>
         <th>Notes</th>
-        <th>Active</th>
-        <th colspan="3">Action</th>
+        <th style="text-align: center;">Active</th>
+        <th colspan="3" style="text-align: right;">Action</th>
     </thead>
     <tbody>
     @foreach($flights as $flight)
         <tr>
             <td>
-                <a href="{!! route('admin.flights.show', [$flight->id]) !!}">
+                <a href="{!! route('admin.flights.edit', [$flight->id]) !!}">
                 {!! $flight->airline->code !!}{!! $flight->flight_number !!}
                 @if($flight->route_code)
                     (C: {!! $flight->route_code !!} L: {!! $flight->route_leg !!})
@@ -32,11 +32,14 @@
             <td>{!! $flight->dpt_time !!}</td>
             <td>{!! $flight->arr_time !!}</td>
             <td>{!! $flight->notes !!}</td>
-            <td>{!! $flight->active !!}</td>
-            <td>
+            <td style="text-align: center;">
+                <i class="fa fa-{{$flight->active == 1?"check":""}}-square-o" aria-hidden="true"
+                   style="color: {{$flight->active==1?"darkgreen":"darkred"}};font-size:20px;"></i>
+            </td>
+            <td style="text-align: right;">
                 {!! Form::open(['route' => ['admin.flights.destroy', $flight->id], 'method' => 'delete']) !!}
                 <div class='btn-group'>
-                    {{--<a href="{!! route('admin.flights.show', [$flight->id]) !!}" class='btn btn-default btn-xs'><i class="glyphicon glyphicon-eye-open"></i></a>--}}
+                    <a href="{!! route('admin.flights.show', [$flight->id]) !!}" class='btn btn-default btn-xs'><i class="glyphicon glyphicon-eye-open"></i></a>
                     <a href="{!! route('admin.flights.edit', [$flight->id]) !!}" class='btn btn-default btn-xs'><i class="glyphicon glyphicon-edit"></i></a>
                     {!! Form::button('<i class="glyphicon glyphicon-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
                 </div>
