@@ -8,19 +8,18 @@ the old, phpVMS classic, it's [available here](https://github.com/nabeelio/phpvm
 # installation
 
 run the following commands. for right now, we're running on sqlite. for mysql, set 
-`DB_CONNECTION` to `mysql` in the `.env` file, and skip the `sqlite3` step below.
+`DB_CONNECTION` to `mysql` in the `.env` file.
 
 ```bash
-cp .env.example .env
+cp .env.dev.example .env
 composer install --no-interaction
-php artisan optimize
-sqlite3 database/testing.sqlite ""
+php artisan database:create
 php artisan migrate:refresh --seed
 ```
 
 then point your webserver to the `/public` folder. for example, in nginx:
 
-```
+```nginx
 server {
     listen 80 default_server;
     listen [::]:80 default_server ipv6only=on;
