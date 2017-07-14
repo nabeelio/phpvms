@@ -5,8 +5,7 @@
         <th>Aircraft</th>
         <th>Flight Time</th>
         <th>Level</th>
-        <th>Route</th>
-        <th colspan="3">Action</th>
+        <th colspan="3" style="text-align: right">Action</th>
     </thead>
     <tbody>
     @foreach($pireps as $pirep)
@@ -24,8 +23,7 @@
             <td>{!! $pirep->aircraft->registration !!} ({!! $pirep->aircraft->name !!})</td>
             <td>{!! Utils::secondsToTime($pirep->flight_time) !!}</td>
             <td>{!! $pirep->level !!}</td>
-            <td>{!! $pirep->route !!}</td>
-            <td>
+            <td style="text-align: right;">
                 {!! Form::open(['route' => ['admin.pireps.destroy', $pirep->id], 'method' => 'delete']) !!}
                 <div class='btn-group'>
                     <a href="{!! route('admin.pireps.show', [$pirep->id]) !!}" class='btn btn-default btn-xs'><i class="glyphicon glyphicon-eye-open"></i></a>

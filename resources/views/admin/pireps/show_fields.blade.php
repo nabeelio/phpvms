@@ -1,66 +1,100 @@
-<!-- Id Field -->
-<div class="form-group">
-    {!! Form::label('id', 'Id:') !!}
-    <p>{!! $pirep->id !!}</p>
+<div class="form-group col-sm-6">
+    <div class="box box-solid">
+        <div class="box-header with-border">
+            {{--<i class="fa fa-text-width"></i>--}}
+            <h3 class="box-title">{!! Form::label('dpt_airport_id', 'Dep ICAO') !!}</h3>
+        </div>
+        <div class="box-body"><p class="lead">
+                {!! $pirep->dpt_airport->icao !!} - {!! $pirep->dpt_airport->name !!}
+        </p></div>
+    </div>
 </div>
 
-<!-- User Id Field -->
-<div class="form-group">
-    {!! Form::label('user_id', 'User Id:') !!}
-    <p>{!! $pirep->user_id !!}</p>
+<div class="form-group col-sm-6">
+    <div class="box box-solid">
+        <div class="box-header with-border">
+            {{--<i class="fa fa-text-width"></i>--}}
+            <h3 class="box-title">{!! Form::label('arr_airport_id', 'Arrival ICAO') !!}</h3>
+        </div>
+        <div class="box-body"><p class="lead">
+                {!! $pirep->arr_airport->icao !!} - {!! $pirep->arr_airport->name !!}
+            </p>
+        </div>
+    </div>
 </div>
 
-<!-- Flight Id Field -->
-<div class="form-group">
-    {!! Form::label('flight_id', 'Flight Id:') !!}
-    <p>{!! $pirep->flight_id !!}</p>
-</div>
 
-<!-- Aircraft Id Field -->
-<div class="form-group">
-    {!! Form::label('aircraft_id', 'Aircraft Id:') !!}
-    <p>{!! $pirep->aircraft_id !!}</p>
-</div>
 
-<!-- Flight Time Field -->
-<div class="form-group">
-    {!! Form::label('flight_time', 'Flight Time:') !!}
-    <p>{!! $pirep->flight_time !!}</p>
-</div>
 
-<!-- Level Field -->
-<div class="form-group">
-    {!! Form::label('level', 'Level:') !!}
-    <p>{!! $pirep->level !!}</p>
-</div>
+<div class="form-group col-sm-12">
+    <div class="box box-primary">
+        <div class="box-body">
 
-<!-- Route Field -->
-<div class="form-group">
-    {!! Form::label('route', 'Route:') !!}
-    <p>{!! $pirep->route !!}</p>
-</div>
+            <!-- User Id Field -->
+            <div class="form-group">
+                {!! Form::label('user_id', 'Pilot:') !!}
+                <p>{!! $pirep->user->name !!}</p>
+            </div>
 
-<!-- Notes Field -->
-<div class="form-group">
-    {!! Form::label('notes', 'Notes:') !!}
-    <p>{!! $pirep->notes !!}</p>
-</div>
+            <!-- Flight Id Field -->
+            <div class="form-group">
+                {!! Form::label('flight_id', 'Flight Id:') !!}
+                <p>
+                    <a href="{!! route('admin.flights.show', [$pirep->flight_id]) !!}" target="_blank">
+                        {!! $pirep->flight->airline->code !!}{!! $pirep->flight->flight_number !!}
+                    </a>
+                </p>
+            </div>
 
-<!-- Raw Data Field -->
-<div class="form-group">
-    {!! Form::label('raw_data', 'Raw Data:') !!}
-    <p>{!! $pirep->raw_data !!}</p>
-</div>
+            <!-- Aircraft Id Field -->
+            <div class="form-group">
+                {!! Form::label('aircraft_id', 'Aircraft:') !!}
+                <p>{!! $pirep->aircraft->subfleet->name !!}, {!! $pirep->aircraft->name !!}
+                    ({!! $pirep->aircraft->registration !!})
+                </p>
+            </div>
 
-<!-- Created At Field -->
-<div class="form-group">
-    {!! Form::label('created_at', 'Created At:') !!}
-    <p>{!! $pirep->created_at !!}</p>
-</div>
+            <!-- Flight Time Field -->
+            <div class="form-group">
+                {!! Form::label('flight_time', 'Flight Time:') !!}
+                <p>{!! Utils::secondsToTime($pirep->flight_time) !!}</p>
+            </div>
 
-<!-- Updated At Field -->
-<div class="form-group">
-    {!! Form::label('updated_at', 'Updated At:') !!}
-    <p>{!! $pirep->updated_at !!}</p>
-</div>
+            <!-- Level Field -->
+            <div class="form-group">
+                {!! Form::label('level', 'Level:') !!}
+                <p>{!! $pirep->level !!}</p>
+            </div>
 
+            <!-- Route Field -->
+            <div class="form-group">
+                {!! Form::label('route', 'Route:') !!}
+                <p>{!! $pirep->route !!}</p>
+            </div>
+
+            <!-- Notes Field -->
+            <div class="form-group">
+                {!! Form::label('notes', 'Notes:') !!}
+                <p>{!! $pirep->notes !!}</p>
+            </div>
+
+            <!-- Raw Data Field -->
+            <div class="form-group">
+                {!! Form::label('raw_data', 'Raw Data:') !!}
+                <p>{!! $pirep->raw_data !!}</p>
+            </div>
+
+            <!-- Created At Field -->
+            <div class="form-group">
+                {!! Form::label('created_at', 'Created At:') !!}
+                <p>{!! $pirep->created_at !!}</p>
+            </div>
+
+            <!-- Updated At Field -->
+            <div class="form-group">
+                {!! Form::label('updated_at', 'Updated At:') !!}
+                <p>{!! $pirep->updated_at !!}</p>
+            </div>
+        </div>
+    </div>
+</div>

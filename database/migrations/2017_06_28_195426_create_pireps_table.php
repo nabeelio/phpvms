@@ -77,7 +77,7 @@ class CreatePirepsTable extends Migration
             $table->uuid('pirep_id');
             $table->string('name', 50);
             $table->text('value');
-            $table->tinyInteger('source')->default(0);
+            $table->string('source')->nullable();
             $table->timestamps();
 
             $table->index('pirep_id');

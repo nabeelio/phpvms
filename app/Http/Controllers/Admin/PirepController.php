@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\CreatePirepRequest;
 use App\Http\Requests\UpdatePirepRequest;
+use App\Repositories\AircraftRepository;
 use App\Repositories\PirepRepository;
 use Illuminate\Http\Request;
 use Flash;
@@ -12,11 +13,24 @@ use Response;
 
 class PirepController extends BaseController
 {
-    private $pirepRepository;
+    private $pirepRepo, $aircraftRepo;
 
-    public function __construct(PirepRepository $pirepRepo)
+    public function __construct(PirepRepository $pirepRepo, AircraftRepository $aircraftRepo)
     {
-        $this->pirepRepository = $pirepRepo;
+        $this->aircraftRepo = $aircraftRepo;
+        $this->pirepRepo = $pirepRepo;
+    }
+
+    public function aircraftList()
+    {
+        $retval = [];
+        $all_aircraft = $this->aircraftRepo->all();
+
+        foreach ($all_aircraft as $ac) {
+            $retval[$ac->id] = $ac->subfleet->name.' - '.$ac->name.' ('.$ac->registration.')';
+        }
+
+        return $retval;
     }
 
     /**
@@ -27,8 +41,8 @@ class PirepController extends BaseController
      */
     public function index(Request $request)
     {
-        $this->pirepRepository->pushCriteria(new RequestCriteria($request));
-        $pireps = $this->pirepRepository->all();
+        $this->pirepRepo->pushCriteria(new RequestCriteria($request));
+        $pireps = $this->pirepRepo->all();
 
         return view('admin.pireps.index', [
             'pireps' => $pireps
@@ -55,7 +69,7 @@ class PirepController extends BaseController
     public function store(CreatePirepRequest $request)
     {
         $input = $request->all();
-        $pirep = $this->pirepRepository->create($input);
+        $pirep = $this->pirepRepo->create($input);
 
         Flash::success('Pirep saved successfully.');
         return redirect(route('admin.pireps.index'));
@@ -70,7 +84,7 @@ class PirepController extends BaseController
      */
     public function show($id)
     {
-        $pirep = $this->pirepRepository->findWithoutFail($id);
+        $pirep = $this->pirepRepo->findWithoutFail($id);
 
         if (empty($pirep)) {
             Flash::error('Pirep not found');
@@ -91,7 +105,7 @@ class PirepController extends BaseController
      */
     public function edit($id)
     {
-        $pirep = $this->pirepRepository->findWithoutFail($id);
+        $pirep = $this->pirepRepo->findWithoutFail($id);
 
         if (empty($pirep)) {
             Flash::error('Pirep not found');
@@ -100,6 +114,7 @@ class PirepController extends BaseController
 
         return view('admin.pireps.edit', [
             'pirep' => $pirep,
+            'aircraft' => $this->aircraftList(),
         ]);
     }
 
@@ -113,14 +128,14 @@ class PirepController extends BaseController
      */
     public function update($id, UpdatePirepRequest $request)
     {
-        $pirep = $this->pirepRepository->findWithoutFail($id);
+        $pirep = $this->pirepRepo->findWithoutFail($id);
 
         if (empty($pirep)) {
             Flash::error('Pirep not found');
             return redirect(route('admin.pireps.index'));
         }
 
-        $pirep = $this->pirepRepository->update($request->all(), $id);
+        $pirep = $this->pirepRepo->update($request->all(), $id);
 
         Flash::success('Pirep updated successfully.');
         return redirect(route('admin.pireps.index'));
@@ -135,14 +150,14 @@ class PirepController extends BaseController
      */
     public function destroy($id)
     {
-        $pirep = $this->pirepRepository->findWithoutFail($id);
+        $pirep = $this->pirepRepo->findWithoutFail($id);
 
         if (empty($pirep)) {
             Flash::error('Pirep not found');
             return redirect(route('admin.pireps.index'));
         }
 
-        $this->pirepRepository->delete($id);
+        $this->pirepRepo->delete($id);
 
         Flash::success('Pirep deleted successfully.');
         return redirect(route('admin.pireps.index'));

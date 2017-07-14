@@ -1,13 +1,13 @@
 <!-- Flight Id Field -->
-<div class="form-group col-sm-6">
+{{--<div class="form-group col-sm-6">
     {!! Form::label('flight_id', 'Flight ID:') !!}
     {!! Form::text('flight_id', null, ['class' => 'form-control']) !!}
-</div>
+</div>--}}
 
 <!-- Aircraft Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('aircraft_id', 'Aircraft ID:') !!}
-    {!! Form::text('aircraft_id', null, ['class' => 'form-control']) !!}
+    {!! Form::select('aircraft_id', $aircraft, null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Flight Time Field -->

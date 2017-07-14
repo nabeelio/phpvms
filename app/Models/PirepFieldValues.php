@@ -30,7 +30,7 @@ class PirepFieldValues extends Model
         = [
             'name'   => 'string',
             'value'  => 'string',
-            'source' => 'integer',
+            'source' => 'string',
         ];
 
     /**

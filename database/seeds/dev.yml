@@ -160,7 +160,8 @@ flight_fields:
     value: B
 
 pireps:
-  - user_id: 1
+  - id: pirepid_1
+    user_id: 1
     flight_id: flightid_1
     aircraft_id: 1
     dpt_airport_id: 1
@@ -169,3 +170,15 @@ pireps:
     level: 320
     status: -1
     notes: just a pilot report
+
+pirep_fields:
+  - id: 1
+    name: arrival gate
+    required: 0
+
+pirep_field_values:
+  - id: 1
+    pirep_id: pirepid_1
+    name: arrival gate
+    value: B14
+    source: manual
