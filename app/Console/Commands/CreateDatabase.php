@@ -88,6 +88,12 @@ class CreateDatabase extends Command
      */
     public function handle()
     {
+        /*if ($this->option('reset')) {
+            if(!$this->confirm('The "reset" option will destroy the database, are you sure?')) {
+                return false;
+            }
+        }*/
+
         $this->info('Using connection "'.config('database.default').'"');
 
         $conn = config('database.default');
