@@ -1,9 +1,7 @@
 @extends('admin.app')
 
 @section('content')
-    <section class="content-header">
-        <h1 class="pull-left">Dashboard</h1>
-    </section>
+    <section class="content-header"></section>
     <div class="content">
         <div class="clearfix"></div>
 
@@ -26,6 +24,22 @@
                             </span>
                         </div><!-- /.info-box-content -->
                     </div><!-- /.info-box -->
+                </div>
+            </div>
+        </div>
+
+        <div class="box box-primary">
+            <div class="box-body">
+                <div class="col-sm-12">
+                    <h3>announcements</h3>
+                    @foreach($feed->item as $item)
+                        <div>
+                            <strong>{!! $item->title !!}</strong>
+                            <p>{!! $item->description !!}</p>
+                            <p class="pull-right">{!! Carbon::now()->diffForHumans(new Carbon($item->pubDate), true) !!}</p>
+                        </div>
+                        <div class="clearfix"></div>
+                    @endforeach
                 </div>
             </div>
         </div>

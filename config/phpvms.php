@@ -25,4 +25,10 @@ return [
      */
     'currency' => 'dollar',
 
+    /**
+     * Misc Settings
+     */
+
+    'feed_url' => 'http://forum.phpvms.net/rss/1-announcements-feed.xml/?',
+
 ];
