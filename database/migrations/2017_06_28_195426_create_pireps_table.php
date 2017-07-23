@@ -42,6 +42,13 @@ class CreatePirepsTable extends Migration
             $table->index('arr_airport_id');
         });
 
+        Schema::create('pirep_events', function(Blueprint $table) {
+            $table->bigIncrements('id')->unsigned();
+            $table->uuid('pirep_id');
+            $table->string('event');
+            $table->dateTime('dt');
+        });
+
         /*
          * Financial tables/fields
          */
