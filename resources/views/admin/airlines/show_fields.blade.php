@@ -10,6 +10,11 @@
     <p>{!! $airlines->code !!}</p>
 </div>
 
+<div class="form-group">
+    {!! Form::label('iata', 'IATA:') !!}
+    <p>{!! $airlines->iata !!}</p>
+</div>
+
 <!-- Name Field -->
 <div class="form-group">
     {!! Form::label('name', 'Name:') !!}

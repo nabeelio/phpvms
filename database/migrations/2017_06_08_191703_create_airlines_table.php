@@ -16,6 +16,7 @@ class CreateAirlinesTable extends Migration
         Schema::create('airlines', function (Blueprint $table) {
             $table->increments('id');
             $table->string('code', 5);
+            $table->string('iata', 5);
             $table->string('name', 50);
             $table->string('country', 2)->nullable();
             $table->boolean('active');
@@ -23,6 +24,9 @@ class CreateAirlinesTable extends Migration
 
             $table->index('code');
             $table->unique('code');
+
+            $table->index('iata');
+            $table->unique('iata');
         });
     }
 

@@ -16,6 +16,7 @@ class Airline extends Model
 
     public $fillable = [
         'code',
+        'iata',
         'name',
         'fuel_100ll_cost',
         'fuel_jeta_cost',
