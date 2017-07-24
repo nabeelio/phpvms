@@ -15,7 +15,6 @@
         "infyomlabs/adminlte-templates": "5.3.x-dev",
         "infyomlabs/swagger-generator": "dev-master",
         "jlapp/swaggervel": "dev-master",
-        "doctrine/dbal": "v2.5.12",
         "zizaco/entrust": "5.2.x-dev",
         "prettus/l5-repository": "^2.6",
         "spatie/laravel-pjax": "^1.3",
