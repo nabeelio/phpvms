@@ -19,3 +19,12 @@ before_script:
 script:
   - php artisan database:create --reset
   - vendor/bin/phpunit --debug --verbose
+
+after_success:
+- | # Add binary to GitHub release.
+  if test "$TRAVIS_TAG"
+  then
+    echo "Branch name is $TRAVIS_TAG"
+  else
+    echo "no branch name"
+  fi
