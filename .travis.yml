@@ -9,7 +9,6 @@ services:
   - mysql
 
 before_install:
-   - go get -u github.com/tcnksm/ghr
    - mysql -e 'CREATE DATABASE IF NOT EXISTS phpvms;'
 
 before_script:
