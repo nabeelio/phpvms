@@ -10,4 +10,10 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+
+    public function view($template, $vars=[])
+    {
+        $tpl = 'layouts/'.config('phpvms.skin').'/'.$template;
+        return view($tpl, $vars);
+    }
 }

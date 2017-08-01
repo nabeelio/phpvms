@@ -11,10 +11,10 @@ class DashboardController extends BaseController
      */
     public function index()
     {
-        return view('frontend.dashboard');
+        return $this->view('frontend/dashboard');
     }
 	public function test()
     {
-        return view('frontend.dashboard');
+        return $this->view('frontend/dashboard');
     }
 }

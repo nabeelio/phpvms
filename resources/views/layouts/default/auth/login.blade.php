@@ -1,4 +1,4 @@
-@extends('auth.layout')
+@extends('layouts.default.auth.layout')
 
 @section('content')
 <div class="col-md-4 content-center">

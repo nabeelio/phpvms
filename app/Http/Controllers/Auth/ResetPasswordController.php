@@ -20,6 +20,13 @@ class ResetPasswordController extends Controller
 
     use ResetsPasswords;
 
+    public function showResetForm(Request $request, $token = null)
+    {
+        return $this->view('auth.passwords.reset',
+            ['token' => $token, 'email' => $request->email]
+        );
+    }
+
     /**
      * Create a new controller instance.
      *

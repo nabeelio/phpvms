@@ -30,6 +30,11 @@ class RegisterController extends Controller
      */
     protected $redirectTo = '/home';
 
+    public function showRegistrationForm()
+    {
+        return $this->view('auth.register');
+    }
+
     /**
      * Create a new controller instance.
      *

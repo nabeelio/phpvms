@@ -12,6 +12,11 @@
 return [
 
     /**
+     * The skin to use for the front-end
+     */
+    'skin' => 'default',
+
+    /**
      * Start date. Set the date of when your VA has started
      * Used as an anchor point for some financials and things
      *
