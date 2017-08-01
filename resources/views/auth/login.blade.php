@@ -31,7 +31,12 @@
                     <span class="input-group-addon">
                         <i class="now-ui-icons ui-1_lock-circle-open"></i>
                     </span>
-                    <input id="password" type="password" class="form-control" placeholder="Password" required>
+                    <input id="password"
+                           type="password"
+                           name="password"
+                           class="form-control"
+                           placeholder="Password"
+                           required>
                 </div>
                 @if ($errors->has('password'))
                     <span class="help-block">
