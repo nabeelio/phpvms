@@ -6,7 +6,7 @@
         <form class="form" method="POST" action="{{ url('/login') }}">
             <div class="header header-primary text-center">
                 <div class="logo-container" style="width: 320px;">
-                    <img src="/img/logo.svg" width="320" height="320" style="background: #FFF">
+                    <img src="/assets/frontend/img/logo.svg" width="320" height="320" style="background: #FFF">
                 </div>
             </div>
             <div class="content">

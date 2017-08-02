@@ -7,10 +7,11 @@ Route::get('/home', 'HomeController@index');
  * These are only visible to a logged in user
  */
 Route::group([
-    'namespace' => 'Frontend', 'prefix' => 'user', 'as' => 'frontend.',
+    'namespace' => 'Frontend', 'prefix' => '', 'as' => 'frontend.',
     'middleware' => ['role:admin|user'],
 ], function () {
     Route::resource('dashboard', 'DashboardController');
+    Route::resource('profile', 'ProfileController');
 });
 
 Auth::routes();

@@ -80,7 +80,7 @@
             @if(Entrust::hasRole('admin'))
                 <a href="{{ url('/admin') }}">Admin</a>
             @endif
-            <a href="{{ url('/user/dashboard') }}">Dashboard</a>
+            <a href="{{ url('/dashboard') }}">Dashboard</a>
             <a href="{{ url('/logout') }}">Logout</a>
         @endif
     </div>

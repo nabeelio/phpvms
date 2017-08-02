@@ -1,113 +1,112 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+    <meta charset="utf-8"/>
+    <link rel="apple-touch-icon" sizes="76x76" href="/assets/frontend/img/apple-icon.png">
+    <link rel="icon" type="image/png" href="/assets/frontend/img/favicon.png">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <title>phpvms</title>
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
+          name='viewport'/>
+    <!--     Fonts and icons     -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet"/>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css"/>
+    <!-- CSS Files -->
+    <link href="/assets/frontend/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="/assets/frontend/css/now-ui-kit.css" rel="stylesheet"/>
 
-    <meta charset="utf-8">
-    <meta name="description" content="Miminium Admin Template v.1">
-    <meta name="author" content="Isna Nur Azis">
-    <meta name="keyword" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Miminium</title>
+    @yield('css')
 
-    <!-- start: Css -->
-    <link rel="stylesheet" type="text/css" href="/assets/frontend/css/bootstrap.min.css">
-
-    <!-- plugins -->
-    <link rel="stylesheet" type="text/css" href="/assets/frontend/css/plugins/font-awesome.min.css"/>
-    <link rel="stylesheet" type="text/css" href="/assets/frontend/css/plugins/simple-line-icons.css"/>
-    <link rel="stylesheet" type="text/css" href="/assets/frontend/css/plugins/mediaelementplayer.css"/>
-    <link rel="stylesheet" type="text/css" href="/assets/frontend/css/plugins/animate.min.css"/>
-    <link href="/assets/frontend/css/style.css" rel="stylesheet">
-
-@yield('css')
-<!-- end: Css -->
-
-    <link rel="shortcut icon" href="/assets/frontend/img/logomi.png">
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
 </head>
 
-<body id="mimin" class="dashboard topnav">
-<!-- start: Header -->
-<nav class="navbar navbar-default header navbar-fixed-top">
-    <div class="col-md-12 nav-wrapper">
-        <div class="navbar-header" style="width:100%;">
-            <a href="{{ url('/') }}" class="navbar-brand">
-                <b>phpvms</b>
-            </a>
-
-            <ul class="nav navbar-nav search-nav">
-                <li class="active"><a href="#">Menu Item</a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Action</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else here</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#">Separated link</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#">One more separated link</a></li>
-                    </ul>
+<body>
+<!-- Navbar -->
+<nav class="navbar navbar-toggleable-md" style="background: #067ec1;">
+    <div class="container" style="width: 85%!important;">
+        <div class="navbar-translate">
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                    data-target="#navigation" aria-controls="navigation-index" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-bar bar1"></span>
+                <span class="navbar-toggler-bar bar2"></span>
+                <span class="navbar-toggler-bar bar3"></span>
+            </button>
+            <p class="navbar-brand text-white" data-placement="bottom" target="_blank">
+                <img src="/assets/frontend/img/logo_blue_bg.svg" width="135px" style=""/>
+            </p>
+        </div>
+        <div class="collapse navbar-collapse justify-content-end" id="navigation"
+             data-nav-image="/assets/frontend/img/blurred-image-1.jpg">
+            <ul class="navbar-nav">
+                {{--<li class="nav-item active">--}}
+                <li class="nav-item">
+                    <a class="nav-link" href="{!! url('/dashboard') !!}">
+                        <i class="fa fa-tachometer" aria-hidden="true"></i>
+                        <p>Dashboard</p>
+                    </a>
                 </li>
-            </ul>
-
-            <ul class="nav navbar-nav navbar-right user-nav">
-                <li class="user-name"><span>Akihiko Avaron</span></li>
-                <li class="dropdown avatar-dropdown">
-                    <img src="asset/img/avatar.jpg" class="img-circle avatar" alt="user name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"/>
-                    <ul class="dropdown-menu user-dropdown">
-                        <li><a href="#"><span class="fa fa-user"></span> My Profile</a></li>
-                        <li><a href="#"><span class="fa fa-calendar"></span> My Calendar</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li class="more">
-                            <ul>
-                                <li><a href=""><span class="fa fa-cogs"></span></a></li>
-                                <li><a href=""><span class="fa fa-lock"></span></a></li>
-                                <li><a href=""><span class="fa fa-power-off "></span></a></li>
-                            </ul>
-                        </li>
-                    </ul>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <i class="fa fa-plane" aria-hidden="true"></i>
+                        <p>Flights</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <i class="fa fa-cloud-upload" aria-hidden="true"></i>
+                        <p>PIREPs</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{!! url('/profile') !!}">
+                        <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+                        <p>Profile</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <i class="fa fa-external-link-square" aria-hidden="true"></i>
+                        <p>Log Out</p>
+                    </a>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
-<!-- end: Header -->
-
-<!-- start: Content -->
-<div id="content">
-    @yield('content')
+<!-- End Navbar -->
+<div class="clearfix" style="height: 50px;"></div>
+<div class="wrapper">
+    <div class="clear"></div>
+    <div class="container-fluid" style="width: 85%!important;">
+        @yield('content')
+    </div>
+    <div class="clearfix" style="height: 200px;"></div>
+    {{--<footer class="footer footer-default">--}}
+        {{--<div class="container">--}}
+            {{--<div class="copyright">--}}
+                {{--&copy;--}}
+                {{--<script>--}}
+                    {{--document.write(new Date().getFullYear())--}}
+                {{--</script>--}}
+                {{--, Designed by--}}
+                {{--<a href="http://www.invisionapp.com" target="_blank">Invision</a>. Coded by--}}
+                {{--<a href="https://www.creative-tim.com" target="_blank">Creative Tim</a>.--}}
+            {{--</div>--}}
+        {{--</div>--}}
+    {{--</footer>--}}
 </div>
-<!-- end: content -->
 
-<!-- start: Javascript -->
-<script src="/assets/frontend/js/jquery.min.js"></script>
-<script src="/assets/frontend/js/jquery.ui.min.js"></script>
-<script src="/assets/frontend/js/bootstrap.min.js"></script>
-
-
-
-<!-- plugins -->
-<script src="/assets/frontend/js/plugins/holder.min.js"></script>
-<script src="/assets/frontend/js/plugins/moment.min.js"></script>
-<script src="/assets/frontend/js/plugins/jquery.nicescroll.js"></script>
-
-
-<!-- custom -->
-<script src="/assets/frontend/js/main.js"></script>
-<script type="text/javascript">
-    $(document).ready(function(){
-
-    });
-</script>
+<script src="/assets/frontend/js/core/jquery.3.2.1.min.js" type="text/javascript"></script>
+<script src="/assets/frontend/js/core/tether.min.js" type="text/javascript"></script>
+<script src="/assets/frontend/js/core/bootstrap.min.js" type="text/javascript"></script>
+<script src="/assets/frontend/js/plugins/bootstrap-switch.js"></script>
+<script src="/assets/frontend/js/plugins/nouislider.min.js" type="text/javascript"></script>
+<script src="/assets/frontend/js/plugins/bootstrap-datepicker.js" type="text/javascript"></script>
+<script src="/assets/frontend/js/now-ui-kit.js" type="text/javascript"></script>
 
 @yield('scripts')
 
-<!-- end: Javascript -->
 </body>
 </html>

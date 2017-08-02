@@ -13,6 +13,11 @@ users:
     email: admin@phpvms.net
     password: admin
     rank_id: 1
+    airline_id: 1
+    home_airport_id: 1
+    curr_airport_id: 2
+    flights: 1
+    flight_time: 21600
     created_at: now
     updated_at: now
 

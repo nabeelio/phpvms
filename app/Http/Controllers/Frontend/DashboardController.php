@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers\Frontend;
 
-class DashboardController extends BaseController
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\AppBaseController;
+
+
+class DashboardController extends AppBaseController
 {
     /**
      * Show the application dashboard.
@@ -11,10 +15,8 @@ class DashboardController extends BaseController
      */
     public function index()
     {
-        return $this->view('frontend/dashboard');
-    }
-	public function test()
-    {
-        return $this->view('frontend/dashboard');
+        return $this->view('dashboard.index', [
+            'user' => Auth::user(),
+        ]);
     }
 }
