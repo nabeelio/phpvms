@@ -14,7 +14,7 @@ class CreateAirportsTable extends Migration
     public function up()
     {
         Schema::create('airports', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->string('icao', 5)->unique();
             $table->string('name', 50);
             $table->string('location', 50)->nullable();

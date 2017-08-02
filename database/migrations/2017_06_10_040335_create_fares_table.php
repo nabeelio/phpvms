@@ -14,7 +14,7 @@ class CreateFaresTable extends Migration
     public function up()
     {
         Schema::create('fares', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->string('code', 50);
             $table->string('name', 50);
             $table->decimal('price', 19, 2)->default(0.0);

@@ -43,7 +43,7 @@ class CreatePirepsTable extends Migration
         });
 
         Schema::create('pirep_comments', function (Blueprint $table) {
-            $table->bigIncrements('id')->unsigned();
+            $table->bigIncrements('id');
             $table->uuid('pirep_id');
             $table->bigInteger('user_id', false, true);
             $table->text('comment');
@@ -61,7 +61,7 @@ class CreatePirepsTable extends Migration
          * Financial tables/fields
          */
         Schema::create('pirep_expenses', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->uuid('pirep_id');
             $table->string('name');
             $table->double('value', 19, 2)->nullable();
@@ -70,7 +70,7 @@ class CreatePirepsTable extends Migration
         });
 
         Schema::create('pirep_fares', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->uuid('pirep_id');
             $table->unsignedBigInteger('fare_id');
             $table->double('count', 19, 2)->nullable();
@@ -82,14 +82,14 @@ class CreatePirepsTable extends Migration
          * Additional PIREP data
          */
         Schema::create('pirep_fields', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->string('name', 50);
             $table->integer('required');
             $table->timestamps();
         });
 
         Schema::create('pirep_field_values', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->uuid('pirep_id');
             $table->string('name', 50);
             $table->text('value');
@@ -108,6 +108,7 @@ class CreatePirepsTable extends Migration
     public function down()
     {
         Schema::drop('pireps');
+        Schema::drop('pirep_comments');
         Schema::drop('pirep_expenses');
         Schema::drop('pirep_fares');
         Schema::drop('pirep_fields');

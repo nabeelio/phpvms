@@ -14,7 +14,7 @@ class CreateSubfleetsTable extends Migration
     public function up()
     {
         Schema::create('subfleets', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->integer('airline_id')->unsigned()->nullable();
             $table->string('name', 50);
             $table->string('type', 7);

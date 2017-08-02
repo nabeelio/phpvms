@@ -40,7 +40,7 @@ class CreateFlightsTable extends Migration
         });
 
         Schema::create('flight_fields', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->uuid('flight_id');
             $table->string('name', 50);
             $table->text('value');
