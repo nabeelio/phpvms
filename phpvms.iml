@@ -41,6 +41,61 @@
         </SOURCES>
       </library>
     </orderEntry>
+    <orderEntry type="module-library">
+      <library name="PHP" type="php">
+        <CLASSES>
+          <root url="file://$APPLICATION_HOME_DIR$/bin" />
+          <root url="file://$MODULE_DIR$/vendor/chrisbjr/api-guard" />
+          <root url="file://$MODULE_DIR$/vendor/dg/rss-php" />
+          <root url="file://$MODULE_DIR$/vendor/doctrine/cache" />
+          <root url="file://$MODULE_DIR$/vendor/doctrine/collections" />
+          <root url="file://$MODULE_DIR$/vendor/doctrine/common" />
+          <root url="file://$MODULE_DIR$/vendor/doctrine/dbal" />
+          <root url="file://$MODULE_DIR$/vendor/dompdf/dompdf" />
+          <root url="file://$MODULE_DIR$/vendor/ellipsesynergie/api-response" />
+          <root url="file://$MODULE_DIR$/vendor/jeremeamia/SuperClosure" />
+          <root url="file://$MODULE_DIR$/vendor/league/fractal" />
+          <root url="file://$MODULE_DIR$/vendor/maatwebsite/excel" />
+          <root url="file://$MODULE_DIR$/vendor/nikic/php-parser" />
+          <root url="file://$MODULE_DIR$/vendor/phenx/php-font-lib" />
+          <root url="file://$MODULE_DIR$/vendor/phenx/php-svg-lib" />
+          <root url="file://$MODULE_DIR$/vendor/phpoffice/phpexcel" />
+          <root url="file://$MODULE_DIR$/vendor/scriptfusion/phpunit-immediate-exception-printer" />
+          <root url="file://$MODULE_DIR$/vendor/spatie/fractalistic" />
+          <root url="file://$MODULE_DIR$/vendor/spatie/laravel-fractal" />
+          <root url="file://$MODULE_DIR$/vendor/symfony/polyfill-php56" />
+          <root url="file://$MODULE_DIR$/vendor/symfony/polyfill-util" />
+          <root url="file://$MODULE_DIR$/vendor/webpatser/laravel-uuid" />
+          <root url="file://$MODULE_DIR$/vendor/yajra/laravel-datatables-oracle" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="file://$APPLICATION_HOME_DIR$/bin" />
+          <root url="file://$MODULE_DIR$/vendor/chrisbjr/api-guard" />
+          <root url="file://$MODULE_DIR$/vendor/dg/rss-php" />
+          <root url="file://$MODULE_DIR$/vendor/doctrine/cache" />
+          <root url="file://$MODULE_DIR$/vendor/doctrine/collections" />
+          <root url="file://$MODULE_DIR$/vendor/doctrine/common" />
+          <root url="file://$MODULE_DIR$/vendor/doctrine/dbal" />
+          <root url="file://$MODULE_DIR$/vendor/dompdf/dompdf" />
+          <root url="file://$MODULE_DIR$/vendor/ellipsesynergie/api-response" />
+          <root url="file://$MODULE_DIR$/vendor/jeremeamia/SuperClosure" />
+          <root url="file://$MODULE_DIR$/vendor/league/fractal" />
+          <root url="file://$MODULE_DIR$/vendor/maatwebsite/excel" />
+          <root url="file://$MODULE_DIR$/vendor/nikic/php-parser" />
+          <root url="file://$MODULE_DIR$/vendor/phenx/php-font-lib" />
+          <root url="file://$MODULE_DIR$/vendor/phenx/php-svg-lib" />
+          <root url="file://$MODULE_DIR$/vendor/phpoffice/phpexcel" />
+          <root url="file://$MODULE_DIR$/vendor/scriptfusion/phpunit-immediate-exception-printer" />
+          <root url="file://$MODULE_DIR$/vendor/spatie/fractalistic" />
+          <root url="file://$MODULE_DIR$/vendor/spatie/laravel-fractal" />
+          <root url="file://$MODULE_DIR$/vendor/symfony/polyfill-php56" />
+          <root url="file://$MODULE_DIR$/vendor/symfony/polyfill-util" />
+          <root url="file://$MODULE_DIR$/vendor/webpatser/laravel-uuid" />
+          <root url="file://$MODULE_DIR$/vendor/yajra/laravel-datatables-oracle" />
+        </SOURCES>
+      </library>
+    </orderEntry>
   </component>
   <component name="TemplatesService">
     <option name="TEMPLATE_FOLDERS">
