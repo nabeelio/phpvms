@@ -158,12 +158,26 @@ flights:
     dpt_airport_id: 1
     arr_airport_id: 2
     route: KAUS KJFK
+    dpt_time: 6PM CST
+    arr_time: 11PM EST
+  - id: flightid_2
+    airline_id: 1
+    flight_number: 101
+    dpt_airport_id: 2
+    arr_airport_id: 1
+    dpt_time: 9AM EST
+    arr_time: 12PM CST
+    route: KJFK KAUS
 
 flight_fields:
   - id: 1
     flight_id: flightid_1
-    name: terminal
-    value: B
+    name: cost index
+    value: 80
+  - id: 2
+    flight_id: flightid_2
+    name: cost index
+    value: 100
 
 pireps:
   - id: pirepid_1

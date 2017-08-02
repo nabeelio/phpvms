@@ -48,7 +48,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="{!! url('/flights') !!}">
                         <i class="fa fa-plane" aria-hidden="true"></i>
                         <p>Flights</p>
                     </a>
