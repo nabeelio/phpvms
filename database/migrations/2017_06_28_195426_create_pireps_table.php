@@ -42,6 +42,14 @@ class CreatePirepsTable extends Migration
             $table->index('arr_airport_id');
         });
 
+        Schema::create('pirep_comments', function (Blueprint $table) {
+            $table->bigIncrements('id')->unsigned();
+            $table->uuid('pirep_id');
+            $table->bigInteger('user_id', false, true);
+            $table->text('comment');
+            $table->timestamps();
+        });
+
         Schema::create('pirep_events', function(Blueprint $table) {
             $table->bigIncrements('id')->unsigned();
             $table->uuid('pirep_id');

@@ -87,6 +87,11 @@ class Pirep extends Model
         return $this->belongsTo('App\Models\Airport', 'dpt_airport_id');
     }
 
+    public function comments()
+    {
+        return $this->hasMany('App\Models\PirepComment', 'pirep_id');
+    }
+
     public function events()
     {
         return $this->hasMany('App\Models\PirepEvent', 'pirep_id');
