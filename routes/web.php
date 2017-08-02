@@ -12,7 +12,9 @@ Route::group([
 ], function () {
     Route::resource('dashboard', 'DashboardController');
     Route::resource('profile', 'ProfileController');
+
     Route::resource('flights', 'FlightController');
+    Route::match(['get'], 'flights/search', 'FlightController@search');
 });
 
 Auth::routes();

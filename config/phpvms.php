@@ -31,9 +31,12 @@ return [
     'currency' => 'dollar',
 
     /**
+     * Restrict showing flights from the user's current airport
+     */
+    'only_flights_from_current' => true,
+
+    /**
      * Misc Settings
      */
-
     'feed_url' => 'http://forum.phpvms.net/rss/1-announcements-feed.xml/?',
-
 ];
