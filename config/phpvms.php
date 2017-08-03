@@ -33,7 +33,7 @@ return [
     /**
      * Restrict showing flights from the user's current airport
      */
-    'only_flights_from_current' => true,
+    'only_flights_from_current' => false,
 
     /**
      * Misc Settings
