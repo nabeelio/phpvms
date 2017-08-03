@@ -22,17 +22,7 @@
 
 <body class="login-page" style="background: #067ec1;">
 <!-- Navbar -->
-<nav class="navbar navbar-toggleable-md bg-primary fixed-top navbar-transparent " color-on-scroll="500">
-    <div class="container">
 
-        <div class="navbar-translate">
-            <a class="navbar-brand" href="http://demos.creative-tim.com/now-ui-kit/index.html" rel="tooltip" title="Designed by Invision. Coded by Creative Tim" data-placement="bottom" target="_blank">
-                phpVMS
-            </a>
-        </div>
-
-    </div>
-</nav>
 <!-- End Navbar -->
 <div class="page-header">
 

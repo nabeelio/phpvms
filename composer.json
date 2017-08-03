@@ -5,6 +5,7 @@
     "keywords": ["phpvms", "virtual", "airlines"],
     "license": "MIT",
     "type": "project",
+    "url": "https://github.com/nabeelio/phpvms.git",
     "require": {
         "php": ">=7.0",
         "laravel/framework": "v5.4.30",
@@ -76,7 +77,8 @@
             "Illuminate\\Foundation\\ComposerScripts::postUpdate",
             "php artisan ide-helper:generate",
             "php artisan ide-helper:meta",
-            "php artisan optimize"
+            "php artisan optimize",
+            "php artisan migrate:refresh --seed"
         ]
     },
     "config": {

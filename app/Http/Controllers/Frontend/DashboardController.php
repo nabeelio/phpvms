@@ -15,6 +15,7 @@ class DashboardController extends AppBaseController
      */
     public function index()
     {
+        \Event::fire('test.event');
         return $this->view('dashboard.index', [
             'user' => Auth::user(),
         ]);
