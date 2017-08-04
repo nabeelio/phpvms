@@ -14,7 +14,9 @@
             </div>
             <div class="col-sm-9 text-sm-right">
                 <!-- use for saved: btn-outline-primary -->
-                <button class="btn btn-outline-primary btn-icon btn-icon-mini btn-round" type="button">
+                <button class="btn btn-icon btn-icon-mini btn-round
+                               {{ in_array($flight->id, $saved) ? 'btn-danger':'' }}
+                               save_flight" x-id="{!! $flight->id !!}" type="button">
                     <i class="now-ui-icons ui-2_favourite-28"></i>
                 </button>
             </div>

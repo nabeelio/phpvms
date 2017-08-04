@@ -105,6 +105,11 @@ class User extends Authenticatable
         return $this->belongsTo('App\Models\Airport', 'curr_airport_id');
     }
 
+    public function flights()
+    {
+        return $this->hasMany('App\Models\UserFlight', 'user_id');
+    }
+
     public function pireps()
     {
         return $this->hasMany('App\Models\Pirep', 'user_id');

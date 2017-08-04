@@ -168,6 +168,14 @@ flights:
     dpt_time: 9AM EST
     arr_time: 12PM CST
     route: KJFK KAUS
+  - id: flightid_3
+    airline_id: 1
+    flight_number: 200
+    dpt_airport_id: 2
+    arr_airport_id: 3
+    dpt_time: 9AM EST
+    arr_time: 12PM CST
+    route: KJFK KAUS
 
 flight_fields:
   - id: 1
@@ -178,6 +186,14 @@ flight_fields:
     flight_id: flightid_2
     name: cost index
     value: 100
+
+user_flights:
+  - id: 100
+    user_id: 1
+    flight_id: flightid_1
+  - id: 101
+    user_id: 1
+    flight_id: flightid_3
 
 pireps:
   - id: pirepid_1

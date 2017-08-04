@@ -11,10 +11,12 @@ Route::group([
     'middleware' => ['role:admin|user'],
 ], function () {
     Route::resource('dashboard', 'DashboardController');
-    Route::resource('profile', 'ProfileController');
 
     Route::resource('flights', 'FlightController');
     Route::match(['get'], 'flights/search', 'FlightController@search');
+    Route::match(['post'], 'flights/save', 'FlightController@save');
+
+    Route::resource('profile', 'ProfileController');
 });
 
 Auth::routes();
