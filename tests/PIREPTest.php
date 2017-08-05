@@ -15,6 +15,7 @@ class PIREPTest extends TestCase
     protected $SAMPLE_PIREP
         = [
             'user_id'        => 1,
+            'airline_id'     => 1,
             'flight_id'      => 1,
             'aircraft_id'    => 1,
             'dpt_airport_id' => 1,
