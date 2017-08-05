@@ -16,7 +16,7 @@ class CreatePirepsTable extends Migration
         Schema::create('pireps', function (Blueprint $table) {
             $table->uuid('id');
             $table->integer('user_id')->unsigned();
-            $table->integer('airline_id')->unsigned()->nullable();
+            $table->integer('airline_id')->unsigned();
             $table->uuid('flight_id')->nullable();
             $table->integer('aircraft_id')->nullable();
             $table->string('route_code', 5)->nullable();

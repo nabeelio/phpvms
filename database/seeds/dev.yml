@@ -17,7 +17,7 @@ users:
     home_airport_id: 1
     curr_airport_id: 2
     flights: 1
-    flight_time: 21600
+    flight_time: 43200
     created_at: now
     updated_at: now
 
@@ -198,10 +198,22 @@ user_flights:
 pireps:
   - id: pirepid_1
     user_id: 1
+    airline_id: 1
     flight_id: flightid_1
     aircraft_id: 1
     dpt_airport_id: 1
     arr_airport_id: 2
+    flight_time: 21600  # 6 hours
+    level: 320
+    status: -1
+    notes: just a pilot report
+  - id: pirepid_2
+    user_id: 1
+    airline_id: 1
+    flight_id: flightid_2
+    aircraft_id: 1
+    dpt_airport_id: 2
+    arr_airport_id: 1
     flight_time: 21600  # 6 hours
     level: 320
     status: -1
