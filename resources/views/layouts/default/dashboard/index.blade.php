@@ -60,6 +60,9 @@
             <div class="col-sm-4">
                 <div class="card card-primary text-white" style="background: #067ec1; color: #FFF;">
                     <div class="card-block text-center">
+                        <div style="float: left; position: absolute; display:block; top: 0px;font-size: 150px">
+                            <i class="fa fa-plane " style="opacity: .1;"></i>
+                        </div>
                         <h4 class="">{!! $user->flights !!}</h4>
                         <h5 class="description" style="color: white;">{{ str_plural('flight', $user->flights) }}</h5>
                     </div>
@@ -68,6 +71,9 @@
             <div class="col-sm-4">
                 <div class="card card-primary text-white" style="background: #067ec1; color: #FFF;">
                     <div class="card-block text-center">
+                        <div style="float: left; position: absolute; display:block; top: 0px;font-size: 150px">
+                            <i class="fa fa-clock-o" style="opacity: .1;"></i>
+                        </div>
                         <h4 class="">{!! \App\Facades\Utils::secondsToTime($user->flight_time, false)!!}</h4>
                         <h5 class="description" style="color: white;">total hours</h5>
                     </div>
@@ -77,6 +83,9 @@
             <div class="col-sm-4">
                 <div class="card card-primary text-white" style="background: #067ec1; color: #FFF;">
                     <div class="card-block text-center">
+                        <div style="float: left; position: absolute; display:block; top: 0px;font-size: 150px">
+                            <i class="fa fa-location-arrow" style="opacity: .1;"></i>
+                        </div>
                         <h4 class="">{!! $user->current_airport->icao !!}</h4>
                         <h5 class="description" style="color: white;">current airport</h5>
                     </div>
