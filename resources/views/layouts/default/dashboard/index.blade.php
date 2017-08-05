@@ -86,6 +86,18 @@
 
         <div class="card">
             <div class="nav nav-tabs" role="tablist" style="background: #067ec1; color: #FFF;">
+                Your Last Report
+            </div>
+            <div class="card-block">
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="nav nav-tabs" role="tablist" style="background: #067ec1; color: #FFF;">
                 News
             </div>
             <div class="card-block">
@@ -95,6 +107,7 @@
                 </div>
             </div>
         </div>
+
     </div>
     <div class="col-sm-4">
 
