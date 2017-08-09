@@ -27,7 +27,7 @@
                             <span class="description">ARR&nbsp;</span>
                             {!! $pirep->arr_airport->icao !!}&nbsp;
                         </div>
-                        <div><span class="description">FLIGHT TIME&nbsp;</span>
+                        <div><span class="description">Flight Time&nbsp;</span>
                             {!! Utils::secondsToTime($pirep->flight_time) !!}
                         </div>
                         <div><span class="description">Aircraft&nbsp;</span>
