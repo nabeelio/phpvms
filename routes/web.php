@@ -17,6 +17,8 @@ Route::group([
     Route::match(['post'], 'flights/save', 'FlightController@save');
 
     Route::resource('profile', 'ProfileController');
+
+    Route::resource('pireps', 'PirepController');
 });
 
 Auth::routes();

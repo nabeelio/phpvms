@@ -54,7 +54,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="{!! url('/pireps') !!}">
                         <i class="fa fa-cloud-upload" aria-hidden="true"></i>
                         <p>PIREPs</p>
                     </a>
