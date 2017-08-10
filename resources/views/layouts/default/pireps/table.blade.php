@@ -1,8 +1,8 @@
 @foreach($pireps as $pirep)
-<div class="card">
+<div class="card border-blue-bottom">
     <div class="card-block" style="min-height: 0px">
         <div class="row">
-            <div class="col-sm-2">
+            <div class="col-sm-2 text-center">
                 <h5>
                     <a class="text-c" href="{!! route('frontend.flights.show', [$pirep->flight_id]) !!}">
                         {!! $pirep->airline->code !!}{!! $pirep->flight->flight_number !!}

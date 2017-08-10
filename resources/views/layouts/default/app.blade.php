@@ -16,6 +16,7 @@
     <!-- CSS Files -->
     <link href="/assets/frontend/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="/assets/frontend/css/now-ui-kit.css" rel="stylesheet"/>
+    <link href="/assets/frontend/css/styles.css" rel="stylesheet"/>
 
     @yield('css')
 

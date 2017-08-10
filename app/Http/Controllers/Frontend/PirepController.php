@@ -10,11 +10,6 @@ use App\Models\Pirep;
 
 class PirepController extends AppBaseController
 {
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $user = Auth::user();
@@ -30,6 +25,19 @@ class PirepController extends AppBaseController
 
     public function create()
     {
-        return view('pireps.create');
+        return $this->view('pireps.create');
+    }
+
+    public function store()
+    {
+
+    }
+
+    public function show($id)
+    {
+        $pirep = Pirep::where('id', $id);
+        return $this->view('pireps.show', [
+            'pirep' => $pirep,
+        ]);
     }
 }
