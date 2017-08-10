@@ -21,7 +21,7 @@
                     </h3>
                     <div class="photo-container">
                         <img class="rounded-circle"
-                             src="https://en.gravatar.com/userimage/12856995/7c7c1da6387853fea65ff74983055386.png">
+                             src="{!! $user->gravatar() !!}">
                     </div>
                 </div>
                 <div class="content content-center">
