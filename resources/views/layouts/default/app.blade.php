@@ -35,7 +35,9 @@
                 <span class="navbar-toggler-bar bar3"></span>
             </button>
             <p class="navbar-brand text-white" data-placement="bottom" target="_blank">
-                <img src="/assets/frontend/img/logo_blue_bg.svg" width="135px" style=""/>
+                <a href="{!! url('/') !!}">
+                    <img src="/assets/frontend/img/logo_blue_bg.svg" width="135px" style=""/>
+                </a>
             </p>
         </div>
         <div class="collapse navbar-collapse justify-content-end" id="navigation"

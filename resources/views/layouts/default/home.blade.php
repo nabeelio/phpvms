@@ -12,12 +12,12 @@
         @foreach($users as $user)
         <div class="col-sm-3 ">
             <div class="card card-signup blue-bg">
-                <div class="card-bg">
-                    <i class="fa fa-user-o" style="opacity: .1;"></i>
-                </div>
+                {{--<div class="card-bg">--}}
+                    {{--<i class="fa fa-user-o" style="opacity: .1;"></i>--}}
+                {{--</div>--}}
                 <div class="header header-primary text-center blue-bg">
                     <h3 class="title title-up text-white">
-                        <a href="#" class="text-white">{!! $user->name !!}</a>
+                        <a href="{!! route('frontend.profile.show', ['id' => $user->id]) !!}" class="text-white">{!! $user->name !!}</a>
                     </h3>
                     <div class="photo-container">
                         <img class="rounded-circle"
@@ -30,7 +30,7 @@
                     </div>
                 </div>
                 <div class="footer text-center">
-                    <!--<a href="#" class="btn btn-neutral btn-round btn-lg">Profile</a>-->
+                    <a href="{!! route('frontend.profile.show', ['id' => $user->id]) !!}" class="btn btn-neutral btn-sm">Profile</a>
                 </div>
             </div>
         </div>

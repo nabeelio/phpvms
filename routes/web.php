@@ -1,7 +1,16 @@
 <?php
 
 Route::get('/', 'HomeController@index');
-Route::get('/home', 'HomeController@index');
+
+/**
+ * User doesn't need to be logged in for these
+ */
+Route::group([
+    'namespace' => 'Frontend', 'prefix' => '', 'as' => 'frontend.'
+], function() {
+    Route::get('/pireps/{id}', 'PirepController@show');
+    Route::get('/profile/{id}', 'ProfileController@show');
+});
 
 /**
  * These are only visible to a logged in user
@@ -17,7 +26,6 @@ Route::group([
     Route::match(['post'], 'flights/save', 'FlightController@save');
 
     Route::resource('profile', 'ProfileController');
-
     Route::resource('pireps', 'PirepController');
 });
 
