@@ -1,59 +1,6 @@
 @extends('layouts.default.app')
 
 @section('content')
-<!--
-<div class="row">
-    <div class="col-sm-2">
-        <div class="card card-primary text-white">
-            <div class="card-block text-center">
-                <h4 class="">{!! $user->flights !!}</h4>
-                <h5 class="description" style="color: white;">flights</h5>
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-2">
-        <div class="card card-primary text-white">
-            <div class="card-block text-center">
-                <h4 class="">{!! \App\Facades\Utils::secondsToTime($user->flight_time, false)!!}</h4>
-                <h5 class="description" style="color: white;">hours</h5>
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-2">
-        <div class="card card-primary text-white">
-            <div class="card-block text-center">
-                <h4 class="">{!! $user->current_airport->icao !!}</h4>
-                <h5 class="description" style="color: white;">current airport</h5>
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-2">
-        <div class="card card-primary text-white">
-            <div class="card-block text-center">
-                <h4 class="">{!! $user->current_airport->icao !!}</h4>
-                <h5 class="description" style="color: white;">current airport</h5>
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-2">
-        <div class="card card-primary text-white">
-            <div class="card-block text-center">
-                <h4 class="">{!! $user->current_airport->icao !!}</h4>
-                <h5 class="description" style="color: white;">current airport</h5>
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-2">
-        <div class="card card-primary text-white">
-            <div class="card-block text-center">
-                <h4 class="">{!! $user->current_airport->icao !!}</h4>
-                <h5 class="description" style="color: white;">current airport</h5>
-            </div>
-        </div>
-    </div>
-</div>
--->
-{{--<h3 class="description">welcome back, {!! $user->name !!}</h3>--}}
 <div class="row">
     <div class="col-sm-8">
         <div class="row">

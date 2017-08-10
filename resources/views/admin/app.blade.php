@@ -34,7 +34,7 @@
 
             <!-- Logo -->
             <a href="#" class="logo">
-                <b>phpvms<sup>4</sup></b>
+                <b>phpvms<sup>7</sup></b>
             </a>
 
             <!-- Header Navbar -->

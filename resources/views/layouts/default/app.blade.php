@@ -42,36 +42,59 @@
              data-nav-image="/assets/frontend/img/blurred-image-1.jpg">
             <ul class="navbar-nav">
                 {{--<li class="nav-item active">--}}
-                <li class="nav-item">
-                    <a class="nav-link" href="{!! url('/dashboard') !!}">
-                        <i class="fa fa-tachometer" aria-hidden="true"></i>
-                        <p>Dashboard</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{!! url('/flights') !!}">
-                        <i class="fa fa-plane" aria-hidden="true"></i>
-                        <p>Flights</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{!! url('/pireps') !!}">
-                        <i class="fa fa-cloud-upload" aria-hidden="true"></i>
-                        <p>PIREPs</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{!! url('/profile') !!}">
-                        <i class="fa fa-user-circle-o" aria-hidden="true"></i>
-                        <p>Profile</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <i class="fa fa-external-link-square" aria-hidden="true"></i>
-                        <p>Log Out</p>
-                    </a>
-                </li>
+                @if(!Auth::user())
+                    <li class="nav-item">
+                        <a class="nav-link" href="{!! url('/login') !!}">
+                            <i class="fa fa-sign-in" aria-hidden="true"></i>
+                            <p>Login</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{!! url('/register') !!}">
+                            <i class="fa fa-id-card-o" aria-hidden="true"></i>
+                            <p>Register</p>
+                        </a>
+                    </li>
+                @else
+                    <li class="nav-item">
+                        <a class="nav-link" href="{!! url('/dashboard') !!}">
+                            <i class="fa fa-tachometer" aria-hidden="true"></i>
+                            <p>Dashboard</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{!! url('/flights') !!}">
+                            <i class="fa fa-plane" aria-hidden="true"></i>
+                            <p>Flights</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{!! url('/pireps') !!}">
+                            <i class="fa fa-cloud-upload" aria-hidden="true"></i>
+                            <p>PIREPs</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{!! url('/profile') !!}">
+                            <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+                            <p>Profile</p>
+                        </a>
+                    </li>
+                    @if(Entrust::hasRole('admin'))
+                        <li class="nav-item">
+                            <a class="nav-link" href="{!! url('/admin') !!}">
+                                <i class="fa fa-circle-o-notch" aria-hidden="true"></i>
+                                <p>Admin</p>
+                            </a>
+                        </li>
+                    @endif
+                    <li class="nav-item">
+                        <a class="nav-link" href="{!! url('/logout') !!}">
+                            <i class="fa fa-external-link-square" aria-hidden="true"></i>
+                            <p>Log Out</p>
+                        </a>
+                    </li>
+                @endif
             </ul>
         </div>
     </div>

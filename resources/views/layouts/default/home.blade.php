@@ -1,97 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+@extends('layouts.default.app')
 
-    <title>phpvms4</title>
-
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
-
-    <!-- Styles -->
-    <style>
-        html, body {
-            background-color: #fff;
-            color: #636b6f;
-            font-family: 'Raleway';
-            font-weight: 100;
-            height: 100vh;
-            margin: 0;
-            background: url(img/bg2.jpg) no-repeat center center fixed;
-            -webkit-background-size: cover;
-            -moz-background-size: cover;
-            -o-background-size: cover;
-            background-size: cover;
-        }
-
-        .full-height {
-            height: 100vh;
-        }
-
-        .flex-center {
-            align-items: center;
-            display: flex;
-            justify-content: center;
-        }
-
-        .position-ref {
-            position: relative;
-        }
-
-        .top-right {
-            position: absolute;
-            right: 10px;
-            top: 18px;
-        }
-
-        .content {
-            text-align: center;
-        }
-
-        .title {
-            font-size: 84px;
-        }
-
-        .links > a {
-            color: #636b6f;
-            padding: 0 25px;
-            font-size: 12px;
-            font-weight: 600;
-            letter-spacing: .1rem;
-            text-decoration: none;
-            text-transform: uppercase;
-        }
-
-        .m-b-md {
-            margin-bottom: 30px;
-        }
-    </style>
-</head>
-<body>
-<div class="flex-center position-ref full-height">
-    @if (Route::has('login'))
-    <div class="top-right links">
-        @if(!Auth::user())
-            <a href="{{ url('/login') }}">Login</a>
-            <a href="{{ url('/register') }}">Register</a>
-        @else
-            @if(Entrust::hasRole('admin'))
-                <a href="{{ url('/admin') }}">Admin</a>
-            @endif
-            <a href="{{ url('/dashboard') }}">Dashboard</a>
-            <a href="{{ url('/logout') }}">Logout</a>
-        @endif
-    </div>
-    @endif
-
-    <div class="content">
-        <div class="title m-b-md">
-            phpVMS<sup style="">4</sup>
+@section('content')
+    <div class="row">
+        <div class="col-sm-3 push-3"></div>
+        <div class="col-sm-6 text-center">
+            <h1 class="description">phpVMS<sup>7</sup></h1>
+            <br />
+            <blockquote>
+                <p class="blockquote blockquote-primary">
+                    Oh! I have slipped the surly bonds of earth,<br />
+                    And danced the skies on laughter-silvered wings;<br />
+                    Sunward I've climbed, and joined the tumbling mirth<br />
+                    Of sun-split clouds, --and done a hundred things<br />
+                    You have not dreamed of --Wheeled and soared and swung<br />
+                    High in the sunlit silence. Hov'ring there<br />
+                    I've chased the shouting wind along, and flung<br />
+                    My eager craft through footless halls of air...<br />
+                    Up, up the long, delirious, burning blue<br />
+                    I've topped the wind-swept heights with easy grace<br />
+                    Where never lark or even eagle flew --<br />
+                    And, while with silent lifting mind I've trod<br />
+                    The high untrespassed sanctity of space,<br />
+                    Put out my hand, and touched the face of God.<br />
+                    <br>
+                    <small>
+                        - John Gillespie Magee, Jr
+                    </small>
+                </p>
+            </blockquote>
         </div>
-
     </div>
-</div>
-</body>
-</html>
+@endsection
