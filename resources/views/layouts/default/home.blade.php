@@ -2,32 +2,38 @@
 
 @section('content')
     <div class="row">
-        <div class="col-sm-3 push-3"></div>
-        <div class="col-sm-6 text-center">
-            <h1 class="description">phpVMS<sup>7</sup></h1>
-            <br />
-            <blockquote>
-                <p class="blockquote blockquote-primary">
-                    Oh! I have slipped the surly bonds of earth,<br />
-                    And danced the skies on laughter-silvered wings;<br />
-                    Sunward I've climbed, and joined the tumbling mirth<br />
-                    Of sun-split clouds, --and done a hundred things<br />
-                    You have not dreamed of --Wheeled and soared and swung<br />
-                    High in the sunlit silence. Hov'ring there<br />
-                    I've chased the shouting wind along, and flung<br />
-                    My eager craft through footless halls of air...<br />
-                    Up, up the long, delirious, burning blue<br />
-                    I've topped the wind-swept heights with easy grace<br />
-                    Where never lark or even eagle flew --<br />
-                    And, while with silent lifting mind I've trod<br />
-                    The high untrespassed sanctity of space,<br />
-                    Put out my hand, and touched the face of God.<br />
-                    <br>
-                    <small>
-                        - John Gillespie Magee, Jr
-                    </small>
-                </p>
-            </blockquote>
+        <div class="col-sm-12">
         </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <h2 class="description">newest pilots</h2>
+        </div>
+        @foreach($users as $user)
+        <div class="col-sm-3 ">
+            <div class="card card-signup blue-bg">
+                <div class="card-bg">
+                    <i class="fa fa-user-o" style="opacity: .1;"></i>
+                </div>
+                <div class="header header-primary text-center blue-bg">
+                    <h3 class="title title-up text-white">
+                        <a href="#" class="text-white">{!! $user->name !!}</a>
+                    </h3>
+                    <div class="photo-container">
+                        <img class="rounded-circle"
+                             src="https://en.gravatar.com/userimage/12856995/7c7c1da6387853fea65ff74983055386.png">
+                    </div>
+                </div>
+                <div class="content content-center">
+                    <div class="social-description text-center text-white">
+                        <h2 class="description text-white">{!! $user->home_airport->icao !!}</h2>
+                    </div>
+                </div>
+                <div class="footer text-center">
+                    <!--<a href="#" class="btn btn-neutral btn-round btn-lg">Profile</a>-->
+                </div>
+            </div>
+        </div>
+        @endforeach
     </div>
 @endsection

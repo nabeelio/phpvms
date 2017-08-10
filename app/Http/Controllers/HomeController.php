@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 
 class HomeController extends AppBaseController
 {
@@ -11,6 +12,9 @@ class HomeController extends AppBaseController
      */
     public function index()
     {
-        return $this->view('home');
+        $users = User::orderBy('created_at', 'desc')->take(4)->get();
+        return $this->view('home', [
+            'users' => $users,
+        ]);
     }
 }

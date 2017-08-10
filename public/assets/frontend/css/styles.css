@@ -2,6 +2,21 @@
  *
  */
 
+.card-bg {
+    float: left;
+    position: absolute;
+    display:block;
+    bottom: 10px;
+    width:100%;
+    height:100%;
+    font-size: 275px;
+    text-align: center;
+}
+
+.blue-bg {
+    background: #067ec1;
+}
+
 .border-blue-bottom {
     border-bottom: 3px solid #067ec1;
 }
