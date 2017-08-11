@@ -24,6 +24,7 @@ class Pirep extends Model
         = [
             'user_id',
             'flight_id',
+            'airline_id',
             'aircraft_id',
             'flight_time',
             'route_code',
