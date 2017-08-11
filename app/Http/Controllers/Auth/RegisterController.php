@@ -5,8 +5,12 @@ namespace App\Http\Controllers\Auth;
 use Validator;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\Airport;
+use App\Models\Airline;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class RegisterController extends Controller
 {
@@ -32,7 +36,12 @@ class RegisterController extends Controller
 
     public function showRegistrationForm()
     {
-        return $this->view('auth.register');
+        $airports = Airport::all();
+        $airlines = Airline::all();
+        return $this->view('auth.register', [
+            'airports' => $airports,
+            'airlines' => $airlines,
+        ]);
     }
 
     /**
@@ -56,26 +65,34 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',
+            'airline' => 'required',
+            'home_airport' => 'required',
             'password' => 'required|min:5|confirmed',
         ]);
     }
 
-    /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return User
-     */
-    protected function create(array $data)
+    public function register()
     {
-        $user = User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
+        // Validate
+        $this->validate(request(), [
+            'name' => 'required',
+            'email' => 'required|email',
+            'airline' => 'required',
+            'home_airport' => 'required',
+            'password' => 'required|confirmed'
         ]);
 
-        $role = Role::where('name', 'admin')->first();
+        # TODO: I'm just feeling we need to do something with Ranking? I forgot.
+        $user = User::create(['name' => request('name'),
+                              'email' => request('email'),
+                              'airline_id' => request('airline'),
+                              'home_airport_id' => request('home_airport'),
+                              'curr_airport_id' => request('home_airport'),
+                              'password' => Hash::make(request('password')),
+                              'rank_id' => 1]);
+        //Attach the user roles
+        $role = Role::where('name', 'user')->first();
         $user->attachRole($role);
-        return $user->refresh();
+        return $this->view('auth.registered');
     }
 }

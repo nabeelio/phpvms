@@ -55,4 +55,9 @@ class PilotService extends BaseService
         return $pilot;
     }
 
+    public function create()
+    {
+
+    }
+
 }
