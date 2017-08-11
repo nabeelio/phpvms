@@ -50,7 +50,7 @@
             </div>
             <div class="pull-left">
                 <h6>
-                    <a href="#pablo" class="link">Create Account</a>
+                    <a href="{{ url('/register') }}" class="link">Create Account</a>
                 </h6>
             </div>
             <div class="pull-right">

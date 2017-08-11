@@ -2,80 +2,76 @@
 
 @section('content')
 <div class="row">
-<div class="col-sm-3 push-3"></div>
-<div class="col-sm-6">
+<div class="col-sm-4"></div>
+<div class="col-sm-4">
 <form class="form-signin" role="form" method="POST" action="{{ url('/register') }}">
     {{ csrf_field() }}
 
     <div class="panel periodic-login">
         <div class="panel-body text-center">
-            {{--<h1 class="atomic-symbol">Mi</h1>--}}
-            {{--<p class="atomic-mass">14.072110</p>
-            <p class="element-name">Miminium</p>--}}
-            <p><img src="assets/frontend/img/logo_login.png" /></p>
-
-            {{--<i class="icons icon-arrow-down"></i>--}}
-            <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }} form-animate-text" style="margin-top:40px !important;">
-
-                <input id="name" type="text" class="form-text" name="name" value="{{ old('name') }}" required autofocus>
-
-                @if ($errors->has('name'))
-                    <span class="help-block">
-                    <strong>{{ $errors->first('name') }}</strong>
-                </span>
-                @endif
-                <span class="bar"></span>
-                <label for="email" class="col-md-4 control-label">name</label>
+            <h4>Register</h4>
+            <label for="name" class="col-md-4 control-label">Full Name</label>
+            <div class="input-group form-group-no-border{{ $errors->has('name') ? ' has-danger' : '' }}">
+                    <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" placeholder="Full Name" required>
             </div>
+            @if ($errors->has('name'))
+            <p class="text-danger">{{ $errors->first('name') }}</p>
+            @endif
 
-            <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }} form-animate-text"
-                 style="margin-top:40px !important;">
-                <input id="email" type="email" class="form-text" name="email" value="{{ old('email') }}" required autofocus>
-                @if ($errors->has('email'))
-                    <span class="help-block">
-                    <strong>{{ $errors->first('email') }}</strong>
-                </span>
-                @endif
-                <span class="bar"></span>
-                <label for="email" class="col-md-4 control-label">email</label>
+            <label for="email" class="col-md-4 control-label">Email Address</label>
+            <div class="input-group form-group-no-border{{ $errors->has('email') ? ' has-danger' : '' }}">
+                    <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" placeholder="Email Address" required>
             </div>
+            @if ($errors->has('email'))
+            <p class="text-danger">{{ $errors->first('email') }}</p>
+            @endif
 
-            <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }} form-animate-text" style="margin-top:40px !important;">
-                <input id="password" type="password" class="form-text" name="password" required>
-                @if ($errors->has('password'))
-                    <span class="help-block">
-                    <strong>{{ $errors->first('password') }}</strong>
-                </span>
-                @endif
-                <span class="bar"></span>
-                <label for="email" class="col-md-4 control-label">password</label>
+            <label for="airline" class="col-md-4 control-label">Airline</label>
+            <div class="input-group form-group-no-border{{ $errors->has('airline') ? ' has-danger' : '' }}">
+                    <select name="airline" id="airline" class="form-control" required>
+                        @foreach($airlines as $airline)
+                        <option value="{{ $airline->id }}">{{ $airline->code }} - {{ $airline->name }}</option>
+                        @endforeach
+                    </select>
             </div>
+            @if ($errors->has('airline'))
+            <p class="text-danger">{{ $errors->first('airline') }}</p>
+            @endif
 
-            <div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }} form-animate-text" style="margin-top:40px !important;">
-                <input id="password-confirm" type="password" class="form-text" name="password_confirmation" required>
-
-                @if ($errors->has('password_confirmation'))
-                    <span class="help-block">
-                    <strong>{{ $errors->first('password_confirmation') }}</strong>
-                </span>
-                @endif
-
-                <span class="bar"></span>
-                <label for="email" class="col-md-4 control-label">confirm password</label>
+            <label for="home_airport" class="col-md-4 control-label">Home Airport</label>
+            <div class="input-group form-group-no-border{{ $errors->has('home_airport') ? ' has-danger' : '' }}">
+                    <select name="home_airport" id="home_airport" class="form-control" required>
+                        @foreach($airports as $airport)
+                        <option value="{{ $airport->id }}">{{ $airport->icao }} - {{ $airport->name }}</option>
+                        @endforeach
+                    </select>
             </div>
+            @if ($errors->has('home_airport'))
+            <p class="text-danger">{{ $errors->first('home_airport') }}</p>
+            @endif
 
-            <div class="text-center">
-                <a href="/login" class="btn btn-primary">Login</a>
-                <button type="submit" class="btn btn-primary">
-                    Register
-                </button>
+            <label for="password" class="col-md-4 control-label">Password</label>
+            <div class="input-group form-group-no-border{{ $errors->has('password') ? ' has-danger' : '' }}">
+                    <input id="password" type="password" class="form-control" name="password" value="" placeholder="Password" required>
             </div>
+            @if ($errors->has('password'))
+            <p class="text-danger">{{ $errors->first('password') }}</p>
+            @endif
+
+            <label for="password_confirmation" class="col-md-4 control-label">Confirm Password</label>
+            <div class="input-group form-group-no-border{{ $errors->has('password_confirmation') ? ' has-danger' : '' }}">
+                    <input id="password_confirmation" type="password" class="form-control" name="password_confirmation" value="" placeholder="Confirm Password" required>
+            </div>
+            @if ($errors->has('password_confirmation'))
+            <p class="text-danger">{{ $errors->first('password_confirmation') }}</p>
+            @endif
+            <button type="submit" class="btn btn-primary">Register</button>
 
         </div>
     </div>
 
 </form>
 </div>
-</div>
+<div class="col-sm-4"></div>
 </div>
 @endsection

@@ -12,7 +12,7 @@ Route::group([
     Route::match(['get', 'put'], 'airports/fuel', 'AirportController@fuel');
     Route::resource('airports', 'AirportController');
 
-    Route::resource('aircraftclasses', 'AircraftClassController');
+    #Route::resource('aircraftclasses', 'AircraftClassController');
     Route::resource('fares', 'FareController');
 
     # subfleet
