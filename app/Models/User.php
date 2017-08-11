@@ -90,6 +90,14 @@ class User extends Authenticatable
         return $this->airline->code.str_pad($this->id, 3, '0', STR_PAD_LEFT);
     }
 
+    public function gravatar()
+    {
+        $size = 80;
+        $default = 'https://en.gravatar.com/userimage/12856995/7c7c1da6387853fea65ff74983055386.png';
+        return "https://www.gravatar.com/avatar/" .
+                md5( strtolower( trim( $this->email) ) ) . "?d=" . urlencode( $default ) . "&s=" . $size;
+    }
+
     /**
      * Foreign Keys
      */
