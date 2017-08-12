@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Traits;
 
 use Webpatser\Uuid\Uuid;
 

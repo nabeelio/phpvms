@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Eloquent as Model;
 
+use App\Models\Traits\Uuids;
+
 /**
  * Class Flight
  *
