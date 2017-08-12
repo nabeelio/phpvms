@@ -3,14 +3,12 @@
 namespace App\Http\Controllers\Auth;
 
 use Validator;
-use App\Models\Role;
-use App\Models\User;
 use App\Models\Airport;
 use App\Models\Airline;
+use App\Services\PilotService;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 
 class RegisterController extends Controller
 {
@@ -71,9 +69,15 @@ class RegisterController extends Controller
         ]);
     }
 
-    public function register()
+    /**
+     * Get a validator for an incoming registration request.
+     *
+     * @param  array  $data
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
+    protected function create(array $data)
     {
-        // Validate
+        # First, validate the posted data
         $this->validate(request(), [
             'name' => 'required',
             'email' => 'required|email',
@@ -82,17 +86,15 @@ class RegisterController extends Controller
             'password' => 'required|confirmed'
         ]);
 
-        # TODO: I'm just feeling we need to do something with Ranking? I forgot.
-        $user = User::create(['name' => request('name'),
-                              'email' => request('email'),
-                              'airline_id' => request('airline'),
-                              'home_airport_id' => request('home_airport'),
-                              'curr_airport_id' => request('home_airport'),
-                              'password' => Hash::make(request('password')),
-                              'rank_id' => 1]);
-        //Attach the user roles
-        $role = Role::where('name', 'user')->first();
-        $user->attachRole($role);
-        return $this->view('auth.registered');
+        # Let's call the service
+        $pilotService = app('App\Services\PilotService');
+
+        # Let's tell the service to create the pilot
+        if($pilotService->createPilot($data))
+        {
+            return $this->view('auth.registered');
+        }
+
+        # I'm not sure if we really need to add the error something if createPilot fails?
     }
 }
