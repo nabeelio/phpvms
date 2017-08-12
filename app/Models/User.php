@@ -60,6 +60,10 @@ class User extends Authenticatable
             'name',
             'email',
             'password',
+            'airline_id',
+            'home_airport_id',
+            'curr_airport_id',
+            'rank_id'
         ];
 
     /**

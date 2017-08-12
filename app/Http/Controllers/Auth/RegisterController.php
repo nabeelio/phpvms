@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Auth;
 
 use Validator;
-use App\Models\Role;
-use App\Models\User;
+use App\Models\Airport;
+use App\Models\Airline;
+use App\Services\PilotService;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
@@ -32,7 +34,12 @@ class RegisterController extends Controller
 
     public function showRegistrationForm()
     {
-        return $this->view('auth.register');
+        $airports = Airport::all();
+        $airlines = Airline::all();
+        return $this->view('auth.register', [
+            'airports' => $airports,
+            'airlines' => $airlines,
+        ]);
     }
 
     /**
@@ -56,26 +63,38 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',
+            'airline' => 'required',
+            'home_airport' => 'required',
             'password' => 'required|min:5|confirmed',
         ]);
     }
 
     /**
-     * Create a new user instance after a valid registration.
+     * Get a validator for an incoming registration request.
      *
      * @param  array  $data
-     * @return User
+     * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function create(array $data)
     {
-        $user = User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
+        # First, validate the posted data
+        $this->validate(request(), [
+            'name' => 'required',
+            'email' => 'required|email',
+            'airline' => 'required',
+            'home_airport' => 'required',
+            'password' => 'required|confirmed'
         ]);
 
-        $role = Role::where('name', 'admin')->first();
-        $user->attachRole($role);
-        return $user->refresh();
+        # Let's call the service
+        $pilotService = app('App\Services\PilotService');
+
+        # Let's tell the service to create the pilot
+        if($pilotService->createPilot($data))
+        {
+            return $this->view('auth.registered');
+        }
+
+        # I'm not sure if we really need to add the error something if createPilot fails?
     }
 }

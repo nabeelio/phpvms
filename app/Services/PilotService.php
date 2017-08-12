@@ -4,9 +4,9 @@ namespace App\Services;
 
 use App\Models\User;
 use App\Models\Rank;
+use App\Models\Role;
 use Illuminate\Support\Facades\Cache;
-
-
+use Illuminate\Support\Facades\Hash;
 
 class PilotService extends BaseService
 {
@@ -53,6 +53,25 @@ class PilotService extends BaseService
         $pilot->save();
 
         return $pilot;
+    }
+
+    public function createPilot(array $data)
+    {
+        $user = User::create(['name' => $data['name'],
+                              'email' => $data['email'],
+                              'airline_id' => $data['airline'],
+                              'home_airport_id' => $data['home_airport'],
+                              'curr_airport_id' => $data['home_airport'],
+                              'password' => Hash::make($data['password'])]);
+        # Attach the user roles
+        $role = Role::where('name', 'user')->first();
+        $user->attachRole($role);
+        # Let's check their rank
+        $this->calculatePilotRank($user);
+        # TODO: Send out an email
+
+        # Looking good, let's return their information
+        return $user;
     }
 
 }
