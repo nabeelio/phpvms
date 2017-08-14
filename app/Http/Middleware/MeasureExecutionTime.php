@@ -21,6 +21,9 @@ class MeasureExecutionTime
     {
         // Get the response
         $response = $next($request);
+        if(!defined('LUMEN_START')) {
+            return $response;
+        }
 
         // Calculate execution time
         $executionTime = microtime(true) - LUMEN_START;
