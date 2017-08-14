@@ -2,17 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests;
 use App\Http\Requests\CreateAirportRequest;
 use App\Http\Requests\UpdateAirportRequest;
 use App\Repositories\AirportRepository;
-use App\Http\Controllers\AppBaseController as InfyOmBaseController;
 use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 
-class AirportController extends InfyOmBaseController
+
+class AirportController extends BaseController
 {
     /** @var  AirportRepository */
     private $airportRepository;
