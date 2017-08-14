@@ -58,6 +58,8 @@ return [
         InfyOm\AdminLTETemplates\AdminLTETemplatesServiceProvider::class,
         Zizaco\Entrust\EntrustServiceProvider::class,
         anlutro\LaravelSettings\ServiceProvider::class,
+        Spatie\Fractal\FractalServiceProvider::class,
+
 
         /*
          * Application Service Providers...
@@ -72,7 +74,6 @@ return [
     ],
 
     'aliases' => [
-
         'App' => Illuminate\Support\Facades\App::class,
         'Artisan' => Illuminate\Support\Facades\Artisan::class,
         'Auth' => Illuminate\Support\Facades\Auth::class,
@@ -87,8 +88,13 @@ return [
         'Entrust'   => Zizaco\Entrust\EntrustFacade::class,
         'Event' => Illuminate\Support\Facades\Event::class,
         'File' => Illuminate\Support\Facades\File::class,
+        'Flash' => Laracasts\Flash\Flash::class,
+        'Form' => Collective\Html\FormFacade::class,
+        'Fractal' => Spatie\Fractal\FractalFacade::class,
         'Gate' => Illuminate\Support\Facades\Gate::class,
+        'Geotools' => Toin0u\Geotools\Facade\Geotools::class,
         'Hash' => Illuminate\Support\Facades\Hash::class,
+        'Html' => Collective\Html\HtmlFacade::class,
         'Lang' => Illuminate\Support\Facades\Lang::class,
         'Log' => Illuminate\Support\Facades\Log::class,
         'Mail' => Illuminate\Support\Facades\Mail::class,
@@ -102,17 +108,13 @@ return [
         'Route' => Illuminate\Support\Facades\Route::class,
         'Schema' => Illuminate\Support\Facades\Schema::class,
         'Session' => Illuminate\Support\Facades\Session::class,
+        'Setting' => anlutro\LaravelSettings\Facade::class,
         'Storage' => Illuminate\Support\Facades\Storage::class,
         'URL' => Illuminate\Support\Facades\URL::class,
+        'Utils' => App\Facades\Utils::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-        'Form' => Collective\Html\FormFacade::class,
-        'Html' => Collective\Html\HtmlFacade::class,
-        'Flash' => Laracasts\Flash\Flash::class,
         'Yaml' => Symfony\Component\Yaml\Yaml::class,
-        'Geotools' => Toin0u\Geotools\Facade\Geotools::class,
-        'Setting' => anlutro\LaravelSettings\Facade::class,
-        'Utils' => App\Facades\Utils::class,
     ],
 
 ];

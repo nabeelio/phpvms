@@ -66,7 +66,10 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapApiRoutes()
     {
         Route::group([
-            'middleware' => 'api',
+            'middleware' => [
+                'api',
+                \App\Http\Middleware\MeasureExecutionTime::class
+            ],
             'namespace' => $this->namespace."\\API",
             'prefix' => 'api',
             'as' => 'api.',

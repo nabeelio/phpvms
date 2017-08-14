@@ -11,6 +11,8 @@
 |
 */
 
+define('LUMEN_START', microtime(true));
+
 $app = new Illuminate\Foundation\Application(
     realpath(__DIR__.'/../')
 );
