@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use App\Models\Airline;
 use App\Models\Airport;
 use App\Models\Flight;
-
 use App\Models\Transformers\FlightTransformer;
 
 use App\Http\Controllers\AppBaseController;
@@ -15,6 +14,13 @@ use App\Http\Controllers\AppBaseController;
 
 class FlightController extends AppBaseController
 {
+
+    public function get($id)
+    {
+        $flight = Flight::find($id);
+        return fractal($flight, new FlightTransformer())->respond();
+    }
+
     public function search(Request $request)
     {
         $where = [];

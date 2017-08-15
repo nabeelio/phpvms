@@ -68,7 +68,7 @@ class RouteServiceProvider extends ServiceProvider
         Route::group([
             'middleware' => [
                 'api',
-                \App\Http\Middleware\MeasureExecutionTime::class
+                //\App\Http\Middleware\MeasureExecutionTime::class
             ],
             'namespace' => $this->namespace."\\API",
             'prefix' => 'api',

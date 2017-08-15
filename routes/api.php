@@ -16,5 +16,9 @@ use Illuminate\Http\Request;
 Route::group([], function () {
 
     Route::match(['get'], 'status', 'BaseController@status');
+
+    Route::match(['get'], 'flight/{id}', 'FlightController@get');
     Route::match(['get'], 'flights/search', 'FlightController@search');
+
+    Route::match(['get'], 'pirep/{id}', 'PirepController@get');
 });

@@ -7,18 +7,26 @@ class FlightTest extends TestCase
     {
         parent::setUp();
 
-        $this->addData('airline');
-        $this->addData('airports');
+        $this->addData('base');
     }
 
     public function addFlight()
     {
         $flight = new App\Models\Flight;
         $flight->airline_id = 1;
-        $flight->flight_number = 100;
+        $flight->flight_number = 10;
         $flight->dpt_airport_id = 1;
         $flight->arr_airport_id = 2;
         $flight->save();
+        return $flight->id;
+    }
+
+    public function XtestGetFlight()
+    {
+        $flight_id = $this->addFlight();
+        $response = $this->json('GET', '/api/flight/'.$flight_id);
+        $response->assertStatus(200);
+        $response->assertJson(['data' => true]);
     }
 
     /**
