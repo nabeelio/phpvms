@@ -1,0 +1,26 @@
+{
+  "name": "sightglass",
+  "main": "index.js",
+  "version": "0.2.6",
+  "homepage": "https://github.com/mikeric/sightglass",
+  "authors": [
+    "Michael Richards"
+  ],
+  "description": "Observable keypath engine.",
+  "keywords": [
+    "observe",
+    "observable",
+    "keypath",
+    "engine"
+  ],
+  "license": "MIT",
+  "_release": "0.2.6",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.2.6",
+    "commit": "d488124c46adbdf6dc473672438ba49cfc087a99"
+  },
+  "_source": "https://github.com/mikeric/sightglass.git",
+  "_target": "~0.2.4",
+  "_originalSource": "sightglass"
+}

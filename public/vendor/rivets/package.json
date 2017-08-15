@@ -1,0 +1,41 @@
+{
+  "name": "rivets",
+  "description": "Declarative data binding + templating solution.",
+  "version": "0.9.6",
+  "author": "Michael Richards",
+  "url": "http://rivetsjs.com",
+  "main": "./dist/rivets.js",
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/mikeric/rivets/blob/master/LICENSE"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mikeric/rivets.git"
+  },
+  "dependencies": {
+    "sightglass": "~0.2.4"
+  },
+  "scripts": {
+    "test": "gulp spec",
+    "build": "gulp build",
+    "bump": "gulp bump",
+    "upgrade": "npm run build && npm test && npm run bump && npm run build"
+  },
+  "devDependencies": {
+    "mocha": "~1.20.1",
+    "should": "~4.0.4",
+    "sinon": "~1.10.2",
+    "minimist": "~1.1.0",
+    "gulp": "~3.8.7",
+    "gulp-util": "~2.2.14",
+    "gulp-coffee": "~1.4.3",
+    "gulp-header": "~1.0.2",
+    "gulp-concat": "~2.2.0",
+    "gulp-uglify": "~0.3.0",
+    "gulp-bump": "~0.1.11",
+    "gulp-mocha-phantomjs": "~0.2.0"
+  }
+}

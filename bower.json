@@ -1,0 +1,21 @@
+{
+  "name": "phpvms",
+  "description": "",
+  "directory": "public/vendor",
+  "main": "",
+  "authors": [
+    "Nabeel Shahzad <nshahzad@gmail.com>"
+  ],
+  "dependencies": {
+    "rivets": "0.9.6"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/nabeelio/phpvms",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
