@@ -31,7 +31,7 @@ class CreatePirepsTable extends Migration
             $table->string('notes')->nullable();
             $table->tinyInteger('source')->default(0);
             $table->tinyInteger('status')->default(0);
-            $table->string('raw_data')->nullable();
+            $table->longText('raw_data')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
