@@ -7,8 +7,9 @@
     "Nabeel Shahzad <nshahzad@gmail.com>"
   ],
   "dependencies": {
+    "popper.js": "^1.12.0",
     "rivets": "0.9.6",
-    "popper.js": "^1.12.0"
+    "select2": "4.0.3"
   },
   "license": "MIT",
   "homepage": "https://github.com/nabeelio/phpvms",
