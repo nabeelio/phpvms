@@ -15,6 +15,7 @@
           href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css"/>
     <!-- CSS Files -->
     <link href="/assets/frontend/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="/vendor/select2/dist/css/select2.min.css" rel="stylesheet"/>
     <link href="/assets/frontend/css/now-ui-kit.css" rel="stylesheet"/>
     <link href="/assets/frontend/css/styles.css" rel="stylesheet"/>
 
@@ -131,6 +132,12 @@
 <script src="/assets/frontend/js/plugins/nouislider.min.js" type="text/javascript"></script>
 <script src="/assets/frontend/js/plugins/bootstrap-datepicker.js" type="text/javascript"></script>
 <script src="/assets/frontend/js/now-ui-kit.js" type="text/javascript"></script>
+<script src="/vendor/select2/dist/js/select2.js"></script>
+<script>
+$(document).ready(function () {
+    $(".select2").select2();
+});
+</script>
 
 @yield('scripts')
 

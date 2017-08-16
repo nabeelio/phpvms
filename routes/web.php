@@ -8,8 +8,8 @@ Route::get('/', 'HomeController@index');
 Route::group([
     'namespace' => 'Frontend', 'prefix' => '', 'as' => 'frontend.'
 ], function() {
-    Route::get('/pireps/{id}', 'PirepController@show');
-    Route::get('/profile/{id}', 'ProfileController@show');
+    Route::get('/r/{id}', 'PirepController@show');
+    Route::get('/p/{id}', 'ProfileController@show');
 });
 
 /**

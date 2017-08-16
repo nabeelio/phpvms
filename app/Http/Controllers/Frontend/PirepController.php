@@ -3,14 +3,56 @@
 namespace App\Http\Controllers\Frontend;
 
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\AppBaseController;
+use Illuminate\Http\Request;
 
+use App\Models\Airline;
+use App\Models\Airport;
 use App\Models\Pirep;
+use App\Models\PirepField;
+
+use App\Http\Controllers\Controller;
+use App\Repositories\AirlineRepository;
+use App\Repositories\AircraftRepository;
+use App\Repositories\PirepRepository;
 
 
-class PirepController extends AppBaseController
+class PirepController extends Controller
 {
-    public function index()
+    public function __construct(
+        AirlineRepository $airlineRepo,
+        PirepRepository $pirepRepo,
+        AircraftRepository $aircraftRepo)
+    {
+        $this->airlineRepo = $airlineRepo;
+        $this->aircraftRepo = $aircraftRepo;
+        $this->pirepRepo = $pirepRepo;
+    }
+
+    public function airportList()
+    {
+        # TODO: Cache
+        $retval = [];
+        $airports = Airport::all();
+        foreach($airports as $airport) {
+            $retval[$airport->id] = $airport->icao.' - '.$airport->name;
+        }
+
+        return $retval;
+    }
+
+    public function aircraftList()
+    {
+        $retval = [];
+        $aircraft = $this->aircraftRepo->all();
+
+        foreach ($aircraft as $ac) {
+            $retval[$ac->id] = $ac->subfleet->name.' - '.$ac->name.' ('.$ac->registration.')';
+        }
+
+        return $retval;
+    }
+
+    public function index(Request $request)
     {
         $user = Auth::user();
         $pireps = Pirep::where('user_id', $user->id)
@@ -25,10 +67,17 @@ class PirepController extends AppBaseController
 
     public function create()
     {
-        return $this->view('pireps.create');
+        $airports = $this->airportList();
+        return $this->view('pireps.create', [
+            'airports' => $airports,
+            'airlines' => Airline::all()->pluck('name', 'id'),
+            'aircraft' => $this->aircraftList(),
+            'pirepfields' => PirepField::all(),
+            'fieldvalues' => [],
+        ]);
     }
 
-    public function store()
+    public function store(Request $request)
     {
 
     }
