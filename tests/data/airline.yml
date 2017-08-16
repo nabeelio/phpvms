@@ -1,6 +1,7 @@
 airlines:
   - id: 1
-    code: VMS
+    icao: VMS
+    iata: VM
     name: phpvms airlines
     active: 1
     created_at: now

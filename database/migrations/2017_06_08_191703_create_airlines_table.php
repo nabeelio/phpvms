@@ -23,8 +23,8 @@ class CreateAirlinesTable extends Migration
             $table->boolean('active');
             $table->timestamps();
 
-            $table->index('code');
-            $table->unique('code');
+            $table->index('icao');
+            $table->unique('icao');
 
             $table->index('iata');
             $table->unique('iata');
