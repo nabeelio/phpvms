@@ -1,13 +1,7 @@
-<!-- Id Field -->
-<div class="form-group">
-    {!! Form::label('id', 'Id:') !!}
-    <p>{!! $airlines->id !!}</p>
-</div>
-
 <!-- Code Field -->
 <div class="form-group">
-    {!! Form::label('code', 'Code:') !!}
-    <p>{!! $airlines->code !!}</p>
+    {!! Form::label('icao', 'ICAO:') !!}
+    <p>{!! $airlines->icao !!}</p>
 </div>
 
 <div class="form-group">
@@ -19,6 +13,11 @@
 <div class="form-group">
     {!! Form::label('name', 'Name:') !!}
     <p>{!! $airlines->name !!}</p>
+</div>
+
+<div class="form-group">
+    {!! Form::label('logo', 'Logo URL:') !!}
+    <p>{!! $airlines->logo !!}</p>
 </div>
 
 <!-- Active Field -->

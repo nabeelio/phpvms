@@ -1,7 +1,7 @@
 <!-- Code Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('code', 'Code:') !!}
-    {!! Form::text('code', null, ['class' => 'form-control']) !!}
+    {!! Form::label('icao', 'Code:') !!}
+    {!! Form::text('icao', null, ['class' => 'form-control']) !!}
 </div>
 
 <div class="form-group col-sm-6">
@@ -13,6 +13,11 @@
 <div class="form-group col-sm-6">
     {!! Form::label('name', 'Name:') !!}
     {!! Form::text('name', null, ['class' => 'form-control']) !!}
+</div>
+
+<div class="form-group col-sm-6">
+    {!! Form::label('logo', 'Logo URL:') !!}
+    {!! Form::text('logo', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Active Field -->

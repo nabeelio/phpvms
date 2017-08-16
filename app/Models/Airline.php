@@ -15,9 +15,11 @@ class Airline extends Model
     protected $dates = ['deleted_at'];
 
     public $fillable = [
-        'code',
+        'icao',
         'iata',
         'name',
+        'logo',
+        'country',
         'fuel_100ll_cost',
         'fuel_jeta_cost',
         'fuel_mogas_cost',
@@ -30,8 +32,6 @@ class Airline extends Model
      * @var array
      */
     protected $casts = [
-        'code' => 'string',
-        'name' => 'string',
         'fuel_100ll_cost' => 'double',
         'fuel_jeta_cost' => 'double',
         'fuel_mogas_cost' => 'double',
@@ -47,5 +47,12 @@ class Airline extends Model
         'code' => 'required|max:3|unique:airlines',
         'name' => 'required',
     ];
+
+    /**
+     * For backwards compatibility
+     */
+    public function getCodeAttribute() {
+        return $this->icao;
+    }
 
 }

@@ -87,7 +87,7 @@ class User extends Authenticatable
 
     public function pilot_id()
     {
-        return $this->airline->code.str_pad($this->id, 3, '0', STR_PAD_LEFT);
+        return $this->airline->icao.str_pad($this->id, 3, '0', STR_PAD_LEFT);
     }
 
     public function gravatar()
