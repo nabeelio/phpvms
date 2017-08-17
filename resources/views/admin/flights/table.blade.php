@@ -1,4 +1,5 @@
-<table class="table table-responsive" id="flights-table">
+<div class="content table-responsive table-full-width">
+<table class="table table-hover table-striped" id="flights-table">
     <thead>
         <th>Flight #</th>
         <th>Dep</th>
@@ -49,3 +50,4 @@
     @endforeach
     </tbody>
 </table>
+</div>

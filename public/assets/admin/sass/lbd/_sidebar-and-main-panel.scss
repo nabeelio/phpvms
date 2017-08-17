@@ -76,6 +76,7 @@
         margin-top: 20px;
 
         li{
+
             > a{
                 color: #FFFFFF;
                 margin: 5px 15px;
@@ -94,6 +95,11 @@
                 background: rgba(255,255,255,0.23);
 
             }
+
+            h4, h5 {
+                margin: 10px;
+            }
+
         }
 
         h1,h2,h3,h4,h5 {
@@ -101,7 +107,7 @@
         }
 
         p{
-            margin: 0;
+            margin: 10px 0;
             padding-left: 10px;
             line-height: 30px;
             font-size: 12px;

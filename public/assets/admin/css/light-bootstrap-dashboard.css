@@ -256,10 +256,12 @@ input:focus {
       color: #FFFFFF;
       opacity: 1;
       background: rgba(255, 255, 255, 0.23); }
+    .sidebar .nav li h4, .sidebar .nav li h5 {
+      margin: 10px; }
     .sidebar .nav h1, .sidebar .nav h2, .sidebar .nav h3, .sidebar .nav h4, .sidebar .nav h5 {
       padding-left: 10px; }
     .sidebar .nav p {
-      margin: 0;
+      margin: 10px 0;
       padding-left: 10px;
       line-height: 30px;
       font-size: 12px;
