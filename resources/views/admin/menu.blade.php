@@ -2,7 +2,7 @@
     <a href="{!! url('/admin/dashboard') !!}"><i class="fa fa-dashboard"></i>dashboard</a>
 </li>
 
-<li class="header">operations</li>
+<li><h3>operations</h3></li>
 <li><a href="{!! url('/admin/pireps') !!}"><i class="fa fa-inbox"></i>&nbsp;pireps
         <span data-toggle="tooltip" title="3 New" class="badge bg-light-blue pull-right">3</span>
     </a>

@@ -51,3 +51,6 @@ local.conf.php
 
 # Error Logs
 error_log
+
+.sass-cache
+.DS_Store

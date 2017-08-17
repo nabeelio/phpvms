@@ -1,36 +1,21 @@
-<aside class="main-sidebar" id="sidebar-wrapper">
+<div class="sidebar" data-color="blue" data-image="assets/img/sidebar-5.jpg">
 
-    <!-- sidebar: style can be found in sidebar.less -->
-    <section class="sidebar">
+    <!--
 
-        <!-- Sidebar user panel (optional) -->
-        {{--<div class="user-panel">
-            <div class="pull-left image">
-                <img src="http://infyom.com/images/logo/blue_logo_150x150.jpg" class="img-circle"
-                     alt="User Image"/>
-            </div>
-            <div class="pull-left info">
-                @if (Auth::guest())
-                <p>phpVMS Admin</p>
-                @else
-                    <p>{{ Auth::user()->name}}</p>
-                @endif
-                <!-- Status -->
-                --}}{{--<a href="#"><i class="fa fa-circle text-success"></i> Online</a>--}}{{--
-            </div>
-        </div>--}}
-        <br />
+        Tip 1: you can change the color of the sidebar using: data-color="blue | azure | green | orange | red | purple"
+        Tip 2: you can also add an image using data-image tag
 
-        <ul class="sidebar-menu">
+    -->
+
+    <div class="sidebar-wrapper">
+        <div class="logo">
+            <a href="http://www.creative-tim.com" class="simple-text">
+                Creative Tim
+            </a>
+        </div>
+
+        <ul class="nav">
             @include('admin.menu')
         </ul>
-        <!-- /.sidebar-menu -->
-        {{-- <div class="panel-footer" style="position:absolute;bottom: 0; width:100%; text-align: center;">
-            <p class="small" style="padding-top: 5px;">
-                copyright &copy; 2017
-                <a href="http://www.phpvms.net" target="_blank">phpvms</a>
-            </p>
-        </div> --}}
-    </section>
-    <!-- /.sidebar -->
-</aside>
+    </div>
+</div>
