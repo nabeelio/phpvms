@@ -23,13 +23,13 @@ return [
 
         'local' => [
             'driver' => 'sqlite',
-            'database' => database_path('testing.sqlite'),
+            'database' => storage_path('testing.sqlite'),
             'prefix' => '',
         ],
 
         'unittest' => [
             'driver' => 'sqlite',
-            'database' => database_path('unittest.sqlite'),
+            'database' => storage_path('unittest.sqlite'),
             'prefix' => '',
         ],
 

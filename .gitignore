@@ -13,6 +13,7 @@ public/storage
 public/hot
 storage/*.key
 storage/settings.json
+storage/*.sqlite
 .env.*.php
 .env.php
 .env

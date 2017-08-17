@@ -45,7 +45,6 @@
         <CLASSES>
           <root url="file://$APPLICATION_HOME_DIR$/bin" />
           <root url="file://$MODULE_DIR$/vendor/chrisbjr/api-guard" />
-          <root url="file://$MODULE_DIR$/vendor/dg/rss-php" />
           <root url="file://$MODULE_DIR$/vendor/doctrine/cache" />
           <root url="file://$MODULE_DIR$/vendor/doctrine/collections" />
           <root url="file://$MODULE_DIR$/vendor/doctrine/common" />
@@ -71,7 +70,6 @@
         <SOURCES>
           <root url="file://$APPLICATION_HOME_DIR$/bin" />
           <root url="file://$MODULE_DIR$/vendor/chrisbjr/api-guard" />
-          <root url="file://$MODULE_DIR$/vendor/dg/rss-php" />
           <root url="file://$MODULE_DIR$/vendor/doctrine/cache" />
           <root url="file://$MODULE_DIR$/vendor/doctrine/collections" />
           <root url="file://$MODULE_DIR$/vendor/doctrine/common" />

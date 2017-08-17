@@ -8,7 +8,7 @@
     "url": "https://github.com/nabeelio/phpvms.git",
     "require": {
         "php": ">=7.0",
-        "laravel/framework": "v5.4.30",
+        "laravel/framework": "v5.4.*",
         "barryvdh/laravel-ide-helper": "v2.4.0",
         "yajra/laravel-datatables-oracle": "~6.0",
         "infyomlabs/laravel-generator": "dev-master",
@@ -32,7 +32,7 @@
         "anlutro/l4-settings": "^0.5.0",
         "webpatser/laravel-uuid": "^2.0",
         "chrisbjr/api-guard": "^4.0",
-        "spatie/laravel-fractal": "4.2.0",
+        "spatie/laravel-fractal": "4.2.*",
         "composer/semver": "^1.4",
         "dg/rss-php": "^1.2",
         "makinacorpus/php-bloom": "dev-master"
@@ -77,8 +77,7 @@
             "Illuminate\\Foundation\\ComposerScripts::postUpdate",
             "php artisan ide-helper:generate",
             "php artisan ide-helper:meta",
-            "php artisan optimize",
-            "php artisan migrate:refresh --seed"
+            "php artisan optimize"
         ]
     },
     "config": {

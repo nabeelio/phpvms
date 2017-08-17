@@ -32,14 +32,14 @@
             <div class="box-body">
                 <div class="col-sm-12">
                     <h3>announcements</h3>
-                    @foreach($feed->item as $item)
+                    {{--@foreach($feed->item as $item)
                         <div>
                             <strong>{!! $item->title !!}</strong>
                             <p>{!! $item->description !!}</p>
                             <p class="pull-right">{!! Carbon::now()->diffForHumans(new Carbon($item->pubDate), true) !!}</p>
                         </div>
                         <div class="clearfix"></div>
-                    @endforeach
+                    @endforeach--}}
                 </div>
             </div>
         </div>

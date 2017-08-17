@@ -3,8 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-use Feed;
-
 
 class DashboardController extends BaseController
 {
@@ -13,10 +11,11 @@ class DashboardController extends BaseController
      */
     public function index(Request $request)
     {
-        Feed::$cacheDir = storage_path('app');
+        /*Feed::$cacheDir = storage_path('app');
         Feed::$cacheExpire = '5 hours';
 
-        $feed = Feed::loadRss(config('phpvms.feed_url'));
+        $feed = Feed::loadRss(config('phpvms.feed_url'));*/
+        $feed = [];
         return view('admin.dashboard', [
             'feed' => $feed,
         ]);

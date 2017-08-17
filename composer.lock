@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "6670bd43fd45f02d826746301d352864",
+    "content-hash": "181da7f1bb73299cdb05da4add9052dd",
     "packages": [
         {
             "name": "anlutro/l4-settings",
@@ -1185,7 +1185,7 @@
                 "laravel",
                 "templates"
             ],
-            "time": "2017-05-20T10:43:37+00:00"
+            "time": "2017-05-20 10:43:37"
         },
         {
             "name": "infyomlabs/laravel-generator",
@@ -1240,7 +1240,7 @@
                 "test",
                 "view"
             ],
-            "time": "2016-08-18T14:19:50+00:00"
+            "time": "2016-08-18 14:19:50"
         },
         {
             "name": "infyomlabs/swagger-generator",
@@ -1277,7 +1277,7 @@
                 "swagger",
                 "templates"
             ],
-            "time": "2016-02-14T10:41:03+00:00"
+            "time": "2016-02-14 10:41:03"
         },
         {
             "name": "jeremeamia/SuperClosure",
@@ -1380,7 +1380,7 @@
                 "laravel",
                 "swagger"
             ],
-            "time": "2016-01-25T15:38:17+00:00"
+            "time": "2016-01-25 15:38:17"
         },
         {
             "name": "laracasts/flash",
@@ -1906,6 +1906,46 @@
                 "laravel"
             ],
             "time": "2017-07-02T07:00:56+00:00"
+        },
+        {
+            "name": "makinacorpus/php-bloom",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/makinacorpus/php-bloom.git",
+                "reference": "592a1f12de75af524b1755971ff2bdf32035a556"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/makinacorpus/php-bloom/zipball/592a1f12de75af524b1755971ff2bdf32035a556",
+                "reference": "592a1f12de75af524b1755971ff2bdf32035a556",
+                "shasum": ""
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^5.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MakinaCorpus\\Bloom\\": "."
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2"
+            ],
+            "authors": [
+                {
+                    "name": "Pierre Rineau",
+                    "email": "pierre.rineau@makina-corpus.com"
+                },
+                {
+                    "name": "Makina Corpus",
+                    "homepage": "http://makina-corpus.com"
+                }
+            ],
+            "description": "Bloom filter implementation",
+            "time": "2016-08-30 13:36:14"
         },
         {
             "name": "monolog/monolog",
@@ -4695,7 +4735,7 @@
                 "permission",
                 "roles"
             ],
-            "time": "2016-12-29T06:25:06+00:00"
+            "time": "2016-12-29 06:25:06"
         }
     ],
     "packages-dev": [
@@ -6153,7 +6193,8 @@
         "infyomlabs/swagger-generator": 20,
         "jlapp/swaggervel": 20,
         "zizaco/entrust": 20,
-        "league/geotools": 0
+        "league/geotools": 0,
+        "makinacorpus/php-bloom": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
