@@ -18,10 +18,21 @@
 
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'>
+    <link href="http://fonts.googleapis.com/css?family=Roboto:400,700,300" rel="stylesheet"
+          type="text/css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"/>
+    <link href="/assets/admin/css/pe-icon-7-stroke.css" rel="stylesheet">
     <link href="/assets/admin/css/themify-icons.css" rel="stylesheet">
 
+    <style type="text/css">
     @yield('css')
+
+    li h5 {
+        -webkit-font-smoothing: antialiased;
+        font-family: Roboto, 'Helvetica Neue', Arial, sans-serif;
+        padding-left: 10px;
+    }
+    </style>
 
 </head>
 <body>
