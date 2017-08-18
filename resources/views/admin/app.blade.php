@@ -5,7 +5,7 @@
     <link rel="icon" type="image/png" href="/assets/frontend/img/favicon.png">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-    <title>Paper Dashboard by Creative Tim</title>
+    <title>@yield('title') - phpvms admin</title>
 
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
@@ -43,18 +43,19 @@
     <div class="main-panel">
         <nav class="navbar navbar-default">
             <div class="container-fluid">
-                {{--<div class="navbar-header">
+                <div class="navbar-header">
                     <button type="button" class="navbar-toggle">
                         <span class="sr-only">Toggle navigation</span>
                         <span class="icon-bar bar1"></span>
                         <span class="icon-bar bar2"></span>
                         <span class="icon-bar bar3"></span>
                     </button>
-                    <a class="navbar-brand" href="#">Template</a>
-                </div>--}}
+                    <a class="navbar-brand" href="#">@yield('title')</a>
+                </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
-                        <li>
+                        @yield('actions')
+                        {{--<li>
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <i class="ti-panel"></i>
                                 <p>Stats</p>
@@ -75,12 +76,13 @@
                                 <li><a href="#">Another notification</a></li>
                             </ul>
                         </li>
+
                         <li>
                             <a href="#">
                                 <i class="ti-settings"></i>
                                 <p>Settings</p>
                             </a>
-                        </li>
+                        </li>--}}
                     </ul>
 
                 </div>
@@ -91,6 +93,7 @@
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
+                    @include('flash::message')
                     @yield('content')
                 </div>
             </div>

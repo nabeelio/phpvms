@@ -16,7 +16,7 @@ class DashboardController extends BaseController
 
         $feed = Feed::loadRss(config('phpvms.feed_url'));*/
         $feed = [];
-        return view('admin.dashboard', [
+        return view('admin.dashboard.index', [
             'feed' => $feed,
         ]);
     }

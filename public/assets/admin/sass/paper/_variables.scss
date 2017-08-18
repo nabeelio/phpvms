@@ -1,3 +1,5 @@
+$phpvms-blue:                #067ec1 !default;
+
 $font-color:                 #66615b !default;
 $fill-font-color:            rgba(255, 255, 255, 0.7);
 
@@ -21,7 +23,10 @@ $black-color:                #333333 !default;
 $black-hr:                   #444444 !default;
 
 $white-background-color:        #FFFFFF !default;
-$black-background-color:        #212120 !default;
+//$black-background-color:        #212120 !default;
+//$black-background-color:        #1a2932 !default;
+$black-background-color:        #0c1419 !default;
+
 
 $light-gray:                 #E3E3E3 !default;
 $medium-gray:                #DDDDDD !default;
@@ -195,7 +200,7 @@ $green-navbar:              rgba(#4CD964, .98);
 $orange-navbar:             rgba(#FF9500, .98);
 $red-navbar:                rgba(#FF4C40, .98);
 
-$bg-nude:               #f4f3ef !default;
+$bg-nude:               #ebeff2 !default;
 $bg-primary:            #8ECFD5 !default;
 $bg-info:               #7CE4FE !default;
 $bg-success:            #8EF3C5 !default;

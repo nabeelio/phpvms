@@ -13,7 +13,8 @@
     z-index: 3;
 
     .navbar-brand{
-        font-weight: $font-weight-bold;
+        color: $white-color;
+        font-weight: $font-weight-light;;
         margin: $navbar-margin-brand;
         padding: $navbar-padding-brand;
         font-size: $font-size-large-navbar;
@@ -54,15 +55,16 @@
 }
 
 .navbar-default {
-    background-color: $bg-nude;
+    color: $white-color;
+    background-color: $phpvms-blue;
     border-bottom: 1px solid $medium-gray;
 
     .brand{
-        color: $font-color !important;
+        color: $white-color !important;
     }
     .navbar-nav{
         > li > a:not(.btn){
-            color: $dark-gray;
+            color: $white-color;
         }
 
         > .active > a,

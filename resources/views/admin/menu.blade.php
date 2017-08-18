@@ -11,9 +11,15 @@
 <li><a href="{!! url('/admin/flights') !!}"><i class="pe-7s-vector"></i>flights</a></li>
 <li><a href="{!! url('/admin/aircraft') !!}"><i class="pe-7s-plane"></i>fleet</a></li>
 <li><a href="{!! url('/admin/fares') !!}"><i class="pe-7s-graph2"></i>fares</a></li>
+<li style="padding-bottom: 18px;"></li>
 
 <li><h5>config</h5></li>
 <li><a href="{!! url('/admin/airlines') !!}"><i class="pe-7s-paper-plane"></i>airlines</a></li>
 <li><a href="{!! url('/admin/airports') !!}"><i class="pe-7s-map-marker"></i>airports</a></li>
 <li><a href="{!! url('/admin/users') !!}"><i class="pe-7s-users"></i>users</a></li>
 <li><a href="{!! url('/admin/ranks') !!}"><i class="pe-7s-id"></i>ranks</a></li>
+
+<li style="padding-bottom: 18px;"></li>
+<li><h5>addons</h5></li>
+@stack('admin.addons.links')
+

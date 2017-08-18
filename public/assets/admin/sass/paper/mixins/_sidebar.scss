@@ -19,13 +19,13 @@
     .nav{
         li:not(.active){
             > a{
-                color: $font-color;
+                color: #b6c3cc;
             }
         }
         .divider{
             background-color: rgba($font-color,.2);
         }
-        
+
     }
 
 }
