@@ -297,6 +297,11 @@ hr {
         position: absolute;
         right: -1px;
         top: 8px; }
+    .sidebar .nav li h5,
+    .off-canvas-sidebar .nav li h5 {
+      -webkit-font-smoothing: antialiased;
+      font-family: Roboto, 'Helvetica Neue', Arial, sans-serif;
+      padding-left: 30px; }
     .sidebar .nav li > a.menu,
     .off-canvas-sidebar .nav li > a.menu {
       padding: 0px;

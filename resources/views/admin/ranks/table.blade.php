@@ -3,38 +3,41 @@
         <thead>
         <th>Name</th>
         <th>Hours</th>
-        <th style="text-align: center;">Auto Approve Acars</th>
-        <th style="text-align: center">Auto Approve Manual</th>
-        <th style="text-align: center">Auto Promote</th>
-        <th colspan="3" style="text-align: right;">Action</th>
+        <th class="text-center">Auto Approve Acars</th>
+        <th class="text-center">Auto Approve Manual</th>
+        <th class="text-center">Auto Promote</th>
+        <th class="text-right">Action</th>
         </thead>
         <tbody>
         @foreach($ranks as $rank)
             <tr>
                 <td>{!! $rank->name !!}</td>
                 <td>{!! $rank->hours !!}</td>
-                <td style="text-align: center;">
-                    <i class="fa fa-{{$rank->auto_approve_acars == 1?"check":""}}-square-o" aria-hidden="true"
-                       style="color: {{$rank->auto_approve_acars==1?"darkgreen":"darkred"}};font-size:20px;"></i>
+                <td class="text-center">
+                    @if($rank->auto_approve_acars == 1)
+                        <span class="label label-success">Yes</span>
+                    @else
+                        <span class="label label-default">No</span>
+                    @endif
                 </td>
-                <td style="text-align: center;">
-                    <i class="fa fa-{{$rank->auto_approve_manual == 1?"check":""}}-square-o" aria-hidden="true"
-                       style="color: {{$rank->auto_approve_manual==1?"darkgreen":"darkred"}};font-size:20px;"></i>
+                <td class="text-center">
+                    @if($rank->auto_approve_manual == 1)
+                        <span class="label label-success">Yes</span>
+                    @else
+                        <span class="label label-default">No</span>
+                    @endif
                 </td>
-                <td style="text-align: center;">
-                    <i class="fa fa-{{$rank->auto_promote == 1?"check":""}}-square-o" aria-hidden="true"
-                       style="color: {{$rank->auto_promote==1?"darkgreen":"darkred"}};font-size:20px;"></i>
+                <td class="text-center">
+                    @if($rank->auto_promote == 1)
+                        <span class="label label-success">Yes</span>
+                    @else
+                        <span class="label label-default">No</span>
+                    @endif
                 </td>
-                <td style="text-align: right;">
+                <td class="text-right">
                     {!! Form::open(['route' => ['admin.ranks.destroy', $rank->id], 'method' => 'delete']) !!}
-                    <div class='btn-group'>
-                        {{--<a href="{!! route('admin.ranks.show', [$rank->id]) !!}"
-                           class='btn btn-default btn-xs'><i
-                                    class="glyphicon glyphicon-eye-open"></i></a>--}}
-                        <a href="{!! route('admin.ranks.edit', [$rank->id]) !!}"
-                           class='btn btn-default btn-xs'><i class="glyphicon glyphicon-edit"></i></a>
-                        {!! Form::button('<i class="glyphicon glyphicon-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
-                    </div>
+                    <a href="{!! route('admin.ranks.edit', [$rank->id]) !!}" class='btn btn-sm btn-success btn-icon'><i class="fa fa-pencil-square-o"></i></a>
+                    {!! Form::button('<i class="fa fa-times"></i>', ['type' => 'submit', 'class' => 'btn btn-sm btn-danger btn-icon', 'onclick' => "return confirm('Are you sure?')"]) !!}
                     {!! Form::close() !!}
                 </td>
             </tr>

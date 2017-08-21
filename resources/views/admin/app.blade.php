@@ -26,12 +26,6 @@
 
     <style type="text/css">
     @yield('css')
-
-    li h5 {
-        -webkit-font-smoothing: antialiased;
-        font-family: Roboto, 'Helvetica Neue', Arial, sans-serif;
-        padding-left: 10px;
-    }
     </style>
 
 </head>
