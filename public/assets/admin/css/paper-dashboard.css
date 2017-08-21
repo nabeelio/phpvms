@@ -59,7 +59,9 @@ h5, .h5 {
   font-size: 1.25em;
   font-weight: 300;
   line-height: 1.4em;
-  margin-bottom: 15px; }
+  margin-bottom: 15px;
+  -webkit-font-smoothing: antialiased;
+  font-family: Roboto, 'Helvetica Neue', Arial, sans-serif; }
 
 h6, .h6 {
   font-size: 0.9em;
@@ -270,6 +272,9 @@ hr {
       padding-left: 25px;
       padding-right: 25px;
       opacity: .7; }
+    .sidebar .nav li a h5,
+    .off-canvas-sidebar .nav li a h5 {
+      padding-left: 30px; }
     .sidebar .nav li:hover > a,
     .off-canvas-sidebar .nav li:hover > a {
       opacity: 1; }
