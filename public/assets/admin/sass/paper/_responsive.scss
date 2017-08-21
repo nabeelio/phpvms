@@ -1,6 +1,6 @@
 @media (min-width: 992px){
     .navbar{
-        height: 30px;
+        min-height: 75px;
     }
     .navbar-form {
         margin-top: 21px;
@@ -53,7 +53,7 @@
 
     .navbar{
         .navbar-header{
-            //margin-left: 10px;
+            margin-left: 10px;
         }
     }
 
