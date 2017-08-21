@@ -50,7 +50,7 @@ test:
 	#php artisan database:create --reset
 	vendor/bin/phpunit --debug --verbose
 
-.PHONY
+.PHONY: sass-watch
 sass-watch:
 	sass --watch public/assets/admin/sass/paper-dashboard.scss:public/assets/admin/css/paper-dashboard.css
 

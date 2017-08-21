@@ -119,9 +119,92 @@
 <script src="/js/admin/admin.js"></script>
 
 <script>
-    $(document).ready(function () {
-        $(".select2").select2();
+var getStorage = function(key) {
+    var st = window.localStorage.getItem(key);
+    console.log('storage: ', key, st);
+    if(_.isNil(st)) {
+        return {
+            "menu": [],
+        };
+    }
+
+    return JSON.parse(st);
+};
+
+var saveStorage = function(key, obj) {
+    console.log('save: ', key, obj);
+    window.localStorage.setItem(key, JSON.stringify(obj));
+};
+
+var addItem = function(obj, item) {
+    if (_.isNil(obj)) {
+        obj = [];
+    }
+
+    var index = _.indexOf(obj, item);
+    if(index === -1) {
+        obj.push(item);
+    }
+
+    return obj;
+};
+
+var removeItem = function (obj, item) {
+    if (_.isNil(obj)) {
+        obj = [];
+    }
+    var index = _.indexOf(obj, item);
+    if (index !== -1) {
+        console.log("removing", item);
+        obj.splice(index, 1);
+    }
+
+    return obj;
+};
+
+$(document).ready(function () {
+
+    $(".select2").select2();
+
+
+
+    var storage = getStorage("phpvms.admin");
+
+    // see what menu items should be open
+    for(var idx = 0; idx < storage.menu.length; idx++) {
+        var id = storage.menu[idx];
+        var elem = $(".collapse#" + id);
+        elem.addClass("in").trigger("show.bs.collapse");
+
+        var caret = $("a." + id + " b");
+        caret.addClass("pe-7s-angle-down");
+        caret.removeClass("pe-7s-angle-up");
+    }
+
+    $(".collapse").on("hide.bs.collapse", function () {
+        console.log('hiding');
+        var id = $(this).attr('id');
+        var elem = $("a." + id + " b");
+        elem.removeClass("pe-7s-angle-down");
+        elem.addClass("pe-7s-angle-up");
+
+        removeItem(storage.menu, id);
+        saveStorage("phpvms.admin", storage);
+
     });
+
+    $(".collapse").on("show.bs.collapse", function () {
+        console.log('showing');
+        var id = $(this).attr('id');
+        var caret = $("a." + id + " b");
+        caret.addClass("pe-7s-angle-down");
+        caret.removeClass("pe-7s-angle-up");
+
+        addItem(storage.menu, id);
+        saveStorage("phpvms.admin", storage);
+    });
+
+});
 </script>
 @yield('scripts')
 </html>
