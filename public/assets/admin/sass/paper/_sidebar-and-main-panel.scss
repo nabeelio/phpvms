@@ -35,10 +35,13 @@
     font-weight: 200;
 
     .logo{
-        padding: 18px 0px;
-        margin: 0 20px;
+        /*padding: 18px 0px;
+        margin: 0 20px;*/
+        padding: 6px;
+        background: #067ec1;
+        text-align: center;
 
-        p{
+        p {
             float: left;
             font-size: 20px;
             margin: 10px 10px;
@@ -57,7 +60,7 @@
     }
 
     .nav{
-        margin-top: 20px;
+        margin-top: 10px;
 
         li{
 
