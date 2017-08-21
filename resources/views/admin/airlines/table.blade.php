@@ -13,16 +13,18 @@
             <td>{!! $al->iata !!}</td>
             <td>{!! $al->name !!}</td>
             <td style="text-align: center;">
-                <i class="fa fa-{{$al->active == 1?"check":""}}-square-o" aria-hidden="true"
-                   style="color: {{$al->active==1?"darkgreen":"darkred"}};font-size:20px;"></i>
+                @if($al->active == 1)
+                    <span class="label label-success">Active</span>
+                @else
+                    <span class="label label-default">Inactive</span>
+                @endif
             </td>
             <td style="text-align: right;">
                 {!! Form::open(['route' => ['admin.airlines.destroy', $al->id], 'method' => 'delete']) !!}
-                <div class='btn-group'>
-                    <a href="{!! route('admin.airlines.show', [$al->id]) !!}" class='btn btn-default btn-xs'><i class="glyphicon glyphicon-eye-open"></i></a>
-                    <a href="{!! route('admin.airlines.edit', [$al->id]) !!}" class='btn btn-default btn-xs'><i class="glyphicon glyphicon-edit"></i></a>
-                    {!! Form::button('<i class="glyphicon glyphicon-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
-                </div>
+                {{--<a href="{!! route('admin.airlines.show', [$al->id]) !!}" class='btn btn-default btn-xs'><i class="glyphicon glyphicon-eye-open"></i></a>--}}
+                <a href="{!! route('admin.airlines.edit', [$al->id]) !!}" class='btn btn-sm btn-success btn-icon'>
+                    <i class="fa fa-pencil-square-o"></i></a>
+                {!! Form::button('<i class="fa fa-times"></i>', ['type' => 'submit', 'class' => 'btn btn-sm btn-danger btn-icon', 'onclick' => "return confirm('Are you sure?')"]) !!}
                 {!! Form::close() !!}
             </td>
         </tr>

@@ -15,24 +15,27 @@
     .navbar-brand{
         color: $white-color;
         font-weight: $font-weight-light;;
-        margin: $navbar-margin-brand;
-        padding: $navbar-padding-brand;
+        /*margin: $navbar-margin-brand;
+        padding: $navbar-padding-brand;*/
         font-size: $font-size-large-navbar;
     }
     .navbar-nav{
          > li > a {
              line-height: 1.42857;
-             margin: $navbar-margin-a;
-             padding: $navbar-padding-a;
+             /*margin: $navbar-margin-a;
+             padding: $navbar-padding-a;*/
 
-            i,
-            p{
+             padding-top: 12px;
+             font-weight: $font-weight-light;
+
+            i, p {
                 display: inline-block;
                 margin: 0;
             }
-            i{
+            i {
                 position: relative;
                 top: 1px;
+                margin-right: 3px;
             }
          }
          > li > a.btn{

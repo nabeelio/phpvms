@@ -7,12 +7,10 @@
 
 
     <div class="sidebar-wrapper">
-        <div class="logo" style="background: #067ec1; margin: 0px; text-align: center; min-height: 74px;">
+        <div class="logo">
             <img src="/assets/frontend/img/logo_blue_bg.svg" width="110px" style="">
         </div>
 
-        <ul class="nav">
-            @include('admin.menu')
-        </ul>
+        @include('admin.menu')
     </div>
 </div>
