@@ -21,18 +21,16 @@
             <td><a href="{!! route('admin.aircraft.show', [$ac->id]) !!}">{!! $ac->name !!}</a></td>
             <td>{!! $ac->registration !!}</td>
             <td style="text-align: center;">
-                @if($ac->active == 1)
-                    <span class="label label-success">Active</span>
-                @else
-                    <span class="label label-default">Inactive</span>
-                @endif
+                <i class="fa fa-{{$ac->active == 1?"check":""}}-square-o" aria-hidden="true"
+                   style="color: {{$ac->active==1?"darkgreen":"darkred"}};font-size:20px;"></i>
             </td>
-            <td style="width: 10%; text-align: right;">
+            <td style="width: 10%; text-align: right;" class="form-inline">
                 {!! Form::open(['route' => ['admin.aircraft.destroy', $ac->id], 'method' => 'delete']) !!}
-                <a href="{!! route('admin.aircraft.edit', [$ac->id]) !!}" class='btn btn-sm btn-success btn-icon'>
-                    <i class="fa fa-pencil-square-o"></i>
-                </a>
-                {!! Form::button('<i class="fa fa-times"></i>', ['type' => 'submit', 'class' => 'btn btn-sm btn-danger btn-icon', 'onclick' => "return confirm('Are you sure?')"]) !!}
+                <div class='btn-group'>
+                    {{--<a href="{!! route('admin.aircraft.show', [$ac->id]) !!}" class='btn btn-default btn-xs'><i class="glyphicon glyphicon-eye-open"></i></a>--}}
+                    <a href="{!! route('admin.aircraft.edit', [$ac->id]) !!}" class='btn btn-default btn-xs'><i class="glyphicon glyphicon-edit"></i></a>
+                    {!! Form::button('<i class="glyphicon glyphicon-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
+                </div>
                 {!! Form::close() !!}
             </td>
         </tr>
