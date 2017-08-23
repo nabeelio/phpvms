@@ -67,4 +67,23 @@ class Handler extends ExceptionHandler
 
         return redirect()->guest('login');
     }
+
+    /**
+     * Render the given HttpException.
+     */
+    protected function renderHttpException(\Symfony\Component\HttpKernel\Exception\HttpException $e)
+    {
+        $status = $e->getStatusCode();
+        view()->replaceNamespace('errors', [
+            resource_path('views/layouts/' . config('phpvms.skin') . '/errors'),
+            resource_path('views/errors'),
+            __DIR__ . '/views',
+        ]);
+
+        if (view()->exists("errors::{$status}")) {
+            return response()->view("errors::{$status}", ['exception' => $e], $status, $e->getHeaders());
+        } else {
+            return $this->convertExceptionToResponse($e);
+        }
+    }
 }
