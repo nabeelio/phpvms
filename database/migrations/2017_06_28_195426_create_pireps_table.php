@@ -17,8 +17,9 @@ class CreatePirepsTable extends Migration
             $table->uuid('id');
             $table->integer('user_id')->unsigned();
             $table->integer('airline_id')->unsigned();
-            $table->uuid('flight_id')->nullable();
             $table->integer('aircraft_id')->nullable();
+            $table->uuid('flight_id')->nullable();
+            $table->string('flight_number', 10)->nullable();
             $table->string('route_code', 5)->nullable();
             $table->string('route_leg', 5)->nullable();
             $table->integer('dpt_airport_id')->unsigned();
@@ -26,7 +27,6 @@ class CreatePirepsTable extends Migration
             $table->double('flight_time', 19, 2)->unsigned();
             $table->double('gross_weight', 19, 2)->nullable();
             $table->double('fuel_used', 19, 2)->nullable();
-            $table->integer('level')->unsigned();
             $table->string('route')->nullable();
             $table->string('notes')->nullable();
             $table->tinyInteger('source')->default(0);

@@ -67,11 +67,13 @@ class PirepController extends Controller
 
     public function create()
     {
+        $aircraft = $this->aircraftList();
         $airports = $this->airportList();
+
         return $this->view('pireps.create', [
             'airports' => $airports,
             'airlines' => Airline::all()->pluck('name', 'id'),
-            'aircraft' => $this->aircraftList(),
+            'aircraft' => $aircraft,
             'pirepfields' => PirepField::all(),
             'fieldvalues' => [],
         ]);
@@ -79,7 +81,39 @@ class PirepController extends Controller
 
     public function store(Request $request)
     {
+        $pirep_fields = $request->all();
 
+        // Create the main PIREP
+        $pirep = new Pirep($pirep_fields);
+
+        // Any special fields
+        $pirep->pilot()->associate(Auth::user());
+        $pirep->flight_time = ((int)$pirep_fields['hours'] * 60 * 60)
+                            + ((int)$pirep_fields['minutes'] * 60);
+
+        // The custom fields from the form
+        $custom_fields = [];
+        foreach($pirep_fields as $field_name => $field_val)
+        {
+            if (strpos($field_name, 'field_') === false) {
+                continue;
+            }
+
+            $field_id = explode('field_', $field_name)[1];
+            $cfield = PirepField::find($field_id);
+
+            $custom_fields[] = [
+                'name' => $cfield->name,
+                'value' => $field_val,
+                'source' => config('enums.sources.MANUAL')
+            ];
+        }
+
+        $pirepSvc = app('\App\Services\PIREPService');
+        $pirep = $pirepSvc->create($pirep, $custom_fields);
+
+        //Flash::success('PIREP submitted successfully!');
+        return redirect(route('frontend.pireps.index'));
     }
 
     public function show($id)

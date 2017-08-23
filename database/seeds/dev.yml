@@ -232,7 +232,6 @@ pireps:
     dpt_airport_id: 1
     arr_airport_id: 2
     flight_time: 21600  # 6 hours
-    level: 320
     status: -1
     notes: just a pilot report
   - id: pirepid_2
@@ -243,7 +242,6 @@ pireps:
     dpt_airport_id: 2
     arr_airport_id: 1
     flight_time: 21600  # 6 hours
-    level: 320
     status: -1
     notes: just a pilot report
 

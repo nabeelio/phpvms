@@ -26,10 +26,11 @@ class PIREPService extends BaseService
      *
      * @return Pirep
      */
-    public function create(
-        Pirep $pirep,
-        array $field_values=[]
-    ): Pirep {
+    public function create(Pirep $pirep, array $field_values): Pirep {
+
+        if($field_values == null) {
+            $field_values = [];
+        }
 
         # Figure out what default state should be. Look at the default
         # behavior from the rank that the pilot is assigned to
@@ -43,25 +44,24 @@ class PIREPService extends BaseService
             $pirep = $this->accept($pirep);
         }
 
+        $pirep->save();
+        $pirep->refresh();
+
         foreach ($field_values as $fv) {
             $v = new PirepFieldValues();
+            $v->pirep_id = $pirep->id;
             $v->name = $fv['name'];
             $v->value = $fv['value'];
             $v->source = $fv['source'];
             $v->save();
         }
 
-        # TODO: Financials even if it's rejected, log the expenses
+        # only update the pilot last state if they are accepted
+        if ($default_status == config('enums.pirep_status.ACCEPTED')) {
+            $this->setPilotState($pirep);
+        }
 
-        $pirep->save();
-
-        # update pilot information
-        $pilot = $pirep->pilot;
-        $pilot->refresh();
-
-        $pilot->curr_airport_id = $pirep->arr_airport_id;
-        $pilot->last_pirep_id = $pirep->id;
-        $pilot->save();
+        # TODO: Emit filed event. Do financials through that
 
         return $pirep;
     }
@@ -124,6 +124,7 @@ class PIREPService extends BaseService
         # Change the status
         $pirep->status = config('enums.pirep_status.ACCEPTED');
         $pirep->save();
+        $pirep->refresh();
 
         return $pirep;
     }
@@ -149,8 +150,17 @@ class PIREPService extends BaseService
         # Change the status
         $pirep->status = config('enums.pirep_status.REJECTED');
         $pirep->save();
+        $pirep->refresh();
 
         return $pirep;
+    }
+
+    public function setPilotState($pirep) {
+        $pilot = $pirep->pilot;
+        $pilot->refresh();
+        $pilot->curr_airport_id = $pirep->arr_airport_id;
+        $pilot->last_pirep_id = $pirep->id;
+        $pilot->save();
     }
 
     /**
