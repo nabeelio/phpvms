@@ -1,5 +1,5 @@
 <div class="content table-responsive table-full-width">
-<table class="table table-hover table-striped" id="flights-table">
+<table class="table table-hover" id="flights-table">
     <thead>
         <th>Flight #</th>
         <th>Dep</th>

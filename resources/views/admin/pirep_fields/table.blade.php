@@ -1,8 +1,8 @@
-<table class="table table-responsive" id="pirepFields-table">
+<table class="table table-hover table-responsive" id="pirepFields-table">
     <thead>
         <th>Name</th>
         <th>Required</th>
-        <th colspan="3">Action</th>
+        <th></th>
     </thead>
     <tbody>
     @foreach($fields as $field)

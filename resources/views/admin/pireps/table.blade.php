@@ -1,11 +1,11 @@
-<table class="table table-responsive" id="pireps-table">
+<table class="table table-hover table-responsive" id="pireps-table">
     <thead>
         <th>Pilot</th>
         <th>Flight</th>
         <th>Aircraft</th>
         <th>Flight Time</th>
         <th>Level</th>
-        <th colspan="3" style="text-align: right">Action</th>
+        <th></th>
     </thead>
     <tbody>
     @foreach($pireps as $pirep)

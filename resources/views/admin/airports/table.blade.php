@@ -1,5 +1,5 @@
 <div id="airports_table_wrapper">
-    <table class="table table-responsive" id="airports-table">
+    <table class="table table-hover table-responsive" id="airports-table">
         <thead>
             <th>ICAO</th>
             <th>Name</th>
@@ -7,7 +7,7 @@
             <th style="text-align: center;">100LL</th>
             <th style="text-align: center;">JetA</th>
             <th style="text-align: center;">MOGAS</th>
-            <th colspan="3" style="text-align: right">Action</th>
+            <th></th>
         </thead>
         <tbody>
         @foreach($airports as $airport)

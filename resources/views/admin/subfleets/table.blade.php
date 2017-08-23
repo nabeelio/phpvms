@@ -1,10 +1,10 @@
-<table class="table table-responsive" id="subfleets-table">
+<table class="table table-hover table-responsive" id="subfleets-table">
     <thead>
         <th>Airline</th>
         <th>Name</th>
         <th>Type</th>
         <th>Fuel Type</th>
-        <th colspan="3">Action</th>
+        <th></th>
     </thead>
     <tbody>
     @foreach($subfleets as $subfleet)
@@ -23,7 +23,7 @@
                     -
                 @endif
             </td>
-            <td>
+            <td class="text-right">
                 {!! Form::open(['route' => ['admin.subfleets.destroy', $subfleet->id], 'method' => 'delete']) !!}
                 <div class='btn-group'>
                     <a href="{!! route('admin.subfleets.show', [$subfleet->id]) !!}" class='btn btn-default btn-xs'><i class="glyphicon glyphicon-eye-open"></i></a>

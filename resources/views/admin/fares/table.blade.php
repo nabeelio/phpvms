@@ -1,4 +1,4 @@
-<table class="table table-responsive" id="fares-table">
+<table class="table table-hover table-responsive" id="fares-table">
     <thead>
         <th>Code</th>
         <th>Name</th>

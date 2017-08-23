@@ -1,10 +1,10 @@
-<table class="table table-responsive" id="aircrafts-table">
+<table class="table table-hover table-responsive" id="aircrafts-table">
     <thead>
         <th>Subfleet</th>
         <th>Name</th>
         <th>Registration</th>
         <th style="text-align: center;">Active</th>
-        <th style="text-align: right;">Actions</th>
+        <th style="text-align: right;"></th>
     </thead>
     <tbody>
     @foreach($aircraft as $ac)

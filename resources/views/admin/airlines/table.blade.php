@@ -1,10 +1,10 @@
-<table class="table table-responsive" id="airlines-table">
+<table class="table table-hover table-responsive" id="airlines-table">
     <thead>
         <th>Code</th>
         <th>IATA</th>
         <th>Name</th>
         <th class="text-center">Active</th>
-        <th class="text-right">Action</th>
+        <th></th>
     </thead>
     <tbody>
     @foreach($airlines as $al)

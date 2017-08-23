@@ -1,12 +1,12 @@
 <div id="ranks_table_wrapper">
-    <table class="table table-responsive">
+    <table class="table table-hover table-responsive">
         <thead>
         <th>Name</th>
         <th>Hours</th>
         <th class="text-center">Auto Approve Acars</th>
         <th class="text-center">Auto Approve Manual</th>
         <th class="text-center">Auto Promote</th>
-        <th class="text-right">Action</th>
+        <th></th>
         </thead>
         <tbody>
         @foreach($ranks as $rank)
