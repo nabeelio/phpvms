@@ -4,7 +4,8 @@ namespace App\Repositories;
 
 use Illuminate\Validation\Validator;
 
-abstract class BaseRepository extends \InfyOm\Generator\Common\BaseRepository {
+
+abstract class BaseRepository extends \Prettus\Repository\Eloquent\BaseRepository {
 
     public function validate($values) {
         $validator = Validator::make(

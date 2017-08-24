@@ -3,7 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Airport;
-use InfyOm\Generator\Common\BaseRepository;
+
 
 class AirportRepository extends BaseRepository
 {

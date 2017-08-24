@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\Rank;
-use InfyOm\Generator\Common\BaseRepository;
 
 class RankRepository extends BaseRepository
 {

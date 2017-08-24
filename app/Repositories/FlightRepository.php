@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\Flight;
-use InfyOm\Generator\Common\BaseRepository;
 
 class FlightRepository extends BaseRepository
 {

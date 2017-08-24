@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\Pirep;
-use InfyOm\Generator\Common\BaseRepository;
 
 class PirepRepository extends BaseRepository
 {
