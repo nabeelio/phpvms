@@ -117,3 +117,10 @@ strong{
         color: $danger-color;
     }
 }
+
+.description,
+.card-description,
+.footer-big p {
+    color: $dark-gray;
+    font-weight: $font-weight-light;
+}

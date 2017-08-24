@@ -41,8 +41,12 @@ class PirepController extends BaseController
      */
     public function index(Request $request)
     {
-        $this->pirepRepo->pushCriteria(new RequestCriteria($request));
-        $pireps = $this->pirepRepo->all();
+        $criterea = new RequestCriteria($request);
+        $this->pirepRepo->pushCriteria($criterea);
+
+        $pireps = $this->pirepRepo
+                       ->orderBy('created_at', 'desc')
+                       ->all();
 
         return view('admin.pireps.index', [
             'pireps' => $pireps
@@ -84,7 +88,7 @@ class PirepController extends BaseController
      */
     public function show($id)
     {
-        $pirep = $this->pirepRepo->findWithoutFail($id);
+        $pirep = $this->pirepRepo->find($id);
 
         if (empty($pirep)) {
             Flash::error('Pirep not found');

@@ -114,6 +114,9 @@ $border-radius-btn-large:      50px !default;
 
 // Cristina: am schimbat aici si s-au modificat inputurile
 $margin-bottom:                0 0 10px 0 !default;
+$border: 1px solid !default;
+$border-radius-extra-small: 0.125rem !default;
+$border-radius-tiny:           0.1875rem !default;
 $border-radius-small:           3px !default;
 $border-radius-base:            4px !default;
 $border-radius-large:           6px !default;
@@ -125,6 +128,11 @@ $border-radius-large-bottom:   0 0 $border-radius-large $border-radius-large !de
 $btn-round-radius:             30px !default;
 
 $height-base:                  40px !default;
+
+$btn-icon-font-size: 24px !default;
+$btn-icon-size: 56px !default;
+$btn-icon-size-mini: 36px !default;
+$btn-icon-font-size-mini: 14px !default;
 
 $font-size-base:               14px !default;
 $font-size-xs:                 12px !default;
@@ -142,6 +150,7 @@ $font-size-h6:                 0.9em   !default;
 $font-paragraph:               16px    !default;
 $font-size-navbar:             16px    !default;
 $font-size-small:              12px    !default;
+$font-size-mini: 0.7142em !default;
 
 $font-weight-light:          300 !default;
 $font-weight-normal:         400 !default;

@@ -24,8 +24,6 @@
 </div>
 
 
-
-
 <div class="form-group col-sm-12">
     <div class="box box-primary">
         <div class="box-body">
@@ -41,7 +39,12 @@
                 {!! Form::label('flight_id', 'Flight Id:') !!}
                 <p>
                     <a href="{!! route('admin.flights.show', [$pirep->flight_id]) !!}" target="_blank">
-                        {!! $pirep->flight->airline->code !!}{!! $pirep->flight->flight_number !!}
+                        {!! $pirep->airline->code !!}
+                        @if($pirep->flight_id)
+                            {!! $pirep->flight->flight_number !!}
+                        @else
+                            {!! $pirep->flight_number !!}
+                        @endif
                     </a>
                 </p>
             </div>

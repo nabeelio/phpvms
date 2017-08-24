@@ -1,23 +1,13 @@
 @extends('admin.app')
+@section('title', 'pilot report')
+@section('actions')
+    <li><a href="#"><i class="ti-plus"></i>Accept</a></li>
+    <li><a href="#"><i class="ti-plus"></i>Reject</a></li>
+@endsection
 
 @section('content')
-<section class="content-header"><h1>PIREP</h1></section>
-<section class="content">
-    <div class="clearfix"></div>
-    <div class="row">
+    <div class="card">
         @include('admin.pireps.show_fields')
+        @include('admin.pireps.field_values')
     </div>
-    <div class="box box-primary">
-        <div class="box-body">
-            <div class="row">
-                <div class="col-xs-12">
-                    <h3>fields</h3>
-                    <div class="box-body">
-                        @include('admin.pireps.field_values')
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 @endsection

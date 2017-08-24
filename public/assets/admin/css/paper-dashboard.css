@@ -1,17 +1,17 @@
 /*!
-    
+
  =========================================================
  * Paper Dashboard - v1.1.2
  =========================================================
- 
+
  * Product Page: http://www.creative-tim.com/product/paper-dashboard
  * Copyright 2017 Creative Tim (http://www.creative-tim.com)
  * Licensed under MIT (https://github.com/creativetimofficial/paper-dashboard/blob/master/LICENSE.md)
- 
+
  =========================================================
- 
+
  * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
- 
+
  */
 /*      light colors - used for select dropdown         */
 .ct-blue {
@@ -136,6 +136,12 @@ strong {
   color: #F3BB45; }
 .chart-legend .text-danger, .chart-legend .text-danger:hover {
   color: #EB5E28; }
+
+.description,
+.card-description,
+.footer-big p {
+  color: #9A9A9A;
+  font-weight: 300; }
 
 /*     General overwrite     */
 body {
@@ -429,6 +435,51 @@ hr {
   -webkit-transition-timing-function: linear,linear;
   transition-timing-function: linear,linear;
   -webkit-overflow-scrolling: touch; }
+
+/*           badges             */
+.badge {
+  border-radius: 8px;
+  padding: 4px 8px;
+  text-transform: uppercase;
+  font-size: 0.7142em;
+  line-height: 12px;
+  background-color: transparent;
+  border: 1px solid;
+  margin-bottom: 5px;
+  border-radius: 6px; }
+
+.badge-icon {
+  padding: 0.4em 0.55em; }
+  .badge-icon i {
+    font-size: 0.8em; }
+
+.badge-default {
+  border-color: #514d48;
+  color: #514d48; }
+
+.badge-primary {
+  border-color: #7A9E9F;
+  color: #7A9E9F; }
+
+.badge-info {
+  border-color: #68B3C8;
+  color: #68B3C8; }
+
+.badge-success {
+  border-color: #7AC29A;
+  color: #7AC29A; }
+
+.badge-warning {
+  border-color: #F3BB45;
+  color: #F3BB45; }
+
+.badge-danger {
+  border-color: #EB5E28;
+  color: #EB5E28; }
+
+.badge-neutral {
+  border-color: #FFFFFF;
+  color: #FFFFFF; }
 
 .btn, .navbar .navbar-nav > li > a.btn {
   border-radius: 20px;
@@ -1167,6 +1218,7 @@ textarea.form-control {
       margin: 0; }
     .navbar .navbar-nav > li > a i {
       position: relative;
+      margin-right: 5px;
       top: 1px; }
   .navbar .navbar-nav > li > a.btn {
     margin: 15px 3px;
@@ -1459,13 +1511,23 @@ textarea.form-control {
   overflow: visible; }
 
 .card {
+  border: 0;
   border-radius: 6px;
   box-shadow: 0 2px 2px rgba(204, 197, 185, 0.5);
   background-color: #FFFFFF;
   color: #252422;
   margin-bottom: 20px;
   position: relative;
-  z-index: 1; }
+  z-index: 1;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  flex-direction: column;
+  background-color: #fff; }
+  .card .card-block {
+    flex: 1 1 auto;
+    padding: 1.25rem; }
+  .card a {
+    color: #f96332; }
   .card .image {
     width: 100%;
     overflow: hidden;
@@ -1484,6 +1546,10 @@ textarea.form-control {
   .card .description {
     font-size: 16px;
     color: #66615b; }
+  .card h5 {
+    font-size: 1.57em;
+    line-height: 1.4em;
+    margin-bottom: 15px; }
   .card h6 {
     font-size: 12px;
     margin: 0; }
