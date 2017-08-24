@@ -35,7 +35,8 @@
         "spatie/laravel-fractal": "4.2.*",
         "composer/semver": "^1.4",
         "dg/rss-php": "^1.2",
-        "makinacorpus/php-bloom": "dev-master"
+        "makinacorpus/php-bloom": "dev-master",
+        "hashids/hashids": "2.0.*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

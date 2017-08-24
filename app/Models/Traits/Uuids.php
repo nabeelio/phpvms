@@ -2,7 +2,8 @@
 
 namespace App\Models\Traits;
 
-use Webpatser\Uuid\Uuid;
+use Hashids\Hashids;
+
 
 trait Uuids
 {
@@ -12,10 +13,12 @@ trait Uuids
 
         static::creating(function ($model) {
             $key = $model->getKeyName();
+
             if (empty($model->{$key})) {
-                $model->{$key} = Uuid::generate()->string;
+                $hashids = new Hashids('', 8);
+                $id = $hashids->encode((int)microtime(true));
+                $model->{$key} = $id;
             }
-            #$model->{$model->getKeyName()} = Uuid::generate()->string;
         });
     }
 }
