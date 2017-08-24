@@ -58,6 +58,12 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-lg-12 text-right">
+                <button href="#" class="btn btn-info">Accept</button>
+                <button href="#" class="btn btn-danger">Reject</button>
+            </div>
+        </div>
     </div>
 </div>
 @endforeach
