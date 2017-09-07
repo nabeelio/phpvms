@@ -126,6 +126,8 @@ class PIREPService extends BaseService
         $pirep->save();
         $pirep->refresh();
 
+        $this->setPilotState($pirep);
+
         return $pirep;
     }
 

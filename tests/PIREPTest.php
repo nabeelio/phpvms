@@ -21,7 +21,6 @@ class PIREPTest extends TestCase
             'dpt_airport_id' => 1,
             'arr_airport_id' => 2,
             'flight_time'    => 21600,  # 6 hours
-            'level'          => 320,
             'source'         => 0,      # manual
             'fuel_used'      => 100,
             'notes'          => 'just a pilot report',

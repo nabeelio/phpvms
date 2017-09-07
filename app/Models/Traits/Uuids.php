@@ -15,8 +15,11 @@ trait Uuids
             $key = $model->getKeyName();
 
             if (empty($model->{$key})) {
-                $hashids = new Hashids('', 8);
-                $id = $hashids->encode((int)microtime(true));
+                $hashids = new Hashids('', 10);
+
+                $mt = str_replace('.', '', microtime(true));
+                
+                $id = $hashids->encode($mt);
                 $model->{$key} = $id;
             }
         });
