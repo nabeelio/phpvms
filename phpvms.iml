@@ -19,7 +19,6 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/maatwebsite/excel" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/makinacorpus/php-bloom" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/nikic/php-parser" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/paragonie/sodium_compat" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/phenx/php-font-lib" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/phenx/php-svg-lib" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/phpoffice/phpexcel" />
@@ -61,7 +60,6 @@
           <root url="file://$MODULE_DIR$/vendor/maatwebsite/excel" />
           <root url="file://$MODULE_DIR$/vendor/makinacorpus/php-bloom" />
           <root url="file://$MODULE_DIR$/vendor/nikic/php-parser" />
-          <root url="file://$MODULE_DIR$/vendor/paragonie/sodium_compat" />
           <root url="file://$MODULE_DIR$/vendor/phenx/php-font-lib" />
           <root url="file://$MODULE_DIR$/vendor/phenx/php-svg-lib" />
           <root url="file://$MODULE_DIR$/vendor/phpoffice/phpexcel" />
@@ -90,7 +88,6 @@
           <root url="file://$MODULE_DIR$/vendor/maatwebsite/excel" />
           <root url="file://$MODULE_DIR$/vendor/makinacorpus/php-bloom" />
           <root url="file://$MODULE_DIR$/vendor/nikic/php-parser" />
-          <root url="file://$MODULE_DIR$/vendor/paragonie/sodium_compat" />
           <root url="file://$MODULE_DIR$/vendor/phenx/php-font-lib" />
           <root url="file://$MODULE_DIR$/vendor/phenx/php-svg-lib" />
           <root url="file://$MODULE_DIR$/vendor/phpoffice/phpexcel" />

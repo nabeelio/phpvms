@@ -18,7 +18,7 @@ trait Uuids
                 $hashids = new Hashids('', 10);
 
                 $mt = str_replace('.', '', microtime(true));
-                
+
                 $id = $hashids->encode($mt);
                 $model->{$key} = $id;
             }
