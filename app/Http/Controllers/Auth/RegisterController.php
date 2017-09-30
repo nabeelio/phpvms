@@ -30,7 +30,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
 
     public function showRegistrationForm()
     {
@@ -90,9 +90,10 @@ class RegisterController extends Controller
         $pilotService = app('App\Services\PilotService');
 
         # Let's tell the service to create the pilot
-        if($pilotService->createPilot($data))
+        if($p = $pilotService->createPilot($data))
         {
-            return $this->view('auth.registered');
+            //return $this->view('auth.registered');
+            return $p;
         }
 
         # I'm not sure if we really need to add the error something if createPilot fails?
