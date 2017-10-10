@@ -77,7 +77,7 @@
                     <table>
                     @foreach($pireps as $p)
                     <tr>
-                        <td style="padding-right: 10px;">{!! $p->airline->code !!}{!! $p->flight->flight_number !!}</td>
+                        <td style="padding-right: 10px;">{!! $p->airline->code !!}</td>
                         <td>
                             <span class="description">{!! $p->dpt_airport->icao !!}</span>-
                             <span class="description">{!! $p->arr_airport->icao !!}</span>&nbsp;
