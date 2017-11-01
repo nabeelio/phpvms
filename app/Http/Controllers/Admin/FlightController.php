@@ -188,7 +188,6 @@ class FlightController extends BaseController
 
     public function fields(Request $request)
     {
-        print_r($request->toArray());
         $id = $request->id;
 
         $flight = $this->flightRepository->findWithoutFail($id);

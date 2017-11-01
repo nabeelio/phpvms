@@ -1,8 +1,9 @@
 import getScrollParent from './getScrollParent';
+import getWindow from './getWindow';
 
 function attachToScrollParents(scrollParent, event, callback, scrollParents) {
   const isBody = scrollParent.nodeName === 'BODY';
-  const target = isBody ? window : scrollParent;
+  const target = isBody ? scrollParent.ownerDocument.defaultView : scrollParent;
   target.addEventListener(event, callback, { passive: true });
 
   if (!isBody) {
@@ -30,7 +31,7 @@ export default function setupEventListeners(
 ) {
   // Resize event listener on window
   state.updateBound = updateBound;
-  window.addEventListener('resize', state.updateBound, { passive: true });
+  getWindow(reference).addEventListener('resize', state.updateBound, { passive: true });
 
   // Scroll event listener on scroll parents
   const scrollElement = getScrollParent(reference);

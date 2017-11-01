@@ -23,6 +23,8 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"/>
     <link href="/assets/admin/css/pe-icon-7-stroke.css" rel="stylesheet">
     <link href="/assets/admin/css/themify-icons.css" rel="stylesheet">
+    <link href="/vendor/select2/dist/css/select2.min.css" rel="stylesheet">
+    <link href="/vendor/icheck/skins/flat/orange.css" rel="stylesheet">
 
     <style type="text/css">
         /*.card {
@@ -117,8 +119,9 @@
 <script src="/assets/admin/js/bootstrap-checkbox-radio.js"></script>
 <script src="/assets/admin/js/chartist.min.js"></script>
 <script src="/assets/admin/js/bootstrap-notify.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/js/select2.min.js"></script>
+<script src="/vendor/select2/dist/js/select2.js"></script>
 <script src="/vendor/pjax/jquery.pjax.js"></script>
+<script src="/vendor/icheck/icheck.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
 <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
 
@@ -170,9 +173,14 @@ var removeItem = function (obj, item) {
 
 $(document).ready(function () {
 
-    $(".select2").select2();
+    $(".select2").select2({
+        debug: true
+    });
 
-
+    $('input.icheck').iCheck({
+        checkboxClass: 'icheckbox_flat',
+        radioClass: 'iradio_flat'
+    });
 
     var storage = getStorage("phpvms.admin");
 

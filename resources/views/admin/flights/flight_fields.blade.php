@@ -1,3 +1,4 @@
+<div class="row"> <div class="col-12">
 <div id="flight_fields_wrapper">
     <table class="table table-responsive" id="flight-fields-table">
         <thead>
@@ -54,3 +55,4 @@
         {!! Form::close() !!}
     </div>
 </div>
+</div> </div>
