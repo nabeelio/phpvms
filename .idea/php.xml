@@ -115,6 +115,11 @@
       <path value="$PROJECT_DIR$/vendor/doctrine/cache" />
       <path value="$PROJECT_DIR$/vendor/hashids/hashids" />
       <path value="$PROJECT_DIR$/vendor/makinacorpus/php-bloom" />
+      <path value="$PROJECT_DIR$/vendor/php-http/httplug" />
+      <path value="$PROJECT_DIR$/vendor/php-http/promise" />
+      <path value="$PROJECT_DIR$/vendor/egulias/email-validator" />
+      <path value="$PROJECT_DIR$/vendor/psr/container" />
+      <path value="$PROJECT_DIR$/vendor/psr/simple-cache" />
     </include_path>
   </component>
   <component name="PhpProjectServersManager">
@@ -130,7 +135,7 @@
   <component name="PhpProjectSharedConfiguration" php_language_level="7" />
   <component name="PhpUnit">
     <phpunit_settings>
-      <PhpUnitSettings load_method="CUSTOM_LOADER" custom_loader_path="/Users/nshahzad/Dropbox/dev/personal/phpvms/bootstrap/autoload.php" phpunit_phar_path="" />
+      <PhpUnitSettings load_method="CUSTOM_LOADER" custom_loader_path="$PROJECT_DIR$/bootstrap/autoload.php" phpunit_phar_path="" />
     </phpunit_settings>
   </component>
 </project>
