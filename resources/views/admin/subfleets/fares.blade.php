@@ -10,7 +10,7 @@
                 aria-label="name: activate to sort column ascending">
                 name
             </th>
-            <th class="sorting_asc" tabindex="0"
+            <th class="sorting_asc" tabindex="0" style="text-align: center;"
                 aria-controls="aircraft_fares" rowspan="1" colspan="1"
                 aria-sort="ascending"
                 aria-label="code: activate to sort column descending">
@@ -38,7 +38,7 @@
         @foreach($subfleet->fares as $atf)
             <tr role="row" class="@if ($loop->iteration % 2) even @else odd @endif">
                 <td class="sorting_1">{!! $atf->name !!}</td>
-                <td>{!! $atf->code !!}</td>
+                <td style="text-align: center;">{!! $atf->code !!}</td>
                 <td><a href="#" data-pk="{!! $atf->id !!}" data-name="capacity">{!! $atf->pivot->capacity !!}</a>
                     <span class="small background-color-grey-light">({!! $atf->capacity !!})</span>
                 </td>
@@ -73,7 +73,7 @@
             !!}
             {!! Form::select('fare_id', $avail_fares, null, [
                     'placeholder' => 'Select Fare',
-                    'class' => 'ac-fare-dropdown form-control input-lg',
+                    'class' => 'ac-fare-dropdown form-control input-lg select2',
 
                 ])
             !!}

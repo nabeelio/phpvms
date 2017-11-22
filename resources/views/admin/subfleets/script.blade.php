@@ -1,7 +1,6 @@
 @section('scripts')
 <script>
 $(document).ready(function() {
-    $(".ac-fare-dropdown").select2();
     $('#aircraft_fares a').editable({
         type: 'text',
         mode: 'inline',
