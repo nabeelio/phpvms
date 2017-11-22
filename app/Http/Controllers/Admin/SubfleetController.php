@@ -20,6 +20,23 @@ class SubfleetController extends BaseController
     /** @var  SubfleetRepository */
     private $subfleetRepo, $fareRepo;
 
+    /**
+     * SubfleetController constructor.
+     *
+     * @param SubfleetRepository $subfleetRepo
+     * @param FareRepository     $fareRepo
+     */
+    public function __construct(
+        SubfleetRepository $subfleetRepo,
+        FareRepository $fareRepo
+    ) {
+        $this->subfleetRepo = $subfleetRepo;
+        $this->fareRepo = $fareRepo;
+    }
+
+    /**
+     * @return array
+     */
     protected function getFuelTypes()
     {
         $retval = [];
@@ -30,6 +47,9 @@ class SubfleetController extends BaseController
         return $retval;
     }
 
+    /**
+     * Get all the fares that haven't been assigned to a given subfleet
+     */
     protected function getAvailFares($subfleet)
     {
         $retval = [];
@@ -43,15 +63,6 @@ class SubfleetController extends BaseController
         }
 
         return $retval;
-    }
-
-    public function __construct(
-        SubfleetRepository $subfleetRepo,
-        FareRepository $fareRepo
-    )
-    {
-        $this->subfleetRepo = $subfleetRepo;
-        $this->fareRepo = $fareRepo;
     }
 
     /**
@@ -214,7 +225,8 @@ class SubfleetController extends BaseController
 
         $subfleet = $this->subfleetRepo->findWithoutFail($id);
         if (empty($subfleet)) {
-            return view('admin.aircraft.fares', ['fares' => []]);
+            return $this->return_fares_view($subfleet);
+            //return view('admin.aircraft.fares', ['fares' => []]);
         }
 
         $fare_svc = app('App\Services\FareService');

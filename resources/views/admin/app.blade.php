@@ -101,8 +101,10 @@
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
-                    @include('flash::message')
-                    @yield('content')
+                    <div class="col-12">
+                        @include('flash::message')
+                        @yield('content')
+                    </div>
                 </div>
             </div>
         </div>

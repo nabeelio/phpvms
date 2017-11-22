@@ -1,3 +1,4 @@
+<div class="content table-responsive table-full-width">
 <table class="table table-hover table-responsive" id="subfleets-table">
     <thead>
         <th>Airline</th>
@@ -25,14 +26,17 @@
             </td>
             <td class="text-right">
                 {!! Form::open(['route' => ['admin.subfleets.destroy', $subfleet->id], 'method' => 'delete']) !!}
-                <div class='btn-group'>
-                    <a href="{!! route('admin.subfleets.show', [$subfleet->id]) !!}" class='btn btn-default btn-xs'><i class="glyphicon glyphicon-eye-open"></i></a>
-                    <a href="{!! route('admin.subfleets.edit', [$subfleet->id]) !!}" class='btn btn-default btn-xs'><i class="glyphicon glyphicon-edit"></i></a>
-                    {!! Form::button('<i class="glyphicon glyphicon-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
-                </div>
+
+                <a href="{!! route('admin.subfleets.edit', [$subfleet->id]) !!}" class='btn btn-sm btn-success btn-icon'>
+                    <i class="fa fa-pencil-square-o"></i></a>
+
+                {!! Form::button('<i class="fa fa-times"></i>',
+                                 ['type' => 'submit', 'class' => 'btn btn-sm btn-danger btn-icon',
+                                  'onclick' => "return confirm('Are you sure?')"]) !!}
                 {!! Form::close() !!}
             </td>
         </tr>
     @endforeach
     </tbody>
 </table>
+</div>

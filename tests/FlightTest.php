@@ -21,7 +21,7 @@ class FlightTest extends TestCase
         return $flight->id;
     }
 
-    public function XtestGetFlight()
+    public function testGetFlight()
     {
         $flight_id = $this->addFlight();
         $response = $this->json('GET', '/api/flight/'.$flight_id);

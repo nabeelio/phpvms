@@ -22,6 +22,10 @@ $(document).ready(function() {
         event.preventDefault();
         $.pjax.submit(event, '#aircraft_fares_wrapper', {push: false});
     });
+
+    $(document).on('pjax:complete', function() {
+        $(".select2").select2();
+    });
 });
 </script>
 @endsection
