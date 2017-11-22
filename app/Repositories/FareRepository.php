@@ -3,8 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\Fare;
-use Prettus\Repository\Eloquent\BaseRepository;
-
 
 class FareRepository extends BaseRepository
 {
