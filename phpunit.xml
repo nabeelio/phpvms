@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit bootstrap="bootstrap/autoload.php"
-
          colors="true"
          processIsolation="false"
          stopOnFailure="true"
          convertErrorsToExceptions="false"
          convertNoticesToExceptions="false"
-         convertWarningsToExceptions="false">
+         convertWarningsToExceptions="false"
+         beStrictAboutTestsThatDoNotTestAnything="false">
     <testsuites>
         <testsuite name="Application Test Suite">
             <directory suffix="Test.php">./tests</directory>
