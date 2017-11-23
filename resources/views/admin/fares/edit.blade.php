@@ -1,23 +1,13 @@
 @extends('admin.app')
 
+@section('title', "Edit \"$fare->name\"")
 @section('content')
-    <section class="content-header">
-        <h1>
-            Fare
-        </h1>
-   </section>
-   <div class="content">
+<div class="card border-blue-bottom">
+    <div class="content">
        @include('adminlte-templates::common.errors')
-       <div class="box box-primary">
-           <div class="box-body">
-               <div class="row">
-                   {!! Form::model($fare, ['route' => ['admin.fares.update', $fare->id], 'method' => 'patch']) !!}
-
-                        @include('admin.fares.fields')
-
-                   {!! Form::close() !!}
-               </div>
-           </div>
-       </div>
-   </div>
+       {!! Form::model($fare, ['route' => ['admin.fares.update', $fare->id], 'method' => 'patch']) !!}
+            @include('admin.fares.fields')
+       {!! Form::close() !!}
+    </div>
+</div>
 @endsection

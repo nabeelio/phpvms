@@ -1,4 +1,4 @@
-<div id="rank_subfleet_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+<div id="rank_subfleet_wrapper" class="dataTables_wrapper form-inline dt-bootstrap col-lg-12">
     <table class="table table-responsive" id="subfleets-table">
         <thead>
         <th>Airline</th>
@@ -16,9 +16,9 @@
                     {!! Form::open(['url' => '/admin/ranks/'.$rank->id.'/subfleets', 'method' => 'delete', 'class' => 'pjax_form']) !!}
                     {!! Form::hidden('subfleet_id', $sf->id) !!}
                     <div class='btn-group'>
-                        {!! Form::button('<i class="glyphicon glyphicon-trash"></i>',
+                        {!! Form::button('<i class="fa fa-times"></i>',
                                          ['type' => 'submit',
-                                          'class' => 'btn btn-danger btn-xs'])
+                                          'class' => 'btn btn-sm btn-danger btn-icon'])
                           !!}
                     </div>
                     {!! Form::close() !!}
@@ -29,7 +29,7 @@
     </table>
     <hr />
     <div class="row">
-        <div class="col-xs-12">
+        <div class="col-lg-12">
             <div class="input-group input-group-lg pull-right">
                 {!! Form::open(['url' => '/admin/ranks/'.$rank->id.'/subfleets',
                                 'method' => 'post',
@@ -38,11 +38,9 @@
                 !!}
                 {!! Form::select('subfleet_id', $avail_subfleets, null, [
                         'placeholder' => 'Select Subfleet',
-                        'class' => 'select2_dropdown form-control input-lg',
-
-                    ])
+                        'class' => 'select2_dropdown form-control input-lg'])
                 !!}
-                {!! Form::button('<i class="glyphicon glyphicon-plus"></i> add',
+                {!! Form::button('<i class="fa fa-times"></i> add',
                                  ['type' => 'submit',
                                   'class' => 'btn btn-success btn-s']) !!}
                 {!! Form::close() !!}
@@ -50,8 +48,3 @@
         </div>
     </div>
 </div>
-<script>
-$(document).ready(function () {
-    $(".select2_dropdown").select2();
-});
-</script>

@@ -81,14 +81,14 @@ class AirlinesController extends BaseController
      */
     public function edit($id)
     {
-        $airlines = $this->airlineRepo->findWithoutFail($id);
+        $airline = $this->airlineRepo->findWithoutFail($id);
 
-        if (empty($airlines)) {
-            Flash::error('Airlines not found');
+        if (empty($airline)) {
+            Flash::error('Airline not found');
             return redirect(route('admin.airlines.index'));
         }
 
-        return view('admin.airlines.edit')->with('airlines', $airlines);
+        return view('admin.airlines.edit')->with('airline', $airline);
     }
 
     /**

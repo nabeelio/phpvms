@@ -118,7 +118,6 @@
 <script src="https://cdn.jsdelivr.net/lodash/4.17.4/lodash.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <script src="/assets/admin/js/bootstrap.min.js" type="text/javascript"></script>
-<script src="/assets/admin/js/bootstrap-checkbox-radio.js"></script>
 <script src="/assets/admin/js/chartist.min.js"></script>
 <script src="/assets/admin/js/bootstrap-notify.js"></script>
 <script src="/vendor/select2/dist/js/select2.js"></script>
@@ -175,13 +174,11 @@ var removeItem = function (obj, item) {
 
 $(document).ready(function () {
 
-    $(".select2").select2({
-        debug: true
-    });
+    $(".select2").select2();
 
-    $('input.icheck').iCheck({
-        checkboxClass: 'icheckbox_flat',
-        radioClass: 'iradio_flat'
+    $('input').iCheck({
+        checkboxClass: 'icheckbox_flat-orange',
+        radioClass: 'iradio_flat-orange'
     });
 
     var storage = getStorage("phpvms.admin");

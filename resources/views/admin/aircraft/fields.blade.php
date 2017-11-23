@@ -1,3 +1,4 @@
+<div class="row">
 <!-- Name Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('name', 'Name:') !!}
@@ -22,23 +23,19 @@
 </div>
 
 <!-- Active Field -->
-<div class="form-group col-sm-6">
-    <div class="checkbox">
-        <label class="checkbox-inline">
-            {!! Form::hidden('active', false) !!}
-            {!! Form::checkbox('active', '1', true) !!}
-        {!! Form::label('active', 'Active') !!}
-        </label>
-    </div>
+<div class="form-group col-12">
+    {!! Form::label('active', 'Active:') !!}
+    <label class="checkbox-inline">
+        {!! Form::hidden('active', 0, false) !!}
+        {!! Form::checkbox('active', 1, null) !!}
+    </label>
 </div>
 
 <!-- Submit Field -->
 <div class="form-group col-sm-12">
-    {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
-    <a href="{!! route('admin.aircraft.index') !!}" class="btn btn-default">Cancel</a>
+    <div class="pull-right">
+        {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
+        <a href="{!! route('admin.aircraft.index') !!}" class="btn btn-default">Cancel</a>
+    </div>
 </div>
-<script>
-jQuery('input#active').iCheck('check');
-//$(document).ready(function() {
-//})
-</script>
+</div>

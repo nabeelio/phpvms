@@ -1,3 +1,4 @@
+<div class="row">
 <!-- Name Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('name', 'Name:') !!}
@@ -45,5 +46,8 @@
 
 <!-- Submit Field -->
 <div class="form-group col-sm-12 text-right">
-    {!! Form::submit('Add', ['class' => 'btn btn-primary']) !!}
+    <div class="pull-right">
+        {!! Form::submit('Add', ['class' => 'btn btn-primary']) !!}
+    </div>
+</div>
 </div>

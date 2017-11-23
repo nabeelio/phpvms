@@ -2,7 +2,7 @@
 
 @section('title', 'Edit Flight')
 @section('content')
-<div class="card">
+<div class="card  border-blue-bottom">
    @include('adminlte-templates::common.errors')
    <div class="content">
         {!! Form::model($flight, ['route' => ['admin.flights.update', $flight->id], 'method' => 'patch']) !!}
@@ -12,14 +12,14 @@
 </div>
 
 <h3>custom fields</h3>
-<div class="card">
+<div class="card  border-blue-bottom">
     <div class="content">
        @include('admin.flights.flight_fields')
     </div>
 </div>
 
 <h3>assigned subfleets</h3>
-<div class="card">
+<div class="card  border-blue-bottom">
     <div class="content">
         @include('admin.flights.subfleets')
     </div>
