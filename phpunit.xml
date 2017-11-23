@@ -6,6 +6,7 @@
          convertErrorsToExceptions="false"
          convertNoticesToExceptions="false"
          convertWarningsToExceptions="false"
+         beStrictAboutOutputDuringTests="false"
          beStrictAboutTestsThatDoNotTestAnything="false">
     <testsuites>
         <testsuite name="Application Test Suite">
