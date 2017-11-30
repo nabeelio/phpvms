@@ -18,7 +18,7 @@
                     -
                 @endif
             </td>
-            <td><a href="{!! route('admin.aircraft.show', [$ac->id]) !!}">{!! $ac->name !!}</a></td>
+            <td><a href="{!! route('admin.aircraft.edit', [$ac->id]) !!}">{!! $ac->name !!}</a></td>
             <td>{!! $ac->registration !!}</td>
             <td style="text-align: center;">
                 @if($ac->active == 1)

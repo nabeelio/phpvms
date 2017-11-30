@@ -12,7 +12,6 @@ Route::group([
     Route::match(['get', 'put'], 'airports/fuel', 'AirportController@fuel');
     Route::resource('airports', 'AirportController');
 
-    #Route::resource('aircraftclasses', 'AircraftClassController');
     Route::resource('fares', 'FareController');
 
     # subfleet
@@ -38,6 +37,8 @@ Route::group([
     # pirep related routes
     Route::resource('pireps', 'PirepController');
     Route::resource('pirepfields', 'PirepFieldController');
+
+    Route::resource('users', 'UserController');
 
     # defaults
     Route::get('', ['uses' => 'DashboardController@index']);

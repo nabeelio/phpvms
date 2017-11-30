@@ -63,7 +63,8 @@ class User extends Authenticatable
             'airline_id',
             'home_airport_id',
             'curr_airport_id',
-            'rank_id'
+            'rank_id',
+            'active',
         ];
 
     /**
@@ -84,6 +85,15 @@ class User extends Authenticatable
             'balance'      => 'double',
             'timezone'     => 'integer',
         ];
+
+    /**
+     * Validation rules
+     *
+     * @var array
+     */
+    public static $rules = [
+
+    ];
 
     public function pilot_id()
     {
