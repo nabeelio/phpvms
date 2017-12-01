@@ -25,7 +25,7 @@ class AircraftRepository extends BaseRepository implements CacheableInterface
      * Return the list of aircraft formatted for a select box
      * @return array
      */
-    public function selectBoxList()
+    public function selectBoxList(): array
     {
         $retval = [];
         $items = $this->all();
