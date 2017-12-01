@@ -18,6 +18,12 @@ use App\Repositories\PirepFieldRepository;
 
 class PirepController extends Controller
 {
+    private $airlineRepo,
+            $aircraftRepo,
+            $pirepRepo,
+            $airportRepo,
+            $pirepFieldRepo;
+
     public function __construct(
         AirlineRepository $airlineRepo,
         PirepRepository $pirepRepo,
@@ -31,30 +37,6 @@ class PirepController extends Controller
         $this->pirepRepo = $pirepRepo;
         $this->airportRepo = $airportRepo;
         $this->pirepFieldRepo = $pirepFieldRepo;
-    }
-
-    public function airportList()
-    {
-        # TODO: Cache
-        $retval = [];
-        $airports = $this->airportRepo->all();
-        foreach($airports as $airport) {
-            $retval[$airport->icao] = $airport->icao.' - '.$airport->name;
-        }
-
-        return $retval;
-    }
-
-    public function aircraftList()
-    {
-        $retval = [];
-        $aircraft = $this->aircraftRepo->all();
-
-        foreach ($aircraft as $ac) {
-            $retval[$ac->id] = $ac->subfleet->name.' - '.$ac->name.' ('.$ac->registration.')';
-        }
-
-        return $retval;
     }
 
     public function index(Request $request)
@@ -74,12 +56,11 @@ class PirepController extends Controller
     public function create()
     {
         $aircraft = $this->aircraftList();
-        $airports = $this->airportList();
 
         return $this->view('pireps.create', [
-            'airports' => $airports,
+            'airports' => $this->airportRepo->selectBoxList(),
             'airlines' => $this->airlineRepo->all()->pluck('name', 'id'),
-            'aircraft' => $aircraft,
+            'aircraft' => $this->aircraftRepo->selectBoxList(),
             'pirepfields' => $this->pirepFieldRepo->all(),
             'fieldvalues' => [],
         ]);

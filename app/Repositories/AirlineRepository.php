@@ -20,4 +20,20 @@ class AirlineRepository extends BaseRepository implements CacheableInterface
     {
         return Airline::class;
     }
+
+    /**
+     * Return the list of airline formatted for a select box
+     * @return array
+     */
+    public function selectBoxList()
+    {
+        $retval = [];
+        $items = $this->all();
+
+        foreach ($items as $i) {
+            $retval[$i->id] = $i->name;
+        }
+
+        return $retval;
+    }
 }

@@ -20,4 +20,19 @@ class AirportRepository extends BaseRepository implements CacheableInterface
     {
         return Airport::class;
     }
+
+    /**
+     * Return the list of airports formatted for a select box
+     * @return array
+     */
+    public function selectBoxList()
+    {
+        $retval = [];
+        $items = $this->all();
+        foreach ($items as $i) {
+            $retval[$i->icao] = $i->icao . ' - ' . $i->name;
+        }
+
+        return $retval;
+    }
 }

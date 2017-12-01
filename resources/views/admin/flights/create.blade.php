@@ -1,22 +1,12 @@
 @extends('admin.app')
-
+@section('title', 'Edit Flight')
 @section('content')
-    <section class="content-header">
-        <h1>Create Flight</h1>
-    </section>
-    <div class="content">
+    <div class="card  border-blue-bottom">
         @include('adminlte-templates::common.errors')
-        <div class="box box-primary">
-
-            <div class="box-body">
-                <div class="row">
-                    {!! Form::open(['route' => 'admin.flights.store']) !!}
-
-                        @include('admin.flights.fields')
-
-                    {!! Form::close() !!}
-                </div>
-            </div>
+        <div class="content">
+            {!! Form::model($flight, ['route' => ['admin.flights.store']]) !!}
+                @include('admin.flights.fields')
+            {!! Form::close() !!}
         </div>
     </div>
 @endsection

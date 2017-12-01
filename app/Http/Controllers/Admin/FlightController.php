@@ -18,6 +18,11 @@ use Response;
 
 class FlightController extends BaseController
 {
+    private $airlineRepo,
+            $airportRepo,
+            $flightRepo,
+            $subfleetRepo;
+
     public function __construct(
         AirlineRepository $airlineRepo,
         AirportRepository $airportRepo,
@@ -46,10 +51,9 @@ class FlightController extends BaseController
     }
 
     /**
-     * Display a listing of the Flight.
-     *
      * @param Request $request
-     * @return Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Prettus\Repository\Exceptions\RepositoryException
      */
     public function index(Request $request)
     {
@@ -67,15 +71,17 @@ class FlightController extends BaseController
      */
     public function create()
     {
-        return view('admin.flights.create');
+        return view('admin.flights.create', [
+            'flight'   => null,
+            'airlines' => $this->airlineRepo->selectBoxList(),
+            'airports' => $this->airportRepo->selectBoxList(),
+        ]);
     }
 
     /**
-     * Store a newly created Flight in storage.
-     *
      * @param CreateFlightRequest $request
-     *
-     * @return Response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
     public function store(CreateFlightRequest $request)
     {
@@ -84,15 +90,12 @@ class FlightController extends BaseController
         $flight = $this->flightRepo->create($input);
 
         Flash::success('Flight saved successfully.');
-        return redirect(route('admin.flights.index'));
+        return redirect(route('admin.flights.edit', $flight->id));
     }
 
     /**
-     * Display the specified Flight.
-     *
-     * @param  int $id
-     *
-     * @return Response
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
      */
     public function show($id)
     {
@@ -111,11 +114,8 @@ class FlightController extends BaseController
     }
 
     /**
-     * Show the form for editing the specified Flight.
-     *
-     * @param  int $id
-     *
-     * @return Response
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
      */
     public function edit($id)
     {
@@ -129,19 +129,17 @@ class FlightController extends BaseController
         $avail_subfleets = $this->getAvailSubfleets($flight);
         return view('admin.flights.edit', [
             'flight' => $flight,
-            'airlines' => $this->airlineRepo->all()->pluck('name', 'id'),
-            'airports' => $this->airportRepo->all()->pluck('icao', 'icao'),
+            'airlines' => $this->airlineRepo->selectBoxList(),
+            'airports' => $this->airportRepo->selectBoxList(),
             'avail_subfleets' => $avail_subfleets,
         ]);
     }
 
     /**
-     * Update the specified Flight in storage.
-     *
-     * @param  int              $id
+     * @param $id
      * @param UpdateFlightRequest $request
-     *
-     * @return Response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
     public function update($id, UpdateFlightRequest $request)
     {
@@ -159,11 +157,8 @@ class FlightController extends BaseController
     }
 
     /**
-     * Remove the specified Flight from storage.
-     *
-     * @param  int $id
-     *
-     * @return Response
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function destroy($id)
     {
@@ -180,6 +175,10 @@ class FlightController extends BaseController
         return redirect(route('admin.flights.index'));
     }
 
+    /**
+     * @param $flight
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     protected function return_fields_view($flight)
     {
         $flight->refresh();
@@ -188,6 +187,10 @@ class FlightController extends BaseController
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
+     */
     public function fields(Request $request)
     {
         $id = $request->id;
@@ -222,6 +225,10 @@ class FlightController extends BaseController
         return $this->return_fields_view($flight);
     }
 
+    /**
+     * @param $flight
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     protected function return_subfleet_view($flight)
     {
         $avail_subfleets = $this->getAvailSubfleets($flight);
@@ -231,6 +238,10 @@ class FlightController extends BaseController
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
+     */
     public function subfleets(Request $request)
     {
         $id = $request->id;

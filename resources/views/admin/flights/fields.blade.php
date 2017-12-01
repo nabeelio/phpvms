@@ -14,7 +14,11 @@
     <!-- Active Field -->
     <div class="form-group col-sm-2">
         {!! Form::label('active', 'Active:') !!}
-        {!! Form::checkbox('active', $flight->active, ['class' => 'form-control icheck']) !!}
+        @if($flight!==null)
+            {!! Form::checkbox('active', $flight->active, ['class' => 'form-control icheck']) !!}
+        @else
+            {!! Form::checkbox('active', null, ['class' => 'form-control icheck']) !!}
+        @endif
     </div>
 </div>
 
