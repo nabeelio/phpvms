@@ -22,7 +22,6 @@
         <div class="col-12 text-center">
             {{ $flights->links('admin.pagination.default') }}
         </div>
-
     </div>
 @endsection
 

@@ -46,7 +46,7 @@ class PirepController extends BaseController
 
         $pireps = $this->pirepRepo
                        ->orderBy('created_at', 'desc')
-                       ->all();
+                       ->paginate();
 
         return view('admin.pireps.index', [
             'pireps' => $pireps
