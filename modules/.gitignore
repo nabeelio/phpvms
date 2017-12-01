@@ -3,4 +3,4 @@
 
 # But keep the sample and this file around
 !.gitignore
-!Sample
+!Sample/**
