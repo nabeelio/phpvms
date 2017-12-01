@@ -31,7 +31,6 @@ class PirepController extends Controller
         AirportRepository $airportRepo,
         PirepFieldRepository $pirepFieldRepo
     ) {
-        parent::__construct();
         $this->airlineRepo = $airlineRepo;
         $this->aircraftRepo = $aircraftRepo;
         $this->pirepRepo = $pirepRepo;
