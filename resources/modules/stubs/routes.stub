@@ -1,0 +1,24 @@
+<?php
+
+Route::group([
+    'as' => '$LOWER_NAME$.',
+    'prefix' => '$LOWER_NAME$',
+    'middleware' => [
+        'web',
+        'role:admin|user' # leave blank for public
+    ],
+    'namespace' => '$MODULE_NAMESPACE$\$STUDLY_NAME$\Http\Controllers'
+], function() {
+
+    # all your routes are prefixed with the above prefix
+    # e.g. yoursite.com/sample
+    Route::get('/', '$STUDLY_NAME$Controller@index');
+
+    # This is the admin path. Comment this out if you don't have
+    # an admin panel component.
+    Route::group([
+         'middleware' => ['role:admin'],
+     ], function () {
+        Route::get('/admin', 'AdminController@index');
+    });
+});
