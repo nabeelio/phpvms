@@ -4,6 +4,7 @@
     <exclude-output />
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" packagePrefix="Tests\" />
+      <sourceFolder url="file://$MODULE_DIR$/modules" isTestSource="false" packagePrefix="Modules\" />
       <sourceFolder url="file://$MODULE_DIR$/app" isTestSource="false" packagePrefix="App\" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/chrisbjr/api-guard" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/dg/rss-php" />
@@ -21,6 +22,9 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/maatwebsite/excel" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/makinacorpus/php-bloom" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/nikic/php-parser" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/nwidart/laravel-modules" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/orchestra/testbench" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/orchestra/testbench-core" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/phar-io/manifest" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/phar-io/version" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/phenx/php-font-lib" />
@@ -61,6 +65,9 @@
           <root url="file://$MODULE_DIR$/vendor/maatwebsite/excel" />
           <root url="file://$MODULE_DIR$/vendor/makinacorpus/php-bloom" />
           <root url="file://$MODULE_DIR$/vendor/nikic/php-parser" />
+          <root url="file://$MODULE_DIR$/vendor/nwidart/laravel-modules" />
+          <root url="file://$MODULE_DIR$/vendor/orchestra/testbench" />
+          <root url="file://$MODULE_DIR$/vendor/orchestra/testbench-core" />
           <root url="file://$MODULE_DIR$/vendor/phar-io/manifest" />
           <root url="file://$MODULE_DIR$/vendor/phar-io/version" />
           <root url="file://$MODULE_DIR$/vendor/phenx/php-font-lib" />
@@ -99,6 +106,9 @@
           <root url="file://$MODULE_DIR$/vendor/maatwebsite/excel" />
           <root url="file://$MODULE_DIR$/vendor/makinacorpus/php-bloom" />
           <root url="file://$MODULE_DIR$/vendor/nikic/php-parser" />
+          <root url="file://$MODULE_DIR$/vendor/nwidart/laravel-modules" />
+          <root url="file://$MODULE_DIR$/vendor/orchestra/testbench" />
+          <root url="file://$MODULE_DIR$/vendor/orchestra/testbench-core" />
           <root url="file://$MODULE_DIR$/vendor/phar-io/manifest" />
           <root url="file://$MODULE_DIR$/vendor/phar-io/version" />
           <root url="file://$MODULE_DIR$/vendor/phenx/php-font-lib" />
