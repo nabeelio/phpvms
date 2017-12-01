@@ -1,14 +1,8 @@
 <?php
 
-Route::group([
-    'as' => 'sample.',
-    'prefix' => 'sample',
-    'middleware' => [
-        'web',
-        'role:admin|user' # leave blank for public
-    ],
-    'namespace' => 'Modules\Sample\Http\Controllers'
-], function() {
+Route::group(['middleware' => [
+    'role:admin|user' # leave blank to make this public
+]], function() {
 
     # all your routes are prefixed with the above prefix
     # e.g. yoursite.com/sample

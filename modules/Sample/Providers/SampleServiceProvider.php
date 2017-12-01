@@ -4,6 +4,8 @@ namespace Modules\Sample\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
+use Route;
+
 
 class SampleServiceProvider extends ServiceProvider
 {
@@ -42,7 +44,15 @@ class SampleServiceProvider extends ServiceProvider
      */
     protected function registerRoutes()
     {
-        $this->loadRoutesFrom(__DIR__ . '/../Http/routes.php');
+        Route::group([
+            'as' => 'sample.',
+            'prefix' => 'sample',
+            // If you want a RESTful module, change this to 'api'
+            'middleware' => ['web'],
+            'namespace' => 'Modules\Sample\Http\Controllers'
+        ], function() {
+            $this->loadRoutesFrom(__DIR__ . '/../Http/routes.php');
+        });
     }
 
     /**

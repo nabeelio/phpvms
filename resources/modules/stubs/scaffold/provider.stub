@@ -4,6 +4,8 @@ namespace $NAMESPACE$;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
+use Route;
+
 
 class $CLASS$ extends ServiceProvider
 {
@@ -42,7 +44,15 @@ class $CLASS$ extends ServiceProvider
      */
     protected function registerRoutes()
     {
-        $this->loadRoutesFrom(__DIR__ . '/../Http/routes.php');
+        Route::group([
+            'as' => '$LOWER_NAME$.',
+            'prefix' => '$LOWER_NAME$',
+            // If you want a RESTful module, change this to 'api'
+            'middleware' => ['web'],
+            'namespace' => '$MODULE_NAMESPACE$\$STUDLY_NAME$\Http\Controllers'
+        ], function() {
+            $this->loadRoutesFrom(__DIR__ . '/../Http/routes.php');
+        });
     }
 
     /**
