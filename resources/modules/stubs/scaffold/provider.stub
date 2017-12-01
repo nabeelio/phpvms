@@ -44,7 +44,7 @@ class $CLASS$ extends ServiceProvider
     public function registerLinks()
     {
         // Show this link if logged in
-        $this->moduleSvc->addFrontendLink('$STUDLY_NAME$', '/$LOWER_NAME$', '', $logged_in=true);
+        // $this->moduleSvc->addFrontendLink('$STUDLY_NAME$', '/$LOWER_NAME$', '', $logged_in=true);
 
         // Admin links:
         $this->moduleSvc->addAdminLink('$STUDLY_NAME$', '/$LOWER_NAME$/admin');

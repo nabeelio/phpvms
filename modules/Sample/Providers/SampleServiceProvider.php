@@ -44,7 +44,7 @@ class SampleServiceProvider extends ServiceProvider
     public function registerLinks()
     {
         // Show this link if logged in
-        $this->moduleSvc->addFrontendLink('Sample', '/sample', '', $logged_in=true);
+        // $this->moduleSvc->addFrontendLink('Sample', '/sample', '', $logged_in=true);
 
         // Admin links:
         $this->moduleSvc->addAdminLink('Sample', '/sample/admin');
