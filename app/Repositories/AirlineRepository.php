@@ -11,17 +11,11 @@ class AirlineRepository extends BaseRepository implements CacheableInterface
 {
     use CacheableRepository;
 
-    /**
-     * @var array
-     */
     protected $fieldSearchable = [
         'code',
-        'name'
+        'name' => 'like',
     ];
 
-    /**
-     * Configure the Model
-     **/
     public function model()
     {
         return Airline::class;

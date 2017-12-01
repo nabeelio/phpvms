@@ -2,19 +2,20 @@
 namespace App\Repositories;
 
 use App\Models\User;
+use Prettus\Repository\Contracts\CacheableInterface;
+use Prettus\Repository\Traits\CacheableRepository;
 
-class UserRepository extends BaseRepository
+class UserRepository extends BaseRepository implements CacheableInterface
 {
-    /**
-     * @var array
-     */
+    use CacheableRepository;
+
     protected $fieldSearchable = [
-        'email'
+        'name' => 'like',
+        'email' => 'like',
+        'home_airport_id',
+        'curr_airport_id',
     ];
 
-    /**
-     * Configure the Model
-     **/
     public function model()
     {
         return User::class;

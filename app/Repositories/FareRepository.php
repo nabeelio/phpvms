@@ -3,24 +3,19 @@
 namespace App\Repositories;
 
 use App\Models\Fare;
+use Prettus\Repository\Contracts\CacheableInterface;
+use Prettus\Repository\Traits\CacheableRepository;
 
-class FareRepository extends BaseRepository
+class FareRepository extends BaseRepository implements CacheableInterface
 {
-    /**
-     * @var array
-     */
+    use CacheableRepository;
+
     protected $fieldSearchable = [
-        'code',
-        'name',
-        'price',
-        'cost',
-        'notes',
-        'active'
+        'code' => 'like',
+        'name' => 'like',
+        'notes' => 'like',
     ];
 
-    /**
-     * Configure the Model
-     **/
     public function model()
     {
         return Fare::class;

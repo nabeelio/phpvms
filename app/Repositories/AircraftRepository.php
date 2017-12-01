@@ -10,19 +10,12 @@ class AircraftRepository extends BaseRepository implements CacheableInterface
 {
     use CacheableRepository;
 
-    /**
-     * @var array
-     */
-    protected $fieldSearchable
-        = [
-            'name',
-            'registration',
-            'active',
-        ];
+    protected $fieldSearchable = [
+        'name' => 'like',
+        'registration' => 'like',
+        'active',
+    ];
 
-    /**
-     * Configure the Model
-     **/
     public function model()
     {
         return Aircraft::class;

@@ -3,19 +3,18 @@
 namespace App\Repositories;
 
 use App\Models\Subfleet;
+use Prettus\Repository\Contracts\CacheableInterface;
+use Prettus\Repository\Traits\CacheableRepository;
 
-class SubfleetRepository extends BaseRepository
+class SubfleetRepository extends BaseRepository implements CacheableInterface
 {
-    /**
-     * @var array
-     */
-    protected $fieldSearchable = [
+    use CacheableRepository;
 
+    protected $fieldSearchable = [
+        'name' => 'like',
+        'type' => 'like',
     ];
 
-    /**
-     * Configure the Model
-     **/
     public function model()
     {
         return Subfleet::class;

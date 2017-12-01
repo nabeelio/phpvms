@@ -10,9 +10,6 @@ class FlightRepository extends BaseRepository implements CacheableInterface
 {
     use CacheableRepository;
 
-    /**
-     * @var array
-     */
     protected $fieldSearchable = [
         'arr_airport_id',
         'dpt_airport_id',
@@ -21,9 +18,6 @@ class FlightRepository extends BaseRepository implements CacheableInterface
         'notes' => 'like',
     ];
 
-    /**
-     * Configure the Model
-     **/
     public function model()
     {
         return Flight::class;

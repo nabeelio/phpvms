@@ -7,6 +7,11 @@ use Illuminate\Validation\Validator;
 
 abstract class BaseRepository extends \Prettus\Repository\Eloquent\BaseRepository {
 
+    /**
+     * @param $id
+     * @param array $columns
+     * @return mixed|void
+     */
     public function findWithoutFail($id, $columns = ['*'])
     {
         try {
@@ -16,6 +21,10 @@ abstract class BaseRepository extends \Prettus\Repository\Eloquent\BaseRepositor
         }
     }
 
+    /**
+     * @param $values
+     * @return bool
+     */
     public function validate($values)
     {
         $validator = Validator::make(

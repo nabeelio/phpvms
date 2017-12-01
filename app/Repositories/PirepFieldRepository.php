@@ -6,16 +6,10 @@ use App\Models\PirepField;
 
 class PirepFieldRepository extends BaseRepository
 {
-    /**
-     * @var array
-     */
     protected $fieldSearchable = [
-        'name'
+        'name' => 'like',
     ];
 
-    /**
-     * Configure the Model
-     **/
     public function model()
     {
         return PirepField::class;

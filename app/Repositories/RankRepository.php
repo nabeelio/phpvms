@@ -10,16 +10,10 @@ class RankRepository extends BaseRepository implements CacheableInterface
 {
     use CacheableRepository;
 
-    /**
-     * @var array
-     */
     protected $fieldSearchable = [
-
+        'name' => 'like',
     ];
 
-    /**
-     * Configure the Model
-     **/
     public function model()
     {
         return Rank::class;

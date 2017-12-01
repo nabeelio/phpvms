@@ -34,18 +34,16 @@ class PirepController extends BaseController
     }
 
     /**
-     * Display a listing of the Pirep.
-     *
      * @param Request $request
-     * @return Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Prettus\Repository\Exceptions\RepositoryException
      */
     public function index(Request $request)
     {
         $criterea = new RequestCriteria($request);
         $this->pirepRepo->pushCriteria($criterea);
 
-        $pireps = $this->pirepRepo
-                       ->orderBy('created_at', 'desc')
+        $pireps = $this->pirepRepo->orderBy('created_at', 'desc')
                        ->paginate();
 
         return view('admin.pireps.index', [
@@ -64,11 +62,9 @@ class PirepController extends BaseController
     }
 
     /**
-     * Store a newly created Pirep in storage.
-     *
      * @param CreatePirepRequest $request
-     *
-     * @return Response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
     public function store(CreatePirepRequest $request)
     {
@@ -83,7 +79,6 @@ class PirepController extends BaseController
      * Display the specified Pirep.
      *
      * @param  int $id
-     *
      * @return Response
      */
     public function show($id)
@@ -104,7 +99,6 @@ class PirepController extends BaseController
      * Show the form for editing the specified Pirep.
      *
      * @param  int $id
-     *
      * @return Response
      */
     public function edit($id)
@@ -123,12 +117,10 @@ class PirepController extends BaseController
     }
 
     /**
-     * Update the specified Pirep in storage.
-     *
-     * @param  int              $id
+     * @param $id
      * @param UpdatePirepRequest $request
-     *
-     * @return Response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
     public function update($id, UpdatePirepRequest $request)
     {

@@ -4,19 +4,17 @@ namespace App\Repositories;
 
 use App\Models\Pirep;
 use App\Models\User;
+use Prettus\Repository\Contracts\CacheableInterface;
+use Prettus\Repository\Traits\CacheableRepository;
 
-class PirepRepository extends BaseRepository
+class PirepRepository extends BaseRepository implements CacheableInterface
 {
-    /**
-     * @var array
-     */
+    use CacheableRepository;
+
     protected $fieldSearchable = [
         'user_id'
     ];
 
-    /**
-     * Configure the Model
-     **/
     public function model()
     {
         return Pirep::class;
