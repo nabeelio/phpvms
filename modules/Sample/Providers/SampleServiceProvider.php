@@ -9,24 +9,23 @@ use Route;
 
 class SampleServiceProvider extends ServiceProvider
 {
-    /**
-     * Indicates if loading of the provider is deferred.
-     *
-     * @var bool
-     */
     protected $defer = false;
+    protected $moduleSvc;
 
     /**
      * Boot the application events.
-     *
-     * @return void
      */
     public function boot()
     {
+        $this->moduleSvc = app('App\Services\ModuleService');
+
         $this->registerRoutes();
         $this->registerTranslations();
         $this->registerConfig();
         $this->registerViews();
+
+        $this->registerLinks();
+
         $this->registerFactories();
         $this->loadMigrationsFrom(__DIR__ . '/../Database/migrations');
     }
@@ -37,6 +36,18 @@ class SampleServiceProvider extends ServiceProvider
     public function register()
     {
         //
+    }
+
+    /**
+     * Add module links here
+     */
+    public function registerLinks()
+    {
+        // Show this link if logged in
+        $this->moduleSvc->addFrontendLink('Sample', '/sample', '', $logged_in=true);
+
+        // Admin links:
+        $this->moduleSvc->addAdminLink('Sample', '/sample/admin');
     }
 
     /**

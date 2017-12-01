@@ -1,3 +1,4 @@
+@inject('moduleSvc', 'App\Services\ModuleService')
 <!DOCTYPE html>
 <html lang="en">
 
@@ -58,7 +59,19 @@
                             <p>Register</p>
                         </a>
                     </li>
+
+                    {{-- Show the module links for being logged out --}}
+                    @foreach($moduleSvc->getFrontendLinks($logged_in=false) as &$link)
+                        <li class="nav-item">
+                            <a class="nav-link" href="{!! url($link['url']) !!}">
+                                <i class="{!! $link['icon'] !!}"></i>
+                                <p>{!! $link['title'] !!}</p>
+                            </a>
+                        </li>
+                    @endforeach
+
                 @else
+
                     <li class="nav-item">
                         <a class="nav-link" href="{!! url('/dashboard') !!}">
                             <i class="fa fa-tachometer" aria-hidden="true"></i>
@@ -91,6 +104,17 @@
                             </a>
                         </li>
                     @endif
+
+                    {{-- Show the module links for being logged out --}}
+                    @foreach($moduleSvc->getFrontendLinks($logged_in=true) as &$link)
+                        <li class="nav-item">
+                            <a class="nav-link" href="{!! url($link['url']) !!}">
+                                <i class="{!! $link['icon'] !!}"></i>
+                                <p>{!! $link['title'] !!}</p>
+                            </a>
+                        </li>
+                    @endforeach
+
                     <li class="nav-item">
                         <a class="nav-link" href="{!! url('/logout') !!}">
                             <i class="fa fa-external-link-square" aria-hidden="true"></i>
