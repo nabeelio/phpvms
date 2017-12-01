@@ -14,8 +14,8 @@ users:
     password: admin
     rank_id: 1
     airline_id: 1
-    home_airport_id: 1
-    curr_airport_id: 2
+    home_airport_id: KAUS
+    curr_airport_id: KJFK
     flights: 1
     flight_time: 43200
     created_at: now
@@ -27,8 +27,8 @@ users:
     password: admin
     rank_id: 1
     airline_id: 1
-    home_airport_id: 2
-    curr_airport_id: 2
+    home_airport_id: KJFK
+    curr_airport_id: KJFK
     flights: 1
     flight_time: 43200
     created_at: now
@@ -40,8 +40,8 @@ users:
     password: admin
     rank_id: 1
     airline_id: 1
-    home_airport_id: 2
-    curr_airport_id: 2
+    home_airport_id: KJFK
+    curr_airport_id: KAUS
     flights: 1
     flight_time: 43200
     created_at: now
@@ -88,19 +88,19 @@ airlines:
     updated_at: now
 
 airports:
-  - id: 1
+  - id: KAUS
     icao: KAUS
     name: Austin-Bergstrom
     location: Austin, Texas, USA
     lat: 30.1945278
     lon: -97.6698889
-  - id: 2
+  - id: KJFK
     icao: KJFK
     name: John F Kennedy
     location: New York, New York, USA
     lat: 40.6399257
     lon: -73.7786950
-  - id: 3
+  - id: EGLL
     icao: EGLL
     name: London Heathrow
     location: London, England
@@ -186,26 +186,122 @@ flights:
   - id: flightid_1
     airline_id: 1
     flight_number: 100
-    dpt_airport_id: 1
-    arr_airport_id: 2
+    dpt_airport_id: KAUS
+    arr_airport_id: KJFK
     route: KAUS KJFK
     dpt_time: 6PM CST
     arr_time: 11PM EST
   - id: flightid_2
     airline_id: 1
     flight_number: 101
-    dpt_airport_id: 2
-    arr_airport_id: 1
+    dpt_airport_id: KJFK
+    arr_airport_id: KAUS
     dpt_time: 9AM EST
     arr_time: 12PM CST
     route: KJFK KAUS
   - id: flightid_3
     airline_id: 1
     flight_number: 200
-    dpt_airport_id: 2
-    arr_airport_id: 3
+    dpt_airport_id: KJFK
+    arr_airport_id: KAUS
     dpt_time: 9AM EST
     arr_time: 12PM CST
+    route: KJFK KAUS
+  - id: flightid_4
+    airline_id: 1
+    flight_number: 201
+    dpt_airport_id: KJFK
+    arr_airport_id: KAUS
+    dpt_time: 10AM EST
+    arr_time: 1PM CST
+    route: KJFK KAUS
+  - id: flightid_5
+    airline_id: 1
+    flight_number: 202
+    dpt_airport_id: KJFK
+    arr_airport_id: KAUS
+    dpt_time: 11AM EST
+    arr_time: 2PM CST
+    route: KJFK KAUS
+  - id: flightid_6
+    airline_id: 1
+    flight_number: 203
+    dpt_airport_id: KJFK
+    arr_airport_id: KAUS
+    dpt_time: 12PM EST
+    arr_time: 3PM CST
+    route: KJFK KAUS
+  - id: flightid_7
+    airline_id: 1
+    flight_number: 204
+    dpt_airport_id: KJFK
+    arr_airport_id: KAUS
+    dpt_time: 1PM EST
+    arr_time: 4PM CST
+    route: KJFK KAUS
+  - id: flightid_8
+    airline_id: 1
+    flight_number: 205
+    dpt_airport_id: KJFK
+    arr_airport_id: KAUS
+    dpt_time: 2PM EST
+    arr_time: 5PM CST
+    route: KJFK KAUS
+  - id: flightid_9
+    airline_id: 1
+    flight_number: 206
+    dpt_airport_id: KJFK
+    arr_airport_id: KAUS
+    dpt_time: 3PM EST
+    arr_time: 6PM CST
+    route: KJFK KAUS
+  - id: flightid_10
+    airline_id: 1
+    flight_number: 207
+    dpt_airport_id: KJFK
+    arr_airport_id: KAUS
+    dpt_time: 4PM EST
+    arr_time: 7PM CST
+    route: KJFK KAUS
+  - id: flightid_11
+    airline_id: 1
+    flight_number: 208
+    dpt_airport_id: KJFK
+    arr_airport_id: KAUS
+    dpt_time: 5PM EST
+    arr_time: 8PM CST
+    route: KJFK KAUS
+  - id: flightid_12
+    airline_id: 1
+    flight_number: 209
+    dpt_airport_id: KJFK
+    arr_airport_id: KAUS
+    dpt_time: 6PM EST
+    arr_time: 9PM CST
+    route: KJFK KAUS
+  - id: flightid_13
+    airline_id: 1
+    flight_number: 210
+    dpt_airport_id: KJFK
+    arr_airport_id: KAUS
+    dpt_time: 7PM EST
+    arr_time: 10PM CST
+    route: KJFK KAUS
+  - id: flightid_14
+    airline_id: 1
+    flight_number: 211
+    dpt_airport_id: KJFK
+    arr_airport_id: KAUS
+    dpt_time: 8PM EST
+    arr_time: 11PM CST
+    route: KJFK KAUS
+  - id: flightid_15
+    airline_id: 1
+    flight_number: 212
+    dpt_airport_id: KJFK
+    arr_airport_id: KAUS
+    dpt_time: 9PM EST
+    arr_time: 12AM CST
     route: KJFK KAUS
 
 flight_fields:
@@ -232,8 +328,8 @@ pireps:
     airline_id: 1
     flight_id: flightid_1
     aircraft_id: 1
-    dpt_airport_id: 1
-    arr_airport_id: 2
+    dpt_airport_id: KAUS
+    arr_airport_id: KJFK
     flight_time: 21600  # 6 hours
     status: -1
     notes: just a pilot report
@@ -242,8 +338,8 @@ pireps:
     airline_id: 1
     flight_id: flightid_2
     aircraft_id: 1
-    dpt_airport_id: 2
-    arr_airport_id: 1
+    dpt_airport_id: KJFK
+    arr_airport_id: KAUS
     flight_time: 21600  # 6 hours
     status: -1
     notes: just a pilot report

@@ -20,8 +20,8 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->integer('airline_id')->nullable()->unsigned();
             $table->integer('rank_id')->nullable()->unsigned();
-            $table->integer('home_airport_id')->nullable()->unsigned();
-            $table->integer('curr_airport_id')->nullable()->unsigned();
+            $table->string('home_airport_id', 5)->nullable();
+            $table->string('curr_airport_id', 5)->nullable();
             $table->uuid('last_pirep_id')->nullable();
             $table->bigInteger('flights')->unsigned()->default(0);
             $table->bigInteger('flight_time')->unsigned()->default(0);

@@ -5,15 +5,15 @@ namespace App\Http\Controllers\Frontend;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
-use App\Models\Airline;
-use App\Models\Airport;
 use App\Models\Pirep;
 use App\Models\PirepField;
 
 use App\Http\Controllers\Controller;
 use App\Repositories\AirlineRepository;
 use App\Repositories\AircraftRepository;
+use App\Repositories\AirportRepository;
 use App\Repositories\PirepRepository;
+use App\Repositories\PirepFieldRepository;
 
 
 class PirepController extends Controller
@@ -21,20 +21,25 @@ class PirepController extends Controller
     public function __construct(
         AirlineRepository $airlineRepo,
         PirepRepository $pirepRepo,
-        AircraftRepository $aircraftRepo)
-    {
+        AircraftRepository $aircraftRepo,
+        AirportRepository $airportRepo,
+        PirepFieldRepository $pirepFieldRepo
+    ) {
+        parent::__construct();
         $this->airlineRepo = $airlineRepo;
         $this->aircraftRepo = $aircraftRepo;
         $this->pirepRepo = $pirepRepo;
+        $this->airportRepo = $airportRepo;
+        $this->pirepFieldRepo = $pirepFieldRepo;
     }
 
     public function airportList()
     {
         # TODO: Cache
         $retval = [];
-        $airports = Airport::all();
+        $airports = $this->airportRepo->all();
         foreach($airports as $airport) {
-            $retval[$airport->id] = $airport->icao.' - '.$airport->name;
+            $retval[$airport->icao] = $airport->icao.' - '.$airport->name;
         }
 
         return $retval;
@@ -55,9 +60,10 @@ class PirepController extends Controller
     public function index(Request $request)
     {
         $user = Auth::user();
-        $pireps = Pirep::where('user_id', $user->id)
-                       ->orderBy('created_at', 'desc')
-                       ->get();
+        $pireps = $this->pirepRepo
+                    ->where('user_id', $user->id)
+                    ->orderBy('created_at', 'desc')
+                    ->get();
 
         return $this->view('pireps.index', [
             'user' => $user,
@@ -72,9 +78,9 @@ class PirepController extends Controller
 
         return $this->view('pireps.create', [
             'airports' => $airports,
-            'airlines' => Airline::all()->pluck('name', 'id'),
+            'airlines' => $this->airlineRepo->all()->pluck('name', 'id'),
             'aircraft' => $aircraft,
-            'pirepfields' => PirepField::all(),
+            'pirepfields' => $this->pirepFieldRepo->all(),
             'fieldvalues' => [],
         ]);
     }

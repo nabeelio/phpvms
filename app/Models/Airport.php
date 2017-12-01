@@ -11,9 +11,10 @@ use Eloquent as Model;
 class Airport extends Model
 {
     public $table = 'airports';
-    protected $dates = ['deleted_at'];
+    public $timestamps = false;
 
     public $fillable = [
+        'id',
         'icao',
         'name',
         'location',
@@ -25,29 +26,27 @@ class Airport extends Model
     ];
 
     /**
-     * The attributes that should be casted to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-
-    ];
-
-    /**
      * Validation rules
      *
      * @var array
      */
     public static $rules = [
-        'icao' => 'required|unique:airports'
+        #'icao' => 'required|unique:airports'
     ];
 
-    public function save(array $options = [])
-    {
-        if(in_array('icao', $options)) {
-            $options['icao'] = strtoupper($options['icao']);
-        }
+    /**
+     * Some fancy callbacks
+     */
+    protected static function boot() {
 
-        return parent::save($options);
+        parent::boot();
+
+        /**
+         * Make sure the ID is set to the ICAO
+         */
+        static::creating(function (Airport $model) {
+            $model->icao = strtoupper($model->icao);
+            $model->id = $model->icao;
+        });
     }
 }

@@ -7,6 +7,8 @@ use App\Models\FlightFields;
 use App\Models\Airport;
 use App\Http\Requests\CreateFlightRequest;
 use App\Http\Requests\UpdateFlightRequest;
+use App\Repositories\AirlineRepository;
+use App\Repositories\AirportRepository;
 use App\Repositories\FlightRepository;
 use App\Repositories\SubfleetRepository;
 use Illuminate\Http\Request;
@@ -16,15 +18,15 @@ use Response;
 
 class FlightController extends BaseController
 {
-    /** @var  FlightRepository */
-    private $flightRepository, $subfleetRepo;
-
     public function __construct(
+        AirlineRepository $airlineRepo,
+        AirportRepository $airportRepo,
         FlightRepository $flightRepo,
         SubfleetRepository $subfleetRepo
-        )
-    {
-        $this->flightRepository = $flightRepo;
+    ) {
+        $this->airlineRepo = $airlineRepo;
+        $this->airportRepo = $airportRepo;
+        $this->flightRepo = $flightRepo;
         $this->subfleetRepo = $subfleetRepo;
     }
 
@@ -51,8 +53,8 @@ class FlightController extends BaseController
      */
     public function index(Request $request)
     {
-        $this->flightRepository->pushCriteria(new RequestCriteria($request));
-        $flights = $this->flightRepository->all();
+        $this->flightRepo->pushCriteria(new RequestCriteria($request));
+        $flights = $this->flightRepo->paginate(10);
         return view('admin.flights.index', [
             'flights' => $flights,
         ]);
@@ -79,7 +81,7 @@ class FlightController extends BaseController
     {
         $input = $request->all();
 
-        $flight = $this->flightRepository->create($input);
+        $flight = $this->flightRepo->create($input);
 
         Flash::success('Flight saved successfully.');
         return redirect(route('admin.flights.index'));
@@ -94,7 +96,7 @@ class FlightController extends BaseController
      */
     public function show($id)
     {
-        $flight = $this->flightRepository->findWithoutFail($id);
+        $flight = $this->flightRepo->findWithoutFail($id);
 
         if (empty($flight)) {
             Flash::error('Flight not found');
@@ -117,7 +119,7 @@ class FlightController extends BaseController
      */
     public function edit($id)
     {
-        $flight = $this->flightRepository->findWithoutFail($id);
+        $flight = $this->flightRepo->findWithoutFail($id);
 
         if (empty($flight)) {
             Flash::error('Flight not found');
@@ -127,8 +129,8 @@ class FlightController extends BaseController
         $avail_subfleets = $this->getAvailSubfleets($flight);
         return view('admin.flights.edit', [
             'flight' => $flight,
-            'airlines' => Airline::all()->pluck('name', 'id'),
-            'airports' => Airport::all()->pluck('icao', 'id'),
+            'airlines' => $this->airlineRepo->all()->pluck('name', 'id'),
+            'airports' => $this->airportRepo->all()->pluck('icao', 'icao'),
             'avail_subfleets' => $avail_subfleets,
         ]);
     }
@@ -143,14 +145,14 @@ class FlightController extends BaseController
      */
     public function update($id, UpdateFlightRequest $request)
     {
-        $flight = $this->flightRepository->findWithoutFail($id);
+        $flight = $this->flightRepo->findWithoutFail($id);
 
         if (empty($flight)) {
             Flash::error('Flight not found');
             return redirect(route('admin.flights.index'));
         }
 
-        $flight = $this->flightRepository->update($request->all(), $id);
+        $flight = $this->flightRepo->update($request->all(), $id);
 
         Flash::success('Flight updated successfully.');
         return redirect(route('admin.flights.index'));
@@ -165,14 +167,14 @@ class FlightController extends BaseController
      */
     public function destroy($id)
     {
-        $flight = $this->flightRepository->findWithoutFail($id);
+        $flight = $this->flightRepo->findWithoutFail($id);
 
         if (empty($flight)) {
             Flash::error('Flight not found');
             return redirect(route('admin.flights.index'));
         }
 
-        $this->flightRepository->delete($id);
+        $this->flightRepo->delete($id);
 
         Flash::success('Flight deleted successfully.');
         return redirect(route('admin.flights.index'));
@@ -190,7 +192,7 @@ class FlightController extends BaseController
     {
         $id = $request->id;
 
-        $flight = $this->flightRepository->findWithoutFail($id);
+        $flight = $this->flightRepo->findWithoutFail($id);
         if (empty($flight)) {
             Flash::error('Flight not found');
             return redirect(route('admin.flights.index'));
@@ -233,7 +235,7 @@ class FlightController extends BaseController
     {
         $id = $request->id;
 
-        $flight = $this->flightRepository->findWithoutFail($id);
+        $flight = $this->flightRepo->findWithoutFail($id);
         if (empty($flight)) {
             Flash::error('Flight not found');
             return redirect(route('admin.flights.index'));

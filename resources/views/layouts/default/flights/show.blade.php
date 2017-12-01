@@ -5,7 +5,7 @@
     <h1 class="pull-left">{!! $flight->airline->code !!}{!! $flight->flight_number !!}</h1>
     <h1 class="pull-right">
         <a class="btn btn-primary pull-right" style="margin-top: -10px;margin-bottom: 5px"
-           href="{!! route('admin.flights.edit', $flight->id) !!}">Edit</a>
+           href="{!! route('flights.edit', $flight->id) !!}">Edit</a>
     </h1>
 </section>
 <section class="content">

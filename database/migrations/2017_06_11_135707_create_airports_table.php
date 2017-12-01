@@ -14,19 +14,17 @@ class CreateAirportsTable extends Migration
     public function up()
     {
         Schema::create('airports', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('icao', 5)->unique();
+//            $table->bigIncrements('id');
+            $table->string('id', 5)->primary();
+            $table->string('icao', 5);
             $table->string('name', 50);
             $table->string('location', 50)->nullable();
             $table->string('country', 50)->nullable();
             $table->double('fuel_100ll_cost', 19, 2)->default(0);
             $table->double('fuel_jeta_cost', 19, 2)->default(0);
             $table->double('fuel_mogas_cost', 19, 2)->default(0);
-            $table->float('lat', 7, 4)->default(0.0);
-            $table->float('lon', 7, 4)->default(0.0);
-            $table->timestamps();
-
-            $table->index('icao');
+            $table->float('lat', 7, 4)->default(0.0)->nullable();
+            $table->float('lon', 7, 4)->default(0.0)->nullable();
         });
     }
 

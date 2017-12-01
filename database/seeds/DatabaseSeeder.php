@@ -13,6 +13,7 @@ class DatabaseSeeder extends Seeder
     {
         $env = App::environment();
         $path = database_path('seeds/'.$env.'.yml');
+        print "Seeding seeds/$env.yml";
         if(!file_exists($path)) {
             $path = database_path('seeds/prod.yml');
         }
