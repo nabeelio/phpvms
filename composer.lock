@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "33bef024a559e95406c1115a955a8c5e",
+    "content-hash": "0cb626a4524ce3b7000623610d46d686",
     "packages": [
         {
             "name": "anlutro/l4-settings",
@@ -6654,6 +6654,57 @@
         }
     ],
     "packages-dev": [
+        {
+            "name": "bpocallaghan/generators",
+            "version": "5.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bpocallaghan/generators.git",
+                "reference": "69641f0b43e996e2155b43bb87af296dd3ef6349"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bpocallaghan/generators/zipball/69641f0b43e996e2155b43bb87af296dd3ef6349",
+                "reference": "69641f0b43e996e2155b43bb87af296dd3ef6349",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Bpocallaghan\\Generators\\GeneratorsServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Bpocallaghan\\Generators\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ben-Piet O'Callaghan",
+                    "email": "bpocallaghan@gmail.com"
+                }
+            ],
+            "description": "Custom Laravel 5 File Generators with config and publishable stubs.",
+            "keywords": [
+                "commands",
+                "config",
+                "customization",
+                "generators",
+                "laravel",
+                "stubs"
+            ],
+            "time": "2017-11-16T12:28:04+00:00"
+        },
         {
             "name": "filp/whoops",
             "version": "2.1.14",

@@ -53,7 +53,8 @@
         "mockery/mockery": "0.9.*",
         "laravel/homestead": "v6.2.2",
         "filp/whoops": "~2.0",
-        "orchestra/testbench": "v3.5.2"
+        "orchestra/testbench": "v3.5.2",
+        "bpocallaghan/generators": "5.0.1"
     },
     "autoload": {
         "classmap": [
