@@ -125,6 +125,8 @@
       <path value="$PROJECT_DIR$/vendor/orchestra/testbench" />
       <path value="$PROJECT_DIR$/vendor/orchestra/testbench-core" />
       <path value="$PROJECT_DIR$/vendor/nwidart/laravel-modules" />
+      <path value="$PROJECT_DIR$/vendor/sebastiaanluca/laravel-helpers" />
+      <path value="$PROJECT_DIR$/vendor/bpocallaghan/generators" />
     </include_path>
   </component>
   <component name="PhpProjectServersManager">

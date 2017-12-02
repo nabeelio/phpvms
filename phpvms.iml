@@ -6,6 +6,7 @@
       <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" packagePrefix="Tests\" />
       <sourceFolder url="file://$MODULE_DIR$/modules" isTestSource="false" packagePrefix="Modules\" />
       <sourceFolder url="file://$MODULE_DIR$/app" isTestSource="false" packagePrefix="App\" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/bpocallaghan/generators" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/chrisbjr/api-guard" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/dg/rss-php" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/doctrine/cache" />
@@ -49,6 +50,7 @@
       <library name="PHP" type="php">
         <CLASSES>
           <root url="file://$APPLICATION_HOME_DIR$/bin" />
+          <root url="file://$MODULE_DIR$/vendor/bpocallaghan/generators" />
           <root url="file://$MODULE_DIR$/vendor/chrisbjr/api-guard" />
           <root url="file://$MODULE_DIR$/vendor/dg/rss-php" />
           <root url="file://$MODULE_DIR$/vendor/doctrine/cache" />
@@ -90,6 +92,7 @@
         <JAVADOC />
         <SOURCES>
           <root url="file://$APPLICATION_HOME_DIR$/bin" />
+          <root url="file://$MODULE_DIR$/vendor/bpocallaghan/generators" />
           <root url="file://$MODULE_DIR$/vendor/chrisbjr/api-guard" />
           <root url="file://$MODULE_DIR$/vendor/dg/rss-php" />
           <root url="file://$MODULE_DIR$/vendor/doctrine/cache" />
