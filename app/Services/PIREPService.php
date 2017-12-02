@@ -5,6 +5,10 @@ namespace App\Services;
 use App\Models\Pirep;
 use App\Models\PirepFieldValues;
 
+use App\Events\PirepAccepted;
+use App\Events\PirepFiled;
+use App\Events\PirepRejected;
+use App\Events\UserStateChanged;
 
 class PIREPService extends BaseService
 {
@@ -40,10 +44,6 @@ class PIREPService extends BaseService
             $default_status = $pirep->pilot->rank->auto_approve_manual;
         }
 
-        if ($default_status == config('enums.pirep_status.ACCEPTED')) {
-            $pirep = $this->accept($pirep);
-        }
-
         $pirep->save();
         $pirep->refresh();
 
@@ -54,6 +54,12 @@ class PIREPService extends BaseService
             $v->value = $fv['value'];
             $v->source = $fv['source'];
             $v->save();
+        }
+
+        event(new PirepFiled($pirep));
+
+        if ($default_status == config('enums.pirep_status.ACCEPTED')) {
+            $pirep = $this->accept($pirep);
         }
 
         # only update the pilot last state if they are accepted
@@ -128,6 +134,8 @@ class PIREPService extends BaseService
 
         $this->setPilotState($pirep);
 
+        event(new PirepAccepted($pirep));
+
         return $pirep;
     }
 
@@ -154,6 +162,8 @@ class PIREPService extends BaseService
         $pirep->save();
         $pirep->refresh();
 
+        event(new PirepRejected($pirep));
+
         return $pirep;
     }
 
@@ -163,14 +173,7 @@ class PIREPService extends BaseService
         $pilot->curr_airport_id = $pirep->arr_airport_id;
         $pilot->last_pirep_id = $pirep->id;
         $pilot->save();
-    }
 
-    /**
-     * Calculate all of the finances for a PIREP
-     * @param Pirep $pirep
-     */
-    public function calculateFinances(Pirep &$pirep)
-    {
-
+        event(new UserStateChanged($pilot));
     }
 }

@@ -2,9 +2,13 @@
 
 namespace App\Services;
 
+use App\Events\UserRegistered;
 use App\Models\User;
 use App\Models\Rank;
 use App\Models\Role;
+
+use App\Events\UserStateChanged;
+
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 
@@ -17,6 +21,8 @@ class PilotService extends BaseService
         $pilot->flights = $pilot->flights + $count;
         $pilot->save();
 
+        event(new UserStateChanged($pilot));
+
         return $pilot;
     }
 
@@ -25,6 +31,8 @@ class PilotService extends BaseService
         $pilot->refresh();
         $pilot->flight_time = $pilot->flight_time + $hours;
         $pilot->save();
+
+        event(new UserStateChanged($pilot));
 
         return $pilot;
     }
@@ -52,6 +60,8 @@ class PilotService extends BaseService
 
         $pilot->save();
 
+        event(new UserStateChanged($pilot));
+
         return $pilot;
     }
 
@@ -68,6 +78,8 @@ class PilotService extends BaseService
         $user->attachRole($role);
         # Let's check their rank
         $this->calculatePilotRank($user);
+
+        event(new UserRegistered($user));
         # TODO: Send out an email
 
         # Looking good, let's return their information

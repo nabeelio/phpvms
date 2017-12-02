@@ -130,9 +130,5 @@ class AircraftTest extends TestCase
         $this->markTestSkipped(
             'This test has not been implemented yet.'
         );
-        return true;
-        # missing the name field
-        $svc = app('App\Services\AircraftService');
-        $svc->create(['icao' => $this->ICAO]);
     }
 }
