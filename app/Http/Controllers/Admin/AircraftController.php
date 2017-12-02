@@ -6,23 +6,18 @@ use App\Models\Subfleet;
 use App\Http\Requests\CreateAircraftRequest;
 use App\Http\Requests\UpdateAircraftRequest;
 use App\Repositories\AircraftRepository;
-use App\Repositories\SubfleetRepository;
-use App\Repositories\FareRepository;
 use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
-use Response;
+
 
 class AircraftController extends BaseController
 {
-    /** @var  SubfleetRepository */
-    private $aircraftRepository, $fareRepository;
+    private $aircraftRepository;
 
     public function __construct(
-        AircraftRepository $aircraftRepo,
-        FareRepository $fareRepo
+        AircraftRepository $aircraftRepo
     ) {
-        $this->fareRepository = $fareRepo;
         $this->aircraftRepository = $aircraftRepo;
     }
 
@@ -34,8 +29,9 @@ class AircraftController extends BaseController
         $this->aircraftRepository->pushCriteria(new RequestCriteria($request));
         $aircraft = $this->aircraftRepository->all();
 
-        return view('admin.aircraft.index')
-            ->with('aircraft', $aircraft);
+        return view('admin.aircraft.index', [
+            'aircraft', $aircraft
+        ]);
     }
 
     /**
@@ -107,8 +103,8 @@ class AircraftController extends BaseController
             return redirect(route('admin.aircraft.index'));
         }
 
-//        print_r($request->toArray());
-        $aircraft = $this->aircraftRepository->update($request->all(), $id);
+        $this->aircraftRepository->update($request->all(), $id);
+
         Flash::success('Aircraft updated successfully.');
         return redirect(route('admin.aircraft.index'));
     }
