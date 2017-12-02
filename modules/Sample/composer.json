@@ -10,8 +10,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Modules\\Sample\\Providers\\SampleServiceProvider",
-                "Modules\\Sample\\Providers\\EventServiceProvider"
+                "Modules\\Sample\\Providers\\SampleServiceProvider"
             ],
             "aliases": {
 
