@@ -1,6 +1,5 @@
 # Ignore everything so if we update via git, nothing is overwritten
-*
 
 # But keep the sample and this file around
 !.gitignore
-!Sample/*
+!/Sample/

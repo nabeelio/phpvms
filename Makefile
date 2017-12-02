@@ -11,7 +11,6 @@ all: build
 .PHONY:  build
 build:
 	@composer install --no-interaction
-	@php artisan optimize
 	@php artisan config:cache
 	@make db
 
@@ -22,7 +21,6 @@ install: db
 .PHONY: clean
 clean:
 	@php artisan cache:clear
-	@php artisan optimize
 	@php artisan route:clear
 	@php artisan config:clear
 

@@ -43,12 +43,12 @@
         "makinacorpus/php-bloom": "dev-master",
         "hashids/hashids": "2.0.*",
         "maatwebsite/excel": "2.1.*",
-        "phpunit/phpunit": "6.4.0",
         "scriptfusion/phpunit-immediate-exception-printer": "1.3.0",
         "nwidart/laravel-modules": "^2.6",
         "sebastiaanluca/laravel-helpers": "^1.0"
     },
     "require-dev": {
+        "phpunit/phpunit": "6.4.0",
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "0.9.*",
         "laravel/homestead": "v6.2.2",
@@ -81,17 +81,16 @@
             "php artisan key:generate"
         ],
         "post-install-cmd": [
-            "Illuminate\\Foundation\\ComposerScripts::postInstall",
-            "php artisan optimize"
+            "Illuminate\\Foundation\\ComposerScripts::postInstall"
         ],
         "post-update-cmd": [
             "Illuminate\\Foundation\\ComposerScripts::postUpdate",
             "php artisan ide-helper:generate",
-            "php artisan ide-helper:meta",
-            "php artisan optimize"
+            "php artisan ide-helper:meta"
         ],
         "post-autoload-dump": [
-            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump"
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "@php artisan package:discover"
         ]
     },
     "config": {
