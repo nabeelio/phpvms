@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "a263911023540210ba0c89e861f112a2",
+    "content-hash": "c8318b4b6a08d860e2332da87f030edf",
     "packages": [
         {
             "name": "anlutro/l4-settings",
@@ -1319,7 +1319,7 @@
                 "laravel",
                 "templates"
             ],
-            "time": "2017-11-25 04:43:54"
+            "time": "2017-11-25T04:43:54+00:00"
         },
         {
             "name": "infyomlabs/laravel-generator",
@@ -1385,7 +1385,7 @@
                 "test",
                 "view"
             ],
-            "time": "2017-11-25 05:18:22"
+            "time": "2017-11-25T05:18:22+00:00"
         },
         {
             "name": "jeremeamia/SuperClosure",
@@ -2037,7 +2037,7 @@
                 }
             ],
             "description": "Bloom filter implementation",
-            "time": "2017-11-30 17:51:14"
+            "time": "2017-11-30T17:51:14+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -3869,6 +3869,73 @@
             ],
             "description": "Immediately prints exception and assertion failures during testing.",
             "time": "2017-07-29T19:55:53+00:00"
+        },
+        {
+            "name": "sebastiaanluca/laravel-helpers",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sebastiaanluca/laravel-helpers.git",
+                "reference": "e362698b7f08ed047690754300c10b609af4d0d4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sebastiaanluca/laravel-helpers/zipball/e362698b7f08ed047690754300c10b609af4d0d4",
+                "reference": "e362698b7f08ed047690754300c10b609af4d0d4",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^5.4",
+                "php": "^7"
+            },
+            "require-dev": {
+                "illuminate/database": "^5.4",
+                "kint-php/kint": "^2.1",
+                "laravel/framework": "^5.4",
+                "laravelcollective/html": "^5.4",
+                "laravelista/ekko": "^1.3",
+                "mockery/mockery": "^0.9.9",
+                "nesbot/carbon": "^1.22",
+                "orchestra/testbench": "^3.4.2",
+                "phpunit/phpunit": "^6.2"
+            },
+            "suggest": {
+                "illuminate/database": "Laravel framework database component. Required for the table reader helper.",
+                "kint-php/kint": "A powerful and modern PHP debugging tool. Required for the debug helpers.",
+                "laravel/framework": "The Laravel framework. Required for some global helpers and the form helpers.",
+                "nesbot/carbon": "A simple PHP API extension for DateTime. Required for the carbonize collection macro and global helper."
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SebastiaanLuca\\Helpers\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sebastiaan Luca",
+                    "email": "hello@sebastiaanluca.com",
+                    "homepage": "https://www.sebastiaanluca.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "An extensive set of generic PHP and Laravel-specific helpers.",
+            "homepage": "https://github.com/sebastiaanluca/laravel-helpers",
+            "keywords": [
+                "array",
+                "blade",
+                "collection",
+                "form",
+                "helper",
+                "laravel",
+                "pipe",
+                "response"
+            ],
+            "time": "2017-11-05T17:39:05+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",

@@ -42,7 +42,8 @@
         "symfony/dom-crawler": "3.3.*",
         "phpunit/phpunit": "6.4.0",
         "scriptfusion/phpunit-immediate-exception-printer": "1.3.0",
-        "nwidart/laravel-modules": "^2.6"
+        "nwidart/laravel-modules": "^2.6",
+        "sebastiaanluca/laravel-helpers": "^1.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
