@@ -6,7 +6,7 @@ return [
 
     'stubs' => [
         'enabled' => true,
-        'path' => resource_path() . '/modules/stubs',
+        'path' => resource_path() . '/stubs/modules',
         'files' => [
             'start' => 'start.php',
             'routes' => 'Http/routes.php',
