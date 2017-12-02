@@ -26,6 +26,7 @@
         "zizaco/entrust": "5.2.x-dev",
         "prettus/l5-repository": "2.6.x",
         "spatie/laravel-pjax": "1.3.x",
+        "symfony/event-dispatcher": "v3.4.0",
         "symfony/yaml": "3.3.x",
         "league/geotools": "@stable",
         "toin0u/geotools-laravel": "^1.0",
