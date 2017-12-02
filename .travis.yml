@@ -18,6 +18,7 @@ before_script:
 
 script:
   - php artisan database:create --reset
+  - php artisan migrate:refresh --seed
   - vendor/bin/phpunit --debug --verbose
 
 after_success:
