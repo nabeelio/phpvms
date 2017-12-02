@@ -10,6 +10,7 @@
     "require": {
         "php": ">=7.0",
         "laravel/framework": "v5.5.x",
+        "symfony/lts": "v3",
         "barryvdh/laravel-ide-helper": "v2.4.x",
         "yajra/laravel-datatables-oracle": "6.24.1",
         "infyomlabs/laravel-generator": "5.5.x-dev",
