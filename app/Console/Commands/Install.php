@@ -27,14 +27,15 @@ class Install extends Command
 
         # Only run these if we're doing an initial install
         if(!$this->option('update')) {
+            $this->writeLocalConfig();
             $this->initialData();
         }
     }
 
     /**
-     * 1. Setup the database and run the migrations
-     *    Only call the database creation if we're not
-     *    explicitly trying to upgrade
+     * Setup the database and run the migrations
+     * Only call the database creation if we're not
+     * explicitly trying to upgrade
      */
     protected function setupDatabase()
     {
@@ -49,7 +50,15 @@ class Install extends Command
     }
 
     /**
-     * 2. Set an initial airline and admin user/password
+     * Write a local config file
+     */
+    protected function writeLocalConfig()
+    {
+
+    }
+
+    /**
+     * Set an initial airline and admin user/password
      */
     protected function initialData()
     {

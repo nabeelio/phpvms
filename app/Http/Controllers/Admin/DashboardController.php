@@ -2,10 +2,19 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Repositories\PirepRepository;
 use Illuminate\Http\Request;
 
 class DashboardController extends BaseController
 {
+    private $pirepRepo;
+
+    public function __construct(
+        PirepRepository $pirepRepo
+    ) {
+        $this->pirepRepo = $pirepRepo;
+    }
+
     /**
      * Display a listing of the Airlines.
      */
@@ -18,6 +27,7 @@ class DashboardController extends BaseController
         $feed = [];
         return view('admin.dashboard.index', [
             'feed' => $feed,
+            'pending_pireps' => $this->pirepRepo->getPendingCount(),
         ]);
     }
 }

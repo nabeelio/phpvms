@@ -38,4 +38,20 @@ class PirepRepository extends BaseRepository implements CacheableInterface
         $pireps = $this->orderBy('created_at', 'desc')->findWhere($where)->all();
         return $pireps;
     }
+
+    /**
+     * Number of PIREPs that are pending
+     * @param User|null $user
+     * @return mixed
+     */
+    public function getPendingCount(User $user = null)
+    {
+        $where = [];
+        if ($user !== null) {
+            $where['user_id'] = $user->id;
+        }
+
+        $pireps = $this->orderBy('created_at', 'desc')->findWhere($where)->count();
+        return $pireps;
+    }
 }

@@ -2,8 +2,8 @@
 
 @section('title', 'Pilot Reports')
 @section('actions')
+    <li><a href="{!! route('admin.pireps.index') !!}?search=status:0"><i class="ti-plus"></i>Pending</a></li>
     <li><a href="{!! route('admin.pireps.index') !!}"><i class="ti-plus"></i>View All</a></li>
-    <li><a href="{!! route('admin.pireps.index') !!}"><i class="ti-plus"></i>Pending</a></li>
 @endsection
 @section('content')
     @include('admin.pireps.table')

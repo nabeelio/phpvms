@@ -59,6 +59,26 @@ class PirepController extends BaseController
     }
 
     /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Prettus\Repository\Exceptions\RepositoryException
+     */
+    public function pending(Request $request)
+    {
+        $criterea = new RequestCriteria($request);
+        $this->pirepRepo->pushCriteria($criterea);
+
+        $pireps = $this->pirepRepo
+            ->findWhere(['status' => config('enums.pirep_status.PENDING')])
+            ->orderBy('created_at', 'desc')
+            ->paginate();
+
+        return view('admin.pireps.index', [
+            'pireps' => $pireps
+        ]);
+    }
+
+    /**
      * Show the form for creating a new Pirep.
      * @return Response
      */
