@@ -12,7 +12,9 @@ class PirepRepository extends BaseRepository implements CacheableInterface
     use CacheableRepository;
 
     protected $fieldSearchable = [
-        'user_id'
+        'user_id',
+        'flight_id',
+        'status',
     ];
 
     public function model()

@@ -6,7 +6,6 @@
         <a href="{!! route('admin.subfleets.create') !!}">
             <i class="ti-plus"></i>Add New</a>
     </li>
-
 @endsection
 @section('content')
     <div class="card">
@@ -14,4 +13,3 @@
         @include('admin.subfleets.table')
     </div>
 @endsection
-

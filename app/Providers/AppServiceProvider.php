@@ -9,8 +9,6 @@ class AppServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap any application services.
-     *
-     * @return void
      */
     public function boot()
     {
@@ -27,27 +25,9 @@ class AppServiceProvider extends ServiceProvider
 
     /**
      * Register any application services.
-     *
-     * @return void
      */
     public function register()
     {
-        // bind all the app services...
-        $this->app->bind('App\Services\AircraftService', function($app) {
-            return new \App\Services\AircraftService();
-        });
-
-        $this->app->bind('App\Services\AircraftFareService', function($app) {
-            return new \App\Services\AircraftFareService();
-        });
-
-        $this->app->bind('App\Services\PilotService', function($app) {
-            return new \App\Services\PilotService();
-        });
-
-        $this->app->bind('App\Services\PIREPService', function($app) {
-            return new \App\Services\PIREPService();
-        });
 
     }
 }

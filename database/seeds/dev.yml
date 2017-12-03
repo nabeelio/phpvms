@@ -331,7 +331,7 @@ pireps:
     dpt_airport_id: KAUS
     arr_airport_id: KJFK
     flight_time: 21600  # 6 hours
-    status: -1
+    status: 0
     notes: just a pilot report
   - id: pirepid_2
     user_id: 1
@@ -341,7 +341,17 @@ pireps:
     dpt_airport_id: KJFK
     arr_airport_id: KAUS
     flight_time: 21600  # 6 hours
-    status: -1
+    status: 0
+    notes: just a pilot report
+  - id: pirepid_3
+    user_id: 1
+    airline_id: 1
+    flight_id: flightid_2
+    aircraft_id: 1
+    dpt_airport_id: KJFK
+    arr_airport_id: KAUS
+    flight_time: 21600  # 6 hours
+    status: 0
     notes: just a pilot report
 
 pirep_fields:

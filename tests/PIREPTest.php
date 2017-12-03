@@ -73,7 +73,7 @@ class PIREPTest extends TestCase
         /**
          * Now set the PIREP state to ACCEPTED
          */
-        $this->pirepSvc->changeStatus($pirep, config('enums.pirep_status.ACCEPTED'));
+        $this->pirepSvc->changeStatus($pirep, "1");
         $this->assertEquals(1, $pirep->pilot->flights);
         $this->assertEquals(21600, $pirep->pilot->flight_time);
         $this->assertEquals(1, $pirep->pilot->rank_id);

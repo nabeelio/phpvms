@@ -123,12 +123,29 @@
 <script src="/vendor/select2/dist/js/select2.js"></script>
 <script src="/vendor/pjax/jquery.pjax.js"></script>
 <script src="/vendor/icheck/icheck.js"></script>
+<script src="/vendor/rivets/dist/rivets.bundled.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
 <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
 
 <script src="/js/admin/admin.js"></script>
 
 <script>
+rivets.configure({
+    prefix: 'rv',
+    preloadData: true,
+    rootInterface: '.',
+    templateDelimiters: ['{', '}'],
+    iterationAlias: function (modelName) {
+        return '%' + modelName + '%';
+    },
+    // Augment the event handler of the on-* binder
+    handler: function (target, event, binding) {
+        this.call(target, event, binding.view.models)
+    },
+    executeFunctions: false
+
+});
+
 var getStorage = function(key) {
     var st = window.localStorage.getItem(key);
     console.log('storage: ', key, st);

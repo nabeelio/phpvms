@@ -81,7 +81,7 @@ class User extends Authenticatable
     protected $casts
         = [
             'flights'      => 'integer',
-            'flight_hours' => 'integer',
+            'flight_time'   => 'integer',
             'balance'      => 'double',
             'timezone'     => 'integer',
         ];

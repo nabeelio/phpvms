@@ -29,9 +29,9 @@ class Rank extends Model
     protected $casts = [
         'name' => 'string',
         'hours' => 'integer',
-        'auto_approve_acars' => 'boolean',
-        'auto_approve_manual' => 'boolean',
-        'auto_promote' => 'boolean',
+        'auto_approve_acars' => 'integer',
+        'auto_approve_manual' => 'integer',
+        'auto_promote' => 'integer',
     ];
 
     /**
