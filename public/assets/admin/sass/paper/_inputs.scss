@@ -1,39 +1,61 @@
+input {
+    margin-top: 5px;
+    border: none;
+}
+
 .form-control::-moz-placeholder{
    @include placeholder($medium-gray,1);
 }
 .form-control:-moz-placeholder{
    @include placeholder($medium-gray,1);
-}  
+}
 .form-control::-webkit-input-placeholder{
-   @include placeholder($medium-gray,1); 
-} 
+   @include placeholder($medium-gray,1);
+}
 .form-control:-ms-input-placeholder{
    @include placeholder($medium-gray,1);
 }
 
 .form-control {
-    background-color: $gray-input-bg;
+    display: block;
+    width: 100%;
+    font-size: $font-size-base;
+    line-height: 1.846;
+    color: #666666;
+    border: medium none;
+    border-radius: $border-radius-base;
+    /*-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);*/
+    -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    @include input-size($padding-base-vertical, $padding-base-horizontal, $height-base);
+
+    /*background-color: $gray-input-bg;
     border: medium none;
     border-radius: $border-radius-base;
     color: $font-color;
     font-size: $font-size-base;
     transition: background-color 0.3s ease 0s;
     @include input-size($padding-base-vertical, $padding-base-horizontal, $height-base);
-    @include box-shadow(none);
-    
+    @include box-shadow(none);*/
+
     &:focus{
            background-color: $white-bg;
-           @include box-shadow(none);
-           outline: 0 !important;       
+           //@include box-shadow(none);
+           outline: 0 !important;
+            border-bottom: 2px solid #2196f3;
+            /*-webkit-box-shadow: inset 0 -2px 0 #2196f3;
+            box-shadow: inset 0 -2px 0 #2196f3;*/
     }
-    
+
     .has-success &,
     .has-error &,
     .has-success &:focus,
     .has-error &:focus{
         @include box-shadow(none);
     }
-    
+
     .has-success &{
         background-color: $success-input-bg;
         color: $success-color;
@@ -54,7 +76,7 @@
     .has-error &:focus{
         background-color: $white-bg;
     }
-    
+
     & + .form-control-feedback{
         border-radius: $border-radius-large;
         font-size: $font-size-base;
@@ -75,6 +97,9 @@
 .input-lg{
     height: 55px;
     padding: $padding-large-vertical $padding-large-horizontal;
+    font-size: 17px;
+    line-height: 1.3333333;
+    border-radius: 3px;
 }
 
 .has-error{
@@ -93,8 +118,7 @@
     background-color: $gray-input-bg;
     border: medium none;
     border-radius: $border-radius-base;
-    
-    
+
     .has-success &,
     .has-error &{
         background-color: $white-color;
@@ -110,7 +134,7 @@
         background-color: $white-color;
     }
 }
-.border-input{ 
+.border-input{
     .input-group-addon{
         border: solid 1px $table-line-color;
     }
@@ -123,15 +147,15 @@
         background-color: $light-gray;
     }
 }
-.input-group .form-control:first-child, 
-.input-group-addon:first-child,  
-.input-group-btn:first-child > .dropdown-toggle, 
+.input-group .form-control:first-child,
+.input-group-addon:first-child,
+.input-group-btn:first-child > .dropdown-toggle,
 .input-group-btn:last-child > .btn:not(:last-child):not(.dropdown-toggle) {
     border-right: 0 none;
 }
-.input-group .form-control:last-child, 
-.input-group-addon:last-child,  
-.input-group-btn:last-child > .dropdown-toggle, 
+.input-group .form-control:last-child,
+.input-group-addon:last-child,
+.input-group-btn:last-child > .dropdown-toggle,
 .input-group-btn:first-child > .btn:not(:first-child) {
     border-left: 0 none;
 }
@@ -145,10 +169,10 @@
 }
 .form-control[disabled]:-moz-placeholder{
    @include placeholder($medium-gray,1);
-}  
+}
 .form-control[disabled]::-webkit-input-placeholder{
-   @include placeholder($medium-gray,1); 
-} 
+   @include placeholder($medium-gray,1);
+}
 .form-control[disabled]:-ms-input-placeholder{
    @include placeholder($medium-gray,1);
 }

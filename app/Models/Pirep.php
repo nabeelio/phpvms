@@ -68,6 +68,21 @@ class Pirep extends Model
         ];
 
     /**
+     * @return string
+     */
+    public function getFlightId()
+    {
+        $flight_id = $this->airline->code;
+        if($this->flight_id) {
+            $flight_id .= $this->flight->flight_number;
+        } else {
+            $flight_id .= $this->flight_number;
+        }
+
+        return $flight_id;
+    }
+
+    /**
      * Foreign Keys
      */
     public function aircraft()

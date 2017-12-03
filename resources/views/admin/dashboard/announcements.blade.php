@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card border-blue-bottom">
     <div class="header">
         <h4 class="title">Announcements</h4>
         <p class="category">just updated</p>

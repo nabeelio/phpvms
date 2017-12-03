@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\CreatePirepRequest;
 use App\Http\Requests\UpdatePirepRequest;
 use App\Repositories\AircraftRepository;
+use App\Repositories\AirlineRepository;
+use App\Repositories\AirportRepository;
 use App\Repositories\PirepRepository;
 use App\Services\PIREPService;
 use Illuminate\Http\Request;
@@ -12,16 +14,26 @@ use Flash;
 use Log;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use App\Facades\Utils;
+
 
 class PirepController extends BaseController
 {
-    private $pirepRepo, $aircraftRepo, $pirepSvc;
+    private $airportRepo,
+            $airlineRepo,
+            $pirepRepo,
+            $aircraftRepo,
+        $pirepSvc;
 
     public function __construct(
+        AirportRepository $airportRepo,
+        AirlineRepository $airlineRepo,
         AircraftRepository $aircraftRepo,
         PirepRepository $pirepRepo,
         PIREPService $pirepSvc
     ) {
+        $this->airportRepo = $airportRepo;
+        $this->airlineRepo = $airlineRepo;
         $this->aircraftRepo = $aircraftRepo;
         $this->pirepRepo = $pirepRepo;
         $this->pirepSvc = $pirepSvc;
@@ -128,15 +140,20 @@ class PirepController extends BaseController
     public function edit($id)
     {
         $pirep = $this->pirepRepo->findWithoutFail($id);
-
         if (empty($pirep)) {
             Flash::error('Pirep not found');
             return redirect(route('admin.pireps.index'));
         }
 
+        $hms = Utils::secondsToTimeParts($pirep->flight_time);
+        $pirep->hours = $hms['h'];
+        $pirep->minutes = $hms['m'];
+
         return view('admin.pireps.edit', [
             'pirep' => $pirep,
-            'aircraft' => $this->aircraftList(),
+            'airports' => $this->airportRepo->selectBoxList(),
+            'airlines' => $this->airlineRepo->selectBoxList(),
+            'aircraft' => $this->aircraftRepo->selectBoxList(),
         ]);
     }
 
@@ -149,6 +166,9 @@ class PirepController extends BaseController
     public function update($id, UpdatePirepRequest $request)
     {
         $pirep = $this->pirepRepo->findWithoutFail($id);
+
+        $pirep->flight_time = ((int)$request['hours'] * 60 * 60)
+                            + ((int)$request['minutes'] * 60);
 
         if (empty($pirep)) {
             Flash::error('Pirep not found');

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Services\PIREPService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
@@ -22,29 +23,31 @@ class PirepController extends Controller
             $aircraftRepo,
             $pirepRepo,
             $airportRepo,
-            $pirepFieldRepo;
+            $pirepFieldRepo,
+            $pirepSvc;
 
     public function __construct(
         AirlineRepository $airlineRepo,
         PirepRepository $pirepRepo,
         AircraftRepository $aircraftRepo,
         AirportRepository $airportRepo,
-        PirepFieldRepository $pirepFieldRepo
+        PirepFieldRepository $pirepFieldRepo,
+        PIREPService $pirepSvc
     ) {
         $this->airlineRepo = $airlineRepo;
         $this->aircraftRepo = $aircraftRepo;
         $this->pirepRepo = $pirepRepo;
         $this->airportRepo = $airportRepo;
         $this->pirepFieldRepo = $pirepFieldRepo;
+        $this->pirepSvc = $pirepSvc;
     }
 
     public function index(Request $request)
     {
         $user = Auth::user();
-        $pireps = $this->pirepRepo
-                    ->where('user_id', $user->id)
+        $pireps = Pirep::where('user_id', $user->id)
                     ->orderBy('created_at', 'desc')
-                    ->get();
+                    ->paginate();
 
         return $this->view('pireps.index', [
             'user' => $user,
@@ -54,11 +57,9 @@ class PirepController extends Controller
 
     public function create()
     {
-        $aircraft = $this->aircraftList();
-
         return $this->view('pireps.create', [
             'airports' => $this->airportRepo->selectBoxList(),
-            'airlines' => $this->airlineRepo->all()->pluck('name', 'id'),
+            'airlines' => $this->airlineRepo->selectBoxList(),
             'aircraft' => $this->aircraftRepo->selectBoxList(),
             'pirepfields' => $this->pirepFieldRepo->all(),
             'fieldvalues' => [],
@@ -95,8 +96,7 @@ class PirepController extends Controller
             ];
         }
 
-        $pirepSvc = app('\App\Services\PIREPService');
-        $pirep = $pirepSvc->create($pirep, $custom_fields);
+        $pirep = $this->pirepSvc->create($pirep, $custom_fields);
 
         //Flash::success('PIREP submitted successfully!');
         return redirect(route('frontend.pireps.index'));

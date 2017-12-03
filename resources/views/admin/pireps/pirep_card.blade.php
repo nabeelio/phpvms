@@ -6,12 +6,7 @@
                 <h5>
                     <a class="text-c"
                        href="{!! route('admin.pireps.show', [$pirep->id]) !!}">
-                        {!! $pirep->airline->code !!}
-                        @if($pirep->flight_id)
-                            {!! $pirep->flight->flight_number !!}
-                        @else
-                            {!! $pirep->flight_number !!}
-                        @endif
+                        {!! $pirep->getFlightId() !!}
                     </a>
                 </h5>
                 <div>
@@ -61,31 +56,41 @@
         <div class="row">
             <div class="col-lg-12 ">
                 <table class="pull-right">
-                <tr><td>
-                    @if($pirep->status == config('enums.pirep_status.PENDING')
-                        || $pirep->status == config('enums.pirep_status.REJECTED'))
-                    {!! Form::open(['url' => '/admin/pireps/'.$pirep->id.'/status', 'method' => 'post',
-                                    'name' => 'accept_'.$pirep->id,
-                                    'id' => $pirep->id.'_accept',
-                                    'pirep_id' => $pirep->id,
-                                    'new_status' => config('enums.pirep_status.ACCEPTED'),
-                                    'class' => 'pirep_submit_status']) !!}
-                    {!! Form::button('Accept', ['type' => 'submit', 'class' => 'btn btn-info']) !!}
-                    {!! Form::close() !!}
-                    @endif
-                </td><td>&nbsp;</td><td>
-                    @if($pirep->status == config('enums.pirep_status.PENDING')
-                        || $pirep->status == config('enums.pirep_status.ACCEPTED'))
-                    {!! Form::open(['url' => '/admin/pireps/'.$pirep->id.'/status', 'method' => 'post',
-                                    'name' => 'reject_'.$pirep->id,
-                                    'id' => $pirep->id.'_reject',
-                                    'pirep_id' => $pirep->id,
-                                    'new_status' => config('enums.pirep_status.REJECTED'),
-                                    'class' => 'pirep_submit_status']) !!}
-                    {!! Form::button('Reject', ['type' => 'submit', 'class' => 'btn btn-danger']) !!}
-                    {!! Form::close() !!}
-                    @endif
-                </td></tr>
+                    <tr>
+                        <td>
+                        @if($pirep->status == config('enums.pirep_status.PENDING')
+                            || $pirep->status == config('enums.pirep_status.REJECTED'))
+                        {!! Form::open(['url' => '/admin/pireps/'.$pirep->id.'/status', 'method' => 'post',
+                                        'name' => 'accept_'.$pirep->id,
+                                        'id' => $pirep->id.'_accept',
+                                        'pirep_id' => $pirep->id,
+                                        'new_status' => config('enums.pirep_status.ACCEPTED'),
+                                        'class' => 'pirep_submit_status']) !!}
+                        {!! Form::button('Accept', ['type' => 'submit', 'class' => 'btn btn-info']) !!}
+                        {!! Form::close() !!}
+                        @endif
+                        </td>
+                        <td>&nbsp;</td>
+                        <td>
+                        @if($pirep->status == config('enums.pirep_status.PENDING')
+                            || $pirep->status == config('enums.pirep_status.ACCEPTED'))
+                        {!! Form::open(['url' => '/admin/pireps/'.$pirep->id.'/status', 'method' => 'post',
+                                        'name' => 'reject_'.$pirep->id,
+                                        'id' => $pirep->id.'_reject',
+                                        'pirep_id' => $pirep->id,
+                                        'new_status' => config('enums.pirep_status.REJECTED'),
+                                        'class' => 'pirep_submit_status']) !!}
+                        {!! Form::button('Reject', ['type' => 'submit', 'class' => 'btn btn-danger']) !!}
+                        {!! Form::close() !!}
+                        @endif
+                        </td>
+                        <td>&nbsp;</td>
+                        <td>
+                        <a href="{!! route('admin.pireps.edit', [$pirep->id]) !!}"
+                           class='btn btn-sm btn-success btn-icon'>
+                            <i class="fa fa-pencil-square-o"></i></a>
+                        </td>
+                    </tr>
                 </table>
             </div>
         </div>

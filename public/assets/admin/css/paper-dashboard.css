@@ -169,7 +169,9 @@ input[type="file"] > input[type="button"]::-moz-focus-inner {
 .navbar-toggle,
 input:focus,
 button:focus {
-  outline: 0 !important; }
+  outline: 0 !important;
+  -webkit-box-shadow: inset 0 -2px 0 #2196f3;
+  box-shadow: inset 0 -2px 0 #2196f3; }
 
 /*           Animations              */
 .form-control,
@@ -816,6 +818,10 @@ hr {
   margin-top: -1px;
   right: 8px; }
 
+input {
+  margin-top: 5px;
+  border: none; }
+
 .form-control::-moz-placeholder {
   color: #DDDDDD;
   opacity: 1;
@@ -837,21 +843,34 @@ hr {
   filter: alpha(opacity=100); }
 
 .form-control {
-  background-color: #fffcf5;
+  display: block;
+  width: 100%;
+  font-size: 14px;
+  line-height: 1.846;
+  color: #666666;
   border: medium none;
   border-radius: 4px;
-  color: #66615b;
-  font-size: 14px;
-  transition: background-color 0.3s ease 0s;
+  /*-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);*/
+  -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+  -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+  transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
   padding: 7px 18px;
   height: 40px;
-  -webkit-box-shadow: none;
-  box-shadow: none; }
+  /*background-color: $gray-input-bg;
+  border: medium none;
+  border-radius: $border-radius-base;
+  color: $font-color;
+  font-size: $font-size-base;
+  transition: background-color 0.3s ease 0s;
+  @include input-size($padding-base-vertical, $padding-base-horizontal, $height-base);
+  @include box-shadow(none);*/ }
   .form-control:focus {
     background-color: #FFFFFF;
-    -webkit-box-shadow: none;
-    box-shadow: none;
-    outline: 0 !important; }
+    outline: 0 !important;
+    border-bottom: 2px solid #2196f3;
+    /*-webkit-box-shadow: inset 0 -2px 0 #2196f3;
+    box-shadow: inset 0 -2px 0 #2196f3;*/ }
   .has-success .form-control, .has-error .form-control, .has-success .form-control:focus, .has-error .form-control:focus {
     -webkit-box-shadow: none;
     box-shadow: none; }
@@ -884,7 +903,10 @@ hr {
 
 .input-lg {
   height: 55px;
-  padding: 11px 30px; }
+  padding: 11px 30px;
+  font-size: 17px;
+  line-height: 1.3333333;
+  border-radius: 3px; }
 
 .has-error .form-control-feedback, .has-error .control-label {
   color: #EB5E28; }

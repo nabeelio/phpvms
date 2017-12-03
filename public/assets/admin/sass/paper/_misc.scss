@@ -29,6 +29,8 @@ input[type="file"] > input[type="button"]::-moz-focus-inner{
 input:focus,
 button:focus {
     outline : 0 !important;
+    -webkit-box-shadow: inset 0 -2px 0 #2196f3;
+    box-shadow: inset 0 -2px 0 #2196f3;
 }
 
 /*           Animations              */

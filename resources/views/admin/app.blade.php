@@ -13,6 +13,7 @@
     <link href="/assets/admin/css/bootstrap.min.css" rel="stylesheet" />
     <link href="/assets/admin/css/animate.min.css" rel="stylesheet"/>
     <link href="/assets/admin/css/paper-dashboard.css" rel="stylesheet"/>
+
     <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css"
           rel="stylesheet"/>
 

@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card border-blue-bottom">
     <div class="content">
         <div class="row">
             <div class="col-xs-5">
