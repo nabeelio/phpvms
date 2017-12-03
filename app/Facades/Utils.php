@@ -6,15 +6,41 @@ use \Illuminate\Support\Facades\Facade;
 
 class Utils extends Facade
 {
-    public static function secondsToTime($seconds, $incl_sec=false) {
+    /**
+     * Convert seconds to an array of hours, minutes, seconds
+     * @param $seconds
+     * @return array['h', 'm', 's']
+     */
+    public static function secondsToTimeParts($seconds): array
+    {
         $dtF = new \DateTime('@0');
         $dtT = new \DateTime("@$seconds");
-        $format = '%hh %im';
+
+        $t = $dtF->diff($dtT);
+
+        $retval = [];
+        $retval['h'] = (int) $t->format('%h');
+        $retval['m'] = (int) $t->format('%i');
+        $retval['s'] = (int) $t->format('%s');
+
+        return $retval;
+    }
+
+    /**
+     * Convert seconds to HH MM format
+     * @param $seconds
+     * @param bool $incl_sec
+     * @return string
+     */
+    public static function secondsToTime($seconds, $incl_sec=false): string
+    {
+        $hms = self::secondsToTimeParts($seconds);
+        $format = $hms['h'].'h '.$hms['m'].'m';
         if($incl_sec) {
-            $format .= ' %ss';
+            $format .= ' '.$hms['s'].'s';
         }
 
-        return $dtF->diff($dtT)->format($format);
+        return $format;
     }
 
     /**
