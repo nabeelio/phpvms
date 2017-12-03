@@ -38,7 +38,9 @@ server {
 ## development environment
 
 For development, copy the included `.env.example` to `.env` file. By default, it uses sqlite
-instead of mysql. This makes it much easier to be able to clear the database and new fixtures. 
+instead of mysql. This makes it much easier to be able to clear the database and new fixtures.
+
+The default username and password are "admin@phpvms.net" and "admin". To see the available users in the development environment, [see this file](https://github.com/nabeelio/phpvms/blob/master/database/seeds/dev.yml#L10) 
 
 ### makefile commands
 
