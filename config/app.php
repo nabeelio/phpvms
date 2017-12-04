@@ -62,6 +62,7 @@ return [
         Spatie\Fractal\FractalServiceProvider::class,
         SebastiaanLuca\Helpers\Methods\GlobalHelpersServiceProvider::class,
         SebastiaanLuca\Helpers\Collections\CollectionMacrosServiceProvider::class,
+        Toin0u\Geotools\GeotoolsServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -71,8 +72,6 @@ return [
         App\Providers\AuthServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-
-        Toin0u\Geotools\GeotoolsServiceProvider::class,
     ],
 
     'aliases' => [

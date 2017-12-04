@@ -21,9 +21,15 @@ return [
             'engine' => null,
         ],
 
+        'sqlite' => [
+            'driver' => 'sqlite',
+            'database' => storage_path('db.sqlite'),
+            'prefix' => '',
+        ],
+
         'local' => [
             'driver' => 'sqlite',
-            'database' => storage_path('testing.sqlite'),
+            'database' => storage_path('local.sqlite'),
             'prefix' => '',
         ],
 

@@ -5,13 +5,25 @@ use Illuminate\Database\Seeder;
 class DatabaseSeeder extends Seeder
 {
     /**
+     * Map these other environments to a specific seed file
+     * @var array
+     */
+    public static $seed_mapper = [
+        'local' =>      'dev',
+        'qa' =>         'dev',
+        'staging' =>    'dev',
+    ];
+
+    /**
      * Run the database seeds.
-     *
-     * @return void
      */
     public function run()
     {
         $env = App::environment();
+        if(in_array($env, self::$seed_mapper, true)) {
+            $env = self::$seed_mapper[$env];
+        }
+
         $path = database_path('seeds/'.$env.'.yml');
         print("Seeding seeds/$env.yml\n");
 
@@ -22,5 +34,4 @@ class DatabaseSeeder extends Seeder
         $svc = app('App\Services\DatabaseService');
         $svc->seed_from_yaml_file($path);
     }
-
 }
