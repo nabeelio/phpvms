@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $env = App::environment();
-        if(in_array($env, self::$seed_mapper, true)) {
+        if(array_key_exists($env, self::$seed_mapper)) {
             $env = self::$seed_mapper[$env];
         }
 
