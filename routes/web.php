@@ -1,6 +1,6 @@
 <?php
 
-Route::get('/', 'HomeController@index');
+Route::get('/', 'HomeController@index')->name('home');
 
 /**
  * User doesn't need to be logged in for these
@@ -8,8 +8,8 @@ Route::get('/', 'HomeController@index');
 Route::group([
     'namespace' => 'Frontend', 'prefix' => '', 'as' => 'frontend.'
 ], function() {
-    Route::get('/r/{id}', 'PirepController@show');
-    Route::get('/p/{id}', 'ProfileController@show');
+    Route::get('/r/{id}', 'PirepController@show')->name('pirep.show.public');
+    Route::get('/p/{id}', 'ProfileController@show')->name('profile.show.public');
 });
 
 /**
@@ -21,15 +21,15 @@ Route::group([
 ], function () {
     Route::resource('dashboard', 'DashboardController');
 
+    Route::get('flights/search', 'FlightController@search')->name('flights.search');
+    Route::match(['post'], '/flights/save', 'FlightController@save')->name('flights.save');
     Route::resource('flights', 'FlightController');
-    Route::match(['get'], 'flights/search', 'FlightController@search');
-    Route::match(['post'], 'flights/save', 'FlightController@save');
 
     Route::resource('profile', 'ProfileController');
     Route::resource('pireps', 'PirepController');
 });
 
 Auth::routes();
-Route::get('/logout', 'Auth\LoginController@logout');
+Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 
 require base_path('routes/admin.php');

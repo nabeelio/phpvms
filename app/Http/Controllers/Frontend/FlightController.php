@@ -2,25 +2,32 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Repositories\AirlineRepository;
+use App\Repositories\AirportRepository;
 use Log;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Repositories\FlightRepository;
-use App\Http\Controllers\AppBaseController;
 
+use App\Http\Controllers\AppBaseController;
 use App\Models\UserFlight;
+use App\Repositories\FlightRepository;
 use App\Repositories\Criteria\WhereCriteria;
+
 use Mockery\Exception;
-use Prettus\Repository\Criteria\RequestCriteria;
 use Prettus\Repository\Exceptions\RepositoryException;
 
 class FlightController extends AppBaseController
 {
-    private $flightRepo;
+    private $airlineRepo, $airportRepo, $flightRepo;
 
-    public function __construct(FlightRepository $flightRepo)
-    {
+    public function __construct(
+        AirlineRepository $airlineRepo,
+        AirportRepository $airportRepo,
+        FlightRepository $flightRepo
+    ) {
+        $this->airlineRepo = $airlineRepo;
+        $this->airportRepo = $airportRepo;
         $this->flightRepo = $flightRepo;
     }
 
@@ -45,6 +52,8 @@ class FlightController extends AppBaseController
                          ->pluck('flight_id')->toArray();
 
         return $this->view('flights.index', [
+            'airlines' => $this->airlineRepo->selectBoxList(true),
+            'airports' => $this->airportRepo->selectBoxList(true),
             'flights' => $flights,
             'saved' => $saved_flights,
         ]);
@@ -64,6 +73,8 @@ class FlightController extends AppBaseController
                          ->pluck('flight_id')->toArray();
 
         return $this->view('flights.index', [
+            'airlines' => $this->airlineRepo->selectBoxList(true),
+            'airports' => $this->airportRepo->selectBoxList(true),
             'flights' => $flights,
             'saved' => $saved_flights,
         ]);
