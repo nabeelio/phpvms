@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use Log;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Repositories\FlightRepository;
 use App\Http\Controllers\AppBaseController;
 
-use App\Models\Flight;
 use App\Models\UserFlight;
 use App\Repositories\Criteria\WhereCriteria;
 use Mockery\Exception;
 use Prettus\Repository\Criteria\RequestCriteria;
+use Prettus\Repository\Exceptions\RepositoryException;
 
 class FlightController extends AppBaseController
 {
@@ -31,7 +33,12 @@ class FlightController extends AppBaseController
             $where['dpt_airport_id'] = Auth::user()->curr_airport_id;
         }
 
-        $this->flightRepo->pushCriteria(new WhereCriteria($request, $where));
+        try {
+            $this->flightRepo->pushCriteria(new WhereCriteria($request, $where));
+        } catch (RepositoryException $e) {
+            Log::emergency($e);
+        }
+
         $flights = $this->flightRepo->paginate();
 
         $saved_flights = UserFlight::where('user_id', Auth::id())
@@ -51,12 +58,7 @@ class FlightController extends AppBaseController
      */
     public function search(Request $request)
     {
-        $where = ['active' => true];
-
-        $this->flightRepo->pushCriteria(new RequestCriteria($request));
-        $flights = $this->flightRepo->paginate();
-
-        // TODO: PAGINATION
+        $flights = $this->flightRepo->searchCriteria($request)->paginate();
 
         $saved_flights = UserFlight::where('user_id', Auth::id())
                          ->pluck('flight_id')->toArray();

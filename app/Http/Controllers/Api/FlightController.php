@@ -4,42 +4,30 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 
-use App\Models\Airline;
-use App\Models\Airport;
-use App\Models\Flight;
-use App\Models\Transformers\FlightTransformer;
-
 use App\Http\Controllers\AppBaseController;
+use App\Models\Transformers\FlightTransformer;
+use App\Repositories\FlightRepository;
 
 
 class FlightController extends AppBaseController
 {
+    protected $flightRepo;
+
+    public function __construct(
+        FlightRepository $flightRepo
+    ) {
+        $this->flightRepo = $flightRepo;
+    }
 
     public function get($id)
     {
-        $flight = Flight::find($id);
+        $flight = $this->flightRepo->find($id);
         return fractal($flight, new FlightTransformer())->respond();
     }
 
     public function search(Request $request)
     {
-        $where = [];
-        if($request->airline) {
-            $airline = Airline::where('code', $request->airline)->first()->id;
-            $where['airline_id'] = $airline;
-        }
-
-        if($request->depICAO) {
-            $airport = Airport::where('icao', $request->depICAO)->first()->id;
-            $where['dpt_airport_id'] = $airport;
-        }
-
-        if($request->arrICAO) {
-            $airport = Airport::where('icao', $request->depICAO)->first()->id;
-            $where['dpt_airport_id'] = $airport;
-        }
-
-        $flights = Flight::where($where)->get();
+        $flights = $this->flightRepo->searchCriteria($request)->paginate();
         return fractal($flights, new FlightTransformer())->respond();
     }
 }
