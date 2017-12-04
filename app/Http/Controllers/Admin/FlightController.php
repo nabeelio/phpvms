@@ -11,6 +11,7 @@ use App\Repositories\AirlineRepository;
 use App\Repositories\AirportRepository;
 use App\Repositories\FlightRepository;
 use App\Repositories\SubfleetRepository;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
@@ -57,10 +58,11 @@ class FlightController extends BaseController
      */
     public function index(Request $request)
     {
-        $this->flightRepo->pushCriteria(new RequestCriteria($request));
-        $flights = $this->flightRepo->paginate(10);
+        $flights = $this->flightRepo->searchCriteria($request)->paginate();
         return view('admin.flights.index', [
             'flights' => $flights,
+            'airlines' => $this->airlineRepo->selectBoxList(true),
+            'airports' => $this->airportRepo->selectBoxList(true),
         ]);
     }
 

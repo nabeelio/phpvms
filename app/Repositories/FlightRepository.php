@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Flight;
 use App\Repositories\Criteria\WhereCriteria;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 use Prettus\Repository\Contracts\CacheableInterface;
 use Prettus\Repository\Traits\CacheableRepository;
@@ -27,7 +28,7 @@ class FlightRepository extends BaseRepository implements CacheableInterface
 
     /**
      * Create the search criteria and return this with the stuff pushed
-     * @param Request $request
+     * @param FormRequest $request
      * @param bool $only_active
      * @return $this
      * @throws \Prettus\Repository\Exceptions\RepositoryException
@@ -38,16 +39,24 @@ class FlightRepository extends BaseRepository implements CacheableInterface
             'active' => $only_active,
         ];
 
-        if ($request->airline) {
-            $where['airline_id'] = $request->airline;
+        if ($request->filled('airline_id')) {
+            $where['airline_id'] = $request->airline_id;
         }
 
-        if ($request->depICAO) {
-            $where['dpt_airport_id'] = $request->depICAO;
+        if($request->filled('flight_number')) {
+            $where['flight_number'] = $request->flight_number;
         }
 
-        if ($request->arrICAO) {
-            $where['dpt_airport_id'] = $request->arrICAO;
+        if ($request->filled('route_code')) {
+            $where['route_code'] = $request->route_code;
+        }
+
+        if ($request->filled('dep_icao')) {
+            $where['dpt_airport_id'] = $request->dep_icao;
+        }
+
+        if ($request->filled('arr_icao')) {
+            $where['arr_airport_id'] = $request->arr_icao;
         }
 
         $this->pushCriteria(new WhereCriteria($request, $where));
