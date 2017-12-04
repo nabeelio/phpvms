@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Repositories\Criteria\WhereCriteria;
 use App\Services\PIREPService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -45,9 +46,10 @@ class PirepController extends Controller
     public function index(Request $request)
     {
         $user = Auth::user();
-        $pireps = Pirep::where('user_id', $user->id)
-                    ->orderBy('created_at', 'desc')
-                    ->paginate();
+
+        $where = ['user_id' => $user->id];
+        $this->pirepRepo->pushCriteria(new WhereCriteria($request, $where));
+        $pireps = $this->pirepRepo->orderBy('created_at', 'desc')->paginate();
 
         return $this->view('pireps.index', [
             'user' => $user,

@@ -7,8 +7,11 @@ use Illuminate\Support\Facades\Auth;
 use App\Repositories\FlightRepository;
 use App\Http\Controllers\AppBaseController;
 
+use App\Models\Flight;
 use App\Models\UserFlight;
+use App\Repositories\Criteria\WhereCriteria;
 use Mockery\Exception;
+use Prettus\Repository\Criteria\RequestCriteria;
 
 class FlightController extends AppBaseController
 {
@@ -28,9 +31,9 @@ class FlightController extends AppBaseController
             $where['dpt_airport_id'] = Auth::user()->curr_airport_id;
         }
 
-        // TODO: PAGINATION
+        $this->flightRepo->pushCriteria(new WhereCriteria($request, $where));
+        $flights = $this->flightRepo->paginate();
 
-        $flights = $this->flightRepo->findWhere($where);
         $saved_flights = UserFlight::where('user_id', Auth::id())
                          ->pluck('flight_id')->toArray();
 
@@ -40,10 +43,18 @@ class FlightController extends AppBaseController
         ]);
     }
 
+    /**
+     * Make a search request using the Repository search
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Prettus\Repository\Exceptions\RepositoryException
+     */
     public function search(Request $request)
     {
         $where = ['active' => true];
-        $flights = $this->flightRepo->findWhere($where);
+
+        $this->flightRepo->pushCriteria(new RequestCriteria($request));
+        $flights = $this->flightRepo->paginate();
 
         // TODO: PAGINATION
 
@@ -60,11 +71,11 @@ class FlightController extends AppBaseController
     {
         $user_id = Auth::id();
         $flight_id = $request->input('flight_id');
-        $action = $request->input('action');
+        $action = strtolower($request->input('action'));
 
         $cols = ['user_id' => $user_id,  'flight_id' => $flight_id];
 
-        if(strtolower($action) == 'save') {
+        if($action === 'save') {
             $uf = UserFlight::create($cols);
             $uf->save();
 
@@ -74,7 +85,7 @@ class FlightController extends AppBaseController
             ]);
         }
 
-        elseif (strtolower($action) == 'remove') {
+        elseif ($action === 'remove') {
             try {
                 $uf = UserFlight::where($cols)->first();
                 $uf->delete();

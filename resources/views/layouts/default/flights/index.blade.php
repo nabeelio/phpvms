@@ -15,6 +15,11 @@
         </div>
     </div>
 </div>
+<div class="row">
+    <div class="col-12 text-center">
+        {{ $flights->links('layouts.default.pagination.default') }}
+    </div>
+</div>
 @endsection
 @section('scripts')
 <script>

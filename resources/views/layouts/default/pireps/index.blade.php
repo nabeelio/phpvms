@@ -13,5 +13,10 @@
         @include('layouts.default.pireps.table')
     </div>
 </div>
+<div class="row">
+    <div class="col-12 text-center">
+        {{ $pireps->links('layouts.default.pagination.default') }}
+    </div>
+</div>
 @endsection
 
