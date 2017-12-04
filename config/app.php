@@ -62,11 +62,11 @@ return [
         Spatie\Fractal\FractalServiceProvider::class,
         SebastiaanLuca\Helpers\Methods\GlobalHelpersServiceProvider::class,
         SebastiaanLuca\Helpers\Collections\CollectionMacrosServiceProvider::class,
-        RachidLaasri\LaravelInstaller\Providers\LaravelInstallerServiceProvider::class,
 
         /*
          * Application Service Providers...
          */
+        App\Providers\LaravelInstallerServiceProvider::class,
         App\Providers\AppServiceProvider::class,
         App\Providers\BroadcastServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
