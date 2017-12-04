@@ -64,12 +64,9 @@
       <path value="$PROJECT_DIR$/vendor/filp/whoops" />
       <path value="$PROJECT_DIR$/vendor/igorw/get-in" />
       <path value="$PROJECT_DIR$/vendor/nikic/php-parser" />
-      <path value="$PROJECT_DIR$/vendor/phenx/php-svg-lib" />
-      <path value="$PROJECT_DIR$/vendor/phenx/php-font-lib" />
       <path value="$PROJECT_DIR$/vendor/react/promise" />
       <path value="$PROJECT_DIR$/vendor/react/event-loop" />
       <path value="$PROJECT_DIR$/vendor/yajra/laravel-datatables-oracle" />
-      <path value="$PROJECT_DIR$/vendor/dompdf/dompdf" />
       <path value="$PROJECT_DIR$/vendor/spatie/laravel-pjax" />
       <path value="$PROJECT_DIR$/vendor/spatie/laravel-fractal" />
       <path value="$PROJECT_DIR$/vendor/spatie/fractalistic" />
@@ -125,6 +122,7 @@
       <path value="$PROJECT_DIR$/vendor/zendframework/zend-diactoros" />
       <path value="$PROJECT_DIR$/vendor/sebastiaanluca/laravel-helpers" />
       <path value="$PROJECT_DIR$/vendor/laravelcollective/html" />
+      <path value="$PROJECT_DIR$/vendor/nabeel/laravel-installer" />
     </include_path>
   </component>
   <component name="PhpProjectServersManager">

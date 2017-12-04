@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "4587f840e3ff2c38969939addaf0c10f",
+    "content-hash": "084911a53c061e6d07887e1447a07607",
     "packages": [
         {
             "name": "anlutro/l4-settings",
-            "version": "0.5.2",
+            "version": "0.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/anlutro/laravel-settings.git",
-                "reference": "175691171e21be77b358b7c91f72155a12911e1d"
+                "reference": "48c9adb5c6c0736f7ace44c29c48759fc1163e0b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/anlutro/laravel-settings/zipball/175691171e21be77b358b7c91f72155a12911e1d",
-                "reference": "175691171e21be77b358b7c91f72155a12911e1d",
+                "url": "https://api.github.com/repos/anlutro/laravel-settings/zipball/48c9adb5c6c0736f7ace44c29c48759fc1163e0b",
+                "reference": "48c9adb5c6c0736f7ace44c29c48759fc1163e0b",
                 "shasum": ""
             },
             "require": {
@@ -35,12 +35,22 @@
                 "illuminate/filesystem": "Save settings to a JSON file."
             },
             "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": {
+                        "Setting": "anlutro\\LaravelSettings\\Facade"
+                    },
+                    "providers": [
+                        "anlutro\\LaravelSettings\\ServiceProvider"
+                    ]
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "anlutro\\LaravelSettings\\": "src/"
                 }
             },
-            "notification-url": "http://packagist.org/downloads/",
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -51,142 +61,20 @@
                 }
             ],
             "description": "Persistent settings in Laravel.",
-            "time": "2017-11-08T18:14:47+00:00"
-        },
-        {
-            "name": "barryvdh/laravel-ide-helper",
-            "version": "v2.4.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/barryvdh/laravel-ide-helper.git",
-                "reference": "2b1273c45e2f8df7a625563e2283a17c14f02ae8"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/barryvdh/laravel-ide-helper/zipball/2b1273c45e2f8df7a625563e2283a17c14f02ae8",
-                "reference": "2b1273c45e2f8df7a625563e2283a17c14f02ae8",
-                "shasum": ""
-            },
-            "require": {
-                "barryvdh/reflection-docblock": "^2.0.4",
-                "illuminate/console": "^5.0,<5.6",
-                "illuminate/filesystem": "^5.0,<5.6",
-                "illuminate/support": "^5.0,<5.6",
-                "php": ">=5.4.0",
-                "symfony/class-loader": "^2.3|^3.0"
-            },
-            "require-dev": {
-                "doctrine/dbal": "~2.3",
-                "illuminate/config": "^5.0,<5.6",
-                "illuminate/view": "^5.0,<5.6",
-                "phpunit/phpunit": "4.*",
-                "scrutinizer/ocular": "~1.1",
-                "squizlabs/php_codesniffer": "~2.3"
-            },
-            "suggest": {
-                "doctrine/dbal": "Load information from the database about models for phpdocs (~2.3)"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.3-dev"
-                },
-                "laravel": {
-                    "providers": [
-                        "Barryvdh\\LaravelIdeHelper\\IdeHelperServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Barryvdh\\LaravelIdeHelper\\": "src"
-                }
-            },
-            "notification-url": "http://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Barry vd. Heuvel",
-                    "email": "barryvdh@gmail.com"
-                }
-            ],
-            "description": "Laravel IDE Helper, generates correct PHPDocs for all Facade classes, to improve auto-completion.",
-            "keywords": [
-                "autocomplete",
-                "codeintel",
-                "helper",
-                "ide",
-                "laravel",
-                "netbeans",
-                "phpdoc",
-                "phpstorm",
-                "sublime"
-            ],
-            "time": "2017-07-16T00:24:12+00:00"
-        },
-        {
-            "name": "barryvdh/reflection-docblock",
-            "version": "v2.0.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/barryvdh/ReflectionDocBlock.git",
-                "reference": "3dcbd98b5d9384a5357266efba8fd29884458e5c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/barryvdh/ReflectionDocBlock/zipball/3dcbd98b5d9384a5357266efba8fd29884458e5c",
-                "reference": "3dcbd98b5d9384a5357266efba8fd29884458e5c",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.3"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "~4.0,<4.5"
-            },
-            "suggest": {
-                "dflydev/markdown": "~1.0",
-                "erusev/parsedown": "~1.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "Barryvdh": [
-                        "src/"
-                    ]
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Mike van Riel",
-                    "email": "mike.vanriel@naenius.com"
-                }
-            ],
-            "time": "2016-06-13T19:28:20+00:00"
+            "time": "2017-11-08T18:16:13+00:00"
         },
         {
             "name": "chrisbjr/api-guard",
-            "version": "v4.0.0",
+            "version": "4.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/chrisbjr/api-guard.git",
-                "reference": "83b10c7f781af413e0d76e6771ce90024a24efb4"
+                "reference": "61643eabdb5d4e1ec1b105a7dc142f4cceff1c33"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/chrisbjr/api-guard/zipball/83b10c7f781af413e0d76e6771ce90024a24efb4",
-                "reference": "83b10c7f781af413e0d76e6771ce90024a24efb4",
+                "url": "https://api.github.com/repos/chrisbjr/api-guard/zipball/61643eabdb5d4e1ec1b105a7dc142f4cceff1c33",
+                "reference": "61643eabdb5d4e1ec1b105a7dc142f4cceff1c33",
                 "shasum": ""
             },
             "require": {
@@ -204,7 +92,7 @@
                     "Chrisbjr\\ApiGuard\\": "src"
                 }
             },
-            "notification-url": "http://packagist.org/downloads/",
+            "notification-url": "https://packagist.org/downloads/",
             "authors": [
                 {
                     "name": "Chris Bautista",
@@ -225,7 +113,7 @@
                 "laravel",
                 "rest"
             ],
-            "time": "2017-05-27T16:22:13+00:00"
+            "time": "2017-09-26T13:33:58+00:00"
         },
         {
             "name": "composer/semver",
@@ -611,16 +499,16 @@
         },
         {
             "name": "doctrine/dbal",
-            "version": "v2.5.13",
+            "version": "v2.5.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "729340d8d1eec8f01bff708e12e449a3415af873"
+                "reference": "7b9e911f9d8b30d43b96853dab26898c710d8f44"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/729340d8d1eec8f01bff708e12e449a3415af873",
-                "reference": "729340d8d1eec8f01bff708e12e449a3415af873",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/7b9e911f9d8b30d43b96853dab26898c710d8f44",
+                "reference": "7b9e911f9d8b30d43b96853dab26898c710d8f44",
                 "shasum": ""
             },
             "require": {
@@ -648,7 +536,7 @@
                     "Doctrine\\DBAL\\": "lib/"
                 }
             },
-            "notification-url": "http://packagist.org/downloads/",
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -678,7 +566,7 @@
                 "persistence",
                 "queryobject"
             ],
-            "time": "2017-07-22T20:44:48+00:00"
+            "time": "2017-02-08T12:53:47+00:00"
         },
         {
             "name": "doctrine/inflector",
@@ -856,67 +744,6 @@
             "time": "2014-09-09T13:34:57+00:00"
         },
         {
-            "name": "dompdf/dompdf",
-            "version": "v0.7.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/dompdf/dompdf.git",
-                "reference": "5c98652b1a5beb7e3cc8ec35419b2828dd63ab14"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/dompdf/dompdf/zipball/5c98652b1a5beb7e3cc8ec35419b2828dd63ab14",
-                "reference": "5c98652b1a5beb7e3cc8ec35419b2828dd63ab14",
-                "shasum": ""
-            },
-            "require": {
-                "ext-dom": "*",
-                "ext-gd": "*",
-                "ext-mbstring": "*",
-                "phenx/php-font-lib": "0.4.*",
-                "phenx/php-svg-lib": "0.1.*",
-                "php": ">=5.3.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "3.7.*"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-develop": "0.7-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Dompdf\\": "src/"
-                },
-                "classmap": [
-                    "lib/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "LGPL-2.1"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Ménager",
-                    "email": "fabien.menager@gmail.com"
-                },
-                {
-                    "name": "Brian Sweeney",
-                    "email": "eclecticgeek@gmail.com"
-                },
-                {
-                    "name": "Gabriel Bull",
-                    "email": "me@gabrielbull.com"
-                }
-            ],
-            "description": "DOMPDF is a CSS 2.1 compliant HTML to PDF converter",
-            "homepage": "https://github.com/dompdf/dompdf",
-            "time": "2016-05-11T00:36:29+00:00"
-        },
-        {
             "name": "egeloen/http-adapter",
             "version": "0.8.0",
             "source": {
@@ -1032,7 +859,7 @@
                     "Egulias\\EmailValidator\\": "EmailValidator"
                 }
             },
-            "notification-url": "http://packagist.org/downloads/",
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1139,7 +966,7 @@
                     "Parsedown": ""
                 }
             },
-            "notification-url": "http://packagist.org/downloads/",
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1193,7 +1020,7 @@
                     "Hashids\\": "src/"
                 }
             },
-            "notification-url": "http://packagist.org/downloads/",
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1300,7 +1127,7 @@
                     "InfyOm\\AdminLTETemplates\\": "src/"
                 }
             },
-            "notification-url": "http://packagist.org/downloads/",
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1319,7 +1146,7 @@
                 "laravel",
                 "templates"
             ],
-            "time": "2017-11-25 04:43:54"
+            "time": "2017-11-25T04:43:54+00:00"
         },
         {
             "name": "infyomlabs/laravel-generator",
@@ -1361,7 +1188,7 @@
                     "src/helpers.php"
                 ]
             },
-            "notification-url": "http://packagist.org/downloads/",
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1385,7 +1212,7 @@
                 "test",
                 "view"
             ],
-            "time": "2017-11-25 05:18:22"
+            "time": "2017-11-25T05:18:22+00:00"
         },
         {
             "name": "jeremeamia/SuperClosure",
@@ -1614,7 +1441,7 @@
                     "Illuminate\\": "src/Illuminate/"
                 }
             },
-            "notification-url": "http://packagist.org/downloads/",
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -2037,7 +1864,7 @@
                 }
             ],
             "description": "Bloom filter implementation",
-            "time": "2017-11-30 17:51:14"
+            "time": "2017-11-30T17:51:14+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -2143,7 +1970,7 @@
                     "Cron\\": "src/Cron/"
                 }
             },
-            "notification-url": "http://packagist.org/downloads/",
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -2192,7 +2019,7 @@
                     "src/DeepCopy/deep_copy.php"
                 ]
             },
-            "notification-url": "http://packagist.org/downloads/",
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -2239,7 +2066,7 @@
                     "src/Helpers/functions.php"
                 ]
             },
-            "notification-url": "http://packagist.org/downloads/",
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -2254,7 +2081,7 @@
                 }
             ],
             "description": "Laravel web installer",
-            "time": "2017-12-04 19:05:57"
+            "time": "2017-12-04T19:05:57+00:00"
         },
         {
             "name": "nesbot/carbon",
@@ -2344,7 +2171,7 @@
                     "PhpParser\\": "lib/PhpParser"
                 }
             },
-            "notification-url": "http://packagist.org/downloads/",
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "BSD-3-Clause"
             ],
@@ -2580,74 +2407,6 @@
             "time": "2017-03-05T17:38:23+00:00"
         },
         {
-            "name": "phenx/php-font-lib",
-            "version": "0.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/PhenX/php-font-lib.git",
-                "reference": "b8af0cacdc3cbf1e41a586fcb78f506f4121a088"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/PhenX/php-font-lib/zipball/b8af0cacdc3cbf1e41a586fcb78f506f4121a088",
-                "reference": "b8af0cacdc3cbf1e41a586fcb78f506f4121a088",
-                "shasum": ""
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "FontLib\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "LGPL-3.0"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Ménager",
-                    "email": "fabien.menager@gmail.com"
-                }
-            ],
-            "description": "A library to read, parse, export and make subsets of different types of font files.",
-            "homepage": "https://github.com/PhenX/php-font-lib",
-            "time": "2015-05-06T20:02:39+00:00"
-        },
-        {
-            "name": "phenx/php-svg-lib",
-            "version": "0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/PhenX/php-svg-lib.git",
-                "reference": "b419766515b3426c6da74b0e29e93d71c4f17099"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/PhenX/php-svg-lib/zipball/b419766515b3426c6da74b0e29e93d71c4f17099",
-                "reference": "b419766515b3426c6da74b0e29e93d71c4f17099",
-                "shasum": ""
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Svg\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "LGPL-3.0"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Ménager",
-                    "email": "fabien.menager@gmail.com"
-                }
-            ],
-            "description": "A library to read, parse and export to PDF SVG files.",
-            "homepage": "https://github.com/PhenX/php-svg-lib",
-            "time": "2015-05-06T18:49:49+00:00"
-        },
-        {
             "name": "php-http/httplug",
             "version": "v1.1.0",
             "source": {
@@ -2845,7 +2604,7 @@
                     ]
                 }
             },
-            "notification-url": "http://packagist.org/downloads/",
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -2998,7 +2757,7 @@
                     "Prophecy\\": "src/"
                 }
             },
-            "notification-url": "http://packagist.org/downloads/",
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -3069,7 +2828,7 @@
                     "src/"
                 ]
             },
-            "notification-url": "http://packagist.org/downloads/",
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "BSD-3-Clause"
             ],
@@ -3117,7 +2876,7 @@
                     "src/"
                 ]
             },
-            "notification-url": "http://packagist.org/downloads/",
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "BSD-3-Clause"
             ],
@@ -3258,7 +3017,7 @@
                     "src/"
                 ]
             },
-            "notification-url": "http://packagist.org/downloads/",
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "BSD-3-Clause"
             ],
@@ -3339,7 +3098,7 @@
                     "src/"
                 ]
             },
-            "notification-url": "http://packagist.org/downloads/",
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "BSD-3-Clause"
             ],
@@ -3462,7 +3221,7 @@
                     "Prettus\\Repository\\": "src/Prettus/Repository/"
                 }
             },
-            "notification-url": "http://packagist.org/downloads/",
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -4065,7 +3824,7 @@
                     "src/"
                 ]
             },
-            "notification-url": "http://packagist.org/downloads/",
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "BSD-3-Clause"
             ],
@@ -4599,16 +4358,16 @@
         },
         {
             "name": "spatie/laravel-fractal",
-            "version": "5.2.0",
+            "version": "5.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-fractal.git",
-                "reference": "4aa3d4a5e5b2956eea437ee1f82201bd8b91a65e"
+                "reference": "f395eb645cd454b209bc628f974ed137d16e03da"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-fractal/zipball/4aa3d4a5e5b2956eea437ee1f82201bd8b91a65e",
-                "reference": "4aa3d4a5e5b2956eea437ee1f82201bd8b91a65e",
+                "url": "https://api.github.com/repos/spatie/laravel-fractal/zipball/f395eb645cd454b209bc628f974ed137d16e03da",
+                "reference": "f395eb645cd454b209bc628f974ed137d16e03da",
                 "shasum": ""
             },
             "require": {
@@ -4640,7 +4399,7 @@
                     "src/helpers.php"
                 ]
             },
-            "notification-url": "http://packagist.org/downloads/",
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -4663,7 +4422,7 @@
                 "spatie",
                 "transform"
             ],
-            "time": "2017-09-15T18:57:48+00:00"
+            "time": "2017-11-28T16:33:26+00:00"
         },
         {
             "name": "spatie/laravel-pjax",
@@ -4771,62 +4530,6 @@
                 "mailer"
             ],
             "time": "2017-09-30T22:39:41+00:00"
-        },
-        {
-            "name": "symfony/class-loader",
-            "version": "v3.4.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/class-loader.git",
-                "reference": "e8d36a7b5568d232f5c3f8ef92665836b9f1e038"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/class-loader/zipball/e8d36a7b5568d232f5c3f8ef92665836b9f1e038",
-                "reference": "e8d36a7b5568d232f5c3f8ef92665836b9f1e038",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^5.5.9|>=7.0.8"
-            },
-            "require-dev": {
-                "symfony/finder": "~2.8|~3.0|~4.0",
-                "symfony/polyfill-apcu": "~1.1"
-            },
-            "suggest": {
-                "symfony/polyfill-apcu": "For using ApcClassLoader on HHVM"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.4-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Component\\ClassLoader\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony ClassLoader Component",
-            "homepage": "https://symfony.com",
-            "time": "2017-11-05T16:10:10+00:00"
         },
         {
             "name": "symfony/console",
@@ -5499,7 +5202,7 @@
                     "bootstrap.php"
                 ]
             },
-            "notification-url": "http://packagist.org/downloads/",
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -5556,7 +5259,7 @@
                     "bootstrap.php"
                 ]
             },
-            "notification-url": "http://packagist.org/downloads/",
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -5615,7 +5318,7 @@
                     "Resources/stubs"
                 ]
             },
-            "notification-url": "http://packagist.org/downloads/",
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -5667,7 +5370,7 @@
                     "Symfony\\Polyfill\\Util\\": ""
                 }
             },
-            "notification-url": "http://packagist.org/downloads/",
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -6410,33 +6113,33 @@
         },
         {
             "name": "webpatser/laravel-uuid",
-            "version": "2.0.3",
+            "version": "3.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/webpatser/laravel-uuid.git",
-                "reference": "b95a131db730dedec7604a731f39d6c327f5eca1"
+                "reference": "9c9bd4344f4aa78326b34a324d8a208e65c8221f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webpatser/laravel-uuid/zipball/b95a131db730dedec7604a731f39d6c327f5eca1",
-                "reference": "b95a131db730dedec7604a731f39d6c327f5eca1",
+                "url": "https://api.github.com/repos/webpatser/laravel-uuid/zipball/9c9bd4344f4aa78326b34a324d8a208e65c8221f",
+                "reference": "9c9bd4344f4aa78326b34a324d8a208e65c8221f",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.0"
+                "php": "^7.0"
             },
             "require-dev": {
-                "fzaninotto/faker": "1.5.*",
-                "phpunit/phpunit": "4.7.*"
-            },
-            "suggest": {
-                "paragonie/random_compat": "A random_bytes Php 5.x polyfill."
+                "fzaninotto/faker": "~1.4",
+                "phpunit/phpunit": "~6.0"
             },
             "type": "library",
             "extra": {
                 "laravel": {
+                    "providers": [
+                        "Webpatser\\Uuid\\UuidServiceProvider"
+                    ],
                     "aliases": {
-                        "Uuid": "Webpatser\\Uuid\\UuidFacade"
+                        "Uuid": "Webpatser\\Uuid\\Uuid"
                     }
                 }
             },
@@ -6445,7 +6148,7 @@
                     "Webpatser\\Uuid": "src/"
                 }
             },
-            "notification-url": "http://packagist.org/downloads/",
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -6460,7 +6163,7 @@
             "keywords": [
                 "UUID RFC4122"
             ],
-            "time": "2017-06-26T09:33:47+00:00"
+            "time": "2017-09-03T23:32:05+00:00"
         },
         {
             "name": "willdurand/geocoder",
@@ -6524,42 +6227,55 @@
         },
         {
             "name": "yajra/laravel-datatables-oracle",
-            "version": "v6.24.1",
+            "version": "v8.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yajra/laravel-datatables.git",
-                "reference": "593a9205c7d9816d2d8b639ca08000ae5c5f378c"
+                "reference": "8c3490d7a810824da147161033d6ef272d7c8726"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yajra/laravel-datatables/zipball/593a9205c7d9816d2d8b639ca08000ae5c5f378c",
-                "reference": "593a9205c7d9816d2d8b639ca08000ae5c5f378c",
+                "url": "https://api.github.com/repos/yajra/laravel-datatables/zipball/8c3490d7a810824da147161033d6ef272d7c8726",
+                "reference": "8c3490d7a810824da147161033d6ef272d7c8726",
                 "shasum": ""
             },
             "require": {
-                "dompdf/dompdf": "^0.7",
-                "illuminate/database": "~5.0",
-                "illuminate/filesystem": "~5.0",
-                "illuminate/http": "~5.0",
-                "illuminate/support": "~5.0",
-                "illuminate/view": "~5.0",
-                "laravelcollective/html": "~5.0",
-                "league/fractal": "~0.14",
-                "maatwebsite/excel": "^2.0",
-                "php": ">=5.5.9"
+                "illuminate/database": "5.4.*|5.5.*",
+                "illuminate/filesystem": "5.4.*|5.5.*",
+                "illuminate/http": "5.4.*|5.5.*",
+                "illuminate/support": "5.4.*|5.5.*",
+                "illuminate/view": "5.4.*|5.5.*",
+                "php": ">=7.0"
             },
             "require-dev": {
-                "mockery/mockery": "~0.9",
-                "phpunit/phpunit": "~4.0"
+                "orchestra/testbench": "~3.5"
             },
             "suggest": {
-                "barryvdh/laravel-snappy": "Allows exporting of dataTable to PDF using the print view."
+                "yajra/laravel-datatables-buttons": "Plugin for server-side exporting of dataTable.",
+                "yajra/laravel-datatables-fractal": "Plugin for server-side response using Fractal.",
+                "yajra/laravel-datatables-html": "Plugin for server-side HTML builder of dataTable."
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "8.0-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Yajra\\DataTables\\DataTablesServiceProvider"
+                    ],
+                    "aliases": {
+                        "DataTables": "Yajra\\DataTables\\Facades\\DataTables"
+                    }
+                }
+            },
             "autoload": {
                 "psr-4": {
-                    "Yajra\\Datatables\\": "src/"
-                }
+                    "Yajra\\DataTables\\": "src/"
+                },
+                "files": [
+                    "src/helper.php"
+                ]
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -6573,14 +6289,11 @@
             ],
             "description": "jQuery DataTables API for Laravel 4|5",
             "keywords": [
-                "datatable",
                 "datatables",
-                "datatables jquery plugin",
-                "laravel",
-                "laravel4",
-                "laravel5"
+                "jquery",
+                "laravel"
             ],
-            "time": "2017-01-24T02:46:52+00:00"
+            "time": "2017-11-02T02:30:46+00:00"
         },
         {
             "name": "zendframework/zend-diactoros",
@@ -6621,7 +6334,7 @@
                     "Zend\\Diactoros\\": "src/"
                 }
             },
-            "notification-url": "http://packagist.org/downloads/",
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "BSD-2-Clause"
             ],
@@ -6700,10 +6413,132 @@
                 "permission",
                 "roles"
             ],
-            "time": "2016-12-29 06:25:06"
+            "time": "2016-12-29T06:25:06+00:00"
         }
     ],
     "packages-dev": [
+        {
+            "name": "barryvdh/laravel-ide-helper",
+            "version": "v2.4.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/barryvdh/laravel-ide-helper.git",
+                "reference": "2b1273c45e2f8df7a625563e2283a17c14f02ae8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/barryvdh/laravel-ide-helper/zipball/2b1273c45e2f8df7a625563e2283a17c14f02ae8",
+                "reference": "2b1273c45e2f8df7a625563e2283a17c14f02ae8",
+                "shasum": ""
+            },
+            "require": {
+                "barryvdh/reflection-docblock": "^2.0.4",
+                "illuminate/console": "^5.0,<5.6",
+                "illuminate/filesystem": "^5.0,<5.6",
+                "illuminate/support": "^5.0,<5.6",
+                "php": ">=5.4.0",
+                "symfony/class-loader": "^2.3|^3.0"
+            },
+            "require-dev": {
+                "doctrine/dbal": "~2.3",
+                "illuminate/config": "^5.0,<5.6",
+                "illuminate/view": "^5.0,<5.6",
+                "phpunit/phpunit": "4.*",
+                "scrutinizer/ocular": "~1.1",
+                "squizlabs/php_codesniffer": "~2.3"
+            },
+            "suggest": {
+                "doctrine/dbal": "Load information from the database about models for phpdocs (~2.3)"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.3-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Barryvdh\\LaravelIdeHelper\\IdeHelperServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Barryvdh\\LaravelIdeHelper\\": "src"
+                }
+            },
+            "notification-url": "http://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Barry vd. Heuvel",
+                    "email": "barryvdh@gmail.com"
+                }
+            ],
+            "description": "Laravel IDE Helper, generates correct PHPDocs for all Facade classes, to improve auto-completion.",
+            "keywords": [
+                "autocomplete",
+                "codeintel",
+                "helper",
+                "ide",
+                "laravel",
+                "netbeans",
+                "phpdoc",
+                "phpstorm",
+                "sublime"
+            ],
+            "time": "2017-07-16T00:24:12+00:00"
+        },
+        {
+            "name": "barryvdh/reflection-docblock",
+            "version": "v2.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/barryvdh/ReflectionDocBlock.git",
+                "reference": "3dcbd98b5d9384a5357266efba8fd29884458e5c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/barryvdh/ReflectionDocBlock/zipball/3dcbd98b5d9384a5357266efba8fd29884458e5c",
+                "reference": "3dcbd98b5d9384a5357266efba8fd29884458e5c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0,<4.5"
+            },
+            "suggest": {
+                "dflydev/markdown": "~1.0",
+                "erusev/parsedown": "~1.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Barryvdh": [
+                        "src/"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mike van Riel",
+                    "email": "mike.vanriel@naenius.com"
+                }
+            ],
+            "time": "2016-06-13T19:28:20+00:00"
+        },
         {
             "name": "bpocallaghan/generators",
             "version": "5.0.1",
@@ -6793,7 +6628,7 @@
                     "Whoops\\": "src/Whoops/"
                 }
             },
-            "notification-url": "http://packagist.org/downloads/",
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -7146,6 +6981,62 @@
                 "testing"
             ],
             "time": "2017-10-08T07:47:55+00:00"
+        },
+        {
+            "name": "symfony/class-loader",
+            "version": "v3.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/class-loader.git",
+                "reference": "e8d36a7b5568d232f5c3f8ef92665836b9f1e038"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/class-loader/zipball/e8d36a7b5568d232f5c3f8ef92665836b9f1e038",
+                "reference": "e8d36a7b5568d232f5c3f8ef92665836b9f1e038",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.5.9|>=7.0.8"
+            },
+            "require-dev": {
+                "symfony/finder": "~2.8|~3.0|~4.0",
+                "symfony/polyfill-apcu": "~1.1"
+            },
+            "suggest": {
+                "symfony/polyfill-apcu": "For using ApcClassLoader on HHVM"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.4-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\ClassLoader\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony ClassLoader Component",
+            "homepage": "https://symfony.com",
+            "time": "2017-11-05T16:10:10+00:00"
         }
     ],
     "aliases": [],
