@@ -123,6 +123,7 @@
       <path value="$PROJECT_DIR$/vendor/sebastiaanluca/laravel-helpers" />
       <path value="$PROJECT_DIR$/vendor/laravelcollective/html" />
       <path value="$PROJECT_DIR$/vendor/nabeel/laravel-installer" />
+      <path value="$PROJECT_DIR$/vendor/tivie/php-os-detector" />
     </include_path>
   </component>
   <component name="PhpProjectServersManager">
