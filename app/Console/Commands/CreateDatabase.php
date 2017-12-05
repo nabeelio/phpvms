@@ -12,10 +12,12 @@ class CreateDatabase extends Command
 {
     protected $signature = 'database:create {--reset} {--conn=?}';
     protected $description = 'Create a database';
+    protected $os;
 
     public function __construct()
     {
         parent::__construct();
+        $this->os = new \Tivie\OS\Detector();
     }
 
     protected function runCommand($cmd)
@@ -33,10 +35,19 @@ class CreateDatabase extends Command
         echo $proc->getOutput();
     }
 
+    /**
+     * create the mysql database
+     * @param $dbkey
+     */
     protected function create_mysql($dbkey)
     {
+        $exec = 'mysql';
+        if($this->os->isWindowsLike()) {
+            $exec .= '.exe';
+        }
+
         $mysql_cmd = [
-            'mysql',
+            $exec,
             '-u' . config($dbkey . 'username'),
             '-h' . config($dbkey . 'host'),
             '-P' . config($dbkey . 'port'),
@@ -65,15 +76,24 @@ class CreateDatabase extends Command
         $this->runCommand($cmd);
     }
 
+    /**
+     * Create the sqlite database
+     * @param $dbkey
+     */
     protected function create_sqlite($dbkey)
     {
+        $exec = 'sqlite3';
+        if ($this->os->isWindowsLike()) {
+            $exec .= 'sqlite3';
+        }
+
         if ($this->option('reset')) {
             $cmd = ['rm', '-rf', config($dbkey . 'database')];
             $this->runCommand($cmd);
         }
 
         $cmd = [
-            'sqlite3',
+            $exec,
             config($dbkey . 'database'),
             '""',
         ];

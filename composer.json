@@ -45,7 +45,8 @@
         "scriptfusion/phpunit-immediate-exception-printer": "1.3.0",
         "nwidart/laravel-modules": "2.6.0",
         "sebastiaanluca/laravel-helpers": "1.0.2",
-        "nabeel/laravel-installer": "dev-master"
+        "nabeel/laravel-installer": "dev-master",
+        "tivie/php-os-detector": "1.1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "6.4.0",
