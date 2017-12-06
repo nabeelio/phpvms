@@ -37,18 +37,33 @@ server {
 
 ## development environment
 
-For development, copy the included `.env.example` to `.env` file. By default, it uses sqlite
+For development, copy the included `.env.dev.example` to `.env` file. By default, it uses sqlite
 instead of mysql. This makes it much easier to be able to clear the database and new fixtures.
 
-The default username and password are "admin@phpvms.net" and "admin". To see the available users in the development environment, [see this file](https://github.com/nabeelio/phpvms/blob/master/database/seeds/dev.yml#L10) 
+The easiest way to load locally is to install [Laravel Valet](https://laravel.com/docs/5.5/valet) 
+(if you're running a Mac). Once you install it, go to your phpvms directory, and run:
 
-### makefile commands
+```bash
+cp .env.dev.example .env
+php artisan key:generate
+make install   # this will install everything
+valet link phpvms
+```
+
+Now going to [http://phpvms.dev](http://phpvms.dev) should work. If you want to use mysql,
+follow the valet directions on installing mysql (`brew install mysql`) and then update the
+`.env` file to point to the mysql.
+
+The default username and password are "admin@phpvms.net" and "admin". 
+To see the available users in the development environment, [see this file](https://github.com/nabeelio/phpvms/blob/master/database/seeds/dev.yml#L10) 
+
+### creating/resetting the environment
 
 I use Makefiles to be able to quickly setup the environment.
 
 ```bash
 # to do an initial setup of the composer deps and install the DB
-make
+make install
 ```
 
 Then to reset the database/clear cache, use:
@@ -65,8 +80,9 @@ the database with the data from the `dev.yml`.
 
 ### virtual machine
 
-Using [Laravel Homestead](https://laravel.com/docs/5.4/homestead) is probably the easiest 
-way to get this working. Follow their instructions for install. A `Vagrantfile` and `Homestead.yaml`
+Using [Laravel Homestead](https://laravel.com/docs/5.4/homestead) is one way to get your dev
+environment working if you're on Windows or don't want to install any Homebrew services 
+on your Mac. Follow their instructions for install. A `Vagrantfile` and `Homestead.yaml`
 is included here. Add this to your `/etc/hosts`:
 
 ```bash

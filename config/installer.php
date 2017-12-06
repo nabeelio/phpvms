@@ -62,8 +62,8 @@ return [
                 'environment'           => 'required|string|max:50',
                 'environment_custom'    => 'required_if:environment,other|max:50',
                 'app_debug'             => [
-                    'required',
-                    Rule::in(['true', 'false']),
+                    'required|in:true,false',
+                    //Rule::in(['true', 'false']),
                 ],
                 'app_log_level'         => 'required|string|max:50',
                 'app_url'               => 'required|url',

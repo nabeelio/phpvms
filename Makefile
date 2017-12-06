@@ -13,9 +13,14 @@ build:
 	@composer install --no-interaction
 	@php artisan config:cache
 
+.PHONY: db
+db:
+	@php artisan database:create --reset
+	@php artisan migrate:refresh --seed
+
 .PHONY: install
 install: build db
-	echo ""
+	@echo "Done!"
 
 .PHONY: clean
 clean:
@@ -32,13 +37,7 @@ clean:
 
 .PHONY: reset
 reset: clean
-	@php artisan database:create --reset
-	@php artisan migrate:refresh --seed
-
-.PHONY: db
-db:
-	@php artisan database:create --reset
-	@php artisan migrate:refresh --seed
+	@make install
 
 .PHONY: unittest-db
 unittest-db:
