@@ -143,7 +143,7 @@ class UserController extends BaseController
         }
 
         $req_data = $request->all();
-        if($req_data['password'] == '') {
+        if(!$request->filled('password')) {
             unset($req_data['password']);
         } else {
             $req_data['password'] = Hash::make($req_data['password']);
