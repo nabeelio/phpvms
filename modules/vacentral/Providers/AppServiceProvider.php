@@ -38,11 +38,11 @@ class AppServiceProvider extends ServiceProvider
     protected function registerConfig()
     {
         $this->publishes([
-            __DIR__.'/../Config/config.php' => config_path('sample.php'),
+            __DIR__.'/../Config/config.php' => config_path('vacentral.php'),
         ], 'config');
 
         $this->mergeConfigFrom(
-            __DIR__.'/../Config/config.php', 'sample'
+            __DIR__.'/../Config/config.php', 'vacentral'
         );
     }
 
