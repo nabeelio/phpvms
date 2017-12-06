@@ -28,6 +28,7 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/igorw/get-in" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/infyomlabs/adminlte-templates" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/infyomlabs/laravel-generator" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/jackiedo/timezonelist" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/jeremeamia/SuperClosure" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/laracasts/flash" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/laravel/framework" />
@@ -127,6 +128,7 @@
           <root url="file://$MODULE_DIR$/vendor/igorw/get-in" />
           <root url="file://$MODULE_DIR$/vendor/infyomlabs/adminlte-templates" />
           <root url="file://$MODULE_DIR$/vendor/infyomlabs/laravel-generator" />
+          <root url="file://$MODULE_DIR$/vendor/jackiedo/timezonelist" />
           <root url="file://$MODULE_DIR$/vendor/jeremeamia/SuperClosure" />
           <root url="file://$MODULE_DIR$/vendor/laracasts/flash" />
           <root url="file://$MODULE_DIR$/vendor/laravel/framework" />
@@ -224,6 +226,7 @@
           <root url="file://$MODULE_DIR$/vendor/igorw/get-in" />
           <root url="file://$MODULE_DIR$/vendor/infyomlabs/adminlte-templates" />
           <root url="file://$MODULE_DIR$/vendor/infyomlabs/laravel-generator" />
+          <root url="file://$MODULE_DIR$/vendor/jackiedo/timezonelist" />
           <root url="file://$MODULE_DIR$/vendor/jeremeamia/SuperClosure" />
           <root url="file://$MODULE_DIR$/vendor/laracasts/flash" />
           <root url="file://$MODULE_DIR$/vendor/laravel/framework" />
