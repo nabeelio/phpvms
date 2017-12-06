@@ -1,7 +1,7 @@
 {
-    "name": "nabeel/sample",
-    "type": "laravel-module",
+    "name": "nabeel/vacentral",
     "license": "MIT",
+    "type": "laravel-module",
     "description": "",
     "authors": [
         {
@@ -15,8 +15,8 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Modules\\Sample\\Providers\\SampleServiceProvider",
-                "Modules\\Sample\\Providers\\EventServiceProvider"
+                "Modules\\Vacentral\\Providers\\AppServiceProvider",
+                "Modules\\Vacentral\\Providers\\EventServiceProvider"
             ],
             "aliases": {
 
@@ -25,7 +25,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Modules\\Sample\\": ""
+            "Modules\\Vacentral\\": ""
         }
     }
 }

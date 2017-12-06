@@ -3,5 +3,5 @@
 /*
 /*/
 !.gitignore
-!/Sample/
-!/vacentral/
+!/Sample
+!/vacentral
