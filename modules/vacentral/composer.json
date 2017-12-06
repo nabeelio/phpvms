@@ -1,0 +1,26 @@
+{
+    "name": "/vacentral",
+    "description": "",
+    "authors": [
+        {
+            "name": "",
+            "email": ""
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\Vacentral\\Providers\\VacentralServiceProvider",
+                "Modules\\Vacentral\\Providers\\EventServiceProvider"
+            ],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Vacentral\\": ""
+        }
+    }
+}
