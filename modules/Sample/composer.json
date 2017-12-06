@@ -1,0 +1,31 @@
+{
+    "name": "nabeel/sample",
+    "type": "laravel-module",
+    "license": "MIT",
+    "description": "",
+    "authors": [
+        {
+            "name": "Nabeel Shahzad",
+            "email": "gm@nabs.io"
+        }
+    ],
+    "require": {
+        "joshbrw/laravel-module-installer": "dev-master"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\Sample\\Providers\\SampleServiceProvider",
+                "Modules\\Sample\\Providers\\EventServiceProvider"
+            ],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Sample\\": ""
+        }
+    }
+}
