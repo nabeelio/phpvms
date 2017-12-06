@@ -5,23 +5,18 @@ namespace Modules\Vacentral\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
 
-class AppServiceProvider extends ServiceProvider
+class VacentralServiceProvider extends ServiceProvider
 {
-    protected $defer = false;
-    protected $moduleSvc;
-
     /**
      * Boot the application events.
      */
     public function boot()
     {
-        $this->moduleSvc = app('App\Services\ModuleService');
-
-        $this->registerTranslations();
         $this->registerConfig();
+        //$this->registerTranslations();
 
-        $this->registerFactories();
-        $this->loadMigrationsFrom(__DIR__ . '/../Database/migrations');
+        //$this->registerFactories();
+        //$this->loadMigrationsFrom(__DIR__ . '/../Database/migrations');
     }
 
     /**
