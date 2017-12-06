@@ -26,7 +26,7 @@ class CreateUsersTable extends Migration
             $table->bigInteger('flights')->unsigned()->default(0);
             $table->bigInteger('flight_time')->unsigned()->default(0);
             $table->decimal('balance', 19, 2)->nullable();
-            $table->tinyInteger('timezone')->default(0);
+            $table->string('timezone', 64)->nullable();
             $table->boolean('active')->nullable();
             $table->rememberToken();
             $table->timestamps();

@@ -4,6 +4,7 @@
             <th>ICAO</th>
             <th>Name</th>
             <th>Location</th>
+            <th>Timezone</th>
             <th style="text-align: center;">100LL</th>
             <th style="text-align: center;">JetA</th>
             <th style="text-align: center;">MOGAS</th>
@@ -15,6 +16,7 @@
                 <td>{!! $airport->icao !!}</td>
                 <td>{!! $airport->name !!}</td>
                 <td>{!! $airport->location !!}</td>
+                <td>{!! $airport->timezone !!}</td>
                 <td style="text-align: center;">
                     <a class="inline" href="#" data-pk="{!! $airport->id !!}" data-name="fuel_100ll_cost">{!! $airport->fuel_100ll_cost !!}</a>
                 </td>

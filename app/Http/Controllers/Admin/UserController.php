@@ -10,6 +10,7 @@ use Hash;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Http\FormRequest;
 use Flash;
+use Jackiedo\Timezonelist\Facades\Timezonelist;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 
@@ -118,6 +119,7 @@ class UserController extends BaseController
 
         return view('admin.users.edit', [
             'user' => $user,
+            'timezones' => Timezonelist::toArray(),
             'airports' => Airport::all()->pluck('icao', 'id'),
             'airlines' => Airline::all()->pluck('name', 'id'),
             'ranks' => Rank::all()->pluck('name', 'id'),

@@ -12,6 +12,7 @@ class Airport extends Model
 {
     public $table = 'airports';
     public $timestamps = false;
+    public $incrementing = false;
 
     public $fillable = [
         'id',
@@ -20,11 +21,15 @@ class Airport extends Model
         'location',
         'lat',
         'lon',
+        'timezone',
         'fuel_100ll_cost',
         'fuel_jeta_cost',
         'fuel_mogas_cost',
     ];
 
+    protected $casts = [
+        'id' => 'string',
+    ];
     /**
      * Validation rules
      *

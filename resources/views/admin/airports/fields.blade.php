@@ -25,6 +25,11 @@
     {!! Form::number('lon', null, ['class' => 'form-control', 'step' => '0.000001']) !!}
 </div>
 
+<div class="form-group col-sm-6">
+    {!! Form::label('timezone', 'Timezone:') !!}
+    {!! Form::select('timezone', $timezones, null, ['id'    => 'timezone', 'class' => 'select2' ]); !!}
+</div>
+
 <!-- Submit Field -->
 <div class="form-group col-sm-12">
     <div class="pull-right">

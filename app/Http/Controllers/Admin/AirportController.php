@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateAirportRequest;
 use App\Repositories\AirportRepository;
 use Illuminate\Http\Request;
 use Flash;
+use Jackiedo\Timezonelist\Facades\Timezonelist;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 
@@ -96,6 +97,7 @@ class AirportController extends BaseController
         }
 
         return view('admin.airports.edit', [
+            'timezones' => Timezonelist::toArray(),
             'airport' => $airport,
         ]);
     }

@@ -64,6 +64,7 @@ class User extends Authenticatable
             'home_airport_id',
             'curr_airport_id',
             'rank_id',
+            'timezone',
             'active',
         ];
 
