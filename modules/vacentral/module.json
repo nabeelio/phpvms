@@ -6,7 +6,7 @@
     "active": 1,
     "order": 0,
     "providers": [
-        "Modules\\Vacentral\\Providers\\AppServiceProvider",
+        "Modules\\Vacentral\\Providers\\VacentralServiceProvider",
         "Modules\\Vacentral\\Providers\\EventServiceProvider"
     ],
     "aliases": {},
