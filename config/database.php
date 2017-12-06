@@ -23,7 +23,7 @@ return [
 
         'sqlite' => [
             'driver' => 'sqlite',
-            'database' => storage_path('db.sqlite'),
+            'database' => env('DB_PATH', storage_path('db.sqlite')),
             'prefix' => '',
         ],
 
