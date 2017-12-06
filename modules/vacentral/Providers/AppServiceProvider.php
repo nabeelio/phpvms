@@ -1,11 +1,9 @@
 <?php
 
-namespace Modules\Sample\Providers;
+namespace Modules\Vacentral\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
-use Route;
-
 
 class AppServiceProvider extends ServiceProvider
 {
