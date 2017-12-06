@@ -15,7 +15,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Modules\\Vacentral\\Providers\\VacentralServiceProvider",
+                "Modules\\Vacentral\\Providers\\AppServiceProvider",
                 "Modules\\Vacentral\\Providers\\EventServiceProvider"
             ],
             "aliases": {
