@@ -1,0 +1,15 @@
+{
+    "name": "phpvms/vacentral",
+    "alias": "vacentral",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\Vacentral\\Providers\\AppServiceProvider",
+        "Modules\\Vacentral\\Providers\\EventServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

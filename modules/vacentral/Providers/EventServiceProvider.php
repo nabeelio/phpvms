@@ -1,8 +1,10 @@
 <?php
 
-namespace Modules\Sample\Providers;
+namespace Modules\Vacentral\Providers;
 
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+use App\Events\PirepAccepted;
+use Modules\Vacentral\Listeners\PirepAcceptedEventListener;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -10,9 +12,7 @@ class EventServiceProvider extends ServiceProvider
      * The event listener mappings for the application.
      */
     protected $listen = [
-        'App\Events\TestEvent' => [
-            'Modules\Sample\Listeners\PirepAcceptedEventListener',
-        ],
+        PirepAccepted::class => [PirepAcceptedEventListener::class],
     ];
 
     /**
