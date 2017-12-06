@@ -19,6 +19,7 @@ before_script:
 script:
   - php artisan database:create --reset
   - php artisan migrate:refresh --seed
+  - cp phpunit.travis.xml phpunit.xml
   - vendor/bin/phpunit --debug --verbose
 
 after_success:
