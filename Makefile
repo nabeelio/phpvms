@@ -11,15 +11,24 @@ all: build
 .PHONY:  build
 build:
 	@composer install --no-interaction
-	@php artisan config:cache
+	@php artisan route:clear
+	@php artisan config:clear
+	@composer dump-autoload
 
 .PHONY: db
 db:
-	@php artisan database:create --reset
+	@php artisan database:create
 	@php artisan migrate:refresh --seed
 
 .PHONY: install
 install: build db
+	@echo "Done!"
+
+.PHONY: update
+update: db
+
+	@php artisan route:clear
+	@php artisan config:clear
 	@echo "Done!"
 
 .PHONY: clean
@@ -31,12 +40,12 @@ clean:
 	@find storage/framework/sessions -type f -not -name '.gitignore' -print0 | xargs -0 rm --
 	@find storage/framework/views -type f -not -name '.gitignore' -print0 | xargs -0 rm --
 	@find storage/logs -type f -not -name '.gitignore' -print0 | xargs -0 rm --
-	@composer dump-autoload
 	@php artisan route:clear
 	@php artisan config:clear
 
 .PHONY: reset
 reset: clean
+	@php artisan database:create --reset
 	@make install
 
 .PHONY: unittest-db

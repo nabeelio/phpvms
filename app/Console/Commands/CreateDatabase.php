@@ -42,7 +42,7 @@ class CreateDatabase extends Command
     protected function create_mysql($dbkey)
     {
         $exec = 'mysql';
-        if($this->os->isWindowsLike()) {
+        if ($this->os->isWindowsLike()) {
             $exec .= '.exe';
         }
 
@@ -55,14 +55,14 @@ class CreateDatabase extends Command
 
         # only supply password if it's set
         $password = config($dbkey . 'password');
-        if($password !== '') {
+        if ($password !== '') {
             $mysql_cmd[] = '-p' . $password;
         }
 
         if ($this->option('reset')) {
             $cmd = array_merge(
                 $mysql_cmd,
-                ["-e 'DROP DATABASE ".config($dbkey . 'database')."'"]
+                ["-e 'DROP DATABASE " . config($dbkey . 'database') . "'"]
             );
 
             $this->runCommand($cmd);
@@ -92,13 +92,15 @@ class CreateDatabase extends Command
             $this->runCommand($cmd);
         }
 
-        $cmd = [
-            $exec,
-            config($dbkey . 'database'),
-            '""',
-        ];
+        if (!file_exists(config($dbkey . 'database'))) {
+            $cmd = [
+                $exec,
+                config($dbkey . 'database'),
+                '""',
+            ];
 
-        $this->runCommand($cmd);
+            $this->runCommand($cmd);
+        }
     }
 
     /**
@@ -114,16 +116,14 @@ class CreateDatabase extends Command
             }
         }*/
 
-        $this->info('Using connection "'.config('database.default').'"');
+        $this->info('Using connection "' . config('database.default') . '"');
 
         $conn = config('database.default');
-        $dbkey = 'database.connections.'.$conn.'.';
+        $dbkey = 'database.connections.' . $conn . '.';
 
-        if(config($dbkey.'driver') === 'mysql') {
+        if (config($dbkey . 'driver') === 'mysql') {
             $this->create_mysql($dbkey);
-        }
-
-        elseif (config($dbkey . 'driver') === 'sqlite') {
+        } elseif (config($dbkey . 'driver') === 'sqlite') {
             $this->create_sqlite($dbkey);
         }
     }
