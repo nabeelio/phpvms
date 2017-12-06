@@ -12,15 +12,21 @@ all: build
 build:
 	@composer install --no-interaction
 	@php artisan config:cache
-	@make db
 
 .PHONY: install
-install: db
+install: build db
 	echo ""
 
 .PHONY: clean
 clean:
-	@php artisan cache:clear
+	@find bootstrap/cache -type f -not -name '.gitignore' -print0 | xargs -0 rm --
+	@find storage/app/public -type f -not -name '.gitignore' -print0 | xargs -0 rm --
+	@find storage/app -type f -not -name '.gitignore' -not -name public -print0 | xargs -0 rm --
+	@find storage/framework/cache -type f -not -name '.gitignore' -print0 | xargs -0 rm --
+	@find storage/framework/sessions -type f -not -name '.gitignore' -print0 | xargs -0 rm --
+	@find storage/framework/views -type f -not -name '.gitignore' -print0 | xargs -0 rm --
+	@find storage/logs -type f -not -name '.gitignore' -print0 | xargs -0 rm --
+	@composer dump-autoload
 	@php artisan route:clear
 	@php artisan config:clear
 
