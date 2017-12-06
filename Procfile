@@ -1,2 +1,3 @@
-nginx: /usr/local/bin/nginx 
-php-fpm: /usr/local/sbin/php-fpm 
+dnsmasq: /usr/local/sbin/dnsmasq --keep-in-foreground
+php-fpm: /usr/local/sbin/php-fpm --nodaemonize
+nginx: /usr/local/bin/nginx
