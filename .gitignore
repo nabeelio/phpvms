@@ -30,8 +30,6 @@ tmp/
 .idea/**/workspace.xml
 .idea/**/tasks.xml
 .idea/dictionaries
-
-# Sensitive or high-churn files:
 .idea/**/dataSources/
 .idea/**/dataSources.ids
 .idea/**/dataSources.xml
@@ -39,12 +37,23 @@ tmp/
 .idea/**/sqlDataSources.xml
 .idea/**/dynamic.xml
 .idea/**/uiDesigner.xml
+.idea/**/gradle.xml
+.idea/**/libraries
+cmake-build-debug/
+.idea/**/mongoSettings.xml
+*.iws
+out/
+.idea_modules/
+atlassian-ide-plugin.xml
+.idea/replstate.xml
+com_crashlytics_export_strings.xml
+crashlytics.properties
+crashlytics-build.properties
+fabric.properties
 
 phpvms_next.iml
 
 # Gradle:
-.idea/**/gradle.xml
-.idea/**/libraries
 public/info.php
 
 local.conf.php

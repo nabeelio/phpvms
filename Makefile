@@ -10,13 +10,13 @@ all: install
 
 .PHONY: clean
 clean:
-	@find bootstrap/cache -type f -not -name '.gitignore' -print0 | xargs -0 -r rm --
-	@find storage/app/public -type f -not -name '.gitignore' -print0 | xargs -0 -r rm --
-	@find storage/app -type f -not -name '.gitignore' -not -name public -print0 | xargs -0 -r rm --
-	@find storage/framework/cache -type f -not -name '.gitignore' -print0 | xargs -0 -r rm --
-	@find storage/framework/sessions -type f -not -name '.gitignore' -print0 | xargs -0 -r rm --
-	@find storage/framework/views -type f -not -name '.gitignore' -print0 | xargs -0 -r rm --
-	@find storage/logs -type f -not -name '.gitignore' -print0 | xargs -0 -r rm --
+	@find bootstrap/cache -type f -not -name '.gitignore' -print0 -delete
+	@find storage/app/public -type f -not -name '.gitignore' -print0 -delete
+	@find storage/app -type f -not -name '.gitignore' -not -name public -print0 -delete
+	@find storage/framework/cache -type f -not -name '.gitignore' -print0 -delete
+	@find storage/framework/sessions -type f -not -name '.gitignore' -print0 -delete
+	@find storage/framework/views -type f -not -name '.gitignore' -print0 -delete
+	@find storage/logs -type f -not -name '.gitignore' -print0 -delete
 	@php artisan route:clear
 	@php artisan config:clear
 
@@ -32,7 +32,7 @@ install: build
 	@echo "Done!"
 
 .PHONY: update
-update: clean build
+update: build
 	@php artisan migrate
 	@echo "Done!"
 
@@ -40,7 +40,7 @@ update: clean build
 reset: clean
 	@php artisan database:create --reset
 	@php artisan migrate:refresh --seed
-	@make install
+	@make update
 
 .PHONY: tests
 tests: test

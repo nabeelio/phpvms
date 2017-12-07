@@ -95,7 +95,7 @@ airports:
     location: Austin, Texas, USA
     lat: 30.1945278
     lon: -97.6698889
-    timezone: America/Chicago
+    tz: America/Chicago
   - id: KJFK
     iata: JFK
     icao: KJFK
@@ -103,7 +103,7 @@ airports:
     location: New York, New York, USA
     lat: 40.6399257
     lon: -73.7786950
-    timezone: America/New_York
+    tz: America/New_York
   - id: EGLL
     iata: LHR
     icao: EGLL
@@ -111,7 +111,7 @@ airports:
     location: London, England
     lat: 51.4775
     lon: -0.4614
-    timezone: Europe/London
+    tz: Europe/London
 
 #
 aircraft:

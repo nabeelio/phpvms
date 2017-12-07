@@ -23,7 +23,7 @@ class DashboardController extends BaseController
         /*Feed::$cacheDir = storage_path('app');
         Feed::$cacheExpire = '5 hours';
 
-        $feed = Feed::loadRss(config('phpvms.feed_url'));*/
+        $feed = Feed::loadRss(config('phpvms.news_feed_url'));*/
         $feed = [];
         return view('admin.dashboard.index', [
             'feed' => $feed,

@@ -21,7 +21,7 @@ class CreateAirportsTable extends Migration
             $table->string('name', 100);
             $table->string('location', 100)->nullable();
             $table->string('country', 48)->nullable();
-            $table->string('timezone', 64)->nullable();
+            $table->string('tz', 64)->nullable();
             $table->double('fuel_100ll_cost', 19, 2)->default(0);
             $table->double('fuel_jeta_cost', 19, 2)->default(0);
             $table->double('fuel_mogas_cost', 19, 2)->default(0);

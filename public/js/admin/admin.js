@@ -2,7 +2,18 @@
  * admin functions, mostly map/mapping related
  */
 
-function phpvms_render_airspace_map(opts) {
+function phpvms_vacentral_airport_lookup(icao, callback)
+{
+    $.ajax({
+        url: '/api/airports/' + icao + '/lookup',
+        method: 'GET'
+    }).done(function (data, status) {
+        callback(data.data);
+    });
+}
+
+function phpvms_render_airspace_map(opts)
+{
     opts = __parse_opts(opts);
     var map = __draw_base_map(opts);
     if(opts.set_marker == true) { L.marker(coords).addTo(map); }
@@ -13,7 +24,7 @@ function __parse_opts(opts) {
     _.defaults(opts, {
         render_elem: 'map',
         overlay_elem: '',
-        lat: 0, 
+        lat: 0,
         lon: 0,
         zoom: 12,
         layers: [],
@@ -24,7 +35,7 @@ function __parse_opts(opts) {
 }
 
 function __draw_base_map(opts) {
-    
+
     var coords = [opts.lat, opts.lon];
 
     /*var openaip_airspace_labels = new L.TileLayer.WMS(

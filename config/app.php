@@ -63,7 +63,7 @@ return [
         SebastiaanLuca\Helpers\Methods\GlobalHelpersServiceProvider::class,
         SebastiaanLuca\Helpers\Collections\CollectionMacrosServiceProvider::class,
         Toin0u\Geotools\GeotoolsServiceProvider::class,
-        //Jackiedo\Timezonelist\TimezonelistServiceProvider::class,
+        Jackiedo\Timezonelist\TimezonelistServiceProvider::class,
 
         /*
          * Application Service Providers...

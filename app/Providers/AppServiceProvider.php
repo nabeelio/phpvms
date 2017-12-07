@@ -15,9 +15,14 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
 
+        //\VaCentral\VaCentral::setVaCentralUrl(config('phpvms.vacentral_api_url'));
+        if(!empty(config('phpvms.vacentral_api_key'))) {
+            \VaCentral\VaCentral::setApiKey(config('phpvms.vacentral_api_key'));
+        }
+
         # if there's a local.conf.php in the root, then merge that in
         if(file_exists(base_path('local.conf.php'))) {
-            $local_conf = include(base_path('local.conf.php'));
+            $local_conf = include base_path('local.conf.php');
             $config = $this->app['config']->get('phpvms', []);
             $this->app['config']->set(
                 'phpvms',

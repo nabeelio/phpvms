@@ -17,6 +17,8 @@ Route::group([], function () {
 
     Route::match(['get'], 'status', 'BaseController@status');
 
+    Route::match(['get'], 'airports/{id}/lookup', 'AirportController@lookup');
+
     Route::match(['get'], 'flight/{id}', 'FlightController@get');
     Route::match(['get'], 'flights/search', 'FlightController@search');
 

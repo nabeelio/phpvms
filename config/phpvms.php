@@ -36,7 +36,17 @@ return [
     'only_flights_from_current' => false,
 
     /**
+     * Your vaCentral API key
+     */
+    'vacentral_api_key' => '',
+
+    /**
+     * vaCentral API URL. You likely don't need to change this
+     */
+    'vacentral_api_url' => 'https://api.vacentral.net',
+
+    /**
      * Misc Settings
      */
-    'feed_url' => 'http://forum.phpvms.net/rss/1-announcements-feed.xml/?',
+    'news_feed_url' => 'http://forum.phpvms.net/rss/1-announcements-feed.xml/?',
 ];

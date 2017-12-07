@@ -4,9 +4,10 @@
 <div class="card border-blue-bottom">
    <div class="content">
        @include('adminlte-templates::common.errors')
-       {!! Form::model($airport, ['route' => ['admin.airports.update', $airport->id], 'method' => 'patch']) !!}
+       {!! Form::model($airport, ['route' => ['admin.airports.update', $airport->id], 'method' => 'patch', 'id' => 'airportForm']) !!}
             @include('admin.airports.fields')
        {!! Form::close() !!}
    </div>
 </div>
 @endsection
+@include('admin.airports.script')

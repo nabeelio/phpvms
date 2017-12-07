@@ -27,6 +27,7 @@ class AirportController extends BaseController
      *
      * @param Request $request
      * @return Response
+     * @throws \Prettus\Repository\Exceptions\RepositoryException
      */
     public function index(Request $request)
     {
@@ -46,13 +47,16 @@ class AirportController extends BaseController
      */
     public function create()
     {
-        return view('admin.airports.create');
+        return view('admin.airports.create', [
+            'timezones' => Timezonelist::toArray(),
+        ]);
     }
 
     /**
      * Store a newly created Airport in storage.
      * @param CreateAirportRequest $request
      * @return Response
+     * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
     public function store(CreateAirportRequest $request)
     {
@@ -104,9 +108,10 @@ class AirportController extends BaseController
 
     /**
      * Update the specified Airport in storage.
-     * @param  int              $id
+     * @param  int $id
      * @param UpdateAirportRequest $request
      * @return Response
+     * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
     public function update($id, UpdateAirportRequest $request)
     {
