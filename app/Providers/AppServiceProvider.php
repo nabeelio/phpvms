@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
 
@@ -12,6 +13,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Schema::defaultStringLength(191);
+
         # if there's a local.conf.php in the root, then merge that in
         if(file_exists(base_path('local.conf.php'))) {
             $local_conf = include(base_path('local.conf.php'));
