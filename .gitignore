@@ -27,6 +27,7 @@ Homestead.json
 tmp/
 
 # intellij files
+.idea/composerJson.xml
 .idea/**/workspace.xml
 .idea/**/tasks.xml
 .idea/dictionaries

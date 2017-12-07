@@ -6,9 +6,13 @@ return [
     'prefix' => env('CACHE_PREFIX', ''),
 
     'keys' => [
+        'AIRPORT_VACENTRAL_LOOKUP' => [
+            'key' => 'airports:lookup:',
+            'time' => 1800,
+        ],
         'RANKS_PILOT_LIST' => [
             'key' => 'ranks:pilot_list',
-            'time' => 1440,
+            'time' => 600,
         ]
     ],
 
