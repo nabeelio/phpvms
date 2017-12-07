@@ -6,53 +6,41 @@
 CURR_PATH=$(shell pwd)
 
 .PHONY: all
-all: build
+all: install
+
+.PHONY: clean
+clean:
+	@find bootstrap/cache -type f -not -name '.gitignore' -print0 | xargs -0 -r rm --
+	@find storage/app/public -type f -not -name '.gitignore' -print0 | xargs -0 -r rm --
+	@find storage/app -type f -not -name '.gitignore' -not -name public -print0 | xargs -0 -r rm --
+	@find storage/framework/cache -type f -not -name '.gitignore' -print0 | xargs -0 -r rm --
+	@find storage/framework/sessions -type f -not -name '.gitignore' -print0 | xargs -0 -r rm --
+	@find storage/framework/views -type f -not -name '.gitignore' -print0 | xargs -0 -r rm --
+	@find storage/logs -type f -not -name '.gitignore' -print0 | xargs -0 -r rm --
+	@php artisan route:clear
+	@php artisan config:clear
 
 .PHONY:  build
 build:
 	@composer install --no-interaction
-	@php artisan route:clear
-	@php artisan config:clear
-	@composer dump-autoload
-
-.PHONY: db
-db:
-	@php artisan database:create
-	@php artisan migrate:refresh --seed
 
 .PHONY: install
-install: build db
+install: build
+	@php artisan database:create
+	@php artisan migrate --seed
+	@make import-airports
 	@echo "Done!"
 
 .PHONY: update
-update: db
-
-	@php artisan route:clear
-	@php artisan config:clear
+update: clean build
+	@php artisan migrate
 	@echo "Done!"
-
-.PHONY: clean
-clean:
-	@find bootstrap/cache -type f -not -name '.gitignore' -print0 | xargs -0 rm --
-	@find storage/app/public -type f -not -name '.gitignore' -print0 | xargs -0 rm --
-	@find storage/app -type f -not -name '.gitignore' -not -name public -print0 | xargs -0 rm --
-	@find storage/framework/cache -type f -not -name '.gitignore' -print0 | xargs -0 rm --
-	@find storage/framework/sessions -type f -not -name '.gitignore' -print0 | xargs -0 rm --
-	@find storage/framework/views -type f -not -name '.gitignore' -print0 | xargs -0 rm --
-	@find storage/logs -type f -not -name '.gitignore' -print0 | xargs -0 rm --
-	@php artisan route:clear
-	@php artisan config:clear
 
 .PHONY: reset
 reset: clean
 	@php artisan database:create --reset
+	@php artisan migrate:refresh --seed
 	@make install
-
-.PHONY: unittest-db
-unittest-db:
-	-@rm -f database/unittest.sqlite
-	sqlite3 database/unittest.sqlite ""
-	php artisan migrate:refresh --env unittest
 
 .PHONY: tests
 tests: test
