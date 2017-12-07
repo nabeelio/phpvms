@@ -89,6 +89,7 @@ airlines:
 
 airports:
   - id: KAUS
+    iata: AUS
     icao: KAUS
     name: Austin-Bergstrom
     location: Austin, Texas, USA
@@ -96,6 +97,7 @@ airports:
     lon: -97.6698889
     timezone: America/Chicago
   - id: KJFK
+    iata: JFK
     icao: KJFK
     name: John F Kennedy
     location: New York, New York, USA
@@ -103,6 +105,7 @@ airports:
     lon: -73.7786950
     timezone: America/New_York
   - id: EGLL
+    iata: LHR
     icao: EGLL
     name: London Heathrow
     location: London, England
