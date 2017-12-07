@@ -4,10 +4,10 @@ namespace App\Repositories;
 
 use App\Models\Flight;
 use App\Repositories\Criteria\WhereCriteria;
+use App\Repositories\Traits\CacheableRepository;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 use Prettus\Repository\Contracts\CacheableInterface;
-use Prettus\Repository\Traits\CacheableRepository;
 
 class FlightRepository extends BaseRepository implements CacheableInterface
 {

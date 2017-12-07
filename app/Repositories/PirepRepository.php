@@ -4,8 +4,8 @@ namespace App\Repositories;
 
 use App\Models\Pirep;
 use App\Models\User;
+use App\Repositories\Traits\CacheableRepository;
 use Prettus\Repository\Contracts\CacheableInterface;
-use Prettus\Repository\Traits\CacheableRepository;
 
 class PirepRepository extends BaseRepository implements CacheableInterface
 {

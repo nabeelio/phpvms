@@ -2,8 +2,8 @@
 namespace App\Repositories;
 
 use App\Models\User;
+use App\Repositories\Traits\CacheableRepository;
 use Prettus\Repository\Contracts\CacheableInterface;
-use Prettus\Repository\Traits\CacheableRepository;
 
 class UserRepository extends BaseRepository implements CacheableInterface
 {
