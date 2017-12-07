@@ -126,6 +126,10 @@
       <path value="$PROJECT_DIR$/vendor/tivie/php-os-detector" />
       <path value="$PROJECT_DIR$/vendor/jackiedo/timezonelist" />
       <path value="$PROJECT_DIR$/vendor/tremby/laravel-git-version" />
+      <path value="$PROJECT_DIR$/vendor/guzzlehttp/promises" />
+      <path value="$PROJECT_DIR$/vendor/guzzlehttp/psr7" />
+      <path value="$PROJECT_DIR$/vendor/guzzlehttp/guzzle" />
+      <path value="$PROJECT_DIR$/vendor/nabeel/vacentral" />
     </include_path>
   </component>
   <component name="PhpProjectServersManager">

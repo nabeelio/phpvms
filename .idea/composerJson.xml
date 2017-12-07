@@ -2,7 +2,10 @@
 <project version="4">
   <component name="ComposerJsonPluginSettings">
     <unboundedVersionInspectionSettings>
-      <excludedPackages />
+      <excludedPackages>
+        <pattern pattern="makinacorpus/php-bloom" />
+        <pattern pattern="nabeel/*" />
+      </excludedPackages>
     </unboundedVersionInspectionSettings>
     <customRepositories />
   </component>
