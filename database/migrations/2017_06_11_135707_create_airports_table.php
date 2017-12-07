@@ -16,10 +16,11 @@ class CreateAirportsTable extends Migration
         Schema::create('airports', function (Blueprint $table) {
 //            $table->bigIncrements('id');
             $table->string('id', 5)->primary();
+            $table->string('iata', 5);
             $table->string('icao', 5);
-            $table->string('name', 50);
-            $table->string('location', 50)->nullable();
-            $table->string('country', 50)->nullable();
+            $table->string('name', 100);
+            $table->string('location', 100)->nullable();
+            $table->string('country', 48)->nullable();
             $table->string('timezone', 64)->nullable();
             $table->double('fuel_100ll_cost', 19, 2)->default(0);
             $table->double('fuel_jeta_cost', 19, 2)->default(0);
