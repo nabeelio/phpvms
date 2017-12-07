@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "f2bce1dffa47efbd492ce598ca910d39",
+    "content-hash": "2f361a73a9d21108cf1e05a2bbfb1626",
     "packages": [
         {
             "name": "anlutro/l4-settings",
@@ -6100,6 +6100,42 @@
                 "laravel"
             ],
             "time": "2015-02-23T12:40:40+00:00"
+        },
+        {
+            "name": "tremby/laravel-git-version",
+            "version": "v1.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tremby/laravel-git-version.git",
+                "reference": "8c462c3209f13b4343f38c126a216bbdeabf6598"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tremby/laravel-git-version/zipball/8c462c3209f13b4343f38c126a216bbdeabf6598",
+                "reference": "8c462c3209f13b4343f38c126a216bbdeabf6598",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": ">=4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Tremby\\LaravelGitVersion\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Bart Nagel",
+                    "email": "bart@tremby.net"
+                }
+            ],
+            "description": "A helper to get the current git version of the application",
+            "time": "2017-04-03T23:17:44+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
