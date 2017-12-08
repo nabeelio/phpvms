@@ -3,6 +3,7 @@
  *
  */
 
+/*
 var gulp = require('gulp');
 var cp = require('child_process');
 
@@ -16,3 +17,4 @@ function exec(cmd) {
 gulp.task('reset', function() {
     exec('php artisan migrate:refresh --seed --seeder DevelopmentSeeder');
 });
+*/
