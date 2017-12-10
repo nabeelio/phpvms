@@ -21,40 +21,38 @@ class Pirep extends Model
 
     protected $dates = ['deleted_at'];
 
-    public $fillable
-        = [
-            'user_id',
-            'flight_id',
-            'flight_number',
-            'route_code',
-            'route_leg',
-            'airline_id',
-            'aircraft_id',
-            'flight_time',
-            'dpt_airport_id',
-            'arr_airport_id',
-            'fuel_used',
-            'source',
-            'level',
-            'route',
-            'notes',
-            'status',
-            'raw_data',
-        ];
+    public $fillable = [
+        'user_id',
+        'flight_id',
+        'flight_number',
+        'route_code',
+        'route_leg',
+        'airline_id',
+        'aircraft_id',
+        'flight_time',
+        'dpt_airport_id',
+        'arr_airport_id',
+        'fuel_used',
+        'source',
+        'level',
+        'route',
+        'notes',
+        'status',
+        'raw_data',
+    ];
 
     /**
      * The attributes that should be casted to native types.
      *
      * @var array
      */
-    protected $casts
-        = [
-            'flight_time' => 'integer',
-            'level'       => 'integer',
-            'fuel_used'   => 'integer',
-            'source'      => 'integer',
-            'status'      => 'integer',
-        ];
+    protected $casts = [
+        'flight_time' => 'integer',
+        'level'       => 'integer',
+        'fuel_used'   => 'integer',
+        'source'      => 'integer',
+        'status'      => 'integer',
+    ];
 
     /**
      * Validation rules

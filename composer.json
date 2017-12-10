@@ -33,7 +33,6 @@
         "symfony/dom-crawler": "v3.4.0",
         "league/geotools": "0.7.0",
         "toin0u/geotools-laravel": "^1.0",
-        "anlutro/l4-settings": "0.6.0",
         "webpatser/laravel-uuid": "3.0.1",
         "chrisbjr/api-guard": "4.1.0",
         "spatie/laravel-fractal": "5.3.0",
@@ -47,7 +46,8 @@
         "sebastiaanluca/laravel-helpers": "1.0.2",
         "tivie/php-os-detector": "1.1.0",
         "jackiedo/timezonelist": "^5.0",
-        "nesbot/carbon": "^1.22",
+        "nesbot/carbon": "1.22.*",
+        "pragmarx/version": "0.2.1",
         "tremby/laravel-git-version": "^1.1",
         "nabeel/laravel-installer": "dev-master",
         "nabeel/vacentral": "dev-master"

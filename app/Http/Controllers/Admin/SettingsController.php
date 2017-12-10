@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
+use Setting;
 
 class SettingsController extends BaseController
 {
@@ -13,13 +14,15 @@ class SettingsController extends BaseController
      */
     public function index()
     {
-        $settings = array_filter(Setting::all(), function ($key) {
+        /*$settings = array_filter(Setting::all(), function ($key) {
             if (strpos($key, '_descrip') !== false) { return true; }
             return false;
-        });
+        });*/
+        $settings = [];
 
-        return $this->view('admins.settings.index')
-                ->with('settings', $settings);
+        return view('admin.settings.index',[
+            'settings' => $settings,
+        ]);
     }
 
     /**
@@ -32,8 +35,8 @@ class SettingsController extends BaseController
      */
     public function update(Setting $setting, Request $request)
     {
-        $this->validate($request, Setting::$rules, Setting::$messages);
-        $this->updateEntry($setting, $request->all());
+        $/*this->validate($request, Setting::$rules, Setting::$messages);
+        $this->updateEntry($setting, $request->all());*/
 
         return redirect("/admin/settings");
     }

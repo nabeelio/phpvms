@@ -3,14 +3,6 @@
 # want to modify or erase any of this here
 #
 
-roles:
-  - id: 1
-    name: admin
-    display_name: Administrators
-  - id: 2
-    name: user
-    display_name: Pilot
-
 ranks:
   - id: 1
     name: New Pilot

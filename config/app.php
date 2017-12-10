@@ -58,7 +58,6 @@ return [
         InfyOm\Generator\InfyOmGeneratorServiceProvider::class,
         InfyOm\AdminLTETemplates\AdminLTETemplatesServiceProvider::class,
         Zizaco\Entrust\EntrustServiceProvider::class,
-        anlutro\LaravelSettings\ServiceProvider::class,
         Spatie\Fractal\FractalServiceProvider::class,
         SebastiaanLuca\Helpers\Methods\GlobalHelpersServiceProvider::class,
         SebastiaanLuca\Helpers\Collections\CollectionMacrosServiceProvider::class,

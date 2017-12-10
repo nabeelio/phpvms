@@ -17,25 +17,6 @@ return [
     'skin' => 'default',
 
     /**
-     * Start date. Set the date of when your VA has started
-     * Used as an anchor point for some financials and things
-     *
-     * YYYY-MM-DD format
-     */
-    'start_date' => '2017-07-07',
-
-    /**
-     * Pick one of:
-     * dollar, euro, gbp, yen, jpy, rupee, ruble
-     */
-    'currency' => 'dollar',
-
-    /**
-     * Restrict showing flights from the user's current airport
-     */
-    'only_flights_from_current' => false,
-
-    /**
      * Your vaCentral API key
      */
     'vacentral_api_key' => '',

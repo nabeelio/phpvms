@@ -4,65 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "459233f5328b1d32bc905cdf05d8b523",
+    "content-hash": "beec22933bfc1504008682e0c932df55",
     "packages": [
-        {
-            "name": "anlutro/l4-settings",
-            "version": "0.6.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/anlutro/laravel-settings.git",
-                "reference": "48c9adb5c6c0736f7ace44c29c48759fc1163e0b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/anlutro/laravel-settings/zipball/48c9adb5c6c0736f7ace44c29c48759fc1163e0b",
-                "reference": "48c9adb5c6c0736f7ace44c29c48759fc1163e0b",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/support": ">=4.1 <6.0",
-                "php": ">=5.3.0"
-            },
-            "require-dev": {
-                "illuminate/database": ">=4.1 <6.0",
-                "illuminate/filesystem": ">=4.1 <6.0",
-                "mockery/mockery": "0.9.*",
-                "phpunit/phpunit": ">=4.8, <6"
-            },
-            "suggest": {
-                "illuminate/database": "Save settings to a database table.",
-                "illuminate/filesystem": "Save settings to a JSON file."
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "aliases": {
-                        "Setting": "anlutro\\LaravelSettings\\Facade"
-                    },
-                    "providers": [
-                        "anlutro\\LaravelSettings\\ServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "anlutro\\LaravelSettings\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Andreas Lutro",
-                    "email": "anlutro@gmail.com"
-                }
-            ],
-            "description": "Persistent settings in Laravel.",
-            "time": "2017-11-08T18:16:13+00:00"
-        },
         {
             "name": "chrisbjr/api-guard",
             "version": "4.1.0",
@@ -3435,6 +3378,127 @@
                 "xunit"
             ],
             "time": "2017-08-03T14:08:16+00:00"
+        },
+        {
+            "name": "pragmarx/version",
+            "version": "v0.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/antonioribeiro/version.git",
+                "reference": "fd2eec365012f2f6e00a20f39e23e8efb8913ae9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/antonioribeiro/version/zipball/fd2eec365012f2f6e00a20f39e23e8efb8913ae9",
+                "reference": "fd2eec365012f2f6e00a20f39e23e8efb8913ae9",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "^5.5",
+                "php": "^7.0",
+                "pragmarx/yaml": "^0.1",
+                "symfony/process": "^3.3"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^3.5",
+                "phpunit/phpunit": "^6.4"
+            },
+            "type": "library",
+            "extra": {
+                "component": "package",
+                "laravel": {
+                    "providers": [
+                        "PragmaRX\\Version\\Package\\ServiceProvider"
+                    ],
+                    "aliases": {
+                        "Version": "PragmaRX\\Version\\Package\\Facade"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "PragmaRX\\Version\\Package\\": "src/package",
+                    "PragmaRX\\Version\\Tests\\": "tests/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Antonio Carlos Ribeiro",
+                    "email": "acr@antoniocarlosribeiro.com",
+                    "role": "Creator & Designer"
+                }
+            ],
+            "description": "Take control over your Laravel app version",
+            "keywords": [
+                "laravel",
+                "version",
+                "versioning"
+            ],
+            "time": "2017-12-02T23:56:29+00:00"
+        },
+        {
+            "name": "pragmarx/yaml",
+            "version": "v0.1.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/antonioribeiro/yaml.git",
+                "reference": "b510623eb5008cc468e00a31259a3c860dd2b267"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/antonioribeiro/yaml/zipball/b510623eb5008cc468e00a31259a3c860dd2b267",
+                "reference": "b510623eb5008cc468e00a31259a3c860dd2b267",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "^5.5",
+                "php": "^7.0",
+                "symfony/yaml": "^3.3"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^3.5",
+                "phpunit/phpunit": "^6.4"
+            },
+            "type": "library",
+            "extra": {
+                "component": "package",
+                "laravel": {
+                    "providers": [
+                        "PragmaRX\\Yaml\\Package\\ServiceProvider"
+                    ],
+                    "aliases": {
+                        "Yaml": "PragmaRX\\Yaml\\Package\\Facade"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "PragmaRX\\Yaml\\Package\\": "src/package",
+                    "PragmaRX\\Yaml\\Tests\\": "tests/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Antonio Carlos Ribeiro",
+                    "email": "acr@antoniocarlosribeiro.com",
+                    "role": "Creator & Designer"
+                }
+            ],
+            "description": "Load your Laravel config files using yaml",
+            "keywords": [
+                "config",
+                "laravel",
+                "yaml"
+            ],
+            "time": "2017-12-05T20:32:21+00:00"
         },
         {
             "name": "prettus/l5-repository",

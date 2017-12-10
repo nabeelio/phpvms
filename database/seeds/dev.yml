@@ -1,12 +1,4 @@
 #
-roles:
-  - id: 1
-    name: admin
-    display_name: Administrators
-  - id: 2
-    name: user
-    display_name: Pilot
-
 users:
   - id: 1
     name: Admin User

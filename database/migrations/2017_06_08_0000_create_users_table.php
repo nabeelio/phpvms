@@ -1,8 +1,8 @@
 <?php
 
+use App\Models\Migrations\Migration;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Migrations\Migration;
 
 class CreateUsersTable extends Migration
 {
@@ -81,7 +81,21 @@ class CreateUsersTable extends Migration
         });
 
         # create a default user/role
+        $roles = [
+            [
+                'id' => 1,
+                'name' => 'admin',
+                'display_name' => 'Administrators',
+            ],
+            [
+                'id' => 2,
+                'name' => 'user',
+                'display_name' => 'Pilot'
+            ],
+        ];
 
+
+        $this->addData('roles', $roles);
     }
 
     /**

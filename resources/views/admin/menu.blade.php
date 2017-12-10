@@ -35,6 +35,7 @@
                             class="pe-7s-map-marker"></i>airports</a></li>
             <li><a href="{!! url('/admin/users') !!}"><i class="pe-7s-users"></i>users</a></li>
             <li><a href="{!! url('/admin/ranks') !!}"><i class="pe-7s-id"></i>ranks</a></li>
+            <li><a href="{!! url('/admin/settings') !!}"><i class="pe-7s-id"></i>settings</a></li>
         </ul>
     </div>
 </li>
