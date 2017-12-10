@@ -47,7 +47,6 @@
       <path value="$PROJECT_DIR$/vendor/doctrine/annotations" />
       <path value="$PROJECT_DIR$/vendor/doctrine/dbal" />
       <path value="$PROJECT_DIR$/vendor/league/fractal" />
-      <path value="$PROJECT_DIR$/vendor/anlutro/l4-settings" />
       <path value="$PROJECT_DIR$/vendor/chrisbjr/api-guard" />
       <path value="$PROJECT_DIR$/vendor/league/geotools" />
       <path value="$PROJECT_DIR$/vendor/doctrine/instantiator" />
@@ -130,6 +129,8 @@
       <path value="$PROJECT_DIR$/vendor/guzzlehttp/psr7" />
       <path value="$PROJECT_DIR$/vendor/guzzlehttp/guzzle" />
       <path value="$PROJECT_DIR$/vendor/nabeel/vacentral" />
+      <path value="$PROJECT_DIR$/vendor/pragmarx/version" />
+      <path value="$PROJECT_DIR$/vendor/pragmarx/yaml" />
     </include_path>
   </component>
   <component name="PhpProjectServersManager">
