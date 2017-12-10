@@ -35,10 +35,10 @@ class SettingsController extends BaseController
      */
     public function update(Setting $setting, Request $request)
     {
-        $/*this->validate($request, Setting::$rules, Setting::$messages);
+        /*$this->validate($request, Setting::$rules, Setting::$messages);
         $this->updateEntry($setting, $request->all());*/
 
-        return redirect("/admin/settings");
+        return redirect('/admin/settings');
     }
 
 }

@@ -21,7 +21,7 @@ class Migration extends MigrationBase
             try {
                 DB::table($table)->insert($row);
             } catch (Exception $e) {
-                # setting already exists
+                # setting already exists, just ignore it
                 if ($e->getCode() === 23000) {
                     continue;
                 }

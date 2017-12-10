@@ -63,6 +63,9 @@
         "bpocallaghan/generators": "5.0.1"
     },
     "autoload": {
+        "files": [
+            "app/Support/helpers.php"
+        ],
         "classmap": [
             "database"
         ],
