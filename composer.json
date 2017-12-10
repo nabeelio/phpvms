@@ -64,7 +64,7 @@
     },
     "autoload": {
         "files": [
-            "app/Support/helpers.php"
+            "app/helpers.php"
         ],
         "classmap": [
             "database"

@@ -8,7 +8,7 @@ return [
     'url' => env('APP_URL', 'http://localhost'),
     'version' => '4.0',
 
-    'timezone' => env('APP_TIMEZONE', 'UTC'),
+    'timezone' => 'UTC',
     'locale' => env('APP_LOCALE', 'en'),
     'fallback_locale' => 'en',
 

@@ -13,6 +13,7 @@ return [
             'username' => env('DB_USERNAME', 'forge'),
             'password' => env('DB_PASSWORD', ''),
             'unix_socket' => env('DB_SOCKET', ''),
+            'timezone' => '+00:00',
             'charset' => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix' => '',
@@ -22,21 +23,25 @@ return [
         'sqlite' => [
             'driver' => 'sqlite',
             'database' => env('DB_DATABASE', storage_path('db.sqlite')),
+            'timezone' => '+00:00',
             'prefix' => '',
         ],
         'local' => [
             'driver' => 'sqlite',
             'database' => storage_path('local.sqlite'),
+            'timezone' => '+00:00',
             'prefix' => '',
         ],
         'unittest' => [
             'driver' => 'sqlite',
             'database' => storage_path('unittest.sqlite'),
+            'timezone' => '+00:00',
             'prefix' => '',
         ],
         'memory' => [
             'driver' => 'sqlite',
             'database' => ':memory:',
+            'timezone' => '+00:00',
             'prefix' => '',
         ],
     ],
