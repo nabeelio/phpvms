@@ -1,11 +1,20 @@
 #
+airlines:
+  - id: 1
+    icao: VMS
+    iata: VM
+    name: phpvms airlines
+    active: 1
+    created_at: now
+    updated_at: now
+
 users:
   - id: 1
     name: Admin User
     email: admin@phpvms.net
     password: admin
-    rank_id: 1
     airline_id: 1
+    rank_id: 1
     home_airport_id: KAUS
     curr_airport_id: KJFK
     flights: 1
@@ -17,8 +26,8 @@ users:
     name: Carla Walters
     email: carla.walters68@example.com
     password: admin
-    rank_id: 1
     airline_id: 1
+    rank_id: 1
     home_airport_id: KJFK
     curr_airport_id: KJFK
     flights: 1
@@ -30,8 +39,8 @@ users:
     name: Raymond Pearson
     email: raymond.pearson56@example.com
     password: admin
-    rank_id: 1
     airline_id: 1
+    rank_id: 1
     home_airport_id: KJFK
     curr_airport_id: KAUS
     flights: 1
@@ -69,15 +78,6 @@ ranks:
     auto_approve_acars: 1
     auto_approve_manual: 1
     auto_promote: 0
-
-airlines:
-  - id: 1
-    icao: VMS
-    iata: VM
-    name: phpvms airlines
-    active: 1
-    created_at: now
-    updated_at: now
 
 airports:
   - id: KAUS

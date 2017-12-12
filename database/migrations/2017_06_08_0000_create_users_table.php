@@ -19,8 +19,8 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string('apikey', 40)->nullable();
-            $table->unsignedInteger('airline_id')->unsigned();
-            $table->unsignedInteger('rank_id')->unsigned();
+            $table->unsignedInteger('airline_id');
+            $table->unsignedInteger('rank_id');
             $table->string('home_airport_id', 5)->nullable();
             $table->string('curr_airport_id', 5)->nullable();
             $table->string('last_pirep_id', 12)->nullable();
