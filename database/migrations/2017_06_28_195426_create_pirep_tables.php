@@ -18,7 +18,7 @@ class CreatePirepTables extends Migration
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('airline_id');
             $table->unsignedInteger('aircraft_id')->nullable();
-            $table->uuid('flight_id')->nullable();
+            $table->string('flight_id', 12)->nullable();
             $table->string('flight_number', 10)->nullable();
             $table->string('route_code', 5)->nullable();
             $table->string('route_leg', 5)->nullable();
