@@ -70,7 +70,7 @@ class RouteServiceProvider extends ServiceProvider
                 'api',
                 'api.auth',
             ],
-            'namespace' => $this->namespace."\\API",
+            'namespace' => $this->namespace."\\Api",
             'prefix' => 'api',
             'as' => 'api.',
         ], function ($router) {
