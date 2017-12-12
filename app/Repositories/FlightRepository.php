@@ -39,6 +39,10 @@ class FlightRepository extends BaseRepository implements CacheableInterface
             'active' => $only_active,
         ];
 
+        if ($request->filled('flight_id')) {
+            $where['id'] = $request->flight_id;
+        }
+
         if ($request->filled('airline_id')) {
             $where['airline_id'] = $request->airline_id;
         }

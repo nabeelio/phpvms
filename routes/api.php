@@ -20,8 +20,8 @@ Route::group([], function () {
     Route::match(['get'], 'airports/{id}', 'AirportController@get');
     Route::match(['get'], 'airports/{id}/lookup', 'AirportController@lookup');
 
-    Route::match(['get'], 'flight/{id}', 'FlightController@get');
     Route::match(['get'], 'flights/search', 'FlightController@search');
+    Route::match(['get'], 'flights/{id}', 'FlightController@get');
 
     Route::match(['get'], 'pirep/{id}', 'PirepController@get');
 });

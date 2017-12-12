@@ -20,6 +20,10 @@ clean:
 	@php artisan route:clear
 	@php artisan config:clear
 
+.PHONY: clean-routes
+clean-routes:
+	@php artisan route:clear
+
 .PHONY:  build
 build:
 	@composer install --no-interaction

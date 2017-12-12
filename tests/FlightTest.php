@@ -24,7 +24,24 @@ class FlightTest extends TestCase
     public function testGetFlight()
     {
         $flight_id = $this->addFlight();
-        $this->get('/api/flight/'.$flight_id, self::$auth_headers)
-            ->assertStatus(200);
+        $this->get('/api/flights/'.$flight_id, self::$auth_headers)
+            ->assertStatus(200)
+            ->assertJson(['dpt_airport_id' => 'KAUS']);
+
+        $this->get('/api/flights/INVALID', self::$auth_headers)
+            ->assertStatus(404);
+    }
+
+    /**
+     * Search based on all different criteria
+     */
+    public function testSearchFlight()
+    {
+        $flight_id = $this->addFlight();
+
+        # search specifically for a flight ID
+        $query = 'flight_id='.$flight_id;
+        $req = $this->get('/api/flights/search?' . $query, self::$auth_headers);
+        $req->assertStatus(200);
     }
 }
