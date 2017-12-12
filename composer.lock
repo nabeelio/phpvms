@@ -2093,12 +2093,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nabeelio/LaravelInstaller.git",
-                "reference": "c695fb559ddd05290f6898d284abe71a83d25b95"
+                "reference": "0a5877b5550b0f8b35ed354331f1250747c9c223"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nabeelio/LaravelInstaller/zipball/c695fb559ddd05290f6898d284abe71a83d25b95",
-                "reference": "c695fb559ddd05290f6898d284abe71a83d25b95",
+                "url": "https://api.github.com/repos/nabeelio/LaravelInstaller/zipball/0a5877b5550b0f8b35ed354331f1250747c9c223",
+                "reference": "0a5877b5550b0f8b35ed354331f1250747c9c223",
                 "shasum": ""
             },
             "require": {
@@ -2135,7 +2135,7 @@
                 }
             ],
             "description": "Laravel web installer",
-            "time": "2017-12-04T19:05:57+00:00"
+            "time": "2017-12-04T21:21:14+00:00"
         },
         {
             "name": "nabeel/vacentral",

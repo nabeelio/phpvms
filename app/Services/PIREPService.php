@@ -19,11 +19,11 @@ class PIREPService extends BaseService
 
     /**
      * PIREPService constructor.
-     * @param PilotService $pilotSvc
+     * @param UserService $pilotSvc
      * @param PirepRepository $pirepRepo
      */
     public function __construct(
-        PilotService $pilotSvc,
+        UserService $pilotSvc,
         PirepRepository $pirepRepo
     ) {
         $this->pilotSvc = $pilotSvc;

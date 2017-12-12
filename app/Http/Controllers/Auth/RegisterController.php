@@ -5,24 +5,13 @@ namespace App\Http\Controllers\Auth;
 use Validator;
 use App\Models\Airport;
 use App\Models\Airline;
-use App\Services\PilotService;
+use App\Services\UserService;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Register Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles the registration of new users as well as their
-    | validation and creation. By default this controller uses a trait to
-    | provide this functionality without requiring any additional code.
-    |
-    */
-
     use RegistersUsers;
 
     /**
@@ -31,6 +20,8 @@ class RegisterController extends Controller
      * @var string
      */
     protected $redirectTo = '/';
+
+    protected $userService;
 
     public function showRegistrationForm()
     {
@@ -47,8 +38,11 @@ class RegisterController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(
+        UserService $userService
+    )
     {
+        $this->userService = $userService;
         $this->middleware('guest');
     }
 
@@ -86,11 +80,8 @@ class RegisterController extends Controller
             'password' => 'required|confirmed'
         ]);
 
-        # Let's call the service
-        $pilotService = app('App\Services\PilotService');
-
         # Let's tell the service to create the pilot
-        if($p = $pilotService->createPilot($data))
+        if($p = $this->userService->createPilot($data))
         {
             //return $this->view('auth.registered');
             return $p;

@@ -12,7 +12,7 @@ use App\Events\UserStateChanged;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 
-class PilotService extends BaseService
+class UserService extends BaseService
 {
 
     public function adjustFlightCount(User &$pilot, int $count): User
