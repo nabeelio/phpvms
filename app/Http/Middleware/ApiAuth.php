@@ -28,13 +28,14 @@ class ApiAuth
 
         // Try to find the user via API key. Cache this lookup
         $api_key = $request->header('Authorization');
-        $user = Cache::remember(
+        $user = User::where('apikey', $api_key)->first();
+        /*$user = Cache::remember(
             config('cache.keys.USER_API_KEY.key') . $api_key,
             config('cache.keys.USER_API_KEY.time'),
             function () use ($api_key) {
                 return User::where('apikey', $api_key)->first();
             }
-        );
+        );*/
 
         if(!$user) {
             return $this->unauthorized();
