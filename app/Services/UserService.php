@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Events\UserRegistered;
+use App\Facades\Utils;
 use App\Models\User;
 use App\Models\Rank;
 use App\Models\Role;
@@ -15,32 +16,32 @@ use Illuminate\Support\Facades\Hash;
 class UserService extends BaseService
 {
 
-    public function adjustFlightCount(User &$pilot, int $count): User
+    public function adjustFlightCount(User $user, int $count): User
     {
-        $pilot->refresh();
-        $pilot->flights = $pilot->flights + $count;
-        $pilot->save();
+        $user->refresh();
+        $user->flights += $count;
+        $user->save();
 
-        event(new UserStateChanged($pilot));
+        event(new UserStateChanged($user));
 
-        return $pilot;
+        return $user;
     }
 
-    public function adjustFlightHours(User &$pilot, int $hours): User
+    public function adjustFlightHours(User $user, int $hours): User
     {
-        $pilot->refresh();
-        $pilot->flight_time = $pilot->flight_time + $hours;
-        $pilot->save();
+        $user->refresh();
+        $user->flight_time += $hours;
+        $user->save();
 
-        event(new UserStateChanged($pilot));
+        event(new UserStateChanged($user));
 
-        return $pilot;
+        return $user;
     }
 
-    public function calculatePilotRank(User &$pilot): User
+    public function calculatePilotRank(User $user): User
     {
-        $pilot->refresh();
-        $pilot_hours = $pilot->flight_time / 3600;
+        $user->refresh();
+        $pilot_hours = $user->flight_time / 3600;
 
         # TODO: Cache
         $ranks = Cache::remember(
@@ -54,23 +55,28 @@ class UserService extends BaseService
             if($rank->hours > $pilot_hours) {
                 break;
             } else {
-                $pilot->rank_id = $rank->id;
+                $user->rank_id = $rank->id;
             }
         }
 
-        $pilot->save();
+        $user->save();
 
-        event(new UserStateChanged($pilot));
+        event(new UserStateChanged($user));
 
-        return $pilot;
+        return $user;
     }
 
+    /**
+     * Register a pilot
+     * @param array $data
+     * @return mixed
+     */
     public function createPilot(array $data)
     {
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
-            'apikey' => User::generateApiKey(),
+            'api_key' => Utils::generateApiKey(),
             'airline_id' => $data['airline'],
             'home_airport_id' => $data['home_airport'],
             'curr_airport_id' => $data['home_airport'],

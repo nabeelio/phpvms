@@ -6,7 +6,6 @@
 namespace App\Http\Middleware;
 
 use Auth;
-use Cache;
 use Closure;
 use App\Models\User;
 
@@ -28,16 +27,8 @@ class ApiAuth
 
         // Try to find the user via API key. Cache this lookup
         $api_key = $request->header('Authorization');
-        $user = User::where('apikey', $api_key)->first();
-        /*$user = Cache::remember(
-            config('cache.keys.USER_API_KEY.key') . $api_key,
-            config('cache.keys.USER_API_KEY.time'),
-            function () use ($api_key) {
-                return User::where('apikey', $api_key)->first();
-            }
-        );*/
-
-        if(!$user) {
+        $user = User::where('api_key', $api_key)->first();
+        if($user === null) {
             return $this->unauthorized();
         }
 

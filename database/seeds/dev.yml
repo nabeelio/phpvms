@@ -13,6 +13,7 @@ users:
     name: Admin User
     email: admin@phpvms.net
     password: admin
+    api_key: testadminapikey
     airline_id: 1
     rank_id: 1
     home_airport_id: KAUS
@@ -26,6 +27,7 @@ users:
     name: Carla Walters
     email: carla.walters68@example.com
     password: admin
+    api_key: testuserapikey1
     airline_id: 1
     rank_id: 1
     home_airport_id: KJFK
@@ -39,6 +41,7 @@ users:
     name: Raymond Pearson
     email: raymond.pearson56@example.com
     password: admin
+    api_key: testuserapikey2
     airline_id: 1
     rank_id: 1
     home_airport_id: KJFK

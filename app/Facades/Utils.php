@@ -6,10 +6,19 @@ use \Illuminate\Support\Facades\Facade;
 
 class Utils extends Facade
 {
-
     protected static function getFacadeAccessor()
     {
         return 'utils';
+    }
+
+    /**
+     * Returns a 40 character API key that a user can use
+     * @return string
+     */
+    public static function generateApiKey()
+    {
+        $key = sha1(time() . mt_rand());
+        return $key;
     }
 
     /**

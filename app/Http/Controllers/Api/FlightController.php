@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use Log;
 use Illuminate\Http\Request;
 
 use App\Http\Controllers\AppBaseController;
@@ -25,6 +26,10 @@ class FlightController extends AppBaseController
         return new FlightResource($flight);
     }
 
+    /**
+     * @param Request $request
+     * @return mixed
+     */
     public function search(Request $request)
     {
         try {

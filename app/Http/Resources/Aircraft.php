@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\Resource;
 
-class Airport extends Resource
+class Aircraft extends Resource
 {
     public function toArray($request)
     {

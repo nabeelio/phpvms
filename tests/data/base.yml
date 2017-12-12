@@ -13,8 +13,10 @@ users:
     name: Admin User
     email: admin@phpvms.net
     password: admin
-    apikey: testapikey
+    api_key: testapikey
     airline_id: 1
+    home_airport_id: KAUS
+    curr_airport_id: KAUS
     rank_id: 1
     created_at: now
     updated_at: now
@@ -70,6 +72,11 @@ aircraft:
     name: Boeing 777-200
     registration: NC20
     tail_number: 20
+  - id: 3
+    subfleet_id: 1
+    name: Boeing 747-400-PW
+    registration: PW744
+    tail_number: 207X
 
 fares:
   - id: 1
@@ -133,6 +140,6 @@ flights:
   - id: 1
     airline_id: 1
     flight_number: 100
-    dpt_airport_id: 1
-    arr_airport_id: 2
+    dpt_airport_id: KAUS
+    arr_airport_id: KJFK
     route: KAUS KJFK

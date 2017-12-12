@@ -13,8 +13,8 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::group([], function () {
-
+Route::group([], function ()
+{
     Route::match(['get'], 'status', 'BaseController@status');
 
     Route::match(['get'], 'airports/{id}', 'AirportController@get');
@@ -24,4 +24,10 @@ Route::group([], function () {
     Route::match(['get'], 'flights/{id}', 'FlightController@get');
 
     Route::match(['get'], 'pirep/{id}', 'PirepController@get');
+
+    # This is the info of the user whose token is in use
+    Route::match(['get'], 'user', 'UserController@index');
+    #Route::match(['get'], 'user/bids', 'UserController@index');
+    Route::match(['get'], 'users/{id}', 'UserController@get');
+    Route::match(['get'], 'users/{id}/bids', 'UserController@bids');
 });

@@ -65,7 +65,7 @@ class CreateSettingsTable extends Migration
                 'key' => 'bids.disable_flight_on_bid',
                 'value' => true,
                 'type' => 'boolean',
-                'description' => 'When a flight is bid on, should the flight be shown',
+                'description' => 'When a flight is bid on, no one else can bid on it',
             ],
             [
                 'order' => 21,

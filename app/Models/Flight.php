@@ -6,11 +6,6 @@ use Eloquent as Model;
 
 use App\Models\Traits\HashId;
 
-/**
- * Class Flight
- *
- * @package App\Models
- */
 class Flight extends Model
 {
     use HashId;
@@ -63,6 +58,11 @@ class Flight extends Model
         'dpt_airport_id' => 'required',
         'arr_airport_id' => 'required',
     ];
+
+    public function getFlightIdIataAttribute($value)
+    {
+
+    }
 
     /**
      * Relationship

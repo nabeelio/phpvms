@@ -33,6 +33,11 @@ class Subfleet extends Model
         'gross_weight' => 'double',
     ];
 
+    public function aircraft()
+    {
+        return $this->hasMany('App\Models\Aircraft', 'subfleet_id');
+    }
+
     public function airline()
     {
         return $this->belongsTo('App\Models\Airline', 'airline_id');

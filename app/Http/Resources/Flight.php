@@ -6,12 +6,6 @@ use Illuminate\Http\Resources\Json\Resource;
 
 class Flight extends Resource
 {
-    /**
-     * Transform the resource into an array.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
     public function toArray($request)
     {
         return [
@@ -29,8 +23,10 @@ class Flight extends Resource
             'flight_time' => $this->flight_time,
             'notes' => $this->notes,
             'active' => $this->active,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+
+            'subfleet' => Subfleet::collection($this->subfleets),
+            #'created_at' => $this->created_at,
+            #'updated_at' => $this->updated_at,
         ];
     }
 }

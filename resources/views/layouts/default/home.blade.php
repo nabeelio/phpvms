@@ -21,7 +21,7 @@
                     </h3>
                     <div class="photo-container">
                         <img class="rounded-circle"
-                             src="{!! $user->gravatar() !!}">
+                             src="{!! $user->gravatar !!}">
                     </div>
                 </div>
                 <div class="content content-center">
