@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\AppBaseController;
-use App\Models\UserFlight;
+use App\Models\UserBid;
 use App\Repositories\FlightRepository;
 use App\Repositories\Criteria\WhereCriteria;
 
@@ -48,7 +48,7 @@ class FlightController extends AppBaseController
 
         $flights = $this->flightRepo->paginate();
 
-        $saved_flights = UserFlight::where('user_id', Auth::id())
+        $saved_flights = UserBid::where('user_id', Auth::id())
                          ->pluck('flight_id')->toArray();
 
         return $this->view('flights.index', [
@@ -69,7 +69,7 @@ class FlightController extends AppBaseController
     {
         $flights = $this->flightRepo->searchCriteria($request)->paginate();
 
-        $saved_flights = UserFlight::where('user_id', Auth::id())
+        $saved_flights = UserBid::where('user_id', Auth::id())
                          ->pluck('flight_id')->toArray();
 
         return $this->view('flights.index', [
@@ -89,7 +89,7 @@ class FlightController extends AppBaseController
         $cols = ['user_id' => $user_id,  'flight_id' => $flight_id];
 
         if($action === 'save') {
-            $uf = UserFlight::create($cols);
+            $uf = UserBid::create($cols);
             $uf->save();
 
             return response()->json([
@@ -100,7 +100,7 @@ class FlightController extends AppBaseController
 
         elseif ($action === 'remove') {
             try {
-                $uf = UserFlight::where($cols)->first();
+                $uf = UserBid::where($cols)->first();
                 $uf->delete();
             } catch (Exception $e) { }
 

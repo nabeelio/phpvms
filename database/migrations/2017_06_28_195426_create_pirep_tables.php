@@ -107,11 +107,11 @@ class CreatePirepsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('pireps');
-        Schema::drop('pirep_comments');
-        Schema::drop('pirep_expenses');
-        Schema::drop('pirep_fares');
-        Schema::drop('pirep_fields');
-        Schema::drop('pirep_field_values');
+        Schema::dropIfExists('pireps');
+        Schema::dropIfExists('pirep_comments');
+        Schema::dropIfExists('pirep_expenses');
+        Schema::dropIfExists('pirep_fares');
+        Schema::dropIfExists('pirep_fields');
+        Schema::dropIfExists('pirep_field_values');
     }
 }

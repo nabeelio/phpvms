@@ -312,7 +312,7 @@ flight_fields:
     name: cost index
     value: 100
 
-user_flights:
+user_bids:
   - id: 100
     user_id: 1
     flight_id: flightid_1

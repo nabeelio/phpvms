@@ -140,7 +140,7 @@ class User extends Authenticatable
 
     public function flights()
     {
-        return $this->hasMany('App\Models\UserFlight', 'user_id');
+        return $this->hasMany('App\Models\UserBid', 'user_id');
     }
 
     public function pireps()

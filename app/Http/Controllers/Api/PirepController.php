@@ -2,16 +2,23 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Pirep;
-use App\Models\Transformers\PirepTransformer;
+use App\Http\Resources\Pirep as PirepResource;
 use App\Http\Controllers\AppBaseController;
+use App\Repositories\PirepRepository;
 
 
 class PirepController extends AppBaseController
 {
+    protected $pirepRepo;
+
+    public function __construct(PirepRepository $pirepRepo)
+    {
+        $this->pirepRepo = $pirepRepo;
+    }
+
     public function get($id)
     {
-        $pirep = Pirep::find($id);
-        return fractal($pirep, new PirepTransformer())->respond();
+        PirepResource::withoutWrapping();
+        return new PirepResource($this->pirepRepo->find($id));
     }
 }

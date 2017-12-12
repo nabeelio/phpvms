@@ -33,6 +33,6 @@ class CreateFaresTable extends Migration
      */
     public function down()
     {
-        Schema::drop('fares');
+        Schema::dropIfExists('fares');
     }
 }

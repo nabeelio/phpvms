@@ -7,16 +7,14 @@ use Eloquent as Model;
 /**
  * @package App\Models
  */
-class UserFlight extends Model
+class UserBid extends Model
 {
-    public $table = 'user_flights';
-    public $timestamps = false;
+    public $table = 'user_bids';
 
-    public $fillable
-        = [
-            'user_id',
-            'flight_id',
-        ];
+    public $fillable = [
+        'user_id',
+        'flight_id',
+    ];
 
     /**
      * Relationships

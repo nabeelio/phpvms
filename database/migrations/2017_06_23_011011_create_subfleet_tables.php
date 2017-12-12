@@ -71,10 +71,10 @@ class CreateSubfleetsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('subfleets');
-        Schema::drop('subfleet_expenses');
-        Schema::drop('subfleet_fare');
-        Schema::drop('subfleet_flight');
-        Schema::drop('subfleet_rank');
+        Schema::dropIfExists('subfleets');
+        Schema::dropIfExists('subfleet_expenses');
+        Schema::dropIfExists('subfleet_fare');
+        Schema::dropIfExists('subfleet_flight');
+        Schema::dropIfExists('subfleet_rank');
     }
 }

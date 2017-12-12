@@ -47,14 +47,6 @@ class CreateFlightsTable extends Migration
             $table->timestamps();
         });
 
-        Schema::create('user_flights', function(Blueprint $table) {
-            $table->increments('id');
-            $table->integer('user_id', false, true);
-            $table->uuid('flight_id');
-
-            $table->index('user_id');
-            $table->index(['user_id', 'flight_id']);
-        });
     }
 
     /**
@@ -66,6 +58,5 @@ class CreateFlightsTable extends Migration
     {
         Schema::drop('flights');
         Schema::drop('flight_fields');
-        Schema::drop('user_flights');
     }
 }

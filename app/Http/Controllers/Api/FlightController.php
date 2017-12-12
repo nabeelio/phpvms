@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 
 use App\Http\Controllers\AppBaseController;
-use App\Models\Transformers\FlightTransformer;
 use App\Repositories\FlightRepository;
 use App\Http\Resources\Flight as FlightResource;
 use Prettus\Repository\Exceptions\RepositoryException;
@@ -33,7 +32,7 @@ class FlightController extends AppBaseController
         } catch (RepositoryException $e) {
             return response($e, 503);
         }
+
         return FlightResource::collection($flights);
-        //return fractal($flights, new FlightTransformer())->respond();
     }
 }

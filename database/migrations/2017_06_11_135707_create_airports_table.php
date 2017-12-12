@@ -5,16 +5,9 @@ use Illuminate\Database\Schema\Blueprint;
 
 class CreateAirportsTable extends Migration
 {
-
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::create('airports', function (Blueprint $table) {
-//            $table->bigIncrements('id');
             $table->string('id', 5)->primary();
             $table->string('iata', 5)->nullable();
             $table->string('icao', 5);
@@ -30,13 +23,8 @@ class CreateAirportsTable extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
-        Schema::drop('airports');
+        Schema::dropIfExists('airports');
     }
 }
