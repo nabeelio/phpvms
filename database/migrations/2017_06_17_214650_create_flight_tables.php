@@ -27,6 +27,7 @@ class CreateFlightTables extends Migration
             $table->string('arr_time', 10)->nullable();
             $table->unsignedDecimal('flight_time', 19)->nullable();
             $table->text('notes')->nullable();
+            $table->boolean('has_bid')->default(false);
             $table->boolean('active')->default(true);
             $table->timestamps();
 

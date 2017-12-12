@@ -20,50 +20,49 @@ class Flight extends Model
 
     protected $dates = ['deleted_at'];
 
-    public $fillable
-        = [
-            'airline_id',
-            'flight_number',
-            'route_code',
-            'route_leg',
-            'dpt_airport_id',
-            'arr_airport_id',
-            'alt_airport_id',
-            'route',
-            'dpt_time',
-            'arr_time',
-            'notes',
-            'active',
-        ];
+    public $fillable = [
+        'airline_id',
+        'flight_number',
+        'route_code',
+        'route_leg',
+        'dpt_airport_id',
+        'arr_airport_id',
+        'alt_airport_id',
+        'route',
+        'dpt_time',
+        'arr_time',
+        'notes',
+        'has_bid',
+        'active',
+    ];
 
     /**
      * The attributes that should be casted to native types.
      *
      * @var array
      */
-    protected $casts
-        = [
-            'flight_number' => 'integer',
-            'route_code'    => 'string',
-            'route_leg'     => 'string',
-            'route'         => 'string',
-            'dpt_time'      => 'string',
-            'arr_time'      => 'string',
-            'notes'         => 'string',
-            'active'        => 'boolean',
-        ];
+    protected $casts = [
+        'flight_number' => 'integer',
+        'route_code'    => 'string',
+        'route_leg'     => 'string',
+        'route'         => 'string',
+        'dpt_time'      => 'string',
+        'arr_time'      => 'string',
+        'notes'         => 'string',
+        'has_bid'       => 'boolean',
+        'active'        => 'boolean',
+    ];
 
     /**
      * Validation rules
      *
      * @var array
      */
-    public static $rules
-        = [
-            'flight_number'  => 'required',
-            'dpt_airport_id' => 'required',
-            'arr_airport_id' => 'required',
-        ];
+    public static $rules = [
+        'flight_number'  => 'required',
+        'dpt_airport_id' => 'required',
+        'arr_airport_id' => 'required',
+    ];
 
     /**
      * Relationship
