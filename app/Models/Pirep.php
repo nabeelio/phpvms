@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Eloquent as Model;
-use App\Models\Traits\Uuids;
+use App\Models\Traits\HashId;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Pirep extends Model
 {
-    use Uuids;
+    use HashId;
     use SoftDeletes;
 
     public $table = 'pireps';

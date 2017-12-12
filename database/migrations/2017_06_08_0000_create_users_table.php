@@ -23,7 +23,7 @@ class CreateUsersTable extends Migration
             $table->integer('rank_id')->nullable()->unsigned();
             $table->string('home_airport_id', 5)->nullable();
             $table->string('curr_airport_id', 5)->nullable();
-            $table->uuid('last_pirep_id')->nullable();
+            $table->string('last_pirep_id')->nullable();
             $table->bigInteger('flights')->unsigned()->default(0);
             $table->bigInteger('flight_time')->unsigned()->default(0);
             $table->decimal('balance', 19, 2)->nullable();

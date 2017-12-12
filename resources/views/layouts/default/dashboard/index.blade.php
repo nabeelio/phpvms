@@ -100,7 +100,7 @@
                     <table>
                         @foreach($users as $u)
                         <tr>
-                            <td style="padding-right: 10px;">{!! $u->pilot_id() !!}</td>
+                            <td style="padding-right: 10px;">{!! $u->pilot_id !!}</td>
                             <td><span class="description">{!! $u->name !!}</span></td>
                         </tr>
                         @endforeach

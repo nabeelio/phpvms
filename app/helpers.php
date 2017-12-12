@@ -8,7 +8,7 @@ if (!function_exists('setting')) {
     {
         $settingRepo = app('setting');
         if($value === null) {
-            return $settingRepo->get($key);
+            return $settingRepo->retrieve($key);
         } else {
             $settingRepo->set($key, $value);
         }

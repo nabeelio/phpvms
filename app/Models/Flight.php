@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Eloquent as Model;
 
-use App\Models\Traits\Uuids;
+use App\Models\Traits\HashId;
 
 /**
  * Class Flight
@@ -13,7 +13,7 @@ use App\Models\Traits\Uuids;
  */
 class Flight extends Model
 {
-    use Uuids;
+    use HashId;
 
     public $table = 'flights';
     public $incrementing = false;

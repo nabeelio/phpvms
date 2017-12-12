@@ -60,7 +60,7 @@ class CreateSettingsTable extends Migration
             ],
             [
                 'order' => 20,
-                'name' => 'Disable flights on bid',
+                'name' => 'Disable flight on bid',
                 'group' => 'bids',
                 'key' => 'bids.disable_flight_on_bid',
                 'value' => true,
@@ -84,6 +84,15 @@ class CreateSettingsTable extends Migration
                 'value' => true,
                 'type' => 'boolean',
                 'description' => 'Don\'t show inactive pilots in the public view',
+            ],
+            [
+                'order' => 31,
+                'name' => 'Pilot ID Length',
+                'group' => 'pilots',
+                'key' => 'pilots.id_length',
+                'value' => 4,
+                'type' => 'int',
+                'description' => 'The length of a pilot\'s ID',
             ],
         ];
 

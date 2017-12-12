@@ -4,7 +4,7 @@
             <img src="{!! $pirep->pilot->gravatar() !!}" />
         </div>--}}
         Filed By: <a href="{!! route('admin.users.edit', [$pirep->pilot->id]) !!}" target="_blank">
-            {!! $pirep->pilot->pilot_id() !!} {!! $pirep->pilot->name !!}
+            {!! $pirep->pilot->pilot_id !!} {!! $pirep->pilot->name !!}
         </a>
     </div>
 

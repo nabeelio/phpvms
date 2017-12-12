@@ -73,19 +73,16 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $hidden
-        = [
-            'password',
-            'remember_token',
-        ];
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
 
-    protected $casts
-        = [
-            'flights'      => 'integer',
-            'flight_time'   => 'integer',
-            'balance'      => 'double',
-            'timezone'     => 'integer',
-        ];
+    protected $casts = [
+        'flights'       => 'integer',
+        'flight_time'   => 'integer',
+        'balance'       => 'double',
+    ];
 
     /**
      * Validation rules
@@ -106,9 +103,10 @@ class User extends Authenticatable
         return $key;
     }
 
-    public function pilot_id()
+    public function getPilotIdAttribute($value)
     {
-        return $this->airline->icao.str_pad($this->id, 3, '0', STR_PAD_LEFT);
+        $length = setting('pilots.id_length');
+        return $this->airline->icao . str_pad($this->id, $length, '0', STR_PAD_LEFT);
     }
 
     public function gravatar()
