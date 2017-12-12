@@ -29,6 +29,10 @@ after_success:
   else
     echo "no branch name detected"
   fi
+
+# try dumping logs after a failure
+after_failure:
+- cat storage/logs/*.log
 #env:
 #  matrix:
 #  - secure: TYqjGkzuhnQq+15ATA12t5yIOEND1l6mlOs7XwZrAqGnwBK2nmj9n28+Ujh6V1F/TZBUhBkm7prxhQmtyzX8xNAh4J2WUrnNNSmYxGQCRgQWk5yorDp3mZtk5o3qD9qvP+T5aeXh7k1+/w8N96warln8pGEb/y8oUDVzs6yPOX7cKEHn4EUX7qDVh43tUIl8e6BslHQB+r/0gn84HeKi8vIOtDg0Sozw07kRziRgTuz9hTIU6QVd+Z+oSlB4+m+y5TNVc5sPnpajpJtuUg+athGUlmsBfbstqrmZRcR6K/RQbYW8VAYwhEJSwYw3i4ZLpZXt4NPh5UioKDohULoTNdQLh7Im+TzwP0GEI1UjX8mqJRRlGenMz9cITH+DHL9tktfP66IsRB+Cv5BavYtpAqfJkXlOo5fuAy82Rj5+EwkpYom4JTUVW2bcDjwV8PBnjoJFBYzBT6PBvmzjAnWqM4UDe66ZfIXIW+7qsY1v83KI0wj37pK/YzYJNN9IC2DXBp9OUJeecQ6ofE+kM7GsO9xOe/9n1JuJZoFXSLLvUbeNBu1hALNeeh9yErfQT1cGv/baPBlV9Nvfhok3v4jOD6CjntTfblLB+C6Upm5Yf6J9fLxM9po5b0PtDvLT+KRL/I2DBwZpbeerT4Ht95A4cgYHstU9sBynfGVhuCjZPBg=
