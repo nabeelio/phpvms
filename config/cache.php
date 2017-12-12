@@ -8,12 +8,16 @@ return [
     'keys' => [
         'AIRPORT_VACENTRAL_LOOKUP' => [
             'key' => 'airports:lookup:',
-            'time' => 1800,
+            'time' => 60 * 30,
         ],
         'RANKS_PILOT_LIST' => [
             'key' => 'ranks:pilot_list',
-            'time' => 600,
-        ]
+            'time' => 60 * 10,
+        ],
+        'USER_API_KEY' => [
+            'key' => 'user:apikey',
+            'time' => 60 * 5,  // 5 min
+        ],
     ],
 
     'stores' => [

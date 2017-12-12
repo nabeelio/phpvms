@@ -1,19 +1,19 @@
 airports:
-  - id: 1
+  - id: KAUS
     iata: AUS
     icao: KAUS
     name: Austin-Bergstrom
     location: Austin, Texas, USA
     lat: 30.1945278
     lon: -97.6698889
-  - id: 2
+  - id: KJFK
     iata: JFK
     icao: KJFK
     name: John F Kennedy
     location: New York, New York, USA
     lat: 40.6399257
     lon: -73.7786950
-  - id: 3
+  - id: EGLL
     iata: LHR
     icao: EGLL
     name: London Heathrow

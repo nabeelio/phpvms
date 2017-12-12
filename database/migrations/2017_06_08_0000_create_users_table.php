@@ -18,6 +18,7 @@ class CreateUsersTable extends Migration
             $table->string('name')->nullable();
             $table->string('email')->unique();
             $table->string('password');
+            $table->string('apikey', 40)->nullable();
             $table->integer('airline_id')->nullable()->unsigned();
             $table->integer('rank_id')->nullable()->unsigned();
             $table->string('home_airport_id', 5)->nullable();
@@ -33,6 +34,7 @@ class CreateUsersTable extends Migration
             $table->softDeletes();
 
             $table->index('email');
+            $table->index('apikey');
         });
 
         // Create table for storing roles

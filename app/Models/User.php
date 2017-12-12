@@ -96,6 +96,16 @@ class User extends Authenticatable
 
     ];
 
+    /**
+     * Returns a 40 character API key that a user can use
+     * @return string
+     */
+    public static function generateApiKey()
+    {
+        $key = sha1(time() . mt_rand());
+        return $key;
+    }
+
     public function pilot_id()
     {
         return $this->airline->icao.str_pad($this->id, 3, '0', STR_PAD_LEFT);

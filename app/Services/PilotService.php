@@ -67,23 +67,26 @@ class PilotService extends BaseService
 
     public function createPilot(array $data)
     {
-        $user = User::create(['name' => $data['name'],
-                              'email' => $data['email'],
-                              'airline_id' => $data['airline'],
-                              'home_airport_id' => $data['home_airport'],
-                              'curr_airport_id' => $data['home_airport'],
-                              'password' => Hash::make($data['password'])]);
+        $user = User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'apikey' => User::generateApiKey(),
+            'airline_id' => $data['airline'],
+            'home_airport_id' => $data['home_airport'],
+            'curr_airport_id' => $data['home_airport'],
+            'password' => Hash::make($data['password'])
+        ]);
+
         # Attach the user roles
         $role = Role::where('name', 'user')->first();
         $user->attachRole($role);
+
         # Let's check their rank
         $this->calculatePilotRank($user);
 
-        event(new UserRegistered($user));
         # TODO: Send out an email
+        event(new UserRegistered($user));
 
-        # Looking good, let's return their information
         return $user;
     }
-
 }

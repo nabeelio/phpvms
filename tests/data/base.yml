@@ -13,6 +13,7 @@ users:
     name: Admin User
     email: admin@phpvms.net
     password: admin
+    apikey: testapikey
     rank_id: 1
     created_at: now
     updated_at: now
@@ -42,14 +43,14 @@ ranks:
     auto_promote: 0
 
 airports:
-  - id: 1
+  - id: KAUS
     icao: KAUS
     name: Austin-Bergstrom
     location: Austin, Texas, USA
     lat: 30.1945278
     lon: -97.6698889
     fuel_jeta_cost: 100
-  - id: 2
+  - id: KJFK
     icao: KJFK
     name: John F Kennedy
     location: New York, New York, USA

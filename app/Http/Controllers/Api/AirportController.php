@@ -24,6 +24,18 @@ class AirportController extends AppBaseController
      * @param $id
      * @return AirportResource
      */
+    public function get($id)
+    {
+        $id = strtoupper($id);
+        AirportResource::withoutWrapping();
+        return new AirportResource($this->airportRepo->find($id));
+    }
+
+    /**
+     * Do a lookup, via vaCentral, for the airport information
+     * @param $id
+     * @return AirportResource
+     */
     public function lookup($id)
     {
         $airport = Cache::remember(
