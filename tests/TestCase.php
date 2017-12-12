@@ -18,6 +18,10 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
     protected $baseUrl = 'http://localhost';
     protected $connectionsToTransact = ['testing'];
 
+    protected static $auth_headers = [
+        'Authorization' => 'testapikey'
+    ];
+
     public function __construct($name = null, array $data = [], $dataName = '') {
         parent::__construct($name, $data, $dataName);
     }

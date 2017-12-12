@@ -5,10 +5,6 @@
  */
 class ApiTest extends TestCase
 {
-    protected static $headers = [
-        'Authorization' => 'testapikey'
-    ];
-
     public function setUp()
     {
         parent::setUp();
@@ -30,7 +26,7 @@ class ApiTest extends TestCase
             ->assertStatus(401);
 
         // Test upper/lower case of Authorization header, etc
-        $this->withHeaders(self::$headers)->get($uri)
+        $this->withHeaders(self::$auth_headers)->get($uri)
             ->assertStatus(200)
             ->assertJson(['icao' => 'KJFK'], true);
 
@@ -44,11 +40,11 @@ class ApiTest extends TestCase
      */
     public function testAirportRequest()
     {
-        $this->withHeaders(self::$headers)->get('/api/airports/KJFK')
+        $this->withHeaders(self::$auth_headers)->get('/api/airports/KJFK')
             ->assertStatus(200)
             ->assertJson(['icao' => 'KJFK'], true);
 
-        $this->withHeaders(self::$headers)->get('/api/airports/UNK')
+        $this->withHeaders(self::$auth_headers)->get('/api/airports/UNK')
             ->assertStatus(404);
     }
 }

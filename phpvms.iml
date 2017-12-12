@@ -114,7 +114,6 @@
           <root url="file://$MODULE_DIR$/vendor/barryvdh/laravel-ide-helper" />
           <root url="file://$MODULE_DIR$/vendor/barryvdh/reflection-docblock" />
           <root url="file://$MODULE_DIR$/vendor/bpocallaghan/generators" />
-          <root url="file://$MODULE_DIR$/vendor/chrisbjr/api-guard" />
           <root url="file://$MODULE_DIR$/vendor/dg/rss-php" />
           <root url="file://$MODULE_DIR$/vendor/doctrine/annotations" />
           <root url="file://$MODULE_DIR$/vendor/doctrine/cache" />
@@ -124,7 +123,6 @@
           <root url="file://$MODULE_DIR$/vendor/doctrine/instantiator" />
           <root url="file://$MODULE_DIR$/vendor/egeloen/http-adapter" />
           <root url="file://$MODULE_DIR$/vendor/egulias/email-validator" />
-          <root url="file://$MODULE_DIR$/vendor/ellipsesynergie/api-response" />
           <root url="file://$MODULE_DIR$/vendor/filp/whoops" />
           <root url="file://$MODULE_DIR$/vendor/fzaninotto/faker" />
           <root url="file://$MODULE_DIR$/vendor/guzzlehttp/guzzle" />
@@ -168,8 +166,6 @@
           <root url="file://$MODULE_DIR$/vendor/phpunit/php-token-stream" />
           <root url="file://$MODULE_DIR$/vendor/phpunit/phpunit" />
           <root url="file://$MODULE_DIR$/vendor/phpunit/phpunit-mock-objects" />
-          <root url="file://$MODULE_DIR$/vendor/pragmarx/version" />
-          <root url="file://$MODULE_DIR$/vendor/pragmarx/yaml" />
           <root url="file://$MODULE_DIR$/vendor/prettus/l5-repository" />
           <root url="file://$MODULE_DIR$/vendor/prettus/laravel-validation" />
           <root url="file://$MODULE_DIR$/vendor/psr/container" />
@@ -203,7 +199,6 @@
           <root url="file://$MODULE_DIR$/vendor/theseer/tokenizer" />
           <root url="file://$MODULE_DIR$/vendor/tivie/php-os-detector" />
           <root url="file://$MODULE_DIR$/vendor/toin0u/geotools-laravel" />
-          <root url="file://$MODULE_DIR$/vendor/tremby/laravel-git-version" />
           <root url="file://$MODULE_DIR$/vendor/webmozart/assert" />
           <root url="file://$MODULE_DIR$/vendor/webpatser/laravel-uuid" />
           <root url="file://$MODULE_DIR$/vendor/willdurand/geocoder" />
@@ -217,7 +212,6 @@
           <root url="file://$MODULE_DIR$/vendor/barryvdh/laravel-ide-helper" />
           <root url="file://$MODULE_DIR$/vendor/barryvdh/reflection-docblock" />
           <root url="file://$MODULE_DIR$/vendor/bpocallaghan/generators" />
-          <root url="file://$MODULE_DIR$/vendor/chrisbjr/api-guard" />
           <root url="file://$MODULE_DIR$/vendor/dg/rss-php" />
           <root url="file://$MODULE_DIR$/vendor/doctrine/annotations" />
           <root url="file://$MODULE_DIR$/vendor/doctrine/cache" />
@@ -227,7 +221,6 @@
           <root url="file://$MODULE_DIR$/vendor/doctrine/instantiator" />
           <root url="file://$MODULE_DIR$/vendor/egeloen/http-adapter" />
           <root url="file://$MODULE_DIR$/vendor/egulias/email-validator" />
-          <root url="file://$MODULE_DIR$/vendor/ellipsesynergie/api-response" />
           <root url="file://$MODULE_DIR$/vendor/filp/whoops" />
           <root url="file://$MODULE_DIR$/vendor/fzaninotto/faker" />
           <root url="file://$MODULE_DIR$/vendor/guzzlehttp/guzzle" />
@@ -271,8 +264,6 @@
           <root url="file://$MODULE_DIR$/vendor/phpunit/php-token-stream" />
           <root url="file://$MODULE_DIR$/vendor/phpunit/phpunit" />
           <root url="file://$MODULE_DIR$/vendor/phpunit/phpunit-mock-objects" />
-          <root url="file://$MODULE_DIR$/vendor/pragmarx/version" />
-          <root url="file://$MODULE_DIR$/vendor/pragmarx/yaml" />
           <root url="file://$MODULE_DIR$/vendor/prettus/l5-repository" />
           <root url="file://$MODULE_DIR$/vendor/prettus/laravel-validation" />
           <root url="file://$MODULE_DIR$/vendor/psr/container" />
@@ -306,7 +297,6 @@
           <root url="file://$MODULE_DIR$/vendor/theseer/tokenizer" />
           <root url="file://$MODULE_DIR$/vendor/tivie/php-os-detector" />
           <root url="file://$MODULE_DIR$/vendor/toin0u/geotools-laravel" />
-          <root url="file://$MODULE_DIR$/vendor/tremby/laravel-git-version" />
           <root url="file://$MODULE_DIR$/vendor/webmozart/assert" />
           <root url="file://$MODULE_DIR$/vendor/webpatser/laravel-uuid" />
           <root url="file://$MODULE_DIR$/vendor/willdurand/geocoder" />
