@@ -30,7 +30,7 @@ class CreatePirepTables extends Migration
             $table->string('route')->nullable();
             $table->string('notes')->nullable();
             $table->unsignedTinyInteger('source')->default(0);
-            $table->unsignedTinyInteger('status')->default(0);
+            $table->tinyInteger('status')->default(0);  # -1 rejected, 0 pending, 1 accepted
             $table->longText('raw_data')->nullable();
             $table->timestamps();
             $table->softDeletes();
