@@ -2,11 +2,13 @@
 
 namespace App\Repositories;
 
+use Log;
 use Illuminate\Support\Carbon;
 use Prettus\Repository\Contracts\CacheableInterface;
 
 use App\Models\Setting;
 use App\Repositories\Traits\CacheableRepository;
+use Prettus\Validator\Exceptions\ValidatorException;
 
 class SettingRepository extends BaseRepository implements CacheableInterface
 {
@@ -49,6 +51,13 @@ class SettingRepository extends BaseRepository implements CacheableInterface
         }
     }
 
+    /**
+     * Update an existing setting with a new value. Doesn't create
+     * a new setting
+     * @param $key
+     * @param $value
+     * @return null
+     */
     public function store($key, $value)
     {
         $setting = $this->findWhere(['key' => $key], ['id'])->first();
@@ -56,6 +65,12 @@ class SettingRepository extends BaseRepository implements CacheableInterface
             return null;
         }
 
-        $this->update(['value' => $value], $setting->id);
+        try {
+            $this->update(['value' => $value], $setting->id);
+        } catch (ValidatorException $e) {
+            Log::error($e->getMessage(), $e->getTrace());
+        }
+
+        return $value;
     }
 }

@@ -9,6 +9,7 @@
 namespace App\Services;
 
 use Log;
+
 use App\Models\Flight;
 use App\Models\User;
 use App\Models\UserBid;
@@ -25,7 +26,7 @@ class FlightService extends BaseService
     {
         # If it's already been bid on, then it can't be bid on again
         if($flight->has_bid && setting('bids.disable_flight_on_bid')) {
-            Log.info($flight->id . ' already has a bid, skipping');
+            Log::info($flight->id . ' already has a bid, skipping');
             return null;
         }
 
@@ -33,7 +34,7 @@ class FlightService extends BaseService
         if(!setting('bids.allow_multiple_bids')) {
             $user_bids = UserBid::where(['user_id' => $user->id])->first();
             if($user_bids) {
-                Log.info('User "' . $user->id . '" already has bids, skipping');
+                Log::info('User "' . $user->id . '" already has bids, skipping');
                 return null;
             }
         }
