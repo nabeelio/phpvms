@@ -14,31 +14,31 @@ class CreateSubfleetTables extends Migration
     public function up()
     {
         Schema::create('subfleets', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->integer('airline_id')->unsigned()->nullable();
+            $table->increments('id');
+            $table->unsignedInteger('airline_id')->nullable();
             $table->string('name', 50);
             $table->string('type', 7);
-            $table->tinyInteger('fuel_type')->unsigned()->nullable();
-            $table->double('cargo_capacity', 19, 2)->nullable();
-            $table->double('fuel_capacity', 19, 2)->nullable();
-            $table->double('gross_weight', 19, 2)->nullable();
+            $table->unsignedTinyInteger('fuel_type')->nullable();
+            $table->unsignedDecimal('cargo_capacity', 19)->nullable();
+            $table->unsignedDecimal('fuel_capacity', 19)->nullable();
+            $table->unsignedDecimal('gross_weight', 19)->nullable();
             $table->timestamps();
         });
 
         Schema::create('subfleet_expenses', function(Blueprint $table) {
-            $table->integer('subfleet_id')->unsigned();
+            $table->unsignedBigInteger('subfleet_id');
             $table->string('name', 50);
-            $table->decimal('cost', 19, 2)->unsigned();
+            $table->unsignedDecimal('cost', 19);
 
             $table->primary(['subfleet_id', 'name']);
         });
 
         Schema::create('subfleet_fare', function (Blueprint $table) {
-            $table->integer('subfleet_id')->unsigned();
-            $table->integer('fare_id')->unsigned();
-            $table->decimal('price', 19, 2)->nullable();
-            $table->decimal('cost', 19, 2)->nullable();
-            $table->integer('capacity')->nullable()->unsigned();
+            $table->unsignedInteger('subfleet_id');
+            $table->unsignedInteger('fare_id');
+            $table->unsignedDecimal('price', 19)->nullable();
+            $table->unsignedDecimal('cost', 19)->nullable();
+            $table->unsignedInteger('capacity')->nullable();
             $table->timestamps();
 
             $table->primary(['subfleet_id', 'fare_id']);
@@ -46,18 +46,18 @@ class CreateSubfleetTables extends Migration
         });
 
         Schema::create('subfleet_flight', function(Blueprint $table) {
-            $table->integer('subfleet_id')->unsigned();
-            $table->uuid('flight_id');
+            $table->unsignedInteger('subfleet_id');
+            $table->string('flight_id', 12);
 
             $table->primary(['subfleet_id', 'flight_id']);
             $table->index(['flight_id', 'subfleet_id']);
         });
 
         Schema::create('subfleet_rank', function(Blueprint $table) {
-            $table->integer('rank_id')->unsigned();
-            $table->integer('subfleet_id')->unsigned();
-            $table->double('acars_pay', 19, 2)->unsigned()->nullable();
-            $table->double('manual_pay', 19, 2)->unsigned()->nullable();
+            $table->unsignedInteger('rank_id');
+            $table->unsignedInteger('subfleet_id');
+            $table->unsignedDecimal('acars_pay', 19)->nullable();
+            $table->unsignedDecimal('manual_pay', 19)->nullable();
 
             $table->primary(['rank_id', 'subfleet_id']);
             $table->index(['subfleet_id', 'rank_id']);

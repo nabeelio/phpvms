@@ -28,15 +28,9 @@ class Subfleet extends Model
     protected $casts = [
         'airline_id' => 'integer',
         'fuel_type' => 'integer',
-    ];
-
-    /**
-     * Validation rules
-     *
-     * @var array
-     */
-    public static $rules = [
-
+        'cargo_capacity' => 'double',
+        'fuel_capacity' => 'double',
+        'gross_weight' => 'double',
     ];
 
     public function airline()

@@ -9,7 +9,7 @@ class CreateAircraftsTable extends Migration
     {
         Schema::create('aircraft', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('subfleet_id')->unsigned();
+            $table->unsignedInteger('subfleet_id');
             $table->string('airport_id', 5)->nullable();
             $table->string('hex_code', 10)->nullable();
             $table->string('name', 50);

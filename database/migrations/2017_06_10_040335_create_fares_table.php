@@ -14,12 +14,12 @@ class CreateFaresTable extends Migration
     public function up()
     {
         Schema::create('fares', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
             $table->string('code', 50);
             $table->string('name', 50);
-            $table->decimal('price', 19, 2)->default(0.0);
-            $table->decimal('cost', 19, 2)->default(0.0);
-            $table->integer('capacity')->default(0)->unsigned();
+            $table->unsignedDecimal('price', 19)->default(0.00);
+            $table->unsignedDecimal('cost', 19)->default(0.00);
+            $table->unsignedInteger('capacity')->default(0);
             $table->string('notes')->nullable();
             $table->boolean('active')->default(true);
             $table->timestamps();

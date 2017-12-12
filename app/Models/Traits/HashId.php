@@ -16,7 +16,7 @@ trait HashId
             $key = $model->getKeyName();
 
             if (empty($model->{$key})) {
-                $hashids = new Hashids('', 10);
+                $hashids = new Hashids('', 12);
                 $mt = str_replace('.', '', microtime(true));
                 $id = $hashids->encode($mt);
 

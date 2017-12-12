@@ -19,14 +19,14 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string('apikey', 40)->nullable();
-            $table->integer('airline_id')->nullable()->unsigned();
-            $table->integer('rank_id')->nullable()->unsigned();
+            $table->unsignedInteger('airline_id')->unsigned();
+            $table->unsignedInteger('rank_id')->unsigned();
             $table->string('home_airport_id', 5)->nullable();
             $table->string('curr_airport_id', 5)->nullable();
-            $table->string('last_pirep_id')->nullable();
-            $table->bigInteger('flights')->unsigned()->default(0);
-            $table->bigInteger('flight_time')->unsigned()->default(0);
-            $table->decimal('balance', 19, 2)->nullable();
+            $table->string('last_pirep_id', 12)->nullable();
+            $table->unsignedBigInteger('flights')->default(0);
+            $table->unsignedBigInteger('flight_time')->default(0);
+            $table->decimal('balance', 19)->nullable();
             $table->string('timezone', 64)->nullable();
             $table->boolean('active')->nullable();
             $table->rememberToken();
@@ -48,8 +48,8 @@ class CreateUsersTable extends Migration
 
         // Create table for associating roles to users (Many-to-Many)
         Schema::create('role_user', function (Blueprint $table) {
-            $table->integer('user_id')->unsigned();
-            $table->integer('role_id')->unsigned();
+            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('role_id');
 
             $table->foreign('user_id')->references('id')->on('users')
                 ->onUpdate('cascade')->onDelete('cascade');
@@ -71,8 +71,8 @@ class CreateUsersTable extends Migration
 
         // Create table for associating permissions to roles (Many-to-Many)
         Schema::create('permission_role', function (Blueprint $table) {
-            $table->integer('permission_id')->unsigned();
-            $table->integer('role_id')->unsigned();
+            $table->unsignedInteger('permission_id');
+            $table->unsignedInteger('role_id');
 
             $table->foreign('permission_id')->references('id')->on('permissions')
                 ->onUpdate('cascade')->onDelete('cascade');
