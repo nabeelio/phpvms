@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateSubfleetsTable extends Migration
+class CreateSubfleetTables extends Migration
 {
 
     /**
