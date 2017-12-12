@@ -19,7 +19,7 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
     protected $connectionsToTransact = ['testing'];
 
     protected static $auth_headers = [
-        'Authorization' => 'testapikey'
+        'Authorization' => 'testadminapikey'
     ];
 
     public function __construct($name = null, array $data = [], $dataName = '') {

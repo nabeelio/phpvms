@@ -114,4 +114,24 @@ class FlightTest extends TestCase
 
         $this->assertEquals(0, sizeof($body));
     }
+
+    /**
+     *
+     */
+    public function testMultipleBidsSingleFlight()
+    {
+        setting('bids.disable_flight_on_bid', true);
+
+        $user1 = User::find(1);
+        $user2 = User::find(2);
+
+        $flight_id = $this->addFlight();
+        $flight = Flight::find($flight_id);
+
+        # Put bid on the flight to block it off
+        $bid = $this->flightSvc->addBid($flight, $user1);
+
+        $bidRepeat = $this->flightSvc->addBid($flight, $user2);
+        $this->assertNull($bidRepeat);
+    }
 }

@@ -20,9 +20,9 @@ class FlightService extends BaseService
      * Allow a user to bid on a flight. Check settings and all that good stuff
      * @param Flight $flight
      * @param User $user
-     * @return UserBid
+     * @return UserBid|null
      */
-    public function addBid(Flight $flight, User $user): UserBid
+    public function addBid(Flight $flight, User $user)
     {
         # If it's already been bid on, then it can't be bid on again
         if($flight->has_bid && setting('bids.disable_flight_on_bid')) {
@@ -74,7 +74,10 @@ class FlightService extends BaseService
             $user_bid->forceDelete();
         }
 
-        $flight->has_bid = false;
-        $flight->save();
+        # Only flip the flag if there are no bids left for this flight
+        if(!UserBid::where('flight_id', $flight->id)->exists()) {
+            $flight->has_bid = false;
+            $flight->save();
+        }
     }
 }
