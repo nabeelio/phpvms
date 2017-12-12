@@ -4,65 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "d6efe5859abe9f86a42105ac8e7f3dfb",
+    "content-hash": "40d89dc8080251603c43814d3be8abf2",
     "packages": [
-        {
-            "name": "anlutro/l4-settings",
-            "version": "0.6.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/anlutro/laravel-settings.git",
-                "reference": "48c9adb5c6c0736f7ace44c29c48759fc1163e0b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/anlutro/laravel-settings/zipball/48c9adb5c6c0736f7ace44c29c48759fc1163e0b",
-                "reference": "48c9adb5c6c0736f7ace44c29c48759fc1163e0b",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/support": ">=4.1 <6.0",
-                "php": ">=5.3.0"
-            },
-            "require-dev": {
-                "illuminate/database": ">=4.1 <6.0",
-                "illuminate/filesystem": ">=4.1 <6.0",
-                "mockery/mockery": "0.9.*",
-                "phpunit/phpunit": ">=4.8, <6"
-            },
-            "suggest": {
-                "illuminate/database": "Save settings to a database table.",
-                "illuminate/filesystem": "Save settings to a JSON file."
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "aliases": {
-                        "Setting": "anlutro\\LaravelSettings\\Facade"
-                    },
-                    "providers": [
-                        "anlutro\\LaravelSettings\\ServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "anlutro\\LaravelSettings\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Andreas Lutro",
-                    "email": "anlutro@gmail.com"
-                }
-            ],
-            "description": "Persistent settings in Laravel.",
-            "time": "2017-11-08T18:16:13+00:00"
-        },
         {
             "name": "composer/semver",
             "version": "1.4.2",
