@@ -2,7 +2,9 @@
 #
 # Create the phpvms database if needed:
 # docker exec phpvms /usr/bin/mysql -uroot -e 'CREATE DATABASE phpvms'
+SHELL := /bin/bash
 
+PKG_NAME := "/tmp"
 CURR_PATH=$(shell pwd)
 
 .PHONY: all
@@ -32,7 +34,6 @@ build:
 install: build
 	@php artisan database:create
 	@php artisan migrate --seed
-	@make import-airports
 	@echo "Done!"
 
 .PHONY: update
@@ -65,15 +66,7 @@ schema:
 
 .PHONY: deploy-package
 deploy-package:
-	ifeq ($$TRAVIS_TAG,)
-	PKG_NAME=$$TRAVIS_TAG
-	else
-	PKG_NAME=nightly
-	fi
-
-	rm -rf .git deploy_rsa.enc .idea phpvms.iml
-	tar -czvf $PKG_NAME.tar.gz -C $TRAVIS_BUILD_DIR .
-	rsync -r --delete-after --quiet $PKG_NAME.tar.gz downloads@phpvms.net:/var/www/downloads/
+	./deploy_script.sh
 
 .PHONY: docker
 docker:
