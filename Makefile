@@ -66,7 +66,7 @@ schema:
 
 .PHONY: deploy-package
 deploy-package:
-	./deploy_script.sh
+	./.travis/deploy_script.sh
 
 .PHONY: docker
 docker:
