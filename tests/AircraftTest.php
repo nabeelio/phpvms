@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Fare;
+use App\Models\Subfleet;
 
 class AircraftTest extends TestCase
 {
@@ -26,25 +28,10 @@ class AircraftTest extends TestCase
 
     protected function getFareByCode($code)
     {
-        return app('App\Repositories\FareRepository')->findByCode($code);
+        return Fare::where('code', $code)->first();
     }
 
-    /**
-     * Check the association of the aircraft class to an aircraft
-     * Mostly to experiment with the ORM type stuff. This isn't
-     * where most of the testing, etc is required.
-     */
-    protected function addAircraft()
-    {
-        $mdl = new App\Models\Aircraft;
-        $mdl->icao = $this->ICAO;
-        $mdl->name = 'Boeing 777';
-        $mdl->save();
-
-        return $this->findByICAO($this->ICAO);
-    }
-
-    public function testAircraftFaresNoOverride()
+    public function testSubfleetFaresNoOverride()
     {
         $this->markTestIncomplete(
             'This test has not been implemented yet.'
@@ -53,11 +40,11 @@ class AircraftTest extends TestCase
         return true;
         $fare_svc = app('App\Services\FareService');
 
-        $aircraft = $this->addAircraft();
+        $subfleet = Subfleet::find(1);
         $fare = $this->getFareByCode('Y');
 
-        $fare_svc->setForAircraft($aircraft, $fare);
-        $ac_fares = $fare_svc->getForAircraft($aircraft);
+        $fare_svc->setForAircraft($subfleet, $fare);
+        $ac_fares = $fare_svc->getForAircraft($subfleet);
 
         $this->assertCount(1, $ac_fares);
         $this->assertEquals($fare->price, $ac_fares[0]->price);
@@ -66,23 +53,23 @@ class AircraftTest extends TestCase
         #
         # set an override now
         #
-        $fare_svc->setForAircraft($aircraft, $fare, [
+        $fare_svc->setForAircraft($subfleet, $fare, [
             'price' => 50, 'capacity' => 400
         ]);
 
         # look for them again
-        $ac_fares = $fare_svc->getForAircraft($aircraft);
+        $ac_fares = $fare_svc->getForAircraft($subfleet);
 
         $this->assertCount(1, $ac_fares);
         $this->assertEquals(50, $ac_fares[0]->price);
         $this->assertEquals(400, $ac_fares[0]->capacity);
 
         # delete
-        $fare_svc->delFromAircraft($aircraft, $fare);
-        $this->assertCount(0, $fare_svc->getForAircraft($aircraft));
+        $fare_svc->delFromAircraft($subfleet, $fare);
+        $this->assertCount(0, $fare_svc->getForAircraft($subfleet));
     }
 
-    public function testAircraftFaresOverride()
+    public function testSubfleetFaresOverride()
     {
         $this->markTestSkipped(
             'This test has not been implemented yet.'
@@ -90,14 +77,14 @@ class AircraftTest extends TestCase
 
         $fare_svc = app('App\Services\FareService');
 
-        $aircraft = $this->addAircraft();
+        $subfleet = Subfleet::find(1);
         $fare = $this->getFareByCode('Y');
 
-        $fare_svc->setForAircraft($aircraft, $fare, [
+        $fare_svc->setForAircraft($subfleet, $fare, [
             'price' => 50, 'capacity' => 400
         ]);
 
-        $ac_fares = $fare_svc->getForAircraft($aircraft);
+        $ac_fares = $fare_svc->getForAircraft($subfleet);
 
         $this->assertCount(1, $ac_fares);
         $this->assertEquals(50, $ac_fares[0]->price);
@@ -107,19 +94,19 @@ class AircraftTest extends TestCase
         # update the override to a different amount and make sure it updates
         #
 
-        $fare_svc->setForAircraft($aircraft, $fare, [
+        $fare_svc->setForAircraft($subfleet, $fare, [
             'price' => 150, 'capacity' => 50
         ]);
 
-        $ac_fares = $fare_svc->getForAircraft($aircraft);
+        $ac_fares = $fare_svc->getForAircraft($subfleet);
 
         $this->assertCount(1, $ac_fares);
         $this->assertEquals(150, $ac_fares[0]->price);
         $this->assertEquals(50, $ac_fares[0]->capacity);
 
         # delete
-        $fare_svc->delFromAircraft($aircraft, $fare);
-        $this->assertCount(0, $fare_svc->getForAircraft($aircraft));
+        $fare_svc->delFromAircraft($subfleet, $fare);
+        $this->assertCount(0, $fare_svc->getForAircraft($subfleet));
     }
 
     /**

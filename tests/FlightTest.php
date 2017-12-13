@@ -16,29 +16,27 @@ class FlightTest extends TestCase
 
     public function addFlight()
     {
-        $flight = new App\Models\Flight;
-        $flight->airline_id = 1;
-        $flight->flight_number = 10;
-        $flight->dpt_airport_id = 'KAUS';
-        $flight->arr_airport_id = 'KJFK';
-        $flight->save();
+        $flight = factory(App\Models\Flight::class)->create();
 
-        # subfleet ID is in the base.yml
-        $flight->subfleets()->syncWithoutDetaching([1]);
+        # TODO: Add some subfleets in the setUp and assign the IDs here
+        $flight->subfleets()->syncWithoutDetaching([
+            factory(App\Models\Subfleet::class)->create()->id
+        ]);
 
-        return $flight->id;
+        return $flight;
     }
 
     public function testGetFlight()
     {
-        $flight_id = $this->addFlight();
-        $req = $this->get('/api/flights/'.$flight_id, self::$auth_headers);
+        $flight = $this->addFlight();
+
+        $req = $this->get('/api/flights/'.$flight->id, self::$auth_headers);
         $req->assertStatus(200);
 
         $body = $req->json();
-        $this->assertEquals($flight_id, $body['id']);
-        $this->assertEquals('KAUS', $body['dpt_airport_id']);
-        $this->assertEquals('KJFK', $body['arr_airport_id']);
+        $this->assertEquals($flight->id, $body['id']);
+        $this->assertEquals($flight->dpt_airport_id, $body['dpt_airport_id']);
+        $this->assertEquals($flight->arr_airport_id, $body['arr_airport_id']);
 
         $this->get('/api/flights/INVALID', self::$auth_headers)
             ->assertStatus(404);
@@ -49,10 +47,10 @@ class FlightTest extends TestCase
      */
     public function testSearchFlight()
     {
-        $flight_id = $this->addFlight();
+        $flight = $this->addFlight();
 
         # search specifically for a flight ID
-        $query = 'flight_id='.$flight_id;
+        $query = 'flight_id=' . $flight->id;
         $req = $this->get('/api/flights/search?' . $query, self::$auth_headers);
         $req->assertStatus(200);
     }
@@ -63,18 +61,16 @@ class FlightTest extends TestCase
      */
     public function testBids()
     {
-        $flight_id = $this->addFlight();
-
         $user = User::find(1);
-        $flight = Flight::find($flight_id);
+        $flight = $this->addFlight();
 
         $bid = $this->flightSvc->addBid($flight, $user);
         $this->assertEquals(1, $bid->user_id);
-        $this->assertEquals($flight_id, $bid->flight_id);
+        $this->assertEquals($flight->id, $bid->flight_id);
         $this->assertTrue($flight->has_bid);
 
         # Refresh
-        $flight = Flight::find($flight_id);
+        $flight = Flight::find($flight->id);
         $this->assertTrue($flight->has_bid);
 
         # Query the API and see that the user has the bids
@@ -83,19 +79,19 @@ class FlightTest extends TestCase
         $req->assertStatus(200);
         $body = $req->json();
         $this->assertEquals(1, sizeof($body['bids']));
-        $this->assertEquals($flight_id, $body['bids'][0]['flight_id']);
+        $this->assertEquals($flight->id, $body['bids'][0]['flight_id']);
 
         $req = $this->get('/api/users/1/bids', self::$auth_headers);
 
         $body = $req->json();
         $req->assertStatus(200);
-        $this->assertEquals($flight_id, $body[0]['id']);
+        $this->assertEquals($flight->id, $body[0]['id']);
 
         # Now remove the flight and check API
 
         $this->flightSvc->removeBid($flight, $user);
 
-        $flight = Flight::find($flight_id);
+        $flight = Flight::find($flight->id);
         $this->assertFalse($flight->has_bid);
 
         $user = User::find(1);
@@ -125,8 +121,7 @@ class FlightTest extends TestCase
         $user1 = User::find(1);
         $user2 = User::find(2);
 
-        $flight_id = $this->addFlight();
-        $flight = Flight::find($flight_id);
+        $flight = $this->addFlight();
 
         # Put bid on the flight to block it off
         $bid = $this->flightSvc->addBid($flight, $user1);

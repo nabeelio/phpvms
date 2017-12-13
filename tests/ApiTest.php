@@ -16,7 +16,9 @@ class ApiTest extends TestCase
      */
     public function testApiAuthentication()
     {
-        $uri = '/api/airports/kjfk';
+        $airport = factory(App\Models\Airport::class)->create();
+
+        $uri = '/api/airports/' . $airport->icao;
 
         // Missing auth header
         $this->get($uri)->assertStatus(401);
@@ -28,11 +30,11 @@ class ApiTest extends TestCase
         // Test upper/lower case of Authorization header, etc
         $this->withHeaders($this->apiHeaders())->get($uri)
             ->assertStatus(200)
-            ->assertJson(['icao' => 'KJFK'], true);
+            ->assertJson(['icao' => $airport->icao], true);
 
         $this->withHeaders(['AUTHORIZATION' => 'testadminapikey'])->get($uri)
             ->assertStatus(200)
-            ->assertJson(['icao' => 'KJFK'], true);
+            ->assertJson(['icao' => $airport->icao], true);
     }
 
     /**
@@ -40,9 +42,11 @@ class ApiTest extends TestCase
      */
     public function testAirportRequest()
     {
-        $this->withHeaders($this->apiHeaders())->get('/api/airports/KJFK')
+        $airport = factory(App\Models\Airport::class)->create();
+
+        $this->withHeaders($this->apiHeaders())->get('/api/airports/' . $airport->icao)
             ->assertStatus(200)
-            ->assertJson(['icao' => 'KJFK'], true);
+            ->assertJson(['icao' => $airport->icao], true);
 
         $this->withHeaders($this->apiHeaders())->get('/api/airports/UNK')
             ->assertStatus(404);
