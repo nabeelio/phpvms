@@ -117,7 +117,7 @@ class FlightTest extends TestCase
         setting('bids.disable_flight_on_bid', true);
 
         $user1 = User::find(1);
-        $user2 = User::find(2);
+        $user2 = factory(User::class)->create();
 
         $flight = $this->addFlight();
 
