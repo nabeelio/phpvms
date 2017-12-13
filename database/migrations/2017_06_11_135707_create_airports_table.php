@@ -13,7 +13,7 @@ class CreateAirportsTable extends Migration
             $table->string('icao', 5);
             $table->string('name', 100);
             $table->string('location', 100)->nullable();
-            $table->string('country', 48)->nullable();
+            $table->string('country', 64)->nullable();
             $table->string('tz', 64)->nullable();
             $table->unsignedDecimal('fuel_100ll_cost', 19)->default(0);
             $table->unsignedDecimal('fuel_jeta_cost', 19)->default(0);
