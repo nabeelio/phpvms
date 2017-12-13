@@ -27,8 +27,8 @@ class CreatePirepTables extends Migration
             $table->unsignedDecimal('flight_time', 19);
             $table->unsignedDecimal('gross_weight', 19)->nullable();
             $table->unsignedDecimal('fuel_used', 19)->nullable();
-            $table->string('route')->nullable();
-            $table->string('notes')->nullable();
+            $table->string('route', 250)->nullable();
+            $table->string('notes', 250)->nullable();
             $table->unsignedTinyInteger('source')->default(0);
             $table->tinyInteger('status')->default(0);  # -1 rejected, 0 pending, 1 accepted
             $table->longText('raw_data')->nullable();
