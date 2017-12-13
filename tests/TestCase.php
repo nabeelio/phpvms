@@ -22,6 +22,11 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
         'Authorization' => 'testadminapikey'
     ];
 
+    public function apiHeaders()
+    {
+        return self::$auth_headers;
+    }
+
     public function __construct($name = null, array $data = [], $dataName = '') {
         parent::__construct($name, $data, $dataName);
     }

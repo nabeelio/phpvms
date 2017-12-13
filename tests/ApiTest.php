@@ -5,8 +5,6 @@
  */
 class ApiTest extends TestCase
 {
-    use \Tests\Traits\FixtureDataLoader;
-
     public function setUp()
     {
         parent::setUp();
