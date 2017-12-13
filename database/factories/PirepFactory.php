@@ -38,8 +38,8 @@ $factory->define(App\Models\Pirep::class, function (Faker $faker) use ($airlines
             return factory(App\Models\Airport::class)->create()->id;
         },
         'flight_time' => $faker->randomFloat(2),
-        'route' => $faker->text(),
-        'notes' => $faker->text(),
+        'route' => $faker->text(200),
+        'notes' => $faker->text(200),
         'source' => $faker->randomElement([0, 1]),  # MANUAL/ACARS
         'status' => config('enums.pirep_status.PENDING'), //$faker->randomElement([-1, 0, 1]),  # REJECTED/PENDING/ACCEPTED
         'raw_data' => $raw_data ?: $raw_data = json_encode(['key' => 'value']),
