@@ -240,7 +240,7 @@ class SubfleetController extends BaseController
          */
         if ($request->isMethod('post')) {
             $fare = $this->fareRepo->findWithoutFail($request->fare_id);
-            $fare_svc->setForAircraft($subfleet, $fare);
+            $fare_svc->setForSubfleet($subfleet, $fare);
         }
 
         // update the pivot table with overrides for the fares
@@ -248,7 +248,7 @@ class SubfleetController extends BaseController
             $override = [];
             $fare = $this->fareRepo->findWithoutFail($request->fare_id);
             $override[$request->name] = $request->value;
-            $fare_svc->setForAircraft($subfleet, $fare, $override);
+            $fare_svc->setForSubfleet($subfleet, $fare, $override);
         }
 
         // dissassociate fare from teh aircraft

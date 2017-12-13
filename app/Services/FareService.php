@@ -16,11 +16,8 @@ class FareService extends BaseService {
      *
      * @return Aircraft
      */
-    public function setForAircraft(
-        Subfleet &$subfleet,
-        Fare &$fare,
-        array $override=[]
-    ) {
+    public function setForSubfleet(Subfleet &$subfleet, Fare &$fare, array $override=[])
+    {
         $subfleet->fares()->syncWithoutDetaching([$fare->id]);
 
         # modify any pivot values?
@@ -40,7 +37,7 @@ class FareService extends BaseService {
      * @param Aircraft $subfleet
      * @return Fare[]
      */
-    public function getForAircraft(Subfleet &$subfleet)
+    public function getForSubfleet(Subfleet &$subfleet)
     {
         $fares = $subfleet->fares->map(function($fare) {
             if(!is_null($fare->pivot->price)) {

@@ -15,41 +15,29 @@ class Fare extends Model
 
     protected $dates = ['deleted_at'];
 
-    public $fillable
-        = [
-            'code',
-            'name',
-            'price',
-            'cost',
-            'notes',
-            'active',
-        ];
+    public $fillable = [
+        'code',
+        'name',
+        'price',
+        'cost',
+        'capacity',
+        'notes',
+        'active',
+    ];
 
-    /**
-     * The attributes that should be casted to native types.
-     *
-     * @var array
-     */
-    protected $casts
-        = [
-            'code'   => 'string',
-            'name'   => 'string',
-            'price'  => 'float',
-            'cost'   => 'float',
-            'notes'  => 'string',
-            'active' => 'boolean',
-        ];
+    protected $casts = [
+        'code'      => 'string',
+        'name'      => 'string',
+        'price'     => 'float',
+        'cost'      => 'float',
+        'capacity'  => 'integer',
+        'active'    => 'boolean',
+    ];
 
-    /**
-     * Validation rules
-     *
-     * @var array
-     */
-    public static $rules
-        = [
-            'code' => 'required',
-            'name' => 'required',
-        ];
+    public static $rules = [
+        'code' => 'required',
+        'name' => 'required',
+    ];
 
     /**
      * any foreign keys

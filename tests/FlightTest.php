@@ -17,8 +17,6 @@ class FlightTest extends TestCase
     public function addFlight()
     {
         $flight = factory(App\Models\Flight::class)->create();
-
-        # TODO: Add some subfleets in the setUp and assign the IDs here
         $flight->subfleets()->syncWithoutDetaching([
             factory(App\Models\Subfleet::class)->create()->id
         ]);
