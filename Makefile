@@ -63,6 +63,18 @@ schema:
 	#php artisan infyom:scaffold Aircraft --fieldsFile=database/schema/aircraft.json
 	echo ""
 
+.PHONY: deploy-package
+deploy-package:
+	ifeq ($(TRAVIS_TAG),)
+	PKG_NAME=$TRAVIS_TAG
+	else
+	PKG_NAME=nightly
+	fi
+
+	rm -rf .git deploy_rsa.enc .idea phpvms.iml
+	tar -czvf $PKG_NAME.tar.gz -C $TRAVIS_BUILD_DIR .
+	rsync -r --delete-after --quiet $PKG_NAME.tar.gz downloads@phpvms.net:/var/www/downloads/
+
 .PHONY: docker
 docker:
 	@mkdir -p $(CURR_PATH)/tmp/mysql
