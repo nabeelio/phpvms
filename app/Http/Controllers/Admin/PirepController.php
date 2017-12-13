@@ -109,6 +109,9 @@ class PirepController extends BaseController
         $input = $request->all();
         $pirep = $this->pirepRepo->create($input);
 
+        $pirep->flight_time = ((int) Utils::hoursToMinutes($request['hours']))
+                            + ((int) $request['minutes']);
+
         Flash::success('Pirep saved successfully.');
         return redirect(route('admin.pireps.index'));
     }
@@ -145,7 +148,7 @@ class PirepController extends BaseController
             return redirect(route('admin.pireps.index'));
         }
 
-        $hms = Utils::secondsToTimeParts($pirep->flight_time);
+        $hms = Utils::minutesToTimeParts($pirep->flight_time);
         $pirep->hours = $hms['h'];
         $pirep->minutes = $hms['m'];
 
@@ -167,8 +170,8 @@ class PirepController extends BaseController
     {
         $pirep = $this->pirepRepo->findWithoutFail($id);
 
-        $pirep->flight_time = ((int)$request['hours'] * 60 * 60)
-                            + ((int)$request['minutes'] * 60);
+        $pirep->flight_time = ((int) Utils::hoursToMinutes($request['hours']))
+                            + ((int) $request['minutes']);
 
         if (empty($pirep)) {
             Flash::error('Pirep not found');

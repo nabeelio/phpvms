@@ -47,6 +47,7 @@ class Pirep extends Model
      * @var array
      */
     protected $casts = [
+        'id'          => 'string',
         'flight_time' => 'integer',
         'level'       => 'integer',
         'fuel_used'   => 'integer',

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Facades\Utils;
 use App\Repositories\Criteria\WhereCriteria;
 use App\Services\PIREPService;
 use Illuminate\Support\Facades\Auth;
@@ -77,8 +78,8 @@ class PirepController extends Controller
 
         // Any special fields
         $pirep->pilot()->associate(Auth::user());
-        $pirep->flight_time = ((int)$pirep_fields['hours'] * 60 * 60)
-                            + ((int)$pirep_fields['minutes'] * 60);
+        $pirep->flight_time = ((int) Utils::hoursToMinutes($request['hours']))
+                            + ((int) $request['minutes']);
 
         // The custom fields from the form
         $custom_fields = [];

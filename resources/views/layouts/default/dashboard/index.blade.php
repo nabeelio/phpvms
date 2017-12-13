@@ -21,7 +21,7 @@
                         <div style="float: left; position: absolute; display:block; top: 0px;font-size: 150px">
                             <i class="fa fa-clock-o" style="opacity: .1;"></i>
                         </div>
-                        <h4 class="">{!! \App\Facades\Utils::secondsToTime($user->flight_time, false)!!}</h4>
+                        <h4 class="">{!! \App\Facades\Utils::secondsToTimeString($user->flight_time, false)!!}</h4>
                         <h5 class="description" style="color: white;">total hours</h5>
                     </div>
                 </div>

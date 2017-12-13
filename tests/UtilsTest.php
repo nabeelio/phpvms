@@ -26,16 +26,16 @@ class UtilsTest extends TestCase
     }
 
     public function testSecondsToTime() {
-        $t = Utils::secondsToTime(3600);
+        $t = Utils::secondsToTimeString(3600);
         $this->assertEquals('1h 0m', $t);
 
-        $t = Utils::secondsToTime(3720);
+        $t = Utils::secondsToTimeString(3720);
         $this->assertEquals('1h 2m', $t);
 
-        $t = Utils::secondsToTime(3722);
+        $t = Utils::secondsToTimeString(3722);
         $this->assertEquals('1h 2m', $t);
 
-        $t = Utils::secondsToTime(3722, true);
+        $t = Utils::secondsToTimeString(3722, true);
         $this->assertEquals('1h 2m 2s', $t);
     }
 }

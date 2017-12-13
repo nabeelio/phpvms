@@ -20,24 +20,11 @@ users:
     rank_id: 1
     created_at: now
     updated_at: now
-  - id: 2
-    name: Test User
-    email: test@phpvms.net
-    password: test
-    api_key: testuserapikey
-    airline_id: 1
-    home_airport_id: KJFK
-    curr_airport_id: KJFK
-    rank_id: 1
-    created_at: now
-    updated_at: now
 
 role_user:
   - user_id: 1
     role_id: 1
   - user_id: 1
-    role_id: 2
-  - user_id: 2
     role_id: 2
 
 ranks:
@@ -58,39 +45,6 @@ ranks:
     auto_approve_manual: 1
     auto_promote: 0
 
-airports:
-  - id: KAUS
-    icao: KAUS
-    name: Austin-Bergstrom
-    location: Austin, Texas, USA
-    lat: 30.1945278
-    lon: -97.6698889
-    fuel_jeta_cost: 100
-  - id: KJFK
-    icao: KJFK
-    name: John F Kennedy
-    location: New York, New York, USA
-    lat: 40.6399257
-    lon: -73.7786950
-    fuel_jeta_cost: 50
-
-aircraft:
-  - id: 1
-    subfleet_id: 1
-    name: Boeing 747-400
-    registration: NC17
-    tail_number: 17
-  - id: 2
-    subfleet_id: 2
-    name: Boeing 777-200
-    registration: NC20
-    tail_number: 20
-  - id: 3
-    subfleet_id: 1
-    name: Boeing 747-400-PW
-    registration: PW744
-    tail_number: 207X
-
 fares:
   - id: 1
     code: Y
@@ -107,20 +61,6 @@ fares:
     name: First-Class
     price: 800
     capacity: 5
-
-subfleets:
-  - id: 1
-    airline_id: 1
-    name: 747-400 Winglets
-    type: 744W
-    fuel_type: 1
-    fuel_capacity: 2000
-  - id: 2
-    airline_id: 1
-    name: 777-200 LR
-    type: 772-LR
-    fuel_type: 1
-    fuel_capacity: 1000
 
 # add a few mods to aircraft and fares
 subfleet_fare:
@@ -148,11 +88,3 @@ subfleet_fare:
 subfleet_flight:
   - subfleet_id: 1
     flight_id: 1
-
-flights:
-  - id: 1
-    airline_id: 1
-    flight_number: 100
-    dpt_airport_id: KAUS
-    arr_airport_id: KJFK
-    route: KAUS KJFK

@@ -27,10 +27,10 @@ class UserService extends BaseService
         return $user;
     }
 
-    public function adjustFlightHours(User $user, int $hours): User
+    public function adjustFlightTime(User $user, int $minutes): User
     {
         $user->refresh();
-        $user->flight_time += $hours;
+        $user->flight_time += $minutes;
         $user->save();
 
         event(new UserStateChanged($user));
@@ -41,15 +41,10 @@ class UserService extends BaseService
     public function calculatePilotRank(User $user): User
     {
         $user->refresh();
-        $pilot_hours = $user->flight_time / 3600;
+        $pilot_hours = Utils::minutesToHours($user->flight_time);
 
         # TODO: Cache
-        $ranks = Cache::remember(
-            config('cache.keys.RANKS_PILOT_LIST.key'),
-            config('cache.keys.RANKS_PILOT_LIST.time'),
-            function () {
-                return Rank::where('auto_promote', true)->orderBy('hours', 'asc')->get();
-            });
+        $ranks = Rank::where('auto_promote', true)->orderBy('hours', 'asc')->get();
 
         foreach ($ranks as $rank) {
             if($rank->hours > $pilot_hours) {

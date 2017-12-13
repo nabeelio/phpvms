@@ -38,7 +38,7 @@ class PIREPService extends BaseService
      *
      * @return Pirep
      */
-    public function create(Pirep &$pirep, array $field_values): Pirep
+    public function create(Pirep $pirep, array $field_values=[]): Pirep
     {
         if($field_values === null) {
             $field_values = [];
@@ -85,7 +85,7 @@ class PIREPService extends BaseService
      * @param int $new_status
      * @return Pirep
      */
-    public function changeStatus(Pirep &$pirep, int $new_status): Pirep
+    public function changeStatus(Pirep $pirep, int $new_status): Pirep
     {
         Log::info('PIREP ' . $pirep->id . ' status change from '.$pirep->status.' to ' . $new_status);
 
@@ -127,7 +127,7 @@ class PIREPService extends BaseService
      * @param Pirep $pirep
      * @return Pirep
      */
-    public function accept(Pirep &$pirep): Pirep
+    public function accept(Pirep $pirep): Pirep
     {
         # moving from a REJECTED state to ACCEPTED, reconcile statuses
         if ($pirep->status === config('enums.pirep_status.ACCEPTED')) {
@@ -137,7 +137,7 @@ class PIREPService extends BaseService
         $ft = $pirep->flight_time;
         $pilot = $pirep->pilot;
 
-        $this->pilotSvc->adjustFlightHours($pilot, $ft);
+        $this->pilotSvc->adjustFlightTime($pilot, $ft);
         $this->pilotSvc->adjustFlightCount($pilot, +1);
         $this->pilotSvc->calculatePilotRank($pilot);
         $pirep->pilot->refresh();
@@ -160,7 +160,7 @@ class PIREPService extends BaseService
      * @param Pirep $pirep
      * @return Pirep
      */
-    public function reject(Pirep &$pirep): Pirep
+    public function reject(Pirep $pirep): Pirep
     {
         # If this was previously ACCEPTED, then reconcile the flight hours
         # that have already been counted, etc
@@ -168,7 +168,7 @@ class PIREPService extends BaseService
             $pilot = $pirep->pilot;
             $ft = $pirep->flight_time * -1;
 
-            $this->pilotSvc->adjustFlightHours($pilot, $ft);
+            $this->pilotSvc->adjustFlightTime($pilot, $ft);
             $this->pilotSvc->adjustFlightCount($pilot, -1);
             $this->pilotSvc->calculatePilotRank($pilot);
             $pirep->pilot->refresh();

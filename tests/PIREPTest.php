@@ -12,41 +12,6 @@ class PIREPTest extends TestCase
     #use DatabaseMigrations;
 
     protected $pirepSvc;
-    protected $SAMPLE_PIREP
-        = [
-            'user_id'        => 1,
-            'airline_id'     => 1,
-            'flight_id'      => 1,
-            'aircraft_id'    => 1,
-            'dpt_airport_id' => 1,
-            'arr_airport_id' => 2,
-            'flight_time'    => 21600,  # 6 hours
-            'source'         => 0,      # manual
-            'fuel_used'      => 100,
-            'notes'          => 'just a pilot report',
-        ];
-
-    /**
-     * Add $count number of PIREPs and return a User object
-     * @param int  $count
-     * @param bool $accept
-     *
-     * @return User
-     */
-    protected function addPIREP($count=1, $accept=true): User
-    {
-        for($i = 0; $i < $count; $i++) {
-            $pirep = new Pirep($this->SAMPLE_PIREP);
-            $pirep = $this->pirepSvc->create($pirep, []);
-            if($accept) {
-                $this->pirepSvc->changeStatus($pirep,
-                    config('enums.pirep_status.ACCEPTED'));
-            }
-        }
-
-        $pilot = User::where('id', $this->SAMPLE_PIREP['user_id'])->first();
-        return $pilot;
-    }
 
     public function setUp()
     {
@@ -59,32 +24,36 @@ class PIREPTest extends TestCase
      */
     public function testAddPirep()
     {
-        $pirep = new Pirep($this->SAMPLE_PIREP);
-        $pirep->save();
-
+        $pirep = factory(App\Models\Pirep::class)->create();
         $pirep = $this->pirepSvc->create($pirep, []);
 
         /**
          * Check the initial status info
          */
-        $this->assertEquals($pirep->pilot->flights, 0);
         $this->assertEquals($pirep->status, config('enums.pirep_status.PENDING'));
 
         /**
          * Now set the PIREP state to ACCEPTED
          */
-        $this->pirepSvc->changeStatus($pirep, "1");
-        $this->assertEquals(1, $pirep->pilot->flights);
-        $this->assertEquals(21600, $pirep->pilot->flight_time);
-        $this->assertEquals(1, $pirep->pilot->rank_id);
+        $new_pirep_count = $pirep->pilot->flights + 1;
+        $original_flight_time = $pirep->pilot->flight_time ;
+        $new_flight_time = $pirep->pilot->flight_time + $pirep->flight_time;
+
+        $this->pirepSvc->changeStatus($pirep, '1');
+        $this->assertEquals($new_pirep_count, $pirep->pilot->flights);
+        $this->assertEquals($new_flight_time, $pirep->pilot->flight_time);
+        $this->assertEquals($pirep->arr_airport_id, $pirep->pilot->curr_airport_id);
+        #$this->assertEquals(1, $pirep->pilot->rank_id);
 
         /**
          * Now go from ACCEPTED to REJECTED
          */
+        $new_pirep_count = $pirep->pilot->flights - 1;
+        $new_flight_time = $pirep->pilot->flight_time - $pirep->flight_time;
         $this->pirepSvc->changeStatus($pirep, config('enums.pirep_status.REJECTED'));
-        $this->assertEquals(0, $pirep->pilot->flights);
-        $this->assertEquals(0, $pirep->pilot->flight_time);
-        $this->assertEquals(1, $pirep->pilot->rank_id);
+        $this->assertEquals($new_pirep_count, $pirep->pilot->flights);
+        $this->assertEquals($new_flight_time, $pirep->pilot->flight_time);
+        //$this->assertEquals(1, $pirep->pilot->rank_id);
         $this->assertEquals($pirep->arr_airport_id, $pirep->pilot->curr_airport_id);
     }
 
@@ -93,30 +62,49 @@ class PIREPTest extends TestCase
      */
     public function testPilotStatsIncr()
     {
+        $original_pilot = User::find(1);
+
         # Submit two PIREPs
-        $pilot = $this->addPIREP(2);
+        $pireps = factory(Pirep::class, 2)->create([
+            'user_id' => 1,
+            # 360min == 6 hours, rank should bump up
+            'flight_time' => 360,
+        ]);
+
+        foreach ($pireps as $pirep) {
+            $this->pirepSvc->create($pirep);
+            $this->pirepSvc->accept($pirep);
+        }
+
+        $pilot = User::find(1);
         $last_pirep = Pirep::where('id', $pilot->last_pirep_id)->first();
 
-        $this->assertEquals(2, $pilot->flights);
-        $this->assertEquals(43200, $pilot->flight_time);
-        $this->assertEquals(2, $pilot->rank_id);
+        # Make sure rank went up
+        $this->assertGreaterThan($original_pilot->rank_id, $pilot->rank_id);
         $this->assertEquals($last_pirep->arr_airport_id, $pilot->curr_airport_id);
 
         #
         # Submit another PIREP, adding another 6 hours
         # it should automatically be accepted
         #
-        $pilot = $this->addPIREP(1, false);
+        $pirep = factory(Pirep::class)->create([
+            'user_id' => 1,
+            # 120min == 2 hours, currently at 9 hours
+            # Rank bumps up at 10 hours
+            'flight_time' => 120,
+        ]);
+
+        # Pilot should be at rank 2, where accept should be automatic
+        $this->pirepSvc->create($pirep);
+
+        $pilot->refresh();
         $latest_pirep = Pirep::where('id', $pilot->last_pirep_id)->first();
+
+        # Make sure PIREP was auto updated
+        $this->assertEquals(config('enums.pirep_status.ACCEPTED'), $latest_pirep->status);
 
         # Make sure latest PIREP was updated
         $this->assertNotEquals($last_pirep->id, $latest_pirep->id);
-
-        # The PIREP should have been automatically accepted
-        $this->assertEquals(
-            config('enums.pirep_status.ACCEPTED'),
-            $latest_pirep->status
-        );
     }
 
     public function testPirepFinances()

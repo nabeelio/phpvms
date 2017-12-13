@@ -21,6 +21,11 @@ class Utils extends Facade
         return $key;
     }
 
+    public static function minutesToTimeParts($minutes): array
+    {
+        return self::secondsToTimeParts(self::minutesToSeconds($minutes));
+    }
+
     /**
      * Convert seconds to an array of hours, minutes, seconds
      * @param $seconds
@@ -47,7 +52,7 @@ class Utils extends Facade
      * @param bool $incl_sec
      * @return string
      */
-    public static function secondsToTime($seconds, $incl_sec=false): string
+    public static function secondsToTimeString($seconds, $incl_sec=false): string
     {
         $hms = self::secondsToTimeParts($seconds);
         $format = $hms['h'].'h '.$hms['m'].'m';
@@ -56,6 +61,44 @@ class Utils extends Facade
         }
 
         return $format;
+    }
+
+    /**
+     * @param $minutes
+     * @return float|int
+     */
+    public static function minutesToSeconds($minutes)
+    {
+        return $minutes * 60;
+    }
+
+    /**
+     * Convert the seconds to minutes and then round it up
+     * @param $seconds
+     * @return float|int
+     */
+    public static function secondsToMinutes($seconds)
+    {
+        return ceil($seconds/60);
+    }
+
+    /**
+     * Convert hours to minutes. Pretty complex
+     * @param $minutes
+     * @return float|int
+     */
+    public static function minutesToHours($minutes)
+    {
+        return $minutes/60;
+    }
+
+    /**
+     * @param $hours
+     * @return float|int
+     */
+    public static function hoursToMinutes($hours)
+    {
+        return $hours * 60;
     }
 
     /**

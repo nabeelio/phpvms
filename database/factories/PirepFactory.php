@@ -15,7 +15,7 @@ $factory->define(App\Models\Pirep::class, function (Faker $faker) use ($airlines
 
     return [
         'id' => substr($faker->unique()->sha1, 0, 12),
-        'airline_id' => $faker->randomElement($airlinesAvailable),
+        'airline_id' => 1, #$faker->randomElement($airlinesAvailable),
         'user_id' => function () { # OVERRIDE THIS IF NEEDED
             return factory(App\Models\User::class)->create()->id;
         },
@@ -26,19 +26,22 @@ $factory->define(App\Models\Pirep::class, function (Faker $faker) use ($airlines
             return factory(App\Models\Flight::class)->create()->flight_number;
         },
         'route_code' => function(array $pirep) {
-            return App\Models\Flight::where('flight_number', $pirep['flight_number'])->first()->route_code;
+            //return App\Models\Flight::where(['flight_number' => $pirep['flight_number']])->first()->route_code;
         },
         'route_leg' => function (array $pirep) {
-            return App\Models\Flight::where('flight_number', $pirep['flight_number'])->first()->route_leg;
+            //return App\Models\Flight::where('flight_number', $pirep['flight_number'])->first()->route_leg;
         },
         'dpt_airport_id' => function () {
+            return factory(App\Models\Airport::class)->create()->id;
+        },
+        'arr_airport_id' => function () {
             return factory(App\Models\Airport::class)->create()->id;
         },
         'flight_time' => $faker->randomFloat(2),
         'route' => $faker->text(),
         'notes' => $faker->text(),
         'source' => $faker->randomElement([0, 1]),  # MANUAL/ACARS
-        'status' => $faker->randomElement([-1, 0, 1]),  # REJECTED/PENDING/ACCEPTED
+        'status' => config('enums.pirep_status.PENDING'), //$faker->randomElement([-1, 0, 1]),  # REJECTED/PENDING/ACCEPTED
         'raw_data' => $raw_data ?: $raw_data = json_encode(['key' => 'value']),
         'created_at' => $faker->dateTimeBetween('-1 week', 'now'),
         'updated_at' => function(array $pirep) {
