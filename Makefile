@@ -65,8 +65,8 @@ schema:
 
 .PHONY: deploy-package
 deploy-package:
-	ifeq ($(TRAVIS_TAG),)
-	PKG_NAME=$TRAVIS_TAG
+	ifeq ($$TRAVIS_TAG,)
+	PKG_NAME=$$TRAVIS_TAG
 	else
 	PKG_NAME=nightly
 	fi
