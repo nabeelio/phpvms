@@ -19,24 +19,16 @@ script:
 - php artisan migrate:refresh --seed
 - cp tests/phpunit.travis.xml phpunit.xml
 - vendor/bin/phpunit --debug --verbose
-after_success:
-- |
-  if test "$TRAVIS_TAG"
-  then
-    echo "Branch name is $TRAVIS_TAG"
-  else
-    echo "no branch name detected"
-  fi
 after_failure:
 - cat storage/logs/*.log
 before_deploy:
-- openssl aes-256-cbc -K $encrypted_<...>_key -iv $encrypted_<...>_iv -in deploy_rsa.enc -out /tmp/deploy_rsa -d
+- openssl aes-256-cbc -K $encrypted_6ae8173eef05_key -iv $encrypted_6ae8173eef05_iv -in deploy_rsa.enc -out /tmp/deploy_rsa -d
 - eval "$(ssh-agent -s)"
 - chmod 600 /tmp/deploy_rsa
 - ssh-add /tmp/deploy_rsa
 deploy:
   provider: script
   skip_cleanup: true
+  script: make deploy-package
   on:
       branch: master
-  script: make deploy-package
