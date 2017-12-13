@@ -24,6 +24,7 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
 
     public function __construct($name = null, array $data = [], $dataName = '') {
         parent::__construct($name, $data, $dataName);
+        Eloquent::unguard();
     }
 
     protected function reset_db() {

@@ -5,6 +5,8 @@
  */
 class ApiTest extends TestCase
 {
+    use \Tests\Traits\FixtureDataLoader;
+
     public function setUp()
     {
         parent::setUp();
@@ -26,11 +28,11 @@ class ApiTest extends TestCase
             ->assertStatus(401);
 
         // Test upper/lower case of Authorization header, etc
-        $this->withHeaders(self::$auth_headers)->get($uri)
+        $this->withHeaders($this->apiHeaders())->get($uri)
             ->assertStatus(200)
             ->assertJson(['icao' => 'KJFK'], true);
 
-        $this->withHeaders(['AUTHORIZATION' => 'testapikey'])->get($uri)
+        $this->withHeaders(['AUTHORIZATION' => 'testadminapikey'])->get($uri)
             ->assertStatus(200)
             ->assertJson(['icao' => 'KJFK'], true);
     }
@@ -40,11 +42,11 @@ class ApiTest extends TestCase
      */
     public function testAirportRequest()
     {
-        $this->withHeaders(self::$auth_headers)->get('/api/airports/KJFK')
+        $this->withHeaders($this->apiHeaders())->get('/api/airports/KJFK')
             ->assertStatus(200)
             ->assertJson(['icao' => 'KJFK'], true);
 
-        $this->withHeaders(self::$auth_headers)->get('/api/airports/UNK')
+        $this->withHeaders($this->apiHeaders())->get('/api/airports/UNK')
             ->assertStatus(404);
     }
 }
