@@ -14,7 +14,7 @@ $factory->define(App\Models\Pirep::class, function (Faker $faker) use ($airlines
     static $raw_data;
 
     return [
-        'id' => $faker->sha1,
+        'id' => substr($faker->sha1, 0, 12),
         'airline_id' => $faker->randomElement($airlinesAvailable),
         'user_id' => function () { # OVERRIDE THIS IF NEEDED
             return factory(App\Models\User::class)->create()->id;
