@@ -1,9 +1,6 @@
-@extends('installer::layouts.frontend')
+@extends('installer::app')
 
 @section('content')
-    <h1>Hello World</h1>
-
-    <p>
-        This view is loaded from module: {!! config('installer.name') !!}
-    </p>
+    <h2>phpvms installer</h2>
+    <p>This view is loaded from module: {!! config('installer.name') !!}</p>
 @endsection

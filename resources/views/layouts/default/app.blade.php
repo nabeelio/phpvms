@@ -127,7 +127,7 @@
     </div>
 </nav>
 <!-- End Navbar -->
-<div class="clearfix" style="height: 50px;"></div>
+<div class="clearfix" style="height: 25px;"></div>
 <div class="wrapper">
     <div class="clear"></div>
     <div class="container-fluid" style="width: 85%!important;">

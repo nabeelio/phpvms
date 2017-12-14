@@ -42,7 +42,6 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/makinacorpus/php-bloom" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/mockery/mockery" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/myclabs/deep-copy" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/nabeel/laravel-installer" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/nikic/php-parser" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/nwidart/laravel-modules" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/orchestra/testbench" />
@@ -145,7 +144,6 @@
           <root url="file://$MODULE_DIR$/vendor/makinacorpus/php-bloom" />
           <root url="file://$MODULE_DIR$/vendor/mockery/mockery" />
           <root url="file://$MODULE_DIR$/vendor/myclabs/deep-copy" />
-          <root url="file://$MODULE_DIR$/vendor/nabeel/laravel-installer" />
           <root url="file://$MODULE_DIR$/vendor/nikic/php-parser" />
           <root url="file://$MODULE_DIR$/vendor/nwidart/laravel-modules" />
           <root url="file://$MODULE_DIR$/vendor/orchestra/testbench" />
@@ -243,7 +241,6 @@
           <root url="file://$MODULE_DIR$/vendor/makinacorpus/php-bloom" />
           <root url="file://$MODULE_DIR$/vendor/mockery/mockery" />
           <root url="file://$MODULE_DIR$/vendor/myclabs/deep-copy" />
-          <root url="file://$MODULE_DIR$/vendor/nabeel/laravel-installer" />
           <root url="file://$MODULE_DIR$/vendor/nikic/php-parser" />
           <root url="file://$MODULE_DIR$/vendor/nwidart/laravel-modules" />
           <root url="file://$MODULE_DIR$/vendor/orchestra/testbench" />

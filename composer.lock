@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "40d89dc8080251603c43814d3be8abf2",
+    "content-hash": "f657a54ce87b561f6f413f836cbd20a3",
     "packages": [
         {
             "name": "composer/semver",
@@ -2086,56 +2086,6 @@
                 "object graph"
             ],
             "time": "2017-10-19T19:58:43+00:00"
-        },
-        {
-            "name": "nabeel/laravel-installer",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/nabeelio/LaravelInstaller.git",
-                "reference": "0a5877b5550b0f8b35ed354331f1250747c9c223"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/nabeelio/LaravelInstaller/zipball/0a5877b5550b0f8b35ed354331f1250747c9c223",
-                "reference": "0a5877b5550b0f8b35ed354331f1250747c9c223",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.0.0"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "RachidLaasri\\LaravelInstaller\\Providers\\LaravelInstallerServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "RachidLaasri\\LaravelInstaller\\": "src/"
-                },
-                "files": [
-                    "src/Helpers/functions.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Rachid Laasri",
-                    "email": "rashidlaasri@gmail.com"
-                },
-                {
-                    "name": "Jeremy Kenedy",
-                    "email": "jeremykenedy@gmail.com"
-                }
-            ],
-            "description": "Laravel web installer",
-            "time": "2017-12-04T21:21:14+00:00"
         },
         {
             "name": "nabeel/vacentral",
@@ -7183,7 +7133,6 @@
         "infyomlabs/adminlte-templates": 20,
         "zizaco/entrust": 20,
         "makinacorpus/php-bloom": 20,
-        "nabeel/laravel-installer": 20,
         "nabeel/vacentral": 20
     },
     "prefer-stable": false,
