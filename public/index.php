@@ -1,10 +1,13 @@
 <?php
 
 /**
- * Laravel - A PHP Framework For Web Artisans
- *
- * @package  Laravel
- * @author   Taylor Otwell <taylor@laravel.com>
+ * phpVMS
+ */
+
+/**
+ * If you move the public folder, or all the files in the public
+ * folder, be sure to go into the bootstrap/app.php file, and change
+ * the 'path.public' path to where it lives.
  */
 
 require __DIR__.'/../bootstrap/autoload.php';
