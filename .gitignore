@@ -18,6 +18,7 @@ storage/*.sqlite
 .env.php
 .env
 .env.php
+.env.generated
 .vagrant
 #Homestead.yaml
 Homestead.json

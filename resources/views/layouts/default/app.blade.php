@@ -42,8 +42,7 @@
                 </a>
             </p>
         </div>
-        <div class="collapse navbar-collapse justify-content-end" id="navigation"
-             data-nav-image="/assets/frontend/img/blurred-image-1.jpg">
+        <div class="collapse navbar-collapse justify-content-end" id="navigation">
             <ul class="navbar-nav">
                 {{--<li class="nav-item active">--}}
                 @if(!Auth::user())

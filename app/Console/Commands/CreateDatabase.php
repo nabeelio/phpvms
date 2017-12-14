@@ -103,6 +103,11 @@ class CreateDatabase extends Command
         }
     }
 
+    protected function create_postgres($dbkey)
+    {
+        $this->error('Not supported yet!');
+    }
+
     /**
      * Execute the console command.
      *
@@ -123,8 +128,15 @@ class CreateDatabase extends Command
 
         if (config($dbkey . 'driver') === 'mysql') {
             $this->create_mysql($dbkey);
-        } elseif (config($dbkey . 'driver') === 'sqlite') {
+        }
+
+        elseif (config($dbkey . 'driver') === 'sqlite') {
             $this->create_sqlite($dbkey);
+        }
+
+        // TODO: Eventually
+        elseif (config($dbkey . 'driver') === 'postgres') {
+            $this->create_postgres($dbkey);
         }
     }
 }

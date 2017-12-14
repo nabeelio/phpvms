@@ -6,7 +6,7 @@
     <link rel="apple-touch-icon" sizes="76x76" href="/assets/frontend/img/apple-icon.png">
     <link rel="icon" type="image/png" href="/assets/frontend/img/favicon.png">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <title>phpvms installer</title>
+    <title>@yield('title') - installer</title>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
           name='viewport'/>
     <!--     Fonts and icons     -->
@@ -39,15 +39,22 @@
                 </a>
             </p>
         </div>
-        <div class="collapse navbar-collapse justify-content-end" id="navigation"></div>
+        <div class="justify-content-center" id="navigation" style="margin-left: 50px; color: white; font-size: 20px;">
+                @yield('title')
+        </div>
     </div>
 </nav>
 <!-- End Navbar -->
 <div class="clearfix" style="height: 25px;"></div>
 <div class="wrapper">
     <div class="clear"></div>
-    <div class="container-fluid" style="width: 85%!important;">
-        @yield('content')
+    <div class="container" style="width: 50%">
+        <div class="row">
+            <div class="col-12">
+                @include('flash::message')
+                @yield('content')
+            </div>
+        </div>
     </div>
     <div class="clearfix" style="height: 200px;"></div>
 </div>
