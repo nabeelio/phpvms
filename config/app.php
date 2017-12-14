@@ -109,7 +109,6 @@ return [
         'Route' => Illuminate\Support\Facades\Route::class,
         'Schema' => Illuminate\Support\Facades\Schema::class,
         'Session' => Illuminate\Support\Facades\Session::class,
-        'Setting' => anlutro\LaravelSettings\Facade::class,
         'Storage' => Illuminate\Support\Facades\Storage::class,
         'URL' => Illuminate\Support\Facades\URL::class,
         'Utils' => App\Facades\Utils::class,
@@ -117,5 +116,4 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Yaml' => Symfony\Component\Yaml\Yaml::class,
     ],
-
 ];

@@ -6,6 +6,8 @@
       <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" packagePrefix="Tests\" />
       <sourceFolder url="file://$MODULE_DIR$/modules" isTestSource="false" packagePrefix="Modules\" />
       <sourceFolder url="file://$MODULE_DIR$/app" isTestSource="false" packagePrefix="App\" />
+      <sourceFolder url="file://$MODULE_DIR$/public/assets" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/resources" type="java-resource" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/barryvdh/laravel-ide-helper" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/barryvdh/reflection-docblock" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/bpocallaghan/generators" />
@@ -300,6 +302,21 @@
           <root url="file://$MODULE_DIR$/vendor/yajra/laravel-datatables-oracle" />
           <root url="file://$MODULE_DIR$/vendor/zendframework/zend-diactoros" />
           <root url="file://$MODULE_DIR$/vendor/zizaco/entrust" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="PHARS">
+        <CLASSES>
+          <root url="phar://$MODULE_DIR$/vendor/phar-io/manifest/tests/_fixture/test.phar/" />
+          <root url="phar://$MODULE_DIR$/composer.phar/" />
+          <root url="phar://$MODULE_DIR$/vendor/phpunit/phpunit/tests/_files/phpunit-example-extension/tools/phpunit.d/phpunit-example-extension-1.0.1.phar/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="phar://$MODULE_DIR$/vendor/phar-io/manifest/tests/_fixture/test.phar/" />
+          <root url="phar://$MODULE_DIR$/composer.phar/" />
+          <root url="phar://$MODULE_DIR$/vendor/phpunit/phpunit/tests/_files/phpunit-example-extension/tools/phpunit.d/phpunit-example-extension-1.0.1.phar/" />
         </SOURCES>
       </library>
     </orderEntry>

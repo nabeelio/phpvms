@@ -24,8 +24,8 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"/>
     <link href="/assets/admin/css/pe-icon-7-stroke.css" rel="stylesheet">
     <link href="/assets/admin/css/themify-icons.css" rel="stylesheet">
-    <link href="/vendor/select2/dist/css/select2.min.css" rel="stylesheet">
-    <link href="/vendor/icheck/skins/flat/orange.css" rel="stylesheet">
+    <link href="/assets/vendor/select2/dist/css/select2.min.css" rel="stylesheet">
+    <link href="/assets/vendor/icheck/skins/flat/orange.css" rel="stylesheet">
 
     <style type="text/css">
         /*.card {
@@ -121,10 +121,10 @@
 <script src="/assets/admin/js/bootstrap.min.js" type="text/javascript"></script>
 <script src="/assets/admin/js/chartist.min.js"></script>
 <script src="/assets/admin/js/bootstrap-notify.js"></script>
-<script src="/vendor/select2/dist/js/select2.js"></script>
-<script src="/vendor/pjax/jquery.pjax.js"></script>
-<script src="/vendor/icheck/icheck.js"></script>
-<script src="/vendor/rivets/dist/rivets.bundled.min.js"></script>
+<script src="/assets/vendor/select2/dist/js/select2.js"></script>
+<script src="/assets/vendor/pjax/jquery.pjax.js"></script>
+<script src="/assets/vendor/icheck/icheck.js"></script>
+<script src="/assets/vendor/rivets/dist/rivets.bundled.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
 <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
 
