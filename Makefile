@@ -38,15 +38,16 @@ install: build
 
 .PHONY: update
 update: build
+	@php composer.phar dump-autoload
 	@php composer.phar update --no-interaction
 	@php artisan migrate
 	@echo "Done!"
 
 .PHONY: reset
 reset: clean
+	@php composer.phar dump-autoload
 	@php artisan database:create --reset
 	@php artisan migrate:refresh --seed
-	@make update
 
 .PHONY: tests
 tests: test

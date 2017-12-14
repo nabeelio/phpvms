@@ -19,6 +19,9 @@ $app = new Illuminate\Foundation\Application(
     realpath(__DIR__.'/../')
 );
 
+#$app->loadEnvironmentFrom('.env.php');
+$app->useDatabasePath(realpath(__DIR__.'/../app/Database'));
+
 /*
 |--------------------------------------------------------------------------
 | Bind Important Interfaces

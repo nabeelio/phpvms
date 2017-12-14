@@ -1,0 +1,18 @@
+{
+  "name": "sightglass",
+  "repo": "mikeric/sightglass",
+  "description": "Observable keypath engine.",
+  "version": "0.2.6",
+  "author": "Michael Richards",
+  "twitter": "@mikeric",
+  "keywords": [
+    "observe",
+    "observable",
+    "keypath",
+    "engine"
+  ],
+  "scripts": [
+    "index.js"
+  ],
+  "license": "MIT"
+}

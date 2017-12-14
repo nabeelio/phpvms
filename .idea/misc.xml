@@ -39,7 +39,7 @@
     </properties>
   </component>
   <component name="ProjectPlainTextFileTypeManager">
-    <file url="file://$PROJECT_DIR$/database/seeds/dev.yml" />
+    <file url="file://$PROJECT_DIR$/app/Database/seeds/dev.yml" />
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_3">
     <output url="file://$PROJECT_DIR$/out" />

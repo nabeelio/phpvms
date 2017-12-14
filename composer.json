@@ -59,7 +59,7 @@
     },
     "autoload": {
         "classmap": [
-            "database"
+            "app/Database"
         ],
         "files": [
             "app/helpers.php"
