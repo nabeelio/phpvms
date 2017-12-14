@@ -1,0 +1,63 @@
+<?php
+
+namespace $MODULE_NAMESPACE$\$STUDLY_NAME$\Http\Controllers;
+
+use App\Http\Controllers\AppBaseController;
+use Illuminate\Http\Request;
+
+
+class AdminController extends AppBaseController
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        return view('$LOWER_NAME$::admin.index');
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        return view('$LOWER_NAME$::admin.create');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+    }
+
+    /**
+     * Show the specified resource.
+     */
+    public function show()
+    {
+        return view('$LOWER_NAME$::admin.show');
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit()
+    {
+        return view('$LOWER_NAME$::admin.edit');
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request)
+    {
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy()
+    {
+    }
+}
