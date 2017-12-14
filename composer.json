@@ -77,6 +77,11 @@
             "tests/TestCase.php"
         ]
     },
+     "extra": {
+         "installer-paths": {
+             "modules/{$name}/": ["type:laravel-library"]
+         }
+    },
     "scripts": {
         "post-root-package-install": [
             "php -r \"file_exists('.env') || copy('.env.dev.example', '.env');\""

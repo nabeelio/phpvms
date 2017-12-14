@@ -24,26 +24,8 @@ class InstallerServiceProvider extends ServiceProvider
         $this->registerConfig();
         $this->registerViews();
 
-        $this->registerLinks();
-
         $this->registerFactories();
         $this->loadMigrationsFrom(__DIR__ . '/../Database/migrations');
-    }
-
-    /**
-     * Register the service provider.
-     */
-    public function register()
-    {
-        //
-    }
-
-    /**
-     * Add module links here
-     */
-    public function registerLinks()
-    {
-
     }
 
     /**
@@ -53,12 +35,20 @@ class InstallerServiceProvider extends ServiceProvider
     {
         Route::group([
             'as' => 'installer.',
-            'prefix' => 'installer',
-            // If you want a RESTful module, change this to 'api'
+            'prefix' => 'install',
             'middleware' => ['web'],
             'namespace' => 'Modules\Installer\Http\Controllers'
         ], function() {
-            $this->loadRoutesFrom(__DIR__ . '/../Http/routes.php');
+            $this->loadRoutesFrom(__DIR__ . '/../Http/Routes/install.php');
+        });
+
+        Route::group([
+             'as' => 'installer.',
+             'prefix' => 'install',
+             'middleware' => ['web'],
+             'namespace' => 'Modules\Installer\Http\Controllers'
+         ], function () {
+            $this->loadRoutesFrom(__DIR__ . '/../Http/Routes/update.php');
         });
     }
 
