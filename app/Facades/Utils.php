@@ -26,6 +26,11 @@ class Utils extends Facade
         return self::secondsToTimeParts(self::minutesToSeconds($minutes));
     }
 
+    public static function minutesToTimeString($minutes): string
+    {
+        return self::secondsToTimeString(self::minutesToSeconds($minutes));
+    }
+
     /**
      * Convert seconds to an array of hours, minutes, seconds
      * @param $seconds

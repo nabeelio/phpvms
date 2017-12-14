@@ -33,7 +33,7 @@
                             {!! $pirep->arr_airport->icao !!}&nbsp;
                         </div>
                         <div><span class="description">Flight Time&nbsp;</span>
-                            {!! Utils::secondsToTime($pirep->flight_time) !!}
+                            {!! Utils::minutesToTimeString($pirep->flight_time) !!}
                         </div>
                         <div><span class="description">Aircraft&nbsp;</span>
                             {!! $pirep->aircraft->registration !!} ({!! $pirep->aircraft->name !!})
