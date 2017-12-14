@@ -45,7 +45,6 @@
         "sebastiaanluca/laravel-helpers": "1.0.2",
         "jackiedo/timezonelist": "5.x",
         "tivie/php-os-detector": "1.1.0",
-        "nabeel/laravel-installer": "dev-master",
         "nabeel/vacentral": "dev-master"
     },
     "require-dev": {

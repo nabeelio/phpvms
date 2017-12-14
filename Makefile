@@ -38,6 +38,7 @@ install: build
 
 .PHONY: update
 update: build
+	@php composer.phar update --no-interaction
 	@php artisan migrate
 	@echo "Done!"
 
