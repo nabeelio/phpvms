@@ -15,8 +15,8 @@ if [ "$TRAVIS" = "true" ]; then
     # delete all superfluous files and tar it up
     rm -rf .git deploy_rsa.enc .idea phpvms.iml .travis .dpl
     find . -type d -name ".git" | xargs rm -rf
-    tar -czf $TAR_NAME -C $TRAVIS_BUILD_DIR/../ phpvms
+    tar -czf /tmp/$TAR_NAME -C $TRAVIS_BUILD_DIR/../ phpvms
 
     echo "running rsync"
-    rsync -ahP --delete-after $TAR_NAME downloads@phpvms.net:/var/www/downloads/
+    rsync -ahP --delete-after /tmp/$TAR_NAME downloads@phpvms.net:/var/www/downloads/
 fi
