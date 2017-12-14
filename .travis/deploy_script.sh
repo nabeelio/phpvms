@@ -20,7 +20,7 @@ if [ "$TRAVIS" = "true" ]; then
     mv .env.dev.example .env
 
     echo "creating tarball"
-    tar -czf /tmp/$TAR_NAME -C $TRAVIS_BUILD_DIR/../ .
+    tar -czf /tmp/$TAR_NAME -C $TRAVIS_BUILD_DIR/../
 
     echo "running rsync"
     rsync -ahP --delete-after /tmp/$TAR_NAME downloads@phpvms.net:/var/www/downloads/
