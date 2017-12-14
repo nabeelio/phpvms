@@ -27,7 +27,7 @@ before_deploy:
 deploy:
   provider: script
   skip_cleanup: true
-  script: make deploy-package
+  script: ./.travis/deploy_script.sh
   on:
       branch: master
       php: '7.0'
