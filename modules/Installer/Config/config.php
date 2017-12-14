@@ -6,6 +6,10 @@ return [
     'php' => [
         'version' => '7.0.0'
     ],
+
+    # TODO: Remove eventually
+    'env_postfix' => '.generated',
+
     'extensions' => [
         'openssl',
         'pdo',

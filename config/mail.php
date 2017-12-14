@@ -56,8 +56,8 @@ return [
     */
 
     'from' => [
-        'address' => 'hello@example.com',
-        'name' => 'Example',
+        'name' => env('MAIL_FROM_NAME', 'phpVMS Admin'),
+        'address' => env('MAIL_FROM_ADDRESS', ''),
     ],
 
     /*

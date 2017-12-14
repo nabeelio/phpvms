@@ -63,7 +63,6 @@ return [
             'queue' => 'default',
             'retry_after' => 90,
         ],
-
     ],
 
     /*

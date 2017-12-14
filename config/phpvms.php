@@ -14,12 +14,12 @@ return [
     /**
      * The skin to use for the front-end
      */
-    'skin' => 'default',
+    'skin' => env('APP_SKIN', 'default'),
 
     /**
      * Your vaCentral API key
      */
-    'vacentral_api_key' => '',
+    'vacentral_api_key' => env('VACENTRAL_API_KEY', ''),
 
     /**
      * vaCentral API URL. You likely don't need to change this

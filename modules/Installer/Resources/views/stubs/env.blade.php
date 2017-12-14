@@ -4,7 +4,10 @@
 #
 
 APP_ENV=dev
-APP_KEY=base64:{!! $app_key !!}
+APP_URL=http://localhost
+APP_SKIN=default
+VACENTRAL_API_KEY=
+APP_KEY=base64:{!! $APP_KEY !!}
 APP_DEBUG=true
 APP_LOCALE=en
 
@@ -12,18 +15,25 @@ APP_LOG=daily
 APP_LOG_LEVEL=debug
 APP_LOG_MAX_FILES=3
 
-APP_URL=http://localhost
-
-DB_CONNECTION={!! $db_conn !!}
-DB_HOST={!! $db_host !!}
-DB_PORT={!! $db_port !!}
-DB_DATABASE={!! $db_name !!}
-DB_USERNAME={!! $db_user !!}
-DB_PASSWORD={!! $db_pass !!}
+DB_CONNECTION={!! $DB_CONN !!}
+DB_HOST={!! $DB_HOST !!}
+DB_PORT={!! $DB_PORT !!}
+DB_DATABASE={!! $DB_NAME !!}
+DB_USERNAME={!! $DB_USER !!}
+DB_PASSWORD={!! $DB_PASS !!}
 DB_PREFIX=
 
-CACHE_DRIVER=array
-CACHE_PREFIX=
+MAIL_DRIVER=smtp
+MAIL_FROM_ADDRESS=no-reply@phpvms.net
+MAIL_FROM_NAME=phpVMS Admin
+MAIL_HOST=smtp.mailgun.org
+MAIL_PORT=587
+MAIL_ENCRYPTION=tls
+MAIL_USERNAME=
+MAIL_PASSWORD=
+
+CACHE_DRIVER={!! $CACHE_DRIVER !!}
+CACHE_PREFIX=phpvms
 
 REDIS_HOST=localhost
 REDIS_PASSWORD=
@@ -31,4 +41,4 @@ REDIS_PORT=6379
 REDIS_DATABASE=1
 
 SESSION_DRIVER=array
-QUEUE_DRIVER=sync
+QUEUE_DRIVER={!! $QUEUE_DRIVER !!}

@@ -6,7 +6,7 @@ return [
     'env' => env('APP_ENV', 'dev'),
     'debug' => env('APP_DEBUG', true),
     'url' => env('APP_URL', 'http://localhost'),
-    'version' => '4.0',
+    'version' => '7.0',
 
     'timezone' => 'UTC',
     'locale' => env('APP_LOCALE', 'en'),
