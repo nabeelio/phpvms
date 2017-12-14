@@ -1,0 +1,26 @@
+{
+    "name": "/installer",
+    "description": "",
+    "authors": [
+        {
+            "name": "",
+            "email": ""
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\Installer\\Providers\\InstallerServiceProvider",
+                "Modules\\Installer\\Providers\\EventServiceProvider"
+            ],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Installer\\": ""
+        }
+    }
+}
