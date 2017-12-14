@@ -8,14 +8,15 @@ if [ "$TRAVIS" = "true" ]; then
         PKG_NAME=nightly
     fi
 
-    echo "Writing $PKG_NAME.tar.gz"
+    TAR_NAME="phpvms-7.0.0-$PKG_NAME.tar.gz"
+    echo "Writing $TAR_NAME"
 
-    # delete all superfluous files
+    echo "creating tarball"
+    # delete all superfluous files and tar it up
     rm -rf .git deploy_rsa.enc .idea phpvms.iml .travis .dpl
     find . -type d -name ".git" | xargs rm -rf
+    tar -czf $TAR_NAME -C $TRAVIS_BUILD_DIR/../ phpvms
 
-    # tar and upload
-    tar -czf phpvms-7.0.0-$PKG_NAME.tar.gz -C $TRAVIS_BUILD_DIR/../ phpvms
-    rsync -ahP --delete-after $PKG_NAME.tar.gz downloads@phpvms.net:/var/www/downloads/
-    rm -rf /tmp/out
+    echo "running rsync"
+    rsync -ahP --delete-after $TAR_NAME downloads@phpvms.net:/var/www/downloads/
 fi
