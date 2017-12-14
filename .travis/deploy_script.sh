@@ -11,11 +11,17 @@ if [ "$TRAVIS" = "true" ]; then
     TAR_NAME="phpvms-7.0.0-$PKG_NAME.tar.gz"
     echo "Writing $TAR_NAME"
 
-    echo "creating tarball"
-    # delete all superfluous files and tar it up
-    rm -rf .git deploy_rsa.enc .idea phpvms.iml .travis .dpl
+
+    # delete all superfluous files
+    echo "cleaning files"
     find . -type d -name ".git" | xargs rm -rf
-    tar -czf /tmp/$TAR_NAME -C $TRAVIS_BUILD_DIR/../ phpvms
+    rm -rf .idea phpvms.iml .travis .dpl
+    rm -rf .phpstorm.meta.php _ide_helper.php
+    rm -rf .env .env.prod.example
+    mv .env.dev.example .env
+
+    echo "creating tarball"
+    tar -czf /tmp/$TAR_NAME -C $TRAVIS_BUILD_DIR/../ phpvms/.
 
     echo "running rsync"
     rsync -ahP --delete-after /tmp/$TAR_NAME downloads@phpvms.net:/var/www/downloads/
