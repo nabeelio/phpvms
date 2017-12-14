@@ -28,7 +28,7 @@ clean-routes:
 
 .PHONY:  build
 build:
-	@composer install --no-interaction
+	@php composer.phar install --no-interaction
 
 .PHONY: install
 install: build

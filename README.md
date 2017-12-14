@@ -7,6 +7,11 @@ the old, phpVMS classic, it's [available here](https://github.com/nabeelio/phpvm
 
 # installation
 
+A full distribution, with all of the composer dependencies, is available at this [tarball link](http://phpvms.net/downloads/nightly.tar.gz). 
+It's currently updated with every commit
+
+## Composer Access
+
 run the following commands. for right now, we're running on sqlite. for mysql, set 
 `DB_CONNECTION` to `mysql` in the `.env` file.
 
