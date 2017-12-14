@@ -16,6 +16,6 @@ if [ "$TRAVIS" = "true" ]; then
 
     # tar and upload
     tar -czf phpvms-7.0.0-$PKG_NAME.tar.gz -C $TRAVIS_BUILD_DIR/../ phpvms
-    rsync -r --delete-after --quiet $PKG_NAME.tar.gz downloads@phpvms.net:/var/www/downloads/
+    rsync -ahP --delete-after $PKG_NAME.tar.gz downloads@phpvms.net:/var/www/downloads/
     rm -rf /tmp/out
 fi
