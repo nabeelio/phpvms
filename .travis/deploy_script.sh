@@ -17,11 +17,10 @@ if [ "$TRAVIS" = "true" ]; then
     find . -type d -name ".git" | xargs rm -rf
     rm -rf .idea phpvms.iml .travis .dpl
     rm -rf .phpstorm.meta.php _ide_helper.php
-    rm -rf .env .env.prod.example
     mv .env.dev.example .env
 
     echo "creating tarball"
-    tar -czf /tmp/$TAR_NAME -C $TRAVIS_BUILD_DIR/../ phpvms/.
+    tar -czf /tmp/$TAR_NAME -C $TRAVIS_BUILD_DIR/../ .
 
     echo "running rsync"
     rsync -ahP --delete-after /tmp/$TAR_NAME downloads@phpvms.net:/var/www/downloads/

@@ -10,12 +10,12 @@ addons:
 before_install:
 - mysql -e 'CREATE DATABASE IF NOT EXISTS phpvms;'
 before_script:
-- cp .env.travis .env
+- cp .travis/env.travis .env
 - composer install --no-interaction
 script:
 - php artisan database:create --reset
 - php artisan migrate:refresh --seed
-- cp tests/phpunit.travis.xml phpunit.xml
+- cp .travis/phpunit.travis.xml phpunit.xml
 - vendor/bin/phpunit --debug --verbose
 after_failure:
 - cat storage/logs/*.log
