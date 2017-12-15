@@ -2,7 +2,7 @@
 @section('title', 'Database Setup')
 @section('content')
 <div style="align-content: center;">
-    {!! Form::open(['route' => 'installer.dbsetup', 'method' => 'POST']) !!}
+    {!! Form::open(['route' => 'installer.envsetup', 'method' => 'POST']) !!}
     <table class="table" width="25%">
         <tr>
             <td>Select Database Type</td>
@@ -18,7 +18,7 @@
                 <td>Database Host</td>
                 <td style="text-align:center;">
                     <div class="form-group">
-                    {!! Form::input('text', 'db_host', null, ['class' => 'form-control']) !!}
+                    {!! Form::input('text', 'db_host', 'localhost', ['class' => 'form-control']) !!}
                     </div>
                 </td>
             </tr>

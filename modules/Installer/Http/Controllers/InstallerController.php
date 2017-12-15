@@ -98,15 +98,12 @@ class InstallerController extends AppBaseController
     }
 
     /**
-     * Step 2a. Do the config and setup
+     * Step 2a. Create the .env
      */
-    public function dbsetup(Request $request)
+    public function envsetup(Request $request)
     {
-        $log = [];
+        Log::info('ENV setup', $request->toArray());
 
-        Log::info('DB Setup', $request->toArray());
-
-        $log[] = 'Creating environment file';
         $this->envService->createEnvFile(
             $request->input('db_conn'),
             $request->input('db_host'),
@@ -115,6 +112,18 @@ class InstallerController extends AppBaseController
             $request->input('db_user'),
             $request->input('db_pass')
         );
+
+        # Needs to redirect so it can load the new .env
+        Log::info('Redirecting to database setup');
+        return redirect(route('installer.dbsetup'));
+    }
+
+    /**
+     * Step 2b. Setup the database
+     */
+    public function dbsetup(Request $request)
+    {
+        $log = [];
 
         $log[] = 'Creating database';
         $console_out = $this->dbService->setupDB($request->input('db_conn'));

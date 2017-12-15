@@ -51,7 +51,7 @@ class EnvironmentService
         if(\extension_loaded('apc')) {
             $opts['CACHE_DRIVER'] = 'apc';
         } else {
-            $opts['CACHE_DRIVER'] = 'file';
+            $opts['CACHE_DRIVER'] = 'array';
         }
 
         return $opts;
