@@ -70,6 +70,13 @@ schema:
 deploy-package:
 	./.travis/deploy_script.sh
 
+.PHONY: reset-installer
+reset-installer:
+	@cp .env.dev.example .env
+	@make clean
+	mysql -uroot -e "DROP DATABASE IF EXISTS phpvms"
+	mysql -uroot -e "CREATE DATABASE phpvms"
+
 .PHONY: docker
 docker:
 	@mkdir -p $(CURR_PATH)/tmp/mysql

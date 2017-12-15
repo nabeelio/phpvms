@@ -17,7 +17,7 @@ class DatabaseService {
         Log::info('Testing Connection: '.$type.'::'.$user.':'.$pass.'@'.$host.':'.$port.';'.$name);
 
         if($type === 'mysql') {
-            $dsn = "mysql:host=$host;port=$port;dbname=$name";
+            $dsn = "mysql:host=$host;port=$port;";
             Log::info('Connection string: '. $dsn);
             try {
                 $conn = new PDO($dsn, $user, $pass);

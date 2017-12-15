@@ -8,7 +8,8 @@ return [
     ],
 
     # TODO: Remove eventually
-    'env_postfix' => '.generated',
+//    'env_postfix' => '.generated',
+    'env_postfix' => '',
 
     'extensions' => [
         'openssl',

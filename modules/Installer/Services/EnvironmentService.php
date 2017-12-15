@@ -14,6 +14,7 @@ class EnvironmentService
     public function createEnvFile($type, $host, $port, $name, $user, $pass)
     {
         $opts = [
+            'APP_ENV' => 'dev',
             'APP_KEY' => $this->createAppKey(),
             'DB_CONN' => $type,
             'DB_HOST' => $host,
@@ -50,7 +51,7 @@ class EnvironmentService
         if(\extension_loaded('apc')) {
             $opts['CACHE_DRIVER'] = 'apc';
         } else {
-            $opts['CACHE_DRIVER'] = 'filesystem';
+            $opts['CACHE_DRIVER'] = 'file';
         }
 
         return $opts;
@@ -81,8 +82,7 @@ class EnvironmentService
      */
     protected function writeEnvFile($opts)
     {
-        $app = app();
-        $env_file = $app->environmentFilePath();
+        $env_file = \App::environmentFilePath();
         $env_file .= config('installer.env_postfix');
 
         # render it within Blade and log the contents
