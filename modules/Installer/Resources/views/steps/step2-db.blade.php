@@ -27,7 +27,7 @@
                 <td>Database Port</td>
                 <td style="text-align:center;">
                     <div class="form-group">
-                        {!! Form::input('text', 'db_port', '3307', ['class' => 'form-control']) !!}
+                        {!! Form::input('text', 'db_port', '3306', ['class' => 'form-control']) !!}
                     </div>
                 </td>
             </tr>
