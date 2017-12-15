@@ -5,7 +5,7 @@ if [ "$TRAVIS" = "true" ]; then
     if test "$TRAVIS_TAG"; then
         PKG_NAME=$TRAVIS_TAG
     else
-        PKG_NAME=nightly
+        PKG_NAME=master
     fi
 
     TAR_NAME="phpvms-7.0.0-$PKG_NAME.tar.gz"
