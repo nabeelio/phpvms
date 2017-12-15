@@ -22,6 +22,9 @@
     <link rel="stylesheet"
           href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
 
+    <style>
+        .table tr:first-child td { border-top: 0px; }
+    </style>
     @yield('css')
 </head>
 
@@ -44,18 +47,18 @@
             </p>
         </div>
         <div class="justify-content-center" id="navigation" style="margin-left: 50px; color: white; font-size: 20px;">
-                @yield('title')
+            @yield('title')
         </div>
     </div>
 </nav>
 <!-- End Navbar -->
-<div class="clearfix" style="height: 25px;"></div>
+{{--<div class="clearfix" style="height: 25px;"></div>--}}
 <div class="wrapper">
     <div class="clear"></div>
     <div class="container" style="width: 50%">
         <div class="row">
             <div class="col-12">
-                @include('flash::message')
+                @include('installer::flash.message')
                 @yield('content')
             </div>
         </div>

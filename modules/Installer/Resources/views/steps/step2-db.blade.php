@@ -5,7 +5,7 @@
     {!! Form::open(['route' => 'installer.envsetup', 'method' => 'POST']) !!}
     <table class="table" width="25%">
         <tr>
-            <td>Select Database Type</td>
+            <td><p>Select Database Type</p></td>
             <td style="text-align:center;">
                 <div class="form-group">
                 {!! Form::select('db_conn', $db_types, null, ['class' => 'form-control', 'id' => 'db_conn']) !!}

@@ -40,4 +40,34 @@ class RequirementsService {
 
         return $extensions;
     }
+
+    /**
+     * Check the permissions for the directories specified
+     * Make sure they exist and are writable
+     * @return array
+     */
+    public function checkPermissions(): array
+    {
+        $directories = [];
+        foreach (config('installer.permissions') as $dir)
+        {
+            $pass = true;
+            $path = base_path($dir);
+
+            if(!file_exists($path)) {
+                $pass = false;
+            }
+
+            if(!is_writable($path)) {
+                $pass = false;
+            }
+
+            $directories[] = [
+                'dir' => $dir,
+                'passed' => $pass,
+            ];
+        }
+
+        return $directories;
+    }
 }

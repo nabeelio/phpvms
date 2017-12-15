@@ -1,14 +1,10 @@
 <?php
 
-use Illuminate\Validation\Rule;
-
 return [
     'php' => [
         'version' => '7.0.0'
     ],
 
-    # TODO: Remove eventually
-//    'env_postfix' => '.generated',
     'env_postfix' => '',
 
     'extensions' => [
@@ -20,9 +16,15 @@ return [
         'cURL',
     ],
 
+    # Make sure these are writable
     'permissions' => [
-        'storage/framework/' => 'writeable',
-        'storage/logs/' => 'writeable',
-        'bootstrap/cache/' => 'writable'
+        'bootstrap/cache',
+        'storage',
+        'storage/app/public',
+        'storage/framework',
+        'storage/framework/cache',
+        'storage/framework/sessions',
+        'storage/framework/views',
+        'storage/logs',
     ],
 ];

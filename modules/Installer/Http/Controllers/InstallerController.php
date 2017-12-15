@@ -2,6 +2,7 @@
 
 namespace Modules\Installer\Http\Controllers;
 
+use Illuminate\Database\QueryException;
 use Log;
 use Illuminate\Http\Request;
 
@@ -62,26 +63,44 @@ class InstallerController extends AppBaseController
     }
 
     /**
+     * Check if any of the items has been marked as failed
+     * @param array $arr
+     * @return bool
+     */
+    protected function allPassed(array $arr): bool
+    {
+        foreach($arr as $item) {
+            if($item['passed'] === false) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
      * Step 1. Check the modules and permissions
      */
     public function step1(Request $request)
     {
-        $passed = true;
         $php_version = $this->reqService->checkPHPVersion();
-        if($php_version['passed'] === false) {
-            $passed = false;
-        }
-
         $extensions = $this->reqService->checkExtensions();
-        foreach ($extensions as $ext) {
-            if($ext['passed'] === false) {
-                $passed = false;
-            }
-        }
+        $directories = $this->reqService->checkPermissions();
+
+        # Only pass if all the items in the ext and dirs are passed
+        $statuses = [
+            $php_version['passed'] === true,
+            $this->allPassed($extensions) === true,
+            $this->allPassed($directories) === true
+        ];
+
+        # Make sure there are no false values
+        $passed = ! in_array(false, $statuses, true);
 
         return view('installer::steps/step1-requirements', [
             'php' => $php_version,
             'extensions' => $extensions,
+            'directories' => $directories,
             'passed' => $passed,
         ]);
     }
@@ -123,16 +142,16 @@ class InstallerController extends AppBaseController
      */
     public function dbsetup(Request $request)
     {
-        $log = [];
-
-        $log[] = 'Creating database';
-        $console_out = $this->dbService->setupDB($request->input('db_conn'));
+        try {
+            $console_out = $this->dbService->setupDB($request->input('db_conn'));
+        } catch(QueryException $e) {
+            flash()->error($e->getMessage());
+            return redirect(route('installer.step2'));
+        }
 
         return view('installer::steps/step2a-completed', [
             'console_output' => $console_out
         ]);
-
-        //return redirect('/');
     }
 
     /**

@@ -29,6 +29,20 @@
                 </td>
             </tr>
         @endforeach
+
+        <tr><td colspan="2"><h4>directory permissions</h4></td></tr>
+        @foreach($directories as $dir)
+            <tr>
+                <td>{!! $dir['dir'] !!}</td>
+                <td style="text-align:center;">
+                    @if($dir['passed'] === true)
+                        <span class="badge badge-success">OK!</span>
+                    @else
+                        <span class="badge badge-danger">Failed!</span>
+                    @endif
+                </td>
+            </tr>
+        @endforeach
     </table>
     @if($passed === true)
         <p style="text-align: right">
