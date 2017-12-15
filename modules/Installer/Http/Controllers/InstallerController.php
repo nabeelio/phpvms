@@ -117,7 +117,7 @@ class InstallerController extends AppBaseController
         );
 
         $log[] = 'Creating database';
-        $console_out = $this->dbService->setupDB();
+        $console_out = $this->dbService->setupDB($request->input('db_conn'));
 
         return view('installer::steps/step2a-completed', [
             'console_output' => $console_out

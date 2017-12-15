@@ -12,11 +12,11 @@ class DatabaseService {
      * @throws \PDOException
      * @return boolean
      */
-    public function checkDbConnection($type, $host, $port, $name, $user, $pass)
+    public function checkDbConnection($driver, $host, $port, $name, $user, $pass)
     {
-        Log::info('Testing Connection: '.$type.'::'.$user.':'.$pass.'@'.$host.':'.$port.';'.$name);
+        Log::info('Testing Connection: '.$driver.'::'.$user.':'.$pass.'@'.$host.':'.$port.';'.$name);
 
-        if($type === 'mysql') {
+        if($driver === 'mysql') {
             $dsn = "mysql:host=$host;port=$port;";
             Log::info('Connection string: '. $dsn);
             try {
@@ -27,7 +27,7 @@ class DatabaseService {
         }
 
         // Needs testing
-        elseif ($type === 'postgres') {
+        elseif ($driver === 'postgres') {
             $dsn = "pgsql:host=$host;port=$port;dbname=$name";
             try {
                 $conn = new PDO($dsn, $user, $pass);
@@ -42,12 +42,14 @@ class DatabaseService {
     /**
      * Setup the database by running the migration commands
      */
-    public function setupDB()
+    public function setupDB($db_driver='')
     {
         $output = '';
 
-        #\Artisan::call('database:create');
-        #$output .= \Artisan::output();
+        if($db_driver === 'sqlite') {
+            \Artisan::call('database:create');
+            $output .= \Artisan::output();
+        }
 
         \Artisan::call('migrate');
         $output .= trim(\Artisan::output());

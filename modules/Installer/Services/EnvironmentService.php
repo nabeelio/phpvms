@@ -11,12 +11,12 @@ class EnvironmentService
      * Create the .env file
      * @return boolean
      */
-    public function createEnvFile($type, $host, $port, $name, $user, $pass)
+    public function createEnvFile($driver, $host, $port, $name, $user, $pass)
     {
         $opts = [
             'APP_ENV' => 'dev',
             'APP_KEY' => $this->createAppKey(),
-            'DB_CONN' => $type,
+            'DB_CONN' => $driver,
             'DB_HOST' => $host,
             'DB_PORT' => $port,
             'DB_NAME' => $name,
