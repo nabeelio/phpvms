@@ -18,7 +18,11 @@
     <link href="/vendor/select2/dist/css/select2.min.css" rel="stylesheet"/>
     <link href="/assets/frontend/css/now-ui-kit.css" rel="stylesheet"/>
     <link href="/assets/frontend/css/styles.css" rel="stylesheet"/>
-    <link href="/assets/frontend/css/installer.css" rel="stylesheet"/>
+    {{--<link href="/assets/frontend/css/installer.css" rel="stylesheet"/>--}}
+
+    <link rel="stylesheet"
+          href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+
     @yield('css')
 </head>
 
@@ -60,22 +64,23 @@
     <div class="clearfix" style="height: 200px;"></div>
 </div>
 
-<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+{{--<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>--}}
 
 <script src="/assets/frontend/js/core/jquery.3.2.1.min.js" type="text/javascript"></script>
-<script src="/assets/frontend/js/core/tether.min.js" type="text/javascript"></script>
-<script src="/assets/frontend/js/core/bootstrap.min.js" type="text/javascript"></script>
-<script src="/assets/frontend/js/plugins/bootstrap-switch.js"></script>
-<script src="/assets/frontend/js/plugins/nouislider.min.js" type="text/javascript"></script>
-<script src="/assets/frontend/js/plugins/bootstrap-datepicker.js" type="text/javascript"></script>
-<script src="/assets/frontend/js/now-ui-kit.js" type="text/javascript"></script>
-<script src="/vendor/select2/dist/js/select2.js"></script>
+{{--<script src="/assets/frontend/js/core/bootstrap.min.js" type="text/javascript"></script>--}}
+{{--<script src="/assets/frontend/js/now-ui-kit.js" type="text/javascript"></script>--}}
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
 <script>
+    hljs.configure({languages: ['sh']});
+
     $(document).ready(function () {
-        $(".select2").select2();
+        $('pre code').each(function (i, block) {
+            hljs.fixMarkup(block);
+            hljs.highlightBlock(block);
+        });
     });
 </script>
-
 @yield('scripts')
 
 </body>

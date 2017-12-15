@@ -1,17 +1,18 @@
 @extends('installer::app')
-@section('title', 'Database Setup')
+@section('title', 'Database Setup Completed')
 @section('content')
 <div style="align-content: center;">
     {!! Form::open(['route' => 'installer.complete', 'method' => 'GET']) !!}
 
-    <pre class="prettyprint lang-html">
-        <code class="language-bash">
+    <pre class="lang-sh">
+        <code class="lang-sh">
+        {{--<code class="language-bash">--}}
         {!! $console_output !!}
         </code>
     </pre>
 
     <p style="text-align: right">
-        {!! Form::submit('Complete Setup >>', ['class' => 'btn btn-success']) !!}
+        {!! Form::submit('Continue >>', ['class' => 'btn btn-success']) !!}
     </p>
     {!! Form::close() !!}
 </div>

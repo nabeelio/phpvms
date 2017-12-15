@@ -44,16 +44,17 @@ class DatabaseService {
      */
     public function setupDB()
     {
-        $output = "";
+        $output = '';
+
         #\Artisan::call('database:create');
         #$output .= \Artisan::output();
 
         \Artisan::call('migrate');
-        $output .= \Artisan::output();
+        $output .= trim(\Artisan::output());
 
         \Artisan::call('db:seed');
-        $output .= \Artisan::output();
+        $output .= trim(\Artisan::output());
 
-        return $output;
+        return trim($output);
     }
 }
