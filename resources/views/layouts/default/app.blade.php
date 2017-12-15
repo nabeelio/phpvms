@@ -95,14 +95,15 @@
                             <p>Profile</p>
                         </a>
                     </li>
-                    @if(Entrust::hasRole('admin'))
+
+                    @role('admin')
                         <li class="nav-item">
                             <a class="nav-link" href="{!! url('/admin') !!}">
                                 <i class="fa fa-circle-o-notch" aria-hidden="true"></i>
                                 <p>Admin</p>
                             </a>
                         </li>
-                    @endif
+                    @endrole
 
                     {{-- Show the module links for being logged out --}}
                     @foreach($moduleSvc->getFrontendLinks($logged_in=true) as &$link)

@@ -60,11 +60,11 @@ class DatabaseService extends BaseService
                     }
                 }
 
-                try {
+                #try {
                     DB::table($table)->insert($row);
-                } catch(QueryException $e) {
-                    Log::info($e->getMessage());
-                }
+                #} catch(QueryException $e) {
+                #    Log::info($e->getMessage());
+                #}
             }
         }
     }

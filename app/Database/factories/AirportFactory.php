@@ -6,7 +6,6 @@ use Faker\Generator as Faker;
  * Add any number of airports. Don't really care if they're real or not
  */
 $factory->define(App\Models\Airport::class, function (Faker $faker) {
-
     return [
         'id' => strtoupper($faker->unique()->text(5)),
         'icao' => function(array $apt) { return $apt['id']; },

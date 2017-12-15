@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Zizaco\Entrust\Traits\EntrustUserTrait;
+use Laratrust\Traits\LaratrustUserTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Contracts\Auth\CanResetPassword;
 
@@ -20,12 +20,12 @@ use Illuminate\Contracts\Auth\CanResetPassword;
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @mixin \Illuminate\Notifications\Notifiable
- * @mixin \Zizaco\Entrust\Traits\EntrustUserTrait
+ * @mixin \Laratrust\Traits\LaratrustUserTrait
  */
 class User extends Authenticatable
 {
     use Notifiable;
-    use EntrustUserTrait;
+    use LaratrustUserTrait;
     //use SoftDeletes;
 
     public $table = 'users';
