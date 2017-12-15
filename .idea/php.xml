@@ -70,7 +70,6 @@
       <path value="$PROJECT_DIR$/vendor/spatie/laravel-fractal" />
       <path value="$PROJECT_DIR$/vendor/spatie/fractalistic" />
       <path value="$PROJECT_DIR$/vendor/toin0u/geotools-laravel" />
-      <path value="$PROJECT_DIR$/vendor/zizaco/entrust" />
       <path value="$PROJECT_DIR$/vendor/egeloen/http-adapter" />
       <path value="$PROJECT_DIR$/vendor/mockery/mockery" />
       <path value="$PROJECT_DIR$/vendor/myclabs/deep-copy" />
@@ -130,6 +129,8 @@
       <path value="$PROJECT_DIR$/vendor/nabeel/vacentral" />
       <path value="$PROJECT_DIR$/vendor/pragmarx/version" />
       <path value="$PROJECT_DIR$/vendor/pragmarx/yaml" />
+      <path value="$PROJECT_DIR$/vendor/kkszymanowski/traitor" />
+      <path value="$PROJECT_DIR$/vendor/santigarcor/laratrust" />
     </include_path>
   </component>
   <component name="PhpProjectServersManager">

@@ -33,6 +33,7 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/infyomlabs/laravel-generator" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/jackiedo/timezonelist" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/jeremeamia/SuperClosure" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/kkszymanowski/traitor" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/laracasts/flash" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/laravel/framework" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/laravel/homestead" />
@@ -72,6 +73,7 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/psr/simple-cache" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/react/event-loop" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/react/promise" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/santigarcor/laratrust" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/scriptfusion/phpunit-immediate-exception-printer" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/sebastiaanluca/laravel-helpers" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/sebastian/code-unit-reverse-lookup" />
@@ -104,7 +106,6 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/willdurand/geocoder" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/yajra/laravel-datatables-oracle" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/zendframework/zend-diactoros" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/zizaco/entrust" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library">
@@ -135,6 +136,7 @@
           <root url="file://$MODULE_DIR$/vendor/infyomlabs/laravel-generator" />
           <root url="file://$MODULE_DIR$/vendor/jackiedo/timezonelist" />
           <root url="file://$MODULE_DIR$/vendor/jeremeamia/SuperClosure" />
+          <root url="file://$MODULE_DIR$/vendor/kkszymanowski/traitor" />
           <root url="file://$MODULE_DIR$/vendor/laracasts/flash" />
           <root url="file://$MODULE_DIR$/vendor/laravel/framework" />
           <root url="file://$MODULE_DIR$/vendor/laravel/homestead" />
@@ -172,6 +174,7 @@
           <root url="file://$MODULE_DIR$/vendor/psr/simple-cache" />
           <root url="file://$MODULE_DIR$/vendor/react/event-loop" />
           <root url="file://$MODULE_DIR$/vendor/react/promise" />
+          <root url="file://$MODULE_DIR$/vendor/santigarcor/laratrust" />
           <root url="file://$MODULE_DIR$/vendor/scriptfusion/phpunit-immediate-exception-printer" />
           <root url="file://$MODULE_DIR$/vendor/sebastiaanluca/laravel-helpers" />
           <root url="file://$MODULE_DIR$/vendor/sebastian/code-unit-reverse-lookup" />
@@ -203,7 +206,6 @@
           <root url="file://$MODULE_DIR$/vendor/willdurand/geocoder" />
           <root url="file://$MODULE_DIR$/vendor/yajra/laravel-datatables-oracle" />
           <root url="file://$MODULE_DIR$/vendor/zendframework/zend-diactoros" />
-          <root url="file://$MODULE_DIR$/vendor/zizaco/entrust" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
@@ -232,6 +234,7 @@
           <root url="file://$MODULE_DIR$/vendor/infyomlabs/laravel-generator" />
           <root url="file://$MODULE_DIR$/vendor/jackiedo/timezonelist" />
           <root url="file://$MODULE_DIR$/vendor/jeremeamia/SuperClosure" />
+          <root url="file://$MODULE_DIR$/vendor/kkszymanowski/traitor" />
           <root url="file://$MODULE_DIR$/vendor/laracasts/flash" />
           <root url="file://$MODULE_DIR$/vendor/laravel/framework" />
           <root url="file://$MODULE_DIR$/vendor/laravel/homestead" />
@@ -269,6 +272,7 @@
           <root url="file://$MODULE_DIR$/vendor/psr/simple-cache" />
           <root url="file://$MODULE_DIR$/vendor/react/event-loop" />
           <root url="file://$MODULE_DIR$/vendor/react/promise" />
+          <root url="file://$MODULE_DIR$/vendor/santigarcor/laratrust" />
           <root url="file://$MODULE_DIR$/vendor/scriptfusion/phpunit-immediate-exception-printer" />
           <root url="file://$MODULE_DIR$/vendor/sebastiaanluca/laravel-helpers" />
           <root url="file://$MODULE_DIR$/vendor/sebastian/code-unit-reverse-lookup" />
@@ -300,7 +304,6 @@
           <root url="file://$MODULE_DIR$/vendor/willdurand/geocoder" />
           <root url="file://$MODULE_DIR$/vendor/yajra/laravel-datatables-oracle" />
           <root url="file://$MODULE_DIR$/vendor/zendframework/zend-diactoros" />
-          <root url="file://$MODULE_DIR$/vendor/zizaco/entrust" />
         </SOURCES>
       </library>
     </orderEntry>
