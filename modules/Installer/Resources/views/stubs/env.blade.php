@@ -6,10 +6,12 @@
 APP_ENV={!! $APP_ENV !!}
 APP_URL=http://localhost
 APP_SKIN=default
-VACENTRAL_API_KEY=
 APP_KEY=base64:{!! $APP_KEY !!}
 APP_DEBUG=true
 APP_LOCALE=en
+
+PHPVMS_INSTALLED=true
+VACENTRAL_API_KEY=
 
 APP_LOG=daily
 APP_LOG_LEVEL=debug

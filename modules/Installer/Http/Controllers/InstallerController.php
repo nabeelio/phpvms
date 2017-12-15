@@ -56,7 +56,7 @@ class InstallerController extends AppBaseController
             $message = 'Failed! ' . $e->getMessage();
         }
 
-        return view('installer::flash/message', [
+        return view('installer::flash/dbtest', [
             'status' => $status,
             'message' => $message,
         ]);

@@ -12,6 +12,11 @@
 return [
 
     /**
+     * Check for if we're "installed" or not
+     */
+    'installed' => env('PHPVMS_INSTALLED', false),
+
+    /**
      * The skin to use for the front-end
      */
     'skin' => env('APP_SKIN', 'default'),
