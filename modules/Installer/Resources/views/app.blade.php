@@ -15,7 +15,6 @@
           href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css"/>
     <!-- CSS Files -->
     <link href="/assets/frontend/css/bootstrap.min.css" rel="stylesheet"/>
-    <link href="/vendor/select2/dist/css/select2.min.css" rel="stylesheet"/>
     <link href="/assets/frontend/css/now-ui-kit.css" rel="stylesheet"/>
     <link href="/assets/frontend/css/styles.css" rel="stylesheet"/>
     {{--<link href="/assets/frontend/css/installer.css" rel="stylesheet"/>--}}

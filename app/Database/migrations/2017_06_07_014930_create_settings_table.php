@@ -87,6 +87,15 @@ class CreateSettingsTable extends Migration
             ],
             [
                 'order' => 31,
+                'name' => 'Auto Accept New Pilot',
+                'group' => 'pilots',
+                'key' => 'pilot.auto_accept',
+                'value' => true,
+                'type' => 'boolean',
+                'description' => 'Automatically accept a pilot when they register',
+            ],
+            [
+                'order' => 32,
                 'name' => 'Pilot ID Length',
                 'group' => 'pilots',
                 'key' => 'pilots.id_length',
