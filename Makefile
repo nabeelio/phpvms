@@ -40,7 +40,7 @@ install: build
 update: build
 	@php composer.phar dump-autoload
 	@php composer.phar update --no-interaction
-	@php artisan migrate
+	@php artisan migrate --force
 	@echo "Done!"
 
 .PHONY: reset

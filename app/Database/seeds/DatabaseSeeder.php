@@ -25,7 +25,6 @@ class DatabaseSeeder extends Seeder
         }
 
         $path = database_path('seeds/'.$env.'.yml');
-        print("Seeding seeds/$env.yml\n");
 
         if(!file_exists($path)) {
             $path = database_path('seeds/prod.yml');

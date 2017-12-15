@@ -8,3 +8,5 @@ Route::get('/step3', 'InstallerController@step3')->name('step3');
 
 Route::post('/dbtest', 'InstallerController@dbtest')->name('dbtest');
 Route::post('/dbsetup', 'InstallerController@dbsetup')->name('dbsetup');
+
+Route::get('/complete', 'InstallerController@complete')->name('complete');

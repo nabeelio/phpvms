@@ -18,6 +18,7 @@
     <link href="/vendor/select2/dist/css/select2.min.css" rel="stylesheet"/>
     <link href="/assets/frontend/css/now-ui-kit.css" rel="stylesheet"/>
     <link href="/assets/frontend/css/styles.css" rel="stylesheet"/>
+    <link href="/assets/frontend/css/installer.css" rel="stylesheet"/>
     @yield('css')
 </head>
 
@@ -58,6 +59,8 @@
     </div>
     <div class="clearfix" style="height: 200px;"></div>
 </div>
+
+<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
 
 <script src="/assets/frontend/js/core/jquery.3.2.1.min.js" type="text/javascript"></script>
 <script src="/assets/frontend/js/core/tether.min.js" type="text/javascript"></script>

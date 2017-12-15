@@ -117,9 +117,13 @@ class InstallerController extends AppBaseController
         );
 
         $log[] = 'Creating database';
-        $this->dbService->setupDB();
+        $console_out = $this->dbService->setupDB();
 
-        return redirect('/');
+        return view('installer::steps/step2a-completed', [
+            'console_output' => $console_out
+        ]);
+
+        //return redirect('/');
     }
 
     /**
@@ -128,5 +132,10 @@ class InstallerController extends AppBaseController
     public function step3(Request $request)
     {
 
+    }
+
+    public function complete(Request $request)
+    {
+        return redirect('/');
     }
 }

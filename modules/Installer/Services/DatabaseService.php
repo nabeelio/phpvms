@@ -44,7 +44,16 @@ class DatabaseService {
      */
     public function setupDB()
     {
-        \Artisan::call('database:create');
-        \Artisan::call('migrate:refresh');
+        $output = "";
+        #\Artisan::call('database:create');
+        #$output .= \Artisan::output();
+
+        \Artisan::call('migrate');
+        $output .= \Artisan::output();
+
+        \Artisan::call('db:seed');
+        $output .= \Artisan::output();
+
+        return $output;
     }
 }

@@ -2,7 +2,9 @@
 
 namespace App\Services;
 
+use Log;
 use Carbon\Carbon;
+use Illuminate\Database\QueryException;
 use Webpatser\Uuid\Uuid;
 use Symfony\Component\Yaml\Yaml;
 use Illuminate\Support\Facades\DB;
@@ -58,7 +60,11 @@ class DatabaseService extends BaseService
                     }
                 }
 
-                DB::table($table)->insert($row);
+                try {
+                    DB::table($table)->insert($row);
+                } catch(QueryException $e) {
+                    Log::info($e->getMessage());
+                }
             }
         }
     }
