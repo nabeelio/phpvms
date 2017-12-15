@@ -59,7 +59,7 @@ class CreateDatabase extends Command
             $mysql_cmd[] = '-p' . $password;
         }
 
-        if ($this->option('reset')) {
+        if ($this->option('reset') === true) {
             $cmd = array_merge(
                 $mysql_cmd,
                 ["-e 'DROP DATABASE " . config($dbkey . 'database') . "'"]
@@ -84,10 +84,10 @@ class CreateDatabase extends Command
     {
         $exec = 'sqlite3';
         if ($this->os->isWindowsLike()) {
-            $exec .= 'sqlite3';
+            $exec = 'sqlite3.exe';
         }
 
-        if ($this->option('reset')) {
+        if ($this->option('reset') === true) {
             $cmd = ['rm', '-rf', config($dbkey . 'database')];
             $this->runCommand($cmd);
         }
