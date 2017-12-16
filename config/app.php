@@ -12,7 +12,7 @@ return [
     'locale' => env('APP_LOCALE', 'en'),
     'fallback_locale' => 'en',
 
-    'key' => env('APP_KEY'),
+    'key' => env('APP_KEY', 'NOT_INSTALLED'),
     'cipher' => 'AES-256-CBC',
 
     'log' => env('APP_LOG', 'daily'),
