@@ -17,8 +17,7 @@ storage/*.sqlite
 .env.*.php
 .env.php
 .env
-.env.php
-.env.*
+.env.bak
 .env.generated
 .vagrant
 #Homestead.yaml
@@ -54,7 +53,8 @@ com_crashlytics_export_strings.xml
 crashlytics.properties
 crashlytics-build.properties
 fabric.properties
-
+.idea
+phpvms.iml
 phpvms_next.iml
 
 # Gradle:
