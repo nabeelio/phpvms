@@ -30,6 +30,11 @@ clean-routes:
 build:
 	@php composer.phar install --no-interaction
 
+# This is to build all the stylesheets, etc
+.PHONY: build-assets
+build-assets:
+	npm run dev
+
 .PHONY: install
 install: build
 	@php artisan database:create

@@ -1,5 +1,6 @@
 {
-    "/assets/admin/js/admin.js": "/assets/admin/js/admin.js",
-    "/assets/admin/css/paper-dashboard.css": "/assets/admin/css/paper-dashboard.css",
-    "/css/admin/admin.css": "/css/admin/admin.css"
+    "/assets/admin/vendor/paper-dashboard.css": "/assets/admin/vendor/paper-dashboard.css?id=03090ad243944d41c2e6",
+    "/mix.js.map": "/mix.js.map?id=c2235fb6ac9c337dc5d4",
+    "/assets/admin/vendor/paper-dashboard.css.map": "/assets/admin/vendor/paper-dashboard.css.map?id=1fb815586e0ecd947c3f",
+    "/assets/admin/css/vendor.min.css": "/assets/admin/css/vendor.min.css?id=895f7f193404263a5f08"
 }

@@ -1,31 +1,21 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/png" href="/assets/frontend/img/favicon.png">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-
     <title>@yield('title') - phpvms admin</title>
 
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
 
-    <link href="/assets/admin/css/bootstrap.css" rel="stylesheet" />
-    <link href="/assets/admin/css/animate.min.css" rel="stylesheet"/>
-    <link href="/assets/admin/css/paper-dashboard.css" rel="stylesheet"/>
+    <link rel="icon" type="image/png" href="/assets/admin/img/favicon.png">
 
-    <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css"
-          rel="stylesheet"/>
-
-    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'>
-    <link href="http://fonts.googleapis.com/css?family=Roboto:400,700,300" rel="stylesheet"
-          type="text/css">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"/>
-    <link href="/assets/admin/css/pe-icon-7-stroke.css" rel="stylesheet">
-    <link href="/assets/admin/css/themify-icons.css" rel="stylesheet">
-    <link href="/assets/vendor/select2/dist/css/select2.min.css" rel="stylesheet">
-    <link href="/assets/vendor/icheck/skins/flat/orange.css" rel="stylesheet">
+    <link href="http://fonts.googleapis.com/css?family=Roboto:400,700,300" rel="stylesheet" type="text/css">
+
+    <link rel="stylesheet" href="{{ mix('/assets/admin/css/vendor.min.css') }}">
+    {{--{!! Html::style(url('/assets/admin/css/vendor.min.css')) !!}--}}
+    {!! Html::style(url('/assets/admin/css/admin.css')) !!}
 
     <style type="text/css">
         /*.card {
@@ -37,9 +27,7 @@
             !*box-shadow: 0px 5px 25px 0px rgba(0, 0, 0, 0.2);*!
         }*/
 
-        .border-blue-bottom {
-            border-bottom: 3px solid #067ec1;
-        }
+
     @yield('css')
     </style>
 
@@ -90,9 +78,9 @@
 
 <script src="https://cdn.jsdelivr.net/lodash/4.17.4/lodash.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-<script src="/assets/admin/js/bootstrap.min.js" type="text/javascript"></script>
-<script src="/assets/admin/js/chartist.min.js"></script>
-<script src="/assets/admin/js/bootstrap-notify.js"></script>
+<script src="/assets/vendor/bootstrap/bootstrap.min.js" type="text/javascript"></script>
+<script src="/assets/vendor/bootstrap/bootstrap-notify.js"></script>
+<script src="/assets/vendor/chartist/chartist.min.js"></script>
 <script src="/assets/vendor/select2/dist/js/select2.js"></script>
 <script src="/assets/vendor/pjax/jquery.pjax.js"></script>
 <script src="/assets/vendor/icheck/icheck.js"></script>
@@ -100,7 +88,7 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
 <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
 
-<script src="/js/admin/admin.js"></script>
+<script src="{!! url('/assets/admin/js/admin.js') !!}"></script>
 
 <script>
 rivets.configure({
