@@ -49,14 +49,17 @@
     </div>
 </nav>
 <!-- End Navbar -->
-{{--<div class="clearfix" style="height: 25px;"></div>--}}
+<div class="clearfix" style="height: 25px;"></div>
 <div class="wrapper">
     <div class="clear"></div>
     <div class="container" style="width: 50%">
         <div class="row">
             <div class="col-12">
-                <h2>phpVMS Not Installed</h2>
-                <p style="text-align: right">
+                <h1>phpVMS Not Installed</h1>
+                <br />
+                <br />
+                <br />
+                <p style="text-align: right; font-size: 22px;">
                     <a href="{!! url('/install') !!}" class="btn btn-success">Head on to the installer ></a>
                 </p>
                 @yield('content')

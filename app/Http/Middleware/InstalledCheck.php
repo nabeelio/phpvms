@@ -11,7 +11,7 @@ class InstalledCheck
 {
     /**
      * Check the app.key to see whether we're installed or not
-     * 
+     *
      */
     public function handle($request, Closure $next)
     {
