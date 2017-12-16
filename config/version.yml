@@ -9,9 +9,11 @@ cache:
   key: pragmarx-version
   time: 60 # minutes = 1 year
 build:
-  #mode: number # "number", "git-local" or "git-remote"
-  mode: git-local # "number", "git-local" or "git-remote"
-  length: 6
+  mode: number # "number", "git-local" or "git-remote"
+  number: 451e9e
+  git_absorb: git-local
+  #mode: git-local
+  #length: 6
 git:
   #git-local: "git rev-parse --verify HEAD"
   git-local: "git rev-parse --quiet --verify HEAD 2>/dev/null || echo VERSION"
