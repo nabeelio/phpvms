@@ -12,7 +12,7 @@
                 <div>
                     @if($pirep->status == config('enums.pirep_status.PENDING'))
                         <div class="badge badge-warning">Pending</div>
-                    @elseif($pirep->status == config('enums.pirep_status.ACCEPTED'))
+                    @elseif($pirep->status === config('enums.pirep_status.ACCEPTED'))
                         <div class="badge badge-success">Accepted</div>
                     @else
                         <div class="badge badge-danger">Rejected</div>
@@ -29,7 +29,7 @@
                             {!! $pirep->arr_airport->icao !!}&nbsp;
                         </div>
                         <div><span class="description">Flight Time&nbsp;</span>
-                            {!! Utils::secondsToTime($pirep->flight_time) !!}
+                            {!! Utils::minutesToTimeString($pirep->flight_time) !!}
                         </div>
                         <div><span class="description">Aircraft&nbsp;</span>
                             {!! $pirep->aircraft->registration !!}

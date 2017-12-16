@@ -73,6 +73,12 @@
 
             </div>
         </div>
+
+        <div class="row" style="position:absolute; bottom: 5%; width: 100%;">
+            <div class="col-xs-12 text-center">
+                <p class="small">@version</p>
+            </div>
+        </div>
     </div>
 @endsection
 

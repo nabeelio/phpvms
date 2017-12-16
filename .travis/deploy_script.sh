@@ -14,7 +14,7 @@ if [ "$TRAVIS" = "true" ]; then
 
     # delete all superfluous files
     echo "cleaning files"
-    find . -type d -name ".git" | xargs rm -rf
+    find ./vendor -type d -name ".git" | xargs rm -rf
     rm -rf .idea phpvms.iml .travis .dpl
     rm -rf .phpstorm.meta.php _ide_helper.php
     mv .env.dev.example .env

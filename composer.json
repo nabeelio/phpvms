@@ -45,6 +45,7 @@
         "jackiedo/timezonelist": "5.x",
         "tivie/php-os-detector": "1.1.0",
         "santigarcor/laratrust": "5.0.3",
+        "pragmarx/version": "0.2.1",
         "nabeel/vacentral": "dev-master"
     },
     "require-dev": {
