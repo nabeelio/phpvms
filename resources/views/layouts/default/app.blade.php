@@ -14,11 +14,11 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet"/>
     <link rel="stylesheet"
           href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css"/>
-    <!-- CSS Files -->
-    <link href="/assets/frontend/css/bootstrap.min.css" rel="stylesheet"/>
-    <link href="/assets/vendor/select2/dist/css/select2.min.css" rel="stylesheet"/>
-    <link href="/assets/frontend/css/now-ui-kit.css" rel="stylesheet"/>
-    <link href="/assets/frontend/css/styles.css" rel="stylesheet"/>
+
+    <link href="{!! public_asset('/assets/frontend/css/bootstrap.min.css') !!}" rel="stylesheet"/>
+    <link href="{!! public_asset('/assets/vendor/select2/dist/css/select2.min.css') !!}" rel="stylesheet"/>
+    <link href="{!! public_asset('/assets/frontend/css/now-ui-kit.css') !!}" rel="stylesheet"/>
+    <link href="{!! public_asset('/assets/frontend/css/styles.css') !!}" rel="stylesheet"/>
 
     @yield('css')
 
@@ -131,32 +131,20 @@
 <div class="wrapper">
     <div class="clear"></div>
     <div class="container-fluid" style="width: 85%!important;">
+        @include('layouts.default.flash.message')
         @yield('content')
     </div>
     <div class="clearfix" style="height: 200px;"></div>
-    {{--<footer class="footer footer-default">--}}
-        {{--<div class="container">--}}
-            {{--<div class="copyright">--}}
-                {{--&copy;--}}
-                {{--<script>--}}
-                    {{--document.write(new Date().getFullYear())--}}
-                {{--</script>--}}
-                {{--, Designed by--}}
-                {{--<a href="http://www.invisionapp.com" target="_blank">Invision</a>. Coded by--}}
-                {{--<a href="https://www.creative-tim.com" target="_blank">Creative Tim</a>.--}}
-            {{--</div>--}}
-        {{--</div>--}}
-    {{--</footer>--}}
 </div>
 
-<script src="/assets/frontend/js/core/jquery.3.2.1.min.js" type="text/javascript"></script>
-<script src="/assets/frontend/js/core/tether.min.js" type="text/javascript"></script>
-<script src="/assets/frontend/js/core/bootstrap.min.js" type="text/javascript"></script>
-<script src="/assets/frontend/js/plugins/bootstrap-switch.js"></script>
-<script src="/assets/frontend/js/plugins/nouislider.min.js" type="text/javascript"></script>
-<script src="/assets/frontend/js/plugins/bootstrap-datepicker.js" type="text/javascript"></script>
-<script src="/assets/frontend/js/now-ui-kit.js" type="text/javascript"></script>
-<script src="/assets/vendor/select2/dist/js/select2.js"></script>
+<script src="{!! public_asset('/assets/frontend/js/core/jquery.3.2.1.min.js') !!}" type="text/javascript"></script>
+<script src="{!! public_asset('/assets/frontend/js/core/tether.min.js') !!}" type="text/javascript"></script>
+<script src="{!! public_asset('/assets/frontend/js/core/bootstrap.min.js') !!}" type="text/javascript"></script>
+<script src="{!! public_asset('/assets/frontend/js/plugins/bootstrap-switch.js') !!}"></script>
+<script src="{!! public_asset('/assets/frontend/js/plugins/nouislider.min.js') !!}" type="text/javascript"></script>
+<script src="{!! public_asset('/assets/frontend/js/plugins/bootstrap-datepicker.js') !!}" type="text/javascript"></script>
+<script src="{!! public_asset('/assets/frontend/js/now-ui-kit.js') !!}" type="text/javascript"></script>
+<script src="{!! public_asset('/assets/vendor/select2/dist/js/select2.js') !!}"></script>
 <script>
 $(document).ready(function () {
     $(".select2").select2();

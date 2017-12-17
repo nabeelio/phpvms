@@ -12,6 +12,8 @@ use Modules\Installer\Services\DatabaseService;
 use Modules\Installer\Services\EnvironmentService;
 use Modules\Installer\Services\RequirementsService;
 
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+
 
 class InstallerController extends AppBaseController
 {
@@ -31,7 +33,7 @@ class InstallerController extends AppBaseController
      */
     public function index()
     {
-        if(config('app.key') !== 'NOT_INSTALLED') {
+        if(config('app.key') !== 'base64:zdgcDqu9PM8uGWCtMxd74ZqdGJIrnw812oRMmwDF6KY=') {
             return view('installer::errors/already-installed');
         }
 
@@ -127,14 +129,19 @@ class InstallerController extends AppBaseController
     {
         Log::info('ENV setup', $request->toArray());
 
-        $this->envService->createEnvFile(
-            $request->input('db_conn'),
-            $request->input('db_host'),
-            $request->input('db_port'),
-            $request->input('db_name'),
-            $request->input('db_user'),
-            $request->input('db_pass')
-        );
+        try {
+            $this->envService->createEnvFile(
+                $request->input('db_conn'),
+                $request->input('db_host'),
+                $request->input('db_port'),
+                $request->input('db_name'),
+                $request->input('db_user'),
+                $request->input('db_pass')
+            );
+        } catch(FileException $e) {
+            flash()->error($e->getMessage());
+            return redirect(route('installer.step2'));
+        }
 
         # Needs to redirect so it can load the new .env
         Log::info('Redirecting to database setup');

@@ -48,6 +48,8 @@ class RequirementsService {
      */
     public function checkPermissions(): array
     {
+        clearstatcache();
+
         $directories = [];
         foreach (config('installer.permissions') as $dir)
         {

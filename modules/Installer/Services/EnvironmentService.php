@@ -4,6 +4,10 @@ namespace Modules\Installer\Services;
 
 use Illuminate\Encryption\Encrypter;
 use Log;
+use Symfony\Component\Filesystem\Exception\IOException;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 
 class EnvironmentService
 {
@@ -51,11 +55,7 @@ class EnvironmentService
         if(\extension_loaded('apc')) {
             $opts['CACHE_DRIVER'] = 'apc';
         } else {
-            if($opts['APP_ENV'] === 'dev') {
-                $opts['CACHE_DRIVER'] = 'array';
-            } else {
-                $opts['CACHE_DRIVER'] = 'file';
-            }
+            $opts['CACHE_DRIVER'] = 'array';
         }
 
         return $opts;
@@ -83,17 +83,26 @@ class EnvironmentService
     /**
      * Get the template file name and write it out
      * @param $opts
+     * @throws \Symfony\Component\HttpFoundation\File\Exception\FileException
      */
     protected function writeEnvFile($opts)
     {
-        $env_file = \App::environmentPath();
-        $env_file .= config('installer.env_filename');
+        $env_file = \App::environmentFilePath();
+
+        if(file_exists($env_file) && !is_writable($env_file)) {
+            Log::error('Permissions on existing env.php is not writable');
+            throw new FileException('Can\'t write to the env.php file! Check the permissions');
+        }
+
+        $fp = fopen($env_file, 'wb');
+        if($fp === false) {
+            throw new FileException('Couldn\'t write the env.php. (' . error_get_last() .')');
+        }
 
         # render it within Blade and log the contents
         $env_contents = view('installer::stubs/env', $opts);
         Log::info($env_contents);
 
-        $fp = fopen($env_file, 'w');
         fwrite($fp, $env_contents);
         fclose($fp);
     }

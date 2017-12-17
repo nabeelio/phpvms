@@ -14,3 +14,17 @@ if (!function_exists('setting')) {
         return $settingRepo->retrieve($key);
     }
 }
+
+/**
+ * Wrap the asset URL in the publicBaseUrl that's been
+ * set
+ */
+if (!function_exists('public_asset')) {
+    function public_asset($path, $parameters = [], $secure = null)
+    {
+        $publicBaseUrl = app()->publicUrlPath();
+        $path = $publicBaseUrl . $path;
+
+        return url($path, $parameters, $secure);
+    }
+}

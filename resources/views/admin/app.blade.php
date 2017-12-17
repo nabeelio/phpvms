@@ -8,14 +8,13 @@
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
 
-    <link rel="icon" type="image/png" href="/assets/admin/img/favicon.png">
+    <link rel="icon" type="image/png" href="{!! public_asset('/assets/admin/img/favicon.png') !!}">
 
     <link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'>
     <link href="http://fonts.googleapis.com/css?family=Roboto:400,700,300" rel="stylesheet" type="text/css">
 
-    <link rel="stylesheet" href="{{ mix('/assets/admin/css/vendor.min.css') }}">
-    {{--{!! Html::style(url('/assets/admin/css/vendor.min.css')) !!}--}}
-    {!! Html::style(url('/assets/admin/css/admin.css')) !!}
+    <link rel="stylesheet" href="{{ public_asset('/assets/admin/css/vendor.min.css') }}">
+    <link rel="stylesheet" href="{{ public_asset('/assets/admin/css/admin.css') }}">
 
     <style type="text/css">
         /*.card {
@@ -78,17 +77,17 @@
 
 <script src="https://cdn.jsdelivr.net/lodash/4.17.4/lodash.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-<script src="/assets/vendor/bootstrap/bootstrap.min.js" type="text/javascript"></script>
-<script src="/assets/vendor/bootstrap/bootstrap-notify.js"></script>
-<script src="/assets/vendor/chartist/chartist.min.js"></script>
-<script src="/assets/vendor/select2/dist/js/select2.js"></script>
-<script src="/assets/vendor/pjax/jquery.pjax.js"></script>
-<script src="/assets/vendor/icheck/icheck.js"></script>
-<script src="/assets/vendor/rivets/dist/rivets.bundled.min.js"></script>
+<script src="{!! public_asset('/assets/vendor/bootstrap/bootstrap.min.js') !!}" type="text/javascript"></script>
+<script src="{!! public_asset('/assets/vendor/bootstrap/bootstrap-notify.js') !!}"></script>
+<script src="{!! public_asset('/assets/vendor/chartist/chartist.min.js') !!}"></script>
+<script src="{!! public_asset('/assets/vendor/select2/dist/js/select2.js') !!}"></script>
+<script src="{!! public_asset('/assets/vendor/pjax/jquery.pjax.js') !!}"></script>
+<script src="{!! public_asset('/assets/vendor/icheck/icheck.js') !!}"></script>
+<script src="{!! public_asset('/assets/vendor/rivets/dist/rivets.bundled.min.js') !!}"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
 <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
 
-<script src="{!! url('/assets/admin/js/admin.js') !!}"></script>
+<script src="{!! public_asset('/assets/admin/js/admin.js') !!}"></script>
 
 <script>
 rivets.configure({

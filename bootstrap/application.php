@@ -12,7 +12,8 @@ if (!defined('DS')) {
  */
 class Application extends LaravelApplication
 {
-    private $publicPath;
+    private $publicDirPath,
+            $publicUrlPath = '/';
 
     public function __construct(string $basePath = null)
     {
@@ -48,9 +49,32 @@ class Application extends LaravelApplication
      * Override paths
      */
 
-    public function setPublicPath($publicPath)
+    public function setPublicPath($publicDirPath)
     {
-        $this->publicPath = $publicPath;
+        $this->publicDirPath = $publicDirPath;
+    }
+
+    /**
+     * Added for the custom filesystem driver. Used in the index.php
+     * in the root of the install to set it to point to /public,
+     * instead of just /
+     *
+     * @param $publicUrlPath
+     */
+    public function setPublicUrlPath($publicUrlPath)
+    {
+        $this->publicUrlPath = $publicUrlPath;
+    }
+
+    /**
+     * Added for the custom filesystem driver lookup on what to use
+     * for the base URL
+     *
+     * @return string
+     */
+    public function publicUrlPath()
+    {
+        return $this->publicUrlPath ?: '/';
     }
 
     public function configPath($path = '')
@@ -70,7 +94,7 @@ class Application extends LaravelApplication
 
     public function publicPath()
     {
-        return $this->publicPath ?: $this->basePath . DS . 'public';
+        return $this->publicDirPath ?: $this->basePath . DS . 'public';
     }
 
     public function resourcePath($path = '')

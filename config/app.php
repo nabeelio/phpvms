@@ -12,7 +12,9 @@ return [
     'locale' => env('APP_LOCALE', 'en'),
     'fallback_locale' => 'en',
 
-    'key' => env('APP_KEY', 'NOT_INSTALLED'),
+    # Is the default key cipher. Needs to be changed, otherwise phpVMS will think
+    # that it isn't installed. Doubles as a security feature, so keys are scrambled
+    'key' => env('APP_KEY', 'base64:zdgcDqu9PM8uGWCtMxd74ZqdGJIrnw812oRMmwDF6KY='),
     'cipher' => 'AES-256-CBC',
 
     'log' => env('APP_LOG', 'daily'),
@@ -71,6 +73,7 @@ return [
         App\Providers\AuthServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        Nwidart\Modules\LaravelModulesServiceProvider::class,
     ],
 
     'aliases' => [

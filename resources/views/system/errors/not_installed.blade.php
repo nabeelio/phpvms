@@ -12,9 +12,9 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet"/>
     <link rel="stylesheet"
           href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css"/>
-    <link href="/assets/frontend/css/bootstrap.min.css" rel="stylesheet"/>
-    <link href="/assets/frontend/css/now-ui-kit.css" rel="stylesheet"/>
-    <link href="/assets/frontend/css/styles.css" rel="stylesheet"/>
+    <link href="{!! public_asset('/assets/frontend/css/bootstrap.min.css') !!}" rel="stylesheet"/>
+    <link href="{!! public_asset('/assets/frontend/css/now-ui-kit.css') !!}" rel="stylesheet"/>
+    <link href="{!! public_asset('/assets/frontend/css/styles.css') !!}" rel="stylesheet"/>
 
     <style>
         .table tr:first-child td {
@@ -38,7 +38,7 @@
             </button>
             <p class="navbar-brand text-white" data-placement="bottom" target="_blank">
                 <a href="{!! url('/') !!}">
-                    <img src="/assets/frontend/img/logo_blue_bg.svg" width="135px" style=""/>
+                    <img src="{!! public_asset('/assets/frontend/img/logo_blue_bg.svg') !!}" width="135px" style=""/>
                 </a>
             </p>
         </div>

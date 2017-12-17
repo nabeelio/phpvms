@@ -5,8 +5,6 @@ return [
         'version' => '7.0.0'
     ],
 
-    'env_filename' => 'env.php',
-
     'extensions' => [
         'openssl',
         'pdo',

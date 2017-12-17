@@ -14,9 +14,9 @@
     <link rel="stylesheet"
           href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css"/>
     <!-- CSS Files -->
-    <link href="/assets/frontend/css/bootstrap.min.css" rel="stylesheet"/>
-    <link href="/assets/frontend/css/now-ui-kit.css" rel="stylesheet"/>
-    <link href="/assets/frontend/css/styles.css" rel="stylesheet"/>
+    <link href="{!! public_asset('/assets/frontend/css/bootstrap.min.css') !!}" rel="stylesheet"/>
+    <link href="{!! public_asset('/assets/frontend/css/now-ui-kit.css') !!}" rel="stylesheet"/>
+    <link href="{!! public_asset('/assets/frontend/css/styles.css') !!}" rel="stylesheet"/>
     {{--<link href="/assets/frontend/css/installer.css" rel="stylesheet"/>--}}
 
     <link rel="stylesheet"
@@ -42,7 +42,7 @@
             </button>
             <p class="navbar-brand text-white" data-placement="bottom" target="_blank">
                 <a href="{!! url('/') !!}">
-                    <img src="/assets/frontend/img/logo_blue_bg.svg" width="135px" style=""/>
+                    <img src="{!! public_asset('/assets/frontend/img/logo_blue_bg.svg') !!}" width="135px" style=""/>
                 </a>
             </p>
         </div>
@@ -68,7 +68,7 @@
 
 {{--<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>--}}
 
-<script src="/assets/frontend/js/core/jquery.3.2.1.min.js" type="text/javascript"></script>
+<script src="{!! public_asset('/assets/frontend/js/core/jquery.3.2.1.min.js') !!}" type="text/javascript"></script>
 {{--<script src="/assets/frontend/js/core/bootstrap.min.js" type="text/javascript"></script>--}}
 {{--<script src="/assets/frontend/js/now-ui-kit.js" type="text/javascript"></script>--}}
 <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
