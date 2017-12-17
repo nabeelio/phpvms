@@ -10,7 +10,8 @@ addons:
 before_install:
 - mysql -e 'CREATE DATABASE IF NOT EXISTS phpvms;'
 before_script:
-- cp .travis/env.travis .env
+#- cp .travis/env.travis .env
+- cp .travis/env.travis.php env.php
 - composer install --no-interaction
 script:
 - php artisan database:create --reset
