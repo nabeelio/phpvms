@@ -4,22 +4,12 @@
  * phpVMS
  */
 
-/**
- * If you move the public folder, or all the files in the public
- * folder, be sure to go into the bootstrap/app.php file, and change
- * the 'path.public' path to where it lives.
- */
-
-$path_to_phpvms_folder = __DIR__.'/../';
+$path_to_phpvms_folder = __DIR__;
 
 require $path_to_phpvms_folder.'/bootstrap/autoload.php';
 
-/**
- * @var $app Illuminate\Foundation\Application
- */
 $app = require_once $path_to_phpvms_folder.'/bootstrap/app.php';
-
-$app->setPublicPath(__DIR__);
+$app->setPublicPath(__DIR__ . '/public');
 
 $kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
 

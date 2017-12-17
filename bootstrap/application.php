@@ -2,12 +2,18 @@
 
 use Illuminate\Foundation\Application as LaravelApplication;
 
+if (!defined('DS')) {
+    define('DS', DIRECTORY_SEPARATOR);
+}
+
 /**
  * Customized container to allow some of the base Laravel
  * configurations to be overridden
  */
 class Application extends LaravelApplication
 {
+    private $publicPath;
+
     public function __construct(string $basePath = null)
     {
         parent::__construct(dirname(__DIR__) . '/');
@@ -42,6 +48,11 @@ class Application extends LaravelApplication
      * Override paths
      */
 
+    public function setPublicPath($publicPath)
+    {
+        $this->publicPath = $publicPath;
+    }
+
     public function configPath($path = '')
     {
         return $this->basePath . DS . 'config' . ($path ? DS . $path : $path);
@@ -59,7 +70,7 @@ class Application extends LaravelApplication
 
     public function publicPath()
     {
-        return $this->basePath . DS . 'public';
+        return $this->publicPath ?: $this->basePath . DS . 'public';
     }
 
     public function resourcePath($path = '')
