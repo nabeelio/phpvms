@@ -18,7 +18,7 @@ class Application extends LaravelApplication
     {
         parent::__construct(dirname(__DIR__) . '/');
 
-        $this->loadEnvironmentFrom('.env');
+        $this->loadEnvironmentFrom('env.php');
         $this->useDatabasePath($this->basePath . '/app/Database');
         $this->useStoragePath($this->basePath . '/storage');
     }

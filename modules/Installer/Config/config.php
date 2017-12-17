@@ -5,7 +5,7 @@ return [
         'version' => '7.0.0'
     ],
 
-    'env_postfix' => '',
+    'env_filename' => 'env.php',
 
     'extensions' => [
         'openssl',

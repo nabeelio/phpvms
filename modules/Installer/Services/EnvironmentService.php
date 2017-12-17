@@ -86,8 +86,8 @@ class EnvironmentService
      */
     protected function writeEnvFile($opts)
     {
-        $env_file = \App::environmentFilePath();
-        $env_file .= config('installer.env_postfix');
+        $env_file = \App::environmentPath();
+        $env_file .= config('installer.env_filename');
 
         # render it within Blade and log the contents
         $env_contents = view('installer::stubs/env', $opts);

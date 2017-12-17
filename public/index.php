@@ -14,11 +14,7 @@ $path_to_phpvms_folder = __DIR__.'/../';
 
 require $path_to_phpvms_folder.'/bootstrap/autoload.php';
 
-/**
- * @var $app Illuminate\Foundation\Application
- */
 $app = require_once $path_to_phpvms_folder.'/bootstrap/app.php';
-
 $app->setPublicPath(__DIR__);
 
 $kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
