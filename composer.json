@@ -9,7 +9,7 @@
     "url": "https://github.com/nabeelio/phpvms.git",
     "require": {
         "php": ">=7.0",
-        "laravel/framework": "v5.5.23",
+        "laravel/framework": "v5.5.25",
         "symfony/lts": "v3",
         "yajra/laravel-datatables-oracle": "8.3.2",
         "infyomlabs/laravel-generator": "5.5.x-dev",

@@ -19,8 +19,10 @@ clean:
 	@find storage/framework/sessions -type f -not -name '.gitignore' -print0 -delete
 	@find storage/framework/views -type f -not -name '.gitignore' -print0 -delete
 	@find storage/logs -type f -not -name '.gitignore' -print0 -delete
+	@php artisan cache:clear
 	@php artisan route:clear
 	@php artisan config:clear
+	@php artisan view:clear
 
 .PHONY: clean-routes
 clean-routes:
