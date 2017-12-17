@@ -62,7 +62,7 @@ class CreateDatabase extends Command
         if ($this->option('reset') === true) {
             $cmd = array_merge(
                 $mysql_cmd,
-                ["-e 'DROP DATABASE " . config($dbkey . 'database') . "'"]
+                ["-e 'DROP DATABASE IF EXISTS" . config($dbkey . 'database') . "'"]
             );
 
             $this->runCommand($cmd);
