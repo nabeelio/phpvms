@@ -22,9 +22,8 @@ if [ "$TRAVIS" = "true" ]; then
     php artisan version:show --format compact --suppress-app-name > VERSION
 
     echo "creating tarball"
-    cd /tmp
     #tar -czf $TAR_NAME -C $TRAVIS_BUILD_DIR/../ phpvms phpvms/.*
-    git archive --format=tar --prefix=phpvms/ --output=$TAR_NAME HEAD $TRAVIS_BUILD_DIR/phpvms/
+    git archive --format=tar --prefix=phpvms/ --output=/tmp/$TAR_NAME HEAD
 
     echo "running rsync"
     rsync -ahP --delete-after /tmp/$TAR_NAME downloads@phpvms.net:/var/www/downloads/
