@@ -18,6 +18,7 @@ if [ "$TRAVIS" = "true" ]; then
     find ./vendor -type d -name ".git" | xargs rm -rf
     rm -rf .idea phpvms.iml .travis .dpl
     rm -rf .phpstorm.meta.php _ide_helper.php
+    rm -rf node_modules
     php artisan version:show --format compact --suppress-app-name > VERSION
 
     echo "creating tarball"
