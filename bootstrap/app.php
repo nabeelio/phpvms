@@ -57,6 +57,21 @@ class App extends Illuminate\Foundation\Application
         return $this->basePath . DS . 'config' . ($path ? DS . $path : $path);
     }
 
+    public function environmentPath()
+    {
+        return $this->environmentPath ?: $this->basePath;
+    }
+
+    public function langPath()
+    {
+        return $this->resourcePath() . DIRECTORY_SEPARATOR . 'lang';
+    }
+
+    public function publicPath()
+    {
+        return $this->basePath . DS . 'public';
+    }
+
     public function resourcePath($path = '')
     {
         return $this->basePath . DS . 'resources' . ($path ? DS . $path : $path);
