@@ -31,6 +31,10 @@ class InstallerController extends AppBaseController
      */
     public function index()
     {
+        if(config('app.key') !== 'NOT_INSTALLED') {
+            return view('installer::errors/already-installed');
+        }
+
         return view('installer::index-start');
     }
 

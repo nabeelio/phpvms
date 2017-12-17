@@ -4,6 +4,8 @@ _ide_helper.php
 node_modules/
 npm-debug.log
 
+*.bak
+
 # Laravel 4 specific
 bootstrap/compiled.php
 app/storage/
@@ -23,6 +25,7 @@ env.php
 .vagrant
 #Homestead.yaml
 Homestead.json
+LocalValetDriver.php
 
 # Rocketeer PHP task runner and deployment package. https://github.com/rocketeers/rocketeer
 .rocketeer/
