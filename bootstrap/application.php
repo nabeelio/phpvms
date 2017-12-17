@@ -54,7 +54,7 @@ class Application extends LaravelApplication
 
     public function langPath()
     {
-        return $this->resourcePath() . DIRECTORY_SEPARATOR . 'lang';
+        return $this->resourcePath() . DS . 'lang';
     }
 
     public function publicPath()
