@@ -17,18 +17,16 @@
     <link rel="stylesheet" href="{{ public_asset('/assets/admin/css/admin.css') }}">
 
     <style type="text/css">
-        /*.card {
-            display: inline-block;
-            position: relative;
-            overflow: hidden;
-            width: 100%;
-            margin-bottom: 20px;
-            !*box-shadow: 0px 5px 25px 0px rgba(0, 0, 0, 0.2);*!
-        }*/
-
-
     @yield('css')
     </style>
+
+    <script>
+    @if (Auth::user())
+        const PHPVMS_USER_API_KEY = "{!! Auth::user()->api_key !!}";
+    @else
+        const PHPVMS_USER_API_KEY = false;
+    @endif
+    </script>
 
 </head>
 <body>

@@ -18,8 +18,11 @@
     <link href="{!! public_asset('/assets/frontend/css/bootstrap.min.css') !!}" rel="stylesheet"/>
     <link href="{!! public_asset('/assets/vendor/select2/dist/css/select2.min.css') !!}" rel="stylesheet"/>
     <link href="{!! public_asset('/assets/frontend/css/now-ui-kit.css') !!}" rel="stylesheet"/>
-    <link href="{!! public_asset('/assets/admin/vendor/leaflet.css') !!}" rel="stylesheet"/>
     <link href="{!! public_asset('/assets/frontend/css/styles.css') !!}" rel="stylesheet"/>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"
+          integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ=="
+          crossorigin=""/>
 
     <style>
         .font-large {
@@ -32,6 +35,14 @@
     </style>
 
     @yield('css')
+
+    <script>
+    @if (Auth::user())
+        const PHPVMS_USER_API_KEY = "{!! Auth::user()->api_key !!}";
+    @else
+        const PHPVMS_USER_API_KEY = false;
+    @endif
+    </script>
 
 </head>
 
@@ -157,7 +168,10 @@
 <script src="{!! public_asset('/assets/frontend/js/plugins/bootstrap-datepicker.js') !!}" type="text/javascript"></script>
 <script src="{!! public_asset('/assets/frontend/js/now-ui-kit.js') !!}" type="text/javascript"></script>
 <script src="{!! public_asset('/assets/vendor/select2/dist/js/select2.js') !!}"></script>
-<script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
+
+<script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"
+        integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
+        crossorigin=""></script>
 
 <script src="{!! public_asset('/assets/system/js/system.js') !!}"></script>
 

@@ -3,23 +3,26 @@
 @section('title', 'PIREP '.$pirep->getFlightId())
 @section('content')
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-12">
             <h2 class="description">{!! $pirep->getFlightId() !!}</h2>
-        </div>
-        <div class="col-md-4 align-right">
-            @if($pirep->status == config('enums.pirep_status.PENDING'))
-                <div class="badge badge-warning "><span class="font-large">Pending</span></div>
-            @elseif($pirep->status === config('enums.pirep_status.ACCEPTED'))
-                <div class="badge badge-success">Accepted</div>
-            @else
-                <div class="badge badge-danger">Rejected</div>
-            @endif
         </div>
     </div>
 
     <div class="row">
         <div class="col-md-12">
             <table class="table">
+                <tr>
+                    <td>Status</td>
+                    <td>
+                        @if($pirep->status == config('enums.pirep_status.PENDING'))
+                            <div class="badge badge-warning ">Pending</div>
+                        @elseif($pirep->status === config('enums.pirep_status.ACCEPTED'))
+                            <div class="badge badge-success">Accepted</div>
+                        @else
+                            <div class="badge badge-danger">Rejected</div>
+                        @endif
+                    </td>
+                </tr>
                 <tr>
                     <td>Departure/Arrival</td>
                     <td>
@@ -76,22 +79,6 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-md-12">
-            <h3 class="description">map</h3>
-        </div>
-        <div class="col-xs-12">
-            <div class="box-body">
-                <div id="map" style="width: 100%; height: 800px"></div>
-            </div>
-        </div>
-    </div>
+    @include('layouts.default.pireps.map')
 @endsection
-@section('scripts')
-<script type="text/javascript">
-    phpvms_render_airspace_map({
-        lat: {!! $pirep->arr_airport->lat !!},
-        lon: {!! $pirep->dpt_airport->lon !!},
-    });
-</script>
-@endsection
+
