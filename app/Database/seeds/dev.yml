@@ -335,8 +335,9 @@ pireps:
     aircraft_id: 1
     dpt_airport_id: KAUS
     arr_airport_id: KJFK
-    flight_time: 21600  # 6 hours
+    flight_time: 180  # 6 hours
     status: 0
+    route: PLMMR2 SPA Q22 BEARI FAK PHLBO3
     notes: just a pilot report
   - id: pirepid_2
     user_id: 1
@@ -345,8 +346,9 @@ pireps:
     aircraft_id: 1
     dpt_airport_id: KJFK
     arr_airport_id: KAUS
-    flight_time: 21600  # 6 hours
+    flight_time: 180  # 6 hours
     status: 0
+    route: PLMMR2 SPA Q22 BEARI FAK PHLBO3
     notes: just a pilot report
   - id: pirepid_3
     user_id: 1
@@ -355,8 +357,9 @@ pireps:
     aircraft_id: 1
     dpt_airport_id: KJFK
     arr_airport_id: KAUS
-    flight_time: 21600  # 6 hours
+    flight_time: 180  # 6 hours
     status: 0
+    route: PLMMR2 SPA Q22 BEARI FAK PHLBO3
     notes: just a pilot report
 
 pirep_fields:

@@ -107,7 +107,8 @@ class PirepController extends Controller
 
     public function show($id)
     {
-        $pirep = Pirep::where('id', $id);
+        #$pirep = Pirep::where('id', $id);
+        $pirep = $this->pirepRepo->find($id);
         return $this->view('pireps.show', [
             'pirep' => $pirep,
         ]);

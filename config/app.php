@@ -2,7 +2,7 @@
 
 return [
 
-    'name' => 'phpvms',
+    'name' => env('PHPVMS_VA_NAME', 'phpvms'),
     'env' => env('APP_ENV', 'dev'),
     'debug' => env('APP_DEBUG', true),
     'url' => env('APP_URL', 'http://localhost'),

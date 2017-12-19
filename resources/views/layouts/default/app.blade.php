@@ -7,7 +7,7 @@
     <link rel="apple-touch-icon" sizes="76x76" href="/assets/frontend/img/apple-icon.png">
     <link rel="icon" type="image/png" href="/assets/frontend/img/favicon.png">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <title>phpvms</title>
+    <title>@yield('title') - {!! config('app.name') !!}</title>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
           name='viewport'/>
     <!--     Fonts and icons     -->
@@ -18,7 +18,18 @@
     <link href="{!! public_asset('/assets/frontend/css/bootstrap.min.css') !!}" rel="stylesheet"/>
     <link href="{!! public_asset('/assets/vendor/select2/dist/css/select2.min.css') !!}" rel="stylesheet"/>
     <link href="{!! public_asset('/assets/frontend/css/now-ui-kit.css') !!}" rel="stylesheet"/>
+    <link href="{!! public_asset('/assets/admin/vendor/leaflet.css') !!}" rel="stylesheet"/>
     <link href="{!! public_asset('/assets/frontend/css/styles.css') !!}" rel="stylesheet"/>
+
+    <style>
+        .font-large {
+            font-size: 20px;
+        }
+
+        .font-medium {
+            font-size: 18px;
+        }
+    </style>
 
     @yield('css')
 
@@ -137,6 +148,7 @@
     <div class="clearfix" style="height: 200px;"></div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/lodash/4.17.4/lodash.min.js"></script>
 <script src="{!! public_asset('/assets/frontend/js/core/jquery.3.2.1.min.js') !!}" type="text/javascript"></script>
 <script src="{!! public_asset('/assets/frontend/js/core/tether.min.js') !!}" type="text/javascript"></script>
 <script src="{!! public_asset('/assets/frontend/js/core/bootstrap.min.js') !!}" type="text/javascript"></script>
@@ -145,6 +157,10 @@
 <script src="{!! public_asset('/assets/frontend/js/plugins/bootstrap-datepicker.js') !!}" type="text/javascript"></script>
 <script src="{!! public_asset('/assets/frontend/js/now-ui-kit.js') !!}" type="text/javascript"></script>
 <script src="{!! public_asset('/assets/vendor/select2/dist/js/select2.js') !!}"></script>
+<script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
+
+<script src="{!! public_asset('/assets/system/js/system.js') !!}"></script>
+
 <script>
 $(document).ready(function () {
     $(".select2").select2();

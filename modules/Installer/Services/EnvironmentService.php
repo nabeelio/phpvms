@@ -81,6 +81,30 @@ class EnvironmentService
     }
 
     /**
+     * Update a key/value pair in the env file
+     * @param $key
+     * @param $value
+     */
+    public static function changeEnvironmentVariable($key, $value, $quoted=false)
+    {
+        $env_file = \App::environmentFilePath();
+
+        if (\is_bool(env($key))) {
+            $old = env($key) ? 'true' : 'false';
+        }
+
+        if($quoted) {
+            $value = '"'.$value.'"';
+        }
+
+        if (file_exists($env_file)) {
+            file_put_contents($env_file, str_replace(
+                "$key=" . $old, "$key=" . $value, file_get_contents($env_file)
+            ));
+        }
+    }
+
+    /**
      * Get the template file name and write it out
      * @param $opts
      * @throws \Symfony\Component\HttpFoundation\File\Exception\FileException

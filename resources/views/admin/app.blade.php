@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>@yield('title') - phpvms admin</title>
+    <title>@yield('title') - {!! config('app.name') !!} admin</title>
 
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
@@ -88,6 +88,7 @@
 <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
 
 <script src="{!! public_asset('/assets/admin/js/admin.js') !!}"></script>
+<script src="{!! public_asset('/assets/system/js/system.js') !!}"></script>
 
 <script>
 rivets.configure({

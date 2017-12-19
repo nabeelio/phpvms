@@ -53,6 +53,10 @@ update: build
 .PHONY: reset
 reset: clean
 	@php composer.phar dump-autoload
+	@make reload-db
+
+.PHONY: reload-db
+reload-db:
 	@php artisan database:create --reset
 	@php artisan migrate:refresh --seed
 
