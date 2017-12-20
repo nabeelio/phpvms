@@ -2,6 +2,13 @@ const phpvms= (function() {
 
     const draw_base_map = (opts) => {
 
+        opts = _.defaults(opts, {
+            render_elem: 'map',
+            zoom: 12,
+            layers: [],
+            set_marker: false,
+        });
+
         /*var openaip_airspace_labels = new L.TileLayer.WMS(
             "http://{s}.tile.maps.openaip.net/geowebcache/service/wms", {
                 maxZoom: 14,
@@ -51,8 +58,7 @@ const phpvms= (function() {
         attrib.addTo(map);
 
         return map;
-    }
-
+    };
 
     return {
 
@@ -61,9 +67,41 @@ const phpvms= (function() {
          * @param opts
          */
         render_route_map: (opts) => {
+
             opts = _.defaults(opts, {
-                coords: [],   // [ {name, lat, lon}, {name, lat, lon} ];
+                features: null,   // [ {name, lat, lon}, {name, lat, lon} ];
+                center: [],
+                render_elem: 'map',
+                overlay_elem: '',
+                zoom: 5,
+                layers: [],
+                set_marker: false,
             });
+
+            console.log(opts.features);
+
+            let map = draw_base_map(opts);
+
+            var geodesicLayer = L.geodesic([], {
+                weight: 7,
+                opacity: 0.5,
+                color: '#ff33ee',
+                steps: 50,
+                wrap: false,
+            }).addTo(map);
+
+            geodesicLayer.geoJson(opts.features)
+            map.fitBounds(geodesicLayer.getBounds());
+
+            /*let route = L.geoJSON(opts.features, {
+                "color": "#ff7800",
+                "weight": 5,
+                "opacity": 0.65
+            });*/
+
+            //map.setView(opts.center, opts.zoom);
+            //map.fitBounds(route.getBounds());
+            //route.addTo(map)
         },
 
         /**

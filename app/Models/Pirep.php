@@ -131,6 +131,11 @@ class Pirep extends Model
         return $this->user();
     }
 
+    public function route()
+    {
+        return [];
+    }
+
     public function user()
     {
         return $this->belongsTo('App\Models\User', 'user_id');

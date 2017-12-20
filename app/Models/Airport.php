@@ -30,6 +30,7 @@ class Airport extends Model
     protected $casts = [
         'id' => 'string',
     ];
+
     /**
      * Validation rules
      *
@@ -42,7 +43,8 @@ class Airport extends Model
     /**
      * Some fancy callbacks
      */
-    protected static function boot() {
+    protected static function boot()
+    {
 
         parent::boot();
 
@@ -53,5 +55,15 @@ class Airport extends Model
             $model->icao = strtoupper($model->icao);
             $model->id = $model->icao;
         });
+    }
+
+    /**
+     * Return full name like:
+     * KJFK - John F Kennedy
+     * @return string
+     */
+    public function getFullNameAttribute(): string
+    {
+        return $this->icao . ' - ' . $this->name;
     }
 }

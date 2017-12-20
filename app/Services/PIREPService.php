@@ -193,7 +193,7 @@ class PIREPService extends BaseService
     /**
      * @param Pirep $pirep
      */
-    public function setPilotState(Pirep &$pirep)
+    public function setPilotState(Pirep $pirep)
     {
         $pilot = $pirep->pilot;
         $pilot->refresh();

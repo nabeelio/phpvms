@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Facades\Utils;
 use App\Models\Enums\PirepSource;
 use App\Repositories\Criteria\WhereCriteria;
+use App\Services\GeoService;
 use App\Services\PIREPService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -27,6 +28,7 @@ class PirepController extends Controller
             $pirepRepo,
             $airportRepo,
             $pirepFieldRepo,
+            $geoSvc,
             $pirepSvc;
 
     public function __construct(
@@ -35,6 +37,7 @@ class PirepController extends Controller
         AircraftRepository $aircraftRepo,
         AirportRepository $airportRepo,
         PirepFieldRepository $pirepFieldRepo,
+        GeoService $geoSvc,
         PIREPService $pirepSvc
     ) {
         $this->airlineRepo = $airlineRepo;
@@ -42,6 +45,8 @@ class PirepController extends Controller
         $this->pirepRepo = $pirepRepo;
         $this->airportRepo = $airportRepo;
         $this->pirepFieldRepo = $pirepFieldRepo;
+
+        $this->geoSvc = $geoSvc;
         $this->pirepSvc = $pirepSvc;
     }
 
@@ -110,8 +115,16 @@ class PirepController extends Controller
     {
         #$pirep = Pirep::where('id', $id);
         $pirep = $this->pirepRepo->find($id);
+        if (empty($pirep)) {
+            Flash::error('Pirep not found');
+            return redirect(route('frontend.pirep.index'));
+        }
+
+        $coords = $this->geoSvc->getRouteCoordsGeoJSON($pirep);
+
         return $this->view('pireps.show', [
             'pirep' => $pirep,
+            'coords' => $coords,
         ]);
     }
 }

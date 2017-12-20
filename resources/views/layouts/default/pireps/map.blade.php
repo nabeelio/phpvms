@@ -11,9 +11,11 @@
 
 @section('scripts')
 <script type="text/javascript">
-    phpvms.render_airspace_map({
-        lat: {!! $pirep->arr_airport->lat !!},
-        lon: {!! $pirep->arr_airport->lon !!},
-    });
+    let opts = {
+        features: {!! json_encode($coords['features']); !!},
+
+    };
+
+    phpvms.render_route_map(opts);
 </script>
 @endsection

@@ -169,11 +169,12 @@
 <script src="{!! public_asset('/assets/frontend/js/now-ui-kit.js') !!}" type="text/javascript"></script>
 <script src="{!! public_asset('/assets/vendor/select2/dist/js/select2.js') !!}"></script>
 
+{{-- THESE LIBRARIES ARE REQUIRED FOR THINGS TO WORK PROPERLY! --}}
 <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"
         integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
         crossorigin=""></script>
-
-<script src="{!! public_asset('/assets/system/js/system.js') !!}"></script>
+<script src="{!! public_asset('/assets/vendor/leaflet/leaflet.geodesic.js') !!}?v={!! time() !!}"></script>
+<script src="{!! public_asset('/assets/system/js/system.js') !!}?v={!! time() !!}"></script>
 
 <script>
 $(document).ready(function () {
