@@ -28,7 +28,7 @@ class Airport extends Model
     ];
 
     protected $casts = [
-        'id' => 'string',
+
     ];
 
     /**

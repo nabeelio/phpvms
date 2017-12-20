@@ -5,16 +5,19 @@
 
 namespace App\Models\Enums;
 
-
+/**
+ * Class Days
+ * @package App\Models\Enums
+ */
 class Days extends EnumBase {
 
-    const MONDAY    = 1;
-    const TUESDAY   = 2;
-    const WEDNESDAY = 4;
-    const THURSDAY  = 8;
-    const FRIDAY    = 16;
-    const SATURDAY  = 32;
-    const SUNDAY    = 64;
+    const MONDAY    = 1 << 0;
+    const TUESDAY   = 1 << 1;
+    const WEDNESDAY = 1 << 2;
+    const THURSDAY  = 1 << 3;
+    const FRIDAY    = 1 << 4;
+    const SATURDAY  = 1 << 5;
+    const SUNDAY    = 1 << 6;
 
     protected static $labels = [
         Days::MONDAY        => 'system.days.mon',
