@@ -17,12 +17,12 @@ class Days extends EnumBase {
     const SUNDAY    = 64;
 
     protected static $labels = [
-        Days::MONDAY        => 'Monday',
-        Days::TUESDAY       => 'Tuesday',
-        Days::WEDNESDAY     => 'Wednesday',
-        Days::THURSDAY      => 'Thursday',
-        Days::FRIDAY        => 'Friday',
-        Days::SATURDAY      => 'Saturday',
-        Days::SUNDAY        => 'Sunday',
+        Days::MONDAY        => 'system.days.mon',
+        Days::TUESDAY       => 'system.days.tues',
+        Days::WEDNESDAY     => 'system.days.wed',
+        Days::THURSDAY      => 'system.days.thurs',
+        Days::FRIDAY        => 'system.days.fri',
+        Days::SATURDAY      => 'system.days.sat',
+        Days::SUNDAY        => 'system.days.sun',
     ];
 }

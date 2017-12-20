@@ -14,13 +14,17 @@
                 <tr>
                     <td>Status</td>
                     <td>
-                        @if($pirep->state == PirepState::PENDING)
-                            <div class="badge badge-warning ">Pending</div>
+                        @if($pirep->state === PirepState::PENDING)
+                            <div class="badge badge-warning ">{!! PirepState::label(PirepState::PENDING) !!}</div>
                         @elseif($pirep->state === PirepState::ACCEPTED)
-                            <div class="badge badge-success">Accepted</div>
+                            <div class="badge badge-success">{!! PirepState::label(PirepState::ACCEPTED) !!}</div>
                         @else
-                            <div class="badge badge-danger">Rejected</div>
+                            <div class="badge badge-danger">{!! PirepState::label(PirepState::REJECTED) !!}</div>
                         @endif
+
+                        <span class="description" style="padding-left: 20px;">
+                            source: {!! PirepSource::label($pirep->source) !!}
+                        </span>
                     </td>
                 </tr>
                 <tr>
