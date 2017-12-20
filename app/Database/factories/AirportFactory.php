@@ -8,7 +8,7 @@ use Faker\Generator as Faker;
 $factory->define(App\Models\Airport::class, function (Faker $faker) {
     return [
         'id' => strtoupper($faker->unique()->text(5)),
-        'icao' => function(array $apt) { return $apt['id']; },
+        'icao' => function(array $apt) { return substr($apt['id'],0, 4); },
         'iata' => function (array $apt) { return $apt['id']; },
         'name' => $faker->sentence(3),
         'country' => $faker->country,

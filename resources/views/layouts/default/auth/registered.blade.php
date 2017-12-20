@@ -1,5 +1,6 @@
 @extends('layouts.default.app')
 
+@section('title', 'registration submitted')
 @section('content')
 
 <div class="container registered-page">

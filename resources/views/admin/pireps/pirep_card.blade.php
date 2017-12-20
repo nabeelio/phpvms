@@ -10,9 +10,9 @@
                     </a>
                 </h5>
                 <div>
-                    @if($pirep->status == config('enums.pirep_status.PENDING'))
+                    @if($pirep->state == PirepState::PENDING)
                         <div class="badge badge-warning">Pending</div>
-                    @elseif($pirep->status === config('enums.pirep_status.ACCEPTED'))
+                    @elseif($pirep->state === PirepState::ACCEPTED)
                         <div class="badge badge-success">Accepted</div>
                     @else
                         <div class="badge badge-danger">Rejected</div>
@@ -58,13 +58,13 @@
                 <table class="pull-right">
                     <tr>
                         <td>
-                        @if($pirep->status == config('enums.pirep_status.PENDING')
-                            || $pirep->status == config('enums.pirep_status.REJECTED'))
+                        @if($pirep->state == PirepState::PENDING
+                            || $pirep->state == PirepState::REJECTED)
                         {!! Form::open(['url' => '/admin/pireps/'.$pirep->id.'/status', 'method' => 'post',
                                         'name' => 'accept_'.$pirep->id,
                                         'id' => $pirep->id.'_accept',
                                         'pirep_id' => $pirep->id,
-                                        'new_status' => config('enums.pirep_status.ACCEPTED'),
+                                        'new_status' => PirepState::ACCEPTED,
                                         'class' => 'pirep_submit_status']) !!}
                         {!! Form::button('Accept', ['type' => 'submit', 'class' => 'btn btn-info']) !!}
                         {!! Form::close() !!}
@@ -72,13 +72,13 @@
                         </td>
                         <td>&nbsp;</td>
                         <td>
-                        @if($pirep->status == config('enums.pirep_status.PENDING')
-                            || $pirep->status == config('enums.pirep_status.ACCEPTED'))
+                        @if($pirep->state == PirepState::PENDING
+                            || $pirep->state == PirepState::ACCEPTED)
                         {!! Form::open(['url' => '/admin/pireps/'.$pirep->id.'/status', 'method' => 'post',
                                         'name' => 'reject_'.$pirep->id,
                                         'id' => $pirep->id.'_reject',
                                         'pirep_id' => $pirep->id,
-                                        'new_status' => config('enums.pirep_status.REJECTED'),
+                                        'new_status' => PirepState::REJECTED,
                                         'class' => 'pirep_submit_status']) !!}
                         {!! Form::button('Reject', ['type' => 'submit', 'class' => 'btn btn-danger']) !!}
                         {!! Form::close() !!}

@@ -1,5 +1,5 @@
 @extends('layouts.default.app')
-
+@section('title', 'file pirep')
 @section('content')
     <div class="row">
         <div class="col-md-12">

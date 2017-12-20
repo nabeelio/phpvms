@@ -7,5 +7,6 @@
     <p style="text-align: right">
         {!! Form::submit('Go to your site >>', ['class' => 'btn btn-success']) !!}
     </p>
+    {!! PirepState::REJECTED !!}
     {!! Form::close() !!}
 @endsection

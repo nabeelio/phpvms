@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Enums\PirepSource;
+use App\Models\Enums\PirepState;
 use Faker\Generator as Faker;
 
 # Match the list available in tests/data/*.yml
@@ -40,8 +42,8 @@ $factory->define(App\Models\Pirep::class, function (Faker $faker) use ($airlines
         'flight_time' => $faker->randomFloat(2),
         'route' => $faker->text(200),
         'notes' => $faker->text(200),
-        'source' => $faker->randomElement([0, 1]),  # MANUAL/ACARS
-        'status' => config('enums.pirep_status.PENDING'), //$faker->randomElement([-1, 0, 1]),  # REJECTED/PENDING/ACCEPTED
+        'source' => $faker->randomElement([PirepSource::MANUAL, PirepSource::ACARS]),
+        'state' => PirepState::PENDING, //$faker->randomElement([-1, 0, 1]),  # REJECTED/PENDING/ACCEPTED
         'raw_data' => $raw_data ?: $raw_data = json_encode(['key' => 'value']),
         'created_at' => $faker->dateTimeBetween('-1 week', 'now'),
         'updated_at' => function(array $pirep) {

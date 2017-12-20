@@ -37,6 +37,7 @@ class Pirep extends Model
         'level',
         'route',
         'notes',
+        'state',
         'status',
         'raw_data',
     ];
@@ -52,6 +53,7 @@ class Pirep extends Model
         'level'       => 'integer',
         'fuel_used'   => 'integer',
         'source'      => 'integer',
+        'state'       => 'integer',
         'status'      => 'integer',
     ];
 
@@ -60,19 +62,19 @@ class Pirep extends Model
      *
      * @var array
      */
-    public static $rules
-        = [
-            'dpt_airport_id' => 'required',
-            'arr_airport_id' => 'required',
-        ];
+    public static $rules = [
+        'dpt_airport_id' => 'required',
+        'arr_airport_id' => 'required',
+    ];
 
     /**
+     * Get the flight ident, e.,g JBU1900
      * @return string
      */
-    public function getFlightId()
+    public function getIdentAttribute()
     {
         $flight_id = $this->airline->code;
-        if($this->flight_id) {
+        if ($this->flight_id) {
             $flight_id .= $this->flight->flight_number;
         } else {
             $flight_id .= $this->flight_number;

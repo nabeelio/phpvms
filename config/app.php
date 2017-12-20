@@ -116,5 +116,10 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Yaml' => Symfony\Component\Yaml\Yaml::class,
+
+
+        # ENUMS
+        'PirepState' => App\Models\Enums\PirepState::class,
+        'PirepStatus' => App\Models\Enums\PirepStatus::class,
     ],
 ];

@@ -5,7 +5,9 @@ namespace App\Providers;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use App\Repositories\SettingRepository;
-
+use Illuminate\Database\Eloquent\Relations\Relation;
+use App\Models\Flight;
+use App\Models\Pirep;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -15,6 +17,11 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Schema::defaultStringLength(191);
+
+        Relation::morphMap([
+            'flights' => Flight::class,
+            'pireps' => Pirep::class,
+        ]);
 
         $this->app->bind('setting', SettingRepository::class);
 

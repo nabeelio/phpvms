@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\CreatePirepRequest;
 use App\Http\Requests\UpdatePirepRequest;
+use App\Models\Enums\PirepState;
 use App\Repositories\AircraftRepository;
 use App\Repositories\AirlineRepository;
 use App\Repositories\AirportRepository;
@@ -81,7 +82,7 @@ class PirepController extends BaseController
         $this->pirepRepo->pushCriteria($criterea);
 
         $pireps = $this->pirepRepo
-            ->findWhere(['status' => config('enums.pirep_status.PENDING')])
+            ->findWhere(['status' => PirepState::PENDING])
             ->orderBy('created_at', 'desc')
             ->paginate();
 
@@ -211,12 +212,12 @@ class PirepController extends BaseController
      */
     public function status(Request $request)
     {
-        Log::info('PIREP status update call', [$request->toArray()]);
+        Log::info('PIREP state update call', [$request->toArray()]);
 
         $pirep = $this->pirepRepo->findWithoutFail($request->id);
         if($request->isMethod('post')) {
             $new_status = (int) $request->new_status;
-            $pirep = $this->pirepSvc->changeStatus($pirep, $new_status);
+            $pirep = $this->pirepSvc->changeState($pirep, $new_status);
         }
 
         $pirep->refresh();

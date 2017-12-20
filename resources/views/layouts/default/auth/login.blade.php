@@ -1,5 +1,5 @@
 @extends('layouts.default.auth.layout')
-
+@section('title', 'log in')
 @section('content')
 <div class="col-md-4 content-center">
     <div class="card card-login card-plain">

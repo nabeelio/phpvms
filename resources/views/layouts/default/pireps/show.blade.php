@@ -1,6 +1,6 @@
 @extends('layouts.default.app')
 
-@section('title', 'PIREP '.$pirep->getFlightId())
+@section('title', 'PIREP '.$pirep->ident)
 @section('content')
     <div class="row">
         <div class="col-md-12">
@@ -14,9 +14,9 @@
                 <tr>
                     <td>Status</td>
                     <td>
-                        @if($pirep->status == config('enums.pirep_status.PENDING'))
+                        @if($pirep->state == PirepState::PENDING)
                             <div class="badge badge-warning ">Pending</div>
-                        @elseif($pirep->status === config('enums.pirep_status.ACCEPTED'))
+                        @elseif($pirep->state === PirepState::ACCEPTED)
                             <div class="badge badge-success">Accepted</div>
                         @else
                             <div class="badge badge-danger">Rejected</div>

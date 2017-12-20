@@ -59,7 +59,11 @@ class Flight extends Model
         'arr_airport_id' => 'required',
     ];
 
-    public function getFlightIdIataAttribute($value)
+    /**
+     * Get the flight ident, e.,g JBU1900
+     * @param $value
+     */
+    public function getIdentAttribute()
     {
 
     }

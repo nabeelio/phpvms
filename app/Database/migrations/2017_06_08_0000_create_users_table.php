@@ -29,6 +29,7 @@ class CreateUsersTable extends Migration
             $table->decimal('balance', 19)->nullable();
             $table->string('timezone', 64)->nullable();
             $table->unsignedTinyInteger('status')->default(0);
+            $table->unsignedTinyInteger('state')->default(0);
             $table->boolean('active')->nullable();
             $table->rememberToken();
             $table->timestamps();

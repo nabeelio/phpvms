@@ -1,5 +1,5 @@
 @extends('layouts.default.app')
-
+@section('title', 'register')
 @section('content')
 <div class="row">
 <div class="col-sm-4"></div>

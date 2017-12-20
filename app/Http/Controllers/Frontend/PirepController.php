@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Facades\Utils;
+use App\Models\Enums\PirepSource;
 use App\Repositories\Criteria\WhereCriteria;
 use App\Services\PIREPService;
 use Illuminate\Support\Facades\Auth;
@@ -95,7 +96,7 @@ class PirepController extends Controller
             $custom_fields[] = [
                 'name' => $cfield->name,
                 'value' => $field_val,
-                'source' => config('enums.sources.MANUAL')
+                'source' => PirepSource::MANUAL
             ];
         }
 

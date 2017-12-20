@@ -14,9 +14,9 @@
                     </a>
                 </h5>
                 <div>
-                    @if($pirep->status == config('enums.pirep_status.PENDING'))
+                    @if($pirep->state == PirepState::PENDING)
                         <div class="badge badge-warning">Pending</div>
-                    @elseif($pirep->status == config('enums.pirep_status.ACCEPTED'))
+                    @elseif($pirep->state == PirepState::ACCEPTED)
                         <div class="badge badge-success">Accepted</div>
                     @else
                         <div class="badge badge-danger">Rejected</div>

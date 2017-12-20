@@ -1,5 +1,6 @@
 @extends('layouts.default.app')
 
+@section('title', 'flights')
 @section('content')
 <div class="row">
     @include('flash::message')

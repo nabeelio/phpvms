@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Enums\PirepState;
 use App\Models\User;
 use App\Models\Pirep;
 
@@ -9,7 +10,6 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 class PIREPTest extends TestCase
 {
     use WithoutMiddleware;
-    #use DatabaseMigrations;
 
     protected $pirepSvc;
 
@@ -28,9 +28,9 @@ class PIREPTest extends TestCase
         $pirep = $this->pirepSvc->create($pirep, []);
 
         /**
-         * Check the initial status info
+         * Check the initial state info
          */
-        $this->assertEquals($pirep->status, config('enums.pirep_status.PENDING'));
+        $this->assertEquals($pirep->state, PirepState::PENDING);
 
         /**
          * Now set the PIREP state to ACCEPTED
@@ -39,7 +39,7 @@ class PIREPTest extends TestCase
         $original_flight_time = $pirep->pilot->flight_time ;
         $new_flight_time = $pirep->pilot->flight_time + $pirep->flight_time;
 
-        $this->pirepSvc->changeStatus($pirep, '1');
+        $this->pirepSvc->changeState($pirep, PirepState::ACCEPTED);
         $this->assertEquals($new_pirep_count, $pirep->pilot->flights);
         $this->assertEquals($new_flight_time, $pirep->pilot->flight_time);
         $this->assertEquals($pirep->arr_airport_id, $pirep->pilot->curr_airport_id);
@@ -50,10 +50,9 @@ class PIREPTest extends TestCase
          */
         $new_pirep_count = $pirep->pilot->flights - 1;
         $new_flight_time = $pirep->pilot->flight_time - $pirep->flight_time;
-        $this->pirepSvc->changeStatus($pirep, config('enums.pirep_status.REJECTED'));
+        $this->pirepSvc->changeState($pirep, PirepState::REJECTED);
         $this->assertEquals($new_pirep_count, $pirep->pilot->flights);
         $this->assertEquals($new_flight_time, $pirep->pilot->flight_time);
-        //$this->assertEquals(1, $pirep->pilot->rank_id);
         $this->assertEquals($pirep->arr_airport_id, $pirep->pilot->curr_airport_id);
     }
 
@@ -101,7 +100,7 @@ class PIREPTest extends TestCase
         $latest_pirep = Pirep::where('id', $pilot->last_pirep_id)->first();
 
         # Make sure PIREP was auto updated
-        $this->assertEquals(config('enums.pirep_status.ACCEPTED'), $latest_pirep->status);
+        $this->assertEquals(PirepState::ACCEPTED, $latest_pirep->state);
 
         # Make sure latest PIREP was updated
         $this->assertNotEquals($last_pirep->id, $latest_pirep->id);

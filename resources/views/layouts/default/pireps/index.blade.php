@@ -1,5 +1,5 @@
 @extends('layouts.default.app')
-
+@section('title', 'pireps')
 @section('content')
 <div class="row">
     <div class="col-md-12">

@@ -1,5 +1,6 @@
 @extends('layouts.default.app')
 
+@section('title', 'dashboard')
 @section('content')
 <div class="row">
     <div class="col-sm-8">

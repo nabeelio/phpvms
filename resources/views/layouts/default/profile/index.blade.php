@@ -1,5 +1,5 @@
 @extends('layouts.default.app')
-
+@section('title', 'profile')
 @section('content')
 <div class="container profile-page">
         <div class="page-header page-header-small text-color-dark-beige">
