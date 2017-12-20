@@ -4,7 +4,7 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
-            <h2 class="description">{!! $pirep->getFlightId() !!}</h2>
+            <h2 class="description">{!! $pirep->ident !!}</h2>
         </div>
     </div>
 
