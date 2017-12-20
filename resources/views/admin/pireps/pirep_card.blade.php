@@ -6,7 +6,7 @@
                 <h5>
                     <a class="text-c"
                        href="{!! route('admin.pireps.show', [$pirep->id]) !!}">
-                        {!! $pirep->getFlightId() !!}
+                        {!! $pirep->ident !!}
                     </a>
                 </h5>
                 <div>

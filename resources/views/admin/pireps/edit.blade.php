@@ -1,6 +1,6 @@
 @extends('admin.app')
 
-@section('title', 'Edit ' . $pirep->getFlightId() )
+@section('title', 'Edit ' . $pirep->ident )
 @section('content')
 <div class="content">
    @include('adminlte-templates::common.errors')
