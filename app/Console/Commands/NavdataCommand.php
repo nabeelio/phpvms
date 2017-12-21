@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use League\Geotools\Coordinate\Coordinate;
 
 use App\Models\Navdata;
 use App\Models\Enums\NavaidType;
@@ -36,6 +37,7 @@ class NavdataCommand extends Command
 
     /**
      * Read and parse in the navaid file
+     * @throws \League\Geotools\Exception\InvalidArgumentException
      */
     public function read_wp_nav_aid()
     {
@@ -78,17 +80,20 @@ class NavdataCommand extends Command
         $generator = $this->readFile($file_path);
 
         $imported = 0;
+
         foreach($generator as $line) {
+
             $navaid = [
                 'id' => trim(substr($line, 24, 4)), // ident column
                 'name'  => trim(substr($line, 0, 24)),
                 'type'  => trim(substr($line, 29, 4)),
                 'lat'   => trim(substr($line, 33, 9)),
-                'lon'   => trim(substr($line, 44, 10)),
+                'lon'   => trim(substr($line, 43, 11)),
                 'freq'  => trim(substr($line, 54, 6)),
                 'class' => trim($line[60]),
             ];
 
+            # Map to the Navaid enum
             switch($navaid['type'])
             {
                 case 'ILS':
@@ -114,7 +119,17 @@ class NavdataCommand extends Command
                     break;
             }
 
-            Navdata::updateOrCreate(['id' => $navaid['id']], $navaid);
+            #$coord = new Coordinate([$navaid['lat'], $navaid['lon']]);
+            #$navaid['lat'] = $coord->getLatitude();
+            #$navaid['lon'] = $coord->getLongitude();
+
+            if($navaid['id'] === 'LCH' || $navaid['id'] === 'RSG') {
+                print_r($navaid);
+            }
+
+            Navdata::updateOrCreate([
+                'id' => $navaid['id'], 'name' => $navaid['name']
+            ], $navaid);
 
             $imported++;
             if($imported % 100 === 0) {
