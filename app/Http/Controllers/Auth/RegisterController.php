@@ -23,6 +23,14 @@ class RegisterController extends Controller
 
     protected $userService;
 
+
+    public function __construct(
+        UserService $userService
+    ) {
+        $this->userService = $userService;
+        $this->middleware('guest');
+    }
+
     public function showRegistrationForm()
     {
         $airports = Airport::all();
@@ -31,19 +39,6 @@ class RegisterController extends Controller
             'airports' => $airports,
             'airlines' => $airlines,
         ]);
-    }
-
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct(
-        UserService $userService
-    )
-    {
-        $this->userService = $userService;
-        $this->middleware('guest');
     }
 
     /**
