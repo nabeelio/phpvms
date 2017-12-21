@@ -25,6 +25,7 @@ class CreateNavdataTables extends Migration
             $table->float('lon', 7, 4)->default(0.0);
             $table->string('freq', 7)->nullable();
 
+            $table->primary(['id', 'name']);
             $table->index('id');
             $table->index('name');
         });

@@ -74,6 +74,7 @@ const phpvms= (function() {
                 render_elem: 'map',
                 overlay_elem: '',
                 zoom: 5,
+                geodesic: true,
                 layers: [],
                 set_marker: false,
             });
@@ -82,26 +83,27 @@ const phpvms= (function() {
 
             let map = draw_base_map(opts);
 
-            var geodesicLayer = L.geodesic([], {
-                weight: 7,
-                opacity: 0.5,
-                color: '#ff33ee',
-                steps: 50,
-                wrap: false,
-            }).addTo(map);
+            if(opts.geodesic) {
+                let geodesicLayer = L.geodesic([], {
+                    weight: 7,
+                    opacity: 0.5,
+                    color: '#ff33ee',
+                    steps: 50,
+                    wrap: false,
+                }).addTo(map);
 
-            geodesicLayer.geoJson(opts.features)
-            map.fitBounds(geodesicLayer.getBounds());
+                geodesicLayer.geoJson(opts.features)
+                map.fitBounds(geodesicLayer.getBounds());
+            } else {
+                let route = L.geoJSON(opts.features, {
+                    "color": "#ff7800",
+                    "weight": 5,
+                    "opacity": 0.65
+                });
 
-            /*let route = L.geoJSON(opts.features, {
-                "color": "#ff7800",
-                "weight": 5,
-                "opacity": 0.65
-            });*/
-
-            //map.setView(opts.center, opts.zoom);
-            //map.fitBounds(route.getBounds());
-            //route.addTo(map)
+                route.addTo(map);
+                map.fitBounds(route.getBounds());
+            }
         },
 
         /**

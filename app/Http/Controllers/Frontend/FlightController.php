@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Repositories\AirlineRepository;
 use App\Repositories\AirportRepository;
+use App\Services\GeoService;
 use Log;
 
 use Illuminate\Http\Request;
@@ -19,16 +20,21 @@ use Prettus\Repository\Exceptions\RepositoryException;
 
 class FlightController extends AppBaseController
 {
-    private $airlineRepo, $airportRepo, $flightRepo;
+    private $airlineRepo,
+            $airportRepo,
+            $flightRepo,
+            $geoSvc;
 
     public function __construct(
         AirlineRepository $airlineRepo,
         AirportRepository $airportRepo,
-        FlightRepository $flightRepo
+        FlightRepository $flightRepo,
+        GeoService $geoSvc
     ) {
         $this->airlineRepo = $airlineRepo;
         $this->airportRepo = $airportRepo;
         $this->flightRepo = $flightRepo;
+        $this->geoSvc = $geoSvc;
     }
 
     public function index(Request $request)
@@ -110,13 +116,22 @@ class FlightController extends AppBaseController
         }
     }
 
-    public function update()
-    {
-
-    }
-
+    /**
+     * Show the flight information page
+     */
     public function show($id)
     {
+        $flight = $this->flightRepo->find($id);
+        if (empty($flight)) {
+            Flash::error('Flight not found!');
+            return redirect(route('frontend.dashboard.index'));
+        }
 
+        $coords = $this->geoSvc->flightGeoJson($flight);
+
+        return $this->view('flights.show', [
+            'flight' => $flight,
+            'coords' => $coords,
+        ]);
     }
 }

@@ -61,11 +61,15 @@ class Flight extends Model
 
     /**
      * Get the flight ident, e.,g JBU1900
-     * @param $value
      */
     public function getIdentAttribute()
     {
+        $flight_id = $this->airline->code;
+        $flight_id .= $this->flight_number;
 
+        # TODO: Add in code/leg if set
+
+        return $flight_id;
     }
 
     /**

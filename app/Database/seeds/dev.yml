@@ -193,7 +193,7 @@ flights:
     flight_number: 100
     dpt_airport_id: KAUS
     arr_airport_id: KJFK
-    route: KAUS KJFK
+    route: KAUS SID TNV J87 IAH J2 LCH J22 MEI J239 ATL J52 AJFEB J14 BYJAC Q60 JAXSN J14 COLIN J61 HUBBS J55 SIE STAR KJFK
     dpt_time: 6PM CST
     arr_time: 11PM EST
   - id: flightid_2

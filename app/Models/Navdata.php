@@ -20,7 +20,9 @@ class Navdata extends Model
     ];
 
     public $casts = [
-        'id' => 'string',
-        'type' => 'integer',
+        'id'    => 'string',
+        'type'  => 'integer',
+        'lat'   => 'float',
+        'lon'   => 'float',
     ];
 }

@@ -28,7 +28,8 @@ class Airport extends Model
     ];
 
     protected $casts = [
-
+        'lat' => 'float',
+        'lon' => 'float',
     ];
 
     /**
