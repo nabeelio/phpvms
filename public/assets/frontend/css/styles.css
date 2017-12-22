@@ -20,3 +20,21 @@
 .border-blue-bottom {
     border-bottom: 3px solid #067ec1;
 }
+
+.full-height {
+    height: 50vh;
+}
+
+.flex-center {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.position-ref {
+    position: relative;
+}
+
+.m-b-md {
+    margin-bottom: 30px;
+}

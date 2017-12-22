@@ -22,7 +22,7 @@ users:
     flight_time: 43200
     created_at: now
     updated_at: now
-    active: 1
+    state: 1
   - id: 2
     name: Carla Walters
     email: carla.walters68@example.com
@@ -36,7 +36,7 @@ users:
     flight_time: 43200
     created_at: now
     updated_at: now
-    active: 1
+    state: 0
   - id: 3
     name: Raymond Pearson
     email: raymond.pearson56@example.com
@@ -50,7 +50,7 @@ users:
     flight_time: 43200
     created_at: now
     updated_at: now
-    active: 0
+    state: 1
 
 role_user:
   - user_id: 1

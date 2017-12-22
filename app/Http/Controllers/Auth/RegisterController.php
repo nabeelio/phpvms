@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Models\Enums\PilotState;
+use Log;
 use App\Facades\Utils;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -70,14 +72,6 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $this->validate(request(), [
-            'name' => 'required',
-            'email' => 'required|email',
-            'airline' => 'required',
-            'home_airport' => 'required',
-            'password' => 'required|confirmed'
-        ]);
-
         $opts = [
             'name' => $data['name'],
             'email' => $data['email'],
@@ -91,6 +85,32 @@ class RegisterController extends Controller
         $user = User::create($opts);
         $user = $this->userService->createPilot($user);
 
+        Log::info('User registered: ', $user->toArray());
+
         return $user;
+    }
+
+    /**
+     * Handle a registration request for the application.
+     * @throws \RuntimeException
+     */
+    public function register(Request $request)
+    {
+        $this->validate(request(), [
+            'name' => 'required',
+            'email' => 'required|unique:users|email',
+            'airline' => 'required',
+            'home_airport' => 'required',
+            'password' => 'required|confirmed'
+        ]);
+
+        $user = $this->create($request->all());
+
+        if($user->state === PilotState::PENDING) {
+            return $this->view('auth.pending');
+        }
+
+        $this->guard()->login($user);
+        return redirect('/dashboard');
     }
 }

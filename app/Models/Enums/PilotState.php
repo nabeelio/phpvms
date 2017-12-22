@@ -11,14 +11,16 @@ namespace App\Models\Enums;
 
 class PilotState extends EnumBase
 {
-    const PENDING   = 1;
-    const ACTIVE    = 2;
+    const PENDING   = 0;
+    const ACTIVE    = 1;
+    const REJECTED  = 2;
     const ON_LEAVE  = 3;
     const SUSPENDED = 4;
 
     protected static $labels = [
         PilotState::PENDING     => 'Pending',
         PilotState::ACTIVE      => 'Active',
+        PilotState::REJECTED    => 'Rejected',
         PilotState::ON_LEAVE    => 'On Leave',
         PilotState::SUSPENDED   => 'Suspended',
     ];
