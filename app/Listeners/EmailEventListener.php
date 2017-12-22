@@ -1,16 +1,12 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: nabeelshahzad
- * Date: 12/22/17
- * Time: 11:44 AM
- */
 
 namespace App\Listeners;
 
 use Log;
-use \App\Events\UserRegistered;
+use Illuminate\Support\Facades\Mail;
 
+use App\Models\Enums\PilotState;
+use \App\Events\UserRegistered;
 
 /**
  * Handle sending emails on different events
@@ -26,9 +22,22 @@ class EmailEventListener
         );
     }
 
+    /**
+     * Send an email when the user registered
+     * @param UserRegistered $event
+     */
     public function onUserRegister(UserRegistered $event)
     {
-        Log::info($event->user->toArray());
+        Log::info('onUserRegister: '
+                  . $event->user->pilot_id . ' is '
+                  . PilotState::label($event->user->state)
+                  . ', sending active email');
+
+        if($event->user->state === PilotState::ACTIVE) {
+            Mail::to($event->user->email)->send(new \App\Mail\UserRegistered($event->user));
+        } else if($event->user->state === PilotState::PENDING) {
+            Mail::to($event->user->email)->send(new \App\Mail\UserPending($event->user));
+        }
     }
 
 }

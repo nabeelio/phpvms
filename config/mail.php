@@ -57,7 +57,7 @@ return [
 
     'from' => [
         'name' => env('MAIL_FROM_NAME', 'phpVMS Admin'),
-        'address' => env('MAIL_FROM_ADDRESS', ''),
+        'address' => env('MAIL_FROM_ADDRESS', 'no-reply@phpvms.net'),
     ],
 
     /*

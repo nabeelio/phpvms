@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Facades\Utils;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use Validator;
 use App\Models\Airport;
 use App\Models\Airline;
@@ -61,12 +64,12 @@ class RegisterController extends Controller
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param  array  $data
+     * @param  array $data
      * @return \Illuminate\Contracts\Validation\Validator
+     * @throws \RuntimeException
      */
     protected function create(array $data)
     {
-        # First, validate the posted data
         $this->validate(request(), [
             'name' => 'required',
             'email' => 'required|email',
@@ -75,13 +78,19 @@ class RegisterController extends Controller
             'password' => 'required|confirmed'
         ]);
 
-        # Let's tell the service to create the pilot
-        if($p = $this->userService->createPilot($data))
-        {
-            //return $this->view('auth.registered');
-            return $p;
-        }
+        $opts = [
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'api_key' => Utils::generateApiKey(),
+            'airline_id' => $data['airline'],
+            'home_airport_id' => $data['home_airport'],
+            'curr_airport_id' => $data['home_airport'],
+            'password' => Hash::make($data['password'])
+        ];
 
-        # I'm not sure if we really need to add the error something if createPilot fails?
+        $user = User::create($opts);
+        $user = $this->userService->createPilot($user);
+
+        return $user;
     }
 }

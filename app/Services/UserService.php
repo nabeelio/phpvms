@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Events\UserRegistered;
 use App\Facades\Utils;
+use App\Models\Enums\PilotState;
 use App\Models\User;
 use App\Models\Rank;
 use App\Models\Role;
@@ -18,29 +19,19 @@ class UserService extends BaseService
 
     /**
      * Register a pilot
-     * @param array $data
+     * @param User $user
      * @return mixed
      */
-    public function createPilot(array $data)
+    public function createPilot(User $user)
     {
-        $opts = [
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'api_key' => Utils::generateApiKey(),
-            'airline_id' => $data['airline'],
-            'home_airport_id' => $data['home_airport'],
-            'curr_airport_id' => $data['home_airport'],
-            'password' => Hash::make($data['password'])
-        ];
-
         # Determine if we want to auto accept
         if(setting('pilot.auto_accept') === true) {
-            $opts['status'] = config('enums.states.ACTIVE');
+            $user->state = PilotState::ACTIVE;
         } else {
-            $opts['status'] = config('enums.states.PENDING');
+            $user->state = PilotState::PENDING;
         }
 
-        $user = User::create($opts);
+        $user->save();
 
         # Attach the user roles
         $role = Role::where('name', 'user')->first();
@@ -48,6 +39,8 @@ class UserService extends BaseService
 
         # Let's check their rank
         $this->calculatePilotRank($user);
+
+        $user->refresh();
 
         event(new UserRegistered($user));
 
