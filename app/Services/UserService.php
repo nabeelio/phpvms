@@ -54,7 +54,7 @@ class UserService extends BaseService
     public function changeUserState(User $user, $old_state): User
     {
         if($user->state === $old_state) {
-            return;
+            return $user;
         }
 
         Log::info('User ' . $user->pilot_id . ' state changing from '

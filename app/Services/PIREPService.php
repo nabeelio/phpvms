@@ -198,10 +198,11 @@ class PIREPService extends BaseService
         $pilot = $pirep->pilot;
         $pilot->refresh();
 
+        $previous_airport = $pilot->curr_airport_id;
         $pilot->curr_airport_id = $pirep->arr_airport_id;
         $pilot->last_pirep_id = $pirep->id;
         $pilot->save();
 
-        event(new UserStatsChanged($pilot));
+        event(new UserStatsChanged($pilot, 'airport', $previous_airport));
     }
 }

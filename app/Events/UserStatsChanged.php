@@ -17,6 +17,7 @@ class UserStatsChanged
 
     /*
      * When a user's stats change. Stats changed match the field name:
+     *      airport
      *      flights
      *      rank
      */
