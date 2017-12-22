@@ -119,6 +119,7 @@ return [
 
 
         # ENUMS
+        'PilotState' => App\Models\Enums\PilotState::class,
         'PirepSource' => App\Models\Enums\PirepSource::class,
         'PirepState' => App\Models\Enums\PirepState::class,
         'PirepStatus' => App\Models\Enums\PirepStatus::class,

@@ -10,11 +10,11 @@
                 <div class="numbers">
                     <p>{{$type}}</p>
                     @if(isset($link))
-                    <a href="{!! @link !!}">
+                        <a href="{!! $link !!}">
                     @endif
                         {{$pending}} pending
                     @if(isset($link))
-                    </a>
+                        </a>
                     @endif
                 </div>
             </div>

@@ -36,19 +36,15 @@ class UserController extends BaseController
         $this->userRepo = $userRepo;
     }
 
-    /**
-     * Display a listing of the User.
-     *
-     * @param Request $request
-     * @return Response
-     */
     public function index(Request $request)
     {
         $this->userRepo->pushCriteria(new RequestCriteria($request));
-        $Users = $this->userRepo->all();
+        $users = $this->userRepo
+                      ->orderBy('created_at', 'desc')
+                      ->paginate();
 
         return view('admin.users.index', [
-            'users' => $Users,
+            'users' => $users,
         ]);
     }
 

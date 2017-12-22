@@ -11,11 +11,14 @@
             <td>{!! $user->name !!}</td>
             <td>{!! $user->email !!}</td>
             <td class="text-center">
-                @if($user->active == 1)
-                    <span class="label label-success">Active</span>
+                @if($user->state == PilotState::ACTIVE)
+                    <span class="label label-success">
+                @elseif($user->state == PilotState::PENDING)
+                    <span class="label label-warning">
                 @else
-                    <span class="label label-default">Inactive</span>
+                    <span class="label label-default">
                 @endif
+                {!! PilotState::label($user->state) !!}</span>
             </td>
             <td class="text-right">
                 {!! Form::open(['route' => ['admin.users.destroy', $user->id], 'method' => 'delete']) !!}

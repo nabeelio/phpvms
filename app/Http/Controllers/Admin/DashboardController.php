@@ -2,17 +2,21 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Repositories\PirepRepository;
 use Illuminate\Http\Request;
+
+use App\Repositories\PirepRepository;
+use App\Repositories\UserRepository;
 
 class DashboardController extends BaseController
 {
-    private $pirepRepo;
+    private $pirepRepo, $userRepo;
 
     public function __construct(
-        PirepRepository $pirepRepo
+        PirepRepository $pirepRepo,
+        UserRepository $userRepo
     ) {
         $this->pirepRepo = $pirepRepo;
+        $this->userRepo = $userRepo;
     }
 
     /**
@@ -28,6 +32,7 @@ class DashboardController extends BaseController
         return view('admin.dashboard.index', [
             'feed' => $feed,
             'pending_pireps' => $this->pirepRepo->getPendingCount(),
+            'pending_users' => $this->userRepo->getPendingCount(),
         ]);
     }
 }

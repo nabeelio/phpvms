@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Models\Enums\PirepState;
 use App\Models\Pirep;
 use App\Models\User;
 use App\Repositories\Traits\CacheableRepository;
@@ -15,6 +16,7 @@ class PirepRepository extends BaseRepository implements CacheableInterface
         'user_id',
         'flight_id',
         'status',
+        'state',
     ];
 
     public function model()
@@ -46,7 +48,10 @@ class PirepRepository extends BaseRepository implements CacheableInterface
      */
     public function getPendingCount(User $user = null)
     {
-        $where = [];
+        $where = [
+            'state' => PirepState::PENDING,
+        ];
+
         if ($user !== null) {
             $where['user_id'] = $user->id;
         }
