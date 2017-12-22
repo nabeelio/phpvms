@@ -49,7 +49,6 @@ class UserService extends BaseService
         # Let's check their rank
         $this->calculatePilotRank($user);
 
-        # TODO: Send out an email
         event(new UserRegistered($user));
 
         return $user;

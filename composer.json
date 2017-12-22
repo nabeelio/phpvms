@@ -56,7 +56,8 @@
         "mockery/mockery": "0.9.*",
         "filp/whoops": "~2.0",
         "orchestra/testbench": "v3.5.2",
-        "bpocallaghan/generators": "5.0.1"
+        "bpocallaghan/generators": "5.0.1",
+        "laravel/dusk": "^2.0"
     },
     "autoload": {
         "classmap": [
@@ -67,7 +68,8 @@
         ],
         "psr-4": {
             "App\\": "app/",
-            "Modules\\": "modules/"
+            "Modules\\": "modules/",
+            "Tests\\": "tests/"
         }
     },
     "autoload-dev": {
