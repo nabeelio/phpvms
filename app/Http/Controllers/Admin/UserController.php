@@ -2,26 +2,29 @@
 
 namespace App\Http\Controllers\Admin;
 
+use DB;
+use Hash;
+use Log;
+use Flash;
+use Response;
+use Jackiedo\Timezonelist\Facades\Timezonelist;
+use Illuminate\Http\Request;
+
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Repositories\UserRepository;
-use DB;
-use Hash;
-use Illuminate\Http\Request;
-use Flash;
-use Jackiedo\Timezonelist\Facades\Timezonelist;
-use Response;
+use App\Services\UserService;
 
 use App\Models\Airport;
 use App\Models\Airline;
 use App\Models\Rank;
 use App\Models\Role;
 
-
 class UserController extends BaseController
 {
     /** @var  UserRepository */
-    private $userRepo;
+    private $userRepo,
+            $userSvc;
 
     /**
      * UserController constructor.
@@ -29,18 +32,18 @@ class UserController extends BaseController
      * @param UserRepository $userRepo
      */
     public function __construct(
-        UserRepository $userRepo
+        UserRepository $userRepo,
+        UserService $userSvc
     ) {
+        $this->userSvc = $userSvc;
         $this->userRepo = $userRepo;
     }
 
     public function index(Request $request)
     {
-        $users = $this->userRepo->searchCriteria($request, false)->paginate();
-        /*$this->userRepo->pushCriteria(new RequestCriteria($request));
-        $users = $this->userRepo
+        $users = $this->userRepo->searchCriteria($request, false)
                       ->orderBy('created_at', 'desc')
-                      ->paginate();*/
+                      ->paginate();
 
         return view('admin.users.index', [
             'users' => $users,
@@ -146,8 +149,15 @@ class UserController extends BaseController
             $req_data['password'] = Hash::make($req_data['password']);
         }
 
+        $original_user_state = $user->state;
+
         $user = $this->userRepo->update($req_data, $id);
 
+        if($original_user_state !== $user->state) {
+            $this->userSvc->changeUserState($user, $original_user_state);
+        }
+
+        # Delete all of the roles and then re-attach the valid ones
         DB::table('role_user')->where('user_id',$id)->delete();
         foreach ($request->input('roles') as $key => $value) {
             $user->attachRole($value);

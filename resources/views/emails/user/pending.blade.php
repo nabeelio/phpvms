@@ -4,5 +4,5 @@
 You will be notified as soon as your account is approved!
 
 Thanks,<br>
-{{ config('app.name') }}
+Management, {{ config('app.name') }}
 @endcomponent

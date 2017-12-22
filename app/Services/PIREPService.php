@@ -10,7 +10,7 @@ use App\Models\PirepFieldValues;
 use App\Events\PirepAccepted;
 use App\Events\PirepFiled;
 use App\Events\PirepRejected;
-use App\Events\UserStateChanged;
+use App\Events\UserStatsChanged;
 
 use App\Repositories\PirepRepository;
 use Log;
@@ -202,6 +202,6 @@ class PIREPService extends BaseService
         $pilot->last_pirep_id = $pirep->id;
         $pilot->save();
 
-        event(new UserStateChanged($pilot));
+        event(new UserStatsChanged($pilot));
     }
 }

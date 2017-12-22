@@ -50,10 +50,9 @@
 
 <div class="row">
     <div class="form-group col-sm-6">
-        {!! Form::label('active', 'Active:') !!}
+        {!! Form::label('state', 'State:') !!}
         <label class="checkbox-inline">
-            {!! Form::hidden('active', 0, false) !!}
-            {!! Form::checkbox('active', 1, null) !!}
+            {!! Form::select('state', PilotState::labels(), null, ['class' => 'form-control select2']) !!}
         </label>
     </div>
 

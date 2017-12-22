@@ -3,11 +3,11 @@
 namespace App\Mail;
 
 use App\Models\User;
-use Illuminate\Mail\Mailable;
 use Illuminate\Bus\Queueable;
+use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class UserPending extends Mailable
+class UserRejected extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -16,13 +16,13 @@ class UserPending extends Mailable
 
     public function __construct(User $user, $subject=null)
     {
-        $this->subject = $subject ?: 'Your registration is pending!';
+        $this->subject = $subject ?: 'Your registration has been denied';
         $this->user = $user;
     }
 
     public function build()
     {
-        return $this->markdown('emails.user.pending')
+        return $this->markdown('emails.user.rejected')
                     ->subject($this->subject)
                     ->with(['user' => $this->user]);
     }

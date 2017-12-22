@@ -57,6 +57,10 @@ class User extends Authenticatable
         'balance'       => 'double',
     ];
 
+    public static $rules = [
+
+    ];
+
     public function getPilotIdAttribute($value)
     {
         $length = setting('pilots.id_length');

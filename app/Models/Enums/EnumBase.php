@@ -12,7 +12,6 @@ namespace App\Models\Enums;
 /**
  * Class EnumBase
  * @package App\Models\Enums
- * TODO: Implement lang translations for enum labels
  */
 class EnumBase
 {
@@ -28,5 +27,18 @@ class EnumBase
         if(isset(static::$labels[$value])) {
             return trans(static::$labels[$value]);
         }
+    }
+
+    /**
+     * Return all of the (translated) labels
+     */
+    public static function labels()
+    {
+        $labels = [];
+        foreach(static::$labels as $key => $label) {
+            $labels[$key] = trans($label);
+        }
+
+        return $labels;
     }
 }

@@ -8,5 +8,5 @@ Visit your account now!
 @endcomponent
 
 Thanks,<br>
-{{ config('app.name') }}
+Management, {{ config('app.name') }}
 @endcomponent
