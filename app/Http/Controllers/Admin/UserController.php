@@ -8,10 +8,8 @@ use App\Repositories\UserRepository;
 use DB;
 use Hash;
 use Illuminate\Http\Request;
-use Illuminate\Foundation\Http\FormRequest;
 use Flash;
 use Jackiedo\Timezonelist\Facades\Timezonelist;
-use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 
 use App\Models\Airport;
@@ -38,10 +36,11 @@ class UserController extends BaseController
 
     public function index(Request $request)
     {
-        $this->userRepo->pushCriteria(new RequestCriteria($request));
+        $users = $this->userRepo->searchCriteria($request, false)->paginate();
+        /*$this->userRepo->pushCriteria(new RequestCriteria($request));
         $users = $this->userRepo
                       ->orderBy('created_at', 'desc')
-                      ->paginate();
+                      ->paginate();*/
 
         return view('admin.users.index', [
             'users' => $users,

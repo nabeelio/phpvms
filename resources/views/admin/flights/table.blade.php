@@ -4,7 +4,7 @@
         <th>Flight #</th>
         <th>Dep</th>
         <th>Arr</th>
-        <th>Route</th>
+        {{--<th>Route</th>--}}
         <th>Dpt Time</th>
         <th>Arr Time</th>
         <th>Notes</th>
@@ -29,7 +29,7 @@
                     (Alt: {!! $flight->alt_airport->icao !!})
                 @endif
             </td>
-            <td>{!! $flight->route !!}</td>
+            {{--<td>{!! $flight->route !!}</td>--}}
             <td>{!! $flight->dpt_time !!}</td>
             <td>{!! $flight->arr_time !!}</td>
             <td>{!! $flight->notes !!}</td>

@@ -2,19 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Airline;
 use App\Models\FlightFields;
-use App\Models\Airport;
 use App\Http\Requests\CreateFlightRequest;
 use App\Http\Requests\UpdateFlightRequest;
 use App\Repositories\AirlineRepository;
 use App\Repositories\AirportRepository;
 use App\Repositories\FlightRepository;
 use App\Repositories\SubfleetRepository;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 use Flash;
-use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 
 class FlightController extends BaseController

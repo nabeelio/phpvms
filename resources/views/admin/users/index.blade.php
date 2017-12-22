@@ -2,14 +2,16 @@
 
 @section('title', 'Users')
 @section('actions')
-    <li>
-        <a href="{!! route('admin.users.create') !!}">
-            <i class="ti-plus"></i>
-            Add New</a>
+    <li><a href="{!! route('admin.users.index') !!}?search=state:0">
+            <i class="ti-plus"></i>{!! PilotState::label(PilotState::PENDING) !!}</a>
     </li>
 @endsection
 
 @section('content')
+    <div class="card">
+        @include('admin.users.search')
+    </div>
+
     <div class="card">
         @include('admin.users.table')
     </div>

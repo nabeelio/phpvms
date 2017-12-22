@@ -2,12 +2,12 @@
 
 namespace App\Repositories;
 
+use Illuminate\Http\Request;
+use Prettus\Repository\Contracts\CacheableInterface;
+
 use App\Models\Flight;
 use App\Repositories\Criteria\WhereCriteria;
 use App\Repositories\Traits\CacheableRepository;
-use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Request;
-use Prettus\Repository\Contracts\CacheableInterface;
 
 class FlightRepository extends BaseRepository implements CacheableInterface
 {
@@ -28,7 +28,7 @@ class FlightRepository extends BaseRepository implements CacheableInterface
 
     /**
      * Create the search criteria and return this with the stuff pushed
-     * @param FormRequest $request
+     * @param Request $request
      * @param bool $only_active
      * @return $this
      * @throws \Prettus\Repository\Exceptions\RepositoryException
