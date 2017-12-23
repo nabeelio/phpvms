@@ -60,7 +60,7 @@
             </button>
             <p class="navbar-brand text-white" data-placement="bottom" target="_blank">
                 <a href="{!! url('/') !!}">
-                    <img src="/assets/frontend/img/logo_blue_bg.svg" width="135px" style=""/>
+                    <img src="{!! public_asset('assets/frontend/img/logo_blue_bg.svg') !!}" width="135px" style=""/>
                 </a>
             </p>
         </div>
