@@ -23,12 +23,16 @@ class Utils extends Facade
 
     public static function minutesToTimeParts($minutes): array
     {
-        return self::secondsToTimeParts(self::minutesToSeconds($minutes));
+        $hours = floor($minutes / 60);
+        $minutes %= 60;
+
+        return ['h' => $hours, 'm' => $minutes];
     }
 
     public static function minutesToTimeString($minutes): string
     {
-        return self::secondsToTimeString(self::minutesToSeconds($minutes));
+        $hm = self::minutesToTimeParts($minutes);
+        return $hm['h']. 'h '. $hm['m'] . 'm';
     }
 
     /**
@@ -38,8 +42,8 @@ class Utils extends Facade
      */
     public static function secondsToTimeParts($seconds): array
     {
-        $dtF = new \DateTime('@0');
-        $dtT = new \DateTime("@$seconds");
+        $dtF = new \DateTime('@0', new \DateTimeZone('UTC'));
+        $dtT = new \DateTime("@$seconds", new \DateTimeZone('UTC'));
 
         $t = $dtF->diff($dtT);
 

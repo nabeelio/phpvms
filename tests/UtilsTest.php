@@ -25,7 +25,8 @@ class UtilsTest extends TestCase
         $this->assertEquals(['h' => 0, 'm' => 1, 's' => 2], $t);
     }
 
-    public function testSecondsToTime() {
+    public function testSecondsToTime()
+    {
         $t = Utils::secondsToTimeString(3600);
         $this->assertEquals('1h 0m', $t);
 
@@ -37,5 +38,17 @@ class UtilsTest extends TestCase
 
         $t = Utils::secondsToTimeString(3722, true);
         $this->assertEquals('1h 2m 2s', $t);
+    }
+
+    public function testMinutesToTime()
+    {
+        $t = Utils::minutesToTimeParts(65);
+        $this->assertEquals(['h' => 1, 'm' => 5], $t);
+
+        $t = Utils::minutesToTimeString(65);
+        $this->assertEquals('1h 5m', $t);
+
+        $t = Utils::minutesToTimeString(43200);
+        $this->assertEquals('720h 0m', $t);
     }
 }
