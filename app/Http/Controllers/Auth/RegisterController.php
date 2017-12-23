@@ -2,18 +2,21 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Models\Enums\PilotState;
 use Log;
-use App\Facades\Utils;
-use App\Models\User;
-use Illuminate\Support\Facades\Hash;
 use Validator;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
+
+use App\Models\User;
+use App\Facades\Utils;
 use App\Models\Airport;
 use App\Models\Airline;
 use App\Services\UserService;
+use App\Models\Enums\PilotState;
 use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\RegistersUsers;
-use Illuminate\Http\Request;
+use App\Repositories\AirlineRepository;
+use App\Repositories\AirportRepository;
 
 class RegisterController extends Controller
 {
@@ -26,20 +29,27 @@ class RegisterController extends Controller
      */
     protected $redirectTo = '/';
 
-    protected $userService;
+    protected $airlineRepo,
+              $airportRepo,
+              $userService;
 
 
     public function __construct(
+        AirlineRepository $airlineRepo,
+        AirportRepository $airportRepo,
         UserService $userService
     ) {
+        $this->airlineRepo = $airlineRepo;
+        $this->airportRepo = $airportRepo;
         $this->userService = $userService;
         $this->middleware('guest');
     }
 
     public function showRegistrationForm()
     {
-        $airports = Airport::all();
-        $airlines = Airline::all();
+        $airports = $this->airportRepo->selectBoxList();
+        $airlines = $this->airlineRepo->selectBoxList();
+
         return $this->view('auth.register', [
             'airports' => $airports,
             'airlines' => $airlines,
@@ -57,8 +67,8 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',
-            'airline' => 'required',
-            'home_airport' => 'required',
+            'airline_id' => 'required',
+            'home_airport_id' => 'required',
             'password' => 'required|min:5|confirmed',
         ]);
     }
@@ -76,9 +86,9 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'api_key' => Utils::generateApiKey(),
-            'airline_id' => $data['airline'],
-            'home_airport_id' => $data['home_airport'],
-            'curr_airport_id' => $data['home_airport'],
+            'airline_id' => $data['airline_id'],
+            'home_airport_id' => $data['home_airport_id'],
+            'curr_airport_id' => $data['home_airport_id'],
             'password' => Hash::make($data['password'])
         ];
 
@@ -99,8 +109,8 @@ class RegisterController extends Controller
         $this->validate(request(), [
             'name' => 'required',
             'email' => 'required|unique:users|email',
-            'airline' => 'required',
-            'home_airport' => 'required',
+            'airline_id' => 'required',
+            'home_airport_id' => 'required',
             'password' => 'required|confirmed'
         ]);
 
