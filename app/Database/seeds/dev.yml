@@ -18,9 +18,10 @@ users:
     rank_id: 1
     home_airport_id: KAUS
     curr_airport_id: KJFK
+    last_pirep_id: pirepid_3
     flights: 3
     flight_time: 43200
-    last_pirep_id: pirepid_3
+    timezone: America/Chicago
     state: 1
     created_at: now
     updated_at: now
@@ -197,6 +198,8 @@ flights:
     route: KAUS SID TNV J87 IAH J2 LCH J22 MEI J239 ATL J52 AJFEB J14 BYJAC Q60 JAXSN J14 COLIN J61 HUBBS J55 SIE STAR KJFK
     dpt_time: 6PM CST
     arr_time: 11PM EST
+    created_at: NOW
+    updated_at: NOW
   - id: flightid_2
     airline_id: 1
     flight_number: 101
@@ -205,6 +208,8 @@ flights:
     dpt_time: 9AM EST
     arr_time: 12PM CST
     route: KJFK KAUS
+    created_at: NOW
+    updated_at: NOW
   - id: flightid_3
     airline_id: 1
     flight_number: 200
@@ -213,6 +218,8 @@ flights:
     dpt_time: 9AM EST
     arr_time: 12PM CST
     route: KJFK KAUS
+    created_at: NOW
+    updated_at: NOW
   - id: flightid_4
     airline_id: 1
     flight_number: 201
@@ -221,6 +228,8 @@ flights:
     dpt_time: 10AM EST
     arr_time: 1PM CST
     route: KJFK KAUS
+    created_at: NOW
+    updated_at: NOW
   - id: flightid_5
     airline_id: 1
     flight_number: 202
@@ -340,6 +349,8 @@ pireps:
     state: 0
     route: PLMMR2 SPA Q22 BEARI FAK PHLBO3
     notes: just a pilot report
+    created_at: NOW
+    updated_at: NOW
   - id: pirepid_2
     user_id: 1
     airline_id: 1
@@ -351,6 +362,8 @@ pireps:
     state: 0
     route: PLMMR2 SPA Q22 BEARI FAK PHLBO3
     notes: just a pilot report
+    created_at: NOW
+    updated_at: NOW
   - id: pirepid_3
     user_id: 1
     airline_id: 1
@@ -362,6 +375,8 @@ pireps:
     state: 0
     route: PLMMR2 SPA Q22 BEARI FAK PHLBO3
     notes: just a pilot report
+    created_at: NOW
+    updated_at: NOW
 
 pirep_fields:
   - id: 1

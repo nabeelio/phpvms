@@ -4,9 +4,10 @@ namespace App\Http\Controllers\Auth;
 
 use Log;
 use Validator;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Auth\RegistersUsers;
-use Illuminate\Http\Request;
+use Jackiedo\Timezonelist\Facades\Timezonelist;
 
 use App\Models\User;
 use App\Facades\Utils;
@@ -53,6 +54,7 @@ class RegisterController extends Controller
         return $this->view('auth.register', [
             'airports' => $airports,
             'airlines' => $airlines,
+            'timezones' => Timezonelist::toArray(),
         ]);
     }
 

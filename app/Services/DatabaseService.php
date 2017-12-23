@@ -55,7 +55,7 @@ class DatabaseService extends BaseService
 
                 # if any time fields are == to "now", then insert the right time
                 foreach($this->time_fields as $tf) {
-                    if(array_key_exists($tf, $row) && $row[$tf] === 'now') {
+                    if(array_key_exists($tf, $row) && strtolower($row[$tf]) === 'now') {
                         $row[$tf] = $this->time();
                     }
                 }

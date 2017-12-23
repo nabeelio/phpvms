@@ -2,6 +2,7 @@
     <thead>
         <th>Name</th>
         <th>Email</th>
+        <th>Registered</th>
         <th class="text-center">Active</th>
         <th></th>
     </thead>
@@ -10,6 +11,7 @@
         <tr>
             <td>{!! $user->name !!}</td>
             <td>{!! $user->email !!}</td>
+            <td>{!! show_date($user->created_at) !!}</td>
             <td class="text-center">
                 @if($user->state == PilotState::ACTIVE)
                     <span class="label label-success">

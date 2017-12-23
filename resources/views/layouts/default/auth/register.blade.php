@@ -42,6 +42,14 @@
             <p class="text-danger">{{ $errors->first('home_airport_id') }}</p>
             @endif
 
+            <label for="timezone" class="control-label">Timezone</label>
+            <div class="input-group form-group-no-border{{ $errors->has('timezone') ? ' has-danger' : '' }}">
+                {!! Form::select('timezone', $timezones, null, ['id'=>'timezone', 'class' => 'form-control select2' ]); !!}
+            </div>
+            @if ($errors->has('timezone'))
+                <p class="text-danger">{{ $errors->first('timezone') }}</p>
+            @endif
+
             <label for="password" class="control-label">Password</label>
             <div class="input-group form-group-no-border{{ $errors->has('password') ? ' has-danger' : '' }}">
                 {!! Form::password('password', ['class' => 'form-control']) !!}

@@ -178,13 +178,26 @@ class GeoService extends BaseService
      * @param Pirep $pirep
      * @return array
      */
-    public function pirepGeoJson(Pirep $pirep)
+    public function pirepGeoJson($pirep)
     {
         $coords = [];
         $coords[] = [$pirep->dpt_airport->lon, $pirep->dpt_airport->lat];
 
         // TODO: Add markers for the start/end airports
-        // TODO: Read from the ACARS data table
+
+        // TODO: Check if there's data in the ACARS table
+        if (!empty($pirep->route)) {
+            $route_coords = $this->getCoordsFromRoute(
+                $pirep->dpt_airport->icao,
+                $pirep->arr_airport->icao,
+                [$pirep->dpt_airport->lat, $pirep->dpt_airport->lon],
+                $pirep->route);
+
+            // lat, lon needs to be reversed for GeoJSON
+            foreach ($route_coords as $rc) {
+                $coords[] = [$rc[1], $rc[0]];
+            }
+        }
 
         $coords[] = [$pirep->arr_airport->lon, $pirep->arr_airport->lat];
 

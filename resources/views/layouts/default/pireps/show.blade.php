@@ -44,7 +44,7 @@
                 </tr>
 
                 <tr>
-                    <td>Route</td>
+                    <td>Filed Route</td>
                     <td>
                         {!! $pirep->route !!}
                     </td>
@@ -54,6 +54,13 @@
                     <td>Notes</td>
                     <td>
                         {!! $pirep->notes !!}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Filed On</td>
+                    <td>
+                        {!! show_datetime($pirep->created_at) !!}
                     </td>
                 </tr>
 

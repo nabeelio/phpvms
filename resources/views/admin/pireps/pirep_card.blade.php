@@ -21,7 +21,7 @@
             </div>
             <div class="col-sm-10">
                 <div class="row">
-                    <div class="col-sm-4">
+                    <div class="col-sm-6">
                         <div>
                             <span class="description">DEP&nbsp;</span>
                             {!! $pirep->dpt_airport->icao !!}&nbsp;
@@ -41,13 +41,10 @@
                         </div>
                         <div>
                             <span class="description">File Date&nbsp;</span>
-                            {!! $pirep->created_at !!}
+                            {!! show_datetime($pirep->created_at) !!}
                         </div>
                     </div>
-                    <div class="col-sm-4">
-                        <span class="description">more data&nbsp;</span>
-                    </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-6">
                         <span class="description">more data&nbsp;</span>
                     </div>
                 </div>
