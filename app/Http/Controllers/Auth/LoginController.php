@@ -26,15 +26,19 @@ class LoginController extends Controller
         return $this->view('auth/login');
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     */
     protected function sendLoginResponse(Request $request)
     {
-        $request->session()->regenerate();
-        $this->clearLoginAttempts($request);
-
         $user = Auth::user();
 
         // TODO: How to handle ON_LEAVE?
         if($user->state !== PilotState::ACTIVE) {
+
+            Log::info('Trying to login '. $user->pilot_id .', state '
+                      . PilotState::label($user->state));
 
             // Log them out
             $this->guard()->logout();
@@ -43,14 +47,16 @@ class LoginController extends Controller
             // Redirect to one of the error pages
             if($user->state === PilotState::PENDING) {
                 return $this->view('auth.pending');
-            }
-
-            elseif ($user->state === PilotState::REJECTED) {
+            } elseif ($user->state === PilotState::REJECTED) {
                 return $this->view('auth.rejected');
+            } elseif ($user->state === PilotState::SUSPENDED) {
+                return $this->view('auth.suspended');
             }
         }
 
-        return $this->authenticated($request, $this->guard()->user())
-            ?: redirect()->intended($this->redirectPath());
+        $request->session()->regenerate();
+        $this->clearLoginAttempts($request);
+
+        return redirect()->intended($this->redirectPath());
     }
 }

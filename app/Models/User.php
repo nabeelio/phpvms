@@ -55,6 +55,8 @@ class User extends Authenticatable
         'flights'       => 'integer',
         'flight_time'   => 'integer',
         'balance'       => 'double',
+        'state'         => 'integer',
+        'status'        => 'integer',
     ];
 
     public static $rules = [

@@ -59,6 +59,7 @@
             @endif
 
             @include('layouts.default.auth.toc')
+
             <div style="width: 100%; text-align: right; padding-top: 20px;">
                 By registering, you agree to the Term and Conditions<br /><br />
                 {!! Form::submit('Register!', ['class' => 'btn btn-primary']) !!}
