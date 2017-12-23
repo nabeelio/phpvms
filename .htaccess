@@ -1,23 +1,6 @@
 # Disable index view
 Options -Indexes
 
-## Hide a specific file
-#<Files .env>
-#    Order allow,deny
-#    Deny from all
-#</Files>
-#
-#<Files env.php>
-#    Order allow,deny
-#    Deny from all
-#</Files>
-#
-## Hide a specific file
-#<Files storage>
-#    Order allow,deny
-#    Deny from all
-#</Files>
-
 RewriteEngine On
 
 # Deny all these files/folders
