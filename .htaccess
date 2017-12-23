@@ -1,24 +1,48 @@
 # Disable index view
 Options -Indexes
 
-# Hide a specific file
-<Files .env>
-    Order allow,deny
-    Deny from all
-</Files>
-
-<Files env.php>
-    Order allow,deny
-    Deny from all
-</Files>
-
-# Hide a specific file
-<Files storage>
-    Order allow,deny
-    Deny from all
-</Files>
+## Hide a specific file
+#<Files .env>
+#    Order allow,deny
+#    Deny from all
+#</Files>
+#
+#<Files env.php>
+#    Order allow,deny
+#    Deny from all
+#</Files>
+#
+## Hide a specific file
+#<Files storage>
+#    Order allow,deny
+#    Deny from all
+#</Files>
 
 RewriteEngine On
+
+# Deny all these files/folders
+RedirectMatch 403 ^/.git/.*?$
+RedirectMatch 403 ^/.travis/.*?$
+RedirectMatch 403 ^/app/.*?$
+RedirectMatch 403 ^/bootstrap/.*?$
+RedirectMatch 403 ^/config/.*?$
+RedirectMatch 403 ^/modules/.*?$
+RedirectMatch 403 ^/node_modules/.*?$
+RedirectMatch 403 ^/resources/.*?$
+RedirectMatch 403 ^/storage/.*?$
+RedirectMatch 403 ^/tests/.*?$
+RedirectMatch 403 ^/vendor/.*?$
+RedirectMatch 403 ^/.bowerrc$
+RedirectMatch 403 ^/artisan$
+RedirectMatch 403 ^/composer.json
+RedirectMatch 403 ^/composer.lock
+RedirectMatch 403 ^/composer.phar
+RedirectMatch 403 ^/env.php.*?$
+RedirectMatch 403 ^/Makefile
+RedirectMatch 403 ^/package.json
+RedirectMatch 403 ^/package-lock.json
+RedirectMatch 403 ^/phpunit.xml
+RedirectMatch 403 ^/webpack.mix.js
 
 # Redirect Trailing Slashes If Not A Folder...
 RewriteCond %{REQUEST_FILENAME} !-d
