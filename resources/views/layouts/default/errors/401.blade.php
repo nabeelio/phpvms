@@ -1,4 +1,5 @@
 @extends('layouts.default.app')
+@section('title', 'not authorized')
 @section('content')
 <div class="container registered-page">
 <h3>Unauthorized</h3>

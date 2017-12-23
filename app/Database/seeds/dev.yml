@@ -18,11 +18,12 @@ users:
     rank_id: 1
     home_airport_id: KAUS
     curr_airport_id: KJFK
-    flights: 1
+    flights: 3
     flight_time: 43200
+    last_pirep_id: pirepid_3
+    state: 1
     created_at: now
     updated_at: now
-    state: 1
   - id: 2
     name: Carla Walters
     email: carla.walters68@example.com

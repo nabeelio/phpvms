@@ -1,4 +1,5 @@
 @extends('layouts.default.app')
+@section('title', 'not found')
 @section('content')
 <div class="container registered-page">
 <h3>Page Not Found</h3>

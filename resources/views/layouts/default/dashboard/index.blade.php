@@ -22,7 +22,7 @@
                         <div style="float: left; position: absolute; display:block; top: 0px;font-size: 150px">
                             <i class="fa fa-clock-o" style="opacity: .1;"></i>
                         </div>
-                        <h4 class="">{!! \App\Facades\Utils::secondsToTimeString($user->flight_time, false)!!}</h4>
+                        <h4 class="">{!! \App\Facades\Utils::minutesToTimeString($user->flight_time, false)!!}</h4>
                         <h5 class="description" style="color: white;">total hours</h5>
                     </div>
                 </div>
@@ -41,17 +41,21 @@
             </div>
         </div>
 
+        @if($last_pirep === null)
         <div class="card">
             <div class="nav nav-tabs" role="tablist" style="background: #067ec1; color: #FFF;">
                 Your Last Report
             </div>
-            <div class="card-block">
-                <!-- Tab panes -->
-                <div class="tab-content">
-
-                </div>
+            <div class="card-block" style="text-align:center;">
+                    No reports yet. <a href="{!! route('frontend.pireps.create') !!}">File one now.</a>
             </div>
         </div>
+        @else
+            <div class="nav nav-tabs" role="tablist" style="background: #067ec1; color: #FFF;">
+                Your Last Report
+            </div>
+            @include('layouts.default.pireps.pirep_card', ['pirep' => $last_pirep])
+        @endif
 
         <div class="card">
             <div class="nav nav-tabs" role="tablist" style="background: #067ec1; color: #FFF;">

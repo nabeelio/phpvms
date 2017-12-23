@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use Log;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
@@ -17,7 +18,7 @@ class Handler extends ExceptionHandler
         \Illuminate\Auth\AuthenticationException::class,
         \Illuminate\Auth\Access\AuthorizationException::class,
         \Symfony\Component\HttpKernel\Exception\HttpException::class,
-        \Illuminate\Database\Eloquent\ModelNotFoundException::class,
+        #\Illuminate\Database\Eloquent\ModelNotFoundException::class,
         \Illuminate\Session\TokenMismatchException::class,
         \Illuminate\Validation\ValidationException::class,
     ];
@@ -80,7 +81,10 @@ class Handler extends ExceptionHandler
             __DIR__ . '/views',
         ]);
 
+        Log::info('error status '. $status);
+
         if (view()->exists("errors::{$status}")) {
+        #if (view()->exists('layouts' . config('phpvms.skin') .'.errors.' .$status)) {
             return response()->view("errors::{$status}", ['exception' => $e], $status, $e->getHeaders());
         } else {
             return $this->convertExceptionToResponse($e);
