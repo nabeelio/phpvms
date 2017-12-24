@@ -33,11 +33,23 @@ class InstallerController extends AppBaseController
      */
     public function index()
     {
-        if(config('app.key') !== 'base64:zdgcDqu9PM8uGWCtMxd74ZqdGJIrnw812oRMmwDF6KY=') {
+        /*if(config('app.key') !== 'base64:zdgcDqu9PM8uGWCtMxd74ZqdGJIrnw812oRMmwDF6KY=') {
             return view('installer::errors/already-installed');
-        }
+        }*/
 
         return view('installer::index-start');
+    }
+
+    protected function testDb(Request $request)
+    {
+        $this->dbService->checkDbConnection(
+            $request->input('db_conn'),
+            $request->input('db_host'),
+            $request->input('db_port'),
+            $request->input('db_name'),
+            $request->input('db_user'),
+            $request->input('db_pass')
+        );
     }
 
     /**
@@ -49,14 +61,7 @@ class InstallerController extends AppBaseController
         $message = 'Database connection looks good!';
 
         try {
-            $this->dbService->checkDbConnection(
-                $request->input('db_conn'),
-                $request->input('db_host'),
-                $request->input('db_port'),
-                $request->input('db_name'),
-                $request->input('db_user'),
-                $request->input('db_pass')
-            );
+            $this->testDb($request);
         } catch (\Exception $e) {
             $status = 'danger';
             $message = 'Failed! ' . $e->getMessage();
@@ -129,6 +134,16 @@ class InstallerController extends AppBaseController
     {
         Log::info('ENV setup', $request->toArray());
 
+        // Before writing out the env file, test the DB credentials
+        try {
+            $this->testDb($request);
+        } catch (\Exception $e) {
+            flash()->error($e->getMessage());
+            return redirect(route('installer.step2'))->withInput();
+        }
+
+        // Now write out the env file
+
         try {
             $this->envService->createEnvFile(
                 $request->input('db_conn'),
@@ -140,7 +155,7 @@ class InstallerController extends AppBaseController
             );
         } catch(FileException $e) {
             flash()->error($e->getMessage());
-            return redirect(route('installer.step2'));
+            return redirect(route('installer.step2'))->withInput();
         }
 
         # Needs to redirect so it can load the new .env
@@ -157,7 +172,7 @@ class InstallerController extends AppBaseController
             $console_out = $this->dbService->setupDB($request->input('db_conn'));
         } catch(QueryException $e) {
             flash()->error($e->getMessage());
-            return redirect(route('installer.step2'));
+            return redirect(route('installer.step2'))->withInput();
         }
 
         return view('installer::steps/step2a-completed', [
