@@ -1,5 +1,5 @@
 @extends('layouts.default.app')
-
+@section('title', 'welcome!')
 @section('content')
     <div class="row">
         <div class="col-sm-12">
