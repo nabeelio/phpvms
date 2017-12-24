@@ -110,7 +110,7 @@ class RegisterController extends Controller
     {
         $this->validate(request(), [
             'name' => 'required',
-            'email' => 'required|unique:users|email',
+            'email' => 'required|email|unique:users,email',
             'airline_id' => 'required',
             'home_airport_id' => 'required',
             'password' => 'required|confirmed'
