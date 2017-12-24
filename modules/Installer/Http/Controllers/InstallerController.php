@@ -33,9 +33,9 @@ class InstallerController extends AppBaseController
      */
     public function index()
     {
-        /*if(config('app.key') !== 'base64:zdgcDqu9PM8uGWCtMxd74ZqdGJIrnw812oRMmwDF6KY=') {
+        if(config('app.key') !== 'base64:zdgcDqu9PM8uGWCtMxd74ZqdGJIrnw812oRMmwDF6KY=') {
             return view('installer::errors/already-installed');
-        }*/
+        }
 
         return view('installer::index-start');
     }
