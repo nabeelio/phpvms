@@ -42,4 +42,16 @@ class NavaidType extends EnumBase
         NavaidType::ANY_VOR => 'VOR',
         NavaidType::ANY_LOC => 'Localizer',
     ];
+
+    public static $icons = [
+        NavaidType::VOR     => 'VOR',
+        NavaidType::VOR_DME => 'VOR DME',
+        NavaidType::LOC     => 'Localizer',
+        NavaidType::LOC_DME => 'Localizer DME',
+        NavaidType::NDB     => 'Non-directional Beacon',
+        NavaidType::TACAN   => 'TACAN',
+        NavaidType::UNKNOWN => 'Unknown',
+        NavaidType::ANY_VOR => 'VOR',
+        NavaidType::ANY_LOC => 'Localizer',
+    ];
 }

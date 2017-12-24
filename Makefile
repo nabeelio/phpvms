@@ -59,6 +59,7 @@ reset: clean
 reload-db:
 	@php artisan database:create --reset
 	@php artisan migrate:refresh --seed
+	@php artisan phpvms:navdata
 
 .PHONY: tests
 tests: test

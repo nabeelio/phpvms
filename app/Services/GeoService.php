@@ -3,16 +3,17 @@
 namespace App\Services;
 
 use Log;
-//use \League\Geotools\Geotools;
-use App\Models\Flight;
-use App\Repositories\NavdataRepository;
+
+use \GeoJson\Geometry\Point;
 use \GeoJson\Geometry\LineString;
 use \GeoJson\Feature\Feature;
 use \GeoJson\Feature\FeatureCollection;
 
-use League\Flysystem\Exception;
 use \League\Geotools\Geotools;
 use \League\Geotools\Coordinate\Coordinate;
+
+use App\Models\Flight;
+use App\Repositories\NavdataRepository;
 
 /**
  * Return all of the coordinates, start to finish
@@ -32,7 +33,6 @@ class GeoService extends BaseService
     {
         $this->navRepo = $navRepo;
     }
-
 
     public function getClosestCoords($coordStart, $all_coords, $measure='flat')
     {
@@ -92,39 +92,41 @@ class GeoService extends BaseService
                 if($size === 0) {
                     continue;
                 } else if($size === 1) {
-
                     $point = $points[0];
-
                     Log::info('name: ' . $point->id . ' - ' . $point->lat . 'x' . $point->lon);
-
-                    $coords[] = [
-                        $point->lat,
-                        $point->lon,
-                    ];
-
+                    $coords[] = $point;
                     continue;
                 }
 
                 # Find the point with the shortest distance
                 Log::info('found ' . $size . ' for '. $route_point);
 
-                $potential_coords = [];
-                foreach($points as $point) {
-                    #Log::debug('name: ' . $point->id . ' - '.$point->lat .'x'.$point->lon);
-                    $potential_coords[] = [$point->lat, $point->lon];
-                }
-
                 # Get the start point and then reverse the lat/lon reference
                 # If the first point happens to have multiple possibilities, use
                 # the starting point that was passed in
-                if(\count($coords) > 0) {
+                if (\count($coords) > 0) {
                     $start_point = $coords[\count($coords) - 1];
-                    $start_point = [$start_point[0], $start_point[1]];
+                    $start_point = [$start_point->lat, $start_point->lon];
                 } else {
                     $start_point = $start_coords;
                 }
 
-                $coords[] = $this->getClosestCoords($start_point, $potential_coords);
+                # Put all of the lat/lon sets into an array to pick of what's clsest
+                # to the starting point
+                $potential_coords = [];
+                foreach($points as $point) {
+                    $potential_coords[] = [$point->lat, $point->lon];
+                }
+
+                # returns an array with the closest lat/lon to start point
+                $closest_coords = $this->getClosestCoords($start_point, $potential_coords);
+                foreach($points as $point) {
+                    if($point->lat === $closest_coords[0] && $point->lon === $closest_coords[1]) {
+                        break;
+                    }
+                }
+
+                $coords[] = $point;
 
             } catch (\Exception $e) {
                 Log::error($e);
@@ -142,34 +144,56 @@ class GeoService extends BaseService
      */
     public function flightGeoJson(Flight $flight): array
     {
-        $coords = [];
-        $coords[] = [$flight->dpt_airport->lon, $flight->dpt_airport->lat];
+        $route_coords = [];
+        $route_points = [];
+        #$features = [];
 
-        // TODO: Add markers for the start/end airports
-        // TODO: Read from the ACARS data table
+        ## Departure Airport
+        $route_coords[] = [$flight->dpt_airport->lon, $flight->dpt_airport->lat];
+
+        $route_points[] = new Feature(
+            new Point([$flight->dpt_airport->lon, $flight->dpt_airport->lat]), [
+                'name'  => $flight->dpt_airport->icao,
+                'popup' => $flight->dpt_airport->full_name,
+                'icon'  => 'airport',
+            ]
+        );
+
         if($flight->route) {
-            $route_coords =$this->getCoordsFromRoute(
+            $all_route_points = $this->getCoordsFromRoute(
                 $flight->dpt_airport->icao,
                 $flight->arr_airport->icao,
                 [$flight->dpt_airport->lat, $flight->dpt_airport->lon],
                 $flight->route);
 
             // lat, lon needs to be reversed for GeoJSON
-            foreach($route_coords as $rc) {
-                $coords[] = [$rc[1], $rc[0]];
+            foreach($all_route_points as $point) {
+                $route_coords[] = [$point->lon, $point->lat];
+                $route_points[] = new Feature(new Point([$point->lon, $point->lat]), [
+                    'name'  => $point->name,
+                    'popup' => $point->name . ' (' . $point->name . ')',
+                    'icon'  => ''
+                ]);
             }
         }
 
-        $coords[] = [$flight->arr_airport->lon, $flight->arr_airport->lat];
+        ## Arrival Airport
+        $route_coords[] = [$flight->arr_airport->lon, $flight->arr_airport->lat,];
 
-        $line = new LineString($coords);
+        $route_points[] = new Feature(
+            new Point([$flight->arr_airport->lon, $flight->arr_airport->lat]), [
+                'name'  => $flight->arr_airport->icao,
+                'popup' => $flight->arr_airport->full_name,
+                'icon'  => 'airport',
+            ]
+        );
 
-        $features = new FeatureCollection([
-            new Feature($line, [], 1)
-        ]);
+        $route_points = new FeatureCollection($route_points);
+        $planned_route_line = new FeatureCollection([new Feature(new LineString($route_coords), [])]);
 
         return [
-            'features' => $features,
+            'route_points' => $route_points,
+            'planned_route_line' => $planned_route_line,
         ];
     }
 
@@ -180,35 +204,60 @@ class GeoService extends BaseService
      */
     public function pirepGeoJson($pirep)
     {
-        $coords = [];
-        $coords[] = [$pirep->dpt_airport->lon, $pirep->dpt_airport->lat];
+        $route_points = [];
+        $planned_rte_coords = [];
+
+        $planned_rte_coords[] = [$pirep->dpt_airport->lon, $pirep->dpt_airport->lat];
+        $route_points[] = new Feature(
+            new Point([$pirep->dpt_airport->lon, $pirep->dpt_airport->lat]), [
+                'name' => $pirep->dpt_airport->icao,
+                'popup' => $pirep->dpt_airport->full_name,
+                'icon' => 'airport',
+            ]
+        );
 
         // TODO: Add markers for the start/end airports
 
         // TODO: Check if there's data in the ACARS table
         if (!empty($pirep->route)) {
-            $route_coords = $this->getCoordsFromRoute(
+            $all_route_points = $this->getCoordsFromRoute(
                 $pirep->dpt_airport->icao,
                 $pirep->arr_airport->icao,
                 [$pirep->dpt_airport->lat, $pirep->dpt_airport->lon],
                 $pirep->route);
 
             // lat, lon needs to be reversed for GeoJSON
-            foreach ($route_coords as $rc) {
-                $coords[] = [$rc[1], $rc[0]];
+            foreach ($all_route_points as $point) {
+                $planned_rte_coords[] = [$point->lon, $point->lat];
+                $route_points[] = new Feature(new Point([$point->lon, $point->lat]), [
+                    'name' => $point->name,
+                    'popup' => $point->name . ' (' . $point->name . ')',
+                    'icon' => ''
+                ]);
             }
         }
 
-        $coords[] = [$pirep->arr_airport->lon, $pirep->arr_airport->lat];
+        $planned_rte_coords[] = [$pirep->arr_airport->lon, $pirep->arr_airport->lat];
+        $route_points[] = new Feature(
+            new Point([$pirep->arr_airport->lon, $pirep->arr_airport->lat]), [
+                'name' => $pirep->arr_airport->icao,
+                'popup' => $pirep->arr_airport->full_name,
+                'icon' => 'airport',
+            ]
+        );
 
-        $line = new LineString($coords);
+        $route_points = new FeatureCollection($route_points);
 
-        $features = new FeatureCollection([
-            new Feature($line, [], 1)
+        $planned_route_line = new LineString($planned_rte_coords);
+
+        $planned_route = new FeatureCollection([
+            new Feature($planned_route_line, [], 1)
         ]);
 
         return [
-            'features' => $features,
+            'actual_route' => false,
+            'route_points' => $route_points,
+            'planned_route_line' => $planned_route,
         ];
     }
 

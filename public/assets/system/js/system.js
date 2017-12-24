@@ -60,6 +60,21 @@ const phpvms= (function() {
         return map;
     };
 
+
+    /**
+     * Show some popup text when a feature is clicked on
+     * @param feature
+     * @param layer
+     */
+    const onFeaturePointClick = (feature, layer) => {
+        let popup_html = "";
+        if (feature.properties && feature.properties.popup) {
+            popup_html += feature.properties.popup;
+        }
+
+        layer.bindPopup(popup_html);
+    };
+
     return {
 
         /**
@@ -69,7 +84,9 @@ const phpvms= (function() {
         render_route_map: (opts) => {
 
             opts = _.defaults(opts, {
-                features: null,   // [ {name, lat, lon}, {name, lat, lon} ];
+                route_points: null,
+                planned_route_line: null,   // [ {name, lat, lon}, {name, lat, lon} ];
+                actual_route_line: null,
                 center: [],
                 render_elem: 'map',
                 overlay_elem: '',
@@ -78,8 +95,6 @@ const phpvms= (function() {
                 layers: [],
                 set_marker: false,
             });
-
-            console.log(opts.features);
 
             let map = draw_base_map(opts);
 
@@ -92,10 +107,10 @@ const phpvms= (function() {
                     wrap: false,
                 }).addTo(map);
 
-                geodesicLayer.geoJson(opts.features)
+                geodesicLayer.geoJson(opts.planned_route_line);
                 map.fitBounds(geodesicLayer.getBounds());
             } else {
-                let route = L.geoJSON(opts.features, {
+                let route = L.geoJSON(opts.planned_route_line, {
                     "color": "#ff7800",
                     "weight": 5,
                     "opacity": 0.65
@@ -103,6 +118,31 @@ const phpvms= (function() {
 
                 route.addTo(map);
                 map.fitBounds(route.getBounds());
+            }
+
+            // Draw the route points after
+            if (opts.route_points !== null) {
+                console.log(opts.route_points);
+                let route_points = L.geoJSON(opts.route_points, {
+                    onEachFeature: onFeaturePointClick,
+                    style: {
+                        "color": "#1bff00",
+                        "weight": 5,
+                        "opacity": 0.65,
+                    },
+                    pointToLayer: function (feature, latlng) {
+                        return L.circleMarker(latlng, {
+                            radius: 12,
+                            fillColor: "#ff7800",
+                            color: "#000",
+                            weight: 1,
+                            opacity: 1,
+                            fillOpacity: 0.8
+                        });
+                    }
+                });
+
+                route_points.addTo(map);
             }
         },
 

@@ -127,11 +127,11 @@ class FlightController extends AppBaseController
             return redirect(route('frontend.dashboard.index'));
         }
 
-        $coords = $this->geoSvc->flightGeoJson($flight);
+        $map_features = $this->geoSvc->flightGeoJson($flight);
 
         return $this->view('flights.show', [
             'flight' => $flight,
-            'coords' => $coords,
+            'map_features' => $map_features,
         ]);
     }
 }

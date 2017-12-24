@@ -120,11 +120,11 @@ class PirepController extends Controller
             return redirect(route('frontend.pirep.index'));
         }
 
-        $coords = $this->geoSvc->pirepGeoJson($pirep);
+        $map_featuers = $this->geoSvc->pirepGeoJson($pirep);
 
         return $this->view('pireps.show', [
             'pirep' => $pirep,
-            'coords' => $coords,
+            'map_features' => $map_featuers,
         ]);
     }
 }
