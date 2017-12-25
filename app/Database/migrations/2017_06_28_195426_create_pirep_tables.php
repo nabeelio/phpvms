@@ -1,5 +1,8 @@
 <?php
 
+use App\Models\Enums\PirepState;
+use App\Models\Enums\PirepStatus;
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
@@ -24,14 +27,16 @@ class CreatePirepTables extends Migration
             $table->string('route_leg', 5)->nullable();
             $table->string('dpt_airport_id', 5);
             $table->string('arr_airport_id', 5);
-            $table->unsignedDecimal('flight_time', 19);
+            $table->unsignedInteger('altitude')->nullable();
+            $table->unsignedDecimal('flight_time', 19)->nullable();
+            $table->unsignedDecimal('planned_flight_time', 19)->nullable();
             $table->unsignedDecimal('gross_weight', 19)->nullable();
             $table->unsignedDecimal('fuel_used', 19)->nullable();
-            $table->string('route', 250)->nullable();
-            $table->string('notes', 250)->nullable();
+            $table->text('route')->nullable();
+            $table->text('notes')->nullable();
             $table->unsignedTinyInteger('source')->default(0);
-            $table->tinyInteger('state')->default(0);  # -1 rejected, 0 pending, 1 accepted
-            #$table->tinyInteger('status')->default(0);  # -1 rejected, 0 pending, 1 accepted
+            $table->tinyInteger('state')->default(PirepState::PENDING);
+            $table->tinyInteger('status')->default(PirepStatus::SCHEDULED);
             $table->longText('raw_data')->nullable();
             $table->timestamps();
             $table->softDeletes();

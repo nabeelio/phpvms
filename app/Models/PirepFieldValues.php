@@ -2,14 +2,12 @@
 
 namespace App\Models;
 
-use Eloquent as Model;
-
 /**
  * Class PirepField
  *
  * @package App\Models
  */
-class PirepFieldValues extends Model
+class PirepFieldValues extends BaseModel
 {
     public $table = 'pirep_field_values';
 

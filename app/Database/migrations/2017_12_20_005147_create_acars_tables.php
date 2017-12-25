@@ -14,22 +14,24 @@ class CreateAcarsTables extends Migration
     public function up()
     {
         Schema::create('acars', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->string('id', 12);
             $table->string('pirep_id', 12);
             $table->string('name', 10)->nullable();
             $table->float('lat', 7, 4)->default(0.0);
             $table->float('lon', 7, 4)->default(0.0);
-
-            # TODO: More columns here for what might be required
-
-            # polymorphic relation columns.
-            # parent_type can be flight, pirep or acars
-            # once
-            #$table->unsignedBigInteger('parent_id');
-            #$table->string('parent_type');
+            $table->unsignedInteger('heading')->nullable();
+            $table->unsignedInteger('altitude')->nullable();
+            $table->integer('vs')->nullable();
+            $table->unsignedInteger('gs')->nullable();
+            $table->unsignedInteger('transponder')->nullable();
+            $table->string('autopilot')->nullable();
+            $table->decimal('fuel_flow')->nullable();
+            $table->dateTimeTz('sim_time')->nullable();
 
             $table->timestamps();
 
+            $table->primary('id');
+            $table->index('pirep_id');
             $table->index('created_at');
         });
     }

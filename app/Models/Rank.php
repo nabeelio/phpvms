@@ -2,13 +2,11 @@
 
 namespace App\Models;
 
-use Eloquent as Model;
-
 /**
  * Class Ranking
  * @package App\Models
  */
-class Rank extends Model
+class Rank extends BaseModel
 {
 
     public $table = 'ranks';
@@ -29,9 +27,9 @@ class Rank extends Model
     protected $casts = [
         'name' => 'string',
         'hours' => 'integer',
-        'auto_approve_acars' => 'integer',
-        'auto_approve_manual' => 'integer',
-        'auto_promote' => 'integer',
+        'auto_approve_acars' => 'bool',
+        'auto_approve_manual' => 'bool',
+        'auto_promote' => 'bool',
     ];
 
     /**

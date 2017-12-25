@@ -2,11 +2,9 @@
 
 namespace App\Models;
 
-use Eloquent as Model;
-
 use App\Models\Traits\HashId;
 
-class Flight extends Model
+class Flight extends BaseModel
 {
     use HashId;
 

@@ -8,10 +8,8 @@ use App\Models\User;
 use App\Repositories\Traits\CacheableRepository;
 use Prettus\Repository\Contracts\CacheableInterface;
 
-class PirepRepository extends BaseRepository implements CacheableInterface
+class PirepRepository extends BaseRepository
 {
-    use CacheableRepository;
-
     protected $fieldSearchable = [
         'user_id',
         'flight_id',

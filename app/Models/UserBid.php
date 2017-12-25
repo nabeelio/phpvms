@@ -2,12 +2,10 @@
 
 namespace App\Models;
 
-use Eloquent as Model;
-
 /**
  * @package App\Models
  */
-class UserBid extends Model
+class UserBid extends BaseModel
 {
     public $table = 'user_bids';
 

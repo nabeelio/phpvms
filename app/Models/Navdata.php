@@ -2,9 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
-class Navdata extends Model
+class Navdata extends BaseModel
 {
     public $table = 'navdata';
     public $timestamps = false;

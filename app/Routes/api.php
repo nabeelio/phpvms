@@ -24,6 +24,13 @@ Route::group([], function ()
     Route::match(['get'], 'flights/{id}', 'FlightController@get');
 
     Route::match(['get'], 'pirep/{id}', 'PirepController@get');
+    Route::match(['post'], 'pirep/prefile', 'PirepController@prefile');
+
+    Route::match(['get'], 'pirep/{id}/acars', 'PirepController@acars_get');
+    Route::match(['post'], 'pirep/{id}/acars', 'PirepController@acars_store');
+
+    Route::match(['get'], 'acars', 'AcarsController@index');
+    Route::match(['get'], 'acars/geojson', 'AcarsController@geojson');
 
     # This is the info of the user whose token is in use
     Route::match(['get'], 'user', 'UserController@index');

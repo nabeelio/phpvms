@@ -346,7 +346,7 @@ pireps:
     dpt_airport_id: KAUS
     arr_airport_id: KJFK
     flight_time: 180  # 6 hours
-    state: 0
+    state: 1
     route: PLMMR2 SPA Q22 BEARI FAK PHLBO3
     notes: just a pilot report
     created_at: NOW
@@ -359,7 +359,7 @@ pireps:
     dpt_airport_id: KJFK
     arr_airport_id: KAUS
     flight_time: 180  # 6 hours
-    state: 0
+    state: 1
     route: PLMMR2 SPA Q22 BEARI FAK PHLBO3
     notes: just a pilot report
     created_at: NOW
@@ -372,7 +372,7 @@ pireps:
     dpt_airport_id: KJFK
     arr_airport_id: KAUS
     flight_time: 180  # 6 hours
-    state: 0
+    state: 1
     route: PLMMR2 SPA Q22 BEARI FAK PHLBO3
     notes: just a pilot report
     created_at: NOW

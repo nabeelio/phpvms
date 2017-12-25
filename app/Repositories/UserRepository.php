@@ -2,17 +2,13 @@
 namespace App\Repositories;
 
 use Illuminate\Http\Request;
-use Prettus\Repository\Contracts\CacheableInterface;
 
 use App\Models\User;
 use App\Models\Enums\PilotState;
 use App\Repositories\Criteria\WhereCriteria;
-use App\Repositories\Traits\CacheableRepository;
 
-class UserRepository extends BaseRepository implements CacheableInterface
+class UserRepository extends BaseRepository
 {
-    use CacheableRepository;
-
     protected $fieldSearchable = [
         'name' => 'like',
         'email' => 'like',

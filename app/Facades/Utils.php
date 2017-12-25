@@ -103,11 +103,17 @@ class Utils extends Facade
 
     /**
      * @param $hours
+     * @param null $minutes
      * @return float|int
      */
-    public static function hoursToMinutes($hours)
+    public static function hoursToMinutes($hours, $minutes=null)
     {
-        return $hours * 60;
+        $total = (int) $hours * 60;
+        if($minutes) {
+            $total += (int) $minutes;
+        }
+
+        return $total;
     }
 
     /**

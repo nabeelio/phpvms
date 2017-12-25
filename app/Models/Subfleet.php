@@ -2,13 +2,11 @@
 
 namespace App\Models;
 
-use Eloquent as Model;
-
 /**
  * Class Subfleet
  * @package App\Models
  */
-class Subfleet extends Model
+class Subfleet extends BaseModel
 {
     public $table = 'subfleets';
     protected $dates = ['deleted_at'];

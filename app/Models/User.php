@@ -37,6 +37,7 @@ class User extends Authenticatable
         'airline_id',
         'home_airport_id',
         'curr_airport_id',
+        'last_pirep_id',
         'rank_id',
         'timezone',
         'state',
@@ -94,6 +95,11 @@ class User extends Authenticatable
     public function current_airport()
     {
         return $this->belongsTo('App\Models\Airport', 'curr_airport_id');
+    }
+
+    public function last_pirep()
+    {
+        return $this->belongsTo('App\Models\Pirep', 'last_pirep_id');
     }
 
     public function bids()

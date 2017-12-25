@@ -2,13 +2,11 @@
 
 namespace App\Models;
 
-use Eloquent as Model;
-
 /**
  * Class Airport
  * @package App\Models
  */
-class Airport extends Model
+class Airport extends BaseModel
 {
     public $table = 'airports';
     public $timestamps = false;

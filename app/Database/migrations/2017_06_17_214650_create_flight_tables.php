@@ -22,10 +22,10 @@ class CreateFlightTables extends Migration
             $table->string('dpt_airport_id', 5);
             $table->string('arr_airport_id', 5);
             $table->string('alt_airport_id', 5)->nullable();
-            $table->text('route')->nullable();
             $table->string('dpt_time', 10)->nullable();
             $table->string('arr_time', 10)->nullable();
             $table->unsignedDecimal('flight_time', 19)->nullable();
+            $table->text('route')->nullable();
             $table->text('notes')->nullable();
             $table->boolean('has_bid')->default(false);
             $table->boolean('active')->default(true);

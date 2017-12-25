@@ -65,6 +65,7 @@ class PIREPTest extends TestCase
 
         # Submit two PIREPs
         $pireps = factory(Pirep::class, 2)->create([
+            'airline_id' => 1,
             'user_id' => 1,
             # 360min == 6 hours, rank should bump up
             'flight_time' => 360,
@@ -87,6 +88,7 @@ class PIREPTest extends TestCase
         # it should automatically be accepted
         #
         $pirep = factory(Pirep::class)->create([
+            'airline_id' => 1,
             'user_id' => 1,
             # 120min == 2 hours, currently at 9 hours
             # Rank bumps up at 10 hours

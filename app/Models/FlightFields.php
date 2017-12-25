@@ -2,14 +2,12 @@
 
 namespace App\Models;
 
-use Eloquent as Model;
-
 /**
  * Class Flight
  *
  * @package App\Models
  */
-class FlightFields extends Model
+class FlightFields extends BaseModel
 {
 
     public $table = 'flight_fields';

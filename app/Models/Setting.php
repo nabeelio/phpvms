@@ -8,9 +8,7 @@
 
 namespace App\Models;
 
-use Eloquent as Model;
-
-class Setting extends Model
+class Setting extends BaseModel
 {
     public $table = 'settings';
 

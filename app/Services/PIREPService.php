@@ -12,6 +12,7 @@ use App\Events\PirepFiled;
 use App\Events\PirepRejected;
 use App\Events\UserStatsChanged;
 
+use App\Models\User;
 use App\Repositories\PirepRepository;
 use Log;
 
@@ -48,10 +49,15 @@ class PIREPService extends BaseService
 
         # Figure out what default state should be. Look at the default
         # behavior from the rank that the pilot is assigned to
+        $default_state = PirepState::PENDING;
         if($pirep->source === PirepSource::ACARS) {
-            $default_state = $pirep->pilot->rank->auto_approve_acars;
+            if($pirep->pilot->rank->auto_approve_acars) {
+                $default_state = PirepState::ACCEPTED;
+            }
         } else {
-            $default_state = $pirep->pilot->rank->auto_approve_manual;
+            if($pirep->pilot->rank->auto_approve_manual) {
+                $default_state = PirepState::ACCEPTED;
+            }
         }
 
         $pirep->save();
@@ -70,13 +76,10 @@ class PIREPService extends BaseService
 
         event(new PirepFiled($pirep));
 
-        if ($default_state === PirepState::ACCEPTED) {
-            $pirep = $this->accept($pirep);
-        }
-
         # only update the pilot last state if they are accepted
         if ($default_state === PirepState::ACCEPTED) {
-            $this->setPilotState($pirep);
+            $pirep = $this->accept($pirep);
+            $this->setPilotState($pirep->pilot, $pirep);
         }
 
         return $pirep;
@@ -151,7 +154,7 @@ class PIREPService extends BaseService
         $pirep->save();
         $pirep->refresh();
 
-        $this->setPilotState($pirep);
+        $this->setPilotState($pilot, $pirep);
 
         Log::info('PIREP '.$pirep->id.' state change to ACCEPTED');
 
@@ -193,15 +196,16 @@ class PIREPService extends BaseService
     /**
      * @param Pirep $pirep
      */
-    public function setPilotState(Pirep $pirep)
+    public function setPilotState(User $pilot, Pirep $pirep)
     {
-        $pilot = $pirep->pilot;
         $pilot->refresh();
 
         $previous_airport = $pilot->curr_airport_id;
         $pilot->curr_airport_id = $pirep->arr_airport_id;
         $pilot->last_pirep_id = $pirep->id;
         $pilot->save();
+
+        $pirep->refresh();
 
         event(new UserStatsChanged($pilot, 'airport', $previous_airport));
     }

@@ -2,9 +2,7 @@
 
 namespace App\Models;
 
-use Eloquent as Model;
-
-class Aircraft extends Model
+class Aircraft extends BaseModel
 {
     public $table = 'aircraft';
 

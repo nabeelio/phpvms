@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Eloquent as Model;
 use App\Models\Traits\HashId;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -11,7 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *
  * @package App\Models
  */
-class Pirep extends Model
+class Pirep extends BaseModel
 {
     use HashId;
     use SoftDeletes;
@@ -29,7 +28,9 @@ class Pirep extends Model
         'route_leg',
         'airline_id',
         'aircraft_id',
+        'altitude',
         'flight_time',
+        'planned_flight_time',
         'dpt_airport_id',
         'arr_airport_id',
         'fuel_used',
@@ -48,13 +49,16 @@ class Pirep extends Model
      * @var array
      */
     protected $casts = [
-        'id'          => 'string',
-        'flight_time' => 'integer',
-        'level'       => 'integer',
-        'fuel_used'   => 'integer',
-        'source'      => 'integer',
-        'state'       => 'integer',
-        'status'      => 'integer',
+        'id'                    => 'string',
+        'flight_time'           => 'integer',
+        'planned_flight_time'   => 'integer',
+        'level'                 => 'integer',
+        'altitude'              => 'integer',
+        'fuel_used'             => 'float',
+        'gross_weight'          => 'float',
+        'source'                => 'integer',
+        'state'                 => 'integer',
+        'status'                => 'integer',
     ];
 
     /**
