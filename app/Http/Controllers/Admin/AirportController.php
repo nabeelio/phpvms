@@ -32,7 +32,7 @@ class AirportController extends BaseController
     public function index(Request $request)
     {
         $this->airportRepository->pushCriteria(new RequestCriteria($request));
-        $airports = $this->airportRepository->all();
+        $airports = $this->airportRepository->orderBy('icao', 'asc')->all();
 
         return view('admin.airports.index', [
             'airports' => $airports,
