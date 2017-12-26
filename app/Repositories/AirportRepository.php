@@ -28,7 +28,7 @@ class AirportRepository extends BaseRepository implements CacheableInterface
     public function selectBoxList($add_blank=false): array
     {
         $retval = [];
-        $items = $this->all();
+        $items = $this->orderBy('icao', 'asc')->all();
 
         if ($add_blank) {
             $retval[''] = '';
