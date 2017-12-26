@@ -94,6 +94,7 @@ airports:
     icao: KAUS
     name: Austin-Bergstrom
     location: Austin, Texas, USA
+    country: United States
     lat: 30.1945278
     lon: -97.6698889
     tz: America/Chicago
@@ -102,9 +103,28 @@ airports:
     icao: KJFK
     name: John F Kennedy
     location: New York, New York, USA
+    country: United States
     lat: 40.6399257
     lon: -73.7786950
     tz: America/New_York
+  - id: KBWI
+    iata: BWI
+    icao: KBWI
+    name: Baltimore/Washington International Thurgood Marshall Airport
+    location: Baltimore, MD
+    country: United States
+    lat: 39.1754
+    lon: -76.6683
+    tz: America/New_York
+  - id: KIAH
+    iata: IAH
+    icao: KIAH
+    name: George Bush Intercontinental Houston Airport
+    location: Houston, TX
+    country: United States
+    lat: 29.9844
+    lon: -95.3414
+    tz: America/Chicago
   - id: EGLL
     iata: LHR
     icao: EGLL
