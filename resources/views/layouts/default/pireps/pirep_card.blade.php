@@ -14,12 +14,15 @@
                 </h5>
                 <div>
                     @if($pirep->state == PirepState::PENDING)
-                        <div class="badge badge-warning">Pending</div>
+                        <div class="badge badge-warning">
                     @elseif($pirep->state == PirepState::ACCEPTED)
-                        <div class="badge badge-success">Accepted</div>
+                        <div class="badge badge-success">
+                    @elseif($pirep->state == PirepState::REJECTED)
+                        <div class="badge badge-danger">
                     @else
-                        <div class="badge badge-danger">Rejected</div>
+                        <div class="badge badge-info">
                     @endif
+                        {!! PirepState::label($pirep->state) !!}</div>
                 </div>
             </div>
             <div class="col-sm-10">

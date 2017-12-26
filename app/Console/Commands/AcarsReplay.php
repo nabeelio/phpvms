@@ -11,7 +11,7 @@ use App\Facades\Utils;
 
 class AcarsReplay extends Command
 {
-    protected $signature = 'phpvms:replay {files} {--manual}';
+    protected $signature = 'phpvms:replay {files} {--manual} {--write-all}';
     protected $description = 'Replay an ACARS file';
 
     /**
@@ -67,6 +67,7 @@ class AcarsReplay extends Command
         $response = $this->httpClient->post('/api/pirep/prefile', [
             'json' => [
                 'airline_id'            => 1,
+                'flight_number'         => '6028',
                 'aircraft_id'           => 1,  # TODO: Lookup
                 'dpt_airport_id'        => $flight->planned_depairport,
                 'arr_airport_id'        => $flight->planned_destairport,
@@ -81,8 +82,23 @@ class AcarsReplay extends Command
     }
 
     /**
+     * Mark the PIREP as filed
+     * @param $pirep_id
+     */
+    protected function filePirep($pirep_id)
+    {
+        $response = $this->httpClient->post('/api/pirep/'.$pirep_id.'/file', [
+            'json'=> []
+        ]);
+
+        $body = \json_decode($response->getBody()->getContents());
+        return $body;
+    }
+
+    /**
      * @param $pirep_id
      * @param $data
+     * @return array
      */
     protected function postUpdate($pirep_id, $data)
     {
@@ -100,9 +116,6 @@ class AcarsReplay extends Command
 
         $this->info("Update: $data->callsign, $upd[lat] x $upd[lon] \t\t"
                     . "hdg: $upd[heading]\t\talt: $upd[altitude]\t\tgs: $upd[gs]");
-        /*$this->table([], [[
-            $data->callsign, $upd['lat'], $upd['lon'], $upd['heading'], $upd['altitude'], $upd['gs']
-        ]]);*/
 
         $response = $this->httpClient->post($uri, [
             'json' => $upd
@@ -168,26 +181,26 @@ class AcarsReplay extends Command
          * Continue until we have no more flights and updates left
          */
         while ($flights->count() > 0) {
-            $updated_rows = [];
-            $flights = $flights->each(function ($updates, $idx)
-            {
+            $flights = $flights->each(function ($updates, $idx) {
                 $update = $updates->shift();
                 $pirep_id = $this->pirepList[$update->callsign];
 
-                $row = $this->postUpdate($pirep_id, $update);
-                $updated_rows[] = $row;
+                $this->postUpdate($pirep_id, $update);
+
+                # we're done
+                if($updates->count() === 0) {
+                    $this->filePirep($pirep_id);
+                }
             })->filter(function ($updates, $idx) {
                 return $updates->count() > 0;
             });
 
-            /*$this->table(
-                ['callsign', 'lat', 'lon', 'hdg', 'alt', 'gs'],
-                $updated_rows);*/
-
-            if(!$this->option('manual')) {
-                sleep($this->sleepTime);
-            } else {
-                $this->confirm('Send next batch of updates?', true);
+            if(!$this->option('write-all')) {
+                if (!$this->option('manual')) {
+                    sleep($this->sleepTime);
+                } else {
+                    $this->confirm('Send next batch of updates?', true);
+                }
             }
         }
     }
@@ -202,10 +215,14 @@ class AcarsReplay extends Command
         $files = $this->argument('files');
         $manual_mode = $this->option('manual');
 
-        if(!$manual_mode) {
-            $this->info('Going to send updates every 10s');
+        if ($this->option('write-all')) {
+            $this->info('In "dump-all" mode, just writing it all in');
         } else {
-            $this->info('In "manual advance" mode');
+            if (!$manual_mode) {
+                $this->info('Going to send updates every 10s');
+            } else {
+                $this->info('In "manual advance" mode');
+            }
         }
 
         $this->runUpdates(explode(',', $files));

@@ -16,6 +16,7 @@ return [
             'accepted'  => 'Accepted',
             'pending'   => 'Pending',
             'rejected'  => 'Rejected',
+            'in_progress'  => 'In Progress',
         ],
     ],
 ];

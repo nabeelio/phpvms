@@ -12,7 +12,7 @@ use App\Models\Enums\PirepStatus;
 use App\Http\Resources\Acars as AcarsResource;
 use App\Http\Resources\Pirep as PirepResource;
 
-
+use App\Services\PIREPService;
 use App\Repositories\AcarsRepository;
 use App\Repositories\PirepRepository;
 
@@ -20,14 +20,16 @@ use App\Http\Controllers\AppBaseController;
 
 class PirepController extends AppBaseController
 {
-    protected $acarsRepo, $pirepRepo;
+    protected $acarsRepo, $pirepRepo, $pirepSvc;
 
     public function __construct(
         AcarsRepository $acarsRepo,
-        PirepRepository $pirepRepo
+        PirepRepository $pirepRepo,
+        PIREPService $pirepSvc
     ) {
         $this->acarsRepo = $acarsRepo;
         $this->pirepRepo = $pirepRepo;
+        $this->pirepSvc = $pirepSvc;
     }
 
     public function get($id)
@@ -48,35 +50,95 @@ class PirepController extends AppBaseController
         Log::info('PIREP Prefile, user '. Auth::user()->pilot_id,
                   $request->toArray());
 
-        /*$validator = Validator::make($request, [
-            'aircraft_id'       => 'required',
-            'dpt_airport_id'    => 'required',
-            'arr_airport_id'    => 'required',
-            'altitude'          => 'nullable|integer',
-            'route'             => 'nullable',
-            'notes'             => 'nullable',
-        ]);*/
+        $check_attrs = [
+            'airline_id',
+            'aircraft_id',
+            'dpt_airport_id',
+            'arr_airport_id',
+            'flight_id',
+            'flight_number',
+            'route_leg',
+            'route_code',
+            'flight_time',
+            'planned_flight_time',
+            'altitude',
+            'route',
+            'notes',
+        ];
 
-        $attr = [];
-        $attr['user_id'] = Auth::user()->id;
-        $attr['airline_id'] = $request->get('airline_id');
-        $attr['aircraft_id'] = $request->get('aircraft_id');
-        $attr['dpt_airport_id'] = $request->get('dpt_airport_id');
-        $attr['arr_airport_id'] = $request->get('arr_airport_id');
-        $attr['altitude'] = $request->get('altitude');
-        $attr['route'] = $request->get('route');
-        $attr['notes'] = $request->get('notes');
-        $attr['state'] = PirepState::IN_PROGRESS;
-        $attr['status'] = PirepStatus::PREFILE;
+        $attrs = [
+            'user_id' => Auth::user()->id,
+        ];
+
+        foreach ($check_attrs as $attr) {
+            if ($request->filled($attr)) {
+                $attrs[$attr] = $request->get($attr);
+            }
+        }
+
+        $attrs['state'] = PirepState::IN_PROGRESS;
+        $attrs['status'] = PirepStatus::PREFILE;
 
         try {
-            $pirep = $this->pirepRepo->create($attr);
+            $pirep = $this->pirepRepo->create($attrs);
         } catch(\Exception $e) {
             Log::error($e);
         }
 
         Log::info('PIREP PREFILED');
         Log::info($pirep->id);
+
+        PirepResource::withoutWrapping();
+        return new PirepResource($pirep);
+    }
+
+    /**
+     * File the PIREP
+     * @param $id
+     * @param Request $request
+     * @return PirepResource
+     */
+    public function file($id, Request $request)
+    {
+        Log::info('PIREP Prefile, user ' . Auth::user()->pilot_id,
+                  $request->toArray());
+
+        $attrs = [];
+        $check_attrs = [
+            'airline_id',
+            'aircraft_id',
+            'dpt_airport_id',
+            'arr_airport_id',
+            'flight_id',
+            'flight_number',
+            'route_leg',
+            'route_code',
+            'flight_time',
+            'planned_flight_time',
+            'altitude',
+            'route',
+            'notes',
+        ];
+
+        foreach($check_attrs as $attr) {
+            if($request->filled($attr)) {
+                $attrs[$attr] = $request->get($attr);
+            }
+        }
+
+        if($request->filled('fields')) {
+            $pirep_fields = $request->get('fields');
+        }
+
+        $attrs['state'] = PirepState::PENDING;
+        $attrs['status'] = PirepStatus::ARRIVED;
+
+        try {
+            $pirep = $this->pirepRepo->update($attrs, $id);
+            $pirep = $this->pirepSvc->create($pirep, $pirep_fields);
+        } catch (\Exception $e) {
+            Log::error($e);
+        }
 
         PirepResource::withoutWrapping();
         return new PirepResource($pirep);

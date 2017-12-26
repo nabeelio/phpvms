@@ -25,6 +25,7 @@ Route::group([], function ()
 
     Route::match(['get'], 'pirep/{id}', 'PirepController@get');
     Route::match(['post'], 'pirep/prefile', 'PirepController@prefile');
+    Route::match(['post'], 'pirep/{id}/file', 'PirepController@file');
 
     Route::match(['get'], 'pirep/{id}/acars', 'PirepController@acars_get');
     Route::match(['post'], 'pirep/{id}/acars', 'PirepController@acars_store');
