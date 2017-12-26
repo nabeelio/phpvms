@@ -58,7 +58,7 @@ class AcarsReplay extends Command
      * @param \stdClass $flight
      * @return string
      */
-    protected function startPirep($flight)
+    protected function startPirep($flight): string
     {
         # convert the planned flight time to be completely in minutes
         $pft = Utils::hoursToMinutes($flight->planned_hrsenroute,
@@ -81,6 +81,45 @@ class AcarsReplay extends Command
     }
 
     /**
+     * @param $pirep_id
+     * @param $data
+     */
+    protected function postUpdate($pirep_id, $data)
+    {
+        $uri = '/api/pirep/' . $pirep_id . '/acars';
+
+        $upd = [
+            'log' => '',
+            'lat' => $data->latitude,
+            'lon' => $data->longitude,
+            'heading' => $data->heading,
+            'altitude' => $data->altitude,
+            'gs' => $data->groundspeed,
+            'transponder' => $data->transponder,
+        ];
+
+        $this->info("Update: $data->callsign, $upd[lat] x $upd[lon] \t\t"
+                    . "hdg: $upd[heading]\t\talt: $upd[altitude]\t\tgs: $upd[gs]");
+        /*$this->table([], [[
+            $data->callsign, $upd['lat'], $upd['lon'], $upd['heading'], $upd['altitude'], $upd['gs']
+        ]]);*/
+
+        $response = $this->httpClient->post($uri, [
+            'json' => $upd
+        ]);
+
+        $body = \json_decode($response->getBody()->getContents());
+        return [
+            $data->callsign,
+            $upd['lat'],
+            $upd['lon'],
+            $upd['heading'],
+            $upd['altitude'],
+            $upd['gs']
+        ];
+    }
+
+    /**
      * Parse this file and run the updates
      * @param array $files
      */
@@ -89,7 +128,8 @@ class AcarsReplay extends Command
         /**
          * @var $flights Collection
          */
-        $flights = collect($files)->transform(function ($f) {
+        $flights = collect($files)->transform(function ($f)
+        {
             $file = storage_path('/replay/' . $f . '.json');
             if (file_exists($file)) {
                 $this->info('Loading ' . $file);
@@ -111,7 +151,8 @@ class AcarsReplay extends Command
         /**
          * File the initial pirep to get a "preflight" status
          */
-        $flights->each(function ($updates, $idx) {
+        $flights->each(function ($updates, $idx)
+        {
             $update = $updates->first();
             $pirep_id = $this->startPirep($update);
             $this->pirepList[$update->callsign] = $pirep_id;
@@ -127,12 +168,27 @@ class AcarsReplay extends Command
          * Continue until we have no more flights and updates left
          */
         while ($flights->count() > 0) {
-            $flights = $flights->each(function ($updates, $idx) {
+            $updated_rows = [];
+            $flights = $flights->each(function ($updates, $idx)
+            {
                 $update = $updates->shift();
+                $pirep_id = $this->pirepList[$update->callsign];
 
+                $row = $this->postUpdate($pirep_id, $update);
+                $updated_rows[] = $row;
             })->filter(function ($updates, $idx) {
                 return $updates->count() > 0;
             });
+
+            /*$this->table(
+                ['callsign', 'lat', 'lon', 'hdg', 'alt', 'gs'],
+                $updated_rows);*/
+
+            if(!$this->option('manual')) {
+                sleep($this->sleepTime);
+            } else {
+                $this->confirm('Send next batch of updates?', true);
+            }
         }
     }
 
@@ -153,7 +209,6 @@ class AcarsReplay extends Command
         }
 
         $this->runUpdates(explode(',', $files));
-
         $this->info('Done!');
     }
 }

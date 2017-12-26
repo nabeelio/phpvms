@@ -69,6 +69,10 @@ test:
 	#php artisan database:create --reset
 	vendor/bin/phpunit --debug --verbose
 
+.PHONY: replay-acars
+replay-acars:
+	@php artisan phpvms:replay AAL10,AAL3113,BAW172,DAL988,FIN6,MSR986 --manual
+
 .PHONY: sass-watch
 sass-watch:
 	sass --watch public/assets/admin/sass/paper-dashboard.scss:public/assets/admin/css/paper-dashboard.css
