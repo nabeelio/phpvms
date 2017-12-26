@@ -54,7 +54,7 @@ class FlightController extends BaseController
      */
     public function index(Request $request)
     {
-        $flights = $this->flightRepo->searchCriteria($request)->paginate();
+        $flights = $this->flightRepo->searchCriteria($request, false)->paginate();
         return view('admin.flights.index', [
             'flights' => $flights,
             'airlines' => $this->airlineRepo->selectBoxList(true),
@@ -84,6 +84,8 @@ class FlightController extends BaseController
     public function store(CreateFlightRequest $request)
     {
         $input = $request->all();
+
+        $input['active'] = true;
 
         $flight = $this->flightRepo->create($input);
 
@@ -148,7 +150,9 @@ class FlightController extends BaseController
             return redirect(route('admin.flights.index'));
         }
 
-        $flight = $this->flightRepo->update($request->all(), $id);
+        $attrs = $request->all();
+        $attrs['active'] = true;
+        $flight = $this->flightRepo->update($attrs, $id);
 
         Flash::success('Flight updated successfully.');
         return redirect(route('admin.flights.index'));

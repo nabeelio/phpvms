@@ -35,9 +35,11 @@ class FlightRepository extends BaseRepository implements CacheableInterface
      */
     public function searchCriteria(Request $request, bool $only_active=true)
     {
-        $where = [
-            'active' => $only_active,
-        ];
+        $where = [];
+
+        if($only_active === true) {
+            $where['active'] = $only_active;
+        }
 
         if ($request->filled('flight_id')) {
             $where['id'] = $request->flight_id;
