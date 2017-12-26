@@ -16,7 +16,7 @@ class CreateAcarsTables extends Migration
         Schema::create('acars', function (Blueprint $table) {
             $table->string('id', 12);
             $table->string('pirep_id', 12);
-            $table->string('name', 10)->nullable();
+            $table->string('log')->nullable();
             $table->float('lat', 7, 4)->default(0.0);
             $table->float('lon', 7, 4)->default(0.0);
             $table->unsignedInteger('heading')->nullable();

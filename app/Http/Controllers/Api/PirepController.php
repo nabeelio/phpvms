@@ -89,7 +89,9 @@ class PirepController extends AppBaseController
      */
     public function acars_get($id)
     {
-        $updates = $this->acarsRepo->forPirep($this->pirepRepo->find($id));
+        $pirep = $this->pirepRepo->find($id);
+
+        $updates = $this->acarsRepo->forPirep($id);
         return new AcarsResource($updates);
     }
 
