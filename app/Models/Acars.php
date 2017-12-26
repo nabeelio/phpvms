@@ -25,6 +25,16 @@ class Acars extends BaseModel
         'sim_time',
     ];
 
+    public $casts = [
+        'lat'       => 'float',
+        'lon'       => 'float',
+        'heading'   => 'integer',
+        'altitude'  => 'integer',
+        'vs'        => 'float',
+        'gs'        => 'float',
+        'fuel_flow' => 'float',
+    ];
+
     /**
      * FKs
      */

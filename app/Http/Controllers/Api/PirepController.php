@@ -61,8 +61,8 @@ class PirepController extends AppBaseController
         $attr['user_id'] = Auth::user()->id;
         $attr['airline_id'] = $request->get('airline_id');
         $attr['aircraft_id'] = $request->get('aircraft_id');
-        $attr['dpt_airport_id'] = $request->get('dpt_airport');
-        $attr['arr_airport_id'] = $request->get('arr_airport');
+        $attr['dpt_airport_id'] = $request->get('dpt_airport_id');
+        $attr['arr_airport_id'] = $request->get('arr_airport_id');
         $attr['altitude'] = $request->get('altitude');
         $attr['route'] = $request->get('route');
         $attr['notes'] = $request->get('notes');
@@ -89,9 +89,7 @@ class PirepController extends AppBaseController
      */
     public function acars_get($id)
     {
-        $pirep = $this->pirepRepo->find($id);
-
-        $updates = $this->acarsRepo->forPirep($id);
+        $updates = $this->acarsRepo->forPirep($this->pirepRepo->find($id));
         return new AcarsResource($updates);
     }
 

@@ -68,8 +68,8 @@ class AcarsReplay extends Command
             'json' => [
                 'airline_id'            => 1,
                 'aircraft_id'           => 1,  # TODO: Lookup
-                'dpt_airport'           => $flight->planned_depairport,
-                'arr_airport'           => $flight->planned_destairport,
+                'dpt_airport_id'        => $flight->planned_depairport,
+                'arr_airport_id'        => $flight->planned_destairport,
                 'altitude'              => $flight->planned_altitude,
                 'planned_flight_time'   => $pft,
                 'route'                 => $flight->planned_route,

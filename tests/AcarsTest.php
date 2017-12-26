@@ -35,8 +35,8 @@ class AcarsTest extends TestCase
         $pirep = [
             'airline_id' => $airline->id,
             'aircraft_id' => $aircraft->id,
-            'dpt_airport' => $airport->icao,
-            'arr_airport' => $airport->icao,
+            'dpt_airport_id' => $airport->icao,
+            'arr_airport_id' => $airport->icao,
             'altitude' => 38000,
             'planned_flight_time' => 120,
             'route' => 'POINTA POINTB',
@@ -91,5 +91,28 @@ class AcarsTest extends TestCase
         $acars = factory(App\Models\Acars::class)->make()->toArray();
         $response = $this->withHeaders($this->apiHeaders())->post($uri, $acars);
         $response->assertStatus(404);
+    }
+
+    public function testAcarsIsoDate()
+    {
+        $pirep = factory(App\Models\Pirep::class)->make()->toArray();
+        $uri = '/api/pirep/prefile';
+        $response = $this->withHeaders($this->apiHeaders())->post($uri, $pirep);
+        $pirep_id = $response->json()['id'];
+
+        $dt = date('c');
+        $uri = '/api/pirep/' . $pirep_id . '/acars';
+        $acars = factory(App\Models\Acars::class)->make()->toArray();
+        $acars['sim_time'] = $dt;
+
+        $response = $this->withHeaders($this->apiHeaders())->post($uri, $acars);
+        $response->assertStatus(201);
+
+        $uri = '/api/pirep/' . $pirep_id . '/acars';
+        $response = $this->withHeaders($this->apiHeaders())->get($uri);
+        $response->assertStatus(200);
+
+        $body = $response->json();
+        $this->assertEquals($dt, $body[0]['sim_time']);
     }
 }

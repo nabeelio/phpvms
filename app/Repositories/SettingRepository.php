@@ -14,6 +14,8 @@ class SettingRepository extends BaseRepository implements CacheableInterface
 {
     use CacheableRepository;
 
+    public $cacheMinutes = 1;
+
     public function model()
     {
         return Setting::class;

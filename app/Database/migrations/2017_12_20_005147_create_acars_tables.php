@@ -26,7 +26,7 @@ class CreateAcarsTables extends Migration
             $table->unsignedInteger('transponder')->nullable();
             $table->string('autopilot')->nullable();
             $table->decimal('fuel_flow')->nullable();
-            $table->dateTimeTz('sim_time')->nullable();
+            $table->string('sim_time')->nullable();
 
             $table->timestamps();
 
