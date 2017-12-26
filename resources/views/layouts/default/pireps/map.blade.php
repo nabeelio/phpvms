@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-md-12">
-        <h3 class="description">map</h3>
+        <h3 class="description">flight map</h3>
     </div>
     <div class="col-12">
         <div class="box-body">
@@ -14,6 +14,8 @@
 phpvms.render_route_map({
     route_points: {!! json_encode($map_features['route_points']) !!},
     planned_route_line: {!! json_encode($map_features['planned_route_line']); !!},
+    actual_route_line: {!! json_encode($map_features['actual_route_line']); !!},
+    actual_route_points: {!! json_encode($map_features['actual_route_points']); !!},
 });
 </script>
 @endsection

@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Acars;
 use Log;
 
 use \GeoJson\Geometry\Point;
@@ -13,6 +14,7 @@ use \League\Geotools\Geotools;
 use \League\Geotools\Coordinate\Coordinate;
 
 use App\Models\Flight;
+use App\Models\Pirep;
 use App\Repositories\NavdataRepository;
 
 /**
@@ -138,6 +140,44 @@ class GeoService extends BaseService
     }
 
     /**
+     * Read an array/relationship of ACARS model points
+     * @param Pirep $pirep
+     * @return array
+     */
+    protected function getFeatureFromAcars(Pirep $pirep)
+    {
+        $route_line = [];
+        $route_points = [];
+
+        $route_line[] = [$pirep->dpt_airport->lon, $pirep->dpt_airport->lat];
+
+        /**
+         * @var $point \App\Models\Acars
+         */
+        foreach ($pirep->acars as $point)
+        {
+            $route_line[] = [$point->lon, $point->lat];
+
+            $route_points[] = new Feature(
+                new Point([$point->lon, $point->lat]), [
+                     'name' => $point->altitude,
+                     'popup' => 'GS: ' . $point->gs . '<br />Alt: ' . $point->altitude,
+                 ]);
+        }
+
+        # Arrival
+        $route_line[] = [$pirep->arr_airport->lon, $pirep->arr_airport->lat];
+
+        # Convert to a feature
+        $route_line = new Feature(new LineString($route_line), [], 1);
+
+        return [
+            'line' => new FeatureCollection([$route_line]),
+            'points' => new FeatureCollection($route_points)
+        ];
+    }
+
+    /**
      * Return a FeatureCollection GeoJSON object
      * @param Flight $flight
      * @return array
@@ -202,7 +242,7 @@ class GeoService extends BaseService
      * @param Pirep $pirep
      * @return array
      */
-    public function pirepGeoJson($pirep)
+    public function pirepGeoJson(Pirep $pirep)
     {
         $route_points = [];
         $planned_rte_coords = [];
@@ -216,9 +256,6 @@ class GeoService extends BaseService
             ]
         );
 
-        // TODO: Add markers for the start/end airports
-
-        // TODO: Check if there's data in the ACARS table
         if (!empty($pirep->route)) {
             $all_route_points = $this->getCoordsFromRoute(
                 $pirep->dpt_airport->icao,
@@ -249,15 +286,18 @@ class GeoService extends BaseService
         $route_points = new FeatureCollection($route_points);
 
         $planned_route_line = new LineString($planned_rte_coords);
-
         $planned_route = new FeatureCollection([
             new Feature($planned_route_line, [], 1)
         ]);
 
+
+        $actual_route = $this->getFeatureFromAcars($pirep);
+
         return [
-            'actual_route' => false,
             'route_points' => $route_points,
             'planned_route_line' => $planned_route,
+            'actual_route_line' => $actual_route['line'],
+            'actual_route_points' => $actual_route['points'],
         ];
     }
 

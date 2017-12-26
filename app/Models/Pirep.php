@@ -90,6 +90,12 @@ class Pirep extends BaseModel
     /**
      * Foreign Keys
      */
+
+    public function acars()
+    {
+        return $this->hasMany('App\Models\Acars', 'pirep_id');
+    }
+
     public function aircraft()
     {
         return $this->belongsTo('App\Models\Aircraft', 'aircraft_id');

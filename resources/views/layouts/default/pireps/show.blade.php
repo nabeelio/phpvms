@@ -68,6 +68,7 @@
         </div>
     </div>
 
+    @if(count($pirep->fields) > 0)
     <div class="row">
         <div class="col-md-12">
             <h3 class="description">fields</h3>
@@ -89,6 +90,7 @@
             </table>
         </div>
     </div>
+    @endif
 
     @include('layouts.default.pireps.map')
 @endsection

@@ -1,4 +1,4 @@
-const phpvms= (function() {
+const phpvms = (function() {
 
     const draw_base_map = (opts) => {
 
@@ -75,6 +75,17 @@ const phpvms= (function() {
         layer.bindPopup(popup_html);
     };
 
+    const pointToLayer = function (feature, latlng) {
+        return L.circleMarker(latlng, {
+            radius: 12,
+            fillColor: "#ff7800",
+            color: "#000",
+            weight: 1,
+            opacity: 1,
+            fillOpacity: 0.8
+        });
+    };
+
     return {
 
         /**
@@ -86,6 +97,7 @@ const phpvms= (function() {
             opts = _.defaults(opts, {
                 route_points: null,
                 planned_route_line: null,   // [ {name, lat, lon}, {name, lat, lon} ];
+                actual_route_points: null,
                 actual_route_line: null,
                 center: [],
                 render_elem: 'map',
@@ -98,48 +110,78 @@ const phpvms= (function() {
 
             let map = draw_base_map(opts);
 
-            if(opts.geodesic) {
+            //if(opts.geodesic) {
                 let geodesicLayer = L.geodesic([], {
                     weight: 7,
-                    opacity: 0.5,
-                    color: '#ff33ee',
+                    opacity: 0.9,
+                    color: '#36b123',
                     steps: 50,
                     wrap: false,
                 }).addTo(map);
 
                 geodesicLayer.geoJson(opts.planned_route_line);
                 map.fitBounds(geodesicLayer.getBounds());
-            } else {
+
+                if(opts.actual_route_line !== null) {
+                    let geodesicLayer = L.geodesic([], {
+                        weight: 7,
+                        opacity: 0.9,
+                        color: '#172aea',
+                        steps: 50,
+                        wrap: false,
+                    }).addTo(map);
+
+                    geodesicLayer.geoJson(opts.actual_route_line);
+                    map.fitBounds(geodesicLayer.getBounds());
+                }
+            /*} else {
                 let route = L.geoJSON(opts.planned_route_line, {
                     "color": "#ff7800",
-                    "weight": 5,
-                    "opacity": 0.65
+                    "weight": 7,
+                    "opacity": 0.9
                 });
 
                 route.addTo(map);
                 map.fitBounds(route.getBounds());
-            }
+
+                if(opts.actual_route_line !== null) {
+                    let route = L.geoJSON(opts.actual_route_line, {
+                        "color": "#36b123",
+                        "weight": 7,
+                        "opacity": 0.9
+                    });
+
+                    route.addTo(map);
+                    map.fitBounds(route.getBounds());
+                }
+            }*/
 
             // Draw the route points after
             if (opts.route_points !== null) {
                 console.log(opts.route_points);
                 let route_points = L.geoJSON(opts.route_points, {
                     onEachFeature: onFeaturePointClick,
+                    pointToLayer: pointToLayer,
                     style: {
-                        "color": "#1bff00",
+                        "color": "#36b123",
                         "weight": 5,
                         "opacity": 0.65,
                     },
-                    pointToLayer: function (feature, latlng) {
-                        return L.circleMarker(latlng, {
-                            radius: 12,
-                            fillColor: "#ff7800",
-                            color: "#000",
-                            weight: 1,
-                            opacity: 1,
-                            fillOpacity: 0.8
-                        });
-                    }
+                });
+
+                route_points.addTo(map);
+            }
+
+
+            if(opts.actual_route_points !== null) {
+                let route_points = L.geoJSON(opts.actual_route_points, {
+                    onEachFeature: onFeaturePointClick,
+                    pointToLayer: pointToLayer,
+                    style: {
+                        "color": "#172aea",
+                        "weight": 5,
+                        "opacity": 0.65,
+                    },
                 });
 
                 route_points.addTo(map);
