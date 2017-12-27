@@ -52,7 +52,7 @@ return [
          | Enable or disable cache
          |
          */
-        'enabled'    => true,
+        'enabled'    => env('CACHE_ENABLED', false),
 
         /*
          |--------------------------------------------------------------------------
