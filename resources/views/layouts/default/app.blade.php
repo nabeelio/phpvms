@@ -10,8 +10,10 @@
           name='viewport'/>
     <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet"/>
+
     <link rel="stylesheet"
           href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css"/>
+    {{--<link href="https://use.fontawesome.com/releases/v5.0.2/css/all.css" rel="stylesheet">--}}
 
     <link href="{!! public_asset('/assets/frontend/css/bootstrap.min.css') !!}" rel="stylesheet"/>
     <link href="{!! public_asset('/assets/vendor/select2/dist/css/select2.min.css') !!}" rel="stylesheet"/>
@@ -58,23 +60,39 @@
             </button>
             <p class="navbar-brand text-white" data-placement="bottom" target="_blank">
                 <a href="{!! url('/') !!}">
-                    <img src="{!! public_asset('assets/frontend/img/logo_blue_bg.svg') !!}" width="135px" style=""/>
+                    <img src="{!! public_asset('/assets/frontend/img/logo_blue_bg.svg') !!}" width="135px" style=""/>
                 </a>
             </p>
         </div>
         <div class="collapse navbar-collapse justify-content-end" id="navigation">
             <ul class="navbar-nav">
-                {{--<li class="nav-item active">--}}
-                @if(!Auth::user())
+
+                @if(Auth::check())
+                    <li class="nav-item">
+                        <a class="nav-link" href="{!! url('/dashboard') !!}">
+                            <i class="fa fa-tachometer"></i>
+                            <p>Dashboard</p>
+                        </a>
+                    </li>
+                @endif
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{!! url('/livemap') !!}">
+                        <i class="fa fa-globe"></i>
+                        <p>Live Map</p>
+                    </a>
+                </li>
+
+                @if(!Auth::check())
                     <li class="nav-item">
                         <a class="nav-link" href="{!! url('/login') !!}">
-                            <i class="fa fa-sign-in" aria-hidden="true"></i>
+                            <i class="fa fa-sign-in"></i>
                             <p>Login</p>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{!! url('/register') !!}">
-                            <i class="fa fa-id-card-o" aria-hidden="true"></i>
+                            <i class="fa fa-id-card-o"></i>
                             <p>Register</p>
                         </a>
                     </li>
@@ -92,26 +110,20 @@
                 @else
 
                     <li class="nav-item">
-                        <a class="nav-link" href="{!! url('/dashboard') !!}">
-                            <i class="fa fa-tachometer" aria-hidden="true"></i>
-                            <p>Dashboard</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" href="{!! url('/flights') !!}">
-                            <i class="fa fa-plane" aria-hidden="true"></i>
+                            <i class="fa fa-plane"></i>
                             <p>Flights</p>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{!! url('/pireps') !!}">
-                            <i class="fa fa-cloud-upload" aria-hidden="true"></i>
+                            <i class="fa fa-cloud-upload"></i>
                             <p>PIREPs</p>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{!! url('/profile') !!}">
-                            <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+                            <i class="fa fa-user-circle-o"></i>
                             <p>Profile</p>
                         </a>
                     </li>
@@ -119,7 +131,7 @@
                     @role('admin')
                         <li class="nav-item">
                             <a class="nav-link" href="{!! url('/admin') !!}">
-                                <i class="fa fa-circle-o-notch" aria-hidden="true"></i>
+                                <i class="fa fa-circle-o-notch"></i>
                                 <p>Admin</p>
                             </a>
                         </li>
@@ -137,7 +149,7 @@
 
                     <li class="nav-item">
                         <a class="nav-link" href="{!! url('/logout') !!}">
-                            <i class="fa fa-external-link-square" aria-hidden="true"></i>
+                            <i class="fa fa-external-link-square"></i>
                             <p>Log Out</p>
                         </a>
                     </li>
@@ -172,6 +184,7 @@
         integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
         crossorigin=""></script>
 <script src="{!! public_asset('/assets/vendor/leaflet/leaflet.geodesic.js') !!}?v={!! time() !!}"></script>
+<script src="{!! public_asset('/assets/vendor/leaflet-ajax/dist/leaflet.ajax.min.js') !!}?v={!! time() !!}"></script>
 <script src="{!! public_asset('/assets/system/js/system.js') !!}?v={!! time() !!}"></script>
 
 <script>
