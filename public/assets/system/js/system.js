@@ -86,134 +86,130 @@ const phpvms = (function() {
         });
     };
 
-    return {
+    /**
+     *
+     * @param opts
+     * @private
+     */
+    const _render_route_map = (opts) => {
 
-        /**
-         *
-         * @param opts
-         */
-        render_route_map: (opts) => {
+        opts = _.defaults(opts, {
+            route_points: null,
+            planned_route_line: null,
+            actual_route_points: null,
+            actual_route_line: null,
+            render_elem: 'map',
+        });
 
-            opts = _.defaults(opts, {
-                route_points: null,
-                planned_route_line: null,   // [ {name, lat, lon}, {name, lat, lon} ];
-                actual_route_points: null,
-                actual_route_line: null,
-                center: [],
-                render_elem: 'map',
-                overlay_elem: '',
-                zoom: 5,
-                geodesic: true,
-                layers: [],
-                set_marker: false,
+        let map = draw_base_map(opts);
+
+        let geodesicLayer = L.geodesic([], {
+            weight: 7,
+            opacity: 0.9,
+            color: '#36b123',
+            steps: 50,
+            wrap: false,
+        }).addTo(map);
+
+        geodesicLayer.geoJson(opts.planned_route_line);
+        map.fitBounds(geodesicLayer.getBounds());
+
+        // Draw the route points after
+        if (opts.route_points !== null) {
+            console.log(opts.route_points);
+            let route_points = L.geoJSON(opts.route_points, {
+                onEachFeature: onFeaturePointClick,
+                pointToLayer: pointToLayer,
+                style: {
+                    "color": "#36b123",
+                    "weight": 5,
+                    "opacity": 0.65,
+                },
             });
 
-            let map = draw_base_map(opts);
-
-            //if(opts.geodesic) {
-                let geodesicLayer = L.geodesic([], {
-                    weight: 7,
-                    opacity: 0.9,
-                    color: '#36b123',
-                    steps: 50,
-                    wrap: false,
-                }).addTo(map);
-
-                geodesicLayer.geoJson(opts.planned_route_line);
-                map.fitBounds(geodesicLayer.getBounds());
-
-                if(opts.actual_route_line !== null) {
-                    let geodesicLayer = L.geodesic([], {
-                        weight: 7,
-                        opacity: 0.9,
-                        color: '#172aea',
-                        steps: 50,
-                        wrap: false,
-                    }).addTo(map);
-
-                    geodesicLayer.geoJson(opts.actual_route_line);
-                    map.fitBounds(geodesicLayer.getBounds());
-                }
-            /*} else {
-                let route = L.geoJSON(opts.planned_route_line, {
-                    "color": "#ff7800",
-                    "weight": 7,
-                    "opacity": 0.9
-                });
-
-                route.addTo(map);
-                map.fitBounds(route.getBounds());
-
-                if(opts.actual_route_line !== null) {
-                    let route = L.geoJSON(opts.actual_route_line, {
-                        "color": "#36b123",
-                        "weight": 7,
-                        "opacity": 0.9
-                    });
-
-                    route.addTo(map);
-                    map.fitBounds(route.getBounds());
-                }
-            }*/
-
-            // Draw the route points after
-            if (opts.route_points !== null) {
-                console.log(opts.route_points);
-                let route_points = L.geoJSON(opts.route_points, {
-                    onEachFeature: onFeaturePointClick,
-                    pointToLayer: pointToLayer,
-                    style: {
-                        "color": "#36b123",
-                        "weight": 5,
-                        "opacity": 0.65,
-                    },
-                });
-
-                route_points.addTo(map);
-            }
-
-
-            if(opts.actual_route_points !== null) {
-                let route_points = L.geoJSON(opts.actual_route_points, {
-                    onEachFeature: onFeaturePointClick,
-                    pointToLayer: pointToLayer,
-                    style: {
-                        "color": "#172aea",
-                        "weight": 5,
-                        "opacity": 0.65,
-                    },
-                });
-
-                route_points.addTo(map);
-            }
-        },
-
-        /**
-         * Render a map with the airspace, etc around a given set of coords
-         * e.g, the airport map
-         * @param opts
-         */
-        render_airspace_map: (opts) => {
-            opts = _.defaults(opts, {
-                render_elem: 'map',
-                overlay_elem: '',
-                lat: 0,
-                lon: 0,
-                zoom: 12,
-                layers: [],
-                set_marker: false,
-            });
-
-            let map = draw_base_map(opts);
-            const coords = [opts.lat, opts.lon];
-            console.log('Applying coords', coords);
-
-            map.setView(coords, opts.zoom);
-            if (opts.set_marker === true) {
-                L.marker(coords).addTo(map);
-            }
-
-            return map;
+            route_points.addTo(map);
         }
+
+        /**
+         * draw the actual route
+         */
+
+        if (opts.actual_route_line !== null) {
+            let geodesicLayer = L.geodesic([], {
+                weight: 7,
+                opacity: 0.9,
+                color: '#172aea',
+                steps: 50,
+                wrap: false,
+            }).addTo(map);
+
+            geodesicLayer.geoJson(opts.actual_route_line);
+            map.fitBounds(geodesicLayer.getBounds());
+        }
+
+        if (opts.actual_route_points !== null) {
+            let route_points = L.geoJSON(opts.actual_route_points, {
+                onEachFeature: onFeaturePointClick,
+                pointToLayer: pointToLayer,
+                style: {
+                    "color": "#172aea",
+                    "weight": 5,
+                    "opacity": 0.65,
+                },
+            });
+
+            route_points.addTo(map);
+        }
+    };
+
+    /**
+     * Render a map with the airspace, etc around a given set of coords
+     * e.g, the airport map
+     * @param opts
+     */
+    const _render_airspace_map = (opts) => {
+        opts = _.defaults(opts, {
+            render_elem: 'map',
+            overlay_elem: '',
+            lat: 0,
+            lon: 0,
+            zoom: 12,
+            layers: [],
+            set_marker: false,
+        });
+
+        let map = draw_base_map(opts);
+        const coords = [opts.lat, opts.lon];
+        console.log('Applying coords', coords);
+
+        map.setView(coords, opts.zoom);
+        if (opts.set_marker === true) {
+            L.marker(coords).addTo(map);
+        }
+
+        return map;
+    };
+
+    /**
+     * Render the live map
+     * @param opts
+     * @private
+     */
+    const _render_live_map = (opts) => {
+        opts = _.defaults(opts, {
+            route_points: null,
+            planned_route_line: null,
+            actual_route_points: null,
+            actual_route_line: null,
+            render_elem: 'map',
+        });
+
+        let map = draw_base_map(opts);
+    };
+
+    return {
+        render_route_map: _render_route_map,
+        render_airspace_map: _render_airspace_map,
+        render_live_map: _render_live_map,
     }
 })();
