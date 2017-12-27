@@ -13,7 +13,7 @@
         <tbody>
         @foreach($airports as $airport)
             <tr>
-                <td>{!! $airport->icao !!}</td>
+                <td><a href="{!! route('admin.airports.edit', [$airport->id]) !!}">{!! $airport->icao !!}</a></td>
                 <td>{!! $airport->name !!}</td>
                 <td>{!! $airport->location !!}</td>
                 <td>{!! $airport->timezone !!}</td>
