@@ -8,8 +8,10 @@ Route::get('/', 'HomeController@index')->name('home');
 Route::group([
     'namespace' => 'Frontend', 'prefix' => '', 'as' => 'frontend.'
 ], function() {
-    Route::get('/r/{id}', 'PirepController@show')->name('pirep.show.public');
-    Route::get('/p/{id}', 'ProfileController@show')->name('profile.show.public');
+    Route::get('r/{id}', 'PirepController@show')->name('pirep.show.public');
+    Route::get('p/{id}', 'ProfileController@show')->name('profile.show.public');
+
+    Route::get('livemap', 'AcarsController@index')->name('livemap.public');
 });
 
 /**
@@ -22,7 +24,7 @@ Route::group([
     Route::resource('dashboard', 'DashboardController');
 
     Route::get('flights/search', 'FlightController@search')->name('flights.search');
-    Route::match(['post'], '/flights/save', 'FlightController@save')->name('flights.save');
+    Route::post('flights/save', 'FlightController@save')->name('flights.save');
     Route::resource('flights', 'FlightController');
 
     Route::resource('profile', 'ProfileController');

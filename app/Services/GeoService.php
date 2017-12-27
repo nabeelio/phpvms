@@ -140,6 +140,32 @@ class GeoService extends BaseService
     }
 
     /**
+     * Determine the center point between two sets of coordinates
+     * @param $latA
+     * @param $lonA
+     * @param $latB
+     * @param $lonB
+     * @return array
+     * @throws \League\Geotools\Exception\InvalidArgumentException
+     */
+    public function getCenter($latA, $lonA, $latB, $lonB)
+    {
+        $geotools = new Geotools();
+        $coordA = new Coordinate([$latA, $lonA]);
+        $coordB = new Coordinate([$latB, $lonB]);
+
+        $vertex = $geotools->vertex()->setFrom($coordA)->setTo($coordB);
+        $middlePoint = $vertex->middle();
+
+        $center = [
+            $middlePoint->getLatitude(),
+            $middlePoint->getLongitude()
+        ];
+
+        return $center;
+    }
+
+    /**
      * Read an array/relationship of ACARS model points
      * @param Pirep $pirep
      * @return array
@@ -171,10 +197,40 @@ class GeoService extends BaseService
         # Convert to a feature
         $route_line = new Feature(new LineString($route_line), [], 1);
 
+        # TODO: Draw the plane icon from the last point
+
         return [
             'line' => new FeatureCollection([$route_line]),
             'points' => new FeatureCollection($route_points)
         ];
+    }
+
+    /**
+     * Return a single feature point for the
+     */
+    public function getFeatureForLiveFlights($pireps)
+    {
+        $flight_points = [];
+
+        /**
+         * @var Pirep $pirep
+         */
+        foreach($pireps as $pirep) {
+
+            /**
+             * @var $point \App\Models\Acars
+             */
+            $point = $pirep->position;
+            $flight_points[] = new Feature(
+                new Point([$point->lon, $point->lat]), [
+                'gs' => $point->gs,
+                'alt' => $point->altitude,
+                'heading' => $point->heading ?: 0,
+                'popup' => 'Flight: ' . $pirep->ident,
+            ]);
+        }
+
+        return new FeatureCollection($flight_points);
     }
 
     /**
@@ -299,31 +355,5 @@ class GeoService extends BaseService
             'actual_route_line' => $actual_route['line'],
             'actual_route_points' => $actual_route['points'],
         ];
-    }
-
-    /**
-     * Determine the center point between two sets of coordinates
-     * @param $latA
-     * @param $lonA
-     * @param $latB
-     * @param $lonB
-     * @return array
-     * @throws \League\Geotools\Exception\InvalidArgumentException
-     */
-    public function getCenter($latA, $lonA, $latB, $lonB)
-    {
-        $geotools = new Geotools();
-        $coordA = new Coordinate([$latA, $lonA]);
-        $coordB = new Coordinate([$latB, $lonB]);
-
-        $vertex = $geotools->vertex()->setFrom($coordA)->setTo($coordB);
-        $middlePoint = $vertex->middle();
-
-        $center = [
-            $middlePoint->getLatitude(),
-            $middlePoint->getLongitude()
-        ];
-
-        return $center;
     }
 }

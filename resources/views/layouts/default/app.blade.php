@@ -183,7 +183,8 @@
 <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"
         integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
         crossorigin=""></script>
-<script src="{!! public_asset('/assets/vendor/leaflet/leaflet.geodesic.js') !!}?v={!! time() !!}"></script>
+<script src="{!! public_asset('/assets/vendor/leaflet-plugins/leaflet.geodesic.js') !!}?v={!! time() !!}"></script>
+<script src="{!! public_asset('/assets/vendor/leaflet-plugins/leaflet.rotatedMarker.js') !!}?v={!! time() !!}"></script>
 <script src="{!! public_asset('/assets/vendor/leaflet-ajax/dist/leaflet.ajax.min.js') !!}?v={!! time() !!}"></script>
 <script src="{!! public_asset('/assets/system/js/system.js') !!}?v={!! time() !!}"></script>
 

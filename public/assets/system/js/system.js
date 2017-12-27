@@ -9,6 +9,7 @@ const phpvms = (function() {
             set_marker: false,
         });
 
+        let feature_groups = [];
         /*var openaip_airspace_labels = new L.TileLayer.WMS(
             "http://{s}.tile.maps.openaip.net/geowebcache/service/wms", {
                 maxZoom: 14,
@@ -31,7 +32,9 @@ const phpvms = (function() {
                 transparent: true
             });
 
-        const openaip_cached_basemap = new L.TileLayer("http://{s}.tile.maps.openaip.net/geowebcache/service/tms/1.0.0/openaip_basemap@EPSG%3A900913@png/{z}/{x}/{y}.png", {
+        feature_groups.push(opencyclemap_phys_osm);
+
+        /*const openaip_cached_basemap = new L.TileLayer("http://{s}.tile.maps.openaip.net/geowebcache/service/tms/1.0.0/openaip_basemap@EPSG%3A900913@png/{z}/{x}/{y}.png", {
             maxZoom: 14,
             minZoom: 4,
             tms: true,
@@ -41,7 +44,10 @@ const phpvms = (function() {
             transparent: true
         });
 
-        const openaip_basemap_phys_osm = L.featureGroup([opencyclemap_phys_osm, openaip_cached_basemap]);
+        feature_groups.push(openaip_cached_basemap);
+        */
+
+        const openaip_basemap_phys_osm = L.featureGroup(feature_groups);
 
         let map = L.map('map', {
             layers: [openaip_basemap_phys_osm],
@@ -75,7 +81,13 @@ const phpvms = (function() {
         layer.bindPopup(popup_html);
     };
 
-    const pointToLayer = function (feature, latlng) {
+    /**
+     * Show each point as a marker
+     * @param feature
+     * @param latlng
+     * @returns {*}
+     */
+    const pointToLayer = (feature, latlng) => {
         return L.circleMarker(latlng, {
             radius: 12,
             fillColor: "#ff7800",
@@ -116,7 +128,6 @@ const phpvms = (function() {
 
         // Draw the route points after
         if (opts.route_points !== null) {
-            console.log(opts.route_points);
             let route_points = L.geoJSON(opts.route_points, {
                 onEachFeature: onFeaturePointClick,
                 pointToLayer: pointToLayer,
@@ -196,20 +207,66 @@ const phpvms = (function() {
      * @private
      */
     const _render_live_map = (opts) => {
+
         opts = _.defaults(opts, {
-            route_points: null,
-            planned_route_line: null,
-            actual_route_points: null,
-            actual_route_line: null,
+            update_uri: '/api/acars',
+            positions: null,
             render_elem: 'map',
+            aircraft_icon: '/assets/img/acars/aircraft.png',
         });
 
-        let map = draw_base_map(opts);
+        let flightPositions = null;
+        const map = draw_base_map(opts);
+
+        const aircraftIcon = L.icon({
+            iconUrl: opts.aircraft_icon,
+            iconSize: [48, 48],
+            iconAnchor: [0, 0],
+            popupAnchor: [-3, -76],
+        });
+
+        const updateMap = () => {
+
+            console.log('reloading flights from acars...');
+
+            /**
+             * AJAX UPDATE
+             */
+
+            let flights = $.ajax({
+                url: opts.update_uri,
+                dataType: "json",
+                error: console.log
+            });
+
+            $.when(flights).done(function (flightGeoJson) {
+
+                if (flightPositions !== null) {
+                    flightPositions.clearLayers();
+                }
+
+                flightPositions = L.geoJSON(flightGeoJson, {
+                    onEachFeature: onFeaturePointClick,
+                    pointToLayer: function(feature, latlon) {
+                        return L.marker(latlon, {
+                            icon: aircraftIcon,
+                            rotationAngle: feature.properties.heading
+                        });
+                    }
+                });
+
+                flightPositions.addTo(map);
+                map.fitBounds(flightPositions.getBounds());
+            });
+        };
+
+        updateMap();
+        setTimeout(updateMap, 10000);
     };
 
     return {
-        render_route_map: _render_route_map,
         render_airspace_map: _render_airspace_map,
         render_live_map: _render_live_map,
+        render_route_map: _render_route_map,
     }
 })();

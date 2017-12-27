@@ -93,7 +93,8 @@ class Pirep extends BaseModel
 
     public function acars()
     {
-        return $this->hasMany('App\Models\Acars', 'pirep_id');
+        return $this->hasMany('App\Models\Acars', 'pirep_id')
+                ->orderBy('created_at', 'desc');
     }
 
     public function aircraft()
@@ -118,12 +119,8 @@ class Pirep extends BaseModel
 
     public function comments()
     {
-        return $this->hasMany('App\Models\PirepComment', 'pirep_id');
-    }
-
-    public function events()
-    {
-        return $this->hasMany('App\Models\PirepEvent', 'pirep_id');
+        return $this->hasMany('App\Models\PirepComment', 'pirep_id')
+                ->orderBy('created_at', 'desc');
     }
 
     public function fields()
@@ -141,14 +138,17 @@ class Pirep extends BaseModel
         return $this->user();
     }
 
-    public function route()
+    /**
+     * Relationship that holds the current position, but limits the ACARS
+     *  relationship to only one row (the latest), to prevent an N+! problem
+     */
+    public function position()
     {
-        return [];
+        return $this->hasOne('App\Models\Acars', 'pirep_id')->latest();
     }
 
     public function user()
     {
         return $this->belongsTo('App\Models\User', 'user_id');
     }
-
 }

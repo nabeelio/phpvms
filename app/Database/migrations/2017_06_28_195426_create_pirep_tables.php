@@ -56,13 +56,6 @@ class CreatePirepTables extends Migration
             $table->timestamps();
         });
 
-        Schema::create('pirep_events', function(Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('pirep_id', 12);
-            $table->string('event', 64);
-            $table->dateTime('dt');
-        });
-
         /*
          * Financial tables/fields
          */

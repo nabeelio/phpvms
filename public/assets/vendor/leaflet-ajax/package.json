@@ -1,0 +1,36 @@
+{
+  "name": "leaflet-ajax",
+  "version": "2.1.0",
+  "description": "AJAX and JSONP in Leaflet",
+  "main": "src/index.js",
+  "directories": {
+    "example": "example"
+  },
+  "scripts": {
+    "lint": "semistandard src/*.js",
+    "build": "browserify -u leaflet src/index.js > dist/leaflet.ajax.js && uglifyjs -mc < dist/leaflet.ajax.js > dist/leaflet.ajax.min.js"
+  },
+  "devDependencies": {
+    "browserify": "^11.0.1",
+    "express": "^4.13.3",
+    "semistandard": "^9.1.0",
+    "uglify-js": "^2.4.24"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/calvinmetcalf/leaflet-ajax.git"
+  },
+  "keywords": [
+    "leaflet",
+    "ajax",
+    "geojson"
+  ],
+  "author": "Calvin Metcalf",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/calvinmetcalf/leaflet-ajax/issues"
+  },
+  "dependencies": {
+    "lie": "^3.0.1"
+  }
+}

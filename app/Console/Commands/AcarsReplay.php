@@ -2,16 +2,15 @@
 
 namespace App\Console\Commands;
 
-use GuzzleHttp\Client;
-
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Collection;
+use GuzzleHttp\Client;
 
 use App\Facades\Utils;
 
 class AcarsReplay extends Command
 {
-    protected $signature = 'phpvms:replay {files} {--manual} {--write-all}';
+    protected $signature = 'phpvms:replay {files} {--manual} {--write-all} {--no-submit}';
     protected $description = 'Replay an ACARS file';
 
     /**
@@ -64,11 +63,13 @@ class AcarsReplay extends Command
         $pft = Utils::hoursToMinutes($flight->planned_hrsenroute,
                                      $flight->planned_minenroute);
 
+        $flight_number = substr($flight->callsign, 3);
+
         $response = $this->httpClient->post('/api/pirep/prefile', [
             'json' => [
                 'airline_id'            => 1,
-                'flight_number'         => '6028',
-                'aircraft_id'           => 1,  # TODO: Lookup
+                'flight_number'         => $flight_number,
+                'aircraft_id'           => 1,
                 'dpt_airport_id'        => $flight->planned_depairport,
                 'arr_airport_id'        => $flight->planned_destairport,
                 'altitude'              => $flight->planned_altitude,
@@ -84,6 +85,7 @@ class AcarsReplay extends Command
     /**
      * Mark the PIREP as filed
      * @param $pirep_id
+     * @return mixed
      */
     protected function filePirep($pirep_id)
     {
@@ -187,8 +189,8 @@ class AcarsReplay extends Command
 
                 $this->postUpdate($pirep_id, $update);
 
-                # we're done
-                if($updates->count() === 0) {
+                # we're done and don't put the "no-submit" option
+                if($updates->count() === 0 && !$this->option('no-submit')) {
                     $this->filePirep($pirep_id);
                 }
             })->filter(function ($updates, $idx) {

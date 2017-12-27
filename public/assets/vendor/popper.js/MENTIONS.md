@@ -17,7 +17,7 @@ most common frameworks or view libraries thank to the following projects.
 
 ### [react-popper](https://github.com/souporserious/react-popper)
 
-React wrapper around Popper.js.
+React wrapper around Popper.js. (@FezVrasta approved! 👍)
 
 ### [ak-layer](https://www.npmjs.com/package/ak-layer)
 
@@ -51,6 +51,10 @@ VueJS 2.x popover component based [popper.js](https://popper.js.org/)
 ### [vue-directive-tooltip](https://www.npmjs.com/package/vue-directive-tooltip)
 
 Vue.js tooltip directive (based on Popper.js)
+
+### [v-tooltip](https://github.com/Akryum/v-tooltip)
+
+Vue.js 2.x directive
 
 ## Ember.js
 

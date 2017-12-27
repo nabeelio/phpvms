@@ -181,4 +181,13 @@ class PirepController extends AppBaseController
         AcarsResource::withoutWrapping();
         return new AcarsResource($update);
     }
+
+    /**
+     * @param $id
+     * @param Request $request
+     */
+    public function geojson($id, Request $request)
+    {
+        $pirep = $this->pirepRepo->find($id);
+    }
 }
