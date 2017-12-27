@@ -46,15 +46,15 @@ mix.autoload({
     'jquery': ['jQuery', '$'],
 })
 
-mix.js([
-    /*'public/assets/vendor/lodash/dist/lodash.js',
+mix.scripts([
+    'public/assets/vendor/lodash/dist/lodash.js',
     'public/assets/vendor/jquery/dist/jquery.js',
     'public/assets/vendor/bootstrap/bootstrap.min.js',
-    'public/assets/frontend/js/plugins/bootstrap-switch.js',
+    /*'public/assets/frontend/js/plugins/bootstrap-switch.js',
     'public/assets/frontend/js/plugins/nouislider.min.js',
     'public/assets/frontend/js/plugins/bootstrap-datepicker.js',
-    'public/assets/frontend/js/now-ui-kit.js',
-    'public/assets/vendor/select2/dist/js/select2.js',*/
+    'public/assets/frontend/js/now-ui-kit.js',*/
+    'public/assets/vendor/select2/dist/js/select2.js',
     'public/assets/vendor/leaflet/dist/leaflet.js',
     'public/assets/vendor/leaflet-plugins/leaflet.geodesic.js',
     'public/assets/vendor/leaflet-plugins/leaflet.rotatedMarker.js',

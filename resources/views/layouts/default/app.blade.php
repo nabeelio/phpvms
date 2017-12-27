@@ -166,10 +166,10 @@
     <div class="clearfix" style="height: 200px;"></div>
 </div>
 
-<script src="{!! public_asset('/assets/vendor/lodash/dist/lodash.js') !!}" type="text/javascript"></script>
+{{--<script src="{!! public_asset('/assets/vendor/lodash/dist/lodash.js') !!}" type="text/javascript"></script>
 <script src="{!! public_asset('/assets/vendor/jquery/dist/jquery.js') !!}" type="text/javascript"></script>
 <script src="{!! public_asset('/assets/vendor/bootstrap/bootstrap.min.js') !!}" type="text/javascript"></script>
-<script src="{!! public_asset('/assets/vendor/select2/dist/js/select2.js') !!}"></script>
+<script src="{!! public_asset('/assets/vendor/select2/dist/js/select2.js') !!}"></script>--}}
 {{--<script src="{!! public_asset('/assets/frontend/js/plugins/bootstrap-switch.js') !!}"></script>
 <script src="{!! public_asset('/assets/frontend/js/plugins/nouislider.min.js') !!}" type="text/javascript"></script>
 <script src="{!! public_asset('/assets/frontend/js/plugins/bootstrap-datepicker.js') !!}" type="text/javascript"></script>
