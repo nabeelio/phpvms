@@ -4,7 +4,9 @@ let mix = require('laravel-mix');
 
 mix.sass('public/assets/admin/vendor/sass/paper-dashboard.scss',
          'public/assets/admin/vendor/paper-dashboard.css')
-    .styles([
+   .sourceMaps();
+
+mix.styles([
         'public/assets/admin/vendor/bootstrap.css',
         'public/assets/admin/vendor/bootstrap-editable.css',
         'public/assets/admin/vendor/animate.css',
@@ -16,7 +18,7 @@ mix.sass('public/assets/admin/vendor/sass/paper-dashboard.scss',
         'public/assets/vendor/select2/dist/css/select2.css',
         'public/assets/vendor/icheck/skins/flat/orange.css'
     ], 'public/assets/admin/css/vendor.min.css').version()
-    .sourceMaps();
+   .sourceMaps();
     /*.js([
         'public/js/admin/bootstrap.min.js',
         'public/js/admin/admin.js'
