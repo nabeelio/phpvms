@@ -1,3 +1,8 @@
+/**
+ *
+ * @type {{render_airspace_map, render_live_map, render_route_map}}
+ */
+
 const phpvms = (function() {
 
     const draw_base_map = (opts) => {
