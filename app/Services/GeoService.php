@@ -168,34 +168,36 @@ class GeoService extends BaseService
     /**
      * Read an array/relationship of ACARS model points
      * @param Pirep $pirep
-     * @return FeatureCollection
+     * @return array
      */
     public function getFeatureFromAcars(Pirep $pirep)
     {
         $route_line = [];
         $route_points = [];
-
         $route_line[] = [$pirep->dpt_airport->lon, $pirep->dpt_airport->lat];
 
         /**
          * @var $point \App\Models\Acars
          */
-        foreach ($pirep->acars as $point)
-        {
+        $counter = 1;
+        foreach ($pirep->acars as $point) {
             $route_line[] = [$point->lon, $point->lat];
             $route_points[] = new Feature(
                 new Point([$point->lon, $point->lat]), [
-                    'pirep_id'  => $pirep->id,
-                    'name'      => $point->altitude,
-                    'popup'     => 'GS: ' . $point->gs . '<br />Alt: ' . $point->altitude,
-                ]);
-        }
+                'name' => $point->altitude,
+                'popup' => $counter . '<br />GS: ' . $point->gs . '<br />Alt: ' . $point->altitude,
+            ]);
 
+            $counter += 1;
+        }
         # Arrival
         $route_line[] = [$pirep->arr_airport->lon, $pirep->arr_airport->lat];
         $route_line = new Feature(new LineString($route_line));
 
-        return new FeatureCollection([$route_line, $route_points]);
+        return [
+            'line' => new FeatureCollection([$route_line]),
+            'points' => new FeatureCollection($route_points)
+        ];
     }
 
     /**

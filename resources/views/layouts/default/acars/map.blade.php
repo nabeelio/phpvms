@@ -13,6 +13,7 @@
 <script type="text/javascript">
 phpvms.render_live_map({
     'update_uri': '{!! url('/api/acars') !!}',
+    'pirep_uri': '{!! url('/api/pireps/{id}/acars') !!}',
     'aircraft_icon': '{!! public_asset('/assets/img/acars/aircraft.png') !!}',
 });
 </script>

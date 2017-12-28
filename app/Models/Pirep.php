@@ -94,7 +94,7 @@ class Pirep extends BaseModel
     public function acars()
     {
         return $this->hasMany('App\Models\Acars', 'pirep_id')
-                ->orderBy('created_at', 'desc');
+                ->orderBy('created_at', 'asc');
     }
 
     public function aircraft()

@@ -151,16 +151,19 @@ class PirepController extends AppBaseController
     }
 
     /**
-     * Get all of the ACARS updates for a PIREP
+     * Return the GeoJSON for the ACARS line
      * @param $id
-     * @return AcarsResource
+     * @param Request $request
+     * @return \Illuminate\Contracts\Routing\ResponseFactory
      */
-    public function acars_get($id)
+    public function acars_get($id, Request $request)
     {
         $pirep = $this->pirepRepo->find($id);
+        $geodata = $this->geoSvc->getFeatureFromAcars($pirep);
 
-        $updates = $this->acarsRepo->forPirep($id);
-        return new AcarsResource($updates);
+        return response(\json_encode($geodata), 200, [
+            'Content-Type' => 'application/json',
+        ]);
     }
 
     /**
@@ -186,21 +189,5 @@ class PirepController extends AppBaseController
 
         AcarsResource::withoutWrapping();
         return new AcarsResource($update);
-    }
-
-    /**
-     * Return the GeoJSON for the ACARS line
-     * @param $id
-     * @param Request $request
-     * @return \Illuminate\Contracts\Routing\ResponseFactory
-     */
-    public function geojson($id, Request $request)
-    {
-        $pirep = $this->pirepRepo->find($id);
-        $geodata = $this->geoSvc->getFeatureFromAcars($pirep);
-
-        return response(\json_encode($geodata), 200, [
-            'Content-Type' => 'application/json',
-        ]);
     }
 }

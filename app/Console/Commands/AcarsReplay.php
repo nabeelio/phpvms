@@ -73,7 +73,7 @@ class AcarsReplay extends Command
 
         $flight_number = substr($flight->callsign, 3);
 
-        $response = $this->httpClient->post('/api/pirep/prefile', [
+        $response = $this->httpClient->post('/api/pireps/prefile', [
             'json' => [
                 'airline_id'            => 1,
                 'flight_number'         => $flight_number,
@@ -97,7 +97,7 @@ class AcarsReplay extends Command
      */
     protected function filePirep($pirep_id)
     {
-        $response = $this->httpClient->post('/api/pirep/'.$pirep_id.'/file', [
+        $response = $this->httpClient->post('/api/pireps/'.$pirep_id.'/file', [
             'json'=> []
         ]);
 

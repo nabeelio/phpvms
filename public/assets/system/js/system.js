@@ -218,6 +218,7 @@ const phpvms = (function() {
 
         opts = _.defaults(opts, {
             update_uri: '/api/acars',
+            pirep_uri: '/api/pireps/{id}/acars',
             positions: null,
             render_elem: 'map',
             aircraft_icon: '/assets/img/acars/aircraft.png',
