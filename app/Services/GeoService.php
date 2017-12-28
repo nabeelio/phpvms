@@ -184,11 +184,12 @@ class GeoService extends BaseService
             $route_line[] = [$point->lon, $point->lat];
             $route_points[] = new Feature(
                 new Point([$point->lon, $point->lat]), [
-                'name' => $point->altitude,
-                'popup' => $counter . '<br />GS: ' . $point->gs . '<br />Alt: ' . $point->altitude,
-            ]);
+                    'pirep_id' => $pirep->id,
+                    'name' => $point->altitude,
+                    'popup' => $counter . '<br />GS: ' . $point->gs . '<br />Alt: ' . $point->altitude,
+                ]);
 
-            $counter += 1;
+            ++$counter;
         }
         # Arrival
         $route_line[] = [$pirep->arr_airport->lon, $pirep->arr_airport->lat];
@@ -222,7 +223,7 @@ class GeoService extends BaseService
                     'gs'        => $point->gs,
                     'alt'       => $point->altitude,
                     'heading'   => $point->heading ?: 0,
-                    'popup'     => 'Flight: ' . $pirep->ident,
+                    'popup'     => $pirep->ident . '<br />GS: ' . $point->gs . '<br />Alt: ' . $point->altitude,
                 ]);
         }
 

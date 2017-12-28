@@ -224,15 +224,48 @@ const phpvms = (function() {
             aircraft_icon: '/assets/img/acars/aircraft.png',
         });
 
-        let flightPositions = null;
         const map = draw_base_map(opts);
-
         const aircraftIcon = L.icon({
             iconUrl: opts.aircraft_icon,
             iconSize: [48, 48],
             iconAnchor: [0, 0],
             popupAnchor: [-3, -76],
         });
+
+        let layerFlights = null;
+        let layerSelFlight = null;
+
+        /**
+         * When a flight is clicked on, show the path, etc for that flight
+         * @param feature
+         * @param layer
+         */
+        const onFlightClick = (feature, layer) => {
+            const uri = opts.pirep_uri.replace('{id}', feature.properties.pirep_id);
+            console.log('flight check uri', uri);
+
+            const flight_route = $.ajax({
+                url: uri,
+                dataType: "json",
+                error: console.log
+            });
+
+            $.when(flight_route).done((routeJson) => {
+                if(layerSelFlight !== null) {
+                    map.removeLayer(layerSelFlight);
+                }
+
+                layerSelFlight = L.geodesic([], {
+                    weight: 7,
+                    opacity: 0.9,
+                    color: ACTUAL_ROUTE_COLOR,
+                    wrap: false,
+                }).addTo(map);
+
+                layerSelFlight.geoJson(routeJson.line);
+                //map.fitBounds(layerSelFlight.getBounds());
+            });
+        };
 
         const updateMap = () => {
 
@@ -250,12 +283,26 @@ const phpvms = (function() {
 
             $.when(flights).done(function (flightGeoJson) {
 
-                if (flightPositions !== null) {
-                    flightPositions.clearLayers();
+                if (layerFlights !== null) {
+                    layerFlights.clearLayers();
                 }
 
-                flightPositions = L.geoJSON(flightGeoJson, {
-                    onEachFeature: onFeaturePointClick,
+                layerFlights = L.geoJSON(flightGeoJson, {
+                    onEachFeature: (feature, layer) => {
+
+                        layer.on({
+                            click: (e) => {
+                                onFlightClick(feature, layer);
+                            }
+                        });
+
+                        let popup_html = "";
+                        if (feature.properties && feature.properties.popup) {
+                            popup_html += feature.properties.popup;
+                        }
+
+                        layer.bindPopup(popup_html);
+                    },
                     pointToLayer: function(feature, latlon) {
                         return L.marker(latlon, {
                             icon: aircraftIcon,
@@ -264,8 +311,8 @@ const phpvms = (function() {
                     }
                 });
 
-                flightPositions.addTo(map);
-                map.fitBounds(flightPositions.getBounds());
+                layerFlights.addTo(map);
+                map.fitBounds(layerFlights.getBounds());
             });
         };
 
