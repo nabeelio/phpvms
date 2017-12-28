@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Collection;
 use GuzzleHttp\Client;
 
 use App\Facades\Utils;
+use Symfony\Component\Console\Input\InputOption;
 
 class AcarsReplay extends Command
 {
@@ -51,6 +52,13 @@ class AcarsReplay extends Command
             ]
         ]);
     }
+
+    /*protected function getArguments()
+    {
+        return [
+            ['--files', InputOption::VALUE_OPTIONAL]
+        ];
+    }*/
 
     /**
      * Make a request to start a PIREP
@@ -107,13 +115,13 @@ class AcarsReplay extends Command
         $uri = '/api/pirep/' . $pirep_id . '/acars';
 
         $upd = [
-            'log' => '',
-            'lat' => $data->latitude,
-            'lon' => $data->longitude,
-            'heading' => $data->heading,
-            'altitude' => $data->altitude,
-            'gs' => $data->groundspeed,
-            'transponder' => $data->transponder,
+            'log'           => '',
+            'lat'           => $data->latitude,
+            'lon'           => $data->longitude,
+            'heading'       => $data->heading,
+            'altitude'      => $data->altitude,
+            'gs'            => $data->groundspeed,
+            'transponder'   => $data->transponder,
         ];
 
         $this->info("Update: $data->callsign, $upd[lat] x $upd[lon] \t\t"
@@ -138,7 +146,7 @@ class AcarsReplay extends Command
      * Parse this file and run the updates
      * @param array $files
      */
-    protected function runUpdates(array $files)
+    protected function updatesFromFile(array $files)
     {
         /**
          * @var $flights Collection
@@ -227,7 +235,7 @@ class AcarsReplay extends Command
             }
         }
 
-        $this->runUpdates(explode(',', $files));
+        $this->updatesFromFile(explode(',', $files));
         $this->info('Done!');
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Services\GeoService;
 use Log;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,14 +21,19 @@ use App\Http\Controllers\AppBaseController;
 
 class PirepController extends AppBaseController
 {
-    protected $acarsRepo, $pirepRepo, $pirepSvc;
+    protected $acarsRepo,
+              $geoSvc,
+              $pirepRepo,
+              $pirepSvc;
 
     public function __construct(
         AcarsRepository $acarsRepo,
+        GeoService $geoSvc,
         PirepRepository $pirepRepo,
         PIREPService $pirepSvc
     ) {
         $this->acarsRepo = $acarsRepo;
+        $this->geoSvc = $geoSvc;
         $this->pirepRepo = $pirepRepo;
         $this->pirepSvc = $pirepSvc;
     }
@@ -183,11 +189,18 @@ class PirepController extends AppBaseController
     }
 
     /**
+     * Return the GeoJSON for the ACARS line
      * @param $id
      * @param Request $request
+     * @return \Illuminate\Contracts\Routing\ResponseFactory
      */
     public function geojson($id, Request $request)
     {
         $pirep = $this->pirepRepo->find($id);
+        $geodata = $this->geoSvc->getFeatureFromAcars($pirep);
+
+        return response(\json_encode($geodata), 200, [
+            'Content-Type' => 'application/json',
+        ]);
     }
 }

@@ -18,11 +18,9 @@ use App\Models\Pirep;
 use App\Repositories\NavdataRepository;
 
 /**
- * Return all of the coordinates, start to finish
- * Returned in the GeoJSON format
+ * Return different points/features in GeoJSON format
  * https://tools.ietf.org/html/rfc7946
  *
- * TODO: Save this data:
  * Once a PIREP is accepted, save this returned structure as a
  * JSON-encoded string into the raw_data field of the PIREP row
  *
@@ -36,7 +34,14 @@ class GeoService extends BaseService
         $this->navRepo = $navRepo;
     }
 
-    public function getClosestCoords($coordStart, $all_coords, $measure='flat')
+    /**
+     * Determine the closest set of coordinates from the starting position
+     * @param array $coordStart
+     * @param array $all_coords
+     * @return mixed
+     * @throws \League\Geotools\Exception\InvalidArgumentException
+     */
+    public function getClosestCoords($coordStart, $all_coords)
     {
         $distance = [];
         $geotools = new Geotools();
@@ -45,12 +50,7 @@ class GeoService extends BaseService
         foreach($all_coords as $coords) {
             $coord = new Coordinate($coords);
             $dist = $geotools->distance()->setFrom($start)->setTo($coord);
-
-            if($measure === 'flat') {
-                $distance[] = $dist->flat();
-            } elseif ($measure === 'greatcircle') {
-                $distance[] = $dist->greatCircle();
-            }
+            $distance[] = $dist->greatCircle();
         }
 
         $distance = collect($distance);
@@ -61,7 +61,7 @@ class GeoService extends BaseService
     /**
      * @param $dep_icao     string  ICAO to ignore
      * @param $arr_icao     string  ICAO to ignore
-     * @param $start_coords array   [x, y]
+     * @param $start_coords array   Starting point, [x, y]
      * @param $route        string  Textual route
      * @return array
      */
@@ -86,7 +86,7 @@ class GeoService extends BaseService
             }
 
             try {
-                Log::info('Looking for ' . $route_point);
+                Log::debug('Looking for ' . $route_point);
 
                 $points = $this->navRepo->findWhere(['id' => $route_point]);
                 $size = \count($points);
@@ -168,9 +168,9 @@ class GeoService extends BaseService
     /**
      * Read an array/relationship of ACARS model points
      * @param Pirep $pirep
-     * @return array
+     * @return FeatureCollection
      */
-    protected function getFeatureFromAcars(Pirep $pirep)
+    public function getFeatureFromAcars(Pirep $pirep)
     {
         $route_line = [];
         $route_points = [];
@@ -183,26 +183,19 @@ class GeoService extends BaseService
         foreach ($pirep->acars as $point)
         {
             $route_line[] = [$point->lon, $point->lat];
-
             $route_points[] = new Feature(
                 new Point([$point->lon, $point->lat]), [
-                     'name' => $point->altitude,
-                     'popup' => 'GS: ' . $point->gs . '<br />Alt: ' . $point->altitude,
-                 ]);
+                    'pirep_id'  => $pirep->id,
+                    'name'      => $point->altitude,
+                    'popup'     => 'GS: ' . $point->gs . '<br />Alt: ' . $point->altitude,
+                ]);
         }
 
         # Arrival
         $route_line[] = [$pirep->arr_airport->lon, $pirep->arr_airport->lat];
+        $route_line = new Feature(new LineString($route_line));
 
-        # Convert to a feature
-        $route_line = new Feature(new LineString($route_line), [], 1);
-
-        # TODO: Draw the plane icon from the last point
-
-        return [
-            'line' => new FeatureCollection([$route_line]),
-            'points' => new FeatureCollection($route_points)
-        ];
+        return new FeatureCollection([$route_line, $route_points]);
     }
 
     /**
@@ -223,11 +216,12 @@ class GeoService extends BaseService
             $point = $pirep->position;
             $flight_points[] = new Feature(
                 new Point([$point->lon, $point->lat]), [
-                'gs' => $point->gs,
-                'alt' => $point->altitude,
-                'heading' => $point->heading ?: 0,
-                'popup' => 'Flight: ' . $pirep->ident,
-            ]);
+                    'pirep_id'  => $pirep->id,
+                    'gs'        => $point->gs,
+                    'alt'       => $point->altitude,
+                    'heading'   => $point->heading ?: 0,
+                    'popup'     => 'Flight: ' . $pirep->ident,
+                ]);
         }
 
         return new FeatureCollection($flight_points);
@@ -242,7 +236,6 @@ class GeoService extends BaseService
     {
         $route_coords = [];
         $route_points = [];
-        #$features = [];
 
         ## Departure Airport
         $route_coords[] = [$flight->dpt_airport->lon, $flight->dpt_airport->lat];
@@ -288,8 +281,8 @@ class GeoService extends BaseService
         $planned_route_line = new FeatureCollection([new Feature(new LineString($route_coords), [])]);
 
         return [
-            'route_points' => $route_points,
-            'planned_route_line' => $planned_route_line,
+            'route_points'          => $route_points,
+            'planned_route_line'    => $planned_route_line,
         ];
     }
 
@@ -306,9 +299,9 @@ class GeoService extends BaseService
         $planned_rte_coords[] = [$pirep->dpt_airport->lon, $pirep->dpt_airport->lat];
         $route_points[] = new Feature(
             new Point([$pirep->dpt_airport->lon, $pirep->dpt_airport->lat]), [
-                'name' => $pirep->dpt_airport->icao,
+                'name'  => $pirep->dpt_airport->icao,
                 'popup' => $pirep->dpt_airport->full_name,
-                'icon' => 'airport',
+                'icon'  => 'airport',
             ]
         );
 
@@ -323,9 +316,9 @@ class GeoService extends BaseService
             foreach ($all_route_points as $point) {
                 $planned_rte_coords[] = [$point->lon, $point->lat];
                 $route_points[] = new Feature(new Point([$point->lon, $point->lat]), [
-                    'name' => $point->name,
+                    'name'  => $point->name,
                     'popup' => $point->name . ' (' . $point->name . ')',
-                    'icon' => ''
+                    'icon'  => ''
                 ]);
             }
         }
@@ -333,9 +326,9 @@ class GeoService extends BaseService
         $planned_rte_coords[] = [$pirep->arr_airport->lon, $pirep->arr_airport->lat];
         $route_points[] = new Feature(
             new Point([$pirep->arr_airport->lon, $pirep->arr_airport->lat]), [
-                'name' => $pirep->arr_airport->icao,
+                'name'  => $pirep->arr_airport->icao,
                 'popup' => $pirep->arr_airport->full_name,
-                'icon' => 'airport',
+                'icon'  => 'airport',
             ]
         );
 
@@ -350,10 +343,10 @@ class GeoService extends BaseService
         $actual_route = $this->getFeatureFromAcars($pirep);
 
         return [
-            'route_points' => $route_points,
-            'planned_route_line' => $planned_route,
-            'actual_route_line' => $actual_route['line'],
-            'actual_route_points' => $actual_route['points'],
+            'route_points'          => $route_points,
+            'planned_route_line'    => $planned_route,
+            'actual_route_line'     => $actual_route['line'],
+            'actual_route_points'   => $actual_route['points'],
         ];
     }
 }

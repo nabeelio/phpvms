@@ -5,6 +5,9 @@
 
 const phpvms = (function() {
 
+    const PLAN_ROUTE_COLOR = '#36b123';
+    const ACTUAL_ROUTE_COLOR = '#172aea';
+
     const draw_base_map = (opts) => {
 
         opts = _.defaults(opts, {
@@ -123,7 +126,7 @@ const phpvms = (function() {
         let geodesicLayer = L.geodesic([], {
             weight: 7,
             opacity: 0.9,
-            color: '#36b123',
+            color: PLAN_ROUTE_COLOR,
             steps: 50,
             wrap: false,
         }).addTo(map);
@@ -137,7 +140,7 @@ const phpvms = (function() {
                 onEachFeature: onFeaturePointClick,
                 pointToLayer: pointToLayer,
                 style: {
-                    "color": "#36b123",
+                    "color": PLAN_ROUTE_COLOR,
                     "weight": 5,
                     "opacity": 0.65,
                 },
@@ -154,7 +157,7 @@ const phpvms = (function() {
             let geodesicLayer = L.geodesic([], {
                 weight: 7,
                 opacity: 0.9,
-                color: '#172aea',
+                color: ACTUAL_ROUTE_COLOR,
                 steps: 50,
                 wrap: false,
             }).addTo(map);
@@ -168,7 +171,7 @@ const phpvms = (function() {
                 onEachFeature: onFeaturePointClick,
                 pointToLayer: pointToLayer,
                 style: {
-                    "color": "#172aea",
+                    "color": ACTUAL_ROUTE_COLOR,
                     "weight": 5,
                     "opacity": 0.65,
                 },
