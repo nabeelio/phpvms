@@ -19,6 +19,10 @@ if [ "$TRAVIS" = "true" ]; then
     rm -rf .idea phpvms.iml .travis .dpl
     rm -rf .phpstorm.meta.php _ide_helper.php
     rm -rf node_modules
+
+    # delete files in vendor that are rather large
+    rm -rf vendor/willdurand/geocoder/tests
+
     php artisan version:show --format compact --suppress-app-name > VERSION
 
     echo "creating tarball"
