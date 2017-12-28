@@ -12,7 +12,9 @@ const phpvms = (function() {
 
         opts = _.defaults(opts, {
             render_elem: 'map',
-            zoom: 12,
+            center: [29.98139, -95.33374],
+            zoom: 5,
+            maxZoom: 10,
             layers: [],
             set_marker: false,
         });
@@ -59,6 +61,7 @@ const phpvms = (function() {
 
         let map = L.map('map', {
             layers: [openaip_basemap_phys_osm],
+            center: opts.center,
             zoom: opts.zoom,
             scrollWheelZoom: false,
         });
@@ -227,13 +230,14 @@ const phpvms = (function() {
         const map = draw_base_map(opts);
         const aircraftIcon = L.icon({
             iconUrl: opts.aircraft_icon,
-            iconSize: [48, 48],
-            iconAnchor: [0, 0],
-            popupAnchor: [-3, -76],
+            iconSize: [42, 42],
+            iconAnchor: [21, 21],
         });
 
         let layerFlights = null;
         let layerSelFlight = null;
+        let layerSelFlightFeature = null;
+        let layerSelFlightLayer = null;
 
         /**
          * When a flight is clicked on, show the path, etc for that flight
@@ -241,6 +245,7 @@ const phpvms = (function() {
          * @param layer
          */
         const onFlightClick = (feature, layer) => {
+
             const uri = opts.pirep_uri.replace('{id}', feature.properties.pirep_id);
             console.log('flight check uri', uri);
 
@@ -263,6 +268,9 @@ const phpvms = (function() {
                 }).addTo(map);
 
                 layerSelFlight.geoJson(routeJson.line);
+
+                layerSelFlightFeature = feature;
+                layerSelFlightLayer = layer;
                 //map.fitBounds(layerSelFlight.getBounds());
             });
         };
@@ -312,12 +320,17 @@ const phpvms = (function() {
                 });
 
                 layerFlights.addTo(map);
-                map.fitBounds(layerFlights.getBounds());
+
+                if (layerSelFlight !== null) {
+                    onFlightClick(layerSelFlightFeature, layerSelFlightLayer);
+                }
+                //map.fitBounds(layerFlights.getBounds());
+                //map.fitBounds('39.8283° N, 98.5795° W', 40);
             });
         };
 
         updateMap();
-        setTimeout(updateMap, 10000);
+        setInterval(updateMap, 10000);
     };
 
     return {

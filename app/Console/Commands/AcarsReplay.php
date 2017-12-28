@@ -112,7 +112,7 @@ class AcarsReplay extends Command
      */
     protected function postUpdate($pirep_id, $data)
     {
-        $uri = '/api/pirep/' . $pirep_id . '/acars';
+        $uri = '/api/pireps/' . $pirep_id . '/acars';
 
         $upd = [
             'log'           => '',
