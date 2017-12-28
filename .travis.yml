@@ -12,7 +12,7 @@ before_install:
 before_script:
 #- cp .travis/env.travis .env
 - cp .travis/env.travis.php env.php
-- composer install --no-interaction
+- composer install --no-interaction --prefer-dist
 script:
 - php artisan database:create --reset
 - php artisan migrate:refresh --seed
