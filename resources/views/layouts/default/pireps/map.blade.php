@@ -12,8 +12,8 @@
 @section('scripts')
 <script type="text/javascript">
 phpvms.render_route_map({
-    route_points: {!! json_encode($map_features['route_points']) !!},
-    planned_route_line: {!! json_encode($map_features['planned_route_line']); !!},
+    route_points: {!! json_encode($map_features['planned_rte_points']) !!},
+    planned_route_line: {!! json_encode($map_features['planned_rte_line']); !!},
     actual_route_line: {!! json_encode($map_features['actual_route_line']); !!},
     actual_route_points: {!! json_encode($map_features['actual_route_points']); !!},
 });

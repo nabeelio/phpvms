@@ -293,17 +293,18 @@ class GeoService extends BaseService
      */
     public function pirepGeoJson(Pirep $pirep)
     {
-        $route_points = [];
+        $planned_rte_points = [];
         $planned_rte_coords = [];
 
         $planned_rte_coords[] = [$pirep->dpt_airport->lon, $pirep->dpt_airport->lat];
-        $route_points[] = new Feature(
+        $feature = new Feature(
             new Point([$pirep->dpt_airport->lon, $pirep->dpt_airport->lat]), [
-                'name'  => $pirep->dpt_airport->icao,
+                'name' => $pirep->dpt_airport->icao,
                 'popup' => $pirep->dpt_airport->full_name,
-                'icon'  => 'airport',
-            ]
-        );
+                'icon' => 'airport',
+           ]);
+
+        $planned_rte_points[] = $feature;
 
         if (!empty($pirep->route)) {
             $all_route_points = $this->getCoordsFromRoute(
@@ -315,7 +316,7 @@ class GeoService extends BaseService
             // lat, lon needs to be reversed for GeoJSON
             foreach ($all_route_points as $point) {
                 $planned_rte_coords[] = [$point->lon, $point->lat];
-                $route_points[] = new Feature(new Point([$point->lon, $point->lat]), [
+                $planned_rte_points[] = new Feature(new Point([$point->lon, $point->lat]), [
                     'name'  => $point->name,
                     'popup' => $point->name . ' (' . $point->name . ')',
                     'icon'  => ''
@@ -324,7 +325,8 @@ class GeoService extends BaseService
         }
 
         $planned_rte_coords[] = [$pirep->arr_airport->lon, $pirep->arr_airport->lat];
-        $route_points[] = new Feature(
+
+        $planned_rte_points[] = new Feature(
             new Point([$pirep->arr_airport->lon, $pirep->arr_airport->lat]), [
                 'name'  => $pirep->arr_airport->icao,
                 'popup' => $pirep->arr_airport->full_name,
@@ -332,21 +334,19 @@ class GeoService extends BaseService
             ]
         );
 
-        $route_points = new FeatureCollection($route_points);
+        $planned_rte_points = new FeatureCollection($planned_rte_points);
 
-        $planned_route_line = new LineString($planned_rte_coords);
         $planned_route = new FeatureCollection([
-            new Feature($planned_route_line, [], 1)
+            new Feature(new LineString($planned_rte_coords), [])
         ]);
-
 
         $actual_route = $this->getFeatureFromAcars($pirep);
 
         return [
-            'route_points'          => $route_points,
-            'planned_route_line'    => $planned_route,
-            'actual_route_line'     => $actual_route['line'],
-            'actual_route_points'   => $actual_route['points'],
+            'planned_rte_points'  => $planned_rte_points,
+            'planned_rte_line'    => $planned_route,
+            'actual_route_line'   => $actual_route['line'],
+            'actual_route_points' => $actual_route['points'],
         ];
     }
 }
