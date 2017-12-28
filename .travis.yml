@@ -19,7 +19,7 @@ before_install:
 
 before_script:
   - cp .travis/env.travis.php env.php
-  - composer install --no-interaction --prefer-dist
+  - composer install --no-interaction
 
 script:
   - php artisan database:create --reset
