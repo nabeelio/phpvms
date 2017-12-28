@@ -69,11 +69,11 @@ class AcarsTest extends TestCase
         $this->assertEquals(PirepState::IN_PROGRESS, $pirep['state']);
         $this->assertEquals(PirepStatus::ENROUTE, $pirep['status']);
 
-        /*$uri = '/api/pireps/' . $pirep_id . '/acars';
+        $uri = '/api/pireps/' . $pirep_id . '/acars';
         $response = $this->withHeaders($this->apiHeaders())->get($uri);
         $response->assertStatus(200);
 
-        $body = $response->json();
+        /*$body = $response->json();
         $this->assertEquals(1, $this->count($body));
         $this->assertEquals($pirep_id, $body[0]['pirep_id']);*/
     }
