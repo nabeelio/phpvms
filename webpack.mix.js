@@ -12,6 +12,10 @@ mix.webpackConfig({
     ]
 });
 
+/**
+ * ADMIN REQUIRED FILES
+ */
+
 mix.sass('public/assets/admin/vendor/sass/paper-dashboard.scss',
          'public/assets/admin/vendor/paper-dashboard.css')
    .sourceMaps();
@@ -29,11 +33,16 @@ mix.styles([
         'public/assets/vendor/icheck/skins/flat/orange.css'
     ], 'public/assets/admin/css/vendor.min.css').version()
    .sourceMaps();
-    /*.js([
-        'public/js/admin/bootstrap.min.js',
-        'public/js/admin/admin.js'
-    ], 'public/assets/admin/js/admin.js')
-    .sourceMaps();*/
+
+mix.scripts([
+    'node_modules/lodash/lodash.js',
+    'node_modules/jquery/dist/jquery.js',
+    'node_modules/popper.js/dist/umd/popper.js',
+    'node_modules/popper.js/dist/umd/popper-utils.js',
+    'node_modules/select2/dist/js/select2.js',
+    'node_modules/leaflet/dist/leaflet.js',
+    'node_modules/pjax/pjax.js',
+], 'public/assets/admin/js/vendor.js');
 
 /*mix.webpackConfig({
     resolve: {
@@ -42,27 +51,52 @@ mix.styles([
         }
     }
 });*/
+
+
+/**
+ * SYSTEM REQUIRED FILES
+ */
+
+
 mix.autoload({
     'jquery': ['jQuery', '$'],
-})
+});
 
 mix.scripts([
-    'public/assets/vendor/lodash/dist/lodash.js',
-    'public/assets/vendor/jquery/dist/jquery.js',
+    'node_modules/lodash/lodash.js',
+    'node_modules/jquery/dist/jquery.js',
     'public/assets/vendor/bootstrap/bootstrap.min.js',
+    'node_modules/popper.js/dist/umd/popper.js',
+    'node_modules/popper.js/dist/umd/popper-utils.js',
+    'node_modules/select2/dist/js/select2.js',
+    'node_modules/leaflet/dist/leaflet.js',
+    'node_modules/pjax/pjax.js',
+    'public/assets/vendor/leaflet-plugins/leaflet.geodesic.js',
+    'public/assets/vendor/leaflet-plugins/leaflet.rotatedMarker.js',
+    'public/assets/vendor/leaflet-plugins/leaflet.rotatedMarker.js',
     /*'public/assets/frontend/js/plugins/bootstrap-switch.js',
     'public/assets/frontend/js/plugins/nouislider.min.js',
     'public/assets/frontend/js/plugins/bootstrap-datepicker.js',
     'public/assets/frontend/js/now-ui-kit.js',*/
-    'public/assets/vendor/select2/dist/js/select2.js',
-    'public/assets/vendor/leaflet/dist/leaflet.js',
-    'public/assets/vendor/leaflet-plugins/leaflet.geodesic.js',
-    'public/assets/vendor/leaflet-plugins/leaflet.rotatedMarker.js',
-    'public/assets/vendor/leaflet-ajax/dist/leaflet.ajax.min.js',
-], 'public/assets/system/js/system-deps.js');
+], 'public/assets/system/js/vendor.js');
+
+mix.styles([
+        'node_modules/select2/dist/css/select2.css',
+        'node_modules/leaflet/dist/leaflet.css',
+    ], 'public/assets/system/css/vendor.css')
+    .options({
+        processCssUrls: false,
+        compressed: true
+    })
+    .sourceMaps();
+
+
+/**
+ * DEFAULT SKIN FRONTEND FILES
+ */
 
 mix.sass('public/assets/frontend/sass/now-ui-kit.scss',
-         'public/assets/frontend/css/now-ui-kit.css')
+    'public/assets/frontend/css/now-ui-kit.css')
     .options({
         processCssUrls: false,
         compressed: true

@@ -16,20 +16,9 @@
     {{--<link href="https://use.fontawesome.com/releases/v5.0.2/css/all.css" rel="stylesheet">--}}
 
     <link href="{!! public_asset('/assets/frontend/css/bootstrap.min.css') !!}" rel="stylesheet"/>
-    <link href="{!! public_asset('/assets/vendor/select2/dist/css/select2.min.css') !!}" rel="stylesheet"/>
     <link href="{!! public_asset('/assets/frontend/css/now-ui-kit.css') !!}" rel="stylesheet"/>
+    <link href="{!! public_asset('/assets/system/css/vendor.css') !!}" rel="stylesheet"/>
     <link href="{!! public_asset('/assets/frontend/css/styles.css') !!}" rel="stylesheet"/>
-    <link href="{!! public_asset('/assets/vendor/leaflet/dist/leaflet.css') !!}" rel="stylesheet"/>
-
-    <style>
-        .font-large {
-            font-size: 20px;
-        }
-
-        .font-medium {
-            font-size: 18px;
-        }
-    </style>
 
     @yield('css')
 
@@ -178,7 +167,8 @@
 <script src="{!! public_asset('/assets/vendor/leaflet-plugins/leaflet.geodesic.js') !!}?v={!! time() !!}"></script>
 <script src="{!! public_asset('/assets/vendor/leaflet-plugins/leaflet.rotatedMarker.js') !!}?v={!! time() !!}"></script>
 <script src="{!! public_asset('/assets/vendor/leaflet-ajax/dist/leaflet.ajax.min.js') !!}?v={!! time() !!}"></script>--}}
-<script src="{!! public_asset('/assets/system/js/system-deps.js') !!}?v={!! time() !!}"></script>
+<script src="{!! public_asset('/assets/system/js/vendor.js') !!}?v={!! time() !!}"></script>
+{{--<script src="{!! public_asset('/assets/system/js/system-deps.js') !!}?v={!! time() !!}"></script>--}}
 <script src="{!! public_asset('/assets/system/js/system.js') !!}?v={!! time() !!}"></script>
 
 <script>
