@@ -5,15 +5,12 @@
 <head>
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <title>@yield('title') - {!! config('app.name') !!}</title>
-    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
-          name='viewport'/>
-    <!--     Fonts and icons     -->
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet"/>
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport'/>
 
-    <link rel="stylesheet"
-          href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css"/>
-    {{--<link href="https://use.fontawesome.com/releases/v5.0.2/css/all.css" rel="stylesheet">--}}
+    <title>@yield('title') - {!! config('app.name') !!}</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css"/>
 
     <link href="{!! public_asset('/assets/frontend/css/bootstrap.min.css') !!}" rel="stylesheet"/>
     <link href="{!! public_asset('/assets/frontend/css/now-ui-kit.css') !!}" rel="stylesheet"/>
@@ -155,20 +152,7 @@
     <div class="clearfix" style="height: 200px;"></div>
 </div>
 
-{{--<script src="{!! public_asset('/assets/vendor/lodash/dist/lodash.js') !!}" type="text/javascript"></script>
-<script src="{!! public_asset('/assets/vendor/jquery/dist/jquery.js') !!}" type="text/javascript"></script>
-<script src="{!! public_asset('/assets/vendor/bootstrap/bootstrap.min.js') !!}" type="text/javascript"></script>
-<script src="{!! public_asset('/assets/vendor/select2/dist/js/select2.js') !!}"></script>--}}
-{{--<script src="{!! public_asset('/assets/frontend/js/plugins/bootstrap-switch.js') !!}"></script>
-<script src="{!! public_asset('/assets/frontend/js/plugins/nouislider.min.js') !!}" type="text/javascript"></script>
-<script src="{!! public_asset('/assets/frontend/js/plugins/bootstrap-datepicker.js') !!}" type="text/javascript"></script>
-<script src="{!! public_asset('/assets/frontend/js/now-ui-kit.js') !!}" type="text/javascript"></script>
-<script src="{!! public_asset('/assets/vendor/leaflet/dist/leaflet.js') !!}"></script>
-<script src="{!! public_asset('/assets/vendor/leaflet-plugins/leaflet.geodesic.js') !!}?v={!! time() !!}"></script>
-<script src="{!! public_asset('/assets/vendor/leaflet-plugins/leaflet.rotatedMarker.js') !!}?v={!! time() !!}"></script>
-<script src="{!! public_asset('/assets/vendor/leaflet-ajax/dist/leaflet.ajax.min.js') !!}?v={!! time() !!}"></script>--}}
 <script src="{!! public_asset('/assets/system/js/vendor.js') !!}?v={!! time() !!}"></script>
-{{--<script src="{!! public_asset('/assets/system/js/system-deps.js') !!}?v={!! time() !!}"></script>--}}
 <script src="{!! public_asset('/assets/system/js/system.js') !!}?v={!! time() !!}"></script>
 
 <script>
