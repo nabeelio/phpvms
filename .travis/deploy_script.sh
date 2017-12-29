@@ -11,6 +11,9 @@ if [ "$TRAVIS" = "true" ]; then
     TAR_NAME="phpvms-7.0.0-$PKG_NAME.tar.gz"
     echo "Writing $TAR_NAME"
 
+    echo "running build"
+    npm run prod
+
     # delete all superfluous files
     echo "cleaning files"
 
