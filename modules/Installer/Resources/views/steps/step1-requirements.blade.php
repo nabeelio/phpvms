@@ -1,5 +1,6 @@
 @extends('installer::app')
 @section('title', 'Requirements Check')
+
 @section('content')
 <div style="align-content: center;">
     {!! Form::open(['route' => 'installer.step2', 'method' => 'GET']) !!}

@@ -2,10 +2,16 @@
 
 namespace Modules\Installer\Http\Controllers;
 
-use Illuminate\Database\QueryException;
+use App\Models\User;
+use App\Repositories\AirlineRepository;
 use Log;
 use Illuminate\Http\Request;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Validator;
 
+use App\Facades\Utils;
+use App\Services\UserService;
+use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\AppBaseController;
 
 use Modules\Installer\Services\DatabaseService;
@@ -14,19 +20,26 @@ use Modules\Installer\Services\RequirementsService;
 
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
-
 class InstallerController extends AppBaseController
 {
-    protected $dbService, $envService, $reqService;
+    protected $airlineRepo,
+              $dbService,
+              $envService,
+              $reqService,
+              $userService;
 
     public function __construct(
+        AirlineRepository $airlineRepo,
         DatabaseService $dbService,
         EnvironmentService $envService,
-        RequirementsService $reqService
+        RequirementsService $reqService,
+        UserService $userService
     ) {
+        $this->airlineRepo = $airlineRepo;
         $this->dbService = $dbService;
         $this->envService = $envService;
         $this->reqService = $reqService;
+        $this->userService = $userService;
     }
     /**
      * Display a listing of the resource.
@@ -168,14 +181,18 @@ class InstallerController extends AppBaseController
      */
     public function dbsetup(Request $request)
     {
+        $console_out = '';
+
         try {
-            $console_out = $this->dbService->setupDB($request->input('db_conn'));
+            $console_out .= $this->dbService->setupDB();
         } catch(QueryException $e) {
             flash()->error($e->getMessage());
             return redirect(route('installer.step2'))->withInput();
         }
 
-        return view('installer::steps/step2a-completed', [
+        $console_out = trim($console_out);
+
+        return view('installer::steps/step2a-db_output', [
             'console_output' => $console_out
         ]);
     }
@@ -185,11 +202,72 @@ class InstallerController extends AppBaseController
      */
     public function step3(Request $request)
     {
-
+        return view('installer::steps/step3-user', []);
     }
 
+    /**
+     * Step 3 submit
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Prettus\Validator\Exceptions\ValidatorException
+     */
+    public function usersetup(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'airline_name' => 'required',
+            'airline_icao' => 'required|unique:airlines,icao',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|confirmed'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect('install/step3')
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        /**
+         * Create the first airline
+         */
+
+        $attrs = [
+            'icao' => $request->get('airline_icao'),
+            'name' => $request->get('airline_name'),
+        ];
+
+        $airline = $this->airlineRepo->create($attrs);
+
+        /**
+         * Create the user, and associate to the airline
+         * Ensure the seed data at least has one airport
+         * KAUS, for giggles, though.
+         */
+
+        $attrs = [
+            'name'       => $request->get('name'),
+            'email'      => $request->get('email'),
+            'api_key'    => Utils::generateApiKey(),
+            'airline_id' => $airline->id,
+            'home_airport_id' => 'KAUS',
+            'curr_airport_id' => 'KAUS',
+            'password'   => Hash::make($request->get('password'))
+        ];
+
+        $user = User::create($attrs);
+        $user = $this->userService->createPilot($user, ['admin']);
+
+        Log::info('User registered: ', $user->toArray());
+
+        return view('installer::steps/step3a-completed', []);
+    }
+
+    /**
+     * Final step
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function complete(Request $request)
     {
-        return redirect('/');
+        return redirect('/login');
     }
 }

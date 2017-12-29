@@ -43,7 +43,7 @@ class Install extends BaseCommand
         }
 
         $this->info('Running database migrations...');
-        $this->call('migrate:refresh');
+        $this->call('migrate');
 
         # TODO: Call initial seed data, for the groups and other supporting data
     }

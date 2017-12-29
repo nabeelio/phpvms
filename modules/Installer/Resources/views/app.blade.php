@@ -68,7 +68,7 @@
 
 {{--<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>--}}
 
-<script src="{!! public_asset('/assets/frontend/js/core/jquery.3.2.1.min.js') !!}" type="text/javascript"></script>
+<script src="{!! public_asset('/assets/system/js/installer-vendor.js') !!}" type="text/javascript"></script>
 {{--<script src="/assets/frontend/js/core/bootstrap.min.js" type="text/javascript"></script>--}}
 {{--<script src="/assets/frontend/js/now-ui-kit.js" type="text/javascript"></script>--}}
 <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>

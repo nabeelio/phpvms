@@ -15,6 +15,7 @@ class CreateAirportsTable extends Migration
             $table->string('location', 100)->nullable();
             $table->string('country', 64)->nullable();
             $table->string('tz', 64)->nullable();
+            $table->boolean('hub')->default(true);
             $table->unsignedDecimal('fuel_100ll_cost', 19)->default(0);
             $table->unsignedDecimal('fuel_jeta_cost', 19)->default(0);
             $table->unsignedDecimal('fuel_mogas_cost', 19)->default(0);

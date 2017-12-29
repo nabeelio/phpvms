@@ -28,6 +28,9 @@ class Airport extends BaseModel
     protected $casts = [
         'lat' => 'float',
         'lon' => 'float',
+        'fuel_100ll_cost' => 'float',
+        'fuel_jeta_cost' => 'float',
+        'fuel_mogas_cost' => 'float',
     ];
 
     /**

@@ -11,8 +11,7 @@ class UserRejected extends Mailable
 {
     use Queueable, SerializesModels;
 
-    private $subject,
-            $user;
+    public $subject, $user;
 
     public function __construct(User $user, $subject=null)
     {

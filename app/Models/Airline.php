@@ -10,17 +10,12 @@ class Airline extends BaseModel
 {
     public $table = 'airlines';
 
-    protected $dates = ['deleted_at'];
-
     public $fillable = [
         'icao',
         'iata',
         'name',
         'logo',
         'country',
-        'fuel_100ll_cost',
-        'fuel_jeta_cost',
-        'fuel_mogas_cost',
         'active',
     ];
 
@@ -30,10 +25,7 @@ class Airline extends BaseModel
      * @var array
      */
     protected $casts = [
-        'fuel_100ll_cost' => 'double',
-        'fuel_jeta_cost' => 'double',
-        'fuel_mogas_cost' => 'double',
-        'active' => 'integer',
+        'active' => 'boolean',
     ];
 
     /**

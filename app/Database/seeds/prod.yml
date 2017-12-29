@@ -3,7 +3,13 @@
 # want to modify or erase any of this here
 #
 
-ranks:
-  - id: 1
-    name: New Pilot
-    hours: 0
+airports:
+  - id: KAUS
+    iata: AUS
+    icao: KAUS
+    name: Austin-Bergstrom
+    location: Austin, Texas, USA
+    country: United States
+    lat: 30.1945278
+    lon: -97.6698889
+    tz: America/Chicago

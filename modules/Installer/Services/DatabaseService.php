@@ -42,14 +42,12 @@ class DatabaseService {
     /**
      * Setup the database by running the migration commands
      */
-    public function setupDB($db_driver='')
+    public function setupDB()
     {
         $output = '';
 
-        if($db_driver === 'sqlite') {
-            \Artisan::call('database:create');
-            $output .= \Artisan::output();
-        }
+        \Artisan::call('database:create');
+        $output .= \Artisan::output();
 
         \Artisan::call('migrate');
         $output .= trim(\Artisan::output());

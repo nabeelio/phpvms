@@ -11,5 +11,6 @@ Route::post('/envsetup', 'InstallerController@envsetup')->name('envsetup');
 Route::get('/dbsetup', 'InstallerController@dbsetup')->name('dbsetup');
 
 Route::get('/step3', 'InstallerController@step3')->name('step3');
+Route::post('/usersetup', 'InstallerController@usersetup')->name('usersetup');
 
 Route::get('/complete', 'InstallerController@complete')->name('complete');

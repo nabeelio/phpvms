@@ -2,7 +2,7 @@
 @section('title', 'Database Setup Completed')
 @section('content')
 <div style="align-content: center;">
-    {!! Form::open(['route' => 'installer.complete', 'method' => 'GET']) !!}
+    {!! Form::open(['route' => 'installer.step3', 'method' => 'GET']) !!}
 
     <pre class="lang-sh">
         <code class="lang-sh">

@@ -16,10 +16,11 @@ class UserService extends BaseService
     /**
      * Register a pilot. Also attaches the initial roles
      * required, and then triggers the UserRegistered event
-     * @param User $user
+     * @param User $user        User model
+     * @param array $groups     Additional groups to assign
      * @return mixed
      */
-    public function createPilot(User $user)
+    public function createPilot(User $user, array $groups=null)
     {
         # Determine if we want to auto accept
         if(setting('pilot.auto_accept') === true) {
@@ -33,6 +34,13 @@ class UserService extends BaseService
         # Attach the user roles
         $role = Role::where('name', 'user')->first();
         $user->attachRole($role);
+
+        if(!empty($groups) && \is_array($groups)) {
+            foreach ($groups as $group) {
+                $role = Role::where('name', $group)->first();
+                $user->attachRole($role);
+            }
+        }
 
         # Let's check their rank and where they should start
         $this->calculatePilotRank($user);

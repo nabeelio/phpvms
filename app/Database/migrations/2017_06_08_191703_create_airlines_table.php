@@ -20,7 +20,7 @@ class CreateAirlinesTable extends Migration
             $table->string('name', 50);
             $table->string('country', 2)->nullable();
             $table->string('logo', 255)->nullable();
-            $table->boolean('active');
+            $table->boolean('active')->default(true);
             $table->timestamps();
 
             $table->index('icao');

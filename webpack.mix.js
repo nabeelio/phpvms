@@ -86,6 +86,17 @@ mix.styles([
 
 
 /**
+ * INSTALLER VENDOR FILES
+ */
+
+mix.scripts([
+    'node_modules/lodash/lodash.js',
+    'node_modules/jquery/dist/jquery.js',
+    'node_modules/pjax/pjax.js',
+], 'public/assets/system/js/installer-vendor.js');
+
+
+/**
  * DEFAULT SKIN FRONTEND FILES
  */
 
