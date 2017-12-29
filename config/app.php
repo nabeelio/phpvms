@@ -55,12 +55,9 @@ return [
          * Package Service Providers...
          */
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
-        Yajra\Datatables\DatatablesServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
         Laracasts\Flash\FlashServiceProvider::class,
         Prettus\Repository\Providers\RepositoryServiceProvider::class,
-        InfyOm\Generator\InfyOmGeneratorServiceProvider::class,
-        InfyOm\AdminLTETemplates\AdminLTETemplatesServiceProvider::class,
         Spatie\Fractal\FractalServiceProvider::class,
         SebastiaanLuca\Helpers\Methods\GlobalHelpersServiceProvider::class,
         SebastiaanLuca\Helpers\Collections\CollectionMacrosServiceProvider::class,
@@ -116,9 +113,9 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Utils' => App\Facades\Utils::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
+        'Version' => PragmaRX\Version\Package\Facade::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Yaml' => Symfony\Component\Yaml\Yaml::class,
-
 
         # ENUMS
         'PilotState' => App\Models\Enums\PilotState::class,

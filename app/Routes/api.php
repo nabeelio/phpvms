@@ -13,7 +13,7 @@ Route::group([], function()
     Route::get('pireps/{id}/acars', 'PirepController@acars_get');
     Route::get('pireps/{id}/geojson', 'PirepController@acars_get');
 
-    Route::get('status', 'BaseController@status');
+    Route::get('status', 'StatusController@status');
 });
 
 /**
