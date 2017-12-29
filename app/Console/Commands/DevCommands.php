@@ -10,7 +10,7 @@ use App\Models\Pirep;
 
 class DevCommands extends BaseCommand
 {
-    protected $signature = 'phpvms:dev {cmd}';
+    protected $signature = 'phpvms {cmd}';
     protected $description = 'Developer commands';
 
     /**
