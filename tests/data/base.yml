@@ -30,9 +30,6 @@ role_user:
     user_type: App\Models\User
 
 ranks:
-  - id: 1
-    name: New Pilot
-    hours: 0
   - id: 2
     name: Junior First Officer
     hours: 10
