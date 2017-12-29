@@ -2,13 +2,9 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
+use App\Console\BaseCommand;
 
-use Symfony\Component\Process\Process;
-use Symfony\Component\Process\Exception\ProcessFailedException;
-
-
-class CreateDatabase extends Command
+class CreateDatabase extends BaseCommand
 {
     protected $signature = 'database:create {--reset} {--conn=?}';
     protected $description = 'Create a database';
@@ -18,21 +14,6 @@ class CreateDatabase extends Command
     {
         parent::__construct();
         $this->os = new \Tivie\OS\Detector();
-    }
-
-    protected function runCommand($cmd)
-    {
-        $cmd = join(' ', $cmd);
-
-        $this->info('Running "' . $cmd . '"');
-
-        $proc = new Process($cmd);
-        $proc->run();
-        if (!$proc->isSuccessful()) {
-            throw new ProcessFailedException($proc);
-        }
-
-        echo $proc->getOutput();
     }
 
     /**

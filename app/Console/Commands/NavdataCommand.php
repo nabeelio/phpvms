@@ -2,38 +2,15 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
-use League\Geotools\Coordinate\Coordinate;
-
+use App\Console\BaseCommand;
 use App\Models\Navdata;
 use App\Models\Enums\NavaidType;
 
 
-class NavdataCommand extends Command
+class NavdataCommand extends BaseCommand
 {
     protected $signature = 'phpvms:navdata';
     protected $description = '';
-
-    /**
-     * Streaming file read
-     * @param $filename
-     * @return \Generator
-     */
-    protected function readFile($filename)
-    {
-        $fp = fopen($filename, 'rb');
-
-        while (($line = fgets($fp)) !== false) {
-            $line = rtrim($line, "\r\n");
-            if($line[0] === ';') {
-                continue;
-            }
-
-            yield $line;
-        }
-
-        fclose($fp);
-    }
 
     /**
      * Read and parse in the navaid file

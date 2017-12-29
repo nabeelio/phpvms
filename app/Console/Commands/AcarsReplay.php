@@ -2,14 +2,13 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Collection;
 use GuzzleHttp\Client;
 
+use App\Console\BaseCommand;
 use App\Facades\Utils;
-use Symfony\Component\Console\Input\InputOption;
 
-class AcarsReplay extends Command
+class AcarsReplay extends BaseCommand
 {
     protected $signature = 'phpvms:replay {files} {--manual} {--write-all} {--no-submit}';
     protected $description = 'Replay an ACARS file';

@@ -13,8 +13,11 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
+        Commands\AcarsReplay::class,
         Commands\CreateDatabase::class,
+        Commands\DevCommands::class,
         Commands\Install::class,
+        Commands\NavdataCommand::class,
     ];
 
     /**

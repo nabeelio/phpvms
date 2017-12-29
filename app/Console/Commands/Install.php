@@ -2,10 +2,9 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
+use App\Console\BaseCommand;
 
-
-class Install extends Command
+class Install extends BaseCommand
 {
     protected $signature = 'phpvms:install 
                                 {--update}
