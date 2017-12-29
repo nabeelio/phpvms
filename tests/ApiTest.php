@@ -1,5 +1,7 @@
 <?php
 
+#use Swagger\Serializer;
+
 /**
  * Test API calls and authentication, etc
  */
@@ -42,11 +44,18 @@ class ApiTest extends TestCase
      */
     public function testAirportRequest()
     {
+
+
         $airport = factory(App\Models\Airport::class)->create();
 
-        $this->withHeaders($this->apiHeaders())->get('/api/airports/' . $airport->icao)
-            ->assertStatus(200)
-            ->assertJson(['icao' => $airport->icao], true);
+        $response = $this->withHeaders($this->apiHeaders())->get('/api/airports/' . $airport->icao);
+        $response->assertStatus(200);
+        $response->assertJson(['icao' => $airport->icao], true);
+
+        /*$body = $response->json();
+        $serializer = new Serializer();
+        $swagger = $serializer->deserialize(\json_encode($body));
+        echo $swagger;*/
 
         $this->withHeaders($this->apiHeaders())->get('/api/airports/UNK')
             ->assertStatus(404);
