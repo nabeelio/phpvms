@@ -37,6 +37,7 @@ class Kernel extends HttpKernel
         'api' => [
             'throttle:60,1',
             'bindings',
+            'json',
         ],
     ];
 
@@ -54,6 +55,7 @@ class Kernel extends HttpKernel
         'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
+        'json' => \App\Http\Middleware\JsonResponse::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         #'role' => \Laratrust\Middleware\LaratrustRole::class,
         #'permission' => \Laratrust\Middleware\LaratrustPermission::class,
