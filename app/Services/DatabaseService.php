@@ -28,16 +28,32 @@ class DatabaseService extends BaseService
         return Carbon::now('UTC')->format('Y-m-d H:i:s');
     }
 
-    public function seed_from_yaml_file($yaml_file)
+    /**
+     * @param $yaml_file
+     * @param bool $ignore_errors
+     * @return array
+     * @throws \Exception
+     */
+    public function seed_from_yaml_file($yaml_file, $ignore_errors=false): array
     {
         $yml = file_get_contents($yaml_file);
-        $this->seed_from_yaml($yml);
+        return $this->seed_from_yaml($yml, $ignore_errors);
     }
 
-    public function seed_from_yaml($yml)
+    /**
+     * @param $yml
+     * @param bool $ignore_errors
+     * @return array
+     * @throws \Exception
+     */
+    public function seed_from_yaml($yml, $ignore_errors=false): array
     {
+        $imported = [];
         $yml = Yaml::parse($yml);
         foreach ($yml as $table => $rows) {
+
+            $imported[$table] = 0;
+
             foreach ($rows as $row) {
 
                 # see if this table uses a UUID as the PK
@@ -60,12 +76,19 @@ class DatabaseService extends BaseService
                     }
                 }
 
-                #try {
+                try {
                     DB::table($table)->insert($row);
-                #} catch(QueryException $e) {
-                #    Log::info($e->getMessage());
-                #}
+                    ++$imported[$table];
+                } catch(QueryException $e) {
+                    if($ignore_errors) {
+                        continue;
+                    }
+
+                    throw $e;
+                }
             }
         }
+
+        return $imported;
     }
 }

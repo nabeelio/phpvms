@@ -60,6 +60,7 @@ reset: clean
 reload-db:
 	@php artisan database:create --reset
 	@php artisan migrate:refresh --seed
+	@php artisan phpvms:import app/Database/seeds/sample.yml
 	@php artisan phpvms:navdata
 
 .PHONY: tests

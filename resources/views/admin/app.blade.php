@@ -73,7 +73,7 @@
 
 </body>
 
-<script src="https://cdn.jsdelivr.net/lodash/4.17.4/lodash.min.js"></script>
+{{--<script src="https://cdn.jsdelivr.net/lodash/4.17.4/lodash.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <script src="{!! public_asset('/assets/vendor/bootstrap/bootstrap.min.js') !!}" type="text/javascript"></script>
 <script src="{!! public_asset('/assets/vendor/bootstrap/bootstrap-notify.js') !!}"></script>
@@ -82,29 +82,16 @@
 <script src="{!! public_asset('/assets/vendor/pjax/jquery.pjax.js') !!}"></script>
 <script src="{!! public_asset('/assets/vendor/icheck/icheck.js') !!}"></script>
 <script src="{!! public_asset('/assets/vendor/rivets/dist/rivets.bundled.min.js') !!}"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
 <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+--}}
 
-<script src="{!! public_asset('/assets/admin/js/admin.js') !!}"></script>
+
+<script src="{!! public_asset('/assets/admin/js/vendor.js') !!}"></script>
 <script src="{!! public_asset('/assets/system/js/system.js') !!}"></script>
+<script src="{!! public_asset('/assets/admin/js/admin.js') !!}"></script>
 
 <script>
-rivets.configure({
-    prefix: 'rv',
-    preloadData: true,
-    rootInterface: '.',
-    templateDelimiters: ['{', '}'],
-    iterationAlias: function (modelName) {
-        return '%' + modelName + '%';
-    },
-    // Augment the event handler of the on-* binder
-    handler: function (target, event, binding) {
-        this.call(target, event, binding.view.models)
-    },
-    executeFunctions: false
-
-});
-
 var getStorage = function(key) {
     var st = window.localStorage.getItem(key);
     console.log('storage: ', key, st);

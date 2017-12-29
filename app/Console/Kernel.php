@@ -16,6 +16,7 @@ class Kernel extends ConsoleKernel
         Commands\AcarsReplay::class,
         Commands\CreateDatabase::class,
         Commands\DevCommands::class,
+        Commands\ImportCommand::class,
         Commands\Install::class,
         Commands\NavdataCommand::class,
     ];

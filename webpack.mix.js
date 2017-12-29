@@ -34,6 +34,7 @@ mix.styles([
     'node_modules/select2/dist/css/select2.css',
     'node_modules/leaflet/dist/leaflet.css',
     'node_modules/icheck/skins/flat/orange.css',
+    'node_modules/x-editable/dist/bootstrap3-editable/css/bootstrap-editable.css',
     'public/assets/admin/vendor/paper-dashboard.css',
 ], 'public/assets/admin/css/vendor.min.css').version()
    .sourceMaps();
@@ -41,12 +42,14 @@ mix.styles([
 mix.scripts([
     'node_modules/lodash/lodash.js',
     'node_modules/jquery/dist/jquery.js',
+    'node_modules/bootstrap3/dist/js/bootstrap.js',
     'node_modules/popper.js/dist/umd/popper.js',
     'node_modules/popper.js/dist/umd/popper-utils.js',
     'node_modules/select2/dist/js/select2.js',
     'node_modules/leaflet/dist/leaflet.js',
     'node_modules/icheck/icheck.js',
     'node_modules/pjax/pjax.js',
+    'node_modules/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.js',
 ], 'public/assets/admin/js/vendor.js');
 
 /**

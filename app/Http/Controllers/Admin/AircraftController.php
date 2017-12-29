@@ -30,7 +30,7 @@ class AircraftController extends BaseController
         $aircraft = $this->aircraftRepository->all();
 
         return view('admin.aircraft.index', [
-            'aircraft', $aircraft
+            'aircraft' => $aircraft
         ]);
     }
 

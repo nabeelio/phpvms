@@ -11,16 +11,8 @@ use App\Models\Pirep;
 
 class DevCommands extends BaseCommand
 {
-    protected $signature = 'phpvms {cmd} {--file=?}';
+    protected $signature = 'phpvms {cmd}';
     protected $description = 'Developer commands';
-
-    protected $dbSvc;
-
-    public function __construct(DatabaseService $dbSvc)
-    {
-        parent::__construct();
-        $this->dbSvc = $dbSvc;
-    }
 
     /**
      * Run dev related commands
@@ -37,7 +29,6 @@ class DevCommands extends BaseCommand
         $commands = [
             'clear-acars' => 'clearAcars',
             'compile-assets' => 'compileAssets',
-            'import' => 'importYaml',
         ];
 
         if(!array_key_exists($command, $commands)) {
@@ -75,13 +66,5 @@ class DevCommands extends BaseCommand
     {
         $this->runCommand('npm update');
         $this->runCommand('npm run dev');
-    }
-
-    /**
-     * Import data from a YAML file
-     */
-    protected function importYaml()
-    {
-        $this->info('importing '. $this->argument('file'));
     }
 }

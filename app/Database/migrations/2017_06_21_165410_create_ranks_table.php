@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
+use App\Models\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
 class CreateRanksTable extends Migration
@@ -24,6 +24,19 @@ class CreateRanksTable extends Migration
 
             $table->unique('name');
         });
+
+        /**
+         * Initial required data...
+         */
+        $ranks = [
+            [
+                'id' => 1,
+                'name' => 'New Pilot',
+                'hours' => 0,
+            ]
+        ];
+
+        $this->addData('ranks', $ranks);
     }
 
     /**
