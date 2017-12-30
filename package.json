@@ -18,6 +18,7 @@
     "eonasdan-bootstrap-datetimepicker": "^4.17.47",
     "icheck": "^1.0.2",
     "jquery": "^3.2.1",
+    "jquery-pjax": "^2.0.1",
     "laravel-mix": "^1.0",
     "leaflet": "^1.2.0",
     "leaflet-ajax": "2.1.0",

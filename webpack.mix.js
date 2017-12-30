@@ -23,6 +23,7 @@ mix.webpackConfig({
 mix.copy('node_modules/jquery/dist/jquery.js', 'public/assets/system/js/');
 mix.copy('node_modules/bootstrap3/fonts/*.woff2', 'public/assets/fonts/');
 mix.copy('node_modules/bootstrap3/fonts/*.woff2', 'public/assets/admin/fonts/');
+mix.copy('node_modules/x-editable/dist/bootstrap3-editable/img/*', 'public/assets/admin/css/');
 
 /**
  * ADMIN REQUIRED FILES
@@ -59,10 +60,11 @@ mix.scripts([
     'node_modules/select2/dist/js/select2.js',
     'node_modules/leaflet/dist/leaflet.js',
     'node_modules/icheck/icheck.js',
-    'node_modules/pjax/pjax.js',
+    // 'node_modules/pjax/pjax.js',
     'node_modules/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.js',
     // 'node_modules/x-editable/dist/bootstrap-datepicker/dist/js/bootstrap-datepicker.js',
     'node_modules/eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js',
+    'node_modules/jquery-pjax/jquery.pjax.js',
 ], 'public/assets/admin/js/vendor.js');
 
 mix.copy('node_modules/icheck/skins/square/blue*.png', 'public/assets/admin/css');

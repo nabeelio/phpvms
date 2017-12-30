@@ -4,11 +4,13 @@
     "/assets/system/js/jquery.js": "/assets/system/js/jquery.js?id=09dd64a64ba840c31a81",
     "/assets/fonts/glyphicons-halflings-regular.woff2": "/assets/fonts/glyphicons-halflings-regular.woff2?id=b5b5055c6d812c0f9f0d",
     "/assets/admin/fonts/glyphicons-halflings-regular.woff2": "/assets/admin/fonts/glyphicons-halflings-regular.woff2?id=b5b5055c6d812c0f9f0d",
+    "/assets/admin/css/clear.png": "/assets/admin/css/clear.png?id=0e92f4c3efc6988a3c96",
+    "/assets/admin/css/loading.gif": "/assets/admin/css/loading.gif?id=90a4b76b4f11558691f6",
     "/assets/admin/css/vendor.min.css": "/assets/admin/css/vendor.min.css?id=b7f27b62f5cf3ebb7a65",
-    "/assets/admin/js/vendor.js": "/assets/admin/js/vendor.js?id=2831a0e25aded202c08c",
+    "/assets/admin/js/vendor.js": "/assets/admin/js/vendor.js?id=0f6b516f7ea80d70d407",
     "/assets/admin/css/blue.png": "/assets/admin/css/blue.png?id=753a3c0dec86d3a38d9c",
     "/assets/admin/css/blue@2x.png": "/assets/admin/css/blue@2x.png?id=97da23d47b838cbd4bef",
-    "/assets/system/js/vendor.js": "/assets/system/js/vendor.js?id=022e73793e29fb2c6825",
+    "/assets/system/js/vendor.js": "/assets/system/js/vendor.js?id=434db3f2c9beafd58bae",
     "/assets/system/css/vendor.css": "/assets/system/css/vendor.css?id=7bd98a28084fea99e307",
     "/assets/system/js/installer-vendor.js": "/assets/system/js/installer-vendor.js?id=b2bca761f222e97bf4ff"
 }
