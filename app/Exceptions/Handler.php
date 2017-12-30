@@ -50,6 +50,23 @@ class Handler extends ExceptionHandler
             return redirect()->guest('login');
         }
 
+        if($request->is('api/*')) {
+            $status = 400;
+            $http_code = $exception->getCode();
+            if ($this->isHttpException($exception)) {
+                $status = $exception->getStatusCode();
+                $http_code = $exception->getStatusCode();
+            }
+
+            return response()->json([
+                'error' => [
+                    'code' => $exception->getCode() ,
+                    'http_code' => $http_code,
+                    'message' => $exception->getMessage()
+                ]
+            ], $status);
+        }
+
         return parent::render($request, $exception);
     }
 
