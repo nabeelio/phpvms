@@ -29,11 +29,6 @@ class Flight extends BaseModel
         'active',
     ];
 
-    /**
-     * The attributes that should be casted to native types.
-     *
-     * @var array
-     */
     protected $casts = [
         'flight_number' => 'integer',
         'route_code'    => 'string',
@@ -46,11 +41,6 @@ class Flight extends BaseModel
         'active'        => 'boolean',
     ];
 
-    /**
-     * Validation rules
-     *
-     * @var array
-     */
     public static $rules = [
         'flight_number'  => 'required',
         'dpt_airport_id' => 'required',

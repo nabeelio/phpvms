@@ -43,11 +43,6 @@ class Pirep extends BaseModel
         'raw_data',
     ];
 
-    /**
-     * The attributes that should be casted to native types.
-     *
-     * @var array
-     */
     protected $casts = [
         'id'                    => 'string',
         'flight_time'           => 'integer',
@@ -61,12 +56,8 @@ class Pirep extends BaseModel
         'status'                => 'integer',
     ];
 
-    /**
-     * Validation rules
-     *
-     * @var array
-     */
     public static $rules = [
+        'flight_number' => 'required',
         'dpt_airport_id' => 'required',
         'arr_airport_id' => 'required',
     ];

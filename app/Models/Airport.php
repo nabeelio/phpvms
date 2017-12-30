@@ -14,11 +14,13 @@ class Airport extends BaseModel
 
     public $fillable = [
         'id',
+        'iata',
         'icao',
         'name',
         'location',
         'lat',
         'lon',
+        'hub',
         'timezone',
         'fuel_100ll_cost',
         'fuel_jeta_cost',
@@ -28,6 +30,7 @@ class Airport extends BaseModel
     protected $casts = [
         'lat' => 'float',
         'lon' => 'float',
+        'hub' => 'boolean',
         'fuel_100ll_cost' => 'float',
         'fuel_jeta_cost' => 'float',
         'fuel_mogas_cost' => 'float',
@@ -39,7 +42,10 @@ class Airport extends BaseModel
      * @var array
      */
     public static $rules = [
-        #'icao' => 'required|unique:airports'
+        'icao' => 'required',
+        'name' => 'required',
+        'lat' => 'required',
+        'lon' => 'required',
     ];
 
     /**
@@ -54,6 +60,10 @@ class Airport extends BaseModel
          * Make sure the ID is set to the ICAO
          */
         static::creating(function (Airport $model) {
+            if(!empty($model->iata)) {
+                $model->iata = strtoupper($model->iata);
+            }
+
             $model->icao = strtoupper($model->icao);
             $model->id = $model->icao;
         });

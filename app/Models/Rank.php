@@ -19,33 +19,21 @@ class Rank extends BaseModel
         'auto_promote'
     ];
 
-    /**
-     * The attributes that should be casted to native types.
-     *
-     * @var array
-     */
     protected $casts = [
-        'name' => 'string',
-        'hours' => 'integer',
-        'auto_approve_acars' => 'bool',
+        'name'                => 'string',
+        'hours'               => 'integer',
+        'auto_approve_acars'  => 'bool',
         'auto_approve_manual' => 'bool',
-        'auto_promote' => 'bool',
+        'auto_promote'        => 'bool',
     ];
 
-    /**
-     * Validation rules
-     *
-     * @var array
-     */
     public static $rules = [
         'name' => 'required|unique:ranks',
         'hours' => 'required',
     ];
 
     public function subfleets() {
-        return $this->belongsToMany(
-            'App\Models\Subfleet',
-            'subfleet_rank'
-        )->withPivot('acars_pay', 'manual_pay');
+        return $this->belongsToMany('App\Models\Subfleet', 'subfleet_rank')
+                    ->withPivot('acars_pay', 'manual_pay');
     }
 }

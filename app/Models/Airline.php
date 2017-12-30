@@ -34,7 +34,8 @@ class Airline extends BaseModel
      * @var array
      */
     public static $rules = [
-        'code' => 'required|max:3|unique:airlines',
+        'iata' => 'required|max:5',
+        'icao' => 'required|max:5',
         'name' => 'required',
     ];
 

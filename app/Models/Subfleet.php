@@ -31,6 +31,11 @@ class Subfleet extends BaseModel
         'gross_weight' => 'double',
     ];
 
+    public static $rules = [
+        'name' => 'required',
+        'type' => 'required',
+    ];
+
     public function aircraft()
     {
         return $this->hasMany('App\Models\Aircraft', 'subfleet_id');
