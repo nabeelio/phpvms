@@ -35,6 +35,7 @@ class User extends Authenticatable
         'email',
         'password',
         'airline_id',
+        'api_key',
         'home_airport_id',
         'curr_airport_id',
         'last_pirep_id',
