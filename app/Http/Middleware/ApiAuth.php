@@ -6,6 +6,7 @@
 namespace App\Http\Middleware;
 
 use Auth;
+use Log;
 use Closure;
 use App\Models\User;
 
@@ -21,7 +22,8 @@ class ApiAuth
     public function handle($request, Closure $next)
     {
         // Check if Authorization header is in place
-        if(!$request->header('Authorization')) {
+        $auth = $request->header('Authorization', null);
+        if(empty($auth)) {
             return $this->unauthorized('Authorization header missing');
         }
 
