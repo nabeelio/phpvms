@@ -22,14 +22,14 @@ class ApiAuth
     {
         // Check if Authorization header is in place
         if(!$request->header('Authorization')) {
-            return $this->unauthorized();
+            return $this->unauthorized('Authorization header missing');
         }
 
         // Try to find the user via API key. Cache this lookup
         $api_key = $request->header('Authorization');
         $user = User::where('api_key', $api_key)->first();
         if($user === null) {
-            return $this->unauthorized();
+            return $this->unauthorized('User not found with key "'.$api_key.'"');
         }
 
         // Set the user to the request
@@ -46,13 +46,13 @@ class ApiAuth
      * Return an unauthorized message
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      */
-    private function unauthorized()
+    private function unauthorized($details='')
     {
         return response([
             'error' => [
                 'code' => '401',
                 'http_code' => 'Unauthorized',
-                'message' => 'Invalid or missing API key',
+                'message' => 'Invalid or missing API key ('. $details .')',
             ],
         ], 401);
     }
