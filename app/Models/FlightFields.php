@@ -9,7 +9,6 @@ namespace App\Models;
  */
 class FlightFields extends BaseModel
 {
-
     public $table = 'flight_fields';
 
     protected $dates = ['deleted_at'];
