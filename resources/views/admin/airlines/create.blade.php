@@ -1,13 +1,11 @@
 @extends('admin.app')
-
+@section('title', 'Airlines')
 @section('content')
     <section class="content-header">
-        <h1>
-            Airlines
-        </h1>
+        <h1>Airlines</h1>
     </section>
     <div class="content">
-        @include('adminlte-templates::common.errors')
+        @include('admin.flash.message')
         <div class="box box-primary">
 
             <div class="box-body">

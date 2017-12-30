@@ -5,7 +5,7 @@
         <h1>Edit "{!! $field->name !!}"</h1>
    </section>
    <div class="content">
-       @include('adminlte-templates::common.errors')
+       @include('admin.flash.message')
        <div class="box box-primary">
            <div class="box-body">
                <div class="row">

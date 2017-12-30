@@ -3,7 +3,7 @@
 @section('content')
 <div class="card border-blue-bottom">
    <div class="content">
-       @include('adminlte-templates::common.errors')
+      @include('admin.flash.message')
        {!! Form::model($airport, ['route' => ['admin.airports.update', $airport->id], 'method' => 'patch', 'id' => 'airportForm']) !!}
             @include('admin.airports.fields')
        {!! Form::close() !!}
