@@ -11,21 +11,21 @@
 
                 @foreach($settings as $setting)
                     <tr>
-                        <td>
+                        <td width="70%">
                             <p>{!! $setting->name !!}</p>
                             <p class="description">{{$setting->description}}</p></td>
-                        <td>
-                            @if($setting->type === 'text')
-                                {!! Form::input('text', $setting->id, $setting->value, ['class' => 'form-control']) !!}
+                        <td align="center">
+                            @if($setting->type === 'date')
+                                {!! Form::input('text', $setting->id, $setting->value, ['class' => 'form-control', 'id' => 'datepicker']) !!}
                             @elseif($setting->type === 'boolean' || $setting->type === 'bool')
                                 {!! Form::hidden($setting->id, 0)  !!}
-                                {!! Form::checkbox($setting->id, null, $setting->value, ['']) !!}
+                                {!! Form::checkbox($setting->id, null, $setting->value) !!}
                             @elseif($setting->type === 'int' || $setting->type === 'number')
                                 {!! Form::number($setting->id, $setting->value, ['class'=>'form-control']) !!}
                             @elseif($setting->type === 'select')
                                 {!! Form::select($setting->id,
                                                  explode(',', $setting->options),
-                                                 $setting->value, ['class' => 'select2', 'style' => 'width: 100%']) !!}
+                                                 $setting->value, ['class' => 'select2', 'style' => 'width: 100%; text-align: left;']) !!}
                             @else
                                 {!! Form::input('text', $setting->id, $setting->value, ['class' => 'form-control']) !!}
                             @endif
@@ -37,8 +37,19 @@
         </div>
     </div>
 @endforeach
-    <div class="pull-right">
-        {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
-        <a href="{!! route('admin.subfleets.index') !!}" class="btn btn-default">Cancel</a>
+<div class="card">
+    <div class="content">
+        <div class="text-right">
+            {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
+            <a href="{!! route('admin.subfleets.index') !!}" class="btn btn-default">Cancel</a>
+        </div>
     </div>
+</div>
 {!! Form::close() !!}
+<script>
+$(document).ready(function () {
+    $('#datepicker').datetimepicker({
+        format: "YYYY-MM-DD"
+    });
+});
+</script>

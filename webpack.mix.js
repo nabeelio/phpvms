@@ -17,6 +17,13 @@ mix.webpackConfig({
 });
 
 /**
+ * GENERAL FILES
+ */
+
+mix.copy('node_modules/jquery/dist/jquery.js', 'public/assets/system/js/');
+mix.copy('node_modules/bootstrap3/fonts/*.woff2', 'public/assets/fonts/');
+
+/**
  * ADMIN REQUIRED FILES
  */
 
@@ -25,8 +32,7 @@ mix.sass('public/assets/admin/vendor/sass/paper-dashboard.scss',
    .sourceMaps();
 
 mix.styles([
-    'public/assets/admin/vendor/bootstrap.css',
-    'public/assets/admin/vendor/bootstrap-editable.css',
+    'node_modules/bootstrap3/dist/css/bootstrap.css',
     'public/assets/admin/vendor/animate.css',
     'public/assets/admin/vendor/pe-icon-7-stroke.css',
     'public/assets/admin/vendor/themify-icons.css',
@@ -36,13 +42,17 @@ mix.styles([
     'node_modules/icheck/skins/square/blue.css',
     'node_modules/x-editable/dist/bootstrap3-editable/css/bootstrap-editable.css',
     'public/assets/admin/vendor/paper-dashboard.css',
+    'node_modules/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css',
 ], 'public/assets/admin/css/vendor.min.css').version()
    .sourceMaps();
 
 mix.scripts([
     'node_modules/lodash/lodash.js',
-    'node_modules/jquery/dist/jquery.js',
+    //'node_modules/jquery/dist/jquery.js',  // commented out to include separately
+    'node_modules/moment/moment.js',
     'node_modules/bootstrap3/dist/js/bootstrap.js',
+    'node_modules/bootstrap3/js/collapse.js',
+    'node_modules/bootstrap3/js/transition.js',
     'node_modules/popper.js/dist/umd/popper.js',
     'node_modules/popper.js/dist/umd/popper-utils.js',
     'node_modules/select2/dist/js/select2.js',
@@ -50,6 +60,8 @@ mix.scripts([
     'node_modules/icheck/icheck.js',
     'node_modules/pjax/pjax.js',
     'node_modules/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.js',
+    // 'node_modules/x-editable/dist/bootstrap-datepicker/dist/js/bootstrap-datepicker.js',
+    'node_modules/eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js',
 ], 'public/assets/admin/js/vendor.js');
 
 mix.copy('node_modules/icheck/skins/square/blue*.png', 'public/assets/admin/css');
