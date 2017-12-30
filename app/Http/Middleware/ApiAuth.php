@@ -23,7 +23,7 @@ class ApiAuth
     {
         // Check if Authorization header is in place
         $auth = $request->header('Authorization', null);
-        if(empty($auth)) {
+        if($auth === null) {
             return $this->unauthorized('Authorization header missing');
         }
 

@@ -29,6 +29,9 @@ class ApiTest extends TestCase
         $this->withHeaders(['Authorization' => 'invalidKey'])->get($uri)
             ->assertStatus(401);
 
+        $this->withHeaders(['Authorization' => ''])->get($uri)
+            ->assertStatus(401);
+
         // Test upper/lower case of Authorization header, etc
         $this->withHeaders($this->apiHeaders())->get($uri)
             ->assertStatus(200)
