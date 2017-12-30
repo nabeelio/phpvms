@@ -16363,57 +16363,63 @@ a.editable-click.editable-disabled:hover {
 	border-right-color: #fff;
 	}
 
-/* iCheck plugin Flat skin, orange
+/* iCheck plugin Square skin, blue
 ----------------------------------- */
-.icheckbox_flat-orange,
-.iradio_flat-orange {
+.icheckbox_square-blue,
+.iradio_square-blue {
     display: inline-block;
     *display: inline;
     vertical-align: middle;
     margin: 0;
     padding: 0;
-    width: 20px;
-    height: 20px;
-    background: url(orange.png) no-repeat;
+    width: 22px;
+    height: 22px;
+    background: url(blue.png) no-repeat;
     border: none;
     cursor: pointer;
 }
 
-.icheckbox_flat-orange {
+.icheckbox_square-blue {
     background-position: 0 0;
 }
-    .icheckbox_flat-orange.checked {
-        background-position: -22px 0;
+    .icheckbox_square-blue.hover {
+        background-position: -24px 0;
     }
-    .icheckbox_flat-orange.disabled {
-        background-position: -44px 0;
+    .icheckbox_square-blue.checked {
+        background-position: -48px 0;
+    }
+    .icheckbox_square-blue.disabled {
+        background-position: -72px 0;
         cursor: default;
     }
-    .icheckbox_flat-orange.checked.disabled {
-        background-position: -66px 0;
+    .icheckbox_square-blue.checked.disabled {
+        background-position: -96px 0;
     }
 
-.iradio_flat-orange {
-    background-position: -88px 0;
+.iradio_square-blue {
+    background-position: -120px 0;
 }
-    .iradio_flat-orange.checked {
-        background-position: -110px 0;
+    .iradio_square-blue.hover {
+        background-position: -144px 0;
     }
-    .iradio_flat-orange.disabled {
-        background-position: -132px 0;
+    .iradio_square-blue.checked {
+        background-position: -168px 0;
+    }
+    .iradio_square-blue.disabled {
+        background-position: -192px 0;
         cursor: default;
     }
-    .iradio_flat-orange.checked.disabled {
-        background-position: -154px 0;
+    .iradio_square-blue.checked.disabled {
+        background-position: -216px 0;
     }
 
 /* HiDPI support */
 @media (-o-min-device-pixel-ratio: 5/4), (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 120dpi) {
-    .icheckbox_flat-orange,
-    .iradio_flat-orange {
-        background-image: url(orange@2x.png);
-        -webkit-background-size: 176px 22px;
-        background-size: 176px 22px;
+    .icheckbox_square-blue,
+    .iradio_square-blue {
+        background-image: url(blue@2x.png);
+        -webkit-background-size: 240px 24px;
+        background-size: 240px 24px;
     }
 }
 /*! X-editable - v1.5.1 

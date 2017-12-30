@@ -32,7 +32,7 @@ Route::group([
 
     # view/update settings
     Route::match(['get'], 'settings', 'SettingsController@index');
-    Route::match(['post', 'put'], 'settings', 'SettingsController@update');
+    Route::match(['post', 'put'], 'settings', 'SettingsController@update')->name('settings.update');
 
     # pirep related routes
     Route::resource('pireps', 'PirepController');

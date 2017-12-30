@@ -33,7 +33,7 @@ class CreateSettingsTable extends Migration
             [
                 'order' => 1,
                 'name' => 'Start Date',
-                'group' => '',
+                'group' => 'general',
                 'key' => 'general.start_date',
                 'value' => '',
                 'type' => 'date',
@@ -45,7 +45,7 @@ class CreateSettingsTable extends Migration
                 'group' => 'general',
                 'key' => 'general.currency',
                 'value' => 'dollar',
-                'type' => 'text',
+                'type' => 'select',
                 'options' => 'dollar,euro,gbp,yen,jpy,rupee,ruble',
                 'description' => 'Currency to show in the interface',
             ],

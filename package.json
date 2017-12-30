@@ -27,5 +27,8 @@
     "rivets": "0.9.6",
     "select2": "^4.0.5",
     "x-editable": "1.5.1"
+  },
+  "devDependencies": {
+    "copy-webpack-plugin": "^4.3.1"
   }
 }

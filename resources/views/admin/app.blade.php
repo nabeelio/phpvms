@@ -140,8 +140,8 @@ $(document).ready(function () {
     $(".select2").select2();
 
     $('input').iCheck({
-        checkboxClass: 'icheckbox_flat-orange',
-        radioClass: 'iradio_flat-orange'
+        checkboxClass: 'icheckbox_square-blue',
+        radioClass: 'icheckbox_square-blue'
     });
 
     var storage = getStorage("phpvms.admin");

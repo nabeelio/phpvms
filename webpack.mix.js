@@ -33,7 +33,7 @@ mix.styles([
     'public/assets/admin/vendor/font-awesome.css',
     'node_modules/select2/dist/css/select2.css',
     'node_modules/leaflet/dist/leaflet.css',
-    'node_modules/icheck/skins/flat/orange.css',
+    'node_modules/icheck/skins/square/blue.css',
     'node_modules/x-editable/dist/bootstrap3-editable/css/bootstrap-editable.css',
     'public/assets/admin/vendor/paper-dashboard.css',
 ], 'public/assets/admin/css/vendor.min.css').version()
@@ -51,6 +51,8 @@ mix.scripts([
     'node_modules/pjax/pjax.js',
     'node_modules/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.js',
 ], 'public/assets/admin/js/vendor.js');
+
+mix.copy('node_modules/icheck/skins/square/blue*.png', 'public/assets/admin/css');
 
 /**
  * SYSTEM REQUIRED FILES

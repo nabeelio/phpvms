@@ -22,7 +22,4 @@ class Setting extends BaseModel
         'description',
     ];
 
-    public $casts = [
-        'options' => 'array',
-    ];
 }

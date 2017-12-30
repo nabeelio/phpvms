@@ -2,42 +2,43 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Log;
 use Illuminate\Http\Request;
-use Setting;
+
+use App\Models\Setting;
 
 class SettingsController extends BaseController
 {
     /**
-     * Display a listing of setting.
-     *
-     * @return Response
+     * Display the settings. Group them by the setting group
      */
     public function index()
     {
-        /*$settings = array_filter(Setting::all(), function ($key) {
-            if (strpos($key, '_descrip') !== false) { return true; }
-            return false;
-        });*/
-        $settings = [];
+        $settings = Setting::orderBy('order', 'asc')->get();
+        $settings = $settings->groupBy('group');
 
         return view('admin.settings.index',[
-            'settings' => $settings,
+            'grouped_settings' => $settings,
         ]);
     }
 
     /**
      * Update the specified setting in storage.
-     *
-     * @param Setting $setting
-     * @param Request $request
-     *
-     * @return Response
      */
-    public function update(Setting $setting, Request $request)
+    public function update(Request $request)
     {
-        /*$this->validate($request, Setting::$rules, Setting::$messages);
-        $this->updateEntry($setting, $request->all());*/
+        foreach($request->post() as $id => $value) {
+            $setting = Setting::find($id);
+            if(!$setting) {
+                continue;
+            }
 
+            Log::info('Updating "'.$setting->key.'" from "'.$setting->value.'" to "'.$value.'"');
+            $setting->value = $value;
+            $setting->save();
+        }
+
+        flash('Settings saved!');
         return redirect('/admin/settings');
     }
 
