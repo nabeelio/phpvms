@@ -19,10 +19,12 @@ class TestApi extends BaseCommand
         $this->httpClient = new Client([
            'headers' => [
                'Authorization' => $this->argument('apikey'),
+               'Content-type' => 'application/json',
+               'X-API-Key' => $this->argument('apikey'),
            ]
         ]);
 
         $result = $this->httpClient->get($this->argument('url'));
-        print_r(\GuzzleHttp\json_decode($result->getBody()));
+        echo $result->getBody();
     }
 }
