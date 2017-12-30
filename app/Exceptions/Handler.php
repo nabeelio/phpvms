@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Log;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
@@ -56,6 +57,11 @@ class Handler extends ExceptionHandler
             if ($this->isHttpException($exception)) {
                 $status = $exception->getStatusCode();
                 $http_code = $exception->getStatusCode();
+            }
+
+            if($exception instanceof ModelNotFoundException) {
+                $status = 404;
+                $http_code = 404;
             }
 
             return response()->json([
