@@ -96,13 +96,9 @@ class NavdataCommand extends BaseCommand
                     break;
             }
 
-            #$coord = new Coordinate([$navaid['lat'], $navaid['lon']]);
-            #$navaid['lat'] = $coord->getLatitude();
-            #$navaid['lon'] = $coord->getLongitude();
-
-            if($navaid['id'] === 'LCH' || $navaid['id'] === 'RSG') {
+            /*if($navaid['id'] === 'LCH' || $navaid['id'] === 'RSG') {
                 print_r($navaid);
-            }
+            }*/
 
             Navdata::updateOrCreate([
                 'id' => $navaid['id'], 'name' => $navaid['name']
