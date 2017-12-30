@@ -1,22 +1,12 @@
 @extends('admin.app')
-@section('title', 'Airlines')
+@section('title', 'Add Airline')
 @section('content')
-    <section class="content-header">
-        <h1>Airlines</h1>
-    </section>
-    <div class="content">
+    <div class="card border-blue-bottom">
+        <div class="content">
         @include('admin.flash.message')
-        <div class="box box-primary">
-
-            <div class="box-body">
-                <div class="row">
-                    {!! Form::open(['route' => 'admin.airlines.store']) !!}
-
-                        @include('admin.airlines.fields')
-
-                    {!! Form::close() !!}
-                </div>
-            </div>
+            {!! Form::open(['route' => 'admin.airlines.store']) !!}
+             @include('admin.airlines.fields')
+            {!! Form::close() !!}
         </div>
     </div>
 @endsection

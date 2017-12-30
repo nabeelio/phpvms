@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Flash;
+use Response;
+use Illuminate\Http\Request;
+use Prettus\Repository\Criteria\RequestCriteria;
+
 use App\Http\Requests\CreateAirlineRequest;
 use App\Http\Requests\UpdateAirlineRequest;
 use App\Repositories\AirlineRepository;
-use Illuminate\Http\Request;
-use Flash;
-use Prettus\Repository\Criteria\RequestCriteria;
-use Response;
 
 class AirlinesController extends BaseController
 {
