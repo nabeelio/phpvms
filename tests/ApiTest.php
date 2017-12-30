@@ -34,7 +34,15 @@ class ApiTest extends TestCase
             ->assertStatus(200)
             ->assertJson(['icao' => $airport->icao], true);
 
+        $this->withHeaders(['authorization' => 'testadminapikey'])->get($uri)
+            ->assertStatus(200)
+            ->assertJson(['icao' => $airport->icao], true);
+
         $this->withHeaders(['AUTHORIZATION' => 'testadminapikey'])->get($uri)
+            ->assertStatus(200)
+            ->assertJson(['icao' => $airport->icao], true);
+
+        $this->withHeaders(['AuThOrIzAtIoN' => 'testadminapikey'])->get($uri)
             ->assertStatus(200)
             ->assertJson(['icao' => $airport->icao], true);
     }
