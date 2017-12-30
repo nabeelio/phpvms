@@ -22,6 +22,7 @@ mix.webpackConfig({
 
 mix.copy('node_modules/jquery/dist/jquery.js', 'public/assets/system/js/');
 mix.copy('node_modules/bootstrap3/fonts/*.woff2', 'public/assets/fonts/');
+mix.copy('node_modules/bootstrap3/fonts/*.woff2', 'public/assets/admin/fonts/');
 
 /**
  * ADMIN REQUIRED FILES

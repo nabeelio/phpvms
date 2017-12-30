@@ -19,6 +19,7 @@ $(document).ready(function() {
 
     $(document).on('submit', 'form.rm_fare', function(event) {
         event.preventDefault();
+        console.log(event);
         $.pjax.submit(event, '#aircraft_fares_wrapper', {push: false});
     });
 

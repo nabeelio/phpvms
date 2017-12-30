@@ -3,6 +3,10 @@ Options -Indexes
 
 RewriteEngine On
 
+# Handle Authorization Header
+RewriteCond %{HTTP:Authorization} ^(.*)
+RewriteRule .* - [e=HTTP_AUTHORIZATION:%1]
+
 # Deny all these files/folders
 RedirectMatch 403 ^/.git/.*?$
 RedirectMatch 403 ^/.travis/.*?$

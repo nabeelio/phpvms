@@ -1,29 +1,15 @@
 # Disable index view
 Options -Indexes
 
-# Hide a specific file
-<Files .env>
-    Order allow,deny
-    Deny from all
-</Files>
-
-<Files env.php>
-    Order allow,deny
-    Deny from all
-</Files>
-
-# Hide a specific file
-<Files storage>
-    Order allow,deny
-    Deny from all
-</Files>
-
 <IfModule mod_rewrite.c>
     <IfModule mod_negotiation.c>
         Options -MultiViews
     </IfModule>
 
     RewriteEngine On
+
+    RewriteCond %{HTTP:Authorization} ^(.*)
+    RewriteRule .* - [e=HTTP_AUTHORIZATION:%1]
 
     # Redirect Trailing Slashes If Not A Folder...
     RewriteCond %{REQUEST_FILENAME} !-d
