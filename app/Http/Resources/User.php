@@ -21,7 +21,8 @@ class User extends Resource
             'flight_time' => $this->flight_time,
             'balance' => $this->balance,
             'timezone' => $this->timezone,
-            'active' => $this->active,
+            'status' => $this->status,
+            'state' => $this->state,
 
             'airline' => Airline::make($this->airline),
             'bids' => UserBid::collection($this->bids),
