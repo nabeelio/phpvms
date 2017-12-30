@@ -17,7 +17,7 @@ class Utils extends Facade
      */
     public static function generateApiKey()
     {
-        $key = substr(0, 12, sha1(time() . mt_rand()));
+        $key = substr(sha1(time() . mt_rand()), 0, 12);
         return $key;
     }
 

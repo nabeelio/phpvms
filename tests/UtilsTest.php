@@ -51,4 +51,10 @@ class UtilsTest extends TestCase
         $t = Utils::minutesToTimeString(43200);
         $this->assertEquals('720h 0m', $t);
     }
+
+    public function testApiKey()
+    {
+        $api_key = Utils::generateApiKey();
+        $this->assertNotNull($api_key);
+    }
 }
