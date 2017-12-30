@@ -29,6 +29,7 @@ class DevCommands extends BaseCommand
         $commands = [
             'clear-acars' => 'clearAcars',
             'compile-assets' => 'compileAssets',
+            'test-api' => 'testApi',
         ];
 
         if(!array_key_exists($command, $commands)) {

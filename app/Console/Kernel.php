@@ -19,6 +19,7 @@ class Kernel extends ConsoleKernel
         Commands\ImportCommand::class,
         Commands\Install::class,
         Commands\NavdataCommand::class,
+        Commands\TestApi::class,
     ];
 
     /**
