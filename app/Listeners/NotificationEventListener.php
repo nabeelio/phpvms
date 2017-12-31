@@ -2,24 +2,27 @@
 
 namespace App\Listeners;
 
-use App\Events\UserStateChanged;
 use Log;
 use Illuminate\Support\Facades\Mail;
 
 use App\Models\Enums\PilotState;
-use \App\Events\UserRegistered;
 
 /**
  * Handle sending emails on different events
  * @package App\Listeners
  */
-class EmailEventListener
+class NotificationEventListener
 {
     public function subscribe($events)
     {
         $events->listen(
-            UserRegistered::class,
-            'App\Listeners\EmailEventListener@onUserRegister'
+            \App\Events\UserRegistered::class,
+            'App\Listeners\NotificationEventListener@onUserRegister'
+        );
+
+        $events->listen(
+            \App\Events\UserStateChanged::class,
+            'App\Listeners\NotificationEventListener@onUserStateChange'
         );
     }
 
@@ -34,6 +37,14 @@ class EmailEventListener
                   . PilotState::label($event->user->state)
                   . ', sending active email');
 
+        # First send the admin a notification
+        $admin_email = setting('general.admin_email');
+        if (!empty($admin_email)) {
+            $email = new \App\Mail\Admin\UserRegistered($event->user);
+            Mail::to($admin_email)->send($email);
+        }
+
+        # Then notify the user
         if($event->user->state === PilotState::ACTIVE) {
             $email = new \App\Mail\UserRegistered(
                 $event->user,

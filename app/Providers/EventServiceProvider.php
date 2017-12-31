@@ -19,7 +19,7 @@ class EventServiceProvider extends ServiceProvider
     ];
 
     protected $subscribe = [
-        'App\Listeners\EmailEventListener',
+        'App\Listeners\NotificationEventListener',
     ];
 
     /**
