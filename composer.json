@@ -9,7 +9,7 @@
     "homepage": "http://www.phpvms.net",
     "require": {
         "php": ">=7.0",
-        "laravel/framework": "5.5.25",
+        "laravel/framework": "5.5.28",
         "symfony/lts": "v3",
         "php-http/httplug": "1.1.0",
         "laravelcollective/html": "5.5.1",
