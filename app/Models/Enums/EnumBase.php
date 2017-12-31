@@ -41,4 +41,21 @@ class EnumBase
 
         return $labels;
     }
+
+    /**
+     * Select box
+     */
+    public static function select($add_blank=false)
+    {
+        $labels = [];
+        if($add_blank) {
+            $labels[] = '';
+        }
+
+        foreach (static::$labels as $key => $label) {
+            $labels[$key] = trans($label);
+        }
+
+        return $labels;
+    }
 }

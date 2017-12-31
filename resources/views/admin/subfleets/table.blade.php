@@ -4,7 +4,7 @@
         <th>Airline</th>
         <th>Name</th>
         <th>Type</th>
-        <th>Fuel Type</th>
+        {{--<th>Fuel Type</th>--}}
         <th></th>
     </thead>
     <tbody>
@@ -13,7 +13,7 @@
             <td>{!! $subfleet->airline->name !!}</td>
             <td>{!! $subfleet->name !!}</td>
             <td>{!! $subfleet->type !!}</td>
-            <td>
+            {{--<td>
                 @if($subfleet->fuel_type === config('enums.fuel_types.100LL'))
                     100LL
                 @elseif($subfleet->fuel_type === config('enums.fuel_types.JETA'))
@@ -23,7 +23,7 @@
                 @else
                     -
                 @endif
-            </td>
+            </td>--}}
             <td class="text-right">
                 {!! Form::open(['route' => ['admin.subfleets.destroy', $subfleet->id], 'method' => 'delete']) !!}
 

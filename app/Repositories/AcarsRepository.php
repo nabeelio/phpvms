@@ -34,10 +34,6 @@ class AcarsRepository extends BaseRepository //implements CacheableInterface
         return Pirep::with(['airline', 'position'])
                 ->where(['state' => PirepState::IN_PROGRESS])
                 ->get();
-
-        /*return Pirep::with(['acars' => function($q) {
-            return $q->limit(1);
-        }])->where(['state' => PirepState::IN_PROGRESS])->get();*/
     }
 
     /**

@@ -17,7 +17,7 @@
     <p>{!! $subfleet->type !!}</p>
 </div>
 
-<!-- Fuel Type Field -->
+{{--<!-- Fuel Type Field -->
 <div class="form-group">
     {!! Form::label('fuel_type', 'Fuel Type:') !!}
     <p>
@@ -31,7 +31,7 @@
         -
     @endif
     </p>
-</div>
+</div>--}}
 
 <!-- Created At Field -->
 <div class="form-group">

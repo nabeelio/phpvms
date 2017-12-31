@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Cache;
+use Flash;
+use Response;
+use Illuminate\Http\Request;
+use Prettus\Repository\Criteria\RequestCriteria;
+
 use App\Http\Requests\CreateRankRequest;
 use App\Http\Requests\UpdateRankRequest;
 use App\Repositories\RankRepository;
 use App\Repositories\SubfleetRepository;
-use Illuminate\Http\Request;
-use Flash;
-use Prettus\Repository\Criteria\RequestCriteria;
-use Response;
 
 class RankController extends BaseController
 {
@@ -19,8 +21,7 @@ class RankController extends BaseController
     public function __construct(
         RankRepository $rankingRepo,
         SubfleetRepository $subfleetRepo
-    )
-    {
+    ) {
         $this->rankRepository = $rankingRepo;
         $this->subfleetRepo = $subfleetRepo;
     }

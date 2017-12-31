@@ -85,3 +85,10 @@
 .table-upgrade td:nth-child(3) {
     text-align: center;
 }
+
+span.required {
+    color: #c12e2a;
+    font-weight: 400;
+    font-size: 120%;
+    vertical-align: sub;
+}

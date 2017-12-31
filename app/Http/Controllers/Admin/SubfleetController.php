@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests;
-use App\Models\Airline;
-use App\Models\Subfleet;
-use App\Http\Requests\CreateSubfleetRequest;
-use App\Http\Requests\UpdateSubfleetRequest;
-use App\Models\Fare;
-use App\Repositories\FareRepository;
-use App\Repositories\SubfleetRepository;
 use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+
+use App\Models\Enums\FuelType;
+
+use App\Models\Airline;
+use App\Models\Subfleet;
+use App\Http\Requests\CreateSubfleetRequest;
+use App\Http\Requests\UpdateSubfleetRequest;
+use App\Repositories\FareRepository;
+use App\Repositories\SubfleetRepository;
 
 class SubfleetController extends BaseController
 {
@@ -32,19 +33,6 @@ class SubfleetController extends BaseController
     ) {
         $this->subfleetRepo = $subfleetRepo;
         $this->fareRepo = $fareRepo;
-    }
-
-    /**
-     * @return array
-     */
-    protected function getFuelTypes()
-    {
-        $retval = [];
-        foreach (config('enums.fuel_types') as $fuel_type => $value) {
-            $retval[$value] = $fuel_type;
-        }
-
-        return $retval;
     }
 
     /**
@@ -67,9 +55,9 @@ class SubfleetController extends BaseController
 
     /**
      * Display a listing of the Subfleet.
-     *
      * @param Request $request
      * @return Response
+     * @throws \Prettus\Repository\Exceptions\RepositoryException
      */
     public function index(Request $request)
     {
@@ -90,7 +78,7 @@ class SubfleetController extends BaseController
     {
         return view('admin.subfleets.create', [
             'airlines' => Airline::all()->pluck('name', 'id'),
-            'fuel_types' => $this->getFuelTypes(),
+            'fuel_types' => FuelType::labels(),
         ]);
     }
 
@@ -152,9 +140,9 @@ class SubfleetController extends BaseController
         $avail_fares = $this->getAvailFares($subfleet);
         return view('admin.subfleets.edit', [
             'airlines' => Airline::all()->pluck('name', 'id'),
-            'fuel_types' => $this->getFuelTypes(),
-            'avail_fares' => $avail_fares,
-            'subfleet' => $subfleet,
+            'fuel_types'    => FuelType::labels(),
+            'avail_fares'   => $avail_fares,
+            'subfleet'      => $subfleet,
         ]);
     }
 
