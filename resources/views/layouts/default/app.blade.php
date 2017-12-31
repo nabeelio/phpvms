@@ -49,7 +49,6 @@
         </div>
         <div class="collapse navbar-collapse justify-content-end" id="navigation">
             <ul class="navbar-nav">
-
                 @if(Auth::check())
                     <li class="nav-item">
                         <a class="nav-link" href="{!! url('/dashboard') !!}">

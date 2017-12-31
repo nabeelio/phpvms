@@ -62,21 +62,36 @@ class User extends Authenticatable
     ];
 
     public static $rules = [
-
+        'name' => 'required',
+        'email' => 'required|email|unique:users,email',
     ];
 
-    public function getPilotIdAttribute($value)
+    /**
+     * @return string
+     */
+    public function getPilotIdAttribute()
     {
         $length = setting('pilots.id_length');
         return $this->airline->icao . str_pad($this->id, $length, '0', STR_PAD_LEFT);
     }
 
-    public function getGravatarAttribute($value)
+    /**
+     * @return string
+     */
+    public function getIdentAttribute()
+    {
+        return $this->getPilotIdAttribute();
+    }
+
+    /**
+     * @return string
+     */
+    public function getGravatarAttribute()
     {
         $size = 80;
         $default = 'https://en.gravatar.com/userimage/12856995/7c7c1da6387853fea65ff74983055386.png';
-        return "https://www.gravatar.com/avatar/" .
-                md5( strtolower( trim( $this->email) ) ) . "?d=" . urlencode( $default ) . "&s=" . $size;
+        return 'https://www.gravatar.com/avatar/' .
+                md5(strtolower(trim($this->email))) . '?d=' . urlencode($default ) . '&s=' . $size;
     }
 
     /**

@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Jackiedo\Timezonelist\Facades\Timezonelist;
 
 use App\Models\User;
+use App\Facades\Utils;
 use App\Repositories\AirlineRepository;
 use App\Repositories\AirportRepository;
 use App\Repositories\UserRepository;
@@ -108,9 +109,24 @@ class ProfileController extends AppBaseController
             $req_data['password'] = Hash::make($req_data['password']);
         }
 
-        $user = $this->userRepo->update($req_data, $id);
+        $this->userRepo->update($req_data, $id);
 
         Flash::success('Profile updated successfully!');
+        return redirect(route('frontend.profile.index'));
+    }
+
+    /**
+     * Regenerate the user's API key
+     */
+    public function regen_apikey(Request $request)
+    {
+        $user = User::find(Auth::user()->id);
+        Log::info('Regenerating API key "'.$user->pilot_id.'"');
+
+        $user->api_key = Utils::generateApiKey();
+        $user->save();
+
+        flash('New API key generated!')->success();
         return redirect(route('frontend.profile.index'));
     }
 }

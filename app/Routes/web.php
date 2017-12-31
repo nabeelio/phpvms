@@ -27,8 +27,11 @@ Route::group([
     Route::post('flights/save', 'FlightController@save')->name('flights.save');
     Route::resource('flights', 'FlightController');
 
-    Route::resource('profile', 'ProfileController');
     Route::resource('pireps', 'PirepController');
+
+    Route::get('profile/regen_apikey', 'ProfileController@regen_apikey')
+        ->name('profile.regen_apikey');
+    Route::resource('profile', 'ProfileController');
 });
 
 Auth::routes();
