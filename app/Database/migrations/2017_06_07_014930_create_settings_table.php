@@ -22,8 +22,10 @@ class CreateSettingsTable extends Migration
             $table->string('type')->nullable();
             $table->string('options')->nullable();
             $table->string('description')->nullable();
+
             $table->timestamps();
             $table->unique('key');
+            $table->index('key');
         });
 
         /**
@@ -41,6 +43,15 @@ class CreateSettingsTable extends Migration
             ],
             [
                 'order' => 2,
+                'name' => 'Admin Email',
+                'group' => 'general',
+                'key' => 'general.admin_email',
+                'value' => '',
+                'type' => 'text',
+                'description' => 'Email where notices, etc are sent',
+            ],
+            [
+                'order' => 3,
                 'name' => 'Currency to Use',
                 'group' => 'general',
                 'key' => 'general.currency',

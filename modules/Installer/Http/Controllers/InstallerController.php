@@ -2,16 +2,17 @@
 
 namespace Modules\Installer\Http\Controllers;
 
-use App\Models\User;
-use App\Repositories\AirlineRepository;
 use Log;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Validator;
 
+use App\Models\User;
+use App\Models\Setting;
+use App\Repositories\AirlineRepository;
 use App\Facades\Utils;
 use App\Services\UserService;
-use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\AppBaseController;
 
 use Modules\Installer\Services\DatabaseService;
@@ -255,8 +256,12 @@ class InstallerController extends AppBaseController
 
         $user = User::create($attrs);
         $user = $this->userService->createPilot($user, ['admin']);
-
         Log::info('User registered: ', $user->toArray());
+
+        # Set the intial admin e-mail address
+        $admin_email = Setting::where('key', 'general.admin_email');
+        $admin_email->value = $user->email;
+        $admin_email->save();
 
         return view('installer::steps/step3a-completed', []);
     }
