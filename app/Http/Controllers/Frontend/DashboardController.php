@@ -26,23 +26,20 @@ class DashboardController extends AppBaseController
      */
     public function index()
     {
-        $pireps = $this->pirepRepo->recent();
         $users = $this->userRepo->recent();
+        $pireps = $this->pirepRepo->recent();
 
         $last_pirep = null;
         $user = Auth::user();
 
         try {
             $last_pirep = $this->pirepRepo->find($user->last_pirep_id);
-        } catch(\Exception $e) {
-            Log::info('No last PIREP for ' . $user->pilot_id);
-        }
-
+        } catch(\Exception $e) { }
 
         return $this->view('dashboard.index', [
-            'user' => $user,
-            'pireps' => $pireps,
-            'users' => $users,
+            'user'       => $user,
+            'pireps'     => $pireps,
+            'users'      => $users,
             'last_pirep' => $last_pirep,
         ]);
     }
