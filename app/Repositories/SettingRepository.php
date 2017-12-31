@@ -28,7 +28,7 @@ class SettingRepository extends BaseRepository implements CacheableInterface
      */
     public function retrieve($key)
     {
-        $key = str_replace('.', '_', strtolower($key));
+        $key = Setting::formatKey($key);
         $setting = $this->findWhere(['id' => $key], ['type', 'value'])->first();
 
         if(!$setting) {
@@ -66,7 +66,8 @@ class SettingRepository extends BaseRepository implements CacheableInterface
      */
     public function store($key, $value)
     {
-        $setting = $this->findWhere(['key' => $key], ['id'])->first();
+        $key = Setting::formatKey($key);
+        $setting = $this->findWhere(['id' => $key], ['id'])->first();
         if (!$setting) {
             return null;
         }

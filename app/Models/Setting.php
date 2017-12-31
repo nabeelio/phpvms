@@ -17,6 +17,11 @@ class Setting extends BaseModel
         'description',
     ];
 
+    public static function formatKey($key)
+    {
+        return str_replace('.', '_', strtolower($key));
+    }
+
     protected static function boot()
     {
         parent::boot();
@@ -26,7 +31,7 @@ class Setting extends BaseModel
          */
         static::creating(function (Setting $model) {
             if (!empty($model->id)) {
-                $model->id = str_replace('.', '_', strtolower($model->id));
+                $model->id = Setting::formatKey($model->id);
             }
         });
     }
