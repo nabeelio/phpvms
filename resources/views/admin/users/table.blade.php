@@ -13,14 +13,14 @@
             <td>{!! $user->email !!}</td>
             <td>{!! show_date($user->created_at) !!}</td>
             <td class="text-center">
-                @if($user->state == PilotState::ACTIVE)
+                @if($user->state == UserState::ACTIVE)
                     <span class="label label-success">
-                @elseif($user->state == PilotState::PENDING)
+                @elseif($user->state == UserState::PENDING)
                     <span class="label label-warning">
                 @else
                     <span class="label label-default">
                 @endif
-                {!! PilotState::label($user->state) !!}</span>
+                {!! UserState::label($user->state) !!}</span>
             </td>
             <td class="text-right">
                 {!! Form::open(['route' => ['admin.users.destroy', $user->id], 'method' => 'delete']) !!}

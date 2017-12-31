@@ -52,7 +52,7 @@
     <div class="form-group col-sm-6">
         {!! Form::label('state', 'State:') !!}
         <label class="checkbox-inline">
-            {!! Form::select('state', PilotState::labels(), null, ['class' => 'form-control select2']) !!}
+            {!! Form::select('state', UserState::labels(), null, ['class' => 'form-control select2']) !!}
         </label>
     </div>
 

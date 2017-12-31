@@ -14,7 +14,7 @@ use App\Facades\Utils;
 use App\Models\Airport;
 use App\Models\Airline;
 use App\Services\UserService;
-use App\Models\Enums\PilotState;
+use App\Models\Enums\UserState;
 use App\Http\Controllers\Controller;
 use App\Repositories\AirlineRepository;
 use App\Repositories\AirportRepository;
@@ -118,7 +118,7 @@ class RegisterController extends Controller
 
         $user = $this->create($request->all());
 
-        if($user->state === PilotState::PENDING) {
+        if($user->state === UserState::PENDING) {
             return $this->view('auth.pending');
         }
 

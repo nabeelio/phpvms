@@ -4,7 +4,7 @@ namespace App\Repositories;
 use Illuminate\Http\Request;
 
 use App\Models\User;
-use App\Models\Enums\PilotState;
+use App\Models\Enums\UserState;
 use App\Repositories\Criteria\WhereCriteria;
 
 class UserRepository extends BaseRepository
@@ -29,7 +29,7 @@ class UserRepository extends BaseRepository
     public function getPendingCount()
     {
         $where = [
-            'state' => PilotState::PENDING,
+            'state' => UserState::PENDING,
         ];
 
         $users = $this->orderBy('created_at', 'desc')->findWhere($where)->count();
@@ -48,7 +48,7 @@ class UserRepository extends BaseRepository
         $where = [];
 
         if($only_active) {
-            $where['state'] = PilotState::ACTIVE;
+            $where['state'] = UserState::ACTIVE;
         }
 
         if ($request->filled('name')) {

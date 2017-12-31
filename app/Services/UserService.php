@@ -9,7 +9,7 @@ use App\Models\Role;
 use App\Events\UserRegistered;
 use App\Events\UserStateChanged;
 use App\Events\UserStatsChanged;
-use App\Models\Enums\PilotState;
+use App\Models\Enums\UserState;
 
 class UserService extends BaseService
 {
@@ -24,9 +24,9 @@ class UserService extends BaseService
     {
         # Determine if we want to auto accept
         if(setting('pilot.auto_accept') === true) {
-            $user->state = PilotState::ACTIVE;
+            $user->state = UserState::ACTIVE;
         } else {
-            $user->state = PilotState::PENDING;
+            $user->state = UserState::PENDING;
         }
 
         $user->save();
@@ -66,8 +66,8 @@ class UserService extends BaseService
         }
 
         Log::info('User ' . $user->pilot_id . ' state changing from '
-                  . PilotState::label($old_state) . ' to '
-                  . PilotState::label($user->state));
+                  . UserState::label($old_state) . ' to '
+                  . UserState::label($user->state));
 
         event(new UserStateChanged($user, $old_state));
     }

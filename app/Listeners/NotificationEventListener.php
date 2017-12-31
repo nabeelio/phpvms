@@ -5,7 +5,7 @@ namespace App\Listeners;
 use Log;
 use Illuminate\Support\Facades\Mail;
 
-use App\Models\Enums\PilotState;
+use App\Models\Enums\UserState;
 
 /**
  * Handle sending emails on different events
@@ -34,7 +34,7 @@ class NotificationEventListener
     {
         Log::info('onUserRegister: '
                   . $event->user->pilot_id . ' is '
-                  . PilotState::label($event->user->state)
+                  . UserState::label($event->user->state)
                   . ', sending active email');
 
         # First send the admin a notification
@@ -45,14 +45,14 @@ class NotificationEventListener
         }
 
         # Then notify the user
-        if($event->user->state === PilotState::ACTIVE) {
+        if($event->user->state === UserState::ACTIVE) {
             $email = new \App\Mail\UserRegistered(
                 $event->user,
                 'Welcome to ' . config('app.name') . '!'
             );
 
             Mail::to($event->user->email)->send($email);
-        } else if($event->user->state === PilotState::PENDING) {
+        } else if($event->user->state === UserState::PENDING) {
             Mail::to($event->user->email)->send(new \App\Mail\UserPending($event->user));
         }
     }
@@ -63,8 +63,8 @@ class NotificationEventListener
      */
     public function onUserStateChange(UserStateChanged $event)
     {
-        if ($event->old_state === PilotState::PENDING) {
-            if ($event->user->state === PilotState::ACTIVE)
+        if ($event->old_state === UserState::PENDING) {
+            if ($event->user->state === UserState::ACTIVE)
             {
                 $email = new \App\Mail\UserRegistered(
                     $event->user,
@@ -74,7 +74,7 @@ class NotificationEventListener
                 Mail::to($event->user->email)->send($email);
             }
 
-            else if ($event->user->state === PilotState::REJECTED)
+            else if ($event->user->state === UserState::REJECTED)
             {
                 $email = new \App\Mail\UserRejected($event->user);
                 Mail::to($event->user->email)->send($email);
@@ -82,7 +82,7 @@ class NotificationEventListener
         }
 
         # TODO: Other state transitions
-        elseif ($event->old_state === PilotState::ACTIVE)
+        elseif ($event->old_state === UserState::ACTIVE)
         {
 
         }

@@ -3,7 +3,7 @@
 @section('title', 'Users')
 @section('actions')
     <li><a href="{!! route('admin.users.index') !!}?search=state:0">
-            <i class="ti-user"></i>{!! PilotState::label(PilotState::PENDING) !!}</a>
+            <i class="ti-user"></i>{!! UserState::label(UserState::PENDING) !!}</a>
     </li>
 @endsection
 

@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 use App\Http\Controllers\Controller;
-use App\Models\Enums\PilotState;
+use App\Models\Enums\UserState;
 
 class LoginController extends Controller
 {
@@ -35,21 +35,21 @@ class LoginController extends Controller
         $user = Auth::user();
 
         // TODO: How to handle ON_LEAVE?
-        if($user->state !== PilotState::ACTIVE) {
+        if($user->state !== UserState::ACTIVE) {
 
             Log::info('Trying to login '. $user->pilot_id .', state '
-                      . PilotState::label($user->state));
+                      . UserState::label($user->state));
 
             // Log them out
             $this->guard()->logout();
             $request->session()->invalidate();
 
             // Redirect to one of the error pages
-            if($user->state === PilotState::PENDING) {
+            if($user->state === UserState::PENDING) {
                 return $this->view('auth.pending');
-            } elseif ($user->state === PilotState::REJECTED) {
+            } elseif ($user->state === UserState::REJECTED) {
                 return $this->view('auth.rejected');
-            } elseif ($user->state === PilotState::SUSPENDED) {
+            } elseif ($user->state === UserState::SUSPENDED) {
                 return $this->view('auth.suspended');
             }
         }

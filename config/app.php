@@ -118,7 +118,7 @@ return [
         'Yaml' => Symfony\Component\Yaml\Yaml::class,
 
         # ENUMS
-        'PilotState' => App\Models\Enums\PilotState::class,
+        'UserState' => App\Models\Enums\UserState::class,
         'PirepSource' => App\Models\Enums\PirepSource::class,
         'PirepState' => App\Models\Enums\PirepState::class,
         'PirepStatus' => App\Models\Enums\PirepStatus::class,

@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Mail;
 
-use \App\Models\Enums\PilotState;
+use \App\Models\Enums\UserState;
 
 class RegistrationTest extends TestCase
 {
@@ -23,7 +23,7 @@ class RegistrationTest extends TestCase
         $user = factory(App\Models\User::class)->create();
         $user = $userSvc->createPilot($user);
 
-        $this->assertEquals(PilotState::ACTIVE, $user->state);
+        $this->assertEquals(UserState::ACTIVE, $user->state);
 
         Event::assertDispatched(\App\Events\UserRegistered::class, function ($e) use ($user) {
             return $e->user->id === $user->id
