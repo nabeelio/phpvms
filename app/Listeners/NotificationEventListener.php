@@ -5,6 +5,7 @@ namespace App\Listeners;
 use Log;
 use Illuminate\Support\Facades\Mail;
 
+use App\Events\UserRegistered;
 use App\Models\Enums\UserState;
 
 /**
@@ -39,6 +40,8 @@ class NotificationEventListener
 
         # First send the admin a notification
         $admin_email = setting('general.admin_email');
+        Log::info('Sending admin notification email to "'.$admin_email.'"');
+
         if (!empty($admin_email)) {
             $email = new \App\Mail\Admin\UserRegistered($event->user);
             Mail::to($admin_email)->send($email);

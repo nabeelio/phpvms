@@ -28,8 +28,8 @@ class SettingRepository extends BaseRepository implements CacheableInterface
      */
     public function retrieve($key)
     {
-        $key = strtolower($key);
-        $setting = $this->findWhere(['key' => $key], ['type', 'value'])->first();
+        $key = str_replace('.', '_', strtolower($key));
+        $setting = $this->findWhere(['id' => $key], ['type', 'value'])->first();
 
         if(!$setting) {
             return null;
@@ -46,7 +46,11 @@ class SettingRepository extends BaseRepository implements CacheableInterface
                 break;
             case 'int':
             case 'integer':
+            case 'number':
                 return (int) $setting->value;
+                break;
+            case 'float':
+                return (float) $setting->value;
                 break;
             default:
                 return $setting->value;

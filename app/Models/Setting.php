@@ -1,16 +1,11 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: nshahzad
- * Date: 12/9/17
- * Time: 6:24 PM
- */
 
 namespace App\Models;
 
 class Setting extends BaseModel
 {
     public $table = 'settings';
+    public $incrementing = false;
 
     public $fillable = [
         'name',
@@ -21,5 +16,19 @@ class Setting extends BaseModel
         'options',
         'description',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        /**
+         * Make sure any dots are replaced with underscores
+         */
+        static::creating(function (Setting $model) {
+            if (!empty($model->id)) {
+                $model->id = str_replace('.', '_', strtolower($model->id));
+            }
+        });
+    }
 
 }
