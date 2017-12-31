@@ -42,14 +42,20 @@
     </div>
 
     <div class="row">
-        <div class="form-group col-sm-6">
+        <div class="form-group col-sm-4">
             {!! Form::label('lat', 'Latitude:') !!}
             {!! Form::number('lat', null, ['class' => 'form-control', 'step' => '0.000001', 'rv-value' => 'airport.lat']) !!}
         </div>
 
-        <div class="form-group col-sm-6">
+        <div class="form-group col-sm-4">
             {!! Form::label('lon', 'Longitude:') !!}
             {!! Form::number('lon', null, ['class' => 'form-control', 'step' => '0.000001', 'rv-value' => 'airport.lon']) !!}
+        </div>
+
+        <div class="form-group col-sm-4">
+            {!! Form::label('hub', 'Hub:') !!}
+            {!! Form::hidden('hub', 0)  !!}
+            {!! Form::checkbox('hub', null) !!}
         </div>
     </div>
 

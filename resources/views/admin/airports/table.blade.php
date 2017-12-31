@@ -4,7 +4,7 @@
             <th>ICAO</th>
             <th>Name</th>
             <th>Location</th>
-            <th>Timezone</th>
+            <th>Hub</th>
             <th style="text-align: center;">100LL</th>
             <th style="text-align: center;">JetA</th>
             <th style="text-align: center;">MOGAS</th>
@@ -16,7 +16,11 @@
                 <td><a href="{!! route('admin.airports.edit', [$airport->id]) !!}">{!! $airport->icao !!}</a></td>
                 <td>{!! $airport->name !!}</td>
                 <td>{!! $airport->location !!}</td>
-                <td>{!! $airport->timezone !!}</td>
+                <td style="text-align: center;">
+                    @if($airport->hub == 1)
+                        <span class="label label-success">Hub</span>
+                    @endif
+                </td>
                 <td style="text-align: center;">
                     <a class="inline" href="#" data-pk="{!! $airport->id !!}" data-name="fuel_100ll_cost">{!! $airport->fuel_100ll_cost !!}</a>
                 </td>

@@ -12,4 +12,5 @@ airports:
     country: United States
     lat: 30.1945278
     lon: -97.6698889
+    hub: 1
     tz: America/Chicago

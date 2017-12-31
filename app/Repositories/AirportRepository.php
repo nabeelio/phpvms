@@ -25,10 +25,16 @@ class AirportRepository extends BaseRepository implements CacheableInterface
      * Return the list of airports formatted for a select box
      * @return array
      */
-    public function selectBoxList($add_blank=false): array
+    public function selectBoxList($add_blank=false, $only_hubs=false): array
     {
         $retval = [];
-        $items = $this->orderBy('icao', 'asc')->all();
+        $where = [];
+
+        if($only_hubs) {
+            $where['hub'] = 1;
+        }
+
+        $items = $this->orderBy('icao', 'asc')->findWhere($where);
 
         if ($add_blank) {
             $retval[''] = '';

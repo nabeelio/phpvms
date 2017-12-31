@@ -48,7 +48,7 @@ class RegisterController extends Controller
 
     public function showRegistrationForm()
     {
-        $airports = $this->airportRepo->selectBoxList();
+        $airports = $this->airportRepo->selectBoxList(false, true);
         $airlines = $this->airlineRepo->selectBoxList();
 
         return $this->view('auth.register', [
