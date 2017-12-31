@@ -217,6 +217,7 @@ class InstallerController extends AppBaseController
         $validator = Validator::make($request->all(), [
             'airline_name' => 'required',
             'airline_icao' => 'required|unique:airlines,icao',
+            'name' => 'required',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|confirmed'
         ]);
@@ -259,9 +260,7 @@ class InstallerController extends AppBaseController
         Log::info('User registered: ', $user->toArray());
 
         # Set the intial admin e-mail address
-        $admin_email = Setting::where('key', 'general.admin_email');
-        $admin_email->value = $user->email;
-        $admin_email->save();
+        setting('general.admin_email', $user->email);
 
         return view('installer::steps/step3a-completed', []);
     }

@@ -90,10 +90,8 @@ deploy-package:
 
 .PHONY: reset-installer
 reset-installer:
-	@cp .env.dev.example .env
-	@make clean
-	mysql -uroot -e "DROP DATABASE IF EXISTS phpvms"
-	mysql -uroot -e "CREATE DATABASE phpvms"
+	@php artisan database:create --reset
+	@php artisan migrate:refresh --seed
 
 .PHONY: docker
 docker:

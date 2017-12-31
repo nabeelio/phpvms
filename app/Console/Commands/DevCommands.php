@@ -2,6 +2,10 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Airline;
+use App\Models\Permission;
+use App\Models\Role;
+use App\Models\User;
 use App\Services\DatabaseService;
 use DB;
 
@@ -28,8 +32,8 @@ class DevCommands extends BaseCommand
 
         $commands = [
             'clear-acars' => 'clearAcars',
+            'clear-users' => 'clearUsers',
             'compile-assets' => 'compileAssets',
-            'test-api' => 'testApi',
         ];
 
         if(!array_key_exists($command, $commands)) {
@@ -57,6 +61,26 @@ class DevCommands extends BaseCommand
         }
 
         $this->info('ACARS and PIREPs cleared!');
+    }
+
+    /**
+     * Delete all the data from the ACARS and PIREP tables
+     */
+    protected function clearUsers()
+    {
+        if (config('database.default') === 'mysql') {
+            DB::statement('SET foreign_key_checks=0');
+        }
+
+        DB::statement('TRUNCATE `role_user`');
+        Airline::truncate();
+        User::truncate();
+
+        if (config('database.default') === 'mysql') {
+            DB::statement('SET foreign_key_checks=1');
+        }
+
+        $this->info('Users cleared!');
     }
 
     /**

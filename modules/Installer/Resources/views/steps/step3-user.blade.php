@@ -36,7 +36,17 @@
         </tr>
 
         <tr>
-            <td><p>Admin Email</p></td>
+            <td><p>Name</p></td>
+            <td>
+                <div class="form-group">
+                    {!! Form::input('text', 'name', null, ['class' => 'form-control']) !!}
+                    @include('installer::flash/check_error', ['field' => 'name'])
+                </div>
+            </td>
+        </tr>
+
+        <tr>
+            <td><p>Email</p></td>
             <td>
                 <div class="form-group">
                     {!! Form::input('text', 'email', null, ['class' => 'form-control']) !!}
