@@ -6,8 +6,6 @@ class Aircraft extends BaseModel
 {
     public $table = 'aircraft';
 
-    protected $dates = ['deleted_at'];
-
     public $fillable = [
         'subfleet_id',
         'airport_id',

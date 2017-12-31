@@ -38,14 +38,12 @@ class Airport extends BaseModel
 
     /**
      * Validation rules
-     *
-     * @var array
      */
     public static $rules = [
-        'icao' => 'required',
-        'name' => 'required',
-        'lat' => 'required',
-        'lon' => 'required',
+        'icao' =>   'required',
+        'name' =>   'required',
+        'lat' =>    'required',
+        'lon' =>    'required',
     ];
 
     /**

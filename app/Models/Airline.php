@@ -34,9 +34,11 @@ class Airline extends BaseModel
      * @var array
      */
     public static $rules = [
-        'iata' => 'required|max:5',
-        'icao' => 'required|max:5',
-        'name' => 'required',
+        'country'   => 'nullable',
+        'iata'      => 'nullable|max:5',
+        'icao'      => 'required|max:5',
+        'logo'      => 'nullable',
+        'name'      => 'required',
     ];
 
     /**
@@ -46,4 +48,21 @@ class Airline extends BaseModel
         return $this->icao;
     }
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        /**
+         * IATA and ICAO should be in all caps
+         */
+        static::creating(function (Airline $model) {
+            if (!empty($model->iata)) {
+                $model->iata = strtoupper($model->iata);
+            }
+
+            if (!empty($model->icao)) {
+                $model->icao = strtoupper($model->icao);
+            }
+        });
+    }
 }

@@ -7,9 +7,9 @@ use App\Models\Traits\HashId;
 class Acars extends BaseModel
 {
     use HashId;
-    public $incrementing = false;
 
     public $table = 'acars';
+    public $incrementing = false;
 
     public $fillable = [
         'pirep_id',
@@ -35,6 +35,10 @@ class Acars extends BaseModel
         'gs'            => 'float',
         'transponder'   => 'integer',
         'fuel_flow'     => 'float',
+    ];
+
+    public static $rules = [
+        'pirep_id'  => 'required',
     ];
 
     /**

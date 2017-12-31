@@ -72,7 +72,7 @@ class FlightController extends BaseController
         return view('admin.flights.create', [
             'flight'   => null,
             'airlines' => $this->airlineRepo->selectBoxList(),
-            'airports' => $this->airportRepo->selectBoxList(),
+            'airports' => $this->airportRepo->selectBoxList(true, false),
         ]);
     }
 

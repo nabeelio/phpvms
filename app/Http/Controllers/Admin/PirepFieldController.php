@@ -31,7 +31,7 @@ class PirepFieldController extends BaseController
         $this->pirepFieldRepo->pushCriteria(new RequestCriteria($request));
         $fields = $this->pirepFieldRepo->all();
 
-        return view('admin.pirepFields.index', [
+        return view('admin.pirepfields.index', [
             'fields' => $fields,
         ]);
     }
@@ -43,7 +43,7 @@ class PirepFieldController extends BaseController
      */
     public function create()
     {
-        return view('admin.pirepFields.create');
+        return view('admin.pirepfields.create');
     }
 
     /**
@@ -60,7 +60,7 @@ class PirepFieldController extends BaseController
         $field = $this->pirepFieldRepo->create($input);
 
         Flash::success('PirepField saved successfully.');
-        return redirect(route('admin.pirepFields.index'));
+        return redirect(route('admin.pirepfields.index'));
     }
 
     /**
@@ -76,10 +76,10 @@ class PirepFieldController extends BaseController
 
         if (empty($field)) {
             Flash::error('PirepField not found');
-            return redirect(route('admin.pirepFields.index'));
+            return redirect(route('admin.pirepfields.index'));
         }
 
-        return view('admin.pirepFields.show', [
+        return view('admin.pirepfields.show', [
             'field' => $field,
         ]);
     }
@@ -97,10 +97,10 @@ class PirepFieldController extends BaseController
 
         if (empty($field)) {
             Flash::error('PirepField not found');
-            return redirect(route('admin.pirepFields.index'));
+            return redirect(route('admin.pirepfields.index'));
         }
 
-        return view('admin.pirepFields.edit', [
+        return view('admin.pirepfields.edit', [
             'field' => $field,
         ]);
     }
@@ -119,13 +119,13 @@ class PirepFieldController extends BaseController
 
         if (empty($field)) {
             Flash::error('PirepField not found');
-            return redirect(route('admin.pirepFields.index'));
+            return redirect(route('admin.pirepfields.index'));
         }
 
         $field = $this->pirepFieldRepo->update($request->all(), $id);
 
         Flash::success('PirepField updated successfully.');
-        return redirect(route('admin.pirepFields.index'));
+        return redirect(route('admin.pirepfields.index'));
     }
 
     /**
@@ -141,12 +141,12 @@ class PirepFieldController extends BaseController
 
         if (empty($field)) {
             Flash::error('PirepField not found');
-            return redirect(route('admin.pirepFields.index'));
+            return redirect(route('admin.pirepfields.index'));
         }
 
         $this->pirepFieldRepo->delete($id);
 
         Flash::success('PirepField deleted successfully.');
-        return redirect(route('admin.pirepFields.index'));
+        return redirect(route('admin.pirepfields.index'));
     }
 }

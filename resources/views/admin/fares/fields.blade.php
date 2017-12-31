@@ -10,7 +10,7 @@
 </div>
 <div class="row">
 <div class="form-group col-sm-6">
-    {!! Form::label('code', 'Code:') !!}
+    {!! Form::label('code', 'Code:') !!}&nbsp;<span class="required">*</span>
     <div class="callout callout-info">
         <i class="icon fa fa-info">&nbsp;&nbsp;</i>
         How this fare class will show up on a ticket
@@ -19,7 +19,7 @@
 </div>
 
 <div class="form-group col-sm-6">
-    {!! Form::label('name', 'Name:') !!}
+    {!! Form::label('name', 'Name:') !!}&nbsp;<span class="required">*</span>
     <div class="callout callout-info">
         <i class="icon fa fa-info">&nbsp;&nbsp;</i>
         The fare class name, E.g, "Economy" or "First"
@@ -33,7 +33,7 @@
         <i class="icon fa fa-info">&nbsp;&nbsp;</i>
         This is the price of a ticket for a passenger
     </div>
-    {!! Form::text('price', null, ['class' => 'form-control']) !!}
+    {!! Form::text('price', null, ['class' => 'form-control', 'placeholder' => 0]) !!}
 </div>
 
 <div class="form-group col-sm-6">
@@ -42,7 +42,7 @@
         <i class="icon fa fa-info">&nbsp;&nbsp;</i>
         The operating cost
     </div>
-    {!! Form::text('cost', null, ['class' => 'form-control']) !!}
+    {!! Form::text('cost', null, ['class' => 'form-control', 'placeholder' => 0]) !!}
 </div>
 
 <div class="form-group col-sm-6">
@@ -51,7 +51,7 @@
         <i class="icon fa fa-info">&nbsp;&nbsp;</i>
         The number of seats available in this class.
     </div>
-    {!! Form::text('capacity', null, ['class' => 'form-control']) !!}
+    {!! Form::text('capacity', null, ['class' => 'form-control', 'placeholder' => 0]) !!}
 </div>
 
 <div class="form-group col-sm-6">

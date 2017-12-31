@@ -1,7 +1,7 @@
 <div class="row">
     <!-- Name Field -->
     <div class="form-group col-sm-6">
-        {!! Form::label('name', 'Name:') !!} <span class="required">*</span>
+        {!! Form::label('name', 'Name:') !!}&nbsp;<span class="required">*</span>
         {!! Form::text('name', null, ['class' => 'form-control']) !!}
     </div>
 
