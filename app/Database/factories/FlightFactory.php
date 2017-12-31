@@ -10,7 +10,7 @@ $factory->define(App\Models\Flight::class, function (Faker $faker) use ($airline
     return [
         'id' => substr($faker->unique()->sha1, 0, 12),
         'airline_id' => $faker->randomElement($airlinesAvailable),
-        'flight_number' => $faker->text(10),
+        'flight_number' => $faker->unique()->text(10),
         'route_code' => $faker->randomElement(['', $faker->text(5)]),
         'route_leg' => $faker->randomElement(['', $faker->text(5)]),
         'dpt_airport_id' => function() {
