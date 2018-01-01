@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: nshahzad
- * Date: 12/19/17
- * Time: 8:04 PM
- */
 
 namespace App\Models\Enums;
-
 
 /**
  * Class EnumBase
@@ -16,7 +9,6 @@ namespace App\Models\Enums;
 class EnumBase
 {
     protected static $labels = [];
-    protected static $adverbs = [];
 
     /**
      * Return the label, try to return the translated version as well

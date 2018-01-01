@@ -2,20 +2,22 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Services\GeoService;
 use Log;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 use App\Models\Acars;
+use App\Models\Enums\AcarsType;
 use App\Models\Enums\PirepState;
 use App\Models\Enums\PirepStatus;
-use App\Http\Resources\Acars as AcarsResource;
-use App\Http\Resources\Pirep as PirepResource;
 
+use App\Services\GeoService;
 use App\Services\PIREPService;
 use App\Repositories\AcarsRepository;
 use App\Repositories\PirepRepository;
+
+use App\Http\Resources\Acars as AcarsResource;
+use App\Http\Resources\Pirep as PirepResource;
 
 use App\Http\Controllers\AppBaseController;
 
@@ -178,7 +180,9 @@ class PirepController extends AppBaseController
 
         Log::info('Posting ACARS update', $request->toArray());
         $attrs = $request->toArray();
+
         $attrs['pirep_id'] = $id;
+        $attrs['type'] = AcarsType::FLIGHT_PATH;
 
         $update = Acars::create($attrs);
         $update->save();
