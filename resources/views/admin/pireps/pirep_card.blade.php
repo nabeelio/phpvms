@@ -57,7 +57,7 @@
                         <td>
                         @if($pirep->state == PirepState::PENDING
                             || $pirep->state == PirepState::REJECTED)
-                        {!! Form::open(['url' => '/admin/pireps/'.$pirep->id.'/status', 'method' => 'post',
+                        {!! Form::open(['url' => url('/admin/pireps/'.$pirep->id.'/status'), 'method' => 'post',
                                         'name' => 'accept_'.$pirep->id,
                                         'id' => $pirep->id.'_accept',
                                         'pirep_id' => $pirep->id,
@@ -71,7 +71,7 @@
                         <td>
                         @if($pirep->state == PirepState::PENDING
                             || $pirep->state == PirepState::ACCEPTED)
-                        {!! Form::open(['url' => '/admin/pireps/'.$pirep->id.'/status', 'method' => 'post',
+                        {!! Form::open(['url' => url('/admin/pireps/'.$pirep->id.'/status'), 'method' => 'post',
                                         'name' => 'reject_'.$pirep->id,
                                         'id' => $pirep->id.'_reject',
                                         'pirep_id' => $pirep->id,
