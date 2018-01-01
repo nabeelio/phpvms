@@ -10,13 +10,16 @@
                     </a>
                 </h5>
                 <div>
-                    @if($pirep->state == PirepState::PENDING)
-                        <div class="badge badge-warning">Pending</div>
+                    @if($pirep->state === PirepState::PENDING)
+                        <div class="badge badge-warning">
                     @elseif($pirep->state === PirepState::ACCEPTED)
-                        <div class="badge badge-success">Accepted</div>
+                        <div class="badge badge-success">
+                    @elseif($pirep->state === PirepState::REJECTED)
+                        <div class="badge badge-danger">
                     @else
-                        <div class="badge badge-danger">Rejected</div>
+                        <div class="badge badge-info">
                     @endif
+                    {!! PirepState::label($pirep->state) !!}</div>
                 </div>
             </div>
             <div class="col-sm-10">
@@ -57,28 +60,30 @@
                         <td>
                         @if($pirep->state == PirepState::PENDING
                             || $pirep->state == PirepState::REJECTED)
-                        {!! Form::open(['url' => url('/admin/pireps/'.$pirep->id.'/status'), 'method' => 'post',
-                                        'name' => 'accept_'.$pirep->id,
-                                        'id' => $pirep->id.'_accept',
-                                        'pirep_id' => $pirep->id,
-                                        'new_status' => PirepState::ACCEPTED,
-                                        'class' => 'pirep_submit_status']) !!}
-                        {!! Form::button('Accept', ['type' => 'submit', 'class' => 'btn btn-info']) !!}
-                        {!! Form::close() !!}
+                            {!! Form::open(['url' => route('admin.pirep.status', ['id'=>$pirep->id]),
+                                            'method' => 'post',
+                                            'name' => 'accept_'.$pirep->id,
+                                            'id' => $pirep->id.'_accept',
+                                            'pirep_id' => $pirep->id,
+                                            'new_status' => PirepState::ACCEPTED,
+                                            'class' => 'pirep_submit_status']) !!}
+                            {!! Form::button('Accept', ['type' => 'submit', 'class' => 'btn btn-info']) !!}
+                            {!! Form::close() !!}
                         @endif
                         </td>
                         <td>&nbsp;</td>
                         <td>
                         @if($pirep->state == PirepState::PENDING
                             || $pirep->state == PirepState::ACCEPTED)
-                        {!! Form::open(['url' => url('/admin/pireps/'.$pirep->id.'/status'), 'method' => 'post',
-                                        'name' => 'reject_'.$pirep->id,
-                                        'id' => $pirep->id.'_reject',
-                                        'pirep_id' => $pirep->id,
-                                        'new_status' => PirepState::REJECTED,
-                                        'class' => 'pirep_submit_status']) !!}
-                        {!! Form::button('Reject', ['type' => 'submit', 'class' => 'btn btn-danger']) !!}
-                        {!! Form::close() !!}
+                            {!! Form::open(['url' => route('admin.pirep.status', ['id'=>$pirep->id]),
+                                            'method' => 'post',
+                                            'name' => 'reject_'.$pirep->id,
+                                            'id' => $pirep->id.'_reject',
+                                            'pirep_id' => $pirep->id,
+                                            'new_status' => PirepState::REJECTED,
+                                            'class' => 'pirep_submit_status']) !!}
+                            {!! Form::button('Reject', ['type' => 'submit', 'class' => 'btn btn-danger']) !!}
+                            {!! Form::close() !!}
                         @endif
                         </td>
                         <td>&nbsp;</td>
