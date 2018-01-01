@@ -1,17 +1,17 @@
 .btn,
 .navbar .navbar-nav > li > a.btn{
-    border-radius: $border-radius-btn-base;
+    //border-radius: $border-radius-btn-base;
     box-sizing: border-box;
-    border-width: $border-thick;
+    //border-width: $border-thick;
     background-color: $transparent-bg;
     font-size: $font-size-base;
     font-weight: $font-weight-semi;
-    
+
     padding: $padding-base-vertical $padding-base-horizontal;
-    
+
     @include btn-styles($default-color, $default-states-color);
     @include transition($fast-transition-time, linear);
-    
+
     &:hover,
     &:focus{
         outline: 0 !important;
@@ -22,15 +22,15 @@
          @include box-shadow(none);
          outline: 0 !important;
     }
-    
+
     &.btn-icon{
         padding: $padding-base-vertical;
-    } 
+    }
 }
 
-.btn-group .btn + .btn, 
-.btn-group .btn + .btn-group, 
-.btn-group .btn-group + .btn, 
+.btn-group .btn + .btn,
+.btn-group .btn + .btn-group,
+.btn-group .btn-group + .btn,
 .btn-group .btn-group + .btn-group{
     margin-left: -2px;
 }
@@ -42,21 +42,21 @@
 .navbar .navbar-nav > li > a.btn-info, .btn-info    { @include btn-styles($info-color, $info-states-color); }
 .navbar .navbar-nav > li > a.btn-warning, .btn-warning { @include btn-styles($warning-color, $warning-states-color); }
 .navbar .navbar-nav > li > a.btn-danger, .btn-danger  { @include btn-styles($danger-color, $danger-states-color); }
-.btn-neutral { 
+.btn-neutral {
     @include btn-styles($white-color, $white-color);
-    
+
     &:hover,
     &:focus{
         color: $default-color;
     }
-    
+
     &:active,
     &.active,
     .open > &.dropdown-toggle{
          background-color: $white-color;
          color: $default-color;
-    }    
-    
+    }
+
     &.btn-fill{
         color: $default-color;
     }
@@ -64,7 +64,7 @@
     &.btn-fill:focus{
         color: $default-states-color;
     }
-    
+
     &.btn-simple:active,
     &.btn-simple.active{
         background-color: transparent;
@@ -81,7 +81,7 @@
 .btn-simple{
     border: $none;
     padding: $padding-base-vertical $padding-base-horizontal;
-    
+
     &.btn-icon{
         padding: $padding-base-vertical;
     }
@@ -91,7 +91,7 @@
    font-weight: $font-weight-normal;
 }
 .btn-sm{
-    @include btn-size($padding-small-vertical, $padding-small-horizontal, $font-size-small, $border-radius-btn-small, $line-height-small);    
+    @include btn-size($padding-small-vertical, $padding-small-horizontal, $font-size-small, $border-radius-btn-small, $line-height-small);
 }
 .btn-xs {
     @include btn-size($padding-xs-vertical, $padding-xs-horizontal, $font-size-xs, $border-radius-btn-small, $line-height-small);

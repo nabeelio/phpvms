@@ -1,21 +1,22 @@
 // Mixin for generating new styles
 @mixin btn-styles($btn-color, $btn-states-color) {
-  border-color: $btn-color;
-  color: $btn-color;
-  
+  background-color: $btn-color;
+
   &:hover,
   &:focus,
   &:active,
   &.active,
-  .open > &.dropdown-toggle {
-    background-color: $btn-color;
-    color: $fill-font-color;
-    border-color: $btn-color;
-    .caret{
-        border-top-color: $fill-font-color;
-    }
+  &:active:focus,
+  &:active:hover,
+  &.active:focus,
+  &.active:hover,
+  .open > &.dropdown-toggle,
+  .open > &.dropdown-toggle:focus,
+  .open > &.dropdown-toggle:hover {
+    background-color: $btn-states-color;
+    color: $white-color;
   }
-  
+
   &.disabled,
   &:disabled,
   &[disabled],
@@ -26,60 +27,126 @@
     &.focus,
     &:active,
     &.active {
-      background-color: $transparent-bg;
+      background-color: $btn-color;
       border-color: $btn-color;
     }
   }
-  
 
-  &.btn-fill {
+  &.focus,
+  &:focus {
+    box-shadow: none;
+  }
+
+  // btn-neutral style
+  @if $btn-color == $white-color {
     color: $white-color;
-    background-color: $btn-color;
-    @include opacity(1);  
+
+    &.btn-danger {
+      color: $danger-color;
+
+      &:hover,
+      &:focus,
+      &:active {
+        color: $danger-states-color;
+      }
+    }
+
+    &.btn-info {
+      color: $white-color;
+
+      &:hover,
+      &:focus,
+      &:active {
+        color: $info-states-color;
+      }
+    }
+
+    &.btn-warning {
+      color: $white-color;
+
+      &:hover,
+      &:focus,
+      &:active {
+        color: $warning-states-color;
+      }
+    }
+
+    &.btn-success {
+      color: $white-color;
+
+      &:hover,
+      &:focus,
+      &:active {
+        color: $success-states-color;
+      }
+    }
+
+    &.btn-default {
+      color: $white-color;
+
+      &:hover,
+      &:focus,
+      &:active {
+        color: $default-states-color;
+      }
+    }
+
+    &.active,
+    &:active:focus,
+    &:active:hover,
+    &.active:focus,
+    &.active:hover,
+    .open > &.dropdown-toggle,
+    .open > &.dropdown-toggle:focus,
+    .open > &.dropdown-toggle:hover {
+      background-color: $white-color;
+      color: $primary-color;
+    }
 
     &:hover,
     &:focus,
-    &:active,
-    &.active,
-    .open > &.dropdown-toggle{
-        background-color: $btn-states-color;
-        color: $white-color;
-        border-color: $btn-states-color;
+    &:active {
+      color: $primary-states-color;
     }
-    
-    .caret{
-        border-top-color: $white-color;
+
+  } @else {
+    color: $white-color;
+  }
+
+  &.btn-simple {
+    color: $btn-color;
+    border-color: $btn-color;
+
+    &:hover,
+    &:focus,
+    &:active {
+      background-color: $transparent-bg;
+      color: $btn-states-color;
+      border-color: $btn-states-color;
     }
   }
-  
-  &.btn-simple {
+
+  &.btn-link {
+    color: $btn-color;
+
     &:hover,
     &:focus,
-    &:active,
-    &.active,
-    .open > &.dropdown-toggle{
-        background-color: $transparent-bg;
-        color: $btn-states-color;
+    &:active {
+      background-color: $transparent-bg;
+      color: $btn-states-color;
+      text-decoration: none;
     }
-    
-    .caret{
-        border-top-color: $white-color;
-    }
-  }  
-  
-  .caret{
-      border-top-color: $btn-color;
   }
 }
 
 
 @mixin btn-size($padding-vertical, $padding-horizontal, $font-size, $border, $line-height){
    font-size: $font-size;
-   border-radius: $border;
+   //border-radius: $border;
    padding: $padding-vertical $padding-horizontal;
-    
+
    &.btn-simple{
-       padding: $padding-vertical + 2 $padding-horizontal; 
+       padding: $padding-vertical + 2 $padding-horizontal;
    }
-    
+
 }

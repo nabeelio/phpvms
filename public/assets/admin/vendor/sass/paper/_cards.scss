@@ -1,4 +1,4 @@
-.card{
+.card {
     border: 0;
     border-radius: $border-radius-extreme;
     box-shadow: 0 2px 2px rgba(204, 197, 185, 0.5);
@@ -173,6 +173,30 @@
                 border-bottom: 1px solid $medium-pale-bg;
             }
         }
+    }
+
+    .btn-primary {
+        @include btn-styles($primary-color, $primary-states-color);
+    }
+
+    .btn-success {
+        @include btn-styles($success-color, $success-states-color);
+    }
+
+    .btn-info {
+        @include btn-styles($info-color, $info-states-color);
+    }
+
+    .btn-warning {
+        @include btn-styles($warning-color, $warning-states-color);
+    }
+
+    .btn-danger {
+        @include btn-styles($danger-color, $danger-states-color);
+    }
+
+    .btn-neutral {
+        @include btn-styles($white-color, $white-color);
     }
 }
 .card-user{
