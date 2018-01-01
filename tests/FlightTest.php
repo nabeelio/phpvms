@@ -3,6 +3,7 @@
 use App\Services\FlightService;
 use App\Models\Flight;
 use App\Models\User;
+use App\Models\UserBid;
 
 class FlightTest extends TestCase
 {
@@ -59,11 +60,15 @@ class FlightTest extends TestCase
      */
     public function testBids()
     {
-        $user = User::find(1);
+        $user = factory(User::class)->create();
+        $headers = [
+            'x-api-key' => $user->api_key,
+        ];
+
         $flight = $this->addFlight();
 
         $bid = $this->flightSvc->addBid($flight, $user);
-        $this->assertEquals(1, $bid->user_id);
+        $this->assertEquals($user->id, $bid->user_id);
         $this->assertEquals($flight->id, $bid->flight_id);
         $this->assertTrue($flight->has_bid);
 
@@ -71,15 +76,23 @@ class FlightTest extends TestCase
         $flight = Flight::find($flight->id);
         $this->assertTrue($flight->has_bid);
 
+        # Check the table and make sure thee entry is there
+        $user_bid = UserBid::where(['flight_id'=>$flight->id, 'user_id'=>$user->id])->get();
+        $this->assertNotNull($user_bid);
+
+        $user->refresh();
+        $this->assertEquals(1, $user->bids->count());
+
         # Query the API and see that the user has the bids
         # And pull the flight details for the user/bids
-        $req = $this->get('/api/user', self::$auth_headers);
+        $req = $this->get('/api/user', $headers);
         $req->assertStatus(200);
+
         $body = $req->json();
         $this->assertEquals(1, sizeof($body['bids']));
         $this->assertEquals($flight->id, $body['bids'][0]['flight_id']);
 
-        $req = $this->get('/api/users/1/bids', self::$auth_headers);
+        $req = $this->get('/api/users/'.$user->id.'/bids', $headers);
 
         $body = $req->json();
         $req->assertStatus(200);
@@ -92,17 +105,18 @@ class FlightTest extends TestCase
         $flight = Flight::find($flight->id);
         $this->assertFalse($flight->has_bid);
 
-        $user = User::find(1);
+        $user->refresh();
         $bids = $user->bids()->get();
         $this->assertTrue($bids->isEmpty());
 
-        $req = $this->get('/api/user', self::$auth_headers);
+        $req = $this->get('/api/user', $headers);
         $req->assertStatus(200);
 
         $body = $req->json();
+        $this->assertEquals($user->id, $body['id']);
         $this->assertEquals(0, sizeof($body['bids']));
 
-        $req = $this->get('/api/users/1/bids', self::$auth_headers);
+        $req = $this->get('/api/users/'.$user->id.'/bids', $headers);
         $req->assertStatus(200);
         $body = $req->json();
 
@@ -116,7 +130,7 @@ class FlightTest extends TestCase
     {
         setting('bids.disable_flight_on_bid', true);
 
-        $user1 = User::find(1);
+        $user1 = factory(User::class)->create();;
         $user2 = factory(User::class)->create();
 
         $flight = $this->addFlight();
@@ -126,5 +140,48 @@ class FlightTest extends TestCase
 
         $bidRepeat = $this->flightSvc->addBid($flight, $user2);
         $this->assertNull($bidRepeat);
+    }
+
+    /**
+     * Delete a flight and make sure all the bids are gone
+     */
+    public function testDeleteFlight()
+    {
+        $user = factory(User::class)->create();
+        $headers = [
+            'x-api-key' => $user->api_key,
+        ];
+
+        $flight = $this->addFlight();
+
+        $bid = $this->flightSvc->addBid($flight, $user);
+        $this->assertEquals($user->id, $bid->user_id);
+        $this->assertEquals($flight->id, $bid->flight_id);
+        $this->assertTrue($flight->has_bid);
+
+        $this->flightSvc->deleteFlight($flight);
+
+        $empty_flight = Flight::find($flight->id);
+        $this->assertNull($empty_flight);
+
+        # Make sure no bids exist
+        $user_bids = UserBid::where('flight_id', $flight->id)->get();
+
+        #$this->assertEquals(0, $user_bid->count());
+
+        # Query the API and see that the user has the bids
+        # And pull the flight details for the user/bids
+        $req = $this->get('/api/user', $headers);
+        $req->assertStatus(200);
+        $body = $req->json();
+
+        $this->assertEquals($user->id, $body['id']);
+        $this->assertEquals(0, sizeof($body['bids']));
+
+        $req = $this->get('/api/users/'.$user->id.'/bids', $headers);
+        $req->assertStatus(200);
+
+        $body = $req->json();
+        $this->assertEquals(0, sizeof($body));
     }
 }

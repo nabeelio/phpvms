@@ -1,6 +1,7 @@
 <?php
 
 #use Swagger\Serializer;
+use App\Models\User;
 
 /**
  * Test API calls and authentication, etc
@@ -18,6 +19,7 @@ class ApiTest extends TestCase
      */
     public function testApiAuthentication()
     {
+        $user = factory(User::class)->create();
         $airport = factory(App\Models\Airport::class)->create();
 
         $uri = '/api/airports/' . $airport->icao;
@@ -37,15 +39,15 @@ class ApiTest extends TestCase
             ->assertStatus(200)
             ->assertJson(['icao' => $airport->icao], true);
 
-        $this->withHeaders(['x-api-key' => 'testadminapikey'])->get($uri)
+        $this->withHeaders(['x-api-key' => $user->api_key])->get($uri)
             ->assertStatus(200)
             ->assertJson(['icao' => $airport->icao], true);
 
-        $this->withHeaders(['x-API-key' => 'testadminapikey'])->get($uri)
+        $this->withHeaders(['x-API-key' => $user->api_key])->get($uri)
             ->assertStatus(200)
             ->assertJson(['icao' => $airport->icao], true);
 
-        $this->withHeaders(['X-API-KEY' => 'testadminapikey'])->get($uri)
+        $this->withHeaders(['X-API-KEY' => $user->api_key])->get($uri)
             ->assertStatus(200)
             ->assertJson(['icao' => $airport->icao], true);
     }
@@ -55,18 +57,11 @@ class ApiTest extends TestCase
      */
     public function testAirportRequest()
     {
-
-
         $airport = factory(App\Models\Airport::class)->create();
 
         $response = $this->withHeaders($this->apiHeaders())->get('/api/airports/' . $airport->icao);
         $response->assertStatus(200);
         $response->assertJson(['icao' => $airport->icao], true);
-
-        /*$body = $response->json();
-        $serializer = new Serializer();
-        $swagger = $serializer->deserialize(\json_encode($body));
-        echo $swagger;*/
 
         $this->withHeaders($this->apiHeaders())->get('/api/airports/UNK')
             ->assertStatus(404);

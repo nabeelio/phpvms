@@ -17,6 +17,18 @@ use App\Models\UserBid;
 class FlightService extends BaseService
 {
     /**
+     * Delete a flight, and all the user bids, etc associated with it
+     * @param Flight $flight
+     * @throws \Exception
+     */
+    public function deleteFlight(Flight $flight)
+    {
+        $where = ['flight_id' => $flight->id];
+        UserBid::where($where)->delete();
+        $flight->delete();
+    }
+
+    /**
      * Allow a user to bid on a flight. Check settings and all that good stuff
      * @param Flight $flight
      * @param User $user

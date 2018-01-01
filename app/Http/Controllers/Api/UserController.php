@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
 use App\Repositories\UserRepository;
 
+use App\Models\User;
 use App\Models\UserBid;
 
 use App\Http\Resources\Flight as FlightResource;

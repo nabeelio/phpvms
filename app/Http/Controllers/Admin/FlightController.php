@@ -9,6 +9,7 @@ use App\Repositories\AirlineRepository;
 use App\Repositories\AirportRepository;
 use App\Repositories\FlightRepository;
 use App\Repositories\SubfleetRepository;
+use App\Services\FlightService;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
@@ -18,17 +19,20 @@ class FlightController extends BaseController
     private $airlineRepo,
             $airportRepo,
             $flightRepo,
+            $flightSvc,
             $subfleetRepo;
 
     public function __construct(
         AirlineRepository $airlineRepo,
         AirportRepository $airportRepo,
         FlightRepository $flightRepo,
+        FlightService $flightSvc,
         SubfleetRepository $subfleetRepo
     ) {
         $this->airlineRepo = $airlineRepo;
         $this->airportRepo = $airportRepo;
         $this->flightRepo = $flightRepo;
+        $this->flightSvc = $flightSvc;
         $this->subfleetRepo = $subfleetRepo;
     }
 
@@ -161,6 +165,7 @@ class FlightController extends BaseController
     /**
      * @param $id
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Exception
      */
     public function destroy($id)
     {
@@ -171,7 +176,7 @@ class FlightController extends BaseController
             return redirect(route('admin.flights.index'));
         }
 
-        $this->flightRepo->delete($id);
+        $this->flightSvc->deleteFlight($flight);
 
         Flash::success('Flight deleted successfully.');
         return redirect(route('admin.flights.index'));
