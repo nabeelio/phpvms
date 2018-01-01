@@ -42,6 +42,21 @@ class NotificationEventListener
     }
 
     /**
+     * @param $to
+     * @param $email
+     * @return mixed
+     */
+    protected function sendEmail($to, $email)
+    {
+        try {
+            return Mail::to($to)->send($email);
+        } catch(\Exception $e) {
+            Log::error('Error sending email!');
+            Log::error($e);
+        }
+    }
+
+    /**
      * Send an email when the user registered
      * @param UserRegistered $event
      */
@@ -62,20 +77,17 @@ class NotificationEventListener
 
         if (!empty($admin_email)) {
             $email = new \App\Mail\Admin\UserRegistered($event->user);
-            Mail::to($admin_email)->send($email);
+            $this->sendEmail($admin_email, $email);
         }
 
         # Then notify the user
         if($event->user->state === UserState::ACTIVE) {
-            $email = new \App\Mail\UserRegistered(
-                $event->user,
-                'Welcome to ' . config('app.name') . '!'
-            );
-
-            Mail::to($event->user->email)->send($email);
+            $email = new \App\Mail\UserRegistered($event->user);
         } else if($event->user->state === UserState::PENDING) {
-            Mail::to($event->user->email)->send(new \App\Mail\UserPending($event->user));
+            $email = new \App\Mail\UserPending($event->user);
         }
+
+        $this->sendEmail($event->user->email, $email);
     }
 
     /**
@@ -89,21 +101,13 @@ class NotificationEventListener
         }
 
         if ($event->old_state === UserState::PENDING) {
-            if ($event->user->state === UserState::ACTIVE)
-            {
-                $email = new \App\Mail\UserRegistered(
-                    $event->user,
-                    'Your registration has been accepted!'
-                );
-
-                Mail::to($event->user->email)->send($email);
-            }
-
-            else if ($event->user->state === UserState::REJECTED)
-            {
+            if ($event->user->state === UserState::ACTIVE) {
+                $email = new \App\Mail\UserRegistered($event->user,
+                                                      'Your registration has been accepted!');
+            } else if ($event->user->state === UserState::REJECTED) {
                 $email = new \App\Mail\UserRejected($event->user);
-                Mail::to($event->user->email)->send($email);
             }
+            $this->sendEmail($event->user->email, $email);
         }
 
         # TODO: Other state transitions

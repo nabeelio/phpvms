@@ -6,7 +6,6 @@ use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class UserRegistered extends Mailable
 {
@@ -16,7 +15,7 @@ class UserRegistered extends Mailable
 
     public function __construct(User $user, $subject=null)
     {
-        $this->subject = $subject;
+        $this->subject = $subject ?: 'Welcome to '.config('app.name').'!';
         $this->user = $user;
     }
 
