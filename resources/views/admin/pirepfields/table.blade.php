@@ -29,3 +29,4 @@
     @endforeach
     </tbody>
 </table>
+</div>
