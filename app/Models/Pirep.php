@@ -61,6 +61,8 @@ class Pirep extends BaseModel
         'flight_number' => 'required',
         'dpt_airport_id' => 'required',
         'arr_airport_id' => 'required',
+        'notes' => 'nullable',
+        'route' => 'nullable',
     ];
 
     /**
@@ -70,10 +72,12 @@ class Pirep extends BaseModel
     public function getIdentAttribute()
     {
         $flight_id = $this->airline->code;
-        if ($this->flight_id) {
-            $flight_id .= $this->flight->flight_number;
-        } else {
+        if(!empty($this->flight_number)) {
             $flight_id .= $this->flight_number;
+        } else {
+            if ($this->flight_id) {
+                $flight_id .= $this->flight->flight_number;
+            }
         }
 
         return $flight_id;

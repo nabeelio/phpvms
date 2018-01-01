@@ -280,6 +280,7 @@ pireps:
     user_id: 1
     airline_id: 1
     flight_id: flightid_1
+    flight_number: 100
     aircraft_id: 1
     dpt_airport_id: KAUS
     arr_airport_id: KJFK
@@ -293,6 +294,7 @@ pireps:
     user_id: 1
     airline_id: 1
     flight_id: flightid_2
+    flight_number: 101
     aircraft_id: 1
     dpt_airport_id: KJFK
     arr_airport_id: KAUS
@@ -306,6 +308,7 @@ pireps:
     user_id: 1
     airline_id: 1
     flight_id: flightid_2
+    flight_number: 101
     aircraft_id: 1
     dpt_airport_id: KJFK
     arr_airport_id: KAUS

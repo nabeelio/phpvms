@@ -14,6 +14,8 @@ class Acars extends BaseModel
     public $fillable = [
         'pirep_id',
         'type',
+        'nav_type',
+        'name',
         'log',
         'lat',
         'lon',
@@ -29,6 +31,7 @@ class Acars extends BaseModel
 
     public $casts = [
         'type'          => 'integer',
+        'nav_type'      => 'integer',
         'lat'           => 'float',
         'lon'           => 'float',
         'heading'       => 'integer',

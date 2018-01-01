@@ -69,7 +69,7 @@ class PirepController extends AppBaseController
             'route_code',
             'flight_time',
             'planned_flight_time',
-            'altitude',
+            'level',
             'route',
             'notes',
         ];
@@ -123,7 +123,7 @@ class PirepController extends AppBaseController
             'route_code',
             'flight_time',
             'planned_flight_time',
-            'altitude',
+            'level',
             'route',
             'notes',
         ];

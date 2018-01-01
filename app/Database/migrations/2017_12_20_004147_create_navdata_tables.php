@@ -18,7 +18,7 @@ class CreateNavdataTables extends Migration
          * https://github.com/skiselkov/openfmc/blob/master/airac.h
          */
         Schema::create('navdata', function (Blueprint $table) {
-            $table->string('id', 4);
+            $table->string('id', 5);
             $table->string('name', 24);
             $table->unsignedInteger('type');
             $table->float('lat', 7, 4)->default(0.0);

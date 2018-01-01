@@ -79,7 +79,7 @@ class AcarsReplay extends BaseCommand
                 'aircraft_id'           => 1,
                 'dpt_airport_id'        => $flight->planned_depairport,
                 'arr_airport_id'        => $flight->planned_destairport,
-                'altitude'              => $flight->planned_altitude,
+                'level'                 => $flight->planned_altitude,
                 'planned_flight_time'   => $pft,
                 'route'                 => $flight->planned_route,
             ]

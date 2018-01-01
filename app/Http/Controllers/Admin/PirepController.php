@@ -24,7 +24,7 @@ class PirepController extends BaseController
             $airlineRepo,
             $pirepRepo,
             $aircraftRepo,
-        $pirepSvc;
+            $pirepSvc;
 
     public function __construct(
         AirportRepository $airportRepo,
@@ -179,7 +179,15 @@ class PirepController extends BaseController
             return redirect(route('admin.pireps.index'));
         }
 
-        $pirep = $this->pirepRepo->update($request->all(), $id);
+        $attrs = $request->all();
+        $orig_route = $pirep->route;
+        $pirep = $this->pirepRepo->update($attrs, $id);
+
+        // A route change in the PIREP, so update the saved points
+        // in the ACARS table
+        if($pirep->route !== $orig_route) {
+            $this->pirepSvc->saveRoute($pirep);
+        }
 
         Flash::success('Pirep updated successfully.');
         return redirect(route('admin.pireps.index'));

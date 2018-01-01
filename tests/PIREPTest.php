@@ -1,8 +1,11 @@
 <?php
 
-use App\Models\Enums\PirepState;
-use App\Models\User;
+use App\Models\Acars;
+use App\Models\Enums\AcarsType;
+use App\Models\Navdata;
 use App\Models\Pirep;
+use App\Models\User;
+use App\Models\Enums\PirepState;
 
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 
@@ -20,11 +23,40 @@ class PIREPTest extends TestCase
         $this->pirepSvc = app('App\Services\PIREPService');
     }
 
+    protected function createNewRoute()
+    {
+        $route = [];
+        $navpoints = factory(App\Models\Navdata::class, 5)->create();
+        foreach ($navpoints as $point) {
+            $route[] = $point->id;
+        }
+
+        return $route;
+    }
+
+    protected function getAcarsRoute($pirep)
+    {
+        $saved_route = [];
+        $route_points = Acars::where(
+            ['pirep_id' => $pirep->id, 'type' => AcarsType::ROUTE]
+        )->orderBy('created_at', 'asc')->get();
+
+        foreach ($route_points as $point) {
+            $saved_route[] = $point->name;
+        }
+
+        return $saved_route;
+    }
+
     /**
      */
     public function testAddPirep()
     {
-        $pirep = factory(App\Models\Pirep::class)->create();
+        $route = $this->createNewRoute();
+        $pirep = factory(App\Models\Pirep::class)->create([
+            'route' => implode(' ', $route)
+        ]);
+
         $pirep = $this->pirepSvc->create($pirep, []);
 
         /**
@@ -54,6 +86,26 @@ class PIREPTest extends TestCase
         $this->assertEquals($new_pirep_count, $pirep->pilot->flights);
         $this->assertEquals($new_flight_time, $pirep->pilot->flight_time);
         $this->assertEquals($pirep->arr_airport_id, $pirep->pilot->curr_airport_id);
+
+        /**
+         * Check the ACARS table
+         */
+        $saved_route = $this->getAcarsRoute($pirep);
+        $this->assertEquals($route, $saved_route);
+
+        /**
+         * Recreate the route with new options points. Make sure that the
+         * old route is erased from the ACARS table and then recreated
+         */
+        $route = $this->createNewRoute();
+        $pirep->route = implode(' ', $route);
+        $pirep->save();
+
+        # this should delete the old route from the acars table
+        $this->pirepSvc->saveRoute($pirep);
+
+        $saved_route = $this->getAcarsRoute($pirep);
+        $this->assertEquals($route, $saved_route);
     }
 
     /**

@@ -2,35 +2,92 @@
 
 namespace App\Services;
 
-use App\Models\Enums\PirepSource;
-use App\Models\Enums\PirepState;
+use Log;
+
+use App\Models\Acars;
+use App\Models\Navdata;
 use App\Models\Pirep;
 use App\Models\PirepFieldValues;
+use App\Models\User;
+
+use App\Models\Enums\AcarsType;
+use App\Models\Enums\PirepSource;
+use App\Models\Enums\PirepState;
 
 use App\Events\PirepAccepted;
 use App\Events\PirepFiled;
 use App\Events\PirepRejected;
 use App\Events\UserStatsChanged;
 
-use App\Models\User;
+use App\Repositories\NavdataRepository;
 use App\Repositories\PirepRepository;
-use Log;
 
 class PIREPService extends BaseService
 {
-    protected $pilotSvc, $pirepRepo;
+    protected $geoSvc,
+              $navRepo,
+              $pilotSvc,
+              $pirepRepo;
 
     /**
      * PIREPService constructor.
      * @param UserService $pilotSvc
+     * @param GeoService $geoSvc
+     * @param NavdataRepository $navRepo
      * @param PirepRepository $pirepRepo
      */
     public function __construct(
         UserService $pilotSvc,
+        GeoService $geoSvc,
+        NavdataRepository $navRepo,
         PirepRepository $pirepRepo
     ) {
+        $this->geoSvc = $geoSvc;
         $this->pilotSvc = $pilotSvc;
+        $this->navRepo = $navRepo;
         $this->pirepRepo = $pirepRepo;
+    }
+
+    /**
+     * Save the route into the ACARS table with AcarsType::ROUTE
+     * @param Pirep $pirep
+     * @return Pirep
+     */
+    public function saveRoute(Pirep $pirep): Pirep
+    {
+        # Delete all the existing nav points
+        Acars::where([
+            'pirep_id'  => $pirep->id,
+            'type'      => AcarsType::ROUTE,
+        ])->delete();
+
+        # Delete the route
+        if(empty($pirep->route)) {
+            return $pirep;
+        }
+
+        $route = $this->geoSvc->routeToNavPoints(
+            $pirep->route,
+            $pirep->dep_airport,
+            $pirep->arr_airport
+        );
+
+        /**
+         * @var $point Navdata
+         */
+        foreach($route as $point) {
+            $acars = new Acars();
+            $acars->pirep_id = $pirep->id;
+            $acars->type = AcarsType::ROUTE;
+            $acars->nav_type = $point->type;
+            $acars->name = $point->id;
+            $acars->lat = $point->lat;
+            $acars->lon = $point->lon;
+
+            $acars->save();
+        }
+
+        return $pirep;
     }
 
     /**
@@ -43,7 +100,7 @@ class PIREPService extends BaseService
      */
     public function create(Pirep $pirep, array $field_values=[]): Pirep
     {
-        if($field_values === null) {
+        if(empty($field_values)) {
             $field_values = [];
         }
 
@@ -60,6 +117,9 @@ class PIREPService extends BaseService
             }
         }
 
+        # Save the PIREP route
+        $pirep = $this->saveRoute($pirep);
+
         $pirep->save();
         $pirep->refresh();
 
@@ -73,7 +133,6 @@ class PIREPService extends BaseService
         }
 
         Log::info('New PIREP filed', [$pirep]);
-
         event(new PirepFiled($pirep));
 
         # only update the pilot last state if they are accepted
