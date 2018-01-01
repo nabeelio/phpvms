@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Enums\AcarsType;
 use App\Models\Traits\HashId;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -85,7 +86,8 @@ class Pirep extends BaseModel
     public function acars()
     {
         return $this->hasMany('App\Models\Acars', 'pirep_id')
-                ->orderBy('created_at', 'asc');
+                    ->where('type', AcarsType::FLIGHT_PATH)
+                    ->orderBy('created_at', 'asc');
     }
 
     public function aircraft()
@@ -135,7 +137,9 @@ class Pirep extends BaseModel
      */
     public function position()
     {
-        return $this->hasOne('App\Models\Acars', 'pirep_id')->latest();
+        return $this->hasOne('App\Models\Acars', 'pirep_id')
+                    ->where('type', AcarsType::FLIGHT_PATH)
+                    ->latest();
     }
 
     public function user()
