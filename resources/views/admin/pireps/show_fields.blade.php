@@ -26,42 +26,35 @@
 </div>
 <div class="row">
     <div class="col-md-12">
-        <table class="table">
+        <table class="table table-hover">
             <tr>
                 <td>Pilot</td>
-                <td>
-                    <p>
-                        <a href="{!! route('admin.users.show', ['id' => $pirep->pilot->id]) !!}"
-                            target="_blank">{!! $pirep->user->name !!}</a>
-                    </p>
+                <td><a href="{!! route('admin.users.show', ['id' => $pirep->pilot->id]) !!}"
+                        target="_blank">{!! $pirep->user->name !!}</a>
                 </td>
             </tr>
             <tr>
                 <td>Flight</td>
                 <td>
-                    <p>
-                        <a href="{!! route('admin.flights.show', [$pirep->flight_id]) !!}"
-                           target="_blank">
-                            {!! $pirep->ident !!}
-                        </a>
-                    </p>
+                    <a href="{!! route('admin.flights.show', [$pirep->flight_id]) !!}"
+                       target="_blank">
+                        {!! $pirep->ident !!}
+                    </a>
                 </td>
             </tr>
             <tr>
                 <td>Aircraft</td>
-                <td>
-                    <p>{!! $pirep->aircraft->subfleet->name !!}, {!! $pirep->aircraft->name !!}
-                        ({!! $pirep->aircraft->registration !!})
-                    </p>
+                <td>{!! $pirep->aircraft->subfleet->name !!}, {!! $pirep->aircraft->name !!}
+                    ({!! $pirep->aircraft->registration !!})
                 </td>
             </tr>
             <tr>
                 <td>Flight Time</td>
-                <td><p>{!! Utils::minutesToTimeString($pirep->flight_time) !!}</p></td>
+                <td>{!! Utils::minutesToTimeString($pirep->flight_time) !!}</td>
             </tr>
             <tr>
                 <td>Flight Level</td>
-                <td><p>{!! $pirep->level !!}</p></td>
+                <td>{!! $pirep->level !!}</td>
             </tr>
             <tr>
                 <td>Route</td>
@@ -73,12 +66,12 @@
             </tr>
             <tr>
                 <td>Filed On</td>
-                <td><p>{!! show_datetime($pirep->created_at) !!}</p></td>
+                <td>{!! show_datetime($pirep->created_at) !!}</td>
             </tr>
 
             <tr>
                 <td>Updated On</td>
-                <td><p>{!! show_datetime($pirep->updated_at) !!}</p></td>
+                <td>{!! show_datetime($pirep->updated_at) !!}</td>
             </tr>
         </table>
     </div>
