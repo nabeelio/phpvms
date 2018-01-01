@@ -124,6 +124,8 @@ const phpvms = (function() {
             render_elem: 'map',
         });
 
+        console.log(opts);
+
         let map = draw_base_map(opts);
 
         let geodesicLayer = L.geodesic([], {
@@ -156,7 +158,7 @@ const phpvms = (function() {
          * draw the actual route
          */
 
-        if (opts.actual_route_line !== null) {
+        if (opts.actual_route_line !== null && opts.actual_route_line.features.length > 0) {
             let geodesicLayer = L.geodesic([], {
                 weight: 7,
                 opacity: 0.9,
@@ -169,7 +171,7 @@ const phpvms = (function() {
             map.fitBounds(geodesicLayer.getBounds());
         }
 
-        if (opts.actual_route_points !== null) {
+        if (opts.actual_route_points !== null && opts.actual_route_points.features.length > 0) {
             let route_points = L.geoJSON(opts.actual_route_points, {
                 onEachFeature: onFeaturePointClick,
                 pointToLayer: pointToLayer,
