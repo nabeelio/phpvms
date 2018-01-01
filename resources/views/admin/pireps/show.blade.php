@@ -6,8 +6,21 @@
 @endsection
 
 @section('content')
-    <div class="card">
-        @include('admin.pireps.show_fields')
-        @include('admin.pireps.field_values')
+    <div class="card border-blue-bottom">
+        <div class="content">
+            @include('admin.pireps.show_fields')
+        </div>
+    </div>
+
+    <div class="card border-blue-bottom">
+        <div class="content">
+            @include('admin.pireps.field_values')
+        </div>
+    </div>
+
+    <div class="card border-blue-bottom">
+        <div class="content">
+            @include('admin.pireps.map')
+        </div>
     </div>
 @endsection
