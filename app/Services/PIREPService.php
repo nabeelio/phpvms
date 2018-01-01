@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Repositories\AcarsRepository;
 use Log;
 
 use App\Models\Acars;
@@ -24,10 +25,11 @@ use App\Repositories\PirepRepository;
 
 class PIREPService extends BaseService
 {
-    protected $geoSvc,
-              $navRepo,
-              $pilotSvc,
-              $pirepRepo;
+    protected $acarsRepo,
+        $geoSvc,
+        $navRepo,
+        $pilotSvc,
+        $pirepRepo;
 
     /**
      * PIREPService constructor.
@@ -37,11 +39,14 @@ class PIREPService extends BaseService
      * @param PirepRepository $pirepRepo
      */
     public function __construct(
-        UserService $pilotSvc,
+        AcarsRepository $acarsRepo,
         GeoService $geoSvc,
         NavdataRepository $navRepo,
-        PirepRepository $pirepRepo
-    ) {
+        PirepRepository $pirepRepo,
+        UserService $pilotSvc
+    )
+    {
+        $this->acarsRepo = $acarsRepo;
         $this->geoSvc = $geoSvc;
         $this->pilotSvc = $pilotSvc;
         $this->navRepo = $navRepo;
@@ -57,12 +62,12 @@ class PIREPService extends BaseService
     {
         # Delete all the existing nav points
         Acars::where([
-            'pirep_id'  => $pirep->id,
-            'type'      => AcarsType::ROUTE,
-        ])->delete();
+                         'pirep_id' => $pirep->id,
+                         'type' => AcarsType::ROUTE,
+                     ])->delete();
 
         # Delete the route
-        if(empty($pirep->route)) {
+        if (empty($pirep->route)) {
             return $pirep;
         }
 
@@ -76,7 +81,7 @@ class PIREPService extends BaseService
         /**
          * @var $point Navdata
          */
-        foreach($route as $point) {
+        foreach ($route as $point) {
             $acars = new Acars();
             $acars->pirep_id = $pirep->id;
             $acars->type = AcarsType::ROUTE;
@@ -99,21 +104,21 @@ class PIREPService extends BaseService
      *
      * @return Pirep
      */
-    public function create(Pirep $pirep, array $field_values=[]): Pirep
+    public function create(Pirep $pirep, array $field_values = []): Pirep
     {
-        if(empty($field_values)) {
+        if (empty($field_values)) {
             $field_values = [];
         }
 
         # Figure out what default state should be. Look at the default
         # behavior from the rank that the pilot is assigned to
         $default_state = PirepState::PENDING;
-        if($pirep->source === PirepSource::ACARS) {
-            if($pirep->pilot->rank->auto_approve_acars) {
+        if ($pirep->source === PirepSource::ACARS) {
+            if ($pirep->pilot->rank->auto_approve_acars) {
                 $default_state = PirepState::ACCEPTED;
             }
         } else {
-            if($pirep->pilot->rank->auto_approve_manual) {
+            if ($pirep->pilot->rank->auto_approve_manual) {
                 $default_state = PirepState::ACCEPTED;
             }
         }
@@ -152,7 +157,7 @@ class PIREPService extends BaseService
      */
     public function changeState(Pirep $pirep, int $new_state)
     {
-        Log::info('PIREP ' . $pirep->id . ' state change from '.$pirep->state.' to ' . $new_state);
+        Log::info('PIREP ' . $pirep->id . ' state change from ' . $pirep->state . ' to ' . $new_state);
 
         if ($pirep->state === $new_state) {
             return $pirep;
@@ -169,17 +174,13 @@ class PIREPService extends BaseService
             } else {
                 return $pirep;
             }
-        }
-
-        /*
+        } /*
          * Move from a ACCEPTED to REJECTED status
          */
         elseif ($pirep->state === PirepState::ACCEPTED) {
             $pirep = $this->reject($pirep);
             return $pirep;
-        }
-
-        /**
+        } /**
          * Move from REJECTED to ACCEPTED
          */
         elseif ($pirep->state === PirepState::REJECTED) {
@@ -216,7 +217,7 @@ class PIREPService extends BaseService
 
         $this->setPilotState($pilot, $pirep);
 
-        Log::info('PIREP '.$pirep->id.' state change to ACCEPTED');
+        Log::info('PIREP ' . $pirep->id . ' state change to ACCEPTED');
 
         event(new PirepAccepted($pirep));
 

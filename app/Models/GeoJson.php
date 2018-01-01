@@ -1,0 +1,66 @@
+<?php
+
+namespace App\Models;
+
+use \GeoJson\Geometry\Point;
+use \GeoJson\Geometry\LineString;
+use \GeoJson\Feature\Feature;
+use \GeoJson\Feature\FeatureCollection;
+
+/**
+ * Class GeoJson
+ * @package App\Models
+ */
+class GeoJson
+{
+    /**
+     * @var int
+     */
+    protected $counter;
+
+    /**
+     * @var array [lon, lat] pairs
+     */
+    protected $line_coords = [];
+
+    /**
+     * @var Feature[]
+     */
+    protected $point_coords = [];
+
+    /**
+     * @param $lat
+     * @param $lon
+     * @param array $attrs  Attributes of the Feature
+     */
+    public function addPoint($lat, $lon, array $attrs)
+    {
+        $this->line_coords[] = [$lon, $lat];
+        $this->point_coords[] = new Feature(new Point([$lon, $lat]), $attrs);
+        ++$this->counter;
+    }
+
+    /**
+     * Get the FeatureCollection for the line
+     * @return FeatureCollection
+     */
+    public function getLine(): FeatureCollection
+    {
+        if(empty($this->line_coords) || \count($this->line_coords) < 2) {
+            return new FeatureCollection([]);
+        }
+
+        return new FeatureCollection([
+            new Feature(new LineString($this->line_coords))
+        ]);
+    }
+
+    /**
+     * Get the feature collection of all the points
+     * @return FeatureCollection
+     */
+    public function getPoints(): FeatureCollection
+    {
+        return new FeatureCollection($this->point_coords);
+    }
+}

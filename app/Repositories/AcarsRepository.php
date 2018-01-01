@@ -5,10 +5,6 @@ namespace App\Repositories;
 use App\Models\Acars;
 use App\Models\Pirep;
 use App\Models\Enums\PirepState;
-use App\Models\Enums\PirepStatus;
-
-use App\Repositories\Traits\CacheableRepository;
-use Prettus\Repository\Contracts\CacheableInterface;
 
 class AcarsRepository extends BaseRepository //implements CacheableInterface
 {
@@ -19,9 +15,19 @@ class AcarsRepository extends BaseRepository //implements CacheableInterface
         return Acars::class;
     }
 
-    public function forPirep($pirep_id)
+    /**
+     * @param $pirep_id
+     * @param $type
+     * @return mixed
+     */
+    public function forPirep($pirep_id, $type)
     {
-        return $this->findWhere(['pirep_id' => $pirep_id]);
+        $where = [
+            'pirep_id' => $pirep_id,
+            'type' => $type,
+        ];
+
+        return $this->orderBy('created_at', 'asc')->findWhere($where);
     }
 
     /**

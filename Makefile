@@ -73,7 +73,8 @@ test:
 
 .PHONY: replay-acars
 replay-acars:
-	@php artisan phpvms:replay AAL10,AAL3113,BAW172,DAL988,FIN6,MSR986 --manual
+	#@php artisan phpvms:replay AAL10,AAL3113,BAW172,DAL988,FIN6,MSR986 --manual
+	@php artisan phpvms:replay ASH6028 --manual
 
 .PHONY: sass-watch
 sass-watch:

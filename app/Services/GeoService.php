@@ -2,11 +2,9 @@
 
 namespace App\Services;
 
-use App\Models\Acars;
-use App\Models\Airport;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Support\Collection;
 use Log;
+use App\Models\Enums\AcarsType;
+use App\Repositories\AcarsRepository;
 
 use \GeoJson\Geometry\Point;
 use \GeoJson\Geometry\LineString;
@@ -16,6 +14,7 @@ use \GeoJson\Feature\FeatureCollection;
 use \League\Geotools\Geotools;
 use \League\Geotools\Coordinate\Coordinate;
 
+use App\Models\GeoJson;
 use App\Models\Flight;
 use App\Models\Pirep;
 use App\Repositories\NavdataRepository;
@@ -30,10 +29,13 @@ use App\Repositories\NavdataRepository;
  */
 class GeoService extends BaseService
 {
-    private $navRepo;
+    private $acarsRepo, $navRepo;
 
-    public function __construct(NavdataRepository $navRepo)
-    {
+    public function __construct(
+        AcarsRepository $acarsRepo,
+        NavdataRepository $navRepo
+    ) {
+        $this->acarsRepo = $acarsRepo;
         $this->navRepo = $navRepo;
     }
 
@@ -247,19 +249,14 @@ class GeoService extends BaseService
      */
     public function flightGeoJson(Flight $flight): array
     {
-        $route_coords = [];
-        $route_points = [];
+        $route = new GeoJson();
 
         ## Departure Airport
-        $route_coords[] = [$flight->dpt_airport->lon, $flight->dpt_airport->lat];
-
-        $route_points[] = new Feature(
-            new Point([$flight->dpt_airport->lon, $flight->dpt_airport->lat]), [
-                'name'  => $flight->dpt_airport->icao,
-                'popup' => $flight->dpt_airport->full_name,
-                'icon'  => 'airport',
-            ]
-        );
+        $route->addPoint($flight->dpt_airport->lat, $flight->dpt_airport->lon, [
+            'name' => $flight->dpt_airport->icao,
+            'popup' => $flight->dpt_airport->full_name,
+            'icon' => 'airport',
+        ]);
 
         if($flight->route) {
             $all_route_points = $this->getCoordsFromRoute(
@@ -270,8 +267,7 @@ class GeoService extends BaseService
 
             // lat, lon needs to be reversed for GeoJSON
             foreach($all_route_points as $point) {
-                $route_coords[] = [$point->lon, $point->lat];
-                $route_points[] = new Feature(new Point([$point->lon, $point->lat]), [
+                $route->addPoint($point->lat, $point->lon, [
                     'name'  => $point->name,
                     'popup' => $point->name . ' (' . $point->name . ')',
                     'icon'  => ''
@@ -279,23 +275,15 @@ class GeoService extends BaseService
             }
         }
 
-        ## Arrival Airport
-        $route_coords[] = [$flight->arr_airport->lon, $flight->arr_airport->lat,];
-
-        $route_points[] = new Feature(
-            new Point([$flight->arr_airport->lon, $flight->arr_airport->lat]), [
-                'name'  => $flight->arr_airport->icao,
-                'popup' => $flight->arr_airport->full_name,
-                'icon'  => 'airport',
-            ]
-        );
-
-        $route_points = new FeatureCollection($route_points);
-        $planned_route_line = new FeatureCollection([new Feature(new LineString($route_coords), [])]);
+        $route->addPoint($flight->arr_airport->lat, $flight->arr_airport->lon, [
+            'name'  => $flight->arr_airport->icao,
+            'popup' => $flight->arr_airport->full_name,
+            'icon'  => 'airport',
+        ]);
 
         return [
-            'route_points'          => $route_points,
-            'planned_route_line'    => $planned_route_line,
+            'route_points'        => $route->getPoints(),
+            'planned_route_line'  => $route->getLine(),
         ];
     }
 
@@ -306,60 +294,49 @@ class GeoService extends BaseService
      */
     public function pirepGeoJson(Pirep $pirep)
     {
-        $planned_rte_points = [];
-        $planned_rte_coords = [];
+        $planned = new GeoJson();
+        $actual = new GeoJson();
 
-        $planned_rte_coords[] = [$pirep->dpt_airport->lon, $pirep->dpt_airport->lat];
-        $feature = new Feature(
-            new Point([$pirep->dpt_airport->lon, $pirep->dpt_airport->lat]), [
-                'name' => $pirep->dpt_airport->icao,
-                'popup' => $pirep->dpt_airport->full_name,
-                'icon' => 'airport',
-           ]);
-
-        $planned_rte_points[] = $feature;
-
-        if (!empty($pirep->route)) {
-            $all_route_points = $this->getCoordsFromRoute(
-                $pirep->dpt_airport->icao,
-                $pirep->arr_airport->icao,
-                [$pirep->dpt_airport->lat, $pirep->dpt_airport->lon],
-                $pirep->route);
-
-            // lat, lon needs to be reversed for GeoJSON
-            foreach ($all_route_points as $point) {
-                $planned_rte_coords[] = [$point->lon, $point->lat];
-                $planned_rte_points[] = new Feature(new Point([$point->lon, $point->lat]), [
-                    'name'  => $point->name,
-                    'popup' => $point->name . ' (' . $point->name . ')',
-                    'icon'  => ''
-                ]);
-            }
-        }
-
-        $planned_rte_coords[] = [$pirep->arr_airport->lon, $pirep->arr_airport->lat];
-
-        $planned_rte_points[] = new Feature(
-            new Point([$pirep->arr_airport->lon, $pirep->arr_airport->lat]), [
-                'name'  => $pirep->arr_airport->icao,
-                'popup' => $pirep->arr_airport->full_name,
-                'icon'  => 'airport',
-            ]
-        );
-
-        $planned_rte_points = new FeatureCollection($planned_rte_points);
-
-        $planned_route = new FeatureCollection([
-            new Feature(new LineString($planned_rte_coords), [])
+        /**
+         * PLANNED ROUTE
+         */
+        $planned->addPoint($pirep->dpt_airport->lat, $pirep->dpt_airport->lon, [
+            'name' => $pirep->dpt_airport->icao,
+            'popup' => $pirep->dpt_airport->full_name,
         ]);
 
-        $actual_route = $this->getFeatureFromAcars($pirep);
+        $planned_route = $this->acarsRepo->forPirep($pirep->id, AcarsType::ROUTE);
+        foreach($planned_route as $point) {
+            $planned->addPoint($point->lat, $point->lon, [
+                'name' => $point->name,
+                'popup' => $point->name . ' (' . $point->name . ')',
+            ]);
+        }
+
+        $planned->addPoint($pirep->arr_airport->lat, $pirep->arr_airport->lon, [
+            'name' => $pirep->arr_airport->icao,
+            'popup' => $pirep->arr_airport->full_name,
+            'icon' => 'airport',
+        ]);
+
+        /**
+         * ACTUAL ROUTE
+         */
+        $actual_route = $this->acarsRepo->forPirep($pirep->id, AcarsType::FLIGHT_PATH);
+        foreach ($actual_route as $point) {
+            $actual->addPoint($point->lat, $point->lon, [
+                'pirep_id' => $pirep->id,
+                'name' => $point->altitude,
+                'popup' => 'GS: ' . $point->gs . '<br />Alt: ' . $point->altitude,
+            ]);
+        }
 
         return [
-            'planned_rte_points'  => $planned_rte_points,
-            'planned_rte_line'    => $planned_route,
-            'actual_route_line'   => $actual_route['line'],
-            'actual_route_points' => $actual_route['points'],
+            'planned_rte_points'  => $planned->getPoints(),
+            'planned_rte_line'    => $planned->getLine(),
+
+            'actual_route_points' => $actual->getPoints(),
+            'actual_route_line'   => $actual->getLine(),
         ];
     }
 }

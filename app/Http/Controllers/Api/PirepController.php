@@ -28,6 +28,22 @@ class PirepController extends AppBaseController
               $pirepRepo,
               $pirepSvc;
 
+    protected $check_attrs = [
+        'airline_id',
+        'aircraft_id',
+        'dpt_airport_id',
+        'arr_airport_id',
+        'flight_id',
+        'flight_number',
+        'route_leg',
+        'route_code',
+        'flight_time',
+        'planned_flight_time',
+        'level',
+        'route',
+        'notes',
+    ];
+
     public function __construct(
         AcarsRepository $acarsRepo,
         GeoService $geoSvc,
@@ -55,40 +71,23 @@ class PirepController extends AppBaseController
      */
     public function prefile(Request $request)
     {
-        Log::info('PIREP Prefile, user '. Auth::user()->pilot_id,
-                  $request->toArray());
-
-        $check_attrs = [
-            'airline_id',
-            'aircraft_id',
-            'dpt_airport_id',
-            'arr_airport_id',
-            'flight_id',
-            'flight_number',
-            'route_leg',
-            'route_code',
-            'flight_time',
-            'planned_flight_time',
-            'level',
-            'route',
-            'notes',
-        ];
+        Log::info('PIREP Prefile, user '. Auth::user()->pilot_id, $request->toArray());
 
         $attrs = [
-            'user_id' => Auth::user()->id,
+            'user_id'   => Auth::user()->id,
+            'state'     => PirepState::IN_PROGRESS,
+            'status'    => PirepStatus::PREFILE,
         ];
 
-        foreach ($check_attrs as $attr) {
+        foreach ($this->check_attrs as $attr) {
             if ($request->filled($attr)) {
                 $attrs[$attr] = $request->get($attr);
             }
         }
 
-        $attrs['state'] = PirepState::IN_PROGRESS;
-        $attrs['status'] = PirepStatus::PREFILE;
-
         try {
             $pirep = $this->pirepRepo->create($attrs);
+            $this->pirepSvc->saveRoute($pirep);
         } catch(\Exception $e) {
             Log::error($e);
         }
@@ -108,27 +107,14 @@ class PirepController extends AppBaseController
      */
     public function file($id, Request $request)
     {
-        Log::info('PIREP Prefile, user ' . Auth::user()->pilot_id,
-                  $request->toArray());
+        Log::info('PIREP Prefile, user ' . Auth::user()->pilot_id, $request->toArray());
 
-        $attrs = [];
-        $check_attrs = [
-            'airline_id',
-            'aircraft_id',
-            'dpt_airport_id',
-            'arr_airport_id',
-            'flight_id',
-            'flight_number',
-            'route_leg',
-            'route_code',
-            'flight_time',
-            'planned_flight_time',
-            'level',
-            'route',
-            'notes',
+        $attrs = [
+            'state'     => PirepState::PENDING,
+            'status'    => PirepStatus::ARRIVED,
         ];
 
-        foreach($check_attrs as $attr) {
+        foreach($this->check_attrs as $attr) {
             if($request->filled($attr)) {
                 $attrs[$attr] = $request->get($attr);
             }
@@ -137,9 +123,6 @@ class PirepController extends AppBaseController
         if($request->filled('fields')) {
             $pirep_fields = $request->get('fields');
         }
-
-        $attrs['state'] = PirepState::PENDING;
-        $attrs['status'] = PirepStatus::ARRIVED;
 
         try {
             $pirep = $this->pirepRepo->update($attrs, $id);
