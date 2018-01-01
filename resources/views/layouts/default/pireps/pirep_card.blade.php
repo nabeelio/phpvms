@@ -13,11 +13,11 @@
                     </a>
                 </h5>
                 <div>
-                    @if($pirep->state == PirepState::PENDING)
+                    @if($pirep->state === PirepState::PENDING)
                         <div class="badge badge-warning">
-                    @elseif($pirep->state == PirepState::ACCEPTED)
+                    @elseif($pirep->state === PirepState::ACCEPTED)
                         <div class="badge badge-success">
-                    @elseif($pirep->state == PirepState::REJECTED)
+                    @elseif($pirep->state === PirepState::REJECTED)
                         <div class="badge badge-danger">
                     @else
                         <div class="badge badge-info">
