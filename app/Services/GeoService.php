@@ -38,64 +38,6 @@ class GeoService extends BaseService
     }
 
     /**
-     * Parse a route string into a collection of Navadata points
-     * TODO: Add the distance calculation in here
-     * @param $route
-     * @param Airport|null $dep
-     * @param Airport|null $arr
-     * @return array|Collection
-     */
-    public function routeToNavPoints($route, Airport $dep=null, Airport $arr=null)
-    {
-        $route = trim($route);
-        if(empty($route)) {
-            return collect();
-        }
-
-        $skip_points = ['SID', 'STAR'];
-        if($dep !== null) {
-            $skip_points[] = $dep->icao;
-        }
-
-        if($arr !== null) {
-            $skip_points[] = $arr->icao;
-        }
-
-        # Iterate through the route
-        $route = collect(explode(' ', $route))
-            ->transform(function($point) use ($skip_points) {
-                $point = trim($point);
-
-                if(empty($point)) {
-                    return false;
-                }
-
-                if(\in_array($point, $skip_points, true)) {
-                    return false;
-                }
-
-                try {
-                    $navpoints = $this->navRepo->findWhere(['id'=>$point]);
-                } catch(ModelNotFoundException $e) {
-                    return false;
-                }
-
-                if($navpoints->count() === 0) {
-                    return false;
-                } elseif ($navpoints->count() === 1) {
-                    return $navpoints[0];
-                }
-
-                # find the closest waypoint...
-            })
-            ->filter(function($value, $key) {
-                return !empty($value);
-            });
-
-        return $route;
-    }
-
-    /**
      * Determine the closest set of coordinates from the starting position
      * @param array $coordStart
      * @param array $all_coords

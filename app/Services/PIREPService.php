@@ -66,10 +66,11 @@ class PIREPService extends BaseService
             return $pirep;
         }
 
-        $route = $this->geoSvc->routeToNavPoints(
-            $pirep->route,
-            $pirep->dep_airport,
-            $pirep->arr_airport
+        $route = $this->geoSvc->getCoordsFromRoute(
+            $pirep->dpt_airport_id,
+            $pirep->arr_airport_id,
+            [$pirep->dpt_airport->lat, $pirep->dpt_airport->lon],
+            $pirep->route
         );
 
         /**

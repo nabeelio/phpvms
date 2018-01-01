@@ -183,8 +183,7 @@ class PirepController extends BaseController
         $orig_route = $pirep->route;
         $pirep = $this->pirepRepo->update($attrs, $id);
 
-        // A route change in the PIREP, so update the saved points
-        // in the ACARS table
+        // A route change in the PIREP, so update the saved points in the ACARS table
         if($pirep->route !== $orig_route) {
             $this->pirepSvc->saveRoute($pirep);
         }
