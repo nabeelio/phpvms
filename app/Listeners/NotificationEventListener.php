@@ -6,6 +6,7 @@ use Log;
 use Illuminate\Support\Facades\Mail;
 
 use App\Events\UserRegistered;
+use App\Events\UserStateChanged;
 use App\Models\Enums\UserState;
 
 /**
@@ -28,6 +29,19 @@ class NotificationEventListener
     }
 
     /**
+     * @return bool
+     */
+    protected function mailerActive()
+    {
+        if (empty(config('mail.host'))) {
+            Log::info('No mail host specified!');
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Send an email when the user registered
      * @param UserRegistered $event
      */
@@ -37,6 +51,10 @@ class NotificationEventListener
                   . $event->user->pilot_id . ' is '
                   . UserState::label($event->user->state)
                   . ', sending active email');
+
+        if(!$this->mailerActive()) {
+            return;
+        }
 
         # First send the admin a notification
         $admin_email = setting('general.admin_email');
@@ -66,6 +84,10 @@ class NotificationEventListener
      */
     public function onUserStateChange(UserStateChanged $event)
     {
+        if (!$this->mailerActive()) {
+            return;
+        }
+
         if ($event->old_state === UserState::PENDING) {
             if ($event->user->state === UserState::ACTIVE)
             {
