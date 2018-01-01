@@ -107,11 +107,6 @@ class PirepFieldController extends BaseController
 
     /**
      * Update the specified PirepField in storage.
-     *
-     * @param  int              $id
-     * @param UpdatePirepFieldRequest $request
-     *
-     * @return Response
      */
     public function update($id, UpdatePirepFieldRequest $request)
     {

@@ -87,8 +87,7 @@
                                 <i class="now-ui-icons users_single-02"></i>
                             </span>-->
                             {!! Form::text('field_'.$field->id, null, [
-                                    'class' => 'form-control',
-                                    'required' => $field->required,
+                                'class' => 'form-control'
                                 ]) !!}
                         </div>
                     </td>

@@ -84,7 +84,6 @@ class CreatePirepTables extends Migration
             $table->bigIncrements('id');
             $table->string('name', 50);
             $table->boolean('required')->default(false);
-            $table->timestamps();
         });
 
         Schema::create('pirep_field_values', function (Blueprint $table) {

@@ -17,7 +17,7 @@
                 <td>{!! $airport->name !!}</td>
                 <td>{!! $airport->location !!}</td>
                 <td style="text-align: center;">
-                    @if($airport->hub == 1)
+                    @if($airport->hub === true)
                         <span class="label label-success">Hub</span>
                     @endif
                 </td>
