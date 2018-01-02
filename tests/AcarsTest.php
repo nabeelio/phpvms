@@ -126,6 +126,7 @@ class AcarsTest extends TestCase
         $user = factory(App\Models\User::class)->create();
         $pirep = factory(App\Models\Pirep::class)->make([
             'id' => '',
+            'airline_id' => $user->airline_id,
             'user_id' => $user->id,
         ])->toArray();
 
