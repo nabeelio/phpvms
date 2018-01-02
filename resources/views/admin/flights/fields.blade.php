@@ -16,13 +16,13 @@
     <!-- Route Code Field -->
     <div class="form-group col-sm-3">
         {!! Form::label('route_code', 'Route Code:') !!}
-        {!! Form::text('route_code', null, ['class' => 'form-control']) !!}
+        {!! Form::text('route_code', null, ['class'=>'form-control', 'placeholder'=>'optional']) !!}
     </div>
 
     <!-- Route Leg Field -->
     <div class="form-group col-sm-3">
         {!! Form::label('route_leg', 'Route Leg:') !!}
-        {!! Form::text('route_leg', null, ['class' => 'form-control']) !!}
+        {!! Form::text('route_leg', null, ['class'=>'form-control', 'placeholder'=>'optional']) !!}
     </div>
 </div>
 
