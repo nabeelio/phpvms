@@ -37,7 +37,8 @@ class AcarsTest extends TestCase
             'aircraft_id' => $aircraft->id,
             'dpt_airport_id' => $airport->icao,
             'arr_airport_id' => $airport->icao,
-            'altitude' => 38000,
+            'flight_number' => '6000',
+            'level' => 38000,
             'planned_flight_time' => 120,
             'route' => 'POINTA POINTB',
         ];
@@ -114,5 +115,25 @@ class AcarsTest extends TestCase
 
         $body = $response->json();
         $this->assertEquals($dt, $body[0]['sim_time']);*/
+    }
+
+    /**
+     * Try to refile the same PIREP
+     */
+    public function testDuplicatePirep()
+    {
+        $uri = '/api/pireps/prefile';
+        $user = factory(App\Models\User::class)->create();
+        $pirep = factory(App\Models\Pirep::class)->make(['id' => ''])->toArray();
+
+        $response = $this->withHeaders($this->apiHeaders())->post($uri, $pirep);
+//        $response = $this->withHeaders($this->headers($user->api_key))->post($uri, $pirep);
+        $response->assertStatus(201);
+        $pirep = $response->json();
+
+        $response = $this->withHeaders($this->apiHeaders())->post($uri, $pirep);
+        $response->assertStatus(200);
+        $body = $response->json();
+        echo $body['id'];
     }
 }

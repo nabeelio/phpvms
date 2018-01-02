@@ -27,6 +27,14 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
         return self::$auth_headers;
     }
 
+    public function headers($api_key)
+    {
+        return [
+            'content-type' => 'application/json',
+            'x-api-key' => $api_key
+        ];
+    }
+
     public function __construct($name = null, array $data = [], $dataName = '') {
         parent::__construct($name, $data, $dataName);
     }

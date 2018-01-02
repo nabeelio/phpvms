@@ -1,5 +1,6 @@
 <?php
 
+use Carbon\Carbon;
 use Faker\Generator as Faker;
 
 /**
@@ -35,7 +36,7 @@ $factory->define(App\Models\Pirep::class, function (Faker $faker) {
         'arr_airport_id' => function () {
             return factory(App\Models\Airport::class)->create()->id;
         },
-        'altitude' => $faker->numberBetween(20, 400),
+        'level' => $faker->numberBetween(20, 400),
         'flight_time' => $faker->randomFloat(2),
         'planned_flight_time' => $faker->randomFloat(2),
         'gross_weight' => $faker->randomFloat(2),
@@ -45,7 +46,7 @@ $factory->define(App\Models\Pirep::class, function (Faker $faker) {
         'state' => PirepState::PENDING,
         'status' => PirepStatus::SCHEDULED,
         'raw_data' => $raw_data ?: $raw_data = json_encode(['key' => 'value']),
-        'created_at' => $faker->dateTimeBetween('-1 week', 'now'),
+        'created_at' => Carbon::now()->toDateTimeString(),
         'updated_at' => function(array $pirep) {
             return $pirep['created_at'];
         },
