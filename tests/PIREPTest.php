@@ -36,8 +36,6 @@ class PIREPTest extends TestCase
 
     protected function getAcarsRoute($pirep)
     {
-        $pirep->refresh();
-
         $saved_route = [];
         $route_points = Acars::where(
             ['pirep_id' => $pirep->id, 'type' => AcarsType::ROUTE]
@@ -115,12 +113,17 @@ class PIREPTest extends TestCase
      */
     public function testPilotStatsIncr()
     {
-        $original_pilot = User::find(1);
+        $user = factory(User::class)->create([
+            'airline_id' => 1,
+            'flights' => 0,
+            'flight_time' => 0,
+            'rank_id' => 1,
+        ]);
 
         # Submit two PIREPs
         $pireps = factory(Pirep::class, 2)->create([
             'airline_id' => 1,
-            'user_id' => 1,
+            'user_id' => $user->id,
             # 360min == 6 hours, rank should bump up
             'flight_time' => 360,
         ]);
@@ -130,11 +133,11 @@ class PIREPTest extends TestCase
             $this->pirepSvc->accept($pirep);
         }
 
-        $pilot = User::find(1);
+        $pilot = User::find($user->id);
         $last_pirep = Pirep::where('id', $pilot->last_pirep_id)->first();
 
         # Make sure rank went up
-        $this->assertGreaterThan($original_pilot->rank_id, $pilot->rank_id);
+        $this->assertGreaterThan($user->rank_id, $pilot->rank_id);
         $this->assertEquals($last_pirep->arr_airport_id, $pilot->curr_airport_id);
 
         #
@@ -143,7 +146,7 @@ class PIREPTest extends TestCase
         #
         $pirep = factory(Pirep::class)->create([
             'airline_id' => 1,
-            'user_id' => 1,
+            'user_id' => $user->id,
             # 120min == 2 hours, currently at 9 hours
             # Rank bumps up at 10 hours
             'flight_time' => 120,
