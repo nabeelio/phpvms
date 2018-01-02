@@ -8,6 +8,11 @@ php:
   - '7.2'
   - nightly
 
+cache:
+  directories:
+    - $HOME/.composer/cache
+    - $HOME/.npm
+
 services:
   - mysql
 
