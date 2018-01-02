@@ -43,13 +43,14 @@ class GeoTest extends TestCase
         $geoSvc = app('\App\Services\GeoService');
 
         $route = [];
-        $navpoints = factory(App\Models\Navdata::class, 5)->create();
+        $nav_count = random_int(10, 50);
+        $navpoints = factory(App\Models\Navdata::class, $nav_count)->create();
         foreach ($navpoints as $point) {
             $route[] = $point->id;
         }
 
         $route_str = 'KAUS SID '.implode(' ', $route).' STAR KJFK';
         $coords = $geoSvc->getCoordsFromRoute('KAUS', 'KJFK', [0, 0], $route_str);
-        $this->assertCount(5, $coords);
+        $this->assertCount($nav_count, $coords);
     }
 }
