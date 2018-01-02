@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Log;
+use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 use App\Models\Enums\AcarsType;
@@ -16,7 +17,6 @@ use App\Models\GeoJson;
 use App\Models\Flight;
 use App\Models\Pirep;
 use App\Repositories\NavdataRepository;
-use Nwidart\Modules\Collection;
 
 /**
  * Class GeoService
