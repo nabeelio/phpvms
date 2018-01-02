@@ -20,9 +20,9 @@ class ApiTest extends TestCase
     public function testApiAuthentication()
     {
         $user = factory(User::class)->create();
-        $airport = factory(App\Models\Airport::class)->create();
+        $pirep = factory(App\Models\Pirep::class)->create();
 
-        $uri = '/api/airports/' . $airport->icao;
+        $uri = '/api/pireps/' . $pirep->id;
 
         // Missing auth header
         $this->get($uri)->assertStatus(401);
@@ -37,19 +37,19 @@ class ApiTest extends TestCase
         // Test upper/lower case of Authorization header, etc
         $this->withHeaders($this->apiHeaders())->get($uri)
             ->assertStatus(200)
-            ->assertJson(['icao' => $airport->icao], true);
+            ->assertJson(['id' => $pirep->id], true);
 
         $this->withHeaders(['x-api-key' => $user->api_key])->get($uri)
             ->assertStatus(200)
-            ->assertJson(['icao' => $airport->icao], true);
+            ->assertJson(['id' => $pirep->id], true);
 
         $this->withHeaders(['x-API-key' => $user->api_key])->get($uri)
             ->assertStatus(200)
-            ->assertJson(['icao' => $airport->icao], true);
+            ->assertJson(['id' => $pirep->id], true);
 
         $this->withHeaders(['X-API-KEY' => $user->api_key])->get($uri)
             ->assertStatus(200)
-            ->assertJson(['icao' => $airport->icao], true);
+            ->assertJson(['id' => $pirep->id], true);
     }
 
     /**
