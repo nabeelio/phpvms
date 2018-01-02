@@ -23,6 +23,7 @@
     </style>
 
     <script>
+        const BASE_URL ='{!! url('/') !!}';
     @if (Auth::user())
         const PHPVMS_USER_API_KEY = "{!! Auth::user()->api_key !!}";
     @else

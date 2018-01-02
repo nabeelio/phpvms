@@ -41,8 +41,12 @@ if(!function_exists('show_datetime')) {
      * @param \Carbon\Carbon $date
      * @return string
      */
-    function show_datetime(\Carbon\Carbon $date)
+    function show_datetime(\Carbon\Carbon $date=null)
     {
+        if(empty($date)) {
+            return '-';
+        }
+
         $timezone = 'UTC';
         if (Auth::check()) {
             $timezone = Auth::user()->timezone ?: $timezone;

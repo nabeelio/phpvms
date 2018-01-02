@@ -3,7 +3,7 @@
 function changeStatus(values) {
     var destContainer = '#pirep_' + values.pirep_id + '_container';
     $.ajax({
-        url: '/admin/pireps/' + values.pirep_id + '/status',
+        url: BASE_URL + '/admin/pireps/' + values.pirep_id + '/status',
         data: values,
         type: 'POST',
         headers: {
