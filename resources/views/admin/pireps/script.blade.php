@@ -6,6 +6,9 @@ function changeStatus(values) {
         url: '/admin/pireps/' + values.pirep_id + '/status',
         data: values,
         type: 'POST',
+        headers: {
+            'x-api-key': PHPVMS_USER_API_KEY
+        },
         success: function (data) {
             // console.log(data);
             $(destContainer).replaceWith(data);
