@@ -50,6 +50,6 @@ class GeoTest extends TestCase
 
         $route_str = 'KAUS SID '.implode(' ', $route).' STAR KJFK';
         $coords = $geoSvc->getCoordsFromRoute('KAUS', 'KJFK', [0, 0], $route_str);
-        $this->assertEquals(5, \count($coords));
+        $this->assertCount(5, $coords);
     }
 }
