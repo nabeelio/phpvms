@@ -15,6 +15,7 @@ class Acars extends BaseModel
         'pirep_id',
         'type',
         'nav_type',
+        'order',
         'name',
         'log',
         'lat',
@@ -31,6 +32,7 @@ class Acars extends BaseModel
 
     public $casts = [
         'type'          => 'integer',
+        'order'         => 'integer',
         'nav_type'      => 'integer',
         'lat'           => 'float',
         'lon'           => 'float',

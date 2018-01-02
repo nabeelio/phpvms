@@ -18,6 +18,7 @@ class CreateAcarsTables extends Migration
             $table->string('pirep_id', 12);
             $table->unsignedTinyInteger('type');
             $table->unsignedInteger('nav_type')->nullable();
+            $table->unsignedInteger('order')->default(0);
             $table->string('name')->nullable();
             $table->string('log')->nullable();
             $table->float('lat', 7, 4)->default(0.0);

@@ -36,10 +36,12 @@ class PIREPTest extends TestCase
 
     protected function getAcarsRoute($pirep)
     {
+        $pirep->refresh();
+
         $saved_route = [];
         $route_points = Acars::where(
             ['pirep_id' => $pirep->id, 'type' => AcarsType::ROUTE]
-        )->orderBy('created_at', 'asc')->get();
+        )->orderBy('order', 'asc')->get();
 
         foreach ($route_points as $point) {
             $saved_route[] = $point->name;

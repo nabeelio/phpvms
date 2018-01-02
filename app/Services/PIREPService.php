@@ -62,9 +62,9 @@ class PIREPService extends BaseService
     {
         # Delete all the existing nav points
         Acars::where([
-                         'pirep_id' => $pirep->id,
-                         'type' => AcarsType::ROUTE,
-                     ])->delete();
+            'pirep_id' => $pirep->id,
+            'type' => AcarsType::ROUTE,
+        ])->delete();
 
         # Delete the route
         if (empty($pirep->route)) {
@@ -81,16 +81,19 @@ class PIREPService extends BaseService
         /**
          * @var $point Navdata
          */
+        $point_count = 1;
         foreach ($route as $point) {
             $acars = new Acars();
             $acars->pirep_id = $pirep->id;
             $acars->type = AcarsType::ROUTE;
             $acars->nav_type = $point->type;
+            $acars->order = $point_count;
             $acars->name = $point->id;
             $acars->lat = $point->lat;
             $acars->lon = $point->lon;
 
             $acars->save();
+            ++$point_count;
         }
 
         return $pirep;

@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Acars;
+use App\Models\Enums\AcarsType;
 use App\Models\Pirep;
 use App\Models\Enums\PirepState;
 
@@ -27,7 +28,12 @@ class AcarsRepository extends BaseRepository //implements CacheableInterface
             'type' => $type,
         ];
 
-        return $this->orderBy('created_at', 'asc')->findWhere($where);
+        $order_by = 'created_at';
+        if($type === AcarsType::ROUTE) {
+            $order_by = 'order';
+        }
+
+        return $this->orderBy('order', 'asc')->findWhere($where);
     }
 
     /**
