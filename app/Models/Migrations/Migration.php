@@ -10,6 +10,49 @@ use Illuminate\Database\Migrations\Migration as MigrationBase;
 
 class Migration extends MigrationBase
 {
+    protected $counters;
+
+
+    /**
+     * Just make sure the dotted format converts to all underscores
+     */
+    public function formatSettingId($id)
+    {
+        return str_replace('.', '_', $id);
+    }
+
+    /**
+     * Create a counter for groups with the start index. E.g:
+     * pireps: 10
+     * users: 30
+     *
+     * When calling getNextOrderNumber(users) 31, will be returned, then 32, and so on
+     * @param array $groups
+     */
+    public function addCounterGroups(array $groups)
+    {
+        foreach($groups as $group => $start) {
+            $this->counters[$group] = $start;
+        }
+    }
+
+    /**
+     * Get the next increment number from a group
+     * @param $group
+     * @return int
+     */
+    public function getNextOrderNumber($group)
+    {
+        if(!isset($this->counters[$group])) {
+            return 0;
+        }
+
+        $idx = $this->counters[$group];
+        ++$this->counters[$group];
+
+        return $idx;
+    }
+
     /**
      * Add rows to a table
      * @param $table

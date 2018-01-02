@@ -26,13 +26,21 @@ class CreateSettingsTable extends Migration
             $table->timestamps();
         });
 
+        $this->addCounterGroups([
+            'general' => 1,
+            'flights' => 20,
+            'bids' => 40,
+            'pireps' => 60,
+            'pilots' => 80,
+        ]);
+
         /**
          * Initial default settings
          */
         $settings = [
             [
-                'id' => 'general_start_date',
-                'order' => 1,
+                'id' => $this->formatSettingId('general.start_date'),
+                'order' => $this->getNextOrderNumber('general'),
                 'name' => 'Start Date',
                 'group' => 'general',
                 'value' => '',
@@ -40,8 +48,8 @@ class CreateSettingsTable extends Migration
                 'description' => 'The date your VA started',
             ],
             [
-                'id' => 'general_admin_email',
-                'order' => 2,
+                'id' => $this->formatSettingId('general.admin_email'),
+                'order' => $this->getNextOrderNumber('general'),
                 'name' => 'Admin Email',
                 'group' => 'general',
                 'value' => '',
@@ -49,8 +57,8 @@ class CreateSettingsTable extends Migration
                 'description' => 'Email where notices, etc are sent',
             ],
             [
-                'id' => 'general_currency',
-                'order' => 3,
+                'id' => $this->formatSettingId('general.currency'),
+                'order' => $this->getNextOrderNumber('general'),
                 'name' => 'Currency to Use',
                 'group' => 'general',
                 'value' => 'dollar',
@@ -59,8 +67,8 @@ class CreateSettingsTable extends Migration
                 'description' => 'Currency to show in the interface',
             ],
             [
-                'id' => 'flight_only_flights_from_current',
-                'order' => 10,
+                'id' => $this->formatSettingId('flights.only_flights_from_current'),
+                'order' => $this->getNextOrderNumber('flights'),
                 'name' => 'Flights from Current',
                 'group' => 'flights',
                 'value' => true,
@@ -68,8 +76,8 @@ class CreateSettingsTable extends Migration
                 'description' => 'Only allow flights from current location',
             ],
             [
-                'id' => 'bids_disable_flight_on_bid',
-                'order' => 20,
+                'id' => $this->formatSettingId('bids.disable_flight_on_bid'),
+                'order' => $this->getNextOrderNumber('bids'),
                 'name' => 'Disable flight on bid',
                 'group' => 'bids',
                 'value' => true,
@@ -77,8 +85,8 @@ class CreateSettingsTable extends Migration
                 'description' => 'When a flight is bid on, no one else can bid on it',
             ],
             [
-                'id' => 'bids_allow_multiple_bids',
-                'order' => 21,
+                'id' => $this->formatSettingId('bids.allow_multiple_bids'),
+                'order' => $this->getNextOrderNumber('bids'),
                 'name' => 'Allow multiple bids',
                 'group' => 'bids',
                 'value' => true,
@@ -86,8 +94,17 @@ class CreateSettingsTable extends Migration
                 'description' => 'Whether or not someone can bid on multiple flights',
             ],
             [
-                'id' => 'pilots_id_length',
-                'order' => 30,
+                'id' => $this->formatSettingId('pireps.duplicate_check_time'),
+                'order' => $this->getNextOrderNumber('pireps'),
+                'name' => 'PIREP duplicate time check',
+                'group' => 'pireps',
+                'value' => 4,
+                'type' => 'int',
+                'description' => 'The time in minutes to check for a duplicate PIREP',
+            ],
+            [
+                'id' => $this->formatSettingId('pilots.id_length'),
+                'order' => $this->getNextOrderNumber('pilots'),
                 'name' => 'Pilot ID Length',
                 'group' => 'pilots',
                 'value' => 4,
@@ -95,8 +112,8 @@ class CreateSettingsTable extends Migration
                 'description' => 'The length of a pilot\'s ID',
             ],
             [
-                'id' => 'pilot_auto_accept',
-                'order' => 31,
+                'id' => $this->formatSettingId('pilot.auto_accept'),
+                'order' => $this->getNextOrderNumber('pilots'),
                 'name' => 'Auto Accept New Pilot',
                 'group' => 'pilots',
                 'value' => true,
@@ -104,8 +121,8 @@ class CreateSettingsTable extends Migration
                 'description' => 'Automatically accept a pilot when they register',
             ],
             [
-                'id' => 'pilot_auto_leave_days',
-                'order' => 31,
+                'id' => $this->formatSettingId('pilot.auto_leave_days'),
+                'order' => $this->getNextOrderNumber('pilots'),
                 'name' => 'Pilot to ON LEAVE days',
                 'group' => 'pilots',
                 'value' => 30,
@@ -113,8 +130,8 @@ class CreateSettingsTable extends Migration
                 'description' => 'Automatically set a pilot to ON LEAVE status after N days of no activity',
             ],
             [
-                'id' => 'pilots_hide_inactive',
-                'order' => 32,
+                'id' => $this->formatSettingId('pilots.hide_inactive'),
+                'order' => $this->getNextOrderNumber('pilots'),
                 'name' => 'Hide Inactive Pilots',
                 'group' => 'pilots',
                 'value' => true,
