@@ -38,7 +38,7 @@ class ApiAuth
 
         // Set the user to the request
         Auth::setUser($user);
-        //$request->merge(['user' => $user]);
+        $request->merge(['user' => $user]);
         $request->setUserResolver(function () use ($user) {
             return $user;
         });

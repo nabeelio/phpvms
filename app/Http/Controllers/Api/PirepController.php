@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
+use Auth;
 use Log;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 use App\Models\Acars;
 use App\Models\Pirep;

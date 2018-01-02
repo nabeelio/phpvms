@@ -124,10 +124,13 @@ class AcarsTest extends TestCase
     {
         $uri = '/api/pireps/prefile';
         $user = factory(App\Models\User::class)->create();
-        $pirep = factory(App\Models\Pirep::class)->make(['id' => ''])->toArray();
+        $pirep = factory(App\Models\Pirep::class)->make([
+            'id' => '',
+            'user_id' => $user->id,
+        ])->toArray();
 
         $response = $this->withHeaders($this->apiHeaders())->post($uri, $pirep);
-//        $response = $this->withHeaders($this->headers($user->api_key))->post($uri, $pirep);
+        #$response = $this->withHeaders($this->headers($user->api_key))->post($uri, $pirep);
         $response->assertStatus(201);
         $pirep = $response->json();
 

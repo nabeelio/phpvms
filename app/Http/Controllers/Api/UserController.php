@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use Auth;
 use Illuminate\Http\Request;
 
 use App\Http\Controllers\AppBaseController;
@@ -30,7 +31,7 @@ class UserController extends AppBaseController
     public function index(Request $request)
     {
         UserResource::withoutWrapping();
-        return new UserResource($request->user);
+        return new UserResource(Auth::user());
     }
 
     /**
