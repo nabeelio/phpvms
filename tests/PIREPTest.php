@@ -75,7 +75,6 @@ class PIREPTest extends TestCase
         $this->assertEquals($new_pirep_count, $pirep->pilot->flights);
         $this->assertEquals($new_flight_time, $pirep->pilot->flight_time);
         $this->assertEquals($pirep->arr_airport_id, $pirep->pilot->curr_airport_id);
-        #$this->assertEquals(1, $pirep->pilot->rank_id);
 
         /**
          * Now go from ACCEPTED to REJECTED
