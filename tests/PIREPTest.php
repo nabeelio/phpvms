@@ -59,7 +59,6 @@ class PIREPTest extends TestCase
             'route' => implode(' ', $route)
         ]);
 
-        print_r($route);
         $pirep = $this->pirepSvc->create($pirep, []);
 
         /**
@@ -94,7 +93,6 @@ class PIREPTest extends TestCase
          * Check the ACARS table
          */
         $saved_route = $this->getAcarsRoute($pirep);
-        print_r($saved_route);
         $this->assertEquals($route, $saved_route);
 
         /**
