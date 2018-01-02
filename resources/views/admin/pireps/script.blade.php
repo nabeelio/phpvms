@@ -16,7 +16,7 @@ function changeStatus(values) {
     });
 }
 
-//$(document).ready(function() {
+$(document).ready(function() {
     $(document).on('submit', 'form.pirep_submit_status', function (event) {
         console.log(event);
 
@@ -34,6 +34,6 @@ function changeStatus(values) {
 
         changeStatus(values);
     });
-//});
+});
 </script>
 @endsection

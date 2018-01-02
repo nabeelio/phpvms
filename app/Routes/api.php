@@ -7,6 +7,9 @@ Route::group([], function()
 {
     Route::get('acars', 'AcarsController@index');
 
+    Route::get('airports/{id}', 'AirportController@get');
+    Route::get('airports/{id}/lookup', 'AirportController@lookup');
+
     Route::get('flights/search', 'FlightController@search');
     Route::get('flights/{id}', 'FlightController@get');
 
@@ -21,9 +24,6 @@ Route::group([], function()
  */
 Route::group(['middleware' => ['api.auth']], function ()
 {
-    Route::get('airports/{id}', 'AirportController@get');
-    Route::get('airports/{id}/lookup', 'AirportController@lookup');
-
     Route::get('pireps/{id}', 'PirepController@get');
     Route::post('pireps/prefile', 'PirepController@prefile');
     Route::post('pireps/{id}/file', 'PirepController@file');
