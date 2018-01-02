@@ -3,29 +3,24 @@
 namespace App\Services;
 
 use Log;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+
 use App\Models\Enums\AcarsType;
 use App\Repositories\AcarsRepository;
-
-use \GeoJson\Geometry\Point;
-use \GeoJson\Geometry\LineString;
-use \GeoJson\Feature\Feature;
-use \GeoJson\Feature\FeatureCollection;
 
 use \League\Geotools\Geotools;
 use \League\Geotools\Coordinate\Coordinate;
 
+use App\Models\Acars;
 use App\Models\GeoJson;
 use App\Models\Flight;
 use App\Models\Pirep;
 use App\Repositories\NavdataRepository;
+use Nwidart\Modules\Collection;
 
 /**
- * Return different points/features in GeoJSON format
- * https://tools.ietf.org/html/rfc7946
- *
- * Once a PIREP is accepted, save this returned structure as a
- * JSON-encoded string into the raw_data field of the PIREP row
- *
+ * Class GeoService
+ * @package App\Services
  */
 class GeoService extends BaseService
 {
@@ -64,81 +59,84 @@ class GeoService extends BaseService
     }
 
     /**
+     * Pass in a route string, with the departure/arrival airports, and the
+     * starting coordinates. Return the route points that have been found
+     * from the `navdata` table
      * @param $dep_icao     string  ICAO to ignore
      * @param $arr_icao     string  ICAO to ignore
      * @param $start_coords array   Starting point, [x, y]
      * @param $route        string  Textual route
      * @return array
      */
-    public function getCoordsFromRoute($dep_icao, $arr_icao, $start_coords, $route)
+    public function getCoordsFromRoute($dep_icao, $arr_icao, $start_coords, $route): array
     {
         $coords = [];
-        $split_route = explode(' ', $route);
+        $filter_points = [$dep_icao, $arr_icao, 'SID', 'STAR'];
 
-        $skip = [
-            $dep_icao,
-            $arr_icao,
-            'SID',
-            'STAR'
-        ];
+        $split_route = collect(explode(' ', $route))->transform(function($point) {
+            if(empty($point)) { return false; }
+            return strtoupper(trim($point));
+        })->filter(function($point) use ($filter_points) {
+            return !(empty($point) || \in_array($point, $filter_points, true));
+        });
 
-        foreach ($split_route as $route_point) {
-
-            $route_point = trim($route_point);
-
-            if (\in_array($route_point, $skip, true)) {
-                continue;
-            }
+        /**
+         * @var $split_route Collection
+         * @var $route_point Acars
+         */
+        foreach ($split_route as $route_point)
+        {
+            Log::debug('Looking for ' . $route_point);
 
             try {
-                Log::debug('Looking for ' . $route_point);
-
                 $points = $this->navRepo->findWhere(['id' => $route_point]);
-                $size = \count($points);
-
-                if($size === 0) {
-                    continue;
-                } else if($size === 1) {
-                    $point = $points[0];
-                    Log::info('name: ' . $point->id . ' - ' . $point->lat . 'x' . $point->lon);
-                    $coords[] = $point;
-                    continue;
-                }
-
-                # Find the point with the shortest distance
-                Log::info('found ' . $size . ' for '. $route_point);
-
-                # Get the start point and then reverse the lat/lon reference
-                # If the first point happens to have multiple possibilities, use
-                # the starting point that was passed in
-                if (\count($coords) > 0) {
-                    $start_point = $coords[\count($coords) - 1];
-                    $start_point = [$start_point->lat, $start_point->lon];
-                } else {
-                    $start_point = $start_coords;
-                }
-
-                # Put all of the lat/lon sets into an array to pick of what's clsest
-                # to the starting point
-                $potential_coords = [];
-                foreach($points as $point) {
-                    $potential_coords[] = [$point->lat, $point->lon];
-                }
-
-                # returns an array with the closest lat/lon to start point
-                $closest_coords = $this->getClosestCoords($start_point, $potential_coords);
-                foreach($points as $point) {
-                    if($point->lat === $closest_coords[0] && $point->lon === $closest_coords[1]) {
-                        break;
-                    }
-                }
-
-                $coords[] = $point;
-
+            } catch(ModelNotFoundException $e){
+                continue;
             } catch (\Exception $e) {
                 Log::error($e);
                 continue;
             }
+
+            $size = \count($points);
+
+            if ($size === 0) {
+                continue;
+            } elseif ($size === 1) {
+                $point = $points[0];
+                Log::debug('name: ' . $point->id . ' - ' . $point->lat . 'x' . $point->lon);
+                $coords[] = $point;
+                continue;
+            }
+
+            # Find the point with the shortest distance
+            Log::info('found ' . $size . ' for '. $route_point);
+
+            # Get the start point and then reverse the lat/lon reference
+            # If the first point happens to have multiple possibilities, use
+            # the starting point that was passed in
+            if (\count($coords) > 0) {
+                $start_point = $coords[\count($coords) - 1];
+                $start_point = [$start_point->lat, $start_point->lon];
+            } else {
+                $start_point = $start_coords;
+            }
+
+            # Put all of the lat/lon sets into an array to pick of what's clsest
+            # to the starting point
+            $potential_coords = [];
+            foreach($points as $point) {
+                $potential_coords[] = [$point->lat, $point->lon];
+            }
+
+            # returns an array with the closest lat/lon to start point
+            $closest_coords = $this->getClosestCoords($start_point, $potential_coords);
+            foreach($points as $point) {
+                if($point->lat === $closest_coords[0] && $point->lon === $closest_coords[1]) {
+                    break;
+                }
+            }
+
+            $coords[] = $point;
         }
 
         return $coords;
@@ -177,35 +175,24 @@ class GeoService extends BaseService
      */
     public function getFeatureFromAcars(Pirep $pirep)
     {
-        $route_line = [];
-        $route_points = [];
+        $route = new GeoJson();
 
         /**
          * @var $point \App\Models\Acars
          */
         $counter = 1;
         foreach ($pirep->acars as $point) {
-            $route_line[] = [$point->lon, $point->lat];
-            $route_points[] = new Feature(
-                new Point([$point->lon, $point->lat]), [
-                    'pirep_id' => $pirep->id,
-                    'name' => $point->altitude,
-                    'popup' => $counter . '<br />GS: ' . $point->gs . '<br />Alt: ' . $point->altitude,
-                ]);
+            $route->addPoint($point->lat, $point->lon, [
+                'pirep_id' => $pirep->id,
+                'name' => $point->altitude,
+                'popup' => $counter . '<br />GS: ' . $point->gs . '<br />Alt: ' . $point->altitude,
+            ]);
 
-            ++$counter;
-        }
-
-        if(\count($route_line) >= 2) {
-            $route_line = new Feature(new LineString($route_line));
-            $route_line = new FeatureCollection([$route_line]);
-        } else {
-            $route_line = new FeatureCollection([]);
         }
 
         return [
-            'line' => $route_line,
-            'points' => new FeatureCollection($route_points)
+            'line' => $route->getLine(),
+            'points' => $route->getPoints()
         ];
     }
 
@@ -214,7 +201,7 @@ class GeoService extends BaseService
      */
     public function getFeatureForLiveFlights($pireps)
     {
-        $flight_points = [];
+        $flight = new GeoJson();
 
         /**
          * @var Pirep $pirep
@@ -229,17 +216,16 @@ class GeoService extends BaseService
                 continue;
             }
 
-            $flight_points[] = new Feature(
-                new Point([$point->lon, $point->lat]), [
-                    'pirep_id'  => $pirep->id,
-                    'gs'        => $point->gs,
-                    'alt'       => $point->altitude,
-                    'heading'   => $point->heading ?: 0,
-                    'popup'     => $pirep->ident . '<br />GS: ' . $point->gs . '<br />Alt: ' . $point->altitude,
-                ]);
+            $flight->addPoint($point->lat, $point->lon, [
+                'pirep_id'  => $pirep->id,
+                'gs'        => $point->gs,
+                'alt'       => $point->altitude,
+                'heading'   => $point->heading ?: 0,
+                'popup'     => $pirep->ident . '<br />GS: ' . $point->gs . '<br />Alt: ' . $point->altitude,
+            ]);
         }
 
-        return new FeatureCollection($flight_points);
+        return $flight->getPoints();
     }
 
     /**

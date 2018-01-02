@@ -159,9 +159,4 @@ class PIREPTest extends TestCase
         # Make sure latest PIREP was updated
         $this->assertNotEquals($last_pirep->id, $latest_pirep->id);
     }
-
-    public function testPirepFinances()
-    {
-
-    }
 }

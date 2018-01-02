@@ -2,14 +2,16 @@
 
 use App\Facades\Utils;
 
+use Illuminate\Foundation\Testing\WithoutMiddleware;
+
 class GeoTest extends TestCase
 {
-    public function setUp() {
-    }
+    use WithoutMiddleware;
 
     public function testClosestPoint()
     {
         $geoSvc = app('\App\Services\GeoService');
+
         /**
          * [2017-12-21 00:54:10] dev.INFO: Looking for ATL
          * [2017-12-21 00:54:10] dev.INFO: ATL - 36.58106 x 26.375603
@@ -33,4 +35,21 @@ class GeoTest extends TestCase
         $this->assertEquals([52.15527, 22.200833], $coords);
     }
 
+    /**
+     * Make sure the departure airports/sid/star are all filtered out
+     */
+    public function testGetCoords()
+    {
+        $geoSvc = app('\App\Services\GeoService');
+
+        $route = [];
+        $navpoints = factory(App\Models\Navdata::class, 5)->create();
+        foreach ($navpoints as $point) {
+            $route[] = $point->id;
+        }
+
+        $route_str = 'KAUS SID '.implode(' ', $route).' STAR KJFK';
+        $coords = $geoSvc->getCoordsFromRoute('KAUS', 'KJFK', [0, 0], $route_str);
+        $this->assertEquals(5, \count($coords));
+    }
 }
