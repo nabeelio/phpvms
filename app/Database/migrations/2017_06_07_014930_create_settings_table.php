@@ -17,6 +17,7 @@ class CreateSettingsTable extends Migration
             $table->unsignedInteger('order')->default(99);
             $table->string('name');
             $table->string('value');
+            $table->string('default')->nullable();
             $table->string('group')->nullable();
             $table->string('type')->nullable();
             $table->string('options')->nullable();
@@ -98,7 +99,8 @@ class CreateSettingsTable extends Migration
                 'order' => $this->getNextOrderNumber('pireps'),
                 'name' => 'PIREP duplicate time check',
                 'group' => 'pireps',
-                'value' => 4,
+                'value' => 10,
+                'default' => 10,
                 'type' => 'int',
                 'description' => 'The time in minutes to check for a duplicate PIREP',
             ],
@@ -108,6 +110,7 @@ class CreateSettingsTable extends Migration
                 'name' => 'Pilot ID Length',
                 'group' => 'pilots',
                 'value' => 4,
+                'default' => 4,
                 'type' => 'int',
                 'description' => 'The length of a pilot\'s ID',
             ],
@@ -126,6 +129,7 @@ class CreateSettingsTable extends Migration
                 'name' => 'Pilot to ON LEAVE days',
                 'group' => 'pilots',
                 'value' => 30,
+                'default' => 30,
                 'type' => 'int',
                 'description' => 'Automatically set a pilot to ON LEAVE status after N days of no activity',
             ],

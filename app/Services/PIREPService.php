@@ -2,8 +2,10 @@
 
 namespace App\Services;
 
-use App\Repositories\AcarsRepository;
 use Log;
+use Carbon\Carbon;
+use App\Repositories\AcarsRepository;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 use App\Models\Acars;
 use App\Models\Navdata;
@@ -51,6 +53,46 @@ class PIREPService extends BaseService
         $this->pilotSvc = $pilotSvc;
         $this->navRepo = $navRepo;
         $this->pirepRepo = $pirepRepo;
+    }
+
+    /**
+     * Find if there are duplicates to a given PIREP. Ideally, the passed
+     * in PIREP hasn't been saved or gone through the create() method
+     * @param Pirep $pirep
+     * @return bool|Pirep
+     */
+    public function findDuplicate(Pirep $pirep)
+    {
+        $minutes = setting('pireps.duplicate_check_time', 10);
+        $time_limit = Carbon::now()->subMinutes($minutes)->toDateTimeString();
+
+        $where = [
+            'user_id'       => $pirep->user_id,
+            'airline_id'    => $pirep->airline_id,
+            'flight_number' => $pirep->flight_number,
+        ];
+
+        if(!empty($pirep->route_code)) {
+            $where['route_code'] = $pirep->route_code;
+        }
+
+        if(!empty($pirep->route_leg)) {
+            $where['route_leg'] = $pirep->route_leg;
+        }
+
+        try {
+            $found_pireps = Pirep::where($where)
+                            ->where('created_at', '>=', $time_limit)
+                            ->get();
+
+            if($found_pireps->count() === 0) {
+                return false;
+            }
+
+            return $found_pireps[0];
+        } catch (ModelNotFoundException $e) {
+            return false;
+        }
     }
 
     /**

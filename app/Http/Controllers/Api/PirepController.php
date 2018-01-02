@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 use App\Models\Acars;
+use App\Models\Pirep;
+
 use App\Models\Enums\AcarsType;
 use App\Models\Enums\PirepState;
 use App\Models\Enums\PirepStatus;
@@ -85,12 +87,17 @@ class PirepController extends AppBaseController
             }
         }
 
-        try {
-            $pirep = $this->pirepRepo->create($attrs);
-            $this->pirepSvc->saveRoute($pirep);
-        } catch(\Exception $e) {
-            Log::error($e);
+        $pirep = new Pirep($attrs);
+
+        # Find if there's a duplicate, if so, let's work on that
+        $dupe_pirep = $this->pirepSvc->findDuplicate($pirep);
+        if($dupe_pirep !== false) {
+            $pirep = $dupe_pirep;
         }
+
+        $pirep->save();
+
+        $this->pirepSvc->saveRoute($pirep);
 
         Log::info('PIREP PREFILED');
         Log::info($pirep->id);

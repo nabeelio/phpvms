@@ -1,5 +1,7 @@
 <?php
 
+use Carbon\Carbon;
+
 use App\Models\Acars;
 use App\Models\Enums\AcarsType;
 use App\Models\Navdata;
@@ -162,5 +164,35 @@ class PIREPTest extends TestCase
 
         # Make sure latest PIREP was updated
         $this->assertNotEquals($last_pirep->id, $latest_pirep->id);
+    }
+
+    /**
+     * Find and check for any duplicate PIREPs by a user
+     */
+    public function testDuplicatePireps()
+    {
+        $pirep = factory(Pirep::class)->create([
+            'created_at' => Carbon::now()->toDateTimeString(),
+            'updated_at' => Carbon::now()->toDateTimeString()
+        ]);
+
+        # This should find itself...
+        $dupe_pirep = $this->pirepSvc->findDuplicate($pirep);
+        $this->assertNotFalse($dupe_pirep);
+        $this->assertEquals($pirep->id, $dupe_pirep->id);
+
+        /**
+         * Create a PIREP outside of the check time interval
+         */
+
+        $minutes = setting('pireps.duplicate_check_time') + 1;
+        $pirep = factory(Pirep::class)->create([
+            'created_at' => Carbon::now()->subMinutes($minutes)->toDateTimeString(),
+            'updated_at' => Carbon::now()->subMinutes($minutes)->toDateTimeString()
+        ]);
+
+        # This should find itself...
+        $dupe_pirep = $this->pirepSvc->findDuplicate($pirep);
+        $this->assertFalse($dupe_pirep);
     }
 }

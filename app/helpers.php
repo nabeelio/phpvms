@@ -4,14 +4,14 @@
  * Shortcut for retrieving a setting value
  */
 if (!function_exists('setting')) {
-    function setting($key, $value = null)
+    function setting($key, $default = null)
     {
         $settingRepo = app('setting');  // defined in AppServiceProvider
-        if($value !== null) {
+        /*if($value !== null) {
             return $settingRepo->store($key, $value);
-        }
+        }*/
 
-        return $settingRepo->retrieve($key);
+        return $settingRepo->retrieve($key) ?: $default;
     }
 }
 
