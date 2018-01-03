@@ -18,6 +18,7 @@ return [
             'rejected'     => 'Rejected',
             'in_progress'  => 'In Progress',
             'cancelled'    => 'Cancelled',
+            'deleted'      => 'Deleted',
         ],
     ],
 ];
