@@ -17,6 +17,7 @@ use App\Models\User;
 use App\Models\Enums\UserState;
 use App\Facades\Utils;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Hash;
 
 /**
  * Class Importer
@@ -72,7 +73,7 @@ class Importer
             'name' => '',
             'user' => '',
             'pass' => '',
-            'table_prefix' => ''
+            'table_prefix' => 'phpvms_'
         ], $db_creds);
     }
 
@@ -172,8 +173,8 @@ class Importer
             $model->save();
             return true;
         } catch (QueryException $e) {
-            #return $this->error($e->getMessage());
-            return false;
+            # return false;
+            return $this->error($e->getMessage());
         }
     }
 
@@ -189,7 +190,7 @@ class Importer
         $rows = $this->conn->query($sql)->fetchColumn();
 
         $this->info('Found '.$rows.' rows in '.$table);
-        return $rows;
+        return (int) $rows;
     }
 
     /**
@@ -203,7 +204,7 @@ class Importer
         $this->tableName($table);
 
         $offset = 0;
-        $total_rows = intval($this->getTotalRows($table));
+        $total_rows = $this->getTotalRows($table);
 
         while($offset < $total_rows)
         {
@@ -422,23 +423,24 @@ class Importer
         $count = 0;
         foreach ($this->readRows('pilots') as $row)
         {
-            // TODO: What to do about pilot ids
+            # TODO: What to do about pilot ids
 
             $name = $row->firstname.' '.$row->lastname;
-            $airlineid = Airline::where('icao', $row->code)->first()->id;
-            $rankid = Rank::where('name', $row->rank)->first()->id;
+            $airline_id = $this->airlines[$row->code];
+            $rank_id = $this->ranks[$row->rank];
             $state = $this->getUserState($row->retired);
+
             $attrs = [
                 'name' => $name,
                 'email' => $row->email,
                 'password' => "",
                 'api_key' => "",
-                'airline_id' => $airlineid,
-                'rank_id' => $rankid,
+                'airline_id' => $airline_id->id,
+                'rank_id' => $rank_id->rankid,
                 'home_airport_id' => $row->hub,
                 'curr_airport_id' => $row->hub,
-                'flights' => intval($row->totalflights),
-                'flight_time' => intval($row->totalhours),
+                'flights' => (int) $row->totalflights,
+                'flight_time' => Utils::hoursToMinutes($row->totalhours),
                 'state' => $state,
             ];
 
@@ -470,23 +472,19 @@ class Importer
         foreach($allusers as $user)
         {
             # Generate New User Password
-            # TODO: Increase Security?
             $newpw = substr(md5(date('mdYhs')), 0, 10);
 
             # Generate API Key
-            $apikey = Utils::generateApiKey();
+            $api_key = Utils::generateApiKey();
 
             # Update Info in DB
-            $user->password = bcrypt($newpw);
-            $user->api_key = $apikey;
+            $user->password = Hash::make($newpw);
+            $user->api_key = $api_key;
             $user->save();
-
-            # Send E-Mail to User with new login details
-            $email = new \App\Mail\NewLoginDetails($user, $newpw, 'New Login Details | '.config('app.name'));
-            Mail::to($user->email)->send($email);
         }
 
-        $this->comment('----All Users E-Mailed!----');
+        # TODO: Think about how to deliver new password to user, email in batch at the end?
+        # TODO: How to reset password upon first login only for reset users
     }
 
     /**
@@ -494,19 +492,27 @@ class Importer
      */
     protected function getUserState($state)
     {
+        // Declare array of classic states
+        $phpvms_classic_states = [
+            'ACTIVE' => 0,
+            'INACTIVE' => 1,
+            'BANNED' => 2,
+            'ON_LEAVE' => 3
+        ];
+
         // Decide which state they will be in accordance with v7
-        if ($state == 0)
+        if ($state == $phpvms_classic_states['ACTIVE'])
         {
             # Active
             return UserState::ACTIVE;
-        } elseif ($state == 1) {
+        } elseif ($state == $phpvms_classic_states['INACTIVE']) {
             # Rejected
             # TODO: Make an inactive state?
             return UserState::REJECTED;
-        } elseif ($state == 2) {
+        } elseif ($state == $phpvms_classic_states['BANNED']) {
             # Suspended
             return UserState::SUSPENDED;
-        } elseif ($state == 3) {
+        } elseif ($state == $phpvms_classic_states['ON_LEAVE']) {
             # On Leave
             return UserState::ON_LEAVE;
         }
