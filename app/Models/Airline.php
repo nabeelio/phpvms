@@ -16,6 +16,8 @@ class Airline extends BaseModel
         'name',
         'logo',
         'country',
+        'total_flights',
+        'total_time',
         'active',
     ];
 
@@ -25,7 +27,9 @@ class Airline extends BaseModel
      * @var array
      */
     protected $casts = [
-        'active' => 'boolean',
+        'total_flights' => 'int',
+        'total_time'    => 'int',
+        'active'        => 'boolean',
     ];
 
     /**
