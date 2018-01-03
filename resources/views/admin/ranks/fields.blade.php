@@ -8,7 +8,7 @@
 <!-- Hours Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('hours', 'Hours:') !!}
-    {!! Form::text('hours', null, ['class' => 'form-control']) !!}
+    {!! Form::number('hours', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Auto Approve Acars Field -->
