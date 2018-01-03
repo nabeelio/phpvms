@@ -18,6 +18,7 @@ class Airport extends BaseModel
         'icao',
         'name',
         'location',
+        'country',
         'lat',
         'lon',
         'hub',

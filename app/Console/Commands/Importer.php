@@ -7,7 +7,7 @@ use App\Console\BaseCommand;
 
 class Importer extends BaseCommand
 {
-    protected $signature = 'phpvms:importer {db_host} {db_name} {db_user} {db_pass?}';
+    protected $signature = 'phpvms:importer {db_host} {db_name} {db_user} {db_pass?} {table_prefix=phpvms_}';
     protected $description = 'Import from an older version of phpVMS';
 
     /**
@@ -19,7 +19,8 @@ class Importer extends BaseCommand
             'host' => $this->argument('db_host'),
             'name' => $this->argument('db_name'),
             'user' => $this->argument('db_user'),
-            'pass' => $this->argument('db_pass')
+            'pass' => $this->argument('db_pass'),
+            'table_prefix' => $this->argument('table_prefix')
         ];
 
         $importerSvc = new \App\Console\Services\Importer($db_creds);
