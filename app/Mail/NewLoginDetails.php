@@ -22,7 +22,7 @@ class NewLoginDetails extends Mailable
 
     public function build()
     {
-        return $this->markdown('emails.user.newlogindetails')
+        return $this->markdown('emails.user.new_login_details')
                     ->subject($this->subject)
                     ->with(['user' => $this->user, 'newpw' => $this->newpw]);
     }
