@@ -2,7 +2,8 @@
     <thead>
         <th>Subfleet</th>
         <th>Name</th>
-        <th>Registration</th>
+        <th style="text-align: center;">ICAO</th>
+        <th style="text-align: center;">Registration</th>
         <th style="text-align: center;">Active</th>
         <th style="text-align: right;"></th>
     </thead>
@@ -19,7 +20,8 @@
                 @endif
             </td>
             <td><a href="{!! route('admin.aircraft.edit', [$ac->id]) !!}">{!! $ac->name !!}</a></td>
-            <td>{!! $ac->registration !!}</td>
+            <td style="text-align: center;">{!! $ac->icao !!}</td>
+            <td style="text-align: center;">{!! $ac->registration !!}</td>
             <td style="text-align: center;">
                 @if($ac->active == 1)
                     <span class="label label-success">Active</span>
