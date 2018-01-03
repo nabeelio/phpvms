@@ -57,6 +57,12 @@ class LoginController extends Controller
         $request->session()->regenerate();
         $this->clearLoginAttempts($request);
 
+        # Check if it's their first login to reset their password
+        if($user->created_at == $user->updated_at) {
+            flash('Please reset your password below!')->error();
+            return redirect('/profile/'.$user->id.'/edit');
+        }
+
         return redirect()->intended($this->redirectPath());
     }
 }

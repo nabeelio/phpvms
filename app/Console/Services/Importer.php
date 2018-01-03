@@ -13,6 +13,10 @@ use App\Models\Airline;
 use App\Models\Airport;
 use App\Models\Rank;
 use App\Models\Subfleet;
+use App\Models\User;
+use App\Models\Enums\UserState;
+use App\Facades\Utils;
+use Illuminate\Support\Facades\Mail;
 
 /**
  * Class Importer
@@ -68,6 +72,7 @@ class Importer
             'name' => '',
             'user' => '',
             'pass' => '',
+            'table_prefix' => ''
         ], $db_creds);
     }
 
@@ -149,7 +154,11 @@ class Importer
      */
     protected function tableName($table)
     {
-        return 'phpvms_'.$table;
+        if($this->creds['table_prefix'] !== false) {
+            return $this->creds['table_prefix'].$table;
+        }
+
+        return $table;
     }
 
     /**
@@ -163,7 +172,7 @@ class Importer
             $model->save();
             return true;
         } catch (QueryException $e) {
-            #$this->error($e->getMessage());
+            #return $this->error($e->getMessage());
             return false;
         }
     }
@@ -190,8 +199,11 @@ class Importer
      */
     protected function readRows($table)
     {
+        // Set the table prefix if it has been entered
+        $this->tableName($table);
+
         $offset = 0;
-        $total_rows = $this->getTotalRows($table);
+        $total_rows = intval($this->getTotalRows($table));
 
         while($offset < $total_rows)
         {
@@ -405,15 +417,40 @@ class Importer
 
     protected function importUsers()
     {
-        /*$this->comment('--- USER IMPORT ---');
+        $this->comment('--- USER IMPORT ---');
 
         $count = 0;
         foreach ($this->readRows('pilots') as $row)
         {
+            // TODO: What to do about pilot ids
 
+            $name = $row->firstname.' '.$row->lastname;
+            $airlineid = Airline::where('icao', $row->code)->first()->id;
+            $rankid = Rank::where('name', $row->rank)->first()->id;
+            $state = $this->getUserState($row->retired);
+            $attrs = [
+                'name' => $name,
+                'email' => $row->email,
+                'password' => "",
+                'api_key' => "",
+                'airline_id' => $airlineid,
+                'rank_id' => $rankid,
+                'home_airport_id' => $row->hub,
+                'curr_airport_id' => $row->hub,
+                'flights' => intval($row->totalflights),
+                'flight_time' => intval($row->totalhours),
+                'state' => $state,
+            ];
+
+            if($this->saveModel(new User($attrs))) {
+                ++$count;
+            }
         }
 
-        $this->info('Imported ' . $count . ' users');*/
+        $this->info('Imported ' . $count . ' users');
+
+        // Reset Passwords & Generate API Keys
+        $this->setupUsers();
     }
 
     /**
@@ -422,5 +459,56 @@ class Importer
     protected function recalculateRanks()
     {
         /*$this->comment('--- RECALCULATING RANKS ---');*/
+    }
+
+    /**
+     * Generate user's API Key and email them their new password
+     */
+    protected function setupUsers()
+    {
+        $allusers = User::all();
+        foreach($allusers as $user)
+        {
+            # Generate New User Password
+            # TODO: Increase Security?
+            $newpw = substr(md5(date('mdYhs')), 0, 10);
+
+            # Generate API Key
+            $apikey = Utils::generateApiKey();
+
+            # Update Info in DB
+            $user->password = bcrypt($newpw);
+            $user->api_key = $apikey;
+            $user->save();
+
+            # Send E-Mail to User with new login details
+            $email = new \App\Mail\NewLoginDetails($user, $newpw, 'New Login Details | '.config('app.name'));
+            Mail::to($user->email)->send($email);
+        }
+
+        $this->comment('----All Users E-Mailed!----');
+    }
+
+    /**
+     * Get the user's new state from their original state
+     */
+    protected function getUserState($state)
+    {
+        // Decide which state they will be in accordance with v7
+        if ($state == 0)
+        {
+            # Active
+            return UserState::ACTIVE;
+        } elseif ($state == 1) {
+            # Rejected
+            # TODO: Make an inactive state?
+            return UserState::REJECTED;
+        } elseif ($state == 2) {
+            # Suspended
+            return UserState::SUSPENDED;
+        } elseif ($state == 3) {
+            # On Leave
+            return UserState::ON_LEAVE;
+        }
     }
 }
