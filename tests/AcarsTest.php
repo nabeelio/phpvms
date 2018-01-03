@@ -138,6 +138,5 @@ class AcarsTest extends TestCase
         $response = $this->withHeaders($this->apiHeaders())->post($uri, $pirep);
         $response->assertStatus(200);
         $body = $response->json();
-        echo $body['id'];
     }
 }
