@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Log;
 use App\Facades\Utils;
 use App\Models\User;
 use App\Models\Rank;
@@ -70,6 +71,8 @@ class UserService extends BaseService
                   . UserState::label($user->state));
 
         event(new UserStateChanged($user, $old_state));
+
+        return $user;
     }
 
     /**
