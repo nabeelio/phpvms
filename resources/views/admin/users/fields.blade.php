@@ -59,7 +59,7 @@
     <!-- Submit Field -->
     <div class="form-group col-sm-6">
         <div class="pull-right">
-            {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
+            {!! Form::button('Save', ['type' => 'submit', 'class' => 'btn btn-success']) !!}
             <a href="{!! route('admin.users.index') !!}" class="btn btn-default">Cancel</a>
         </div>
     </div>

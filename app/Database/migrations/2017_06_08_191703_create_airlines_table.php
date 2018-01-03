@@ -21,6 +21,8 @@ class CreateAirlinesTable extends Migration
             $table->string('country', 2)->nullable();
             $table->string('logo', 255)->nullable();
             $table->boolean('active')->default(true);
+            $table->unsignedBigInteger('total_flights')->default(0);
+            $table->unsignedBigInteger('total_time')->default(0);
             $table->timestamps();
 
             $table->index('icao');

@@ -27,6 +27,7 @@ Route::group(['middleware' => ['api.auth']], function ()
     Route::get('pireps/{id}', 'PirepController@get');
     Route::post('pireps/prefile', 'PirepController@prefile');
     Route::post('pireps/{id}/file', 'PirepController@file');
+    Route::post('pireps/{id}/cancel', 'PirepController@cancel');
 
     Route::post('pireps/{id}/acars', 'PirepController@acars_store');
 

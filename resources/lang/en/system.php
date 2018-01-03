@@ -13,10 +13,12 @@ return [
 
     'pireps' => [
         'state' => [
-            'accepted'  => 'Accepted',
-            'pending'   => 'Pending',
-            'rejected'  => 'Rejected',
+            'accepted'     => 'Accepted',
+            'pending'      => 'Pending',
+            'rejected'     => 'Rejected',
             'in_progress'  => 'In Progress',
+            'cancelled'    => 'Cancelled',
+            'deleted'      => 'Deleted',
         ],
     ],
 ];

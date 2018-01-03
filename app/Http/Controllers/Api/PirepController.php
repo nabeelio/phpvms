@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
-use Auth;
 use Log;
+use Auth;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
 use App\Models\Acars;
@@ -22,6 +23,7 @@ use App\Http\Resources\Acars as AcarsResource;
 use App\Http\Resources\Pirep as PirepResource;
 
 use App\Http\Controllers\AppBaseController;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class PirepController extends AppBaseController
 {
@@ -73,7 +75,7 @@ class PirepController extends AppBaseController
      */
     public function prefile(Request $request)
     {
-        Log::info('PIREP Prefile, user '. Auth::user()->pilot_id, $request->toArray());
+        Log::info('PIREP Prefile, user '.Auth::user()->id, $request->toArray());
 
         $attrs = [
             'user_id'   => Auth::user()->id,
@@ -111,10 +113,22 @@ class PirepController extends AppBaseController
      * @param $id
      * @param Request $request
      * @return PirepResource
+     * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      */
     public function file($id, Request $request)
     {
         Log::info('PIREP Prefile, user ' . Auth::user()->pilot_id, $request->toArray());
+
+        $pirep = $this->pirepRepo->find($id);
+        if (empty($pirep)) {
+            throw new ModelNotFoundException('PIREP not found');
+        }
+
+        # Check if the status is cancelled...
+        if($pirep->state === PirepState::CANCELLED) {
+            throw new BadRequestHttpException('PIREP has been cancelled, updates can\'t be posted');
+        }
 
         $attrs = [
             'state'     => PirepState::PENDING,
@@ -127,6 +141,7 @@ class PirepController extends AppBaseController
             }
         }
 
+        $pirep_fields = [];
         if($request->filled('fields')) {
             $pirep_fields = $request->get('fields');
         }
@@ -134,6 +149,30 @@ class PirepController extends AppBaseController
         try {
             $pirep = $this->pirepRepo->update($attrs, $id);
             $pirep = $this->pirepSvc->create($pirep, $pirep_fields);
+        } catch (\Exception $e) {
+            Log::error($e);
+        }
+
+        PirepResource::withoutWrapping();
+        return new PirepResource($pirep);
+    }
+
+    /**
+     * Cancel the PIREP
+     * @param $id
+     * @param Request $request
+     * @return PirepResource
+     */
+    public function cancel($id, Request $request)
+    {
+        Log::info('PIREP Cancel, user ' . Auth::user()->pilot_id, $request->toArray());
+
+        $attrs = [
+            'state' => PirepState::CANCELLED,
+        ];
+
+        try {
+            $pirep = $this->pirepRepo->update($attrs, $id);
         } catch (\Exception $e) {
             Log::error($e);
         }
@@ -163,10 +202,16 @@ class PirepController extends AppBaseController
      * @param $id
      * @param Request $request
      * @return AcarsResource
+     * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
      */
     public function acars_store($id, Request $request)
     {
         $pirep = $this->pirepRepo->find($id);
+
+        # Check if the status is cancelled...
+        if ($pirep->state === PirepState::CANCELLED) {
+            throw new BadRequestHttpException('PIREP has been cancelled, updates can\'t be posted');
+        }
 
         Log::info('Posting ACARS update', $request->toArray());
         $attrs = $request->toArray();

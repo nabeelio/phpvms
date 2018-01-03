@@ -37,6 +37,7 @@ Route::group([
     # pirep related routes
     Route::resource('pireps', 'PirepController');
     Route::match(['get'], 'pireps/pending', 'PirepController@pending');
+    Route::match(['get', 'post', 'delete'], 'pireps/{id}/comments', 'PirepController@comments');
     Route::match(['post', 'put'], 'pireps/{id}/status', 'PirepController@status')->name('pirep.status');
 
     Route::resource('pirepfields', 'PirepFieldController');

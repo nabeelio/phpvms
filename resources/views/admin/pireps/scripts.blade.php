@@ -17,6 +17,16 @@ function changeStatus(values) {
 }
 
 $(document).ready(function() {
+
+    $(document).on('submit', 'form.pjax_form', function (event) {
+        event.preventDefault();
+        $.pjax.submit(event, '#pirep_comments_wrapper', {push: false});
+    });
+
+    $(document).on('pjax:complete', function () {
+        $(".select2").select2();
+    });
+
     $(document).on('submit', 'form.pirep_submit_status', function (event) {
         console.log(event);
 
@@ -28,9 +38,6 @@ $(document).ready(function() {
 
         console.log(values);
         console.log('Changing PIREP ' + values.pirep_id + ' to state ' + values.new_status);
-
-        //var destContainer = '#pirep_' + pirep_id + '_container';
-        //$.pjax.submit(event, destContainer, { push: false, maxCacheLength: 0 });
 
         changeStatus(values);
     });

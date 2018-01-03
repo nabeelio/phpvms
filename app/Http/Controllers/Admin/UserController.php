@@ -87,15 +87,20 @@ class UserController extends BaseController
      */
     public function show($id)
     {
-        $users = $this->userRepo->findWithoutFail($id);
+        $user = $this->userRepo->findWithoutFail($id);
 
-        if (empty($users)) {
+        if (empty($user)) {
             Flash::error('User not found');
             return redirect(route('admin.users.index'));
         }
 
         return view('admin.users.show', [
-            'users' => $users,
+            'user' => $user,
+            'airlines' => Airline::all(),
+            'timezones' => Timezonelist::toArray(),
+            'airports' => Airport::all()->pluck('icao', 'id'),
+            'ranks' => Rank::all()->pluck('name', 'id'),
+            'roles' => Role::all()->pluck('name', 'id'),
         ]);
     }
 

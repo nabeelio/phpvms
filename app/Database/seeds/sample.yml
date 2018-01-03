@@ -380,3 +380,17 @@ pirep_field_values:
     name: arrival gate
     value: B14
     source: manual
+
+pirep_comments:
+  - id: 1
+    pirep_id: pirepid_1
+    user_id: 1
+    comment: A comment
+    created_at: now
+    updated_at: now
+  - id: 2
+    pirep_id: pirepid_1
+    user_id: 2
+    comment: Another comment
+    created_at: now
+    updated_at: now

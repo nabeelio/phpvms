@@ -13,11 +13,11 @@ class Rank extends BaseModel
 
     public $fillable = [
         'name',
-        'link',
         'hours',
+        'image_link',
         'auto_approve_acars',
         'auto_approve_manual',
-        'auto_promote'
+        'auto_promote',
     ];
 
     protected $casts = [

@@ -2,19 +2,24 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Log;
+use Flash;
+use Response;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Prettus\Repository\Criteria\RequestCriteria;
+
+use App\Services\PIREPService;
+
+use App\Models\PirepComment;
+use App\Models\Enums\PirepState;
+
 use App\Http\Requests\CreatePirepRequest;
 use App\Http\Requests\UpdatePirepRequest;
-use App\Models\Enums\PirepState;
 use App\Repositories\AircraftRepository;
 use App\Repositories\AirlineRepository;
 use App\Repositories\AirportRepository;
 use App\Repositories\PirepRepository;
-use App\Services\PIREPService;
-use Illuminate\Http\Request;
-use Flash;
-use Log;
-use Prettus\Repository\Criteria\RequestCriteria;
-use Response;
 use App\Facades\Utils;
 
 
@@ -229,5 +234,37 @@ class PirepController extends BaseController
 
         $pirep->refresh();
         return view('admin.pireps.pirep_card', ['pirep' => $pirep]);
+    }
+
+    /**
+     * Add a comment to the Pirep
+     * @param $id
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function comments($id, Request $request)
+    {
+        $user = Auth::user();
+        $pirep = $this->pirepRepo->findWithoutFail($request->id);
+        if ($request->isMethod('post')) {
+            $comment = new PirepComment([
+                'user_id' => $user->id,
+                'pirep_id' => $pirep->id,
+                'comment' => $request->get('comment'),
+            ]);
+
+            $comment->save();
+            $pirep->refresh();
+        }
+
+        if($request->isMethod('delete')) {
+            $comment = PirepComment::find($request->get('comment_id'));
+            $comment->delete();
+            $pirep->refresh();
+        }
+
+        return view('admin.pireps.comments', [
+            'pirep' => $pirep,
+        ]);
     }
 }

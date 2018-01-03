@@ -4,18 +4,12 @@ use Carbon\Carbon;
 
 use App\Models\Acars;
 use App\Models\Enums\AcarsType;
-use App\Models\Navdata;
 use App\Models\Pirep;
 use App\Models\User;
 use App\Models\Enums\PirepState;
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-
-
 class PIREPTest extends TestCase
 {
-    use WithoutMiddleware;
-
     protected $pirepSvc;
 
     public function setUp()
@@ -190,5 +184,29 @@ class PIREPTest extends TestCase
         # This should find itself...
         $dupe_pirep = $this->pirepSvc->findDuplicate($pirep);
         $this->assertFalse($dupe_pirep);
+    }
+
+    public function testCancelViaAPI()
+    {
+        $pirep = factory(App\Models\Pirep::class)->make(['id'=>''])->toArray();
+        $uri = '/api/pireps/prefile';
+        $response = $this->withHeaders($this->apiHeaders())->post($uri, $pirep);
+        $pirep_id = $response->json()['id'];
+
+        $uri = '/api/pireps/' . $pirep_id . '/acars';
+        $acars = factory(App\Models\Acars::class)->make()->toArray();
+        $response = $this->withHeaders($this->apiHeaders())->post($uri, $acars);
+        $response->assertStatus(201);
+
+        # Cancel it
+        $uri = '/api/pireps/' . $pirep_id . '/cancel';
+        $response = $this->withHeaders($this->apiHeaders())->post($uri, $acars);
+        $response->assertStatus(200);
+
+        # Should get a 400 when posting an ACARS update
+        $uri = '/api/pireps/' . $pirep_id . '/acars';
+        $acars = factory(App\Models\Acars::class)->make()->toArray();
+        $response = $this->withHeaders($this->apiHeaders())->post($uri, $acars);
+        $response->assertStatus(400);
     }
 }
