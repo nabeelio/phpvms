@@ -105,6 +105,16 @@ class CreateSettingsTable extends Migration
                 'description' => 'The time in minutes to check for a duplicate PIREP',
             ],
             [
+                'id' => $this->formatSettingId('pireps.hide_cancelled_pireps'),
+                'order' => $this->getNextOrderNumber('pireps'),
+                'name' => 'Hide Cancelled PIREPs',
+                'group' => 'pireps',
+                'value' => true,
+                'default' => true,
+                'type' => 'boolean',
+                'description' => 'Hide any cancelled PIREPs in the front-end',
+            ],
+            [
                 'id' => $this->formatSettingId('pilots.id_length'),
                 'order' => $this->getNextOrderNumber('pilots'),
                 'name' => 'Pilot ID Length',

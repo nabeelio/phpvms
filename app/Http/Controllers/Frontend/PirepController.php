@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Facades\Utils;
 use App\Models\Enums\PirepSource;
+use App\Models\Enums\PirepState;
 use App\Repositories\Criteria\WhereCriteria;
 use App\Services\GeoService;
 use App\Services\PIREPService;
@@ -54,7 +55,12 @@ class PirepController extends Controller
     {
         $user = Auth::user();
 
-        $where = ['user_id' => $user->id];
+        $where = [['user_id', $user->id]];
+
+        if(setting('pireps.hide_cancelled_pireps')) {
+            $where[] = ['state', '<>', PirepState::CANCELLED];
+        }
+
         $this->pirepRepo->pushCriteria(new WhereCriteria($request, $where));
         $pireps = $this->pirepRepo->orderBy('created_at', 'desc')->paginate();
 
