@@ -48,9 +48,14 @@ class Importer
     /**
      * CONSTANTS
      */
-    const BATCH_READ_ROWS = 500;
-    const SUBFLEET_NAME = 'Imported Aicraft';
 
+    const BATCH_READ_ROWS = 500;
+    const SUBFLEET_NAME = 'Imported Aircraft';
+
+    /**
+     * Importer constructor.
+     * @param $db_creds
+     */
     public function __construct($db_creds)
     {
         // Setup the logger
@@ -219,6 +224,31 @@ class Importer
     }
 
     /**
+     * Return the subfleet
+     * @return mixed
+     */
+    protected function getSubfleet()
+    {
+        $subfleet = Subfleet::where('name', self::SUBFLEET_NAME)
+            ->first();
+
+        if ($subfleet === null)
+        {
+            $this->info('Subfleet not found, inserting');
+            $airline = Airline::first();
+            $subfleet = new Subfleet([
+                'airline_id' => $airline->id,
+                'name' => self::SUBFLEET_NAME,
+                'type' => 'PHPVMS'
+            ]);
+
+            $this->saveModel($subfleet);
+        }
+
+        return $subfleet;
+    }
+
+    /**
      *
      * All the individual importers, done on a per-table basis
      * Some tables get saved locally for tables that use FK refs
@@ -288,16 +318,7 @@ class Importer
     {
         $this->comment('--- AIRCRAFT IMPORT ---');
 
-        $subfleet = Subfleet::where('name', self::SUBFLEET_NAME)
-                            ->first();
-
-        if($subfleet === null) {
-            $this->info('Subfleet not found, inserting');
-            $this->saveModel(new Subfleet([
-                'name' => self::SUBFLEET_NAME,
-                'type' => 'PHPVMS'
-            ]));
-        }
+        $subfleet = $this->getSubfleet();
 
         $this->info('Subfleet ID is '.$subfleet->id);
 
@@ -355,7 +376,7 @@ class Importer
      */
     protected function importFlights()
     {
-        $this->comment('--- FLIGHT SCHEDULE IMPORT ---');
+        /*$this->comment('--- FLIGHT SCHEDULE IMPORT ---');
 
         $count = 0;
         foreach ($this->readRows('schedules') as $row)
@@ -363,7 +384,7 @@ class Importer
 
         }
 
-        $this->info('Imported ' . $count . ' flights');
+        $this->info('Imported ' . $count . ' flights');*/
     }
 
     /**
@@ -371,7 +392,7 @@ class Importer
      */
     protected function importPireps()
     {
-        $this->comment('--- PIREP IMPORT ---');
+        /*$this->comment('--- PIREP IMPORT ---');
 
         $count = 0;
         foreach ($this->readRows('pireps') as $row)
@@ -379,12 +400,12 @@ class Importer
 
         }
 
-        $this->info('Imported ' . $count . ' pireps');
+        $this->info('Imported ' . $count . ' pireps');*/
     }
 
     protected function importUsers()
     {
-        $this->comment('--- USER IMPORT ---');
+        /*$this->comment('--- USER IMPORT ---');
 
         $count = 0;
         foreach ($this->readRows('pilots') as $row)
@@ -392,7 +413,7 @@ class Importer
 
         }
 
-        $this->info('Imported ' . $count . ' users');
+        $this->info('Imported ' . $count . ' users');*/
     }
 
     /**
@@ -400,6 +421,6 @@ class Importer
      */
     protected function recalculateRanks()
     {
-        $this->comment('--- RECALCULATING RANKS ---');
+        /*$this->comment('--- RECALCULATING RANKS ---');*/
     }
 }
