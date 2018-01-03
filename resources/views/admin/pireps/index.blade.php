@@ -14,4 +14,4 @@
         </div>
     </div>
 @endsection
-@include('admin.pireps.script')
+@include('admin.pireps.scripts')

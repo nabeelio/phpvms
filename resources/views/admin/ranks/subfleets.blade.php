@@ -31,14 +31,14 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="input-group input-group-lg pull-right">
-                {!! Form::open(['url' => '/admin/ranks/'.$rank->id.'/subfleets',
+                {!! Form::open(['url' => url('/admin/ranks/'.$rank->id.'/subfleets'),
                                 'method' => 'post',
                                 'class' => 'pjax_form form-inline'
                                 ])
                 !!}
                 {!! Form::select('subfleet_id', $avail_subfleets, null, [
                         'placeholder' => 'Select Subfleet',
-                        'class' => 'select2_dropdown form-control input-lg'])
+                        'class' => 'select2 form-control input-lg'])
                 !!}
                 {!! Form::button('<i class="fa fa-plus"></i> Add',
                                  ['type' => 'submit',

@@ -11,23 +11,28 @@ class PirepComment extends BaseModel
 {
     public $table = 'pirep_comments';
 
-    public $fillable
-        = [
-            'comment',
-        ];
+    public $fillable = [
+        'pirep_id',
+        'user_id',
+        'comment',
+    ];
 
     /**
      * Validation rules
      *
      * @var array
      */
-    public static $rules
-        = [
-            'comment' => 'required',
-        ];
+    public static $rules = [
+        'comment' => 'required',
+    ];
 
     public function pirep()
     {
         return $this->belongsTo('App\Models\Pirep', 'pirep_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User', 'user_id');
     }
 }

@@ -14,7 +14,15 @@
 
     <div class="card border-blue-bottom">
         <div class="content">
+            <h4>custom fields</h4>
             @include('admin.pireps.field_values')
+        </div>
+    </div>
+
+    <div class="card border-blue-bottom">
+        <div class="content">
+            <h4>comments</h4>
+            @include('admin.pireps.comments')
         </div>
     </div>
 
@@ -24,3 +32,4 @@
         </div>
     </div>
 @endsection
+@include('admin.pireps.scripts');
