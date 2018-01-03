@@ -40,9 +40,9 @@
                         'placeholder' => 'Select Subfleet',
                         'class' => 'select2_dropdown form-control input-lg'])
                 !!}
-                {!! Form::button('<i class="fa fa-times"></i> add',
+                {!! Form::button('<i class="fa fa-plus"></i> Add',
                                  ['type' => 'submit',
-                                  'class' => 'btn btn-success btn-s']) !!}
+                                  'class' => 'btn btn-success btn-small']) !!}
                 {!! Form::close() !!}
             </div>
         </div>

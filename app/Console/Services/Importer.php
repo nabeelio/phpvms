@@ -270,7 +270,7 @@ class Importer
 
             $attrs = [
                 'name' => $row->rank,
-                'link' => $row->rankimage,
+                'image_link' => $row->rankimage,
                 'hours' => $row->minhours,
             ];
 
