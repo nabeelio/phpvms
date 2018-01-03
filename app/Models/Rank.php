@@ -13,6 +13,7 @@ class Rank extends BaseModel
 
     public $fillable = [
         'name',
+        'link',
         'hours',
         'auto_approve_acars',
         'auto_approve_manual',
@@ -28,7 +29,7 @@ class Rank extends BaseModel
     ];
 
     public static $rules = [
-        'name' => 'required|unique:ranks',
+        'name' => 'required',
         'hours' => 'required',
     ];
 

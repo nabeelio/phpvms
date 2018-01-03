@@ -16,6 +16,7 @@ class CreateRanksTable extends Migration
         Schema::create('ranks', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name', 50);
+            $table->string('link')->nullable();
             $table->unsignedInteger('hours')->default(0);
             $table->boolean('auto_approve_acars')->default(false);
             $table->boolean('auto_approve_manual')->default(false);

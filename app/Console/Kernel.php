@@ -17,6 +17,7 @@ class Kernel extends ConsoleKernel
         Commands\CreateDatabase::class,
         Commands\DevCommands::class,
         Commands\ImportCommand::class,
+        Commands\Importer::class,
         Commands\Install::class,
         Commands\NavdataCommand::class,
         Commands\TestApi::class,

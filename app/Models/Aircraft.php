@@ -10,6 +10,7 @@ class Aircraft extends BaseModel
         'subfleet_id',
         'airport_id',
         'name',
+        'icao',
         'registration',
         'tail_number',
         'active',
