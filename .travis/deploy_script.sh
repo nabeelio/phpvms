@@ -18,10 +18,16 @@ if [ "$TRAVIS" = "true" ]; then
     echo "cleaning files"
 
     cd $TRAVIS_BUILD_DIR
+
     make clean
+
+    rm -rf env.php
     find ./vendor -type d -name ".git" | xargs rm -rf
+
+    # Remove any development files
+    rm -rf .sass-cache
     rm -rf .idea phpvms.iml .travis .dpl
-    rm -rf .phpstorm.meta.php _ide_helper.php
+    rm -rf .phpstorm.meta.php _ide_helper.php phpunit.xml Procfile
 
     # remove large sized files
     rm -rf .git
