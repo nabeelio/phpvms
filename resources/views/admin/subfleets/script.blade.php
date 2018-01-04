@@ -5,7 +5,7 @@ function setEditable() {
         type: 'text',
         mode: 'inline',
         emptytext: 'default',
-        url: '/admin/subfleets/{!! $subfleet->id !!}/fares',
+        url: '{!! url('/admin/subfleets/'.$subfleet->id.'/fares') !!}',
         title: 'Enter override value',
         ajaxOptions: {'type': 'put'},
         params: function (params) {

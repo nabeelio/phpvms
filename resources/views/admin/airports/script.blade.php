@@ -18,7 +18,7 @@ $(document).ready(function() {
         type: 'text',
         mode: 'inline',
         emptytext: '0',
-        url: '/admin/airports/fuel',
+        url: '{!! url('/admin/airports/fuel') !!}',
         title: 'Enter price per unit of fuel',
         ajaxOptions: {'type': 'put'},
         params: function(params) {
