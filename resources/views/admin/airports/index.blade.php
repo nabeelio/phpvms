@@ -13,5 +13,11 @@
     <div class="card">
         @include('admin.airports.table')
     </div>
+
+    <div class="row">
+        <div class="col-12 text-center">
+            {{ $airports->links('admin.pagination.default') }}
+        </div>
+    </div>
 @endsection
 @include('admin.airports.script')
