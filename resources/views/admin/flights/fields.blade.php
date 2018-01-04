@@ -55,15 +55,25 @@ SAME ROW
 
 <!-- Dpt Time Field -->
 <div class="row">
-    <div class="form-group col-sm-6">
+    <div class="form-group col-sm-3">
         {!! Form::label('dpt_time', 'Departure Time:') !!}
         {!! Form::text('dpt_time', null, ['class' => 'form-control']) !!}
     </div>
 
     <!-- Arr Time Field -->
-    <div class="form-group col-sm-6">
+    <div class="form-group col-sm-3">
         {!! Form::label('arr_time', 'Arrival Time:') !!}
         {!! Form::text('arr_time', null, ['class' => 'form-control']) !!}
+    </div>
+
+    <div class="form-group col-sm-3">
+        {!! Form::label('distance', 'Distance:') !!}
+        {!! Form::text('distance', null, ['class' => 'form-control']) !!}
+    </div>
+
+    <div class="form-group col-sm-3">
+        {!! Form::label('level', 'Flight Level:') !!}
+        {!! Form::text('level', null, ['class' => 'form-control']) !!}
     </div>
 </div>
 

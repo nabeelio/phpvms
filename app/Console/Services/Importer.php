@@ -2,23 +2,22 @@
 
 namespace App\Console\Services;
 
-use Illuminate\Support\Str;
 use PDO;
-use Hashids\Hashids;
 use Doctrine\DBAL\Driver\PDOException;
+use Illuminate\Support\Str;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Hash;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
 use App\Models\Aircraft;
 use App\Models\Airline;
 use App\Models\Airport;
+use App\Models\Flight;
 use App\Models\Rank;
 use App\Models\Subfleet;
 use App\Models\User;
 use App\Models\Enums\UserState;
 use App\Facades\Utils;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Hash;
 
 /**
  * Class Importer
@@ -53,7 +52,7 @@ class Importer
      * CONSTANTS
      */
 
-    const BATCH_READ_ROWS = 500;
+    const BATCH_READ_ROWS = 300;
     const SUBFLEET_NAME = 'Imported Aircraft';
 
     /**
@@ -390,8 +389,8 @@ class Importer
         foreach ($this->readRows('airports') as $row)
         {
             $attrs = [
-                'id' => $row->icao,
-                'icao' => $row->icao,
+                'id' => trim($row->icao),
+                'icao' => trim($row->icao),
                 'name' => $row->name,
                 'country' => $row->country,
                 'lat' => $row->lat,
@@ -412,15 +411,41 @@ class Importer
      */
     protected function importFlights()
     {
-        /*$this->comment('--- FLIGHT SCHEDULE IMPORT ---');
+        $this->comment('--- FLIGHT SCHEDULE IMPORT ---');
 
         $count = 0;
         foreach ($this->readRows('schedules') as $row)
         {
+            $airline_id = $this->getMapping('airlines', $row->code);
 
+            $attrs = [
+                'dpt_airport_id' => $row->depicao,
+                'arr_airport_id' => $row->arricao,
+                'route' => $row->route ?: '',
+                'distance' => round($row->distance ?: 0, 2),
+                'level' => $row->flightlevel ?: 0,
+                'dpt_time' => $row->deptime ?: '',
+                'arr_time' => $row->arrtime ?: '',
+                'flight_time' => $row->flighttime ?: '',
+                'notes' => $row->notes ?: '',
+                'active' => $row->enabled ?: true,
+            ];
+
+            $flight = Flight::firstOrCreate(
+                ['airline_id' => $airline_id, 'flight_number' => $row->flightnum],
+                $attrs
+            );
+
+            $this->addMapping('flights', $row->id, $flight->id);
+
+            // TODO: deserialize route_details into ACARS table
+
+            if($flight->wasRecentlyCreated) {
+                ++$count;
+            }
         }
 
-        $this->info('Imported ' . $count . ' flights');*/
+        $this->info('Imported ' . $count . ' flights');
     }
 
     /**
@@ -473,6 +498,8 @@ class Importer
                 $attrs
             );
 
+            $this->addMapping('users', $row->pilotid, $user->id);
+
             if ($user->wasRecentlyCreated) {
                 ++$count;
             }
@@ -498,6 +525,8 @@ class Importer
     {
         // TODO: This state might differ between simpilot and classic version
 
+        $state = (int) $state;
+
         // Declare array of classic states
         $phpvms_classic_states = [
             'ACTIVE' => 0,
@@ -516,6 +545,8 @@ class Importer
             return UserState::SUSPENDED;
         } elseif ($state === $phpvms_classic_states['ON_LEAVE']) {
             return UserState::ON_LEAVE;
+        } else {
+            $this->error('Unknown status: '. $state);
         }
     }
 }

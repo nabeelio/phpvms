@@ -24,6 +24,8 @@ class Flight extends BaseModel
         'route',
         'dpt_time',
         'arr_time',
+        'level',
+        'distance',
         'notes',
         'has_bid',
         'active',
@@ -31,12 +33,8 @@ class Flight extends BaseModel
 
     protected $casts = [
         'flight_number' => 'integer',
-        'route_code'    => 'string',
-        'route_leg'     => 'string',
-        'route'         => 'string',
-        'dpt_time'      => 'string',
-        'arr_time'      => 'string',
-        'notes'         => 'string',
+        'level'         => 'integer',
+        'distance'      => 'float',
         'has_bid'       => 'boolean',
         'active'        => 'boolean',
     ];

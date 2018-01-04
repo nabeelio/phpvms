@@ -25,26 +25,27 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-3">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <span class="title">DEP&nbsp;</span>
-                        {!! $flight->dpt_airport->icao !!}&nbsp;
-
-                        <span class="title">ARR&nbsp;</span>
-                        {!! $flight->arr_airport->icao !!}&nbsp;
-                    </div>
-                    <div  class="col-sm-6 text-right">
-
-                        <span class="description">{!! $flight->dpt_time !!}</span>
-                        <span class="description">{!! $flight->arr_time !!}</span>
-                    </div>
-                </div>
+            <div class="col-sm-5">
+                <span class="title">DEP&nbsp;</span>
+                {!! $flight->dpt_airport->icao !!}@if($flight->dpt_time), {!! $flight->dpt_time !!}@endif
+                <br />
+                <span class="title">ARR&nbsp;</span>
+                {!! $flight->arr_airport->icao !!}@if($flight->arr_time), {!! $flight->arr_time !!}@endif
+                <br />
+                @if($flight->distance)
+                    <span class="title">DISTANCE&nbsp;</span>
+                    {!! $flight->distance !!} {!! setting('general.distance_unit') !!}
+                @endif
+                <br />
+                @if($flight->level)
+                    <span class="title">LEVEL&nbsp;</span>
+                    {!! $flight->level !!} {!! setting('general.altitude_unit') !!}
+                @endif
             </div>
-            <div class="col-sm-9">
+            <div class="col-sm-7">
                 <div class="row">
                     <div class="col-sm-12">
-                        <span class="description">ROUTE&nbsp;</span>
+                        <span class="title">ROUTE&nbsp;</span>
                         {!! $flight->route !!}
                     </div>
                 </div>
