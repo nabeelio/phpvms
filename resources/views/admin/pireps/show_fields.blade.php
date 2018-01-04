@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="form-group col-sm-6">
+    <div class="form-group col-sm-4">
         <div class="box box-solid">
             <div class="box-header with-border">
                 {{--<i class="fa fa-text-width"></i>--}}
@@ -11,7 +11,7 @@
         </div>
     </div>
 
-    <div class="form-group col-sm-6">
+    <div class="form-group col-sm-5">
         <div class="box box-solid">
             <div class="box-header with-border">
                 {{--<i class="fa fa-text-width"></i>--}}
@@ -21,6 +21,12 @@
                     {!! $pirep->arr_airport->icao !!} - {!! $pirep->arr_airport->name !!}
                 </p>
             </div>
+        </div>
+    </div>
+
+    <div class="form-group col-sm-3">
+        <div id="pirep_{!! $pirep->id !!}_actionbar" class="pull-right">
+            @include('admin.pireps.actions')
         </div>
     </div>
 </div>

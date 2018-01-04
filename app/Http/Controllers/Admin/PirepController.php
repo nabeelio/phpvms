@@ -218,7 +218,7 @@ class PirepController extends BaseController
     }
 
     /**
-     * Change or update the PIREP status
+     * Change or update the PIREP status. Just return the new actionbar
      * @param Request $request
      * @return \Illuminate\View\View
      */
@@ -233,7 +233,7 @@ class PirepController extends BaseController
         }
 
         $pirep->refresh();
-        return view('admin.pireps.pirep_card', ['pirep' => $pirep]);
+        return view('admin.pireps.actions', ['pirep' => $pirep]);
     }
 
     /**

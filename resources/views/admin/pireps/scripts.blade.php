@@ -1,7 +1,7 @@
 @section('scripts')
 <script>
 function changeStatus(values) {
-    var destContainer = '#pirep_' + values.pirep_id + '_container';
+    const destContainer = '#pirep_' + values.pirep_id + '_actionbar';
     $.ajax({
         url: BASE_URL + '/admin/pireps/' + values.pirep_id + '/status',
         data: values,
@@ -11,7 +11,7 @@ function changeStatus(values) {
         },
         success: function (data) {
             // console.log(data);
-            $(destContainer).replaceWith(data);
+            $(destContainer).html(data);
         }
     });
 }
@@ -31,7 +31,7 @@ $(document).ready(function() {
         console.log(event);
 
         event.preventDefault();
-        var values = {
+        const values = {
             pirep_id: $(this).attr('pirep_id'),
             new_status: $(this).attr('new_status')
         };
