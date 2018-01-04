@@ -42,7 +42,7 @@ class FlightController extends AppBaseController
         $where = ['active' => true];
 
         // default restrictions on the flights shown. Handle search differently
-        if (setting('flights.only_flights_from_current')) {
+        if (setting('pilots.only_flights_from_current')) {
             $where['dpt_airport_id'] = Auth::user()->curr_airport_id;
         }
 

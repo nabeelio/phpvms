@@ -68,15 +68,6 @@ class CreateSettingsTable extends Migration
                 'description' => 'Currency to show in the interface',
             ],
             [
-                'id' => $this->formatSettingId('flights.only_flights_from_current'),
-                'order' => $this->getNextOrderNumber('flights'),
-                'name' => 'Flights from Current',
-                'group' => 'flights',
-                'value' => true,
-                'type' => 'boolean',
-                'description' => 'Only allow flights from current location',
-            ],
-            [
                 'id' => $this->formatSettingId('bids.disable_flight_on_bid'),
                 'order' => $this->getNextOrderNumber('bids'),
                 'name' => 'Disable flight on bid',
@@ -132,6 +123,15 @@ class CreateSettingsTable extends Migration
                 'value' => true,
                 'type' => 'boolean',
                 'description' => 'Automatically accept a pilot when they register',
+            ],
+            [
+                'id' => $this->formatSettingId('pilots.only_flights_from_current'),
+                'order' => $this->getNextOrderNumber('pilots'),
+                'name' => 'Flights from Current',
+                'group' => 'pilots',
+                'value' => false,
+                'type' => 'boolean',
+                'description' => 'Only show/allow flights from their current location',
             ],
             [
                 'id' => $this->formatSettingId('pilot.auto_leave_days'),

@@ -33,7 +33,7 @@ class CreateFlightTables extends Migration
 
             $table->primary('id');
 
-            $table->unique('flight_number');
+            #$table->unique('flight_number');
 
             $table->index('flight_number');
             $table->index('dpt_airport_id');
