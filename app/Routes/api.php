@@ -25,11 +25,13 @@ Route::group([], function()
 Route::group(['middleware' => ['api.auth']], function ()
 {
     Route::get('pireps/{id}', 'PirepController@get');
+
     Route::post('pireps/prefile', 'PirepController@prefile');
     Route::post('pireps/{id}/file', 'PirepController@file');
     Route::post('pireps/{id}/cancel', 'PirepController@cancel');
-
     Route::post('pireps/{id}/acars', 'PirepController@acars_store');
+    Route::post('pireps/{id}/acars/position', 'PirepController@acars_store');
+    Route::post('pireps/{id}/acars/log', 'PirepController@acars_log');
 
     # This is the info of the user whose token is in use
     Route::get('user', 'UserController@index');

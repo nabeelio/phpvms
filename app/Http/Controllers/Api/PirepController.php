@@ -229,4 +229,38 @@ class PirepController extends AppBaseController
         AcarsResource::withoutWrapping();
         return new AcarsResource($update);
     }
+
+    /**
+     * Post ACARS LOG update for a PIREP. These updates won't show up on the map
+     * But rather in a log file.
+     * @param $id
+     * @param Request $request
+     * @return AcarsResource
+     * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
+     */
+    public function acars_log($id, Request $request)
+    {
+        $pirep = $this->pirepRepo->find($id);
+
+        # Check if the status is cancelled...
+        if ($pirep->state === PirepState::CANCELLED) {
+            throw new BadRequestHttpException('PIREP has been cancelled, updates can\'t be posted');
+        }
+
+        Log::info('Posting ACARS update', $request->toArray());
+        $attrs = $request->toArray();
+
+        $attrs['pirep_id'] = $id;
+        $attrs['type'] = AcarsType::LOG;
+
+        $update = Acars::create($attrs);
+        $update->save();
+
+        # Change the PIREP status
+        $pirep->status = PirepStatus::ENROUTE;
+        $pirep->save();
+
+        AcarsResource::withoutWrapping();
+        return new AcarsResource($update);
+    }
 }
