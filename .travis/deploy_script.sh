@@ -18,6 +18,7 @@ if [ "$TRAVIS" = "true" ]; then
     echo "cleaning files"
 
     cd $TRAVIS_BUILD_DIR
+    make clean
     find ./vendor -type d -name ".git" | xargs rm -rf
     rm -rf .idea phpvms.iml .travis .dpl
     rm -rf .phpstorm.meta.php _ide_helper.php
