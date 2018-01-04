@@ -20,9 +20,10 @@ if [ "$TRAVIS" = "true" ]; then
     cd $TRAVIS_BUILD_DIR
 
     make clean
+    echo ""
 
     rm -rf env.php
-    find ./vendor -type d -name ".git" | xargs rm -rf
+    find ./vendor -type d -name ".git" -print0 | xargs rm -rf
 
     # Remove any development files
     rm -rf .sass-cache
