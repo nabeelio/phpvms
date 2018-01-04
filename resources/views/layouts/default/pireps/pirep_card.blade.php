@@ -28,26 +28,35 @@
             <div class="col-sm-10">
                 <div class="row">
                     <div class="col-sm-6">
-                        <div>
-                            <span class="description">DEP&nbsp;</span>
-                            {!! $pirep->dpt_airport->icao !!}&nbsp;
-                            <span class="description">ARR&nbsp;</span>
-                            {!! $pirep->arr_airport->icao !!}&nbsp;
-                        </div>
-                        <div><span class="description">Flight Time&nbsp;</span>
-                            {!! Utils::minutesToTimeString($pirep->flight_time) !!}
-                        </div>
-                        <div><span class="description">Aircraft&nbsp;</span>
-                            {!! $pirep->aircraft->registration !!} ({!! $pirep->aircraft->name !!})
-                        </div>
-                        <div>
-                            <span class="description">Flight Level&nbsp;</span>
-                            {!! $pirep->level !!}
-                        </div>
-                        <div>
-                            <span class="description">Filed On:&nbsp;</span>
-                            {!! show_datetime($pirep->created_at) !!}
-                        </div>
+                        <table width="100%">
+                            <tr>
+                                <td width="20%" nowrap><span class="title">DEP&nbsp;</span></td>
+                                <td>{!! $pirep->dpt_airport_id !!}</td>
+                            </tr>
+                            <tr>
+                                <td nowrap><span class="title">ARR&nbsp;</span></td>
+                                <td>{!! $pirep->arr_airport_id !!}&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td nowrap><span class="title">Flight Time&nbsp;</span></td>
+                                <td>{!! Utils::minutesToTimeString($pirep->flight_time) !!}</td>
+                            </tr>
+                            <tr>
+                                <td nowrap><span class="title">Aircraft&nbsp;</span></td>
+                                <td>{!! $pirep->aircraft->name !!}
+                                    ({!! $pirep->aircraft->registration !!})</td>
+                            </tr>
+                            @if($pirep->level)
+                            <tr>
+                                <td nowrap><span class="title">Flight Level&nbsp;</span></td>
+                                <td>{!! $pirep->level !!}</td>
+                            </tr>
+                            @endif
+                            <tr>
+                                <td nowrap><span class="title">Filed On:&nbsp;</span></td>
+                                <td>{!! show_datetime($pirep->created_at) !!}</td>
+                            </tr>
+                        </table>
                     </div>
                     <div class="col-sm-6">
                         &nbsp;
