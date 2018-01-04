@@ -68,6 +68,61 @@ class CreateSettingsTable extends Migration
                 'description' => 'Currency to show in the interface',
             ],
             [
+                'id' => $this->formatSettingId('general.distance_unit'),
+                'order' => $this->getNextOrderNumber('general'),
+                'name' => 'Distance Units',
+                'group' => 'general',
+                'value' => 'nm',
+                'type' => 'select',
+                'options' => 'km,mi,nm',
+                'description' => 'The distance unit to show',
+            ],
+            [
+                'id' => $this->formatSettingId('general.weight_unit'),
+                'order' => $this->getNextOrderNumber('general'),
+                'name' => 'Weight Units',
+                'group' => 'general',
+                'value' => 'kg',
+                'type' => 'select',
+                'options' => 'lbs, kg',
+                'description' => 'The weight unit',
+            ],
+            [
+                'id' => $this->formatSettingId('general.speed_unit'),
+                'order' => $this->getNextOrderNumber('general'),
+                'name' => 'Speed Units',
+                'group' => 'general',
+                'value' => 'Km/H',
+                'type' => 'select',
+                'options' => 'Km/H,kts',
+                'description' => 'The speed unit',
+            ],
+            [
+                'id' => $this->formatSettingId('general.altitude_unit'),
+                'order' => $this->getNextOrderNumber('general'),
+                'name' => 'Altitude Units',
+                'group' => 'general',
+                'value' => 'ft',
+                'type' => 'select',
+                'options' => 'ft,m',
+                'description' => 'The altitude units',
+            ],
+            [
+                'id' => $this->formatSettingId('general.liquid_unit'),
+                'order' => $this->getNextOrderNumber('general'),
+                'name' => 'Liquid Units',
+                'group' => 'general',
+                'value' => 'lbs',
+                'type' => 'select',
+                'options' => 'liters,gal,kg,lbs',
+                'description' => 'The liquid units',
+            ],
+
+            /**
+             * BIDS
+             */
+
+            [
                 'id' => $this->formatSettingId('bids.disable_flight_on_bid'),
                 'order' => $this->getNextOrderNumber('bids'),
                 'name' => 'Disable flight on bid',
