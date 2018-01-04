@@ -29,8 +29,8 @@ if [ "$TRAVIS" = "true" ]; then
     find ./vendor -type d -name ".git" -print0 | xargs rm -rf
 
     # clear any app specific stuff that might have been loaded in
-    find storage/app/public -not -name '.gitignore' -print0 | xargs -0 rm -rf
-	find storage/app -not -name '.gitignore' -not -name public -print0 | xargs -0 rm -rf
+    find storage/app/public -mindepth 1 -not -name '.gitignore' -print0 | xargs -0 rm -rf
+	find storage/app -mindepth 1 -not -name '.gitignore' -not -name public -print0 | xargs -0 rm -rf
 
     # Remove any development files
     rm -rf .sass-cache
@@ -46,7 +46,7 @@ if [ "$TRAVIS" = "true" ]; then
 
     echo "creating tarball"
     cd /tmp
-    tar -czf $TAR_NAME -C $TRAVIS_BUILD_DIR/../ phpvms 
+    tar -czf $TAR_NAME -C $TRAVIS_BUILD_DIR/../ phpvms
     #git archive --format=tar.gz --prefix=phpvms/ --output=test.tar.gz HEAD
 
     echo "running rsync"

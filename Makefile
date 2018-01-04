@@ -18,11 +18,11 @@ clean:
 	@php artisan view:clear
 	@find bootstrap/cache -type f -not -name '.gitignore' -print0 | xargs -0 rm -rf
 
-	@find storage/framework/cache/ -not -name '.gitignore' -mindepth 1 -print0 | xargs -0 rm -rf
-	@find storage/framework/sessions/ -type f -not -name '.gitignore' -mindepth 1 -print0 | xargs -0 rm -rf
-	@find storage/framework/views/ -not -name '.gitignore' -mindepth 1 -print0 | xargs -0 rm -rf
+	@find storage/framework/cache/ -mindepth 1 -not -name '.gitignore' -print0 | xargs -0 rm -rf
+	@find storage/framework/sessions/ -mindepth 1 -type f -not -name '.gitignore' -print0 | xargs -0 rm -rf
+	@find storage/framework/views/ -mindepth 1 -not -name '.gitignore' -print0 | xargs -0 rm -rf
 
-	@find storage/logs -type f -not -name '.gitignore' -print0 | xargs -0 rm -rf
+	@find storage/logs -mindepth 1 -not -name '.gitignore' -print0 | xargs -0 rm -rf
 
 .PHONY: clean-routes
 clean-routes:
