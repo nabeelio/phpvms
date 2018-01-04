@@ -2,8 +2,9 @@
 
 namespace App\Console\Services;
 
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Str;
 use PDO;
+use Hashids\Hashids;
 use Doctrine\DBAL\Driver\PDOException;
 use Illuminate\Database\QueryException;
 use Symfony\Component\Console\Output\ConsoleOutput;
@@ -29,9 +30,7 @@ class Importer
     /**
      * Hold references
      */
-    protected $airlines = [];
-    protected $aircraft = [];
-    protected $ranks = [];
+    private $mappedEntities = [];
 
     /**
      * Hold the PDO connection to the old database
@@ -173,9 +172,47 @@ class Importer
             $model->save();
             return true;
         } catch (QueryException $e) {
-            # return false;
-            return $this->error($e->getMessage());
+            if($e->getCode() !== '23000') {
+                $this->error($e);
+            }
+
+            return false;
         }
+    }
+
+    /**
+     * Create a new mapping between an old ID and the new one
+     * @param $entity
+     * @param $old_id
+     * @param $new_id
+     */
+    protected function addMapping($entity, $old_id, $new_id)
+    {
+        if(!array_key_exists($entity, $this->mappedEntities)) {
+            $this->mappedEntities[$entity] = [];
+        }
+
+        $this->mappedEntities[$entity][$old_id] = $new_id;
+    }
+
+    /**
+     * Return the ID for a mapping
+     * @param $entity
+     * @param $old_id
+     * @return bool
+     */
+    protected function getMapping($entity, $old_id)
+    {
+        if(!array_key_exists($entity, $this->mappedEntities)) {
+            return 0;
+        }
+
+        $entity = $this->mappedEntities[$entity];
+        if(array_key_exists($old_id, $entity)) {
+            return $entity[$old_id];
+        }
+
+        return 0;
     }
 
     /**
@@ -242,21 +279,11 @@ class Importer
      */
     protected function getSubfleet()
     {
-        $subfleet = Subfleet::where('name', self::SUBFLEET_NAME)
-            ->first();
-
-        if ($subfleet === null)
-        {
-            $this->info('Subfleet not found, inserting');
-            $airline = Airline::first();
-            $subfleet = new Subfleet([
-                'airline_id' => $airline->id,
-                'name' => self::SUBFLEET_NAME,
-                'type' => 'PHPVMS'
-            ]);
-
-            $this->saveModel($subfleet);
-        }
+        $airline = Airline::first();
+        $subfleet = Subfleet::firstOrCreate(
+            ['airline_id' => $airline->id, 'name' => self::SUBFLEET_NAME],
+            ['type' => 'PHPVMS']
+        );
 
         return $subfleet;
     }
@@ -278,16 +305,15 @@ class Importer
         $count = 0;
         foreach ($this->readRows('ranks') as $row)
         {
-            $this->ranks[$row->rankid] = $row;
-            $this->ranks[$row->rank] = $row;
+            $rank = Rank::firstOrCreate(
+                ['name' => $row->rank],
+                ['image_link' => $row->rankimage, 'hours'=>$row->minhours]
+            );
 
-            $attrs = [
-                'name' => $row->rank,
-                'image_link' => $row->rankimage,
-                'hours' => $row->minhours,
-            ];
+            $this->addMapping('ranks', $row->rankid, $rank->id);
+            $this->addMapping('ranks', $row->rank, $rank->id);
 
-            if($this->saveModel(new Rank($attrs))) {
+            if($rank->wasRecentlyCreated) {
                 ++$count;
             }
         }
@@ -306,17 +332,15 @@ class Importer
         $count = 0;
         foreach ($this->readRows('airlines') as $row)
         {
-            $this->airlines[$row->id] = $row;
-            $this->airlines[$row->code] = $row;
+            $airline = Airline::firstOrCreate(
+                ['icao' => $row->code],
+                ['iata' => $row->code, 'name' => $row->name, 'active' => $row->enabled]
+            );
 
-            $attrs = [
-                'icao' => $row->code,
-                'iata' => $row->code,
-                'name' => $row->name,
-                'active' => $row->enabled,
-            ];
+            $this->addMapping('airlines', $row->id, $airline->id);
+            $this->addMapping('airlines', $row->code, $airline->id);
 
-            if($this->saveModel(new Airline($attrs))) {
+            if ($airline->wasRecentlyCreated) {
                 ++$count;
             }
         }
@@ -338,17 +362,16 @@ class Importer
         $count = 0;
         foreach($this->readRows('aircraft') as $row)
         {
-            $this->aircraft[$row->id] = $row;
+            $aircraft = Aircraft::firstOrCreate(
+                ['name' => $row->fullname, 'registration' => $row->registration],
+                ['icao' => $row->icao,
+                 'subfleet_id' => $subfleet->id,
+                 'active' => $row->enabled
+                ]);
 
-            $attrs = [
-                'subfleet_id' => $subfleet->id,
-                'icao' => $row->icao,
-                'name' => $row->fullname,
-                'registration' => $row->registration,
-                'active' => $row->enabled
-            ];
+            $this->addMapping('aircraft', $row->id, $aircraft->id);
 
-            if ($this->saveModel(new Aircraft($attrs))) {
+            if($aircraft->wasRecentlyCreated) {
                 ++$count;
             }
         }
@@ -421,38 +444,41 @@ class Importer
         $this->comment('--- USER IMPORT ---');
 
         $count = 0;
-        foreach ($this->readRows('pilots') as $row)
-        {
+        foreach ($this->readRows('pilots') as $row) {
             # TODO: What to do about pilot ids
 
-            $name = $row->firstname.' '.$row->lastname;
-            $airline_id = $this->airlines[$row->code];
-            $rank_id = $this->ranks[$row->rank];
+            $name = $row->firstname . ' ' . $row->lastname;
+
+            $airline_id = $this->getMapping('airlines', $row->code);
+            $rank_id = $this->getMapping('ranks', $row->rank);
             $state = $this->getUserState($row->retired);
+
+            $new_password = Str::random(60);
 
             $attrs = [
                 'name' => $name,
-                'email' => $row->email,
-                'password' => "",
-                'api_key' => "",
-                'airline_id' => $airline_id->id,
-                'rank_id' => $rank_id->rankid,
+                'password' => Hash::make($new_password),
+                'api_key' => Utils::generateApiKey(),
+                'airline_id' => $airline_id,
+                'rank_id' => $rank_id,
                 'home_airport_id' => $row->hub,
                 'curr_airport_id' => $row->hub,
-                'flights' => (int) $row->totalflights,
+                'flights' => (int)$row->totalflights,
                 'flight_time' => Utils::hoursToMinutes($row->totalhours),
                 'state' => $state,
             ];
 
-            if($this->saveModel(new User($attrs))) {
+            $user = User::firstOrCreate(
+                ['email' => $row->email],
+                $attrs
+            );
+
+            if ($user->wasRecentlyCreated) {
                 ++$count;
             }
         }
 
         $this->info('Imported ' . $count . ' users');
-
-        // Reset Passwords & Generate API Keys
-        $this->setupUsers();
     }
 
     /**
@@ -464,34 +490,14 @@ class Importer
     }
 
     /**
-     * Generate user's API Key and email them their new password
-     */
-    protected function setupUsers()
-    {
-        $allusers = User::all();
-        foreach($allusers as $user)
-        {
-            # Generate New User Password
-            $newpw = substr(md5(date('mdYhs')), 0, 10);
-
-            # Generate API Key
-            $api_key = Utils::generateApiKey();
-
-            # Update Info in DB
-            $user->password = Hash::make($newpw);
-            $user->api_key = $api_key;
-            $user->save();
-        }
-
-        # TODO: Think about how to deliver new password to user, email in batch at the end?
-        # TODO: How to reset password upon first login only for reset users
-    }
-
-    /**
      * Get the user's new state from their original state
+     * @param $state
+     * @return int
      */
     protected function getUserState($state)
     {
+        // TODO: This state might differ between simpilot and classic version
+
         // Declare array of classic states
         $phpvms_classic_states = [
             'ACTIVE' => 0,
@@ -501,19 +507,14 @@ class Importer
         ];
 
         // Decide which state they will be in accordance with v7
-        if ($state == $phpvms_classic_states['ACTIVE'])
-        {
-            # Active
+        if ($state === $phpvms_classic_states['ACTIVE']) {
             return UserState::ACTIVE;
-        } elseif ($state == $phpvms_classic_states['INACTIVE']) {
-            # Rejected
+        } elseif ($state === $phpvms_classic_states['INACTIVE']) {
             # TODO: Make an inactive state?
             return UserState::REJECTED;
-        } elseif ($state == $phpvms_classic_states['BANNED']) {
-            # Suspended
+        } elseif ($state === $phpvms_classic_states['BANNED']) {
             return UserState::SUSPENDED;
-        } elseif ($state == $phpvms_classic_states['ON_LEAVE']) {
-            # On Leave
+        } elseif ($state === $phpvms_classic_states['ON_LEAVE']) {
             return UserState::ON_LEAVE;
         }
     }
