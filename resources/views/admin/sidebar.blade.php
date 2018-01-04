@@ -16,5 +16,13 @@
         <ul class="nav">
             @include('admin.menu')
         </ul>
+
+        <br />
+
+        <div class="row">
+            <div class="col-xs-12 text-center">
+                <p class="small">@version</p>
+            </div>
+        </div>
     </div>
 </div>

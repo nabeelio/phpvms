@@ -59,6 +59,10 @@ class UserRepository extends BaseRepository
             $where['email'] = $request->email;
         }
 
+        if ($request->filled('state')) {
+            $where['state'] = $request->state;
+        }
+
         $this->pushCriteria(new WhereCriteria($request, $where));
         return $this;
     }
