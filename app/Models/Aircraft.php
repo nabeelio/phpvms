@@ -40,7 +40,7 @@ class Aircraft extends BaseModel
     protected static function boot()
     {
         parent::boot();
-        static::creating(function (Airport $model) {
+        static::creating(function (Aircraft $model) {
             if (!empty($model->icao)) {
                 $model->icao = strtoupper(trim($model->icao));
             }
