@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\CreateAirportRequest;
 use App\Http\Requests\UpdateAirportRequest;
 use App\Repositories\AirportRepository;
+use App\Repositories\Criteria\WhereCriteria;
 use Illuminate\Http\Request;
 use Flash;
 use Jackiedo\Timezonelist\Facades\Timezonelist;
@@ -31,7 +32,12 @@ class AirportController extends BaseController
      */
     public function index(Request $request)
     {
-        $this->airportRepository->pushCriteria(new RequestCriteria($request));
+        $where = [];
+        if($request->has('icao')) {
+            $where['icao'] = $request->get('icao');
+        }
+
+        $this->airportRepository->pushCriteria(new WhereCriteria($request, $where));
         $airports = $this->airportRepository->orderBy('icao', 'asc')->paginate(40);
 
         return view('admin.airports.index', [

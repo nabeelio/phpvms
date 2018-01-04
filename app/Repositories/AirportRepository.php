@@ -12,7 +12,7 @@ class AirportRepository extends BaseRepository implements CacheableInterface
     use CacheableRepository;
 
     protected $fieldSearchable = [
-        'icao',
+        'icao' => 'like',
         'name' => 'like',
     ];
 

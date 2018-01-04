@@ -11,6 +11,10 @@
 
 @section('content')
     <div class="card">
+        @include('admin.airports.search')
+    </div>
+
+    <div class="card">
         @include('admin.airports.table')
     </div>
 
