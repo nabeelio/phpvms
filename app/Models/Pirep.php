@@ -93,6 +93,13 @@ class Pirep extends BaseModel
                     ->orderBy('created_at', 'asc');
     }
 
+    public function acars_logs()
+    {
+        return $this->hasMany('App\Models\Acars', 'pirep_id')
+                    ->where('type', AcarsType::LOG)
+                    ->orderBy('created_at', 'asc');
+    }
+
     public function acars_route()
     {
         return $this->hasMany('App\Models\Acars', 'pirep_id')
