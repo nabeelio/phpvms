@@ -18,7 +18,6 @@ class PirepField extends BaseModel
     ];
 
     protected $casts = [
-        'name'     => 'string',
         'required' => 'boolean',
     ];
 

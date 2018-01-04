@@ -35,6 +35,19 @@ class Aircraft extends BaseModel
     ];
 
     /**
+     * Callbacks
+     */
+    protected static function boot()
+    {
+        parent::boot();
+        static::creating(function (Airport $model) {
+            if (!empty($model->icao)) {
+                $model->icao = strtoupper(trim($model->icao));
+            }
+        });
+    }
+
+    /**
      * foreign keys
      */
 

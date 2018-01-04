@@ -45,7 +45,6 @@ class Pirep extends BaseModel
     ];
 
     protected $casts = [
-        'id'                    => 'string',
         'flight_time'           => 'integer',
         'planned_flight_time'   => 'integer',
         'level'                 => 'integer',

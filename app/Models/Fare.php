@@ -11,8 +11,6 @@ class Fare extends BaseModel
 {
     public $table = 'fares';
 
-    protected $dates = ['deleted_at'];
-
     public $fillable = [
         'code',
         'name',
@@ -24,8 +22,6 @@ class Fare extends BaseModel
     ];
 
     protected $casts = [
-        'code'      => 'string',
-        'name'      => 'string',
         'price'     => 'float',
         'cost'      => 'float',
         'capacity'  => 'integer',

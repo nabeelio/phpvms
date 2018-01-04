@@ -11,35 +11,16 @@ class PirepFieldValues extends BaseModel
 {
     public $table = 'pirep_field_values';
 
-    public $fillable
-        = [
-            'pirep_id',
-            'name',
-            'value',
-            'source',
-        ];
+    public $fillable = [
+        'pirep_id',
+        'name',
+        'value',
+        'source',
+    ];
 
-    /**
-     * The attributes that should be casted to native types.
-     *
-     * @var array
-     */
-    protected $casts
-        = [
-            'name'   => 'string',
-            'value'  => 'string',
-            'source' => 'string',
-        ];
-
-    /**
-     * Validation rules
-     *
-     * @var array
-     */
-    public static $rules
-        = [
-            'name' => 'required',
-        ];
+    public static $rules = [
+        'name' => 'required',
+    ];
 
     /**
      * Foreign Keys

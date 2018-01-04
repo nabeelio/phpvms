@@ -17,18 +17,27 @@ class Setting extends BaseModel
         'description',
     ];
 
+    public static $rules = [
+        'name'  => 'required',
+        'key'   => 'required',
+        'group' => 'required',
+    ];
+
+    /**
+     * @param $key
+     * @return mixed
+     */
     public static function formatKey($key)
     {
         return str_replace('.', '_', strtolower($key));
     }
 
+    /**
+     * Callbacks
+     */
     protected static function boot()
     {
         parent::boot();
-
-        /**
-         * Make sure any dots are replaced with underscores
-         */
         static::creating(function (Setting $model) {
             if (!empty($model->id)) {
                 $model->id = Setting::formatKey($model->id);

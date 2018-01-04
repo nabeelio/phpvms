@@ -11,14 +11,11 @@ class FlightFields extends BaseModel
 {
     public $table = 'flight_fields';
 
-    protected $dates = ['deleted_at'];
-
-    public $fillable
-        = [
-            'flight_id',
-            'name',
-            'value',
-        ];
+    public $fillable = [
+        'flight_id',
+        'name',
+        'value',
+    ];
 
     protected $casts = [];
 

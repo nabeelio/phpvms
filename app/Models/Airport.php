@@ -48,22 +48,17 @@ class Airport extends BaseModel
     ];
 
     /**
-     * Some fancy callbacks
+     * Callbacks
      */
     protected static function boot()
     {
-
         parent::boot();
-
-        /**
-         * Make sure the ID is set to the ICAO
-         */
         static::creating(function (Airport $model) {
             if(!empty($model->iata)) {
-                $model->iata = strtoupper($model->iata);
+                $model->iata = strtoupper(trim($model->iata));
             }
 
-            $model->icao = strtoupper($model->icao);
+            $model->icao = strtoupper(trim($model->icao));
             $model->id = $model->icao;
         });
     }

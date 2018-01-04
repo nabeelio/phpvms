@@ -16,6 +16,9 @@ class Subfleet extends BaseModel
         'name',
         'type',
         'fuel_type',
+        'cargo_capacity',
+        'fuel_capacity',
+        'gross_weight',
     ];
 
     /**

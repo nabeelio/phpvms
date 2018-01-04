@@ -17,11 +17,6 @@ class PirepComment extends BaseModel
         'comment',
     ];
 
-    /**
-     * Validation rules
-     *
-     * @var array
-     */
     public static $rules = [
         'comment' => 'required',
     ];

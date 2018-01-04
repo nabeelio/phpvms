@@ -21,7 +21,6 @@ class Rank extends BaseModel
     ];
 
     protected $casts = [
-        'name'                => 'string',
         'hours'               => 'integer',
         'auto_approve_acars'  => 'bool',
         'auto_approve_manual' => 'bool',
@@ -29,8 +28,8 @@ class Rank extends BaseModel
     ];
 
     public static $rules = [
-        'name' => 'required',
-        'hours' => 'required',
+        'name'  => 'required',
+        'hours' => 'required|integer',
     ];
 
     public function subfleets() {
