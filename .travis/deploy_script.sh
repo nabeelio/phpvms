@@ -19,11 +19,18 @@ if [ "$TRAVIS" = "true" ]; then
 
     cd $TRAVIS_BUILD_DIR
 
+    echo "Version:"
+    php artisan version:show --format compact --suppress-app-name > VERSION
+    cat VERSION
+
     make clean
-    echo ""
 
     rm -rf env.php
     find ./vendor -type d -name ".git" -print0 | xargs rm -rf
+
+    # clear any app specific stuff that might have been loaded in
+    find storage/app/public -not -name '.gitignore' -print0 | xargs -0 rm -rf
+	find storage/app -not -name '.gitignore' -not -name public -print0 | xargs -0 rm -rf
 
     # Remove any development files
     rm -rf .sass-cache
@@ -37,13 +44,9 @@ if [ "$TRAVIS" = "true" ]; then
     # delete files in vendor that are rather large
     rm -rf vendor/willdurand/geocoder/tests
 
-    echo "Creating tar for version"
-    php artisan version:show --format compact --suppress-app-name > VERSION
-    cat VERSION
-
     echo "creating tarball"
     cd /tmp
-    tar -czf $TAR_NAME -C $TRAVIS_BUILD_DIR/../ phpvms phpvms/.*
+    tar -czf $TAR_NAME -C $TRAVIS_BUILD_DIR/../ phpvms 
     #git archive --format=tar.gz --prefix=phpvms/ --output=test.tar.gz HEAD
 
     echo "running rsync"
