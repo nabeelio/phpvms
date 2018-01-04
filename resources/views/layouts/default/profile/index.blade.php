@@ -21,7 +21,7 @@
             </div>
 
             <div class="social-description">
-                <h2>{!! \App\Facades\Utils::secondsToTimeString($user->flight_time, false)!!}</h2>
+                <h2>{!! \App\Facades\Utils::minutesToTimeString($user->flight_time, false)!!}</h2>
                 <p>Flight Hours</p>
             </div>
 

@@ -20,7 +20,7 @@ users:
     curr_airport_id: KJFK
     last_pirep_id: pirepid_3
     flights: 3
-    flight_time: 43200
+    flight_time: 0
     timezone: America/Chicago
     state: 1
     created_at: now
