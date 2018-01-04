@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "d2427a99823ac9e308d0f44bb7dd6f4c",
+    "content-hash": "80a862eaf88fec445de28eb63835155a",
     "packages": [
         {
             "name": "composer/semver",
@@ -2253,16 +2253,16 @@
         },
         {
             "name": "pragmarx/version",
-            "version": "v0.2.2",
+            "version": "v0.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/antonioribeiro/version.git",
-                "reference": "b7180322322e9fb7e57b2541989c12d37a75a94c"
+                "reference": "57484787aa71f85de50cd920f3f701beb23ed928"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/antonioribeiro/version/zipball/b7180322322e9fb7e57b2541989c12d37a75a94c",
-                "reference": "b7180322322e9fb7e57b2541989c12d37a75a94c",
+                "url": "https://api.github.com/repos/antonioribeiro/version/zipball/57484787aa71f85de50cd920f3f701beb23ed928",
+                "reference": "57484787aa71f85de50cd920f3f701beb23ed928",
                 "shasum": ""
             },
             "require": {
@@ -2310,7 +2310,7 @@
                 "version",
                 "versioning"
             ],
-            "time": "2017-12-16T05:21:10+00:00"
+            "time": "2017-12-18T16:17:09+00:00"
         },
         {
             "name": "pragmarx/yaml",
