@@ -83,4 +83,26 @@ class ApiTest extends TestCase
             ->get('/api/airports/UNK')
             ->assertStatus(404);
     }
+
+    /**
+     * Get all the airports, test the pagination
+     */
+    public function testGetAllAirports()
+    {
+        $user = factory(App\Models\User::class)->create();
+        factory(App\Models\Airport::class, 120)->create();
+
+        $response = $this->user_get($user, '/api/airports/')
+                         ->assertStatus(200)
+                         ->assertJsonCount(50, 'data');
+
+        $body = $response->json();
+
+        $this->assertHasKeys($body, ['data', 'links', 'meta']);
+
+        $last_page = $body['meta']['last_page'];
+        $this->user_get($user, '/api/airports?page='.$last_page)
+             ->assertStatus(200)
+             ->assertJsonCount(20, 'data');
+    }
 }

@@ -10,7 +10,7 @@ class CreateAirportsTable extends Migration
         Schema::create('airports', function (Blueprint $table) {
             $table->string('id', 5)->primary();
             $table->string('iata', 5)->nullable();
-            $table->string('icao', 4);
+            $table->string('icao', 5);
             $table->string('name', 100);
             $table->string('location', 100)->nullable();
             $table->string('country', 64)->nullable();

@@ -95,4 +95,15 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
             $this->assertArrayHasKey($key, $obj);
         }
     }
+
+    /**
+     * Shortcut for a get call with a user
+     * @param \App\Models\User $user
+     * @param string $uri
+     * @return \Illuminate\Foundation\Testing\TestResponse
+     */
+    public function user_get($user, $uri)
+    {
+        return $this->withHeaders($this->headers($user))->get($uri);
+    }
 }

@@ -20,6 +20,15 @@ class AirportController extends AppBaseController
     }
 
     /**
+     * Return all the airports, paginated
+     */
+    public function index()
+    {
+        $airports = $this->airportRepo->orderBy('icao', 'asc')->paginate(50);
+        return AirportResource::collection($airports);
+    }
+
+    /**
      * Do a lookup, via vaCentral, for the airport information
      * @param $id
      * @return AirportResource

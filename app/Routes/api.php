@@ -7,6 +7,7 @@ Route::group([], function()
 {
     Route::get('acars', 'AcarsController@index');
 
+    Route::get('airports', 'AirportController@index');
     Route::get('airports/{id}', 'AirportController@get');
     Route::get('airports/{id}/lookup', 'AirportController@lookup');
 
