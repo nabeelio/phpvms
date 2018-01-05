@@ -93,14 +93,10 @@ class AcarsTest extends TestCase
         # Post an ACARS update
         $acars = factory(App\Models\Acars::class)->make()->toArray();
         unset($acars['id']);
+
         $update = ['positions' => [$acars]];
         $response = $this->withHeaders($this->apiHeaders())->post($uri, $update);
-        $response->assertStatus(200);
-
-        $body = $response->json();
-        $this->assertNotNull($body[0]['id']);
-        $this->assertEquals($pirep_id, $body[0]['pirep_id']);
-        //$this->assertHasKeys($body, $this->fillableFields(new \App\Models\Acars));
+        $response->assertStatus(200)->assertJson(['count' => 1]);
 
         # Make sure PIREP state moved into ENROUTE
         $pirep = $this->getPirep($pirep_id);
@@ -140,7 +136,7 @@ class AcarsTest extends TestCase
 
         $update = ['positions' => $acars];
         $response = $this->withHeaders($this->apiHeaders())->post($uri, $update);
-        $response->assertStatus(200)->assertJsonCount($acars_count);
+        $response->assertStatus(200)->assertJson(['count' => $acars_count]);
 
         $response = $this->withHeaders($this->apiHeaders())->get($uri);
         $response->assertStatus(200)->assertJsonCount($acars_count);
@@ -224,12 +220,17 @@ class AcarsTest extends TestCase
 
         $acars = factory(App\Models\Acars::class)->make();
         $post_log = [
-            'log' => $acars->log
+            'logs' => [
+                ['log' => $acars->log]
+            ]
         ];
 
         $uri = '/api/pireps/' . $pirep_id . '/acars/log';
         $response = $this->withHeaders($this->apiHeaders())->post($uri, $post_log);
-        $response->assertStatus(201);
+        $response->assertStatus(200);
+        $body = $response->json();
+
+        $this->assertEquals(1, $body['count']);
     }
 
     /**
@@ -302,7 +303,6 @@ class AcarsTest extends TestCase
         ])->toArray();
 
         $response = $this->withHeaders($this->apiHeaders())->post($uri, $pirep);
-        #$response = $this->withHeaders($this->headers($user->api_key))->post($uri, $pirep);
         $response->assertStatus(201);
         $pirep = $response->json();
 

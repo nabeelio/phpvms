@@ -65,9 +65,14 @@ class RestController
      * @return bool
      * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
      */
-    public function validate(Request $request, $rules)
+    public function validate($request, $rules)
     {
-        $validator = Validator::make($request->all(), $rules);
+        if($request instanceof Request) {
+            $validator = Validator::make($request->all(), $rules);
+        } else {
+            $validator = Validator::make($request, $rules);
+        }
+
         if (!$validator->passes()) {
             throw new BadRequestHttpException($validator->errors(), null, 400);
         }
@@ -80,10 +85,16 @@ class RestController
      * @param $message
      * @return \Illuminate\Http\JsonResponse
      */
-    public function message($message)
+    public function message($message, $count=null)
     {
-        return response()->json([
+        $attrs = [
             'message' => $message
-        ]);
+        ];
+
+        if($count !== null) {
+            $attrs['count'] = $count;
+        }
+
+        return response()->json($attrs);
     }
 }

@@ -57,12 +57,13 @@ class PirepController extends RestController
         'level',
         'route',
         'notes',
+        'created_at',
     ];
 
     protected $acarsRepo,
-        $geoSvc,
-        $pirepRepo,
-        $pirepSvc;
+              $geoSvc,
+              $pirepRepo,
+              $pirepSvc;
 
     /**
      * PirepController constructor.
@@ -245,8 +246,9 @@ class PirepController extends RestController
         Log::info('Posting ACARS update', $request->toArray());
 
         $this->validate($request, ['positions' => 'required']);
-        $positions = $request->post()['positions'];
+        $positions = $request->post('positions');
 
+        $count = 0;
         foreach($positions as $position)
         {
             try {
@@ -258,6 +260,7 @@ class PirepController extends RestController
 
                 $update = Acars::create($attrs);
                 $update->save();
+                ++$count;
             } catch (\Exception $e) {
                 Log::error($e);
             }
@@ -267,7 +270,7 @@ class PirepController extends RestController
         $pirep->status = PirepStatus::ENROUTE;
         $pirep->save();
 
-        return $this->acars_get($id, $request);
+        return $this->message($count . ' positions added', $count);
     }
 
     /**
@@ -275,7 +278,7 @@ class PirepController extends RestController
      * But rather in a log file.
      * @param $id
      * @param Request $request
-     * @return AcarsLogResource
+     * @return \Illuminate\Http\JsonResponse
      * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
      */
     public function acars_log($id, Request $request)
@@ -289,18 +292,24 @@ class PirepController extends RestController
 
         Log::info('Posting ACARS log', $request->toArray());
 
-        $attrs = $this->getFromReq($request, [
-            'log'        => 'required',
-            'lat'        => 'nullable',
-            'lon'        => 'nullable',
-            'created_at' => 'nullable',
-        ], ['pirep_id' => $id, 'type' => AcarsType::LOG]);
+        $this->validate($request, ['logs' => 'required']);
+        $logs = $request->post('logs');
 
-        $acars = Acars::create($attrs);
-        $acars->save();
+        $count = 0;
+        foreach($logs as $log) {
+            $attrs = $this->getFromReq($log, [
+                'log' => 'required',
+                'lat' => 'nullable',
+                'lon' => 'nullable',
+                'created_at' => 'nullable',
+            ], ['pirep_id' => $id, 'type' => AcarsType::LOG]);
 
-        AcarsLogResource::withoutWrapping();
-        return new AcarsLogResource($acars);
+            $acars = Acars::create($attrs);
+            $acars->save();
+            ++$count;
+        }
+
+        return $this->message($count . ' logs added', $count);
     }
 
     /**

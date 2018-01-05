@@ -204,7 +204,7 @@ class PIREPTest extends TestCase
 
         # Cancel it
         $uri = '/api/pireps/' . $pirep_id . '/cancel';
-        $response = $this->withHeaders($this->apiHeaders())->post($uri, $acars);
+        $response = $this->withHeaders($this->apiHeaders())->delete($uri, $acars);
         $response->assertStatus(200);
 
         # Should get a 400 when posting an ACARS update
