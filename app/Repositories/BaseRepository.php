@@ -49,4 +49,18 @@ abstract class BaseRepository extends \Prettus\Repository\Eloquent\BaseRepositor
     {
         return $this->orderBy($sort_by, 'desc')->paginate($count);
     }
+
+    /**
+     * Find records with a WHERE clause but also sort them
+     * @param $where
+     * @param $sort_by
+     * @param $order_by
+     * @return $this
+     */
+    public function whereOrder($where, $sort_by, $order_by)
+    {
+        return $this->scopeQuery(function($query) use ($where, $sort_by, $order_by) {
+            return $query->where($where)->orderBy($sort_by, $order_by);
+        });
+    }
 }

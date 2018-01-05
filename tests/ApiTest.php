@@ -90,7 +90,7 @@ class ApiTest extends TestCase
     public function testGetAllAirports()
     {
         $user = factory(App\Models\User::class)->create();
-        factory(App\Models\Airport::class, 120)->create();
+        factory(App\Models\Airport::class, 70)->create();
 
         $response = $this->user_get($user, '/api/airports/')
                          ->assertStatus(200)
@@ -104,6 +104,18 @@ class ApiTest extends TestCase
         $this->user_get($user, '/api/airports?page='.$last_page)
              ->assertStatus(200)
              ->assertJsonCount(20, 'data');
+    }
+
+    public function testGetAllAirportsHubs()
+    {
+        $user = factory(App\Models\User::class)->create();
+
+        factory(App\Models\Airport::class, 10)->create();
+        factory(App\Models\Airport::class)->create(['hub' => 1]);
+
+        $this->user_get($user, '/api/airports/hubs')
+             ->assertStatus(200)
+             ->assertJsonCount(1, 'data');
     }
 
     /**
