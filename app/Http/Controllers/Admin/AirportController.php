@@ -67,6 +67,12 @@ class AirportController extends BaseController
     {
         $input = $request->all();
 
+        if($input['hub'] === 'on' || $input['hub'] === 'true' || $input['hub'] === '1') {
+            $input['hub'] = true;
+        } else {
+            $input['hub'] = false;
+        }
+
         Log::info('Airport save', $input);
         $airport = $this->airportRepository->create($input);
 
@@ -131,6 +137,13 @@ class AirportController extends BaseController
 
         $attrs = $request->all();
         Log::info('Airport update', $attrs);
+
+        if ($attrs['hub'] === 'on' || $attrs['hub'] === 'true' || $attrs['hub'] === '1') {
+            $attrs['hub'] = true;
+        } else {
+            $attrs['hub'] = false;
+        }
+
         $airport = $this->airportRepository->update($attrs, $id);
 
         Flash::success('Airport updated successfully.');
