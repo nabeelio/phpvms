@@ -14,6 +14,13 @@ class Pirep extends Resource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        $pirep = parent::toArray($request);
+
+        $pirep['airline'] = new Airline($this->airline);
+        $pirep['dpt_airport'] = new Airport($this->dpt_airport);
+        $pirep['arr_airport'] = new Airport($this->arr_airport);
+        $pirep['position'] = new Acars($this->position);
+
+        return $pirep;
     }
 }

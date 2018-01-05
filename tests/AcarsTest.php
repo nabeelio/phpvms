@@ -82,7 +82,10 @@ class AcarsTest extends TestCase
         $response->assertStatus(201);
 
         # Get the PIREP ID
-        $pirep_id = $response->json()['id'];
+        $body = $response->json();
+        $pirep_id = $body['id'];
+
+        $this->assertHasKeys($body, ['airline', 'arr_airport', 'dpt_airport', 'position']);
         $this->assertNotNull($pirep_id);
 
         # Check the PIREP state and status
