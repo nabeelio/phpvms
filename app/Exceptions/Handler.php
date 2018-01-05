@@ -68,7 +68,8 @@ class Handler extends ExceptionHandler
                 'error' => [
                     'code' => $exception->getCode() ,
                     'http_code' => $http_code,
-                    'message' => $exception->getMessage()
+                    'message' => $exception->getMessage(),
+                    'trace' => $exception->getTrace()[0],
                 ]
             ], $status);
         }

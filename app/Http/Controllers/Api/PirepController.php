@@ -21,18 +21,29 @@ use App\Repositories\PirepRepository;
 
 use App\Http\Resources\Acars as AcarsResource;
 use App\Http\Resources\Pirep as PirepResource;
+use App\Http\Resources\AcarsLog as AcarsLogResource;
+use App\Http\Resources\AcarsRoute as AcarsRouteResource;
 
-use App\Http\Controllers\AppBaseController;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
-class PirepController extends AppBaseController
+class PirepController extends RestController
 {
-    protected $acarsRepo,
-              $geoSvc,
-              $pirepRepo,
-              $pirepSvc;
+    public static $acars_rules = [
+        'altitude',
+        'level',
+        'heading',
+        'vs',
+        'gs',
+        'transponder',
+        'autopilot',
+        'fuel_flow',
+        'log',
+        'lat',
+        'lon',
+        'created_at',
+    ];
 
-    protected $check_attrs = [
+    public static $pirep_rules = [
         'airline_id',
         'aircraft_id',
         'dpt_airport_id',
@@ -48,6 +59,18 @@ class PirepController extends AppBaseController
         'notes',
     ];
 
+    protected $acarsRepo,
+        $geoSvc,
+        $pirepRepo,
+        $pirepSvc;
+
+    /**
+     * PirepController constructor.
+     * @param AcarsRepository $acarsRepo
+     * @param GeoService $geoSvc
+     * @param PirepRepository $pirepRepo
+     * @param PIREPService $pirepSvc
+     */
     public function __construct(
         AcarsRepository $acarsRepo,
         GeoService $geoSvc,
@@ -72,22 +95,17 @@ class PirepController extends AppBaseController
      * status, and whatever other statuses may be defined
      *
      * TODO: Allow extra fields, etc to be set. Aircraft, etc
+     * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
      */
     public function prefile(Request $request)
     {
         Log::info('PIREP Prefile, user '.Auth::user()->id, $request->toArray());
 
-        $attrs = [
-            'user_id'   => Auth::user()->id,
-            'state'     => PirepState::IN_PROGRESS,
-            'status'    => PirepStatus::PREFILE,
-        ];
-
-        foreach ($this->check_attrs as $attr) {
-            if ($request->filled($attr)) {
-                $attrs[$attr] = $request->get($attr);
-            }
-        }
+        $attrs = $this->getFromReq($request, self::$pirep_rules, [
+            'user_id' => Auth::user()->id,
+            'state' => PirepState::IN_PROGRESS,
+            'status' => PirepStatus::PREFILE,
+        ]);
 
         $pirep = new Pirep($attrs);
 
@@ -130,16 +148,10 @@ class PirepController extends AppBaseController
             throw new BadRequestHttpException('PIREP has been cancelled, updates can\'t be posted');
         }
 
-        $attrs = [
-            'state'     => PirepState::PENDING,
-            'status'    => PirepStatus::ARRIVED,
-        ];
-
-        foreach($this->check_attrs as $attr) {
-            if($request->filled($attr)) {
-                $attrs[$attr] = $request->get($attr);
-            }
-        }
+        $attrs = $this->getFromReq($request, self::$pirep_rules, [
+            'state' => PirepState::PENDING,
+            'status' => PirepStatus::ARRIVED,
+        ]);
 
         $pirep_fields = [];
         if($request->filled('fields')) {
@@ -187,7 +199,7 @@ class PirepController extends AppBaseController
      * @param Request $request
      * @return \Illuminate\Contracts\Routing\ResponseFactory
      */
-    public function acars_get($id, Request $request)
+    public function acars_geojson($id, Request $request)
     {
         $pirep = $this->pirepRepo->find($id);
         $geodata = $this->geoSvc->getFeatureFromAcars($pirep);
@@ -198,10 +210,27 @@ class PirepController extends AppBaseController
     }
 
     /**
+     * Return the GeoJSON for the ACARS line
+     * @param $id
+     * @param Request $request
+     * @return AcarsRouteResource
+     */
+    public function acars_get($id, Request $request)
+    {
+        $pirep = $this->pirepRepo->find($id);
+
+        AcarsRouteResource::withoutWrapping();
+        return new AcarsRouteResource(Acars::where([
+            'pirep_id' => $id,
+            'type' => AcarsType::FLIGHT_PATH
+        ])->orderBy('created_at', 'asc')->get());
+    }
+
+    /**
      * Post ACARS updates for a PIREP
      * @param $id
      * @param Request $request
-     * @return AcarsResource
+     * @return AcarsRouteResource
      * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
      */
     public function acars_store($id, Request $request)
@@ -214,20 +243,31 @@ class PirepController extends AppBaseController
         }
 
         Log::info('Posting ACARS update', $request->toArray());
-        $attrs = $request->toArray();
 
-        $attrs['pirep_id'] = $id;
-        $attrs['type'] = AcarsType::FLIGHT_PATH;
+        $this->validate($request, ['positions' => 'required']);
+        $positions = $request->post()['positions'];
 
-        $update = Acars::create($attrs);
-        $update->save();
+        foreach($positions as $position)
+        {
+            try {
+                $attrs = $this->getFromReq(
+                    $position,
+                    self::$acars_rules,
+                    ['pirep_id' => $id, 'type' => AcarsType::FLIGHT_PATH]
+                );
+
+                $update = Acars::create($attrs);
+                $update->save();
+            } catch (\Exception $e) {
+                Log::error($e);
+            }
+        }
 
         # Change the PIREP status
         $pirep->status = PirepStatus::ENROUTE;
         $pirep->save();
 
-        AcarsResource::withoutWrapping();
-        return new AcarsResource($update);
+        return $this->acars_get($id, $request);
     }
 
     /**
@@ -235,7 +275,7 @@ class PirepController extends AppBaseController
      * But rather in a log file.
      * @param $id
      * @param Request $request
-     * @return AcarsResource
+     * @return AcarsLogResource
      * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
      */
     public function acars_log($id, Request $request)
@@ -247,20 +287,103 @@ class PirepController extends AppBaseController
             throw new BadRequestHttpException('PIREP has been cancelled, updates can\'t be posted');
         }
 
-        Log::info('Posting ACARS update', $request->toArray());
-        $attrs = $request->toArray();
+        Log::info('Posting ACARS log', $request->toArray());
 
-        $attrs['pirep_id'] = $id;
-        $attrs['type'] = AcarsType::LOG;
+        $attrs = $this->getFromReq($request, [
+            'log' => 'required',
+            'lat' => 'nullable',
+            'lon' => 'nullable',
+        ], ['pirep_id' => $id, 'type' => AcarsType::LOG]);
 
-        $update = Acars::create($attrs);
-        $update->save();
+        $acars = Acars::create($attrs);
+        $acars->save();
 
-        # Change the PIREP status
-        $pirep->status = PirepStatus::ENROUTE;
-        $pirep->save();
+        AcarsLogResource::withoutWrapping();
+        return new AcarsLogResource($acars);
+    }
 
-        AcarsResource::withoutWrapping();
-        return new AcarsResource($update);
+    /**
+     * @param $id
+     * @param Request $request
+     * @return AcarsRouteResource
+     */
+    public function route_get($id, Request $request)
+    {
+        $this->pirepRepo->find($id);
+
+        AcarsRouteResource::withoutWrapping();
+        return new AcarsRouteResource(Acars::where([
+            'pirep_id' => $id,
+            'type' => AcarsType::ROUTE
+        ])->orderBy('order', 'asc')->get());
+    }
+
+    /**
+     * Post the ROUTE for a PIREP, can be done from the ACARS log
+     * @param $id
+     * @param Request $request
+     * @return AcarsRouteResource
+     * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
+     */
+    public function route_post($id, Request $request)
+    {
+        $pirep = $this->pirepRepo->find($id);
+
+        # Check if the status is cancelled...
+        if ($pirep->state === PirepState::CANCELLED) {
+            throw new BadRequestHttpException('PIREP has been cancelled, updates can\'t be posted');
+        }
+
+        Log::info('Posting ACARS ROUTE', $request->toArray());
+
+        $this->validate($request, [
+            'route.*.name' => 'required',
+            'route.*.order' => 'required|int',
+            'route.*.nav_type' => 'nullable|int',
+            'route.*.lat' => 'required|numeric',
+            'route.*.lon' => 'required|numeric',
+        ]);
+
+        $route = $request->all()['route'];
+        foreach($route as $position) {
+            $attrs = [
+                'pirep_id' => $id,
+                'type' => AcarsType::ROUTE,
+                'name' => $position['name'],
+                'order' => $position['order'],
+                'lat' => $position['lat'],
+                'lon' => $position['lon'],
+            ];
+
+            if(array_key_exists('nav_type', $position)) {
+                $attrs['nav_type'] = $position['nav_type'];
+            }
+
+            try {
+                $acars = Acars::create($attrs);
+                $acars->save();
+            } catch (\Exception $e) {
+                Log::error($e);
+            }
+        }
+
+        return $this->route_get($id, $request);
+    }
+
+    /**
+     * @param $id
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function route_delete($id, Request $request)
+    {
+        $this->pirepRepo->find($id);
+
+        Acars::where([
+            'pirep_id' => $id,
+            'type' => AcarsType::ROUTE
+        ])->delete();
+
+        return $this->message('Route deleted');
     }
 }

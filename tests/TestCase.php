@@ -71,6 +71,27 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
     {
         $svc = app('\App\Services\DatabaseService');
         $file_path = base_path('tests/data/' . $file . '.yml');
-        $svc->seed_from_yaml_file($file_path);
+        try {
+            $svc->seed_from_yaml_file($file_path);
+        } catch (Exception $e) {
+        }
+    }
+
+    public function fillableFields(\Illuminate\Database\Eloquent\Model $model)
+    {
+        //$klass = new $model();
+        return $model->fillable;
+    }
+
+    /**
+     * Make sure an object has the list of keys
+     * @param $obj
+     * @param array $keys
+     */
+    public function assertHasKeys($obj, $keys=[])
+    {
+        foreach($keys as $key) {
+            $this->assertArrayHasKey($key, $obj);
+        }
     }
 }

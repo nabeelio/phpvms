@@ -104,7 +104,7 @@ class Pirep extends BaseModel
     {
         return $this->hasMany('App\Models\Acars', 'pirep_id')
                     ->where('type', AcarsType::ROUTE)
-                    ->orderBy('created_at', 'asc');
+                    ->orderBy('order', 'asc');
     }
 
     public function aircraft()

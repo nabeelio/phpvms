@@ -29,9 +29,15 @@ Route::group(['middleware' => ['api.auth']], function ()
     Route::post('pireps/prefile', 'PirepController@prefile');
     Route::post('pireps/{id}/file', 'PirepController@file');
     Route::post('pireps/{id}/cancel', 'PirepController@cancel');
-    Route::post('pireps/{id}/acars', 'PirepController@acars_store');
+
+    Route::get('pireps/{id}/acars/geojson', 'PirepController@acars_geojson');
+    Route::get('pireps/{id}/acars/position', 'PirepController@acars_get');
     Route::post('pireps/{id}/acars/position', 'PirepController@acars_store');
     Route::post('pireps/{id}/acars/log', 'PirepController@acars_log');
+
+    Route::get('pireps/{id}/route', 'PirepController@route_get');
+    Route::post('pireps/{id}/route', 'PirepController@route_post');
+    Route::delete('pireps/{id}/route', 'PirepController@route_delete');
 
     # This is the info of the user whose token is in use
     Route::get('user', 'UserController@index');

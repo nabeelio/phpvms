@@ -193,10 +193,13 @@ class PIREPTest extends TestCase
         $response = $this->withHeaders($this->apiHeaders())->post($uri, $pirep);
         $pirep_id = $response->json()['id'];
 
-        $uri = '/api/pireps/' . $pirep_id . '/acars';
+        $uri = '/api/pireps/' . $pirep_id . '/acars/position';
         $acars = factory(App\Models\Acars::class)->make()->toArray();
-        $response = $this->withHeaders($this->apiHeaders())->post($uri, $acars);
-        $response->assertStatus(201);
+        $response = $this->withHeaders($this->apiHeaders())->post($uri, [
+            'positions' => [$acars]
+        ]);
+
+        $response->assertStatus(200);
 
         # Cancel it
         $uri = '/api/pireps/' . $pirep_id . '/cancel';
@@ -204,7 +207,7 @@ class PIREPTest extends TestCase
         $response->assertStatus(200);
 
         # Should get a 400 when posting an ACARS update
-        $uri = '/api/pireps/' . $pirep_id . '/acars';
+        $uri = '/api/pireps/' . $pirep_id . '/acars/position';
         $acars = factory(App\Models\Acars::class)->make()->toArray();
         $response = $this->withHeaders($this->apiHeaders())->post($uri, $acars);
         $response->assertStatus(400);
