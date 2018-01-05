@@ -105,7 +105,7 @@ class Handler extends ExceptionHandler
             __DIR__ . '/views',
         ]);
 
-        Log::info('error status '. $status);
+        #Log::info('error status '. $status);
 
         if (view()->exists("errors::{$status}")) {
         #if (view()->exists('layouts' . config('phpvms.skin') .'.errors.' .$status)) {
