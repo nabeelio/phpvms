@@ -36,6 +36,11 @@ class AcarsTest extends TestCase
         foreach($route as $idx => $point) {
             //$this->assertHasKeys($points[$idx], $fields);
             foreach($fields as $f) {
+                if($f === 'lat' || $f === 'lon') {
+                    $point[$f] = round($point[$f], 2);
+                    $points[$idx][$f] = round($points[$idx][$f], 2);
+                }
+
                 $this->assertEquals($point[$f], $points[$idx][$f]);
             }
         }
