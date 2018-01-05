@@ -5,6 +5,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Enums\UserState;
 use Auth;
 use Log;
 use Closure;
@@ -34,6 +35,10 @@ class ApiAuth
         $user = User::where('api_key', $api_key)->first();
         if($user === null) {
             return $this->unauthorized('User not found with key "'.$api_key.'"');
+        }
+
+        if($user->state !== UserState::ACTIVE) {
+            return $this->unauthorized('User is not ACTIVE, please contact an administrator');
         }
 
         // Set the user to the request

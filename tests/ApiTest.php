@@ -35,9 +35,8 @@ class ApiTest extends TestCase
             ->assertStatus(401);
 
         // Test upper/lower case of Authorization header, etc
-        $this->withHeaders($this->apiHeaders())->get($uri)
-            ->assertStatus(200)
-            ->assertJson(['id' => $pirep->id], true);
+        $response = $this->withHeaders($this->apiHeaders())->get($uri);
+        $response->assertStatus(200)->assertJson(['id' => $pirep->id], true);
 
         $this->withHeaders(['x-api-key' => $user->api_key])->get($uri)
             ->assertStatus(200)
@@ -50,6 +49,20 @@ class ApiTest extends TestCase
         $this->withHeaders(['X-API-KEY' => $user->api_key])->get($uri)
             ->assertStatus(200)
             ->assertJson(['id' => $pirep->id], true);
+    }
+
+    /**
+     *
+     */
+    public function testApiDeniedOnInactiveUser()
+    {
+        $user = factory(User::class)->create([
+            'state' => UserState::PENDING
+        ]);
+
+        $uri = '/api/user';
+        $this->withHeaders(['x-api-key' => $user->api_key])->get($uri)
+            ->assertStatus(401);
     }
 
     /**
