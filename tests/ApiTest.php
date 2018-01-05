@@ -105,4 +105,38 @@ class ApiTest extends TestCase
              ->assertStatus(200)
              ->assertJsonCount(20, 'data');
     }
+
+    /**
+     * Test getting the subfleets
+     */
+    public function testGetSubfleets()
+    {
+        $user = factory(App\Models\User::class)->create();
+        $subfleetA = factory(App\Models\Subfleet::class)->create();
+        $subfleetB = factory(App\Models\Subfleet::class)->create();
+
+        $subfleetA_size = \random_int(2, 10);
+        $subfleetB_size = \random_int(2, 10);
+        factory(App\Models\Aircraft::class, $subfleetA_size)->create([
+            'subfleet_id' => $subfleetA->id
+        ]);
+
+        factory(App\Models\Aircraft::class, $subfleetB_size)->create([
+            'subfleet_id' => $subfleetB->id
+        ]);
+
+        $response = $this->user_get($user, '/api/fleet');
+        $response->assertStatus(200);
+        $body = $response->json();
+
+        foreach($body['data'] as $subfleet) {
+            if($subfleet['id'] === $subfleetA->id) {
+                $size = $subfleetA_size;
+            } else {
+                $size = $subfleetB_size;
+            }
+
+            $this->assertCount($size, $subfleet['aircraft']);
+        }
+    }
 }

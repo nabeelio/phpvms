@@ -3,13 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Repositories\AirportRepository;
-use App\Http\Controllers\AppBaseController;
 use App\Http\Resources\Airport as AirportResource;
 
 use Illuminate\Support\Facades\Cache;
 use VaCentral\Airport as AirportLookup;
 
-class AirportController extends AppBaseController
+class AirportController extends RestController
 {
     protected $airportRepo;
 

@@ -41,31 +41,31 @@ class Subfleet extends BaseModel
 
     public function aircraft()
     {
-        return $this->hasMany('App\Models\Aircraft', 'subfleet_id');
+        return $this->hasMany(Aircraft::class, 'subfleet_id');
     }
 
     public function airline()
     {
-        return $this->belongsTo('App\Models\Airline', 'airline_id');
+        return $this->belongsTo(Airline::class, 'airline_id');
     }
 
     public function fares()
     {
         return $this->belongsToMany(
-            'App\Models\Fare',
+            Fare::class,
             'subfleet_fare'
         )->withPivot('price', 'cost', 'capacity');
     }
 
     public function flights()
     {
-        return $this->belongsToMany('App\Models\Flight', 'subfleet_flight');
+        return $this->belongsToMany(Flight::class, 'subfleet_flight');
     }
 
     public function ranks()
     {
         return $this->belongsToMany(
-            'App\Models\Ranks',
+            Rank::class,
             'subfleet_rank'
         )->withPivot('acars_pay', 'manual_pay');
     }

@@ -2,17 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
-use Log;
 use Illuminate\Http\Request;
-use App\Http\Controllers\AppBaseController;
 
-use App\Models\Acars;
 use App\Services\GeoService;
 use App\Repositories\AcarsRepository;
 use App\Repositories\PirepRepository;
 
 
-class AcarsController extends AppBaseController
+class AcarsController extends RestController
 {
     protected $acarsRepo, $geoSvc, $pirepRepo;
 

@@ -3,10 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use PragmaRX\Version\Package\Facade as Version;
-use App\Http\Controllers\AppBaseController;
 
-
-class StatusController extends AppBaseController
+class StatusController extends RestController
 {
     public function status()
     {

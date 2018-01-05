@@ -4,7 +4,7 @@ use Faker\Generator as Faker;
 
 $factory->define(App\Models\Aircraft::class, function (Faker $faker) {
     return [
-        'id' => $faker->unique()->numberBetween(10, 10000),
+        'id' => $faker->unique()->numberBetween(10, 100000),
         'subfleet_id' => function() {
             return factory(App\Models\Subfleet::class)->create()->id;
         },

@@ -5,18 +5,15 @@ namespace App\Http\Controllers\Api;
 use Auth;
 use Illuminate\Http\Request;
 
-use App\Http\Controllers\AppBaseController;
 use App\Repositories\UserRepository;
 
-use App\Models\User;
 use App\Models\UserBid;
 
 use App\Http\Resources\Flight as FlightResource;
 use App\Http\Resources\User as UserResource;
-use App\Http\Resources\UserBid as UserBidResource;
 
 
-class UserController extends AppBaseController
+class UserController extends RestController
 {
     protected $userRepo;
 

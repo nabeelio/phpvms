@@ -2,16 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
-use Log;
 use Illuminate\Http\Request;
 
-use App\Http\Controllers\AppBaseController;
 use App\Repositories\FlightRepository;
 use App\Http\Resources\Flight as FlightResource;
 use Prettus\Repository\Exceptions\RepositoryException;
 
 
-class FlightController extends AppBaseController
+class FlightController extends RestController
 {
     protected $flightRepo;
 
