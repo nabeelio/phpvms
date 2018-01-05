@@ -10,9 +10,18 @@ $factory->define(App\Models\Airport::class, function (Faker $faker) {
 
     return [
         'id' => function(array $apt) use ($faker) {
-            $hashids = new Hashids(microtime(), 5);
+            $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            $string = '';
+            $max = strlen($characters) - 1;
+            for ($i = 0; $i < 5; $i++) {
+                $string .= $characters[random_int(0, $max)];
+            }
+
+            return $string;
+            #return $faker->unique()->text(5);
+            /*$hashids = new Hashids(microtime(), 5);
             $mt = str_replace('.', '', microtime(true));
-            return $hashids->encode($mt);
+            return $hashids->encode($mt);*/
         },
         'icao' => function(array $apt) { return $apt['id']; },
         'iata' => function (array $apt) { return $apt['id']; },
