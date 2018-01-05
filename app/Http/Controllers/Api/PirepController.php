@@ -118,8 +118,6 @@ class PirepController extends RestController
 
         $pirep->save();
 
-        $this->pirepSvc->saveRoute($pirep);
-
         Log::info('PIREP PREFILED');
         Log::info($pirep->id);
 
