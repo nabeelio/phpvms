@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Log;
+use Flash;
 use App\Http\Requests\CreateAirportRequest;
 use App\Http\Requests\UpdateAirportRequest;
 use App\Repositories\AirportRepository;
 use App\Repositories\Criteria\WhereCriteria;
 use Illuminate\Http\Request;
-use Flash;
 use Jackiedo\Timezonelist\Facades\Timezonelist;
-use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 
 
@@ -66,6 +66,8 @@ class AirportController extends BaseController
     public function store(CreateAirportRequest $request)
     {
         $input = $request->all();
+
+        Log::info('Airport save', $input);
         $airport = $this->airportRepository->create($input);
 
         Flash::success('Airport saved successfully.');
@@ -127,7 +129,9 @@ class AirportController extends BaseController
             return redirect(route('admin.airports.index'));
         }
 
-        $airport = $this->airportRepository->update($request->all(), $id);
+        $attrs = $request->all();
+        Log::info('Airport update', $attrs);
+        $airport = $this->airportRepository->update($attrs, $id);
 
         Flash::success('Airport updated successfully.');
         return redirect(route('admin.airports.index'));
