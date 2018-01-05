@@ -42,7 +42,7 @@ class RestController
 
             if($request instanceof Request) {
                 if ($request->filled($field)) {
-                    $fields[$field] = $request->get($field);
+                    $fields[$field] = $request->input($field);
                 }
             } else {
                 if(array_key_exists($field, $request)) {

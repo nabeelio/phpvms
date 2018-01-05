@@ -166,6 +166,7 @@ class PIREPTest extends TestCase
      */
     public function testDuplicatePireps()
     {
+        $user = factory(App\Models\User::class)->create();
         $pirep = factory(Pirep::class)->create();
 
         # This should find itself...
@@ -189,14 +190,16 @@ class PIREPTest extends TestCase
 
     public function testCancelViaAPI()
     {
+        $user = factory(App\Models\User::class)->create();
         $pirep = factory(App\Models\Pirep::class)->make(['id'=>''])->toArray();
+
         $uri = '/api/pireps/prefile';
-        $response = $this->withHeaders($this->apiHeaders())->post($uri, $pirep);
+        $response = $this->withHeaders($this->headers($user))->post($uri, $pirep);
         $pirep_id = $response->json()['id'];
 
         $uri = '/api/pireps/' . $pirep_id . '/acars/position';
         $acars = factory(App\Models\Acars::class)->make()->toArray();
-        $response = $this->withHeaders($this->apiHeaders())->post($uri, [
+        $response = $this->withHeaders($this->headers($user))->post($uri, [
             'positions' => [$acars]
         ]);
 
@@ -204,13 +207,13 @@ class PIREPTest extends TestCase
 
         # Cancel it
         $uri = '/api/pireps/' . $pirep_id . '/cancel';
-        $response = $this->withHeaders($this->apiHeaders())->delete($uri, $acars);
+        $response = $this->withHeaders($this->headers($user))->delete($uri, $acars);
         $response->assertStatus(200);
 
         # Should get a 400 when posting an ACARS update
         $uri = '/api/pireps/' . $pirep_id . '/acars/position';
         $acars = factory(App\Models\Acars::class)->make()->toArray();
-        $response = $this->withHeaders($this->apiHeaders())->post($uri, $acars);
+        $response = $this->withHeaders($this->headers($user))->post($uri, $acars);
         $response->assertStatus(400);
     }
 }

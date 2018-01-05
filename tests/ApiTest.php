@@ -70,13 +70,17 @@ class ApiTest extends TestCase
      */
     public function testAirportRequest()
     {
+        $user = factory(App\Models\User::class)->create();
         $airport = factory(App\Models\Airport::class)->create();
 
-        $response = $this->withHeaders($this->apiHeaders())->get('/api/airports/' . $airport->icao);
+        $response = $this->withHeaders($this->headers($user))
+            ->get('/api/airports/' . $airport->icao);
+
         $response->assertStatus(200);
         $response->assertJson(['icao' => $airport->icao], true);
 
-        $this->withHeaders($this->apiHeaders())->get('/api/airports/UNK')
+        $this->withHeaders($this->headers($user))
+            ->get('/api/airports/UNK')
             ->assertStatus(404);
     }
 }

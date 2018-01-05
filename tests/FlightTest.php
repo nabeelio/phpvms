@@ -61,9 +61,7 @@ class FlightTest extends TestCase
     public function testBids()
     {
         $user = factory(User::class)->create();
-        $headers = [
-            'x-api-key' => $user->api_key,
-        ];
+        $headers = $this->headers($user);
 
         $flight = $this->addFlight();
 
@@ -148,9 +146,7 @@ class FlightTest extends TestCase
     public function testDeleteFlight()
     {
         $user = factory(User::class)->create();
-        $headers = [
-            'x-api-key' => $user->api_key,
-        ];
+        $headers = $this->headers($user);
 
         $flight = $this->addFlight();
 
