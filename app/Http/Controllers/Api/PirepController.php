@@ -290,9 +290,10 @@ class PirepController extends RestController
         Log::info('Posting ACARS log', $request->toArray());
 
         $attrs = $this->getFromReq($request, [
-            'log' => 'required',
-            'lat' => 'nullable',
-            'lon' => 'nullable',
+            'log'        => 'required',
+            'lat'        => 'nullable',
+            'lon'        => 'nullable',
+            'created_at' => 'nullable',
         ], ['pirep_id' => $id, 'type' => AcarsType::LOG]);
 
         $acars = Acars::create($attrs);

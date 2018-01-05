@@ -168,9 +168,6 @@ class PIREPService extends BaseService
             }
         }
 
-        # Save the PIREP route
-        $pirep = $this->saveRoute($pirep);
-
         $pirep->save();
         $pirep->refresh();
 

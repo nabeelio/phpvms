@@ -54,6 +54,7 @@ class PIREPTest extends TestCase
         ]);
 
         $pirep = $this->pirepSvc->create($pirep, []);
+        $this->pirepSvc->saveRoute($pirep);
 
         /**
          * Check the initial state info

@@ -112,6 +112,7 @@ class PirepController extends Controller
         }
 
         $pirep = $this->pirepSvc->create($pirep, $custom_fields);
+        $this->pirepSvc->saveRoute($pirep);
 
         //Flash::success('PIREP submitted successfully!');
         return redirect(route('frontend.pireps.index'));
