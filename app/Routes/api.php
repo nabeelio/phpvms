@@ -12,6 +12,7 @@ Route::group([], function()
     Route::get('airports/{id}/lookup', 'AirportController@lookup');
 
     Route::get('fleet', 'FleetController@index');
+    Route::get('fleet/aircraft/{id}', 'FleetController@get_aircraft');
 
     Route::get('flights/search', 'FlightController@search');
     Route::get('flights/{id}', 'FlightController@get');

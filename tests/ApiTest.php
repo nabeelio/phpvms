@@ -139,4 +139,38 @@ class ApiTest extends TestCase
             $this->assertCount($size, $subfleet['aircraft']);
         }
     }
+
+    /**
+     * Test getting an aircraft
+     */
+    public function testGetAircraft()
+    {
+        $user = factory(App\Models\User::class)->create();
+        $subfleet = factory(App\Models\Subfleet::class)->create();
+        $aircraft = factory(App\Models\Aircraft::class)->create([
+            'subfleet_id' => $subfleet->id
+        ]);
+
+        /**
+         * Just try retrieving by ID
+         */
+        $resp = $this->user_get($user, '/api/fleet/aircraft/'. $aircraft->id);
+        $body = $resp->json();
+        $this->assertEquals($body['id'], $aircraft->id);
+
+        $resp = $this->user_get($user,
+            '/api/fleet/aircraft/'.$aircraft->id.'?registration='.$aircraft->registration);
+        $body = $resp->json();
+        $this->assertEquals($body['id'], $aircraft->id);
+
+        $resp = $this->user_get($user,
+            '/api/fleet/aircraft/' . $aircraft->id . '?tail_number=' . $aircraft->registration);
+        $body = $resp->json();
+        $this->assertEquals($body['id'], $aircraft->id);
+
+        $resp = $this->user_get($user,
+            '/api/fleet/aircraft/' . $aircraft->id . '?icao=' . $aircraft->icao);
+        $body = $resp->json();
+        $this->assertEquals($body['id'], $aircraft->id);
+    }
 }

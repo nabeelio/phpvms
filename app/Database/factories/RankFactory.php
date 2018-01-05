@@ -11,7 +11,7 @@ use Faker\Generator as Faker;
  */
 $factory->define(App\Models\Rank::class, function (Faker $faker) {
     return [
-        'id' => $faker->unique()->numberBetween(10, 10000),
+        #'id' => $faker->unique()->numberBetween(10, 10000),
         'name' => $faker->unique()->text(50),
         'hours' => $faker->numberBetween(10, 50),
         'auto_approve_acars' => 0,

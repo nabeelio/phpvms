@@ -7,7 +7,7 @@ $factory->define(App\Models\User::class, function (Faker $faker)
     static $password;
 
     return [
-        'id' => $faker->unique()->numberBetween(10, 10000),
+        #'id' => $faker->unique()->numberBetween(10, 10000),
         'name' => $faker->name,
         'email' => $faker->safeEmail,
         'password' => $password ?: $password = Hash::make('secret'),
