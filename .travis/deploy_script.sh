@@ -19,9 +19,9 @@ if [ "$TRAVIS" = "true" ]; then
 
     cd $TRAVIS_BUILD_DIR
 
-    echo "Version:"
     php artisan version:show --format compact --suppress-app-name > VERSION
-    cat VERSION
+    VERSION=`cat VERSION`
+    echo "Version: $VERSION"
 
     make clean
 
@@ -51,4 +51,7 @@ if [ "$TRAVIS" = "true" ]; then
 
     echo "running rsync"
     rsync -ahP --delete-after /tmp/$TAR_NAME downloads@phpvms.net:/var/www/downloads/
+
+    curl -X POST --data '{"content": "A new build is available at http://phpvms.net/downloads/$TAR_NAME ($VERSION)"}' -H "Content-Type: application/json"  $DISCORD_WEBHOOK_URL
+
 fi
