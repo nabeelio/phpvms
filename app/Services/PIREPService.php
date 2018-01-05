@@ -113,6 +113,11 @@ class PIREPService extends BaseService
             return $pirep;
         }
 
+        if(!$pirep->dpt_airport) {
+            Log::error('saveRoute: dpt_airport not found: '.$pirep->dpt_airport_id);
+            return $pirep;
+        }
+
         $route = $this->geoSvc->getCoordsFromRoute(
             $pirep->dpt_airport_id,
             $pirep->arr_airport_id,
