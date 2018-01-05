@@ -18,6 +18,13 @@ class AirportController extends BaseController
     /** @var  AirportRepository */
     private $airportRepository;
 
+    public static $enabledStates = [
+        'on',
+        'true',
+        '1',
+        true,
+    ];
+
     public function __construct(AirportRepository $airportRepo)
     {
         $this->airportRepository = $airportRepo;
@@ -66,15 +73,9 @@ class AirportController extends BaseController
     public function store(CreateAirportRequest $request)
     {
         $input = $request->all();
+        $input['hub'] = \in_array($input['hub'], self::$enabledStates);
 
-        if($input['hub'] === 'on' || $input['hub'] === 'true' || $input['hub'] === '1') {
-            $input['hub'] = true;
-        } else {
-            $input['hub'] = false;
-        }
-
-        Log::info('Airport save', $input);
-        $airport = $this->airportRepository->create($input);
+        $this->airportRepository->create($input);
 
         Flash::success('Airport saved successfully.');
         return redirect(route('admin.airports.index'));
@@ -136,15 +137,9 @@ class AirportController extends BaseController
         }
 
         $attrs = $request->all();
-        Log::info('Airport update', $attrs);
+        $attrs['hub'] = \in_array($attrs['hub'], self::$enabledStates);
 
-        if ($attrs['hub'] === 'on' || $attrs['hub'] === 'true' || $attrs['hub'] === '1') {
-            $attrs['hub'] = true;
-        } else {
-            $attrs['hub'] = false;
-        }
-
-        $airport = $this->airportRepository->update($attrs, $id);
+        $this->airportRepository->update($attrs, $id);
 
         Flash::success('Airport updated successfully.');
         return redirect(route('admin.airports.index'));
