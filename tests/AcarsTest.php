@@ -109,10 +109,8 @@ class AcarsTest extends TestCase
 
         $this->assertNotNull($body);
         $this->assertCount(1, $body);
-        $this->assertEquals($acars['lat'], $body[0]['lat']);
-        $this->assertEquals($acars['lon'], $body[0]['lon']);
-
-        //$this->allPointsInRoute([$acars], $body);
+        $this->assertEquals(round($acars['lat'], 2), round($body[0]['lat'], 2));
+        $this->assertEquals(round($acars['lon'], 2), round($body[0]['lon'], 2));
     }
 
     /**
