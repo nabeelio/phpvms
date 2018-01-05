@@ -344,6 +344,8 @@ class PirepController extends RestController
 
         Log::info('Posting ACARS ROUTE', $request->toArray());
 
+        $this->validate($request, ['route' => 'required']);
+
         $this->validate($request, [
             'route.*.name' => 'required',
             'route.*.order' => 'required|int',
@@ -352,7 +354,7 @@ class PirepController extends RestController
             'route.*.lon' => 'required|numeric',
         ]);
 
-        $route = $request->all()['route'];
+        $route = $request->post('route', []);
         foreach($route as $position) {
             $attrs = [
                 'pirep_id' => $id,
