@@ -3,20 +3,14 @@ current:
   major: 7
   minor: 0
   patch: 0
+  git_absorb: git-local
   format: "{$major}.{$minor}.{$patch}"
-cache:
-  enabled: true
-  key: pragmarx-version
-  time: 60 # minutes = 1 year
 build:
-  mode: number # "number", "git-local" or "git-remote"
+  mode: number
   number: 451e9e
   git_absorb: git-local
-  #mode: git-local
-  #length: 6
 git:
-  #git-local: "git rev-parse --verify HEAD"
-  git-local: "git rev-parse --quiet --verify HEAD 2>/dev/null || echo VERSION"
+  git-local: "git rev-parse --verify HEAD"
   git-remote: "git ls-remote {$repository}"
   branch: "refs/heads/master"
   repository: "{{ env('VERSION_GIT_REMOTE_REPOSITORY') }}"
