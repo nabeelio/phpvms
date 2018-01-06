@@ -48,8 +48,8 @@ class AcarsTest extends TestCase
 
     protected function getPirep($pirep_id)
     {
-        $user = factory(App\Models\User::class)->create();
-        $resp = $this->withHeaders($this->headers($user))
+        $this->user = factory(App\Models\User::class)->create();
+        $resp = $this
                 ->get('/api/pireps/' . $pirep_id);
         $resp->assertStatus(200);
         return $resp->json();
@@ -60,7 +60,7 @@ class AcarsTest extends TestCase
      */
     public function testAcarsUpdates()
     {
-        $user = factory(App\Models\User::class)->create();
+        $this->user = factory(App\Models\User::class)->create();
 
         $airport = factory(App\Models\Airport::class)->create();
         $airline = factory(App\Models\Airline::class)->create();
@@ -78,7 +78,7 @@ class AcarsTest extends TestCase
             'route' => 'POINTA POINTB',
         ];
 
-        $response = $this->withHeaders($this->headers($user))->post($uri, $pirep);
+        $response = $this->post($uri, $pirep);
         $response->assertStatus(201);
 
         # Get the PIREP ID
@@ -98,7 +98,7 @@ class AcarsTest extends TestCase
         # Test missing positions field
         # Post an ACARS update
         $update = [];
-        $response = $this->withHeaders($this->headers($user))->post($uri, $update);
+        $response = $this->post($uri, $update);
         $response->assertStatus(400);
 
         # Post an ACARS update
@@ -106,7 +106,7 @@ class AcarsTest extends TestCase
         unset($acars['id']);
 
         $update = ['positions' => [$acars]];
-        $response = $this->withHeaders($this->headers($user))->post($uri, $update);
+        $response = $this->post($uri, $update);
         $response->assertStatus(200)->assertJson(['count' => 1]);
 
         # Make sure PIREP state moved into ENROUTE
@@ -114,7 +114,7 @@ class AcarsTest extends TestCase
         $this->assertEquals(PirepState::IN_PROGRESS, $pirep['state']);
         $this->assertEquals(PirepStatus::ENROUTE, $pirep['status']);
 
-        $response = $this->withHeaders($this->headers($user))->get($uri);
+        $response = $this->get($uri);
         $response->assertStatus(200);
         $body = $response->json();
 
@@ -129,11 +129,11 @@ class AcarsTest extends TestCase
      */
     public function testMultipleAcarsPositionUpdates()
     {
-        $user = factory(App\Models\User::class)->create();
+        $this->user = factory(App\Models\User::class)->create();
         $pirep = factory(App\Models\Pirep::class)->make()->toArray();
 
         $uri = '/api/pireps/prefile';
-        $response = $this->withHeaders($this->headers($user))->post($uri, $pirep);
+        $response = $this->post($uri, $pirep);
         $response->assertStatus(201);
 
         $pirep_id = $response->json()['id'];
@@ -145,10 +145,10 @@ class AcarsTest extends TestCase
         $acars = factory(App\Models\Acars::class, $acars_count)->make(['id'=>''])->toArray();
 
         $update = ['positions' => $acars];
-        $response = $this->withHeaders($this->headers($user))->post($uri, $update);
+        $response = $this->post($uri, $update);
         $response->assertStatus(200)->assertJson(['count' => $acars_count]);
 
-        $response = $this->withHeaders($this->headers($user))->get($uri);
+        $response = $this->get($uri);
         $response->assertStatus(200)->assertJsonCount($acars_count);
     }
 
@@ -157,10 +157,10 @@ class AcarsTest extends TestCase
      */
     public function testNonExistentPirepGet()
     {
-        $user = factory(App\Models\User::class)->create();
+        $this->user = factory(App\Models\User::class)->create();
 
         $uri = '/api/pireps/DOESNTEXIST/acars';
-        $response = $this->withHeaders($this->headers($user))->get($uri);
+        $response = $this->get($uri);
         $response->assertStatus(404);
     }
 
@@ -169,11 +169,11 @@ class AcarsTest extends TestCase
      */
     public function testNonExistentPirepStore()
     {
-        $user = factory(App\Models\User::class)->create();
+        $this->user = factory(App\Models\User::class)->create();
 
         $uri = '/api/pireps/DOESNTEXIST/acars/position';
         $acars = factory(App\Models\Acars::class)->make()->toArray();
-        $response = $this->withHeaders($this->headers($user))->post($uri, $acars);
+        $response = $this->post($uri, $acars);
         $response->assertStatus(404);
     }
 
@@ -182,11 +182,11 @@ class AcarsTest extends TestCase
      */
     public function testAcarsIsoDate()
     {
-        $user = factory(App\Models\User::class)->create();
+        $this->user = factory(App\Models\User::class)->create();
         $pirep = factory(App\Models\Pirep::class)->make()->toArray();
 
         $uri = '/api/pireps/prefile';
-        $response = $this->withHeaders($this->headers($user))->post($uri, $pirep);
+        $response = $this->post($uri, $pirep);
         $pirep_id = $response->json()['id'];
 
         $dt = date('c');
@@ -196,7 +196,7 @@ class AcarsTest extends TestCase
         ])->toArray();
 
         $update = ['positions' => [$acars]];
-        $response = $this->withHeaders($this->headers($user))->post($uri, $update);
+        $response = $this->post($uri, $update);
         $response->assertStatus(200);
     }
 
@@ -205,16 +205,16 @@ class AcarsTest extends TestCase
      */
     public function testAcarsInvalidRoutePost()
     {
-        $user = factory(App\Models\User::class)->create();
+        $this->user = factory(App\Models\User::class)->create();
         $pirep = factory(App\Models\Pirep::class)->make()->toArray();
 
         $uri = '/api/pireps/prefile';
-        $response = $this->withHeaders($this->headers($user))->post($uri, $pirep);
+        $response = $this->post($uri, $pirep);
         $pirep_id = $response->json()['id'];
 
         $post_route = ['order' => 1, 'name' => 'NAVPOINT'];
         $uri = '/api/pireps/' . $pirep_id . '/route';
-        $response = $this->withHeaders($this->headers($user))->post($uri, $post_route);
+        $response = $this->post($uri, $post_route);
         $response->assertStatus(400);
 
         $post_route = [
@@ -222,17 +222,17 @@ class AcarsTest extends TestCase
         ];
 
         $uri = '/api/pireps/' . $pirep_id . '/route';
-        $response = $this->withHeaders($this->headers($user))->post($uri, $post_route);
+        $response = $this->post($uri, $post_route);
         $response->assertStatus(400);
     }
 
     public function testAcarsLogPost()
     {
-        $user = factory(App\Models\User::class)->create();
+        $this->user = factory(App\Models\User::class)->create();
         $pirep = factory(App\Models\Pirep::class)->make()->toArray();
 
         $uri = '/api/pireps/prefile';
-        $response = $this->withHeaders($this->headers($user))->post($uri, $pirep);
+        $response = $this->post($uri, $pirep);
         $pirep_id = $response->json()['id'];
 
         $acars = factory(App\Models\Acars::class)->make();
@@ -243,7 +243,7 @@ class AcarsTest extends TestCase
         ];
 
         $uri = '/api/pireps/' . $pirep_id . '/acars/log';
-        $response = $this->withHeaders($this->headers($user))->post($uri, $post_log);
+        $response = $this->post($uri, $post_log);
         $response->assertStatus(200);
         $body = $response->json();
 
@@ -255,11 +255,11 @@ class AcarsTest extends TestCase
      */
     public function testAcarsRoutePost()
     {
-        $user = factory(App\Models\User::class)->create();
+        $this->user = factory(App\Models\User::class)->create();
         $pirep = factory(App\Models\Pirep::class)->make()->toArray();
 
         $uri = '/api/pireps/prefile';
-        $response = $this->withHeaders($this->headers($user))->post($uri, $pirep);
+        $response = $this->post($uri, $pirep);
         $pirep_id = $response->json()['id'];
 
         $order = 1;
@@ -279,7 +279,7 @@ class AcarsTest extends TestCase
         }
 
         $uri = '/api/pireps/'.$pirep_id.'/route';
-        $response = $this->withHeaders($this->headers($user))->post($uri, ['route' => $post_route]);
+        $response = $this->post($uri, ['route' => $post_route]);
         $response->assertStatus(200)->assertJsonCount($route_count);
 
         $body = $response->json();
@@ -290,7 +290,7 @@ class AcarsTest extends TestCase
          */
 
         $uri = '/api/pireps/' . $pirep_id . '/route';
-        $response = $this->withHeaders($this->headers($user))->get($uri);
+        $response = $this->get($uri);
         $response->assertStatus(200)->assertJsonCount($route_count);
         $body = $response->json();
         $this->allPointsInRoute($post_route, $body);
@@ -299,11 +299,11 @@ class AcarsTest extends TestCase
          * Delete and then recheck
          */
         $uri = '/api/pireps/' . $pirep_id . '/route';
-        $response = $this->withHeaders($this->headers($user))->delete($uri);
+        $response = $this->delete($uri);
         $response->assertStatus(200);
 
         $uri = '/api/pireps/' . $pirep_id . '/route';
-        $response = $this->withHeaders($this->headers($user))->get($uri);
+        $response = $this->get($uri);
         $response->assertStatus(200)->assertJsonCount(0);
     }
 
@@ -312,21 +312,21 @@ class AcarsTest extends TestCase
      */
     public function testDuplicatePirep()
     {
-        $user = factory(App\Models\User::class)->create();
+        $this->user = factory(App\Models\User::class)->create();
 
         $uri = '/api/pireps/prefile';
-        $user = factory(App\Models\User::class)->create();
+        $this->user = factory(App\Models\User::class)->create();
         $pirep = factory(App\Models\Pirep::class)->make([
             'id' => '',
-            'airline_id' => $user->airline_id,
-            'user_id' => $user->id,
+            'airline_id' => $this->user->airline_id,
+            'user_id' => $this->user->id,
         ])->toArray();
 
-        $response = $this->withHeaders($this->headers($user))->post($uri, $pirep);
+        $response = $this->post($uri, $pirep);
         $response->assertStatus(201);
         $pirep = $response->json();
 
-        $response = $this->withHeaders($this->headers($user))->post($uri, $pirep);
+        $response = $this->post($uri, $pirep);
         $response->assertStatus(200);
         $body = $response->json();
     }

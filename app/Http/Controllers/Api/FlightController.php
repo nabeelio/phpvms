@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
+use Prettus\Repository\Criteria\RequestCriteria;
 
 use App\Repositories\FlightRepository;
 use App\Http\Resources\Flight as FlightResource;
@@ -31,7 +32,9 @@ class FlightController extends RestController
     public function search(Request $request)
     {
         try {
-            $flights = $this->flightRepo->searchCriteria($request)->paginate();
+            $this->flightRepo->searchCriteria($request);
+            $this->flightRepo->pushCriteria(new RequestCriteria($request));
+            $flights = $this->flightRepo->paginate();
         } catch (RepositoryException $e) {
             return response($e, 503);
         }

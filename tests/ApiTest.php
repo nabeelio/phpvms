@@ -56,13 +56,12 @@ class ApiTest extends TestCase
      */
     public function testApiDeniedOnInactiveUser()
     {
-        $user = factory(User::class)->create([
+        $this->user = factory(User::class)->create([
             'state' => UserState::PENDING
         ]);
 
         $uri = '/api/user';
-        $this->withHeaders(['x-api-key' => $user->api_key])->get($uri)
-            ->assertStatus(401);
+        $this->get($uri)->assertStatus(401);
     }
 
     /**
@@ -70,18 +69,15 @@ class ApiTest extends TestCase
      */
     public function testAirportRequest()
     {
-        $user = factory(App\Models\User::class)->create();
+        $this->user = factory(App\Models\User::class)->create();
         $airport = factory(App\Models\Airport::class)->create();
 
-        $response = $this->withHeaders($this->headers($user))
-            ->get('/api/airports/' . $airport->icao);
+        $response = $this->get('/api/airports/' . $airport->icao);
 
         $response->assertStatus(200);
         $response->assertJson(['icao' => $airport->icao], true);
 
-        $this->withHeaders($this->headers($user))
-            ->get('/api/airports/UNK')
-            ->assertStatus(404);
+        $this->get('/api/airports/UNK')->assertStatus(404);
     }
 
     /**
@@ -89,10 +85,9 @@ class ApiTest extends TestCase
      */
     public function testGetAllAirports()
     {
-        $user = factory(App\Models\User::class)->create();
         factory(App\Models\Airport::class, 70)->create();
 
-        $response = $this->user_get($user, '/api/airports/')
+        $response = $this->get('/api/airports/')
                          ->assertStatus(200)
                          ->assertJsonCount(50, 'data');
 
@@ -101,19 +96,17 @@ class ApiTest extends TestCase
         $this->assertHasKeys($body, ['data', 'links', 'meta']);
 
         $last_page = $body['meta']['last_page'];
-        $this->user_get($user, '/api/airports?page='.$last_page)
+        $this->get('/api/airports?page=' . $last_page)
              ->assertStatus(200)
              ->assertJsonCount(20, 'data');
     }
 
     public function testGetAllAirportsHubs()
     {
-        $user = factory(App\Models\User::class)->create();
-
         factory(App\Models\Airport::class, 10)->create();
         factory(App\Models\Airport::class)->create(['hub' => 1]);
 
-        $this->user_get($user, '/api/airports/hubs')
+        $this->get('/api/airports/hubs')
              ->assertStatus(200)
              ->assertJsonCount(1, 'data');
     }
@@ -123,7 +116,6 @@ class ApiTest extends TestCase
      */
     public function testGetSubfleets()
     {
-        $user = factory(App\Models\User::class)->create();
         $subfleetA = factory(App\Models\Subfleet::class)->create();
         $subfleetB = factory(App\Models\Subfleet::class)->create();
 
@@ -137,7 +129,7 @@ class ApiTest extends TestCase
             'subfleet_id' => $subfleetB->id
         ]);
 
-        $response = $this->user_get($user, '/api/fleet');
+        $response = $this->get('/api/fleet');
         $response->assertStatus(200);
         $body = $response->json();
 
@@ -157,7 +149,6 @@ class ApiTest extends TestCase
      */
     public function testGetAircraft()
     {
-        $user = factory(App\Models\User::class)->create();
         $subfleet = factory(App\Models\Subfleet::class)->create();
         $aircraft = factory(App\Models\Aircraft::class)->create([
             'subfleet_id' => $subfleet->id
@@ -166,22 +157,19 @@ class ApiTest extends TestCase
         /**
          * Just try retrieving by ID
          */
-        $resp = $this->user_get($user, '/api/fleet/aircraft/'. $aircraft->id);
+        $resp = $this->get('/api/fleet/aircraft/' . $aircraft->id);
         $body = $resp->json();
         $this->assertEquals($body['id'], $aircraft->id);
 
-        $resp = $this->user_get($user,
-            '/api/fleet/aircraft/'.$aircraft->id.'?registration='.$aircraft->registration);
+        $resp = $this->get('/api/fleet/aircraft/' . $aircraft->id . '?registration=' . $aircraft->registration);
         $body = $resp->json();
         $this->assertEquals($body['id'], $aircraft->id);
 
-        $resp = $this->user_get($user,
-            '/api/fleet/aircraft/' . $aircraft->id . '?tail_number=' . $aircraft->registration);
+        $resp = $this->get('/api/fleet/aircraft/' . $aircraft->id . '?tail_number=' . $aircraft->registration);
         $body = $resp->json();
         $this->assertEquals($body['id'], $aircraft->id);
 
-        $resp = $this->user_get($user,
-            '/api/fleet/aircraft/' . $aircraft->id . '?icao=' . $aircraft->icao);
+        $resp = $this->get('/api/fleet/aircraft/' . $aircraft->id . '?icao=' . $aircraft->icao);
         $body = $resp->json();
         $this->assertEquals($body['id'], $aircraft->id);
     }

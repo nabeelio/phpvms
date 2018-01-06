@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 
@@ -18,6 +19,8 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
     protected $baseUrl = 'http://localhost';
     protected $connectionsToTransact = ['testing'];
 
+    protected $user;
+
     protected static $auth_headers = [
         'x-api-key' => 'testadminapikey'
     ];
@@ -30,8 +33,6 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
     public function headers($user)
     {
         return [
-            #'accept' => 'application/json',
-            #'content-type' => 'application/json',
             'x-api-key' => $user->api_key,
         ];
     }
@@ -59,7 +60,6 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
     {
         $app = require __DIR__.'/../bootstrap/app.php';
         $app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
-        //$app['config']->set('database.default','testing');
         return $app;
     }
 
@@ -97,13 +97,55 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
     }
 
     /**
-     * Shortcut for a get call with a user
-     * @param \App\Models\User $user
+     * Override the GET call to inject the user API key
      * @param string $uri
+     * @param array $headers
      * @return \Illuminate\Foundation\Testing\TestResponse
      */
-    public function user_get($user, $uri)
+    public function get($uri, array $headers=[]): \Illuminate\Foundation\Testing\TestResponse
     {
-        return $this->withHeaders($this->headers($user))->get($uri);
+        if(empty($headers)) {
+            if($this->user !== null) {
+                $headers = $this->headers($this->user);
+            }
+        }
+
+        return parent::get($uri, $headers);
+    }
+
+    /**
+     * Override the POST calls to inject the user API key
+     * @param string $uri
+     * @param array $data
+     * @param array $headers
+     * @return \Illuminate\Foundation\Testing\TestResponse
+     */
+    public function post($uri, array $data = [], array $headers = [])
+    {
+        if (empty($headers)) {
+            if ($this->user !== null) {
+                $headers = $this->headers($this->user);
+            }
+        }
+
+        return parent::post($uri, $data, $headers);
+    }
+
+    /**
+     * Override the DELETE calls to inject the user API key
+     * @param string $uri
+     * @param array $data
+     * @param array $headers
+     * @return \Illuminate\Foundation\Testing\TestResponse
+     */
+    public function delete($uri, array $data = [], array $headers = [])
+    {
+        if (empty($headers)) {
+            if ($this->user !== null) {
+                $headers = $this->headers($this->user);
+            }
+        }
+
+        return parent::delete($uri, $data, $headers);
     }
 }

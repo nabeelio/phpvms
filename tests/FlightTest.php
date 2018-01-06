@@ -29,7 +29,7 @@ class FlightTest extends TestCase
     {
         $flight = $this->addFlight();
 
-        $req = $this->get('/api/flights/'.$flight->id, self::$auth_headers);
+        $req = $this->get('/api/flights/' . $flight->id);
         $req->assertStatus(200);
 
         $body = $req->json();
@@ -50,8 +50,20 @@ class FlightTest extends TestCase
 
         # search specifically for a flight ID
         $query = 'flight_id=' . $flight->id;
-        $req = $this->get('/api/flights/search?' . $query, self::$auth_headers);
+        $req = $this->get('/api/flights/search?' . $query);
         $req->assertStatus(200);
+    }
+
+    public function testFlightSearchApi()
+    {
+        $flights = factory(App\Models\Flight::class, 100)->create();
+        $flight = $flights->random();
+
+        $query = 'flight_id=' . $flight->id;
+        $req = $this->get('/api/flights/search?' . $query);
+        $body = $req->json();
+
+        $this->assertEquals($flight->id, $body['data'][0]['id']);
     }
 
     /**
