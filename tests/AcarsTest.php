@@ -28,18 +28,16 @@ class AcarsTest extends TestCase
         $fields = array_merge([
             'name',
             'order',
-            #'lat',
-            #'lon'
+            'lat',
+            'lon'
         ], $addtl_fields);
 
         $this->assertEquals(\count($route), \count($points));
         foreach($route as $idx => $point) {
-            //$this->assertHasKeys($points[$idx], $fields);
+            $this->assertHasKeys($points[$idx], $fields);
             foreach($fields as $f) {
                 if($f === 'lat' || $f === 'lon') {
                     continue;
-                    #$point[$f] = round($point[$f], 1);
-                    #$points[$idx][$f] = round($points[$idx][$f], 1);
                 }
 
                 $this->assertEquals($point[$f], $points[$idx][$f]);
