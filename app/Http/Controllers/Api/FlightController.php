@@ -18,6 +18,18 @@ class FlightController extends RestController
         $this->flightRepo = $flightRepo;
     }
 
+    /**
+     * Return all the flights, paginated
+     */
+    public function index(Request $request)
+    {
+        $flights = $this->flightRepo
+                        ->orderBy('flight_number', 'asc')
+                        ->paginate(50);
+
+        return FlightResource::collection($flights);
+    }
+
     public function get($id)
     {
         $flight = $this->flightRepo->find($id);

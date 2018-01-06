@@ -54,12 +54,27 @@ class FlightTest extends TestCase
         $req->assertStatus(200);
     }
 
+    /**
+     * Find all of the flights
+     */
+    public function testFindAllFlights()
+    {
+        factory(App\Models\Flight::class, 120)->create();
+        $res = $this->get('/api/flights');
+
+        $body = $res->json();
+        $this->assertEquals(3, $body['meta']['last_page']);
+
+        $res = $this->get('/api/flights?page=3');
+        $res->assertJsonCount(20, 'data');
+    }
+
     public function testFlightSearchApi()
     {
         $flights = factory(App\Models\Flight::class, 100)->create();
         $flight = $flights->random();
 
-        $query = 'dep_icao=' . $flight->dep_icao;
+        $query = 'flight_number=' . $flight->flight_number;
         $req = $this->get('/api/flights/search?' . $query);
         $body = $req->json();
 
