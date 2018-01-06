@@ -19,7 +19,8 @@ if [ "$TRAVIS" = "true" ]; then
 
     cd $TRAVIS_BUILD_DIR
 
-    php artisan version:show --format compact --suppress-app-name > VERSION
+    #php artisan version:show --format compact --suppress-app-name > VERSION
+    php artisan phpvms:version --write > VERSION
     VERSION=`cat VERSION`
     echo "Version: $VERSION"
 

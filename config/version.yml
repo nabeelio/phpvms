@@ -1,29 +1,28 @@
-version_source: config # "config", "git-local" or "git-remote"
+version_source: config
 current:
   major: 7
   minor: 0
   patch: 0
   git_absorb: git-local
-  format: "{$major}.{$minor}.{$patch}"
+  format: '{$major}.{$minor}.{$patch}'
 build:
   mode: number
-  number: 451e9e
+  number: 18cb95
   git_absorb: git-local
 git:
-  git-local: "git rev-parse --verify HEAD"
-  git-remote: "git ls-remote {$repository}"
-  branch: "refs/heads/master"
-  repository: "{{ env('VERSION_GIT_REMOTE_REPOSITORY') }}"
+  git-local: 'git rev-parse --verify HEAD'
+  git-remote: 'git ls-remote {$repository}'
+  branch: refs/heads/master
+  repository: '{{ env(''VERSION_GIT_REMOTE_REPOSITORY'') }}'
   version:
-    git-local: "git describe"
-    git-remote: "git ls-remote {$repository} | grep tags/ | grep -v {} | cut -d \/ -f 3 | sort --version-sort | tail -1"
-    matcher: "/[V|v]*[ersion]*\\s*\\.*(\\d+)\\.(\\d+)\\.(\\d+)\\.*(\\w*)/"
+    git-local: 'git describe'
+    git-remote: 'git ls-remote {$repository} | grep tags/ | grep -v {} | cut -d / -f 3 | sort --version-sort | tail -1'
+    matcher: '/[V|v]*[ersion]*\s*\.*(\d+)\.(\d+)\.(\d+)\.*(\w*)/'
 format:
-  major: "{$major}"
-  minor: "{$minor}"
-  patch: "{$patch}"
-  build: "{$build}"
-  version: "{$major}.{$minor}.{$patch} (build {$build})"
-  full: "version {{'format.version'}}"
-  compact: "v{$major}.{$minor}.{$patch}-{$build}"
-  ## add as many formats as you need !!!!
+  major: '{$major}'
+  minor: '{$minor}'
+  patch: '{$patch}'
+  build: '{$build}'
+  version: '{$major}.{$minor}.{$patch} (build {$build})'
+  full: 'version {{''format.version''}}'
+  compact: 'v{$major}.{$minor}.{$patch}-{$build}'

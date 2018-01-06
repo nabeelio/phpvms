@@ -31,21 +31,35 @@ class BaseCommand extends Command
 
     /**
      * @param $cmd
+     * @param bool $return
+     * @return string
      */
-    public function runCommand($cmd)
+    public function runCommand($cmd, $return=false, $verbose=true)
     {
-        if (is_array($cmd))
+        if (\is_array($cmd)) {
             $cmd = join(' ', $cmd);
+        }
 
-        $this->info('Running "' . $cmd . '"');
+        if($verbose) {
+            $this->info('Running "' . $cmd . '"');
+        }
 
+        $val = '';
         $process = new Process($cmd);
-        $process->run(function ($type, $buffer) {
-            if (Process::ERR === $type) {
-                echo $buffer;
+        $process->run(function ($type, $buffer) use ($return, $val) {
+            if ($return) {
+                $val .= $buffer;
             } else {
                 echo $buffer;
             }
+
+            /*if (Process::ERR === $type) {
+                echo $buffer;
+            } else {
+                echo $buffer;
+            }*/
         });
+
+        return $val;
     }
 }
