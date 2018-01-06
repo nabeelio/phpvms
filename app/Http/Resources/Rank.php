@@ -16,11 +16,7 @@ class Rank extends Resource
     {
         return [
             'name' => $this->name,
-            #'auto_approve_acars' => $this->auto_approve_acars,
-            #'auto_approve_manual' => $this->auto_approve_manual,
-            #'auto_promote' => $this->auto_promote,
-            #'created_at' => $this->created_at,
-            #'updated_at' => $this->updated_at,
+            'subfleets' => Subfleet::collection($this->subfleets),
         ];
     }
 }
