@@ -15,6 +15,8 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
      *
      * @var string
      */
+    public static $prefix = '/api';
+
     protected $app;
     protected $baseUrl = 'http://localhost';
     protected $connectionsToTransact = ['testing'];
@@ -35,6 +37,15 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
         return [
             'x-api-key' => $user->api_key,
         ];
+    }
+
+    /**
+     * Return the URL with the URI prefix
+     * @param $uri
+     * @return string
+     */
+    public function u($uri) {
+        return self::$prefix . $uri;
     }
 
     public function __construct($name = null, array $data = [], $dataName = '') {

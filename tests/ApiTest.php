@@ -20,9 +20,8 @@ class ApiTest extends TestCase
     public function testApiAuthentication()
     {
         $user = factory(User::class)->create();
-        $pirep = factory(App\Models\Pirep::class)->create();
 
-        $uri = '/api/pireps/' . $pirep->id;
+        $uri = $this->u('/user');
 
         // Missing auth header
         $this->get($uri)->assertStatus(401);
@@ -35,20 +34,17 @@ class ApiTest extends TestCase
             ->assertStatus(401);
 
         // Test upper/lower case of Authorization header, etc
-        $response = $this->withHeaders($this->apiHeaders())->get($uri);
-        $response->assertStatus(200)->assertJson(['id' => $pirep->id], true);
+        $response = $this->get($uri, $this->headers($user));
+        $response->assertStatus(200)->assertJson(['id' => $user->id], true);
 
         $this->withHeaders(['x-api-key' => $user->api_key])->get($uri)
-            ->assertStatus(200)
-            ->assertJson(['id' => $pirep->id], true);
+            ->assertJson(['id' => $user->id], true);
 
         $this->withHeaders(['x-API-key' => $user->api_key])->get($uri)
-            ->assertStatus(200)
-            ->assertJson(['id' => $pirep->id], true);
+            ->assertJson(['id' => $user->id], true);
 
         $this->withHeaders(['X-API-KEY' => $user->api_key])->get($uri)
-            ->assertStatus(200)
-            ->assertJson(['id' => $pirep->id], true);
+            ->assertJson(['id' => $user->id], true);
     }
 
     /**
@@ -62,6 +58,27 @@ class ApiTest extends TestCase
 
         $uri = '/api/user';
         $this->get($uri)->assertStatus(401);
+    }
+
+    /**
+     *
+     */
+    public function testGetAirlines()
+    {
+        $size = \random_int(5, 10);
+        $this->user = factory(App\Models\User::class)->create([
+            'airline_id' => 0
+        ]);
+
+        $airlines = factory(App\Models\Airline::class, $size)->create();
+
+        $res = $this->get($this->u('/airlines'));
+        $body = $res->json();
+
+        $this->assertCount($size, $body['data']);
+
+        $airline = $airlines->random();
+        $this->get('/api/airlines/'.$airline->id)->assertJson(['name' => $airline->name]);
     }
 
     /**

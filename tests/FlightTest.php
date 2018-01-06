@@ -59,7 +59,7 @@ class FlightTest extends TestCase
         $flights = factory(App\Models\Flight::class, 100)->create();
         $flight = $flights->random();
 
-        $query = 'flight_id=' . $flight->id;
+        $query = 'dep_icao=' . $flight->dep_icao;
         $req = $this->get('/api/flights/search?' . $query);
         $body = $req->json();
 

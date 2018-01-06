@@ -7,6 +7,9 @@ Route::group([], function()
 {
     Route::get('acars', 'AcarsController@index');
 
+    Route::get('airlines', 'AirlineController@index');
+    Route::get('airlines/{id}', 'AirlineController@get');
+
     Route::get('airports', 'AirportController@index');
     Route::get('airports/hubs', 'AirportController@index_hubs');
     Route::get('airports/{id}', 'AirportController@get');
@@ -18,11 +21,13 @@ Route::group([], function()
     Route::get('flights/search', 'FlightController@search');
     Route::get('flights/{id}', 'FlightController@get');
 
+    Route::get('pireps/{id}', 'PirepController@get');
     Route::get('pireps/{id}/route', 'PirepController@route_get');
     Route::get('pireps/{id}/acars/position', 'PirepController@acars_get');
     Route::get('pireps/{id}/acars/geojson', 'PirepController@acars_geojson');
 
     Route::get('status', 'StatusController@status');
+    Route::get('version', 'StatusController@status');
 });
 
 /**
@@ -30,13 +35,10 @@ Route::group([], function()
  */
 Route::group(['middleware' => ['api.auth']], function ()
 {
-    Route::get('pireps/{id}', 'PirepController@get');
-
     Route::post('pireps/prefile', 'PirepController@prefile');
     Route::post('pireps/{id}/file', 'PirepController@file');
     Route::delete('pireps/{id}/cancel', 'PirepController@cancel');
 
-    Route::get('pireps/{id}/acars/geojson', 'PirepController@acars_geojson');
     Route::post('pireps/{id}/acars/position', 'PirepController@acars_store');
     Route::post('pireps/{id}/acars/positions', 'PirepController@acars_store');
 
