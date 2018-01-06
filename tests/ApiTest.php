@@ -190,4 +190,11 @@ class ApiTest extends TestCase
         $body = $resp->json();
         $this->assertEquals($body['id'], $aircraft->id);
     }
+
+    public function testGetAllSettings()
+    {
+        $this->user = factory(App\Models\User::class)->create();
+        $res = $this->get('/api/settings')->assertStatus(200);
+        $settings = $res->json();
+    }
 }

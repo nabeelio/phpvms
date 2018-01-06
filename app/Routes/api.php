@@ -49,8 +49,11 @@ Route::group(['middleware' => ['api.auth']], function ()
     Route::post('pireps/{id}/route', 'PirepController@route_post');
     Route::delete('pireps/{id}/route', 'PirepController@route_delete');
 
+    Route::get('settings', 'SettingsController@index');
+
     # This is the info of the user whose token is in use
     Route::get('user', 'UserController@index');
+
     Route::get('users/{id}', 'UserController@get');
     Route::get('users/{id}/bids', 'UserController@bids');
 });

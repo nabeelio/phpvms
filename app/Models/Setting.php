@@ -44,4 +44,18 @@ class Setting extends BaseModel
             }
         });
     }
+
+    /**
+     * Override the casting mechanism
+     * @param string $key
+     * @return mixed|string
+     */
+    /*protected function getCastType($key)
+    {
+        if ($key === 'value' && !empty($this->type)) {
+            return $this->type;
+        } else {
+            return parent::getCastType($key);
+        }
+    }*/
 }
