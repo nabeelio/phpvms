@@ -3,10 +3,12 @@
         <h3>fares</h3>
         <p class="category">
             <i class="icon fa fa-info">&nbsp;&nbsp;</i>
-            Fares assigned to the current flight. These can be overridden,
-            otherwise, the values used come from the subfleet of the aircraft
-            that the flight is filed with. Only assign the fares you want to
-            override.
+            Fares assigned to the current flight. These can be overridden, otherwise,
+            the values used come from the subfleet of the aircraft that the flight is
+            filed with. Only assign the fares you want to override. They can be set as
+            a monetary amount, or a percentage.
+            <a href="https://github.com/nabeelio/phpvms/wiki/finances#flight-fares"
+            target="_blank">Read this wiki page for more details and information.</a>
         </p>
     </div>
 
