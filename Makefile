@@ -3,7 +3,7 @@
 # Create the phpvms database if needed:
 # docker exec phpvms /usr/bin/mysql -uroot -e 'CREATE DATABASE phpvms'
 SHELL := /bin/bash
-COMPOSER ?= composer
+COMPOSER ?= $(shell which composer)
 
 PKG_NAME := "/tmp"
 CURR_PATH=$(shell pwd)
