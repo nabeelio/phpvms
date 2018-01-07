@@ -246,13 +246,12 @@ class FlightController extends BaseController
     }
 
     /**
+     * @param $id
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
      */
-    public function subfleets(Request $request)
+    public function subfleets($id, Request $request)
     {
-        $id = $request->id;
-
         $flight = $this->flightRepo->findWithoutFail($id);
         if (empty($flight)) {
             Flash::error('Flight not found');
