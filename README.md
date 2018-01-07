@@ -25,6 +25,13 @@ php artisan migrate:refresh --seed
 
 then point your webserver to the `/public` folder.
 
+By default, the Makefile calls the system-wide `composer`. If your host requires a 
+certain path or name for composer, add `COMPOSER=` to the front of the `make` command, e.g:
+
+```bash
+COMPOSER=composer.phar make install
+```
+
 ## development environment
 
 For development, copy the included `env.php.example` to `env.php` file. By default, it uses sqlite

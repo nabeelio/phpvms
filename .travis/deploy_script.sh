@@ -31,7 +31,7 @@ if [ "$TRAVIS" = "true" ]; then
 
     # clear any app specific stuff that might have been loaded in
     find storage/app/public -mindepth 1 -not -name '.gitignore' -print0 -exec rm -rf {} +
-	find storage/app -mindepth 1 -not -name '.gitignore' -not -name public -print0 -exec rm -rf {} +
+    find storage/app -mindepth 1 -not -name '.gitignore' -not -name public -print0 -exec rm -rf {} +
 
     # Remove any development files
     rm -rf .sass-cache
@@ -41,6 +41,7 @@ if [ "$TRAVIS" = "true" ]; then
     # remove large sized files
     rm -rf .git
     rm -rf node_modules
+    rm -rf composer.phar
 
     # delete files in vendor that are rather large
     rm -rf vendor/willdurand/geocoder/tests

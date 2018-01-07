@@ -3,6 +3,7 @@
 # Create the phpvms database if needed:
 # docker exec phpvms /usr/bin/mysql -uroot -e 'CREATE DATABASE phpvms'
 SHELL := /bin/bash
+COMPOSER ?= composer
 
 PKG_NAME := "/tmp"
 CURR_PATH=$(shell pwd)
@@ -30,7 +31,7 @@ clean-routes:
 
 .PHONY:  build
 build:
-	@php composer.phar install --no-interaction
+	@php $(COMPOSER) install --no-interaction
 
 # This is to build all the stylesheets, etc
 .PHONY: build-assets
@@ -46,14 +47,14 @@ install: build
 
 .PHONY: update
 update: build
-	@php composer.phar dump-autoload
-	@php composer.phar update --no-interaction
+	@php $(COMPOSER) dump-autoload
+	@php $(COMPOSER) update --no-interaction
 	@php artisan migrate --force
 	@echo "Done!"
 
 .PHONY: reset
 reset: clean
-	@php composer.phar dump-autoload
+	@php $(COMPOSER) dump-autoload
 	@make reload-db
 
 .PHONY: reload-db
