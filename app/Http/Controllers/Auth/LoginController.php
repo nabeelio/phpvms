@@ -34,6 +34,9 @@ class LoginController extends Controller
     {
         $user = Auth::user();
 
+        $user->last_ip = $request->ip();
+        $user->save();
+
         // TODO: How to handle ON_LEAVE?
         if($user->state !== UserState::ACTIVE) {
 

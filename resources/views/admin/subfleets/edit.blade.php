@@ -2,7 +2,6 @@
 
 @section('title', "Edit $subfleet->name")
 @section('content')
-    @include('admin.flash.message')
    <div class="card border-blue-bottom">
        <div class="content">
            {!! Form::model($subfleet, ['route' => ['admin.subfleets.update', $subfleet->id], 'method' => 'patch']) !!}

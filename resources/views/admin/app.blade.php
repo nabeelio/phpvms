@@ -63,7 +63,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-12">
-                        @include('flash::message')
+                        @include('admin.flash.message')
                         @yield('content')
                     </div>
                 </div>

@@ -9,13 +9,13 @@
     <tbody>
     @foreach($users as $user)
         <tr>
-            <td><a href="{!! route('admin.users.show', [$user->id]) !!}">{!! $user->name !!}</a></td>
+            <td><a href="{!! route('admin.users.edit', [$user->id]) !!}">{!! $user->name !!}</a></td>
             <td>{!! $user->email !!}</td>
             <td>{!! show_date($user->created_at) !!}</td>
             <td class="text-center">
-                @if($user->state == UserState::ACTIVE)
+                @if($user->state === UserState::ACTIVE)
                     <span class="label label-success">
-                @elseif($user->state == UserState::PENDING)
+                @elseif($user->state === UserState::PENDING)
                     <span class="label label-warning">
                 @else
                     <span class="label label-default">

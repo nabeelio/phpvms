@@ -7,7 +7,6 @@
 @section('content')
     <div class="card border-blue-bottom">
         <div class="content">
-            @include('admin.flash.message')
             @include('admin.pirepfields.table')
         </div>
     </div>

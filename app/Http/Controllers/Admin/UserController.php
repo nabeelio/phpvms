@@ -2,16 +2,22 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Facades\Utils;
+use App\Models\User;
 use DB;
 use Hash;
+use Illuminate\Support\Facades\Auth;
 use Log;
 use Flash;
+use Prettus\Repository\Exceptions\RepositoryException;
 use Response;
 use Jackiedo\Timezonelist\Facades\Timezonelist;
 use Illuminate\Http\Request;
 
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+
+use App\Repositories\PirepRepository;
 use App\Repositories\UserRepository;
 use App\Services\UserService;
 
@@ -22,8 +28,8 @@ use App\Models\Role;
 
 class UserController extends BaseController
 {
-    /** @var  UserRepository */
-    private $userRepo,
+    private $pirepRepo,
+            $userRepo,
             $userSvc;
 
     /**
@@ -32,18 +38,23 @@ class UserController extends BaseController
      * @param UserRepository $userRepo
      */
     public function __construct(
+        PirepRepository $pirepRepo,
         UserRepository $userRepo,
         UserService $userSvc
     ) {
+        $this->pirepRepo = $pirepRepo;
         $this->userSvc = $userSvc;
         $this->userRepo = $userRepo;
     }
 
     public function index(Request $request)
     {
-        $users = $this->userRepo->searchCriteria($request, false)
-                      ->orderBy('created_at', 'desc')
-                      ->paginate();
+        try {
+            $users = $this->userRepo->searchCriteria($request, false)
+                ->orderBy('created_at', 'desc')
+                ->paginate();
+        } catch (RepositoryException $e) {
+        }
 
         return view('admin.users.index', [
             'users' => $users,
@@ -52,7 +63,6 @@ class UserController extends BaseController
 
     /**
      * Show the form for creating a new User.
-     *
      * @return Response
      */
     public function create()
@@ -64,10 +74,9 @@ class UserController extends BaseController
 
     /**
      * Store a newly created User in storage.
-     *
      * @param CreateUserRequest $request
-     *
      * @return Response
+     * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
     public function store(CreateUserRequest $request)
     {
@@ -80,9 +89,7 @@ class UserController extends BaseController
 
     /**
      * Display the specified User.
-     *
      * @param  int $id
-     *
      * @return Response
      */
     public function show($id)
@@ -94,8 +101,13 @@ class UserController extends BaseController
             return redirect(route('admin.users.index'));
         }
 
+        $pireps = $this->pirepRepo
+            ->whereOrder(['user_id' => $id], 'created_at', 'desc')
+            ->paginate();
+
         return view('admin.users.show', [
             'user' => $user,
+            'pireps' => $pireps,
             'airlines' => Airline::all(),
             'timezones' => Timezonelist::toArray(),
             'airports' => Airport::all()->pluck('icao', 'id'),
@@ -120,8 +132,13 @@ class UserController extends BaseController
             return redirect(route('admin.users.index'));
         }
 
+        $pireps = $this->pirepRepo
+            ->whereOrder(['user_id' => $id], 'created_at', 'desc')
+            ->paginate();
+
         return view('admin.users.edit', [
             'user' => $user,
+            'pireps' => $pireps,
             'timezones' => Timezonelist::toArray(),
             'airports' => Airport::all()->pluck('icao', 'id'),
             'airlines' => Airline::all()->pluck('name', 'id'),
@@ -192,5 +209,20 @@ class UserController extends BaseController
 
         Flash::success('User deleted successfully.');
         return redirect(route('admin.users.index'));
+    }
+
+    /**
+     * Regenerate the user's API key
+     */
+    public function regen_apikey($id, Request $request)
+    {
+        $user = User::find($id);
+        Log::info('Regenerating API key "' . $user->pilot_id . '"');
+
+        $user->api_key = Utils::generateApiKey();
+        $user->save();
+
+        flash('New API key generated!')->success();
+        return redirect(route('admin.users.edit', ['id' => $id]));
     }
 }

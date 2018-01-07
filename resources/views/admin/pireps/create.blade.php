@@ -7,7 +7,6 @@
         </h1>
     </section>
     <div class="content">
-        @include('admin.flash.message')
         <div class="box box-primary">
 
             <div class="box-body">

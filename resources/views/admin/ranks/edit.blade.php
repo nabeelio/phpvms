@@ -3,7 +3,6 @@
 @section('content')
 <div class="card border-blue-bottom">
    <div class="content">
-       @include('admin.flash.message')
        {!! Form::model($rank, ['route' => ['admin.ranks.update', $rank->id], 'method' => 'patch']) !!}
             @include('admin.ranks.fields')
        {!! Form::close() !!}

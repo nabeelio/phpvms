@@ -31,6 +31,7 @@ class CreateUsersTable extends Migration
             $table->unsignedTinyInteger('status')->default(0);
             $table->unsignedTinyInteger('state')->default(0);
             $table->boolean('active')->nullable();
+            $table->ipAddress('last_ip')->nullable();
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
