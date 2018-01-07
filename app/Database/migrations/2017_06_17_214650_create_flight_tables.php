@@ -42,6 +42,18 @@ class CreateFlightTables extends Migration
             $table->index('arr_airport_id');
         });
 
+        Schema::create('flight_fare', function (Blueprint $table) {
+            $table->string('flight_id', 12);
+            $table->unsignedInteger('fare_id');
+            $table->unsignedDecimal('price', 19)->nullable();
+            $table->unsignedDecimal('cost', 19)->nullable();
+            $table->unsignedInteger('capacity')->nullable();
+            $table->timestamps();
+
+            $table->primary(['flight_id', 'fare_id']);
+            $table->index(['flight_id', 'subfleet_id']);
+        });
+
         Schema::create('flight_fields', function (Blueprint $table) {
             $table->increments('id');
             $table->string('flight_id', 12);
@@ -60,7 +72,8 @@ class CreateFlightTables extends Migration
      */
     public function down()
     {
-        Schema::drop('flights');
         Schema::drop('flight_fields');
+        Schema::drop('flight_fare');
+        Schema::drop('flights');
     }
 }

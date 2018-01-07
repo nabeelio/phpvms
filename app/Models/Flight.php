@@ -82,6 +82,14 @@ class Flight extends BaseModel
         return $this->belongsTo('App\Models\Airport', 'alt_airport_id');
     }
 
+    public function fares()
+    {
+        return $this->belongsToMany(
+            Fare::class,
+            'flight_fare'
+        )->withPivot('price', 'cost', 'capacity');
+    }
+
     public function fields()
     {
         return $this->hasMany('App\Models\FlightFields', 'flight_id');

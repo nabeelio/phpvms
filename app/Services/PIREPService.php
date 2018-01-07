@@ -35,10 +35,11 @@ class PIREPService extends BaseService
 
     /**
      * PIREPService constructor.
-     * @param UserService $pilotSvc
+     * @param AcarsRepository $acarsRepo
      * @param GeoService $geoSvc
      * @param NavdataRepository $navRepo
      * @param PirepRepository $pirepRepo
+     * @param UserService $pilotSvc
      */
     public function __construct(
         AcarsRepository $acarsRepo,

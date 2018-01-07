@@ -34,7 +34,7 @@ class FlightService extends BaseService
      * @param User $user
      * @return UserBid|null
      */
-    public function addBid(Flight $flight, User $user)
+    public function addBid(Flight $flight, User $user): UserBid
     {
         # If it's already been bid on, then it can't be bid on again
         if($flight->has_bid && setting('bids.disable_flight_on_bid')) {

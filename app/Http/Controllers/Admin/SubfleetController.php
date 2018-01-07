@@ -242,7 +242,7 @@ class SubfleetController extends BaseController
         // dissassociate fare from teh aircraft
         elseif ($request->isMethod('delete')) {
             $fare = $this->fareRepo->findWithoutFail($request->fare_id);
-            $fare_svc->delFromAircraft($subfleet, $fare);
+            $fare_svc->delFareFromSubfleet($subfleet, $fare);
         }
 
         return $this->return_fares_view($subfleet);
