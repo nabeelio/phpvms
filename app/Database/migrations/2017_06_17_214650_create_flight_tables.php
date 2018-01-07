@@ -45,9 +45,9 @@ class CreateFlightTables extends Migration
         Schema::create('flight_fare', function (Blueprint $table) {
             $table->string('flight_id', 12);
             $table->unsignedInteger('fare_id');
-            $table->unsignedDecimal('price', 19)->nullable();
-            $table->unsignedDecimal('cost', 19)->nullable();
-            $table->unsignedInteger('capacity')->nullable();
+            $table->string('price', 10)->nullable();
+            $table->string('cost', 10)->nullable();
+            $table->string('capacity', 10)->nullable();
             $table->timestamps();
 
             $table->primary(['flight_id', 'fare_id']);
