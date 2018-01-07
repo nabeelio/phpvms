@@ -11,15 +11,19 @@ use App\Models\Enums\FuelType;
 
 use App\Models\Airline;
 use App\Models\Subfleet;
+
 use App\Http\Requests\CreateSubfleetRequest;
 use App\Http\Requests\UpdateSubfleetRequest;
+
 use App\Repositories\FareRepository;
 use App\Repositories\SubfleetRepository;
+
+use App\Services\FareService;
 
 class SubfleetController extends BaseController
 {
     /** @var  SubfleetRepository */
-    private $subfleetRepo, $fareRepo;
+    private $subfleetRepo, $fareRepo, $fareSvc;
 
     /**
      * SubfleetController constructor.
@@ -29,10 +33,12 @@ class SubfleetController extends BaseController
      */
     public function __construct(
         SubfleetRepository $subfleetRepo,
-        FareRepository $fareRepo
+        FareRepository $fareRepo,
+        FareService $fareSvc
     ) {
         $this->subfleetRepo = $subfleetRepo;
         $this->fareRepo = $fareRepo;
+        $this->fareSvc = $fareSvc;
     }
 
     /**
@@ -84,10 +90,9 @@ class SubfleetController extends BaseController
 
     /**
      * Store a newly created Subfleet in storage.
-     *
      * @param CreateSubfleetRequest $request
-     *
      * @return Response
+     * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
     public function store(CreateSubfleetRequest $request)
     {
@@ -100,9 +105,7 @@ class SubfleetController extends BaseController
 
     /**
      * Display the specified Subfleet.
-     *
      * @param  int $id
-     *
      * @return Response
      */
     public function show($id)
@@ -123,9 +126,7 @@ class SubfleetController extends BaseController
 
     /**
      * Show the form for editing the specified Subfleet.
-     *
      * @param  int $id
-     *
      * @return Response
      */
     public function edit($id)
@@ -148,11 +149,10 @@ class SubfleetController extends BaseController
 
     /**
      * Update the specified Subfleet in storage.
-     *
-     * @param  int              $id
+     * @param  int $id
      * @param UpdateSubfleetRequest $request
-     *
      * @return Response
+     * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
     public function update($id, UpdateSubfleetRequest $request)
     {
@@ -163,7 +163,7 @@ class SubfleetController extends BaseController
             return redirect(route('admin.subfleets.index'));
         }
 
-        $subfleet = $this->subfleetRepo->update($request->all(), $id);
+        $this->subfleetRepo->update($request->all(), $id);
 
         Flash::success('Subfleet updated successfully.');
         return redirect(route('admin.subfleets.index'));
@@ -171,9 +171,7 @@ class SubfleetController extends BaseController
 
     /**
      * Remove the specified Subfleet from storage.
-     *
      * @param  int $id
-     *
      * @return Response
      */
     public function destroy($id)
@@ -191,6 +189,10 @@ class SubfleetController extends BaseController
         return redirect(route('admin.subfleets.index'));
     }
 
+    /**
+     * @param Subfleet $subfleet
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     protected function return_fares_view(Subfleet $subfleet)
     {
         $subfleet->refresh();
@@ -204,7 +206,6 @@ class SubfleetController extends BaseController
 
     /**
      * @param Request $request
-     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function fares(Request $request)
@@ -217,8 +218,6 @@ class SubfleetController extends BaseController
             //return view('admin.aircraft.fares', ['fares' => []]);
         }
 
-        $fare_svc = app('App\Services\FareService');
-
         if ($request->isMethod('get')) {
             return $this->return_fares_view($subfleet);
         }
@@ -228,7 +227,7 @@ class SubfleetController extends BaseController
          */
         if ($request->isMethod('post')) {
             $fare = $this->fareRepo->findWithoutFail($request->fare_id);
-            $fare_svc->setForSubfleet($subfleet, $fare);
+            $this->fareSvc->setForSubfleet($subfleet, $fare);
         }
 
         // update the pivot table with overrides for the fares
@@ -236,13 +235,13 @@ class SubfleetController extends BaseController
             $override = [];
             $fare = $this->fareRepo->findWithoutFail($request->fare_id);
             $override[$request->name] = $request->value;
-            $fare_svc->setForSubfleet($subfleet, $fare, $override);
+            $this->fareSvc->setForSubfleet($subfleet, $fare, $override);
         }
 
         // dissassociate fare from teh aircraft
         elseif ($request->isMethod('delete')) {
             $fare = $this->fareRepo->findWithoutFail($request->fare_id);
-            $fare_svc->delFareFromSubfleet($subfleet, $fare);
+            $this->fareSvc->delFareFromSubfleet($subfleet, $fare);
         }
 
         return $this->return_fares_view($subfleet);

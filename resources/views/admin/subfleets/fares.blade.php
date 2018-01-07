@@ -1,42 +1,30 @@
 {{--<div class="row"> <div class="col-12">--}}
 <div id="aircraft_fares_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+    <div class="header">
+        <h3>fares</h3>
+        <p class="category">
+            <i class="icon fa fa-info">&nbsp;&nbsp;</i>
+            Fares assigned to the current subfleet. These can be overridden,
+            otherwise, the value used is the default, which comes from the fare.
+        </p>
+    </div>
+    <br />
     <table id="aircraft_fares"
            class="table table-bordered table-hover dataTable"
            role="grid" aria-describedby="aircraft_fares_info">
         <thead>
-        <tr role="row">
-            <th class="sorting" tabindex="0" aria-controls="aircraft_fares"
-                rowspan="1" colspan="1"
-                aria-label="name: activate to sort column ascending">
-                name
-            </th>
-            <th class="sorting_asc" tabindex="0" style="text-align: center;"
-                aria-controls="aircraft_fares" rowspan="1" colspan="1"
-                aria-sort="ascending"
-                aria-label="code: activate to sort column descending">
-                code
-            </th>
-            <th class="sorting" tabindex="0" aria-controls="aircraft_fares"
-                rowspan="1" colspan="1"
-                aria-label="capacity: activate to sort column ascending">
-                capacity (default)
-            </th>
-            <th class="sorting" tabindex="0" aria-controls="aircraft_fares"
-                rowspan="1" colspan="1"
-                aria-label="price: activate to sort column ascending">
-                price (default)
-            </th>
-            <th class="sorting" tabindex="0" aria-controls="aircraft_fares"
-                rowspan="1" colspan="1"
-                aria-label="cost: activate to sort column ascending">
-                cost (default)
-            </th>
+        <tr>
+            <th>name</th>
+            <th>code</th>
+            <th>capacity (default)</th>
+            <th>price (default)</th>
+            <th>cost (default)</th>
             <th></th>
         </tr>
         </thead>
         <tbody>
         @foreach($subfleet->fares as $atf)
-            <tr role="row" class="@if ($loop->iteration % 2) even @else odd @endif">
+            <tr>
                 <td class="sorting_1">{!! $atf->name !!}</td>
                 <td style="text-align: center;">{!! $atf->code !!}</td>
                 <td><a href="#" data-pk="{!! $atf->id !!}" data-name="capacity">{!! $atf->pivot->capacity !!}</a>
@@ -65,7 +53,7 @@
     <hr />
     <div class="row">
         <div class="col-xs-12">
-            <div class="input-group input-group-lg pull-right">
+            <div class="text-right">
             {!! Form::open(['url' => '/admin/subfleets/'.$subfleet->id.'/fares',
                             'method' => 'post',
                             'class' => 'rm_fare form-inline'

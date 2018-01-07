@@ -2,14 +2,19 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Flight;
 use App\Models\FlightFields;
 use App\Http\Requests\CreateFlightRequest;
 use App\Http\Requests\UpdateFlightRequest;
 use App\Repositories\AirlineRepository;
 use App\Repositories\AirportRepository;
+use App\Repositories\FareRepository;
 use App\Repositories\FlightRepository;
 use App\Repositories\SubfleetRepository;
+
+use App\Services\FareService;
 use App\Services\FlightService;
+
 use Illuminate\Http\Request;
 use Flash;
 use Response;
@@ -18,20 +23,26 @@ class FlightController extends BaseController
 {
     private $airlineRepo,
             $airportRepo,
+            $fareRepo,
             $flightRepo,
+            $fareSvc,
             $flightSvc,
             $subfleetRepo;
 
     public function __construct(
         AirlineRepository $airlineRepo,
         AirportRepository $airportRepo,
+        FareRepository $fareRepo,
         FlightRepository $flightRepo,
+        FareService $fareSvc,
         FlightService $flightSvc,
         SubfleetRepository $subfleetRepo
     ) {
         $this->airlineRepo = $airlineRepo;
         $this->airportRepo = $airportRepo;
+        $this->fareRepo = $fareRepo;
         $this->flightRepo = $flightRepo;
+        $this->fareSvc = $fareSvc;
         $this->flightSvc = $flightSvc;
         $this->subfleetRepo = $subfleetRepo;
     }
@@ -135,6 +146,7 @@ class FlightController extends BaseController
             'flight' => $flight,
             'airlines' => $this->airlineRepo->selectBoxList(),
             'airports' => $this->airportRepo->selectBoxList(),
+            'avail_fares' => $this->getAvailFares($flight),
             'avail_subfleets' => $avail_subfleets,
         ]);
     }
@@ -269,5 +281,72 @@ class FlightController extends BaseController
         }
 
         return $this->return_subfleet_view($flight);
+    }
+
+    /**
+     * Get all the fares that haven't been assigned to a given subfleet
+     */
+    protected function getAvailFares($flight)
+    {
+        $retval = [];
+        $all_fares = $this->fareRepo->all();
+        $avail_fares = $all_fares->except($flight->fares->modelKeys());
+        foreach ($avail_fares as $fare) {
+            $retval[$fare->id] = $fare->name .
+                ' (base price: '.$fare->price.')';
+        }
+
+        return $retval;
+    }
+
+    /**
+     * @param Flight $flight
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    protected function return_fares_view(Flight $flight)
+    {
+        $flight->refresh();
+        return view('admin.flights.fares', [
+            'flight' => $flight,
+            'avail_fares' => $this->getAvailFares($flight),
+        ]);
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function fares(Request $request)
+    {
+        $id = $request->id;
+
+        $flight = $this->flightRepo->findWithoutFail($id);
+        if (empty($flight)) {
+            return $this->return_fares_view($flight);
+        }
+
+        if ($request->isMethod('get')) {
+            return $this->return_fares_view($flight);
+        }
+
+        /**
+         * update specific fare data
+         */
+        if ($request->isMethod('post')) {
+            $fare = $this->fareRepo->findWithoutFail($request->fare_id);
+            $this->fareSvc->setForFlight($flight, $fare);
+        } // update the pivot table with overrides for the fares
+        elseif ($request->isMethod('put')) {
+            $override = [];
+            $fare = $this->fareRepo->findWithoutFail($request->fare_id);
+            $override[$request->name] = $request->value;
+            $this->fareSvc->setForFlight($flight, $fare, $override);
+        } // dissassociate fare from teh aircraft
+        elseif ($request->isMethod('delete')) {
+            $fare = $this->fareRepo->findWithoutFail($request->fare_id);
+            $this->fareSvc->delFareFromFlight($flight, $fare);
+        }
+
+        return $this->return_fares_view($flight);
     }
 }

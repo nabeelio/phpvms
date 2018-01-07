@@ -24,4 +24,3 @@
         </div>
     </div>
 @endsection
-@include('admin.flights.scripts')

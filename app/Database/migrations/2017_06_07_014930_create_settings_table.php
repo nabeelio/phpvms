@@ -30,9 +30,10 @@ class CreateSettingsTable extends Migration
         $this->addCounterGroups([
             'general' => 1,
             'flights' => 20,
-            'bids' => 40,
-            'pireps' => 60,
-            'pilots' => 80,
+            'finances' => 40,
+            'bids' => 60,
+            'pireps' => 80,
+            'pilots' => 100,
         ]);
 
         /**
@@ -140,6 +141,15 @@ class CreateSettingsTable extends Migration
                 'type' => 'boolean',
                 'description' => 'Whether or not someone can bid on multiple flights',
             ],
+
+            /**
+             * FINANCES
+             */
+
+            /**
+             * PIREPS
+             */
+
             [
                 'id' => $this->formatSettingId('pireps.duplicate_check_time'),
                 'order' => $this->getNextOrderNumber('pireps'),
@@ -160,6 +170,11 @@ class CreateSettingsTable extends Migration
                 'type' => 'boolean',
                 'description' => 'Hide any cancelled PIREPs in the front-end',
             ],
+
+            /**
+             * PILOTS
+             */
+
             [
                 'id' => $this->formatSettingId('pilots.id_length'),
                 'order' => $this->getNextOrderNumber('pilots'),
