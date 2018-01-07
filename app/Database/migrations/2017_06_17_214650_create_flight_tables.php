@@ -51,7 +51,6 @@ class CreateFlightTables extends Migration
             $table->timestamps();
 
             $table->primary(['flight_id', 'fare_id']);
-            $table->index(['flight_id', 'subfleet_id']);
         });
 
         Schema::create('flight_fields', function (Blueprint $table) {
