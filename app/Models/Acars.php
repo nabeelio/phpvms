@@ -54,6 +54,6 @@ class Acars extends BaseModel
 
     public function pirep()
     {
-        return $this->belongsTo('App\Models\Pirep', 'pirep_id');
+        return $this->belongsTo(Pirep::class, 'pirep_id');
     }
 }

@@ -51,10 +51,8 @@ class Subfleet extends BaseModel
 
     public function fares()
     {
-        return $this->belongsToMany(
-            Fare::class,
-            'subfleet_fare'
-        )->withPivot('price', 'cost', 'capacity');
+        return $this->belongsToMany(Fare::class, 'subfleet_fare')
+                    ->withPivot('price', 'cost', 'capacity');
     }
 
     public function flights()
@@ -64,9 +62,7 @@ class Subfleet extends BaseModel
 
     public function ranks()
     {
-        return $this->belongsToMany(
-            Rank::class,
-            'subfleet_rank'
-        )->withPivot('acars_pay', 'manual_pay');
+        return $this->belongsToMany(Rank::class, 'subfleet_rank')
+                    ->withPivot('acars_pay', 'manual_pay');
     }
 }

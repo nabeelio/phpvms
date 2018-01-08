@@ -53,11 +53,11 @@ class Aircraft extends BaseModel
 
     public function airport()
     {
-        return $this->belongsTo('App\Models\Airport', 'airport_id');
+        return $this->belongsTo(Airport::class, 'airport_id');
     }
 
     public function subfleet()
     {
-        return $this->belongsTo('App\Models\Subfleet', 'subfleet_id');
+        return $this->belongsTo(Subfleet::class, 'subfleet_id');
     }
 }

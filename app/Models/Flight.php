@@ -64,39 +64,37 @@ class Flight extends BaseModel
 
     public function airline()
     {
-        return $this->belongsTo('App\Models\Airline', 'airline_id');
+        return $this->belongsTo(Airline::class, 'airline_id');
     }
 
     public function dpt_airport()
     {
-        return $this->belongsTo('App\Models\Airport', 'dpt_airport_id');
+        return $this->belongsTo(Airport::class, 'dpt_airport_id');
     }
 
     public function arr_airport()
     {
-        return $this->belongsTo('App\Models\Airport', 'arr_airport_id');
+        return $this->belongsTo(Airport::class, 'arr_airport_id');
     }
 
     public function alt_airport()
     {
-        return $this->belongsTo('App\Models\Airport', 'alt_airport_id');
+        return $this->belongsTo(Airport::class, 'alt_airport_id');
     }
 
     public function fares()
     {
-        return $this->belongsToMany(
-            Fare::class,
-            'flight_fare'
-        )->withPivot('price', 'cost', 'capacity');
+        return $this->belongsToMany(Fare::class, 'flight_fare')
+                    ->withPivot('price', 'cost', 'capacity');
     }
 
     public function fields()
     {
-        return $this->hasMany('App\Models\FlightFields', 'flight_id');
+        return $this->hasMany(FlightFields::class, 'flight_id');
     }
 
     public function subfleets()
     {
-        return $this->belongsToMany('App\Models\Subfleet', 'subfleet_flight');
+        return $this->belongsToMany(Subfleet::class, 'subfleet_flight');
     }
 }

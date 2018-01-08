@@ -19,11 +19,11 @@ class UserBid extends BaseModel
      */
     public function flight()
     {
-        return $this->belongsTo('App\Models\Flight', 'flight_id');
+        return $this->belongsTo(Flight::class, 'flight_id');
     }
 
     public function user()
     {
-        return $this->belongsTo('App\Models\User', 'user_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

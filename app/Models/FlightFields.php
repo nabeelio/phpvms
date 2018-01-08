@@ -27,7 +27,7 @@ class FlightFields extends BaseModel
 
     public function flight()
     {
-        return $this->belongsTo('App\Models\Flight', 'flight_id');
+        return $this->belongsTo(Flight::class, 'flight_id');
     }
 
 }

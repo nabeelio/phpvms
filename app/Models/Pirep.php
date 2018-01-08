@@ -88,59 +88,59 @@ class Pirep extends BaseModel
 
     public function acars()
     {
-        return $this->hasMany('App\Models\Acars', 'pirep_id')
+        return $this->hasMany(Acars::class, 'pirep_id')
                     ->where('type', AcarsType::FLIGHT_PATH)
                     ->orderBy('created_at', 'asc');
     }
 
     public function acars_logs()
     {
-        return $this->hasMany('App\Models\Acars', 'pirep_id')
+        return $this->hasMany(Acars::class, 'pirep_id')
                     ->where('type', AcarsType::LOG)
                     ->orderBy('created_at', 'asc');
     }
 
     public function acars_route()
     {
-        return $this->hasMany('App\Models\Acars', 'pirep_id')
+        return $this->hasMany(Acars::class, 'pirep_id')
                     ->where('type', AcarsType::ROUTE)
                     ->orderBy('order', 'asc');
     }
 
     public function aircraft()
     {
-        return $this->belongsTo('App\Models\Aircraft', 'aircraft_id');
+        return $this->belongsTo(Aircraft::class, 'aircraft_id');
     }
 
     public function airline()
     {
-        return $this->belongsTo('App\Models\Airline', 'airline_id');
+        return $this->belongsTo(Airline::class, 'airline_id');
     }
 
     public function arr_airport()
     {
-        return $this->belongsTo('App\Models\Airport', 'arr_airport_id');
+        return $this->belongsTo(Airport::class, 'arr_airport_id');
     }
 
     public function dpt_airport()
     {
-        return $this->belongsTo('App\Models\Airport', 'dpt_airport_id');
+        return $this->belongsTo(Airport::class, 'dpt_airport_id');
     }
 
     public function comments()
     {
-        return $this->hasMany('App\Models\PirepComment', 'pirep_id')
+        return $this->hasMany(PirepComment::class, 'pirep_id')
                 ->orderBy('created_at', 'desc');
     }
 
     public function fields()
     {
-        return $this->hasMany('App\Models\PirepFieldValues', 'pirep_id');
+        return $this->hasMany(PirepFieldValues::class, 'pirep_id');
     }
 
     public function flight()
     {
-        return $this->belongsTo('App\Models\Flight', 'flight_id');
+        return $this->belongsTo(Flight::class, 'flight_id');
     }
 
     public function pilot()
@@ -154,13 +154,13 @@ class Pirep extends BaseModel
      */
     public function position()
     {
-        return $this->hasOne('App\Models\Acars', 'pirep_id')
+        return $this->hasOne(Acars::class, 'pirep_id')
                     ->where('type', AcarsType::FLIGHT_PATH)
                     ->latest();
     }
 
     public function user()
     {
-        return $this->belongsTo('App\Models\User', 'user_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 }
