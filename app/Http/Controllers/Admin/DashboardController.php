@@ -2,19 +2,23 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Auth;
 use Illuminate\Http\Request;
 
+use App\Repositories\NewsRepository;
 use App\Repositories\PirepRepository;
 use App\Repositories\UserRepository;
 
 class DashboardController extends BaseController
 {
-    private $pirepRepo, $userRepo;
+    private $newsRepo, $pirepRepo, $userRepo;
 
     public function __construct(
+        NewsRepository $newsRepo,
         PirepRepository $pirepRepo,
         UserRepository $userRepo
     ) {
+        $this->newsRepo = $newsRepo;
         $this->pirepRepo = $pirepRepo;
         $this->userRepo = $userRepo;
     }
@@ -24,15 +28,32 @@ class DashboardController extends BaseController
      */
     public function index(Request $request)
     {
-        /*Feed::$cacheDir = storage_path('app');
-        Feed::$cacheExpire = '5 hours';
-
-        $feed = Feed::loadRss(config('phpvms.news_feed_url'));*/
-        $feed = [];
         return view('admin.dashboard.index', [
-            'feed' => $feed,
+            'news' => $this->newsRepo->getLatest(),
             'pending_pireps' => $this->pirepRepo->getPendingCount(),
             'pending_users' => $this->userRepo->getPendingCount(),
+        ]);
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Prettus\Validator\Exceptions\ValidatorException
+     */
+    public function news(Request $request)
+    {
+        if($request->isMethod('post')) {
+            $attrs = $request->post();
+            $attrs['user_id'] = Auth::user()->id;
+
+            $this->newsRepo->create($request->post());
+        } elseif ($request->isMethod('delete')) {
+            $news_id = $request->input('news_id');
+            $this->newsRepo->delete($news_id);
+        }
+
+        return view('admin.dashboard.news', [
+            'news' => $this->newsRepo->getLatest(),
         ]);
     }
 }

@@ -28,6 +28,7 @@ if [ "$TRAVIS" = "true" ]; then
 
     rm -rf env.php
     find ./vendor -type d -name ".git" -print0 | xargs rm -rf
+    find . -type d -name "sass-cache" -print0 | xargs rm -rf
 
     # clear any app specific stuff that might have been loaded in
     find storage/app/public -mindepth 1 -not -name '.gitignore' -print0 -exec rm -rf {} +

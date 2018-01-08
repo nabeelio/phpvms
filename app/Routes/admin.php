@@ -50,5 +50,9 @@ Route::group([
     # defaults
     Route::get('', ['uses' => 'DashboardController@index']);
     Route::get('/', ['uses' => 'DashboardController@index']);
-    Route::get('/dashboard', ['uses' => 'DashboardController@index', 'name' => 'dashboard']);
+
+    Route::get('dashboard', ['uses' => 'DashboardController@index', 'name' => 'dashboard']);
+    Route::match(['get', 'post', 'delete'],
+                 'dashboard/news', ['uses' => 'DashboardController@news'])
+        ->name('dashboard.news');
 });

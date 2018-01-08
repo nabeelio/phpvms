@@ -54,7 +54,9 @@ class PirepRepository extends BaseRepository
             $where['user_id'] = $user->id;
         }
 
-        $pireps = $this->orderBy('created_at', 'desc')->findWhere($where)->count();
+        $pireps = $this->orderBy('created_at', 'desc')
+                       ->findWhere($where, ['id'])
+                       ->count();
         return $pireps;
     }
 }

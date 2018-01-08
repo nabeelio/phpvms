@@ -32,7 +32,10 @@ class UserRepository extends BaseRepository
             'state' => UserState::PENDING,
         ];
 
-        $users = $this->orderBy('created_at', 'desc')->findWhere($where)->count();
+        $users = $this->orderBy('created_at', 'desc')
+                      ->findWhere($where, ['id'])
+                      ->count();
+
         return $users;
     }
 

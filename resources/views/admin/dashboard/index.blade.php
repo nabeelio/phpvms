@@ -5,7 +5,7 @@
 
         <div class="row">
             <div class="col-md-7">
-                @include('admin.dashboard.announcements')
+                @include('admin.dashboard.news')
             </div>
             <div class="col-md-5">
                 @component('admin.components.infobox')
@@ -43,4 +43,17 @@
         </div>
     </div>
 @endsection
+@section('scripts')
+<script>
+$(document).ready(function() {
+    $(document).on('submit', 'form.pjax_news_form', function (event) {
+        event.preventDefault();
+        $.pjax.submit(event, '#pjax_news_wrapper', {push: false});
+    });
 
+    /*$(document).on('pjax:complete', function () {
+        $(".select2").select2();
+    });*/
+});
+</script>
+@endsection
