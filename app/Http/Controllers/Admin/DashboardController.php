@@ -46,7 +46,7 @@ class DashboardController extends BaseController
             $attrs = $request->post();
             $attrs['user_id'] = Auth::user()->id;
 
-            $this->newsRepo->create($request->post());
+            $this->newsRepo->create($attrs);
         } elseif ($request->isMethod('delete')) {
             $news_id = $request->input('news_id');
             $this->newsRepo->delete($news_id);

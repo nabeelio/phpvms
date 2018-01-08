@@ -22,7 +22,9 @@
                                 'method' => 'delete', 'class' => 'pjax_form form-inline']) !!}
                     {!! Form::hidden('comment_id', $comment->id) !!}
                     {!! Form::button('<i class="fa fa-times"></i>', ['type' => 'submit',
-                                     'class' => 'btn btn-danger btn-small']) !!}
+                                     'class' => 'btn btn-danger btn-small',
+                                     'onclick' => "return confirm('Are you sure?')",
+                                     ]) !!}
                     {!! Form::close() !!}
                 </td>
             </tr>
@@ -31,8 +33,8 @@
     </table>
     <hr/>
     <div class="row">
-        <div class="col-lg-12">
-            <div class="input-group input-group-lg pull-right">
+        <div class="col-sm-12">
+            <div class="text-right">
                 {!! Form::open(['url' => url('/admin/pireps/'.$pirep->id.'/comments'),
                                 'method' => 'post', 'class' => 'pjax_form form-inline']) !!}
                 {!! Form::input('text', 'comment', null, ['class' => 'form-control input-sm']) !!}

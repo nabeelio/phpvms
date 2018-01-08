@@ -23,7 +23,9 @@
                 {!!
                      Form::button('delete',
                                      ['type' => 'submit',
-                                      'class' => ' btn btn-danger btn-xs text-small'])
+                                      'class' => ' btn btn-danger btn-xs text-small',
+                                      'onclick' => "return confirm('Are you sure?')"
+                                      ])
 
                      !!}
                 {!! Form::close() !!}
