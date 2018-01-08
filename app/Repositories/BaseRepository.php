@@ -16,7 +16,7 @@ abstract class BaseRepository extends \Prettus\Repository\Eloquent\BaseRepositor
     {
         try {
             return $this->find($id, $columns);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return;
         }
     }
