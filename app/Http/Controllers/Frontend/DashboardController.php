@@ -26,9 +26,6 @@ class DashboardController extends AppBaseController
      */
     public function index()
     {
-        $users = $this->userRepo->recent();
-        $pireps = $this->pirepRepo->recent();
-
         $last_pirep = null;
         $user = Auth::user();
 
@@ -38,8 +35,6 @@ class DashboardController extends AppBaseController
 
         return $this->view('dashboard.index', [
             'user'       => $user,
-            'pireps'     => $pireps,
-            'users'      => $users,
             'last_pirep' => $last_pirep,
         ]);
     }
