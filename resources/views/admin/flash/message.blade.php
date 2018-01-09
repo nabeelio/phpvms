@@ -1,30 +1,30 @@
-@foreach ($errors->all() as $message)
-<div class="alert alert-danger" role="alert">
-    <div class="container">
-        <div class="alert-icon">
-            <i class="now-ui-icons ui-2_like"></i>
-        </div>
-        {!! $message !!}
-    </div>
-</div>
-@endforeach
-@if (session()->has('flash_notification.message'))
-    <div class="alert
-                alert-{{ session('flash_notification.level') }}
-    {{ session()->has('flash_notification.important') ? 'alert-important' : '' }}">
-        @if(session()->has('flash_notification.important'))
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
-        @endif
-
-            <div class="alert alert-danger" role="alert">
-                <div class="container">
-                    <div class="alert-icon">
-                        <i class="now-ui-icons ui-2_like"></i>
-                    </div>
-        {!! session('flash_notification.message') !!}
-                </div>
+@foreach (session('flash_notification', collect())->toArray() as $message)
+    @if ($message['overlay'])
+        @include('flash::modal', [
+            'modalClass' => 'flash-modal',
+            'title'      => $message['title'],
+            'body'       => $message['message']
+        ])
+    @else
+        <div class="alert
+                    alert-{{ $message['level'] }}
+        {{ $message['important'] ? 'alert-important' : '' }}"
+             role="alert"
+        >
+            <div class="alert-icon">
+                <i class="now-ui-icons ui-2_like"></i>
             </div>
+            @if ($message['important'])
+            @endif
+            <button type="button"
+                    class="close"
+                    data-dismiss="alert"
+                    aria-hidden="true">&times;</button>
+
+            {!! $message['message'] !!}
+
         </div>
-    </div>
-@endif
+    @endif
+@endforeach
+
 {{ session()->forget('flash_notification') }}
