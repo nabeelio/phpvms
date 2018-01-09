@@ -1,3 +1,5 @@
+<?php exit(); ?>
+
 #
 # Before you go live, remember to change the APP_ENV to production
 # and APP_DEBUG to false. Adjust logging to taste
