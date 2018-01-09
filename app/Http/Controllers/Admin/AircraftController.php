@@ -23,6 +23,7 @@ class AircraftController extends BaseController
 
     /**
      * Display a listing of the Aircraft.
+     * @throws \Prettus\Repository\Exceptions\RepositoryException
      */
     public function index(Request $request)
     {
@@ -46,11 +47,12 @@ class AircraftController extends BaseController
 
     /**
      * Store a newly created Aircraft in storage.
+     * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
     public function store(CreateAircraftRequest $request)
     {
         $input = $request->all();
-        $aircraft = $this->aircraftRepository->create($input);
+        $this->aircraftRepository->create($input);
 
         Flash::success('Aircraft saved successfully.');
         return redirect(route('admin.aircraft.index'));
@@ -93,6 +95,7 @@ class AircraftController extends BaseController
 
     /**
      * Update the specified Aircraft in storage.
+     * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
     public function update($id, UpdateAircraftRequest $request)
     {
@@ -126,5 +129,4 @@ class AircraftController extends BaseController
         Flash::success('Aircraft deleted successfully.');
         return redirect(route('admin.aircraft.index'));
     }
-
 }

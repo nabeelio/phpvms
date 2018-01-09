@@ -15,6 +15,7 @@ use App\Models\Subfleet;
 use App\Http\Requests\CreateSubfleetRequest;
 use App\Http\Requests\UpdateSubfleetRequest;
 
+use App\Repositories\AircraftRepository;
 use App\Repositories\FareRepository;
 use App\Repositories\SubfleetRepository;
 
@@ -23,19 +24,23 @@ use App\Services\FareService;
 class SubfleetController extends BaseController
 {
     /** @var  SubfleetRepository */
-    private $subfleetRepo, $fareRepo, $fareSvc;
+    private $aircraftRepo, $subfleetRepo, $fareRepo, $fareSvc;
 
     /**
      * SubfleetController constructor.
      *
+     * @param AircraftRepository $aircraftRepo
      * @param SubfleetRepository $subfleetRepo
-     * @param FareRepository     $fareRepo
+     * @param FareRepository $fareRepo
+     * @param FareService $fareSvc
      */
     public function __construct(
+        AircraftRepository $aircraftRepo,
         SubfleetRepository $subfleetRepo,
         FareRepository $fareRepo,
         FareService $fareSvc
     ) {
+        $this->aircraftRepo = $aircraftRepo;
         $this->subfleetRepo = $subfleetRepo;
         $this->fareRepo = $fareRepo;
         $this->fareSvc = $fareSvc;
@@ -180,6 +185,14 @@ class SubfleetController extends BaseController
 
         if (empty($subfleet)) {
             Flash::error('Subfleet not found');
+            return redirect(route('admin.subfleets.index'));
+        }
+
+        # Make sure no aircraft are assigned to this subfleet
+        # before trying to delete it, or else things might go boom
+        $aircraft = $this->aircraftRepo->findWhere(['subfleet_id' => $id], ['id']);
+        if($aircraft->count() > 0) {
+            Flash::error('There are aircraft still assigned to this subfleet, you can\'t delete it!')->important();
             return redirect(route('admin.subfleets.index'));
         }
 

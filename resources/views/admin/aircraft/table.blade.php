@@ -11,7 +11,7 @@
     @foreach($aircraft as $ac)
         <tr>
             <td>
-                @if($ac->subfleet_id)
+                @if($ac->subfleet_id && $ac->subfleet)
                     <a href="{!! route('admin.subfleets.edit', [$ac->subfleet_id]) !!}">
                     {!! $ac->subfleet->name !!}
                     </a>
@@ -23,8 +23,8 @@
             <td style="text-align: center;">{!! $ac->icao !!}</td>
             <td style="text-align: center;">{!! $ac->registration !!}</td>
             <td style="text-align: center;">
-                @if($ac->active == 1)
-                    <span class="label label-success">Active</span>
+                @if($ac->active == GenericState::ACTIVE)
+                    <span class="label label-success">{!! GenericState::label($ac->active); !!}</span>
                 @else
                     <span class="label label-default">Inactive</span>
                 @endif
