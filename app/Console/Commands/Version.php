@@ -20,7 +20,7 @@ class Version extends BaseCommand
 
             $cfg = Yaml::parse(file_get_contents($version_file));
             exec($cfg['git']['git-local'], $version);
-            $version = substr($version[0], 0, 6);
+            $version = substr($version[0], 0, $cfg['build']['length']);
             $cfg['build']['number'] = $version;
 
             file_put_contents($version_file, Yaml::dump($cfg, 4, 2));
