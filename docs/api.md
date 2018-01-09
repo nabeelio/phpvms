@@ -383,22 +383,16 @@ Query string parameters: `?type=registration|tail_number|icao`. Default/blank is
 
 ## Flights
 
+### GET /api/flights
 
-```http
-GET /api/flights
-```
 Return all of the flights, paginated
 
+### GET /api/flights/{FLIGHT ID}
 
-```http
-GET /api/flights/{FLIGHT ID}
-```
 Return details about a given flight
 
+### GET /api/flights/search
 
-```http
-GET /api/flights/search
-```
 Do a search for a flight
 
 Query String Example:
@@ -414,24 +408,20 @@ Query String Example:
 
 ## PIREPs
 
-```http
-GET /api/pireps/{PIREP ID}
-```
+### GET /api/pireps/{PIREP ID}
+
 Retrieve the PIREP information
 
-```http
-GET /api/pireps/{PIREP ID}/route
-```
+### GET /api/pireps/{PIREP ID}/route
+
 Retrieve the route
 
-```http
-GET /api/pireps/{PIREP ID}/acars/geojson
-```
+### GET /api/pireps/{PIREP ID}/acars/geojson
+
 Get the ACARS data in GeoJSON format
 
-```http
-GET /api/pireps/{PIREP ID}/acars/positions
-```
+### GET /api/pireps/{PIREP ID}/acars/positions
+
 Get the ACARS data in plain rows
 
 [See the ACARS documentation](https://github.com/nabeelio/phpvms/wiki/acars) for details about the PIREPs and ACARS API details
@@ -440,21 +430,19 @@ Get the ACARS data in plain rows
 
 ## Users
 
-```http
-GET /api/users/{id}
-```
+### GET /api/users/{id}
+
 Retrieve info about a user
 
-```http
-GET /api/users/{id}/bids
-```
+### GET /api/users/{id}/bids
+
 Get a user's bids
 
 ***
 
 ## Settings
 
-```http
-GET /api/settings
-```
-Get all of the phpVMS configuration settings, including things like the units and individual configuration options. [See the list of settings here](https://github.com/nabeelio/phpvms/blob/master/app/Database/migrations/2017_06_07_014930_create_settings_table.php#L41). Remember to look at the `type` column in order to properly parse the value.
+### GET /api/settings
+
+Get all of the phpVMS configuration settings, including things like the units and individual configuration options. 
+[See the list of settings here](https://github.com/nabeelio/phpvms/blob/master/app/Database/migrations/2017_06_07_014930_create_settings_table.php#L41). Remember to look at the `type` column in order to properly parse the value.
