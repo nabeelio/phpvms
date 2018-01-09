@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Models\Pirep;
 use App\Repositories\AcarsRepository;
 use App\Services\GeoService;
 use Illuminate\Http\Request;
