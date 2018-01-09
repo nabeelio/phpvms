@@ -127,6 +127,9 @@ class EnvironmentService
         $env_contents = view('installer::stubs/env', $opts);
         Log::info($env_contents);
 
+        $env_contents = "<?php exit(); ?>\n\n"
+                        .$env_contents;
+
         fwrite($fp, $env_contents);
         fclose($fp);
     }

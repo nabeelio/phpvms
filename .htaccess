@@ -25,6 +25,8 @@ RedirectMatch 403 ^/composer.json
 RedirectMatch 403 ^/composer.lock
 RedirectMatch 403 ^/composer.phar
 RedirectMatch 403 ^/env.php.*?$
+RedirectMatch 403 ^/env.php
+RedirectMatch 403 ^/env.php$
 RedirectMatch 403 ^/Makefile
 RedirectMatch 403 ^/package.json
 RedirectMatch 403 ^/package-lock.json
