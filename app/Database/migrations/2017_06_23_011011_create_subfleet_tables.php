@@ -17,7 +17,7 @@ class CreateSubfleetTables extends Migration
             $table->increments('id');
             $table->unsignedInteger('airline_id')->nullable();
             $table->string('name', 50);
-            $table->string('type', 7);
+            $table->string('type', 50);
             $table->unsignedTinyInteger('fuel_type')->nullable();
             $table->unsignedDecimal('cargo_capacity', 19)->nullable();
             $table->unsignedDecimal('fuel_capacity', 19)->nullable();
