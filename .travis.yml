@@ -53,5 +53,5 @@ deploy:
   script: ./.travis/deploy_script.sh
   on:
       branch: master
-      condition: $DB = mysql
+      #condition: $DB = mysql
       php: '7.0'
