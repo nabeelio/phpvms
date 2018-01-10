@@ -15,9 +15,12 @@ cache:
 
 services:
   - mysql
+  - mariadb
+  - redis-server
 
 addons:
   ssh_known_hosts: phpvms.net
+  mariadb: '10.1'
 
 #before_install:
 #  - mysql -e 'CREATE DATABASE IF NOT EXISTS phpvms;'
