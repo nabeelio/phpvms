@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "07343f392a65c9cc9ffbd650ec89af3f",
+    "content-hash": "de8ae040d894b5ff07a2c82ca3f7f1ac",
     "packages": [
         {
             "name": "arrilot/laravel-widgets",
@@ -1782,6 +1782,60 @@
                 "geotools"
             ],
             "time": "2016-02-03T16:31:33+00:00"
+        },
+        {
+            "name": "league/iso3166",
+            "version": "2.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/iso3166.git",
+                "reference": "ec7edf7754357db1d0b45fe43c31ceb5f67509c7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/iso3166/zipball/ec7edf7754357db1d0b45fe43c31ceb5f67509c7",
+                "reference": "ec7edf7754357db1d0b45fe43c31ceb5f67509c7",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.6 || ^7.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.0@dev || ^2.0",
+                "phpunit/phpunit": "^4.6 || ^5.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "League\\ISO3166\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Rob Bast",
+                    "email": "rob.bast@gmail.com"
+                }
+            ],
+            "description": "ISO 3166-1 PHP Library",
+            "homepage": "https://github.com/thephpleague/iso3166",
+            "keywords": [
+                "3166",
+                "3166-1",
+                "ISO 3166",
+                "countries",
+                "iso",
+                "library"
+            ],
+            "time": "2018-01-02T06:45:36+00:00"
         },
         {
             "name": "makinacorpus/php-bloom",

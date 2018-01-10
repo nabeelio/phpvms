@@ -45,7 +45,8 @@
         "jmikola/geojson": "1.0.2",
         "laracasts/flash": "3.0.2",
         "arrilot/laravel-widgets": "3.9.0",
-        "nabeel/vacentral": "dev-master"
+        "nabeel/vacentral": "dev-master",
+        "league/iso3166": "^2.1"
     },
     "require-dev": {
         "phpunit/phpunit": "6.4.0",
