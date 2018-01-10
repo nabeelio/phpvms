@@ -19,8 +19,8 @@ services:
 addons:
   ssh_known_hosts: phpvms.net
 
-before_install:
-  - mysql -e 'CREATE DATABASE IF NOT EXISTS phpvms;'
+#before_install:
+#  - mysql -e 'CREATE DATABASE IF NOT EXISTS phpvms;'
 
 before_script:
   - cp .travis/env.travis.php env.php
