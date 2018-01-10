@@ -24,7 +24,6 @@ env:
 
 addons:
   ssh_known_hosts: phpvms.net
-  mariadb: '10.1'
 
 #before_install:
 #  - mysql -e 'CREATE DATABASE IF NOT EXISTS phpvms;'
@@ -54,4 +53,5 @@ deploy:
   script: ./.travis/deploy_script.sh
   on:
       branch: master
+      condition: $DB = mysql
       php: '7.0'
