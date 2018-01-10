@@ -60,11 +60,13 @@ class EnvironmentService
 
         $conn = new PDO($dsn, $opts['DB_USER'], $opts['DB_PASS']);
         $version = strtolower($conn->getAttribute(PDO::ATTR_SERVER_VERSION));
+        Log::info('Detected DB Version: '.$version);
 
         # If it's mariadb, enable the emulation for prepared statements
         # seems to be throwing a problem on 000webhost
         # https://github.com/nabeelio/phpvms/issues/132
         if(strpos($version, 'mariadb') !== false) {
+            Log::info('Detected MariaDB, setting DB_EMULATE_PREPARES to true');
             $opts['DB_EMULATE_PREPARES'] = true;
         }
 
