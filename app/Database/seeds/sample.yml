@@ -16,6 +16,7 @@ users:
     api_key: testadminapikey
     airline_id: 1
     rank_id: 1
+    country: us
     home_airport_id: KAUS
     curr_airport_id: KJFK
     last_pirep_id: pirepid_3

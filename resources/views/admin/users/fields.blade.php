@@ -10,15 +10,21 @@
     </div>
 
     <div class="form-group col-sm-4">
-        {!! Form::label('timezone', 'Timezone:') !!}
-        {!! Form::select('timezone', $timezones, null, ['id'    => 'timezone', 'class' => 'select2' ]); !!}
+        {!! Form::label('password', 'Password:') !!}
+        {!! Form::password('password', ['class' => 'form-control']) !!}
     </div>
 </div>
 
 <div class="row">
     <div class="form-group col-sm-6">
-        {!! Form::label('password', 'Password:') !!}
-        {!! Form::password('password', ['class' => 'form-control']) !!}
+        <div class="form-group">
+            {!! Form::label('country', 'Country:') !!} <br />
+            {!! Form::select('country', $countries, null, ['class' => 'select2' ]); !!}
+        </div>
+        <div class="form-group">
+            {!! Form::label('timezone', 'Timezone:') !!} <br/>
+            {!! Form::select('timezone', $timezones, null, ['id' => 'timezone', 'class' => 'select2' ]); !!}
+        </div>
     </div>
     <div class="form-group col-sm-6">
         {!! Form::label('home_airport_id', 'Home Airport:') !!}

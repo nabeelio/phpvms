@@ -21,6 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('api_key', 40)->nullable();
             $table->unsignedInteger('airline_id');
             $table->unsignedInteger('rank_id')->nullable();
+            $table->string('country', 2)->nullable();
             $table->string('home_airport_id', 5)->nullable();
             $table->string('curr_airport_id', 5)->nullable();
             $table->string('last_pirep_id', 12)->nullable();

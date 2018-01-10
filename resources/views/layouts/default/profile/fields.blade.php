@@ -38,6 +38,18 @@
             </tr>
 
             <tr>
+                <td>Country</td>
+                <td>
+                    <div class="input-group form-group-no-border{{ $errors->has('country') ? ' has-danger' : '' }}">
+                        {!! Form::select('country', $countries, null, ['class' => 'form-control select2' ]); !!}
+                    </div>
+                    @if ($errors->has('country'))
+                        <p class="text-danger">{{ $errors->first('country') }}</p>
+                    @endif
+                </td>
+            </tr>
+
+            <tr>
                 <td>Timezone</td>
                 <td>
                     <div class="input-group form-group-no-border{{ $errors->has('timezone') ? ' has-danger' : '' }}">

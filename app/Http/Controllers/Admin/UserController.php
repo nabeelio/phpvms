@@ -136,9 +136,15 @@ class UserController extends BaseController
             ->whereOrder(['user_id' => $id], 'created_at', 'desc')
             ->paginate();
 
+        $countries = collect((new \League\ISO3166\ISO3166)->all())
+            ->mapWithKeys(function ($item, $key) {
+                return [strtolower($item['alpha2']) => $item['name']];
+            });
+
         return view('admin.users.edit', [
             'user' => $user,
             'pireps' => $pireps,
+            'countries' => $countries,
             'timezones' => Timezonelist::toArray(),
             'airports' => Airport::all()->pluck('icao', 'id'),
             'airlines' => Airline::all()->pluck('name', 'id'),

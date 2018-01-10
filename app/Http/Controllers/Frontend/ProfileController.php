@@ -73,10 +73,16 @@ class ProfileController extends AppBaseController
         $airlines = $this->airlineRepo->selectBoxList();
         $airports = $this->airportRepo->selectBoxList();
 
+        $countries = collect((new \League\ISO3166\ISO3166)->all())
+            ->mapWithKeys(function($item, $key) {
+                return [strtolower($item['alpha2']) => $item['name']];
+            });
+
         return $this->view('profile.edit', [
             'user'      => $user,
             'airlines'  => $airlines,
             'airports'  => $airports,
+            'countries' => $countries,
             'timezones' => Timezonelist::toArray(),
         ]);
     }

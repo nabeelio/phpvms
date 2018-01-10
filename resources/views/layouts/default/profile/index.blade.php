@@ -7,6 +7,7 @@
             <img src="{!! public_asset('/assets/frontend/img/logo.svg') !!}" alt="">
         </div>
         <h3 class="title">{!! $user->name !!}</h3>
+        <h6><span class="flag-icon flag-icon-{!! $user->country !!}"></span></h6>
         <h6>{!! $user->pilot_id !!}</h6>
         <h6>{!! $user->rank->name !!}</h6>
         <p class="description" style="color: #9A9A9A;">

@@ -37,6 +37,7 @@ class User extends Authenticatable
         'airline_id',
         'rank_id',
         'api_key',
+        'country',
         'home_airport_id',
         'curr_airport_id',
         'last_pirep_id',
