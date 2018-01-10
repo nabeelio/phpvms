@@ -19,24 +19,30 @@ cache:
 
 services:
   - mysql
+#  - mariadb
   - redis-server
 
 addons:
   ssh_known_hosts: phpvms.net
 
+#before_install:
+#  - mysql -e 'CREATE DATABASE IF NOT EXISTS phpvms;'
+
+before_script:
+  - cp .travis/env.travis.php env.php
+  - composer install --no-interaction --verbose
+
+script:
+  - php artisan database:create --reset
+  - php artisan migrate:refresh --seed
+  - cp .travis/phpunit.travis.xml phpunit.xml
+  - vendor/bin/phpunit --debug --verbose
+
+after_failure:
+  - cat storage/logs/*.log
+
 jobs:
   include:
-    - stage: All tests
-      before_script:
-        - cp .travis/env.travis.php env.php
-        - composer install --no-interaction --verbose
-      script:
-        - php artisan database:create --reset
-        - php artisan migrate:refresh --seed
-        - cp .travis/phpunit.travis.xml phpunit.xml
-        - vendor/bin/phpunit --debug --verbose
-      after_failure:
-        - cat storage/logs/*.log
     - stage: deploy
       before_deploy:
         - openssl aes-256-cbc -K $encrypted_6ae8173eef05_key -iv $encrypted_6ae8173eef05_iv -in .travis/deploy_rsa.enc -out /tmp/deploy_rsa -d
