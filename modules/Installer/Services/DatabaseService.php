@@ -17,7 +17,7 @@ class DatabaseService {
         Log::info('Testing Connection: '.$driver.'::'.$user.':'.$pass.'@'.$host.':'.$port.';'.$name);
 
         if($driver === 'mysql') {
-            $dsn = "mysql:host=$host;port=$port;";
+            $dsn = "mysql:host=$host;port=$port;dbname=$name";
             Log::info('Connection string: '. $dsn);
             try {
                 $conn = new PDO($dsn, $user, $pass);
@@ -26,7 +26,7 @@ class DatabaseService {
             }
         }
 
-        // Needs testing
+        // TODO: Needs testing
         elseif ($driver === 'postgres') {
             $dsn = "pgsql:host=$host;port=$port;dbname=$name";
             try {
@@ -46,8 +46,10 @@ class DatabaseService {
     {
         $output = '';
 
-        \Artisan::call('database:create');
-        $output .= \Artisan::output();
+        if(config('database.default') === 'sqlite') {
+            \Artisan::call('database:create');
+            $output .= \Artisan::output();
+        }
 
         \Artisan::call('migrate');
         $output .= trim(\Artisan::output());

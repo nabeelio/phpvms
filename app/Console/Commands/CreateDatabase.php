@@ -2,6 +2,9 @@
 
 namespace App\Console\Commands;
 
+use Log;
+use PDO;
+
 use App\Console\BaseCommand;
 
 class CreateDatabase extends BaseCommand
@@ -17,44 +20,44 @@ class CreateDatabase extends BaseCommand
     }
 
     /**
-     * create the mysql database
+     * Create the mysql database
      * @param $dbkey
+     * @return bool
      */
     protected function create_mysql($dbkey)
     {
-        $exec = 'mysql';
-        if ($this->os->isWindowsLike()) {
-            $exec .= '.exe';
-        }
+        $host = config($dbkey . 'host');
+        $port = config($dbkey . 'port');
+        $name = config($dbkey . 'database');
+        $user = config($dbkey . 'username');
+        $pass = config($dbkey . 'password');
 
-        $mysql_cmd = [
-            $exec,
-            '-u' . config($dbkey . 'username'),
-            '-h' . config($dbkey . 'host'),
-            '-P' . config($dbkey . 'port'),
-        ];
+        $dbSvc = new \App\Console\Services\Database();
 
-        # only supply password if it's set
-        $password = config($dbkey . 'password');
-        if ($password !== '') {
-            $mysql_cmd[] = '-p' . $password;
+        $dsn = $dbSvc->createDsn($host, $port);
+        Log::info('Connection string: ' . $dsn);
+
+        try {
+            $conn = $dbSvc->createPDO($dsn, $user, $pass);
+        } catch (\PDOException $e) {
+            Log::error($e);
+            return false;
         }
 
         if ($this->option('reset') === true) {
-            $cmd = array_merge(
-                $mysql_cmd,
-                ["-e 'DROP DATABASE IF EXISTS " . config($dbkey . 'database') . "'"]
-            );
-
-            $this->runCommand($cmd);
+            try {
+                $conn->exec("DROP DATABASE IF EXISTS `$name`");
+            } catch (\PDOException $e) {
+                Log::error($e);
+            }
         }
 
-        $cmd = array_merge(
-            $mysql_cmd,
-            ["-e 'CREATE DATABASE IF NOT EXISTS " . config($dbkey . 'database') . "'"]
-        );
-
-        $this->runCommand($cmd);
+        try {
+            $conn->exec("CREATE DATABASE IF NOT EXISTS `$name`");
+        } catch (\PDOException $e) {
+            Log::error($e);
+            return false;
+        }
     }
 
     /**
