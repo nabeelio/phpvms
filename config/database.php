@@ -18,6 +18,10 @@ return [
             'collation' => 'utf8_unicode_ci',
             'strict' => false,
             'engine' => null,
+            'options' => [
+                PDO::ATTR_EMULATE_PREPARES => false,
+                #PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            ],
         ],
         'sqlite' => [
             'driver' => 'sqlite',
