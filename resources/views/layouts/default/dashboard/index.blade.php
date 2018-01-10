@@ -61,11 +61,8 @@
 
     </div>
     <div class="col-sm-4">
-
-        {{ Widget::recentPireps() }}
-
-        {{ Widget::recentPilots() }}
-
+        {{ Widget::latestPireps(['count' => 5]) }}
+        {{ Widget::latestPilots(['count' => 5]) }}
     </div>
 </div>
 @endsection

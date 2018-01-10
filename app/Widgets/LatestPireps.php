@@ -2,9 +2,9 @@
 
 namespace App\Widgets;
 
-use App\Repositories\UserRepository;
+use App\Repositories\PirepRepository;
 
-class RecentPilots extends BaseWidget
+class LatestPireps extends BaseWidget
 {
     protected $config = [
         'count' => 5,
@@ -15,11 +15,11 @@ class RecentPilots extends BaseWidget
      */
     public function run()
     {
-        $userRepo = app(UserRepository::class);
+        $pirepRepo = app(PirepRepository::class);
 
-        return $this->view('widgets.recent_pilots', [
+        return $this->view('widgets.latest_pireps', [
             'config' => $this->config,
-            'users' => $userRepo->recent($this->config['count']),
+            'pireps' => $pirepRepo->recent($this->config['count']),
         ]);
     }
 }
