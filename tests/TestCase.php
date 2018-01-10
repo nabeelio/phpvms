@@ -111,14 +111,17 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
      * Override the GET call to inject the user API key
      * @param string $uri
      * @param array $headers
+     * @param null $user
      * @return \Illuminate\Foundation\Testing\TestResponse
      */
-    public function get($uri, array $headers=[]): \Illuminate\Foundation\Testing\TestResponse
+    public function get($uri, array $headers=[], $user=null): \Illuminate\Foundation\Testing\TestResponse
     {
-        if(empty($headers)) {
-            if($this->user !== null) {
-                $headers = $this->headers($this->user);
-            }
+        if($this->user !== null) {
+            $headers = $this->headers($this->user);
+        }
+
+        if($user !== null) {
+            $headers['x-api-key'] = $user->api_key;
         }
 
         return parent::get($uri, $headers);

@@ -267,6 +267,11 @@ class PIREPService extends BaseService
 
         Log::info('PIREP ' . $pirep->id . ' state change to ACCEPTED');
 
+        # Update the aircraft
+        $pirep->aircraft->airport_id = $pirep->arr_airport_id;
+        $pirep->aircraft->landing_time = $pirep->updated_at;
+        $pirep->aircraft->save();
+
         event(new PirepAccepted($pirep));
 
         return $pirep;

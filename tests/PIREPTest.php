@@ -48,8 +48,10 @@ class PIREPTest extends TestCase
      */
     public function testAddPirep()
     {
+        $user = factory(App\Models\User::class)->create();
         $route = $this->createNewRoute();
         $pirep = factory(App\Models\Pirep::class)->create([
+            'user_id' => $user->id,
             'route' => implode(' ', $route)
         ]);
 
@@ -72,6 +74,13 @@ class PIREPTest extends TestCase
         $this->assertEquals($new_pirep_count, $pirep->pilot->flights);
         $this->assertEquals($new_flight_time, $pirep->pilot->flight_time);
         $this->assertEquals($pirep->arr_airport_id, $pirep->pilot->curr_airport_id);
+
+        # Check the location of the current aircraft
+        $this->assertEquals($pirep->aircraft->airport_id, $pirep->arr_airport_id);
+
+        # Also check via API:
+        $this->get('/api/fleet/aircraft/' . $pirep->aircraft_id, [], $user)
+             ->assertJson(['airport_id' => $pirep->arr_airport_id]);
 
         /**
          * Now go from ACCEPTED to REJECTED
