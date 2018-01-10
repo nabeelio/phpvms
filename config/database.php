@@ -19,7 +19,7 @@ return [
             'strict' => false,
             'engine' => null,
             'options' => [
-                PDO::ATTR_EMULATE_PREPARES => false,
+                PDO::ATTR_EMULATE_PREPARES => env('DB_EMULATE_PREPARES', false),
                 #PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
             ],
         ],

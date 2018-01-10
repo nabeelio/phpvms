@@ -2,12 +2,11 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Airline;
-use App\Models\Permission;
-use App\Models\Role;
-use App\Models\User;
-use App\Services\DatabaseService;
 use DB;
+use PDO;
+
+use App\Models\Airline;
+use App\Models\User;
 
 use App\Console\BaseCommand;
 use App\Models\Acars;
@@ -34,6 +33,7 @@ class DevCommands extends BaseCommand
             'clear-acars' => 'clearAcars',
             'clear-users' => 'clearUsers',
             'compile-assets' => 'compileAssets',
+            'db-attrs' => 'dbAttrs',
         ];
 
         if(!array_key_exists($command, $commands)) {
@@ -91,5 +91,21 @@ class DevCommands extends BaseCommand
     {
         $this->runCommand('npm update');
         $this->runCommand('npm run dev');
+    }
+
+    /**
+     * Output DB prepares versions
+     */
+    protected function dbAttrs()
+    {
+        $pdo = DB::connection()->getPdo();
+        $emulate_prepares_below_version = '5.1.17';
+        $server_version = $pdo->getAttribute(PDO::ATTR_SERVER_VERSION);
+        $emulate_prepares = version_compare($server_version, $emulate_prepares_below_version, '<');
+
+        $this->info('Server Version: '. $server_version);
+        $this->info('Emulate Prepares: '.$emulate_prepares);
+
+        $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, $emulate_prepares);
     }
 }

@@ -2,18 +2,21 @@
 
 namespace Modules\Installer\Services;
 
-use Illuminate\Encryption\Encrypter;
 use Log;
-use Symfony\Component\Filesystem\Exception\IOException;
+use PDO;
+use Illuminate\Encryption\Encrypter;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 
+/**
+ * Class EnvironmentService
+ * @package Modules\Installer\Services
+ */
 class EnvironmentService
 {
     /**
      * Create the .env file
      * @return boolean
+     * @throws \Symfony\Component\HttpFoundation\File\Exception\FileException
      */
     public function createEnvFile($driver, $host, $port, $name, $user, $pass)
     {
@@ -26,6 +29,7 @@ class EnvironmentService
             'DB_NAME' => $name,
             'DB_USER' => $user,
             'DB_PASS' => $pass,
+            'DB_EMULATE_PREPARES' => false,
         ];
 
         $opts = $this->getCacheDriver($opts);
@@ -43,6 +47,28 @@ class EnvironmentService
     protected function createAppKey()
     {
         return base64_encode(Encrypter::generateKey(config('app.cipher')));
+    }
+
+    /**
+     * @param $opts
+     * @return mixed
+     */
+    protected function determinePdoOptions($opts)
+    {
+        $dsn = "mysql:host=$opts[DB_HOST];port=$opts[DB_PORT];";
+        Log::info('Connection string: ' . $dsn);
+
+        $conn = new PDO($dsn, $opts['DB_USER'], $opts['DB_PASS']);
+        $version = strtolower($conn->getAttribute(PDO::ATTR_SERVER_VERSION));
+
+        # If it's mariadb, enable the emulation for prepared statements
+        # seems to be throwing a problem on 000webhost
+        # https://github.com/nabeelio/phpvms/issues/132
+        if(strpos($version, 'mariadb') !== false) {
+            $opts['DB_EMULATE_PREPARES'] = true;
+        }
+
+        return $opts;
     }
 
     /**
