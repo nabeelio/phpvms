@@ -57,17 +57,7 @@
             @include('layouts.default.pireps.pirep_card', ['pirep' => $last_pirep])
         @endif
 
-        <div class="card">
-            <div class="nav nav-tabs" role="tablist" style="background: #067ec1; color: #FFF;">
-                News
-            </div>
-            <div class="card-block">
-                <!-- Tab panes -->
-                <div class="tab-content">
-                    News goes here!
-                </div>
-            </div>
-        </div>
+        {{ Widget::latestNews(['count' => 1]) }}
 
     </div>
     <div class="col-sm-4">
