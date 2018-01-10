@@ -13,10 +13,14 @@ cache:
     - $HOME/.composer/cache
     - $HOME/.npm
 
-services:
-  - mysql
-  - mariadb
-  - redis-server
+env:
+  - DB=mysql
+  - DB=mariadb
+
+#services:
+#  - mysql
+#  - mariadb
+#  - redis-server
 
 addons:
   ssh_known_hosts: phpvms.net
