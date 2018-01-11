@@ -3,54 +3,89 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Facades\Utils;
-use App\Models\Enums\PirepSource;
-use App\Models\Enums\PirepState;
-use App\Repositories\Criteria\WhereCriteria;
-use App\Services\GeoService;
-use App\Services\PIREPService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
+use App\Models\Enums\PirepSource;
+use App\Models\Enums\PirepState;
 use App\Models\Pirep;
 use App\Models\PirepField;
 
+use App\Services\GeoService;
+use App\Services\PIREPService;
+use App\Services\UserService;
+
+use App\Repositories\Criteria\WhereCriteria;
 use App\Http\Controllers\Controller;
 use App\Repositories\AirlineRepository;
-use App\Repositories\AircraftRepository;
 use App\Repositories\AirportRepository;
 use App\Repositories\PirepRepository;
 use App\Repositories\PirepFieldRepository;
+use App\Repositories\SubfleetRepository;
 
 
 class PirepController extends Controller
 {
     private $airlineRepo,
-            $aircraftRepo,
             $pirepRepo,
             $airportRepo,
             $pirepFieldRepo,
             $geoSvc,
-            $pirepSvc;
+            $pirepSvc,
+            $subfleetRepo,
+            $userSvc;
 
     public function __construct(
         AirlineRepository $airlineRepo,
         PirepRepository $pirepRepo,
-        AircraftRepository $aircraftRepo,
         AirportRepository $airportRepo,
         PirepFieldRepository $pirepFieldRepo,
         GeoService $geoSvc,
-        PIREPService $pirepSvc
+        SubfleetRepository $subfleetRepo,
+        PIREPService $pirepSvc,
+        UserService $userSvc
     ) {
         $this->airlineRepo = $airlineRepo;
-        $this->aircraftRepo = $aircraftRepo;
         $this->pirepRepo = $pirepRepo;
         $this->airportRepo = $airportRepo;
+        $this->subfleetRepo = $subfleetRepo;
         $this->pirepFieldRepo = $pirepFieldRepo;
 
         $this->geoSvc = $geoSvc;
         $this->pirepSvc = $pirepSvc;
+        $this->userSvc = $userSvc;
     }
 
+    /**
+     * Dropdown with aircraft grouped by subfleet
+     */
+    public function aircraftList($user=null)
+    {
+        $aircraft = [];
+
+        if ($user === null) {
+            $subfleets = $this->subfleetRepo->all();
+        } else {
+            $subfleets = $this->userSvc->getAllowableSubfleets($user);
+        }
+
+        foreach ($subfleets as $subfleet) {
+            $tmp = [];
+            foreach ($subfleet->aircraft as $ac) {
+                $tmp[$ac->id] = $ac['name'] . ' - ' . $ac['registration'];
+            }
+
+            $aircraft[$subfleet->name] = $tmp;
+        }
+
+        return $aircraft;
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Prettus\Repository\Exceptions\RepositoryException
+     */
     public function index(Request $request)
     {
         $user = Auth::user();
@@ -72,10 +107,12 @@ class PirepController extends Controller
 
     public function create()
     {
+        $user = Auth::user();
+
         return $this->view('pireps.create', [
+            'aircraft' => $this->aircraftList($user),
             'airports' => $this->airportRepo->selectBoxList(),
             'airlines' => $this->airlineRepo->selectBoxList(),
-            'aircraft' => $this->aircraftRepo->selectBoxList(),
             'pirepfields' => $this->pirepFieldRepo->all(),
             'fieldvalues' => [],
         ]);

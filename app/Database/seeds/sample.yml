@@ -190,14 +190,11 @@ aircraft:
     name: Boeing 777-200
     registration: NC20
     tail_number: 20
-
-#aircraft_rank:
-#  - aircraft_id: 1
-#    rank_id: 1
-#  - aircraft_id: 1
-#    rank_id: 2
-#    acars_pay: 100
-#    manual_pay: 50
+  - id: 3
+    subfleet_id: 1
+    name: Boeing 747-412
+    registration: NS233
+    tail_number: 1233
 
 fares:
   - id: 1
@@ -252,6 +249,10 @@ subfleet_fare:
 subfleet_flight:
   - subfleet_id: 1
     flight_id: flightid_1
+
+subfleet_rank:
+  - rank_id: 1
+    subfleet_id: 1
 
 flights:
   - id: flightid_1

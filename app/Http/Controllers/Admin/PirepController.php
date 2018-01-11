@@ -16,10 +16,13 @@ use App\Models\Enums\PirepState;
 
 use App\Http\Requests\CreatePirepRequest;
 use App\Http\Requests\UpdatePirepRequest;
+
 use App\Repositories\AircraftRepository;
 use App\Repositories\AirlineRepository;
 use App\Repositories\AirportRepository;
 use App\Repositories\PirepRepository;
+use App\Repositories\SubfleetRepository;
+
 use App\Facades\Utils;
 
 
@@ -27,34 +30,50 @@ class PirepController extends BaseController
 {
     private $airportRepo,
             $airlineRepo,
-            $pirepRepo,
             $aircraftRepo,
-            $pirepSvc;
+            $pirepSvc,
+            $pirepRepo,
+            $subfleetRepo;
 
     public function __construct(
         AirportRepository $airportRepo,
         AirlineRepository $airlineRepo,
         AircraftRepository $aircraftRepo,
         PirepRepository $pirepRepo,
-        PIREPService $pirepSvc
+        PIREPService $pirepSvc,
+        SubfleetRepository $subfleetRepo
     ) {
         $this->airportRepo = $airportRepo;
         $this->airlineRepo = $airlineRepo;
         $this->aircraftRepo = $aircraftRepo;
         $this->pirepRepo = $pirepRepo;
         $this->pirepSvc = $pirepSvc;
+        $this->subfleetRepo = $subfleetRepo;
     }
 
-    public function aircraftList()
+    /**
+     * Dropdown with aircraft grouped by subfleet
+     */
+    public function aircraftList($user=null)
     {
-        $retval = [];
-        $all_aircraft = $this->aircraftRepo->all();
+        $aircraft = [];
 
-        foreach ($all_aircraft as $ac) {
-            $retval[$ac->id] = $ac->subfleet->name.' - '.$ac->name.' ('.$ac->registration.')';
+        if($user === null) {
+            $subfleets = $this->subfleetRepo->all();
+        } else {
+            $subfleets = $this->userSvc->getAllowableSubfleets($user);
         }
 
-        return $retval;
+        foreach ($subfleets as $subfleet) {
+            $tmp = [];
+            foreach ($subfleet->aircraft as $ac) {
+                $tmp[$ac->id] = $ac['name'] . ' - ' . $ac['registration'];
+            }
+
+            $aircraft[$subfleet->name] = $tmp;
+        }
+
+        return $aircraft;
     }
 
     /**
@@ -102,7 +121,11 @@ class PirepController extends BaseController
      */
     public function create()
     {
-        return view('admin.pireps.create');
+        return view('admin.pireps.create', [
+            'aircraft' => $this->aircraftList(),
+            'airports' => $this->airportRepo->selectBoxList(),
+            'airlines' => $this->airlineRepo->selectBoxList(),
+        ]);
     }
 
     /**
@@ -160,9 +183,9 @@ class PirepController extends BaseController
 
         return view('admin.pireps.edit', [
             'pirep' => $pirep,
+            'aircraft' => $this->aircraftList(),
             'airports' => $this->airportRepo->selectBoxList(),
             'airlines' => $this->airlineRepo->selectBoxList(),
-            'aircraft' => $this->aircraftRepo->selectBoxList(),
         ]);
     }
 
