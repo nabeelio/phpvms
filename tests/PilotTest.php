@@ -42,8 +42,7 @@ class PilotTest extends TestCase
         $body = $resp->json();
 
         # Get the subfleet that's been added in
-        print_r($body);
-        $subfleet_from_api = $body['data'][0];
+        $subfleet_from_api = $body[0];
         $this->assertEquals($subfleet->id, $subfleet_from_api['id']);
 
         # Get all the aircraft from that subfleet
@@ -57,7 +56,7 @@ class PilotTest extends TestCase
         $body = $resp->json();
 
         # Get the subfleet that's been added in
-        $subfleet_from_api = $body['data'][0];
+        $subfleet_from_api = $body[0];
         $this->assertEquals($subfleet->id, $subfleet_from_api['id']);
 
         # Get all the aircraft from that subfleet

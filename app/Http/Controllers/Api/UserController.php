@@ -74,6 +74,7 @@ class UserController extends RestController
         $user = $this->userRepo->find($id);
         $subfleets = $this->userSvc->getAllowableSubfleets($user);
 
+        SubfleetResource::withoutWrapping();
         return SubfleetResource::collection($subfleets);
     }
 
