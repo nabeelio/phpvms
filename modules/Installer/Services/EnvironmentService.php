@@ -32,6 +32,7 @@ class EnvironmentService
             'DB_EMULATE_PREPARES' => false,
         ];
 
+        $opts = $this->determinePdoOptions($opts);
         $opts = $this->getCacheDriver($opts);
         $opts = $this->getQueueDriver($opts);
 
