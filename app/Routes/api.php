@@ -53,7 +53,9 @@ Route::group(['middleware' => ['api.auth']], function ()
 
     # This is the info of the user whose token is in use
     Route::get('user', 'UserController@index');
+    Route::get('user/fleet', 'UserController@fleet');
 
     Route::get('users/{id}', 'UserController@get');
     Route::get('users/{id}/bids', 'UserController@bids');
+    Route::get('users/{id}/fleet', 'UserController@fleet');
 });

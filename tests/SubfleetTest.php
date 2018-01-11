@@ -1,7 +1,5 @@
 <?php
 
-use App\Models\Fare;
-use App\Models\Subfleet;
 
 class SubfleetTest extends TestCase
 {

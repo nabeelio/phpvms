@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Illuminate\Support\Collection;
 use Log;
 use App\Facades\Utils;
 use App\Models\User;
@@ -51,6 +52,18 @@ class UserService extends BaseService
         event(new UserRegistered($user));
 
         return $user;
+    }
+
+    /**
+     * Return the subfleets this user is allowed access to,
+     * based on their current rank
+     * @param $user
+     * @return Collection
+     */
+    public function getAllowableSubfleets($user)
+    {
+        $subfleets = $user->rank->subfleets();
+        return $subfleets->with('aircraft')->get();
     }
 
     /**

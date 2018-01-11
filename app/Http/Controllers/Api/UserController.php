@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Services\UserService;
 use Auth;
 use Illuminate\Http\Request;
 
@@ -9,17 +10,21 @@ use App\Repositories\UserRepository;
 
 use App\Models\UserBid;
 
+use App\Http\Resources\Subfleet as SubfleetResource;
 use App\Http\Resources\Flight as FlightResource;
 use App\Http\Resources\User as UserResource;
 
 
 class UserController extends RestController
 {
-    protected $userRepo;
+    protected $userRepo, $userSvc;
 
-    public function __construct(UserRepository $userRepo)
-    {
+    public function __construct(
+        UserRepository $userRepo,
+        UserService $userSvc
+    ) {
         $this->userRepo = $userRepo;
+        $this->userSvc = $userSvc;
     }
 
     /**
@@ -42,6 +47,8 @@ class UserController extends RestController
 
     /**
      * Return all of the bids for the passed-in user
+     * @param $id
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function bids($id)
     {
@@ -49,6 +56,25 @@ class UserController extends RestController
             ->pluck('flight');
 
         return FlightResource::collection($flights);
+    }
+
+    /**
+     * Return the fleet that this user is allowed to
+     * @param Request $request
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
+    public function fleet(Request $request)
+    {
+        if($request->id === null) {
+            $id = Auth::user()->id;
+        } else {
+            $id = $request->id;
+        }
+
+        $user = $this->userRepo->find($id);
+        $subfleets = $this->userSvc->getAllowableSubfleets($user);
+
+        return SubfleetResource::collection($subfleets);
     }
 
 }
