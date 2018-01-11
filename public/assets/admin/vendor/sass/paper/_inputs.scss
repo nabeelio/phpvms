@@ -1,6 +1,9 @@
 input {
     margin-top: 5px;
     border: none;
+    font-size: 1rem;
+    cursor: text;
+    font-family: "Inconsolata", "Monaco", "Consolas", "Lucida Console", monospace !important;
 }
 
 .form-control::-moz-placeholder{
@@ -17,9 +20,10 @@ input {
 }
 
 .form-control {
+
     display: block;
     width: 100%;
-    font-size: $font-size-base;
+    /*font-size: $font-size-base;*/
     line-height: 1.846;
     color: #666666;
     border: medium none;

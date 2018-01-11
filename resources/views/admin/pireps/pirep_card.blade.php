@@ -48,7 +48,7 @@
                         </div>
                     </div>
                     <div class="col-sm-6">
-                        <span class="description">more data&nbsp;</span>
+
                     </div>
                 </div>
             </div>
