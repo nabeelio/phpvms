@@ -38,7 +38,7 @@ class PilotTest extends TestCase
         /**
          * Check via API
          */
-        $resp = $this->get('/api/user/fleet', [], $user);
+        $resp = $this->get('/api/user/fleet', [], $user)->assertStatus(200);
         $body = $resp->json();
 
         # Get the subfleet that's been added in
@@ -52,7 +52,7 @@ class PilotTest extends TestCase
         /**
          * Check the user ID call
          */
-        $resp = $this->get('/api/users/'.$user->id.'/fleet', [], $user);
+        $resp = $this->get('/api/users/'.$user->id.'/fleet', [], $user)->assertStatus(200);
         $body = $resp->json();
 
         # Get the subfleet that's been added in

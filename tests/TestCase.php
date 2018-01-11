@@ -124,7 +124,13 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
             $headers['x-api-key'] = $user->api_key;
         }
 
-        return parent::get($uri, $headers);
+        $req = parent::get($uri, $headers);
+        if($req->isClientError() || $req->isServerError()) {
+            Log::error('Error on '.$uri);
+            Log::error($req->json());
+        }
+
+        return $req;
     }
 
     /**
