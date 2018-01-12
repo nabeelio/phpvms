@@ -36,12 +36,12 @@
 <!-- Created At Field -->
 <div class="form-group">
     {!! Form::label('created_at', 'Created At:') !!}
-    <p>{!! $subfleet->created_at !!}</p>
+    <p>{!! show_datetime($subfleet->created_at) !!}</p>
 </div>
 
 <!-- Updated At Field -->
 <div class="form-group">
     {!! Form::label('updated_at', 'Updated At:') !!}
-    <p>{!! $subfleet->updated_at !!}</p>
+    <p>{!! show_datetime($subfleet->updated_at) !!}</p>
 </div>
 

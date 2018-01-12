@@ -37,12 +37,12 @@
 <!-- Created At Field -->
 <div class="form-group">
     {!! Form::label('created_at', 'Created At:') !!}
-    <p>{!! $rank->created_at !!}</p>
+    <p>{!! show_datetime($rank->created_at) !!}</p>
 </div>
 
 <!-- Updated At Field -->
 <div class="form-group">
     {!! Form::label('updated_at', 'Updated At:') !!}
-    <p>{!! $rank->updated_at !!}</p>
+    <p>{!! show_datetime($rank->updated_at) !!}</p>
 </div>
 

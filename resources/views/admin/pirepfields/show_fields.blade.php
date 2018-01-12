@@ -19,12 +19,12 @@
 <!-- Created At Field -->
 <div class="form-group">
     {!! Form::label('created_at', 'Created At:') !!}
-    <p>{!! $field->created_at !!}</p>
+    <p>{!! show_datetime($field->created_at) !!}</p>
 </div>
 
 <!-- Updated At Field -->
 <div class="form-group">
     {!! Form::label('updated_at', 'Updated At:') !!}
-    <p>{!! $field->updated_at !!}</p>
+    <p>{!! show_datetime($field->updated_at) !!}</p>
 </div>
 
