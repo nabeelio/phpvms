@@ -1,5 +1,18 @@
 <?php
 
+if (!function_exists('skin_view')) {
+    /**
+     * Render a skin
+     * @param $template
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    function skin_view($template, array $vars = [], $merge_data = [])
+    {
+        $tpl = 'layouts/' . config('phpvms.skin') . '/' . $template;
+        return view($tpl, $vars, $merge_data);
+    }
+}
+
 /**
  * Shortcut for retrieving a setting value
  */

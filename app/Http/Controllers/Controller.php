@@ -15,11 +15,12 @@ class Controller extends BaseController
      * Display a view but pull it from the active skin
      * @param string $template
      * @param array $vars
+     * @param array $merge_data
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function view(string $template, array $vars=[])
+    public function view($template, array $vars=[], $merge_data=[])
     {
         $tpl = 'layouts/' . config('phpvms.skin') . '/' . $template;
-        return view($tpl, $vars);
+        return view($tpl, $vars, $merge_data);
     }
 }
