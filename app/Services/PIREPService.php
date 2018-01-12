@@ -268,6 +268,7 @@ class PIREPService extends BaseService
         Log::info('PIREP ' . $pirep->id . ' state change to ACCEPTED');
 
         # Update the aircraft
+        $pirep->aircraft->flight_time += $pirep->flight_time;
         $pirep->aircraft->airport_id = $pirep->arr_airport_id;
         $pirep->aircraft->landing_time = $pirep->updated_at;
         $pirep->aircraft->save();
@@ -299,6 +300,9 @@ class PIREPService extends BaseService
         $pirep->state = PirepState::REJECTED;
         $pirep->save();
         $pirep->refresh();
+
+        $pirep->aircraft->flight_time -= $pirep->flight_time;
+        $pirep->aircraft->save();
 
         Log::info('PIREP ' . $pirep->id . ' state change to REJECTED');
 

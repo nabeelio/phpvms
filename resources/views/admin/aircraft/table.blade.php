@@ -2,8 +2,9 @@
     <thead>
         <th>Subfleet</th>
         <th>Name</th>
-        <th style="text-align: center;">ICAO</th>
+        {{--<th style="text-align: center;">ICAO</th>--}}
         <th style="text-align: center;">Registration</th>
+        <th style="text-align: center;">Hours</th>
         <th style="text-align: center;">Active</th>
         <th style="text-align: right;"></th>
     </thead>
@@ -21,7 +22,10 @@
             </td>
             <td><a href="{!! route('admin.aircraft.edit', [$ac->id]) !!}">{!! $ac->name !!}</a></td>
             <td style="text-align: center;">{!! $ac->icao !!}</td>
-            <td style="text-align: center;">{!! $ac->registration !!}</td>
+            {{--<td style="text-align: center;">{!! $ac->registration !!}</td>--}}
+            <td style="text-align: center;">
+                {!! Utils::minutesToTimeString($ac->flight_hours) !!}
+            </td>
             <td style="text-align: center;">
                 @if($ac->active == GenericState::ACTIVE)
                     <span class="label label-success">{!! GenericState::label($ac->active); !!}</span>
