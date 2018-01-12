@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Frontend;
 
-use App\Models\User;
 use Illuminate\Database\QueryException;
+use App\Http\Controllers\Controller;
+use App\Models\User;
 
-class HomeController extends AppBaseController
+class HomeController extends Controller
 {
     /**
      * Show the application dashboard.

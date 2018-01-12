@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\AppBaseController;
+use App\Http\Controllers\Controller;
 use Response;
 
 
-class BaseController extends AppBaseController
+class BaseController extends Controller
 {
 
 }

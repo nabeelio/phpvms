@@ -2,11 +2,11 @@
 
 namespace Modules\Sample\Http\Controllers;
 
-use App\Http\Controllers\AppBaseController;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 
-class AdminController extends AppBaseController
+class AdminController extends Controller
 {
     /**
      * Display a listing of the resource.

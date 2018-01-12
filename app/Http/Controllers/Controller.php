@@ -20,7 +20,6 @@ class Controller extends BaseController
      */
     public function view($template, array $vars=[], $merge_data=[])
     {
-        $tpl = 'layouts/' . config('phpvms.skin') . '/' . $template;
-        return view($tpl, $vars, $merge_data);
+        return skin_view($template, $vars, $merge_data);
     }
 }

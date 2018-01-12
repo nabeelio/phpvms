@@ -10,14 +10,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Jackiedo\Timezonelist\Facades\Timezonelist;
 
+use App\Http\Controllers\Controller;
+
 use App\Models\User;
 use App\Facades\Utils;
 use App\Repositories\AirlineRepository;
 use App\Repositories\AirportRepository;
 use App\Repositories\UserRepository;
-use App\Http\Controllers\AppBaseController;
 
-class ProfileController extends AppBaseController
+class ProfileController extends Controller
 {
     private $airlineRepo,
             $airportRepo,

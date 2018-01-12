@@ -10,7 +10,7 @@ use Log;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-use App\Http\Controllers\AppBaseController;
+use App\Http\Controllers\Controller;
 use App\Models\UserBid;
 use App\Repositories\FlightRepository;
 use App\Repositories\Criteria\WhereCriteria;
@@ -18,7 +18,7 @@ use App\Repositories\Criteria\WhereCriteria;
 use Mockery\Exception;
 use Prettus\Repository\Exceptions\RepositoryException;
 
-class FlightController extends AppBaseController
+class FlightController extends Controller
 {
     private $airlineRepo,
             $airportRepo,

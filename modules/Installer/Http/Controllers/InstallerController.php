@@ -13,7 +13,8 @@ use App\Models\Setting;
 use App\Repositories\AirlineRepository;
 use App\Facades\Utils;
 use App\Services\UserService;
-use App\Http\Controllers\AppBaseController;
+
+use App\Http\Controllers\Controller;
 
 use Modules\Installer\Services\DatabaseService;
 use Modules\Installer\Services\EnvironmentService;
@@ -21,7 +22,7 @@ use Modules\Installer\Services\RequirementsService;
 
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
-class InstallerController extends AppBaseController
+class InstallerController extends Controller
 {
     protected $airlineRepo,
               $dbService,

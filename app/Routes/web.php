@@ -1,6 +1,5 @@
 <?php
 
-Route::get('/', 'HomeController@index')->name('home');
 
 /**
  * User doesn't need to be logged in for these
@@ -8,6 +7,7 @@ Route::get('/', 'HomeController@index')->name('home');
 Route::group([
     'namespace' => 'Frontend', 'prefix' => '', 'as' => 'frontend.'
 ], function() {
+    Route::get('/', 'HomeController@index')->name('home');
     Route::get('r/{id}', 'PirepController@show')->name('pirep.show.public');
     Route::get('p/{id}', 'ProfileController@show')->name('profile.show.public');
 

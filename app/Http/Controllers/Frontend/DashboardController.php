@@ -5,11 +5,11 @@ namespace App\Http\Controllers\Frontend;
 use Log;
 use Illuminate\Support\Facades\Auth;
 
+use App\Http\Controllers\Controller;
 use App\Repositories\PirepRepository;
 use App\Repositories\UserRepository;
-use App\Http\Controllers\AppBaseController;
 
-class DashboardController extends AppBaseController
+class DashboardController extends Controller
 {
     private $pirepRepo, $userRepo;
 
