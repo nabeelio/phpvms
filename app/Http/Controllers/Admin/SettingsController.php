@@ -33,7 +33,7 @@ class SettingsController extends BaseController
                 continue;
             }
 
-            Log::info('Updating "'.$setting->key.'" from "'.$setting->value.'" to "'.$value.'"');
+            Log::info('Updating "'.$setting->id.'" from "'.$setting->value.'" to "'.$value.'"');
             $setting->value = $value;
             $setting->save();
         }
