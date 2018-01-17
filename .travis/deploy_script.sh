@@ -53,7 +53,7 @@ if [ "$TRAVIS" = "true" ]; then
     #git archive --format=tar.gz --prefix=phpvms/ --output=test.tar.gz HEAD
 
     echo "running rsync"
-    rsync -ahP --delete-after /tmp/$TAR_NAME downloads@phpvms.net:/var/www/downloads/
+    rsync -ahP --delete-after /tmp/$TAR_NAME downloads@phpvms.net:/var/www/phpvms/downloads/
 
     curl -X POST --data "{\"content\": \"A new build is available at http://phpvms.net/downloads/$TAR_NAME ($VERSION)\"}" -H "Content-Type: application/json"  $DISCORD_WEBHOOK_URL
 
