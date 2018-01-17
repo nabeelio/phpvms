@@ -47,11 +47,12 @@ if [ "$TRAVIS" = "true" ]; then
     cd /tmp
     tar -czf $TAR_NAME -C $TRAVIS_BUILD_DIR/../ phpvms
 
-    echo "running rsync"
-    rsync -ahP --delete-after /tmp/$TAR_NAME downloads@phpvms.net:/var/www/phpvms/downloads/
+    #echo "running rsync"
+    #rsync -ahP --delete-after /tmp/$TAR_NAME downloads@phpvms.net:/var/www/phpvms/downloads/
 
+    echo "uploading to s3"
     cd /tmp/
     artifacts upload --target-paths "/" $TAR_NAME
 
-    curl -X POST --data "{\"content\": \"A new build is available at http://phpvms.net/downloads/$TAR_NAME ($VERSION)\"}" -H "Content-Type: application/json"  $DISCORD_WEBHOOK_URL
+    curl -X POST --data "{\"content\": \"A new build is available at http://downloads.phpvms.net/$TAR_NAME ($VERSION)\"}" -H "Content-Type: application/json"  $DISCORD_WEBHOOK_URL
 fi
