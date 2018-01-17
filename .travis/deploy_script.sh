@@ -54,6 +54,7 @@ if [ "$TRAVIS" = "true" ]; then
 
     echo "running rsync"
     rsync -ahP --delete-after /tmp/$TAR_NAME downloads@phpvms.net:/var/www/phpvms/downloads/
+    artifacts upload /tmp/$TAR_NAME
 
     curl -X POST --data "{\"content\": \"A new build is available at http://phpvms.net/downloads/$TAR_NAME ($VERSION)\"}" -H "Content-Type: application/json"  $DISCORD_WEBHOOK_URL
 

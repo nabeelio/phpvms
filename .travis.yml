@@ -1,6 +1,3 @@
-#
-#
-
 language: php
 php:
   - '7.0'
@@ -29,6 +26,7 @@ addons:
 #  - mysql -e 'CREATE DATABASE IF NOT EXISTS phpvms;'
 
 before_script:
+  - curl -sL https://raw.githubusercontent.com/travis-ci/artifacts/master/install | bash
   - cp .travis/env.travis.php env.php
   - composer install --no-interaction --verbose
 
