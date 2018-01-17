@@ -11,15 +11,11 @@ if [ "$TRAVIS" = "true" ]; then
     TAR_NAME="phpvms-7.0.0-$PKG_NAME.tar.gz"
     echo "Writing $TAR_NAME"
 
-    #echo "running build"
-    #npm run prod
-
     # delete all superfluous files
     echo "cleaning files"
 
     cd $TRAVIS_BUILD_DIR
 
-    #php artisan version:show --format compact --suppress-app-name > VERSION
     php artisan phpvms:version --write > VERSION
     VERSION=`cat VERSION`
     echo "Version: $VERSION"
@@ -50,13 +46,12 @@ if [ "$TRAVIS" = "true" ]; then
     echo "creating tarball"
     cd /tmp
     tar -czf $TAR_NAME -C $TRAVIS_BUILD_DIR/../ phpvms
-    #git archive --format=tar.gz --prefix=phpvms/ --output=test.tar.gz HEAD
 
     echo "running rsync"
     rsync -ahP --delete-after /tmp/$TAR_NAME downloads@phpvms.net:/var/www/phpvms/downloads/
+
     cd /tmp/
-    artifacts upload $TAR_NAME
+    artifacts upload --target-paths "/" $TAR_NAME
 
     curl -X POST --data "{\"content\": \"A new build is available at http://phpvms.net/downloads/$TAR_NAME ($VERSION)\"}" -H "Content-Type: application/json"  $DISCORD_WEBHOOK_URL
-
 fi
