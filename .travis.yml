@@ -26,7 +26,6 @@ addons:
 #  - mysql -e 'CREATE DATABASE IF NOT EXISTS phpvms;'
 
 before_script:
-  - curl -sL https://raw.githubusercontent.com/travis-ci/artifacts/master/install | bash
   - cp .travis/env.travis.php env.php
   - composer install --no-interaction --verbose
 
@@ -44,6 +43,7 @@ jobs:
     - stage: deploy
       script: skip
       before_deploy:
+        - curl -sL https://raw.githubusercontent.com/travis-ci/artifacts/master/install | bash
         - openssl aes-256-cbc -K $encrypted_6ae8173eef05_key -iv $encrypted_6ae8173eef05_iv -in .travis/deploy_rsa.enc -out /tmp/deploy_rsa -d
         - eval "$(ssh-agent -s)"
         - chmod 600 /tmp/deploy_rsa
