@@ -61,6 +61,14 @@
         @yield('content')
     </div>
     <div class="clearfix" style="height: 200px;"></div>
+
+    <footer class="footer footer-default">
+        <div class="container">
+            <div class="copyright">
+                powered by <a href="http://www.phpvms.net" target="_blank">phpvms</a>
+            </div>
+        </div>
+    </footer>
 </div>
 
 <script src="{!! public_asset('/assets/system/js/vendor.js') !!}?v={!! time() !!}"></script>
