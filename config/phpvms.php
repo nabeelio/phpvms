@@ -41,4 +41,9 @@ return [
      * Misc Settings
      */
     'news_feed_url' => 'http://forum.phpvms.net/rss/1-announcements-feed.xml/?',
+
+    /**
+     * URL to the latest version file
+     */
+    'version_file' => 'http://downloads.phpvms.net/VERSION',
 ];

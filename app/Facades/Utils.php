@@ -2,6 +2,7 @@
 
 namespace App\Facades;
 
+use GuzzleHttp\Client;
 use \Illuminate\Support\Facades\Facade;
 
 class Utils extends Facade
@@ -10,6 +11,33 @@ class Utils extends Facade
     {
         return 'utils';
     }
+
+    /**
+     * Download a URI. If a file is given, it will save the downloaded
+     * content into that file
+     * @param $uri
+     * @param null $file
+     * @return string
+     * @throws \RuntimeException
+     */
+    public static function downloadUrl($uri, $file=null)
+    {
+        $opts = [];
+        if($file !== null) {
+            $opts['sink'] = $file;
+        }
+
+        $client = new Client();
+        $response = $client->request('GET', $uri, $opts);
+
+        $body = $response->getBody()->getContents();
+        if($response->getHeader('content-type') === 'application/json') {
+            $body = \GuzzleHttp\json_decode($body);
+        }
+
+        return $body;
+    }
+
 
     /**
      * Returns a 40 character API key that a user can use

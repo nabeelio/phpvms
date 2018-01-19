@@ -49,7 +49,8 @@
         "league/iso3166": "^2.1",
         "google/apiclient": "^2.0",
         "theiconic/php-ga-measurement-protocol": "^2.0",
-        "irazasyed/laravel-gamp": "^1.3"
+        "irazasyed/laravel-gamp": "^1.3",
+        "vierbergenlars/php-semver": "^3.0"
     },
     "require-dev": {
         "phpunit/phpunit": "6.4.0",

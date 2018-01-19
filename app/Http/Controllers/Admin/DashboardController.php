@@ -3,11 +3,16 @@
 namespace App\Http\Controllers\Admin;
 
 use Auth;
+use Flash;
+use Version;
 use Illuminate\Http\Request;
 
+use App\Facades\Utils;
 use App\Repositories\NewsRepository;
 use App\Repositories\PirepRepository;
 use App\Repositories\UserRepository;
+
+use vierbergenlars\SemVer\version as semver;
 
 class DashboardController extends BaseController
 {
@@ -24,10 +29,29 @@ class DashboardController extends BaseController
     }
 
     /**
-     * Display a listing of the Airlines.
+     * Check if a new version is available by checking the VERSION file from
+     * S3 and then using the semver library to do the comparison. Just show
+     * a session flash file on this page that'll get cleared right away
+     * @throws \RuntimeException
+     */
+    protected function checkNewVersion()
+    {
+        $current_version = new semver(Version::compact());
+        $latest_version = new semver(Utils::downloadUrl(config('phpvms.version_file')));
+
+        if(semver::gt($latest_version, $current_version)) {
+            Flash::warning('New version '.$latest_version.' is available!');
+        }
+    }
+
+    /**
+     * Show the admin dashboard
+     * @throws \RuntimeException
      */
     public function index(Request $request)
     {
+        $this->checkNewVersion();
+
         return view('admin.dashboard.index', [
             'news' => $this->newsRepo->getLatest(),
             'pending_pireps' => $this->pirepRepo->getPendingCount(),
