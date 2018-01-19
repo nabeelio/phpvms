@@ -2,6 +2,7 @@
 
 namespace Modules\Installer\Http\Controllers;
 
+use App\Models\Enums\AnalyticsDimensions;
 use Log;
 use Irazasyed\LaravelGAMP\Facades\GAMP;
 use Illuminate\Http\Request;
@@ -270,7 +271,7 @@ class InstallerController extends Controller
 
         $gamp = GAMP::setClientId(uniqid('', true));
         $gamp->setDocumentPath('/install');
-        $gamp->setCustomDimension(PHP_VERSION, 1);
+        $gamp->setCustomDimension(PHP_VERSION, AnalyticsDimensions::PHP_VERSION);
         $gamp->sendPageview();
 
         # If analytics are disabled
