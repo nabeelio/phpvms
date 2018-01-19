@@ -42,7 +42,14 @@ class SettingRepository extends BaseRepository implements CacheableInterface
         switch($setting->type) {
             case 'bool':
             case 'boolean':
-                return (bool) $setting->value;
+                $value = $setting->value;
+                if($value === 'true' || $value === '1') {
+                    $value = true;
+                } elseif($value === 'false' || $value === '0') {
+                    $value = false;
+                }
+
+                return (bool) $value;
                 break;
             case 'date':
                 return Carbon::parse($setting->value);
