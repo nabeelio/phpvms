@@ -2,15 +2,14 @@
 
 namespace Modules\Installer\Http\Controllers;
 
-use Irazasyed\LaravelGAMP\Facades\GAMP;
 use Log;
+use Irazasyed\LaravelGAMP\Facades\GAMP;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Validator;
 
 use App\Models\User;
-use App\Models\Setting;
 use App\Repositories\AirlineRepository;
 use App\Facades\Utils;
 use App\Services\UserService;
@@ -52,11 +51,6 @@ class InstallerController extends Controller
         if(config('app.key') !== 'base64:zdgcDqu9PM8uGWCtMxd74ZqdGJIrnw812oRMmwDF6KY=') {
             return view('installer::errors/already-installed');
         }
-
-        /*$gamp = GAMP::setClientId(uniqid('', true));
-        $gamp->setDocumentPath('/install');
-        $gamp->setCustomDimension(PHP_VERSION, 1);
-        $gamp->sendPageview();*/
 
         return view('installer::index-start');
     }
@@ -127,7 +121,7 @@ class InstallerController extends Controller
         ];
 
         # Make sure there are no false values
-        $passed = ! in_array(false, $statuses, true);
+        $passed = !\in_array(false, $statuses, true);
 
         return view('installer::steps/step1-requirements', [
             'php' => $php_version,
@@ -150,6 +144,8 @@ class InstallerController extends Controller
 
     /**
      * Step 2a. Create the .env
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function envsetup(Request $request)
     {
@@ -186,6 +182,8 @@ class InstallerController extends Controller
 
     /**
      * Step 2b. Setup the database
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
      */
     public function dbsetup(Request $request)
     {
@@ -210,10 +208,6 @@ class InstallerController extends Controller
      */
     public function step3(Request $request)
     {
-        /*$this->envService->updateKeyInFile([
-            'APP_ENABLE_ANALYTICS' => 'false'
-        ]);*/
-
         return view('installer::steps/step3-user', []);
     }
 
@@ -221,6 +215,7 @@ class InstallerController extends Controller
      * Step 3 submit
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \RuntimeException
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
     public function usersetup(Request $request)
@@ -272,6 +267,18 @@ class InstallerController extends Controller
 
         # Set the intial admin e-mail address
         setting('general.admin_email', $user->email);
+
+        $gamp = GAMP::setClientId(uniqid('', true));
+        $gamp->setDocumentPath('/install');
+        $gamp->setCustomDimension(PHP_VERSION, 1);
+        $gamp->sendPageview();
+
+        # If analytics are disabled
+        if((int) $request->post('analytics') === 0) {
+            $this->envService->updateKeysInEnv([
+                'APP_ANALYTICS_DISABLED' => 'true',
+            ]);
+        }
 
         return view('installer::steps/step3a-completed', []);
     }

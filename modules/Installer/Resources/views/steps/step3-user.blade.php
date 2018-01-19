@@ -80,11 +80,11 @@
             <td><p>Analytics</p></td>
             <td>
                 <div class="form-group">
-                    {!! Form::hidden('hidden', 0) !!}
+                    {!! Form::hidden('analytics', 0) !!}
                     {!! Form::checkbox('analytics', 1, true, ['class' => 'form-control']) !!}
                     <br />
                     <p>
-                        Allow collection of analytics. They're anonymized, and helps us track
+                        Allows collection of analytics. They won't identify you, and helps us to track
                         the PHP and database versions that are used, and help to figure out problems
                         and slowdowns when vaCentral integration is enabled.
                     </p>

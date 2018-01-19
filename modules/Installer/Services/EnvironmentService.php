@@ -15,10 +15,16 @@ class EnvironmentService
 {
     /**
      * Create the .env file
+     * @param $driver
+     * @param $host
+     * @param $port
+     * @param $name
+     * @param $user
+     * @param $pass
      * @return boolean
      * @throws \Symfony\Component\HttpFoundation\File\Exception\FileException
      */
-    public function createEnvFile($driver, $host, $port, $name, $user, $pass)
+    public function createEnvFile($driver, $host, $port, $name, $user, $pass): bool
     {
         $opts = [
             'APP_ENV' => 'dev',
@@ -53,10 +59,19 @@ class EnvironmentService
         $env_file = file_get_contents($app->environmentFilePath());
         foreach($kvp as $key => $value) {
 
-            # cast
+            $key = strtoupper($key);
+
+            # cast for any boolean values
             if(\is_bool($value)) {
                 $value = $value === true ? 'true' : 'false';
             }
+
+            # surround by quotes if there are any spaces in the value
+            if(strpos($value, ' ') !== false) {
+                $value = '"'.$value.'"';
+            }
+
+            Log::info('Replacing "' . $key . '" with ' . $value);
 
             $env_file = preg_replace(
                 '/^' . $key . '(.*)?/m',
@@ -72,7 +87,7 @@ class EnvironmentService
      * Generate a fresh new APP_KEY
      * @return string
      */
-    protected function createAppKey()
+    protected function createAppKey(): string
     {
         return base64_encode(Encrypter::generateKey(config('app.cipher')));
     }
@@ -140,30 +155,6 @@ class EnvironmentService
         }
 
         return $opts;
-    }
-
-    /**
-     * Update a key/value pair in the env file
-     * @param $key
-     * @param $value
-     */
-    public static function changeEnvironmentVariable($key, $value, $quoted=false)
-    {
-        $env_file = \App::environmentFilePath();
-
-        if (\is_bool(env($key))) {
-            $old = env($key) ? 'true' : 'false';
-        }
-
-        if($quoted) {
-            $value = '"'.$value.'"';
-        }
-
-        if (file_exists($env_file)) {
-            file_put_contents($env_file, str_replace(
-                "$key=" . $old, "$key=" . $value, file_get_contents($env_file)
-            ));
-        }
     }
 
     /**
