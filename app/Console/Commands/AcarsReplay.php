@@ -111,20 +111,26 @@ class AcarsReplay extends BaseCommand
      */
     protected function postUpdate($pirep_id, $data)
     {
-        $uri = '/api/pireps/' . $pirep_id . '/acars';
+        $uri = '/api/pireps/' . $pirep_id . '/acars/position';
 
-        $upd = [
-            'log'           => '',
-            'lat'           => $data->latitude,
-            'lon'           => $data->longitude,
-            'heading'       => $data->heading,
-            'altitude'      => $data->altitude,
-            'gs'            => $data->groundspeed,
-            'transponder'   => $data->transponder,
+        $position = [
+            'log' => '',
+            'lat' => $data->latitude,
+            'lon' => $data->longitude,
+            'heading' => $data->heading,
+            'altitude' => $data->altitude,
+            'gs' => $data->groundspeed,
+            'transponder' => $data->transponder,
         ];
 
-        $this->info("Update: $data->callsign, $upd[lat] x $upd[lon] \t\t"
-                    . "hdg: $upd[heading]\t\talt: $upd[altitude]\t\tgs: $upd[gs]");
+        $upd = [
+            'positions' => [
+                $position
+            ]
+        ];
+
+        $this->info("Update: $data->callsign, $position[lat] x $position[lon] \t\t"
+                    . "hdg: $position[heading]\t\talt: $position[altitude]\t\tgs: $position[gs]");
 
         $response = $this->httpClient->post($uri, [
             'json' => $upd
@@ -133,11 +139,11 @@ class AcarsReplay extends BaseCommand
         $body = \json_decode($response->getBody()->getContents());
         return [
             $data->callsign,
-            $upd['lat'],
-            $upd['lon'],
-            $upd['heading'],
-            $upd['altitude'],
-            $upd['gs']
+            $position['lat'],
+            $position['lon'],
+            $position['heading'],
+            $position['altitude'],
+            $position['gs']
         ];
     }
 
