@@ -100,8 +100,24 @@ class FlightController extends BaseController
     {
         $input = $request->all();
 
-        $input['active'] = true;
+        # See if flight number exists with the route code/leg
+        $where = [
+            'flight_number' => $input['flight_number'],
+        ];
 
+        if(filled($input['route_code']))
+            $where['route_code'] = $input['route_code'];
+
+        if(filled($input['route_leg']))
+            $where['route_leg'] = $input['route_leg'];
+
+        $flights = $this->flightRepo->findWhere($where);
+        if($flights->count() > 0) {
+            Flash::error('Duplicate flight with same number/code/leg found, please change to proceed');
+            return redirect()->back()->withInput($request->all());
+        }
+
+        $input['active'] = true;
         $flight = $this->flightRepo->create($input);
 
         Flash::success('Flight saved successfully.');
@@ -167,6 +183,25 @@ class FlightController extends BaseController
         }
 
         $attrs = $request->all();
+
+        # See if flight number exists with the route code/leg
+        $where = [
+            'id != '.$id,
+            'flight_number' => $attrs['flight_number'],
+        ];
+
+        if (filled($attrs['route_code']))
+            $where['route_code'] = $attrs['route_code'];
+
+        if (filled($attrs['route_leg']))
+            $where['route_leg'] = $attrs['route_leg'];
+
+        $flights = $this->flightRepo->findWhere($where);
+        if ($flights->count() > 0) {
+            Flash::error('Duplicate flight with same number/code/leg found, please change to proceed');
+            return redirect()->back()->withInput($request->all());
+        }
+
         $attrs['active'] = true;
         $flight = $this->flightRepo->update($attrs, $id);
 
