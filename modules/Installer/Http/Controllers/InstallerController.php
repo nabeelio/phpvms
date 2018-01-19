@@ -2,8 +2,9 @@
 
 namespace Modules\Installer\Http\Controllers;
 
-use App\Models\Enums\AnalyticsDimensions;
+use DB;
 use Log;
+use PDO;
 use Irazasyed\LaravelGAMP\Facades\GAMP;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -11,6 +12,7 @@ use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Validator;
 
 use App\Models\User;
+use App\Models\Enums\AnalyticsDimensions;
 use App\Repositories\AirlineRepository;
 use App\Facades\Utils;
 use App\Services\UserService;
@@ -269,9 +271,19 @@ class InstallerController extends Controller
         # Set the intial admin e-mail address
         setting('general.admin_email', $user->email);
 
+        # some analytics
         $gamp = GAMP::setClientId(uniqid('', true));
         $gamp->setDocumentPath('/install');
+
         $gamp->setCustomDimension(PHP_VERSION, AnalyticsDimensions::PHP_VERSION);
+
+        # figure out database version
+        $pdo = DB::connection()->getPdo();
+        $gamp->setCustomDimension(
+            strtolower($pdo->getAttribute(PDO::ATTR_SERVER_VERSION)),
+            AnalyticsDimensions::DATABASE_VERSION
+        );
+
         $gamp->sendPageview();
 
         # If analytics are disabled
