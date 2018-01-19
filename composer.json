@@ -46,7 +46,10 @@
         "laracasts/flash": "3.0.2",
         "arrilot/laravel-widgets": "3.9.0",
         "nabeel/vacentral": "dev-master",
-        "league/iso3166": "^2.1"
+        "league/iso3166": "^2.1",
+        "google/apiclient": "^2.0",
+        "theiconic/php-ga-measurement-protocol": "^2.0",
+        "irazasyed/laravel-gamp": "^1.3"
     },
     "require-dev": {
         "phpunit/phpunit": "6.4.0",
