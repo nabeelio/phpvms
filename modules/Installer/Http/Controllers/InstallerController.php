@@ -2,6 +2,7 @@
 
 namespace Modules\Installer\Http\Controllers;
 
+use Irazasyed\LaravelGAMP\Facades\GAMP;
 use Log;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -51,6 +52,11 @@ class InstallerController extends Controller
         if(config('app.key') !== 'base64:zdgcDqu9PM8uGWCtMxd74ZqdGJIrnw812oRMmwDF6KY=') {
             return view('installer::errors/already-installed');
         }
+
+        /*$gamp = GAMP::setClientId(uniqid('', true));
+        $gamp->setDocumentPath('/install');
+        $gamp->setCustomDimension(PHP_VERSION, 1);
+        $gamp->sendPageview();*/
 
         return view('installer::index-start');
     }
@@ -204,6 +210,10 @@ class InstallerController extends Controller
      */
     public function step3(Request $request)
     {
+        /*$this->envService->updateKeyInFile([
+            'APP_ENABLE_ANALYTICS' => 'false'
+        ]);*/
+
         return view('installer::steps/step3-user', []);
     }
 

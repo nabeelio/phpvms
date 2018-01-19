@@ -64,13 +64,33 @@
         </tr>
 
         <tr>
-            <td><p>Password Confirm</p></td>
+            <td width="40%"><p>Password Confirm</p></td>
             <td>
                 {!! Form::password('password_confirmation', ['class' => 'form-control']) !!}
                 @include('installer::flash/check_error', ['field' => 'password_confirmation'])
             </td>
         </tr>
 
+
+        <tr>
+            <td colspan="2"><h4>Options</h4></td>
+        </tr>
+
+        <tr>
+            <td><p>Analytics</p></td>
+            <td>
+                <div class="form-group">
+                    {!! Form::hidden('hidden', 0) !!}
+                    {!! Form::checkbox('analytics', 1, true, ['class' => 'form-control']) !!}
+                    <br />
+                    <p>
+                        Allow collection of analytics. They're anonymized, and helps us track
+                        the PHP and database versions that are used, and help to figure out problems
+                        and slowdowns when vaCentral integration is enabled.
+                    </p>
+                </div>
+            </td>
+        </tr>
     </table>
     <div id="dbtest"></div>
     <p style="text-align: right">

@@ -1,4 +1,5 @@
 @extends('installer::app')
+@section('title', 'Install phpVMS')
 
 @section('content')
     <h2>phpvms installer</h2>

@@ -63,6 +63,7 @@ return [
         SebastiaanLuca\Helpers\Collections\CollectionMacrosServiceProvider::class,
         Toin0u\Geotools\GeotoolsServiceProvider::class,
         Jackiedo\Timezonelist\TimezonelistServiceProvider::class,
+        Irazasyed\LaravelGAMP\LaravelGAMPServiceProvider::class,
 
         /*
          * Application Service Providers...

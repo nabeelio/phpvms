@@ -42,6 +42,33 @@ class EnvironmentService
     }
 
     /**
+     * Update the environment file and update certain keys/values
+     * @param array $kvp
+     * @return void
+     */
+    public function updateKeysInEnv(array $kvp)
+    {
+        $app = app();
+
+        $env_file = file_get_contents($app->environmentFilePath());
+        foreach($kvp as $key => $value) {
+
+            # cast
+            if(\is_bool($value)) {
+                $value = $value === true ? 'true' : 'false';
+            }
+
+            $env_file = preg_replace(
+                '/^' . $key . '(.*)?/m',
+                $key . '=' . $value,
+                $env_file
+            );
+        }
+
+        file_put_contents($app->environmentFilePath(), $env_file);
+    }
+
+    /**
      * Generate a fresh new APP_KEY
      * @return string
      */
@@ -51,11 +78,17 @@ class EnvironmentService
     }
 
     /**
+     * Change a few options within the PDO driver, depending on the version
+     * of mysql/maria, etc used. ATM, only make a change for MariaDB
      * @param $opts
      * @return mixed
      */
     protected function determinePdoOptions($opts)
     {
+        if($opts['DB_CONN'] !== 'mysql') {
+            return $opts;
+        }
+
         $dsn = "mysql:host=$opts[DB_HOST];port=$opts[DB_PORT];";
         Log::info('Connection string: ' . $dsn);
 
