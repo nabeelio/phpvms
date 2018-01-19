@@ -5,6 +5,5 @@
 
 return [
     'url' => 'https://www.gravatar.com/avatar/',
-    'default' => 'https://en.gravatar.com/userimage/12856995/7c7c1da6387853fea65ff74983055386.png',
-    'size' => 80,
+    'default' => 'https://en.gravatar.com/userimage/12856995/aa6c0527a723abfd5fb9e246f0ff8af4.png',
 ];

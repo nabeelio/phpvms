@@ -1,7 +1,7 @@
 <div class="row">
     <div class="form-group col-sm-12">
         {{--<div class="avatar">
-            <img src="{!! $pirep->pilot->gravatar !!}" />
+            <img src="{!! $pirep->pilot->gravatar() !!}" />
         </div>--}}
         Filed By: <a href="{!! route('admin.users.edit', [$pirep->pilot->id]) !!}" target="_blank">
             {!! $pirep->pilot->pilot_id !!} {!! $pirep->pilot->name !!}

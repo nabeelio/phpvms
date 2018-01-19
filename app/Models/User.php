@@ -88,14 +88,21 @@ class User extends Authenticatable
     }
 
     /**
+     * @param mixed $size Size of the gravatar, in pixels
      * @return string
      */
-    public function getGravatarAttribute()
+    public function gravatar($size=null)
     {
-        $size = config('gravatar.size');
         $default = config('gravatar.default');
-        return config('gravatar.url') .
-                md5(strtolower(trim($this->email))) . '?d=' . urlencode($default ) . '&s=' . $size;
+
+        $uri = config('gravatar.url')
+             . md5(strtolower(trim($this->email))).'?d='.urlencode($default);
+
+        if($size !== null) {
+            $uri .= '&s='.$size;
+        }
+
+        return $uri;
     }
 
     /**

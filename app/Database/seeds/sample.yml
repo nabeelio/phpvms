@@ -36,7 +36,7 @@ users:
     home_airport_id: KJFK
     curr_airport_id: KJFK
     flights: 1
-    flight_time: 43200
+    flight_time: 4320
     created_at: now
     updated_at: now
     state: 0
@@ -50,7 +50,7 @@ users:
     home_airport_id: KJFK
     curr_airport_id: KAUS
     flights: 1
-    flight_time: 43200
+    flight_time: 4320
     created_at: now
     updated_at: now
     state: 1

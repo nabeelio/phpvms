@@ -11,6 +11,9 @@ Route::group([
     Route::get('r/{id}', 'PirepController@show')->name('pirep.show.public');
     Route::get('p/{id}', 'ProfileController@show')->name('profile.show.public');
 
+    Route::get('users', 'UserController@index')->name('users.show');
+    Route::get('pilots', 'UserController@index')->name('users.show');
+
     Route::get('livemap', 'AcarsController@index')->name('livemap.public');
 });
 

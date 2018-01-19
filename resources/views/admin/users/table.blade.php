@@ -1,4 +1,4 @@
-<table class="table table-hover table-responsive" id="airlines-table">
+<table class="table table-hover table-responsive" id="users-table">
     <thead>
         <th>Name</th>
         <th>Email</th>

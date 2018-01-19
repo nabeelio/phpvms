@@ -4,7 +4,7 @@
 <div class="row profile-page content-center text-color-dark-beige">
     <div class="col-md-4" style="text-align:center;">
         <div class="photo-container">
-            <img src="{!! public_asset('/assets/frontend/img/logo.svg') !!}" alt="">
+            <img src="{!! $user->gravatar(512) !!}" style="width: 123px;">
         </div>
         <h3 class="title">{!! $user->name !!}</h3>
         <h6><span class="flag-icon flag-icon-{!! $user->country !!}"></span></h6>
@@ -22,7 +22,7 @@
             </div>
 
             <div class="social-description">
-                <h2>{!! \App\Facades\Utils::minutesToTimeString($user->flight_time, false)!!}</h2>
+                <h2>{!! \App\Facades\Utils::minutesToTimeString($user->flight_time, false) !!}</h2>
                 <p>Flight Hours</p>
             </div>
 
