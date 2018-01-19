@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Repositories\SubfleetRepository;
 use Illuminate\Support\Collection;
 use Log;
 use App\Facades\Utils;
@@ -15,6 +16,18 @@ use App\Models\Enums\UserState;
 
 class UserService extends BaseService
 {
+    protected $subfleetRepo;
+
+    /**
+     * UserService constructor.
+     * @param SubfleetRepository $subfleetRepo
+     */
+    public function __construct(
+        SubfleetRepository $subfleetRepo
+    ) {
+        $this->subfleetRepo = $subfleetRepo;
+    }
+
     /**
      * Register a pilot. Also attaches the initial roles
      * required, and then triggers the UserRegistered event
@@ -62,6 +75,10 @@ class UserService extends BaseService
      */
     public function getAllowableSubfleets($user)
     {
+        if($user === null || setting('pireps.restrict_aircraft_to_rank') === false) {
+            return $this->subfleetRepo->with('aircraft')->all();
+        }
+
         $subfleets = $user->rank->subfleets();
         return $subfleets->with('aircraft')->get();
     }

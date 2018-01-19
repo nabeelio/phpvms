@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Repositories\SubfleetRepository;
 use App\Services\UserService;
 use Auth;
 use Illuminate\Http\Request;
@@ -17,12 +18,16 @@ use App\Http\Resources\User as UserResource;
 
 class UserController extends RestController
 {
-    protected $userRepo, $userSvc;
+    protected $subfleetRepo,
+              $userRepo,
+              $userSvc;
 
     public function __construct(
+        SubfleetRepository $subfleetRepo,
         UserRepository $userRepo,
         UserService $userSvc
     ) {
+        $this->subfleetRepo = $subfleetRepo;
         $this->userRepo = $userRepo;
         $this->userSvc = $userSvc;
     }

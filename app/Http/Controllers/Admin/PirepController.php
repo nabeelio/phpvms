@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Services\UserService;
 use Log;
 use Flash;
 use Response;
@@ -33,7 +34,8 @@ class PirepController extends BaseController
             $aircraftRepo,
             $pirepSvc,
             $pirepRepo,
-            $subfleetRepo;
+            $subfleetRepo,
+            $userSvc;
 
     public function __construct(
         AirportRepository $airportRepo,
@@ -41,7 +43,8 @@ class PirepController extends BaseController
         AircraftRepository $aircraftRepo,
         PirepRepository $pirepRepo,
         PIREPService $pirepSvc,
-        SubfleetRepository $subfleetRepo
+        SubfleetRepository $subfleetRepo,
+        UserService $userSvc
     ) {
         $this->airportRepo = $airportRepo;
         $this->airlineRepo = $airlineRepo;
@@ -49,10 +52,13 @@ class PirepController extends BaseController
         $this->pirepRepo = $pirepRepo;
         $this->pirepSvc = $pirepSvc;
         $this->subfleetRepo = $subfleetRepo;
+        $this->userSvc = $userSvc;
     }
 
     /**
      * Dropdown with aircraft grouped by subfleet
+     * @param null $user
+     * @return array
      */
     public function aircraftList($user=null)
     {

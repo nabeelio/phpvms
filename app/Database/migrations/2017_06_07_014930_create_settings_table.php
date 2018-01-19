@@ -171,6 +171,18 @@ class CreateSettingsTable extends Migration
                 'description' => 'Hide any cancelled PIREPs in the front-end',
             ],
 
+            [
+                'id' => $this->formatSettingId('pireps.restrict_aircraft_to_rank'),
+                'order' => $this->getNextOrderNumber('pireps'),
+                'name' => 'Restrict Aircraft to Ranks',
+                'group' => 'pireps',
+                'value' => true,
+                'default' => true,
+                'type' => 'boolean',
+                'description' => 'Aircraft that can be flown are restricted to a user\'s rank',
+            ],
+
+
             /**
              * PILOTS
              */

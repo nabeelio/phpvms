@@ -8,6 +8,8 @@ use Prettus\Repository\Contracts\CacheableInterface;
 
 use App\Models\Setting;
 use App\Repositories\Traits\CacheableRepository;
+use App\Exceptions\SettingNotFound;
+
 use Prettus\Validator\Exceptions\ValidatorException;
 
 class SettingRepository extends BaseRepository implements CacheableInterface
@@ -25,6 +27,7 @@ class SettingRepository extends BaseRepository implements CacheableInterface
      * Get a setting, reading it from the cache possibly
      * @param string $key
      * @return mixed
+     * @throws SettingNotFound
      */
     public function retrieve($key)
     {
@@ -32,7 +35,7 @@ class SettingRepository extends BaseRepository implements CacheableInterface
         $setting = $this->findWhere(['id' => $key], ['type', 'value'])->first();
 
         if(!$setting) {
-            return null;
+            throw new SettingNotFound($key . ' not found');
         }
 
         # cast some types
@@ -67,12 +70,20 @@ class SettingRepository extends BaseRepository implements CacheableInterface
     public function store($key, $value)
     {
         $key = Setting::formatKey($key);
-        $setting = $this->findWhere(['id' => $key], ['id'])->first();
+        $setting = $this->findWhere(
+            ['id' => $key],
+            ['id', 'value'] # only get these columns
+        )->first();
+
         if (!$setting) {
             return null;
         }
 
         try {
+            if(\is_bool($value)) {
+                $value = $value === true ? 1 : 0;
+            }
+
             $this->update(['value' => $value], $setting->id);
         } catch (ValidatorException $e) {
             Log::error($e->getMessage(), $e->getTrace());

@@ -19,12 +19,14 @@ if (!function_exists('skin_view')) {
 if (!function_exists('setting')) {
     function setting($key, $default = null)
     {
-        $settingRepo = app('setting');  // defined in AppServiceProvider
-        /*if($value !== null) {
-            return $settingRepo->store($key, $value);
-        }*/
+        $settingRepo = app('setting');
+        try {
+            $value = $settingRepo->retrieve($key);
+        } catch (\App\Exceptions\SettingNotFound $e) {
+            return $default;
+        }
 
-        return $settingRepo->retrieve($key) ?: $default;
+        return $value;
     }
 }
 

@@ -58,16 +58,13 @@ class PirepController extends Controller
 
     /**
      * Dropdown with aircraft grouped by subfleet
+     * @param null $user
+     * @return array
      */
     public function aircraftList($user=null)
     {
         $aircraft = [];
-
-        if ($user === null) {
-            $subfleets = $this->subfleetRepo->all();
-        } else {
-            $subfleets = $this->userSvc->getAllowableSubfleets($user);
-        }
+        $subfleets = $this->userSvc->getAllowableSubfleets($user);
 
         foreach ($subfleets as $subfleet) {
             $tmp = [];
