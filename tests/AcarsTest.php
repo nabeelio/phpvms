@@ -263,7 +263,7 @@ class AcarsTest extends TestCase
 
         $order = 1;
         $post_route = [];
-        $route_count = \random_int(5, 50);
+        $route_count = \random_int(2, 10);
 
         $route = factory(App\Models\Navdata::class, $route_count)->create();
         foreach($route as $position) {
