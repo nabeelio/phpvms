@@ -50,8 +50,8 @@ if [ "$TRAVIS" = "true" ]; then
 
     echo "uploading to s3"
     cd /tmp/
-    sha256sum $TAR_NAME > "$FILE_NAME.sha256"
-    artifacts upload --target-paths "/" $TAR_NAME $TRAVIS_BUILD_DIR/VERSION $FILE_NAME.sha256
+    sha256sum $TAR_NAME > "$TAR_NAME.sha256"
+    artifacts upload --target-paths "/" $TAR_NAME $TRAVIS_BUILD_DIR/VERSION $TAR_NAME.sha256
 
     curl -X POST --data "{\"content\": \"A new build is available at http://downloads.phpvms.net/$TAR_NAME ($VERSION)\"}" -H "Content-Type: application/json"  $DISCORD_WEBHOOK_URL
 fi
