@@ -73,7 +73,7 @@
     </table>
     <div id="dbtest"></div>
     <p style="text-align: right">
-        {!! Form::submit('Complete Setup >>', ['class' => 'btn btn-success']) !!}
+        {!! Form::submit('Setup Database >>', ['class' => 'btn btn-success']) !!}
     </p>
     {!! Form::close() !!}
 </div>
