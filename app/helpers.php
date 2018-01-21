@@ -37,13 +37,16 @@ if(!function_exists('list_to_assoc')) {
      *    ['item1' => 'item1', 'item2' => 'item2']
      *
      * @param array $list
-     * @return \Illuminate\Support\Collection
+     * @return array
      */
     function list_to_assoc(array $list)
     {
-        return collect($list)->mapWithKeys(function ($item) {
-            return [$item => $item];
-        });
+        $ret = [];
+        foreach($list as $item) {
+            $ret[$item] = $item;
+        }
+
+        return $ret;
     }
 }
 
