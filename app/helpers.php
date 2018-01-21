@@ -10,11 +10,17 @@ if(!function_exists('get_truth_state')) {
     function get_truth_state($state)
     {
         $enabledStates = [
+            'yes',
+            'y',
             'on',
             'true',
             '1',
             true,
         ];
+
+        if(is_string($state)) {
+            $state = strtolower($state);
+        }
 
         return \in_array($state, $enabledStates, false);
     }
