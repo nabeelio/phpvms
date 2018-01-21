@@ -1,5 +1,25 @@
 <?php
 
+if(!function_exists('get_truth_state')) {
+    /**
+     * Check if the passed state matches any of the states that
+     * we regard as being true or false
+     * @param $state
+     * @return bool
+     */
+    function get_truth_state($state)
+    {
+        $enabledStates = [
+            'on',
+            'true',
+            '1',
+            true,
+        ];
+
+        return \in_array($state, $enabledStates, false);
+    }
+}
+
 if(!function_exists('list_to_assoc')) {
     /**
      * Converts a straight list into an assoc array with

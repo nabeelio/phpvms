@@ -52,12 +52,14 @@ class PirepFieldController extends BaseController
      * @param CreatePirepFieldRequest $request
      *
      * @return Response
+     * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
     public function store(CreatePirepFieldRequest $request)
     {
         $input = $request->all();
+        $input['required'] = get_truth_state($input['required']);
 
-        $field = $this->pirepFieldRepo->create($input);
+        $this->pirepFieldRepo->create($input);
 
         Flash::success('PirepField saved successfully.');
         return redirect(route('admin.pirepfields.index'));
@@ -107,6 +109,7 @@ class PirepFieldController extends BaseController
 
     /**
      * Update the specified PirepField in storage.
+     * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
     public function update($id, UpdatePirepFieldRequest $request)
     {
@@ -117,7 +120,9 @@ class PirepFieldController extends BaseController
             return redirect(route('admin.pirepfields.index'));
         }
 
-        $field = $this->pirepFieldRepo->update($request->all(), $id);
+        $attrs = $request->all();
+        $attrs['required'] = get_truth_state($attrs['required']);
+        $this->pirepFieldRepo->update($attrs, $id);
 
         Flash::success('PirepField updated successfully.');
         return redirect(route('admin.pirepfields.index'));

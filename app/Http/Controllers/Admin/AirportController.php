@@ -18,13 +18,6 @@ class AirportController extends BaseController
     /** @var  AirportRepository */
     private $airportRepository;
 
-    public static $enabledStates = [
-        'on',
-        'true',
-        '1',
-        true,
-    ];
-
     public function __construct(AirportRepository $airportRepo)
     {
         $this->airportRepository = $airportRepo;
@@ -73,7 +66,7 @@ class AirportController extends BaseController
     public function store(CreateAirportRequest $request)
     {
         $input = $request->all();
-        $input['hub'] = \in_array($input['hub'], self::$enabledStates);
+        $input['hub'] = get_truth_state($input['hub']);
 
         $this->airportRepository->create($input);
 
@@ -137,7 +130,7 @@ class AirportController extends BaseController
         }
 
         $attrs = $request->all();
-        $attrs['hub'] = \in_array($attrs['hub'], self::$enabledStates);
+        $attrs['hub'] = get_truth_state($attrs['hub']);
 
         $this->airportRepository->update($attrs, $id);
 
