@@ -23,9 +23,11 @@
                             @elseif($setting->type === 'int' || $setting->type === 'number')
                                 {!! Form::number($setting->id, $setting->value, ['class'=>'form-control']) !!}
                             @elseif($setting->type === 'select')
-                                {!! Form::select($setting->id,
-                                                 explode(',', $setting->options),
-                                                 $setting->value, ['class' => 'select2', 'style' => 'width: 100%; text-align: left;']) !!}
+                                {!! Form::select(
+                                        $setting->id,
+                                         list_to_assoc(explode(',', $setting->options)),
+                                         $setting->value,
+                                         ['class' => 'select2', 'style' => 'width: 100%; text-align: left;']) !!}
                             @else
                                 {!! Form::input('text', $setting->id, $setting->value, ['class' => 'form-control']) !!}
                             @endif

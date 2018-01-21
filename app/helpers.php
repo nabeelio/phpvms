@@ -1,5 +1,26 @@
 <?php
 
+if(!function_exists('list_to_assoc')) {
+    /**
+     * Converts a straight list into an assoc array with
+     * key and value being the same. Mainly for a select box
+     *
+     * e.g.:
+     *    [ 0 => 'item1', 1 => 'item2']
+     * to:
+     *    ['item1' => 'item1', 'item2' => 'item2']
+     *
+     * @param array $list
+     * @return \Illuminate\Support\Collection
+     */
+    function list_to_assoc(array $list)
+    {
+        return collect($list)->mapWithKeys(function ($item) {
+            return [$item => $item];
+        });
+    }
+}
+
 if (!function_exists('skin_view')) {
     /**
      * Render a skin
