@@ -261,6 +261,8 @@ flights:
     dpt_airport_id: KAUS
     arr_airport_id: KJFK
     route: KAUS SID TNV J87 IAH J2 LCH J22 MEI J239 ATL J52 AJFEB J14 BYJAC Q60 JAXSN J14 COLIN J61 HUBBS J55 SIE STAR KJFK
+    distance: 2028
+    level: 360
     dpt_time: 6PM CST
     arr_time: 11PM EST
     created_at: NOW

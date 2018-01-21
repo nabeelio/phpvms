@@ -2,7 +2,7 @@
     <table class="table table-hover table-responsive" id="pirepFields-table">
     <thead>
         <th>Name</th>
-        <th>Required</th>
+        <th style="text-align: center;">Required</th>
         <th></th>
     </thead>
     <tbody>
@@ -11,7 +11,7 @@
             <td>{!! $field->name !!}</td>
             <td style="text-align: center;">
                 @if($field->required === true)
-                    <span class="label label-success">Hub</span>
+                    <span class="label label-success">Required</span>
                 @endif
             </td>
             <td class="text-right">
