@@ -43,7 +43,7 @@ class GeoTest extends TestCase
         $geoSvc = app('\App\Services\GeoService');
 
         $route = [];
-        $nav_count = random_int(10, 50);
+        $nav_count = random_int(5, 20);
         $navpoints = factory(App\Models\Navdata::class, $nav_count)->create();
         foreach ($navpoints as $point) {
             $route[] = $point->id;

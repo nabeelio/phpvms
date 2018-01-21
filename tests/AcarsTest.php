@@ -140,7 +140,7 @@ class AcarsTest extends TestCase
         $uri = '/api/pireps/' . $pirep_id . '/acars/position';
 
         # Post an ACARS update
-        $acars_count = \random_int(5, 50);
+        $acars_count = \random_int(2, 10);
         $acars = factory(App\Models\Acars::class, $acars_count)->make(['id'=>''])->toArray();
 
         $update = ['positions' => $acars];
