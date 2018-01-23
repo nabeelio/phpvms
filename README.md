@@ -8,7 +8,7 @@ the old, phpVMS classic, it's [available here](https://github.com/nabeelio/phpvm
 # installation
 
 A full distribution, with all of the composer dependencies, is available at this 
-[tarball link](http://phpvms.net/downloads/phpvms-7.0.0-master.tar.gz). It's currently 
+[tarball link](http://downloads.phpvms.net/phpvms-7.0.0-master.tar.gz). It's currently 
 updated with every commit
 
 ### Composer Access
