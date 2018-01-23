@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Rules\Minutes;
 use Log;
 use Auth;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -19,47 +20,13 @@ use App\Services\PIREPService;
 use App\Repositories\AcarsRepository;
 use App\Repositories\PirepRepository;
 
-use App\Http\Resources\Acars as AcarsResource;
 use App\Http\Resources\Pirep as PirepResource;
-use App\Http\Resources\AcarsLog as AcarsLogResource;
 use App\Http\Resources\AcarsRoute as AcarsRouteResource;
 
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class PirepController extends RestController
 {
-    public static $acars_rules = [
-        'altitude',
-        'level',
-        'heading',
-        'vs',
-        'gs',
-        'transponder',
-        'autopilot',
-        'fuel_flow',
-        'log',
-        'lat',
-        'lon',
-        'created_at',
-    ];
-
-    public static $pirep_rules = [
-        'airline_id',
-        'aircraft_id',
-        'dpt_airport_id',
-        'arr_airport_id',
-        'flight_id',
-        'flight_number',
-        'route_code',
-        'route_leg',
-        'flight_time',
-        'planned_flight_time',
-        'level',
-        'route',
-        'notes',
-        'created_at',
-    ];
-
     protected $acarsRepo,
               $geoSvc,
               $pirepRepo,
@@ -102,7 +69,24 @@ class PirepController extends RestController
     {
         Log::info('PIREP Prefile, user '.Auth::user()->id, $request->toArray());
 
-        $attrs = $this->getFromReq($request, self::$pirep_rules, [
+        $prefile_rules = [
+            'airline_id'            => 'required|exists:airlines,id',
+            'aircraft_id'           => 'required|exists:aircraft,id',
+            'dpt_airport_id'        => 'required',
+            'arr_airport_id'        => 'required',
+            'flight_id'             => 'nullable',
+            'flight_number'         => 'required',
+            'route_code'            => 'nullable',
+            'route_leg'             => 'nullable',
+            'flight_time'           => ['nullable', new Minutes],
+            'planned_flight_time'   => ['nullable', new Minutes],
+            'level'                 => 'required|integer',
+            'route'                 => 'nullable',
+            'notes'                 => 'nullable',
+            'created_at'            => 'nullable|date',
+        ];
+
+        $attrs = $this->getFromReq($request, $prefile_rules, [
             'user_id' => Auth::user()->id,
             'state' => PirepState::IN_PROGRESS,
             'status' => PirepStatus::PREFILE,
@@ -135,7 +119,7 @@ class PirepController extends RestController
      */
     public function file($id, Request $request)
     {
-        Log::info('PIREP Prefile, user ' . Auth::user()->pilot_id, $request->toArray());
+        Log::info('PIREP file, user ' . Auth::user()->id, $request->toArray());
 
         $pirep = $this->pirepRepo->find($id);
         if (empty($pirep)) {
@@ -147,7 +131,25 @@ class PirepController extends RestController
             throw new BadRequestHttpException('PIREP has been cancelled, updates can\'t be posted');
         }
 
-        $attrs = $this->getFromReq($request, self::$pirep_rules, [
+        $file_rules = [
+            # actual flight time is required
+            'flight_time'           => ['required', new Minutes],
+            'flight_number'         => 'nullable',
+            'dpt_airport_id'        => 'nullable',
+            'arr_airport_id'        => 'nullable',
+            'airline_id'            => 'nullable|exists:airlines,id',
+            'aircraft_id'           => 'nullable|exists:aircraft,id',
+            'flight_id'             => 'nullable',
+            'route_code'            => 'nullable',
+            'route_leg'             => 'nullable',
+            'planned_flight_time'   => ['nullable', new Minutes],
+            'level'                 => 'nullable',
+            'route'                 => 'nullable',
+            'notes'                 => 'nullable',
+            'created_at'            => 'nullable|date',
+        ];
+
+        $attrs = $this->getFromReq($request, $file_rules, [
             'state' => PirepState::PENDING,
             'status' => PirepStatus::ARRIVED,
         ]);
@@ -229,7 +231,7 @@ class PirepController extends RestController
      * Post ACARS updates for a PIREP
      * @param $id
      * @param Request $request
-     * @return AcarsRouteResource
+     * @return \Illuminate\Http\JsonResponse
      * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
      */
     public function acars_store($id, Request $request)
@@ -246,13 +248,28 @@ class PirepController extends RestController
         $this->validate($request, ['positions' => 'required']);
         $positions = $request->post('positions');
 
+        $acars_rules = [
+            'lat'           => 'required|numeric',
+            'lon'           => 'required|numeric',
+            'altitude'      => 'nullable',
+            'level'         => 'nullable',
+            'heading'       => 'nullable',
+            'vs'            => 'nullable',
+            'gs'            => 'nullable',
+            'transponder'   => 'nullable',
+            'autopilot'     => 'nullable',
+            'fuel_flow'     => 'nullable',
+            'log'           => 'nullable',
+            'created_at'    => 'nullable|date',
+        ];
+
         $count = 0;
         foreach($positions as $position)
         {
             try {
                 $attrs = $this->getFromReq(
                     $position,
-                    self::$acars_rules,
+                    $acars_rules,
                     ['pirep_id' => $id, 'type' => AcarsType::FLIGHT_PATH]
                 );
 
@@ -293,14 +310,16 @@ class PirepController extends RestController
         $this->validate($request, ['logs' => 'required']);
         $logs = $request->post('logs');
 
+        $rules = [
+            'log'           => 'required',
+            'lat'           => 'nullable',
+            'lon'           => 'nullable',
+            'created_at'    => 'nullable|date',
+        ];
+
         $count = 0;
         foreach($logs as $log) {
-            $attrs = $this->getFromReq($log, [
-                'log' => 'required',
-                'lat' => 'nullable',
-                'lon' => 'nullable',
-                'created_at' => 'nullable',
-            ], ['pirep_id' => $id, 'type' => AcarsType::LOG]);
+            $attrs = $this->getFromReq($log, $rules, ['pirep_id' => $id, 'type' => AcarsType::LOG]);
 
             $acars = Acars::create($attrs);
             $acars->save();

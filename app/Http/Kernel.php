@@ -15,6 +15,8 @@ class Kernel extends HttpKernel
      */
     protected $middleware = [
         \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
+        \Illuminate\Foundation\Http\Middleware\TrimStrings::class,
+        \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
     ];
 
     /**
@@ -57,8 +59,5 @@ class Kernel extends HttpKernel
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'json' => \App\Http\Middleware\JsonResponse::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-        #'role' => \Laratrust\Middleware\LaratrustRole::class,
-        #'permission' => \Laratrust\Middleware\LaratrustPermission::class,
-        #'ability' => \Laratrust\Middleware\LaratrustAbility::class,
     ];
 }

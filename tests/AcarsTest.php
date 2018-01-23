@@ -57,6 +57,34 @@ class AcarsTest extends TestCase
     /**
      * Post a PIREP into a PREFILE state and post ACARS
      */
+    public function testPrefileErrors()
+    {
+        $this->user = factory(App\Models\User::class)->create();
+
+        $airport = factory(App\Models\Airport::class)->create();
+        $airline = factory(App\Models\Airline::class)->create();
+        $aircraft = factory(App\Models\Aircraft::class)->create();
+
+        $uri = '/api/pireps/prefile';
+        $pirep = [
+            '_airline_id' => $airline->id,
+            'aircraft_id' => $aircraft->id,
+            'dpt_airport_id' => $airport->icao,
+            'arr_airport_id' => $airport->icao,
+            'flight_number' => '6000',
+            'level' => 38000,
+            'planned_flight_time' => 120,
+            'route' => 'POINTA POINTB',
+        ];
+
+        $response = $this->post($uri, $pirep);
+        $response->assertStatus(400);
+
+    }
+
+    /**
+     * Post a PIREP into a PREFILE state and post ACARS
+     */
     public function testAcarsUpdates()
     {
         $this->user = factory(App\Models\User::class)->create();
@@ -121,6 +149,17 @@ class AcarsTest extends TestCase
         $this->assertCount(1, $body);
         $this->assertEquals(round($acars['lat'], 2), round($body[0]['lat'], 2));
         $this->assertEquals(round($acars['lon'], 2), round($body[0]['lon'], 2));
+
+        # File the PIREP now
+        $uri = '/api/pireps/'.$pirep_id.'/file';
+        $response = $this->post($uri, []);
+        $response->assertStatus(400); // missing the flight time
+
+        $response = $this->post($uri, ['flight_time' => '1:30']);
+        $response->assertStatus(400); // invalid flight time
+
+        $response = $this->post($uri, ['flight_time' => '130']);
+        $response->assertStatus(200); // invalid flight time
     }
 
     /**
