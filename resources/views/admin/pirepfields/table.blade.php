@@ -1,4 +1,12 @@
 <div class="content table-responsive table-full-width">
+
+    <div class="header">
+        <p class="category">
+            <i class="icon fa fa-info">&nbsp;&nbsp;</i>
+            PIREP fields are only shown for manual PIREPs.
+        </p>
+    </div>
+
     <table class="table table-hover table-responsive" id="pirepFields-table">
     <thead>
         <th>Name</th>

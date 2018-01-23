@@ -22,9 +22,9 @@ class PirepFieldController extends BaseController
 
     /**
      * Display a listing of the PirepField.
-     *
      * @param Request $request
      * @return Response
+     * @throws \Prettus\Repository\Exceptions\RepositoryException
      */
     public function index(Request $request)
     {
@@ -38,7 +38,6 @@ class PirepFieldController extends BaseController
 
     /**
      * Show the form for creating a new PirepField.
-     *
      * @return Response
      */
     public function create()
@@ -48,9 +47,7 @@ class PirepFieldController extends BaseController
 
     /**
      * Store a newly created PirepField in storage.
-     *
      * @param CreatePirepFieldRequest $request
-     *
      * @return Response
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
@@ -67,9 +64,7 @@ class PirepFieldController extends BaseController
 
     /**
      * Display the specified PirepField.
-     *
      * @param  int $id
-     *
      * @return Response
      */
     public function show($id)
@@ -88,9 +83,7 @@ class PirepFieldController extends BaseController
 
     /**
      * Show the form for editing the specified PirepField.
-     *
      * @param  int $id
-     *
      * @return Response
      */
     public function edit($id)
@@ -130,9 +123,7 @@ class PirepFieldController extends BaseController
 
     /**
      * Remove the specified PirepField from storage.
-     *
      * @param  int $id
-     *
      * @return Response
      */
     public function destroy($id)

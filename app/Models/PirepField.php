@@ -14,6 +14,7 @@ class PirepField extends BaseModel
 
     public $fillable = [
         'name',
+        'slug',
         'required',
     ];
 
@@ -24,4 +25,30 @@ class PirepField extends BaseModel
     public static $rules = [
         'name' => 'required',
     ];
+
+    /**
+     * Create/update the field slug
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        /**
+         * On creation
+         */
+        static::creating(function (PirepField $model) {
+            if (!empty($model->slug)) {
+                $model->slug = str_slug($model->name);
+            }
+        });
+
+        /**
+         * When updating
+         */
+        static::updating(function(PirepField $model) {
+            if (!empty($model->slug)) {
+                $model->slug = str_slug($model->name);
+            }
+        });
+    }
 }

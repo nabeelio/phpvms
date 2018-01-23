@@ -31,7 +31,7 @@ class AirlineRepository extends BaseRepository implements CacheableInterface
         $items = $this->all();
 
         if($add_blank) {
-            $retval[] = '';
+            $retval[''] = '';
         }
 
         foreach ($items as $i) {

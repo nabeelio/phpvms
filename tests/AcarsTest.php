@@ -55,7 +55,7 @@ class AcarsTest extends TestCase
     }
 
     /**
-     * Post a PIREP into a PREFILE state and post ACARS
+     * Test some prefile error conditions
      */
     public function testPrefileErrors()
     {
@@ -65,6 +65,9 @@ class AcarsTest extends TestCase
         $airline = factory(App\Models\Airline::class)->create();
         $aircraft = factory(App\Models\Aircraft::class)->create();
 
+        /**
+         * INVALID AIRLINE_ID FIELD
+         */
         $uri = '/api/pireps/prefile';
         $pirep = [
             '_airline_id' => $airline->id,

@@ -5,7 +5,7 @@
             <div class="col-sm-2 text-center">
                 <h5>
                     <a class="text-c"
-                       href="{!! route('admin.pireps.show', [$pirep->id]) !!}">
+                       href="{!! route('admin.pireps.edit', [$pirep->id]) !!}">
                         {!! $pirep->ident !!}
                     </a>
                 </h5>

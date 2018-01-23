@@ -84,6 +84,7 @@ class CreatePirepTables extends Migration
         Schema::create('pirep_fields', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name', 50);
+            $table->string('slug', 50)->nullable();
             $table->boolean('required')->default(false);
         });
 

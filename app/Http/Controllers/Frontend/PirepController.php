@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use Log;
 use App\Facades\Utils;
+use App\Http\Requests\CreatePirepRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
@@ -61,10 +63,14 @@ class PirepController extends Controller
      * @param null $user
      * @return array
      */
-    public function aircraftList($user=null)
+    public function aircraftList($user=null, $add_blank=false)
     {
         $aircraft = [];
         $subfleets = $this->userSvc->getAllowableSubfleets($user);
+
+        if($add_blank) {
+            $aircraft[''] = '';
+        }
 
         foreach ($subfleets as $subfleet) {
             $tmp = [];
@@ -107,49 +113,56 @@ class PirepController extends Controller
         $user = Auth::user();
 
         return $this->view('pireps.create', [
-            'aircraft' => $this->aircraftList($user),
-            'airports' => $this->airportRepo->selectBoxList(),
-            'airlines' => $this->airlineRepo->selectBoxList(),
-            'pirepfields' => $this->pirepFieldRepo->all(),
-            'fieldvalues' => [],
+            'airlines' => $this->airlineRepo->selectBoxList(true),
+            'aircraft' => $this->aircraftList($user, true),
+            'airports' => $this->airportRepo->selectBoxList(true),
+            'pirep_fields' => $this->pirepFieldRepo->all(),
+            'field_values' => [],
         ]);
     }
 
-    public function store(Request $request)
+    /**
+     *
+     * @param CreatePirepRequest $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function store(CreatePirepRequest $request)
     {
-        $pirep_fields = $request->all();
-
         // Create the main PIREP
-        $pirep = new Pirep($pirep_fields);
+        $pirep = new Pirep($request->all());
+        $pirep->user_id = Auth::user()->id;
+
+        # Make sure this isn't a duplicate
+        $dupe_pirep = $this->pirepSvc->findDuplicate($pirep);
+        if ($dupe_pirep !== false) {
+            flash()->error('This PIREP has already been filed.');
+            return redirect(route('frontend.pireps.create'))->withInput();
+        }
 
         // Any special fields
-        $pirep->pilot()->associate(Auth::user());
         $pirep->flight_time = ((int) Utils::hoursToMinutes($request['hours']))
                             + ((int) $request['minutes']);
 
         // The custom fields from the form
         $custom_fields = [];
-        foreach($pirep_fields as $field_name => $field_val)
-        {
-            if (strpos($field_name, 'field_') === false) {
+        $pirep_fields = $this->pirepFieldRepo->all();
+        foreach ($pirep_fields as $field) {
+            if(!$request->filled($field->slug)) {
                 continue;
             }
 
-            $field_id = explode('field_', $field_name)[1];
-            $cfield = PirepField::find($field_id);
-
             $custom_fields[] = [
-                'name' => $cfield->name,
-                'value' => $field_val,
+                'name' => $field->name,
+                'value' => $request->input($field->slug),
                 'source' => PirepSource::MANUAL
             ];
         }
 
+        Log::info('PIREP Custom Fields', $custom_fields);
         $pirep = $this->pirepSvc->create($pirep, $custom_fields);
         $this->pirepSvc->saveRoute($pirep);
 
-        //Flash::success('PIREP submitted successfully!');
-        return redirect(route('frontend.pireps.index'));
+        return redirect(route('frontend.pireps.show', ['id' => $pirep->id]));
     }
 
     public function show($id)

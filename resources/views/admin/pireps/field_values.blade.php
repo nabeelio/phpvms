@@ -13,7 +13,7 @@
             <td>
                 <a class="inline" href="#" data-pk="{!! $field->id !!}" data-name="{!! $field->name !!}">{!! $field->value !!}</a>
             </td>
-            <td>{!! $field->source !!}</td>
+            <td>{!! PirepSource::label($field->source) !!}</td>
             <td style="width: 10%; text-align: right;" class="form-inline">
                 {!! Form::open(['url' => '/admin/pireps/'.$pirep->id.'/fields',
                                 'method' => 'delete',

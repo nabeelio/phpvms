@@ -12,6 +12,7 @@
                         <div class="input-group form-group">
                             {!! Form::select('airline_id', $airlines, null, ['class' => 'custom-select select2']) !!}
                         </div>
+                        <p class="text-danger">{{ $errors->first('airline_id') }}</p>
                     </td>
                 </tr>
 
@@ -23,6 +24,9 @@
                             {!! Form::text('route_code', null, ['placeholder' => 'Code (optional)', 'class' => 'form-control']) !!}
                             {!! Form::text('route_leg', null, ['placeholder' => 'Leg (optional)', 'class' => 'form-control']) !!}
                         </div>
+                        <p class="text-danger">{{ $errors->first('flight_number') }}</p>
+                        <p class="text-danger">{{ $errors->first('route_code') }}</p>
+                        <p class="text-danger">{{ $errors->first('route_leg') }}</p>
                     </td>
                 </tr>
 
@@ -32,6 +36,7 @@
                         <div class="input-group form-group">
                             {!! Form::select('aircraft_id', $aircraft, null, ['class' => 'custom-select select2']) !!}
                         </div>
+                        <p class="text-danger">{{ $errors->first('aircraft_id') }}</p>
                     </td>
                 </tr>
 
@@ -41,6 +46,7 @@
                         <div class="input-group form-group">
                             {!! Form::select('dpt_airport_id', $airports, null, ['class' => 'custom-select select2']) !!}
                         </div>
+                        <p class="text-danger">{{ $errors->first('dpt_airport_id') }}</p>
                     </td>
                 </tr>
 
@@ -50,6 +56,7 @@
                         <div class="input-group form-group">
                             {!! Form::select('arr_airport_id', $airports, null, ['class' => 'custom-select select2']) !!}
                         </div>
+                        <p class="text-danger">{{ $errors->first('arr_airport_id') }}</p>
                     </td>
                 </tr>
 
@@ -60,8 +67,32 @@
                             {!! Form::number('hours', null, ['class' => 'form-control', 'placeholder' => 'hours']) !!}
                             {!! Form::number('minutes', null, ['class' => 'form-control', 'placeholder' => 'minutes']) !!}
                         </div>
+                        <p class="text-danger">{{ $errors->first('hours') }}</p>
+                        <p class="text-danger">{{ $errors->first('minutes') }}</p>
                     </td>
                 </tr>
+
+                {{--
+                Write out the custom fields, and label if they're required
+                --}}
+                @foreach($pirep_fields as $field)
+                    <tr>
+                        <td>
+                            {!! $field->name !!}
+                            @if($field->required === true)
+                                <span class="text-danger">*</span>
+                            @endif
+                        </td>
+                        <td>
+                            <div class="input-group form-group">
+                                {!! Form::text($field->slug, null, [
+                                    'class' => 'form-control'
+                                    ]) !!}
+                            </div>
+                            <p class="text-danger">{{ $errors->first($field->slug) }}</p>
+                        </td>
+                    </tr>
+                @endforeach
 
                 <tr>
                     <td class="align-text-top">Route</td>
@@ -69,30 +100,9 @@
                         <div class="input-group form-group">
                             {!! Form::textarea('route', null, ['class' => 'form-control', 'placeholder' => 'Route']) !!}
                         </div>
+                        <p class="text-danger">{{ $errors->first('route') }}</p>
                     </td>
                 </tr>
-
-                {{--
-                Write out the custom fields, and label if they're required
-                --}}
-                @foreach($pirepfields as $field)
-                <tr>
-                    <td>
-                        {!! $field->name !!}
-                        <span class="label label-danger">required</span>
-                    </td>
-                    <td>
-                        <div class="input-group form-group">
-                            <!--<span class="input-group-addon">
-                                <i class="now-ui-icons users_single-02"></i>
-                            </span>-->
-                            {!! Form::text('field_'.$field->id, null, [
-                                'class' => 'form-control'
-                                ]) !!}
-                        </div>
-                    </td>
-                </tr>
-                @endforeach
 
                 <tr>
                     <td class="align-text-top"><p class="">Notes</p></td>
@@ -100,6 +110,7 @@
                         <div class="input-group form-group">
                             {!! Form::textarea('notes', null, ['class' => 'form-control', 'placeholder' => 'Notes']) !!}
                         </div>
+                        <p class="text-danger">{{ $errors->first('notes') }}</p>
                     </td>
                 </tr>
             </tbody>

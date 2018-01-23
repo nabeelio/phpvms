@@ -77,16 +77,14 @@
             <h3 class="description">fields</h3>
             <table class="table">
                 <thead>
-                <th>Name</th>
-                <th>Value</th>
-                <th>Source</th>
+                    <th>Name</th>
+                    <th>Value</th>
                 </thead>
                 <tbody>
                 @foreach($pirep->fields as $field)
                     <tr>
                         <td>{!! $field->name !!}</td>
                         <td>{!! $field->value !!}</td>
-                        <td>{!! $field->source !!}</td>
                     </tr>
                 @endforeach
                 </tbody>

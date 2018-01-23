@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Rules\Minutes;
 use Log;
 use Auth;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -78,8 +77,8 @@ class PirepController extends RestController
             'flight_number'         => 'required',
             'route_code'            => 'nullable',
             'route_leg'             => 'nullable',
-            'flight_time'           => ['nullable', new Minutes],
-            'planned_flight_time'   => ['nullable', new Minutes],
+            'flight_time'           => ['nullable', 'integer'],
+            'planned_flight_time'   => ['nullable', 'integer'],
             'level'                 => 'required|integer',
             'route'                 => 'nullable',
             'notes'                 => 'nullable',
@@ -133,7 +132,7 @@ class PirepController extends RestController
 
         $file_rules = [
             # actual flight time is required
-            'flight_time'           => ['required', new Minutes],
+            'flight_time'           => ['required', 'integer'],
             'flight_number'         => 'nullable',
             'dpt_airport_id'        => 'nullable',
             'arr_airport_id'        => 'nullable',
@@ -142,7 +141,7 @@ class PirepController extends RestController
             'flight_id'             => 'nullable',
             'route_code'            => 'nullable',
             'route_leg'             => 'nullable',
-            'planned_flight_time'   => ['nullable', new Minutes],
+            'planned_flight_time'   => ['nullable', 'integer'],
             'level'                 => 'nullable',
             'route'                 => 'nullable',
             'notes'                 => 'nullable',

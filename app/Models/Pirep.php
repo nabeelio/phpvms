@@ -57,11 +57,13 @@ class Pirep extends BaseModel
     ];
 
     public static $rules = [
-        'flight_number' => 'required',
-        'dpt_airport_id' => 'required',
-        'arr_airport_id' => 'required',
-        'notes' => 'nullable',
-        'route' => 'nullable',
+        'airline_id'        => 'required|exists:airlines,id',
+        'aircraft_id'       => 'required|exists:aircraft,id',
+        'flight_number'     => 'required',
+        'dpt_airport_id'    => 'required',
+        'arr_airport_id'    => 'required',
+        'notes'             => 'nullable',
+        'route'             => 'nullable',
     ];
 
     /**
@@ -71,12 +73,14 @@ class Pirep extends BaseModel
     public function getIdentAttribute()
     {
         $flight_id = $this->airline->code;
-        if(!empty($this->flight_number)) {
-            $flight_id .= $this->flight_number;
-        } else {
-            if ($this->flight_id) {
-                $flight_id .= $this->flight->flight_number;
-            }
+        $flight_id .= $this->flight_number;
+
+        if(filled($this->route_code)) {
+            $flight_id .= '/C'.$this->route_code;
+        }
+
+        if(filled($this->route_leg)) {
+            $flight_id .= '/L'.$this->route_leg;
         }
 
         return $flight_id;

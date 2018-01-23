@@ -4,12 +4,7 @@
             <div class="col-sm-2 text-center">
                 <h5>
                     <a class="text-c" href="{!! route('frontend.pireps.show', [$pirep->id]) !!}">
-                        {!! $pirep->airline->code !!}
-                        @if($pirep->flight_id)
-                            {!! $pirep->flight->flight_number !!}
-                        @else
-                            {!! $pirep->flight_number !!}
-                        @endif
+                        {!! $pirep->ident !!}
                     </a>
                 </h5>
                 <div>

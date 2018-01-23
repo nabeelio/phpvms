@@ -73,11 +73,11 @@ class PIREPService extends BaseService
             'flight_number' => $pirep->flight_number,
         ];
 
-        if(!empty($pirep->route_code)) {
+        if(filled($pirep->route_code)) {
             $where['route_code'] = $pirep->route_code;
         }
 
-        if(!empty($pirep->route_leg)) {
+        if(filled($pirep->route_leg)) {
             $where['route_leg'] = $pirep->route_leg;
         }
 

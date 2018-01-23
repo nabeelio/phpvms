@@ -405,7 +405,12 @@ pireps:
 
 pirep_fields:
   - id: 1
+    name: departure gate
+    slug: departure_gate
+    required: 1
+  - id: 2
     name: arrival gate
+    slug: arrival_gate
     required: 0
 
 pirep_field_values:

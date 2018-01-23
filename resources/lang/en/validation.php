@@ -2,16 +2,9 @@
 
 return [
 
-    /*
-    |--------------------------------------------------------------------------
-    | Validation Language Lines
-    |--------------------------------------------------------------------------
-    |
-    | The following language lines contain the default error messages used by
-    | the validator class. Some of these rules have multiple versions such
-    | as the size rules. Feel free to tweak each of these messages here.
-    |
-    */
+    /**
+     * Validation Language Lines
+     */
 
     'accepted'             => 'The :attribute must be accepted.',
     'active_url'           => 'The :attribute is not a valid URL.',
@@ -39,7 +32,7 @@ return [
     'email'                => 'The :attribute must be a valid email address.',
     'exists'               => 'The selected :attribute is invalid.',
     'file'                 => 'The :attribute must be a file.',
-    'filled'               => 'The :attribute field is required.',
+    'filled'               => 'The ":attribute" is required.',
     'image'                => 'The :attribute must be an image.',
     'in'                   => 'The selected :attribute is invalid.',
     'in_array'             => 'The :attribute field does not exist in :other.',
@@ -63,7 +56,7 @@ return [
     'numeric'              => 'The :attribute must be a number.',
     'present'              => 'The :attribute field must be present.',
     'regex'                => 'The :attribute format is invalid.',
-    'required'             => 'The :attribute field is required.',
+    'required'             => 'The ":attribute" field is required.',
     'required_if'          => 'The :attribute field is required when :other is :value.',
     'required_unless'      => 'The :attribute field is required unless :other is in :values.',
     'required_with'        => 'The :attribute field is required when :values is present.',
@@ -82,33 +75,38 @@ return [
     'unique'               => 'The :attribute has already been taken.',
     'url'                  => 'The :attribute format is invalid.',
 
-    /*
-    |--------------------------------------------------------------------------
-    | Custom Validation Language Lines
-    |--------------------------------------------------------------------------
-    |
-    | Here you may specify custom validation messages for attributes using the
-    | convention "attribute.rule" to name the lines. This makes it quick to
-    | specify a specific custom language line for a given attribute rule.
-    |
-    */
+    /**
+     * Custom Validation Language Lines
+     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
+        'airline_id' => [
+            'required' => 'An airline is required',
+            'exists' => 'The airline doesn\'t exist',
+        ],
+        'aircraft_id' => [
+            'required' => 'An aircraft is required',
+            'exists' => 'The aircraft doesn\'t exist',
+        ],
+        'arr_airport_id' => [
+            'required' => 'An arrival airport is required',
+        ],
+        'dpt_airport_id' => [
+            'required' => 'A departure airport is required',
+        ],
+        'flight_time' => [
+            'required' => 'Flight time, in minutes, is required',
+            'integer' => 'Flight time, in minutes, is required',
+        ],
+        'planned_flight_time' => [
+            'required' => 'Flight time, in minutes, is required',
+            'integer' => 'Flight time, in minutes, is required',
         ],
     ],
 
-    /*
-    |--------------------------------------------------------------------------
-    | Custom Validation Attributes
-    |--------------------------------------------------------------------------
-    |
-    | The following language lines are used to swap attribute place-holders
-    | with something more reader friendly such as E-Mail Address instead
-    | of "email". This simply helps us make messages a little cleaner.
-    |
-    */
+    /**
+     * Custom Validation Attributes
+     */
 
     'attributes' => [],
 
