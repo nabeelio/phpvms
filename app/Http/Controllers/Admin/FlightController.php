@@ -105,11 +105,13 @@ class FlightController extends BaseController
             'flight_number' => $input['flight_number'],
         ];
 
-        if(filled($input['route_code']))
+        if(filled($input['route_code'])) {
             $where['route_code'] = $input['route_code'];
+        }
 
-        if(filled($input['route_leg']))
+        if(filled($input['route_leg'])) {
             $where['route_leg'] = $input['route_leg'];
+        }
 
         $flights = $this->flightRepo->findWhere($where);
         if($flights->count() > 0) {
@@ -117,7 +119,7 @@ class FlightController extends BaseController
             return redirect()->back()->withInput($request->all());
         }
 
-        $input['active'] = true;
+        $input['active'] = get_truth_state($input['active']);;
         $flight = $this->flightRepo->create($input);
 
         Flash::success('Flight saved successfully.');
@@ -182,19 +184,21 @@ class FlightController extends BaseController
             return redirect(route('admin.flights.index'));
         }
 
-        $attrs = $request->all();
+        $input = $request->all();
 
         # See if flight number exists with the route code/leg
         $where = [
-            'id != '.$id,
-            'flight_number' => $attrs['flight_number'],
+            ['id', '<>', $id],
+            'flight_number' => $input['flight_number'],
         ];
 
-        if (filled($attrs['route_code']))
-            $where['route_code'] = $attrs['route_code'];
+        if (filled($input['route_code'])) {
+            $where['route_code'] = $input['route_code'];
+        }
 
-        if (filled($attrs['route_leg']))
-            $where['route_leg'] = $attrs['route_leg'];
+        if (filled($input['route_leg'])) {
+            $where['route_leg'] = $input['route_leg'];
+        }
 
         $flights = $this->flightRepo->findWhere($where);
         if ($flights->count() > 0) {
@@ -202,8 +206,8 @@ class FlightController extends BaseController
             return redirect()->back()->withInput($request->all());
         }
 
-        $attrs['active'] = true;
-        $flight = $this->flightRepo->update($attrs, $id);
+        $input['active'] = get_truth_state($input['active']);
+        $this->flightRepo->update($input, $id);
 
         Flash::success('Flight updated successfully.');
         return redirect(route('admin.flights.index'));
