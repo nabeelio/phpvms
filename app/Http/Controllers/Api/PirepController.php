@@ -68,7 +68,7 @@ class PirepController extends RestController
      */
     public function prefile(Request $request)
     {
-        Log::info('PIREP Prefile, user '.Auth::user()->id, $request->toArray());
+        Log::info('PIREP Prefile, user '.Auth::user()->id, $request->post());
 
         $prefile_rules = [
             'airline_id'            => 'required|exists:airlines,id',
@@ -120,7 +120,7 @@ class PirepController extends RestController
      */
     public function file($id, Request $request)
     {
-        Log::info('PIREP file, user ' . Auth::user()->id, $request->toArray());
+        Log::info('PIREP file, user ' . Auth::user()->id, $request->post());
 
         $pirep = $this->pirepRepo->find($id);
         if (empty($pirep)) {
@@ -179,7 +179,7 @@ class PirepController extends RestController
      */
     public function cancel($id, Request $request)
     {
-        Log::info('PIREP Cancel, user ' . Auth::user()->pilot_id, $request->toArray());
+        Log::info('PIREP Cancel, user ' . Auth::user()->pilot_id, $request->post());
 
         $attrs = [
             'state' => PirepState::CANCELLED,
@@ -244,7 +244,10 @@ class PirepController extends RestController
             throw new BadRequestHttpException('PIREP has been cancelled, updates can\'t be posted');
         }
 
-        Log::info('Posting ACARS update', $request->toArray());
+        Log::info(
+            'Posting ACARS update (user: '.Auth::user()->pilot_id.', pirep id :'.$id.'): ',
+            $request->post()
+        );
 
         $this->validate($request, ['positions' => 'required']);
         $positions = $request->post('positions');
