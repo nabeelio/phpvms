@@ -20,6 +20,7 @@ class Pirep extends Resource
         $pirep['dpt_airport'] = new Airport($this->dpt_airport);
         $pirep['arr_airport'] = new Airport($this->arr_airport);
         $pirep['position'] = new Acars($this->position);
+        $pirep['comments'] = PirepComment::collection($this->comments);
 
         return $pirep;
     }
