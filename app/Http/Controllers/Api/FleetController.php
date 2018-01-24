@@ -51,9 +51,9 @@ class FleetController extends RestController
             $where['id'] = $id;
         }
 
-        $all_aircraft = $this->aircraftRepo->all();
+        #$all_aircraft = $this->aircraftRepo->all();
         $aircraft = $this->aircraftRepo
-                         ->with(['subfleet'])
+                         ->with(['subfleet', 'subfleet.fares'])
                          ->findWhere($where)
                          ->first();
 

@@ -26,6 +26,7 @@ Route::group([], function()
     Route::get('pireps/{id}/route', 'PirepController@route_get');
     Route::get('pireps/{id}/acars/position', 'PirepController@acars_get');
     Route::get('pireps/{id}/acars/geojson', 'PirepController@acars_geojson');
+    Route::get('pireps/{id}/comments', 'PirepController@comments_get');
 
     Route::get('status', 'StatusController@status');
     Route::get('version', 'StatusController@status');
@@ -45,6 +46,8 @@ Route::group(['middleware' => ['api.auth']], function ()
 
     Route::post('pireps/{id}/acars/log', 'PirepController@acars_log');
     Route::post('pireps/{id}/acars/logs', 'PirepController@acars_log');
+
+    Route::post('pireps/{id}/comments', 'PirepController@comments_post');
 
     Route::post('pireps/{id}/route', 'PirepController@route_post');
     Route::delete('pireps/{id}/route', 'PirepController@route_delete');

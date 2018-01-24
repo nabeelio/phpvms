@@ -1,6 +1,7 @@
 <?php
 
 #use Swagger\Serializer;
+use App\Services\FareService;
 use App\Models\User;
 
 /**
@@ -166,7 +167,12 @@ class ApiTest extends TestCase
      */
     public function testGetAircraft()
     {
+        $fare_svc = app(FareService::class);
+
         $subfleet = factory(App\Models\Subfleet::class)->create();
+        $fare = factory(App\Models\Fare::class)->create();
+
+        $fare_svc->setForSubfleet($subfleet, $fare);
         $aircraft = factory(App\Models\Aircraft::class)->create([
             'subfleet_id' => $subfleet->id
         ]);

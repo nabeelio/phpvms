@@ -48,8 +48,7 @@ class AcarsTest extends TestCase
     protected function getPirep($pirep_id)
     {
         $this->user = factory(App\Models\User::class)->create();
-        $resp = $this
-                ->get('/api/pireps/' . $pirep_id);
+        $resp = $this ->get('/api/pireps/' . $pirep_id);
         $resp->assertStatus(200);
         return $resp->json();
     }
@@ -163,6 +162,17 @@ class AcarsTest extends TestCase
 
         $response = $this->post($uri, ['flight_time' => '130']);
         $response->assertStatus(200); // invalid flight time
+
+        # Add a comment
+        $uri = '/api/pireps/'.$pirep_id.'/comments';
+        $response = $this->post($uri, ['comment' => 'A comment']);
+        $response->assertStatus(201);
+
+        $response = $this->get($uri);
+        $response->assertStatus(200);
+        $comments = $response->json();
+
+        $this->assertCount(1, $comments);
     }
 
     /**

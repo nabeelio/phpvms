@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\PirepComment;
 use Log;
 use Auth;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -20,6 +21,7 @@ use App\Repositories\AcarsRepository;
 use App\Repositories\PirepRepository;
 
 use App\Http\Resources\Pirep as PirepResource;
+use App\Http\Resources\PirepComment as PirepCommentResource;
 use App\Http\Resources\AcarsRoute as AcarsRouteResource;
 
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -326,6 +328,44 @@ class PirepController extends RestController
         }
 
         return $this->message($count . ' logs added', $count);
+    }
+
+    /**
+     * Add a new comment
+     * @param $id
+     * @param Request $request
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
+    public function comments_get($id, Request $request)
+    {
+        $pirep = $this->pirepRepo->find($id);
+        return PirepCommentResource::collection($pirep->comments);
+    }
+
+    /**
+     * Add a new comment
+     * @param $id
+     * @param Request $request
+     * @return PirepCommentResource
+     * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
+     */
+    public function comments_post($id, Request $request)
+    {
+        $pirep = $this->pirepRepo->find($id);
+        if ($pirep->state === PirepState::CANCELLED) {
+            throw new BadRequestHttpException('PIREP has been cancelled, comments can\'t be posted');
+        }
+
+        # validation
+        $this->validate($request, ['comment' => 'required']);
+
+        # Add it
+        $comment = new PirepComment($request->post());
+        $comment->pirep_id = $id;
+        $comment->user_id = Auth::user()->id;
+        $comment->save();
+
+        return new PirepCommentResource($comment);
     }
 
     /**
