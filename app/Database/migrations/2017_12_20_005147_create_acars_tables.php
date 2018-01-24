@@ -21,8 +21,8 @@ class CreateAcarsTables extends Migration
             $table->unsignedInteger('order')->default(0);
             $table->string('name')->nullable();
             $table->string('log')->nullable();
-            $table->float('lat', 7, 4)->default(0.0);
-            $table->float('lon', 7, 4)->default(0.0);
+            $table->float('lat', 7, 4)->nullable()->default(0.0);
+            $table->float('lon', 7, 4)->nullable()->default(0.0);
             $table->unsignedInteger('heading')->nullable();
             $table->unsignedInteger('altitude')->nullable();
             $table->integer('vs')->nullable();

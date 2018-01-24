@@ -17,12 +17,14 @@
     <div class="form-group col-sm-3">
         {!! Form::label('route_code', 'Route Code:') !!}
         {!! Form::text('route_code', null, ['class'=>'form-control', 'placeholder'=>'optional']) !!}
+        <p class="text-danger">{{ $errors->first('route_code') }}</p>
     </div>
 
     <!-- Route Leg Field -->
     <div class="form-group col-sm-3">
         {!! Form::label('route_leg', 'Route Leg:') !!}
         {!! Form::text('route_leg', null, ['class'=>'form-control', 'placeholder'=>'optional']) !!}
+        <p class="text-danger">{{ $errors->first('route_leg') }}</p>
     </div>
 </div>
 
@@ -69,11 +71,13 @@ SAME ROW
     <div class="form-group col-sm-3">
         {!! Form::label('distance', 'Distance:') !!}
         {!! Form::text('distance', null, ['class' => 'form-control']) !!}
+        <p class="text-danger">{{ $errors->first('distance') }}</p>
     </div>
 
     <div class="form-group col-sm-3">
         {!! Form::label('level', 'Flight Level:') !!}
         {!! Form::text('level', null, ['class' => 'form-control']) !!}
+        <p class="text-danger">{{ $errors->first('level') }}</p>
     </div>
 </div>
 

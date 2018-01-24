@@ -26,11 +26,11 @@ class CreateUsersTable extends Migration
             $table->string('curr_airport_id', 5)->nullable();
             $table->string('last_pirep_id', 12)->nullable();
             $table->unsignedBigInteger('flights')->default(0);
-            $table->unsignedBigInteger('flight_time')->default(0);
+            $table->unsignedBigInteger('flight_time')->nullable()->default(0);
             $table->decimal('balance', 19)->nullable();
             $table->string('timezone', 64)->nullable();
-            $table->unsignedTinyInteger('status')->default(0);
-            $table->unsignedTinyInteger('state')->default(0);
+            $table->unsignedTinyInteger('status')->nullable()->default(0);
+            $table->unsignedTinyInteger('state')->nullable()->default(0);
             $table->boolean('active')->nullable();
             $table->ipAddress('last_ip')->nullable();
             $table->rememberToken();

@@ -40,9 +40,13 @@ class Flight extends BaseModel
     ];
 
     public static $rules = [
+        'airline_id'     => 'required|exists:airlines,id',
         'flight_number'  => 'required',
+        'route_code'     => 'nullable',
+        'route_leg'      => 'nullable',
         'dpt_airport_id' => 'required',
         'arr_airport_id' => 'required',
+        'level'          => 'nullable',
     ];
 
     /**

@@ -22,13 +22,13 @@ class PirepComment extends Resource
         $user = $this->user;
 
         return [
-            'id' => $this->id,
-            'comment' => $this->comment,
-            'created_at' => $this->created_at,
+            'id'            => $this->id,
+            'comment'       => $this->comment,
+            'created_at'    => $this->created_at,
             'user' => [
-                'id' => $user->id,
-                'pilot_id' => $user->pilot_id,
-                'name' => $user->name,
+                'id'        => $user->id,
+                'pilot_id'  => $user->pilot_id,
+                'name'      => $user->name,
             ],
         ];
     }

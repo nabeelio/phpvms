@@ -35,7 +35,7 @@ class CreatePirepTables extends Migration
             $table->unsignedDecimal('fuel_used', 19)->nullable();
             $table->text('route')->nullable();
             $table->text('notes')->nullable();
-            $table->unsignedTinyInteger('source')->default(0);
+            $table->unsignedTinyInteger('source')->nullable()->default(0);
             $table->tinyInteger('state')->default(PirepState::PENDING);
             $table->tinyInteger('status')->default(PirepStatus::SCHEDULED);
             $table->longText('raw_data')->nullable();
@@ -85,7 +85,7 @@ class CreatePirepTables extends Migration
             $table->bigIncrements('id');
             $table->string('name', 50);
             $table->string('slug', 50)->nullable();
-            $table->boolean('required')->default(false);
+            $table->boolean('required')->nullable()->default(false);
         });
 
         Schema::create('pirep_field_values', function (Blueprint $table) {
