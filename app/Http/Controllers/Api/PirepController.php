@@ -263,6 +263,10 @@ class PirepController extends RestController
             $log['pirep_id'] = $id;
             $log['type'] = AcarsType::LOG;
 
+            if(array_has($log, 'event')) {
+                $log['log'] = $log['event'];
+            }
+
             $acars = Acars::create($log);
             $acars->save();
             ++$count;
