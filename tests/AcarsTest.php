@@ -141,8 +141,8 @@ class AcarsTest extends TestCase
 
         # Read that if the ACARS record posted
         $acars_data = $this->get($uri)->json()[0];
-        $this->assertEquals(round($acars['lat'], 2), round($body[0]['lat'], 2));
-        $this->assertEquals(round($acars['lon'], 2), round($body[0]['lon'], 2));
+        $this->assertEquals(round($acars['lat'], 2), round($acars_data['lat'], 2));
+        $this->assertEquals(round($acars['lon'], 2), round($acars_data['lon'], 2));
         $this->assertEquals($acars['log'], $acars_data['log']);
 
         # Make sure PIREP state moved into ENROUTE
