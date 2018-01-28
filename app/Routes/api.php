@@ -22,11 +22,11 @@ Route::group([], function()
     Route::get('flights/search', 'FlightController@search');
     Route::get('flights/{id}', 'FlightController@get');
 
-    Route::get('pireps/{id}', 'PirepController@get');
-    Route::get('pireps/{id}/route', 'PirepController@route_get');
-    Route::get('pireps/{id}/acars/position', 'PirepController@acars_get');
-    Route::get('pireps/{id}/acars/geojson', 'PirepController@acars_geojson');
-    Route::get('pireps/{id}/comments', 'PirepController@comments_get');
+    Route::get('pireps/{pirep_id}', 'PirepController@get');
+    Route::get('pireps/{pirep_id}/route', 'PirepController@route_get');
+    Route::get('pireps/{pirep_id}/acars/position', 'PirepController@acars_get');
+    Route::get('pireps/{pirep_id}/acars/geojson', 'PirepController@acars_geojson');
+    Route::get('pireps/{pirep_id}/comments', 'PirepController@comments_get');
 
     Route::get('status', 'StatusController@status');
     Route::get('version', 'StatusController@status');
@@ -38,19 +38,19 @@ Route::group([], function()
 Route::group(['middleware' => ['api.auth']], function ()
 {
     Route::post('pireps/prefile', 'PirepController@prefile');
-    Route::post('pireps/{id}/file', 'PirepController@file');
-    Route::delete('pireps/{id}/cancel', 'PirepController@cancel');
+    Route::post('pireps/{pirep_id}/file', 'PirepController@file');
+    Route::delete('pireps/{pirep_id}/cancel', 'PirepController@cancel');
 
-    Route::post('pireps/{id}/acars/position', 'PirepController@acars_store');
-    Route::post('pireps/{id}/acars/positions', 'PirepController@acars_store');
+    Route::post('pireps/{pirep_id}/acars/position', 'PirepController@acars_store');
+    Route::post('pireps/{pirep_id}/acars/positions', 'PirepController@acars_store');
 
-    Route::post('pireps/{id}/acars/log', 'PirepController@acars_log');
-    Route::post('pireps/{id}/acars/logs', 'PirepController@acars_log');
+    Route::post('pireps/{pirep_id}/acars/log', 'PirepController@acars_log');
+    Route::post('pireps/{pirep_id}/acars/logs', 'PirepController@acars_log');
 
-    Route::post('pireps/{id}/comments', 'PirepController@comments_post');
+    Route::post('pireps/{pirep_id}/comments', 'PirepController@comments_post');
 
-    Route::post('pireps/{id}/route', 'PirepController@route_post');
-    Route::delete('pireps/{id}/route', 'PirepController@route_delete');
+    Route::post('pireps/{pirep_id}/route', 'PirepController@route_post');
+    Route::delete('pireps/{pirep_id}/route', 'PirepController@route_delete');
 
     Route::get('settings', 'SettingsController@index');
 

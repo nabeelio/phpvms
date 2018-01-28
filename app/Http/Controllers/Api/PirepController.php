@@ -2,14 +2,20 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\PirepComment;
-use Log;
 use Auth;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Log;
 use Illuminate\Http\Request;
+
+use App\Http\Requests\Acars\CommentRequest;
+use App\Http\Requests\Acars\FileRequest;
+use App\Http\Requests\Acars\LogRequest;
+use App\Http\Requests\Acars\PositionRequest;
+use App\Http\Requests\Acars\PrefileRequest;
+use App\Http\Requests\Acars\RouteRequest;
 
 use App\Models\Acars;
 use App\Models\Pirep;
+use App\Models\PirepComment;
 
 use App\Models\Enums\AcarsType;
 use App\Models\Enums\PirepState;
@@ -52,6 +58,22 @@ class PirepController extends RestController
         $this->pirepSvc = $pirepSvc;
     }
 
+    /**
+     * Check if a PIREP is cancelled
+     * @param $pirep
+     * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
+     */
+    protected function checkCancelled(Pirep $pirep)
+    {
+        if (!$pirep->allowedUpdates()) {
+            throw new BadRequestHttpException('PIREP has been cancelled, comments can\'t be posted');
+        }
+    }
+
+    /**
+     * @param $id
+     * @return PirepResource
+     */
     public function get($id)
     {
         PirepResource::withoutWrapping();
@@ -63,35 +85,17 @@ class PirepController extends RestController
      * Once ACARS updates are being processed, then it can go into an 'ENROUTE'
      * status, and whatever other statuses may be defined
      *
-     * TODO: Allow extra fields, etc to be set. Aircraft, etc
-     * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
+     * @param PrefileRequest $request
+     * @return PirepResource
      */
-    public function prefile(Request $request)
+    public function prefile(PrefileRequest $request)
     {
-        Log::info('PIREP Prefile, user '.Auth::user()->id, $request->post());
+        Log::info('PIREP Prefile, user '.Auth::id(), $request->post());
 
-        $prefile_rules = [
-            'airline_id'            => 'required|exists:airlines,id',
-            'aircraft_id'           => 'required|exists:aircraft,id',
-            'dpt_airport_id'        => 'required',
-            'arr_airport_id'        => 'required',
-            'flight_id'             => 'nullable',
-            'flight_number'         => 'required',
-            'route_code'            => 'nullable',
-            'route_leg'             => 'nullable',
-            'flight_time'           => ['nullable', 'integer'],
-            'planned_flight_time'   => ['nullable', 'integer'],
-            'level'                 => 'required|integer',
-            'route'                 => 'nullable',
-            'notes'                 => 'nullable',
-            'created_at'            => 'nullable|date',
-        ];
-
-        $attrs = $this->getFromReq($request, $prefile_rules, [
-            'user_id' => Auth::user()->id,
-            'state' => PirepState::IN_PROGRESS,
-            'status' => PirepStatus::PREFILE,
-        ]);
+        $attrs = $request->post();
+        $attrs['user_id'] = Auth::id();
+        $attrs['state'] = PirepState::IN_PROGRESS;
+        $attrs['status'] = PirepStatus::PREFILE;
 
         $pirep = new Pirep($attrs);
 
@@ -113,47 +117,22 @@ class PirepController extends RestController
     /**
      * File the PIREP
      * @param $id
-     * @param Request $request
+     * @param FileRequest $request
      * @return PirepResource
      * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      */
-    public function file($id, Request $request)
+    public function file($id, FileRequest $request)
     {
-        Log::info('PIREP file, user ' . Auth::user()->id, $request->post());
-
-        $pirep = $this->pirepRepo->find($id);
-        if (empty($pirep)) {
-            throw new ModelNotFoundException('PIREP not found');
-        }
+        Log::info('PIREP file, user ' . Auth::id(), $request->post());
 
         # Check if the status is cancelled...
-        if($pirep->state === PirepState::CANCELLED) {
-            throw new BadRequestHttpException('PIREP has been cancelled, updates can\'t be posted');
-        }
+        $pirep = $this->pirepRepo->find($id);
+        $this->checkCancelled($pirep);
 
-        $file_rules = [
-            # actual flight time is required
-            'flight_time'           => ['required', 'integer'],
-            'flight_number'         => 'nullable',
-            'dpt_airport_id'        => 'nullable',
-            'arr_airport_id'        => 'nullable',
-            'airline_id'            => 'nullable|exists:airlines,id',
-            'aircraft_id'           => 'nullable|exists:aircraft,id',
-            'flight_id'             => 'nullable',
-            'route_code'            => 'nullable',
-            'route_leg'             => 'nullable',
-            'planned_flight_time'   => ['nullable', 'integer'],
-            'level'                 => 'nullable',
-            'route'                 => 'nullable',
-            'notes'                 => 'nullable',
-            'created_at'            => 'nullable|date',
-        ];
-
-        $attrs = $this->getFromReq($request, $file_rules, [
-            'state' => PirepState::PENDING,
-            'status' => PirepStatus::ARRIVED,
-        ]);
+        $attrs = $request->post();
+        $attrs['state'] = PirepState::PENDING;
+        $attrs['status'] = PirepStatus::ARRIVED;
 
         $pirep_fields = [];
         if($request->filled('fields')) {
@@ -176,20 +155,15 @@ class PirepController extends RestController
      * @param $id
      * @param Request $request
      * @return PirepResource
+     * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
     public function cancel($id, Request $request)
     {
-        Log::info('PIREP Cancel, user ' . Auth::user()->pilot_id, $request->post());
+        Log::info('PIREP Cancel, user ' . Auth::id(), $request->post());
 
-        $attrs = [
+        $pirep = $this->pirepRepo->update([
             'state' => PirepState::CANCELLED,
-        ];
-
-        try {
-            $pirep = $this->pirepRepo->update($attrs, $id);
-        } catch (\Exception $e) {
-            Log::error($e);
-        }
+        ], $id);
 
         PirepResource::withoutWrapping();
         return new PirepResource($pirep);
@@ -231,58 +205,32 @@ class PirepController extends RestController
     /**
      * Post ACARS updates for a PIREP
      * @param $id
-     * @param Request $request
+     * @param PositionRequest $request
      * @return \Illuminate\Http\JsonResponse
      * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
      */
-    public function acars_store($id, Request $request)
+    public function acars_store($id, PositionRequest $request)
     {
-        $pirep = $this->pirepRepo->find($id);
-
         # Check if the status is cancelled...
-        if ($pirep->state === PirepState::CANCELLED) {
-            throw new BadRequestHttpException('PIREP has been cancelled, updates can\'t be posted');
-        }
+        $pirep = $this->pirepRepo->find($id);
+        $this->checkCancelled($pirep);
 
         Log::info(
             'Posting ACARS update (user: '.Auth::user()->pilot_id.', pirep id :'.$id.'): ',
             $request->post()
         );
 
-        $this->validate($request, ['positions' => 'required']);
-        $positions = $request->post('positions');
-
-        $acars_rules = [
-            'lat'           => 'required|numeric',
-            'lon'           => 'required|numeric',
-            'altitude'      => 'nullable',
-            'level'         => 'nullable',
-            'heading'       => 'nullable',
-            'vs'            => 'nullable',
-            'gs'            => 'nullable',
-            'transponder'   => 'nullable',
-            'autopilot'     => 'nullable',
-            'fuel_flow'     => 'nullable',
-            'log'           => 'nullable',
-            'created_at'    => 'nullable|date',
-        ];
-
         $count = 0;
+        $positions = $request->post('positions');
         foreach($positions as $position)
         {
-            try {
-                $attrs = $this->getFromReq(
-                    $position,
-                    $acars_rules,
-                    ['pirep_id' => $id, 'type' => AcarsType::FLIGHT_PATH]
-                );
+            $position['pirep_id'] = $id;
+            $position['type'] = AcarsType::FLIGHT_PATH;
 
-                $update = Acars::create($attrs);
-                $update->save();
-                ++$count;
-            } catch (\Exception $e) {
-                Log::error($e);
-            }
+            $update = Acars::create($position);
+            $update->save();
+
+            ++$count;
         }
 
         # Change the PIREP status
@@ -296,36 +244,26 @@ class PirepController extends RestController
      * Post ACARS LOG update for a PIREP. These updates won't show up on the map
      * But rather in a log file.
      * @param $id
-     * @param Request $request
+     * @param LogRequest $request
      * @return \Illuminate\Http\JsonResponse
      * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
      */
-    public function acars_log($id, Request $request)
+    public function acars_log($id, LogRequest $request)
     {
-        $pirep = $this->pirepRepo->find($id);
-
         # Check if the status is cancelled...
-        if ($pirep->state === PirepState::CANCELLED) {
-            throw new BadRequestHttpException('PIREP has been cancelled, updates can\'t be posted');
-        }
+        $pirep = $this->pirepRepo->find($id);
+        $this->checkCancelled($pirep);
 
-        Log::info('Posting ACARS log', $request->toArray());
-
-        $this->validate($request, ['logs' => 'required']);
-        $logs = $request->post('logs');
-
-        $rules = [
-            'log'           => 'required',
-            'lat'           => 'nullable',
-            'lon'           => 'nullable',
-            'created_at'    => 'nullable|date',
-        ];
+        Log::info('Posting ACARS log, PIREP: '.$id, $request->post());
 
         $count = 0;
+        $logs = $request->post('logs');
         foreach($logs as $log) {
-            $attrs = $this->getFromReq($log, $rules, ['pirep_id' => $id, 'type' => AcarsType::LOG]);
 
-            $acars = Acars::create($attrs);
+            $log['pirep_id'] = $id;
+            $log['type'] = AcarsType::LOG;
+
+            $acars = Acars::create($log);
             $acars->save();
             ++$count;
         }
@@ -348,24 +286,20 @@ class PirepController extends RestController
     /**
      * Add a new comment
      * @param $id
-     * @param Request $request
+     * @param CommentRequest $request
      * @return PirepCommentResource
-     * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
      */
-    public function comments_post($id, Request $request)
+    public function comments_post($id, CommentRequest $request)
     {
         $pirep = $this->pirepRepo->find($id);
-        if ($pirep->state === PirepState::CANCELLED) {
-            throw new BadRequestHttpException('PIREP has been cancelled, comments can\'t be posted');
-        }
+        $this->checkCancelled($pirep);
 
-        # validation
-        $this->validate($request, ['comment' => 'required']);
+        Log::info('Posting comment, PIREP: '.$id, $request->post());
 
         # Add it
         $comment = new PirepComment($request->post());
         $comment->pirep_id = $id;
-        $comment->user_id = Auth::user()->id;
+        $comment->user_id = Auth::id();
         $comment->save();
 
         return new PirepCommentResource($comment);
@@ -390,52 +324,25 @@ class PirepController extends RestController
     /**
      * Post the ROUTE for a PIREP, can be done from the ACARS log
      * @param $id
-     * @param Request $request
+     * @param RouteRequest $request
      * @return AcarsRouteResource
      * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
      */
-    public function route_post($id, Request $request)
+    public function route_post($id, RouteRequest $request)
     {
-        $pirep = $this->pirepRepo->find($id);
-
         # Check if the status is cancelled...
-        if ($pirep->state === PirepState::CANCELLED) {
-            throw new BadRequestHttpException('PIREP has been cancelled, updates can\'t be posted');
-        }
+        $pirep = $this->pirepRepo->find($id);
+        $this->checkCancelled($pirep);
 
-        Log::info('Posting ACARS ROUTE', $request->toArray());
-
-        $this->validate($request, ['route' => 'required']);
-
-        $this->validate($request, [
-            'route.*.name' => 'required',
-            'route.*.order' => 'required|int',
-            'route.*.nav_type' => 'nullable|int',
-            'route.*.lat' => 'required|numeric',
-            'route.*.lon' => 'required|numeric',
-        ]);
+        Log::info('Posting ROUTE, PIREP: '.$id, $request->post());
 
         $route = $request->post('route', []);
         foreach($route as $position) {
-            $attrs = [
-                'pirep_id' => $id,
-                'type' => AcarsType::ROUTE,
-                'name' => $position['name'],
-                'order' => $position['order'],
-                'lat' => $position['lat'],
-                'lon' => $position['lon'],
-            ];
+            $position['pirep_id'] = $id;
+            $position['type'] = AcarsType::ROUTE;
 
-            if(array_key_exists('nav_type', $position)) {
-                $attrs['nav_type'] = $position['nav_type'];
-            }
-
-            try {
-                $acars = Acars::create($attrs);
-                $acars->save();
-            } catch (\Exception $e) {
-                Log::error($e);
-            }
+            $acars = Acars::create($position);
+            $acars->save();
         }
 
         return $this->route_get($id, $request);

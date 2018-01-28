@@ -199,6 +199,9 @@ class PIREPTest extends TestCase
         $this->assertFalse($dupe_pirep);
     }
 
+    /**
+     * 
+     */
     public function testCancelViaAPI()
     {
         $this->user = factory(App\Models\User::class)->create();
@@ -223,7 +226,10 @@ class PIREPTest extends TestCase
 
         # Should get a 400 when posting an ACARS update
         $uri = '/api/pireps/' . $pirep_id . '/acars/position';
-        $acars = factory(App\Models\Acars::class)->make()->toArray();
+        $acars = factory(App\Models\Acars::class)->make([
+            'pirep_id' => null
+        ])->toArray();
+
         $response = $this->post($uri, $acars);
         $response->assertStatus(400);
     }

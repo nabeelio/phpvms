@@ -47,7 +47,6 @@ class AcarsTest extends TestCase
 
     protected function getPirep($pirep_id)
     {
-        $this->user = factory(App\Models\User::class)->create();
         $resp = $this ->get('/api/pireps/' . $pirep_id);
         $resp->assertStatus(200);
         return $resp->json();
@@ -116,6 +115,7 @@ class AcarsTest extends TestCase
 
         $this->assertHasKeys($body, ['airline', 'arr_airport', 'dpt_airport', 'position']);
         $this->assertNotNull($pirep_id);
+        $this->assertEquals($body['user_id'], $this->user->id);
 
         # Check the PIREP state and status
         $pirep = $this->getPirep($pirep_id);
@@ -131,12 +131,19 @@ class AcarsTest extends TestCase
         $response->assertStatus(400);
 
         # Post an ACARS update
-        $acars = factory(App\Models\Acars::class)->make()->toArray();
-        unset($acars['id']);
+        $acars = factory(App\Models\Acars::class)->make([
+            'id' => null
+        ])->toArray();
 
         $update = ['positions' => [$acars]];
         $response = $this->post($uri, $update);
         $response->assertStatus(200)->assertJson(['count' => 1]);
+
+        # Read that if the ACARS record posted
+        $acars_data = $this->get($uri)->json()[0];
+        $this->assertEquals($acars['lat'], $acars_data['lat']);
+        $this->assertEquals($acars['lon'], $acars_data['lon']);
+        $this->assertEquals($acars['log'], $acars_data['log']);
 
         # Make sure PIREP state moved into ENROUTE
         $pirep = $this->getPirep($pirep_id);
@@ -161,7 +168,7 @@ class AcarsTest extends TestCase
         $response->assertStatus(400); // invalid flight time
 
         $response = $this->post($uri, ['flight_time' => '130']);
-        $response->assertStatus(200); // invalid flight time
+        $response->assertStatus(200);
 
         # Add a comment
         $uri = '/api/pireps/'.$pirep_id.'/comments';

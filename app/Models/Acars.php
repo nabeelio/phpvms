@@ -37,7 +37,7 @@ class Acars extends BaseModel
         'lat'           => 'float',
         'lon'           => 'float',
         'heading'       => 'integer',
-        'altitude'      => 'integer',
+        'altitude'      => 'float',
         'vs'            => 'float',
         'gs'            => 'float',
         'transponder'   => 'integer',

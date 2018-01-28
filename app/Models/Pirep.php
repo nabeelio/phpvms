@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Enums\AcarsType;
+use App\Models\Enums\PirepState;
 use App\Models\Traits\HashId;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -45,6 +46,7 @@ class Pirep extends BaseModel
     ];
 
     protected $casts = [
+        'user_id'               => 'integer',
         'flight_time'           => 'integer',
         'planned_flight_time'   => 'integer',
         'level'                 => 'integer',
@@ -85,6 +87,20 @@ class Pirep extends BaseModel
 
         return $flight_id;
     }
+
+    /**
+     * Check if this PIREP is allowed to be updated
+     * @return bool
+     */
+    public function allowedUpdates()
+    {
+        if ($this->state === PirepState::CANCELLED) {
+            return false;
+        }
+
+        return true;
+    }
+
 
     /**
      * Foreign Keys

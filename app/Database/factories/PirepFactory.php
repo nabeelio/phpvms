@@ -11,7 +11,7 @@ $factory->define(App\Models\Pirep::class, function (Faker $faker) {
     static $raw_data;
 
     return [
-        'id' => substr($faker->unique()->sha1, 28, 12),
+        'id' => null,
         'airline_id' => function () { # OVERRIDE THIS IF NEEDED
             return factory(App\Models\Airline::class)->create()->id;
         },

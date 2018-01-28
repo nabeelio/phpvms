@@ -1,13 +1,11 @@
 <?php
 
-use App\Models\User;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Mail;
-
-use Symfony\Component\Process\Process;
-use Symfony\Component\Process\Exception\ProcessFailedException;
+use App\Services\DatabaseService;
 
 
+/**
+ * Class TestCase
+ */
 abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
 {
     /**
@@ -32,11 +30,22 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
         return self::$auth_headers;
     }
 
-    public function headers($user)
+    /**
+     * @param $user
+     * @param array $headers
+     * @return array
+     */
+    public function headers($user=null, array $headers = []): array
     {
-        return [
-            'x-api-key' => $user->api_key,
-        ];
+        if($user !== null) {
+            $headers['x-api-key'] = $user->api_key;
+        } else {
+            if($this->user !== null) {
+                $headers['x-api-key'] = $this->user->api_key;
+            }
+        }
+
+        return $headers;
     }
 
     /**
@@ -81,7 +90,7 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
 
     public function addData($file)
     {
-        $svc = app('\App\Services\DatabaseService');
+        $svc = app(DatabaseService::class);
         $file_path = base_path('tests/data/' . $file . '.yml');
         try {
             $svc->seed_from_yaml_file($file_path);
@@ -91,7 +100,6 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
 
     public function fillableFields(\Illuminate\Database\Eloquent\Model $model)
     {
-        //$klass = new $model();
         return $model->fillable;
     }
 
@@ -116,18 +124,9 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
      */
     public function get($uri, array $headers=[], $user=null): \Illuminate\Foundation\Testing\TestResponse
     {
-        if($this->user !== null) {
-            $headers = $this->headers($this->user);
-        }
-
-        if($user !== null) {
-            $headers['x-api-key'] = $user->api_key;
-        }
-
-        $req = parent::get($uri, $headers);
+        $req = parent::get($uri, $this->headers($user, $headers));
         if($req->isClientError() || $req->isServerError()) {
-            Log::error('Error on '.$uri);
-            Log::error($req->json());
+            Log::error('GET Error: ' . $uri, $req->json());
         }
 
         return $req;
@@ -138,17 +137,17 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
      * @param string $uri
      * @param array $data
      * @param array $headers
+     * @param null $user
      * @return \Illuminate\Foundation\Testing\TestResponse
      */
-    public function post($uri, array $data = [], array $headers = [])
+    public function post($uri, array $data = [], array $headers = [], $user=null)
     {
-        if (empty($headers)) {
-            if ($this->user !== null) {
-                $headers = $this->headers($this->user);
-            }
+        $req = parent::post($uri, $data, $this->headers($user, $headers));
+        if ($req->isClientError() || $req->isServerError()) {
+            Log::error('POST Error: ' . $uri, $req->json());
         }
 
-        return parent::post($uri, $data, $headers);
+        return $req;
     }
 
     /**
@@ -156,16 +155,16 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
      * @param string $uri
      * @param array $data
      * @param array $headers
+     * @param null $user
      * @return \Illuminate\Foundation\Testing\TestResponse
      */
-    public function delete($uri, array $data = [], array $headers = [])
+    public function delete($uri, array $data = [], array $headers = [], $user=null)
     {
-        if (empty($headers)) {
-            if ($this->user !== null) {
-                $headers = $this->headers($this->user);
-            }
+        $req = parent::delete($uri, $data, $this->headers($user, $headers));
+        if ($req->isClientError() || $req->isServerError()) {
+            Log::error('DELETE Error: ' . $uri, $req->json());
         }
 
-        return parent::delete($uri, $data, $headers);
+        return $req;
     }
 }

@@ -4,8 +4,8 @@ use Faker\Generator as Faker;
 
 $factory->define(App\Models\Acars::class, function (Faker $faker) {
     return [
-        'id' => substr($faker->unique()->sha1, 28, 12),
-        'pirep_id' => '',       # fill this out by
+        'id' => null,
+        'pirep_id' => null,
         'log' => $faker->text(200),
         'lat' => $faker->latitude,
         'lon' => $faker->longitude,
