@@ -200,7 +200,7 @@ class PIREPTest extends TestCase
     }
 
     /**
-     * 
+     *
      */
     public function testCancelViaAPI()
     {
@@ -226,9 +226,7 @@ class PIREPTest extends TestCase
 
         # Should get a 400 when posting an ACARS update
         $uri = '/api/pireps/' . $pirep_id . '/acars/position';
-        $acars = factory(App\Models\Acars::class)->make([
-            'pirep_id' => null
-        ])->toArray();
+        $acars = factory(App\Models\Acars::class)->make()->toArray();
 
         $response = $this->post($uri, $acars);
         $response->assertStatus(400);
