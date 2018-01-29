@@ -2,24 +2,24 @@
 
 return [
     'fetch' => PDO::FETCH_ASSOC,
-    'default' => 'mysql',
+    'default' => env('DB_CONNECTION', 'mysql'),
     'connections' => [
         'mysql' => [
             'driver' => 'mysql',
-            'host' => '127.0.0.1',
-            'port' => 3306,
-            'database' => '',
-            'username' => '',
-            'password' => '',
+            'host' => env('DB_HOST', '127.0.0.1'),
+            'port' => env('DB_PORT', 3306),
+            'database' => env('DB_DATABASE', ''),
+            'username' => env('DB_USERNAME', ''),
+            'password' => env('DB_PASSWORD', ''),
             //'unix_socket' => env('DB_SOCKET', ''),
-            'prefix' => '',
+            'prefix' => env('DB_PREFIX', ''),
             'timezone' => '+00:00',
             'charset' => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'strict' => false,
             'engine' => null,
             'options' => [
-                PDO::ATTR_EMULATE_PREPARES => false,
+                PDO::ATTR_EMULATE_PREPARES => env('DB_EMULATE_PREPARES', false),
                 #PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
             ],
         ],
@@ -48,10 +48,10 @@ return [
     'redis' => [
         'cluster' => false,
         'default' => [
-            'host' => 'localhost',
-            'password' => null,
-            'port' => 6379,
-            'database' => 1,
+            'host' => env('REDIS_HOST', 'localhost'),
+            'password' => env('REDIS_PASSWORD', null),
+            'port' => env('REDIS_PORT', 6379),
+            'database' => env('REDIS_DATABASE', 1),
         ],
     ]
 ];

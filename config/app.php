@@ -8,18 +8,18 @@
  */
 
 return [
-    'name' => 'phpVMS',
-    'env' => 'dev',
-    'debug' => true,
-    'url' => 'http://localhost',
+    'name' => env('PHPVMS_VA_NAME', 'phpvms'),
+    'env' => env('APP_ENV', 'dev'),
+    'debug' => env('APP_DEBUG', true),
+    'url' => env('APP_URL', 'http://localhost'),
     'version' => '7.0.0',
 
-    'locale' => 'en',
+    'locale' => env('APP_LOCALE', 'en'),
     'fallback_locale' => 'en',
 
-    'log' => 'daily',
-    'log_level' => 'debug',
-    'log_max_files' => 7,
+    'log' => env('APP_LOG', 'daily'),
+    'log_level' => env('APP_LOG_LEVEL', 'debug'),
+    'log_max_files' => env('APP_LOG_MAX_FILES', 5),
 
     # This sends install and vaCentral specific information to help with
     # optimizations and figuring out where slowdowns might be happening
