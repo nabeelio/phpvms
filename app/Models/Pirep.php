@@ -31,6 +31,8 @@ class Pirep extends BaseModel
         'airline_id',
         'aircraft_id',
         'altitude',
+        'distance',
+        'planned_distance',
         'flight_time',
         'planned_flight_time',
         'dpt_airport_id',
