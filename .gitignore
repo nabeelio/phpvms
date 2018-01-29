@@ -65,6 +65,7 @@ phpvms_next.iml
 public/info.php
 
 local.conf.php
+config.php
 
 # Error Logs
 error_log

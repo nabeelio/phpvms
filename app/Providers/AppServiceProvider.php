@@ -31,13 +31,15 @@ class AppServiceProvider extends ServiceProvider
         }
 
         # if there's a local.conf.php in the root, then merge that in
-        if(file_exists(base_path('local.conf.php'))) {
-            $local_conf = include base_path('local.conf.php');
-            $config = $this->app['config']->get('phpvms', []);
-            $this->app['config']->set(
-                'phpvms',
-                array_merge($config, $local_conf)
-            );
+        if(file_exists(base_path('config.php'))) {
+            $local_conf = include base_path('config.php');
+            foreach($local_conf as $namespace => $override_config) {
+                $config = $this->app['config']->get($namespace, []);
+                $this->app['config']->set(
+                    $namespace,
+                    array_merge($config, $override_config)
+                );
+            }
         }
     }
 
