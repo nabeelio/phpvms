@@ -6,7 +6,7 @@ $factory->define(App\Models\Acars::class, function (Faker $faker) {
     return [
         'id' => null,
         'pirep_id' => null,
-        'log' => $faker->text(200),
+        'log' => $faker->text(100),
         'lat' => $faker->latitude,
         'lon' => $faker->longitude,
         'heading' => $faker->numberBetween(0, 359),
