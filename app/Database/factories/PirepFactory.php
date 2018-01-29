@@ -37,6 +37,8 @@ $factory->define(App\Models\Pirep::class, function (Faker $faker) {
             return factory(App\Models\Airport::class)->create()->id;
         },
         'level' => $faker->numberBetween(20, 400),
+        'distance' => $faker->randomFloat(2),
+        'planned_distance' => $faker->randomFloat(2),
         'flight_time' => $faker->randomFloat(2),
         'planned_flight_time' => $faker->randomFloat(2),
         'gross_weight' => $faker->randomFloat(2),
