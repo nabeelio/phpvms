@@ -4,6 +4,7 @@ namespace Modules\Installer\Services;
 
 use Log;
 use PDO;
+use Nwidart\Modules\Support\Stub;
 use Illuminate\Encryption\Encrypter;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
@@ -171,7 +172,15 @@ class EnvironmentService
             throw new FileException('Can\'t write to the env.php file! Check the permissions');
         }
 
-        $fp = fopen($env_file, 'wb');
+        try {
+            $stub = new Stub('/env.stub', $opts);
+            $stub->render();
+            $stub->saveTo(\App::environmentPath(), \App::environmentFile());
+        } catch(\Exception $e) {
+            throw new FileException('Couldn\'t write the env.php. (' . $e . ')');
+        }
+
+        /*$fp = fopen($env_file, 'wb');
         if($fp === false) {
             throw new FileException('Couldn\'t write the env.php. (' . error_get_last() .')');
         }
@@ -184,6 +193,6 @@ class EnvironmentService
                         .$env_contents;
 
         fwrite($fp, $env_contents);
-        fclose($fp);
+        fclose($fp);*/
     }
 }

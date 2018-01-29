@@ -4,6 +4,7 @@ namespace Modules\Installer\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
+use Nwidart\Modules\Support\Stub;
 use Route;
 
 
