@@ -1,27 +1,41 @@
 <?php
 
-return [
+/**
+ * DO NOT EDIT THIS OR ANY OF THE CONFIG FILES DIRECTLY
+ *
+ * Set your override options in the config.php file that's in the root of
+ * your install. Otherwise, any changes here will get overridden in an update!
+ */
 
-    'name' => env('PHPVMS_VA_NAME', 'phpvms'),
-    'env' => env('APP_ENV', 'dev'),
-    'debug' => env('APP_DEBUG', true),
-    'url' => env('APP_URL', 'http://localhost'),
-    'version' => '7.0',
+return [
+    'name' => 'phpVMS',
+    'env' => 'dev',
+    'debug' => true,
+    'url' => 'http://localhost',
+    'version' => '7.0.0',
+
+    'locale' => 'en',
+    'fallback_locale' => 'en',
+
+    'log' => 'daily',
+    'log_level' => 'debug',
+    'log_max_files' => 7,
+
+    # This sends install and vaCentral specific information to help with
+    # optimizations and figuring out where slowdowns might be happening
+    'analytics' => true,
+
+    #
+    # Anything below here won't need changing and could break things
+    #
 
     # DON'T CHANGE THIS OR ELSE YOUR TIMES WILL BE MESSED UP!
     'timezone' => 'UTC',
-
-    'locale' => env('APP_LOCALE', 'en'),
-    'fallback_locale' => 'en',
 
     # Is the default key cipher. Needs to be changed, otherwise phpVMS will think
     # that it isn't installed. Doubles as a security feature, so keys are scrambled
     'key' => env('APP_KEY', 'base64:zdgcDqu9PM8uGWCtMxd74ZqdGJIrnw812oRMmwDF6KY='),
     'cipher' => 'AES-256-CBC',
-
-    'log' => env('APP_LOG', 'daily'),
-    'log_level' => env('APP_LOG_LEVEL', 'debug'),
-    'log_max_files' => env('APP_LOG_MAX_FILES', 7),
 
     'providers' => [
 

@@ -4,6 +4,33 @@
 <div style="align-content: center;">
     {!! Form::open(['route' => 'installer.envsetup', 'method' => 'POST']) !!}
     <table class="table" width="25%">
+
+        <tr>
+            <td colspan="2"><h4>Site Config</h4></td>
+        </tr>
+
+        <tr>
+            <td>Site Name</td>
+            <td style="text-align:center;">
+                <div class="form-group">
+                    {!! Form::input('text', 'site_name', 'phpvms', ['class' => 'form-control']) !!}
+                </div>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Site URL</td>
+            <td style="text-align:center;">
+                <div class="form-group">
+                    {!! Form::input('text', 'site_url', Request::root(), ['class' => 'form-control']) !!}
+                </div>
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="2"><h4>Database Config</h4></td>
+        </tr>
+
         <tr>
             <td><p>Select Database Type</p></td>
             <td style="text-align:center;">
@@ -70,6 +97,16 @@
 
         </tbody>
 
+        <tr>
+            <td>Database Prefix</td>
+            <td style="text-align:center;">
+                <div class="form-group">
+                    {!! Form::input('text', 'db_prefix', '', ['class' => 'form-control']) !!}
+                    <p>Set this if you're sharing the database with another application.</p>
+                </div>
+            </td>
+        </tr>
+
     </table>
     <div id="dbtest"></div>
     <p style="text-align: right">
@@ -106,7 +143,6 @@ $(document).ready(function() {
             db_pass: $("input[name=db_pass]").val(),
         };
 
-        console.log(opts);
         $.post("{!! route('installer.dbtest') !!}", opts, function(data) {
             $("#dbtest").html(data);
         })

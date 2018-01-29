@@ -9,41 +9,41 @@ use Illuminate\Encryption\Encrypter;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 /**
- * Class EnvironmentService
+ * Class ConfigService
  * @package Modules\Installer\Services
  */
-class EnvironmentService
+class ConfigService
 {
     /**
      * Create the .env file
-     * @param $driver
-     * @param $host
-     * @param $port
-     * @param $name
-     * @param $user
-     * @param $pass
+     * @param $attrs
      * @return boolean
      * @throws \Symfony\Component\HttpFoundation\File\Exception\FileException
      */
-    public function createEnvFile($driver, $host, $port, $name, $user, $pass): bool
+    public function createConfigFiles($attrs): bool
     {
         $opts = [
             'APP_ENV' => 'dev',
             'APP_KEY' => $this->createAppKey(),
-            'DB_CONN' => $driver,
-            'DB_HOST' => $host,
-            'DB_PORT' => $port,
-            'DB_NAME' => $name,
-            'DB_USER' => $user,
-            'DB_PASS' => $pass,
+            'SITE_NAME' => '',
+            'SITE_URL' => 'http://phpvms.test',
+            'DB_CONN' => '',
+            'DB_HOST' => '',
+            'DB_PORT' => '',
+            'DB_NAME' => '',
+            'DB_USER' => '',
+            'DB_PASS' => '',
+            'DB_PREFIX' => '',
             'DB_EMULATE_PREPARES' => false,
         ];
+
+        $opts = array_merge($opts, $attrs);
 
         $opts = $this->determinePdoOptions($opts);
         $opts = $this->getCacheDriver($opts);
         $opts = $this->getQueueDriver($opts);
 
-        $this->writeEnvFile($opts);
+        $this->writeConfigFiles($opts);
 
         return true;
     }
@@ -163,8 +163,10 @@ class EnvironmentService
      * @param $opts
      * @throws \Symfony\Component\HttpFoundation\File\Exception\FileException
      */
-    protected function writeEnvFile($opts)
+    protected function writeConfigFiles($opts)
     {
+        Stub::setBasePath(resource_path('/stubs/installer'));
+
         $env_file = \App::environmentFilePath();
 
         if(file_exists($env_file) && !is_writable($env_file)) {
@@ -172,27 +174,28 @@ class EnvironmentService
             throw new FileException('Can\'t write to the env.php file! Check the permissions');
         }
 
+        /**
+         * First write out the env file
+         */
         try {
             $stub = new Stub('/env.stub', $opts);
             $stub->render();
             $stub->saveTo(\App::environmentPath(), \App::environmentFile());
         } catch(\Exception $e) {
-            throw new FileException('Couldn\'t write the env.php. (' . $e . ')');
+            throw new FileException('Couldn\'t write env.php. (' . $e . ')');
         }
 
-        /*$fp = fopen($env_file, 'wb');
-        if($fp === false) {
-            throw new FileException('Couldn\'t write the env.php. (' . error_get_last() .')');
+        /**
+         * Next write out the config file. If there's an error here,
+         * then throw an exception but delete the env file first
+         */
+        try {
+            $stub = new Stub('/config.stub', $opts);
+            $stub->render();
+            $stub->saveTo(\App::environmentPath(), 'config.php');
+        } catch (\Exception $e) {
+            unlink(\App::environmentPath().'/'. \App::environmentFile());
+            throw new FileException('Couldn\'t write config.php. (' . $e . ')');
         }
-
-        # render it within Blade and log the contents
-        $env_contents = view('installer::stubs/env', $opts);
-        Log::info($env_contents);
-
-        $env_contents = "<?php exit(); ?>\n\n"
-                        .$env_contents;
-
-        fwrite($fp, $env_contents);
-        fclose($fp);*/
     }
 }

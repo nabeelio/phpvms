@@ -15,10 +15,6 @@ class InstalledCheck
      *
      * If the default key is set and we're not in any of the installer routes
      * show the message that we need to be installed
-     *
-     * @param Request $request
-     * @param Closure $next
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|mixed
      */
     public function handle(Request $request, Closure $next)
     {

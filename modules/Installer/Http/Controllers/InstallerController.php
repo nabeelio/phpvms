@@ -2,25 +2,23 @@
 
 namespace Modules\Installer\Http\Controllers;
 
-use DB;
 use Log;
-use PDO;
-use Irazasyed\LaravelGAMP\Facades\GAMP;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Validator;
 
 use App\Models\User;
-use App\Models\Enums\AnalyticsDimensions;
+
 use App\Repositories\AirlineRepository;
 use App\Facades\Utils;
+use App\Services\AnalyticsService;
 use App\Services\UserService;
 
 use App\Http\Controllers\Controller;
 
 use Modules\Installer\Services\DatabaseService;
-use Modules\Installer\Services\EnvironmentService;
+use Modules\Installer\Services\ConfigService;
 use Modules\Installer\Services\RequirementsService;
 
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -28,6 +26,7 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 class InstallerController extends Controller
 {
     protected $airlineRepo,
+              $analyticsSvc,
               $dbService,
               $envService,
               $reqService,
@@ -35,12 +34,14 @@ class InstallerController extends Controller
 
     public function __construct(
         AirlineRepository $airlineRepo,
+        AnalyticsService $analyticsSvc,
         DatabaseService $dbService,
-        EnvironmentService $envService,
+        ConfigService $envService,
         RequirementsService $reqService,
         UserService $userService
     ) {
         $this->airlineRepo = $airlineRepo;
+        $this->analyticsSvc = $analyticsSvc;
         $this->dbService = $dbService;
         $this->envService = $envService;
         $this->reqService = $reqService;
@@ -61,12 +62,12 @@ class InstallerController extends Controller
     protected function testDb(Request $request)
     {
         $this->dbService->checkDbConnection(
-            $request->input('db_conn'),
-            $request->input('db_host'),
-            $request->input('db_port'),
-            $request->input('db_name'),
-            $request->input('db_user'),
-            $request->input('db_pass')
+            $request->post('db_conn'),
+            $request->post('db_host'),
+            $request->post('db_port'),
+            $request->post('db_name'),
+            $request->post('db_user'),
+            $request->post('db_pass')
         );
     }
 
@@ -152,7 +153,7 @@ class InstallerController extends Controller
      */
     public function envsetup(Request $request)
     {
-        Log::info('ENV setup', $request->toArray());
+        Log::info('ENV setup', $request->post());
 
         // Before writing out the env file, test the DB credentials
         try {
@@ -163,16 +164,25 @@ class InstallerController extends Controller
         }
 
         // Now write out the env file
+        $attrs = [
+            'SITE_NAME' => $request->post('site_name'),
+            'SITE_URL' => $request->post('site_url'),
+            'DB_CONN' => $request->post('db_conn'),
+            'DB_HOST' => $request->post('db_host'),
+            'DB_PORT' => $request->post('db_port'),
+            'DB_NAME' => $request->post('db_name'),
+            'DB_USER' => $request->post('db_user'),
+            'DB_PASS' => $request->post('db_pass'),
+            'DB_PREFIX' => $request->post('db_prefix'),
+        ];
 
+        /**
+         * Create the config files and then redirect so that the
+         * framework can pickup all those configs, etc, before we
+         * setup the database and stuff
+         */
         try {
-            $this->envService->createEnvFile(
-                $request->input('db_conn'),
-                $request->input('db_host'),
-                $request->input('db_port'),
-                $request->input('db_name'),
-                $request->input('db_user'),
-                $request->input('db_pass')
-            );
+            $this->envService->createConfigFiles($attrs);
         } catch(FileException $e) {
             flash()->error($e->getMessage());
             return redirect(route('installer.step2'))->withInput();
@@ -271,27 +281,7 @@ class InstallerController extends Controller
         # Set the intial admin e-mail address
         setting('general.admin_email', $user->email);
 
-        # some analytics
-        $gamp = GAMP::setClientId(uniqid('', true));
-        $gamp->setDocumentPath('/install');
-
-        $gamp->setCustomDimension(PHP_VERSION, AnalyticsDimensions::PHP_VERSION);
-
-        # figure out database version
-        $pdo = DB::connection()->getPdo();
-        $gamp->setCustomDimension(
-            strtolower($pdo->getAttribute(PDO::ATTR_SERVER_VERSION)),
-            AnalyticsDimensions::DATABASE_VERSION
-        );
-
-        $gamp->sendPageview();
-
-        # If analytics are disabled
-        if((int) $request->post('analytics') === 0) {
-            $this->envService->updateKeysInEnv([
-                'APP_ANALYTICS_DISABLED' => 'true',
-            ]);
-        }
+        $this->analyticsSvc->sendInstall();
 
         return view('installer::steps/step3a-completed', []);
     }
