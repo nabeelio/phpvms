@@ -49,6 +49,8 @@ class Pirep extends BaseModel
 
     protected $casts = [
         'user_id'               => 'integer',
+        'distance'              => 'float',
+        'planned_distance'      => 'float',
         'flight_time'           => 'integer',
         'planned_flight_time'   => 'integer',
         'level'                 => 'integer',
