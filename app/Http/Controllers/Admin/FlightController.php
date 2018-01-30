@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Enums\FlightType;
 use App\Models\Flight;
 use App\Models\FlightFields;
 use App\Http\Requests\CreateFlightRequest;
@@ -88,6 +89,7 @@ class FlightController extends BaseController
             'flight'   => null,
             'airlines' => $this->airlineRepo->selectBoxList(),
             'airports' => $this->airportRepo->selectBoxList(true, false),
+            'flight_types' => FlightType::select(true),
         ]);
     }
 
@@ -166,6 +168,7 @@ class FlightController extends BaseController
             'airports' => $this->airportRepo->selectBoxList(),
             'avail_fares' => $this->getAvailFares($flight),
             'avail_subfleets' => $avail_subfleets,
+            'flight_types' => FlightType::select(true),
         ]);
     }
 
