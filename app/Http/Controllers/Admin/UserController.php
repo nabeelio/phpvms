@@ -58,6 +58,7 @@ class UserController extends BaseController
 
         return view('admin.users.index', [
             'users' => $users,
+            'country' => new \League\ISO3166\ISO3166(),
         ]);
     }
 

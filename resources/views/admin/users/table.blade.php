@@ -9,7 +9,14 @@
     <tbody>
     @foreach($users as $user)
         <tr>
-            <td><a href="{!! route('admin.users.edit', [$user->id]) !!}">{!! $user->name !!}</a></td>
+            <td>
+                @if(filled($user->country))
+                    <span class="flag-icon flag-icon-{!! $user->country !!}"
+                          title="{!! $country->alpha2($user->country)['name'] !!}"></span>
+                    &nbsp;
+                @endif
+                <a href="{!! route('admin.users.edit', [$user->id]) !!}">{!! $user->name !!}</a>
+            </td>
             <td>{!! $user->email !!}</td>
             <td>{!! show_date($user->created_at) !!}</td>
             <td class="text-center">
