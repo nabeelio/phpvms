@@ -12,21 +12,26 @@
 
 </div>
 <div class="row">
-    <div class="form-group col-sm-4">
+    <div class="form-group col-sm-3">
         {!! Form::label('icao', 'ICAO:') !!}
         {!! Form::text('icao', null, ['class' => 'form-control']) !!}
     </div>
 
     <!-- Registration Field -->
-    <div class="form-group col-sm-4">
+    <div class="form-group col-sm-3">
         {!! Form::label('registration', 'Registration:') !!}
         {!! Form::text('registration', null, ['class' => 'form-control']) !!}
     </div>
 
     <!-- Tail Number Field -->
-    <div class="form-group col-sm-4">
+    <div class="form-group col-sm-3">
         {!! Form::label('tail_number', 'Tail Number:') !!}
         {!! Form::text('tail_number', null, ['class' => 'form-control']) !!}
+    </div>
+
+    <div class="form-group col-sm-3">
+        {!! Form::label('zfw', 'Zero Fuel Weight:') !!}
+        {!! Form::text('zfw', null, ['class' => 'form-control']) !!}
     </div>
 </div>
 <div class="row">

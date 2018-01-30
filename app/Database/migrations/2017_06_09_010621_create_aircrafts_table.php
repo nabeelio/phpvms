@@ -19,6 +19,7 @@ class CreateAircraftsTable extends Migration
             $table->string('name', 50);
             $table->string('registration', 10)->nullable();
             $table->string('tail_number', 10)->nullable();
+            $table->unsignedDecimal('zfw', 12)->nullable()->default(0);
             $table->unsignedBigInteger('flight_time')->nullable()->default(0);
             $table->boolean('active')->default(true);
             $table->unsignedTinyInteger('state')->default(AircraftState::PARKED);

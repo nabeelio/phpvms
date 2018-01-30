@@ -13,6 +13,7 @@ class Aircraft extends BaseModel
         'icao',
         'registration',
         'tail_number',
+        'zfw',
         'active',
     ];
 
@@ -22,7 +23,8 @@ class Aircraft extends BaseModel
      * @var array
      */
     protected $casts = [
-        'active'       => 'boolean',
+        'zfw'       => 'float',
+        'active'    => 'boolean',
     ];
 
     /**
