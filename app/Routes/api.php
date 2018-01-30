@@ -50,7 +50,6 @@ Route::group(['middleware' => ['api.auth']], function ()
     Route::post('pireps/{pirep_id}/acars/positions', 'PirepController@acars_store');
 
     Route::post('pireps/{pirep_id}/acars/events', 'PirepController@acars_events');
-    #Route::post('pireps/{pirep_id}/acars/log', 'PirepController@acars_log');
     Route::post('pireps/{pirep_id}/acars/logs', 'PirepController@acars_logs');
 
     Route::get('settings', 'SettingsController@index');
