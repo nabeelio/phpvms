@@ -22,6 +22,7 @@ class FileRequest extends FormRequest
     {
         $rules = [
             'flight_time'           => 'required|integer',
+            'fuel_used'             => 'required|numeric',
 
             'airline_id'            => 'nullable|exists:airlines,id',
             'aircraft_id'           => 'nullable|exists:aircraft,id',

@@ -43,6 +43,7 @@ $factory->define(App\Models\Pirep::class, function (Faker $faker) {
         'planned_flight_time' => $faker->randomFloat(2),
         'zfw' => $faker->randomFloat(2),
         'block_fuel' => $faker->randomFloat(2),
+        'fuel_used' => $faker->randomFloat(2),
         'route' => $faker->text(200),
         'notes' => $faker->text(200),
         'source' => $faker->randomElement([PirepSource::MANUAL, PirepSource::ACARS]),
