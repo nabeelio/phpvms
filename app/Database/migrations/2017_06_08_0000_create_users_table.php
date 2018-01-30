@@ -27,7 +27,7 @@ class CreateUsersTable extends Migration
             $table->string('last_pirep_id', 12)->nullable();
             $table->unsignedBigInteger('flights')->default(0);
             $table->unsignedBigInteger('flight_time')->nullable()->default(0);
-            $table->unsignedBigInteger('transferred_time')->nullable()->default(0);
+            $table->unsignedBigInteger('transfer_time')->nullable()->default(0);
             $table->decimal('balance', 19)->nullable();
             $table->string('timezone', 64)->nullable();
             $table->unsignedTinyInteger('status')->nullable()->default(0);
