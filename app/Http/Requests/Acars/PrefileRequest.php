@@ -20,19 +20,22 @@ class PrefileRequest extends FormRequest
         $rules = [
             'airline_id' => 'required|exists:airlines,id',
             'aircraft_id' => 'required|exists:aircraft,id',
+            'flight_number' => 'required',
+            'level' => 'required|numeric',
             'dpt_airport_id' => 'required',
             'arr_airport_id' => 'required',
-            'flight_id' => 'nullable',
-            'flight_number' => 'required',
+            'planned_distance' => 'required|numeric',
+            'source_name' => 'required|max:20',
+
+            'flight_id' => 'nullable|exists:flights,id',
             'route_code' => 'nullable',
             'route_leg' => 'nullable',
             'distance' => 'nullable|numeric',
-            'planned_distance' => 'nullable|numeric',
             'flight_time' => 'nullable|integer',
             'planned_flight_time' => 'nullable|integer',
-            'level' => 'required|integer',
             'route' => 'nullable',
             'notes' => 'nullable',
+            'flight_type' => 'nullable|integer',
             'created_at' => 'nullable|date',
         ];
 

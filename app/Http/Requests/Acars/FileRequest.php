@@ -22,21 +22,24 @@ class FileRequest extends FormRequest
     {
         $rules = [
             'flight_time' => 'required|integer',
+            'distance' => 'required|numeric',
+
+            'airline_id' => 'nullable|exists:airlines,id',
+            'aircraft_id' => 'nullable|exists:aircraft,id',
+            'flight_id' => 'nullable|exists:flights,id',
             'flight_number' => 'nullable',
             'dpt_airport_id' => 'nullable',
             'arr_airport_id' => 'nullable',
-            'airline_id' => 'nullable|exists:airlines,id',
-            'aircraft_id' => 'nullable|exists:aircraft,id',
-            'flight_id' => 'nullable',
             'route_code' => 'nullable',
             'route_leg' => 'nullable',
-            'distance' => 'nullable|numeric',
             'planned_distance' => 'nullable|numeric',
-            'flight_time' => 'nullable|integer',
             'planned_flight_time' => 'nullable|integer',
-            'level' => 'nullable',
+            'level' => 'nullable|numeric',
             'route' => 'nullable',
             'notes' => 'nullable',
+            'source_name' => 'nullable|max:20',
+            'landing_rate' => 'nullable|numeric',
+            'flight_type' => 'nullable|integer',
             'created_at' => 'nullable|date',
         ];
 

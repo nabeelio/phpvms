@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Enums\FlightType;
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
@@ -27,6 +29,7 @@ class CreateFlightTables extends Migration
             $table->unsignedInteger('level')->nullable()->default(0);
             $table->unsignedDecimal('distance', 19)->nullable()->default(0.0);
             $table->unsignedDecimal('flight_time', 19)->nullable();
+            $table->tinyInteger('flight_type')->default(FlightType::PASSENGER);
             $table->text('route')->nullable();
             $table->text('notes')->nullable();
             $table->boolean('has_bid')->default(false);

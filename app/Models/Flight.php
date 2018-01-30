@@ -11,9 +11,8 @@ class Flight extends BaseModel
     public $table = 'flights';
     public $incrementing = false;
 
-    protected $dates = ['deleted_at'];
-
     public $fillable = [
+        'id',
         'airline_id',
         'flight_number',
         'route_code',
@@ -21,11 +20,12 @@ class Flight extends BaseModel
         'dpt_airport_id',
         'arr_airport_id',
         'alt_airport_id',
-        'route',
         'dpt_time',
         'arr_time',
         'level',
         'distance',
+        'flight_type',
+        'route',
         'notes',
         'has_bid',
         'active',
@@ -35,6 +35,7 @@ class Flight extends BaseModel
         'flight_number' => 'integer',
         'level'         => 'integer',
         'distance'      => 'float',
+        'flight_type'   => 'integer',
         'has_bid'       => 'boolean',
         'active'        => 'boolean',
     ];

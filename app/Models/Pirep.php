@@ -23,6 +23,7 @@ class Pirep extends BaseModel
     protected $dates = ['deleted_at'];
 
     public $fillable = [
+        'id',
         'user_id',
         'flight_id',
         'flight_number',
@@ -38,13 +39,18 @@ class Pirep extends BaseModel
         'dpt_airport_id',
         'arr_airport_id',
         'fuel_used',
+        'landing_rate',
         'source',
         'level',
         'route',
         'notes',
+        'flight_type',
         'state',
         'status',
+        'source_name',
         'raw_data',
+        'created_at',
+        'updated_at',
     ];
 
     protected $casts = [
@@ -57,6 +63,8 @@ class Pirep extends BaseModel
         'altitude'              => 'integer',
         'fuel_used'             => 'float',
         'gross_weight'          => 'float',
+        'landing_rate'          => 'float',
+        'flight_type'           => 'integer',
         'source'                => 'integer',
         'state'                 => 'integer',
         'status'                => 'integer',

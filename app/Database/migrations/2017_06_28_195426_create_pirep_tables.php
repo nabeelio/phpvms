@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Enums\FlightType;
 use App\Models\Enums\PirepState;
 use App\Models\Enums\PirepStatus;
 
@@ -35,9 +36,12 @@ class CreatePirepTables extends Migration
             $table->unsignedDecimal('planned_flight_time', 19)->nullable();
             $table->unsignedDecimal('gross_weight', 19)->nullable();
             $table->unsignedDecimal('fuel_used', 19)->nullable();
+            $table->decimal('landing_rate', 19)->nullable();
             $table->text('route')->nullable();
             $table->text('notes')->nullable();
             $table->unsignedTinyInteger('source')->nullable()->default(0);
+            $table->string('source_name', 20)->nullable();
+            $table->tinyInteger('flight_type')->default(FlightType::PASSENGER);
             $table->tinyInteger('state')->default(PirepState::PENDING);
             $table->tinyInteger('status')->default(PirepStatus::SCHEDULED);
             $table->longText('raw_data')->nullable();

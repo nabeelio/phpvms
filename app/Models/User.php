@@ -47,6 +47,8 @@ class User extends Authenticatable
         'timezone',
         'state',
         'status',
+        'created_at',
+        'updated_at',
     ];
 
     /**

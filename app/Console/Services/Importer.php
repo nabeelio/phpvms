@@ -3,12 +3,16 @@
 namespace App\Console\Services;
 
 use PDO;
+use Carbon\Carbon;
 use Doctrine\DBAL\Driver\PDOException;
 use Illuminate\Support\Str;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Hash;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
+use App\Models\Enums\FlightType;
+use App\Models\Enums\PirepSource;
+use App\Models\Pirep;
 use App\Models\Aircraft;
 use App\Models\Airline;
 use App\Models\Airport;
@@ -66,7 +70,7 @@ class Importer
 
         # The db credentials
         $this->creds = array_merge([
-            'host' => 'localhost',
+            'host' => '127.0.0.1',
             'port' => 3306,
             'name' => '',
             'user' => '',
@@ -93,6 +97,7 @@ class Importer
         $this->importPireps();
 
         # Finish up
+        $this->findLastPireps();
         $this->recalculateRanks();
     }
 
@@ -215,6 +220,39 @@ class Importer
     }
 
     /**
+     * @param $date
+     * @return Carbon
+     */
+    protected function parseDate($date)
+    {
+        $carbon = Carbon::parse($date);
+        return $carbon;
+    }
+
+    /**
+     * Take a decimal duration and convert it to minutes
+     * @param $duration
+     * @return float|int
+     */
+    protected function convertDuration($duration)
+    {
+        if(strpos($duration, '.') !== false) {
+            $delim = '.';
+        } elseif(strpos($duration, ':')) {
+            $delim = ':';
+        } else {
+            # no delimiter, assume it's just a straight hour
+            return (int) $duration * 60;
+        }
+
+        $hm = explode($delim, $duration);
+        $hours = (int) $hm[0] * 60;
+        $mins = (int) $hm[1];
+
+        return $hours + $mins;
+    }
+
+    /**
      * @param $table
      * @return mixed
      */
@@ -232,19 +270,24 @@ class Importer
     /**
      * Read all the rows in a table, but read them in a batched manner
      * @param string $table The name of the table
+     * @param null $read_rows Number of rows to read
      * @return \Generator
      */
-    protected function readRows($table)
+    protected function readRows($table, $read_rows=null)
     {
         // Set the table prefix if it has been entered
         $this->tableName($table);
 
         $offset = 0;
+        if($read_rows === null) {
+            $read_rows = self::BATCH_READ_ROWS;
+        }
+
         $total_rows = $this->getTotalRows($table);
 
         while($offset < $total_rows)
         {
-            $rows_to_read = $offset+self::BATCH_READ_ROWS;
+            $rows_to_read = $offset + $read_rows;
             if($rows_to_read > $total_rows) {
                 $rows_to_read = $total_rows;
             }
@@ -398,7 +441,12 @@ class Importer
                 'hub' => $row->hub,
             ];
 
-            if($this->saveModel(new Airport($attrs))) {
+            $airport = Airport::updateOrCreate(
+                ['id' => $attrs['id']],
+                $attrs
+            );
+
+            if($airport->wasRecentlyCreated) {
                 ++$count;
             }
         }
@@ -418,6 +466,8 @@ class Importer
         {
             $airline_id = $this->getMapping('airlines', $row->code);
 
+            $flight_num = trim($row->flightnum);
+
             $attrs = [
                 'dpt_airport_id' => $row->depicao,
                 'arr_airport_id' => $row->arricao,
@@ -426,15 +476,19 @@ class Importer
                 'level' => $row->flightlevel ?: 0,
                 'dpt_time' => $row->deptime ?: '',
                 'arr_time' => $row->arrtime ?: '',
-                'flight_time' => $row->flighttime ?: '',
+                'flight_time' => $this->convertDuration($row->flighttime) ?: '',
                 'notes' => $row->notes ?: '',
                 'active' => $row->enabled ?: true,
             ];
 
-            $flight = Flight::firstOrCreate(
-                ['airline_id' => $airline_id, 'flight_number' => $row->flightnum],
-                $attrs
-            );
+            try {
+                $flight = Flight::updateOrCreate(
+                    ['airline_id' => $airline_id, 'flight_number' => $flight_num],
+                    $attrs
+                );
+            } catch (\Exception $e) {
+                #$this->error($e);
+            }
 
             $this->addMapping('flights', $row->id, $flight->id);
 
@@ -453,15 +507,88 @@ class Importer
      */
     protected function importPireps()
     {
-        /*$this->comment('--- PIREP IMPORT ---');
+        $this->comment('--- PIREP IMPORT ---');
 
         $count = 0;
         foreach ($this->readRows('pireps') as $row)
         {
+            $pirep_id = $row->pirepid;
+            $user_id = $this->getMapping('users', $row->pilotid);
+            $airline_id = $this->getMapping('airlines', $row->code);
+            $aircraft_id = $this->getMapping('aircraft', $row->aircraft);
 
+            $attrs = [
+                #'id' => $pirep_id,
+                'user_id' => $user_id,
+                'airline_id' => $airline_id,
+                'aircraft_id' => $aircraft_id,
+                'flight_number' => $row->flightnum ?: '',
+                'dpt_airport_id' => $row->depicao,
+                'arr_airport_id' => $row->arricao,
+                'fuel_used' => $row->fuelused,
+                'route' => $row->route ?: '',
+                'source_name' => $row->source,
+                'created_at' => $this->parseDate($row->submitdate),
+                'updated_at' => $this->parseDate($row->modifieddate),
+            ];
+
+            # Set the distance
+            $distance = round($row->distance ?: 0, 2);
+            $attrs['distance'] = $distance;
+            $attrs['planned_distance'] = $distance;
+
+            # Set the flight time properly
+            $duration = $this->convertDuration($row->flighttime_stamp);
+            $attrs['flight_time'] = $duration;
+            $attrs['planned_flight_time'] = $duration;
+
+            # Set how it was filed
+            if(strtoupper($row->source) === 'MANUAL') {
+                $attrs['source'] = PirepSource::MANUAL;
+            } else {
+                $attrs['source'] = PirepSource::ACARS;
+            }
+
+            # Set the flight type
+            $row->flighttype = strtoupper($row->flighttype);
+            if($row->flighttype === 'P') {
+                $attrs['flight_type'] = FlightType::PASSENGER;
+            } elseif($row->flighttype === 'C') {
+                $attrs['flight_type'] = FlightType::CARGO;
+            } else {
+                $attrs['flight_type'] = FlightType::CHARTER;
+            }
+
+            # Set the flight level of the PIREP is set
+            if(property_exists($row, 'flightlevel')) {
+                $attrs['level'] = $row->flightlevel;
+            } else {
+                $attrs['level'] = 0;
+            }
+
+            $pirep = Pirep::updateOrCreate(
+                ['id' => $pirep_id],
+                $attrs
+            );
+
+            $source = strtoupper($row->source);
+            if($source === 'SMARTCARS') {
+                # TODO: Parse smartcars log into the acars table
+            } elseif($source === 'KACARS') {
+                # TODO: Parse kACARS log into acars table
+            } elseif($source === 'XACARS') {
+                # TODO: Parse XACARS log into acars table
+            }
+
+            # TODO: Add extra fields in as PIREP fields
+            $this->addMapping('pireps', $row->pirepid, $pirep->id);
+
+            if ($pirep->wasRecentlyCreated) {
+                ++$count;
+            }
         }
 
-        $this->info('Imported ' . $count . ' pireps');*/
+        $this->info('Imported ' . $count . ' pireps');
     }
 
     protected function importUsers()
@@ -469,7 +596,8 @@ class Importer
         $this->comment('--- USER IMPORT ---');
 
         $count = 0;
-        foreach ($this->readRows('pilots') as $row) {
+        foreach ($this->readRows('pilots', 50) as $row) {
+
             # TODO: What to do about pilot ids
 
             $name = $row->firstname . ' ' . $row->lastname;
@@ -491,9 +619,10 @@ class Importer
                 'flights' => (int)$row->totalflights,
                 'flight_time' => Utils::hoursToMinutes($row->totalhours),
                 'state' => $state,
+                'created_at' => $this->parseDate($row->joindate),
             ];
 
-            $user = User::firstOrCreate(
+            $user = User::updateOrCreate(
                 ['email' => $row->email],
                 $attrs
             );
@@ -506,6 +635,14 @@ class Importer
         }
 
         $this->info('Imported ' . $count . ' users');
+    }
+
+    /**
+     * Go through and set the last PIREP ID for the users
+     */
+    protected function findLastPireps()
+    {
+
     }
 
     /**
