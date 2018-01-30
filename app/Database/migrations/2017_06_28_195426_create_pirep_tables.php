@@ -45,7 +45,6 @@ class CreatePirepTables extends Migration
             $table->tinyInteger('status')->default(PirepStatus::SCHEDULED);
             $table->longText('raw_data')->nullable();
             $table->timestamps();
-            $table->softDeletes();
 
             $table->primary('id');
             $table->index('user_id');

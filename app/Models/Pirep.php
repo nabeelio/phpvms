@@ -5,7 +5,6 @@ namespace App\Models;
 use App\Models\Enums\AcarsType;
 use App\Models\Enums\PirepState;
 use App\Models\Traits\HashId;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class Pirep
@@ -15,39 +14,36 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Pirep extends BaseModel
 {
     use HashId;
-    use SoftDeletes;
 
     public $table = 'pireps';
     public $incrementing = false;
 
-    protected $dates = ['deleted_at'];
-
     public $fillable = [
         'id',
         'user_id',
+        'airline_id',
+        'aircraft_id',
         'flight_id',
         'flight_number',
         'route_code',
         'route_leg',
-        'airline_id',
-        'aircraft_id',
+        'dpt_airport_id',
+        'arr_airport_id',
+        'level',
         'distance',
         'planned_distance',
         'flight_time',
         'planned_flight_time',
-        'dpt_airport_id',
-        'arr_airport_id',
         'zfw',
         'block_fuel',
         'landing_rate',
-        'level',
         'route',
         'notes',
+        'source',
+        'source_name',
         'flight_type',
         'state',
         'status',
-        'source',
-        'source_name',
         'raw_data',
         'created_at',
         'updated_at',
@@ -55,18 +51,18 @@ class Pirep extends BaseModel
 
     protected $casts = [
         'user_id'               => 'integer',
+        'airline_id'            => 'integer',
+        'aircraft_id'           => 'integer',
+        'level'                 => 'integer',
         'distance'              => 'float',
         'planned_distance'      => 'float',
         'flight_time'           => 'integer',
         'planned_flight_time'   => 'integer',
-        'level'                 => 'integer',
-        'altitude'              => 'integer',
         'zfw'                   => 'float',
         'block_fuel'            => 'float',
-        'gross_weight'          => 'float',
         'landing_rate'          => 'float',
-        'flight_type'           => 'integer',
         'source'                => 'integer',
+        'flight_type'           => 'integer',
         'state'                 => 'integer',
         'status'                => 'integer',
     ];
