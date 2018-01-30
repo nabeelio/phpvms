@@ -525,7 +525,7 @@ class Importer
                 'flight_number' => $row->flightnum ?: '',
                 'dpt_airport_id' => $row->depicao,
                 'arr_airport_id' => $row->arricao,
-                'fuel_used' => $row->fuelused,
+                'block_fuel' => $row->fuelused,
                 'route' => $row->route ?: '',
                 'source_name' => $row->source,
                 'created_at' => $this->parseDate($row->submitdate),
