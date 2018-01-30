@@ -43,6 +43,7 @@ class User extends Authenticatable
         'last_pirep_id',
         'flights',
         'flight_time',
+        'transferred_time',
         'balance',
         'timezone',
         'state',
@@ -55,16 +56,18 @@ class User extends Authenticatable
      * The attributes that should be hidden for arrays.
      */
     protected $hidden = [
+        'api_key',
         'password',
         'remember_token',
     ];
 
     protected $casts = [
-        'flights'       => 'integer',
-        'flight_time'   => 'integer',
-        'balance'       => 'double',
-        'state'         => 'integer',
-        'status'        => 'integer',
+        'flights'           => 'integer',
+        'flight_time'       => 'integer',
+        'transferred_time'  => 'integer',
+        'balance'           => 'double',
+        'state'             => 'integer',
+        'status'            => 'integer',
     ];
 
     public static $rules = [
