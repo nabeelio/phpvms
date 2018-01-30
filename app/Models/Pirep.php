@@ -37,6 +37,7 @@ class Pirep extends BaseModel
         'planned_flight_time',
         'dpt_airport_id',
         'arr_airport_id',
+        'zfw',
         'block_fuel',
         'landing_rate',
         'level',
