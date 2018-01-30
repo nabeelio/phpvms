@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Requests\Acars\UpdateRequest;
 use Auth;
 use Log;
 use Illuminate\Http\Request;
@@ -109,6 +110,33 @@ class PirepController extends RestController
 
         Log::info('PIREP PREFILED');
         Log::info($pirep->id);
+
+        PirepResource::withoutWrapping();
+        return new PirepResource($pirep);
+    }
+
+    /**
+     * Create a new PIREP and place it in a "inprogress" and "prefile" state
+     * Once ACARS updates are being processed, then it can go into an 'ENROUTE'
+     * status, and whatever other statuses may be defined
+     *
+     * @param $id
+     * @param UpdateRequest $request
+     * @return PirepResource
+     * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
+     * @throws \Prettus\Validator\Exceptions\ValidatorException
+     */
+    public function update($id, UpdateRequest $request)
+    {
+        Log::info('PIREP Update, user ' . Auth::id(), $request->post());
+
+        $pirep = $this->pirepRepo->find($id);
+        $this->checkCancelled($pirep);
+
+        $attrs = $request->post();
+        $attrs['user_id'] = Auth::id();
+
+        $pirep = $this->pirepRepo->update($attrs, $id);
 
         PirepResource::withoutWrapping();
         return new PirepResource($pirep);

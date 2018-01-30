@@ -24,9 +24,9 @@ Route::group([], function()
 
     Route::get('pireps/{pirep_id}', 'PirepController@get');
     Route::get('pireps/{pirep_id}/route', 'PirepController@route_get');
+    Route::get('pireps/{pirep_id}/comments', 'PirepController@comments_get');
     Route::get('pireps/{pirep_id}/acars/position', 'PirepController@acars_get');
     Route::get('pireps/{pirep_id}/acars/geojson', 'PirepController@acars_geojson');
-    Route::get('pireps/{pirep_id}/comments', 'PirepController@comments_get');
 
     Route::get('status', 'StatusController@status');
     Route::get('version', 'StatusController@status');
@@ -38,8 +38,13 @@ Route::group([], function()
 Route::group(['middleware' => ['api.auth']], function ()
 {
     Route::post('pireps/prefile', 'PirepController@prefile');
+    Route::post('pireps/{pirep_id}/update', 'PirepController@update');
     Route::post('pireps/{pirep_id}/file', 'PirepController@file');
+    Route::post('pireps/{pirep_id}/comments', 'PirepController@comments_post');
     Route::delete('pireps/{pirep_id}/cancel', 'PirepController@cancel');
+
+    Route::post('pireps/{pirep_id}/route', 'PirepController@route_post');
+    Route::delete('pireps/{pirep_id}/route', 'PirepController@route_delete');
 
     Route::post('pireps/{pirep_id}/acars/position', 'PirepController@acars_store');
     Route::post('pireps/{pirep_id}/acars/positions', 'PirepController@acars_store');
@@ -47,11 +52,6 @@ Route::group(['middleware' => ['api.auth']], function ()
     Route::post('pireps/{pirep_id}/acars/event', 'PirepController@acars_log');
     Route::post('pireps/{pirep_id}/acars/log', 'PirepController@acars_log');
     Route::post('pireps/{pirep_id}/acars/logs', 'PirepController@acars_log');
-
-    Route::post('pireps/{pirep_id}/comments', 'PirepController@comments_post');
-
-    Route::post('pireps/{pirep_id}/route', 'PirepController@route_post');
-    Route::delete('pireps/{pirep_id}/route', 'PirepController@route_delete');
 
     Route::get('settings', 'SettingsController@index');
 
