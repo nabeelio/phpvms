@@ -111,6 +111,7 @@ class UserController extends BaseController
             'pireps' => $pireps,
             'airlines' => Airline::all(),
             'timezones' => Timezonelist::toArray(),
+            'country' => new \League\ISO3166\ISO3166(),
             'airports' => Airport::all()->pluck('icao', 'id'),
             'ranks' => Rank::all()->pluck('name', 'id'),
             'roles' => Role::all()->pluck('name', 'id'),
