@@ -7,10 +7,10 @@ use App\Models\Pirep;
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
- * Class LogRequest
+ * Class EventRequest
  * @package App\Http\Requests\Acars
  */
-class LogRequest extends FormRequest
+class EventRequest extends FormRequest
 {
     public function authorize()
     {
@@ -21,11 +21,11 @@ class LogRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'logs' => 'required|array',
-            'logs.*.log' => 'required',
-            'logs.*.lat' => 'nullable|numeric',
-            'logs.*.lon' => 'nullable|numeric',
-            'logs.*.created_at' => 'nullable|date',
+            'events' => 'required|array',
+            'events.*.event' => 'required',
+            'events.*.lat' => 'nullable|numeric',
+            'events.*.lon' => 'nullable|numeric',
+            'events.*.created_at' => 'nullable|date',
         ];
 
         return $rules;

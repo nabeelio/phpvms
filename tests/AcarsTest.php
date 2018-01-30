@@ -171,8 +171,10 @@ class AcarsTest extends TestCase
 
         $response = $this->post($uri, [
             'flight_time' => 130,
+            'fuel_used' => 8000.19,
             'distance' => 400,
         ]);
+
         $response->assertStatus(200);
 
         # Add a comment
@@ -305,7 +307,21 @@ class AcarsTest extends TestCase
             ]
         ];
 
-        $uri = '/api/pireps/' . $pirep_id . '/acars/log';
+        $uri = '/api/pireps/' . $pirep_id . '/acars/logs';
+        $response = $this->post($uri, $post_log);
+        $response->assertStatus(200);
+        $body = $response->json();
+
+        $this->assertEquals(1, $body['count']);
+
+        $acars = factory(App\Models\Acars::class)->make();
+        $post_log = [
+            'events' => [
+                ['event' => $acars->log]
+            ]
+        ];
+
+        $uri = '/api/pireps/' . $pirep_id . '/acars/events';
         $response = $this->post($uri, $post_log);
         $response->assertStatus(200);
         $body = $response->json();

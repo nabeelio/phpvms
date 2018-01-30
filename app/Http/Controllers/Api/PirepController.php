@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Requests\Acars\EventRequest;
 use App\Http\Requests\Acars\UpdateRequest;
 use Auth;
 use Log;
@@ -276,7 +277,7 @@ class PirepController extends RestController
      * @return \Illuminate\Http\JsonResponse
      * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
      */
-    public function acars_log($id, LogRequest $request)
+    public function acars_logs($id, LogRequest $request)
     {
         # Check if the status is cancelled...
         $pirep = $this->pirepRepo->find($id);
@@ -291,9 +292,37 @@ class PirepController extends RestController
             $log['pirep_id'] = $id;
             $log['type'] = AcarsType::LOG;
 
-            if(array_has($log, 'event')) {
-                $log['log'] = $log['event'];
-            }
+            $acars = Acars::create($log);
+            $acars->save();
+            ++$count;
+        }
+
+        return $this->message($count . ' logs added', $count);
+    }
+
+    /**
+     * Post ACARS LOG update for a PIREP. These updates won't show up on the map
+     * But rather in a log file.
+     * @param $id
+     * @param EventRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
+     */
+    public function acars_events($id, EventRequest $request)
+    {
+        # Check if the status is cancelled...
+        $pirep = $this->pirepRepo->find($id);
+        $this->checkCancelled($pirep);
+
+        Log::info('Posting ACARS event, PIREP: ' . $id, $request->post());
+
+        $count = 0;
+        $logs = $request->post('events');
+        foreach ($logs as $log) {
+
+            $log['pirep_id'] = $id;
+            $log['type'] = AcarsType::LOG;
+            $log['log'] = $log['event'];
 
             $acars = Acars::create($log);
             $acars->save();
