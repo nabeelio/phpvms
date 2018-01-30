@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Validation\ValidationException;
 use Log;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Exception;
@@ -52,6 +53,15 @@ class Handler extends ExceptionHandler
         }
 
         if($request->is('api/*')) {
+
+            $error = [
+                'error' => [
+                    'code' => $exception->getCode(),
+                    'message' => $exception->getMessage(),
+                    'trace' => $exception->getTrace()[0],
+                ]
+            ];
+
             $status = 400;
             $http_code = $exception->getCode();
             if ($this->isHttpException($exception)) {
@@ -64,16 +74,16 @@ class Handler extends ExceptionHandler
                 $http_code = 404;
             }
 
+            if($exception instanceof ValidationException) {
+                $status = 400;
+                $http_code = 400;
+                $error['error']['failedRules'] = $exception->validator->failed();
+            }
+
             Log::error($exception->getMessage());
 
-            return response()->json([
-                'error' => [
-                    'code' => $exception->getCode() ,
-                    'http_code' => $http_code,
-                    'message' => $exception->getMessage(),
-                    'trace' => $exception->getTrace()[0],
-                ]
-            ], $status);
+            $error['error']['http_code'] = $http_code;
+            return response()->json($error, $status);
         }
 
         return parent::render($request, $exception);

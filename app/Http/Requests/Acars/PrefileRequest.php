@@ -25,9 +25,9 @@ class PrefileRequest extends FormRequest
             'dpt_airport_id' => 'required',
             'arr_airport_id' => 'required',
             'planned_distance' => 'required|numeric',
-            'source_name' => 'required|max:20',
+            'source_name' => 'required',
 
-            'flight_id' => 'nullable|exists:flights,id',
+            'flight_id' => 'nullable',
             'route_code' => 'nullable',
             'route_leg' => 'nullable',
             'distance' => 'nullable|numeric',

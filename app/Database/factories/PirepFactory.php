@@ -45,6 +45,7 @@ $factory->define(App\Models\Pirep::class, function (Faker $faker) {
         'route' => $faker->text(200),
         'notes' => $faker->text(200),
         'source' => $faker->randomElement([PirepSource::MANUAL, PirepSource::ACARS]),
+        'source_name' => 'Test Factory',
         'state' => PirepState::PENDING,
         'status' => PirepStatus::SCHEDULED,
         'raw_data' => $raw_data ?: $raw_data = json_encode(['key' => 'value']),

@@ -40,7 +40,7 @@ class CreatePirepTables extends Migration
             $table->text('route')->nullable();
             $table->text('notes')->nullable();
             $table->unsignedTinyInteger('source')->nullable()->default(0);
-            $table->string('source_name', 20)->nullable();
+            $table->string('source_name', 25)->nullable();
             $table->tinyInteger('flight_type')->default(FlightType::PASSENGER);
             $table->tinyInteger('state')->default(PirepState::PENDING);
             $table->tinyInteger('status')->default(PirepStatus::SCHEDULED);

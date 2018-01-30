@@ -102,6 +102,9 @@ return [
             'required' => 'Flight time, in minutes, is required',
             'integer' => 'Flight time, in minutes, is required',
         ],
+        'source_name' => [
+            'required' => 'PIREP Source is required',
+        ],
     ],
 
     /**

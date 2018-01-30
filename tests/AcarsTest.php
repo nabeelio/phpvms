@@ -102,8 +102,10 @@ class AcarsTest extends TestCase
             'arr_airport_id' => $airport->icao,
             'flight_number' => '6000',
             'level' => 38000,
+            'planned_distance' => 400,
             'planned_flight_time' => 120,
             'route' => 'POINTA POINTB',
+            'source_name' => 'UnitTest',
         ];
 
         $response = $this->post($uri, $pirep);
@@ -167,7 +169,10 @@ class AcarsTest extends TestCase
         $response = $this->post($uri, ['flight_time' => '1:30']);
         $response->assertStatus(400); // invalid flight time
 
-        $response = $this->post($uri, ['flight_time' => '130']);
+        $response = $this->post($uri, [
+            'flight_time' => 130,
+            'distance' => 400,
+        ]);
         $response->assertStatus(200);
 
         # Add a comment
