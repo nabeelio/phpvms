@@ -61,7 +61,8 @@ class Pirep extends BaseModel
         'planned_flight_time'   => 'integer',
         'level'                 => 'integer',
         'altitude'              => 'integer',
-        'block_fuel'             => 'float',
+        'zfw'                   => 'float',
+        'block_fuel'            => 'float',
         'gross_weight'          => 'float',
         'landing_rate'          => 'float',
         'flight_type'           => 'integer',
@@ -106,7 +107,7 @@ class Pirep extends BaseModel
      */
     public function allowedUpdates()
     {
-        if ($this->state === PirepState::CANCELLED) {
+        if($this->state === PirepState::CANCELLED) {
             return false;
         }
 

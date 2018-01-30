@@ -28,9 +28,9 @@ class CreatePirepTables extends Migration
             $table->string('route_leg', 5)->nullable();
             $table->string('dpt_airport_id', 5);
             $table->string('arr_airport_id', 5);
-            $table->unsignedInteger('distance')->nullable();
-            $table->unsignedInteger('planned_distance')->nullable();
             $table->unsignedInteger('level')->nullable();
+            $table->unsignedDecimal('distance')->nullable();
+            $table->unsignedDecimal('planned_distance')->nullable();
             $table->unsignedDecimal('flight_time', 19)->nullable();
             $table->unsignedDecimal('planned_flight_time', 19)->nullable();
             $table->unsignedDecimal('zfw', 19)->nullable();
