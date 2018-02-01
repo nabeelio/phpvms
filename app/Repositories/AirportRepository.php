@@ -3,7 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Airport;
-use App\Repositories\Traits\CacheableRepository;
+use Prettus\Repository\Traits\CacheableRepository;
 use Prettus\Repository\Contracts\CacheableInterface;
 
 

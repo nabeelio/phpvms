@@ -20,7 +20,7 @@
         "doctrine/dbal": "2.5.12",
         "doctrine/inflector": "1.1.0",
         "doctrine/instantiator": "1.0.5",
-        "prettus/l5-repository": "2.6.28",
+        "prettus/l5-repository": "2.6.32",
         "spatie/laravel-pjax": "1.3.1",
         "symfony/inflector": "3.4.3",
         "symfony/event-dispatcher": "3.4.3",

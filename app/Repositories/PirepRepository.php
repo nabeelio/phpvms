@@ -5,8 +5,6 @@ namespace App\Repositories;
 use App\Models\Enums\PirepState;
 use App\Models\Pirep;
 use App\Models\User;
-use App\Repositories\Traits\CacheableRepository;
-use Prettus\Repository\Contracts\CacheableInterface;
 
 class PirepRepository extends BaseRepository
 {

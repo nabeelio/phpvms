@@ -3,7 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Subfleet;
-use App\Repositories\Traits\CacheableRepository;
+use Prettus\Repository\Traits\CacheableRepository;
 use Prettus\Repository\Contracts\CacheableInterface;
 
 class SubfleetRepository extends BaseRepository implements CacheableInterface

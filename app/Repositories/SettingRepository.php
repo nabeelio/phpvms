@@ -7,7 +7,7 @@ use Illuminate\Support\Carbon;
 use Prettus\Repository\Contracts\CacheableInterface;
 
 use App\Models\Setting;
-use App\Repositories\Traits\CacheableRepository;
+use Prettus\Repository\Traits\CacheableRepository;
 use App\Exceptions\SettingNotFound;
 
 use Prettus\Validator\Exceptions\ValidatorException;
