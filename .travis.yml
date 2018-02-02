@@ -43,3 +43,14 @@ jobs:
         on:
             branch: master
             php: '7.0'
+    - stage: deploy
+      script: skip
+      before_deploy:
+        - curl -sL https://raw.githubusercontent.com/travis-ci/artifacts/master/install | bash
+      deploy:
+        provider: script
+        skip_cleanup: true
+        script: ./.travis/deploy_script.sh
+        on:
+            tags: true
+            php: '7.0'
