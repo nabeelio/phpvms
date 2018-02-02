@@ -12,15 +12,13 @@ if [ "$TRAVIS" = "true" ]; then
     TAR_NAME="$FILE_NAME.tar.gz"
     echo "Writing $TAR_NAME"
 
-    # delete all superfluous files
-    echo "Cleaning files"
-
     cd $TRAVIS_BUILD_DIR
 
     php artisan phpvms:version --write > VERSION
     VERSION=`cat VERSION`
     echo "Version: $VERSION"
 
+    echo "Cleaning files"
     make clean
 
     rm -rf env.php
@@ -47,10 +45,13 @@ if [ "$TRAVIS" = "true" ]; then
     echo "creating tarball"
     cd /tmp
     tar -czf $TAR_NAME -C $TRAVIS_BUILD_DIR/../ phpvms
+    sha256sum $TAR_NAME > "$TAR_NAME.sha256"
 
     echo "uploading to s3"
-    cd /tmp/
-    sha256sum $TAR_NAME > "$TAR_NAME.sha256"
+    mkdir -p $TRAVIS_BUILD_DIR/build
+    cd $TRAVIS_BUILD_DIR/build
+
+    mv "/tmp/$TAR_NAME" "/tmp/$TAR_NAME.sha256" .
     artifacts upload --target-paths "/" $TAR_NAME $TRAVIS_BUILD_DIR/VERSION $TAR_NAME.sha256
 
     curl -X POST --data "{\"content\": \"A new build is available at http://downloads.phpvms.net/$TAR_NAME ($VERSION)\"}" -H "Content-Type: application/json"  $DISCORD_WEBHOOK_URL
