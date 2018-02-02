@@ -5,15 +5,15 @@ if [ "$TRAVIS" = "true" ]; then
     if test "$TRAVIS_TAG"; then
         PKG_NAME=$TRAVIS_TAG
     else
-        PKG_NAME=master
+        PKG_NAME=v7.0.0-master
     fi
 
-    FILE_NAME="phpvms-7.0.0-$PKG_NAME"
+    FILE_NAME="phpvms-$PKG_NAME"
     TAR_NAME="$FILE_NAME.tar.gz"
     echo "Writing $TAR_NAME"
 
     # delete all superfluous files
-    echo "cleaning files"
+    echo "Cleaning files"
 
     cd $TRAVIS_BUILD_DIR
 
