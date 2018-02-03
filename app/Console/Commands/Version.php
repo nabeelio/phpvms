@@ -7,7 +7,7 @@ use Symfony\Component\Yaml\Yaml;
 
 class Version extends BaseCommand
 {
-    protected $signature = 'phpvms:version {--write}';
+    protected $signature = 'phpvms:version {--write} {--base-only}';
 
     /**
      * Create the version number that gets written out
@@ -31,20 +31,27 @@ class Version extends BaseCommand
      */
     public function handle()
     {
+        $version_file = config_path('version.yml');
+        $cfg = Yaml::parse(file_get_contents($version_file));
+
         if($this->option('write')) {
-            $version_file = config_path('version.yml');
-
-            $cfg = Yaml::parse(file_get_contents($version_file));
-
             $version = $this->createVersionNumber($cfg);
             $cfg['build']['number'] = $version;
-
             file_put_contents($version_file, Yaml::dump($cfg, 4, 2));
         }
 
-        $this->call('version:show', [
-            '--format' => 'compact',
-            '--suppress-app-name' => true
-        ]);
+        # Only show the major.minor.patch version
+        if($this->option('base-only')) {
+            $version = 'v'.$cfg['current']['major'] . '.'
+                       .$cfg['current']['minor'] . '.'
+                       .$cfg['current']['patch'];
+
+            print $version;
+        } else {
+            $this->call('version:show', [
+                '--format' => 'compact',
+                '--suppress-app-name' => true
+            ]);
+        }
     }
 }

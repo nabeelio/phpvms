@@ -40,8 +40,9 @@ jobs:
             - if [ "$TRAVIS_BRANCH" = "dev" ]; then ./.travis/deploy_script.sh; fi
             - if [ "$TRAVIS_BRANCH" = "master" ]; then ./.travis/deploy_script.sh; fi
           on:
-              php: '7.0'
-    - stage: deploy-release
+            all_branches: true
+            php: '7.0'
+    - stage: release
       script: skip
       before_deploy:
         - curl -sL https://raw.githubusercontent.com/travis-ci/artifacts/master/install | bash
@@ -54,6 +55,6 @@ jobs:
         file_glob: true
         file: build/*
         on:
-            tags: true
-            repo: nabeelio/phpvms
-            php: '7.0'
+          tags: true
+          repo: nabeelio/phpvms
+          php: '7.0'
