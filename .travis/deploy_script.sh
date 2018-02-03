@@ -9,7 +9,7 @@ if [ "$TRAVIS" = "true" ]; then
     else
         echo "On branch $TRAVIS_BRANCH"
 
-        if [ "$TRAVIS_BRANCH" -ne "master" ] && [ "$TRAVIS_BRANCH" -ne "dev" ]; then
+        if [ "$TRAVIS_BRANCH" != "master" ] && [ "$TRAVIS_BRANCH" != "dev" ]; then
             echo "Not on valid branch, exiting"
             exit 0;
         fi;
