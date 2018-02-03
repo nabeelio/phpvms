@@ -7,8 +7,9 @@ if [ "$TRAVIS" = "true" ]; then
     if test "$TRAVIS_TAG"; then
         PKG_NAME=$TRAVIS_TAG
     else
+        echo "On branch $TRAVIS_BRANCH"
         BASE_VERSION=`php artisan phpvms:version --base-only`
-        PKG_NAME=$BASE_VERSION-$TRAVIS_BRANCH
+        PKG_NAME=${BASE_VERSION}-${TRAVIS_BRANCH}
     fi
 
     FILE_NAME="phpvms-$PKG_NAME"
