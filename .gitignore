@@ -66,6 +66,7 @@ public/info.php
 
 local.conf.php
 config.php
+VERSION
 
 # Error Logs
 error_log
