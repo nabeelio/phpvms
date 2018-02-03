@@ -5,7 +5,7 @@ if [ "$TRAVIS" = "true" ]; then
     if test "$TRAVIS_TAG"; then
         PKG_NAME=$TRAVIS_TAG
     else
-        PKG_NAME=v7.0.0-master
+        PKG_NAME=v7.0.0-$TRAVIS_BRANCH
     fi
 
     FILE_NAME="phpvms-$PKG_NAME"

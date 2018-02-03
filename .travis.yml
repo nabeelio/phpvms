@@ -29,18 +29,19 @@ after_failure:
 
 jobs:
   include:
-    - stage: deploy
+    - stage: package
       script: skip
       before_deploy:
         - curl -sL https://raw.githubusercontent.com/travis-ci/artifacts/master/install | bash
       deploy:
-        provider: script
-        skip_cleanup: true
-        script: ./.travis/deploy_script.sh
-        on:
-            branch: master
-            php: '7.0'
-    - stage: release
+        - provider: script
+          skip_cleanup: true
+          script:
+            - if [ "$TRAVIS_BRANCH" = "dev" ]; then ./.travis/deploy_script.sh; fi
+            - if [ "$TRAVIS_BRANCH" = "master" ]; then ./.travis/deploy_script.sh; fi
+          on:
+              php: '7.0'
+    - stage: deploy-release
       script: skip
       before_deploy:
         - curl -sL https://raw.githubusercontent.com/travis-ci/artifacts/master/install | bash
