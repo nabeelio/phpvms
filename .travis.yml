@@ -2,8 +2,8 @@ language: php
 php:
 - '7.0'
 - '7.1'
-- '7.2'
-- nightly
+#- '7.2'
+#- nightly
 
 cache:
   directories:
@@ -12,7 +12,7 @@ cache:
 
 services:
 - mysql
-- redis-server
+#- redis-server
 
 before_script:
   - cp .travis/env.travis.php env.php
@@ -36,9 +36,7 @@ jobs:
       deploy:
         - provider: script
           skip_cleanup: true
-          script:
-            - if [ "$TRAVIS_BRANCH" = "dev" ]; then ./.travis/deploy_script.sh; fi
-            - if [ "$TRAVIS_BRANCH" = "master" ]; then ./.travis/deploy_script.sh; fi
+          script: ./.travis/deploy_script.sh
           on:
             all_branches: true
             php: '7.0'

@@ -8,6 +8,12 @@ if [ "$TRAVIS" = "true" ]; then
         PKG_NAME=$TRAVIS_TAG
     else
         echo "On branch $TRAVIS_BRANCH"
+
+        if [ "$TRAVIS_BRANCH" -ne "master" ] && [ "$TRAVIS_BRANCH" -ne "dev" ]; then
+            echo "Not on valid branch, exiting"
+            exit 0;
+        fi;
+
         BASE_VERSION=`php artisan phpvms:version --base-only`
         PKG_NAME=${BASE_VERSION}-${TRAVIS_BRANCH}
     fi
