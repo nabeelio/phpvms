@@ -76,7 +76,7 @@
         </li>
         @endrole
 
-        {{-- Show the module links for being logged out --}}
+        {{-- Show the module links for being logged in --}}
         @foreach($moduleSvc->getFrontendLinks($logged_in=true) as &$link)
             <li class="nav-item">
                 <a class="nav-link" href="{!! url($link['url']) !!}">
