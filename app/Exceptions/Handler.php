@@ -2,7 +2,7 @@
 
 namespace App\Exceptions;
 
-use Illuminate\Validation\ValidationException;
+use \Illuminate\Validation\ValidationException;
 use Log;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Exception;
@@ -20,18 +20,17 @@ class Handler extends ExceptionHandler
         \Illuminate\Auth\AuthenticationException::class,
         \Illuminate\Auth\Access\AuthorizationException::class,
         \Symfony\Component\HttpKernel\Exception\HttpException::class,
-        #\Illuminate\Database\Eloquent\ModelNotFoundException::class,
+        \Illuminate\Database\Eloquent\ModelNotFoundException::class,
         \Illuminate\Session\TokenMismatchException::class,
         \Illuminate\Validation\ValidationException::class,
     ];
 
     /**
      * Report or log an exception.
-     *
      * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
-     *
-     * @param  \Exception  $exception
+     * @param  \Exception $exception
      * @return void
+     * @throws Exception
      */
     public function report(Exception $exception)
     {
@@ -58,12 +57,14 @@ class Handler extends ExceptionHandler
                 'error' => [
                     'code' => $exception->getCode(),
                     'message' => $exception->getMessage(),
-                    'trace' => $exception->getTrace()[0],
                 ]
             ];
 
             $status = 400;
             $http_code = $exception->getCode();
+
+            Log::error($exception->getMessage());
+
             if ($this->isHttpException($exception)) {
                 $status = $exception->getStatusCode();
                 $http_code = $exception->getStatusCode();
@@ -77,10 +78,22 @@ class Handler extends ExceptionHandler
             if($exception instanceof ValidationException) {
                 $status = 400;
                 $http_code = 400;
-                $error['error']['failedRules'] = $exception->validator->failed();
+
+                $errors = $exception->errors();
+                $error_messages = [];
+                foreach($errors as $field => $error) {
+                    $error_messages[] = implode(', ', $error);
+                }
+
+                $error['error']['message'] = implode(', ', $error_messages);
+                $error['error']['errors'] = $errors;
+                Log::error('Validation errors', $errors);
             }
 
-            Log::error($exception->getMessage());
+            # Only add trace if in dev
+            if(config('app.env') === 'dev') {
+                $error['error']['trace'] = $exception->getTrace()[0];
+            }
 
             $error['error']['http_code'] = $http_code;
             return response()->json($error, $status);
