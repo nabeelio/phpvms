@@ -22,6 +22,16 @@
         </a>
     </li>
 
+    {{-- Show the module links that don't require being logged in --}}
+    @foreach($moduleSvc->getFrontendLinks($logged_in=false) as &$link)
+        <li class="nav-item">
+            <a class="nav-link" href="{!! url($link['url']) !!}">
+                <i class="{!! $link['icon'] !!}"></i>
+                <p>{!! $link['title'] !!}</p>
+            </a>
+        </li>
+    @endforeach
+
     @if(!Auth::check())
         <li class="nav-item">
             <a class="nav-link" href="{!! url('/login') !!}">
@@ -35,16 +45,6 @@
                 <p>Register</p>
             </a>
         </li>
-
-        {{-- Show the module links for being logged out --}}
-        @foreach($moduleSvc->getFrontendLinks($logged_in=false) as &$link)
-            <li class="nav-item">
-                <a class="nav-link" href="{!! url($link['url']) !!}">
-                    <i class="{!! $link['icon'] !!}"></i>
-                    <p>{!! $link['title'] !!}</p>
-                </a>
-            </li>
-        @endforeach
 
     @else
 
