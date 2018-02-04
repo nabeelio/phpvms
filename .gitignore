@@ -64,12 +64,10 @@ phpvms_next.iml
 # Gradle:
 public/info.php
 
-local.conf.php
-config.php
-VERSION
-
 # Error Logs
 error_log
 
 .sass-cache
 .DS_Store
+/config.php
+/VERSION
