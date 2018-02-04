@@ -1,4 +1,4 @@
-@extends('layouts.default.app')
+@extends("layouts.${SKIN_NAME}.app")
 @section('title', 'Flight '.$flight->ident)
 
 @section('content')
@@ -49,5 +49,5 @@
         </table>
     </div>
 </div>
-@include('layouts.default.flights.map')
+@include("layouts.${SKIN_NAME}.flights.map")
 @endsection

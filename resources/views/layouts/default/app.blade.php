@@ -48,7 +48,7 @@
             </p>
         </div>
         <div class="collapse navbar-collapse justify-content-end" id="navigation">
-            @include('layouts.default.nav')
+            @include("layouts.${SKIN_NAME}.nav")
         </div>
     </div>
 </nav>
@@ -57,7 +57,7 @@
 <div class="wrapper">
     <div class="clear"></div>
     <div class="container-fluid" style="width: 85%!important;">
-        @include('layouts.default.flash.message')
+        @include("layouts.${SKIN_NAME}.flash.message")
         @yield('content')
     </div>
     <div class="clearfix" style="height: 200px;"></div>

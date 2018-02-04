@@ -1,6 +1,6 @@
-@extends('layouts.default.app')
-
+@extends("layouts.${SKIN_NAME}.app")
 @section('title', 'PIREP '.$pirep->ident)
+
 @section('content')
     <div class="row">
         <div class="col-md-12">
@@ -72,27 +72,27 @@
     </div>
 
     @if(count($pirep->fields) > 0)
-    <div class="row">
-        <div class="col-md-12">
-            <h3 class="description">fields</h3>
-            <table class="table">
-                <thead>
-                    <th>Name</th>
-                    <th>Value</th>
-                </thead>
-                <tbody>
-                @foreach($pirep->fields as $field)
-                    <tr>
-                        <td>{!! $field->name !!}</td>
-                        <td>{!! $field->value !!}</td>
-                    </tr>
-                @endforeach
-                </tbody>
-            </table>
+        <div class="row">
+            <div class="col-md-12">
+                <h3 class="description">fields</h3>
+                <table class="table">
+                    <thead>
+                        <th>Name</th>
+                        <th>Value</th>
+                    </thead>
+                    <tbody>
+                    @foreach($pirep->fields as $field)
+                        <tr>
+                            <td>{!! $field->name !!}</td>
+                            <td>{!! $field->value !!}</td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
     @endif
 
-    @include('layouts.default.pireps.map')
+    @include("layouts.${SKIN_NAME}.pireps.map")
 @endsection
 

@@ -1,5 +1,6 @@
-@extends('layouts.default.app')
+@extends("layouts.${SKIN_NAME}.app")
 @section('title', 'welcome!')
+
 @section('content')
     <div class="row">
         <div class="col-sm-12">

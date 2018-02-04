@@ -54,11 +54,19 @@ if (!function_exists('skin_view')) {
     /**
      * Render a skin
      * @param $template
+     * @param array $vars
+     * @param array $merge_data
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     function skin_view($template, array $vars = [], $merge_data = [])
     {
+        # Add the current skin name so we don't need to hardcode it in the templates
+        # Makes it a bit easier to create a new skin by modifying an existing one
+        $merge_data['SKIN_NAME'] = config('phpvms.skin');
         $tpl = 'layouts/' . config('phpvms.skin') . '/' . $template;
+
+        # TODO: Look for an overridden template in a special folder
+
         return view($tpl, $vars, $merge_data);
     }
 }
