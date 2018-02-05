@@ -1,0 +1,77 @@
+<?php
+
+namespace Modules\Installer\Services;
+
+use Log;
+use Nwidart\Modules\Facades\Module;
+
+/**
+ * Class MigrationsService
+ * @package Modules\Installer\Services
+ */
+class MigrationService
+{
+    /**
+     * @return \Illuminate\Database\Migrations\Migrator
+     */
+    protected function getMigrator()
+    {
+        $m = app('migrator');
+        $m->setConnection(config('database.default'));
+        return $m;
+    }
+
+    /**
+     * Find all of the possible paths that migrations exist.
+     * Include looking in all of the modules Database/migrations directories
+     * @return array
+     */
+    public function getMigrationPaths(): array
+    {
+        $paths = [
+            'core' => \App::databasePath() . '/migrations'
+        ];
+
+        $modules = Module::enabled();
+        foreach ($modules as $module) {
+            $module_path = $module->getPath() . '/Database/migrations';
+            if(file_exists($module_path)) {
+                $paths[$module->getName()] = $module_path;
+            }
+        }
+
+        Log::info('Update - migration paths', $paths);
+
+        return $paths;
+    }
+
+    /**
+     * Return what migrations are available
+     */
+    public function migrationsAvailable(): array
+    {
+        $migrator = $this->getMigrator();
+        $migration_dirs = $this->getMigrationPaths();
+
+        $files = $migrator->getMigrationFiles(array_values($migration_dirs));
+        $availMigrations = array_diff(array_keys($files), $migrator->getRepository()->getRan());
+
+        Log::info('Migrations available:', $availMigrations);
+
+        return $availMigrations;
+    }
+
+    /**
+     * Run all of the migrations that are available. Just call artisan since
+     * it looks into all of the module directories, etc
+     */
+    public function runAllMigrations()
+    {
+        $output = '';
+
+        \Artisan::call('migrate');
+        $output .= trim(\Artisan::output());
+
+        return $output;
+    }
+}

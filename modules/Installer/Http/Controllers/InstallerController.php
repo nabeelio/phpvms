@@ -19,6 +19,7 @@ use App\Http\Controllers\Controller;
 
 use Modules\Installer\Services\DatabaseService;
 use Modules\Installer\Services\ConfigService;
+use Modules\Installer\Services\MigrationService;
 use Modules\Installer\Services\RequirementsService;
 
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -29,6 +30,7 @@ class InstallerController extends Controller
               $analyticsSvc,
               $dbService,
               $envService,
+              $migrationSvc,
               $reqService,
               $userService;
 
@@ -37,6 +39,7 @@ class InstallerController extends Controller
         AnalyticsService $analyticsSvc,
         DatabaseService $dbService,
         ConfigService $envService,
+        MigrationService $migrationSvc,
         RequirementsService $reqService,
         UserService $userService
     ) {
@@ -44,6 +47,7 @@ class InstallerController extends Controller
         $this->analyticsSvc = $analyticsSvc;
         $this->dbService = $dbService;
         $this->envService = $envService;
+        $this->migrationSvc = $migrationSvc;
         $this->reqService = $reqService;
         $this->userService = $userService;
     }
@@ -56,7 +60,7 @@ class InstallerController extends Controller
             return view('installer::errors/already-installed');
         }
 
-        return view('installer::index-start');
+        return view('installer::install/index-start');
     }
 
     protected function testDb(Request $request)
@@ -127,7 +131,7 @@ class InstallerController extends Controller
         # Make sure there are no false values
         $passed = !\in_array(false, $statuses, true);
 
-        return view('installer::steps/step1-requirements', [
+        return view('installer::install/steps/step1-requirements', [
             'php' => $php_version,
             'extensions' => $extensions,
             'directories' => $directories,
@@ -141,7 +145,7 @@ class InstallerController extends Controller
     public function step2(Request $request)
     {
         $db_types = ['mysql' => 'mysql', 'sqlite' => 'sqlite'];
-        return view('installer::steps/step2-db', [
+        return view('installer::install/steps/step2-db', [
             'db_types' => $db_types,
         ]);
     }
@@ -204,6 +208,7 @@ class InstallerController extends Controller
 
         try {
             $console_out .= $this->dbService->setupDB();
+            $console_out .= $this->migrationSvc->runAllMigrations();
         } catch(QueryException $e) {
             flash()->error($e->getMessage());
             return redirect(route('installer.step2'))->withInput();
@@ -211,7 +216,7 @@ class InstallerController extends Controller
 
         $console_out = trim($console_out);
 
-        return view('installer::steps/step2a-db_output', [
+        return view('installer::install/steps/step2a-db_output', [
             'console_output' => $console_out
         ]);
     }
@@ -221,7 +226,7 @@ class InstallerController extends Controller
      */
     public function step3(Request $request)
     {
-        return view('installer::steps/step3-user', []);
+        return view('installer::install/steps/step3-user', []);
     }
 
     /**
@@ -283,7 +288,7 @@ class InstallerController extends Controller
 
         $this->analyticsSvc->sendInstall();
 
-        return view('installer::steps/step3a-completed', []);
+        return view('installer::install/steps/step3a-completed', []);
     }
 
     /**
