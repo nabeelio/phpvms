@@ -1,8 +1,8 @@
 language: php
 php:
-- '7.0'
+#- '7.0'
 - '7.1'
-#- '7.2'
+- '7.2'
 #- nightly
 
 cache:
@@ -12,7 +12,6 @@ cache:
 
 services:
 - mysql
-#- redis-server
 
 before_script:
   - cp .travis/env.travis.php env.php
