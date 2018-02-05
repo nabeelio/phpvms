@@ -15,7 +15,7 @@ The latest documentation, with installation instructions is available
 
 ## Requirements
 
-- PHP 7.0+, extensions:
+- PHP 7.1+, extensions:
   - cURL
   - JSON
   - mbstring

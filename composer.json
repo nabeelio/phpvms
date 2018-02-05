@@ -1,9 +1,8 @@
 {
     "name": "phpvms/phpvms",
-    "version": "7.0.0-dev",
     "description": "phpVMS - Virtual Airline Administration",
     "keywords": ["phpvms", "virtual", "airlines"],
-    "license": "MIT",
+    "license": "BSD-3-Clause",
     "type": "project",
     "minimum-stability": "stable",
     "homepage": "http://www.phpvms.net",
