@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Log;
+
 /**
  * Class PirepField
  *
@@ -37,18 +39,14 @@ class PirepField extends BaseModel
          * On creation
          */
         static::creating(function (PirepField $model) {
-            if (!empty($model->slug)) {
-                $model->slug = str_slug($model->name);
-            }
+            $model->slug = str_slug($model->name);
         });
 
         /**
          * When updating
          */
         static::updating(function(PirepField $model) {
-            if (!empty($model->slug)) {
-                $model->slug = str_slug($model->name);
-            }
+            $model->slug = str_slug($model->name);
         });
     }
 }

@@ -129,7 +129,7 @@ class PirepController extends Controller
     public function store(CreatePirepRequest $request)
     {
         // Create the main PIREP
-        $pirep = new Pirep($request->all());
+        $pirep = new Pirep($request->post());
         $pirep->user_id = Auth::user()->id;
 
         # Make sure this isn't a duplicate
@@ -140,8 +140,9 @@ class PirepController extends Controller
         }
 
         // Any special fields
-        $pirep->flight_time = ((int) Utils::hoursToMinutes($request['hours']))
-                            + ((int) $request['minutes']);
+        $hours = (int) $request->input('hours', 0);
+        $minutes = (int) $request->input('minutes', 0);
+        $pirep->flight_time = Utils::hoursToMinutes($hours) + $minutes;
 
         // The custom fields from the form
         $custom_fields = [];

@@ -53,10 +53,11 @@ class PirepFieldController extends BaseController
      */
     public function store(CreatePirepFieldRequest $request)
     {
-        $input = $request->all();
-        $input['required'] = get_truth_state($input['required']);
+        $attrs = $request->all();
+        $attrs['slug'] = str_slug($attrs['name']);
+        $attrs['required'] = get_truth_state($attrs['required']);
 
-        $this->pirepFieldRepo->create($input);
+        $this->pirepFieldRepo->create($attrs);
 
         Flash::success('PirepField saved successfully.');
         return redirect(route('admin.pirepfields.index'));
@@ -114,6 +115,7 @@ class PirepFieldController extends BaseController
         }
 
         $attrs = $request->all();
+        $attrs['slug'] = str_slug($attrs['name']);
         $attrs['required'] = get_truth_state($attrs['required']);
         $this->pirepFieldRepo->update($attrs, $id);
 
