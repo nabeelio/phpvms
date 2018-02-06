@@ -2,9 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Observers\AirportObserver;
 use Illuminate\Notifications\Notifiable;
-use Log;
 
 /**
  * Class Airport
@@ -87,5 +85,13 @@ class Airport extends BaseModel
     public function getFullNameAttribute(): string
     {
         return $this->icao . ' - ' . $this->name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTimezoneAttribute(): string
+    {
+        return $this->tz;
     }
 }

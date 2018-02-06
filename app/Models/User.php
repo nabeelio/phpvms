@@ -93,6 +93,15 @@ class User extends Authenticatable
     }
 
     /**
+     * Return the timezone
+     * @return mixed
+     */
+    public function getTzAttribute()
+    {
+        return $this->timezone;
+    }
+
+    /**
      * @param mixed $size Size of the gravatar, in pixels
      * @return string
      */
