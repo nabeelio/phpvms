@@ -16,7 +16,7 @@
 <div class="row">
     <div class="form-group col-md-12">
         {!! Form::label('image_link', 'Image Link:') !!}
-        {!! Form::number('image_link', null, ['class' => 'form-control']) !!}
+        {!! Form::input('image_link', null, ['class' => 'form-control']) !!}
         <p class="text-danger">{{ $errors->first('image_link') }}</p>
     </div>
 </div>
