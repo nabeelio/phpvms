@@ -31,8 +31,8 @@ $factory->define(App\Models\Flight::class, function (Faker $faker) use ($airline
         'has_bid' => false,
         'active' => true,
         'created_at' => $faker->dateTimeBetween('-1 week', 'now'),
-        'updated_at' => function (array $pirep) {
-            return $pirep['created_at'];
+        'updated_at' => function (array $flight) {
+            return $flight['created_at'];
         },
     ];
 });
