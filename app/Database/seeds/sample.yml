@@ -110,73 +110,73 @@ airports:
     name: Austin-Bergstrom
     location: Austin, Texas, USA
     country: United States
+    timezone: America/Chicago
     lat: 30.1945278
     lon: -97.6698889
     hub: 1
-    tz: America/Chicago
   - id: KJFK
     iata: JFK
     icao: KJFK
     name: John F Kennedy
     location: New York, New York, USA
     country: United States
+    timezone: America/New_York
     lat: 40.6399257
     lon: -73.7786950
     hub: 1
-    tz: America/New_York
   - id: KBWI
     iata: BWI
     icao: KBWI
     name: Baltimore/Washington International Thurgood Marshall Airport
     location: Baltimore, MD
     country: United States
+    timezone: America/New_York
     lat: 39.1754
     lon: -76.6683
-    tz: America/New_York
   - id: KIAH
     iata: IAH
     icao: KIAH
     name: George Bush Intercontinental Houston Airport
     location: Houston, TX
     country: United States
+    timezone: America/Chicago
     lat: 29.9844
     lon: -95.3414
-    tz: America/Chicago
   - id: KORD
     iata: ORD
     icao: KORD
     name: Chicago O'Hare International Airport
     location: Chicago, IL
     country: United States
+    timezone: America/Chicago
     lat: 41.9786
     lon: -87.9048
-    tz: America/Chicago
   - id: KDFW
     iata: DFW
     icao: KDFW
     name: Dallas Fort Worth International Airport
     location: Dallas, TX
     country: United States
+    timezone: America/Chicago
     lat: 32.8968
     lon: -97.038
-    tz: America/Chicago
   - id: EFHK
     iata: HEL
     icao: EFHK
     name: Helsinki Vantaa Airport
     location: Helsinki
     country: Finland
+    timezone: Europe/Helsinki
     lat: 60.3172
     lon: 24.9633
-    tz: Europe/Helsinki
   - id: EGLL
     iata: LHR
     icao: EGLL
     name: London Heathrow
     location: London, England
+    timezone: Europe/London
     lat: 51.4775
     lon: -0.4614
-    tz: Europe/London
 
 #
 aircraft:

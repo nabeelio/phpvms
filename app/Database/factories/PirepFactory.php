@@ -12,24 +12,22 @@ $factory->define(App\Models\Pirep::class, function (Faker $faker) {
 
     return [
         'id' => null,
-        'airline_id' => function () { # OVERRIDE THIS IF NEEDED
+        'airline_id' => function () {
             return factory(App\Models\Airline::class)->create()->id;
         },
-        'user_id' => function () { # OVERRIDE THIS IF NEEDED
+        'user_id' => function () {
             return factory(App\Models\User::class)->create()->id;
         },
         'aircraft_id' => function () {
             return factory(App\Models\Aircraft::class)->create()->id;
         },
-        'flight_number' => function () {
-            return factory(App\Models\Flight::class)->create()->flight_number;
+        'flight_number' => function (array $pirep) {
+            return factory(App\Models\Flight::class)->create([
+                'airline_id' => $pirep['airline_id']
+            ])->flight_number;
         },
-        'route_code' => function(array $pirep) {
-            //return App\Models\Flight::where(['flight_number' => $pirep['flight_number']])->first()->route_code;
-        },
-        'route_leg' => function (array $pirep) {
-            //return App\Models\Flight::where('flight_number', $pirep['flight_number'])->first()->route_leg;
-        },
+        'route_code' => null,
+        'route_leg' => null,
         'dpt_airport_id' => function () {
             return factory(App\Models\Airport::class)->create()->id;
         },

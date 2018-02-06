@@ -8,7 +8,7 @@ use Hashids\Hashids;
  */
 $factory->define(App\Models\Airline::class, function (Faker $faker) {
     return [
-        #'id' => $faker->unique()->numberBetween(10, 10000),
+        'id' => null,
         'icao' => function (array $apt) use ($faker) {
             $hashids = new Hashids(microtime(), 5);
             $mt = str_replace('.', '', microtime(true));

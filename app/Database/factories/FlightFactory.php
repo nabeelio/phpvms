@@ -8,8 +8,10 @@ $airlinesAvailable = [1];
 
 $factory->define(App\Models\Flight::class, function (Faker $faker) use ($airlinesAvailable) {
     return [
-        'id' => substr($faker->unique()->sha1, 28, 12),
-        'airline_id' => $faker->randomElement($airlinesAvailable),
+        'id' => null,
+        'airline_id' => function () {
+            return factory(App\Models\Airline::class)->create()->id;
+        },
         'flight_number' => $faker->unique()->numberBetween(10, 1000000),
         'route_code' => $faker->randomElement(['', $faker->text(5)]),
         'route_leg' => $faker->randomElement(['', $faker->text(5)]),
