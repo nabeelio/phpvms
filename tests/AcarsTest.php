@@ -106,6 +106,9 @@ class AcarsTest extends TestCase
             'planned_flight_time' => 120,
             'route' => 'POINTA POINTB',
             'source_name' => 'UnitTest',
+            'fields' => [
+                'custom_field' => 'custom_value',
+            ]
         ];
 
         $response = $this->post($uri, $pirep);
@@ -123,6 +126,28 @@ class AcarsTest extends TestCase
         $pirep = $this->getPirep($pirep_id);
         $this->assertEquals(PirepState::IN_PROGRESS, $pirep['state']);
         $this->assertEquals(PirepStatus::PREFILE, $pirep['status']);
+
+        /**
+         * Check the fields
+         */
+        $this->assertHasKeys($pirep, ['fields']);
+        $this->assertEquals('custom_field', $pirep['fields'][0]['name']);
+        $this->assertEquals('custom_value', $pirep['fields'][0]['value']);
+
+        /**
+         * Update the custom field
+         */
+        $uri = '/api/pireps/' . $pirep_id . '/update';
+        $this->post($uri, ['fields' => [
+            'custom_field' => 'custom_value_changed',
+        ]]);
+
+        $pirep = $this->getPirep($pirep_id);
+        $this->assertEquals('custom_value_changed', $pirep['fields'][0]['value']);
+
+        /**
+         * Add some position updates
+         */
 
         $uri = '/api/pireps/' . $pirep_id . '/acars/position';
 

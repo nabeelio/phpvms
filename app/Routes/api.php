@@ -38,7 +38,10 @@ Route::group([], function()
 Route::group(['middleware' => ['api.auth']], function ()
 {
     Route::post('pireps/prefile', 'PirepController@prefile');
+
+    Route::put('pireps/{pirep_id}', 'PirepController@update');
     Route::post('pireps/{pirep_id}/update', 'PirepController@update');
+
     Route::post('pireps/{pirep_id}/file', 'PirepController@file');
     Route::post('pireps/{pirep_id}/comments', 'PirepController@comments_post');
     Route::delete('pireps/{pirep_id}/cancel', 'PirepController@cancel');
