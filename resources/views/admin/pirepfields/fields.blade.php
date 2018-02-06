@@ -2,6 +2,7 @@
     <div class="form-group col-sm-6">
         {!! Form::label('name', 'Name:') !!}&nbsp;&nbsp;<span class="required">*</span>
         {!! Form::text('name', null, ['class' => 'form-control']) !!}
+        <p class="text-danger">{{ $errors->first('name') }}</p>
     </div>
 
     <!-- Required Field -->

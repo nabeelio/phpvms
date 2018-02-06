@@ -2,16 +2,19 @@
     <div class="form-group col-sm-4">
         {!! Form::label('name', 'Name:') !!}
         {!! Form::text('name', null, ['class' => 'form-control']) !!}
+        <p class="text-danger">{{ $errors->first('name') }}</p>
     </div>
 
     <div class="form-group col-sm-4">
         {!! Form::label('email', 'Email:') !!}
         {!! Form::text('email', null, ['class' => 'form-control']) !!}
+        <p class="text-danger">{{ $errors->first('email') }}</p>
     </div>
 
     <div class="form-group col-sm-4">
         {!! Form::label('password', 'Password:') !!}
         {!! Form::password('password', ['class' => 'form-control']) !!}
+        <p class="text-danger">{{ $errors->first('password') }}</p>
     </div>
 </div>
 
@@ -20,18 +23,22 @@
         <div class="form-group">
             {!! Form::label('country', 'Country:') !!} <br />
             {!! Form::select('country', $countries, null, ['class' => 'select2' ]); !!}
+            <p class="text-danger">{{ $errors->first('country') }}</p>
         </div>
         <div class="form-group">
             {!! Form::label('timezone', 'Timezone:') !!} <br/>
             {!! Form::select('timezone', $timezones, null, ['id' => 'timezone', 'class' => 'select2' ]); !!}
+            <p class="text-danger">{{ $errors->first('timezone') }}</p>
         </div>
     </div>
     <div class="form-group col-sm-6">
         {!! Form::label('home_airport_id', 'Home Airport:') !!}
         {!! Form::select('home_airport_id', $airports, null , ['class' => 'form-control select2']) !!}
+        <p class="text-danger">{{ $errors->first('home_airport_id') }}</p>
         <br /><br />
         {!! Form::label('curr_airport_id', 'Current Airport:') !!}
         {!! Form::select('curr_airport_id', $airports, null , ['class' => 'form-control select2']) !!}
+        <p class="text-danger">{{ $errors->first('curr_airport_id') }}</p>
     </div>
 
 </div>

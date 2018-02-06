@@ -51,6 +51,8 @@
                 {!! Form::button('<i class="glyphicon glyphicon-plus"></i> add',
                                  ['type' => 'submit',
                                   'class' => 'btn btn-success btn-s']) !!}
+                <p class="text-danger">{{ $errors->first('name') }}</p>
+                <p class="text-danger">{{ $errors->first('tz') }}</p>
                 {!! Form::close() !!}
             </div>
         </div>

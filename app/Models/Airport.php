@@ -2,12 +2,18 @@
 
 namespace App\Models;
 
+use App\Models\Observers\AirportObserver;
+use Illuminate\Notifications\Notifiable;
+use Log;
+
 /**
  * Class Airport
  * @package App\Models
  */
 class Airport extends BaseModel
 {
+    use Notifiable;
+
     public $table = 'airports';
     public $timestamps = false;
     public $incrementing = false;
@@ -50,11 +56,21 @@ class Airport extends BaseModel
     /**
      * Callbacks
      */
-    protected static function boot()
+    public static function boot()
     {
         parent::boot();
-        static::creating(function (Airport $model) {
-            if(!empty($model->iata)) {
+
+        static::creating(function ($model) {
+            if(filled($model->iata)) {
+                $model->iata = strtoupper(trim($model->iata));
+            }
+
+            $model->icao = strtoupper(trim($model->icao));
+            $model->id = $model->icao;
+        });
+
+        static::updating(function($model) {
+            if (filled($model->iata)) {
                 $model->iata = strtoupper(trim($model->iata));
             }
 

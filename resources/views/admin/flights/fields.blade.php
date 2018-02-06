@@ -57,6 +57,7 @@ SAME ROW
     <div class="form-group col-sm-3">
         {!! Form::label('alt_airport_id', 'Alt Airport:') !!}
         {!! Form::select('alt_airport_id', $airports, null , ['class' => 'form-control select2']) !!}
+        <p class="text-danger">{{ $errors->first('alt_airport_id') }}</p>
     </div>
 </div>
 
@@ -66,11 +67,13 @@ SAME ROW
     <div class="form-group col-sm-3">
         {!! Form::label('dpt_time', 'Departure Time:') !!}
         {!! Form::text('dpt_time', null, ['class' => 'form-control']) !!}
+        <p class="text-danger">{{ $errors->first('dpt_time') }}</p>
     </div>
 
     <div class="form-group col-sm-3">
         {!! Form::label('arr_time', 'Arrival Time:') !!}
         {!! Form::text('arr_time', null, ['class' => 'form-control']) !!}
+        <p class="text-danger">{{ $errors->first('arr_time') }}</p>
     </div>
 
     <div class="form-group col-sm-2">
@@ -97,12 +100,14 @@ SAME ROW
     <div class="form-group col-sm-6">
         {!! Form::label('route', 'Route:') !!}
         {!! Form::textarea('route', null, ['class' => 'form-control']) !!}
+        <p class="text-danger">{{ $errors->first('route') }}</p>
     </div>
 
     <!-- Notes Field -->
     <div class="form-group col-sm-6">
         {!! Form::label('notes', 'Notes:') !!}
         {!! Form::textarea('notes', null, ['class' => 'form-control']) !!}
+        <p class="text-danger">{{ $errors->first('notes') }}</p>
     </div>
 </div>
 

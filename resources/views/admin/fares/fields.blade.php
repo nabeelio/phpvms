@@ -16,6 +16,7 @@
         How this fare class will show up on a ticket
     </div>
     {!! Form::text('code', null, ['class' => 'form-control']) !!}
+    <p class="text-danger">{{ $errors->first('code') }}</p>
 </div>
 
 <div class="form-group col-sm-6">
@@ -25,6 +26,7 @@
         The fare class name, E.g, "Economy" or "First"
     </div>
     {!! Form::text('name', null, ['class' => 'form-control']) !!}
+    <p class="text-danger">{{ $errors->first('name') }}</p>
 </div>
 
 <div class="form-group col-sm-6">
@@ -34,6 +36,7 @@
         This is the price of a ticket for a passenger
     </div>
     {!! Form::text('price', null, ['class' => 'form-control', 'placeholder' => 0]) !!}
+    <p class="text-danger">{{ $errors->first('price') }}</p>
 </div>
 
 <div class="form-group col-sm-6">
@@ -43,6 +46,7 @@
         The operating cost
     </div>
     {!! Form::text('cost', null, ['class' => 'form-control', 'placeholder' => 0]) !!}
+    <p class="text-danger">{{ $errors->first('cost') }}</p>
 </div>
 
 <div class="form-group col-sm-6">
@@ -52,6 +56,7 @@
         The number of seats available in this class.
     </div>
     {!! Form::text('capacity', null, ['class' => 'form-control', 'placeholder' => 0]) !!}
+    <p class="text-danger">{{ $errors->first('capacity') }}</p>
 </div>
 
 <div class="form-group col-sm-6">
@@ -60,6 +65,7 @@
         &nbsp;
     </div>
     {!! Form::text('notes', null, ['class' => 'form-control']) !!}
+    <p class="text-danger">{{ $errors->first('notes') }}</p>
 </div>
 
 <!-- Active Field -->

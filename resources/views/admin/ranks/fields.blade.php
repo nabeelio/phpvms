@@ -3,18 +3,21 @@
     <div class="form-group col-sm-6">
         {!! Form::label('name', 'Name:') !!}
         {!! Form::text('name', null, ['class' => 'form-control']) !!}
+        <p class="text-danger">{{ $errors->first('name') }}</p>
     </div>
 
     <!-- Hours Field -->
     <div class="form-group col-sm-6">
         {!! Form::label('hours', 'Hours:') !!}
         {!! Form::number('hours', null, ['class' => 'form-control']) !!}
+        <p class="text-danger">{{ $errors->first('hours') }}</p>
     </div>
 </div>
 <div class="row">
     <div class="form-group col-md-12">
         {!! Form::label('image_link', 'Image Link:') !!}
         {!! Form::number('image_link', null, ['class' => 'form-control']) !!}
+        <p class="text-danger">{{ $errors->first('image_link') }}</p>
     </div>
 </div>
 <div class="row">
