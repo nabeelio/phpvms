@@ -88,10 +88,20 @@ class Airport extends BaseModel
     }
 
     /**
+     * Shorthand for getting the timezone
      * @return string
      */
     public function getTzAttribute(): string
     {
         return $this->timezone;
+    }
+
+    /**
+     * Shorthand for setting the timezone
+     * @param $value
+     */
+    public function setTzAttribute($value)
+    {
+        $this->attributes['timezone'] = $value;
     }
 }

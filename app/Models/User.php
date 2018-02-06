@@ -93,12 +93,21 @@ class User extends Authenticatable
     }
 
     /**
-     * Return the timezone
-     * @return mixed
+     * Shorthand for getting the timezone
+     * @return string
      */
-    public function getTzAttribute()
+    public function getTzAttribute(): string
     {
         return $this->timezone;
+    }
+
+    /**
+     * Shorthand for setting the timezone
+     * @param $value
+     */
+    public function setTzAttribute($value)
+    {
+        $this->attributes['timezone'] = $value;
     }
 
     /**
