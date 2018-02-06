@@ -90,8 +90,8 @@ class Airport extends BaseModel
     /**
      * @return string
      */
-    public function getTimezoneAttribute(): string
+    public function getTzAttribute(): string
     {
-        return $this->tz;
+        return $this->timezone;
     }
 }

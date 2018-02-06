@@ -52,7 +52,7 @@
                                  ['type' => 'submit',
                                   'class' => 'btn btn-success btn-s']) !!}
                 <p class="text-danger">{{ $errors->first('name') }}</p>
-                <p class="text-danger">{{ $errors->first('tz') }}</p>
+                <p class="text-danger">{{ $errors->first('value') }}</p>
                 {!! Form::close() !!}
             </div>
         </div>
