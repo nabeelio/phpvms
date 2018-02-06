@@ -168,7 +168,6 @@ class PirepController extends Controller
 
     public function show($id)
     {
-        #$pirep = Pirep::where('id', $id);
         $pirep = $this->pirepRepo->find($id);
         if (empty($pirep)) {
             Flash::error('Pirep not found');

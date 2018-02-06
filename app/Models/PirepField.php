@@ -2,11 +2,8 @@
 
 namespace App\Models;
 
-use Log;
-
 /**
  * Class PirepField
- *
  * @package App\Models
  */
 class PirepField extends BaseModel
@@ -48,5 +45,15 @@ class PirepField extends BaseModel
         static::updating(function(PirepField $model) {
             $model->slug = str_slug($model->name);
         });
+    }
+
+    /**
+     * When setting the name attribute, also set the slug
+     * @param $name
+     */
+    public function setNameAttribute($name)
+    {
+        $this->attributes['name'] = $name;
+        $this->attributes['slug'] = str_slug($name);
     }
 }

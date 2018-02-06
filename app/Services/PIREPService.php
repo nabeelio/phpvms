@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\PirepField;
 use Log;
 use Carbon\Carbon;
 use App\Repositories\AcarsRepository;
@@ -177,13 +178,8 @@ class PIREPService extends BaseService
         $pirep->save();
         $pirep->refresh();
 
-        foreach ($field_values as $fv) {
-            $v = new PirepFieldValues();
-            $v->pirep_id = $pirep->id;
-            $v->name = $fv['name'];
-            $v->value = $fv['value'];
-            $v->source = $fv['source'];
-            $v->save();
+        if(\count($field_values) > 0) {
+            $this->updateCustomFields($pirep->id, $field_values);
         }
 
         Log::info('New PIREP filed', [$pirep]);
@@ -196,6 +192,25 @@ class PIREPService extends BaseService
         }
 
         return $pirep;
+    }
+
+    /**
+     * Update any custom PIREP fields
+     * @param $pirep_id
+     * @param array $field_values
+     */
+    public function updateCustomFields($pirep_id, array $field_values)
+    {
+        foreach ($field_values as $fv) {
+            PirepFieldValues::updateOrCreate(
+                [   'pirep_id' => $pirep_id,
+                    'name' => $fv['name']
+                ],
+                [   'value' => $fv['value'],
+                    'source' => $fv['source']
+                ]
+            );
+        }
     }
 
     /**

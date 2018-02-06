@@ -83,6 +83,28 @@ class PirepController extends RestController
     }
 
     /**
+     * @param $pirep
+     * @param Request $request
+     */
+    protected function updateFields($pirep, Request $request)
+    {
+        if (!$request->filled('fields')) {
+            return;
+        }
+
+        $pirep_fields = [];
+        foreach ($request->input('fields') as $field_name => $field_value) {
+            $pirep_fields[] = [
+                'name' => $field_name,
+                'value' => $field_value,
+                'source' => $pirep->source,
+            ];
+        }
+
+        $this->pirepSvc->updateCustomFields($pirep->id, $pirep_fields);
+    }
+
+    /**
      * Create a new PIREP and place it in a "inprogress" and "prefile" state
      * Once ACARS updates are being processed, then it can go into an 'ENROUTE'
      * status, and whatever other statuses may be defined
@@ -112,6 +134,8 @@ class PirepController extends RestController
         Log::info('PIREP PREFILED');
         Log::info($pirep->id);
 
+        $this->updateFields($pirep, $request);
+
         PirepResource::withoutWrapping();
         return new PirepResource($pirep);
     }
@@ -138,6 +162,7 @@ class PirepController extends RestController
         $attrs['user_id'] = Auth::id();
 
         $pirep = $this->pirepRepo->update($attrs, $id);
+        $this->updateFields($pirep, $request);
 
         PirepResource::withoutWrapping();
         return new PirepResource($pirep);
@@ -163,14 +188,10 @@ class PirepController extends RestController
         $attrs['state'] = PirepState::PENDING;
         $attrs['status'] = PirepStatus::ARRIVED;
 
-        $pirep_fields = [];
-        if($request->filled('fields')) {
-            $pirep_fields = $request->get('fields');
-        }
-
         try {
             $pirep = $this->pirepRepo->update($attrs, $id);
-            $pirep = $this->pirepSvc->create($pirep, $pirep_fields);
+            $pirep = $this->pirepSvc->create($pirep);
+            $this->updateFields($pirep, $request);
         } catch (\Exception $e) {
             Log::error($e);
         }
