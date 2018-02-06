@@ -1,14 +1,4 @@
 <div class="row">
-    <div class="form-group col-sm-12">
-        {{--<div class="avatar">
-            <img src="{!! $pirep->pilot->gravatar() !!}" />
-        </div>--}}
-        Filed By: <a href="{!! route('admin.users.edit', [$pirep->pilot->id]) !!}" target="_blank">
-            {!! $pirep->pilot->pilot_id !!} {!! $pirep->pilot->name !!}
-        </a>
-    </div>
-</div>
-<div class="row">
     <div class="form-group col-sm-6">
         {!! Form::label('flight_number', 'Flight Number/Route Code/Leg') !!}
         <div class="row">
@@ -60,10 +50,10 @@
         {!! Form::label('flight_time', 'Flight Time (hours & minutes):') !!}
         <div class="row">
             <div class="col-sm-6">
-                {!! Form::number('hours', null, ['class' => 'form-control', 'placeholder' => 'hours']) !!}
+                {!! Form::number('hours', null, ['class' => 'form-control', 'placeholder' => 'hours', 'readonly' => $read_only]) !!}
             </div>
             <div class="col-sm-6">
-                {!! Form::number('minutes', null, ['class' => 'form-control', 'placeholder' => 'minutes']) !!}
+                {!! Form::number('minutes', null, ['class' => 'form-control', 'placeholder' => 'minutes', 'readonly' => $read_only]) !!}
             </div>
             <p class="text-danger">{{ $errors->first('hours') }}</p>
             <p class="text-danger">{{ $errors->first('minutes') }}</p>

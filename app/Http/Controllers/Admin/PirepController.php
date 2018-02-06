@@ -141,11 +141,12 @@ class PirepController extends BaseController
      */
     public function store(CreatePirepRequest $request)
     {
-        $input = $request->all();
-        $pirep = $this->pirepRepo->create($input);
+        $attrs = $request->all();
+        $pirep = $this->pirepRepo->create($attrs);
 
-        $pirep->flight_time = ((int) Utils::hoursToMinutes($request['hours']))
-                            + ((int) $request['minutes']);
+        $hours = (int) $attrs['hours'];
+        $minutes = (int) $attrs['minutes'];
+        $pirep->flight_time = Utils::hoursToMinutes($hours) + $minutes;
 
         Flash::success('Pirep saved successfully.');
         return redirect(route('admin.pireps.index'));
@@ -187,8 +188,15 @@ class PirepController extends BaseController
         $pirep->hours = $hms['h'];
         $pirep->minutes = $hms['m'];
 
+        # Can we modify?
+        $read_only = false;
+        if($pirep->state !== PirepState::PENDING) {
+            $read_only = false;
+        }
+
         return view('admin.pireps.edit', [
             'pirep' => $pirep,
+            'read_only' => $read_only,
             'aircraft' => $this->aircraftList(),
             'airports' => $this->airportRepo->selectBoxList(),
             'airlines' => $this->airlineRepo->selectBoxList(),
@@ -205,16 +213,21 @@ class PirepController extends BaseController
     {
         $pirep = $this->pirepRepo->findWithoutFail($id);
 
-        $pirep->flight_time = ((int) Utils::hoursToMinutes($request['hours']))
-                            + ((int) $request['minutes']);
-
         if (empty($pirep)) {
             Flash::error('Pirep not found');
             return redirect(route('admin.pireps.index'));
         }
 
-        $attrs = $request->all();
         $orig_route = $pirep->route;
+        $orig_flight_time = $pirep->flight_time;
+
+        $attrs = $request->all();
+
+        # Fix the time
+        $hours = (int) $attrs['hours'];
+        $minutes = (int) $attrs['minutes'];
+        $attrs['flight_time'] = Utils::hoursToMinutes($hours) + $minutes;
+
         $pirep = $this->pirepRepo->update($attrs, $id);
 
         // A route change in the PIREP, so update the saved points in the ACARS table
@@ -257,12 +270,12 @@ class PirepController extends BaseController
 
         $pirep = $this->pirepRepo->findWithoutFail($request->id);
         if($request->isMethod('post')) {
-            $new_status = (int) $request->new_status;
+            $new_status = (int) $request->post('new_status');
             $pirep = $this->pirepSvc->changeState($pirep, $new_status);
         }
 
         $pirep->refresh();
-        return view('admin.pireps.actions', ['pirep' => $pirep]);
+        return view('admin.pireps.actions', ['pirep' => $pirep, 'on_edit_page' => false]);
     }
 
     /**

@@ -1,24 +1,14 @@
 @extends('admin.app')
+@section('title', 'Create PIREP')
 
-@section('content')
-    <section class="content-header">
-        <h1>
-            $MODEL_NAME_HUMAN$
-        </h1>
-    </section>
-    <div class="content">
-        <div class="box box-primary">
-
-            <div class="box-body">
-                <div class="row">
-                    {!! Form::open(['route' => 'admin.pireps.store']) !!}
-
-                        @include('admin.pireps.fields')
-
-                    {!! Form::close() !!}
-                </div>
-            </div>
+<div class="content">
+    <div class="card border-blue-bottom">
+        <div class="content">
+            {!! Form::open(['route' => 'admin.pireps.store']) !!}
+            @include('admin.pireps.fields')
+            {!! Form::close() !!}
         </div>
     </div>
+</div>
 @endsection
 @include('admin.pireps.scripts')

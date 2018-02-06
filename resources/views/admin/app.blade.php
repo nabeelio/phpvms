@@ -21,6 +21,12 @@
 
     <style type="text/css">
     @yield('css')
+
+    label {
+        text-transform: uppercase;
+        font-size: 14px;
+        margin: 0;
+    }
     </style>
 
     <script>

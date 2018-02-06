@@ -100,6 +100,16 @@ class Pirep extends BaseModel
     }
 
     /**
+     * Do some cleanup on the route
+     * @param $route
+     */
+    public function setRouteAttribute($route)
+    {
+        $route = strtoupper(trim($route));
+        $this->attributes['route'] = $route;
+    }
+
+    /**
      * Check if this PIREP is allowed to be updated
      * @return bool
      */

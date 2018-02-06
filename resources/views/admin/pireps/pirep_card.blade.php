@@ -56,7 +56,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div id="pirep_{!! $pirep->id !!}_actionbar" class="pull-right">
-                    @include('admin.pireps.actions')
+                    @include('admin.pireps.actions', ['pirep' => $pirep, 'on_edit_page' => false])
                 </div>
             </div>
         </div>
