@@ -45,10 +45,12 @@ class Airport extends BaseModel
      * Validation rules
      */
     public static $rules = [
-        'icao' =>   'required',
-        'name' =>   'required',
-        'lat' =>    'required',
-        'lon' =>    'required',
+        'icao'      => 'required',
+        'iata'      => 'nullable',
+        'name'      => 'required',
+        'location'  => 'nullable',
+        'lat'       => 'required|numeric',
+        'lon'       => 'required|numeric',
     ];
 
     /**
@@ -76,6 +78,26 @@ class Airport extends BaseModel
             $model->id = $model->icao;
         });
     }
+
+    /**
+     * @param $icao
+     */
+    public function setIcaoAttribute($icao)
+    {
+        $icao = strtoupper($icao);
+        $this->attributes['id'] = $icao;
+        $this->attributes['icao'] = $icao;
+    }
+
+    /**
+     * @param $iata
+     */
+    public function setIataAttribute($iata)
+    {
+        $iata = strtoupper($iata);
+        $this->attributes['iata'] = $iata;
+    }
+
 
     /**
      * Return full name like:
