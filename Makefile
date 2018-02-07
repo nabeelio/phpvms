@@ -60,7 +60,7 @@ reset: clean
 .PHONY: reload-db
 reload-db:
 	@php artisan database:create --reset
-	@php artisan migrate:refresh --seed
+	@php artisan migrate:fresh --seed
 	@php artisan phpvms:import app/Database/seeds/sample.yml
 	#php artisan phpvms:navdata
 
