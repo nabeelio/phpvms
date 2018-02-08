@@ -22,7 +22,7 @@ class ApiTest extends TestCase
     {
         $user = factory(User::class)->create();
 
-        $uri = $this->u('/user');
+        $uri = '/api/user';
 
         // Missing auth header
         $this->get($uri)->assertStatus(401);
@@ -73,7 +73,7 @@ class ApiTest extends TestCase
 
         $airlines = factory(App\Models\Airline::class, $size)->create();
 
-        $res = $this->get($this->u('/airlines'));
+        $res = $this->get('/api/airlines');
         $body = $res->json();
 
         $this->assertCount($size, $body['data']);

@@ -6,7 +6,7 @@ use App\Services\DatabaseService;
 /**
  * Class TestCase
  */
-abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
+class TestCase extends Illuminate\Foundation\Testing\TestCase
 {
     /**
      * The base URL to use while testing the application.
@@ -25,9 +25,25 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
         'x-api-key' => 'testadminapikey'
     ];
 
-    public function apiHeaders()
+    /**
+     * @throws Exception
+     */
+    public function setUp()
     {
-        return self::$auth_headers;
+        parent::setUp();
+        Artisan::call('database:create', ['--reset' => true]);
+        Artisan::call('migrate:refresh', ['--env' => 'unittest']);
+    }
+
+    /**
+     * Creates the application. Required to be implemented
+     * @return \Illuminate\Foundation\Application
+     */
+    public function createApplication()
+    {
+        $app = require __DIR__ . '/../bootstrap/app.php';
+        $app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
+        return $app;
     }
 
     /**
@@ -49,45 +65,9 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
     }
 
     /**
-     * Return the URL with the URI prefix
-     * @param $uri
-     * @return string
+     * Import data from a YML file
+     * @param $file
      */
-    public function u($uri) {
-        return self::$prefix . $uri;
-    }
-
-    public function __construct($name = null, array $data = [], $dataName = '') {
-        parent::__construct($name, $data, $dataName);
-    }
-
-    protected function reset_db() {
-        Artisan::call('database:create', ['--reset' => true]);
-        Artisan::call('migrate:refresh', ['--env' => 'unittest']);
-    }
-
-    public function setUp() {
-        parent::setUp();
-        $this->reset_db();
-    }
-
-    /**
-     * Creates the application.
-     *
-     * @return \Illuminate\Foundation\Application
-     */
-    public function createApplication()
-    {
-        $app = require __DIR__.'/../bootstrap/app.php';
-        $app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
-        return $app;
-    }
-
-    public function createRepository($repo_name) {
-        $app = $this->createApplication();
-        return $app->make('App\Repositories\\' . $repo_name);
-    }
-
     public function addData($file)
     {
         $svc = app(DatabaseService::class);
@@ -96,11 +76,6 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
             $svc->seed_from_yaml_file($file_path);
         } catch (Exception $e) {
         }
-    }
-
-    public function fillableFields(\Illuminate\Database\Eloquent\Model $model)
-    {
-        return $model->fillable;
     }
 
     /**
