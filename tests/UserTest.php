@@ -160,6 +160,11 @@ class UserTest extends TestCase
         /*
          * Do some sanity checks first
          */
+
+        # Make sure no flights are filtered out
+        $this->settingsRepo->store('pilots.only_flights_from_current', false);
+
+        # And restrict the aircraft
         $this->settingsRepo->store('pireps.restrict_aircraft_to_rank', false);
 
         $response = $this->get('/api/flights/' . $flight->id, [], $user);
@@ -183,8 +188,8 @@ class UserTest extends TestCase
          * Make sure it's filtered out from the flight list
          */
         $response = $this->get('/api/flights', [], $user);
-        $response->assertStatus(200);
         $body = $response->json();
+        $response->assertStatus(200);
         $this->assertCount(1, $body['data'][0]['subfleets']);
 
         /**

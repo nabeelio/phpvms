@@ -8,7 +8,9 @@
 
 namespace App\Services;
 
+use App\Repositories\FlightRepository;
 use function foo\func;
+use Illuminate\Support\Collection;
 use Log;
 
 use App\Models\Flight;
@@ -17,11 +19,28 @@ use App\Models\UserBid;
 
 class FlightService extends BaseService
 {
-    protected $userSvc;
+    protected $flightRepo, $userSvc;
 
-    public function __construct(UserService $userSvc)
+    public function __construct(FlightRepository $flightRepo, UserService $userSvc)
     {
+        $this->flightRepo = $flightRepo;
         $this->userSvc = $userSvc;
+    }
+
+    /**
+     * Filter out any flights according to different settings
+     * @param $user
+     * @return FlightRepository
+     */
+    public function filterFlights($user)
+    {
+        $where = [];
+        if (setting('pilots.only_flights_from_current', false)) {
+            $where['dpt_airport_id'] = $user->curr_airport_id;
+        }
+
+        return $this->flightRepo
+                ->whereOrder($where, 'flight_number', 'asc');
     }
 
     /**

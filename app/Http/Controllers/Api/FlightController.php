@@ -35,11 +35,9 @@ class FlightController extends RestController
      */
     public function index(Request $request)
     {
-        $flights = $this->flightRepo
-                        ->orderBy('flight_number', 'asc')
-                        ->paginate(50);
-
         $user = Auth::user();
+        $flights = $this->flightSvc->filterFlights($user)->paginate();
+
         foreach($flights as $flight) {
             $this->flightSvc->filterSubfleets($user, $flight);
         }
@@ -66,15 +64,16 @@ class FlightController extends RestController
      */
     public function search(Request $request)
     {
+        $user = Auth::user();
+
         try {
             $this->flightRepo->searchCriteria($request);
             $this->flightRepo->pushCriteria(new RequestCriteria($request));
-            $flights = $this->flightRepo->paginate();
+            $flights = $this->flightSvc->filterFlights($user)->paginate();
         } catch (RepositoryException $e) {
             return response($e, 503);
         }
 
-        $user = Auth::user();
         foreach ($flights as $flight) {
             $this->flightSvc->filterSubfleets($user, $flight);
         }
