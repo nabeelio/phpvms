@@ -9,7 +9,7 @@ build:
   mode: number
   length: 6
   increment_by: 1
-  number: 180208-48346a
+  number: 180209-bcc6be
   git_absorb: git-local
 git:
   git-local: 'git rev-parse --verify HEAD'
