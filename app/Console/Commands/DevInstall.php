@@ -11,7 +11,7 @@ use Modules\Installer\Services\ConfigService;
  */
 class DevInstall extends BaseCommand
 {
-    protected $signature = 'phpvms:dev-install';
+    protected $signature = 'phpvms:dev-install {--reset-db}';
     protected $description = 'Run a developer install and run the sample migration';
 
     /**
@@ -20,7 +20,9 @@ class DevInstall extends BaseCommand
      */
     public function handle()
     {
-        $this->rewriteConfigs();
+        if(!$this->option('reset-db')) {
+            $this->rewriteConfigs();
+        }
 
         # Reload the configuration
         \App::boot();
