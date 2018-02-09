@@ -132,7 +132,6 @@ class CreateSettingsTable extends Migration
             'name' => 'PIREP duplicate time check',
             'group' => 'pireps',
             'value' => 10,
-            'default' => 10,
             'type' => 'int',
             'description' => 'The time in minutes to check for a duplicate PIREP',
         ]);
@@ -141,7 +140,6 @@ class CreateSettingsTable extends Migration
             'name' => 'Hide Cancelled PIREPs',
             'group' => 'pireps',
             'value' => true,
-            'default' => true,
             'type' => 'boolean',
             'description' => 'Hide any cancelled PIREPs in the front-end',
         ]);
@@ -150,9 +148,16 @@ class CreateSettingsTable extends Migration
             'name' => 'Restrict Aircraft to Ranks',
             'group' => 'pireps',
             'value' => true,
-            'default' => true,
             'type' => 'boolean',
             'description' => 'Aircraft that can be flown are restricted to a user\'s rank',
+        ]);
+
+        $this->addSetting('pireps.only_aircraft_at_dep_airport', [
+            'name' => 'Restrict Aircraft At Departure',
+            'group' => 'pireps',
+            'value' => false,
+            'type' => 'boolean',
+            'description' => 'Only allow aircraft that are at the departure airport',
         ]);
 
         /**

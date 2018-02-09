@@ -34,7 +34,7 @@ class TestData
      * @param null $aircraft_count
      * @return mixed
      */
-    public static function createSubfleetWithAircraft($aircraft_count = null)
+    public static function createSubfleetWithAircraft($aircraft_count = null, $airport_id=null)
     {
         $subfleet = factory(\App\Models\Subfleet::class)->create();
 
@@ -43,7 +43,8 @@ class TestData
         }
 
         $aircraft = factory(\App\Models\Aircraft::class, $aircraft_count)->create([
-            'subfleet_id' => $subfleet->id
+            'subfleet_id' => $subfleet->id,
+            'airport_id' => $airport_id,
         ]);
 
         return [

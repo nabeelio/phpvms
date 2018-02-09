@@ -8,6 +8,7 @@
 
 namespace App\Services;
 
+use function foo\func;
 use Log;
 
 use App\Models\Flight;
@@ -31,15 +32,37 @@ class FlightService extends BaseService
      */
     public function filterSubfleets($user, $flight)
     {
+
+        $subfleets = $flight->subfleets;
+
+        /**
+         * Only allow aircraft that the user has access to in their rank
+         */
         if (setting('pireps.restrict_aircraft_to_rank', false)) {
             $allowed_subfleets = $this->userSvc->getAllowableSubfleets($user)->pluck('id');
-            $flight->subfleets = $flight->subfleets->filter(
-                function ($subfleet, $item) use ($allowed_subfleets) {
-                    if ($allowed_subfleets->contains($subfleet->id)) {
-                        return true;
-                    }
-                });
+            $subfleets = $subfleets->filter(function ($subfleet, $i) use ($allowed_subfleets) {
+                if ($allowed_subfleets->contains($subfleet->id)) {
+                    return true;
+                }
+            });
         }
+
+        /**
+         * Only allow aircraft that are at the current departure airport
+         */
+        if(setting('pireps.only_aircraft_at_dep_airport', false)) {
+            foreach($subfleets as $subfleet) {
+                $subfleet->aircraft = $subfleet->aircraft->filter(
+                    function ($aircraft, $i) use ($flight) {
+                        if ($aircraft->airport_id === $flight->dpt_airport_id) {
+                            return true;
+                        }
+                    }
+                );
+            }
+        }
+
+        $flight->subfleets = $subfleets;
 
         return $flight;
     }

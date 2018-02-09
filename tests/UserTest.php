@@ -133,13 +133,21 @@ class UserTest extends TestCase
     {
         # Add subfleets and aircraft, but also add another
         # set of subfleets
-        $subfleetA = TestData::createSubfleetWithAircraft(2);
+        $airport = factory(App\Models\Airport::class)->create();
+        $subfleetA = TestData::createSubfleetWithAircraft(2, $airport->id);
         $subfleetB = TestData::createSubfleetWithAircraft(2);
 
         $rank = TestData::createRank(10, [$subfleetA['subfleet']->id]);
-        $user = factory(App\Models\User::class)->create(['rank_id' => $rank->id,]);
+        $user = factory(App\Models\User::class)->create([
+            'curr_airport_id' => $airport->id,
+            'rank_id' => $rank->id,
+        ]);
 
-        $flight = factory(App\Models\Flight::class)->create(['airline_id' => $user->airline_id]);
+        $flight = factory(App\Models\Flight::class)->create([
+            'airline_id' => $user->airline_id,
+            'dpt_airport_id' => $airport->id,
+        ]);
+
         $flight->subfleets()->syncWithoutDetaching([
             $subfleetA['subfleet']->id,
             $subfleetB['subfleet']->id
@@ -155,6 +163,7 @@ class UserTest extends TestCase
         $this->settingsRepo->store('pireps.restrict_aircraft_to_rank', false);
 
         $response = $this->get('/api/flights/' . $flight->id, [], $user);
+        $body = $response->json();
         $response->assertStatus(200);
         $this->assertCount(2, $response->json()['subfleets']);
 

@@ -90,6 +90,7 @@ class Migration extends MigrationBase
             'name' => $attrs['name'],
             'group' => $group,
             'value' => $attrs['value'],
+            'default' => $attrs['value'],
             'type' => $attrs['type'],
             'description' => $attrs['description'],
         ];
