@@ -15,11 +15,16 @@ class FlightTest extends TestCase
         $this->flightSvc = app(FlightService::class);
     }
 
-    public function addFlight()
+    public function addFlight($user)
     {
-        $flight = factory(App\Models\Flight::class)->create();
+        $flight = factory(App\Models\Flight::class)->create([
+            'airline_id' => $user->airline_id
+        ]);
+
         $flight->subfleets()->syncWithoutDetaching([
-            factory(App\Models\Subfleet::class)->create()->id
+            factory(App\Models\Subfleet::class)->create([
+                'airline_id' => $user->airline_id
+            ])->id
         ]);
 
         return $flight;
@@ -27,7 +32,8 @@ class FlightTest extends TestCase
 
     public function testGetFlight()
     {
-        $flight = $this->addFlight();
+        $this->user = factory(App\Models\User::class)->create();
+        $flight = $this->addFlight($this->user);
 
         $req = $this->get('/api/flights/' . $flight->id);
         $req->assertStatus(200);
@@ -46,7 +52,8 @@ class FlightTest extends TestCase
      */
     public function testSearchFlight()
     {
-        $flight = $this->addFlight();
+        $this->user = factory(App\Models\User::class)->create();
+        $flight = $this->addFlight($this->user);
 
         # search specifically for a flight ID
         $query = 'flight_id=' . $flight->id;
@@ -59,7 +66,11 @@ class FlightTest extends TestCase
      */
     public function testFindAllFlights()
     {
-        factory(App\Models\Flight::class, 70)->create();
+        $this->user = factory(App\Models\User::class)->create();
+        factory(App\Models\Flight::class, 70)->create([
+            'airline_id' => $this->user->airline_id
+        ]);
+
         $res = $this->get('/api/flights');
 
         $body = $res->json();
@@ -71,7 +82,11 @@ class FlightTest extends TestCase
 
     public function testFlightSearchApi()
     {
-        $flights = factory(App\Models\Flight::class, 20)->create();
+        $this->user = factory(App\Models\User::class)->create();
+        $flights = factory(App\Models\Flight::class, 20)->create([
+            'airline_id' => $this->user->airline_id
+        ]);
+
         $flight = $flights->random();
 
         $query = 'flight_number=' . $flight->flight_number;
@@ -90,7 +105,7 @@ class FlightTest extends TestCase
         $user = factory(User::class)->create();
         $headers = $this->headers($user);
 
-        $flight = $this->addFlight();
+        $flight = $this->addFlight($user);
 
         $bid = $this->flightSvc->addBid($flight, $user);
         $this->assertEquals($user->id, $bid->user_id);
@@ -155,10 +170,12 @@ class FlightTest extends TestCase
     {
         setting('bids.disable_flight_on_bid', true);
 
-        $user1 = factory(User::class)->create();;
-        $user2 = factory(User::class)->create();
+        $user1 = factory(User::class)->create();
+        $user2 = factory(User::class)->create([
+            'airline_id' => $user1->airline_id
+        ]);
 
-        $flight = $this->addFlight();
+        $flight = $this->addFlight($user1);
 
         # Put bid on the flight to block it off
         $bid = $this->flightSvc->addBid($flight, $user1);
@@ -175,7 +192,7 @@ class FlightTest extends TestCase
         $user = factory(User::class)->create();
         $headers = $this->headers($user);
 
-        $flight = $this->addFlight();
+        $flight = $this->addFlight($user);
 
         $bid = $this->flightSvc->addBid($flight, $user);
         $this->assertEquals($user->id, $bid->user_id);
@@ -206,5 +223,12 @@ class FlightTest extends TestCase
 
         $body = $req->json();
         $this->assertEquals(0, sizeof($body));
+    }
+
+    public function testRestrictedFlights()
+    {
+        setting('bids.disable_flight_on_bid', true);
+
+
     }
 }

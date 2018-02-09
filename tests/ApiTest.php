@@ -103,6 +103,7 @@ class ApiTest extends TestCase
      */
     public function testGetAllAirports()
     {
+        $this->user = factory(App\Models\User::class)->create();
         factory(App\Models\Airport::class, 70)->create();
 
         $response = $this->get('/api/airports/')
@@ -121,6 +122,7 @@ class ApiTest extends TestCase
 
     public function testGetAllAirportsHubs()
     {
+        $this->user = factory(App\Models\User::class)->create();
         factory(App\Models\Airport::class, 10)->create();
         factory(App\Models\Airport::class)->create(['hub' => 1]);
 
@@ -134,8 +136,15 @@ class ApiTest extends TestCase
      */
     public function testGetSubfleets()
     {
-        $subfleetA = factory(App\Models\Subfleet::class)->create();
-        $subfleetB = factory(App\Models\Subfleet::class)->create();
+        $this->user = factory(App\Models\User::class)->create();
+
+        $subfleetA = factory(App\Models\Subfleet::class)->create([
+            'airline_id' => $this->user->airline_id,
+        ]);
+
+        $subfleetB = factory(App\Models\Subfleet::class)->create([
+            'airline_id' => $this->user->airline_id,
+        ]);
 
         $subfleetA_size = \random_int(2, 10);
         $subfleetB_size = \random_int(2, 10);
@@ -167,9 +176,14 @@ class ApiTest extends TestCase
      */
     public function testGetAircraft()
     {
+        $this->user = factory(App\Models\User::class)->create();
+
         $fare_svc = app(FareService::class);
 
-        $subfleet = factory(App\Models\Subfleet::class)->create();
+        $subfleet = factory(App\Models\Subfleet::class)->create([
+            'airline_id' => $this->user->airline_id
+        ]);
+
         $fare = factory(App\Models\Fare::class)->create();
 
         $fare_svc->setForSubfleet($subfleet, $fare);
