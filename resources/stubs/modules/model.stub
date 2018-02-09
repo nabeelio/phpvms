@@ -2,9 +2,10 @@
 
 namespace $NAMESPACE$;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\BaseModel;
 
-class $CLASS$ extends Model
+class $CLASS$ extends BaseModel
 {
+    public $table = '';
     protected $fillable = $FILLABLE$;
 }

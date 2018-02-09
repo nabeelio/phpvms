@@ -5,5 +5,5 @@ Route::group(['middleware' => [
 ]], function() {
     # all your routes are prefixed with the above prefix
     # e.g. yoursite.com/sample
-    Route::get('/', '$STUDLY_NAME$Controller@index');
+    Route::get('/', 'SampleController@index');
 });

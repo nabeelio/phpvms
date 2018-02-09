@@ -32,6 +32,7 @@
         "league/iso3166": "2.1.x",
         "google/apiclient": "2.2.x",
         "theiconic/php-ga-measurement-protocol": "2.7.x",
+        "joshbrw/laravel-module-installer": "0.1.x",
         "irazasyed/laravel-gamp": "1.3.x",
         "vierbergenlars/php-semver": "3.0.x"
     },

@@ -1,12 +1,16 @@
 {
-    "name": "$VENDOR$/$LOWER_NAME$",
+    "name": "VENDOR/$LOWER_NAME$-module",
+    "type": "laravel-module",
     "description": "",
     "authors": [
         {
-            "name": "$AUTHOR_NAME$",
-            "email": "$AUTHOR_EMAIL$"
+            "name": "",
+            "email": ""
         }
     ],
+    "require": {
+        "joshbrw/laravel-module-installer": "0.1.x"
+    },
     "extra": {
         "laravel": {
             "providers": [

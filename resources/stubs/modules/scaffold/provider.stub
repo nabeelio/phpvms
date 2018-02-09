@@ -55,6 +55,9 @@ class $CLASS$ extends ServiceProvider
      */
     protected function registerRoutes()
     {
+        /**
+         * Routes for the frontend
+         */
         Route::group([
             'as' => '$LOWER_NAME$.',
             'prefix' => '$LOWER_NAME$',
@@ -62,7 +65,33 @@ class $CLASS$ extends ServiceProvider
             'middleware' => ['web'],
             'namespace' => '$MODULE_NAMESPACE$\$STUDLY_NAME$\Http\Controllers'
         ], function() {
-            $this->loadRoutesFrom(__DIR__ . '/../Http/routes.php');
+            $this->loadRoutesFrom(__DIR__ . '/../Http/Routes/web.php');
+        });
+
+        /**
+         * Routes for the admin
+         */
+        Route::group([
+            'as' => '$LOWER_NAME$.',
+            'prefix' => 'api/$LOWER_NAME$/admin',
+            // If you want a RESTful module, change this to 'api'
+            'middleware' => ['web', 'role:admin'],
+            'namespace' => '$MODULE_NAMESPACE$\$STUDLY_NAME$\Http\Controllers\Admin'
+        ], function() {
+            $this->loadRoutesFrom(__DIR__ . '/../Http/Routes/admin.php');
+        });
+
+        /**
+         * Routes for an API
+         */
+        Route::group([
+            'as' => '$LOWER_NAME$.',
+            'prefix' => 'api/$LOWER_NAME$',
+            // If you want a RESTful module, change this to 'api'
+            'middleware' => ['api'],
+            'namespace' => '$MODULE_NAMESPACE$\$STUDLY_NAME$\Http\Controllers\Api'
+        ], function() {
+            $this->loadRoutesFrom(__DIR__ . '/../Http/Routes/api.php');
         });
     }
 

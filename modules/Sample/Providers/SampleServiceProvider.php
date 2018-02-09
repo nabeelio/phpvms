@@ -55,6 +55,9 @@ class SampleServiceProvider extends ServiceProvider
      */
     protected function registerRoutes()
     {
+        /**
+         * Routes for the frontend
+         */
         Route::group([
             'as' => 'sample.',
             'prefix' => 'sample',
@@ -62,7 +65,33 @@ class SampleServiceProvider extends ServiceProvider
             'middleware' => ['web'],
             'namespace' => 'Modules\Sample\Http\Controllers'
         ], function() {
-            $this->loadRoutesFrom(__DIR__ . '/../Http/routes.php');
+            $this->loadRoutesFrom(__DIR__ . '/../Http/Routes/web.php');
+        });
+
+        /**
+         * Routes for the admin
+         */
+        Route::group([
+            'as' => 'sample.',
+            'prefix' => 'api/sample/admin',
+            // If you want a RESTful module, change this to 'api'
+            'middleware' => ['web', 'role:admin'],
+            'namespace' => 'Modules\Sample\Http\Controllers\Admin'
+        ], function() {
+            $this->loadRoutesFrom(__DIR__ . '/../Http/Routes/admin.php');
+        });
+
+        /**
+         * Routes for an API
+         */
+        Route::group([
+            'as' => 'sample.',
+            'prefix' => 'api/sample',
+            // If you want a RESTful module, change this to 'api'
+            'middleware' => ['api'],
+            'namespace' => 'Modules\Sample\Http\Controllers\Api'
+        ], function() {
+            $this->loadRoutesFrom(__DIR__ . '/../Http/Routes/api.php');
         });
     }
 
