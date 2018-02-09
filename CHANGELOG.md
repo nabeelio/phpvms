@@ -1,5 +1,4 @@
 # Changelog
-
 ## Alpha 2
 
 !! Please do a full reinstall, with recreating the database
@@ -8,15 +7,15 @@
 - Add a `SKIN_NAME` template variable to reference the current skin, vs hardcoding the skin name in the templates
 - PIREP hours can't be changed after it's no longer in a pending state
 - DB: `airport.tz` to `airport.timezone`
-- API: Most calls, with exception of ACARS, are now private and require an API key to access
+- API: Most calls, with exception of ACARS, are now private and require an API key to access [#173](https://github.com/nabeelio/phpvms/issues/173)
 - API: Allow a `fields` object to set custom PIREP fields, also returns the current values
 
-### Fixes
+#### Fixes
 
 - PIREP fields being set when filing manually is working
 - Field for the rank's image changed to string input
 - API: Fixed typo from `subfleet` to `subfleets` in the `/api/flights` call(s)
-- API: Subfleets returned in the flight calls respect the `pireps.restrict_aircraft_to_rank` setting
+- API: Subfleets returned in the flight calls respect the `pireps.restrict_aircraft_to_rank` setting [#170](https://github.com/nabeelio/phpvms/issues/170)
 
 ***
 

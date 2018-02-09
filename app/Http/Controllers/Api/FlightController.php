@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Services\FlightService;
 use Auth;
 use Illuminate\Http\Request;
 use Prettus\Repository\Criteria\RequestCriteria;
@@ -17,37 +18,16 @@ use App\Http\Resources\Flight as FlightResource;
  */
 class FlightController extends RestController
 {
-    protected $flightRepo, $userSvc;
+    protected $flightRepo, $flightSvc, $userSvc;
 
     public function __construct(
         FlightRepository $flightRepo,
+        FlightService $flightSvc,
         UserService $userSvc
     ) {
         $this->flightRepo = $flightRepo;
+        $this->flightSvc = $flightSvc;
         $this->userSvc = $userSvc;
-    }
-
-    /**
-     * Filter out subfleets to only include aircraft that a user has access to
-     * @param $user
-     * @param $flight
-     * @return mixed
-     */
-    public function filterSubfleets($user, $flight)
-    {
-        if(setting('pireps.restrict_aircraft_to_rank', false) === false) {
-            return $flight;
-        }
-
-        $allowed_subfleets = $this->userSvc->getAllowableSubfleets($user)->pluck('id');
-        $flight->subfleets = $flight->subfleets->filter(
-            function($subfleet, $item) use ($allowed_subfleets) {
-                if ($allowed_subfleets->contains($subfleet->id)) {
-                    return true;
-                }
-            });
-
-        return $flight;
     }
 
     /**
@@ -61,7 +41,7 @@ class FlightController extends RestController
 
         $user = Auth::user();
         foreach($flights as $flight) {
-            $this->filterSubfleets($user, $flight);
+            $this->flightSvc->filterSubfleets($user, $flight);
         }
 
         return FlightResource::collection($flights);
@@ -74,7 +54,7 @@ class FlightController extends RestController
     public function get($id)
     {
         $flight = $this->flightRepo->find($id);
-        $this->filterSubfleets(Auth::user(), $flight);
+        $this->flightSvc->filterSubfleets(Auth::user(), $flight);
 
         FlightResource::withoutWrapping();
         return new FlightResource($flight);
@@ -96,7 +76,7 @@ class FlightController extends RestController
 
         $user = Auth::user();
         foreach ($flights as $flight) {
-            $this->filterSubfleets($user, $flight);
+            $this->flightSvc->filterSubfleets($user, $flight);
         }
 
         return FlightResource::collection($flights);

@@ -16,6 +16,34 @@ use App\Models\UserBid;
 
 class FlightService extends BaseService
 {
+    protected $userSvc;
+
+    public function __construct(UserService $userSvc)
+    {
+        $this->userSvc = $userSvc;
+    }
+
+    /**
+     * Filter out subfleets to only include aircraft that a user has access to
+     * @param $user
+     * @param $flight
+     * @return mixed
+     */
+    public function filterSubfleets($user, $flight)
+    {
+        if (setting('pireps.restrict_aircraft_to_rank', false)) {
+            $allowed_subfleets = $this->userSvc->getAllowableSubfleets($user)->pluck('id');
+            $flight->subfleets = $flight->subfleets->filter(
+                function ($subfleet, $item) use ($allowed_subfleets) {
+                    if ($allowed_subfleets->contains($subfleet->id)) {
+                        return true;
+                    }
+                });
+        }
+
+        return $flight;
+    }
+
     /**
      * Delete a flight, and all the user bids, etc associated with it
      * @param Flight $flight
