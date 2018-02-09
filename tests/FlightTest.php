@@ -71,7 +71,7 @@ class FlightTest extends TestCase
     public function testFindAllFlights()
     {
         $this->user = factory(App\Models\User::class)->create();
-        factory(App\Models\Flight::class, 70)->create([
+        factory(App\Models\Flight::class, 20)->create([
             'airline_id' => $this->user->airline_id
         ]);
 
@@ -81,7 +81,7 @@ class FlightTest extends TestCase
         $this->assertEquals(2, $body['meta']['last_page']);
 
         $res = $this->get('/api/flights?page=2');
-        $res->assertJsonCount(20, 'data');
+        $res->assertJsonCount(5, 'data');
     }
 
     public function testFlightSearchApi()
