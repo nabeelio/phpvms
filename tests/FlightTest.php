@@ -1,18 +1,22 @@
 <?php
 
-use App\Services\FlightService;
 use App\Models\Flight;
 use App\Models\User;
 use App\Models\UserBid;
+use App\Repositories\SettingRepository;
+use App\Services\FlightService;
 
 class FlightTest extends TestCase
 {
+    protected $flightSvc, $settingsRepo;
+
     public function setUp()
     {
         parent::setUp();
         $this->addData('base');
 
         $this->flightSvc = app(FlightService::class);
+        $this->settingsRepo = app(SettingRepository::class);
     }
 
     public function addFlight($user)
@@ -168,7 +172,7 @@ class FlightTest extends TestCase
      */
     public function testMultipleBidsSingleFlight()
     {
-        setting('bids.disable_flight_on_bid', true);
+        $this->settingsRepo->store('bids.disable_flight_on_bid', true);
 
         $user1 = factory(User::class)->create();
         $user2 = factory(User::class)->create([
@@ -223,12 +227,5 @@ class FlightTest extends TestCase
 
         $body = $req->json();
         $this->assertEquals(0, sizeof($body));
-    }
-
-    public function testRestrictedFlights()
-    {
-        setting('bids.disable_flight_on_bid', true);
-
-
     }
 }

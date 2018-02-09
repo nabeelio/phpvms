@@ -15,6 +15,8 @@
 
 - PIREP fields being set when filing manually is working
 - Field for the rank's image changed to string input
+- API: Fixed typo from `subfleet` to `subfleets` in the `/api/flights` call(s)
+- API: Subfleets returned in the flight calls respect the `pireps.restrict_aircraft_to_rank` setting
 
 ***
 

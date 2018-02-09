@@ -68,6 +68,14 @@ class SettingRepository extends BaseRepository implements CacheableInterface
     }
 
     /**
+     * @alias store($key,$value)
+     */
+    public function save($key, $value)
+    {
+        return $this->store($key, $value);
+    }
+
+    /**
      * Update an existing setting with a new value. Doesn't create
      * a new setting
      * @param $key

@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Setting;
 use App\Services\UserService;
 use App\Repositories\SettingRepository;
 
@@ -120,5 +121,69 @@ class UserTest extends TestCase
         );
 
         $this->assertEquals($added_aircraft, $aircraft_from_api);
+    }
+
+    /**
+     * Flip the setting for getting all of the user's aircraft restricted
+     * by rank. Make sure that they're all returned. Create two subfleets,
+     * assign only one of them to the user's rank. When calling the api
+     * to retrieve the flight, only subfleetA should be showing
+     */
+    public function testGetAircraftAllowedFromFlight()
+    {
+        # Add subfleets and aircraft, but also add another
+        # set of subfleets
+        $subfleetA = TestData::createSubfleetWithAircraft(2);
+        $subfleetB = TestData::createSubfleetWithAircraft(2);
+
+        $rank = TestData::createRank(10, [$subfleetA['subfleet']->id]);
+        $user = factory(App\Models\User::class)->create(['rank_id' => $rank->id,]);
+
+        $flight = factory(App\Models\Flight::class)->create(['airline_id' => $user->airline_id]);
+        $flight->subfleets()->syncWithoutDetaching([
+            $subfleetA['subfleet']->id,
+            $subfleetB['subfleet']->id
+        ]);
+
+        /*
+         * Now we can do some actual tests
+         */
+
+        /*
+         * Do some sanity checks first
+         */
+        $this->settingsRepo->store('pireps.restrict_aircraft_to_rank', false);
+
+        $response = $this->get('/api/flights/' . $flight->id, [], $user);
+        $response->assertStatus(200);
+        $this->assertCount(2, $response->json()['subfleets']);
+
+        /*
+         * Now make sure it's filtered out
+         */
+        $this->settingsRepo->store('pireps.restrict_aircraft_to_rank', true);
+
+        /**
+         * Make sure it's filtered out from the single flight call
+         */
+        $response = $this->get('/api/flights/' . $flight->id, [], $user);
+        $response->assertStatus(200);
+        $this->assertCount(1, $response->json()['subfleets']);
+
+        /**
+         * Make sure it's filtered out from the flight list
+         */
+        $response = $this->get('/api/flights', [], $user);
+        $response->assertStatus(200);
+        $body = $response->json();
+        $this->assertCount(1, $body['data'][0]['subfleets']);
+
+        /**
+         * Filtered from search?
+         */
+        $response = $this->get('/api/flights/search?flight_id=' . $flight->id, [], $user);
+        $response->assertStatus(200);
+        $body = $response->json();
+        $this->assertCount(1, $body['data'][0]['subfleets']);
     }
 }
