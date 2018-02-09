@@ -12,6 +12,7 @@
 - API: Allow a `fields` object to set custom PIREP fields, also returns the current values
 - Setting: Restrict to aircraft that are at a flight's departure airport [#171](https://github.com/nabeelio/phpvms/issues/171)
 - Setting: Implementation of filtering flights that are only at the user's current airport [#174](https://github.com/nabeelio/phpvms/issues/174)
+- Console: Added `php artisan phpvms:dev-install` command which creates the config files and creates the database/inserts sample data in one command [#176](https://github.com/nabeelio/phpvms/issues/176)
 
 #### Fixes
 

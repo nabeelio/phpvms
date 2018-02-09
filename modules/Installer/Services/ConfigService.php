@@ -29,7 +29,7 @@ class ConfigService
             'SITE_URL' => 'http://phpvms.test',
             'DB_CONN' => '',
             'DB_HOST' => '',
-            'DB_PORT' => '',
+            'DB_PORT' => 3306,
             'DB_NAME' => '',
             'DB_USER' => '',
             'DB_PASS' => '',
