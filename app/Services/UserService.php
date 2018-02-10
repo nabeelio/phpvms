@@ -148,11 +148,17 @@ class UserService extends BaseService
     public function calculatePilotRank(User $user): User
     {
         $user->refresh();
+
+        # If their current rank is one they were assigned, then
+        # don't change away from it automatically.
+        if($user->rank->auto_promote === false) {
+            return $user;
+        }
+
         $old_rank = $user->rank;
         $original_rank_id = $user->rank_id;
         $pilot_hours = Utils::minutesToHours($user->flight_time);
 
-        # TODO: Cache
         $ranks = Rank::where('auto_promote', true)
                     ->orderBy('hours', 'asc')->get();
 
