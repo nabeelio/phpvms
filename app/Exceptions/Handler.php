@@ -134,7 +134,10 @@ class Handler extends ExceptionHandler
 
         if (view()->exists("errors::{$status}")) {
         #if (view()->exists('layouts' . config('phpvms.skin') .'.errors.' .$status)) {
-            return response()->view("errors::{$status}", ['exception' => $e], $status, $e->getHeaders());
+            return response()->view("errors::{$status}", [
+                'exception' => $e,
+                'SKIN_NAME' => config('phpvms.skin'),
+            ], $status, $e->getHeaders());
         } else {
             return $this->convertExceptionToResponse($e);
         }
