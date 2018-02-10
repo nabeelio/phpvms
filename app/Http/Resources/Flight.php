@@ -10,6 +10,7 @@ class Flight extends Resource
     {
         $flight = parent::toArray($request);
 
+        $flight['field'] = true;
         $flight['airline'] = new Airline($this->airline);
         $flight['subfleets'] = Subfleet::collection($this->subfleets);
 

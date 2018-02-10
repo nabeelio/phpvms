@@ -30,7 +30,7 @@ class FleetController extends RestController
     {
         $subfleets = $this->subfleetRepo
                           ->with(['aircraft', 'airline', 'fares', 'ranks'])
-                          ->paginate(50);
+                          ->paginate();
 
         return SubfleetResource::collection($subfleets);
     }
@@ -51,13 +51,11 @@ class FleetController extends RestController
             $where['id'] = $id;
         }
 
-        #$all_aircraft = $this->aircraftRepo->all();
         $aircraft = $this->aircraftRepo
                          ->with(['subfleet', 'subfleet.fares'])
                          ->findWhere($where)
                          ->first();
 
-        AircraftResource::withoutWrapping();
         return new AircraftResource($aircraft);
     }
 }

@@ -49,7 +49,7 @@ class AcarsTest extends TestCase
     {
         $resp = $this ->get('/api/pireps/' . $pirep_id);
         $resp->assertStatus(200);
-        return $resp->json();
+        return $resp->json()['data'];
     }
 
     /**
@@ -116,11 +116,11 @@ class AcarsTest extends TestCase
 
         # Get the PIREP ID
         $body = $response->json();
-        $pirep_id = $body['id'];
+        $pirep_id = $body['data']['id'];
 
-        $this->assertHasKeys($body, ['airline', 'arr_airport', 'dpt_airport', 'position']);
+        $this->assertHasKeys($body['data'], ['airline', 'arr_airport', 'dpt_airport', 'position']);
         $this->assertNotNull($pirep_id);
-        $this->assertEquals($body['user_id'], $this->user->id);
+        $this->assertEquals($body['data']['user_id'], $this->user->id);
 
         # Check the PIREP state and status
         $pirep = $this->getPirep($pirep_id);
@@ -167,7 +167,7 @@ class AcarsTest extends TestCase
         $response->assertStatus(200)->assertJson(['count' => 1]);
 
         # Read that if the ACARS record posted
-        $acars_data = $this->get($uri)->json()[0];
+        $acars_data = $this->get($uri)->json()['data'][0];
         $this->assertEquals(round($acars['lat'], 2), round($acars_data['lat'], 2));
         $this->assertEquals(round($acars['lon'], 2), round($acars_data['lon'], 2));
         $this->assertEquals($acars['log'], $acars_data['log']);
@@ -179,7 +179,7 @@ class AcarsTest extends TestCase
 
         $response = $this->get($uri);
         $response->assertStatus(200);
-        $body = $response->json();
+        $body = $response->json()['data'];
 
         $this->assertNotNull($body);
         $this->assertCount(1, $body);
@@ -201,6 +201,7 @@ class AcarsTest extends TestCase
         ]);
 
         $response->assertStatus(200);
+        $body = $response->json();
 
         # Add a comment
         $uri = '/api/pireps/'.$pirep_id.'/comments';
@@ -226,7 +227,7 @@ class AcarsTest extends TestCase
         $response = $this->post($uri, $pirep);
         $response->assertStatus(201);
 
-        $pirep_id = $response->json()['id'];
+        $pirep_id = $response->json()['data']['id'];
 
         $uri = '/api/pireps/' . $pirep_id . '/acars/position';
 
@@ -239,7 +240,7 @@ class AcarsTest extends TestCase
         $response->assertStatus(200)->assertJson(['count' => $acars_count]);
 
         $response = $this->get($uri);
-        $response->assertStatus(200)->assertJsonCount($acars_count);
+        $response->assertStatus(200)->assertJsonCount($acars_count, 'data');
     }
 
     /**
@@ -277,7 +278,7 @@ class AcarsTest extends TestCase
 
         $uri = '/api/pireps/prefile';
         $response = $this->post($uri, $pirep);
-        $pirep_id = $response->json()['id'];
+        $pirep_id = $response->json()['data']['id'];
 
         $dt = date('c');
         $uri = '/api/pireps/' . $pirep_id . '/acars/position';
@@ -300,7 +301,7 @@ class AcarsTest extends TestCase
 
         $uri = '/api/pireps/prefile';
         $response = $this->post($uri, $pirep);
-        $pirep_id = $response->json()['id'];
+        $pirep_id = $response->json()['data']['id'];
 
         $post_route = ['order' => 1, 'name' => 'NAVPOINT'];
         $uri = '/api/pireps/' . $pirep_id . '/route';
@@ -323,7 +324,7 @@ class AcarsTest extends TestCase
 
         $uri = '/api/pireps/prefile';
         $response = $this->post($uri, $pirep);
-        $pirep_id = $response->json()['id'];
+        $pirep_id = $response->json()['data']['id'];
 
         $acars = factory(App\Models\Acars::class)->make();
         $post_log = [
@@ -364,7 +365,7 @@ class AcarsTest extends TestCase
 
         $uri = '/api/pireps/prefile';
         $response = $this->post($uri, $pirep);
-        $pirep_id = $response->json()['id'];
+        $pirep_id = $response->json()['data']['id'];
 
         $order = 1;
         $post_route = [];

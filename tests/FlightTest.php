@@ -42,7 +42,7 @@ class FlightTest extends TestCase
         $req = $this->get('/api/flights/' . $flight->id);
         $req->assertStatus(200);
 
-        $body = $req->json();
+        $body = $req->json()['data'];
         $this->assertEquals($flight->id, $body['id']);
         $this->assertEquals($flight->dpt_airport_id, $body['dpt_airport_id']);
         $this->assertEquals($flight->arr_airport_id, $body['arr_airport_id']);

@@ -249,7 +249,6 @@ const phpvms = (function() {
         const onFlightClick = (feature, layer) => {
 
             const uri = opts.pirep_uri.replace('{id}', feature.properties.pirep_id);
-            console.log('flight check uri', uri);
 
             const flight_route = $.ajax({
                 url: uri,
@@ -326,8 +325,6 @@ const phpvms = (function() {
                 if (layerSelFlight !== null) {
                     onFlightClick(layerSelFlightFeature, layerSelFlightLayer);
                 }
-                //map.fitBounds(layerFlights.getBounds());
-                //map.fitBounds('39.8283° N, 98.5795° W', 40);
             });
         };
 

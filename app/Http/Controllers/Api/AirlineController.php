@@ -35,7 +35,6 @@ class AirlineController extends RestController
     public function get($id)
     {
         $id = strtoupper($id);
-        AirlineResource::withoutWrapping();
         return new AirlineResource($this->airlineRepo->find($id));
     }
 }

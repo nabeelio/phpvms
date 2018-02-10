@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Resources\FlightCollection;
 use App\Repositories\Criteria\WhereCriteria;
 use App\Services\FlightService;
 use Auth;
@@ -33,6 +34,8 @@ class FlightController extends RestController
 
     /**
      * Return all the flights, paginated
+     * @param Request $request
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index(Request $request)
     {
@@ -63,7 +66,6 @@ class FlightController extends RestController
         $flight = $this->flightRepo->find($id);
         $this->flightSvc->filterSubfleets(Auth::user(), $flight);
 
-        FlightResource::withoutWrapping();
         return new FlightResource($flight);
     }
 

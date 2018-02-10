@@ -79,7 +79,6 @@ class PirepController extends RestController
      */
     public function get($id)
     {
-        PirepResource::withoutWrapping();
         return new PirepResource($this->pirepRepo->find($id));
     }
 
@@ -138,7 +137,6 @@ class PirepController extends RestController
 
         $this->updateFields($pirep, $request);
 
-        PirepResource::withoutWrapping();
         return new PirepResource($pirep);
     }
 
@@ -166,7 +164,6 @@ class PirepController extends RestController
         $pirep = $this->pirepRepo->update($attrs, $id);
         $this->updateFields($pirep, $request);
 
-        PirepResource::withoutWrapping();
         return new PirepResource($pirep);
     }
 
@@ -208,7 +205,6 @@ class PirepController extends RestController
             $this->pirepSvc->saveRoute($pirep);
         }
 
-        PirepResource::withoutWrapping();
         return new PirepResource($pirep);
     }
 
@@ -227,7 +223,6 @@ class PirepController extends RestController
             'state' => PirepState::CANCELLED,
         ], $id);
 
-        PirepResource::withoutWrapping();
         return new PirepResource($pirep);
     }
 
@@ -248,16 +243,15 @@ class PirepController extends RestController
     }
 
     /**
-     * Return the GeoJSON for the ACARS line
+     * Return the routes for the ACARS line
      * @param $id
      * @param Request $request
      * @return AcarsRouteResource
      */
     public function acars_get($id, Request $request)
     {
-        $pirep = $this->pirepRepo->find($id);
+        $this->pirepRepo->find($id);
 
-        AcarsRouteResource::withoutWrapping();
         return new AcarsRouteResource(Acars::where([
             'pirep_id' => $id,
             'type' => AcarsType::FLIGHT_PATH

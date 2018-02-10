@@ -37,7 +37,6 @@ class UserController extends RestController
      */
     public function index(Request $request)
     {
-        UserResource::withoutWrapping();
         return new UserResource(Auth::user());
     }
 
@@ -46,7 +45,6 @@ class UserController extends RestController
      */
     public function get($id)
     {
-        UserResource::withoutWrapping();
         return new UserResource($this->userRepo->find($id));
     }
 
@@ -79,7 +77,6 @@ class UserController extends RestController
         $user = $this->userRepo->find($id);
         $subfleets = $this->userSvc->getAllowableSubfleets($user);
 
-        SubfleetResource::withoutWrapping();
         return SubfleetResource::collection($subfleets);
     }
 

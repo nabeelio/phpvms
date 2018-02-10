@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use Log;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
@@ -58,7 +59,6 @@ class AirportController extends RestController
     public function get($id)
     {
         $id = strtoupper($id);
-        AirportResource::withoutWrapping();
         return new AirportResource($this->airportRepo->find($id));
     }
 
@@ -73,7 +73,12 @@ class AirportController extends RestController
             config('cache.keys.AIRPORT_VACENTRAL_LOOKUP.key') . $id,
             config('cache.keys.RANKS_PILOT_LIST.time'),
             function () use ($id) {
-                return AirportLookup::get($id);
+                try {
+                    return AirportLookup::get($id);
+                } catch (\VaCentral\HttpException $e) {
+                    Log::error($e);
+                    return [];
+                }
             }
         );
 

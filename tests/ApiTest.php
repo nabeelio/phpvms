@@ -36,16 +36,17 @@ class ApiTest extends TestCase
 
         // Test upper/lower case of Authorization header, etc
         $response = $this->get($uri, $this->headers($user));
-        $response->assertStatus(200)->assertJson(['id' => $user->id], true);
+        $body = $response->json();
+        $response->assertStatus(200)->assertJson(['data' => ['id' => $user->id]]);
 
         $this->withHeaders(['x-api-key' => $user->api_key])->get($uri)
-            ->assertJson(['id' => $user->id], true);
+            ->assertJson(['data' => ['id' => $user->id]]);
 
         $this->withHeaders(['x-API-key' => $user->api_key])->get($uri)
-            ->assertJson(['id' => $user->id], true);
+            ->assertJson(['data' => ['id' => $user->id]]);
 
         $this->withHeaders(['X-API-KEY' => $user->api_key])->get($uri)
-            ->assertJson(['id' => $user->id], true);
+            ->assertJson(['data' => ['id' => $user->id]]);
     }
 
     /**
@@ -79,7 +80,8 @@ class ApiTest extends TestCase
         $this->assertCount($size, $body['data']);
 
         $airline = $airlines->random();
-        $this->get('/api/airlines/'.$airline->id)->assertJson(['name' => $airline->name]);
+        $this->get('/api/airlines/'.$airline->id)
+             ->assertJson(['data' => ['name' => $airline->name]]);
     }
 
     /**
@@ -93,7 +95,7 @@ class ApiTest extends TestCase
         $response = $this->get('/api/airports/' . $airport->icao);
 
         $response->assertStatus(200);
-        $response->assertJson(['icao' => $airport->icao], true);
+        $response->assertJson(['data' => ['icao' => $airport->icao]]);
 
         $this->get('/api/airports/UNK')->assertStatus(404);
     }
@@ -158,9 +160,9 @@ class ApiTest extends TestCase
 
         $response = $this->get('/api/fleet');
         $response->assertStatus(200);
-        $body = $response->json();
+        $body = $response->json()['data'];
 
-        foreach($body['data'] as $subfleet) {
+        foreach($body as $subfleet) {
             if($subfleet['id'] === $subfleetA->id) {
                 $size = $subfleetA_size;
             } else {
@@ -195,19 +197,19 @@ class ApiTest extends TestCase
          * Just try retrieving by ID
          */
         $resp = $this->get('/api/fleet/aircraft/' . $aircraft->id);
-        $body = $resp->json();
+        $body = $resp->json()['data'];
         $this->assertEquals($body['id'], $aircraft->id);
 
         $resp = $this->get('/api/fleet/aircraft/' . $aircraft->id . '?registration=' . $aircraft->registration);
-        $body = $resp->json();
+        $body = $resp->json()['data'];
         $this->assertEquals($body['id'], $aircraft->id);
 
         $resp = $this->get('/api/fleet/aircraft/' . $aircraft->id . '?tail_number=' . $aircraft->registration);
-        $body = $resp->json();
+        $body = $resp->json()['data'];
         $this->assertEquals($body['id'], $aircraft->id);
 
         $resp = $this->get('/api/fleet/aircraft/' . $aircraft->id . '?icao=' . $aircraft->icao);
-        $body = $resp->json();
+        $body = $resp->json()['data'];
         $this->assertEquals($body['id'], $aircraft->id);
     }
 
