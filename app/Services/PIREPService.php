@@ -84,6 +84,7 @@ class PIREPService extends BaseService
 
         try {
             $found_pireps = Pirep::where($where)
+                            ->where('state', '!=', PirepState::CANCELLED)
                             ->where('created_at', '>=', $time_limit)
                             ->get();
 
