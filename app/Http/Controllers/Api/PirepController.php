@@ -402,8 +402,7 @@ class PirepController extends RestController
     {
         $this->pirepRepo->find($id);
 
-        AcarsRouteResource::withoutWrapping();
-        return new AcarsRouteResource(Acars::where([
+        return AcarsRouteResource::collection(Acars::where([
             'pirep_id' => $id,
             'type' => AcarsType::ROUTE
         ])->orderBy('order', 'asc')->get());
@@ -440,6 +439,7 @@ class PirepController extends RestController
      * @param $id
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
     public function route_delete($id, Request $request)
     {
