@@ -8,7 +8,7 @@ namespace App\Models\Enums;
  */
 class AnalyticsDimensions
 {
-    const PHP_VERSION = 1;
-    const DATABASE_VERSION = 2;
-    const PHPVMS_VERSION = 3;
+    public const PHP_VERSION = 1;
+    public const DATABASE_VERSION = 2;
+    public const PHPVMS_VERSION = 3;
 }

@@ -5,12 +5,12 @@ namespace App\Models\Enums;
 
 class PirepState extends EnumBase {
 
-    const REJECTED      = -1;
-    const IN_PROGRESS   = 0;
-    const PENDING       = 1;
-    const ACCEPTED      = 2;
-    const CANCELLED     = 3;
-    const DELETED       = 4;
+    public const REJECTED      = -1;
+    public const IN_PROGRESS   = 0;
+    public const PENDING       = 1;
+    public const ACCEPTED      = 2;
+    public const CANCELLED     = 3;
+    public const DELETED       = 4;
 
     protected static $labels = [
         PirepState::REJECTED      => 'system.pireps.state.rejected',

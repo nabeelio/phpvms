@@ -5,9 +5,9 @@ namespace App\Models\Enums;
 
 class FlightType extends EnumBase {
 
-    const PASSENGER   = 0;
-    const CARGO       = 1;
-    const CHARTER     = 2;
+    public const PASSENGER   = 0;
+    public const CARGO       = 1;
+    public const CHARTER     = 2;
 
     protected static $labels = [
         FlightType::PASSENGER    => 'Passenger',

@@ -8,9 +8,9 @@ namespace App\Models\Enums;
  */
 class AircraftState extends EnumBase
 {
-    const PARKED = 0;
-    const IN_USE = 1;
-    const IN_AIR = 2;
+    public const PARKED = 0;
+    public const IN_USE = 1;
+    public const IN_AIR = 2;
 
     public static $labels = [
         AircraftState::PARKED    => 'On Ground',
