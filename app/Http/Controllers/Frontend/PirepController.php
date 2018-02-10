@@ -94,10 +94,7 @@ class PirepController extends Controller
         $user = Auth::user();
 
         $where = [['user_id', $user->id]];
-
-        if(setting('pireps.hide_cancelled_pireps')) {
-            $where[] = ['state', '<>', PirepState::CANCELLED];
-        }
+        $where[] = ['state', '<>', PirepState::CANCELLED];
 
         $this->pirepRepo->pushCriteria(new WhereCriteria($request, $where));
         $pireps = $this->pirepRepo->orderBy('created_at', 'desc')->paginate();

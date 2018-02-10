@@ -136,13 +136,13 @@ class CreateSettingsTable extends Migration
             'description' => 'The time in minutes to check for a duplicate PIREP',
         ]);
 
-        $this->addSetting('pireps.hide_cancelled_pireps', [
+        /*$this->addSetting('pireps.hide_cancelled_pireps', [
             'name' => 'Hide Cancelled PIREPs',
             'group' => 'pireps',
             'value' => true,
             'type' => 'boolean',
             'description' => 'Hide any cancelled PIREPs in the front-end',
-        ]);
+        ]);*/
 
         $this->addSetting('pireps.restrict_aircraft_to_rank', [
             'name' => 'Restrict Aircraft to Ranks',

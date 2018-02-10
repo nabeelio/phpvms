@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Enums\PirepState;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laratrust\Traits\LaratrustUserTrait;
@@ -159,7 +160,8 @@ class User extends Authenticatable
 
     public function pireps()
     {
-        return $this->hasMany(Pirep::class, 'user_id');
+        return $this->hasMany(Pirep::class, 'user_id')
+                    ->where('state', '!=', PirepState::CANCELLED);
     }
 
     public function rank()
