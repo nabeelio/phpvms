@@ -30,7 +30,7 @@ class PrefileRequest extends FormRequest
             'route_leg'             => 'nullable',
             'distance'              => 'nullable|numeric',
             'flight_time'           => 'nullable|integer',
-            'planned_distance'      => 'nulled|numeric',
+            'planned_distance'      => 'nullable|numeric',
             'planned_flight_time'   => 'nullable|integer',
             'zfw'                   => 'nullable|numeric',
             'block_fuel'            => 'nullable|numeric',
