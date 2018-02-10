@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\Acars\EventRequest;
 use App\Http\Requests\Acars\UpdateRequest;
+use App\Models\Enums\PirepSource;
 use Auth;
 use Log;
 use Illuminate\Http\Request;
@@ -118,6 +119,7 @@ class PirepController extends RestController
 
         $attrs = $request->post();
         $attrs['user_id'] = Auth::id();
+        $attrs['source'] = PirepSource::ACARS;
         $attrs['state'] = PirepState::IN_PROGRESS;
         $attrs['status'] = PirepStatus::PREFILE;
 
