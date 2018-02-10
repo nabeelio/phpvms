@@ -177,6 +177,7 @@ class PirepController extends RestController
      * @return PirepResource
      * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @throws \Exception
      */
     public function file($id, FileRequest $request)
     {
@@ -196,6 +197,15 @@ class PirepController extends RestController
             $this->updateFields($pirep, $request);
         } catch (\Exception $e) {
             Log::error($e);
+        }
+
+        # See if there there is any route data posted
+        # If there isn't, then just write the route data from the
+        # route that's been posted from the PIREP
+        $w = ['pirep_id' => $pirep->id, 'type' => AcarsType::ROUTE];
+        $count = Acars::where($w)->count(['id']);
+        if($count === 0) {
+            $this->pirepSvc->saveRoute($pirep);
         }
 
         PirepResource::withoutWrapping();

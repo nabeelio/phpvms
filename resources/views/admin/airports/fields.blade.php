@@ -55,7 +55,7 @@
 
         <div class="form-group col-sm-6">
             {!! Form::label('timezone', 'Timezone:') !!}
-            {!! Form::select('timezone', $timezones, null, ['class' => 'select2']); !!}
+            {!! Form::select('timezone', $timezones, null, ['id' => 'timezone', 'class' => 'select2']); !!}
             <p class="text-danger">{{ $errors->first('timezone') }}</p>
         </div>
     </div>

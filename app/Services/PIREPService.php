@@ -102,6 +102,7 @@ class PIREPService extends BaseService
      * Save the route into the ACARS table with AcarsType::ROUTE
      * @param Pirep $pirep
      * @return Pirep
+     * @throws \Exception
      */
     public function saveRoute(Pirep $pirep): Pirep
     {
@@ -111,13 +112,13 @@ class PIREPService extends BaseService
             'type' => AcarsType::ROUTE,
         ])->delete();
 
-        # Delete the route
-        if (empty($pirep->route)) {
+        # See if a route exists
+        if (!filled($pirep->route)) {
             return $pirep;
         }
 
-        if(!$pirep->dpt_airport) {
-            Log::error('saveRoute: dpt_airport not found: '.$pirep->dpt_airport_id);
+        if (!filled($pirep->dpt_airport)) {
+            Log::error('saveRoute: dpt_airport not found: ' . $pirep->dpt_airport_id);
             return $pirep;
         }
 

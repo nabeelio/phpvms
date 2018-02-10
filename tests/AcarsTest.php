@@ -189,7 +189,7 @@ class AcarsTest extends TestCase
         # File the PIREP now
         $uri = '/api/pireps/'.$pirep_id.'/file';
         $response = $this->post($uri, []);
-        $response->assertStatus(400); // missing the flight time
+        $response->assertStatus(400); // missing field
 
         $response = $this->post($uri, ['flight_time' => '1:30']);
         $response->assertStatus(400); // invalid flight time
