@@ -27,7 +27,11 @@
                 </div>
                 <div class="content content-center">
                     <div class="social-description text-center text-white">
-                        <h2 class="description text-white">{!! $user->home_airport->icao !!}</h2>
+                        <h2 class="description text-white">
+                            @if(filled($user->home_airport))
+                            {!! $user->home_airport->icao !!}
+                            @endif
+                        </h2>
                     </div>
                 </div>
                 <div class="footer text-center">
