@@ -1,12 +1,13 @@
 <?php
 
 namespace App\Support\Units;
+use Illuminate\Contracts\Support\Arrayable;
 
 /**
  * Class Velocity
  * @package App\Support\Units
  */
-class Velocity extends \PhpUnitsOfMeasure\PhysicalQuantity\Velocity
+class Velocity extends \PhpUnitsOfMeasure\PhysicalQuantity\Velocity implements Arrayable
 {
     /**
      * The unit that this is stored as
@@ -26,11 +27,19 @@ class Velocity extends \PhpUnitsOfMeasure\PhysicalQuantity\Velocity
     /**
      * For the HTTP Resource call
      */
-    public function toJson()
+    public function toObject()
     {
         return [
             'knot' => round($this->toUnit('knot'), 2),
             'km/h' => round($this->toUnit('km/h'), 2),
         ];
+    }
+
+    /**
+     * Get the instance as an array.
+     */
+    public function toArray()
+    {
+        return round($this->toUnit(self::STORAGE_UNIT), 2);
     }
 }

@@ -1,12 +1,13 @@
 <?php
 
 namespace App\Support\Units;
+use Illuminate\Contracts\Support\Arrayable;
 
 /**
  * Class Time
  * @package App\Support\Units
  */
-class Time
+class Time implements Arrayable
 {
     public $hours,
            $minutes;
@@ -44,7 +45,7 @@ class Time
      */
     public function asInt()
     {
-        return $this->getTotalMinutes();
+        return $this->getMinutes();
     }
 
     /**
@@ -54,5 +55,21 @@ class Time
     public function __toString()
     {
         return $this->hours . 'h ' . $this->minutes . 'm';
+    }
+
+    /**
+     * @return float|int
+     */
+    public function toObject()
+    {
+        return $this->getMinutes();
+    }
+
+    /**
+     * Get the instance as an array.
+     */
+    public function toArray()
+    {
+        return $this->getMinutes();
     }
 }

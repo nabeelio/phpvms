@@ -110,12 +110,25 @@ class Pirep extends BaseModel
     public function getDistanceAttribute()
     {
         try {
-            $distance = (float)$this->attributes['distance'];
+            $distance = (float) $this->attributes['distance'];
             return new Distance($distance, 'mi');
         } catch (NonNumericValue $e) {
             return 0;
         } catch (NonStringUnitName $e) {
             return 0;
+        }
+    }
+
+    /**
+     * Set the distance unit, convert to our internal default unit
+     * @param $value
+     */
+    public function setDistanceAttribute($value): void
+    {
+        if ($value instanceof Distance) {
+            $this->attributes['distance'] = $value->toUnit(Distance::STORAGE_UNIT);
+        } else {
+            $this->attributes['distance'] = $value;
         }
     }
 
@@ -132,6 +145,19 @@ class Pirep extends BaseModel
             return 0;
         } catch (NonStringUnitName $e) {
             return 0;
+        }
+    }
+
+    /**
+     * Set the distance unit, convert to our internal default unit
+     * @param $value
+     */
+    public function setPlannedDistanceAttribute($value)
+    {
+        if ($value instanceof Distance) {
+            $this->attributes['distance'] = $value->toUnit(Distance::STORAGE_UNIT);
+        } else {
+            $this->attributes['distance'] = $value;
         }
     }
 
