@@ -111,7 +111,7 @@ class Pirep extends BaseModel
     {
         try {
             $distance = (float) $this->attributes['distance'];
-            return new Distance($distance, 'mi');
+            return new Distance($distance, Distance::STORAGE_UNIT);
         } catch (NonNumericValue $e) {
             return 0;
         } catch (NonStringUnitName $e) {
@@ -140,7 +140,7 @@ class Pirep extends BaseModel
     {
         try {
             $distance = (float) $this->attributes['planned_distance'];
-            return new Distance($distance, 'mi');
+            return new Distance($distance, Distance::STORAGE_UNIT);
         } catch (NonNumericValue $e) {
             return 0;
         } catch (NonStringUnitName $e) {
