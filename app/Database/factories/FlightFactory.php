@@ -24,6 +24,7 @@ $factory->define(App\Models\Flight::class, function (Faker $faker) use ($airline
         'alt_airport_id' => function () {
             return factory(App\Models\Airport::class)->create()->id;
         },
+        'distance' => $faker->numberBetween(0, 3000),
         'route' => $faker->randomElement(['', $faker->text(5)]),
         'dpt_time' => $faker->time(),
         'arr_time' => $faker->time(),

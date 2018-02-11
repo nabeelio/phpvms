@@ -62,16 +62,16 @@ class CreateSettingsTable extends Migration
         $this->addSetting('general.distance_unit', [
             'name' => 'Distance Units',
             'group' => 'general',
-            'value' => 'nm',
+            'value' => 'NM',
             'type' => 'select',
-            'options' => 'km,mi,nm',
+            'options' => 'km,mi,NM',
             'description' => 'The distance unit to show',
         ]);
 
         $this->addSetting('general.weight_unit', [
             'name' => 'Weight Units',
             'group' => 'general',
-            'value' => 'kg',
+            'value' => 'lbs',
             'type' => 'select',
             'options' => 'lbs, kg',
             'description' => 'The weight unit',
@@ -80,9 +80,9 @@ class CreateSettingsTable extends Migration
         $this->addSetting('general.speed_unit', [
             'name' => 'Speed Units',
             'group' => 'general',
-            'value' => 'Km/H',
+            'value' => 'knot',
             'type' => 'select',
-            'options' => 'Km/H,kts',
+            'options' => 'km/h,knot',
             'description' => 'The speed unit',
         ]);
 
@@ -98,9 +98,9 @@ class CreateSettingsTable extends Migration
         $this->addSetting('general.liquid_unit', [
             'name' => 'Liquid Units',
             'group' => 'general',
-            'value' => 'lbs',
+            'value' => 'gal',
             'type' => 'select',
-            'options' => 'liters,gal,kg,lbs',
+            'options' => 'liters,gal',
             'description' => 'The liquid units',
         ]);
 

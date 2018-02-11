@@ -5,6 +5,10 @@ namespace App\Models;
 use App\Models\Enums\AcarsType;
 use App\Models\Enums\PirepState;
 use App\Models\Traits\HashId;
+use App\Support\Units\Distance;
+
+use PhpUnitsOfMeasure\Exception\NonNumericValue;
+use PhpUnitsOfMeasure\Exception\NonStringUnitName;
 
 /**
  * Class Pirep
@@ -97,6 +101,38 @@ class Pirep extends BaseModel
         }
 
         return $flight_id;
+    }
+
+    /**
+     * Return a new Length unit so conversions can be made
+     * @return int|Distance
+     */
+    public function getDistanceAttribute()
+    {
+        try {
+            $distance = (float)$this->attributes['distance'];
+            return new Distance($distance, 'mi');
+        } catch (NonNumericValue $e) {
+            return 0;
+        } catch (NonStringUnitName $e) {
+            return 0;
+        }
+    }
+
+    /**
+     * Return the planned_distance in a converter class
+     * @return int|Distance
+     */
+    public function getPlannedDistanceAttribute()
+    {
+        try {
+            $distance = (float) $this->attributes['planned_distance'];
+            return new Distance($distance, 'mi');
+        } catch (NonNumericValue $e) {
+            return 0;
+        } catch (NonStringUnitName $e) {
+            return 0;
+        }
     }
 
     /**

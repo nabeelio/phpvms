@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "d8de3ca80d581f2d485e43235f9eb68e",
+    "content-hash": "c678f57dcf9193fd06b7334ee2cbfaac",
     "packages": [
         {
             "name": "arrilot/laravel-widgets",
@@ -2104,6 +2104,57 @@
             "time": "2016-01-26T13:27:02+00:00"
         },
         {
+            "name": "php-units-of-measure/php-units-of-measure",
+            "version": "v2.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/PhpUnitsOfMeasure/php-units-of-measure.git",
+                "reference": "25f476e9c50e11af8cf044d22ffc271c96aa5248"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/PhpUnitsOfMeasure/php-units-of-measure/zipball/25f476e9c50e11af8cf044d22ffc271c96aa5248",
+                "reference": "25f476e9c50e11af8cf044d22ffc271c96aa5248",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "replace": {
+                "triplepoint/php-units-of-measure": "*"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.8.*",
+                "squizlabs/php_codesniffer": "2.2.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "PhpUnitsOfMeasure\\": "source/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jonathan Hanson",
+                    "email": "jonathan@jonathan-hanson.org",
+                    "homepage": "http://www.jonathan-hanson.org/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A PHP library for converting between standard units of measure.",
+            "homepage": "https://github.com/PhpUnitsOfMeasure/php-units-of-measure",
+            "keywords": [
+                "conversion",
+                "data",
+                "measurements"
+            ],
+            "time": "2016-07-24T22:36:00+00:00"
+        },
+        {
             "name": "phpseclib/phpseclib",
             "version": "2.0.9",
             "source": {
@@ -2197,27 +2248,27 @@
         },
         {
             "name": "pragmarx/version",
-            "version": "v0.2.4",
+            "version": "v0.2.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/antonioribeiro/version.git",
-                "reference": "380efdee0e0ef6c2f864d23b5df09fdd34690390"
+                "reference": "ed34e37904067bdb15857d3f2bcc11683f37eb84"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/antonioribeiro/version/zipball/380efdee0e0ef6c2f864d23b5df09fdd34690390",
-                "reference": "380efdee0e0ef6c2f864d23b5df09fdd34690390",
+                "url": "https://api.github.com/repos/antonioribeiro/version/zipball/ed34e37904067bdb15857d3f2bcc11683f37eb84",
+                "reference": "ed34e37904067bdb15857d3f2bcc11683f37eb84",
                 "shasum": ""
             },
             "require": {
-                "laravel/framework": "5.5.*",
+                "laravel/framework": ">=5.5.33",
                 "php": "^7.0",
                 "pragmarx/yaml": "^0.1",
-                "symfony/process": "^3.3"
+                "symfony/process": "^3.3|^4.0"
             },
             "require-dev": {
-                "orchestra/testbench": "^3.5",
-                "phpunit/phpunit": "^6.4"
+                "orchestra/testbench": "^3.5|^3.6",
+                "phpunit/phpunit": "^6.4|^7.0"
             },
             "type": "library",
             "extra": {
@@ -2254,30 +2305,30 @@
                 "version",
                 "versioning"
             ],
-            "time": "2018-01-09T14:51:48+00:00"
+            "time": "2018-02-10T17:40:28+00:00"
         },
         {
             "name": "pragmarx/yaml",
-            "version": "v0.1.5",
+            "version": "v0.1.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/antonioribeiro/yaml.git",
-                "reference": "cc27a84e8d9760d82014596ef155c34c816c4ea5"
+                "reference": "c07aef85a0b5ee1fb9f545f974210fd6cfdd63f0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/antonioribeiro/yaml/zipball/cc27a84e8d9760d82014596ef155c34c816c4ea5",
-                "reference": "cc27a84e8d9760d82014596ef155c34c816c4ea5",
+                "url": "https://api.github.com/repos/antonioribeiro/yaml/zipball/c07aef85a0b5ee1fb9f545f974210fd6cfdd63f0",
+                "reference": "c07aef85a0b5ee1fb9f545f974210fd6cfdd63f0",
                 "shasum": ""
             },
             "require": {
-                "laravel/framework": "^5.5",
+                "laravel/framework": ">=5.5.33",
                 "php": "^7.0",
-                "symfony/yaml": "^3.3"
+                "symfony/yaml": "^3.3|^4.0"
             },
             "require-dev": {
-                "orchestra/testbench": "^3.5",
-                "phpunit/phpunit": "^6.4"
+                "orchestra/testbench": "3.5|^3.6",
+                "phpunit/phpunit": "^6.4|^4.0"
             },
             "type": "library",
             "extra": {
@@ -2314,7 +2365,7 @@
                 "laravel",
                 "yaml"
             ],
-            "time": "2017-12-19T02:25:46+00:00"
+            "time": "2018-02-10T17:38:21+00:00"
         },
         {
             "name": "prettus/l5-repository",
@@ -4145,20 +4196,20 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v3.4.4",
+            "version": "v4.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "eab73b6c21d27ae4cd037c417618dfd4befb0bfe"
+                "reference": "ffc60bda1d4a00ec0b32eeabf39dc017bf480028"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/eab73b6c21d27ae4cd037c417618dfd4befb0bfe",
-                "reference": "eab73b6c21d27ae4cd037c417618dfd4befb0bfe",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/ffc60bda1d4a00ec0b32eeabf39dc017bf480028",
+                "reference": "ffc60bda1d4a00ec0b32eeabf39dc017bf480028",
                 "shasum": ""
             },
             "require": {
-                "php": "^5.5.9|>=7.0.8"
+                "php": "^7.1.3"
             },
             "conflict": {
                 "symfony/console": "<3.4"
@@ -4172,7 +4223,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.4-dev"
+                    "dev-master": "4.0-dev"
                 }
             },
             "autoload": {
@@ -4199,7 +4250,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
-            "time": "2018-01-21T19:05:02+00:00"
+            "time": "2018-01-21T19:06:11+00:00"
         },
         {
             "name": "theiconic/php-ga-measurement-protocol",

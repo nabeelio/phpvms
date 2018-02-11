@@ -2,6 +2,10 @@
 
 namespace App\Models;
 
+use App\Support\Units\Distance;
+use PhpUnitsOfMeasure\Exception\NonNumericValue;
+use PhpUnitsOfMeasure\Exception\NonStringUnitName;
+
 use App\Models\Traits\HashId;
 
 class Flight extends BaseModel
@@ -58,9 +62,44 @@ class Flight extends BaseModel
         $flight_id = $this->airline->code;
         $flight_id .= $this->flight_number;
 
-        # TODO: Add in code/leg if set
+        if (filled($this->route_code)) {
+            $flight_id .= '/C' . $this->route_code;
+        }
+
+        if (filled($this->route_leg)) {
+            $flight_id .= '/L' . $this->route_leg;
+        }
 
         return $flight_id;
+    }
+
+    /**
+     * Return a new Length unit so conversions can be made
+     * @return int|Distance
+     */
+    public function getDistanceAttribute()
+    {
+        try {
+            $distance = (float) $this->attributes['distance'];
+            return new Distance($distance, Distance::STORAGE_UNIT);
+        } catch (NonNumericValue $e) {
+            return 0;
+        } catch (NonStringUnitName $e) {
+            return 0;
+        }
+    }
+
+    /**
+     * Set the distance unit, convert to our internal default unit
+     * @param $value
+     */
+    public function setDistanceAttribute($value)
+    {
+        if($value instanceof Distance) {
+            $this->attributes['distance'] = $value->toUnit(Distance::STORAGE_UNIT);
+        } else {
+            $this->attributes['distance'] = $value;
+        }
     }
 
     /**

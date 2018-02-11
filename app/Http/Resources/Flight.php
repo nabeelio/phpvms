@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Support\Units\Distance;
 use Illuminate\Http\Resources\Json\Resource;
 
 class Flight extends Resource
@@ -10,7 +11,11 @@ class Flight extends Resource
     {
         $flight = parent::toArray($request);
 
-        $flight['field'] = true;
+        // Return multiple measures so the client can pick what they want
+        if($flight['distance'] instanceof Distance) {
+            $flight['distance'] = $flight['distance']->toJson();
+        }
+
         $flight['airline'] = new Airline($this->airline);
         $flight['subfleets'] = Subfleet::collection($this->subfleets);
 

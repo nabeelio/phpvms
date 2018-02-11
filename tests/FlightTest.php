@@ -47,6 +47,9 @@ class FlightTest extends TestCase
         $this->assertEquals($flight->dpt_airport_id, $body['dpt_airport_id']);
         $this->assertEquals($flight->arr_airport_id, $body['arr_airport_id']);
 
+        # Distance conversion
+        $this->assertHasKeys($body['distance'], ['mi', 'nmi', 'km']);
+
         $this->get('/api/flights/INVALID', self::$auth_headers)
             ->assertStatus(404);
     }
