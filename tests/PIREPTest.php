@@ -80,7 +80,7 @@ class PIREPTest extends TestCase
 
         # Also check via API:
         $this->get('/api/fleet/aircraft/' . $pirep->aircraft_id, [], $user)
-             ->assertJson(['airport_id' => $pirep->arr_airport_id]);
+             ->assertJson(['data' => ['airport_id' => $pirep->arr_airport_id]]);
 
         /**
          * Now go from ACCEPTED to REJECTED
@@ -209,7 +209,7 @@ class PIREPTest extends TestCase
 
         $uri = '/api/pireps/prefile';
         $response = $this->post($uri, $pirep);
-        $pirep_id = $response->json()['id'];
+        $pirep_id = $response->json()['data']['id'];
 
         $uri = '/api/pireps/' . $pirep_id . '/acars/position';
         $acars = factory(App\Models\Acars::class)->make()->toArray();

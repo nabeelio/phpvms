@@ -412,7 +412,7 @@ class PirepController extends RestController
      * Post the ROUTE for a PIREP, can be done from the ACARS log
      * @param $id
      * @param RouteRequest $request
-     * @return AcarsRouteResource
+     * @return \Illuminate\Http\JsonResponse
      * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
      */
     public function route_post($id, RouteRequest $request)
@@ -423,6 +423,7 @@ class PirepController extends RestController
 
         Log::info('Posting ROUTE, PIREP: '.$id, $request->post());
 
+        $count = 0;
         $route = $request->post('route', []);
         foreach($route as $position) {
             $position['pirep_id'] = $id;
@@ -430,9 +431,11 @@ class PirepController extends RestController
 
             $acars = Acars::create($position);
             $acars->save();
+
+            ++$count;
         }
 
-        return $this->route_get($id, $request);
+        return $this->message($count . ' points added', $count);
     }
 
     /**

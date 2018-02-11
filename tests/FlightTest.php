@@ -132,13 +132,13 @@ class FlightTest extends TestCase
         $req = $this->get('/api/user', $headers);
         $req->assertStatus(200);
 
-        $body = $req->json();
+        $body = $req->json()['data'];
         $this->assertEquals(1, sizeof($body['bids']));
         $this->assertEquals($flight->id, $body['bids'][0]['flight_id']);
 
         $req = $this->get('/api/users/'.$user->id.'/bids', $headers);
 
-        $body = $req->json();
+        $body = $req->json()['data'];
         $req->assertStatus(200);
         $this->assertEquals($flight->id, $body[0]['id']);
 
@@ -156,15 +156,15 @@ class FlightTest extends TestCase
         $req = $this->get('/api/user', $headers);
         $req->assertStatus(200);
 
-        $body = $req->json();
+        $body = $req->json()['data'];
         $this->assertEquals($user->id, $body['id']);
         $this->assertEquals(0, sizeof($body['bids']));
 
         $req = $this->get('/api/users/'.$user->id.'/bids', $headers);
         $req->assertStatus(200);
-        $body = $req->json();
+        $body = $req->json()['data'];
 
-        $this->assertEquals(0, sizeof($body));
+        $this->assertCount(0, $body);
     }
 
     /**
@@ -217,15 +217,15 @@ class FlightTest extends TestCase
         # And pull the flight details for the user/bids
         $req = $this->get('/api/user', $headers);
         $req->assertStatus(200);
-        $body = $req->json();
 
+        $body = $req->json()['data'];
         $this->assertEquals($user->id, $body['id']);
-        $this->assertEquals(0, sizeof($body['bids']));
+        $this->assertCount(0, $body['bids']);
 
         $req = $this->get('/api/users/'.$user->id.'/bids', $headers);
         $req->assertStatus(200);
 
-        $body = $req->json();
-        $this->assertEquals(0, sizeof($body));
+        $body = $req->json()['data'];
+        $this->assertCount(0, $body);
     }
 }

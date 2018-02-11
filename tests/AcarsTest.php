@@ -385,10 +385,7 @@ class AcarsTest extends TestCase
 
         $uri = '/api/pireps/'.$pirep_id.'/route';
         $response = $this->post($uri, ['route' => $post_route]);
-        $response->assertStatus(200)->assertJsonCount($route_count);
-
-        $body = $response->json();
-        $this->allPointsInRoute($post_route, $body);
+        $response->assertStatus(200)->assertJson(['count' => $route_count]);
 
         /**
          * Get
@@ -396,8 +393,9 @@ class AcarsTest extends TestCase
 
         $uri = '/api/pireps/' . $pirep_id . '/route';
         $response = $this->get($uri);
-        $response->assertStatus(200)->assertJsonCount($route_count);
-        $body = $response->json();
+        $response->assertStatus(200)->assertJsonCount($route_count, 'data');
+
+        $body = $response->json()['data'];
         $this->allPointsInRoute($post_route, $body);
 
         /**
@@ -409,7 +407,7 @@ class AcarsTest extends TestCase
 
         $uri = '/api/pireps/' . $pirep_id . '/route';
         $response = $this->get($uri);
-        $response->assertStatus(200)->assertJsonCount(0);
+        $response->assertStatus(200)->assertJsonCount(0, 'data');
     }
 
     /**
@@ -420,19 +418,22 @@ class AcarsTest extends TestCase
         $this->user = factory(App\Models\User::class)->create();
 
         $uri = '/api/pireps/prefile';
+
         $this->user = factory(App\Models\User::class)->create();
         $pirep = factory(App\Models\Pirep::class)->make([
-            'id' => '',
             'airline_id' => $this->user->airline_id,
             'user_id' => $this->user->id,
         ])->toArray();
 
         $response = $this->post($uri, $pirep);
         $response->assertStatus(201);
-        $pirep = $response->json();
+        $pirep_id = $response->json()['data']['id'];
 
+        # try readding
         $response = $this->post($uri, $pirep);
         $response->assertStatus(200);
-        $body = $response->json();
+        $dupe_pirep_id = $response->json()['data']['id'];
+
+        $this->assertEquals($pirep_id, $dupe_pirep_id);
     }
 }

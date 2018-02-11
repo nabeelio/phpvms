@@ -47,7 +47,7 @@ class UserTest extends TestCase
          * Check via API
          */
         $resp = $this->get('/api/user/fleet', [], $user)->assertStatus(200);
-        $body = $resp->json();
+        $body = $resp->json()['data'];
 
         # Get the subfleet that's been added in
         $subfleet_from_api = $body[0];
@@ -61,7 +61,7 @@ class UserTest extends TestCase
          * Check the user ID call
          */
         $resp = $this->get('/api/users/' . $user->id . '/fleet', [], $user)->assertStatus(200);
-        $body = $resp->json();
+        $body = $resp->json()['data'];
 
         # Get the subfleet that's been added in
         $subfleet_from_api = $body[0];
@@ -112,9 +112,9 @@ class UserTest extends TestCase
          * Check via API
          */
         $resp = $this->get('/api/user/fleet', [], $user)->assertStatus(200);
-        $body = $resp->json();
 
         # Get all the aircraft from that subfleet
+        $body = $resp->json()['data'];
         $aircraft_from_api = array_merge(
             collect($body[0]['aircraft'])->pluck('id')->toArray(),
             collect($body[1]['aircraft'])->pluck('id')->toArray()
@@ -168,9 +168,8 @@ class UserTest extends TestCase
         $this->settingsRepo->store('pireps.restrict_aircraft_to_rank', false);
 
         $response = $this->get('/api/flights/' . $flight->id, [], $user);
-        $body = $response->json();
         $response->assertStatus(200);
-        $this->assertCount(2, $response->json()['subfleets']);
+        $this->assertCount(2, $response->json()['data']['subfleets']);
 
         /*
          * Now make sure it's filtered out
@@ -182,22 +181,22 @@ class UserTest extends TestCase
          */
         $response = $this->get('/api/flights/' . $flight->id, [], $user);
         $response->assertStatus(200);
-        $this->assertCount(1, $response->json()['subfleets']);
+        $this->assertCount(1, $response->json()['data']['subfleets']);
 
         /**
          * Make sure it's filtered out from the flight list
          */
         $response = $this->get('/api/flights', [], $user);
-        $body = $response->json();
+        $body = $response->json()['data'];
         $response->assertStatus(200);
-        $this->assertCount(1, $body['data'][0]['subfleets']);
+        $this->assertCount(1, $body[0]['subfleets']);
 
         /**
          * Filtered from search?
          */
         $response = $this->get('/api/flights/search?flight_id=' . $flight->id, [], $user);
         $response->assertStatus(200);
-        $body = $response->json();
-        $this->assertCount(1, $body['data'][0]['subfleets']);
+        $body = $response->json()['data'];
+        $this->assertCount(1, $body[0]['subfleets']);
     }
 }
