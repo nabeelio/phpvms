@@ -9,9 +9,6 @@ class UtilsTest extends TestCase
 
     public function testSecondsToTimeParts()
     {
-        $t = new \PhpUnitsOfMeasure\PhysicalQuantity\Time(65, 'm');
-        echo $t->toUnit('hours');
-
         $t = Utils::secondsToTimeParts(3600);
         $this->assertEquals(['h' => 1, 'm' => 0, 's' => 0], $t);
 

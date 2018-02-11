@@ -109,6 +109,10 @@ class Pirep extends BaseModel
      */
     public function getDistanceAttribute()
     {
+        if(!array_key_exists('distance', $this->attributes)) {
+            return null;
+        }
+
         try {
             $distance = (float) $this->attributes['distance'];
             return new Distance($distance, Distance::STORAGE_UNIT);
@@ -138,6 +142,10 @@ class Pirep extends BaseModel
      */
     public function getPlannedDistanceAttribute()
     {
+        if (!array_key_exists('planned_distance', $this->attributes)) {
+            return null;
+        }
+
         try {
             $distance = (float) $this->attributes['planned_distance'];
             return new Distance($distance, Distance::STORAGE_UNIT);

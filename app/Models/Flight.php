@@ -79,6 +79,10 @@ class Flight extends BaseModel
      */
     public function getDistanceAttribute()
     {
+        if (!array_key_exists('distance', $this->attributes)) {
+            return null;
+        }
+
         try {
             $distance = (float) $this->attributes['distance'];
             return new Distance($distance, Distance::STORAGE_UNIT);
