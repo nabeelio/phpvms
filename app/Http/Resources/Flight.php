@@ -12,10 +12,8 @@ class Flight extends Resource
         $flight = parent::toArray($request);
 
         // Return multiple measures so the client can pick what they want
-        if(\in_array('distance', $flight, true)
-            && $flight['distance'] instanceof Distance)
-        {
-            $flight['distance'] = $flight['distance']->toObject();
+        if(filled($this->distance) && $this->distance instanceof Distance) {
+            $flight['distance'] = $this->distance->toObject();
         }
 
         $flight['airline'] = new Airline($this->airline);

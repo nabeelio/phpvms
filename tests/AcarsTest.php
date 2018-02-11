@@ -134,6 +134,8 @@ class AcarsTest extends TestCase
         $this->assertEquals('custom_field', $pirep['fields'][0]['name']);
         $this->assertEquals('custom_value', $pirep['fields'][0]['value']);
 
+        $this->assertHasKeys($pirep['distance'], ['mi', 'nmi', 'km']);
+
         /**
          * Update the custom field
          */

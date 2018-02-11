@@ -155,9 +155,9 @@ class Pirep extends BaseModel
     public function setPlannedDistanceAttribute($value)
     {
         if ($value instanceof Distance) {
-            $this->attributes['distance'] = $value->toUnit(Distance::STORAGE_UNIT);
+            $this->attributes['planned_distance'] = $value->toUnit(Distance::STORAGE_UNIT);
         } else {
-            $this->attributes['distance'] = $value;
+            $this->attributes['planned_distance'] = $value;
         }
     }
 

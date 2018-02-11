@@ -17,16 +17,12 @@ class Pirep extends Resource
     {
         $pirep = parent::toArray($request);
 
-        if (\in_array('distance', $pirep, true)
-            && $pirep['distance'] instanceof Distance)
-        {
-            $pirep['distance'] = $pirep['distance']->toObject();
+        if (filled($this->distance) && $this->distance instanceof Distance) {
+            $pirep['distance'] = $this->distance->toObject();
         }
 
-        if (\in_array('planned_distance', $pirep, true)
-            && $pirep['planned_distance'] instanceof Distance)
-        {
-            $pirep['planned_distance'] = $pirep['planned_distance']->toObject();
+        if (filled($this->planned_distance) && $this->planned_distance instanceof Distance) {
+            $pirep['planned_distance'] = $this->planned_distance->toObject();
         }
 
         $pirep['airline'] = new Airline($this->airline);
