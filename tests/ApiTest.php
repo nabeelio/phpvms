@@ -204,10 +204,6 @@ class ApiTest extends TestCase
         $body = $resp->json()['data'];
         $this->assertEquals($body['id'], $aircraft->id);
 
-        $resp = $this->get('/api/fleet/aircraft/' . $aircraft->id . '?tail_number=' . $aircraft->registration);
-        $body = $resp->json()['data'];
-        $this->assertEquals($body['id'], $aircraft->id);
-
         $resp = $this->get('/api/fleet/aircraft/' . $aircraft->id . '?icao=' . $aircraft->icao);
         $body = $resp->json()['data'];
         $this->assertEquals($body['id'], $aircraft->id);

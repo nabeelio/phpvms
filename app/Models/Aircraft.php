@@ -12,7 +12,6 @@ class Aircraft extends BaseModel
         'name',
         'icao',
         'registration',
-        'tail_number',
         'zfw',
         'active',
     ];
