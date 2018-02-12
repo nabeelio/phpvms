@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use DB;
+use Log;
 use PDO;
 
 use Irazasyed\LaravelGAMP\Facades\GAMP;
@@ -32,7 +33,11 @@ class AnalyticsService
             AnalyticsDimensions::DATABASE_VERSION
         );
 
-        $gamp->sendPageview();
+        try {
+            $gamp->sendPageview();
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+        }
     }
 
 }

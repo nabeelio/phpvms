@@ -34,7 +34,11 @@
                         <div style="float: left; position: absolute; display:block; top: 0px;font-size: 150px">
                             <i class="fa fa-location-arrow" style="opacity: .1;"></i>
                         </div>
-                        <h4 class="">{!! $user->current_airport->icao !!}</h4>
+                        @if($user->current_airport)
+                            <h4 class="">{!! $user->current_airport->icao !!}</h4>
+                        @else
+                            <h4 class="">-</h4>
+                        @endif
                         <h5 class="description" style="color: white;">current airport</h5>
                     </div>
                 </div>

@@ -29,7 +29,13 @@
                 @endif
             </td>
             <td class="text-center">{!! $user->airline->icao !!}</td>
-            <td class="text-center">{!! $user->curr_airport_id !!}</td>
+            <td class="text-center">
+                @if($user->current_airport)
+                    {!! $user->curr_airport_id !!}
+                @else
+                    -
+                @endif
+            </td>
             <td align="center">{!! $user->flights !!}</td>
             <td align="center">{!! \App\Facades\Utils::minutesToTimeString($user->flight_time) !!}</td>
         </tr>

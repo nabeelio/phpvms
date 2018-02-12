@@ -151,7 +151,7 @@ class UserService extends BaseService
 
         # If their current rank is one they were assigned, then
         # don't change away from it automatically.
-        if($user->rank->auto_promote === false) {
+        if($user->rank && $user->rank->auto_promote === false) {
             return $user;
         }
 
