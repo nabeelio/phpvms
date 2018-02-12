@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Support\Units\Distance;
+use App\Support\Units\Time;
 use PhpUnitsOfMeasure\Exception\NonNumericValue;
 use PhpUnitsOfMeasure\Exception\NonStringUnitName;
 
@@ -28,6 +29,7 @@ class Flight extends BaseModel
         'arr_time',
         'level',
         'distance',
+        'flight_time',
         'flight_type',
         'route',
         'notes',
@@ -39,6 +41,7 @@ class Flight extends BaseModel
         'flight_number' => 'integer',
         'level'         => 'integer',
         'distance'      => 'float',
+        'flight_time'   => 'integer',
         'flight_type'   => 'integer',
         'has_bid'       => 'boolean',
         'active'        => 'boolean',
@@ -105,6 +108,30 @@ class Flight extends BaseModel
             );
         } else {
             $this->attributes['distance'] = $value;
+        }
+    }
+
+    /**
+     * @return Time
+     */
+    public function getFlightTimeAttribute()
+    {
+        if (!array_key_exists('flight_time', $this->attributes)) {
+            return null;
+        }
+
+        return new Time($this->attributes['flight_time']);
+    }
+
+    /**
+     * @param $value
+     */
+    public function setFlightTimeAttribute($value)
+    {
+        if ($value instanceof Time) {
+            $this->attributes['flight_time'] = $value->getMinutes();
+        } else {
+            $this->attributes['flight_time'] = $value;
         }
     }
 

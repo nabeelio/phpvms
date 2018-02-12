@@ -20,8 +20,10 @@ class Time implements Arrayable
      */
     public function __construct($minutes, $hours=null)
     {
+        $minutes = (int) $minutes;
+
         if(!empty($hours)) {
-            $this->hours = $hours;
+            $this->hours = (int) $hours;
         } else {
             $this->hours = floor($minutes / 60);
         }

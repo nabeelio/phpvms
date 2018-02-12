@@ -31,8 +31,8 @@ class CreatePirepTables extends Migration
             $table->unsignedInteger('level')->nullable();
             $table->unsignedDecimal('distance')->nullable();
             $table->unsignedDecimal('planned_distance')->nullable();
-            $table->unsignedDecimal('flight_time', 19)->nullable();
-            $table->unsignedDecimal('planned_flight_time', 19)->nullable();
+            $table->unsignedInteger('flight_time')->nullable();
+            $table->unsignedInteger('planned_flight_time')->nullable();
             $table->unsignedDecimal('zfw', 19)->nullable();
             $table->unsignedDecimal('block_fuel', 19)->nullable();
             $table->unsignedDecimal('fuel_used', 19)->nullable();

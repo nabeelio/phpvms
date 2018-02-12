@@ -25,6 +25,10 @@ class Pirep extends Resource
             $pirep['planned_distance'] = $this->planned_distance->toObject();
         }
 
+        /*
+         * Relationship fields
+         */
+
         $pirep['airline'] = new Airline($this->airline);
         $pirep['dpt_airport'] = new Airport($this->dpt_airport);
         $pirep['arr_airport'] = new Airport($this->arr_airport);

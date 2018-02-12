@@ -7,6 +7,7 @@ use App\Models\Enums\PirepState;
 use App\Models\Traits\HashId;
 use App\Support\Units\Distance;
 
+use App\Support\Units\Time;
 use PhpUnitsOfMeasure\Exception\NonNumericValue;
 use PhpUnitsOfMeasure\Exception\NonStringUnitName;
 
@@ -138,6 +139,30 @@ class Pirep extends BaseModel
     }
 
     /**
+     * @return Time
+     */
+    public function getFlightTimeAttribute()
+    {
+        if (!array_key_exists('flight_time', $this->attributes)) {
+            return null;
+        }
+
+        return new Time($this->attributes['flight_time']);
+    }
+
+    /**
+     * @param $value
+     */
+    public function setFlightTimeAttribute($value)
+    {
+        if($value instanceof Time) {
+            $this->attributes['flight_time'] = $value->getMinutes();
+        } else {
+            $this->attributes['flight_time'] = $value;
+        }
+    }
+
+    /**
      * Return the planned_distance in a converter class
      * @return int|Distance
      */
@@ -169,6 +194,30 @@ class Pirep extends BaseModel
             );
         } else {
             $this->attributes['planned_distance'] = $value;
+        }
+    }
+
+    /**
+     * @return Time
+     */
+    public function getPlannedFlightTimeAttribute()
+    {
+        if (!array_key_exists('planned_flight_time', $this->attributes)) {
+            return null;
+        }
+
+        return new Time($this->attributes['planned_flight_time']);
+    }
+
+    /**
+     * @param $value
+     */
+    public function setPlannedFlightTimeAttribute($value)
+    {
+        if ($value instanceof Time) {
+            $this->attributes['planned_flight_time'] = $value->getMinutes();
+        } else {
+            $this->attributes['planned_flight_time'] = $value;
         }
     }
 

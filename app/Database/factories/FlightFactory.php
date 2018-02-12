@@ -28,7 +28,7 @@ $factory->define(App\Models\Flight::class, function (Faker $faker) use ($airline
         'route' => $faker->randomElement(['', $faker->text(5)]),
         'dpt_time' => $faker->time(),
         'arr_time' => $faker->time(),
-        'flight_time' => $faker->randomFloat(2),
+        'flight_time' => $faker->numberBetween(60, 360),
         'has_bid' => false,
         'active' => true,
         'created_at' => $faker->dateTimeBetween('-1 week', 'now'),
