@@ -21,7 +21,7 @@ class AirlineController extends RestController
     public function index(Request $request)
     {
         $airports = $this->airlineRepo
-            ->orderBy('name', 'asc')
+            ->whereOrder(['active' => true], 'name', 'asc')
             ->paginate(50);
 
         return AirlineResource::collection($airports);
