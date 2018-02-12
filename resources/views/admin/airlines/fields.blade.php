@@ -29,9 +29,15 @@
 </div>
 
 <div class="row">
-    <!-- Active Field -->
+    <div class="form-group col-sm-6">
+        {!! Form::label('country', 'Country:') !!} <br/>
+        {!! Form::select('country', $countries, null, ['class' => 'form-control select2' ]); !!}
+        <p class="text-danger">{{ $errors->first('country') }}</p>
+    </div>
+
     <div class="form-group col-sm-6">
         {!! Form::label('active', 'Active:') !!}
+        <br />
         <label class="checkbox-inline">
             {!! Form::hidden('active', 0, false) !!}
             {!! Form::checkbox('active', 1, null) !!}

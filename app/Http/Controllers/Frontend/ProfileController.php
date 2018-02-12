@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Support\Countries;
 use Log;
 use Hash;
 use Flash;
@@ -74,16 +75,11 @@ class ProfileController extends Controller
         $airlines = $this->airlineRepo->selectBoxList();
         $airports = $this->airportRepo->selectBoxList();
 
-        $countries = collect((new \League\ISO3166\ISO3166)->all())
-            ->mapWithKeys(function($item, $key) {
-                return [strtolower($item['alpha2']) => $item['name']];
-            });
-
         return $this->view('profile.edit', [
             'user'      => $user,
             'airlines'  => $airlines,
             'airports'  => $airports,
-            'countries' => $countries,
+            'countries' => Countries::getSelectList(),
             'timezones' => Timezonelist::toArray(),
         ]);
     }

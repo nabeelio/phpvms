@@ -2,6 +2,7 @@
 
 namespace Modules\Installer\Http\Controllers;
 
+use App\Support\Countries;
 use Log;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -226,7 +227,9 @@ class InstallerController extends Controller
      */
     public function step3(Request $request)
     {
-        return view('installer::install/steps/step3-user', []);
+        return view('installer::install/steps/step3-user', [
+            'countries' => Countries::getSelectList(),
+        ]);
     }
 
     /**
@@ -241,6 +244,7 @@ class InstallerController extends Controller
         $validator = Validator::make($request->all(), [
             'airline_name' => 'required',
             'airline_icao' => 'required|unique:airlines,icao',
+            'airline_country' => 'required',
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|confirmed'
@@ -259,6 +263,7 @@ class InstallerController extends Controller
         $attrs = [
             'icao' => $request->get('airline_icao'),
             'name' => $request->get('airline_name'),
+            'country' => $request->get('airline_country'),
         ];
 
         $airline = $this->airlineRepo->create($attrs);

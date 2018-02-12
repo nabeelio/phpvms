@@ -32,6 +32,16 @@
         </tr>
 
         <tr>
+            <td><p>Airline Country</p></td>
+            <td>
+                <div class="form-group">
+                    {!! Form::select('airline_country', $countries, null, ['class' => 'form-control select2' ]); !!}
+                    @include('installer::flash/check_error', ['field' => 'airline_country'])
+                </div>
+            </td>
+        </tr>
+
+        <tr>
             <td colspan="2"><h4>First User</h4></td>
         </tr>
 

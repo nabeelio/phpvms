@@ -1,7 +1,6 @@
 <table class="table table-hover table-responsive" id="airlines-table">
     <thead>
         <th>Code</th>
-        <th>IATA</th>
         <th>Name</th>
         <th class="text-center">Active</th>
         <th></th>
@@ -9,8 +8,13 @@
     <tbody>
     @foreach($airlines as $al)
         <tr>
-            <td>{!! $al->code !!}</td>
-            <td>{!! $al->iata !!}</td>
+            <td>
+                @if(filled($al->country))
+                    <span class="flag-icon flag-icon-{!! $al->country !!}"></span>
+                    &nbsp;
+                @endif
+                <a href="{!! route('admin.airlines.edit', [$al->id]) !!}">{!! $al->code !!}</a>
+            </td>
             <td>{!! $al->name !!}</td>
             <td class="text-center">
                 @if($al->active == 1)

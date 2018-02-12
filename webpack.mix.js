@@ -112,10 +112,21 @@ mix.styles([
  * INSTALLER VENDOR FILES
  */
 
+mix.styles([
+    'node_modules/select2/dist/css/select2.css',
+    'node_modules/flag-icon-css/css/flag-icon.css',
+], 'public/assets/system/css/installer.css')
+    .options({
+        processCssUrls: false,
+        compressed: true
+    })
+    .sourceMaps();
+
 mix.scripts([
     'node_modules/lodash/lodash.js',
     'node_modules/jquery/dist/jquery.js',
     'node_modules/pjax/pjax.js',
+    'node_modules/select2/dist/js/select2.js',
 ], 'public/assets/system/js/installer-vendor.js');
 
 

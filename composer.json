@@ -82,14 +82,12 @@
             "php artisan key:generate"
         ],
         "post-install-cmd": [
-            "Illuminate\\Foundation\\ComposerScripts::postInstall",
-            "php artisan phpvms:version --write > VERSION"
+            "Illuminate\\Foundation\\ComposerScripts::postInstall"
         ],
         "post-update-cmd": [
             "Illuminate\\Foundation\\ComposerScripts::postUpdate",
             "php artisan ide-helper:generate",
-            "php artisan ide-helper:meta",
-            "php artisan phpvms:version --write > VERSION"
+            "php artisan ide-helper:meta"
         ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
