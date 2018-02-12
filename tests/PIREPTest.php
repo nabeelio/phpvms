@@ -67,7 +67,7 @@ class PIREPTest extends TestCase
          * Now set the PIREP state to ACCEPTED
          */
         $new_pirep_count = $pirep->pilot->flights + 1;
-        $original_flight_time = $pirep->pilot->flight_time ;
+        $original_flight_time = $pirep->pilot->flight_time;
         $new_flight_time = $pirep->pilot->flight_time + $pirep->flight_time;
 
         $this->pirepSvc->changeState($pirep, PirepState::ACCEPTED);
