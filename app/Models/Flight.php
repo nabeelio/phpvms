@@ -85,7 +85,7 @@ class Flight extends BaseModel
 
         try {
             $distance = (float) $this->attributes['distance'];
-            return new Distance($distance, Distance::STORAGE_UNIT);
+            return new Distance($distance, config('phpvms.internal_units.distance'));
         } catch (NonNumericValue $e) {
             return 0;
         } catch (NonStringUnitName $e) {
@@ -100,7 +100,9 @@ class Flight extends BaseModel
     public function setDistanceAttribute($value)
     {
         if($value instanceof Distance) {
-            $this->attributes['distance'] = $value->toUnit(Distance::STORAGE_UNIT);
+            $this->attributes['distance'] = $value->toUnit(
+                config('phpvms.internal_units.distance')
+            );
         } else {
             $this->attributes['distance'] = $value;
         }

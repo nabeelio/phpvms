@@ -10,11 +10,6 @@ use Illuminate\Contracts\Support\Arrayable;
 class Distance extends \PhpUnitsOfMeasure\PhysicalQuantity\Length implements Arrayable
 {
     /**
-     * The unit that this is stored as
-     */
-    public const STORAGE_UNIT = 'nmi';
-
-    /**
      * @return string
      */
     public function __toString()
@@ -41,6 +36,8 @@ class Distance extends \PhpUnitsOfMeasure\PhysicalQuantity\Length implements Arr
      */
     public function toArray()
     {
-        return round($this->toUnit(self::STORAGE_UNIT), 2);
+        return round($this->toUnit(
+            config('phpvms.internal_units.distance')
+        ), 2);
     }
 }

@@ -115,7 +115,7 @@ class Pirep extends BaseModel
 
         try {
             $distance = (float) $this->attributes['distance'];
-            return new Distance($distance, Distance::STORAGE_UNIT);
+            return new Distance($distance, config('phpvms.internal_units.distance'));
         } catch (NonNumericValue $e) {
             return 0;
         } catch (NonStringUnitName $e) {
@@ -130,7 +130,8 @@ class Pirep extends BaseModel
     public function setDistanceAttribute($value): void
     {
         if ($value instanceof Distance) {
-            $this->attributes['distance'] = $value->toUnit(Distance::STORAGE_UNIT);
+            $this->attributes['distance'] = $value->toUnit(
+                config('phpvms.internal_units.distance'));
         } else {
             $this->attributes['distance'] = $value;
         }
@@ -148,7 +149,7 @@ class Pirep extends BaseModel
 
         try {
             $distance = (float) $this->attributes['planned_distance'];
-            return new Distance($distance, Distance::STORAGE_UNIT);
+            return new Distance($distance, config('phpvms.internal_units.distance'));
         } catch (NonNumericValue $e) {
             return 0;
         } catch (NonStringUnitName $e) {
@@ -163,7 +164,9 @@ class Pirep extends BaseModel
     public function setPlannedDistanceAttribute($value)
     {
         if ($value instanceof Distance) {
-            $this->attributes['planned_distance'] = $value->toUnit(Distance::STORAGE_UNIT);
+            $this->attributes['planned_distance'] = $value->toUnit(
+                config('phpvms.internal_units.distance')
+            );
         } else {
             $this->attributes['planned_distance'] = $value;
         }

@@ -10,11 +10,6 @@ use Illuminate\Contracts\Support\Arrayable;
 class Velocity extends \PhpUnitsOfMeasure\PhysicalQuantity\Velocity implements Arrayable
 {
     /**
-     * The unit that this is stored as
-     */
-    public const STORAGE_UNIT = 'knot';
-
-    /**
      * @return string
      */
     public function __toString()
@@ -30,7 +25,7 @@ class Velocity extends \PhpUnitsOfMeasure\PhysicalQuantity\Velocity implements A
     public function toObject()
     {
         return [
-            'knot' => round($this->toUnit('knot'), 2),
+            'knots' => round($this->toUnit('knots'), 2),
             'km/h' => round($this->toUnit('km/h'), 2),
         ];
     }
@@ -40,6 +35,8 @@ class Velocity extends \PhpUnitsOfMeasure\PhysicalQuantity\Velocity implements A
      */
     public function toArray()
     {
-        return round($this->toUnit(self::STORAGE_UNIT), 2);
+        return round($this->toUnit(
+            config('phpvms.internal_units.velocity')
+        ), 2);
     }
 }

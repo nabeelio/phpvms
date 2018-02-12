@@ -10,11 +10,6 @@ use Illuminate\Contracts\Support\Arrayable;
 class Volume extends \PhpUnitsOfMeasure\PhysicalQuantity\Volume implements Arrayable
 {
     /**
-     * The unit that this is stored as
-     */
-    public const STORAGE_UNIT = 'gal';
-
-    /**
      * @return string
      */
     public function __toString()
@@ -40,6 +35,8 @@ class Volume extends \PhpUnitsOfMeasure\PhysicalQuantity\Volume implements Array
      */
     public function toArray()
     {
-        return round($this->toUnit(self::STORAGE_UNIT), 2);
+        return round($this->toUnit(
+            config('phpvms.internal_units.volume')
+        ), 2);
     }
 }

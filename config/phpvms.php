@@ -46,4 +46,17 @@ return [
      * URL to the latest version file
      */
     'version_file' => 'http://downloads.phpvms.net/VERSION',
+
+    /**
+     * DO NOT CHANGE THESE! It will result in messed up data
+     * The setting you're looking for is in the admin panel,
+     * under settings, for the display units
+     */
+    'internal_units' => [
+        'altitude'  => 'feet',
+        'distance'  => 'nmi',
+        'mass'      => 'lbs',
+        'velocity'  => 'knots',
+        'volume'    => 'gallons',
+    ],
 ];

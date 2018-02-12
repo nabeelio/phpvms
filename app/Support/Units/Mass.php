@@ -41,6 +41,8 @@ class Mass extends \PhpUnitsOfMeasure\PhysicalQuantity\Mass implements Arrayable
      */
     public function toArray()
     {
-        return round($this->toUnit(self::STORAGE_UNIT), 2);
+        return round($this->toUnit(
+            config('phpvms.internal_units.mass')
+        ), 2);
     }
 }
