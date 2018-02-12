@@ -31,7 +31,7 @@ return [
 
     # overrides database.php
     'database' => [
-        'default' => '$DB_CONN$',
+        'default' => env('DB_CONNECTION', '$DB_CONN$'),
         'connections' => [
             'mysql' => [
                 'host' => '$DB_HOST$',
