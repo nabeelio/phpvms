@@ -11,7 +11,7 @@
         <tbody>
         @foreach($ranks as $rank)
             <tr>
-                <td>{!! $rank->name !!}</td>
+                <td><a href="{!! route('admin.ranks.edit', [$rank->id]) !!}">{!! $rank->name !!}</a></td>
                 <td>{!! $rank->hours !!}</td>
                 <td class="text-center">
                     @if($rank->auto_approve_acars == 1)

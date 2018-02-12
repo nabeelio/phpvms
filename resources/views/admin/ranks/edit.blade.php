@@ -10,10 +10,10 @@
 </div>
 
 <div class="card border-blue-bottom">
-    <div class="header">
-       <h3>subfleets</h3>
-    </div>
     <div class="content">
+        <div class="header">
+           <h3>subfleets</h3>
+        </div>
        <div class="row">
            @include('admin.ranks.subfleets')
        </div>
