@@ -12,7 +12,7 @@ class Distance extends \PhpUnitsOfMeasure\PhysicalQuantity\Length implements Arr
     /**
      * The unit that this is stored as
      */
-    public const STORAGE_UNIT = 'mi';
+    public const STORAGE_UNIT = 'nmi';
 
     /**
      * @return string
