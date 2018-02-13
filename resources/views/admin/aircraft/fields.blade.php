@@ -29,7 +29,7 @@
     <!-- Registration Field -->
     <div class="form-group col-sm-6">
         {!! Form::label('registration', 'Registration:') !!}
-        <p class="text-success small">Enter the registration without the country prefix</p>
+        {{--<p class="text-success small">Enter the registration with the country prefix</p>--}}
         {!! Form::text('registration', null, ['class' => 'form-control']) !!}
         <p class="text-danger">{{ $errors->first('registration') }}</p>
     </div>

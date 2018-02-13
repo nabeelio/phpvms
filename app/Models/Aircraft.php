@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Support\ICAO;
+
 class Aircraft extends BaseModel
 {
     public $table = 'aircraft';
@@ -12,6 +14,7 @@ class Aircraft extends BaseModel
         'name',
         'icao',
         'registration',
+        'hex_code',
         'zfw',
         'active',
     ];
@@ -45,6 +48,10 @@ class Aircraft extends BaseModel
         static::creating(function (Aircraft $model) {
             if (!empty($model->icao)) {
                 $model->icao = strtoupper(trim($model->icao));
+            }
+
+            if(empty($model->hex_code)) {
+                $model->hex_code = ICAO::createHexCode();
             }
         });
     }

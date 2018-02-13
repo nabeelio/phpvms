@@ -57,4 +57,10 @@ class UtilsTest extends TestCase
         $api_key = Utils::generateApiKey();
         $this->assertNotNull($api_key);
     }
+
+    public function testHexCode()
+    {
+        $hex_code = \App\Support\ICAO::createHexCode();
+        $this->assertNotNull($hex_code);
+    }
 }

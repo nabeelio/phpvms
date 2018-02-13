@@ -14,6 +14,7 @@ $factory->define(App\Models\Aircraft::class, function (Faker $faker) {
         'icao' => $faker->unique()->text(5),
         'name' => $faker->unique()->text(50),
         'registration' => $faker->unique()->text(10),
+        'hex_code' => \App\Support\ICAO::createHexCode(),
         'active' => true,
         'created_at' => $faker->dateTimeBetween('-1 week', 'now'),
         'updated_at' => function (array $pirep) {
