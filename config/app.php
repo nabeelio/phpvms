@@ -17,10 +17,6 @@ return [
     'locale' => env('APP_LOCALE', 'en'),
     'fallback_locale' => 'en',
 
-    'log' => env('APP_LOG', 'daily'),
-    'log_level' => env('APP_LOG_LEVEL', 'debug'),
-    'log_max_files' => env('APP_LOG_MAX_FILES', 5),
-
     # This sends install and vaCentral specific information to help with
     # optimizations and figuring out where slowdowns might be happening
     'analytics' => true,
