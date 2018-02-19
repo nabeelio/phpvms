@@ -82,18 +82,19 @@ class Migration extends MigrationBase
         $group = $attrs['group'];
         $order = $this->getNextOrderNumber($group);
 
-        $attrs = [
+        $attrs = array_merge([
             'id' => Setting::formatKey($key),
             'key' => $key,
             'offset' => $this->offsets[$group],
             'order' => $order,
-            'name' => $attrs['name'],
+            'name' => '',
             'group' => $group,
-            'value' => $attrs['value'],
-            'default' => $attrs['value'],
-            'type' => $attrs['type'],
-            'description' => $attrs['description'],
-        ];
+            'value' => '',
+            'default' => '',
+            'options' => '',
+            'type' => 'hidden',
+            'description' => '',
+        ], $attrs);
 
         return $this->addData('settings', [$attrs]);
     }
@@ -108,7 +109,7 @@ class Migration extends MigrationBase
     {
         $attrs['value'] = $value;
         DB::table('settings')
-            ->where('id', $this->formatSettingId($key))
+            ->where('id', Setting::formatKey($key))
             ->update($attrs);
     }
 
