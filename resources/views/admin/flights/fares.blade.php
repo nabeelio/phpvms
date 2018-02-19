@@ -7,8 +7,8 @@
             the values used come from the subfleet of the aircraft that the flight is
             filed with. Only assign the fares you want to override. They can be set as
             a monetary amount, or a percentage.
-            <a href="https://github.com/nabeelio/phpvms/wiki/finances#flight-fares"
-            target="_blank">Read this wiki page for more details and information.</a>
+            <a href="http://docs.phpvms.net/concepts/finances"
+            target="_blank">Read documentation about finances</a>.
         </p>
     </div>
 

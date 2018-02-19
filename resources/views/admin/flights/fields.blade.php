@@ -76,22 +76,16 @@ SAME ROW
         <p class="text-danger">{{ $errors->first('arr_time') }}</p>
     </div>
 
-    <div class="form-group col-sm-2">
+    <div class="form-group col-sm-3">
         {!! Form::label('level', 'Flight Level:') !!}
         {!! Form::text('level', null, ['class' => 'form-control']) !!}
         <p class="text-danger">{{ $errors->first('level') }}</p>
     </div>
 
-    <div class="form-group col-sm-2">
-        {!! Form::label('distance', 'Distance:') !!}
+    <div class="form-group col-sm-3">
+        {!! Form::label('distance', 'Distance:') !!} <span class="small">in miles</span>
         {!! Form::text('distance', null, ['class' => 'form-control']) !!}
         <p class="text-danger">{{ $errors->first('distance') }}</p>
-    </div>
-
-    <div class="form-group col-sm-2">
-        {!! Form::label('level', 'Flight Level:') !!}
-        {!! Form::text('level', null, ['class' => 'form-control']) !!}
-        <p class="text-danger">{{ $errors->first('level') }}</p>
     </div>
 </div>
 
