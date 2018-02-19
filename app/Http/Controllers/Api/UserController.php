@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\Enums\PirepState;
+use App\Repositories\Criteria\WhereCriteria;
+use App\Repositories\PirepRepository;
 use App\Repositories\SubfleetRepository;
 use App\Services\UserService;
 use Auth;
@@ -11,25 +14,44 @@ use App\Repositories\UserRepository;
 
 use App\Models\UserBid;
 
-use App\Http\Resources\Subfleet as SubfleetResource;
 use App\Http\Resources\Flight as FlightResource;
+use App\Http\Resources\Pirep as PirepResource;
+use App\Http\Resources\Subfleet as SubfleetResource;
 use App\Http\Resources\User as UserResource;
+use Prettus\Repository\Criteria\RequestCriteria;
+use Prettus\Repository\Exceptions\RepositoryException;
 
 
 class UserController extends RestController
 {
-    protected $subfleetRepo,
+    protected $pirepRepo,
+              $subfleetRepo,
               $userRepo,
               $userSvc;
 
     public function __construct(
+        PirepRepository $pirepRepo,
         SubfleetRepository $subfleetRepo,
         UserRepository $userRepo,
         UserService $userSvc
     ) {
+        $this->pirepRepo = $pirepRepo;
         $this->subfleetRepo = $subfleetRepo;
         $this->userRepo = $userRepo;
         $this->userSvc = $userSvc;
+    }
+
+    /**
+     * @param Request $request
+     * @return int|mixed
+     */
+    protected function getUserId(Request $request)
+    {
+        if ($request->id === null) {
+            return Auth::user()->id;
+        }
+
+        return $request->id;
     }
 
     /**
@@ -68,16 +90,37 @@ class UserController extends RestController
      */
     public function fleet(Request $request)
     {
-        if($request->id === null) {
-            $id = Auth::user()->id;
-        } else {
-            $id = $request->id;
-        }
-
-        $user = $this->userRepo->find($id);
+        $user = $this->userRepo->find($this->getUserId($request));
         $subfleets = $this->userSvc->getAllowableSubfleets($user);
 
         return SubfleetResource::collection($subfleets);
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @throws RepositoryException
+     */
+    public function pireps(Request $request)
+    {
+        $this->pirepRepo->pushCriteria(new RequestCriteria($request));
+
+        $where = [
+            'user_id' => $this->getUserId($request),
+        ];
+
+        if(filled($request->query('state'))) {
+            $where['state'] = $request->query('state');
+        } else {
+            $where[] = ['state', '!=', PirepState::CANCELLED];
+        }
+
+        $this->pirepRepo->pushCriteria(new WhereCriteria($request, $where));
+
+        $pireps = $this->pirepRepo
+            ->orderBy('created_at', 'desc')
+            ->paginate();
+
+        return PirepResource::collection($pireps);
+    }
 }

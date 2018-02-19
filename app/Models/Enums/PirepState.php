@@ -6,8 +6,8 @@ namespace App\Models\Enums;
 class PirepState extends EnumBase {
 
     public const REJECTED      = -1;
-    public const IN_PROGRESS   = 0;
-    public const PENDING       = 1;
+    public const IN_PROGRESS   = 0;  // flight is ongoing
+    public const PENDING       = 1;  // waiting admin approval
     public const ACCEPTED      = 2;
     public const CANCELLED     = 3;
     public const DELETED       = 4;

@@ -114,6 +114,48 @@ class PIREPTest extends TestCase
     }
 
     /**
+     *
+     */
+    public function testGetUserPireps()
+    {
+        $this->user = factory(App\Models\User::class)->create();
+        $pirep_done = factory(App\Models\Pirep::class)->create([
+            'user_id' => $this->user->id,
+            'state' => PirepState::ACCEPTED
+        ]);
+
+        $pirep_in_progress = factory(App\Models\Pirep::class)->create([
+            'user_id' => $this->user->id,
+            'state' => PirepState::IN_PROGRESS
+        ]);
+
+        $pirep_cancelled = factory(App\Models\Pirep::class)->create([
+            'user_id' => $this->user->id,
+            'state' => PirepState::CANCELLED
+        ]);
+
+        $pireps = $this->get('/api/user/pireps')
+                    ->assertStatus(200)
+                    ->json();
+
+        $pirep_ids = collect($pireps['data'])->pluck('id');
+
+        $this->assertTrue($pirep_ids->contains($pirep_done->id));
+        $this->assertTrue($pirep_ids->contains($pirep_in_progress->id));
+        $this->assertFalse($pirep_ids->contains($pirep_cancelled->id));
+
+        // Get only status
+        $pireps = $this->get('/api/user/pireps?state='.PirepState::IN_PROGRESS)
+            ->assertStatus(200)
+            ->json();
+
+        $pirep_ids = collect($pireps['data'])->pluck('id');
+        $this->assertTrue($pirep_ids->contains($pirep_in_progress->id));
+        $this->assertFalse($pirep_ids->contains($pirep_done->id));
+        $this->assertFalse($pirep_ids->contains($pirep_cancelled->id));
+    }
+
+    /**
      * check the stats/ranks, etc have incremented properly
      */
     public function testPilotStatsIncr()
