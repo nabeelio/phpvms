@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Services\UserService;
+use App\Support\Units\Time;
 use Log;
 use Flash;
 use Response;
@@ -184,9 +185,9 @@ class PirepController extends BaseController
             return redirect(route('admin.pireps.index'));
         }
 
-        $hms = Utils::minutesToTimeParts($pirep->flight_time);
-        $pirep->hours = $hms['h'];
-        $pirep->minutes = $hms['m'];
+        $time = new Time($pirep->flight_time);
+        $pirep->hours = $time->hours;
+        $pirep->minutes = $time->minutes;
 
         # Can we modify?
         $read_only = false;
@@ -208,6 +209,7 @@ class PirepController extends BaseController
      * @param UpdatePirepRequest $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      * @throws \Prettus\Validator\Exceptions\ValidatorException
+     * @throws \Exception
      */
     public function update($id, UpdatePirepRequest $request)
     {
@@ -224,9 +226,9 @@ class PirepController extends BaseController
         $attrs = $request->all();
 
         # Fix the time
-        $hours = (int) $attrs['hours'];
-        $minutes = (int) $attrs['minutes'];
-        $attrs['flight_time'] = Utils::hoursToMinutes($hours) + $minutes;
+        $attrs['flight_time'] = Time::init(
+            $attrs['minutes'],
+            $attrs['hours'])->getMinutes();
 
         $pirep = $this->pirepRepo->update($attrs, $id);
 

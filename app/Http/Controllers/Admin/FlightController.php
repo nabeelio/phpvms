@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Facades\Utils;
 use App\Models\Enums\FlightType;
 use App\Models\Flight;
 use App\Models\FlightFields;
@@ -16,6 +17,7 @@ use App\Repositories\SubfleetRepository;
 use App\Services\FareService;
 use App\Services\FlightService;
 
+use App\Support\Units\Time;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
@@ -121,7 +123,11 @@ class FlightController extends BaseController
             return redirect()->back()->withInput($request->all());
         }
 
-        $input['active'] = get_truth_state($input['active']);;
+        $input['active'] = get_truth_state($input['active']);
+
+        $time = new Time($input['minutes'], $input['hours']);
+        $input['flight_time'] = $time->getMinutes();
+
         $flight = $this->flightRepo->create($input);
 
         Flash::success('Flight saved successfully.');
@@ -155,11 +161,14 @@ class FlightController extends BaseController
     public function edit($id)
     {
         $flight = $this->flightRepo->findWithoutFail($id);
-
         if (empty($flight)) {
             Flash::error('Flight not found');
             return redirect(route('admin.flights.index'));
         }
+
+        $time = new Time($flight->flight_time);
+        $flight->hours = $time->hours;
+        $flight->minutes = $time->minutes;
 
         $avail_subfleets = $this->getAvailSubfleets($flight);
         return view('admin.flights.edit', [
@@ -209,7 +218,12 @@ class FlightController extends BaseController
             return redirect()->back()->withInput($request->all());
         }
 
+        $input['flight_time'] = Time::init(
+            $input['minutes'],
+            $input['hours'])->getMinutes();
+
         $input['active'] = get_truth_state($input['active']);
+
         $this->flightRepo->update($input, $id);
 
         Flash::success('Flight updated successfully.');

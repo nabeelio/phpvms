@@ -13,6 +13,16 @@ class Time implements Arrayable
            $minutes;
 
     /**
+     * @param $minutes
+     * @param $hours
+     * @return static
+     */
+    public static function init($minutes, $hours)
+    {
+        return new Time($minutes, $hours);
+    }
+
+    /**
      * Pass just minutes to figure out how many hours
      * Or both hours and minutes
      * @param $minutes

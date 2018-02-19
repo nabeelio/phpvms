@@ -28,10 +28,6 @@
     </div>
 </div>
 
-<!--
-SAME ROW
--->
-
 <div class="row">
 
     <div class="form-group col-sm-3">
@@ -64,25 +60,37 @@ SAME ROW
 
 <div class="row">
 
-    <div class="form-group col-sm-3">
+    <div class="form-group col-sm-2">
         {!! Form::label('dpt_time', 'Departure Time:') !!}
         {!! Form::text('dpt_time', null, ['class' => 'form-control']) !!}
         <p class="text-danger">{{ $errors->first('dpt_time') }}</p>
     </div>
 
-    <div class="form-group col-sm-3">
+    <div class="form-group col-sm-2">
         {!! Form::label('arr_time', 'Arrival Time:') !!}
         {!! Form::text('arr_time', null, ['class' => 'form-control']) !!}
         <p class="text-danger">{{ $errors->first('arr_time') }}</p>
     </div>
 
-    <div class="form-group col-sm-3">
+    <div class="form-group col-sm-4">
+        {!! Form::label('flight_time', 'Flight Time (hours & minutes):') !!}
+        <div style="float: left">
+            {!! Form::number('hours', null, ['class' => 'form-control', 'placeholder' => 'hours']) !!}
+        </div>
+        <div style="float: left">
+            {!! Form::number('minutes', null, ['class' => 'form-control', 'placeholder' => 'minutes']) !!}
+            <p class="text-danger">{{ $errors->first('hours') }}</p>
+            <p class="text-danger">{{ $errors->first('minutes') }}</p>
+        </div>
+    </div>
+
+    <div class="form-group col-sm-2">
         {!! Form::label('level', 'Flight Level:') !!}
         {!! Form::text('level', null, ['class' => 'form-control']) !!}
         <p class="text-danger">{{ $errors->first('level') }}</p>
     </div>
 
-    <div class="form-group col-sm-3">
+    <div class="form-group col-sm-2">
         {!! Form::label('distance', 'Distance:') !!} <span class="small">in miles</span>
         {!! Form::text('distance', null, ['class' => 'form-control']) !!}
         <p class="text-danger">{{ $errors->first('distance') }}</p>
