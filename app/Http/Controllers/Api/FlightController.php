@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Resources\FlightCollection;
 use App\Repositories\Criteria\WhereCriteria;
 use App\Services\FlightService;
 use Auth;
@@ -12,7 +11,9 @@ use Prettus\Repository\Exceptions\RepositoryException;
 
 use App\Services\UserService;
 use App\Repositories\FlightRepository;
+
 use App\Http\Resources\Flight as FlightResource;
+use App\Http\Resources\Navdata as NavdataResource;
 
 /**
  * Class FlightController
@@ -96,5 +97,19 @@ class FlightController extends RestController
         }
 
         return FlightResource::collection($flights);
+    }
+
+    /**
+     * Get a flight's route
+     * @param $id
+     * @param Request $request
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
+    public function route($id, Request $request)
+    {
+        $flight = $this->flightRepo->find($id);
+        $route = $this->flightSvc->getRoute($flight);
+
+        return NavdataResource::collection($route);
     }
 }

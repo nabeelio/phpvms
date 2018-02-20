@@ -69,6 +69,37 @@ class FlightTest extends TestCase
     }
 
     /**
+     * Get the flight's route
+     */
+    public function testFlightRoute()
+    {
+        $this->user = factory(App\Models\User::class)->create();
+        $flight = $this->addFlight($this->user);
+
+        $route_count = random_int(4, 6);
+        $route = factory(App\Models\Navdata::class, $route_count)->create();
+        $route_text = implode(' ', $route->pluck('id')->toArray());
+
+        $flight->route = $route_text;
+        $flight->save();
+
+        $res = $this->get('/api/flights/'.$flight->id.'/route');
+        $res->assertStatus(200);
+        $body = $res->json();
+
+        $this->assertCount($route_count, $body['data']);
+
+        $first_point = $body['data'][0];
+        $this->assertEquals($first_point['id'], $route[0]->id);
+        $this->assertEquals($first_point['name'], $route[0]->name);
+        $this->assertEquals($first_point['type']['type'], $route[0]->type);
+        $this->assertEquals(
+            $first_point['type']['name'],
+            \App\Models\Enums\NavaidType::label($route[0]->type)
+        );
+    }
+
+    /**
      * Find all of the flights
      */
     public function testFindAllFlights()

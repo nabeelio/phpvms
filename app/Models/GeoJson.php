@@ -11,9 +11,6 @@ use \GeoJson\Feature\FeatureCollection;
  * Return different points/features in GeoJSON format
  * https://tools.ietf.org/html/rfc7946
  *
- * Once a PIREP is accepted, save this returned structure as a
- * JSON-encoded string into the raw_data field of the PIREP row
- *
  * @package App\Models
  */
 class GeoJson

@@ -8,8 +8,6 @@ use Faker\Generator as Faker;
  */
 $factory->define(App\Models\Pirep::class, function (Faker $faker) {
 
-    static $raw_data;
-
     return [
         'id' => null,
         'airline_id' => function () {
@@ -48,7 +46,6 @@ $factory->define(App\Models\Pirep::class, function (Faker $faker) {
         'source_name' => 'Test Factory',
         'state' => PirepState::PENDING,
         'status' => PirepStatus::SCHEDULED,
-        'raw_data' => $raw_data ?: $raw_data = json_encode(['key' => 'value']),
         'created_at' => Carbon::now()->toDateTimeString(),
         'updated_at' => function(array $pirep) {
             return $pirep['created_at'];

@@ -377,7 +377,8 @@ class AcarsTest extends TestCase
         foreach($route as $position) {
             $post_route[] = [
                 'order' => $order,
-                'name' => $position->name,
+                'id' => $position->id,
+                'name' => $position->id,
                 'lat' => $position->lat,
                 'lon' => $position->lon,
             ];

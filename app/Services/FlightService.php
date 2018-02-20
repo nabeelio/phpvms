@@ -1,29 +1,31 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: nshahzad
- * Date: 12/12/17
- * Time: 2:48 PM
- */
 
 namespace App\Services;
 
-use App\Repositories\FlightRepository;
-use function foo\func;
-use Illuminate\Support\Collection;
+use App\Models\Navdata;
 use Log;
 
 use App\Models\Flight;
 use App\Models\User;
 use App\Models\UserBid;
+use App\Repositories\FlightRepository;
+use App\Repositories\NavdataRepository;
 
+/**
+ * Class FlightService
+ * @package App\Services
+ */
 class FlightService extends BaseService
 {
-    protected $flightRepo, $userSvc;
+    protected $flightRepo, $navDataRepo, $userSvc;
 
-    public function __construct(FlightRepository $flightRepo, UserService $userSvc)
-    {
+    public function __construct(
+        FlightRepository $flightRepo,
+        NavdataRepository $navdataRepo,
+        UserService $userSvc
+    ) {
         $this->flightRepo = $flightRepo;
+        $this->navDataRepo = $navdataRepo;
         $this->userSvc = $userSvc;
     }
 
@@ -96,6 +98,32 @@ class FlightService extends BaseService
         $where = ['flight_id' => $flight->id];
         UserBid::where($where)->delete();
         $flight->delete();
+    }
+
+    /**
+     * Return all of the navaid points as a collection
+     * @param Flight $flight
+     * @return \Illuminate\Support\Collection
+     */
+    public function getRoute(Flight $flight)
+    {
+        if(!$flight->route) {
+            return collect();
+        }
+
+        $route_points = array_map(function($point) {
+            return strtoupper($point);
+        }, explode(' ', $flight->route));
+
+        $route = $this->navDataRepo->findWhereIn('id', $route_points);
+
+        // Put it back into the original order the route is in
+        $return_points = [];
+        foreach($route_points as $rp) {
+            $return_points[] = $route->where('id', $rp)->first();
+        }
+
+        return collect($return_points);
     }
 
     /**

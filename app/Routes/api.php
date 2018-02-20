@@ -31,6 +31,7 @@ Route::group(['middleware' => ['api.auth']], function ()
     Route::get('flights', 'FlightController@index');
     Route::get('flights/search', 'FlightController@search');
     Route::get('flights/{id}', 'FlightController@get');
+    Route::get('flights/{id}/route', 'FlightController@route');
 
     Route::get('pireps/{pirep_id}', 'PirepController@get');
     Route::put('pireps/{pirep_id}', 'PirepController@update');
