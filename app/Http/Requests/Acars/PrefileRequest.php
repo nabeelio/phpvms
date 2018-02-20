@@ -21,11 +21,11 @@ class PrefileRequest extends FormRequest
             'airline_id'            => 'required|exists:airlines,id',
             'aircraft_id'           => 'required|exists:aircraft,id',
             'flight_number'         => 'required',
-            'level'                 => 'required|numeric',
             'dpt_airport_id'        => 'required',
             'arr_airport_id'        => 'required',
             'source_name'           => 'required|max:25',
 
+            'level'                 => 'nullable|numeric',
             'route_code'            => 'nullable',
             'route_leg'             => 'nullable',
             'distance'              => 'nullable|numeric',

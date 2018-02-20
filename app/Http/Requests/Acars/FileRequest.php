@@ -21,6 +21,7 @@ class FileRequest extends FormRequest
     public function rules()
     {
         $rules = [
+            'distance'              => 'required|numeric',
             'flight_time'           => 'required|integer',
             'fuel_used'             => 'required|numeric',
 
@@ -32,7 +33,6 @@ class FileRequest extends FormRequest
             'arr_airport_id'        => 'nullable',
             'route_code'            => 'nullable',
             'route_leg'             => 'nullable',
-            'distance'              => 'nullable|numeric',
             'planned_distance'      => 'nullable|numeric',
             'planned_flight_time'   => 'nullable|integer',
             'level'                 => 'nullable|numeric',
