@@ -8,7 +8,6 @@ use App\Models\Traits\HashId;
 use App\Support\Units\Distance;
 
 use App\Support\Units\Fuel;
-use App\Support\Units\Time;
 use PhpUnitsOfMeasure\Exception\NonNumericValue;
 use PhpUnitsOfMeasure\Exception\NonStringUnitName;
 
@@ -20,6 +19,8 @@ use PhpUnitsOfMeasure\Exception\NonStringUnitName;
 class Pirep extends BaseModel
 {
     use HashId;
+
+    public const ID_MAX_LENGTH = 12;
 
     public $table = 'pireps';
     public $incrementing = false;

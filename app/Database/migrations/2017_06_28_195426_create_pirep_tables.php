@@ -18,11 +18,11 @@ class CreatePirepTables extends Migration
     public function up()
     {
         Schema::create('pireps', function (Blueprint $table) {
-            $table->string('id', 12);
+            $table->string('id', \App\Models\Pirep::ID_MAX_LENGTH);
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('airline_id');
             $table->unsignedInteger('aircraft_id')->nullable();
-            $table->string('flight_id', 12)->nullable();
+            $table->string('flight_id', \App\Models\Flight::ID_MAX_LENGTH)->nullable();
             $table->string('flight_number', 10)->nullable();
             $table->string('route_code', 5)->nullable();
             $table->string('route_leg', 5)->nullable();
@@ -33,10 +33,10 @@ class CreatePirepTables extends Migration
             $table->unsignedDecimal('planned_distance')->nullable();
             $table->unsignedInteger('flight_time')->nullable();
             $table->unsignedInteger('planned_flight_time')->nullable();
-            $table->unsignedDecimal('zfw', 19)->nullable();
-            $table->unsignedDecimal('block_fuel', 19)->nullable();
-            $table->unsignedDecimal('fuel_used', 19)->nullable();
-            $table->decimal('landing_rate', 8)->nullable();
+            $table->unsignedDecimal('zfw')->nullable();
+            $table->unsignedDecimal('block_fuel')->nullable();
+            $table->unsignedDecimal('fuel_used')->nullable();
+            $table->decimal('landing_rate')->nullable();
             $table->text('route')->nullable();
             $table->text('notes')->nullable();
             $table->unsignedTinyInteger('source')->nullable()->default(0);
@@ -55,7 +55,7 @@ class CreatePirepTables extends Migration
 
         Schema::create('pirep_comments', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('pirep_id', 12);
+            $table->string('pirep_id', \App\Models\Pirep::ID_MAX_LENGTH);
             $table->unsignedInteger('user_id');
             $table->text('comment');
             $table->timestamps();
@@ -66,16 +66,16 @@ class CreatePirepTables extends Migration
          */
         Schema::create('pirep_expenses', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('pirep_id', 12);
+            $table->string('pirep_id', \App\Models\Pirep::ID_MAX_LENGTH);
             $table->string('name');
-            $table->double('value', 19, 2)->nullable();
+            $table->double('value')->nullable();
 
             $table->index('pirep_id');
         });
 
         Schema::create('pirep_fares', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('pirep_id', 12);
+            $table->string('pirep_id', \App\Models\Pirep::ID_MAX_LENGTH);
             $table->unsignedBigInteger('fare_id');
             $table->unsignedInteger('count')->nullable();
 
@@ -94,7 +94,7 @@ class CreatePirepTables extends Migration
 
         Schema::create('pirep_field_values', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('pirep_id', 12);
+            $table->string('pirep_id', \App\Models\Pirep::ID_MAX_LENGTH);
             $table->string('name', 50);
             $table->string('value')->nullable();
             $table->string('source')->nullable();

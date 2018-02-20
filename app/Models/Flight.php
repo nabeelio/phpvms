@@ -13,6 +13,8 @@ class Flight extends BaseModel
 {
     use HashId;
 
+    public const ID_MAX_LENGTH = 12;
+
     public $table = 'flights';
     public $incrementing = false;
 
