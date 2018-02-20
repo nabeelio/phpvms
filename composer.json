@@ -75,7 +75,7 @@
     },
     "scripts": {
         "post-root-package-install": [
-            "php -r \"file_exists('.env') || copy('.env.dev.example', '.env');\""
+            "php -r \"file_exists('env.php') || copy('env.php.example', 'env.php');\""
         ],
         "post-create-project-cmd": [
             "php artisan key:generate"
@@ -94,8 +94,6 @@
         ]
     },
     "config": {
-        "bin-dir": "vendor/bin/",
-        "secure-http": false,
-        "disable-tls": true
+        "bin-dir": "vendor/bin/"
     }
 }
