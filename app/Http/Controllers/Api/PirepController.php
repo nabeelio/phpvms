@@ -170,11 +170,22 @@ class PirepController extends RestController
     {
         Log::info('PIREP Update, user ' . Auth::id(), $request->post());
 
+        $user = Auth::user();
         $pirep = $this->pirepRepo->find($id);
         $this->checkCancelled($pirep);
 
         $attrs = $request->post();
         $attrs['user_id'] = Auth::id();
+
+        # If aircraft is being changed, see if this user is allowed to fly this aircraft
+        if (array_key_exists('aircraft_id', $attrs)
+            && setting('pireps.restrict_aircraft_to_rank', false)
+        ) {
+            $can_use_ac = $this->userSvc->aircraftAllowed($user, $pirep->aircraft_id);
+            if (!$can_use_ac) {
+                throw new BadRequestHttpException('User is not allowed to fly this aircraft');
+            }
+        }
 
         $pirep = $this->pirepRepo->update($attrs, $id);
         $this->updateFields($pirep, $request);
@@ -195,11 +206,24 @@ class PirepController extends RestController
     {
         Log::info('PIREP file, user ' . Auth::id(), $request->post());
 
+        $user = Auth::user();
+
         # Check if the status is cancelled...
         $pirep = $this->pirepRepo->find($id);
         $this->checkCancelled($pirep);
 
         $attrs = $request->post();
+
+        # If aircraft is being changed, see if this user is allowed to fly this aircraft
+        if (array_key_exists('aircraft_id', $attrs)
+            && setting('pireps.restrict_aircraft_to_rank', false)
+        ) {
+            $can_use_ac = $this->userSvc->aircraftAllowed($user, $pirep->aircraft_id);
+            if (!$can_use_ac) {
+                throw new BadRequestHttpException('User is not allowed to fly this aircraft');
+            }
+        }
+
         $attrs['state'] = PirepState::PENDING;
         $attrs['status'] = PirepStatus::ARRIVED;
 
