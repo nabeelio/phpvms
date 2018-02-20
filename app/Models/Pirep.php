@@ -209,30 +209,6 @@ class Pirep extends BaseModel
     }
 
     /**
-     * @return Time
-     */
-    /*public function getPlannedFlightTimeAttribute()
-    {
-        if (!array_key_exists('planned_flight_time', $this->attributes)) {
-            return null;
-        }
-
-        return new Time($this->attributes['planned_flight_time']);
-    }*/
-
-    /**
-     * @param $value
-     */
-    /*public function setPlannedFlightTimeAttribute($value)
-    {
-        if ($value instanceof Time) {
-            $this->attributes['planned_flight_time'] = $value->getMinutes();
-        } else {
-            $this->attributes['planned_flight_time'] = $value;
-        }
-    }*/
-
-    /**
      * Do some cleanup on the route
      * @param $route
      */
