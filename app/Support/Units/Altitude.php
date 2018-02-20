@@ -20,6 +20,15 @@ class Altitude extends \PhpUnitsOfMeasure\PhysicalQuantity\Length implements Arr
     }
 
     /**
+     * Return value in native unit as integer
+     * @return array
+     */
+    public function toNumber()
+    {
+        return $this->toArray();
+    }
+
+    /**
      * For the HTTP Resource call
      */
     public function toObject()

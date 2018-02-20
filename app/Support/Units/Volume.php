@@ -20,6 +20,15 @@ class Volume extends \PhpUnitsOfMeasure\PhysicalQuantity\Volume implements Array
     }
 
     /**
+     * Return value in native unit as integer
+     * @return array
+     */
+    public function toNumber()
+    {
+        return $this->toArray();
+    }
+
+    /**
      * For the HTTP Resource call
      */
     public function toObject()
