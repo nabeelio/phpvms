@@ -25,8 +25,9 @@ class Aircraft extends BaseModel
      * @var array
      */
     protected $casts = [
-        'zfw'       => 'float',
-        'active'    => 'boolean',
+        'subfleet_id'   => 'integer',
+        'zfw'           => 'float',
+        'active'        => 'boolean',
     ];
 
     /**

@@ -1,13 +1,15 @@
 <?php
 
 use App\Services\DatabaseService;
-
+use Tests\TestData;
 
 /**
  * Class TestCase
  */
 class TestCase extends Illuminate\Foundation\Testing\TestCase
 {
+    use TestData;
+
     /**
      * The base URL to use while testing the application.
      *

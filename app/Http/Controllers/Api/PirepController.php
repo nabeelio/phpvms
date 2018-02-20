@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Requests\Acars\EventRequest;
 use App\Http\Requests\Acars\UpdateRequest;
 use App\Models\Enums\PirepSource;
+use App\Services\UserService;
 use Auth;
 use Log;
 use Illuminate\Http\Request;
@@ -40,7 +41,8 @@ class PirepController extends RestController
     protected $acarsRepo,
               $geoSvc,
               $pirepRepo,
-              $pirepSvc;
+              $pirepSvc,
+              $userSvc;
 
     /**
      * PirepController constructor.
@@ -53,12 +55,14 @@ class PirepController extends RestController
         AcarsRepository $acarsRepo,
         GeoService $geoSvc,
         PirepRepository $pirepRepo,
-        PIREPService $pirepSvc
+        PIREPService $pirepSvc,
+        UserService $userSvc
     ) {
         $this->acarsRepo = $acarsRepo;
         $this->geoSvc = $geoSvc;
         $this->pirepRepo = $pirepRepo;
         $this->pirepSvc = $pirepSvc;
+        $this->userSvc = $userSvc;
     }
 
     /**
@@ -111,18 +115,29 @@ class PirepController extends RestController
      *
      * @param PrefileRequest $request
      * @return PirepResource
+     * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
      */
     public function prefile(PrefileRequest $request)
     {
         Log::info('PIREP Prefile, user '.Auth::id(), $request->post());
 
+        $user = Auth::user();
+
         $attrs = $request->post();
-        $attrs['user_id'] = Auth::id();
+        $attrs['user_id'] = $user->id;
         $attrs['source'] = PirepSource::ACARS;
         $attrs['state'] = PirepState::IN_PROGRESS;
         $attrs['status'] = PirepStatus::PREFILE;
 
         $pirep = new Pirep($attrs);
+
+        # See if this user is allowed to fly this aircraft
+        if(setting('pireps.restrict_aircraft_to_rank', false)) {
+            $can_use_ac = $this->userSvc->aircraftAllowed($user, $pirep->aircraft_id);
+            if (!$can_use_ac) {
+                throw new BadRequestHttpException('User is not allowed to fly this aircraft');
+            }
+        }
 
         # Find if there's a duplicate, if so, let's work on that
         $dupe_pirep = $this->pirepSvc->findDuplicate($pirep);

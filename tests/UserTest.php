@@ -25,10 +25,10 @@ class UserTest extends TestCase
     {
         # Add subfleets and aircraft, but also add another
         # set of subfleets
-        $subfleetA = TestData::createSubfleetWithAircraft();
-        TestData::createSubfleetWithAircraft();
+        $subfleetA = $this->createSubfleetWithAircraft();
+        $this->createSubfleetWithAircraft();
 
-        $rank = TestData::createRank(10, [$subfleetA['subfleet']->id]);
+        $rank = $this->createRank(10, [$subfleetA['subfleet']->id]);
 
         $user = factory(App\Models\User::class)->create([
             'rank_id' => $rank->id,
@@ -81,15 +81,15 @@ class UserTest extends TestCase
     {
         # Add subfleets and aircraft, but also add another
         # set of subfleets
-        $subfleetA = TestData::createSubfleetWithAircraft();
-        $subfleetB = TestData::createSubfleetWithAircraft();
+        $subfleetA = $this->createSubfleetWithAircraft();
+        $subfleetB = $this->createSubfleetWithAircraft();
 
         $added_aircraft = array_merge(
             $subfleetA['aircraft']->pluck('id')->toArray(),
             $subfleetB['aircraft']->pluck('id')->toArray()
         );
 
-        $rank = TestData::createRank(10, [$subfleetA['subfleet']->id]);
+        $rank = $this->createRank(10, [$subfleetA['subfleet']->id]);
 
         $user = factory(App\Models\User::class)->create([
             'rank_id' => $rank->id,
@@ -134,10 +134,10 @@ class UserTest extends TestCase
         # Add subfleets and aircraft, but also add another
         # set of subfleets
         $airport = factory(App\Models\Airport::class)->create();
-        $subfleetA = TestData::createSubfleetWithAircraft(2, $airport->id);
-        $subfleetB = TestData::createSubfleetWithAircraft(2);
+        $subfleetA = $this->createSubfleetWithAircraft(2, $airport->id);
+        $subfleetB = $this->createSubfleetWithAircraft(2);
 
-        $rank = TestData::createRank(10, [$subfleetA['subfleet']->id]);
+        $rank = $this->createRank(10, [$subfleetA['subfleet']->id]);
         $user = factory(App\Models\User::class)->create([
             'curr_airport_id' => $airport->id,
             'rank_id' => $rank->id,

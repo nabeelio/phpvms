@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Repositories\AircraftRepository;
 use App\Repositories\SubfleetRepository;
 use Illuminate\Support\Collection;
 use Log;
@@ -16,15 +17,17 @@ use App\Models\Enums\UserState;
 
 class UserService extends BaseService
 {
-    protected $subfleetRepo;
+    protected $aircraftRepo, $subfleetRepo;
 
     /**
      * UserService constructor.
      * @param SubfleetRepository $subfleetRepo
      */
     public function __construct(
+        AircraftRepository $aircraftRepo,
         SubfleetRepository $subfleetRepo
     ) {
+        $this->aircraftRepo = $aircraftRepo;
         $this->subfleetRepo = $subfleetRepo;
     }
 
@@ -81,6 +84,21 @@ class UserService extends BaseService
 
         $subfleets = $user->rank->subfleets();
         return $subfleets->with('aircraft')->get();
+    }
+
+    /**
+     * Return a bool if a user is allowed to fly the current aircraft
+     * @param $user
+     * @param $aircraft_id
+     * @return bool
+     */
+    public function aircraftAllowed($user, $aircraft_id)
+    {
+        $aircraft = $this->aircraftRepo->find($aircraft_id, ['subfleet_id']);
+        $subfleets = $this->getAllowableSubfleets($user);
+        $subfleet_ids = $subfleets->pluck('id')->toArray();
+
+        return \in_array($aircraft->subfleet_id, $subfleet_ids, true);
     }
 
     /**
