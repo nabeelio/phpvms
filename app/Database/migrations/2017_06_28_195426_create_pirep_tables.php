@@ -44,7 +44,6 @@ class CreatePirepTables extends Migration
             $table->tinyInteger('flight_type')->default(FlightType::PASSENGER);
             $table->tinyInteger('state')->default(PirepState::PENDING);
             $table->tinyInteger('status')->default(PirepStatus::SCHEDULED);
-            $table->longText('raw_data')->nullable();
             $table->timestamps();
 
             $table->primary('id');

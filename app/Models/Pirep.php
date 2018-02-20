@@ -50,7 +50,6 @@ class Pirep extends BaseModel
         'flight_type',
         'state',
         'status',
-        'raw_data',
         'created_at',
         'updated_at',
     ];
@@ -137,30 +136,6 @@ class Pirep extends BaseModel
             $this->attributes['distance'] = $value;
         }
     }
-
-    /**
-     * @return Time
-     */
-    /*public function getFlightTimeAttribute()
-    {
-        if (!array_key_exists('flight_time', $this->attributes)) {
-            return null;
-        }
-
-        return new Time($this->attributes['flight_time']);
-    }*/
-
-    /**
-     * @param $value
-     */
-    /*public function setFlightTimeAttribute($value)
-    {
-        if($value instanceof Time) {
-            $this->attributes['flight_time'] = $value->getMinutes();
-        } else {
-            $this->attributes['flight_time'] = $value;
-        }
-    }*/
 
     /**
      * Return the planned_distance in a converter class
