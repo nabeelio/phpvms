@@ -73,7 +73,7 @@ class CreateSettingsTable extends Migration
             'group' => 'general',
             'value' => 'lbs',
             'type' => 'select',
-            'options' => 'lbs, kg',
+            'options' => 'lbs,kg',
             'description' => 'The weight unit',
         ]);
 
@@ -95,13 +95,13 @@ class CreateSettingsTable extends Migration
             'description' => 'The altitude units',
         ]);
 
-        $this->addSetting('general.liquid_unit', [
-            'name' => 'Liquid Units',
+        $this->addSetting('general.fuel_unit', [
+            'name' => 'Fuel Units',
             'group' => 'general',
-            'value' => 'gal',
+            'value' => 'lbs',
             'type' => 'select',
-            'options' => 'liters,gal',
-            'description' => 'The liquid units',
+            'options' => 'lbs,kg',
+            'description' => 'The units for fuel',
         ]);
 
         /**

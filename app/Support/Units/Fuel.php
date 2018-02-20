@@ -7,16 +7,25 @@ use Illuminate\Contracts\Support\Arrayable;
  * Class Mass
  * @package App\Support\Units
  */
-class Mass extends \PhpUnitsOfMeasure\PhysicalQuantity\Mass implements Arrayable
+class Fuel extends \PhpUnitsOfMeasure\PhysicalQuantity\Mass implements Arrayable
 {
     /**
      * @return string
      */
     public function __toString()
     {
-        $unit = setting('general.weight_unit');
+        $unit = setting('general.fuel_unit');
         $value = $this->toUnit($unit);
         return (string) round($value, 2);
+    }
+
+    /**
+     * Return value in native unit as integer
+     * @return array
+     */
+    public function toInt()
+    {
+        return $this->toArray();
     }
 
     /**
@@ -37,7 +46,7 @@ class Mass extends \PhpUnitsOfMeasure\PhysicalQuantity\Mass implements Arrayable
     public function toArray()
     {
         return round($this->toUnit(
-            config('phpvms.internal_units.mass')
+            config('phpvms.internal_units.fuel')
         ), 2);
     }
 }

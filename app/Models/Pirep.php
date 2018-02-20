@@ -7,6 +7,7 @@ use App\Models\Enums\PirepState;
 use App\Models\Traits\HashId;
 use App\Support\Units\Distance;
 
+use App\Support\Units\Fuel;
 use App\Support\Units\Time;
 use PhpUnitsOfMeasure\Exception\NonNumericValue;
 use PhpUnitsOfMeasure\Exception\NonStringUnitName;
@@ -138,6 +139,26 @@ class Pirep extends BaseModel
     }
 
     /**
+     * Return a new Fuel unit so conversions can be made
+     * @return int|Fuel
+     */
+    public function getFuelUsedAttribute()
+    {
+        if (!array_key_exists('fuel_used', $this->attributes)) {
+            return null;
+        }
+
+        try {
+            $fuel_used = (float) $this->attributes['fuel_used'];
+            return new Fuel($fuel_used, config('phpvms.internal_units.fuel'));
+        } catch (NonNumericValue $e) {
+            return 0;
+        } catch (NonStringUnitName $e) {
+            return 0;
+        }
+    }
+
+    /**
      * Return the planned_distance in a converter class
      * @return int|Distance
      */
@@ -154,6 +175,21 @@ class Pirep extends BaseModel
             return 0;
         } catch (NonStringUnitName $e) {
             return 0;
+        }
+    }
+
+    /**
+     * Set the amount of fuel used
+     * @param $value
+     */
+    public function setFuelUsedAttribute($value)
+    {
+        if ($value instanceof Fuel) {
+            $this->attributes['fuel_used'] = $value->toUnit(
+                config('phpvms.internal_units.fuel')
+            );
+        } else {
+            $this->attributes['fuel_used'] = $value;
         }
     }
 

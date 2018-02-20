@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Support\Units\Distance;
+use App\Support\Units\Fuel;
 use Illuminate\Http\Resources\Json\Resource;
 
 class Pirep extends Resource
@@ -19,6 +20,10 @@ class Pirep extends Resource
 
         if ($this->distance instanceof Distance) {
             $pirep['distance'] = $this->distance->toObject();
+        }
+
+        if ($this->fuel_used instanceof Fuel) {
+            $pirep['fuel_used'] = $this->fuel_used->toObject();
         }
 
         if ($this->planned_distance instanceof Distance) {

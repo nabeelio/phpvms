@@ -117,6 +117,32 @@ class PIREPTest extends TestCase
     }
 
     /**
+     * Make sure the unit conversions look to be proper
+     */
+    public function testUnitFields()
+    {
+        $pirep = $this->createPirep();
+        $pirep->save();
+
+        $uri = '/api/pireps/'.$pirep->id;
+
+        $response = $this->get($uri);
+        $body = $response->json('data');
+
+        // Check that it has the fuel units
+        $this->assertHasKeys($body['fuel_used'], ['lbs', 'kg']);
+        $this->assertEquals($pirep->fuel_used->toInt(), $body['fuel_used']['lbs']);
+
+        // Check that it has the distance units
+        $this->assertHasKeys($body['distance'], ['km', 'nmi', 'mi']);
+        $this->assertEquals($pirep->distance->toInt(), $body['distance']['nmi']);
+
+        // Check the planned_distance field
+        $this->assertHasKeys($body['planned_distance'], ['km', 'nmi', 'mi']);
+        $this->assertEquals($pirep->planned_distance->toInt(), $body['planned_distance']['nmi']);
+    }
+
+    /**
      *
      */
     public function testGetUserPireps()

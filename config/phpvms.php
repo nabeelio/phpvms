@@ -55,6 +55,7 @@ return [
     'internal_units' => [
         'altitude'  => 'feet',
         'distance'  => 'nmi',
+        'fuel'      => 'lbs',
         'mass'      => 'lbs',
         'velocity'  => 'knots',
         'volume'    => 'gallons',
