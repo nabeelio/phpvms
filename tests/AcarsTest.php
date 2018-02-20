@@ -2,17 +2,21 @@
 
 use App\Models\Enums\PirepState;
 use App\Models\Enums\PirepStatus;
-use Tests\TestData;
+use App\Repositories\SettingRepository;
 
 /**
  * Test API calls and authentication, etc
  */
 class AcarsTest extends TestCase
 {
+    protected $settingsRepo;
+
     public function setUp()
     {
         parent::setUp();
         $this->addData('base');
+
+        $this->settingsRepo = app(SettingRepository::class);
     }
 
     /**
@@ -263,6 +267,45 @@ class AcarsTest extends TestCase
 
         // Try refiling with a valid aircraft
         $pirep['aircraft_id'] = $subfleetA['aircraft']->random()->id;
+        $response = $this->post($uri, $pirep);
+        $response->assertStatus(201);
+    }
+
+    /**
+     * Test aircraft permissions being ignored
+     */
+    public function testIgnoreAircraftAllowed()
+    {
+        $this->settingsRepo->store('pireps.restrict_aircraft_to_rank', false);
+
+        $airport = factory(App\Models\Airport::class)->create();
+        $airline = factory(App\Models\Airline::class)->create();
+
+        # Add subfleets and aircraft, but also add another set of subfleets
+        $subfleetA = $this->createSubfleetWithAircraft(1);
+
+        // User not allowed aircraft from this subfleet
+        $subfleetB = $this->createSubfleetWithAircraft(1);
+
+        $rank = $this->createRank(10, [$subfleetA['subfleet']->id]);
+
+        $this->user = factory(App\Models\User::class)->create([
+            'rank_id' => $rank->id,
+        ]);
+
+        $uri = '/api/pireps/prefile';
+        $pirep = [
+            'airline_id' => $airline->id,
+            'aircraft_id' => $subfleetB['aircraft']->random()->id,
+            'dpt_airport_id' => $airport->icao,
+            'arr_airport_id' => $airport->icao,
+            'flight_number' => '6000',
+            'level' => 38000,
+            'planned_flight_time' => 120,
+            'route' => 'POINTA POINTB',
+            'source_name' => 'Unit test'
+        ];
+
         $response = $this->post($uri, $pirep);
         $response->assertStatus(201);
     }

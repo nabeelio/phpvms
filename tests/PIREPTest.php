@@ -7,6 +7,7 @@ use App\Models\Enums\AcarsType;
 use App\Models\Pirep;
 use App\Models\User;
 use App\Models\Enums\PirepState;
+use App\Repositories\SettingRepository;
 
 class PIREPTest extends TestCase
 {
