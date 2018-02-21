@@ -10,15 +10,14 @@
     </div>
     <br />
     <table id="aircraft_fares"
-           class="table table-bordered table-hover dataTable"
-           role="grid" aria-describedby="aircraft_fares_info">
+           class="table table-hover dataTable">
         <thead>
         <tr>
             <th>name</th>
-            <th>code</th>
-            <th>capacity (default)</th>
-            <th>price (default)</th>
-            <th>cost (default)</th>
+            <th style="text-align: center;">code</th>
+            <th style="text-align: center;">capacity (default)</th>
+            <th style="text-align: center;">price (default)</th>
+            <th style="text-align: center;">cost (default)</th>
             <th></th>
         </tr>
         </thead>
@@ -27,12 +26,15 @@
             <tr>
                 <td class="sorting_1">{!! $atf->name !!}</td>
                 <td style="text-align: center;">{!! $atf->code !!}</td>
-                <td><a href="#" data-pk="{!! $atf->id !!}" data-name="capacity">{!! $atf->pivot->capacity !!}</a>
+                <td style="text-align: center;">
+                    <a href="#" data-pk="{!! $atf->id !!}" data-name="capacity">{!! $atf->pivot->capacity !!}</a>
                     <span class="small background-color-grey-light">({!! $atf->capacity !!})</span>
                 </td>
-                <td><a href="#" data-pk="{!! $atf->id !!}" data-name="price">{!! $atf->pivot->price !!}</a>
+                <td style="text-align: center;">
+                    <a href="#" data-pk="{!! $atf->id !!}" data-name="price">{!! $atf->pivot->price !!}</a>
                     <span class="small background-color-grey-light">({!! $atf->price !!})</span></td>
-                <td><a href="#" data-pk="{!! $atf->id !!}" data-name="cost">{!! $atf->pivot->cost !!}</a>
+                <td style="text-align: center;">
+                    <a href="#" data-pk="{!! $atf->id !!}" data-name="cost">{!! $atf->pivot->cost !!}</a>
                     <span class="small background-color-grey-light">({!! $atf->cost!!})</span></td>
                 <td style="text-align: right; width:3%;">
                     {!! Form::open(['url' => '/admin/subfleets/'.$subfleet->id.'/fares',

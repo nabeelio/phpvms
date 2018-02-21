@@ -41,9 +41,9 @@ class RankController extends BaseController
 
     /**
      * Display a listing of the Ranking.
-     *
      * @param Request $request
      * @return Response
+     * @throws \Prettus\Repository\Exceptions\RepositoryException
      */
     public function index(Request $request)
     {

@@ -17,6 +17,7 @@ Route::group([
     # subfleet
     Route::resource('subfleets', 'SubfleetController');
     Route::match(['get', 'post', 'put', 'delete'], 'subfleets/{id}/fares', 'SubfleetController@fares');
+    Route::match(['get', 'post', 'delete'], 'subfleets/{id}/ranks', 'SubfleetController@ranks');
 
     # aircraft and fare associations
     Route::resource('aircraft', 'AircraftController');
