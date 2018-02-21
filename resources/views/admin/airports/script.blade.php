@@ -46,7 +46,8 @@ $(document).ready(function() {
 
                 $("#" + key).val(value);
 
-                if(key === 'timezone') {
+                if(key === 'tz') {
+                    $("#timezone").val(value);
                     $("#timezone").trigger('change');
                 }
             });
