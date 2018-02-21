@@ -136,8 +136,7 @@ class DevCommands extends BaseCommand
                 $yaml_row[$fname] = $fvalue;
             }
 
-            if($yaml_row['pirep_id'] === 'pirepid_2')
-                $yaml[$table_name][] = $yaml_row;
+            $yaml[$table_name][] = $yaml_row;
             ++$count;
         }
 
