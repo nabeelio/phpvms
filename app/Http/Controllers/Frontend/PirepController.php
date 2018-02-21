@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Frontend;
 use App\Facades\Utils;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreatePirepRequest;
+use App\Models\Enums\AcarsType;
 use App\Models\Enums\PirepSource;
 use App\Models\Enums\PirepState;
 use App\Models\Pirep;
+use App\Repositories\AcarsRepository;
 use App\Repositories\AirlineRepository;
 use App\Repositories\AirportRepository;
 use App\Repositories\Criteria\WhereCriteria;
@@ -182,11 +184,11 @@ class PirepController extends Controller
             return redirect(route('frontend.pirep.index'));
         }
 
-        $map_featuers = $this->geoSvc->pirepGeoJson($pirep);
+        $map_features = $this->geoSvc->pirepGeoJson($pirep);
 
         return $this->view('pireps.show', [
             'pirep' => $pirep,
-            'map_features' => $map_featuers,
+            'map_features' => $map_features,
         ]);
     }
 }

@@ -41,6 +41,14 @@
             @include('admin.pireps.comments')
         </div>
     </div>
+
+    <div class="card border-blue-bottom">
+        <div class="content">
+            <h4>flight log</h4>
+            @include('admin.pireps.flight_log')
+        </div>
+    </div>
+
 </div>
 @endsection
 
