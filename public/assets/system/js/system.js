@@ -137,7 +137,10 @@ const phpvms = (function() {
         }).addTo(map);
 
         geodesicLayer.geoJson(opts.planned_route_line);
-        map.fitBounds(geodesicLayer.getBounds());
+
+        try {
+            map.fitBounds(geodesicLayer.getBounds());
+        } catch (e) { console.log(e); }
 
         // Draw the route points after
         if (opts.route_points !== null) {
@@ -168,7 +171,12 @@ const phpvms = (function() {
             }).addTo(map);
 
             geodesicLayer.geoJson(opts.actual_route_line);
-            map.fitBounds(geodesicLayer.getBounds());
+
+            try {
+                map.fitBounds(geodesicLayer.getBounds());
+            } catch (e) {
+                console.log(e);
+            }
         }
 
         if (opts.actual_route_points !== null && opts.actual_route_points.features.length > 0) {
