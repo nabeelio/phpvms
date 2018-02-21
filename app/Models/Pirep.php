@@ -240,7 +240,7 @@ class Pirep extends BaseModel
     {
         return $this->hasMany(Acars::class, 'pirep_id')
                     ->where('type', AcarsType::FLIGHT_PATH)
-                    ->orderBy('created_at', 'asc');
+                    ->orderBy('created_at', 'desc');
     }
 
     public function acars_logs()
