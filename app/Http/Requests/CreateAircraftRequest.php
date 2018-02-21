@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Aircraft;
+use Illuminate\Foundation\Http\FormRequest;
 
 class CreateAircraftRequest extends FormRequest
 {

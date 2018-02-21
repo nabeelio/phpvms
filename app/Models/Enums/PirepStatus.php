@@ -5,7 +5,6 @@
 
 namespace App\Models\Enums;
 
-
 /**
  * Tied to the ACARS statuses/states
  * Class PirepStatus

@@ -2,19 +2,21 @@
 
 namespace App\Http\Controllers\Api;
 
-use Log;
+use App\Http\Resources\Airport as AirportResource;
+use App\Repositories\AirportRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
-
-use App\Repositories\AirportRepository;
-use App\Http\Resources\Airport as AirportResource;
-
+use Log;
 use VaCentral\Airport as AirportLookup;
 
 class AirportController extends RestController
 {
     protected $airportRepo;
 
+    /**
+     * AirportController constructor.
+     * @param AirportRepository $airportRepo
+     */
     public function __construct(
         AirportRepository $airportRepo
     ) {
@@ -23,6 +25,8 @@ class AirportController extends RestController
 
     /**
      * Return all the airports, paginated
+     * @param Request $request
+     * @return mixed
      */
     public function index(Request $request)
     {
@@ -38,6 +42,9 @@ class AirportController extends RestController
         return AirportResource::collection($airports);
     }
 
+    /**
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
     public function index_hubs()
     {
         $where = [

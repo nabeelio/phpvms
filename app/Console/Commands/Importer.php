@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands;
 
-use DB;
 use App\Console\BaseCommand;
 
 class Importer extends BaseCommand

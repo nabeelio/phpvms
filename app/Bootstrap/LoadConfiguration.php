@@ -2,8 +2,8 @@
 
 namespace App\Bootstrap;
 
-use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Config\Repository as RepositoryContract;
+use Illuminate\Contracts\Foundation\Application;
 
 /**
  * Class LoadConfiguration

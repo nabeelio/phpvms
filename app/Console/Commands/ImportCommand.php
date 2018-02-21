@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands;
 
-use DB;
 use App\Console\BaseCommand;
 use App\Services\DatabaseService;
 

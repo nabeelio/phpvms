@@ -2,18 +2,18 @@
 
 namespace App\Services;
 
+use App\Events\UserRegistered;
+use App\Events\UserStateChanged;
+use App\Events\UserStatsChanged;
+use App\Facades\Utils;
+use App\Models\Enums\UserState;
+use App\Models\Rank;
+use App\Models\Role;
+use App\Models\User;
 use App\Repositories\AircraftRepository;
 use App\Repositories\SubfleetRepository;
 use Illuminate\Support\Collection;
 use Log;
-use App\Facades\Utils;
-use App\Models\User;
-use App\Models\Rank;
-use App\Models\Role;
-use App\Events\UserRegistered;
-use App\Events\UserStateChanged;
-use App\Events\UserStatsChanged;
-use App\Models\Enums\UserState;
 
 class UserService extends BaseService
 {

@@ -2,7 +2,6 @@
 
 namespace App\Models\Enums;
 
-
 class PirepState extends EnumBase {
 
     public const REJECTED      = -1;

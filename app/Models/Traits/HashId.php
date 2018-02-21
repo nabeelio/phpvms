@@ -4,7 +4,6 @@ namespace App\Models\Traits;
 
 use Hashids\Hashids;
 
-
 trait HashId
 {
     /**

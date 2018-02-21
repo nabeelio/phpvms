@@ -3,8 +3,8 @@
 namespace App\Repositories;
 
 use App\Models\Airport;
-use Prettus\Repository\Traits\CacheableRepository;
 use Prettus\Repository\Contracts\CacheableInterface;
+use Prettus\Repository\Traits\CacheableRepository;
 
 
 class AirportRepository extends BaseRepository implements CacheableInterface

@@ -2,17 +2,22 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
-
-use App\Services\GeoService;
 use App\Repositories\AcarsRepository;
 use App\Repositories\PirepRepository;
+use App\Services\GeoService;
+use Illuminate\Http\Request;
 
 
 class AcarsController extends RestController
 {
     protected $acarsRepo, $geoSvc, $pirepRepo;
 
+    /**
+     * AcarsController constructor.
+     * @param GeoService $geoSvc
+     * @param AcarsRepository $acarsRepo
+     * @param PirepRepository $pirepRepo
+     */
     public function __construct(
         GeoService $geoSvc,
         AcarsRepository $acarsRepo,
@@ -25,6 +30,8 @@ class AcarsController extends RestController
 
     /**
      * Return all of the flights (as points) in GeoJSON format
+     * @param Request $request
+     * @return mixed
      */
     public function index(Request $request)
     {

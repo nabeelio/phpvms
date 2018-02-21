@@ -2,23 +2,27 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Support\Countries;
-use Flash;
-use Response;
-use Illuminate\Http\Request;
-use Prettus\Repository\Criteria\RequestCriteria;
-
 use App\Http\Requests\CreateAirlineRequest;
 use App\Http\Requests\UpdateAirlineRequest;
 use App\Repositories\AirlineRepository;
+use App\Support\Countries;
+use Flash;
+use Illuminate\Http\Request;
+use Prettus\Repository\Criteria\RequestCriteria;
+use Response;
 
 class AirlinesController extends BaseController
 {
     /** @var  AirlineRepository */
     private $airlineRepo;
 
-    public function __construct(AirlineRepository $airlinesRepo)
-    {
+    /**
+     * AirlinesController constructor.
+     * @param AirlineRepository $airlinesRepo
+     */
+    public function __construct(
+        AirlineRepository $airlinesRepo
+    ) {
         $this->airlineRepo = $airlinesRepo;
     }
 
@@ -59,9 +63,7 @@ class AirlinesController extends BaseController
 
     /**
      * Display the specified Airlines.
-     *
      * @param  int $id
-     *
      * @return mixed
      */
     public function show($id)

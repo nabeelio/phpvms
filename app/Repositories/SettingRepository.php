@@ -2,14 +2,12 @@
 
 namespace App\Repositories;
 
-use Log;
-use Illuminate\Support\Carbon;
-use Prettus\Repository\Contracts\CacheableInterface;
-
-use App\Models\Setting;
-use Prettus\Repository\Traits\CacheableRepository;
 use App\Exceptions\SettingNotFound;
-
+use App\Models\Setting;
+use Illuminate\Support\Carbon;
+use Log;
+use Prettus\Repository\Contracts\CacheableInterface;
+use Prettus\Repository\Traits\CacheableRepository;
 use Prettus\Validator\Exceptions\ValidatorException;
 
 class SettingRepository extends BaseRepository implements CacheableInterface

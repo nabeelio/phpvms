@@ -2,17 +2,20 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use Log;
-use Illuminate\Support\Facades\Auth;
-
 use App\Http\Controllers\Controller;
 use App\Repositories\PirepRepository;
 use App\Repositories\UserRepository;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
     private $pirepRepo, $userRepo;
 
+    /**
+     * DashboardController constructor.
+     * @param PirepRepository $pirepRepo
+     * @param UserRepository $userRepo
+     */
     public function __construct(
         PirepRepository $pirepRepo,
         UserRepository $userRepo

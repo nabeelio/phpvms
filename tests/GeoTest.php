@@ -1,7 +1,5 @@
 <?php
 
-use App\Facades\Utils;
-
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 
 class GeoTest extends TestCase

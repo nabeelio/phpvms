@@ -2,22 +2,19 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Enums\PirepState;
-use App\Repositories\Criteria\WhereCriteria;
-use App\Repositories\PirepRepository;
-use App\Repositories\SubfleetRepository;
-use App\Services\UserService;
-use Auth;
-use Illuminate\Http\Request;
-
-use App\Repositories\UserRepository;
-
-use App\Models\UserBid;
-
 use App\Http\Resources\Flight as FlightResource;
 use App\Http\Resources\Pirep as PirepResource;
 use App\Http\Resources\Subfleet as SubfleetResource;
 use App\Http\Resources\User as UserResource;
+use App\Models\Enums\PirepState;
+use App\Models\UserBid;
+use App\Repositories\Criteria\WhereCriteria;
+use App\Repositories\PirepRepository;
+use App\Repositories\SubfleetRepository;
+use App\Repositories\UserRepository;
+use App\Services\UserService;
+use Auth;
+use Illuminate\Http\Request;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Prettus\Repository\Exceptions\RepositoryException;
 
@@ -29,6 +26,13 @@ class UserController extends RestController
               $userRepo,
               $userSvc;
 
+    /**
+     * UserController constructor.
+     * @param PirepRepository $pirepRepo
+     * @param SubfleetRepository $subfleetRepo
+     * @param UserRepository $userRepo
+     * @param UserService $userSvc
+     */
     public function __construct(
         PirepRepository $pirepRepo,
         SubfleetRepository $subfleetRepo,
@@ -56,6 +60,8 @@ class UserController extends RestController
 
     /**
      * Return the profile for the currently auth'd user
+     * @param Request $request
+     * @return UserResource
      */
     public function index(Request $request)
     {
@@ -64,6 +70,8 @@ class UserController extends RestController
 
     /**
      * Get the profile for the passed-in user
+     * @param $id
+     * @return UserResource
      */
     public function get($id)
     {

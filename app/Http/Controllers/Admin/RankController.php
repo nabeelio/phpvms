@@ -2,22 +2,26 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Cache;
-use Flash;
-use Response;
-use Illuminate\Http\Request;
-use Prettus\Repository\Criteria\RequestCriteria;
-
 use App\Http\Requests\CreateRankRequest;
 use App\Http\Requests\UpdateRankRequest;
 use App\Repositories\RankRepository;
 use App\Repositories\SubfleetRepository;
+use Cache;
+use Flash;
+use Illuminate\Http\Request;
+use Prettus\Repository\Criteria\RequestCriteria;
+use Response;
 
 class RankController extends BaseController
 {
     /** @var  RankRepository */
     private $rankRepository, $subfleetRepo;
 
+    /**
+     * RankController constructor.
+     * @param RankRepository $rankingRepo
+     * @param SubfleetRepository $subfleetRepo
+     */
     public function __construct(
         RankRepository $rankingRepo,
         SubfleetRepository $subfleetRepo
@@ -26,6 +30,11 @@ class RankController extends BaseController
         $this->subfleetRepo = $subfleetRepo;
     }
 
+    /**
+     * Get the available subfleets for a rank
+     * @param $rank
+     * @return array
+     */
     protected function getAvailSubfleets($rank)
     {
         $retval = [];
@@ -69,6 +78,7 @@ class RankController extends BaseController
      * Store a newly created Ranking in storage.
      * @param CreateRankRequest $request
      * @return Response
+     * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
     public function store(CreateRankRequest $request)
     {
@@ -84,9 +94,7 @@ class RankController extends BaseController
 
     /**
      * Display the specified Ranking.
-     *
      * @param  int $id
-     *
      * @return Response
      */
     public function show($id)
@@ -105,9 +113,7 @@ class RankController extends BaseController
 
     /**
      * Show the form for editing the specified Ranking.
-     *
      * @param  int $id
-     *
      * @return Response
      */
     public function edit($id)
@@ -128,11 +134,10 @@ class RankController extends BaseController
 
     /**
      * Update the specified Ranking in storage.
-     *
-     * @param  int              $id
+     * @param  int $id
      * @param UpdateRankRequest $request
-     *
      * @return Response
+     * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
     public function update($id, UpdateRankRequest $request)
     {
@@ -152,9 +157,7 @@ class RankController extends BaseController
 
     /**
      * Remove the specified Ranking from storage.
-     *
      * @param  int $id
-     *
      * @return Response
      */
     public function destroy($id)
@@ -172,6 +175,10 @@ class RankController extends BaseController
         return redirect(route('admin.ranks.index'));
     }
 
+    /**
+     * @param $rank
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     protected function return_subfleet_view($rank)
     {
         $avail_subfleets = $this->getAvailSubfleets($rank);
@@ -181,10 +188,14 @@ class RankController extends BaseController
         ]);
     }
 
-    public function subfleets(Request $request)
+    /**
+     * Subfleet operations on a rank
+     * @param $id
+     * @param Request $request
+     * @return mixed
+     */
+    public function subfleets($id, Request $request)
     {
-        $id = $request->id;
-
         $rank = $this->rankRepository->findWithoutFail($id);
         if (empty($rank)) {
             Flash::error('Rank not found!');

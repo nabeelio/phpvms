@@ -2,19 +2,16 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Repositories\AirlineRepository;
-use App\Repositories\AirportRepository;
-use App\Services\GeoService;
-use Log;
-
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-
 use App\Http\Controllers\Controller;
 use App\Models\UserBid;
-use App\Repositories\FlightRepository;
+use App\Repositories\AirlineRepository;
+use App\Repositories\AirportRepository;
 use App\Repositories\Criteria\WhereCriteria;
-
+use App\Repositories\FlightRepository;
+use App\Services\GeoService;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Log;
 use Mockery\Exception;
 use Prettus\Repository\Exceptions\RepositoryException;
 
@@ -25,6 +22,13 @@ class FlightController extends Controller
             $flightRepo,
             $geoSvc;
 
+    /**
+     * FlightController constructor.
+     * @param AirlineRepository $airlineRepo
+     * @param AirportRepository $airportRepo
+     * @param FlightRepository $flightRepo
+     * @param GeoService $geoSvc
+     */
     public function __construct(
         AirlineRepository $airlineRepo,
         AirportRepository $airportRepo,
@@ -37,6 +41,10 @@ class FlightController extends Controller
         $this->geoSvc = $geoSvc;
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index(Request $request)
     {
         $where = ['active' => true];
@@ -86,6 +94,11 @@ class FlightController extends Controller
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
+     */
     public function save(Request $request)
     {
         $user_id = Auth::id();
@@ -118,6 +131,8 @@ class FlightController extends Controller
 
     /**
      * Show the flight information page
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
      */
     public function show($id)
     {

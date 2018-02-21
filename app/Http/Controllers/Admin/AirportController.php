@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Log;
-use Flash;
 use App\Http\Requests\CreateAirportRequest;
 use App\Http\Requests\UpdateAirportRequest;
 use App\Repositories\AirportRepository;
 use App\Repositories\Criteria\WhereCriteria;
+use Flash;
 use Illuminate\Http\Request;
 use Jackiedo\Timezonelist\Facades\Timezonelist;
 use Response;
@@ -18,14 +17,18 @@ class AirportController extends BaseController
     /** @var  AirportRepository */
     private $airportRepository;
 
-    public function __construct(AirportRepository $airportRepo)
-    {
+    /**
+     * AirportController constructor.
+     * @param AirportRepository $airportRepo
+     */
+    public function __construct(
+        AirportRepository $airportRepo
+    ) {
         $this->airportRepository = $airportRepo;
     }
 
     /**
      * Display a listing of the Airport.
-     *
      * @param Request $request
      * @return Response
      * @throws \Prettus\Repository\Exceptions\RepositoryException
@@ -47,7 +50,6 @@ class AirportController extends BaseController
 
     /**
      * Show the form for creating a new Airport.
-     *
      * @return Response
      */
     public function create()
@@ -158,6 +160,11 @@ class AirportController extends BaseController
         return redirect(route('admin.airports.index'));
     }
 
+    /**
+     * Set fuel prices for this airport
+     * @param Request $request
+     * @return mixed
+     */
     public function fuel(Request $request)
     {
         $id = $request->id;

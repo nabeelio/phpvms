@@ -2,21 +2,28 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
-
-use App\Repositories\AirlineRepository;
 use App\Http\Resources\Airline as AirlineResource;
+use App\Repositories\AirlineRepository;
+use Illuminate\Http\Request;
 
 class AirlineController extends RestController
 {
     protected $airlineRepo;
 
-    public function __construct(AirlineRepository $airlineRepo) {
+    /**
+     * AirlineController constructor.
+     * @param AirlineRepository $airlineRepo
+     */
+    public function __construct(
+        AirlineRepository $airlineRepo
+    ) {
         $this->airlineRepo = $airlineRepo;
     }
 
     /**
      * Return all the airlines, paginated
+     * @param Request $request
+     * @return mixed
      */
     public function index(Request $request)
     {

@@ -4,7 +4,6 @@ namespace App\Models;
 
 /**
  * Class Fare
- *
  * @package App\Models
  */
 class Fare extends BaseModel

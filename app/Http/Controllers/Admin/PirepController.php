@@ -2,30 +2,25 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Services\UserService;
-use App\Support\Units\Time;
-use Log;
-use Flash;
-use Response;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Prettus\Repository\Criteria\RequestCriteria;
-
-use App\Services\PIREPService;
-
-use App\Models\PirepComment;
-use App\Models\Enums\PirepState;
-
+use App\Facades\Utils;
 use App\Http\Requests\CreatePirepRequest;
 use App\Http\Requests\UpdatePirepRequest;
-
+use App\Models\Enums\PirepState;
+use App\Models\PirepComment;
 use App\Repositories\AircraftRepository;
 use App\Repositories\AirlineRepository;
 use App\Repositories\AirportRepository;
 use App\Repositories\PirepRepository;
 use App\Repositories\SubfleetRepository;
-
-use App\Facades\Utils;
+use App\Services\PIREPService;
+use App\Services\UserService;
+use App\Support\Units\Time;
+use Flash;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Log;
+use Prettus\Repository\Criteria\RequestCriteria;
+use Response;
 
 
 class PirepController extends BaseController
@@ -38,6 +33,16 @@ class PirepController extends BaseController
             $subfleetRepo,
             $userSvc;
 
+    /**
+     * PirepController constructor.
+     * @param AirportRepository $airportRepo
+     * @param AirlineRepository $airlineRepo
+     * @param AircraftRepository $aircraftRepo
+     * @param PirepRepository $pirepRepo
+     * @param PIREPService $pirepSvc
+     * @param SubfleetRepository $subfleetRepo
+     * @param UserService $userSvc
+     */
     public function __construct(
         AirportRepository $airportRepo,
         AirlineRepository $airlineRepo,
@@ -284,7 +289,8 @@ class PirepController extends BaseController
      * Add a comment to the Pirep
      * @param $id
      * @param Request $request
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return mixed
+     * @throws \Exception
      */
     public function comments($id, Request $request)
     {

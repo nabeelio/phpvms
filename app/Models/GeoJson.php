@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
-use \GeoJson\Geometry\Point;
-use \GeoJson\Geometry\LineString;
-use \GeoJson\Feature\Feature;
-use \GeoJson\Feature\FeatureCollection;
+use GeoJson\Feature\Feature;
+use GeoJson\Feature\FeatureCollection;
+use GeoJson\Geometry\LineString;
+use GeoJson\Geometry\Point;
 
 /**
  * Return different points/features in GeoJSON format

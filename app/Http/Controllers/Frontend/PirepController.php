@@ -2,28 +2,24 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use Log;
 use App\Facades\Utils;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\CreatePirepRequest;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
-
 use App\Models\Enums\PirepSource;
 use App\Models\Enums\PirepState;
 use App\Models\Pirep;
-use App\Models\PirepField;
-
+use App\Repositories\AirlineRepository;
+use App\Repositories\AirportRepository;
+use App\Repositories\Criteria\WhereCriteria;
+use App\Repositories\PirepFieldRepository;
+use App\Repositories\PirepRepository;
+use App\Repositories\SubfleetRepository;
 use App\Services\GeoService;
 use App\Services\PIREPService;
 use App\Services\UserService;
-
-use App\Repositories\Criteria\WhereCriteria;
-use App\Http\Controllers\Controller;
-use App\Repositories\AirlineRepository;
-use App\Repositories\AirportRepository;
-use App\Repositories\PirepRepository;
-use App\Repositories\PirepFieldRepository;
-use App\Repositories\SubfleetRepository;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Log;
 
 
 class PirepController extends Controller
@@ -37,6 +33,17 @@ class PirepController extends Controller
             $subfleetRepo,
             $userSvc;
 
+    /**
+     * PirepController constructor.
+     * @param AirlineRepository $airlineRepo
+     * @param PirepRepository $pirepRepo
+     * @param AirportRepository $airportRepo
+     * @param PirepFieldRepository $pirepFieldRepo
+     * @param GeoService $geoSvc
+     * @param SubfleetRepository $subfleetRepo
+     * @param PIREPService $pirepSvc
+     * @param UserService $userSvc
+     */
     public function __construct(
         AirlineRepository $airlineRepo,
         PirepRepository $pirepRepo,
@@ -119,9 +126,9 @@ class PirepController extends Controller
     }
 
     /**
-     *
      * @param CreatePirepRequest $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Exception
      */
     public function store(CreatePirepRequest $request)
     {
@@ -163,6 +170,10 @@ class PirepController extends Controller
         return redirect(route('frontend.pireps.show', ['id' => $pirep->id]));
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function show($id)
     {
         $pirep = $this->pirepRepo->find($id);

@@ -2,25 +2,20 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Repositories\RankRepository;
-use Illuminate\Http\Request;
-use Flash;
-use Prettus\Repository\Criteria\RequestCriteria;
-use Response;
-
-use App\Models\Enums\FuelType;
-
-use App\Models\Airline;
-use App\Models\Subfleet;
-
 use App\Http\Requests\CreateSubfleetRequest;
 use App\Http\Requests\UpdateSubfleetRequest;
-
+use App\Models\Airline;
+use App\Models\Enums\FuelType;
+use App\Models\Subfleet;
 use App\Repositories\AircraftRepository;
 use App\Repositories\FareRepository;
+use App\Repositories\RankRepository;
 use App\Repositories\SubfleetRepository;
-
 use App\Services\FareService;
+use Flash;
+use Illuminate\Http\Request;
+use Prettus\Repository\Criteria\RequestCriteria;
+use Response;
 
 class SubfleetController extends BaseController
 {
@@ -29,7 +24,6 @@ class SubfleetController extends BaseController
 
     /**
      * SubfleetController constructor.
-     *
      * @param AircraftRepository $aircraftRepo
      * @param SubfleetRepository $subfleetRepo
      * @param FareRepository $fareRepo
@@ -102,7 +96,6 @@ class SubfleetController extends BaseController
 
     /**
      * Show the form for creating a new Subfleet.
-     *
      * @return Response
      */
     public function create()

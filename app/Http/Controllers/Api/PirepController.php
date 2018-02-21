@@ -2,38 +2,32 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Requests\Acars\EventRequest;
-use App\Http\Requests\Acars\UpdateRequest;
-use App\Models\Enums\PirepSource;
-use App\Services\UserService;
-use Auth;
-use Log;
-use Illuminate\Http\Request;
-
 use App\Http\Requests\Acars\CommentRequest;
+use App\Http\Requests\Acars\EventRequest;
 use App\Http\Requests\Acars\FileRequest;
 use App\Http\Requests\Acars\LogRequest;
 use App\Http\Requests\Acars\PositionRequest;
 use App\Http\Requests\Acars\PrefileRequest;
 use App\Http\Requests\Acars\RouteRequest;
-
-use App\Models\Acars;
-use App\Models\Pirep;
-use App\Models\PirepComment;
-
-use App\Models\Enums\AcarsType;
-use App\Models\Enums\PirepState;
-use App\Models\Enums\PirepStatus;
-
-use App\Services\GeoService;
-use App\Services\PIREPService;
-use App\Repositories\AcarsRepository;
-use App\Repositories\PirepRepository;
-
+use App\Http\Requests\Acars\UpdateRequest;
+use App\Http\Resources\AcarsRoute as AcarsRouteResource;
 use App\Http\Resources\Pirep as PirepResource;
 use App\Http\Resources\PirepComment as PirepCommentResource;
-use App\Http\Resources\AcarsRoute as AcarsRouteResource;
-
+use App\Models\Acars;
+use App\Models\Enums\AcarsType;
+use App\Models\Enums\PirepSource;
+use App\Models\Enums\PirepState;
+use App\Models\Enums\PirepStatus;
+use App\Models\Pirep;
+use App\Models\PirepComment;
+use App\Repositories\AcarsRepository;
+use App\Repositories\PirepRepository;
+use App\Services\GeoService;
+use App\Services\PIREPService;
+use App\Services\UserService;
+use Auth;
+use Illuminate\Http\Request;
+use Log;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class PirepController extends RestController
@@ -50,6 +44,7 @@ class PirepController extends RestController
      * @param GeoService $geoSvc
      * @param PirepRepository $pirepRepo
      * @param PIREPService $pirepSvc
+     * @param UserService $userSvc
      */
     public function __construct(
         AcarsRepository $acarsRepo,
@@ -435,7 +430,7 @@ class PirepController extends RestController
     /**
      * @param $id
      * @param Request $request
-     * @return AcarsRouteResource
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function route_get($id, Request $request)
     {

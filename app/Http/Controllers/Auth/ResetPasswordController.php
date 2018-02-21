@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;
+use Illuminate\Http\Request;
 
 class ResetPasswordController extends Controller
 {
@@ -12,6 +12,11 @@ class ResetPasswordController extends Controller
 
     use ResetsPasswords;
 
+    /**
+     * @param Request $request
+     * @param null $token
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function showResetForm(Request $request, $token = null)
     {
         return $this->view('auth.passwords.reset',
@@ -21,7 +26,6 @@ class ResetPasswordController extends Controller
 
     /**
      * Create a new controller instance.
-     *
      * @return void
      */
     public function __construct()

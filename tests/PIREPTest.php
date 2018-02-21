@@ -1,13 +1,12 @@
 <?php
 
-use Carbon\Carbon;
-
 use App\Models\Acars;
 use App\Models\Enums\AcarsType;
+use App\Models\Enums\PirepState;
 use App\Models\Pirep;
 use App\Models\User;
-use App\Models\Enums\PirepState;
 use App\Repositories\SettingRepository;
+use Carbon\Carbon;
 
 class PIREPTest extends TestCase
 {

@@ -2,12 +2,11 @@
 
 namespace App\Services;
 
+use App\Models\Enums\AnalyticsDimensions;
 use DB;
+use Irazasyed\LaravelGAMP\Facades\GAMP;
 use Log;
 use PDO;
-
-use Irazasyed\LaravelGAMP\Facades\GAMP;
-use App\Models\Enums\AnalyticsDimensions;
 
 class AnalyticsService
 {

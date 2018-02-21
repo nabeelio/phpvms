@@ -2,15 +2,13 @@
 
 namespace App\Console\Commands;
 
-use DB;
-use PDO;
-
-use App\Models\Airline;
-use App\Models\User;
-
 use App\Console\BaseCommand;
 use App\Models\Acars;
+use App\Models\Airline;
 use App\Models\Pirep;
+use App\Models\User;
+use DB;
+use PDO;
 
 class DevCommands extends BaseCommand
 {

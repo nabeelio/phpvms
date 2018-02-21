@@ -4,6 +4,10 @@ namespace App\Widgets;
 
 use App\Repositories\PirepRepository;
 
+/**
+ * Show the latest PIREPs in a view
+ * @package App\Widgets
+ */
 class LatestPireps extends BaseWidget
 {
     protected $config = [

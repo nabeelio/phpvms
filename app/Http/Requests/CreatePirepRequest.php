@@ -2,11 +2,10 @@
 
 namespace App\Http\Requests;
 
-use Log;
-use Illuminate\Foundation\Http\FormRequest;
-
 use App\Models\Pirep;
 use App\Repositories\PirepFieldRepository;
+use Illuminate\Foundation\Http\FormRequest;
+use Log;
 
 class CreatePirepRequest extends FormRequest
 {

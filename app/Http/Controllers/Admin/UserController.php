@@ -3,28 +3,24 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Facades\Utils;
-use App\Models\User;
-use DB;
-use Hash;
-use Illuminate\Support\Facades\Auth;
-use Log;
-use Flash;
-use Prettus\Repository\Exceptions\RepositoryException;
-use Response;
-use Jackiedo\Timezonelist\Facades\Timezonelist;
-use Illuminate\Http\Request;
-
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\UpdateUserRequest;
-
+use App\Models\Airline;
+use App\Models\Airport;
+use App\Models\Rank;
+use App\Models\Role;
+use App\Models\User;
 use App\Repositories\PirepRepository;
 use App\Repositories\UserRepository;
 use App\Services\UserService;
-
-use App\Models\Airport;
-use App\Models\Airline;
-use App\Models\Rank;
-use App\Models\Role;
+use DB;
+use Flash;
+use Hash;
+use Illuminate\Http\Request;
+use Jackiedo\Timezonelist\Facades\Timezonelist;
+use Log;
+use Prettus\Repository\Exceptions\RepositoryException;
+use Response;
 
 class UserController extends BaseController
 {
@@ -34,7 +30,6 @@ class UserController extends BaseController
 
     /**
      * UserController constructor.
-     *
      * @param UserRepository $userRepo
      */
     public function __construct(
@@ -47,6 +42,10 @@ class UserController extends BaseController
         $this->userRepo = $userRepo;
     }
 
+    /**
+     * @param Request $request
+     * @return mixed
+     */
     public function index(Request $request)
     {
         try {
@@ -82,7 +81,7 @@ class UserController extends BaseController
     public function store(CreateUserRequest $request)
     {
         $input = $request->all();
-        $User = $this->userRepo->create($input);
+        $user = $this->userRepo->create($input);
 
         Flash::success('User saved successfully.');
         return redirect(route('admin.users.index'));
@@ -120,9 +119,7 @@ class UserController extends BaseController
 
     /**
      * Show the form for editing the specified User.
-     *
      * @param  int $id
-     *
      * @return Response
      */
     public function edit($id)
@@ -157,11 +154,10 @@ class UserController extends BaseController
 
     /**
      * Update the specified User in storage.
-     *
-     * @param int               $id
+     * @param int $id
      * @param UpdateUserRequest $request
-     *
      * @return Response
+     * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
     public function update($id, UpdateUserRequest $request)
     {
@@ -199,9 +195,7 @@ class UserController extends BaseController
 
     /**
      * Remove the specified User from storage.
-     *
      * @param  int $id
-     *
      * @return Response
      */
     public function destroy($id)
@@ -221,6 +215,9 @@ class UserController extends BaseController
 
     /**
      * Regenerate the user's API key
+     * @param $id
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function regen_apikey($id, Request $request)
     {

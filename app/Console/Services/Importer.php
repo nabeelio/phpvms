@@ -2,26 +2,25 @@
 
 namespace App\Console\Services;
 
-use PDO;
-use Carbon\Carbon;
-use Doctrine\DBAL\Driver\PDOException;
-use Illuminate\Support\Str;
-use Illuminate\Database\QueryException;
-use Illuminate\Support\Facades\Hash;
-use Symfony\Component\Console\Output\ConsoleOutput;
-
-use App\Models\Enums\FlightType;
-use App\Models\Enums\PirepSource;
-use App\Models\Pirep;
+use App\Facades\Utils;
 use App\Models\Aircraft;
 use App\Models\Airline;
 use App\Models\Airport;
+use App\Models\Enums\FlightType;
+use App\Models\Enums\PirepSource;
+use App\Models\Enums\UserState;
 use App\Models\Flight;
+use App\Models\Pirep;
 use App\Models\Rank;
 use App\Models\Subfleet;
 use App\Models\User;
-use App\Models\Enums\UserState;
-use App\Facades\Utils;
+use Carbon\Carbon;
+use Doctrine\DBAL\Driver\PDOException;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use PDO;
+use Symfony\Component\Console\Output\ConsoleOutput;
 
 /**
  * Class Importer

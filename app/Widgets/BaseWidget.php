@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: nshahzad
- * Date: 1/8/18
- * Time: 7:46 PM
- */
 
 namespace App\Widgets;
 

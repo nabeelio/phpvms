@@ -5,7 +5,6 @@ namespace App\Http\Requests;
 use App\Models\Pirep;
 use Illuminate\Foundation\Http\FormRequest;
 
-
 class UpdatePirepRequest extends FormRequest
 {
 

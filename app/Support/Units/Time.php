@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Support\Units;
+
 use Illuminate\Contracts\Support\Arrayable;
 
 /**

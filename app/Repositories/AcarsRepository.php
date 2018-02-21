@@ -4,8 +4,8 @@ namespace App\Repositories;
 
 use App\Models\Acars;
 use App\Models\Enums\AcarsType;
-use App\Models\Pirep;
 use App\Models\Enums\PirepState;
+use App\Models\Pirep;
 
 class AcarsRepository extends BaseRepository //implements CacheableInterface
 {

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use Illuminate\Database\QueryException;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Database\QueryException;
 
 class HomeController extends Controller
 {

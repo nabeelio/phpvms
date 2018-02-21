@@ -3,8 +3,8 @@
 namespace App\Repositories;
 
 use App\Models\Rank;
-use Prettus\Repository\Traits\CacheableRepository;
 use Prettus\Repository\Contracts\CacheableInterface;
+use Prettus\Repository\Traits\CacheableRepository;
 
 class RankRepository extends BaseRepository implements CacheableInterface
 {

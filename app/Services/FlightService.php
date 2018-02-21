@@ -2,14 +2,12 @@
 
 namespace App\Services;
 
-use App\Models\Navdata;
-use Log;
-
 use App\Models\Flight;
 use App\Models\User;
 use App\Models\UserBid;
 use App\Repositories\FlightRepository;
 use App\Repositories\NavdataRepository;
+use Log;
 
 /**
  * Class FlightService

@@ -5,8 +5,8 @@
 
 namespace App\Models\Migrations;
 
-use DB;
 use App\Models\Setting;
+use DB;
 use Illuminate\Database\Migrations\Migration as MigrationBase;
 
 class Migration extends MigrationBase

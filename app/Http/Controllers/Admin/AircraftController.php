@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Subfleet;
 use App\Http\Requests\CreateAircraftRequest;
 use App\Http\Requests\UpdateAircraftRequest;
+use App\Models\Subfleet;
 use App\Repositories\AircraftRepository;
-use Illuminate\Http\Request;
 use Flash;
+use Illuminate\Http\Request;
 use Prettus\Repository\Criteria\RequestCriteria;
 
 
@@ -15,6 +15,10 @@ class AircraftController extends BaseController
 {
     private $aircraftRepository;
 
+    /**
+     * AircraftController constructor.
+     * @param AircraftRepository $aircraftRepo
+     */
     public function __construct(
         AircraftRepository $aircraftRepo
     ) {

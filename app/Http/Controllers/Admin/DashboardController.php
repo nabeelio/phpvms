@@ -2,23 +2,27 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Auth;
-use Flash;
-use Log;
-use Version;
-use Illuminate\Http\Request;
-
 use App\Facades\Utils;
 use App\Repositories\NewsRepository;
 use App\Repositories\PirepRepository;
 use App\Repositories\UserRepository;
-
+use Auth;
+use Flash;
+use Illuminate\Http\Request;
+use Log;
+use Version;
 use vierbergenlars\SemVer\version as semver;
 
 class DashboardController extends BaseController
 {
     private $newsRepo, $pirepRepo, $userRepo;
 
+    /**
+     * DashboardController constructor.
+     * @param NewsRepository $newsRepo
+     * @param PirepRepository $pirepRepo
+     * @param UserRepository $userRepo
+     */
     public function __construct(
         NewsRepository $newsRepo,
         PirepRepository $pirepRepo,

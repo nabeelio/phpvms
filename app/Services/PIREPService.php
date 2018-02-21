@@ -2,29 +2,24 @@
 
 namespace App\Services;
 
-use App\Models\PirepField;
-use Log;
-use Carbon\Carbon;
-use App\Repositories\AcarsRepository;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-
-use App\Models\Acars;
-use App\Models\Navdata;
-use App\Models\Pirep;
-use App\Models\PirepFieldValues;
-use App\Models\User;
-
-use App\Models\Enums\AcarsType;
-use App\Models\Enums\PirepSource;
-use App\Models\Enums\PirepState;
-
 use App\Events\PirepAccepted;
 use App\Events\PirepFiled;
 use App\Events\PirepRejected;
 use App\Events\UserStatsChanged;
-
+use App\Models\Acars;
+use App\Models\Enums\AcarsType;
+use App\Models\Enums\PirepSource;
+use App\Models\Enums\PirepState;
+use App\Models\Navdata;
+use App\Models\Pirep;
+use App\Models\PirepFieldValues;
+use App\Models\User;
+use App\Repositories\AcarsRepository;
 use App\Repositories\NavdataRepository;
 use App\Repositories\PirepRepository;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Log;
 
 class PIREPService extends BaseService
 {

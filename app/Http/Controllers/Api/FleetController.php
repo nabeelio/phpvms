@@ -2,18 +2,21 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
-
-use App\Repositories\AircraftRepository;
-use App\Repositories\SubfleetRepository;
-
 use App\Http\Resources\Aircraft as AircraftResource;
 use App\Http\Resources\Subfleet as SubfleetResource;
+use App\Repositories\AircraftRepository;
+use App\Repositories\SubfleetRepository;
+use Illuminate\Http\Request;
 
 class FleetController extends RestController
 {
     protected $aircraftRepo, $subfleetRepo;
 
+    /**
+     * FleetController constructor.
+     * @param AircraftRepository $aircraftRepo
+     * @param SubfleetRepository $subfleetRepo
+     */
     public function __construct(
         AircraftRepository $aircraftRepo,
         SubfleetRepository $subfleetRepo

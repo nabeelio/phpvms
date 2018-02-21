@@ -2,10 +2,9 @@
 
 namespace App\Providers;
 
-use Log;
+use App\Repositories\SettingRepository;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
-use App\Repositories\SettingRepository;
 
 class AppServiceProvider extends ServiceProvider
 {

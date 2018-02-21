@@ -2,12 +2,11 @@
 
 namespace App\Models;
 
+use App\Models\Traits\HashId;
 use App\Support\Units\Distance;
 use App\Support\Units\Time;
 use PhpUnitsOfMeasure\Exception\NonNumericValue;
 use PhpUnitsOfMeasure\Exception\NonStringUnitName;
-
-use App\Models\Traits\HashId;
 
 class Flight extends BaseModel
 {

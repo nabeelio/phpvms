@@ -4,6 +4,10 @@ namespace App\Widgets;
 
 use App\Repositories\NewsRepository;
 
+/**
+ * Show the latest news in a view
+ * @package App\Widgets
+ */
 class LatestNews extends BaseWidget
 {
     protected $config = [

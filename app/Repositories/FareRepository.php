@@ -3,8 +3,8 @@
 namespace App\Repositories;
 
 use App\Models\Fare;
-use Prettus\Repository\Traits\CacheableRepository;
 use Prettus\Repository\Contracts\CacheableInterface;
+use Prettus\Repository\Traits\CacheableRepository;
 
 class FareRepository extends BaseRepository implements CacheableInterface
 {

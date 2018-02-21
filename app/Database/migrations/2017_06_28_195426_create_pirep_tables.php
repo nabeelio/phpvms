@@ -3,7 +3,6 @@
 use App\Models\Enums\FlightType;
 use App\Models\Enums\PirepState;
 use App\Models\Enums\PirepStatus;
-
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 

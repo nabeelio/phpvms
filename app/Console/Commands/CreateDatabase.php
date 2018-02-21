@@ -2,9 +2,8 @@
 
 namespace App\Console\Commands;
 
-use Log;
-
 use App\Console\BaseCommand;
+use Log;
 
 class CreateDatabase extends BaseCommand
 {

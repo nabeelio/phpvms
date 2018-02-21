@@ -2,22 +2,20 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Support\Countries;
-use Log;
-use Hash;
-use Flash;
-use Validator;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Jackiedo\Timezonelist\Facades\Timezonelist;
-
-use App\Http\Controllers\Controller;
-
-use App\Models\User;
 use App\Facades\Utils;
+use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Repositories\AirlineRepository;
 use App\Repositories\AirportRepository;
 use App\Repositories\UserRepository;
+use App\Support\Countries;
+use Flash;
+use Hash;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Jackiedo\Timezonelist\Facades\Timezonelist;
+use Log;
+use Validator;
 
 class ProfileController extends Controller
 {
@@ -25,6 +23,12 @@ class ProfileController extends Controller
             $airportRepo,
             $userRepo;
 
+    /**
+     * ProfileController constructor.
+     * @param AirlineRepository $airlineRepo
+     * @param AirportRepository $airportRepo
+     * @param UserRepository $userRepo
+     */
     public function __construct(
         AirlineRepository $airlineRepo,
         AirportRepository $airportRepo,
@@ -35,6 +39,9 @@ class ProfileController extends Controller
         $this->userRepo = $userRepo;
     }
 
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index()
     {
         $airports = $this->airportRepo->all();
@@ -45,6 +52,10 @@ class ProfileController extends Controller
         ]);
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
+     */
     public function show($id)
     {
         $user = User::where('id', $id)->first();
@@ -63,6 +74,8 @@ class ProfileController extends Controller
 
     /**
      * Show the edit for form the user's profile
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
      */
     public function edit(Request $request)
     {
@@ -84,6 +97,11 @@ class ProfileController extends Controller
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @return $this
+     * @throws \Prettus\Validator\Exceptions\ValidatorException
+     */
     public function update(Request $request)
     {
         $id = Auth::user()->id;
@@ -120,6 +138,8 @@ class ProfileController extends Controller
 
     /**
      * Regenerate the user's API key
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function regen_apikey(Request $request)
     {

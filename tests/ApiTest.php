@@ -1,8 +1,8 @@
 <?php
 
 #use Swagger\Serializer;
-use App\Services\FareService;
 use App\Models\User;
+use App\Services\FareService;
 
 /**
  * Test API calls and authentication, etc

@@ -2,24 +2,21 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Facades\Utils;
+use App\Http\Requests\CreateFlightRequest;
+use App\Http\Requests\UpdateFlightRequest;
 use App\Models\Enums\FlightType;
 use App\Models\Flight;
 use App\Models\FlightFields;
-use App\Http\Requests\CreateFlightRequest;
-use App\Http\Requests\UpdateFlightRequest;
 use App\Repositories\AirlineRepository;
 use App\Repositories\AirportRepository;
 use App\Repositories\FareRepository;
 use App\Repositories\FlightRepository;
 use App\Repositories\SubfleetRepository;
-
 use App\Services\FareService;
 use App\Services\FlightService;
-
 use App\Support\Units\Time;
-use Illuminate\Http\Request;
 use Flash;
+use Illuminate\Http\Request;
 use Response;
 
 class FlightController extends BaseController
@@ -32,6 +29,16 @@ class FlightController extends BaseController
             $flightSvc,
             $subfleetRepo;
 
+    /**
+     * FlightController constructor.
+     * @param AirlineRepository $airlineRepo
+     * @param AirportRepository $airportRepo
+     * @param FareRepository $fareRepo
+     * @param FlightRepository $flightRepo
+     * @param FareService $fareSvc
+     * @param FlightService $flightSvc
+     * @param SubfleetRepository $subfleetRepo
+     */
     public function __construct(
         AirlineRepository $airlineRepo,
         AirportRepository $airportRepo,
@@ -50,6 +57,10 @@ class FlightController extends BaseController
         $this->subfleetRepo = $subfleetRepo;
     }
 
+    /**
+     * @param $flight
+     * @return array
+     */
     protected function getAvailSubfleets($flight)
     {
         $retval = [];
@@ -82,7 +93,6 @@ class FlightController extends BaseController
 
     /**
      * Show the form for creating a new Flight.
-     *
      * @return Response
      */
     public function create()
@@ -136,7 +146,7 @@ class FlightController extends BaseController
 
     /**
      * @param $id
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
+     * @return mixed
      */
     public function show($id)
     {
@@ -156,7 +166,7 @@ class FlightController extends BaseController
 
     /**
      * @param $id
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
+     * @return mixed
      */
     public function edit($id)
     {
@@ -252,7 +262,7 @@ class FlightController extends BaseController
 
     /**
      * @param $flight
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return mixed
      */
     protected function return_fields_view($flight)
     {
@@ -264,7 +274,7 @@ class FlightController extends BaseController
 
     /**
      * @param Request $request
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
+     * @return mixed
      */
     public function fields(Request $request)
     {
@@ -316,7 +326,7 @@ class FlightController extends BaseController
     /**
      * @param $id
      * @param Request $request
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
+     * @return mixed
      */
     public function subfleets($id, Request $request)
     {

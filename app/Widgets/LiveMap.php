@@ -5,6 +5,10 @@ namespace App\Widgets;
 use App\Repositories\AcarsRepository;
 use App\Services\GeoService;
 
+/**
+ * Show the live map in a view
+ * @package App\Widgets
+ */
 class LiveMap extends BaseWidget
 {
     protected $config = [

@@ -2,18 +2,16 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Resources\Flight as FlightResource;
+use App\Http\Resources\Navdata as NavdataResource;
 use App\Repositories\Criteria\WhereCriteria;
+use App\Repositories\FlightRepository;
 use App\Services\FlightService;
+use App\Services\UserService;
 use Auth;
 use Illuminate\Http\Request;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Prettus\Repository\Exceptions\RepositoryException;
-
-use App\Services\UserService;
-use App\Repositories\FlightRepository;
-
-use App\Http\Resources\Flight as FlightResource;
-use App\Http\Resources\Navdata as NavdataResource;
 
 /**
  * Class FlightController
@@ -23,6 +21,12 @@ class FlightController extends RestController
 {
     protected $flightRepo, $flightSvc, $userSvc;
 
+    /**
+     * FlightController constructor.
+     * @param FlightRepository $flightRepo
+     * @param FlightService $flightSvc
+     * @param UserService $userSvc
+     */
     public function __construct(
         FlightRepository $flightRepo,
         FlightService $flightSvc,

@@ -1,10 +1,7 @@
 <?php
 
-use App\Models\Setting;
-use App\Services\UserService;
 use App\Repositories\SettingRepository;
-
-use Tests\TestData;
+use App\Services\UserService;
 
 class UserTest extends TestCase
 {

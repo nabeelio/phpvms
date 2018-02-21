@@ -6,7 +6,6 @@ use App\Models\Enums\AcarsType;
 use App\Models\Enums\PirepState;
 use App\Models\Traits\HashId;
 use App\Support\Units\Distance;
-
 use App\Support\Units\Fuel;
 use PhpUnitsOfMeasure\Exception\NonNumericValue;
 use PhpUnitsOfMeasure\Exception\NonStringUnitName;

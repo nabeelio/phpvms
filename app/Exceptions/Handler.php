@@ -2,12 +2,12 @@
 
 namespace App\Exceptions;
 
-use \Illuminate\Validation\ValidationException;
-use Log;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Validation\ValidationException;
+use Log;
 
 class Handler extends ExceptionHandler
 {

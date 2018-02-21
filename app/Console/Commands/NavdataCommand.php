@@ -3,9 +3,8 @@
 namespace App\Console\Commands;
 
 use App\Console\BaseCommand;
-use App\Models\Navdata;
 use App\Models\Enums\NavaidType;
-
+use App\Models\Navdata;
 
 class NavdataCommand extends BaseCommand
 {
