@@ -9,10 +9,11 @@ use App\Models\Pirep;
 use App\Models\User;
 use DB;
 use PDO;
+use Symfony\Component\Yaml\Yaml;
 
 class DevCommands extends BaseCommand
 {
-    protected $signature = 'phpvms {cmd}';
+    protected $signature = 'phpvms {cmd} {param?}';
     protected $description = 'Developer commands';
 
     /**
@@ -32,6 +33,7 @@ class DevCommands extends BaseCommand
             'clear-users' => 'clearUsers',
             'compile-assets' => 'compileAssets',
             'db-attrs' => 'dbAttrs',
+            'xml-to-yaml' => 'xmlToYaml',
         ];
 
         if(!array_key_exists($command, $commands)) {
@@ -105,5 +107,44 @@ class DevCommands extends BaseCommand
         $this->info('Emulate Prepares: '.$emulate_prepares);
 
         $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, $emulate_prepares);
+    }
+
+    /**
+     * Convert the sequelpro xml export to yaml
+     */
+    protected function xmlToYaml()
+    {
+        $file = $this->argument('param');
+        $this->info('Reading '. $file);
+
+        $xml_str = file_get_contents($file);
+        $xml = new \SimpleXMLElement($xml_str);
+
+        $yaml = [];
+        $table_name = (string) $xml->database->table_data['name'];
+        $this->info('Writing table "'.$table_name.'"');
+
+        $count = 0;
+        $yaml[$table_name] = [];
+
+        foreach ($xml->database->table_data->row as $row) {
+            $yaml_row = [];
+            foreach($row->field as $field) {
+                $fname = (string) $field['name'];
+                $fvalue = (string) $field;
+
+                $yaml_row[$fname] = $fvalue;
+            }
+
+            if($yaml_row['pirep_id'] === 'pirepid_2')
+                $yaml[$table_name][] = $yaml_row;
+            ++$count;
+        }
+
+        $this->info('Exporting '.$count.' rows');
+
+        $file_name = $table_name.'.yml';
+        file_put_contents(storage_path($file_name), Yaml::dump($yaml, 4, 2));
+        $this->info('Writing yaml to storage: '. $file_name);
     }
 }
