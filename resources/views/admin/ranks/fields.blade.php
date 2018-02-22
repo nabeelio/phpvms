@@ -26,7 +26,7 @@
         <div class="checkbox">
             <label class="checkbox-inline">
                 {!! Form::hidden('auto_approve_acars', false) !!}
-                {!! Form::checkbox('auto_approve_acars', '1', true) !!}
+                {!! Form::checkbox('auto_approve_acars') !!}
                 {!! Form::label('auto_approve_acars', 'Auto Approve ACARS') !!}
             </label>
         </div>
@@ -37,7 +37,7 @@
         <div class="checkbox">
             <label class="checkbox-inline">
                 {!! Form::hidden('auto_approve_manual', false) !!}
-                {!! Form::checkbox('auto_approve_manual', '1', true) !!}
+                {!! Form::checkbox('auto_approve_manual') !!}
                 {!! Form::label('auto_approve_manual', 'Auto Approve Manual') !!}
             </label>
         </div>
@@ -48,7 +48,7 @@
         <div class="checkbox">
             <label class="checkbox-inline">
                 {!! Form::hidden('auto_promote', false) !!}
-                {!! Form::checkbox('auto_promote', '1', true) !!}
+                {!! Form::checkbox('auto_promote') !!}
                 {!! Form::label('auto_promote', 'Auto Promote') !!}
             </label>
         </div>
