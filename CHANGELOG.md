@@ -1,5 +1,3 @@
-# Changelog
-
 ## Alpha 2
 
 !! Please do a full reinstall, with recreating the database
