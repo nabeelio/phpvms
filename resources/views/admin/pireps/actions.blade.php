@@ -9,7 +9,7 @@
                                 'pirep_id' => $pirep->id,
                                 'new_status' => PirepState::ACCEPTED,
                                 'class' => $on_edit_page ? 'pirep_change_status': 'pirep_submit_status']) !!}
-                {!! Form::button('Accept', ['type' => 'submit', 'class' => 'btn btn-info']) !!}
+                {!! Form::button('Accept', ['type' => 'submit', 'class' => 'btn btn-success']) !!}
                 {!! Form::close() !!}
             @endif
         </td>
@@ -30,7 +30,7 @@
         <td>&nbsp;</td>
         <td>
             <a href="{!! route('admin.pireps.edit', [$pirep->id]) !!}"
-               class='btn btn-sm btn-success btn-icon'>
+               class='btn btn-info btn-icon'>
                 <i class="fas fa-pencil-alt"></i>&nbsp;Edit</a>
         </td>
     </tr>
