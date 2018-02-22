@@ -48,14 +48,14 @@ class Subfleet extends BaseModel
         parent::boot();
 
         static::creating(function ($model) {
-            if (filled($model->name)) {
-                $model->name = str_replace(' ', '_', $model->name);
+            if (filled($model->type)) {
+                $model->type = str_replace(' ', '_', $model->type);
             }
         });
 
         static::updating(function ($model) {
-            if (filled($model->name)) {
-                $model->name = str_replace(' ', '_', $model->name);
+            if (filled($model->type)) {
+                $model->type = str_replace(' ', '_', $model->type);
             }
         });
     }
