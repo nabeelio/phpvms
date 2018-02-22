@@ -98,7 +98,7 @@
 </body>
 
 <script src="{!! public_asset('/assets/admin/js/vendor.js') !!}"></script>
-<script src="{!! public_asset('/assets/system/js/system.js') !!}"></script>
+<script src="{!! public_asset('/assets/system/js/phpvms.js') !!}"></script>
 <script src="{!! public_asset('/assets/admin/js/admin.js') !!}"></script>
 
 <script>

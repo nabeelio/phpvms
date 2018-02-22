@@ -72,7 +72,7 @@
 </div>
 
 <script src="{!! public_asset('/assets/system/js/vendor.js') !!}?v={!! time() !!}"></script>
-<script src="{!! public_asset('/assets/system/js/system.js') !!}?v={!! time() !!}"></script>
+<script src="{!! public_asset('/assets/system/js/phpvms.js') !!}?v={!! time() !!}"></script>
 
 <script>
 $(document).ready(function () {
