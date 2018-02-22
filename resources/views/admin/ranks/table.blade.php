@@ -36,7 +36,8 @@
                 </td>
                 <td class="text-right">
                     {!! Form::open(['route' => ['admin.ranks.destroy', $rank->id], 'method' => 'delete']) !!}
-                    <a href="{!! route('admin.ranks.edit', [$rank->id]) !!}" class='btn btn-sm btn-success btn-icon'><i class="fa fa-pencil-square-o"></i></a>
+                    <a href="{!! route('admin.ranks.edit', [$rank->id]) !!}" class='btn btn-sm btn-success btn-icon'>
+                        <i class="fas fa-pencil-alt"></i></a>
                     {!! Form::button('<i class="fa fa-times"></i>', ['type' => 'submit', 'class' => 'btn btn-sm btn-danger btn-icon', 'onclick' => "return confirm('Are you sure?')"]) !!}
                     {!! Form::close() !!}
                 </td>

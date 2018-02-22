@@ -27,7 +27,7 @@
                 {!! Utils::minutesToTimeString($ac->flight_hours) !!}
             </td>
             <td style="text-align: center;">
-                @if($ac->active == GenericState::ACTIVE)
+                @if($ac->active === GenericState::ACTIVE)
                     <span class="label label-success">{!! GenericState::label($ac->active); !!}</span>
                 @else
                     <span class="label label-default">Inactive</span>
@@ -36,7 +36,7 @@
             <td style="width: 10%; text-align: right;">
                 {!! Form::open(['route' => ['admin.aircraft.destroy', $ac->id], 'method' => 'delete']) !!}
                 <a href="{!! route('admin.aircraft.edit', [$ac->id]) !!}" class='btn btn-sm btn-success btn-icon'>
-                    <i class="fa fa-pencil-square-o"></i>
+                    <i class="fas fa-pencil-alt"></i>
                 </a>
                 {!! Form::button('<i class="fa fa-times"></i>', ['type' => 'submit', 'class' => 'btn btn-sm btn-danger btn-icon', 'onclick' => "return confirm('Are you sure?')"]) !!}
                 {!! Form::close() !!}

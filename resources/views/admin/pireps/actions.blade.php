@@ -31,7 +31,7 @@
         <td>
             <a href="{!! route('admin.pireps.edit', [$pirep->id]) !!}"
                class='btn btn-sm btn-success btn-icon'>
-                <i class="fa fa-pencil-square-o"></i></a>
+                <i class="fas fa-pencil-alt"></i>&nbsp;Edit</a>
         </td>
     </tr>
 </table>

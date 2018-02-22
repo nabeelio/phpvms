@@ -15,7 +15,7 @@
     <link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'>
     <link href="http://fonts.googleapis.com/css?family=Roboto:400,700,300" rel="stylesheet" type="text/css">
 
-    <link rel="stylesheet" href="{{ public_asset('/assets/system/css/vendor.css') }}"/>
+    <link rel="stylesheet" href="{{ public_asset('/assets/system/css/vendor.min.css') }}"/>
     <link rel="stylesheet" href="{{ public_asset('/assets/admin/css/vendor.min.css') }}">
     <link rel="stylesheet" href="{{ public_asset('/assets/admin/css/admin.css') }}">
 
@@ -89,14 +89,11 @@
                 </div>
             </div>
         </footer>
-
     </div>
-
 </div>
-
-
 </body>
 
+<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
 <script src="{!! public_asset('/assets/admin/js/vendor.js') !!}"></script>
 <script src="{!! public_asset('/assets/system/js/phpvms.js') !!}"></script>
 <script src="{!! public_asset('/assets/admin/js/admin.js') !!}"></script>

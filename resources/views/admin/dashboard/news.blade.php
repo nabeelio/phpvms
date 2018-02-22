@@ -21,7 +21,7 @@
             ]) !!}
                 {!! Form::hidden('news_id', $item->id) !!}
                 {!!
-                     Form::button('delete',
+                     Form::button('<i class="far fa-trash-alt"></i>&nbsp;delete',
                                      ['type' => 'submit',
                                       'class' => ' btn btn-danger btn-xs text-small',
                                       'onclick' => "return confirm('Are you sure?')"
@@ -54,7 +54,7 @@
             </table>
             <div class="text-right">
                 {!!
-                 Form::button('<i class="glyphicon glyphicon-plus"></i> add',
+                 Form::button('<i class="fas fa-plus-circle"></i>&nbsp;add',
                                  ['type' => 'submit',
                                   'class' => 'btn btn-success btn-s'])
 

@@ -21,7 +21,7 @@
                 {!! Form::open(['route' => ['admin.subfleets.destroy', $subfleet->id], 'method' => 'delete']) !!}
 
                 <a href="{!! route('admin.subfleets.edit', [$subfleet->id]) !!}" class='btn btn-sm btn-success btn-icon'>
-                    <i class="fa fa-pencil-square-o"></i></a>
+                    <i class="fas fa-pencil-alt"></i></a>
 
                 {!! Form::button('<i class="fa fa-times"></i>',
                                  ['type' => 'submit', 'class' => 'btn btn-sm btn-danger btn-icon',
