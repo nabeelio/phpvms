@@ -55,8 +55,11 @@ class AircraftController extends BaseController
      */
     public function store(CreateAircraftRequest $request)
     {
-        $input = $request->all();
-        $aircraft = $this->aircraftRepository->create($input);
+        $attrs = $request->all();
+
+        $attrs['active'] = get_truth_state($attrs['active']);
+
+        $aircraft = $this->aircraftRepository->create($attrs);
 
         Flash::success('Aircraft saved successfully.');
         return redirect(route('admin.aircraft.edit', ['id' => $aircraft->id]));
@@ -110,7 +113,10 @@ class AircraftController extends BaseController
             return redirect(route('admin.aircraft.index'));
         }
 
-        $this->aircraftRepository->update($request->all(), $id);
+        $attrs = $request->all();
+        $attrs['active'] = get_truth_state($attrs['active']);
+
+        $this->aircraftRepository->update($attrs, $id);
 
         Flash::success('Aircraft updated successfully.');
         return redirect(route('admin.aircraft.index'));

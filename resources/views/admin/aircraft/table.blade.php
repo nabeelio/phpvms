@@ -27,7 +27,7 @@
                 {!! Utils::minutesToTimeString($ac->flight_hours) !!}
             </td>
             <td style="text-align: center;">
-                @if($ac->active === GenericState::ACTIVE)
+                @if($ac->active == GenericState::ACTIVE)
                     <span class="label label-success">{!! GenericState::label($ac->active); !!}</span>
                 @else
                     <span class="label label-default">Inactive</span>
