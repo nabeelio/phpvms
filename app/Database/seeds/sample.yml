@@ -342,6 +342,8 @@ pireps:
     state: 1
     route: PLMMR2 SPA Q22 BEARI FAK PHLBO3
     notes: just a pilot report
+    source: 1
+    source_name: sample
     created_at: NOW
     updated_at: NOW
   - id: pirepid_3

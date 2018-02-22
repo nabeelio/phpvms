@@ -17,6 +17,15 @@
         </div>
     </div>
     <div class="form-group col-sm-6">
+        <p class="description">Filed Using:</span>
+        {!! PirepSource::label($pirep->source) !!}
+        @if(filled($pirep->source_name))
+            ({!! $pirep->source_name !!})
+        @endif
+    </div>
+</div>
+<div class="row">
+    <div class="form-group col-sm-3">
         {!! Form::label('airline_id', 'Airline') !!}
         <div class="row">
             <div class="col-sm-12">
@@ -25,20 +34,18 @@
             </div>
         </div>
     </div>
-</div>
-<div class="row">
-    <div class="form-group col-sm-4">
+    <div class="form-group col-sm-3">
         {!! Form::label('aircraft_id', 'Aircraft:') !!}
         {!! Form::select('aircraft_id', $aircraft, null, ['class' => 'form-control select2']) !!}
         <p class="text-danger">{{ $errors->first('aircraft_id') }}</p>
     </div>
-    <div class="form-group col-sm-4">
+    <div class="form-group col-sm-3">
         {!! Form::label('dpt_airport_id', 'Departure Airport:') !!}
         {!! Form::select('dpt_airport_id', $airports, null, ['class' => 'form-control select2']) !!}
         <p class="text-danger">{{ $errors->first('dpt_airport_id') }}</p>
     </div>
 
-    <div class="form-group col-sm-4">
+    <div class="form-group col-sm-3">
         {!! Form::label('arr_airport_id', 'Arrival Airport:') !!}
         {!! Form::select('arr_airport_id', $airports, null, ['class' => 'form-control select2']) !!}
         <p class="text-danger">{{ $errors->first('arr_airport_id') }}</p>
