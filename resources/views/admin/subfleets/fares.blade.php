@@ -1,16 +1,13 @@
-{{--<div class="row"> <div class="col-12">--}}
 <div id="aircraft_fares_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
     <div class="header">
         <h3>fares</h3>
-        <p class="category">
-            <i class="icon fa fa-info">&nbsp;&nbsp;</i>
+        @component('admin.components.info')
             Fares assigned to the current subfleet. These can be overridden,
             otherwise, the value used is the default, which comes from the fare.
-        </p>
+        @endcomponent
     </div>
     <br />
-    <table id="aircraft_fares"
-           class="table table-hover dataTable">
+    <table id="aircraft_fares" class="table table-hover">
         <thead>
         <tr>
             <th>name</th>
@@ -64,7 +61,6 @@
             {!! Form::select('fare_id', $avail_fares, null, [
                     'placeholder' => 'Select Fare',
                     'class' => 'ac-fare-dropdown form-control input-lg select2',
-
                 ])
             !!}
             {!! Form::button('<i class="glyphicon glyphicon-plus"></i> add',
@@ -75,4 +71,3 @@
         </div>
     </div>
 </div>
-{{--</div></div>--}}

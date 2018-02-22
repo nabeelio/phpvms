@@ -11,59 +11,51 @@
 <div class="row">
 <div class="form-group col-sm-6">
     {!! Form::label('code', 'Code:') !!}&nbsp;<span class="required">*</span>
-    <div class="callout callout-info">
-        <i class="icon fa fa-info">&nbsp;&nbsp;</i>
+    @component('admin.components.info')
         How this fare class will show up on a ticket
-    </div>
+    @endcomponent
     {!! Form::text('code', null, ['class' => 'form-control']) !!}
     <p class="text-danger">{{ $errors->first('code') }}</p>
 </div>
 
 <div class="form-group col-sm-6">
     {!! Form::label('name', 'Name:') !!}&nbsp;<span class="required">*</span>
-    <div class="callout callout-info">
-        <i class="icon fa fa-info">&nbsp;&nbsp;</i>
+    @component('admin.components.info')
         The fare class name, E.g, "Economy" or "First"
-    </div>
+    @endcomponent
     {!! Form::text('name', null, ['class' => 'form-control']) !!}
     <p class="text-danger">{{ $errors->first('name') }}</p>
 </div>
 
 <div class="form-group col-sm-6">
     {!! Form::label('price', 'Price:') !!}
-    <div class="callout callout-info">
-        <i class="icon fa fa-info">&nbsp;&nbsp;</i>
+    @component('admin.components.info')
         This is the price of a ticket for a passenger
-    </div>
+    @endcomponent
     {!! Form::text('price', null, ['class' => 'form-control', 'placeholder' => 0]) !!}
     <p class="text-danger">{{ $errors->first('price') }}</p>
 </div>
 
 <div class="form-group col-sm-6">
     {!! Form::label('cost', 'Cost:') !!}
-    <div class="callout callout-info">
-        <i class="icon fa fa-info">&nbsp;&nbsp;</i>
+    @component('admin.components.info')
         The operating cost
-    </div>
+    @endcomponent
     {!! Form::text('cost', null, ['class' => 'form-control', 'placeholder' => 0]) !!}
     <p class="text-danger">{{ $errors->first('cost') }}</p>
 </div>
 
 <div class="form-group col-sm-6">
     {!! Form::label('capacity', 'Capacity:') !!}
-    <div class="callout callout-info">
-        <i class="icon fa fa-info">&nbsp;&nbsp;</i>
+    @component('admin.components.info')
         The number of seats available in this class.
-    </div>
+    @endcomponent
     {!! Form::text('capacity', null, ['class' => 'form-control', 'placeholder' => 0]) !!}
     <p class="text-danger">{{ $errors->first('capacity') }}</p>
 </div>
 
 <div class="form-group col-sm-6">
     {!! Form::label('notes', 'Notes:') !!}
-    <div class="callout callout-info">
-        &nbsp;
-    </div>
     {!! Form::text('notes', null, ['class' => 'form-control']) !!}
     <p class="text-danger">{{ $errors->first('notes') }}</p>
 </div>

@@ -1,7 +1,8 @@
 <div id="subfleet_flight_wrapper">
     <h3>assigned subfleets</h3>
-    <br />
-
+    @component('admin.components.info')
+        The subfleets that are assigned to this flight.
+    @endcomponent
     <table class="table table-responsive" id="aircrafts-table">
         <thead>
         <th>Type</th>

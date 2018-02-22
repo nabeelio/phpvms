@@ -11,7 +11,7 @@
     <tbody>
     @foreach($fares as $fare)
         <tr>
-            <td>{!! $fare->code !!}</td>
+            <td><a href="{!! route('admin.fares.edit', [$fare->id]) !!}">{!! $fare->code !!}</a></td>
             <td>{!! $fare->name !!}</td>
             <td>{!! $fare->price !!}</td>
             <td>{!! $fare->cost !!}</td>

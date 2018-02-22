@@ -1,10 +1,9 @@
 <div class="content table-responsive table-full-width">
 
     <div class="header">
-        <p class="category">
-            <i class="icon fa fa-info">&nbsp;&nbsp;</i>
+        @component('admin.components.info')
             PIREP fields are only shown for manual PIREPs.
-        </p>
+        @endcomponent
     </div>
 
     <table class="table table-hover table-responsive" id="pirepFields-table">

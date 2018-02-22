@@ -1,15 +1,14 @@
 <div id="flight_fares_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
     <div class="header">
         <h3>fares</h3>
-        <p class="category">
-            <i class="icon fa fa-info">&nbsp;&nbsp;</i>
+        @component('admin.components.info')
             Fares assigned to the current flight. These can be overridden, otherwise,
             the values used come from the subfleet of the aircraft that the flight is
             filed with. Only assign the fares you want to override. They can be set as
             a monetary amount, or a percentage.
             <a href="http://docs.phpvms.net/concepts/finances"
             target="_blank">Read documentation about finances</a>.
-        </p>
+        @endcomponent
     </div>
 
     <table id="flight_fares"

@@ -1,10 +1,9 @@
 <div id="subfleet_ranks_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
     <div class="header">
         <h3>ranks</h3>
-        <p class="category">
-            <i class="icon fa fa-info">&nbsp;&nbsp;</i>
+        @component('admin.components.info')
             These ranks are allowed to fly aircraft in this subfleet
-        </p>
+        @endcomponent
     </div>
     <br />
     <table id="subfleet_ranks" class="table table-hover dataTable">
