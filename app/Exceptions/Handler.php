@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\ValidationException;
 use Log;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -38,56 +40,70 @@ class Handler extends ExceptionHandler
     }
 
     /**
+     * Create an error message
+     * @param $status_code
+     * @param $message
+     * @return array
+     */
+    protected function createError($status_code, $message)
+    {
+        return [
+            'error' => [
+                'status' => $status_code,
+                'message' => $message,
+            ]
+        ];
+    }
+
+    /**
      * Render an exception into an HTTP response.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Exception  $exception
-     * @return \Illuminate\Http\Response
+     * @return mixed
      */
     public function render($request, Exception $exception)
     {
-        if ($exception instanceof \Symfony\Component\HttpKernel\Exception\HttpException
-            && $exception->getStatusCode() == 403) {
-            return redirect()->guest('login');
-        }
-
         if($request->is('api/*')) {
 
-            $error = [
-                'error' => [
-                    'code' => $exception->getCode(),
-                    'message' => $exception->getMessage(),
-                ]
-            ];
+            $headers = [];
 
-            $status = 400;
-            $http_code = $exception->getCode();
+            Log::error('API Error', $exception->getTrace());
 
-            Log::error($exception->getMessage());
-
-            if ($this->isHttpException($exception)) {
-                $status = $exception->getStatusCode();
-                $http_code = $exception->getStatusCode();
+            if($exception instanceof ModelNotFoundException ||
+                $exception instanceof NotFoundHttpException) {
+                $error = $this->createError(404, $exception->getMessage());
             }
 
-            if($exception instanceof ModelNotFoundException) {
-                $status = 404;
-                $http_code = 404;
+            # These are application errors. Custom exceptions should
+            # be extending HttpException
+            elseif ($exception instanceof HttpException) {
+
+                $error = $this->createError(
+                    $exception->getStatusCode(),
+                    $exception->getMessage()
+                );
+
+                $headers = $exception->getHeaders();
             }
 
-            if($exception instanceof ValidationException) {
-                $status = 400;
-                $http_code = 400;
-
-                $errors = $exception->errors();
+            # Create the detailed errors from the validation errors
+            elseif($exception instanceof ValidationException) {
                 $error_messages = [];
+                $errors = $exception->errors();
                 foreach($errors as $field => $error) {
                     $error_messages[] = implode(', ', $error);
                 }
 
-                $error['error']['message'] = implode(', ', $error_messages);
+                $message = implode(', ', $error_messages);
+                $error = $this->createError(400, $message);
                 $error['error']['errors'] = $errors;
+
                 Log::error('Validation errors', $errors);
+            }
+
+            else {
+                $error = $this->createError(400, $exception->getMessage());
             }
 
             # Only add trace if in dev
@@ -95,8 +111,12 @@ class Handler extends ExceptionHandler
                 $error['error']['trace'] = $exception->getTrace()[0];
             }
 
-            $error['error']['http_code'] = $http_code;
-            return response()->json($error, $status);
+            return response()->json($error, $error['error']['status'], $headers);
+        }
+
+        if ($exception instanceof HttpException
+            && $exception->getStatusCode() === 403) {
+            return redirect()->guest('login');
         }
 
         return parent::render($request, $exception);
