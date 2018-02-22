@@ -58,6 +58,10 @@
     <footer class="footer footer-default">
         <div class="container">
             <div class="copyright">
+                {{--
+                Please keep the copyright message somewhere, as-per the LICENSE file
+                Thanks!!
+                --}}
                 powered by <a href="http://www.phpvms.net" target="_blank">phpvms</a>
             </div>
         </div>
