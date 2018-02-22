@@ -12,7 +12,6 @@ use App\Services\GeoService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Log;
-use Mockery\Exception;
 use Prettus\Repository\Exceptions\RepositoryException;
 
 class FlightController extends Controller
@@ -121,7 +120,7 @@ class FlightController extends Controller
             try {
                 $uf = UserBid::where($cols)->first();
                 $uf->delete();
-            } catch (Exception $e) { }
+            } catch (\Exception $e) { }
 
             return response()->json([
                 'message' => 'Deleted!'
