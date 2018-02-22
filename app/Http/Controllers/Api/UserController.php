@@ -9,9 +9,11 @@ use App\Http\Resources\User as UserResource;
 use App\Models\Enums\PirepState;
 use App\Models\UserBid;
 use App\Repositories\Criteria\WhereCriteria;
+use App\Repositories\FlightRepository;
 use App\Repositories\PirepRepository;
 use App\Repositories\SubfleetRepository;
 use App\Repositories\UserRepository;
+use App\Services\FlightService;
 use App\Services\UserService;
 use Auth;
 use Illuminate\Http\Request;
@@ -21,24 +23,32 @@ use Prettus\Repository\Exceptions\RepositoryException;
 
 class UserController extends RestController
 {
-    protected $pirepRepo,
+    protected $flightRepo,
+              $flightSvc,
+              $pirepRepo,
               $subfleetRepo,
               $userRepo,
               $userSvc;
 
     /**
      * UserController constructor.
+     * @param FlightRepository $flightRepo
+     * @param FlightService $flightSvc
      * @param PirepRepository $pirepRepo
      * @param SubfleetRepository $subfleetRepo
      * @param UserRepository $userRepo
      * @param UserService $userSvc
      */
     public function __construct(
+        FlightRepository $flightRepo,
+        FlightService $flightSvc,
         PirepRepository $pirepRepo,
         SubfleetRepository $subfleetRepo,
         UserRepository $userRepo,
         UserService $userSvc
     ) {
+        $this->flightRepo = $flightRepo;
+        $this->flightSvc = $flightSvc;
         $this->pirepRepo = $pirepRepo;
         $this->subfleetRepo = $subfleetRepo;
         $this->userRepo = $userRepo;
@@ -80,13 +90,31 @@ class UserController extends RestController
 
     /**
      * Return all of the bids for the passed-in user
-     * @param $id
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @param Request $request
+     * @return mixed
+     * @throws \App\Exceptions\BidExists
+     * @throws \App\Services\Exception
      */
-    public function bids($id)
+    public function bids(Request $request)
     {
-        $flights = UserBid::where(['user_id' => $id])->get()
-            ->pluck('flight');
+        $user = $this->userRepo->find($this->getUserId($request));
+
+        # Add a bid
+        if ($request->isMethod('PUT')) {
+            $flight_id = $request->input('flight_id');
+            $flight = $this->flightRepo->find($flight_id);
+            $this->flightSvc->addBid($flight, $user);
+        }
+
+        elseif ($request->isMethod('DELETE')) {
+            $flight_id = $request->input('flight_id');
+            $flight = $this->flightRepo->find($flight_id);
+            $this->flightSvc->removeBid($flight, $user);
+        }
+
+        # Return the flights they currently have bids on
+        $flights = UserBid::where(['user_id' => $user->id])
+                    ->get()->pluck('flight');
 
         return FlightResource::collection($flights);
     }

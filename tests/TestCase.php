@@ -128,6 +128,24 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
     }
 
     /**
+     * Override the PUT calls to inject the user API key
+     * @param string $uri
+     * @param array $data
+     * @param array $headers
+     * @param null $user
+     * @return \Illuminate\Foundation\Testing\TestResponse
+     */
+    public function put($uri, array $data = [], array $headers = [], $user = null)
+    {
+        $req = parent::put($uri, $data, $this->headers($user, $headers));
+        if ($req->isClientError() || $req->isServerError()) {
+            Log::error('PUT Error: ' . $uri, $req->json());
+        }
+
+        return $req;
+    }
+
+    /**
      * Override the DELETE calls to inject the user API key
      * @param string $uri
      * @param array $data

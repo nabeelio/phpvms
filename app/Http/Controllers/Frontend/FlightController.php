@@ -8,6 +8,7 @@ use App\Repositories\AirlineRepository;
 use App\Repositories\AirportRepository;
 use App\Repositories\Criteria\WhereCriteria;
 use App\Repositories\FlightRepository;
+use App\Services\FlightService;
 use App\Services\GeoService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -26,17 +27,20 @@ class FlightController extends Controller
      * @param AirlineRepository $airlineRepo
      * @param AirportRepository $airportRepo
      * @param FlightRepository $flightRepo
+     * @param FlightService $flightSvc
      * @param GeoService $geoSvc
      */
     public function __construct(
         AirlineRepository $airlineRepo,
         AirportRepository $airportRepo,
         FlightRepository $flightRepo,
+        FlightService $flightSvc,
         GeoService $geoSvc
     ) {
         $this->airlineRepo = $airlineRepo;
         $this->airportRepo = $airportRepo;
         $this->flightRepo = $flightRepo;
+        $this->flightSvc = $flightSvc;
         $this->geoSvc = $geoSvc;
     }
 

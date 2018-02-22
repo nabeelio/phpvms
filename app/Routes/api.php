@@ -65,9 +65,15 @@ Route::group(['middleware' => ['api.auth']], function ()
     Route::get('user/fleet', 'UserController@fleet');
     Route::get('user/pireps', 'UserController@pireps');
 
+    Route::get('user/bids', 'UserController@bids');
+    Route::put('user/bids', 'UserController@bids');
+    Route::delete('user/bids', 'UserController@bids');
+
     Route::get('users/{id}', 'UserController@get');
-    Route::get('users/{id}/bids', 'UserController@bids');
     Route::get('users/{id}/fleet', 'UserController@fleet');
     Route::get('users/{id}/pireps', 'UserController@pireps');
+
+    Route::get('users/{id}/bids', 'UserController@bids');
+    Route::put('users/{id}/bids', 'UserController@bids');
 
 });

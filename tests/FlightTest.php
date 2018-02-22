@@ -155,8 +155,8 @@ class FlightTest extends TestCase
         $this->assertTrue($flight->has_bid);
 
         # Check the table and make sure thee entry is there
-        $user_bid = UserBid::where(['flight_id'=>$flight->id, 'user_id'=>$user->id])->get();
-        $this->assertNotNull($user_bid);
+        $this->expectException(\App\Exceptions\BidExists::class);
+        $this->flightSvc->addBid($flight, $user);
 
         $user->refresh();
         $this->assertEquals(1, $user->bids->count());
@@ -216,10 +216,39 @@ class FlightTest extends TestCase
         $flight = $this->addFlight($user1);
 
         # Put bid on the flight to block it off
-        $bid = $this->flightSvc->addBid($flight, $user1);
+        $this->flightSvc->addBid($flight, $user1);
 
-        $bidRepeat = $this->flightSvc->addBid($flight, $user2);
-        $this->assertNull($bidRepeat);
+        # Try adding again, should throw an exception
+        $this->expectException(\App\Exceptions\BidExists::class);
+        $this->flightSvc->addBid($flight, $user2);
+    }
+
+    /**
+     * Add a flight bid VIA the API
+     */
+    public function testAddBidApi()
+    {
+        $this->user = factory(User::class)->create();
+        $user2 = factory(User::class)->create();
+        $flight = $this->addFlight($this->user);
+
+        $uri = '/api/user/bids';
+        $data = ['flight_id' => $flight->id];
+
+        $body = $this->put($uri, $data)->json('data');
+
+        $this->assertCount(1, $body);
+        $this->assertEquals($body[0]['id'], $flight->id);
+
+        # Now try to have the second user bid on it
+        # Should return a 409 error
+        $response = $this->put($uri, $data, [], $user2);
+        $response->assertStatus(409);
+
+        # Try now deleting the bid from the user
+        $response = $this->delete($uri, $data);
+        $body = $response->json('data');
+        $this->assertCount(0, $body);
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Exceptions\BidExists;
 use App\Models\Flight;
 use App\Models\User;
 use App\Models\UserBid;
@@ -129,13 +130,14 @@ class FlightService extends BaseService
      * @param Flight $flight
      * @param User $user
      * @return UserBid|null
+     * @throws \App\Exceptions\BidExists
      */
     public function addBid(Flight $flight, User $user)
     {
         # If it's already been bid on, then it can't be bid on again
         if($flight->has_bid && setting('bids.disable_flight_on_bid')) {
             Log::info($flight->id . ' already has a bid, skipping');
-            return null;
+            throw new BidExists();
         }
 
         # See if we're allowed to have multiple bids or not
@@ -170,7 +172,6 @@ class FlightService extends BaseService
      * Remove a bid from a given flight
      * @param Flight $flight
      * @param User $user
-     * @throws Exception
      */
     public function removeBid(Flight $flight, User $user)
     {
