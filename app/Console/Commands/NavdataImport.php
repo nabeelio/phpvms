@@ -6,7 +6,7 @@ use App\Console\BaseCommand;
 use App\Models\Enums\NavaidType;
 use App\Models\Navdata;
 
-class NavdataCommand extends BaseCommand
+class NavdataImport extends BaseCommand
 {
     protected $signature = 'phpvms:navdata';
     protected $description = '';

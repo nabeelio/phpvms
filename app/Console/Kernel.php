@@ -16,10 +16,10 @@ class Kernel extends ConsoleKernel
         Commands\AcarsReplay::class,
         Commands\CreateDatabase::class,
         Commands\DevCommands::class,
-        Commands\ImportCommand::class,
-        Commands\Importer::class,
+        Commands\YamlImport::class,
+        Commands\ImportFromClassic::class,
         Commands\Install::class,
-        Commands\NavdataCommand::class,
+        Commands\NavdataImport::class,
         Commands\TestApi::class,
     ];
 

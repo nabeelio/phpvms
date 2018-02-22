@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use App\Console\BaseCommand;
 use App\Services\DatabaseService;
 
-class ImportCommand extends BaseCommand
+class YamlImport extends BaseCommand
 {
     protected $signature = 'phpvms:import {files*}';
     protected $description = 'Developer commands';
