@@ -44,12 +44,18 @@ class ImporterService extends BaseService
      * Converted into a multi-dimensional array
      *
      * @param $field
-     * @return array
+     * @return array|string
      */
-    public function parseMultiColumnValues($field): array
+    public function parseMultiColumnValues($field)
     {
         $ret = [];
         $split_values = explode(';', $field);
+
+        # No multiple values in here, just a straight value
+        if(\count($split_values) === 1) {
+            return $split_values[0];
+        }
+
         foreach($split_values as $value) {
 
             # This isn't in the query string format, so it's
@@ -80,8 +86,9 @@ class ImporterService extends BaseService
     /**
      * Import flights
      * @param $csv_str
+     * @param bool $delete_previous
      */
-    public function importFlights($csv_str)
+    public function importFlights($csv_str, bool $delete_previous=true)
     {
 
     }

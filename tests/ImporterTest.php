@@ -21,6 +21,10 @@ class ImporterTest extends TestCase
     {
         $tests = [
             [
+                'input' => 'gate',
+                'expected' => 'gate'
+            ],
+            [
                 'input' => 'gate;cost index',
                 'expected' => [
                     'gate',
