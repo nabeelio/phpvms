@@ -98,41 +98,6 @@ class FlightController extends Controller
     }
 
     /**
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Exception
-     */
-    public function save(Request $request)
-    {
-        $user_id = Auth::id();
-        $flight_id = $request->input('flight_id');
-        $action = strtolower($request->input('action'));
-
-        $cols = ['user_id' => $user_id,  'flight_id' => $flight_id];
-
-        if($action === 'save') {
-            $uf = UserBid::create($cols);
-            $uf->save();
-
-            return response()->json([
-                'id' => $uf->id,
-                'message' => 'Saved!',
-            ]);
-        }
-
-        elseif ($action === 'remove') {
-            try {
-                $uf = UserBid::where($cols)->first();
-                $uf->delete();
-            } catch (\Exception $e) { }
-
-            return response()->json([
-                'message' => 'Deleted!'
-            ]);
-        }
-    }
-
-    /**
      * Show the flight information page
      * @param $id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View

@@ -1,34 +1,27 @@
 @inject('moduleSvc', 'App\Services\ModuleService')
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport'/>
+    <link rel="shortcut icon" type="image/png" href="{!! public_asset('/assets/frontend/img/favicon.png') !!}"/>
 
     <title>@yield('title') - {!! config('app.name') !!}</title>
 
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet"/>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css"/>
-
     <link href="{!! public_asset('/assets/frontend/css/bootstrap.min.css') !!}" rel="stylesheet"/>
     <link href="{!! public_asset('/assets/frontend/css/now-ui-kit.css') !!}" rel="stylesheet"/>
-    <link href="{!! public_asset('/assets/system/css/vendor.css') !!}" rel="stylesheet"/>
     <link href="{!! public_asset('/assets/frontend/css/styles.css') !!}" rel="stylesheet"/>
+
+    {{-- This is required to include --}}
+    <link href="{!! public_asset('/assets/system/css/vendor.css') !!}" rel="stylesheet"/>
 
     @yield('css')
 
-    <script>
-    @if (Auth::user())
-        const PHPVMS_USER_API_KEY = "{!! Auth::user()->api_key !!}";
-    @else
-        const PHPVMS_USER_API_KEY = false;
-    @endif
-    </script>
-
+    {{-- This is required to include --}}
+    @include('system.scripts')
 </head>
-
 <body>
 <!-- Navbar -->
 <nav class="navbar navbar-toggleable-md" style="background: #067ec1;">
@@ -71,6 +64,7 @@
     </footer>
 </div>
 
+<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
 <script src="{!! public_asset('/assets/system/js/vendor.js') !!}?v={!! time() !!}"></script>
 <script src="{!! public_asset('/assets/system/js/phpvms.js') !!}?v={!! time() !!}"></script>
 
