@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Exceptions\AircraftPermissionDenied;
+use App\Exceptions\PirepCancelled;
 use App\Http\Requests\Acars\CommentRequest;
 use App\Http\Requests\Acars\EventRequest;
 use App\Http\Requests\Acars\FileRequest;
@@ -28,7 +30,6 @@ use App\Services\UserService;
 use Auth;
 use Illuminate\Http\Request;
 use Log;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class PirepController extends RestController
 {
@@ -63,12 +64,12 @@ class PirepController extends RestController
     /**
      * Check if a PIREP is cancelled
      * @param $pirep
-     * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
+     * @throws \App\Exceptions\PirepCancelled
      */
     protected function checkCancelled(Pirep $pirep)
     {
         if (!$pirep->allowedUpdates()) {
-            throw new BadRequestHttpException('PIREP has been cancelled, comments can\'t be posted');
+            throw new PirepCancelled();
         }
     }
 
@@ -110,7 +111,8 @@ class PirepController extends RestController
      *
      * @param PrefileRequest $request
      * @return PirepResource
-     * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
+     * @throws \App\Exceptions\PirepCancelled
+     * @throws \App\Exceptions\AircraftPermissionDenied
      */
     public function prefile(PrefileRequest $request)
     {
@@ -130,7 +132,7 @@ class PirepController extends RestController
         if(setting('pireps.restrict_aircraft_to_rank', false)) {
             $can_use_ac = $this->userSvc->aircraftAllowed($user, $pirep->aircraft_id);
             if (!$can_use_ac) {
-                throw new BadRequestHttpException('User is not allowed to fly this aircraft');
+                throw new AircraftPermissionDenied();
             }
         }
 
@@ -138,6 +140,7 @@ class PirepController extends RestController
         $dupe_pirep = $this->pirepSvc->findDuplicate($pirep);
         if($dupe_pirep !== false) {
             $pirep = $dupe_pirep;
+            $this->checkCancelled($pirep);
         }
 
         $pirep->save();
@@ -158,7 +161,8 @@ class PirepController extends RestController
      * @param $id
      * @param UpdateRequest $request
      * @return PirepResource
-     * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
+     * @throws \App\Exceptions\PirepCancelled
+     * @throws \App\Exceptions\AircraftPermissionDenied
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
     public function update($id, UpdateRequest $request)
@@ -178,7 +182,7 @@ class PirepController extends RestController
         ) {
             $can_use_ac = $this->userSvc->aircraftAllowed($user, $pirep->aircraft_id);
             if (!$can_use_ac) {
-                throw new BadRequestHttpException('User is not allowed to fly this aircraft');
+                throw new AircraftPermissionDenied();
             }
         }
 
@@ -193,7 +197,8 @@ class PirepController extends RestController
      * @param $id
      * @param FileRequest $request
      * @return PirepResource
-     * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
+     * @throws \App\Exceptions\PirepCancelled
+     * @throws \App\Exceptions\AircraftPermissionDenied
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      * @throws \Exception
      */
@@ -215,7 +220,7 @@ class PirepController extends RestController
         ) {
             $can_use_ac = $this->userSvc->aircraftAllowed($user, $pirep->aircraft_id);
             if (!$can_use_ac) {
-                throw new BadRequestHttpException('User is not allowed to fly this aircraft');
+                throw new AircraftPermissionDenied();
             }
         }
 
@@ -297,6 +302,7 @@ class PirepController extends RestController
      * @param $id
      * @param PositionRequest $request
      * @return \Illuminate\Http\JsonResponse
+     * @throws \App\Exceptions\PirepCancelled
      * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
      */
     public function acars_store($id, PositionRequest $request)
@@ -336,6 +342,7 @@ class PirepController extends RestController
      * @param $id
      * @param LogRequest $request
      * @return \Illuminate\Http\JsonResponse
+     * @throws \App\Exceptions\PirepCancelled
      * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
      */
     public function acars_logs($id, LogRequest $request)
@@ -367,6 +374,7 @@ class PirepController extends RestController
      * @param $id
      * @param EventRequest $request
      * @return \Illuminate\Http\JsonResponse
+     * @throws \App\Exceptions\PirepCancelled
      * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
      */
     public function acars_events($id, EventRequest $request)
@@ -410,6 +418,7 @@ class PirepController extends RestController
      * @param $id
      * @param CommentRequest $request
      * @return PirepCommentResource
+     * @throws \App\Exceptions\PirepCancelled
      */
     public function comments_post($id, CommentRequest $request)
     {
@@ -447,6 +456,7 @@ class PirepController extends RestController
      * @param $id
      * @param RouteRequest $request
      * @return \Illuminate\Http\JsonResponse
+     * @throws \App\Exceptions\PirepCancelled
      * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
      */
     public function route_post($id, RouteRequest $request)

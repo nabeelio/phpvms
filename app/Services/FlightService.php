@@ -145,7 +145,7 @@ class FlightService extends BaseService
             $user_bids = UserBid::where(['user_id' => $user->id])->first();
             if($user_bids) {
                 Log::info('User "' . $user->id . '" already has bids, skipping');
-                return null;
+                throw new BidExists();
             }
         }
 

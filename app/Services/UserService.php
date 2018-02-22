@@ -21,6 +21,7 @@ class UserService extends BaseService
 
     /**
      * UserService constructor.
+     * @param AircraftRepository $aircraftRepo
      * @param SubfleetRepository $subfleetRepo
      */
     public function __construct(

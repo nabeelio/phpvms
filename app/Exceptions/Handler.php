@@ -11,12 +11,14 @@ use Log;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
+/**
+ * Class Handler
+ * @package App\Exceptions
+ */
 class Handler extends ExceptionHandler
 {
     /**
      * A list of the exception types that should not be reported.
-     *
-     * @var array
      */
     protected $dontReport = [
         \Illuminate\Auth\AuthenticationException::class,
@@ -64,7 +66,7 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        if($request->is('api/*')) {
+        if ($request->expectsJson() || $request->is('api/*')) {
 
             $headers = [];
 
@@ -75,10 +77,8 @@ class Handler extends ExceptionHandler
                 $error = $this->createError(404, $exception->getMessage());
             }
 
-            # These are application errors. Custom exceptions should
-            # be extending HttpException
+            # Custom exceptions should be extending HttpException
             elseif ($exception instanceof HttpException) {
-
                 $error = $this->createError(
                     $exception->getStatusCode(),
                     $exception->getMessage()
@@ -131,8 +131,9 @@ class Handler extends ExceptionHandler
      */
     protected function unauthenticated($request, AuthenticationException $exception)
     {
-        if ($request->expectsJson()) {
-            return response()->json(['error' => 'Unauthenticated.'], 401);
+        if ($request->expectsJson() || $request->is('api/*')) {
+            $error = $this->createError(401, 'Unauthenticated');
+            return response()->json($error, 401);
         }
 
         return redirect()->guest('login');
@@ -140,8 +141,10 @@ class Handler extends ExceptionHandler
 
     /**
      * Render the given HttpException.
+     * @param HttpException $e
+     * @return \Illuminate\Http\Response|\Symfony\Component\HttpFoundation\Response
      */
-    protected function renderHttpException(\Symfony\Component\HttpKernel\Exception\HttpException $e)
+    protected function renderHttpException(HttpException $e)
     {
         $status = $e->getStatusCode();
         view()->replaceNamespace('errors', [
@@ -149,8 +152,6 @@ class Handler extends ExceptionHandler
             resource_path('views/errors'),
             __DIR__ . '/views',
         ]);
-
-        #Log::info('error status '. $status);
 
         if (view()->exists("errors::{$status}")) {
         #if (view()->exists('layouts' . config('phpvms.skin') .'.errors.' .$status)) {
