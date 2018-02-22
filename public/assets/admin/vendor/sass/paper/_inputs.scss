@@ -3,7 +3,8 @@ input {
     border: none;
     font-size: 1rem;
     cursor: text;
-    font-family: "Inconsolata", "Monaco", "Consolas", "Lucida Console", monospace !important;
+    //font-family: "Inconsolata", "Monaco", "Consolas", "Lucida Console", monospace !important;
+    font-family: "Avenir-light", "AvenirLTStd-Light", sans-serif !important;
 }
 
 .form-control::-moz-placeholder{
@@ -20,7 +21,7 @@ input {
 }
 
 .form-control {
-
+    font-family: "Avenir-light", "AvenirLTStd-Light", sans-serif !important;
     display: block;
     width: 100%;
     /*font-size: $font-size-base;*/
