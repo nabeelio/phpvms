@@ -36,9 +36,9 @@ class CreateSubfleetTables extends Migration
         Schema::create('subfleet_fare', function (Blueprint $table) {
             $table->unsignedInteger('subfleet_id');
             $table->unsignedInteger('fare_id');
-            $table->unsignedDecimal('price')->nullable();
-            $table->unsignedDecimal('cost')->nullable();
-            $table->unsignedInteger('capacity')->nullable();
+            $table->string('price')->nullable();
+            $table->string('cost')->nullable();
+            $table->string('capacity')->nullable();
             $table->timestamps();
 
             $table->primary(['subfleet_id', 'fare_id']);

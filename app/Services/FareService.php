@@ -5,9 +5,44 @@ namespace App\Services;
 use App\Models\Fare;
 use App\Models\Flight;
 use App\Models\Subfleet;
+use App\Support\Math;
 
 class FareService extends BaseService
 {
+    /**
+     * Get fares
+     * @param $fare
+     * @return mixed
+     */
+    protected function getFares($fare)
+    {
+        if (filled($fare->pivot->price)) {
+            if (substr_count($fare->pivot->price, '%', -1)) {
+                $fare->price = Math::addPercent($fare->price, $fare->pivot->price);
+            } else {
+                $fare->price = $fare->pivot->price;
+            }
+        }
+
+        if (filled($fare->pivot->cost)) {
+            if (substr_count($fare->pivot->cost, '%', -1)) {
+                $fare->cost = Math::addPercent($fare->cost, $fare->pivot->cost);
+            } else {
+                $fare->cost = $fare->pivot->cost;
+            }
+        }
+
+        if (filled($fare->pivot->capacity)) {
+            if (substr_count($fare->pivot->capacity, '%', -1)) {
+                $fare->capacity = Math::addPercent($fare->capacity, $fare->pivot->capacity);
+            } else {
+                $fare->capacity = $fare->pivot->capacity;
+            }
+        }
+
+        return $fare;
+    }
+
     /**
      * Attach a fare to an flight
      *
@@ -40,19 +75,7 @@ class FareService extends BaseService
     public function getForFlight(Flight $flight)
     {
         $fares = $flight->fares->map(function ($fare) {
-            if (null !== $fare->pivot->price) {
-                $fare->price = $fare->pivot->price;
-            }
-
-            if (null !== $fare->pivot->cost) {
-                $fare->cost = $fare->pivot->cost;
-            }
-
-            if (null !== $fare->pivot->capacity) {
-                $fare->capacity = $fare->pivot->capacity;
-            }
-
-            return $fare;
+            return $this->getFares($fare);
         });
 
         return $fares;
@@ -102,19 +125,7 @@ class FareService extends BaseService
     public function getForSubfleet(Subfleet $subfleet)
     {
         $fares = $subfleet->fares->map(function($fare) {
-            if(!is_null($fare->pivot->price)) {
-                $fare->price = $fare->pivot->price;
-            }
-
-            if(!is_null($fare->pivot->cost)) {
-                $fare->cost = $fare->pivot->cost;
-            }
-
-            if(!is_null($fare->pivot->capacity)) {
-                $fare->capacity = $fare->pivot->capacity;
-            }
-
-            return $fare;
+            return $this->getFares($fare);
         });
 
         return $fares;
