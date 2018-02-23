@@ -9,13 +9,13 @@ namespace App\Models;
 class Subfleet extends BaseModel
 {
     public $table = 'subfleets';
-    protected $dates = ['deleted_at'];
 
     public $fillable = [
         'airline_id',
         'name',
         'type',
         'fuel_type',
+        'ground_handling_multiplier',
         'cargo_capacity',
         'fuel_capacity',
         'gross_weight',
@@ -27,16 +27,18 @@ class Subfleet extends BaseModel
      * @var array
      */
     protected $casts = [
-        'airline_id' => 'integer',
-        'fuel_type' => 'integer',
-        'cargo_capacity' => 'double',
-        'fuel_capacity' => 'double',
-        'gross_weight' => 'double',
+        'airline_id'                  => 'integer',
+        'fuel_type'                   => 'integer',
+        'ground_handling_multiplier'  => 'float',
+        'cargo_capacity'              => 'float',
+        'fuel_capacity'               => 'float',
+        'gross_weight'                => 'float',
     ];
 
     public static $rules = [
-        'name' => 'required',
-        'type' => 'required',
+        'name'                        => 'required',
+        'type'                        => 'required',
+        'ground_handling_multiplier'  => 'nullable|numeric',
     ];
 
     /**
@@ -50,6 +52,10 @@ class Subfleet extends BaseModel
         static::creating(function ($model) {
             if (filled($model->type)) {
                 $model->type = str_replace(' ', '_', $model->type);
+            }
+
+            if(!filled($model->ground_handling_multiplier)) {
+                $model->ground_handling_multiplier = 100;
             }
         });
 

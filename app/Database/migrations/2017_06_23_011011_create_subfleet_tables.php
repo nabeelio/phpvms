@@ -19,6 +19,7 @@ class CreateSubfleetTables extends Migration
             $table->string('name', 50);
             $table->string('type', 50);
             $table->unsignedTinyInteger('fuel_type')->nullable();
+            $table->unsignedDecimal('ground_handling_multiplier')->nullable()->default(100);
             $table->unsignedDecimal('cargo_capacity')->nullable();
             $table->unsignedDecimal('fuel_capacity')->nullable();
             $table->unsignedDecimal('gross_weight')->nullable();

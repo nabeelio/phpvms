@@ -183,10 +183,12 @@ subfleets:
     airline_id: 1
     name: 747-400 Winglets
     type: 744W
+    ground_handling_multiplier: 200
   - id: 2
     airline_id: 1
     name: 777-200 LR
     type: 772-LR
+    ground_handling_multiplier: 150
 
 # add a few mods to aircraft and fares
 subfleet_fare:
@@ -248,8 +250,8 @@ flights:
     flight_number: 6028
     route_code: A
     route_leg: 1
-    dpt_airport_id: KIAH
-    arr_airport_id: KAUS
+    dpt_airport_id: EGLL
+    arr_airport_id: KJFK
     dpt_time: 9AM CST
     arr_time: 1030AM CST
     route: PITZZ4 MNURE WLEEE4
