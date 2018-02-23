@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Enums\AircraftState;
+use App\Models\Enums\AircraftStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
@@ -19,7 +20,7 @@ class CreateAircraftsTable extends Migration
             $table->string('hex_code', 10)->nullable();
             $table->unsignedDecimal('zfw')->nullable()->default(0);
             $table->unsignedBigInteger('flight_time')->nullable()->default(0);
-            $table->boolean('active')->default(true);
+            $table->unsignedTinyInteger('status')->default(AircraftStatus::ACTIVE);
             $table->unsignedTinyInteger('state')->default(AircraftState::PARKED);
             $table->timestamps();
 

@@ -33,14 +33,12 @@
         {!! Form::text('registration', null, ['class' => 'form-control']) !!}
         <p class="text-danger">{{ $errors->first('registration') }}</p>
     </div>
+
     <!-- Active Field -->
-    <div class="form-group col-6">
-        {!! Form::label('active', 'Active:') !!}
-        <br />
-        <label class="checkbox-inline">
-            {!! Form::hidden('active', 0) !!}
-            {!! Form::checkbox('active') !!}
-        </label>
+    <div class="form-group col-sm-6">
+        {!! Form::label('status', 'Status:') !!}
+        {!! Form::select('status', $statuses, null, ['class' => 'form-control select2', 'placeholder' => 'Select Status']) !!}
+        <p class="text-danger">{{ $errors->first('subfleet_id') }}</p>
     </div>
 </div>
 <div class="row">

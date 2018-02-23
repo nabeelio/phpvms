@@ -15,7 +15,8 @@ $factory->define(App\Models\Aircraft::class, function (Faker $faker) {
         'name' => $faker->unique()->text(50),
         'registration' => $faker->unique()->text(10),
         'hex_code' => \App\Support\ICAO::createHexCode(),
-        'active' => true,
+        'status' => \App\Models\Enums\AircraftStatus::ACTIVE,
+        'state' => \App\Models\Enums\AircraftState::PARKED,
         'created_at' => $faker->dateTimeBetween('-1 week', 'now'),
         'updated_at' => function (array $pirep) {
             return $pirep['created_at'];

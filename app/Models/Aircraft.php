@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Enums\AircraftStatus;
 use App\Support\ICAO;
 
 class Aircraft extends BaseModel
@@ -16,7 +17,8 @@ class Aircraft extends BaseModel
         'registration',
         'hex_code',
         'zfw',
-        'active',
+        'status',
+        'state',
     ];
 
     /**
@@ -27,7 +29,8 @@ class Aircraft extends BaseModel
     protected $casts = [
         'subfleet_id'   => 'integer',
         'zfw'           => 'float',
-        'active'        => 'boolean',
+        'status'        => 'integer',
+        'state'         => 'integer',
     ];
 
     /**
@@ -55,6 +58,11 @@ class Aircraft extends BaseModel
                 $model->hex_code = ICAO::createHexCode();
             }
         });
+    }
+
+    public function getActiveAttribute()
+    {
+        return $this->status === AircraftStatus::ACTIVE;
     }
 
     /**

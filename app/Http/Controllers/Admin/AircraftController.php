@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\CreateAircraftRequest;
 use App\Http\Requests\UpdateAircraftRequest;
+use App\Models\Enums\AircraftStatus;
 use App\Models\Subfleet;
 use App\Repositories\AircraftRepository;
 use Flash;
@@ -32,7 +33,7 @@ class AircraftController extends BaseController
     public function index(Request $request)
     {
         $this->aircraftRepository->pushCriteria(new RequestCriteria($request));
-        $aircraft = $this->aircraftRepository->all();
+        $aircraft = $this->aircraftRepository->orderBy('name', 'asc')->all();
 
         return view('admin.aircraft.index', [
             'aircraft' => $aircraft
@@ -46,6 +47,7 @@ class AircraftController extends BaseController
     {
         return view('admin.aircraft.create', [
             'subfleets' => Subfleet::all()->pluck('name', 'id'),
+            'statuses' => AircraftStatus::select(true),
         ]);
     }
 
@@ -56,9 +58,6 @@ class AircraftController extends BaseController
     public function store(CreateAircraftRequest $request)
     {
         $attrs = $request->all();
-
-        $attrs['active'] = get_truth_state($attrs['active']);
-
         $aircraft = $this->aircraftRepository->create($attrs);
 
         Flash::success('Aircraft saved successfully.');
@@ -96,6 +95,7 @@ class AircraftController extends BaseController
 
         return view('admin.aircraft.edit', [
             'subfleets' => Subfleet::all()->pluck('name', 'id'),
+            'statuses' => AircraftStatus::select(true),
             'aircraft'  => $aircraft,
         ]);
     }
@@ -114,8 +114,6 @@ class AircraftController extends BaseController
         }
 
         $attrs = $request->all();
-        $attrs['active'] = get_truth_state($attrs['active']);
-
         $this->aircraftRepository->update($attrs, $id);
 
         Flash::success('Aircraft updated successfully.');

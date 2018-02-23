@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Enums\AircraftStatus;
+
 /**
  * Class Subfleet
  * @package App\Models
@@ -42,8 +44,8 @@ class Subfleet extends BaseModel
     ];
 
     /**
-     * Modify some fields on the fly. Make sure the subfleet
-     * names don't have spaces in them.
+     * Modify some fields on the fly. Make sure the subfleet names don't
+     * have spaces in them, so the csv import/export can use the types
      */
     public static function boot()
     {
@@ -51,7 +53,8 @@ class Subfleet extends BaseModel
 
         static::creating(function ($model) {
             if (filled($model->type)) {
-                $model->type = str_replace(' ', '_', $model->type);
+                $model->type = str_replace(' ', '-', $model->type);
+                $model->type = str_replace(',', '', $model->type);
             }
 
             if(!filled($model->ground_handling_multiplier)) {
@@ -61,7 +64,8 @@ class Subfleet extends BaseModel
 
         static::updating(function ($model) {
             if (filled($model->type)) {
-                $model->type = str_replace(' ', '_', $model->type);
+                $model->type = str_replace(' ', '-', $model->type);
+                $model->type = str_replace(',', '', $model->type);
             }
         });
     }
@@ -72,7 +76,8 @@ class Subfleet extends BaseModel
 
     public function aircraft()
     {
-        return $this->hasMany(Aircraft::class, 'subfleet_id');
+        return $this->hasMany(Aircraft::class, 'subfleet_id')
+                    ->where('status', AircraftStatus::ACTIVE);
     }
 
     public function airline()

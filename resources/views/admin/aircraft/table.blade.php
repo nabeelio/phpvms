@@ -2,6 +2,7 @@
     <thead>
         <th>Name</th>
         <th>Subfleet</th>
+        <th style="text-align: center;">Location</th>
         {{--<th style="text-align: center;">ICAO</th>--}}
         <th style="text-align: center;">Registration</th>
         <th style="text-align: center;">Hours</th>
@@ -21,16 +22,20 @@
                     -
                 @endif
             </td>
-            <td style="text-align: center;">{!! $ac->icao !!}</td>
-            {{--<td style="text-align: center;">{!! $ac->registration !!}</td>--}}
+
+            <td style="text-align: center;">{!! $ac->airport_id !!}</td>
+
+            <td style="text-align: center;">{!! $ac->registration !!}</td>
             <td style="text-align: center;">
                 {!! Utils::minutesToTimeString($ac->flight_hours) !!}
             </td>
             <td style="text-align: center;">
-                @if($ac->active == GenericState::ACTIVE)
-                    <span class="label label-success">{!! GenericState::label($ac->active); !!}</span>
+                @if($ac->status == \App\Models\Enums\AircraftStatus::ACTIVE)
+                    <span class="label label-success">{!! \App\Models\Enums\AircraftStatus::label($ac->status); !!}</span>
                 @else
-                    <span class="label label-default">Inactive</span>
+                    <span class="label label-default">
+                        {!! \App\Models\Enums\AircraftStatus::label($ac->status) !!}
+                    </span>
                 @endif
             </td>
             <td style="width: 10%; text-align: right;">
