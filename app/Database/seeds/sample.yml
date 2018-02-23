@@ -239,11 +239,11 @@ subfleet_fare:
     capacity: 400
   - subfleet_id: 1
     fare_id: 2
-    capacity: 20
+    price: 120%
   - subfleet_id: 1
     fare_id: 3
     price: 1000
-    capacity: 10
+    capacity: 110%
 
   # Fare classes on the 777
   - subfleet_id: 2

@@ -9,6 +9,8 @@
             <a href="http://docs.phpvms.net/concepts/finances"
             target="_blank">Read documentation about finances</a>.
         @endcomponent
+
+        <p class="text-danger">{{ $errors->first('value') }}</p>
     </div>
 
     <table id="flight_fares"

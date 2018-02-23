@@ -395,6 +395,16 @@ class FlightController extends BaseController
             return $this->return_fares_view($flight);
         }
 
+        if ($request->isMethod('delete')) {
+            $fare = $this->fareRepo->findWithoutFail($request->fare_id);
+            $this->fareSvc->delFareFromFlight($flight, $fare);
+            return $this->return_fares_view($flight);
+        }
+
+        $this->validate($request, [
+            'value' => 'nullable',  // regex:/([\d%]*)/
+        ]);
+
         /**
          * update specific fare data
          */
@@ -408,10 +418,6 @@ class FlightController extends BaseController
             $override[$request->name] = $request->value;
             $this->fareSvc->setForFlight($flight, $fare, $override);
         } // dissassociate fare from teh aircraft
-        elseif ($request->isMethod('delete')) {
-            $fare = $this->fareRepo->findWithoutFail($request->fare_id);
-            $this->fareSvc->delFareFromFlight($flight, $fare);
-        }
 
         return $this->return_fares_view($flight);
     }
