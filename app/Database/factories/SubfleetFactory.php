@@ -10,5 +10,6 @@ $factory->define(App\Models\Subfleet::class, function (Faker $faker) {
         },
         'name' => $faker->unique()->text(50),
         'type' => $faker->unique()->text(7),
+        'ground_handling_multiplier' => $faker->numberBetween(50, 200),
     ];
 });
