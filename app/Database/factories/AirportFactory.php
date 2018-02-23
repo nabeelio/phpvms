@@ -25,8 +25,9 @@ $factory->define(App\Models\Airport::class, function (Faker $faker) {
         'timezone' => $faker->timezone,
         'lat' => $faker->latitude,
         'lon' => $faker->longitude,
-        'fuel_100ll_cost' => $faker->randomFloat(2),
-        'fuel_jeta_cost' => $faker->randomFloat(2),
-        'fuel_mogas_cost' => $faker->randomFloat(2),
+        'ground_handling_cost' => $faker->randomFloat(2, 0, 500),
+        'fuel_100ll_cost' => $faker->randomFloat(2, 0, 100),
+        'fuel_jeta_cost' => $faker->randomFloat(2, 0, 100),
+        'fuel_mogas_cost' => $faker->randomFloat(2, 0, 100),
     ];
 });

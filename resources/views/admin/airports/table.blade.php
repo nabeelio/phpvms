@@ -5,6 +5,7 @@
             <th>Name</th>
             <th>Location</th>
             <th>Hub</th>
+            <th style="text-align: center;">GH Cost</th>
             <th style="text-align: center;">100LL</th>
             <th style="text-align: center;">JetA</th>
             <th style="text-align: center;">MOGAS</th>
@@ -20,6 +21,9 @@
                     @if($airport->hub === true)
                         <span class="label label-success">Hub</span>
                     @endif
+                </td>
+                <td style="text-align: center;">
+                    {!! $airport->ground_handling_cost !!}
                 </td>
                 <td style="text-align: center;">
                     <a class="inline" href="#" data-pk="{!! $airport->id !!}" data-name="fuel_100ll_cost">{!! $airport->fuel_100ll_cost !!}</a>

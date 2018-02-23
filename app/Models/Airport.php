@@ -27,6 +27,7 @@ class Airport extends BaseModel
         'lon',
         'hub',
         'timezone',
+        'ground_handling_cost',
         'fuel_100ll_cost',
         'fuel_jeta_cost',
         'fuel_mogas_cost',
@@ -36,6 +37,7 @@ class Airport extends BaseModel
         'lat' => 'float',
         'lon' => 'float',
         'hub' => 'boolean',
+        'ground_handling_cost' => 'float',
         'fuel_100ll_cost' => 'float',
         'fuel_jeta_cost' => 'float',
         'fuel_mogas_cost' => 'float',
@@ -45,12 +47,13 @@ class Airport extends BaseModel
      * Validation rules
      */
     public static $rules = [
-        'icao'      => 'required',
-        'iata'      => 'nullable',
-        'name'      => 'required',
-        'location'  => 'nullable',
-        'lat'       => 'required|numeric',
-        'lon'       => 'required|numeric',
+        'icao'                  => 'required',
+        'iata'                  => 'nullable',
+        'name'                  => 'required',
+        'location'              => 'nullable',
+        'lat'                   => 'required|numeric',
+        'lon'                   => 'required|numeric',
+        'ground_handling_cost'  => 'nullable|numeric',
     ];
 
     /**
