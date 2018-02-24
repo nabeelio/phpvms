@@ -297,7 +297,6 @@ pireps:
   - id: pirepid_1
     user_id: 1
     airline_id: 1
-    flight_id: flightid_1
     flight_number: 100
     aircraft_id: 1
     dpt_airport_id: KAUS
@@ -311,8 +310,7 @@ pireps:
   - id: pirepid_2
     user_id: 1
     airline_id: 1
-    flight_id: flightid_2
-    flight_number: 101
+    flight_number: 2023
     aircraft_id: 2
     dpt_airport_id: LGRP
     arr_airport_id: LGRP
@@ -327,8 +325,7 @@ pireps:
   - id: pirepid_3
     user_id: 1
     airline_id: 1
-    flight_id: flightid_2
-    flight_number: 101
+    flight_number: 300
     aircraft_id: 3
     dpt_airport_id: KJFK
     arr_airport_id: KAUS
