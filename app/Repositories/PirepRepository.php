@@ -10,7 +10,6 @@ class PirepRepository extends BaseRepository
 {
     protected $fieldSearchable = [
         'user_id',
-        'flight_id',
         'status',
         'state',
     ];

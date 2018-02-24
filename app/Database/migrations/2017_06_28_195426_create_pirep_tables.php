@@ -21,7 +21,6 @@ class CreatePirepTables extends Migration
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('airline_id');
             $table->unsignedInteger('aircraft_id')->nullable();
-            $table->string('flight_id', \App\Models\Flight::ID_MAX_LENGTH)->nullable();
             $table->string('flight_number', 10)->nullable();
             $table->string('route_code', 5)->nullable();
             $table->string('route_leg', 5)->nullable();
@@ -47,7 +46,7 @@ class CreatePirepTables extends Migration
 
             $table->primary('id');
             $table->index('user_id');
-            $table->index('flight_id');
+            $table->index('flight_number');
             $table->index('dpt_airport_id');
             $table->index('arr_airport_id');
         });

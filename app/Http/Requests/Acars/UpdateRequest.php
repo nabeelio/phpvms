@@ -23,7 +23,6 @@ class UpdateRequest extends FormRequest
         $rules = [
             'airline_id'            => 'nullable|exists:airlines,id',
             'aircraft_id'           => 'nullable|exists:aircraft,id',
-            'flight_id'             => 'nullable|exists:flights,id',
             'flight_number'         => 'nullable',
             'dpt_airport_id'        => 'nullable',
             'arr_airport_id'        => 'nullable',

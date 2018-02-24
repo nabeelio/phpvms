@@ -29,7 +29,6 @@ class Pirep extends BaseModel
         'user_id',
         'airline_id',
         'aircraft_id',
-        'flight_id',
         'flight_number',
         'route_code',
         'route_leg',
@@ -291,11 +290,6 @@ class Pirep extends BaseModel
     public function fields()
     {
         return $this->hasMany(PirepFieldValues::class, 'pirep_id');
-    }
-
-    public function flight()
-    {
-        return $this->belongsTo(Flight::class, 'flight_id');
     }
 
     public function pilot()
