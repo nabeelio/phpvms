@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Exceptions\BidExists;
 use App\Models\Flight;
+use App\Models\Subfleet;
 use App\Models\User;
 use App\Models\UserBid;
 use App\Repositories\FlightRepository;
@@ -16,13 +17,19 @@ use Log;
  */
 class FlightService extends BaseService
 {
-    protected $flightRepo, $navDataRepo, $userSvc;
+    private $fareSvc,
+        $flightRepo,
+        $navDataRepo,
+        $userSvc;
 
     public function __construct(
+        FareService $fareSvc,
         FlightRepository $flightRepo,
         NavdataRepository $navdataRepo,
         UserService $userSvc
-    ) {
+    )
+    {
+        $this->fareSvc = $fareSvc;
         $this->flightRepo = $flightRepo;
         $this->navDataRepo = $navdataRepo;
         $this->userSvc = $userSvc;
@@ -41,7 +48,7 @@ class FlightService extends BaseService
         }
 
         return $this->flightRepo
-                ->whereOrder($where, 'flight_number', 'asc');
+            ->whereOrder($where, 'flight_number', 'asc');
     }
 
     /**
@@ -70,8 +77,8 @@ class FlightService extends BaseService
         /**
          * Only allow aircraft that are at the current departure airport
          */
-        if(setting('pireps.only_aircraft_at_dep_airport', false)) {
-            foreach($subfleets as $subfleet) {
+        if (setting('pireps.only_aircraft_at_dep_airport', false)) {
+            foreach ($subfleets as $subfleet) {
                 $subfleet->aircraft = $subfleet->aircraft->filter(
                     function ($aircraft, $i) use ($flight) {
                         if ($aircraft->airport_id === $flight->dpt_airport_id) {
@@ -106,11 +113,11 @@ class FlightService extends BaseService
      */
     public function getRoute(Flight $flight)
     {
-        if(!$flight->route) {
+        if (!$flight->route) {
             return collect();
         }
 
-        $route_points = array_map(function($point) {
+        $route_points = array_map(function ($point) {
             return strtoupper($point);
         }, explode(' ', $flight->route));
 
@@ -118,7 +125,7 @@ class FlightService extends BaseService
 
         // Put it back into the original order the route is in
         $return_points = [];
-        foreach($route_points as $rp) {
+        foreach ($route_points as $rp) {
             $return_points[] = $route->where('id', $rp)->first();
         }
 
@@ -135,15 +142,15 @@ class FlightService extends BaseService
     public function addBid(Flight $flight, User $user)
     {
         # If it's already been bid on, then it can't be bid on again
-        if($flight->has_bid && setting('bids.disable_flight_on_bid')) {
+        if ($flight->has_bid && setting('bids.disable_flight_on_bid')) {
             Log::info($flight->id . ' already has a bid, skipping');
             throw new BidExists();
         }
 
         # See if we're allowed to have multiple bids or not
-        if(!setting('bids.allow_multiple_bids')) {
+        if (!setting('bids.allow_multiple_bids')) {
             $user_bids = UserBid::where(['user_id' => $user->id])->first();
-            if($user_bids) {
+            if ($user_bids) {
                 Log::info('User "' . $user->id . '" already has bids, skipping');
                 throw new BidExists();
             }
@@ -156,7 +163,7 @@ class FlightService extends BaseService
         ];
 
         $user_bid = UserBid::where($bid_data)->first();
-        if($user_bid) {
+        if ($user_bid) {
             return $user_bid;
         }
 
@@ -179,12 +186,12 @@ class FlightService extends BaseService
             'flight_id' => $flight->id, 'user_id' => $user->id
         ])->first();
 
-        if($user_bid) {
+        if ($user_bid) {
             $user_bid->forceDelete();
         }
 
         # Only flip the flag if there are no bids left for this flight
-        if(!UserBid::where('flight_id', $flight->id)->exists()) {
+        if (!UserBid::where('flight_id', $flight->id)->exists()) {
             $flight->has_bid = false;
             $flight->save();
         }

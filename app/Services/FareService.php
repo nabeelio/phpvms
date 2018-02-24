@@ -6,9 +6,50 @@ use App\Models\Fare;
 use App\Models\Flight;
 use App\Models\Subfleet;
 use App\Support\Math;
+use Illuminate\Support\Collection;
 
+/**
+ * Class FareService
+ * @package App\Services
+ */
 class FareService extends BaseService
 {
+    /**
+     * Get the fares for a particular flight, with an optional subfleet
+     * This will go through if there are any fares assigned to the flight,
+     * and then check the fares assigned on the subfleet, and give the
+     * final "authoritative" list of the fares for a flight.
+     *
+     * If a subfleet is passed in,
+     * @param Flight|null $flight
+     * @param Subfleet|null $subfleet
+     * @return Collection
+     */
+    public function getAllFares($flight, $subfleet)
+    {
+        if(!$flight) {
+            $flight_fares = collect();
+        } else {
+            $flight_fares = $this->getForFlight($flight);
+        }
+
+        $subfleet_fares = $this->getForSubfleet($subfleet);
+
+        # Go through all of the fares assigned by the subfleet
+        # See if any of the same fares are assigned to the flight
+        $fares = $subfleet_fares->map(function($fare, $idx) use ($flight_fares)
+        {
+            $flight_fare = $flight_fares->whereStrict('id', $fare->id)->first();
+            if(!$flight_fare) {
+                return $fare;
+            }
+
+            return $flight_fare;
+        });
+
+        return $fares;
+    }
+
     /**
      * Get fares
      * @param $fare
@@ -70,7 +111,7 @@ class FareService extends BaseService
      * table to see if the price/cost/capacity has been overridden
      * and return the correct amounts.
      * @param Flight $flight
-     * @return Fare[]
+     * @return Collection
      */
     public function getForFlight(Flight $flight)
     {
@@ -120,7 +161,7 @@ class FareService extends BaseService
      * table to see if the price/cost/capacity has been overridden
      * and return the correct amounts.
      * @param Subfleet $subfleet
-     * @return Fare[]
+     * @return Collection
      */
     public function getForSubfleet(Subfleet $subfleet)
     {

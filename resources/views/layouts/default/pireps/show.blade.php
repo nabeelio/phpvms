@@ -10,7 +10,7 @@
 
     <div class="row">
         <div class="col-md-12">
-            <table class="table">
+            <table class="table table-hover">
                 <tr>
                     <td>Status</td>
                     <td>
@@ -23,6 +23,7 @@
                         @else
                             <div class="badge badge-info">
                         @endif
+
                         {!! PirepState::label($pirep->state) !!}</div>
 
                         <span class="description" style="padding-left: 20px;">
@@ -71,11 +72,15 @@
         </div>
     </div>
 
+    {{--
+        Show the fields that have been entered
+    --}}
+
     @if(count($pirep->fields) > 0)
         <div class="row">
             <div class="col-md-12">
                 <h3 class="description">fields</h3>
-                <table class="table">
+                <table class="table table-hover">
                     <thead>
                         <th>Name</th>
                         <th>Value</th>
@@ -85,6 +90,32 @@
                         <tr>
                             <td>{!! $field->name !!}</td>
                             <td>{!! $field->value !!}</td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    @endif
+
+    {{--
+        Show the fares that have been entered
+    --}}
+
+    @if(count($pirep->fares) > 0)
+        <div class="row">
+            <div class="col-md-12">
+                <h3 class="description">fares</h3>
+                <table class="table table-hover">
+                    <thead>
+                    <th>Class</th>
+                    <th>Count</th>
+                    </thead>
+                    <tbody>
+                    @foreach($pirep->fares as $fare)
+                        <tr>
+                            <td>{!! $fare->fare->name !!} ({!! $fare->fare->code !!})</td>
+                            <td>{!! $fare->count !!}</td>
                         </tr>
                     @endforeach
                     </tbody>

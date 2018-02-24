@@ -29,6 +29,7 @@ Route::group([
     Route::get('flights/search', 'FlightController@search')->name('flights.search');
     Route::resource('flights', 'FlightController');
 
+    Route::get('pireps/fares', 'PirepController@fares');
     Route::resource('pireps', 'PirepController');
 
     Route::get('profile/regen_apikey', 'ProfileController@regen_apikey')

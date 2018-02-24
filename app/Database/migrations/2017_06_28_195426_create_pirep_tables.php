@@ -60,30 +60,15 @@ class CreatePirepTables extends Migration
             $table->timestamps();
         });
 
-        /*
-         * Financial tables/fields
-         */
-        Schema::create('pirep_expenses', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('pirep_id', \App\Models\Pirep::ID_MAX_LENGTH);
-            $table->string('name');
-            $table->double('value')->nullable();
-
-            $table->index('pirep_id');
-        });
-
         Schema::create('pirep_fares', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('pirep_id', \App\Models\Pirep::ID_MAX_LENGTH);
-            $table->unsignedBigInteger('fare_id');
+            $table->unsignedInteger('fare_id');
             $table->unsignedInteger('count')->nullable();
 
             $table->index('pirep_id');
         });
 
-        /*
-         * Additional PIREP data
-         */
         Schema::create('pirep_fields', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name', 50);
@@ -95,6 +80,7 @@ class CreatePirepTables extends Migration
             $table->bigIncrements('id');
             $table->string('pirep_id', \App\Models\Pirep::ID_MAX_LENGTH);
             $table->string('name', 50);
+            $table->string('slug', 50)->nullable();
             $table->string('value')->nullable();
             $table->string('source')->nullable();
             $table->timestamps();
@@ -112,7 +98,6 @@ class CreatePirepTables extends Migration
     {
         Schema::dropIfExists('pireps');
         Schema::dropIfExists('pirep_comments');
-        Schema::dropIfExists('pirep_expenses');
         Schema::dropIfExists('pirep_fares');
         Schema::dropIfExists('pirep_fields');
         Schema::dropIfExists('pirep_field_values');

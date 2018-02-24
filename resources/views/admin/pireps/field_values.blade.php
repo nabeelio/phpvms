@@ -1,35 +1,30 @@
-<div id="pirep_field_values_wrapper">
-<table class="table table-responsive" id="flight-fields-table">
+<table class="table table-responsive table-hover" id="flight-fields-table">
     <thead>
-    <th>Name</th>
+    <th></th>
     <th>Value</th>
     <th>Source</th>
-    <th style="text-align: right;">Actions</th>
     </thead>
     <tbody>
     @foreach($pirep->fields as $field)
         <tr>
-            <td>{!! $field->name !!}</td>
             <td>
-                <a class="inline" href="#" data-pk="{!! $field->id !!}" data-name="{!! $field->name !!}">{!! $field->value !!}</a>
+                {!! $field->name !!}
+                @if($field->required === true)
+                    <span class="text-danger">*</span>
+                @endif
             </td>
-            <td>{!! PirepSource::label($field->source) !!}</td>
-            <td style="width: 10%; text-align: right;" class="form-inline">
-                {!! Form::open(['url' => '/admin/pireps/'.$pirep->id.'/fields',
-                                'method' => 'delete',
-                                'class' => 'pjax_form pirep_fields'
-                                ]) !!}
-                {!! Form::hidden('field_id', $field->id) !!}
-                <div class='btn-group'>
-                    {{--{!! Form::button('<i class="fa fa-times"></i>',
-                                     ['type' => 'submit',
-                                      'class' => 'btn btn-danger btn-xs'])
-                      !!}--}}
+            <td>
+                <div class="form-group">
+                    {!! Form::text($field->slug, null, [
+                        'class' => 'form-control'
+                        ]) !!}
                 </div>
-                {!! Form::close() !!}
+                <p class="text-danger">{{ $errors->first($field->slug) }}</p>
+            </td>
+            <td>
+                {!! PirepSource::label($field->source) !!}
             </td>
         </tr>
     @endforeach
     </tbody>
 </table>
-</div>

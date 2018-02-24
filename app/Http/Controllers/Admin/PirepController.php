@@ -5,11 +5,14 @@ namespace App\Http\Controllers\Admin;
 use App\Facades\Utils;
 use App\Http\Requests\CreatePirepRequest;
 use App\Http\Requests\UpdatePirepRequest;
+use App\Models\Enums\PirepSource;
 use App\Models\Enums\PirepState;
+use App\Models\Pirep;
 use App\Models\PirepComment;
 use App\Repositories\AircraftRepository;
 use App\Repositories\AirlineRepository;
 use App\Repositories\AirportRepository;
+use App\Repositories\PirepFieldRepository;
 use App\Repositories\PirepRepository;
 use App\Repositories\SubfleetRepository;
 use App\Services\PIREPService;
@@ -30,6 +33,7 @@ class PirepController extends BaseController
             $aircraftRepo,
             $pirepSvc,
             $pirepRepo,
+            $pirepFieldRepo,
             $subfleetRepo,
             $userSvc;
 
@@ -48,6 +52,7 @@ class PirepController extends BaseController
         AirlineRepository $airlineRepo,
         AircraftRepository $aircraftRepo,
         PirepRepository $pirepRepo,
+        PirepFieldRepository $pirepFieldRepo,
         PIREPService $pirepSvc,
         SubfleetRepository $subfleetRepo,
         UserService $userSvc
@@ -56,6 +61,7 @@ class PirepController extends BaseController
         $this->airlineRepo = $airlineRepo;
         $this->aircraftRepo = $aircraftRepo;
         $this->pirepRepo = $pirepRepo;
+        $this->pirepFieldRepo = $pirepFieldRepo;
         $this->pirepSvc = $pirepSvc;
         $this->subfleetRepo = $subfleetRepo;
         $this->userSvc = $userSvc;
@@ -86,6 +92,77 @@ class PirepController extends BaseController
         }
 
         return $aircraft;
+    }
+
+    /**
+     * Save any custom fields found
+     * @param Pirep $pirep
+     * @param Request $request
+     */
+    protected function saveCustomFields(Pirep $pirep, Request $request)
+    {
+        $custom_fields = [];
+        $pirep_fields = $this->pirepFieldRepo->all();
+        foreach ($pirep_fields as $field) {
+            if (!$request->filled($field->slug)) {
+                continue;
+            }
+
+            $custom_fields[] = [
+                'name' => $field->name,
+                'value' => $request->input($field->slug),
+                'source' => PirepSource::MANUAL
+            ];
+        }
+
+        Log::info('PIREP Custom Fields', $custom_fields);
+        $this->pirepSvc->updateCustomFields($pirep->id, $custom_fields);
+    }
+
+    /**
+     * Save the fares that have been specified/saved
+     * @param Pirep $pirep
+     * @param Request $request
+     * @throws \Exception
+     */
+    protected function saveFares(Pirep $pirep, Request $request)
+    {
+        $fares = [];
+        foreach ($pirep->aircraft->subfleet->fares as $fare) {
+
+            $field_name = 'fare_' . $fare->id;
+            if (!$request->filled($field_name)) {
+                $count = 0;
+            } else {
+                $count = $request->input($field_name);
+            }
+
+            $fares[] = [
+                'fare_id' => $fare->id,
+                'count' => $count,
+            ];
+        }
+
+        $this->pirepSvc->saveFares($pirep->id, $fares);
+    }
+
+    /**
+     * Return the fares form for a given aircraft
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function fares(Request $request)
+    {
+        $aircraft_id = $request->input('aircraft_id');
+        Log::info($aircraft_id);
+
+        $aircraft = $this->aircraftRepo->find($aircraft_id);
+        Log::info('aircraft', $aircraft->toArray());
+
+        return view('admin.pireps.fares', [
+            'aircraft' => $aircraft,
+            'read_only' => false,
+        ]);
     }
 
     /**
@@ -144,6 +221,7 @@ class PirepController extends BaseController
      * @param CreatePirepRequest $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      * @throws \Prettus\Validator\Exceptions\ValidatorException
+     * @throws \Exception
      */
     public function store(CreatePirepRequest $request)
     {
@@ -153,6 +231,9 @@ class PirepController extends BaseController
         $hours = (int) $attrs['hours'];
         $minutes = (int) $attrs['minutes'];
         $pirep->flight_time = Utils::hoursToMinutes($hours) + $minutes;
+
+        $this->saveCustomFields($pirep, $request);
+        $this->saveFares($pirep, $request);
 
         Flash::success('Pirep saved successfully.');
         return redirect(route('admin.pireps.index'));
@@ -195,17 +276,26 @@ class PirepController extends BaseController
         $pirep->minutes = $time->minutes;
 
         # Can we modify?
-        $read_only = false;
-        if($pirep->state !== PirepState::PENDING) {
-            $read_only = false;
+        $read_only = $pirep->state !== PirepState::PENDING;
+
+        # set the custom fields
+        foreach ($pirep->fields as $field) {
+            $pirep->{$field->slug} = $field->value;
+        }
+
+        # set the fares
+        foreach ($pirep->fares as $fare) {
+            $field_name = 'fare_' . $fare->fare_id;
+            $pirep->{$field_name} = $fare->count;
         }
 
         return view('admin.pireps.edit', [
             'pirep' => $pirep,
             'read_only' => $read_only,
-            'aircraft' => $this->aircraftList(),
-            'airports' => $this->airportRepo->selectBoxList(),
-            'airlines' => $this->airlineRepo->selectBoxList(),
+            'aircraft' => $pirep->aircraft,
+            'aircraft_list' => $this->aircraftList(),
+            'airports_list' => $this->airportRepo->selectBoxList(),
+            'airlines_list' => $this->airlineRepo->selectBoxList(),
         ]);
     }
 
@@ -241,6 +331,9 @@ class PirepController extends BaseController
         if($pirep->route !== $orig_route) {
             $this->pirepSvc->saveRoute($pirep);
         }
+
+        $this->saveCustomFields($pirep, $request);
+        $this->saveFares($pirep, $request);
 
         Flash::success('Pirep updated successfully.');
         return redirect(route('admin.pireps.index'));

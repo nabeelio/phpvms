@@ -17,6 +17,29 @@ const changeStatus = (values, fn) => {
 
 $(document).ready(function() {
 
+    const select_id = "select#aircraft_select";
+    const destContainer = $('#fares_container');
+
+    $(select_id).change((e) => {
+        const aircraft_id = $(select_id + " option:selected").val();
+        console.log('aircraft select change: ', aircraft_id);
+
+        $.ajax({
+            url: "{!! url('/admin/pireps/fares') !!}?aircraft_id=" + aircraft_id,
+            type: 'GET',
+            headers: {
+                'x-api-key': '{!! Auth::user()->api_key !!}'
+            },
+            success: (data) => {
+                console.log('returned new fares', data);
+                destContainer.html(data);
+            },
+            error: () => {
+                destContainer.html('');
+            }
+        });
+    });
+
     $(document).on('submit', 'form.pjax_form', function (event) {
         event.preventDefault();
         $.pjax.submit(event, '#pirep_comments_wrapper', {push: false});

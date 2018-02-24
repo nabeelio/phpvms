@@ -37,8 +37,9 @@ Route::group([
     Route::match(['post', 'put'], 'settings', 'SettingsController@update')->name('settings.update');
 
     # pirep related routes
+    Route::get('pireps/fares', 'PirepController@fares');
+    Route::get('pireps/pending', 'PirepController@pending');
     Route::resource('pireps', 'PirepController');
-    Route::match(['get'], 'pireps/pending', 'PirepController@pending');
     Route::match(['get', 'post', 'delete'], 'pireps/{id}/comments', 'PirepController@comments');
     Route::match(['post', 'put'], 'pireps/{id}/status', 'PirepController@status')->name('pirep.status');
 

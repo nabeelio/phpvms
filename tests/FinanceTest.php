@@ -171,4 +171,103 @@ class FinanceTest extends TestCase
         $this->assertEquals($new_cost, $ac_fares[0]->cost);
         $this->assertEquals($new_capacity, $ac_fares[0]->capacity);
     }
+
+    /**
+     * Test getting the fares from the flight svc. Have a few base fares
+     * and then override some of them
+     */
+    public function testGetFaresWithOverrides()
+    {
+        $flight = factory(App\Models\Flight::class)->create();
+        $subfleet = factory(App\Models\Subfleet::class)->create();
+        [$fare1, $fare2, $fare3, $fare4] = factory(App\Models\Fare::class, 4)->create();
+
+        # add to the subfleet, and just override one of them
+        $this->fareSvc->setForSubfleet($subfleet, $fare1);
+        $this->fareSvc->setForSubfleet($subfleet, $fare2, [
+            'price' => 100,
+            'cost' => 50,
+            'capacity' => 25,
+        ]);
+
+        $this->fareSvc->setForSubfleet($subfleet, $fare3);
+
+        # Now set the last one to the flight and then override stuff
+        $this->fareSvc->setForFlight($flight, $fare3, [
+            'price' => '300%',
+            'cost' => 250,
+        ]);
+
+        $fare3_price = Math::addPercent($fare3->price, 300);
+
+        # Assign another one to the flight, that's not on the subfleet
+        # This one should NOT be returned in the list of fares
+        $this->fareSvc->setForFlight($flight, $fare4);
+
+        $fares = $this->fareSvc->getAllFares($flight, $subfleet);
+        $this->assertCount(3, $fares);
+
+        foreach($fares as $fare) {
+            switch($fare->id) {
+                case $fare1->id:
+                    $this->assertEquals($fare->price, $fare1->price);
+                    $this->assertEquals($fare->cost, $fare1->cost);
+                    $this->assertEquals($fare->capacity, $fare1->capacity);
+                    break;
+
+                case $fare2->id:
+                    $this->assertEquals($fare->price, 100);
+                    $this->assertEquals($fare->cost, 50);
+                    $this->assertEquals($fare->capacity, 25);
+                    break;
+
+                case $fare3->id:
+                    $this->assertEquals($fare->price, $fare3_price);
+                    $this->assertEquals($fare->cost, 250);
+                    $this->assertEquals($fare->capacity, $fare3->capacity);
+                    break;
+            }
+        }
+    }
+
+    public function testGetFaresNoFlightOverrides()
+    {
+        $subfleet = factory(App\Models\Subfleet::class)->create();
+        [$fare1, $fare2, $fare3] = factory(App\Models\Fare::class, 3)->create();
+
+        # add to the subfleet, and just override one of them
+        $this->fareSvc->setForSubfleet($subfleet, $fare1);
+        $this->fareSvc->setForSubfleet($subfleet, $fare2, [
+            'price' => 100,
+            'cost' => 50,
+            'capacity' => 25,
+        ]);
+
+        $this->fareSvc->setForSubfleet($subfleet, $fare3);
+
+        $fares = $this->fareSvc->getAllFares(null, $subfleet);
+        $this->assertCount(3, $fares);
+
+        foreach ($fares as $fare) {
+            switch ($fare->id) {
+                case $fare1->id:
+                    $this->assertEquals($fare->price, $fare1->price);
+                    $this->assertEquals($fare->cost, $fare1->cost);
+                    $this->assertEquals($fare->capacity, $fare1->capacity);
+                    break;
+
+                case $fare2->id:
+                    $this->assertEquals($fare->price, 100);
+                    $this->assertEquals($fare->cost, 50);
+                    $this->assertEquals($fare->capacity, 25);
+                    break;
+
+                case $fare3->id:
+                    $this->assertEquals($fare->price, $fare3->price);
+                    $this->assertEquals($fare->cost, $fare3->cost);
+                    $this->assertEquals($fare->capacity, $fare3->capacity);
+                    break;
+            }
+        }
+    }
 }

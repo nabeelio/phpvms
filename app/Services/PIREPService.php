@@ -12,6 +12,7 @@ use App\Models\Enums\PirepSource;
 use App\Models\Enums\PirepState;
 use App\Models\Navdata;
 use App\Models\Pirep;
+use App\Models\PirepFare;
 use App\Models\PirepFieldValues;
 use App\Models\User;
 use App\Repositories\AcarsRepository;
@@ -207,6 +208,29 @@ class PIREPService extends BaseService
                     'source' => $fv['source']
                 ]
             );
+        }
+    }
+
+    /**
+     * Save the list of fares
+     * @param $pirep_id
+     * @param array $fares ['field_id', 'count']
+     * @throws \Exception
+     */
+    public function saveFares($pirep_id, array $fares)
+    {
+        if(!$fares) { return; }
+
+        # Remove all the previous fares
+        PirepFare::where('pirep_id', $pirep_id)->delete();
+
+        # Add them in
+        foreach($fares as $fare) {
+            $fare['pirep_id'] = $pirep_id;
+            # other fields: ['fare_id', 'count']
+
+            $field = new PirepFare($fare);
+            $field->save();
         }
     }
 

@@ -30,13 +30,6 @@
 
     <div class="card border-blue-bottom">
         <div class="content">
-            <h4>field values</h4>
-            @include('admin.pireps.field_values')
-        </div>
-    </div>
-
-    <div class="card border-blue-bottom">
-        <div class="content">
             <h4>comments</h4>
             @include('admin.pireps.comments')
         </div>

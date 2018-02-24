@@ -353,7 +353,14 @@ pirep_field_values:
   - id: 1
     pirep_id: pirepid_1
     name: arrival gate
-    value: B14
+    slug: arrival_gate
+    value: 10
+    source: manual
+  - id: 2
+    pirep_id: pirepid_1
+    name: departure gate
+    slug: departure_gate
+    value: B32
     source: manual
 
 pirep_comments:

@@ -16,6 +16,8 @@ class FlightRepository extends BaseRepository implements CacheableInterface
         'arr_airport_id',
         'dpt_airport_id',
         'flight_number' => 'like',
+        'flight_code' => 'like',
+        'flight_leg' => 'like',
         'route' => 'like',
         'notes' => 'like',
     ];
@@ -23,6 +25,33 @@ class FlightRepository extends BaseRepository implements CacheableInterface
     public function model()
     {
         return Flight::class;
+    }
+
+    /**
+     * Find a flight based on the given criterea
+     * @param $airline_id
+     * @param $flight_num
+     * @param null $flight_code
+     * @param null $flight_leg
+     * @return mixed
+     */
+    public function findFlight($airline_id, $flight_num, $flight_code=null, $flight_leg=null)
+    {
+        $where = [
+            'airline_id' => $airline_id,
+            'flight_num' => $flight_num,
+            'active' => true,
+        ];
+
+        if(filled($flight_code)) {
+            $where['flight_code'] = $flight_code;
+        }
+
+        if(filled('flight_leg')) {
+            $where['flight_leg'] = $flight_leg;
+        }
+
+        return $this->findWhere($where);
     }
 
     /**

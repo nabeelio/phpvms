@@ -283,6 +283,11 @@ class Pirep extends BaseModel
                 ->orderBy('created_at', 'desc');
     }
 
+    public function fares()
+    {
+        return $this->hasMany(PirepFare::class, 'pirep_id');
+    }
+
     public function fields()
     {
         return $this->hasMany(PirepFieldValues::class, 'pirep_id');
