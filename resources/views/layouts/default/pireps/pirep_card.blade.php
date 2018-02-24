@@ -54,7 +54,9 @@
                         </table>
                     </div>
                     <div class="col-sm-6">
-                        &nbsp;
+                        <p style="text-align: right;">
+                            <a href="{!! route('frontend.pireps.edit', ['id'=>$pirep->id]) !!}">edit</a>
+                        </p>
                     </div>
                 </div>
             </div>

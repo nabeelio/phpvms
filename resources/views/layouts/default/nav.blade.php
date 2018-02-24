@@ -57,7 +57,7 @@
         <li class="nav-item">
             <a class="nav-link" href="{!! url('/pireps') !!}">
                 <i class="fas fa-cloud-upload-alt"></i>
-                <p>PIREPs</p>
+                <p>Flight Reports</p>
             </a>
         </li>
         <li class="nav-item">

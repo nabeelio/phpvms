@@ -63,7 +63,7 @@ class CreatePirepTables extends Migration
             $table->bigIncrements('id');
             $table->string('pirep_id', \App\Models\Pirep::ID_MAX_LENGTH);
             $table->unsignedInteger('fare_id');
-            $table->unsignedInteger('count')->nullable();
+            $table->unsignedInteger('count')->nullable()->default(0);
 
             $table->index('pirep_id');
         });
