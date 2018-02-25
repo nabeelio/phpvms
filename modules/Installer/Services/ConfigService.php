@@ -159,6 +159,31 @@ class ConfigService
     }
 
     /**
+     * Remove the config files
+     */
+    public function removeConfigFiles()
+    {
+        $env_file = \App::environmentFilePath();
+        $config_file = \App::environmentPath().'/config.php';
+
+        if (file_exists($env_file)) {
+            try {
+                unlink($env_file);
+            } catch (\Exception $e) {
+                Log::error($e->getMessage());
+            }
+        }
+
+        if(file_exists($config_file)) {
+            try {
+                unlink($config_file);
+            } catch (\Exception $e) {
+                Log::error($e->getMessage());
+            }
+        }
+    }
+
+    /**
      * Get the template file name and write it out
      * @param $opts
      * @throws \Symfony\Component\HttpFoundation\File\Exception\FileException

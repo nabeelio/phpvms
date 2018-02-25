@@ -158,7 +158,9 @@ class InstallerController extends Controller
      */
     public function envsetup(Request $request)
     {
-        Log::info('ENV setup', $request->post());
+        $log_str = $request->post();
+        $log_str['password'] = '';
+        Log::info('ENV setup', $log_str);
 
         // Before writing out the env file, test the DB credentials
         try {
@@ -211,6 +213,7 @@ class InstallerController extends Controller
             $console_out .= $this->dbService->setupDB();
             $console_out .= $this->migrationSvc->runAllMigrations();
         } catch(QueryException $e) {
+            $this->envService->removeConfigFiles();
             flash()->error($e->getMessage());
             return redirect(route('installer.step2'))->withInput();
         }

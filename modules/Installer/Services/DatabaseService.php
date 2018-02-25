@@ -41,6 +41,8 @@ class DatabaseService {
 
     /**
      * Setup the database by running the migration commands
+     * Only run the setup for sqlite, otherwise, we're assuming
+     * that the MySQL database has already been created
      */
     public function setupDB()
     {
