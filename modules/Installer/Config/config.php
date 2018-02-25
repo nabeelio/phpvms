@@ -10,8 +10,8 @@ return [
         'pdo',
         'mbstring',
         'tokenizer',
-        'JSON',
-        'cURL',
+        'json',
+        'curl',
     ],
 
     # Make sure these are writable
