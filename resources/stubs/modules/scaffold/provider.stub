@@ -102,7 +102,7 @@ class $CLASS$ extends ServiceProvider
     {
         $this->publishes([
             __DIR__.'/../$PATH_CONFIG$/config.php' => config_path('$LOWER_NAME$.php'),
-        ], 'config');
+        ], '$LOWER_NAME$');
 
         $this->mergeConfigFrom(
             __DIR__.'/../$PATH_CONFIG$/config.php', '$LOWER_NAME$'
