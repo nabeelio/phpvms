@@ -9,12 +9,17 @@ class DatabaseService {
 
     /**
      * Check the PHP version that it meets the minimum requirement
-     * @throws \PDOException
+     * @param $driver
+     * @param $host
+     * @param $port
+     * @param $name
+     * @param $user
+     * @param $pass
      * @return boolean
      */
     public function checkDbConnection($driver, $host, $port, $name, $user, $pass)
     {
-        Log::info('Testing Connection: '.$driver.'::'.$user.':'.$pass.'@'.$host.':'.$port.';'.$name);
+        Log::info('Testing Connection: '.$driver.'::'.$user.':<hidden>@'.$host.':'.$port.';'.$name);
 
         if($driver === 'mysql') {
             $dsn = "mysql:host=$host;port=$port;dbname=$name";

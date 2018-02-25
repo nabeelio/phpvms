@@ -2,10 +2,10 @@
 
 namespace Modules\Installer\Services;
 
-use Log;
-use PDO;
-use Nwidart\Modules\Support\Stub;
 use Illuminate\Encryption\Encrypter;
+use Log;
+use Nwidart\Modules\Support\Stub;
+use PDO;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 /**

@@ -159,13 +159,17 @@ class InstallerController extends Controller
     public function envsetup(Request $request)
     {
         $log_str = $request->post();
-        $log_str['password'] = '';
+        $log_str['db_pass'] = '';
+
         Log::info('ENV setup', $log_str);
 
         // Before writing out the env file, test the DB credentials
         try {
             $this->testDb($request);
         } catch (\Exception $e) {
+            Log::error('Testing db before writing configs failed');
+            Log::error($e->getMessage());
+
             flash()->error($e->getMessage());
             return redirect(route('installer.step2'))->withInput();
         }
@@ -191,6 +195,9 @@ class InstallerController extends Controller
         try {
             $this->envService->createConfigFiles($attrs);
         } catch(FileException $e) {
+            Log::error('Config files failed to write');
+            Log::error($e->getMessage());
+
             flash()->error($e->getMessage());
             return redirect(route('installer.step2'))->withInput();
         }
@@ -213,6 +220,8 @@ class InstallerController extends Controller
             $console_out .= $this->dbService->setupDB();
             $console_out .= $this->migrationSvc->runAllMigrations();
         } catch(QueryException $e) {
+            Log::error('Error on db setup: ' . $e->getMessage());
+
             $this->envService->removeConfigFiles();
             flash()->error($e->getMessage());
             return redirect(route('installer.step2'))->withInput();
