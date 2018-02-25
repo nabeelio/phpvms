@@ -45,7 +45,10 @@
                 <td>Database Host</td>
                 <td style="text-align:center;">
                     <div class="form-group">
-                    {!! Form::input('text', 'db_host', 'localhost', ['class' => 'form-control']) !!}
+                    {!! Form::text('db_host', null, [
+                            'class' => 'form-control',
+                            'placeholder' => 'localhost',
+                            ]) !!}
                     </div>
                 </td>
             </tr>
