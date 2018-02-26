@@ -75,14 +75,17 @@ ranks:
   - id: 2
     name: Junior First Officer
     hours: 10
+    base_pay_rate: 100
   - id: 3
     name: First Officer
     hours: 15
+    base_pay_rate: 250
     auto_approve_acars: 1
     auto_approve_manual: 1
   - id: 4
     name: Senior Captain
     hours: 20
+    base_pay_rate: 500
     auto_approve_acars: 1
     auto_approve_manual: 1
     auto_promote: 0

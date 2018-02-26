@@ -14,6 +14,7 @@ class Rank extends BaseModel
         'name',
         'hours',
         'image_link',
+        'base_pay_rate',
         'auto_approve_acars',
         'auto_approve_manual',
         'auto_promote',
@@ -21,6 +22,7 @@ class Rank extends BaseModel
 
     protected $casts = [
         'hours'               => 'integer',
+        'base_pay_rate'       => 'float',
         'auto_approve_acars'  => 'bool',
         'auto_approve_manual' => 'bool',
         'auto_promote'        => 'bool',
@@ -29,6 +31,7 @@ class Rank extends BaseModel
     public static $rules = [
         'name'  => 'required',
         'hours' => 'required|integer',
+        'base_pay_rate' => 'nullable|numeric',
     ];
 
     public function subfleets() {
