@@ -14,8 +14,10 @@
         @include('admin.airports.search')
     </div>
 
-    <div class="card">
+    <div class="card border-blue-bottom">
+        <div class="content">
         @include('admin.airports.table')
+        </div>
     </div>
 
     <div class="row">

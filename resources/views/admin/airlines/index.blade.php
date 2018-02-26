@@ -10,8 +10,10 @@
 @endsection
 
 @section('content')
-    <div class="card">
+    <div class="card border-blue-bottom">
+        <div class="content">
         @include('admin.airlines.table')
+        </div>
     </div>
 @endsection
 

@@ -173,6 +173,31 @@ aircraft:
     registration:
     status: 2
 
+expenses:
+  - name: Per-Flight (no muliplier)
+    amount: 100
+    type: 0
+    active: 1
+  - name: Per-Flight (multiplier)
+    amount: 100
+    type: 0
+    multiplier: 1
+    active: 1
+  - name: Per-Flight (multiplier, on airline)
+    airline_id: 1
+    amount: 200
+    type: 0
+    multiplier: 1
+    active: 1
+  - name: A daily fee
+    amount: 800
+    type: 1
+    active: 1
+  - name: A monthly fee
+    amount: 5000
+    type: 2
+    active: 1
+
 fares:
   - id: 1
     code: Y

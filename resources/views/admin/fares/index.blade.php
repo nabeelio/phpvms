@@ -11,8 +11,10 @@
 @endsection
 
 @section('content')
-    <div class="card">
-        @include('admin.fares.table')
+    <div class="card border-blue-bottom">
+        <div class="content">
+            @include('admin.fares.table')
+        </div>
     </div>
 @endsection
 

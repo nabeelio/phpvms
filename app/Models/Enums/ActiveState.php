@@ -3,16 +3,16 @@
 namespace App\Models\Enums;
 
 /**
- * Class GenericState
+ * Class ActiveState
  * @package App\Models\Enums
  */
-class GenericState extends EnumBase
+class ActiveState extends EnumBase
 {
     public const INACTIVE = 0;
     public const ACTIVE = 1;
 
     public static $labels = [
-        GenericState::INACTIVE  => 'Inactive',
-        GenericState::ACTIVE    => 'Active',
+        ActiveState::INACTIVE  => 'Inactive',
+        ActiveState::ACTIVE    => 'Active',
     ];
 }

@@ -28,14 +28,13 @@
 
     <div class="form-group col-sm-4">
         {!! Form::label('ground_handling_multiplier', 'Ground Handling Multiplier:') !!}
+        {!! Form::text('ground_handling_multiplier', null, ['class' => 'form-control']) !!}
+        <p class="text-danger">{{ $errors->first('ground_handling_multiplier') }}</p>
 
         @component('admin.components.info')
             This is the multiplier of the airport ground-handling cost to charge for
             aircraft in this subfleet, as a percentage. Defaults to 100.
         @endcomponent
-
-        {!! Form::text('ground_handling_multiplier', null, ['class' => 'form-control']) !!}
-        <p class="text-danger">{{ $errors->first('ground_handling_multiplier') }}</p>
     </div>
 </div>
 <div class="row">

@@ -62,14 +62,13 @@
     <div class="row">
         <div class="form-group col-sm-6">
             {!! Form::label('ground_handling_cost', 'Ground Handling Cost:') !!}
+            {!! Form::number('ground_handling_cost', null, ['class' => 'form-control']) !!}
+            <p class="text-danger">{{ $errors->first('ground_handling_cost') }}</p>
 
             @component('admin.components.info')
                 This is the base rate per-flight. A multiplier for this rate can be
                 set in the subfleet, so you can modulate those costs from there.
             @endcomponent
-
-            {!! Form::number('ground_handling_cost', null, ['class' => 'form-control']) !!}
-            <p class="text-danger">{{ $errors->first('ground_handling_cost') }}</p>
         </div>
 
         <div class="form-group col-md-6">

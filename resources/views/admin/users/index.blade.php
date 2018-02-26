@@ -12,8 +12,10 @@
         @include('admin.users.search')
     </div>
 
-    <div class="card">
-        @include('admin.users.table')
+    <div class="card border-blue-bottom">
+        <div class="content">
+            @include('admin.users.table')
+        </div>
     </div>
 
     <div class="row">

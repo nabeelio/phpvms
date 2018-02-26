@@ -117,6 +117,7 @@
     <!-- Active Field -->
     <div class="col-sm-4">
         {!! Form::label('active', 'Active:') !!}
+        {!! Form::hidden('active', 0, false) !!}
         @if($flight!==null)
             {!! Form::checkbox('active', $flight->active, ['class' => 'form-control icheck']) !!}
         @else

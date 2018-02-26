@@ -9,8 +9,10 @@
 @endsection
 
 @section('content')
-    <div class="card">
-        @include('admin.ranks.table')
+    <div class="card border-blue-bottom">
+        <div class="content">
+            @include('admin.ranks.table')
+        </div>
     </div>
 @endsection
 @include('admin.ranks.scripts')

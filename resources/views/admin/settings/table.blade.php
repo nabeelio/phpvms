@@ -13,7 +13,11 @@
                     <tr>
                         <td width="70%">
                             <p>{!! $setting->name !!}</p>
-                            <p class="description">{{$setting->description}}</p></td>
+                            <p class="description">
+                                @component('admin.components.info')
+                                    {{$setting->description}}
+                                @endcomponent
+                            </p></td>
                         <td align="center">
                             @if($setting->type === 'date')
                                 {!! Form::input('text', $setting->id, $setting->value, ['class' => 'form-control', 'id' => 'datepicker']) !!}

@@ -33,9 +33,10 @@
                             class="pe-7s-paper-plane"></i>airlines</a></li>
             <li><a href="{!! url('/admin/airports') !!}"><i
                             class="pe-7s-map-marker"></i>airports</a></li>
+            <li><a href="{!! url('/admin/expenses') !!}"><i class="pe-7s-cash"></i>expenses</a></li>
             <li><a href="{!! url('/admin/users') !!}"><i class="pe-7s-users"></i>users</a></li>
-            <li><a href="{!! url('/admin/ranks') !!}"><i class="pe-7s-id"></i>ranks</a></li>
-            <li><a href="{!! url('/admin/settings') !!}"><i class="pe-7s-id"></i>settings</a></li>
+            <li><a href="{!! url('/admin/ranks') !!}"><i class="pe-7s-graph1"></i>ranks</a></li>
+            <li><a href="{!! url('/admin/settings') !!}"><i class="pe-7s-config"></i>settings</a></li>
         </ul>
     </div>
 </li>
