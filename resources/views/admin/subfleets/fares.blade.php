@@ -9,6 +9,7 @@
     </div>
     <br />
     <table id="aircraft_fares" class="table table-hover">
+        @if(count($subfleet->fares))
         <thead>
         <tr>
             <th>Name</th>
@@ -19,6 +20,7 @@
             <th></th>
         </tr>
         </thead>
+        @endif
         <tbody>
         @foreach($subfleet->fares as $atf)
             <tr>

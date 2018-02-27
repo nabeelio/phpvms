@@ -1,14 +1,16 @@
 <div id="subfleet_flight_wrapper">
-    <h3>assigned subfleets</h3>
+    <h3>subfleets</h3>
     @component('admin.components.info')
         The subfleets that are assigned to this flight.
     @endcomponent
     <table class="table table-responsive" id="aircrafts-table">
+        @if(count($flight->subfleets))
         <thead>
         <th>Type</th>
         <th>Name</th>
         <th style="text-align: center;">Actions</th>
         </thead>
+        @endif
         <tbody>
         @foreach($flight->subfleets as $sf)
             <tr>

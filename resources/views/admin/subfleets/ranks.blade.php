@@ -7,7 +7,8 @@
         @endcomponent
     </div>
     <br />
-    <table id="subfleet_ranks" class="table table-hover dataTable">
+    <table id="subfleet_ranks" class="table table-hover">
+        @if(count($subfleet->ranks))
         <thead>
         <tr>
             <th>Name</th>
@@ -17,6 +18,7 @@
             <th></th>
         </tr>
         </thead>
+        @endif
         <tbody>
         @foreach($subfleet->ranks as $rank)
             <tr>

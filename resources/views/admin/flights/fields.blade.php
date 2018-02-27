@@ -91,7 +91,7 @@
     </div>
 
     <div class="form-group col-sm-2">
-        {!! Form::label('distance', 'Distance:') !!} <span class="small">in miles</span>
+        {!! Form::label('distance', 'Distance:') !!} <span class="small">in nautical miles</span>
         {!! Form::text('distance', null, ['class' => 'form-control']) !!}
         <p class="text-danger">{{ $errors->first('distance') }}</p>
     </div>

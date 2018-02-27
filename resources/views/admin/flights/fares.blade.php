@@ -16,6 +16,7 @@
     <table id="flight_fares"
            class="table table-hover"
            role="grid" aria-describedby="aircraft_fares_info">
+        @if(count($flight->fares))
         <thead>
         <tr role="row">
             <th>Name</th>
@@ -26,6 +27,7 @@
             <th>Actions</th>
         </tr>
         </thead>
+        @endif
         <tbody>
         @foreach($flight->fares as $atf)
             <tr>

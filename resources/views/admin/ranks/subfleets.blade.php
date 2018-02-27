@@ -1,5 +1,6 @@
 <div id="rank_subfleet_wrapper" class="dataTables_wrapper form-inline dt-bootstrap col-lg-12">
     <table class="table table-responsive" id="subfleets-table">
+        @if(count($rank->subfleets))
         <thead>
         <th>Airline</th>
         <th>Name</th>
@@ -7,6 +8,7 @@
         <th style="text-align: center;">Manual Pay</th>
         <th style="text-align: center;">Actions</th>
         </thead>
+        @endif
         <tbody>
         @foreach($rank->subfleets as $sf)
             <tr>
