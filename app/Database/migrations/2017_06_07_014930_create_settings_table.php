@@ -2,7 +2,6 @@
 
 use App\Models\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Money\Currencies\CurrencyList;
 
 class CreateSettingsTable extends Migration
 {
