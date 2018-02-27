@@ -207,6 +207,13 @@ class RankController extends BaseController
             $rank->subfleets()->syncWithoutDetaching([$request->subfleet_id]);
         }
 
+        elseif($request->isMethod('put')) {
+            $override = [];
+            $subfleet = $this->subfleetRepo->find($request->input('subfleet_id'));
+            $override[$request->name] = $request->value;
+            $rank->subfleets()->updateExistingPivot($subfleet->id, $override);
+        }
+
         // remove aircraft from flight
         elseif ($request->isMethod('delete')) {
             $rank->subfleets()->detach($request->subfleet_id);

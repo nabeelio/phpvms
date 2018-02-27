@@ -47,7 +47,7 @@ Route::group([
     # subfleet
     Route::resource('subfleets', 'SubfleetController');
     Route::match(['get', 'post', 'put', 'delete'], 'subfleets/{id}/fares', 'SubfleetController@fares');
-    Route::match(['get', 'post', 'delete'], 'subfleets/{id}/ranks', 'SubfleetController@ranks');
+    Route::match(['get', 'post', 'put', 'delete'], 'subfleets/{id}/ranks', 'SubfleetController@ranks');
 
     Route::resource('users', 'UserController');
     Route::get('users/{id}/regen_apikey',

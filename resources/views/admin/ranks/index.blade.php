@@ -15,4 +15,3 @@
         </div>
     </div>
 @endsection
-@include('admin.ranks.scripts')

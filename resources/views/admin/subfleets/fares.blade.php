@@ -4,17 +4,18 @@
         @component('admin.components.info')
             Fares assigned to the current subfleet. These can be overridden,
             otherwise, the value used is the default, which comes from the fare.
+            The pay can be set as a fixed amount, or a percentage of the default rate
         @endcomponent
     </div>
     <br />
     <table id="aircraft_fares" class="table table-hover">
         <thead>
         <tr>
-            <th>name</th>
-            <th style="text-align: center;">code</th>
-            <th style="text-align: center;">capacity (default)</th>
-            <th style="text-align: center;">price (default)</th>
-            <th style="text-align: center;">cost (default)</th>
+            <th>Name</th>
+            <th style="text-align: center;">Code</th>
+            <th style="text-align: center;">Capacity (default)</th>
+            <th style="text-align: center;">Price (default)</th>
+            <th style="text-align: center;">Cost (default)</th>
             <th></th>
         </tr>
         </thead>

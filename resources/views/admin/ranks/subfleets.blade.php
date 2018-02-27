@@ -3,15 +3,24 @@
         <thead>
         <th>Airline</th>
         <th>Name</th>
-        <th>Type</th>
+        <th style="text-align: center;">ACARS Pay</th>
+        <th style="text-align: center;">Manual Pay</th>
         <th style="text-align: center;">Actions</th>
         </thead>
         <tbody>
         @foreach($rank->subfleets as $sf)
             <tr>
                 <td>{!! $sf->airline->name !!}</td>
-                <td>{!! $sf->name !!}</td>
-                <td>{!! $sf->type !!}</td>
+                <td>{!! $sf->name !!} ({!! $sf->type !!})</td>
+                <td style="text-align: center;">
+                    <a href="#" data-pk="{!! $sf->id !!}"
+                       data-name="acars_pay">{!! $sf->pivot->acars_pay !!}</a>
+                </td>
+
+                <td style="text-align: center;">
+                    <a href="#" data-pk="{!! $sf->id !!}"
+                       data-name="manual_pay">{!! $sf->pivot->manual_pay !!}</a>
+                </td>
                 <td style="width: 10%; text-align: center;" class="form-inline">
                     {!! Form::open(['url' => '/admin/ranks/'.$rank->id.'/subfleets', 'method' => 'delete', 'class' => 'pjax_form']) !!}
                     {!! Form::hidden('subfleet_id', $sf->id) !!}

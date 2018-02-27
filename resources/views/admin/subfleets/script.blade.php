@@ -4,13 +4,29 @@ function setEditable() {
     $('#aircraft_fares a').editable({
         type: 'text',
         mode: 'inline',
-        emptytext: 'default',
+        emptytext: 'inherited',
         url: '{!! url('/admin/subfleets/'.$subfleet->id.'/fares') !!}',
         title: 'Enter override value',
         ajaxOptions: {'type': 'put'},
         params: function (params) {
             return {
                 fare_id: params.pk,
+                name: params.name,
+                value: params.value
+            }
+        }
+    });
+
+    $('#subfleet_ranks a').editable({
+        type: 'text',
+        mode: 'inline',
+        emptytext: 'inherited',
+        url: '{!! url('/admin/subfleets/'.$subfleet->id.'/ranks') !!}',
+        title: 'Enter override value',
+        ajaxOptions: {'type': 'put'},
+        params: function (params) {
+            return {
+                rank_id: params.pk,
                 name: params.name,
                 value: params.value
             }

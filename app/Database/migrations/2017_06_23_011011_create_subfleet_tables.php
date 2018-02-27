@@ -57,8 +57,8 @@ class CreateSubfleetTables extends Migration
         Schema::create('subfleet_rank', function(Blueprint $table) {
             $table->unsignedInteger('rank_id');
             $table->unsignedInteger('subfleet_id');
-            $table->unsignedDecimal('acars_pay')->nullable();
-            $table->unsignedDecimal('manual_pay')->nullable();
+            $table->string('acars_pay')->nullable();
+            $table->string('manual_pay')->nullable();
 
             $table->primary(['rank_id', 'subfleet_id']);
             $table->index(['subfleet_id', 'rank_id']);

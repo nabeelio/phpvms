@@ -274,6 +274,13 @@ class SubfleetController extends BaseController
             $subfleet->ranks()->syncWithoutDetaching([$request->input('rank_id')]);
         }
 
+        elseif ($request->isMethod('put')) {
+            $override = [];
+            $rank = $this->fareRepo->find($request->input('rank_id'));
+            $override[$request->name] = $request->value;
+            $subfleet->ranks()->updateExistingPivot($rank->id, $override);
+        }
+
         // dissassociate fare from teh aircraft
         elseif ($request->isMethod('delete')) {
             $subfleet->ranks()->detach($request->input('rank_id'));
@@ -305,21 +312,21 @@ class SubfleetController extends BaseController
          * update specific fare data
          */
         if ($request->isMethod('post')) {
-            $fare = $this->fareRepo->findWithoutFail($request->fare_id);
+            $fare = $this->fareRepo->find($request->fare_id);
             $this->fareSvc->setForSubfleet($subfleet, $fare);
         }
 
         // update the pivot table with overrides for the fares
         elseif ($request->isMethod('put')) {
             $override = [];
-            $fare = $this->fareRepo->findWithoutFail($request->fare_id);
+            $fare = $this->fareRepo->find($request->fare_id);
             $override[$request->name] = $request->value;
             $this->fareSvc->setForSubfleet($subfleet, $fare, $override);
         }
 
         // dissassociate fare from teh aircraft
         elseif ($request->isMethod('delete')) {
-            $fare = $this->fareRepo->findWithoutFail($request->fare_id);
+            $fare = $this->fareRepo->find($request->fare_id);
             $this->fareSvc->delFareFromSubfleet($subfleet, $fare);
         }
 
