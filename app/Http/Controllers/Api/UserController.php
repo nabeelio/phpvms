@@ -93,6 +93,7 @@ class UserController extends RestController
      * Return all of the bids for the passed-in user
      * @param Request $request
      * @return mixed
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      * @throws \App\Exceptions\BidExists
      * @throws \App\Services\Exception
      */
@@ -109,7 +110,13 @@ class UserController extends RestController
         }
 
         if ($request->isMethod('DELETE')) {
-            $flight_id = $request->input('flight_id');
+            if($request->filled('bid_id')) {
+                $bid = UserBid::findOrFail($request->input('bid_id'));
+                $flight_id = $bid->flight_id;
+            } else {
+                $flight_id = $request->input('flight_id');
+            }
+
             $flight = $this->flightRepo->find($flight_id);
             $this->flightSvc->removeBid($flight, $user);
         }
