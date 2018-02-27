@@ -133,6 +133,14 @@ class CreateSettingsTable extends Migration
             'description' => 'Whether or not someone can bid on multiple flights',
         ]);
 
+        $this->addSetting('bids.expire_time', [
+            'name' => 'Expire Time',
+            'group' => 'bids',
+            'value' => 48,
+            'type' => 'int',
+            'description' => 'Number of hours to expire bids after',
+        ]);
+
         /**
          * PIREPS
          */
