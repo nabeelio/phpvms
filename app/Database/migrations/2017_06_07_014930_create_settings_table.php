@@ -2,6 +2,7 @@
 
 use App\Models\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Money\Currencies\CurrencyList;
 
 class CreateSettingsTable extends Migration
 {
@@ -22,7 +23,7 @@ class CreateSettingsTable extends Migration
             $table->string('default')->nullable();
             $table->string('group')->nullable();
             $table->string('type')->nullable();
-            $table->string('options')->nullable();
+            $table->text('options')->nullable();
             $table->string('description')->nullable();
 
             $table->primary('id');
@@ -50,58 +51,67 @@ class CreateSettingsTable extends Migration
             'description' => 'Email where notices, etc are sent',
         ]);
 
-        $this->addSetting('general.currency', [
+        /*$this->addSetting('general.currency', [
             'name' => 'Currency to Use',
             'group' => 'general',
-            'value' => 'dollar',
+            'value' => 'USD',
             'type' => 'select',
-            'options' => 'dollar,euro,gbp,yen,jpy,rupee,ruble',
-            'description' => 'Currency to show in the interface',
-        ]);
+            'options' => 'USD,EUR,GBP,JPY,RUB',
+            'description' => 'Currency to use. NOTE: If you change this, then current amounts won\'t be converted',
+        ]);*/
 
-        $this->addSetting('general.distance_unit', [
+        $this->addSetting('units.distance', [
             'name' => 'Distance Units',
-            'group' => 'general',
+            'group' => 'units',
             'value' => 'NM',
             'type' => 'select',
-            'options' => 'km,mi,NM',
-            'description' => 'The distance unit to show',
+            'options' => 'km=kilometers,mi=miles,NM=nautical miles',
+            'description' => 'The distance unit for display',
         ]);
 
-        $this->addSetting('general.weight_unit', [
+        $this->addSetting('units.weight', [
             'name' => 'Weight Units',
-            'group' => 'general',
+            'group' => 'units',
             'value' => 'lbs',
             'type' => 'select',
             'options' => 'lbs,kg',
-            'description' => 'The weight unit',
+            'description' => 'The weight unit for display',
         ]);
 
-        $this->addSetting('general.speed_unit', [
+        $this->addSetting('units.speed', [
             'name' => 'Speed Units',
-            'group' => 'general',
+            'group' => 'units',
             'value' => 'knot',
             'type' => 'select',
             'options' => 'km/h,knot',
-            'description' => 'The speed unit',
+            'description' => 'The speed unit for display',
         ]);
 
-        $this->addSetting('general.altitude_unit', [
+        $this->addSetting('units.altitude', [
             'name' => 'Altitude Units',
-            'group' => 'general',
+            'group' => 'units',
             'value' => 'ft',
             'type' => 'select',
-            'options' => 'ft,m',
-            'description' => 'The altitude units',
+            'options' => 'ft=feet,m=meters',
+            'description' => 'The altitude unit for display',
         ]);
 
-        $this->addSetting('general.fuel_unit', [
+        $this->addSetting('units.fuel', [
             'name' => 'Fuel Units',
-            'group' => 'general',
+            'group' => 'units',
             'value' => 'lbs',
             'type' => 'select',
             'options' => 'lbs,kg',
-            'description' => 'The units for fuel',
+            'description' => 'The units for fuel for display',
+        ]);
+
+        $this->addSetting('units.volume', [
+            'name' => 'Volume Units',
+            'group' => 'units',
+            'value' => 'gallons',
+            'type' => 'select',
+            'options' => 'gallons,l=liters',
+            'description' => 'The units for fuel for display',
         ]);
 
         /**

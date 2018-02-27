@@ -5,7 +5,7 @@
 
 <li>
     <a data-toggle="collapse" href="#operations_menu" class="menu operations_menu" aria-expanded="true">
-        <h5>operations&nbsp;<b class="pe-7s-angle-up"></b></h5>
+        <h5>operations&nbsp;<b class="pe-7s-angle-right"></b></h5>
     </a>
 
     <div class="collapse" id="operations_menu" aria-expanded="true">
@@ -24,7 +24,7 @@
 
 <li>
     <a data-toggle="collapse" href="#config_menu" class="menu config_menu" aria-expanded="true">
-        <h5>config&nbsp;<b class="pe-7s-angle-up"></b></h5>
+        <h5>config&nbsp;<b class="pe-7s-angle-right"></b></h5>
     </a>
 
     <div class="collapse" id="config_menu" aria-expanded="true">
@@ -43,7 +43,7 @@
 
 <li>
     <a data-toggle="collapse" href="#addons_menu" class="menu addons_menu" aria-expanded="true">
-        <h5>addons&nbsp;<b class="pe-7s-angle-up"></b></h5>
+        <h5>addons&nbsp;<b class="pe-7s-angle-right"></b></h5>
     </a>
 
     <div class="collapse" id="addons_menu" aria-expanded="true">

@@ -15,7 +15,7 @@ class Distance extends \PhpUnitsOfMeasure\PhysicalQuantity\Length implements Arr
      */
     public function __toString()
     {
-        $unit = setting('general.distance_unit');
+        $unit = setting('units.distance');
         $value = $this->toUnit($unit);
         return (string) round($value, 2);
     }

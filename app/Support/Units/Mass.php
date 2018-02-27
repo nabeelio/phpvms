@@ -15,7 +15,7 @@ class Mass extends \PhpUnitsOfMeasure\PhysicalQuantity\Mass implements Arrayable
      */
     public function __toString()
     {
-        $unit = setting('general.weight_unit');
+        $unit = setting('units.weight');
         $value = $this->toUnit($unit);
         return (string) round($value, 2);
     }

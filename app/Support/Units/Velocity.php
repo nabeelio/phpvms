@@ -15,7 +15,7 @@ class Velocity extends \PhpUnitsOfMeasure\PhysicalQuantity\Velocity implements A
      */
     public function __toString()
     {
-        $unit = setting('general.speed_unit');
+        $unit = setting('units.speed');
         $value = $this->toUnit($unit);
         return (string) round($value, 2);
     }

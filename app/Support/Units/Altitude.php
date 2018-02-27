@@ -15,7 +15,7 @@ class Altitude extends \PhpUnitsOfMeasure\PhysicalQuantity\Length implements Arr
      */
     public function __toString()
     {
-        $unit = setting('general.altitude_unit');
+        $unit = setting('units.altitude');
         $value = $this->toUnit($unit);
         return (string) round($value, 2);
     }

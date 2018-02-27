@@ -15,7 +15,7 @@ class Fuel extends \PhpUnitsOfMeasure\PhysicalQuantity\Mass implements Arrayable
      */
     public function __toString()
     {
-        $unit = setting('general.fuel_unit');
+        $unit = setting('units.fuel');
         $value = $this->toUnit($unit);
         return (string) round($value, 2);
     }

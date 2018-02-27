@@ -161,7 +161,7 @@ $(document).ready(function () {
 
         const caret = $("a." + id + " b");
         caret.addClass("pe-7s-angle-down");
-        caret.removeClass("pe-7s-angle-up");
+        caret.removeClass("pe-7s-angle-right");
     }
 
     $(".collapse").on("hide.bs.collapse", function () {
@@ -169,7 +169,7 @@ $(document).ready(function () {
         const id = $(this).attr('id');
         const elem = $("a." + id + " b");
         elem.removeClass("pe-7s-angle-down");
-        elem.addClass("pe-7s-angle-up");
+        elem.addClass("pe-7s-angle-right");
 
         removeItem(storage.menu, id);
         saveStorage("phpvms.admin", storage);
@@ -180,7 +180,7 @@ $(document).ready(function () {
         const id = $(this).attr('id');
         const caret = $("a." + id + " b");
         caret.addClass("pe-7s-angle-down");
-        caret.removeClass("pe-7s-angle-up");
+        caret.removeClass("pe-7s-angle-right");
 
         addItem(storage.menu, id);
         saveStorage("phpvms.admin", storage);

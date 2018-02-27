@@ -43,7 +43,13 @@ if(!function_exists('list_to_assoc')) {
     {
         $ret = [];
         foreach($list as $item) {
-            $ret[$item] = $item;
+            if(substr_count($item, '=')) {
+                [$item, $title] = explode('=', $item);
+            } else {
+                $title = $item;
+            }
+
+            $ret[$item] = $title;
         }
 
         return $ret;

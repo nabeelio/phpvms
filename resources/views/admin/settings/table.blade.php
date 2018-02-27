@@ -1,6 +1,6 @@
 {!! Form::model($grouped_settings, ['route' => ['admin.settings.update'], 'method' => 'post']) !!}
 @foreach($grouped_settings as $group => $settings)
-    <div class="card">
+    <div class="card border-blue-bottom">
         <div class="content table-responsive table-full-width">
             <table class="table table-hover" id="flights-table">
                 <thead>

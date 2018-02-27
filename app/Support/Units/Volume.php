@@ -15,7 +15,7 @@ class Volume extends \PhpUnitsOfMeasure\PhysicalQuantity\Volume implements Array
      */
     public function __toString()
     {
-        $unit = setting('general.liquid_unit');
+        $unit = setting('units.volume');
         $value = $this->toUnit($unit);
         return (string) round($value, 2);
     }
