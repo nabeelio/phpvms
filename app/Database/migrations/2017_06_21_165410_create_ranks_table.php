@@ -18,7 +18,8 @@ class CreateRanksTable extends Migration
             $table->string('name', 50);
             $table->string('image_link')->nullable();
             $table->unsignedInteger('hours')->default(0);
-            $table->unsignedDecimal('base_pay_rate')->nullable()->default(0);
+            $table->unsignedDecimal('acars_base_pay_rate')->nullable()->default(0);
+            $table->unsignedDecimal('manual_base_pay_rate')->nullable()->default(0);
             $table->boolean('auto_approve_acars')->nullable()->default(false);
             $table->boolean('auto_approve_manual')->nullable()->default(false);
             $table->boolean('auto_promote')->nullable()->default(true);

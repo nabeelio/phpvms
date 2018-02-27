@@ -2,7 +2,7 @@
     <table class="table table-hover table-responsive">
         <thead>
         <th>Name</th>
-        <th>Hours</th>
+        <th class="text-center">Hours</th>
         <th class="text-center">Auto Approve Acars</th>
         <th class="text-center">Auto Approve Manual</th>
         <th class="text-center">Auto Promote</th>
@@ -12,7 +12,7 @@
         @foreach($ranks as $rank)
             <tr>
                 <td><a href="{!! route('admin.ranks.edit', [$rank->id]) !!}">{!! $rank->name !!}</a></td>
-                <td>{!! $rank->hours !!}</td>
+                <td class="text-center">{!! $rank->hours !!}</td>
                 <td class="text-center">
                     @if($rank->auto_approve_acars == 1)
                         <span class="label label-success">Yes</span>

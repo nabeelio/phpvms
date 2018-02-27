@@ -13,22 +13,33 @@
     </div>
 </div>
 <div class="row">
-    <div class="form-group col-md-6">
-        {!! Form::label('base_pay_rate', 'Base Pay Rate:') !!}
-        {!! Form::number('base_pay_rate', null, ['min' => 0, 'class' => 'form-control']) !!}
-        <p class="text-danger">{{ $errors->first('base_pay_rate') }}</p>
-        @component('admin.components.info')
-            This is the base rate of pay, per-flight hour, for this rank.
-            This can be adjusted via a multiplier on the subfleet.
-        @endcomponent
-    </div>
-
     <!-- Hours Field -->
-    <div class="form-group col-sm-6">
+    <div class="form-group col-sm-4">
         {!! Form::label('hours', 'Hours:') !!}
         {!! Form::number('hours', null, ['class' => 'form-control']) !!}
         <p class="text-danger">{{ $errors->first('hours') }}</p>
     </div>
+
+    <div class="form-group col-md-4">
+        {!! Form::label('acars_base_pay_rate', 'ACARS Base Pay Rate:') !!}
+        {!! Form::number('acars_base_pay_rate', null, ['min' => 0, 'class' => 'form-control']) !!}
+        <p class="text-danger">{{ $errors->first('acars_base_pay_rate') }}</p>
+        @component('admin.components.info')
+            Base rate, per-flight hour, for ACARS PIREPs.
+            Can be adjusted via a multiplier on the subfleet.
+        @endcomponent
+    </div>
+
+    <div class="form-group col-md-4">
+        {!! Form::label('manual_base_pay_rate', 'Manual Base Pay Rate:') !!}
+        {!! Form::number('manual_base_pay_rate', null, ['min' => 0, 'class' => 'form-control']) !!}
+        <p class="text-danger">{{ $errors->first('manual_base_pay_rate') }}</p>
+        @component('admin.components.info')
+            Base rate, per-flight hour, for manually-filed PIREPs.
+            Can be adjusted via a multiplier on the subfleet.
+        @endcomponent
+    </div>
+
 </div>
 <div class="row">
     <!-- Auto Approve Acars Field -->
