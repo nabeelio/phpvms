@@ -1,19 +1,24 @@
 <?php
 
 use App\Services\FareService;
+use App\Services\FinanceService;
+use App\Services\FleetService;
 use App\Support\Math;
 
 class FinanceTest extends TestCase
 {
-    protected $ac_svc,
-              $ICAO = 'B777',
-              $fareSvc;
+    private $fareSvc,
+            $financeSvc,
+            $fleetSvc;
 
     public function setUp()
     {
         parent::setUp();
         $this->addData('base');
+
         $this->fareSvc = app(FareService::class);
+        $this->financeSvc = app(FinanceService::class);
+        $this->fleetSvc = app(FleetService::class);
     }
 
     public function testFlightFaresNoOverride()
@@ -272,11 +277,112 @@ class FinanceTest extends TestCase
     }
 
     /**
-     * Get the pilot pay, derived from the rank, and then if there
-     * are any overrides from a PIREP
+     * Get the pilot pay, derived from the rank
      */
-    public function testGetPilotPay()
+    public function testGetPilotPayNoOverride()
     {
+        $subfleet = $this->createSubfleetWithAircraft(2);
+        $rank = $this->createRank(10, [$subfleet['subfleet']->id]);
+        $this->fleetSvc->addSubfleetToRank($subfleet['subfleet'], $rank);
 
+        $this->user = factory(App\Models\User::class)->create([
+            'rank_id' => $rank->id,
+        ]);
+
+        $pirep = factory(App\Models\Pirep::class)->create([
+            'user_id' => $this->user->id,
+            'aircraft_id' => $subfleet['aircraft']->random(),
+            'source' => PirepSource::ACARS,
+        ]);
+
+        $rate = $this->financeSvc->getPayRateForPirep($pirep);
+        $this->assertEquals($rank->acars_base_pay_rate, $rate);
+    }
+
+    /**
+     * Get the pilot pay, but include different overrides
+     */
+    public function testGetPilotPayWithOverride()
+    {
+        $acars_pay_rate = 100;
+
+        $subfleet = $this->createSubfleetWithAircraft(2);
+        $rank = $this->createRank(10, [$subfleet['subfleet']->id]);
+        $this->fleetSvc->addSubfleetToRank($subfleet['subfleet'], $rank, [
+            'acars_pay' => $acars_pay_rate,
+        ]);
+
+        $this->user = factory(App\Models\User::class)->create([
+            'rank_id' => $rank->id,
+        ]);
+
+        $pirep_acars = factory(App\Models\Pirep::class)->create([
+            'user_id' => $this->user->id,
+            'aircraft_id' => $subfleet['aircraft']->random(),
+            'source' => PirepSource::ACARS,
+        ]);
+
+        $rate = $this->financeSvc->getPayRateForPirep($pirep_acars);
+        $this->assertEquals($acars_pay_rate, $rate);
+
+        # Change to a percentage
+        $manual_pay_rate = '50%';
+        $manual_pay_adjusted = Math::addPercent(
+            $rank->manual_base_pay_rate, $manual_pay_rate);
+
+        $this->fleetSvc->addSubfleetToRank($subfleet['subfleet'], $rank, [
+            'manual_pay' => $manual_pay_rate,
+        ]);
+
+        $pirep_manual = factory(App\Models\Pirep::class)->create([
+            'user_id' => $this->user->id,
+            'aircraft_id' => $subfleet['aircraft']->random(),
+            'source' => PirepSource::MANUAL,
+        ]);
+
+        $rate = $this->financeSvc->getPayRateForPirep($pirep_manual);
+        $this->assertEquals($manual_pay_adjusted, $rate);
+
+        # And make sure the original acars override still works
+        $rate = $this->financeSvc->getPayRateForPirep($pirep_acars);
+        $this->assertEquals($acars_pay_rate, $rate);
+    }
+
+    /**
+     * Get the payment for a pilot
+     */
+    public function testGetPirepPilotPay()
+    {
+        $acars_pay_rate = 100;
+
+        $subfleet = $this->createSubfleetWithAircraft(2);
+        $rank = $this->createRank(10, [$subfleet['subfleet']->id]);
+        $this->fleetSvc->addSubfleetToRank($subfleet['subfleet'], $rank, [
+            'acars_pay' => $acars_pay_rate,
+        ]);
+
+        $this->user = factory(App\Models\User::class)->create([
+            'rank_id' => $rank->id,
+        ]);
+
+        $pirep_acars = factory(App\Models\Pirep::class)->create([
+            'user_id' => $this->user->id,
+            'aircraft_id' => $subfleet['aircraft']->random(),
+            'source' => PirepSource::ACARS,
+            'flight_time' => 60,
+        ]);
+
+        $payment = $this->financeSvc->getPilotPilotPay($pirep_acars);
+        $this->assertEquals($payment->getAmount(), 100);
+
+        $pirep_acars = factory(App\Models\Pirep::class)->create([
+            'user_id' => $this->user->id,
+            'aircraft_id' => $subfleet['aircraft']->random(),
+            'source' => PirepSource::ACARS,
+            'flight_time' => 90,
+        ]);
+
+        $payment = $this->financeSvc->getPilotPilotPay($pirep_acars);
+        $this->assertEquals($payment->getAmount(), 150);
     }
 }
