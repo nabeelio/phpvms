@@ -235,10 +235,10 @@ class FlightTest extends TestCase
         $uri = '/api/user/bids';
         $data = ['flight_id' => $flight->id];
 
-        $body = $this->put($uri, $data)->json('data');
+        $body = $this->put($uri, $data);
+        $body = $body->json('data');
 
-        $this->assertCount(1, $body);
-        $this->assertEquals($body[0]['id'], $flight->id);
+        $this->assertEquals($body['flight_id'], $flight->id);
 
         # Now try to have the second user bid on it
         # Should return a 409 error

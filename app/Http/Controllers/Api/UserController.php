@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Resources\Bid as BidResource;
 use App\Http\Resources\Flight as FlightResource;
 use App\Http\Resources\Pirep as PirepResource;
 use App\Http\Resources\Subfleet as SubfleetResource;
@@ -103,20 +104,19 @@ class UserController extends RestController
         if ($request->isMethod('PUT')) {
             $flight_id = $request->input('flight_id');
             $flight = $this->flightRepo->find($flight_id);
-            $this->flightSvc->addBid($flight, $user);
+            $bid = $this->flightSvc->addBid($flight, $user);
+            return new BidResource($bid);
         }
 
-        elseif ($request->isMethod('DELETE')) {
+        if ($request->isMethod('DELETE')) {
             $flight_id = $request->input('flight_id');
             $flight = $this->flightRepo->find($flight_id);
             $this->flightSvc->removeBid($flight, $user);
         }
 
         # Return the flights they currently have bids on
-        $flights = UserBid::where(['user_id' => $user->id])
-                    ->get()->pluck('flight');
-
-        return FlightResource::collection($flights);
+        $bids = UserBid::where(['user_id' => $user->id])->get();
+        return BidResource::collection($bids);
     }
 
     /**
