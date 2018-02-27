@@ -86,9 +86,6 @@
                     'placeholder' => 'minutes'
                 ]) !!}
         </div>
-        {!! $flight->flight_time !!}
-        {!! $flight->hours !!}
-        {!! $flight->minutes !!}
         <p class="text-danger">{{ $errors->first('hours') }}</p>
         <p class="text-danger">{{ $errors->first('minutes') }}</p>
     </div>

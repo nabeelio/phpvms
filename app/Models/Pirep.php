@@ -24,6 +24,9 @@ class Pirep extends BaseModel
     public $table = 'pireps';
     public $incrementing = false;
 
+    /** The form wants this */
+    public $hours, $minutes;
+
     public $fillable = [
         'id',
         'user_id',

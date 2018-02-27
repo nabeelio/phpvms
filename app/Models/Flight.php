@@ -17,6 +17,9 @@ class Flight extends BaseModel
     public $table = 'flights';
     public $incrementing = false;
 
+    /** The form wants this */
+    public $hours, $minutes;
+
     public $fillable = [
         'id',
         'airline_id',
