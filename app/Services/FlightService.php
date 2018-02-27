@@ -6,7 +6,7 @@ use App\Exceptions\BidExists;
 use App\Models\Flight;
 use App\Models\Subfleet;
 use App\Models\User;
-use App\Models\UserBid;
+use App\Models\Bid;
 use App\Repositories\FlightRepository;
 use App\Repositories\NavdataRepository;
 use Log;
@@ -102,7 +102,7 @@ class FlightService extends BaseService
     public function deleteFlight(Flight $flight)
     {
         $where = ['flight_id' => $flight->id];
-        UserBid::where($where)->delete();
+        Bid::where($where)->delete();
         $flight->delete();
     }
 
@@ -136,7 +136,7 @@ class FlightService extends BaseService
      * Allow a user to bid on a flight. Check settings and all that good stuff
      * @param Flight $flight
      * @param User $user
-     * @return UserBid|null
+     * @return Bid|null
      * @throws \App\Exceptions\BidExists
      */
     public function addBid(Flight $flight, User $user)
@@ -149,7 +149,7 @@ class FlightService extends BaseService
 
         # See if we're allowed to have multiple bids or not
         if (!setting('bids.allow_multiple_bids')) {
-            $user_bids = UserBid::where(['user_id' => $user->id])->first();
+            $user_bids = Bid::where(['user_id' => $user->id])->first();
             if ($user_bids) {
                 Log::info('User "' . $user->id . '" already has bids, skipping');
                 throw new BidExists();
@@ -162,12 +162,12 @@ class FlightService extends BaseService
             'flight_id' => $flight->id
         ];
 
-        $user_bid = UserBid::where($bid_data)->first();
+        $user_bid = Bid::where($bid_data)->first();
         if ($user_bid) {
             return $user_bid;
         }
 
-        $user_bid = UserBid::create($bid_data);
+        $user_bid = Bid::create($bid_data);
 
         $flight->has_bid = true;
         $flight->save();
@@ -182,7 +182,7 @@ class FlightService extends BaseService
      */
     public function removeBid(Flight $flight, User $user)
     {
-        $user_bid = UserBid::where([
+        $user_bid = Bid::where([
             'flight_id' => $flight->id, 'user_id' => $user->id
         ])->first();
 
@@ -191,7 +191,7 @@ class FlightService extends BaseService
         }
 
         # Only flip the flag if there are no bids left for this flight
-        if (!UserBid::where('flight_id', $flight->id)->exists()) {
+        if (!Bid::where('flight_id', $flight->id)->exists()) {
             $flight->has_bid = false;
             $flight->save();
         }

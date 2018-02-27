@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
-use App\Models\UserBid;
+use App\Models\Bid;
 use App\Repositories\AirlineRepository;
 use App\Repositories\AirportRepository;
 use App\Repositories\Criteria\WhereCriteria;
@@ -65,7 +65,7 @@ class FlightController extends Controller
 
         $flights = $this->flightRepo->paginate();
 
-        $saved_flights = UserBid::where('user_id', Auth::id())
+        $saved_flights = Bid::where('user_id', Auth::id())
                          ->pluck('flight_id')->toArray();
 
         return $this->view('flights.index', [
@@ -86,7 +86,7 @@ class FlightController extends Controller
     {
         $flights = $this->flightRepo->searchCriteria($request)->paginate();
 
-        $saved_flights = UserBid::where('user_id', Auth::id())
+        $saved_flights = Bid::where('user_id', Auth::id())
                          ->pluck('flight_id')->toArray();
 
         return $this->view('flights.index', [

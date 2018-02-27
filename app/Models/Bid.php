@@ -5,9 +5,9 @@ namespace App\Models;
 /**
  * @package App\Models
  */
-class UserBid extends BaseModel
+class Bid extends BaseModel
 {
-    public $table = 'user_bids';
+    public $table = 'bids';
 
     public $fillable = [
         'user_id',

@@ -8,7 +8,7 @@ use App\Http\Resources\Pirep as PirepResource;
 use App\Http\Resources\Subfleet as SubfleetResource;
 use App\Http\Resources\User as UserResource;
 use App\Models\Enums\PirepState;
-use App\Models\UserBid;
+use App\Models\Bid;
 use App\Repositories\Criteria\WhereCriteria;
 use App\Repositories\FlightRepository;
 use App\Repositories\PirepRepository;
@@ -111,7 +111,7 @@ class UserController extends RestController
 
         if ($request->isMethod('DELETE')) {
             if($request->filled('bid_id')) {
-                $bid = UserBid::findOrFail($request->input('bid_id'));
+                $bid = Bid::findOrFail($request->input('bid_id'));
                 $flight_id = $bid->flight_id;
             } else {
                 $flight_id = $request->input('flight_id');
@@ -122,7 +122,7 @@ class UserController extends RestController
         }
 
         # Return the flights they currently have bids on
-        $bids = UserBid::where(['user_id' => $user->id])->get();
+        $bids = Bid::where(['user_id' => $user->id])->get();
         return BidResource::collection($bids);
     }
 

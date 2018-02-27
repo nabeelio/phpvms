@@ -2,7 +2,7 @@
 
 use App\Models\Flight;
 use App\Models\User;
-use App\Models\UserBid;
+use App\Models\Bid;
 use App\Repositories\SettingRepository;
 use App\Services\FlightService;
 
@@ -272,7 +272,7 @@ class FlightTest extends TestCase
         $this->assertNull($empty_flight);
 
         # Make sure no bids exist
-        $user_bids = UserBid::where('flight_id', $flight->id)->get();
+        $user_bids = Bid::where('flight_id', $flight->id)->get();
 
         #$this->assertEquals(0, $user_bid->count());
 

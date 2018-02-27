@@ -153,7 +153,7 @@ class User extends Authenticatable
 
     public function bids()
     {
-        return $this->hasMany(UserBid::class, 'user_id');
+        return $this->hasMany(Bid::class, 'user_id');
     }
 
     public function pireps()

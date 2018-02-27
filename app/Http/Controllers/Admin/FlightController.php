@@ -177,16 +177,17 @@ class FlightController extends BaseController
         }
 
         $time = new Time($flight->flight_time);
+
         $flight->hours = $time->hours;
         $flight->minutes = $time->minutes;
 
-        $avail_subfleets = $this->getAvailSubfleets($flight);
         return view('admin.flights.edit', [
             'flight' => $flight,
             'airlines' => $this->airlineRepo->selectBoxList(),
             'airports' => $this->airportRepo->selectBoxList(),
+            'alt_airports' => $this->airportRepo->selectBoxList(true),
             'avail_fares' => $this->getAvailFares($flight),
-            'avail_subfleets' => $avail_subfleets,
+            'avail_subfleets' => $this->getAvailSubfleets($flight),
             'flight_types' => FlightType::select(true),
         ]);
     }

@@ -13,7 +13,7 @@ class CreateBidsTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_bids', function (Blueprint $table) {
+        Schema::create('bids', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('user_id');
             $table->string('flight_id', \App\Models\Flight::ID_MAX_LENGTH);
@@ -31,6 +31,6 @@ class CreateBidsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_bids');
+        Schema::dropIfExists('bids');
     }
 }
