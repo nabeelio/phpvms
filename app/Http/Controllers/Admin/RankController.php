@@ -6,6 +6,7 @@ use App\Http\Requests\CreateRankRequest;
 use App\Http\Requests\UpdateRankRequest;
 use App\Repositories\RankRepository;
 use App\Repositories\SubfleetRepository;
+use App\Services\FleetService;
 use Cache;
 use Flash;
 use Illuminate\Http\Request;
@@ -15,17 +16,22 @@ use Response;
 class RankController extends BaseController
 {
     /** @var  RankRepository */
-    private $rankRepository, $subfleetRepo;
+    private $fleetSvc,
+            $rankRepository,
+            $subfleetRepo;
 
     /**
      * RankController constructor.
+     * @param FleetService $fleetSvc
      * @param RankRepository $rankingRepo
      * @param SubfleetRepository $subfleetRepo
      */
     public function __construct(
+        FleetService $fleetSvc,
         RankRepository $rankingRepo,
         SubfleetRepository $subfleetRepo
     ) {
+        $this->fleetSvc = $fleetSvc;
         $this->rankRepository = $rankingRepo;
         $this->subfleetRepo = $subfleetRepo;
     }
@@ -204,19 +210,22 @@ class RankController extends BaseController
 
         // add aircraft to flight
         if ($request->isMethod('post')) {
-            $rank->subfleets()->syncWithoutDetaching([$request->subfleet_id]);
+            $subfleet = $this->subfleetRepo->find($request->input('subfleet_id'));
+            $this->fleetSvc->addSubfleetToRank($subfleet, $rank);
         }
 
         elseif($request->isMethod('put')) {
             $override = [];
-            $subfleet = $this->subfleetRepo->find($request->input('subfleet_id'));
             $override[$request->name] = $request->value;
-            $rank->subfleets()->updateExistingPivot($subfleet->id, $override);
+            $subfleet = $this->subfleetRepo->find($request->input('subfleet_id'));
+
+            $this->fleetSvc->addSubfleetToRank($subfleet, $rank);
         }
 
         // remove aircraft from flight
         elseif ($request->isMethod('delete')) {
-            $rank->subfleets()->detach($request->subfleet_id);
+            $subfleet = $this->subfleetRepo->find($request->input('subfleet_id'));
+            $this->fleetSvc->removeSubfleetFromRank($subfleet, $rank);
         }
 
         return $this->return_subfleet_view($rank);

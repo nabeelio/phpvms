@@ -270,4 +270,13 @@ class FinanceTest extends TestCase
             }
         }
     }
+
+    /**
+     * Get the pilot pay, derived from the rank, and then if there
+     * are any overrides from a PIREP
+     */
+    public function testGetPilotPay()
+    {
+
+    }
 }

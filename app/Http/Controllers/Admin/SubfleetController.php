@@ -12,6 +12,7 @@ use App\Repositories\FareRepository;
 use App\Repositories\RankRepository;
 use App\Repositories\SubfleetRepository;
 use App\Services\FareService;
+use App\Services\FleetService;
 use Flash;
 use Illuminate\Http\Request;
 use Prettus\Repository\Criteria\RequestCriteria;
@@ -20,27 +21,36 @@ use Response;
 class SubfleetController extends BaseController
 {
     /** @var  SubfleetRepository */
-    private $aircraftRepo, $rankRepo, $subfleetRepo, $fareRepo, $fareSvc;
+    private $aircraftRepo,
+            $fareRepo,
+            $fareSvc,
+            $fleetSvc,
+            $rankRepo,
+            $subfleetRepo;
 
     /**
      * SubfleetController constructor.
      * @param AircraftRepository $aircraftRepo
+     * @param FleetService $fleetSvc
+     * @param RankRepository $rankRepo
      * @param SubfleetRepository $subfleetRepo
      * @param FareRepository $fareRepo
      * @param FareService $fareSvc
      */
     public function __construct(
         AircraftRepository $aircraftRepo,
+        FleetService $fleetSvc,
         RankRepository $rankRepo,
         SubfleetRepository $subfleetRepo,
         FareRepository $fareRepo,
         FareService $fareSvc
     ) {
         $this->aircraftRepo = $aircraftRepo;
-        $this->rankRepo = $rankRepo;
-        $this->subfleetRepo = $subfleetRepo;
         $this->fareRepo = $fareRepo;
         $this->fareSvc = $fareSvc;
+        $this->fleetSvc = $fleetSvc;
+        $this->rankRepo = $rankRepo;
+        $this->subfleetRepo = $subfleetRepo;
     }
 
     /**
@@ -271,19 +281,22 @@ class SubfleetController extends BaseController
          * update specific rank data
          */
         if ($request->isMethod('post')) {
-            $subfleet->ranks()->syncWithoutDetaching([$request->input('rank_id')]);
+            $rank = $this->fareRepo->find($request->input('rank_id'));
+            $this->fleetSvc->addSubfleetToRank($subfleet, $rank);
         }
 
         elseif ($request->isMethod('put')) {
             $override = [];
             $rank = $this->fareRepo->find($request->input('rank_id'));
             $override[$request->name] = $request->value;
-            $subfleet->ranks()->updateExistingPivot($rank->id, $override);
+
+            $this->fleetSvc->addSubfleetToRank($subfleet, $rank, $override);
         }
 
         // dissassociate fare from teh aircraft
         elseif ($request->isMethod('delete')) {
-            $subfleet->ranks()->detach($request->input('rank_id'));
+            $rank = $this->fareRepo->find($request->input('rank_id'));
+            $this->fleetSvc->removeSubfleetFromRank($subfleet, $rank);
         }
 
         $subfleet->save();
