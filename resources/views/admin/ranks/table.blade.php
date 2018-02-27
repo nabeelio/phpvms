@@ -14,21 +14,21 @@
                 <td><a href="{!! route('admin.ranks.edit', [$rank->id]) !!}">{!! $rank->name !!}</a></td>
                 <td class="text-center">{!! $rank->hours !!}</td>
                 <td class="text-center">
-                    @if($rank->auto_approve_acars == 1)
+                    @if($rank->auto_approve_acars)
                         <span class="label label-success">Yes</span>
                     @else
                         <span class="label label-default">No</span>
                     @endif
                 </td>
                 <td class="text-center">
-                    @if($rank->auto_approve_manual == 1)
+                    @if($rank->auto_approve_manual)
                         <span class="label label-success">Yes</span>
                     @else
                         <span class="label label-default">No</span>
                     @endif
                 </td>
                 <td class="text-center">
-                    @if($rank->auto_promote == 1)
+                    @if($rank->auto_promote)
                         <span class="label label-success">Yes</span>
                     @else
                         <span class="label label-default">No</span>
