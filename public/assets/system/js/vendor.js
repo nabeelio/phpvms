@@ -40166,7 +40166,6 @@ module.exports = function() {}
 // along with Leaflet.Geodesic.  If not, see <http://www.gnu.org/licenses/>.
 
 
-
 /** Extend Number object with method to convert numeric degrees to radians */
 if (typeof Number.prototype.toRadians === "undefined") {
   Number.prototype.toRadians = function() {
@@ -40193,20 +40192,19 @@ L.Geodesic = L.Polyline.extend({
 
   initialize: function(latlngs, options) {
     this.options = this._merge_options(this.options, options);
+    this.options.dash = Math.max(1e-3, Math.min(1, parseFloat(this.options.dash) || 1));
     this.datum = {};
     this.datum.ellipsoid = {
         a: 6378137,
         b: 6356752.3142,
         f: 1 / 298.257223563
       }; // WGS-84
-    this._latlngs = (this.options.dash < 1) ? this._generate_GeodesicDashed(
-      latlngs) : this._generate_Geodesic(latlngs);
+    this._latlngs = this._generate_Geodesic(latlngs);
     L.Polyline.prototype.initialize.call(this, this._latlngs, this.options);
   },
 
   setLatLngs: function(latlngs) {
-    this._latlngs = (this.options.dash < 1) ? this._generate_GeodesicDashed(
-      latlngs) : this._generate_Geodesic(latlngs);
+    this._latlngs = this._generate_Geodesic(latlngs);
     L.Polyline.prototype.setLatLngs.call(this, this._latlngs);
   },
 
@@ -40327,29 +40325,30 @@ L.Geodesic = L.Polyline.extend({
 
   /**
    * Creates a geodesic Polyline from given coordinates
+   * Note: dashed lines are under work
    * @param {Object} latlngs - One or more polylines as an array. See Leaflet doc about Polyline
    * @returns (Object} An array of arrays of geographical points.
    */
   _generate_Geodesic: function(latlngs) {
-    let _geo = [],
-      _geocnt = 0,
-      s, poly, points, pointA, pointB;
+    let _geo = [], _geocnt = 0;
 
-    for (poly = 0; poly < latlngs.length; poly++) {
+    for (let poly = 0; poly < latlngs.length; poly++) {
       _geo[_geocnt] = [];
-      for (points = 0; points < (latlngs[poly].length - 1); points++) {
-        pointA = L.latLng(latlngs[poly][points]);
-        pointB = L.latLng(latlngs[poly][points + 1]);
+      let prev = L.latLng(latlngs[poly][0]);
+      for (let points = 0; points < (latlngs[poly].length - 1); points++) {
+        // use prev, so that wrapping behaves correctly
+        let pointA = prev;
+        let pointB = L.latLng(latlngs[poly][points + 1]);
         if (pointA.equals(pointB)) {
           continue;
         }
         let inverse = this._vincenty_inverse(pointA, pointB);
-        let prev = pointA;
         _geo[_geocnt].push(prev);
-        for (s = 1; s <= this.options.steps;) {
-          let direct = this._vincenty_direct(pointA, inverse.initialBearing,
-            inverse.distance / this.options.steps * s, this.options.wrap
-          );
+        for (let s = 1; s <= this.options.steps;) {
+          let distance = inverse.distance / this.options.steps;
+          // dashed lines don't go the full distance between the points
+          let dist_mult = s - 1 + this.options.dash;
+          let direct = this._vincenty_direct(pointA, inverse.initialBearing, distance*dist_mult, this.options.wrap);
           let gp = L.latLng(direct.lat, direct.lng);
           if (Math.abs(gp.lng - prev.lng) > 180) {
             let sec = this._intersection(pointA, inverse.initialBearing, {
@@ -40368,10 +40367,19 @@ L.Geodesic = L.Polyline.extend({
               _geo[_geocnt].push(gp);
               prev = gp;
               s++;
-            }
+            }  
           } else {
             _geo[_geocnt].push(gp);
-            prev = gp;
+            // Dashed lines start a new line
+            if (this.options.dash < 1){
+                _geocnt++;
+                // go full distance this time, to get starting point for next line
+                let direct_full = this._vincenty_direct(pointA, inverse.initialBearing, distance*s, this.options.wrap);
+                _geo[_geocnt] = [];
+                prev = L.latLng(direct_full.lat, direct_full.lng);
+                _geo[_geocnt].push(prev);
+            }
+            else prev = gp;
             s++;
           }
         }
@@ -40380,71 +40388,6 @@ L.Geodesic = L.Polyline.extend({
     }
     return _geo;
   },
-
-
-  /**
-   * Creates a dashed geodesic Polyline from given coordinates - under work
-   * @param {Object} latlngs - One or more polylines as an array. See Leaflet doc about Polyline
-   * @returns (Object} An array of arrays of geographical points.
-   */
-  _generate_GeodesicDashed: function(latlngs) {
-    let _geo = [],
-      _geocnt = 0,
-      s, poly, points;
-      //      _geo = latlngs;    // bypass
-
-    for (poly = 0; poly < latlngs.length; poly++) {
-      _geo[_geocnt] = [];
-      for (points = 0; points < (latlngs[poly].length - 1); points++) {
-        let inverse = this._vincenty_inverse(L.latLng(latlngs[poly][
-          points
-        ]), L.latLng(latlngs[poly][points + 1]));
-        let prev = L.latLng(latlngs[poly][points]);
-        _geo[_geocnt].push(prev);
-        for (s = 1; s <= this.options.steps;) {
-          let direct = this._vincenty_direct(L.latLng(latlngs[poly][
-              points
-            ]), inverse.initialBearing, inverse.distance / this.options
-            .steps * s - inverse.distance / this.options.steps * (1 -
-              this.options.dash), this.options.wrap);
-          let gp = L.latLng(direct.lat, direct.lng);
-          if (Math.abs(gp.lng - prev.lng) > 180) {
-            let sec = this._intersection(L.latLng(latlngs[poly][points]),
-              inverse.initialBearing, {
-                lat: -89,
-                lng: ((gp.lng - prev.lng) > 0) ? -INTERSECT_LNG : INTERSECT_LNG
-              }, 0);
-            if (sec) {
-              _geo[_geocnt].push(L.latLng(sec.lat, sec.lng));
-              _geocnt++;
-              _geo[_geocnt] = [];
-              prev = L.latLng(sec.lat, -sec.lng);
-              _geo[_geocnt].push(prev);
-            } else {
-              _geocnt++;
-              _geo[_geocnt] = [];
-              _geo[_geocnt].push(gp);
-              prev = gp;
-              s++;
-            }
-          } else {
-            _geo[_geocnt].push(gp);
-            _geocnt++;
-            let direct2 = this._vincenty_direct(L.latLng(latlngs[poly][
-                points
-              ]), inverse.initialBearing, inverse.distance / this.options
-              .steps * s, this.options.wrap);
-            _geo[_geocnt] = [];
-            _geo[_geocnt].push(L.latLng(direct2.lat, direct2.lng));
-            s++;
-          }
-        }
-      }
-      _geocnt++;
-    }
-    return _geo;
-  },
-
 
   /**
    * Vincenty direct calculation.
