@@ -43,7 +43,7 @@ class UserService extends BaseService
     public function createPilot(User $user, array $groups=null)
     {
         # Determine if we want to auto accept
-        if(setting('pilot.auto_accept') === true) {
+        if(setting('pilots.auto_accept') === true) {
             $user->state = UserState::ACTIVE;
         } else {
             $user->state = UserState::PENDING;

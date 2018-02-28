@@ -190,12 +190,20 @@ class CreateSettingsTable extends Migration
             'description' => 'The length of a pilot\'s ID',
         ]);
 
-        $this->addSetting('pilot.auto_accept', [
+        $this->addSetting('pilots.auto_accept', [
             'name' => 'Auto Accept New Pilot',
             'group' => 'pilots',
             'value' => true,
             'type' => 'boolean',
             'description' => 'Automatically accept a pilot when they register',
+        ]);
+
+        $this->addSetting('pilots.home_hubs_only', [
+            'name' => 'Hubs as home airport',
+            'group' => 'pilots',
+            'value' => false,
+            'type' => 'boolean',
+            'description' => 'Pilots can only select hubs as their home airport',
         ]);
 
         $this->addSetting('pilots.only_flights_from_current', [
@@ -206,7 +214,7 @@ class CreateSettingsTable extends Migration
             'description' => 'Only show/allow flights from their current location',
         ]);
 
-        $this->addSetting('pilot.auto_leave_days', [
+        $this->addSetting('pilots.auto_leave_days', [
             'name' => 'Pilot to ON LEAVE days',
             'group' => 'pilots',
             'value' => 30,
