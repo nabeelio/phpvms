@@ -71,8 +71,9 @@ class FinanceService extends BaseService
      * Get the user's payment amount for a PIREP
      * @param Pirep $pirep
      * @return Money
-     * @throws \Money\Exception\UnknownCurrencyException
+     * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
+     * @throws \Money\Exception\UnknownCurrencyException
      */
     public function getPilotPilotPay(Pirep $pirep)
     {

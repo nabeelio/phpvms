@@ -5,10 +5,8 @@
 
 namespace App\Support;
 
-use Money\Currencies\ISOCurrencies;
-use Money\Currency;
-use Money\Formatter\DecimalMoneyFormatter;
-use Money\Money as MoneyBase;
+use Akaunting\Money\Currency;
+use Akaunting\Money\Money as MoneyBase;
 
 /**
  * Compositional wrapper to MoneyPHP with some helpers
@@ -25,6 +23,7 @@ class Money
     /**
      * @param $amount
      * @return MoneyBase
+     * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
      */
     public static function create($amount)
@@ -36,20 +35,16 @@ class Money
      * Convert a whole unit into it's subunit, e,g: dollar to cents
      * @param $amount
      * @return float|int
-     * @throws \Money\Exception\UnknownCurrencyException
      */
     public static function convertToSubunit($amount)
     {
-        if (!self::$subunit_multiplier) {
-            self::$iso_currencies = new ISOCurrencies();
-            static::$subunit_multiplier = 10 ** self::$iso_currencies->subunitFor(static::currency());
-        }
-
-        return $amount * static::$subunit_multiplier;
+        $currency = config('phpvms.currency');
+        return $amount * config('money.'.$currency.'.subunit');
     }
 
     /**
      * @return Currency
+     * @throws \OutOfBoundsException
      */
     public static function currency()
     {
@@ -59,13 +54,21 @@ class Money
     /**
      * Money constructor.
      * @param $amount
-     * @throws \Money\Exception\UnknownCurrencyException
+     * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
      */
     public function __construct($amount)
     {
         $amount = static::convertToSubunit($amount);
         $this->money = static::create($amount);
+    }
+
+    /**
+     * @return string
+     */
+    public function getAmount()
+    {
+        return $this->money->getValue();
     }
 
     /**
@@ -77,12 +80,11 @@ class Money
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function getAmount()
+    public function getPrecision()
     {
-        $moneyFormatter = new DecimalMoneyFormatter(self::$iso_currencies);
-        return $moneyFormatter->format($this->money);
+        return $this->money->getCurrency()->getPrecision();
     }
 
     /**
@@ -91,8 +93,7 @@ class Money
      */
     public function __toString()
     {
-        // TODO: Implement __toString() method.
-        return $this->money->getAmount();
+        return $this->money->format();
     }
 
     /**
@@ -107,6 +108,7 @@ class Money
     /**
      * @param $percent
      * @return $this
+     * @throws \OutOfBoundsException
      * @throws \InvalidArgumentException
      */
     public function addPercent($percent)
@@ -124,6 +126,7 @@ class Money
      * Subtract an amount
      * @param $amount
      * @return Money
+     * @throws \InvalidArgumentException
      */
     public function subtract($amount)
     {
@@ -135,6 +138,8 @@ class Money
      * Multiply by an amount
      * @param $amount
      * @return Money
+     * @throws \OutOfBoundsException
+     * @throws \InvalidArgumentException
      */
     public function multiply($amount)
     {
@@ -146,6 +151,8 @@ class Money
      * Divide by an amount
      * @param $amount
      * @return Money
+     * @throws \OutOfBoundsException
+     * @throws \InvalidArgumentException
      */
     public function divide($amount)
     {
@@ -156,7 +163,7 @@ class Money
     /**
      * @param $money
      * @return bool
-     * @throws \Money\Exception\UnknownCurrencyException
+     * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
      */
     public function equals($money)

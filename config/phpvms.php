@@ -22,8 +22,7 @@ return [
     'skin' => env('APP_SKIN', 'default'),
 
     /**
-     * The ISO "Currency Code" to use
-     * http://www.xe.com/iso4217.php
+     * The ISO "Currency Code" to use, the list is in config/money.php
      *
      * Note, do not change this after you've set it, unless you don't
      * care that the currencies aren't "exchanged" into the new format

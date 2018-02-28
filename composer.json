@@ -36,7 +36,7 @@
         "vierbergenlars/php-semver": "3.0.x",
         "php-units-of-measure/php-units-of-measure": "2.1.x",
         "markrogoyski/math-php": "^0.38.0",
-        "moneyphp/money": "^3.1"
+        "akaunting/money": "^1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "~7.0",

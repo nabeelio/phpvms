@@ -8,7 +8,6 @@ return [
     'extensions' => [
         'openssl',
         'pdo',
-        'intl',
         'mbstring',
         'tokenizer',
         'json',
