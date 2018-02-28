@@ -1,6 +1,6 @@
 <?php
 
-namespace $MODULE_NAMESPACE$\$STUDLY_NAME$\Http\Controllers;
+namespace $MODULE_NAMESPACE$\$STUDLY_NAME$\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;

@@ -47,7 +47,7 @@ class $CLASS$ extends ServiceProvider
         // $this->moduleSvc->addFrontendLink('$STUDLY_NAME$', '/$LOWER_NAME$', '', $logged_in=true);
 
         // Admin links:
-        $this->moduleSvc->addAdminLink('$STUDLY_NAME$', '/$LOWER_NAME$/admin');
+        $this->moduleSvc->addAdminLink('$STUDLY_NAME$', '/admin/$LOWER_NAME$');
     }
 
     /**
@@ -73,7 +73,7 @@ class $CLASS$ extends ServiceProvider
          */
         Route::group([
             'as' => '$LOWER_NAME$.',
-            'prefix' => 'api/$LOWER_NAME$/admin',
+            'prefix' => 'admin/$LOWER_NAME$',
             // If you want a RESTful module, change this to 'api'
             'middleware' => ['web', 'role:admin'],
             'namespace' => '$MODULE_NAMESPACE$\$STUDLY_NAME$\Http\Controllers\Admin'
