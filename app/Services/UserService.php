@@ -12,6 +12,7 @@ use App\Models\Role;
 use App\Models\User;
 use App\Repositories\AircraftRepository;
 use App\Repositories\SubfleetRepository;
+use App\Support\Units\Time;
 use Illuminate\Support\Collection;
 use Log;
 
@@ -174,15 +175,23 @@ class UserService extends BaseService
             return $user;
         }
 
+        $pilot_hours = new Time($user->flight_time);
+
+        # The current rank's hours are over the pilot's current hours,
+        # so assume that they were "placed" here by an admin so don't
+        # bother with updating it
+        if($user->rank && $user->rank->hours > $pilot_hours->hours) {
+            return $user;
+        }
+
         $old_rank = $user->rank;
         $original_rank_id = $user->rank_id;
-        $pilot_hours = Utils::minutesToHours($user->flight_time);
 
         $ranks = Rank::where('auto_promote', true)
                     ->orderBy('hours', 'asc')->get();
 
         foreach ($ranks as $rank) {
-            if($rank->hours > $pilot_hours) {
+            if($rank->hours > $pilot_hours->hours) {
                 break;
             } else {
                 $user->rank_id = $rank->id;
