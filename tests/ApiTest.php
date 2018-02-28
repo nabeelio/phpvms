@@ -109,17 +109,10 @@ class ApiTest extends TestCase
         factory(App\Models\Airport::class, 70)->create();
 
         $response = $this->get('/api/airports/')
-                         ->assertStatus(200)
-                         ->assertJsonCount(50, 'data');
+                         ->assertStatus(200);
 
         $body = $response->json();
-
         $this->assertHasKeys($body, ['data', 'links', 'meta']);
-
-        $last_page = $body['meta']['last_page'];
-        $this->get('/api/airports?page=' . $last_page)
-             ->assertStatus(200)
-             ->assertJsonCount(20, 'data');
     }
 
     public function testGetAllAirportsHubs()
