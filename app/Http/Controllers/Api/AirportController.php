@@ -37,7 +37,7 @@ class AirportController extends RestController
 
         $airports = $this->airportRepo
             ->whereOrder($where, 'icao', 'asc')
-            ->paginate(50);
+            ->paginate();
 
         return AirportResource::collection($airports);
     }
@@ -53,7 +53,7 @@ class AirportController extends RestController
 
         $airports = $this->airportRepo
             ->whereOrder($where, 'icao', 'asc')
-            ->paginate(50);
+            ->paginate();
 
         return AirportResource::collection($airports);
     }

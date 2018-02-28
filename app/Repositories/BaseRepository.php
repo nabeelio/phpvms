@@ -44,7 +44,7 @@ abstract class BaseRepository extends \Prettus\Repository\Eloquent\BaseRepositor
      * @param string $sort_by created_at (default) or updated_at
      * @return mixed
      */
-    public function recent($count = 5, $sort_by = 'created_at')
+    public function recent($count = null, $sort_by = 'created_at')
     {
         return $this->orderBy($sort_by, 'desc')->paginate($count);
     }

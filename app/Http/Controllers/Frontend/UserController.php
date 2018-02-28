@@ -28,7 +28,7 @@ class UserController extends Controller
     {
         return $this->view('users.index',[
             'country' => new \League\ISO3166\ISO3166(),
-            'users' => $this->userRepo->orderBy('name', 'desc')->paginate(25),
+            'users' => $this->userRepo->orderBy('name', 'desc')->paginate(),
         ]);
     }
 }
