@@ -44,7 +44,11 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        $airports = $this->airportRepo->all();
+        if(setting('pilots.home_hubs_only')) {
+            $airports = $this->airportRepo->findWhere(['hub' => true]);
+        } else {
+            $airports = $this->airportRepo->all();
+        }
 
         return $this->view('profile.index', [
             'user' => Auth::user(),
@@ -86,7 +90,7 @@ class ProfileController extends Controller
         }
 
         $airlines = $this->airlineRepo->selectBoxList();
-        $airports = $this->airportRepo->selectBoxList();
+        $airports = $this->airportRepo->selectBoxList(false, setting('pilots.home_hubs_only'));
 
         return $this->view('profile.edit', [
             'user'      => $user,

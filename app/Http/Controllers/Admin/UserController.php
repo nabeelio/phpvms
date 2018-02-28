@@ -6,10 +6,11 @@ use App\Facades\Utils;
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\Airline;
-use App\Models\Airport;
 use App\Models\Rank;
 use App\Models\Role;
 use App\Models\User;
+use App\Repositories\AirlineRepository;
+use App\Repositories\AirportRepository;
 use App\Repositories\PirepRepository;
 use App\Repositories\UserRepository;
 use App\Services\UserService;
@@ -24,19 +25,29 @@ use Response;
 
 class UserController extends BaseController
 {
-    private $pirepRepo,
+    private $airlineRepo,
+            $airportRepo,
+            $pirepRepo,
             $userRepo,
             $userSvc;
 
     /**
      * UserController constructor.
+     * @param AirlineRepository $airlineRepo
+     * @param AirportRepository $airportRepo
+     * @param PirepRepository $pirepRepo
      * @param UserRepository $userRepo
+     * @param UserService $userSvc
      */
     public function __construct(
+        AirlineRepository $airlineRepo,
+        AirportRepository $airportRepo,
         PirepRepository $pirepRepo,
         UserRepository $userRepo,
         UserService $userSvc
     ) {
+        $this->airlineRepo = $airlineRepo;
+        $this->airportRepo = $airportRepo;
         $this->pirepRepo = $pirepRepo;
         $this->userSvc = $userSvc;
         $this->userRepo = $userRepo;
@@ -67,8 +78,18 @@ class UserController extends BaseController
      */
     public function create()
     {
-        return view('admin.user.create', [
-            'airlines' => Airline::all()->pluck('name', 'id'),
+        $airlines = $this->airlineRepo->selectBoxList();
+        $airports = $this->airportRepo->selectBoxList(false, setting('pilots.home_hubs_only'));
+
+        return view('admin.users.create', [
+            'user' => null,
+            'pireps' => null,
+            'airlines' => $airlines,
+            'timezones' => Timezonelist::toArray(),
+            'country' => new \League\ISO3166\ISO3166(),
+            'airports' => $airports,
+            'ranks' => Rank::all()->pluck('name', 'id'),
+            'roles' => Role::all()->pluck('name', 'id'),
         ]);
     }
 
@@ -105,13 +126,16 @@ class UserController extends BaseController
             ->whereOrder(['user_id' => $id], 'created_at', 'desc')
             ->paginate();
 
+        $airlines = $this->airlineRepo->selectBoxList();
+        $airports = $this->airportRepo->selectBoxList(false, setting('pilots.home_hubs_only'));
+
         return view('admin.users.show', [
             'user' => $user,
             'pireps' => $pireps,
-            'airlines' => Airline::all(),
+            'airlines' => $airlines,
             'timezones' => Timezonelist::toArray(),
             'country' => new \League\ISO3166\ISO3166(),
-            'airports' => Airport::all()->pluck('icao', 'id'),
+            'airports' => $airports,
             'ranks' => Rank::all()->pluck('name', 'id'),
             'roles' => Role::all()->pluck('name', 'id'),
         ]);
@@ -140,13 +164,16 @@ class UserController extends BaseController
                 return [strtolower($item['alpha2']) => $item['name']];
             });
 
+        $airlines = $this->airlineRepo->selectBoxList();
+        $airports = $this->airportRepo->selectBoxList(false, setting('pilots.home_hubs_only'));
+
         return view('admin.users.edit', [
             'user' => $user,
             'pireps' => $pireps,
             'countries' => $countries,
             'timezones' => Timezonelist::toArray(),
-            'airports' => Airport::all()->pluck('icao', 'id'),
-            'airlines' => Airline::all()->pluck('name', 'id'),
+            'airports' => $airports,
+            'airlines' => $airlines,
             'ranks' => Rank::all()->pluck('name', 'id'),
             'roles' => Role::all()->pluck('name', 'id'),
         ]);
