@@ -8,8 +8,7 @@ namespace App\Services;
 use App\Models\Enums\PirepSource;
 use App\Models\Pirep;
 use App\Support\Math;
-use Money\Currency;
-use Money\Money;
+use App\Support\Money;
 
 class FinanceService extends BaseService
 {
@@ -33,6 +32,8 @@ class FinanceService extends BaseService
      * Return the pilot's hourly pay for the given PIREP
      * @param Pirep $pirep
      * @return float
+     * @throws \Money\Exception\UnknownCurrencyException
+     * @throws \InvalidArgumentException
      */
     public function getPayRateForPirep(Pirep $pirep)
     {
@@ -70,13 +71,14 @@ class FinanceService extends BaseService
      * Get the user's payment amount for a PIREP
      * @param Pirep $pirep
      * @return Money
+     * @throws \Money\Exception\UnknownCurrencyException
      * @throws \InvalidArgumentException
      */
     public function getPilotPilotPay(Pirep $pirep)
     {
         $pilot_rate = $this->getPayRateForPirep($pirep) / 60;
-        $payment = $pirep->flight_time * $pilot_rate;
+        $payment = round($pirep->flight_time * $pilot_rate, 2);
 
-        return new Money($payment, new Currency(config('phpvms.currency')));
+        return new Money($payment);
     }
 }
