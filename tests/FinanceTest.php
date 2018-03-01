@@ -1,9 +1,11 @@
 <?php
 
+use App\Repositories\JournalRepository;
 use App\Services\FareService;
 use App\Services\FinanceService;
 use App\Services\FleetService;
 use App\Support\Math;
+use App\Support\Money;
 
 class FinanceTest extends TestCase
 {
@@ -373,7 +375,7 @@ class FinanceTest extends TestCase
         ]);
 
         $payment = $this->financeSvc->getPilotPilotPay($pirep_acars);
-        $this->assertEquals($payment->getValue(), 100);
+        $this->assertEquals(100, $payment->getValue());
 
         $pirep_acars = factory(App\Models\Pirep::class)->create([
             'user_id' => $this->user->id,
@@ -384,5 +386,59 @@ class FinanceTest extends TestCase
 
         $payment = $this->financeSvc->getPilotPilotPay($pirep_acars);
         $this->assertEquals($payment->getValue(), 150);
+    }
+
+    /**
+     * @throws \Prettus\Validator\Exceptions\ValidatorException
+     */
+    public function testJournalOperations()
+    {
+        $journalRepo = app(JournalRepository::class);
+
+        $user = factory(App\Models\User::class)->create();
+        $journal = factory(App\Models\Journal::class)->create();
+
+        $journalRepo->post(
+            $journal,
+            Money::createFromAmount(100),
+            null,
+            $user
+        );
+
+        $balance = $journalRepo->getBalance($journal);
+        $this->assertEquals(100, $balance->getValue());
+
+        # add another transaction
+
+        $journalRepo->post(
+            $journal,
+            Money::createFromAmount(25),
+            null,
+            $user
+        );
+
+        $balance = $journalRepo->getBalance($journal);
+        $this->assertEquals(125, $balance->getValue());
+
+        # Get the total balance
+        $this->assertEquals(125, $journal->balance->getValue());
+
+        # debit an amount
+
+        $journalRepo->post(
+            $journal,
+            null,
+            Money::createFromAmount(25),
+            $user
+        );
+
+        $this->assertEquals(100, $journal->balance->getValue());
+
+        # find all transactions
+        $transactions = $journalRepo->getAllForObject($user);
+
+        $this->assertCount(3, $transactions['transactions']);
+        $this->assertEquals(125, $transactions['credits']->getValue());
+        $this->assertEquals(25, $transactions['debits']->getValue());
     }
 }

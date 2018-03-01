@@ -24,8 +24,8 @@ class JournalTransaction extends BaseModel
     public $fillable = [
         'transaction_group',
         'journal_id',
-        'debit',
         'credit',
+        'debit',
         'currency',
         'memo',
         'tags',
@@ -35,8 +35,8 @@ class JournalTransaction extends BaseModel
     ];
 
     protected $casts = [
-        'debit'     => 'integer',
         'credits'   => 'integer',
+        'debit'     => 'integer',
         'post_date' => 'datetime',
         'tags'      => 'array',
     ];

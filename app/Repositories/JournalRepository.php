@@ -11,7 +11,10 @@ use Prettus\Repository\Contracts\CacheableInterface;
 use Prettus\Repository\Traits\CacheableRepository;
 use Prettus\Validator\Exceptions\ValidatorException;
 
-
+/**
+ * Class JournalRepository
+ * @package App\Repositories
+ */
 class JournalRepository extends BaseRepository implements CacheableInterface
 {
     use CacheableRepository;
@@ -39,7 +42,7 @@ class JournalRepository extends BaseRepository implements CacheableInterface
      * @throws ValidatorException
      */
     public function post(
-        Journal $journal,
+        Journal &$journal,
         Money $credit = null,
         Money $debit = null,
         $reference = null,
@@ -52,7 +55,7 @@ class JournalRepository extends BaseRepository implements CacheableInterface
             'journal_id'        => $journal->id,
             'credit'            => $credit ? $credit->getAmount():null,
             'debit'             => $debit ? $debit->getAmount():null,
-            'currency_code'     => config('phpvms.currency'),
+            'currency'          => config('phpvms.currency'),
             'memo'              => $memo,
             'post_date'         => $post_date ?: Carbon::now(),
             'transaction_group' => $transaction_group,
@@ -70,17 +73,16 @@ class JournalRepository extends BaseRepository implements CacheableInterface
         }
 
         # Adjust the balance on the journal
-        $balance = new Money($journal->balance);
         if($credit) {
-            $balance = $balance->add($credit);
+            $journal->balance->add($credit);
         }
 
         if($debit) {
-            $balance = $balance->subtract($debit);
+            $journal->balance->subtract($debit);
         }
 
-        $journal->balance = $balance->getAmount();
         $journal->save();
+        $journal->refresh();
 
         return $transaction;
     }
@@ -92,14 +94,14 @@ class JournalRepository extends BaseRepository implements CacheableInterface
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
      */
-    public function getBalance(Journal $journal, Carbon $date=null)
+    public function getBalance(Journal $journal=null, Carbon $date=null)
     {
         if(!$date) {
             $date = Carbon::now();
         }
 
-        $credit = $this->getCreditBalanceOn($journal, $date);
-        $debit = $this->getDebitBalanceOn($journal, $date);
+        $credit = $this->getCreditBalanceBetween($date, $journal);
+        $debit = $this->getDebitBalanceBetween($date, $journal);
 
         return $credit->subtract($debit);
     }
@@ -112,12 +114,27 @@ class JournalRepository extends BaseRepository implements CacheableInterface
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
      */
-    public function getCreditBalanceOn(Journal $journal, Carbon $date)
-    {
-        $balance = $this->findWhere([
-            'journal_id' => $journal->id,
+    public function getCreditBalanceBetween(
+        Carbon $date,
+        Journal $journal=null,
+        Carbon $start_date=null
+    ): Money {
+
+        $where = [
             ['post_date', '<=', $date]
-        ], ['id', 'credit'])->sum('credit') ?: 0;
+        ];
+
+        if($journal) {
+            $where['journal_id'] = $journal->id;
+        }
+
+        if ($start_date) {
+            $where[] = ['post_date', '>=', $start_date];
+        }
+
+        $balance = $this
+            ->findWhere($where, ['id', 'credit'])
+            ->sum('credit') ?: 0;
 
         return new Money($balance);
     }
@@ -129,13 +146,49 @@ class JournalRepository extends BaseRepository implements CacheableInterface
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
      */
-    public function getDebitBalanceOn(Journal $journal, Carbon $date): Money
-    {
-        $balance = $this->findWhere([
-            'journal_id' => $journal->id,
+    public function getDebitBalanceBetween(
+        Carbon $date,
+        Journal $journal=null,
+        Carbon $start_date=null
+    ): Money {
+
+        $where = [
             ['post_date', '<=', $date]
-        ], ['id', 'debit'])->sum('debit') ?: 0;
+        ];
+
+        if ($journal) {
+            $where['journal_id'] = $journal->id;
+        }
+
+        if($start_date) {
+            $where[] = ['post_date', '>=', $start_date];
+        }
+
+        $balance = $this
+            ->findWhere($where, ['id', 'debit'])
+            ->sum('debit') ?: 0;
 
         return new Money($balance);
+    }
+
+    /**
+     * Return all transactions for a given object
+     * @param $object
+     * @return array
+     * @throws \UnexpectedValueException
+     * @throws \InvalidArgumentException
+     */
+    public function getAllForObject($object)
+    {
+        $transactions = $this->findWhere([
+            'ref_class' => \get_class($object),
+            'ref_class_id' => $object->id,
+        ]);
+
+        return [
+            'credits' => new Money($transactions->sum('credit')),
+            'debits' => new Money($transactions->sum('debit')),
+            'transactions' => $transactions,
+        ];
     }
 }

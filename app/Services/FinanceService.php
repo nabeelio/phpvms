@@ -80,6 +80,6 @@ class FinanceService extends BaseService
         $pilot_rate = $this->getPayRateForPirep($pirep) / 60;
         $payment = round($pirep->flight_time * $pilot_rate, 2);
 
-        return new Money($payment);
+        return Money::createFromAmount($payment);
     }
 }

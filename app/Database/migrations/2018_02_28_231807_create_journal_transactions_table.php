@@ -17,8 +17,8 @@ class CreateJournalTransactionsTable extends Migration
             $table->char('id', 36)->unique();
             $table->char('transaction_group', 36)->nullable();
             $table->integer('journal_id');
-            $table->unsignedBigInteger('debit')->nullable();
             $table->unsignedBigInteger('credit')->nullable();
+            $table->unsignedBigInteger('debit')->nullable();
             $table->char('currency', 5);
             $table->text('memo')->nullable();
             $table->char('ref_class', 32)->nullable();

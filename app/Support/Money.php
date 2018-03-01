@@ -32,6 +32,20 @@ class Money
     }
 
     /**
+     * Create from a dollar amount
+     * @param $amount
+     * @return Money
+     * @throws \UnexpectedValueException
+     * @throws \InvalidArgumentException
+     */
+    public static function createFromAmount($amount)
+    {
+        return new Money(
+            static::convertToSubunit($amount)
+        );
+    }
+
+    /**
      * Convert a whole unit into it's subunit, e,g: dollar to cents
      * @param $amount
      * @return float|int
@@ -65,7 +79,6 @@ class Money
      */
     public function __construct($amount)
     {
-        $amount = static::convertToSubunit($amount);
         $this->money = static::create($amount);
     }
 
@@ -79,13 +92,29 @@ class Money
     }
 
     /**
+     * Alias of getAmount()
+     */
+    public function toAmount()
+    {
+        return $this->getAmount();
+    }
+
+    /**
      * Returns the value in whole amounts, e.g: 100.00
-     * vs returning in all cents
+     * instead of returning in the smallest denomination
      * @return float
      */
     public function getValue()
     {
         return $this->money->getValue();
+    }
+
+    /**
+     * Alias of getValue()
+     */
+    public function toValue()
+    {
+        return $this->getValue();
     }
 
     /**
@@ -116,10 +145,16 @@ class Money
     /**
      * Add an amount
      * @param $amount
+     * @throws \UnexpectedValueException
+     * @throws \InvalidArgumentException
      */
     public function add($amount)
     {
-        $this->money = $this->money->add($amount);
+        if(!($amount instanceof self)) {
+            $amount = static::createFromAmount($amount);
+        }
+
+        $this->money = $this->money->add($amount->money);
     }
 
     /**
@@ -143,11 +178,16 @@ class Money
      * Subtract an amount
      * @param $amount
      * @return Money
+     * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
      */
     public function subtract($amount)
     {
-        $this->money = $this->money->subtract($amount);
+        if (!($amount instanceof self)) {
+            $amount = static::createFromAmount($amount);
+        }
+
+        $this->money = $this->money->subtract($amount->money);
         return $this;
     }
 
@@ -155,12 +195,17 @@ class Money
      * Multiply by an amount
      * @param $amount
      * @return Money
+     * @throws \UnexpectedValueException
      * @throws \OutOfBoundsException
      * @throws \InvalidArgumentException
      */
     public function multiply($amount)
     {
-        $this->money = $this->money->multiply($amount);
+        if (!($amount instanceof self)) {
+            $amount = static::createFromAmount($amount);
+        }
+
+        $this->money = $this->money->multiply($amount->money);
         return $this;
     }
 
