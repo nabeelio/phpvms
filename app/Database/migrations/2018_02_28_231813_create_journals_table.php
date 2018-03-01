@@ -18,8 +18,7 @@ class CreateJournalsTable extends Migration
             $table->unsignedInteger('ledger_id')->nullable();
             $table->bigInteger('balance')->default(0);
             $table->string('currency', 5);
-            $table->string('morphed_type', 32)->nullable();
-            $table->unsignedInteger('morphed_id')->nullable();
+            $table->nullableMorphs('morphed');
             $table->timestamps();
         });
     }
