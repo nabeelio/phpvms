@@ -43,12 +43,18 @@ class Money
     }
 
     /**
+     * Create a new currency object using the currency setting
+     * Fall back to USD if it's not valid
      * @return Currency
-     * @throws \OutOfBoundsException
      */
     public static function currency()
     {
-        return new Currency(config('phpvms.currency'));
+        try {
+            return new Currency(config('phpvms.currency', 'USD'));
+        } catch (\OutOfBoundsException $e) {
+            return new Currency('USD');
+        }
+
     }
 
     /**

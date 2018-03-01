@@ -272,6 +272,7 @@ class Journal extends BaseModel
      * @param Money $debit
      * @param $memo
      * @param Carbon $post_date
+     * @param $transaction_group
      * @return JournalTransaction
      */
     private function post(Money $credit = null, Money $debit = null, $memo = null, $post_date = null, $transaction_group)

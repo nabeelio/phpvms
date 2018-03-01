@@ -21,7 +21,6 @@ class CreateJournalTransactionsTable extends Migration
             $table->unsignedBigInteger('credit')->nullable();
             $table->char('currency', 5);
             $table->text('memo')->nullable();
-            $table->text('tags')->nullable();
             $table->char('ref_class', 32)->nullable();
             $table->integer('ref_class_id')->nullable();
             $table->timestamps();
