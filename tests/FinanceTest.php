@@ -373,7 +373,7 @@ class FinanceTest extends TestCase
         ]);
 
         $payment = $this->financeSvc->getPilotPilotPay($pirep_acars);
-        $this->assertEquals($payment->getAmount(), 100);
+        $this->assertEquals($payment->getValue(), 100);
 
         $pirep_acars = factory(App\Models\Pirep::class)->create([
             'user_id' => $this->user->id,
@@ -383,6 +383,6 @@ class FinanceTest extends TestCase
         ]);
 
         $payment = $this->financeSvc->getPilotPilotPay($pirep_acars);
-        $this->assertEquals($payment->getAmount(), 150);
+        $this->assertEquals($payment->getValue(), 150);
     }
 }
