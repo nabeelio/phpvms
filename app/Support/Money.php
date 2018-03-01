@@ -39,7 +39,7 @@ class Money
     public static function convertToSubunit($amount)
     {
         $currency = config('phpvms.currency');
-        return $amount * config('money.'.$currency.'.subunit');
+        return (int) $amount * config('money.'.$currency.'.subunit');
     }
 
     /**
@@ -64,9 +64,20 @@ class Money
     }
 
     /**
+     * Return the amount of currency in smallest denomination
      * @return string
      */
     public function getAmount()
+    {
+        return $this->money->getAmount();
+    }
+
+    /**
+     * Returns the value in whole amounts, e.g: 100.00
+     * vs returning in all cents
+     * @return float
+     */
+    public function getValue()
     {
         return $this->money->getValue();
     }
