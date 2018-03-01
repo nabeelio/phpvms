@@ -432,6 +432,9 @@ class FinanceTest extends TestCase
             $user
         );
 
+        $balance = $journalRepo->getBalance($journal);
+        $this->assertEquals(100, $balance->getValue());
+
         $this->assertEquals(100, $journal->balance->getValue());
 
         # find all transactions
