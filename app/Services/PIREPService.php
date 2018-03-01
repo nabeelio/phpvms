@@ -16,6 +16,7 @@ use App\Models\PirepFare;
 use App\Models\PirepFieldValues;
 use App\Models\User;
 use App\Repositories\AcarsRepository;
+use App\Repositories\FlightRepository;
 use App\Repositories\NavdataRepository;
 use App\Repositories\PirepRepository;
 use Carbon\Carbon;
@@ -24,11 +25,12 @@ use Log;
 
 class PIREPService extends BaseService
 {
-    protected $acarsRepo,
-        $geoSvc,
-        $navRepo,
-        $pilotSvc,
-        $pirepRepo;
+    private $acarsRepo,
+            $flightRepo,
+            $geoSvc,
+            $navRepo,
+            $pilotSvc,
+            $pirepRepo;
 
     /**
      * PIREPService constructor.
@@ -40,6 +42,7 @@ class PIREPService extends BaseService
      */
     public function __construct(
         AcarsRepository $acarsRepo,
+        FlightRepository $flightRepo,
         GeoService $geoSvc,
         NavdataRepository $navRepo,
         PirepRepository $pirepRepo,
@@ -47,6 +50,7 @@ class PIREPService extends BaseService
     )
     {
         $this->acarsRepo = $acarsRepo;
+        $this->flightRepo = $flightRepo;
         $this->geoSvc = $geoSvc;
         $this->pilotSvc = $pilotSvc;
         $this->navRepo = $navRepo;
@@ -54,6 +58,21 @@ class PIREPService extends BaseService
     }
 
     /**
+     * Find the flight that a PIREP is based on
+     * @param Pirep $pirep
+     * @return mixed
+     */
+    public function findFlight(Pirep $pirep)
+    {
+        return $this->flightRepo->findFlight(
+            $pirep->airline_id,
+            $pirep->flight_number,
+            $pirep->route_code,
+            $pirep->route_leg
+        )->first();
+    }
+
+    /**π
      * Find if there are duplicates to a given PIREP. Ideally, the passed
      * in PIREP hasn't been saved or gone through the create() method
      * @param Pirep $pirep
@@ -208,29 +227,6 @@ class PIREPService extends BaseService
                     'source' => $fv['source']
                 ]
             );
-        }
-    }
-
-    /**
-     * Save the list of fares
-     * @param $pirep_id
-     * @param array $fares ['field_id', 'count']
-     * @throws \Exception
-     */
-    public function saveFares($pirep_id, array $fares)
-    {
-        if(!$fares) { return; }
-
-        # Remove all the previous fares
-        PirepFare::where('pirep_id', $pirep_id)->delete();
-
-        # Add them in
-        foreach($fares as $fare) {
-            $fare['pirep_id'] = $pirep_id;
-            # other fields: ['fare_id', 'count']
-
-            $field = new PirepFare($fare);
-            $field->save();
         }
     }
 

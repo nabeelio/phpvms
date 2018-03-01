@@ -4,6 +4,8 @@ namespace App\Services;
 
 use App\Models\Fare;
 use App\Models\Flight;
+use App\Models\Pirep;
+use App\Models\PirepFare;
 use App\Models\Subfleet;
 use App\Support\Math;
 use Illuminate\Support\Collection;
@@ -183,5 +185,48 @@ class FareService extends BaseService
         $subfleet->fares()->detach($fare->id);
         $subfleet->refresh();
         return $subfleet;
+    }
+
+    /**
+     * Get the fares for a PIREP, this just returns the PirepFare
+     * model which includes the counts for that particular fare
+     * @param Pirep $pirep
+     * @return Collection
+     */
+    public function getForPirep(Pirep $pirep)
+    {
+        $fares = [];
+        $found_fares = PirepFare::where('pirep_id', $pirep->id)->get();
+        return $found_fares;
+        /*foreach($found_fares as $fare) {
+            $fares[] = $fare->toArray();
+        }
+
+        return collect($fares);*/
+    }
+
+    /**
+     * Save the list of fares
+     * @param Pirep $pirep
+     * @param array $fares ['fare_id', 'count']
+     * @throws \Exception
+     */
+    public function saveForPirep(Pirep $pirep, array $fares)
+    {
+        if (!$fares) {
+            return;
+        }
+
+        # Remove all the previous fares
+        PirepFare::where('pirep_id', $pirep->id)->delete();
+
+        # Add them in
+        foreach ($fares as $fare) {
+            $fare['pirep_id'] = $pirep->id;
+            # other fields: ['fare_id', 'count']
+
+            $field = new PirepFare($fare);
+            $field->save();
+        }
     }
 }

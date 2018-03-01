@@ -13,11 +13,8 @@ class PirepAccepted
 
     public $pirep;
 
-    /**
-     * Create a new event instance.
-     */
     public function __construct(Pirep $pirep)
     {
-        //
+        $this->pirep = $pirep;
     }
 }

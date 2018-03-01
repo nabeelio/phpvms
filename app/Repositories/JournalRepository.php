@@ -19,6 +19,9 @@ class JournalRepository extends BaseRepository implements CacheableInterface
 {
     use CacheableRepository;
 
+    /**
+     * @return string
+     */
     public function model()
     {
         return JournalTransaction::class;
@@ -58,12 +61,16 @@ class JournalRepository extends BaseRepository implements CacheableInterface
             'currency'          => config('phpvms.currency'),
             'memo'              => $memo,
             'post_date'         => $post_date ?: Carbon::now(),
-            'transaction_group' => $transaction_group,
         ];
 
         if($reference !== null) {
             $attrs['ref_class'] = \get_class($reference);
             $attrs['ref_class_id'] = $reference->id;
+        }
+
+        if($transaction_group) {
+            $transaction_group = str_replace(' ', '_', $transaction_group);
+            $attrs['transaction_group'] = $transaction_group;
         }
 
         try {

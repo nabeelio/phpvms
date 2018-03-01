@@ -12,7 +12,7 @@ use Log;
  * Handle sending emails on different events
  * @package App\Listeners
  */
-class NotificationEventListener
+class NotificationEvents
 {
     public function subscribe($events)
     {

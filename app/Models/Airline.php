@@ -2,12 +2,16 @@
 
 namespace App\Models;
 
+use App\Models\Traits\JournalTrait;
+
 /**
  * Class Airline
  * @package App\Models
  */
 class Airline extends BaseModel
 {
+    use JournalTrait;
+
     public $table = 'airlines';
 
     public $fillable = [
@@ -67,6 +71,13 @@ class Airline extends BaseModel
             if (!empty($model->icao)) {
                 $model->icao = strtoupper($model->icao);
             }
+        });
+
+        /**
+         * Make sure a new journal object is created
+         */
+        static::created(function(Airline $model) {
+            $model->initJournal(config('phpvms.currency'));
         });
     }
 }

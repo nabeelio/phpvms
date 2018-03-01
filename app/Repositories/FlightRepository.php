@@ -31,24 +31,24 @@ class FlightRepository extends BaseRepository implements CacheableInterface
      * Find a flight based on the given criterea
      * @param $airline_id
      * @param $flight_num
-     * @param null $flight_code
-     * @param null $flight_leg
+     * @param null $route_code
+     * @param null $route_leg
      * @return mixed
      */
-    public function findFlight($airline_id, $flight_num, $flight_code=null, $flight_leg=null)
+    public function findFlight($airline_id, $flight_num, $route_code=null, $route_leg=null)
     {
         $where = [
             'airline_id' => $airline_id,
-            'flight_num' => $flight_num,
+            'flight_number' => $flight_num,
             'active' => true,
         ];
 
-        if(filled($flight_code)) {
-            $where['flight_code'] = $flight_code;
+        if(filled($route_code)) {
+            $where['route_code'] = $route_code;
         }
 
-        if(filled('flight_leg')) {
-            $where['flight_leg'] = $flight_leg;
+        if(filled($route_leg)) {
+            $where['route_leg'] = $route_leg;
         }
 
         return $this->findWhere($where);

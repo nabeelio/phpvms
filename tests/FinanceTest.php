@@ -1,5 +1,6 @@
 <?php
 
+use App\Services\PIREPService;
 use App\Repositories\JournalRepository;
 use App\Services\FareService;
 use App\Services\FinanceService;
@@ -11,8 +12,12 @@ class FinanceTest extends TestCase
 {
     private $fareSvc,
             $financeSvc,
-            $fleetSvc;
+            $fleetSvc,
+            $pirepSvc;
 
+    /**
+     * @throws Exception
+     */
     public function setUp()
     {
         parent::setUp();
@@ -21,8 +26,60 @@ class FinanceTest extends TestCase
         $this->fareSvc = app(FareService::class);
         $this->financeSvc = app(FinanceService::class);
         $this->fleetSvc = app(FleetService::class);
+        $this->pirepSvc = app(PIREPService::class);
     }
 
+    /**
+     * Create a user and a PIREP, that has all of the data filled out
+     * so that we can test all of the disparate parts of the finances
+     * @return array
+     * @throws Exception
+     */
+    public function createFullPirep()
+    {
+        /**
+         * Setup tests
+         */
+        $subfleet = $this->createSubfleetWithAircraft(2);
+        $rank = $this->createRank(10, [$subfleet['subfleet']->id]);
+        $this->fleetSvc->addSubfleetToRank($subfleet['subfleet'], $rank);
+
+        $user = factory(App\Models\User::class)->create([
+            'rank_id' => $rank->id,
+        ]);
+
+        $flight = factory(App\Models\Flight::class)->create([
+            'airline_id' => $user->airline_id
+        ]);
+
+        $pirep = factory(App\Models\Pirep::class)->create([
+            'flight_number' => $flight->flight_number,
+            'route_code' => $flight->route_code,
+            'route_leg' => $flight->route_leg,
+            'user_id' => $user->id,
+            'airline_id' => $user->airline_id,
+            'aircraft_id' => $subfleet['aircraft']->random(),
+            'source' => PirepSource::ACARS,
+        ]);
+
+        /**
+         * Add fares to the subfleet, and then add the fares
+         * to the PIREP when it's saved, and set the capacity
+         */
+        $fare_counts = [];
+        $fares = factory(App\Models\Fare::class, 3)->create();
+        foreach ($fares as $fare) {
+            $this->fareSvc->setForSubfleet($subfleet['subfleet'], $fare);
+        }
+
+        $pirep = $this->pirepSvc->create($pirep, []);
+
+        return [$user, $pirep, $fares];
+    }
+
+    /**
+     *
+     */
     public function testFlightFaresNoOverride()
     {
         $flight = factory(App\Models\Flight::class)->create();
@@ -297,7 +354,7 @@ class FinanceTest extends TestCase
             'source' => PirepSource::ACARS,
         ]);
 
-        $rate = $this->financeSvc->getPayRateForPirep($pirep);
+        $rate = $this->financeSvc->getPilotPayRateForPirep($pirep);
         $this->assertEquals($rank->acars_base_pay_rate, $rate);
     }
 
@@ -324,7 +381,7 @@ class FinanceTest extends TestCase
             'source' => PirepSource::ACARS,
         ]);
 
-        $rate = $this->financeSvc->getPayRateForPirep($pirep_acars);
+        $rate = $this->financeSvc->getPilotPayRateForPirep($pirep_acars);
         $this->assertEquals($acars_pay_rate, $rate);
 
         # Change to a percentage
@@ -342,11 +399,11 @@ class FinanceTest extends TestCase
             'source' => PirepSource::MANUAL,
         ]);
 
-        $rate = $this->financeSvc->getPayRateForPirep($pirep_manual);
+        $rate = $this->financeSvc->getPilotPayRateForPirep($pirep_manual);
         $this->assertEquals($manual_pay_adjusted, $rate);
 
         # And make sure the original acars override still works
-        $rate = $this->financeSvc->getPayRateForPirep($pirep_acars);
+        $rate = $this->financeSvc->getPilotPayRateForPirep($pirep_acars);
         $this->assertEquals($acars_pay_rate, $rate);
     }
 
@@ -443,5 +500,60 @@ class FinanceTest extends TestCase
         $this->assertCount(3, $transactions['transactions']);
         $this->assertEquals(125, $transactions['credits']->getValue());
         $this->assertEquals(25, $transactions['debits']->getValue());
+    }
+
+    /**
+     *
+     * @throws Exception
+     */
+    public function testPirepFares()
+    {
+        [$user, $pirep, $fares] = $this->createFullPirep();
+
+        # Override the fares
+        $fare_counts = [];
+        foreach ($fares as $fare) {
+            $fare_counts[] = [
+                'fare_id' => $fare->id,
+                'price' => $fare->price,
+                'count' => round($fare->capacity / 2),
+            ];
+        }
+
+        $this->fareSvc->saveForPirep($pirep, $fare_counts);
+        $all_fares = $this->financeSvc->getReconciledFaresForPirep($pirep);
+
+        $fare_counts = collect($fare_counts);
+        foreach($all_fares as $fare) {
+            $set_fare = $fare_counts->where('fare_id', $fare->id)->first();
+            $this->assertEquals($set_fare['count'], $fare->count);
+            $this->assertEquals($set_fare['price'], $fare->price);
+        }
+    }
+
+    /**
+     *
+     * @throws Exception
+     */
+    public function testPirepFinances()
+    {
+        [$user, $pirep, $fares] = $this->createFullPirep();
+
+        $journal = $user->airline->initJournal(config('phpvms.currency'));
+
+        # Override the fares
+        $fare_counts = [];
+        foreach ($fares as $fare) {
+            $fare_counts[] = [
+                'fare_id' => $fare->id,
+                'price' => $fare->price,
+                'count' => round($fare->capacity / 2),
+            ];
+        }
+
+        $this->fareSvc->saveForPirep($pirep, $fare_counts);
+
+        # This should process all of the
+        $pirep = $this->pirepSvc->accept($pirep);
     }
 }

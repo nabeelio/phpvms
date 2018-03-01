@@ -15,6 +15,7 @@ use App\Repositories\AirportRepository;
 use App\Repositories\PirepFieldRepository;
 use App\Repositories\PirepRepository;
 use App\Repositories\SubfleetRepository;
+use App\Services\FareService;
 use App\Services\PIREPService;
 use App\Services\UserService;
 use App\Support\Units\Time;
@@ -31,6 +32,7 @@ class PirepController extends BaseController
     private $airportRepo,
             $airlineRepo,
             $aircraftRepo,
+            $fareSvc,
             $pirepSvc,
             $pirepRepo,
             $pirepFieldRepo,
@@ -51,6 +53,7 @@ class PirepController extends BaseController
         AirportRepository $airportRepo,
         AirlineRepository $airlineRepo,
         AircraftRepository $aircraftRepo,
+        FareService $fareSvc,
         PirepRepository $pirepRepo,
         PirepFieldRepository $pirepFieldRepo,
         PIREPService $pirepSvc,
@@ -60,6 +63,7 @@ class PirepController extends BaseController
         $this->airportRepo = $airportRepo;
         $this->airlineRepo = $airlineRepo;
         $this->aircraftRepo = $aircraftRepo;
+        $this->fareSvc = $fareSvc;
         $this->pirepRepo = $pirepRepo;
         $this->pirepFieldRepo = $pirepFieldRepo;
         $this->pirepSvc = $pirepSvc;
@@ -143,7 +147,7 @@ class PirepController extends BaseController
             ];
         }
 
-        $this->pirepSvc->saveFares($pirep->id, $fares);
+        $this->fareSvc->saveForPirep($pirep, $fares);
     }
 
     /**

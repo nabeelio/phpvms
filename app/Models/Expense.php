@@ -23,7 +23,7 @@ class Expense extends BaseModel
         'active'      => 'boolean',
         'airline_id'  => 'integer',
         'amount'      => 'float',
-        'multiplier'  => 'integer',
+        'multiplier'  => 'bool',
         'type'        => 'integer',
     ];
 

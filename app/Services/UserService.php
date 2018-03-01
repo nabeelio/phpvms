@@ -36,9 +36,10 @@ class UserService extends BaseService
     /**
      * Register a pilot. Also attaches the initial roles
      * required, and then triggers the UserRegistered event
-     * @param User $user        User model
-     * @param array $groups     Additional groups to assign
+     * @param User $user User model
+     * @param array $groups Additional groups to assign
      * @return mixed
+     * @throws \Exception
      */
     public function createPilot(User $user, array $groups=null)
     {
@@ -64,6 +65,7 @@ class UserService extends BaseService
 
         # Let's check their rank and where they should start
         $this->calculatePilotRank($user);
+        $user->initJournal(config('phpvms.currency'));
 
         $user->refresh();
 

@@ -13,6 +13,13 @@ use PhpUnitsOfMeasure\Exception\NonStringUnitName;
 /**
  * Class Pirep
  *
+ * @property integer airline_id
+ * @property Airline airline
+ * @property Airport arr_airport
+ * @property Airport dep_airport
+ * @property mixed flight_number
+ * @property mixed route_code
+ * @property mixed route_leg
  * @package App\Models
  */
 class Pirep extends BaseModel

@@ -15,6 +15,7 @@ use App\Repositories\AirportRepository;
 use App\Repositories\Criteria\WhereCriteria;
 use App\Repositories\PirepFieldRepository;
 use App\Repositories\PirepRepository;
+use App\Services\FareService;
 use App\Services\GeoService;
 use App\Services\PIREPService;
 use App\Services\UserService;
@@ -29,10 +30,11 @@ class PirepController extends Controller
 {
     private $aircraftRepo,
             $airlineRepo,
+            $fareSvc,
+            $geoSvc,
             $pirepRepo,
             $airportRepo,
             $pirepFieldRepo,
-            $geoSvc,
             $pirepSvc,
             $userSvc;
 
@@ -41,9 +43,10 @@ class PirepController extends Controller
      * @param AircraftRepository $aircraftRepo
      * @param AirlineRepository $airlineRepo
      * @param AirportRepository $airportRepo
+     * @param FareService $fareSvc
+     * @param GeoService $geoSvc
      * @param PirepRepository $pirepRepo
      * @param PirepFieldRepository $pirepFieldRepo
-     * @param GeoService $geoSvc
      * @param PIREPService $pirepSvc
      * @param UserService $userSvc
      */
@@ -51,9 +54,10 @@ class PirepController extends Controller
         AircraftRepository $aircraftRepo,
         AirlineRepository $airlineRepo,
         AirportRepository $airportRepo,
+        FareService $fareSvc,
+        GeoService $geoSvc,
         PirepRepository $pirepRepo,
         PirepFieldRepository $pirepFieldRepo,
-        GeoService $geoSvc,
         PIREPService $pirepSvc,
         UserService $userSvc
     ) {
@@ -63,6 +67,7 @@ class PirepController extends Controller
         $this->airportRepo = $airportRepo;
         $this->pirepFieldRepo = $pirepFieldRepo;
 
+        $this->fareSvc = $fareSvc;
         $this->geoSvc = $geoSvc;
         $this->pirepSvc = $pirepSvc;
         $this->userSvc = $userSvc;
@@ -143,7 +148,7 @@ class PirepController extends Controller
             ];
         }
 
-        $this->pirepSvc->saveFares($pirep->id, $fares);
+        $this->fareSvc->saveForPirep($pirep, $fares);
     }
 
     /**

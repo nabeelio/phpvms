@@ -17,7 +17,7 @@ class CreateExpensesTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('airline_id')->nullable();
             $table->string('name');
-            $table->unsignedDecimal('amount');
+            $table->unsignedInteger('amount');
             $table->unsignedTinyInteger('type');
             $table->boolean('multiplier')->nullable()->default(0);
             $table->boolean('active')->nullable()->default(1);

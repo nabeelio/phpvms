@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Enums\PirepState;
+use App\Models\Traits\JournalTrait;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laratrust\Traits\LaratrustUserTrait;
@@ -23,9 +24,9 @@ use Laratrust\Traits\LaratrustUserTrait;
  */
 class User extends Authenticatable
 {
-    use Notifiable;
+    use JournalTrait;
     use LaratrustUserTrait;
-    //use SoftDeletes;
+    use Notifiable;
 
     public $table = 'users';
 

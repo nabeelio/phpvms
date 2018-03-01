@@ -2,8 +2,11 @@
 
 namespace App\Providers;
 
-use App\Listeners\NotificationEventListener;
+use App\Listeners\FinanceEvents;
+use App\Listeners\NotificationEvents;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+use App\Listeners\ExpenseListener;
+use App\Events\Expenses;
 
 
 class EventServiceProvider extends ServiceProvider
@@ -14,13 +17,14 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        /*'App\Events\TestEvent' => [
-            'App\Listeners\EventListener',
-        ],*/
+        Expenses::class => [
+            ExpenseListener::class
+        ],
     ];
 
     protected $subscribe = [
-        NotificationEventListener::class,
+        FinanceEvents::class,
+        NotificationEvents::class,
     ];
 
     /**
