@@ -71,8 +71,8 @@
 
     <!-- Submit Field -->
     <div class="form-group col-sm-6 text-right">
-        <a href="{!! route('admin.users.regen_apikey', ['id' => $user->id]) !!}" class="btn btn-warning"
-           onclick="return confirm('Are you sure? This will reset this user\'s API key.')">new api key</a>
+        {{--<a href="{!! route('admin.users.regen_apikey', ['id' => $user->id]) !!}" class="btn btn-warning"
+           onclick="return confirm('Are you sure? This will reset this user\'s API key.')">new api key</a>--}}
         &nbsp;
         {!! Form::button('Save', ['type' => 'submit', 'class' => 'btn btn-success']) !!}
         <a href="{!! route('admin.users.index') !!}" class="btn btn-default">Cancel</a>
@@ -82,10 +82,10 @@
 <div class="row">
     <div class="form-group col-sm-12">
         <table class="table table-hover">
-            <tr>
+            {{--<tr>
                 <td>API Key</td>
                 <td>{!! $user->api_key !!}</td>
-            </tr>
+            </tr>--}}
             <tr>
                 <td>Total Flights</td>
                 <td>{!! $user->flights !!}</td>
