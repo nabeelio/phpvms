@@ -11,6 +11,7 @@ use App\Repositories\ExpenseRepository;
 use App\Repositories\JournalRepository;
 use App\Support\Math;
 use App\Support\Money;
+use Log;
 
 /**
  * Class FinanceService
@@ -89,6 +90,8 @@ class FinanceService extends BaseService
         $fares = $this->getReconciledFaresForPirep($pirep);
         foreach($fares as $fare) {
 
+            Log::info('Finance: PIREP: ' . $pirep->id . ', fare:', $fare->toArray());
+
             $credit = Money::createFromAmount($fare->count * $fare->price);
             $debit = Money::createFromAmount($fare->count * $fare->cost);
 
@@ -109,6 +112,9 @@ class FinanceService extends BaseService
          */
         $expenses = $this->getExpenses($pirep);
         foreach($expenses as $expense) {
+
+            Log::info('Finance: PIREP: '.$pirep->id.', expense:', $expense->toArray());
+
             $debit = Money::createFromAmount($expense->amount);
             $this->journalRepo->post(
                 $journal,
@@ -222,6 +228,7 @@ class FinanceService extends BaseService
             }
 
             // TODO Apply the multiplier from the subfleet
+            return $expense;
         });
 
         $gathered_expenses = event(new ExpensesEvent($pirep));

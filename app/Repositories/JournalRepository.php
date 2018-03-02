@@ -79,16 +79,6 @@ class JournalRepository extends BaseRepository implements CacheableInterface
             throw $e;
         }
 
-        # Adjust the balance on the journal
-        if($credit) {
-            $journal->balance->add($credit);
-        }
-
-        if($debit) {
-            $journal->balance->subtract($debit);
-        }
-
-        $journal->save();
         $journal->refresh();
 
         return $transaction;
