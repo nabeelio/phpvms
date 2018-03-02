@@ -4,6 +4,8 @@ namespace App\Models;
 
 /**
  * Class Expense
+ * @property float amount
+ * @property string name
  * @package App\Models
  */
 class Expense extends BaseModel

@@ -137,8 +137,9 @@ class JournalRepository extends BaseRepository implements CacheableInterface
     }
 
     /**
-     * @param Journal $journal
      * @param Carbon $date
+     * @param Journal $journal
+     * @param Carbon|null $start_date
      * @return Money
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
@@ -173,6 +174,8 @@ class JournalRepository extends BaseRepository implements CacheableInterface
      * @param $object
      * @param null $journal
      * @return array
+     * @throws \UnexpectedValueException
+     * @throws \InvalidArgumentException
      */
     public function getAllForObject($object, $journal=null)
     {
@@ -185,12 +188,35 @@ class JournalRepository extends BaseRepository implements CacheableInterface
             $where['journal_id'] = $journal->id;
         }
 
-        $transactions = $this->findWhere($where);
+        $transactions = $this->whereOrder($where, [
+                'credit' => 'desc',
+                'debit' => 'desc'
+            ])->get();
 
         return [
             'credits' => new Money($transactions->sum('credit')),
             'debits' => new Money($transactions->sum('debit')),
             'transactions' => $transactions,
         ];
+    }
+
+    /**
+     * Delete all transactions for a given object
+     * @param $object
+     * @param null $journal
+     * @return void
+     */
+    public function deleteAllForObject($object, $journal = null)
+    {
+        $where = [
+            'ref_class' => \get_class($object),
+            'ref_class_id' => $object->id,
+        ];
+
+        if ($journal) {
+            $where['journal_id'] = $journal->id;
+        }
+
+        $this->deleteWhere($where);
     }
 }

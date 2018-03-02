@@ -4,6 +4,10 @@ namespace App\Models;
 
 /**
  * Class Fare
+ * @property integer capacity
+ * @property float cost
+ * @property float price
+ * @property mixed code
  * @package App\Models
  */
 class Fare extends BaseModel

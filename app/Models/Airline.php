@@ -6,6 +6,7 @@ use App\Models\Traits\JournalTrait;
 
 /**
  * Class Airline
+ * @property Journal journal
  * @package App\Models
  */
 class Airline extends BaseModel

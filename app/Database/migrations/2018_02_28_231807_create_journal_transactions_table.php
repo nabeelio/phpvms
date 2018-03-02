@@ -22,7 +22,7 @@ class CreateJournalTransactionsTable extends Migration
             $table->char('currency', 5);
             $table->text('memo')->nullable();
             $table->char('ref_class', 32)->nullable();
-            $table->text('ref_class_id')->nullable();
+            $table->string('ref_class_id', 36)->nullable();
             $table->timestamps();
             $table->dateTime('post_date');
             $table->softDeletes();

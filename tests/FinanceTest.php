@@ -575,8 +575,8 @@ class FinanceTest extends TestCase
 
         $transactions = $journalRepo->getAllForObject($pirep);
 
-        $this->assertCount(4, $transactions['transactions']);
-        $this->assertEquals(3000, $transactions['credits']->getValue());
-        $this->assertEquals(1520, $transactions['debits']->getValue());
+        $this->assertCount(6, $transactions['transactions']);
+        $this->assertEquals(3020, $transactions['credits']->getValue());
+        $this->assertEquals(1540, $transactions['debits']->getValue());
     }
 }

@@ -6,6 +6,7 @@ use Illuminate\Notifications\Notifiable;
 
 /**
  * Class Airport
+ * @property float ground_handling_cost
  * @package App\Models
  */
 class Airport extends BaseModel

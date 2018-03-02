@@ -56,10 +56,20 @@ abstract class BaseRepository extends \Prettus\Repository\Eloquent\BaseRepositor
      * @param $order_by
      * @return $this
      */
-    public function whereOrder($where, $sort_by, $order_by)
+    public function whereOrder($where, $sort_by, $order_by='asc')
     {
         return $this->scopeQuery(function($query) use ($where, $sort_by, $order_by) {
-            return $query->where($where)->orderBy($sort_by, $order_by);
+            $q = $query->where($where);
+            # See if there are multi-column sorts
+            if(\is_array($sort_by)) {
+                foreach($sort_by as $key => $sort) {
+                    $q = $q->orderBy($key, $sort);
+                }
+            } else {
+                $q = $q->orderBy($sort_by, $order_by);
+            }
+
+            return $q;
         });
     }
 }

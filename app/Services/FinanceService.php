@@ -97,14 +97,25 @@ class FinanceService extends BaseService
     }
 
     /**
+     * @param Pirep $pirep
+     */
+    public function deleteFinancesForPirep(Pirep $pirep)
+    {
+        $this->journalRepo->deleteAllForObject($pirep);
+    }
+
+    /**
      * Collect all of the fares and then post each fare class's profit and
      * the costs for each seat and post it to the journal
      * @param $pirep
+     * @throws \UnexpectedValueException
+     * @throws \InvalidArgumentException
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
     public function payFaresForPirep($pirep): void
     {
         $fares = $this->getReconciledFaresForPirep($pirep);
+        /** @var \App\Models\Fare $fare */
         foreach ($fares as $fare) {
 
             Log::info('Finance: PIREP: ' . $pirep->id . ', fare:', $fare->toArray());
@@ -128,12 +139,14 @@ class FinanceService extends BaseService
     /**
      * Collect all of the expenses and apply those to the journal
      * @param Pirep $pirep
+     * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
     public function payExpensesForPirep(Pirep $pirep): void
     {
         $expenses = $this->getExpenses($pirep);
+        /** @var \App\Models\Expense $expense */
         foreach ($expenses as $expense) {
 
             Log::info('Finance: PIREP: ' . $pirep->id . ', expense:', $expense->toArray());
@@ -154,6 +167,8 @@ class FinanceService extends BaseService
     /**
      * Collect and apply the ground handling cost
      * @param Pirep $pirep
+     * @throws \UnexpectedValueException
+     * @throws \InvalidArgumentException
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
     public function payGroundHandlingForPirep(Pirep $pirep)
@@ -337,17 +352,27 @@ class FinanceService extends BaseService
         # find the right subfleet
         $override_rate = $rank->subfleets()
             ->where('subfleet_id', $subfleet_id)
-            ->first()
-            ->pivot;
+            ->first();
+
+        if($override_rate) {
+            $override_rate = $override_rate->pivot;
+        }
 
         if($pirep->source === PirepSource::ACARS) {
             Log::debug('Source is ACARS');
             $base_rate = $rank->acars_base_pay_rate;
-            $override_rate = $override_rate->acars_pay;
+
+            if($override_rate) {
+                $override_rate = $override_rate->acars_pay;
+            }
+
         } else {
             Log::debug('Source is Manual');
             $base_rate = $rank->manual_base_pay_rate;
-            $override_rate = $override_rate->manual_pay;
+
+            if($override_rate) {
+                $override_rate = $override_rate->manual_pay;
+            }
         }
 
         Log::debug('pilot pay: base rate=' . $base_rate . ', override=' . $override_rate);

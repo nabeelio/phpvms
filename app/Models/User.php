@@ -14,11 +14,13 @@ use Laratrust\Traits\LaratrustUserTrait;
  * @property string $email
  * @property string $password
  * @property string $api_key
- * @property string $flights
+ * @property Flight[] $flights
  * @property string $flight_time
  * @property string $remember_token
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
+ * @property Rank rank
+ * @property Journal journal
  * @mixin \Illuminate\Notifications\Notifiable
  * @mixin \Laratrust\Traits\LaratrustUserTrait
  */

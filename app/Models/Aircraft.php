@@ -5,6 +5,17 @@ namespace App\Models;
 use App\Models\Enums\AircraftStatus;
 use App\Support\ICAO;
 
+/**
+ * @property mixed subfleet_id
+ * @property string name
+ * @property string icao
+ * @property string registration
+ * @property string hex_code
+ * @property Airport airport
+ * @property Subfleet subfleet
+ * @property int status
+ * @property int state
+ */
 class Aircraft extends BaseModel
 {
     public $table = 'aircraft';
