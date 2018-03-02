@@ -34,6 +34,5 @@ trait JournalTrait
             $journal->refresh();
             return $journal;
         }
-        throw new \Exception('Journal already exists.');
     }
 }
