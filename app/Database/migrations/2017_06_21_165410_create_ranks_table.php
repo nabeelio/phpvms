@@ -36,6 +36,8 @@ class CreateRanksTable extends Migration
                 'id' => 1,
                 'name' => 'New Pilot',
                 'hours' => 0,
+                'acars_base_pay_rate' => 50,
+                'manual_base_pay_rate' => 25,
             ]
         ];
 

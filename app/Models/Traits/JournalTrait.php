@@ -6,6 +6,17 @@ use App\Models\Journal;
 
 trait JournalTrait
 {
+
+    /**
+     * Initialize a new journal when a new record is created
+     */
+    public static function bootJournalTrait()
+    {
+        static::created(function ($model) {
+            $model->initJournal(config('phpvms.currency'));
+        });
+    }
+
     /**
      * Morph to Journal.
      *

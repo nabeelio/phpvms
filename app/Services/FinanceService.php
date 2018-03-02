@@ -77,18 +77,35 @@ class FinanceService extends BaseService
      */
     public function processFinancesForPirep(Pirep $pirep)
     {
-        $journal = $pirep->airline->journal;
-        if(!$journal) {
-            $journal = $pirep->airline->initJournal(config('phpvms.currency'));
+        if(!$pirep->airline->journal) {
+            $pirep->airline->journal = $pirep->airline->initJournal(config('phpvms.currency'));
         }
 
-        /*
-         * Collect all of the fares and then post each fare class's profit and
-         * the costs for each seat and post it to the journal
-         */
+        if (!$pirep->user->journal) {
+            $pirep->user->journal = $pirep->user->initJournal(config('phpvms.currency'));
+        }
 
+        $this->payFaresForPirep($pirep);
+        $this->payExpensesForPirep($pirep);
+        $this->payGroundHandlingForPirep($pirep);
+        $this->payPilotForPirep($pirep);
+
+        $pirep->airline->journal->refresh();
+        $pirep->user->journal->refresh();
+
+        return $pirep;
+    }
+
+    /**
+     * Collect all of the fares and then post each fare class's profit and
+     * the costs for each seat and post it to the journal
+     * @param $pirep
+     * @throws \Prettus\Validator\Exceptions\ValidatorException
+     */
+    public function payFaresForPirep($pirep): void
+    {
         $fares = $this->getReconciledFaresForPirep($pirep);
-        foreach($fares as $fare) {
+        foreach ($fares as $fare) {
 
             Log::info('Finance: PIREP: ' . $pirep->id . ', fare:', $fare->toArray());
 
@@ -96,28 +113,34 @@ class FinanceService extends BaseService
             $debit = Money::createFromAmount($fare->count * $fare->cost);
 
             $this->journalRepo->post(
-                $journal,
+                $pirep->airline->journal,
                 $credit,
                 $debit,
                 $pirep,
-                'Fares '. $fare->code.$fare->count
-                        . '; price:'.$fare->price .', cost: '. $fare->cost,
+                'Fares ' . $fare->code . $fare->count
+                . '; price:' . $fare->price . ', cost: ' . $fare->cost,
                 null,
                 'fares'
             );
         }
+    }
 
-        /*
-         * Collect all of the expenses and apply those to the journal
-         */
+    /**
+     * Collect all of the expenses and apply those to the journal
+     * @param Pirep $pirep
+     * @throws \InvalidArgumentException
+     * @throws \Prettus\Validator\Exceptions\ValidatorException
+     */
+    public function payExpensesForPirep(Pirep $pirep): void
+    {
         $expenses = $this->getExpenses($pirep);
-        foreach($expenses as $expense) {
+        foreach ($expenses as $expense) {
 
-            Log::info('Finance: PIREP: '.$pirep->id.', expense:', $expense->toArray());
+            Log::info('Finance: PIREP: ' . $pirep->id . ', expense:', $expense->toArray());
 
             $debit = Money::createFromAmount($expense->amount);
             $this->journalRepo->post(
-                $journal,
+                $pirep->airline->journal,
                 null,
                 $debit,
                 $pirep,
@@ -126,13 +149,18 @@ class FinanceService extends BaseService
                 'expenses'
             );
         }
+    }
 
-        /*
-         * Collect and apply the ground handling cost
-         */
+    /**
+     * Collect and apply the ground handling cost
+     * @param Pirep $pirep
+     * @throws \Prettus\Validator\Exceptions\ValidatorException
+     */
+    public function payGroundHandlingForPirep(Pirep $pirep)
+    {
         $ground_handling_cost = $this->getGroundHandlingCost($pirep);
         $this->journalRepo->post(
-            $journal,
+            $pirep->airline->journal,
             null,
             Money::createFromAmount($ground_handling_cost),
             $pirep,
@@ -140,8 +168,41 @@ class FinanceService extends BaseService
             null,
             'ground_handling'
         );
+    }
 
-        return $journal;
+    /**
+     * Figure out what the pilot pay is. Debit it from the airline journal
+     * But also reference the PIREP
+     * @param Pirep $pirep
+     * @throws \UnexpectedValueException
+     * @throws \InvalidArgumentException
+     * @throws \Prettus\Validator\Exceptions\ValidatorException
+     */
+    public function payPilotForPirep(Pirep $pirep)
+    {
+        $pilot_pay = $this->getPilotPay($pirep);
+        $pilot_pay_rate = $this->getPilotPayRateForPirep($pirep);
+        $memo = 'Pilot Payment @ ' . $pilot_pay_rate;
+
+        $this->journalRepo->post(
+            $pirep->airline->journal,
+            null,
+            $pilot_pay,
+            $pirep,
+            $memo,
+            null,
+            'pilot_pay'
+        );
+
+        $this->journalRepo->post(
+            $pirep->user->journal,
+            $pilot_pay,
+            null,
+            $pirep,
+            $memo,
+            null,
+            'pilot_pay'
+        );
     }
 
     /**
@@ -280,13 +341,16 @@ class FinanceService extends BaseService
             ->pivot;
 
         if($pirep->source === PirepSource::ACARS) {
+            Log::debug('Source is ACARS');
             $base_rate = $rank->acars_base_pay_rate;
             $override_rate = $override_rate->acars_pay;
         } else {
+            Log::debug('Source is Manual');
             $base_rate = $rank->manual_base_pay_rate;
             $override_rate = $override_rate->manual_pay;
         }
 
+        Log::debug('pilot pay: base rate=' . $base_rate . ', override=' . $override_rate);
         return $this->applyAmountOrPercent(
             $base_rate,
             $override_rate
@@ -300,11 +364,14 @@ class FinanceService extends BaseService
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
      */
-    public function getPilotPilotPay(Pirep $pirep)
+    public function getPilotPay(Pirep $pirep)
     {
         $pilot_rate = $this->getPilotPayRateForPirep($pirep) / 60;
         $payment = round($pirep->flight_time * $pilot_rate, 2);
 
-        return Money::createFromAmount($payment);
+        Log::info('Pilot Payment: rate='.$pilot_rate);
+        $payment = Money::convertToSubunit($payment);
+
+        return new Money($payment);
     }
 }

@@ -11,15 +11,19 @@ class ExpenseListener
     /**
      * Return a list of additional expenses
      * @param Expenses $event
-     * @return array
+     * @return mixed
      */
     public function handle(Expenses $event)
     {
-        return [
-            new Expense([
-                'type' => ExpenseType::FLIGHT,
-                'amount' => 15000  # $150
-            ]),
-        ];
+        $expenses = [];
+
+        # This is an example of an expense to return
+        # You have the pirep on $event->pirep, and any associated data
+        /*$expenses[] = new Expense([
+            'type' => ExpenseType::FLIGHT,
+            'amount' => 15000  # $150
+        ]);*/
+
+        return $expenses;
     }
 }

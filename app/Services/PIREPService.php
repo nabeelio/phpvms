@@ -305,6 +305,8 @@ class PIREPService extends BaseService
         $pirep->aircraft->landing_time = $pirep->updated_at;
         $pirep->aircraft->save();
 
+        $pirep->refresh();
+
         event(new PirepAccepted($pirep));
 
         return $pirep;

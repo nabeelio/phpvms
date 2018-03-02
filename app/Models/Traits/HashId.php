@@ -20,9 +20,8 @@ trait HashId
     /**
      * Register callbacks
      */
-    protected static function boot()
+    protected static function bootHashId()
     {
-        parent::boot();
         static::creating(function ($model) {
             if (empty($model->id)) {
                 $model->id = static::createNewHashId();

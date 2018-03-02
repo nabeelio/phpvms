@@ -72,12 +72,5 @@ class Airline extends BaseModel
                 $model->icao = strtoupper($model->icao);
             }
         });
-
-        /**
-         * Make sure a new journal object is created
-         */
-        static::created(function(Airline $model) {
-            $model->initJournal(config('phpvms.currency'));
-        });
     }
 }

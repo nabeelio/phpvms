@@ -446,7 +446,7 @@ class FinanceTest extends TestCase
             'flight_time' => 60,
         ]);
 
-        $payment = $this->financeSvc->getPilotPilotPay($pirep_acars);
+        $payment = $this->financeSvc->getPilotPay($pirep_acars);
         $this->assertEquals(100, $payment->getValue());
 
         $pirep_acars = factory(App\Models\Pirep::class)->create([
@@ -456,7 +456,7 @@ class FinanceTest extends TestCase
             'flight_time' => 90,
         ]);
 
-        $payment = $this->financeSvc->getPilotPilotPay($pirep_acars);
+        $payment = $this->financeSvc->getPilotPay($pirep_acars);
         $this->assertEquals($payment->getValue(), 150);
     }
 

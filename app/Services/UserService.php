@@ -65,8 +65,6 @@ class UserService extends BaseService
 
         # Let's check their rank and where they should start
         $this->calculatePilotRank($user);
-        $user->initJournal(config('phpvms.currency'));
-
         $user->refresh();
 
         event(new UserRegistered($user));
