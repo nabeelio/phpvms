@@ -333,7 +333,8 @@ pireps:
     dpt_airport_id: KAUS
     arr_airport_id: KJFK
     flight_time: 180  # 6 hours
-    state: 1
+    state: 2
+    status: 0
     route: KAUS SID TNV J87 IAH J2 LCH J22 MEI J239 ATL J52 AJFEB J14 BYJAC Q60 JAXSN J14 COLIN J61 HUBBS J55 SIE STAR KJFK
     notes: just a pilot report
     created_at: NOW
@@ -426,3 +427,119 @@ pirep_comments:
     comment: Another comment
     created_at: now
     updated_at: now
+
+journals:
+  - id: '1'
+    ledger_id: null
+    balance: '7965000'
+    currency: USD
+    morphed_type: App\Models\Airline
+    morphed_id: '1'
+    created_at: '2018-03-02 03:31:59'
+    updated_at: '2018-03-02 03:31:59'
+
+journal_transactions:
+  - id: d2875dd2-e329-4d75-9883-120ef88f343a
+    transaction_group: fares
+    journal_id: '1'
+    credit: '6000000'
+    debit: '0'
+    currency: USD
+    memo: 'Fares Y300; price:200, cost: 0'
+    ref_class: App\Models\Pirep
+    ref_class_id: pirepid_1
+    created_at: '2018-03-02 03:31:59'
+    updated_at: '2018-03-02 03:31:59'
+    post_date: '2018-03-02 03:31:59'
+    deleted_at: null
+  - id:  3912bedb-138e-47f4-9a1f-bcd29c3c00ad
+    transaction_group: fares
+    journal_id: '1'
+    credit: '1100000'
+    debit: '0'
+    currency: USD
+    memo: 'Fares B10; price:1100, cost: 0'
+    ref_class: App\Models\Pirep
+    ref_class_id: pirepid_1
+    created_at: '2018-03-02 03:31:59'
+    updated_at: '2018-03-02 03:31:59'
+    post_date: '2018-03-02 03:31:59'
+    deleted_at: null
+  - id:: 55bbc2b8-646e-4d07-88d4-54c11c721f35
+    transaction_group: fares
+    journal_id: '1'
+    credit: '1000000'
+    debit: '0'
+    currency: USD
+    memo: 'Fares F10; price:1000, cost: 0'
+    ref_class: App\Models\Pirep
+    ref_class_id: pirepid_1
+    created_at: '2018-03-02 03:31:59'
+    updated_at: '2018-03-02 03:31:59'
+    post_date: '2018-03-02 03:31:59'
+    deleted_at: null
+  - id:: d9a353ea-5e40-4c7c-b976-305b89957185
+    transaction_group: expenses
+    journal_id: '1'
+    credit: null
+    debit: '10000'
+    currency: USD
+    memo: 'Expense: Per-Flight (no muliplier)'
+    ref_class: App\Models\Pirep
+    ref_class_id: pirepid_1
+    created_at: '2018-03-02 03:31:59'
+    updated_at: '2018-03-02 03:31:59'
+    post_date: '2018-03-02 03:31:59'
+    deleted_at: null
+  - id:: 9d1f321a-7fdb-402b-af90-ebf6cd5717a3
+    transaction_group: expenses
+    journal_id: '1'
+    credit: null
+    debit: '10000'
+    currency: USD
+    memo: 'Expense: Per-Flight (multiplier)'
+    ref_class: App\Models\Pirep
+    ref_class_id: pirepid_1
+    created_at: '2018-03-02 03:31:59'
+    updated_at: '2018-03-02 03:31:59'
+    post_date: '2018-03-02 03:31:59'
+    deleted_at: null
+  - id:: 7583cd5f-e75d-472d-b913-af724dc30f30
+    transaction_group: expenses
+    journal_id: '1'
+    credit: null
+    debit: '20000'
+    currency: USD
+    memo: 'Expense: Per-Flight (multiplier, on airline)'
+    ref_class: App\Models\Pirep
+    ref_class_id: pirepid_1
+    created_at: '2018-03-02 03:31:59'
+    updated_at: '2018-03-02 03:31:59'
+    post_date: '2018-03-02 03:31:59'
+    deleted_at: null
+  - id:: 9cf2fe46-124c-40a1-8cb8-1d1940c18704
+    transaction_group: expenses
+    journal_id: '1'
+    credit: null
+    debit: '20000'
+    currency: USD
+    memo: 'Expense: Per-Flight (multiplier, on airline)'
+    ref_class: App\Models\Pirep
+    ref_class_id: pirepid_1
+    created_at: '2018-03-02 03:31:59'
+    updated_at: '2018-03-02 03:31:59'
+    post_date: '2018-03-02 03:31:59'
+    deleted_at: null
+  - id:: 200af4e2-50fd-43f9-bcf3-93cc29800679
+    transaction_group: ground_handling
+    journal_id: '1'
+    credit: null
+    debit: '75000'
+    currency: USD
+    memo: 'Ground handling'
+    ref_class: App\Models\Pirep
+    ref_class_id: pirepid_1
+    created_at: '2018-03-02 03:31:59'
+    updated_at: '2018-03-02 03:31:59'
+    post_date: '2018-03-02 03:31:59'
+    deleted_at: null
