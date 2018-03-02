@@ -56,7 +56,9 @@ trait TestData
      */
     public function createSubfleetWithAircraft($aircraft_count = null, $airport_id=null)
     {
-        $subfleet = factory(\App\Models\Subfleet::class)->create();
+        $subfleet = factory(\App\Models\Subfleet::class)->create([
+            'ground_handling_multiplier' => '100',
+        ]);
 
         if($aircraft_count === null) {
             $aircraft_count = \random_int(2, 10);

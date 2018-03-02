@@ -42,24 +42,34 @@ class FinanceTest extends TestCase
          */
         $subfleet = $this->createSubfleetWithAircraft(2);
         $rank = $this->createRank(10, [$subfleet['subfleet']->id]);
+        $rank->acars_base_pay_rate = 10;
+        $rank->save();
+
         $this->fleetSvc->addSubfleetToRank($subfleet['subfleet'], $rank);
+
+        $airport = factory(App\Models\Airport::class)->create([
+            'ground_handling_cost'  => 10
+        ]);
 
         $user = factory(App\Models\User::class)->create([
             'rank_id' => $rank->id,
         ]);
 
         $flight = factory(App\Models\Flight::class)->create([
-            'airline_id' => $user->airline_id
+            'airline_id' => $user->airline_id,
+            'arr_airport_id' => $airport->icao,
         ]);
 
         $pirep = factory(App\Models\Pirep::class)->create([
             'flight_number' => $flight->flight_number,
             'route_code' => $flight->route_code,
             'route_leg' => $flight->route_leg,
+            'arr_airport_id' => $airport->id,
             'user_id' => $user->id,
             'airline_id' => $user->airline_id,
             'aircraft_id' => $subfleet['aircraft']->random(),
             'source' => PirepSource::ACARS,
+            'flight_time' => 120,
         ]);
 
         /**
@@ -67,7 +77,12 @@ class FinanceTest extends TestCase
          * to the PIREP when it's saved, and set the capacity
          */
         $fare_counts = [];
-        $fares = factory(App\Models\Fare::class, 3)->create();
+        $fares = factory(App\Models\Fare::class, 3)->create([
+            'price' => 100,
+            'cost' => 50,
+            'capacity' => 10,
+        ]);
+
         foreach ($fares as $fare) {
             $this->fareSvc->setForSubfleet($subfleet['subfleet'], $fare);
         }
@@ -537,6 +552,8 @@ class FinanceTest extends TestCase
      */
     public function testPirepFinances()
     {
+        $journalRepo = app(JournalRepository::class);
+
         [$user, $pirep, $fares] = $this->createFullPirep();
 
         $journal = $user->airline->initJournal(config('phpvms.currency'));
@@ -547,7 +564,7 @@ class FinanceTest extends TestCase
             $fare_counts[] = [
                 'fare_id' => $fare->id,
                 'price' => $fare->price,
-                'count' => round($fare->capacity / 2),
+                'count' => 100,
             ];
         }
 
@@ -555,5 +572,11 @@ class FinanceTest extends TestCase
 
         # This should process all of the
         $pirep = $this->pirepSvc->accept($pirep);
+
+        $transactions = $journalRepo->getAllForObject($pirep);
+
+        $this->assertCount(4, $transactions['transactions']);
+        $this->assertEquals(3000, $transactions['credits']->getValue());
+        $this->assertEquals(1520, $transactions['debits']->getValue());
     }
 }
