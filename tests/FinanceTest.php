@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Enums\ExpenseType;
+use App\Repositories\ExpenseRepository;
 use App\Services\PIREPService;
 use App\Repositories\JournalRepository;
 use App\Services\FareService;
@@ -10,7 +12,8 @@ use App\Support\Money;
 
 class FinanceTest extends TestCase
 {
-    private $fareSvc,
+    private $expenseRepo,
+            $fareSvc,
             $financeSvc,
             $fleetSvc,
             $pirepSvc;
@@ -23,6 +26,7 @@ class FinanceTest extends TestCase
         parent::setUp();
         $this->addData('base');
 
+        $this->expenseRepo = app(ExpenseRepository::class);
         $this->fareSvc = app(FareService::class);
         $this->financeSvc = app(FinanceService::class);
         $this->fleetSvc = app(FleetService::class);
@@ -544,6 +548,41 @@ class FinanceTest extends TestCase
             $this->assertEquals($set_fare['count'], $fare->count);
             $this->assertEquals($set_fare['price'], $fare->price);
         }
+    }
+
+    /**
+     * Test that all expenses are pulled properly
+     */
+    public function testPirepExpenses()
+    {
+        $airline = factory(App\Models\Airline::class)->create();
+        $airline2 = factory(App\Models\Airline::class)->create();
+
+        factory(App\Models\Expense::class)->create([
+            'airline_id' => $airline->id
+        ]);
+
+        factory(App\Models\Expense::class)->create([
+            'airline_id' => $airline2->id
+        ]);
+
+        factory(App\Models\Expense::class)->create([
+            'airline_id' => null
+        ]);
+
+        $expenses = $this->expenseRepo
+            ->getAllForType(ExpenseType::FLIGHT, $airline->id);
+
+        $this->assertCount(2, $expenses);
+
+        $found = $expenses->where('airline_id', null);
+        $this->assertCount(1, $found);
+
+        $found = $expenses->where('airline_id', $airline->id);
+        $this->assertCount(1, $found);
+
+        $found = $expenses->where('airline_id', $airline2->id);
+        $this->assertCount(0, $found);
     }
 
     /**

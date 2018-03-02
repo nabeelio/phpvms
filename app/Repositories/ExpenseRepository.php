@@ -30,6 +30,7 @@ class ExpenseRepository extends BaseRepository implements CacheableInterface
     {
         $expenses = $this->findWhere([
             'type' => $type,
+            ['airline_id', '=', null]
         ]);
 
         if($airline_id) {
