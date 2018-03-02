@@ -171,16 +171,21 @@ class JournalRepository extends BaseRepository implements CacheableInterface
     /**
      * Return all transactions for a given object
      * @param $object
+     * @param null $journal
      * @return array
-     * @throws \UnexpectedValueException
-     * @throws \InvalidArgumentException
      */
-    public function getAllForObject($object)
+    public function getAllForObject($object, $journal=null)
     {
-        $transactions = $this->findWhere([
+        $where = [
             'ref_class' => \get_class($object),
             'ref_class_id' => $object->id,
-        ]);
+        ];
+
+        if($journal) {
+            $where['journal_id'] = $journal->id;
+        }
+
+        $transactions = $this->findWhere($where);
 
         return [
             'credits' => new Money($transactions->sum('credit')),

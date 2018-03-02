@@ -318,6 +318,12 @@ class Pirep extends BaseModel
                     ->latest();
     }
 
+    public function transactions()
+    {
+        return $this->hasMany(JournalTransaction::class, 'ref_class_id')
+                    ->where('ref_class', __CLASS__);
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');

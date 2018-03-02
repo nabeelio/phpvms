@@ -12,6 +12,7 @@ use App\Models\PirepComment;
 use App\Repositories\AircraftRepository;
 use App\Repositories\AirlineRepository;
 use App\Repositories\AirportRepository;
+use App\Repositories\JournalRepository;
 use App\Repositories\PirepFieldRepository;
 use App\Repositories\PirepRepository;
 use App\Repositories\SubfleetRepository;
@@ -33,6 +34,7 @@ class PirepController extends BaseController
             $airlineRepo,
             $aircraftRepo,
             $fareSvc,
+            $journalRepo,
             $pirepSvc,
             $pirepRepo,
             $pirepFieldRepo,
@@ -44,7 +46,10 @@ class PirepController extends BaseController
      * @param AirportRepository $airportRepo
      * @param AirlineRepository $airlineRepo
      * @param AircraftRepository $aircraftRepo
+     * @param FareService $fareSvc
+     * @param JournalRepository $journalRepo
      * @param PirepRepository $pirepRepo
+     * @param PirepFieldRepository $pirepFieldRepo
      * @param PIREPService $pirepSvc
      * @param SubfleetRepository $subfleetRepo
      * @param UserService $userSvc
@@ -54,6 +59,7 @@ class PirepController extends BaseController
         AirlineRepository $airlineRepo,
         AircraftRepository $aircraftRepo,
         FareService $fareSvc,
+        JournalRepository $journalRepo,
         PirepRepository $pirepRepo,
         PirepFieldRepository $pirepFieldRepo,
         PIREPService $pirepSvc,
@@ -64,6 +70,7 @@ class PirepController extends BaseController
         $this->airlineRepo = $airlineRepo;
         $this->aircraftRepo = $aircraftRepo;
         $this->fareSvc = $fareSvc;
+        $this->journalRepo = $journalRepo;
         $this->pirepRepo = $pirepRepo;
         $this->pirepFieldRepo = $pirepFieldRepo;
         $this->pirepSvc = $pirepSvc;
@@ -266,6 +273,7 @@ class PirepController extends BaseController
      * Show the form for editing the specified Pirep.
      * @param  int $id
      * @return Response
+     * @throws \InvalidArgumentException
      */
     public function edit($id)
     {
@@ -293,6 +301,8 @@ class PirepController extends BaseController
             $pirep->{$field_name} = $fare->count;
         }
 
+        $journal = $this->journalRepo->getAllForObject($pirep, $pirep->airline->journal);
+
         return view('admin.pireps.edit', [
             'pirep' => $pirep,
             'read_only' => $read_only,
@@ -300,6 +310,7 @@ class PirepController extends BaseController
             'aircraft_list' => $this->aircraftList(),
             'airports_list' => $this->airportRepo->selectBoxList(),
             'airlines_list' => $this->airlineRepo->selectBoxList(),
+            'journal' => $journal,
         ]);
     }
 

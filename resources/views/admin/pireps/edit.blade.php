@@ -42,6 +42,13 @@
         </div>
     </div>
 
+    <div class="card border-blue-bottom">
+        <div class="content">
+            <h4>transactions</h4>
+            @include('admin.pireps.transactions')
+        </div>
+    </div>
+
 </div>
 @endsection
 
