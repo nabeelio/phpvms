@@ -22,13 +22,14 @@ class CreateJournalTransactionsTable extends Migration
             $table->char('currency', 5);
             $table->text('memo')->nullable();
             $table->char('ref_class', 32)->nullable();
-            $table->integer('ref_class_id')->nullable();
+            $table->text('ref_class_id')->nullable();
             $table->timestamps();
             $table->dateTime('post_date');
             $table->softDeletes();
 
-            $table->index('transaction_group');
             $table->index('journal_id');
+            $table->index('transaction_group');
+            $table->index(['ref_class', 'ref_class_id']);
         });
     }
 
