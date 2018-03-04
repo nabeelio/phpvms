@@ -105,16 +105,17 @@ class JournalRepository extends BaseRepository implements CacheableInterface
 
     /**
      * Get the credit only balance of the journal based on a given date.
-     * @param Journal $journal
      * @param Carbon $date
+     * @param Journal $journal
+     * @param Carbon|null $start_date
+     * @param null $transaction_group
      * @return Money
-     * @throws \UnexpectedValueException
-     * @throws \InvalidArgumentException
      */
     public function getCreditBalanceBetween(
         Carbon $date,
         Journal $journal=null,
-        Carbon $start_date=null
+        Carbon $start_date=null,
+        $transaction_group=null
     ): Money {
 
         $where = [
@@ -129,6 +130,10 @@ class JournalRepository extends BaseRepository implements CacheableInterface
             $where[] = ['post_date', '>=', $start_date];
         }
 
+        if ($transaction_group) {
+            $where['transaction_group'] = $transaction_group;
+        }
+
         $balance = $this
             ->findWhere($where, ['id', 'credit'])
             ->sum('credit') ?: 0;
@@ -140,14 +145,14 @@ class JournalRepository extends BaseRepository implements CacheableInterface
      * @param Carbon $date
      * @param Journal $journal
      * @param Carbon|null $start_date
+     * @param null $transaction_group
      * @return Money
-     * @throws \UnexpectedValueException
-     * @throws \InvalidArgumentException
      */
     public function getDebitBalanceBetween(
         Carbon $date,
         Journal $journal=null,
-        Carbon $start_date=null
+        Carbon $start_date=null,
+        $transaction_group=null
     ): Money {
 
         $where = [
@@ -160,6 +165,10 @@ class JournalRepository extends BaseRepository implements CacheableInterface
 
         if($start_date) {
             $where[] = ['post_date', '>=', $start_date];
+        }
+
+        if($transaction_group) {
+            $where['transaction_group'] = $transaction_group;
         }
 
         $balance = $this
