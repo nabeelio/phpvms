@@ -20,7 +20,11 @@ class CreateExpensesTable extends Migration
             $table->unsignedInteger('amount');
             $table->unsignedTinyInteger('type');
             $table->boolean('multiplier')->nullable()->default(0);
-            $table->boolean('active')->nullable()->default(1);
+            $table->boolean('active')->nullable()->default(true);
+
+            # Internal fields are expenses tied to some system object
+            # EG, the airports has an internal expense for gate costs
+            $table->nullableMorphs('expensable');
             $table->timestamps();
         });
     }

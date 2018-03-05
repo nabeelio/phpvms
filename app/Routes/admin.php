@@ -21,6 +21,9 @@ Route::group([
     # fares
     Route::resource('fares', 'FareController');
 
+    # finances
+    Route::resource('finances', 'FinanceController');
+
     # flights and aircraft associations
     Route::resource('flights', 'FlightController');
     Route::match(['get', 'post', 'put', 'delete'], 'flights/{id}/fares', 'FlightController@fares');
