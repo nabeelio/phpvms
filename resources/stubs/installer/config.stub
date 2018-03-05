@@ -61,7 +61,7 @@ return [
 
     # overrides mail.php
     'mail' => [
-        'driver' => 'smtp',
+        'driver' => 'mail',
         'host' => '',
         'port' => 587,
         'from' => [
