@@ -1,5 +1,5 @@
-@if(count($journal['transactions']) > 0)
 <div class="col-12">
+@if(count($journal['transactions']) > 0)
     <table class="table table-hover" id="users-table">
         <tbody>
         @foreach($journal['transactions'] as $entry)

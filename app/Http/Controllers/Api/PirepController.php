@@ -13,6 +13,7 @@ use App\Http\Requests\Acars\PrefileRequest;
 use App\Http\Requests\Acars\RouteRequest;
 use App\Http\Requests\Acars\UpdateRequest;
 use App\Http\Resources\AcarsRoute as AcarsRouteResource;
+use App\Http\Resources\JournalTransaction as JournalTransactionResource;
 use App\Http\Resources\Pirep as PirepResource;
 use App\Http\Resources\PirepComment as PirepCommentResource;
 use App\Models\Acars;
@@ -23,7 +24,9 @@ use App\Models\Enums\PirepStatus;
 use App\Models\Pirep;
 use App\Models\PirepComment;
 use App\Repositories\AcarsRepository;
+use App\Repositories\JournalRepository;
 use App\Repositories\PirepRepository;
+use App\Services\FinanceService;
 use App\Services\GeoService;
 use App\Services\PIREPService;
 use App\Services\UserService;
@@ -33,29 +36,37 @@ use Log;
 
 class PirepController extends RestController
 {
-    protected $acarsRepo,
-              $geoSvc,
-              $pirepRepo,
-              $pirepSvc,
-              $userSvc;
+    private $acarsRepo,
+            $financeSvc,
+            $geoSvc,
+            $journalRepo,
+            $pirepRepo,
+            $pirepSvc,
+            $userSvc;
 
     /**
      * PirepController constructor.
      * @param AcarsRepository $acarsRepo
+     * @param FinanceService $financeSvc
      * @param GeoService $geoSvc
+     * @param JournalRepository $journalRepo
      * @param PirepRepository $pirepRepo
      * @param PIREPService $pirepSvc
      * @param UserService $userSvc
      */
     public function __construct(
         AcarsRepository $acarsRepo,
+        FinanceService $financeSvc,
         GeoService $geoSvc,
+        JournalRepository $journalRepo,
         PirepRepository $pirepRepo,
         PIREPService $pirepSvc,
         UserService $userSvc
     ) {
         $this->acarsRepo = $acarsRepo;
+        $this->financeSvc = $financeSvc;
         $this->geoSvc = $geoSvc;
+        $this->journalRepo = $journalRepo;
         $this->pirepRepo = $pirepRepo;
         $this->pirepSvc = $pirepSvc;
         $this->userSvc = $userSvc;
@@ -434,6 +445,37 @@ class PirepController extends RestController
         $comment->save();
 
         return new PirepCommentResource($comment);
+    }
+
+    /**
+     * @param $id
+     * @param Request $request
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
+    public function finances_get($id, Request $request)
+    {
+        $pirep = $this->pirepRepo->find($id);
+        $transactions = $this->journalRepo->getAllForObject($pirep);
+        return JournalTransactionResource::collection($transactions);
+    }
+
+    /**
+     * @param $id
+     * @param Request $request
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @throws \UnexpectedValueException
+     * @throws \InvalidArgumentException
+     * @throws \Exception
+     * @throws \Prettus\Validator\Exceptions\ValidatorException
+     */
+    public function finances_recalculate($id, Request $request)
+    {
+        $pirep = $this->pirepRepo->find($id);
+        $this->financeSvc->processFinancesForPirep($pirep);
+
+        $pirep->refresh();
+        $transactions = $this->journalRepo->getAllForObject($pirep);
+        return JournalTransactionResource::collection($transactions['transactions']);
     }
 
     /**

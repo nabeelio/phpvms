@@ -15,7 +15,7 @@ const changeStatus = (values, fn) => {
     });
 };
 
-$(document).ready(function() {
+$(document).ready(() => {
 
     const select_id = "select#aircraft_select";
     const destContainer = $('#fares_container');
@@ -40,7 +40,7 @@ $(document).ready(function() {
         });
     });
 
-    $(document).on('submit', 'form.pjax_form', function (event) {
+    $(document).on('submit', 'form.pjax_form', (event) => {
         event.preventDefault();
         $.pjax.submit(event, '#pirep_comments_wrapper', {push: false});
     });
@@ -49,7 +49,28 @@ $(document).ready(function() {
         $(".select2").select2();
     });
 
-    $(document).on('submit', 'form.pirep_submit_status', function (event) {
+    /**
+     * Recalculate finances button is clicked
+     */
+    $('button#recalculate-finances').on('click', (event) => {
+        event.preventDefault();
+        console.log('Sending recalculate finances request');
+        const pirep_id = $(event.currentTarget).attr('data-pirep-id');
+
+        $.ajax({
+            url: BASE_URL + '/api/pireps/' + pirep_id + '/finances/recalculate',
+            type: 'POST',
+            headers: {
+                'x-api-key': PHPVMS_USER_API_KEY
+            },
+            success: (data) => {
+                console.log(data);
+                //location.reload();
+            }
+        });
+    });
+
+    $(document).on('submit', 'form.pirep_submit_status', (event) => {
         console.log(event);
 
         event.preventDefault();
@@ -64,7 +85,7 @@ $(document).ready(function() {
         });
     });
 
-    $(document).on('submit', 'form.pirep_change_status', function(event) {
+    $(document).on('submit', 'form.pirep_change_status', (event) => {
         event.preventDefault();
         changeStatus({
             pirep_id: $(this).attr('pirep_id'),

@@ -44,6 +44,11 @@
 
     <div class="card border-blue-bottom">
         <div class="content">
+            <div class="pull-right">
+                <button id="recalculate-finances"
+                        class="btn btn-success"
+                        data-pirep-id="{!! $pirep->id !!}">Recalcuate Finances</button>
+            </div>
             <h4>transactions</h4>
             @include('admin.pireps.transactions')
         </div>
