@@ -16,7 +16,6 @@ class FinanceController extends BaseController
             $journalRepo;
 
     /**
-     * AircraftController constructor.
      * @param FinanceService $financeSvc
      * @param JournalRepository $journalRepo
      */
