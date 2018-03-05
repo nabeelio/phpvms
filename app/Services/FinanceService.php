@@ -7,6 +7,7 @@ use App\Models\Enums\ExpenseType;
 use App\Models\Enums\PirepSource;
 use App\Models\Expense;
 use App\Models\Pirep;
+use App\Models\SubfleetExpense;
 use App\Repositories\ExpenseRepository;
 use App\Repositories\JournalRepository;
 use App\Support\Math;
@@ -85,8 +86,13 @@ class FinanceService extends BaseService
             $pirep->user->journal = $pirep->user->initJournal(config('phpvms.currency'));
         }
 
+        # Clean out the expenses first
+        $this->deleteFinancesForPirep($pirep);
+
+        # Now start and pay from scratch
         $this->payFaresForPirep($pirep);
         $this->payExpensesForPirep($pirep);
+        $this->paySubfleetExpenses($pirep);
         $this->payGroundHandlingForPirep($pirep);
         $this->payPilotForPirep($pirep);
 
@@ -118,7 +124,7 @@ class FinanceService extends BaseService
         /** @var \App\Models\Fare $fare */
         foreach ($fares as $fare) {
 
-            Log::info('Finance: PIREP: ' . $pirep->id . ', fare:', $fare->toArray());
+            Log::info('Finance: PIREP: '.$pirep->id.', fare:', $fare->toArray());
 
             $credit = Money::createFromAmount($fare->count * $fare->price);
             $debit = Money::createFromAmount($fare->count * $fare->cost);
@@ -129,7 +135,7 @@ class FinanceService extends BaseService
                 $debit,
                 $pirep,
                 'Fares ' . $fare->code . $fare->count
-                . '; price:' . $fare->price . ', cost: ' . $fare->cost,
+                    .'; price: '.$fare->price.', cost: '.$fare->cost,
                 null,
                 'fares'
             );
@@ -165,6 +171,38 @@ class FinanceService extends BaseService
     }
 
     /**
+     * Pay out the expenses for the subfleet
+     * @param Pirep $pirep
+     * @throws \Prettus\Validator\Exceptions\ValidatorException
+     */
+    public function paySubfleetExpenses(Pirep $pirep)
+    {
+        $subfleet_expenses = SubfleetExpense::where([
+            'subfleet_id' => $pirep->aircraft->subfleet_id,
+        ])->get();
+
+        if(!$subfleet_expenses) {
+            return;
+        }
+
+        foreach ($subfleet_expenses as $expense) {
+
+            Log::info('Finance: PIREP: '.$pirep->id
+                .'; subfleet expense: "'.$expense->name.'", cost: "'.$expense->amount);
+
+            $this->journalRepo->post(
+                $pirep->airline->journal,
+                null,
+                Money::createFromAmount($expense->amount),
+                $pirep,
+                'Subfleet Expense: '.$expense->name,
+                null,
+                'subfleet_expense'
+            );
+        }
+    }
+
+    /**
      * Collect and apply the ground handling cost
      * @param Pirep $pirep
      * @throws \UnexpectedValueException
@@ -174,12 +212,13 @@ class FinanceService extends BaseService
     public function payGroundHandlingForPirep(Pirep $pirep)
     {
         $ground_handling_cost = $this->getGroundHandlingCost($pirep);
+        Log::info('Finance: PIREP: '.$pirep->id.'; ground handling: '.$ground_handling_cost);
         $this->journalRepo->post(
             $pirep->airline->journal,
             null,
             Money::createFromAmount($ground_handling_cost),
             $pirep,
-            'Ground handling',
+            'Ground Handling',
             null,
             'ground_handling'
         );
@@ -198,6 +237,9 @@ class FinanceService extends BaseService
         $pilot_pay = $this->getPilotPay($pirep);
         $pilot_pay_rate = $this->getPilotPayRateForPirep($pirep);
         $memo = 'Pilot Payment @ ' . $pilot_pay_rate;
+
+        Log::info('Finance: PIREP: '.$pirep->id
+            .'; pilot pay: '.$pilot_pay_rate.', total: '.$pilot_pay);
 
         $this->journalRepo->post(
             $pirep->airline->journal,
@@ -239,13 +281,20 @@ class FinanceService extends BaseService
 
         # Collect all of the fares and prices
         $flight_fares = $this->fareSvc->getForPirep($pirep);
+        Log::info('Finance: PIREP: ' . $pirep->id . ', flight fares: ', $flight_fares->toArray());
+
         $all_fares = $this->fareSvc->getAllFares($flight, $pirep->aircraft->subfleet);
 
-        $fares = $all_fares->map(function($fare, $i) use ($flight_fares) {
+        $fares = $all_fares->map(function($fare, $i) use ($flight_fares, $pirep) {
 
-            $fare_count = $flight_fares->whereStrict('id', $fare->id)->first();
+            $fare_count = $flight_fares
+                ->where('fare_id', $fare->id)
+                ->first();
 
             if($fare_count) {
+
+                Log::info('Finance: PIREP: ' . $pirep->id . ', fare count: '. $fare_count);
+
                 # If the count is greater than capacity, then just set it
                 # to the maximum amount
                 if($fare_count->count > $fare->capacity) {
@@ -253,6 +302,8 @@ class FinanceService extends BaseService
                 } else {
                     $fare->count = $fare_count->count;
                 }
+            } else {
+                Log::info('Finance: PIREP: ' . $pirep->id . ', no fare count found', $fare->toArray());
             }
 
             return $fare;
@@ -307,6 +358,9 @@ class FinanceService extends BaseService
             return $expense;
         });
 
+        /**
+         * Throw an event and collect any expenses returned from it
+         */
         $gathered_expenses = event(new ExpensesEvent($pirep));
         if (!\is_array($gathered_expenses)) {
             return $expenses;

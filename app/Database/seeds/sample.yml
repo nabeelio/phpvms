@@ -238,6 +238,14 @@ subfleets:
     type: 772-36ER-GE90-115B
     ground_handling_multiplier: 150
 
+subfleet_expenses:
+  - id: 1
+    subfleet_id: 1
+    name: Catering
+    amount: 1000
+    created_at: now
+    updated_at: now
+
 # add a few mods to aircraft and fares
 subfleet_fare:
 
@@ -433,20 +441,20 @@ pirep_comments:
 journals:
   - id: '1'
     ledger_id: null
-    balance: '7970000'
+    balance: '15840000'
     currency: USD
     morphed_type: App\Models\Airline
     morphed_id: '1'
-    created_at: '2018-03-02 23:50:01'
-    updated_at: '2018-03-02 23:50:01'
+    created_at: now
+    updated_at: now
   - id: '2'
     ledger_id: null
-    balance: '15000'
+    balance: '30000'
     currency: USD
     morphed_type: App\Models\User
     morphed_id: '1'
-    created_at: '2018-03-02 23:50:01'
-    updated_at: '2018-03-02 23:50:01'
+    created_at: now
+    updated_at: now
 
 journal_transactions:
   - id: 81e9d86c-fede-467d-befd-887e046d9c48
@@ -458,9 +466,9 @@ journal_transactions:
     memo: 'Fares Y300; price:200, cost: 0'
     ref_class: App\Models\Pirep
     ref_class_id: pirepid_1
-    created_at: '2018-03-02 23:50:01'
-    updated_at: '2018-03-02 23:50:01'
-    post_date: '2018-03-02 23:50:01'
+    created_at: now
+    updated_at: now
+    post_date: now
     deleted_at: null
   - id: b12a81a9-1273-4413-a46a-96b2925cfefb
     transaction_group: fares
@@ -471,9 +479,9 @@ journal_transactions:
     memo: 'Fares B10; price:1100, cost: 0'
     ref_class: App\Models\Pirep
     ref_class_id: pirepid_1
-    created_at: '2018-03-02 23:50:01'
-    updated_at: '2018-03-02 23:50:01'
-    post_date: '2018-03-02 23:50:01'
+    created_at: now
+    updated_at: now
+    post_date: now
     deleted_at: null
   - id: 8688ff40-aed4-4d60-90b7-0c5a88c12fbc
     transaction_group: fares
@@ -484,9 +492,9 @@ journal_transactions:
     memo: 'Fares F10; price:1000, cost: 0'
     ref_class: App\Models\Pirep
     ref_class_id: pirepid_1
-    created_at: '2018-03-02 23:50:01'
-    updated_at: '2018-03-02 23:50:01'
-    post_date: '2018-03-02 23:50:01'
+    created_at: now
+    updated_at: now
+    post_date: now
     deleted_at: null
   - id: d34a9d1e-0d54-4191-bf9f-0043062c04c9
     transaction_group: expenses
@@ -497,9 +505,9 @@ journal_transactions:
     memo: 'Expense: Per-Flight (no muliplier)'
     ref_class: App\Models\Pirep
     ref_class_id: pirepid_1
-    created_at: '2018-03-02 23:50:01'
-    updated_at: '2018-03-02 23:50:01'
-    post_date: '2018-03-02 23:50:01'
+    created_at: now
+    updated_at: now
+    post_date: now
     deleted_at: null
   - id: bdc9d50d-ac3d-4334-997c-8f13b8328ab8
     transaction_group: expenses
@@ -510,9 +518,9 @@ journal_transactions:
     memo: 'Expense: Per-Flight (multiplier)'
     ref_class: App\Models\Pirep
     ref_class_id: pirepid_1
-    created_at: '2018-03-02 23:50:01'
-    updated_at: '2018-03-02 23:50:01'
-    post_date: '2018-03-02 23:50:01'
+    created_at: now
+    updated_at: now
+    post_date: now
     deleted_at: null
   - id: b5c45ad5-af73-4d7c-9352-3dfb8de292a0
     transaction_group: expenses
@@ -523,9 +531,9 @@ journal_transactions:
     memo: 'Expense: Per-Flight (multiplier, on airline)'
     ref_class: App\Models\Pirep
     ref_class_id: pirepid_1
-    created_at: '2018-03-02 23:50:01'
-    updated_at: '2018-03-02 23:50:01'
-    post_date: '2018-03-02 23:50:01'
+    created_at: now
+    updated_at: now
+    post_date: now
     deleted_at: null
   - id: e65083f9-23c3-4e98-8d63-cd7f35732f7b
     transaction_group: ground_handling
@@ -536,9 +544,9 @@ journal_transactions:
     memo: 'Ground handling'
     ref_class: App\Models\Pirep
     ref_class_id: pirepid_1
-    created_at: '2018-03-02 23:50:01'
-    updated_at: '2018-03-02 23:50:01'
-    post_date: '2018-03-02 23:50:01'
+    created_at: now
+    updated_at: now
+    post_date: now
     deleted_at: null
   - id: 9825a96e-58b5-465f-8fb8-4c8e1e5567eb
     transaction_group: pilot_pay
@@ -549,9 +557,9 @@ journal_transactions:
     memo: 'Pilot Payment @ 50'
     ref_class: App\Models\Pirep
     ref_class_id: pirepid_1
-    created_at: '2018-03-02 23:50:01'
-    updated_at: '2018-03-02 23:50:01'
-    post_date: '2018-03-02 23:50:01'
+    created_at: now
+    updated_at: now
+    post_date: now
     deleted_at: null
   - id: 2e3118b3-c98f-41d1-b2b6-ccb4f34e86b0
     transaction_group: pilot_pay
@@ -562,7 +570,20 @@ journal_transactions:
     memo: 'Pilot Payment @ 50'
     ref_class: App\Models\Pirep
     ref_class_id: pirepid_1
-    created_at: '2018-03-02 23:50:01'
-    updated_at: '2018-03-02 23:50:01'
-    post_date: '2018-03-02 23:50:01'
+    created_at: now
+    updated_at: now
+    post_date: now
+    deleted_at: null
+  - id: b98a837a-aa59-4630-a547-5a9d90b5b541
+    transaction_group: subfleet_expense
+    journal_id: 1
+    credit: null
+    debit: 100000
+    currency: USD
+    memo: 'Subfleet Expense: Catering'
+    ref_class: App\Models\Pirep
+    ref_class_id: pirepid_1
+    created_at: now
+    updated_at: now
+    post_date: now
     deleted_at: null

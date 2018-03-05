@@ -27,11 +27,13 @@ class CreateSubfleetTables extends Migration
         });
 
         Schema::create('subfleet_expenses', function(Blueprint $table) {
+            $table->increments('id');
             $table->unsignedBigInteger('subfleet_id');
             $table->string('name', 50);
-            $table->unsignedDecimal('cost');
+            $table->unsignedDecimal('amount');
+            $table->timestamps();
 
-            $table->primary(['subfleet_id', 'name']);
+            $table->index('subfleet_id');
         });
 
         Schema::create('subfleet_fare', function (Blueprint $table) {

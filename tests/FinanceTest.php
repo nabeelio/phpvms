@@ -91,6 +91,18 @@ class FinanceTest extends TestCase
             $this->fareSvc->setForSubfleet($subfleet['subfleet'], $fare);
         }
 
+        # Add an expense
+        factory(App\Models\Expense::class)->create([
+            'airline_id' => null,
+            'amount' => 100
+        ]);
+
+        # Add a subfleet expense
+        factory(App\Models\SubfleetExpense::class)->create([
+            'subfleet_id' => $subfleet['subfleet']->id,
+            'amount' => 200
+        ]);
+
         $pirep = $this->pirepSvc->create($pirep, []);
 
         return [$user, $pirep, $fares];
@@ -614,8 +626,24 @@ class FinanceTest extends TestCase
 
         $transactions = $journalRepo->getAllForObject($pirep);
 
-        $this->assertCount(6, $transactions['transactions']);
+        $this->assertCount(8, $transactions['transactions']);
         $this->assertEquals(3020, $transactions['credits']->getValue());
-        $this->assertEquals(1540, $transactions['debits']->getValue());
+        $this->assertEquals(1840, $transactions['debits']->getValue());
+
+        # Check that all the different transaction types are there
+        $transaction_types = [
+            'expenses'          => 1,
+            'fares'             => 3,
+            'ground_handling'   => 1,
+            'pilot_pay'         => 2, # debit on the airline, credit to the pilot
+            'subfleet_expense'  => 1,
+        ];
+
+        foreach($transaction_types as $type => $count) {
+            $find = $transactions['transactions']
+                ->where('transaction_group', $type);
+
+            $this->assertEquals($count, $find->count());
+        }
     }
 }

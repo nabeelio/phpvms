@@ -1,0 +1,60 @@
+<div id="subfleet-expenses-wrapper" class="col-12">
+    <div class="header">
+        <h3>expenses</h3>
+        @component('admin.components.info')
+            These expenses are only applied to this subfleet
+        @endcomponent
+    </div>
+    <br/>
+    <table class="table table-responsive" id="subfleet-expenses">
+        @if(count($subfleet->expenses))
+        <thead>
+        <th>Name</th>
+        <th>Cost&nbsp;<span class="small">{!! currency(config('phpvms.currency')) !!}</span></th>
+        <th></th>
+        </thead>
+        @endif
+        <tbody>
+        @foreach($subfleet->expenses as $expense)
+            <tr>
+                <td>
+                    <p>
+                        <a href="#" data-pk="{!! $expense->id !!}"
+                           data-name="name">{!! $expense->name !!}</a>
+                    </p>
+                </td>
+                <td>
+                    <p>
+                        <a href="#" data-pk="{!! $expense->id !!}"
+                           data-name="amount">{!! $expense->amount !!}</a>
+                    </p>
+                </td>
+                <td align="right">
+                    {!! Form::open(['url' => url('/admin/subfleets/'.$subfleet->id.'/expenses'),
+                                'method' => 'delete', 'class' => 'modify_expense form-inline']) !!}
+                    {!! Form::hidden('expense_id', $expense->id) !!}
+                    {!! Form::button('<i class="fa fa-times"></i>', ['type' => 'submit',
+                                     'class' => 'btn btn-sm btn-danger btn-icon',
+                                     'onclick' => "return confirm('Are you sure?')",
+                                     ]) !!}
+                    {!! Form::close() !!}
+                </td>
+            </tr>
+        @endforeach
+        </tbody>
+    </table>
+    <hr/>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="text-right">
+                {!! Form::open(['url' => url('/admin/subfleets/'.$subfleet->id.'/expenses'),
+                                'method' => 'post', 'class' => 'modify_expense form-inline']) !!}
+                {!! Form::input('text', 'name', null, ['class' => 'form-control input-sm']) !!}
+                {!! Form::number('cost', null, ['class' => 'form-control input-sm']) !!}
+                {!! Form::button('<i class="fa fa-plus"></i> Add', ['type' => 'submit',
+                                 'class' => 'btn btn-success btn-small']) !!}
+                {!! Form::close() !!}
+            </div>
+        </div>
+    </div>
+</div>

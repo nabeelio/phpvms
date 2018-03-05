@@ -74,6 +74,9 @@ class Subfleet extends BaseModel
      * Relationships
      */
 
+    /**
+     * @return $this
+     */
     public function aircraft()
     {
         return $this->hasMany(Aircraft::class, 'subfleet_id')
@@ -83,6 +86,14 @@ class Subfleet extends BaseModel
     public function airline()
     {
         return $this->belongsTo(Airline::class, 'airline_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function expenses()
+    {
+        return $this->hasMany(SubfleetExpense::class, 'subfleet_id');
     }
 
     public function fares()

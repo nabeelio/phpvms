@@ -46,6 +46,7 @@ Route::group([
 
     # subfleet
     Route::resource('subfleets', 'SubfleetController');
+    Route::match(['get', 'post', 'put', 'delete'], 'subfleets/{id}/expenses', 'SubfleetController@expenses');
     Route::match(['get', 'post', 'put', 'delete'], 'subfleets/{id}/fares', 'SubfleetController@fares');
     Route::match(['get', 'post', 'put', 'delete'], 'subfleets/{id}/ranks', 'SubfleetController@ranks');
 

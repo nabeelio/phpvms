@@ -32,6 +32,22 @@ function setEditable() {
             }
         }
     });
+
+    $('#subfleet-expenses a').editable({
+        type: 'text',
+        mode: 'inline',
+        emptytext: '0',
+        url: '{!! url('/admin/subfleets/'.$subfleet->id.'/expenses') !!}',
+        title: 'Enter override value',
+        ajaxOptions: {'type': 'put'},
+        params: function (params) {
+            return {
+                expense_id: params.pk,
+                name: params.name,
+                value: params.value
+            }
+        }
+    });
 }
 
 $(document).ready(function() {
@@ -49,6 +65,12 @@ $(document).ready(function() {
         event.preventDefault();
         console.log(event);
         $.pjax.submit(event, '#subfleet_ranks_wrapper', {push: false});
+    });
+
+    $(document).on('submit', 'form.modify_expense', function (event) {
+        event.preventDefault();
+        console.log(event);
+        $.pjax.submit(event, '#subfleet-expenses-wrapper', {push: false});
     });
 
     $(document).on('pjax:complete', function() {

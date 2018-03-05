@@ -21,5 +21,11 @@
            @include('admin.subfleets.fares')
        </div>
    </div>
+
+   <div class="card border-blue-bottom">
+       <div class="content">
+           @include('admin.subfleets.expenses')
+       </div>
+   </div>
 @endsection
 @include('admin.subfleets.script')

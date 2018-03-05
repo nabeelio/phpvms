@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateSubfleetRequest;
 use App\Models\Airline;
 use App\Models\Enums\FuelType;
 use App\Models\Subfleet;
+use App\Models\SubfleetExpense;
 use App\Repositories\AircraftRepository;
 use App\Repositories\FareRepository;
 use App\Repositories\RankRepository;
@@ -232,7 +233,7 @@ class SubfleetController extends BaseController
      * @param Subfleet $subfleet
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    protected function return_ranks_view(Subfleet $subfleet)
+    protected function return_ranks_view(?Subfleet $subfleet)
     {
         $subfleet->refresh();
 
@@ -248,7 +249,7 @@ class SubfleetController extends BaseController
      * @param Subfleet $subfleet
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    protected function return_fares_view(Subfleet $subfleet)
+    protected function return_fares_view(?Subfleet $subfleet)
     {
         $subfleet->refresh();
 
@@ -301,6 +302,57 @@ class SubfleetController extends BaseController
 
         $subfleet->save();
         return $this->return_ranks_view($subfleet);
+    }
+
+    /**
+     * @param Subfleet $subfleet
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    protected function return_expenses_view(?Subfleet $subfleet)
+    {
+        $subfleet->refresh();
+        return view('admin.subfleets.expenses', [
+            'subfleet' => $subfleet,
+        ]);
+    }
+
+    /**
+     * Operations for associating ranks to the subfleet
+     * @param $id
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Exception
+     */
+    public function expenses($id, Request $request)
+    {
+        $subfleet = $this->subfleetRepo->findWithoutFail($id);
+        if (empty($subfleet)) {
+            return $this->return_expenses_view($subfleet);
+        }
+
+        if ($request->isMethod('get')) {
+            return $this->return_expenses_view($subfleet);
+        }
+
+        /**
+         * update specific rank data
+         */
+        if ($request->isMethod('post')) {
+            $expense = new SubfleetExpense($request->post());
+            $expense->subfleet_id = $subfleet->id;
+            $expense->save();
+            $subfleet->refresh();
+        } elseif ($request->isMethod('put')) {
+            $expense = SubfleetExpense::findOrFail($request->input('expense_id'));
+            $expense->{$request->name} = $request->value;
+            $expense->save();
+        } // dissassociate fare from teh aircraft
+        elseif ($request->isMethod('delete')) {
+            $expense = SubfleetExpense::findOrFail($request->input('expense_id'));
+            $expense->delete();
+        }
+
+        return $this->return_expenses_view($subfleet);
     }
 
     /**
