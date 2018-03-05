@@ -177,8 +177,9 @@ class FinanceService extends BaseService
      */
     public function paySubfleetExpenses(Pirep $pirep)
     {
+        $subfleet = $pirep->aircraft->subfleet;
         $subfleet_expenses = SubfleetExpense::where([
-            'subfleet_id' => $pirep->aircraft->subfleet_id,
+            'subfleet_id' => $subfleet->id,
         ])->get();
 
         if(!$subfleet_expenses) {
@@ -195,7 +196,7 @@ class FinanceService extends BaseService
                 null,
                 Money::createFromAmount($expense->amount),
                 $pirep,
-                'Subfleet Expense: '.$expense->name,
+                'Subfleet ('.$subfleet->type.'): '.$expense->name,
                 null,
                 'subfleet_expense'
             );
