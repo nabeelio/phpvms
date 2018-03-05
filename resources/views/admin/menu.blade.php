@@ -18,7 +18,7 @@
             <li><a href="{!! url('/admin/flights') !!}"><i class="pe-7s-vector"></i>flights</a></li>
             <li><a href="{!! url('/admin/aircraft') !!}"><i class="pe-7s-plane"></i>fleet</a></li>
             <li><a href="{!! url('/admin/fares') !!}"><i class="pe-7s-graph2"></i>fares</a></li>
-            <li><a href="{!! url('/admin/fares') !!}"><i class="pe-7s-display1"></i>finances</a></li>
+            <li><a href="{!! url('/admin/finances') !!}"><i class="pe-7s-display1"></i>finances</a></li>
         </ul>
     </div>
 </li>
