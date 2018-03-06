@@ -184,25 +184,38 @@ expenses:
     amount: 100
     type: 0
     active: 1
+    ref_class: App\Models\Expense
   - name: Per-Flight (multiplier)
     amount: 100
     type: 0
     multiplier: 1
     active: 1
+    ref_class: App\Models\Expense
   - name: Per-Flight (multiplier, on airline)
     airline_id: 1
     amount: 200
     type: 0
     multiplier: 1
     active: 1
+    ref_class: App\Models\Expense
   - name: A daily fee
     amount: 800
     type: 1
     active: 1
+    ref_class: App\Models\Expense
   - name: A monthly fee
     amount: 5000
     type: 2
     active: 1
+    ref_class: App\Models\Expense
+  - name: Catering
+    amount: 1000
+    type: 0
+    active: 1
+    ref_class: App\Models\Subfleet
+    ref_class_id: 1
+    created_at: now
+    updated_at: now
 
 fares:
   - id: 1
@@ -238,13 +251,14 @@ subfleets:
     type: 772-36ER-GE90-115B
     ground_handling_multiplier: 150
 
-subfleet_expenses:
-  - id: 1
-    subfleet_id: 1
-    name: Catering
-    amount: 1000
-    created_at: now
-    updated_at: now
+#subfleet_expenses:
+#  - id: 1
+#    subfleet_id: 1
+#    name: Catering
+#    amount: 1000
+#    type: 0
+#    created_at: now
+#    updated_at: now
 
 # add a few mods to aircraft and fares
 subfleet_fare:

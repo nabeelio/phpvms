@@ -11,6 +11,7 @@
         <thead>
         <th>Name</th>
         <th>Cost&nbsp;<span class="small">{!! currency(config('phpvms.currency')) !!}</span></th>
+        <th>Type</th>
         <th></th>
         </thead>
         @endif
@@ -19,14 +20,22 @@
             <tr>
                 <td>
                     <p>
-                        <a href="#" data-pk="{!! $expense->id !!}"
+                        <a class="text" href="#" data-pk="{!! $expense->id !!}"
                            data-name="name">{!! $expense->name !!}</a>
                     </p>
                 </td>
                 <td>
                     <p>
-                        <a href="#" data-pk="{!! $expense->id !!}"
+                        <a class="text" href="#" data-pk="{!! $expense->id !!}"
                            data-name="amount">{!! $expense->amount !!}</a>
+                    </p>
+                </td>
+                <td>
+                    <p>
+                        <a href="#"
+                           class="dropdown"
+                           data-pk="{!! $expense->id !!}"
+                           data-name="type">{!! \App\Models\Enums\ExpenseType::label($expense->type) !!}</a>
                     </p>
                 </td>
                 <td align="right">
@@ -49,8 +58,9 @@
             <div class="text-right">
                 {!! Form::open(['url' => url('/admin/subfleets/'.$subfleet->id.'/expenses'),
                                 'method' => 'post', 'class' => 'modify_expense form-inline']) !!}
-                {!! Form::input('text', 'name', null, ['class' => 'form-control input-sm']) !!}
-                {!! Form::number('cost', null, ['class' => 'form-control input-sm']) !!}
+                {!! Form::input('text', 'name', null, ['class' => 'form-control input-sm', 'placeholder' => 'Name']) !!}
+                {!! Form::number('cost', null, ['class' => 'form-control input-sm', 'placeholder' => 'Amount']) !!}
+                {!! Form::select('type', \App\Models\Enums\ExpenseType::select(), null, ['class' => 'select2']) !!}
                 {!! Form::button('<i class="fa fa-plus"></i> Add', ['type' => 'submit',
                                  'class' => 'btn btn-success btn-small']) !!}
                 {!! Form::close() !!}

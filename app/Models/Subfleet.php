@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Enums\AircraftStatus;
+use App\Models\Traits\Expensable;
 
 /**
  * Class Subfleet
@@ -10,6 +11,8 @@ use App\Models\Enums\AircraftStatus;
  */
 class Subfleet extends BaseModel
 {
+    use Expensable;
+
     public $table = 'subfleets';
 
     public $fillable = [
@@ -86,14 +89,6 @@ class Subfleet extends BaseModel
     public function airline()
     {
         return $this->belongsTo(Airline::class, 'airline_id');
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function expenses()
-    {
-        return $this->hasMany(SubfleetExpense::class, 'subfleet_id');
     }
 
     public function fares()

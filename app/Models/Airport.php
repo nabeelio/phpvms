@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Traits\ExpensableTrait;
+use App\Models\Traits\Expensable;
 use Illuminate\Notifications\Notifiable;
 
 /**
@@ -12,7 +12,7 @@ use Illuminate\Notifications\Notifiable;
  */
 class Airport extends BaseModel
 {
-    use ExpensableTrait;
+    use Expensable;
     use Notifiable;
 
     public $table = 'airports';

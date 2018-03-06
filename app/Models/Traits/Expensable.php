@@ -4,13 +4,12 @@ namespace App\Models\Traits;
 
 use App\Models\Expense;
 
-trait ExpensableTrait
+trait Expensable
 {
-
     /**
      * Initialize a new journal when a new record is created
      */
-    public static function bootExpensableTrait()
+    public static function bootExpensable()
     {
         /*static::created(function ($model) {
             $model->initJournal(config('phpvms.currency'));
@@ -23,6 +22,7 @@ trait ExpensableTrait
      */
     public function expenses()
     {
-        return $this->morphToMany(Expense::class, 'expensable');
+        return $this->hasMany(Expense::class, 'ref_class_id')
+                    ->where('ref_class', __CLASS__);
     }
 }

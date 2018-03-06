@@ -3,14 +3,11 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
+/**
+ * Class CreateSubfleetTables
+ */
 class CreateSubfleetTables extends Migration
 {
-
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::create('subfleets', function (Blueprint $table) {
@@ -24,17 +21,6 @@ class CreateSubfleetTables extends Migration
             $table->unsignedDecimal('fuel_capacity')->nullable();
             $table->unsignedDecimal('gross_weight')->nullable();
             $table->timestamps();
-        });
-
-        Schema::create('subfleet_expenses', function(Blueprint $table) {
-            $table->increments('id');
-            $table->unsignedBigInteger('subfleet_id');
-            $table->string('name', 50);
-            $table->unsignedTinyInteger('type');  # ExpenseType
-            $table->unsignedDecimal('amount');
-            $table->timestamps();
-
-            $table->index('subfleet_id');
         });
 
         Schema::create('subfleet_fare', function (Blueprint $table) {
@@ -76,7 +62,6 @@ class CreateSubfleetTables extends Migration
     public function down()
     {
         Schema::dropIfExists('subfleets');
-        Schema::dropIfExists('subfleet_expenses');
         Schema::dropIfExists('subfleet_fare');
         Schema::dropIfExists('subfleet_flight');
         Schema::dropIfExists('subfleet_rank');

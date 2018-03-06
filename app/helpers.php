@@ -56,6 +56,31 @@ if(!function_exists('list_to_assoc')) {
     }
 }
 
+if(!function_exists('list_to_editable')) {
+    /**
+     * Convert a list (select box) into an editable list
+     * https://vitalets.github.io/x-editable/docs.html#select
+     * Takes a list of:
+     *    [value => text, valueN => textN, ...]
+     * Return:
+     *    [{value: 1, text: "text1"}, {value: 2, text: "text2"}, ...]
+     * @param array $list
+     * @return array
+     */
+    function list_to_editable(array $list)
+    {
+        $editable = [];
+        foreach($list as $value => $key) {
+            $editable[] = [
+                'text'  => $key,
+                'value' => $value,
+            ];
+        }
+
+        return $editable;
+    }
+}
+
 if (!function_exists('skin_view')) {
     /**
      * Render a skin

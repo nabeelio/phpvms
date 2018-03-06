@@ -14,7 +14,7 @@
     <div class="content">
         @if(!filled($expenses))
             <p class="text-center">
-                You must add a subfleet before you can add an aircraft!
+                There are no expenses
             </p>
         @else
             @include('admin.expenses.table')

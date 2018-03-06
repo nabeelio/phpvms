@@ -13,6 +13,8 @@ $factory->define(App\Models\Expense::class, function (Faker $faker) {
         'amount' => $faker->randomFloat(2, 100, 1000),
         'type' => ExpenseType::FLIGHT,
         'multiplier' => false,
+        'ref_class' => \App\Models\Expense::class,
+        'ref_class_id' => null,
         'active' => true,
     ];
 });

@@ -98,8 +98,9 @@ class FinanceTest extends TestCase
         ]);
 
         # Add a subfleet expense
-        factory(App\Models\SubfleetExpense::class)->create([
-            'subfleet_id' => $subfleet['subfleet']->id,
+        factory(App\Models\Expense::class)->create([
+            'ref_class' => \App\Models\Subfleet::class,
+            'ref_class_id' => $subfleet['subfleet']->id,
             'amount' => 200
         ]);
 
@@ -570,7 +571,7 @@ class FinanceTest extends TestCase
         $airline = factory(App\Models\Airline::class)->create();
         $airline2 = factory(App\Models\Airline::class)->create();
 
-        factory(App\Models\Expense::class)->create([
+        $expense = factory(App\Models\Expense::class)->create([
             'airline_id' => $airline->id
         ]);
 
@@ -582,8 +583,11 @@ class FinanceTest extends TestCase
             'airline_id' => null
         ]);
 
-        $expenses = $this->expenseRepo
-            ->getAllForType(ExpenseType::FLIGHT, $airline->id);
+        $expenses = $this->expenseRepo->getAllForType(
+            ExpenseType::FLIGHT,
+            $airline->id,
+            \App\Models\Expense::class
+        );
 
         $this->assertCount(2, $expenses);
 
@@ -632,11 +636,11 @@ class FinanceTest extends TestCase
 
         # Check that all the different transaction types are there
         $transaction_types = [
-            'expenses'          => 1,
-            'fares'             => 3,
-            'ground_handling'   => 1,
-            'pilot_pay'         => 2, # debit on the airline, credit to the pilot
-            'subfleet_expense'  => 1,
+            'Expenses'          => 1,
+            'Fares'             => 3,
+            'Ground Handling'   => 1,
+            'Pilot Pay'         => 2, # debit on the airline, credit to the pilot
+            'Subfleet Expense'  => 1,
         ];
 
         foreach($transaction_types as $type => $count) {

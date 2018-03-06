@@ -6,8 +6,8 @@ use App\Http\Requests\CreateSubfleetRequest;
 use App\Http\Requests\UpdateSubfleetRequest;
 use App\Models\Airline;
 use App\Models\Enums\FuelType;
+use App\Models\Expense;
 use App\Models\Subfleet;
-use App\Models\SubfleetExpense;
 use App\Repositories\AircraftRepository;
 use App\Repositories\FareRepository;
 use App\Repositories\RankRepository;
@@ -338,17 +338,18 @@ class SubfleetController extends BaseController
          * update specific rank data
          */
         if ($request->isMethod('post')) {
-            $expense = new SubfleetExpense($request->post());
-            $expense->subfleet_id = $subfleet->id;
+            $expense = new Expense($request->post());
+            $expense->ref_class = Subfleet::class;
+            $expense->ref_class_id = $subfleet->id;
             $expense->save();
             $subfleet->refresh();
         } elseif ($request->isMethod('put')) {
-            $expense = SubfleetExpense::findOrFail($request->input('expense_id'));
+            $expense = Expense::findOrFail($request->input('expense_id'));
             $expense->{$request->name} = $request->value;
             $expense->save();
         } // dissassociate fare from teh aircraft
         elseif ($request->isMethod('delete')) {
-            $expense = SubfleetExpense::findOrFail($request->input('expense_id'));
+            $expense = Expense::findOrFail($request->input('expense_id'));
             $expense->delete();
         }
 

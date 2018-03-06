@@ -7,7 +7,7 @@ use App\Models\Enums\ExpenseType;
 use App\Models\Enums\PirepSource;
 use App\Models\Expense;
 use App\Models\Pirep;
-use App\Models\SubfleetExpense;
+use App\Models\Subfleet;
 use App\Repositories\ExpenseRepository;
 use App\Repositories\JournalRepository;
 use App\Support\Math;
@@ -178,8 +178,9 @@ class FinanceService extends BaseService
     public function paySubfleetExpenses(Pirep $pirep)
     {
         $subfleet = $pirep->aircraft->subfleet;
-        $subfleet_expenses = SubfleetExpense::where([
-            'subfleet_id' => $subfleet->id,
+        $subfleet_expenses = Expense::where([
+            'ref_class' => Subfleet::class,
+            'ref_class_id' => $subfleet->id,
         ])->get();
 
         if(!$subfleet_expenses) {
@@ -344,8 +345,11 @@ class FinanceService extends BaseService
     {
         $event_expenses = [];
 
-        $expenses = $this->expenseRepo
-            ->getAllForType(ExpenseType::FLIGHT, $pirep->airline_id);
+        $expenses = $this->expenseRepo->getAllForType(
+            ExpenseType::FLIGHT,
+            $pirep->airline_id,
+            Expense::class
+        );
 
         /**
          * Go through the expenses and apply a mulitplier if present

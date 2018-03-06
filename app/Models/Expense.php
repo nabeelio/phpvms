@@ -18,6 +18,8 @@ class Expense extends BaseModel
         'amount',
         'type',
         'multiplier',
+        'ref_class',
+        'ref_class_id',
         'active',
     ];
 

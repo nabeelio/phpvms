@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\CreateAirlineRequest;
 use App\Http\Requests\UpdateAirlineRequest;
 use App\Models\Enums\ExpenseType;
+use App\Models\Expense;
 use App\Repositories\AirlineRepository;
 use App\Repositories\ExpenseRepository;
 use Flash;
@@ -39,7 +40,9 @@ class ExpenseController extends BaseController
     public function index(Request $request)
     {
         $this->expenseRepo->pushCriteria(new RequestCriteria($request));
-        $expenses = $this->expenseRepo->all();
+        $expenses = $this->expenseRepo->findWhere([
+            'ref_class' => Expense::class
+        ]);
 
         return view('admin.expenses.index', [
             'expenses' => $expenses
@@ -66,6 +69,7 @@ class ExpenseController extends BaseController
     public function store(Request $request)
     {
         $input = $request->all();
+        $input['ref_class'] = Expense::class;
         $this->expenseRepo->create($input);
 
         Flash::success('Expense saved successfully.');

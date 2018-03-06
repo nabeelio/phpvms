@@ -33,14 +33,29 @@ function setEditable() {
         }
     });
 
-    $('#subfleet-expenses a').editable({
-        type: 'text',
-        mode: 'inline',
+    $('#subfleet-expenses a.text').editable({
         emptytext: '0',
         url: '{!! url('/admin/subfleets/'.$subfleet->id.'/expenses') !!}',
         title: 'Enter override value',
         ajaxOptions: {'type': 'put'},
         params: function (params) {
+            return {
+                expense_id: params.pk,
+                name: params.name,
+                value: params.value
+            }
+        }
+    });
+
+    $('#subfleet-expenses a.dropdown').editable({
+        type: 'select',
+        emptytext: '0',
+        source: {!! json_encode(list_to_editable(\App\Models\Enums\ExpenseType::select())) !!},
+        url: '{!! url('/admin/subfleets/'.$subfleet->id.'/expenses') !!}',
+        title: 'Enter override value',
+        ajaxOptions: {'type': 'put'},
+        params: function (params) {
+            console.log(params);
             return {
                 expense_id: params.pk,
                 name: params.name,
