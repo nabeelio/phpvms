@@ -27,6 +27,7 @@ class CreateJournalTransactionsTable extends Migration
             $table->dateTime('post_date');
             $table->softDeletes();
 
+            $table->primary('id');
             $table->index('journal_id');
             $table->index('transaction_group');
             $table->index(['ref_class', 'ref_class_id']);

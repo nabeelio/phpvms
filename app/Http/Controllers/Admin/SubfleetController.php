@@ -342,7 +342,6 @@ class SubfleetController extends BaseController
             $expense->ref_class = Subfleet::class;
             $expense->ref_class_id = $subfleet->id;
             $expense->save();
-            $subfleet->refresh();
         } elseif ($request->isMethod('put')) {
             $expense = Expense::findOrFail($request->input('expense_id'));
             $expense->{$request->name} = $request->value;

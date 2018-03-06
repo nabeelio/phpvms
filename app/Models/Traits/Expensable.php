@@ -6,14 +6,9 @@ use App\Models\Expense;
 
 trait Expensable
 {
-    /**
-     * Initialize a new journal when a new record is created
-     */
     public static function bootExpensable()
     {
-        /*static::created(function ($model) {
-            $model->initJournal(config('phpvms.currency'));
-        });*/
+
     }
 
     /**
@@ -22,7 +17,11 @@ trait Expensable
      */
     public function expenses()
     {
-        return $this->hasMany(Expense::class, 'ref_class_id')
-                    ->where('ref_class', __CLASS__);
+        return $this->morphMany(
+            Expense::class,
+            'expenses',  # overridden by the next two anyway
+            'ref_class',
+            'ref_class_id'
+        );
     }
 }

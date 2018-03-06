@@ -1,13 +1,14 @@
-<div id="subfleet-expenses-wrapper" class="col-12">
+<div id="airport-expenses-wrapper" class="col-12">
     <div class="header">
         <h3>expenses</h3>
         @component('admin.components.info')
-            These expenses are only applied to this subfleet
+        These expenses are only applied to this airport.
         @endcomponent
     </div>
     <br/>
-    <table class="table table-responsive" id="subfleet-expenses">
-        @if(count($subfleet->expenses))
+    <table class="table table-responsive" id="airport-expenses">
+
+        @if(count($airport->expenses))
         <thead>
         <th>Name</th>
         <th>Cost&nbsp;<span class="small">{!! currency(config('phpvms.currency')) !!}</span></th>
@@ -15,8 +16,9 @@
         <th></th>
         </thead>
         @endif
+
         <tbody>
-        @foreach($subfleet->expenses as $expense)
+        @foreach($airport->expenses as $expense)
             <tr>
                 <td>
                     <p>
@@ -39,7 +41,7 @@
                     </p>
                 </td>
                 <td align="right">
-                    {!! Form::open(['url' => url('/admin/subfleets/'.$subfleet->id.'/expenses'),
+                    {!! Form::open(['url' => url('/admin/airports/'.$airport->id.'/expenses'),
                                 'method' => 'delete', 'class' => 'modify_expense form-inline']) !!}
                     {!! Form::hidden('expense_id', $expense->id) !!}
                     {!! Form::button('<i class="fa fa-times"></i>', ['type' => 'submit',
@@ -56,9 +58,9 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="text-right">
-                {!! Form::open(['url' => url('/admin/subfleets/'.$subfleet->id.'/expenses'),
+                {!! Form::open(['url' => url('/admin/airports/'.$airport->id.'/expenses'),
                                 'method' => 'post', 'class' => 'modify_expense form-inline']) !!}
-                {!! Form::text('name', null, ['class' => 'form-control input-sm', 'placeholder' => 'Name']) !!}
+                {!! Form::input('text', 'name', null, ['class' => 'form-control input-sm', 'placeholder' => 'Name']) !!}
                 {!! Form::number('amount', null, ['class' => 'form-control input-sm', 'placeholder' => 'Amount']) !!}
                 {!! Form::select('type', \App\Models\Enums\ExpenseType::select(), null, ['class' => 'select2']) !!}
                 {!! Form::button('<i class="fa fa-plus"></i> Add', ['type' => 'submit',
