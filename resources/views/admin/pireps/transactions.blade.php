@@ -25,14 +25,16 @@
                 {!! $journal['credits'] !!}
             </td>
             <td>
-                ({!! $journal['debits'] !!})
+                <i>{!! $journal['debits'] !!}</i>
             </td>
         </tr>
 
         {{-- final total --}}
         <tr style="border-top: 3px; border-top-style: double;">
             <td></td>
-            <td><b>Total</b></td>
+            <td align="right">
+                <b>Total</b>
+            </td>
             <td>
                 {!! $journal['credits']->subtract($journal['debits']) !!}
             </td>

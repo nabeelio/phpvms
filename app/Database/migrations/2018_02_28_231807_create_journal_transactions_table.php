@@ -15,17 +15,17 @@ class CreateJournalTransactionsTable extends Migration
     {
         Schema::create('journal_transactions', function (Blueprint $table) {
             $table->char('id', 36)->unique();
-            $table->char('transaction_group', 36)->nullable();
+            $table->string('transaction_group')->nullable();
             $table->integer('journal_id');
             $table->unsignedBigInteger('credit')->nullable();
             $table->unsignedBigInteger('debit')->nullable();
             $table->char('currency', 5);
             $table->text('memo')->nullable();
-            $table->char('ref_class', 32)->nullable();
+            $table->string('tags')->nullable();
+            $table->string('ref_class', 50)->nullable();
             $table->string('ref_class_id', 36)->nullable();
             $table->timestamps();
             $table->dateTime('post_date');
-            $table->softDeletes();
 
             $table->primary('id');
             $table->index('journal_id');

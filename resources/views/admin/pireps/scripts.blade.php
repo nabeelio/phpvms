@@ -71,13 +71,13 @@ $(document).ready(() => {
     });
 
     $(document).on('submit', 'form.pirep_submit_status', (event) => {
-        console.log(event);
-
         event.preventDefault();
         const values = {
-            pirep_id: $(this).attr('pirep_id'),
-            new_status: $(this).attr('new_status')
+            pirep_id: $(event.currentTarget).attr('pirep_id'),
+            new_status: $(event.currentTarget).attr('new_status')
         };
+
+        console.log('change status', values);
 
         changeStatus(values, (data) => {
             const destContainer = '#pirep_' + values.pirep_id + '_actionbar';
@@ -87,10 +87,15 @@ $(document).ready(() => {
 
     $(document).on('submit', 'form.pirep_change_status', (event) => {
         event.preventDefault();
-        changeStatus({
-            pirep_id: $(this).attr('pirep_id'),
-            new_status: $(this).attr('new_status')
-        }, (data) => {
+
+        const values = {
+            pirep_id: $(event.currentTarget).attr('pirep_id'),
+            new_status: $(event.currentTarget).attr('new_status')
+        };
+
+        console.log('change status', values);
+
+        changeStatus(values, (data) => {
             location.reload();
         });
     });

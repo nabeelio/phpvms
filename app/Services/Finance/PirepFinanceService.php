@@ -145,7 +145,7 @@ class PirepFinanceService extends BaseService
                 # TODO: Modify the amount
             }
 
-            Log::info('Finance: PIREP: ' . $pirep->id . ', expense:', $expense->toArray());
+            Log::info('Finance: PIREP: '.$pirep->id.', expense:', $expense->toArray());
 
             # Get the transaction group name from the ref_class name
             # This way it can be more dynamic and don't have to add special
@@ -156,13 +156,22 @@ class PirepFinanceService extends BaseService
                 $transaction_group = end($ref);
             }
 
+            # Form the memo, with some specific ones depending on the group
+            if($transaction_group === 'Airport') {
+                $memo = "Airport Expense: {$expense->name} ({$expense->ref_class_id})";
+                $transaction_group = "Airport: {$expense->ref_class_id}";
+            } else {
+                $memo = 'Expense: ' . $expense->name;
+                $transaction_group = "Expense: {$expense->name}";
+            }
+
             $debit = Money::createFromAmount($expense->amount);
             $this->journalRepo->post(
                 $pirep->airline->journal,
                 null,
                 $debit,
                 $pirep,
-                'Expense: ' . $expense->name,
+                $memo,
                 null,
                 $transaction_group
             );

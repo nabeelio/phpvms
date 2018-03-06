@@ -23,6 +23,7 @@ class FinanceController extends BaseController
             $journalRepo;
 
     /**
+     * @param AirlineRepository $airlineRepo
      * @param PirepFinanceService $financeSvc
      * @param JournalRepository $journalRepo
      */

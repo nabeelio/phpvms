@@ -6,14 +6,10 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateExpensesTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::create('expenses', function (Blueprint $table) {
+
             $table->increments('id');
             $table->unsignedInteger('airline_id')->nullable();
 
@@ -27,17 +23,13 @@ class CreateExpensesTable extends Migration
             # EG, the airports has an internal expense for gate costs
             $table->string('ref_class')->nullable();
             $table->string('ref_class_id', 36)->nullable();
-            $table->index(['ref_class', 'ref_class_id']);
 
             $table->timestamps();
+
+            $table->index(['ref_class', 'ref_class_id']);
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('expenses');

@@ -1,9 +1,13 @@
 
 @foreach($transaction_groups as $group)
 
-    <h4>{!! $group['airline']->icao !!} - {!! $group['airline']->name !!}</h4>
+    <h3>{!! $group['airline']->icao !!} - {!! $group['airline']->name !!}</h3>
 
-    <table class="table table-hover table-responsive" id="finances-table">
+    <table
+        id="finances-table"
+        style="width: 95%; margin: 0px auto;"
+        class="table table-hover table-responsive">
+
         <thead>
         <th>Expenses</th>
         <th>Credit</th>
@@ -18,15 +22,11 @@
                 <td>
                     @if($ta->sum_credits)
                         {!! money($ta->sum_credits, $ta->currency) !!}
-                    @else
-                        -
                     @endif
                 </td>
                 <td>
                     @if($ta->sum_debits)
                         <i>{!! money($ta->sum_debits, $ta->currency) !!}</i>
-                    @else
-                        -
                     @endif
                 </td>
             </tr>
@@ -39,14 +39,16 @@
                 {!! $group['credits'] !!}
             </td>
             <td>
-                ({!! $group['debits'] !!})
+                <i>{!! $group['debits'] !!}</i>
             </td>
         </tr>
 
         {{-- final total --}}
         <tr style="border-top: 3px; border-top-style: double;">
             <td></td>
-            <td><b>Total</b></td>
+            <td align="right">
+                <b>Total</b>
+            </td>
             <td>
                 {!! $group['credits']->subtract($group['debits']) !!}
             </td>
