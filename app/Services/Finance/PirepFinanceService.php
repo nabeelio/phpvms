@@ -173,8 +173,16 @@ class PirepFinanceService extends BaseService
             }
 
             $debit = Money::createFromAmount($expense->amount);
+
+            # If the expense is marked to charge it to a user (only applicable to Flight)
+            # then change the journal to the user's to debit there
+            $journal = $pirep->airline->journal;
+            if ($expense->charge_to_user) {
+                $journal = $pirep->user->journal;
+            }
+
             $this->journalRepo->post(
-                $pirep->airline->journal,
+                $journal,
                 null,
                 $debit,
                 $pirep,

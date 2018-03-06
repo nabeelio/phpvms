@@ -24,6 +24,7 @@ class ExpenseListener
             'type' => ExpenseType::FLIGHT,
             'amount' => 15000,  # $150
             'transaction_group' => '',
+            'charge_to_user' => true|false
         ]);*/
 
         return $expenses;

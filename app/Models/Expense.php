@@ -18,17 +18,19 @@ class Expense extends BaseModel
         'amount',
         'type',
         'multiplier',
+        'charge_to_user',
         'ref_class',
         'ref_class_id',
         'active',
     ];
 
     public static $rules = [
-        'active'      => 'boolean',
-        'airline_id'  => 'integer',
-        'amount'      => 'float',
-        'multiplier'  => 'bool',
-        'type'        => 'integer',
+        'active'          => 'boolean',
+        'airline_id'      => 'integer',
+        'amount'          => 'float',
+        'type'            => 'integer',
+        'multiplier'      => 'bool',
+        'charge_to_user'  => 'bool',
     ];
 
     /**
