@@ -8,6 +8,26 @@ namespace App\Support;
  */
 class Math
 {
+    /**
+     * Determine from the base rate, if we want to return the overridden rate
+     * or if the overridden rate is a percentage, then return that amount
+     * @param $base_rate
+     * @param $override_rate
+     * @return float|null
+     */
+    public static function applyAmountOrPercent($base_rate, $override_rate = null): ?float
+    {
+        if (!$override_rate) {
+            return $base_rate;
+        }
+
+        # Not a percentage override
+        if (substr_count($override_rate, '%') === 0) {
+            return $override_rate;
+        }
+
+        return static::addPercent($base_rate, $override_rate);
+    }
 
     /**
      * Add/subtract a percentage to a number
@@ -25,8 +45,6 @@ class Math
             $percent = (float) $percent;
         }
 
-
         return $number + ($number * ($percent/100));
     }
-
 }

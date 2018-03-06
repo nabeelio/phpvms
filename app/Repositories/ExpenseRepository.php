@@ -37,8 +37,6 @@ class ExpenseRepository extends BaseRepository implements CacheableInterface
 
         if($ref_class) {
             $where['ref_class'] = $ref_class;
-        } else {
-            $where[] = ['ref_class', '=', null];
         }
 
         $expenses = $this->findWhere($where);
@@ -52,12 +50,9 @@ class ExpenseRepository extends BaseRepository implements CacheableInterface
 
             if ($ref_class) {
                 $where['ref_class'] = $ref_class;
-            } else {
-                $where[] = ['ref_class', '=', null];
             }
 
             $airline_expenses = $this->findWhere($where);
-
             $expenses = $expenses->concat($airline_expenses);
         }
 

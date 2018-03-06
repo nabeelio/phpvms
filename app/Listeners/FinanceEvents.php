@@ -4,7 +4,7 @@ namespace App\Listeners;
 
 use App\Events\PirepAccepted;
 use App\Events\PirepRejected;
-use App\Services\FinanceService;
+use App\Services\Finance\PirepFinanceService;
 
 /**
  * Subscribe for events that we do some financial processing for
@@ -16,7 +16,7 @@ class FinanceEvents
     private $financeSvc;
 
     public function __construct(
-        FinanceService $financeSvc
+        PirepFinanceService $financeSvc
     ) {
         $this->financeSvc = $financeSvc;
     }

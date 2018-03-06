@@ -26,7 +26,7 @@ use App\Models\PirepComment;
 use App\Repositories\AcarsRepository;
 use App\Repositories\JournalRepository;
 use App\Repositories\PirepRepository;
-use App\Services\FinanceService;
+use App\Services\Finance\PirepFinanceService;
 use App\Services\GeoService;
 use App\Services\PIREPService;
 use App\Services\UserService;
@@ -47,7 +47,7 @@ class PirepController extends RestController
     /**
      * PirepController constructor.
      * @param AcarsRepository $acarsRepo
-     * @param FinanceService $financeSvc
+     * @param PirepFinanceService $financeSvc
      * @param GeoService $geoSvc
      * @param JournalRepository $journalRepo
      * @param PirepRepository $pirepRepo
@@ -56,7 +56,7 @@ class PirepController extends RestController
      */
     public function __construct(
         AcarsRepository $acarsRepo,
-        FinanceService $financeSvc,
+        PirepFinanceService $financeSvc,
         GeoService $geoSvc,
         JournalRepository $journalRepo,
         PirepRepository $pirepRepo,

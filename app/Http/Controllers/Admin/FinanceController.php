@@ -7,7 +7,7 @@ use App\Models\Journal;
 use App\Models\JournalTransaction;
 use App\Repositories\AirlineRepository;
 use App\Repositories\JournalRepository;
-use App\Services\FinanceService;
+use App\Services\Finance\PirepFinanceService;
 use App\Support\Dates;
 use App\Support\Money;
 use Illuminate\Http\Request;
@@ -23,12 +23,12 @@ class FinanceController extends BaseController
             $journalRepo;
 
     /**
-     * @param FinanceService $financeSvc
+     * @param PirepFinanceService $financeSvc
      * @param JournalRepository $journalRepo
      */
     public function __construct(
         AirlineRepository $airlineRepo,
-        FinanceService $financeSvc,
+        PirepFinanceService $financeSvc,
         JournalRepository $journalRepo
     ) {
         $this->airlineRepo = $airlineRepo;

@@ -5,7 +5,7 @@ use App\Repositories\ExpenseRepository;
 use App\Services\PIREPService;
 use App\Repositories\JournalRepository;
 use App\Services\FareService;
-use App\Services\FinanceService;
+use App\Services\Finance\PirepFinanceService;
 use App\Services\FleetService;
 use App\Support\Math;
 use App\Support\Money;
@@ -28,7 +28,7 @@ class FinanceTest extends TestCase
 
         $this->expenseRepo = app(ExpenseRepository::class);
         $this->fareSvc = app(FareService::class);
-        $this->financeSvc = app(FinanceService::class);
+        $this->financeSvc = app(PirepFinanceService::class);
         $this->fleetSvc = app(FleetService::class);
         $this->pirepSvc = app(PIREPService::class);
     }
@@ -80,7 +80,6 @@ class FinanceTest extends TestCase
          * Add fares to the subfleet, and then add the fares
          * to the PIREP when it's saved, and set the capacity
          */
-        $fare_counts = [];
         $fares = factory(App\Models\Fare::class, 3)->create([
             'price' => 100,
             'cost' => 50,
@@ -571,7 +570,7 @@ class FinanceTest extends TestCase
         $airline = factory(App\Models\Airline::class)->create();
         $airline2 = factory(App\Models\Airline::class)->create();
 
-        $expense = factory(App\Models\Expense::class)->create([
+        factory(App\Models\Expense::class)->create([
             'airline_id' => $airline->id
         ]);
 
@@ -599,6 +598,23 @@ class FinanceTest extends TestCase
 
         $found = $expenses->where('airline_id', $airline2->id);
         $this->assertCount(0, $found);
+
+        /*
+         * Test the subfleet class
+         */
+
+        factory(App\Models\Expense::class)->create([
+            'airline_id' => null,
+            'ref_class' => \App\Models\Subfleet::class,
+        ]);
+
+        $expenses = $this->expenseRepo->getAllForType(
+            ExpenseType::FLIGHT,
+            $airline->id,
+            \App\Models\Subfleet::class
+        );
+
+        $this->assertCount(1, $expenses);
     }
 
     /**
@@ -610,8 +626,7 @@ class FinanceTest extends TestCase
         $journalRepo = app(JournalRepository::class);
 
         [$user, $pirep, $fares] = $this->createFullPirep();
-
-        $journal = $user->airline->initJournal(config('phpvms.currency'));
+        $user->airline->initJournal(config('phpvms.currency'));
 
         # Override the fares
         $fare_counts = [];
@@ -635,12 +650,13 @@ class FinanceTest extends TestCase
         $this->assertEquals(1840, $transactions['debits']->getValue());
 
         # Check that all the different transaction types are there
+        # test by the different groups that exist
         $transaction_types = [
-            'Expenses'          => 1,
+            'Expense'           => 1,
+            'Subfleet'          => 1,
             'Fares'             => 3,
             'Ground Handling'   => 1,
             'Pilot Pay'         => 2, # debit on the airline, credit to the pilot
-            'Subfleet Expense'  => 1,
         ];
 
         foreach($transaction_types as $type => $count) {

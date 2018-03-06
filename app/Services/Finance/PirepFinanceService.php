@@ -1,15 +1,17 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Finance;
 
 use App\Events\Expenses as ExpensesEvent;
 use App\Models\Enums\ExpenseType;
 use App\Models\Enums\PirepSource;
 use App\Models\Expense;
 use App\Models\Pirep;
-use App\Models\Subfleet;
 use App\Repositories\ExpenseRepository;
 use App\Repositories\JournalRepository;
+use App\Services\BaseService;
+use App\Services\FareService;
+use App\Services\PIREPService;
 use App\Support\Math;
 use App\Support\Money;
 use Log;
@@ -19,7 +21,7 @@ use Log;
  * @package App\Services
  *
  */
-class FinanceService extends BaseService
+class PirepFinanceService extends BaseService
 {
     private $expenseRepo,
             $fareSvc,
@@ -43,27 +45,6 @@ class FinanceService extends BaseService
         $this->fareSvc = $fareSvc;
         $this->journalRepo = $journalRepo;
         $this->pirepSvc = $pirepSvc;
-    }
-
-    /**
-     * Determine from the base rate, if we want to return the overridden rate
-     * or if the overridden rate is a percentage, then return that amount
-     * @param $base_rate
-     * @param $override_rate
-     * @return float|null
-     */
-    public function applyAmountOrPercent($base_rate, $override_rate=null): ?float
-    {
-        if (!$override_rate) {
-            return $base_rate;
-        }
-
-        # Not a percentage override
-        if (substr_count($override_rate, '%') === 0) {
-            return $override_rate;
-        }
-
-        return Math::addPercent($base_rate, $override_rate);
     }
 
     /**
@@ -92,7 +73,7 @@ class FinanceService extends BaseService
         # Now start and pay from scratch
         $this->payFaresForPirep($pirep);
         $this->payExpensesForPirep($pirep);
-        $this->paySubfleetExpenses($pirep);
+        $this->payExpensesEventsForPirep($pirep);
         $this->payGroundHandlingForPirep($pirep);
         $this->payPilotForPirep($pirep);
 
@@ -147,15 +128,33 @@ class FinanceService extends BaseService
      * @param Pirep $pirep
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
-     * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
     public function payExpensesForPirep(Pirep $pirep): void
     {
-        $expenses = $this->getExpenses($pirep);
-        /** @var \App\Models\Expense $expense */
-        foreach ($expenses as $expense) {
+        $expenses = $this->expenseRepo->getAllForType(
+            ExpenseType::FLIGHT,
+            $pirep->airline_id
+        );
+
+        /**
+         * Go through the expenses and apply a mulitplier if present
+         */
+        $expenses->map(function ($expense, $i) use ($pirep)
+        {
+            if ($expense->multiplier) {
+                # TODO: Modify the amount
+            }
 
             Log::info('Finance: PIREP: ' . $pirep->id . ', expense:', $expense->toArray());
+
+            # Get the transaction group name from the ref_class name
+            # This way it can be more dynamic and don't have to add special
+            # tables or specific expense calls to accomodate all of these
+            $transaction_group = 'Expense';
+            if($expense->ref_class) {
+                $ref = explode('\\', $expense->ref_class);
+                $transaction_group = end($ref);
+            }
 
             $debit = Money::createFromAmount($expense->amount);
             $this->journalRepo->post(
@@ -165,42 +164,56 @@ class FinanceService extends BaseService
                 $pirep,
                 'Expense: ' . $expense->name,
                 null,
-                'Expenses'
+                $transaction_group
             );
-        }
+        });
     }
 
     /**
-     * Pay out the expenses for the subfleet
+     * Collect all of the expenses from the listeners and apply those to the journal
      * @param Pirep $pirep
+     * @throws \UnexpectedValueException
+     * @throws \InvalidArgumentException
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
-    public function paySubfleetExpenses(Pirep $pirep)
+    public function payExpensesEventsForPirep(Pirep $pirep): void
     {
-        $subfleet = $pirep->aircraft->subfleet;
-        $subfleet_expenses = Expense::where([
-            'ref_class' => Subfleet::class,
-            'ref_class_id' => $subfleet->id,
-        ])->get();
-
-        if(!$subfleet_expenses) {
+        /**
+         * Throw an event and collect any expenses returned from it
+         */
+        $gathered_expenses = event(new ExpensesEvent($pirep));
+        if (!\is_array($gathered_expenses)) {
             return;
         }
 
-        foreach ($subfleet_expenses as $expense) {
+        foreach ($gathered_expenses as $event_expense) {
+            if (!\is_array($event_expense)) {
+                continue;
+            }
 
-            Log::info('Finance: PIREP: '.$pirep->id
-                .'; subfleet expense: "'.$expense->name.'", cost: "'.$expense->amount);
+            foreach ($event_expense as $expense) {
+                # Make sure it's of type expense Model
+                if (!($expense instanceof Expense)) {
+                    continue;
+                }
 
-            $this->journalRepo->post(
-                $pirep->airline->journal,
-                null,
-                Money::createFromAmount($expense->amount),
-                $pirep,
-                'Subfleet ('.$subfleet->type.'): '.$expense->name,
-                null,
-                'Subfleet Expense'
-            );
+                # If an airline_id is filled, then see if it matches
+                if ($expense->airline_id !== $pirep->airline_id) {
+                    continue;
+                }
+
+                $debit = Money::createFromAmount($expense->amount);
+
+                $this->journalRepo->post(
+                    $pirep->airline->journal,
+                    null,
+                    $debit,
+                    $pirep,
+                    'Expense: ' . $expense->name,
+                    null,
+                    $expense->transaction_group ?? 'Expenses'
+                );
+            }
         }
     }
 
@@ -325,75 +338,13 @@ class FinanceService extends BaseService
         if(filled($pirep->aircraft->subfleet->ground_handling_multiplier)) {
             // force into percent mode
             $multiplier = $pirep->aircraft->subfleet->ground_handling_multiplier.'%';
-            return $this->applyAmountOrPercent(
+            return Math::applyAmountOrPercent(
                 $pirep->arr_airport->ground_handling_cost,
                 $multiplier
             );
         }
 
         return $pirep->arr_airport->ground_handling_cost;
-    }
-
-    /**
-     * Send out an event called ExpensesEvent, which picks up any
-     * event listeners and check if they return a list of additional
-     * Expense model objects.
-     * @param Pirep $pirep
-     * @return mixed
-     */
-    public function getExpenses(Pirep $pirep)
-    {
-        $event_expenses = [];
-
-        $expenses = $this->expenseRepo->getAllForType(
-            ExpenseType::FLIGHT,
-            $pirep->airline_id,
-            Expense::class
-        );
-
-        /**
-         * Go through the expenses and apply a mulitplier if present
-         */
-        $expenses = $expenses->map(function($expense, $i) use ($pirep) {
-            if(!$expense->multiplier) {
-                return $expense;
-            }
-
-            // TODO Apply the multiplier from the subfleet
-            return $expense;
-        });
-
-        /**
-         * Throw an event and collect any expenses returned from it
-         */
-        $gathered_expenses = event(new ExpensesEvent($pirep));
-        if (!\is_array($gathered_expenses)) {
-            return $expenses;
-        }
-
-        foreach ($gathered_expenses as $event_expense) {
-            if (!\is_array($event_expense)) {
-                continue;
-            }
-
-            foreach($event_expense as $expense) {
-                # Make sure it's of type expense Model
-                if(!($expense instanceof Expense)) {
-                    continue;
-                }
-
-                # If an airline_id is filled, then see if it matches
-                if($expense->airline_id !== $pirep->airline_id) {
-                    continue;
-                }
-
-                $event_expenses[] = $expense;
-            }
-        }
-
-        $expenses = $expenses->concat($event_expenses);
-
-        return $expenses;
     }
 
     /**
@@ -435,7 +386,7 @@ class FinanceService extends BaseService
         }
 
         Log::debug('pilot pay: base rate=' . $base_rate . ', override=' . $override_rate);
-        return $this->applyAmountOrPercent(
+        return Math::applyAmountOrPercent(
             $base_rate,
             $override_rate
         );

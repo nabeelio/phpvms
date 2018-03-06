@@ -1,7 +1,7 @@
 <?php
 
+use App\Models\Enums\NavaidType;
 use Faker\Generator as Faker;
-use \App\Models\Enums\NavaidType;
 
 $factory->define(App\Models\Navdata::class, function (Faker $faker) {
     return [

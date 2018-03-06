@@ -1,7 +1,7 @@
 <?php
 
-use Faker\Generator as Faker;
 use App\Models\Enums\UserState;
+use Faker\Generator as Faker;
 
 $factory->define(App\Models\User::class, function (Faker $faker)
 {
