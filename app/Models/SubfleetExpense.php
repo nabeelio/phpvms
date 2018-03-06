@@ -14,6 +14,7 @@ class SubfleetExpense extends BaseModel
         'subfleet_id',
         'name',
         'amount',
+        'type',
     ];
 
     /**
@@ -23,6 +24,7 @@ class SubfleetExpense extends BaseModel
      */
     protected $casts = [
         'amount'    => 'float',
+        'type'      => 'integer',
     ];
 
     public static $rules = [

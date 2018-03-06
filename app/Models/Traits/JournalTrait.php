@@ -38,6 +38,7 @@ trait JournalTrait
     {
         if (!$this->journal) {
             $journal = new Journal();
+            $journal->type = $this->journal_type;
             $journal->currency = $currency_code;
             $journal->balance = 0;
             $this->journal()->save($journal);

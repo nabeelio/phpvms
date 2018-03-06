@@ -60,7 +60,7 @@ class JournalRepository extends BaseRepository implements CacheableInterface
             'debit'             => $debit ? $debit->getAmount():null,
             'currency'          => config('phpvms.currency'),
             'memo'              => $memo,
-            'post_date'         => $post_date ?: Carbon::now(),
+            'post_date'         => $post_date ?? Carbon::now(),
         ];
 
         if($reference !== null) {

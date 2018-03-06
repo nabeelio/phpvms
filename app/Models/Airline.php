@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Enums\JournalType;
 use App\Models\Traits\JournalTrait;
 
 /**
@@ -14,6 +15,11 @@ class Airline extends BaseModel
     use JournalTrait;
 
     public $table = 'airlines';
+
+    /**
+     * The journal type for the callback
+     */
+    public $journal_type = JournalType::AIRLINE;
 
     public $fillable = [
         'icao',

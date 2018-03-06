@@ -16,6 +16,7 @@ class CreateJournalsTable extends Migration
         Schema::create('journals', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('ledger_id')->nullable();
+            $table->unsignedTinyInteger('type')->default(0);
             $table->bigInteger('balance')->default(0);
             $table->string('currency', 5);
             $table->nullableMorphs('morphed');

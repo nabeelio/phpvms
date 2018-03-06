@@ -30,7 +30,7 @@
         </tr>
 
         {{-- final total --}}
-        <tr>
+        <tr style="border-top: 3px; border-top-style: double;">
             <td></td>
             <td><b>Total</b></td>
             <td>

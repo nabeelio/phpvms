@@ -30,6 +30,7 @@ class CreateSubfleetTables extends Migration
             $table->increments('id');
             $table->unsignedBigInteger('subfleet_id');
             $table->string('name', 50);
+            $table->unsignedTinyInteger('type');  # ExpenseType
             $table->unsignedDecimal('amount');
             $table->timestamps();
 

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Enums\JournalType;
 use App\Models\Enums\PirepState;
 use App\Models\Traits\JournalTrait;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -31,6 +32,11 @@ class User extends Authenticatable
     use Notifiable;
 
     public $table = 'users';
+
+    /**
+     * The journal type for when it's being created
+     */
+    public $journal_type = JournalType::USER;
 
     protected $fillable = [
         'name',

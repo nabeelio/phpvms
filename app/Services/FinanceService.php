@@ -137,7 +137,7 @@ class FinanceService extends BaseService
                 'Fares ' . $fare->code . $fare->count
                     .'; price: '.$fare->price.', cost: '.$fare->cost,
                 null,
-                'fares'
+                'Fares'
             );
         }
     }
@@ -165,7 +165,7 @@ class FinanceService extends BaseService
                 $pirep,
                 'Expense: ' . $expense->name,
                 null,
-                'expenses'
+                'Expenses'
             );
         }
     }
@@ -198,7 +198,7 @@ class FinanceService extends BaseService
                 $pirep,
                 'Subfleet ('.$subfleet->type.'): '.$expense->name,
                 null,
-                'subfleet_expense'
+                'Subfleet Expense'
             );
         }
     }
@@ -221,7 +221,7 @@ class FinanceService extends BaseService
             $pirep,
             'Ground Handling',
             null,
-            'ground_handling'
+            'Ground Handling'
         );
     }
 
@@ -249,7 +249,7 @@ class FinanceService extends BaseService
             $pirep,
             $memo,
             null,
-            'pilot_pay'
+            'Pilot Pay'
         );
 
         $this->journalRepo->post(
@@ -259,7 +259,7 @@ class FinanceService extends BaseService
             $pirep,
             $memo,
             null,
-            'pilot_pay'
+            'Pilot Pay'
         );
     }
 

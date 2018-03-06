@@ -441,6 +441,7 @@ pirep_comments:
 journals:
   - id: '1'
     ledger_id: null
+    type: 0
     balance: '15840000'
     currency: USD
     morphed_type: App\Models\Airline
@@ -449,6 +450,7 @@ journals:
     updated_at: now
   - id: '2'
     ledger_id: null
+    type: 1
     balance: '30000'
     currency: USD
     morphed_type: App\Models\User
@@ -458,7 +460,7 @@ journals:
 
 journal_transactions:
   - id: 81e9d86c-fede-467d-befd-887e046d9c48
-    transaction_group: fares
+    transaction_group: Fares
     journal_id: '1'
     credit: '6000000'
     debit: '0'
@@ -471,7 +473,7 @@ journal_transactions:
     post_date: now
     deleted_at: null
   - id: b12a81a9-1273-4413-a46a-96b2925cfefb
-    transaction_group: fares
+    transaction_group: Fares
     journal_id: '1'
     credit: '1100000'
     debit: '0'
@@ -484,7 +486,7 @@ journal_transactions:
     post_date: now
     deleted_at: null
   - id: 8688ff40-aed4-4d60-90b7-0c5a88c12fbc
-    transaction_group: fares
+    transaction_group: Fares
     journal_id: '1'
     credit: '1000000'
     debit: '0'
@@ -497,7 +499,7 @@ journal_transactions:
     post_date: now
     deleted_at: null
   - id: d34a9d1e-0d54-4191-bf9f-0043062c04c9
-    transaction_group: expenses
+    transaction_group: Expenses
     journal_id: '1'
     credit: null
     debit: '10000'
@@ -510,7 +512,7 @@ journal_transactions:
     post_date: now
     deleted_at: null
   - id: bdc9d50d-ac3d-4334-997c-8f13b8328ab8
-    transaction_group: expenses
+    transaction_group: Expenses
     journal_id: '1'
     credit: null
     debit: '10000'
@@ -523,7 +525,7 @@ journal_transactions:
     post_date: now
     deleted_at: null
   - id: b5c45ad5-af73-4d7c-9352-3dfb8de292a0
-    transaction_group: expenses
+    transaction_group: Expenses
     journal_id: '1'
     credit: null
     debit: '20000'
@@ -536,12 +538,12 @@ journal_transactions:
     post_date: now
     deleted_at: null
   - id: e65083f9-23c3-4e98-8d63-cd7f35732f7b
-    transaction_group: ground_handling
+    transaction_group: Ground Handling
     journal_id: '1'
     credit: null
     debit: '75000'
     currency: USD
-    memo: 'Ground handling'
+    memo: 'Ground Handling'
     ref_class: App\Models\Pirep
     ref_class_id: pirepid_1
     created_at: now
@@ -549,7 +551,7 @@ journal_transactions:
     post_date: now
     deleted_at: null
   - id: 9825a96e-58b5-465f-8fb8-4c8e1e5567eb
-    transaction_group: pilot_pay
+    transaction_group: Pilot Pay
     journal_id: '1'
     credit: null
     debit: '15000'
@@ -562,7 +564,7 @@ journal_transactions:
     post_date: now
     deleted_at: null
   - id: 2e3118b3-c98f-41d1-b2b6-ccb4f34e86b0
-    transaction_group: pilot_pay
+    transaction_group: Pilot Pay
     journal_id: '2'
     credit: '15000'
     debit: null
@@ -575,7 +577,7 @@ journal_transactions:
     post_date: now
     deleted_at: null
   - id: b98a837a-aa59-4630-a547-5a9d90b5b541
-    transaction_group: subfleet_expense
+    transaction_group: Subfleet Expense
     journal_id: 1
     credit: null
     debit: 100000

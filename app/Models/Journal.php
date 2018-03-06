@@ -12,19 +12,25 @@ use Carbon\Carbon;
 /**
  * Class Journal
  * @package Scottlaurent\Accounting
- * @property    Money $balance
- * @property    string $currency
- * @property    Carbon $updated_at
- * @property    Carbon $post_date
- * @property    Carbon $created_at
+ * @property Money $balance
+ * @property string $currency
+ * @property Carbon $updated_at
+ * @property Carbon $post_date
+ * @property Carbon $created_at
+ * @property \App\Models\Enums\JournalType type
  */
 class Journal extends BaseModel
 {
-
-    /**
-     * @var string
-     */
     protected $table = 'journals';
+
+    public $fillable = [
+        'ledger_id',
+        'journal_type',
+        'balance',
+        'currency',
+        'morphed_type',
+        'morphed_id',
+    ];
 
     /**
      * @var array
