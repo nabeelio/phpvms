@@ -651,18 +651,16 @@ class FinanceTest extends TestCase
 
         # Check that all the different transaction types are there
         # test by the different groups that exist
-        $transaction_types = [
-            'Expense'           => 1,
-            'Subfleet'          => 1,
-            'Fares'             => 3,
-            'Ground Handling'   => 1,
-            'Pilot Pay'         => 2, # debit on the airline, credit to the pilot
+        $transaction_tags = [
+            'expense'           => 1,
+            'subfleet'          => 1,
+            'fare'              => 3,
+            'ground_handling'   => 1,
+            'pilot_pay'         => 2, # debit on the airline, credit to the pilot
         ];
 
-        foreach($transaction_types as $type => $count) {
-            $find = $transactions['transactions']
-                ->where('transaction_group', $type);
-
+        foreach($transaction_tags as $type => $count) {
+            $find = $transactions['transactions']->where('tags', $type);
             $this->assertEquals($count, $find->count());
         }
     }

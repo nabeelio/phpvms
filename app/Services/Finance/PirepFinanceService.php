@@ -118,7 +118,8 @@ class PirepFinanceService extends BaseService
                 'Fares ' . $fare->code . $fare->count
                     .'; price: '.$fare->price.', cost: '.$fare->cost,
                 null,
-                'Fares'
+                'Fares',
+                'fare'
             );
         }
     }
@@ -150,18 +151,24 @@ class PirepFinanceService extends BaseService
             # Get the transaction group name from the ref_class name
             # This way it can be more dynamic and don't have to add special
             # tables or specific expense calls to accomodate all of these
-            $transaction_group = 'Expense';
+            $klass = 'Expense';
             if($expense->ref_class) {
                 $ref = explode('\\', $expense->ref_class);
-                $transaction_group = end($ref);
+                $klass = end($ref);
             }
 
             # Form the memo, with some specific ones depending on the group
-            if($transaction_group === 'Airport') {
+            if ($klass === 'Airport') {
                 $memo = "Airport Expense: {$expense->name} ({$expense->ref_class_id})";
                 $transaction_group = "Airport: {$expense->ref_class_id}";
+            } elseif ($klass === 'Subfleet') {
+                $memo = "Subfleet Expense: {$expense->name} ({$pirep->aircraft->subfleet->name})";
+                $transaction_group = "Subfleet: {$expense->name} ({$pirep->aircraft->subfleet->name})";
+            } elseif ($klass === 'Aircraft') {
+                $memo = "Aircraft Expense: {$expense->name} ({$pirep->aircraft->name})";
+                $transaction_group = "Aircraft: {$expense->name} ({$pirep->aircraft->name})";
             } else {
-                $memo = 'Expense: ' . $expense->name;
+                $memo = "Expense: {$expense->name}";
                 $transaction_group = "Expense: {$expense->name}";
             }
 
@@ -173,7 +180,8 @@ class PirepFinanceService extends BaseService
                 $pirep,
                 $memo,
                 null,
-                $transaction_group
+                $transaction_group,
+                strtolower($klass)
             );
         });
     }
@@ -220,7 +228,8 @@ class PirepFinanceService extends BaseService
                     $pirep,
                     'Expense: ' . $expense->name,
                     null,
-                    $expense->transaction_group ?? 'Expenses'
+                    $expense->transaction_group ?? 'Expenses',
+                    'expense'
                 );
             }
         }
@@ -244,7 +253,8 @@ class PirepFinanceService extends BaseService
             $pirep,
             'Ground Handling',
             null,
-            'Ground Handling'
+            'Ground Handling',
+            'ground_handling'
         );
     }
 
@@ -272,7 +282,8 @@ class PirepFinanceService extends BaseService
             $pirep,
             $memo,
             null,
-            'Pilot Pay'
+            'Pilot Pay',
+            'pilot_pay'
         );
 
         $this->journalRepo->post(
@@ -282,7 +293,8 @@ class PirepFinanceService extends BaseService
             $pirep,
             $memo,
             null,
-            'Pilot Pay'
+            'Pilot Pay',
+            'pilot_pay'
         );
     }
 

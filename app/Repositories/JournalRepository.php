@@ -32,16 +32,15 @@ class JournalRepository extends BaseRepository implements CacheableInterface
      * on the transaction itself. A cron will run to reconcile the journal
      * balance nightly, since they're not atomic operations
      *
-     * @param Journal       $journal
-     * @param Money|null    $credit Amount to credit
-     * @param Money|null    $debit Amount to debit
-     * @param Model|null    $reference The object this is a reference to
-     * @param string|null   $memo Memo for this transaction
-     * @param string|null   $post_date Date of the posting
-     * @param string|null   $transaction_group
+     * @param Journal $journal
+     * @param Money|null $credit Amount to credit
+     * @param Money|null $debit Amount to debit
+     * @param Model|null $reference The object this is a reference to
+     * @param string|null $memo Memo for this transaction
+     * @param string|null $post_date Date of the posting
+     * @param string|null $transaction_group
+     * @param array|string|null $tags
      * @return mixed
-     * @throws \UnexpectedValueException
-     * @throws \InvalidArgumentException
      * @throws ValidatorException
      */
     public function post(
@@ -51,8 +50,14 @@ class JournalRepository extends BaseRepository implements CacheableInterface
         $reference = null,
         $memo = null,
         $post_date = null,
-        $transaction_group = null
+        $transaction_group = null,
+        $tags = null
     ) {
+
+        # tags can be passed in a list
+        if($tags && \is_array($tags)) {
+            $tags = implode(',', $tags);
+        }
 
         $attrs = [
             'journal_id'        => $journal->id,
@@ -62,6 +67,7 @@ class JournalRepository extends BaseRepository implements CacheableInterface
             'memo'              => $memo,
             'post_date'         => $post_date ?? Carbon::now(),
             'transaction_group' => $transaction_group,
+            'tags'              => $tags
         ];
 
         if($reference !== null) {

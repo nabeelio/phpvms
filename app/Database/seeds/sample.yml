@@ -444,153 +444,165 @@ pirep_comments:
     updated_at: now
 
 journals:
-  - id: '1'
+  -
+    id: 1
     ledger_id: null
     type: 0
-    balance: '15840000'
+    balance: 23710000
     currency: USD
     morphed_type: App\Models\Airline
-    morphed_id: '1'
-    created_at: now
-    updated_at: now
-  - id: '2'
+    morphed_id: 1
+    created_at: '2018-03-06 12:33:45'
+    updated_at: '2018-03-06 12:34:15'
+  -
+    id: 2
     ledger_id: null
     type: 1
-    balance: '30000'
+    balance: 45000
     currency: USD
     morphed_type: App\Models\User
-    morphed_id: '1'
-    created_at: now
-    updated_at: now
+    morphed_id: 1
+    created_at: '2018-03-06 12:33:45'
+    updated_at: '2018-03-06 12:34:15'
 
 journal_transactions:
-  - id: 81e9d86c-fede-467d-befd-887e046d9c48
-    transaction_group: Fares
-    journal_id: '1'
-    credit: '6000000'
-    debit: '0'
-    currency: USD
-    memo: 'Fares Y300; price:200, cost: 0'
-    ref_class: App\Models\Pirep
-    ref_class_id: pirepid_1
-    created_at: now
-    updated_at: now
-    post_date: now
-    deleted_at: null
-  - id: b12a81a9-1273-4413-a46a-96b2925cfefb
-    transaction_group: Fares
-    journal_id: '1'
-    credit: '1100000'
-    debit: '0'
-    currency: USD
-    memo: 'Fares B10; price:1100, cost: 0'
-    ref_class: App\Models\Pirep
-    ref_class_id: pirepid_1
-    created_at: now
-    updated_at: now
-    post_date: now
-    deleted_at: null
-  - id: 8688ff40-aed4-4d60-90b7-0c5a88c12fbc
-    transaction_group: Fares
-    journal_id: '1'
-    credit: '1000000'
-    debit: '0'
-    currency: USD
-    memo: 'Fares F10; price:1000, cost: 0'
-    ref_class: App\Models\Pirep
-    ref_class_id: pirepid_1
-    created_at: now
-    updated_at: now
-    post_date: now
-    deleted_at: null
-  - id: d34a9d1e-0d54-4191-bf9f-0043062c04c9
-    transaction_group: Expenses
-    journal_id: '1'
-    credit: null
-    debit: '10000'
-    currency: USD
-    memo: 'Expense: Per-Flight (no muliplier)'
-    ref_class: App\Models\Pirep
-    ref_class_id: pirepid_1
-    created_at: now
-    updated_at: now
-    post_date: now
-    deleted_at: null
-  - id: bdc9d50d-ac3d-4334-997c-8f13b8328ab8
-    transaction_group: Expenses
-    journal_id: '1'
-    credit: null
-    debit: '10000'
-    currency: USD
-    memo: 'Expense: Per-Flight (multiplier)'
-    ref_class: App\Models\Pirep
-    ref_class_id: pirepid_1
-    created_at: now
-    updated_at: now
-    post_date: now
-    deleted_at: null
-  - id: b5c45ad5-af73-4d7c-9352-3dfb8de292a0
-    transaction_group: Expenses
-    journal_id: '1'
-    credit: null
-    debit: '20000'
-    currency: USD
-    memo: 'Expense: Per-Flight (multiplier, on airline)'
-    ref_class: App\Models\Pirep
-    ref_class_id: pirepid_1
-    created_at: now
-    updated_at: now
-    post_date: now
-    deleted_at: null
-  - id: e65083f9-23c3-4e98-8d63-cd7f35732f7b
-    transaction_group: Ground Handling
-    journal_id: '1'
-    credit: null
-    debit: '75000'
-    currency: USD
-    memo: 'Ground Handling'
-    ref_class: App\Models\Pirep
-    ref_class_id: pirepid_1
-    created_at: now
-    updated_at: now
-    post_date: now
-    deleted_at: null
-  - id: 9825a96e-58b5-465f-8fb8-4c8e1e5567eb
-    transaction_group: Pilot Pay
-    journal_id: '1'
-    credit: null
-    debit: '15000'
-    currency: USD
-    memo: 'Pilot Payment @ 50'
-    ref_class: App\Models\Pirep
-    ref_class_id: pirepid_1
-    created_at: now
-    updated_at: now
-    post_date: now
-    deleted_at: null
-  - id: 2e3118b3-c98f-41d1-b2b6-ccb4f34e86b0
-    transaction_group: Pilot Pay
-    journal_id: '2'
-    credit: '15000'
+  -
+    id: 2cbb5990-c70c-40a8-8381-05b6402a96b4
+    transaction_group: 'Pilot Pay'
+    journal_id: 2
+    credit: 15000
     debit: null
     currency: USD
     memo: 'Pilot Payment @ 50'
+    tags: '"pilot_pay"'
     ref_class: App\Models\Pirep
     ref_class_id: pirepid_1
-    created_at: now
-    updated_at: now
-    post_date: now
-    deleted_at: null
-  - id: b98a837a-aa59-4630-a547-5a9d90b5b541
-    transaction_group: Subfleet Expense
+    created_at: '2018-03-06 12:34:15'
+    updated_at: '2018-03-06 12:34:15'
+    post_date: '2018-03-06 12:34:15'
+  -
+    id: 3471fb16-0afd-4815-8b0c-f92771274063
+    transaction_group: 'Expense: Per-Flight (no muliplier)'
+    journal_id: 1
+    credit: null
+    debit: 10000
+    currency: USD
+    memo: 'Expense: Per-Flight (no muliplier)'
+    tags: '"expense"'
+    ref_class: App\Models\Pirep
+    ref_class_id: pirepid_1
+    created_at: '2018-03-06 12:34:15'
+    updated_at: '2018-03-06 12:34:15'
+    post_date: '2018-03-06 12:34:15'
+  -
+    id: 37f21468-ebad-4850-8557-db310ca45eb4
+    transaction_group: Fares
+    journal_id: 1
+    credit: 6000000
+    debit: 0
+    currency: USD
+    memo: 'Fares Y300; price: 200, cost: 0'
+    tags: '"fare"'
+    ref_class: App\Models\Pirep
+    ref_class_id: pirepid_1
+    created_at: '2018-03-06 12:34:15'
+    updated_at: '2018-03-06 12:34:15'
+    post_date: '2018-03-06 12:34:15'
+  -
+    id: 3e933972-07ef-4bb2-b1e1-90ef7e8871c6
+    transaction_group: 'Expense: Per-Flight (multiplier, on airline)'
+    journal_id: 1
+    credit: null
+    debit: 20000
+    currency: USD
+    memo: 'Expense: Per-Flight (multiplier, on airline)'
+    tags: '"expense"'
+    ref_class: App\Models\Pirep
+    ref_class_id: pirepid_1
+    created_at: '2018-03-06 12:34:15'
+    updated_at: '2018-03-06 12:34:15'
+    post_date: '2018-03-06 12:34:15'
+  -
+    id: 522d8032-4ca0-4d6d-b7af-613be4bf281c
+    transaction_group: 'Expense: Per-Flight (multiplier)'
+    journal_id: 1
+    credit: null
+    debit: 10000
+    currency: USD
+    memo: 'Expense: Per-Flight (multiplier)'
+    tags: '"expense"'
+    ref_class: App\Models\Pirep
+    ref_class_id: pirepid_1
+    created_at: '2018-03-06 12:34:15'
+    updated_at: '2018-03-06 12:34:15'
+    post_date: '2018-03-06 12:34:15'
+  -
+    id: a9bca611-c251-4fde-9f28-206d4debeb01
+    transaction_group: 'Subfleet: Catering (747-43X RB211-524G)'
     journal_id: 1
     credit: null
     debit: 100000
     currency: USD
-    memo: 'Subfleet Expense: Catering'
+    memo: 'Subfleet Expense: Catering (747-43X RB211-524G)'
+    tags: '"subfleet"'
     ref_class: App\Models\Pirep
     ref_class_id: pirepid_1
-    created_at: now
-    updated_at: now
-    post_date: now
-    deleted_at: null
+    created_at: '2018-03-06 12:34:15'
+    updated_at: '2018-03-06 12:34:15'
+    post_date: '2018-03-06 12:34:15'
+  -
+    id: c3ff6a6d-03d0-4744-8678-e27329462dcb
+    transaction_group: Fares
+    journal_id: 1
+    credit: 1000000
+    debit: 0
+    currency: USD
+    memo: 'Fares F10; price: 1000, cost: 0'
+    tags: '"fare"'
+    ref_class: App\Models\Pirep
+    ref_class_id: pirepid_1
+    created_at: '2018-03-06 12:34:15'
+    updated_at: '2018-03-06 12:34:15'
+    post_date: '2018-03-06 12:34:15'
+  -
+    id: c4e05ec1-530f-4897-92e8-787bdec8a0a1
+    transaction_group: 'Pilot Pay'
+    journal_id: 1
+    credit: null
+    debit: 15000
+    currency: USD
+    memo: 'Pilot Payment @ 50'
+    tags: '"pilot_pay"'
+    ref_class: App\Models\Pirep
+    ref_class_id: pirepid_1
+    created_at: '2018-03-06 12:34:15'
+    updated_at: '2018-03-06 12:34:15'
+    post_date: '2018-03-06 12:34:15'
+  -
+    id: ed516367-eeb9-4a09-bfb7-531ec4be2f93
+    transaction_group: Fares
+    journal_id: 1
+    credit: 1100000
+    debit: 0
+    currency: USD
+    memo: 'Fares B10; price: 1100, cost: 0'
+    tags: '"fare"'
+    ref_class: App\Models\Pirep
+    ref_class_id: pirepid_1
+    created_at: '2018-03-06 12:34:15'
+    updated_at: '2018-03-06 12:34:15'
+    post_date: '2018-03-06 12:34:15'
+  -
+    id: f3f8585e-894c-4491-b19b-d07b6ad20208
+    transaction_group: 'Ground Handling'
+    journal_id: 1
+    credit: null
+    debit: 75000
+    currency: USD
+    memo: 'Ground Handling'
+    tags: '"ground_handling"'
+    ref_class: App\Models\Pirep
+    ref_class_id: pirepid_1
+    created_at: '2018-03-06 12:34:15'
+    updated_at: '2018-03-06 12:34:15'
+    post_date: '2018-03-06 12:34:15'
