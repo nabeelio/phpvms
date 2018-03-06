@@ -194,9 +194,6 @@ class AirportController extends BaseController
             return $this->return_expenses_view($airport);
         }
 
-        /**
-         * update specific rank data
-         */
         if ($request->isMethod('post')) {
             $expense = new Expense($request->post());
             $expense->ref_class = Airport::class;

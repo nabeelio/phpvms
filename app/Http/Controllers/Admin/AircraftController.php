@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\CreateAircraftRequest;
 use App\Http\Requests\UpdateAircraftRequest;
+use App\Models\Aircraft;
 use App\Models\Enums\AircraftStatus;
+use App\Models\Expense;
 use App\Models\Subfleet;
 use App\Repositories\AircraftRepository;
 use Flash;
@@ -14,7 +16,7 @@ use Prettus\Repository\Criteria\RequestCriteria;
 
 class AircraftController extends BaseController
 {
-    private $aircraftRepository;
+    private $aircraftRepo;
 
     /**
      * AircraftController constructor.
@@ -23,7 +25,7 @@ class AircraftController extends BaseController
     public function __construct(
         AircraftRepository $aircraftRepo
     ) {
-        $this->aircraftRepository = $aircraftRepo;
+        $this->aircraftRepo = $aircraftRepo;
     }
 
     /**
@@ -32,8 +34,8 @@ class AircraftController extends BaseController
      */
     public function index(Request $request)
     {
-        $this->aircraftRepository->pushCriteria(new RequestCriteria($request));
-        $aircraft = $this->aircraftRepository->orderBy('name', 'asc')->all();
+        $this->aircraftRepo->pushCriteria(new RequestCriteria($request));
+        $aircraft = $this->aircraftRepo->orderBy('name', 'asc')->all();
 
         return view('admin.aircraft.index', [
             'aircraft' => $aircraft
@@ -58,7 +60,7 @@ class AircraftController extends BaseController
     public function store(CreateAircraftRequest $request)
     {
         $attrs = $request->all();
-        $aircraft = $this->aircraftRepository->create($attrs);
+        $aircraft = $this->aircraftRepo->create($attrs);
 
         Flash::success('Aircraft saved successfully.');
         return redirect(route('admin.aircraft.edit', ['id' => $aircraft->id]));
@@ -69,7 +71,7 @@ class AircraftController extends BaseController
      */
     public function show($id)
     {
-        $aircraft = $this->aircraftRepository->findWithoutFail($id);
+        $aircraft = $this->aircraftRepo->findWithoutFail($id);
 
         if (empty($aircraft)) {
             Flash::error('Aircraft not found');
@@ -86,7 +88,7 @@ class AircraftController extends BaseController
      */
     public function edit($id)
     {
-        $aircraft = $this->aircraftRepository->findWithoutFail($id);
+        $aircraft = $this->aircraftRepo->findWithoutFail($id);
 
         if (empty($aircraft)) {
             Flash::error('Aircraft not found');
@@ -106,7 +108,7 @@ class AircraftController extends BaseController
      */
     public function update($id, UpdateAircraftRequest $request)
     {
-        $aircraft = $this->aircraftRepository->findWithoutFail($id);
+        $aircraft = $this->aircraftRepo->findWithoutFail($id);
 
         if (empty($aircraft)) {
             Flash::error('Aircraft not found');
@@ -114,7 +116,7 @@ class AircraftController extends BaseController
         }
 
         $attrs = $request->all();
-        $this->aircraftRepository->update($attrs, $id);
+        $this->aircraftRepo->update($attrs, $id);
 
         Flash::success('Aircraft updated successfully.');
         return redirect(route('admin.aircraft.index'));
@@ -125,16 +127,64 @@ class AircraftController extends BaseController
      */
     public function destroy($id)
     {
-        $aircraft = $this->aircraftRepository->findWithoutFail($id);
+        $aircraft = $this->aircraftRepo->findWithoutFail($id);
 
         if (empty($aircraft)) {
             Flash::error('Aircraft not found');
             return redirect(route('admin.aircraft.index'));
         }
 
-        $this->aircraftRepository->delete($id);
+        $this->aircraftRepo->delete($id);
 
         Flash::success('Aircraft deleted successfully.');
         return redirect(route('admin.aircraft.index'));
+    }
+
+    /**
+     * @param Aircraft|null $aircraft
+     * @return mixed
+     */
+    protected function return_expenses_view(?Aircraft $aircraft)
+    {
+        $aircraft->refresh();
+        return view('admin.aircraft.expenses', [
+            'aircraft' => $aircraft,
+        ]);
+    }
+
+    /**
+     * Operations for associating ranks to the subfleet
+     * @param $id
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Exception
+     */
+    public function expenses($id, Request $request)
+    {
+        $aircraft = $this->aircraftRepo->findWithoutFail($id);
+        if (empty($aircraft)) {
+            return $this->return_expenses_view($aircraft);
+        }
+
+        if ($request->isMethod('get')) {
+            return $this->return_expenses_view($aircraft);
+        }
+
+        if ($request->isMethod('post')) {
+            $expense = new Expense($request->post());
+            $expense->ref_class = Aircraft::class;
+            $expense->ref_class_id = $aircraft->id;
+            $expense->save();
+        } elseif ($request->isMethod('put')) {
+            $expense = Expense::findOrFail($request->input('expense_id'));
+            $expense->{$request->name} = $request->value;
+            $expense->save();
+        } // dissassociate fare from teh aircraft
+        elseif ($request->isMethod('delete')) {
+            $expense = Expense::findOrFail($request->input('expense_id'));
+            $expense->delete();
+        }
+
+        return $this->return_expenses_view($aircraft);
     }
 }

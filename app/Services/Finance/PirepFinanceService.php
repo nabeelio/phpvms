@@ -127,6 +127,7 @@ class PirepFinanceService extends BaseService
     /**
      * Collect all of the expenses and apply those to the journal
      * @param Pirep $pirep
+     * @throws \Prettus\Validator\Exceptions\ValidatorException
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
      */
@@ -142,9 +143,9 @@ class PirepFinanceService extends BaseService
          */
         $expenses->map(function ($expense, $i) use ($pirep)
         {
-            if ($expense->multiplier) {
+            /*if ($expense->multiplier) {
                 # TODO: Modify the amount
-            }
+            }*/
 
             Log::info('Finance: PIREP: '.$pirep->id.', expense:', $expense->toArray());
 
@@ -166,7 +167,8 @@ class PirepFinanceService extends BaseService
                 $transaction_group = "Subfleet: {$expense->name} ({$pirep->aircraft->subfleet->name})";
             } elseif ($klass === 'Aircraft') {
                 $memo = "Aircraft Expense: {$expense->name} ({$pirep->aircraft->name})";
-                $transaction_group = "Aircraft: {$expense->name} ({$pirep->aircraft->name})";
+                $transaction_group = "Aircraft: {$expense->name} "
+                    ."({$pirep->aircraft->name}-{$pirep->aircraft->registration})";
             } else {
                 $memo = "Expense: {$expense->name}";
                 $transaction_group = "Expense: {$expense->name}";

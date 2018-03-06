@@ -8,4 +8,12 @@
        {!! Form::close() !!}
    </div>
 </div>
+
+<div class="card border-blue-bottom">
+   <div class="content">
+      @include('admin.aircraft.expenses')
+   </div>
+</div>
 @endsection
+
+@include('admin.aircraft.script')
