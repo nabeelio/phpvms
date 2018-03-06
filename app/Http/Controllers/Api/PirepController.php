@@ -28,7 +28,7 @@ use App\Repositories\JournalRepository;
 use App\Repositories\PirepRepository;
 use App\Services\Finance\PirepFinanceService;
 use App\Services\GeoService;
-use App\Services\PIREPService;
+use App\Services\PirepService;
 use App\Services\UserService;
 use Auth;
 use Illuminate\Http\Request;
@@ -51,7 +51,7 @@ class PirepController extends RestController
      * @param GeoService $geoSvc
      * @param JournalRepository $journalRepo
      * @param PirepRepository $pirepRepo
-     * @param PIREPService $pirepSvc
+     * @param PirepService $pirepSvc
      * @param UserService $userSvc
      */
     public function __construct(
@@ -60,7 +60,7 @@ class PirepController extends RestController
         GeoService $geoSvc,
         JournalRepository $journalRepo,
         PirepRepository $pirepRepo,
-        PIREPService $pirepSvc,
+        PirepService $pirepSvc,
         UserService $userSvc
     ) {
         $this->acarsRepo = $acarsRepo;

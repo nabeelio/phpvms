@@ -11,7 +11,7 @@ use App\Repositories\ExpenseRepository;
 use App\Repositories\JournalRepository;
 use App\Services\BaseService;
 use App\Services\FareService;
-use App\Services\PIREPService;
+use App\Services\PirepService;
 use App\Support\Math;
 use App\Support\Money;
 use Log;
@@ -33,13 +33,13 @@ class PirepFinanceService extends BaseService
      * @param ExpenseRepository $expenseRepo
      * @param FareService $fareSvc
      * @param JournalRepository $journalRepo
-     * @param PIREPService $pirepSvc
+     * @param PirepService $pirepSvc
      */
     public function __construct(
         ExpenseRepository $expenseRepo,
         FareService $fareSvc,
         JournalRepository $journalRepo,
-        PIREPService $pirepSvc
+        PirepService $pirepSvc
     ) {
         $this->expenseRepo = $expenseRepo;
         $this->fareSvc = $fareSvc;

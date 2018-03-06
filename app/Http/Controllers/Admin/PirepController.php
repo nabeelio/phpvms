@@ -17,7 +17,7 @@ use App\Repositories\PirepFieldRepository;
 use App\Repositories\PirepRepository;
 use App\Repositories\SubfleetRepository;
 use App\Services\FareService;
-use App\Services\PIREPService;
+use App\Services\PirepService;
 use App\Services\UserService;
 use App\Support\Units\Time;
 use Flash;
@@ -50,7 +50,7 @@ class PirepController extends BaseController
      * @param JournalRepository $journalRepo
      * @param PirepRepository $pirepRepo
      * @param PirepFieldRepository $pirepFieldRepo
-     * @param PIREPService $pirepSvc
+     * @param PirepService $pirepSvc
      * @param SubfleetRepository $subfleetRepo
      * @param UserService $userSvc
      */
@@ -62,7 +62,7 @@ class PirepController extends BaseController
         JournalRepository $journalRepo,
         PirepRepository $pirepRepo,
         PirepFieldRepository $pirepFieldRepo,
-        PIREPService $pirepSvc,
+        PirepService $pirepSvc,
         SubfleetRepository $subfleetRepo,
         UserService $userSvc
     ) {

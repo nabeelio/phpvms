@@ -2,7 +2,7 @@
 
 use App\Models\Enums\ExpenseType;
 use App\Repositories\ExpenseRepository;
-use App\Services\PIREPService;
+use App\Services\PirepService;
 use App\Repositories\JournalRepository;
 use App\Services\FareService;
 use App\Services\Finance\PirepFinanceService;
@@ -30,7 +30,7 @@ class FinanceTest extends TestCase
         $this->fareSvc = app(FareService::class);
         $this->financeSvc = app(PirepFinanceService::class);
         $this->fleetSvc = app(FleetService::class);
-        $this->pirepSvc = app(PIREPService::class);
+        $this->pirepSvc = app(PirepService::class);
     }
 
     /**

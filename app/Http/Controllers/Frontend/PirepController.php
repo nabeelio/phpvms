@@ -17,7 +17,7 @@ use App\Repositories\PirepFieldRepository;
 use App\Repositories\PirepRepository;
 use App\Services\FareService;
 use App\Services\GeoService;
-use App\Services\PIREPService;
+use App\Services\PirepService;
 use App\Services\UserService;
 use App\Support\Units\Time;
 use Flash;
@@ -47,7 +47,7 @@ class PirepController extends Controller
      * @param GeoService $geoSvc
      * @param PirepRepository $pirepRepo
      * @param PirepFieldRepository $pirepFieldRepo
-     * @param PIREPService $pirepSvc
+     * @param PirepService $pirepSvc
      * @param UserService $userSvc
      */
     public function __construct(
@@ -58,7 +58,7 @@ class PirepController extends Controller
         GeoService $geoSvc,
         PirepRepository $pirepRepo,
         PirepFieldRepository $pirepFieldRepo,
-        PIREPService $pirepSvc,
+        PirepService $pirepSvc,
         UserService $userSvc
     ) {
         $this->aircraftRepo = $aircraftRepo;

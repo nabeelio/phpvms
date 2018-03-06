@@ -12,7 +12,6 @@ use App\Models\Enums\PirepSource;
 use App\Models\Enums\PirepState;
 use App\Models\Navdata;
 use App\Models\Pirep;
-use App\Models\PirepFare;
 use App\Models\PirepFieldValues;
 use App\Models\User;
 use App\Repositories\AcarsRepository;
@@ -23,7 +22,11 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Log;
 
-class PIREPService extends BaseService
+/**
+ * Class PirepService
+ * @package App\Services
+ */
+class PirepService extends BaseService
 {
     private $acarsRepo,
             $flightRepo,
@@ -33,8 +36,9 @@ class PIREPService extends BaseService
             $pirepRepo;
 
     /**
-     * PIREPService constructor.
+     * PirepService constructor.
      * @param AcarsRepository $acarsRepo
+     * @param FlightRepository $flightRepo
      * @param GeoService $geoSvc
      * @param NavdataRepository $navRepo
      * @param PirepRepository $pirepRepo
