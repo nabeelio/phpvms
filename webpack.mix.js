@@ -22,7 +22,7 @@ mix.webpackConfig({
 
 mix.copy('node_modules/bootstrap3/fonts/*.woff2', 'public/assets/fonts/');
 mix.copy('node_modules/bootstrap3/fonts/*.woff2', 'public/assets/admin/fonts/');
-mix.copy('node_modules/x-editable/dist/bootstrap3-editable/img/*', 'public/assets/admin/css/');
+mix.copy('node_modules/x-editable/dist/bootstrap3-editable/img/*', 'public/assets/admin/img/');
 
 /**
  * ADMIN REQUIRED FILES
