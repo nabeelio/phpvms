@@ -20,7 +20,7 @@ trait HashIdTrait
     /**
      * Register callbacks
      */
-    protected static function bootHashId()
+    protected static function bootHashIdTrait()
     {
         static::creating(function ($model) {
             if (empty($model->id)) {

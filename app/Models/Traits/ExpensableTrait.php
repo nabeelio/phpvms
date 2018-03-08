@@ -6,7 +6,7 @@ use App\Models\Expense;
 
 trait ExpensableTrait
 {
-    public static function bootExpensable()
+    public static function bootExpensableTrait()
     {
 
     }
