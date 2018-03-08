@@ -6,7 +6,7 @@ namespace App\Models\Enums;
  * Class ExpenseType
  * @package App\Models\Enums
  */
-class ExpenseType extends EnumBase {
+class ExpenseType extends Enum {
 
     public const FLIGHT     = 0;
     public const DAILY      = 1;

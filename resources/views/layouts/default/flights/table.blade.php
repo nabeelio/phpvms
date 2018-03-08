@@ -39,12 +39,12 @@
                 <br />
                 @if($flight->distance)
                     <span class="title">DISTANCE&nbsp;</span>
-                    {!! $flight->distance !!} {!! setting('general.distance_unit') !!}
+                    {!! $flight->distance !!} {!! setting('units.distance') !!}
                 @endif
                 <br />
                 @if($flight->level)
                     <span class="title">LEVEL&nbsp;</span>
-                    {!! $flight->level !!} {!! setting('general.altitude_unit') !!}
+                    {!! $flight->level !!} {!! setting('units.altitude') !!}
                 @endif
             </div>
             <div class="col-sm-7">

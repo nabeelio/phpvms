@@ -9,7 +9,7 @@ namespace App\Models\Enums;
  * Class Days
  * @package App\Models\Enums
  */
-class Days extends EnumBase {
+class Days extends Enum {
 
     public const MONDAY    = 1 << 0;
     public const TUESDAY   = 1 << 1;

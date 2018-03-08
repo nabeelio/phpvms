@@ -11,7 +11,7 @@ namespace App\Models\Enums;
  * https://github.com/skiselkov/openfmc/blob/master/airac.h
  * @package App\Models\Enums
  */
-class NavaidType extends EnumBase
+class NavaidType extends Enum
 {
     public const VOR           = 1 << 0;
     public const VOR_DME       = 1 << 1;

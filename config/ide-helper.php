@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 return array(
 
@@ -41,7 +41,7 @@ return array(
     */
 
     'model_locations' => array(
-        'app',
+        'app/Models',
     ),
 
 
@@ -71,7 +71,7 @@ return array(
             'emergency' => 'Monolog\Logger::addEmergency',
         )
     ),
-    
+
     /*
     |--------------------------------------------------------------------------
     | Interface implementations
@@ -81,7 +81,7 @@ return array(
     | are detected by the helpers, others can be listed below.
     |
     */
-    
+
     'interfaces' => array(
 
     ),

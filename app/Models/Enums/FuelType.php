@@ -2,7 +2,7 @@
 
 namespace App\Models\Enums;
 
-class FuelType extends EnumBase {
+class FuelType extends Enum {
 
     public const LOW_LEAD  = 0;
     public const JET_A     = 1;

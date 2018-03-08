@@ -5,7 +5,7 @@
 
 namespace App\Models\Enums;
 
-class UserState extends EnumBase
+class UserState extends Enum
 {
     public const PENDING   = 0;
     public const ACTIVE    = 1;

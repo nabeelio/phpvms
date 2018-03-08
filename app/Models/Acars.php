@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
-use App\Models\Traits\HashId;
+use App\Models\Traits\HashIdTrait;
 
 class Acars extends BaseModel
 {
-    use HashId;
+    use HashIdTrait;
 
     public $table = 'acars';
     public $incrementing = false;

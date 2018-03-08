@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Models\Enums\AircraftStatus;
-use App\Models\Traits\Expensable;
+use App\Models\Traits\ExpensableTrait;
 
 /**
  * Class Subfleet
@@ -11,7 +11,7 @@ use App\Models\Traits\Expensable;
  */
 class Subfleet extends BaseModel
 {
-    use Expensable;
+    use ExpensableTrait;
 
     public $table = 'subfleets';
 

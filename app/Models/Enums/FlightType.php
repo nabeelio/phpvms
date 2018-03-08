@@ -3,7 +3,7 @@
 namespace App\Models\Enums;
 
 
-class FlightType extends EnumBase {
+class FlightType extends Enum {
 
     public const PASSENGER   = 0;
     public const CARGO       = 1;

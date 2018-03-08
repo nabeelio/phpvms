@@ -2,7 +2,7 @@
 
 namespace App\Models\Enums;
 
-class PirepState extends EnumBase {
+class PirepState extends Enum {
 
     public const REJECTED      = -1;
     public const IN_PROGRESS   = 0;  // flight is ongoing

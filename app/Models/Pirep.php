@@ -4,7 +4,7 @@ namespace App\Models;
 
 use App\Models\Enums\AcarsType;
 use App\Models\Enums\PirepState;
-use App\Models\Traits\HashId;
+use App\Models\Traits\HashIdTrait;
 use App\Support\Units\Distance;
 use App\Support\Units\Fuel;
 use PhpUnitsOfMeasure\Exception\NonNumericValue;
@@ -27,7 +27,7 @@ use PhpUnitsOfMeasure\Exception\NonStringUnitName;
  */
 class Pirep extends BaseModel
 {
-    use HashId;
+    use HashIdTrait;
 
     public const ID_MAX_LENGTH = 12;
 

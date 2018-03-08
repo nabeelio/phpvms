@@ -4,7 +4,7 @@ namespace App\Models\Traits;
 
 use App\Models\Expense;
 
-trait Expensable
+trait ExpensableTrait
 {
     public static function bootExpensable()
     {

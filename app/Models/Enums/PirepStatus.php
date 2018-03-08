@@ -10,7 +10,7 @@ namespace App\Models\Enums;
  * Class PirepStatus
  * @package App\Models\Enums
  */
-class PirepStatus extends EnumBase
+class PirepStatus extends Enum
 {
     public const PREFILE       = 0;
     public const SCHEDULED     = 0;

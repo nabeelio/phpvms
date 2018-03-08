@@ -6,7 +6,7 @@ namespace App\Models\Enums;
  * Class AircraftState
  * @package App\Models\Enums
  */
-class AircraftState extends EnumBase
+class AircraftState extends Enum
 {
     public const PARKED = 0;
     public const IN_USE = 1;

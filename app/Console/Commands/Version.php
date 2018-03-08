@@ -19,7 +19,7 @@ class Version extends BaseCommand
 
         # prefix with the date in YYMMDD format
         $date = date('ymd');
-        $version = $date.'-'.$version;
+        $version = $date . '-' . $version;
 
         return $version;
     }
@@ -40,7 +40,7 @@ class Version extends BaseCommand
         $c = $cfg['current'];
         $version = "v{$c['major']}.{$c['minor']}.{$c['patch']}-{$build_number}";
 
-        if($this->option('write')) {
+        if ($this->option('write')) {
             file_put_contents($version_file, Yaml::dump($cfg, 4, 2));
         }
 

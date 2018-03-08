@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Models\Enums\AircraftStatus;
-use App\Models\Traits\Expensable;
+use App\Models\Traits\ExpensableTrait;
 use App\Support\ICAO;
 
 /**
@@ -19,7 +19,7 @@ use App\Support\ICAO;
  */
 class Aircraft extends BaseModel
 {
-    use Expensable;
+    use ExpensableTrait;
 
     public $table = 'aircraft';
 
