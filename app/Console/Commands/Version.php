@@ -44,6 +44,13 @@ class Version extends BaseCommand
             file_put_contents($version_file, Yaml::dump($cfg, 4, 2));
         }
 
-        print $version."\n";
+        # Only show the major.minor.patch version
+        if ($this->option('base-only')) {
+            $version = 'v' . $cfg['current']['major'] . '.'
+                . $cfg['current']['minor'] . '.'
+                . $cfg['current']['patch'];
+        }
+
+        print $version . "\n";
     }
 }
