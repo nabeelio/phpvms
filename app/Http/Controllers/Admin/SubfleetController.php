@@ -282,13 +282,13 @@ class SubfleetController extends BaseController
          * update specific rank data
          */
         if ($request->isMethod('post')) {
-            $rank = $this->fareRepo->find($request->input('rank_id'));
+            $rank = $this->rankRepo->find($request->input('rank_id'));
             $this->fleetSvc->addSubfleetToRank($subfleet, $rank);
         }
 
         elseif ($request->isMethod('put')) {
             $override = [];
-            $rank = $this->fareRepo->find($request->input('rank_id'));
+            $rank = $this->rankRepo->find($request->input('rank_id'));
             $override[$request->name] = $request->value;
 
             $this->fleetSvc->addSubfleetToRank($subfleet, $rank, $override);
@@ -296,7 +296,7 @@ class SubfleetController extends BaseController
 
         // dissassociate fare from teh aircraft
         elseif ($request->isMethod('delete')) {
-            $rank = $this->fareRepo->find($request->input('rank_id'));
+            $rank = $this->rankRepo->find($request->input('rank_id'));
             $this->fleetSvc->removeSubfleetFromRank($subfleet, $rank);
         }
 
