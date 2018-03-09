@@ -18,12 +18,12 @@ class NotificationEvents
     {
         $events->listen(
             \App\Events\UserRegistered::class,
-            'App\Listeners\NotificationEventListener@onUserRegister'
+            'App\Listeners\NotificationEvents@onUserRegister'
         );
 
         $events->listen(
             \App\Events\UserStateChanged::class,
-            'App\Listeners\NotificationEventListener@onUserStateChange'
+            'App\Listeners\NotificationEvents@onUserStateChange'
         );
     }
 
