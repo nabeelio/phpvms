@@ -1,6 +1,8 @@
 @section('scripts')
 <script>
 function setEditable() {
+
+    @if(isset($rank))
     $('#subfleets-table a').editable({
         type: 'text',
         mode: 'inline',
@@ -16,6 +18,7 @@ function setEditable() {
             }
         }
     });
+    @endif
 }
 
 $(document).ready(function () {
