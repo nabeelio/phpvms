@@ -19,8 +19,6 @@ return [
 
     # overrides phpvms.php
     'phpvms' => [
-        'vacentral_api_key' => '',
-
         /**
          * The ISO "Currency Code" to use, the list is in config/money.php
          *
@@ -33,6 +31,10 @@ return [
     # This is the name of the active theme
     'themes' => [
         'default'   => 'default',
+    ],
+
+    'vacentral' => [
+        'api_key' => '',
     ],
 
     # overrides cache.php
