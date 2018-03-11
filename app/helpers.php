@@ -93,11 +93,12 @@ if (!function_exists('skin_view')) {
     {
         # Add the current skin name so we don't need to hardcode it in the templates
         # Makes it a bit easier to create a new skin by modifying an existing one
-        $merge_data['SKIN_NAME'] = config('phpvms.skin');
-        $tpl = 'layouts/' . config('phpvms.skin') . '/' . $template;
+        if(View::exists($template)) {
+            return view($template, $vars, $merge_data);
+        }
 
         # TODO: Look for an overridden template in a special folder
-
+        $tpl = 'layouts/' . config('phpvms.skin') . '/' . $template;
         return view($tpl, $vars, $merge_data);
     }
 }
