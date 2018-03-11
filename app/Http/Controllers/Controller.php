@@ -20,6 +20,6 @@ class Controller extends BaseController
      */
     public function view($template, array $vars=[], $merge_data=[])
     {
-        return skin_view($template, $vars, $merge_data);
+        return view($template, $vars, $merge_data);
     }
 }
