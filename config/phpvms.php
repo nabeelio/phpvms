@@ -17,11 +17,6 @@ return [
     'installed' => env('PHPVMS_INSTALLED', false),
 
     /**
-     * The skin to use for the front-end
-     */
-    'skin' => env('APP_SKIN', 'default'),
-
-    /**
      * The ISO "Currency Code" to use, the list is in config/money.php
      *
      * Note, do not change this after you've set it, unless you don't

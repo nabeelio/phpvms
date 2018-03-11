@@ -19,7 +19,6 @@ return [
 
     # overrides phpvms.php
     'phpvms' => [
-        'skin' => 'default',
         'vacentral_api_key' => '',
 
         /**
@@ -29,6 +28,11 @@ return [
          * care that the currencies aren't "exchanged" into the new format
          */
         'currency' => 'USD',
+    ],
+
+    # This is the name of the active theme
+    'themes' => [
+        'default'   => 'default',
     ],
 
     # overrides cache.php
