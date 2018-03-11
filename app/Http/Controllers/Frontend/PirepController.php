@@ -166,7 +166,7 @@ class PirepController extends Controller
         $this->pirepRepo->pushCriteria(new WhereCriteria($request, $where));
         $pireps = $this->pirepRepo->orderBy('created_at', 'desc')->paginate();
 
-        return $this->view('pireps.index', [
+        return view('pireps.index', [
             'user' => $user,
             'pireps' => $pireps,
         ]);
@@ -186,7 +186,7 @@ class PirepController extends Controller
 
         $map_features = $this->geoSvc->pirepGeoJson($pirep);
 
-        return $this->view('pireps.show', [
+        return view('pireps.show', [
             'pirep' => $pirep,
             'map_features' => $map_features,
         ]);
@@ -202,7 +202,7 @@ class PirepController extends Controller
         $aircraft_id = $request->input('aircraft_id');
         $aircraft = $this->aircraftRepo->find($aircraft_id);
 
-        return $this->view('pireps.fares', [
+        return view('pireps.fares', [
             'aircraft' => $aircraft,
             'read_only' => false,
         ]);
@@ -216,7 +216,7 @@ class PirepController extends Controller
     {
         $user = Auth::user();
 
-        return $this->view('pireps.create', [
+        return view('pireps.create', [
             'aircraft' => null,
             'read_only' => false,
             'airline_list' => $this->airlineRepo->selectBoxList(true),
@@ -289,7 +289,7 @@ class PirepController extends Controller
             $pirep->{$field_name} = $fare->count;
         }
 
-        return $this->view('pireps.edit', [
+        return view('pireps.edit', [
             'pirep' => $pirep,
             'read_only' => $read_only,
             'aircraft' => $pirep->aircraft,

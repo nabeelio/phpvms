@@ -73,6 +73,8 @@ return [
         Toin0u\Geotools\GeotoolsServiceProvider::class,
         Jackiedo\Timezonelist\TimezonelistServiceProvider::class,
         Irazasyed\LaravelGAMP\LaravelGAMPServiceProvider::class,
+        Igaster\LaravelTheme\themeServiceProvider::class,
+        Nwidart\Modules\LaravelModulesServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -82,7 +84,6 @@ return [
         App\Providers\AuthServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        Nwidart\Modules\LaravelModulesServiceProvider::class,
     ],
 
     'aliases' => [

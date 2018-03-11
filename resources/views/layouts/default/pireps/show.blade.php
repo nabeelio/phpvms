@@ -1,4 +1,4 @@
-@extends("layouts.${SKIN_NAME}.app")
+@extends('app')
 @section('title', 'PIREP '.$pirep->ident)
 
 @section('content')
@@ -124,7 +124,7 @@
         </div>
     @endif
 
-    @include("layouts.${SKIN_NAME}.pireps.map")
+    @include("pireps.map")
 
     @if(count($pirep->acars_logs) > 0)
         <br /><br />

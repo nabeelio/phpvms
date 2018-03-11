@@ -21,7 +21,7 @@ class LatestNews extends BaseWidget
     {
         $newsRepo = app(NewsRepository::class);
 
-        return $this->view('widgets.latest_news', [
+        return view('widgets.latest_news', [
             'config' => $this->config,
             'news' => $newsRepo->recent($this->config['count']),
         ]);

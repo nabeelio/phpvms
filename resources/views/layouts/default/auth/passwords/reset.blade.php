@@ -1,4 +1,4 @@
-@extends("layouts.${SKIN_NAME}.app")
+@extends('app')
 
 @section('content')
 <div class="container">

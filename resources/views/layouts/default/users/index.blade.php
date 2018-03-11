@@ -1,16 +1,16 @@
-@extends("layouts.${SKIN_NAME}.app")
+@extends('app')
 @section('title', 'Pilots')
 
 @section('content')
 <div class="row">
     <div class="col-md-12">
         <h2 class="description">pilots</h2>
-        @include("layouts.${SKIN_NAME}.users.table")
+        @include("users.table")
     </div>
 </div>
     <div class="row">
         <div class="col-12 text-center">
-            {{ $users->links("layouts.${SKIN_NAME}.pagination.default") }}
+            {{ $users->links("pagination.default") }}
         </div>
     </div>
 @endsection

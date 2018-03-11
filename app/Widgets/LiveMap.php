@@ -27,7 +27,7 @@ class LiveMap extends BaseWidget
         $pireps = $acarsRepo->getPositions();
         $positions = $geoSvc->getFeatureForLiveFlights($pireps);
 
-        return $this->view('widgets.live_map', [
+        return view('widgets.live_map', [
             'config' => $this->config,
             'pireps' => $pireps,
             'positions' => $positions,

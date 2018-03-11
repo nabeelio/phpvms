@@ -1,4 +1,4 @@
-@extends("layouts.${SKIN_NAME}.auth.layout")
+@extends("auth.layout")
 @section('title', 'log in')
 
 @section('content')

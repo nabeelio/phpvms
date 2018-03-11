@@ -11,7 +11,7 @@ flight reports that have been filed. You've been warned!
 @if($read_only)
     <div class="row">
         <div class="col-sm-12">
-            @component("layouts.${SKIN_NAME}.components.info")
+            @component("components.info")
                 Once a PIREP has been accepted/rejected, certain fields go into read-only mode.
             @endcomponent
         </div>
@@ -210,7 +210,7 @@ flight reports that have been filed. You've been warned!
 <div class="row">
     {{-- You don't want to change this ID unless you don't want the fares form to work :) --}}
     <div id="fares_container" class="col-sm-12">
-        @include("layouts.${SKIN_NAME}.pireps.fares")
+        @include("pireps.fares")
     </div>
 </div>
 <div class="row">

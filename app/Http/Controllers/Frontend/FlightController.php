@@ -68,7 +68,7 @@ class FlightController extends Controller
         $saved_flights = Bid::where('user_id', Auth::id())
                          ->pluck('flight_id')->toArray();
 
-        return $this->view('flights.index', [
+        return view('flights.index', [
             'airlines' => $this->airlineRepo->selectBoxList(true),
             'airports' => $this->airportRepo->selectBoxList(true),
             'flights' => $flights,
@@ -89,7 +89,7 @@ class FlightController extends Controller
         $saved_flights = Bid::where('user_id', Auth::id())
                          ->pluck('flight_id')->toArray();
 
-        return $this->view('flights.index', [
+        return view('flights.index', [
             'airlines' => $this->airlineRepo->selectBoxList(true),
             'airports' => $this->airportRepo->selectBoxList(true),
             'flights' => $flights,
@@ -112,7 +112,7 @@ class FlightController extends Controller
 
         $map_features = $this->geoSvc->flightGeoJson($flight);
 
-        return $this->view('flights.show', [
+        return view('flights.show', [
             'flight' => $flight,
             'map_features' => $map_features,
         ]);

@@ -2,6 +2,7 @@
 namespace App\Providers;
 
 use App\Repositories\SettingRepository;
+use App\Services\ModuleService;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use View;
@@ -13,7 +14,7 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191);
         $this->app->bind('setting', SettingRepository::class);
 
-        View::share('SKIN_NAME', config('phpvms.skin'));
+        View::share('moduleSvc', app(ModuleService::class));
     }
 
     /**

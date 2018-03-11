@@ -1,4 +1,3 @@
-@inject('moduleSvc', 'App\Services\ModuleService')
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -41,7 +40,7 @@
             </p>
         </div>
         <div class="collapse navbar-collapse justify-content-end" id="navigation">
-            @include("layouts.${SKIN_NAME}.nav")
+            @include('nav')
         </div>
     </div>
 </nav>
@@ -50,7 +49,7 @@
 <div class="wrapper">
     <div class="clear"></div>
     <div class="container-fluid" style="width: 85%!important;">
-        @include("layouts.${SKIN_NAME}.flash.message")
+        @include('flash.message')
         @yield('content')
     </div>
     <div class="clearfix" style="height: 200px;"></div>

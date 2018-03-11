@@ -33,7 +33,7 @@ class AcarsController extends Controller
         $pireps = $this->acarsRepo->getPositions();
         $positions = $this->geoSvc->getFeatureForLiveFlights($pireps);
 
-        return $this->view('acars.index',[
+        return view('acars.index',[
             'pireps' => $pireps,
             'positions' => $positions,
         ]);

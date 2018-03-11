@@ -1,4 +1,4 @@
-@extends("layouts.${SKIN_NAME}.app")
+@extends('app')
 @section('title', 'edit profile')
 
 @section('content')
@@ -7,7 +7,7 @@
         <h2 class="description">edit your profile</h2>
           @include('flash::message')
           {!! Form::model($user, ['route' => ['frontend.profile.update', $user->id], 'method' => 'patch']) !!}
-             @include("layouts.${SKIN_NAME}.profile.fields")
+             @include("profile.fields")
           {!! Form::close() !!}
     </div>
 </div>

@@ -1,4 +1,4 @@
-@extends("layouts.${SKIN_NAME}.app")
+@extends('app')
 @section('title', 'register')
 
 @section('content')
@@ -67,7 +67,7 @@
             <p class="text-danger">{{ $errors->first('password_confirmation') }}</p>
             @endif
 
-            @include("layouts.${SKIN_NAME}.auth.toc")
+            @include("auth.toc")
 
             <div style="width: 100%; text-align: right; padding-top: 20px;">
                 By registering, you agree to the Term and Conditions<br /><br />

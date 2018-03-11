@@ -1,4 +1,4 @@
-@extends("layouts.${SKIN_NAME}.app")
+@extends('app')
 @section('title', 'File Flight Report')
 
 @section('content')
@@ -8,11 +8,11 @@
             @include('flash::message')
             {!! Form::open(['route' => 'frontend.pireps.store']) !!}
 
-            @include("layouts.${SKIN_NAME}.pireps.fields")
+            @include("pireps.fields")
 
             {!! Form::close() !!}
         </div>
     </div>
 @endsection
 
-@include("layouts.${SKIN_NAME}.pireps.scripts")
+@include("pireps.scripts")

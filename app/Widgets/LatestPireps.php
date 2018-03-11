@@ -21,7 +21,7 @@ class LatestPireps extends BaseWidget
     {
         $pirepRepo = app(PirepRepository::class);
 
-        return $this->view('widgets.latest_pireps', [
+        return view('widgets.latest_pireps', [
             'config' => $this->config,
             'pireps' => $pirepRepo->recent($this->config['count']),
         ]);

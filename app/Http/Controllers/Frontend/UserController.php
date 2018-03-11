@@ -26,7 +26,7 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        return $this->view('users.index',[
+        return view('users.index',[
             'country' => new \League\ISO3166\ISO3166(),
             'users' => $this->userRepo->orderBy('name', 'desc')->paginate(),
         ]);

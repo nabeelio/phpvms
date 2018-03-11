@@ -49,7 +49,6 @@
 
     <div class="collapse" id="addons_menu" aria-expanded="true">
         <ul class="nav">
-            @inject('moduleSvc', 'App\Services\ModuleService')
             @foreach($moduleSvc->getAdminLinks() as &$link)
                 <li><a href="{!! url($link['url']) !!}"><i class="{!! $link['icon'] !!}"></i>{!! $link['title'] !!}</a></li>
             @endforeach

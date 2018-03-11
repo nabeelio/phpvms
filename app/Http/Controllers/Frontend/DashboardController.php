@@ -36,7 +36,7 @@ class DashboardController extends Controller
             $last_pirep = $this->pirepRepo->find($user->last_pirep_id);
         } catch(\Exception $e) { }
 
-        return $this->view('dashboard.index', [
+        return view('dashboard.index', [
             'user'       => $user,
             'last_pirep' => $last_pirep,
         ]);

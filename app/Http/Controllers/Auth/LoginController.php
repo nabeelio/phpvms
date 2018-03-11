@@ -28,7 +28,7 @@ class LoginController extends Controller
      */
     public function showLoginForm()
     {
-        return $this->view('auth/login');
+        return view('auth/login');
     }
 
     /**
@@ -54,11 +54,11 @@ class LoginController extends Controller
 
             // Redirect to one of the error pages
             if($user->state === UserState::PENDING) {
-                return $this->view('auth.pending');
+                return view('auth.pending');
             } elseif ($user->state === UserState::REJECTED) {
-                return $this->view('auth.rejected');
+                return view('auth.rejected');
             } elseif ($user->state === UserState::SUSPENDED) {
-                return $this->view('auth.suspended');
+                return view('auth.suspended');
             }
         }
 

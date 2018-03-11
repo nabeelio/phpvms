@@ -19,7 +19,7 @@ class HomeController extends Controller
             return view('system/errors/not_installed');
         }
 
-        return $this->view('home', [
+        return view('home', [
             'users' => $users,
         ]);
     }

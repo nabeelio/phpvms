@@ -1,4 +1,4 @@
-@extends("layouts.${SKIN_NAME}.app")
+@extends('app')
 @section('title', 'dashboard')
 
 @section('content')
@@ -58,7 +58,7 @@
             <div class="nav nav-tabs" role="tablist" style="background: #067ec1; color: #FFF;">
                 Your Last Report
             </div>
-            @include("layouts.${SKIN_NAME}.pireps.pirep_card", ['pirep' => $last_pirep])
+            @include("pireps.pirep_card", ['pirep' => $last_pirep])
         @endif
 
         {{ Widget::latestNews(['count' => 1]) }}

@@ -50,7 +50,7 @@ class ProfileController extends Controller
             $airports = $this->airportRepo->all();
         }
 
-        return $this->view('profile.index', [
+        return view('profile.index', [
             'user' => Auth::user(),
             'airports' => $airports,
         ]);
@@ -70,7 +70,7 @@ class ProfileController extends Controller
 
         $airports = $this->airportRepo->all();
 
-        return $this->view('profile.index', [
+        return view('profile.index', [
             'user' => $user,
             'airports' => $airports,
         ]);
@@ -92,7 +92,7 @@ class ProfileController extends Controller
         $airlines = $this->airlineRepo->selectBoxList();
         $airports = $this->airportRepo->selectBoxList(false, setting('pilots.home_hubs_only'));
 
-        return $this->view('profile.edit', [
+        return view('profile.edit', [
             'user'      => $user,
             'airlines'  => $airlines,
             'airports'  => $airports,

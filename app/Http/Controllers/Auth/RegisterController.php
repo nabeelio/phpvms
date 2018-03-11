@@ -55,7 +55,7 @@ class RegisterController extends Controller
         $airports = $this->airportRepo->selectBoxList(false, true);
         $airlines = $this->airlineRepo->selectBoxList();
 
-        return $this->view('auth.register', [
+        return view('auth.register', [
             'airports' => $airports,
             'airlines' => $airlines,
             'timezones' => Timezonelist::toArray(),
@@ -121,7 +121,7 @@ class RegisterController extends Controller
         $user = $this->create($request->all());
 
         if($user->state === UserState::PENDING) {
-            return $this->view('auth.pending');
+            return view('auth.pending');
         }
 
         $this->guard()->login($user);

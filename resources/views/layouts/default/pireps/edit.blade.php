@@ -1,4 +1,4 @@
-@extends("layouts.${SKIN_NAME}.app")
+@extends('app')
 @section('title', 'Edit Flight Report')
 @section('content')
     <div class="row">
@@ -7,10 +7,10 @@
             @include('flash::message')
             {!! Form::model($pirep, ['route' => ['frontend.pireps.update', $pirep->id], 'method' => 'patch']) !!}
 
-            @include("layouts.${SKIN_NAME}.pireps.fields")
+            @include("pireps.fields")
 
             {!! Form::close() !!}
         </div>
     </div>
 @endsection
-@include("layouts.${SKIN_NAME}.pireps.scripts")
+@include("pireps.scripts")

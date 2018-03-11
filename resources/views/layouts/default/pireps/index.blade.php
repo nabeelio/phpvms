@@ -1,4 +1,4 @@
-@extends("layouts.${SKIN_NAME}.app")
+@extends('app')
 @section('title', 'pireps')
 
 @section('content')
@@ -11,12 +11,12 @@
         </div>
         <h2 class="description">pilot reports</h2>
         @include('flash::message')
-        @include("layouts.${SKIN_NAME}.pireps.table")
+        @include("pireps.table")
     </div>
 </div>
 <div class="row">
     <div class="col-12 text-center">
-        {{ $pireps->links("layouts.${SKIN_NAME}.pagination.default") }}
+        {{ $pireps->links("pagination.default") }}
     </div>
 </div>
 @endsection

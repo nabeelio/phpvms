@@ -21,7 +21,7 @@ class LatestPilots extends BaseWidget
     {
         $userRepo = app(UserRepository::class);
 
-        return $this->view('widgets.latest_pilots', [
+        return view('widgets.latest_pilots', [
             'config' => $this->config,
             'users' => $userRepo->recent($this->config['count']),
         ]);

@@ -1,2 +1,2 @@
-@each("layouts.${SKIN_NAME}.pireps.pirep_card", $pireps, 'pirep')
+@each("pireps.pirep_card", $pireps, 'pirep')
 
