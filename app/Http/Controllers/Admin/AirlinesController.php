@@ -35,8 +35,9 @@ class AirlinesController extends BaseController
         $this->airlineRepo->pushCriteria(new RequestCriteria($request));
         $airlines = $this->airlineRepo->all();
 
-        return view('admin.airlines.index')
-            ->with('airlines', $airlines);
+        return view('admin.airlines.index', [
+            'airlines' => $airlines,
+        ]);
     }
 
     /**
