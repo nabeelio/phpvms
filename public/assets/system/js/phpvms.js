@@ -3,7 +3,8 @@
  * @type {{render_airspace_map, render_live_map, render_route_map}}
  */
 
-const phpvms = (function() {
+let phpvms = {};
+phpvms.map = (function() {
 
     const PLAN_ROUTE_COLOR = '#36b123';
     const ACTUAL_ROUTE_COLOR = '#172aea';

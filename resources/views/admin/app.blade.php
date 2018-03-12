@@ -189,5 +189,6 @@ $(document).ready(function () {
 
 });
 </script>
+
 @yield('scripts')
 </html>

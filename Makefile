@@ -36,7 +36,7 @@ build:
 # This is to build all the stylesheets, etc
 .PHONY: build-assets
 build-assets:
-	npm update
+	#npm update
 	npm run dev
 
 .PHONY: install

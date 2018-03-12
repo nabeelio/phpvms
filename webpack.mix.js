@@ -22,6 +22,8 @@ mix.webpackConfig({
 
 mix.copy('node_modules/bootstrap3/fonts/*.woff2', 'public/assets/fonts/');
 mix.copy('node_modules/bootstrap3/fonts/*.woff2', 'public/assets/admin/fonts/');
+mix.copy('node_modules/icheck/icheck.js', 'public/assets/admin/js/');
+mix.copy('node_modules/x-editable/dist/bootstrap3-editable/js/*', 'public/assets/admin/js/');
 mix.copy('node_modules/x-editable/dist/bootstrap3-editable/img/*', 'public/assets/admin/img/');
 
 /**
@@ -132,3 +134,22 @@ mix.sass('public/assets/frontend/sass/now-ui-kit.scss',
         compressed: true
     })
     .sourceMaps();
+
+
+// These should go into the separate vendor.js file
+const extract = [
+    'lodash',
+    'popper.js',
+    'jquery',
+    'select2',
+    'pjax',
+    'leaflet',
+    'Leaflet.Geodesic',
+    'leaflet-rotatedmarker'
+];
+
+mix.js('resources/js/frontend/app.js', 'public/js/frontend')
+    .extract(extract);
+
+
+mix.js('resources/js/admin/app.js', 'public/js/admin');
