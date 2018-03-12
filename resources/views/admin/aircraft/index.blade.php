@@ -3,12 +3,12 @@
 @section('title', 'Aircraft')
 @section('actions')
     <li>
-        <a href="{!! url('/admin/subfleets') !!}">
+        <a href="{{ url('/admin/subfleets') }}">
             <i class="ti-files"></i>
             Subfleets</a>
     </li>
     <li>
-        <a href="{!! route('admin.aircraft.create') !!}">
+        <a href="{{ route('admin.aircraft.create') }}">
             <i class="ti-plus"></i>
             New Aircraft</a>
     </li>

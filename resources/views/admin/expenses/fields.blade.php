@@ -1,9 +1,9 @@
 <div class="row">
     <!-- Code Field -->
     <div class="form-group col-sm-6">
-        {!! Form::label('airline_id', 'Airline:') !!}
+        {{ Form::label('airline_id', 'Airline:') }}
 
-        {!! Form::select('airline_id', $airlines_list, null , ['class' => 'form-control select2']) !!}
+        {{ Form::select('airline_id', $airlines_list, null , ['class' => 'form-control select2']) }}
         <p class="text-danger">{{ $errors->first('airline_id') }}</p>
         @component('admin.components.info')
             If an airline is selected, then the expense will only be applied
@@ -13,21 +13,21 @@
 
     <!-- Name Field -->
     <div class="form-group col-sm-6">
-        {!! Form::label('type', 'Expense Type:') !!}&nbsp;<span class="required">*</span>
-        {!! Form::select('type', $expense_types, null , ['class' => 'form-control select2']) !!}
+        {{ Form::label('type', 'Expense Type:') }}&nbsp;<span class="required">*</span>
+        {{ Form::select('type', $expense_types, null , ['class' => 'form-control select2']) }}
         <p class="text-danger">{{ $errors->first('type') }}</p>
     </div>
 </div>
 <div class="row">
     <div class="form-group col-sm-6">
-        {!! Form::label('name', 'Expense Name:') !!}
-        {!! Form::text('name', null, ['class' => 'form-control']) !!}
+        {{ Form::label('name', 'Expense Name:') }}
+        {{ Form::text('name', null, ['class' => 'form-control']) }}
         <p class="text-danger">{{ $errors->first('name') }}</p>
     </div>
 
     <div class="form-group col-sm-6">
-        {!! Form::label('amount', 'Amount:') !!}
-        {!! Form::number('amount', null, ['class' => 'form-control', 'min' => 0]) !!}
+        {{ Form::label('amount', 'Amount:') }}
+        {{ Form::number('amount', null, ['class' => 'form-control', 'min' => 0]) }}
         <p class="text-danger">{{ $errors->first('amount') }}</p>
     </div>
 
@@ -36,10 +36,10 @@
 <div class="row">
 
     <div class="col-sm-5">
-        {!! Form::label('multiplier', 'Multiplier:') !!}
+        {{ Form::label('multiplier', 'Multiplier:') }}
         <label class="checkbox-inline">
-            {!! Form::hidden('multiplier', 0, false) !!}
-            {!! Form::checkbox('multiplier', 1, null) !!}
+            {{ Form::hidden('multiplier', 0, false) }}
+            {{ Form::checkbox('multiplier', 1, null) }}
         </label>
         @component('admin.components.info')
             If checked, with a PIREP, this expense can be modified by a multiplier
@@ -48,17 +48,17 @@
     </div>
 
     <div class="col-sm-3">
-        {!! Form::label('active', 'Active:') !!}
+        {{ Form::label('active', 'Active:') }}
         <label class="checkbox-inline">
-            {!! Form::hidden('active', 0, false) !!}
-            {!! Form::checkbox('active', 1, null) !!}
+            {{ Form::hidden('active', 0, false) }}
+            {{ Form::checkbox('active', 1, null) }}
         </label>
     </div>
 
     <div class="form-group col-sm-4">
         <div class="pull-right">
-            {!! Form::button('Save', ['type' => 'submit', 'class' => 'btn btn-success']) !!}
-            <a href="{!! route('admin.expenses.index') !!}" class="btn btn-default">Cancel</a>
+            {{ Form::button('Save', ['type' => 'submit', 'class' => 'btn btn-success']) }}
+            <a href="{{ route('admin.expenses.index') }}" class="btn btn-default">Cancel</a>
         </div>
     </div>
 </div>

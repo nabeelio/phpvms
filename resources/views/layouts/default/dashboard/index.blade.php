@@ -11,7 +11,7 @@
                         <div style="float: left; position: absolute; display:block; top: 0px;font-size: 150px">
                             <i class="fas fa-plane" style="opacity: .1;"></i>
                         </div>
-                        <h4 class="">{!! $user->flights !!}</h4>
+                        <h4 class="">{{ $user->flights }}</h4>
                         <h5 class="description" style="color: white;">{{ str_plural('flight', $user->flights) }}</h5>
                     </div>
                 </div>
@@ -22,7 +22,7 @@
                         <div style="float: left; position: absolute; display:block; top: 0px;font-size: 150px">
                             <i class="far fa-clock" style="opacity: .1;"></i>
                         </div>
-                        <h4 class="">{!! \App\Facades\Utils::minutesToTimeString($user->flight_time, false)!!}</h4>
+                        <h4 class="">{{ \App\Facades\Utils::minutesToTimeString($user->flight_time, false)}}</h4>
                         <h5 class="description" style="color: white;">total hours</h5>
                     </div>
                 </div>
@@ -35,7 +35,7 @@
                             <i class="fas fa-map-marker" style="opacity: .1;"></i>
                         </div>
                         @if($user->current_airport)
-                            <h4 class="">{!! $user->current_airport->icao !!}</h4>
+                            <h4 class="">{{ $user->current_airport->icao }}</h4>
                         @else
                             <h4 class="">-</h4>
                         @endif
@@ -51,7 +51,7 @@
                 Your Last Report
             </div>
             <div class="card-block" style="text-align:center;">
-                    No reports yet. <a href="{!! route('frontend.pireps.create') !!}">File one now.</a>
+                    No reports yet. <a href="{{ route('frontend.pireps.create') }}">File one now.</a>
             </div>
         </div>
         @else

@@ -4,15 +4,15 @@
         <tbody>
         @foreach($journal['transactions'] as $entry)
             <tr>
-                <td>{!! $entry->memo !!}</td>
+                <td>{{ $entry->memo }}</td>
                 <td>
                     @if($entry->credit)
-                        {!! money($entry->credit, config('phpvms.currency')) !!}
+                        {{ money($entry->credit, config('phpvms.currency')) }}
                     @endif
                 </td>
                 <td>
                     @if($entry->debit)
-                        {!! money($entry->debit, config('phpvms.currency')) !!}
+                        {{ money($entry->debit, config('phpvms.currency')) }}
                     @endif
                 </td>
             </tr>
@@ -22,10 +22,10 @@
         <tr>
             <td></td>
             <td>
-                {!! $journal['credits'] !!}
+                {{ $journal['credits'] }}
             </td>
             <td>
-                <i>{!! $journal['debits'] !!}</i>
+                <i>{{ $journal['debits'] }}</i>
             </td>
         </tr>
 
@@ -36,7 +36,7 @@
                 <b>Total</b>
             </td>
             <td>
-                {!! $journal['credits']->subtract($journal['debits']) !!}
+                {{ $journal['credits']->subtract($journal['debits']) }}
             </td>
         </tr>
         </tbody>

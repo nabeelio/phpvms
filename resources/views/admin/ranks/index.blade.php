@@ -2,7 +2,7 @@
 @section('title', 'Ranks')
 @section('actions')
     <li>
-        <a href="{!! route('admin.ranks.create') !!}">
+        <a href="{{ route('admin.ranks.create') }}">
             <i class="ti-plus"></i>
             Add New</a>
     </li>

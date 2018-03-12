@@ -3,7 +3,7 @@
 @section('title', 'Flights')
 @section('actions')
     <li>
-        <a href="{!! route('admin.flights.create') !!}">
+        <a href="{{ route('admin.flights.create') }}">
             <i class="ti-plus"></i>
             Add New</a>
     </li>

@@ -1,7 +1,7 @@
 @extends('admin.app')
 @section('title', 'PIREP Fields')
 @section('actions')
-    <li><a href="{!! route('admin.pirepfields.create') !!}"><i class="ti-plus"></i>Add
+    <li><a href="{{ route('admin.pirepfields.create') }}"><i class="ti-plus"></i>Add
             Field</a></li>
 @endsection
 @section('content')

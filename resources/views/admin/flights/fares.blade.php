@@ -31,28 +31,28 @@
         <tbody>
         @foreach($flight->fares as $atf)
             <tr>
-                <td class="sorting_1">{!! $atf->name !!}</td>
-                <td style="text-align: center;">{!! $atf->code !!}</td>
+                <td class="sorting_1">{{ $atf->name }}</td>
+                <td style="text-align: center;">{{ $atf->code }}</td>
                 <td>
-                    <a href="#" data-pk="{!! $atf->id !!}" data-name="capacity">{!! $atf->pivot->capacity !!}</a>
+                    <a href="#" data-pk="{{ $atf->id }}" data-name="capacity">{{ $atf->pivot->capacity }}</a>
                 </td>
                 <td>
-                    <a href="#" data-pk="{!! $atf->id !!}" data-name="price">{!! $atf->pivot->price !!}</a>
+                    <a href="#" data-pk="{{ $atf->id }}" data-name="price">{{ $atf->pivot->price }}</a>
                 </td>
                 <td>
-                    <a href="#" data-pk="{!! $atf->id !!}" data-name="cost">{!! $atf->pivot->cost !!}</a>
+                    <a href="#" data-pk="{{ $atf->id }}" data-name="cost">{{ $atf->pivot->cost }}</a>
                 </td>
                 <td style="text-align: center; width:3%;">
-                    {!! Form::open(['url' => '/admin/flights/'.$flight->id.'/fares',
+                    {{ Form::open(['url' => '/admin/flights/'.$flight->id.'/fares',
                                     'method' => 'delete',
                                     'class' => 'pjax_fares_form'
                                     ])
-                    !!}
-                    {!! Form::hidden('fare_id', $atf->id) !!}
-                    {!! Form::button('<i class="fa fa-times"></i>',
+                    }}
+                    {{ Form::hidden('fare_id', $atf->id) }}
+                    {{ Form::button('<i class="fa fa-times"></i>',
                                      ['type' => 'submit',
-                                      'class' => 'btn btn-danger btn-xs']) !!}
-                    {!! Form::close() !!}
+                                      'class' => 'btn btn-danger btn-xs']) }}
+                    {{ Form::close() }}
                 </td>
             </tr>
         @endforeach
@@ -62,21 +62,21 @@
     <div class="row">
         <div class="col-xs-12">
             <div class="text-right">
-                {!! Form::open(['url' => '/admin/flights/'.$flight->id.'/fares',
+                {{ Form::open(['url' => '/admin/flights/'.$flight->id.'/fares',
                                 'method' => 'post',
                                 'class' => 'pjax_fares_form form-inline'
                                 ])
-                !!}
-                {!! Form::select('fare_id', $avail_fares, null, [
+                }}
+                {{ Form::select('fare_id', $avail_fares, null, [
                         'placeholder' => 'Select Fare',
                         'class' => 'ac-fare-dropdown form-control input-lg select2',
 
                     ])
-                !!}
-                {!! Form::button('<i class="glyphicon glyphicon-plus"></i> add',
+                }}
+                {{ Form::button('<i class="glyphicon glyphicon-plus"></i> add',
                                  ['type' => 'submit',
-                                  'class' => 'btn btn-success btn-s']) !!}
-                {!! Form::close() !!}
+                                  'class' => 'btn btn-success btn-s']) }}
+                {{ Form::close() }}
             </div>
         </div>
     </div>

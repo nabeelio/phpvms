@@ -8,17 +8,17 @@
     {{-- Don't remove this! It's required --}}
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@yield('title') - {!! config('app.name') !!}</title>
+    <title>@yield('title') - {{ config('app.name') }}</title>
 
-    <link rel="shortcut icon" type="image/png" href="{!! public_asset('/assets/frontend/img/favicon.png') !!}"/>
+    <link rel="shortcut icon" type="image/png" href="{{ public_asset('/assets/frontend/img/favicon.png') }}"/>
 
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet"/>
-    <link href="{!! public_asset('/assets/frontend/css/bootstrap.min.css') !!}" rel="stylesheet"/>
-    <link href="{!! public_asset('/assets/frontend/css/now-ui-kit.css') !!}" rel="stylesheet"/>
-    <link href="{!! public_asset('/assets/frontend/css/styles.css') !!}" rel="stylesheet"/>
+    <link href="{{ public_asset('/assets/frontend/css/bootstrap.min.css') }}" rel="stylesheet"/>
+    <link href="{{ public_asset('/assets/frontend/css/now-ui-kit.css') }}" rel="stylesheet"/>
+    <link href="{{ public_asset('/assets/frontend/css/styles.css') }}" rel="stylesheet"/>
 
     {{-- This is required to include --}}
-    <link href="{!! public_asset('/assets/system/css/vendor.css') !!}" rel="stylesheet"/>
+    <link href="{{ public_asset('/assets/system/css/vendor.css') }}" rel="stylesheet"/>
 
     @yield('css')
 
@@ -38,8 +38,8 @@
                 <span class="navbar-toggler-bar bar3"></span>
             </button>
             <p class="navbar-brand text-white" data-placement="bottom" target="_blank">
-                <a href="{!! url('/') !!}">
-                    <img src="{!! public_asset('/assets/frontend/img/logo_blue_bg.svg') !!}" width="135px" style=""/>
+                <a href="{{ url('/') }}">
+                    <img src="{{ public_asset('/assets/frontend/img/logo_blue_bg.svg') }}" width="135px" style=""/>
                 </a>
             </p>
         </div>
@@ -72,8 +72,8 @@
 </div>
 
 <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
-<script src="{!! public_asset('/assets/system/js/vendor.js') !!}?v={!! time() !!}"></script>
-<script src="{!! public_asset('/assets/system/js/phpvms.js') !!}?v={!! time() !!}"></script>
+<script src="{{ public_asset('/assets/system/js/vendor.js') }}?v={{ time() }}"></script>
+<script src="{{ public_asset('/assets/system/js/phpvms.js') }}?v={{ time() }}"></script>
 
 <script>
 $(document).ready(function () {

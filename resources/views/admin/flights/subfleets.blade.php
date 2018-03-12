@@ -14,20 +14,20 @@
         <tbody>
         @foreach($flight->subfleets as $sf)
             <tr>
-                <td>{!! $sf->type !!}</td>
-                <td>{!! $sf->name !!}</td>
+                <td>{{ $sf->type }}</td>
+                <td>{{ $sf->name }}</td>
                 <td style="width: 10%; text-align: center;" class="form-inline">
-                    {!! Form::open(['url' => '/admin/flights/'.$flight->id.'/subfleets',
+                    {{ Form::open(['url' => '/admin/flights/'.$flight->id.'/subfleets',
                                     'method' => 'delete',
-                                    'class' => 'pjax_subfleet_form']) !!}
-                    {!! Form::hidden('subfleet_id', $sf->id) !!}
+                                    'class' => 'pjax_subfleet_form']) }}
+                    {{ Form::hidden('subfleet_id', $sf->id) }}
                     <div class='btn-group'>
-                        {!! Form::button('<i class="fa fa-times"></i>',
+                        {{ Form::button('<i class="fa fa-times"></i>',
                                          ['type' => 'submit',
                                           'class' => 'btn btn-danger btn-xs'])
-                          !!}
+                          }}
                     </div>
-                    {!! Form::close() !!}
+                    {{ Form::close() }}
                 </td>
             </tr>
         @endforeach
@@ -37,21 +37,21 @@
     <div class="row">
         <div class="col-xs-12">
             <div class="text-right">
-                {!! Form::open([
+                {{ Form::open([
                         'url' => '/admin/flights/'.$flight->id.'/subfleets',
                         'method' => 'post',
                         'class' => 'pjax_form form-inline pjax_subfleet_form'
                     ])
-                !!}
-                {!! Form::select('subfleet_id', $avail_subfleets, null, [
+                }}
+                {{ Form::select('subfleet_id', $avail_subfleets, null, [
                         'placeholder' => 'Select Subfleet',
                         'class' => 'select2 form-control input-lg',
                     ])
-                !!}&nbsp;
-                {!! Form::button('<i class="fas fa-plus"></i> add',
+                }}&nbsp;
+                {{ Form::button('<i class="fas fa-plus"></i> add',
                                  ['type' => 'submit',
-                                  'class' => 'btn btn-success btn-s']) !!}
-                {!! Form::close() !!}
+                                  'class' => 'btn btn-success btn-s']) }}
+                {{ Form::close() }}
             </div>
         </div>
     </div>

@@ -4,7 +4,7 @@ function setEditable() {
     @if(isset($aircraft))
     $('#expenses a.text').editable({
         emptytext: '0',
-        url: '{!! url('/admin/aircraft/'.$aircraft->id.'/expenses') !!}',
+        url: '{{ url('/admin/aircraft/'.$aircraft->id.'/expenses') }}',
         title: 'Enter override value',
         ajaxOptions: {'type': 'put'},
         params: function (params) {
@@ -19,8 +19,8 @@ function setEditable() {
     $('#expenses a.dropdown').editable({
         type: 'select',
         emptytext: '0',
-        source: {!! json_encode(list_to_editable(\App\Models\Enums\ExpenseType::select())) !!},
-        url: '{!! url('/admin/aircraft/'.$aircraft->id.'/expenses') !!}',
+        source: {{ json_encode(list_to_editable(\App\Models\Enums\ExpenseType::select())) }},
+        url: '{{ url('/admin/aircraft/'.$aircraft->id.'/expenses') }}',
         title: 'Enter override value',
         ajaxOptions: {'type': 'put'},
         params: function (params) {

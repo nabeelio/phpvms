@@ -5,7 +5,7 @@ function setEditable() {
         type: 'text',
         mode: 'inline',
         emptytext: 'inherited',
-        url: '{!! url('/admin/subfleets/'.$subfleet->id.'/fares') !!}',
+        url: '{{ url('/admin/subfleets/'.$subfleet->id.'/fares') }}',
         title: 'Enter override value',
         ajaxOptions: {'type': 'put'},
         params: function (params) {
@@ -21,7 +21,7 @@ function setEditable() {
         type: 'text',
         mode: 'inline',
         emptytext: 'inherited',
-        url: '{!! url('/admin/subfleets/'.$subfleet->id.'/ranks') !!}',
+        url: '{{ url('/admin/subfleets/'.$subfleet->id.'/ranks') }}',
         title: 'Enter override value',
         ajaxOptions: {'type': 'put'},
         params: function (params) {
@@ -35,7 +35,7 @@ function setEditable() {
 
     $('#subfleet-expenses a.text').editable({
         emptytext: '0',
-        url: '{!! url('/admin/subfleets/'.$subfleet->id.'/expenses') !!}',
+        url: '{{ url('/admin/subfleets/'.$subfleet->id.'/expenses') }}',
         title: 'Enter override value',
         ajaxOptions: {'type': 'put'},
         params: function (params) {
@@ -50,8 +50,8 @@ function setEditable() {
     $('#subfleet-expenses a.dropdown').editable({
         type: 'select',
         emptytext: '0',
-        source: {!! json_encode(list_to_editable(\App\Models\Enums\ExpenseType::select())) !!},
-        url: '{!! url('/admin/subfleets/'.$subfleet->id.'/expenses') !!}',
+        source: {{ json_encode(list_to_editable(\App\Models\Enums\ExpenseType::select())) }},
+        url: '{{ url('/admin/subfleets/'.$subfleet->id.'/expenses') }}',
         title: 'Enter override value',
         ajaxOptions: {'type': 'put'},
         params: function (params) {

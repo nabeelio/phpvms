@@ -9,14 +9,14 @@
         <tbody>
         @foreach($aircraft->subfleet->fares as $fare)
             <tr>
-                <td style="text-align: right;">{!! $fare->name !!} ({!! $fare->code !!})</td>
+                <td style="text-align: right;">{{ $fare->name }} ({{ $fare->code }})</td>
                 <td>
                     @if($read_only)
-                        <p>{!! $pirep->{'fare_'.$fare->id} !!}</p>
-                        {!! Form::hidden('fare_'.$fare->id) !!}
+                        <p>{{ $pirep->{'fare_'.$fare->id} }}</p>
+                        {{ Form::hidden('fare_'.$fare->id) }}
                     @else
                         <div class="input-group form-group">
-                            {!! Form::number('fare_'.$fare->id, null, ['class' => 'form-control', 'min' => 0]) !!}
+                            {{ Form::number('fare_'.$fare->id, null, ['class' => 'form-control', 'min' => 0]) }}
                         </div>
                     @endif
                 </td>

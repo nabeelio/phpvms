@@ -6,9 +6,9 @@
     <div class="col-md-12">
         <h2 class="description">edit your profile</h2>
           @include('flash::message')
-          {!! Form::model($user, ['route' => ['frontend.profile.update', $user->id], 'method' => 'patch']) !!}
+          {{ Form::model($user, ['route' => ['frontend.profile.update', $user->id], 'method' => 'patch']) }}
              @include("profile.fields")
-          {!! Form::close() !!}
+          {{ Form::close() }}
     </div>
 </div>
 @endsection

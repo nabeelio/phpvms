@@ -7,7 +7,7 @@ function setEditable() {
         type: 'text',
         mode: 'inline',
         emptytext: 'inherited',
-        url: '{!! url('/admin/ranks/'.$rank->id.'/subfleets') !!}',
+        url: '{{ url('/admin/ranks/'.$rank->id.'/subfleets') }}',
         title: 'Enter override value',
         ajaxOptions: {'type': 'put'},
         params: function (params) {

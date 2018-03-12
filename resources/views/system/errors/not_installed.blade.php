@@ -12,9 +12,9 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet"/>
     <link rel="stylesheet"
           href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css"/>
-    <link href="{!! public_asset('/assets/frontend/css/bootstrap.min.css') !!}" rel="stylesheet"/>
-    <link href="{!! public_asset('/assets/frontend/css/now-ui-kit.css') !!}" rel="stylesheet"/>
-    <link href="{!! public_asset('/assets/frontend/css/styles.css') !!}" rel="stylesheet"/>
+    <link href="{{ public_asset('/assets/frontend/css/bootstrap.min.css') }}" rel="stylesheet"/>
+    <link href="{{ public_asset('/assets/frontend/css/now-ui-kit.css') }}" rel="stylesheet"/>
+    <link href="{{ public_asset('/assets/frontend/css/styles.css') }}" rel="stylesheet"/>
 
     <style>
         .table tr:first-child td {
@@ -37,8 +37,8 @@
                 <span class="navbar-toggler-bar bar3"></span>
             </button>
             <p class="navbar-brand text-white" data-placement="bottom" target="_blank">
-                <a href="{!! url('/') !!}">
-                    <img src="{!! public_asset('/assets/frontend/img/logo_blue_bg.svg') !!}" width="135px" style=""/>
+                <a href="{{ url('/') }}">
+                    <img src="{{ public_asset('/assets/frontend/img/logo_blue_bg.svg') }}" width="135px" style=""/>
                 </a>
             </p>
         </div>
@@ -60,7 +60,7 @@
                 <br />
                 <br />
                 <p style="text-align: right; font-size: 22px;">
-                    <a href="{!! url('/install') !!}" class="btn btn-success">Head on to the installer ></a>
+                    <a href="{{ url('/install') }}" class="btn btn-success">Head on to the installer ></a>
                 </p>
                 @yield('content')
             </div>

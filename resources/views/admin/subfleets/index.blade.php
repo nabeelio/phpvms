@@ -3,7 +3,7 @@
 
 @section('actions')
     <li>
-        <a href="{!! route('admin.subfleets.create') !!}">
+        <a href="{{ route('admin.subfleets.create') }}">
             <i class="ti-plus"></i>Add New</a>
     </li>
 @endsection

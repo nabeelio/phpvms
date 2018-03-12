@@ -15,22 +15,22 @@
     <tbody>
     @foreach($fields as $field)
         <tr>
-            <td>{!! $field->name !!}</td>
+            <td>{{ $field->name }}</td>
             <td style="text-align: center;">
                 @if($field->required === true)
                     <span class="label label-success">Required</span>
                 @endif
             </td>
             <td class="text-right">
-                {!! Form::open(['route' => ['admin.pirepfields.destroy', $field->id], 'method' => 'delete']) !!}
-                <a href="{!! route('admin.pirepfields.edit', [$field->id]) !!}"
+                {{ Form::open(['route' => ['admin.pirepfields.destroy', $field->id], 'method' => 'delete']) }}
+                <a href="{{ route('admin.pirepfields.edit', [$field->id]) }}"
                    class='btn btn-sm btn-success btn-icon'>
                     <i class="fas fa-pencil-alt"></i></a>
 
-                {!! Form::button('<i class="fa fa-times"></i>',
+                {{ Form::button('<i class="fa fa-times"></i>',
                              ['type' => 'submit', 'class' => 'btn btn-sm btn-danger btn-icon',
-                              'onclick' => "return confirm('Are you sure?')"]) !!}
-                {!! Form::close() !!}
+                              'onclick' => "return confirm('Are you sure?')"]) }}
+                {{ Form::close() }}
             </td>
         </tr>
     @endforeach

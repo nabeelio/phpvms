@@ -3,9 +3,9 @@
 @section('content')
     <div class="card border-blue-bottom">
         <div class="content">
-            {!! Form::model($flight, ['route' => ['admin.flights.store']]) !!}
+            {{ Form::model($flight, ['route' => ['admin.flights.store']]) }}
                 @include('admin.flights.fields')
-            {!! Form::close() !!}
+            {{ Form::close() }}
         </div>
     </div>
 @endsection

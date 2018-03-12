@@ -4,7 +4,7 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
-            <h2 class="description">{!! $pirep->ident !!}</h2>
+            <h2 class="description">{{ $pirep->ident }}</h2>
         </div>
     </div>
 
@@ -24,47 +24,47 @@
                             <div class="badge badge-info">
                         @endif
 
-                        {!! PirepState::label($pirep->state) !!}</div>
+                        {{ PirepState::label($pirep->state) }}</div>
 
                         <span class="description" style="padding-left: 20px;">
-                            source: {!! PirepSource::label($pirep->source) !!}
+                            source: {{ PirepSource::label($pirep->source) }}
                         </span>
                     </td>
                 </tr>
                 <tr>
                     <td>Departure/Arrival</td>
                     <td>
-                        {!! $pirep->dpt_airport->icao !!} - {!! $pirep->dpt_airport->name !!}
+                        {{ $pirep->dpt_airport->icao }} - {{ $pirep->dpt_airport->name }}
                         <span class="description">to</span>
-                        {!! $pirep->arr_airport->icao !!} - {!! $pirep->arr_airport->name !!}
+                        {{ $pirep->arr_airport->icao }} - {{ $pirep->arr_airport->name }}
                     </td>
                 </tr>
 
                 <tr>
                     <td>Flight Time</td>
                     <td>
-                        {!! Utils::minutesToTimeString($pirep->flight_time) !!}
+                        {{ Utils::minutesToTimeString($pirep->flight_time) }}
                     </td>
                 </tr>
 
                 <tr>
                     <td>Filed Route</td>
                     <td>
-                        {!! $pirep->route !!}
+                        {{ $pirep->route }}
                     </td>
                 </tr>
 
                 <tr>
                     <td>Notes</td>
                     <td>
-                        {!! $pirep->notes !!}
+                        {{ $pirep->notes }}
                     </td>
                 </tr>
 
                 <tr>
                     <td>Filed On</td>
                     <td>
-                        {!! show_datetime($pirep->created_at) !!}
+                        {{ show_datetime($pirep->created_at) }}
                     </td>
                 </tr>
 
@@ -88,8 +88,8 @@
                     <tbody>
                     @foreach($pirep->fields as $field)
                         <tr>
-                            <td>{!! $field->name !!}</td>
-                            <td>{!! $field->value !!}</td>
+                            <td>{{ $field->name }}</td>
+                            <td>{{ $field->value }}</td>
                         </tr>
                     @endforeach
                     </tbody>
@@ -114,8 +114,8 @@
                     <tbody>
                     @foreach($pirep->fares as $fare)
                         <tr>
-                            <td>{!! $fare->fare->name !!} ({!! $fare->fare->code !!})</td>
-                            <td>{!! $fare->count !!}</td>
+                            <td>{{ $fare->fare->name }} ({{ $fare->fare->code }})</td>
+                            <td>{{ $fare->count }}</td>
                         </tr>
                     @endforeach
                     </tbody>
@@ -137,8 +137,8 @@
                     <tbody>
                     @foreach($pirep->acars_logs as $log)
                         <tr>
-                            <td nowrap="true">{!! show_datetime($log->created_at) !!}</td>
-                            <td>{!! $log->log !!}</td>
+                            <td nowrap="true">{{ show_datetime($log->created_at) }}</td>
+                            <td>{{ $log->log }}</td>
                         </tr>
                     @endforeach
                     </tbody>

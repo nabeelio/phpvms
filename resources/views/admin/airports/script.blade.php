@@ -4,7 +4,7 @@ function setEditable() {
     @if(isset($airport))
     $('#airport-expenses a.text').editable({
         emptytext: '0',
-        url: '{!! url('/admin/airports/'.$airport->id.'/expenses') !!}',
+        url: '{{ url('/admin/airports/'.$airport->id.'/expenses') }}',
         title: 'Enter override value',
         ajaxOptions: {'type': 'put'},
         params: function (params) {
@@ -19,8 +19,8 @@ function setEditable() {
     $('#airport-expenses a.dropdown').editable({
         type: 'select',
         emptytext: '0',
-        source: {!! json_encode(list_to_editable(\App\Models\Enums\ExpenseType::select())) !!},
-        url: '{!! url('/admin/airports/'.$airport->id.'/expenses') !!}',
+        source: {{ json_encode(list_to_editable(\App\Models\Enums\ExpenseType::select())) }},
+        url: '{{ url('/admin/airports/'.$airport->id.'/expenses') }}',
         title: 'Enter override value',
         ajaxOptions: {'type': 'put'},
         params: function (params) {
@@ -54,7 +54,7 @@ $(document).ready(function() {
         type: 'text',
         mode: 'inline',
         emptytext: '0',
-        url: '{!! url('/admin/airports/fuel') !!}',
+        url: '{{ url('/admin/airports/fuel') }}',
         title: 'Enter price per unit of fuel',
         ajaxOptions: {'type': 'put'},
         params: function(params) {

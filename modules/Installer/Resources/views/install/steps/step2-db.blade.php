@@ -2,7 +2,7 @@
 @section('title', 'Database Setup')
 @section('content')
 <div style="align-content: center;">
-    {!! Form::open(['route' => 'installer.envsetup', 'method' => 'POST']) !!}
+    {{ Form::open(['route' => 'installer.envsetup', 'method' => 'POST']) }}
     <table class="table" width="25%">
 
         <tr>
@@ -13,7 +13,7 @@
             <td>Site Name</td>
             <td style="text-align:center;">
                 <div class="form-group">
-                    {!! Form::input('text', 'site_name', 'phpvms', ['class' => 'form-control']) !!}
+                    {{ Form::input('text', 'site_name', 'phpvms', ['class' => 'form-control']) }}
                 </div>
             </td>
         </tr>
@@ -22,7 +22,7 @@
             <td>Site URL</td>
             <td style="text-align:center;">
                 <div class="form-group">
-                    {!! Form::input('text', 'site_url', Request::root(), ['class' => 'form-control']) !!}
+                    {{ Form::input('text', 'site_url', Request::root(), ['class' => 'form-control']) }}
                 </div>
             </td>
         </tr>
@@ -35,7 +35,7 @@
             <td><p>Select Database Type</p></td>
             <td style="text-align:center;">
                 <div class="form-group">
-                {!! Form::select('db_conn', $db_types, null, ['class' => 'form-control', 'id' => 'db_conn']) !!}
+                {{ Form::select('db_conn', $db_types, null, ['class' => 'form-control', 'id' => 'db_conn']) }}
                 </div>
             </td>
         </tr>
@@ -45,7 +45,7 @@
                 <td>Database Host</td>
                 <td style="text-align:center;">
                     <div class="form-group">
-                    {!! Form::input('text', 'db_host', '127.0.0.1', ['class' => 'form-control']) !!}
+                    {{ Form::input('text', 'db_host', '127.0.0.1', ['class' => 'form-control']) }}
                     </div>
                 </td>
             </tr>
@@ -54,7 +54,7 @@
                 <td>Database Port</td>
                 <td style="text-align:center;">
                     <div class="form-group">
-                        {!! Form::input('text', 'db_port', '3306', ['class' => 'form-control']) !!}
+                        {{ Form::input('text', 'db_port', '3306', ['class' => 'form-control']) }}
                     </div>
                 </td>
             </tr>
@@ -63,7 +63,7 @@
                 <td>Database Name</td>
                 <td style="text-align:center;">
                     <div class="form-group">
-                        {!! Form::input('text', 'db_name', 'phpvms', ['class' => 'form-control']) !!}
+                        {{ Form::input('text', 'db_name', 'phpvms', ['class' => 'form-control']) }}
                     </div>
                 </td>
             </tr>
@@ -72,7 +72,7 @@
                 <td>Database User</td>
                 <td style="text-align:center;">
                     <div class="form-group">
-                        {!! Form::input('text', 'db_user', null, ['class' => 'form-control']) !!}
+                        {{ Form::input('text', 'db_user', null, ['class' => 'form-control']) }}
                     </div>
                 </td>
             </tr>
@@ -81,14 +81,14 @@
                 <td>Database Password</td>
                 <td style="text-align:center;">
                     <div class="form-group">
-                        {!! Form::input('text', 'db_pass', null, ['class' => 'form-control']) !!}
+                        {{ Form::input('text', 'db_pass', null, ['class' => 'form-control']) }}
                     </div>
                 </td>
             </tr>
 
             <tr>
                 <td colspan="2" style="text-align: right;">
-                    {!! Form::submit('Test Database Credentials', ['class' => 'btn btn-info', 'id' => 'dbtest_button']) !!}
+                    {{ Form::submit('Test Database Credentials', ['class' => 'btn btn-info', 'id' => 'dbtest_button']) }}
                 </td>
             </tr>
         </tbody>
@@ -101,7 +101,7 @@
             <td>Database Prefix</td>
             <td style="text-align:center;">
                 <div class="form-group">
-                    {!! Form::input('text', 'db_prefix', '', ['class' => 'form-control']) !!}
+                    {{ Form::input('text', 'db_prefix', '', ['class' => 'form-control']) }}
                     <p>Set this if you're sharing the database with another application.</p>
                 </div>
             </td>
@@ -110,9 +110,9 @@
     </table>
     <div id="dbtest"></div>
     <p style="text-align: right">
-        {!! Form::submit('Setup Database >>', ['class' => 'btn btn-success']) !!}
+        {{ Form::submit('Setup Database >>', ['class' => 'btn btn-success']) }}
     </p>
-    {!! Form::close() !!}
+    {{ Form::close() }}
 </div>
 @endsection
 
@@ -143,7 +143,7 @@ $(document).ready(function() {
             db_pass: $("input[name=db_pass]").val(),
         };
 
-        $.post("{!! route('installer.dbtest') !!}", opts, function(data) {
+        $.post("{{ route('installer.dbtest') }}", opts, function(data) {
             $("#dbtest").html(data);
         })
     })

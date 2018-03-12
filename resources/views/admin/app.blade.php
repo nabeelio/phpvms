@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>@yield('title') - {!! config('app.name') !!} admin</title>
+    <title>@yield('title') - {{ config('app.name') }} admin</title>
 
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
@@ -9,9 +9,9 @@
     <meta name="viewport" content="width=device-width" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <script src="{!! public_asset('/assets/system/js/jquery.js') !!}"></script>
+    <script src="{{ public_asset('/assets/system/js/jquery.js') }}"></script>
 
-    <link rel="icon" type="image/png" href="{!! public_asset('/assets/admin/img/favicon.png') !!}">
+    <link rel="icon" type="image/png" href="{{ public_asset('/assets/admin/img/favicon.png') }}">
 
     <link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'>
     <link href="http://fonts.googleapis.com/css?family=Roboto:400,700,300" rel="stylesheet" type="text/css">
@@ -31,9 +31,9 @@
     </style>
 
     <script>
-        const BASE_URL ='{!! url('/') !!}';
+        const BASE_URL ='{{ url('/') }}';
     @if (Auth::user())
-        const PHPVMS_USER_API_KEY = "{!! Auth::user()->api_key !!}";
+        const PHPVMS_USER_API_KEY = "{{ Auth::user()->api_key }}";
     @else
         const PHPVMS_USER_API_KEY = false;
     @endif
@@ -95,9 +95,9 @@
 </body>
 
 <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
-<script src="{!! public_asset('/assets/admin/js/vendor.js') !!}"></script>
-<script src="{!! public_asset('/assets/system/js/phpvms.js') !!}"></script>
-<script src="{!! public_asset('/assets/admin/js/admin.js') !!}"></script>
+<script src="{{ public_asset('/assets/admin/js/vendor.js') }}"></script>
+<script src="{{ public_asset('/assets/system/js/phpvms.js') }}"></script>
+<script src="{{ public_asset('/assets/admin/js/admin.js') }}"></script>
 
 <script>
 const getStorage = function(key) {

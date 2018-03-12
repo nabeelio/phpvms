@@ -12,7 +12,7 @@ $(document).ready(function () {
                 'flight_id': btn.attr('x-id')
             },
             headers: {
-                'x-api-key': "{!! Auth::user()->api_key !!}"
+                'x-api-key': "{{ Auth::user()->api_key }}"
             }
         };
 

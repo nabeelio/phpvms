@@ -10,12 +10,12 @@
         <tr>
             <td>
                 @if(filled($al->country))
-                    <span class="flag-icon flag-icon-{!! $al->country !!}"></span>
+                    <span class="flag-icon flag-icon-{{ $al->country }}"></span>
                     &nbsp;
                 @endif
-                <a href="{!! route('admin.airlines.edit', [$al->id]) !!}">{!! $al->code !!}</a>
+                <a href="{{ route('admin.airlines.edit', [$al->id]) }}">{{ $al->code }}</a>
             </td>
-            <td>{!! $al->name !!}</td>
+            <td>{{ $al->name }}</td>
             <td class="text-center">
                 @if($al->active == 1)
                     <span class="label label-success">Active</span>
@@ -24,11 +24,11 @@
                 @endif
             </td>
             <td class="text-right">
-                {!! Form::open(['route' => ['admin.airlines.destroy', $al->id], 'method' => 'delete']) !!}
-                <a href="{!! route('admin.airlines.edit', [$al->id]) !!}"
+                {{ Form::open(['route' => ['admin.airlines.destroy', $al->id], 'method' => 'delete']) }}
+                <a href="{{ route('admin.airlines.edit', [$al->id]) }}"
                    class='btn btn-sm btn-success btn-icon'><i class="fas fa-pencil-alt"></i></a>
-                {!! Form::button('<i class="fa fa-times"></i>', ['type' => 'submit', 'class' => 'btn btn-sm btn-danger btn-icon', 'onclick' => "return confirm('Are you sure?')"]) !!}
-                {!! Form::close() !!}
+                {{ Form::button('<i class="fa fa-times"></i>', ['type' => 'submit', 'class' => 'btn btn-sm btn-danger btn-icon', 'onclick' => "return confirm('Are you sure?')"]) }}
+                {{ Form::close() }}
             </td>
         </tr>
     @endforeach

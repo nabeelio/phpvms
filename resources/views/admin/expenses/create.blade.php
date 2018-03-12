@@ -3,9 +3,9 @@
 @section('content')
     <div class="card border-blue-bottom">
         <div class="content">
-            {!! Form::open(['route' => 'admin.expenses.store']) !!}
+            {{ Form::open(['route' => 'admin.expenses.store']) }}
              @include('admin.expenses.fields')
-            {!! Form::close() !!}
+            {{ Form::close() }}
         </div>
     </div>
 @endsection

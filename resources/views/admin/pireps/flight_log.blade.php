@@ -4,8 +4,8 @@
         <tbody>
         @foreach($pirep->acars_logs as $log)
             <tr>
-                <td nowrap="true">{!! show_datetime($log->created_at) !!}</td>
-                <td>{!! $log->log !!}</td>
+                <td nowrap="true">{{ show_datetime($log->created_at) }}</td>
+                <td>{{ $log->log }}</td>
             </tr>
         @endforeach
         </tbody>

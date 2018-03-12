@@ -4,7 +4,7 @@
         <div class="alert-icon">
             <i class="now-ui-icons ui-2_like"></i>
         </div>
-        {!! $message['message'] !!}
+        {{ $message['message'] }}
     </div>
 </div>
 @endforeach

@@ -9,10 +9,10 @@
                 console.log('aircraft select change: ', aircraft_id);
 
                 $.ajax({
-                    url: "{!! url('/pireps/fares') !!}?aircraft_id=" + aircraft_id,
+                    url: "{{ url('/pireps/fares') }}?aircraft_id=" + aircraft_id,
                     type: 'GET',
                     headers: {
-                        'x-api-key': '{!! Auth::user()->api_key !!}'
+                        'x-api-key': '{{ Auth::user()->api_key }}'
                     },
                     success: (data) => {
                         console.log('returned new fares', data);

@@ -6,7 +6,7 @@ function setEditable() {
         type: 'text',
         mode: 'inline',
         emptytext: 'inherited',
-        url: '{!! url('/admin/flights/'.$flight->id.'/fares') !!}',
+        url: '{{ url('/admin/flights/'.$flight->id.'/fares') }}',
         title: 'Enter override value',
         ajaxOptions: {'type': 'put'},
         params: function (params) {
@@ -27,7 +27,7 @@ $(document).ready(function () {
         type: 'text',
         mode: 'inline',
         emptytext: '0',
-        url: '/admin/flights/{!! $flight->id !!}/fields',
+        url: '/admin/flights/{{ $flight->id }}/fields',
         ajaxOptions: {'type': 'put'},
         params: function (params) {
             return {

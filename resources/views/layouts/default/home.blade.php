@@ -18,24 +18,24 @@
                 {{--</div>--}}
                 <div class="header header-primary text-center blue-bg">
                     <h3 class="title title-up text-white">
-                        <a href="{!! route('frontend.profile.show', ['id' => $user->id]) !!}" class="text-white">{!! $user->name !!}</a>
+                        <a href="{{ route('frontend.profile.show', ['id' => $user->id]) }}" class="text-white">{{ $user->name }}</a>
                     </h3>
                     <div class="photo-container">
                         <img class="rounded-circle"
-                             src="{!! $user->gravatar(123) !!}">
+                             src="{{ $user->gravatar(123) }}">
                     </div>
                 </div>
                 <div class="content content-center">
                     <div class="social-description text-center text-white">
                         <h2 class="description text-white">
                             @if(filled($user->home_airport))
-                            {!! $user->home_airport->icao !!}
+                            {{ $user->home_airport->icao }}
                             @endif
                         </h2>
                     </div>
                 </div>
                 <div class="footer text-center">
-                    <a href="{!! route('frontend.profile.show', ['id' => $user->id]) !!}" class="btn btn-neutral btn-sm">Profile</a>
+                    <a href="{{ route('frontend.profile.show', ['id' => $user->id]) }}" class="btn btn-neutral btn-sm">Profile</a>
                 </div>
             </div>
         </div>

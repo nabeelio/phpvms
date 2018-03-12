@@ -3,13 +3,13 @@
 @section('content')
    <div class="card border-blue-bottom">
       <div class="content">
-          {!! Form::model($airport, [
+          {{ Form::model($airport, [
                'route' => ['admin.airports.update', $airport->id],
                'method' => 'patch',
                'id' => 'airportForm'])
-          !!}
+          }}
                @include('admin.airports.fields')
-          {!! Form::close() !!}
+          {{ Form::close() }}
       </div>
    </div>
 

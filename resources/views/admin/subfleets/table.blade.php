@@ -10,23 +10,23 @@
     @foreach($subfleets as $subfleet)
         <tr>
             <td>
-                <a href="{!! route('admin.subfleets.edit', [$subfleet->id]) !!}">
-                {!! $subfleet->name !!}
+                <a href="{{ route('admin.subfleets.edit', [$subfleet->id]) }}">
+                {{ $subfleet->name }}
                 </a>
             </td>
-            <td>{!! $subfleet->airline->name !!}</td>
-            <td>{!! $subfleet->type !!}</td>
+            <td>{{ $subfleet->airline->name }}</td>
+            <td>{{ $subfleet->type }}</td>
 
             <td class="text-right">
-                {!! Form::open(['route' => ['admin.subfleets.destroy', $subfleet->id], 'method' => 'delete']) !!}
+                {{ Form::open(['route' => ['admin.subfleets.destroy', $subfleet->id], 'method' => 'delete']) }}
 
-                <a href="{!! route('admin.subfleets.edit', [$subfleet->id]) !!}" class='btn btn-sm btn-success btn-icon'>
+                <a href="{{ route('admin.subfleets.edit', [$subfleet->id]) }}" class='btn btn-sm btn-success btn-icon'>
                     <i class="fas fa-pencil-alt"></i></a>
 
-                {!! Form::button('<i class="fa fa-times"></i>',
+                {{ Form::button('<i class="fa fa-times"></i>',
                                  ['type' => 'submit', 'class' => 'btn btn-sm btn-danger btn-icon',
-                                  'onclick' => "return confirm('Are you sure?')"]) !!}
-                {!! Form::close() !!}
+                                  'onclick' => "return confirm('Are you sure?')"]) }}
+                {{ Form::close() }}
             </td>
         </tr>
     @endforeach

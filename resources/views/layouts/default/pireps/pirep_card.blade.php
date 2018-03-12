@@ -3,8 +3,8 @@
         <div class="row">
             <div class="col-sm-2 text-center">
                 <h5>
-                    <a class="text-c" href="{!! route('frontend.pireps.show', [$pirep->id]) !!}">
-                        {!! $pirep->ident !!}
+                    <a class="text-c" href="{{ route('frontend.pireps.show', [$pirep->id]) }}">
+                        {{ $pirep->ident }}
                     </a>
                 </h5>
                 <div>
@@ -17,7 +17,7 @@
                     @else
                         <div class="badge badge-info">
                     @endif
-                        {!! PirepState::label($pirep->state) !!}</div>
+                        {{ PirepState::label($pirep->state) }}</div>
                 </div>
             </div>
             <div class="col-sm-10">
@@ -26,36 +26,36 @@
                         <table width="100%">
                             <tr>
                                 <td width="20%" nowrap><span class="title">DEP&nbsp;</span></td>
-                                <td>{!! $pirep->dpt_airport_id !!}</td>
+                                <td>{{ $pirep->dpt_airport_id }}</td>
                             </tr>
                             <tr>
                                 <td nowrap><span class="title">ARR&nbsp;</span></td>
-                                <td>{!! $pirep->arr_airport_id !!}&nbsp;</td>
+                                <td>{{ $pirep->arr_airport_id }}&nbsp;</td>
                             </tr>
                             <tr>
                                 <td nowrap><span class="title">Flight Time&nbsp;</span></td>
-                                <td>{!! Utils::minutesToTimeString($pirep->flight_time) !!}</td>
+                                <td>{{ Utils::minutesToTimeString($pirep->flight_time) }}</td>
                             </tr>
                             <tr>
                                 <td nowrap><span class="title">Aircraft&nbsp;</span></td>
-                                <td>{!! $pirep->aircraft->name !!}
-                                    ({!! $pirep->aircraft->registration !!})</td>
+                                <td>{{ $pirep->aircraft->name }}
+                                    ({{ $pirep->aircraft->registration }})</td>
                             </tr>
                             @if($pirep->level)
                             <tr>
                                 <td nowrap><span class="title">Flight Level&nbsp;</span></td>
-                                <td>{!! $pirep->level !!}</td>
+                                <td>{{ $pirep->level }}</td>
                             </tr>
                             @endif
                             <tr>
                                 <td nowrap><span class="title">Filed On:&nbsp;</span></td>
-                                <td>{!! show_datetime($pirep->created_at) !!}</td>
+                                <td>{{ show_datetime($pirep->created_at) }}</td>
                             </tr>
                         </table>
                     </div>
                     <div class="col-sm-6">
                         <p style="text-align: right;">
-                            <a href="{!! route('frontend.pireps.edit', ['id'=>$pirep->id]) !!}">edit</a>
+                            <a href="{{ route('frontend.pireps.edit', ['id'=>$pirep->id]) }}">edit</a>
                         </p>
                     </div>
                 </div>

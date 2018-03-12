@@ -8,17 +8,17 @@
     <tbody>
     @foreach($aircraft->subfleet->fares as $fare)
     <tr>
-        <td>{!! $fare->name !!} ({!! $fare->code !!})</td>
+        <td>{{ $fare->name }} ({{ $fare->code }})</td>
         <td>
             <div class="form-group">
                 @if($read_only)
-                    <p>{!! $pirep->{'fare_'.$fare->id} !!}</p>
-                    {!! Form::hidden('fare_'.$fare->id) !!}
+                    <p>{{ $pirep->{'fare_'.$fare->id} }}</p>
+                    {{ Form::hidden('fare_'.$fare->id) }}
                 @else
-                    {!! Form::number('fare_'.$fare->id, null, [
+                    {{ Form::number('fare_'.$fare->id, null, [
                         'class' => 'form-control',
                         'min' => 0,
-                        'readonly' => $read_only]) !!}
+                        'readonly' => $read_only]) }}
                 @endif
             </div>
         </td>
