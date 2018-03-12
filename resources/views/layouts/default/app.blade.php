@@ -72,8 +72,12 @@
 </div>
 
 <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
-<script src="{{ public_asset('/assets/system/js/vendor.js') }}?v={{ time() }}"></script>
-<script src="{{ public_asset('/assets/system/js/phpvms.js') }}?v={{ time() }}"></script>
+{{--<script src="{{ public_asset('/assets/system/js/vendor.js') }}?v={{ time() }}"></script>
+<script src="{{ public_asset('/assets/system/js/phpvms.js') }}?v={{ time() }}"></script>--}}
+
+<script src="{{ public_asset('/js/frontend/manifest.js') }}"></script>
+<script src="{{ public_asset('/js/frontend/vendor.js') }}"></script>
+<script src="{{ public_asset('/js/frontend/app.js') }}"></script>
 
 <script>
 $(document).ready(function () {
