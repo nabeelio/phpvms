@@ -75,6 +75,7 @@ mix.autoload({
 
 mix.scripts([
     'node_modules/lodash/lodash.js',
+    'node_modules/axios/dist/axios.js',
     'node_modules/jquery/dist/jquery.js',
     'node_modules/bootstrap3/dist/js/bootstrap.js',
     'node_modules/popper.js/dist/umd/popper.js',

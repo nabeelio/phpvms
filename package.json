@@ -11,10 +11,10 @@
   },
   "dependencies": {
     "Leaflet.Geodesic": "git+https://git@github.com/henrythasler/Leaflet.Geodesic.git",
-    "axios": "^0.17",
+    "axios": "^0.17.1",
     "bootstrap-sass": "^3.3.7",
     "bootstrap3": "^3.3.5",
-    "cross-env": "^5.1.3",
+    "cross-env": "^5.1.4",
     "eonasdan-bootstrap-datetimepicker": "^4.17.47",
     "flag-icon-css": "^2.9.0",
     "icheck": "^1.0.2",
@@ -26,15 +26,15 @@
     "leaflet-rotatedmarker": "^0.2.0",
     "lodash": "4.17.4",
     "marked": "0.3.9",
-    "moment": "^2.20.1",
+    "moment": "^2.21.0",
     "pjax": "^0.2.5",
-    "popper.js": "^1.13.0",
+    "popper.js": "^1.14.0",
     "rivets": "0.9.6",
     "select2": "^4.0.5",
-    "x-editable": "1.5.1",
-    "webpack": "^3.0"
+    "webpack": "^3.0",
+    "x-editable": "1.5.1"
   },
   "devDependencies": {
-    "copy-webpack-plugin": "^4.4.2"
+    "copy-webpack-plugin": "^4.5.1"
   }
 }
