@@ -3,6 +3,7 @@
 function setEditable() {
 
     const token = $('meta[name="csrf-token"]').attr('content');
+    const api_key = $('meta[name="api-key"]').attr('content');
 
     @if(isset($aircraft))
     $('#expenses a.text').editable({
@@ -12,7 +13,7 @@ function setEditable() {
         ajaxOptions: {
             type: 'post',
             headers: {
-                'x-api-key': '{{ Auth::user()->api_key }}',
+                'x-api-key': api_key,
                 'X-CSRF-TOKEN': token,
             }
         },
@@ -35,7 +36,7 @@ function setEditable() {
         ajaxOptions: {
             type: 'post',
             headers: {
-                'x-api-key': '{{ Auth::user()->api_key }}',
+                'x-api-key': api_key,
                 'X-CSRF-TOKEN': token,
             }
         },

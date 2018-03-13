@@ -3,6 +3,7 @@
 function setEditable() {
 
     const token = $('meta[name="csrf-token"]').attr('content');
+    const api_key = $('meta[name="api-key"]').attr('content');
 
     $('#aircraft_fares a').editable({
         type: 'text',
@@ -13,7 +14,7 @@ function setEditable() {
         ajaxOptions: {
             type: 'post',
             headers: {
-                'x-api-key': '{{ Auth::user()->api_key }}',
+                'x-api-key': api_key,
                 'X-CSRF-TOKEN': token,
             }
         },
@@ -36,7 +37,7 @@ function setEditable() {
         ajaxOptions: {
             type: 'post',
             headers: {
-                'x-api-key': '{{ Auth::user()->api_key }}',
+                'x-api-key': api_key,
                 'X-CSRF-TOKEN': token,
             }
         },
@@ -57,7 +58,7 @@ function setEditable() {
         ajaxOptions: {
             type: 'post',
             headers: {
-                'x-api-key': '{{ Auth::user()->api_key }}',
+                'x-api-key': api_key,
                 'X-CSRF-TOKEN': token,
             }
         },
@@ -80,7 +81,7 @@ function setEditable() {
         ajaxOptions: {
             type: 'post',
             headers: {
-                'x-api-key': '{{ Auth::user()->api_key }}',
+                'x-api-key': api_key,
                 'X-CSRF-TOKEN': token,
             }
         },

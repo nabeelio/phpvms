@@ -2,6 +2,10 @@
 <script>
 
 function setEditable() {
+
+    const csrf_token = $('meta[name="csrf-token"]').attr('content');
+    const api_key = $('meta[name="api-key"]').attr('content');
+
     $('#flight_fares a').editable({
         type: 'text',
         mode: 'inline',
@@ -11,8 +15,8 @@ function setEditable() {
         ajaxOptions: {
             type: 'post',
             headers: {
-                'x-api-key': '{{ Auth::user()->api_key }}',
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                'x-api-key': api_key,
+                'X-CSRF-TOKEN': csrf_token
             }
         },
         params: function (params) {
@@ -28,6 +32,9 @@ function setEditable() {
 
 $(document).ready(function () {
 
+    const csrf_token = $('meta[name="csrf-token"]').attr('content');
+    const api_key = $('meta[name="api-key"]').attr('content');
+
     setEditable();
 
     $('#flight_fields_wrapper a.inline').editable({
@@ -38,8 +45,8 @@ $(document).ready(function () {
         ajaxOptions: {
             type: 'post',
             headers: {
-                'x-api-key': '{{ Auth::user()->api_key }}',
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                'x-api-key': api_key,
+                'X-CSRF-TOKEN': csrf_token
             }
         },
         params: function (params) {

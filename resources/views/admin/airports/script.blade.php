@@ -3,6 +3,7 @@
 function setEditable() {
 
     const csrf_token = $('meta[name="csrf-token"]').attr('content');
+    const api_key = $('meta[name="api-key"]').attr('content');
 
     @if(isset($airport))
     $('#airport-expenses a.text').editable({
@@ -12,7 +13,7 @@ function setEditable() {
         ajaxOptions: {
             type: 'post',
             headers: {
-                'x-api-key': '{{ Auth::user()->api_key }}',
+                'x-api-key': api_key,
                 'X-CSRF-TOKEN': csrf_token
             }
         },
@@ -35,7 +36,7 @@ function setEditable() {
         ajaxOptions: {
             type: 'post',
             headers: {
-                'x-api-key': '{{ Auth::user()->api_key }}',
+                'x-api-key': api_key,
                 'X-CSRF-TOKEN': csrf_token
             }
         },
@@ -52,12 +53,16 @@ function setEditable() {
 }
 
 function phpvms_vacentral_airport_lookup(icao, callback) {
+
+    const csrf_token = $('meta[name="csrf-token"]').attr('content');
+    const api_key = $('meta[name="api-key"]').attr('content');
+
     $.ajax({
         url: BASE_URL + '/api/airports/'+ icao + '/lookup',
         method: 'GET',
         headers: {
-            'x-api-key': '{{ Auth::user()->api_key }}',
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            'x-api-key': api_key,
+            'X-CSRF-TOKEN': csrf_token
         }
     }).done(function (data, status) {
         callback(data.data);
@@ -65,6 +70,9 @@ function phpvms_vacentral_airport_lookup(icao, callback) {
 }
 
 $(document).ready(function() {
+
+    const csrf_token = $('meta[name="csrf-token"]').attr('content');
+    const api_key = $('meta[name="api-key"]').attr('content');
 
     setEditable();
 
@@ -77,8 +85,8 @@ $(document).ready(function() {
         ajaxOptions: {
             type: 'post',
             headers: {
-                'x-api-key': '{{ Auth::user()->api_key }}',
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                'x-api-key': api_key,
+                'X-CSRF-TOKEN': csrf_token
             }
         },
         params: function(params) {
