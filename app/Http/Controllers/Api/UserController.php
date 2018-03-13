@@ -102,7 +102,7 @@ class UserController extends RestController
         $user = $this->userRepo->find($this->getUserId($request));
 
         # Add a bid
-        if ($request->isMethod('PUT')) {
+        if ($request->isMethod('PUT') || $request->isMethod('POST')) {
             $flight_id = $request->input('flight_id');
             $flight = $this->flightRepo->find($flight_id);
             $bid = $this->flightSvc->addBid($flight, $user);

@@ -70,6 +70,7 @@ Route::group(['middleware' => ['api.auth']], function ()
 
     Route::get('user/bids', 'UserController@bids');
     Route::put('user/bids', 'UserController@bids');
+    Route::post('user/bids', 'UserController@bids');
     Route::delete('user/bids', 'UserController@bids');
 
     Route::get('users/{id}', 'UserController@get');
