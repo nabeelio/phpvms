@@ -1,4 +1,5 @@
 @extends('app')
+@section('title', 'Reset Password')
 
 @section('content')
 <div class="container">
@@ -6,11 +7,14 @@
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">Reset Password</div>
-
                 <div class="panel-body">
-                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/password/reset') }}">
-                        {{ csrf_field() }}
-
+                    {{ Form::open([
+                        'url' => url('/password/reset'),
+                        'method' => 'post',
+                        'role' => 'form',
+                        'class' => 'form-horizontal',
+                        ])
+                    }}
                         <input type="hidden" name="token" value="{{ $token }}">
 
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
@@ -61,7 +65,7 @@
                                 </button>
                             </div>
                         </div>
-                    </form>
+                    {{ Form::close() }}
                 </div>
             </div>
         </div>

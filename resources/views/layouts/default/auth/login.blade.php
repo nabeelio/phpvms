@@ -1,10 +1,10 @@
-@extends("auth.layout")
-@section('title', 'log in')
+@extends('auth.layout')
+@section('title', 'Log In')
 
 @section('content')
 <div class="col-md-4 content-center">
     <div class="card card-login card-plain">
-        <form class="form" method="POST" action="{{ url('/login') }}">
+        {{ Form::open(['url' => url('/login'), 'method' => 'post']) }}
             <div class="header header-primary text-center">
                 <div class="logo-container" style="width: 320px;">
                     <img src="{{ public_asset('/assets/frontend/img/logo.svg') }}" width="320" height="320" style="background: #FFF">
@@ -15,12 +15,14 @@
                     <span class="input-group-addon">
                         <i class="now-ui-icons users_circle-08"></i>
                     </span>
-                    <input id="email" type="email"
-                           class="form-control"
-                           name="email"
-                           value="{{ old('email') }}"
-                           placeholder="Email"
-                           required>
+                    {{
+                        Form::text('email', old('email'), [
+                            'id' => 'email',
+                            'placeholder' => 'Email',
+                            'class' => 'form-control',
+                            'required' => true,
+                        ])
+                    }}
                 </div>
                 @if ($errors->has('email'))
                     <span class="help-block">
@@ -32,12 +34,14 @@
                     <span class="input-group-addon">
                         <i class="now-ui-icons ui-1_lock-circle-open"></i>
                     </span>
-                    <input id="password"
-                           type="password"
-                           name="password"
-                           class="form-control"
-                           placeholder="Password"
-                           required>
+                    {{
+                        Form::password('password', [
+                            'name' => 'password',
+                            'class' => 'form-control',
+                            'placeholder' => 'Password',
+                            'required' => true,
+                        ])
+                    }}
                 </div>
                 @if ($errors->has('password'))
                     <span class="help-block">
@@ -59,7 +63,7 @@
                     <a href="{{ url('/password/reset') }}" class="link">Forgot Password?</a>
                 </h6>
             </div>
-        </form>
+        {{ Form::close() }}
     </div>
 </div>
 @endsection
