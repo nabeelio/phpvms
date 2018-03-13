@@ -1,14 +1,24 @@
 @section('scripts')
 <script>
 function setEditable() {
+
+    const csrf_token = $('meta[name="csrf-token"]').attr('content');
+
     @if(isset($airport))
     $('#airport-expenses a.text').editable({
         emptytext: '0',
         url: '{{ url('/admin/airports/'.$airport->id.'/expenses') }}',
         title: 'Enter override value',
-        ajaxOptions: {'type': 'put'},
+        ajaxOptions: {
+            type: 'post',
+            headers: {
+                'x-api-key': '{{ Auth::user()->api_key }}',
+                'X-CSRF-TOKEN': csrf_token
+            }
+        },
         params: function (params) {
             return {
+                _method: 'put',
                 expense_id: params.pk,
                 name: params.name,
                 value: params.value
@@ -19,12 +29,19 @@ function setEditable() {
     $('#airport-expenses a.dropdown').editable({
         type: 'select',
         emptytext: '0',
-        source: {{ json_encode(list_to_editable(\App\Models\Enums\ExpenseType::select())) }},
+        source: {!! json_encode(list_to_editable(\App\Models\Enums\ExpenseType::select())) !!},
         url: '{{ url('/admin/airports/'.$airport->id.'/expenses') }}',
         title: 'Enter override value',
-        ajaxOptions: {'type': 'put'},
+        ajaxOptions: {
+            type: 'post',
+            headers: {
+                'x-api-key': '{{ Auth::user()->api_key }}',
+                'X-CSRF-TOKEN': csrf_token
+            }
+        },
         params: function (params) {
             return {
+                _method: 'put',
                 expense_id: params.pk,
                 name: params.name,
                 value: params.value
@@ -39,7 +56,8 @@ function phpvms_vacentral_airport_lookup(icao, callback) {
         url: BASE_URL + '/api/airports/'+ icao + '/lookup',
         method: 'GET',
         headers: {
-            'x-api-key': PHPVMS_USER_API_KEY
+            'x-api-key': '{{ Auth::user()->api_key }}',
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     }).done(function (data, status) {
         callback(data.data);
@@ -56,9 +74,16 @@ $(document).ready(function() {
         emptytext: '0',
         url: '{{ url('/admin/airports/fuel') }}',
         title: 'Enter price per unit of fuel',
-        ajaxOptions: {'type': 'put'},
+        ajaxOptions: {
+            type: 'post',
+            headers: {
+                'x-api-key': '{{ Auth::user()->api_key }}',
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        },
         params: function(params) {
             return {
+                _method: 'put',
                 id: params.pk,
                 name: params.name,
                 value: params.value

@@ -8,9 +8,16 @@ function setEditable() {
         emptytext: 'inherited',
         url: '{{ url('/admin/flights/'.$flight->id.'/fares') }}',
         title: 'Enter override value',
-        ajaxOptions: {'type': 'put'},
+        ajaxOptions: {
+            type: 'post',
+            headers: {
+                'x-api-key': '{{ Auth::user()->api_key }}',
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        },
         params: function (params) {
             return {
+                _method: 'put',
                 fare_id: params.pk,
                 name: params.name,
                 value: params.value
@@ -28,9 +35,16 @@ $(document).ready(function () {
         mode: 'inline',
         emptytext: '0',
         url: '/admin/flights/{{ $flight->id }}/fields',
-        ajaxOptions: {'type': 'put'},
+        ajaxOptions: {
+            type: 'post',
+            headers: {
+                'x-api-key': '{{ Auth::user()->api_key }}',
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        },
         params: function (params) {
             return {
+                _method: 'put',
                 field_id: params.pk,
                 name: params.name,
                 value: params.value

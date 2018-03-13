@@ -9,7 +9,7 @@ Route::group([
  ], function () {
     Route::resource('airlines', 'AirlinesController');
 
-    Route::match(['get', 'put'], 'airports/fuel', 'AirportController@fuel');
+    Route::match(['get', 'post', 'put'], 'airports/fuel', 'AirportController@fuel');
     Route::resource('airports', 'AirportController');
     Route::match(['get', 'post', 'put', 'delete'], 'airports/{id}/expenses', 'AirportController@expenses');
 

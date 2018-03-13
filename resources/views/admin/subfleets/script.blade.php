@@ -1,15 +1,25 @@
 @section('scripts')
 <script>
 function setEditable() {
+
+    const token = $('meta[name="csrf-token"]').attr('content');
+
     $('#aircraft_fares a').editable({
         type: 'text',
         mode: 'inline',
         emptytext: 'inherited',
         url: '{{ url('/admin/subfleets/'.$subfleet->id.'/fares') }}',
         title: 'Enter override value',
-        ajaxOptions: {'type': 'put'},
+        ajaxOptions: {
+            type: 'post',
+            headers: {
+                'x-api-key': '{{ Auth::user()->api_key }}',
+                'X-CSRF-TOKEN': token,
+            }
+        },
         params: function (params) {
             return {
+                _method: 'put',
                 fare_id: params.pk,
                 name: params.name,
                 value: params.value
@@ -23,9 +33,16 @@ function setEditable() {
         emptytext: 'inherited',
         url: '{{ url('/admin/subfleets/'.$subfleet->id.'/ranks') }}',
         title: 'Enter override value',
-        ajaxOptions: {'type': 'put'},
+        ajaxOptions: {
+            type: 'post',
+            headers: {
+                'x-api-key': '{{ Auth::user()->api_key }}',
+                'X-CSRF-TOKEN': token,
+            }
+        },
         params: function (params) {
             return {
+                _method: 'put',
                 rank_id: params.pk,
                 name: params.name,
                 value: params.value
@@ -37,9 +54,16 @@ function setEditable() {
         emptytext: '0',
         url: '{{ url('/admin/subfleets/'.$subfleet->id.'/expenses') }}',
         title: 'Enter override value',
-        ajaxOptions: {'type': 'put'},
+        ajaxOptions: {
+            type: 'post',
+            headers: {
+                'x-api-key': '{{ Auth::user()->api_key }}',
+                'X-CSRF-TOKEN': token,
+            }
+        },
         params: function (params) {
             return {
+                _method: 'put',
                 expense_id: params.pk,
                 name: params.name,
                 value: params.value
@@ -50,13 +74,20 @@ function setEditable() {
     $('#subfleet-expenses a.dropdown').editable({
         type: 'select',
         emptytext: '0',
-        source: {{ json_encode(list_to_editable(\App\Models\Enums\ExpenseType::select())) }},
+        source: {!! json_encode(list_to_editable(\App\Models\Enums\ExpenseType::select())) !!},
         url: '{{ url('/admin/subfleets/'.$subfleet->id.'/expenses') }}',
         title: 'Enter override value',
-        ajaxOptions: {'type': 'put'},
+        ajaxOptions: {
+            type: 'post',
+            headers: {
+                'x-api-key': '{{ Auth::user()->api_key }}',
+                'X-CSRF-TOKEN': token,
+            }
+        },
         params: function (params) {
             console.log(params);
             return {
+                _method: 'put',
                 expense_id: params.pk,
                 name: params.name,
                 value: params.value
