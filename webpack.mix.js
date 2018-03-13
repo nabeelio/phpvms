@@ -49,6 +49,7 @@ mix.styles([
 mix.scripts([
     'node_modules/lodash/lodash.js',
     'node_modules/moment/moment.js',
+    'node_modules/axios/dist/axios.js',
     'node_modules/bootstrap3/dist/js/bootstrap.js',
     'node_modules/bootstrap3/js/collapse.js',
     'node_modules/bootstrap3/js/transition.js',

@@ -7,7 +7,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
+
+    {{-- Start of required lines block. DON'T REMOVE THESE LINES! They're required or might break things --}}
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="api-key" content="{{ Auth::check() ? Auth::user()->api_key: '' }}">
+    {{-- End the required lines block --}}
 
     <script src="{{ public_asset('/assets/system/js/jquery.js') }}"></script>
 
