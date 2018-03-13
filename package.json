@@ -29,8 +29,9 @@
     "moment": "^2.21.0",
     "pjax": "^0.2.5",
     "popper.js": "^1.14.0",
-    "rivets": "0.9.6",
+    "rivets": "^0.9.6",
     "select2": "^4.0.5",
+    "ssri": "^5.2.2",
     "webpack": "^3.0",
     "x-editable": "1.5.1"
   },
