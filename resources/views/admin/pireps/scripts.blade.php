@@ -1,13 +1,19 @@
 @section('scripts')
 <script>
 const changeStatus = (values, fn) => {
+
+    const api_key = $('meta[name="api-key"]').attr('content');
+    const token = $('meta[name="csrf-token"]').attr('content');
+
     console.log('Changing PIREP ' + values.pirep_id + ' to state ' + values.new_status);
+
     $.ajax({
-        url: BASE_URL + '/admin/pireps/' + values.pirep_id + '/status',
+        url: '{{url('/admin/pireps')}}/' + values.pirep_id + '/status',
         data: values,
         type: 'POST',
         headers: {
-            'x-api-key': PHPVMS_USER_API_KEY
+            'x-api-key': api_key,
+            'X-CSRF-TOKEN': token,
         },
         success: function (data) {
             fn(data);
@@ -16,6 +22,9 @@ const changeStatus = (values, fn) => {
 };
 
 $(document).ready(() => {
+
+    const api_key = $('meta[name="api-key"]').attr('content');
+    const token = $('meta[name="csrf-token"]').attr('content');
 
     const select_id = "select#aircraft_select";
     const destContainer = $('#fares_container');
@@ -28,7 +37,8 @@ $(document).ready(() => {
             url: "{{ url('/admin/pireps/fares') }}?aircraft_id=" + aircraft_id,
             type: 'GET',
             headers: {
-                'x-api-key': '{{ Auth::user()->api_key }}'
+                'x-api-key': api_key,
+                'X-CSRF-TOKEN': token,
             },
             success: (data) => {
                 console.log('returned new fares', data);
@@ -58,10 +68,11 @@ $(document).ready(() => {
         const pirep_id = $(event.currentTarget).attr('data-pirep-id');
 
         $.ajax({
-            url: BASE_URL + '/api/pireps/' + pirep_id + '/finances/recalculate',
+            url: '{{url('/api/pireps')}}/' + pirep_id + '/finances/recalculate',
             type: 'POST',
             headers: {
-                'x-api-key': PHPVMS_USER_API_KEY
+                'x-api-key': api_key,
+                'X-CSRF-TOKEN': token,
             },
             success: (data) => {
                 console.log(data);

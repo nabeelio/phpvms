@@ -3,8 +3,8 @@
 
 function setEditable() {
 
-    const csrf_token = $('meta[name="csrf-token"]').attr('content');
     const api_key = $('meta[name="api-key"]').attr('content');
+    const csrf_token = $('meta[name="csrf-token"]').attr('content');
 
     $('#flight_fares a').editable({
         type: 'text',
@@ -41,7 +41,7 @@ $(document).ready(function () {
         type: 'text',
         mode: 'inline',
         emptytext: '0',
-        url: '/admin/flights/{{ $flight->id }}/fields',
+        url: '{{ url('/admin/flights/'.$flight->id.'/fields') }}',
         ajaxOptions: {
             type: 'post',
             headers: {

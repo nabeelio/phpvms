@@ -54,11 +54,11 @@ function setEditable() {
 
 function phpvms_vacentral_airport_lookup(icao, callback) {
 
-    const csrf_token = $('meta[name="csrf-token"]').attr('content');
     const api_key = $('meta[name="api-key"]').attr('content');
+    const csrf_token = $('meta[name="csrf-token"]').attr('content');
 
     $.ajax({
-        url: BASE_URL + '/api/airports/'+ icao + '/lookup',
+        url: '{{url('/api/airports')}}/' + icao + '/lookup',
         method: 'GET',
         headers: {
             'x-api-key': api_key,
@@ -71,8 +71,8 @@ function phpvms_vacentral_airport_lookup(icao, callback) {
 
 $(document).ready(function() {
 
-    const csrf_token = $('meta[name="csrf-token"]').attr('content');
     const api_key = $('meta[name="api-key"]').attr('content');
+    const csrf_token = $('meta[name="csrf-token"]').attr('content');
 
     setEditable();
 
