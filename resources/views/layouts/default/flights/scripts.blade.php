@@ -8,7 +8,7 @@ $(document).ready(function () {
         const class_name = btn.attr('x-saved-class'); // classname to use is set on the element
 
         let params = {
-            url: '/api/user/bids',
+            url: '{{ url('/api/user/bids') }}',
             data: {
                 'flight_id': btn.attr('x-id')
             }
