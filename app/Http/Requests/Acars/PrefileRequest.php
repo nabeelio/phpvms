@@ -38,6 +38,11 @@ class PrefileRequest extends FormRequest
             'notes'                 => 'nullable',
             'flight_type'           => 'nullable|integer',
             'created_at'            => 'nullable|date',
+
+            # See if the fare objects are included and formatted properly
+            'fares' => 'nullable|array',
+            'fares.*.id' => 'required',
+            'fares.*.count' => 'required|numeric',
         ];
 
         return $rules;

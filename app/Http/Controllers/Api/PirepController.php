@@ -26,6 +26,7 @@ use App\Models\PirepComment;
 use App\Repositories\AcarsRepository;
 use App\Repositories\JournalRepository;
 use App\Repositories\PirepRepository;
+use App\Services\FareService;
 use App\Services\Finance\PirepFinanceService;
 use App\Services\GeoService;
 use App\Services\PirepService;
@@ -37,6 +38,7 @@ use Log;
 class PirepController extends RestController
 {
     private $acarsRepo,
+            $fareSvc,
             $financeSvc,
             $geoSvc,
             $journalRepo,
@@ -56,6 +58,7 @@ class PirepController extends RestController
      */
     public function __construct(
         AcarsRepository $acarsRepo,
+        FareService $fareSvc,
         PirepFinanceService $financeSvc,
         GeoService $geoSvc,
         JournalRepository $journalRepo,
@@ -64,6 +67,7 @@ class PirepController extends RestController
         UserService $userSvc
     ) {
         $this->acarsRepo = $acarsRepo;
+        $this->fareSvc = $fareSvc;
         $this->financeSvc = $financeSvc;
         $this->geoSvc = $geoSvc;
         $this->journalRepo = $journalRepo;
@@ -116,6 +120,29 @@ class PirepController extends RestController
     }
 
     /**
+     * Save the fares
+     * @param $pirep
+     * @param Request $request
+     * @throws \Exception
+     */
+    protected function updateFares($pirep, Request $request)
+    {
+        if(!$request->filled('fares')) {
+            return;
+        }
+
+        $fares = [];
+        foreach($request->post('fares') as $fare) {
+            $fares[] = [
+                'fare_id' => $fare['id'],
+                'count' => $fare['count'],
+            ];
+        }
+
+        $this->fareSvc->saveForPirep($pirep, $fares);
+    }
+
+    /**
      * Create a new PIREP and place it in a "inprogress" and "prefile" state
      * Once ACARS updates are being processed, then it can go into an 'ENROUTE'
      * status, and whatever other statuses may be defined
@@ -124,6 +151,7 @@ class PirepController extends RestController
      * @return PirepResource
      * @throws \App\Exceptions\PirepCancelled
      * @throws \App\Exceptions\AircraftPermissionDenied
+     * @throws \Exception
      */
     public function prefile(PrefileRequest $request)
     {
@@ -160,6 +188,7 @@ class PirepController extends RestController
         Log::info($pirep->id);
 
         $this->updateFields($pirep, $request);
+        $this->updateFares($pirep, $request);
 
         return new PirepResource($pirep);
     }
@@ -175,6 +204,7 @@ class PirepController extends RestController
      * @throws \App\Exceptions\PirepCancelled
      * @throws \App\Exceptions\AircraftPermissionDenied
      * @throws \Prettus\Validator\Exceptions\ValidatorException
+     * @throws \Exception
      */
     public function update($id, UpdateRequest $request)
     {
@@ -199,6 +229,7 @@ class PirepController extends RestController
 
         $pirep = $this->pirepRepo->update($attrs, $id);
         $this->updateFields($pirep, $request);
+        $this->updateFares($pirep, $request);
 
         return new PirepResource($pirep);
     }
@@ -242,6 +273,7 @@ class PirepController extends RestController
             $pirep = $this->pirepRepo->update($attrs, $id);
             $pirep = $this->pirepSvc->create($pirep);
             $this->updateFields($pirep, $request);
+            $this->updateFares($pirep, $request);
         } catch (\Exception $e) {
             Log::error($e);
         }

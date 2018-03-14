@@ -43,6 +43,11 @@ class FileRequest extends FormRequest
             'landing_rate'          => 'nullable|numeric',
             'flight_type'           => 'nullable|integer',
             'created_at'            => 'nullable|date',
+
+            # See if the fare objects are included and formatted properly
+            'fares' => 'nullable|array',
+            'fares.*.id' => 'required',
+            'fares.*.count' => 'required|numeric',
         ];
 
         return $rules;
