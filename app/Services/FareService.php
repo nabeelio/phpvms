@@ -198,11 +198,6 @@ class FareService extends BaseService
         $fares = [];
         $found_fares = PirepFare::where('pirep_id', $pirep->id)->get();
         return $found_fares;
-        /*foreach($found_fares as $fare) {
-            $fares[] = $fare->toArray();
-        }
-
-        return collect($fares);*/
     }
 
     /**

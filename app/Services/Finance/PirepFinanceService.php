@@ -323,13 +323,11 @@ class PirepFinanceService extends BaseService
      */
     public function getReconciledFaresForPirep($pirep)
     {
-        $flight = $this->pirepSvc->findFlight($pirep);
-
         # Collect all of the fares and prices
         $flight_fares = $this->fareSvc->getForPirep($pirep);
         Log::info('Finance: PIREP: ' . $pirep->id . ', flight fares: ', $flight_fares->toArray());
 
-        $all_fares = $this->fareSvc->getAllFares($flight, $pirep->aircraft->subfleet);
+        $all_fares = $this->fareSvc->getAllFares($pirep->flight, $pirep->aircraft->subfleet);
 
         $fares = $all_fares->map(function($fare, $i) use ($flight_fares, $pirep) {
 

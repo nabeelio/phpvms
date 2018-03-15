@@ -7,6 +7,7 @@ use App\Events\PirepFiled;
 use App\Events\PirepRejected;
 use App\Events\UserStatsChanged;
 use App\Models\Acars;
+use App\Models\Bid;
 use App\Models\Enums\AcarsType;
 use App\Models\Enums\PirepSource;
 use App\Models\Enums\PirepState;
@@ -29,11 +30,11 @@ use Log;
 class PirepService extends BaseService
 {
     private $acarsRepo,
-            $flightRepo,
-            $geoSvc,
-            $navRepo,
-            $pilotSvc,
-            $pirepRepo;
+        $flightRepo,
+        $geoSvc,
+        $navRepo,
+        $pilotSvc,
+        $pirepRepo;
 
     /**
      * PirepService constructor.
@@ -62,21 +63,6 @@ class PirepService extends BaseService
     }
 
     /**
-     * Find the flight that a PIREP is based on
-     * @param Pirep $pirep
-     * @return mixed
-     */
-    public function findFlight(Pirep $pirep)
-    {
-        return $this->flightRepo->findFlight(
-            $pirep->airline_id,
-            $pirep->flight_number,
-            $pirep->route_code,
-            $pirep->route_leg
-        )->first();
-    }
-
-    /**π
      * Find if there are duplicates to a given PIREP. Ideally, the passed
      * in PIREP hasn't been saved or gone through the create() method
      * @param Pirep $pirep
@@ -88,26 +74,26 @@ class PirepService extends BaseService
         $time_limit = Carbon::now()->subMinutes($minutes)->toDateTimeString();
 
         $where = [
-            'user_id'       => $pirep->user_id,
-            'airline_id'    => $pirep->airline_id,
+            'user_id' => $pirep->user_id,
+            'airline_id' => $pirep->airline_id,
             'flight_number' => $pirep->flight_number,
         ];
 
-        if(filled($pirep->route_code)) {
+        if (filled($pirep->route_code)) {
             $where['route_code'] = $pirep->route_code;
         }
 
-        if(filled($pirep->route_leg)) {
+        if (filled($pirep->route_leg)) {
             $where['route_leg'] = $pirep->route_leg;
         }
 
         try {
             $found_pireps = Pirep::where($where)
-                            ->where('state', '!=', PirepState::CANCELLED)
-                            ->where('created_at', '>=', $time_limit)
-                            ->get();
+                ->where('state', '!=', PirepState::CANCELLED)
+                ->where('created_at', '>=', $time_limit)
+                ->get();
 
-            if($found_pireps->count() === 0) {
+            if ($found_pireps->count() === 0) {
                 return false;
             }
 
@@ -199,7 +185,7 @@ class PirepService extends BaseService
         $pirep->save();
         $pirep->refresh();
 
-        if(\count($field_values) > 0) {
+        if (\count($field_values) > 0) {
             $this->updateCustomFields($pirep->id, $field_values);
         }
 
@@ -224,10 +210,10 @@ class PirepService extends BaseService
     {
         foreach ($field_values as $fv) {
             PirepFieldValues::updateOrCreate(
-                [   'pirep_id' => $pirep_id,
+                ['pirep_id' => $pirep_id,
                     'name' => $fv['name']
                 ],
-                [   'value' => $fv['value'],
+                ['value' => $fv['value'],
                     'source' => $fv['source']
                 ]
             );
@@ -311,6 +297,9 @@ class PirepService extends BaseService
 
         $pirep->refresh();
 
+        # Any ancillary tasks before an event is dispatched
+        $this->removeBid($pirep);
+
         event(new PirepAccepted($pirep));
 
         return $pirep;
@@ -364,5 +353,32 @@ class PirepService extends BaseService
         $pirep->refresh();
 
         event(new UserStatsChanged($pilot, 'airport', $previous_airport));
+    }
+
+    /**
+     * If the setting is enabled, remove the bid
+     * @param Pirep $pirep
+     * @throws \Exception
+     */
+    public function removeBid(Pirep $pirep)
+    {
+        if (!setting('pireps.remove_bid_on_accept')) {
+            return;
+        }
+
+        $flight = $pirep->flight;
+        if(!$flight) {
+            return;
+        }
+
+        $bid = Bid::where([
+            'user_id' => $pirep->user->id,
+            'flight_id' => $flight->id,
+        ]);
+
+        if($bid) {
+            Log::info('Bid for user: '.$pirep->user->pilot_id.' on flight '.$flight->ident);
+            $bid->delete();
+        }
     }
 }

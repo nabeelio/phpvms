@@ -22,6 +22,7 @@ use Laratrust\Traits\LaratrustUserTrait;
  * @property \Carbon\Carbon $updated_at
  * @property Rank rank
  * @property Journal journal
+ * @property string pilot_id
  * @mixin \Illuminate\Notifications\Notifiable
  * @mixin \Laratrust\Traits\LaratrustUserTrait
  */

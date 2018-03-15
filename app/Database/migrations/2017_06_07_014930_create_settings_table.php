@@ -177,6 +177,14 @@ class CreateSettingsTable extends Migration
             'description' => 'Only allow aircraft that are at the departure airport',
         ]);
 
+        $this->addSetting('pireps.remove_bid_on_accept', [
+            'name' => 'Remove bid on accept',
+            'group' => 'pireps',
+            'value' => false,
+            'type' => 'boolean',
+            'description' => 'When a PIREP is accepted, remove the bid, if it exists',
+        ]);
+
         /**
          * PILOTS
          */

@@ -1,11 +1,13 @@
 <?php
 
 use App\Models\Acars;
+use App\Models\Bid;
 use App\Models\Enums\AcarsType;
 use App\Models\Enums\PirepState;
 use App\Models\Pirep;
 use App\Models\User;
 use App\Repositories\SettingRepository;
+use App\Services\FlightService;
 use Carbon\Carbon;
 
 class PIREPTest extends TestCase
@@ -299,5 +301,41 @@ class PIREPTest extends TestCase
 
         $response = $this->post($uri, $acars);
         $response->assertStatus(400);
+    }
+
+    /**
+     * When a PIREP is accepted, ensure that the bid is removed
+     */
+    public function testPirepBidRemoved()
+    {
+        $flightSvc = app(FlightService::class);
+        $this->settingsRepo->store('pireps.remove_bid_on_accept', true);
+
+        $user = factory(App\Models\User::class)->create([
+            'flight_time' => 0,
+        ]);
+
+        $flight = factory(App\Models\Flight::class)->create([
+            'route_code' => null,
+            'route_leg' => null,
+        ]);
+
+        $flightSvc->addBid($flight, $user);
+
+        $pirep = factory(App\Models\Pirep::class)->create([
+            'user_id' => $user->id,
+            'airline_id' => $flight->airline_id,
+            'flight_number' => $flight->flight_number,
+        ]);
+
+        $pirep = $this->pirepSvc->create($pirep, []);
+        $this->pirepSvc->changeState($pirep, PirepState::ACCEPTED);
+
+        $user_bid = Bid::where([
+            'user_id' => $user->id,
+            'flight_id' => $flight->id,
+        ])->first();
+
+        $this->assertNull($user_bid);
     }
 }

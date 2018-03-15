@@ -23,6 +23,8 @@ use PhpUnitsOfMeasure\Exception\NonStringUnitName;
  * @property Airport dep_airport
  * @property integer flight_time    In minutes
  * @property User user
+ * @property Flight|null flight
+ * @property int user_id
  * @package App\Models
  */
 class Pirep extends BaseModel
@@ -188,6 +190,29 @@ class Pirep extends BaseModel
         } catch (NonStringUnitName $e) {
             return 0;
         }
+    }
+
+    /**
+     * Look up the flight, based on the PIREP flight info
+     * @return Flight|null
+     */
+    public function getFlightAttribute()
+    {
+        $where = [
+            'airline_id' => $this->airline_id,
+            'flight_number' => $this->flight_number,
+            'active' => true,
+        ];
+
+        if (filled($this->route_code)) {
+            $where['route_code'] = $this->route_code;
+        }
+
+        if (filled($this->route_leg)) {
+            $where['route_leg'] = $this->route_leg;
+        }
+
+        return Flight::where($where)->first();
     }
 
     /**
