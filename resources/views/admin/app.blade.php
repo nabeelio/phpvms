@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width" />
 
     {{-- Start of required lines block. DON'T REMOVE THESE LINES! They're required or might break things --}}
-    <meta name="base-url" content="{{ url() }}">
+    <meta name="base-url" content="{{ url('') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="api-key" content="{{ Auth::check() ? Auth::user()->api_key: '' }}">
     {{-- End the required lines block --}}
