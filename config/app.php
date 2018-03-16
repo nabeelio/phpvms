@@ -19,6 +19,7 @@ return [
 
     # Where to redirect after logging in/registration
     'login_redirect' => '/dashboard',
+    'registration_redirect' => '/profile',
 
     # This sends install and vaCentral specific information to help with
     # optimizations and figuring out where slowdowns might be happening

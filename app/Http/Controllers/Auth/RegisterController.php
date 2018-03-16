@@ -46,7 +46,7 @@ class RegisterController extends Controller
         $this->userService = $userService;
         $this->middleware('guest');
 
-        $this->redirectTo = config('app.login_redirect');
+        $this->redirectTo = config('app.registration_redirect');
     }
 
     /**
