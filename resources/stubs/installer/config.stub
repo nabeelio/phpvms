@@ -37,10 +37,20 @@ return [
         'api_key' => '',
     ],
 
+    #
+    # Other settings and configuration you might not need to modify
+    #
+
     # overrides cache.php
     'cache' => [
         'default' => '$CACHE_DRIVER$',
         'prefix' => 'phpvms_',
+    ],
+
+    'captcha' => [
+        'enabled' => true,
+        'secret' => '',
+        'sitekey' => '',
     ],
 
     # overrides database.php
