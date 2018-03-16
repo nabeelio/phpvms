@@ -18,7 +18,7 @@ return [
     'fallback_locale' => 'en',
 
     # Where to redirect after logging in/registration
-    'login_redirect' => '/',
+    'login_redirect' => '/dashboard',
 
     # This sends install and vaCentral specific information to help with
     # optimizations and figuring out where slowdowns might be happening

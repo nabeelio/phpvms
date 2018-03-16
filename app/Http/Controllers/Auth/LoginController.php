@@ -20,6 +20,7 @@ class LoginController extends Controller
      */
     public function __construct()
     {
+        $this->redirectTo = config('app.login_redirect');
         $this->middleware('guest', ['except' => 'logout']);
     }
 
