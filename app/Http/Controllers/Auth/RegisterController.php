@@ -45,6 +45,8 @@ class RegisterController extends Controller
         $this->airportRepo = $airportRepo;
         $this->userService = $userService;
         $this->middleware('guest');
+
+        $this->redirectTo = config('app.login_redirect');
     }
 
     /**

@@ -8,7 +8,7 @@
  */
 
 return [
-    'name' => env('PHPVMS_VA_NAME', 'phpvms'),
+    'name' => env('APP_NAME', 'phpvms'),
     'env' => env('APP_ENV', 'dev'),
     'debug' => env('APP_DEBUG', true),
     'url' => env('APP_URL', 'http://localhost'),
@@ -16,6 +16,9 @@ return [
 
     'locale' => env('APP_LOCALE', 'en'),
     'fallback_locale' => 'en',
+
+    # Where to redirect after logging in/registration
+    'login_redirect' => '/',
 
     # This sends install and vaCentral specific information to help with
     # optimizations and figuring out where slowdowns might be happening
