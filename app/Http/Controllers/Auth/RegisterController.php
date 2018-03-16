@@ -69,20 +69,27 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        return Validator::make($data, [
+        $rules = [
             'name' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',
             'airline_id' => 'required',
             'home_airport_id' => 'required',
             'password' => 'required|min:5|confirmed',
-        ]);
+        ];
+
+        if (config('captcha.enabled')) {
+            $rules['g-recaptcha-response'] = 'required|captcha';
+        }
+
+        return Validator::make($data, $rules);
     }
 
     /**
      * Get a validator for an incoming registration request.
      * @param  array $data
-     * @return \Illuminate\Contracts\Validation\Validator
+     * @return User
      * @throws \RuntimeException
+     * @throws \Exception
      */
     protected function create(array $data)
     {
@@ -106,20 +113,27 @@ class RegisterController extends Controller
 
     /**
      * Handle a registration request for the application.
-     * @throws \RuntimeException
+     * @param Request $request
+     * @return mixed
+     * @throws \Exception
      */
     public function register(Request $request)
     {
-        $this->validate(request(), [
+        $rules = [
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
             'airline_id' => 'required',
             'home_airport_id' => 'required',
             'password' => 'required|confirmed'
-        ]);
+        ];
+
+        if(config('captcha.enabled')) {
+            $rules['g-recaptcha-response'] = 'required|captcha';
+        }
+
+        $this->validate(request(), $rules);
 
         $user = $this->create($request->all());
-
         if($user->state === UserState::PENDING) {
             return view('auth.pending');
         }

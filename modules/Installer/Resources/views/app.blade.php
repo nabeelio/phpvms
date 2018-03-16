@@ -87,6 +87,7 @@
         });
     });
 </script>
+
 @yield('scripts')
 
 </body>

@@ -23,6 +23,7 @@ use Laratrust\Traits\LaratrustUserTrait;
  * @property Rank rank
  * @property Journal journal
  * @property string pilot_id
+ * @property int state
  * @mixin \Illuminate\Notifications\Notifiable
  * @mixin \Laratrust\Traits\LaratrustUserTrait
  */

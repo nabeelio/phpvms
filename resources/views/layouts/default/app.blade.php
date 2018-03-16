@@ -23,6 +23,7 @@
     <link href="{{ public_asset('/assets/system/css/vendor.css') }}" rel="stylesheet"/>
 
     @yield('css')
+    @yield('scripts_head')
 </head>
 <body>
 <!-- Navbar -->
@@ -89,7 +90,6 @@ $(document).ready(function () {
     $(".select2").select2();
 });
 </script>
-
 
 </body>
 </html>

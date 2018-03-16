@@ -47,10 +47,21 @@ return [
         'prefix' => 'phpvms_',
     ],
 
+    /*
+     * You can get a captcha key from here:
+     * https://www.google.com/recaptcha/admin
+     */
     'captcha' => [
-        'enabled' => true,
-        'secret' => '',
+        'enabled' => false,
+
         'sitekey' => '',
+        'secret' => '',
+
+        # Attributes can be found here:
+        # https://developers.google.com/recaptcha/docs/display#render_param
+        'attributes' => [
+            'data-theme' => 'light',
+        ],
     ],
 
     # overrides database.php
