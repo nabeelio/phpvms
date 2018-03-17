@@ -13,6 +13,9 @@ Route::group([
     Route::resource('airports', 'AirportController');
     Route::match(['get', 'post', 'put', 'delete'], 'airports/{id}/expenses', 'AirportController@expenses');
 
+    # Awards
+    Route::resource('awards', 'AwardController');
+
     # aircraft and fare associations
     Route::resource('aircraft', 'AircraftController');
     Route::match(['get', 'post', 'put', 'delete'], 'aircraft/{id}/expenses', 'AircraftController@expenses');
