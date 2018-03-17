@@ -3,6 +3,7 @@
 namespace App\Support;
 
 use Symfony\Component\ClassLoader\ClassMapGenerator;
+use Log;
 
 class ClassLoader
 {
@@ -20,7 +21,13 @@ class ClassLoader
 
         $all_classes = array_keys(ClassMapGenerator::createMap($path));
         foreach ($all_classes as $cl) {
-            $klass = new $cl;
+            try {
+                $klass = new $cl;
+            } catch (\Exception $e) {
+                Log::error('Error loading class: ' . $e->getMessage());
+                continue;
+            }
+
             $classes[] = $klass;
         }
 
