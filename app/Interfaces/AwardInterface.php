@@ -20,9 +20,8 @@ abstract class AwardInterface
     protected $user;
 
     /**
-     * Each award class just needs to return true or false if it
-     * should actually be awarded to a user. This is the only method that
-     * needs to be implemented
+     * Each award class just needs to return true or false if it should actually
+     * be awarded to a user. This is the only method that needs to be implemented
      * @param null $params Optional parameters that are passed in from the UI
      * @return bool
      */

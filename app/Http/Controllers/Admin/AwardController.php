@@ -22,23 +22,22 @@ class AwardController extends BaseController
 
     /**
      * Display a listing of the Fare.
-     *
      * @param Request $request
-     *
      * @return Response
+     * @throws \Prettus\Repository\Exceptions\RepositoryException
      */
     public function index(Request $request)
     {
         $this->awardRepository->pushCriteria(new RequestCriteria($request));
         $awards = $this->awardRepository->all();
 
-        return view('admin.awards.index')
-            ->with('awards', $awards);
+        return view('admin.awards.index', [
+            'awards' => $awards,
+        ]);
     }
 
     /**
      * Show the form for creating a new Fare.
-     *
      * @return Response
      */
     public function create()
@@ -48,10 +47,9 @@ class AwardController extends BaseController
 
     /**
      * Store a newly created Fare in storage.
-     *
-     * @param CreateFareRequest $request
-     *
+     * @param CreateAwardRequest $request
      * @return Response
+     * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
     public function store(CreateAwardRequest $request)
     {
@@ -64,27 +62,25 @@ class AwardController extends BaseController
 
     /**
      * Display the specified Fare.
-     *
      * @param  int $id
-     *
      * @return Response
      */
     public function show($id)
     {
-        $fare = $this->awardRepository->findWithoutFail($id);
+        $award = $this->awardRepository->findWithoutFail($id);
         if (empty($award)) {
             Flash::error('Award not found');
             return redirect(route('admin.awards.index'));
         }
 
-        return view('admin.awards.show')->with('award', $award);
+        return view('admin.awards.show', [
+            'award' => $award,
+        ]);
     }
 
     /**
-     * Show the form for editing the specified Fare.
-     *
+     * Show the form for editing the specified award.
      * @param  int $id
-     *
      * @return Response
      */
     public function edit($id)
@@ -95,16 +91,17 @@ class AwardController extends BaseController
             return redirect(route('admin.awards.index'));
         }
 
-        return view('admin.awards.edit')->with('award', $award);
+        return view('admin.awards.edit', [
+            'award' => $award,
+        ]);
     }
 
     /**
-     * Update the specified Fare in storage.
-     *
-     * @param  int              $id
-     * @param UpdateFareRequest $request
-     *
+     * Update the specified award in storage.
+     * @param  int $id
+     * @param UpdateAwardRequest $request
      * @return Response
+     * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
     public function update($id, UpdateAwardRequest $request)
     {
