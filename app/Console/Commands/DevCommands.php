@@ -7,6 +7,7 @@ use App\Models\Acars;
 use App\Models\Airline;
 use App\Models\Pirep;
 use App\Models\User;
+use App\Services\AwardsService;
 use DB;
 use PDO;
 use Symfony\Component\Yaml\Yaml;
@@ -29,11 +30,12 @@ class DevCommands extends BaseCommand
         }
 
         $commands = [
-            'clear-acars' => 'clearAcars',
-            'clear-users' => 'clearUsers',
-            'compile-assets' => 'compileAssets',
-            'db-attrs' => 'dbAttrs',
-            'xml-to-yaml' => 'xmlToYaml',
+            'list-awards'     => 'listAwardClasses',
+            'clear-acars'     => 'clearAcars',
+            'clear-users'     => 'clearUsers',
+            'compile-assets'  => 'compileAssets',
+            'db-attrs'        => 'dbAttrs',
+            'xml-to-yaml'     => 'xmlToYaml',
         ];
 
         if(!array_key_exists($command, $commands)) {
@@ -42,6 +44,23 @@ class DevCommands extends BaseCommand
         }
 
         $this->{$commands[$command]}();
+    }
+
+    /**
+     * List all award classes
+     */
+    protected function listAwardClasses()
+    {
+        $awardSvc = app(AwardsService::class);
+        $awards = $awardSvc->findAllAwardClasses();
+
+        $headers = ['Award Name', 'Class'];
+        $formatted_awards = [];
+        foreach($awards as $award) {
+            $formatted_awards[] = [$award->name, \get_class($award)];
+        }
+
+        $this->table($headers, $formatted_awards);
     }
 
     /**
