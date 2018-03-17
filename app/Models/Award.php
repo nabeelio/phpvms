@@ -29,15 +29,18 @@ class Award extends BaseModel
 
     /**
      * Get the referring object
+     * @param Award|null $award
+     * @param User|null $user
+     * @return null
      */
-    public function getReference()
+    public function getReference(Award $award=null, User $user=null)
     {
         if (!$this->ref_class) {
             return null;
         }
 
         try {
-            return new $this->ref_class;
+            return new $this->ref_class($award, $user);
             # return $klass;
             # return $klass->find($this->ref_class_id);
         } catch (\Exception $e) {

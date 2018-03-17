@@ -6,6 +6,8 @@ use App\Events\CronMonthly;
 use App\Events\CronNightly;
 use App\Events\CronWeekly;
 use App\Events\Expenses;
+use App\Events\UserStateChanged;
+use App\Listeners\AwardListener;
 use App\Listeners\Cron\Nightly\RecalculateBalances;
 use App\Listeners\ExpenseListener;
 use App\Listeners\FinanceEvents;
@@ -21,6 +23,7 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
+
         Expenses::class => [
             ExpenseListener::class
         ],
@@ -37,20 +40,14 @@ class EventServiceProvider extends ServiceProvider
         CronMonthly::class => [
             \App\Listeners\Cron\Monthly\ApplyExpenses::class
         ],
+
+        UserStateChanged::class => [
+            AwardListener::class,
+        ],
     ];
 
     protected $subscribe = [
         FinanceEvents::class,
         NotificationEvents::class,
     ];
-
-    /**
-     * Register any events for your application.
-     *
-     * @return void
-     */
-    public function boot()
-    {
-        parent::boot();
-    }
 }

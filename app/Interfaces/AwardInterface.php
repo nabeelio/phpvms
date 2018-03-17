@@ -10,39 +10,48 @@ use App\Models\UserAward;
  * Base class for the Awards, they need to extend this
  * @package App\Interfaces
  */
-class AwardInterface
+abstract class AwardInterface
 {
-    /**
-     * @var string The name of the award class, needs to be set
-     */
     public $name = '';
 
-    /**
-     * @var Award
-     */
     protected $award;
+    protected $user;
 
     /**
-     * @var User
+     * Each award class just needs to return true or false if it
+     * should actually be awarded to a user. This is the only method that
+     * needs to be implemented
+     * @return bool
      */
-    protected $user;
+    abstract public function check(): bool;
 
     /**
      * AwardInterface constructor.
      * @param Award $award
      * @param User $user
      */
-    public function __construct(Award $award, User $user)
+    public function __construct(Award $award = null, User $user = null)
     {
         $this->award = $award;
         $this->user = $user;
     }
 
     /**
+     * Run the main handler for this award class to determine if
+     * it should be awarded or not
+     */
+    public function handle()
+    {
+        if($this->check()) {
+            $this->addAward();
+        }
+    }
+
+    /**
      * Add the award to this user, if they don't already have it
      * @return bool|UserAward
      */
-    public function addAward()
+    protected function addAward()
     {
         $w = [
             'user_id' => $this->user->id,
@@ -59,15 +68,5 @@ class AwardInterface
         $award->save();
 
         return $award;
-    }
-
-    /**
-     * Each award class just needs to return true or false
-     * if it should actually be awarded to a user
-     * @return boolean
-     */
-    public function check()
-    {
-        return false;
     }
 }

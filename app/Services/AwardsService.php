@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
+use App\Support\ClassLoader;
 use Module;
-use Symfony\Component\ClassLoader\ClassMapGenerator;
 
 class AwardsService
 {
@@ -13,17 +13,16 @@ class AwardsService
     public function findAllAwardClasses()
     {
         $awards = [];
+
+        # Find the awards in the app/Awards directory
+        $classes = ClassLoader::getClassesInPath(app_path('/Awards'));
+        $awards = array_merge($awards, $classes);
+
+        # Look throughout all the other modules
         foreach (Module::all() as $module) {
             $path = $module->getExtraPath('Awards');
-            if(!file_exists($path)) {
-                continue;
-            }
-
-            $classes = array_keys(ClassMapGenerator::createMap($path));
-            foreach($classes as $cl) {
-                $klass = new $cl;
-                $awards[] = $klass;
-            }
+            $classes = ClassLoader::getClassesInPath($path);
+            $awards = array_merge($awards, $classes);
         }
 
         return $awards;

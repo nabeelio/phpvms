@@ -11,4 +11,9 @@ use App\Interfaces\AwardInterface;
 class SampleAward extends AwardInterface
 {
     public $name = 'Sample Award';
+
+    public function check(): bool
+    {
+        return false;
+    }
 }
