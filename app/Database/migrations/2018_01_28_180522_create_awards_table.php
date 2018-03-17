@@ -29,6 +29,16 @@ class CreateAwardsTable extends Migration
 
             $table->index(['ref_class']);
         });
+
+
+        Schema::create('user_awards', function (Blueprint $table) {
+            $table->increments('id');
+            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('award_id');
+            $table->timestamps();
+
+            $table->index(['user_id', 'award_id']);
+        });
     }
 
     /**
@@ -39,5 +49,6 @@ class CreateAwardsTable extends Migration
     public function down()
     {
         Schema::dropIfExists('awards');
+        Schema::dropIfExists('user_awards');
     }
 }

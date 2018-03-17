@@ -6,7 +6,7 @@ use App\Events\CronMonthly;
 use App\Events\CronNightly;
 use App\Events\CronWeekly;
 use App\Events\Expenses;
-use App\Events\UserStateChanged;
+use App\Events\UserStatsChanged;
 use App\Listeners\AwardListener;
 use App\Listeners\Cron\Nightly\RecalculateBalances;
 use App\Listeners\ExpenseListener;
@@ -17,11 +17,6 @@ use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvi
 
 class EventServiceProvider extends ServiceProvider
 {
-    /**
-     * The event listener mappings for the application.
-     *
-     * @var array
-     */
     protected $listen = [
 
         Expenses::class => [
@@ -41,7 +36,7 @@ class EventServiceProvider extends ServiceProvider
             \App\Listeners\Cron\Monthly\ApplyExpenses::class
         ],
 
-        UserStateChanged::class => [
+        UserStatsChanged::class => [
             AwardListener::class,
         ],
     ];

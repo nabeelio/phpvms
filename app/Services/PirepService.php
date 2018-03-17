@@ -285,8 +285,6 @@ class PirepService extends BaseService
         $pirep->save();
         $pirep->refresh();
 
-        $this->setPilotState($pilot, $pirep);
-
         Log::info('PIREP ' . $pirep->id . ' state change to ACCEPTED');
 
         # Update the aircraft
@@ -300,6 +298,7 @@ class PirepService extends BaseService
         # Any ancillary tasks before an event is dispatched
         $this->removeBid($pirep);
 
+        $this->setPilotState($pilot, $pirep);
         event(new PirepAccepted($pirep));
 
         return $pirep;

@@ -2,7 +2,7 @@
 
 namespace App\Listeners;
 
-use App\Events\UserStateChanged;
+use App\Events\UserStatsChanged;
 use App\Models\Award;
 
 /**
@@ -13,9 +13,9 @@ class AwardListener
 {
     /**
      * Call all of the awards
-     * @param UserStateChanged $event
+     * @param UserStatsChanged $event
      */
-    public function handle(UserStateChanged $event)
+    public function handle(UserStatsChanged $event)
     {
         $awards = Award::all();
         foreach($awards as $award) {
