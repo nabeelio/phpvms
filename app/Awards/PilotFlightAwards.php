@@ -31,16 +31,17 @@ class PilotFlightAwards extends AwardInterface
      * only needs to return a true or false of whether it should be awarded or not.
      *
      * If no parameter is passed in, just default it to 100. You should check if there
-     * is a parameter or not
-     * @param null $parameter The parameters passed in from the UI
+     * is a parameter or not. You can call it whatever you want, since that would make
+     * sense with the $param_description.
+     * @param int|null $number_of_flights The parameters passed in from the UI
      * @return bool
      */
-    public function check($parameter = null): bool
+    public function check($number_of_flights = null): bool
     {
-        if(!$parameter) {
-            $parameter = 100;
+        if(!$number_of_flights) {
+            $number_of_flights = 100;
         }
 
-        return $this->user->flights >= $parameter;
+        return $this->user->flights >= $number_of_flights;
     }
 }
