@@ -6,7 +6,7 @@ namespace App\Models;
  * The Award model
  * @property mixed id
  * @property mixed ref_class
- * @property mixed|null ref_class_id
+ * @property mixed|null ref_class_params
  * @package Award\Models
  */
 class Award extends BaseModel
@@ -18,7 +18,7 @@ class Award extends BaseModel
         'description',
         'image_url',
         'ref_class',
-        'ref_class_id',
+        'ref_class_params',
     ];
 
     public static $rules = [

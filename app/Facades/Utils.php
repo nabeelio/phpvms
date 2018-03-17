@@ -13,6 +13,24 @@ class Utils extends Facade
     }
 
     /**
+     * Simple check on the first character if it's an object or not
+     * @param $obj
+     * @return bool
+     */
+    public static function isObject($obj)
+    {
+        if(!$obj) {
+            return false;
+        }
+
+        if($obj[0] === '{' || $obj[0] === '[') {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Download a URI. If a file is given, it will save the downloaded
      * content into that file
      * @param $uri

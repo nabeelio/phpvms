@@ -3,8 +3,8 @@
 namespace App\Repositories;
 
 use App\Models\Award;
-use App\Repositories\Traits\CacheableRepository;
 use Prettus\Repository\Contracts\CacheableInterface;
+use Prettus\Repository\Traits\CacheableRepository;
 
 class AwardRepository extends BaseRepository implements CacheableInterface
 {
@@ -14,7 +14,7 @@ class AwardRepository extends BaseRepository implements CacheableInterface
         'title' => 'like',
     ];
 
-    public function model()
+    public function model(): string
     {
         return Award::class;
     }

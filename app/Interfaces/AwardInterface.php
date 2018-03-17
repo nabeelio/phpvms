@@ -2,6 +2,7 @@
 
 namespace App\Interfaces;
 
+use App\Facades\Utils;
 use App\Models\Award;
 use App\Models\User;
 use App\Models\UserAward;
@@ -13,6 +14,7 @@ use App\Models\UserAward;
 abstract class AwardInterface
 {
     public $name = '';
+    public $param_description = '';
 
     protected $award;
     protected $user;
@@ -21,9 +23,10 @@ abstract class AwardInterface
      * Each award class just needs to return true or false if it
      * should actually be awarded to a user. This is the only method that
      * needs to be implemented
+     * @param null $params Optional parameters that are passed in from the UI
      * @return bool
      */
-    abstract public function check(): bool;
+    abstract public function check($params = null): bool;
 
     /**
      * AwardInterface constructor.
@@ -42,7 +45,13 @@ abstract class AwardInterface
      */
     public function handle()
     {
-        if($this->check()) {
+        # Check if the params are a JSON object or array
+        $param = $this->award->ref_class_params;
+        if ($this->award->ref_class_params && Utils::isObject($this->award->ref_class_params)) {
+            $param = json_decode($this->award->ref_class_params);
+        }
+
+        if ($this->check($param)) {
             $this->addAward();
         }
     }
