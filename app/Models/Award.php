@@ -3,8 +3,10 @@
 namespace App\Models;
 
 /**
- * Class Award
- *
+ * The Award model
+ * @property mixed id
+ * @property mixed ref_class
+ * @property mixed|null ref_class_id
  * @package Award\Models
  */
 class Award extends BaseModel
@@ -14,25 +16,32 @@ class Award extends BaseModel
     public $fillable = [
         'title',
         'description',
-        'image',
-    ];
-
-    protected $casts = [
-
+        'image_url',
+        'ref_class',
+        'ref_class_id',
     ];
 
     public static $rules = [
-        'title' => 'required',
+        'title'        => 'required',
+        'description'  => 'nullable',
+        'image_url'    => 'nullable',
     ];
 
-
     /**
-     * any foreign keys
+     * Get the referring object
      */
-    /*
-        public function subfleets() {
-            return $this->belongsToMany(Subfleet::class, 'subfleet_fare')
-                ->withPivot('price', 'cost', 'capacity');
+    public function getReference()
+    {
+        if (!$this->ref_class) {
+            return null;
         }
-        */
+
+        try {
+            return new $this->ref_class;
+            # return $klass;
+            # return $klass->find($this->ref_class_id);
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
 }

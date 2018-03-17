@@ -147,6 +147,11 @@ class User extends Authenticatable
         return $this->belongsTo(Airline::class, 'airline_id');
     }
 
+    public function awards()
+    {
+        return $this->hasMany(UserAward::class, 'user_id');
+    }
+
     public function home_airport()
     {
         return $this->belongsTo(Airport::class, 'home_airport_id');
