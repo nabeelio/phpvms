@@ -14,7 +14,7 @@ class Award extends BaseModel
     public $table = 'awards';
 
     public $fillable = [
-        'title',
+        'name',
         'description',
         'image_url',
         'ref_class',
@@ -22,9 +22,12 @@ class Award extends BaseModel
     ];
 
     public static $rules = [
-        'title'        => 'required',
+        'name'        => 'required',
         'description'  => 'nullable',
         'image_url'    => 'nullable',
+
+        'ref_class' => 'required',
+        'ref_class_params' => 'nullable'
     ];
 
     /**
@@ -41,8 +44,6 @@ class Award extends BaseModel
 
         try {
             return new $this->ref_class($award, $user);
-            # return $klass;
-            # return $klass->find($this->ref_class_id);
         } catch (\Exception $e) {
             return null;
         }

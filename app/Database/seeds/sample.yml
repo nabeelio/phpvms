@@ -93,6 +93,16 @@ ranks:
     auto_approve_manual: 1
     auto_promote: 0
 
+awards:
+  - id: 1
+    name: Pilot 50 flights
+    description: When a pilot has 50 flights, give this award
+    image_url:
+    ref_class: App\Awards\PilotFlightAwards
+    ref_class_params: 50
+    created_at: now
+    updated_at: now
+
 news:
   - id: 1
     user_id: 1

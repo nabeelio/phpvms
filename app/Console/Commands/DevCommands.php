@@ -7,7 +7,7 @@ use App\Models\Acars;
 use App\Models\Airline;
 use App\Models\Pirep;
 use App\Models\User;
-use App\Services\AwardsService;
+use App\Services\AwardService;
 use DB;
 use PDO;
 use Symfony\Component\Yaml\Yaml;
@@ -51,7 +51,7 @@ class DevCommands extends BaseCommand
      */
     protected function listAwardClasses()
     {
-        $awardSvc = app(AwardsService::class);
+        $awardSvc = app(AwardService::class);
         $awards = $awardSvc->findAllAwardClasses();
 
         $headers = ['Award Name', 'Class'];

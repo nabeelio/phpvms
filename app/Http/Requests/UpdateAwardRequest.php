@@ -25,6 +25,6 @@ class UpdateAwardRequest extends FormRequest
      */
     public function rules()
     {
-        return Fare::$rules;
+        return Award::$rules;
     }
 }

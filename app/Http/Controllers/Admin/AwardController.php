@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\CreateAwardRequest;
 use App\Http\Requests\UpdateAwardRequest;
 use App\Repositories\AwardRepository;
+use App\Services\AwardService;
 use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
@@ -13,11 +14,39 @@ use Response;
 class AwardController extends BaseController
 {
     /** @var  AwardRepository */
-    private $awardRepository;
+    private $awardRepository,
+            $awardSvc;
 
-    public function __construct(AwardRepository $awardRepo)
+    public function __construct(
+        AwardRepository $awardRepo,
+        AwardService $awardSvc
+    )
     {
         $this->awardRepository = $awardRepo;
+        $this->awardSvc = $awardSvc;
+    }
+
+    /**
+     * @return array
+     */
+    protected function getAwardClassesAndDescriptions(): array
+    {
+        $awards = [
+            '' => '',
+        ];
+
+        $descriptions = [];
+
+        $award_classes = $this->awardSvc->findAllAwardClasses();
+        foreach($award_classes as $class_ref => $award) {
+            $awards[$class_ref] = $award->name;
+            $descriptions[$class_ref] = $award->param_description;
+        }
+
+        return [
+            'awards' => $awards,
+            'descriptions' => $descriptions,
+        ];
     }
 
     /**
@@ -42,7 +71,11 @@ class AwardController extends BaseController
      */
     public function create()
     {
-        return view('admin.awards.create');
+        $class_refs = $this->getAwardClassesAndDescriptions();
+        return view('admin.awards.create', [
+            'award_classes' => $class_refs['awards'],
+            'award_descriptions' => $class_refs['descriptions'],
+        ]);
     }
 
     /**
@@ -91,8 +124,11 @@ class AwardController extends BaseController
             return redirect(route('admin.awards.index'));
         }
 
+        $class_refs = $this->getAwardClassesAndDescriptions();
         return view('admin.awards.edit', [
             'award' => $award,
+            'award_classes' => $class_refs['awards'],
+            'award_descriptions' => $class_refs['descriptions'],
         ]);
     }
 
