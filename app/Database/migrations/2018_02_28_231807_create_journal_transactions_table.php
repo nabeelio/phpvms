@@ -25,7 +25,7 @@ class CreateJournalTransactionsTable extends Migration
             $table->string('ref_class', 50)->nullable();
             $table->string('ref_class_id', 36)->nullable();
             $table->timestamps();
-            $table->dateTime('post_date');
+            $table->date('post_date');
 
             $table->primary('id');
             $table->index('journal_id');

@@ -876,16 +876,16 @@
         },
         {
             "name": "google/apiclient-services",
-            "version": "v0.49",
+            "version": "v0.50",
             "source": {
                 "type": "git",
                 "url": "https://github.com/google/google-api-php-client-services.git",
-                "reference": "7552d7d1bb92e933fc93088014c8c2555c0feab6"
+                "reference": "3e792254734e4444dd8a594e927926f28de2e609"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/google/google-api-php-client-services/zipball/7552d7d1bb92e933fc93088014c8c2555c0feab6",
-                "reference": "7552d7d1bb92e933fc93088014c8c2555c0feab6",
+                "url": "https://api.github.com/repos/google/google-api-php-client-services/zipball/3e792254734e4444dd8a594e927926f28de2e609",
+                "reference": "3e792254734e4444dd8a594e927926f28de2e609",
                 "shasum": ""
             },
             "require": {
@@ -909,7 +909,7 @@
             "keywords": [
                 "google"
             ],
-            "time": "2018-03-04T00:24:05+00:00"
+            "time": "2018-03-10T00:23:06+00:00"
         },
         {
             "name": "google/auth",
@@ -1567,16 +1567,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.6.11",
+            "version": "v5.6.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "195ba6a67bdad2a23105c7ab410cd43e0f20bb73"
+                "reference": "82d8165d1ea86bdd81ddfa1db9343fa19e7d1450"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/195ba6a67bdad2a23105c7ab410cd43e0f20bb73",
-                "reference": "195ba6a67bdad2a23105c7ab410cd43e0f20bb73",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/82d8165d1ea86bdd81ddfa1db9343fa19e7d1450",
+                "reference": "82d8165d1ea86bdd81ddfa1db9343fa19e7d1450",
                 "shasum": ""
             },
             "require": {
@@ -1585,7 +1585,7 @@
                 "erusev/parsedown": "~1.7",
                 "ext-mbstring": "*",
                 "ext-openssl": "*",
-                "league/flysystem": "~1.0",
+                "league/flysystem": "^1.0.8",
                 "monolog/monolog": "~1.12",
                 "nesbot/carbon": "^1.24.1",
                 "php": "^7.1.3",
@@ -1701,7 +1701,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2018-03-09T16:53:27+00:00"
+            "time": "2018-03-14T17:29:38+00:00"
         },
         {
             "name": "laravelcollective/html",
@@ -2162,16 +2162,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "1.24.1",
+            "version": "1.24.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "ef12cbd8ba5ce624f0a6a95e0850c4cc13e71e41"
+                "reference": "bba6c6e410c6b4317e37a9474aeaa753808c3875"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/ef12cbd8ba5ce624f0a6a95e0850c4cc13e71e41",
-                "reference": "ef12cbd8ba5ce624f0a6a95e0850c4cc13e71e41",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/bba6c6e410c6b4317e37a9474aeaa753808c3875",
+                "reference": "bba6c6e410c6b4317e37a9474aeaa753808c3875",
                 "shasum": ""
             },
             "require": {
@@ -2211,7 +2211,7 @@
                 "datetime",
                 "time"
             ],
-            "time": "2018-03-09T15:49:34+00:00"
+            "time": "2018-03-10T10:10:14+00:00"
         },
         {
             "name": "nikic/php-parser",
@@ -2362,7 +2362,7 @@
                     "lib/random.php"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "notification-url": "http://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -2588,16 +2588,16 @@
         },
         {
             "name": "pragmarx/version",
-            "version": "v0.2.5",
+            "version": "v0.2.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/antonioribeiro/version.git",
-                "reference": "ed34e37904067bdb15857d3f2bcc11683f37eb84"
+                "reference": "73439723bf8f32534e0a79a07a914971b729ec1e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/antonioribeiro/version/zipball/ed34e37904067bdb15857d3f2bcc11683f37eb84",
-                "reference": "ed34e37904067bdb15857d3f2bcc11683f37eb84",
+                "url": "https://api.github.com/repos/antonioribeiro/version/zipball/73439723bf8f32534e0a79a07a914971b729ec1e",
+                "reference": "73439723bf8f32534e0a79a07a914971b729ec1e",
                 "shasum": ""
             },
             "require": {
@@ -2645,7 +2645,7 @@
                 "version",
                 "versioning"
             ],
-            "time": "2018-02-10T17:40:28+00:00"
+            "time": "2018-03-13T00:04:06+00:00"
         },
         {
             "name": "pragmarx/yaml",
@@ -2795,7 +2795,7 @@
                     "Prettus\\Validator\\": "src/Prettus/Validator/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "notification-url": "http://packagist.org/downloads/",
             "authors": [
                 {
                     "name": "Anderson Andrade",
@@ -2884,7 +2884,7 @@
                     "Psr\\Container\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "notification-url": "http://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -3439,7 +3439,7 @@
                     "lib/swift_required.php"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "notification-url": "http://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -5387,7 +5387,7 @@
                     "Faker\\": "src/Faker/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "notification-url": "http://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -5739,7 +5739,7 @@
                     "src/"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "notification-url": "http://packagist.org/downloads/",
             "license": [
                 "BSD-3-Clause"
             ],
@@ -5786,7 +5786,7 @@
                     "src/"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "notification-url": "http://packagist.org/downloads/",
             "license": [
                 "BSD-3-Clause"
             ],
@@ -5843,7 +5843,7 @@
                     ]
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "notification-url": "http://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -6606,7 +6606,7 @@
                     "src/"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "notification-url": "http://packagist.org/downloads/",
             "license": [
                 "BSD-3-Clause"
             ],
@@ -6658,7 +6658,7 @@
                     "src/"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "notification-url": "http://packagist.org/downloads/",
             "license": [
                 "BSD-3-Clause"
             ],
@@ -6726,7 +6726,7 @@
                     "src/"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "notification-url": "http://packagist.org/downloads/",
             "license": [
                 "BSD-3-Clause"
             ],
@@ -6776,7 +6776,7 @@
                     "src/"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "notification-url": "http://packagist.org/downloads/",
             "license": [
                 "BSD-3-Clause"
             ],
@@ -6821,7 +6821,7 @@
                     "src/"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "notification-url": "http://packagist.org/downloads/",
             "license": [
                 "BSD-3-Clause"
             ],
@@ -6866,7 +6866,7 @@
                     "src/"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "notification-url": "http://packagist.org/downloads/",
             "license": [
                 "BSD-3-Clause"
             ],
@@ -7055,7 +7055,7 @@
                     "src/"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "notification-url": "http://packagist.org/downloads/",
             "license": [
                 "BSD-3-Clause"
             ],

@@ -4,8 +4,11 @@ namespace App\Models;
 
 /**
  * Class Expense
+ * @property int airline_id
  * @property float amount
  * @property string name
+ * @property string ref_class
+ * @property string ref_class_id
  * @package App\Models
  */
 class Expense extends BaseModel
@@ -32,6 +35,27 @@ class Expense extends BaseModel
         'multiplier'      => 'bool',
         'charge_to_user'  => 'bool',
     ];
+
+    /**
+     * Get the referring object
+     */
+    public function getReference()
+    {
+        if (!$this->ref_class || !$this->ref_class_id) {
+            return null;
+        }
+
+        if($this->ref_class === __CLASS__) {
+            return $this;
+        }
+
+        try {
+            $klass = new $this->ref_class;
+            return $klass->find($this->ref_class_id);
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
 
     /**
      * Foreign Keys

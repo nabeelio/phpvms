@@ -3,13 +3,30 @@
 namespace App\Console;
 
 use Illuminate\Console\Command;
+use Monolog\Handler\StreamHandler;
 use Symfony\Component\Process\Process;
 
 class BaseCommand extends Command
 {
+    /**
+     * Splice the logger and replace the handler to direct
+     * everything to stdout as well as the log
+     */
+    public function redirectLoggingToStdout()
+    {
+        $logger = app(\Illuminate\Log\Logger::class);
+        $handlers = $logger->getHandlers();
+
+        try {
+            $handlers[] = new StreamHandler('php://stdout');
+            $logger->setHandlers($handlers);
+        } catch (\Exception $e) {
+            $this->error('Couldn\'t splice the logger');
+        }
+    }
 
     /**
-     * Streaming file read
+     * Streaming file reader
      * @param $filename
      * @return \Generator
      */
@@ -33,6 +50,8 @@ class BaseCommand extends Command
      * @param $cmd
      * @param bool $return
      * @return string
+     * @throws \Symfony\Component\Process\Exception\RuntimeException
+     * @throws \Symfony\Component\Process\Exception\LogicException
      */
     public function runCommand($cmd, $return=false, $verbose=true)
     {
@@ -46,18 +65,12 @@ class BaseCommand extends Command
 
         $val = '';
         $process = new Process($cmd);
-        $process->run(function ($type, $buffer) use ($return, $val) {
+        $process->run(function ($type, $buffer) use ($return, &$val) {
             if ($return) {
                 $val .= $buffer;
             } else {
                 echo $buffer;
             }
-
-            /*if (Process::ERR === $type) {
-                echo $buffer;
-            } else {
-                echo $buffer;
-            }*/
         });
 
         return $val;

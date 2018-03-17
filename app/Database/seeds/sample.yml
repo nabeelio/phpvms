@@ -216,6 +216,22 @@ expenses:
     ref_class_id: 1
     created_at: now
     updated_at: now
+  - name: Catering Staff
+    amount: 1000
+    type: 1
+    active: 1
+    ref_class: App\Models\Subfleet
+    ref_class_id: 1
+    created_at: now
+    updated_at: now
+  - name: Maintenance
+    amount: 1000
+    type: 1
+    active: 1
+    ref_class: App\Models\Aircraft
+    ref_class_id: 1
+    created_at: now
+    updated_at: now
 
 fares:
   - id: 1
@@ -448,7 +464,7 @@ journals:
     id: 1
     ledger_id: null
     type: 0
-    balance: 23710000
+    balance: 7870000
     currency: USD
     morphed_type: App\Models\Airline
     morphed_id: 1
@@ -458,7 +474,7 @@ journals:
     id: 2
     ledger_id: null
     type: 1
-    balance: 45000
+    balance: 15000
     currency: USD
     morphed_type: App\Models\User
     morphed_id: 1

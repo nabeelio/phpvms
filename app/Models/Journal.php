@@ -11,7 +11,7 @@ use Carbon\Carbon;
 
 /**
  * Class Journal
- * @package Scottlaurent\Accounting
+ * @property mixed id
  * @property Money $balance
  * @property string $currency
  * @property Carbon $updated_at

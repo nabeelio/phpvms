@@ -28,7 +28,16 @@ return [
     'channels' => [
         'stack' => [
             'driver' => 'stack',
-            'channels' => ['daily'],
+            'channels' => [
+                'daily',
+                # PHP_SAPI === 'cli' ? 'console' : 'daily',
+            ],
+        ],
+        'console' => [
+            'driver' => 'stack',
+            'channels' => [
+                'stdout',
+            ],
         ],
         'single' => [
             'driver' => 'single',
@@ -47,6 +56,10 @@ return [
             'username' => 'Laravel Log',
             'emoji' => ':boom:',
             'level' => 'critical',
+        ],
+        'stdout' => [
+            'driver' => 'custom',
+            'via' => \App\Console\Logger::class,
         ],
         'syslog' => [
             'driver' => 'syslog',

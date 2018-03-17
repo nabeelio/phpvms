@@ -2,6 +2,9 @@
 
 namespace App\Console;
 
+use App\Console\Cron\Monthly;
+use App\Console\Cron\Nightly;
+use App\Console\Cron\Weekly;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -25,24 +28,24 @@ class Kernel extends ConsoleKernel
 
     /**
      * Define the application's command schedule.
-     *
      * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
      * @return void
      */
-    protected function schedule(Schedule $schedule)
+    protected function schedule(Schedule $schedule): void
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+        $schedule->command(Nightly::class)->dailyAt('01:00');
+        $schedule->command(Weekly::class)->weeklyOn(0);
+        $schedule->command(Monthly::class)->monthlyOn(1);
     }
 
     /**
      * Register the Closure based commands for the application.
-     *
      * @return void
      */
-    protected function commands()
+    protected function commands(): void
     {
         require app_path('Routes/console.php');
         $this->load(__DIR__ . '/Commands');
+        $this->load(__DIR__ . '/Cron');
     }
 }

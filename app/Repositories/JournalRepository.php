@@ -28,6 +28,20 @@ class JournalRepository extends BaseRepository implements CacheableInterface
     }
 
     /**
+     * Return a Y-m-d string for the post date
+     * @param Carbon $date
+     * @return string
+     */
+    public function formatPostDate(Carbon $date=null)
+    {
+        if(!$date) {
+            return null;
+        }
+
+        return $date->setTimezone('UTC')->toDateString();
+    }
+
+    /**
      * Post a new transaction to a journal, and also adjust the balance
      * on the transaction itself. A cron will run to reconcile the journal
      * balance nightly, since they're not atomic operations
@@ -55,22 +69,26 @@ class JournalRepository extends BaseRepository implements CacheableInterface
     ) {
 
         # tags can be passed in a list
-        if($tags && \is_array($tags)) {
+        if ($tags && \is_array($tags)) {
             $tags = implode(',', $tags);
         }
 
+        if(!$post_date) {
+            $post_date = Carbon::now('UTC');
+        }
+
         $attrs = [
-            'journal_id'        => $journal->id,
-            'credit'            => $credit ? $credit->getAmount():null,
-            'debit'             => $debit ? $debit->getAmount():null,
-            'currency'          => config('phpvms.currency'),
-            'memo'              => $memo,
-            'post_date'         => $post_date ?? Carbon::now(),
+            'journal_id' => $journal->id,
+            'credit' => $credit ? $credit->getAmount() : null,
+            'debit' => $debit ? $debit->getAmount() : null,
+            'currency' => config('phpvms.currency'),
+            'memo' => $memo,
+            'post_date' => $post_date,
             'transaction_group' => $transaction_group,
-            'tags'              => $tags
+            'tags' => $tags
         ];
 
-        if($reference !== null) {
+        if ($reference !== null) {
             $attrs['ref_class'] = \get_class($reference);
             $attrs['ref_class_id'] = $reference->id;
         }
@@ -112,6 +130,8 @@ class JournalRepository extends BaseRepository implements CacheableInterface
      * @param Carbon|null $start_date
      * @param null $transaction_group
      * @return Money
+     * @throws \UnexpectedValueException
+     * @throws \InvalidArgumentException
      */
     public function getCreditBalanceBetween(
         Carbon $date,
@@ -124,7 +144,7 @@ class JournalRepository extends BaseRepository implements CacheableInterface
             ['post_date', '<=', $date]
         ];
 
-        if($journal) {
+        if ($journal) {
             $where['journal_id'] = $journal->id;
         }
 
@@ -152,10 +172,13 @@ class JournalRepository extends BaseRepository implements CacheableInterface
      */
     public function getDebitBalanceBetween(
         Carbon $date,
-        Journal $journal=null,
-        Carbon $start_date=null,
-        $transaction_group=null
-    ): Money {
+        Journal $journal = null,
+        Carbon $start_date = null,
+        $transaction_group = null
+    ): Money
+    {
+
+        $date = $this->formatPostDate($date);
 
         $where = [
             ['post_date', '<=', $date]
@@ -165,11 +188,12 @@ class JournalRepository extends BaseRepository implements CacheableInterface
             $where['journal_id'] = $journal->id;
         }
 
-        if($start_date) {
+        if ($start_date) {
+            $start_date = $this->formatPostDate($start_date);
             $where[] = ['post_date', '>=', $start_date];
         }
 
-        if($transaction_group) {
+        if ($transaction_group) {
             $where['transaction_group'] = $transaction_group;
         }
 
@@ -184,25 +208,31 @@ class JournalRepository extends BaseRepository implements CacheableInterface
      * Return all transactions for a given object
      * @param $object
      * @param null $journal
+     * @param Carbon|null $date
      * @return array
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
      */
-    public function getAllForObject($object, $journal=null)
+    public function getAllForObject($object, $journal = null, Carbon $date = null)
     {
         $where = [
             'ref_class' => \get_class($object),
             'ref_class_id' => $object->id,
         ];
 
-        if($journal) {
+        if ($journal) {
             $where['journal_id'] = $journal->id;
         }
 
+        if ($date) {
+            $date = $this->formatPostDate($date);
+            $where[] = ['post_date', '=', $date];
+        }
+
         $transactions = $this->whereOrder($where, [
-                'credit' => 'desc',
-                'debit' => 'desc'
-            ])->get();
+            'credit' => 'desc',
+            'debit' => 'desc'
+        ])->get();
 
         return [
             'credits' => new Money($transactions->sum('credit')),
