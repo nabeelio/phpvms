@@ -348,7 +348,7 @@ class Importer
         {
             $rank = Rank::firstOrCreate(
                 ['name' => $row->rank],
-                ['image_link' => $row->rankimage, 'hours'=>$row->minhours]
+                ['image_url' => $row->rankimage, 'hours'=>$row->minhours]
             );
 
             $this->addMapping('ranks', $row->rankid, $rank->id);

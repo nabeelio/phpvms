@@ -16,7 +16,7 @@ class Rank extends BaseModel
     public $fillable = [
         'name',
         'hours',
-        'image_link',
+        'image_url',
         'acars_base_pay_rate',
         'manual_base_pay_rate',
         'auto_approve_acars',

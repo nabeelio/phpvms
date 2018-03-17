@@ -16,7 +16,7 @@ class CreateRanksTable extends Migration
         Schema::create('ranks', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name', 50);
-            $table->string('image_link')->nullable();
+            $table->string('image_url')->nullable();
             $table->unsignedInteger('hours')->default(0);
             $table->unsignedDecimal('acars_base_pay_rate')->nullable()->default(0);
             $table->unsignedDecimal('manual_base_pay_rate')->nullable()->default(0);

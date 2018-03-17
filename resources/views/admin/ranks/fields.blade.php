@@ -7,9 +7,9 @@
     </div>
 
     <div class="form-group col-md-6">
-        {{ Form::label('image_link', 'Image Link:') }}
-        {{ Form::text('image_link', null, ['class' => 'form-control']) }}
-        <p class="text-danger">{{ $errors->first('image_link') }}</p>
+        {{ Form::label('image_url', 'Image Link:') }}
+        {{ Form::text('image_url', null, ['class' => 'form-control']) }}
+        <p class="text-danger">{{ $errors->first('image_url') }}</p>
     </div>
 </div>
 <div class="row">
