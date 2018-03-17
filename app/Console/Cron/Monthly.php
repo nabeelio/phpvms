@@ -18,7 +18,7 @@ class Monthly extends BaseCommand
 
     public function handle(): void
     {
-        $this->redirectLoggingToStdout();
+        $this->redirectLoggingToStdout('cron');
         event(new CronMonthly());
     }
 }

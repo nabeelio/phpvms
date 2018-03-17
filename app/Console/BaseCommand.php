@@ -3,25 +3,42 @@
 namespace App\Console;
 
 use Illuminate\Console\Command;
-use Monolog\Handler\StreamHandler;
 use Symfony\Component\Process\Process;
+use Log;
 
 class BaseCommand extends Command
 {
     /**
-     * Splice the logger and replace the handler to direct
-     * everything to stdout as well as the log
+     * Splice the logger and replace the active handlers with
+     * the handlers from the "cron" stack in config/logging.php
+     *
+     * Close out any of the existing handlers so we don't leave
+     * file descriptors leaking around
+     *
+     * @param string $channel_name Channel name to grab the handlers from
      */
-    public function redirectLoggingToStdout()
+    public function redirectLoggingToStdout($channel_name)
     {
         $logger = app(\Illuminate\Log\Logger::class);
-        $handlers = $logger->getHandlers();
 
+        // Close the existing loggers
         try {
-            $handlers[] = new StreamHandler('php://stdout');
-            $logger->setHandlers($handlers);
+            $handlers = $logger->getHandlers();
+            foreach ($handlers as $handler) {
+                $handler->close();
+            }
         } catch (\Exception $e) {
-            $this->error('Couldn\'t splice the logger');
+            $this->error('Error closing handlers: ' . $e->getMessage());
+        }
+
+        // Open the handlers for the channel name,
+        // and then set them to the main logger
+        try {
+            $logger->setHandlers(
+                Log::channel($channel_name)->getHandlers()
+            );
+        } catch (\Exception $e) {
+            $this->error('Couldn\'t splice the logger: ' . $e->getMessage());
         }
     }
 
@@ -53,13 +70,13 @@ class BaseCommand extends Command
      * @throws \Symfony\Component\Process\Exception\RuntimeException
      * @throws \Symfony\Component\Process\Exception\LogicException
      */
-    public function runCommand($cmd, $return=false, $verbose=true)
+    public function runCommand($cmd, $return = false, $verbose = true)
     {
         if (\is_array($cmd)) {
             $cmd = join(' ', $cmd);
         }
 
-        if($verbose) {
+        if ($verbose) {
             $this->info('Running "' . $cmd . '"');
         }
 

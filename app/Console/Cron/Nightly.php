@@ -18,7 +18,7 @@ class Nightly extends BaseCommand
 
     public function handle(): void
     {
-        $this->redirectLoggingToStdout();
+        $this->redirectLoggingToStdout('cron');
         event(new CronNightly());
     }
 }

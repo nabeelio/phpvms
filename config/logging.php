@@ -33,9 +33,10 @@ return [
                 # PHP_SAPI === 'cli' ? 'console' : 'daily',
             ],
         ],
-        'console' => [
+        'cron' => [
             'driver' => 'stack',
             'channels' => [
+                'cron_rotating',
                 'stdout',
             ],
         ],
@@ -47,6 +48,12 @@ return [
         'daily' => [
             'driver' => 'daily',
             'path' => storage_path('logs/laravel.log'),
+            'level' => 'debug',
+            'days' => 3,
+        ],
+        'cron_rotating' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/cron.log'),
             'level' => 'debug',
             'days' => 3,
         ],
