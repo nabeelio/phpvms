@@ -1,7 +1,7 @@
 <table class="table table-hover table-responsive" id="aircrafts-table">
     <thead>
-        <th>Subfleet</th>
         <th>Name</th>
+        <th>Subfleet</th>
         {{--<th style="text-align: center;">ICAO</th>--}}
         <th style="text-align: center;">Registration</th>
         <th style="text-align: center;">Hours</th>
@@ -11,6 +11,7 @@
     <tbody>
     @foreach($aircraft as $ac)
         <tr>
+            <td><a href="{!! route('admin.aircraft.edit', [$ac->id]) !!}">{!! $ac->name !!}</a></td>
             <td>
                 @if($ac->subfleet_id && $ac->subfleet)
                     <a href="{!! route('admin.subfleets.edit', [$ac->subfleet_id]) !!}">
@@ -20,7 +21,6 @@
                     -
                 @endif
             </td>
-            <td><a href="{!! route('admin.aircraft.edit', [$ac->id]) !!}">{!! $ac->name !!}</a></td>
             <td style="text-align: center;">{!! $ac->icao !!}</td>
             {{--<td style="text-align: center;">{!! $ac->registration !!}</td>--}}
             <td style="text-align: center;">
@@ -36,7 +36,7 @@
             <td style="width: 10%; text-align: right;">
                 {!! Form::open(['route' => ['admin.aircraft.destroy', $ac->id], 'method' => 'delete']) !!}
                 <a href="{!! route('admin.aircraft.edit', [$ac->id]) !!}" class='btn btn-sm btn-success btn-icon'>
-                    <i class="fa fa-pencil-square-o"></i>
+                    <i class="fas fa-pencil-alt"></i>
                 </a>
                 {!! Form::button('<i class="fa fa-times"></i>', ['type' => 'submit', 'class' => 'btn btn-sm btn-danger btn-icon', 'onclick' => "return confirm('Are you sure?')"]) !!}
                 {!! Form::close() !!}

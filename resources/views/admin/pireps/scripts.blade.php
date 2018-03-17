@@ -1,7 +1,7 @@
 @section('scripts')
 <script>
-function changeStatus(values) {
-    const destContainer = '#pirep_' + values.pirep_id + '_actionbar';
+const changeStatus = (values, fn) => {
+    console.log('Changing PIREP ' + values.pirep_id + ' to state ' + values.new_status);
     $.ajax({
         url: BASE_URL + '/admin/pireps/' + values.pirep_id + '/status',
         data: values,
@@ -10,11 +10,10 @@ function changeStatus(values) {
             'x-api-key': PHPVMS_USER_API_KEY
         },
         success: function (data) {
-            // console.log(data);
-            $(destContainer).html(data);
+            fn(data);
         }
     });
-}
+};
 
 $(document).ready(function() {
 
@@ -36,11 +35,22 @@ $(document).ready(function() {
             new_status: $(this).attr('new_status')
         };
 
-        console.log(values);
-        console.log('Changing PIREP ' + values.pirep_id + ' to state ' + values.new_status);
-
-        changeStatus(values);
+        changeStatus(values, (data) => {
+            const destContainer = '#pirep_' + values.pirep_id + '_actionbar';
+            $(destContainer).html(data);
+        });
     });
+
+    $(document).on('submit', 'form.pirep_change_status', function(event) {
+        event.preventDefault();
+        changeStatus({
+            pirep_id: $(this).attr('pirep_id'),
+            new_status: $(this).attr('new_status')
+        }, (data) => {
+            location.reload();
+        });
+    });
+
 });
 </script>
 @endsection

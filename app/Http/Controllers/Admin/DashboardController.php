@@ -2,22 +2,27 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Auth;
-use Flash;
-use Version;
-use Illuminate\Http\Request;
-
 use App\Facades\Utils;
 use App\Repositories\NewsRepository;
 use App\Repositories\PirepRepository;
 use App\Repositories\UserRepository;
-
+use Auth;
+use Flash;
+use Illuminate\Http\Request;
+use Log;
+use Version;
 use vierbergenlars\SemVer\version as semver;
 
 class DashboardController extends BaseController
 {
     private $newsRepo, $pirepRepo, $userRepo;
 
+    /**
+     * DashboardController constructor.
+     * @param NewsRepository $newsRepo
+     * @param PirepRepository $pirepRepo
+     * @param UserRepository $userRepo
+     */
     public function __construct(
         NewsRepository $newsRepo,
         PirepRepository $pirepRepo,
@@ -36,11 +41,16 @@ class DashboardController extends BaseController
      */
     protected function checkNewVersion()
     {
-        $current_version = new semver(Version::compact());
-        $latest_version = new semver(Utils::downloadUrl(config('phpvms.version_file')));
+        try {
+            $current_version = new semver(Version::compact());
+            $latest_version = new semver(Utils::downloadUrl(config('phpvms.version_file')));
 
-        if(semver::gt($latest_version, $current_version)) {
-            Flash::warning('New version '.$latest_version.' is available!');
+            if (semver::gt($latest_version, $current_version)) {
+                Flash::warning('New version ' . $latest_version . ' is available!');
+            }
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            Flash::warning('Could not contact phpVMS for version check');
         }
     }
 

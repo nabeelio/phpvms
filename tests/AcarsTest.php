@@ -2,16 +2,21 @@
 
 use App\Models\Enums\PirepState;
 use App\Models\Enums\PirepStatus;
+use App\Repositories\SettingRepository;
 
 /**
  * Test API calls and authentication, etc
  */
 class AcarsTest extends TestCase
 {
+    protected $settingsRepo;
+
     public function setUp()
     {
         parent::setUp();
         $this->addData('base');
+
+        $this->settingsRepo = app(SettingRepository::class);
     }
 
     /**
@@ -49,7 +54,7 @@ class AcarsTest extends TestCase
     {
         $resp = $this ->get('/api/pireps/' . $pirep_id);
         $resp->assertStatus(200);
-        return $resp->json();
+        return $resp->json()['data'];
     }
 
     /**
@@ -88,11 +93,16 @@ class AcarsTest extends TestCase
      */
     public function testAcarsUpdates()
     {
-        $this->user = factory(App\Models\User::class)->create();
+        $subfleet = $this->createSubfleetWithAircraft(2);
+        $rank = $this->createRank(10, [$subfleet['subfleet']->id]);
+
+        $this->user = factory(App\Models\User::class)->create([
+            'rank_id' => $rank->id
+        ]);
 
         $airport = factory(App\Models\Airport::class)->create();
         $airline = factory(App\Models\Airline::class)->create();
-        $aircraft = factory(App\Models\Aircraft::class)->create();
+        $aircraft = $subfleet['aircraft']->random();
 
         $uri = '/api/pireps/prefile';
         $pirep = [
@@ -102,8 +112,13 @@ class AcarsTest extends TestCase
             'arr_airport_id' => $airport->icao,
             'flight_number' => '6000',
             'level' => 38000,
+            'planned_distance' => 400,
             'planned_flight_time' => 120,
             'route' => 'POINTA POINTB',
+            'source_name' => 'UnitTest',
+            'fields' => [
+                'custom_field' => 'custom_value',
+            ]
         ];
 
         $response = $this->post($uri, $pirep);
@@ -111,16 +126,40 @@ class AcarsTest extends TestCase
 
         # Get the PIREP ID
         $body = $response->json();
-        $pirep_id = $body['id'];
+        $pirep_id = $body['data']['id'];
 
-        $this->assertHasKeys($body, ['airline', 'arr_airport', 'dpt_airport', 'position']);
+        $this->assertHasKeys($body['data'], ['airline', 'arr_airport', 'dpt_airport', 'position']);
         $this->assertNotNull($pirep_id);
-        $this->assertEquals($body['user_id'], $this->user->id);
+        $this->assertEquals($body['data']['user_id'], $this->user->id);
 
         # Check the PIREP state and status
         $pirep = $this->getPirep($pirep_id);
         $this->assertEquals(PirepState::IN_PROGRESS, $pirep['state']);
         $this->assertEquals(PirepStatus::PREFILE, $pirep['status']);
+
+        /**
+         * Check the fields
+         */
+        $this->assertHasKeys($pirep, ['fields']);
+        $this->assertEquals('custom_field', $pirep['fields'][0]['name']);
+        $this->assertEquals('custom_value', $pirep['fields'][0]['value']);
+
+        $this->assertHasKeys($pirep['planned_distance'], ['mi', 'nmi', 'km']);
+
+        /**
+         * Update the custom field
+         */
+        $uri = '/api/pireps/' . $pirep_id . '/update';
+        $this->post($uri, ['fields' => [
+            'custom_field' => 'custom_value_changed',
+        ]]);
+
+        $pirep = $this->getPirep($pirep_id);
+        $this->assertEquals('custom_value_changed', $pirep['fields'][0]['value']);
+
+        /**
+         * Add some position updates
+         */
 
         $uri = '/api/pireps/' . $pirep_id . '/acars/position';
 
@@ -140,7 +179,7 @@ class AcarsTest extends TestCase
         $response->assertStatus(200)->assertJson(['count' => 1]);
 
         # Read that if the ACARS record posted
-        $acars_data = $this->get($uri)->json()[0];
+        $acars_data = $this->get($uri)->json()['data'][0];
         $this->assertEquals(round($acars['lat'], 2), round($acars_data['lat'], 2));
         $this->assertEquals(round($acars['lon'], 2), round($acars_data['lon'], 2));
         $this->assertEquals($acars['log'], $acars_data['log']);
@@ -152,7 +191,7 @@ class AcarsTest extends TestCase
 
         $response = $this->get($uri);
         $response->assertStatus(200);
-        $body = $response->json();
+        $body = $response->json()['data'];
 
         $this->assertNotNull($body);
         $this->assertCount(1, $body);
@@ -162,13 +201,19 @@ class AcarsTest extends TestCase
         # File the PIREP now
         $uri = '/api/pireps/'.$pirep_id.'/file';
         $response = $this->post($uri, []);
-        $response->assertStatus(400); // missing the flight time
+        $response->assertStatus(400); // missing field
 
         $response = $this->post($uri, ['flight_time' => '1:30']);
         $response->assertStatus(400); // invalid flight time
 
-        $response = $this->post($uri, ['flight_time' => '130']);
+        $response = $this->post($uri, [
+            'flight_time' => 130,
+            'fuel_used' => 8000.19,
+            'distance' => 400,
+        ]);
+
         $response->assertStatus(200);
+        $body = $response->json();
 
         # Add a comment
         $uri = '/api/pireps/'.$pirep_id.'/comments';
@@ -183,18 +228,100 @@ class AcarsTest extends TestCase
     }
 
     /**
+     * Test aircraft is allowed
+     */
+    public function testAircraftAllowed()
+    {
+        $this->settingsRepo->store('pireps.restrict_aircraft_to_rank', true);
+
+        $airport = factory(App\Models\Airport::class)->create();
+        $airline = factory(App\Models\Airline::class)->create();
+
+        # Add subfleets and aircraft, but also add another set of subfleets
+        $subfleetA = $this->createSubfleetWithAircraft(1);
+
+        // User not allowed aircraft from this subfleet
+        $subfleetB = $this->createSubfleetWithAircraft(1);
+
+        $rank = $this->createRank(10, [$subfleetA['subfleet']->id]);
+
+        $this->user = factory(App\Models\User::class)->create([
+            'rank_id' => $rank->id,
+        ]);
+
+        $uri = '/api/pireps/prefile';
+        $pirep = [
+            'airline_id' => $airline->id,
+            'aircraft_id' => $subfleetB['aircraft']->random()->id,
+            'dpt_airport_id' => $airport->icao,
+            'arr_airport_id' => $airport->icao,
+            'flight_number' => '6000',
+            'level' => 38000,
+            'planned_flight_time' => 120,
+            'route' => 'POINTA POINTB',
+            'source_name' => 'Unit test'
+        ];
+
+        $response = $this->post($uri, $pirep);
+        $response->assertStatus(400);
+
+        // Try refiling with a valid aircraft
+        $pirep['aircraft_id'] = $subfleetA['aircraft']->random()->id;
+        $response = $this->post($uri, $pirep);
+        $response->assertStatus(201);
+    }
+
+    /**
+     * Test aircraft permissions being ignored
+     */
+    public function testIgnoreAircraftAllowed()
+    {
+        $this->settingsRepo->store('pireps.restrict_aircraft_to_rank', false);
+
+        $airport = factory(App\Models\Airport::class)->create();
+        $airline = factory(App\Models\Airline::class)->create();
+
+        # Add subfleets and aircraft, but also add another set of subfleets
+        $subfleetA = $this->createSubfleetWithAircraft(1);
+
+        // User not allowed aircraft from this subfleet
+        $subfleetB = $this->createSubfleetWithAircraft(1);
+
+        $rank = $this->createRank(10, [$subfleetA['subfleet']->id]);
+
+        $this->user = factory(App\Models\User::class)->create([
+            'rank_id' => $rank->id,
+        ]);
+
+        $uri = '/api/pireps/prefile';
+        $pirep = [
+            'airline_id' => $airline->id,
+            'aircraft_id' => $subfleetB['aircraft']->random()->id,
+            'dpt_airport_id' => $airport->icao,
+            'arr_airport_id' => $airport->icao,
+            'flight_number' => '6000',
+            'level' => 38000,
+            'planned_flight_time' => 120,
+            'route' => 'POINTA POINTB',
+            'source_name' => 'Unit test'
+        ];
+
+        $response = $this->post($uri, $pirep);
+        $response->assertStatus(201);
+    }
+
+    /**
      * Test publishing multiple, batched updates
      */
     public function testMultipleAcarsPositionUpdates()
     {
-        $this->user = factory(App\Models\User::class)->create();
-        $pirep = factory(App\Models\Pirep::class)->make()->toArray();
+        $pirep = $this->createPirep()->toArray();
 
         $uri = '/api/pireps/prefile';
         $response = $this->post($uri, $pirep);
         $response->assertStatus(201);
 
-        $pirep_id = $response->json()['id'];
+        $pirep_id = $response->json()['data']['id'];
 
         $uri = '/api/pireps/' . $pirep_id . '/acars/position';
 
@@ -207,7 +334,7 @@ class AcarsTest extends TestCase
         $response->assertStatus(200)->assertJson(['count' => $acars_count]);
 
         $response = $this->get($uri);
-        $response->assertStatus(200)->assertJsonCount($acars_count);
+        $response->assertStatus(200)->assertJsonCount($acars_count, 'data');
     }
 
     /**
@@ -240,12 +367,11 @@ class AcarsTest extends TestCase
      */
     public function testAcarsIsoDate()
     {
-        $this->user = factory(App\Models\User::class)->create();
-        $pirep = factory(App\Models\Pirep::class)->make()->toArray();
+        $pirep = $this->createPirep()->toArray();
 
         $uri = '/api/pireps/prefile';
         $response = $this->post($uri, $pirep);
-        $pirep_id = $response->json()['id'];
+        $pirep_id = $response->json()['data']['id'];
 
         $dt = date('c');
         $uri = '/api/pireps/' . $pirep_id . '/acars/position';
@@ -263,12 +389,11 @@ class AcarsTest extends TestCase
      */
     public function testAcarsInvalidRoutePost()
     {
-        $this->user = factory(App\Models\User::class)->create();
-        $pirep = factory(App\Models\Pirep::class)->make()->toArray();
+        $pirep = $this->createPirep()->toArray();
 
         $uri = '/api/pireps/prefile';
         $response = $this->post($uri, $pirep);
-        $pirep_id = $response->json()['id'];
+        $pirep_id = $response->json()['data']['id'];
 
         $post_route = ['order' => 1, 'name' => 'NAVPOINT'];
         $uri = '/api/pireps/' . $pirep_id . '/route';
@@ -286,12 +411,11 @@ class AcarsTest extends TestCase
 
     public function testAcarsLogPost()
     {
-        $this->user = factory(App\Models\User::class)->create();
-        $pirep = factory(App\Models\Pirep::class)->make()->toArray();
+        $pirep = $this->createPirep()->toArray();
 
         $uri = '/api/pireps/prefile';
         $response = $this->post($uri, $pirep);
-        $pirep_id = $response->json()['id'];
+        $pirep_id = $response->json()['data']['id'];
 
         $acars = factory(App\Models\Acars::class)->make();
         $post_log = [
@@ -300,7 +424,21 @@ class AcarsTest extends TestCase
             ]
         ];
 
-        $uri = '/api/pireps/' . $pirep_id . '/acars/log';
+        $uri = '/api/pireps/' . $pirep_id . '/acars/logs';
+        $response = $this->post($uri, $post_log);
+        $response->assertStatus(200);
+        $body = $response->json();
+
+        $this->assertEquals(1, $body['count']);
+
+        $acars = factory(App\Models\Acars::class)->make();
+        $post_log = [
+            'events' => [
+                ['event' => $acars->log]
+            ]
+        ];
+
+        $uri = '/api/pireps/' . $pirep_id . '/acars/events';
         $response = $this->post($uri, $post_log);
         $response->assertStatus(200);
         $body = $response->json();
@@ -313,12 +451,11 @@ class AcarsTest extends TestCase
      */
     public function testAcarsRoutePost()
     {
-        $this->user = factory(App\Models\User::class)->create();
-        $pirep = factory(App\Models\Pirep::class)->make()->toArray();
+        $pirep = $this->createPirep()->toArray();
 
         $uri = '/api/pireps/prefile';
         $response = $this->post($uri, $pirep);
-        $pirep_id = $response->json()['id'];
+        $pirep_id = $response->json()['data']['id'];
 
         $order = 1;
         $post_route = [];
@@ -328,7 +465,8 @@ class AcarsTest extends TestCase
         foreach($route as $position) {
             $post_route[] = [
                 'order' => $order,
-                'name' => $position->name,
+                'id' => $position->id,
+                'name' => $position->id,
                 'lat' => $position->lat,
                 'lon' => $position->lon,
             ];
@@ -338,10 +476,7 @@ class AcarsTest extends TestCase
 
         $uri = '/api/pireps/'.$pirep_id.'/route';
         $response = $this->post($uri, ['route' => $post_route]);
-        $response->assertStatus(200)->assertJsonCount($route_count);
-
-        $body = $response->json();
-        $this->allPointsInRoute($post_route, $body);
+        $response->assertStatus(200)->assertJson(['count' => $route_count]);
 
         /**
          * Get
@@ -349,8 +484,9 @@ class AcarsTest extends TestCase
 
         $uri = '/api/pireps/' . $pirep_id . '/route';
         $response = $this->get($uri);
-        $response->assertStatus(200)->assertJsonCount($route_count);
-        $body = $response->json();
+        $response->assertStatus(200)->assertJsonCount($route_count, 'data');
+
+        $body = $response->json()['data'];
         $this->allPointsInRoute($post_route, $body);
 
         /**
@@ -362,7 +498,7 @@ class AcarsTest extends TestCase
 
         $uri = '/api/pireps/' . $pirep_id . '/route';
         $response = $this->get($uri);
-        $response->assertStatus(200)->assertJsonCount(0);
+        $response->assertStatus(200)->assertJsonCount(0, 'data');
     }
 
     /**
@@ -370,22 +506,18 @@ class AcarsTest extends TestCase
      */
     public function testDuplicatePirep()
     {
-        $this->user = factory(App\Models\User::class)->create();
+        $pirep = $this->createPirep()->toArray();
 
         $uri = '/api/pireps/prefile';
-        $this->user = factory(App\Models\User::class)->create();
-        $pirep = factory(App\Models\Pirep::class)->make([
-            'id' => '',
-            'airline_id' => $this->user->airline_id,
-            'user_id' => $this->user->id,
-        ])->toArray();
-
         $response = $this->post($uri, $pirep);
         $response->assertStatus(201);
-        $pirep = $response->json();
+        $pirep_id = $response->json()['data']['id'];
 
+        # try readding
         $response = $this->post($uri, $pirep);
         $response->assertStatus(200);
-        $body = $response->json();
+        $dupe_pirep_id = $response->json()['data']['id'];
+
+        $this->assertEquals($pirep_id, $dupe_pirep_id);
     }
 }

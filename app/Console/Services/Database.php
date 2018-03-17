@@ -2,8 +2,8 @@
 
 namespace App\Console\Services;
 
-use PDO;
 use Doctrine\DBAL\Driver\PDOException;
+use PDO;
 
 /**
  * Class Database

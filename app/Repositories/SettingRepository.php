@@ -2,14 +2,12 @@
 
 namespace App\Repositories;
 
-use Log;
-use Illuminate\Support\Carbon;
-use Prettus\Repository\Contracts\CacheableInterface;
-
-use App\Models\Setting;
-use App\Repositories\Traits\CacheableRepository;
 use App\Exceptions\SettingNotFound;
-
+use App\Models\Setting;
+use Illuminate\Support\Carbon;
+use Log;
+use Prettus\Repository\Contracts\CacheableInterface;
+use Prettus\Repository\Traits\CacheableRepository;
 use Prettus\Validator\Exceptions\ValidatorException;
 
 class SettingRepository extends BaseRepository implements CacheableInterface
@@ -65,6 +63,14 @@ class SettingRepository extends BaseRepository implements CacheableInterface
             default:
                 return $setting->value;
         }
+    }
+
+    /**
+     * @alias store($key,$value)
+     */
+    public function save($key, $value)
+    {
+        return $this->store($key, $value);
     }
 
     /**

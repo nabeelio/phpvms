@@ -2,12 +2,11 @@
 
 namespace App\Repositories;
 
-use Illuminate\Http\Request;
-use Prettus\Repository\Contracts\CacheableInterface;
-
 use App\Models\Flight;
 use App\Repositories\Criteria\WhereCriteria;
-use App\Repositories\Traits\CacheableRepository;
+use Illuminate\Http\Request;
+use Prettus\Repository\Contracts\CacheableInterface;
+use Prettus\Repository\Traits\CacheableRepository;
 
 class FlightRepository extends BaseRepository implements CacheableInterface
 {

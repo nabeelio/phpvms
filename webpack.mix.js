@@ -35,9 +35,6 @@ mix.sass('public/assets/admin/vendor/sass/paper-dashboard.scss',
 mix.styles([
     'node_modules/bootstrap3/dist/css/bootstrap.css',
     'public/assets/admin/vendor/animate.css',
-    'public/assets/admin/vendor/pe-icon-7-stroke.css',
-    'public/assets/admin/vendor/themify-icons.css',
-    'public/assets/admin/vendor/font-awesome.css',
     'node_modules/select2/dist/css/select2.css',
     'node_modules/leaflet/dist/leaflet.css',
     'node_modules/icheck/skins/square/blue.css',
@@ -49,7 +46,6 @@ mix.styles([
 
 mix.scripts([
     'node_modules/lodash/lodash.js',
-    //'node_modules/jquery/dist/jquery.js',  // commented out to include separately
     'node_modules/moment/moment.js',
     'node_modules/bootstrap3/dist/js/bootstrap.js',
     'node_modules/bootstrap3/js/collapse.js',
@@ -59,9 +55,7 @@ mix.scripts([
     'node_modules/select2/dist/js/select2.js',
     'node_modules/leaflet/dist/leaflet.js',
     'node_modules/icheck/icheck.js',
-    // 'node_modules/pjax/pjax.js',
     'node_modules/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.js',
-    // 'node_modules/x-editable/dist/bootstrap-datepicker/dist/js/bootstrap-datepicker.js',
     'node_modules/eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js',
     'node_modules/jquery-pjax/jquery.pjax.js',
 ], 'public/assets/admin/js/vendor.js');
@@ -90,19 +84,15 @@ mix.scripts([
     'node_modules/pjax/pjax.js',
     'node_modules/leaflet-rotatedmarker/leaflet.rotatedMarker.js',
     'node_modules/Leaflet.Geodesic/Leaflet.Geodesic.js',
-    /*'public/assets/frontend/js/plugins/bootstrap-switch.js',
-    'public/assets/frontend/js/plugins/nouislider.min.js',
-    'public/assets/frontend/js/plugins/bootstrap-datepicker.js',
-    'public/assets/frontend/js/now-ui-kit.js',*/
 ], 'public/assets/system/js/vendor.js');
 
 mix.styles([
     'node_modules/select2/dist/css/select2.css',
     'node_modules/leaflet/dist/leaflet.css',
     'node_modules/flag-icon-css/css/flag-icon.css',
-], 'public/assets/system/css/vendor.css')
+    'public/assets/admin/vendor/pe-icon-7-stroke.css',
+], 'public/assets/system/css/vendor.min.css')
     .options({
-        processCssUrls: false,
         compressed: true
     })
     .sourceMaps();
@@ -112,10 +102,21 @@ mix.styles([
  * INSTALLER VENDOR FILES
  */
 
+mix.styles([
+    'node_modules/select2/dist/css/select2.css',
+    'node_modules/flag-icon-css/css/flag-icon.css',
+], 'public/assets/system/css/installer.css')
+    .options({
+        processCssUrls: false,
+        compressed: true
+    })
+    .sourceMaps();
+
 mix.scripts([
     'node_modules/lodash/lodash.js',
     'node_modules/jquery/dist/jquery.js',
     'node_modules/pjax/pjax.js',
+    'node_modules/select2/dist/js/select2.js',
 ], 'public/assets/system/js/installer-vendor.js');
 
 

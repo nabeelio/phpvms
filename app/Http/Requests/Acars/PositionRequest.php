@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests\Acars;
 
-use Auth;
 use App\Models\Pirep;
+use Auth;
 use Illuminate\Foundation\Http\FormRequest;
 
 /**

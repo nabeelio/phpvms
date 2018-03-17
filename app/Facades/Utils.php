@@ -3,7 +3,7 @@
 namespace App\Facades;
 
 use GuzzleHttp\Client;
-use \Illuminate\Support\Facades\Facade;
+use Illuminate\Support\Facades\Facade;
 
 class Utils extends Facade
 {

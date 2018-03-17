@@ -32,7 +32,7 @@ $(document).ready(function() {
 
     $('a.airport_data_lookup').click(function(e) {
         e.preventDefault();
-        var icao = $("input#airport_icao").val();
+        const icao = $("input#airport_icao").val();
         if(icao === '') {
             return;
         }
@@ -47,7 +47,8 @@ $(document).ready(function() {
                 $("#" + key).val(value);
 
                 if(key === 'tz') {
-                    $("#tz").trigger('change');
+                    $("#timezone").val(value);
+                    $("#timezone").trigger('change');
                 }
             });
         });

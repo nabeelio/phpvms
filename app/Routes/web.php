@@ -27,7 +27,6 @@ Route::group([
     Route::resource('dashboard', 'DashboardController');
 
     Route::get('flights/search', 'FlightController@search')->name('flights.search');
-    Route::post('flights/save', 'FlightController@save')->name('flights.save');
     Route::resource('flights', 'FlightController');
 
     Route::resource('pireps', 'PirepController');

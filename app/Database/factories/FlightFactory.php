@@ -8,8 +8,10 @@ $airlinesAvailable = [1];
 
 $factory->define(App\Models\Flight::class, function (Faker $faker) use ($airlinesAvailable) {
     return [
-        'id' => substr($faker->unique()->sha1, 28, 12),
-        'airline_id' => $faker->randomElement($airlinesAvailable),
+        'id' => null,
+        'airline_id' => function () {
+            return factory(App\Models\Airline::class)->create()->id;
+        },
         'flight_number' => $faker->unique()->numberBetween(10, 1000000),
         'route_code' => $faker->randomElement(['', $faker->text(5)]),
         'route_leg' => $faker->randomElement(['', $faker->text(5)]),
@@ -22,15 +24,16 @@ $factory->define(App\Models\Flight::class, function (Faker $faker) use ($airline
         'alt_airport_id' => function () {
             return factory(App\Models\Airport::class)->create()->id;
         },
-        'route' => $faker->randomElement(['', $faker->text(5)]),
+        'distance' => $faker->numberBetween(0, 3000),
+        'route' => null,
         'dpt_time' => $faker->time(),
         'arr_time' => $faker->time(),
-        'flight_time' => $faker->randomFloat(2),
+        'flight_time' => $faker->numberBetween(60, 360),
         'has_bid' => false,
         'active' => true,
         'created_at' => $faker->dateTimeBetween('-1 week', 'now'),
-        'updated_at' => function (array $pirep) {
-            return $pirep['created_at'];
+        'updated_at' => function (array $flight) {
+            return $flight['created_at'];
         },
     ];
 });

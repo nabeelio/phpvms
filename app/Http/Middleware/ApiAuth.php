@@ -6,10 +6,9 @@
 namespace App\Http\Middleware;
 
 use App\Models\Enums\UserState;
-use Auth;
-use Log;
-use Closure;
 use App\Models\User;
+use Auth;
+use Closure;
 
 class ApiAuth
 {

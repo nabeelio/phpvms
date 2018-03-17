@@ -20,7 +20,7 @@
                                     ]) !!}
                     {!! Form::hidden('field_id', $field->id) !!}
                     <div class='btn-group'>
-                        {!! Form::button('<i class="glyphicon glyphicon-trash"></i>',
+                        {!! Form::button('<i class="fa fa-times"></i>',
                                          ['type' => 'submit',
                                           'class' => 'btn btn-danger btn-xs'])
                           !!}
@@ -51,6 +51,8 @@
                 {!! Form::button('<i class="glyphicon glyphicon-plus"></i> add',
                                  ['type' => 'submit',
                                   'class' => 'btn btn-success btn-s']) !!}
+                <p class="text-danger">{{ $errors->first('name') }}</p>
+                <p class="text-danger">{{ $errors->first('value') }}</p>
                 {!! Form::close() !!}
             </div>
         </div>

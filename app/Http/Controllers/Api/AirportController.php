@@ -2,18 +2,21 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Resources\Airport as AirportResource;
+use App\Repositories\AirportRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
-
-use App\Repositories\AirportRepository;
-use App\Http\Resources\Airport as AirportResource;
-
+use Log;
 use VaCentral\Airport as AirportLookup;
 
 class AirportController extends RestController
 {
     protected $airportRepo;
 
+    /**
+     * AirportController constructor.
+     * @param AirportRepository $airportRepo
+     */
     public function __construct(
         AirportRepository $airportRepo
     ) {
@@ -22,6 +25,8 @@ class AirportController extends RestController
 
     /**
      * Return all the airports, paginated
+     * @param Request $request
+     * @return mixed
      */
     public function index(Request $request)
     {
@@ -37,6 +42,9 @@ class AirportController extends RestController
         return AirportResource::collection($airports);
     }
 
+    /**
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
     public function index_hubs()
     {
         $where = [
@@ -58,7 +66,6 @@ class AirportController extends RestController
     public function get($id)
     {
         $id = strtoupper($id);
-        AirportResource::withoutWrapping();
         return new AirportResource($this->airportRepo->find($id));
     }
 
@@ -73,7 +80,12 @@ class AirportController extends RestController
             config('cache.keys.AIRPORT_VACENTRAL_LOOKUP.key') . $id,
             config('cache.keys.RANKS_PILOT_LIST.time'),
             function () use ($id) {
-                return AirportLookup::get($id);
+                try {
+                    return AirportLookup::get($id);
+                } catch (\VaCentral\HttpException $e) {
+                    Log::error($e);
+                    return [];
+                }
             }
         );
 

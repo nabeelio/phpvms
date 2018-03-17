@@ -1,6 +1,5 @@
 <?php
 
-use Hashids\Hashids;
 use Faker\Generator as Faker;
 
 /**
@@ -9,7 +8,7 @@ use Faker\Generator as Faker;
 $factory->define(App\Models\Airport::class, function (Faker $faker) {
 
     return [
-        'id' => function(array $apt) use ($faker) {
+        'id' => function() {
             $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
             $string = '';
             $max = strlen($characters) - 1;
@@ -18,16 +17,12 @@ $factory->define(App\Models\Airport::class, function (Faker $faker) {
             }
 
             return $string;
-            #return $faker->unique()->text(5);
-            /*$hashids = new Hashids(microtime(), 5);
-            $mt = str_replace('.', '', microtime(true));
-            return $hashids->encode($mt);*/
         },
         'icao' => function(array $apt) { return $apt['id']; },
         'iata' => function (array $apt) { return $apt['id']; },
         'name' => $faker->sentence(3),
         'country' => $faker->country,
-        'tz' => $faker->timezone,
+        'timezone' => $faker->timezone,
         'lat' => $faker->latitude,
         'lon' => $faker->longitude,
         'fuel_100ll_cost' => $faker->randomFloat(2),

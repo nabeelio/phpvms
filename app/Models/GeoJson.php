@@ -2,17 +2,14 @@
 
 namespace App\Models;
 
-use \GeoJson\Geometry\Point;
-use \GeoJson\Geometry\LineString;
-use \GeoJson\Feature\Feature;
-use \GeoJson\Feature\FeatureCollection;
+use GeoJson\Feature\Feature;
+use GeoJson\Feature\FeatureCollection;
+use GeoJson\Geometry\LineString;
+use GeoJson\Geometry\Point;
 
 /**
  * Return different points/features in GeoJSON format
  * https://tools.ietf.org/html/rfc7946
- *
- * Once a PIREP is accepted, save this returned structure as a
- * JSON-encoded string into the raw_data field of the PIREP row
  *
  * @package App\Models
  */

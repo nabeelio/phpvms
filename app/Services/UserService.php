@@ -2,29 +2,33 @@
 
 namespace App\Services;
 
-use App\Repositories\SubfleetRepository;
-use Illuminate\Support\Collection;
-use Log;
-use App\Facades\Utils;
-use App\Models\User;
-use App\Models\Rank;
-use App\Models\Role;
 use App\Events\UserRegistered;
 use App\Events\UserStateChanged;
 use App\Events\UserStatsChanged;
+use App\Facades\Utils;
 use App\Models\Enums\UserState;
+use App\Models\Rank;
+use App\Models\Role;
+use App\Models\User;
+use App\Repositories\AircraftRepository;
+use App\Repositories\SubfleetRepository;
+use Illuminate\Support\Collection;
+use Log;
 
 class UserService extends BaseService
 {
-    protected $subfleetRepo;
+    protected $aircraftRepo, $subfleetRepo;
 
     /**
      * UserService constructor.
+     * @param AircraftRepository $aircraftRepo
      * @param SubfleetRepository $subfleetRepo
      */
     public function __construct(
+        AircraftRepository $aircraftRepo,
         SubfleetRepository $subfleetRepo
     ) {
+        $this->aircraftRepo = $aircraftRepo;
         $this->subfleetRepo = $subfleetRepo;
     }
 
@@ -81,6 +85,21 @@ class UserService extends BaseService
 
         $subfleets = $user->rank->subfleets();
         return $subfleets->with('aircraft')->get();
+    }
+
+    /**
+     * Return a bool if a user is allowed to fly the current aircraft
+     * @param $user
+     * @param $aircraft_id
+     * @return bool
+     */
+    public function aircraftAllowed($user, $aircraft_id)
+    {
+        $aircraft = $this->aircraftRepo->find($aircraft_id, ['subfleet_id']);
+        $subfleets = $this->getAllowableSubfleets($user);
+        $subfleet_ids = $subfleets->pluck('id')->toArray();
+
+        return \in_array($aircraft->subfleet_id, $subfleet_ids, true);
     }
 
     /**
@@ -148,11 +167,17 @@ class UserService extends BaseService
     public function calculatePilotRank(User $user): User
     {
         $user->refresh();
+
+        # If their current rank is one they were assigned, then
+        # don't change away from it automatically.
+        if($user->rank && $user->rank->auto_promote === false) {
+            return $user;
+        }
+
         $old_rank = $user->rank;
         $original_rank_id = $user->rank_id;
         $pilot_hours = Utils::minutesToHours($user->flight_time);
 
-        # TODO: Cache
         $ranks = Rank::where('auto_promote', true)
                     ->orderBy('hours', 'asc')->get();
 

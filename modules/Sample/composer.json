@@ -1,16 +1,15 @@
 {
-    "name": "nabeel/sample",
+    "name": "/sample-module",
     "type": "laravel-module",
-    "license": "MIT",
     "description": "",
     "authors": [
         {
-            "name": "Nabeel Shahzad",
-            "email": "gm@nabs.io"
+            "name": "",
+            "email": ""
         }
     ],
     "require": {
-        "joshbrw/laravel-module-installer": "dev-master"
+        "joshbrw/laravel-module-installer": "0.1.x"
     },
     "extra": {
         "laravel": {

@@ -2,22 +2,19 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Log;
-use Validator;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Foundation\Auth\RegistersUsers;
-use Jackiedo\Timezonelist\Facades\Timezonelist;
-
-use App\Models\User;
 use App\Facades\Utils;
-use App\Models\Airport;
-use App\Models\Airline;
-use App\Services\UserService;
-use App\Models\Enums\UserState;
 use App\Http\Controllers\Controller;
+use App\Models\Enums\UserState;
+use App\Models\User;
 use App\Repositories\AirlineRepository;
 use App\Repositories\AirportRepository;
+use App\Services\UserService;
+use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Jackiedo\Timezonelist\Facades\Timezonelist;
+use Log;
+use Validator;
 
 class RegisterController extends Controller
 {
@@ -25,7 +22,6 @@ class RegisterController extends Controller
 
     /**
      * Where to redirect users after login / registration.
-     *
      * @var string
      */
     protected $redirectTo = '/';
@@ -34,7 +30,12 @@ class RegisterController extends Controller
               $airportRepo,
               $userService;
 
-
+    /**
+     * RegisterController constructor.
+     * @param AirlineRepository $airlineRepo
+     * @param AirportRepository $airportRepo
+     * @param UserService $userService
+     */
     public function __construct(
         AirlineRepository $airlineRepo,
         AirportRepository $airportRepo,
@@ -46,6 +47,9 @@ class RegisterController extends Controller
         $this->middleware('guest');
     }
 
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function showRegistrationForm()
     {
         $airports = $this->airportRepo->selectBoxList(false, true);
@@ -60,7 +64,6 @@ class RegisterController extends Controller
 
     /**
      * Get a validator for an incoming registration request.
-     *
      * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
@@ -77,7 +80,6 @@ class RegisterController extends Controller
 
     /**
      * Get a validator for an incoming registration request.
-     *
      * @param  array $data
      * @return \Illuminate\Contracts\Validation\Validator
      * @throws \RuntimeException

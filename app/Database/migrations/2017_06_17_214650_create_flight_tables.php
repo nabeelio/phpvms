@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Enums\FlightType;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
@@ -14,7 +15,7 @@ class CreateFlightTables extends Migration
     public function up()
     {
         Schema::create('flights', function (Blueprint $table) {
-            $table->string('id', 12);
+            $table->string('id', \App\Models\Flight::ID_MAX_LENGTH);
             $table->unsignedInteger('airline_id');
             $table->string('flight_number', 10);
             $table->string('route_code', 5)->nullable();
@@ -25,8 +26,9 @@ class CreateFlightTables extends Migration
             $table->string('dpt_time', 10)->nullable();
             $table->string('arr_time', 10)->nullable();
             $table->unsignedInteger('level')->nullable()->default(0);
-            $table->unsignedDecimal('distance', 19)->nullable()->default(0.0);
-            $table->unsignedDecimal('flight_time', 19)->nullable();
+            $table->unsignedDecimal('distance')->nullable()->default(0.0);
+            $table->unsignedInteger('flight_time')->nullable();
+            $table->tinyInteger('flight_type')->default(FlightType::PASSENGER);
             $table->text('route')->nullable();
             $table->text('notes')->nullable();
             $table->boolean('has_bid')->default(false);
@@ -35,15 +37,13 @@ class CreateFlightTables extends Migration
 
             $table->primary('id');
 
-            #$table->unique('flight_number');
-
             $table->index('flight_number');
             $table->index('dpt_airport_id');
             $table->index('arr_airport_id');
         });
 
         Schema::create('flight_fare', function (Blueprint $table) {
-            $table->string('flight_id', 12);
+            $table->string('flight_id', \App\Models\Flight::ID_MAX_LENGTH);
             $table->unsignedInteger('fare_id');
             $table->string('price', 10)->nullable();
             $table->string('cost', 10)->nullable();
@@ -55,7 +55,7 @@ class CreateFlightTables extends Migration
 
         Schema::create('flight_fields', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('flight_id', 12);
+            $table->string('flight_id', \App\Models\Flight::ID_MAX_LENGTH);
             $table->string('name', 50);
             $table->text('value');
             $table->timestamps();

@@ -1,27 +1,29 @@
 <?php
 
 return [
-
     'namespace' => 'Modules',
-
     'stubs' => [
         'enabled' => true,
         'path' => resource_path() . '/stubs/modules',
         'files' => [
-            'routes' => 'Http/routes.php',
+            'routes' => 'Http/Routes/web.php',
+            'routes-api' => 'Http/Routes/api.php',
+            'routes-admin' => 'Http/Routes/admin.php',
             'event-service-provider' => 'Providers/EventServiceProvider.php',
             'views/index' => 'Resources/views/index.blade.php',
             'views/index-admin' => 'Resources/views/admin/index.blade.php',
             'views/frontend' => 'Resources/views/layouts/frontend.blade.php',
             'views/admin' => 'Resources/views/layouts/admin.blade.php',
             'listener-test' => 'Listeners/TestEventListener.php',
-            'controller-admin' => 'Http/Controllers/AdminController.php',
+            'controller-api' => 'Http/Controllers/Api/SampleController.php',
+            'controller-admin' => 'Http/Controllers/Admin/AdminController.php',
             'scaffold/config' => 'Config/config.php',
             'composer' => 'composer.json',
         ],
         'replacements' => [
             'start' => ['LOWER_NAME', 'ROUTES_LOCATION'],
             'routes' => ['LOWER_NAME', 'STUDLY_NAME', 'MODULE_NAMESPACE'],
+            'routes-api' => ['LOWER_NAME', 'STUDLY_NAME', 'MODULE_NAMESPACE'],
             'json' => ['LOWER_NAME', 'STUDLY_NAME', 'MODULE_NAMESPACE'],
             'event-service-provider' => ['LOWER_NAME', 'STUDLY_NAME', 'MODULE_NAMESPACE'],
             'listener-test' => ['LOWER_NAME', 'STUDLY_NAME', 'MODULE_NAMESPACE'],
@@ -30,6 +32,7 @@ return [
             'views/frontend' => ['STUDLY_NAME'],
             'views/admin' => ['STUDLY_NAME'],
             'controller-admin' => ['MODULE_NAMESPACE', 'STUDLY_NAME', 'CLASS_NAMESPACE', 'LOWER_NAME'],
+            'controller-api' => ['MODULE_NAMESPACE', 'STUDLY_NAME', 'CLASS_NAMESPACE', 'LOWER_NAME'],
             'scaffold/config' => ['STUDLY_NAME'],
             'composer' => [
                 'LOWER_NAME',
@@ -54,8 +57,11 @@ return [
             'factory' => ['path' => 'Database/factories', 'generate' => true],
             'model' => ['path' => 'Models', 'generate' => true],
             'controller' => ['path' => 'Http/Controllers', 'generate' => true],
+            'controller-admin' => ['path' => 'Http/Controllers/Admin', 'generate' => true],
+            'controller-api' => ['path' => 'Http/Controllers/Api', 'generate' => true],
             'filter' => ['path' => 'Http/Middleware', 'generate' => true],
             'request' => ['path' => 'Http/Requests', 'generate' => true],
+            'routes' => ['path' => 'Http/Routes', 'generate' => true],
             'provider' => ['path' => 'Providers', 'generate' => true],
             'assets' => ['path' => 'Resources/assets', 'generate' => true],
             'lang' => ['path' => 'Resources/lang', 'generate' => true],

@@ -1,7 +1,8 @@
 <div id="subfleet_flight_wrapper">
     <h3>assigned subfleets</h3>
-    <br />
-
+    @component('admin.components.info')
+        The subfleets that are assigned to this flight.
+    @endcomponent
     <table class="table table-responsive" id="aircrafts-table">
         <thead>
         <th>Type</th>
@@ -19,7 +20,7 @@
                                     'class' => 'pjax_subfleet_form']) !!}
                     {!! Form::hidden('subfleet_id', $sf->id) !!}
                     <div class='btn-group'>
-                        {!! Form::button('<i class="glyphicon glyphicon-trash"></i>',
+                        {!! Form::button('<i class="fa fa-times"></i>',
                                          ['type' => 'submit',
                                           'class' => 'btn btn-danger btn-xs'])
                           !!}
@@ -42,10 +43,10 @@
                 !!}
                 {!! Form::select('subfleet_id', $avail_subfleets, null, [
                         'placeholder' => 'Select Subfleet',
-                        'class' => 'select2_dropdown form-control input-lg',
+                        'class' => 'select2 form-control input-lg',
                     ])
-                !!}
-                {!! Form::button('<i class="glyphicon glyphicon-plus"></i> add',
+                !!}&nbsp;
+                {!! Form::button('<i class="fas fa-plus"></i> add',
                                  ['type' => 'submit',
                                   'class' => 'btn btn-success btn-s']) !!}
                 {!! Form::close() !!}

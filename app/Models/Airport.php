@@ -2,12 +2,16 @@
 
 namespace App\Models;
 
+use Illuminate\Notifications\Notifiable;
+
 /**
  * Class Airport
  * @package App\Models
  */
 class Airport extends BaseModel
 {
+    use Notifiable;
+
     public $table = 'airports';
     public $timestamps = false;
     public $incrementing = false;
@@ -41,20 +45,32 @@ class Airport extends BaseModel
      * Validation rules
      */
     public static $rules = [
-        'icao' =>   'required',
-        'name' =>   'required',
-        'lat' =>    'required',
-        'lon' =>    'required',
+        'icao'      => 'required',
+        'iata'      => 'nullable',
+        'name'      => 'required',
+        'location'  => 'nullable',
+        'lat'       => 'required|numeric',
+        'lon'       => 'required|numeric',
     ];
 
     /**
      * Callbacks
      */
-    protected static function boot()
+    public static function boot()
     {
         parent::boot();
-        static::creating(function (Airport $model) {
-            if(!empty($model->iata)) {
+
+        static::creating(function ($model) {
+            if(filled($model->iata)) {
+                $model->iata = strtoupper(trim($model->iata));
+            }
+
+            $model->icao = strtoupper(trim($model->icao));
+            $model->id = $model->icao;
+        });
+
+        static::updating(function($model) {
+            if (filled($model->iata)) {
                 $model->iata = strtoupper(trim($model->iata));
             }
 
@@ -64,6 +80,26 @@ class Airport extends BaseModel
     }
 
     /**
+     * @param $icao
+     */
+    public function setIcaoAttribute($icao)
+    {
+        $icao = strtoupper($icao);
+        $this->attributes['id'] = $icao;
+        $this->attributes['icao'] = $icao;
+    }
+
+    /**
+     * @param $iata
+     */
+    public function setIataAttribute($iata)
+    {
+        $iata = strtoupper($iata);
+        $this->attributes['iata'] = $iata;
+    }
+
+
+    /**
      * Return full name like:
      * KJFK - John F Kennedy
      * @return string
@@ -71,5 +107,23 @@ class Airport extends BaseModel
     public function getFullNameAttribute(): string
     {
         return $this->icao . ' - ' . $this->name;
+    }
+
+    /**
+     * Shorthand for getting the timezone
+     * @return string
+     */
+    public function getTzAttribute(): string
+    {
+        return $this->timezone;
+    }
+
+    /**
+     * Shorthand for setting the timezone
+     * @param $value
+     */
+    public function setTzAttribute($value)
+    {
+        $this->attributes['timezone'] = $value;
     }
 }

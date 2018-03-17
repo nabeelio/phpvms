@@ -10,10 +10,13 @@
 </div>
 
 <div class="card border-blue-bottom">
-    <div class="header">
-       <h3>subfleets</h3>
-    </div>
     <div class="content">
+        <div class="header">
+           <h3>subfleets</h3>
+            @component('admin.components.info')
+                These are the subfleets this rank is allowed to use
+            @endcomponent
+        </div>
        <div class="row">
            @include('admin.ranks.subfleets')
        </div>

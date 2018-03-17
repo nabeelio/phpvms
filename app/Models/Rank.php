@@ -3,12 +3,11 @@
 namespace App\Models;
 
 /**
- * Class Ranking
+ * Class Rank
  * @package App\Models
  */
 class Rank extends BaseModel
 {
-
     public $table = 'ranks';
 
     public $fillable = [

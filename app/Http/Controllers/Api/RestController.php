@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: nabeelshahzad
- * Date: 1/4/18
- * Time: 4:20 PM
- */
 
 namespace App\Http\Controllers\Api;
 

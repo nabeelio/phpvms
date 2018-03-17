@@ -21,7 +21,7 @@
                                 ]) !!}
                 {!! Form::hidden('field_id', $field->id) !!}
                 <div class='btn-group'>
-                    {{--{!! Form::button('<i class="glyphicon glyphicon-trash"></i>',
+                    {{--{!! Form::button('<i class="fa fa-times"></i>',
                                      ['type' => 'submit',
                                       'class' => 'btn btn-danger btn-xs'])
                       !!}--}}

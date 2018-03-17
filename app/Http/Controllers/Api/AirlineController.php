@@ -2,26 +2,33 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
-
-use App\Repositories\AirlineRepository;
 use App\Http\Resources\Airline as AirlineResource;
+use App\Repositories\AirlineRepository;
+use Illuminate\Http\Request;
 
 class AirlineController extends RestController
 {
     protected $airlineRepo;
 
-    public function __construct(AirlineRepository $airlineRepo) {
+    /**
+     * AirlineController constructor.
+     * @param AirlineRepository $airlineRepo
+     */
+    public function __construct(
+        AirlineRepository $airlineRepo
+    ) {
         $this->airlineRepo = $airlineRepo;
     }
 
     /**
      * Return all the airlines, paginated
+     * @param Request $request
+     * @return mixed
      */
     public function index(Request $request)
     {
         $airports = $this->airlineRepo
-            ->orderBy('name', 'asc')
+            ->whereOrder(['active' => true], 'name', 'asc')
             ->paginate(50);
 
         return AirlineResource::collection($airports);
@@ -35,7 +42,6 @@ class AirlineController extends RestController
     public function get($id)
     {
         $id = strtoupper($id);
-        AirlineResource::withoutWrapping();
         return new AirlineResource($this->airlineRepo->find($id));
     }
 }

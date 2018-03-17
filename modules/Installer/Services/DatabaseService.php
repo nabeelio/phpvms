@@ -51,12 +51,6 @@ class DatabaseService {
             $output .= \Artisan::output();
         }
 
-        \Artisan::call('migrate');
-        $output .= trim(\Artisan::output());
-
-        \Artisan::call('db:seed');
-        $output .= trim(\Artisan::output());
-
         return trim($output);
     }
 }

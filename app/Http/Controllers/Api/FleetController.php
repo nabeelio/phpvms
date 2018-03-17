@@ -2,18 +2,21 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
-
-use App\Repositories\AircraftRepository;
-use App\Repositories\SubfleetRepository;
-
 use App\Http\Resources\Aircraft as AircraftResource;
 use App\Http\Resources\Subfleet as SubfleetResource;
+use App\Repositories\AircraftRepository;
+use App\Repositories\SubfleetRepository;
+use Illuminate\Http\Request;
 
 class FleetController extends RestController
 {
     protected $aircraftRepo, $subfleetRepo;
 
+    /**
+     * FleetController constructor.
+     * @param AircraftRepository $aircraftRepo
+     * @param SubfleetRepository $subfleetRepo
+     */
     public function __construct(
         AircraftRepository $aircraftRepo,
         SubfleetRepository $subfleetRepo
@@ -30,7 +33,7 @@ class FleetController extends RestController
     {
         $subfleets = $this->subfleetRepo
                           ->with(['aircraft', 'airline', 'fares', 'ranks'])
-                          ->paginate(50);
+                          ->paginate();
 
         return SubfleetResource::collection($subfleets);
     }
@@ -51,13 +54,11 @@ class FleetController extends RestController
             $where['id'] = $id;
         }
 
-        #$all_aircraft = $this->aircraftRepo->all();
         $aircraft = $this->aircraftRepo
                          ->with(['subfleet', 'subfleet.fares'])
                          ->findWhere($where)
                          ->first();
 
-        AircraftResource::withoutWrapping();
         return new AircraftResource($aircraft);
     }
 }

@@ -3,8 +3,7 @@
 namespace App\Models;
 
 /**
- * Class PirepField
- *
+ * Class PirepFieldValues
  * @package App\Models
  */
 class PirepFieldValues extends BaseModel

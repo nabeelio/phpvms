@@ -39,6 +39,31 @@ class Subfleet extends BaseModel
         'type' => 'required',
     ];
 
+    /**
+     * Modify some fields on the fly. Make sure the subfleet
+     * names don't have spaces in them.
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            if (filled($model->type)) {
+                $model->type = str_replace(' ', '_', $model->type);
+            }
+        });
+
+        static::updating(function ($model) {
+            if (filled($model->type)) {
+                $model->type = str_replace(' ', '_', $model->type);
+            }
+        });
+    }
+
+    /**
+     * Relationships
+     */
+
     public function aircraft()
     {
         return $this->hasMany(Aircraft::class, 'subfleet_id');

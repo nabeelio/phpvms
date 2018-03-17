@@ -2,29 +2,25 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Services\UserService;
-use Log;
-use Flash;
-use Response;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Prettus\Repository\Criteria\RequestCriteria;
-
-use App\Services\PIREPService;
-
-use App\Models\PirepComment;
-use App\Models\Enums\PirepState;
-
+use App\Facades\Utils;
 use App\Http\Requests\CreatePirepRequest;
 use App\Http\Requests\UpdatePirepRequest;
-
+use App\Models\Enums\PirepState;
+use App\Models\PirepComment;
 use App\Repositories\AircraftRepository;
 use App\Repositories\AirlineRepository;
 use App\Repositories\AirportRepository;
 use App\Repositories\PirepRepository;
 use App\Repositories\SubfleetRepository;
-
-use App\Facades\Utils;
+use App\Services\PIREPService;
+use App\Services\UserService;
+use App\Support\Units\Time;
+use Flash;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Log;
+use Prettus\Repository\Criteria\RequestCriteria;
+use Response;
 
 
 class PirepController extends BaseController
@@ -37,6 +33,16 @@ class PirepController extends BaseController
             $subfleetRepo,
             $userSvc;
 
+    /**
+     * PirepController constructor.
+     * @param AirportRepository $airportRepo
+     * @param AirlineRepository $airlineRepo
+     * @param AircraftRepository $aircraftRepo
+     * @param PirepRepository $pirepRepo
+     * @param PIREPService $pirepSvc
+     * @param SubfleetRepository $subfleetRepo
+     * @param UserService $userSvc
+     */
     public function __construct(
         AirportRepository $airportRepo,
         AirlineRepository $airlineRepo,
@@ -141,11 +147,12 @@ class PirepController extends BaseController
      */
     public function store(CreatePirepRequest $request)
     {
-        $input = $request->all();
-        $pirep = $this->pirepRepo->create($input);
+        $attrs = $request->all();
+        $pirep = $this->pirepRepo->create($attrs);
 
-        $pirep->flight_time = ((int) Utils::hoursToMinutes($request['hours']))
-                            + ((int) $request['minutes']);
+        $hours = (int) $attrs['hours'];
+        $minutes = (int) $attrs['minutes'];
+        $pirep->flight_time = Utils::hoursToMinutes($hours) + $minutes;
 
         Flash::success('Pirep saved successfully.');
         return redirect(route('admin.pireps.index'));
@@ -183,12 +190,19 @@ class PirepController extends BaseController
             return redirect(route('admin.pireps.index'));
         }
 
-        $hms = Utils::minutesToTimeParts($pirep->flight_time);
-        $pirep->hours = $hms['h'];
-        $pirep->minutes = $hms['m'];
+        $time = new Time($pirep->flight_time);
+        $pirep->hours = $time->hours;
+        $pirep->minutes = $time->minutes;
+
+        # Can we modify?
+        $read_only = false;
+        if($pirep->state !== PirepState::PENDING) {
+            $read_only = false;
+        }
 
         return view('admin.pireps.edit', [
             'pirep' => $pirep,
+            'read_only' => $read_only,
             'aircraft' => $this->aircraftList(),
             'airports' => $this->airportRepo->selectBoxList(),
             'airlines' => $this->airlineRepo->selectBoxList(),
@@ -200,21 +214,27 @@ class PirepController extends BaseController
      * @param UpdatePirepRequest $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      * @throws \Prettus\Validator\Exceptions\ValidatorException
+     * @throws \Exception
      */
     public function update($id, UpdatePirepRequest $request)
     {
         $pirep = $this->pirepRepo->findWithoutFail($id);
-
-        $pirep->flight_time = ((int) Utils::hoursToMinutes($request['hours']))
-                            + ((int) $request['minutes']);
 
         if (empty($pirep)) {
             Flash::error('Pirep not found');
             return redirect(route('admin.pireps.index'));
         }
 
-        $attrs = $request->all();
         $orig_route = $pirep->route;
+        $orig_flight_time = $pirep->flight_time;
+
+        $attrs = $request->all();
+
+        # Fix the time
+        $attrs['flight_time'] = Time::init(
+            $attrs['minutes'],
+            $attrs['hours'])->getMinutes();
+
         $pirep = $this->pirepRepo->update($attrs, $id);
 
         // A route change in the PIREP, so update the saved points in the ACARS table
@@ -257,19 +277,20 @@ class PirepController extends BaseController
 
         $pirep = $this->pirepRepo->findWithoutFail($request->id);
         if($request->isMethod('post')) {
-            $new_status = (int) $request->new_status;
+            $new_status = (int) $request->post('new_status');
             $pirep = $this->pirepSvc->changeState($pirep, $new_status);
         }
 
         $pirep->refresh();
-        return view('admin.pireps.actions', ['pirep' => $pirep]);
+        return view('admin.pireps.actions', ['pirep' => $pirep, 'on_edit_page' => false]);
     }
 
     /**
      * Add a comment to the Pirep
      * @param $id
      * @param Request $request
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return mixed
+     * @throws \Exception
      */
     public function comments($id, Request $request)
     {

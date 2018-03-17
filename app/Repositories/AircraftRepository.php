@@ -3,8 +3,8 @@
 namespace App\Repositories;
 
 use App\Models\Aircraft;
-use App\Repositories\Traits\CacheableRepository;
 use Prettus\Repository\Contracts\CacheableInterface;
+use Prettus\Repository\Traits\CacheableRepository;
 
 class AircraftRepository extends BaseRepository implements CacheableInterface
 {

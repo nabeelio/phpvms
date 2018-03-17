@@ -17,8 +17,8 @@ class CreateFaresTable extends Migration
             $table->increments('id');
             $table->string('code', 50);
             $table->string('name', 50);
-            $table->unsignedDecimal('price', 19)->nullable()->default(0.00);
-            $table->unsignedDecimal('cost', 19)->nullable()->default(0.00);
+            $table->unsignedDecimal('price')->nullable()->default(0.00);
+            $table->unsignedDecimal('cost')->nullable()->default(0.00);
             $table->unsignedInteger('capacity')->nullable()->default(0);
             $table->string('notes')->nullable();
             $table->boolean('active')->default(true);

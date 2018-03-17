@@ -1,26 +1,31 @@
 @foreach($flights as $flight)
 <div class="card border-blue-bottom">
-    <div class="card-block" style="min-height: 0px">
+    <div class="card-block" style="min-height: 0">
         <div class="row">
             <div class="col-sm-9">
                 <h5>
                     <a class="text-c" href="{!! route('frontend.flights.show', [$flight->id]) !!}">
-                        {!! $flight->airline->code !!}{!! $flight->flight_number !!}
-                        @if($flight->route_code)
-                            Code: {!! $flight->route_code !!}
-                        @endif
-                        @if($flight->route_leg)
-                            Leg: {!! $flight->route_leg !!}
-                        @endif
+                        {!! $flight->ident !!}
                     </a>
                 </h5>
             </div>
             <div class="col-sm-3 text-right">
-                <!-- use for saved: btn-outline-primary -->
-                <button class="btn btn-icon btn-icon-mini btn-round
-                               {{ in_array($flight->id, $saved) ? 'btn-danger':'' }}
-                               save_flight" x-id="{!! $flight->id !!}" type="button">
-                    <i class="now-ui-icons ui-2_favourite-28"></i>
+                {{-- NOTE:
+                     Don't remove the "save_flight" class, or the x-id attribute.
+                     It will break the AJAX to save/delete
+
+                     "x-saved-class" is the class to add/remove if the bid exists or not
+                     If you change it, remember to change it in the in-array line as well
+                --}}
+                <button class="btn btn-round btn-icon btn-icon-mini
+                               {{ in_array($flight->id, $saved, true) ? 'btn-info':'' }}
+                               save_flight"
+                        x-id="{!! $flight->id !!}"
+                        x-saved-class="btn-info"
+                        type="button"
+                        title="Add/Remove Bid"
+                >
+                    <i class="fas fa-map-marker"></i>
                 </button>
             </div>
         </div>

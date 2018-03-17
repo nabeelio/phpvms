@@ -1,8 +1,7 @@
 <?php
 
+use App\Models\Enums\UserState;
 use Illuminate\Support\Facades\Mail;
-
-use \App\Models\Enums\UserState;
 
 class RegistrationTest extends TestCase
 {

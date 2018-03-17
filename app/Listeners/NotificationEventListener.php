@@ -2,12 +2,11 @@
 
 namespace App\Listeners;
 
-use Log;
-use Illuminate\Support\Facades\Mail;
-
 use App\Events\UserRegistered;
 use App\Events\UserStateChanged;
 use App\Models\Enums\UserState;
+use Illuminate\Support\Facades\Mail;
+use Log;
 
 /**
  * Handle sending emails on different events

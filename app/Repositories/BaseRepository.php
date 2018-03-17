@@ -4,7 +4,6 @@ namespace App\Repositories;
 
 use Illuminate\Validation\Validator;
 
-
 abstract class BaseRepository extends \Prettus\Repository\Eloquent\BaseRepository {
 
     /**

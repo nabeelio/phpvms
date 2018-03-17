@@ -2,28 +2,35 @@
 
 if [ "$TRAVIS" = "true" ]; then
 
+    cd $TRAVIS_BUILD_DIR
+
     if test "$TRAVIS_TAG"; then
         PKG_NAME=$TRAVIS_TAG
     else
-        PKG_NAME=master
+        echo "On branch $TRAVIS_BRANCH"
+
+        if [ "$TRAVIS_BRANCH" != "master" ] && [ "$TRAVIS_BRANCH" != "dev" ]; then
+            echo "Not on valid branch, exiting"
+            exit 0;
+        fi;
+
+        BASE_VERSION=`php artisan phpvms:version --base-only`
+        PKG_NAME=${BASE_VERSION}-${TRAVIS_BRANCH}
     fi
 
-    FILE_NAME="phpvms-7.0.0-$PKG_NAME"
+    FILE_NAME="phpvms-$PKG_NAME"
     TAR_NAME="$FILE_NAME.tar.gz"
     echo "Writing $TAR_NAME"
-
-    # delete all superfluous files
-    echo "cleaning files"
-
-    cd $TRAVIS_BUILD_DIR
 
     php artisan phpvms:version --write > VERSION
     VERSION=`cat VERSION`
     echo "Version: $VERSION"
 
+    echo "Cleaning files"
+
     make clean
 
-    rm -rf env.php
+    rm -rf env.php config.php
     find ./vendor -type d -name ".git" -print0 | xargs rm -rf
     find . -type d -name "sass-cache" -print0 | xargs rm -rf
 
@@ -47,10 +54,13 @@ if [ "$TRAVIS" = "true" ]; then
     echo "creating tarball"
     cd /tmp
     tar -czf $TAR_NAME -C $TRAVIS_BUILD_DIR/../ phpvms
+    sha256sum $TAR_NAME > "$TAR_NAME.sha256"
 
     echo "uploading to s3"
-    cd /tmp/
-    sha256sum $TAR_NAME > "$TAR_NAME.sha256"
+    mkdir -p $TRAVIS_BUILD_DIR/build
+    cd $TRAVIS_BUILD_DIR/build
+
+    mv "/tmp/$TAR_NAME" "/tmp/$TAR_NAME.sha256" .
     artifacts upload --target-paths "/" $TAR_NAME $TRAVIS_BUILD_DIR/VERSION $TAR_NAME.sha256
 
     curl -X POST --data "{\"content\": \"A new build is available at http://downloads.phpvms.net/$TAR_NAME ($VERSION)\"}" -H "Content-Type: application/json"  $DISCORD_WEBHOOK_URL

@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: nshahzad
- * Date: 12/1/17
- * Time: 4:49 PM
- */
 
 namespace App\Services;
-
 
 class ModuleService extends BaseService
 {

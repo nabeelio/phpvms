@@ -1,5 +1,6 @@
-@extends('layouts.default.app')
+@extends("layouts.${SKIN_NAME}.app")
 @section('title', 'welcome!')
+
 @section('content')
     <div class="row">
         <div class="col-sm-12">
@@ -26,7 +27,11 @@
                 </div>
                 <div class="content content-center">
                     <div class="social-description text-center text-white">
-                        <h2 class="description text-white">{!! $user->home_airport->icao !!}</h2>
+                        <h2 class="description text-white">
+                            @if(filled($user->home_airport))
+                            {!! $user->home_airport->icao !!}
+                            @endif
+                        </h2>
                     </div>
                 </div>
                 <div class="footer text-center">

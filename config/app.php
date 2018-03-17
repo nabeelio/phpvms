@@ -1,27 +1,37 @@
 <?php
 
-return [
+/**
+ * DO NOT EDIT THIS OR ANY OF THE CONFIG FILES DIRECTLY
+ *
+ * Set your override options in the config.php file that's in the root of
+ * your install. Otherwise, any changes here will get overridden in an update!
+ */
 
+return [
     'name' => env('PHPVMS_VA_NAME', 'phpvms'),
     'env' => env('APP_ENV', 'dev'),
     'debug' => env('APP_DEBUG', true),
     'url' => env('APP_URL', 'http://localhost'),
-    'version' => '7.0',
-
-    # DON'T CHANGE THIS OR ELSE YOUR TIMES WILL BE MESSED UP!
-    'timezone' => 'UTC',
+    'version' => '7.0.0',
 
     'locale' => env('APP_LOCALE', 'en'),
     'fallback_locale' => 'en',
+
+    # This sends install and vaCentral specific information to help with
+    # optimizations and figuring out where slowdowns might be happening
+    'analytics' => true,
+
+    #
+    # Anything below here won't need changing and could break things
+    #
+
+    # DON'T CHANGE THIS OR ELSE YOUR TIMES WILL BE MESSED UP!
+    'timezone' => 'UTC',
 
     # Is the default key cipher. Needs to be changed, otherwise phpVMS will think
     # that it isn't installed. Doubles as a security feature, so keys are scrambled
     'key' => env('APP_KEY', 'base64:zdgcDqu9PM8uGWCtMxd74ZqdGJIrnw812oRMmwDF6KY='),
     'cipher' => 'AES-256-CBC',
-
-    'log' => env('APP_LOG', 'daily'),
-    'log_level' => env('APP_LOG_LEVEL', 'debug'),
-    'log_max_files' => env('APP_LOG_MAX_FILES', 7),
 
     'providers' => [
 
@@ -58,7 +68,6 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         Laracasts\Flash\FlashServiceProvider::class,
         Prettus\Repository\Providers\RepositoryServiceProvider::class,
-        Spatie\Fractal\FractalServiceProvider::class,
         SebastiaanLuca\Helpers\Methods\GlobalHelpersServiceProvider::class,
         SebastiaanLuca\Helpers\Collections\CollectionMacrosServiceProvider::class,
         Toin0u\Geotools\GeotoolsServiceProvider::class,
@@ -92,7 +101,6 @@ return [
         'File' => Illuminate\Support\Facades\File::class,
         'Flash' => Laracasts\Flash\Flash::class,
         'Form' => Collective\Html\FormFacade::class,
-        'Fractal' => Spatie\Fractal\FractalFacade::class,
         'Gate' => Illuminate\Support\Facades\Gate::class,
         'Geotools' => Toin0u\Geotools\Facade\Geotools::class,
         'Hash' => Illuminate\Support\Facades\Hash::class,

@@ -4,7 +4,6 @@ namespace App\Models\Traits;
 
 use Hashids\Hashids;
 
-
 trait HashId
 {
     /**
@@ -25,10 +24,8 @@ trait HashId
     {
         parent::boot();
         static::creating(function ($model) {
-            $key = $model->getKeyName();
-            if (empty($model->{$key})) {
-                $id = static::createNewHashId();
-                $model->{$key} = $id;
+            if (empty($model->id)) {
+                $model->id = static::createNewHashId();
             }
         });
     }

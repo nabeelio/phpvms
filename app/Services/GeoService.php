@@ -2,21 +2,18 @@
 
 namespace App\Services;
 
-use Log;
-use Illuminate\Support\Collection;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-
-use App\Models\Enums\AcarsType;
-use App\Repositories\AcarsRepository;
-
-use \League\Geotools\Geotools;
-use \League\Geotools\Coordinate\Coordinate;
-
 use App\Models\Acars;
-use App\Models\GeoJson;
+use App\Models\Enums\AcarsType;
 use App\Models\Flight;
+use App\Models\GeoJson;
 use App\Models\Pirep;
+use App\Repositories\AcarsRepository;
 use App\Repositories\NavdataRepository;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Collection;
+use League\Geotools\Coordinate\Coordinate;
+use League\Geotools\Geotools;
+use Log;
 
 /**
  * Class GeoService

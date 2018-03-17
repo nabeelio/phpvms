@@ -1,6 +1,6 @@
-@extends('layouts.default.app')
-
+@extends("layouts.${SKIN_NAME}.app")
 @section('title', 'registration pending')
+
 @section('content')
 <div class="row">
     <div class="col-md-12 " style="text-align: center;">

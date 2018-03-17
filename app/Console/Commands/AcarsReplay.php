@@ -2,11 +2,10 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Database\Eloquent\Collection;
-use GuzzleHttp\Client;
-
 use App\Console\BaseCommand;
 use App\Facades\Utils;
+use GuzzleHttp\Client;
+use Illuminate\Database\Eloquent\Collection;
 
 class AcarsReplay extends BaseCommand
 {

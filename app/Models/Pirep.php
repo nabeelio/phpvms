@@ -5,7 +5,10 @@ namespace App\Models;
 use App\Models\Enums\AcarsType;
 use App\Models\Enums\PirepState;
 use App\Models\Traits\HashId;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Support\Units\Distance;
+use App\Support\Units\Fuel;
+use PhpUnitsOfMeasure\Exception\NonNumericValue;
+use PhpUnitsOfMeasure\Exception\NonStringUnitName;
 
 /**
  * Class Pirep
@@ -15,45 +18,58 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Pirep extends BaseModel
 {
     use HashId;
-    use SoftDeletes;
+
+    public const ID_MAX_LENGTH = 12;
 
     public $table = 'pireps';
     public $incrementing = false;
 
-    protected $dates = ['deleted_at'];
-
     public $fillable = [
+        'id',
         'user_id',
+        'airline_id',
+        'aircraft_id',
         'flight_id',
         'flight_number',
         'route_code',
         'route_leg',
-        'airline_id',
-        'aircraft_id',
-        'altitude',
-        'flight_time',
-        'planned_flight_time',
         'dpt_airport_id',
         'arr_airport_id',
-        'fuel_used',
-        'source',
         'level',
+        'distance',
+        'planned_distance',
+        'flight_time',
+        'planned_flight_time',
+        'zfw',
+        'block_fuel',
+        'fuel_used',
+        'landing_rate',
         'route',
         'notes',
+        'source',
+        'source_name',
+        'flight_type',
         'state',
         'status',
-        'raw_data',
+        'created_at',
+        'updated_at',
     ];
 
     protected $casts = [
         'user_id'               => 'integer',
+        'airline_id'            => 'integer',
+        'aircraft_id'           => 'integer',
+        'level'                 => 'integer',
+        'distance'              => 'float',
+        'planned_distance'      => 'float',
         'flight_time'           => 'integer',
         'planned_flight_time'   => 'integer',
-        'level'                 => 'integer',
-        'altitude'              => 'integer',
+        'zfw'                   => 'float',
+        'block_fuel'            => 'float',
         'fuel_used'             => 'float',
-        'gross_weight'          => 'float',
+        'landing_rate'          => 'float',
         'source'                => 'integer',
+        'flight_type'           => 'integer',
         'state'                 => 'integer',
         'status'                => 'integer',
     ];
@@ -89,12 +105,126 @@ class Pirep extends BaseModel
     }
 
     /**
+     * Return a new Length unit so conversions can be made
+     * @return int|Distance
+     */
+    public function getDistanceAttribute()
+    {
+        if(!array_key_exists('distance', $this->attributes)) {
+            return null;
+        }
+
+        try {
+            $distance = (float) $this->attributes['distance'];
+            return new Distance($distance, config('phpvms.internal_units.distance'));
+        } catch (NonNumericValue $e) {
+            return 0;
+        } catch (NonStringUnitName $e) {
+            return 0;
+        }
+    }
+
+    /**
+     * Set the distance unit, convert to our internal default unit
+     * @param $value
+     */
+    public function setDistanceAttribute($value): void
+    {
+        if ($value instanceof Distance) {
+            $this->attributes['distance'] = $value->toUnit(
+                config('phpvms.internal_units.distance'));
+        } else {
+            $this->attributes['distance'] = $value;
+        }
+    }
+
+    /**
+     * Return a new Fuel unit so conversions can be made
+     * @return int|Fuel
+     */
+    public function getFuelUsedAttribute()
+    {
+        if (!array_key_exists('fuel_used', $this->attributes)) {
+            return null;
+        }
+
+        try {
+            $fuel_used = (float) $this->attributes['fuel_used'];
+            return new Fuel($fuel_used, config('phpvms.internal_units.fuel'));
+        } catch (NonNumericValue $e) {
+            return 0;
+        } catch (NonStringUnitName $e) {
+            return 0;
+        }
+    }
+
+    /**
+     * Return the planned_distance in a converter class
+     * @return int|Distance
+     */
+    public function getPlannedDistanceAttribute()
+    {
+        if (!array_key_exists('planned_distance', $this->attributes)) {
+            return null;
+        }
+
+        try {
+            $distance = (float) $this->attributes['planned_distance'];
+            return new Distance($distance, config('phpvms.internal_units.distance'));
+        } catch (NonNumericValue $e) {
+            return 0;
+        } catch (NonStringUnitName $e) {
+            return 0;
+        }
+    }
+
+    /**
+     * Set the amount of fuel used
+     * @param $value
+     */
+    public function setFuelUsedAttribute($value)
+    {
+        if ($value instanceof Fuel) {
+            $this->attributes['fuel_used'] = $value->toUnit(
+                config('phpvms.internal_units.fuel')
+            );
+        } else {
+            $this->attributes['fuel_used'] = $value;
+        }
+    }
+
+    /**
+     * Set the distance unit, convert to our internal default unit
+     * @param $value
+     */
+    public function setPlannedDistanceAttribute($value)
+    {
+        if ($value instanceof Distance) {
+            $this->attributes['planned_distance'] = $value->toUnit(
+                config('phpvms.internal_units.distance')
+            );
+        } else {
+            $this->attributes['planned_distance'] = $value;
+        }
+    }
+
+    /**
+     * Do some cleanup on the route
+     * @param $route
+     */
+    public function setRouteAttribute($route)
+    {
+        $route = strtoupper(trim($route));
+        $this->attributes['route'] = $route;
+    }
+
+    /**
      * Check if this PIREP is allowed to be updated
      * @return bool
      */
     public function allowedUpdates()
     {
-        if ($this->state === PirepState::CANCELLED) {
+        if($this->state === PirepState::CANCELLED) {
             return false;
         }
 
@@ -110,7 +240,7 @@ class Pirep extends BaseModel
     {
         return $this->hasMany(Acars::class, 'pirep_id')
                     ->where('type', AcarsType::FLIGHT_PATH)
-                    ->orderBy('created_at', 'asc');
+                    ->orderBy('created_at', 'desc');
     }
 
     public function acars_logs()

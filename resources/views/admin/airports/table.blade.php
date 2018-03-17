@@ -32,7 +32,7 @@
                 </td>
                 <td style="text-align: right;">
                     {!! Form::open(['route' => ['admin.airports.destroy', $airport->id], 'method' => 'delete']) !!}
-                    <a href="{!! route('admin.airports.edit', [$airport->id]) !!}" class='btn btn-sm btn-success btn-icon'><i class="fa fa-pencil-square-o"></i></a>
+                    <a href="{!! route('admin.airports.edit', [$airport->id]) !!}" class='btn btn-sm btn-success btn-icon'><i class="fas fa-pencil-alt"></i></a>
                     {!! Form::button('<i class="fa fa-times"></i>', ['type' => 'submit', 'class' => 'btn btn-sm btn-danger btn-icon', 'onclick' => "return confirm('Are you sure?')"]) !!}
                     {!! Form::close() !!}
                 </td>

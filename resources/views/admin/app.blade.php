@@ -15,12 +15,18 @@
     <link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'>
     <link href="http://fonts.googleapis.com/css?family=Roboto:400,700,300" rel="stylesheet" type="text/css">
 
-    <link rel="stylesheet" href="{{ public_asset('/assets/system/css/vendor.css') }}"/>
+    <link rel="stylesheet" href="{{ public_asset('/assets/system/css/vendor.min.css') }}"/>
     <link rel="stylesheet" href="{{ public_asset('/assets/admin/css/vendor.min.css') }}">
     <link rel="stylesheet" href="{{ public_asset('/assets/admin/css/admin.css') }}">
 
     <style type="text/css">
     @yield('css')
+
+    label {
+        text-transform: uppercase;
+        font-size: 14px;
+        margin: 0;
+    }
     </style>
 
     <script>
@@ -83,21 +89,19 @@
                 </div>
             </div>
         </footer>
-
     </div>
-
 </div>
-
-
 </body>
 
+<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
 <script src="{!! public_asset('/assets/admin/js/vendor.js') !!}"></script>
-<script src="{!! public_asset('/assets/system/js/system.js') !!}"></script>
+<script src="{!! public_asset('/assets/system/js/phpvms.js') !!}"></script>
 <script src="{!! public_asset('/assets/admin/js/admin.js') !!}"></script>
 
 <script>
-var getStorage = function(key) {
-    var st = window.localStorage.getItem(key);
+const getStorage = function(key) {
+    const st = window.localStorage.getItem(key);
+
     console.log('storage: ', key, st);
     if(_.isNil(st)) {
         return {
@@ -108,17 +112,16 @@ var getStorage = function(key) {
     return JSON.parse(st);
 };
 
-var saveStorage = function(key, obj) {
+const saveStorage = function(key, obj) {
     console.log('save: ', key, obj);
     window.localStorage.setItem(key, JSON.stringify(obj));
 };
 
-var addItem = function(obj, item) {
-    if (_.isNil(obj)) {
-        obj = [];
-    }
+const addItem = function(obj, item) {
 
-    var index = _.indexOf(obj, item);
+    if (_.isNil(obj)) { obj = []; }
+
+    const index = _.indexOf(obj, item);
     if(index === -1) {
         obj.push(item);
     }
@@ -126,11 +129,11 @@ var addItem = function(obj, item) {
     return obj;
 };
 
-var removeItem = function (obj, item) {
-    if (_.isNil(obj)) {
-        obj = [];
-    }
-    var index = _.indexOf(obj, item);
+const removeItem = function (obj, item) {
+
+    if (_.isNil(obj)) { obj = []; }
+
+    const index = _.indexOf(obj, item);
     if (index !== -1) {
         console.log("removing", item);
         obj.splice(index, 1);
@@ -148,35 +151,34 @@ $(document).ready(function () {
         radioClass: 'icheckbox_square-blue'
     });
 
-    var storage = getStorage("phpvms.admin");
+    let storage = getStorage("phpvms.admin");
 
     // see what menu items should be open
-    for(var idx = 0; idx < storage.menu.length; idx++) {
-        var id = storage.menu[idx];
-        var elem = $(".collapse#" + id);
+    for(let idx = 0; idx < storage.menu.length; idx++) {
+        const id = storage.menu[idx];
+        const elem = $(".collapse#" + id);
         elem.addClass("in").trigger("show.bs.collapse");
 
-        var caret = $("a." + id + " b");
+        const caret = $("a." + id + " b");
         caret.addClass("pe-7s-angle-down");
         caret.removeClass("pe-7s-angle-up");
     }
 
     $(".collapse").on("hide.bs.collapse", function () {
         console.log('hiding');
-        var id = $(this).attr('id');
-        var elem = $("a." + id + " b");
+        const id = $(this).attr('id');
+        const elem = $("a." + id + " b");
         elem.removeClass("pe-7s-angle-down");
         elem.addClass("pe-7s-angle-up");
 
         removeItem(storage.menu, id);
         saveStorage("phpvms.admin", storage);
-
     });
 
     $(".collapse").on("show.bs.collapse", function () {
         console.log('showing');
-        var id = $(this).attr('id');
-        var caret = $("a." + id + " b");
+        const id = $(this).attr('id');
+        const caret = $("a." + id + " b");
         caret.addClass("pe-7s-angle-down");
         caret.removeClass("pe-7s-angle-up");
 

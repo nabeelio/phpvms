@@ -2,10 +2,8 @@
 
 namespace App\Console\Commands;
 
-use Log;
-use PDO;
-
 use App\Console\BaseCommand;
+use Log;
 
 class CreateDatabase extends BaseCommand
 {
@@ -45,15 +43,20 @@ class CreateDatabase extends BaseCommand
         }
 
         if ($this->option('reset') === true) {
+            $sql = "DROP DATABASE IF EXISTS `$name`";
             try {
-                $conn->exec("DROP DATABASE IF EXISTS `$name`");
+                Log::info('Dropping database: '.$sql);
+                $conn->exec($sql);
             } catch (\PDOException $e) {
                 Log::error($e);
             }
         }
 
+        $sql = "CREATE DATABASE IF NOT EXISTS `$name` CHARACTER SET UTF8 COLLATE utf8_unicode_ci";
+
         try {
-            $conn->exec("CREATE DATABASE IF NOT EXISTS `$name`");
+            Log::info('Creating database: '.$sql);
+            $conn->exec($sql);
         } catch (\PDOException $e) {
             Log::error($e);
             return false;

@@ -1,11 +1,12 @@
-@extends('layouts.default.app')
-
+@extends("layouts.${SKIN_NAME}.app")
 @section('title', 'registration submitted')
+
 @section('content')
-
 <div class="container registered-page">
-<h3>Registration Confirmation</h3>
-<p>Your application has been submitted. It requires staff member approval, once a staff member has reviewed your application, you will receive an email confirmation.</p>
+    <h3>Registration Confirmation</h3>
+    <p>
+        Your application has been submitted. It requires staff member approval, once a
+        staff member has reviewed your application, you will receive an email confirmation.
+    </p>
 </div>
-
 @endsection

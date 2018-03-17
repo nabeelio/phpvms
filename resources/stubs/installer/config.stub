@@ -1,0 +1,72 @@
+<?php
+/**
+ * This file overrides any of the config files in the /config directory.
+ * The root key is the name of the file, and then the structure within.
+ * The config is merged, so only include what you want to override
+ */
+
+return [
+
+    # overrides app.php
+    'app' => [
+        'name' => '$SITE_NAME$',
+        'url' => '$SITE_URL$',
+
+        # Don't forget to change these when live
+        'env' => 'dev',
+        'debug' => true,
+    ],
+
+    # overrides phpvms.php
+    'phpvms' => [
+        'skin' => 'default',
+        'vacentral_api_key' => '',
+    ],
+
+    # overrides cache.php
+    'cache' => [
+        'default' => '$CACHE_DRIVER$',
+        'prefix' => 'phpvms_',
+    ],
+
+    # overrides database.php
+    'database' => [
+        'default' => env('DB_CONNECTION', '$DB_CONN$'),
+        'connections' => [
+            'mysql' => [
+                'host' => '$DB_HOST$',
+                'port' => $DB_PORT$,
+                'database' => '$DB_NAME$',
+                'username' => '$DB_USER$',
+                'password' => '$DB_PASS$',
+                'prefix' => '$DB_PREFIX$',
+            ],
+        ],
+    ],
+
+    'logging' => [
+        'channels' => [
+            'single' => ['level' => 'debug'],
+            'daily' => ['level' => 'debug'],
+        ],
+    ],
+
+    # overrides mail.php
+    'mail' => [
+        'driver' => 'smtp',
+        'host' => '',
+        'port' => 587,
+        'from' => [
+            'name' => '',
+            'address' => '',
+        ],
+        'username' => '',
+        'password' => '',
+    ],
+
+    'session' => [
+        'default' => 'file',
+        'lifetime' => 60 * 24,  # 24 hours
+    ],
+
+];

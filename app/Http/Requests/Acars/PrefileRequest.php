@@ -18,20 +18,26 @@ class PrefileRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'airline_id' => 'required|exists:airlines,id',
-            'aircraft_id' => 'required|exists:aircraft,id',
-            'dpt_airport_id' => 'required',
-            'arr_airport_id' => 'required',
-            'flight_id' => 'nullable',
-            'flight_number' => 'required',
-            'route_code' => 'nullable',
-            'route_leg' => 'nullable',
-            'flight_time' => 'nullable|integer',
-            'planned_flight_time' => 'nullable|integer',
-            'level' => 'required|integer',
-            'route' => 'nullable',
-            'notes' => 'nullable',
-            'created_at' => 'nullable|date',
+            'airline_id'            => 'required|exists:airlines,id',
+            'aircraft_id'           => 'required|exists:aircraft,id',
+            'flight_number'         => 'required',
+            'dpt_airport_id'        => 'required',
+            'arr_airport_id'        => 'required',
+            'source_name'           => 'required|max:25',
+
+            'level'                 => 'nullable|numeric',
+            'route_code'            => 'nullable',
+            'route_leg'             => 'nullable',
+            'distance'              => 'nullable|numeric',
+            'flight_time'           => 'nullable|integer',
+            'planned_distance'      => 'nullable|numeric',
+            'planned_flight_time'   => 'nullable|integer',
+            'zfw'                   => 'nullable|numeric',
+            'block_fuel'            => 'nullable|numeric',
+            'route'                 => 'nullable',
+            'notes'                 => 'nullable',
+            'flight_type'           => 'nullable|integer',
+            'created_at'            => 'nullable|date',
         ];
 
         return $rules;

@@ -1,6 +1,6 @@
-@extends('layouts.default.app')
-
+@extends("layouts.${SKIN_NAME}.app")
 @section('title', 'dashboard')
+
 @section('content')
 <div class="row">
     <div class="col-sm-8">
@@ -9,7 +9,7 @@
                 <div class="card card-primary text-white" style="background: #067ec1; color: #FFF;">
                     <div class="card-block text-center">
                         <div style="float: left; position: absolute; display:block; top: 0px;font-size: 150px">
-                            <i class="fa fa-plane " style="opacity: .1;"></i>
+                            <i class="fas fa-plane" style="opacity: .1;"></i>
                         </div>
                         <h4 class="">{!! $user->flights !!}</h4>
                         <h5 class="description" style="color: white;">{{ str_plural('flight', $user->flights) }}</h5>
@@ -20,7 +20,7 @@
                 <div class="card card-primary text-white" style="background: #067ec1; color: #FFF;">
                     <div class="card-block text-center">
                         <div style="float: left; position: absolute; display:block; top: 0px;font-size: 150px">
-                            <i class="fa fa-clock-o" style="opacity: .1;"></i>
+                            <i class="far fa-clock" style="opacity: .1;"></i>
                         </div>
                         <h4 class="">{!! \App\Facades\Utils::minutesToTimeString($user->flight_time, false)!!}</h4>
                         <h5 class="description" style="color: white;">total hours</h5>
@@ -32,9 +32,13 @@
                 <div class="card card-primary text-white" style="background: #067ec1; color: #FFF;">
                     <div class="card-block text-center">
                         <div style="float: left; position: absolute; display:block; top: 0px;font-size: 150px">
-                            <i class="fa fa-location-arrow" style="opacity: .1;"></i>
+                            <i class="fas fa-map-marker" style="opacity: .1;"></i>
                         </div>
-                        <h4 class="">{!! $user->current_airport->icao !!}</h4>
+                        @if($user->current_airport)
+                            <h4 class="">{!! $user->current_airport->icao !!}</h4>
+                        @else
+                            <h4 class="">-</h4>
+                        @endif
                         <h5 class="description" style="color: white;">current airport</h5>
                     </div>
                 </div>
@@ -54,7 +58,7 @@
             <div class="nav nav-tabs" role="tablist" style="background: #067ec1; color: #FFF;">
                 Your Last Report
             </div>
-            @include('layouts.default.pireps.pirep_card', ['pirep' => $last_pirep])
+            @include("layouts.${SKIN_NAME}.pireps.pirep_card", ['pirep' => $last_pirep])
         @endif
 
         {{ Widget::latestNews(['count' => 1]) }}

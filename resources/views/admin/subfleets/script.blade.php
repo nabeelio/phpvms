@@ -29,6 +29,12 @@ $(document).ready(function() {
         setEditable();
     });
 
+    $(document).on('submit', 'form.modify_rank', function (event) {
+        event.preventDefault();
+        console.log(event);
+        $.pjax.submit(event, '#subfleet_ranks_wrapper', {push: false});
+    });
+
     $(document).on('pjax:complete', function() {
         $(".select2").select2();
         setEditable();

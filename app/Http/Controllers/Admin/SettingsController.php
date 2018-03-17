@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Log;
-use Illuminate\Http\Request;
-
 use App\Models\Setting;
+use Illuminate\Http\Request;
+use Log;
 
 class SettingsController extends BaseController
 {
@@ -24,6 +23,8 @@ class SettingsController extends BaseController
 
     /**
      * Update the specified setting in storage.
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function update(Request $request)
     {
@@ -41,5 +42,4 @@ class SettingsController extends BaseController
         flash('Settings saved!');
         return redirect('/admin/settings');
     }
-
 }

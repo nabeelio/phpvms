@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Listeners\NotificationEventListener;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 
@@ -19,7 +20,7 @@ class EventServiceProvider extends ServiceProvider
     ];
 
     protected $subscribe = [
-        'App\Listeners\NotificationEventListener',
+        NotificationEventListener::class,
     ];
 
     /**

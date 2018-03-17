@@ -4,6 +4,7 @@ airlines:
     icao: VMS
     iata: VM
     name: phpvms airlines
+    country: us
     active: 1
     created_at: now
     updated_at: now
@@ -110,91 +111,96 @@ airports:
     name: Austin-Bergstrom
     location: Austin, Texas, USA
     country: United States
+    timezone: America/Chicago
     lat: 30.1945278
     lon: -97.6698889
     hub: 1
-    tz: America/Chicago
   - id: KJFK
     iata: JFK
     icao: KJFK
     name: John F Kennedy
     location: New York, New York, USA
     country: United States
+    timezone: America/New_York
     lat: 40.6399257
     lon: -73.7786950
     hub: 1
-    tz: America/New_York
   - id: KBWI
     iata: BWI
     icao: KBWI
     name: Baltimore/Washington International Thurgood Marshall Airport
     location: Baltimore, MD
     country: United States
+    timezone: America/New_York
     lat: 39.1754
     lon: -76.6683
-    tz: America/New_York
   - id: KIAH
     iata: IAH
     icao: KIAH
     name: George Bush Intercontinental Houston Airport
     location: Houston, TX
     country: United States
+    timezone: America/Chicago
     lat: 29.9844
     lon: -95.3414
-    tz: America/Chicago
   - id: KORD
     iata: ORD
     icao: KORD
     name: Chicago O'Hare International Airport
     location: Chicago, IL
     country: United States
+    timezone: America/Chicago
     lat: 41.9786
     lon: -87.9048
-    tz: America/Chicago
   - id: KDFW
     iata: DFW
     icao: KDFW
     name: Dallas Fort Worth International Airport
     location: Dallas, TX
     country: United States
+    timezone: America/Chicago
     lat: 32.8968
     lon: -97.038
-    tz: America/Chicago
   - id: EFHK
     iata: HEL
     icao: EFHK
     name: Helsinki Vantaa Airport
     location: Helsinki
     country: Finland
+    timezone: Europe/Helsinki
     lat: 60.3172
     lon: 24.9633
-    tz: Europe/Helsinki
   - id: EGLL
     iata: LHR
     icao: EGLL
     name: London Heathrow
     location: London, England
+    timezone: Europe/London
     lat: 51.4775
     lon: -0.4614
-    tz: Europe/London
-
+  - id: LGRP
+    iata: RHO
+    icao: LGRP
+    name: Diagoras Airport
+    location: Rhodos
+    country: Greece
+    timezone: Europe/Athens
+    lat: 36.4054
+    lon: 28.0862
 #
 aircraft:
   - id: 1
     subfleet_id: 1
     name: Boeing 747-400
-    registration: NC17
-    tail_number: 17
+    registration: 001Z
   - id: 2
     subfleet_id: 2
     name: Boeing 777-200
-    registration: NC20
-    tail_number: 20
+    registration: C202
   - id: 3
     subfleet_id: 1
     name: Boeing 747-412
-    registration: NS233
-    tail_number: 1233
+    registration: S2333
 
 fares:
   - id: 1
@@ -271,8 +277,8 @@ flights:
     airline_id: 1
     flight_number: 6028
     route_code: A
-    dpt_airport_id: KIAH
-    arr_airport_id: KAUS
+    dpt_airport_id: LGRP
+    arr_airport_id: LGRP
     dpt_time: 9AM CST
     arr_time: 1030AM CST
     route: PITZZ4 MNURE WLEEE4
@@ -309,56 +315,6 @@ user_bids:
     user_id: 1
     flight_id: flightid_3
 
-acars:
-  - pirep_id: pirepid_1
-    type: 1
-    nav_type: 2
-    name: TNV
-    lat: 30.28852
-    lon: -96.058239
-    created_at: now
-    updated_at: now
-  - pirep_id: pirepid_1
-    type: 1
-    nav_type: 2
-    name: IAH
-    lat: 29.95691
-    lon: -95.345719
-    created_at: now
-    updated_at: now
-  - pirep_id: pirepid_1
-    type: 1
-    nav_type: 2
-    name: LCH
-    lat: 30.14151
-    lon: -93.105569
-    created_at: now
-    updated_at: now
-  - pirep_id: pirepid_1
-    type: 1
-    nav_type: 2
-    name: MEI
-    lat: 32.37843
-    lon: -88.804267
-    created_at: now
-    updated_at: now
-  - pirep_id: pirepid_1
-    type: 1
-    nav_type: 2
-    name: ATL
-    lat: 33.62907
-    lon: -84.435064
-    created_at: now
-    updated_at: now
-  - pirep_id: pirepid_1
-    type: 1
-    nav_type: 2
-    name: SIE
-    lat: 39.0955
-    lon: -74.800344
-    created_at: now
-    updated_at: now
-
 pireps:
   - id: pirepid_1
     user_id: 1
@@ -380,12 +336,14 @@ pireps:
     flight_id: flightid_2
     flight_number: 101
     aircraft_id: 1
-    dpt_airport_id: KJFK
-    arr_airport_id: KAUS
+    dpt_airport_id: LGRP
+    arr_airport_id: LGRP
     flight_time: 180  # 6 hours
     state: 1
     route: PLMMR2 SPA Q22 BEARI FAK PHLBO3
     notes: just a pilot report
+    source: 1
+    source_name: sample
     created_at: NOW
     updated_at: NOW
   - id: pirepid_3

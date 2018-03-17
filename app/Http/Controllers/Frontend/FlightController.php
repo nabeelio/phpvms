@@ -2,20 +2,17 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Repositories\AirlineRepository;
-use App\Repositories\AirportRepository;
-use App\Services\GeoService;
-use Log;
-
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-
 use App\Http\Controllers\Controller;
 use App\Models\UserBid;
-use App\Repositories\FlightRepository;
+use App\Repositories\AirlineRepository;
+use App\Repositories\AirportRepository;
 use App\Repositories\Criteria\WhereCriteria;
-
-use Mockery\Exception;
+use App\Repositories\FlightRepository;
+use App\Services\FlightService;
+use App\Services\GeoService;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Log;
 use Prettus\Repository\Exceptions\RepositoryException;
 
 class FlightController extends Controller
@@ -25,18 +22,32 @@ class FlightController extends Controller
             $flightRepo,
             $geoSvc;
 
+    /**
+     * FlightController constructor.
+     * @param AirlineRepository $airlineRepo
+     * @param AirportRepository $airportRepo
+     * @param FlightRepository $flightRepo
+     * @param FlightService $flightSvc
+     * @param GeoService $geoSvc
+     */
     public function __construct(
         AirlineRepository $airlineRepo,
         AirportRepository $airportRepo,
         FlightRepository $flightRepo,
+        FlightService $flightSvc,
         GeoService $geoSvc
     ) {
         $this->airlineRepo = $airlineRepo;
         $this->airportRepo = $airportRepo;
         $this->flightRepo = $flightRepo;
+        $this->flightSvc = $flightSvc;
         $this->geoSvc = $geoSvc;
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index(Request $request)
     {
         $where = ['active' => true];
@@ -86,38 +97,10 @@ class FlightController extends Controller
         ]);
     }
 
-    public function save(Request $request)
-    {
-        $user_id = Auth::id();
-        $flight_id = $request->input('flight_id');
-        $action = strtolower($request->input('action'));
-
-        $cols = ['user_id' => $user_id,  'flight_id' => $flight_id];
-
-        if($action === 'save') {
-            $uf = UserBid::create($cols);
-            $uf->save();
-
-            return response()->json([
-                'id' => $uf->id,
-                'message' => 'Saved!',
-            ]);
-        }
-
-        elseif ($action === 'remove') {
-            try {
-                $uf = UserBid::where($cols)->first();
-                $uf->delete();
-            } catch (Exception $e) { }
-
-            return response()->json([
-                'message' => 'Deleted!'
-            ]);
-        }
-    }
-
     /**
      * Show the flight information page
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
      */
     public function show($id)
     {

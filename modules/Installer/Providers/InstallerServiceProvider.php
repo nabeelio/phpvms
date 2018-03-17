@@ -4,6 +4,7 @@ namespace Modules\Installer\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
+use Nwidart\Modules\Support\Stub;
 use Route;
 
 
@@ -43,8 +44,8 @@ class InstallerServiceProvider extends ServiceProvider
         });
 
         Route::group([
-             'as' => 'installer.',
-             'prefix' => 'install',
+             'as' => 'update.',
+             'prefix' => 'update',
              'middleware' => ['web'],
              'namespace' => 'Modules\Installer\Http\Controllers'
          ], function () {

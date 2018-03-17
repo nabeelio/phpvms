@@ -1,10 +1,9 @@
 <div class="content table-responsive table-full-width">
 
     <div class="header">
-        <p class="category">
-            <i class="icon fa fa-info">&nbsp;&nbsp;</i>
+        @component('admin.components.info')
             PIREP fields are only shown for manual PIREPs.
-        </p>
+        @endcomponent
     </div>
 
     <table class="table table-hover table-responsive" id="pirepFields-table">
@@ -26,7 +25,7 @@
                 {!! Form::open(['route' => ['admin.pirepfields.destroy', $field->id], 'method' => 'delete']) !!}
                 <a href="{!! route('admin.pirepfields.edit', [$field->id]) !!}"
                    class='btn btn-sm btn-success btn-icon'>
-                    <i class="fa fa-pencil-square-o"></i></a>
+                    <i class="fas fa-pencil-alt"></i></a>
 
                 {!! Form::button('<i class="fa fa-times"></i>',
                              ['type' => 'submit', 'class' => 'btn btn-sm btn-danger btn-icon',

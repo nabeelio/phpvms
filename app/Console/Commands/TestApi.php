@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
-use GuzzleHttp\Client;
 use App\Console\BaseCommand;
+use GuzzleHttp\Client;
 
 class TestApi extends BaseCommand
 {

@@ -2,21 +2,21 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Flight;
-use App\Models\FlightFields;
 use App\Http\Requests\CreateFlightRequest;
 use App\Http\Requests\UpdateFlightRequest;
+use App\Models\Enums\FlightType;
+use App\Models\Flight;
+use App\Models\FlightFields;
 use App\Repositories\AirlineRepository;
 use App\Repositories\AirportRepository;
 use App\Repositories\FareRepository;
 use App\Repositories\FlightRepository;
 use App\Repositories\SubfleetRepository;
-
 use App\Services\FareService;
 use App\Services\FlightService;
-
-use Illuminate\Http\Request;
+use App\Support\Units\Time;
 use Flash;
+use Illuminate\Http\Request;
 use Response;
 
 class FlightController extends BaseController
@@ -29,6 +29,16 @@ class FlightController extends BaseController
             $flightSvc,
             $subfleetRepo;
 
+    /**
+     * FlightController constructor.
+     * @param AirlineRepository $airlineRepo
+     * @param AirportRepository $airportRepo
+     * @param FareRepository $fareRepo
+     * @param FlightRepository $flightRepo
+     * @param FareService $fareSvc
+     * @param FlightService $flightSvc
+     * @param SubfleetRepository $subfleetRepo
+     */
     public function __construct(
         AirlineRepository $airlineRepo,
         AirportRepository $airportRepo,
@@ -47,6 +57,10 @@ class FlightController extends BaseController
         $this->subfleetRepo = $subfleetRepo;
     }
 
+    /**
+     * @param $flight
+     * @return array
+     */
     protected function getAvailSubfleets($flight)
     {
         $retval = [];
@@ -79,7 +93,6 @@ class FlightController extends BaseController
 
     /**
      * Show the form for creating a new Flight.
-     *
      * @return Response
      */
     public function create()
@@ -88,6 +101,7 @@ class FlightController extends BaseController
             'flight'   => null,
             'airlines' => $this->airlineRepo->selectBoxList(),
             'airports' => $this->airportRepo->selectBoxList(true, false),
+            'flight_types' => FlightType::select(true),
         ]);
     }
 
@@ -119,7 +133,11 @@ class FlightController extends BaseController
             return redirect()->back()->withInput($request->all());
         }
 
-        $input['active'] = get_truth_state($input['active']);;
+        $input['active'] = get_truth_state($input['active']);
+
+        $time = new Time($input['minutes'], $input['hours']);
+        $input['flight_time'] = $time->getMinutes();
+
         $flight = $this->flightRepo->create($input);
 
         Flash::success('Flight saved successfully.');
@@ -128,7 +146,7 @@ class FlightController extends BaseController
 
     /**
      * @param $id
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
+     * @return mixed
      */
     public function show($id)
     {
@@ -148,16 +166,19 @@ class FlightController extends BaseController
 
     /**
      * @param $id
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
+     * @return mixed
      */
     public function edit($id)
     {
         $flight = $this->flightRepo->findWithoutFail($id);
-
         if (empty($flight)) {
             Flash::error('Flight not found');
             return redirect(route('admin.flights.index'));
         }
+
+        $time = new Time($flight->flight_time);
+        $flight->hours = $time->hours;
+        $flight->minutes = $time->minutes;
 
         $avail_subfleets = $this->getAvailSubfleets($flight);
         return view('admin.flights.edit', [
@@ -166,6 +187,7 @@ class FlightController extends BaseController
             'airports' => $this->airportRepo->selectBoxList(),
             'avail_fares' => $this->getAvailFares($flight),
             'avail_subfleets' => $avail_subfleets,
+            'flight_types' => FlightType::select(true),
         ]);
     }
 
@@ -206,7 +228,12 @@ class FlightController extends BaseController
             return redirect()->back()->withInput($request->all());
         }
 
+        $input['flight_time'] = Time::init(
+            $input['minutes'],
+            $input['hours'])->getMinutes();
+
         $input['active'] = get_truth_state($input['active']);
+
         $this->flightRepo->update($input, $id);
 
         Flash::success('Flight updated successfully.');
@@ -235,7 +262,7 @@ class FlightController extends BaseController
 
     /**
      * @param $flight
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return mixed
      */
     protected function return_fields_view($flight)
     {
@@ -247,7 +274,7 @@ class FlightController extends BaseController
 
     /**
      * @param Request $request
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
+     * @return mixed
      */
     public function fields(Request $request)
     {
@@ -299,7 +326,7 @@ class FlightController extends BaseController
     /**
      * @param $id
      * @param Request $request
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
+     * @return mixed
      */
     public function subfleets($id, Request $request)
     {

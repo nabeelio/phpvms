@@ -1,15 +1,14 @@
 <div id="flight_fares_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
     <div class="header">
         <h3>fares</h3>
-        <p class="category">
-            <i class="icon fa fa-info">&nbsp;&nbsp;</i>
+        @component('admin.components.info')
             Fares assigned to the current flight. These can be overridden, otherwise,
             the values used come from the subfleet of the aircraft that the flight is
             filed with. Only assign the fares you want to override. They can be set as
             a monetary amount, or a percentage.
-            <a href="https://github.com/nabeelio/phpvms/wiki/finances#flight-fares"
-            target="_blank">Read this wiki page for more details and information.</a>
-        </p>
+            <a href="http://docs.phpvms.net/concepts/finances"
+            target="_blank">Read documentation about finances</a>.
+        @endcomponent
     </div>
 
     <table id="flight_fares"
@@ -17,12 +16,12 @@
            role="grid" aria-describedby="aircraft_fares_info">
         <thead>
         <tr role="row">
-            <th>name</th>
-            <th style="text-align: center;">code</th>
-            <th>capacity</th>
-            <th>price</th>
-            <th>cost</th>
-            <th></th>
+            <th>Name</th>
+            <th style="text-align: center;">Code</th>
+            <th>Capacity</th>
+            <th>Price</th>
+            <th>Cost</th>
+            <th>Actions</th>
         </tr>
         </thead>
         <tbody>
@@ -39,7 +38,7 @@
                 <td>
                     <a href="#" data-pk="{!! $atf->id !!}" data-name="cost">{!! $atf->pivot->cost !!}</a>
                 </td>
-                <td style="text-align: right; width:3%;">
+                <td style="text-align: center; width:3%;">
                     {!! Form::open(['url' => '/admin/flights/'.$flight->id.'/fares',
                                     'method' => 'delete',
                                     'class' => 'pjax_fares_form'
@@ -48,7 +47,7 @@
                     {!! Form::hidden('fare_id', $atf->id) !!}
                     {!! Form::button('<i class="fa fa-times"></i>',
                                      ['type' => 'submit',
-                                      'class' => 'btn btn-sm btn-danger btn-icon']) !!}
+                                      'class' => 'btn btn-danger btn-xs']) !!}
                     {!! Form::close() !!}
                 </td>
             </tr>

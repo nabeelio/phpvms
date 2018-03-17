@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Subfleet;
 use App\Http\Requests\CreateAircraftRequest;
 use App\Http\Requests\UpdateAircraftRequest;
+use App\Models\Subfleet;
 use App\Repositories\AircraftRepository;
-use Illuminate\Http\Request;
 use Flash;
+use Illuminate\Http\Request;
 use Prettus\Repository\Criteria\RequestCriteria;
 
 
@@ -15,6 +15,10 @@ class AircraftController extends BaseController
 {
     private $aircraftRepository;
 
+    /**
+     * AircraftController constructor.
+     * @param AircraftRepository $aircraftRepo
+     */
     public function __construct(
         AircraftRepository $aircraftRepo
     ) {
@@ -51,11 +55,14 @@ class AircraftController extends BaseController
      */
     public function store(CreateAircraftRequest $request)
     {
-        $input = $request->all();
-        $this->aircraftRepository->create($input);
+        $attrs = $request->all();
+
+        $attrs['active'] = get_truth_state($attrs['active']);
+
+        $aircraft = $this->aircraftRepository->create($attrs);
 
         Flash::success('Aircraft saved successfully.');
-        return redirect(route('admin.aircraft.index'));
+        return redirect(route('admin.aircraft.edit', ['id' => $aircraft->id]));
     }
 
     /**
@@ -106,7 +113,10 @@ class AircraftController extends BaseController
             return redirect(route('admin.aircraft.index'));
         }
 
-        $this->aircraftRepository->update($request->all(), $id);
+        $attrs = $request->all();
+        $attrs['active'] = get_truth_state($attrs['active']);
+
+        $this->aircraftRepository->update($attrs, $id);
 
         Flash::success('Aircraft updated successfully.');
         return redirect(route('admin.aircraft.index'));

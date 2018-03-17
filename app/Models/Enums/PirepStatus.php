@@ -5,7 +5,6 @@
 
 namespace App\Models\Enums;
 
-
 /**
  * Tied to the ACARS statuses/states
  * Class PirepStatus
@@ -13,10 +12,10 @@ namespace App\Models\Enums;
  */
 class PirepStatus extends EnumBase
 {
-    const PREFILE       = 0;
-    const SCHEDULED     = 0;
-    const ENROUTE       = 1;
-    const ARRIVED       = 2;
+    public const PREFILE       = 0;
+    public const SCHEDULED     = 0;
+    public const ENROUTE       = 1;
+    public const ARRIVED       = 2;
 
     protected static $labels = [
         PirepStatus::PREFILE    => 'Prefiled',

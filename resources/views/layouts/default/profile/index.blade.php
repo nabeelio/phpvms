@@ -1,5 +1,6 @@
-@extends('layouts.default.app')
+@extends("layouts.${SKIN_NAME}.app")
 @section('title', 'profile')
+
 @section('content')
 <div class="row profile-page content-center text-color-dark-beige">
     <div class="col-md-4" style="text-align:center;">

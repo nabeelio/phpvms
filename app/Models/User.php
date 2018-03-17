@@ -2,11 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Notifications\Notifiable;
+use App\Models\Enums\PirepState;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 use Laratrust\Traits\LaratrustUserTrait;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Contracts\Auth\CanResetPassword;
 
 /**
  * @property integer $id
@@ -43,26 +42,31 @@ class User extends Authenticatable
         'last_pirep_id',
         'flights',
         'flight_time',
+        'transferred_time',
         'balance',
         'timezone',
         'state',
         'status',
+        'created_at',
+        'updated_at',
     ];
 
     /**
      * The attributes that should be hidden for arrays.
      */
     protected $hidden = [
+        'api_key',
         'password',
         'remember_token',
     ];
 
     protected $casts = [
-        'flights'       => 'integer',
-        'flight_time'   => 'integer',
-        'balance'       => 'double',
-        'state'         => 'integer',
-        'status'        => 'integer',
+        'flights'           => 'integer',
+        'flight_time'       => 'integer',
+        'transferred_time'  => 'integer',
+        'balance'           => 'double',
+        'state'             => 'integer',
+        'status'            => 'integer',
     ];
 
     public static $rules = [
@@ -85,6 +89,24 @@ class User extends Authenticatable
     public function getIdentAttribute()
     {
         return $this->getPilotIdAttribute();
+    }
+
+    /**
+     * Shorthand for getting the timezone
+     * @return string
+     */
+    public function getTzAttribute(): string
+    {
+        return $this->timezone;
+    }
+
+    /**
+     * Shorthand for setting the timezone
+     * @param $value
+     */
+    public function setTzAttribute($value)
+    {
+        $this->attributes['timezone'] = $value;
     }
 
     /**
@@ -136,7 +158,8 @@ class User extends Authenticatable
 
     public function pireps()
     {
-        return $this->hasMany(Pirep::class, 'user_id');
+        return $this->hasMany(Pirep::class, 'user_id')
+                    ->where('state', '!=', PirepState::CANCELLED);
     }
 
     public function rank()

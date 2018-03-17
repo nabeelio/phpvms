@@ -23,13 +23,10 @@ class CreateStatsTable extends Migration
             $table->timestamps();
         });
 
-        $this->addCounterGroups([
+        /*$this->addCounterGroups([
             'flights' => 1,
         ]);
 
-        /**
-         * Initial default settings
-         */
         $stats = [
             [
                 'id' => $this->formatSettingId('flights.total_flights'),
@@ -47,7 +44,7 @@ class CreateStatsTable extends Migration
             ],
         ];
 
-        $this->addData('stats', $stats);
+        $this->addData('stats', $stats);*/
     }
 
     /**

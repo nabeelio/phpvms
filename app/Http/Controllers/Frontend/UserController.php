@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Http\Controllers\Controller;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
-
-use App\Http\Controllers\Controller;
 
 class UserController extends Controller
 {
     private $userRepo;
 
+    /**
+     * UserController constructor.
+     * @param UserRepository $userRepo
+     */
     public function __construct(
         UserRepository $userRepo
     ) {
@@ -18,7 +21,8 @@ class UserController extends Controller
     }
 
     /**
-     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index(Request $request)
     {

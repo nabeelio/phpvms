@@ -18,6 +18,9 @@
             <directory suffix=".php">./app</directory>
         </whitelist>
     </filter>
+    <listeners>
+        <listener class="NunoMaduro\Collision\Adapters\Phpunit\Listener"/>
+    </listeners>
     <php>
         <ini name="error_reporting" value="E_ALL"/>
         <ini name="display_errors" value="On"/>

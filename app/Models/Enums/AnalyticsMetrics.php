@@ -9,5 +9,5 @@ namespace App\Models\Enums;
 class AnalyticsMetrics
 {
     # Track the lookup time for airports from vaCentral
-    const AIRPORT_LOOKUP_TIME = 1;
+    public const AIRPORT_LOOKUP_TIME = 1;
 }

@@ -28,56 +28,72 @@
     </div>
 </div>
 
-<!--
-SAME ROW
--->
-
 <div class="row">
-    <!-- Dpt Airport Id Field -->
-    <div class="form-group col-sm-4">
+
+    <div class="form-group col-sm-3">
+        {!! Form::label('level', 'Flight Type:') !!}
+        {!! Form::select('flight_type', $flight_types, null, ['class' => 'form-control select2']) !!}
+        <p class="text-danger">{{ $errors->first('flight_type') }}</p>
+    </div>
+
+    <div class="form-group col-sm-3">
         {!! Form::label('dpt_airport_id', 'Departure Airport:') !!}&nbsp;<span class="required">*</span>
         {!! Form::select('dpt_airport_id', $airports, null , ['class' => 'form-control select2']) !!}
         <p class="text-danger">{{ $errors->first('dpt_airport_id') }}</p>
     </div>
 
     <!-- Arr Airport Id Field -->
-    <div class="form-group col-sm-4">
+    <div class="form-group col-sm-3">
         {!! Form::label('arr_airport_id', 'Arrival Airport:') !!}&nbsp;<span class="required">*</span>
         {!! Form::select('arr_airport_id', $airports, null , ['class' => 'form-control select2']) !!}
         <p class="text-danger">{{ $errors->first('arr_airport_id') }}</p>
     </div>
 
     <!-- Alt Airport Id Field -->
-    <div class="form-group col-sm-4">
+    <div class="form-group col-sm-3">
         {!! Form::label('alt_airport_id', 'Alt Airport:') !!}
         {!! Form::select('alt_airport_id', $airports, null , ['class' => 'form-control select2']) !!}
+        <p class="text-danger">{{ $errors->first('alt_airport_id') }}</p>
     </div>
 </div>
 
 
-<!-- Dpt Time Field -->
 <div class="row">
-    <div class="form-group col-sm-3">
+
+    <div class="form-group col-sm-2">
         {!! Form::label('dpt_time', 'Departure Time:') !!}
         {!! Form::text('dpt_time', null, ['class' => 'form-control']) !!}
+        <p class="text-danger">{{ $errors->first('dpt_time') }}</p>
     </div>
 
-    <!-- Arr Time Field -->
-    <div class="form-group col-sm-3">
+    <div class="form-group col-sm-2">
         {!! Form::label('arr_time', 'Arrival Time:') !!}
         {!! Form::text('arr_time', null, ['class' => 'form-control']) !!}
+        <p class="text-danger">{{ $errors->first('arr_time') }}</p>
     </div>
 
-    <div class="form-group col-sm-3">
-        {!! Form::label('distance', 'Distance:') !!}
-        {!! Form::text('distance', null, ['class' => 'form-control']) !!}
-        <p class="text-danger">{{ $errors->first('distance') }}</p>
+    <div class="form-group col-sm-4">
+        {!! Form::label('flight_time', 'Flight Time (hours & minutes):') !!}
+        <div style="float: left">
+            {!! Form::number('hours', null, ['class' => 'form-control', 'placeholder' => 'hours']) !!}
+        </div>
+        <div style="float: left">
+            {!! Form::number('minutes', null, ['class' => 'form-control', 'placeholder' => 'minutes']) !!}
+            <p class="text-danger">{{ $errors->first('hours') }}</p>
+            <p class="text-danger">{{ $errors->first('minutes') }}</p>
+        </div>
     </div>
 
-    <div class="form-group col-sm-3">
+    <div class="form-group col-sm-2">
         {!! Form::label('level', 'Flight Level:') !!}
         {!! Form::text('level', null, ['class' => 'form-control']) !!}
         <p class="text-danger">{{ $errors->first('level') }}</p>
+    </div>
+
+    <div class="form-group col-sm-2">
+        {!! Form::label('distance', 'Distance:') !!} <span class="small">in miles</span>
+        {!! Form::text('distance', null, ['class' => 'form-control']) !!}
+        <p class="text-danger">{{ $errors->first('distance') }}</p>
     </div>
 </div>
 
@@ -86,12 +102,14 @@ SAME ROW
     <div class="form-group col-sm-6">
         {!! Form::label('route', 'Route:') !!}
         {!! Form::textarea('route', null, ['class' => 'form-control']) !!}
+        <p class="text-danger">{{ $errors->first('route') }}</p>
     </div>
 
     <!-- Notes Field -->
     <div class="form-group col-sm-6">
         {!! Form::label('notes', 'Notes:') !!}
         {!! Form::textarea('notes', null, ['class' => 'form-control']) !!}
+        <p class="text-danger">{{ $errors->first('notes') }}</p>
     </div>
 </div>
 

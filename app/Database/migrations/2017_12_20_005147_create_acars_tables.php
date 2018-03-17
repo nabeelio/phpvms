@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateAcarsTables extends Migration
 {
@@ -15,7 +15,7 @@ class CreateAcarsTables extends Migration
     {
         Schema::create('acars', function (Blueprint $table) {
             $table->string('id', 12);
-            $table->string('pirep_id', 12);
+            $table->string('pirep_id', \App\Models\Pirep::ID_MAX_LENGTH);
             $table->unsignedTinyInteger('type');
             $table->unsignedInteger('nav_type')->nullable();
             $table->unsignedInteger('order')->default(0);

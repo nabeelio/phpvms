@@ -2,16 +2,20 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Http\Controllers\Controller;
 use App\Repositories\AcarsRepository;
 use App\Services\GeoService;
 use Illuminate\Http\Request;
-
-use App\Http\Controllers\Controller;
 
 class AcarsController extends Controller
 {
     private $acarsRepo, $geoSvc;
 
+    /**
+     * AcarsController constructor.
+     * @param AcarsRepository $acarsRepo
+     * @param GeoService $geoSvc
+     */
     public function __construct(
         AcarsRepository $acarsRepo,
         GeoService $geoSvc
@@ -21,7 +25,8 @@ class AcarsController extends Controller
     }
 
     /**
-     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index(Request $request)
     {

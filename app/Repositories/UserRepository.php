@@ -1,11 +1,10 @@
 <?php
 namespace App\Repositories;
 
-use Illuminate\Http\Request;
-
-use App\Models\User;
 use App\Models\Enums\UserState;
+use App\Models\User;
 use App\Repositories\Criteria\WhereCriteria;
+use Illuminate\Http\Request;
 
 class UserRepository extends BaseRepository
 {

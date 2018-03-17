@@ -1,8 +1,5 @@
 <?php
 
-use App\Models\Fare;
-use App\Models\Subfleet;
-
 class FinanceTest extends TestCase
 {
     protected $ac_svc,

@@ -26,25 +26,42 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div>
-                            <span class="description">DEP&nbsp;</span>
-                            {!! $pirep->dpt_airport->icao !!}&nbsp;
-                            <span class="description">ARR&nbsp;</span>
+                            <span class="description">
+                                <b>DEP</b>&nbsp;
+                                {!! $pirep->dpt_airport->icao !!}&nbsp;
+                                <b>ARR</b>&nbsp;
                             {!! $pirep->arr_airport->icao !!}&nbsp;
+                            </span>
                         </div>
-                        <div><span class="description">Flight Time&nbsp;</span>
+                        <div>
+                            <span class="description"><b>Flight Time</b>&nbsp;
                             {!! Utils::minutesToTimeString($pirep->flight_time) !!}
+                            </span>
                         </div>
-                        <div><span class="description">Aircraft&nbsp;</span>
+                        <div><span class="description"><b>Aircraft</b>&nbsp;
                             {!! $pirep->aircraft->registration !!}
                             ({!! $pirep->aircraft->name !!})
+                            </span>
                         </div>
+                        @if(filled($pirep->level))
                         <div>
-                            <span class="description">Flight Level&nbsp;</span>
+                            <span class="description"><b>Flight Level</b>&nbsp;
                             {!! $pirep->level !!}
+                            </span>
+                        </div>
+                        @endif
+                        <div>
+                            <span class="description"><b>Filed Using</b>&nbsp;
+                                {!! PirepSource::label($pirep->source) !!}
+                                @if(filled($pirep->source_name))
+                                    ({!! $pirep->source_name !!})
+                                @endif
+                            </span>
                         </div>
                         <div>
-                            <span class="description">File Date&nbsp;</span>
-                            {!! show_datetime($pirep->created_at) !!}
+                            <span class="description"><b>File Date</b>&nbsp;
+                                {!! show_datetime($pirep->created_at) !!}
+                            </span>
                         </div>
                     </div>
                     <div class="col-sm-6">
@@ -56,7 +73,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div id="pirep_{!! $pirep->id !!}_actionbar" class="pull-right">
-                    @include('admin.pireps.actions')
+                    @include('admin.pireps.actions', ['pirep' => $pirep, 'on_edit_page' => false])
                 </div>
             </div>
         </div>

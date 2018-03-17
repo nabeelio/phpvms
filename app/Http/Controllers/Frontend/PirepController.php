@@ -2,28 +2,26 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use Log;
 use App\Facades\Utils;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\CreatePirepRequest;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
-
+use App\Models\Enums\AcarsType;
 use App\Models\Enums\PirepSource;
 use App\Models\Enums\PirepState;
 use App\Models\Pirep;
-use App\Models\PirepField;
-
+use App\Repositories\AcarsRepository;
+use App\Repositories\AirlineRepository;
+use App\Repositories\AirportRepository;
+use App\Repositories\Criteria\WhereCriteria;
+use App\Repositories\PirepFieldRepository;
+use App\Repositories\PirepRepository;
+use App\Repositories\SubfleetRepository;
 use App\Services\GeoService;
 use App\Services\PIREPService;
 use App\Services\UserService;
-
-use App\Repositories\Criteria\WhereCriteria;
-use App\Http\Controllers\Controller;
-use App\Repositories\AirlineRepository;
-use App\Repositories\AirportRepository;
-use App\Repositories\PirepRepository;
-use App\Repositories\PirepFieldRepository;
-use App\Repositories\SubfleetRepository;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Log;
 
 
 class PirepController extends Controller
@@ -37,6 +35,17 @@ class PirepController extends Controller
             $subfleetRepo,
             $userSvc;
 
+    /**
+     * PirepController constructor.
+     * @param AirlineRepository $airlineRepo
+     * @param PirepRepository $pirepRepo
+     * @param AirportRepository $airportRepo
+     * @param PirepFieldRepository $pirepFieldRepo
+     * @param GeoService $geoSvc
+     * @param SubfleetRepository $subfleetRepo
+     * @param PIREPService $pirepSvc
+     * @param UserService $userSvc
+     */
     public function __construct(
         AirlineRepository $airlineRepo,
         PirepRepository $pirepRepo,
@@ -94,10 +103,7 @@ class PirepController extends Controller
         $user = Auth::user();
 
         $where = [['user_id', $user->id]];
-
-        if(setting('pireps.hide_cancelled_pireps')) {
-            $where[] = ['state', '<>', PirepState::CANCELLED];
-        }
+        $where[] = ['state', '<>', PirepState::CANCELLED];
 
         $this->pirepRepo->pushCriteria(new WhereCriteria($request, $where));
         $pireps = $this->pirepRepo->orderBy('created_at', 'desc')->paginate();
@@ -122,14 +128,14 @@ class PirepController extends Controller
     }
 
     /**
-     *
      * @param CreatePirepRequest $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Exception
      */
     public function store(CreatePirepRequest $request)
     {
         // Create the main PIREP
-        $pirep = new Pirep($request->all());
+        $pirep = new Pirep($request->post());
         $pirep->user_id = Auth::user()->id;
 
         # Make sure this isn't a duplicate
@@ -140,8 +146,9 @@ class PirepController extends Controller
         }
 
         // Any special fields
-        $pirep->flight_time = ((int) Utils::hoursToMinutes($request['hours']))
-                            + ((int) $request['minutes']);
+        $hours = (int) $request->input('hours', 0);
+        $minutes = (int) $request->input('minutes', 0);
+        $pirep->flight_time = Utils::hoursToMinutes($hours) + $minutes;
 
         // The custom fields from the form
         $custom_fields = [];
@@ -165,20 +172,23 @@ class PirepController extends Controller
         return redirect(route('frontend.pireps.show', ['id' => $pirep->id]));
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function show($id)
     {
-        #$pirep = Pirep::where('id', $id);
         $pirep = $this->pirepRepo->find($id);
         if (empty($pirep)) {
             Flash::error('Pirep not found');
             return redirect(route('frontend.pirep.index'));
         }
 
-        $map_featuers = $this->geoSvc->pirepGeoJson($pirep);
+        $map_features = $this->geoSvc->pirepGeoJson($pirep);
 
         return $this->view('pireps.show', [
             'pirep' => $pirep,
-            'map_features' => $map_featuers,
+            'map_features' => $map_features,
         ]);
     }
 }

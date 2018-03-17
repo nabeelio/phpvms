@@ -2,28 +2,24 @@
 
 namespace App\Services;
 
-use Log;
-use Carbon\Carbon;
-use App\Repositories\AcarsRepository;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-
-use App\Models\Acars;
-use App\Models\Navdata;
-use App\Models\Pirep;
-use App\Models\PirepFieldValues;
-use App\Models\User;
-
-use App\Models\Enums\AcarsType;
-use App\Models\Enums\PirepSource;
-use App\Models\Enums\PirepState;
-
 use App\Events\PirepAccepted;
 use App\Events\PirepFiled;
 use App\Events\PirepRejected;
 use App\Events\UserStatsChanged;
-
+use App\Models\Acars;
+use App\Models\Enums\AcarsType;
+use App\Models\Enums\PirepSource;
+use App\Models\Enums\PirepState;
+use App\Models\Navdata;
+use App\Models\Pirep;
+use App\Models\PirepFieldValues;
+use App\Models\User;
+use App\Repositories\AcarsRepository;
 use App\Repositories\NavdataRepository;
 use App\Repositories\PirepRepository;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Log;
 
 class PIREPService extends BaseService
 {
@@ -83,6 +79,7 @@ class PIREPService extends BaseService
 
         try {
             $found_pireps = Pirep::where($where)
+                            ->where('state', '!=', PirepState::CANCELLED)
                             ->where('created_at', '>=', $time_limit)
                             ->get();
 
@@ -100,6 +97,7 @@ class PIREPService extends BaseService
      * Save the route into the ACARS table with AcarsType::ROUTE
      * @param Pirep $pirep
      * @return Pirep
+     * @throws \Exception
      */
     public function saveRoute(Pirep $pirep): Pirep
     {
@@ -109,13 +107,13 @@ class PIREPService extends BaseService
             'type' => AcarsType::ROUTE,
         ])->delete();
 
-        # Delete the route
-        if (empty($pirep->route)) {
+        # See if a route exists
+        if (!filled($pirep->route)) {
             return $pirep;
         }
 
-        if(!$pirep->dpt_airport) {
-            Log::error('saveRoute: dpt_airport not found: '.$pirep->dpt_airport_id);
+        if (!filled($pirep->dpt_airport)) {
+            Log::error('saveRoute: dpt_airport not found: ' . $pirep->dpt_airport_id);
             return $pirep;
         }
 
@@ -177,13 +175,8 @@ class PIREPService extends BaseService
         $pirep->save();
         $pirep->refresh();
 
-        foreach ($field_values as $fv) {
-            $v = new PirepFieldValues();
-            $v->pirep_id = $pirep->id;
-            $v->name = $fv['name'];
-            $v->value = $fv['value'];
-            $v->source = $fv['source'];
-            $v->save();
+        if(\count($field_values) > 0) {
+            $this->updateCustomFields($pirep->id, $field_values);
         }
 
         Log::info('New PIREP filed', [$pirep]);
@@ -196,6 +189,25 @@ class PIREPService extends BaseService
         }
 
         return $pirep;
+    }
+
+    /**
+     * Update any custom PIREP fields
+     * @param $pirep_id
+     * @param array $field_values
+     */
+    public function updateCustomFields($pirep_id, array $field_values)
+    {
+        foreach ($field_values as $fv) {
+            PirepFieldValues::updateOrCreate(
+                [   'pirep_id' => $pirep_id,
+                    'name' => $fv['name']
+                ],
+                [   'value' => $fv['value'],
+                    'source' => $fv['source']
+                ]
+            );
+        }
     }
 
     /**

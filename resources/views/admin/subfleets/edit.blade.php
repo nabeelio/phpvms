@@ -12,6 +12,12 @@
 
    <div class="card border-blue-bottom">
        <div class="content">
+           @include('admin.subfleets.ranks')
+       </div>
+   </div>
+
+   <div class="card border-blue-bottom">
+       <div class="content">
            @include('admin.subfleets.fares')
        </div>
    </div>

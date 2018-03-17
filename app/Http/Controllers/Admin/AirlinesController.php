@@ -2,27 +2,33 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Flash;
-use Response;
-use Illuminate\Http\Request;
-use Prettus\Repository\Criteria\RequestCriteria;
-
 use App\Http\Requests\CreateAirlineRequest;
 use App\Http\Requests\UpdateAirlineRequest;
 use App\Repositories\AirlineRepository;
+use App\Support\Countries;
+use Flash;
+use Illuminate\Http\Request;
+use Prettus\Repository\Criteria\RequestCriteria;
+use Response;
 
 class AirlinesController extends BaseController
 {
     /** @var  AirlineRepository */
     private $airlineRepo;
 
-    public function __construct(AirlineRepository $airlinesRepo)
-    {
+    /**
+     * AirlinesController constructor.
+     * @param AirlineRepository $airlinesRepo
+     */
+    public function __construct(
+        AirlineRepository $airlinesRepo
+    ) {
         $this->airlineRepo = $airlinesRepo;
     }
 
     /**
      * Display a listing of the Airlines.
+     * @throws \Prettus\Repository\Exceptions\RepositoryException
      */
     public function index(Request $request)
     {
@@ -38,7 +44,9 @@ class AirlinesController extends BaseController
      */
     public function create()
     {
-        return view('admin.airlines.create');
+        return view('admin.airlines.create', [
+            'countries' => Countries::getSelectList(),
+        ]);
     }
 
     /**
@@ -50,15 +58,12 @@ class AirlinesController extends BaseController
         $airlines = $this->airlineRepo->create($input);
 
         Flash::success('Airlines saved successfully.');
-
         return redirect(route('admin.airlines.index'));
     }
 
     /**
      * Display the specified Airlines.
-     *
      * @param  int $id
-     *
      * @return mixed
      */
     public function show($id)
@@ -70,14 +75,14 @@ class AirlinesController extends BaseController
             return redirect(route('admin.airlines.index'));
         }
 
-        return view('admin.airlines.show')->with('airlines', $airlines);
+        return view('admin.airlines.show', [
+            'airlines' => $airlines,
+        ]);
     }
 
     /**
      * Show the form for editing the specified Airlines.
-     *
      * @param  int $id
-     *
      * @return Response
      */
     public function edit($id)
@@ -89,16 +94,18 @@ class AirlinesController extends BaseController
             return redirect(route('admin.airlines.index'));
         }
 
-        return view('admin.airlines.edit')->with('airline', $airline);
+        return view('admin.airlines.edit', [
+            'airline' => $airline,
+            'countries' => Countries::getSelectList(),
+        ]);
     }
 
     /**
      * Update the specified Airlines in storage.
-     *
-     * @param  int              $id
+     * @param  int $id
      * @param UpdateAirlineRequest $request
-     *
      * @return Response
+     * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
     public function update($id, UpdateAirlineRequest $request)
     {
@@ -118,9 +125,7 @@ class AirlinesController extends BaseController
 
     /**
      * Remove the specified Airlines from storage.
-     *
      * @param  int $id
-     *
      * @return Response
      */
     public function destroy($id)
@@ -135,7 +140,6 @@ class AirlinesController extends BaseController
         $this->airlineRepo->delete($id);
 
         Flash::success('Airlines deleted successfully.');
-
         return redirect(route('admin.airlines.index'));
     }
 }

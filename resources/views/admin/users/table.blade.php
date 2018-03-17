@@ -9,7 +9,14 @@
     <tbody>
     @foreach($users as $user)
         <tr>
-            <td><a href="{!! route('admin.users.edit', [$user->id]) !!}">{!! $user->name !!}</a></td>
+            <td>
+                @if(filled($user->country))
+                    <span class="flag-icon flag-icon-{!! $user->country !!}"
+                          title="{!! $country->alpha2($user->country)['name'] !!}"></span>
+                    &nbsp;
+                @endif
+                <a href="{!! route('admin.users.edit', [$user->id]) !!}">{!! $user->name !!}</a>
+            </td>
             <td>{!! $user->email !!}</td>
             <td>{!! show_date($user->created_at) !!}</td>
             <td class="text-center">
@@ -25,7 +32,8 @@
             <td class="text-right">
                 {!! Form::open(['route' => ['admin.users.destroy', $user->id], 'method' => 'delete']) !!}
                 <a href="{!! route('admin.users.edit', [$user->id]) !!}"
-                   class='btn btn-sm btn-success btn-icon'><i class="fa fa-pencil-square-o"></i></a>
+                   class='btn btn-sm btn-success btn-icon'>
+                    <i class="fas fa-pencil-alt"></i></a>
                 {!! Form::button('<i class="fa fa-times"></i>', ['type' => 'submit', 'class' => 'btn btn-sm btn-danger btn-icon', 'onclick' => "return confirm('Are you sure?')"]) !!}
                 {!! Form::close() !!}
             </td>

@@ -2,12 +2,11 @@
 
 namespace App\Services;
 
-use Log;
 use Carbon\Carbon;
 use Illuminate\Database\QueryException;
-use Webpatser\Uuid\Uuid;
-use Symfony\Component\Yaml\Yaml;
 use Illuminate\Support\Facades\DB;
+use Symfony\Component\Yaml\Yaml;
+use Webpatser\Uuid\Uuid;
 
 
 class DatabaseService extends BaseService
