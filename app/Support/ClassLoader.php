@@ -13,12 +13,11 @@ class ClassLoader
      */
     public static function getClassesInPath($path)
     {
-        $classes = [];
-
         if (!file_exists($path)) {
             return [];
         }
 
+        $classes = [];
         $all_classes = array_keys(ClassMapGenerator::createMap($path));
         foreach ($all_classes as $cl) {
             try {
