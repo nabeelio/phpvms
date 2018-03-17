@@ -121,7 +121,7 @@ class FlightTest extends TestCase
     public function testFlightSearchApi()
     {
         $this->user = factory(App\Models\User::class)->create();
-        $flights = factory(App\Models\Flight::class, 20)->create([
+        $flights = factory(App\Models\Flight::class, 10)->create([
             'airline_id' => $this->user->airline_id
         ]);
 
