@@ -42,6 +42,29 @@ class JournalRepository extends BaseRepository implements CacheableInterface
     }
 
     /**
+     * Recalculate the balance of the given journal
+     * @param Journal $journal
+     * @return Journal
+     * @throws \UnexpectedValueException
+     * @throws \InvalidArgumentException
+     */
+    public function recalculateBalance(Journal $journal)
+    {
+        $where = [
+            'journal_id' => $journal->id
+        ];
+
+        $credits = Money::create($this->findWhere($where)->sum('credit') ?: 0);
+        $debits = Money::create($this->findWhere($where)->sum('debit') ?: 0);
+        $balance = $credits->subtract($debits);
+
+        $journal->balance = $balance->getAmount();
+        $journal->save();
+
+        return $journal;
+    }
+
+    /**
      * Post a new transaction to a journal, and also adjust the balance
      * on the transaction itself. A cron will run to reconcile the journal
      * balance nightly, since they're not atomic operations
@@ -67,7 +90,6 @@ class JournalRepository extends BaseRepository implements CacheableInterface
         $transaction_group = null,
         $tags = null
     ) {
-
         # tags can be passed in a list
         if ($tags && \is_array($tags)) {
             $tags = implode(',', $tags);

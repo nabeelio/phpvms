@@ -18,6 +18,8 @@ use Carbon\Carbon;
  * @property Carbon $post_date
  * @property Carbon $created_at
  * @property \App\Models\Enums\JournalType type
+ * @property mixed morphed_type
+ * @property mixed morphed_id
  */
 class Journal extends BaseModel
 {

@@ -3,6 +3,7 @@
 !! Please do a complete reinstall, with a new database
 
 - Finances! The finance portions have been implemented, you can [read about them here](http://docs.phpvms.net/concepts/finances)
+- Awards! Added the award plugin system. [see docs](http://docs.phpvms.net/customizing/awards)
 - Changed theme system to using [laravel-theme](https://github.com/igaster/laravel-theme), there are changes to making theming much simpler with much more flexibility.
 - Fixed several security vulnerabilities (thanks magicflyer!)
 - Fuel units changed to lbs/kgs [#193](https://github.com/nabeelio/phpvms/issues/193)

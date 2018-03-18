@@ -41,7 +41,7 @@ class JournalTransaction extends BaseModel
         'tags'      => 'array',
     ];
 
-    protected $dateFormat = 'Y-m-d';
+    //protected $dateFormat = 'Y-m-d';
     protected $dates = [
         'created_at',
         'updated_at',

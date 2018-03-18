@@ -112,10 +112,12 @@ class RecurringFinanceService extends BaseService
                     'journal_id' => $journal->id,
                     'ref_class' => Expense::class,
                     'ref_class_id' => $expense->id,
-                    'post_date' => \Carbon::now('UTC')->format('Y-m-d'),
                 ];
 
-                $found = JournalTransaction::where($w)->count(['id']);
+                $found = JournalTransaction::where($w)
+                    ->whereDate('post_date', '=', \Carbon::now('UTC')->toDateString())
+                    ->count(['id']);
+
                 if($found > 0) {
                     Log::info('Expense "'.$expense->name.'" already charged for today, skipping');
                     continue;

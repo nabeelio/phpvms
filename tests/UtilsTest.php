@@ -7,6 +7,12 @@ class UtilsTest extends TestCase
     public function setUp() {
     }
 
+    public function testDates()
+    {
+        $carbon = new \Carbon\Carbon('2018-03-18 00:20:43');
+        //echo $carbon;
+    }
+
     public function testSecondsToTimeParts()
     {
         $t = Utils::secondsToTimeParts(3600);

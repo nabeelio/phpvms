@@ -80,6 +80,10 @@ class PirepFinanceService extends BaseService
         $pirep->airline->journal->refresh();
         $pirep->user->journal->refresh();
 
+        // Recalculate balances...
+        $this->journalRepo->recalculateBalance($pirep->airline->journal);
+        $this->journalRepo->recalculateBalance($pirep->user->journal);
+
         return $pirep;
     }
 

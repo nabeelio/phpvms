@@ -354,7 +354,7 @@ class PirepController extends RestController
         $pirep = $this->pirepRepo->find($id);
         $this->checkCancelled($pirep);
 
-        Log::info(
+        Log::debug(
             'Posting ACARS update (user: '.Auth::user()->pilot_id.', pirep id :'.$id.'): ',
             $request->post()
         );
@@ -394,7 +394,7 @@ class PirepController extends RestController
         $pirep = $this->pirepRepo->find($id);
         $this->checkCancelled($pirep);
 
-        Log::info('Posting ACARS log, PIREP: '.$id, $request->post());
+        Log::debug('Posting ACARS log, PIREP: '.$id, $request->post());
 
         $count = 0;
         $logs = $request->post('logs');
@@ -426,7 +426,7 @@ class PirepController extends RestController
         $pirep = $this->pirepRepo->find($id);
         $this->checkCancelled($pirep);
 
-        Log::info('Posting ACARS event, PIREP: ' . $id, $request->post());
+        Log::debug('Posting ACARS event, PIREP: ' . $id, $request->post());
 
         $count = 0;
         $logs = $request->post('events');
@@ -468,7 +468,7 @@ class PirepController extends RestController
         $pirep = $this->pirepRepo->find($id);
         $this->checkCancelled($pirep);
 
-        Log::info('Posting comment, PIREP: '.$id, $request->post());
+        Log::debug('Posting comment, PIREP: '.$id, $request->post());
 
         # Add it
         $comment = new PirepComment($request->post());
@@ -483,6 +483,8 @@ class PirepController extends RestController
      * @param $id
      * @param Request $request
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @throws \UnexpectedValueException
+     * @throws \InvalidArgumentException
      */
     public function finances_get($id, Request $request)
     {

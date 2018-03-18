@@ -38,18 +38,14 @@ class RecalculateBalances
 
         $journals = Journal::all();
         foreach ($journals as $journal) {
+            $old_balance = $journal->balance;
 
-            $where = ['journal_id' => $journal->id];
-            $credits = Money::create(JournalTransaction::where($where)->sum('credit') ?: 0);
-            $debits = Money::create(JournalTransaction::where($where)->sum('debit') ?: 0);
-            $balance = $credits->subtract($debits);
+            $this->journalRepo->recalculateBalance($journal);
+            $journal->refresh();
 
             Log::info('Adjusting balance on ' .
                 $journal->morphed_type . ':' . $journal->morphed_id
-                . ' from ' . $journal->balance . ' to ' . $balance);
-
-            $journal->balance = $balance->getAmount();
-            $journal->save();
+                . ' from ' . $old_balance . ' to ' . $journal->balance);
         }
 
         Log::info('Done calculating balances');
