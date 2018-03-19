@@ -1,9 +1,8 @@
 <?php
-/**
- *
- */
 
 namespace App\Models\Enums;
+
+use App\Interfaces\Enum;
 
 /**
  * Class Days

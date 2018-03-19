@@ -1,10 +1,13 @@
 <?php
-/**
- * Hold the user states
- */
 
 namespace App\Models\Enums;
 
+use App\Interfaces\Enum;
+
+/**
+ * Class UserState
+ * @package App\Models\Enums
+ */
 class UserState extends Enum
 {
     public const PENDING   = 0;

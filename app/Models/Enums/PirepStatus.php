@@ -1,9 +1,8 @@
 <?php
-/**
- * Enums for PIREP statuses
- */
 
 namespace App\Models\Enums;
+
+use App\Interfaces\Enum;
 
 /**
  * Tied to the ACARS statuses/states

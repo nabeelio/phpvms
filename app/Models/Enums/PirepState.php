@@ -2,6 +2,12 @@
 
 namespace App\Models\Enums;
 
+use App\Interfaces\Enum;
+
+/**
+ * Class PirepState
+ * @package App\Models\Enums
+ */
 class PirepState extends Enum {
 
     public const REJECTED      = -1;

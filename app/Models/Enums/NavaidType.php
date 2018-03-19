@@ -1,9 +1,7 @@
 <?php
-/**
- * The types of navaids
- */
-
 namespace App\Models\Enums;
+
+use App\Interfaces\Enum;
 
 /**
  * Class NavaidType

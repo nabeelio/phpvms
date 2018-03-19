@@ -2,6 +2,8 @@
 
 namespace App\Models\Enums;
 
+use App\Interfaces\Enum;
+
 /**
  * Class ExpenseType
  * @package App\Models\Enums

@@ -2,6 +2,8 @@
 
 namespace App\Models\Enums;
 
+use App\Interfaces\Enum;
+
 /**
  * Class AircraftState
  * @package App\Models\Enums

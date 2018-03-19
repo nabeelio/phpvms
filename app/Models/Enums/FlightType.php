@@ -2,7 +2,12 @@
 
 namespace App\Models\Enums;
 
+use App\Interfaces\Enum;
 
+/**
+ * Class FlightType
+ * @package App\Models\Enums
+ */
 class FlightType extends Enum {
 
     public const PASSENGER   = 0;
