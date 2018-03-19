@@ -7,6 +7,7 @@
 namespace App\Models;
 
 /**
+ * @property string id  UUID type
  * @property string  currency
  * @property string  memo
  * @property string  transaction_group
@@ -15,6 +16,7 @@ namespace App\Models;
  * @property integer debit
  * @property string  ref_class
  * @property integer ref_class_id
+ * @property Journal journal
  */
 class JournalTransaction extends BaseModel
 {
@@ -47,59 +49,6 @@ class JournalTransaction extends BaseModel
         'updated_at',
         'post_date',
     ];
-
-    /**
-     * Callbacks
-     * @throws \UnexpectedValueException
-     * @throws \InvalidArgumentException
-     */
-    protected static function boot()
-    {
-        static::creating(function ($transaction) {
-            if(!$transaction->id) {
-                $transaction->id = \Ramsey\Uuid\Uuid::uuid4()->toString();
-            }
-        });
-
-        /**
-         * Adjust the balance according to credits and debits
-         */
-        static::saved(function ($transaction) {
-            //$transaction->journal->resetCurrentBalances();
-            $journal = $transaction->journal;
-            if($transaction['credit']) {
-                $balance = $journal->balance->toAmount();
-                $journal->balance = $balance + $transaction['credit'];
-            }
-
-            if($transaction['debit']) {
-                $balance = $journal->balance->toAmount();
-                $journal->balance = $balance - $transaction['debit'];
-            }
-
-            $journal->save();
-        });
-
-        /**
-         * Deleting a transaction reverses the credits and debits
-         */
-        static::deleted(function ($transaction) {
-            $journal = $transaction->journal;
-            if ($transaction['credit']) {
-                $balance = $journal->balance->toAmount();
-                $journal->balance = $balance - $transaction['credit'];
-            }
-
-            if ($transaction['debit']) {
-                $balance = $journal->balance->toAmount();
-                $journal->balance = $balance + $transaction['debit'];
-            }
-
-            $journal->save();
-        });
-
-        parent::boot();
-    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

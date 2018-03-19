@@ -34,10 +34,8 @@ class Journal extends BaseModel
         'morphed_id',
     ];
 
-    /**
-     * @var array
-     */
     protected $dates = [
+        'created_at',
         'deleted_at',
         'updated_at'
     ];
@@ -48,20 +46,6 @@ class Journal extends BaseModel
     public function morphed()
     {
         return $this->morphTo();
-    }
-
-    /**
-     * @internal Journal $journal
-     * @throws \UnexpectedValueException
-     * @throws \InvalidArgumentException
-     */
-    protected static function boot()
-    {
-        static::created(function (Journal $journal) {
-            $journal->resetCurrentBalances();
-        });
-
-        parent::boot();
     }
 
     /**

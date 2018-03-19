@@ -3,8 +3,7 @@
 namespace App\Models;
 
 /**
- * Class Flight
- *
+ * Class FlightFields
  * @package App\Models
  */
 class FlightFields extends BaseModel
@@ -17,8 +16,6 @@ class FlightFields extends BaseModel
         'value',
     ];
 
-    protected $casts = [];
-
     public static $rules = [];
 
     /**
@@ -29,5 +26,4 @@ class FlightFields extends BaseModel
     {
         return $this->belongsTo(Flight::class, 'flight_id');
     }
-
 }

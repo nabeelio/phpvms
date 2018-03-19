@@ -135,6 +135,8 @@ class JournalRepository extends BaseRepository implements CacheableInterface
      */
     public function getBalance(Journal $journal=null, Carbon $date=null)
     {
+        $journal->refresh();
+
         if(!$date) {
             $date = Carbon::now();
         }
@@ -160,27 +162,26 @@ class JournalRepository extends BaseRepository implements CacheableInterface
         Journal $journal=null,
         Carbon $start_date=null,
         $transaction_group=null
-    ): Money {
-
-        $where = [
-            ['post_date', '<=', $date]
-        ];
+    ): Money
+    {
+        $where = [];
 
         if ($journal) {
             $where['journal_id'] = $journal->id;
-        }
-
-        if ($start_date) {
-            $where[] = ['post_date', '>=', $start_date];
         }
 
         if ($transaction_group) {
             $where['transaction_group'] = $transaction_group;
         }
 
-        $balance = $this
-            ->findWhere($where, ['id', 'credit'])
-            ->sum('credit') ?: 0;
+        $query = JournalTransaction::where($where);
+        $query = $query->whereDate('post_date', '<=', $date->toDateString());
+
+        if ($start_date) {
+            $query = $query->whereDate('post_date', '>=', $start_date->toDateString());
+        }
+
+        $balance = $query->sum('credit') ?: 0;
 
         return new Money($balance);
     }
@@ -191,6 +192,8 @@ class JournalRepository extends BaseRepository implements CacheableInterface
      * @param Carbon|null $start_date
      * @param null $transaction_group
      * @return Money
+     * @throws \UnexpectedValueException
+     * @throws \InvalidArgumentException
      */
     public function getDebitBalanceBetween(
         Carbon $date,
@@ -199,29 +202,24 @@ class JournalRepository extends BaseRepository implements CacheableInterface
         $transaction_group = null
     ): Money
     {
-
-        $date = $this->formatPostDate($date);
-
-        $where = [
-            ['post_date', '<=', $date]
-        ];
+        $where = [];
 
         if ($journal) {
             $where['journal_id'] = $journal->id;
-        }
-
-        if ($start_date) {
-            $start_date = $this->formatPostDate($start_date);
-            $where[] = ['post_date', '>=', $start_date];
         }
 
         if ($transaction_group) {
             $where['transaction_group'] = $transaction_group;
         }
 
-        $balance = $this
-            ->findWhere($where, ['id', 'debit'])
-            ->sum('debit') ?: 0;
+        $query = JournalTransaction::where($where);
+        $query = $query->whereDate('post_date', '<=', $date->toDateString());
+
+        if ($start_date) {
+            $query = $query->whereDate('post_date', '>=', $start_date->toDateString());
+        }
+
+        $balance = $query->sum('debit') ?: 0;
 
         return new Money($balance);
     }

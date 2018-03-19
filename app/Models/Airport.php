@@ -3,17 +3,18 @@
 namespace App\Models;
 
 use App\Models\Traits\ExpensableTrait;
-use Illuminate\Notifications\Notifiable;
 
 /**
  * Class Airport
+ * @property string id
+ * @property string iata
+ * @property string icao
  * @property float ground_handling_cost
  * @package App\Models
  */
 class Airport extends BaseModel
 {
     use ExpensableTrait;
-    use Notifiable;
 
     public $table = 'airports';
     public $timestamps = false;
@@ -60,32 +61,6 @@ class Airport extends BaseModel
     ];
 
     /**
-     * Callbacks
-     */
-    public static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($model) {
-            if(filled($model->iata)) {
-                $model->iata = strtoupper(trim($model->iata));
-            }
-
-            $model->icao = strtoupper(trim($model->icao));
-            $model->id = $model->icao;
-        });
-
-        static::updating(function($model) {
-            if (filled($model->iata)) {
-                $model->iata = strtoupper(trim($model->iata));
-            }
-
-            $model->icao = strtoupper(trim($model->icao));
-            $model->id = $model->icao;
-        });
-    }
-
-    /**
      * @param $icao
      */
     public function setIcaoAttribute($icao)
@@ -98,12 +73,11 @@ class Airport extends BaseModel
     /**
      * @param $iata
      */
-    public function setIataAttribute($iata)
+    public function setIataAttribute($iata): void
     {
         $iata = strtoupper($iata);
         $this->attributes['iata'] = $iata;
     }
-
 
     /**
      * Return full name like:
@@ -121,14 +95,14 @@ class Airport extends BaseModel
      */
     public function getTzAttribute(): string
     {
-        return $this->timezone;
+        return $this->attributes['timezone'];
     }
 
     /**
      * Shorthand for setting the timezone
      * @param $value
      */
-    public function setTzAttribute($value)
+    public function setTzAttribute($value): void
     {
         $this->attributes['timezone'] = $value;
     }

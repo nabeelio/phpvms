@@ -479,7 +479,7 @@ class FinanceTest extends TestCase
     /**
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
-    public function testJournalOperations()
+    public function testJournalOperations(): void
     {
         $journalRepo = app(JournalRepository::class);
 
@@ -495,6 +495,7 @@ class FinanceTest extends TestCase
 
         $balance = $journalRepo->getBalance($journal);
         $this->assertEquals(100, $balance->getValue());
+        $this->assertEquals(100, $journal->balance->getValue());
 
         # add another transaction
 
@@ -507,12 +508,9 @@ class FinanceTest extends TestCase
 
         $balance = $journalRepo->getBalance($journal);
         $this->assertEquals(125, $balance->getValue());
-
-        # Get the total balance
         $this->assertEquals(125, $journal->balance->getValue());
 
         # debit an amount
-
         $journalRepo->post(
             $journal,
             null,
@@ -522,7 +520,6 @@ class FinanceTest extends TestCase
 
         $balance = $journalRepo->getBalance($journal);
         $this->assertEquals(100, $balance->getValue());
-
         $this->assertEquals(100, $journal->balance->getValue());
 
         # find all transactions

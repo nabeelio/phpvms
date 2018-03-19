@@ -40,9 +40,9 @@ class Fare extends BaseModel
      * any foreign keys
      */
 
-    public function subfleets() {
+    public function subfleets()
+    {
         return $this->belongsToMany(Subfleet::class, 'subfleet_fare')
             ->withPivot('price', 'cost', 'capacity');
     }
-
 }

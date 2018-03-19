@@ -24,17 +24,12 @@ class Navdata extends BaseModel
         'freq'  => 'float',
     ];
 
-    protected static function boot()
+    /**
+     * Make sure the ID is in all caps
+     * @param $id
+     */
+    public function setIdAttribute($id): void
     {
-        parent::boot();
-
-        /**
-         * Make sure the ID is all caps
-         */
-        static::creating(function (Navdata $model) {
-            if (!empty($model->id)) {
-                $model->id = strtoupper($model->id);
-            }
-        });
+        $this->attributes['id'] = strtoupper($id);
     }
 }

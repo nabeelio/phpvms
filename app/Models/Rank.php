@@ -25,22 +25,27 @@ class Rank extends BaseModel
     ];
 
     protected $casts = [
-        'hours'               => 'integer',
-        'base_pay_rate'       => 'float',
-        'auto_approve_acars'  => 'bool',
+        'hours' => 'integer',
+        'base_pay_rate' => 'float',
+        'auto_approve_acars' => 'bool',
         'auto_approve_manual' => 'bool',
-        'auto_promote'        => 'bool',
+        'auto_promote' => 'bool',
     ];
 
     public static $rules = [
-        'name'  => 'required',
+        'name' => 'required',
         'hours' => 'required|integer',
         'acars_base_pay_rate' => 'nullable|numeric',
         'manual_base_pay_rate' => 'nullable|numeric',
     ];
 
-    public function subfleets() {
+    /*
+     * Relationships
+     */
+
+    public function subfleets()
+    {
         return $this->belongsToMany(Subfleet::class, 'subfleet_rank')
-                    ->withPivot('acars_pay', 'manual_pay');
+            ->withPivot('acars_pay', 'manual_pay');
     }
 }

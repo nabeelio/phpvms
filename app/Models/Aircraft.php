@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Models\Enums\AircraftStatus;
 use App\Models\Traits\ExpensableTrait;
-use App\Support\ICAO;
 
 /**
  * @property mixed subfleet_id
@@ -58,25 +57,21 @@ class Aircraft extends BaseModel
     ];
 
     /**
-     * Callbacks
+     * See if this aircraft is active
+     * @return bool
      */
-    protected static function boot()
-    {
-        parent::boot();
-        static::creating(function (Aircraft $model) {
-            if (!empty($model->icao)) {
-                $model->icao = strtoupper(trim($model->icao));
-            }
-
-            if(empty($model->hex_code)) {
-                $model->hex_code = ICAO::createHexCode();
-            }
-        });
-    }
-
-    public function getActiveAttribute()
+    public function getActiveAttribute(): bool
     {
         return $this->status === AircraftStatus::ACTIVE;
+    }
+
+    /**
+     * Capitalize the ICAO when set
+     * @param $icao
+     */
+    public function setIcaoAttribute($icao): void
+    {
+        $this->attributes['icao'] = strtoupper($icao);
     }
 
     /**

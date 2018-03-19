@@ -7,6 +7,12 @@ use App\Models\Traits\JournalTrait;
 
 /**
  * Class Airline
+ * @property string code
+ * @property string icao
+ * @property string iata
+ * @property string name
+ * @property string logo
+ * @property string country
  * @property Journal journal
  * @package App\Models
  */
@@ -63,21 +69,21 @@ class Airline extends BaseModel
         return $this->icao;
     }
 
-    protected static function boot()
+    /**
+     * Capitalize the IATA code when set
+     * @param $iata
+     */
+    public function setIataAttribute($iata)
     {
-        parent::boot();
+        $this->attributes['iata'] = strtoupper($iata);
+    }
 
-        /**
-         * IATA and ICAO should be in all caps
-         */
-        static::creating(function (Airline $model) {
-            if (!empty($model->iata)) {
-                $model->iata = strtoupper($model->iata);
-            }
-
-            if (!empty($model->icao)) {
-                $model->icao = strtoupper($model->icao);
-            }
-        });
+    /**
+     * Capitalize the ICAO when set
+     * @param $icao
+     */
+    public function setIcaoAttribute($icao): void
+    {
+        $this->attributes['icao'] = strtoupper($icao);
     }
 }

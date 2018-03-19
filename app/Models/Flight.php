@@ -4,10 +4,15 @@ namespace App\Models;
 
 use App\Models\Traits\HashIdTrait;
 use App\Support\Units\Distance;
-use App\Support\Units\Time;
 use PhpUnitsOfMeasure\Exception\NonNumericValue;
 use PhpUnitsOfMeasure\Exception\NonStringUnitName;
 
+/**
+ * @property Airline airline
+ * @property mixed flight_number
+ * @property mixed route_code
+ * @property mixed route_leg
+ */
 class Flight extends BaseModel
 {
     use HashIdTrait;
@@ -64,7 +69,7 @@ class Flight extends BaseModel
     /**
      * Get the flight ident, e.,g JBU1900
      */
-    public function getIdentAttribute()
+    public function getIdentAttribute(): string
     {
         $flight_id = $this->airline->code;
         $flight_id .= $this->flight_number;
@@ -104,7 +109,7 @@ class Flight extends BaseModel
      * Set the distance unit, convert to our internal default unit
      * @param $value
      */
-    public function setDistanceAttribute($value)
+    public function setDistanceAttribute($value): void
     {
         if($value instanceof Distance) {
             $this->attributes['distance'] = $value->toUnit(
@@ -114,30 +119,6 @@ class Flight extends BaseModel
             $this->attributes['distance'] = $value;
         }
     }
-
-    /**
-     * @return Time
-     */
-    /*public function getFlightTimeAttribute()
-    {
-        if (!array_key_exists('flight_time', $this->attributes)) {
-            return null;
-        }
-
-        return new Time($this->attributes['flight_time']);
-    }*/
-
-    /**
-     * @param $value
-     */
-    /*public function setFlightTimeAttribute($value)
-    {
-        if ($value instanceof Time) {
-            $this->attributes['flight_time'] = $value->getMinutes();
-        } else {
-            $this->attributes['flight_time'] = $value;
-        }
-    }*/
 
     /**
      * Relationship

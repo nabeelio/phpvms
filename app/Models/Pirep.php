@@ -102,7 +102,7 @@ class Pirep extends BaseModel
      * Get the flight ident, e.,g JBU1900
      * @return string
      */
-    public function getIdentAttribute()
+    public function getIdentAttribute(): string
     {
         $flight_id = $this->airline->code;
         $flight_id .= $this->flight_number;
@@ -196,7 +196,7 @@ class Pirep extends BaseModel
      * Look up the flight, based on the PIREP flight info
      * @return Flight|null
      */
-    public function getFlightAttribute()
+    public function getFlightAttribute(): ?Flight
     {
         $where = [
             'airline_id' => $this->airline_id,

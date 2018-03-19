@@ -10,7 +10,6 @@ use GeoJson\Geometry\Point;
 /**
  * Return different points/features in GeoJSON format
  * https://tools.ietf.org/html/rfc7946
- *
  * @package App\Models
  */
 class GeoJson
