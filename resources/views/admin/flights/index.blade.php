@@ -2,10 +2,11 @@
 
 @section('title', 'Flights')
 @section('actions')
+    <li><a href="{{ route('admin.flightfields.index') }}"><i class="ti-plus"></i>Fields</a></li>
     <li>
         <a href="{{ route('admin.flights.create') }}">
             <i class="ti-plus"></i>
-            Add New</a>
+            Add Flight</a>
     </li>
 @endsection
 

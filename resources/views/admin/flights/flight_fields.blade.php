@@ -9,23 +9,27 @@
         </thead>
         @endif
         <tbody>
-        @foreach($flight->field_values as $field)
+        @foreach($flight_fields as $field)
+            @php
+                $val_field = $flight->field_values->where('name', $field->name)->first();
+            @endphp
             <tr>
                 <td>{{ $field->name }}</td>
                 <td>
-                    <a class="inline" href="#" data-pk="{{ $field->id }}" data-name="{{ $field->name }}">{{ $field->value }}</a>
+                    <a class="inline" href="#" data-pk="{{ $val_field['id'] ?? '' }}" data-name="{{ $field->name }}">
+                        {{ $val_field['value'] ?? '' }}
+                    </a>
                 </td>
                 <td style="width: 10%; text-align: center;" class="form-inline">
                     {{ Form::open(['url' => '/admin/flights/'.$flight->id.'/fields',
                                     'method' => 'delete',
                                     'class' => 'pjax_form pjax_flight_fields'
                                     ]) }}
-                    {{ Form::hidden('field_id', $field->id) }}
+                    {{ Form::hidden('field_id', $val_field['id'] ?? null) }}
                     <div class='btn-group'>
                         {{ Form::button('<i class="fa fa-times"></i>',
-                                         ['type' => 'submit',
-                                          'class' => 'btn btn-danger btn-xs'])
-                          }}
+                             ['type' => 'submit', 'class' => 'btn btn-sm btn-danger btn-icon',
+                              'onclick' => "return confirm('Are you sure?')"]) }}
                     </div>
                     {{ Form::close() }}
                 </td>

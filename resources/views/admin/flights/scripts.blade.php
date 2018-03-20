@@ -1,8 +1,8 @@
 @section('scripts')
 <script>
 
-function setEditable() {
-
+const setEditable = () =>
+{
     const api_key = $('meta[name="api-key"]').attr('content');
     const csrf_token = $('meta[name="csrf-token"]').attr('content');
 
@@ -28,19 +28,17 @@ function setEditable() {
             }
         }
     });
-}
+};
 
-$(document).ready(function () {
-
-    const csrf_token = $('meta[name="csrf-token"]').attr('content');
+const setFieldsEditable = () =>
+{
     const api_key = $('meta[name="api-key"]').attr('content');
-
-    setEditable();
+    const csrf_token = $('meta[name="csrf-token"]').attr('content');
 
     $('#flight_fields_wrapper a.inline').editable({
         type: 'text',
         mode: 'inline',
-        emptytext: '0',
+        emptytext: 'no value',
         url: '{{ url('/admin/flights/'.$flight->id.'/fields') }}',
         ajaxOptions: {
             type: 'post',
@@ -58,29 +56,32 @@ $(document).ready(function () {
             }
         }
     });
+};
+
+$(document).ready(function () {
+
+    setEditable();
+    setFieldsEditable();
 
     $(document).on('submit', 'form.pjax_flight_fields', function (event) {
         event.preventDefault();
         $.pjax.submit(event, '#flight_fields_wrapper', {push: false});
-        setEditable();
     });
 
     $(document).on('submit', 'form.pjax_subfleet_form', function (event) {
         event.preventDefault();
         $.pjax.submit(event, '#subfleet_flight_wrapper', {push: false});
-        setEditable();
     });
 
     $(document).on('submit', 'form.pjax_fares_form', function (event) {
         event.preventDefault();
-        console.log(event);
         $.pjax.submit(event, '#flight_fares_wrapper', {push: false});
-        setEditable();
     });
 
     $(document).on('pjax:complete', function () {
         $(".select2").select2();
         setEditable();
+        setFieldsEditable();
     });
 });
 </script>

@@ -35,6 +35,8 @@ Route::group([
     Route::match(['get', 'post', 'put', 'delete'], 'flights/{id}/fields', 'FlightController@field_values');
     Route::match(['get', 'post', 'put', 'delete'], 'flights/{id}/subfleets', 'FlightController@subfleets');
 
+    Route::resource('flightfields', 'FlightFieldController');
+
     # pirep related routes
     Route::get('pireps/fares', 'PirepController@fares');
     Route::get('pireps/pending', 'PirepController@pending');

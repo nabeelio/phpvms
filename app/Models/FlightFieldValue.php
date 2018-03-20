@@ -6,6 +6,9 @@ use App\Interfaces\Model;
 
 /**
  * Class FlightFieldValue
+ * @property string   flight_id
+ * @property string   name
+ * @property string   value
  * @package App\Models
  */
 class FlightFieldValue extends Model

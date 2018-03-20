@@ -12,6 +12,7 @@ use App\Models\FlightFieldValue;
 use App\Repositories\AirlineRepository;
 use App\Repositories\AirportRepository;
 use App\Repositories\FareRepository;
+use App\Repositories\FlightFieldRepository;
 use App\Repositories\FlightRepository;
 use App\Repositories\SubfleetRepository;
 use App\Services\FareService;
@@ -32,25 +33,28 @@ class FlightController extends Controller
             $airportRepo,
             $fareRepo,
             $flightRepo,
+            $flightFieldRepo,
             $fareSvc,
             $flightSvc,
             $subfleetRepo;
 
     /**
      * FlightController constructor.
-     * @param AirlineRepository  $airlineRepo
-     * @param AirportRepository  $airportRepo
-     * @param FareRepository     $fareRepo
-     * @param FlightRepository   $flightRepo
-     * @param FareService        $fareSvc
-     * @param FlightService      $flightSvc
-     * @param SubfleetRepository $subfleetRepo
+     * @param AirlineRepository     $airlineRepo
+     * @param AirportRepository     $airportRepo
+     * @param FareRepository        $fareRepo
+     * @param FlightRepository      $flightRepo
+     * @param FlightFieldRepository $flightFieldRepository
+     * @param FareService           $fareSvc
+     * @param FlightService         $flightSvc
+     * @param SubfleetRepository    $subfleetRepo
      */
     public function __construct(
         AirlineRepository $airlineRepo,
         AirportRepository $airportRepo,
         FareRepository $fareRepo,
         FlightRepository $flightRepo,
+        FlightFieldRepository $flightFieldRepo,
         FareService $fareSvc,
         FlightService $flightSvc,
         SubfleetRepository $subfleetRepo
@@ -59,6 +63,7 @@ class FlightController extends Controller
         $this->airportRepo = $airportRepo;
         $this->fareRepo = $fareRepo;
         $this->flightRepo = $flightRepo;
+        $this->flightFieldRepo = $flightFieldRepo;
         $this->fareSvc = $fareSvc;
         $this->flightSvc = $flightSvc;
         $this->subfleetRepo = $subfleetRepo;
@@ -130,11 +135,12 @@ class FlightController extends Controller
     public function create()
     {
         return view('admin.flights.create', [
-            'flight'       => null,
-            'airlines'     => $this->airlineRepo->selectBoxList(),
-            'airports'     => $this->airportRepo->selectBoxList(true, false),
-            'alt_airports' => $this->airportRepo->selectBoxList(true),
-            'flight_types' => FlightType::select(true),
+            'flight'        => null,
+            'flight_fields' => $this->flightFieldRepo->all(),
+            'airlines'      => $this->airlineRepo->selectBoxList(),
+            'airports'      => $this->airportRepo->selectBoxList(true, false),
+            'alt_airports'  => $this->airportRepo->selectBoxList(true),
+            'flight_types'  => FlightType::select(true),
         ]);
     }
 
@@ -163,7 +169,6 @@ class FlightController extends Controller
         $flights = $this->flightRepo->findWhere($where);
         if ($flights->count() > 0) {
             Flash::error('Duplicate flight with same number/code/leg found, please change to proceed');
-
             return redirect()->back()->withInput($request->all());
         }
 
@@ -175,7 +180,6 @@ class FlightController extends Controller
         $flight = $this->flightRepo->create($input);
 
         Flash::success('Flight saved successfully.');
-
         return redirect(route('admin.flights.edit', $flight->id));
     }
 
@@ -189,7 +193,6 @@ class FlightController extends Controller
 
         if (empty($flight)) {
             Flash::error('Flight not found');
-
             return redirect(route('admin.flights.index'));
         }
 
@@ -197,6 +200,7 @@ class FlightController extends Controller
 
         return view('admin.flights.show', [
             'flight'          => $flight,
+            'flight_fields'   => $this->flightFieldRepo->all(),
             'avail_subfleets' => $avail_subfleets,
         ]);
     }
@@ -221,6 +225,7 @@ class FlightController extends Controller
 
         return view('admin.flights.edit', [
             'flight'          => $flight,
+            'flight_fields'   => $this->flightFieldRepo->all(),
             'airlines'        => $this->airlineRepo->selectBoxList(),
             'airports'        => $this->airportRepo->selectBoxList(),
             'alt_airports'    => $this->airportRepo->selectBoxList(true),
@@ -242,7 +247,6 @@ class FlightController extends Controller
 
         if (empty($flight)) {
             Flash::error('Flight not found');
-
             return redirect(route('admin.flights.index'));
         }
 
@@ -265,7 +269,6 @@ class FlightController extends Controller
         $flights = $this->flightRepo->findWhere($where);
         if ($flights->count() > 0) {
             Flash::error('Duplicate flight with same number/code/leg found, please change to proceed');
-
             return redirect()->back()->withInput($request->all());
         }
 
@@ -278,7 +281,6 @@ class FlightController extends Controller
         $this->flightRepo->update($input, $id);
 
         Flash::success('Flight updated successfully.');
-
         return redirect(route('admin.flights.index'));
     }
 
@@ -293,14 +295,12 @@ class FlightController extends Controller
 
         if (empty($flight)) {
             Flash::error('Flight not found');
-
             return redirect(route('admin.flights.index'));
         }
 
         $this->flightSvc->deleteFlight($flight);
 
         Flash::success('Flight deleted successfully.');
-
         return redirect(route('admin.flights.index'));
     }
 
@@ -313,7 +313,8 @@ class FlightController extends Controller
         $flight->refresh();
 
         return view('admin.flights.flight_fields', [
-            'flight' => $flight,
+            'flight'        => $flight,
+            'flight_fields' => $this->flightFieldRepo->all(),
         ]);
     }
 
@@ -323,30 +324,38 @@ class FlightController extends Controller
      */
     public function field_values(Request $request)
     {
-        $id = $request->id;
+        $flight_id = $request->id;
 
-        $flight = $this->flightRepo->findWithoutFail($id);
+        $flight = $this->flightRepo->findWithoutFail($flight_id);
         if (empty($flight)) {
             Flash::error('Flight not found');
-
             return redirect(route('admin.flights.index'));
         }
 
         // add custom field to flight
         if ($request->isMethod('post')) {
             $field = new FlightFieldValue;
-            $field->flight_id = $id;
-            $field->name = $request->name;
-            $field->value = $request->value;
+            $field->flight_id = $flight_id;
+            $field->name = $request->input('name');
+            $field->value = $request->input('value');
             $field->save();
         } elseif ($request->isMethod('put')) {
-            $field = FlightFieldValue::where('id', $request->field_id)->first();
-            $field->value = $request->value;
+            if(!$request->input('field_id')) {
+                $field = new FlightFieldValue();
+                $field->flight_id = $flight_id;
+                $field->name = $request->input('name');
+            } else {
+                $field = FlightFieldValue::where('id', $request->input('field_id'))->first();
+            }
+
+            $field->value = $request->input('value');
             $field->save();
             // update the field value
         } // remove custom field from flight
         elseif ($request->isMethod('delete')) {
-            FlightFieldValue::destroy($request->field_id);
+            if($flight_id) {
+                FlightFieldValue::destroy($request->input('field_id'));
+            }
         }
 
         return $this->return_fields_view($flight);
@@ -376,7 +385,6 @@ class FlightController extends Controller
         $flight = $this->flightRepo->findWithoutFail($id);
         if (empty($flight)) {
             Flash::error('Flight not found');
-
             return redirect(route('admin.flights.index'));
         }
 
@@ -400,8 +408,7 @@ class FlightController extends Controller
         $all_fares = $this->fareRepo->all();
         $avail_fares = $all_fares->except($flight->fares->modelKeys());
         foreach ($avail_fares as $fare) {
-            $retval[$fare->id] = $fare->name.
-                ' (base price: '.$fare->price.')';
+            $retval[$fare->id] = $fare->name.' (base price: '.$fare->price.')';
         }
 
         return $retval;
