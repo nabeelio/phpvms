@@ -61,8 +61,8 @@ reset: clean
 reload-db:
 	@php artisan database:create --reset
 	@php artisan migrate:fresh --seed
-	@php artisan phpvms:import app/Database/seeds/sample.yml
-	@php artisan phpvms:import app/Database/seeds/acars.yml
+	@php artisan phpvms:yaml-import app/Database/seeds/sample.yml
+	@php artisan phpvms:yaml-import app/Database/seeds/acars.yml
 	#php artisan phpvms:navdata
 
 .PHONY: tests

@@ -11,7 +11,7 @@ use App\Services\DatabaseService;
  */
 class YamlImport extends Command
 {
-    protected $signature = 'phpvms:import {files*}';
+    protected $signature = 'phpvms:yaml-import {files*}';
     protected $description = 'Developer commands';
     protected $dbSvc;
 
