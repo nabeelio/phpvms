@@ -114,7 +114,7 @@ class PirepController extends Controller
      * @param Pirep   $pirep
      * @param Request $request
      */
-    protected function saveCustomFields(Pirep $pirep, Request $request)
+    protected function saveCustomFields(Pirep $pirep, Request $request): void
     {
         $custom_fields = [];
         $pirep_fields = $this->pirepFieldRepo->all();
@@ -265,7 +265,6 @@ class PirepController extends Controller
 
         if (empty($pirep)) {
             Flash::error('Pirep not found');
-
             return redirect(route('admin.pireps.index'));
         }
 
@@ -358,7 +357,6 @@ class PirepController extends Controller
         $this->saveFares($pirep, $request);
 
         Flash::success('Pirep updated successfully.');
-
         return redirect(route('admin.pireps.index'));
     }
 
@@ -373,14 +371,12 @@ class PirepController extends Controller
 
         if (empty($pirep)) {
             Flash::error('Pirep not found');
-
             return redirect(route('admin.pireps.index'));
         }
 
         $this->pirepRepo->delete($id);
 
         Flash::success('Pirep deleted successfully.');
-
         return redirect(route('admin.pireps.index'));
     }
 

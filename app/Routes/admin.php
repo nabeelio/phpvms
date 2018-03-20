@@ -32,7 +32,7 @@ Route::group([
     # flights and aircraft associations
     Route::resource('flights', 'FlightController');
     Route::match(['get', 'post', 'put', 'delete'], 'flights/{id}/fares', 'FlightController@fares');
-    Route::match(['get', 'post', 'put', 'delete'], 'flights/{id}/fields', 'FlightController@fields');
+    Route::match(['get', 'post', 'put', 'delete'], 'flights/{id}/fields', 'FlightController@field_values');
     Route::match(['get', 'post', 'put', 'delete'], 'flights/{id}/subfleets', 'FlightController@subfleets');
 
     # pirep related routes

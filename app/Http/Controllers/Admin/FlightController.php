@@ -7,7 +7,8 @@ use App\Http\Requests\UpdateFlightRequest;
 use App\Interfaces\Controller;
 use App\Models\Enums\FlightType;
 use App\Models\Flight;
-use App\Models\FlightFields;
+use App\Models\FlightField;
+use App\Models\FlightFieldValue;
 use App\Repositories\AirlineRepository;
 use App\Repositories\AirportRepository;
 use App\Repositories\FareRepository;
@@ -18,6 +19,7 @@ use App\Services\FlightService;
 use App\Support\Units\Time;
 use Flash;
 use Illuminate\Http\Request;
+use Log;
 use Response;
 
 /**
@@ -60,6 +62,30 @@ class FlightController extends Controller
         $this->fareSvc = $fareSvc;
         $this->flightSvc = $flightSvc;
         $this->subfleetRepo = $subfleetRepo;
+    }
+
+    /**
+     * Save any custom fields found
+     * @param Flight  $flight
+     * @param Request $request
+     */
+    protected function saveCustomFields(Flight $flight, Request $request): void
+    {
+        $custom_fields = [];
+        $flight_fields = FlightField::all();
+        foreach ($flight_fields as $field) {
+            if (!$request->filled($field->slug)) {
+                continue;
+            }
+
+            $custom_fields[] = [
+                'name'   => $field->name,
+                'value'  => $request->input($field->slug)
+            ];
+        }
+
+        Log::info('PIREP Custom Fields', $custom_fields);
+        $this->flightSvc->updateCustomFields($flight->id, $custom_fields);
     }
 
     /**
@@ -295,7 +321,7 @@ class FlightController extends Controller
      * @param Request $request
      * @return mixed
      */
-    public function fields(Request $request)
+    public function field_values(Request $request)
     {
         $id = $request->id;
 
@@ -308,19 +334,19 @@ class FlightController extends Controller
 
         // add custom field to flight
         if ($request->isMethod('post')) {
-            $field = new FlightFields;
+            $field = new FlightFieldValue;
             $field->flight_id = $id;
             $field->name = $request->name;
             $field->value = $request->value;
             $field->save();
         } elseif ($request->isMethod('put')) {
-            $field = FlightFields::where('id', $request->field_id)->first();
+            $field = FlightFieldValue::where('id', $request->field_id)->first();
             $field->value = $request->value;
             $field->save();
             // update the field value
         } // remove custom field from flight
         elseif ($request->isMethod('delete')) {
-            FlightFields::destroy($request->field_id);
+            FlightFieldValue::destroy($request->field_id);
         }
 
         return $this->return_fields_view($flight);

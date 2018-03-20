@@ -62,11 +62,13 @@ $(document).ready(function () {
     $(document).on('submit', 'form.pjax_flight_fields', function (event) {
         event.preventDefault();
         $.pjax.submit(event, '#flight_fields_wrapper', {push: false});
+        setEditable();
     });
 
     $(document).on('submit', 'form.pjax_subfleet_form', function (event) {
         event.preventDefault();
         $.pjax.submit(event, '#subfleet_flight_wrapper', {push: false});
+        setEditable();
     });
 
     $(document).on('submit', 'form.pjax_fares_form', function (event) {

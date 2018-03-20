@@ -14,7 +14,7 @@ class CreateFlightTables extends Migration
     public function up()
     {
         Schema::create('flights', function (Blueprint $table) {
-            $table->string('id', \App\Models\Flight::ID_MAX_LENGTH);
+            $table->string('id', \App\Interfaces\Model::ID_MAX_LENGTH);
             $table->unsignedInteger('airline_id');
             $table->string('flight_number', 10);
             $table->string('route_code', 5)->nullable();
@@ -42,7 +42,7 @@ class CreateFlightTables extends Migration
         });
 
         Schema::create('flight_fare', function (Blueprint $table) {
-            $table->string('flight_id', \App\Models\Flight::ID_MAX_LENGTH);
+            $table->string('flight_id', \App\Interfaces\Model::ID_MAX_LENGTH);
             $table->unsignedInteger('fare_id');
             $table->string('price', 10)->nullable();
             $table->string('cost', 10)->nullable();
@@ -52,9 +52,21 @@ class CreateFlightTables extends Migration
             $table->primary(['flight_id', 'fare_id']);
         });
 
+        /**
+         * Hold a master list of fields
+         */
         Schema::create('flight_fields', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('flight_id', \App\Models\Flight::ID_MAX_LENGTH);
+            $table->string('name', 50);
+            $table->string('slug', 50)->nullable();
+        });
+
+        /**
+         * The values for the actual fields
+         */
+        Schema::create('flight_field_values', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('flight_id', \App\Interfaces\Model::ID_MAX_LENGTH);
             $table->string('name', 50);
             $table->text('value');
             $table->timestamps();

@@ -6,6 +6,7 @@ use App\Exceptions\BidExists;
 use App\Interfaces\Service;
 use App\Models\Bid;
 use App\Models\Flight;
+use App\Models\FlightFieldValue;
 use App\Models\User;
 use App\Repositories\FlightRepository;
 use App\Repositories\NavdataRepository;
@@ -104,11 +105,31 @@ class FlightService extends Service
      * @param Flight $flight
      * @throws \Exception
      */
-    public function deleteFlight(Flight $flight)
+    public function deleteFlight(Flight $flight): void
     {
         $where = ['flight_id' => $flight->id];
         Bid::where($where)->delete();
         $flight->delete();
+    }
+
+    /**
+     * Update any custom PIREP fields
+     * @param Flight  $flight_id
+     * @param array   $field_values
+     */
+    public function updateCustomFields(Flight $flight_id, array $field_values): void
+    {
+        foreach ($field_values as $fv) {
+            FlightFieldValue::updateOrCreate(
+                [
+                    'flight_id' => $flight_id,
+                    'name'     => $fv['name'],
+                ],
+                [
+                    'value'  => $fv['value']
+                ]
+            );
+        }
     }
 
     /**

@@ -346,6 +346,12 @@ flights:
     updated_at: NOW
 
 flight_fields:
+  - name: Departure Gate
+    slug: departure_gate
+  - name: Arrival Gate
+    slug: arrival_gate
+
+flight_field_values:
   - id: 1
     flight_id: flightid_1
     name: cost index

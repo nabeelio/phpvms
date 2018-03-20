@@ -1,15 +1,15 @@
 <div id="flight_fields_wrapper">
     <h3>custom fields</h3><br />
     <table class="table table-responsive" id="flight-fields-table">
-        @if(count($flight->fields))
+        @if(count($flight->field_values))
         <thead>
         <th>Name</th>
-        <th style="text-align: center;">Value</th>
-        <th style="text-align: center;">Actions</th>
+        <th>Value</th>
+        <th></th>
         </thead>
         @endif
         <tbody>
-        @foreach($flight->fields as $field)
+        @foreach($flight->field_values as $field)
             <tr>
                 <td>{{ $field->name }}</td>
                 <td>

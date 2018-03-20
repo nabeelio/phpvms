@@ -34,8 +34,6 @@ class Pirep extends Model
 {
     use HashIdTrait;
 
-    public const ID_MAX_LENGTH = 12;
-
     public $table = 'pireps';
     public $incrementing = false;
 

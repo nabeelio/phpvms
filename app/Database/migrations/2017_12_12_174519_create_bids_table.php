@@ -16,7 +16,7 @@ class CreateBidsTable extends Migration
         Schema::create('bids', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('user_id');
-            $table->string('flight_id', \App\Models\Flight::ID_MAX_LENGTH);
+            $table->string('flight_id', \App\Interfaces\Model::ID_MAX_LENGTH);
             $table->timestamps();
 
             $table->index('user_id');

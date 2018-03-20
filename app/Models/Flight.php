@@ -10,17 +10,17 @@ use PhpUnitsOfMeasure\Exception\NonNumericValue;
 use PhpUnitsOfMeasure\Exception\NonStringUnitName;
 
 /**
- * @property Airline     airline
- * @property mixed       flight_number
- * @property mixed       route_code
- * @property mixed       route_leg
- * @property Collection  fields
+ * @property string     id
+ * @property Airline    airline
+ * @property mixed      flight_number
+ * @property mixed      route_code
+ * @property mixed      route_leg
+ * @property Collection field_values
  */
 class Flight extends Model
 {
     use HashIdTrait;
 
-    public const ID_MAX_LENGTH = 12;
     public $table = 'flights';
     public $incrementing = false;
 
@@ -130,7 +130,7 @@ class Flight extends Model
      */
     public function field($field_name): string
     {
-        $field = $this->fields->where('name', $field_name)->first();
+        $field = $this->field_values->where('name', $field_name)->first();
         if($field) {
             return $field['value'];
         }
@@ -168,9 +168,9 @@ class Flight extends Model
             ->withPivot('price', 'cost', 'capacity');
     }
 
-    public function fields()
+    public function field_values()
     {
-        return $this->hasMany(FlightFields::class, 'flight_id');
+        return $this->hasMany(FlightFieldValue::class, 'flight_id');
     }
 
     public function subfleets()

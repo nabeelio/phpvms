@@ -5,12 +5,12 @@ namespace App\Models;
 use App\Interfaces\Model;
 
 /**
- * Class FlightFields
+ * Class FlightFieldValue
  * @package App\Models
  */
-class FlightFields extends Model
+class FlightFieldValue extends Model
 {
-    public $table = 'flight_fields';
+    public $table = 'flight_field_values';
 
     public $fillable = [
         'flight_id',
