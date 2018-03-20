@@ -8,6 +8,7 @@ use App\Models\Traits\ExpensableTrait;
 
 /**
  * Class Subfleet
+ * @property int     id
  * @property string  type
  * @property string  ground_handling_multiplier
  * @package App\Models
@@ -81,7 +82,7 @@ class Subfleet extends Model
 
     public function flights()
     {
-        return $this->belongsToMany(Flight::class, 'subfleet_flight');
+        return $this->belongsToMany(Flight::class, 'flight_subfleet');
     }
 
     public function ranks()

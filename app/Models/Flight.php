@@ -175,6 +175,6 @@ class Flight extends Model
 
     public function subfleets()
     {
-        return $this->belongsToMany(Subfleet::class, 'subfleet_flight');
+        return $this->belongsToMany(Subfleet::class, 'flight_subfleet');
     }
 }

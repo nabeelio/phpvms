@@ -73,6 +73,15 @@ class CreateFlightTables extends Migration
 
             $table->index('flight_id');
         });
+
+        Schema::create('flight_subfleet', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->unsignedInteger('subfleet_id');
+            $table->string('flight_id', \App\Interfaces\Model::ID_MAX_LENGTH);
+
+            $table->index(['subfleet_id', 'flight_id']);
+            $table->index(['flight_id', 'subfleet_id']);
+        });
     }
 
     /**
@@ -84,6 +93,7 @@ class CreateFlightTables extends Migration
     {
         Schema::drop('flight_fields');
         Schema::drop('flight_fare');
+        Schema::drop('flight_subfleet');
         Schema::drop('flights');
     }
 }
