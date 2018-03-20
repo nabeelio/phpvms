@@ -3,15 +3,17 @@
 namespace App\Interfaces;
 
 /**
- * Class EnumBase
- * Borrowing some features from https://github.com/myclabs/php-enum
- * after this was created :)
+ * Borrowed some ideas from myclabs/php-enum after this was created
  * @package App\Models\Enums
  */
 abstract class Enum
 {
     protected static $labels = [];
     protected static $cache = [];
+
+    /**
+     * @var integer
+     */
     protected $value;
 
     /**
@@ -27,7 +29,7 @@ abstract class Enum
      * Return the value that's been set if this is an instance
      * @return mixed
      */
-    public function getValue()
+    final public function getValue()
     {
         return $this->value;
     }
@@ -37,7 +39,7 @@ abstract class Enum
      * @param $value
      * @return mixed
      */
-    public static function label($value)
+    final public static function label($value)
     {
         if (isset(static::$labels[$value])) {
             return trans(static::$labels[$value]);
@@ -47,7 +49,7 @@ abstract class Enum
     /**
      * Return all of the (translated) labels
      */
-    public static function labels()
+    final public static function labels(): array
     {
         $labels = [];
         foreach (static::$labels as $key => $label) {
@@ -58,9 +60,11 @@ abstract class Enum
     }
 
     /**
-     * Select box
+     * Select box entry items
+     * @param bool    $add_blank
+     * @return array
      */
-    public static function select($add_blank = false)
+    public static function select($add_blank = false): array
     {
         $labels = [];
         if ($add_blank) {
@@ -79,7 +83,7 @@ abstract class Enum
      * @return array Constant name in key, constant value in value
      * @throws \ReflectionException
      */
-    public static function toArray()
+    public static function toArray(): array
     {
         $class = static::class;
         if (!array_key_exists($class, static::$cache)) {
@@ -94,7 +98,7 @@ abstract class Enum
      * @param Enum $enum
      * @return bool
      */
-    protected function equals(Enum $enum): bool
+    final public function equals(Enum $enum): bool
     {
         return $this->getValue() === $enum->getValue() && get_called_class() == get_class($enum);
     }
