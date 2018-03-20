@@ -5,15 +5,16 @@ namespace App\Models;
 use App\Interfaces\Model;
 use App\Models\Traits\HashIdTrait;
 use App\Support\Units\Distance;
+use Illuminate\Support\Collection;
 use PhpUnitsOfMeasure\Exception\NonNumericValue;
 use PhpUnitsOfMeasure\Exception\NonStringUnitName;
 
 /**
- * @property Airline         airline
- * @property mixed           flight_number
- * @property mixed           route_code
- * @property mixed           route_leg
- * @property FlightFields[]  fields
+ * @property Airline     airline
+ * @property mixed       flight_number
+ * @property mixed       route_code
+ * @property mixed       route_leg
+ * @property Collection  fields
  */
 class Flight extends Model
 {
@@ -127,7 +128,7 @@ class Flight extends Model
      * @param $field_name
      * @return string
      */
-    public function field($field_name)
+    public function field($field_name): string
     {
         $field = $this->fields->where('name', $field_name)->first();
         if($field) {

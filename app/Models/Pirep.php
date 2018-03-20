@@ -8,6 +8,7 @@ use App\Models\Enums\PirepState;
 use App\Models\Traits\HashIdTrait;
 use App\Support\Units\Distance;
 use App\Support\Units\Fuel;
+use Illuminate\Support\Collection;
 use PhpUnitsOfMeasure\Exception\NonNumericValue;
 use PhpUnitsOfMeasure\Exception\NonStringUnitName;
 
@@ -26,6 +27,7 @@ use PhpUnitsOfMeasure\Exception\NonStringUnitName;
  * @property integer     flight_time    In minutes
  * @property User        user
  * @property Flight|null flight
+ * @property Collection  fields
  * @package App\Models
  */
 class Pirep extends Model
@@ -270,6 +272,21 @@ class Pirep extends Model
         }
 
         return true;
+    }
+
+    /**
+     * Return a custom field value
+     * @param $field_name
+     * @return string
+     */
+    public function field($field_name): string
+    {
+        $field = $this->fields->where('name', $field_name)->first();
+        if ($field) {
+            return $field['value'];
+        }
+
+        return '';
     }
 
     /**
