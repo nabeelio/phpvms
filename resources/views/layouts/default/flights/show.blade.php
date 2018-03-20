@@ -4,7 +4,7 @@
 @section('content')
 <div class="row">
     <div class="col-md-12">
-        <h3 class="description">{{ $flight->ident }} - {{ $flight->dpt_airport->full_name }} to {{ $flight->arr_airport->full_name }}</h3>
+        <h2 class="description">{{ $flight->ident }} - {{ $flight->dpt_airport->full_name }} to {{ $flight->arr_airport->full_name }}</h2>
     </div>
 </div>
 

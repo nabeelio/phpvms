@@ -37,8 +37,7 @@ class FlightController extends Controller
         AirportRepository $airportRepo,
         FlightRepository $flightRepo,
         GeoService $geoSvc
-    )
-    {
+    ) {
         $this->airlineRepo = $airlineRepo;
         $this->airportRepo = $airportRepo;
         $this->flightRepo = $flightRepo;
@@ -51,7 +50,9 @@ class FlightController extends Controller
      */
     public function index(Request $request)
     {
-        $where = ['active' => true];
+        $where = [
+            'active' => true
+        ];
 
         // default restrictions on the flights shown. Handle search differently
         if (setting('pilots.only_flights_from_current')) {
@@ -70,6 +71,27 @@ class FlightController extends Controller
             ->pluck('flight_id')->toArray();
 
         return view('flights.index', [
+            'airlines' => $this->airlineRepo->selectBoxList(true),
+            'airports' => $this->airportRepo->selectBoxList(true),
+            'flights'  => $flights,
+            'saved'    => $saved_flights,
+        ]);
+    }
+
+    /**
+     * Find the user's bids and display them
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function bids(Request $request)
+    {
+        $user = Auth::user();
+
+        $flights = $user->flights()->paginate();
+        $saved_flights = $flights->pluck('id')->toArray();
+
+        return view('flights.index', [
+            'title'    => 'Bids',
             'airlines' => $this->airlineRepo->selectBoxList(true),
             'airports' => $this->airportRepo->selectBoxList(true),
             'flights'  => $flights,

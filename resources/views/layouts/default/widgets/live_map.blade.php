@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-md-12">
-        <h3 class="description">flight map</h3>
+        <h2 class="description">Current Flights</h2>
         <div class="box-body">
             <div id="map" style="width: {{ $config['width'] }}; height: {{ $config['height'] }}"></div>
         </div>

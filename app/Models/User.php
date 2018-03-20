@@ -168,6 +168,18 @@ class User extends Authenticatable
         return $this->belongsTo(Pirep::class, 'last_pirep_id');
     }
 
+    /**
+     * These are the flights they've bid on
+     */
+    public function flights()
+    {
+        return $this->belongsToMany(Flight::class, 'bids');
+    }
+
+    /**
+     * The bid rows
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function bids()
     {
         return $this->hasMany(Bid::class, 'user_id');
