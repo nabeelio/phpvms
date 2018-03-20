@@ -9,10 +9,11 @@ use PhpUnitsOfMeasure\Exception\NonNumericValue;
 use PhpUnitsOfMeasure\Exception\NonStringUnitName;
 
 /**
- * @property Airline airline
- * @property mixed   flight_number
- * @property mixed   route_code
- * @property mixed   route_leg
+ * @property Airline         airline
+ * @property mixed           flight_number
+ * @property mixed           route_code
+ * @property mixed           route_leg
+ * @property FlightFields[]  fields
  */
 class Flight extends Model
 {
@@ -119,6 +120,21 @@ class Flight extends Model
         } else {
             $this->attributes['distance'] = $value;
         }
+    }
+
+    /**
+     * Return a custom field value
+     * @param $field_name
+     * @return string
+     */
+    public function field($field_name)
+    {
+        $field = $this->fields->where('name', $field_name)->first();
+        if($field) {
+            return $field['value'];
+        }
+
+        return '';
     }
 
     /**
