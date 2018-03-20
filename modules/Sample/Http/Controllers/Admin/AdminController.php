@@ -2,10 +2,13 @@
 
 namespace Modules\Sample\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use App\Interfaces\Controller;
 use Illuminate\Http\Request;
 
-
+/**
+ * Class AdminController
+ * @package Modules\Sample\Http\Controllers\Admin
+ */
 class AdminController extends Controller
 {
     /**

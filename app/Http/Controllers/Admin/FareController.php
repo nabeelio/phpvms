@@ -4,15 +4,19 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\CreateFareRequest;
 use App\Http\Requests\UpdateFareRequest;
+use App\Interfaces\Controller;
 use App\Repositories\FareRepository;
 use Flash;
 use Illuminate\Http\Request;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 
-class FareController extends BaseController
+/**
+ * Class FareController
+ * @package App\Http\Controllers\Admin
+ */
+class FareController extends Controller
 {
-    /** @var  FareRepository */
     private $fareRepository;
 
     /**
@@ -75,6 +79,7 @@ class FareController extends BaseController
         $fare = $this->fareRepository->findWithoutFail($id);
         if (empty($fare)) {
             Flash::error('Fare not found');
+
             return redirect(route('admin.fares.index'));
         }
 
@@ -91,6 +96,7 @@ class FareController extends BaseController
         $fare = $this->fareRepository->findWithoutFail($id);
         if (empty($fare)) {
             Flash::error('Fare not found');
+
             return redirect(route('admin.fares.index'));
         }
 
@@ -99,7 +105,7 @@ class FareController extends BaseController
 
     /**
      * Update the specified Fare in storage.
-     * @param  int $id
+     * @param  int              $id
      * @param UpdateFareRequest $request
      * @return Response
      * @throws \Prettus\Validator\Exceptions\ValidatorException
@@ -109,6 +115,7 @@ class FareController extends BaseController
         $fare = $this->fareRepository->findWithoutFail($id);
         if (empty($fare)) {
             Flash::error('Fare not found');
+
             return redirect(route('admin.fares.index'));
         }
 
@@ -128,6 +135,7 @@ class FareController extends BaseController
         $fare = $this->fareRepository->findWithoutFail($id);
         if (empty($fare)) {
             Flash::error('Fare not found');
+
             return redirect(route('admin.fares.index'));
         }
 

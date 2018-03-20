@@ -2,17 +2,23 @@
 
 namespace Modules\Installer\Http\Controllers;
 
-use Log;
+use App\Interfaces\Controller;
 use Illuminate\Http\Request;
-
-use App\Http\Controllers\Controller;
-
+use Log;
 use Modules\Installer\Services\MigrationService;
 
+/**
+ * Class UpdaterController
+ * @package Modules\Installer\Http\Controllers
+ */
 class UpdaterController extends Controller
 {
-    protected $migrationSvc;
+    private $migrationSvc;
 
+    /**
+     * UpdaterController constructor.
+     * @param MigrationService $migrationSvc
+     */
     public function __construct(
         MigrationService $migrationSvc
     ) {

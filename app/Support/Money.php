@@ -16,7 +16,6 @@ class Money
 {
     public $money;
     public $subunit_amount;
-
     public static $iso_currencies;
     public static $subunit_multiplier;
 
@@ -60,6 +59,7 @@ class Money
      * Create a new currency object using the currency setting
      * Fall back to USD if it's not valid
      * @return Currency
+     * @throws \OutOfBoundsException
      */
     public static function currency()
     {
@@ -68,7 +68,6 @@ class Money
         } catch (\OutOfBoundsException $e) {
             return new Currency('USD');
         }
-
     }
 
     /**
@@ -145,16 +144,19 @@ class Money
     /**
      * Add an amount
      * @param $amount
+     * @return Money
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
      */
     public function add($amount)
     {
-        if(!($amount instanceof self)) {
+        if (!($amount instanceof self)) {
             $amount = static::createFromAmount($amount);
         }
 
         $this->money = $this->money->add($amount->money);
+
+        return $this;
     }
 
     /**
@@ -166,11 +168,12 @@ class Money
     public function addPercent($percent)
     {
         if (!is_numeric($percent)) {
-            $percent = (float)$percent;
+            $percent = (float) $percent;
         }
 
         $amount = $this->money->multiply($percent / 100);
         $this->money = $this->money->add($amount);
+
         return $this;
     }
 
@@ -188,6 +191,7 @@ class Money
         }
 
         $this->money = $this->money->subtract($amount->money);
+
         return $this;
     }
 
@@ -206,6 +210,7 @@ class Money
         }
 
         $this->money = $this->money->multiply($amount->money);
+
         return $this;
     }
 
@@ -230,15 +235,16 @@ class Money
      */
     public function equals($money)
     {
-        if($money instanceof self) {
+        if ($money instanceof self) {
             return $this->money->equals($money->money);
         }
 
-        if($money instanceof MoneyBase) {
+        if ($money instanceof MoneyBase) {
             return $this->money->equals($money);
         }
 
         $money = static::convertToSubunit($money);
+
         return $this->money->equals(static::create($money));
     }
 }

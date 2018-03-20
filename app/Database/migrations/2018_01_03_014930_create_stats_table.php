@@ -22,7 +22,6 @@ class CreateStatsTable extends Migration
             $table->primary('id');
             $table->timestamps();
         });
-
         /*$this->addCounterGroups([
             'flights' => 1,
         ]);

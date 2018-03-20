@@ -14,12 +14,11 @@ use App\Listeners\FinanceEvents;
 use App\Listeners\NotificationEvents;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
-
 class EventServiceProvider extends ServiceProvider
 {
     protected $listen = [
 
-        Expenses::class => [
+        Expenses::class    => [
             ExpenseListener::class
         ],
 
@@ -40,7 +39,6 @@ class EventServiceProvider extends ServiceProvider
             AwardListener::class,
         ],
     ];
-
     protected $subscribe = [
         FinanceEvents::class,
         NotificationEvents::class,

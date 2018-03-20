@@ -10,10 +10,9 @@ use Illuminate\Queue\SerializesModels;
 class UserPending extends Mailable
 {
     use Queueable, SerializesModels;
-
     public $subject, $user;
 
-    public function __construct(User $user, $subject=null)
+    public function __construct(User $user, $subject = null)
     {
         $this->subject = $subject ?: 'Your registration is pending!';
         $this->user = $user;
@@ -22,7 +21,7 @@ class UserPending extends Mailable
     public function build()
     {
         return $this->markdown('emails.user.pending')
-                    ->subject($this->subject)
-                    ->with(['user' => $this->user]);
+            ->subject($this->subject)
+            ->with(['user' => $this->user]);
     }
 }

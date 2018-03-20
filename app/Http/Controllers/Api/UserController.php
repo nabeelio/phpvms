@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Resources\Bid as BidResource;
-use App\Http\Resources\Flight as FlightResource;
 use App\Http\Resources\Pirep as PirepResource;
 use App\Http\Resources\Subfleet as SubfleetResource;
 use App\Http\Resources\User as UserResource;
-use App\Models\Enums\PirepState;
+use App\Interfaces\Controller;
 use App\Models\Bid;
+use App\Models\Enums\PirepState;
 use App\Repositories\Criteria\WhereCriteria;
 use App\Repositories\FlightRepository;
 use App\Repositories\PirepRepository;
@@ -21,24 +21,27 @@ use Illuminate\Http\Request;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Prettus\Repository\Exceptions\RepositoryException;
 
-
-class UserController extends RestController
+/**
+ * Class UserController
+ * @package App\Http\Controllers\Api
+ */
+class UserController extends Controller
 {
-    protected $flightRepo,
-              $flightSvc,
-              $pirepRepo,
-              $subfleetRepo,
-              $userRepo,
-              $userSvc;
+    private $flightRepo,
+            $flightSvc,
+            $pirepRepo,
+            $subfleetRepo,
+            $userRepo,
+            $userSvc;
 
     /**
      * UserController constructor.
-     * @param FlightRepository $flightRepo
-     * @param FlightService $flightSvc
-     * @param PirepRepository $pirepRepo
+     * @param FlightRepository   $flightRepo
+     * @param FlightService      $flightSvc
+     * @param PirepRepository    $pirepRepo
      * @param SubfleetRepository $subfleetRepo
-     * @param UserRepository $userRepo
-     * @param UserService $userSvc
+     * @param UserRepository     $userRepo
+     * @param UserService        $userSvc
      */
     public function __construct(
         FlightRepository $flightRepo,
@@ -106,11 +109,12 @@ class UserController extends RestController
             $flight_id = $request->input('flight_id');
             $flight = $this->flightRepo->find($flight_id);
             $bid = $this->flightSvc->addBid($flight, $user);
+
             return new BidResource($bid);
         }
 
         if ($request->isMethod('DELETE')) {
-            if($request->filled('bid_id')) {
+            if ($request->filled('bid_id')) {
                 $bid = Bid::findOrFail($request->input('bid_id'));
                 $flight_id = $bid->flight_id;
             } else {
@@ -123,6 +127,7 @@ class UserController extends RestController
 
         # Return the flights they currently have bids on
         $bids = Bid::where(['user_id' => $user->id])->get();
+
         return BidResource::collection($bids);
     }
 
@@ -152,7 +157,7 @@ class UserController extends RestController
             'user_id' => $this->getUserId($request),
         ];
 
-        if(filled($request->query('state'))) {
+        if (filled($request->query('state'))) {
             $where['state'] = $request->query('state');
         } else {
             $where[] = ['state', '!=', PirepState::CANCELLED];

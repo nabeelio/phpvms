@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\CreateAirportRequest;
 use App\Http\Requests\UpdateAirportRequest;
+use App\Interfaces\Controller;
 use App\Models\Airport;
 use App\Models\Expense;
 use App\Repositories\AirportRepository;
@@ -13,14 +14,15 @@ use Illuminate\Http\Request;
 use Jackiedo\Timezonelist\Facades\Timezonelist;
 use Response;
 
-
-class AirportController extends BaseController
+/**
+ * Class AirportController
+ * @package App\Http\Controllers\Admin
+ */
+class AirportController extends Controller
 {
-    /** @var  AirportRepository */
     private $airportRepo;
 
     /**
-     * AirportController constructor.
      * @param AirportRepository $airportRepo
      */
     public function __construct(
@@ -38,14 +40,14 @@ class AirportController extends BaseController
     public function index(Request $request)
     {
         $where = [];
-        if($request->has('icao')) {
+        if ($request->has('icao')) {
             $where['icao'] = $request->get('icao');
         }
 
         $this->airportRepo->pushCriteria(new WhereCriteria($request, $where));
         $airports = $this->airportRepo
-                         ->orderBy('icao', 'asc')
-                         ->paginate();
+            ->orderBy('icao', 'asc')
+            ->paginate();
 
         return view('admin.airports.index', [
             'airports' => $airports,
@@ -77,6 +79,7 @@ class AirportController extends BaseController
         $this->airportRepo->create($input);
 
         Flash::success('Airport saved successfully.');
+
         return redirect(route('admin.airports.index'));
     }
 
@@ -91,6 +94,7 @@ class AirportController extends BaseController
 
         if (empty($airport)) {
             Flash::error('Airport not found');
+
             return redirect(route('admin.airports.index'));
         }
 
@@ -110,18 +114,19 @@ class AirportController extends BaseController
 
         if (empty($airport)) {
             Flash::error('Airport not found');
+
             return redirect(route('admin.airports.index'));
         }
 
         return view('admin.airports.edit', [
             'timezones' => Timezonelist::toArray(),
-            'airport' => $airport,
+            'airport'   => $airport,
         ]);
     }
 
     /**
      * Update the specified Airport in storage.
-     * @param  int $id
+     * @param  int                 $id
      * @param UpdateAirportRequest $request
      * @return Response
      * @throws \Prettus\Validator\Exceptions\ValidatorException
@@ -132,6 +137,7 @@ class AirportController extends BaseController
 
         if (empty($airport)) {
             Flash::error('Airport not found');
+
             return redirect(route('admin.airports.index'));
         }
 
@@ -141,6 +147,7 @@ class AirportController extends BaseController
         $this->airportRepo->update($attrs, $id);
 
         Flash::success('Airport updated successfully.');
+
         return redirect(route('admin.airports.index'));
     }
 
@@ -155,12 +162,14 @@ class AirportController extends BaseController
 
         if (empty($airport)) {
             Flash::error('Airport not found');
+
             return redirect(route('admin.airports.index'));
         }
 
         $this->airportRepo->delete($id);
 
         Flash::success('Airport deleted successfully.');
+
         return redirect(route('admin.airports.index'));
     }
 
@@ -171,6 +180,7 @@ class AirportController extends BaseController
     protected function return_expenses_view(?Airport $airport)
     {
         $airport->refresh();
+
         return view('admin.airports.expenses', [
             'airport' => $airport,
         ]);
@@ -178,7 +188,7 @@ class AirportController extends BaseController
 
     /**
      * Operations for associating ranks to the subfleet
-     * @param $id
+     * @param         $id
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      * @throws \Exception
@@ -224,6 +234,7 @@ class AirportController extends BaseController
         $airport = $this->airportRepo->findWithoutFail($id);
         if (empty($airport)) {
             Flash::error('Flight not found');
+
             return redirect(route('admin.flights.index'));
         }
 

@@ -6,8 +6,10 @@
 
 namespace App\Models;
 
+use App\Interfaces\Model;
+
 /**
- * @property string id  UUID type
+ * @property string  id  UUID type
  * @property string  currency
  * @property string  memo
  * @property string  transaction_group
@@ -18,9 +20,10 @@ namespace App\Models;
  * @property integer ref_class_id
  * @property Journal journal
  */
-class JournalTransaction extends BaseModel
+class JournalTransaction extends Model
 {
     protected $table = 'journal_transactions';
+
     public $incrementing = false;
 
     public $fillable = [
@@ -59,7 +62,7 @@ class JournalTransaction extends BaseModel
     }
 
     /**
-     * @param BaseModel $object
+     * @param Model $object
      * @return JournalTransaction
      */
     public function referencesObject($object)
@@ -67,6 +70,7 @@ class JournalTransaction extends BaseModel
         $this->ref_class = \get_class($object);
         $this->ref_class_id = $object->id;
         $this->save();
+
         return $this;
     }
 
@@ -77,8 +81,10 @@ class JournalTransaction extends BaseModel
     {
         if ($classname = $this->ref_class) {
             $klass = new $this->ref_class;
+
             return $klass->find($this->ref_class_id);
         }
+
         return false;
     }
 

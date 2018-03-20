@@ -2,16 +2,21 @@
 
 namespace App\Services;
 
+use App\Interfaces\Service;
 use App\Repositories\FlightRepository;
 
 /**
  * Class ImporterService
  * @package App\Services
  */
-class ImporterService extends BaseService
+class ImporterService extends Service
 {
     protected $flightRepo;
 
+    /**
+     * ImporterService constructor.
+     * @param FlightRepository $flightRepo
+     */
     public function __construct(
         FlightRepository $flightRepo
     ) {
@@ -20,13 +25,13 @@ class ImporterService extends BaseService
 
     /**
      * Set a key-value pair to an array
-     * @param $kvp_str
+     * @param       $kvp_str
      * @param array $arr
      */
     protected function setKvp($kvp_str, array &$arr)
     {
         $item = explode('=', $kvp_str);
-        if(\count($item) === 1) {  # just a list?
+        if (\count($item) === 1) {  # just a list?
             $arr[] = trim($item[0]);
         } else {  # actually a key-value pair
             $k = trim($item[0]);
@@ -52,15 +57,14 @@ class ImporterService extends BaseService
         $split_values = explode(';', $field);
 
         # No multiple values in here, just a straight value
-        if(\count($split_values) === 1) {
+        if (\count($split_values) === 1) {
             return $split_values[0];
         }
 
-        foreach($split_values as $value) {
-
+        foreach ($split_values as $value) {
             # This isn't in the query string format, so it's
             # just a straight key-value pair set
-            if(strpos($value, '?') === false) {
+            if (strpos($value, '?') === false) {
                 $this->setKvp($value, $ret);
                 continue;
             }
@@ -73,7 +77,7 @@ class ImporterService extends BaseService
 
             $children = [];
             $kvp = explode('&', trim($query_str[1]));
-            foreach($kvp as $items) {
+            foreach ($kvp as $items) {
                 $this->setKvp($items, $children);
             }
 
@@ -85,11 +89,10 @@ class ImporterService extends BaseService
 
     /**
      * Import flights
-     * @param $csv_str
+     * @param      $csv_str
      * @param bool $delete_previous
      */
-    public function importFlights($csv_str, bool $delete_previous=true)
+    public function importFlights($csv_str, bool $delete_previous = true)
     {
-
     }
 }

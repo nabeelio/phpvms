@@ -11,6 +11,9 @@ use App\Support\ICAO;
  */
 class AircraftObserver
 {
+    /**
+     * @param Aircraft $aircraft
+     */
     public function creating(Aircraft $aircraft): void
     {
         if (empty($aircraft->hex_code)) {

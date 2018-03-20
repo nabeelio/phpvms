@@ -4,6 +4,10 @@ namespace App\Models\Observers;
 
 use App\Models\Setting;
 
+/**
+ * Class SettingObserver
+ * @package App\Models\Observers
+ */
 class SettingObserver
 {
     /**

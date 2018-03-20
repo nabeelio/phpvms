@@ -2,21 +2,23 @@
 
 namespace App\Models;
 
+use App\Interfaces\Model;
 use App\Models\Enums\AircraftStatus;
 use App\Models\Traits\ExpensableTrait;
 
 /**
- * @property mixed subfleet_id
- * @property string name
- * @property string icao
- * @property string registration
- * @property string hex_code
- * @property Airport airport
+ * @property mixed    subfleet_id
+ * @property string   name
+ * @property string   icao
+ * @property string   registration
+ * @property string   hex_code
+ * @property Airport  airport
  * @property Subfleet subfleet
- * @property int status
- * @property int state
+ * @property int      status
+ * @property int      state
+ * @package App\Models
  */
-class Aircraft extends BaseModel
+class Aircraft extends Model
 {
     use ExpensableTrait;
 
@@ -40,10 +42,10 @@ class Aircraft extends BaseModel
      * @var array
      */
     protected $casts = [
-        'subfleet_id'   => 'integer',
-        'zfw'           => 'float',
-        'status'        => 'integer',
-        'state'         => 'integer',
+        'subfleet_id' => 'integer',
+        'zfw'         => 'float',
+        'status'      => 'integer',
+        'state'       => 'integer',
     ];
 
     /**
@@ -53,7 +55,7 @@ class Aircraft extends BaseModel
      */
     public static $rules = [
         'subfleet_id' => 'required',
-        'name'         => 'required',
+        'name'        => 'required',
     ];
 
     /**

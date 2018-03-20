@@ -2,13 +2,14 @@
 
 namespace App\Widgets;
 
+use App\Interfaces\Widget;
 use App\Repositories\PirepRepository;
 
 /**
  * Show the latest PIREPs in a view
  * @package App\Widgets
  */
-class LatestPireps extends BaseWidget
+class LatestPireps extends Widget
 {
     protected $config = [
         'count' => 5,

@@ -6,11 +6,15 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
 use Route;
 
-
+/**
+ * Class $CLASS$
+ * @package $NAMESPACE$
+ */
 class $CLASS$ extends ServiceProvider
 {
+    private $moduleSvc;
+
     protected $defer = false;
-    protected $moduleSvc;
 
     /**
      * Boot the application events.

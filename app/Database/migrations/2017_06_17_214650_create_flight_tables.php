@@ -6,7 +6,6 @@ use Illuminate\Database\Schema\Blueprint;
 
 class CreateFlightTables extends Migration
 {
-
     /**
      * Run the migrations.
      *

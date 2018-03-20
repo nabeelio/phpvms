@@ -1,0 +1,21 @@
+<?php
+
+namespace {{namespace}};
+
+use App\Interfaces\Widget;
+
+/**
+ * Class {{class}}
+ * @package {{namespace}}
+ */
+class {{class}} extends Widget
+{
+    /**
+     * Treat this method as a controller action.
+     * Return view() or other content to display.
+     */
+    public function run()
+    {
+        //
+    }
+}

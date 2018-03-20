@@ -4,7 +4,9 @@ namespace App\Listeners;
 
 use App\Events\UserRegistered;
 use App\Events\UserStateChanged;
+use App\Interfaces\Listener;
 use App\Models\Enums\UserState;
+use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Support\Facades\Mail;
 use Log;
 
@@ -12,9 +14,12 @@ use Log;
  * Handle sending emails on different events
  * @package App\Listeners
  */
-class NotificationEvents
+class NotificationEvents extends Listener
 {
-    public function subscribe($events)
+    /**
+     * @param Dispatcher $events
+     */
+    public function subscribe(Dispatcher $events): void
     {
         $events->listen(
             \App\Events\UserRegistered::class,
@@ -30,7 +35,7 @@ class NotificationEvents
     /**
      * @return bool
      */
-    protected function mailerActive()
+    protected function mailerActive(): bool
     {
         if (empty(config('mail.host'))) {
             Log::info('No mail host specified!');
@@ -49,7 +54,7 @@ class NotificationEvents
     {
         try {
             return Mail::to($to)->send($email);
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             Log::error('Error sending email!');
             Log::error($e);
         }
@@ -59,14 +64,14 @@ class NotificationEvents
      * Send an email when the user registered
      * @param UserRegistered $event
      */
-    public function onUserRegister(UserRegistered $event)
+    public function onUserRegister(UserRegistered $event): void
     {
         Log::info('onUserRegister: '
-                  . $event->user->pilot_id . ' is '
-                  . UserState::label($event->user->state)
-                  . ', sending active email');
+            .$event->user->pilot_id.' is '
+            .UserState::label($event->user->state)
+            .', sending active email');
 
-        if(!$this->mailerActive()) {
+        if (!$this->mailerActive()) {
             return;
         }
 
@@ -80,9 +85,9 @@ class NotificationEvents
         }
 
         # Then notify the user
-        if($event->user->state === UserState::ACTIVE) {
+        if ($event->user->state === UserState::ACTIVE) {
             $email = new \App\Mail\UserRegistered($event->user);
-        } else if($event->user->state === UserState::PENDING) {
+        } else if ($event->user->state === UserState::PENDING) {
             $email = new \App\Mail\UserPending($event->user);
         }
 
@@ -93,7 +98,7 @@ class NotificationEvents
      * When a user's state changes, send an email out
      * @param UserStateChanged $event
      */
-    public function onUserStateChange(UserStateChanged $event)
+    public function onUserStateChange(UserStateChanged $event): void
     {
         if (!$this->mailerActive()) {
             return;
@@ -102,17 +107,14 @@ class NotificationEvents
         if ($event->old_state === UserState::PENDING) {
             if ($event->user->state === UserState::ACTIVE) {
                 $email = new \App\Mail\UserRegistered($event->user,
-                                                      'Your registration has been accepted!');
+                    'Your registration has been accepted!');
             } else if ($event->user->state === UserState::REJECTED) {
                 $email = new \App\Mail\UserRejected($event->user);
             }
             $this->sendEmail($event->user->email, $email);
-        }
-
-        # TODO: Other state transitions
-        elseif ($event->old_state === UserState::ACTIVE)
-        {
-
+        } # TODO: Other state transitions
+        elseif ($event->old_state === UserState::ACTIVE) {
+            Log::info('User state change from active to ??');
         }
     }
 }

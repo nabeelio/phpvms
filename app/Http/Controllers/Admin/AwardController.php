@@ -4,19 +4,25 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\CreateAwardRequest;
 use App\Http\Requests\UpdateAwardRequest;
+use App\Interfaces\Controller;
 use App\Repositories\AwardRepository;
 use App\Services\AwardService;
-use Illuminate\Http\Request;
 use Flash;
+use Illuminate\Http\Request;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 
-class AwardController extends BaseController
+class AwardController extends Controller
 {
     /** @var  AwardRepository */
     private $awardRepository,
-            $awardSvc;
+        $awardSvc;
 
+    /**
+     * AwardController constructor.
+     * @param AwardRepository $awardRepo
+     * @param AwardService    $awardSvc
+     */
     public function __construct(
         AwardRepository $awardRepo,
         AwardService $awardSvc
@@ -38,13 +44,13 @@ class AwardController extends BaseController
         $descriptions = [];
 
         $award_classes = $this->awardSvc->findAllAwardClasses();
-        foreach($award_classes as $class_ref => $award) {
+        foreach ($award_classes as $class_ref => $award) {
             $awards[$class_ref] = $award->name;
             $descriptions[$class_ref] = $award->param_description;
         }
 
         return [
-            'awards' => $awards,
+            'awards'       => $awards,
             'descriptions' => $descriptions,
         ];
     }
@@ -72,8 +78,9 @@ class AwardController extends BaseController
     public function create()
     {
         $class_refs = $this->getAwardClassesAndDescriptions();
+
         return view('admin.awards.create', [
-            'award_classes' => $class_refs['awards'],
+            'award_classes'      => $class_refs['awards'],
             'award_descriptions' => $class_refs['descriptions'],
         ]);
     }
@@ -103,6 +110,7 @@ class AwardController extends BaseController
         $award = $this->awardRepository->findWithoutFail($id);
         if (empty($award)) {
             Flash::error('Award not found');
+
             return redirect(route('admin.awards.index'));
         }
 
@@ -121,20 +129,22 @@ class AwardController extends BaseController
         $award = $this->awardRepository->findWithoutFail($id);
         if (empty($award)) {
             Flash::error('Award not found');
+
             return redirect(route('admin.awards.index'));
         }
 
         $class_refs = $this->getAwardClassesAndDescriptions();
+
         return view('admin.awards.edit', [
-            'award' => $award,
-            'award_classes' => $class_refs['awards'],
+            'award'              => $award,
+            'award_classes'      => $class_refs['awards'],
             'award_descriptions' => $class_refs['descriptions'],
         ]);
     }
 
     /**
      * Update the specified award in storage.
-     * @param  int $id
+     * @param  int               $id
      * @param UpdateAwardRequest $request
      * @return Response
      * @throws \Prettus\Validator\Exceptions\ValidatorException
@@ -144,6 +154,7 @@ class AwardController extends BaseController
         $award = $this->awardRepository->findWithoutFail($id);
         if (empty($award)) {
             Flash::error('Award not found');
+
             return redirect(route('admin.awards.index'));
         }
 
@@ -165,6 +176,7 @@ class AwardController extends BaseController
         $award = $this->awardRepository->findWithoutFail($id);
         if (empty($award)) {
             Flash::error('Fare not found');
+
             return redirect(route('admin.awards.index'));
         }
 

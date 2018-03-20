@@ -37,14 +37,14 @@ class Math
      */
     public static function addPercent($number, $percent): float
     {
-        if(!is_numeric($number)) {
+        if (!is_numeric($number)) {
             $number = (float) $number;
         }
 
-        if(!is_numeric($percent)) {
+        if (!is_numeric($percent)) {
             $percent = (float) $percent;
         }
 
-        return $number + ($number * ($percent/100));
+        return $number + ($number * ($percent / 100));
     }
 }

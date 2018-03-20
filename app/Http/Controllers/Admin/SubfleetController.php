@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\CreateSubfleetRequest;
 use App\Http\Requests\UpdateSubfleetRequest;
+use App\Interfaces\Controller;
 use App\Models\Airline;
 use App\Models\Enums\FuelType;
 use App\Models\Expense;
@@ -19,9 +20,12 @@ use Illuminate\Http\Request;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 
-class SubfleetController extends BaseController
+/**
+ * Class SubfleetController
+ * @package App\Http\Controllers\Admin
+ */
+class SubfleetController extends Controller
 {
-    /** @var  SubfleetRepository */
     private $aircraftRepo,
             $fareRepo,
             $fareSvc,
@@ -32,11 +36,11 @@ class SubfleetController extends BaseController
     /**
      * SubfleetController constructor.
      * @param AircraftRepository $aircraftRepo
-     * @param FleetService $fleetSvc
-     * @param RankRepository $rankRepo
+     * @param FleetService       $fleetSvc
+     * @param RankRepository     $rankRepo
      * @param SubfleetRepository $subfleetRepo
-     * @param FareRepository $fareRepo
-     * @param FareService $fareSvc
+     * @param FareRepository     $fareRepo
+     * @param FareService        $fareSvc
      */
     public function __construct(
         AircraftRepository $aircraftRepo,
@@ -112,7 +116,7 @@ class SubfleetController extends BaseController
     public function create()
     {
         return view('admin.subfleets.create', [
-            'airlines' => Airline::all()->pluck('name', 'id'),
+            'airlines'   => Airline::all()->pluck('name', 'id'),
             'fuel_types' => FuelType::labels(),
         ]);
     }
@@ -129,6 +133,7 @@ class SubfleetController extends BaseController
         $subfleet = $this->subfleetRepo->create($input);
 
         Flash::success('Subfleet saved successfully.');
+
         return redirect(route('admin.subfleets.edit', ['id' => $subfleet->id]));
     }
 
@@ -143,12 +148,14 @@ class SubfleetController extends BaseController
 
         if (empty($subfleet)) {
             Flash::error('Subfleet not found');
+
             return redirect(route('admin.subfleets.index'));
         }
 
         $avail_fares = $this->getAvailFares($subfleet);
+
         return view('admin.subfleets.show', [
-            'subfleet' => $subfleet,
+            'subfleet'    => $subfleet,
             'avail_fares' => $avail_fares,
         ]);
     }
@@ -164,6 +171,7 @@ class SubfleetController extends BaseController
 
         if (empty($subfleet)) {
             Flash::error('Subfleet not found');
+
             return redirect(route('admin.subfleets.index'));
         }
 
@@ -171,17 +179,17 @@ class SubfleetController extends BaseController
         $avail_ranks = $this->getAvailRanks($subfleet);
 
         return view('admin.subfleets.edit', [
-            'airlines' => Airline::all()->pluck('name', 'id'),
-            'fuel_types'    => FuelType::labels(),
-            'avail_fares'   => $avail_fares,
-            'avail_ranks'   => $avail_ranks,
-            'subfleet'      => $subfleet,
+            'airlines'    => Airline::all()->pluck('name', 'id'),
+            'fuel_types'  => FuelType::labels(),
+            'avail_fares' => $avail_fares,
+            'avail_ranks' => $avail_ranks,
+            'subfleet'    => $subfleet,
         ]);
     }
 
     /**
      * Update the specified Subfleet in storage.
-     * @param  int $id
+     * @param  int                  $id
      * @param UpdateSubfleetRequest $request
      * @return Response
      * @throws \Prettus\Validator\Exceptions\ValidatorException
@@ -192,12 +200,14 @@ class SubfleetController extends BaseController
 
         if (empty($subfleet)) {
             Flash::error('Subfleet not found');
+
             return redirect(route('admin.subfleets.index'));
         }
 
         $this->subfleetRepo->update($request->all(), $id);
 
         Flash::success('Subfleet updated successfully.');
+
         return redirect(route('admin.subfleets.index'));
     }
 
@@ -212,20 +222,23 @@ class SubfleetController extends BaseController
 
         if (empty($subfleet)) {
             Flash::error('Subfleet not found');
+
             return redirect(route('admin.subfleets.index'));
         }
 
         # Make sure no aircraft are assigned to this subfleet
         # before trying to delete it, or else things might go boom
         $aircraft = $this->aircraftRepo->findWhere(['subfleet_id' => $id], ['id']);
-        if($aircraft->count() > 0) {
+        if ($aircraft->count() > 0) {
             Flash::error('There are aircraft still assigned to this subfleet, you can\'t delete it!')->important();
+
             return redirect(route('admin.subfleets.index'));
         }
 
         $this->subfleetRepo->delete($id);
 
         Flash::success('Subfleet deleted successfully.');
+
         return redirect(route('admin.subfleets.index'));
     }
 
@@ -240,7 +253,7 @@ class SubfleetController extends BaseController
         $avail_ranks = $this->getAvailRanks($subfleet);
 
         return view('admin.subfleets.ranks', [
-            'subfleet' => $subfleet,
+            'subfleet'    => $subfleet,
             'avail_ranks' => $avail_ranks,
         ]);
     }
@@ -263,7 +276,7 @@ class SubfleetController extends BaseController
 
     /**
      * Operations for associating ranks to the subfleet
-     * @param $id
+     * @param         $id
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
@@ -284,23 +297,20 @@ class SubfleetController extends BaseController
         if ($request->isMethod('post')) {
             $rank = $this->rankRepo->find($request->input('rank_id'));
             $this->fleetSvc->addSubfleetToRank($subfleet, $rank);
-        }
-
-        elseif ($request->isMethod('put')) {
+        } elseif ($request->isMethod('put')) {
             $override = [];
             $rank = $this->rankRepo->find($request->input('rank_id'));
             $override[$request->name] = $request->value;
 
             $this->fleetSvc->addSubfleetToRank($subfleet, $rank, $override);
-        }
-
-        // dissassociate fare from teh aircraft
+        } // dissassociate fare from teh aircraft
         elseif ($request->isMethod('delete')) {
             $rank = $this->rankRepo->find($request->input('rank_id'));
             $this->fleetSvc->removeSubfleetFromRank($subfleet, $rank);
         }
 
         $subfleet->save();
+
         return $this->return_ranks_view($subfleet);
     }
 
@@ -311,6 +321,7 @@ class SubfleetController extends BaseController
     protected function return_expenses_view(?Subfleet $subfleet)
     {
         $subfleet->refresh();
+
         return view('admin.subfleets.expenses', [
             'subfleet' => $subfleet,
         ]);
@@ -318,7 +329,7 @@ class SubfleetController extends BaseController
 
     /**
      * Operations for associating ranks to the subfleet
-     * @param $id
+     * @param         $id
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      * @throws \Exception
@@ -357,7 +368,7 @@ class SubfleetController extends BaseController
 
     /**
      * Operations on fares to the subfleet
-     * @param $id
+     * @param         $id
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
@@ -379,17 +390,13 @@ class SubfleetController extends BaseController
         if ($request->isMethod('post')) {
             $fare = $this->fareRepo->find($request->fare_id);
             $this->fareSvc->setForSubfleet($subfleet, $fare);
-        }
-
-        // update the pivot table with overrides for the fares
+        } // update the pivot table with overrides for the fares
         elseif ($request->isMethod('put')) {
             $override = [];
             $fare = $this->fareRepo->find($request->fare_id);
             $override[$request->name] = $request->value;
             $this->fareSvc->setForSubfleet($subfleet, $fare, $override);
-        }
-
-        // dissassociate fare from teh aircraft
+        } // dissassociate fare from teh aircraft
         elseif ($request->isMethod('delete')) {
             $fare = $this->fareRepo->find($request->fare_id);
             $this->fareSvc->delFareFromSubfleet($subfleet, $fare);

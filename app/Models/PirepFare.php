@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use App\Interfaces\Model;
+
 /**
  * Class PirepFare
  * @package App\Models
  */
-class PirepFare extends BaseModel
+class PirepFare extends Model
 {
     public $table = 'pirep_fares';
     public $timestamps = false;

@@ -35,7 +35,7 @@ class CreateSubfleetTables extends Migration
             $table->index(['fare_id', 'subfleet_id']);
         });
 
-        Schema::create('subfleet_flight', function(Blueprint $table) {
+        Schema::create('subfleet_flight', function (Blueprint $table) {
             $table->unsignedInteger('subfleet_id');
             $table->string('flight_id', 12);
 
@@ -43,7 +43,7 @@ class CreateSubfleetTables extends Migration
             $table->index(['flight_id', 'subfleet_id']);
         });
 
-        Schema::create('subfleet_rank', function(Blueprint $table) {
+        Schema::create('subfleet_rank', function (Blueprint $table) {
             $table->unsignedInteger('rank_id');
             $table->unsignedInteger('subfleet_id');
             $table->string('acars_pay')->nullable();

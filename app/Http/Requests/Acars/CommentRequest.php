@@ -18,7 +18,7 @@ class CommentRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'comment' => 'required',
+            'comment'    => 'required',
             'created_at' => 'nullable|date',
         ];
 

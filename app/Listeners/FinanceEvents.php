@@ -4,24 +4,33 @@ namespace App\Listeners;
 
 use App\Events\PirepAccepted;
 use App\Events\PirepRejected;
+use App\Interfaces\Listener;
 use App\Services\Finance\PirepFinanceService;
+use Illuminate\Contracts\Events\Dispatcher;
 
 /**
  * Subscribe for events that we do some financial processing for
  * This includes when a PIREP is accepted, or rejected
  * @package App\Listeners
  */
-class FinanceEvents
+class FinanceEvents extends Listener
 {
     private $financeSvc;
 
+    /**
+     * FinanceEvents constructor.
+     * @param PirepFinanceService $financeSvc
+     */
     public function __construct(
         PirepFinanceService $financeSvc
     ) {
         $this->financeSvc = $financeSvc;
     }
 
-    public function subscribe($events)
+    /**
+     * @param $events
+     */
+    public function subscribe(Dispatcher $events): void
     {
         $events->listen(
             PirepAccepted::class,
@@ -42,7 +51,7 @@ class FinanceEvents
      * @throws \Exception
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
-    public function onPirepAccept(PirepAccepted $event)
+    public function onPirepAccept(PirepAccepted $event): void
     {
         $this->financeSvc->processFinancesForPirep($event->pirep);
     }
@@ -54,7 +63,7 @@ class FinanceEvents
      * @throws \InvalidArgumentException
      * @throws \Exception
      */
-    public function onPirepReject(PirepRejected $event)
+    public function onPirepReject(PirepRejected $event): void
     {
         $this->financeSvc->deleteFinancesForPirep($event->pirep);
     }

@@ -2,12 +2,11 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Aircraft;
+use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateAircraftRequest extends FormRequest
 {
-
     /**
      * Determine if the user is authorized to make this request.
      *

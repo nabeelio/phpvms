@@ -14,7 +14,7 @@ class PirepComment extends Resource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return array
      */
     public function toArray($request)
@@ -22,13 +22,13 @@ class PirepComment extends Resource
         $user = $this->user;
 
         return [
-            'id'            => $this->id,
-            'comment'       => $this->comment,
-            'created_at'    => $this->created_at,
-            'user' => [
-                'id'        => $user->id,
-                'pilot_id'  => $user->pilot_id,
-                'name'      => $user->name,
+            'id'         => $this->id,
+            'comment'    => $this->comment,
+            'created_at' => $this->created_at,
+            'user'       => [
+                'id'       => $user->id,
+                'pilot_id' => $user->pilot_id,
+                'name'     => $user->name,
             ],
         ];
     }

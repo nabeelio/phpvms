@@ -3,6 +3,7 @@
 namespace App\Listeners\Cron\Monthly;
 
 use App\Events\CronMonthly;
+use App\Interfaces\Listener;
 use App\Models\Enums\ExpenseType;
 use App\Services\Finance\RecurringFinanceService;
 
@@ -10,13 +11,17 @@ use App\Services\Finance\RecurringFinanceService;
  * Go through and apply any finances that are daily
  * @package App\Listeners\Cron\Nightly
  */
-class ApplyExpenses
+class ApplyExpenses extends Listener
 {
-    private $dfSvc;
+    private $financeSvc;
 
-    public function __construct(RecurringFinanceService $dfSvc)
+    /**
+     * ApplyExpenses constructor.
+     * @param RecurringFinanceService $financeSvc
+     */
+    public function __construct(RecurringFinanceService $financeSvc)
     {
-        $this->dfSvc = $dfSvc;
+        $this->financeSvc = $financeSvc;
     }
 
     /**
@@ -26,8 +31,8 @@ class ApplyExpenses
      * @throws \InvalidArgumentException
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
-    public function handle(CronMonthly $event)
+    public function handle(CronMonthly $event): void
     {
-        $this->dfSvc->processExpenses(ExpenseType::MONTHLY);
+        $this->financeSvc->processExpenses(ExpenseType::MONTHLY);
     }
 }

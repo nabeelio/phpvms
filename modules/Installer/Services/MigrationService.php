@@ -2,6 +2,7 @@
 
 namespace Modules\Installer\Services;
 
+use App\Interfaces\Service;
 use Log;
 use Nwidart\Modules\Facades\Module;
 
@@ -9,7 +10,7 @@ use Nwidart\Modules\Facades\Module;
  * Class MigrationsService
  * @package Modules\Installer\Services
  */
-class MigrationService
+class MigrationService extends Service
 {
     /**
      * @return \Illuminate\Database\Migrations\Migrator

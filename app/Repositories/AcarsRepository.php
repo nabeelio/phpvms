@@ -2,15 +2,21 @@
 
 namespace App\Repositories;
 
+use App\Interfaces\Repository;
 use App\Models\Acars;
 use App\Models\Enums\AcarsType;
 use App\Models\Enums\PirepState;
 use App\Models\Pirep;
 
-class AcarsRepository extends BaseRepository //implements CacheableInterface
+/**
+ * Class AcarsRepository
+ * @package App\Repositories
+ */
+class AcarsRepository extends Repository
 {
-    //use CacheableRepository;
-
+    /**
+     * @return string
+     */
     public function model()
     {
         return Acars::class;
@@ -25,10 +31,10 @@ class AcarsRepository extends BaseRepository //implements CacheableInterface
     {
         $where = [
             'pirep_id' => $pirep_id,
-            'type' => $type,
+            'type'     => $type,
         ];
 
-        switch($type) {
+        switch ($type) {
             default:
             case AcarsType::FLIGHT_PATH:
             case AcarsType::LOG:
@@ -50,8 +56,8 @@ class AcarsRepository extends BaseRepository //implements CacheableInterface
     public function getPositions()
     {
         return Pirep::with(['airline', 'position'])
-                ->where(['state' => PirepState::IN_PROGRESS])
-                ->get();
+            ->where(['state' => PirepState::IN_PROGRESS])
+            ->get();
     }
 
     /**

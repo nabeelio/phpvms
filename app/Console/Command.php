@@ -2,12 +2,20 @@
 
 namespace App\Console;
 
-use Illuminate\Console\Command;
-use Symfony\Component\Process\Process;
 use Log;
+use Symfony\Component\Process\Process;
 
-class BaseCommand extends Command
+/**
+ * Class BaseCommand
+ * @package App\Console
+ */
+abstract class Command extends \Illuminate\Console\Command
 {
+    /**
+     * @return mixed
+     */
+    abstract public function handle();
+
     /**
      * Splice the logger and replace the active handlers with
      * the handlers from the "cron" stack in config/logging.php
@@ -17,7 +25,7 @@ class BaseCommand extends Command
      *
      * @param string $channel_name Channel name to grab the handlers from
      */
-    public function redirectLoggingToStdout($channel_name)
+    public function redirectLoggingToStdout($channel_name): void
     {
         $logger = app(\Illuminate\Log\Logger::class);
 
@@ -28,7 +36,7 @@ class BaseCommand extends Command
                 $handler->close();
             }
         } catch (\Exception $e) {
-            $this->error('Error closing handlers: ' . $e->getMessage());
+            $this->error('Error closing handlers: '.$e->getMessage());
         }
 
         // Open the handlers for the channel name,
@@ -38,7 +46,7 @@ class BaseCommand extends Command
                 Log::channel($channel_name)->getHandlers()
             );
         } catch (\Exception $e) {
-            $this->error('Couldn\'t splice the logger: ' . $e->getMessage());
+            $this->error('Couldn\'t splice the logger: '.$e->getMessage());
         }
     }
 
@@ -47,10 +55,9 @@ class BaseCommand extends Command
      * @param $filename
      * @return \Generator
      */
-    public function readFile($filename)
+    public function readFile($filename): ?\Generator
     {
         $fp = fopen($filename, 'rb');
-
         while (($line = fgets($fp)) !== false) {
             $line = rtrim($line, "\r\n");
             if ($line[0] === ';') {
@@ -64,20 +71,20 @@ class BaseCommand extends Command
     }
 
     /**
-     * @param $cmd
+     * @param      $cmd
      * @param bool $return
      * @return string
      * @throws \Symfony\Component\Process\Exception\RuntimeException
      * @throws \Symfony\Component\Process\Exception\LogicException
      */
-    public function runCommand($cmd, $return = false, $verbose = true)
+    public function runCommand($cmd, $return = false, $verbose = true): string
     {
         if (\is_array($cmd)) {
             $cmd = join(' ', $cmd);
         }
 
         if ($verbose) {
-            $this->info('Running "' . $cmd . '"');
+            $this->info('Running "'.$cmd.'"');
         }
 
         $val = '';

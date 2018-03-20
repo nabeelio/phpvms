@@ -17,6 +17,7 @@ class Velocity extends \PhpUnitsOfMeasure\PhysicalQuantity\Velocity implements A
     {
         $unit = setting('units.speed');
         $value = $this->toUnit($unit);
+
         return (string) round($value, 2);
     }
 
@@ -36,7 +37,7 @@ class Velocity extends \PhpUnitsOfMeasure\PhysicalQuantity\Velocity implements A
     {
         return [
             'knots' => round($this->toUnit('knots'), 2),
-            'km/h' => round($this->toUnit('km/h'), 2),
+            'km/h'  => round($this->toUnit('km/h'), 2),
         ];
     }
 

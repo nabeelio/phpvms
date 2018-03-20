@@ -1,12 +1,11 @@
 <?php
 
-
 /**
  * User doesn't need to be logged in for these
  */
 Route::group([
     'namespace' => 'Frontend', 'prefix' => '', 'as' => 'frontend.'
-], function() {
+], function () {
     Route::get('/', 'HomeController@index')->name('home');
     Route::get('r/{id}', 'PirepController@show')->name('pirep.show.public');
     Route::get('p/{id}', 'ProfileController@show')->name('profile.show.public');
@@ -21,7 +20,7 @@ Route::group([
  * These are only visible to a logged in user
  */
 Route::group([
-    'namespace' => 'Frontend', 'prefix' => '', 'as' => 'frontend.',
+    'namespace'  => 'Frontend', 'prefix' => '', 'as' => 'frontend.',
     'middleware' => ['role:admin|user'],
 ], function () {
     Route::resource('dashboard', 'DashboardController');

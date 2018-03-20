@@ -4,6 +4,10 @@ namespace $NAMESPACE$;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
+/**
+ * Class $CLASS$
+ * @package $NAMESPACE$
+ */
 class $CLASS$ extends ResourceCollection
 {
     /**

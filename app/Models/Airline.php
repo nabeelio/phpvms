@@ -2,21 +2,22 @@
 
 namespace App\Models;
 
+use App\Interfaces\Model;
 use App\Models\Enums\JournalType;
 use App\Models\Traits\JournalTrait;
 
 /**
  * Class Airline
- * @property string code
- * @property string icao
- * @property string iata
- * @property string name
- * @property string logo
- * @property string country
+ * @property string  code
+ * @property string  icao
+ * @property string  iata
+ * @property string  name
+ * @property string  logo
+ * @property string  country
  * @property Journal journal
  * @package App\Models
  */
-class Airline extends BaseModel
+class Airline extends Model
 {
     use JournalTrait;
 
@@ -40,7 +41,6 @@ class Airline extends BaseModel
 
     /**
      * The attributes that should be casted to native types.
-     *
      * @var array
      */
     protected $casts = [
@@ -51,21 +51,21 @@ class Airline extends BaseModel
 
     /**
      * Validation rules
-     *
      * @var array
      */
     public static $rules = [
-        'country'   => 'nullable',
-        'iata'      => 'nullable|max:5',
-        'icao'      => 'required|max:5',
-        'logo'      => 'nullable',
-        'name'      => 'required',
+        'country' => 'nullable',
+        'iata'    => 'nullable|max:5',
+        'icao'    => 'required|max:5',
+        'logo'    => 'nullable',
+        'name'    => 'required',
     ];
 
     /**
      * For backwards compatibility
      */
-    public function getCodeAttribute() {
+    public function getCodeAttribute()
+    {
         return $this->icao;
     }
 

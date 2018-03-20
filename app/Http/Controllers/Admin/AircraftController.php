@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\CreateAircraftRequest;
 use App\Http\Requests\UpdateAircraftRequest;
+use App\Interfaces\Controller;
 use App\Models\Aircraft;
 use App\Models\Enums\AircraftStatus;
 use App\Models\Expense;
@@ -13,8 +14,11 @@ use Flash;
 use Illuminate\Http\Request;
 use Prettus\Repository\Criteria\RequestCriteria;
 
-
-class AircraftController extends BaseController
+/**
+ * Class AircraftController
+ * @package App\Http\Controllers\Admin
+ */
+class AircraftController extends Controller
 {
     private $aircraftRepo;
 
@@ -49,7 +53,7 @@ class AircraftController extends BaseController
     {
         return view('admin.aircraft.create', [
             'subfleets' => Subfleet::all()->pluck('name', 'id'),
-            'statuses' => AircraftStatus::select(true),
+            'statuses'  => AircraftStatus::select(true),
         ]);
     }
 
@@ -63,6 +67,7 @@ class AircraftController extends BaseController
         $aircraft = $this->aircraftRepo->create($attrs);
 
         Flash::success('Aircraft saved successfully.');
+
         return redirect(route('admin.aircraft.edit', ['id' => $aircraft->id]));
     }
 
@@ -75,11 +80,12 @@ class AircraftController extends BaseController
 
         if (empty($aircraft)) {
             Flash::error('Aircraft not found');
+
             return redirect(route('admin.aircraft.index'));
         }
 
         return view('admin.aircraft.show', [
-            'aircraft'    => $aircraft,
+            'aircraft' => $aircraft,
         ]);
     }
 
@@ -92,12 +98,13 @@ class AircraftController extends BaseController
 
         if (empty($aircraft)) {
             Flash::error('Aircraft not found');
+
             return redirect(route('admin.aircraft.index'));
         }
 
         return view('admin.aircraft.edit', [
             'subfleets' => Subfleet::all()->pluck('name', 'id'),
-            'statuses' => AircraftStatus::select(true),
+            'statuses'  => AircraftStatus::select(true),
             'aircraft'  => $aircraft,
         ]);
     }
@@ -112,6 +119,7 @@ class AircraftController extends BaseController
 
         if (empty($aircraft)) {
             Flash::error('Aircraft not found');
+
             return redirect(route('admin.aircraft.index'));
         }
 
@@ -119,6 +127,7 @@ class AircraftController extends BaseController
         $this->aircraftRepo->update($attrs, $id);
 
         Flash::success('Aircraft updated successfully.');
+
         return redirect(route('admin.aircraft.index'));
     }
 
@@ -131,12 +140,14 @@ class AircraftController extends BaseController
 
         if (empty($aircraft)) {
             Flash::error('Aircraft not found');
+
             return redirect(route('admin.aircraft.index'));
         }
 
         $this->aircraftRepo->delete($id);
 
         Flash::success('Aircraft deleted successfully.');
+
         return redirect(route('admin.aircraft.index'));
     }
 
@@ -147,6 +158,7 @@ class AircraftController extends BaseController
     protected function return_expenses_view(?Aircraft $aircraft)
     {
         $aircraft->refresh();
+
         return view('admin.aircraft.expenses', [
             'aircraft' => $aircraft,
         ]);
@@ -154,7 +166,7 @@ class AircraftController extends BaseController
 
     /**
      * Operations for associating ranks to the subfleet
-     * @param $id
+     * @param         $id
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      * @throws \Exception

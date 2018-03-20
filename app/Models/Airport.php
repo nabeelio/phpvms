@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Interfaces\Model;
 use App\Models\Traits\ExpensableTrait;
 
 /**
@@ -9,10 +10,10 @@ use App\Models\Traits\ExpensableTrait;
  * @property string id
  * @property string iata
  * @property string icao
- * @property float ground_handling_cost
+ * @property float  ground_handling_cost
  * @package App\Models
  */
-class Airport extends BaseModel
+class Airport extends Model
 {
     use ExpensableTrait;
 
@@ -38,26 +39,26 @@ class Airport extends BaseModel
     ];
 
     protected $casts = [
-        'lat' => 'float',
-        'lon' => 'float',
-        'hub' => 'boolean',
+        'lat'                  => 'float',
+        'lon'                  => 'float',
+        'hub'                  => 'boolean',
         'ground_handling_cost' => 'float',
-        'fuel_100ll_cost' => 'float',
-        'fuel_jeta_cost' => 'float',
-        'fuel_mogas_cost' => 'float',
+        'fuel_100ll_cost'      => 'float',
+        'fuel_jeta_cost'       => 'float',
+        'fuel_mogas_cost'      => 'float',
     ];
 
     /**
      * Validation rules
      */
     public static $rules = [
-        'icao'                  => 'required',
-        'iata'                  => 'nullable',
-        'name'                  => 'required',
-        'location'              => 'nullable',
-        'lat'                   => 'required|numeric',
-        'lon'                   => 'required|numeric',
-        'ground_handling_cost'  => 'nullable|numeric',
+        'icao'                 => 'required',
+        'iata'                 => 'nullable',
+        'name'                 => 'required',
+        'location'             => 'nullable',
+        'lat'                  => 'required|numeric',
+        'lon'                  => 'required|numeric',
+        'ground_handling_cost' => 'nullable|numeric',
     ];
 
     /**
@@ -86,7 +87,7 @@ class Airport extends BaseModel
      */
     public function getFullNameAttribute(): string
     {
-        return $this->icao . ' - ' . $this->name;
+        return $this->icao.' - '.$this->name;
     }
 
     /**

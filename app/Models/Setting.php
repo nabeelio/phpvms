@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Interfaces\Model;
+
 /**
  * Class Setting
  * @property string id
@@ -14,7 +16,7 @@ namespace App\Models;
  * @property string description
  * @package App\Models
  */
-class Setting extends BaseModel
+class Setting extends Model
 {
     public $table = 'settings';
     public $incrementing = false;

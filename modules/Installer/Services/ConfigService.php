@@ -2,6 +2,7 @@
 
 namespace Modules\Installer\Services;
 
+use App\Interfaces\Service;
 use Illuminate\Encryption\Encrypter;
 use Log;
 use Nwidart\Modules\Support\Stub;
@@ -12,7 +13,7 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
  * Class ConfigService
  * @package Modules\Installer\Services
  */
-class ConfigService
+class ConfigService extends Service
 {
     /**
      * Create the .env file

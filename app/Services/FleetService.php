@@ -2,27 +2,33 @@
 
 namespace App\Services;
 
+use App\Interfaces\Service;
 use App\Models\Rank;
 use App\Models\Subfleet;
 
-class FleetService extends BaseService
+/**
+ * Class FleetService
+ * @package App\Services
+ */
+class FleetService extends Service
 {
     /**
      * @param Subfleet $subfleet
-     * @param Rank $rank
-     * @param array $overrides
+     * @param Rank     $rank
+     * @param array    $overrides
      * @return Subfleet
      */
-    public function addSubfleetToRank(Subfleet $subfleet, Rank $rank, array $overrides=[])
+    public function addSubfleetToRank(Subfleet $subfleet, Rank $rank, array $overrides = [])
     {
         $subfleet->ranks()->syncWithoutDetaching([$rank->id]);
 
-        if($overrides) {
+        if ($overrides) {
             $subfleet->ranks()->updateExistingPivot($rank->id, $overrides);
         }
 
         $subfleet->save();
         $subfleet->refresh();
+
         return $subfleet;
     }
 
@@ -32,6 +38,7 @@ class FleetService extends BaseService
 
         $subfleet->save();
         $subfleet->refresh();
+
         return $subfleet;
     }
 }

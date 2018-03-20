@@ -6,7 +6,6 @@ use App\Models\Journal;
 
 trait JournalTrait
 {
-
     /**
      * Initialize a new journal when a new record is created
      */
@@ -44,6 +43,7 @@ trait JournalTrait
             $this->journal()->save($journal);
 
             $journal->refresh();
+
             return $journal;
         }
     }

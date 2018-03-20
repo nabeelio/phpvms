@@ -2,6 +2,7 @@
 
 namespace App\Widgets;
 
+use App\Interfaces\Widget;
 use App\Repositories\AcarsRepository;
 use App\Services\GeoService;
 
@@ -9,11 +10,11 @@ use App\Services\GeoService;
  * Show the live map in a view
  * @package App\Widgets
  */
-class LiveMap extends BaseWidget
+class LiveMap extends Widget
 {
     protected $config = [
         'height' => '800px',
-        'width' => '100%',
+        'width'  => '100%',
     ];
 
     /**
@@ -28,8 +29,8 @@ class LiveMap extends BaseWidget
         $positions = $geoSvc->getFeatureForLiveFlights($pireps);
 
         return view('widgets.live_map', [
-            'config' => $this->config,
-            'pireps' => $pireps,
+            'config'    => $this->config,
+            'pireps'    => $pireps,
             'positions' => $positions,
         ]);
     }

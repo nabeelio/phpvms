@@ -2,10 +2,14 @@
 
 namespace App\Console\Commands;
 
-use App\Console\BaseCommand;
+use App\Console\Command;
 use Symfony\Component\Yaml\Yaml;
 
-class Version extends BaseCommand
+/**
+ * Class Version
+ * @package App\Console\Commands
+ */
+class Version extends Command
 {
     protected $signature = 'phpvms:version {--write} {--base-only}';
 
@@ -19,7 +23,7 @@ class Version extends BaseCommand
 
         # prefix with the date in YYMMDD format
         $date = date('ymd');
-        $version = $date . '-' . $version;
+        $version = $date.'-'.$version;
 
         return $version;
     }
@@ -46,11 +50,11 @@ class Version extends BaseCommand
 
         # Only show the major.minor.patch version
         if ($this->option('base-only')) {
-            $version = 'v' . $cfg['current']['major'] . '.'
-                . $cfg['current']['minor'] . '.'
-                . $cfg['current']['patch'];
+            $version = 'v'.$cfg['current']['major'].'.'
+                .$cfg['current']['minor'].'.'
+                .$cfg['current']['patch'];
         }
 
-        print $version . "\n";
+        print $version."\n";
     }
 }

@@ -3,8 +3,7 @@
 /**
  * Public routes
  */
-Route::group([], function()
-{
+Route::group([], function () {
     Route::get('acars', 'AcarsController@index');
     Route::get('pireps/{pirep_id}/acars/geojson', 'PirepController@acars_geojson');
 
@@ -15,8 +14,7 @@ Route::group([], function()
 /**
  * these need to be authenticated with a user's API key
  */
-Route::group(['middleware' => ['api.auth']], function ()
-{
+Route::group(['middleware' => ['api.auth']], function () {
     Route::get('airlines', 'AirlineController@index');
     Route::get('airlines/{id}', 'AirlineController@get');
 
@@ -79,5 +77,4 @@ Route::group(['middleware' => ['api.auth']], function ()
 
     Route::get('users/{id}/bids', 'UserController@bids');
     Route::put('users/{id}/bids', 'UserController@bids');
-
 });

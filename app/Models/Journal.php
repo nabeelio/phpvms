@@ -6,22 +6,23 @@
 
 namespace App\Models;
 
+use App\Interfaces\Model;
 use App\Support\Money;
 use Carbon\Carbon;
 
 /**
  * Class Journal
- * @property mixed id
- * @property Money $balance
- * @property string $currency
- * @property Carbon $updated_at
- * @property Carbon $post_date
- * @property Carbon $created_at
+ * @property mixed                         id
+ * @property Money                         $balance
+ * @property string                        $currency
+ * @property Carbon                        $updated_at
+ * @property Carbon                        $post_date
+ * @property Carbon                        $created_at
  * @property \App\Models\Enums\JournalType type
- * @property mixed morphed_type
- * @property mixed morphed_id
+ * @property mixed                         morphed_type
+ * @property mixed                         morphed_id
  */
-class Journal extends BaseModel
+class Journal extends Model
 {
     protected $table = 'journals';
 
@@ -81,6 +82,7 @@ class Journal extends BaseModel
     public function assignToLedger(Ledger $ledger)
     {
         $ledger->journals()->save($this);
+
         return $this;
     }
 
@@ -117,7 +119,7 @@ class Journal extends BaseModel
             ? $value
             : new Money($value);
 
-        $this->attributes['balance'] = $value ? (int)$value->getAmount() : null;
+        $this->attributes['balance'] = $value ? (int) $value->getAmount() : null;
     }
 
     /**
@@ -158,7 +160,7 @@ class Journal extends BaseModel
     public function getBalanceOn(Carbon $date)
     {
         return $this->getCreditBalanceOn($date)
-                    ->subtract($this->getDebitBalanceOn($date));
+            ->subtract($this->getDebitBalanceOn($date));
     }
 
     /**

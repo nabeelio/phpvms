@@ -2,17 +2,22 @@
 
 namespace App\Repositories;
 
+use App\Interfaces\Repository;
 use App\Models\Fare;
 use Prettus\Repository\Contracts\CacheableInterface;
 use Prettus\Repository\Traits\CacheableRepository;
 
-class FareRepository extends BaseRepository implements CacheableInterface
+/**
+ * Class FareRepository
+ * @package App\Repositories
+ */
+class FareRepository extends Repository implements CacheableInterface
 {
     use CacheableRepository;
 
     protected $fieldSearchable = [
-        'code' => 'like',
-        'name' => 'like',
+        'code'  => 'like',
+        'name'  => 'like',
         'notes' => 'like',
     ];
 
@@ -21,7 +26,8 @@ class FareRepository extends BaseRepository implements CacheableInterface
         return Fare::class;
     }
 
-    public function findByCode($code) {
+    public function findByCode($code)
+    {
         return $this->findByField('code', $code)->first();
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
@@ -12,7 +13,7 @@ class vaCentralServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-        if(filled(config('vacentral.api_key'))) {
+        if (filled(config('vacentral.api_key'))) {
             VaCentral::setApiKey(config('vacentral.api_key'));
         }
     }

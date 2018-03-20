@@ -17,6 +17,7 @@ class Fuel extends \PhpUnitsOfMeasure\PhysicalQuantity\Mass implements Arrayable
     {
         $unit = setting('units.fuel');
         $value = $this->toUnit($unit);
+
         return (string) round($value, 2);
     }
 
@@ -35,7 +36,7 @@ class Fuel extends \PhpUnitsOfMeasure\PhysicalQuantity\Mass implements Arrayable
     public function toObject()
     {
         return [
-            'kg' => round($this->toUnit('kg'), 2),
+            'kg'  => round($this->toUnit('kg'), 2),
             'lbs' => round($this->toUnit('lbs'), 2),
         ];
     }

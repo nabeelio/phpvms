@@ -1,22 +1,22 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Interfaces;
 
 use Illuminate\Validation\Validator;
 
-abstract class BaseRepository extends \Prettus\Repository\Eloquent\BaseRepository {
-
+abstract class Repository extends \Prettus\Repository\Eloquent\BaseRepository
+{
     /**
-     * @param $id
+     * @param       $id
      * @param array $columns
-     * @return mixed|void
+     * @return mixed|null
      */
     public function findWithoutFail($id, $columns = ['*'])
     {
         try {
             return $this->find($id, $columns);
         } catch (\Exception $e) {
-            return;
+            return null;
         }
     }
 
@@ -31,7 +31,7 @@ abstract class BaseRepository extends \Prettus\Repository\Eloquent\BaseRepositor
             $this->model()->rules
         );
 
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return $validator->messages();
         }
 
@@ -40,7 +40,7 @@ abstract class BaseRepository extends \Prettus\Repository\Eloquent\BaseRepositor
 
     /**
      * Return N most recent items, sorted by created_at
-     * @param int $count
+     * @param int    $count
      * @param string $sort_by created_at (default) or updated_at
      * @return mixed
      */
@@ -56,13 +56,13 @@ abstract class BaseRepository extends \Prettus\Repository\Eloquent\BaseRepositor
      * @param $order_by
      * @return $this
      */
-    public function whereOrder($where, $sort_by, $order_by='asc')
+    public function whereOrder($where, $sort_by, $order_by = 'asc')
     {
-        return $this->scopeQuery(function($query) use ($where, $sort_by, $order_by) {
+        return $this->scopeQuery(function ($query) use ($where, $sort_by, $order_by) {
             $q = $query->where($where);
             # See if there are multi-column sorts
-            if(\is_array($sort_by)) {
-                foreach($sort_by as $key => $sort) {
+            if (\is_array($sort_by)) {
+                foreach ($sort_by as $key => $sort) {
                     $q = $q->orderBy($key, $sort);
                 }
             } else {

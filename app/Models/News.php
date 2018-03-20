@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use App\Interfaces\Model;
+
 /**
  * Class News
  * @package App\Models
  */
-class News extends BaseModel
+class News extends Model
 {
     public $table = 'news';
 
@@ -18,7 +20,7 @@ class News extends BaseModel
 
     public static $rules = [
         'subject' => 'required',
-        'body' => 'required',
+        'body'    => 'required',
     ];
 
     /**

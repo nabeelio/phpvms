@@ -14,6 +14,9 @@ class CronWeekly
 {
     use Dispatchable, SerializesModels;
 
+    /**
+     * CronWeekly constructor.
+     */
     public function __construct()
     {
 

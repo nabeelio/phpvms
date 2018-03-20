@@ -12,8 +12,10 @@ use App\Models\Observers\JournalObserver;
 use App\Models\Observers\JournalTransactionObserver;
 use App\Models\Observers\PirepFieldObserver;
 use App\Models\Observers\SettingObserver;
+use App\Models\Observers\SubfleetObserver;
 use App\Models\PirepField;
 use App\Models\Setting;
+use App\Models\Subfleet;
 use App\Repositories\SettingRepository;
 use App\Services\ModuleService;
 use Illuminate\Support\Facades\Schema;
@@ -36,6 +38,7 @@ class AppServiceProvider extends ServiceProvider
         JournalTransaction::observe(JournalTransactionObserver::class);
         PirepField::observe(PirepFieldObserver::class);
         Setting::observe(SettingObserver::class);
+        Subfleet::observe(SubfleetObserver::class);
     }
 
     /**
@@ -43,6 +46,5 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-
     }
 }

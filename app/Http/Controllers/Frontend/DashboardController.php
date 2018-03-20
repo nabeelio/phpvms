@@ -2,26 +2,26 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Http\Controllers\Controller;
+use App\Interfaces\Controller;
 use App\Repositories\PirepRepository;
-use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * Class DashboardController
+ * @package App\Http\Controllers\Frontend
+ */
 class DashboardController extends Controller
 {
-    private $pirepRepo, $userRepo;
+    private $pirepRepo;
 
     /**
      * DashboardController constructor.
      * @param PirepRepository $pirepRepo
-     * @param UserRepository $userRepo
      */
     public function __construct(
-        PirepRepository $pirepRepo,
-        UserRepository $userRepo
+        PirepRepository $pirepRepo
     ) {
         $this->pirepRepo = $pirepRepo;
-        $this->userRepo = $userRepo;
     }
 
     /**
@@ -34,7 +34,8 @@ class DashboardController extends Controller
 
         try {
             $last_pirep = $this->pirepRepo->find($user->last_pirep_id);
-        } catch(\Exception $e) { }
+        } catch (\Exception $e) {
+        }
 
         return view('dashboard.index', [
             'user'       => $user,

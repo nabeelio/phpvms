@@ -4,6 +4,10 @@ namespace $NAMESPACE$;
 
 use Illuminate\Contracts\Validation\Rule;
 
+/**
+ * Class $CLASS$
+ * @package $NAMESPACE$
+ */
 class $CLASS$ implements Rule
 {
     /**

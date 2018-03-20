@@ -8,7 +8,6 @@ trait ExpensableTrait
 {
     public static function bootExpensableTrait()
     {
-
     }
 
     /**

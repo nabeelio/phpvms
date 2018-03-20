@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use App\Interfaces\Model;
+
 /**
  * @package App\Models
  */
-class Bid extends BaseModel
+class Bid extends Model
 {
     public $table = 'bids';
 

@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use App\Interfaces\Model;
+
 /**
  * Class FlightFields
  * @package App\Models
  */
-class FlightFields extends BaseModel
+class FlightFields extends Model
 {
     public $table = 'flight_fields';
 

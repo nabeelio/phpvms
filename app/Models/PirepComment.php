@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use App\Interfaces\Model;
+
 /**
  * Class PirepEvent
  *
  * @package App\Models
  */
-class PirepComment extends BaseModel
+class PirepComment extends Model
 {
     public $table = 'pirep_comments';
 

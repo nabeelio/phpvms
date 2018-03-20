@@ -1,0 +1,31 @@
+<?php
+
+namespace {{namespace}};
+
+use App\Interfaces\Widget;
+
+/**
+ * Class {{class}}
+ * @package {{namespace}}
+ */
+class {{class}} extends Widget
+{
+    /**
+     * The configuration array.
+     */
+    protected $config = [
+
+    ];
+
+    /**
+     * Treat this method as a controller action.
+     * Return view() or other content to display.
+     */
+    public function run()
+    {
+
+        return view('{{view}}', [
+            'config' => $this->config,
+        ]);
+    }
+}

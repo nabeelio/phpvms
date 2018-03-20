@@ -3,13 +3,13 @@
 namespace App\Services\Finance;
 
 use App\Events\Expenses as ExpensesEvent;
+use App\Interfaces\Service;
 use App\Models\Enums\ExpenseType;
 use App\Models\Enums\PirepSource;
 use App\Models\Expense;
 use App\Models\Pirep;
 use App\Repositories\ExpenseRepository;
 use App\Repositories\JournalRepository;
-use App\Services\BaseService;
 use App\Services\FareService;
 use App\Services\PirepService;
 use App\Support\Math;
@@ -21,7 +21,7 @@ use Log;
  * @package App\Services
  *
  */
-class PirepFinanceService extends BaseService
+class PirepFinanceService extends Service
 {
     private $expenseRepo,
             $fareSvc,
@@ -31,16 +31,17 @@ class PirepFinanceService extends BaseService
     /**
      * FinanceService constructor.
      * @param ExpenseRepository $expenseRepo
-     * @param FareService $fareSvc
+     * @param FareService       $fareSvc
      * @param JournalRepository $journalRepo
-     * @param PirepService $pirepSvc
+     * @param PirepService      $pirepSvc
      */
     public function __construct(
         ExpenseRepository $expenseRepo,
         FareService $fareSvc,
         JournalRepository $journalRepo,
         PirepService $pirepSvc
-    ) {
+    )
+    {
         $this->expenseRepo = $expenseRepo;
         $this->fareSvc = $fareSvc;
         $this->journalRepo = $journalRepo;
@@ -59,7 +60,7 @@ class PirepFinanceService extends BaseService
      */
     public function processFinancesForPirep(Pirep $pirep)
     {
-        if(!$pirep->airline->journal) {
+        if (!$pirep->airline->journal) {
             $pirep->airline->journal = $pirep->airline->initJournal(config('phpvms.currency'));
         }
 
@@ -108,7 +109,6 @@ class PirepFinanceService extends BaseService
         $fares = $this->getReconciledFaresForPirep($pirep);
         /** @var \App\Models\Fare $fare */
         foreach ($fares as $fare) {
-
             Log::info('Finance: PIREP: '.$pirep->id.', fare:', $fare->toArray());
 
             $credit = Money::createFromAmount($fare->count * $fare->price);
@@ -119,8 +119,8 @@ class PirepFinanceService extends BaseService
                 $credit,
                 $debit,
                 $pirep,
-                'Fares ' . $fare->code . $fare->count
-                    .'; price: '.$fare->price.', cost: '.$fare->cost,
+                'Fares '.$fare->code.$fare->count
+                .'; price: '.$fare->price.', cost: '.$fare->cost,
                 null,
                 'Fares',
                 'fare'
@@ -145,8 +145,7 @@ class PirepFinanceService extends BaseService
         /**
          * Go through the expenses and apply a mulitplier if present
          */
-        $expenses->map(function ($expense, $i) use ($pirep)
-        {
+        $expenses->map(function ($expense, $i) use ($pirep) {
             /*if ($expense->multiplier) {
                 # TODO: Modify the amount
             }*/
@@ -157,7 +156,7 @@ class PirepFinanceService extends BaseService
             # This way it can be more dynamic and don't have to add special
             # tables or specific expense calls to accomodate all of these
             $klass = 'Expense';
-            if($expense->ref_class) {
+            if ($expense->ref_class) {
                 $ref = explode('\\', $expense->ref_class);
                 $klass = end($ref);
             }
@@ -240,7 +239,7 @@ class PirepFinanceService extends BaseService
                     null,
                     $debit,
                     $pirep,
-                    'Expense: ' . $expense->name,
+                    'Expense: '.$expense->name,
                     null,
                     $expense->transaction_group ?? 'Expenses',
                     'expense'
@@ -284,7 +283,7 @@ class PirepFinanceService extends BaseService
     {
         $pilot_pay = $this->getPilotPay($pirep);
         $pilot_pay_rate = $this->getPilotPayRateForPirep($pirep);
-        $memo = 'Pilot Payment @ ' . $pilot_pay_rate;
+        $memo = 'Pilot Payment @ '.$pilot_pay_rate;
 
         Log::info('Finance: PIREP: '.$pirep->id
             .'; pilot pay: '.$pilot_pay_rate.', total: '.$pilot_pay);
@@ -329,29 +328,27 @@ class PirepFinanceService extends BaseService
     {
         # Collect all of the fares and prices
         $flight_fares = $this->fareSvc->getForPirep($pirep);
-        Log::info('Finance: PIREP: ' . $pirep->id . ', flight fares: ', $flight_fares->toArray());
+        Log::info('Finance: PIREP: '.$pirep->id.', flight fares: ', $flight_fares->toArray());
 
         $all_fares = $this->fareSvc->getAllFares($pirep->flight, $pirep->aircraft->subfleet);
 
-        $fares = $all_fares->map(function($fare, $i) use ($flight_fares, $pirep) {
-
+        $fares = $all_fares->map(function ($fare, $i) use ($flight_fares, $pirep) {
             $fare_count = $flight_fares
                 ->where('fare_id', $fare->id)
                 ->first();
 
-            if($fare_count) {
-
-                Log::info('Finance: PIREP: ' . $pirep->id . ', fare count: '. $fare_count);
+            if ($fare_count) {
+                Log::info('Finance: PIREP: '.$pirep->id.', fare count: '.$fare_count);
 
                 # If the count is greater than capacity, then just set it
                 # to the maximum amount
-                if($fare_count->count > $fare->capacity) {
+                if ($fare_count->count > $fare->capacity) {
                     $fare->count = $fare->capacity;
                 } else {
                     $fare->count = $fare_count->count;
                 }
             } else {
-                Log::info('Finance: PIREP: ' . $pirep->id . ', no fare count found', $fare->toArray());
+                Log::info('Finance: PIREP: '.$pirep->id.', no fare count found', $fare->toArray());
             }
 
             return $fare;
@@ -368,9 +365,10 @@ class PirepFinanceService extends BaseService
      */
     public function getGroundHandlingCost(Pirep $pirep)
     {
-        if(filled($pirep->aircraft->subfleet->ground_handling_multiplier)) {
+        if (filled($pirep->aircraft->subfleet->ground_handling_multiplier)) {
             // force into percent mode
             $multiplier = $pirep->aircraft->subfleet->ground_handling_multiplier.'%';
+
             return Math::applyAmountOrPercent(
                 $pirep->arr_airport->ground_handling_cost,
                 $multiplier
@@ -397,28 +395,28 @@ class PirepFinanceService extends BaseService
             ->where('subfleet_id', $subfleet_id)
             ->first();
 
-        if($override_rate) {
+        if ($override_rate) {
             $override_rate = $override_rate->pivot;
         }
 
-        if($pirep->source === PirepSource::ACARS) {
+        if ($pirep->source === PirepSource::ACARS) {
             Log::debug('Source is ACARS');
             $base_rate = $rank->acars_base_pay_rate;
 
-            if($override_rate) {
+            if ($override_rate) {
                 $override_rate = $override_rate->acars_pay;
             }
-
         } else {
             Log::debug('Source is Manual');
             $base_rate = $rank->manual_base_pay_rate;
 
-            if($override_rate) {
+            if ($override_rate) {
                 $override_rate = $override_rate->manual_pay;
             }
         }
 
-        Log::debug('pilot pay: base rate=' . $base_rate . ', override=' . $override_rate);
+        Log::debug('pilot pay: base rate='.$base_rate.', override='.$override_rate);
+
         return Math::applyAmountOrPercent(
             $base_rate,
             $override_rate

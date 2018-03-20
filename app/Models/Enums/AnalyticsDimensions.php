@@ -10,7 +10,7 @@ use App\Interfaces\Enum;
  */
 class AnalyticsDimensions extends Enum
 {
-    public const PHP_VERSION = 1;
+    public const PHP_VERSION      = 1;
     public const DATABASE_VERSION = 2;
-    public const PHPVMS_VERSION = 3;
+    public const PHPVMS_VERSION   = 3;
 }

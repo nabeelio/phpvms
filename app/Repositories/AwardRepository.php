@@ -2,11 +2,16 @@
 
 namespace App\Repositories;
 
+use App\Interfaces\Repository;
 use App\Models\Award;
 use Prettus\Repository\Contracts\CacheableInterface;
 use Prettus\Repository\Traits\CacheableRepository;
 
-class AwardRepository extends BaseRepository implements CacheableInterface
+/**
+ * Class AwardRepository
+ * @package App\Repositories
+ */
+class AwardRepository extends Repository implements CacheableInterface
 {
     use CacheableRepository;
 
@@ -19,7 +24,8 @@ class AwardRepository extends BaseRepository implements CacheableInterface
         return Award::class;
     }
 
-    public function findByTitle($title) {
+    public function findByTitle($title)
+    {
         return $this->findByField('title', $title)->first();
     }
 }

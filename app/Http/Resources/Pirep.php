@@ -11,7 +11,7 @@ class Pirep extends Resource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return array
      */
     public function toArray($request)
@@ -40,8 +40,8 @@ class Pirep extends Resource
         $pirep['position'] = new Acars($this->position);
         $pirep['comments'] = PirepComment::collection($this->comments);
         $pirep['user'] = [
-            'id' => $this->user->id,
-            'name' => $this->user->name,
+            'id'              => $this->user->id,
+            'name'            => $this->user->name,
             'home_airport_id' => $this->user->home_airport_id,
             'curr_airport_id' => $this->user->curr_airport_id,
         ];

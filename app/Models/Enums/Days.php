@@ -8,8 +8,8 @@ use App\Interfaces\Enum;
  * Class Days
  * @package App\Models\Enums
  */
-class Days extends Enum {
-
+class Days extends Enum
+{
     public const MONDAY    = 1 << 0;
     public const TUESDAY   = 1 << 1;
     public const WEDNESDAY = 1 << 2;
@@ -19,12 +19,12 @@ class Days extends Enum {
     public const SUNDAY    = 1 << 6;
 
     protected static $labels = [
-        Days::MONDAY        => 'system.days.mon',
-        Days::TUESDAY       => 'system.days.tues',
-        Days::WEDNESDAY     => 'system.days.wed',
-        Days::THURSDAY      => 'system.days.thurs',
-        Days::FRIDAY        => 'system.days.fri',
-        Days::SATURDAY      => 'system.days.sat',
-        Days::SUNDAY        => 'system.days.sun',
+        Days::MONDAY    => 'system.days.mon',
+        Days::TUESDAY   => 'system.days.tues',
+        Days::WEDNESDAY => 'system.days.wed',
+        Days::THURSDAY  => 'system.days.thurs',
+        Days::FRIDAY    => 'system.days.fri',
+        Days::SATURDAY  => 'system.days.sat',
+        Days::SUNDAY    => 'system.days.sun',
     ];
 }

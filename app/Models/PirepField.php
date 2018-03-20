@@ -2,13 +2,15 @@
 
 namespace App\Models;
 
+use App\Interfaces\Model;
+
 /**
  * Class PirepField
  * @property string name
  * @property string slug
  * @package App\Models
  */
-class PirepField extends BaseModel
+class PirepField extends Model
 {
     public $table = 'pirep_fields';
     public $timestamps = false;

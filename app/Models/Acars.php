@@ -2,9 +2,15 @@
 
 namespace App\Models;
 
+use App\Interfaces\Model;
 use App\Models\Traits\HashIdTrait;
 
-class Acars extends BaseModel
+/**
+ * Class Acars
+ * @param string id
+ * @package App\Models
+ */
+class Acars extends Model
 {
     use HashIdTrait;
 
@@ -31,21 +37,21 @@ class Acars extends BaseModel
     ];
 
     public $casts = [
-        'type'          => 'integer',
-        'order'         => 'integer',
-        'nav_type'      => 'integer',
-        'lat'           => 'float',
-        'lon'           => 'float',
-        'heading'       => 'integer',
-        'altitude'      => 'float',
-        'vs'            => 'float',
-        'gs'            => 'float',
-        'transponder'   => 'integer',
-        'fuel_flow'     => 'float',
+        'type'        => 'integer',
+        'order'       => 'integer',
+        'nav_type'    => 'integer',
+        'lat'         => 'float',
+        'lon'         => 'float',
+        'heading'     => 'integer',
+        'altitude'    => 'float',
+        'vs'          => 'float',
+        'gs'          => 'float',
+        'transponder' => 'integer',
+        'fuel_flow'   => 'float',
     ];
 
     public static $rules = [
-        'pirep_id'  => 'required',
+        'pirep_id' => 'required',
     ];
 
     /**

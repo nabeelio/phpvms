@@ -17,6 +17,7 @@ class Altitude extends \PhpUnitsOfMeasure\PhysicalQuantity\Length implements Arr
     {
         $unit = setting('units.altitude');
         $value = $this->toUnit($unit);
+
         return (string) round($value, 2);
     }
 
@@ -35,8 +36,8 @@ class Altitude extends \PhpUnitsOfMeasure\PhysicalQuantity\Length implements Arr
     public function toObject()
     {
         return [
-            'ft'  => round($this->toUnit('feet'), 2),
-            'm'   => round($this->toUnit('meters') / 1000, 2),
+            'ft' => round($this->toUnit('feet'), 2),
+            'm'  => round($this->toUnit('meters') / 1000, 2),
         ];
     }
 

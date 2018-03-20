@@ -2,20 +2,25 @@
 
 namespace App\Services;
 
+use App\Interfaces\Service;
 use App\Models\Enums\AnalyticsDimensions;
 use DB;
 use Irazasyed\LaravelGAMP\Facades\GAMP;
 use Log;
 use PDO;
 
-class AnalyticsService
+/**
+ * Class AnalyticsService
+ * @package App\Services
+ */
+class AnalyticsService extends Service
 {
     /**
      * Send out some stats about the install
      */
     public function sendInstall()
     {
-        if(config('app.analytics') === false) {
+        if (config('app.analytics') === false) {
             return;
         }
 
@@ -38,5 +43,4 @@ class AnalyticsService
             Log::error($e->getMessage());
         }
     }
-
 }

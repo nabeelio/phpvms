@@ -2,14 +2,19 @@
 
 namespace Modules\Sample\Http\Controllers\Api;
 
-use App\Http\Controllers\Api\RestController;
+use App\Interfaces\Controller;
 use Illuminate\Http\Request;
 
-class SampleController extends RestController
+/**
+ * Class SampleController
+ * @package Modules\Sample\Http\Controllers\Api
+ */
+class SampleController extends Controller
 {
     /**
      * Just send out a message
      * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index(Request $request)
     {
@@ -18,6 +23,7 @@ class SampleController extends RestController
 
     /**
      * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function hello(Request $request)
     {

@@ -3,10 +3,13 @@
 namespace App\Listeners;
 
 use App\Events\Expenses;
-use App\Models\Enums\ExpenseType;
-use App\Models\Expense;
+use App\Interfaces\Listener;
 
-class ExpenseListener
+/**
+ * Class ExpenseListener
+ * @package App\Listeners
+ */
+class ExpenseListener extends Listener
 {
     /**
      * Return a list of additional expenses

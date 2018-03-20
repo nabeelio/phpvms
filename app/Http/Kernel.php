@@ -11,7 +11,6 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
     ];
-
     protected $middlewareGroups = [
         'web' => [
             \App\Http\Middleware\InstalledCheck::class,
@@ -30,15 +29,14 @@ class Kernel extends HttpKernel
             'json',
         ],
     ];
-
     protected $routeMiddleware = [
-        'api.auth' => \App\Http\Middleware\ApiAuth::class,
-        'auth' => \Illuminate\Auth\Middleware\Authenticate::class,
+        'api.auth'   => \App\Http\Middleware\ApiAuth::class,
+        'auth'       => \Illuminate\Auth\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
-        'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
-        'can' => \Illuminate\Auth\Middleware\Authorize::class,
-        'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
-        'json' => \App\Http\Middleware\JsonResponse::class,
-        'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'bindings'   => \Illuminate\Routing\Middleware\SubstituteBindings::class,
+        'can'        => \Illuminate\Auth\Middleware\Authorize::class,
+        'guest'      => \App\Http\Middleware\RedirectIfAuthenticated::class,
+        'json'       => \App\Http\Middleware\JsonResponse::class,
+        'throttle'   => \Illuminate\Routing\Middleware\ThrottleRequests::class,
     ];
 }

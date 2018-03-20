@@ -11,10 +11,10 @@ use App\Interfaces\Enum;
 class ActiveState extends Enum
 {
     public const INACTIVE = 0;
-    public const ACTIVE = 1;
+    public const ACTIVE   = 1;
 
     public static $labels = [
-        ActiveState::INACTIVE  => 'Inactive',
-        ActiveState::ACTIVE    => 'Active',
+        ActiveState::INACTIVE => 'Inactive',
+        ActiveState::ACTIVE   => 'Active',
     ];
 }

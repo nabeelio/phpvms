@@ -3,21 +3,24 @@
 namespace App\Interfaces;
 
 use App\Facades\Utils;
-use App\Models\Award;
+use App\Models\Award as AwardModel;
 use App\Models\User;
 use App\Models\UserAward;
+use Log;
 
 /**
- * Base class for the Awards, they need to extend this
+ * Base class for the Awards, you need to extend this, and implement:
+ *  $name
+ *  $param_description (optional)
+ *  public function check($parameter=null)
+ *
+ * See: http://docs.phpvms.net/customizing/awards
  * @package App\Interfaces
  */
-abstract class AwardInterface
+abstract class Award
 {
     public $name = '';
     public $param_description = '';
-
-    protected $award;
-    protected $user;
 
     /**
      * Each award class just needs to return true or false if it should actually
@@ -27,12 +30,19 @@ abstract class AwardInterface
      */
     abstract public function check($parameter = null): bool;
 
+    /*
+     * You don't really need to mess with anything below here
+     */
+
+    protected $award,
+              $user;
+
     /**
      * AwardInterface constructor.
-     * @param Award $award
-     * @param User $user
+     * @param AwardModel $award
+     * @param User       $user
      */
-    public function __construct(Award $award = null, User $user = null)
+    public function __construct(AwardModel $award = null, User $user = null)
     {
         $this->award = $award;
         $this->user = $user;
@@ -40,13 +50,14 @@ abstract class AwardInterface
 
     /**
      * Run the main handler for this award class to determine if
-     * it should be awarded or not
+     * it should be awarded or not. Declared as final to prevent a child
+     * from accidentally overriding and breaking something
      */
-    public function handle()
+    final public function handle(): void
     {
         # Check if the params are a JSON object or array
         $param = $this->award->ref_class_params;
-        if ($this->award->ref_class_params && Utils::isObject($this->award->ref_class_params)) {
+        if (Utils::isObject($this->award->ref_class_params)) {
             $param = json_decode($this->award->ref_class_params);
         }
 
@@ -59,11 +70,11 @@ abstract class AwardInterface
      * Add the award to this user, if they don't already have it
      * @return bool|UserAward
      */
-    protected function addAward()
+    final protected function addAward()
     {
         $w = [
-            'user_id' => $this->user->id,
-            'award_id' => $this->award->id
+            'user_id'  => $this->user->id,
+            'award_id' => $this->award->id,
         ];
 
         $found = UserAward::where($w)->count('id');
@@ -73,7 +84,17 @@ abstract class AwardInterface
 
         // Associate this award to the user now
         $award = new UserAward($w);
-        $award->save();
+
+        try {
+            $award->save();
+        } catch(\Exception $e) {
+            Log::error(
+                'Error saving award: '.$e->getMessage(),
+                $e->getTrace()
+            );
+
+            return null;
+        }
 
         return $award;
     }

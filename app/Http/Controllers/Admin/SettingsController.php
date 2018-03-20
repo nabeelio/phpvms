@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Interfaces\Controller;
 use App\Models\Setting;
 use Illuminate\Http\Request;
 use Log;
 
-class SettingsController extends BaseController
+/**
+ * Class SettingsController
+ * @package App\Http\Controllers\Admin
+ */
+class SettingsController extends Controller
 {
     /**
      * Display the settings. Group them by the setting group
@@ -16,7 +21,7 @@ class SettingsController extends BaseController
         $settings = Setting::orderBy('order', 'asc')->get();
         $settings = $settings->groupBy('group');
 
-        return view('admin.settings.index',[
+        return view('admin.settings.index', [
             'grouped_settings' => $settings,
         ]);
     }
@@ -28,9 +33,9 @@ class SettingsController extends BaseController
      */
     public function update(Request $request)
     {
-        foreach($request->post() as $id => $value) {
+        foreach ($request->post() as $id => $value) {
             $setting = Setting::find($id);
-            if(!$setting) {
+            if (!$setting) {
                 continue;
             }
 
@@ -40,6 +45,7 @@ class SettingsController extends BaseController
         }
 
         flash('Settings saved!');
+
         return redirect('/admin/settings');
     }
 }

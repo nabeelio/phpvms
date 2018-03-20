@@ -1,17 +1,18 @@
 <?php
 
 namespace App\Models;
+use App\Interfaces\Model;
 
 /**
  * Class Expense
- * @property int airline_id
- * @property float amount
+ * @property int    airline_id
+ * @property float  amount
  * @property string name
  * @property string ref_class
  * @property string ref_class_id
  * @package App\Models
  */
-class Expense extends BaseModel
+class Expense extends Model
 {
     public $table = 'expenses';
 
@@ -28,12 +29,12 @@ class Expense extends BaseModel
     ];
 
     public static $rules = [
-        'active'          => 'boolean',
-        'airline_id'      => 'integer',
-        'amount'          => 'float',
-        'type'            => 'integer',
-        'multiplier'      => 'bool',
-        'charge_to_user'  => 'bool',
+        'active'         => 'boolean',
+        'airline_id'     => 'integer',
+        'amount'         => 'float',
+        'type'           => 'integer',
+        'multiplier'     => 'bool',
+        'charge_to_user' => 'bool',
     ];
 
     /**
@@ -45,12 +46,13 @@ class Expense extends BaseModel
             return null;
         }
 
-        if($this->ref_class === __CLASS__) {
+        if ($this->ref_class === __CLASS__) {
             return $this;
         }
 
         try {
             $klass = new $this->ref_class;
+
             return $klass->find($this->ref_class_id);
         } catch (\Exception $e) {
             return null;

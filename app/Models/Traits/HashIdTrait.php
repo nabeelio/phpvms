@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models\Traits;
 
 use Hashids\Hashids;
@@ -13,6 +14,7 @@ trait HashIdTrait
     {
         $hashids = new Hashids('', 12);
         $mt = str_replace('.', '', microtime(true));
+
         return $hashids->encode($mt);
     }
 

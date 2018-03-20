@@ -2,14 +2,16 @@
 
 namespace App\Models;
 
+use App\Interfaces\Model;
+
 /**
  * Class Rank
- * @property int hours
+ * @property int   hours
  * @property float manual_base_pay_rate
  * @property float acars_base_pay_rate
  * @package App\Models
  */
-class Rank extends BaseModel
+class Rank extends Model
 {
     public $table = 'ranks';
 
@@ -25,17 +27,17 @@ class Rank extends BaseModel
     ];
 
     protected $casts = [
-        'hours' => 'integer',
-        'base_pay_rate' => 'float',
-        'auto_approve_acars' => 'bool',
+        'hours'               => 'integer',
+        'base_pay_rate'       => 'float',
+        'auto_approve_acars'  => 'bool',
         'auto_approve_manual' => 'bool',
-        'auto_promote' => 'bool',
+        'auto_promote'        => 'bool',
     ];
 
     public static $rules = [
-        'name' => 'required',
-        'hours' => 'required|integer',
-        'acars_base_pay_rate' => 'nullable|numeric',
+        'name'                 => 'required',
+        'hours'                => 'required|integer',
+        'acars_base_pay_rate'  => 'nullable|numeric',
         'manual_base_pay_rate' => 'nullable|numeric',
     ];
 

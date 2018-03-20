@@ -1,7 +1,4 @@
 <?php
-/**
- *
- */
 
 namespace App\Support;
 
@@ -22,9 +19,9 @@ class Dates
 
         do {
             $last_value = $last_month->format('Y-m');
-            $months[$last_value] = $last_month->format ('Y F');
+            $months[$last_value] = $last_month->format('Y F');
             $last_month = $last_month->addMonth();
-        } while($last_value !== $now);
+        } while ($last_value !== $now);
 
         return $months;
     }

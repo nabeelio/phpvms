@@ -6,6 +6,7 @@ use App\Events\PirepAccepted;
 use App\Events\PirepFiled;
 use App\Events\PirepRejected;
 use App\Events\UserStatsChanged;
+use App\Interfaces\Service;
 use App\Models\Acars;
 use App\Models\Bid;
 use App\Models\Enums\AcarsType;
@@ -27,23 +28,23 @@ use Log;
  * Class PirepService
  * @package App\Services
  */
-class PirepService extends BaseService
+class PirepService extends Service
 {
     private $acarsRepo,
-        $flightRepo,
-        $geoSvc,
-        $navRepo,
-        $pilotSvc,
-        $pirepRepo;
+            $flightRepo,
+            $geoSvc,
+            $navRepo,
+            $pilotSvc,
+            $pirepRepo;
 
     /**
      * PirepService constructor.
-     * @param AcarsRepository $acarsRepo
-     * @param FlightRepository $flightRepo
-     * @param GeoService $geoSvc
+     * @param AcarsRepository   $acarsRepo
+     * @param FlightRepository  $flightRepo
+     * @param GeoService        $geoSvc
      * @param NavdataRepository $navRepo
-     * @param PirepRepository $pirepRepo
-     * @param UserService $pilotSvc
+     * @param PirepRepository   $pirepRepo
+     * @param UserService       $pilotSvc
      */
     public function __construct(
         AcarsRepository $acarsRepo,
@@ -52,8 +53,7 @@ class PirepService extends BaseService
         NavdataRepository $navRepo,
         PirepRepository $pirepRepo,
         UserService $pilotSvc
-    )
-    {
+    ) {
         $this->acarsRepo = $acarsRepo;
         $this->flightRepo = $flightRepo;
         $this->geoSvc = $geoSvc;
@@ -74,8 +74,8 @@ class PirepService extends BaseService
         $time_limit = Carbon::now()->subMinutes($minutes)->toDateTimeString();
 
         $where = [
-            'user_id' => $pirep->user_id,
-            'airline_id' => $pirep->airline_id,
+            'user_id'       => $pirep->user_id,
+            'airline_id'    => $pirep->airline_id,
             'flight_number' => $pirep->flight_number,
         ];
 
@@ -114,7 +114,7 @@ class PirepService extends BaseService
         # Delete all the existing nav points
         Acars::where([
             'pirep_id' => $pirep->id,
-            'type' => AcarsType::ROUTE,
+            'type'     => AcarsType::ROUTE,
         ])->delete();
 
         # See if a route exists
@@ -123,7 +123,8 @@ class PirepService extends BaseService
         }
 
         if (!filled($pirep->dpt_airport)) {
-            Log::error('saveRoute: dpt_airport not found: ' . $pirep->dpt_airport_id);
+            Log::error('saveRoute: dpt_airport not found: '.$pirep->dpt_airport_id);
+
             return $pirep;
         }
 
@@ -203,7 +204,7 @@ class PirepService extends BaseService
 
     /**
      * Update any custom PIREP fields
-     * @param $pirep_id
+     * @param       $pirep_id
      * @param array $field_values
      */
     public function updateCustomFields($pirep_id, array $field_values)
@@ -211,10 +212,10 @@ class PirepService extends BaseService
         foreach ($field_values as $fv) {
             PirepFieldValues::updateOrCreate(
                 ['pirep_id' => $pirep_id,
-                    'name' => $fv['name']
+                 'name'     => $fv['name']
                 ],
-                ['value' => $fv['value'],
-                    'source' => $fv['source']
+                ['value'  => $fv['value'],
+                 'source' => $fv['source']
                 ]
             );
         }
@@ -222,12 +223,12 @@ class PirepService extends BaseService
 
     /**
      * @param Pirep $pirep
-     * @param int $new_state
+     * @param int   $new_state
      * @return Pirep
      */
     public function changeState(Pirep $pirep, int $new_state)
     {
-        Log::info('PIREP ' . $pirep->id . ' state change from ' . $pirep->state . ' to ' . $new_state);
+        Log::info('PIREP '.$pirep->id.' state change from '.$pirep->state.' to '.$new_state);
 
         if ($pirep->state === $new_state) {
             return $pirep;
@@ -249,12 +250,14 @@ class PirepService extends BaseService
          */
         elseif ($pirep->state === PirepState::ACCEPTED) {
             $pirep = $this->reject($pirep);
+
             return $pirep;
         } /**
          * Move from REJECTED to ACCEPTED
          */
         elseif ($pirep->state === PirepState::REJECTED) {
             $pirep = $this->accept($pirep);
+
             return $pirep;
         }
 
@@ -285,7 +288,7 @@ class PirepService extends BaseService
         $pirep->save();
         $pirep->refresh();
 
-        Log::info('PIREP ' . $pirep->id . ' state change to ACCEPTED');
+        Log::info('PIREP '.$pirep->id.' state change to ACCEPTED');
 
         # Update the aircraft
         $pirep->aircraft->flight_time += $pirep->flight_time;
@@ -330,7 +333,7 @@ class PirepService extends BaseService
         $pirep->aircraft->flight_time -= $pirep->flight_time;
         $pirep->aircraft->save();
 
-        Log::info('PIREP ' . $pirep->id . ' state change to REJECTED');
+        Log::info('PIREP '.$pirep->id.' state change to REJECTED');
 
         event(new PirepRejected($pirep));
 
@@ -366,16 +369,16 @@ class PirepService extends BaseService
         }
 
         $flight = $pirep->flight;
-        if(!$flight) {
+        if (!$flight) {
             return;
         }
 
         $bid = Bid::where([
-            'user_id' => $pirep->user->id,
+            'user_id'   => $pirep->user->id,
             'flight_id' => $flight->id,
         ]);
 
-        if($bid) {
+        if ($bid) {
             Log::info('Bid for user: '.$pirep->user->pilot_id.' on flight '.$flight->ident);
             $bid->delete();
         }

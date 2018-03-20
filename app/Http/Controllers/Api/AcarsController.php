@@ -2,30 +2,31 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Interfaces\Controller;
 use App\Repositories\AcarsRepository;
-use App\Repositories\PirepRepository;
 use App\Services\GeoService;
 use Illuminate\Http\Request;
 
-
-class AcarsController extends RestController
+/**
+ * Class AcarsController
+ * @package App\Http\Controllers\Api
+ */
+class AcarsController extends Controller
 {
-    protected $acarsRepo, $geoSvc, $pirepRepo;
+    private $acarsRepo,
+            $geoSvc;
 
     /**
      * AcarsController constructor.
-     * @param GeoService $geoSvc
+     * @param GeoService      $geoSvc
      * @param AcarsRepository $acarsRepo
-     * @param PirepRepository $pirepRepo
      */
     public function __construct(
         GeoService $geoSvc,
-        AcarsRepository $acarsRepo,
-        PirepRepository $pirepRepo
+        AcarsRepository $acarsRepo
     ) {
         $this->geoSvc = $geoSvc;
         $this->acarsRepo = $acarsRepo;
-        $this->pirepRepo = $pirepRepo;
     }
 
     /**

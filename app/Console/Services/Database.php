@@ -2,7 +2,7 @@
 
 namespace App\Console\Services;
 
-use Doctrine\DBAL\Driver\PDOException;
+use PDOException;
 use PDO;
 
 /**
@@ -13,16 +13,16 @@ class Database
 {
     /**
      * Create the base connection DSN, optionally include the DB name
-     * @param $host
-     * @param $port
+     * @param      $host
+     * @param      $port
      * @param null $name
      * @return string
      */
-    public function createDsn($host, $port, $name=null)
+    public function createDsn($host, $port, $name = null)
     {
         $conn = config('database.default');
         $dsn = "$conn:host=$host;port=$port";
-        if(filled($name)) {
+        if (filled($name)) {
             $dsn .= ';dbname='.$name;
         }
 

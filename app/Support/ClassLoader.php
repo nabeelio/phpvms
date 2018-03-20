@@ -2,8 +2,8 @@
 
 namespace App\Support;
 
-use Symfony\Component\ClassLoader\ClassMapGenerator;
 use Log;
+use Symfony\Component\ClassLoader\ClassMapGenerator;
 
 class ClassLoader
 {
@@ -11,7 +11,7 @@ class ClassLoader
      * @param $path
      * @return array
      */
-    public static function getClassesInPath($path)
+    public static function getClassesInPath($path): array
     {
         if (!file_exists($path)) {
             return [];
@@ -23,7 +23,7 @@ class ClassLoader
             try {
                 $klass = new $cl;
             } catch (\Exception $e) {
-                Log::error('Error loading class: ' . $e->getMessage());
+                Log::error('Error loading class: '.$e->getMessage());
                 continue;
             }
 

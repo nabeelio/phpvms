@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\CreateAirlineRequest;
-use App\Http\Requests\UpdateAirlineRequest;
+use App\Interfaces\Controller;
 use App\Models\Enums\ExpenseType;
 use App\Models\Expense;
 use App\Repositories\AirlineRepository;
@@ -13,7 +12,11 @@ use Illuminate\Http\Request;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 
-class ExpenseController extends BaseController
+/**
+ * Class ExpenseController
+ * @package App\Http\Controllers\Admin
+ */
+class ExpenseController extends Controller
 {
     private $airlineRepo,
             $expenseRepo;
@@ -73,6 +76,7 @@ class ExpenseController extends BaseController
         $this->expenseRepo->create($input);
 
         Flash::success('Expense saved successfully.');
+
         return redirect(route('admin.expenses.index'));
     }
 
@@ -87,6 +91,7 @@ class ExpenseController extends BaseController
 
         if (empty($expenses)) {
             Flash::error('expenses not found');
+
             return redirect(route('admin.expenses.index'));
         }
 
@@ -106,11 +111,12 @@ class ExpenseController extends BaseController
 
         if (empty($expense)) {
             Flash::error('Expense not found');
+
             return redirect(route('admin.expenses.index'));
         }
 
         return view('admin.expenses.edit', [
-            'expense' => $expense,
+            'expense'       => $expense,
             'airlines_list' => $this->airlineRepo->selectBoxList(true),
             'expense_types' => ExpenseType::select(),
         ]);
@@ -118,7 +124,7 @@ class ExpenseController extends BaseController
 
     /**
      * Update the specified expenses in storage.
-     * @param  int $id
+     * @param  int    $id
      * @param Request $request
      * @return Response
      * @throws \Prettus\Validator\Exceptions\ValidatorException
@@ -129,12 +135,14 @@ class ExpenseController extends BaseController
 
         if (empty($expenses)) {
             Flash::error('Expense not found');
+
             return redirect(route('admin.expenses.index'));
         }
 
         $this->expenseRepo->update($request->all(), $id);
 
         Flash::success('Expense updated successfully.');
+
         return redirect(route('admin.expenses.index'));
     }
 
@@ -149,12 +157,14 @@ class ExpenseController extends BaseController
 
         if (empty($expenses)) {
             Flash::error('Expense not found');
+
             return redirect(route('admin.expenses.index'));
         }
 
         $this->expenseRepo->delete($id);
 
         Flash::success('Expense deleted successfully.');
+
         return redirect(route('admin.expenses.index'));
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Listeners\Cron\Nightly;
 
 use App\Events\CronNightly;
+use App\Interfaces\Listener;
 use App\Models\Enums\ExpenseType;
 use App\Services\Finance\RecurringFinanceService;
 
@@ -10,13 +11,17 @@ use App\Services\Finance\RecurringFinanceService;
  * Go through and apply any finances that are daily
  * @package App\Listeners\Cron\Nightly
  */
-class ApplyExpenses
+class ApplyExpenses extends Listener
 {
-    private $dfSvc;
+    private $financeSvc;
 
-    public function __construct(RecurringFinanceService $dfSvc)
+    /**
+     * ApplyExpenses constructor.
+     * @param RecurringFinanceService $financeSvc
+     */
+    public function __construct(RecurringFinanceService $financeSvc)
     {
-        $this->dfSvc = $dfSvc;
+        $this->financeSvc = $financeSvc;
     }
 
     /**
@@ -28,6 +33,6 @@ class ApplyExpenses
      */
     public function handle(CronNightly $event): void
     {
-        $this->dfSvc->processExpenses(ExpenseType::DAILY);
+        $this->financeSvc->processExpenses(ExpenseType::DAILY);
     }
 }

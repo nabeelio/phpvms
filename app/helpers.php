@@ -1,6 +1,6 @@
 <?php
 
-if(!function_exists('get_truth_state')) {
+if (!function_exists('get_truth_state')) {
     /**
      * Check if the passed state matches any of the states that
      * we regard as being true or false
@@ -18,7 +18,7 @@ if(!function_exists('get_truth_state')) {
             true,
         ];
 
-        if(is_string($state)) {
+        if (is_string($state)) {
             $state = strtolower($state);
         }
 
@@ -26,7 +26,7 @@ if(!function_exists('get_truth_state')) {
     }
 }
 
-if(!function_exists('list_to_assoc')) {
+if (!function_exists('list_to_assoc')) {
     /**
      * Converts a straight list into an assoc array with
      * key and value being the same. Mainly for a select box
@@ -42,8 +42,8 @@ if(!function_exists('list_to_assoc')) {
     function list_to_assoc(array $list)
     {
         $ret = [];
-        foreach($list as $item) {
-            if(substr_count($item, '=')) {
+        foreach ($list as $item) {
+            if (substr_count($item, '=')) {
                 [$item, $title] = explode('=', $item);
             } else {
                 $title = $item;
@@ -56,7 +56,7 @@ if(!function_exists('list_to_assoc')) {
     }
 }
 
-if(!function_exists('list_to_editable')) {
+if (!function_exists('list_to_editable')) {
     /**
      * Convert a list (select box) into an editable list
      * https://vitalets.github.io/x-editable/docs.html#select
@@ -70,7 +70,7 @@ if(!function_exists('list_to_editable')) {
     function list_to_editable(array $list)
     {
         $editable = [];
-        foreach($list as $value => $key) {
+        foreach ($list as $value => $key) {
             $editable[] = [
                 'text'  => $key,
                 'value' => $value,
@@ -84,7 +84,7 @@ if(!function_exists('list_to_editable')) {
 if (!function_exists('skin_view')) {
     /**
      * Render a skin
-     * @param $template
+     * @param       $template
      * @param array $vars
      * @param array $merge_data
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
@@ -93,12 +93,13 @@ if (!function_exists('skin_view')) {
     {
         # Add the current skin name so we don't need to hardcode it in the templates
         # Makes it a bit easier to create a new skin by modifying an existing one
-        if(View::exists($template)) {
+        if (View::exists($template)) {
             return view($template, $vars, $merge_data);
         }
 
         # TODO: Look for an overridden template in a special folder
-        $tpl = 'layouts/' . config('phpvms.skin') . '/' . $template;
+        $tpl = 'layouts/'.config('phpvms.skin').'/'.$template;
+
         return view($tpl, $vars, $merge_data);
     }
 }
@@ -128,7 +129,7 @@ if (!function_exists('public_asset')) {
     function public_asset($path, $parameters = [], $secure = null)
     {
         $publicBaseUrl = app()->publicUrlPath();
-        $path = $publicBaseUrl . $path;
+        $path = $publicBaseUrl.$path;
 
         $path = str_replace('//', '/', $path);
 
@@ -139,16 +140,16 @@ if (!function_exists('public_asset')) {
 /**
  * Show a date/time in the proper timezone for a user
  */
-if(!function_exists('show_datetime')) {
+if (!function_exists('show_datetime')) {
     /**
      * Format the a Carbon date into the datetime string
      * but convert it into the user's timezone
      * @param \Carbon\Carbon $date
      * @return string
      */
-    function show_datetime(\Carbon\Carbon $date=null)
+    function show_datetime(\Carbon\Carbon $date = null)
     {
-        if(empty($date)) {
+        if (empty($date)) {
             return '-';
         }
 

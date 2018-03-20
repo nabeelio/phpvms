@@ -2,10 +2,13 @@
 
 namespace Modules\Sample\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use App\Interfaces\Controller;
 use Illuminate\Http\Request;
 
-
+/**
+ * Class SampleController
+ * @package Modules\Sample\Http\Controllers
+ */
 class SampleController extends Controller
 {
     /**

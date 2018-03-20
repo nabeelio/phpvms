@@ -16,6 +16,7 @@ use App\Http\Resources\AcarsRoute as AcarsRouteResource;
 use App\Http\Resources\JournalTransaction as JournalTransactionResource;
 use App\Http\Resources\Pirep as PirepResource;
 use App\Http\Resources\PirepComment as PirepCommentResource;
+use App\Interfaces\Controller;
 use App\Models\Acars;
 use App\Models\Enums\AcarsType;
 use App\Models\Enums\PirepSource;
@@ -35,7 +36,11 @@ use Auth;
 use Illuminate\Http\Request;
 use Log;
 
-class PirepController extends RestController
+/**
+ * Class PirepController
+ * @package App\Http\Controllers\Api
+ */
+class PirepController extends Controller
 {
     private $acarsRepo,
             $fareSvc,
@@ -48,13 +53,14 @@ class PirepController extends RestController
 
     /**
      * PirepController constructor.
-     * @param AcarsRepository $acarsRepo
+     * @param AcarsRepository     $acarsRepo
+     * @param FareService         $fareSvc
      * @param PirepFinanceService $financeSvc
-     * @param GeoService $geoSvc
-     * @param JournalRepository $journalRepo
-     * @param PirepRepository $pirepRepo
-     * @param PirepService $pirepSvc
-     * @param UserService $userSvc
+     * @param GeoService          $geoSvc
+     * @param JournalRepository   $journalRepo
+     * @param PirepRepository     $pirepRepo
+     * @param PirepService        $pirepSvc
+     * @param UserService         $userSvc
      */
     public function __construct(
         AcarsRepository $acarsRepo,
@@ -98,7 +104,7 @@ class PirepController extends RestController
     }
 
     /**
-     * @param $pirep
+     * @param         $pirep
      * @param Request $request
      */
     protected function updateFields($pirep, Request $request)
@@ -110,8 +116,8 @@ class PirepController extends RestController
         $pirep_fields = [];
         foreach ($request->input('fields') as $field_name => $field_value) {
             $pirep_fields[] = [
-                'name' => $field_name,
-                'value' => $field_value,
+                'name'   => $field_name,
+                'value'  => $field_value,
                 'source' => $pirep->source,
             ];
         }
@@ -121,21 +127,21 @@ class PirepController extends RestController
 
     /**
      * Save the fares
-     * @param $pirep
+     * @param         $pirep
      * @param Request $request
      * @throws \Exception
      */
     protected function updateFares($pirep, Request $request)
     {
-        if(!$request->filled('fares')) {
+        if (!$request->filled('fares')) {
             return;
         }
 
         $fares = [];
-        foreach($request->post('fares') as $fare) {
+        foreach ($request->post('fares') as $fare) {
             $fares[] = [
                 'fare_id' => $fare['id'],
-                'count' => $fare['count'],
+                'count'   => $fare['count'],
             ];
         }
 
@@ -168,7 +174,7 @@ class PirepController extends RestController
         $pirep = new Pirep($attrs);
 
         # See if this user is allowed to fly this aircraft
-        if(setting('pireps.restrict_aircraft_to_rank', false)) {
+        if (setting('pireps.restrict_aircraft_to_rank', false)) {
             $can_use_ac = $this->userSvc->aircraftAllowed($user, $pirep->aircraft_id);
             if (!$can_use_ac) {
                 throw new AircraftPermissionDenied();
@@ -177,7 +183,7 @@ class PirepController extends RestController
 
         # Find if there's a duplicate, if so, let's work on that
         $dupe_pirep = $this->pirepSvc->findDuplicate($pirep);
-        if($dupe_pirep !== false) {
+        if ($dupe_pirep !== false) {
             $pirep = $dupe_pirep;
             $this->checkCancelled($pirep);
         }
@@ -198,7 +204,7 @@ class PirepController extends RestController
      * Once ACARS updates are being processed, then it can go into an 'ENROUTE'
      * status, and whatever other statuses may be defined
      *
-     * @param $id
+     * @param               $id
      * @param UpdateRequest $request
      * @return PirepResource
      * @throws \App\Exceptions\PirepCancelled
@@ -208,7 +214,7 @@ class PirepController extends RestController
      */
     public function update($id, UpdateRequest $request)
     {
-        Log::info('PIREP Update, user ' . Auth::id(), $request->post());
+        Log::info('PIREP Update, user '.Auth::id(), $request->post());
 
         $user = Auth::user();
         $pirep = $this->pirepRepo->find($id);
@@ -236,7 +242,7 @@ class PirepController extends RestController
 
     /**
      * File the PIREP
-     * @param $id
+     * @param             $id
      * @param FileRequest $request
      * @return PirepResource
      * @throws \App\Exceptions\PirepCancelled
@@ -246,7 +252,7 @@ class PirepController extends RestController
      */
     public function file($id, FileRequest $request)
     {
-        Log::info('PIREP file, user ' . Auth::id(), $request->post());
+        Log::info('PIREP file, user '.Auth::id(), $request->post());
 
         $user = Auth::user();
 
@@ -283,7 +289,7 @@ class PirepController extends RestController
         # route that's been posted from the PIREP
         $w = ['pirep_id' => $pirep->id, 'type' => AcarsType::ROUTE];
         $count = Acars::where($w)->count(['id']);
-        if($count === 0) {
+        if ($count === 0) {
             $this->pirepSvc->saveRoute($pirep);
         }
 
@@ -292,14 +298,14 @@ class PirepController extends RestController
 
     /**
      * Cancel the PIREP
-     * @param $id
+     * @param         $id
      * @param Request $request
      * @return PirepResource
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
     public function cancel($id, Request $request)
     {
-        Log::info('PIREP Cancel, user ' . Auth::id(), $request->post());
+        Log::info('PIREP Cancel, user '.Auth::id(), $request->post());
 
         $pirep = $this->pirepRepo->update([
             'state' => PirepState::CANCELLED,
@@ -310,7 +316,7 @@ class PirepController extends RestController
 
     /**
      * Return the GeoJSON for the ACARS line
-     * @param $id
+     * @param         $id
      * @param Request $request
      * @return \Illuminate\Contracts\Routing\ResponseFactory
      */
@@ -326,7 +332,7 @@ class PirepController extends RestController
 
     /**
      * Return the routes for the ACARS line
-     * @param $id
+     * @param         $id
      * @param Request $request
      * @return AcarsRouteResource
      */
@@ -336,13 +342,13 @@ class PirepController extends RestController
 
         return new AcarsRouteResource(Acars::where([
             'pirep_id' => $id,
-            'type' => AcarsType::FLIGHT_PATH
+            'type'     => AcarsType::FLIGHT_PATH
         ])->orderBy('created_at', 'asc')->get());
     }
 
     /**
      * Post ACARS updates for a PIREP
-     * @param $id
+     * @param                 $id
      * @param PositionRequest $request
      * @return \Illuminate\Http\JsonResponse
      * @throws \App\Exceptions\PirepCancelled
@@ -361,8 +367,7 @@ class PirepController extends RestController
 
         $count = 0;
         $positions = $request->post('positions');
-        foreach($positions as $position)
-        {
+        foreach ($positions as $position) {
             $position['pirep_id'] = $id;
             $position['type'] = AcarsType::FLIGHT_PATH;
 
@@ -376,13 +381,13 @@ class PirepController extends RestController
         $pirep->status = PirepStatus::ENROUTE;
         $pirep->save();
 
-        return $this->message($count . ' positions added', $count);
+        return $this->message($count.' positions added', $count);
     }
 
     /**
      * Post ACARS LOG update for a PIREP. These updates won't show up on the map
      * But rather in a log file.
-     * @param $id
+     * @param            $id
      * @param LogRequest $request
      * @return \Illuminate\Http\JsonResponse
      * @throws \App\Exceptions\PirepCancelled
@@ -398,8 +403,7 @@ class PirepController extends RestController
 
         $count = 0;
         $logs = $request->post('logs');
-        foreach($logs as $log) {
-
+        foreach ($logs as $log) {
             $log['pirep_id'] = $id;
             $log['type'] = AcarsType::LOG;
 
@@ -408,13 +412,13 @@ class PirepController extends RestController
             ++$count;
         }
 
-        return $this->message($count . ' logs added', $count);
+        return $this->message($count.' logs added', $count);
     }
 
     /**
      * Post ACARS LOG update for a PIREP. These updates won't show up on the map
      * But rather in a log file.
-     * @param $id
+     * @param              $id
      * @param EventRequest $request
      * @return \Illuminate\Http\JsonResponse
      * @throws \App\Exceptions\PirepCancelled
@@ -426,12 +430,11 @@ class PirepController extends RestController
         $pirep = $this->pirepRepo->find($id);
         $this->checkCancelled($pirep);
 
-        Log::debug('Posting ACARS event, PIREP: ' . $id, $request->post());
+        Log::debug('Posting ACARS event, PIREP: '.$id, $request->post());
 
         $count = 0;
         $logs = $request->post('events');
         foreach ($logs as $log) {
-
             $log['pirep_id'] = $id;
             $log['type'] = AcarsType::LOG;
             $log['log'] = $log['event'];
@@ -441,24 +444,25 @@ class PirepController extends RestController
             ++$count;
         }
 
-        return $this->message($count . ' logs added', $count);
+        return $this->message($count.' logs added', $count);
     }
 
     /**
      * Add a new comment
-     * @param $id
+     * @param         $id
      * @param Request $request
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function comments_get($id, Request $request)
     {
         $pirep = $this->pirepRepo->find($id);
+
         return PirepCommentResource::collection($pirep->comments);
     }
 
     /**
      * Add a new comment
-     * @param $id
+     * @param                $id
      * @param CommentRequest $request
      * @return PirepCommentResource
      * @throws \App\Exceptions\PirepCancelled
@@ -480,7 +484,7 @@ class PirepController extends RestController
     }
 
     /**
-     * @param $id
+     * @param         $id
      * @param Request $request
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      * @throws \UnexpectedValueException
@@ -490,11 +494,12 @@ class PirepController extends RestController
     {
         $pirep = $this->pirepRepo->find($id);
         $transactions = $this->journalRepo->getAllForObject($pirep);
+
         return JournalTransactionResource::collection($transactions);
     }
 
     /**
-     * @param $id
+     * @param         $id
      * @param Request $request
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      * @throws \UnexpectedValueException
@@ -509,11 +514,12 @@ class PirepController extends RestController
 
         $pirep->refresh();
         $transactions = $this->journalRepo->getAllForObject($pirep);
+
         return JournalTransactionResource::collection($transactions['transactions']);
     }
 
     /**
-     * @param $id
+     * @param         $id
      * @param Request $request
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
@@ -523,13 +529,13 @@ class PirepController extends RestController
 
         return AcarsRouteResource::collection(Acars::where([
             'pirep_id' => $id,
-            'type' => AcarsType::ROUTE
+            'type'     => AcarsType::ROUTE
         ])->orderBy('order', 'asc')->get());
     }
 
     /**
      * Post the ROUTE for a PIREP, can be done from the ACARS log
-     * @param $id
+     * @param              $id
      * @param RouteRequest $request
      * @return \Illuminate\Http\JsonResponse
      * @throws \App\Exceptions\PirepCancelled
@@ -545,7 +551,7 @@ class PirepController extends RestController
 
         $count = 0;
         $route = $request->post('route', []);
-        foreach($route as $position) {
+        foreach ($route as $position) {
             $position['pirep_id'] = $id;
             $position['type'] = AcarsType::ROUTE;
 
@@ -555,11 +561,11 @@ class PirepController extends RestController
             ++$count;
         }
 
-        return $this->message($count . ' points added', $count);
+        return $this->message($count.' points added', $count);
     }
 
     /**
-     * @param $id
+     * @param         $id
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
@@ -570,7 +576,7 @@ class PirepController extends RestController
 
         Acars::where([
             'pirep_id' => $id,
-            'type' => AcarsType::ROUTE
+            'type'     => AcarsType::ROUTE
         ])->delete();
 
         return $this->message('Route deleted');

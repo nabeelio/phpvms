@@ -3,17 +3,16 @@
 namespace App\Listeners\Cron\Nightly;
 
 use App\Events\CronNightly;
+use App\Interfaces\Listener;
 use App\Models\Journal;
-use App\Models\JournalTransaction;
 use App\Repositories\JournalRepository;
-use App\Support\Money;
 use Log;
 
 /**
  * This recalculates the balances on all of the journals
  * @package App\Listeners\Cron
  */
-class RecalculateBalances
+class RecalculateBalances extends Listener
 {
     private $journalRepo;
 
@@ -43,9 +42,9 @@ class RecalculateBalances
             $this->journalRepo->recalculateBalance($journal);
             $journal->refresh();
 
-            Log::info('Adjusting balance on ' .
-                $journal->morphed_type . ':' . $journal->morphed_id
-                . ' from ' . $old_balance . ' to ' . $journal->balance);
+            Log::info('Adjusting balance on '.
+                $journal->morphed_type.':'.$journal->morphed_id
+                .' from '.$old_balance.' to '.$journal->balance);
         }
 
         Log::info('Done calculating balances');

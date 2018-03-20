@@ -2,11 +2,16 @@
 
 namespace App\Repositories;
 
+use App\Interfaces\Repository;
 use App\Models\Enums\PirepState;
 use App\Models\Pirep;
 use App\Models\User;
 
-class PirepRepository extends BaseRepository
+/**
+ * Class PirepRepository
+ * @package App\Repositories
+ */
+class PirepRepository extends Repository
 {
     protected $fieldSearchable = [
         'user_id',
@@ -14,6 +19,9 @@ class PirepRepository extends BaseRepository
         'state',
     ];
 
+    /**
+     * @return string
+     */
     public function model()
     {
         return Pirep::class;
@@ -25,14 +33,15 @@ class PirepRepository extends BaseRepository
      * @param User|null $user
      * @return Pirep
      */
-    public function getPending(User $user=null)
+    public function getPending(User $user = null)
     {
         $where = [];
-        if($user !== null) {
+        if ($user !== null) {
             $where['user_id'] = $user->id;
         }
 
         $pireps = $this->orderBy('created_at', 'desc')->findWhere($where)->all();
+
         return $pireps;
     }
 
@@ -52,8 +61,9 @@ class PirepRepository extends BaseRepository
         }
 
         $pireps = $this->orderBy('created_at', 'desc')
-                       ->findWhere($where, ['id'])
-                       ->count();
+            ->findWhere($where, ['id'])
+            ->count();
+
         return $pireps;
     }
 }

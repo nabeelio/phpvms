@@ -2,10 +2,22 @@
 
 namespace $NAMESPACE$;
 
-use App\Models\BaseModel;
+use App\Interfaces\Model;
 
-class $CLASS$ extends BaseModel
+/**
+ * Class $CLASS$
+ * @package $NAMESPACE$
+ */
+class $CLASS$ extends Model
 {
     public $table = '';
     protected $fillable = $FILLABLE$;
+
+    protected $casts = [
+
+    ];
+
+    public static $rules = [
+
+    ];
 }

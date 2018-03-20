@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateAwardsTable extends Migration
 {
@@ -29,7 +29,6 @@ class CreateAwardsTable extends Migration
 
             $table->index(['ref_class']);
         });
-
 
         Schema::create('user_awards', function (Blueprint $table) {
             $table->increments('id');

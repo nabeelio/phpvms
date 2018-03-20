@@ -11,7 +11,7 @@ use Illuminate\Contracts\Support\Arrayable;
 class Time implements Arrayable
 {
     public $hours,
-           $minutes;
+        $minutes;
 
     /**
      * @param $minutes
@@ -29,11 +29,11 @@ class Time implements Arrayable
      * @param $minutes
      * @param $hours
      */
-    public function __construct($minutes, $hours=null)
+    public function __construct($minutes, $hours = null)
     {
         $minutes = (int) $minutes;
 
-        if(!empty($hours)) {
+        if (!empty($hours)) {
             $this->hours = (int) $hours;
         } else {
             $this->hours = floor($minutes / 60);
@@ -67,7 +67,7 @@ class Time implements Arrayable
      */
     public function __toString()
     {
-        return $this->hours . 'h ' . $this->minutes . 'm';
+        return $this->hours.'h '.$this->minutes.'m';
     }
 
     /**

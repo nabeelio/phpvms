@@ -8,13 +8,12 @@ use App\Console\Cron\Weekly;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
+/**
+ * Class Kernel
+ * @package App\Console
+ */
 class Kernel extends ConsoleKernel
 {
-    /**
-     * The Artisan commands provided by your application.
-     *
-     * @var array
-     */
     protected $commands = [
         Commands\AcarsReplay::class,
         Commands\CreateDatabase::class,
@@ -28,7 +27,7 @@ class Kernel extends ConsoleKernel
 
     /**
      * Define the application's command schedule.
-     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
+     * @param  \Illuminate\Console\Scheduling\Schedule $schedule
      * @return void
      */
     protected function schedule(Schedule $schedule): void
@@ -45,7 +44,7 @@ class Kernel extends ConsoleKernel
     protected function commands(): void
     {
         require app_path('Routes/console.php');
-        $this->load(__DIR__ . '/Commands');
-        $this->load(__DIR__ . '/Cron');
+        $this->load(__DIR__.'/Commands');
+        $this->load(__DIR__.'/Cron');
     }
 }

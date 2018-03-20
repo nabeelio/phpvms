@@ -2,9 +2,14 @@
 
 namespace App\Repositories;
 
+use App\Interfaces\Repository;
 use App\Models\PirepField;
 
-class PirepFieldRepository extends BaseRepository
+/**
+ * Class PirepFieldRepository
+ * @package App\Repositories
+ */
+class PirepFieldRepository extends Repository
 {
     protected $fieldSearchable = [
         'name' => 'like',

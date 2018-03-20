@@ -2,12 +2,12 @@
 
 namespace App\Services\Finance;
 
+use App\Interfaces\Service;
 use App\Models\Airline;
 use App\Models\Enums\ExpenseType;
 use App\Models\Expense;
 use App\Models\JournalTransaction;
 use App\Repositories\JournalRepository;
-use App\Services\BaseService;
 use App\Support\Money;
 use Log;
 
@@ -15,10 +15,14 @@ use Log;
  * Process all of the daily expenses and charge them
  * @package App\Services\Finance
  */
-class RecurringFinanceService extends BaseService
+class RecurringFinanceService extends Service
 {
     private $journalRepo;
 
+    /**
+     * RecurringFinanceService constructor.
+     * @param JournalRepository $journalRepo
+     */
     public function __construct(JournalRepository $journalRepo)
     {
         $this->journalRepo = $journalRepo;
@@ -32,14 +36,14 @@ class RecurringFinanceService extends BaseService
      */
     protected function findJournals(Expense $expense)
     {
-        if($expense->airline_id) {
+        if ($expense->airline_id) {
             $airline = Airline::find($expense->airline_id)->first(['id', 'icao']);
-            Log::info('Charging to ' . $airline->icao);
+            Log::info('Charging to '.$airline->icao);
             yield $airline->journal;
         } else {
             $airlines = Airline::all(['id', 'icao']);
-            foreach($airlines as $airline) {
-                Log::info('Charging to ' . $airline->icao);
+            foreach ($airlines as $airline) {
+                Log::info('Charging to '.$airline->icao);
                 yield $airline->journal;
             }
         }
@@ -76,7 +80,6 @@ class RecurringFinanceService extends BaseService
         return [$memo, $transaction_group];
     }
 
-
     /**
      * Run all of the daily expense/financials
      * @param int $type
@@ -84,12 +87,12 @@ class RecurringFinanceService extends BaseService
      * @throws \InvalidArgumentException
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
-    public function processExpenses($type=ExpenseType::DAILY): void
+    public function processExpenses($type = ExpenseType::DAILY): void
     {
         $expenses = Expense::where(['type' => $type])->get();
 
         $tag = 'expense_recurring';
-        if($type === ExpenseType::DAILY) {
+        if ($type === ExpenseType::DAILY) {
             $tag = 'expenses_daily';
         } elseif ($type === ExpenseType::MONTHLY) {
             $tag === 'expenses_monthly';
@@ -99,18 +102,16 @@ class RecurringFinanceService extends BaseService
          * @var $expenses Expense[]
          */
         foreach ($expenses as $expense) {
-
             # Apply the expenses to the appropriate journals
             $journals = $this->findJournals($expense);
-            foreach($journals as $journal) {
-
+            foreach ($journals as $journal) {
                 $amount = $expense->amount;
 
                 # Has this expense already been charged? Check
                 # against this specific journal, on today
                 $w = [
-                    'journal_id' => $journal->id,
-                    'ref_class' => Expense::class,
+                    'journal_id'   => $journal->id,
+                    'ref_class'    => Expense::class,
                     'ref_class_id' => $expense->id,
                 ];
 
@@ -118,7 +119,7 @@ class RecurringFinanceService extends BaseService
                     ->whereDate('post_date', '=', \Carbon::now('UTC')->toDateString())
                     ->count(['id']);
 
-                if($found > 0) {
+                if ($found > 0) {
                     Log::info('Expense "'.$expense->name.'" already charged for today, skipping');
                     continue;
                 }
@@ -136,7 +137,7 @@ class RecurringFinanceService extends BaseService
                     $tag
                 );
 
-                Log::info('Expense memo: "'.$memo.'"; group: "'. $ta_group. '" charged!');
+                Log::info('Expense memo: "'.$memo.'"; group: "'.$ta_group.'" charged!');
             }
         }
     }

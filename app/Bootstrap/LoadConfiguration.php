@@ -23,8 +23,7 @@ class LoadConfiguration extends \Illuminate\Foundation\Bootstrap\LoadConfigurati
      * Load the configuration items from all of the files.
      *
      * @param  \Illuminate\Contracts\Foundation\Application $app
-     * @param  \Illuminate\Contracts\Config\Repository $repository
-     * @return void
+     * @param  \Illuminate\Contracts\Config\Repository      $repository
      * @throws \Exception
      */
     protected function loadConfigurationFiles(Application $app, RepositoryContract $repository)

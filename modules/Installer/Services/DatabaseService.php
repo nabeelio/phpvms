@@ -2,11 +2,12 @@
 
 namespace Modules\Installer\Services;
 
+use App\Interfaces\Service;
 use Log;
 use PDO;
 
-class DatabaseService {
-
+class DatabaseService extends Service
+{
     /**
      * Check the PHP version that it meets the minimum requirement
      * @param $driver

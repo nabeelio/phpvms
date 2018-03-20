@@ -4,6 +4,10 @@ namespace App\Models\Observers;
 
 use App\Models\JournalTransaction;
 
+/**
+ * Class JournalTransactionObserver
+ * @package App\Models\Observers
+ */
 class JournalTransactionObserver
 {
     /**
@@ -31,7 +35,6 @@ class JournalTransactionObserver
 
         if ($transaction['debit']) {
             $balance = $journal->balance->toAmount();
-            #$journal->balance = $journal->balance->subtract($transaction['debit']);
             $journal->balance = (int) $balance - $transaction->debit;
         }
 

@@ -70,17 +70,16 @@ class RolesPermissionsTables extends Migration
         # create a default user/role
         $roles = [
             [
-                'id' => 1,
-                'name' => 'admin',
+                'id'           => 1,
+                'name'         => 'admin',
                 'display_name' => 'Administrators',
             ],
             [
-                'id' => 2,
-                'name' => 'user',
+                'id'           => 2,
+                'name'         => 'user',
                 'display_name' => 'Pilot'
             ],
         ];
-
 
         $this->addData('roles', $roles);
     }

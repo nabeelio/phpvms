@@ -13,6 +13,7 @@ class JsonResponse
     {
         $response = $next($request);
         $response->headers->set('Content-Type', 'application/json');
+
         return $response;
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Interfaces\Model;
 use App\Models\Enums\AcarsType;
 use App\Models\Enums\PirepState;
 use App\Models\Traits\HashIdTrait;
@@ -13,21 +14,21 @@ use PhpUnitsOfMeasure\Exception\NonStringUnitName;
 /**
  * Class Pirep
  *
- * @property string flight_number
- * @property string route_code
- * @property string route_leg
- * @property integer airline_id
- * @property Aircraft aircraft
- * @property Airline airline
- * @property Airport arr_airport
- * @property Airport dep_airport
- * @property integer flight_time    In minutes
- * @property User user
+ * @property string      flight_number
+ * @property string      route_code
+ * @property string      route_leg
+ * @property integer     airline_id
+ * @property integer     user_id
+ * @property Aircraft    aircraft
+ * @property Airline     airline
+ * @property Airport     arr_airport
+ * @property Airport     dep_airport
+ * @property integer     flight_time    In minutes
+ * @property User        user
  * @property Flight|null flight
- * @property int user_id
  * @package App\Models
  */
-class Pirep extends BaseModel
+class Pirep extends Model
 {
     use HashIdTrait;
 
@@ -70,32 +71,32 @@ class Pirep extends BaseModel
     ];
 
     protected $casts = [
-        'user_id'               => 'integer',
-        'airline_id'            => 'integer',
-        'aircraft_id'           => 'integer',
-        'level'                 => 'integer',
-        'distance'              => 'float',
-        'planned_distance'      => 'float',
-        'flight_time'           => 'integer',
-        'planned_flight_time'   => 'integer',
-        'zfw'                   => 'float',
-        'block_fuel'            => 'float',
-        'fuel_used'             => 'float',
-        'landing_rate'          => 'float',
-        'source'                => 'integer',
-        'flight_type'           => 'integer',
-        'state'                 => 'integer',
-        'status'                => 'integer',
+        'user_id'             => 'integer',
+        'airline_id'          => 'integer',
+        'aircraft_id'         => 'integer',
+        'level'               => 'integer',
+        'distance'            => 'float',
+        'planned_distance'    => 'float',
+        'flight_time'         => 'integer',
+        'planned_flight_time' => 'integer',
+        'zfw'                 => 'float',
+        'block_fuel'          => 'float',
+        'fuel_used'           => 'float',
+        'landing_rate'        => 'float',
+        'source'              => 'integer',
+        'flight_type'         => 'integer',
+        'state'               => 'integer',
+        'status'              => 'integer',
     ];
 
     public static $rules = [
-        'airline_id'        => 'required|exists:airlines,id',
-        'aircraft_id'       => 'required|exists:aircraft,id',
-        'flight_number'     => 'required',
-        'dpt_airport_id'    => 'required',
-        'arr_airport_id'    => 'required',
-        'notes'             => 'nullable',
-        'route'             => 'nullable',
+        'airline_id'     => 'required|exists:airlines,id',
+        'aircraft_id'    => 'required|exists:aircraft,id',
+        'flight_number'  => 'required',
+        'dpt_airport_id' => 'required',
+        'arr_airport_id' => 'required',
+        'notes'          => 'nullable',
+        'route'          => 'nullable',
     ];
 
     /**
@@ -107,11 +108,11 @@ class Pirep extends BaseModel
         $flight_id = $this->airline->code;
         $flight_id .= $this->flight_number;
 
-        if(filled($this->route_code)) {
+        if (filled($this->route_code)) {
             $flight_id .= '/C'.$this->route_code;
         }
 
-        if(filled($this->route_leg)) {
+        if (filled($this->route_leg)) {
             $flight_id .= '/L'.$this->route_leg;
         }
 
@@ -124,12 +125,13 @@ class Pirep extends BaseModel
      */
     public function getDistanceAttribute()
     {
-        if(!array_key_exists('distance', $this->attributes)) {
+        if (!array_key_exists('distance', $this->attributes)) {
             return null;
         }
 
         try {
             $distance = (float) $this->attributes['distance'];
+
             return new Distance($distance, config('phpvms.internal_units.distance'));
         } catch (NonNumericValue $e) {
             return 0;
@@ -164,6 +166,7 @@ class Pirep extends BaseModel
 
         try {
             $fuel_used = (float) $this->attributes['fuel_used'];
+
             return new Fuel($fuel_used, config('phpvms.internal_units.fuel'));
         } catch (NonNumericValue $e) {
             return 0;
@@ -184,6 +187,7 @@ class Pirep extends BaseModel
 
         try {
             $distance = (float) $this->attributes['planned_distance'];
+
             return new Distance($distance, config('phpvms.internal_units.distance'));
         } catch (NonNumericValue $e) {
             return 0;
@@ -199,9 +203,9 @@ class Pirep extends BaseModel
     public function getFlightAttribute(): ?Flight
     {
         $where = [
-            'airline_id' => $this->airline_id,
+            'airline_id'    => $this->airline_id,
             'flight_number' => $this->flight_number,
-            'active' => true,
+            'active'        => true,
         ];
 
         if (filled($this->route_code)) {
@@ -261,13 +265,12 @@ class Pirep extends BaseModel
      */
     public function allowedUpdates(): bool
     {
-        if($this->state === PirepState::CANCELLED) {
+        if ($this->state === PirepState::CANCELLED) {
             return false;
         }
 
         return true;
     }
-
 
     /**
      * Foreign Keys
@@ -276,22 +279,22 @@ class Pirep extends BaseModel
     public function acars()
     {
         return $this->hasMany(Acars::class, 'pirep_id')
-                    ->where('type', AcarsType::FLIGHT_PATH)
-                    ->orderBy('created_at', 'desc');
+            ->where('type', AcarsType::FLIGHT_PATH)
+            ->orderBy('created_at', 'desc');
     }
 
     public function acars_logs()
     {
         return $this->hasMany(Acars::class, 'pirep_id')
-                    ->where('type', AcarsType::LOG)
-                    ->orderBy('created_at', 'asc');
+            ->where('type', AcarsType::LOG)
+            ->orderBy('created_at', 'asc');
     }
 
     public function acars_route()
     {
         return $this->hasMany(Acars::class, 'pirep_id')
-                    ->where('type', AcarsType::ROUTE)
-                    ->orderBy('order', 'asc');
+            ->where('type', AcarsType::ROUTE)
+            ->orderBy('order', 'asc');
     }
 
     public function aircraft()
@@ -317,7 +320,7 @@ class Pirep extends BaseModel
     public function comments()
     {
         return $this->hasMany(PirepComment::class, 'pirep_id')
-                ->orderBy('created_at', 'desc');
+            ->orderBy('created_at', 'desc');
     }
 
     public function fares()
@@ -342,16 +345,16 @@ class Pirep extends BaseModel
     public function position()
     {
         return $this->hasOne(Acars::class, 'pirep_id')
-                    ->where('type', AcarsType::FLIGHT_PATH)
-                    ->latest();
+            ->where('type', AcarsType::FLIGHT_PATH)
+            ->latest();
     }
 
     public function transactions()
     {
         return $this->hasMany(JournalTransaction::class, 'ref_class_id')
-                    ->where('ref_class', __CLASS__)
-                    ->orderBy('credit', 'desc')
-                    ->orderBy('debit', 'desc');
+            ->where('ref_class', __CLASS__)
+            ->orderBy('credit', 'desc')
+            ->orderBy('debit', 'desc');
     }
 
     public function user()

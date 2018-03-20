@@ -2,16 +2,21 @@
 
 namespace App\Services;
 
+use App\Interfaces\Service;
 use App\Support\ClassLoader;
 use Module;
 
-class AwardService
+/**
+ * Class AwardService
+ * @package App\Services
+ */
+class AwardService extends Service
 {
     /**
      * Find any of the award classes
-     * @return \App\Interfaces\AwardInterface[]
+     * @return \App\Interfaces\Award[]
      */
-    public function findAllAwardClasses()
+    public function findAllAwardClasses(): array
     {
         $awards = [];
         $formatted_awards = [];

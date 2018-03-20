@@ -5,33 +5,37 @@
 
 namespace App\Models\Migrations;
 
+use App\Interfaces\Migration as MigrationInterface;
 use App\Models\Setting;
 use DB;
-use Illuminate\Database\Migrations\Migration as MigrationBase;
 
-class Migration extends MigrationBase
+/**
+ * Class Migration
+ * @package App\Models\Migrations
+ */
+class Migration extends MigrationInterface
 {
-    private $counters = [];
-    private $offsets = [];
+    protected $counters = [];
+    protected $offsets = [];
 
     /**
      * Dynamically figure out the offset and the start number for a group.
      * This way we don't need to mess with how to order things
      * When calling getNextOrderNumber(users) 31, will be returned, then 32, and so on
-     * @param $name
+     * @param      $name
      * @param null $offset
-     * @param int $start_offset
+     * @param int  $start_offset
      */
-    protected function addCounterGroup($name, $offset=null, $start_offset=0)
+    protected function addCounterGroup($name, $offset = null, $start_offset = 0)
     {
-        if($offset === null) {
+        if ($offset === null) {
             $group = DB::table('settings')
-                        ->where('group', $name)
-                        ->first();
+                ->where('group', $name)
+                ->first();
 
-            if($group === null) {
+            if ($group === null) {
                 $offset = (int) DB::table('settings')->max('offset');
-                if($offset === null) {
+                if ($offset === null) {
                     $offset = 0;
                     $start_offset = 1;
                 } else {
@@ -39,10 +43,9 @@ class Migration extends MigrationBase
                     $start_offset = $offset + 1;
                 }
             } else {
-
                 # Now find the number to start from
                 $start_offset = (int) DB::table('settings')->where('group', $name)->max('order');
-                if($start_offset === null) {
+                if ($start_offset === null) {
                     $start_offset = $offset + 1;
                 } else {
                     ++$start_offset;
@@ -63,7 +66,7 @@ class Migration extends MigrationBase
      */
     public function getNextOrderNumber($group): int
     {
-        if(!\in_array($group, $this->counters, true)) {
+        if (!\in_array($group, $this->counters, true)) {
             $this->addCounterGroup($group);
         }
 
@@ -83,16 +86,16 @@ class Migration extends MigrationBase
         $order = $this->getNextOrderNumber($group);
 
         $attrs = array_merge([
-            'id' => Setting::formatKey($key),
-            'key' => $key,
-            'offset' => $this->offsets[$group],
-            'order' => $order,
-            'name' => '',
-            'group' => $group,
-            'value' => '',
-            'default' => '',
-            'options' => '',
-            'type' => 'hidden',
+            'id'          => Setting::formatKey($key),
+            'key'         => $key,
+            'offset'      => $this->offsets[$group],
+            'order'       => $order,
+            'name'        => '',
+            'group'       => $group,
+            'value'       => '',
+            'default'     => '',
+            'options'     => '',
+            'type'        => 'hidden',
             'description' => '',
         ], $attrs);
 
@@ -101,11 +104,11 @@ class Migration extends MigrationBase
 
     /**
      * Update a setting
-     * @param $key
-     * @param $value
+     * @param       $key
+     * @param       $value
      * @param array $attrs
      */
-    public function updateSetting($key, $value, array $attrs=[])
+    public function updateSetting($key, $value, array $attrs = [])
     {
         $attrs['value'] = $value;
         DB::table('settings')

@@ -2,13 +2,13 @@
 
 namespace Modules\Sample\Awards;
 
-use App\Interfaces\AwardInterface;
+use App\Interfaces\Award;
 
 /**
  * Class SampleAward
  * @package Modules\Sample\Awards
  */
-class SampleAward extends AwardInterface
+class SampleAward extends Award
 {
     public $name = 'Sample Award';
 

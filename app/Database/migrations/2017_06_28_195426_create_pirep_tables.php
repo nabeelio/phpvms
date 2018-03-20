@@ -8,7 +8,6 @@ use Illuminate\Database\Schema\Blueprint;
 
 class CreatePirepTables extends Migration
 {
-
     /**
      * Run the migrations.
      *

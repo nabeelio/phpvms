@@ -2,19 +2,22 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Http\Controllers\Controller;
+use App\Interfaces\Controller;
 use App\Models\Bid;
 use App\Repositories\AirlineRepository;
 use App\Repositories\AirportRepository;
 use App\Repositories\Criteria\WhereCriteria;
 use App\Repositories\FlightRepository;
-use App\Services\FlightService;
 use App\Services\GeoService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Log;
 use Prettus\Repository\Exceptions\RepositoryException;
 
+/**
+ * Class FlightController
+ * @package App\Http\Controllers\Frontend
+ */
 class FlightController extends Controller
 {
     private $airlineRepo,
@@ -26,21 +29,19 @@ class FlightController extends Controller
      * FlightController constructor.
      * @param AirlineRepository $airlineRepo
      * @param AirportRepository $airportRepo
-     * @param FlightRepository $flightRepo
-     * @param FlightService $flightSvc
-     * @param GeoService $geoSvc
+     * @param FlightRepository  $flightRepo
+     * @param GeoService        $geoSvc
      */
     public function __construct(
         AirlineRepository $airlineRepo,
         AirportRepository $airportRepo,
         FlightRepository $flightRepo,
-        FlightService $flightSvc,
         GeoService $geoSvc
-    ) {
+    )
+    {
         $this->airlineRepo = $airlineRepo;
         $this->airportRepo = $airportRepo;
         $this->flightRepo = $flightRepo;
-        $this->flightSvc = $flightSvc;
         $this->geoSvc = $geoSvc;
     }
 
@@ -66,13 +67,13 @@ class FlightController extends Controller
         $flights = $this->flightRepo->paginate();
 
         $saved_flights = Bid::where('user_id', Auth::id())
-                         ->pluck('flight_id')->toArray();
+            ->pluck('flight_id')->toArray();
 
         return view('flights.index', [
             'airlines' => $this->airlineRepo->selectBoxList(true),
             'airports' => $this->airportRepo->selectBoxList(true),
-            'flights' => $flights,
-            'saved' => $saved_flights,
+            'flights'  => $flights,
+            'saved'    => $saved_flights,
         ]);
     }
 
@@ -87,13 +88,13 @@ class FlightController extends Controller
         $flights = $this->flightRepo->searchCriteria($request)->paginate();
 
         $saved_flights = Bid::where('user_id', Auth::id())
-                         ->pluck('flight_id')->toArray();
+            ->pluck('flight_id')->toArray();
 
         return view('flights.index', [
             'airlines' => $this->airlineRepo->selectBoxList(true),
             'airports' => $this->airportRepo->selectBoxList(true),
-            'flights' => $flights,
-            'saved' => $saved_flights,
+            'flights'  => $flights,
+            'saved'    => $saved_flights,
         ]);
     }
 
@@ -107,13 +108,14 @@ class FlightController extends Controller
         $flight = $this->flightRepo->find($id);
         if (empty($flight)) {
             Flash::error('Flight not found!');
+
             return redirect(route('frontend.dashboard.index'));
         }
 
         $map_features = $this->geoSvc->flightGeoJson($flight);
 
         return view('flights.show', [
-            'flight' => $flight,
+            'flight'       => $flight,
             'map_features' => $map_features,
         ]);
     }

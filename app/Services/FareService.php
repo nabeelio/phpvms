@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Interfaces\Service;
 use App\Models\Fare;
 use App\Models\Flight;
 use App\Models\Pirep;
@@ -14,7 +15,7 @@ use Illuminate\Support\Collection;
  * Class FareService
  * @package App\Services
  */
-class FareService extends BaseService
+class FareService extends Service
 {
     /**
      * Get the fares for a particular flight, with an optional subfleet
@@ -23,13 +24,13 @@ class FareService extends BaseService
      * final "authoritative" list of the fares for a flight.
      *
      * If a subfleet is passed in,
-     * @param Flight|null $flight
+     * @param Flight|null   $flight
      * @param Subfleet|null $subfleet
      * @return Collection
      */
     public function getAllFares($flight, $subfleet)
     {
-        if(!$flight) {
+        if (!$flight) {
             $flight_fares = collect();
         } else {
             $flight_fares = $this->getForFlight($flight);
@@ -39,10 +40,9 @@ class FareService extends BaseService
 
         # Go through all of the fares assigned by the subfleet
         # See if any of the same fares are assigned to the flight
-        $fares = $subfleet_fares->map(function($fare, $idx) use ($flight_fares)
-        {
+        $fares = $subfleet_fares->map(function ($fare, $idx) use ($flight_fares) {
             $flight_fare = $flight_fares->whereStrict('id', $fare->id)->first();
-            if(!$flight_fare) {
+            if (!$flight_fare) {
                 return $fare;
             }
 
@@ -90,7 +90,7 @@ class FareService extends BaseService
      * Attach a fare to an flight
      *
      * @param Flight $flight
-     * @param Fare $fare
+     * @param Fare   $fare
      * @param array    set the price/cost/capacity
      * @return Flight
      */
@@ -105,6 +105,7 @@ class FareService extends BaseService
 
         $flight->save();
         $flight->refresh();
+
         return $flight;
     }
 
@@ -126,13 +127,14 @@ class FareService extends BaseService
 
     /**
      * @param Flight $flight
-     * @param Fare $fare
+     * @param Fare   $fare
      * @return Flight
      */
     public function delFareFromFlight(Flight $flight, Fare $fare)
     {
         $flight->fares()->detach($fare->id);
         $flight->refresh();
+
         return $flight;
     }
 
@@ -144,17 +146,18 @@ class FareService extends BaseService
      * @param array    set the price/cost/capacity
      * @return Subfleet
      */
-    public function setForSubfleet(Subfleet $subfleet, Fare $fare, array $override=[]): Subfleet
+    public function setForSubfleet(Subfleet $subfleet, Fare $fare, array $override = []): Subfleet
     {
         $subfleet->fares()->syncWithoutDetaching([$fare->id]);
 
         # modify any pivot values?
-        if(count($override) > 0) {
+        if (count($override) > 0) {
             $subfleet->fares()->updateExistingPivot($fare->id, $override);
         }
 
         $subfleet->save();
         $subfleet->refresh();
+
         return $subfleet;
     }
 
@@ -167,7 +170,7 @@ class FareService extends BaseService
      */
     public function getForSubfleet(Subfleet $subfleet)
     {
-        $fares = $subfleet->fares->map(function($fare) {
+        $fares = $subfleet->fares->map(function ($fare) {
             return $this->getFares($fare);
         });
 
@@ -177,13 +180,14 @@ class FareService extends BaseService
     /**
      * Delete the fare from a subfleet
      * @param Subfleet $subfleet
-     * @param Fare $fare
+     * @param Fare     $fare
      * @return Subfleet|null|static
      */
     public function delFareFromSubfleet(Subfleet &$subfleet, Fare &$fare)
     {
         $subfleet->fares()->detach($fare->id);
         $subfleet->refresh();
+
         return $subfleet;
     }
 
@@ -197,6 +201,7 @@ class FareService extends BaseService
     {
         $fares = [];
         $found_fares = PirepFare::where('pirep_id', $pirep->id)->get();
+
         return $found_fares;
     }
 

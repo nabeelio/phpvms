@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Interfaces\Controller;
 use PragmaRX\Version\Package\Facade as Version;
 
-class StatusController extends RestController
+/**
+ * Class StatusController
+ * @package App\Http\Controllers\Api
+ */
+class StatusController extends Controller
 {
     /**
      * @return \Illuminate\Http\JsonResponse
@@ -13,7 +18,7 @@ class StatusController extends RestController
     {
         return response()->json([
             'version' => Version::compact(),
-            'php' => PHP_VERSION,
+            'php'     => PHP_VERSION,
         ]);
     }
 }

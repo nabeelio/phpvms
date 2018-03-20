@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Interfaces\Model;
 use App\Models\Traits\HashIdTrait;
 use App\Support\Units\Distance;
 use PhpUnitsOfMeasure\Exception\NonNumericValue;
@@ -9,16 +10,15 @@ use PhpUnitsOfMeasure\Exception\NonStringUnitName;
 
 /**
  * @property Airline airline
- * @property mixed flight_number
- * @property mixed route_code
- * @property mixed route_leg
+ * @property mixed   flight_number
+ * @property mixed   route_code
+ * @property mixed   route_leg
  */
-class Flight extends BaseModel
+class Flight extends Model
 {
     use HashIdTrait;
 
     public const ID_MAX_LENGTH = 12;
-
     public $table = 'flights';
     public $incrementing = false;
 
@@ -75,11 +75,11 @@ class Flight extends BaseModel
         $flight_id .= $this->flight_number;
 
         if (filled($this->route_code)) {
-            $flight_id .= '/C' . $this->route_code;
+            $flight_id .= '/C'.$this->route_code;
         }
 
         if (filled($this->route_leg)) {
-            $flight_id .= '/L' . $this->route_leg;
+            $flight_id .= '/L'.$this->route_leg;
         }
 
         return $flight_id;
@@ -97,6 +97,7 @@ class Flight extends BaseModel
 
         try {
             $distance = (float) $this->attributes['distance'];
+
             return new Distance($distance, config('phpvms.internal_units.distance'));
         } catch (NonNumericValue $e) {
             return 0;
@@ -111,7 +112,7 @@ class Flight extends BaseModel
      */
     public function setDistanceAttribute($value): void
     {
-        if($value instanceof Distance) {
+        if ($value instanceof Distance) {
             $this->attributes['distance'] = $value->toUnit(
                 config('phpvms.internal_units.distance')
             );
@@ -147,7 +148,7 @@ class Flight extends BaseModel
     public function fares()
     {
         return $this->belongsToMany(Fare::class, 'flight_fare')
-                    ->withPivot('price', 'cost', 'capacity');
+            ->withPivot('price', 'cost', 'capacity');
     }
 
     public function fields()

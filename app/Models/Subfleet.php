@@ -2,20 +2,23 @@
 
 namespace App\Models;
 
+use App\Interfaces\Model;
 use App\Models\Enums\AircraftStatus;
 use App\Models\Traits\ExpensableTrait;
 
 /**
  * Class Subfleet
+ * @property string  type
+ * @property string  ground_handling_multiplier
  * @package App\Models
  */
-class Subfleet extends BaseModel
+class Subfleet extends Model
 {
     use ExpensableTrait;
 
     public $table = 'subfleets';
 
-    public $fillable = [
+    protected $fillable = [
         'airline_id',
         'name',
         'type',
@@ -26,51 +29,30 @@ class Subfleet extends BaseModel
         'gross_weight',
     ];
 
-    /**
-     * The attributes that should be casted to native types.
-     *
-     * @var array
-     */
     protected $casts = [
-        'airline_id'                  => 'integer',
-        'fuel_type'                   => 'integer',
-        'ground_handling_multiplier'  => 'float',
-        'cargo_capacity'              => 'float',
-        'fuel_capacity'               => 'float',
-        'gross_weight'                => 'float',
+        'airline_id'                 => 'integer',
+        'fuel_type'                  => 'integer',
+        'ground_handling_multiplier' => 'float',
+        'cargo_capacity'             => 'float',
+        'fuel_capacity'              => 'float',
+        'gross_weight'               => 'float',
     ];
 
-    public static $rules = [
-        'name'                        => 'required',
-        'type'                        => 'required',
-        'ground_handling_multiplier'  => 'nullable|numeric',
+    protected static $rules = [
+        'name'                       => 'required',
+        'type'                       => 'required',
+        'ground_handling_multiplier' => 'nullable|numeric',
     ];
 
     /**
-     * Modify some fields on the fly. Make sure the subfleet names don't
-     * have spaces in them, so the csv import/export can use the types
+     * @param $type
      */
-    public static function boot()
+    public function setTypeAttribute($type)
     {
-        parent::boot();
+        $type = str_replace(' ', '-', $type);
+        $type = str_replace(',', '', $type);
 
-        static::creating(function ($model) {
-            if (filled($model->type)) {
-                $model->type = str_replace(' ', '-', $model->type);
-                $model->type = str_replace(',', '', $model->type);
-            }
-
-            if(!filled($model->ground_handling_multiplier)) {
-                $model->ground_handling_multiplier = 100;
-            }
-        });
-
-        static::updating(function ($model) {
-            if (filled($model->type)) {
-                $model->type = str_replace(' ', '-', $model->type);
-                $model->type = str_replace(',', '', $model->type);
-            }
-        });
+        $this->attributes['type'] = $type;
     }
 
     /**
@@ -83,7 +65,7 @@ class Subfleet extends BaseModel
     public function aircraft()
     {
         return $this->hasMany(Aircraft::class, 'subfleet_id')
-                    ->where('status', AircraftStatus::ACTIVE);
+            ->where('status', AircraftStatus::ACTIVE);
     }
 
     public function airline()
@@ -94,7 +76,7 @@ class Subfleet extends BaseModel
     public function fares()
     {
         return $this->belongsToMany(Fare::class, 'subfleet_fare')
-                    ->withPivot('price', 'cost', 'capacity');
+            ->withPivot('price', 'cost', 'capacity');
     }
 
     public function flights()
@@ -105,6 +87,6 @@ class Subfleet extends BaseModel
     public function ranks()
     {
         return $this->belongsToMany(Rank::class, 'subfleet_rank')
-                    ->withPivot('acars_pay', 'manual_pay');
+            ->withPivot('acars_pay', 'manual_pay');
     }
 }

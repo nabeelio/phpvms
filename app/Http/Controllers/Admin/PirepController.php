@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Facades\Utils;
 use App\Http\Requests\CreatePirepRequest;
 use App\Http\Requests\UpdatePirepRequest;
+use App\Interfaces\Controller;
 use App\Models\Enums\PirepSource;
 use App\Models\Enums\PirepState;
 use App\Models\Pirep;
@@ -27,8 +28,11 @@ use Log;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 
-
-class PirepController extends BaseController
+/**
+ * Class PirepController
+ * @package App\Http\Controllers\Admin
+ */
+class PirepController extends Controller
 {
     private $airportRepo,
             $airlineRepo,
@@ -43,16 +47,16 @@ class PirepController extends BaseController
 
     /**
      * PirepController constructor.
-     * @param AirportRepository $airportRepo
-     * @param AirlineRepository $airlineRepo
-     * @param AircraftRepository $aircraftRepo
-     * @param FareService $fareSvc
-     * @param JournalRepository $journalRepo
-     * @param PirepRepository $pirepRepo
+     * @param AirportRepository    $airportRepo
+     * @param AirlineRepository    $airlineRepo
+     * @param AircraftRepository   $aircraftRepo
+     * @param FareService          $fareSvc
+     * @param JournalRepository    $journalRepo
+     * @param PirepRepository      $pirepRepo
      * @param PirepFieldRepository $pirepFieldRepo
-     * @param PirepService $pirepSvc
-     * @param SubfleetRepository $subfleetRepo
-     * @param UserService $userSvc
+     * @param PirepService         $pirepSvc
+     * @param SubfleetRepository   $subfleetRepo
+     * @param UserService          $userSvc
      */
     public function __construct(
         AirportRepository $airportRepo,
@@ -83,11 +87,11 @@ class PirepController extends BaseController
      * @param null $user
      * @return array
      */
-    public function aircraftList($user=null)
+    public function aircraftList($user = null)
     {
         $aircraft = [];
 
-        if($user === null) {
+        if ($user === null) {
             $subfleets = $this->subfleetRepo->all();
         } else {
             $subfleets = $this->userSvc->getAllowableSubfleets($user);
@@ -96,7 +100,7 @@ class PirepController extends BaseController
         foreach ($subfleets as $subfleet) {
             $tmp = [];
             foreach ($subfleet->aircraft as $ac) {
-                $tmp[$ac->id] = $ac['name'] . ' - ' . $ac['registration'];
+                $tmp[$ac->id] = $ac['name'].' - '.$ac['registration'];
             }
 
             $aircraft[$subfleet->name] = $tmp;
@@ -107,7 +111,7 @@ class PirepController extends BaseController
 
     /**
      * Save any custom fields found
-     * @param Pirep $pirep
+     * @param Pirep   $pirep
      * @param Request $request
      */
     protected function saveCustomFields(Pirep $pirep, Request $request)
@@ -120,8 +124,8 @@ class PirepController extends BaseController
             }
 
             $custom_fields[] = [
-                'name' => $field->name,
-                'value' => $request->input($field->slug),
+                'name'   => $field->name,
+                'value'  => $request->input($field->slug),
                 'source' => PirepSource::MANUAL
             ];
         }
@@ -132,7 +136,7 @@ class PirepController extends BaseController
 
     /**
      * Save the fares that have been specified/saved
-     * @param Pirep $pirep
+     * @param Pirep   $pirep
      * @param Request $request
      * @throws \Exception
      */
@@ -140,8 +144,7 @@ class PirepController extends BaseController
     {
         $fares = [];
         foreach ($pirep->aircraft->subfleet->fares as $fare) {
-
-            $field_name = 'fare_' . $fare->id;
+            $field_name = 'fare_'.$fare->id;
             if (!$request->filled($field_name)) {
                 $count = 0;
             } else {
@@ -150,7 +153,7 @@ class PirepController extends BaseController
 
             $fares[] = [
                 'fare_id' => $fare->id,
-                'count' => $count,
+                'count'   => $count,
             ];
         }
 
@@ -171,7 +174,7 @@ class PirepController extends BaseController
         Log::info('aircraft', $aircraft->toArray());
 
         return view('admin.pireps.fares', [
-            'aircraft' => $aircraft,
+            'aircraft'  => $aircraft,
             'read_only' => false,
         ]);
     }
@@ -187,8 +190,8 @@ class PirepController extends BaseController
         $this->pirepRepo->pushCriteria($criterea);
 
         $pireps = $this->pirepRepo
-                       ->orderBy('created_at', 'desc')
-                       ->paginate();
+            ->orderBy('created_at', 'desc')
+            ->paginate();
 
         return view('admin.pireps.index', [
             'pireps' => $pireps
@@ -247,6 +250,7 @@ class PirepController extends BaseController
         $this->saveFares($pirep, $request);
 
         Flash::success('Pirep saved successfully.');
+
         return redirect(route('admin.pireps.index'));
     }
 
@@ -261,6 +265,7 @@ class PirepController extends BaseController
 
         if (empty($pirep)) {
             Flash::error('Pirep not found');
+
             return redirect(route('admin.pireps.index'));
         }
 
@@ -280,6 +285,7 @@ class PirepController extends BaseController
         $pirep = $this->pirepRepo->findWithoutFail($id);
         if (empty($pirep)) {
             Flash::error('Pirep not found');
+
             return redirect(route('admin.pireps.index'));
         }
 
@@ -297,25 +303,25 @@ class PirepController extends BaseController
 
         # set the fares
         foreach ($pirep->fares as $fare) {
-            $field_name = 'fare_' . $fare->fare_id;
+            $field_name = 'fare_'.$fare->fare_id;
             $pirep->{$field_name} = $fare->count;
         }
 
         $journal = $this->journalRepo->getAllForObject($pirep, $pirep->airline->journal);
 
         return view('admin.pireps.edit', [
-            'pirep' => $pirep,
-            'read_only' => $read_only,
-            'aircraft' => $pirep->aircraft,
+            'pirep'         => $pirep,
+            'read_only'     => $read_only,
+            'aircraft'      => $pirep->aircraft,
             'aircraft_list' => $this->aircraftList(),
             'airports_list' => $this->airportRepo->selectBoxList(),
             'airlines_list' => $this->airlineRepo->selectBoxList(),
-            'journal' => $journal,
+            'journal'       => $journal,
         ]);
     }
 
     /**
-     * @param $id
+     * @param                    $id
      * @param UpdatePirepRequest $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      * @throws \Prettus\Validator\Exceptions\ValidatorException
@@ -327,6 +333,7 @@ class PirepController extends BaseController
 
         if (empty($pirep)) {
             Flash::error('Pirep not found');
+
             return redirect(route('admin.pireps.index'));
         }
 
@@ -343,7 +350,7 @@ class PirepController extends BaseController
         $pirep = $this->pirepRepo->update($attrs, $id);
 
         // A route change in the PIREP, so update the saved points in the ACARS table
-        if($pirep->route !== $orig_route) {
+        if ($pirep->route !== $orig_route) {
             $this->pirepSvc->saveRoute($pirep);
         }
 
@@ -351,6 +358,7 @@ class PirepController extends BaseController
         $this->saveFares($pirep, $request);
 
         Flash::success('Pirep updated successfully.');
+
         return redirect(route('admin.pireps.index'));
     }
 
@@ -365,12 +373,14 @@ class PirepController extends BaseController
 
         if (empty($pirep)) {
             Flash::error('Pirep not found');
+
             return redirect(route('admin.pireps.index'));
         }
 
         $this->pirepRepo->delete($id);
 
         Flash::success('Pirep deleted successfully.');
+
         return redirect(route('admin.pireps.index'));
     }
 
@@ -384,18 +394,19 @@ class PirepController extends BaseController
         Log::info('PIREP state update call', [$request->toArray()]);
 
         $pirep = $this->pirepRepo->findWithoutFail($request->id);
-        if($request->isMethod('post')) {
+        if ($request->isMethod('post')) {
             $new_status = (int) $request->post('new_status');
             $pirep = $this->pirepSvc->changeState($pirep, $new_status);
         }
 
         $pirep->refresh();
+
         return view('admin.pireps.actions', ['pirep' => $pirep, 'on_edit_page' => false]);
     }
 
     /**
      * Add a comment to the Pirep
-     * @param $id
+     * @param         $id
      * @param Request $request
      * @return mixed
      * @throws \Exception
@@ -406,16 +417,16 @@ class PirepController extends BaseController
         $pirep = $this->pirepRepo->findWithoutFail($request->id);
         if ($request->isMethod('post')) {
             $comment = new PirepComment([
-                'user_id' => $user->id,
+                'user_id'  => $user->id,
                 'pirep_id' => $pirep->id,
-                'comment' => $request->get('comment'),
+                'comment'  => $request->get('comment'),
             ]);
 
             $comment->save();
             $pirep->refresh();
         }
 
-        if($request->isMethod('delete')) {
+        if ($request->isMethod('delete')) {
             $comment = PirepComment::find($request->get('comment_id'));
             $comment->delete();
             $pirep->refresh();

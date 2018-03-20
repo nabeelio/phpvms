@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Facades\Utils;
+use App\Interfaces\Controller;
 use App\Repositories\NewsRepository;
 use App\Repositories\PirepRepository;
 use App\Repositories\UserRepository;
@@ -13,15 +14,21 @@ use Log;
 use Version;
 use vierbergenlars\SemVer\version as semver;
 
-class DashboardController extends BaseController
+/**
+ * Class DashboardController
+ * @package App\Http\Controllers\Admin
+ */
+class DashboardController extends Controller
 {
-    private $newsRepo, $pirepRepo, $userRepo;
+    private $newsRepo,
+            $pirepRepo,
+            $userRepo;
 
     /**
      * DashboardController constructor.
-     * @param NewsRepository $newsRepo
+     * @param NewsRepository  $newsRepo
      * @param PirepRepository $pirepRepo
-     * @param UserRepository $userRepo
+     * @param UserRepository  $userRepo
      */
     public function __construct(
         NewsRepository $newsRepo,
@@ -46,7 +53,7 @@ class DashboardController extends BaseController
             $latest_version = new semver(Utils::downloadUrl(config('phpvms.version_file')));
 
             if (semver::gt($latest_version, $current_version)) {
-                Flash::warning('New version ' . $latest_version . ' is available!');
+                Flash::warning('New version '.$latest_version.' is available!');
             }
         } catch (\Exception $e) {
             Log::error($e->getMessage());
@@ -63,9 +70,9 @@ class DashboardController extends BaseController
         $this->checkNewVersion();
 
         return view('admin.dashboard.index', [
-            'news' => $this->newsRepo->getLatest(),
+            'news'           => $this->newsRepo->getLatest(),
             'pending_pireps' => $this->pirepRepo->getPendingCount(),
-            'pending_users' => $this->userRepo->getPendingCount(),
+            'pending_users'  => $this->userRepo->getPendingCount(),
         ]);
     }
 
@@ -76,7 +83,7 @@ class DashboardController extends BaseController
      */
     public function news(Request $request)
     {
-        if($request->isMethod('post')) {
+        if ($request->isMethod('post')) {
             $attrs = $request->post();
             $attrs['user_id'] = Auth::user()->id;
 

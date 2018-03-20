@@ -17,6 +17,7 @@ class Volume extends \PhpUnitsOfMeasure\PhysicalQuantity\Volume implements Array
     {
         $unit = setting('units.volume');
         $value = $this->toUnit($unit);
+
         return (string) round($value, 2);
     }
 
@@ -35,8 +36,8 @@ class Volume extends \PhpUnitsOfMeasure\PhysicalQuantity\Volume implements Array
     public function toObject()
     {
         return [
-            'gal'     => round($this->toUnit('gal'), 2),
-            'liters'  => round($this->toUnit('liters'), 2),
+            'gal'    => round($this->toUnit('gal'), 2),
+            'liters' => round($this->toUnit('liters'), 2),
         ];
     }
 

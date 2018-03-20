@@ -4,6 +4,10 @@ namespace $NAMESPACE$;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * Class $CLASS$
+ * @package $NAMESPACE$
+ */
 class $CLASS$ extends FormRequest
 {
     /**

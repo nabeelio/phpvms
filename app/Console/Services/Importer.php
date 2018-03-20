@@ -15,7 +15,7 @@ use App\Models\Rank;
 use App\Models\Subfleet;
 use App\Models\User;
 use Carbon\Carbon;
-use Doctrine\DBAL\Driver\PDOException;
+use PDOException;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -56,7 +56,7 @@ class Importer
      */
 
     const BATCH_READ_ROWS = 300;
-    const SUBFLEET_NAME = 'Imported Aircraft';
+    const SUBFLEET_NAME   = 'Imported Aircraft';
 
     /**
      * Importer constructor.
@@ -69,11 +69,11 @@ class Importer
 
         # The db credentials
         $this->creds = array_merge([
-            'host' => '127.0.0.1',
-            'port' => 3306,
-            'name' => '',
-            'user' => '',
-            'pass' => '',
+            'host'         => '127.0.0.1',
+            'port'         => 3306,
+            'name'         => '',
+            'user'         => '',
+            'pass'         => '',
             'table_prefix' => 'phpvms_'
         ], $db_creds);
     }
@@ -105,13 +105,13 @@ class Importer
      */
     protected function reconnect()
     {
-        $dsn = 'mysql:' . implode(';', [
-               'host=' . $this->creds['host'],
-               'port=' . $this->creds['port'],
-               'dbname=' . $this->creds['name']
+        $dsn = 'mysql:'.implode(';', [
+                'host='.$this->creds['host'],
+                'port='.$this->creds['port'],
+                'dbname='.$this->creds['name']
             ]);
 
-        $this->info('Connection string: ' . $dsn);
+        $this->info('Connection string: '.$dsn);
 
         try {
             $this->conn = new PDO($dsn, $this->creds['user'], $this->creds['pass']);
@@ -127,14 +127,15 @@ class Importer
      */
     protected function comment($message)
     {
-        $this->log->writeln('<comment>' . $message . '</comment>');
+        $this->log->writeln('<comment>'.$message.'</comment>');
     }
 
     /**
      * @param $message
      */
-    protected function error($message) {
-        $this->log->writeln('<error>' . $message . '</error>');
+    protected function error($message)
+    {
+        $this->log->writeln('<error>'.$message.'</error>');
     }
 
     /**
@@ -142,10 +143,9 @@ class Importer
      */
     protected function info($message)
     {
-        if(\is_array($message)) {
+        if (\is_array($message)) {
             print_r($message);
-        }
-        else {
+        } else {
             $this->log->writeln('<info>'.$message.'</info>');
         }
     }
@@ -157,7 +157,7 @@ class Importer
      */
     protected function tableName($table)
     {
-        if($this->creds['table_prefix'] !== false) {
+        if ($this->creds['table_prefix'] !== false) {
             return $this->creds['table_prefix'].$table;
         }
 
@@ -173,9 +173,10 @@ class Importer
     {
         try {
             $model->save();
+
             return true;
         } catch (QueryException $e) {
-            if($e->getCode() !== '23000') {
+            if ($e->getCode() !== '23000') {
                 $this->error($e);
             }
 
@@ -191,7 +192,7 @@ class Importer
      */
     protected function addMapping($entity, $old_id, $new_id)
     {
-        if(!array_key_exists($entity, $this->mappedEntities)) {
+        if (!array_key_exists($entity, $this->mappedEntities)) {
             $this->mappedEntities[$entity] = [];
         }
 
@@ -206,12 +207,12 @@ class Importer
      */
     protected function getMapping($entity, $old_id)
     {
-        if(!array_key_exists($entity, $this->mappedEntities)) {
+        if (!array_key_exists($entity, $this->mappedEntities)) {
             return 0;
         }
 
         $entity = $this->mappedEntities[$entity];
-        if(array_key_exists($old_id, $entity)) {
+        if (array_key_exists($old_id, $entity)) {
             return $entity[$old_id];
         }
 
@@ -225,6 +226,7 @@ class Importer
     protected function parseDate($date)
     {
         $carbon = Carbon::parse($date);
+
         return $carbon;
     }
 
@@ -235,9 +237,9 @@ class Importer
      */
     protected function convertDuration($duration)
     {
-        if(strpos($duration, '.') !== false) {
+        if (strpos($duration, '.') !== false) {
             $delim = '.';
-        } elseif(strpos($duration, ':')) {
+        } elseif (strpos($duration, ':')) {
             $delim = ':';
         } else {
             # no delimiter, assume it's just a straight hour
@@ -259,52 +261,52 @@ class Importer
     {
         $table = $this->tableName($table);
 
-        $sql = 'SELECT COUNT(*) FROM ' . $table;
+        $sql = 'SELECT COUNT(*) FROM '.$table;
         $rows = $this->conn->query($sql)->fetchColumn();
 
         $this->info('Found '.$rows.' rows in '.$table);
+
         return (int) $rows;
     }
 
     /**
      * Read all the rows in a table, but read them in a batched manner
-     * @param string $table The name of the table
-     * @param null $read_rows Number of rows to read
+     * @param string $table     The name of the table
+     * @param null   $read_rows Number of rows to read
      * @return \Generator
      */
-    protected function readRows($table, $read_rows=null)
+    protected function readRows($table, $read_rows = null)
     {
         // Set the table prefix if it has been entered
         $this->tableName($table);
 
         $offset = 0;
-        if($read_rows === null) {
+        if ($read_rows === null) {
             $read_rows = self::BATCH_READ_ROWS;
         }
 
         $total_rows = $this->getTotalRows($table);
 
-        while($offset < $total_rows)
-        {
+        while ($offset < $total_rows) {
             $rows_to_read = $offset + $read_rows;
-            if($rows_to_read > $total_rows) {
+            if ($rows_to_read > $total_rows) {
                 $rows_to_read = $total_rows;
             }
 
             $this->info('Reading '.$offset.' to '.$rows_to_read.' of '.$total_rows);
 
-            $sql = 'SELECT * FROM ' . $this->tableName($table)
-                 . ' LIMIT ' . self::BATCH_READ_ROWS . ' OFFSET ' . $offset;
+            $sql = 'SELECT * FROM '.$this->tableName($table)
+                .' LIMIT '.self::BATCH_READ_ROWS.' OFFSET '.$offset;
 
             try {
                 foreach ($this->conn->query($sql) as $row) {
                     yield $row;
                 }
-            } catch(PDOException $e) {
+            } catch (PDOException $e) {
                 // Without incrementing the offset, it should re-run the same query
                 $this->error($e);
 
-                if(strpos($e->getMessage(), 'server has gone away') !== false) {
+                if (strpos($e->getMessage(), 'server has gone away') !== false) {
                     $this->reconnect();
                     continue;
                 }
@@ -344,22 +346,21 @@ class Importer
         $this->comment('--- RANK IMPORT ---');
 
         $count = 0;
-        foreach ($this->readRows('ranks') as $row)
-        {
+        foreach ($this->readRows('ranks') as $row) {
             $rank = Rank::firstOrCreate(
                 ['name' => $row->rank],
-                ['image_url' => $row->rankimage, 'hours'=>$row->minhours]
+                ['image_url' => $row->rankimage, 'hours' => $row->minhours]
             );
 
             $this->addMapping('ranks', $row->rankid, $rank->id);
             $this->addMapping('ranks', $row->rank, $rank->id);
 
-            if($rank->wasRecentlyCreated) {
+            if ($rank->wasRecentlyCreated) {
                 ++$count;
             }
         }
 
-        $this->info('Imported ' . $count . ' ranks');
+        $this->info('Imported '.$count.' ranks');
     }
 
     /**
@@ -371,8 +372,7 @@ class Importer
         $this->comment('--- AIRLINE IMPORT ---');
 
         $count = 0;
-        foreach ($this->readRows('airlines') as $row)
-        {
+        foreach ($this->readRows('airlines') as $row) {
             $airline = Airline::firstOrCreate(
                 ['icao' => $row->code],
                 ['iata' => $row->code, 'name' => $row->name, 'active' => $row->enabled]
@@ -386,7 +386,7 @@ class Importer
             }
         }
 
-        $this->info('Imported '. $count.' airlines');
+        $this->info('Imported '.$count.' airlines');
     }
 
     /**
@@ -401,23 +401,22 @@ class Importer
         $this->info('Subfleet ID is '.$subfleet->id);
 
         $count = 0;
-        foreach($this->readRows('aircraft') as $row)
-        {
+        foreach ($this->readRows('aircraft') as $row) {
             $aircraft = Aircraft::firstOrCreate(
                 ['name' => $row->fullname, 'registration' => $row->registration],
-                ['icao' => $row->icao,
+                ['icao'        => $row->icao,
                  'subfleet_id' => $subfleet->id,
-                 'active' => $row->enabled
+                 'active'      => $row->enabled
                 ]);
 
             $this->addMapping('aircraft', $row->id, $aircraft->id);
 
-            if($aircraft->wasRecentlyCreated) {
+            if ($aircraft->wasRecentlyCreated) {
                 ++$count;
             }
         }
 
-        $this->info('Imported ' . $count . ' aircraft');
+        $this->info('Imported '.$count.' aircraft');
     }
 
     /**
@@ -428,16 +427,15 @@ class Importer
         $this->comment('--- AIRPORT IMPORT ---');
 
         $count = 0;
-        foreach ($this->readRows('airports') as $row)
-        {
+        foreach ($this->readRows('airports') as $row) {
             $attrs = [
-                'id' => trim($row->icao),
-                'icao' => trim($row->icao),
-                'name' => $row->name,
+                'id'      => trim($row->icao),
+                'icao'    => trim($row->icao),
+                'name'    => $row->name,
                 'country' => $row->country,
-                'lat' => $row->lat,
-                'lon' => $row->lng,
-                'hub' => $row->hub,
+                'lat'     => $row->lat,
+                'lon'     => $row->lng,
+                'hub'     => $row->hub,
             ];
 
             $airport = Airport::updateOrCreate(
@@ -445,12 +443,12 @@ class Importer
                 $attrs
             );
 
-            if($airport->wasRecentlyCreated) {
+            if ($airport->wasRecentlyCreated) {
                 ++$count;
             }
         }
 
-        $this->info('Imported ' . $count . ' airports');
+        $this->info('Imported '.$count.' airports');
     }
 
     /**
@@ -461,8 +459,7 @@ class Importer
         $this->comment('--- FLIGHT SCHEDULE IMPORT ---');
 
         $count = 0;
-        foreach ($this->readRows('schedules') as $row)
-        {
+        foreach ($this->readRows('schedules') as $row) {
             $airline_id = $this->getMapping('airlines', $row->code);
 
             $flight_num = trim($row->flightnum);
@@ -470,14 +467,14 @@ class Importer
             $attrs = [
                 'dpt_airport_id' => $row->depicao,
                 'arr_airport_id' => $row->arricao,
-                'route' => $row->route ?: '',
-                'distance' => round($row->distance ?: 0, 2),
-                'level' => $row->flightlevel ?: 0,
-                'dpt_time' => $row->deptime ?: '',
-                'arr_time' => $row->arrtime ?: '',
-                'flight_time' => $this->convertDuration($row->flighttime) ?: '',
-                'notes' => $row->notes ?: '',
-                'active' => $row->enabled ?: true,
+                'route'          => $row->route ?: '',
+                'distance'       => round($row->distance ?: 0, 2),
+                'level'          => $row->flightlevel ?: 0,
+                'dpt_time'       => $row->deptime ?: '',
+                'arr_time'       => $row->arrtime ?: '',
+                'flight_time'    => $this->convertDuration($row->flighttime) ?: '',
+                'notes'          => $row->notes ?: '',
+                'active'         => $row->enabled ?: true,
             ];
 
             try {
@@ -493,12 +490,12 @@ class Importer
 
             // TODO: deserialize route_details into ACARS table
 
-            if($flight->wasRecentlyCreated) {
+            if ($flight->wasRecentlyCreated) {
                 ++$count;
             }
         }
 
-        $this->info('Imported ' . $count . ' flights');
+        $this->info('Imported '.$count.' flights');
     }
 
     /**
@@ -509,8 +506,7 @@ class Importer
         $this->comment('--- PIREP IMPORT ---');
 
         $count = 0;
-        foreach ($this->readRows('pireps') as $row)
-        {
+        foreach ($this->readRows('pireps') as $row) {
             $pirep_id = $row->pirepid;
             $user_id = $this->getMapping('users', $row->pilotid);
             $airline_id = $this->getMapping('airlines', $row->code);
@@ -518,17 +514,17 @@ class Importer
 
             $attrs = [
                 #'id' => $pirep_id,
-                'user_id' => $user_id,
-                'airline_id' => $airline_id,
-                'aircraft_id' => $aircraft_id,
-                'flight_number' => $row->flightnum ?: '',
+                'user_id'        => $user_id,
+                'airline_id'     => $airline_id,
+                'aircraft_id'    => $aircraft_id,
+                'flight_number'  => $row->flightnum ?: '',
                 'dpt_airport_id' => $row->depicao,
                 'arr_airport_id' => $row->arricao,
-                'block_fuel' => $row->fuelused,
-                'route' => $row->route ?: '',
-                'source_name' => $row->source,
-                'created_at' => $this->parseDate($row->submitdate),
-                'updated_at' => $this->parseDate($row->modifieddate),
+                'block_fuel'     => $row->fuelused,
+                'route'          => $row->route ?: '',
+                'source_name'    => $row->source,
+                'created_at'     => $this->parseDate($row->submitdate),
+                'updated_at'     => $this->parseDate($row->modifieddate),
             ];
 
             # Set the distance
@@ -542,7 +538,7 @@ class Importer
             $attrs['planned_flight_time'] = $duration;
 
             # Set how it was filed
-            if(strtoupper($row->source) === 'MANUAL') {
+            if (strtoupper($row->source) === 'MANUAL') {
                 $attrs['source'] = PirepSource::MANUAL;
             } else {
                 $attrs['source'] = PirepSource::ACARS;
@@ -550,16 +546,16 @@ class Importer
 
             # Set the flight type
             $row->flighttype = strtoupper($row->flighttype);
-            if($row->flighttype === 'P') {
+            if ($row->flighttype === 'P') {
                 $attrs['flight_type'] = FlightType::PASSENGER;
-            } elseif($row->flighttype === 'C') {
+            } elseif ($row->flighttype === 'C') {
                 $attrs['flight_type'] = FlightType::CARGO;
             } else {
                 $attrs['flight_type'] = FlightType::CHARTER;
             }
 
             # Set the flight level of the PIREP is set
-            if(property_exists($row, 'flightlevel')) {
+            if (property_exists($row, 'flightlevel')) {
                 $attrs['level'] = $row->flightlevel;
             } else {
                 $attrs['level'] = 0;
@@ -571,11 +567,11 @@ class Importer
             );
 
             $source = strtoupper($row->source);
-            if($source === 'SMARTCARS') {
+            if ($source === 'SMARTCARS') {
                 # TODO: Parse smartcars log into the acars table
-            } elseif($source === 'KACARS') {
+            } elseif ($source === 'KACARS') {
                 # TODO: Parse kACARS log into acars table
-            } elseif($source === 'XACARS') {
+            } elseif ($source === 'XACARS') {
                 # TODO: Parse XACARS log into acars table
             }
 
@@ -587,7 +583,7 @@ class Importer
             }
         }
 
-        $this->info('Imported ' . $count . ' pireps');
+        $this->info('Imported '.$count.' pireps');
     }
 
     protected function importUsers()
@@ -596,10 +592,9 @@ class Importer
 
         $count = 0;
         foreach ($this->readRows('pilots', 50) as $row) {
-
             # TODO: What to do about pilot ids
 
-            $name = $row->firstname . ' ' . $row->lastname;
+            $name = $row->firstname.' '.$row->lastname;
 
             $airline_id = $this->getMapping('airlines', $row->code);
             $rank_id = $this->getMapping('ranks', $row->rank);
@@ -608,17 +603,17 @@ class Importer
             $new_password = Str::random(60);
 
             $attrs = [
-                'name' => $name,
-                'password' => Hash::make($new_password),
-                'api_key' => Utils::generateApiKey(),
-                'airline_id' => $airline_id,
-                'rank_id' => $rank_id,
+                'name'            => $name,
+                'password'        => Hash::make($new_password),
+                'api_key'         => Utils::generateApiKey(),
+                'airline_id'      => $airline_id,
+                'rank_id'         => $rank_id,
                 'home_airport_id' => $row->hub,
                 'curr_airport_id' => $row->hub,
-                'flights' => (int)$row->totalflights,
-                'flight_time' => Utils::hoursToMinutes($row->totalhours),
-                'state' => $state,
-                'created_at' => $this->parseDate($row->joindate),
+                'flights'         => (int) $row->totalflights,
+                'flight_time'     => Utils::hoursToMinutes($row->totalhours),
+                'state'           => $state,
+                'created_at'      => $this->parseDate($row->joindate),
             ];
 
             $user = User::updateOrCreate(
@@ -633,7 +628,7 @@ class Importer
             }
         }
 
-        $this->info('Imported ' . $count . ' users');
+        $this->info('Imported '.$count.' users');
     }
 
     /**
@@ -641,7 +636,6 @@ class Importer
      */
     protected function findLastPireps()
     {
-
     }
 
     /**
@@ -665,9 +659,9 @@ class Importer
 
         // Declare array of classic states
         $phpvms_classic_states = [
-            'ACTIVE' => 0,
+            'ACTIVE'   => 0,
             'INACTIVE' => 1,
-            'BANNED' => 2,
+            'BANNED'   => 2,
             'ON_LEAVE' => 3
         ];
 
@@ -682,7 +676,7 @@ class Importer
         } elseif ($state === $phpvms_classic_states['ON_LEAVE']) {
             return UserState::ON_LEAVE;
         } else {
-            $this->error('Unknown status: '. $state);
+            $this->error('Unknown status: '.$state);
         }
     }
 }

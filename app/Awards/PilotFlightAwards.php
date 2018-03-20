@@ -2,14 +2,14 @@
 
 namespace App\Awards;
 
-use App\Interfaces\AwardInterface;
+use App\Interfaces\Award;
 
 /**
  * Simple example of an awards class, where you can apply an award when a user
  * has 100 flights. All award classes need to extend the AwardInterface
  * @package App\Awards
  */
-class PilotFlightAwards extends AwardInterface
+class PilotFlightAwards extends Award
 {
     /**
      * Set the name of this award class to make it easier to see when
@@ -38,7 +38,7 @@ class PilotFlightAwards extends AwardInterface
      */
     public function check($number_of_flights = null): bool
     {
-        if(!$number_of_flights) {
+        if (!$number_of_flights) {
             $number_of_flights = 100;
         }
 

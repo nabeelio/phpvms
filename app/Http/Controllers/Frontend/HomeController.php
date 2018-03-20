@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Http\Controllers\Controller;
+use App\Interfaces\Controller;
 use App\Models\User;
 use Illuminate\Database\QueryException;
 
+/**
+ * Class HomeController
+ * @package App\Http\Controllers\Frontend
+ */
 class HomeController extends Controller
 {
     /**

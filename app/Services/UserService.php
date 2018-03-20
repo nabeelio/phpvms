@@ -5,7 +5,7 @@ namespace App\Services;
 use App\Events\UserRegistered;
 use App\Events\UserStateChanged;
 use App\Events\UserStatsChanged;
-use App\Facades\Utils;
+use App\Interfaces\Service;
 use App\Models\Enums\UserState;
 use App\Models\Rank;
 use App\Models\Role;
@@ -16,9 +16,14 @@ use App\Support\Units\Time;
 use Illuminate\Support\Collection;
 use Log;
 
-class UserService extends BaseService
+/**
+ * Class UserService
+ * @package App\Services
+ */
+class UserService extends Service
 {
-    protected $aircraftRepo, $subfleetRepo;
+    private $aircraftRepo,
+            $subfleetRepo;
 
     /**
      * UserService constructor.
@@ -36,15 +41,15 @@ class UserService extends BaseService
     /**
      * Register a pilot. Also attaches the initial roles
      * required, and then triggers the UserRegistered event
-     * @param User $user User model
+     * @param User  $user   User model
      * @param array $groups Additional groups to assign
      * @return mixed
      * @throws \Exception
      */
-    public function createPilot(User $user, array $groups=null)
+    public function createPilot(User $user, array $groups = null)
     {
         # Determine if we want to auto accept
-        if(setting('pilots.auto_accept') === true) {
+        if (setting('pilots.auto_accept') === true) {
             $user->state = UserState::ACTIVE;
         } else {
             $user->state = UserState::PENDING;
@@ -56,7 +61,7 @@ class UserService extends BaseService
         $role = Role::where('name', 'user')->first();
         $user->attachRole($role);
 
-        if(!empty($groups) && \is_array($groups)) {
+        if (!empty($groups) && \is_array($groups)) {
             foreach ($groups as $group) {
                 $role = Role::where('name', $group)->first();
                 $user->attachRole($role);
@@ -80,11 +85,12 @@ class UserService extends BaseService
      */
     public function getAllowableSubfleets($user)
     {
-        if($user === null || setting('pireps.restrict_aircraft_to_rank') === false) {
+        if ($user === null || setting('pireps.restrict_aircraft_to_rank') === false) {
             return $this->subfleetRepo->with('aircraft')->all();
         }
 
         $subfleets = $user->rank->subfleets();
+
         return $subfleets->with('aircraft')->get();
     }
 
@@ -107,18 +113,18 @@ class UserService extends BaseService
      * Change the user's state. PENDING to ACCEPTED, etc
      * Send out an email
      * @param User $user
-     * @param $old_state
+     * @param      $old_state
      * @return User
      */
     public function changeUserState(User $user, $old_state): User
     {
-        if($user->state === $old_state) {
+        if ($user->state === $old_state) {
             return $user;
         }
 
-        Log::info('User ' . $user->pilot_id . ' state changing from '
-                  . UserState::label($old_state) . ' to '
-                  . UserState::label($user->state));
+        Log::info('User '.$user->pilot_id.' state changing from '
+            .UserState::label($old_state).' to '
+            .UserState::label($user->state));
 
         event(new UserStateChanged($user, $old_state));
 
@@ -129,7 +135,7 @@ class UserService extends BaseService
      * Adjust the number of flights a user has. Triggers
      * UserStatsChanged event
      * @param User $user
-     * @param int $count
+     * @param int  $count
      * @return User
      */
     public function adjustFlightCount(User $user, int $count): User
@@ -147,7 +153,7 @@ class UserService extends BaseService
     /**
      * Update a user's flight times
      * @param User $user
-     * @param int $minutes
+     * @param int  $minutes
      * @return User
      */
     public function adjustFlightTime(User $user, int $minutes): User
@@ -158,7 +164,6 @@ class UserService extends BaseService
 
         return $user;
     }
-
 
     /**
      * See if a pilot's rank has change. Triggers the UserStatsChanged event
@@ -171,7 +176,7 @@ class UserService extends BaseService
 
         # If their current rank is one they were assigned, then
         # don't change away from it automatically.
-        if($user->rank && $user->rank->auto_promote === false) {
+        if ($user->rank && $user->rank->auto_promote === false) {
             return $user;
         }
 
@@ -180,7 +185,7 @@ class UserService extends BaseService
         # The current rank's hours are over the pilot's current hours,
         # so assume that they were "placed" here by an admin so don't
         # bother with updating it
-        if($user->rank && $user->rank->hours > $pilot_hours->hours) {
+        if ($user->rank && $user->rank->hours > $pilot_hours->hours) {
             return $user;
         }
 
@@ -188,10 +193,10 @@ class UserService extends BaseService
         $original_rank_id = $user->rank_id;
 
         $ranks = Rank::where('auto_promote', true)
-                    ->orderBy('hours', 'asc')->get();
+            ->orderBy('hours', 'asc')->get();
 
         foreach ($ranks as $rank) {
-            if($rank->hours > $pilot_hours->hours) {
+            if ($rank->hours > $pilot_hours->hours) {
                 break;
             } else {
                 $user->rank_id = $rank->id;
@@ -199,7 +204,7 @@ class UserService extends BaseService
         }
 
         // Only trigger the event/update if there's been a change
-        if($user->rank_id !== $original_rank_id) {
+        if ($user->rank_id !== $original_rank_id) {
             $user->save();
             $user->refresh();
             event(new UserStatsChanged($user, 'rank', $old_rank));

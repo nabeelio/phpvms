@@ -7,6 +7,10 @@ use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
+/**
+ * Class UserStatsChanged
+ * @package App\Events
+ */
 class UserStatsChanged
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;

@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Interfaces\Controller;
 use App\Models\Enums\JournalType;
 use App\Models\Journal;
 use App\Models\JournalTransaction;
 use App\Repositories\AirlineRepository;
-use App\Repositories\JournalRepository;
-use App\Services\Finance\PirepFinanceService;
 use App\Support\Dates;
 use App\Support\Money;
 use Illuminate\Http\Request;
@@ -16,25 +15,17 @@ use Illuminate\Http\Request;
  * Class FinanceController
  * @package App\Http\Controllers\Admin
  */
-class FinanceController extends BaseController
+class FinanceController extends Controller
 {
-    private $airlineRepo,
-            $financeSvc,
-            $journalRepo;
+    private $airlineRepo;
 
     /**
-     * @param AirlineRepository $airlineRepo
-     * @param PirepFinanceService $financeSvc
-     * @param JournalRepository $journalRepo
+     * @param AirlineRepository   $airlineRepo
      */
     public function __construct(
-        AirlineRepository $airlineRepo,
-        PirepFinanceService $financeSvc,
-        JournalRepository $journalRepo
+        AirlineRepository $airlineRepo
     ) {
         $this->airlineRepo = $airlineRepo;
-        $this->financeSvc = $financeSvc;
-        $this->journalRepo = $journalRepo;
     }
 
     /**
@@ -58,8 +49,7 @@ class FinanceController extends BaseController
         $airlines = $this->airlineRepo->orderBy('icao')->all();
 
         # group by the airline
-        foreach($airlines as $airline) {
-
+        foreach ($airlines as $airline) {
             # Return all the transactions, grouped by the transaction group
             $transactions = JournalTransaction::groupBy('transaction_group')
                 ->selectRaw('transaction_group, currency, 
@@ -83,16 +73,16 @@ class FinanceController extends BaseController
             }
 
             $transaction_groups[] = [
-                'airline'       => $airline,
-                'credits'       => new Money($sum_all_credits),
-                'debits'        => new Money($sum_all_debits),
-                'transactions'  => $transactions,
+                'airline'      => $airline,
+                'credits'      => new Money($sum_all_credits),
+                'debits'       => new Money($sum_all_debits),
+                'transactions' => $transactions,
             ];
         }
 
         return view('admin.finances.index', [
-            'current_month' => $month,
-            'months_list' => Dates::getMonthsList($first_journal->created_at),
+            'current_month'      => $month,
+            'months_list'        => Dates::getMonthsList($first_journal->created_at),
             'transaction_groups' => $transaction_groups,
         ]);
     }
@@ -102,6 +92,5 @@ class FinanceController extends BaseController
      */
     public function show($id)
     {
-
     }
 }

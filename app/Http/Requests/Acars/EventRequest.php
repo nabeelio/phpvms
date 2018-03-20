@@ -12,19 +12,24 @@ use Illuminate\Foundation\Http\FormRequest;
  */
 class EventRequest extends FormRequest
 {
+    /**
+     * @return bool
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     */
     public function authorize()
     {
         $pirep = Pirep::findOrFail($this->route('pirep_id'), ['user_id']);
+
         return $pirep->user_id === Auth::id();
     }
 
     public function rules()
     {
         $rules = [
-            'events' => 'required|array',
-            'events.*.event' => 'required',
-            'events.*.lat' => 'nullable|numeric',
-            'events.*.lon' => 'nullable|numeric',
+            'events'              => 'required|array',
+            'events.*.event'      => 'required',
+            'events.*.lat'        => 'nullable|numeric',
+            'events.*.lon'        => 'nullable|numeric',
             'events.*.created_at' => 'nullable|date',
         ];
 

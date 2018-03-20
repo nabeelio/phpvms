@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Interfaces\Service;
 use App\Models\Acars;
 use App\Models\Enums\AcarsType;
 use App\Models\Flight;
@@ -19,10 +20,15 @@ use Log;
  * Class GeoService
  * @package App\Services
  */
-class GeoService extends BaseService
+class GeoService extends Service
 {
     private $acarsRepo, $navRepo;
 
+    /**
+     * GeoService constructor.
+     * @param AcarsRepository   $acarsRepo
+     * @param NavdataRepository $navRepo
+     */
     public function __construct(
         AcarsRepository $acarsRepo,
         NavdataRepository $navRepo
@@ -44,7 +50,7 @@ class GeoService extends BaseService
         $geotools = new Geotools();
         $start = new Coordinate($coordStart);
 
-        foreach($all_coords as $coords) {
+        foreach ($all_coords as $coords) {
             $coord = new Coordinate($coords);
             $dist = $geotools->distance()->setFrom($start)->setTo($coord);
             $distance[] = $dist->greatCircle();
@@ -52,7 +58,8 @@ class GeoService extends BaseService
 
         $distance = collect($distance);
         $min = $distance->min();
-        return $all_coords[ $distance->search($min, true) ];
+
+        return $all_coords[$distance->search($min, true)];
     }
 
     /**
@@ -70,10 +77,13 @@ class GeoService extends BaseService
         $coords = [];
         $filter_points = [$dep_icao, $arr_icao, 'SID', 'STAR'];
 
-        $split_route = collect(explode(' ', $route))->transform(function($point) {
-            if(empty($point)) { return false; }
+        $split_route = collect(explode(' ', $route))->transform(function ($point) {
+            if (empty($point)) {
+                return false;
+            }
+
             return strtoupper(trim($point));
-        })->filter(function($point) use ($filter_points) {
+        })->filter(function ($point) use ($filter_points) {
             return !(empty($point) || \in_array($point, $filter_points, true));
         });
 
@@ -81,13 +91,12 @@ class GeoService extends BaseService
          * @var $split_route Collection
          * @var $route_point Acars
          */
-        foreach ($split_route as $route_point)
-        {
-            Log::debug('Looking for ' . $route_point);
+        foreach ($split_route as $route_point) {
+            Log::debug('Looking for '.$route_point);
 
             try {
                 $points = $this->navRepo->findWhere(['id' => $route_point]);
-            } catch(ModelNotFoundException $e){
+            } catch (ModelNotFoundException $e) {
                 continue;
             } catch (\Exception $e) {
                 Log::error($e);
@@ -100,13 +109,13 @@ class GeoService extends BaseService
                 continue;
             } elseif ($size === 1) {
                 $point = $points[0];
-                Log::debug('name: ' . $point->id . ' - ' . $point->lat . 'x' . $point->lon);
+                Log::debug('name: '.$point->id.' - '.$point->lat.'x'.$point->lon);
                 $coords[] = $point;
                 continue;
             }
 
             # Find the point with the shortest distance
-            Log::info('found ' . $size . ' for '. $route_point);
+            Log::info('found '.$size.' for '.$route_point);
 
             # Get the start point and then reverse the lat/lon reference
             # If the first point happens to have multiple possibilities, use
@@ -121,14 +130,14 @@ class GeoService extends BaseService
             # Put all of the lat/lon sets into an array to pick of what's clsest
             # to the starting point
             $potential_coords = [];
-            foreach($points as $point) {
+            foreach ($points as $point) {
                 $potential_coords[] = [$point->lat, $point->lon];
             }
 
             # returns an array with the closest lat/lon to start point
             $closest_coords = $this->getClosestCoords($start_point, $potential_coords);
-            foreach($points as $point) {
-                if($point->lat === $closest_coords[0] && $point->lon === $closest_coords[1]) {
+            foreach ($points as $point) {
+                if ($point->lat === $closest_coords[0] && $point->lon === $closest_coords[1]) {
                     break;
                 }
             }
@@ -181,14 +190,13 @@ class GeoService extends BaseService
         foreach ($pirep->acars as $point) {
             $route->addPoint($point->lat, $point->lon, [
                 'pirep_id' => $pirep->id,
-                'name' => $point->altitude,
-                'popup' => $counter . '<br />GS: ' . $point->gs . '<br />Alt: ' . $point->altitude,
+                'name'     => $point->altitude,
+                'popup'    => $counter.'<br />GS: '.$point->gs.'<br />Alt: '.$point->altitude,
             ]);
-
         }
 
         return [
-            'line' => $route->getLine(),
+            'line'   => $route->getLine(),
             'points' => $route->getPoints()
         ];
     }
@@ -203,22 +211,21 @@ class GeoService extends BaseService
         /**
          * @var Pirep $pirep
          */
-        foreach($pireps as $pirep) {
-
+        foreach ($pireps as $pirep) {
             /**
              * @var $point \App\Models\Acars
              */
             $point = $pirep->position;
-            if(!$point) {
+            if (!$point) {
                 continue;
             }
 
             $flight->addPoint($point->lat, $point->lon, [
-                'pirep_id'  => $pirep->id,
-                'gs'        => $point->gs,
-                'alt'       => $point->altitude,
-                'heading'   => $point->heading ?: 0,
-                'popup'     => $pirep->ident . '<br />GS: ' . $point->gs . '<br />Alt: ' . $point->altitude,
+                'pirep_id' => $pirep->id,
+                'gs'       => $point->gs,
+                'alt'      => $point->altitude,
+                'heading'  => $point->heading ?: 0,
+                'popup'    => $pirep->ident.'<br />GS: '.$point->gs.'<br />Alt: '.$point->altitude,
             ]);
         }
 
@@ -236,12 +243,12 @@ class GeoService extends BaseService
 
         ## Departure Airport
         $route->addPoint($flight->dpt_airport->lat, $flight->dpt_airport->lon, [
-            'name' => $flight->dpt_airport->icao,
+            'name'  => $flight->dpt_airport->icao,
             'popup' => $flight->dpt_airport->full_name,
-            'icon' => 'airport',
+            'icon'  => 'airport',
         ]);
 
-        if($flight->route) {
+        if ($flight->route) {
             $all_route_points = $this->getCoordsFromRoute(
                 $flight->dpt_airport->icao,
                 $flight->arr_airport->icao,
@@ -249,10 +256,10 @@ class GeoService extends BaseService
                 $flight->route);
 
             // lat, lon needs to be reversed for GeoJSON
-            foreach($all_route_points as $point) {
+            foreach ($all_route_points as $point) {
                 $route->addPoint($point->lat, $point->lon, [
                     'name'  => $point->name,
-                    'popup' => $point->name . ' (' . $point->name . ')',
+                    'popup' => $point->name.' ('.$point->name.')',
                     'icon'  => ''
                 ]);
             }
@@ -265,8 +272,8 @@ class GeoService extends BaseService
         ]);
 
         return [
-            'route_points'        => $route->getPoints(),
-            'planned_route_line'  => $route->getLine(),
+            'route_points'       => $route->getPoints(),
+            'planned_route_line' => $route->getLine(),
         ];
     }
 
@@ -284,22 +291,22 @@ class GeoService extends BaseService
          * PLANNED ROUTE
          */
         $planned->addPoint($pirep->dpt_airport->lat, $pirep->dpt_airport->lon, [
-            'name' => $pirep->dpt_airport->icao,
+            'name'  => $pirep->dpt_airport->icao,
             'popup' => $pirep->dpt_airport->full_name,
         ]);
 
         $planned_route = $this->acarsRepo->forPirep($pirep->id, AcarsType::ROUTE);
-        foreach($planned_route as $point) {
+        foreach ($planned_route as $point) {
             $planned->addPoint($point->lat, $point->lon, [
-                'name' => $point->name,
-                'popup' => $point->name . ' (' . $point->name . ')',
+                'name'  => $point->name,
+                'popup' => $point->name.' ('.$point->name.')',
             ]);
         }
 
         $planned->addPoint($pirep->arr_airport->lat, $pirep->arr_airport->lon, [
-            'name' => $pirep->arr_airport->icao,
+            'name'  => $pirep->arr_airport->icao,
             'popup' => $pirep->arr_airport->full_name,
-            'icon' => 'airport',
+            'icon'  => 'airport',
         ]);
 
         /**
@@ -309,14 +316,14 @@ class GeoService extends BaseService
         foreach ($actual_route as $point) {
             $actual->addPoint($point->lat, $point->lon, [
                 'pirep_id' => $pirep->id,
-                'name' => $point->altitude,
-                'popup' => 'GS: ' . $point->gs . '<br />Alt: ' . $point->altitude,
+                'name'     => $point->altitude,
+                'popup'    => 'GS: '.$point->gs.'<br />Alt: '.$point->altitude,
             ]);
         }
 
         return [
-            'planned_rte_points'  => $planned->getPoints(),
-            'planned_rte_line'    => $planned->getLine(),
+            'planned_rte_points' => $planned->getPoints(),
+            'planned_rte_line'   => $planned->getLine(),
 
             'actual_route_points' => $actual->getPoints(),
             'actual_route_line'   => $actual->getLine(),

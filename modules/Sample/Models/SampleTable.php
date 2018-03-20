@@ -2,10 +2,15 @@
 
 namespace Modules\Sample\Models;
 
-use App\Models\BaseModel;
+use App\Interfaces\Model;
 
-class SampleTable extends BaseModel
+/**
+ * Class SampleTable
+ * @package Modules\Sample\Models
+ */
+class SampleTable extends Model
 {
     public $table = '';
+
     protected $fillable = [];
 }

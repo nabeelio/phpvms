@@ -32,13 +32,12 @@ use Illuminate\Queue\SerializesModels;
 class Expenses
 {
     use Dispatchable, SerializesModels;
-
     public $pirep;
 
     /**
      * @param Pirep|null $pirep
      */
-    public function __construct(Pirep $pirep=null)
+    public function __construct(Pirep $pirep = null)
     {
         $this->pirep = $pirep;
     }

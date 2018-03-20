@@ -2,19 +2,24 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Http\Controllers\Controller;
+use App\Interfaces\Controller;
 use App\Repositories\AcarsRepository;
 use App\Services\GeoService;
 use Illuminate\Http\Request;
 
+/**
+ * Class AcarsController
+ * @package App\Http\Controllers\Frontend
+ */
 class AcarsController extends Controller
 {
-    private $acarsRepo, $geoSvc;
+    private $acarsRepo,
+            $geoSvc;
 
     /**
      * AcarsController constructor.
      * @param AcarsRepository $acarsRepo
-     * @param GeoService $geoSvc
+     * @param GeoService      $geoSvc
      */
     public function __construct(
         AcarsRepository $acarsRepo,
@@ -33,8 +38,8 @@ class AcarsController extends Controller
         $pireps = $this->acarsRepo->getPositions();
         $positions = $this->geoSvc->getFeatureForLiveFlights($pireps);
 
-        return view('acars.index',[
-            'pireps' => $pireps,
+        return view('acars.index', [
+            'pireps'    => $pireps,
             'positions' => $positions,
         ]);
     }

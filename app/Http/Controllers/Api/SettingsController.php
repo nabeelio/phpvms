@@ -3,12 +3,17 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Resources\Setting as SettingResource;
+use App\Interfaces\Controller;
 use App\Repositories\SettingRepository;
 use Illuminate\Http\Request;
 
-class SettingsController extends RestController
+/**
+ * Class SettingsController
+ * @package App\Http\Controllers\Api
+ */
+class SettingsController extends Controller
 {
-    protected $settingRepo;
+    private $settingRepo;
 
     /**
      * SettingsController constructor.

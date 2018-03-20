@@ -2,7 +2,7 @@
 
 namespace App\Console\Cron;
 
-use App\Console\BaseCommand;
+use App\Console\Command;
 use App\Events\CronNightly;
 
 /**
@@ -10,12 +10,15 @@ use App\Events\CronNightly;
  * listeners, etc can just be called to run those tasks
  * @package App\Console\Cron
  */
-class Nightly extends BaseCommand
+class Nightly extends Command
 {
     protected $signature = 'cron:nightly';
     protected $description = 'Run the nightly cron tasks';
     protected $schedule;
 
+    /**
+     *
+     */
     public function handle(): void
     {
         $this->redirectLoggingToStdout('cron');

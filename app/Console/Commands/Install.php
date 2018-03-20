@@ -2,9 +2,13 @@
 
 namespace App\Console\Commands;
 
-use App\Console\BaseCommand;
+use App\Console\Command;
 
-class Install extends BaseCommand
+/**
+ * Class Install
+ * @package App\Console\Commands
+ */
+class Install extends Command
 {
     protected $signature = 'phpvms:install 
                                 {--update}
@@ -13,11 +17,17 @@ class Install extends BaseCommand
 
     protected $description = 'Install or update phpVMS';
 
+    /**
+     * Install constructor.
+     */
     public function __construct()
     {
         parent::__construct();
     }
 
+    /**
+     * @return mixed|void
+     */
     public function handle()
     {
         $this->info('Installing phpVMS...');
@@ -25,7 +35,7 @@ class Install extends BaseCommand
         $this->setupDatabase();
 
         # Only run these if we're doing an initial install
-        if(!$this->option('update')) {
+        if (!$this->option('update')) {
             $this->writeLocalConfig();
             $this->initialData();
         }
@@ -38,22 +48,20 @@ class Install extends BaseCommand
      */
     protected function setupDatabase()
     {
-        if(!$this->option('update')) {
+        if (!$this->option('update')) {
             $this->call('database:create');
         }
 
         $this->info('Running database migrations...');
         $this->call('migrate');
-
         # TODO: Call initial seed data, for the groups and other supporting data
     }
 
     /**
      * Write a local config file
      */
-    protected function writeLocalConfig()
+    protected function writeLocalConfig(): void
     {
-
     }
 
     /**
@@ -63,15 +71,14 @@ class Install extends BaseCommand
     {
         # TODO: Prompt for initial airline info
         $airline_name = $this->option('airline-name');
-        if(!$airline_name) {
+        if (!$airline_name) {
             $airline_name = $this->ask('Enter your airline name');
         }
 
         $airline_code = $this->option('airline-code');
-        if(!$airline_code) {
+        if (!$airline_code) {
             $airline_code = $this->ask('Enter your airline code');
         }
-
         # TODO: Prompt for admin user/password
     }
 }

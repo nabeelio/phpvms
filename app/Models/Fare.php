@@ -1,16 +1,17 @@
 <?php
 
 namespace App\Models;
+use App\Interfaces\Model;
 
 /**
  * Class Fare
  * @property integer capacity
- * @property float cost
- * @property float price
- * @property mixed code
+ * @property float   cost
+ * @property float   price
+ * @property mixed   code
  * @package App\Models
  */
-class Fare extends BaseModel
+class Fare extends Model
 {
     public $table = 'fares';
 
@@ -25,10 +26,10 @@ class Fare extends BaseModel
     ];
 
     protected $casts = [
-        'price'     => 'float',
-        'cost'      => 'float',
-        'capacity'  => 'integer',
-        'active'    => 'boolean',
+        'price'    => 'float',
+        'cost'     => 'float',
+        'capacity' => 'integer',
+        'active'   => 'boolean',
     ];
 
     public static $rules = [

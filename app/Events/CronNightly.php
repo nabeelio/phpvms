@@ -14,6 +14,9 @@ class CronNightly
 {
     use Dispatchable, SerializesModels;
 
+    /**
+     * CronNightly constructor.
+     */
     public function __construct()
     {
 

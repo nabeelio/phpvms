@@ -27,7 +27,6 @@ class CreateAircraftsTable extends Migration
             $table->unique('registration');
             $table->index('airport_id');
         });
-
     }
 
     public function down()

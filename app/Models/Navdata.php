@@ -2,7 +2,13 @@
 
 namespace App\Models;
 
-class Navdata extends BaseModel
+use App\Interfaces\Model;
+
+/**
+ * Class Navdata
+ * @package App\Models
+ */
+class Navdata extends Model
 {
     public $table = 'navdata';
     public $timestamps = false;
@@ -18,10 +24,10 @@ class Navdata extends BaseModel
     ];
 
     public $casts = [
-        'type'  => 'integer',
-        'lat'   => 'float',
-        'lon'   => 'float',
-        'freq'  => 'float',
+        'type' => 'integer',
+        'lat'  => 'float',
+        'lon'  => 'float',
+        'freq' => 'float',
     ];
 
     /**

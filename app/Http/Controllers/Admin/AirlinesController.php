@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\CreateAirlineRequest;
 use App\Http\Requests\UpdateAirlineRequest;
+use App\Interfaces\Controller;
 use App\Repositories\AirlineRepository;
 use App\Support\Countries;
 use Flash;
@@ -11,9 +12,12 @@ use Illuminate\Http\Request;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 
-class AirlinesController extends BaseController
+/**
+ * Class AirlinesController
+ * @package App\Http\Controllers\Admin
+ */
+class AirlinesController extends Controller
 {
-    /** @var  AirlineRepository */
     private $airlineRepo;
 
     /**
@@ -59,6 +63,7 @@ class AirlinesController extends BaseController
         $airlines = $this->airlineRepo->create($input);
 
         Flash::success('Airlines saved successfully.');
+
         return redirect(route('admin.airlines.index'));
     }
 
@@ -73,6 +78,7 @@ class AirlinesController extends BaseController
 
         if (empty($airlines)) {
             Flash::error('Airlines not found');
+
             return redirect(route('admin.airlines.index'));
         }
 
@@ -92,18 +98,19 @@ class AirlinesController extends BaseController
 
         if (empty($airline)) {
             Flash::error('Airline not found');
+
             return redirect(route('admin.airlines.index'));
         }
 
         return view('admin.airlines.edit', [
-            'airline' => $airline,
+            'airline'   => $airline,
             'countries' => Countries::getSelectList(),
         ]);
     }
 
     /**
      * Update the specified Airlines in storage.
-     * @param  int $id
+     * @param  int                 $id
      * @param UpdateAirlineRequest $request
      * @return Response
      * @throws \Prettus\Validator\Exceptions\ValidatorException
@@ -114,6 +121,7 @@ class AirlinesController extends BaseController
 
         if (empty($airlines)) {
             Flash::error('Airlines not found');
+
             return redirect(route('admin.airlines.index'));
         }
 
@@ -135,12 +143,14 @@ class AirlinesController extends BaseController
 
         if (empty($airlines)) {
             Flash::error('Airlines not found');
+
             return redirect(route('admin.airlines.index'));
         }
 
         $this->airlineRepo->delete($id);
 
         Flash::success('Airlines deleted successfully.');
+
         return redirect(route('admin.airlines.index'));
     }
 }

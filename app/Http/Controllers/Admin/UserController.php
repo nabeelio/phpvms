@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Facades\Utils;
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\UpdateUserRequest;
-use App\Models\Airline;
+use App\Interfaces\Controller;
 use App\Models\Rank;
 use App\Models\Role;
 use App\Models\User;
@@ -23,7 +23,11 @@ use Log;
 use Prettus\Repository\Exceptions\RepositoryException;
 use Response;
 
-class UserController extends BaseController
+/**
+ * Class UserController
+ * @package App\Http\Controllers\Admin
+ */
+class UserController extends Controller
 {
     private $airlineRepo,
             $airportRepo,
@@ -35,9 +39,9 @@ class UserController extends BaseController
      * UserController constructor.
      * @param AirlineRepository $airlineRepo
      * @param AirportRepository $airportRepo
-     * @param PirepRepository $pirepRepo
-     * @param UserRepository $userRepo
-     * @param UserService $userSvc
+     * @param PirepRepository   $pirepRepo
+     * @param UserRepository    $userRepo
+     * @param UserService       $userSvc
      */
     public function __construct(
         AirlineRepository $airlineRepo,
@@ -67,7 +71,7 @@ class UserController extends BaseController
         }
 
         return view('admin.users.index', [
-            'users' => $users,
+            'users'   => $users,
             'country' => new \League\ISO3166\ISO3166(),
         ]);
     }
@@ -82,14 +86,14 @@ class UserController extends BaseController
         $airports = $this->airportRepo->selectBoxList(false, setting('pilots.home_hubs_only'));
 
         return view('admin.users.create', [
-            'user' => null,
-            'pireps' => null,
-            'airlines' => $airlines,
+            'user'      => null,
+            'pireps'    => null,
+            'airlines'  => $airlines,
             'timezones' => Timezonelist::toArray(),
-            'country' => new \League\ISO3166\ISO3166(),
-            'airports' => $airports,
-            'ranks' => Rank::all()->pluck('name', 'id'),
-            'roles' => Role::all()->pluck('name', 'id'),
+            'country'   => new \League\ISO3166\ISO3166(),
+            'airports'  => $airports,
+            'ranks'     => Rank::all()->pluck('name', 'id'),
+            'roles'     => Role::all()->pluck('name', 'id'),
         ]);
     }
 
@@ -105,6 +109,7 @@ class UserController extends BaseController
         $user = $this->userRepo->create($input);
 
         Flash::success('User saved successfully.');
+
         return redirect(route('admin.users.index'));
     }
 
@@ -119,6 +124,7 @@ class UserController extends BaseController
 
         if (empty($user)) {
             Flash::error('User not found');
+
             return redirect(route('admin.users.index'));
         }
 
@@ -130,14 +136,14 @@ class UserController extends BaseController
         $airports = $this->airportRepo->selectBoxList(false, setting('pilots.home_hubs_only'));
 
         return view('admin.users.show', [
-            'user' => $user,
-            'pireps' => $pireps,
-            'airlines' => $airlines,
+            'user'      => $user,
+            'pireps'    => $pireps,
+            'airlines'  => $airlines,
             'timezones' => Timezonelist::toArray(),
-            'country' => new \League\ISO3166\ISO3166(),
-            'airports' => $airports,
-            'ranks' => Rank::all()->pluck('name', 'id'),
-            'roles' => Role::all()->pluck('name', 'id'),
+            'country'   => new \League\ISO3166\ISO3166(),
+            'airports'  => $airports,
+            'ranks'     => Rank::all()->pluck('name', 'id'),
+            'roles'     => Role::all()->pluck('name', 'id'),
         ]);
     }
 
@@ -152,6 +158,7 @@ class UserController extends BaseController
 
         if (empty($user)) {
             Flash::error('User not found');
+
             return redirect(route('admin.users.index'));
         }
 
@@ -168,20 +175,20 @@ class UserController extends BaseController
         $airports = $this->airportRepo->selectBoxList(false, setting('pilots.home_hubs_only'));
 
         return view('admin.users.edit', [
-            'user' => $user,
-            'pireps' => $pireps,
+            'user'      => $user,
+            'pireps'    => $pireps,
             'countries' => $countries,
             'timezones' => Timezonelist::toArray(),
-            'airports' => $airports,
-            'airlines' => $airlines,
-            'ranks' => Rank::all()->pluck('name', 'id'),
-            'roles' => Role::all()->pluck('name', 'id'),
+            'airports'  => $airports,
+            'airlines'  => $airlines,
+            'ranks'     => Rank::all()->pluck('name', 'id'),
+            'roles'     => Role::all()->pluck('name', 'id'),
         ]);
     }
 
     /**
      * Update the specified User in storage.
-     * @param int $id
+     * @param int               $id
      * @param UpdateUserRequest $request
      * @return Response
      * @throws \Prettus\Validator\Exceptions\ValidatorException
@@ -192,11 +199,12 @@ class UserController extends BaseController
 
         if (empty($user)) {
             Flash::error('User not found');
+
             return redirect(route('admin.users.index'));
         }
 
         $req_data = $request->all();
-        if(!$request->filled('password')) {
+        if (!$request->filled('password')) {
             unset($req_data['password']);
         } else {
             $req_data['password'] = Hash::make($req_data['password']);
@@ -206,17 +214,18 @@ class UserController extends BaseController
 
         $user = $this->userRepo->update($req_data, $id);
 
-        if($original_user_state !== $user->state) {
+        if ($original_user_state !== $user->state) {
             $this->userSvc->changeUserState($user, $original_user_state);
         }
 
         # Delete all of the roles and then re-attach the valid ones
-        DB::table('role_user')->where('user_id',$id)->delete();
+        DB::table('role_user')->where('user_id', $id)->delete();
         foreach ($request->input('roles') as $key => $value) {
             $user->attachRole($value);
         }
 
         Flash::success('User updated successfully.');
+
         return redirect(route('admin.users.index'));
     }
 
@@ -231,30 +240,33 @@ class UserController extends BaseController
 
         if (empty($user)) {
             Flash::error('User not found');
+
             return redirect(route('admin.users.index'));
         }
 
         $this->userRepo->delete($id);
 
         Flash::success('User deleted successfully.');
+
         return redirect(route('admin.users.index'));
     }
 
     /**
      * Regenerate the user's API key
-     * @param $id
+     * @param         $id
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function regen_apikey($id, Request $request)
     {
         $user = User::find($id);
-        Log::info('Regenerating API key "' . $user->pilot_id . '"');
+        Log::info('Regenerating API key "'.$user->pilot_id.'"');
 
         $user->api_key = Utils::generateApiKey();
         $user->save();
 
         flash('New API key generated!')->success();
+
         return redirect(route('admin.users.edit', ['id' => $id]));
     }
 }

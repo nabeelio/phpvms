@@ -10,20 +10,20 @@ use Illuminate\Notifications\Notifiable;
 use Laratrust\Traits\LaratrustUserTrait;
 
 /**
- * @property integer $id
- * @property string $name
- * @property string $email
- * @property string $password
- * @property string $api_key
- * @property Flight[] $flights
- * @property string $flight_time
- * @property string $remember_token
+ * @property integer        $id
+ * @property string         $name
+ * @property string         $email
+ * @property string         $password
+ * @property string         $api_key
+ * @property Flight[]       $flights
+ * @property string         $flight_time
+ * @property string         $remember_token
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
- * @property Rank rank
- * @property Journal journal
- * @property string pilot_id
- * @property int state
+ * @property Rank           rank
+ * @property Journal        journal
+ * @property string         pilot_id
+ * @property int            state
  * @mixin \Illuminate\Notifications\Notifiable
  * @mixin \Laratrust\Traits\LaratrustUserTrait
  */
@@ -72,16 +72,16 @@ class User extends Authenticatable
     ];
 
     protected $casts = [
-        'flights'           => 'integer',
-        'flight_time'       => 'integer',
-        'transferred_time'  => 'integer',
-        'balance'           => 'double',
-        'state'             => 'integer',
-        'status'            => 'integer',
+        'flights'          => 'integer',
+        'flight_time'      => 'integer',
+        'transferred_time' => 'integer',
+        'balance'          => 'double',
+        'state'            => 'integer',
+        'status'           => 'integer',
     ];
 
     public static $rules = [
-        'name' => 'required',
+        'name'  => 'required',
         'email' => 'required|email',
     ];
 
@@ -91,7 +91,8 @@ class User extends Authenticatable
     public function getPilotIdAttribute()
     {
         $length = setting('pilots.id_length');
-        return $this->airline->icao . str_pad($this->id, $length, '0', STR_PAD_LEFT);
+
+        return $this->airline->icao.str_pad($this->id, $length, '0', STR_PAD_LEFT);
     }
 
     /**
@@ -124,14 +125,14 @@ class User extends Authenticatable
      * @param mixed $size Size of the gravatar, in pixels
      * @return string
      */
-    public function gravatar($size=null)
+    public function gravatar($size = null)
     {
         $default = config('gravatar.default');
 
         $uri = config('gravatar.url')
-             . md5(strtolower(trim($this->email))).'?d='.urlencode($default);
+            .md5(strtolower(trim($this->email))).'?d='.urlencode($default);
 
-        if($size !== null) {
+        if ($size !== null) {
             $uri .= '&s='.$size;
         }
 
@@ -175,7 +176,7 @@ class User extends Authenticatable
     public function pireps()
     {
         return $this->hasMany(Pirep::class, 'user_id')
-                    ->where('state', '!=', PirepState::CANCELLED);
+            ->where('state', '!=', PirepState::CANCELLED);
     }
 
     public function rank()

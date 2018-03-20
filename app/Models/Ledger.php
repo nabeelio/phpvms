@@ -6,19 +6,20 @@
 
 namespace App\Models;
 
+use App\Interfaces\Model;
 use App\Support\Money;
 use Carbon\Carbon;
 
 /**
  * Class Journal
  * @package Scottlaurent\Accounting
- * @property    Money $balance
+ * @property    Money  $balance
  * @property    string $currency
  * @property    Carbon $updated_at
  * @property    Carbon $post_date
  * @property    Carbon $created_at
  */
-class Ledger extends BaseModel
+class Ledger extends Model
 {
     protected $table = 'ledgers';
 
