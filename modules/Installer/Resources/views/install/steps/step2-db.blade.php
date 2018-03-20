@@ -123,18 +123,20 @@ function changeForm(selected) {
     $("tbody#" + selected + "_settings").show();
 }
 
-$(document).ready(function() {
-    var selValue = $("#db_conn option:selected").text();
+$(document).ready(() => {
+
+    const selValue = $("#db_conn option:selected").text();
     changeForm(selValue);
 
-    $("#db_conn").change(function(e) {
-        var selValue = $("#db_conn option:selected").text();
+    $("#db_conn").change((e) => {
+        const selValue = $("#db_conn option:selected").text();
         changeForm(selValue);
     });
 
-    $("#dbtest_button").click(function(e) {
+    $("#dbtest_button").click((e) => {
         e.preventDefault();
-        var opts = {
+        const opts = {
+            _token: "{{ csrf_token() }}",
             db_conn: $("#db_conn option:selected").text(),
             db_host: $("input[name=db_host]").val(),
             db_port: $("input[name=db_port]").val(),
@@ -143,7 +145,7 @@ $(document).ready(function() {
             db_pass: $("input[name=db_pass]").val(),
         };
 
-        $.post("{{ route('installer.dbtest') }}", opts, function(data) {
+        $.post("{{ route('installer.dbtest') }}", opts, (data) => {
             $("#dbtest").html(data);
         })
     })
