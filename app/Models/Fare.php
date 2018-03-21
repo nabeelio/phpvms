@@ -33,7 +33,7 @@ class Fare extends Model
     ];
 
     public static $rules = [
-        'code' => 'required|unique:fare',
+        'code' => 'required|unique:fares',
         'name' => 'required',
     ];
 
