@@ -15,7 +15,7 @@ class PirepField extends Model
     public $table = 'pirep_fields';
     public $timestamps = false;
 
-    public $fillable = [
+    protected $fillable = [
         'name',
         'slug',
         'required',

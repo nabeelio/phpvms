@@ -21,7 +21,7 @@ class Setting extends Model
     public $table = 'settings';
     public $incrementing = false;
 
-    public $fillable = [
+    protected $fillable = [
         'name',
         'key',
         'value',

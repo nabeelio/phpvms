@@ -26,7 +26,7 @@ class Journal extends Model
 {
     protected $table = 'journals';
 
-    public $fillable = [
+    protected $fillable = [
         'ledger_id',
         'journal_type',
         'balance',

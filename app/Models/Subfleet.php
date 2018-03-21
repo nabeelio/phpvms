@@ -19,7 +19,7 @@ class Subfleet extends Model
 
     public $table = 'subfleets';
 
-    protected $fillable = [
+    public $fillable = [
         'airline_id',
         'type',
         'name',
@@ -30,7 +30,7 @@ class Subfleet extends Model
         'gross_weight',
     ];
 
-    protected $casts = [
+    public $casts = [
         'airline_id'                 => 'integer',
         'fuel_type'                  => 'integer',
         'ground_handling_multiplier' => 'float',
@@ -39,7 +39,7 @@ class Subfleet extends Model
         'gross_weight'               => 'float',
     ];
 
-    protected static $rules = [
+    public static $rules = [
         'type'                       => 'required|unique',
         'name'                       => 'required',
         'ground_handling_multiplier' => 'nullable|numeric',

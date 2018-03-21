@@ -15,7 +15,7 @@ class Award extends Model
 {
     public $table = 'awards';
 
-    public $fillable = [
+    protected $fillable = [
         'name',
         'description',
         'image_url',

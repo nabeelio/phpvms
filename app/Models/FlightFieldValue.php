@@ -15,7 +15,7 @@ class FlightFieldValue extends Model
 {
     public $table = 'flight_field_values';
 
-    public $fillable = [
+    protected $fillable = [
         'flight_id',
         'name',
         'value',

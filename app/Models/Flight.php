@@ -27,7 +27,7 @@ class Flight extends Model
     /** The form wants this */
     public $hours, $minutes;
 
-    public $fillable = [
+    protected $fillable = [
         'id',
         'airline_id',
         'flight_number',

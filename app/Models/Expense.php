@@ -16,7 +16,7 @@ class Expense extends Model
 {
     public $table = 'expenses';
 
-    public $fillable = [
+    protected $fillable = [
         'airline_id',
         'name',
         'amount',

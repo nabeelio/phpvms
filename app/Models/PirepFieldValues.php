@@ -12,7 +12,7 @@ class PirepFieldValues extends Model
 {
     public $table = 'pirep_field_values';
 
-    public $fillable = [
+    protected $fillable = [
         'pirep_id',
         'name',
         'value',

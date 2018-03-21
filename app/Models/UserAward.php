@@ -12,7 +12,7 @@ class UserAward extends Model
 {
     public $table = 'user_awards';
 
-    public $fillable = [
+    protected $fillable = [
         'user_id',
         'award_id'
     ];

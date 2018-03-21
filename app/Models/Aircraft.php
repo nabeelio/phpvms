@@ -25,7 +25,7 @@ class Aircraft extends Model
 
     public $table = 'aircraft';
 
-    public $fillable = [
+    protected $fillable = [
         'subfleet_id',
         'airport_id',
         'name',

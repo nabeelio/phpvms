@@ -15,7 +15,7 @@ class Rank extends Model
 {
     public $table = 'ranks';
 
-    public $fillable = [
+    protected $fillable = [
         'name',
         'hours',
         'image_url',

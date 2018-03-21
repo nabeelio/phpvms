@@ -13,7 +13,7 @@ class PirepFare extends Model
     public $table = 'pirep_fares';
     public $timestamps = false;
 
-    public $fillable = [
+    protected $fillable = [
         'pirep_id',
         'fare_id',
         'count',

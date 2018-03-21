@@ -21,7 +21,7 @@ use Carbon\Carbon;
  */
 class Ledger extends Model
 {
-    protected $table = 'ledgers';
+    public $table = 'ledgers';
 
     /**
      *

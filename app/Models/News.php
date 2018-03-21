@@ -12,7 +12,7 @@ class News extends Model
 {
     public $table = 'news';
 
-    public $fillable = [
+    protected $fillable = [
         'user_id',
         'subject',
         'body',

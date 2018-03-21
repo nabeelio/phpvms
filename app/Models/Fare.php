@@ -15,7 +15,7 @@ class Fare extends Model
 {
     public $table = 'fares';
 
-    public $fillable = [
+    protected $fillable = [
         'code',
         'name',
         'price',

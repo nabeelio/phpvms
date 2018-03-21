@@ -11,10 +11,11 @@ use App\Interfaces\Model;
 class Navdata extends Model
 {
     public $table = 'navdata';
+
     public $timestamps = false;
     public $incrementing = false;
 
-    public $fillable = [
+    protected $fillable = [
         'id',
         'name',
         'type',
@@ -23,7 +24,7 @@ class Navdata extends Model
         'freq',
     ];
 
-    public $casts = [
+    protected $casts = [
         'type' => 'integer',
         'lat'  => 'float',
         'lon'  => 'float',

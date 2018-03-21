@@ -40,7 +40,7 @@ class Pirep extends Model
     /** The form wants this */
     public $hours, $minutes;
 
-    public $fillable = [
+    protected $fillable = [
         'id',
         'user_id',
         'airline_id',

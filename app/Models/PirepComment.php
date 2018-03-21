@@ -13,7 +13,7 @@ class PirepComment extends Model
 {
     public $table = 'pirep_comments';
 
-    public $fillable = [
+    protected $fillable = [
         'pirep_id',
         'user_id',
         'comment',

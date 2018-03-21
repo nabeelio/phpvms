@@ -26,7 +26,7 @@ class JournalTransaction extends Model
 
     public $incrementing = false;
 
-    public $fillable = [
+    protected $fillable = [
         'transaction_group',
         'journal_id',
         'credit',

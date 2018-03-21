@@ -29,7 +29,7 @@ class Airline extends Model
      */
     public $journal_type = JournalType::AIRLINE;
 
-    public $fillable = [
+    protected $fillable = [
         'icao',
         'iata',
         'name',
