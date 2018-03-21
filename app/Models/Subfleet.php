@@ -40,7 +40,7 @@ class Subfleet extends Model
     ];
 
     public static $rules = [
-        'type'                       => 'required|unique:subfleets',
+        'type'                       => 'required',
         'name'                       => 'required',
         'ground_handling_multiplier' => 'nullable|numeric',
     ];
@@ -50,9 +50,7 @@ class Subfleet extends Model
      */
     public function setTypeAttribute($type)
     {
-        $type = str_replace(' ', '-', $type);
-        $type = str_replace(',', '', $type);
-
+        $type = str_replace([' ', ','], array('-', ''), $type);
         $this->attributes['type'] = $type;
     }
 
