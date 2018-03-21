@@ -15,10 +15,13 @@ use App\Repositories\RankRepository;
 use App\Repositories\SubfleetRepository;
 use App\Services\FareService;
 use App\Services\FleetService;
+use App\Services\ImporterService;
 use Flash;
 use Illuminate\Http\Request;
+use Log;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use Storage;
 
 /**
  * Class SubfleetController
@@ -30,6 +33,7 @@ class SubfleetController extends Controller
             $fareRepo,
             $fareSvc,
             $fleetSvc,
+            $importSvc,
             $rankRepo,
             $subfleetRepo;
 
@@ -37,23 +41,26 @@ class SubfleetController extends Controller
      * SubfleetController constructor.
      * @param AircraftRepository $aircraftRepo
      * @param FleetService       $fleetSvc
-     * @param RankRepository     $rankRepo
-     * @param SubfleetRepository $subfleetRepo
      * @param FareRepository     $fareRepo
      * @param FareService        $fareSvc
+     * @param ImporterService    $importSvc
+     * @param RankRepository     $rankRepo
+     * @param SubfleetRepository $subfleetRepo
      */
     public function __construct(
         AircraftRepository $aircraftRepo,
         FleetService $fleetSvc,
-        RankRepository $rankRepo,
-        SubfleetRepository $subfleetRepo,
         FareRepository $fareRepo,
-        FareService $fareSvc
+        FareService $fareSvc,
+        ImporterService $importSvc,
+        RankRepository $rankRepo,
+        SubfleetRepository $subfleetRepo
     ) {
         $this->aircraftRepo = $aircraftRepo;
         $this->fareRepo = $fareRepo;
         $this->fareSvc = $fareSvc;
         $this->fleetSvc = $fleetSvc;
+        $this->importSvc = $importSvc;
         $this->rankRepo = $rankRepo;
         $this->subfleetRepo = $subfleetRepo;
     }
@@ -133,7 +140,6 @@ class SubfleetController extends Controller
         $subfleet = $this->subfleetRepo->create($input);
 
         Flash::success('Subfleet saved successfully.');
-
         return redirect(route('admin.subfleets.edit', ['id' => $subfleet->id]));
     }
 
@@ -148,12 +154,10 @@ class SubfleetController extends Controller
 
         if (empty($subfleet)) {
             Flash::error('Subfleet not found');
-
             return redirect(route('admin.subfleets.index'));
         }
 
         $avail_fares = $this->getAvailFares($subfleet);
-
         return view('admin.subfleets.show', [
             'subfleet'    => $subfleet,
             'avail_fares' => $avail_fares,
@@ -171,7 +175,6 @@ class SubfleetController extends Controller
 
         if (empty($subfleet)) {
             Flash::error('Subfleet not found');
-
             return redirect(route('admin.subfleets.index'));
         }
 
@@ -200,14 +203,12 @@ class SubfleetController extends Controller
 
         if (empty($subfleet)) {
             Flash::error('Subfleet not found');
-
             return redirect(route('admin.subfleets.index'));
         }
 
         $this->subfleetRepo->update($request->all(), $id);
 
         Flash::success('Subfleet updated successfully.');
-
         return redirect(route('admin.subfleets.index'));
     }
 
@@ -222,7 +223,6 @@ class SubfleetController extends Controller
 
         if (empty($subfleet)) {
             Flash::error('Subfleet not found');
-
             return redirect(route('admin.subfleets.index'));
         }
 
@@ -231,15 +231,41 @@ class SubfleetController extends Controller
         $aircraft = $this->aircraftRepo->findWhere(['subfleet_id' => $id], ['id']);
         if ($aircraft->count() > 0) {
             Flash::error('There are aircraft still assigned to this subfleet, you can\'t delete it!')->important();
-
             return redirect(route('admin.subfleets.index'));
         }
 
         $this->subfleetRepo->delete($id);
 
         Flash::success('Subfleet deleted successfully.');
-
         return redirect(route('admin.subfleets.index'));
+    }
+
+    /**
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \League\Csv\Exception
+     */
+    public function import(Request $request)
+    {
+        $logs = [
+            'success' => [],
+            'failed'  => [],
+        ];
+
+        if ($request->isMethod('post')) {
+            $path = Storage::putFileAs(
+                'import', $request->file('csv_file'), 'subfleets'
+            );
+
+            $path = storage_path('app/'.$path);
+            Log::info('Uploaded flights import file to '.$path);
+            $logs = $this->importSvc->importSubfleets($path);
+        }
+
+        return view('admin.subfleets.import', [
+            'logs' => $logs,
+        ]);
     }
 
     /**
@@ -251,7 +277,6 @@ class SubfleetController extends Controller
         $subfleet->refresh();
 
         $avail_ranks = $this->getAvailRanks($subfleet);
-
         return view('admin.subfleets.ranks', [
             'subfleet'    => $subfleet,
             'avail_ranks' => $avail_ranks,
@@ -267,7 +292,6 @@ class SubfleetController extends Controller
         $subfleet->refresh();
 
         $avail_fares = $this->getAvailFares($subfleet);
-
         return view('admin.subfleets.fares', [
             'subfleet'    => $subfleet,
             'avail_fares' => $avail_fares,
@@ -321,7 +345,6 @@ class SubfleetController extends Controller
     protected function return_expenses_view(?Subfleet $subfleet)
     {
         $subfleet->refresh();
-
         return view('admin.subfleets.expenses', [
             'subfleet' => $subfleet,
         ]);
@@ -377,7 +400,6 @@ class SubfleetController extends Controller
         $subfleet = $this->subfleetRepo->findWithoutFail($id);
         if (empty($subfleet)) {
             return $this->return_fares_view($subfleet);
-            //return view('admin.aircraft.fares', ['fares' => []]);
         }
 
         if ($request->isMethod('get')) {

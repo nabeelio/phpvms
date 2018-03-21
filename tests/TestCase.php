@@ -93,6 +93,24 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
     }
 
     /**
+     * So we can test private/protected methods
+     * http://bit.ly/1mr5hMq
+     * @param       $object
+     * @param       $methodName
+     * @param array $parameters
+     * @return mixed
+     * @throws ReflectionException
+     */
+    public function invokeMethod(&$object, $methodName, array $parameters = [])
+    {
+        $reflection = new \ReflectionClass(get_class($object));
+        $method = $reflection->getMethod($methodName);
+        $method->setAccessible(true);
+
+        return $method->invokeArgs($object, $parameters);
+    }
+
+    /**
      * Override the GET call to inject the user API key
      * @param string $uri
      * @param array $headers

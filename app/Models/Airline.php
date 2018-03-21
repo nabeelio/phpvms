@@ -8,6 +8,7 @@ use App\Models\Traits\JournalTrait;
 
 /**
  * Class Airline
+ * @property mixed   id
  * @property string  code
  * @property string  icao
  * @property string  iata

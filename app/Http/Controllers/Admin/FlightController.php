@@ -17,11 +17,13 @@ use App\Repositories\FlightRepository;
 use App\Repositories\SubfleetRepository;
 use App\Services\FareService;
 use App\Services\FlightService;
+use App\Services\ImporterService;
 use App\Support\Units\Time;
 use Flash;
 use Illuminate\Http\Request;
 use Log;
 use Response;
+use Storage;
 
 /**
  * Class FlightController
@@ -36,6 +38,7 @@ class FlightController extends Controller
             $flightFieldRepo,
             $fareSvc,
             $flightSvc,
+            $importSvc,
             $subfleetRepo;
 
     /**
@@ -44,9 +47,10 @@ class FlightController extends Controller
      * @param AirportRepository     $airportRepo
      * @param FareRepository        $fareRepo
      * @param FlightRepository      $flightRepo
-     * @param FlightFieldRepository $flightFieldRepository
+     * @param FlightFieldRepository $flightFieldRepo
      * @param FareService           $fareSvc
      * @param FlightService         $flightSvc
+     * @param ImporterService       $importSvc
      * @param SubfleetRepository    $subfleetRepo
      */
     public function __construct(
@@ -57,6 +61,7 @@ class FlightController extends Controller
         FlightFieldRepository $flightFieldRepo,
         FareService $fareSvc,
         FlightService $flightSvc,
+        ImporterService $importSvc,
         SubfleetRepository $subfleetRepo
     ) {
         $this->airlineRepo = $airlineRepo;
@@ -66,6 +71,7 @@ class FlightController extends Controller
         $this->flightFieldRepo = $flightFieldRepo;
         $this->fareSvc = $fareSvc;
         $this->flightSvc = $flightSvc;
+        $this->importSvc = $importSvc;
         $this->subfleetRepo = $subfleetRepo;
     }
 
@@ -302,6 +308,34 @@ class FlightController extends Controller
 
         Flash::success('Flight deleted successfully.');
         return redirect(route('admin.flights.index'));
+    }
+
+    /**
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \League\Csv\Exception
+     */
+    public function import(Request $request)
+    {
+        $logs = [
+            'success' => [],
+            'failed' => [],
+        ];
+
+        if ($request->isMethod('post')) {
+            $path = Storage::putFileAs(
+                'import', $request->file('csv_file'), 'flights'
+            );
+
+            $path = storage_path('app/'.$path);
+            Log::info('Uploaded flights import file to '.$path);
+            $logs = $this->importSvc->importFlights($path);
+        }
+
+        return view('admin.flights.import', [
+            'logs' => $logs,
+        ]);
     }
 
     /**

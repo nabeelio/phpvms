@@ -2,6 +2,8 @@
 @section('title', 'Subfleets')
 
 @section('actions')
+    <li><a href="{{ route('admin.subfleets.import') }}"><i class="ti-plus"></i>Import from CSV</a>
+    </li>
     <li>
         <a href="{{ route('admin.subfleets.create') }}">
             <i class="ti-plus"></i>Add New</a>

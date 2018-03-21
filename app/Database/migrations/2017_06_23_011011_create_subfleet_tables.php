@@ -13,8 +13,8 @@ class CreateSubfleetTables extends Migration
         Schema::create('subfleets', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('airline_id')->nullable();
+            $table->string('type', 50)->unique();
             $table->string('name', 50);
-            $table->string('type', 50);
             $table->unsignedTinyInteger('fuel_type')->nullable();
             $table->unsignedDecimal('ground_handling_multiplier')->nullable()->default(100);
             $table->unsignedDecimal('cargo_capacity')->nullable();

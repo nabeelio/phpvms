@@ -7,6 +7,7 @@ use App\Models\Enums\AircraftStatus;
 use App\Models\Traits\ExpensableTrait;
 
 /**
+ * @property int      id
  * @property mixed    subfleet_id
  * @property string   name
  * @property string   icao
@@ -38,8 +39,6 @@ class Aircraft extends Model
 
     /**
      * The attributes that should be casted to native types.
-     *
-     * @var array
      */
     protected $casts = [
         'subfleet_id' => 'integer',
@@ -50,8 +49,6 @@ class Aircraft extends Model
 
     /**
      * Validation rules
-     *
-     * @var array
      */
     public static $rules = [
         'subfleet_id' => 'required',

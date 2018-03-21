@@ -9,10 +9,13 @@ use App\Models\Airport;
 use App\Models\Expense;
 use App\Repositories\AirportRepository;
 use App\Repositories\Criteria\WhereCriteria;
+use App\Services\ImporterService;
 use Flash;
 use Illuminate\Http\Request;
 use Jackiedo\Timezonelist\Facades\Timezonelist;
+use Log;
 use Response;
+use Storage;
 
 /**
  * Class AirportController
@@ -20,15 +23,19 @@ use Response;
  */
 class AirportController extends Controller
 {
-    private $airportRepo;
+    private $airportRepo,
+            $importSvc;
 
     /**
      * @param AirportRepository $airportRepo
+     * @param ImporterService   $importSvc
      */
     public function __construct(
-        AirportRepository $airportRepo
+        AirportRepository $airportRepo,
+        ImporterService $importSvc
     ) {
         $this->airportRepo = $airportRepo;
+        $this->importSvc = $importSvc;
     }
 
     /**
@@ -162,15 +169,41 @@ class AirportController extends Controller
 
         if (empty($airport)) {
             Flash::error('Airport not found');
-
             return redirect(route('admin.airports.index'));
         }
 
         $this->airportRepo->delete($id);
 
         Flash::success('Airport deleted successfully.');
-
         return redirect(route('admin.airports.index'));
+    }
+
+    /**
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \League\Csv\Exception
+     */
+    public function import(Request $request)
+    {
+        $logs = [
+            'success' => [],
+            'failed'  => [],
+        ];
+
+        if ($request->isMethod('post')) {
+            $path = Storage::putFileAs(
+                'import', $request->file('csv_file'), 'airports'
+            );
+
+            $path = storage_path('app/'.$path);
+            Log::info('Uploaded flights import file to '.$path);
+            $logs = $this->importSvc->importAirports($path);
+        }
+
+        return view('admin.airports.import', [
+            'logs' => $logs,
+        ]);
     }
 
     /**

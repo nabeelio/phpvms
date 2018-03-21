@@ -2,8 +2,15 @@
 
 namespace App\Services;
 
+use App\Interfaces\ImportExport;
 use App\Interfaces\Service;
+use App\Models\Airport;
 use App\Repositories\FlightRepository;
+use App\Services\Import\AircraftImporter;
+use App\Services\Import\AirportImporter;
+use App\Services\Import\FlightImporter;
+use App\Services\Import\SubfleetImporter;
+use League\Csv\Reader;
 
 /**
  * Class ImporterService
@@ -24,75 +31,140 @@ class ImporterService extends Service
     }
 
     /**
-     * Set a key-value pair to an array
-     * @param       $kvp_str
-     * @param array $arr
+     * @param      $csv_file
+     * @return Reader
+     * @throws \League\Csv\Exception
      */
-    protected function setKvp($kvp_str, array &$arr)
+    public function openCsv($csv_file)
     {
-        $item = explode('=', $kvp_str);
-        if (\count($item) === 1) {  # just a list?
-            $arr[] = trim($item[0]);
-        } else {  # actually a key-value pair
-            $k = trim($item[0]);
-            $v = trim($item[1]);
-            $arr[$k] = $v;
-        }
+        $reader = Reader::createFromPath($csv_file);
+        $reader->setDelimiter(',');
+        $reader->setEnclosure('"');
+
+        return $reader;
     }
 
     /**
-     * Parse a multi column values field. E.g:
-     * Y?price=200&cost=100; F?price=1200
-     *    or
-     * gate=B32;cost index=100
-     *
-     * Converted into a multi-dimensional array
-     *
-     * @param $field
-     * @return array|string
+     * Run the actual importer
+     * @param Reader       $reader
+     * @param ImportExport $importer
+     * @return array
      */
-    public function parseMultiColumnValues($field)
+    protected function runImport(Reader $reader, ImportExport $importer): array
     {
-        $ret = [];
-        $split_values = explode(';', $field);
+        $import_report = [
+            'success' => [],
+            'failed'  => [],
+        ];
 
-        # No multiple values in here, just a straight value
-        if (\count($split_values) === 1) {
-            return $split_values[0];
-        }
+        $cols = $importer->getColumns();
+        $first_header = $cols[0];
 
-        foreach ($split_values as $value) {
-            # This isn't in the query string format, so it's
-            # just a straight key-value pair set
-            if (strpos($value, '?') === false) {
-                $this->setKvp($value, $ret);
+        $records = $reader->getRecords($cols);
+        foreach ($records as $offset => $row) {
+            // check if the first row being read is the header
+            if ($row[$first_header] === $first_header) {
                 continue;
             }
 
-            # This contains the query string, which turns it
-            # into the multi-level array
-
-            $query_str = explode('?', $value);
-            $parent = trim($query_str[0]);
-
-            $children = [];
-            $kvp = explode('&', trim($query_str[1]));
-            foreach ($kvp as $items) {
-                $this->setKvp($items, $children);
+            $success = $importer->import($row, $offset);
+            if ($success) {
+                $import_report['success'][] = $importer->status;
+            } else {
+                $import_report['failed'][] = $importer->status;
             }
-
-            $ret[$parent] = $children;
         }
 
-        return $ret;
+        return $import_report;
+    }
+
+    /**
+     * Import aircraft
+     * @param string $csv_file
+     * @param bool   $delete_previous
+     * @return mixed
+     * @throws \League\Csv\Exception
+     */
+    public function importAircraft($csv_file, bool $delete_previous = true)
+    {
+        if ($delete_previous) {
+            # TODO: delete airports
+        }
+
+        $reader = $this->openCsv($csv_file);
+        if (!$reader) {
+            return false;
+        }
+
+        $importer = new AircraftImporter();
+        return $this->runImport($reader, $importer);
+    }
+
+    /**
+     * Import airports
+     * @param string $csv_file
+     * @param bool   $delete_previous
+     * @return mixed
+     * @throws \League\Csv\Exception
+     */
+    public function importAirports($csv_file, bool $delete_previous = true)
+    {
+        if ($delete_previous) {
+            Airport::truncate();
+        }
+
+        $reader = $this->openCsv($csv_file);
+        if (!$reader) {
+            return false;
+        }
+
+        $importer = new AirportImporter();
+        return $this->runImport($reader, $importer);
     }
 
     /**
      * Import flights
-     * @param      $csv_str
-     * @param bool $delete_previous
+     * @param string $csv_file
+     * @param bool   $delete_previous
+     * @return mixed
+     * @throws \League\Csv\Exception
      */
-    public function importFlights($csv_str, bool $delete_previous = true)
+    public function importFlights($csv_file, bool $delete_previous = true)
     {
+        if ($delete_previous) {
+            # TODO: Delete all from: flights, flight_field_values
+        }
+
+        $reader = $this->openCsv($csv_file);
+        if (!$reader) {
+            # TODO: Throw an error
+            return false;
+        }
+
+        $importer = new FlightImporter();
+        return $this->runImport($reader, $importer);
+    }
+
+    /**
+     * Import subfleets
+     * @param string $csv_file
+     * @param bool   $delete_previous
+     * @return mixed
+     * @throws \League\Csv\Exception
+     */
+    public function importSubfleets($csv_file, bool $delete_previous = true)
+    {
+        if ($delete_previous) {
+            # TODO: Cleanup subfleet data
+        }
+
+        $reader = $this->openCsv($csv_file);
+        if (!$reader) {
+            # TODO: Throw an error
+            return false;
+        }
+
+        $importer = new SubfleetImporter();
+        return $this->runImport($reader, $importer);
     }
 }

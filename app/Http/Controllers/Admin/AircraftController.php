@@ -10,9 +10,12 @@ use App\Models\Enums\AircraftStatus;
 use App\Models\Expense;
 use App\Models\Subfleet;
 use App\Repositories\AircraftRepository;
+use App\Services\ImporterService;
 use Flash;
 use Illuminate\Http\Request;
+use Log;
 use Prettus\Repository\Criteria\RequestCriteria;
+use Storage;
 
 /**
  * Class AircraftController
@@ -20,16 +23,20 @@ use Prettus\Repository\Criteria\RequestCriteria;
  */
 class AircraftController extends Controller
 {
-    private $aircraftRepo;
+    private $aircraftRepo,
+            $importSvc;
 
     /**
      * AircraftController constructor.
      * @param AircraftRepository $aircraftRepo
+     * @param ImporterService    $importSvc
      */
     public function __construct(
-        AircraftRepository $aircraftRepo
+        AircraftRepository $aircraftRepo,
+        ImporterService $importSvc
     ) {
         $this->aircraftRepo = $aircraftRepo;
+        $this->importSvc = $importSvc;
     }
 
     /**
@@ -67,7 +74,6 @@ class AircraftController extends Controller
         $aircraft = $this->aircraftRepo->create($attrs);
 
         Flash::success('Aircraft saved successfully.');
-
         return redirect(route('admin.aircraft.edit', ['id' => $aircraft->id]));
     }
 
@@ -80,7 +86,6 @@ class AircraftController extends Controller
 
         if (empty($aircraft)) {
             Flash::error('Aircraft not found');
-
             return redirect(route('admin.aircraft.index'));
         }
 
@@ -119,7 +124,6 @@ class AircraftController extends Controller
 
         if (empty($aircraft)) {
             Flash::error('Aircraft not found');
-
             return redirect(route('admin.aircraft.index'));
         }
 
@@ -127,7 +131,6 @@ class AircraftController extends Controller
         $this->aircraftRepo->update($attrs, $id);
 
         Flash::success('Aircraft updated successfully.');
-
         return redirect(route('admin.aircraft.index'));
     }
 
@@ -140,15 +143,41 @@ class AircraftController extends Controller
 
         if (empty($aircraft)) {
             Flash::error('Aircraft not found');
-
             return redirect(route('admin.aircraft.index'));
         }
 
         $this->aircraftRepo->delete($id);
 
         Flash::success('Aircraft deleted successfully.');
-
         return redirect(route('admin.aircraft.index'));
+    }
+
+    /**
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \League\Csv\Exception
+     */
+    public function import(Request $request)
+    {
+        $logs = [
+            'success' => [],
+            'failed'  => [],
+        ];
+
+        if ($request->isMethod('post')) {
+            $path = Storage::putFileAs(
+                'import', $request->file('csv_file'), 'aircraft'
+            );
+
+            $path = storage_path('app/'.$path);
+            Log::info('Uploaded flights import file to '.$path);
+            $logs = $this->importSvc->importAircraft($path);
+        }
+
+        return view('admin.aircraft.import', [
+            'logs' => $logs,
+        ]);
     }
 
     /**

@@ -10,15 +10,17 @@ Route::group([
     Route::resource('airlines', 'AirlinesController');
 
     Route::match(['get', 'post', 'put'], 'airports/fuel', 'AirportController@fuel');
-    Route::resource('airports', 'AirportController');
+    Route::match(['get', 'post'], 'airports/import', 'AirportController@import')->name('airports.import');
     Route::match(['get', 'post', 'put', 'delete'], 'airports/{id}/expenses', 'AirportController@expenses');
+    Route::resource('airports', 'AirportController');
 
     # Awards
     Route::resource('awards', 'AwardController');
 
     # aircraft and fare associations
-    Route::resource('aircraft', 'AircraftController');
+    Route::match(['get', 'post'], 'aircraft/import', 'AircraftController@import')->name('aircraft.import');
     Route::match(['get', 'post', 'put', 'delete'], 'aircraft/{id}/expenses', 'AircraftController@expenses');
+    Route::resource('aircraft', 'AircraftController');
 
     # expenses
     Route::resource('expenses', 'ExpenseController');
@@ -30,10 +32,11 @@ Route::group([
     Route::resource('finances', 'FinanceController');
 
     # flights and aircraft associations
-    Route::resource('flights', 'FlightController');
+    Route::match(['get', 'post'], 'flights/import', 'FlightController@import')->name('flights.import');
     Route::match(['get', 'post', 'put', 'delete'], 'flights/{id}/fares', 'FlightController@fares');
     Route::match(['get', 'post', 'put', 'delete'], 'flights/{id}/fields', 'FlightController@field_values');
     Route::match(['get', 'post', 'put', 'delete'], 'flights/{id}/subfleets', 'FlightController@subfleets');
+    Route::resource('flights', 'FlightController');
 
     Route::resource('flightfields', 'FlightFieldController');
 
@@ -55,10 +58,11 @@ Route::group([
     Route::match(['post', 'put'], 'settings', 'SettingsController@update')->name('settings.update');
 
     # subfleet
-    Route::resource('subfleets', 'SubfleetController');
+    Route::match(['get', 'post'], 'subfleets/import', 'SubfleetController@import')->name('subfleets.import');
     Route::match(['get', 'post', 'put', 'delete'], 'subfleets/{id}/expenses', 'SubfleetController@expenses');
     Route::match(['get', 'post', 'put', 'delete'], 'subfleets/{id}/fares', 'SubfleetController@fares');
     Route::match(['get', 'post', 'put', 'delete'], 'subfleets/{id}/ranks', 'SubfleetController@ranks');
+    Route::resource('subfleets', 'SubfleetController');
 
     Route::resource('users', 'UserController');
     Route::get('users/{id}/regen_apikey',

@@ -114,15 +114,15 @@ class FlightService extends Service
 
     /**
      * Update any custom PIREP fields
-     * @param Flight  $flight_id
-     * @param array   $field_values
+     * @param Flight $flight
+     * @param array  $field_values
      */
-    public function updateCustomFields(Flight $flight_id, array $field_values): void
+    public function updateCustomFields(Flight $flight, array $field_values): void
     {
         foreach ($field_values as $fv) {
             FlightFieldValue::updateOrCreate(
                 [
-                    'flight_id' => $flight_id,
+                    'flight_id' => $flight->id,
                     'name'     => $fv['name'],
                 ],
                 [

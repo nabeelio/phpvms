@@ -38,7 +38,8 @@
         "markrogoyski/math-php": "^0.38.0",
         "akaunting/money": "^1.0",
         "igaster/laravel-theme": "^2.0",
-        "anhskohbo/no-captcha": "^3.0"
+        "anhskohbo/no-captcha": "^3.0",
+        "league/csv": "^9.1"
     },
     "require-dev": {
         "phpunit/phpunit": "~7.0",

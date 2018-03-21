@@ -1,12 +1,9 @@
 @extends('admin.app')
-
 @section('title', 'Airports')
+
 @section('actions')
-    <li>
-        <a href="{{ route('admin.airports.create') }}">
-            <i class="ti-plus"></i>
-            Add New</a>
-    </li>
+    <li><a href="{{ route('admin.airports.import') }}"><i class="ti-plus"></i>Import from CSV</a></li>
+    <li><a href="{{ route('admin.airports.create') }}"><i class="ti-plus"></i>Add New</a></li>
 @endsection
 
 @section('content')

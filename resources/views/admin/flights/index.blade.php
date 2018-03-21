@@ -1,7 +1,8 @@
 @extends('admin.app')
-
 @section('title', 'Flights')
+
 @section('actions')
+    <li><a href="{{ route('admin.flights.import') }}"><i class="ti-plus"></i>Import from CSV</a></li>
     <li><a href="{{ route('admin.flightfields.index') }}"><i class="ti-plus"></i>Fields</a></li>
     <li>
         <a href="{{ route('admin.flights.create') }}">

@@ -21,8 +21,8 @@ class Subfleet extends Model
 
     protected $fillable = [
         'airline_id',
-        'name',
         'type',
+        'name',
         'fuel_type',
         'ground_handling_multiplier',
         'cargo_capacity',
@@ -40,8 +40,8 @@ class Subfleet extends Model
     ];
 
     protected static $rules = [
+        'type'                       => 'required|unique',
         'name'                       => 'required',
-        'type'                       => 'required',
         'ground_handling_multiplier' => 'nullable|numeric',
     ];
 
