@@ -40,7 +40,7 @@ class Subfleet extends Model
     ];
 
     public static $rules = [
-        'type'                       => 'required|unique',
+        'type'                       => 'required|unique:subfleet',
         'name'                       => 'required',
         'ground_handling_multiplier' => 'nullable|numeric',
     ];
