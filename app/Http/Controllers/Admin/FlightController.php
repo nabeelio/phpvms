@@ -15,6 +15,7 @@ use App\Repositories\FareRepository;
 use App\Repositories\FlightFieldRepository;
 use App\Repositories\FlightRepository;
 use App\Repositories\SubfleetRepository;
+use App\Services\ExporterService;
 use App\Services\FareService;
 use App\Services\FlightService;
 use App\Services\ImporterService;
@@ -308,6 +309,27 @@ class FlightController extends Controller
 
         Flash::success('Flight deleted successfully.');
         return redirect(route('admin.flights.index'));
+    }
+
+    /**
+     * Run the flight exporter
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     * @throws \League\Csv\Exception
+     */
+    public function export(Request $request)
+    {
+        $exporter = app(ExporterService::class);
+        $path = storage_path('app/import/export_flight.csv');
+
+        $flights = $this->flightRepo->all();
+        $exporter->exportFlights($flights, $path);
+
+        return response()
+            ->download($path, 'flights.csv', [
+                'content-type' => 'text/csv',
+            ])
+            ->deleteFileAfterSend(true);
     }
 
     /**

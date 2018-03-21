@@ -98,6 +98,12 @@ class FareService extends Service
     {
         $flight->fares()->syncWithoutDetaching([$fare->id]);
 
+        foreach($override as $key => $item) {
+            if(!$item) {
+                unset($override[$key]);
+            }
+        }
+
         # modify any pivot values?
         if (\count($override) > 0) {
             $flight->fares()->updateExistingPivot($fare->id, $override);

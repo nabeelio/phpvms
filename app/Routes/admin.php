@@ -32,6 +32,7 @@ Route::group([
     Route::resource('finances', 'FinanceController');
 
     # flights and aircraft associations
+    Route::get('flights/export', 'FlightController@export')->name('flights.export');
     Route::match(['get', 'post'], 'flights/import', 'FlightController@import')->name('flights.import');
     Route::match(['get', 'post', 'put', 'delete'], 'flights/{id}/fares', 'FlightController@fares');
     Route::match(['get', 'post', 'put', 'delete'], 'flights/{id}/fields', 'FlightController@field_values');

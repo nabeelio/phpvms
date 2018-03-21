@@ -40,18 +40,21 @@ class ImporterTest extends TestCase
         $fare_economy = factory(App\Models\Fare::class)->create(['code' => 'Y', 'capacity' => 150]);
         $fare_svc->setForSubfleet($subfleet, $fare_economy);
 
+        $fare_economy = factory(App\Models\Fare::class)->create(['code' => 'B', 'capacity' => 20]);
+        $fare_svc->setForSubfleet($subfleet, $fare_economy);
+
         # Add first class
         $fare_first = factory(App\Models\Fare::class)->create(['code' => 'F', 'capacity' => 10]);
         $fare_svc->setForSubfleet($subfleet, $fare_first);
 
-        return $airline;
+        return [$airline, $subfleet];
     }
 
     /**
      * Test the parsing of different field/column which can be used
      * for specifying different field values
      */
-    public function testMultiFieldValues()
+    public function testConvertStringtoObjects(): void
     {
         $tests = [
             [
@@ -106,6 +109,15 @@ class ImporterTest extends TestCase
                 ]
             ],
             [
+                'input'    => 'Y?;F?price=1200',
+                'expected' => [
+                    0   => 'Y',
+                    'F' => [
+                        'price' => 1200
+                    ]
+                ]
+            ],
+            [
                 'input' => 'Departure Gate=4;Arrival Gate=C61',
                 'expected' => [
                     'Departure Gate' => '4',
@@ -116,8 +128,138 @@ class ImporterTest extends TestCase
 
         foreach($tests as $test) {
             $parsed = $this->importBaseClass->parseMultiColumnValues($test['input']);
-            $this->assertEquals($parsed, $test['expected']);
+            $this->assertEquals($test['expected'], $parsed);
         }
+    }
+
+    /**
+     * Tests for converting the different object/array key values
+     * into the format that we use in CSV files
+     */
+    public function testConvertObjectToString(): void
+    {
+        $tests = [
+            [
+                'input' => ['gate'],
+                'expected'    => 'gate',
+            ],
+            [
+                'input' => [
+                    'gate',
+                    'cost index',
+                ],
+                'expected' => 'gate;cost index',
+            ],
+            [
+                'input' => [
+                    'gate'       => 'B32',
+                    'cost index' => '100'
+                ],
+                'expected' => 'gate=B32;cost index=100',
+            ],
+            [
+                'input' => [
+                    'Y' => [
+                        'price' => 200,
+                        'cost'  => 100,
+                    ],
+                    'F' => [
+                        'price' => 1200
+                    ]
+                ],
+                'expected' => 'Y?price=200&cost=100;F?price=1200',
+            ],
+            [
+                'input' => [
+                    'Y' => [
+                        'price',
+                        'cost',
+                    ],
+                    'F' => [
+                        'price' => 1200
+                    ]
+                ],
+                'expected' => 'Y?price&cost;F?price=1200',
+            ],
+            [
+                'input'    => [
+                    'Y' => [
+                        'price',
+                        'cost',
+                    ],
+                    'F' => []
+                ],
+                'expected' => 'Y?price&cost;F',
+            ],
+            [
+                'input' => [
+                    0   => 'Y',
+                    'F' => [
+                        'price' => 1200
+                    ]
+                ],
+                'expected' => 'Y;F?price=1200',
+            ],
+            [
+                'input' => [
+                    'Departure Gate' => '4',
+                    'Arrival Gate'   => 'C61',
+                ],
+                'expected' => 'Departure Gate=4;Arrival Gate=C61',
+            ],
+        ];
+
+        foreach ($tests as $test) {
+            $parsed = $this->importBaseClass->objectToMultiString($test['input']);
+            $this->assertEquals($test['expected'], $parsed);
+        }
+    }
+
+    /**
+     * Test exporting all the flights to a file
+     */
+    public function testFlightExporter(): void
+    {
+        $fareSvc = app(FareService::class);
+
+        [$airline, $subfleet] = $this->insertFlightsScaffoldData();
+        $subfleet2 = factory(App\Models\Subfleet::class)->create(['type' => 'B74X']);
+
+        $fareY = \App\Models\Fare::where('code', 'Y')->first();
+        $fareF = \App\Models\Fare::where('code', 'F')->first();
+
+        $flight = factory(App\Models\Flight::class)->create([
+            'airline_id' => $airline->id,
+        ]);
+
+        $flight->subfleets()->syncWithoutDetaching([$subfleet->id, $subfleet2->id]);
+
+        //
+        $fareSvc->setForFlight($flight, $fareY, ['capacity' => '100']);
+        $fareSvc->setForFlight($flight, $fareF);
+
+        // Add some custom fields
+        \App\Models\FlightFieldValue::create([
+            'flight_id' => $flight->id,
+            'name' => 'Departure Gate',
+            'value' => '4'
+        ]);
+
+        \App\Models\FlightFieldValue::create([
+            'flight_id' => $flight->id,
+            'name'      => 'Arrival Gate',
+            'value'     => 'C41'
+        ]);
+
+        // Test the conversion
+
+        $exporter = new \App\Services\Import\FlightExporter();
+        $exported = $exporter->export($flight);
+
+        $this->assertEquals('VMS', $exported['airline']);
+        $this->assertEquals('A32X;B74X', $exported['subfleets']);
+        $this->assertEquals('Y?capacity=100;F', $exported['fares']);
+        $this->assertEquals('Departure Gate=4;Arrival Gate=C41', $exported['fields']);
     }
 
     /**
@@ -126,7 +268,7 @@ class ImporterTest extends TestCase
      */
     public function testFlightImporter(): void
     {
-        $airline = $this->insertFlightsScaffoldData();
+        [$airline, $subfleet] = $this->insertFlightsScaffoldData();
 
         $file_path = base_path('tests/data/flights.csv');
         $this->importSvc->importFlights($file_path);
@@ -166,7 +308,7 @@ class ImporterTest extends TestCase
 
         // Check the fare class
         $fares = $this->fareSvc->getForFlight($flight);
-        $this->assertCount(2, $fares);
+        $this->assertCount(3, $fares);
 
         $first = $fares->where('code', 'Y')->first();
         $this->assertEquals(300, $first->price);
@@ -184,10 +326,9 @@ class ImporterTest extends TestCase
     }
 
     /**
-     *
      * @throws \League\Csv\Exception
      */
-    public function testAircraftImporter()
+    public function testAircraftImporter(): void
     {
         $subfleet = factory(App\Models\Subfleet::class)->create(['type' => 'A32X']);
 
@@ -206,10 +347,9 @@ class ImporterTest extends TestCase
     }
 
     /**
-     *
      * @throws \League\Csv\Exception
      */
-    public function testAirportImporter()
+    public function testAirportImporter(): void
     {
         $file_path = base_path('tests/data/airports.csv');
         $this->importSvc->importAirports($file_path);

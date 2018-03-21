@@ -16,6 +16,7 @@ use PhpUnitsOfMeasure\Exception\NonStringUnitName;
  * @property mixed      route_code
  * @property mixed      route_leg
  * @property Collection field_values
+ * @property Collection fares
  */
 class Flight extends Model
 {

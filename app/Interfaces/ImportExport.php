@@ -18,26 +18,6 @@ class ImportExport
     public static $columns = [];
 
     /**
-     * Need to implement in a child class!
-     * @throws \RuntimeException
-     */
-    public function export()
-    {
-        throw new \RuntimeException('Calling export, needs to be implemented in child!');
-    }
-
-    /**
-     * Need to implement in a child class!
-     * @param array $row
-     * @param       $index
-     * @throws \RuntimeException
-     */
-    public function import(array $row, $index)
-    {
-        throw new \RuntimeException('Calling import, needs to be implemented in child!');
-    }
-
-    /**
      * Get the airline from the ICAO
      * @param $code
      * @return \App\Models\Airline
@@ -117,5 +97,49 @@ class ImportExport
         }
 
         return $ret;
+    }
+
+    /**
+     * @param $obj
+     * @return mixed
+     */
+    public function objectToMultiString($obj)
+    {
+        if(!\is_array($obj)) {
+            return $obj;
+        }
+
+        $ret_list = [];
+        foreach ($obj as $key => $val) {
+            if(is_numeric($key) && !\is_array($val)) {
+                $ret_list[] = $val;
+                continue;
+            }
+
+            $key = trim($key);
+
+            if(!\is_array($val)) {
+                $val = trim($val);
+                $ret_list[] = "{$key}={$val}";
+            } else {
+                $q = [];
+                foreach($val as $subkey => $subval) {
+                    if(is_numeric($subkey)) {
+                        $q[] = $subval;
+                    } else {
+                        $q[] = "{$subkey}={$subval}";
+                    }
+                }
+
+                $q = implode('&', $q);
+                if(!empty($q)) {
+                    $ret_list[] = "{$key}?{$q}";
+                } else {
+                    $ret_list[] = $key;
+                }
+            }
+        }
+
+        return implode(';', $ret_list);
     }
 }
