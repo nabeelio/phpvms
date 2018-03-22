@@ -10,6 +10,7 @@ use App\Models\Enums\AircraftStatus;
 use App\Models\Expense;
 use App\Models\Subfleet;
 use App\Repositories\AircraftRepository;
+use App\Services\ExportService;
 use App\Services\ImportService;
 use Flash;
 use Illuminate\Http\Request;
@@ -150,6 +151,25 @@ class AircraftController extends Controller
 
         Flash::success('Aircraft deleted successfully.');
         return redirect(route('admin.aircraft.index'));
+    }
+
+    /**
+     * Run the flight exporter
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     * @throws \League\Csv\Exception
+     */
+    public function export(Request $request)
+    {
+        $exporter = app(ExportService::class);
+        $aircraft = $this->aircraftRepo->all();
+
+        $path = $exporter->exportAircraft($aircraft);
+        return response()
+            ->download($path, 'aircraft.csv', [
+                'content-type' => 'text/csv',
+            ])
+            ->deleteFileAfterSend(true);
     }
 
     /**

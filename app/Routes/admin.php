@@ -18,6 +18,7 @@ Route::group([
     Route::resource('awards', 'AwardController');
 
     # aircraft and fare associations
+    Route::get('aircraft/export', 'AircraftController@export')->name('aircraft.export');
     Route::match(['get', 'post'], 'aircraft/import', 'AircraftController@import')->name('aircraft.import');
     Route::match(['get', 'post', 'put', 'delete'], 'aircraft/{id}/expenses', 'AircraftController@expenses');
     Route::resource('aircraft', 'AircraftController');

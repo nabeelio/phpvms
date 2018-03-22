@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Interfaces\ImportExport;
 use App\Interfaces\Service;
 use App\Repositories\FlightRepository;
+use App\Services\ImportExport\AircraftExporter;
 use App\Services\ImportExport\FlightExporter;
 use Illuminate\Support\Collection;
 use League\Csv\CharsetConverter;
@@ -68,11 +69,22 @@ class ExportService extends Service
     }
 
     /**
-     * Export all of the flights
-     * @param Collection  $flights
-     * @param string      $csv_file
+     * Export all of the aircraft
+     * @param Collection $aircraft
      * @return mixed
-     * @throws \League\Csv\Exception
+     * @throws \League\Csv\CannotInsertRecord
+     */
+    public function exportAircraft($aircraft)
+    {
+        $exporter = new AircraftExporter();
+        return $this->runExport($aircraft, $exporter);
+    }
+
+    /**
+     * Export all of the flights
+     * @param Collection $flights
+     * @return mixed
+     * @throws \League\Csv\CannotInsertRecord
      */
     public function exportFlights($flights)
     {
