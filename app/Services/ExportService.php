@@ -10,7 +10,7 @@ use Illuminate\Support\Collection;
 use League\Csv\CharsetConverter;
 use League\Csv\Writer;
 use Illuminate\Support\Facades\Storage;
-
+use Log;
 
 /**
  * Class ExportService
@@ -49,8 +49,10 @@ class ExportService extends Service
     protected function runExport(Collection $collection, ImportExport $exporter): string
     {
         $filename = 'export_' . $exporter->assetType . '.csv';
-        Storage::makeDirectory(storage_path('app/import'));
-        $path = storage_path('app/import/'.$filename.'.csv');
+
+        // Create the directory - makes it inside of storage/app
+        Storage::makeDirectory('import');
+        $path = storage_path('/app/import/export_'.$filename.'.csv');
 
         $writer = $this->openCsv($path);
 
