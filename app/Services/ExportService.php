@@ -5,10 +5,12 @@ namespace App\Services;
 use App\Interfaces\ImportExport;
 use App\Interfaces\Service;
 use App\Repositories\FlightRepository;
-use App\Services\Import\FlightExporter;
+use App\Services\ImportExport\FlightExporter;
 use Illuminate\Support\Collection;
 use League\Csv\CharsetConverter;
 use League\Csv\Writer;
+use Illuminate\Support\Facades\Storage;
+
 
 /**
  * Class ExportService
@@ -27,12 +29,12 @@ class ExportService extends Service
     }
 
     /**
-     * @param      $csv_file
+     * @param string    $path
      * @return Writer
      */
-    public function openCsv($csv_file): Writer
+    public function openCsv($path): Writer
     {
-        $writer = Writer::createFromPath($csv_file, 'w+');
+        $writer = Writer::createFromPath($path, 'w+');
         CharsetConverter::addTo($writer, 'utf-8', 'iso-8859-15');
         return $writer;
     }
@@ -40,19 +42,27 @@ class ExportService extends Service
     /**
      * Run the actual importer
      * @param Collection   $collection
-     * @param Writer       $writer
      * @param ImportExport $exporter
-     * @return bool
+     * @return string
      * @throws \League\Csv\CannotInsertRecord
      */
-    protected function runExport(Collection $collection, Writer $writer, ImportExport $exporter): bool
+    protected function runExport(Collection $collection, ImportExport $exporter): string
     {
+        $filename = 'export_' . $exporter->assetType . '.csv';
+        Storage::makeDirectory(storage_path('app/import'));
+        $path = storage_path('app/import/'.$filename.'.csv');
+
+        $writer = $this->openCsv($path);
+
+        // Write out the header first
         $writer->insertOne($exporter->getColumns());
+
+        // Write the rest of the rows
         foreach ($collection as $row) {
             $writer->insertOne($exporter->export($row));
         }
 
-        return true;
+        return $path;
     }
 
     /**
@@ -62,11 +72,9 @@ class ExportService extends Service
      * @return mixed
      * @throws \League\Csv\Exception
      */
-    public function exportFlights($flights, $csv_file)
+    public function exportFlights($flights)
     {
-        $writer = $this->openCsv($csv_file);
-
         $exporter = new FlightExporter();
-        return $this->runExport($flights, $writer, $exporter);
+        return $this->runExport($flights, $exporter);
     }
 }

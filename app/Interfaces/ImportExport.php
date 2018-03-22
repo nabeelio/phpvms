@@ -10,6 +10,7 @@ use App\Models\Airline;
  */
 class ImportExport
 {
+    public $assetType;
     public $status;
 
     /**
@@ -18,13 +19,17 @@ class ImportExport
     public static $columns = [];
 
     /**
-     * Get the airline from the ICAO
+     * Get the airline from the ICAO. Create it if it doesn't exist
      * @param $code
-     * @return \App\Models\Airline
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function getAirline($code)
     {
-        return Airline::where('icao', $code)->first();
+        $airline = Airline::firstOrCreate([
+            'icao' => $code,
+        ], ['name' => $code]);
+
+        return $airline;
     }
 
     /**

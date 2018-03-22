@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Import;
+namespace App\Services\ImportExport;
 
 use App\Interfaces\ImportExport;
 use App\Models\Airport;
@@ -11,6 +11,8 @@ use App\Models\Airport;
  */
 class AirportImporter extends ImportExport
 {
+    public $assetType = 'airport';
+
     /**
      * All of the columns that are in the CSV import
      * Should match the database fields, for the most part
@@ -33,7 +35,7 @@ class AirportImporter extends ImportExport
      * @param int   $index
      * @return bool
      */
-    public function import(array $row, $index)
+    public function import(array $row, $index): bool
     {
         $row['id'] = $row['icao'];
         $row['hub'] = get_truth_state($row['hub']);

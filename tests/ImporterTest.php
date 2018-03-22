@@ -253,7 +253,7 @@ class ImporterTest extends TestCase
 
         // Test the conversion
 
-        $exporter = new \App\Services\Import\FlightExporter();
+        $exporter = new \App\Services\ImportExport\FlightExporter();
         $exported = $exporter->export($flight);
 
         $this->assertEquals('VMS', $exported['airline']);

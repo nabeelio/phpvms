@@ -6,10 +6,10 @@ use App\Interfaces\ImportExport;
 use App\Interfaces\Service;
 use App\Models\Airport;
 use App\Repositories\FlightRepository;
-use App\Services\Import\AircraftImporter;
-use App\Services\Import\AirportImporter;
-use App\Services\Import\FlightImporter;
-use App\Services\Import\SubfleetImporter;
+use App\Services\ImportExport\AircraftImporter;
+use App\Services\ImportExport\AirportImporter;
+use App\Services\ImportExport\FlightImporter;
+use App\Services\ImportExport\SubfleetImporter;
 use League\Csv\Reader;
 
 /**

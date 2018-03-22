@@ -320,11 +320,9 @@ class FlightController extends Controller
     public function export(Request $request)
     {
         $exporter = app(ExportService::class);
-        $path = storage_path('app/import/export_flight.csv');
-
         $flights = $this->flightRepo->all();
-        $exporter->exportFlights($flights, $path);
 
+        $path = $exporter->exportFlights($flights);
         return response()
             ->download($path, 'flights.csv', [
                 'content-type' => 'text/csv',

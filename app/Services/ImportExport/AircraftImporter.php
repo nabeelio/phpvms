@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Import;
+namespace App\Services\ImportExport;
 
 use App\Interfaces\ImportExport;
 use App\Models\Aircraft;
@@ -15,6 +15,8 @@ use App\Support\ICAO;
  */
 class AircraftImporter extends ImportExport
 {
+    public $assetType = 'aircraft';
+
     /**
      * All of the columns that are in the CSV import
      * Should match the database fields, for the most part
@@ -34,15 +36,9 @@ class AircraftImporter extends ImportExport
      */
     protected function getSubfleet($type)
     {
-        $subfleet = Subfleet::where(['type' => $type])->first();
-        if (!$subfleet) {
-            $subfleet = new Subfleet([
-                'type' => $type,
-                'name' => $type,
-            ]);
-
-            $subfleet->save();
-        }
+        $subfleet = Subfleet::firstOrCreate([
+            'type' => $type,
+        ], ['name' => $type]);
 
         return $subfleet;
     }
@@ -53,7 +49,7 @@ class AircraftImporter extends ImportExport
      * @param int   $index
      * @return bool
      */
-    public function import(array $row, $index)
+    public function import(array $row, $index): bool
     {
         $subfleet = $this->getSubfleet($row['subfleet']);
 

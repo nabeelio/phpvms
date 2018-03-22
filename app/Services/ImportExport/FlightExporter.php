@@ -1,13 +1,9 @@
 <?php
 
-namespace App\Services\Import;
+namespace App\Services\ImportExport;
 
 use App\Interfaces\ImportExport;
-use App\Models\Enums\FlightType;
-use App\Models\Fare;
 use App\Models\Flight;
-use App\Models\Subfleet;
-use Log;
 
 /**
  * The flight importer can be imported or export. Operates on rows
@@ -16,6 +12,8 @@ use Log;
  */
 class FlightExporter extends ImportExport
 {
+    public $assetType = 'flight';
+
     /**
      * Set the current columns and other setup
      */

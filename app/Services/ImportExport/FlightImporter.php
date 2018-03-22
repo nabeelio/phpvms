@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Services\Import;
+namespace App\Services\ImportExport;
 
 use App\Interfaces\ImportExport;
 use App\Models\Enums\FlightType;
 use App\Models\Fare;
 use App\Models\Flight;
 use App\Models\Subfleet;
-use App\Repositories\AirlineRepository;
 use App\Services\FareService;
 use App\Services\FlightService;
 use Log;
@@ -19,6 +18,8 @@ use Log;
  */
 class FlightImporter extends ImportExport
 {
+    public $assetType = 'flight';
+
     /**
      * All of the columns that are in the CSV import
      * Should match the database fields, for the most part
@@ -49,8 +50,7 @@ class FlightImporter extends ImportExport
     /**
      *
      */
-    private $airlineRepo,
-            $fareSvc,
+    private $fareSvc,
             $flightSvc;
 
     /**
@@ -58,7 +58,6 @@ class FlightImporter extends ImportExport
      */
     public function __construct()
     {
-        $this->airlineRepo = app(AirlineRepository::class);
         $this->fareSvc = app(FareService::class);
         $this->flightSvc = app(FlightService::class);
     }
@@ -113,7 +112,7 @@ class FlightImporter extends ImportExport
         $count = 0;
         $subfleets = $this->parseMultiColumnValues($col);
         foreach($subfleets as $subfleet_type) {
-            $subfleet = Subfleet::firstOrNew(
+            $subfleet = Subfleet::firstOrCreate(
                 ['type' => $subfleet_type],
                 ['name' => $subfleet_type]
             );
@@ -142,7 +141,7 @@ class FlightImporter extends ImportExport
                 $fare_attributes = [];
             }
 
-            $fare = Fare::firstOrNew(['code' => $fare_code], ['name' => $fare_code]);
+            $fare = Fare::firstOrCreate(['code' => $fare_code], ['name' => $fare_code]);
             $this->fareSvc->setForFlight($flight, $fare, $fare_attributes);
         }
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Import;
+namespace App\Services\ImportExport;
 
 use App\Interfaces\ImportExport;
 use App\Models\Subfleet;
@@ -11,6 +11,8 @@ use App\Models\Subfleet;
  */
 class SubfleetImporter extends ImportExport
 {
+    public $assetType = 'subfleet';
+
     /**
      * All of the columns that are in the CSV import
      * Should match the database fields, for the most part
