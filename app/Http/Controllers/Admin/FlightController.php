@@ -334,7 +334,7 @@ class FlightController extends Controller
      *
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     * @throws \League\Csv\Exception
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function import(Request $request)
     {
@@ -345,7 +345,7 @@ class FlightController extends Controller
 
         if ($request->isMethod('post')) {
             $path = Storage::putFileAs(
-                'import', $request->file('csv_file'), 'flights'
+                'import', $request->file('csv_file'), 'import_flights.csv'
             );
 
             $path = storage_path('app/'.$path);

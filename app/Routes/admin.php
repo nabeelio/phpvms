@@ -30,6 +30,8 @@ Route::group([
     Route::resource('expenses', 'ExpenseController');
 
     # fares
+    Route::get('fares/export', 'FareController@export')->name('fares.export');
+    Route::match(['get', 'post'], 'fares/import', 'FareController@import')->name('fares.import');
     Route::resource('fares', 'FareController');
 
     # finances

@@ -40,8 +40,8 @@ class ImporterTest extends TestCase
         $fare_economy = factory(App\Models\Fare::class)->create(['code' => 'Y', 'capacity' => 150]);
         $fare_svc->setForSubfleet($subfleet, $fare_economy);
 
-        $fare_economy = factory(App\Models\Fare::class)->create(['code' => 'B', 'capacity' => 20]);
-        $fare_svc->setForSubfleet($subfleet, $fare_economy);
+        $fare_business = factory(App\Models\Fare::class)->create(['code' => 'B', 'capacity' => 20]);
+        $fare_svc->setForSubfleet($subfleet, $fare_business);
 
         # Add first class
         $fare_first = factory(App\Models\Fare::class)->create(['code' => 'F', 'capacity' => 10]);
@@ -265,7 +265,6 @@ class ImporterTest extends TestCase
     /**
      * Try importing the aicraft in the airports. Should fail
      * @expectedException \Illuminate\Validation\ValidationException
-     * @throws \League\Csv\Exception
      */
     public function testInvalidFileImport(): void
     {
@@ -275,7 +274,7 @@ class ImporterTest extends TestCase
 
     /**
      * Test the importing of expenses
-     * @throws \League\Csv\Exception
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function testExpenseImporter(): void
     {
@@ -311,8 +310,43 @@ class ImporterTest extends TestCase
     }
 
     /**
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function testFareImporter(): void
+    {
+        $file_path = base_path('tests/data/fares.csv');
+        $this->importSvc->importFares($file_path);
+
+        $fares = \App\Models\Fare::all();
+
+        $y_class = $fares->where('code', 'Y')->first();
+        $this->assertEquals('Economy', $y_class->name);
+        $this->assertEquals(100, $y_class->price);
+        $this->assertEquals(0, $y_class->cost);
+        $this->assertEquals(200, $y_class->capacity);
+        $this->assertEquals(true, $y_class->active);
+        $this->assertEquals('This is the economy class', $y_class->notes);
+
+        $b_class = $fares->where('code', 'B')->first();
+        $this->assertEquals('Business', $b_class->name);
+        $this->assertEquals(500, $b_class->price);
+        $this->assertEquals(250, $b_class->cost);
+        $this->assertEquals(10, $b_class->capacity);
+        $this->assertEquals('This is business class', $b_class->notes);
+        $this->assertEquals(false, $b_class->active);
+
+        $f_class = $fares->where('code', 'F')->first();
+        $this->assertEquals('First-Class', $f_class->name);
+        $this->assertEquals(800, $f_class->price);
+        $this->assertEquals(350, $f_class->cost);
+        $this->assertEquals(5, $f_class->capacity);
+        $this->assertEquals('', $f_class->notes);
+        $this->assertEquals(true, $f_class->active);
+    }
+
+    /**
      * Test the flight importer
-     * @throws \League\Csv\Exception
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function testFlightImporter(): void
     {
@@ -374,7 +408,7 @@ class ImporterTest extends TestCase
     }
 
     /**
-     * @throws \League\Csv\Exception
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function testAircraftImporter(): void
     {
@@ -395,7 +429,7 @@ class ImporterTest extends TestCase
     }
 
     /**
-     * @throws \League\Csv\Exception
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function testAirportImporter(): void
     {
@@ -415,10 +449,12 @@ class ImporterTest extends TestCase
 
     /**
      * Test importing the subfleets
-     * @throws \League\Csv\Exception
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function testSubfleetImporter(): void
     {
+        $fare_economy = factory(App\Models\Fare::class)->create(['code' => 'Y', 'capacity' => 150]);
+        $fare_business = factory(App\Models\Fare::class)->create(['code' => 'B', 'capacity' => 20]);
         $airline = factory(App\Models\Airline::class)->create(['icao' => 'VMS']);
 
         $file_path = base_path('tests/data/subfleets.csv');
@@ -433,5 +469,18 @@ class ImporterTest extends TestCase
         $this->assertEquals($airline->id, $subfleet->id);
         $this->assertEquals('A32X', $subfleet->type);
         $this->assertEquals('Airbus A320', $subfleet->name);
+
+        // get the fares
+        $fares = $this->fareSvc->getForSubfleet($subfleet);
+
+        $eco = $fares->where('code', 'Y')->first();
+        $this->assertEquals($fare_economy->capacity, $eco->capacity);
+        $this->assertEquals($fare_economy->price, $eco->price);
+        $this->assertEquals($fare_economy->cost, $eco->cost);
+
+        $busi = $fares->where('code', 'B')->first();
+        $this->assertEquals(100, $busi->capacity);
+        $this->assertEquals(500, $busi->price);
+        $this->assertEquals($fare_business->cost, $busi->cost);
     }
 }

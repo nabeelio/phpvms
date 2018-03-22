@@ -245,7 +245,6 @@ class SubfleetController extends Controller
      *
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     * @throws \League\Csv\Exception
      * @throws \Illuminate\Validation\ValidationException
      */
     public function import(Request $request)
@@ -259,11 +258,11 @@ class SubfleetController extends Controller
             ImportRequest::validate($request);
 
             $path = Storage::putFileAs(
-                'import', $request->file('csv_file'), 'subfleets'
+                'import', $request->file('csv_file'), 'import_subfleets.csv'
             );
 
             $path = storage_path('app/'.$path);
-            Log::info('Uploaded flights import file to '.$path);
+            Log::info('Uploaded subfleets import file to '.$path);
             $logs = $this->importSvc->importSubfleets($path);
         }
 

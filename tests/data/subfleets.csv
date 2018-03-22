@@ -1,2 +1,2 @@
-airline,type,name
-VMS,A32X,Airbus A320
+airline,type,name,fares
+VMS,A32X,Airbus A320,Y;B?capacity=100&price=500

@@ -10,6 +10,7 @@ use App\Repositories\FlightRepository;
 use App\Services\ImportExport\AircraftImporter;
 use App\Services\ImportExport\AirportImporter;
 use App\Services\ImportExport\ExpenseImporter;
+use App\Services\ImportExport\FareImporter;
 use App\Services\ImportExport\FlightImporter;
 use App\Services\ImportExport\SubfleetImporter;
 use Illuminate\Validation\ValidationException;
@@ -112,7 +113,6 @@ class ImportService extends Service
      * @param string $csv_file
      * @param bool   $delete_previous
      * @return mixed
-     * @throws \League\Csv\Exception
      * @throws ValidationException
      */
     public function importAircraft($csv_file, bool $delete_previous = true)
@@ -135,7 +135,7 @@ class ImportService extends Service
      * @param string $csv_file
      * @param bool   $delete_previous
      * @return mixed
-     * @throws \League\Csv\Exception
+     * @throws ValidationException
      */
     public function importAirports($csv_file, bool $delete_previous = true)
     {
@@ -157,7 +157,7 @@ class ImportService extends Service
      * @param string $csv_file
      * @param bool   $delete_previous
      * @return mixed
-     * @throws \League\Csv\Exception
+     * @throws ValidationException
      */
     public function importExpenses($csv_file, bool $delete_previous = true)
     {
@@ -175,11 +175,34 @@ class ImportService extends Service
     }
 
     /**
+     * Import fares
+     * @param string $csv_file
+     * @param bool   $delete_previous
+     * @return mixed
+     * @throws ValidationException
+     */
+    public function importFares($csv_file, bool $delete_previous = true)
+    {
+        if ($delete_previous) {
+            # TODO: Delete all from: fares
+        }
+
+        $reader = $this->openCsv($csv_file);
+        if (!$reader) {
+            # TODO: Throw an error
+            return false;
+        }
+
+        $importer = new FareImporter();
+        return $this->runImport($reader, $importer);
+    }
+
+    /**
      * Import flights
      * @param string $csv_file
      * @param bool   $delete_previous
      * @return mixed
-     * @throws \League\Csv\Exception
+     * @throws ValidationException
      */
     public function importFlights($csv_file, bool $delete_previous = true)
     {
@@ -202,7 +225,7 @@ class ImportService extends Service
      * @param string $csv_file
      * @param bool   $delete_previous
      * @return mixed
-     * @throws \League\Csv\Exception
+     * @throws ValidationException
      */
     public function importSubfleets($csv_file, bool $delete_previous = true)
     {

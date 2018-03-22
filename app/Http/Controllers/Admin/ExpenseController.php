@@ -198,7 +198,6 @@ class ExpenseController extends Controller
      *
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     * @throws \League\Csv\Exception
      * @throws \Illuminate\Validation\ValidationException
      */
     public function import(Request $request)
@@ -210,9 +209,8 @@ class ExpenseController extends Controller
 
         if ($request->isMethod('post')) {
             ImportRequest::validate($request);
-
             $path = Storage::putFileAs(
-                'import', $request->file('csv_file'), 'expenses'
+                'import', $request->file('csv_file'), 'import_expenses.csv'
             );
 
             $path = storage_path('app/'.$path);

@@ -7,6 +7,7 @@ use App\Interfaces\Service;
 use App\Services\ImportExport\AircraftExporter;
 use App\Services\ImportExport\AirportExporter;
 use App\Services\ImportExport\ExpenseExporter;
+use App\Services\ImportExport\FareExporter;
 use App\Services\ImportExport\FlightExporter;
 use Illuminate\Support\Collection;
 use League\Csv\CharsetConverter;
@@ -95,6 +96,18 @@ class ExportService extends Service
     {
         $exporter = new ExpenseExporter();
         return $this->runExport($expenses, $exporter);
+    }
+
+    /**
+     * Export all of the fares
+     * @param Collection $fares
+     * @return mixed
+     * @throws \League\Csv\CannotInsertRecord
+     */
+    public function exportFares($fares)
+    {
+        $exporter = new FareExporter();
+        return $this->runExport($fares, $exporter);
     }
 
     /**
