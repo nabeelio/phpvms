@@ -25,6 +25,8 @@ Route::group([
     Route::resource('aircraft', 'AircraftController');
 
     # expenses
+    Route::get('expenses/export', 'ExpenseController@export')->name('expenses.export');
+    Route::match(['get', 'post'], 'expenses/import', 'ExpenseController@import')->name('expenses.import');
     Route::resource('expenses', 'ExpenseController');
 
     # fares

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\CreateAirportRequest;
+use App\Http\Requests\ImportRequest;
 use App\Http\Requests\UpdateAirportRequest;
 use App\Interfaces\Controller;
 use App\Models\Airport;
@@ -87,7 +88,6 @@ class AirportController extends Controller
         $this->airportRepo->create($input);
 
         Flash::success('Airport saved successfully.');
-
         return redirect(route('admin.airports.index'));
     }
 
@@ -102,7 +102,6 @@ class AirportController extends Controller
 
         if (empty($airport)) {
             Flash::error('Airport not found');
-
             return redirect(route('admin.airports.index'));
         }
 
@@ -122,7 +121,6 @@ class AirportController extends Controller
 
         if (empty($airport)) {
             Flash::error('Airport not found');
-
             return redirect(route('admin.airports.index'));
         }
 
@@ -145,7 +143,6 @@ class AirportController extends Controller
 
         if (empty($airport)) {
             Flash::error('Airport not found');
-
             return redirect(route('admin.airports.index'));
         }
 
@@ -155,7 +152,6 @@ class AirportController extends Controller
         $this->airportRepo->update($attrs, $id);
 
         Flash::success('Airport updated successfully.');
-
         return redirect(route('admin.airports.index'));
     }
 
@@ -203,21 +199,24 @@ class AirportController extends Controller
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      * @throws \League\Csv\Exception
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function import(Request $request)
     {
         $logs = [
             'success' => [],
-            'failed'  => [],
+            'errors'  => [],
         ];
 
         if ($request->isMethod('post')) {
+            ImportRequest::validate($request);
+
             $path = Storage::putFileAs(
                 'import', $request->file('csv_file'), 'airports'
             );
 
             $path = storage_path('app/'.$path);
-            Log::info('Uploaded flights import file to '.$path);
+            Log::info('Uploaded airports import file to '.$path);
             $logs = $this->importSvc->importAirports($path);
         }
 
@@ -227,13 +226,12 @@ class AirportController extends Controller
     }
 
     /**
-     * @param Airport|null $airport
+     * @param Airport $airport
      * @return mixed
      */
-    protected function return_expenses_view(?Airport $airport)
+    protected function return_expenses_view(Airport $airport)
     {
         $airport->refresh();
-
         return view('admin.airports.expenses', [
             'airport' => $airport,
         ]);

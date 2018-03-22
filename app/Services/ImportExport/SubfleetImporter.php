@@ -29,14 +29,9 @@ class SubfleetImporter extends ImportExport
      * @param int   $index
      * @return bool
      */
-    public function import(array $row, $index)
+    public function import(array $row, $index): bool
     {
         $airline = $this->getAirline($row['airline']);
-        if(!$airline) {
-            $this->status = 'Airline '.$row['airline'].' not found, row: '.$index;
-            return false;
-        }
-
         $row['airline_id'] = $airline->id;
 
         $subfleet = Subfleet::firstOrNew([
@@ -46,11 +41,11 @@ class SubfleetImporter extends ImportExport
         try {
             $subfleet->save();
         } catch(\Exception $e) {
-            $this->status = 'Error in row '.$index.': '.$e->getMessage();
+            $this->errorLog('Error in row '.$index.': '.$e->getMessage());
             return false;
         }
 
-        $this->status = 'Imported ' . $row['type'];
+        $this->log('Imported '.$row['type']);
         return true;
     }
 }

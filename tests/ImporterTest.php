@@ -263,6 +263,54 @@ class ImporterTest extends TestCase
     }
 
     /**
+     * Try importing the aicraft in the airports. Should fail
+     * @expectedException \Illuminate\Validation\ValidationException
+     * @throws \League\Csv\Exception
+     */
+    public function testInvalidFileImport(): void
+    {
+        $file_path = base_path('tests/data/aircraft.csv');
+        $this->importSvc->importAirports($file_path);
+    }
+
+    /**
+     * Test the importing of expenses
+     * @throws \League\Csv\Exception
+     */
+    public function testExpenseImporter(): void
+    {
+        $airline = factory(App\Models\Airline::class)->create(['icao' => 'VMS']);
+        $subfleet = factory(App\Models\Subfleet::class)->create(['type' => '744-3X-RB211']);
+        $aircraft = factory(App\Models\Aircraft::class)->create([
+            'subfleet_id' => $subfleet->id,
+            'registration' => '001Z',
+        ]);
+
+        $file_path = base_path('tests/data/expenses.csv');
+        $this->importSvc->importExpenses($file_path);
+
+        $expenses = \App\Models\Expense::all();
+
+        $on_airline = $expenses->where('name', 'Per-Flight (multiplier, on airline)')->first();
+        $this->assertEquals(200, $on_airline->amount);
+        $this->assertEquals($airline->id, $on_airline->airline_id);
+
+        $pf = $expenses->where('name', 'Per-Flight (no muliplier)')->first();
+        $this->assertEquals(100, $pf->amount);
+        $this->assertEquals(\App\Models\Enums\ExpenseType::FLIGHT, $pf->type);
+
+        $catering = $expenses->where('name', 'Catering Staff')->first();
+        $this->assertEquals(1000, $catering->amount);
+        $this->assertEquals(\App\Models\Enums\ExpenseType::DAILY, $catering->type);
+        $this->assertEquals(\App\Models\Subfleet::class, $catering->ref_class);
+        $this->assertEquals($subfleet->id, $catering->ref_class_id);
+
+        $mnt = $expenses->where('name', 'Maintenance')->first();
+        $this->assertEquals(\App\Models\Aircraft::class, $mnt->ref_class);
+        $this->assertEquals($aircraft->id, $mnt->ref_class_id);
+    }
+
+    /**
      * Test the flight importer
      * @throws \League\Csv\Exception
      */

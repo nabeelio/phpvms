@@ -47,11 +47,11 @@ class AirportImporter extends ImportExport
         try {
             $airport->save();
         } catch(\Exception $e) {
-            $this->status = 'Error in row '.$index.': '.$e->getMessage();
+            $this->errorLog('Error in row '.$index.': '.$e->getMessage());
             return false;
         }
 
-        $this->status = 'Imported ' . $row['icao'];
+        $this->log('Imported '.$row['icao']);
         return true;
     }
 }

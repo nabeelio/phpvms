@@ -3,6 +3,7 @@
 namespace App\Services\ImportExport;
 
 use App\Interfaces\ImportExport;
+use App\Models\Enums\FlightType;
 use App\Models\Flight;
 
 /**
@@ -37,6 +38,8 @@ class FlightExporter extends ImportExport
         # Modify special fields
         $ret['airline'] = $ret['airline']->icao;
         $ret['distance'] = $ret['distance']->toNumber();
+
+        $ret['flight_type'] = FlightType::convertToCode($ret['flight_type']);
 
         $ret['fares'] = $this->getFares($flight);
         $ret['fields'] = $this->getFields($flight);

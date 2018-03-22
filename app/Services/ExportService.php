@@ -6,6 +6,7 @@ use App\Interfaces\ImportExport;
 use App\Interfaces\Service;
 use App\Services\ImportExport\AircraftExporter;
 use App\Services\ImportExport\AirportExporter;
+use App\Services\ImportExport\ExpenseExporter;
 use App\Services\ImportExport\FlightExporter;
 use Illuminate\Support\Collection;
 use League\Csv\CharsetConverter;
@@ -82,6 +83,18 @@ class ExportService extends Service
     {
         $exporter = new AirportExporter();
         return $this->runExport($airports, $exporter);
+    }
+
+    /**
+     * Export all of the airports
+     * @param Collection $expenses
+     * @return mixed
+     * @throws \League\Csv\CannotInsertRecord
+     */
+    public function exportExpenses($expenses)
+    {
+        $exporter = new ExpenseExporter();
+        return $this->runExport($expenses, $exporter);
     }
 
     /**

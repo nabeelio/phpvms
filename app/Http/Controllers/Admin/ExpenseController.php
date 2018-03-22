@@ -2,15 +2,20 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\ImportRequest;
 use App\Interfaces\Controller;
 use App\Models\Enums\ExpenseType;
 use App\Models\Expense;
 use App\Repositories\AirlineRepository;
 use App\Repositories\ExpenseRepository;
+use App\Services\ExportService;
+use App\Services\ImportService;
 use Flash;
 use Illuminate\Http\Request;
+use Log;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use Storage;
 
 /**
  * Class ExpenseController
@@ -19,19 +24,23 @@ use Response;
 class ExpenseController extends Controller
 {
     private $airlineRepo,
-            $expenseRepo;
+            $expenseRepo,
+            $importSvc;
 
     /**
      * expensesController constructor.
      * @param AirlineRepository $airlineRepo
      * @param ExpenseRepository $expenseRepo
+     * @param ImportService     $importSvc
      */
     public function __construct(
         AirlineRepository $airlineRepo,
-        ExpenseRepository $expenseRepo
+        ExpenseRepository $expenseRepo,
+        ImportService $importSvc
     ) {
         $this->airlineRepo = $airlineRepo;
         $this->expenseRepo = $expenseRepo;
+        $this->importSvc = $importSvc;
     }
 
     /**
@@ -157,14 +166,62 @@ class ExpenseController extends Controller
 
         if (empty($expenses)) {
             Flash::error('Expense not found');
-
             return redirect(route('admin.expenses.index'));
         }
 
         $this->expenseRepo->delete($id);
 
         Flash::success('Expense deleted successfully.');
-
         return redirect(route('admin.expenses.index'));
+    }
+
+    /**
+     * Run the airport exporter
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     * @throws \League\Csv\Exception
+     */
+    public function export(Request $request)
+    {
+        $exporter = app(ExportService::class);
+        $expenses = $this->expenseRepo->all();
+
+        $path = $exporter->exportExpenses($expenses);
+        return response()
+            ->download($path, 'expenses.csv', [
+                'content-type' => 'text/csv',
+            ])
+            ->deleteFileAfterSend(true);
+    }
+
+    /**
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \League\Csv\Exception
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function import(Request $request)
+    {
+        $logs = [
+            'success' => [],
+            'errors'  => [],
+        ];
+
+        if ($request->isMethod('post')) {
+            ImportRequest::validate($request);
+
+            $path = Storage::putFileAs(
+                'import', $request->file('csv_file'), 'expenses'
+            );
+
+            $path = storage_path('app/'.$path);
+            Log::info('Uploaded expenses import file to '.$path);
+            $logs = $this->importSvc->importExpenses($path);
+        }
+
+        return view('admin.expenses.import', [
+            'logs' => $logs,
+        ]);
     }
 }

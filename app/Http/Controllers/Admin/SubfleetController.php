@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\CreateSubfleetRequest;
+use App\Http\Requests\ImportRequest;
 use App\Http\Requests\UpdateSubfleetRequest;
 use App\Interfaces\Controller;
 use App\Models\Airline;
@@ -245,15 +246,18 @@ class SubfleetController extends Controller
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      * @throws \League\Csv\Exception
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function import(Request $request)
     {
         $logs = [
             'success' => [],
-            'failed'  => [],
+            'errors'  => [],
         ];
 
         if ($request->isMethod('post')) {
+            ImportRequest::validate($request);
+
             $path = Storage::putFileAs(
                 'import', $request->file('csv_file'), 'subfleets'
             );

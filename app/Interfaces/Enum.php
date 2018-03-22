@@ -8,8 +8,9 @@ namespace App\Interfaces;
  */
 abstract class Enum
 {
-    protected static $labels = [];
     protected static $cache = [];
+    protected static $codes = [];
+    protected static $labels = [];
 
     /**
      * @var integer
@@ -57,6 +58,31 @@ abstract class Enum
         }
 
         return $labels;
+    }
+
+    /**
+     * Get the numeric value from a string code
+     * @param $code
+     * @return mixed|null
+     */
+    public static function getFromCode($code)
+    {
+        $code = strtoupper($code);
+        if(!array_key_exists($code, static::$codes)) {
+            return null;
+        }
+
+        return static::$codes[$code];
+    }
+
+    /**
+     * Convert the integer value into one of the codes
+     * @param $value
+     * @return false|int|string
+     */
+    public static function convertToCode($value)
+    {
+        return array_search($value, static::$codes, true);
     }
 
     /**

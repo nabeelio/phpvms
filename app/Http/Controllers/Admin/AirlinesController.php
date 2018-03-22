@@ -24,9 +24,7 @@ class AirlinesController extends Controller
      * AirlinesController constructor.
      * @param AirlineRepository $airlinesRepo
      */
-    public function __construct(
-        AirlineRepository $airlinesRepo
-    ) {
+    public function __construct(AirlineRepository $airlinesRepo) {
         $this->airlineRepo = $airlinesRepo;
     }
 
@@ -56,6 +54,7 @@ class AirlinesController extends Controller
 
     /**
      * Store a newly created Airlines in storage.
+     * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
     public function store(CreateAirlineRequest $request)
     {
@@ -63,7 +62,6 @@ class AirlinesController extends Controller
         $airlines = $this->airlineRepo->create($input);
 
         Flash::success('Airlines saved successfully.');
-
         return redirect(route('admin.airlines.index'));
     }
 
@@ -78,7 +76,6 @@ class AirlinesController extends Controller
 
         if (empty($airlines)) {
             Flash::error('Airlines not found');
-
             return redirect(route('admin.airlines.index'));
         }
 
@@ -98,7 +95,6 @@ class AirlinesController extends Controller
 
         if (empty($airline)) {
             Flash::error('Airline not found');
-
             return redirect(route('admin.airlines.index'));
         }
 
@@ -121,14 +117,12 @@ class AirlinesController extends Controller
 
         if (empty($airlines)) {
             Flash::error('Airlines not found');
-
             return redirect(route('admin.airlines.index'));
         }
 
         $airlines = $this->airlineRepo->update($request->all(), $id);
 
         Flash::success('Airlines updated successfully.');
-
         return redirect(route('admin.airlines.index'));
     }
 
@@ -143,14 +137,12 @@ class AirlinesController extends Controller
 
         if (empty($airlines)) {
             Flash::error('Airlines not found');
-
             return redirect(route('admin.airlines.index'));
         }
 
         $this->airlineRepo->delete($id);
 
         Flash::success('Airlines deleted successfully.');
-
         return redirect(route('admin.airlines.index'));
     }
 }

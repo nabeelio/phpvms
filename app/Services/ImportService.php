@@ -5,12 +5,18 @@ namespace App\Services;
 use App\Interfaces\ImportExport;
 use App\Interfaces\Service;
 use App\Models\Airport;
+use App\Models\Expense;
 use App\Repositories\FlightRepository;
 use App\Services\ImportExport\AircraftImporter;
 use App\Services\ImportExport\AirportImporter;
+use App\Services\ImportExport\ExpenseImporter;
 use App\Services\ImportExport\FlightImporter;
 use App\Services\ImportExport\SubfleetImporter;
+use Illuminate\Validation\ValidationException;
+use League\Csv\Exception;
 use League\Csv\Reader;
+use Log;
+use Validator;
 
 /**
  * Class ImportService
@@ -29,51 +35,76 @@ class ImportService extends Service
     }
 
     /**
-     * @param      $csv_file
-     * @return Reader
-     * @throws \League\Csv\Exception
+     * @param $error
+     * @param $e
+     * @throws ValidationException
      */
-    public function openCsv($csv_file)
+    protected function throwError($error, \Exception $e= null): void
     {
-        $reader = Reader::createFromPath($csv_file);
-        $reader->setDelimiter(',');
-        $reader->setEnclosure('"');
+        Log::error($error);
+        if($e) {
+            Log::error($e->getMessage());
+        }
 
-        return $reader;
+        $validator = Validator::make([], []);
+        $validator->errors()->add('csv_file', $error);
+        throw new ValidationException($validator);
     }
 
     /**
-     * Run the actual importer
+     * @param      $csv_file
+     * @return Reader
+     * @throws ValidationException
+     */
+    public function openCsv($csv_file)
+    {
+        try {
+            $reader = Reader::createFromPath($csv_file);
+            $reader->setDelimiter(',');
+            $reader->setEnclosure('"');
+            return $reader;
+        } catch (Exception $e) {
+            $this->throwError('Error opening CSV: '.$e->getMessage(), $e);
+        }
+    }
+
+    /**
+     * Run the actual importer, pass in one of the Import classes which implements
+     * the ImportExport interface
      * @param Reader       $reader
      * @param ImportExport $importer
      * @return array
+     * @throws ValidationException
      */
     protected function runImport(Reader $reader, ImportExport $importer): array
     {
-        $import_report = [
-            'success' => [],
-            'failed'  => [],
-        ];
-
         $cols = $importer->getColumns();
         $first_header = $cols[0];
 
+        $first = true;
         $records = $reader->getRecords($cols);
         foreach ($records as $offset => $row) {
             // check if the first row being read is the header
-            if ($row[$first_header] === $first_header) {
+            if ($first) {
+                $first = false;
+
+                if($row[$first_header] !== $first_header) {
+                    $this->throwError('CSV file doesn\'t seem to match import type');
+                }
+
                 continue;
             }
 
-            $success = $importer->import($row, $offset);
-            if ($success) {
-                $import_report['success'][] = $importer->status;
-            } else {
-                $import_report['failed'][] = $importer->status;
+            // Do a sanity check on the number of columns first
+            if (!$importer->checkColumns($row)) {
+                $importer->errorLog('Number of columns in row doesn\'t match');
+                continue;
             }
+
+            $importer->import($row, $offset);
         }
 
-        return $import_report;
+        return $importer->status;
     }
 
     /**
@@ -82,6 +113,7 @@ class ImportService extends Service
      * @param bool   $delete_previous
      * @return mixed
      * @throws \League\Csv\Exception
+     * @throws ValidationException
      */
     public function importAircraft($csv_file, bool $delete_previous = true)
     {
@@ -117,6 +149,28 @@ class ImportService extends Service
         }
 
         $importer = new AirportImporter();
+        return $this->runImport($reader, $importer);
+    }
+
+    /**
+     * Import expenses
+     * @param string $csv_file
+     * @param bool   $delete_previous
+     * @return mixed
+     * @throws \League\Csv\Exception
+     */
+    public function importExpenses($csv_file, bool $delete_previous = true)
+    {
+        if ($delete_previous) {
+            Expense::truncate();
+        }
+
+        $reader = $this->openCsv($csv_file);
+        if (!$reader) {
+            return false;
+        }
+
+        $importer = new ExpenseImporter();
         return $this->runImport($reader, $importer);
     }
 

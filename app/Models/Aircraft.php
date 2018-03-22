@@ -51,8 +51,9 @@ class Aircraft extends Model
      * Validation rules
      */
     public static $rules = [
-        'subfleet_id' => 'required',
-        'name'        => 'required',
+        'subfleet_id'  => 'required',
+        'name'         => 'required',
+        'registration' => 'required',
     ];
 
     /**

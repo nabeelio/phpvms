@@ -52,7 +52,6 @@ class AircraftImporter extends ImportExport
     public function import(array $row, $index): bool
     {
         $subfleet = $this->getSubfleet($row['subfleet']);
-
         $row['subfleet_id'] = $subfleet->id;
 
         # Generate a hex code
@@ -76,11 +75,11 @@ class AircraftImporter extends ImportExport
         try {
             $aircraft->save();
         } catch(\Exception $e) {
-            $this->status = 'Error in row '.$index.': '.$e->getMessage();
+            $this->errorLog('Error in row '.$index.': '.$e->getMessage());
             return false;
         }
 
-        $this->status = 'Imported '.$row['registration'].' '.$row['name'];
+        $this->log('Imported '.$row['registration'].' '.$row['name']);
         return true;
     }
 }

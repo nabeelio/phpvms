@@ -68,7 +68,7 @@ class FlightImporter extends ImportExport
      * @param int   $index
      * @return bool
      */
-    public function import(array $row, $index)
+    public function import(array $row, $index): bool
     {
         // Get the airline ID from the ICAO code
         $airline = $this->getAirline($row['airline']);
@@ -89,7 +89,7 @@ class FlightImporter extends ImportExport
         try {
             $flight->save();
         } catch (\Exception $e) {
-            $this->status = 'Error in row '.$index.': '.$e->getMessage();
+            $this->errorLog('Error in row '.$index.': '.$e->getMessage());
             return false;
         }
 
@@ -97,7 +97,7 @@ class FlightImporter extends ImportExport
         $this->processFares($flight, $row['fares']);
         $this->processFields($flight, $row['fields']);
 
-        $this->status = 'Imported row '.$index;
+        $this->log('Imported row '.$index);
         return true;
     }
 

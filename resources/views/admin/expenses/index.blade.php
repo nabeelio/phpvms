@@ -1,12 +1,10 @@
 @extends('admin.app')
-
 @section('title', 'Expenses')
+
 @section('actions')
-    <li>
-        <a href="{{ route('admin.expenses.create') }}">
-            <i class="ti-plus"></i>
-            Add New</a>
-    </li>
+    <li><a href="{{ route('admin.expenses.export') }}"><i class="ti-plus"></i>Export to CSV</a></li>
+    <li><a href="{{ route('admin.expenses.import') }}"><i class="ti-plus"></i>Import from CSV</a></li>
+    <li><a href="{{ route('admin.expenses.create') }}"><i class="ti-plus"></i>Add New</a></li>
 @endsection
 
 @section('content')

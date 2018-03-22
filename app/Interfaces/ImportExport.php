@@ -3,6 +3,9 @@
 namespace App\Interfaces;
 
 use App\Models\Airline;
+use Illuminate\Validation\ValidationException;
+use Log;
+use Validator;
 
 /**
  * Common functionality used across all of the importers
@@ -11,7 +14,10 @@ use App\Models\Airline;
 class ImportExport
 {
     public $assetType;
-    public $status;
+    public $status = [
+        'success' => [],
+        'errors' => [],
+    ];
 
     /**
      * Hold the columns for the particular table
@@ -38,6 +44,54 @@ class ImportExport
     public function getColumns()
     {
         return static::$columns;
+    }
+
+    /**
+     * Do a basic check that the number of columns match
+     * @param $row
+     * @return bool
+     */
+    public function checkColumns($row): bool
+    {
+        return \count($row) === \count($this->getColumns());
+    }
+
+    /**
+     * Bubble up an error to the interface that we need to stop
+     * @param $error
+     * @param $e
+     * @throws ValidationException
+     */
+    protected function throwError($error, \Exception $e = null): void
+    {
+        Log::error($error);
+        if ($e) {
+            Log::error($e->getMessage());
+        }
+
+        $validator = Validator::make([], []);
+        $validator->errors()->add('csv_file', $error);
+        throw new ValidationException($validator);
+    }
+
+    /**
+     * Add to the log messages for this importer
+     * @param $msg
+     */
+    public function log($msg): void
+    {
+        $this->status['success'][] = $msg;
+        Log::info($msg);
+    }
+
+    /**
+     * Add to the error log for this import
+     * @param $msg
+     */
+    public function errorLog($msg): void
+    {
+        $this->status['errors'][] = $msg;
+        Log::error($msg);
     }
 
     /**
