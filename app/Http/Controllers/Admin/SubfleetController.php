@@ -14,6 +14,7 @@ use App\Repositories\AircraftRepository;
 use App\Repositories\FareRepository;
 use App\Repositories\RankRepository;
 use App\Repositories\SubfleetRepository;
+use App\Services\ExportService;
 use App\Services\FareService;
 use App\Services\FleetService;
 use App\Services\ImportService;
@@ -239,6 +240,24 @@ class SubfleetController extends Controller
 
         Flash::success('Subfleet deleted successfully.');
         return redirect(route('admin.subfleets.index'));
+    }
+
+    /**
+     * Run the subfleet exporter
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+    public function export(Request $request)
+    {
+        $exporter = app(ExportService::class);
+        $subfleets = $this->subfleetRepo->all();
+
+        $path = $exporter->exportSubfleets($subfleets);
+        return response()
+            ->download($path, 'subfleets.csv', [
+                'content-type' => 'text/csv',
+            ])
+            ->deleteFileAfterSend(true);
     }
 
     /**

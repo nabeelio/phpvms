@@ -65,6 +65,7 @@ Route::group([
     Route::match(['post', 'put'], 'settings', 'SettingsController@update')->name('settings.update');
 
     # subfleet
+    Route::get('subfleets/export', 'SubfleetController@export')->name('subfleets.export');
     Route::match(['get', 'post'], 'subfleets/import', 'SubfleetController@import')->name('subfleets.import');
     Route::match(['get', 'post', 'put', 'delete'], 'subfleets/{id}/expenses', 'SubfleetController@expenses');
     Route::match(['get', 'post', 'put', 'delete'], 'subfleets/{id}/fares', 'SubfleetController@fares');

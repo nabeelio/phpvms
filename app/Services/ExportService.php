@@ -9,6 +9,7 @@ use App\Services\ImportExport\AirportExporter;
 use App\Services\ImportExport\ExpenseExporter;
 use App\Services\ImportExport\FareExporter;
 use App\Services\ImportExport\FlightExporter;
+use App\Services\ImportExport\SubfleetExporter;
 use Illuminate\Support\Collection;
 use League\Csv\CharsetConverter;
 use League\Csv\Writer;
@@ -120,5 +121,17 @@ class ExportService extends Service
     {
         $exporter = new FlightExporter();
         return $this->runExport($flights, $exporter);
+    }
+
+    /**
+     * Export all of the flights
+     * @param Collection $subfleets
+     * @return mixed
+     * @throws \League\Csv\CannotInsertRecord
+     */
+    public function exportSubfleets($subfleets)
+    {
+        $exporter = new SubfleetExporter();
+        return $this->runExport($subfleets, $exporter);
     }
 }

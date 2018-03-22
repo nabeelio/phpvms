@@ -8,9 +8,10 @@ use App\Models\Traits\ExpensableTrait;
 
 /**
  * Class Subfleet
- * @property int     id
- * @property string  type
- * @property string  ground_handling_multiplier
+ * @property int    id
+ * @property string type
+ * @property string ground_handling_multiplier
+ * @property Fare[] fares
  * @package App\Models
  */
 class Subfleet extends Model

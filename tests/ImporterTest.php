@@ -470,17 +470,25 @@ class ImporterTest extends TestCase
         $this->assertEquals('A32X', $subfleet->type);
         $this->assertEquals('Airbus A320', $subfleet->name);
 
-        // get the fares
-        $fares = $this->fareSvc->getForSubfleet($subfleet);
+        // get the fares and check the pivot tables and the main tables
+        $fares = $subfleet->fares()->get();
 
         $eco = $fares->where('code', 'Y')->first();
-        $this->assertEquals($fare_economy->capacity, $eco->capacity);
+        $this->assertEquals(null, $eco->pivot->price);
+        $this->assertEquals(null, $eco->pivot->capacity);
+        $this->assertEquals(null, $eco->pivot->cost);
+
         $this->assertEquals($fare_economy->price, $eco->price);
+        $this->assertEquals($fare_economy->capacity, $eco->capacity);
         $this->assertEquals($fare_economy->cost, $eco->cost);
 
         $busi = $fares->where('code', 'B')->first();
-        $this->assertEquals(100, $busi->capacity);
-        $this->assertEquals(500, $busi->price);
+        $this->assertEquals($fare_business->price, $busi->price);
+        $this->assertEquals($fare_business->capacity, $busi->capacity);
         $this->assertEquals($fare_business->cost, $busi->cost);
+
+        $this->assertEquals('500%', $busi->pivot->price);
+        $this->assertEquals(100, $busi->pivot->capacity);
+        $this->assertEquals(null, $busi->pivot->cost);
     }
 }
