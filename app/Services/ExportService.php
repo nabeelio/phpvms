@@ -4,8 +4,8 @@ namespace App\Services;
 
 use App\Interfaces\ImportExport;
 use App\Interfaces\Service;
-use App\Repositories\FlightRepository;
 use App\Services\ImportExport\AircraftExporter;
+use App\Services\ImportExport\AirportExporter;
 use App\Services\ImportExport\FlightExporter;
 use Illuminate\Support\Collection;
 use League\Csv\CharsetConverter;
@@ -19,16 +19,6 @@ use Log;
  */
 class ExportService extends Service
 {
-    protected $flightRepo;
-
-    /**
-     * ImporterService constructor.
-     * @param FlightRepository $flightRepo
-     */
-    public function __construct(FlightRepository $flightRepo) {
-        $this->flightRepo = $flightRepo;
-    }
-
     /**
      * @param string    $path
      * @return Writer
@@ -55,6 +45,8 @@ class ExportService extends Service
         Storage::makeDirectory('import');
         $path = storage_path('/app/import/export_'.$filename.'.csv');
 
+        Log::info('Exporting "'.$exporter->assetType.'" to ' . $path);
+
         $writer = $this->openCsv($path);
 
         // Write out the header first
@@ -78,6 +70,18 @@ class ExportService extends Service
     {
         $exporter = new AircraftExporter();
         return $this->runExport($aircraft, $exporter);
+    }
+
+    /**
+     * Export all of the airports
+     * @param Collection $airports
+     * @return mixed
+     * @throws \League\Csv\CannotInsertRecord
+     */
+    public function exportAirports($airports)
+    {
+        $exporter = new AirportExporter();
+        return $this->runExport($airports, $exporter);
     }
 
     /**

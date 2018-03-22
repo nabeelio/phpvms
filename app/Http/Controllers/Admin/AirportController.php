@@ -9,6 +9,7 @@ use App\Models\Airport;
 use App\Models\Expense;
 use App\Repositories\AirportRepository;
 use App\Repositories\Criteria\WhereCriteria;
+use App\Services\ExportService;
 use App\Services\ImportService;
 use Flash;
 use Illuminate\Http\Request;
@@ -176,6 +177,25 @@ class AirportController extends Controller
 
         Flash::success('Airport deleted successfully.');
         return redirect(route('admin.airports.index'));
+    }
+
+    /**
+     * Run the airport exporter
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     * @throws \League\Csv\Exception
+     */
+    public function export(Request $request)
+    {
+        $exporter = app(ExportService::class);
+        $airports = $this->airportRepo->all();
+
+        $path = $exporter->exportAirports($airports);
+        return response()
+            ->download($path, 'airports.csv', [
+                'content-type' => 'text/csv',
+            ])
+            ->deleteFileAfterSend(true);
     }
 
     /**

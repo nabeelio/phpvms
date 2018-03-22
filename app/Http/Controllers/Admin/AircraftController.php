@@ -154,7 +154,7 @@ class AircraftController extends Controller
     }
 
     /**
-     * Run the flight exporter
+     * Run the aircraft exporter
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
      * @throws \League\Csv\Exception

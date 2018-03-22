@@ -9,6 +9,7 @@ Route::group([
 ], function () {
     Route::resource('airlines', 'AirlinesController');
 
+    Route::get('airports/export', 'AirportController@export')->name('airports.export');
     Route::match(['get', 'post', 'put'], 'airports/fuel', 'AirportController@fuel');
     Route::match(['get', 'post'], 'airports/import', 'AirportController@import')->name('airports.import');
     Route::match(['get', 'post', 'put', 'delete'], 'airports/{id}/expenses', 'AirportController@expenses');
