@@ -6,7 +6,7 @@
 namespace App\Console\Commands;
 
 use App\Console\Command;
-use App\Services\ImporterService;
+use App\Services\ImportService;
 
 /**
  * Class ImportCsv
@@ -21,9 +21,9 @@ class ImportCsv extends Command
 
     /**
      * Import constructor.
-     * @param ImporterService $importer
+     * @param ImportService $importer
      */
-    public function __construct(ImporterService $importer)
+    public function __construct(ImportService $importer)
     {
         parent::__construct();
         $this->importer = $importer;

@@ -90,6 +90,10 @@ class ImportExport
             $children = [];
             $kvp = explode('&', trim($query_str[1]));
             foreach ($kvp as $items) {
+                if(!$items) {
+                    continue;
+                }
+
                 $this->kvpToArray($items, $children);
             }
 

@@ -11,10 +11,10 @@ use League\Csv\CharsetConverter;
 use League\Csv\Writer;
 
 /**
- * Class ImporterService
+ * Class ExportService
  * @package App\Services
  */
-class ExporterService extends Service
+class ExportService extends Service
 {
     protected $flightRepo;
 

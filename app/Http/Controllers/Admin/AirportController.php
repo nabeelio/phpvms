@@ -9,7 +9,7 @@ use App\Models\Airport;
 use App\Models\Expense;
 use App\Repositories\AirportRepository;
 use App\Repositories\Criteria\WhereCriteria;
-use App\Services\ImporterService;
+use App\Services\ImportService;
 use Flash;
 use Illuminate\Http\Request;
 use Jackiedo\Timezonelist\Facades\Timezonelist;
@@ -28,11 +28,11 @@ class AirportController extends Controller
 
     /**
      * @param AirportRepository $airportRepo
-     * @param ImporterService   $importSvc
+     * @param ImportService     $importSvc
      */
     public function __construct(
         AirportRepository $airportRepo,
-        ImporterService $importSvc
+        ImportService $importSvc
     ) {
         $this->airportRepo = $airportRepo;
         $this->importSvc = $importSvc;

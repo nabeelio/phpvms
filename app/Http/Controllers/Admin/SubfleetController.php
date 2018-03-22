@@ -15,7 +15,7 @@ use App\Repositories\RankRepository;
 use App\Repositories\SubfleetRepository;
 use App\Services\FareService;
 use App\Services\FleetService;
-use App\Services\ImporterService;
+use App\Services\ImportService;
 use Flash;
 use Illuminate\Http\Request;
 use Log;
@@ -43,7 +43,7 @@ class SubfleetController extends Controller
      * @param FleetService       $fleetSvc
      * @param FareRepository     $fareRepo
      * @param FareService        $fareSvc
-     * @param ImporterService    $importSvc
+     * @param ImportService      $importSvc
      * @param RankRepository     $rankRepo
      * @param SubfleetRepository $subfleetRepo
      */
@@ -52,7 +52,7 @@ class SubfleetController extends Controller
         FleetService $fleetSvc,
         FareRepository $fareRepo,
         FareService $fareSvc,
-        ImporterService $importSvc,
+        ImportService $importSvc,
         RankRepository $rankRepo,
         SubfleetRepository $subfleetRepo
     ) {

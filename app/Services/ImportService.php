@@ -13,10 +13,10 @@ use App\Services\Import\SubfleetImporter;
 use League\Csv\Reader;
 
 /**
- * Class ImporterService
+ * Class ImportService
  * @package App\Services
  */
-class ImporterService extends Service
+class ImportService extends Service
 {
     protected $flightRepo;
 
@@ -24,9 +24,7 @@ class ImporterService extends Service
      * ImporterService constructor.
      * @param FlightRepository $flightRepo
      */
-    public function __construct(
-        FlightRepository $flightRepo
-    ) {
+    public function __construct(FlightRepository $flightRepo) {
         $this->flightRepo = $flightRepo;
     }
 

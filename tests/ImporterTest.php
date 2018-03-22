@@ -16,7 +16,7 @@ class ImporterTest extends TestCase
     {
         parent::setUp();
         $this->importBaseClass = new \App\Interfaces\ImportExport();
-        $this->importSvc = app(\App\Services\ImporterService::class);
+        $this->importSvc = app(\App\Services\ImportService::class);
         $this->fareSvc = app(\App\Services\FareService::class);
     }
 
@@ -111,7 +111,7 @@ class ImporterTest extends TestCase
             [
                 'input'    => 'Y?;F?price=1200',
                 'expected' => [
-                    0   => 'Y',
+                    'Y' => [],
                     'F' => [
                         'price' => 1200
                     ]

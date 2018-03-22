@@ -10,7 +10,7 @@ use App\Models\Enums\AircraftStatus;
 use App\Models\Expense;
 use App\Models\Subfleet;
 use App\Repositories\AircraftRepository;
-use App\Services\ImporterService;
+use App\Services\ImportService;
 use Flash;
 use Illuminate\Http\Request;
 use Log;
@@ -29,11 +29,11 @@ class AircraftController extends Controller
     /**
      * AircraftController constructor.
      * @param AircraftRepository $aircraftRepo
-     * @param ImporterService    $importSvc
+     * @param ImportService      $importSvc
      */
     public function __construct(
         AircraftRepository $aircraftRepo,
-        ImporterService $importSvc
+        ImportService $importSvc
     ) {
         $this->aircraftRepo = $aircraftRepo;
         $this->importSvc = $importSvc;

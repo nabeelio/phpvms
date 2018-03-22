@@ -15,10 +15,10 @@ use App\Repositories\FareRepository;
 use App\Repositories\FlightFieldRepository;
 use App\Repositories\FlightRepository;
 use App\Repositories\SubfleetRepository;
-use App\Services\ExporterService;
+use App\Services\ExportService;
 use App\Services\FareService;
 use App\Services\FlightService;
-use App\Services\ImporterService;
+use App\Services\ImportService;
 use App\Support\Units\Time;
 use Flash;
 use Illuminate\Http\Request;
@@ -51,7 +51,7 @@ class FlightController extends Controller
      * @param FlightFieldRepository $flightFieldRepo
      * @param FareService           $fareSvc
      * @param FlightService         $flightSvc
-     * @param ImporterService       $importSvc
+     * @param ImportService         $importSvc
      * @param SubfleetRepository    $subfleetRepo
      */
     public function __construct(
@@ -62,7 +62,7 @@ class FlightController extends Controller
         FlightFieldRepository $flightFieldRepo,
         FareService $fareSvc,
         FlightService $flightSvc,
-        ImporterService $importSvc,
+        ImportService $importSvc,
         SubfleetRepository $subfleetRepo
     ) {
         $this->airlineRepo = $airlineRepo;
@@ -319,7 +319,7 @@ class FlightController extends Controller
      */
     public function export(Request $request)
     {
-        $exporter = app(ExporterService::class);
+        $exporter = app(ExportService::class);
         $path = storage_path('app/import/export_flight.csv');
 
         $flights = $this->flightRepo->all();
