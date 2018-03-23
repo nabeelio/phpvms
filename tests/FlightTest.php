@@ -171,6 +171,28 @@ class FlightTest extends TestCase
     }
 
     /**
+     *
+     */
+    public function testAddSubfleet()
+    {
+        $subfleet = factory(App\Models\Subfleet::class)->create();
+        $flight = factory(App\Models\Flight::class)->create();
+
+        $fleetSvc = app(App\Services\FleetService::class);
+        $fleetSvc->addSubfleetToFlight($subfleet, $flight);
+
+        $flight->refresh();
+        $found = $flight->subfleets()->get();
+        $this->assertCount(1, $found);
+
+        # Make sure it hasn't been added twice
+        $fleetSvc->addSubfleetToFlight($subfleet, $flight);
+        $flight->refresh();
+        $found = $flight->subfleets()->get();
+        $this->assertCount(1, $found);
+    }
+
+    /**
      * Add/remove a bid, test the API, etc
      * @throws \App\Services\Exception
      */

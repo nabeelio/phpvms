@@ -100,6 +100,8 @@
 </body>
 
 <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/pjax@0.2.5/pjax.js"></script>
+
 <script src="{{ public_asset('/assets/admin/js/vendor.js') }}"></script>
 <script src="{{ public_asset('/assets/system/js/phpvms.js') }}"></script>
 <script src="{{ public_asset('/assets/admin/js/admin.js') }}"></script>

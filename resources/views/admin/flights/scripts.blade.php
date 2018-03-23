@@ -63,6 +63,14 @@ $(document).ready(function () {
     setEditable();
     setFieldsEditable();
 
+    /*const pjax = new Pjax({
+        elements: 'form[action]',
+        selectors: ['.pjax_subfleet_form'],
+        switches: {
+            '#subfleet_flight_wrapper': Pjax.switches.replaceNode
+        }
+    });*/
+
     $(document).on('submit', 'form.pjax_flight_fields', function (event) {
         event.preventDefault();
         $.pjax.submit(event, '#flight_fields_wrapper', {push: false});

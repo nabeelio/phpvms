@@ -18,6 +18,7 @@ use App\Repositories\FlightRepository;
 use App\Repositories\SubfleetRepository;
 use App\Services\ExportService;
 use App\Services\FareService;
+use App\Services\FleetService;
 use App\Services\FlightService;
 use App\Services\ImportService;
 use App\Support\Units\Time;
@@ -451,12 +452,15 @@ class FlightController extends Controller
             return redirect(route('admin.flights.index'));
         }
 
+        $fleetSvc = app(FleetService::class);
+
         // add aircraft to flight
+        $subfleet = $this->subfleetRepo->find($request->input('subfleet_id'));
         if ($request->isMethod('post')) {
-            $flight->subfleets()->syncWithoutDetaching([$request->subfleet_id]);
+            $fleetSvc->addSubfleetToFlight($subfleet, $flight);
         } // remove aircraft from flight
         elseif ($request->isMethod('delete')) {
-            $flight->subfleets()->detach($request->subfleet_id);
+            $fleetSvc->removeSubfleetFromFlight($subfleet, $flight);
         }
 
         return $this->return_subfleet_view($flight);
