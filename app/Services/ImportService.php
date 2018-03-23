@@ -36,6 +36,8 @@ class ImportService extends Service
     }
 
     /**
+     * Throw a validation error back up because it will automatically show
+     * itself under the CSV file upload, and nothing special needs to be done
      * @param $error
      * @param $e
      * @throws ValidationException
@@ -72,13 +74,15 @@ class ImportService extends Service
     /**
      * Run the actual importer, pass in one of the Import classes which implements
      * the ImportExport interface
-     * @param Reader       $reader
+     * @param              $file_path
      * @param ImportExport $importer
      * @return array
      * @throws ValidationException
      */
-    protected function runImport(Reader $reader, ImportExport $importer): array
+    protected function runImport($file_path, ImportExport $importer): array
     {
+        $reader = $this->openCsv($file_path);
+
         $cols = $importer->getColumns();
         $first_header = $cols[0];
 
@@ -126,13 +130,8 @@ class ImportService extends Service
             # TODO: delete airports
         }
 
-        $reader = $this->openCsv($csv_file);
-        if (!$reader) {
-            return false;
-        }
-
         $importer = new AircraftImporter();
-        return $this->runImport($reader, $importer);
+        return $this->runImport($csv_file, $importer);
     }
 
     /**
@@ -148,13 +147,8 @@ class ImportService extends Service
             Airport::truncate();
         }
 
-        $reader = $this->openCsv($csv_file);
-        if (!$reader) {
-            return false;
-        }
-
         $importer = new AirportImporter();
-        return $this->runImport($reader, $importer);
+        return $this->runImport($csv_file, $importer);
     }
 
     /**
@@ -170,13 +164,8 @@ class ImportService extends Service
             Expense::truncate();
         }
 
-        $reader = $this->openCsv($csv_file);
-        if (!$reader) {
-            return false;
-        }
-
         $importer = new ExpenseImporter();
-        return $this->runImport($reader, $importer);
+        return $this->runImport($csv_file, $importer);
     }
 
     /**
@@ -192,14 +181,8 @@ class ImportService extends Service
             # TODO: Delete all from: fares
         }
 
-        $reader = $this->openCsv($csv_file);
-        if (!$reader) {
-            # TODO: Throw an error
-            return false;
-        }
-
         $importer = new FareImporter();
-        return $this->runImport($reader, $importer);
+        return $this->runImport($csv_file, $importer);
     }
 
     /**
@@ -215,14 +198,8 @@ class ImportService extends Service
             # TODO: Delete all from: flights, flight_field_values
         }
 
-        $reader = $this->openCsv($csv_file);
-        if (!$reader) {
-            # TODO: Throw an error
-            return false;
-        }
-
         $importer = new FlightImporter();
-        return $this->runImport($reader, $importer);
+        return $this->runImport($csv_file, $importer);
     }
 
     /**
@@ -238,13 +215,7 @@ class ImportService extends Service
             # TODO: Cleanup subfleet data
         }
 
-        $reader = $this->openCsv($csv_file);
-        if (!$reader) {
-            # TODO: Throw an error
-            return false;
-        }
-
         $importer = new SubfleetImporter();
-        return $this->runImport($reader, $importer);
+        return $this->runImport($csv_file, $importer);
     }
 }
