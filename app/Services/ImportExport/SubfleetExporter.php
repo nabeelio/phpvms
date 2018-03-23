@@ -37,6 +37,7 @@ class SubfleetExporter extends ImportExport
         }
 
         # Modify special fields
+        $ret['airline'] = $subfleet->airline->icao;
         $ret['fares'] = $this->getFares($subfleet);
 
         return $ret;

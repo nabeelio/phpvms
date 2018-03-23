@@ -38,6 +38,8 @@ class ExpenseExporter extends ImportExport
             $ret[$col] = $expense->{$col};
         }
 
+        // Special fields
+
         if($ret['airline']) {
             $ret['airline'] = $expense->airline->icao;
         }
