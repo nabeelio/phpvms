@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Enums\Days;
 use App\Models\Flight;
 use App\Models\User;
 use App\Models\Bid;
@@ -118,6 +119,41 @@ class FlightTest extends TestCase
         $res->assertJsonCount(5, 'data');
     }
 
+    /**
+     * Test the bitmasks that they work for setting the day of week and
+     * then retrieving by searching on those
+     */
+    public function testFindDaysOfWeek(): void
+    {
+        $this->user = factory(App\Models\User::class)->create();
+        factory(App\Models\Flight::class, 20)->create([
+            'airline_id' => $this->user->airline_id
+        ]);
+
+        $saved_flight = factory(App\Models\Flight::class)->create([
+            'airline_id' => $this->user->airline_id,
+            'days' => Days::getDaysMask([
+                Days::SUNDAY,
+                Days::THURSDAY
+            ])
+        ]);
+
+        $flight = Flight::findByDays([Days::SUNDAY])->first();
+        $this->assertTrue($flight->on_day(Days::SUNDAY));
+        $this->assertTrue($flight->on_day(Days::THURSDAY));
+        $this->assertFalse($flight->on_day(Days::MONDAY));
+        $this->assertEquals($saved_flight->id, $flight->id);
+
+        $flight = Flight::findByDays([Days::SUNDAY, Days::THURSDAY])->first();
+        $this->assertEquals($saved_flight->id, $flight->id);
+
+        $flight = Flight::findByDays([Days::WEDNESDAY, Days::THURSDAY])->first();
+        $this->assertNull($flight);
+    }
+
+    /**
+     *
+     */
     public function testFlightSearchApi()
     {
         $this->user = factory(App\Models\User::class)->create();

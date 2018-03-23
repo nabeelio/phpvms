@@ -25,10 +25,10 @@ class AircraftStatus extends Enum
     ];
 
     public static $codes = [
-        'S' => AircraftStatus::STORED,
-        'A' => AircraftStatus::ACTIVE,
-        'R' => AircraftStatus::RETIRED,
-        'C' => AircraftStatus::SCRAPPED,
-        'W' => AircraftStatus::WRITTEN_OFF,
+        AircraftStatus::STORED      => 'S',
+        AircraftStatus::ACTIVE      => 'A' ,
+        AircraftStatus::RETIRED     => 'R',
+        AircraftStatus::SCRAPPED    => 'C',
+        AircraftStatus::WRITTEN_OFF => 'W',
     ];
 }

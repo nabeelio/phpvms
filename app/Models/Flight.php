@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Interfaces\Model;
+use App\Models\Enums\Days;
 use App\Models\Traits\HashIdTrait;
 use App\Support\Units\Distance;
 use Illuminate\Support\Collection;
@@ -18,6 +19,7 @@ use PhpUnitsOfMeasure\Exception\NonStringUnitName;
  * @property Collection field_values
  * @property Collection fares
  * @property Collection subfleets
+ * @property integer    days
  */
 class Flight extends Model
 {
@@ -40,6 +42,7 @@ class Flight extends Model
         'alt_airport_id',
         'dpt_time',
         'arr_time',
+        'days',
         'level',
         'distance',
         'flight_time',
@@ -52,6 +55,7 @@ class Flight extends Model
 
     protected $casts = [
         'flight_number' => 'integer',
+        'days'          => 'integer',
         'level'         => 'integer',
         'distance'      => 'float',
         'flight_time'   => 'integer',
@@ -69,6 +73,22 @@ class Flight extends Model
         'arr_airport_id' => 'required',
         'level'          => 'nullable',
     ];
+
+    /**
+     * Return all of the flights on any given day(s) of the week
+     * Search using bitmasks
+     * @param Days[] $days List of the enumerated values
+     * @return Flight
+     */
+    public static function findByDays(array $days)
+    {
+        $flights = Flight::where('active', true);
+        foreach($days as $day) {
+            $flights = $flights->where('days', '&', $day);
+        }
+
+        return $flights;
+    }
 
     /**
      * Get the flight ident, e.,g JBU1900
@@ -123,6 +143,15 @@ class Flight extends Model
         } else {
             $this->attributes['distance'] = $value;
         }
+    }
+
+    /**
+     * @param $day
+     * @return bool
+     */
+    public function on_day($day): bool
+    {
+        return ($this->days & $day) === $day;
     }
 
     /**

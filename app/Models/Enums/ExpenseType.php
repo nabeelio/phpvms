@@ -21,8 +21,8 @@ class ExpenseType extends Enum
     ];
 
     protected static $codes = [
-        'F' => ExpenseType::FLIGHT,
-        'D' => ExpenseType::DAILY,
-        'M' => ExpenseType::MONTHLY,
+        ExpenseType::FLIGHT  => 'F',
+        ExpenseType::DAILY   =>'D',
+        ExpenseType::MONTHLY => 'M',
     ];
 }

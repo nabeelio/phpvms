@@ -1,5 +1,18 @@
 <?php
 
+if (!function_exists('in_mask')) {
+    /**
+     * Return true/false if a value exists in a mask
+     * @param $mask
+     * @param $value
+     * @return bool
+     */
+    function in_mask($mask, $value)
+    {
+        return ($mask & $value) === $value;
+    }
+}
+
 if (!function_exists('get_truth_state')) {
     /**
      * Check if the passed state matches any of the states that

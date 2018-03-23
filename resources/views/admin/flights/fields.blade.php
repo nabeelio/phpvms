@@ -29,6 +29,74 @@
 </div>
 
 <div class="row">
+    <div class="form-group col-md-12" style="text-align: center;">
+        <span style="margin-right: 20px;">
+            {{ Form::label('days[]', 'Monday') }}
+            {{ Form::checkbox(
+                'days[]',
+                \App\Models\Enums\Days::MONDAY,
+                in_mask($days, \App\Models\Enums\Days::MONDAY),
+                ['class' => 'form-control icheck']
+            ) }}
+        </span>
+        <span style="margin-right: 20px;">
+            {{ Form::label('days[]', 'Tuesday') }}
+            {{ Form::checkbox(
+                'days[]',
+                \App\Models\Enums\Days::TUESDAY,
+                in_mask($days, \App\Models\Enums\Days::TUESDAY),
+                ['class' => 'form-control icheck']
+            ) }}
+        </span>
+        <span style="margin-right: 20px;">
+            {{ Form::label('days[]', 'Wednesday') }}
+            {{ Form::checkbox(
+                'days[]',
+                \App\Models\Enums\Days::WEDNESDAY,
+                in_mask($days, \App\Models\Enums\Days::WEDNESDAY),
+                ['class' => 'form-control icheck']
+            ) }}
+        </span>
+        <span style="margin-right: 20px;">
+            {{ Form::label('days[]', 'Thursday') }}
+            {{ Form::checkbox(
+                'days[]',
+                \App\Models\Enums\Days::THURSDAY,
+                in_mask($days, \App\Models\Enums\Days::THURSDAY),
+                ['class' => 'form-control icheck']
+            ) }}
+        </span>
+        <span style="margin-right: 20px;">
+            {{ Form::label('days[]', 'Friday') }}
+            {{ Form::checkbox(
+                'days[]',
+                \App\Models\Enums\Days::FRIDAY,
+                in_mask($days, \App\Models\Enums\Days::FRIDAY),
+                ['class' => 'form-control icheck']
+            ) }}
+        </span>
+        <span style="margin-right: 20px;">
+            {{ Form::label('days[]', 'Saturday') }}
+            {{ Form::checkbox(
+                'days[]',
+                \App\Models\Enums\Days::SATURDAY,
+                in_mask($days, \App\Models\Enums\Days::SATURDAY),
+                ['class' => 'form-control icheck']
+            ) }}
+        </span>
+        <span>
+            {{ Form::label('days[]', 'Sunday') }}
+            {{ Form::checkbox(
+                'days[]',
+                \App\Models\Enums\Days::SUNDAY,
+                in_mask($days, \App\Models\Enums\Days::SUNDAY),
+                ['class' => 'form-control icheck']
+            ) }}
+        </span>
+    </div>
+</div>
+
+<div class="row">
 
     <div class="form-group col-sm-3">
         {{ Form::label('level', 'Flight Type:') }}&nbsp;<span class="required">*</span>

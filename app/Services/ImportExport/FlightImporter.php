@@ -4,6 +4,7 @@ namespace App\Services\ImportExport;
 
 use App\Interfaces\ImportExport;
 use App\Models\Airport;
+use App\Models\Enums\Days;
 use App\Models\Enums\FlightType;
 use App\Models\Fare;
 use App\Models\Flight;
@@ -83,6 +84,7 @@ class FlightImporter extends ImportExport
         ], $row);
 
         // Airport atttributes
+        $flight->setAttribute('days', $this->setDays($row['days']));
         $flight->setAttribute('dpt_airport_id', $row['dpt_airport']);
         $flight->setAttribute('arr_airport_id', $row['arr_airport']);
         if ($row['alt_airport']) {
@@ -114,6 +116,49 @@ class FlightImporter extends ImportExport
 
         $this->log('Imported row '.$index);
         return true;
+    }
+
+    /**
+     * Return the mask of the days
+     * @param $day_str
+     * @return int|mixed
+     */
+    protected function setDays($day_str)
+    {
+        if(!$day_str) {
+            return 0;
+        }
+
+        $days = [];
+        if(strpos($day_str, '1') !== false) {
+            $days[] = Days::MONDAY;
+        }
+
+        if (strpos($day_str, '2') !== false) {
+            $days[] = Days::TUESDAY;
+        }
+
+        if (strpos($day_str, '3') !== false) {
+            $days[] = Days::WEDNESDAY;
+        }
+
+        if (strpos($day_str, '4') !== false) {
+            $days[] = Days::THURSDAY;
+        }
+
+        if (strpos($day_str, '5') !== false) {
+            $days[] = Days::FRIDAY;
+        }
+
+        if (strpos($day_str, '6') !== false) {
+            $days[] = Days::SATURDAY;
+        }
+
+        if (strpos($day_str, '7') !== false) {
+            $days[] = Days::SUNDAY;
+        }
+
+        return Days::getDaysMask($days);
     }
 
     /**

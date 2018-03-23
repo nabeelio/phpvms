@@ -3,6 +3,7 @@
 namespace App\Services\ImportExport;
 
 use App\Interfaces\ImportExport;
+use App\Models\Enums\Days;
 use App\Models\Enums\FlightType;
 use App\Models\Flight;
 
@@ -39,6 +40,7 @@ class FlightExporter extends ImportExport
         $ret['airline'] = $ret['airline']->icao;
         $ret['distance'] = $ret['distance']->toNumber();
 
+        $ret['days'] = $this->getDays($flight);
         $ret['flight_type'] = FlightType::convertToCode($ret['flight_type']);
 
         $ret['fares'] = $this->getFares($flight);
@@ -46,6 +48,46 @@ class FlightExporter extends ImportExport
         $ret['subfleets'] = $this->getSubfleets($flight);
 
         return $ret;
+    }
+
+    /**
+     * Return the days string
+     * @param Flight $flight
+     * @return string
+     */
+    protected function getDays(Flight &$flight)
+    {
+        $days_str = '';
+
+        if($flight->on_day(Days::MONDAY)) {
+            $days_str .= '1';
+        }
+
+        if ($flight->on_day(Days::TUESDAY)) {
+            $days_str .= '2';
+        }
+
+        if ($flight->on_day(Days::WEDNESDAY)) {
+            $days_str .= '3';
+        }
+
+        if ($flight->on_day(Days::THURSDAY)) {
+            $days_str .= '4';
+        }
+
+        if ($flight->on_day(Days::FRIDAY)) {
+            $days_str .= '5';
+        }
+
+        if ($flight->on_day(Days::SATURDAY)) {
+            $days_str .= '6';
+        }
+
+        if ($flight->on_day(Days::SUNDAY)) {
+            $days_str .= '7';
+        }
+
+        return $days_str;
     }
 
     /**

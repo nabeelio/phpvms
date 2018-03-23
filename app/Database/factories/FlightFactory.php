@@ -26,6 +26,8 @@ $factory->define(App\Models\Flight::class, function (Faker $faker) use ($airline
         },
         'distance'       => $faker->numberBetween(0, 3000),
         'route'          => null,
+        'days'           => 0,
+        'level'          => 0,
         'dpt_time'       => $faker->time(),
         'arr_time'       => $faker->time(),
         'flight_time'    => $faker->numberBetween(60, 360),

@@ -6,6 +6,7 @@ use App\Interfaces\Enum;
 
 /**
  * Class Days
+ * Start on Monday - ISO8601
  * @package App\Models\Enums
  */
 class Days extends Enum
@@ -18,7 +19,7 @@ class Days extends Enum
     public const SATURDAY  = 1 << 5;
     public const SUNDAY    = 1 << 6;
 
-    protected static $labels = [
+    public static $labels = [
         Days::MONDAY    => 'system.days.mon',
         Days::TUESDAY   => 'system.days.tues',
         Days::WEDNESDAY => 'system.days.wed',
@@ -27,4 +28,40 @@ class Days extends Enum
         Days::SATURDAY  => 'system.days.sat',
         Days::SUNDAY    => 'system.days.sun',
     ];
+
+    public static $codes = [
+        'M'  => Days::MONDAY,
+        'T'  => Days::TUESDAY,
+        'W'  => Days::WEDNESDAY,
+        'Th' => Days::THURSDAY,
+        'F'  => Days::FRIDAY,
+        'S'  => Days::SATURDAY,
+        'Su' => Days::SUNDAY,
+    ];
+
+    /**
+     * Create the masked value for the days of week
+     * @param array $days
+     * @return int|mixed
+     */
+    public static function getDaysMask(array $days)
+    {
+        $mask = 0;
+        foreach($days as $day) {
+            $mask |= $day;
+        }
+
+        return $mask;
+    }
+
+    /**
+     * See if the given mask has a day
+     * @param $mask
+     * @param $day
+     * @return bool
+     */
+    public static function in($mask, $day): bool
+    {
+        return ($mask & $day) === $day;
+    }
 }

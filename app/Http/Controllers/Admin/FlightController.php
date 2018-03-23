@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\CreateFlightRequest;
 use App\Http\Requests\UpdateFlightRequest;
 use App\Interfaces\Controller;
+use App\Models\Enums\Days;
 use App\Models\Enums\FlightType;
 use App\Models\Flight;
 use App\Models\FlightField;
@@ -143,6 +144,7 @@ class FlightController extends Controller
     {
         return view('admin.flights.create', [
             'flight'        => null,
+            'days'          => [],
             'flight_fields' => $this->flightFieldRepo->all(),
             'airlines'      => $this->airlineRepo->selectBoxList(),
             'airports'      => $this->airportRepo->selectBoxList(true, false),
@@ -179,6 +181,7 @@ class FlightController extends Controller
             return redirect()->back()->withInput($request->all());
         }
 
+        $input['days'] = Days::getDaysMask($input['days']);
         $input['active'] = get_truth_state($input['active']);
 
         $time = new Time($input['minutes'], $input['hours']);
@@ -232,6 +235,7 @@ class FlightController extends Controller
 
         return view('admin.flights.edit', [
             'flight'          => $flight,
+            'days'            => $flight->days,
             'flight_fields'   => $this->flightFieldRepo->all(),
             'airlines'        => $this->airlineRepo->selectBoxList(),
             'airports'        => $this->airportRepo->selectBoxList(),
@@ -278,6 +282,8 @@ class FlightController extends Controller
             Flash::error('Duplicate flight with same number/code/leg found, please change to proceed');
             return redirect()->back()->withInput($request->all());
         }
+
+        $input['days'] = Days::getDaysMask($input['days']);
 
         $input['flight_time'] = Time::init(
             $input['minutes'],

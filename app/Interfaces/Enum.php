@@ -67,12 +67,7 @@ abstract class Enum
      */
     public static function getFromCode($code)
     {
-        $code = strtoupper($code);
-        if(!array_key_exists($code, static::$codes)) {
-            return null;
-        }
-
-        return static::$codes[$code];
+        return array_search($code, static::$codes, true);
     }
 
     /**
@@ -82,7 +77,12 @@ abstract class Enum
      */
     public static function convertToCode($value)
     {
-        return array_search($value, static::$codes, true);
+        $value = (int) $value;
+        if (!array_key_exists($value, static::$codes)) {
+            return null;
+        }
+
+        return static::$codes[$value];
     }
 
     /**

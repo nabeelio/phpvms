@@ -230,6 +230,10 @@ class ImporterTest extends TestCase
 
         $flight = factory(App\Models\Flight::class)->create([
             'airline_id' => $airline->id,
+            'days' => \App\Models\Enums\Days::getDaysMask([
+                \App\Models\Enums\Days::TUESDAY,
+                \App\Models\Enums\Days::SUNDAY,
+            ]),
         ]);
 
         $flight->subfleets()->syncWithoutDetaching([$subfleet->id, $subfleet2->id]);
@@ -256,6 +260,7 @@ class ImporterTest extends TestCase
         $exporter = new \App\Services\ImportExport\FlightExporter();
         $exported = $exporter->export($flight);
 
+        $this->assertEquals('27', $exported['days']);
         $this->assertEquals('VMS', $exported['airline']);
         $this->assertEquals('A32X;B74X', $exported['subfleets']);
         $this->assertEquals('Y?capacity=100;F', $exported['fares']);
@@ -375,6 +380,11 @@ class ImporterTest extends TestCase
         $this->assertEquals('ILEXY2 ZENZI LFK ELD J29 MEM Q29 JHW J70 STENT J70 MAGIO J70 LVZ LENDY6', $flight->route);
         $this->assertEquals('Just a flight', $flight->notes);
         $this->assertEquals(true, $flight->active);
+
+        # Test that the days were set properly
+        $this->assertTrue($flight->on_day(\App\Models\Enums\Days::MONDAY));
+        $this->assertTrue($flight->on_day(\App\Models\Enums\Days::FRIDAY));
+        $this->assertFalse($flight->on_day(\App\Models\Enums\Days::TUESDAY));
 
         // Check the custom fields entered
         $fields = \App\Models\FlightFieldValue::where([

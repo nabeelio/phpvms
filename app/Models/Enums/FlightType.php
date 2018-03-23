@@ -21,8 +21,8 @@ class FlightType extends Enum
     ];
 
     protected static $codes = [
-        'P' => FlightType::PASSENGER,
-        'C' => FlightType::CARGO,
-        'H' => FlightType::CHARTER,
+        FlightType::PASSENGER => 'P',
+        FlightType::CARGO     => 'C',
+        FlightType::CHARTER   => 'H',
     ];
 }

@@ -24,6 +24,7 @@ class CreateFlightTables extends Migration
             $table->string('alt_airport_id', 5)->nullable();
             $table->string('dpt_time', 10)->nullable();
             $table->string('arr_time', 10)->nullable();
+            $table->unsignedTinyInteger('days')->nullable();
             $table->unsignedInteger('level')->nullable()->default(0);
             $table->unsignedDecimal('distance')->nullable()->default(0.0);
             $table->unsignedInteger('flight_time')->nullable();
