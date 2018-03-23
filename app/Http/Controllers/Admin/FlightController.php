@@ -375,7 +375,6 @@ class FlightController extends Controller
     protected function return_fields_view($flight)
     {
         $flight->refresh();
-
         return view('admin.flights.flight_fields', [
             'flight'        => $flight,
             'flight_fields' => $this->flightFieldRepo->all(),
@@ -383,13 +382,12 @@ class FlightController extends Controller
     }
 
     /**
+     * @param         $flight_id
      * @param Request $request
      * @return mixed
      */
-    public function field_values(Request $request)
+    public function field_values($flight_id, Request $request)
     {
-        $flight_id = $request->id;
-
         $flight = $this->flightRepo->findWithoutFail($flight_id);
         if (empty($flight)) {
             Flash::error('Flight not found');
@@ -398,18 +396,21 @@ class FlightController extends Controller
 
         // add custom field to flight
         if ($request->isMethod('post')) {
+            Log::info('Adding new flight field, flight: '.$flight_id, $request->input());
+
             $field = new FlightFieldValue;
             $field->flight_id = $flight_id;
             $field->name = $request->input('name');
             $field->value = $request->input('value');
             $field->save();
         } elseif ($request->isMethod('put')) {
-            if(!$request->input('field_id')) {
+            Log::info('Updating flight field, flight: '.$flight_id, $request->input());
+            $field = FlightFieldValue::where('name', $request->input('name'))->first();
+            if(!$field) {
+                Log::info('Field not found, creating new');
                 $field = new FlightFieldValue();
                 $field->flight_id = $flight_id;
                 $field->name = $request->input('name');
-            } else {
-                $field = FlightFieldValue::where('id', $request->input('field_id'))->first();
             }
 
             $field->value = $request->input('value');
@@ -417,7 +418,8 @@ class FlightController extends Controller
             // update the field value
         } // remove custom field from flight
         elseif ($request->isMethod('delete')) {
-            if($flight_id) {
+            Log::info('Deleting flight field, flight: '.$flight_id, $request->input());
+            if($flight_id && $request->input('field_id')) {
                 FlightFieldValue::destroy($request->input('field_id'));
             }
         }
@@ -455,7 +457,11 @@ class FlightController extends Controller
         $fleetSvc = app(FleetService::class);
 
         // add aircraft to flight
-        $subfleet = $this->subfleetRepo->find($request->input('subfleet_id'));
+        $subfleet = $this->subfleetRepo->findWithoutFail($request->subfleet_id);
+        if(!$subfleet) {
+            return $this->return_subfleet_view($flight);
+        }
+
         if ($request->isMethod('post')) {
             $fleetSvc->addSubfleetToFlight($subfleet, $flight);
         } // remove aircraft from flight

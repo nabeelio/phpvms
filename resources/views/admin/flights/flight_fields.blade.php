@@ -9,8 +9,21 @@
         </thead>
         @endif
         <tbody>
-        @foreach($flight_fields as $field)
+        @php
+        #
+        # A little nasty having logic like this in a template, but we need
+        # to filter out the field values that have already been shown, since
+        # they were values set because they had a FlightField parent
+        #
+        $shown = [];
+        @endphp
+        @foreach($flight_fields->concat($flight->field_values) as $field)
             @php
+                if(in_array($field->name, $shown, true)) {
+                    continue;
+                }
+
+                $shown[] = $field->name;
                 $val_field = $flight->field_values->where('name', $field->name)->first();
             @endphp
             <tr>

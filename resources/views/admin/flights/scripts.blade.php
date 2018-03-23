@@ -63,12 +63,16 @@ $(document).ready(function () {
     setEditable();
     setFieldsEditable();
 
-    /*const pjax = new Pjax({
-        elements: 'form[action]',
-        selectors: ['.pjax_subfleet_form'],
-        switches: {
-            '#subfleet_flight_wrapper': Pjax.switches.replaceNode
-        }
+    /*new Pjax({
+        elements: 'form[action].pjax_subfleet_form',
+        selectors: ['div#subfleet_flight_wrapper'],
+        history: false,
+    });
+
+    new Pjax({
+        elements: 'form[action].pjax_flight_fields',
+        selectors: ['div#flight_fields_wrapper'],
+        history: false
     });*/
 
     $(document).on('submit', 'form.pjax_flight_fields', function (event) {
