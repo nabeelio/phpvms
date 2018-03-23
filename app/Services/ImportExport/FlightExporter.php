@@ -40,6 +40,12 @@ class FlightExporter extends ImportExport
         $ret['airline'] = $ret['airline']->icao;
         $ret['distance'] = $ret['distance']->toNumber();
 
+        $ret['dpt_airport'] = $flight->dpt_airport_id;
+        $ret['arr_airport'] = $flight->arr_airport_id;
+        if($flight->alt_airport) {
+            $ret['alt_airport'] = $flight->alt_airport_id;
+        }
+
         $ret['days'] = $this->getDays($flight);
         $ret['flight_type'] = FlightType::convertToCode($ret['flight_type']);
 

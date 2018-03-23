@@ -20,6 +20,9 @@ use PhpUnitsOfMeasure\Exception\NonStringUnitName;
  * @property Collection fares
  * @property Collection subfleets
  * @property integer    days
+ * @property string     dpt_airport_id
+ * @property string     arr_airport_id
+ * @property string     alt_airport_id
  */
 class Flight extends Model
 {

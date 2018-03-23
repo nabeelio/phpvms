@@ -169,8 +169,8 @@ class FlightImporter extends ImportExport
     protected function processAirport($airport)
     {
         return Airport::firstOrCreate([
-            'icao' => $airport,
-        ], ['name' => $airport]);
+            'id' => $airport,
+        ], ['icao' => $airport, 'name' => $airport]);
     }
 
     /**
