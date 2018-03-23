@@ -7,6 +7,20 @@ use Illuminate\Http\Resources\Json\Resource;
 
 class Flight extends Resource
 {
+    /**
+     * Set the fields on the flight object
+     * @return array
+     */
+    private function setFields()
+    {
+        $fields = [];
+        foreach ($this->field_values as $field) {
+            $fields[$field->name] = $field->value;
+        }
+
+        return $fields;
+    }
+
     public function toArray($request)
     {
         $flight = parent::toArray($request);
@@ -18,6 +32,7 @@ class Flight extends Resource
 
         $flight['airline'] = new Airline($this->airline);
         $flight['subfleets'] = Subfleet::collection($this->subfleets);
+        $flight['fields'] = $this->setFields();
 
         return $flight;
     }
