@@ -179,7 +179,7 @@ class FareController extends Controller
     {
         $logs = [
             'success' => [],
-            'failed'  => [],
+            'errors'  => [],
         ];
 
         if ($request->isMethod('post')) {

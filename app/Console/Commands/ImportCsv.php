@@ -31,7 +31,7 @@ class ImportCsv extends Command
 
     /**
      * @return mixed|void
-     * @throws \League\Csv\Exception
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function handle()
     {
@@ -52,7 +52,7 @@ class ImportCsv extends Command
             $this->info($line);
         }
 
-        foreach ($status['failed'] as $line) {
+        foreach ($status['errors'] as $line) {
             $this->error($line);
         }
     }
