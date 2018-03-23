@@ -102,6 +102,11 @@ class ImportService extends Service
                 continue;
             }
 
+            // turn it into a collection and run some filtering
+            $row = collect($row)->map(function ($val, $index) {
+                return trim($val);
+            })->toArray();
+
             $importer->import($row, $offset);
         }
 

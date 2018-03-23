@@ -16,7 +16,7 @@ class CreateFlightTables extends Migration
         Schema::create('flights', function (Blueprint $table) {
             $table->string('id', \App\Interfaces\Model::ID_MAX_LENGTH);
             $table->unsignedInteger('airline_id');
-            $table->string('flight_number', 10);
+            $table->unsignedInteger('flight_number');
             $table->string('route_code', 5)->nullable();
             $table->string('route_leg', 5)->nullable();
             $table->string('dpt_airport_id', 5);
