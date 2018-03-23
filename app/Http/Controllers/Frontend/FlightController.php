@@ -65,7 +65,9 @@ class FlightController extends Controller
             Log::emergency($e);
         }
 
-        $flights = $this->flightRepo->paginate();
+        $flights = $this->flightRepo
+            ->orderBy('flight_number', 'asc')
+            ->paginate();
 
         $saved_flights = Bid::where('user_id', Auth::id())
             ->pluck('flight_id')->toArray();

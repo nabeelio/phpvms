@@ -127,7 +127,10 @@ class FlightController extends Controller
      */
     public function index(Request $request)
     {
-        $flights = $this->flightRepo->searchCriteria($request, false)->paginate();
+        $flights = $this->flightRepo
+            ->searchCriteria($request, false)
+            ->orderBy('flight_number', 'asc')
+            ->paginate();
 
         return view('admin.flights.index', [
             'flights'  => $flights,
