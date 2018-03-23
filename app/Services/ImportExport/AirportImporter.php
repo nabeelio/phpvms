@@ -18,8 +18,8 @@ class AirportImporter extends ImportExport
      * Should match the database fields, for the most part
      */
     public static $columns = [
-        'iata',
         'icao',
+        'iata',
         'name',
         'location',
         'country',
