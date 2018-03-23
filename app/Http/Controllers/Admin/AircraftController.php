@@ -48,7 +48,7 @@ class AircraftController extends Controller
     public function index(Request $request)
     {
         $this->aircraftRepo->pushCriteria(new RequestCriteria($request));
-        $aircraft = $this->aircraftRepo->orderBy('name', 'asc')->all();
+        $aircraft = $this->aircraftRepo->orderBy('registration', 'asc')->all();
 
         return view('admin.aircraft.index', [
             'aircraft' => $aircraft
