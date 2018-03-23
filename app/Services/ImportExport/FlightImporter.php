@@ -3,6 +3,7 @@
 namespace App\Services\ImportExport;
 
 use App\Interfaces\ImportExport;
+use App\Models\Airport;
 use App\Models\Enums\FlightType;
 use App\Models\Fare;
 use App\Models\Flight;
@@ -29,9 +30,9 @@ class FlightImporter extends ImportExport
         'flight_number',
         'route_code',
         'route_leg',
-        'dpt_airport_id',
-        'arr_airport_id',
-        'alt_airport_id',
+        'dpt_airport',
+        'arr_airport',
+        'alt_airport',
         'days',
         'dpt_time',
         'arr_time',
@@ -81,6 +82,13 @@ class FlightImporter extends ImportExport
             'route_leg'     => $row['route_leg'],
         ], $row);
 
+        // Airport atttributes
+        $flight->setAttribute('dpt_airport_id', $row['dpt_airport']);
+        $flight->setAttribute('arr_airport_id', $row['arr_airport']);
+        if ($row['alt_airport']) {
+            $flight->setAttribute('alt_airport_id', $row['alt_airport']);
+        }
+
         // Any specific transformations
         // Flight type can be set to P - Passenger, C - Cargo, or H - Charter
         $flight->setAttribute('flight_type', FlightType::getFromCode($row['flight_type']));
@@ -93,12 +101,31 @@ class FlightImporter extends ImportExport
             return false;
         }
 
+        // Create/check that they exist
+        $this->processAirport($row['dpt_airport']);
+        $this->processAirport($row['arr_airport']);
+        if ($row['alt_airport']) {
+            $this->processAirport($row['alt_airport']);
+        }
+
         $this->processSubfleets($flight, $row['subfleets']);
         $this->processFares($flight, $row['fares']);
         $this->processFields($flight, $row['fields']);
 
         $this->log('Imported row '.$index);
         return true;
+    }
+
+    /**
+     * Process the airport
+     * @param $airport
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    protected function processAirport($airport)
+    {
+        return Airport::firstOrCreate([
+            'icao' => $airport,
+        ], ['name' => $airport]);
     }
 
     /**

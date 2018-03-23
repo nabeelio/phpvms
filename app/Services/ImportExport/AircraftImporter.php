@@ -60,8 +60,11 @@ class AircraftImporter extends ImportExport
         }
 
         # Set a default status
-        if($row['status'] === null) {
+        $row['status'] = trim($row['status']);
+        if($row['status'] === null || $row['status'] === '') {
             $row['status'] = AircraftStatus::ACTIVE;
+        } else {
+            $row['status'] = AircraftStatus::getFromCode($row['status']);
         }
 
         # Just set its state right now as parked

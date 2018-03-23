@@ -50,6 +50,9 @@ class ExpenseImporter extends ImportExport
         $row = $this->getRefClassInfo($row);
 
         $row['type'] = ExpenseType::getFromCode($row['type']);
+        if(!$row['active']) {
+            $row['active'] = true;
+        }
 
         $expense = Expense::firstOrNew([
             'name' => $row['name'],

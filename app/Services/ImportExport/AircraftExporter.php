@@ -4,6 +4,7 @@ namespace App\Services\ImportExport;
 
 use App\Interfaces\ImportExport;
 use App\Models\Aircraft;
+use App\Models\Enums\AircraftStatus;
 use App\Models\Flight;
 
 /**
@@ -36,6 +37,7 @@ class AircraftExporter extends ImportExport
         }
 
         # Modify special fields
+        $ret['status'] = AircraftStatus::convertToCode($aircraft->status);
         $ret['subfleet'] = $aircraft->subfleet->type;
 
         return $ret;
