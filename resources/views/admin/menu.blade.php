@@ -16,7 +16,7 @@
                 </a>
             </li>
             <li><a href="{{ url('/admin/flights') }}"><i class="pe-7s-vector"></i>flights</a></li>
-            <li><a href="{{ url('/admin/aircraft') }}"><i class="pe-7s-plane"></i>fleet</a></li>
+            <li><a href="{{ url('/admin/subfleets') }}"><i class="pe-7s-plane"></i>fleet</a></li>
             <li><a href="{{ url('/admin/fares') }}"><i class="pe-7s-graph2"></i>fares</a></li>
             <li><a href="{{ url('/admin/finances') }}"><i class="pe-7s-display1"></i>finances</a></li>
         </ul>
@@ -31,9 +31,9 @@
     <div class="collapse" id="config_menu" aria-expanded="true">
         <ul class="nav">
             <li><a href="{{ url('/admin/airlines') }}"><i
-                            class="pe-7s-paper-plane"></i>airlines</a></li>
+                   class="pe-7s-paper-plane"></i>airlines</a></li>
             <li><a href="{{ url('/admin/airports') }}"><i
-                            class="pe-7s-map-marker"></i>airports</a></li>
+                   class="pe-7s-map-marker"></i>airports</a></li>
             <li><a href="{{ url('/admin/expenses') }}"><i class="pe-7s-cash"></i>expenses</a></li>
             <li><a href="{{ url('/admin/users') }}"><i class="pe-7s-users"></i>users</a></li>
             <li><a href="{{ url('/admin/ranks') }}"><i class="pe-7s-graph1"></i>ranks</a></li>

@@ -1,7 +1,11 @@
 <div class="row">
     <div class="form-group col-sm-6">
         {{ Form::label('subfleet_id', 'Subfleet:') }}
-        {{ Form::select('subfleet_id', $subfleets, null, ['class' => 'form-control select2', 'placeholder' => 'Select Subfleet']) }}
+        {{ Form::select('subfleet_id', $subfleets, $subfleet_id ?? null, [
+            'class' => 'form-control select2',
+            'placeholder' => 'Select Subfleet'
+            ])
+        }}
         <p class="text-danger">{{ $errors->first('subfleet_id') }}</p>
     </div>
 

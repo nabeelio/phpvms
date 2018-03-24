@@ -43,26 +43,38 @@ class AircraftController extends Controller
 
     /**
      * Display a listing of the Aircraft.
-     * @throws \Prettus\Repository\Exceptions\RepositoryException
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index(Request $request)
     {
-        $this->aircraftRepo->pushCriteria(new RequestCriteria($request));
-        $aircraft = $this->aircraftRepo->orderBy('registration', 'asc')->all();
+        // If subfleet ID is passed part of the query string, then only
+        // show the aircraft that are in that subfleet
+        $w = [];
+        if($request->filled('subfleet')) {
+            $w['subfleet_id'] = $request->input('subfleet');
+        }
+
+        $aircraft = $this->aircraftRepo->whereOrder($w, 'registration', 'asc');
+        $aircraft = $aircraft->all();
 
         return view('admin.aircraft.index', [
-            'aircraft' => $aircraft
+            'aircraft' => $aircraft,
+            'subfleet_id' => $request->input('subfleet'),
         ]);
     }
 
     /**
      * Show the form for creating a new Aircraft.
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function create()
+    public function create(Request $request)
     {
         return view('admin.aircraft.create', [
             'subfleets' => Subfleet::all()->pluck('name', 'id'),
             'statuses'  => AircraftStatus::select(true),
+            'subfleet_id' => $request->query('subfleet')
         ]);
     }
 

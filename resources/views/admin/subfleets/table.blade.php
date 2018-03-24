@@ -4,19 +4,20 @@
         <th>Name</th>
         <th>Airline</th>
         <th>Type</th>
+        <th>Aircraft</th>
         <th></th>
     </thead>
     <tbody>
     @foreach($subfleets as $subfleet)
         <tr>
             <td>
-                <a href="{{ route('admin.subfleets.edit', [$subfleet->id]) }}">
+                <a href="{{ route('admin.aircraft.index') }}?subfleet={{$subfleet->id}}">
                 {{ $subfleet->name }}
                 </a>
             </td>
             <td>{{ $subfleet->airline->name }}</td>
             <td>{{ $subfleet->type }}</td>
-
+            <td>{{ $subfleet->aircraft->count() }}</td>
             <td class="text-right">
                 {{ Form::open(['route' => ['admin.subfleets.destroy', $subfleet->id], 'method' => 'delete']) }}
 
