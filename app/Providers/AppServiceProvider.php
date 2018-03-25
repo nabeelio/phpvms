@@ -46,5 +46,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        # Only dev environment stuff
+        if ($this->app->environment() === 'dev') {
+
+            # Only load the IDE helper if it's included. This lets use distribute the
+            # package without any dev dependencies
+            if (class_exists(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class)) {
+                $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
+            }
+        }
     }
 }

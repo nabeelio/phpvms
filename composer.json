@@ -49,7 +49,8 @@
         "filp/whoops": "~2.0",
         "bpocallaghan/generators": "5.0.1",
         "zircote/swagger-php": "2.0.13",
-        "nunomaduro/collision": "^2.0"
+        "nunomaduro/collision": "^2.0",
+        "codedungeon/phpunit-result-printer": "^0.8.4"
     },
     "autoload": {
         "classmap": [
