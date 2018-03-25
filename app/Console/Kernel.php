@@ -15,14 +15,13 @@ use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 class Kernel extends ConsoleKernel
 {
     protected $commands = [
-        Commands\AcarsReplay::class,
+        /*Commands\AcarsReplay::class,
         Commands\CreateDatabase::class,
         Commands\DevCommands::class,
         Commands\YamlImport::class,
         Commands\ImportFromClassic::class,
-        Commands\Install::class,
         Commands\NavdataImport::class,
-        Commands\TestApi::class,
+        Commands\TestApi::class,*/
     ];
 
     /**
