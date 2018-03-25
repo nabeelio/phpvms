@@ -3,6 +3,10 @@
  *
  */
 
+.select2-container {
+    margin-top: 5px;
+}
+
 .border-blue-bottom {
     border-bottom: 3px solid #067ec1;
 }

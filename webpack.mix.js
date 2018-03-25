@@ -37,8 +37,6 @@ mix.sass('public/assets/admin/vendor/sass/paper-dashboard.scss',
 mix.styles([
   'node_modules/bootstrap3/dist/css/bootstrap.css',
   'public/assets/admin/vendor/animate.css',
-  'node_modules/select2/dist/css/select2.css',
-  'node_modules/leaflet/dist/leaflet.css',
   'node_modules/icheck/skins/square/blue.css',
   'node_modules/x-editable/dist/bootstrap3-editable/css/bootstrap-editable.css',
   'public/assets/admin/vendor/paper-dashboard.css',

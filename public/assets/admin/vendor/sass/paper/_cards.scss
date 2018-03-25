@@ -1,6 +1,6 @@
 .card {
     border: 0;
-    border-radius: $border-radius-extreme;
+    border-radius: $border-radius-extra-small;
     box-shadow: 0 2px 2px rgba(204, 197, 185, 0.5);
     background-color: #FFFFFF;
     color: $card-black-color;
@@ -62,6 +62,7 @@
         font-size: $font-size-base;
         font-weight: $font-weight-normal;
         color: $dark-gray;
+        text-transform: capitalize;
         margin-bottom: 0px;
         i{
             font-size: $font-paragraph;
@@ -71,6 +72,9 @@
     label{
         font-size: 15px;
         margin-bottom: 5px;
+        text-transform: capitalize;
+        display: inline-block;
+        vertical-align: middle;
     }
 
     .title{

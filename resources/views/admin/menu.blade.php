@@ -10,7 +10,7 @@
 
     <div class="collapse" id="operations_menu" aria-expanded="true">
         <ul class="nav">
-            <li><a href="{{ url('/admin/pireps') }}"><i class="pe-7s-cloud-upload"></i>flight reports
+            <li><a href="{{ url('/admin/pireps') }}"><i class="pe-7s-cloud-upload"></i>pireps
                     <span data-toggle="tooltip" title="3 New"
                           class="badge bg-light-blue pull-right">3</span>
                 </a>

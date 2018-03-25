@@ -29,9 +29,11 @@
         </td>
         <td>&nbsp;</td>
         <td>
-            <a href="{{ route('admin.pireps.edit', [$pirep->id]) }}"
-               class='btn btn-info btn-icon'>
-                <i class="fas fa-pencil-alt"></i>&nbsp;Edit</a>
+            <form action="{{ route('admin.pireps.edit', [$pirep->id]) }}">
+            <button type="submit"
+               class='btn btn-info'>
+                <i class="fas fa-pencil-alt"></i>&nbsp;&nbsp;Edit</button>
+            </form>
         </td>
     </tr>
 </table>
