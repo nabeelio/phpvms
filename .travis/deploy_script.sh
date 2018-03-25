@@ -5,8 +5,8 @@ if [ "$TRAVIS" = "true" ]; then
     cd $TRAVIS_BUILD_DIR
 
     # Clean up the dependencies to only remove the dev packages
-    #rm -rf vendor
-    #composer install --no-interaction --no-dev
+    rm -rf vendor
+    composer install --no-interaction --no-dev
 
     if test "$TRAVIS_TAG"; then
         PKG_NAME=$TRAVIS_TAG
