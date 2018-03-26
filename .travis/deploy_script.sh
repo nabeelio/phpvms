@@ -74,7 +74,7 @@ if [ "$TRAVIS" = "true" ]; then
         cp "$TRAVIS_BUILD_DIR/VERSION" release_version
         artifacts upload --target-paths "/" release_version
     else
-        echo "uploading $TRAVIS_BRANCH_version file"
+        echo "uploading ${TRAVIS_BRANCH}_version file"
         cp $TRAVIS_BUILD_DIR/VERSION ${TRAVIS_BRANCH}_version
         artifacts upload --target-paths "/" ${TRAVIS_BRANCH}_version
     fi
