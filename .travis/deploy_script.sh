@@ -31,8 +31,8 @@ if [ "$TRAVIS" = "true" ]; then
     make clean
 
     # Clean up the dependencies to only remove the dev packages
-    rm -rf vendor
-    composer install --no-interaction --no-dev
+    #rm -rf vendor
+    #composer install --no-interaction --no-dev
 
     rm -rf env.php config.php
     find ./vendor -type d -name ".git" -print0 | xargs rm -rf
