@@ -70,11 +70,13 @@ if [ "$TRAVIS" = "true" ]; then
     # Upload the version for a tagged release. Move to a version file in different
     # tags. Within phpVMS, we have an option of which version to track in the admin
     if test "$TRAVIS_TAG"; then
-        cp $TRAVIS_BUILD_DIR/VERSION $TRAVIS_BUILD_DIR/release_version
-        artifacts upload --target-paths "/" $TRAVIS_BUILD_DIR/release_version
+        echo "uploading release version file"
+        cp "$TRAVIS_BUILD_DIR/VERSION" release_version
+        artifacts upload --target-paths "/" release_version
     else
-        cp $TRAVIS_BUILD_DIR/VERSION $TRAVIS_BUILD_DIR/$TRAVIS_BRANCH_version
-        artifacts upload --target-paths "/" $TRAVIS_BUILD_DIR/$TRAVIS_BRANCH_version
+        echo "uploading $TRAVIS_BRANCH_version file"
+        cp $TRAVIS_BUILD_DIR/VERSION $TRAVIS_BRANCH_version
+        artifacts upload --target-paths "/" $TRAVIS_BRANCH_version
     fi
 
     curl -X POST --data "{\"content\": \"A new build is available at http://downloads.phpvms.net/$TAR_NAME ($VERSION)\"}" -H "Content-Type: application/json"  $DISCORD_WEBHOOK_URL
