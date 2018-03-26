@@ -28,14 +28,15 @@ input {
     line-height: 1.846;
     color: #666666;
     border: medium none;
-    border-radius: $border-radius-base;
+    border-radius: $border-radius-extra-small;
     border-bottom: 2px solid #0f5b8c;
+    vertical-align: middle;
     /*-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);*/
     -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
     -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
     transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-    @include input-size($padding-base-vertical, $padding-base-horizontal, $height-base);
+    @include input-size($padding-small-vertical, $padding-small-horizontal, 30px);
 
     /*background-color: $gray-input-bg;
     border: medium none;

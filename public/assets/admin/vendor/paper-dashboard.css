@@ -658,7 +658,8 @@ hr {
   background-color: transparent;
   font-size: 14px;
   font-weight: 500;
-  padding: 7px 18px;
+  margin-top: 5px;
+  padding: 4px 18px;
   background-color: #2f2d2a;
   color: #FFFFFF;
   -webkit-transition: all 150ms linear;
@@ -1313,16 +1314,17 @@ input {
   line-height: 1.846;
   color: #666666;
   border: medium none;
-  border-radius: 4px;
+  border-radius: 0.125rem;
   border-bottom: 2px solid #0f5b8c;
+  vertical-align: middle;
   /*-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);*/
   -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
   transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
   transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
   transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
-  padding: 7px 18px;
-  height: 40px;
+  padding: 4px 10px;
+  height: 30px;
   /*background-color: $gray-input-bg;
     border: medium none;
     border-radius: $border-radius-base;
@@ -2239,7 +2241,7 @@ textarea.form-control {
 
 .card {
   border: 0;
-  border-radius: 6px;
+  border-radius: 0.125rem;
   -webkit-box-shadow: 0 2px 2px rgba(204, 197, 185, 0.5);
           box-shadow: 0 2px 2px rgba(204, 197, 185, 0.5);
   background-color: #FFFFFF;
@@ -2308,6 +2310,7 @@ textarea.form-control {
   font-size: 14px;
   font-weight: 400;
   color: #9A9A9A;
+  text-transform: capitalize;
   margin-bottom: 0px;
 }
 
@@ -2319,6 +2322,9 @@ textarea.form-control {
 .card label {
   font-size: 15px;
   margin-bottom: 5px;
+  text-transform: capitalize;
+  display: inline-block;
+  vertical-align: middle;
 }
 
 .card .title {

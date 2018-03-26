@@ -398,21 +398,25 @@ class FlightController extends Controller
         if ($request->isMethod('post')) {
             Log::info('Adding new flight field, flight: '.$flight_id, $request->input());
 
-            $field = new FlightFieldValue;
+            $field = new FlightFieldValue();
             $field->flight_id = $flight_id;
             $field->name = $request->input('name');
             $field->value = $request->input('value');
             $field->save();
         } elseif ($request->isMethod('put')) {
             Log::info('Updating flight field, flight: '.$flight_id, $request->input());
-            $field = FlightFieldValue::where('name', $request->input('name'))->first();
+            $field = FlightFieldValue::where([
+                'name' => $request->input('name'),
+                'flight_id' => $flight_id,
+            ])->first();
+
             if(!$field) {
                 Log::info('Field not found, creating new');
                 $field = new FlightFieldValue();
-                $field->flight_id = $flight_id;
                 $field->name = $request->input('name');
             }
 
+            $field->flight_id = $flight_id;
             $field->value = $request->input('value');
             $field->save();
             // update the field value

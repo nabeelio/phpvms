@@ -1,9 +1,15 @@
 <div class="row">
+    <div class="col-sm-12">
+        @component('admin.components.info')
+            Subfleets are aircraft groups. The "type" is a short name. Airlines always
+            group aircraft together by feature, so 737s with winglets might have a type of
+            "B.738-WL". You can create as many as you want, you need at least one, though.
 
-    <div class="form-group col-sm-6">
-        {{ Form::label('name', 'Name:') }}
-        {{ Form::text('name', null, ['class' => 'form-control']) }}
-        <p class="text-danger">{{ $errors->first('name') }}</p>
+            Read more about subfleets <a
+                    href="http://docs.phpvms.net/concepts/basics#subfleets-and-aircraft"
+                    target="_new">here</a>.
+
+        @endcomponent
     </div>
 
     <div class="form-group col-sm-6">
@@ -11,6 +17,13 @@
         {{ Form::text('type', null, ['class' => 'form-control']) }}
         <p class="text-danger">{{ $errors->first('type') }}</p>
     </div>
+
+    <div class="form-group col-sm-6">
+        {{ Form::label('name', 'Name:') }}
+        {{ Form::text('name', null, ['class' => 'form-control']) }}
+        <p class="text-danger">{{ $errors->first('name') }}</p>
+    </div>
+
 </div>
 <div class="row">
 

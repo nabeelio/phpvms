@@ -7,7 +7,8 @@
     font-size: $font-size-base;
     font-weight: $font-weight-semi;
 
-    padding: $padding-base-vertical $padding-base-horizontal;
+    margin-top: 5px;
+    padding: $padding-small-vertical $padding-base-horizontal;
 
     @include btn-styles($default-color, $default-states-color);
     @include transition($fast-transition-time, linear);

@@ -8,6 +8,7 @@ use App\Models\Airline;
 use App\Models\Pirep;
 use App\Models\User;
 use App\Services\AwardService;
+use Artisan;
 use DB;
 use PDO;
 use Symfony\Component\Yaml\Yaml;
