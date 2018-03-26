@@ -40,7 +40,7 @@ if [ "$TRAVIS" = "true" ]; then
 
     # clear any app specific stuff that might have been loaded in
     find storage/app/public -mindepth 1 -not -name '.gitignore' -print0 -exec rm -rf {} +
-    find storage/app -mindepth 1 -not -name '.gitignore' -not -name public -print0 -exec rm -rf {} +
+    find storage/app -mindepth 1 -not -name '.gitignore' -not -name public -not -name import -print0 -exec rm -rf {} +
 
     # Remove any development files
     rm -rf .sass-cache
@@ -75,8 +75,8 @@ if [ "$TRAVIS" = "true" ]; then
         artifacts upload --target-paths "/" release_version
     else
         echo "uploading $TRAVIS_BRANCH_version file"
-        cp $TRAVIS_BUILD_DIR/VERSION $TRAVIS_BRANCH_version
-        artifacts upload --target-paths "/" $TRAVIS_BRANCH_version
+        cp $TRAVIS_BUILD_DIR/VERSION ${TRAVIS_BRANCH}_version
+        artifacts upload --target-paths "/" ${TRAVIS_BRANCH}_version
     fi
 
     curl -X POST --data "{\"content\": \"A new build is available at http://downloads.phpvms.net/$TAR_NAME ($VERSION)\"}" -H "Content-Type: application/json"  $DISCORD_WEBHOOK_URL
