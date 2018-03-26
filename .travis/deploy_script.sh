@@ -67,5 +67,15 @@ if [ "$TRAVIS" = "true" ]; then
     mv "/tmp/$TAR_NAME" "/tmp/$TAR_NAME.sha256" .
     artifacts upload --target-paths "/" $TAR_NAME $TRAVIS_BUILD_DIR/VERSION $TAR_NAME.sha256
 
+    # Upload the version for a tagged release. Move to a version file in different
+    # tags. Within phpVMS, we have an option of which version to track in the admin
+    if test "$TRAVIS_TAG"; then
+        cp $TRAVIS_BUILD_DIR/VERSION $TRAVIS_BUILD_DIR/release_version
+        artifacts upload --target-paths "/" $TRAVIS_BUILD_DIR/release_version
+    else
+        cp $TRAVIS_BUILD_DIR/VERSION $TRAVIS_BUILD_DIR/$TRAVIS_BRANCH_version
+        artifacts upload --target-paths "/" $TRAVIS_BUILD_DIR/$TRAVIS_BRANCH_version
+    fi
+
     curl -X POST --data "{\"content\": \"A new build is available at http://downloads.phpvms.net/$TAR_NAME ($VERSION)\"}" -H "Content-Type: application/json"  $DISCORD_WEBHOOK_URL
 fi
