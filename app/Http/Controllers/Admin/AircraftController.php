@@ -43,6 +43,8 @@ class AircraftController extends Controller
 
     /**
      * Display a listing of the Aircraft.
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      * @throws \Prettus\Repository\Exceptions\RepositoryException
      */
     public function index(Request $request)
