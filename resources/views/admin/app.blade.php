@@ -27,11 +27,6 @@
 
     <style type="text/css">
     @yield('css')
-    /*label {
-        text-transform: uppercase;
-        font-size: 14px;
-        margin: 0;
-    }*/
     </style>
 
     <script>
@@ -105,9 +100,8 @@
 <script>
 const getStorage = function(key) {
     const st = window.localStorage.getItem(key);
-
     console.log('storage: ', key, st);
-    if(_.isNil(st)) {
+    if(!st) {
         return {
             "menu": [],
         };
@@ -122,10 +116,8 @@ const saveStorage = function(key, obj) {
 };
 
 const addItem = function(obj, item) {
-
-    if (_.isNil(obj)) { obj = []; }
-
-    const index = _.indexOf(obj, item);
+    if (!obj) { obj = []; }
+    const index = obj.indexOf(item);
     if(index === -1) {
         obj.push(item);
     }
@@ -134,10 +126,8 @@ const addItem = function(obj, item) {
 };
 
 const removeItem = function (obj, item) {
-
-    if (_.isNil(obj)) { obj = []; }
-
-    const index = _.indexOf(obj, item);
+    if (!obj) { obj = []; }
+    const index = obj.indexOf(item);
     if (index !== -1) {
         console.log("removing", item);
         obj.splice(index, 1);

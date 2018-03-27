@@ -1,12 +1,6 @@
-/**
- *
- */
-
 'use strict';
 
 const mix = require('laravel-mix');
-const webpack = require('webpack');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 /**
  * GENERAL FILES
@@ -32,19 +26,22 @@ mix.sass('resources/sass/admin/paper-dashboard.scss',
       'node_modules/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css',
       'public/assets/admin/css/vendor.min.css',
     ], 'public/assets/admin/css/vendor.min.css').version()
+    .options({
+        compressed: true
+    })
   .sourceMaps();
 
 mix.scripts([
-  'node_modules/lodash/lodash.js',
+  //'node_modules/lodash/lodash.js',
   'node_modules/moment/moment.js',
-  'node_modules/axios/dist/axios.js',
+  //'node_modules/axios/dist/axios.js',
   'node_modules/bootstrap3/dist/js/bootstrap.js',
   'node_modules/bootstrap3/js/collapse.js',
   'node_modules/bootstrap3/js/transition.js',
   'node_modules/popper.js/dist/umd/popper.js',
   'node_modules/popper.js/dist/umd/popper-utils.js',
   'node_modules/select2/dist/js/select2.js',
-  'node_modules/leaflet/dist/leaflet.js',
+  //'node_modules/leaflet/dist/leaflet.js',
   'node_modules/icheck/icheck.js',
   'node_modules/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.js',
   'node_modules/eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js',
@@ -62,29 +59,28 @@ mix.copy('node_modules/jquery/dist/jquery.js', 'public/assets/system/js/');
 mix.copy('node_modules/flag-icon-css/flags/', 'public/assets/system/flags/');
 
 mix.scripts([
-  'node_modules/lodash/lodash.js',
-  'node_modules/axios/dist/axios.js',
+  //'node_modules/lodash/lodash.js',
+  //'node_modules/axios/dist/axios.js',
   'node_modules/jquery/dist/jquery.js',
   'node_modules/bootstrap3/dist/js/bootstrap.js',
   'node_modules/popper.js/dist/umd/popper.js',
   'node_modules/popper.js/dist/umd/popper-utils.js',
   'node_modules/select2/dist/js/select2.js',
-  'node_modules/leaflet/dist/leaflet.js',
-  'node_modules/pjax/pjax.js',
-  'node_modules/leaflet-rotatedmarker/leaflet.rotatedMarker.js',
-  'node_modules/Leaflet.Geodesic/Leaflet.Geodesic.js',
+  //'node_modules/leaflet/dist/leaflet.js',
+  //'node_modules/pjax/pjax.js',
+  //'node_modules/leaflet-rotatedmarker/leaflet.rotatedMarker.js',
+  //'node_modules/Leaflet.Geodesic/Leaflet.Geodesic.js',
 ], 'public/assets/system/js/vendor.js');
 
 mix.styles([
   'node_modules/select2/dist/css/select2.css',
   'node_modules/leaflet/dist/leaflet.css',
   'node_modules/flag-icon-css/css/flag-icon.css',
-  'public/assets/admin/vendor/pe-icon-7-stroke.css',
 ], 'public/assets/system/css/vendor.min.css')
   .options({
     compressed: true
   })
-  .sourceMaps()
+  .sourceMaps();
 
 /**
  * INSTALLER VENDOR FILES
@@ -98,12 +94,12 @@ mix.styles([
     processCssUrls: false,
     compressed: true
   })
-  .sourceMaps()
+  .sourceMaps();
 
 mix.scripts([
-  'node_modules/lodash/lodash.js',
+  //'node_modules/lodash/lodash.js',
   'node_modules/jquery/dist/jquery.js',
-  'node_modules/pjax/pjax.js',
+  //'node_modules/pjax/pjax.js',
   'node_modules/select2/dist/js/select2.js',
 ], 'public/assets/installer/js/vendor.js');
 
@@ -116,8 +112,7 @@ mix.sass('resources/sass/now-ui/now-ui-kit.scss',
   .options({
     processCssUrls: false,
     compressed: true
-  })
-  ;
+  });
 
 
 /**
@@ -137,7 +132,8 @@ const extract = [
 ];
 
 mix.js('resources/js/frontend/app.js', 'public/assets/frontend/js/app.js');
-//mix.js('resources/js/admin/app.js', 'public/assets/admin/js/app.js');
+mix.js('resources/js/installer/app.js', 'public/assets/installer/js/app.js');
+mix.js('resources/js/admin/app.js', 'public/assets/admin/js/app.js');
 
 mix.webpackConfig({
     /*entry: {
