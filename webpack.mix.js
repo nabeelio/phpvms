@@ -22,8 +22,8 @@ mix.webpackConfig({
 
 mix.copy('node_modules/bootstrap3/fonts/*.woff2', 'public/assets/fonts/')
 mix.copy('node_modules/bootstrap3/fonts/*.woff2', 'public/assets/admin/fonts/')
-mix.copy('node_modules/icheck/icheck.js', 'public/assets/admin/js/')
-mix.copy('node_modules/x-editable/dist/bootstrap3-editable/js/*', 'public/assets/admin/js/')
+//mix.copy('node_modules/icheck/icheck.js', 'public/assets/admin/js/')
+//mix.copy('node_modules/x-editable/dist/bootstrap3-editable/js/*', 'public/assets/admin/js/')
 mix.copy('node_modules/x-editable/dist/bootstrap3-editable/img/*', 'public/assets/admin/img/')
 
 /**
@@ -59,16 +59,17 @@ mix.scripts([
   'node_modules/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.js',
   'node_modules/eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js',
   'node_modules/jquery-pjax/jquery.pjax.js',
-], 'public/assets/admin/js/vendor.js')
+  'node_modues/paper-dashboard/assets/js/paper-dashboard.js',
+], 'public/assets/admin/js/vendor.js');
 
-mix.copy('node_modules/icheck/skins/square/blue*.png', 'public/assets/admin/css')
+mix.copy('node_modules/icheck/skins/square/blue*.png', 'public/assets/admin/css');
 
 /**
  * SYSTEM REQUIRED AND GLOBAL VENDOR FILES
  */
 
-mix.copy('node_modules/jquery/dist/jquery.js', 'public/assets/system/js/')
-mix.copy('node_modules/flag-icon-css/flags/', 'public/assets/system/flags/')
+mix.copy('node_modules/jquery/dist/jquery.js', 'public/assets/system/js/');
+mix.copy('node_modules/flag-icon-css/flags/', 'public/assets/system/flags/');
 
 mix.autoload({
   'jquery': ['jQuery', '$'],
