@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "Leaflet.Geodesic": "git+https://git@github.com/henrythasler/Leaflet.Geodesic.git",
+    "animate.css": "^3.6.1",
     "axios": "^0.17.1",
     "bootstrap-sass": "^3.3.7",
     "bootstrap3": "^3.3.5",

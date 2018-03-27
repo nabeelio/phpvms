@@ -4,8 +4,8 @@
 
 'use strict'
 
-const mix = require('laravel-mix')
-const webpack = require('webpack')
+const mix = require('laravel-mix');
+const webpack = require('webpack');
 
 mix.webpackConfig({
   plugins: [
@@ -14,35 +14,33 @@ mix.webpackConfig({
       jQuery: 'jquery'
     })
   ]
-})
+});
 
 /**
  * GENERAL FILES
  */
 
-mix.copy('node_modules/bootstrap3/fonts/*.woff2', 'public/assets/fonts/')
-mix.copy('node_modules/bootstrap3/fonts/*.woff2', 'public/assets/admin/fonts/')
+mix.copy('node_modules/bootstrap3/fonts/*.woff2', 'public/assets/fonts/');
+mix.copy('node_modules/bootstrap3/fonts/*.woff2', 'public/assets/admin/fonts/');
 //mix.copy('node_modules/icheck/icheck.js', 'public/assets/admin/js/')
 //mix.copy('node_modules/x-editable/dist/bootstrap3-editable/js/*', 'public/assets/admin/js/')
-mix.copy('node_modules/x-editable/dist/bootstrap3-editable/img/*', 'public/assets/admin/img/')
+mix.copy('node_modules/x-editable/dist/bootstrap3-editable/img/*', 'public/assets/admin/img/');
 
 /**
  * ADMIN REQUIRED FILES
  */
 
-mix.sass('public/assets/admin/vendor/sass/paper-dashboard.scss',
-  'public/assets/admin/vendor/paper-dashboard.css')
-  .sourceMaps()
-
-mix.styles([
-  'node_modules/bootstrap3/dist/css/bootstrap.css',
-  'public/assets/admin/vendor/animate.css',
-  'node_modules/icheck/skins/square/blue.css',
-  'node_modules/x-editable/dist/bootstrap3-editable/css/bootstrap-editable.css',
-  'public/assets/admin/vendor/paper-dashboard.css',
-  'node_modules/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css',
-], 'public/assets/admin/css/vendor.min.css').version()
-  .sourceMaps()
+mix.sass('resources/sass/admin/paper-dashboard.scss',
+      'public/assets/admin/css/vendor.min.css')
+    .styles([
+      'node_modules/bootstrap3/dist/css/bootstrap.css',
+      'node_modules/animate.css/animate.css',
+      'node_modules/icheck/skins/square/blue.css',
+      'node_modules/x-editable/dist/bootstrap3-editable/css/bootstrap-editable.css',
+      'node_modules/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css',
+      'public/assets/admin/css/vendor.min.css',
+    ], 'public/assets/admin/css/vendor.min.css').version()
+  .sourceMaps();
 
 mix.scripts([
   'node_modules/lodash/lodash.js',
@@ -73,7 +71,7 @@ mix.copy('node_modules/flag-icon-css/flags/', 'public/assets/system/flags/');
 
 mix.autoload({
   'jquery': ['jQuery', '$'],
-})
+});
 
 mix.scripts([
   'node_modules/lodash/lodash.js',
@@ -87,7 +85,7 @@ mix.scripts([
   'node_modules/pjax/pjax.js',
   'node_modules/leaflet-rotatedmarker/leaflet.rotatedMarker.js',
   'node_modules/Leaflet.Geodesic/Leaflet.Geodesic.js',
-], 'public/assets/system/js/vendor.js')
+], 'public/assets/system/js/vendor.js');
 
 mix.styles([
   'node_modules/select2/dist/css/select2.css',
@@ -125,13 +123,18 @@ mix.scripts([
  * DEFAULT SKIN FRONTEND FILES
  */
 
-mix.sass('public/assets/frontend/sass/now-ui-kit.scss',
+mix.sass('resources/sass/now-ui/now-ui-kit.scss',
   'public/assets/frontend/css/now-ui-kit.css')
   .options({
     processCssUrls: false,
     compressed: true
   })
   .sourceMaps()
+
+
+/**
+ * COMMON JS STUFF
+ */
 
 // These should go into the separate vendor.js file
 const extract = [
@@ -146,7 +149,7 @@ const extract = [
 ];
 
 mix.js('resources/js/frontend/app.js', 'public/assets/frontend/js')
-  .extract(extract);
+    //.extract(extract)
+    .sourceMaps();
 
-/*mix.js('resources/js/admin/app.js', 'public/assets/admin/js')
-  .extract(extract);*/
+//mix.js('resources/js/admin/app.js', 'public/assets/admin/js');
