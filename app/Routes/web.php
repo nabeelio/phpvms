@@ -25,6 +25,8 @@ Route::group([
 ], function () {
     Route::resource('dashboard', 'DashboardController');
 
+    Route::get('airports/{id}', 'AirportController@show')->name('airports.show');
+
     Route::get('flights/bids', 'FlightController@bids')->name('flights.bids');
     Route::get('flights/search', 'FlightController@search')->name('flights.search');
     Route::resource('flights', 'FlightController');

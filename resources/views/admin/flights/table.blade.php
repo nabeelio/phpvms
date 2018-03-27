@@ -16,10 +16,7 @@
         <tr>
             <td>
                 <a href="{{ route('admin.flights.edit', [$flight->id]) }}">
-                {{ $flight->airline->code }}{{ $flight->flight_number }}
-                @if($flight->route_code)
-                    (C: {{ $flight->route_code }} L: {{ $flight->route_leg }})
-                @endif
+                {{$flight->ident}}
                 </a>
             </td>
             <td>{{ $flight->dpt_airport->icao }}</td>

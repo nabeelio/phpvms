@@ -9,6 +9,7 @@ use App\Repositories\AirportRepository;
 use App\Repositories\Criteria\WhereCriteria;
 use App\Repositories\FlightRepository;
 use App\Services\GeoService;
+use Flash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Log;
@@ -132,7 +133,6 @@ class FlightController extends Controller
         $flight = $this->flightRepo->find($id);
         if (empty($flight)) {
             Flash::error('Flight not found!');
-
             return redirect(route('frontend.dashboard.index'));
         }
 
