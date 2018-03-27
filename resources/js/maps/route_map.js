@@ -1,5 +1,5 @@
-const _ = require('lodash')
-const leaflet = require('leaflet')
+
+const leaflet = require('leaflet');
 
 import draw_base_map from './base_map'
 import { ACTUAL_ROUTE_COLOR, PLAN_ROUTE_COLOR } from './config'
@@ -10,13 +10,13 @@ import { ACTUAL_ROUTE_COLOR, PLAN_ROUTE_COLOR } from './config'
  * @param layer
  */
 export const onFeaturePointClick = (feature, layer) => {
-  let popup_html = ''
+  let popup_html = '';
   if (feature.properties && feature.properties.popup) {
     popup_html += feature.properties.popup
   }
 
   layer.bindPopup(popup_html)
-}
+};
 
 /**
  * Show each point as a marker
@@ -42,13 +42,13 @@ export const pointToLayer = (feature, latlng) => {
  */
 export default (opts) => {
 
-  opts = _.defaults(opts, {
+  opts = Object.assign({
     route_points: null,
     planned_route_line: null,
     actual_route_points: null,
     actual_route_line: null,
     render_elem: 'map',
-  })
+  }, opts);
 
   console.log(opts)
 

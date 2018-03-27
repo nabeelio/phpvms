@@ -2,19 +2,11 @@
  *
  */
 
-'use strict'
+'use strict';
 
 const mix = require('laravel-mix');
 const webpack = require('webpack');
-
-mix.webpackConfig({
-  plugins: [
-    new webpack.ProvidePlugin({
-      $: 'jquery',
-      jQuery: 'jquery'
-    })
-  ]
-});
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 /**
  * GENERAL FILES
@@ -68,10 +60,6 @@ mix.copy('node_modules/icheck/skins/square/blue*.png', 'public/assets/admin/css'
 
 mix.copy('node_modules/jquery/dist/jquery.js', 'public/assets/system/js/');
 mix.copy('node_modules/flag-icon-css/flags/', 'public/assets/system/flags/');
-
-mix.autoload({
-  'jquery': ['jQuery', '$'],
-});
 
 mix.scripts([
   'node_modules/lodash/lodash.js',
@@ -129,7 +117,7 @@ mix.sass('resources/sass/now-ui/now-ui-kit.scss',
     processCssUrls: false,
     compressed: true
   })
-  .sourceMaps()
+  ;
 
 
 /**
@@ -148,8 +136,19 @@ const extract = [
   'leaflet-rotatedmarker'
 ];
 
-mix.js('resources/js/frontend/app.js', 'public/assets/frontend/js')
-    //.extract(extract)
-    .sourceMaps();
+mix.js('resources/js/frontend/app.js', 'public/assets/frontend/js/app.js');
+//mix.js('resources/js/admin/app.js', 'public/assets/admin/js/app.js');
 
-//mix.js('resources/js/admin/app.js', 'public/assets/admin/js');
+mix.webpackConfig({
+    /*entry: {
+        admin: __dirname + "/resources/js/admin/app.js",
+        app: __dirname + "/resources/js/frontend/app.js",
+    },
+    output: {
+        filename: "[name].js",
+        path: __dirname + "/public/js/",
+    },*/
+    plugins: [
+        //new BundleAnalyzerPlugin()
+    ]
+});

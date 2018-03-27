@@ -1,5 +1,5 @@
-const _ = require('lodash')
-const leaflet = require('leaflet')
+
+const leaflet = require('leaflet');
 
 import draw_base_map from './base_map'
 
@@ -9,15 +9,15 @@ import draw_base_map from './base_map'
  * @param opts
  */
 export default (opts) => {
-  opts = _.defaults(opts, {
+  opts = Object.assign({
     render_elem: 'map',
     overlay_elem: '',
     lat: 0,
     lon: 0,
     zoom: 12,
     layers: [],
-    set_marker: false,
-  })
+    set_marker: true,
+  }, opts);
 
   let map = draw_base_map(opts)
   const coords = [opts.lat, opts.lon]

@@ -1,18 +1,18 @@
-const _ = require('lodash')
-const leaflet = require('leaflet')
+
+const leaflet = require('leaflet');
 
 export default (opts) => {
 
-  opts = _.defaults(opts, {
+  opts = Object.assign({
     render_elem: 'map',
     center: [29.98139, -95.33374],
     zoom: 5,
     maxZoom: 10,
     layers: [],
     set_marker: false,
-  })
+  }, opts);
 
-  let feature_groups = []
+  let feature_groups = [];
   /*var openaip_airspace_labels = new leaflet.TileLayer.WMS(
       "http://{s}.tile.maps.openaip.net/geowebcache/service/wms", {
           maxZoom: 14,

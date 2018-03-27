@@ -1,5 +1,5 @@
-const _ = require('lodash')
-const leaflet = require('leaflet')
+
+const leaflet = require('leaflet');
 
 import draw_base_map from './base_map'
 import { ACTUAL_ROUTE_COLOR } from './config'
@@ -11,15 +11,15 @@ import { ACTUAL_ROUTE_COLOR } from './config'
  */
 export default (opts) => {
 
-  opts = _.defaults(opts, {
+  opts = Object.assign({
     update_uri: '/api/acars',
     pirep_uri: '/api/pireps/{id}/acars',
     positions: null,
     render_elem: 'map',
     aircraft_icon: '/assets/img/acars/aircraft.png',
-  })
+  }, opts);
 
-  const map = draw_base_map(opts)
+  const map = draw_base_map(opts);
   const aircraftIcon = leaflet.icon({
     iconUrl: opts.aircraft_icon,
     iconSize: [42, 42],
