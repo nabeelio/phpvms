@@ -118,7 +118,7 @@ mix.scripts([
   'node_modules/jquery/dist/jquery.js',
   'node_modules/pjax/pjax.js',
   'node_modules/select2/dist/js/select2.js',
-], 'public/assets/system/js/installer-vendor.js')
+], 'public/assets/installer/js/vendor.js');
 
 /**
  * DEFAULT SKIN FRONTEND FILES
@@ -142,9 +142,10 @@ const extract = [
   'leaflet',
   'Leaflet.Geodesic',
   'leaflet-rotatedmarker'
-]
+];
 
-mix.js('resources/js/frontend/app.js', 'public/js/frontend')
-  .extract(extract)
+mix.js('resources/js/frontend/app.js', 'public/assets/frontend/js')
+  .extract(extract);
 
-//mix.js('resources/js/admin/app.js', 'public/js/admin')
+/*mix.js('resources/js/admin/app.js', 'public/assets/admin/js')
+  .extract(extract);*/
