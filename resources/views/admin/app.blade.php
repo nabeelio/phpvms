@@ -22,7 +22,7 @@
     <link href="http://fonts.googleapis.com/css?family=Roboto:400,700,300" rel="stylesheet" type="text/css">
 
     {{--<link rel="stylesheet" href="{{ public_asset('/assets/system/css/vendor.min.css') }}"/>--}}
-    <link rel="stylesheet" href="{{ public_asset('/assets/admin/css/vendor.min.css') }}">
+    <link rel="stylesheet" href="{{ public_asset('/assets/admin/css/vendor.css') }}">
     <link rel="stylesheet" href="{{ public_asset('/assets/admin/css/admin.css') }}">
 
     <style type="text/css">
@@ -94,13 +94,13 @@
 </body>
 
 <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
-<script src="{{ public_asset('/assets/admin/js/vendor.js') }}"></script>
-<script src="{{ public_asset('/assets/admin/js/admin.js') }}"></script>
+<script defer src="{{ public_asset('/assets/admin/js/vendor.js') }}"></script>
+<script defer src="{{ public_asset('/assets/admin/js/admin.js') }}"></script>
 
 <script>
 const getStorage = function(key) {
     const st = window.localStorage.getItem(key);
-    console.log('storage: ', key, st);
+    // console.log('storage: ', key, st);
     if(!st) {
         return {
             "menu": [],
@@ -111,7 +111,7 @@ const getStorage = function(key) {
 };
 
 const saveStorage = function(key, obj) {
-    console.log('save: ', key, obj);
+    // console.log('save: ', key, obj);
     window.localStorage.setItem(key, JSON.stringify(obj));
 };
 
@@ -129,7 +129,6 @@ const removeItem = function (obj, item) {
     if (!obj) { obj = []; }
     const index = obj.indexOf(item);
     if (index !== -1) {
-        console.log("removing", item);
         obj.splice(index, 1);
     }
 
@@ -138,14 +137,14 @@ const removeItem = function (obj, item) {
 
 $(document).ready(function () {
 
-    $(".select2").select2();
+    $('.select2').select2();
 
     $('input').iCheck({
         checkboxClass: 'icheckbox_square-blue',
         radioClass: 'icheckbox_square-blue'
     });
 
-    let storage = getStorage("phpvms.admin");
+    let storage = getStorage('phpvms.admin');
 
     // see what menu items should be open
     for(let idx = 0; idx < storage.menu.length; idx++) {
@@ -159,7 +158,7 @@ $(document).ready(function () {
     }
 
     $(".collapse").on("hide.bs.collapse", function () {
-        console.log('hiding');
+        // console.log('hiding');
         const id = $(this).attr('id');
         const elem = $("a." + id + " b");
         elem.removeClass("pe-7s-angle-down");
@@ -170,7 +169,7 @@ $(document).ready(function () {
     });
 
     $(".collapse").on("show.bs.collapse", function () {
-        console.log('showing');
+        // console.log('showing');
         const id = $(this).attr('id');
         const caret = $("a." + id + " b");
         caret.addClass("pe-7s-angle-down");
@@ -179,9 +178,9 @@ $(document).ready(function () {
         addItem(storage.menu, id);
         saveStorage("phpvms.admin", storage);
     });
-
 });
 </script>
 
 @yield('scripts')
+
 </html>

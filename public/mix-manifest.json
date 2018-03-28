@@ -1,7 +1,7 @@
 {
     "/assets/frontend/js/app.js": "/assets/frontend/js/app.js?id=c68b32cdf6937b6d6a09",
     "/assets/frontend/css/now-ui-kit.css": "/assets/frontend/css/now-ui-kit.css?id=9923ce002ceafb1d740a",
-    "/assets/admin/css/vendor.min.css": "/assets/admin/css/vendor.min.css?id=ac649243125fb9e514d8",
+    "/assets/admin/css/vendor.min.css": "/assets/admin/css/vendor.min.css?id=a11d81c6bf8d7a548c86",
     "/assets/admin/js/app.js": "/assets/admin/js/app.js?id=f0006478ac51c2e18b2d",
     "/assets/installer/js/app.js": "/assets/installer/js/app.js?id=c5ba68cfc5d16171a9b5",
     "/assets/fonts/glyphicons-halflings-regular.woff2": "/assets/fonts/glyphicons-halflings-regular.woff2?id=b5b5055c6d812c0f9f0d",
@@ -9,10 +9,12 @@
     "/assets/admin/img/clear.png": "/assets/admin/img/clear.png?id=0e92f4c3efc6988a3c96",
     "/assets/admin/img/loading.gif": "/assets/admin/img/loading.gif?id=90a4b76b4f11558691f6",
     "/assets/global/js/jquery.js": "/assets/global/js/jquery.js?id=6a07da9fae934baf3f74",
-    "/assets/admin/js/vendor.js": "/assets/admin/js/vendor.js?id=46e5883accdb659b3d32",
+    "/assets/admin/css/vendor.css": "/assets/admin/css/vendor.css?id=d996fcb13fe42a360434",
+    "/assets/admin/js/vendor.js": "/assets/admin/js/vendor.js?id=c3426988a89019ef700b",
     "/assets/admin/css/blue.png": "/assets/admin/css/blue.png?id=753a3c0dec86d3a38d9c",
     "/assets/admin/css/blue@2x.png": "/assets/admin/css/blue@2x.png?id=97da23d47b838cbd4bef",
-    "/assets/global/css/vendor.min.css": "/assets/global/css/vendor.min.css?id=1ee66446a64974269b33",
+    "/assets/global/js/vendor.js": "/assets/global/js/vendor.js?id=01249af00bd2c1267e15",
+    "/assets/global/css/vendor.css": "/assets/global/css/vendor.css?id=1ee66446a64974269b33",
     "/assets/installer/css/vendor.css": "/assets/installer/css/vendor.css?id=81f225b61b069fa804fa",
     "/assets/installer/js/vendor.js": "/assets/installer/js/vendor.js?id=01249af00bd2c1267e15"
 }
