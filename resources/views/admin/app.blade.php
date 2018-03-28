@@ -14,9 +14,9 @@
     <meta name="api-key" content="{{ Auth::check() ? Auth::user()->api_key: '' }}">
     {{-- End the required lines block --}}
 
-    <script src="{{ public_asset('/assets/system/js/jquery.js') }}"></script>
+    <script src="{{ public_asset('/assets/global/js/jquery.js') }}"></script>
 
-    <link rel="icon" type="image/png" href="{{ public_asset('/assets/admin/img/favicon.png') }}">
+    <link rel="shortcut icon" type="image/png" href="{{ public_asset('/assets/img/favicon.png') }}"/>
 
     <link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'>
     <link href="http://fonts.googleapis.com/css?family=Roboto:400,700,300" rel="stylesheet" type="text/css">

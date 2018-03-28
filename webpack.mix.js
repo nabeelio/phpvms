@@ -3,14 +3,26 @@
 const mix = require('laravel-mix');
 
 /**
- * GENERAL FILES
+ * COPY ASSETS
+ * Copy required assets
  */
 
 mix.copy('node_modules/bootstrap3/fonts/*.woff2', 'public/assets/fonts/');
 mix.copy('node_modules/bootstrap3/fonts/*.woff2', 'public/assets/admin/fonts/');
-//mix.copy('node_modules/icheck/icheck.js', 'public/assets/admin/js/')
-//mix.copy('node_modules/x-editable/dist/bootstrap3-editable/js/*', 'public/assets/admin/js/')
 mix.copy('node_modules/x-editable/dist/bootstrap3-editable/img/*', 'public/assets/admin/img/');
+mix.copy('node_modules/jquery/dist/jquery.js', 'public/assets/global/js/');
+mix.copy('node_modules/flag-icon-css/flags/', 'public/assets/global/flags/');
+
+/**
+ * DEFAULT SKIN FRONTEND FILES
+ */
+
+mix.sass('resources/sass/now-ui/now-ui-kit.scss',
+    'public/assets/frontend/css/now-ui-kit.css')
+    .options({
+        processCssUrls: false,
+        compressed: true
+    });
 
 /**
  * ADMIN REQUIRED FILES
@@ -29,7 +41,7 @@ mix.sass('resources/sass/admin/paper-dashboard.scss',
     .options({
         compressed: true
     })
-  .sourceMaps();
+    .sourceMaps();
 
 mix.scripts([
   //'node_modules/lodash/lodash.js',
@@ -55,28 +67,25 @@ mix.copy('node_modules/icheck/skins/square/blue*.png', 'public/assets/admin/css'
  * SYSTEM REQUIRED AND GLOBAL VENDOR FILES
  */
 
-mix.copy('node_modules/jquery/dist/jquery.js', 'public/assets/system/js/');
-mix.copy('node_modules/flag-icon-css/flags/', 'public/assets/system/flags/');
-
-mix.scripts([
-  //'node_modules/lodash/lodash.js',
-  //'node_modules/axios/dist/axios.js',
+/*mix.scripts([
+  'node_modules/lodash/lodash.js',
+  'node_modules/axios/dist/axios.js',
   'node_modules/jquery/dist/jquery.js',
   'node_modules/bootstrap3/dist/js/bootstrap.js',
   'node_modules/popper.js/dist/umd/popper.js',
   'node_modules/popper.js/dist/umd/popper-utils.js',
   'node_modules/select2/dist/js/select2.js',
-  //'node_modules/leaflet/dist/leaflet.js',
-  //'node_modules/pjax/pjax.js',
-  //'node_modules/leaflet-rotatedmarker/leaflet.rotatedMarker.js',
-  //'node_modules/Leaflet.Geodesic/Leaflet.Geodesic.js',
-], 'public/assets/system/js/vendor.js');
+  'node_modules/leaflet/dist/leaflet.js',
+  'node_modules/pjax/pjax.js',
+  'node_modules/leaflet-rotatedmarker/leaflet.rotatedMarker.js',
+  'node_modules/Leaflet.Geodesic/Leaflet.Geodesic.js',
+], 'public/assets/global/js/vendor.js');*/
 
 mix.styles([
-  'node_modules/select2/dist/css/select2.css',
+  //'node_modules/select2/dist/css/select2.css',
   'node_modules/leaflet/dist/leaflet.css',
   'node_modules/flag-icon-css/css/flag-icon.css',
-], 'public/assets/system/css/vendor.min.css')
+], 'public/assets/global/css/vendor.min.css')
   .options({
     compressed: true
   })
@@ -87,9 +96,11 @@ mix.styles([
  */
 
 mix.styles([
+  'node_modules/bootstrap3/dist/css/bootstrap.css',
+  'public/assets/frontend/css/now-ui-kit.css',
   'node_modules/select2/dist/css/select2.css',
   'node_modules/flag-icon-css/css/flag-icon.css',
-], 'public/assets/system/css/installer.css')
+], 'public/assets/installer/css/vendor.css')
   .options({
     processCssUrls: false,
     compressed: true
@@ -97,23 +108,9 @@ mix.styles([
   .sourceMaps();
 
 mix.scripts([
-  //'node_modules/lodash/lodash.js',
   'node_modules/jquery/dist/jquery.js',
-  //'node_modules/pjax/pjax.js',
   'node_modules/select2/dist/js/select2.js',
 ], 'public/assets/installer/js/vendor.js');
-
-/**
- * DEFAULT SKIN FRONTEND FILES
- */
-
-mix.sass('resources/sass/now-ui/now-ui-kit.scss',
-  'public/assets/frontend/css/now-ui-kit.css')
-  .options({
-    processCssUrls: false,
-    compressed: true
-  });
-
 
 /**
  * COMMON JS STUFF

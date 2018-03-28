@@ -5,25 +5,24 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport'/>
 
+    <title>@yield('title') - {{ config('app.name') }}</title>
     {{-- Start of required lines block. DON'T REMOVE THESE LINES! They're required or might break things --}}
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="api-key" content="{{ Auth::check() ? Auth::user()->api_key: '' }}">
     {{-- End the required lines block --}}
 
-    <title>@yield('title') - {{ config('app.name') }}</title>
-
-    <link rel="shortcut icon" type="image/png" href="{{ public_asset('/assets/frontend/img/favicon.png') }}"/>
+    <link rel="shortcut icon" type="image/png" href="{{ public_asset('/assets/img/favicon.png') }}"/>
 
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet"/>
     <link href="{{ public_asset('/assets/frontend/css/bootstrap.min.css') }}" rel="stylesheet"/>
     <link href="{{ public_asset('/assets/frontend/css/now-ui-kit.css') }}" rel="stylesheet"/>
     <link href="{{ public_asset('/assets/frontend/css/styles.css') }}" rel="stylesheet"/>
 
-    {{-- This is required to include --}}
-    <link href="{{ public_asset('/assets/system/css/vendor.css') }}" rel="stylesheet"/>
-
+    {{-- Start of the required files in the head block --}}
+    <link href="{{ public_asset('/assets/global/css/vendor.css') }}" rel="stylesheet"/>
     @yield('css')
     @yield('scripts_head')
+    {{-- End of the required stuff in the head block --}}
 </head>
 <body>
 <!-- Navbar -->
@@ -39,7 +38,7 @@
             </button>
             <p class="navbar-brand text-white" data-placement="bottom" target="_blank">
                 <a href="{{ url('/') }}">
-                    <img src="{{ public_asset('/assets/frontend/img/logo_blue_bg.svg') }}" width="135px" style=""/>
+                    <img src="{{ public_asset('/assets/img/logo_blue_bg.svg') }}" width="135px" style=""/>
                 </a>
             </p>
         </div>
@@ -78,11 +77,8 @@
 <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
 
 {{-- Start of the required tags block. Don't remove these or things will break!! --}}
-{{--<script src="{{ public_asset('/assets/frontend/js/manifest.js') }}"></script>
-<script src="{{ public_asset('/assets/frontend/js/vendor.js') }}"></script>--}}
-<script src="{{ public_asset('/assets/system/js/vendor.js') }}"></script>
+<script src="{{ public_asset('/assets/global/js/vendor.js') }}"></script>
 <script src="{{ public_asset('/assets/frontend/js/app.js') }}"></script>
-
 @yield('scripts')
 {{-- End the required tags block --}}
 
