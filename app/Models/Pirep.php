@@ -68,6 +68,8 @@ class Pirep extends Model
         'flight_type',
         'state',
         'status',
+        'block_off_time',
+        'block_on_time',
         'created_at',
         'updated_at',
     ];
@@ -87,9 +89,10 @@ class Pirep extends Model
         'fuel_used'           => 'float',
         'landing_rate'        => 'float',
         'source'              => 'integer',
-        'flight_type'         => 'integer',
         'state'               => 'integer',
         'status'              => 'integer',
+        'block_off_time'      => 'datetime',
+        'block_on_time'       => 'datetime',
     ];
 
     public static $rules = [

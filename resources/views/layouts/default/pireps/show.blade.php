@@ -3,13 +3,14 @@
 
 @section('content')
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-12">
             <h2 class="description">{{ $pirep->ident }}</h2>
         </div>
     </div>
 
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-8">
+            <h4 class="description">flight info</h4>
             <table class="table table-hover">
                 <tr>
                     <td>Status</td>
@@ -38,6 +39,11 @@
                         <span class="description">to</span>
                         {{ $pirep->arr_airport->icao }} - {{ $pirep->arr_airport->name }}
                     </td>
+                </tr>
+
+                <tr>
+                    <td>Flight Type</td>
+                    <td>{{ \App\Models\Enums\FlightType::label($pirep->flight_type) }}</td>
                 </tr>
 
                 <tr>
@@ -70,20 +76,18 @@
 
             </table>
         </div>
-    </div>
 
-    {{--
-        Show the fields that have been entered
-    --}}
+        <div class="col-4">
+            {{--
+                Show the fields that have been entered
+            --}}
 
-    @if(count($pirep->fields) > 0)
-        <div class="row">
-            <div class="col-md-12">
-                <h3 class="description">fields</h3>
+            @if(count($pirep->fields) > 0)
+                <h4 class="description">fields</h4>
                 <table class="table table-hover">
                     <thead>
-                        <th>Name</th>
-                        <th>Value</th>
+                    <th>Name</th>
+                    <th>Value</th>
                     </thead>
                     <tbody>
                     @foreach($pirep->fields as $field)
@@ -94,9 +98,9 @@
                     @endforeach
                     </tbody>
                 </table>
-            </div>
+            @endif
         </div>
-    @endif
+    </div>
 
     {{--
         Show the fares that have been entered
@@ -104,8 +108,8 @@
 
     @if(count($pirep->fares) > 0)
         <div class="row">
-            <div class="col-md-12">
-                <h3 class="description">fares</h3>
+            <div class="col-12">
+                <h4 class="description">fares</h4>
                 <table class="table table-hover">
                     <thead>
                     <th>Class</th>
@@ -124,7 +128,7 @@
         </div>
     @endif
 
-    @include("pireps.map")
+    @include('pireps.map')
 
     @if(count($pirep->acars_logs) > 0)
         <br /><br />

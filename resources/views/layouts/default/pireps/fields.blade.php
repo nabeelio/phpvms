@@ -95,6 +95,27 @@ flight reports that have been filed. You've been warned!
             </tr>
 
             <tr>
+                <td>Flight Type</td>
+                <td>
+                    @if($read_only)
+                        <p>{{ \App\Models\Enums\FlightType::label($pirep->flight_type) }}</p>
+                        {{ Form::hidden('flight_type') }}
+                    @else
+                        <div class="input-group form-group">
+                        {{ Form::select('flight_type',
+                            \App\Models\Enums\FlightType::select(),
+                            null, [
+                                'class' => 'custom-select select2',
+                                'readonly' => $read_only
+                            ])
+                        }}
+                        </div>
+                        <p class="text-danger">{{ $errors->first('flight_type') }}</p>
+                    @endif
+                </td>
+            </tr>
+
+            <tr>
                 <td>Origin Airport</td>
                 <td>
                     @if($read_only)

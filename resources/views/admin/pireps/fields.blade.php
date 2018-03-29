@@ -39,7 +39,18 @@
             </div>
         @endif
     </div>
-    <div class="form-group col-sm-6">
+    <div class="form-group col-sm-3">
+        {{ Form::label('flight_type', 'Flight Type') }}
+        {{ Form::select('flight_type',
+            \App\Models\Enums\FlightType::select(),
+            null, [
+                'class' => 'form-control select2',
+                'readonly' => $read_only
+            ])
+        }}
+        <p class="text-danger">{{ $errors->first('flight_type') }}</p>
+    </div>
+    <div class="form-group col-sm-3">
         <p class="description">Filed Via:</p>
         {{ PirepSource::label($pirep->source) }}
         @if(filled($pirep->source_name))

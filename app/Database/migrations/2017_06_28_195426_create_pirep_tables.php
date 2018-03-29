@@ -23,6 +23,7 @@ class CreatePirepTables extends Migration
             $table->string('flight_number', 10)->nullable();
             $table->string('route_code', 5)->nullable();
             $table->string('route_leg', 5)->nullable();
+            $table->char('flight_type', 1)->default(FlightType::SCHED_PAX);
             $table->string('dpt_airport_id', 5);
             $table->string('arr_airport_id', 5);
             $table->unsignedInteger('level')->nullable();
@@ -39,9 +40,10 @@ class CreatePirepTables extends Migration
             $table->text('notes')->nullable();
             $table->unsignedTinyInteger('source')->nullable()->default(0);
             $table->string('source_name', 25)->nullable();
-            $table->char('flight_type', 1)->default(FlightType::SCHED_PAX);
             $table->tinyInteger('state')->default(PirepState::PENDING);
             $table->tinyInteger('status')->default(PirepStatus::SCHEDULED);
+            $table->dateTime('block_off_time')->nullable();
+            $table->dateTime('block_on_time')->nullable();
             $table->timestamps();
 
             $table->primary('id');
