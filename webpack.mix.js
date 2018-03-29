@@ -84,7 +84,7 @@ mix.scripts([
 ], 'public/assets/global/js/vendor.js');
 
 mix.styles([
-  //'node_modules/select2/dist/css/select2.css',
+  'node_modules/select2/dist/css/select2.css',
   'node_modules/leaflet/dist/leaflet.css',
   'node_modules/flag-icon-css/css/flag-icon.css',
 ], 'public/assets/global/css/vendor.css')
