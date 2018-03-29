@@ -62,7 +62,6 @@ class Flight extends Model
         'level'         => 'integer',
         'distance'      => 'float',
         'flight_time'   => 'integer',
-        'flight_type'   => 'integer',
         'has_bid'       => 'boolean',
         'active'        => 'boolean',
     ];

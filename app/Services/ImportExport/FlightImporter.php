@@ -92,8 +92,14 @@ class FlightImporter extends ImportExport
         }
 
         // Any specific transformations
-        // Flight type can be set to P - Passenger, C - Cargo, or H - Charter
-        $flight->setAttribute('flight_type', FlightType::getFromCode($row['flight_type']));
+
+        // Check for a valid value
+        $flight_type = $row['flight_type'];
+        if(!array_key_exists($flight_type, FlightType::labels())) {
+            $flight_type = 'J';
+        }
+
+        $flight->setAttribute('flight_type', $flight_type);
         $flight->setAttribute('active', get_truth_state($row['active']));
 
         try {
