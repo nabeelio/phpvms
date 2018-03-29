@@ -16,6 +16,7 @@
 - Rank restrictions for PIREPs are respected [#170](https://github.com/nabeelio/phpvms/issues/170)
 - API: Added the ability to get/update/delete user bids [#172](https://github.com/nabeelio/phpvms/issues/172)
 - API: Added `block_time` parameter for PIREP prefile/update/file calls
+- API: Added `block_on_time` and `block_off_time` for PIREP prefile/update/file calls
 - Artisan: Added a `phpvms:csv-import [table] [file]` to import from CSV
 - Artisan: Added a `phpvms:yaml-export [tables]` to export tables to YAML files which can be re-imported using `phpvms:yaml-import`
 - Numerous bug fixes

@@ -44,6 +44,8 @@ class FileRequest extends FormRequest
             'source_name'         => 'nullable|max:25',
             'landing_rate'        => 'nullable|numeric',
             'flight_type'         => 'nullable|integer',
+            'block_off_time'      => 'nullable|date',
+            'block_on_time'       => 'nullable|date',
             'created_at'          => 'nullable|date',
 
             # See if the fare objects are included and formatted properly
