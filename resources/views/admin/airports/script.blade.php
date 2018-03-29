@@ -1,7 +1,6 @@
 @section('scripts')
 <script>
 function setEditable() {
-
     const csrf_token = $('meta[name="csrf-token"]').attr('content');
     const api_key = $('meta[name="api-key"]').attr('content');
 
@@ -53,19 +52,13 @@ function setEditable() {
 }
 
 function phpvms_vacentral_airport_lookup(icao, callback) {
-
-    const api_key = $('meta[name="api-key"]').attr('content');
-    const csrf_token = $('meta[name="csrf-token"]').attr('content');
-
-    $.ajax({
-        url: '{{url('/api/airports')}}/' + icao + '/lookup',
+    let params = {
         method: 'GET',
-        headers: {
-            'x-api-key': api_key,
-            'X-CSRF-TOKEN': csrf_token
-        }
-    }).done(function (data, status) {
-        callback(data.data);
+        url: '/api/airports/' + icao + '/lookup',
+    };
+
+    axios(params).then(response => {
+        callback(response.data);
     });
 }
 
@@ -106,9 +99,8 @@ $(document).ready(function() {
             return;
         }
 
-        phpvms_vacentral_airport_lookup(icao, function(data) {
-            console.log('lookup data', data);
-            _.forEach(data, function(value, key) {
+        phpvms_vacentral_airport_lookup(icao, function(response) {
+            _.forEach(response.data, function(value, key) {
                 if(key === 'city') {
                     key = 'location';
                 }

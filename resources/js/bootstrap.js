@@ -2,11 +2,6 @@
  * Bootstrap any Javascript libraries required
  */
 
-//window._ = require('lodash')
-//window.Popper = require('popper.js').default;
-//window.$ = window.jquery = require('jquery');
-//window.select2 = require('select2');
-//window.pjax = require('pjax');
 window.axios = require('axios');
 
 /**
@@ -17,6 +12,12 @@ window.phpvms = {};
 /**
  * Configure Axios with both the csrf token and the API key
  */
+
+const base_url = document.head.querySelector('meta[name="base-url"]');
+if(base_url) {
+  window.axios.default.baseURL = base_url;
+}
+
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 const token = document.head.querySelector('meta[name="csrf-token"]');
 

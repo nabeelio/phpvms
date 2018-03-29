@@ -95,7 +95,7 @@
 
 <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
 <script defer src="{{ public_asset('/assets/admin/js/vendor.js') }}"></script>
-<script defer src="{{ public_asset('/assets/admin/js/admin.js') }}"></script>
+<script defer src="{{ public_asset('/assets/admin/js/app.js') }}"></script>
 
 <script>
 const getStorage = function(key) {

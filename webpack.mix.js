@@ -45,7 +45,7 @@ mix.sass('resources/sass/admin/paper-dashboard.scss',
     .sourceMaps();
 
 mix.scripts([
-  //'node_modules/lodash/lodash.js',
+  'node_modules/lodash/lodash.js',
   'node_modules/jquery/dist/jquery.js',
   'node_modules/moment/moment.js',
   //'node_modules/axios/dist/axios.js',
@@ -70,7 +70,7 @@ mix.copy('node_modules/icheck/skins/square/blue*.png', 'public/assets/admin/css'
  */
 
 mix.scripts([
-  //'node_modules/lodash/lodash.js',
+  'node_modules/lodash/lodash.js',
   //'node_modules/axios/dist/axios.js',
   'node_modules/jquery/dist/jquery.js',
   //'node_modules/bootstrap3/dist/js/bootstrap.js',
