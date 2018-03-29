@@ -9,6 +9,7 @@ use App\Interfaces\Model;
  * @property float   cost
  * @property float   price
  * @property mixed   code
+ * @property mixed   count Only when merged with pivot
  * @package App\Models
  */
 class Fare extends Model

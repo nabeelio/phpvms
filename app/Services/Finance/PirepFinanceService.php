@@ -14,7 +14,6 @@ use App\Services\FareService;
 use App\Services\PirepService;
 use App\Support\Math;
 use App\Support\Money;
-use App\Support\Units\Time;
 use Log;
 
 /**
@@ -72,6 +71,8 @@ class PirepFinanceService extends Service
         # Clean out the expenses first
         $this->deleteFinancesForPirep($pirep);
 
+        Log::info('Finance: Starting PIREP pay for '.$pirep->id);
+
         # Now start and pay from scratch
         $this->payFaresForPirep($pirep);
         $this->payExpensesForSubfleet($pirep);
@@ -93,7 +94,7 @@ class PirepFinanceService extends Service
     /**
      * @param Pirep $pirep
      */
-    public function deleteFinancesForPirep(Pirep $pirep)
+    public function deleteFinancesForPirep(Pirep $pirep): void
     {
         $this->journalRepo->deleteAllForObject($pirep);
     }
@@ -109,12 +110,15 @@ class PirepFinanceService extends Service
     public function payFaresForPirep($pirep): void
     {
         $fares = $this->getReconciledFaresForPirep($pirep);
+
         /** @var \App\Models\Fare $fare */
         foreach ($fares as $fare) {
-            Log::info('Finance: PIREP: '.$pirep->id.', fare:', $fare->toArray());
+            Log::info('Finance: PIREP: '.$pirep->id.', Fare:', $fare->toArray());
 
             $credit = Money::createFromAmount($fare->count * $fare->price);
             $debit = Money::createFromAmount($fare->count * $fare->cost);
+
+            Log::info('Finance: Calculate: C='.$credit->toAmount().', D='.$debit->toAmount());
 
             $this->journalRepo->post(
                 $pirep->airline->journal,
@@ -142,7 +146,6 @@ class PirepFinanceService extends Service
     {
         $sf = $pirep->aircraft->subfleet;
 
-        Log::info('subfleet: ', $sf->toArray());
         # Haven't entered a cost
         if (!filled($sf->cost_block_hour)) {
             return;
@@ -155,10 +158,12 @@ class PirepFinanceService extends Service
         # flight time if that hasn't been used
         $block_time = $pirep->block_time;
         if(!filled($block_time)) {
+            Log::info('Finance: No block time, using PIREP flight time');
             $block_time = $pirep->flight_time;
         }
 
         $debit = Money::createFromAmount($cost_per_min * $block_time);
+        Log::info('Finance: Subfleet Block Hourly, D='.$debit->getAmount());
 
         $this->journalRepo->post(
             $pirep->airline->journal,
@@ -175,7 +180,6 @@ class PirepFinanceService extends Service
     /**
      * Collect all of the expenses and apply those to the journal
      * @param Pirep $pirep
-     * @throws \Prettus\Validator\Exceptions\ValidatorException
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
      */
@@ -271,8 +275,12 @@ class PirepFinanceService extends Service
                     continue;
                 }
 
+                Log::info('Finance: Expense from listener, N="'
+                    .$expense->name.'", A='.$expense->amount);
+
                 # If an airline_id is filled, then see if it matches
-                if ($expense->airline_id !== $pirep->airline_id) {
+                if(filled($expense->airline_id) && $expense->airline_id !== $pirep->airline_id) {
+                    Log::info('Finance: Expense has an airline ID and it doesn\'t match, skipping');
                     continue;
                 }
 
@@ -299,7 +307,7 @@ class PirepFinanceService extends Service
      * @throws \InvalidArgumentException
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
-    public function payGroundHandlingForPirep(Pirep $pirep)
+    public function payGroundHandlingForPirep(Pirep $pirep): void
     {
         $ground_handling_cost = $this->getGroundHandlingCost($pirep);
         Log::info('Finance: PIREP: '.$pirep->id.'; ground handling: '.$ground_handling_cost);
@@ -323,7 +331,7 @@ class PirepFinanceService extends Service
      * @throws \InvalidArgumentException
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
-    public function payPilotForPirep(Pirep $pirep)
+    public function payPilotForPirep(Pirep $pirep): void
     {
         $pilot_pay = $this->getPilotPay($pirep);
         $pilot_pay_rate = $this->getPilotPayRateForPirep($pirep);

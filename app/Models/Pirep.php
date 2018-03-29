@@ -14,7 +14,7 @@ use PhpUnitsOfMeasure\Exception\NonStringUnitName;
 
 /**
  * Class Pirep
- *
+ * @property string      id
  * @property string      flight_number
  * @property string      route_code
  * @property string      route_leg
