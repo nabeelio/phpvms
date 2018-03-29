@@ -315,6 +315,7 @@ flights:
     level: 360
     dpt_time: 6PM CST
     arr_time: 11PM EST
+    flight_type: J
     created_at: NOW
     updated_at: NOW
   - id: flightid_2
@@ -325,6 +326,7 @@ flights:
     arr_airport_id: LGRP
     dpt_time: 9AM CST
     arr_time: 1030AM CST
+    flight_type: J
     route: PITZZ4 MNURE WLEEE4
     created_at: NOW
     updated_at: NOW
@@ -335,6 +337,7 @@ flights:
     route_leg: 1
     dpt_airport_id: EGLL
     arr_airport_id: KJFK
+    flight_type: J
     dpt_time: 9AM CST
     arr_time: 1030AM CST
     route: PITZZ4 MNURE WLEEE4

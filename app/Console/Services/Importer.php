@@ -547,11 +547,11 @@ class Importer
             # Set the flight type
             $row->flighttype = strtoupper($row->flighttype);
             if ($row->flighttype === 'P') {
-                $attrs['flight_type'] = FlightType::PASSENGER;
+                $attrs['flight_type'] = FlightType::SCHED_PAX;
             } elseif ($row->flighttype === 'C') {
-                $attrs['flight_type'] = FlightType::CARGO;
+                $attrs['flight_type'] = FlightType::SCHED_CARGO;
             } else {
-                $attrs['flight_type'] = FlightType::CHARTER;
+                $attrs['flight_type'] = FlightType::CHARTER_PAX_ONLY;
             }
 
             # Set the flight level of the PIREP is set

@@ -38,7 +38,7 @@ class CreatePirepTables extends Migration
             $table->text('notes')->nullable();
             $table->unsignedTinyInteger('source')->nullable()->default(0);
             $table->string('source_name', 25)->nullable();
-            $table->tinyInteger('flight_type')->default(FlightType::PASSENGER);
+            $table->tinyInteger('flight_type')->default(FlightType::SCHED_PAX);
             $table->tinyInteger('state')->default(PirepState::PENDING);
             $table->tinyInteger('status')->default(PirepStatus::SCHEDULED);
             $table->timestamps();

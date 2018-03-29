@@ -28,7 +28,7 @@ class CreateFlightTables extends Migration
             $table->unsignedInteger('level')->nullable()->default(0);
             $table->unsignedDecimal('distance')->nullable()->default(0.0);
             $table->unsignedInteger('flight_time')->nullable();
-            $table->tinyInteger('flight_type')->default(FlightType::PASSENGER);
+            $table->char('flight_type', 1)->default(FlightType::SCHED_PAX);
             $table->text('route')->nullable();
             $table->text('notes')->nullable();
             $table->boolean('has_bid')->default(false);

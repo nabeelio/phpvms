@@ -376,7 +376,7 @@ class ImporterTest extends TestCase
         $this->assertEquals('350', $flight->level);
         $this->assertEquals('1477', $flight->distance);
         $this->assertEquals('207', $flight->flight_time);
-        $this->assertEquals(FlightType::PASSENGER, $flight->flight_type);
+        $this->assertEquals(FlightType::SCHED_PAX, $flight->flight_type);
         $this->assertEquals('ILEXY2 ZENZI LFK ELD J29 MEM Q29 JHW J70 STENT J70 MAGIO J70 LVZ LENDY6', $flight->route);
         $this->assertEquals('Just a flight', $flight->notes);
         $this->assertEquals(true, $flight->active);
