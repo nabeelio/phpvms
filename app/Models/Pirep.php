@@ -24,6 +24,7 @@ use PhpUnitsOfMeasure\Exception\NonStringUnitName;
  * @property Airline     airline
  * @property Airport     arr_airport
  * @property Airport     dep_airport
+ * @property integer     block_time
  * @property integer     flight_time    In minutes
  * @property User        user
  * @property Flight|null flight
@@ -53,6 +54,7 @@ class Pirep extends Model
         'level',
         'distance',
         'planned_distance',
+        'block_time',
         'flight_time',
         'planned_flight_time',
         'zfw',
@@ -77,6 +79,7 @@ class Pirep extends Model
         'level'               => 'integer',
         'distance'            => 'float',
         'planned_distance'    => 'float',
+        'block_time'          => 'integer',
         'flight_time'         => 'integer',
         'planned_flight_time' => 'integer',
         'zfw'                 => 'float',

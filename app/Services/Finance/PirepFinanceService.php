@@ -14,6 +14,7 @@ use App\Services\FareService;
 use App\Services\PirepService;
 use App\Support\Math;
 use App\Support\Money;
+use App\Support\Units\Time;
 use Log;
 
 /**
@@ -73,6 +74,7 @@ class PirepFinanceService extends Service
 
         # Now start and pay from scratch
         $this->payFaresForPirep($pirep);
+        $this->payExpensesForSubfleet($pirep);
         $this->payExpensesForPirep($pirep);
         $this->payExpensesEventsForPirep($pirep);
         $this->payGroundHandlingForPirep($pirep);
@@ -126,6 +128,48 @@ class PirepFinanceService extends Service
                 'fare'
             );
         }
+    }
+
+    /**
+     * Calculate what the cost is for the operating an aircraft
+     * in this subfleet, as-per the block time
+     * @param Pirep $pirep
+     * @throws \UnexpectedValueException
+     * @throws \InvalidArgumentException
+     * @throws \Prettus\Validator\Exceptions\ValidatorException
+     */
+    public function payExpensesForSubfleet(Pirep $pirep): void
+    {
+        $sf = $pirep->aircraft->subfleet;
+
+        Log::info('subfleet: ', $sf->toArray());
+        # Haven't entered a cost
+        if (!filled($sf->cost_block_hour)) {
+            return;
+        }
+
+        # Convert to cost per-minute
+        $cost_per_min = round($sf->cost_block_hour / 60, 2);
+
+        # Time to use - use the block time if it's there, actual
+        # flight time if that hasn't been used
+        $block_time = $pirep->block_time;
+        if(!filled($block_time)) {
+            $block_time = $pirep->flight_time;
+        }
+
+        $debit = Money::createFromAmount($cost_per_min * $block_time);
+
+        $this->journalRepo->post(
+            $pirep->airline->journal,
+            null,
+            $debit,
+            $pirep,
+            'Subfleet '.$sf->type.': Block Time Cost',
+            null,
+            'Subfleet '.$sf->type,
+            'subfleet'
+        );
     }
 
     /**

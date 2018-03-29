@@ -15,6 +15,8 @@ class CreateSubfleetTables extends Migration
             $table->unsignedInteger('airline_id')->nullable();
             $table->string('type', 50)->unique();
             $table->string('name', 50);
+            $table->unsignedDecimal('cost_block_hour');
+            $table->unsignedDecimal('cost_delay_minute');
             $table->unsignedTinyInteger('fuel_type')->nullable();
             $table->unsignedDecimal('ground_handling_multiplier')->nullable()->default(100);
             $table->unsignedDecimal('cargo_capacity')->nullable();

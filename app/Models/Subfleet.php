@@ -10,8 +10,11 @@ use App\Models\Traits\ExpensableTrait;
  * Class Subfleet
  * @property int    id
  * @property string type
+ * @property string name
  * @property string ground_handling_multiplier
  * @property Fare[] fares
+ * @property float  cost_block_hour
+ * @property float  cost_delay_minute
  * @package App\Models
  */
 class Subfleet extends Model
@@ -24,6 +27,7 @@ class Subfleet extends Model
         'airline_id',
         'type',
         'name',
+        'turn_time',
         'fuel_type',
         'ground_handling_multiplier',
         'cargo_capacity',
@@ -33,6 +37,9 @@ class Subfleet extends Model
 
     public $casts = [
         'airline_id'                 => 'integer',
+        'turn_time'                  => 'integer',
+        'cost_block_hour'            => 'float',
+        'cost_delay_minute'          => 'float',
         'fuel_type'                  => 'integer',
         'ground_handling_multiplier' => 'float',
         'cargo_capacity'             => 'float',

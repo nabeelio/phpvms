@@ -26,6 +26,7 @@ class FileRequest extends FormRequest
             'flight_time' => 'required|integer',
             'fuel_used'   => 'required|numeric',
 
+            'block_time'          => 'nullable|integer',
             'airline_id'          => 'nullable|exists:airlines,id',
             'aircraft_id'         => 'nullable|exists:aircraft,id',
             'flight_number'       => 'nullable',
