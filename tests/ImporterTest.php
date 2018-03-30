@@ -58,6 +58,10 @@ class ImporterTest extends TestCase
     {
         $tests = [
             [
+                'input' => '',
+                'expected' => [],
+            ],
+            [
                 'input' => 'gate',
                 'expected' => ['gate']
             ],
@@ -139,6 +143,10 @@ class ImporterTest extends TestCase
     public function testConvertObjectToString(): void
     {
         $tests = [
+            [
+                'input' => '',
+                'expected' => ''
+            ],
             [
                 'input' => ['gate'],
                 'expected'    => 'gate',
@@ -438,6 +446,36 @@ class ImporterTest extends TestCase
         // Check the subfleets
         $subfleets = $flight->subfleets;
         $this->assertCount(1, $subfleets);
+    }
+
+    /**
+     * Test the flight importer
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function testFlightImporterEmptyCustomFields(): void
+    {
+        [$airline, $subfleet] = $this->insertFlightsScaffoldData();
+
+        $file_path = base_path('tests/data/flights_empty_fields.csv');
+        $status = $this->importSvc->importFlights($file_path);
+
+        $this->assertCount(1, $status['success']);
+        $this->assertCount(0, $status['errors']);
+
+        // See if it imported
+        $flight = \App\Models\Flight::where([
+            'airline_id'    => $airline->id,
+            'flight_number' => '1972'
+        ])->first();
+
+        $this->assertNotNull($flight);
+
+        // Check the custom fields entered
+        $fields = \App\Models\FlightFieldValue::where([
+            'flight_id' => $flight->id,
+        ])->get();
+
+        $this->assertCount(0, $fields);
     }
 
     /**

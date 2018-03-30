@@ -129,6 +129,10 @@ class ImportExport
 
         # No multiple values in here, just a straight value
         if (\count($split_values) === 1) {
+            if(trim($split_values[0]) === '') {
+                return [];
+            }
+
             return [$split_values[0]];
         }
 
