@@ -185,7 +185,10 @@ class FlightController extends Controller
             return redirect()->back()->withInput($request->all());
         }
 
-        $input['days'] = Days::getDaysMask($input['days']);
+        if (array_key_exists('days', $input) && filled($input['days'])) {
+            $input['days'] = Days::getDaysMask($input['days']);
+        }
+
         $input['active'] = get_truth_state($input['active']);
 
         $time = new Time($input['minutes'], $input['hours']);
@@ -287,7 +290,9 @@ class FlightController extends Controller
             return redirect()->back()->withInput($request->all());
         }
 
-        $input['days'] = Days::getDaysMask($input['days']);
+        if (array_key_exists('days', $input) && filled($input['days'])) {
+            $input['days'] = Days::getDaysMask($input['days']);
+        }
 
         $input['flight_time'] = Time::init(
             $input['minutes'],
