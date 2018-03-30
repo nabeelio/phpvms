@@ -19,7 +19,7 @@ class FareExporter extends ImportExport
      */
     public function __construct()
     {
-        self::$columns = FareImporter::$columns;
+        self::$columns = array_keys(FareImporter::$columns);
     }
 
     /**

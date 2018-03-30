@@ -278,6 +278,18 @@ class ImporterTest extends TestCase
     }
 
     /**
+     * Try importing the aicraft in the airports. Should fail because of
+     * empty/invalid rows
+     */
+    public function testEmptyCols(): void
+    {
+        $file_path = base_path('tests/data/expenses_empty_rows.csv');
+        $status = $this->importSvc->importExpenses($file_path);
+        $this->assertCount(8, $status['success']);
+        $this->assertCount(0, $status['errors']);
+    }
+
+    /**
      * Test the importing of expenses
      * @throws \Illuminate\Validation\ValidationException
      */
@@ -291,7 +303,10 @@ class ImporterTest extends TestCase
         ]);
 
         $file_path = base_path('tests/data/expenses.csv');
-        $this->importSvc->importExpenses($file_path);
+        $status = $this->importSvc->importExpenses($file_path);
+
+        $this->assertCount(8, $status['success']);
+        $this->assertCount(0, $status['errors']);
 
         $expenses = \App\Models\Expense::all();
 
@@ -320,7 +335,10 @@ class ImporterTest extends TestCase
     public function testFareImporter(): void
     {
         $file_path = base_path('tests/data/fares.csv');
-        $this->importSvc->importFares($file_path);
+        $status = $this->importSvc->importFares($file_path);
+
+        $this->assertCount(3, $status['success']);
+        $this->assertCount(0, $status['errors']);
 
         $fares = \App\Models\Fare::all();
 
@@ -358,7 +376,10 @@ class ImporterTest extends TestCase
         [$airline, $subfleet] = $this->insertFlightsScaffoldData();
 
         $file_path = base_path('tests/data/flights.csv');
-        $this->importSvc->importFlights($file_path);
+        $status = $this->importSvc->importFlights($file_path);
+
+        $this->assertCount(1, $status['success']);
+        $this->assertCount(1, $status['errors']);
 
         // See if it imported
         $flight = \App\Models\Flight::where([
@@ -425,7 +446,10 @@ class ImporterTest extends TestCase
         $subfleet = factory(App\Models\Subfleet::class)->create(['type' => 'A32X']);
 
         $file_path = base_path('tests/data/aircraft.csv');
-        $this->importSvc->importAircraft($file_path);
+        $status = $this->importSvc->importAircraft($file_path);
+
+        $this->assertCount(1, $status['success']);
+        $this->assertCount(1, $status['errors']);
 
         // See if it imported
         $aircraft = \App\Models\Aircraft::where([
@@ -444,7 +468,10 @@ class ImporterTest extends TestCase
     public function testAirportImporter(): void
     {
         $file_path = base_path('tests/data/airports.csv');
-        $this->importSvc->importAirports($file_path);
+        $status = $this->importSvc->importAirports($file_path);
+
+        $this->assertCount(1, $status['success']);
+        $this->assertCount(1, $status['errors']);
 
         // See if it imported
         $airport = \App\Models\Airport::where([
@@ -468,7 +495,10 @@ class ImporterTest extends TestCase
         $airline = factory(App\Models\Airline::class)->create(['icao' => 'VMS']);
 
         $file_path = base_path('tests/data/subfleets.csv');
-        $this->importSvc->importSubfleets($file_path);
+        $status = $this->importSvc->importSubfleets($file_path);
+
+        $this->assertCount(1, $status['success']);
+        $this->assertCount(1, $status['errors']);
 
         // See if it imported
         $subfleet = \App\Models\Subfleet::where([

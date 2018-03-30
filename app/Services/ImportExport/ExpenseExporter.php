@@ -22,7 +22,7 @@ class ExpenseExporter extends ImportExport
      */
     public function __construct()
     {
-        self::$columns = ExpenseImporter::$columns;
+        self::$columns = array_keys(ExpenseImporter::$columns);
     }
 
     /**

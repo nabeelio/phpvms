@@ -22,11 +22,11 @@ class AircraftImporter extends ImportExport
      * Should match the database fields, for the most part
      */
     public static $columns = [
-        'subfleet',
-        'name',
-        'registration',
-        'hex_code',
-        'status',
+        'subfleet'     => 'required',
+        'name'         => 'required',
+        'registration' => 'required',
+        'hex_code'     => 'nullable',
+        'status'       => 'nullable',
     ];
 
     /**

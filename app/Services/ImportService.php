@@ -83,7 +83,7 @@ class ImportService extends Service
     {
         $reader = $this->openCsv($file_path);
 
-        $cols = $importer->getColumns();
+        $cols = array_keys($importer->getColumns());
         $first_header = $cols[0];
 
         $first = true;
@@ -110,6 +110,14 @@ class ImportService extends Service
             $row = collect($row)->map(function ($val, $index) {
                 return trim($val);
             })->toArray();
+
+            # Try to validate
+            $validator = Validator::make($row, $importer->getColumns());
+            if($validator->fails()) {
+                $errors = 'Error in row '.$offset.','.implode(';', $validator->errors()->all());
+                $importer->errorLog($errors);
+                continue;
+            }
 
             $importer->import($row, $offset);
         }

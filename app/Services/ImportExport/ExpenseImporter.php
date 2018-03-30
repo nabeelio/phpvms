@@ -23,15 +23,15 @@ class ExpenseImporter extends ImportExport
      * Should match the database fields, for the most part
      */
     public static $columns = [
-        'airline',
-        'name',
-        'amount',
-        'type',
-        'charge_to_user',
-        'multiplier',
-        'active',
-        'ref_class',
-        'ref_class_id',
+        'airline'        => 'nullable',
+        'name'           => 'required',
+        'amount'         => 'required|numeric',
+        'type'           => 'required',
+        'charge_to_user' => 'nullable|boolean',
+        'multiplier'     => 'nullable|numeric',
+        'active'         => 'nullable|boolean',
+        'ref_class'      => 'nullable',
+        'ref_class_id'   => 'nullable',
     ];
 
     /**

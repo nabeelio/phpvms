@@ -20,10 +20,10 @@ class SubfleetImporter extends ImportExport
      * Should match the database fields, for the most part
      */
     public static $columns = [
-        'airline',
-        'type',
-        'name',
-        'fares',
+        'airline' => 'required',
+        'type'    => 'required',
+        'name'    => 'required',
+        'fares'   => 'nullable',
     ];
 
     private $fareSvc;

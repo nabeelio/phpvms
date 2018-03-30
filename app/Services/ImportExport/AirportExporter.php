@@ -19,7 +19,7 @@ class AirportExporter extends ImportExport
      */
     public function __construct()
     {
-        self::$columns = AirportImporter::$columns;
+        self::$columns = array_keys(AirportImporter::$columns);
     }
 
     /**

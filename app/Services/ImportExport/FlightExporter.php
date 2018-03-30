@@ -21,7 +21,7 @@ class FlightExporter extends ImportExport
      */
     public function __construct()
     {
-        self::$columns = FlightImporter::$columns;
+        self::$columns = array_keys(FlightImporter::$columns);
     }
 
     /**

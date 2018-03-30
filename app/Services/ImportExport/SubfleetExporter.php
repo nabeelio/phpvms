@@ -21,7 +21,7 @@ class SubfleetExporter extends ImportExport
      */
     public function __construct()
     {
-        self::$columns = SubfleetImporter::$columns;
+        self::$columns = array_keys(SubfleetImporter::$columns);
     }
 
     /**

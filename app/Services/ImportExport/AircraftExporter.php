@@ -21,7 +21,7 @@ class AircraftExporter extends ImportExport
      */
     public function __construct()
     {
-        self::$columns = AircraftImporter::$columns;
+        self::$columns = array_keys(AircraftImporter::$columns);
     }
 
     /**
