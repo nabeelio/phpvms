@@ -230,6 +230,7 @@ class ImporterTest extends TestCase
 
         $flight = factory(App\Models\Flight::class)->create([
             'airline_id' => $airline->id,
+            'flight_type' => 'J',
             'days' => \App\Models\Enums\Days::getDaysMask([
                 \App\Models\Enums\Days::TUESDAY,
                 \App\Models\Enums\Days::SUNDAY,
@@ -262,6 +263,7 @@ class ImporterTest extends TestCase
 
         $this->assertEquals('27', $exported['days']);
         $this->assertEquals('VMS', $exported['airline']);
+        $this->assertEquals('J', $exported['flight_type']);
         $this->assertEquals('A32X;B74X', $exported['subfleets']);
         $this->assertEquals('Y?capacity=100;F', $exported['fares']);
         $this->assertEquals('Departure Gate=4;Arrival Gate=C41', $exported['fields']);

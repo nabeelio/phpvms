@@ -47,7 +47,7 @@ class FlightExporter extends ImportExport
         }
 
         $ret['days'] = $this->getDays($flight);
-        $ret['flight_type'] = FlightType::convertToCode($ret['flight_type']);
+        #$ret['flight_type'] = FlightType::convertToCode($ret['flight_type']);
 
         $ret['fares'] = $this->getFares($flight);
         $ret['fields'] = $this->getFields($flight);
