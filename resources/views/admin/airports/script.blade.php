@@ -54,7 +54,7 @@ function setEditable() {
 function phpvms_vacentral_airport_lookup(icao, callback) {
     let params = {
         method: 'GET',
-        url: '/api/airports/' + icao + '/lookup',
+        url: '{{ url('/api/airports/') }}' + icao + '/lookup',
     };
 
     axios(params).then(response => {
