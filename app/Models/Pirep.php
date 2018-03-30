@@ -20,10 +20,13 @@ use PhpUnitsOfMeasure\Exception\NonStringUnitName;
  * @property string      route_leg
  * @property integer     airline_id
  * @property integer     user_id
+ * @property integer     aircraft_id
  * @property Aircraft    aircraft
  * @property Airline     airline
  * @property Airport     arr_airport
- * @property Airport     dep_airport
+ * @property string      arr_airport_id
+ * @property Airport     dpt_airport
+ * @property string      dpt_airport_id
  * @property integer     block_time
  * @property integer     flight_time    In minutes
  * @property User        user

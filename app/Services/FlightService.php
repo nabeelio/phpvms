@@ -83,7 +83,7 @@ class FlightService extends Service
         /**
          * Only allow aircraft that are at the current departure airport
          */
-        if (setting('pireps.only_aircraft_at_dep_airport', false)) {
+        if (setting('pireps.only_aircraft_at_dpt_airport', false)) {
             foreach ($subfleets as $subfleet) {
                 $subfleet->aircraft = $subfleet->aircraft->filter(
                     function ($aircraft, $i) use ($flight) {

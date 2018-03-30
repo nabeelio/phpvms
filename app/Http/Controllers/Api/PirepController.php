@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Exceptions\AircraftNotAtAirport;
 use App\Exceptions\AircraftPermissionDenied;
 use App\Exceptions\PirepCancelled;
+use App\Exceptions\UserNotAtAirport;
 use App\Http\Requests\Acars\CommentRequest;
 use App\Http\Requests\Acars\EventRequest;
 use App\Http\Requests\Acars\FileRequest;
@@ -155,6 +157,8 @@ class PirepController extends Controller
      *
      * @param PrefileRequest $request
      * @return PirepResource
+     * @throws \App\Exceptions\AircraftNotAtAirport
+     * @throws \App\Exceptions\UserNotAtAirport
      * @throws \App\Exceptions\PirepCancelled
      * @throws \App\Exceptions\AircraftPermissionDenied
      * @throws \Exception
@@ -173,12 +177,25 @@ class PirepController extends Controller
 
         $pirep = new Pirep($attrs);
 
+        # See if this user is at the current airport
+        if (setting('pilots.only_flights_from_current')
+            && $user->current_airport_id !== $pirep->dpt_airport_id)
+        {
+            throw new UserNotAtAirport();
+        }
+
         # See if this user is allowed to fly this aircraft
-        if (setting('pireps.restrict_aircraft_to_rank', false)) {
-            $can_use_ac = $this->userSvc->aircraftAllowed($user, $pirep->aircraft_id);
-            if (!$can_use_ac) {
-                throw new AircraftPermissionDenied();
-            }
+        if (setting('pireps.restrict_aircraft_to_rank', false)
+            && !$this->userSvc->aircraftAllowed($user, $pirep->aircraft_id))
+        {
+            throw new AircraftPermissionDenied();
+        }
+
+        # See if this aircraft is at the departure airport
+        if (setting('pireps.only_aircraft_at_dpt_airport')
+            && $pirep->aircraft_id !== $pirep->dpt_airport_id)
+        {
+            throw new AircraftNotAtAirport();
         }
 
         # Find if there's a duplicate, if so, let's work on that

@@ -93,6 +93,85 @@ class AcarsTest extends TestCase
     }
 
     /**
+     * Make sure an error is thrown if the pilot is not at the current airport
+     */
+    public function testPilotNotAtAirport(): void
+    {
+        $this->settingsRepo->store('pilots.only_flights_from_current', true);
+        $this->settingsRepo->store('pireps.restrict_aircraft_to_rank', false);
+
+        $this->user = factory(App\Models\User::class)->create([
+            'curr_airport_id' => 'KJFK',
+        ]);
+
+        $airport = factory(App\Models\Airport::class)->create();
+        $airline = factory(App\Models\Airline::class)->create();
+        $aircraft = factory(App\Models\Aircraft::class)->create();
+
+        /**
+         * INVALID AIRLINE_ID FIELD
+         */
+        $uri = '/api/pireps/prefile';
+        $pirep = [
+            'airline_id'          => $airline->id,
+            'aircraft_id'         => $aircraft->id,
+            'dpt_airport_id'      => $airport->icao,
+            'arr_airport_id'      => $airport->icao,
+            'flight_number'       => '6000',
+            'level'               => 38000,
+            'planned_flight_time' => 120,
+            'route'               => 'POINTA POINTB',
+            'source_name'         => 'phpunit',
+        ];
+
+        $response = $this->post($uri, $pirep);
+        $response->assertStatus(400);
+        $body = $response->json();
+        $this->assertEquals(\App\Exceptions\UserNotAtAirport::MESSAGE, $body['error']['message']);
+    }
+
+    /**
+     * Make sure an error is thrown if the pilot is not at the current airport
+     */
+    public function testAircraftNotAtAirport(): void
+    {
+        $this->settingsRepo->store('pireps.only_aircraft_at_dpt_airport', true);
+        $this->settingsRepo->store('pireps.restrict_aircraft_to_rank', false);
+        $this->settingsRepo->store('pireps.restrict_aircraft_to_rank', false);
+
+        $this->user = factory(App\Models\User::class)->create([
+            'curr_airport_id' => 'KJFK',
+        ]);
+
+        $airport = factory(App\Models\Airport::class)->create();
+        $airline = factory(App\Models\Airline::class)->create();
+        $aircraft = factory(App\Models\Aircraft::class)->create([
+            'airport_id' => 'KAUS'
+        ]);
+
+        /**
+         * INVALID AIRLINE_ID FIELD
+         */
+        $uri = '/api/pireps/prefile';
+        $pirep = [
+            'airline_id'          => $airline->id,
+            'aircraft_id'         => $aircraft->id,
+            'dpt_airport_id'      => $airport->icao,
+            'arr_airport_id'      => $airport->icao,
+            'flight_number'       => '6000',
+            'level'               => 38000,
+            'planned_flight_time' => 120,
+            'route'               => 'POINTA POINTB',
+            'source_name'         => 'phpunit',
+        ];
+
+        $response = $this->post($uri, $pirep);
+        $response->assertStatus(400);
+        $body = $response->json();
+        $this->assertEquals(\App\Exceptions\AircraftNotAtAirport::MESSAGE, $body['error']['message']);
+    }
+
+    /**
      * Post a PIREP into a PREFILE state and post ACARS
      */
     public function testPrefileAndUpdates()

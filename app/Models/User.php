@@ -15,6 +15,8 @@ use Laratrust\Traits\LaratrustUserTrait;
  * @property string         $email
  * @property string         $password
  * @property string         $api_key
+ * @property string         current_airport_id
+ * @property string         home_airport_id
  * @property Flight[]       $flights
  * @property string         $flight_time
  * @property string         $remember_token

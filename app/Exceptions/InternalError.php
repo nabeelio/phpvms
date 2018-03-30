@@ -14,18 +14,21 @@ use Log;
  */
 class InternalError extends ValidationException
 {
-    protected const FLASH_FIELD_NAME = 'internal_error_message';
+    public const FIELD = 'internal_error_message';
+    public const MESSAGE = '';
 
     /**
      * InternalError constructor.
      * @param string|null $message
      * @param null        $field
      */
-    final public function __construct(string $message = null, $field = null)
+    public function __construct(string $message = null, $field = null)
     {
         Log::error($message);
         $validator = Validator::make([], []);
-        $validator->errors()->add($field ?? static::FLASH_FIELD_NAME, $message);
+        $validator->errors()->add(
+            $field ?? static::FIELD,
+            $message ?? static::MESSAGE);
 
         parent::__construct($validator);
     }

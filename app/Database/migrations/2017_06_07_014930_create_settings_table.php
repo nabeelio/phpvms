@@ -169,7 +169,7 @@ class CreateSettingsTable extends Migration
             'description' => 'Aircraft that can be flown are restricted to a user\'s rank',
         ]);
 
-        $this->addSetting('pireps.only_aircraft_at_dep_airport', [
+        $this->addSetting('pireps.only_aircraft_at_dpt_airport', [
             'name'        => 'Restrict Aircraft At Departure',
             'group'       => 'pireps',
             'value'       => false,

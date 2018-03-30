@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Exceptions\UserNotAtAirport;
 use App\Facades\Utils;
 use App\Http\Requests\CreatePirepRequest;
 use App\Http\Requests\UpdatePirepRequest;
@@ -241,12 +242,40 @@ class PirepController extends Controller
         $pirep = new Pirep($request->post());
         $pirep->user_id = Auth::user()->id;
 
+        # Are they allowed at this airport?
+        if (setting('pilots.only_flights_from_current')
+            && Auth::user()->current_airport_id !== $pirep->dpt_airport_id) {
+            return $this->flashError(
+                'You are currently not at the departure airport!',
+                'frontend.pireps.create'
+            );
+        }
+
+        # Can they fly this aircraft?
+        if (setting('pireps.restrict_aircraft_to_rank', false)
+            && !$this->userSvc->aircraftAllowed(Auth::user(), $pirep->aircraft_id)) {
+            return $this->flashError(
+                'You are not allowed to fly this aircraft!',
+                'frontend.pireps.create'
+            );
+        }
+
+        # is the aircraft in the right place?
+        if (setting('pireps.only_aircraft_at_dpt_airport')
+            && $pirep->aircraft_id !== $pirep->dpt_airport_id) {
+            return $this->flashError(
+                'This aircraft is not positioned at the departure airport!',
+                'frontend.pireps.create'
+            );
+        }
+
         # Make sure this isn't a duplicate
         $dupe_pirep = $this->pirepSvc->findDuplicate($pirep);
         if ($dupe_pirep !== false) {
-            flash()->error('This PIREP has already been filed.');
-
-            return redirect(route('frontend.pireps.create'))->withInput();
+            return $this->flashError(
+                'This PIREP has already been filed.',
+                'frontend.pireps.create'
+            );
         }
 
         // Any special fields

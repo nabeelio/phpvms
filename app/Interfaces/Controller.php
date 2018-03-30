@@ -16,6 +16,18 @@ abstract class Controller extends \Illuminate\Routing\Controller
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     /**
+     * Write a error to the flash and redirect the user to a route
+     * @param $message
+     * @param $route
+     * @return mixed
+     */
+    public function flashError($message, $route)
+    {
+        flash()->error($message);
+        return redirect(route($route))->withInput();
+    }
+
+    /**
      * Shortcut function to get the attributes from a request while running the validations
      * @param Request $request
      * @param array   $attrs_or_validations
