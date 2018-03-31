@@ -22,6 +22,7 @@
     <link href="http://fonts.googleapis.com/css?family=Roboto:400,700,300" rel="stylesheet" type="text/css">
 
     {{--<link rel="stylesheet" href="{{ public_asset('/assets/system/css/vendor.min.css') }}"/>--}}
+    <link rel="stylesheet" href="{{ public_asset('/assets/global/css/vendor.css') }}">
     <link rel="stylesheet" href="{{ public_asset('/assets/admin/css/vendor.css') }}">
     <link rel="stylesheet" href="{{ public_asset('/assets/admin/css/admin.css') }}">
 

@@ -104,7 +104,7 @@ mix.styles([
   'node_modules/flag-icon-css/css/flag-icon.css',
 ], 'public/assets/installer/css/vendor.css')
   .options({
-    processCssUrls: false,
+    //processCssUrls: false,
     compressed: true
   })
   .sourceMaps();
