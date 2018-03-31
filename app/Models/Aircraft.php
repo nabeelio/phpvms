@@ -28,8 +28,9 @@ class Aircraft extends Model
     protected $fillable = [
         'subfleet_id',
         'airport_id',
-        'name',
+        'iata',
         'icao',
+        'name',
         'registration',
         'hex_code',
         'zfw',

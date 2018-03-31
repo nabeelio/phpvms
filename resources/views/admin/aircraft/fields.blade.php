@@ -17,13 +17,30 @@
 </div>
 
 <div class="row">
-    <div class="form-group col-sm-6">
+    <div class="col-12">
+        @component('admin.components.info')
+            View list of
+            <a href="https://en.wikipedia.org/wiki/List_of_ICAO_aircraft_type_designators"
+               target="_blank">
+                IATA and ICAO Type Designators
+            </a>
+        @endcomponent
+    </div>
+</div>
+<div class="row">
+    <div class="form-group col-sm-4">
+        {{ Form::label('iata', 'IATA:') }}
+        {{ Form::text('iata', null, ['class' => 'form-control']) }}
+        <p class="text-danger">{{ $errors->first('iata') }}</p>
+    </div>
+
+    <div class="form-group col-sm-4">
         {{ Form::label('icao', 'ICAO:') }}
         {{ Form::text('icao', null, ['class' => 'form-control']) }}
         <p class="text-danger">{{ $errors->first('icao') }}</p>
     </div>
 
-    <div class="form-group col-sm-6">
+    <div class="form-group col-sm-4">
         {{ Form::label('zfw', 'Zero Fuel Weight:') }}
         {{ Form::text('zfw', null, ['class' => 'form-control']) }}
         <p class="text-danger">{{ $errors->first('zfw') }}</p>

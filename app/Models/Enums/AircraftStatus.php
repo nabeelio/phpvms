@@ -10,25 +10,17 @@ use App\Interfaces\Enum;
  */
 class AircraftStatus extends Enum
 {
-    public const STORED      = 0;
-    public const ACTIVE      = 1;
-    public const RETIRED     = 2;
-    public const SCRAPPED    = 3;
-    public const WRITTEN_OFF = 4;
+    public const ACTIVE      = 'A';
+    public const STORED      = 'S';
+    public const RETIRED     = 'R';
+    public const SCRAPPED    = 'C';
+    public const WRITTEN_OFF = 'W';
 
     public static $labels = [
-        AircraftStatus::STORED      => 'Stored',
         AircraftStatus::ACTIVE      => 'Active',
+        AircraftStatus::STORED      => 'Stored',
         AircraftStatus::RETIRED     => 'Retired',
         AircraftStatus::SCRAPPED    => 'Scrapped',
         AircraftStatus::WRITTEN_OFF => 'Written Off',
-    ];
-
-    public static $codes = [
-        AircraftStatus::STORED      => 'S',
-        AircraftStatus::ACTIVE      => 'A' ,
-        AircraftStatus::RETIRED     => 'R',
-        AircraftStatus::SCRAPPED    => 'C',
-        AircraftStatus::WRITTEN_OFF => 'W',
     ];
 }

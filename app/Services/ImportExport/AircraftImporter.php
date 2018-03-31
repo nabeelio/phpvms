@@ -23,9 +23,12 @@ class AircraftImporter extends ImportExport
      */
     public static $columns = [
         'subfleet'     => 'required',
+        'iata'         => 'nullable',
+        'icao'         => 'nullable',
         'name'         => 'required',
         'registration' => 'required',
         'hex_code'     => 'nullable',
+        'zfw'          => 'nullable|numeric',
         'status'       => 'nullable',
     ];
 
@@ -63,8 +66,6 @@ class AircraftImporter extends ImportExport
         $row['status'] = trim($row['status']);
         if($row['status'] === null || $row['status'] === '') {
             $row['status'] = AircraftStatus::ACTIVE;
-        } else {
-            $row['status'] = AircraftStatus::getFromCode($row['status']);
         }
 
         # Just set its state right now as parked

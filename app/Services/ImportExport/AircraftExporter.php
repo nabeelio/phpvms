@@ -37,7 +37,6 @@ class AircraftExporter extends ImportExport
         }
 
         # Modify special fields
-        $ret['status'] = AircraftStatus::convertToCode($aircraft->status);
         $ret['subfleet'] = $aircraft->subfleet->type;
 
         return $ret;

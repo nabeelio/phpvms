@@ -169,25 +169,25 @@ aircraft:
     airport_id: KJFK
     name: Boeing 747-438
     registration: 001Z
-    status: 1
+    status: A
   - id: 2
     subfleet_id: 2
     airport_id: LGRP
     name: Boeing 777-200
     registration: C202
-    status: 1
+    status: A
   - id: 3
     subfleet_id: 1
     airport_id: KAUS
     name: Boeing 747-412
     registration: S2333
-    status: 1
+    status: A
   - id: 4
     subfleet_id: 1
     airport_id: KAUS
     name: Boeing 747-436 RETIRED
     registration:
-    status: 2
+    status: R
 
 expenses:
   - name: Per-Flight (no muliplier)

@@ -226,6 +226,36 @@ class ImporterTest extends TestCase
     /**
      * Test exporting all the flights to a file
      */
+    public function testAircraftExporter(): void
+    {
+        $aircraft = factory(App\Models\Aircraft::class)->create();
+        $exporter = new \App\Services\ImportExport\AircraftExporter();
+        $exported = $exporter->export($aircraft);
+
+        $this->assertEquals($aircraft->iata, $exported['iata']);
+        $this->assertEquals($aircraft->icao, $exported['icao']);
+        $this->assertEquals($aircraft->name, $exported['name']);
+        $this->assertEquals($aircraft->zfw, $exported['zfw']);
+        $this->assertEquals($aircraft->subfleet->type, $exported['subfleet']);
+    }
+
+    /**
+     * Test exporting all the flights to a file
+     */
+    public function testAirportExporter(): void
+    {
+        $airport = factory(App\Models\Airport::class)->create();
+        $exporter = new \App\Services\ImportExport\AirportExporter();
+        $exported = $exporter->export($airport);
+
+        $this->assertEquals($airport->iata, $exported['iata']);
+        $this->assertEquals($airport->icao, $exported['icao']);
+        $this->assertEquals($airport->name, $exported['name']);
+    }
+
+    /**
+     * Test exporting all the flights to a file
+     */
     public function testFlightExporter(): void
     {
         $fareSvc = app(FareService::class);

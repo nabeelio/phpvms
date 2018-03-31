@@ -13,6 +13,7 @@ class CreateAircraftsTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('subfleet_id');
             $table->string('icao', 4)->nullable();
+            $table->string('iata', 4)->nullable();
             $table->string('airport_id', 5)->nullable();
             $table->timestamp('landing_time')->nullable();
             $table->string('name', 50);
@@ -20,7 +21,7 @@ class CreateAircraftsTable extends Migration
             $table->string('hex_code', 10)->nullable();
             $table->unsignedDecimal('zfw')->nullable()->default(0);
             $table->unsignedBigInteger('flight_time')->nullable()->default(0);
-            $table->unsignedTinyInteger('status')->default(AircraftStatus::ACTIVE);
+            $table->char('status', 1)->default(AircraftStatus::ACTIVE);
             $table->unsignedTinyInteger('state')->default(AircraftState::PARKED);
             $table->timestamps();
 
