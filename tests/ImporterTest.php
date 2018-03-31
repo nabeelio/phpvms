@@ -18,6 +18,8 @@ class ImporterTest extends TestCase
         $this->importBaseClass = new \App\Interfaces\ImportExport();
         $this->importSvc = app(\App\Services\ImportService::class);
         $this->fareSvc = app(\App\Services\FareService::class);
+
+        Storage::fake('local');
     }
 
     /**
@@ -229,6 +231,7 @@ class ImporterTest extends TestCase
     public function testAircraftExporter(): void
     {
         $aircraft = factory(App\Models\Aircraft::class)->create();
+
         $exporter = new \App\Services\ImportExport\AircraftExporter();
         $exported = $exporter->export($aircraft);
 
@@ -237,6 +240,13 @@ class ImporterTest extends TestCase
         $this->assertEquals($aircraft->name, $exported['name']);
         $this->assertEquals($aircraft->zfw, $exported['zfw']);
         $this->assertEquals($aircraft->subfleet->type, $exported['subfleet']);
+
+        $importer = app(\App\Services\ImportService::class);
+        $exporter = app(\App\Services\ExportService::class);
+        $file = $exporter->exportAircraft(collect([$aircraft]));
+        $status = $importer->importAircraft($file);
+        $this->assertCount(1, $status['success']);
+        $this->assertCount(0, $status['errors']);
     }
 
     /**
@@ -251,6 +261,13 @@ class ImporterTest extends TestCase
         $this->assertEquals($airport->iata, $exported['iata']);
         $this->assertEquals($airport->icao, $exported['icao']);
         $this->assertEquals($airport->name, $exported['name']);
+
+        $importer = app(\App\Services\ImportService::class);
+        $exporter = app(\App\Services\ExportService::class);
+        $file = $exporter->exportAirport(collect([$airport]));
+        $status = $importer->importAirport($file);
+        $this->assertCount(1, $status['success']);
+        $this->assertCount(0, $status['errors']);
     }
 
     /**
@@ -306,6 +323,13 @@ class ImporterTest extends TestCase
         $this->assertEquals('A32X;B74X', $exported['subfleets']);
         $this->assertEquals('Y?capacity=100;F', $exported['fares']);
         $this->assertEquals('Departure Gate=4;Arrival Gate=C41', $exported['fields']);
+
+        $importer = app(\App\Services\ImportService::class);
+        $exporter = app(\App\Services\ExportService::class);
+        $file = $exporter->exportFlights(collect([$flight]));
+        $status = $importer->importFlights($file);
+        $this->assertCount(1, $status['success']);
+        $this->assertCount(0, $status['errors']);
     }
 
     /**
