@@ -553,6 +553,7 @@ class ImporterTest extends TestCase
 
         $this->assertNotNull($aircraft);
         $this->assertEquals($subfleet->id, $aircraft->id);
+        $this->assertEquals($subfleet->type, $aircraft->subfleet->type);
         $this->assertEquals('A320-211', $aircraft->name);
         $this->assertEquals('N309US', $aircraft->registration);
         $this->assertEquals('A', $aircraft->status);
@@ -579,6 +580,13 @@ class ImporterTest extends TestCase
         $this->assertEquals('KAUS', $airport->id);
         $this->assertEquals('AUS', $airport->iata);
         $this->assertEquals('KAUS', $airport->icao);
+        $this->assertEquals('Austin-Bergstrom', $airport->name);
+        $this->assertEquals('Austin, Texas, USA', $airport->location);
+        $this->assertEquals('United States', $airport->country);
+        $this->assertEquals('America/Chicago', $airport->timezone);
+        $this->assertEquals(true, $airport->hub);
+        $this->assertEquals('30.1945', $airport->lat);
+        $this->assertEquals('-97.6699', $airport->lon);
     }
 
     /**
