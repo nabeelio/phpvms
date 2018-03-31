@@ -14,6 +14,7 @@
 phpvms.map.render_route_map({
     route_points: {!! json_encode($map_features['route_points']) !!},
     planned_route_line: {!! json_encode($map_features['planned_route_line']) !!},
+    metar_wms: {!! json_encode(config('map.metar_wms')) !!},
 });
 </script>
 @endsection

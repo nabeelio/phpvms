@@ -195,3 +195,29 @@ if (!function_exists('show_date')) {
         return $date->timezone($timezone)->toFormattedDateString();
     }
 }
+
+if (!function_exists('_fmt')) {
+    /**
+     * Replace strings
+     * @param       $line    "Hi, my name is :name"
+     * @param array $replace ['name' => 'Nabeel']
+     * @return mixed
+     */
+    function _fmt($line, array $replace)
+    {
+        if (empty($replace)) {
+            return $line;
+        }
+
+        foreach ($replace as $key => $value) {
+            $key = strtolower($key);
+            $line = str_replace(
+                [':'.$key],
+                [$value],
+                $line
+            );
+        }
+
+        return $line;
+    }
+}

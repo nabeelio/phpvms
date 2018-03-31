@@ -4,7 +4,7 @@
 @section('content')
 <div class="row">
     <div class="col-md-12">
-        <h2 class="description">{{ $flight->ident }} - {{ $flight->dpt_airport->full_name }} to {{ $flight->arr_airport->full_name }}</h2>
+        <h2 class="description">{{ $flight->ident }}</h2>
     </div>
 </div>
 
@@ -13,29 +13,26 @@
         <table class="table">
             <tr>
                 <td>Departure</td>
-                <td>{{ $flight->dpt_airport->icao }} @ {{ $flight->dpt_time }}</td>
+                <td>
+                    <a href="{{route('frontend.airports.show', ['id'=>$flight->dpt_airport_id])}}">
+                        {{ $flight->dpt_airport->full_name }}</a>
+                    @ {{ $flight->dpt_time }}</td>
             </tr>
 
             <tr>
                 <td>Arrival</td>
-                <td>{{ $flight->arr_airport->icao }} @ {{ $flight->arr_time }}</td>
+                <td>
+                    <a href="{{route('frontend.airports.show', ['id'=>$flight->arr_airport_id])}}">
+                        {{ $flight->arr_airport->full_name }}</a> @ {{ $flight->arr_time }}</td>
             </tr>
-
-            <tr>
-                <td>Route Code/Leg:</td>
-                <td>{{ $flight->route_code ?: '-' }}/{{ $flight->route_leg ?: '-' }}</td>
-            </tr>
-
+            @if($flight->alt_airport_id)
             <tr>
                 <td>Alternate Airport</td>
                 <td>
-                    @if($flight->alt_airport_id)
-                        {{ $flight->alt_airport->full_name }}
-                    @else
-                        -
-                    @endif
+                    {{ $flight->alt_airport->full_name }}
                 </td>
             </tr>
+            @endif
 
             <tr>
                 <td>Route</td>
@@ -49,5 +46,20 @@
         </table>
     </div>
 </div>
-@include("flights.map")
+<div style="padding: 10px;"></div>
+<div class="row">
+    <div class="col-6">
+        <h5>{{$flight->dpt_airport_id}} METAR</h5>
+        {{ Widget::checkWx([
+            'icao' => $flight->dpt_airport_id,
+          ]) }}
+    </div>
+    <div class="col-6">
+        <h5>{{$flight->arr_airport_id}} METAR</h5>
+        {{ Widget::checkWx([
+            'icao' => $flight->arr_airport_id,
+          ]) }}
+    </div>
+</div>
+@include('flights.map')
 @endsection

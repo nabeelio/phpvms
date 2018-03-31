@@ -12,6 +12,7 @@ mix.copy('node_modules/bootstrap3/fonts/*.woff2', 'public/assets/admin/fonts/');
 mix.copy('node_modules/x-editable/dist/bootstrap3-editable/img/*', 'public/assets/admin/img/');
 mix.copy('node_modules/jquery/dist/jquery.js', 'public/assets/global/js/');
 mix.copy('node_modules/flag-icon-css/flags/', 'public/assets/global/flags/');
+mix.copy('node_modules/leaflet/dist/images/', 'public/assets/global/css/images/');
 
 /**
  * DEFAULT SKIN FRONTEND FILES
@@ -89,6 +90,7 @@ mix.styles([
   'node_modules/flag-icon-css/css/flag-icon.css',
 ], 'public/assets/global/css/vendor.css')
   .options({
+    //processCssUrls: true,
     compressed: true
   })
   .sourceMaps();

@@ -3,6 +3,7 @@ const leaflet = require('leaflet');
 
 import draw_base_map from './base_map'
 import { ACTUAL_ROUTE_COLOR, PLAN_ROUTE_COLOR } from './config'
+import {addWMSLayer} from './helpers';
 
 /**
  * Show some popup text when a feature is clicked on
@@ -48,11 +49,19 @@ export default (opts) => {
     actual_route_points: null,
     actual_route_line: null,
     render_elem: 'map',
+    metar_wms: {
+        url: '',
+        params: {}
+    },
   }, opts);
 
-  console.log(opts)
+  console.log(opts);
 
-  let map = draw_base_map(opts)
+  let map = draw_base_map(opts);
+
+  if (opts.metar_wms.url !== '') {
+      addWMSLayer(map, opts.metar_wms);
+  }
 
   let geodesicLayer = leaflet.geodesic([], {
     weight: 7,

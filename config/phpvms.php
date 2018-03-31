@@ -35,12 +35,6 @@ return [
     'vacentral_api_url' => 'https://api.vacentral.net',
 
     /**
-     * For METAR features, register for an API key at
-     * https://www.checkwx.com
-     */
-    'checkwx_api_key' => env('CHECKWX_API_KEY', false),
-
-    /**
      * Misc Settings
      */
     'news_feed_url' => 'http://forum.phpvms.net/rss/1-announcements-feed.xml/?',

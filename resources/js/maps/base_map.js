@@ -50,14 +50,14 @@ export default (opts) => {
   feature_groups.push(openaip_cached_basemap);
   */
 
-  const openaip_basemap_phys_osm = leaflet.featureGroup(feature_groups)
+  const openaip_basemap_phys_osm = leaflet.featureGroup(feature_groups);
 
   let map = leaflet.map('map', {
     layers: [openaip_basemap_phys_osm],
     center: opts.center,
     zoom: opts.zoom,
     scrollWheelZoom: false,
-  })
+  });
 
   const attrib = leaflet.control.attribution({position: 'bottomleft'})
   attrib.addAttribution('<a href="https://www.thunderforest.com" target="_blank" style="">Thunderforest</a>')

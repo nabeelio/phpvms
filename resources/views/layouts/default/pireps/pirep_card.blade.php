@@ -1,12 +1,22 @@
 <div class="card border-blue-bottom">
     <div class="card-block" style="min-height: 0px">
         <div class="row">
-            <div class="col-sm-2 text-center">
+            <div class="col-12">
                 <h5>
                     <a class="text-c" href="{{ route('frontend.pireps.show', [$pirep->id]) }}">
                         {{ $pirep->ident }}
                     </a>
+                    -
+                    <a href="{{route('frontend.airports.show', ['id' => $pirep->dpt_airport_id])}}">
+                        {{ $pirep->dpt_airport_id }}</a>
+
+                    <span class="description"> to </span>
+
+                    <a href="{{route('frontend.airports.show', ['id' => $pirep->arr_airport_id])}}">
+                        {{ $pirep->arr_airport_id }}</a>
                 </h5>
+            </div>
+            <div class="col-sm-2 text-center">
                 <div>
                     @if($pirep->state === PirepState::PENDING)
                         <div class="badge badge-warning">
@@ -24,14 +34,6 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <table width="100%">
-                            <tr>
-                                <td width="20%" nowrap><span class="title">DEP&nbsp;</span></td>
-                                <td>{{ $pirep->dpt_airport_id }}</td>
-                            </tr>
-                            <tr>
-                                <td nowrap><span class="title">ARR&nbsp;</span></td>
-                                <td>{{ $pirep->arr_airport_id }}&nbsp;</td>
-                            </tr>
                             <tr>
                                 <td nowrap><span class="title">Flight Time&nbsp;</span></td>
                                 <td>{{ Utils::minutesToTimeString($pirep->flight_time) }}</td>

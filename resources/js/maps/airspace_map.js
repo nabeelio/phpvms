@@ -2,6 +2,7 @@
 const leaflet = require('leaflet');
 
 import draw_base_map from './base_map'
+import { addWMSLayer } from './helpers';
 
 /**
  * Render a map with the airspace, etc around a given set of coords
@@ -17,16 +18,27 @@ export default (opts) => {
     zoom: 12,
     layers: [],
     set_marker: true,
+    marker_popup: '',
+
+    // Passed from the config/maps.php file
+    metar_wms: {
+        url: '',
+        params: {}
+    },
   }, opts);
 
-  let map = draw_base_map(opts)
-  const coords = [opts.lat, opts.lon]
-  console.log('Applying coords', coords)
+  let map = draw_base_map(opts);
+  const coords = [opts.lat, opts.lon];
+  console.log('Applying coords', coords);
 
-  map.setView(coords, opts.zoom)
+  map.setView(coords, opts.zoom);
   if (opts.set_marker === true) {
-    leaflet.marker(coords).addTo(map)
+    leaflet.marker(coords).addTo(map).bindPopup(opts.marker_popup);
   }
 
-  return map
+  if(opts.metar_wms.url !== '') {
+      addWMSLayer(map, opts.metar_wms);
+  }
+
+  return map;
 };

@@ -32,10 +32,12 @@
         <div class="row">
             <div class="col-sm-5">
                 <span class="title">DEP&nbsp;</span>
-                {{ $flight->dpt_airport->icao }}@if($flight->dpt_time), {{ $flight->dpt_time }}@endif
+                <a href="{{route('frontend.airports.show', ['id'=>$flight->dpt_airport_id])}}">
+                    {{ $flight->dpt_airport->icao }}</a>@if($flight->dpt_time), {{ $flight->dpt_time }}@endif
                 <br />
                 <span class="title">ARR&nbsp;</span>
-                {{ $flight->arr_airport->icao }}@if($flight->arr_time), {{ $flight->arr_time }}@endif
+                <a href="{{route('frontend.airports.show', ['id'=>$flight->arr_airport_id])}}">
+                    {{ $flight->arr_airport->icao }}</a>@if($flight->arr_time), {{ $flight->arr_time }}@endif
                 <br />
                 @if($flight->distance)
                     <span class="title">DISTANCE&nbsp;</span>

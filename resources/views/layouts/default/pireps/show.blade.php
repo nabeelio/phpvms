@@ -35,9 +35,11 @@
                 <tr>
                     <td>Departure/Arrival</td>
                     <td>
-                        {{ $pirep->dpt_airport->icao }} - {{ $pirep->dpt_airport->name }}
+                        <a href="{{route('frontend.airports.show', ['id' => $pirep->dpt_airport_id])}}">
+                            {{ $pirep->dpt_airport->full_name }}</a>
                         <span class="description">to</span>
-                        {{ $pirep->arr_airport->icao }} - {{ $pirep->arr_airport->name }}
+                        <a href="{{route('frontend.airports.show', ['id' => $pirep->arr_airport_id])}}">
+                            {{ $pirep->arr_airport->full_name }}</a>
                     </td>
                 </tr>
 

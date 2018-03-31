@@ -113,6 +113,15 @@ class CreateSettingsTable extends Migration
             'description' => 'The units for fuel for display',
         ]);
 
+        $this->addSetting('units.temperature', [
+            'name'        => 'Temperature Units',
+            'group'       => 'units',
+            'value'       => 'f',
+            'type'        => 'select',
+            'options'     => 'f=Fahrenheit,c=Celsius',
+            'description' => 'The units for temperature',
+        ]);
+
         /**
          * BIDS
          */
