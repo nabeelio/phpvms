@@ -90,7 +90,6 @@ class UserService extends Service
         }
 
         $subfleets = $user->rank->subfleets();
-
         return $subfleets->with('aircraft')->get();
     }
 
@@ -210,6 +209,23 @@ class UserService extends Service
             event(new UserStatsChanged($user, 'rank', $old_rank));
         }
 
+        return $user;
+    }
+
+    /**
+     * Set the user's status to being on leave
+     * @param User $user
+     * @return User
+     */
+    public function stStatusOnLeave(User $user): User
+    {
+        $user->refresh();
+        $user->state = UserState::ON_LEAVE;
+        $user->save();
+
+        event(new UserStateChanged($user, UserState::ACTIVE));
+
+        $user->refresh();
         return $user;
     }
 

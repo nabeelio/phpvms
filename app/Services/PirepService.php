@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Events\PirepAccepted;
 use App\Events\PirepFiled;
 use App\Events\PirepRejected;
+use App\Events\UserStateChanged;
 use App\Events\UserStatsChanged;
 use App\Interfaces\Service;
 use App\Models\Acars;
@@ -12,6 +13,7 @@ use App\Models\Bid;
 use App\Models\Enums\AcarsType;
 use App\Models\Enums\PirepSource;
 use App\Models\Enums\PirepState;
+use App\Models\Enums\UserState;
 use App\Models\Navdata;
 use App\Models\Pirep;
 use App\Models\PirepFieldValues;
@@ -197,6 +199,15 @@ class PirepService extends Service
         if ($default_state === PirepState::ACCEPTED) {
             $pirep = $this->accept($pirep);
             $this->setPilotState($pirep->pilot, $pirep);
+        }
+
+        # Check the user state, set them to ACTIVE if on leave
+        if($pirep->user->state !== UserState::ACTIVE) {
+            $old_state = $pirep->user->state;
+            $pirep->user->state = UserState::ACTIVE;
+            $pirep->user->save();
+
+            event(new UserStateChanged($pirep->user, $old_state));
         }
 
         return $pirep;

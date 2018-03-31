@@ -8,6 +8,8 @@ use App\Events\CronWeekly;
 use App\Events\Expenses;
 use App\Events\UserStatsChanged;
 use App\Listeners\AwardListener;
+use App\Listeners\Cron\Nightly\ApplyExpenses;
+use App\Listeners\Cron\Nightly\PilotLeave;
 use App\Listeners\Cron\Nightly\RecalculateBalances;
 use App\Listeners\ExpenseListener;
 use App\Listeners\FinanceEvents;
@@ -24,8 +26,9 @@ class EventServiceProvider extends ServiceProvider
 
         # Cron hooks
         CronNightly::class => [
-            \App\Listeners\Cron\Nightly\ApplyExpenses::class,
+            ApplyExpenses::class,
             RecalculateBalances::class,
+            PilotLeave::class,
         ],
 
         CronWeekly::class => [
