@@ -53,7 +53,7 @@ class ExportService extends Service
         $writer = $this->openCsv($path);
 
         // Write out the header first
-        $writer->insertOne(array_keys($exporter->getColumns()));
+        $writer->insertOne($exporter->getColumns());
 
         // Write the rest of the rows
         foreach ($collection as $row) {

@@ -301,6 +301,7 @@ class ImporterTest extends TestCase
 
         $this->assertEquals('27', $exported['days']);
         $this->assertEquals('VMS', $exported['airline']);
+        $this->assertEquals($flight->flight_time, $exported['flight_time']);
         $this->assertEquals('J', $exported['flight_type']);
         $this->assertEquals('A32X;B74X', $exported['subfleets']);
         $this->assertEquals('Y?capacity=100;F', $exported['fares']);

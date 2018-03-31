@@ -20,6 +20,9 @@ use PhpUnitsOfMeasure\Exception\NonStringUnitName;
  * @property Collection fares
  * @property Collection subfleets
  * @property integer    days
+ * @property Airport    dep_airport
+ * @property Airport    arr_airport
+ * @property Airport    alt_airport
  * @property string     dpt_airport_id
  * @property string     arr_airport_id
  * @property string     alt_airport_id
