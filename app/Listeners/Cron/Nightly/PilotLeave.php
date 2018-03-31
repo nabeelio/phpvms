@@ -42,7 +42,7 @@ class PilotLeave extends Listener
            ->whereDate('updated_at', '<', $date);
 
         foreach($users as $user) {
-            $this->userSvc->stStatusOnLeave($user);
+            $this->userSvc->setStatusOnLeave($user);
         }
     }
 }

@@ -217,7 +217,7 @@ class UserService extends Service
      * @param User $user
      * @return User
      */
-    public function stStatusOnLeave(User $user): User
+    public function setStatusOnLeave(User $user): User
     {
         $user->refresh();
         $user->state = UserState::ON_LEAVE;
