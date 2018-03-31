@@ -555,6 +555,8 @@ class ImporterTest extends TestCase
         $this->assertEquals($subfleet->id, $aircraft->id);
         $this->assertEquals('A320-211', $aircraft->name);
         $this->assertEquals('N309US', $aircraft->registration);
+        $this->assertEquals('A', $aircraft->status);
+        $this->assertEquals(null, $aircraft->zfw);
     }
 
     /**

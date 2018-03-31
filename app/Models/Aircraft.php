@@ -44,7 +44,6 @@ class Aircraft extends Model
     protected $casts = [
         'subfleet_id' => 'integer',
         'zfw'         => 'float',
-        'status'      => 'integer',
         'state'       => 'integer',
     ];
 
