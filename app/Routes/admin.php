@@ -34,6 +34,10 @@ Route::group([
     Route::match(['get', 'post'], 'fares/import', 'FareController@import')->name('fares.import');
     Route::resource('fares', 'FareController');
 
+    # files
+    Route::post('files', 'FilesController@store')->name('files.store');
+    Route::delete('files/{id}/delete', 'FilesController@delete')->name('files.delete');
+
     # finances
     Route::resource('finances', 'FinanceController');
 

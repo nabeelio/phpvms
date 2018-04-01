@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Interfaces\Model;
 use App\Models\Enums\AircraftStatus;
 use App\Models\Traits\ExpensableTrait;
+use App\Models\Traits\FilesTrait;
 
 /**
  * @property int      id
@@ -22,6 +23,7 @@ use App\Models\Traits\ExpensableTrait;
 class Aircraft extends Model
 {
     use ExpensableTrait;
+    use FilesTrait;
 
     public $table = 'aircraft';
 

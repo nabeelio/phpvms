@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Interfaces\Model;
 use App\Models\Traits\ExpensableTrait;
+use App\Models\Traits\FilesTrait;
 
 /**
  * Class Airport
@@ -16,6 +17,7 @@ use App\Models\Traits\ExpensableTrait;
 class Airport extends Model
 {
     use ExpensableTrait;
+    use FilesTrait;
 
     public $table = 'airports';
     public $timestamps = false;

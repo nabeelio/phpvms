@@ -18,5 +18,14 @@
          @include('admin.airports.expenses')
       </div>
    </div>
+
+   <div class="card border-blue-bottom">
+      <div class="content">
+         @include('admin.common.file_upload', [
+            'model'    => $airport,
+            'redirect' => route('admin.airports.edit', ['id' => $airport->id])
+         ])
+      </div>
+   </div>
 @endsection
 @include('admin.airports.script')

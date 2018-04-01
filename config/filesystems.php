@@ -2,6 +2,9 @@
 
 return [
     'default' => 'local',
+
+    // This is the filesystem the uploaded files should go to
+    'public_files' => 'public',
     'cloud' => 's3',
     'disks' => [
 
@@ -12,7 +15,8 @@ return [
 
         'public' => [
             'driver' => 'local',
-            'root' => app_path('public/assets/upload'),
+            'root' => public_path('uploads'),
+            'url' => '/uploads',
             'visibility' => 'public',
         ],
 

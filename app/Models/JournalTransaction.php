@@ -7,6 +7,7 @@
 namespace App\Models;
 
 use App\Interfaces\Model;
+use App\Models\Traits\ReferenceTrait;
 
 /**
  * @property string  id  UUID type
@@ -22,6 +23,8 @@ use App\Interfaces\Model;
  */
 class JournalTransaction extends Model
 {
+    use ReferenceTrait;
+
     protected $table = 'journal_transactions';
 
     public $incrementing = false;
@@ -59,33 +62,6 @@ class JournalTransaction extends Model
     public function journal()
     {
         return $this->belongsTo(Journal::class);
-    }
-
-    /**
-     * @param Model $object
-     * @return JournalTransaction
-     */
-    public function referencesObject($object)
-    {
-        $this->ref_model = \get_class($object);
-        $this->ref_model_id = $object->id;
-        $this->save();
-
-        return $this;
-    }
-
-    /**
-     *
-     */
-    public function getReferencedObject()
-    {
-        if ($classname = $this->ref_model) {
-            $klass = new $this->ref_model;
-
-            return $klass->find($this->ref_model_id);
-        }
-
-        return false;
     }
 
     /**
