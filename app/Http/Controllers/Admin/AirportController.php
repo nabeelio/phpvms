@@ -255,8 +255,8 @@ class AirportController extends Controller
 
         if ($request->isMethod('post')) {
             $expense = new Expense($request->post());
-            $expense->ref_class = Airport::class;
-            $expense->ref_class_id = $airport->id;
+            $expense->ref_model = Airport::class;
+            $expense->ref_model_id = $airport->id;
             $expense->save();
         } elseif ($request->isMethod('put')) {
             $expense = Expense::findOrFail($request->input('expense_id'));

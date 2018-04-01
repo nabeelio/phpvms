@@ -56,9 +56,9 @@ abstract class Award
     final public function handle(): void
     {
         # Check if the params are a JSON object or array
-        $param = $this->award->ref_class_params;
-        if (Utils::isObject($this->award->ref_class_params)) {
-            $param = json_decode($this->award->ref_class_params);
+        $param = $this->award->ref_model_params;
+        if (Utils::isObject($this->award->ref_model_params)) {
+            $param = json_decode($this->award->ref_model_params);
         }
 
         if ($this->check($param)) {

@@ -247,8 +247,8 @@ class AircraftController extends Controller
 
         if ($request->isMethod('post')) {
             $expense = new Expense($request->post());
-            $expense->ref_class = Aircraft::class;
-            $expense->ref_class_id = $aircraft->id;
+            $expense->ref_model = Aircraft::class;
+            $expense->ref_model_id = $aircraft->id;
             $expense->save();
         } elseif ($request->isMethod('put')) {
             $expense = Expense::findOrFail($request->input('expense_id'));

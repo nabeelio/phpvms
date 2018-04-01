@@ -16,8 +16,8 @@ use App\Interfaces\Model;
  * @property string  post_date
  * @property integer credit
  * @property integer debit
- * @property string  ref_class
- * @property integer ref_class_id
+ * @property string  ref_model
+ * @property integer ref_model_id
  * @property Journal journal
  */
 class JournalTransaction extends Model
@@ -34,8 +34,8 @@ class JournalTransaction extends Model
         'currency',
         'memo',
         'tags',
-        'ref_class',
-        'ref_class_id',
+        'ref_model',
+        'ref_model_id',
         'post_date'
     ];
 
@@ -67,8 +67,8 @@ class JournalTransaction extends Model
      */
     public function referencesObject($object)
     {
-        $this->ref_class = \get_class($object);
-        $this->ref_class_id = $object->id;
+        $this->ref_model = \get_class($object);
+        $this->ref_model_id = $object->id;
         $this->save();
 
         return $this;
@@ -79,10 +79,10 @@ class JournalTransaction extends Model
      */
     public function getReferencedObject()
     {
-        if ($classname = $this->ref_class) {
-            $klass = new $this->ref_class;
+        if ($classname = $this->ref_model) {
+            $klass = new $this->ref_model;
 
-            return $klass->find($this->ref_class_id);
+            return $klass->find($this->ref_model_id);
         }
 
         return false;

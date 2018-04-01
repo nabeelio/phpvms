@@ -46,20 +46,20 @@
 
     <div class="form-group col-sm-6">
         <div>
-            {{ Form::label('ref_class', 'Award Class:') }}
-            {{ Form::select('ref_class', $award_classes, null , [
+            {{ Form::label('ref_model', 'Award Class:') }}
+            {{ Form::select('ref_model', $award_classes, null , [
                 'class' => 'form-control select2',
                 'id' => 'award_class_select',
             ]) }}
-            <p class="text-danger">{{ $errors->first('ref_class') }}</p>
+            <p class="text-danger">{{ $errors->first('ref_model') }}</p>
         </div>
 
         <div>
-            {{ Form::label('ref_class_params', 'Award Class parameters') }}
-            {{ Form::text('ref_class_params', null, ['class' => 'form-control']) }}
-            <p class="text-danger">{{ $errors->first('ref_class_params') }}</p>
+            {{ Form::label('ref_model_params', 'Award Class parameters') }}
+            {{ Form::text('ref_model_params', null, ['class' => 'form-control']) }}
+            <p class="text-danger">{{ $errors->first('ref_model_params') }}</p>
 
-            <p id="ref_class_param_description">
+            <p id="ref_model_param_description">
 
             </p>
         </div>

@@ -57,15 +57,15 @@ class RecurringFinanceService extends Service
     protected function getMemoAndGroup(Expense $expense): array
     {
         $klass = 'Expense';
-        if ($expense->ref_class) {
-            $ref = explode('\\', $expense->ref_class);
+        if ($expense->ref_model) {
+            $ref = explode('\\', $expense->ref_model);
             $klass = end($ref);
             $obj = $expense->getReference();
         }
 
         if ($klass === 'Airport') {
-            $memo = "Airport Expense: {$expense->name} ({$expense->ref_class_id})";
-            $transaction_group = "Airport: {$expense->ref_class_id}";
+            $memo = "Airport Expense: {$expense->name} ({$expense->ref_model_id})";
+            $transaction_group = "Airport: {$expense->ref_model_id}";
         } elseif ($klass === 'Subfleet') {
             $memo = "Subfleet Expense: {$expense->name}";
             $transaction_group = "Subfleet: {$expense->name}";
@@ -111,8 +111,8 @@ class RecurringFinanceService extends Service
                 # against this specific journal, on today
                 $w = [
                     'journal_id'   => $journal->id,
-                    'ref_class'    => Expense::class,
-                    'ref_class_id' => $expense->id,
+                    'ref_model'    => Expense::class,
+                    'ref_model_id' => $expense->id,
                 ];
 
                 $found = JournalTransaction::where($w)

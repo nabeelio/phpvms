@@ -7,8 +7,8 @@ use App\Interfaces\Model;
 /**
  * The Award model
  * @property mixed      id
- * @property mixed      ref_class
- * @property mixed|null ref_class_params
+ * @property mixed      ref_model
+ * @property mixed|null ref_model_params
  * @package Award\Models
  */
 class Award extends Model
@@ -19,16 +19,16 @@ class Award extends Model
         'name',
         'description',
         'image_url',
-        'ref_class',
-        'ref_class_params',
+        'ref_model',
+        'ref_model_params',
     ];
 
     public static $rules = [
         'name'             => 'required',
         'description'      => 'nullable',
         'image_url'        => 'nullable',
-        'ref_class'        => 'required',
-        'ref_class_params' => 'nullable'
+        'ref_model'        => 'required',
+        'ref_model_params' => 'nullable'
     ];
 
     /**
@@ -39,12 +39,12 @@ class Award extends Model
      */
     public function getReference(Award $award = null, User $user = null)
     {
-        if (!$this->ref_class) {
+        if (!$this->ref_model) {
             return null;
         }
 
         try {
-            return new $this->ref_class($award, $user);
+            return new $this->ref_model($award, $user);
         } catch (\Exception $e) {
             return null;
         }

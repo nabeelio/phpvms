@@ -48,26 +48,26 @@ class ExpenseExporter extends ImportExport
 
         // For the different expense types, instead of exporting
         // the ID, export a specific column
-        if ($expense->ref_class === Expense::class) {
-            $ret['ref_class'] = '';
-            $ret['ref_class_id'] = '';
+        if ($expense->ref_model === Expense::class) {
+            $ret['ref_model'] = '';
+            $ret['ref_model_id'] = '';
         } else {
             $obj = $expense->getReference();
             if(!$obj) { // bail out
                 return $ret;
             }
 
-            if ($expense->ref_class === Aircraft::class) {
-                $ret['ref_class_id'] = $obj->registration;
-            } elseif ($expense->ref_class === Airport::class) {
-                $ret['ref_class_id'] = $obj->icao;
-            } elseif ($expense->ref_class === Subfleet::class) {
-                $ret['ref_class_id'] = $obj->type;
+            if ($expense->ref_model === Aircraft::class) {
+                $ret['ref_model_id'] = $obj->registration;
+            } elseif ($expense->ref_model === Airport::class) {
+                $ret['ref_model_id'] = $obj->icao;
+            } elseif ($expense->ref_model === Subfleet::class) {
+                $ret['ref_model_id'] = $obj->type;
             }
         }
 
-        // And convert the ref_class into the shorter name
-        $ret['ref_class'] = str_replace('App\Models\\', '', $ret['ref_class']);
+        // And convert the ref_model into the shorter name
+        $ret['ref_model'] = str_replace('App\Models\\', '', $ret['ref_model']);
 
         return $ret;
     }

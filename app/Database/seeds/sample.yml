@@ -98,8 +98,8 @@ awards:
     name: Pilot 50 flights
     description: When a pilot has 50 flights, give this award
     image_url:
-    ref_class: App\Awards\PilotFlightAwards
-    ref_class_params: 50
+    ref_model: App\Awards\PilotFlightAwards
+    ref_model_params: 50
     created_at: now
     updated_at: now
 
@@ -194,52 +194,52 @@ expenses:
     amount: 100
     type: 0
     active: 1
-    ref_class: App\Models\Expense
+    ref_model: App\Models\Expense
   - name: Per-Flight (multiplier)
     amount: 100
     type: 0
     multiplier: 1
     active: 1
-    ref_class: App\Models\Expense
+    ref_model: App\Models\Expense
   - name: Per-Flight (multiplier, on airline)
     airline_id: 1
     amount: 200
     type: 0
     multiplier: 1
     active: 1
-    ref_class: App\Models\Expense
+    ref_model: App\Models\Expense
   - name: A daily fee
     amount: 800
     type: 1
     active: 1
-    ref_class: App\Models\Expense
+    ref_model: App\Models\Expense
   - name: A monthly fee
     amount: 5000
     type: 2
     active: 1
-    ref_class: App\Models\Expense
+    ref_model: App\Models\Expense
   - name: Catering
     amount: 1000
     type: 0
     active: 1
-    ref_class: App\Models\Subfleet
-    ref_class_id: 1
+    ref_model: App\Models\Subfleet
+    ref_model_id: 1
     created_at: now
     updated_at: now
   - name: Catering Staff
     amount: 1000
     type: 1
     active: 1
-    ref_class: App\Models\Subfleet
-    ref_class_id: 1
+    ref_model: App\Models\Subfleet
+    ref_model_id: 1
     created_at: now
     updated_at: now
   - name: Maintenance
     amount: 1000
     type: 1
     active: 1
-    ref_class: App\Models\Aircraft
-    ref_class_id: 1
+    ref_model: App\Models\Aircraft
+    ref_model_id: 1
     created_at: now
     updated_at: now
 
@@ -519,8 +519,8 @@ journal_transactions:
     currency: USD
     memo: 'Pilot Payment @ 50'
     tags: '"pilot_pay"'
-    ref_class: App\Models\Pirep
-    ref_class_id: pirepid_1
+    ref_model: App\Models\Pirep
+    ref_model_id: pirepid_1
     created_at: '2018-03-06 12:34:15'
     updated_at: '2018-03-06 12:34:15'
     post_date: '2018-03-06 12:34:15'
@@ -533,8 +533,8 @@ journal_transactions:
     currency: USD
     memo: 'Expense: Per-Flight (no muliplier)'
     tags: '"expense"'
-    ref_class: App\Models\Pirep
-    ref_class_id: pirepid_1
+    ref_model: App\Models\Pirep
+    ref_model_id: pirepid_1
     created_at: '2018-03-06 12:34:15'
     updated_at: '2018-03-06 12:34:15'
     post_date: '2018-03-06 12:34:15'
@@ -547,8 +547,8 @@ journal_transactions:
     currency: USD
     memo: 'Fares Y300; price: 200, cost: 0'
     tags: '"fare"'
-    ref_class: App\Models\Pirep
-    ref_class_id: pirepid_1
+    ref_model: App\Models\Pirep
+    ref_model_id: pirepid_1
     created_at: '2018-03-06 12:34:15'
     updated_at: '2018-03-06 12:34:15'
     post_date: '2018-03-06 12:34:15'
@@ -561,8 +561,8 @@ journal_transactions:
     currency: USD
     memo: 'Expense: Per-Flight (multiplier, on airline)'
     tags: '"expense"'
-    ref_class: App\Models\Pirep
-    ref_class_id: pirepid_1
+    ref_model: App\Models\Pirep
+    ref_model_id: pirepid_1
     created_at: '2018-03-06 12:34:15'
     updated_at: '2018-03-06 12:34:15'
     post_date: '2018-03-06 12:34:15'
@@ -575,8 +575,8 @@ journal_transactions:
     currency: USD
     memo: 'Expense: Per-Flight (multiplier)'
     tags: '"expense"'
-    ref_class: App\Models\Pirep
-    ref_class_id: pirepid_1
+    ref_model: App\Models\Pirep
+    ref_model_id: pirepid_1
     created_at: '2018-03-06 12:34:15'
     updated_at: '2018-03-06 12:34:15'
     post_date: '2018-03-06 12:34:15'
@@ -589,8 +589,8 @@ journal_transactions:
     currency: USD
     memo: 'Subfleet Expense: Catering (747-43X RB211-524G)'
     tags: '"subfleet"'
-    ref_class: App\Models\Pirep
-    ref_class_id: pirepid_1
+    ref_model: App\Models\Pirep
+    ref_model_id: pirepid_1
     created_at: '2018-03-06 12:34:15'
     updated_at: '2018-03-06 12:34:15'
     post_date: '2018-03-06 12:34:15'
@@ -603,8 +603,8 @@ journal_transactions:
     currency: USD
     memo: 'Fares F10; price: 1000, cost: 0'
     tags: '"fare"'
-    ref_class: App\Models\Pirep
-    ref_class_id: pirepid_1
+    ref_model: App\Models\Pirep
+    ref_model_id: pirepid_1
     created_at: '2018-03-06 12:34:15'
     updated_at: '2018-03-06 12:34:15'
     post_date: '2018-03-06 12:34:15'
@@ -617,8 +617,8 @@ journal_transactions:
     currency: USD
     memo: 'Pilot Payment @ 50'
     tags: '"pilot_pay"'
-    ref_class: App\Models\Pirep
-    ref_class_id: pirepid_1
+    ref_model: App\Models\Pirep
+    ref_model_id: pirepid_1
     created_at: now
     updated_at: now
     post_date: now
@@ -631,8 +631,8 @@ journal_transactions:
     currency: USD
     memo: 'Fares B10; price: 1100, cost: 0'
     tags: '"fare"'
-    ref_class: App\Models\Pirep
-    ref_class_id: pirepid_1
+    ref_model: App\Models\Pirep
+    ref_model_id: pirepid_1
     created_at: now
     updated_at: now
     post_date: now
@@ -645,8 +645,8 @@ journal_transactions:
     currency: USD
     memo: 'Ground Handling'
     tags: '"ground_handling"'
-    ref_class: App\Models\Pirep
-    ref_class_id: pirepid_1
+    ref_model: App\Models\Pirep
+    ref_model_id: pirepid_1
     created_at: now
     updated_at: now
     post_date: now
@@ -660,8 +660,8 @@ journal_transactions:
     currency: USD
     memo: 'Subfleet 744-3X-RB211: Block Time Cost'
     tags: '"subfleet"'
-    ref_class: App\Models\Pirep
-    ref_class_id: pirepid_1
+    ref_model: App\Models\Pirep
+    ref_model_id: pirepid_1
     created_at: now
     updated_at: now
     post_date: now

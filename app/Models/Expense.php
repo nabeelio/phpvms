@@ -8,8 +8,8 @@ use App\Interfaces\Model;
  * @property int    airline_id
  * @property float  amount
  * @property string name
- * @property string ref_class
- * @property string ref_class_id
+ * @property string ref_model
+ * @property string ref_model_id
  * @package App\Models
  */
 class Expense extends Model
@@ -23,8 +23,8 @@ class Expense extends Model
         'type',
         'multiplier',
         'charge_to_user',
-        'ref_class',
-        'ref_class_id',
+        'ref_model',
+        'ref_model_id',
         'active',
     ];
 
@@ -42,18 +42,18 @@ class Expense extends Model
      */
     public function getReference()
     {
-        if (!$this->ref_class || !$this->ref_class_id) {
+        if (!$this->ref_model || !$this->ref_model_id) {
             return null;
         }
 
-        if ($this->ref_class === __CLASS__) {
+        if ($this->ref_model === __CLASS__) {
             return $this;
         }
 
         try {
-            $klass = new $this->ref_class;
+            $klass = new $this->ref_model;
 
-            return $klass->find($this->ref_class_id);
+            return $klass->find($this->ref_model_id);
         } catch (\Exception $e) {
             return null;
         }

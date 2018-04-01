@@ -53,7 +53,7 @@ class ExpenseController extends Controller
     {
         $this->expenseRepo->pushCriteria(new RequestCriteria($request));
         $expenses = $this->expenseRepo->findWhere([
-            'ref_class' => Expense::class
+            'ref_model' => Expense::class
         ]);
 
         return view('admin.expenses.index', [
@@ -81,7 +81,7 @@ class ExpenseController extends Controller
     public function store(Request $request)
     {
         $input = $request->all();
-        $input['ref_class'] = Expense::class;
+        $input['ref_model'] = Expense::class;
         $this->expenseRepo->create($input);
 
         Flash::success('Expense saved successfully.');

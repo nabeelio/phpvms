@@ -386,12 +386,12 @@ class ImporterTest extends TestCase
         $catering = $expenses->where('name', 'Catering Staff')->first();
         $this->assertEquals(1000, $catering->amount);
         $this->assertEquals(\App\Models\Enums\ExpenseType::DAILY, $catering->type);
-        $this->assertEquals(\App\Models\Subfleet::class, $catering->ref_class);
-        $this->assertEquals($subfleet->id, $catering->ref_class_id);
+        $this->assertEquals(\App\Models\Subfleet::class, $catering->ref_model);
+        $this->assertEquals($subfleet->id, $catering->ref_model_id);
 
         $mnt = $expenses->where('name', 'Maintenance')->first();
-        $this->assertEquals(\App\Models\Aircraft::class, $mnt->ref_class);
-        $this->assertEquals($aircraft->id, $mnt->ref_class_id);
+        $this->assertEquals(\App\Models\Aircraft::class, $mnt->ref_model);
+        $this->assertEquals($aircraft->id, $mnt->ref_model_id);
     }
 
     /**

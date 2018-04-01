@@ -1,4 +1,4 @@
-airline,name,amount,type,charge_to_user,multiplier,active,ref_class,ref_class_id
+airline,name,amount,type,charge_to_user,multiplier,active,ref_model,ref_model_id
 ,"Per-Flight (no muliplier)",100,F,0,0,1,,
 ,"Per-Flight (multiplier)",100,F,0,1,1,,
 VMS,"Per-Flight (multiplier, on airline)",200,F,0,1,1,,

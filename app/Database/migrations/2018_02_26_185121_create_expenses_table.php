@@ -21,12 +21,12 @@ class CreateExpensesTable extends Migration
 
             # ref fields are expenses tied to some model object
             # EG, the airports has an internal expense for gate costs
-            $table->string('ref_class')->nullable();
-            $table->string('ref_class_id', 36)->nullable();
+            $table->string('ref_model')->nullable();
+            $table->string('ref_model_id', 36)->nullable();
 
             $table->timestamps();
 
-            $table->index(['ref_class', 'ref_class_id']);
+            $table->index(['ref_model', 'ref_model_id']);
         });
     }
 

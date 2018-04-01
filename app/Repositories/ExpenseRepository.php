@@ -26,18 +26,18 @@ class ExpenseRepository extends Repository implements CacheableInterface
      * include expenses for a given airline ID
      * @param      $type
      * @param null $airline_id
-     * @param null $ref_class
+     * @param null $ref_model
      * @return Collection
      */
-    public function getAllForType($type, $airline_id = null, $ref_class = null)
+    public function getAllForType($type, $airline_id = null, $ref_model = null)
     {
         $where = [
             'type' => $type,
             ['airline_id', '=', null]
         ];
 
-        if ($ref_class) {
-            $where['ref_class'] = $ref_class;
+        if ($ref_model) {
+            $where['ref_model'] = $ref_model;
         }
 
         $expenses = $this->findWhere($where);
@@ -48,8 +48,8 @@ class ExpenseRepository extends Repository implements CacheableInterface
                 'airline_id' => $airline_id
             ];
 
-            if ($ref_class) {
-                $where['ref_class'] = $ref_class;
+            if ($ref_model) {
+                $where['ref_model'] = $ref_model;
             }
 
             $airline_expenses = $this->findWhere($where);

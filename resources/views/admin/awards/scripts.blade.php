@@ -9,7 +9,7 @@
 const changeParamDescription = (award_class) => {
     const descrip = award_descriptions[award_class];
     console.log('Found description: ', descrip);
-    $("p#ref_class_param_description").text(descrip);
+    $("p#ref_model_param_description").text(descrip);
 };
 
 $(document).ready(() => {

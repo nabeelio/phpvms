@@ -113,8 +113,8 @@ class JournalRepository extends Repository implements CacheableInterface
         ];
 
         if ($reference !== null) {
-            $attrs['ref_class'] = \get_class($reference);
-            $attrs['ref_class_id'] = $reference->id;
+            $attrs['ref_model'] = \get_class($reference);
+            $attrs['ref_model_id'] = $reference->id;
         }
 
         try {
@@ -238,8 +238,8 @@ class JournalRepository extends Repository implements CacheableInterface
     public function getAllForObject($object, $journal = null, Carbon $date = null)
     {
         $where = [
-            'ref_class'    => \get_class($object),
-            'ref_class_id' => $object->id,
+            'ref_model'    => \get_class($object),
+            'ref_model_id' => $object->id,
         ];
 
         if ($journal) {
@@ -272,8 +272,8 @@ class JournalRepository extends Repository implements CacheableInterface
     public function deleteAllForObject($object, $journal = null)
     {
         $where = [
-            'ref_class'    => \get_class($object),
-            'ref_class_id' => $object->id,
+            'ref_model'    => \get_class($object),
+            'ref_model_id' => $object->id,
         ];
 
         if ($journal) {

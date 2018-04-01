@@ -21,13 +21,13 @@ class CreateAwardsTable extends Migration
 
             # ref fields are expenses tied to some model object
             # EG, the airports has an internal expense for gate costs
-            $table->string('ref_class')->nullable();
-            $table->text('ref_class_params')->nullable();
-            #$table->string('ref_class_id', 36)->nullable();
+            $table->string('ref_model')->nullable();
+            $table->text('ref_model_params')->nullable();
+            #$table->string('ref_model_id', 36)->nullable();
 
             $table->timestamps();
 
-            $table->index(['ref_class']);
+            $table->index(['ref_model']);
         });
 
         Schema::create('user_awards', function (Blueprint $table) {

@@ -101,8 +101,8 @@ class FinanceTest extends TestCase
 
         # Add a subfleet expense
         factory(App\Models\Expense::class)->create([
-            'ref_class' => \App\Models\Subfleet::class,
-            'ref_class_id' => $subfleet['subfleet']->id,
+            'ref_model' => \App\Models\Subfleet::class,
+            'ref_model_id' => $subfleet['subfleet']->id,
             'amount' => 200
         ]);
 
@@ -605,7 +605,7 @@ class FinanceTest extends TestCase
 
         factory(App\Models\Expense::class)->create([
             'airline_id' => null,
-            'ref_class' => \App\Models\Subfleet::class,
+            'ref_model' => \App\Models\Subfleet::class,
         ]);
 
         $expenses = $this->expenseRepo->getAllForType(
