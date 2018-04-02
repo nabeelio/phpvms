@@ -25,11 +25,10 @@ https://api.checkwx.com/#metar-decoded
                     @else
                         {{$data->visibility->miles}}
                     @endif
-                &nbsp;
                 @endif
 
                 @if($data->humidity_percent)
-                    {{$data->humidity_percent}}% humidity
+                    , {{$data->humidity_percent}}% humidity
                 @endif
             </td>
         </tr>
