@@ -603,18 +603,25 @@ class FinanceTest extends TestCase
          * Test the subfleet class
          */
 
+        $subfleet = factory(App\Models\Subfleet::class)->create();
         factory(App\Models\Expense::class)->create([
             'airline_id' => null,
             'ref_model' => \App\Models\Subfleet::class,
+            'ref_model_id' => $subfleet->id,
         ]);
 
         $expenses = $this->expenseRepo->getAllForType(
             ExpenseType::FLIGHT,
             $airline->id,
-            \App\Models\Subfleet::class
+            $subfleet
         );
 
         $this->assertCount(1, $expenses);
+
+        $expense = $expenses->random();
+        $this->assertEquals(\App\Models\Subfleet::class, $expense->ref_model);
+        $obj = $expense->getReferencedObject();
+        $this->assertEquals($obj->id, $expense->ref_model_id);
     }
 
     /**

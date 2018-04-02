@@ -60,7 +60,7 @@ class RecurringFinanceService extends Service
         if ($expense->ref_model) {
             $ref = explode('\\', $expense->ref_model);
             $klass = end($ref);
-            $obj = $expense->getReference();
+            $obj = $expense->getReferencedObject();
         }
 
         if ($klass === 'Airport') {

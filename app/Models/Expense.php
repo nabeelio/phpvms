@@ -2,6 +2,7 @@
 
 namespace App\Models;
 use App\Interfaces\Model;
+use App\Models\Traits\ReferenceTrait;
 
 /**
  * Class Expense
@@ -14,6 +15,8 @@ use App\Interfaces\Model;
  */
 class Expense extends Model
 {
+    use ReferenceTrait;
+
     public $table = 'expenses';
 
     protected $fillable = [
@@ -32,32 +35,9 @@ class Expense extends Model
         'active'         => 'boolean',
         'airline_id'     => 'integer',
         'amount'         => 'float',
-        'type'           => 'integer',
         'multiplier'     => 'bool',
         'charge_to_user' => 'bool',
     ];
-
-    /**
-     * Get the referring object
-     */
-    public function getReference()
-    {
-        if (!$this->ref_model || !$this->ref_model_id) {
-            return null;
-        }
-
-        if ($this->ref_model === __CLASS__) {
-            return $this;
-        }
-
-        try {
-            $klass = new $this->ref_model;
-
-            return $klass->find($this->ref_model_id);
-        } catch (\Exception $e) {
-            return null;
-        }
-    }
 
     /**
      * Foreign Keys

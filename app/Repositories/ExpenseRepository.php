@@ -37,7 +37,15 @@ class ExpenseRepository extends Repository implements CacheableInterface
         ];
 
         if ($ref_model) {
-            $where['ref_model'] = $ref_model;
+            if (\is_object($ref_model)) {
+                $ref_model_type = \get_class($ref_model);
+            } else {
+                $ref_model_type = $ref_model;
+            }
+
+            if ($ref_model) {
+                $where['ref_model'] = $ref_model_type;
+            }
         }
 
         $expenses = $this->findWhere($where);
@@ -49,7 +57,7 @@ class ExpenseRepository extends Repository implements CacheableInterface
             ];
 
             if ($ref_model) {
-                $where['ref_model'] = $ref_model;
+                $where['ref_model'] = $ref_model_type;
             }
 
             $airline_expenses = $this->findWhere($where);

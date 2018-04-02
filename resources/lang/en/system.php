@@ -2,6 +2,11 @@
 
 return [
 
+    'global' => [
+        'active'   => 'Active',
+        'inactive' => 'Inactive'
+    ],
+
     'aircraft' => [
         'status' => [
             'active'   => 'Active',
@@ -20,6 +25,14 @@ return [
         'fri'   => 'Friday',
         'sat'   => 'Saturday',
         'sun'   => 'Sunday',
+    ],
+
+    'expenses' => [
+        'type' => [
+            'flight'  => 'Flight',
+            'daily'   => 'Daily',
+            'monthly' => 'Monthly',
+        ],
     ],
 
     'flights' => [

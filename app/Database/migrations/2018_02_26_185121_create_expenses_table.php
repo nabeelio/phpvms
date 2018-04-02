@@ -14,7 +14,7 @@ class CreateExpensesTable extends Migration
 
             $table->string('name');
             $table->unsignedInteger('amount');
-            $table->unsignedTinyInteger('type');
+            $table->char('type');
             $table->boolean('charge_to_user')->nullable()->default(false);
             $table->boolean('multiplier')->nullable()->default(0);
             $table->boolean('active')->nullable()->default(true);

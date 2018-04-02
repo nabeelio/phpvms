@@ -49,7 +49,6 @@ class ExpenseImporter extends ImportExport
         # Figure out what this is referring to
         $row = $this->getRefClassInfo($row);
 
-        $row['type'] = ExpenseType::getFromCode($row['type']);
         if(!$row['active']) {
             $row['active'] = true;
         }

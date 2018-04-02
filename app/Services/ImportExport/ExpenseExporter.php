@@ -44,15 +44,13 @@ class ExpenseExporter extends ImportExport
             $ret['airline'] = $expense->airline->icao;
         }
 
-        $ret['type'] = ExpenseType::convertToCode($ret['type']);
-
         // For the different expense types, instead of exporting
         // the ID, export a specific column
         if ($expense->ref_model === Expense::class) {
             $ret['ref_model'] = '';
             $ret['ref_model_id'] = '';
         } else {
-            $obj = $expense->getReference();
+            $obj = $expense->getReferencedObject();
             if(!$obj) { // bail out
                 return $ret;
             }
