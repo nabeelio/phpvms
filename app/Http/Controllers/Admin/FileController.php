@@ -29,6 +29,7 @@ class FileController extends Controller
      * Store a newly file
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Hashids\HashidsException
      */
     public function store(Request $request)
     {
@@ -49,19 +50,14 @@ class FileController extends Controller
 
         Log::info('Uploading files', $attrs);
 
+
         $file = $request->file('file');
-        $file_path = $this->fileSvc->saveFile($file, 'files');
-
-        $asset = new File();
-        $asset->name = $attrs['filename'];
-        $asset->description = $attrs['file_description'];
-        $asset->disk = config('filesystems.public_files');
-        $asset->path = $file_path;
-        $asset->public = false;  // need to be logged in to see. default (for now)
-        $asset->ref_model = $attrs['ref_model'];
-        $asset->ref_model_id = $attrs['ref_model_id'];
-
-        $asset->save();
+        $this->fileSvc->saveFile($file, 'files', [
+            'name'         => $attrs['filename'],
+            'description'  => $attrs['file_descriptoin'],
+            'ref_model'    => $attrs['ref_model'],
+            'ref_model_id' => $attrs['ref_model_id'],
+        ]);
 
         Flash::success('Files uploaded successfully.');
         return redirect()->back();
