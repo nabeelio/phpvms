@@ -58,15 +58,50 @@
             <div class="nav nav-tabs" role="tablist" style="background: #067ec1; color: #FFF;">
                 Your Last Report
             </div>
-            @include("pireps.pirep_card", ['pirep' => $last_pirep])
+            @include('pireps.pirep_card', ['pirep' => $last_pirep])
         @endif
 
         {{ Widget::latestNews(['count' => 1]) }}
 
     </div>
+
+    {{-- Sidebar --}}
     <div class="col-sm-4">
-        {{ Widget::latestPireps(['count' => 5]) }}
-        {{ Widget::latestPilots(['count' => 5]) }}
+        <div class="card">
+            <div class="nav nav-tabs" role="tablist" style="background: #067ec1; color: #FFF;">
+                Weather at {{ $current_airport }}
+            </div>
+            <div class="card-block">
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    {{ Widget::checkWx(['icao' => $current_airport]) }}
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="nav nav-tabs" role="tablist" style="background: #067ec1; color: #FFF;">
+                Recent Reports
+            </div>
+            <div class="card-block">
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    {{ Widget::latestPireps(['count' => 5]) }}
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="nav nav-tabs" role="tablist" style="background: #067ec1; color: #FFF;">
+                Newest Pilots
+            </div>
+            <div class="card-block">
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    {{ Widget::latestPilots(['count' => 5]) }}
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 @endsection

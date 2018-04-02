@@ -182,7 +182,7 @@ class PirepController extends Controller
 
         # See if this user is at the current airport
         if (setting('pilots.only_flights_from_current')
-            && $user->current_airport_id !== $pirep->dpt_airport_id)
+            && $user->curr_airport_id !== $pirep->dpt_airport_id)
         {
             throw new UserNotAtAirport();
         }

@@ -18,9 +18,8 @@ class DashboardController extends Controller
      * DashboardController constructor.
      * @param PirepRepository $pirepRepo
      */
-    public function __construct(
-        PirepRepository $pirepRepo
-    ) {
+    public function __construct(PirepRepository $pirepRepo)
+    {
         $this->pirepRepo = $pirepRepo;
     }
 
@@ -37,9 +36,13 @@ class DashboardController extends Controller
         } catch (\Exception $e) {
         }
 
+        // Get the current airport for the weather
+        $current_airport = $user->curr_airport_id ?? $user->home_airport_id;
+
         return view('dashboard.index', [
-            'user'       => $user,
-            'last_pirep' => $last_pirep,
+            'user'            => $user,
+            'current_airport' => $current_airport,
+            'last_pirep'      => $last_pirep,
         ]);
     }
 }

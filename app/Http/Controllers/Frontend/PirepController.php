@@ -244,7 +244,7 @@ class PirepController extends Controller
 
         # Are they allowed at this airport?
         if (setting('pilots.only_flights_from_current')
-            && Auth::user()->current_airport_id !== $pirep->dpt_airport_id) {
+            && Auth::user()->curr_airport_id !== $pirep->dpt_airport_id) {
             return $this->flashError(
                 'You are currently not at the departure airport!',
                 'frontend.pireps.create'

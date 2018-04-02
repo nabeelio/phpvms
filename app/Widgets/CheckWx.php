@@ -32,7 +32,6 @@ class CheckWx extends Widget
             ]);
 
             $data = json_decode($data);
-            #dd($data);
 
             if($data->results === 1) {
                 $data = $data->data[0];
@@ -42,9 +41,9 @@ class CheckWx extends Widget
         }
 
         return view('widgets.check_wx', [
-            'config' => $this->config,
-            'data' => $data,
-            'unit_alt' => setting('units.altitude'),
+            'config'    => $this->config,
+            'data'      => $data,
+            'unit_alt'  => setting('units.altitude'),
             'unit_dist' => setting('units.distance'),
             'unit_temp' => setting('units.temperature'),
         ]);
