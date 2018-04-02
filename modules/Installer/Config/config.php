@@ -17,6 +17,7 @@ return [
     # Make sure these are writable
     'permissions' => [
         'bootstrap/cache',
+        'public/uploads',
         'storage',
         'storage/app/public',
         'storage/framework',
