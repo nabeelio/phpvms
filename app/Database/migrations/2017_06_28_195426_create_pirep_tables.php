@@ -41,7 +41,7 @@ class CreatePirepTables extends Migration
             $table->unsignedTinyInteger('source')->nullable()->default(0);
             $table->string('source_name', 25)->nullable();
             $table->tinyInteger('state')->default(PirepState::PENDING);
-            $table->tinyInteger('status')->default(PirepStatus::SCHEDULED);
+            $table->char('status', 3)->default(PirepStatus::SCHEDULED);
             $table->dateTime('block_off_time')->nullable();
             $table->dateTime('block_on_time')->nullable();
             $table->timestamps();

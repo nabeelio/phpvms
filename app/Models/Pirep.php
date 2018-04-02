@@ -93,7 +93,6 @@ class Pirep extends Model
         'landing_rate'        => 'float',
         'source'              => 'integer',
         'state'               => 'integer',
-        'status'              => 'integer',
         'block_off_time'      => 'datetime',
         'block_on_time'       => 'datetime',
     ];

@@ -173,7 +173,7 @@ class PirepController extends Controller
         $attrs['user_id'] = $user->id;
         $attrs['source'] = PirepSource::ACARS;
         $attrs['state'] = PirepState::IN_PROGRESS;
-        $attrs['status'] = PirepStatus::PREFILE;
+        $attrs['status'] = PirepStatus::INITIATED;
 
         $pirep = new Pirep($attrs);
 
@@ -290,7 +290,7 @@ class PirepController extends Controller
         }
 
         $attrs['state'] = PirepState::PENDING;
-        $attrs['status'] = PirepStatus::ARRIVED;
+        $attrs['status'] = PirepStatus::LANDED;
 
         try {
             $pirep = $this->pirepRepo->update($attrs, $id);
@@ -395,7 +395,7 @@ class PirepController extends Controller
         }
 
         # Change the PIREP status
-        $pirep->status = PirepStatus::ENROUTE;
+        $pirep->status = PirepStatus::AIRBORNE;
         $pirep->save();
 
         return $this->message($count.' positions added', $count);

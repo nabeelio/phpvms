@@ -308,7 +308,7 @@ class AcarsTest extends TestCase
         # Check the PIREP state and status
         $pirep = $this->getPirep($pirep_id);
         $this->assertEquals(PirepState::IN_PROGRESS, $pirep['state']);
-        $this->assertEquals(PirepStatus::PREFILE, $pirep['status']);
+        $this->assertEquals(PirepStatus::INITIATED, $pirep['status']);
 
         /**
          * Check the fields
@@ -367,7 +367,7 @@ class AcarsTest extends TestCase
         # Make sure PIREP state moved into ENROUTE
         $pirep = $this->getPirep($pirep_id);
         $this->assertEquals(PirepState::IN_PROGRESS, $pirep['state']);
-        $this->assertEquals(PirepStatus::ENROUTE, $pirep['status']);
+        $this->assertEquals(PirepStatus::AIRBORNE, $pirep['status']);
 
         $response = $this->get($uri);
         $response->assertStatus(200);
