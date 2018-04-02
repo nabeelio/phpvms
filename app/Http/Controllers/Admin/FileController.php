@@ -67,6 +67,7 @@ class FileController extends Controller
      * Remove the file from storage.
      * @param $id
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Exception
      */
     public function destroy($id)
     {
