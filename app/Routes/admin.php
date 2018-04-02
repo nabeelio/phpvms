@@ -35,8 +35,8 @@ Route::group([
     Route::resource('fares', 'FareController');
 
     # files
-    Route::post('files', 'FilesController@store')->name('files.store');
-    Route::delete('files/{id}', 'FilesController@destroy')->name('files.delete');
+    Route::post('files', 'FileController@store')->name('files.store');
+    Route::delete('files/{id}', 'FileController@destroy')->name('files.delete');
 
     # finances
     Route::resource('finances', 'FinanceController');

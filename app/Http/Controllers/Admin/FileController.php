@@ -13,10 +13,10 @@ use Log;
 use Validator;
 
 /**
- * Class FilesController
+ * Class FileController
  * @package App\Http\Controllers\Admin
  */
-class FilesController extends Controller
+class FileController extends Controller
 {
     private $fileSvc;
 
