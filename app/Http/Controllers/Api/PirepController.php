@@ -173,7 +173,10 @@ class PirepController extends Controller
         $attrs['user_id'] = $user->id;
         $attrs['source'] = PirepSource::ACARS;
         $attrs['state'] = PirepState::IN_PROGRESS;
-        $attrs['status'] = PirepStatus::INITIATED;
+
+        if (!array_key_exists('status', $attrs)) {
+            $attrs['status'] = PirepStatus::INITIATED;
+        }
 
         $pirep = new Pirep($attrs);
 
@@ -290,7 +293,7 @@ class PirepController extends Controller
         }
 
         $attrs['state'] = PirepState::PENDING;
-        $attrs['status'] = PirepStatus::LANDED;
+        $attrs['status'] = PirepStatus::ARRIVED;
 
         try {
             $pirep = $this->pirepRepo->update($attrs, $id);
@@ -325,7 +328,8 @@ class PirepController extends Controller
         Log::info('PIREP Cancel, user '.Auth::id(), $request->post());
 
         $pirep = $this->pirepRepo->update([
-            'state' => PirepState::CANCELLED,
+            'state'  => PirepState::CANCELLED,
+            'status' => PirepStatus::CANCELLED,
         ], $id);
 
         return new PirepResource($pirep);
@@ -394,8 +398,11 @@ class PirepController extends Controller
             ++$count;
         }
 
-        # Change the PIREP status
-        $pirep->status = PirepStatus::AIRBORNE;
+        # Change the PIREP status if it's as SCHEDULED before
+        if ($pirep->status === PirepStatus::INITIATED) {
+            $pirep->status = PirepStatus::AIRBORNE;
+        }
+
         $pirep->save();
 
         return $this->message($count.' positions added', $count);
