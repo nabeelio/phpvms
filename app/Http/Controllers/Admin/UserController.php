@@ -109,7 +109,6 @@ class UserController extends Controller
         $user = $this->userRepo->create($input);
 
         Flash::success('User saved successfully.');
-
         return redirect(route('admin.users.index'));
     }
 
@@ -209,6 +208,21 @@ class UserController extends Controller
         } else {
             $req_data['password'] = Hash::make($req_data['password']);
         }
+
+        if ($request->filled('avatar_upload')) {
+            /**
+             * @var $file  \Illuminate\Http\UploadedFile
+             */
+            $file = $request->file('avatar_upload');
+            $file_path = $file->storeAs(
+                'avatars',
+                str_slug($file->getClientOriginalName()),
+                config('filesystems.public_files')
+            );
+
+            $user->avatar = $file_path;
+        }
+
 
         $original_user_state = $user->state;
 

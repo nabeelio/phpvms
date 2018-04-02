@@ -16,6 +16,7 @@ class CreateFilesTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('description')->nullable();
+            $table->string('disk')->nullable();
             $table->string('path');
             $table->boolean('public')->default(true);
             $table->string('ref_model', 50)->nullable();

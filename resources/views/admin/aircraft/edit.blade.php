@@ -17,10 +17,7 @@
 
    <div class="card border-blue-bottom">
       <div class="content">
-         @include('admin.common.file_upload', [
-            'model'    => $aircraft,
-            'redirect' => route('admin.aircraft.edit', ['id' => $aircraft->id])
-         ])
+         @include('admin.common.file_upload', ['model' => $aircraft])
       </div>
    </div>
 @endsection

@@ -5,7 +5,7 @@ Pass in:
     $redirect - Where to go to
 
 --}}
-<div id="airport-files-wrapper">
+<div id="airport-files-wrapper" class="col-12">
     <div class="header">
         <h3>files</h3>
     </div>
@@ -29,7 +29,6 @@ Pass in:
                 <td class="text-right">
                     {{ Form::open(['route' => ['admin.files.delete', $file->id], 'method' => 'delete']) }}
                     {{ Form::hidden('id', $file->id) }}
-                    {{ Form::hidden('redirect', $redirect) }}
                     {{ Form::button('<i class="fa fa-times"></i>', [
                           'type' => 'submit',
                           'class' => 'btn btn-sm btn-danger btn-icon',
@@ -43,7 +42,7 @@ Pass in:
     </table>
     <hr>
     <div class="row">
-        <div class="col-12">
+        <div class="col-sm-12">
             <div class="text-right">
                 {{ Form::open([
                     'url' => route('admin.files.store'),
@@ -56,16 +55,17 @@ Pass in:
                 {{-- Fields for the model --}}
                 {{ Form::hidden('ref_model', get_class($model)) }}
                 {{ Form::hidden('ref_model_id', $model->id) }}
-                {{ Form::hidden('redirect', $redirect) }}
 
-                {{ Form::label('name', 'Name:') }}&nbsp;<span class="required">*</span>
-                {{ Form::text('name', null, ['class' => 'form-control']) }}
+                {{ Form::label('filename', 'Name:') }}&nbsp;<span class="required">*</span>
+                {{ Form::text('filename', null, ['class' => 'form-control']) }}
 
                 {{ Form::file('file', ['class' => 'form-control']) }}
 
                 {{ Form::submit('Upload', ['class' => 'btn btn-success']) }}
-                <p class="text-danger">{{ $errors->first('name') }}</p>
-                <p class="text-danger">{{ $errors->first('file') }}</p>
+                <div class="text-danger" style="padding-top: 10px;">
+                    <span>{{ $errors->first('filename') }}</span>
+                    <span>{{ $errors->first('file') }}</span>
+                </div>
 
                 {{ Form::close() }}
             </div>
