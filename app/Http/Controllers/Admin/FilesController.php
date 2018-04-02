@@ -57,7 +57,7 @@ class FilesController extends Controller
         $asset->description = $attrs['file_description'];
         $asset->disk = config('filesystems.public_files');
         $asset->path = $file_path;
-        $asset->public = true;
+        $asset->public = false;  // need to be logged in to see. default (for now)
         $asset->ref_model = $attrs['ref_model'];
         $asset->ref_model_id = $attrs['ref_model_id'];
 

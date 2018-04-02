@@ -13,15 +13,19 @@ class CreateFilesTable extends Migration
     public function up()
     {
         Schema::create('files', function (Blueprint $table) {
-            $table->increments('id');
+            $table->string('id', \App\Interfaces\Model::ID_MAX_LENGTH);
             $table->string('name');
             $table->string('description')->nullable();
             $table->string('disk')->nullable();
             $table->string('path');
             $table->boolean('public')->default(true);
+            $table->unsignedInteger('download_count')->default(0);
             $table->string('ref_model', 50)->nullable();
             $table->string('ref_model_id', 36)->nullable();
             $table->timestamps();
+
+            $table->primary('id');
+            $table->index(['ref_model', 'ref_model_id']);
         });
     }
 

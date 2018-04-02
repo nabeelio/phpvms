@@ -27,6 +27,9 @@ Route::group([
 
     Route::get('airports/{id}', 'AirportController@show')->name('airports.show');
 
+    // Download a file
+    Route::get('files/{id}', 'FileController@show')->name('files.show');
+
     Route::get('flights/bids', 'FlightController@bids')->name('flights.bids');
     Route::get('flights/search', 'FlightController@search')->name('flights.search');
     Route::resource('flights', 'FlightController');

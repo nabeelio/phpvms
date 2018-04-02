@@ -41,7 +41,6 @@ class CheckWx extends Widget
                 return $data;
             });
 
-
             if($data->results === 1) {
                 $data = $data->data[0];
             } else {

@@ -4,23 +4,28 @@ namespace App\Models;
 
 
 use App\Interfaces\Model;
+use App\Models\Traits\HashIdTrait;
 use App\Models\Traits\ReferenceTrait;
 use Illuminate\Support\Facades\Storage;
 
 /**
- * File property
  * @property string  $name
  * @property string  $description
  * @property string  $disk
  * @property string  $path
  * @property boolean $public
+ * @property int     $download_count
+ * @property string  $url
+ * @property string  $filename
  * @package App\Models
  */
 class File extends Model
 {
+    use HashIdTrait;
     use ReferenceTrait;
 
     protected $table = 'files';
+    public $incrementing = false;
 
     protected $fillable = [
         'name',
@@ -32,9 +37,41 @@ class File extends Model
         'ref_model_id',
     ];
 
+    protected $casts = [
+        'public' => 'boolean',
+    ];
+
     public static $rules = [
         'name'        => 'required',
     ];
+
+    private $pathinfo;
+
+    /**
+     * Return the file extension
+     * @return string
+     */
+    public function getExtensionAttribute(): string
+    {
+        if (!$this->pathinfo) {
+            $this->pathinfo = pathinfo($this->path);
+        }
+
+        return $this->pathinfo['extension'];
+    }
+
+    /**
+     * Get just the filename
+     * @return string
+     */
+    public function getFilenameAttribute() :string
+    {
+        if (!$this->pathinfo) {
+            $this->pathinfo = pathinfo($this->path);
+        }
+
+        return $this->pathinfo['filename'].'.'.$this->pathinfo['extension'];
+    }
 
     /**
      * Get the full URL to this attribute

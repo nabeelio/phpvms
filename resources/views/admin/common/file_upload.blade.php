@@ -16,7 +16,8 @@ Pass in:
         <thead>
             <tr>
                 <td>Name</td>
-                <td>Current File</td>
+                <td>Direct Link</td>
+                <td>Downloads</td>
                 <td class="text-right"></td>
             </tr>
         </thead>
@@ -26,6 +27,7 @@ Pass in:
             <tr>
                 <td>{{ $file->name }}</td>
                 <td><a href="{{ $file->url }}" target="_blank">Link to file</a></td>
+                <td>{{$file->download_count}}</td>
                 <td class="text-right">
                     {{ Form::open(['route' => ['admin.files.delete', $file->id], 'method' => 'delete']) }}
                     {{ Form::hidden('id', $file->id) }}
