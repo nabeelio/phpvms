@@ -29,21 +29,7 @@
     @if($airport->files && Auth::check())
         <div class="col-12">
             <h3 class="description">Downloads</h3>
-            <ul class="list-group">
-                @foreach($airport->files as $file)
-                <li class="list-group-item">
-                    <a href="{{route('frontend.files.show', [$file->id])}}" target="_blank">
-                        {{ $file->name }}
-                    </a>
-
-                    {{-- only show description is one is provided --}}
-                    @if($file->description)
-                        - {{$file->description}}
-                    @endif
-                    <span style="margin-left: 20px">{{$file->download_count}} downloads</span>
-                </li>
-                @endforeach
-            </ul>
+            @include('files.table', ['files' => $airport->files])
         </div>
     @endif
 </div>

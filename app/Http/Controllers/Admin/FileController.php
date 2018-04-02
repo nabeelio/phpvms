@@ -54,7 +54,7 @@ class FileController extends Controller
         $file = $request->file('file');
         $this->fileSvc->saveFile($file, 'files', [
             'name'         => $attrs['filename'],
-            'description'  => $attrs['file_descriptoin'],
+            'description'  => $attrs['file_description'],
             'ref_model'    => $attrs['ref_model'],
             'ref_model_id' => $attrs['ref_model_id'],
         ]);

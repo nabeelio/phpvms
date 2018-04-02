@@ -10,10 +10,10 @@ Route::group([
     Route::get('r/{id}', 'PirepController@show')->name('pirep.show.public');
     Route::get('p/{id}', 'ProfileController@show')->name('profile.show.public');
 
-    Route::get('users', 'UserController@index')->name('users.show');
-    Route::get('pilots', 'UserController@index')->name('users.show');
+    Route::get('users', 'UserController@index')->name('users.index');
+    Route::get('pilots', 'UserController@index')->name('pilots.index');
 
-    Route::get('livemap', 'AcarsController@index')->name('livemap.public');
+    Route::get('livemap', 'AcarsController@index')->name('livemap.index');
 });
 
 /**
@@ -28,7 +28,8 @@ Route::group([
     Route::get('airports/{id}', 'AirportController@show')->name('airports.show');
 
     // Download a file
-    Route::get('files/{id}', 'FileController@show')->name('files.show');
+    Route::get('downloads', 'DownloadController@index')->name('downloads.index');
+    Route::get('downloads/{id}', 'DownloadController@show')->name('downloads.download');
 
     Route::get('flights/bids', 'FlightController@bids')->name('flights.bids');
     Route::get('flights/search', 'FlightController@search')->name('flights.search');

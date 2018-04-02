@@ -1,7 +1,7 @@
 <ul class="navbar-nav">
     @if(Auth::check())
         <li class="nav-item">
-            <a class="nav-link" href="{{ url('/dashboard') }}">
+            <a class="nav-link" href="{{ route('frontend.dashboard.index') }}">
                 <i class="fas fa-tachometer-alt"></i>
                 <p>Dashboard</p>
             </a>
@@ -9,14 +9,14 @@
     @endif
 
     <li class="nav-item">
-        <a class="nav-link" href="{{ url('/livemap') }}">
+        <a class="nav-link" href="{{ route('frontend.livemap.index') }}">
             <i class="fas fa-globe"></i>
             <p>Live Map</p>
         </a>
     </li>
 
     <li class="nav-item">
-        <a class="nav-link" href="{{ url('/pilots') }}">
+        <a class="nav-link" href="{{ route('frontend.pilots.index') }}">
             <i class="fas fa-users"></i>
             <p>Pilots</p>
         </a>
@@ -49,23 +49,29 @@
     @else
 
         <li class="nav-item">
-            <a class="nav-link" href="{{ url('/flights') }}">
+            <a class="nav-link" href="{{ route('frontend.flights.index') }}">
                 <i class="fab fa-avianex"></i>
                 <p>Flights</p>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ url('/pireps') }}">
+            <a class="nav-link" href="{{ route('frontend.pireps.index') }}">
                 <i class="fas fa-cloud-upload-alt"></i>
                 <p>PIREPs</p>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ url('/profile') }}">
+            <a class="nav-link" href="{{ route('frontend.profile.index') }}">
                 <i class="far fa-user"></i>
                 <p>Profile</p>
             </a>
         </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('frontend.downloads.index') }}">
+                    <i class="fas fa-download"></i>
+                    <p>Downloads</p>
+                </a>
+            </li>
 
         @role('admin')
         <li class="nav-item">
