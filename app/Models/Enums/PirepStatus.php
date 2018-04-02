@@ -32,7 +32,7 @@ class PirepStatus extends Enum
         PirepStatus::SCHEDULED  => 'Scheduled',
         PirepStatus::BOARDING   => 'Boarding',
         PirepStatus::RDY_START  => 'Ready for start',
-        PirepStatus::DEPARTED   => 'Off block',
+        PirepStatus::DEPARTED   => 'Departed',
         PirepStatus::RDY_DEICE  => 'Ready for de-icing',
         PirepStatus::STRT_DEICE => 'De-icing in progress',
         PirepStatus::GRND_RTRN  => 'Ground return',
