@@ -1,17 +1,13 @@
+{{--
+
+If you want to edit this, you can reference the CheckWX API docs:
+https://api.checkwx.com/#metar-decoded
+
+--}}
 @if(!$data)
     <p>METAR/TAF data could not be retrieved</p>
 @else
     <table class="table">
-        <tr>
-            <td colspan="2">
-                <div style="line-height:1.5em;min-height: 3em;">
-                    {{$data->raw_text}}
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2">Updated: {{$data->observed}}</td>
-        </tr>
         <tr>
             <td>Conditions</td>
             <td>
@@ -21,14 +17,20 @@
                 @else
                     {{$data->temperature->celsius}}°C
                 @endif
-                , visibility
-                @if($unit_dist === 'km')
-                    {{intval(str_replace(',', '', $data->visibility->meters)) / 1000}}
-                @else
-                    {{$data->visibility->miles}}
-                @endif
+
+                @if($data->visibility->miles)
+                    , visibility
+                    @if($unit_dist === 'km')
+                        {{intval(str_replace(',', '', $data->visibility->meters)) / 1000}}
+                    @else
+                        {{$data->visibility->miles}}
+                    @endif
                 &nbsp;
-                {{$data->humidity_percent}}% humidity
+                @endif
+
+                @if($data->humidity_percent)
+                    {{$data->humidity_percent}}% humidity
+                @endif
             </td>
         </tr>
         <tr>
@@ -59,6 +61,18 @@
                     gusts to {{$data->wind->gusts_kts}}
                 @endif
             </td>
+        </tr>
+        <tr>
+            <td>Metar</td>
+            <td>
+                <div style="line-height:1.5em;min-height: 3em;">
+                    {{$data->raw_text}}
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>Updated</td>
+            <td>{{$data->observed}}</td>
         </tr>
     </table>
 @endif

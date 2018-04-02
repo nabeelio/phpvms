@@ -4,6 +4,7 @@ namespace App\Widgets;
 
 use App\Interfaces\Widget;
 use App\Support\Http;
+use Illuminate\Support\Facades\Cache;
 
 /**
  * This is a widget for the 3rd party CheckWX service
@@ -23,15 +24,23 @@ class CheckWx extends Widget
         if (!config('checkwx.api_key')) {
             $data = null;
         } else {
-            $url = config('checkwx.url').'/metar/'.$this->config['icao'].'/decoded';
-            $data = Http::get($url, [
-                'headers' => [
-                    'X-API-Key' => config('checkwx.api_key'),
-                    'content-type' => 'application/json',
-                ]
-            ]);
+            // Cache the request so we don't need to repeatedly call out
+            $cache = config('cache.keys.WEATHER_LOOKUP');
+            $key = $cache['key'].$this->config['icao'];
 
-            $data = json_decode($data);
+            $data = Cache::remember($key, $cache['time'], function () {
+                $url = config('checkwx.url').'/metar/'.$this->config['icao'].'/decoded';
+                $data = Http::get($url, [
+                    'headers' => [
+                        'X-API-Key'    => config('checkwx.api_key'),
+                        'content-type' => 'application/json',
+                    ]
+                ]);
+
+                $data = json_decode($data);
+                return $data;
+            });
+
 
             if($data->results === 1) {
                 $data = $data->data[0];

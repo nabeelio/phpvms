@@ -7,15 +7,19 @@ return [
 
     'keys' => [
         'AIRPORT_VACENTRAL_LOOKUP' => [
-            'key' => 'airports:lookup:',
+            'key' => 'airports.lookup:',
             'time' => 60 * 30,
         ],
+        'WEATHER_LOOKUP' => [
+            'key' => 'airports.weather.', // append icao
+            'time' => 60 * 30,  // Cache for 30 minutes
+        ],
         'RANKS_PILOT_LIST' => [
-            'key' => 'ranks:pilot_list',
+            'key' => 'ranks.pilot_list',
             'time' => 60 * 10,
         ],
         'USER_API_KEY' => [
-            'key' => 'user:apikey',
+            'key' => 'user.apikey',
             'time' => 60 * 5,  // 5 min
         ],
     ],
