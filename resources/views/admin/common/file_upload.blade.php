@@ -56,9 +56,9 @@ Pass in:
                 {{ Form::hidden('ref_model', get_class($model)) }}
                 {{ Form::hidden('ref_model_id', $model->id) }}
 
-                {{ Form::label('filename', 'Name:') }}&nbsp;<span class="required">*</span>
-                {{ Form::text('filename', null, ['class' => 'form-control']) }}
-
+                <span class="required">*</span>
+                {{ Form::text('filename', null, ['class' => 'form-control', 'placeholder' => 'Name']) }}
+                {{ Form::text('file_description', null, ['class' => 'form-control', 'placeholder' => 'Description']) }}
                 {{ Form::file('file', ['class' => 'form-control']) }}
 
                 {{ Form::submit('Upload', ['class' => 'btn btn-success']) }}

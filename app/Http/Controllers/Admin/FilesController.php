@@ -38,8 +38,9 @@ class FilesController extends Controller
         // it leaves the parent forms all blank, even though it goes
         // back to the right place. So just manually validate
         $validator = Validator::make($request->all(), [
-            'filename' => 'required',
-            'file'     => 'required|file'
+            'filename'         => 'required',
+            'file_description' => 'nullable',
+            'file'             => 'required|file'
         ]);
 
         if ($validator->fails()) {
@@ -53,6 +54,7 @@ class FilesController extends Controller
 
         $asset = new File();
         $asset->name = $attrs['filename'];
+        $asset->description = $attrs['file_description'];
         $asset->disk = config('filesystems.public_files');
         $asset->path = $file_path;
         $asset->public = true;
