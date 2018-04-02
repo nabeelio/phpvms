@@ -17,10 +17,10 @@ class UserState extends Enum
     public const SUSPENDED = 4;
 
     protected static $labels = [
-        UserState::PENDING   => 'Pending',
-        UserState::ACTIVE    => 'Active',
-        UserState::REJECTED  => 'Rejected',
-        UserState::ON_LEAVE  => 'On Leave',
-        UserState::SUSPENDED => 'Suspended',
+        UserState::PENDING   => 'system.users.state.pending',
+        UserState::ACTIVE    => 'system.users.state.active',
+        UserState::REJECTED  => 'system.users.state.rejected',
+        UserState::ON_LEAVE  => 'system.users.state.on_leave',
+        UserState::SUSPENDED => 'system.users.state.suspended',
     ];
 }
