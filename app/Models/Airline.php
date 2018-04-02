@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Interfaces\Model;
 use App\Models\Enums\JournalType;
+use App\Models\Traits\FilesTrait;
 use App\Models\Traits\JournalTrait;
 
 /**
@@ -20,6 +21,7 @@ use App\Models\Traits\JournalTrait;
  */
 class Airline extends Model
 {
+    use FilesTrait;
     use JournalTrait;
 
     public $table = 'airlines';

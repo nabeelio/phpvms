@@ -8,4 +8,10 @@
        {{ Form::close() }}
    </div>
 </div>
+
+<div class="card border-blue-bottom">
+   <div class="content">
+      @include('admin.common.file_upload', ['model' => $airline])
+   </div>
+</div>
 @endsection
