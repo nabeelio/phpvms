@@ -15,7 +15,7 @@ use Laratrust\Traits\LaratrustUserTrait;
  * @property string         $email
  * @property string         $password
  * @property string         $api_key
- * @property string         current_airport_id
+ * @property string         curr_airport_id
  * @property string         home_airport_id
  * @property Flight[]       $flights
  * @property string         $flight_time
@@ -56,7 +56,7 @@ class User extends Authenticatable
         'flights',
         'flight_time',
         'transferred_time',
-        'balance',
+        'avatar',
         'timezone',
         'state',
         'status',
@@ -121,6 +121,20 @@ class User extends Authenticatable
     public function setTzAttribute($value)
     {
         $this->attributes['timezone'] = $value;
+    }
+
+    /**
+     * Return a File model
+     */
+    public function getAvatarAttribute()
+    {
+        if (!$this->attributes['avatar']) {
+            return null;
+        }
+
+        return new File([
+            'path' => $this->attributes['avatar']
+        ]);
     }
 
     /**
