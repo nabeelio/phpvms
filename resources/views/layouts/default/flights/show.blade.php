@@ -50,13 +50,13 @@
 <div class="row">
     <div class="col-6">
         <h5>{{$flight->dpt_airport_id}} METAR</h5>
-        {{ Widget::checkWx([
+        {{ Widget::Weather([
             'icao' => $flight->dpt_airport_id,
           ]) }}
     </div>
     <div class="col-6">
         <h5>{{$flight->arr_airport_id}} METAR</h5>
-        {{ Widget::checkWx([
+        {{ Widget::Weather([
             'icao' => $flight->arr_airport_id,
           ]) }}
     </div>

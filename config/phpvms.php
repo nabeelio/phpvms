@@ -25,6 +25,12 @@ return [
     'currency' => 'USD',
 
     /**
+     * Point to the class to use to retrieve the METAR string. If this
+     * goes inactive at some date, it can be replaced
+     */
+    'metar' => App\Services\Metar\AviationWeather::class,
+
+    /**
      * Your vaCentral API key
      */
     'vacentral_api_key' => env('VACENTRAL_API_KEY', ''),

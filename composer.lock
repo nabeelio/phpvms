@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "6b643310b61c381c247802d56e9c7348",
+    "content-hash": "687d7eb7d6572fdb553c60d001880a91",
     "packages": [
         {
             "name": "akaunting/money",
@@ -1653,6 +1653,57 @@
             "time": "2018-03-16T16:57:31+00:00"
         },
         {
+            "name": "laravie/parser",
+            "version": "v1.2.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravie/parser.git",
+                "reference": "e759ba3e5a82151a320ad6e005da0937149bfe35"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravie/parser/zipball/e759ba3e5a82151a320ad6e005da0937149bfe35",
+                "reference": "e759ba3e5a82151a320ad6e005da0937149bfe35",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^5.1",
+                "php": ">=5.5.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "~0.9.4 || ~1.0",
+                "phpunit/phpunit": "~4.8.35 || ~5.7 || ~6.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.2-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Laravie\\Parser\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mior Muhammad Zaki",
+                    "email": "crynobone@gmail.com",
+                    "homepage": "https://github.com/crynobone"
+                }
+            ],
+            "description": "XML Document Parser for PHP",
+            "keywords": [
+                "parser",
+                "xml"
+            ],
+            "time": "2017-12-25T12:36:44+00:00"
+        },
+        {
             "name": "league/csv",
             "version": "9.1.3",
             "source": {
@@ -3186,6 +3237,46 @@
                 "promises"
             ],
             "time": "2017-03-25T12:08:31+00:00"
+        },
+        {
+            "name": "safran-cassiopee/php-metar-decoder",
+            "version": "v0.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/SafranCassiopee/php-metar-decoder.git",
+                "reference": "ed920c93a6025af9bf6787af7683246c37b1d648"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/SafranCassiopee/php-metar-decoder/zipball/ed920c93a6025af9bf6787af7683246c37b1d648",
+                "reference": "ed920c93a6025af9bf6787af7683246c37b1d648",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.3.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MetarDecoder\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Edouard de Labareyre",
+                    "email": "edouard@melix.net",
+                    "role": "Developer"
+                }
+            ],
+            "description": "METAR weather observation decoder",
+            "time": "2016-03-18T21:37:22+00:00"
         },
         {
             "name": "santigarcor/laratrust",
@@ -5992,6 +6083,67 @@
                 "symfony"
             ],
             "time": "2018-03-21T20:11:24+00:00"
+        },
+        {
+            "name": "orchestra/parser",
+            "version": "v3.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/orchestral/parser.git",
+                "reference": "b647cc182a633fe2cca46e2c495f4c6d9766bd80"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/orchestral/parser/zipball/b647cc182a633fe2cca46e2c495f4c6d9766bd80",
+                "reference": "b647cc182a633fe2cca46e2c495f4c6d9766bd80",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/container": "~5.6.0",
+                "laravie/parser": "~1.2",
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "illuminate/support": "~5.6.0",
+                "mockery/mockery": "^1.0",
+                "phpunit/phpunit": "~7.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.6-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Orchestra\\Parser\\XmlServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Orchestra\\Parser\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mior Muhammad Zaki",
+                    "email": "crynobone@gmail.com",
+                    "homepage": "https://github.com/crynobone"
+                }
+            ],
+            "description": "XML Document Parser for Laravel and PHP",
+            "keywords": [
+                "laravel",
+                "orchestra-platform",
+                "orchestral",
+                "parser",
+                "xml"
+            ],
+            "time": "2018-02-08T00:56:36+00:00"
         },
         {
             "name": "phar-io/manifest",

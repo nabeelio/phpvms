@@ -37,13 +37,6 @@ return [
         'api_key' => '',
     ],
 
-    // For METAR features, register for an API key at
-    // https://www.checkwx.com
-    'checkwx' => [
-        'url'     => 'https://api.checkwx.com',
-        'api_key' => false,
-    ],
-
     #
     # Other settings and configuration you might not need to modify
     #

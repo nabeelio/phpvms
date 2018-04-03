@@ -9,14 +9,14 @@
 
     {{-- Show the weather widget in one column --}}
     <div class="col-5">
-        {{ Widget::checkWx([
+        {{ Widget::Weather([
             'icao' => $airport->icao,
           ]) }}
     </div>
 
     {{-- Show the airspace map in the other column --}}
     <div class="col-7">
-        {{ Widget::airspaceMap([
+        {{ Widget::AirspaceMap([
             'width' => '100%',
             'height' => '400px',
             'lat' => $airport->lat,
@@ -29,7 +29,7 @@
     @if($airport->files && Auth::check())
         <div class="col-12">
             <h3 class="description">Downloads</h3>
-            @include('files.table', ['files' => $airport->files])
+            @include('downloads.table', ['files' => $airport->files])
         </div>
     @endif
 </div>

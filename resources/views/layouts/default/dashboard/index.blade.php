@@ -74,7 +74,7 @@
             <div class="card-block">
                 <!-- Tab panes -->
                 <div class="tab-content">
-                    {{ Widget::checkWx(['icao' => $current_airport]) }}
+                    {{ Widget::Weather(['icao' => $current_airport]) }}
                 </div>
             </div>
         </div>
