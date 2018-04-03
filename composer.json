@@ -39,7 +39,6 @@
         "igaster/laravel-theme": "^2.0",
         "anhskohbo/no-captcha": "^3.0",
         "league/csv": "^9.1",
-        "spatie/laravel-medialibrary": "^7.0.0",
         "safran-cassiopee/php-metar-decoder": "^0.7.0"
     },
     "require-dev": {
