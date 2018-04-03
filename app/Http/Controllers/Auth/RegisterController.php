@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Repositories\AirlineRepository;
 use App\Repositories\AirportRepository;
 use App\Services\UserService;
+use App\Support\Countries;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -64,6 +65,7 @@ class RegisterController extends Controller
         return view('auth.register', [
             'airports'  => $airports,
             'airlines'  => $airlines,
+            'countries' => Countries::getSelectList(),
             'timezones' => Timezonelist::toArray(),
         ]);
     }
@@ -99,15 +101,13 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $opts = [
-            'name'            => $data['name'],
-            'email'           => $data['email'],
-            'api_key'         => Utils::generateApiKey(),
-            'airline_id'      => $data['airline_id'],
-            'home_airport_id' => $data['home_airport_id'],
-            'curr_airport_id' => $data['home_airport_id'],
-            'password'        => Hash::make($data['password'])
-        ];
+        // Default options
+        $opts = array_merge([
+            'api_key' => Utils::generateApiKey(),
+        ], $data);
+
+        $opts['curr_airport_id'] = $data['home_airport_id'];
+        $opts['password'] = Hash::make($data['password']);
 
         $user = User::create($opts);
         $user = $this->userService->createPilot($user);
@@ -130,7 +130,9 @@ class RegisterController extends Controller
             'email'           => 'required|email|unique:users,email',
             'airline_id'      => 'required',
             'home_airport_id' => 'required',
-            'password'        => 'required|confirmed'
+            'password'        => 'required|confirmed',
+            'timezone'        => 'required',
+            'country'         => 'required',
         ];
 
         if (config('captcha.enabled')) {
