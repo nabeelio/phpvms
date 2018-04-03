@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-12">
                 <h5>
-                    <a class="text-c" href="{{ route('frontend.pireps.show', [$pirep->id]) }}">
+                    <a href="{{ route('frontend.pireps.show', [$pirep->id]) }}">
                         {{ $pirep->ident }}
                     </a>
                     -
