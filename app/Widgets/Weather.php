@@ -51,18 +51,12 @@ class Weather extends Widget
      */
     public function run()
     {
-        // Cache the request so we don't need to repeatedly call out
-        $cache = config('cache.keys.WEATHER_LOOKUP');
-        $key = $cache['key'].$this->config['icao'];
-
-        $raw_metar = Cache::remember($key, $cache['time'], function () {
-            /**
-             * @var \App\Interfaces\Metar $klass
-             */
-            $klass = config('phpvms.metar');
-            $metar_class = new $klass;
-            return $metar_class->get($this->config['icao']);
-        });
+        /**
+         * @var \App\Interfaces\Metar
+         */
+        $klass = config('phpvms.metar');
+        $metar_class = new $klass;
+        $raw_metar = $metar_class->get_metar($this->config['icao']);
 
         // Run through this parser
         $decoder = new MetarDecoder();

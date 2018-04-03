@@ -11,19 +11,19 @@ use App\Support\Http;
  */
 class AviationWeather extends Metar
 {
-    private const URL =
+    private const METAR_URL =
         'https://www.aviationweather.gov/adds/dataserver_current/httpparam?'
         .'dataSource=metars&requestType=retrieve&format=xml&hoursBeforeNow=3'
         .'&mostRecent=true&fields=raw_text&stationString=';
 
     /**
-     * Implement the METAR- Return the string
+     * Implement the METAR - Return the string
      * @param $icao
-     * @return mixed
+     * @return string
      */
-    public function get($icao)
+    protected function metar($icao): string
     {
-        $url = static::URL.$icao;
+        $url = static::METAR_URL.$icao;
         $res = Http::get($url, []);
         $xml = simplexml_load_string($res);
         return $xml->data->METAR->raw_text;
