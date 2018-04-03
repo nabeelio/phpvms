@@ -79,7 +79,6 @@ return [
         Igaster\LaravelTheme\themeServiceProvider::class,
         Nwidart\Modules\LaravelModulesServiceProvider::class,
         Anhskohbo\NoCaptcha\NoCaptchaServiceProvider::class,
-        Orchestra\Parser\XmlServiceProvider::class,
 
         /*
          * Application Service Providers...
