@@ -32,6 +32,7 @@ use PhpUnitsOfMeasure\Exception\NonStringUnitName;
  * @property Carbon      block_on_time
  * @property integer     block_time
  * @property integer     flight_time    In minutes
+ * @property integer     planned_flight_time
  * @property User        user
  * @property Flight|null flight
  * @property Collection  fields
@@ -210,6 +211,23 @@ class Pirep extends Model
         } catch (NonStringUnitName $e) {
             return 0;
         }
+    }
+
+    /**
+     * Return the flight progress in a percent.
+     */
+    public function getProgressPercentAttribute()
+    {
+        $upper_bound = $this->flight_time;
+        if($this->planned_flight_time) {
+            $upper_bound = $this->planned_flight_time;
+        }
+
+        if(!$upper_bound) {
+            $upper_bound = 1;
+        }
+
+        return round(($this->flight_time / $upper_bound) * 100, 0);
     }
 
     /**

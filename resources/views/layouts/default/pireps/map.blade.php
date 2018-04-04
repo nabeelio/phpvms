@@ -1,7 +1,4 @@
 <div class="row">
-    <div class="col-md-12">
-        <h5>flight map</h5>
-    </div>
     <div class="col-12">
         <div class="box-body">
             <div id="map" style="width: 100%; height: 800px"></div>
