@@ -4,7 +4,26 @@
 @section('content')
     <div class="row">
         <div class="col-12">
-            <h2>{{ $pirep->ident }}</h2>
+            <h3>{{$pirep->airline->code}}{{ $pirep->ident }}<br />
+            <small>Arrived {{$pirep->created_at->diffForHumans()}}</small></h3>
+        </div>
+
+        <div class="col-6 text-left">
+            <h4>
+            @if(filled($pirep->dpt_airport->iata))
+                {{ $pirep->dpt_airport->iata }}
+            @endif
+            <small>{{ $pirep->dpt_airport->location }}</small>
+            </h4>
+            <p>
+                <a href="{{route('frontend.airports.show', ['id' => $pirep->dpt_airport_id])}}">
+                    {{ $pirep->dpt_airport->full_name }} ({{  $pirep->dpt_airport_id }})</a>
+                <br />
+                {{ $pirep->created_at->toDayDateTimeString() }}
+            </p>
+        </div>
+        <div class="col-6">
+            
         </div>
     </div>
 

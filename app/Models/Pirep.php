@@ -113,8 +113,8 @@ class Pirep extends Model
      */
     public function getIdentAttribute(): string
     {
-        $flight_id = $this->airline->code;
-        $flight_id .= $this->flight_number;
+        #$flight_id = $this->airline->code;
+        $flight_id = $this->flight_number;
 
         if (filled($this->route_code)) {
             $flight_id .= '/C'.$this->route_code;
