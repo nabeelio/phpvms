@@ -4,6 +4,7 @@ namespace App\Widgets;
 
 use App\Interfaces\Widget;
 use App\Support\Http;
+use App\Support\Metar;
 use App\Support\Units\Distance;
 use App\Support\Units\Temperature;
 use Illuminate\Support\Facades\Cache;
@@ -30,29 +31,7 @@ class Weather extends Widget
      */
     protected function determineCategory($metar): string
     {
-        $category = 'VFR';
 
-        $visibility = 10; // assume it's ok and VFR
-        $vis = $metar->getVisibility();
-        if($vis) {
-            $vis = $vis->getVisibility();
-            if($vis) {
-                $visibility = $vis->getValue();
-            }
-        }
-
-        $ceiling = $metar->getClouds();
-        if ($ceiling && count($ceiling) > 0) {
-            $ceiling = $ceiling[0]->getBaseHeight()->getValue();
-        } else {
-            $ceiling = 1000;
-        }
-
-        if ($visibility < 3 || $ceiling < 1000) {
-            $category = 'IFR';
-        }
-
-        return $category;
     }
 
     /**
@@ -65,26 +44,20 @@ class Weather extends Widget
          */
         $klass = config('phpvms.metar');
         $metar_class = new $klass;
+
+        $metar = null;
+        $wind = null;
         $raw_metar = $metar_class->get_metar($this->config['icao']);
 
-        if(!$raw_metar || $raw_metar === '') {
-            $category = null;
-            $metar = null;
-        } else {
-            // Run through this parser
-            $decoder = new MetarDecoder();
-            $metar = $decoder->parse($raw_metar);
-
-
-            // Determine the flight category that's allowed
-            // Just check if we need to be under IFR conditions
-            $category = $this->determineCategory($metar);
+        if ($raw_metar && $raw_metar !== '') {
+            $metar = new Metar($raw_metar);
+            $wind = $metar->getWinds();
         }
 
         return view('widgets.weather', [
             'config'    => $this->config,
-            'category'  => $category,
             'metar'     => $metar,
+            'wind'      => $wind,
             'unit_alt'  => setting('units.altitude'),
             'unit_dist' => setting('units.distance'),
             'unit_temp' => setting('units.temperature'),

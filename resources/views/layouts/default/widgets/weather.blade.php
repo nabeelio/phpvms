@@ -11,29 +11,20 @@ https://api.checkwx.com/#metar-decoded
         <tr>
             <td>Conditions</td>
             <td>
-                {{ $category }},&nbsp;
-                @if($unit_temp === 'c')
-                    {{ $metar->getAirTemperature()->getValue() }}
-                @else
-                    {{ round(($metar->getAirTemperature()->getValue() * 9/5) + 32, 2) }}
+                {{ $metar->getCategory() }}
+                @if($metar->getTemperature())
+                    &nbsp;
+                    {{$metar->getTemperature()}}°{{strtoupper($unit_temp)}}
+                    ,&nbsp;
                 @endif
-                °{{strtoupper($unit_temp)}}
-
-                @if($metar->getVisibility()->getVisibility())
-                    , visibility
-                    @if($unit_dist === 'km')
-                        {{ $metar->getVisibility()->getVisibility()->getConvertedValue('m') / 1000 }}
-                    @else
-                        {{ $metar->getVisibility()->getVisibility()->getValue() }}
-                    @endif
-                    {{$unit_dist}}
-                @endif
+                visibility
+                {{$metar->getVisibility()}}{{$unit_dist}}
             </td>
         </tr>
         <tr>
             <td>Barometer</td>
-            <td>{{ $metar->getPressure()->getValue() }} Hg
-                / {{ round($metar->getPressure()->getValue() * 33.86) }} MB
+            <td>{{ $metar->getPressure('hg') }} Hg
+                / {{ $metar->getPressure('mb') }} MB
             </td>
         </tr>
         <tr>
@@ -41,13 +32,7 @@ https://api.checkwx.com/#metar-decoded
             <td>
                 @foreach($metar->getClouds() as $cloud)
                     <p>
-                        {{$cloud->getAmount()}} @
-                        @if($unit_alt === 'ft')
-                            {{$cloud->getBaseHeight()->getValue()}}
-                        @else
-                            {{$cloud->getBaseHeight()->getConvertedValue('m')}}
-                        @endif
-                        {{ $unit_alt }}
+                        {{$cloud['amount']}} @ {{$cloud['base_height']}} {{ $unit_alt }}
                     </p>
                 @endforeach
             </td>
@@ -55,10 +40,10 @@ https://api.checkwx.com/#metar-decoded
         <tr>
             <td>Wind</td>
             <td>
-                {{$metar->getSurfaceWind()->getMeanSpeed()->getConvertedValue('kt')}} kts
-                @ {{$metar->getSurfaceWind()->getMeanDirection()->getValue()}}°
-                @if($metar->getSurfaceWind()->getSpeedVariations())
-                    gusts to {{$metar->getSurfaceWind()->getSpeedVariations()->getConvertedValue('kt')}}
+                {{$wind['speed']}} kts
+                @ {{$wind['direction']}}°
+                @if($wind['gusts'])
+                    gusts to {{$wind['gusts']}}
                 @endif
             </td>
         </tr>
@@ -72,7 +57,7 @@ https://api.checkwx.com/#metar-decoded
         </tr>
         <tr>
             <td>Updated</td>
-            <td>{{$metar->getTime()}}</td>
+            <td>{{$metar->getLastUpdate()}}</td>
         </tr>
     </table>
 @endif
