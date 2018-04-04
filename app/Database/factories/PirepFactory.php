@@ -39,13 +39,18 @@ $factory->define(App\Models\Pirep::class, function (Faker $faker) {
         'zfw'                 => $faker->randomFloat(2),
         'block_fuel'          => $faker->randomFloat(2, 0, 30000),
         'fuel_used'           => $faker->randomFloat(2, 0, 30000),
+        'block_on_time'       => Carbon::now('UTC'),
+        'block_off_time'      => function (array $pirep) {
+            return $pirep['block_on_time']->subMinutes($pirep['flight_time']);
+        },
         'route'               => $faker->text(200),
         'notes'               => $faker->text(200),
         'source'              => $faker->randomElement([PirepSource::MANUAL, PirepSource::ACARS]),
         'source_name'         => 'Test Factory',
         'state'               => PirepState::PENDING,
         'status'              => PirepStatus::SCHEDULED,
-        'created_at'          => Carbon::now()->toDateTimeString(),
+        'submitted_at'        => Carbon::now('UTC')->toDateTimeString(),
+        'created_at'          => Carbon::now('UTC')->toDateTimeString(),
         'updated_at'          => function (array $pirep) {
             return $pirep['created_at'];
         },

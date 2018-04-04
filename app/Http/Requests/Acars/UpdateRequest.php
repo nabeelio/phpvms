@@ -31,7 +31,7 @@ class UpdateRequest extends FormRequest
             'route_leg'           => 'nullable',
             'distance'            => 'nullable|numeric',
             'planned_distance'    => 'nullable|numeric',
-            'block_time'         => 'nullable|integer',
+            'block_time'          => 'nullable|integer',
             'flight_time'         => 'nullable|integer',
             'planned_flight_time' => 'nullable|integer',
             'level'               => 'nullable|numeric',
@@ -47,6 +47,7 @@ class UpdateRequest extends FormRequest
             'block_on_time'       => 'nullable|date',
             'created_at'          => 'nullable|date',
             'status'              => 'nullable',
+            'source_name'         => 'nullable',
 
             # See if the fare objects are included and formatted properly
             'fares'               => 'nullable|array',

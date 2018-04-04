@@ -21,6 +21,7 @@ use App\Services\GeoService;
 use App\Services\PirepService;
 use App\Services\UserService;
 use App\Support\Units\Time;
+use Carbon\Carbon;
 use Flash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -282,6 +283,9 @@ class PirepController extends Controller
         $hours = (int) $request->input('hours', 0);
         $minutes = (int) $request->input('minutes', 0);
         $pirep->flight_time = Utils::hoursToMinutes($hours) + $minutes;
+
+        // Put the time that this is currently submitted
+        $attrs['submitted_at'] = Carbon::now('UTC');
 
         $pirep = $this->pirepSvc->create($pirep);
         $this->saveCustomFields($pirep, $request);

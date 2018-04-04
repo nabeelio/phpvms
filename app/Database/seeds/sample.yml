@@ -386,6 +386,8 @@ pireps:
     aircraft_id: 1
     dpt_airport_id: KAUS
     arr_airport_id: KJFK
+    block_off_time: 2018-04-04T12:42:36+00:00
+    block_on_time: 2018-04-04T16:42:36+00:00
     flight_time: 180  # 6 hours
     state: 1 # accepted
     status: 0
@@ -393,8 +395,9 @@ pireps:
     flight_type: J
     route: KAUS SID TNV J87 IAH J2 LCH J22 MEI J239 ATL J52 AJFEB J14 BYJAC Q60 JAXSN J14 COLIN J61 HUBBS J55 SIE STAR KJFK
     notes: just a pilot report
-    created_at: NOW
-    updated_at: NOW
+    submitted_at: 2018-04-04T16:50:36+00:00
+    created_at: 2018-04-04T16:50:36+00:00
+    updated_at: 2018-04-04T17:00:36+00:00
   - id: pirepid_2
     user_id: 1
     airline_id: 1
@@ -409,6 +412,7 @@ pireps:
     notes: just a pilot report
     source: 1 # pending
     source_name: sample
+    submitted_at: NOW
     created_at: NOW
     updated_at: NOW
   - id: pirepid_3
@@ -424,6 +428,7 @@ pireps:
     flight_type: J
     route: PLMMR2 SPA Q22 BEARI FAK PHLBO3
     notes: just a pilot report
+    submitted_at: NOW
     created_at: NOW
     updated_at: NOW
 

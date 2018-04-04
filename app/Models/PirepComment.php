@@ -7,6 +7,8 @@ use App\Interfaces\Model;
 /**
  * Class PirepEvent
  *
+ * @property string pirep_id
+ * @property int user_id
  * @package App\Models
  */
 class PirepComment extends Model

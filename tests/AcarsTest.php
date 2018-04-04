@@ -288,7 +288,7 @@ class AcarsTest extends TestCase
             'planned_distance' => 400,
             'planned_flight_time' => 120,
             'route' => 'POINTA POINTB',
-            'source_name' => 'UnitTest',
+            'source_name' => 'AcarsTest::testAcarsUpdates',
             'fields' => [
                 'custom_field' => 'custom_value',
             ],
@@ -408,6 +408,62 @@ class AcarsTest extends TestCase
         $comments = $response->json();
 
         $this->assertCount(1, $comments);
+    }
+
+    /**
+     * Post a PIREP into a PREFILE state and post ACARS
+     */
+    public function testFilePirepApi(): void
+    {
+        $subfleet = $this->createSubfleetWithAircraft(2);
+        $rank = $this->createRank(10, [$subfleet['subfleet']->id]);
+
+        $this->user = factory(App\Models\User::class)->create([
+            'rank_id' => $rank->id,
+        ]);
+
+        $airport = factory(App\Models\Airport::class)->create();
+        $airline = factory(App\Models\Airline::class)->create();
+        $aircraft = $subfleet['aircraft']->random();
+
+        $uri = '/api/pireps/prefile';
+        $pirep = [
+            'airline_id'          => $airline->id,
+            'aircraft_id'         => $aircraft->id,
+            'dpt_airport_id'      => $airport->icao,
+            'arr_airport_id'      => $airport->icao,
+            'flight_number'       => '6000',
+            'level'               => 38000,
+            'source_name'         => 'AcarsTest::testFilePirepApi',
+        ];
+
+        $response = $this->post($uri, $pirep);
+        $response->assertStatus(201);
+
+        # Get the PIREP ID
+        $body = $response->json();
+        $pirep_id = $body['data']['id'];
+
+        # File the PIREP now
+        $uri = '/api/pireps/'.$pirep_id.'/file';
+
+        $response = $this->post($uri, [
+            'flight_time' => 130,
+            'fuel_used'   => 8000.19,
+            'distance'    => 400,
+        ]);
+
+        $response->assertStatus(200);
+
+        # Check the block_off_time and block_on_time being set
+        $body = $this->get('/api/pireps/'.$pirep_id)->json('data');
+        $this->assertNotNull($body['block_off_time']);
+        $this->assertNotNull($body['block_on_time']);
+
+        # make sure the time matches up
+        $block_on = new Carbon($body['block_on_time'], 'UTC');
+        $block_off = new Carbon($body['block_off_time'], 'UTC');
+        $this->assertEquals($block_on->subMinutes($body['flight_time']), $block_off);
     }
 
     /**

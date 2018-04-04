@@ -41,7 +41,7 @@ class FileRequest extends FormRequest
             'block_fuel'          => 'nullable|numeric',
             'route'               => 'nullable',
             'notes'               => 'nullable',
-            'source_name'         => 'nullable|max:25',
+            'source_name'         => 'nullable',
             'landing_rate'        => 'nullable|numeric',
             'flight_type'         => 'nullable|integer',
             'block_off_time'      => 'nullable|date',

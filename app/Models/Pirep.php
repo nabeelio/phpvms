@@ -8,6 +8,7 @@ use App\Models\Enums\PirepState;
 use App\Models\Traits\HashIdTrait;
 use App\Support\Units\Distance;
 use App\Support\Units\Fuel;
+use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use PhpUnitsOfMeasure\Exception\NonNumericValue;
 use PhpUnitsOfMeasure\Exception\NonStringUnitName;
@@ -27,11 +28,16 @@ use PhpUnitsOfMeasure\Exception\NonStringUnitName;
  * @property string      arr_airport_id
  * @property Airport     dpt_airport
  * @property string      dpt_airport_id
+ * @property Carbon      block_off_time
+ * @property Carbon      block_on_time
  * @property integer     block_time
  * @property integer     flight_time    In minutes
  * @property User        user
  * @property Flight|null flight
  * @property Collection  fields
+ * @property Carbon      submitted_at
+ * @property Carbon      created_at
+ * @property Carbon      updated_at
  * @package App\Models
  */
 class Pirep extends Model
@@ -73,6 +79,7 @@ class Pirep extends Model
         'status',
         'block_off_time',
         'block_on_time',
+        'submitted_at',
         'created_at',
         'updated_at',
     ];
@@ -95,6 +102,7 @@ class Pirep extends Model
         'state'               => 'integer',
         'block_off_time'      => 'datetime',
         'block_on_time'       => 'datetime',
+        'submitted_at'        => 'datetime',
     ];
 
     public static $rules = [

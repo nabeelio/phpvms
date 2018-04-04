@@ -185,6 +185,28 @@ class PirepService extends Service
             }
         }
 
+        # Check the block times. If a block on (arrival) time isn't
+        # specified, then use the time that it was submitted. It won't
+        # be the most accurate, but that might be OK
+        if(!$pirep->block_on_time) {
+            if($pirep->submitted_at) {
+                $pirep->block_on_time = $pirep->submitted_at;
+            } else {
+                $pirep->block_on_time = Carbon::now('UTC');
+            }
+        }
+
+        # If the depart time isn't set, then try to calculate it by
+        # subtracting the flight time from the block_on (arrival) time
+        if(!$pirep->block_off_time && $pirep->flight_time > 0) {
+            $pirep->block_off_time = $pirep->block_on_time->subMinutes($pirep->flight_time);
+        }
+
+        # Check that there's a submit time
+        if (!$pirep->submitted_at) {
+            $pirep->submitted_at = Carbon::now('UTC');
+        }
+
         $pirep->save();
         $pirep->refresh();
 

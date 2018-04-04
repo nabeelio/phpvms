@@ -23,7 +23,7 @@ class PrefileRequest extends FormRequest
             'flight_number'  => 'required',
             'dpt_airport_id' => 'required',
             'arr_airport_id' => 'required',
-            'source_name'    => 'required|max:25',
+            'source_name'    => 'required',
 
             'level'               => 'nullable|numeric',
             'route_code'          => 'nullable',

@@ -35,6 +35,7 @@ use App\Services\GeoService;
 use App\Services\PirepService;
 use App\Services\UserService;
 use Auth;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Log;
 
@@ -237,7 +238,7 @@ class PirepController extends Controller
         Log::info('PIREP Update, user '.Auth::id(), $request->post());
 
         $user = Auth::user();
-        $pirep = $this->pirepRepo->find($id);
+        $pirep = Pirep::find($id);
         $this->checkCancelled($pirep);
 
         $attrs = $request->post();
@@ -277,7 +278,7 @@ class PirepController extends Controller
         $user = Auth::user();
 
         # Check if the status is cancelled...
-        $pirep = $this->pirepRepo->find($id);
+        $pirep = Pirep::find($id);
         $this->checkCancelled($pirep);
 
         $attrs = $request->post();
@@ -294,9 +295,11 @@ class PirepController extends Controller
 
         $attrs['state'] = PirepState::PENDING;
         $attrs['status'] = PirepStatus::ARRIVED;
+        $attrs['submitted_at'] = Carbon::now('UTC');
+
+        $pirep = $this->pirepRepo->update($attrs, $id);
 
         try {
-            $pirep = $this->pirepRepo->update($attrs, $id);
             $pirep = $this->pirepSvc->create($pirep);
             $this->updateFields($pirep, $request);
             $this->updateFares($pirep, $request);
@@ -343,7 +346,7 @@ class PirepController extends Controller
      */
     public function acars_geojson($id, Request $request)
     {
-        $pirep = $this->pirepRepo->find($id);
+        $pirep = Pirep::find($id);
         $geodata = $this->geoSvc->getFeatureFromAcars($pirep);
 
         return response(\json_encode($geodata), 200, [
@@ -378,7 +381,7 @@ class PirepController extends Controller
     public function acars_store($id, PositionRequest $request)
     {
         # Check if the status is cancelled...
-        $pirep = $this->pirepRepo->find($id);
+        $pirep = Pirep::find($id);
         $this->checkCancelled($pirep);
 
         Log::debug(
@@ -420,7 +423,7 @@ class PirepController extends Controller
     public function acars_logs($id, LogRequest $request)
     {
         # Check if the status is cancelled...
-        $pirep = $this->pirepRepo->find($id);
+        $pirep = Pirep::find($id);
         $this->checkCancelled($pirep);
 
         Log::debug('Posting ACARS log, PIREP: '.$id, $request->post());
@@ -451,7 +454,7 @@ class PirepController extends Controller
     public function acars_events($id, EventRequest $request)
     {
         # Check if the status is cancelled...
-        $pirep = $this->pirepRepo->find($id);
+        $pirep = Pirep::find($id);
         $this->checkCancelled($pirep);
 
         Log::debug('Posting ACARS event, PIREP: '.$id, $request->post());
@@ -479,8 +482,7 @@ class PirepController extends Controller
      */
     public function comments_get($id, Request $request)
     {
-        $pirep = $this->pirepRepo->find($id);
-
+        $pirep = Pirep::find($id);
         return PirepCommentResource::collection($pirep->comments);
     }
 
@@ -493,7 +495,7 @@ class PirepController extends Controller
      */
     public function comments_post($id, CommentRequest $request)
     {
-        $pirep = $this->pirepRepo->find($id);
+        $pirep = Pirep::find($id);
         $this->checkCancelled($pirep);
 
         Log::debug('Posting comment, PIREP: '.$id, $request->post());
@@ -516,9 +518,8 @@ class PirepController extends Controller
      */
     public function finances_get($id, Request $request)
     {
-        $pirep = $this->pirepRepo->find($id);
+        $pirep = Pirep::find($id);
         $transactions = $this->journalRepo->getAllForObject($pirep);
-
         return JournalTransactionResource::collection($transactions);
     }
 
@@ -533,12 +534,12 @@ class PirepController extends Controller
      */
     public function finances_recalculate($id, Request $request)
     {
-        $pirep = $this->pirepRepo->find($id);
+        $pirep = Pirep::find($id);
         $this->financeSvc->processFinancesForPirep($pirep);
 
         $pirep->refresh();
-        $transactions = $this->journalRepo->getAllForObject($pirep);
 
+        $transactions = $this->journalRepo->getAllForObject($pirep);
         return JournalTransactionResource::collection($transactions['transactions']);
     }
 
@@ -549,8 +550,7 @@ class PirepController extends Controller
      */
     public function route_get($id, Request $request)
     {
-        $this->pirepRepo->find($id);
-
+        $pirep = Pirep::find($id);
         return AcarsRouteResource::collection(Acars::where([
             'pirep_id' => $id,
             'type'     => AcarsType::ROUTE
@@ -568,7 +568,7 @@ class PirepController extends Controller
     public function route_post($id, RouteRequest $request)
     {
         # Check if the status is cancelled...
-        $pirep = $this->pirepRepo->find($id);
+        $pirep = Pirep::find($id);
         $this->checkCancelled($pirep);
 
         Log::info('Posting ROUTE, PIREP: '.$id, $request->post());
@@ -596,7 +596,7 @@ class PirepController extends Controller
      */
     public function route_delete($id, Request $request)
     {
-        $this->pirepRepo->find($id);
+        $pirep = Pirep::find($id);
 
         Acars::where([
             'pirep_id' => $id,

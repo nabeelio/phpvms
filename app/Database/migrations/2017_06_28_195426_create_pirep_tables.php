@@ -39,9 +39,10 @@ class CreatePirepTables extends Migration
             $table->text('route')->nullable();
             $table->text('notes')->nullable();
             $table->unsignedTinyInteger('source')->nullable()->default(0);
-            $table->string('source_name', 25)->nullable();
+            $table->string('source_name', 50)->nullable();
             $table->tinyInteger('state')->default(PirepState::PENDING);
             $table->char('status', 3)->default(PirepStatus::SCHEDULED);
+            $table->dateTime('submitted_at')->nullable();
             $table->dateTime('block_off_time')->nullable();
             $table->dateTime('block_on_time')->nullable();
             $table->timestamps();
