@@ -31,13 +31,20 @@
         </div>
         <div class="row">
             <div class="col-sm-5">
+                {{--<table class="table-condensed"></table>--}}
                 <span class="title">DEP&nbsp;</span>
-                <a href="{{route('frontend.airports.show', ['id'=>$flight->dpt_airport_id])}}">
-                    {{ $flight->dpt_airport->icao }}</a>@if($flight->dpt_time), {{ $flight->dpt_time }}@endif
+                {{ $flight->dpt_airport->name }}
+                (<a href="{{route('frontend.airports.show', [
+                            'id' => $flight->dpt_airport->icao
+                            ])}}">{{$flight->dpt_airport->icao}}</a>)
+                @if($flight->dpt_time), {{ $flight->dpt_time }}@endif
                 <br />
                 <span class="title">ARR&nbsp;</span>
-                <a href="{{route('frontend.airports.show', ['id'=>$flight->arr_airport_id])}}">
-                    {{ $flight->arr_airport->icao }}</a>@if($flight->arr_time), {{ $flight->arr_time }}@endif
+                {{ $flight->arr_airport->name }}
+                (<a href="{{route('frontend.airports.show', [
+                            'id' => $flight->arr_airport->icao
+                            ])}}">{{$flight->arr_airport->icao}}</a>)
+                @if($flight->arr_time), {{ $flight->arr_time }}@endif
                 <br />
                 @if($flight->distance)
                     <span class="title">DISTANCE&nbsp;</span>

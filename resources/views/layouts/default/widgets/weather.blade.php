@@ -7,7 +7,7 @@ https://api.checkwx.com/#metar-decoded
 @if(!$metar)
     <p>METAR/TAF data could not be retrieved</p>
 @else
-    <table class="table">
+    <table class="table table-striped">
         <tr>
             <td>Conditions</td>
             <td>

@@ -7,13 +7,15 @@
                         {{ $pirep->ident }}
                     </a>
                     -
-                    <a href="{{route('frontend.airports.show', ['id' => $pirep->dpt_airport_id])}}">
-                        {{ $pirep->dpt_airport_id }}</a>
-
-                    <span class="description"> to </span>
-
-                    <a href="{{route('frontend.airports.show', ['id' => $pirep->arr_airport_id])}}">
-                        {{ $pirep->arr_airport_id }}</a>
+                    {{ $pirep->dpt_airport->name }}
+                    (<a href="{{route('frontend.airports.show', [
+                            'id' => $pirep->dpt_airport->icao
+                            ])}}">{{$pirep->dpt_airport->icao}}</a>)
+                    <span class="description">to</span>
+                    {{ $pirep->arr_airport->name }}
+                    (<a href="{{route('frontend.airports.show', [
+                            'id' => $pirep->arr_airport->icao
+                            ])}}">{{$pirep->arr_airport->icao}}</a>)
                 </h5>
             </div>
             <div class="col-sm-2 text-center">
@@ -33,7 +35,7 @@
             <div class="col-sm-10">
                 <div class="row">
                     <div class="col-sm-6">
-                        <table width="100%">
+                        <table class="table-condensed" width="100%">
                             <tr>
                                 <td nowrap><span class="title">Flight Time&nbsp;</span></td>
                                 <td>{{ Utils::minutesToTimeString($pirep->flight_time) }}</td>

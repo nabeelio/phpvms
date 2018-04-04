@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-md-12">
-        <h4 class="description">flight map</h4>
+        <h5>flight map</h5>
     </div>
     <div class="col-12">
         <div class="box-body">

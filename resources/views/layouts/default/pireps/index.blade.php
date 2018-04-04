@@ -11,12 +11,12 @@
         </div>
         <h2 class="description">pilot reports</h2>
         @include('flash::message')
-        @include("pireps.table")
+        @include('pireps.table')
     </div>
 </div>
 <div class="row">
     <div class="col-12 text-center">
-        {{ $pireps->links("pagination.default") }}
+        {{ $pireps->links('pagination.default') }}
     </div>
 </div>
 @endsection

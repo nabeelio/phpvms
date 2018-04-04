@@ -4,14 +4,14 @@
 @section('content')
     <div class="row">
         <div class="col-12">
-            <h2 class="description">{{ $pirep->ident }}</h2>
+            <h2>{{ $pirep->ident }}</h2>
         </div>
     </div>
 
     <div class="row">
         <div class="col-8">
-            <h4 class="description">flight info</h4>
-            <table class="table table-hover">
+            <h5>flight info</h5>
+            <table class="table table-hover table-condensed">
                 <tr>
                     <td>Status</td>
                     <td>
@@ -35,11 +35,15 @@
                 <tr>
                     <td>Departure/Arrival</td>
                     <td>
-                        <a href="{{route('frontend.airports.show', ['id' => $pirep->dpt_airport_id])}}">
-                            {{ $pirep->dpt_airport->full_name }}</a>
+                        {{ $pirep->dpt_airport->name }}
+                        (<a href="{{route('frontend.airports.show', [
+                            'id' => $pirep->dpt_airport->icao
+                            ])}}">{{$pirep->dpt_airport->icao}}</a>)
                         <span class="description">to</span>
-                        <a href="{{route('frontend.airports.show', ['id' => $pirep->arr_airport_id])}}">
-                            {{ $pirep->arr_airport->full_name }}</a>
+                        {{ $pirep->arr_airport->name }}
+                        (<a href="{{route('frontend.airports.show', [
+                            'id' => $pirep->arr_airport->icao
+                            ])}}">{{$pirep->arr_airport->icao}}</a>)
                     </td>
                 </tr>
 
@@ -85,8 +89,8 @@
             --}}
 
             @if(count($pirep->fields) > 0)
-                <h4 class="description">fields</h4>
-                <table class="table table-hover">
+                <h5>fields</h5>
+                <table class="table table-hover table-condensed">
                     <thead>
                     <th>Name</th>
                     <th>Value</th>
@@ -101,45 +105,45 @@
                     </tbody>
                 </table>
             @endif
+
+            {{--
+                Show the fares that have been entered
+            --}}
+            @if(count($pirep->fares) > 0)
+                <div class="separator"></div>
+                <div class="row">
+                    <div class="col-12">
+                        <h5>fares</h5>
+                        <table class="table table-hover table-condensed">
+                            <thead>
+                            <th>Class</th>
+                            <th>Count</th>
+                            </thead>
+                            <tbody>
+                            @foreach($pirep->fares as $fare)
+                                <tr>
+                                    <td>{{ $fare->fare->name }} ({{ $fare->fare->code }})</td>
+                                    <td>{{ $fare->count }}</td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            @endif
         </div>
     </div>
-
-    {{--
-        Show the fares that have been entered
-    --}}
-
-    @if(count($pirep->fares) > 0)
-        <div class="row">
-            <div class="col-12">
-                <h4 class="description">fares</h4>
-                <table class="table table-hover">
-                    <thead>
-                    <th>Class</th>
-                    <th>Count</th>
-                    </thead>
-                    <tbody>
-                    @foreach($pirep->fares as $fare)
-                        <tr>
-                            <td>{{ $fare->fare->name }} ({{ $fare->fare->code }})</td>
-                            <td>{{ $fare->count }}</td>
-                        </tr>
-                    @endforeach
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    @endif
 
     @include('pireps.map')
 
     @if(count($pirep->acars_logs) > 0)
-        <br /><br />
-        <div class="row clear">
+        <div class="separator"></div>
+        <div class="row">
             <div class="col-12">
-                <h3 class="description">flight log</h3>
+                <h5>flight log</h5>
             </div>
             <div class="col-12">
-                <table class="table table-hover" id="users-table">
+                <table class="table table-hover table-condensed" id="users-table">
                     <tbody>
                     @foreach($pirep->acars_logs as $log)
                         <tr>

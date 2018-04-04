@@ -23,7 +23,7 @@ mix.sass('resources/sass/now-ui/now-ui-kit.scss',
     .options({
         processCssUrls: false,
         compressed: true
-    });
+    }).sourceMaps();
 
 /**
  * ADMIN REQUIRED FILES

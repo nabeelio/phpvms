@@ -6894,7 +6894,7 @@ button.close {
 .bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-brown,
 .bootstrap-switch .bootstrap-switch-handle-off.bootstrap-switch-brown {
   color: #fff;
-  background: #f96332;
+  background: #067ec1;
 }
 
 .bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-blue,
@@ -7070,7 +7070,7 @@ button.close {
 }
 
 .bootstrap-switch.bootstrap-switch-on .bootstrap-switch-brown ~ .bootstrap-switch-default {
-  background-color: #f96332;
+  background-color: #067ec1;
 }
 
 .bootstrap-switch.bootstrap-switch-on .bootstrap-switch-blue ~ .bootstrap-switch-default {
@@ -7395,7 +7395,7 @@ button.close {
 }
 
 .slider.slider-primary .noUi-handle {
-  background-color: #f96332;
+  background-color: #067ec1;
 }
 
 .slider.slider-info .noUi-connect, .slider.slider-info.noUi-connect {
@@ -7699,17 +7699,6 @@ button.close {
 
 .datepicker th {
   color: #f96332;
-}
-
-.table-condensed > tbody > tr > td,
-.table-condensed > tbody > tr > th,
-.table-condensed > tfoot > tr > td,
-.table-condensed > tfoot > tr > th,
-.table-condensed > thead > tr > td,
-.table-condensed > thead > tr > th {
-  padding: 2px;
-  text-align: center;
-  cursor: pointer;
 }
 
 .table-striped .datepicker table tr td,
@@ -9263,12 +9252,12 @@ textarea.form-control:focus, textarea.form-control:active {
 }
 
 .progress-container.progress-primary .progress-bar {
-  background: #f96332;
+  background: #067ec1;
 }
 
 .progress-container.progress-primary .progress-value,
 .progress-container.progress-primary .progress-badge {
-  color: #f96332;
+  color: #067ec1;
 }
 
 .progress-container.progress-info .progress {
@@ -9417,14 +9406,14 @@ textarea.form-control:focus, textarea.form-control:active {
 }
 
 .pagination .page-item.active > .page-link {
-  color: #E3E3E3;
+  color: #067ec1;
   -webkit-box-shadow: 0px 5px 25px 0px rgba(0, 0, 0, 0.2);
           box-shadow: 0px 5px 25px 0px rgba(0, 0, 0, 0.2);
 }
 
 .pagination .page-item.active > .page-link, .pagination .page-item.active > .page-link:focus, .pagination .page-item.active > .page-link:hover {
-  background-color: #B8B8B8;
-  border-color: #B8B8B8;
+  background-color: #067ec1;
+  border-color: #067ec1;
   color: #FFFFFF;
 }
 
@@ -9435,18 +9424,18 @@ textarea.form-control:focus, textarea.form-control:active {
 }
 
 .pagination.pagination-info .page-item.active > .page-link, .pagination.pagination-info .page-item.active > .page-link:focus, .pagination.pagination-info .page-item.active > .page-link:hover {
-  background-color: #2CA8FF;
-  border-color: #2CA8FF;
+  background-color: #067ec1;
+  border-color: #067ec1;
 }
 
 .pagination.pagination-success .page-item.active > .page-link, .pagination.pagination-success .page-item.active > .page-link:focus, .pagination.pagination-success .page-item.active > .page-link:hover {
-  background-color: #18ce0f;
-  border-color: #18ce0f;
+  background-color: #067ec1;
+  border-color: #067ec1;
 }
 
 .pagination.pagination-primary .page-item.active > .page-link, .pagination.pagination-primary .page-item.active > .page-link:focus, .pagination.pagination-primary .page-item.active > .page-link:hover {
-  background-color: #f96332;
-  border-color: #f96332;
+  background-color: #067ec1;
+  border-color: #067ec1;
 }
 
 .pagination.pagination-warning .page-item.active > .page-link, .pagination.pagination-warning .page-item.active > .page-link:focus, .pagination.pagination-warning .page-item.active > .page-link:hover {
@@ -9471,7 +9460,18 @@ textarea.form-control:focus, textarea.form-control:active {
 .pagination.pagination-neutral .page-item.active > .page-link, .pagination.pagination-neutral .page-item.active > .page-link:focus, .pagination.pagination-neutral .page-item.active > .page-link:hover {
   background-color: #FFFFFF;
   border-color: #FFFFFF;
-  color: #f96332;
+  color: #067ec1;
+}
+
+.table-condensed > tbody > tr > td,
+.table-condensed > tbody > tr > th,
+.table-condensed > tfoot > tr > td,
+.table-condensed > tfoot > tr > th,
+.table-condensed > thead > tr > td,
+.table-condensed > thead > tr > th {
+  padding: 5px;
+  /*text-align: center;*/
+  cursor: pointer;
 }
 
 button,
@@ -9580,7 +9580,7 @@ p.description {
 }
 
 .text-primary {
-  color: #f96332 !important;
+  color: #067ec1 !important;
 }
 
 .text-info {
@@ -9753,7 +9753,7 @@ body {
 }
 
 .nav-pills.nav-pills-primary .nav-item .nav-link.active, .nav-pills.nav-pills-primary .nav-item .nav-link.active:focus, .nav-pills.nav-pills-primary .nav-item .nav-link.active:hover {
-  background-color: #f96332;
+  background-color: #067ec1;
 }
 
 .nav-pills.nav-pills-info .nav-item .nav-link.active, .nav-pills.nav-pills-info .nav-item .nav-link.active:focus, .nav-pills.nav-pills-info .nav-item .nav-link.active:hover {
@@ -12686,13 +12686,13 @@ Created using IcoMoon - icomoon.io
     transform: translate3d(0px, 0, 0);
   }
   .navbar-collapse:before {
-    background: #f96332;
+    background: #067ec1;
     /* For browsers that do not support gradients */
     /* For Safari 5.1 to 6.0 */
     /* For Opera 11.1 to 12.0 */
     /* For Firefox 3.6 to 15 */
-    background: -webkit-gradient(linear, left top, left bottom, from(#f96332), color-stop(80%, #000));
-    background: linear-gradient(#f96332 0%, #000 80%);
+    background: -webkit-gradient(linear, left top, left bottom, from(#067ec1), color-stop(80%, #000));
+    background: linear-gradient(#067ec1 0%, #000 80%);
     /* Standard syntax (must be last) */
     opacity: 0.76;
     filter: alpha(opacity=76);

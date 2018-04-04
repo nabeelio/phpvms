@@ -37,14 +37,14 @@
     }
 
     .page-item.active > .page-link{
-        color: $light-gray;
+        color: $brand-primary;
         box-shadow: 0px 5px 25px 0px rgba(0, 0, 0, 0.2);
 
         &,
         &:focus,
         &:hover{
-            background-color: $default-color;
-            border-color: $default-color;
+            background-color: $brand-primary;
+            border-color: $brand-primary;
             color: $white-color;
         }
     }
@@ -61,8 +61,8 @@
             &,
             &:focus,
             &:hover{
-                background-color: $brand-info;
-                border-color: $brand-info;
+                background-color: $brand-primary;
+                border-color: $brand-primary;
             }
         }
     }
@@ -72,8 +72,8 @@
             &,
             &:focus,
             &:hover{
-                background-color: $brand-success;
-                border-color: $brand-success;
+                background-color: $brand-primary;
+                border-color: $brand-primary;
             }
         }
     }
