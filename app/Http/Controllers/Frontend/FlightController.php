@@ -68,7 +68,7 @@ class FlightController extends Controller
 
         $flights = $this->flightRepo
             ->orderBy('flight_number', 'asc')
-            ->paginate(1);
+            ->paginate();
 
         $saved_flights = Bid::where('user_id', Auth::id())
             ->pluck('flight_id')->toArray();
