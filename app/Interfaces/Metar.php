@@ -39,6 +39,9 @@ abstract class Metar
         $raw_metar = Cache::remember($key, $cache['time'], function () use ($icao) {
             try {
                 return $this->metar($icao);
+            } catch (\GuzzleHttp\Exception\GuzzleException $e) {
+                Log::error('Error getting METAR: '.$e->getMessage(), $e->getTrace());
+                return '';
             } catch (\Exception $e) {
                 Log::error('Error getting METAR: '. $e->getMessage(), $e->getTrace());
                 return '';

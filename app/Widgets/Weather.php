@@ -31,9 +31,18 @@ class Weather extends Widget
     protected function determineCategory($metar): string
     {
         $category = 'VFR';
-        $visibility = $metar->getVisibility()->getVisibility()->getValue();
+
+        $visibility = 10; // assume it's ok and VFR
+        $vis = $metar->getVisibility();
+        if($vis) {
+            $vis = $vis->getVisibility();
+            if($vis) {
+                $visibility = $vis->getValue();
+            }
+        }
+
         $ceiling = $metar->getClouds();
-        if ($ceiling) {
+        if ($ceiling && count($ceiling) > 0) {
             $ceiling = $ceiling[0]->getBaseHeight()->getValue();
         } else {
             $ceiling = 1000;
@@ -58,13 +67,19 @@ class Weather extends Widget
         $metar_class = new $klass;
         $raw_metar = $metar_class->get_metar($this->config['icao']);
 
-        // Run through this parser
-        $decoder = new MetarDecoder();
-        $metar = $decoder->parse($raw_metar);
+        if(!$raw_metar || $raw_metar === '') {
+            $category = null;
+            $metar = null;
+        } else {
+            // Run through this parser
+            $decoder = new MetarDecoder();
+            $metar = $decoder->parse($raw_metar);
 
-        // Determine the flight category that's allowed
-        // Just check if we need to be under IFR conditions
-        $category = $this->determineCategory($metar);
+
+            // Determine the flight category that's allowed
+            // Just check if we need to be under IFR conditions
+            $category = $this->determineCategory($metar);
+        }
 
         return view('widgets.weather', [
             'config'    => $this->config,

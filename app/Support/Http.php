@@ -16,6 +16,7 @@ class Http
      * @param       $uri
      * @param array $opts
      * @return string
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public static function get($uri, array $opts)
     {
