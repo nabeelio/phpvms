@@ -4,7 +4,7 @@ namespace App\Widgets;
 
 use App\Interfaces\Widget;
 use App\Support\Http;
-use App\Support\Metar;
+use App\Support\MetarWrapper;
 use App\Support\Units\Distance;
 use App\Support\Units\Temperature;
 use Illuminate\Support\Facades\Cache;
@@ -50,7 +50,7 @@ class Weather extends Widget
         $raw_metar = $metar_class->get_metar($this->config['icao']);
 
         if ($raw_metar && $raw_metar !== '') {
-            $metar = new Metar($raw_metar);
+            $metar = new MetarWrapper($raw_metar);
             $wind = $metar->getWinds();
         }
 
