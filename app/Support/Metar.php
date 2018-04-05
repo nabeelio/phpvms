@@ -51,14 +51,17 @@ class Metar
         'varies_wind_max'          => null,
         'varies_wind_max_label'    => null,
         'visibility'               => null,
+        'visibility_nm'            => null,
         'visibility_report'        => null,
         'visibility_min'           => null,
+        'visibility_min_nm'        => null,
         'visibility_min_direction' => null,
         'runways_visual_range'     => null,
         'present_weather'          => null,
         'present_weather_report'   => null,
         'clouds'                   => null,
         'clouds_report'            => null,
+        'clouds_report_ft'         => null,
         'cloud_height'             => null,
         'cavok'                    => null,
         'temperature'              => null,
@@ -323,6 +326,10 @@ class Metar
      * UKDR 251830Z 00000MPS CAVOK 08/07 Q1019 3619//60 NOSIG
      * UBBB 251900Z 34015KT 9999 FEW013 BKN030 16/14 Q1016 88CLRD70 NOSIG
      * UMMS 251936Z 19002MPS 9999 SCT006 OVC026 06/05 Q1015 R31/D NOSIG RMK QBB080 OFE745
+     * @param      $raw
+     * @param bool $taf
+     * @param bool $debug
+     * @param bool $icao
      */
     public function __construct($raw, $taf = false, $debug = false, $icao = true)
     {
@@ -335,18 +342,18 @@ class Metar
             $observed_time = strtotime(trim($raw_lines[0]));
             if ($observed_time !== 0) {
                 $this->set_observed_date($observed_time);
-                $this->set_debug('Observation date is set from the METAR/TAF in first line of the file content: '.trim($raw_lines[0]));
+                //$this->set_debug('Observation date is set from the METAR/TAF in first line of the file content: '.trim($raw_lines[0]));
             }
         } else {
             $raw = trim($raw_lines[0]);
         }
 
         $this->raw = rtrim(trim(preg_replace('/[\s\t]+/s', ' ', $raw)), '=');
-        if ($taf) {
+        /*if ($taf) {
             $this->set_debug('Information presented as TAF or trend.');
         } else {
             $this->set_debug('Information presented as METAR.');
-        }
+        }*/
 
         $this->set_result_value('taf', $taf);
         $this->set_result_value('raw', $this->raw);
@@ -374,6 +381,7 @@ class Metar
         if (isset($this->result[$parameter])) {
             return $this->result[$parameter];
         }
+
         return null;
     }
 
@@ -390,7 +398,6 @@ class Metar
 
         while ($this->part < $raw_part_count) {
             $this->method = $current_method;
-            // See methods
             while ($this->method < $method_name_count) {
                 $method = 'get_'.static::$method_names[$this->method];
                 $token = $this->raw_parts[$this->part];
@@ -405,9 +412,9 @@ class Metar
             }
 
             if ($current_method !== $this->method - 1) {
-                $this->set_error('Unknown token: '.$this->raw_parts[$this->part]);
+                /*$this->set_error('Unknown token: '.$this->raw_parts[$this->part]);
                 $this->set_debug('Token "'.$this->raw_parts[$this->part].'" is NOT PARSED, '.
-                    ($this->method - $current_method).' methods attempted.');
+                    ($this->method - $current_method).' methods attempted.');*/
             }
 
             $this->part++;
@@ -452,6 +459,7 @@ class Metar
 
         $this->set_result_value('observed_date', date('r', $local)); // or "D M j, H:i T"
         $time_diff = floor(($now - $local) / 60);
+
         if ($time_diff < 91) {
             $this->set_result_value('observed_age', $time_diff.' min. ago');
         } else {
@@ -554,7 +562,8 @@ class Metar
      */
     private function get_station($part)
     {
-        if (!preg_match('@^([A-Z]{1}[A-Z0-9]{3})$@', $part, $found)) {
+        $r = '@^([A-Z]{1}[A-Z0-9]{3})$@';  // 1
+        if (!preg_match($r, $part, $found)) {
             return false;
         }
 
@@ -569,7 +578,11 @@ class Metar
      */
     private function get_time($part)
     {
-        if (!preg_match('@^([\d]{2})([\d]{2})([\d]{2})Z$@', $part, $found)) {
+        $r = '@^([\d]{2})'   // 1
+            .'([\d]{2})'     // 2
+            .'([\d]{2})Z$@'; // 3
+
+        if (!preg_match($r, $part, $found)) {
             return false;
         }
 
@@ -613,12 +626,21 @@ class Metar
      * Format is dddssKT where ddd = degrees from North, ss = speed, KT for knots,
      * or dddssGggKT where G stands for gust and gg = gust speed. (ss or gg can be a 3-digit number.)
      * KT can be replaced with MPH for meters per second or KMH for kilometers per hour.
+     * @param $part
+     * @return bool
      */
     private function get_wind($part)
     {
-        if (!preg_match('@^([\d]{3}|VRB|///)P?([/0-9]{2,3}|//)(GP?([\d]{2,3}))?(KT|MPS|KPH)@', $part, $found)) {
+        $r = '@^([\d]{3}|VRB|///)P?' // 1
+            .'([/0-9]{2,3}|//)'      // 2
+            .'(GP?'                  // 3
+            .'([\d]{2,3}))?'         // 4
+            .'(KT|MPS|KPH)@';        // 5
+
+        if (!preg_match($r, $part, $found)) {
             return false;
         }
+
         $this->set_result_value('wind_direction_varies', false, true);
 
         if ($found[1] === '///' && $found[2] === '//') {
@@ -626,6 +648,7 @@ class Metar
         } // handle the case where nothing is observed
         else {
             $unit = $found[5];
+
             // Speed
             $this->set_result_value('wind_speed', $this->convert_speed($found[2], $unit));
 
@@ -656,19 +679,26 @@ class Metar
      */
     private function get_varies_wind($part)
     {
-        if (!preg_match('@^([\d]{3})V([\d]{3})$@', $part, $found)) {
+        $r = '@^([\d]{3})'   // 1
+            .'V([\d]{3})$@'; // 2
+
+        if (!preg_match($r, $part, $found)) {
             return false;
         }
+
         $min_direction = (int) $found[1];
         $max_direction = (int) $found[2];
-        if ($min_direction >= 0 AND $min_direction <= 360) {
+
+        if ($min_direction >= 0 && $min_direction <= 360) {
             $this->set_result_value('varies_wind_min', $min_direction);
             $this->set_result_value('varies_wind_min_label', $this->convert_direction_label($min_direction));
         }
-        if ($max_direction >= 0 AND $max_direction <= 360) {
+
+        if ($max_direction >= 0 && $max_direction <= 360) {
             $this->set_result_value('varies_wind_max', $max_direction);
             $this->set_result_value('varies_wind_max_label', $this->convert_direction_label($max_direction));
         }
+
         $this->method++;
         return true;
     }
@@ -681,44 +711,68 @@ class Metar
      */
     private function get_visibility($part)
     {
-        if (!preg_match('@^(CAVOK|([0-9]{4})|(M)?([0-9]{0,2})?(([1357])/(2|4|8|16))?SM|////)$@', $part, $found)) {
+        $r = '@^(CAVOK|([\d]{4})' // 1
+            .'|(M)?'              // 2
+            .'([\d]{0,2})?'       // 3
+            .'(([1357])'          // 4
+            .'/(2|4|8|16))?'      // 5
+            .'SM|////)$@';        // 6
+
+        if (!preg_match($r, $part, $found)) {
             return false;
         }
+
         $this->set_result_value('cavok', false, true);
+
         // Cloud and visibilty OK or ICAO visibilty greater than 10 km
-        if ($found[1] == 'CAVOK' OR $found[1] == '9999') {
+        if ($found[1] === 'CAVOK' || $found[1] === '9999') {
             $this->set_result_value('visibility', 10000);
             $this->set_result_value('visibility_report', 'Greater than 10 km');
-            if ($found[1] == 'CAVOK') {
+            if ($found[1] === 'CAVOK') {
                 $this->set_result_value('cavok', true);
                 $this->method += 4; // can skip the next 4 methods: visibility_min, runway_vr, present_weather, clouds
             }
-        } elseif ($found[1] == '////') {
+
+        }
+        elseif ($found[1] === '////') {
+
         } // information not available
+
         else {
             $prefix = '';
+
             // ICAO visibility (in meters)
-            if (isset($found[2]) AND !empty($found[2])) {
-                $visibility = intval($found[2]);
-            } // US visibility (in miles)
+            if (isset($found[2]) && !empty($found[2])) {
+                $visibility = (int) $found[2];
+                $visibility_miles = $this->meters_to_nm($visibility);
+            }
+
+            // US visibility (in miles)
             else {
-                if (isset($found[3]) AND !empty($found[3])) {
+                if (isset($found[3]) && !empty($found[3])) {
                     $prefix = 'Less than ';
                 }
-                if (isset($found[7]) AND !empty($found[7])) {
-                    $visibility = intval($found[4]) + intval($found[6]) / intval($found[7]);
+
+                if (isset($found[7]) && !empty($found[7])) {
+                    $visibility = (int) $found[4] + (int) $found[6] / (int) $found[7];
                 } else {
-                    $visibility = intval($found[4]);
+                    $visibility = (int) $found[4];
                 }
+
+                $visibility_miles = $visibility;
                 $visibility = $this->convert_distance($visibility, 'SM'); // convert to meters
             }
+
             $unit = ' meters';
             if ($visibility <= 1) {
                 $unit = ' meter';
             }
+
             $this->set_result_value('visibility', $visibility);
+            $this->set_result_value('visibility_nm', $visibility_miles);
             $this->set_result_value('visibility_report', $prefix.$visibility.$unit);
         }
+
         return true;
     }
 
@@ -728,16 +782,23 @@ class Metar
      * (if the visibility is better than 10 km, 9999 is used. 9999 means a minimum
      * visibility of 50 m or less), and for DD = the approximate direction of minimum and
      * maximum visibility is given as one of eight compass points (N, SW, ...).
+     * @param $part
+     * @return bool
      */
     private function get_visibility_min($part)
     {
-        if (!preg_match('@^([0-9]{4})(NE|NW|SE|SW|N|E|S|W|)?$@', $part, $found)) {
+        if (!preg_match('@^([\d]{4})(NE|NW|SE|SW|N|E|S|W|)?$@', $part, $found)) {
             return false;
         }
-        $this->set_result_value('visibility_min', $found[1]);
-        if (isset($found[2]) AND !empty($found[2])) {
+
+        $meters = (int) $found[1];
+        $this->set_result_value('visibility_min', $meters);
+        $this->set_result_value('visibility_min_nm', $this->meters_to_nm($meters));
+
+        if (isset($found[2]) && !empty($found[2])) {
             $this->set_result_value('visibility_min_direction', $found[2]);
         }
+
         $this->method++;
         return true;
     }
@@ -746,19 +807,31 @@ class Metar
      * Decodes runway visual range information if present.
      * Format is Rrrr/vvvvFT where rrr = runway number, vvvv = visibility,
      * and FT = the visibility in feet.
+     * @param $part
+     * @return bool
      */
     private function get_runway_vr($part)
     {
-        if (!preg_match('@^R([0-9]{2}[LCR]?)/(([PM])?([0-9]{4})V)?([PM])?([0-9]{4})(FT)?/?([UDN]?)$@', $part, $found)) {
+        $r = '@^R([\d]{2}[LCR]?)/'  // 1
+            .'(([PM])?'             // 2
+            .'([\d]{4})V)?'         // 3
+            .'([PM])?([\d]{4})'     // 4
+            .'(FT)?/?'              // 6
+            .'([UDN]?)$@';          // 7
+
+        if (!preg_match($r, $part, $found)) {
             return false;
         }
-        if (intval($found[1]) > 36 OR intval($found[1]) < 1) {
+
+        if ((int) $found[1] > 36 || (int) $found[1] < 1) {
             return false;
         }
+
         $unit = 'M';
-        if (isset($found[6]) AND $found[6] == 'FT') {
+        if (isset($found[6]) && $found[6] === 'FT') {
             $unit = 'FT';
         }
+
         $observed = [
             'runway'          => $found[1],
             'variable'        => null,
@@ -768,10 +841,12 @@ class Metar
             'tendency'        => null,
             'report'          => null,
         ];
+
         // Runway past tendency
-        if (isset($found[8]) AND isset(static::$rvr_tendency_codes[$found[8]])) {
+        if (isset($found[8]) && isset(static::$rvr_tendency_codes[$found[8]])) {
             $observed['tendency'] = $found[8];
         }
+
         // Runway visual range
         if (isset($found[6])) {
             if (!empty($found[4])) {
@@ -784,6 +859,7 @@ class Metar
                 $observed['variable'] = $this->convert_distance($found[6], $unit);
             }
         }
+
         // Runway visual range report
         if (!empty($observed['runway'])) {
             $report = [];
@@ -792,8 +868,11 @@ class Metar
                 if ($observed['variable'] <= 1) {
                     $unit = ' meter';
                 }
+
                 $report[] = $observed['variable'].$unit;
-            } elseif (!is_null($observed['interval_min']) AND !is_null($observed['interval_max'])) {
+            }
+
+            elseif (null !== $observed['interval_min'] && null !== $observed['interval_max']) {
                 if (isset(static::$rvr_prefix_codes[$observed['variable_prefix']])) {
                     $report[] = 'varying from a min. of '.$observed['interval_min'].' meters until a max. of '.
                         static::$rvr_prefix_codes[$observed['variable_prefix']].' that '.
@@ -803,13 +882,14 @@ class Metar
                         $observed['interval_max'].' meters';
                 }
             }
-            if (!is_null($observed['tendency'])) {
-                if (isset(static::$rvr_tendency_codes[$observed['tendency']])) {
-                    $report[] = 'and '.static::$rvr_tendency_codes[$observed['tendency']];
-                }
+
+            if (null !== $observed['tendency'] && isset(static::$rvr_tendency_codes[$observed['tendency']])) {
+                $report[] = 'and '.static::$rvr_tendency_codes[$observed['tendency']];
             }
+
             $observed['report'] = ucfirst(implode(' ', $report));
         }
+
         $this->set_result_group('runways_visual_range', $observed);
         return true;
     }
@@ -819,6 +899,8 @@ class Metar
      * to decode all conditions. To learn more about weather condition codes, visit section
      * 12.6.8 - Present Weather Group of the Federal Meteorological Handbook No. 1 at
      * www.nws.noaa.gov/oso/oso1/oso12/fmh1/fmh1ch12.htm
+     * @param $part
+     * @return bool
      */
     private function get_present_weather($part)
     {
@@ -831,55 +913,84 @@ class Metar
      * Format is SKC or CLR for clear skies, or cccnnn where ccc = 3-letter code and
      * nnn = height of cloud layer in hundreds of feet. 'VV' seems to be used for
      * very low cloud layers.
+     * @param $part
+     * @return bool
      */
     private function get_clouds($part)
     {
-        if (!preg_match('@^((NSW|NSC|NCD|CLR|SKC|NOBS)|((VV|FEW|SCT|BKN|OVC|///)([0-9]{3}|///)(CB|TCU|///)?))$@', $part, $found)) {
+        $r = '@^((NSW|NSC|NCD|CLR|SKC|NOBS)|'   // 1
+            .'((VV|FEW|SCT|BKN|OVC|///)'        // 2
+            .'([\d]{3}|///)'                    // 3
+            .'(CB|TCU|///)?))$@';               // 4
+
+        if (!preg_match($r, $part, $found)) {
             return false;
         }
+
         $observed = [
-            'amount' => null,
-            'height' => null,
-            'type'   => null,
-            'report' => null,
+            'amount'    => null,
+            'height'    => null,
+            'height_ft' => null,
+            'type'      => null,
+            'report'    => null,
         ];
+
         // Clear skies or no observation
-        if (isset($found[2]) AND !empty($found[2])) {
+        if (isset($found[2]) && !empty($found[2])) {
             if (isset(static::$cloud_codes[$found[2]])) {
                 $observed['amount'] = $found[2];
             }
-        } // Cloud cover observed
-        elseif (isset($found[5]) AND !empty($found[5])) {
+        }
+
+        // Cloud cover observed
+        elseif (isset($found[5]) && !empty($found[5])) {
+
             $observed['height'] = $this->convert_distance($found[5] * 100, 'FT'); // convert feet to meters
+            $observed['height_ft'] = $this->meters_to_ft($observed['height']);
+
             // Cloud height
-            if (is_null($this->result['cloud_height']) OR $observed['height'] < $this->result['cloud_height']) {
+            if (null === $this->result['cloud_height'] || $observed['height'] < $this->result['cloud_height']) {
                 $this->set_result_value('cloud_height', $observed['height']);
             }
+
             if (isset(static::$cloud_codes[$found[4]])) {
                 $observed['amount'] = $found[4];
             }
         }
         // Type
-        if (isset($found[6]) AND !empty($found[6])) {
-            if (isset(static::$cloud_type_codes[$found[6]]) AND $found[4] != 'VV') {
-                $observed['type'] = $found[6];
-            }
+        if (isset($found[6]) && !empty($found[6]) && isset(static::$cloud_type_codes[$found[6]]) && $found[4] != 'VV') {
+            $observed['type'] = $found[6];
         }
+
         // Build clouds report
-        if (!is_null($observed['amount'])) {
+        if (null !== $observed['amount']) {
+
             $report = [];
+            $report_ft = [];
+
             $report[] = static::$cloud_codes[$observed['amount']];
+            $report_ft[] = static::$cloud_codes[$observed['amount']];
+
             if ($observed['height']) {
-                if (!is_null($observed['type'])) {
+                if (null !== $observed['type']) {
                     $report[] = 'at '.$observed['height'].' meters, '.static::$cloud_type_codes[$observed['type']];
+                    $report_ft[] = 'at '.$observed['height_ft'].' feet, '.static::$cloud_type_codes[$observed['type']];
                 } else {
                     $report[] = 'at '.$observed['height'].' meters';
+                    $report_ft[] = 'at '.$observed['height_ft'].' feet';
                 }
             }
+
             $report = implode(' ', $report);
+            $report_ft = implode(' ', $report_ft);
+
             $observed['report'] = ucfirst($report);
+            $observed['report_ft'] = ucfirst($report_ft);
+
             $this->set_result_report('clouds_report', $report);
+            $this->set_result_report('clouds_report_ft', $report_ft);
         }
+
         $this->set_result_group('clouds', $observed);
         return true;
     }
@@ -893,28 +1004,37 @@ class Metar
      */
     private function get_temperature($part)
     {
-        if (!preg_match('@^(M?[0-9]{2})/(M?[0-9]{2}|[X]{2})?@', $part, $found)) {
+        $r = '@^(M?[\d]{2})'    // 1
+            .'/(M?[\d]{2}'      // 2
+            .'|[X]{2})?@';      // 3
+        if (!preg_match($r, $part, $found)) {
             return false;
         }
+
         // Set clouds and weather reports if its not observed (e.g. clear and dry)
         $this->set_result_value('clouds_report', 'Clear skies', true);
         $this->set_result_value('present_weather_report', 'Dry', true);
+
         // Temperature
-        $temperature_c = intval(strtr($found[1], 'M', '-'));
+        $temperature_c = (int) str_replace('M', '-', $found[1]);
         $temperature_f = round(1.8 * $temperature_c + 32);
+
         $this->set_result_value('temperature', $temperature_c);
         $this->set_result_value('temperature_f', $temperature_f);
         $this->calculate_wind_chill($temperature_f);
+
         // Dew point
-        if (isset($found[2]) AND strlen($found[2]) != 0 AND $found[2] != 'XX') {
-            $dew_point_c = intval(strtr($found[2], 'M', '-'));
+        if (isset($found[2]) && '' !== $found[2] && $found[2] != 'XX') {
+            $dew_point_c = (int) str_replace('M', '-', $found[2]);
             $dew_point_f = round(1.8 * $dew_point_c + 32);
-            $rh = round(100 * pow((112 - (0.1 * $temperature_c) + $dew_point_c) / (112 + (0.9 * $temperature_c)), 8));
+            $rh = round(100 * (((112 - (0.1 * $temperature_c) + $dew_point_c) / (112 + (0.9 * $temperature_c))) ** 8));
+
             $this->set_result_value('dew_point', $dew_point_c);
             $this->set_result_value('dew_point_f', $dew_point_f);
             $this->set_result_value('humidity', $rh);
             $this->calculate_heat_index($temperature_f, $rh);
         }
+
         $this->method++;
         return true;
     }
@@ -932,15 +1052,17 @@ class Metar
      */
     private function get_pressure($part)
     {
-        if (!preg_match('@^(Q|A)(////|[0-9]{4})@', $part, $found)) {
+        if (!preg_match('@^(Q|A)(////|[\d]{4})@', $part, $found)) {
             return false;
         }
-        $pressure = intval($found[2]);
-        if ($found[1] == 'A') {
+        $pressure = (int) $found[2];
+        if ($found[1] === 'A') {
             $pressure /= 100;
         }
+
         $this->set_result_value('barometer', $pressure); // units are hPa
         $this->set_result_value('barometer_in', round(0.02953 * $pressure, 2)); // convert to in Hg
+
         $this->method++;
         return true;
     }
@@ -961,12 +1083,17 @@ class Metar
      */
     private function get_runways_report($part)
     {
-        if (!preg_match('@^R?(/?(SNOCLO)|([0-9]{2}[LCR]?)/?(CLRD|([0-9]{1}|/)([0-9]{1}|/)([0-9]{2}|//))([0-9]{2}|//))$@', $part, $found)) {
+        $r = '@^R?(/?(SNOCLO)|([\d]{2}[LCR]?)/?(CLRD|([\d]{1}|/)'
+            .'([\d]{1}|/)([\d]{2}|//))([\d]{2}|//))$@';
+
+        if (!preg_match($r, $part, $found)) {
             return false;
         }
+
         $this->set_result_value('runways_snoclo', false, true);
+
         // Airport closed due to snow
-        if (isset($found[2]) AND ($found[2] == 'SNOCLO')) {
+        if (isset($found[2]) && $found[2] === 'SNOCLO') {
             $this->set_result_value('runways_snoclo', true);
         } else {
             $observed = [
@@ -978,48 +1105,57 @@ class Metar
                 'report'          => null,
             ];
             // Contamination has disappeared (runway has been cleared)
-            if (isset($found[4]) AND $found[4] == 'CLRD') {
+            if (isset($found[4]) && $found[4] === 'CLRD') {
                 $observed['deposits'] = 0; // cleared
             } // Deposits observed
             else {
+
                 // Type
                 $deposits = $found[5];
                 if (isset(static::$runway_deposits_codes[$deposits])) {
                     $observed['deposits'] = $deposits;
                 }
+
                 // Extent
                 $deposits_extent = $found[6];
                 if (isset(static::$runway_deposits_extent_codes[$deposits_extent])) {
                     $observed['deposits_extent'] = $deposits_extent;
                 }
+
                 // Depth
                 $deposits_depth = $found[7];
+
                 // Uses in mm
-                if (intval($deposits_depth) >= 1 AND intval($deposits_depth) <= 90) {
-                    $observed['deposits_depth'] = intval($deposits_depth);
+                if ((int) $deposits_depth >= 1 && (int) $deposits_depth <= 90) {
+                    $observed['deposits_depth'] = (int) $deposits_depth;
                 } // Uses codes
                 elseif (isset(static::$runway_deposits_depth_codes[$deposits_depth])) {
                     $observed['deposits_depth'] = $deposits_depth;
                 }
             }
+
             // Friction observed
             $friction = $found[8];
+
             // Uses coefficient
-            if (intval($friction) > 0 AND intval($friction) <= 90) {
+            if ((int) $friction > 0 && (int) $friction <= 90) {
                 $observed['friction'] = round($friction / 100, 2);
             } // Uses codes
             elseif (isset(static::$runway_friction_codes[$friction])) {
                 $observed['friction'] = $friction;
             }
+
             // Build runways report
             $report = [];
-            if (!is_null($observed['deposits'])) {
+            if (null !== $observed['deposits']) {
+
                 $report[] = static::$runway_deposits_codes[$observed['deposits']];
-                if (!is_null($observed['deposits_extent'])) {
+                if (null !== $observed['deposits_extent']) {
                     $report[] = 'contamination '.static::$runway_deposits_extent_codes[$observed['deposits_extent']];
                 }
-                if (!is_null($observed['deposits_depth'])) {
-                    if ($observed['deposits_depth'] == '99') {
+
+                if (null !== $observed['deposits_depth']) {
+                    if ($observed['deposits_depth'] === '99') {
                         $report[] = 'runway closed';
                     } elseif (isset(static::$runway_deposits_depth_codes[$observed['deposits_depth']])) {
                         $report[] = 'deposit is '.static::$runway_deposits_depth_codes[$observed['deposits_depth']].' deep';
@@ -1028,16 +1164,19 @@ class Metar
                     }
                 }
             }
-            if (!is_null($observed['friction'])) {
+
+            if (null !== $observed['friction']) {
                 if (isset(static::$runway_friction_codes[$observed['friction']])) {
                     $report[] = 'a braking action is '.static::$runway_friction_codes[$observed['friction']];
                 } else {
                     $report[] = 'a friction coefficient is '.$observed['friction'];
                 }
             }
+
             $observed['report'] = ucfirst(implode(', ', $report));
             $this->set_result_group('runways_report', $observed);
         }
+
         return true;
     }
 
@@ -1047,24 +1186,27 @@ class Metar
      */
     private function get_wind_shear($part)
     {
-        if ($part != 'WS') {
+        if ($part !== 'WS') {
             return false;
         }
+
         $this->set_result_value('wind_shear_all_runways', false, true);
         $this->part++; // skip this part with WS
+
         // See two next parts for 'ALL RWY' records
-        if (implode(' ', array_slice($this->raw_parts, $this->part, 2)) == 'ALL RWY') {
+        if (implode(' ', \array_slice($this->raw_parts, $this->part, 2)) === 'ALL RWY') {
             $this->set_result_value('wind_shear_all_runways', true);
             $this->part += 2; // can skip neext parts with ALL and RWY records
         } // See one next part for RWYdd record
         elseif (isset($this->raw_parts[$this->part])) {
             $part = $this->raw_parts[$this->part];
-            if (!preg_match('@^R(WY)?([0-9]{2}[LCR]?)$@', $part, $found)) {
+            if (!preg_match('@^R(WY)?([\d]{2}[LCR]?)$@', $part, $found)) {
                 return false;
             }
-            if (intval($found[2]) > 36 OR intval($found[2]) < 1) {
+            if ((int) $found[2] > 36 || (int) $found[2] < 1) {
                 return false;
             }
+
             $this->set_result_group('wind_shear_runways', $found[2]);
         } else {
             return false;
@@ -1074,6 +1216,7 @@ class Metar
 
     /**
      * Decodes max and min temperature forecast information if present.
+     * @param string $part
      * Format TXTtTt/ddHHZ or TNTtTt/ddHHZ, where:
      * TX   - Indicator for Maximum temperature
      * TN   - Indicator for Minimum temperature
@@ -1081,29 +1224,37 @@ class Metar
      * dd   - Forecast day of month
      * HH   - Forecast hour, i.e. the time(hour) when the temperature is expected
      * Z    - Time Zone indicator, Z=GMT.
+     * @return bool
      */
-    private function get_forecast_temperature($part)
+    private function get_forecast_temperature($part): bool
     {
-        if (!preg_match('@^(TX|TN)(M?[0-9]{2})/([0-9]{2})?([0-9]{2})Z$@', $this->raw_parts[$this->part], $found)) {
+        $r = '@^(TX|TN)(M?[\d]{2})/([\d]{2})?([\d]{2})Z$@';
+        if (!preg_match($r, $this->raw_parts[$this->part], $found)) {
             return false;
         }
+
         // Temperature
-        $temperature_c = intval(strtr($found[2], 'M', '-'));
+        $temperature_c = (int) str_replace('M', '-', $found[2]);
         $temperature_f = round(1.8 * $temperature_c + 32);
+
         $forecast = [
             'value'   => $temperature_c,
             'value_f' => $temperature_f,
             'day'     => null,
             'time'    => null,
         ];
+
         if (!empty($found[3])) {
-            $forecast['day'] = intval($found[3]);
+            $forecast['day'] = (int) $found[3];
         }
+
         $forecast['time'] = $found[4].':00 UTC';
+
         $parameter = 'forecast_temperature_max';
-        if ($found[1] == 'TN') {
+        if ($found[1] === 'TN') {
             $parameter = 'forecast_temperature_min';
         }
+
         $this->set_result_group($parameter, $forecast);
         return true;
     }
@@ -1115,18 +1266,25 @@ class Metar
      */
     private function get_trends($part)
     {
-        $regexp = '@^((NOSIG|BECMG|TEMPO|INTER|CNL|NIL|PROV|(PROB)([0-9]{2})|(AT|FM|TL)([0-9]{2})?([0-9]{2})([0-9]{2}))|(([0-9]{2})([0-9]{2}))/(([0-9]{2})([0-9]{2})))$@';
-        if (!preg_match($regexp, $part, $found)) {
+        $r = '@^((NOSIG|BECMG|TEMPO|INTER|CNL|NIL|PROV|(PROB)'
+            .'([\d]{2})|(AT|FM|TL)([\d]{2})'
+            .'?([\d]{2})([\d]{2}))|(([\d]{2})'
+            .'([\d]{2}))/(([\d]{2})([\d]{2})))$@';
+
+        if (!preg_match($r, $part, $found)) {
             return false;
         }
+
         // Detects TAF on report
         if ($this->part <= 4) {
             $this->set_result_value('taf', true);
         }
+
         // Nil significant changes, skip trend
-        if ($found[2] == 'NOSIG') {
+        if ($found[2] === 'NOSIG') {
             return true;
         }
+
         $trend = [
             'flag'          => null,
             'probability'   => null,
@@ -1141,24 +1299,28 @@ class Metar
             ],
             'period_report' => null,
         ];
+
         $raw_parts = [];
         // Get all parts after trend part
-        while ($this->part < sizeof($this->raw_parts)) {
+        while ($this->part < \count($this->raw_parts)) {
             if (preg_match($regexp, $this->raw_parts[$this->part], $found)) {
                 // Get trend flag
-                if (isset($found[2]) AND isset(static::$trends_flag_codes[$found[2]])) {
+                if (isset($found[2]) && isset(static::$trends_flag_codes[$found[2]])) {
                     $trend['flag'] = $found[2];
                 } // Get PROBpp formatted period
-                elseif (isset($found[3]) AND $found[3] == 'PROB') {
+
+                elseif (isset($found[3]) && $found[3] === 'PROB') {
                     $trend['probability'] = $found[4];
                 } // Get AT, FM, TL formatted period
-                elseif (isset($found[8]) AND isset(static::$trends_time_codes[$found[5]])) {
+
+                elseif (isset($found[8]) && isset(static::$trends_time_codes[$found[5]])) {
                     $trend['period']['flag'] = $found[5];
                     if (!empty($found[6])) {
-                        $trend['period']['day'] = intval($found[6]);
+                        $trend['period']['day'] = (int) $found[6];
                     }
                     $trend['period']['time'] = $found[7].':'.$found[8].' UTC';
                 } // Get DDhh/DDhh formatted period
+
                 elseif (isset($found[14])) {
                     $trend['period']['from_day'] = $found[10];
                     $trend['period']['from_time'] = $found[11].':00 UTC';
@@ -1166,47 +1328,53 @@ class Metar
                     $trend['period']['to_time'] = $found[14].':00 UTC';
                 }
             } // If RMK observed -- the trend is ended
-            elseif ($this->raw_parts[$this->part] == 'RMK') {
+
+            elseif ($this->raw_parts[$this->part] === 'RMK') {
                 if (!empty($raw_parts)) {
                     $this->part--; // return pointer to RMK part
                 }
+
                 break;
             } // Other data addrs to METAR raw
+
             else {
                 $raw_parts[] = $this->raw_parts[$this->part];
             }
+
             $this->part++; // go to next part
+
             // Detect ends of this trend, if the METAR raw data observed
-            if (!empty($raw_parts)) {
-                if (!isset($this->raw_parts[$this->part]) OR preg_match($regexp, $this->raw_parts[$this->part])) {
-                    $this->part--; // return pointer to finded part
-                    break;
-                }
+            if (!empty($raw_parts) && (!isset($this->raw_parts[$this->part]) || preg_match($regexp, $this->raw_parts[$this->part]))) {
+                $this->part--; // return pointer to finded part
+                break;
             }
         }
+
         // Empty trend is a bad trend, except for flags CNL and NIL
         if (empty($raw_parts)) {
-            if ($trend['flag'] != 'CNL' AND $trend['flag'] != 'NIL') {
+            if ($trend['flag'] !== 'CNL' && $trend['flag'] !== 'NIL') {
                 $this->part--; // return pointer to previous part
                 return false;
             }
         } // Parse raw data from trend
+
         else {
-            $class = __CLASS__;
-            $parser = new $class(implode(' ', $raw_parts), true, $this->debug_enabled, false);
-            if ($parsed = $parser->parse()) {
+            $parser = new static(implode(' ', $raw_parts), true, $this->debug_enabled, false);
+            if ($parsed = $parser->parse_all()) {
                 unset($parsed['taf']);
                 // Add parsed data to trend
                 if (!empty($parsed)) {
                     $trend = array_merge($trend, $parsed);
                 }
             }
+
             // Process debug messages
             if ($debug = $parser->debug()) {
                 foreach ($debug as $message) {
                     $this->set_debug('Recursion: '.$message);
                 }
             }
+
             // Process parse errors
             if ($errors = $parser->errors()) {
                 foreach ($errors as $message) {
@@ -1216,27 +1384,32 @@ class Metar
         }
         // Build the report
         $report = [];
-        if (!is_null($trend['flag'])) {
+        if (null !== $trend['flag']) {
             $report[] = static::$trends_flag_codes[$trend['flag']];
         }
-        if (!is_null($trend['period']['flag'])) {
-            if (!is_null($trend['period']['day'])) {
+
+        if (null !== $trend['period']['flag']) {
+            if (null !== $trend['period']['day']) {
                 $report[] = static::$trends_time_codes[$trend['period']['flag']].
                     ' a '.$trend['period']['day'].' day of the month on '.$trend['period']['time'];
             } else {
                 $report[] = static::$trends_time_codes[$trend['period']['flag']].' '.$trend['period']['time'];
             }
         }
-        if (!is_null($trend['period']['from_day']) AND !is_null($trend['period']['to_day'])) {
+
+        if (null !== $trend['period']['from_day'] && null !== $trend['period']['to_day']) {
             $report[] = 'from a '.$trend['period']['from_day'].' day of the month on '.$trend['period']['from_time'];
             $report[] = 'to a '.$trend['period']['to_day'].' day of the month on '.$trend['period']['to_time'];
         }
-        if (!is_null($trend['probability'])) {
+
+        if (null !== $trend['probability']) {
             $report[] = 'probability '.$trend['probability'].'% of the conditions existing';
         }
+
         if (!empty($report)) {
             $trend['period_report'] = ucfirst(implode(', ', $report));
         }
+
         $this->set_result_group('trends', $trend);
         return true;
     }
@@ -1244,13 +1417,17 @@ class Metar
     /**
      * Get remarks information if present.
      * The information is everything that comes after RMK.
+     * @param string $part
+     * @return bool
      */
-    private function get_remarks($part)
+    private function get_remarks($part): bool
     {
-        if ($part != 'RMK') {
+        if ($part !== 'RMK') {
             return false;
         }
+
         $this->part++; // skip this part with RMK
+
         $remarks = [];
         // Get all parts after
         while ($this->part < sizeof($this->raw_parts)) {
@@ -1259,17 +1436,21 @@ class Metar
             }
             $this->part++; // go to next part
         }
+
         if (!empty($remarks)) {
             $this->set_result_value('remarks', implode(' ', $remarks));
         }
+
         $this->method++;
         return true;
     }
-    // --------------------------------------------------------------------
-    // Other methods
-    // --------------------------------------------------------------------
+
     /**
      * Decodes present or recent weather conditions.
+     * @param        $part
+     * @param        $method
+     * @param string $regexp_prefix
+     * @return bool
      */
     private function decode_weather($part, $method, $regexp_prefix = '')
     {
@@ -1277,67 +1458,81 @@ class Metar
         if (!preg_match('@^'.$regexp_prefix.'([-+]|VC)?('.$wx_codes.')?('.$wx_codes.')?('.$wx_codes.')?('.$wx_codes.')@', $part, $found)) {
             return false;
         }
+
         $observed = [
             'intensity'       => null,
             'types'           => null,
             'characteristics' => null,
             'report'          => null,
         ];
+
         // Intensity
-        if ($found[1] != null) {
+        if ($found[1] !== null) {
             $observed['intensity'] = $found[1];
         }
-        foreach (array_slice($found, 1) as $code) {
+
+        foreach (\array_slice($found, 1) as $code) {
             // Types
             if (isset(static::$weather_type_codes[$code])) {
-                if (is_null($observed['types'])) {
+                if (null === $observed['types']) {
                     $observed['types'] = [];
                 }
+
                 $observed['types'][] = $code;
             }
+
             // Characteristics (uses last)
             if (isset(static::$weather_char_codes[$code])) {
                 $observed['characteristics'] = $code;
             }
         }
+
         // Build recent weather report
-        if (!is_null($observed['characteristics']) OR !is_null($observed['types'])) {
+        if (null !== $observed['characteristics'] || null !== $observed['types']) {
             $report = [];
-            if (!is_null($observed['intensity'])) {
-                if ($observed['intensity'] == 'VC') {
+            if (null !== $observed['intensity']) {
+                if ($observed['intensity'] === 'VC') {
                     $report[] = static::$weather_intensity_codes[$observed['intensity']].',';
                 } else {
                     $report[] = static::$weather_intensity_codes[$observed['intensity']];
                 }
             }
-            if (!is_null($observed['characteristics'])) {
+
+            if (null !== $observed['characteristics']) {
                 $report[] = static::$weather_char_codes[$observed['characteristics']];
             }
-            if (!is_null($observed['types'])) {
+
+            if (null !== $observed['types']) {
                 foreach ($observed['types'] as $code) {
                     $report[] = static::$weather_type_codes[$code];
                 }
             }
+
             $report = implode(' ', $report);
             $observed['report'] = ucfirst($report);
+
             $this->set_result_report($method.'_weather_report', $report);
         }
+
         $this->set_result_group($method.'_weather', $observed);
         return true;
     }
 
     /**
      * Calculate Heat Index based on temperature in F and relative humidity (65 = 65%)
+     * @param $temperature_f
+     * @param $rh
      */
-    private function calculate_heat_index($temperature_f, $rh)
+    private function calculate_heat_index($temperature_f, $rh): void
     {
-        if ($temperature_f > 79 AND $rh > 39) {
+        if ($temperature_f > 79 && $rh > 39) {
             $hi_f = -42.379 + 2.04901523 * $temperature_f + 10.14333127 * $rh - 0.22475541 * $temperature_f * $rh;
-            $hi_f += -0.00683783 * pow($temperature_f, 2) - 0.05481717 * pow($rh, 2);
-            $hi_f += 0.00122874 * pow($temperature_f, 2) * $rh + 0.00085282 * $temperature_f * pow($rh, 2);
-            $hi_f += -0.00000199 * pow($temperature_f, 2) * pow($rh, 2);
+            $hi_f += -0.00683783 * ($temperature_f ** 2) - 0.05481717 * ($rh ** 2);
+            $hi_f += 0.00122874 * ($temperature_f ** 2) * $rh + 0.00085282 * $temperature_f * ($rh ** 2);
+            $hi_f += -0.00000199 * ($temperature_f ** 2) * ($rh ** 2);
             $hi_f = round($hi_f);
             $hi_c = round(($hi_f - 32) / 1.8);
+
             $this->set_result_value('heat_index', $hi_c);
             $this->set_result_value('heat_index_f', $hi_f);
         }
@@ -1347,15 +1542,16 @@ class Metar
      * Calculate Wind Chill Temperature based on temperature in F
      * and wind speed in miles per hour.
      */
-    private function calculate_wind_chill($temperature_f)
+    private function calculate_wind_chill($temperature_f): void
     {
-        if ($temperature_f < 51 AND $this->result['wind_speed'] != 0) {
+        if ($temperature_f < 51 && $this->result['wind_speed'] !== 0) {
             $windspeed = round(2.23694 * $this->result['wind_speed']); // convert m/s to mi/h
             if ($windspeed > 3) {
-                $chill_f = 35.74 + 0.6215 * $temperature_f - 35.75 * pow($windspeed, 0.16);
-                $chill_f += 0.4275 * $temperature_f * pow($windspeed, 0.16);
+                $chill_f = 35.74 + 0.6215 * $temperature_f - 35.75 * ($windspeed ** 0.16);
+                $chill_f += 0.4275 * $temperature_f * ($windspeed ** 0.16);
                 $chill_f = round($chill_f);
                 $chill_c = round(($chill_f - 32) / 1.8);
+
                 $this->set_result_value('wind_chill', $chill_c);
                 $this->set_result_value('wind_chill_f', $chill_f);
             }
@@ -1373,6 +1569,8 @@ class Metar
      */
     private function convert_speed($speed, $unit)
     {
+        // TODO: return dict w/ multiple units - NS
+
         switch ($unit) {
             case 'KT':
                 return round(0.514444 * $speed, 2); // from knots
@@ -1381,6 +1579,7 @@ class Metar
             case 'MPS':
                 return round($speed, 2); // m/s
         }
+
         return null;
     }
 
@@ -1393,6 +1592,7 @@ class Metar
      */
     private function convert_distance($distance, $unit)
     {
+        // TODO: return dict w/ multiple units - NS
         switch ($unit) {
             case 'FT':
                 return round(0.3048 * $distance); // from ft.
@@ -1401,7 +1601,26 @@ class Metar
             case 'M':
                 return round($distance); // meters
         }
+
         return null;
+    }
+
+    /**
+     * @param $meters
+     * @return float
+     */
+    private function meters_to_ft($meters)
+    {
+        return round($meters * 3.28084, 2);
+    }
+
+    /**
+     * @param $meters
+     * @return float
+     */
+    private function meters_to_nm($meters)
+    {
+        return round($meters * 0.000539957, 2);
     }
 
     /**
@@ -1409,9 +1628,10 @@ class Metar
      */
     private function convert_direction_label($direction)
     {
-        if ($direction >= 0 AND $direction <= 360) {
+        if ($direction >= 0 && $direction <= 360) {
             return static::$direction_codes[round($direction / 22.5) % 16];
         }
+
         return null;
     }
 }
