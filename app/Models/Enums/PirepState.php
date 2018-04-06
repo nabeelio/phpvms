@@ -16,6 +16,7 @@ class PirepState extends Enum
     public const ACCEPTED    = 2;
     public const CANCELLED   = 3;
     public const DELETED     = 4;
+    public const DRAFT       = 5;
 
     protected static $labels = [
         PirepState::REJECTED    => 'system.pireps.state.rejected',
@@ -24,5 +25,6 @@ class PirepState extends Enum
         PirepState::ACCEPTED    => 'system.pireps.state.accepted',
         PirepState::CANCELLED   => 'system.pireps.state.cancelled',
         PirepState::DELETED     => 'system.pireps.state.deleted',
+        PirepState::DRAFT       => 'system.pireps.state.draft',
     ];
 }

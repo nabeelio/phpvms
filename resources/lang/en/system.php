@@ -67,6 +67,7 @@ return [
             'in_progress' => 'In Progress',
             'cancelled'   => 'Cancelled',
             'deleted'     => 'Deleted',
+            'draft'       => 'Draft',
         ],
         'status' => [
             'initialized' => 'Initiated',
