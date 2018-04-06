@@ -5,6 +5,11 @@ namespace App\Support;
 use Log;
 use Symfony\Component\ClassLoader\ClassMapGenerator;
 
+/**
+ * Class find/load related functionality. Is used to find
+ * the award classes right now that might be in a module
+ * @package App\Support
+ */
 class ClassLoader
 {
     /**
