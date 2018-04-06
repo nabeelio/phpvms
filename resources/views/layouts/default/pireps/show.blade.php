@@ -26,7 +26,7 @@
                         <a href="{{route('frontend.airports.show', ['id' => $pirep->dpt_airport_id])}}">
                             {{ $pirep->dpt_airport->full_name }} ({{  $pirep->dpt_airport_id }})</a>
                         <br/>
-                        @if($pirep->block_off_time->toDayDateTimeString())
+                        @if($pirep->block_off_time)
                             {{ $pirep->block_off_time->toDayDateTimeString() }}
                         @endif
                     </p>
