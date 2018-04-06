@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Listeners\Cron\Nightly;
+namespace App\Cron\Nightly;
 
 use App\Events\CronNightly;
 use App\Interfaces\Listener;

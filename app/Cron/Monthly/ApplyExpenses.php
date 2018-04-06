@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Listeners\Cron\Monthly;
+namespace App\Cron\Monthly;
 
 use App\Events\CronMonthly;
 use App\Interfaces\Listener;
