@@ -15,13 +15,14 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet"/>
     <link href="{{ public_asset('/assets/frontend/css/bootstrap.min.css') }}" rel="stylesheet"/>
     <link href="{{ public_asset('/assets/frontend/css/now-ui-kit.css') }}" rel="stylesheet"/>
-    <link href="{{ public_asset('/assets/frontend/css/styles.css') }}" rel="stylesheet"/>
 
     {{-- Start of the required files in the head block --}}
     <link href="{{ public_asset('/assets/global/css/vendor.css') }}" rel="stylesheet"/>
     @yield('css')
     @yield('scripts_head')
     {{-- End of the required stuff in the head block --}}
+
+    <link href="{{ public_asset('/assets/frontend/css/styles.css') }}" rel="stylesheet"/>
 </head>
 <body>
 <!-- Navbar -->
@@ -83,7 +84,7 @@
 
 <script>
 $(document).ready(function () {
-    $(".select2").select2();
+    $(".select2").select2({width: 'resolve'});
 });
 </script>
 

@@ -5,9 +5,12 @@
         <div class="col-md-12">
             <h2 class="description">Edit Flight Report</h2>
             @include('flash::message')
-            {{ Form::model($pirep, ['route' => ['frontend.pireps.update', $pirep->id], 'method' => 'patch']) }}
+            {{ Form::model($pirep, [
+                    'route' => ['frontend.pireps.update', $pirep->id],
+                    'class' => 'form-group',
+                    'method' => 'patch']) }}
 
-            @include("pireps.fields")
+            @include('pireps.fields')
 
             {{ Form::close() }}
         </div>

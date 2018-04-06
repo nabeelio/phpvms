@@ -2,8 +2,13 @@
 const leaflet = require('leaflet');
 
 import draw_base_map from './base_map'
-import { ACTUAL_ROUTE_COLOR, PLAN_ROUTE_COLOR } from './config'
-import {addWMSLayer} from './helpers';
+import { addWMSLayer } from './helpers';
+
+import {
+  ACTUAL_ROUTE_COLOR,
+  PLAN_ROUTE_COLOR,
+  CIRCLE_COLOR
+} from './config'
 
 /**
  * Show some popup text when a feature is clicked on
@@ -27,8 +32,8 @@ export const onFeaturePointClick = (feature, layer) => {
  */
 export const pointToLayer = (feature, latlng) => {
   return leaflet.circleMarker(latlng, {
-    radius: 12,
-    fillColor: '#ff7800',
+    radius: 5,
+    fillColor: CIRCLE_COLOR,
     color: '#000',
     weight: 1,
     opacity: 1,
@@ -64,14 +69,14 @@ export default (opts) => {
   }
 
   let geodesicLayer = leaflet.geodesic([], {
-    weight: 7,
+    weight: 4,
     opacity: 0.9,
     color: PLAN_ROUTE_COLOR,
     steps: 50,
     wrap: false,
-  }).addTo(map)
+  }).addTo(map);
 
-  geodesicLayer.geoJson(opts.planned_route_line)
+  geodesicLayer.geoJson(opts.planned_route_line);
 
   try {
     map.fitBounds(geodesicLayer.getBounds())
@@ -86,12 +91,12 @@ export default (opts) => {
       pointToLayer: pointToLayer,
       style: {
         'color': PLAN_ROUTE_COLOR,
-        'weight': 5,
+        'weight': 3,
         'opacity': 0.65,
       },
-    })
+    });
 
-    route_points.addTo(map)
+    route_points.addTo(map);
   }
 
   /**
@@ -100,14 +105,14 @@ export default (opts) => {
 
   if (opts.actual_route_line !== null && opts.actual_route_line.features.length > 0) {
     let geodesicLayer = leaflet.geodesic([], {
-      weight: 7,
+      weight: 3,
       opacity: 0.9,
       color: ACTUAL_ROUTE_COLOR,
       steps: 50,
       wrap: false,
-    }).addTo(map)
+    }).addTo(map);
 
-    geodesicLayer.geoJson(opts.actual_route_line)
+    geodesicLayer.geoJson(opts.actual_route_line);
 
     try {
       map.fitBounds(geodesicLayer.getBounds())
@@ -122,10 +127,10 @@ export default (opts) => {
       pointToLayer: pointToLayer,
       style: {
         'color': ACTUAL_ROUTE_COLOR,
-        'weight': 5,
+        'weight': 3,
         'opacity': 0.65,
       },
-    })
+    });
 
     route_points.addTo(map)
   }

@@ -1,9 +1,9 @@
 @include form-control-placeholder($medium-gray, 1);
 
 .form-control {
+    //border-radius: $btn-round-radius;
     background-color: $transparent-bg;
     border: 1px solid $light-gray;
-    border-radius: $btn-round-radius;
     color: $black-color;
     line-height: 1em;
     font-size: $font-size-small;
@@ -15,15 +15,14 @@
     }
 
     &:focus{
-        border: 1px solid $primary-color;
+        border: 1px solid $brand-primary;
         @include box-shadow(none);
         outline: 0 !important;
         color: $black-color;
 
         & + .input-group-addon,
         & ~ .input-group-addon{
-            border: 1px solid $primary-color;
-            border-left: none;
+            border: 1px solid $brand-primary;
             background-color: $transparent-bg;
         }
     }
@@ -101,8 +100,9 @@
     }
 }
 
+@include input-sm-padding($padding-small-vertical, $padding-small-horizontal);
 @include input-lg-padding($padding-large-vertical, $padding-input-horizontal);
-@include input-base-padding($padding-input-vertical, $padding-input-horizontal);
+@include input-base-padding($padding-small-vertical, $padding-small-horizontal);
 
 .form-group.form-group-no-border,
 .input-group.form-group-no-border{
@@ -192,7 +192,7 @@
         background-color: $light-gray;
     }
 }
-.input-group .form-control:first-child,
+/*.input-group .form-control:first-child,
 .input-group-addon:first-child,
 .input-group-btn:first-child > .dropdown-toggle,
 .input-group-btn:last-child > .btn:not(:last-child):not(.dropdown-toggle) {
@@ -203,7 +203,7 @@
 .input-group-btn:last-child > .dropdown-toggle,
 .input-group-btn:first-child > .btn:not(:first-child) {
     border-left: 0 none;
-}
+}*/
 .form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
     background-color: $light-gray;
     color: $default-color;
@@ -225,16 +225,18 @@ textarea.form-control{
     max-width: 100%;
     padding: 10px 10px 0 0;
     resize: none;
-    border: none;
-    border-bottom: 1px solid $light-gray;
+    background-color: $transparent-bg;
+    border: 1px solid $light-gray;
+    color: $black-color;
+    line-height: 1em;
+    font-size: $font-size-small;
     border-radius: 0;
-    line-height: 2;
 
     &:focus,
     &:active{
-        border-left: none;
-        border-top: none;
-        border-right: none;
+        @include box-shadow(none);
+        border: 1px solid $brand-primary;
+        background-color: $transparent-bg;
     }
 }
 

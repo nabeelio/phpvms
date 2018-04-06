@@ -21,18 +21,52 @@
    }
 }
 
-@mixin light-form(){
+@mixin light-form() {
     border-radius: 0;
     border:0;
     padding: 0;
     background-color: transparent;
-
 }
 
+@mixin input-sm-padding($padding-vertical, $padding-horizontal) {
+    .form-group.form-group-no-border.input-sm,
+    .input-group.form-group-no-border.input-sm {
+        .input-group-addon {
+            padding: $padding-vertical 0 $padding-vertical $padding-horizontal;
+        }
+
+        .form-control {
+            padding: $padding-vertical $padding-horizontal;
+
+            & + .input-group-addon {
+                padding: $padding-vertical $padding-horizontal $padding-vertical 0;
+            }
+        }
+    }
+
+    .form-group.input-sm,
+    .input-group.input-sm {
+        .form-control {
+            padding: $padding-vertical - 1 $padding-horizontal - 1;
+
+            & + .input-group-addon {
+                padding: $padding-vertical - 1 $padding-horizontal - 1 $padding-vertical - 1 0;
+            }
+        }
+
+        .input-group-addon {
+            padding: $padding-vertical - 1 0 $padding-vertical $padding-horizontal - 1;
+
+            & + .form-control {
+                padding: $padding-vertical $padding-horizontal - 1 $padding-vertical $padding-horizontal - 3;
+            }
+        }
+    }
+}
 
 @mixin input-lg-padding($padding-vertical, $padding-horizontal) {
     .form-group.form-group-no-border.input-lg,
-    .input-group.form-group-no-border.input-lg{
+    .input-group.form-group-no-border.input-lg {
         .input-group-addon{
             padding: $padding-vertical 0 $padding-vertical $padding-horizontal;
         }
@@ -72,6 +106,7 @@
     .form-group.form-group-no-border,
     .input-group.form-group-no-border{
         .form-control{
+            /*margin-top: 2px;*/
             padding: $padding-vertical $padding-horizontal;
 
             & + .input-group-addon{
@@ -87,6 +122,7 @@
     .form-group,
     .input-group{
         .form-control{
+            margin-top: 2px;
             padding: $padding-vertical - 1 $padding-horizontal - 1 $padding-vertical - 1 $padding-horizontal - 1;
 
             & + .input-group-addon{

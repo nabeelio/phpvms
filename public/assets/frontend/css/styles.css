@@ -1,6 +1,9 @@
 /**
  *
  */
+.select2-container {
+    margin-top: 2px;
+}
 
 .dashboard-box {
     background: #067ec1;

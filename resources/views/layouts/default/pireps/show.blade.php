@@ -71,13 +71,13 @@
 
         {{--
 
-        SIDEBAR
+        RIGHT SIDEBAR
 
         --}}
 
         <div class="col-4">
 
-            <h5>flight info</h5>
+            <h2>&nbsp;</h2>
             <table class="table table-hover table-condensed">
                 <tr>
                     <td width="30%">Status</td>

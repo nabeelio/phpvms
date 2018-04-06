@@ -1,3 +1,4 @@
 export let
-  PLAN_ROUTE_COLOR = '#36b123',
-  ACTUAL_ROUTE_COLOR = '#172aea'
+    PLAN_ROUTE_COLOR = '#043758',
+    ACTUAL_ROUTE_COLOR = '#067ec1',
+    CIRCLE_COLOR = '#056093';

@@ -121,7 +121,7 @@ $(document).ready(function() {
     });
 
     $(document).on('pjax:complete', function() {
-        $(".select2").select2();
+        initPlugins();
         setEditable();
     });
 });

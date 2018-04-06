@@ -136,14 +136,20 @@ const removeItem = function (obj, item) {
     return obj;
 };
 
+/**
+ * Initialize any plugins on the page
+ */
+const initPlugins = () => {
+  $('.select2').select2({width: 'resolve'});
+  $('input').iCheck({
+    checkboxClass: 'icheckbox_square-blue',
+    radioClass: 'icheckbox_square-blue'
+  });
+};
+
 $(document).ready(function () {
 
-    $('.select2').select2();
-
-    $('input').iCheck({
-        checkboxClass: 'icheckbox_square-blue',
-        radioClass: 'icheckbox_square-blue'
-    });
+    initPlugins();
 
     let storage = getStorage('phpvms.admin');
 
