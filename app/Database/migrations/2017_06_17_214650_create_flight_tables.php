@@ -1,7 +1,7 @@
 <?php
 
+use App\Interfaces\Migration;
 use App\Models\Enums\FlightType;
-use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
 class CreateFlightTables extends Migration

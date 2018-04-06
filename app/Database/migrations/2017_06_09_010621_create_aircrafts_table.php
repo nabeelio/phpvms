@@ -1,8 +1,8 @@
 <?php
 
+use App\Interfaces\Migration;
 use App\Models\Enums\AircraftState;
 use App\Models\Enums\AircraftStatus;
-use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
 class CreateAircraftsTable extends Migration

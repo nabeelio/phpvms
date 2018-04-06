@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Migrations\Migration;
+use App\Interfaces\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
 class RolesPermissionsTables extends Migration
