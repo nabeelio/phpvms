@@ -38,8 +38,7 @@
         "akaunting/money": "^1.0",
         "igaster/laravel-theme": "^2.0",
         "anhskohbo/no-captcha": "^3.0",
-        "league/csv": "^9.1",
-        "safran-cassiopee/php-metar-decoder": "^0.7.0"
+        "league/csv": "^9.1"
     },
     "require-dev": {
         "phpunit/phpunit": "~7.0",

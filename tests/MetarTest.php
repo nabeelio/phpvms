@@ -75,8 +75,15 @@ class MetarTest extends TestCase
     public function testMetar2()
     {
         $metar =
-            'CYWG 172000Z 30015G25KT 3/4SM R36/4000FT/D -SN '
-            .'BLSN BKN008 OVC040 M05/M08 A2992 REFZRA WS RWY36 '
-            .'RMK SF5NS3 SLP134';
+            'KJFK 070151Z 20005KT 10SM BKN100 08/07 A2970 RMK AO2 SLP056 T00780067';
+
+        /**
+         * John F.Kennedy International, New York, NY (KJFK). Apr 7, 0151Z. Wind from 200° at 5 knots,
+         * 10 statute miles visibility, Ceiling is Broken at 10,000 feet, Temperature 8°C, Dewpoint 7°C,
+         * Altimeter is 29.70. Remarks: automated station with precipitation discriminator sea level
+         * pressure 1005.6 hectopascals hourly temp 7.8°C dewpoint 6.7°C
+         */
+
+        $parsed = Metar::parse($metar);
     }
 }

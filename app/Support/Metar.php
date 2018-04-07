@@ -41,6 +41,7 @@ class Metar
         'observed_day'             => null,
         'observed_time'            => null,
         'observed_age'             => null,
+        'category'                 => null,
         'wind_speed'               => null,
         'wind_gust_speed'          => null,
         'wind_direction'           => null,
@@ -63,6 +64,7 @@ class Metar
         'clouds_report'            => null,
         'clouds_report_ft'         => null,
         'cloud_height'             => null,
+        'cloud_height_ft'          => null,
         'cavok'                    => null,
         'temperature'              => null,
         'temperature_f'            => null,
@@ -75,6 +77,7 @@ class Metar
         'wind_chill_f'             => null,
         'barometer'                => null,
         'barometer_in'             => null,
+        'barometer_mb'             => null,
         'recent_weather'           => null,
         'recent_weather_report'    => null,
         'runways_report'           => null,
@@ -426,6 +429,16 @@ class Metar
                     unset($this->result[$parameter]);
                 }
             }
+        }
+
+        // Finally determine if it's VFR or IFR conditions
+        // https://www.aviationweather.gov/cva/help
+        if($this->result['cavok']
+            || ($this->result['cloud_height_ft'] > 3000 && $this->result['visibility_nm'] > 5))
+        {
+            $this->result['category'] = 'VFR';
+        } else {
+            $this->result['category'] = 'IFR';
         }
 
         return $this->result;
@@ -951,6 +964,7 @@ class Metar
             // Cloud height
             if (null === $this->result['cloud_height'] || $observed['height'] < $this->result['cloud_height']) {
                 $this->set_result_value('cloud_height', $observed['height']);
+                $this->set_result_value('cloud_height_ft', $observed['height_ft']);
             }
 
             if (isset(static::$cloud_codes[$found[4]])) {
@@ -1061,6 +1075,7 @@ class Metar
         }
 
         $this->set_result_value('barometer', $pressure); // units are hPa
+        $this->set_result_value('barometer_mb', $pressure); // units are hPa
         $this->set_result_value('barometer_in', round(0.02953 * $pressure, 2)); // convert to in Hg
 
         $this->method++;
