@@ -40,6 +40,7 @@
   },
   "devDependencies": {
     "copy-webpack-plugin": "^4.5.1",
+    "tailwindcss": "^0.5.2",
     "webpack-bundle-analyzer": "^2.11.1"
   }
 }
