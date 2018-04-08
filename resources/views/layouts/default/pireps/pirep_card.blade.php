@@ -2,9 +2,14 @@
     <div class="card-block" style="min-height: 0px">
         <div class="row">
             <div class="col-12">
+                <p class="float-right">
+                    <a href="{{ route('frontend.pireps.edit', [
+                            'id'    => $pirep->id,
+                        ]) }}" class="btn btn-sm btn-info">edit</a>
+                </p>
                 <h5>
                     <a href="{{ route('frontend.pireps.show', [$pirep->id]) }}">
-                        {{ $pirep->ident }}
+                    {{ $pirep->airline->code }}{{ $pirep->ident }}
                     </a>
                     -
                     {{ $pirep->dpt_airport->name }}
@@ -58,9 +63,7 @@
                         </table>
                     </div>
                     <div class="col-sm-6">
-                        <p style="text-align: right;">
-                            <a href="{{ route('frontend.pireps.edit', ['id'=>$pirep->id]) }}">edit</a>
-                        </p>
+
                     </div>
                 </div>
             </div>

@@ -381,6 +381,8 @@ class Metar implements \ArrayAccess
 
     /**
      * Gets the value from result array as class property.
+     * @param $parameter
+     * @return mixed|null
      */
     public function __get($parameter)
     {

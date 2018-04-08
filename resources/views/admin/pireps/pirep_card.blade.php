@@ -6,7 +6,7 @@
                 <h5>
                     <a class="text-c"
                        href="{{ route('admin.pireps.edit', [$pirep->id]) }}">
-                        {{ $pirep->ident }}
+                    {{ $pirep->airline->code }}{{ $pirep->ident }}
                     </a>
                 </h5>
                 <div>
