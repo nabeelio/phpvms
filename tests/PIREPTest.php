@@ -132,15 +132,15 @@ class PIREPTest extends TestCase
 
         // Check that it has the fuel units
         $this->assertHasKeys($body['fuel_used'], ['lbs', 'kg']);
-        $this->assertEquals($pirep->fuel_used->toNumber(), $body['fuel_used']['lbs']);
+        $this->assertEquals($pirep->fuel_used['lbs'], $body['fuel_used']['lbs']);
 
         // Check that it has the distance units
         $this->assertHasKeys($body['distance'], ['km', 'nmi', 'mi']);
-        $this->assertEquals($pirep->distance->toNumber(), $body['distance']['nmi']);
+        $this->assertEquals($pirep->distance['nmi'], $body['distance']['nmi']);
 
         // Check the planned_distance field
         $this->assertHasKeys($body['planned_distance'], ['km', 'nmi', 'mi']);
-        $this->assertEquals($pirep->planned_distance->toNumber(), $body['planned_distance']['nmi']);
+        $this->assertEquals($pirep->planned_distance['nmi'], $body['planned_distance']['nmi']);
     }
 
     /**

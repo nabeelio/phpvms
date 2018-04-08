@@ -2,53 +2,31 @@
 
 namespace App\Support\Units;
 
-use Illuminate\Contracts\Support\Arrayable;
+use App\Interfaces\Unit;
+use PhpUnitsOfMeasure\PhysicalQuantity\Length;
 
 /**
- * Wrap the converter class
  * @package App\Support\Units
  */
-class Distance extends \PhpUnitsOfMeasure\PhysicalQuantity\Length implements Arrayable
+class Distance extends Unit
 {
     /**
-     * @return string
+     * Distance constructor.
+     * @param float  $value
+     * @param string $unit
+     * @throws \PhpUnitsOfMeasure\Exception\NonNumericValue
+     * @throws \PhpUnitsOfMeasure\Exception\NonStringUnitName
      */
-    public function __toString()
+    public function __construct(float $value, string $unit)
     {
-        $unit = setting('units.distance');
-        $value = $this->toUnit($unit);
+        $this->unit = setting('units.distance');
+        $this->instance = new Length($value, $unit);
 
-        return (string) round($value, 2);
-    }
-
-    /**
-     * Return value in native unit as integer
-     * @return array
-     */
-    public function toNumber()
-    {
-        return $this->toArray();
-    }
-
-    /**
-     * For the HTTP Resource call
-     */
-    public function toObject(): array
-    {
-        return [
-            'mi'  => round($this->toUnit('miles'), 2),
-            'nmi' => round($this->toUnit('nmi'), 2),
-            'km'  => round($this->toUnit('meters') / 1000, 2),
+        $this->units = [
+            'mi'  => round($this->instance->toUnit('miles'), 2),
+            'nmi' => round($this->instance->toUnit('nmi'), 2),
+            'm'   => round($this->instance->toUnit('meters'), 2),
+            'km'  => round($this->instance->toUnit('meters') / 1000, 2),
         ];
-    }
-
-    /**
-     * Get the instance as an array.
-     */
-    public function toArray()
-    {
-        return round($this->toUnit(
-            config('phpvms.internal_units.distance')
-        ), 2);
     }
 }

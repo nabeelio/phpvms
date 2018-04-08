@@ -12,27 +12,22 @@ https://api.checkwx.com/#metar-decoded
             <td>Conditions</td>
             <td>
                 {{ $metar['category'] }}
-                &nbsp;
-                @if($unit_temp === 'c')
-                    {{$metar['temperature']}}
-                @else
-                    {{$metar['temperature_f']}}
-                @endif
+                {{ $metar['temperature'][$unit_temp] }}
                 °{{strtoupper($unit_temp)}}
                 @if($metar['visibility'])
-                ,&nbsp;
-                visibility
-                    @if($unit_dist === 'km')
-                        {{$metar['visibility'] / 1000}}
-                    @else
-                        {{$metar['visibility_nm']}}
-                    @endif
+                , visibility {{ $metar['visibility'][$unit_dist] }}
                 @endif
                 {{$unit_dist}}
 
                 @if($metar['humidity'])
                     ,&nbsp;
                     {{ $metar['humidity'] }}% humidity
+                @endif
+
+                @if($metar['dew_point'])
+                    ,&nbsp;dew point
+                    {{ $metar['dew_point'][$unit_temp] }}
+                    °{{strtoupper($unit_temp)}}
                 @endif
             </td>
         </tr>

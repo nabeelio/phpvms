@@ -19,15 +19,15 @@ class Pirep extends Resource
         $pirep = parent::toArray($request);
 
         if ($this->distance instanceof Distance) {
-            $pirep['distance'] = $this->distance->toObject();
+            $pirep['distance'] = $this->distance->units;
         }
 
         if ($this->fuel_used instanceof Fuel) {
-            $pirep['fuel_used'] = $this->fuel_used->toObject();
+            $pirep['fuel_used'] = $this->fuel_used->units;
         }
 
         if ($this->planned_distance instanceof Distance) {
-            $pirep['planned_distance'] = $this->planned_distance->toObject();
+            $pirep['planned_distance'] = $this->planned_distance->units;
         }
 
         /*

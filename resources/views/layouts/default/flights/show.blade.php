@@ -66,7 +66,7 @@
         {{ Widget::Weather([
             'icao' => $flight->dpt_airport_id,
           ]) }}
-
+        <br />
         <h5>{{$flight->arr_airport_id}} METAR</h5>
         {{ Widget::Weather([
             'icao' => $flight->arr_airport_id,

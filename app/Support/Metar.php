@@ -2,6 +2,10 @@
 
 namespace App\Support;
 
+use App\Support\Units\Altitude;
+use App\Support\Units\Distance;
+use App\Support\Units\Temperature;
+
 /**
  * Class Metar
  * @package App\Support
@@ -27,7 +31,7 @@ namespace App\Support;
 	or TAF. In addition to the return METAR parameters, the script also displays the
 	interpreted (easy to understand) information of these parameters.
 */
-class Metar
+class Metar implements \ArrayAccess
 {
     /*
      * Array of decoded result, by default all parameters is null.
@@ -64,17 +68,12 @@ class Metar
         'clouds_report'            => null,
         'clouds_report_ft'         => null,
         'cloud_height'             => null,
-        'cloud_height_ft'          => null,
         'cavok'                    => null,
         'temperature'              => null,
-        'temperature_f'            => null,
         'dew_point'                => null,
-        'dew_point_f'              => null,
         'humidity'                 => null,
         'heat_index'               => null,
-        'heat_index_f'             => null,
         'wind_chill'               => null,
-        'wind_chill_f'             => null,
         'barometer'                => null,
         'barometer_in'             => null,
         'barometer_mb'             => null,
@@ -302,6 +301,7 @@ class Metar
      */
 
     private $debug = [];
+
     private $debug_enabled;
 
     public $errors = [];
@@ -310,8 +310,11 @@ class Metar
      * Other variables.
      */
     private $raw;
+
     private $raw_parts = [];
+
     private $method = 0;
+
     private $part = 0;
 
     /**
@@ -433,9 +436,8 @@ class Metar
 
         // Finally determine if it's VFR or IFR conditions
         // https://www.aviationweather.gov/cva/help
-        if($this->result['cavok']
-            || ($this->result['cloud_height_ft'] > 3000 && $this->result['visibility_nm'] > 5))
-        {
+        if ($this->result['cavok']
+            || ($this->result['cloud_height']['ft'] > 3000 && $this->result['visibility_nm'] > 5)) {
             $this->result['category'] = 'VFR';
         } else {
             $this->result['category'] = 'IFR';
@@ -524,7 +526,6 @@ class Metar
         if ($this->result[$parameter] !== null) {
             $this->result[$parameter] = ucfirst(ltrim($this->result[$parameter], ' '.$separator));
         }
-
         //$this->set_debug('Add group report value "'.$report.'" for parameter: '.$parameter);
     }
 
@@ -559,8 +560,7 @@ class Metar
         }
 
         if ($this->raw_parts[$this->part + 1] === 'COR'
-            || $this->raw_parts[$this->part + 1] === 'AMD')
-        {
+            || $this->raw_parts[$this->part + 1] === 'AMD') {
             $this->set_result_value('taf_flag', $this->raw_parts[$this->part + 1], true);
             $this->part++;
         }
@@ -657,7 +657,6 @@ class Metar
         $this->set_result_value('wind_direction_varies', false, true);
 
         if ($found[1] === '///' && $found[2] === '//') {
-
         } // handle the case where nothing is observed
         else {
             $unit = $found[5];
@@ -721,6 +720,8 @@ class Metar
      * if visibility is limited to an integer mile plus a fraction part.
      * Format is mmSM for mm = statute miles, or m n/dSM for m = mile and n/d = fraction of a mile,
      * or just a 4-digit number nnnn (with leading zeros) for nnnn = meters.
+     * @throws \PhpUnitsOfMeasure\Exception\NonStringUnitName
+     * @throws \PhpUnitsOfMeasure\Exception\NonNumericValue
      */
     private function get_visibility($part)
     {
@@ -739,16 +740,13 @@ class Metar
 
         // Cloud and visibilty OK or ICAO visibilty greater than 10 km
         if ($found[1] === 'CAVOK' || $found[1] === '9999') {
-            $this->set_result_value('visibility', 10000);
+            $this->set_result_value('visibility', new Distance(10000, 'm'));
             $this->set_result_value('visibility_report', 'Greater than 10 km');
             if ($found[1] === 'CAVOK') {
                 $this->set_result_value('cavok', true);
                 $this->method += 4; // can skip the next 4 methods: visibility_min, runway_vr, present_weather, clouds
             }
-
-        }
-        elseif ($found[1] === '////') {
-
+        } elseif ($found[1] === '////') {
         } // information not available
 
         else {
@@ -756,11 +754,8 @@ class Metar
 
             // ICAO visibility (in meters)
             if (isset($found[2]) && !empty($found[2])) {
-                $visibility = (int) $found[2];
-                $visibility_miles = $this->meters_to_nm($visibility);
-            }
-
-            // US visibility (in miles)
+                $visibility = new Distance((int) $found[2], 'm');
+            } // US visibility (in miles)
             else {
                 if (isset($found[3]) && !empty($found[3])) {
                     $prefix = 'Less than ';
@@ -772,17 +767,15 @@ class Metar
                     $visibility = (int) $found[4];
                 }
 
-                $visibility_miles = $visibility;
-                $visibility = $this->convert_distance($visibility, 'SM'); // convert to meters
+                $visibility = new Distance($visibility, 'mi');
             }
 
             $unit = ' meters';
-            if ($visibility <= 1) {
+            if ($visibility['m'] <= 1) {
                 $unit = ' meter';
             }
 
             $this->set_result_value('visibility', $visibility);
-            $this->set_result_value('visibility_nm', $visibility_miles);
             $this->set_result_value('visibility_report', $prefix.$visibility.$unit);
         }
 
@@ -822,6 +815,8 @@ class Metar
      * and FT = the visibility in feet.
      * @param $part
      * @return bool
+     * @throws \PhpUnitsOfMeasure\Exception\NonStringUnitName
+     * @throws \PhpUnitsOfMeasure\Exception\NonNumericValue
      */
     private function get_runway_vr($part)
     {
@@ -840,9 +835,9 @@ class Metar
             return false;
         }
 
-        $unit = 'M';
+        $unit = 'meter';
         if (isset($found[6]) && $found[6] === 'FT') {
-            $unit = 'FT';
+            $unit = 'feet';
         }
 
         $observed = [
@@ -863,13 +858,13 @@ class Metar
         // Runway visual range
         if (isset($found[6])) {
             if (!empty($found[4])) {
-                $observed['interval_min'] = $this->convert_distance($found[4], $unit);
-                $observed['interval_max'] = $this->convert_distance($found[6], $unit);
+                $observed['interval_min'] = new Distance($found[4], $unit);
+                $observed['interval_max'] = new Distance($found[6], $unit);
                 if (!empty($found[5])) {
                     $observed['variable_prefix'] = $found[5];
                 }
             } else {
-                $observed['variable'] = $this->convert_distance($found[6], $unit);
+                $observed['variable'] = new Distance($found[6], $unit);
             }
         }
 
@@ -883,9 +878,7 @@ class Metar
                 }
 
                 $report[] = $observed['variable'].$unit;
-            }
-
-            elseif (null !== $observed['interval_min'] && null !== $observed['interval_max']) {
+            } elseif (null !== $observed['interval_min'] && null !== $observed['interval_max']) {
                 if (isset(static::$rvr_prefix_codes[$observed['variable_prefix']])) {
                     $report[] = 'varying from a min. of '.$observed['interval_min'].' meters until a max. of '.
                         static::$rvr_prefix_codes[$observed['variable_prefix']].' that '.
@@ -928,6 +921,8 @@ class Metar
      * very low cloud layers.
      * @param $part
      * @return bool
+     * @throws \PhpUnitsOfMeasure\Exception\NonStringUnitName
+     * @throws \PhpUnitsOfMeasure\Exception\NonNumericValue
      */
     private function get_clouds($part)
     {
@@ -943,7 +938,6 @@ class Metar
         $observed = [
             'amount'    => null,
             'height'    => null,
-            'height_ft' => null,
             'type'      => null,
             'report'    => null,
         ];
@@ -953,18 +947,13 @@ class Metar
             if (isset(static::$cloud_codes[$found[2]])) {
                 $observed['amount'] = $found[2];
             }
-        }
-
-        // Cloud cover observed
+        } // Cloud cover observed
         elseif (isset($found[5]) && !empty($found[5])) {
-
-            $observed['height'] = $this->convert_distance($found[5] * 100, 'FT'); // convert feet to meters
-            $observed['height_ft'] = $this->meters_to_ft($observed['height']);
+            $observed['height'] = new Altitude($found[5] * 100, 'feet');
 
             // Cloud height
-            if (null === $this->result['cloud_height'] || $observed['height'] < $this->result['cloud_height']) {
+            if (null === $this->result['cloud_height']['m'] || $observed['height']['m'] < $this->result['cloud_height']['m']) {
                 $this->set_result_value('cloud_height', $observed['height']);
-                $this->set_result_value('cloud_height_ft', $observed['height_ft']);
             }
 
             if (isset(static::$cloud_codes[$found[4]])) {
@@ -978,7 +967,6 @@ class Metar
 
         // Build clouds report
         if (null !== $observed['amount']) {
-
             $report = [];
             $report_ft = [];
 
@@ -987,11 +975,11 @@ class Metar
 
             if ($observed['height']) {
                 if (null !== $observed['type']) {
-                    $report[] = 'at '.$observed['height'].' meters, '.static::$cloud_type_codes[$observed['type']];
-                    $report_ft[] = 'at '.$observed['height_ft'].' feet, '.static::$cloud_type_codes[$observed['type']];
+                    $report[] = 'at '.round($observed['height']['m'], 0).' meters, '.static::$cloud_type_codes[$observed['type']];
+                    $report_ft[] = 'at '.round($observed['height']['ft'], 0).' feet, '.static::$cloud_type_codes[$observed['type']];
                 } else {
-                    $report[] = 'at '.$observed['height'].' meters';
-                    $report_ft[] = 'at '.$observed['height_ft'].' feet';
+                    $report[] = 'at ' . round($observed['height']['m'], 0) . ' meters';
+                    $report_ft[] = 'at ' . round($observed['height']['ft'], 0) . ' feet';
                 }
             }
 
@@ -1015,6 +1003,8 @@ class Metar
      * Format is tt/dd where tt = temperature and dd = dew point temperature. All units are
      * in Celsius. A 'M' preceeding the tt or dd indicates a negative temperature. Some
      * stations do not report dew point, so the format is tt/ or tt/XX.
+     * @throws \PhpUnitsOfMeasure\Exception\NonStringUnitName
+     * @throws \PhpUnitsOfMeasure\Exception\NonNumericValue
      */
     private function get_temperature($part)
     {
@@ -1031,22 +1021,20 @@ class Metar
 
         // Temperature
         $temperature_c = (int) str_replace('M', '-', $found[1]);
-        $temperature_f = round(1.8 * $temperature_c + 32);
+        $temperature = new Temperature($temperature_c, 'C');
 
-        $this->set_result_value('temperature', $temperature_c);
-        $this->set_result_value('temperature_f', $temperature_f);
-        $this->calculate_wind_chill($temperature_f);
+        $this->set_result_value('temperature', $temperature);
+        $this->calculate_wind_chill($temperature['f']);
 
         // Dew point
-        if (isset($found[2]) && '' !== $found[2] && $found[2] != 'XX') {
+        if (isset($found[2]) && '' !== $found[2] && $found[2] !== 'XX') {
             $dew_point_c = (int) str_replace('M', '-', $found[2]);
-            $dew_point_f = round(1.8 * $dew_point_c + 32);
+            $dew_point = new Temperature($dew_point_c, 'C');
             $rh = round(100 * (((112 - (0.1 * $temperature_c) + $dew_point_c) / (112 + (0.9 * $temperature_c))) ** 8));
 
-            $this->set_result_value('dew_point', $dew_point_c);
-            $this->set_result_value('dew_point_f', $dew_point_f);
+            $this->set_result_value('dew_point', $dew_point);
             $this->set_result_value('humidity', $rh);
-            $this->calculate_heat_index($temperature_f, $rh);
+            $this->calculate_heat_index($temperature['f'], $rh);
         }
 
         $this->method++;
@@ -1124,7 +1112,6 @@ class Metar
                 $observed['deposits'] = 0; // cleared
             } // Deposits observed
             else {
-
                 // Type
                 $deposits = $found[5];
                 if (isset(static::$runway_deposits_codes[$deposits])) {
@@ -1163,7 +1150,6 @@ class Metar
             // Build runways report
             $report = [];
             if (null !== $observed['deposits']) {
-
                 $report[] = static::$runway_deposits_codes[$observed['deposits']];
                 if (null !== $observed['deposits_extent']) {
                     $report[] = 'contamination '.static::$runway_deposits_extent_codes[$observed['deposits_extent']];
@@ -1537,6 +1523,8 @@ class Metar
      * Calculate Heat Index based on temperature in F and relative humidity (65 = 65%)
      * @param $temperature_f
      * @param $rh
+     * @throws \PhpUnitsOfMeasure\Exception\NonNumericValue
+     * @throws \PhpUnitsOfMeasure\Exception\NonStringUnitName
      */
     private function calculate_heat_index($temperature_f, $rh): void
     {
@@ -1548,14 +1536,15 @@ class Metar
             $hi_f = round($hi_f);
             $hi_c = round(($hi_f - 32) / 1.8);
 
-            $this->set_result_value('heat_index', $hi_c);
-            $this->set_result_value('heat_index_f', $hi_f);
+            $this->set_result_value('heat_index', new Temperature($hi_c, 'C'));
         }
     }
 
     /**
      * Calculate Wind Chill Temperature based on temperature in F
      * and wind speed in miles per hour.
+     * @throws \PhpUnitsOfMeasure\Exception\NonNumericValue
+     * @throws \PhpUnitsOfMeasure\Exception\NonStringUnitName
      */
     private function calculate_wind_chill($temperature_f): void
     {
@@ -1567,8 +1556,7 @@ class Metar
                 $chill_f = round($chill_f);
                 $chill_c = round(($chill_f - 32) / 1.8);
 
-                $this->set_result_value('wind_chill', $chill_c);
-                $this->set_result_value('wind_chill_f', $chill_f);
+                $this->set_result_value('wind_chill', new Temperature($chill_c, 'C'));
             }
         }
     }
@@ -1648,5 +1636,67 @@ class Metar
         }
 
         return null;
+    }
+
+    /**
+     * Whether a offset exists
+     * @link  http://php.net/manual/en/arrayaccess.offsetexists.php
+     * @param mixed $offset <p>
+     *                      An offset to check for.
+     *                      </p>
+     * @return boolean true on success or false on failure.
+     *                      </p>
+     *                      <p>
+     *                      The return value will be casted to boolean if non-boolean was returned.
+     * @since 5.0.0
+     */
+    public function offsetExists($offset)
+    {
+        return array_key_exists($offset, $this->result);
+    }
+
+    /**
+     * Offset to retrieve
+     * @link  http://php.net/manual/en/arrayaccess.offsetget.php
+     * @param mixed $offset <p>
+     *                      The offset to retrieve.
+     *                      </p>
+     * @return mixed Can return all value types.
+     * @since 5.0.0
+     */
+    public function offsetGet($offset)
+    {
+        return $this->result[$offset];
+    }
+
+    /**
+     * Offset to set
+     * @link  http://php.net/manual/en/arrayaccess.offsetset.php
+     * @param mixed $offset <p>
+     *                      The offset to assign the value to.
+     *                      </p>
+     * @param mixed $value  <p>
+     *                      The value to set.
+     *                      </p>
+     * @return void
+     * @since 5.0.0
+     */
+    public function offsetSet($offset, $value)
+    {
+        $this->result[$offset] = $value;
+    }
+
+    /**
+     * Offset to unset
+     * @link  http://php.net/manual/en/arrayaccess.offsetunset.php
+     * @param mixed $offset <p>
+     *                      The offset to unset.
+     *                      </p>
+     * @return void
+     * @since 5.0.0
+     */
+    public function offsetUnset($offset)
+    {
+        $this->result[$offset] = null;
     }
 }

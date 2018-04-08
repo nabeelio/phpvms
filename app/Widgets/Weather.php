@@ -33,7 +33,7 @@ class Weather extends Widget
         $raw_metar = $metar_class->get_metar($this->config['icao']);
 
         if ($raw_metar && $raw_metar !== '') {
-            $metar = Metar::parse($raw_metar);
+            $metar = new Metar($raw_metar);
         }
 
         return view('widgets.weather', [

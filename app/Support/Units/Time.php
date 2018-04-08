@@ -11,7 +11,7 @@ use Illuminate\Contracts\Support\Arrayable;
 class Time implements Arrayable
 {
     public $hours,
-        $minutes;
+           $minutes;
 
     /**
      * @param $minutes

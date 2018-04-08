@@ -27,7 +27,7 @@ class Flight extends Resource
 
         // Return multiple measures so the client can pick what they want
         if ($this->distance instanceof Distance) {
-            $flight['distance'] = $this->distance->toObject();
+            $flight['distance'] = $this->distance->units;
         }
 
         $flight['airline'] = new Airline($this->airline);

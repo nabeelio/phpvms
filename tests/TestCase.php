@@ -111,6 +111,23 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
     }
 
     /**
+     * Transform any data that's passed in. E.g, make sure that any mutator
+     * classes (e.g, units) are not passed in as the mutator class
+     * @param array $data
+     * @return array
+     */
+    protected function transformData(array $data): array
+    {
+        foreach($data as $key => $value) {
+            if (is_subclass_of($value, App\Interfaces\Unit::class)) {
+                $data[$key] = $value->__toString();
+            }
+        }
+
+        return $data;
+    }
+
+    /**
      * Override the GET call to inject the user API key
      * @param string $uri
      * @param array $headers
@@ -137,6 +154,7 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
      */
     public function post($uri, array $data = [], array $headers = [], $user=null)
     {
+        $data = $this->transformData($data);
         $req = parent::post($uri, $data, $this->headers($user, $headers));
         if ($req->isClientError() || $req->isServerError()) {
             Log::error('POST Error: ' . $uri, $req->json());
@@ -155,7 +173,7 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
      */
     public function put($uri, array $data = [], array $headers = [], $user = null)
     {
-        $req = parent::put($uri, $data, $this->headers($user, $headers));
+        $req = parent::put($uri, $this->transformData($data), $this->headers($user, $headers));
         if ($req->isClientError() || $req->isServerError()) {
             Log::error('PUT Error: ' . $uri, $req->json());
         }
@@ -173,7 +191,7 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
      */
     public function delete($uri, array $data = [], array $headers = [], $user=null)
     {
-        $req = parent::delete($uri, $data, $this->headers($user, $headers));
+        $req = parent::delete($uri, $this->transformData($data), $this->headers($user, $headers));
         if ($req->isClientError() || $req->isServerError()) {
             Log::error('DELETE Error: ' . $uri, $req->json());
         }

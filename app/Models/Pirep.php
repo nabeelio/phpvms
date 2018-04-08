@@ -148,6 +148,9 @@ class Pirep extends Model
 
         try {
             $distance = (float) $this->attributes['distance'];
+            if ($this->skip_mutator) {
+                return $distance;
+            }
 
             return new Distance($distance, config('phpvms.internal_units.distance'));
         } catch (NonNumericValue $e) {
@@ -204,6 +207,9 @@ class Pirep extends Model
 
         try {
             $distance = (float) $this->attributes['planned_distance'];
+            if ($this->skip_mutator) {
+                return $distance;
+            }
 
             return new Distance($distance, config('phpvms.internal_units.distance'));
         } catch (NonNumericValue $e) {

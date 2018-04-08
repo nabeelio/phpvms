@@ -47,22 +47,21 @@ class MetarTest extends TestCase
         $this->assertEquals(280, $parsed['wind_direction']);
         $this->assertEquals('W', $parsed['wind_direction_label']);
         $this->assertEquals(false, $parsed['wind_direction_varies']);
-        $this->assertEquals(16093, $parsed['visibility']);
-        $this->assertEquals('16093 meters', $parsed['visibility_report']);
+        $this->assertEquals(16093.44, $parsed['visibility']['m']);
         $this->assertEquals('Dry', $parsed['present_weather_report']);
 
         $this->assertCount(4, $parsed['clouds']);
         $this->assertEquals(
             'A few at 1676 meters; scattered at 2896 meters; broken sky at 3353 meters; broken sky at 7010 meters',
             $parsed['clouds_report']);
-        $this->assertEquals(1676, $parsed['cloud_height']);
+        $this->assertEquals(1676.4, $parsed['cloud_height']['m']);
         $this->assertEquals(false, $parsed['cavok']);
 
-        $this->assertEquals(12, $parsed['temperature']);
-        $this->assertEquals(54, $parsed['temperature_f']);
+        $this->assertEquals(12, $parsed['temperature']['c']);
+        $this->assertEquals(53.6, $parsed['temperature']['f']);
 
-        $this->assertEquals(-4, $parsed['dew_point']);
-        $this->assertEquals(25, $parsed['dew_point_f']);
+        $this->assertEquals(-4, $parsed['dew_point']['c']);
+        $this->assertEquals(24.8, $parsed['dew_point']['f']);
 
         $this->assertEquals(33, $parsed['humidity']);
         $this->assertEquals(29.58, $parsed['barometer']);

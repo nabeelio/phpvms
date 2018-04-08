@@ -2,52 +2,29 @@
 
 namespace App\Support\Units;
 
-use Illuminate\Contracts\Support\Arrayable;
+use App\Interfaces\Unit;
+use PhpUnitsOfMeasure\PhysicalQuantity\Volume as VolumeUnit;
 
 /**
  * Wrap the converter class
  * @package App\Support\Units
  */
-class Volume extends \PhpUnitsOfMeasure\PhysicalQuantity\Volume implements Arrayable
+class Volume extends Unit
 {
     /**
-     * @return string
+     * @param float  $value
+     * @param string $unit
+     * @throws \PhpUnitsOfMeasure\Exception\NonNumericValue
+     * @throws \PhpUnitsOfMeasure\Exception\NonStringUnitName
      */
-    public function __toString()
+    public function __construct(float $value, string $unit)
     {
-        $unit = setting('units.volume');
-        $value = $this->toUnit($unit);
+        $this->unit = setting('units.volume');
+        $this->instance = new VolumeUnit($value, $unit);
 
-        return (string) round($value, 2);
-    }
-
-    /**
-     * Return value in native unit as integer
-     * @return array
-     */
-    public function toNumber()
-    {
-        return $this->toArray();
-    }
-
-    /**
-     * For the HTTP Resource call
-     */
-    public function toObject()
-    {
-        return [
-            'gal'    => round($this->toUnit('gal'), 2),
-            'liters' => round($this->toUnit('liters'), 2),
+        $this->units = [
+            'gal'    => round($this->instance->toUnit('gal'), 2),
+            'liters' => round($this->instance->toUnit('liters'), 2),
         ];
-    }
-
-    /**
-     * Get the instance as an array.
-     */
-    public function toArray()
-    {
-        return round($this->toUnit(
-            config('phpvms.internal_units.volume')
-        ), 2);
     }
 }

@@ -62,9 +62,9 @@ class CreateSettingsTable extends Migration
         $this->addSetting('units.distance', [
             'name'        => 'Distance Units',
             'group'       => 'units',
-            'value'       => 'NM',
+            'value'       => 'nmi',
             'type'        => 'select',
-            'options'     => 'km=kilometers,mi=miles,NM=nautical miles',
+            'options'     => 'km=kilometers,mi=miles,nmi=nautical miles',
             'description' => 'The distance unit for display',
         ]);
 
@@ -116,9 +116,9 @@ class CreateSettingsTable extends Migration
         $this->addSetting('units.temperature', [
             'name'        => 'Temperature Units',
             'group'       => 'units',
-            'value'       => 'f',
+            'value'       => 'F',
             'type'        => 'select',
-            'options'     => 'f=Fahrenheit,c=Celsius',
+            'options'     => 'F=Fahrenheit,C=Celsius',
             'description' => 'The units for temperature',
         ]);
 

@@ -21,9 +21,11 @@ trait TestData
         ]);
 
         // Return a Pirep model
-        return factory(\App\Models\Pirep::class)->make([
+        $pirep = factory(\App\Models\Pirep::class)->make([
             'aircraft_id' => $subfleet['aircraft']->random()->id
         ]);
+
+        return $pirep;
     }
 
     /**
