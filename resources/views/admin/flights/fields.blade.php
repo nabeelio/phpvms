@@ -5,36 +5,34 @@
             <h6><i class="fas fa-info-circle"></i>
                 &nbsp;Flight Information
             </h6>
-            <div class="form-container-body">
-                <div class="row">
-                    <div class="form-group col-sm-3">
-                        {{ Form::label('airline_id', 'Airline:') }}&nbsp;<span
-                                class="required">*</span>
-                        {{ Form::select('airline_id', $airlines, null , ['class' => 'form-control select2']) }}
-                        <p class="text-danger">{{ $errors->first('airline_id') }}</p>
-                    </div>
+            <div class="form-container-body row">
+                <div class="form-group col-sm-3">
+                    {{ Form::label('airline_id', 'Airline:') }}&nbsp;<span
+                            class="required">*</span>
+                    {{ Form::select('airline_id', $airlines, null , ['class' => 'form-control select2']) }}
+                    <p class="text-danger">{{ $errors->first('airline_id') }}</p>
+                </div>
 
-                    <!-- Flight Number Field -->
-                    <div class="form-group col-sm-3">
-                        {{ Form::label('flight_number', 'Flight Number:') }}&nbsp;<span
-                                class="required">*</span>
-                        {{ Form::text('flight_number', null, ['class' => 'form-control']) }}
-                        <p class="text-danger">{{ $errors->first('flight_number') }}</p>
-                    </div>
+                <!-- Flight Number Field -->
+                <div class="form-group col-sm-3">
+                    {{ Form::label('flight_number', 'Flight Number:') }}&nbsp;<span
+                            class="required">*</span>
+                    {{ Form::text('flight_number', null, ['class' => 'form-control']) }}
+                    <p class="text-danger">{{ $errors->first('flight_number') }}</p>
+                </div>
 
-                    <!-- Route Code Field -->
-                    <div class="form-group col-sm-3">
-                        {{ Form::label('route_code', 'Route Code:') }}
-                        {{ Form::text('route_code', null, ['class'=>'form-control', 'placeholder'=>'optional']) }}
-                        <p class="text-danger">{{ $errors->first('route_code') }}</p>
-                    </div>
+                <!-- Route Code Field -->
+                <div class="form-group col-sm-3">
+                    {{ Form::label('route_code', 'Route Code:') }}
+                    {{ Form::text('route_code', null, ['class'=>'form-control', 'placeholder'=>'optional']) }}
+                    <p class="text-danger">{{ $errors->first('route_code') }}</p>
+                </div>
 
-                    <!-- Route Leg Field -->
-                    <div class="form-group col-sm-3">
-                        {{ Form::label('route_leg', 'Route Leg:') }}
-                        {{ Form::text('route_leg', null, ['class'=>'form-control', 'placeholder'=>'optional']) }}
-                        <p class="text-danger">{{ $errors->first('route_leg') }}</p>
-                    </div>
+                <!-- Route Leg Field -->
+                <div class="form-group col-sm-3">
+                    {{ Form::label('route_leg', 'Route Leg:') }}
+                    {{ Form::text('route_leg', null, ['class'=>'form-control', 'placeholder'=>'optional']) }}
+                    <p class="text-danger">{{ $errors->first('route_leg') }}</p>
                 </div>
             </div>
         </div>

@@ -18,6 +18,8 @@ $table-line-color:           #CCC5B9 !default;
 $muted-color:                #a49e93 !default;
 
 $black-bg:                   rgba(30,30,30,.97) !default;
+$transparent-bg: transparent !default;
+$dark-background: #555555 !default;
 
 $black-color:                #333333 !default;
 $black-hr:                   #444444 !default;
@@ -38,8 +40,11 @@ $success-input-bg:           #fffcf5 !default;
 $other-medium-gray:          #A49E93 !default;
 $transparent-bg:             transparent !default;
 
-$default-color: #2f2d2a !default; //#66615B !default;
-$default-bg:                 #66615B !default;
+$black-color: #2c2c2c !default;
+//$default-color: #2f2d2a !default; //#66615B !default;
+$default-color: #2c2c2c !default; //#66615B !default;
+//$default-bg:                 #66615B !default;
+$default-bg:                 #FFFFFF !default;
 $default-states-color:       #403D39 !default;
 
 //$primary-color:              #7A9E9F !default;
@@ -52,18 +57,28 @@ $success-color: #18ce0f !default;
 $success-bg: darken($success-color, 5%) !default;
 $success-states-color: darken($success-color, 5%) !default;
 
-$info-color: #2CA8FF !default;
-$info-bg: #109CFF !default;
-$info-states-color:          #3091B2 !default;
+$info-color: #067ec1 !default; //#2CA8FF !default;
+$info-states-color: #0688d0 !default; // #109CFF !default;
+$info-color-opacity: rgba(44, 168, 255, .3) !default;
+$info-color-alert: rgba(44, 168, 255, .8) !default;
 
-$warning-color:              #F3BB45 !default;
-$warning-bg: darken($warning-color, 5%) !default;
-$warning-states-color:       #BB992F !default;
-
+$warning-color: #FFB236 !default;
+$warning-states-color: darken($warning-color, 5%) !default;
+$warning-color-opacity: rgba(255, 178, 54, .3) !default;
+$warning-color-alert: rgba(255, 178, 54, .8) !default;
 
 $danger-color: #FF3636 !default;
-$danger-bg: darken($danger-color, 5%) !default;
 $danger-states-color: darken($danger-color, 5%) !default;
+$danger-color-opacity: rgba(255, 54, 54, .3) !default;
+$danger-color-alert: rgba(255, 54, 54, .8) !default;
+
+/*     brand Colors              */
+$brand-primary: #067ec1 !default;
+$brand-info: $info-color !default;
+$brand-success: $success-color !default;
+$brand-warning: $warning-color !default;
+$brand-danger: $danger-color !default;
+$brand-inverse: $black-color !default;
 
 /*
 $default-color: #B8B8B8 !default;
@@ -110,6 +125,12 @@ $light-red:                  rgba($danger-color, .2);
 
 //== Components
 //
+$padding-input-vertical: 11px !default;
+$padding-input-horizontal: 19px !default;
+
+$padding-btn-vertical: 11px !default;
+$padding-btn-horizontal: 22px !default;
+
 $padding-base-vertical:         7px !default;
 $padding-base-horizontal:       18px !default;
 
@@ -166,12 +187,23 @@ $btn-icon-size: 56px !default;
 $btn-icon-size-mini: 36px !default;
 $btn-icon-font-size-mini: 14px !default;
 
-$font-size-base:               14px !default;
+/*$font-size-base:               14px !default;
 $font-size-xs:                 12px !default;
 $font-size-small:              12px !default;
 $font-size-medium:             16px !default;
 $font-size-large:              18px !default;
-$font-size-large-navbar:       20px !default;
+$font-size-large-navbar:       20px !default;*/
+
+$font-paragraph: 1em !default;
+$font-size-navbar: 1em !default;
+$font-size-mini: 0.7142em !default;
+$font-size-xs: 0.7142em !default;
+$font-size-small: 0.8571em !default;
+$font-size-base: 14px !default;
+$font-size-medium: 14px !default;
+$font-size-large: 1em !default;
+$font-size-large-navbar: 20px !default;
+$font-size-blockquote: 1.1em !default; // ~ 15px
 
 $font-size-h1:                 3.2em   !default;
 $font-size-h2:                 2.6em     !default;
@@ -275,10 +307,19 @@ $padding-zero:                   0px !default;
 $sidebar-width:               calc(100% - 260px) !default;
 $medium-dark-gray:           #AAAAAA !default;
 
+$light-gray: #E3E3E3 !default;
+$medium-gray: #DDDDDD !default;
+$dark-gray: #9A9A9A !default;
+
+$opacity-gray-3: rgba(222, 222, 222, .3) !default;
+$opacity-gray-5: rgba(222, 222, 222, .5) !default;
+
+$opacity-5: rgba(255, 255, 255, .5) !default;
+$opacity-8: rgba(255, 255, 255, .8) !default;
+
 //variables used in cards
 $card-black-color:          #2c2c2c !default;
 $card-muted-color:          #ccc5b9 !default;
-
 
 //variables used for sidebar
 $sidebar-background-dark-blue: #506367;
