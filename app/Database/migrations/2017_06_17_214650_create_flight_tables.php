@@ -24,13 +24,16 @@ class CreateFlightTables extends Migration
             $table->string('alt_airport_id', 5)->nullable();
             $table->string('dpt_time', 10)->nullable();
             $table->string('arr_time', 10)->nullable();
-            $table->unsignedTinyInteger('days')->nullable();
             $table->unsignedInteger('level')->nullable()->default(0);
             $table->unsignedDecimal('distance')->nullable()->default(0.0);
             $table->unsignedInteger('flight_time')->nullable();
             $table->char('flight_type', 1)->default(FlightType::SCHED_PAX);
             $table->text('route')->nullable();
             $table->text('notes')->nullable();
+            $table->boolean('scheduled')->default(false)->nullable();
+            $table->unsignedTinyInteger('days')->nullable();
+            $table->date('start_date')->nullable();
+            $table->date('end_date')->nullable();
             $table->boolean('has_bid')->default(false);
             $table->boolean('active')->default(true);
             $table->timestamps();

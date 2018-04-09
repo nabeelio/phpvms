@@ -9,7 +9,7 @@
                style="margin-top: -10px;margin-bottom: 5px"
                href="{{ route('frontend.pireps.create') }}">File New PIREP</a>
         </div>
-        <h2 class="description">pilot reports</h2>
+        <h2>Pilot Reports</h2>
         @include('flash::message')
         @include('pireps.table')
     </div>

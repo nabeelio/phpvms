@@ -5,7 +5,7 @@
 <div class="row">
     @include('flash::message')
     <div class="col-md-9">
-        <h2 class="description">{{ $title ?? 'Flights' }}</h2>
+        <h2>{{ $title ?? 'Flights' }}</h2>
         @include('flights.table')
     </div>
     <div class="col-md-3">

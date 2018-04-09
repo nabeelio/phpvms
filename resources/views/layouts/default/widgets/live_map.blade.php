@@ -1,6 +1,5 @@
 <div class="row">
     <div class="col-md-12">
-        <h2 class="description">Current Flights</h2>
         <div class="box-body">
             <div id="map" style="width: {{ $config['width'] }}; height: {{ $config['height'] }}"></div>
         </div>
@@ -11,9 +10,8 @@
 
 <div id="flights_table" class="row">
     <div class="col-md-12">
-        <h3 class="description">flights</h3>
         @if(!filled($pireps))
-            <div class="text-center">There are no flights</div>
+            <div class="jumbotron text-center">There are no flights</div>
         @endif
         <table class="table">
             @foreach($pireps as $pirep)

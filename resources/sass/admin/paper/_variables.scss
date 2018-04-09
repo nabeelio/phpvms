@@ -149,9 +149,9 @@ $margin-bottom:                0 0 10px 0 !default;
 $border: 1px solid !default;
 $border-radius-extra-small: 0.125rem !default;
 $border-radius-tiny:           0.1875rem !default;
-$border-radius-small:           3px !default;
-$border-radius-base:            4px !default;
-$border-radius-large:           6px !default;
+$border-radius-small:           0.1875px !default;
+$border-radius-base:            2px !default;
+$border-radius-large:           3px !default;
 $border-radius-extreme:        6px !default;
 
 $border-radius-large-top:      $border-radius-large $border-radius-large 0 0 !default;
@@ -276,7 +276,7 @@ $sidebar-width:               calc(100% - 260px) !default;
 $medium-dark-gray:           #AAAAAA !default;
 
 //variables used in cards
-$card-black-color:          #252422 !default;
+$card-black-color:          #2c2c2c !default;
 $card-muted-color:          #ccc5b9 !default;
 
 
