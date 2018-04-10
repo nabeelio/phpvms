@@ -15,17 +15,13 @@ https://api.checkwx.com/#metar-decoded
                 {{ $metar['temperature'][$unit_temp] }}
                 °{{strtoupper($unit_temp)}}
                 @if($metar['visibility'])
-                , visibility {{ $metar['visibility'][$unit_dist] }}
+                , visibility {{ $metar['visibility'][$unit_dist] }} {{$unit_dist}}
                 @endif
-                {{$unit_dist}}
-
                 @if($metar['humidity'])
-                    ,&nbsp;
-                    {{ $metar['humidity'] }}% humidity
+                    , {{ $metar['humidity'] }}% humidity
                 @endif
-
                 @if($metar['dew_point'])
-                    ,&nbsp;dew point
+                    , dew point
                     {{ $metar['dew_point'][$unit_temp] }}
                     °{{strtoupper($unit_temp)}}
                 @endif

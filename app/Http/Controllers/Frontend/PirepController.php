@@ -313,9 +313,6 @@ class PirepController extends Controller
         $pirep->hours = $time->hours;
         $pirep->minutes = $time->minutes;
 
-        # Can we modify?
-        $read_only = $pirep->state !== PirepState::PENDING;
-
         # set the custom fields
         foreach ($pirep->fields as $field) {
             $pirep->{$field->slug} = $field->value;
@@ -329,7 +326,6 @@ class PirepController extends Controller
 
         return view('pireps.edit', [
             'pirep'         => $pirep,
-            'read_only'     => $read_only,
             'aircraft'      => $pirep->aircraft,
             'aircraft_list' => $this->aircraftList(),
             'airline_list'  => $this->airlineRepo->selectBoxList(),

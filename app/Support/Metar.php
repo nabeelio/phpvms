@@ -59,7 +59,6 @@ class Metar implements \ArrayAccess
         'visibility_nm'            => null,
         'visibility_report'        => null,
         'visibility_min'           => null,
-        'visibility_min_nm'        => null,
         'visibility_min_direction' => null,
         'runways_visual_range'     => null,
         'present_weather'          => null,
@@ -348,7 +347,6 @@ class Metar implements \ArrayAccess
             $observed_time = strtotime(trim($raw_lines[0]));
             if ($observed_time !== 0) {
                 $this->set_observed_date($observed_time);
-                //$this->set_debug('Observation date is set from the METAR/TAF in first line of the file content: '.trim($raw_lines[0]));
             }
         } else {
             $raw = trim($raw_lines[0]);
@@ -495,11 +493,9 @@ class Metar implements \ArrayAccess
         if ($only_if_null) {
             if ($this->result[$parameter] === null) {
                 $this->result[$parameter] = $value;
-                //$this->set_debug('Set value "'.$value.'" ('.gettype($value).') for null parameter: '.$parameter);
             }
         } else {
             $this->result[$parameter] = $value;
-            //$this->set_debug('Set value "'.$value.'" ('.gettype($value).') for parameter: '.$parameter);
         }
     }
 
@@ -513,7 +509,6 @@ class Metar implements \ArrayAccess
         }
 
         $this->result[$parameter][] = $group;
-        //$this->set_debug('Add new group value ('.gettype($group).') for parameter: '.$parameter);
     }
 
     /**
@@ -528,7 +523,6 @@ class Metar implements \ArrayAccess
         if ($this->result[$parameter] !== null) {
             $this->result[$parameter] = ucfirst(ltrim($this->result[$parameter], ' '.$separator));
         }
-        //$this->set_debug('Add group report value "'.$report.'" for parameter: '.$parameter);
     }
 
     /**
@@ -577,7 +571,7 @@ class Metar implements \ArrayAccess
      */
     private function get_station($part)
     {
-        $r = '@^([A-Z]{1}[A-Z0-9]{3})$@';  // 1
+        $r = '@^([A-Z]{1}'.'[A-Z0-9]{3})$@';  // 1
         if (!preg_match($r, $part, $found)) {
             return false;
         }
@@ -748,8 +742,8 @@ class Metar implements \ArrayAccess
                 $this->set_result_value('cavok', true);
                 $this->method += 4; // can skip the next 4 methods: visibility_min, runway_vr, present_weather, clouds
             }
-        } elseif ($found[1] === '////') {
-        } // information not available
+        } /*elseif ($found[1] === '////') {
+        }*/ // information not available
 
         else {
             $prefix = '';
@@ -792,6 +786,9 @@ class Metar implements \ArrayAccess
      * maximum visibility is given as one of eight compass points (N, SW, ...).
      * @param $part
      * @return bool
+     * @throws \PhpUnitsOfMeasure\Exception\NonStringUnitName
+     * @throws \PhpUnitsOfMeasure\Exception\NonNumericValue
+     * @throws \PhpUnitsOfMeasure\Exception\NonStringUnitName
      */
     private function get_visibility_min($part)
     {
@@ -799,9 +796,8 @@ class Metar implements \ArrayAccess
             return false;
         }
 
-        $meters = (int) $found[1];
+        $meters = new Distance((int) $found[1], 'm');
         $this->set_result_value('visibility_min', $meters);
-        $this->set_result_value('visibility_min_nm', $this->meters_to_nm($meters));
 
         if (isset($found[2]) && !empty($found[2])) {
             $this->set_result_value('visibility_min_direction', $found[2]);
@@ -1088,8 +1084,13 @@ class Metar implements \ArrayAccess
      */
     private function get_runways_report($part)
     {
-        $r = '@^R?(/?(SNOCLO)|([\d]{2}[LCR]?)/?(CLRD|([\d]{1}|/)'
-            .'([\d]{1}|/)([\d]{2}|//))([\d]{2}|//))$@';
+        $r = '@^R?'
+            .'(/?(SNOCLO)'        // 1
+            .'|([\d]{2}[LCR]?)/?' // 2
+            .'(CLRD|([\d]{1}|/)'  // 3
+            .'([\d]{1}|/)'        // 4
+            .'([\d]{2}|//))'      // 5
+            .'([\d]{2}|//))$@';   // 6
 
         if (!preg_match($r, $part, $found)) {
             return false;
@@ -1202,10 +1203,15 @@ class Metar implements \ArrayAccess
             $this->part += 2; // can skip neext parts with ALL and RWY records
         } // See one next part for RWYdd record
         elseif (isset($this->raw_parts[$this->part])) {
+
+            $r = '@^R(WY)?'           // 1
+                .'([\d]{2}[LCR]?)$@'; // 2
+
             $part = $this->raw_parts[$this->part];
-            if (!preg_match('@^R(WY)?([\d]{2}[LCR]?)$@', $part, $found)) {
+            if (!preg_match($r, $part, $found)) {
                 return false;
             }
+
             if ((int) $found[2] > 36 || (int) $found[2] < 1) {
                 return false;
             }
@@ -1214,6 +1220,7 @@ class Metar implements \ArrayAccess
         } else {
             return false;
         }
+
         return true;
     }
 
@@ -1228,21 +1235,26 @@ class Metar implements \ArrayAccess
      * HH   - Forecast hour, i.e. the time(hour) when the temperature is expected
      * Z    - Time Zone indicator, Z=GMT.
      * @return bool
+     * @throws \PhpUnitsOfMeasure\Exception\NonStringUnitName
+     * @throws \PhpUnitsOfMeasure\Exception\NonNumericValue
      */
     private function get_forecast_temperature($part): bool
     {
-        $r = '@^(TX|TN)(M?[\d]{2})/([\d]{2})?([\d]{2})Z$@';
+        $r = '@^(TX|TN)'     // 1
+            .'(M?[\d]{2})'   // 2
+            .'/([\d]{2})?'   // 3
+            .'([\d]{2})Z$@'; // 4
+
         if (!preg_match($r, $this->raw_parts[$this->part], $found)) {
             return false;
         }
 
         // Temperature
         $temperature_c = (int) str_replace('M', '-', $found[2]);
-        $temperature_f = round(1.8 * $temperature_c + 32);
+        $temperture = new Temperature($temperature_c, 'C');
 
         $forecast = [
-            'value'   => $temperature_c,
-            'value_f' => $temperature_f,
+            'value'   => $temperture,
             'day'     => null,
             'time'    => null,
         ];
@@ -1269,10 +1281,16 @@ class Metar implements \ArrayAccess
      */
     private function get_trends($part)
     {
-        $r = '@^((NOSIG|BECMG|TEMPO|INTER|CNL|NIL|PROV|(PROB)'
-            .'([\d]{2})|(AT|FM|TL)([\d]{2})'
-            .'?([\d]{2})([\d]{2}))|(([\d]{2})'
-            .'([\d]{2}))/(([\d]{2})([\d]{2})))$@';
+        $r = '@^((NOSIG|BECMG|TEMPO|INTER|CNL|NIL|PROV|(PROB)' // 1
+            .'([\d]{2})|'     // 2
+            .'(AT|FM|TL)'     // 3
+            .'([\d]{2})?'     // 4
+            .'([\d]{2})'      // 5
+            .'([\d]{2}))|'    // 6
+            .'(([\d]{2})'     // 7
+            .'([\d]{2}))/'    // 8
+            .'(([\d]{2})'     // 9
+            .'([\d]{2})))$@'; // 10
 
         if (!preg_match($r, $part, $found)) {
             return false;
@@ -1291,6 +1309,7 @@ class Metar implements \ArrayAccess
         $trend = [
             'flag'          => null,
             'probability'   => null,
+            'period_report' => null,
             'period'        => [
                 'flag'      => null,
                 'day'       => null,
@@ -1300,10 +1319,10 @@ class Metar implements \ArrayAccess
                 'to_day'    => null,
                 'to_time'   => null,
             ],
-            'period_report' => null,
         ];
 
         $raw_parts = [];
+
         // Get all parts after trend part
         while ($this->part < \count($this->raw_parts)) {
             if (preg_match($regexp, $this->raw_parts[$this->part], $found)) {
@@ -1545,6 +1564,7 @@ class Metar implements \ArrayAccess
     /**
      * Calculate Wind Chill Temperature based on temperature in F
      * and wind speed in miles per hour.
+     * @param $temperature_f
      * @throws \PhpUnitsOfMeasure\Exception\NonNumericValue
      * @throws \PhpUnitsOfMeasure\Exception\NonStringUnitName
      */
@@ -1571,6 +1591,9 @@ class Metar implements \ArrayAccess
      *   1 knot  = 1.852    km/hr  = 0.514444 m/s   = 1.687809 ft/s = 1.150779 mi/hr
      *   1 km/hr = 0.539957 knots  = 0.277778 m/s   = 0.911344 ft/s = 0.621371 mi/hr
      *   1 m/s   = 1.943844 knots  = 3.6      km/h  = 3.28084  ft/s = 2.236936 mi/hr
+     * @param $speed
+     * @param $unit
+     * @return float|null
      */
     private function convert_speed($speed, $unit)
     {
@@ -1594,6 +1617,9 @@ class Metar implements \ArrayAccess
      *   1 m  = 3.28084 ft = 0.00062 mi
      *   1 ft = 0.3048 m   = 0.00019 mi
      *   1 mi = 5279.99 ft = 1609.34 m
+     * @param $distance
+     * @param $unit
+     * @return float|null
      */
     private function convert_distance($distance, $unit)
     {
@@ -1611,24 +1637,6 @@ class Metar implements \ArrayAccess
     }
 
     /**
-     * @param $meters
-     * @return float
-     */
-    private function meters_to_ft($meters)
-    {
-        return round($meters * 3.28084, 2);
-    }
-
-    /**
-     * @param $meters
-     * @return float
-     */
-    private function meters_to_nm($meters)
-    {
-        return round($meters * 0.000539957, 2);
-    }
-
-    /**
      * Convert direction degrees to compass label.
      */
     private function convert_direction_label($direction)
@@ -1639,6 +1647,10 @@ class Metar implements \ArrayAccess
 
         return null;
     }
+
+    /**
+     * These methods below the implementation of the stubs for ArrayAccess
+     */
 
     /**
      * Whether a offset exists

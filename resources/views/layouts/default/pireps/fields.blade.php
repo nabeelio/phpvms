@@ -8,7 +8,7 @@ an impact on your stats and financials, and will require a recalculation of all 
 flight reports that have been filed. You've been warned!
 
 --}}
-@if($read_only)
+@if($pirep->read_only)
     <div class="row">
         <div class="col-sm-12">
             @component('components.info')
@@ -19,7 +19,6 @@ flight reports that have been filed. You've been warned!
 @endif
 <div class="row">
     <div class="col-8">
-
         <div class="form-container">
             <h6><i class="fas fa-info-circle"></i>
                 &nbsp;Flight Information
@@ -28,7 +27,7 @@ flight reports that have been filed. You've been warned!
                 <div class="row">
                     <div class="col-sm-4">
                         {{ Form::label('airline_id', 'Airline') }}
-                        @if($read_only)
+                        @if($pirep->read_only)
                             <p>{{ $pirep->airline->name }}</p>
                             {{ Form::hidden('airline_id') }}
                         @else
@@ -36,14 +35,14 @@ flight reports that have been filed. You've been warned!
                                 {{ Form::select('airline_id', $airline_list, null, [
                                     'class' => 'custom-select select2',
                                     'style' => 'width: 100%',
-                                    'readonly' => $read_only]) }}
+                                    'readonly' => $pirep->read_only]) }}
                             </div>
                             <p class="text-danger">{{ $errors->first('airline_id') }}</p>
                         @endif
                     </div>
                     <div class="col-sm-4">
                         {{ Form::label('flight_number', 'Flight Number/Code/Leg') }}
-                        @if($read_only)
+                        @if($pirep->read_only)
                             <p>{{ $pirep->ident }}
                                 {{ Form::hidden('flight_number') }}
                                 {{ Form::hidden('flight_code') }}
@@ -54,17 +53,17 @@ flight reports that have been filed. You've been warned!
                                 {{ Form::text('flight_number', null, [
                                         'placeholder' => 'Flight Number',
                                         'class' => 'form-control',
-                                        'readonly' => $read_only]) }}
+                                        'readonly' => $pirep->read_only]) }}
                                 &nbsp;
                                 {{ Form::text('route_code', null, [
                                         'placeholder' => 'Code (optional)',
                                         'class' => 'form-control',
-                                        'readonly' => $read_only]) }}
+                                        'readonly' => $pirep->read_only]) }}
                                 &nbsp;
                                 {{ Form::text('route_leg', null, [
                                         'placeholder' => 'Leg (optional)',
                                         'class' => 'form-control',
-                                        'readonly' => $read_only]) }}
+                                        'readonly' => $pirep->read_only]) }}
                             </div>
                             <p class="text-danger">{{ $errors->first('flight_number') }}</p>
                             <p class="text-danger">{{ $errors->first('route_code') }}</p>
@@ -73,7 +72,7 @@ flight reports that have been filed. You've been warned!
                     </div>
                     <div class="col-lg-4">
                         {{ Form::label('flight_type', 'Flight Type') }}
-                        @if($read_only)
+                        @if($pirep->read_only)
                             <p>{{ \App\Models\Enums\FlightType::label($pirep->flight_type) }}</p>
                             {{ Form::hidden('flight_type') }}
                         @else
@@ -82,7 +81,7 @@ flight reports that have been filed. You've been warned!
                                     \App\Models\Enums\FlightType::select(), null, [
                                         'class' => 'custom-select select2',
                                         'style' => 'width: 100%',
-                                        'readonly' => $read_only
+                                        'readonly' => $pirep->read_only
                                     ])
                                 }}
                             </div>
@@ -94,7 +93,7 @@ flight reports that have been filed. You've been warned!
                 <div class="row">
                     <div class="col-3">
                         {{ Form::label('hours', 'Flight Time') }}
-                        @if($read_only)
+                        @if($pirep->read_only)
                             <p>
                                 {{ $pirep->hours }} hours, {{ $pirep->minutes }} minutes
                                 {{ Form::hidden('hours') }}
@@ -106,14 +105,14 @@ flight reports that have been filed. You've been warned!
                                         'class' => 'form-control',
                                         'placeholder' => 'hours',
                                         'min' => '0',
-                                        'readonly' => $read_only
+                                        'readonly' => $pirep->read_only
                                         ]) }}
 
                                 {{ Form::number('minutes', null, [
                                     'class' => 'form-control',
                                     'placeholder' => 'minutes',
                                     'min' => 0,
-                                    'readonly' => $read_only
+                                    'readonly' => $pirep->read_only
                                     ]) }}
                             </div>
                             <p class="text-danger">{{ $errors->first('hours') }}</p>
@@ -127,7 +126,7 @@ flight reports that have been filed. You've been warned!
                         {{ Form::text('submmitted_date', null, [
                                 'placeholder' => 'Departure TIme',
                                 'class' => 'form-control',
-                                'readonly' => $read_only]) }}--}}
+                                'readonly' => $pirep->read_only]) }}--}}
                     </div>
 
 
@@ -136,7 +135,7 @@ flight reports that have been filed. You've been warned!
                         {{ Form::text('departure_time', null, [
                                         'placeholder' => 'Departure TIme',
                                         'class' => 'form-control',
-                                        'readonly' => $read_only]) }}--}}
+                                        'readonly' => $pirep->read_only]) }}--}}
                     </div>
 
 
@@ -145,7 +144,7 @@ flight reports that have been filed. You've been warned!
                         {{ Form::text('arrival_time', null, [
                                         'placeholder' => 'Arrival TIme',
                                         'class' => 'form-control',
-                                        'readonly' => $read_only]) }}--}}
+                                        'readonly' => $pirep->read_only]) }}--}}
                     </div>
 
                 </div>
@@ -161,7 +160,7 @@ flight reports that have been filed. You've been warned!
                 <div class="row">
                     <div class="col-6">
                         {{ Form::label('dpt_airport_id', 'Departure Airport') }}
-                        @if($read_only)
+                        @if($pirep->read_only)
                             {{ $pirep->dpt_airport->name }}
                             (<a href="{{route('frontend.airports.show', [
                                     'id' => $pirep->dpt_airport->icao
@@ -172,7 +171,7 @@ flight reports that have been filed. You've been warned!
                                 {{ Form::select('dpt_airport_id', $airport_list, null, [
                                         'class' => 'custom-select select2',
                                         'style' => 'width: 100%',
-                                        'readonly' => $read_only
+                                        'readonly' => $pirep->read_only
                                         ]) }}
                             </div>
                             <p class="text-danger">{{ $errors->first('dpt_airport_id') }}</p>
@@ -181,7 +180,7 @@ flight reports that have been filed. You've been warned!
 
                     <div class="col-6">
                         {{ Form::label('arr_airport_id', 'Arrival Airport') }}
-                        @if($read_only)
+                        @if($pirep->read_only)
                             {{ $pirep->arr_airport->name }}
                             (<a href="{{route('frontend.airports.show', [
                                     'id' => $pirep->arr_airport->icao
@@ -192,7 +191,7 @@ flight reports that have been filed. You've been warned!
                                 {{ Form::select('arr_airport_id', $airport_list, null, [
                                         'class' => 'custom-select select2',
                                         'style' => 'width: 100%',
-                                        'readonly' => $read_only
+                                        'readonly' => $pirep->read_only
                                         ]) }}
                             </div>
                             <p class="text-danger">{{ $errors->first('arr_airport_id') }}</p>
@@ -210,7 +209,7 @@ flight reports that have been filed. You've been warned!
                 <div class="row">
                     <div class="col">
                         {{ Form::label('aircraft_id', 'Aircraft') }}
-                        @if($read_only)
+                        @if($pirep->read_only)
                             <p>{{ $pirep->aircraft->name }}</p>
                             {{ Form::hidden('aircraft_id') }}
                         @else
@@ -219,7 +218,7 @@ flight reports that have been filed. You've been warned!
                                 {{ Form::select('aircraft_id', $aircraft_list, null, [
                                     'id' => 'aircraft_select',
                                     'class' => 'custom-select select2',
-                                    'readonly' => $read_only
+                                    'readonly' => $pirep->read_only
                                     ]) }}
                             </div>
                             <p class="text-danger">{{ $errors->first('aircraft_id') }}</p>

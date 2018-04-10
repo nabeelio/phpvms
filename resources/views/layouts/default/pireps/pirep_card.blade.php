@@ -9,8 +9,7 @@
                 </p>
                 <h5>
                     <a href="{{ route('frontend.pireps.show', [$pirep->id]) }}">
-                    {{ $pirep->airline->code }}{{ $pirep->ident }}
-                    </a>
+                    {{ $pirep->airline->code }}{{ $pirep->ident }}</a>
                     -
                     {{ $pirep->dpt_airport->name }}
                     (<a href="{{route('frontend.airports.show', [

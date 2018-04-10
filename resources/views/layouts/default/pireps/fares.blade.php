@@ -8,7 +8,7 @@
                 <div class="row">
                     <div class="col">
                         {{Form::label('fare_'.$fare->id, $fare->name.' ('.$fare->code.')')}}
-                        @if($read_only)
+                        @if($pirep->read_only)
                             <p>{{ $pirep->{'fare_'.$fare->id} }}</p>
                             {{ Form::hidden('fare_'.$fare->id) }}
                         @else

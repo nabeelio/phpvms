@@ -39,6 +39,7 @@ use PhpUnitsOfMeasure\Exception\NonStringUnitName;
  * @property Carbon      submitted_at
  * @property Carbon      created_at
  * @property Carbon      updated_at
+ * @property bool        state
  * @package App\Models
  */
 class Pirep extends Model
@@ -172,6 +173,14 @@ class Pirep extends Model
         } else {
             $this->attributes['distance'] = $value;
         }
+    }
+
+    /**
+     * Return if this PIREP can be edited or not
+     */
+    public function getReadOnlyAttribute(): bool
+    {
+        return $this->state !== PirepState::PENDING;
     }
 
     /**
