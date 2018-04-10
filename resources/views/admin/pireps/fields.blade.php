@@ -1,4 +1,4 @@
-@if($pirep->read_only)
+@if(!empty($pirep) && $pirep->read_only)
    <div class="row">
        <div class="col-sm-12">
            @component('admin.components.info')
