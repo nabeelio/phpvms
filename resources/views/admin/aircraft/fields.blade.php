@@ -1,65 +1,78 @@
 <div class="row">
-    <div class="form-group col-sm-6">
-        {{ Form::label('subfleet_id', 'Subfleet:') }}
-        {{ Form::select('subfleet_id', $subfleets, $subfleet_id ?? null, [
-            'class' => 'form-control select2',
-            'placeholder' => 'Select Subfleet'
-            ])
-        }}
-        <p class="text-danger">{{ $errors->first('subfleet_id') }}</p>
-    </div>
+    <div class="col-sm-12">
+        <div class="form-container">
+            <h6><i class="fas fa-clock"></i>
+                &nbsp;Subfleet and Status
+            </h6>
+            <div class="form-container-body row">
+                <div class="form-group col-sm-6">
+                    {{ Form::label('subfleet_id', 'Subfleet:') }}
+                    {{ Form::select('subfleet_id', $subfleets, $subfleet_id ?? null, [
+                        'class' => 'form-control select2',
+                        'placeholder' => 'Select Subfleet'
+                        ])
+                    }}
+                    <p class="text-danger">{{ $errors->first('subfleet_id') }}</p>
+                </div>
 
-    <div class="form-group col-sm-6">
-        {{ Form::label('name', 'Name:') }}&nbsp;<span class="required">*</span>
-        {{ Form::text('name', null, ['class' => 'form-control']) }}
-        <p class="text-danger">{{ $errors->first('name') }}</p>
+                <div class="form-group col-sm-6">
+                    {{ Form::label('status', 'Status:') }}
+                    {{ Form::select('status', $statuses, null, ['class' => 'form-control select2', 'placeholder' => 'Select Status']) }}
+                    <p class="text-danger">{{ $errors->first('subfleet_id') }}</p>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
 
 <div class="row">
     <div class="col-12">
-        @component('admin.components.info')
-            View list of
-            <a href="https://en.wikipedia.org/wiki/List_of_ICAO_aircraft_type_designators"
-               target="_blank">
-                IATA and ICAO Type Designators
-            </a>
-        @endcomponent
-    </div>
-</div>
-<div class="row">
-    <div class="form-group col-sm-4">
-        {{ Form::label('iata', 'IATA:') }}
-        {{ Form::text('iata', null, ['class' => 'form-control']) }}
-        <p class="text-danger">{{ $errors->first('iata') }}</p>
-    </div>
+        <div class="form-container">
+            <h6>
+                <span style="float:right">
+                    View list of
+                    <a href="https://en.wikipedia.org/wiki/List_of_ICAO_aircraft_type_designators"
+                       target="_blank">
+                    IATA and ICAO Type Designators
+                </a>
+                </span>
+                <i class="fas fa-plane"></i>
+                &nbsp;Aircraft Information
 
-    <div class="form-group col-sm-4">
-        {{ Form::label('icao', 'ICAO:') }}
-        {{ Form::text('icao', null, ['class' => 'form-control']) }}
-        <p class="text-danger">{{ $errors->first('icao') }}</p>
-    </div>
+            </h6>
+            <div class="form-container-body">
+                <div class="row">
+                    <div class="form-group col-sm-12">
+                        {{ Form::label('name', 'Name:') }}&nbsp;<span class="required">*</span>
+                        {{ Form::text('name', null, ['class' => 'form-control']) }}
+                        <p class="text-danger">{{ $errors->first('name') }}</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-sm-4">
+                        {{ Form::label('iata', 'IATA:') }}
+                        {{ Form::text('iata', null, ['class' => 'form-control']) }}
+                        <p class="text-danger">{{ $errors->first('iata') }}</p>
+                    </div>
 
-    <div class="form-group col-sm-4">
-        {{ Form::label('zfw', 'Zero Fuel Weight:') }}
-        {{ Form::text('zfw', null, ['class' => 'form-control']) }}
-        <p class="text-danger">{{ $errors->first('zfw') }}</p>
-    </div>
-</div>
-<div class="row">
-    <!-- Registration Field -->
-    <div class="form-group col-sm-6">
-        {{ Form::label('registration', 'Registration:') }}
-        {{--<p class="text-success small">Enter the registration with the country prefix</p>--}}
-        {{ Form::text('registration', null, ['class' => 'form-control']) }}
-        <p class="text-danger">{{ $errors->first('registration') }}</p>
-    </div>
+                    <div class="form-group col-sm-4">
+                        {{ Form::label('icao', 'ICAO:') }}
+                        {{ Form::text('icao', null, ['class' => 'form-control']) }}
+                        <p class="text-danger">{{ $errors->first('icao') }}</p>
+                    </div>
 
-    <!-- Active Field -->
-    <div class="form-group col-sm-6">
-        {{ Form::label('status', 'Status:') }}
-        {{ Form::select('status', $statuses, null, ['class' => 'form-control select2', 'placeholder' => 'Select Status']) }}
-        <p class="text-danger">{{ $errors->first('subfleet_id') }}</p>
+                    <div class="form-group col-sm-4">
+                        {{ Form::label('registration', 'Registration:') }}
+                        {{ Form::text('registration', null, ['class' => 'form-control']) }}
+                        <p class="text-danger">{{ $errors->first('registration') }}</p>
+                        {{--{{ Form::label('zfw', 'Zero Fuel Weight:') }}
+                        {{ Form::text('zfw', null, ['class' => 'form-control']) }}
+                        <p class="text-danger">{{ $errors->first('zfw') }}</p>--}}
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <div class="row">

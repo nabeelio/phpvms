@@ -13,6 +13,10 @@
         <p class="text-danger">{{ $errors->first('value') }}</p>
     </div>
 
+    @if(count($flight->fares) === 0)
+        @include('admin.common.none_added', ['type' => 'fares'])
+    @endif
+
     <table id="flight_fares"
            class="table table-hover"
            role="grid" aria-describedby="aircraft_fares_info">

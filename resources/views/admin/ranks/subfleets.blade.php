@@ -1,4 +1,8 @@
 <div id="rank_subfleet_wrapper" class="dataTables_wrapper form-inline dt-bootstrap col-lg-12">
+    @if(count($rank->subfleets) === 0)
+        @include('admin.common.none_added', ['type' => 'subfleets'])
+    @endif
+
     <table class="table table-responsive" id="subfleets-table">
         @if(count($rank->subfleets))
         <thead>

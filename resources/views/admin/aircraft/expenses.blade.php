@@ -2,18 +2,21 @@
     <div class="header">
         <h3>expenses</h3>
         @component('admin.components.info')
-        These expenses are only applied to this aircraft.
+            These expenses are only applied to this aircraft.
         @endcomponent
     </div>
-    <br/>
-    <table class="table table-responsive" id="expenses">
 
-        @if(count($aircraft->expenses))
-        <thead>
-        <th>Name</th>
-        <th>Cost&nbsp;<span class="small">{{ currency(config('phpvms.currency')) }}</span></th>
-        <th>Type</th>
-        <th></th>
+    @if(count($aircraft->expenses) === 0)
+        @include('admin.common.none_added', ['type' => 'expenses'])
+    @endif
+
+    <table class="table table-responsive" id="expenses">
+        @if(count($aircraft->expenses) > 0)
+            <thead>
+            <th>Name</th>
+            <th>Cost&nbsp;<span class="small">{{ currency(config('phpvms.currency')) }}</span></th>
+            <th>Type</th>
+            <th></th>
         </thead>
         @endif
 

@@ -10,6 +10,10 @@ Pass in:
         <h3>files</h3>
     </div>
 
+    @if(count($model->files) === 0)
+        @include('admin.common.none_added', ['type' => 'files'])
+    @endif
+
     {{-- Show all the files here --}}
     <table class="table table-hover table-responsive">
         @if(count($model->files))

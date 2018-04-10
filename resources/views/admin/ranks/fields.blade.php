@@ -42,36 +42,47 @@
 
 </div>
 <div class="row">
-    <!-- Auto Approve Acars Field -->
-    <div class="form-group col-sm-4 text-center">
-        <div class="checkbox">
-            <label class="checkbox-inline">
-                {{ Form::hidden('auto_approve_acars', false) }}
-                {{ Form::checkbox('auto_approve_acars') }}
-                {{ Form::label('auto_approve_acars', 'Auto Approve ACARS PIREPs') }}
-            </label>
-        </div>
-    </div>
+    <div class="col-12">
+        <div class="form-container">
+            <h6><i class="fas fa-check-square"></i>
+                &nbsp;Options
+            </h6>
+            <div class="form-container-body">
+                <div class="row">
+                    <!-- Auto Approve Acars Field -->
+                    <div class="form-group col-sm-4 text-center">
+                        <div class="checkbox">
+                            <label class="checkbox-inline">
+                                {{ Form::hidden('auto_approve_acars', false) }}
+                                {{ Form::checkbox('auto_approve_acars') }}
+                                {{ Form::label('auto_approve_acars', 'Auto Approve ACARS PIREPs') }}
+                            </label>
+                        </div>
+                    </div>
 
-    <!-- Auto Approve Manual Field -->
-    <div class="form-group col-sm-4 text-center">
-        <div class="checkbox">
-            <label class="checkbox-inline">
-                {{ Form::hidden('auto_approve_manual', false) }}
-                {{ Form::checkbox('auto_approve_manual') }}
-                {{ Form::label('auto_approve_manual', 'Auto Approve Manual PIREPs') }}
-            </label>
-        </div>
-    </div>
+                    <!-- Auto Approve Manual Field -->
+                    <div class="form-group col-sm-4 text-center">
+                        <div class="checkbox">
+                            <label class="checkbox-inline">
+                                {{ Form::hidden('auto_approve_manual', false) }}
+                                {{ Form::checkbox('auto_approve_manual') }}
+                                {{ Form::label('auto_approve_manual', 'Auto Approve Manual PIREPs') }}
+                            </label>
+                        </div>
+                    </div>
 
-    <!-- Auto Promote Field -->
-    <div class="form-group col-sm-4 text-center">
-        <div class="checkbox">
-            <label class="checkbox-inline">
-                {{ Form::hidden('auto_promote', false) }}
-                {{ Form::checkbox('auto_promote') }}
-                {{ Form::label('auto_promote', 'Auto Promote') }}
-            </label>
+                    <!-- Auto Promote Field -->
+                    <div class="form-group col-sm-4 text-center">
+                        <div class="checkbox">
+                            <label class="checkbox-inline">
+                                {{ Form::hidden('auto_promote', false) }}
+                                {{ Form::checkbox('auto_promote') }}
+                                {{ Form::label('auto_promote', 'Auto Promote') }}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

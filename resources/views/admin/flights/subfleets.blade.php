@@ -1,8 +1,15 @@
 <div id="subfleet_flight_wrapper">
-    <h3>subfleets</h3>
-    @component('admin.components.info')
-        The subfleets that are assigned to this flight.
-    @endcomponent
+    <div class="header">
+        <h3>subfleets</h3>
+        @component('admin.components.info')
+            The subfleets that are assigned to this flight.
+        @endcomponent
+    </div>
+
+    @if(count($flight->subfleets) === 0)
+        @include('admin.common.none_added', ['type' => 'expenses'])
+    @endif
+
     <table class="table table-responsive" id="aircrafts-table">
         @if(count($flight->subfleets))
         <thead>
