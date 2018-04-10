@@ -7,7 +7,8 @@
     border: 1px solid $light-gray;
     color: $black-color;
     line-height: 1em;
-    font-size: $font-size-small;
+    font-size: $font-size-base;
+    font-weight: 400;
     @include transition-input-focus-color();
     @include box-shadow(none);
 
@@ -229,13 +230,14 @@
 
 textarea.form-control {
     max-width: 100%;
-    padding: 10px 10px 0 0;
+    padding: 10px 10px;
     resize: none;
     background-color: $transparent-bg;
     border: 1px solid $light-gray;
     color: $black-color;
     line-height: 1em;
-    font-size: $font-size-small;
+    font-size: $font-size-base;
+    font-weight: 400;
     border-radius: 0;
 
     &:focus,

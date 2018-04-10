@@ -55,6 +55,8 @@ class Flight extends Model
         'flight_type',
         'route',
         'notes',
+        'start_date',
+        'end_date',
         'has_bid',
         'active',
     ];
@@ -65,6 +67,8 @@ class Flight extends Model
         'level'         => 'integer',
         'distance'      => 'float',
         'flight_time'   => 'integer',
+        'start_date'    => 'date',
+        'end_date'      => 'date',
         'has_bid'       => 'boolean',
         'active'        => 'boolean',
     ];

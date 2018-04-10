@@ -60,20 +60,20 @@ const setFieldsEditable = () =>
 
 $(document).ready(function () {
 
+    $("select#days_of_week").select2();
+
     setEditable();
     setFieldsEditable();
 
-    /*new Pjax({
-        elements: 'form[action].pjax_subfleet_form',
-        selectors: ['div#subfleet_flight_wrapper'],
-        history: false,
-    });
+  const start_date_picker = new Pikaday({
+    field: document.getElementById('start_date'),
+    minDate: new Date(),
+  });
 
-    new Pjax({
-        elements: 'form[action].pjax_flight_fields',
-        selectors: ['div#flight_fields_wrapper'],
-        history: false
-    });*/
+  const end_date_picker = new Pikaday({
+    field: document.getElementById('end_date'),
+    minDate: new Date(),
+  });
 
     $(document).on('submit', 'form.pjax_flight_fields', function (event) {
         event.preventDefault();

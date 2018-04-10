@@ -569,7 +569,7 @@ hr {
 }
 
 .main-panel {
-  background-color: rgba(255, 255, 255, 0.96);
+  background-color: #ebeff2;
   position: relative;
   z-index: 2;
   float: right;
@@ -578,7 +578,7 @@ hr {
 }
 
 .main-panel > .content {
-  padding: 30px 15px;
+  padding: 0 2px;
   min-height: calc(100% - 123px);
 }
 
@@ -1314,7 +1314,8 @@ fieldset[disabled] .btn-neutral.active {
   border: 1px solid #E3E3E3;
   color: #333333;
   line-height: 1em;
-  font-size: 0.8571em;
+  font-size: 14px;
+  font-weight: 400;
   -webkit-transition: color 0.3s ease-in-out, border-color 0.3s ease-in-out, background-color 0.3s ease-in-out;
   transition: color 0.3s ease-in-out, border-color 0.3s ease-in-out, background-color 0.3s ease-in-out;
   -webkit-box-shadow: none;
@@ -1635,13 +1636,14 @@ fieldset[disabled] .btn-neutral.active {
 
 textarea.form-control {
   max-width: 100%;
-  padding: 10px 10px 0 0;
+  padding: 10px 10px;
   resize: none;
   background-color: transparent;
   border: 1px solid #E3E3E3;
   color: #333333;
   line-height: 1em;
-  font-size: 0.8571em;
+  font-size: 14px;
+  font-weight: 400;
   border-radius: 0;
 }
 
@@ -4342,9 +4344,8 @@ fieldset[disabled] .card .btn-neutral.active {
   position: relative;
   overflow: hidden;
   width: 100%;
-  margin-bottom: 20px;
+  /*margin-bottom: 20px;*/
   font-weight: bold;
-  text-transform: uppercase;
 }
 
 .form-container h6 {

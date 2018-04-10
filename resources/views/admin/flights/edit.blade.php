@@ -2,30 +2,30 @@
 
 @section('title', 'Edit Flight')
 @section('content')
-<div class="card  border-blue-bottom">
-   <div class="content">
-        {{ Form::model($flight, ['route' => ['admin.flights.update', $flight->id], 'method' => 'patch']) }}
-            @include('admin.flights.fields')
-        {{ Form::close() }}
-   </div>
-</div>
-
-<div class="card  border-blue-bottom">
-    <div class="content">
-       @include('admin.flights.flight_fields')
+    <div class="card border-blue-bottom">
+       <div class="content">
+            {{ Form::model($flight, ['route' => ['admin.flights.update', $flight->id], 'method' => 'patch']) }}
+                @include('admin.flights.fields')
+            {{ Form::close() }}
+       </div>
     </div>
-</div>
 
-<div class="card  border-blue-bottom">
-    <div class="content">
-        @include('admin.flights.subfleets')
+    <div class="card border-blue-bottom">
+        <div class="content">
+            @include('admin.flights.subfleets')
+        </div>
     </div>
-</div>
 
-<div class="card  border-blue-bottom">
-    <div class="content">
-        @include('admin.flights.fares')
+    <div class="card border-blue-bottom">
+        <div class="content">
+           @include('admin.flights.flight_fields')
+        </div>
     </div>
-</div>
+
+    <div class="card border-blue-bottom">
+        <div class="content">
+            @include('admin.flights.fares')
+        </div>
+    </div>
 @endsection
 @include('admin.flights.scripts')

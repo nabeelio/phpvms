@@ -5,34 +5,115 @@
             <h6><i class="fas fa-info-circle"></i>
                 &nbsp;Flight Information
             </h6>
-            <div class="form-container-body row">
-                <div class="form-group col-sm-3">
-                    {{ Form::label('airline_id', 'Airline:') }}&nbsp;<span
-                            class="required">*</span>
-                    {{ Form::select('airline_id', $airlines, null , ['class' => 'form-control select2']) }}
-                    <p class="text-danger">{{ $errors->first('airline_id') }}</p>
+            <div class="form-container-body">
+                <div class="row">
+                    <div class="form-group col-sm-3">
+                        {{ Form::label('airline_id', 'Airline:') }}&nbsp;<span
+                                class="required">*</span>
+                        {{ Form::select('airline_id', $airlines, null , ['class' => 'form-control select2']) }}
+                        <p class="text-danger">{{ $errors->first('airline_id') }}</p>
+                    </div>
+
+                    <!-- Flight Number Field -->
+                    <div class="form-group col-sm-3">
+                        {{ Form::label('flight_number', 'Flight Number/Code/Leg') }}&nbsp;<span class="required">*</span>
+
+                        <div class="input-group input-group-sm mb3">
+                            {{ Form::text('flight_number', null, ['class' => 'form-control', 'style' => 'width: 33%']) }}
+                            {{ Form::text('route_code', null, ['class'=>'form-control', 'placeholder'=>'optional', 'style' => 'width: 33%']) }}
+                            {{ Form::text('route_leg', null, ['class'=>'form-control', 'placeholder'=>'optional', 'style' => 'width: 33%']) }}
+                        </div>
+
+                        <p class="text-danger">{{ $errors->first('flight_number') }}</p>
+                        <p class="text-danger">{{ $errors->first('route_code') }}</p>
+                        <p class="text-danger">{{ $errors->first('route_leg') }}</p>
+
+                    </div>
+
+                    <!-- Route Code Field -->
+                    <div class="form-group col-sm-3">
+                        {{ Form::label('level', 'Flight Type:') }}&nbsp;<span class="required">*</span>
+                        {{ Form::select('flight_type', $flight_types, null, ['class' => 'form-control select2']) }}
+                        <p class="text-danger">{{ $errors->first('flight_type') }}</p>
+                    </div>
+
+                    <!-- Route Leg Field -->
+                    <div class="form-group col-sm-3">
+                        {{ Form::label('flight_time', 'Flight Time (hours & minutes)') }}
+
+                        <div class="input-group input-group-sm mb3">
+                            {{ Form::number('hours', null, [
+                                    'class' => 'form-control',
+                                    'placeholder' => 'hours',
+                                    'style' => 'width: 50%',
+                                ]) }}
+
+                            {{ Form::number('minutes', null, [
+                                    'class' => 'form-control',
+                                    'placeholder' => 'minutes',
+                                    'style' => 'width: 50%',
+                                ]) }}
+                        </div>
+
+                        <p class="text-danger">{{ $errors->first('hours') }}</p>
+                        <p class="text-danger">{{ $errors->first('minutes') }}</p>
+
+                    </div>
                 </div>
 
-                <!-- Flight Number Field -->
-                <div class="form-group col-sm-3">
-                    {{ Form::label('flight_number', 'Flight Number:') }}&nbsp;<span
-                            class="required">*</span>
-                    {{ Form::text('flight_number', null, ['class' => 'form-control']) }}
-                    <p class="text-danger">{{ $errors->first('flight_number') }}</p>
+                {{-- NEXT ROW --}}
+
+                <div class="row">
+                    <div class="form-group col-sm-4">
+                        {{ Form::label('dpt_airport_id', 'Departure Airport:') }}&nbsp;<span
+                                class="required">*</span>
+                        {{ Form::select('dpt_airport_id', $airports, null , ['class' => 'form-control select2']) }}
+                        <p class="text-danger">{{ $errors->first('dpt_airport_id') }}</p>
+                    </div>
+
+                    <!-- Arr Airport Id Field -->
+                    <div class="form-group col-sm-4">
+                        {{ Form::label('arr_airport_id', 'Arrival Airport:') }}&nbsp;<span
+                                class="required">*</span>
+                        {{ Form::select('arr_airport_id', $airports, null , ['class' => 'form-control select2']) }}
+                        <p class="text-danger">{{ $errors->first('arr_airport_id') }}</p>
+                    </div>
+
+                    <!-- Alt Airport Id Field -->
+                    <div class="form-group col-sm-4">
+                        {{ Form::label('alt_airport_id', 'Alt Airport:') }}
+                        {{ Form::select('alt_airport_id', $alt_airports, null , ['class' => 'form-control select2']) }}
+                        <p class="text-danger">{{ $errors->first('alt_airport_id') }}</p>
+                    </div>
                 </div>
 
-                <!-- Route Code Field -->
-                <div class="form-group col-sm-3">
-                    {{ Form::label('route_code', 'Route Code:') }}
-                    {{ Form::text('route_code', null, ['class'=>'form-control', 'placeholder'=>'optional']) }}
-                    <p class="text-danger">{{ $errors->first('route_code') }}</p>
-                </div>
 
-                <!-- Route Leg Field -->
-                <div class="form-group col-sm-3">
-                    {{ Form::label('route_leg', 'Route Leg:') }}
-                    {{ Form::text('route_leg', null, ['class'=>'form-control', 'placeholder'=>'optional']) }}
-                    <p class="text-danger">{{ $errors->first('route_leg') }}</p>
+                {{-- NEXT ROW --}}
+
+                <div class="row">
+                    <div class="form-group col-sm-3">
+                        {{ Form::label('dpt_time', 'Departure Time:') }}
+                        {{ Form::text('dpt_time', null, ['class' => 'form-control']) }}
+                        <p class="text-danger">{{ $errors->first('dpt_time') }}</p>
+                    </div>
+
+                    <div class="form-group col-sm-3">
+                        {{ Form::label('arr_time', 'Arrival Time:') }}
+                        {{ Form::text('arr_time', null, ['class' => 'form-control']) }}
+                        <p class="text-danger">{{ $errors->first('arr_time') }}</p>
+                    </div>
+
+                    <div class="form-group col-sm-3">
+                        {{ Form::label('level', 'Flight Level:') }}
+                        {{ Form::text('level', null, ['class' => 'form-control']) }}
+                        <p class="text-danger">{{ $errors->first('level') }}</p>
+                    </div>
+
+                    <div class="form-group col-sm-3">
+                        {{ Form::label('distance', 'Distance:') }} <span class="description small">in nautical miles</span>
+                        {{ Form::text('distance', null, ['class' => 'form-control']) }}
+                        <p class="text-danger">{{ $errors->first('distance') }}</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -47,70 +128,52 @@
             </h6>
             <div class="form-container-body">
                 <div class="row">
-                    <div class="form-group col-md-12" style="text-align: center;">
-                        <span style="margin-right: 20px;">
-                            {{ Form::label('days[]', 'Monday') }}
-                            {{ Form::checkbox(
-                                'days[]',
-                                \App\Models\Enums\Days::MONDAY,
-                                in_mask($days, \App\Models\Enums\Days::MONDAY),
-                                ['class' => 'form-control icheck']
-                            ) }}
-                        </span>
-                        <span style="margin-right: 20px;">
-                            {{ Form::label('days[]', 'Tuesday') }}
-                            {{ Form::checkbox(
-                                'days[]',
-                                \App\Models\Enums\Days::TUESDAY,
-                                in_mask($days, \App\Models\Enums\Days::TUESDAY),
-                                ['class' => 'form-control icheck']
-                            ) }}
-                        </span>
-                        <span style="margin-right: 20px;">
-                            {{ Form::label('days[]', 'Wednesday') }}
-                            {{ Form::checkbox(
-                                'days[]',
-                                \App\Models\Enums\Days::WEDNESDAY,
-                                in_mask($days, \App\Models\Enums\Days::WEDNESDAY),
-                                ['class' => 'form-control icheck']
-                            ) }}
-                        </span>
-                        <span style="margin-right: 20px;">
-                            {{ Form::label('days[]', 'Thursday') }}
-                            {{ Form::checkbox(
-                                'days[]',
-                                \App\Models\Enums\Days::THURSDAY,
-                                in_mask($days, \App\Models\Enums\Days::THURSDAY),
-                                ['class' => 'form-control icheck']
-                            ) }}
-                        </span>
-                        <span style="margin-right: 20px;">
-                            {{ Form::label('days[]', 'Friday') }}
-                            {{ Form::checkbox(
-                                'days[]',
-                                \App\Models\Enums\Days::FRIDAY,
-                                in_mask($days, \App\Models\Enums\Days::FRIDAY),
-                                ['class' => 'form-control icheck']
-                            ) }}
-                        </span>
-                        <span style="margin-right: 20px;">
-                            {{ Form::label('days[]', 'Saturday') }}
-                            {{ Form::checkbox(
-                                'days[]',
-                                \App\Models\Enums\Days::SATURDAY,
-                                in_mask($days, \App\Models\Enums\Days::SATURDAY),
-                                ['class' => 'form-control icheck']
-                            ) }}
-                        </span>
-                        <span>
-                            {{ Form::label('days[]', 'Sunday') }}
-                            {{ Form::checkbox(
-                                'days[]',
-                                \App\Models\Enums\Days::SUNDAY,
-                                in_mask($days, \App\Models\Enums\Days::SUNDAY),
-                                ['class' => 'form-control icheck']
-                            ) }}
-                        </span>
+
+                    <div class="col-sm-4">
+                        {{ Form::label('start_date', 'Start Date') }}
+                        <span class="description small">optional</span>
+                        {{ Form::text('start_date', null, ['id' => 'start_date', 'class' => 'form-control']) }}
+                    </div>
+
+                    <div class="col-sm-4">
+                        {{ Form::label('end_date', 'End Date') }}
+                        <span class="description small">optional</span>
+                        {{ Form::text('end_date', null, ['id' => 'end_date', 'class' => 'form-control']) }}
+                    </div>
+
+                    <div class="form-group col-sm-4">
+                        {{Form::label('days', 'Days of Week')}}
+                        <span class="description small">optional</span>
+                        <select id="days_of_week" name="days[]" multiple="multiple" size="7" style="width: 100%;">
+                            <option value="{{\App\Models\Enums\Days::MONDAY}}"
+                                    {{in_mask($days, \App\Models\Enums\Days::MONDAY) ? 'selected':'' }}>
+                                @lang('system.days.mon')
+                            </option>
+                            <option value="{{\App\Models\Enums\Days::TUESDAY}}"
+                                    {{in_mask($days, \App\Models\Enums\Days::TUESDAY) ? 'select':'' }}>
+                                @lang('system.days.tues')
+                            </option>
+                            <option value="{{\App\Models\Enums\Days::WEDNESDAY}}"
+                                    {{in_mask($days, \App\Models\Enums\Days::WEDNESDAY) ? 'selected':'' }}>
+                                @lang('system.days.wed')
+                            </option>
+                            <option value="{{\App\Models\Enums\Days::THURSDAY}}"
+                                    {{in_mask($days, \App\Models\Enums\Days::THURSDAY) ? 'selected':'' }}>
+                                @lang('system.days.thurs')
+                            </option>
+                            <option value="{{\App\Models\Enums\Days::FRIDAY}}"
+                                    {{in_mask($days, \App\Models\Enums\Days::FRIDAY) ? 'selected':'' }}>
+                                @lang('system.days.fri')
+                            </option>
+                            <option value="{{\App\Models\Enums\Days::SATURDAY}}"
+                                    {{in_mask($days, \App\Models\Enums\Days::SATURDAY) ? 'selected':'false' }}>
+                                @lang('system.days.sat')
+                            </option>
+                            <option value="{{\App\Models\Enums\Days::SUNDAY}}"
+                                    {{in_mask($days, \App\Models\Enums\Days::SUNDAY) ? 'selected':'false' }}>
+                                @lang('system.days.sun')
+                            </option>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -119,93 +182,41 @@
 </div>
 
 <div class="row">
-
-    <div class="form-group col-sm-3">
-        {{ Form::label('level', 'Flight Type:') }}&nbsp;<span class="required">*</span>
-        {{ Form::select('flight_type', $flight_types, null, ['class' => 'form-control select2']) }}
-        <p class="text-danger">{{ $errors->first('flight_type') }}</p>
-    </div>
-
-    <div class="form-group col-sm-3">
-        {{ Form::label('dpt_airport_id', 'Departure Airport:') }}&nbsp;<span class="required">*</span>
-        {{ Form::select('dpt_airport_id', $airports, null , ['class' => 'form-control select2']) }}
-        <p class="text-danger">{{ $errors->first('dpt_airport_id') }}</p>
-    </div>
-
-    <!-- Arr Airport Id Field -->
-    <div class="form-group col-sm-3">
-        {{ Form::label('arr_airport_id', 'Arrival Airport:') }}&nbsp;<span class="required">*</span>
-        {{ Form::select('arr_airport_id', $airports, null , ['class' => 'form-control select2']) }}
-        <p class="text-danger">{{ $errors->first('arr_airport_id') }}</p>
-    </div>
-
-    <!-- Alt Airport Id Field -->
-    <div class="form-group col-sm-3">
-        {{ Form::label('alt_airport_id', 'Alt Airport:') }}
-        {{ Form::select('alt_airport_id', $alt_airports, null , ['class' => 'form-control select2']) }}
-        <p class="text-danger">{{ $errors->first('alt_airport_id') }}</p>
-    </div>
-</div>
-
-
-<div class="row">
-
-    <div class="form-group col-sm-2">
-        {{ Form::label('dpt_time', 'Departure Time:') }}
-        {{ Form::text('dpt_time', null, ['class' => 'form-control']) }}
-        <p class="text-danger">{{ $errors->first('dpt_time') }}</p>
-    </div>
-
-    <div class="form-group col-sm-2">
-        {{ Form::label('arr_time', 'Arrival Time:') }}
-        {{ Form::text('arr_time', null, ['class' => 'form-control']) }}
-        <p class="text-danger">{{ $errors->first('arr_time') }}</p>
-    </div>
-
-    <div class="form-group col-sm-4">
-        {{ Form::label('flight_time', 'Flight Time (hours & minutes):') }}
-        <div style="float: left">
-            {{ Form::number('hours', null, [
-                    'class' => 'form-control',
-                    'placeholder' => 'hours'
-                ]) }}
+    <div class="col-lg-12">
+        <div class="form-container">
+            <h6><i class="fas fa-map"></i>
+                &nbsp;Route
+            </h6>
+            <div class="form-container-body row">
+                <!-- Route Field -->
+                <div class="form-group col-sm-12">
+                    {{ Form::textarea('route', null, [
+                        'class' => 'form-control input-text',
+                        'style' => 'padding: 10px',
+                    ]) }}
+                    <p class="text-danger">{{ $errors->first('route') }}</p>
+                </div>
+            </div>
         </div>
-        <div style="float: left">
-            {{ Form::number('minutes', null, [
-                    'class' => 'form-control',
-                    'placeholder' => 'minutes'
-                ]) }}
-        </div>
-        <p class="text-danger">{{ $errors->first('hours') }}</p>
-        <p class="text-danger">{{ $errors->first('minutes') }}</p>
-    </div>
-
-    <div class="form-group col-sm-2">
-        {{ Form::label('level', 'Flight Level:') }}
-        {{ Form::text('level', null, ['class' => 'form-control']) }}
-        <p class="text-danger">{{ $errors->first('level') }}</p>
-    </div>
-
-    <div class="form-group col-sm-2">
-        {{ Form::label('distance', 'Distance:') }} <span class="small">in nautical miles</span>
-        {{ Form::text('distance', null, ['class' => 'form-control']) }}
-        <p class="text-danger">{{ $errors->first('distance') }}</p>
     </div>
 </div>
 
 <div class="row">
-    <!-- Route Field -->
-    <div class="form-group col-sm-6">
-        {{ Form::label('route', 'Route:') }}
-        {{ Form::textarea('route', null, ['class' => 'form-control']) }}
-        <p class="text-danger">{{ $errors->first('route') }}</p>
-    </div>
-
-    <!-- Notes Field -->
-    <div class="form-group col-sm-6">
-        {{ Form::label('notes', 'Notes:') }}
-        {{ Form::textarea('notes', null, ['class' => 'form-control']) }}
-        <p class="text-danger">{{ $errors->first('notes') }}</p>
+    <div class="col-lg-12">
+        <div class="form-container">
+            <h6><i class="fas fa-sticky-note"></i>
+                &nbsp;Remarks
+            </h6>
+            <div class="form-container-body row">
+                <div class="form-group col-sm-12">
+                    {{ Form::textarea('notes', null, [
+                        'class' => 'form-control input-text',
+                        'style' => 'padding: 10px',
+                    ]) }}
+                    <p class="text-danger">{{ $errors->first('notes') }}</p>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 

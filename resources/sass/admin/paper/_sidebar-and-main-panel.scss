@@ -174,8 +174,8 @@
 }
 
 .main-panel{
-    //background-color: $bg-nude;
-    background-color: $white-navbar;
+    background-color: $bg-nude;
+    //background-color: $white-navbar;
     position: relative;
     z-index: 2;
     float: right;
@@ -183,7 +183,8 @@
     min-height: 100%;
 
     > .content{
-        padding: 30px 15px;
+        //padding: 30px 15px;
+        padding: 0 2px;
         min-height: calc(100% - 123px);
     }
 

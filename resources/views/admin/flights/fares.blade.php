@@ -63,19 +63,18 @@
         <div class="col-xs-12">
             <div class="text-right">
                 {{ Form::open(['url' => '/admin/flights/'.$flight->id.'/fares',
-                                'method' => 'post',
-                                'class' => 'pjax_fares_form form-inline'
-                                ])
-                }}
+                        'method' => 'post',
+                        'class' => 'pjax_fares_form form-inline'
+                ]) }}
                 {{ Form::select('fare_id', $avail_fares, null, [
                         'placeholder' => 'Select Fare',
                         'class' => 'ac-fare-dropdown form-control input-lg select2',
-
-                    ])
-                }}
-                {{ Form::button('<i class="glyphicon glyphicon-plus"></i> add',
-                                 ['type' => 'submit',
-                                  'class' => 'btn btn-success btn-s']) }}
+                        'style' => 'width: 400px;',
+                ]) }}
+                {{ Form::button('<i class="glyphicon glyphicon-plus"></i> add', [
+                        'type' => 'submit',
+                        'class' => 'btn btn-success btn-s']
+                ) }}
                 {{ Form::close() }}
             </div>
         </div>

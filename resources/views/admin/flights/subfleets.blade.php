@@ -46,6 +46,7 @@
                 {{ Form::select('subfleet_id', $avail_subfleets, null, [
                         'placeholder' => 'Select Subfleet',
                         'class' => 'select2 form-control input-lg',
+                        'style' => 'width: 400px;',
                     ])
                 }}&nbsp;
                 {{ Form::button('<i class="fas fa-plus"></i> add',

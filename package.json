@@ -30,6 +30,7 @@
     "moment": "^2.21.0",
     "paper-dashboard": "^1.1.0",
     "pe7-icon": "^1.0.4",
+    "pikaday": "^1.7.0",
     "pjax": "^0.2.5",
     "popper.js": "^1.14.1",
     "rivets": "^0.9.6",
