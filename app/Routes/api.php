@@ -7,6 +7,7 @@ Route::group([], function () {
     Route::get('acars', 'AcarsController@index');
     Route::get('pireps/{pirep_id}/acars/geojson', 'PirepController@acars_geojson');
 
+    Route::get('news', 'NewsController@index');
     Route::get('status', 'StatusController@status');
     Route::get('version', 'StatusController@status');
 });
