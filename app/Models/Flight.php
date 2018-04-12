@@ -6,6 +6,7 @@ use App\Interfaces\Model;
 use App\Models\Enums\Days;
 use App\Models\Traits\HashIdTrait;
 use App\Support\Units\Distance;
+use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use PhpUnitsOfMeasure\Exception\NonNumericValue;
 use PhpUnitsOfMeasure\Exception\NonStringUnitName;
@@ -26,6 +27,9 @@ use PhpUnitsOfMeasure\Exception\NonStringUnitName;
  * @property string     dpt_airport_id
  * @property string     arr_airport_id
  * @property string     alt_airport_id
+ * @property int        active
+ * @property Carbon     start_date
+ * @property Carbon     end_date
  */
 class Flight extends Model
 {
@@ -176,6 +180,20 @@ class Flight extends Model
         }
 
         return '';
+    }
+
+    /**
+     * Set the days parameter. If an array is passed, it's
+     * AND'd together to create the mask value
+     * @param array|int $val
+     */
+    public function setDaysAttribute($val): void
+    {
+        if (\is_array($val)) {
+            $val = Days::getDaysMask($val);
+        }
+
+        $this->attributes['days'] = $val;
     }
 
     /**

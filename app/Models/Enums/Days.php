@@ -40,6 +40,19 @@ class Days extends Enum
     ];
 
     /**
+     * Map the ISO8601 numeric today to day
+     */
+    public static $isoDayMap = [
+        1 => Days::MONDAY,
+        2 => Days::TUESDAY,
+        3 => Days::WEDNESDAY,
+        4 => Days::THURSDAY,
+        5 => Days::FRIDAY,
+        6 => Days::SATURDAY,
+        7 => Days::SUNDAY,
+    ];
+
+    /**
      * Create the masked value for the days of week
      * @param array $days
      * @return int|mixed
@@ -63,5 +76,15 @@ class Days extends Enum
     public static function in($mask, $day): bool
     {
         return ($mask & $day) === $day;
+    }
+
+    /**
+     * Does the mask contain today?
+     * @param $val
+     * @return bool
+     */
+    public static function isToday($val): bool
+    {
+        return static::in($val, static::$isoDayMap[(int) date('N')]);
     }
 }

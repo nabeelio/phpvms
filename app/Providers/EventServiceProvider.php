@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Cron\Nightly\SetActiveFlights;
 use App\Events\CronMonthly;
 use App\Events\CronNightly;
 use App\Events\CronWeekly;
@@ -29,6 +30,7 @@ class EventServiceProvider extends ServiceProvider
             ApplyExpenses::class,
             RecalculateBalances::class,
             PilotLeave::class,
+            SetActiveFlights::class,
         ],
 
         CronWeekly::class => [
@@ -42,6 +44,7 @@ class EventServiceProvider extends ServiceProvider
             AwardListener::class,
         ],
     ];
+
     protected $subscribe = [
         FinanceEvents::class,
         NotificationEvents::class,

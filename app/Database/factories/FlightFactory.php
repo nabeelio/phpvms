@@ -1,12 +1,11 @@
 <?php
+/**
+ * Create flights
+ */
 
 use Faker\Generator as Faker;
 
-# Match the list available in tests/data/*.yml
-
-$airlinesAvailable = [1];
-
-$factory->define(App\Models\Flight::class, function (Faker $faker) use ($airlinesAvailable) {
+$factory->define(App\Models\Flight::class, function (Faker $faker) {
     return [
         'id'             => null,
         'airline_id'     => function () {
@@ -26,13 +25,15 @@ $factory->define(App\Models\Flight::class, function (Faker $faker) use ($airline
         },
         'distance'       => $faker->numberBetween(0, 3000),
         'route'          => null,
-        'days'           => 0,
         'level'          => 0,
         'dpt_time'       => $faker->time(),
         'arr_time'       => $faker->time(),
         'flight_time'    => $faker->numberBetween(60, 360),
         'has_bid'        => false,
         'active'         => true,
+        'days'           => 0,
+        'start_date'     => null,
+        'end_date'       => null,
         'created_at'     => $faker->dateTimeBetween('-1 week', 'now'),
         'updated_at'     => function (array $flight) {
             return $flight['created_at'];

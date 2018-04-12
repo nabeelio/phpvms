@@ -149,6 +149,109 @@ class FlightTest extends TestCase
 
         $flight = Flight::findByDays([Days::WEDNESDAY, Days::THURSDAY])->first();
         $this->assertNull($flight);
+
+
+    }
+
+    /**
+     * Make sure that flights are marked as inactive when they're out of the start/end
+     * zones. also make sure that flights with a specific day of the week are only
+     * active on those days
+     */
+    public function testDayOfWeekActive(): void
+    {
+        $this->user = factory(App\Models\User::class)->create();
+
+        // Set it to Monday or Tuesday, depending on what today is
+        if (date('N') === 1) { // today is a monday
+            $days = Days::getDaysMask([Days::TUESDAY]);
+        } else {
+            $days = Days::getDaysMask([Days::MONDAY]);
+        }
+
+        factory(App\Models\Flight::class, 5)->create();
+        $flight = factory(App\Models\Flight::class)->create([
+            'days' => $days,
+            #'start_date' => Carbon\Carbon::now('UTC')->subDay(1),
+            #'end_date' => Carbon\Carbon::now('UTC')->addDays(1),
+        ]);
+
+        // Run the event that will enable/disable flights
+        $event = new \App\Events\CronNightly();
+        (new \App\Cron\Nightly\SetActiveFlights())->handle($event);
+
+        $res = $this->get('/api/flights');
+        $body = $res->json('data');
+
+        $flights = collect($body)->where('id', $flight->id)->first();
+        $this->assertNull($flights);
+    }
+
+    public function testStartEndDate(): void
+    {
+        $this->user = factory(App\Models\User::class)->create();
+
+        factory(App\Models\Flight::class, 5)->create();
+        $flight = factory(App\Models\Flight::class)->create([
+            'start_date' => Carbon\Carbon::now('UTC')->subDays(1),
+            'end_date'   => Carbon\Carbon::now('UTC')->addDays(1),
+        ]);
+
+        $flight_not_active = factory(App\Models\Flight::class)->create([
+            'start_date' => Carbon\Carbon::now('UTC')->subDays(10),
+            'end_date'   => Carbon\Carbon::now('UTC')->subDays(2),
+        ]);
+
+        // Run the event that will enable/disable flights
+        $event = new \App\Events\CronNightly();
+        (new \App\Cron\Nightly\SetActiveFlights())->handle($event);
+
+        $res = $this->get('/api/flights');
+        $body = $res->json('data');
+
+        $flights = collect($body)->where('id', $flight->id)->first();
+        $this->assertNotNull($flights);
+
+        $flights = collect($body)->where('id', $flight_not_active->id)->first();
+        $this->assertNull($flights);
+    }
+
+    public function testStartEndDateDayOfWeek(): void
+    {
+        $this->user = factory(App\Models\User::class)->create();
+
+        // Set it to Monday or Tuesday, depending on what today is
+        if (date('N') === 1) { // today is a monday
+            $days = Days::getDaysMask([Days::TUESDAY]);
+        } else {
+            $days = Days::getDaysMask([Days::MONDAY]);
+        }
+
+        factory(App\Models\Flight::class, 5)->create();
+        $flight = factory(App\Models\Flight::class)->create([
+            'start_date' => Carbon\Carbon::now('UTC')->subDays(1),
+            'end_date'   => Carbon\Carbon::now('UTC')->addDays(1),
+            'days'       => Days::$isoDayMap[date('N')],
+        ]);
+
+        $flight_not_active = factory(App\Models\Flight::class)->create([
+            'start_date' => Carbon\Carbon::now('UTC')->subDays(1),
+            'end_date'   => Carbon\Carbon::now('UTC')->addDays(1),
+            'days'       => $days,
+        ]);
+
+        // Run the event that will enable/disable flights
+        $event = new \App\Events\CronNightly();
+        (new \App\Cron\Nightly\SetActiveFlights())->handle($event);
+
+        $res = $this->get('/api/flights');
+        $body = $res->json('data');
+
+        $flights = collect($body)->where('id', $flight->id)->first();
+        $this->assertNotNull($flights);
+
+        $flights = collect($body)->where('id', $flight_not_active->id)->first();
+        $this->assertNull($flights);
     }
 
     /**
