@@ -71,7 +71,7 @@ class MetarTest extends TestCase
 
     }
 
-    public function testMetar2()
+    public function testMetarTrends()
     {
         $metar =
             'KJFK 070151Z 20005KT 10SM BKN100 08/07 A2970 RMK AO2 SLP056 T00780067';
@@ -84,5 +84,30 @@ class MetarTest extends TestCase
          */
 
         $parsed = Metar::parse($metar);
+    }
+
+    public function testMetarTrends2()
+    {
+        $metar = 'KAUS 092135Z 26018G25KT 8SM -TSRA BR SCT045CB BKN060 OVC080 30/21 A2992 RMK FQT LTGICCCCG OHD-W MOVG E  RAB25 TSB32 CB ALQDS  SLP132 P0035 T03020210 =';
+        $parsed = Metar::parse($metar);
+
+        $this->assertEquals('VFR', $parsed['category']);
+        $this->assertEquals(9.26, $parsed['wind_speed']);
+        $this->assertEquals(8, $parsed['visibility']['mi']);
+        $this->assertEquals(
+            'Scattered at 4500 feet, cumulonimbus; broken sky at 6000 feet; overcast sky at 8000 feet',
+            $parsed['clouds_report_ft']
+        );
+
+        $this->assertNotNull($parsed);
+    }
+
+    public function testMetarTrends3()
+    {
+        $metar = 'EHAM 041455Z 13012KT 9999 FEW034CB BKN040 05/01 Q1007 TEMPO 14017G28K 4000 SHRA =';
+        $metar = Metar::parse($metar);
+
+        $this->assertEquals('VFR', $metar['category']);
+        $this->assertNotNull($metar);
     }
 }

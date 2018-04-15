@@ -37,6 +37,7 @@ class Metar implements \ArrayAccess
      * Array of decoded result, by default all parameters is null.
      */
     public $result = [
+        'category'                 => null,
         'raw'                      => null,
         'taf'                      => null,
         'taf_flag'                 => null,
@@ -45,7 +46,6 @@ class Metar implements \ArrayAccess
         'observed_day'             => null,
         'observed_time'            => null,
         'observed_age'             => null,
-        'category'                 => null,
         'wind_speed'               => null,
         'wind_gust_speed'          => null,
         'wind_direction'           => null,
@@ -56,7 +56,6 @@ class Metar implements \ArrayAccess
         'varies_wind_max'          => null,
         'varies_wind_max_label'    => null,
         'visibility'               => null,
-        'visibility_nm'            => null,
         'visibility_report'        => null,
         'visibility_min'           => null,
         'visibility_min_direction' => null,
@@ -117,6 +116,7 @@ class Metar implements \ArrayAccess
      * Interpretation of weather conditions intensity codes.
      */
     private static $weather_intensity_codes = [
+        ''   => 'moderate',
         '-'  => 'light',
         '+'  => 'strong',
         'VC' => 'in the vicinity',
@@ -425,6 +425,7 @@ class Metar implements \ArrayAccess
 
             $this->part++;
         }
+
         // Delete null values from the TAF report
         if ($this->result['taf'] === true) {
             foreach ($this->result as $parameter => $value) {
@@ -433,14 +434,18 @@ class Metar implements \ArrayAccess
                 }
             }
         }
-
         // Finally determine if it's VFR or IFR conditions
         // https://www.aviationweather.gov/cva/help
-        if ($this->result['cavok']
-            || ($this->result['cloud_height']['ft'] > 3000 && $this->result['visibility_nm'] > 5)) {
+        if(array_key_exists('cavok', $this->result) && $this->result['cavok']) {
             $this->result['category'] = 'VFR';
         } else {
-            $this->result['category'] = 'IFR';
+            if(array_key_exists('cloud_height', $this->result) && array_key_exists('visibility', $this->result)) {
+                if ($this->result['cloud_height']['ft'] > 3000 && $this->result['visibility']['nmi'] > 5) {
+                    $this->result['category'] = 'VFR';
+                } else {
+                    $this->result['category'] = 'IFR';
+                }
+            }
         }
 
         return $this->result;
@@ -1325,7 +1330,7 @@ class Metar implements \ArrayAccess
 
         // Get all parts after trend part
         while ($this->part < \count($this->raw_parts)) {
-            if (preg_match($regexp, $this->raw_parts[$this->part], $found)) {
+            if (preg_match($r, $this->raw_parts[$this->part], $found)) {
                 // Get trend flag
                 if (isset($found[2]) && isset(static::$trends_flag_codes[$found[2]])) {
                     $trend['flag'] = $found[2];
@@ -1366,7 +1371,7 @@ class Metar implements \ArrayAccess
             $this->part++; // go to next part
 
             // Detect ends of this trend, if the METAR raw data observed
-            if (!empty($raw_parts) && (!isset($this->raw_parts[$this->part]) || preg_match($regexp, $this->raw_parts[$this->part]))) {
+            if (!empty($raw_parts) && (!isset($this->raw_parts[$this->part]) || preg_match($r, $this->raw_parts[$this->part]))) {
                 $this->part--; // return pointer to finded part
                 break;
             }
