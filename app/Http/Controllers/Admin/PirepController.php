@@ -190,6 +190,8 @@ class PirepController extends Controller
         $this->pirepRepo->pushCriteria($criterea);
 
         $pireps = $this->pirepRepo
+            ->findWhere(['status', '!=', PirepState::CANCELLED])
+            ->findWhere(['status', '!=', PirepState::DRAFT])
             ->orderBy('created_at', 'desc')
             ->paginate();
 
@@ -284,7 +286,6 @@ class PirepController extends Controller
         $pirep = $this->pirepRepo->findWithoutFail($id);
         if (empty($pirep)) {
             Flash::error('Pirep not found');
-
             return redirect(route('admin.pireps.index'));
         }
 
@@ -328,7 +329,6 @@ class PirepController extends Controller
 
         if (empty($pirep)) {
             Flash::error('Pirep not found');
-
             return redirect(route('admin.pireps.index'));
         }
 
