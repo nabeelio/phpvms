@@ -2027,7 +2027,6 @@ textarea.form-control:focus, textarea.form-control:active {
 .navbar-default .navbar-nav > li > a:not(.btn):focus {
   background-color: transparent;
   border-radius: 3px;
-  color: #067ec1;
   opacity: 1;
   filter: alpha(opacity=100);
 }

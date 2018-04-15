@@ -75,7 +75,7 @@
         > li > a:not(.btn):focus {
             background-color: transparent;
             border-radius: 3px;
-            color: $info-color;
+            //color: $info-color;
             @include opacity(1);
         }
 
