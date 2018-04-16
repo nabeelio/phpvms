@@ -78,7 +78,7 @@ abstract class Repository extends \Prettus\Repository\Eloquent\BaseRepository
     }
 
     /**
-     * Find records with a WHERE clause but also sort them
+     * Find records where values don't match a list but sort the rest
      * @param string $col
      * @param array  $values
      * @param string $sort_by

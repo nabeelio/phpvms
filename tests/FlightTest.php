@@ -163,7 +163,7 @@ class FlightTest extends TestCase
         $this->user = factory(App\Models\User::class)->create();
 
         // Set it to Monday or Tuesday, depending on what today is
-        if (date('N') === 1) { // today is a monday
+        if (date('N') === '1') { // today is a monday
             $days = Days::getDaysMask([Days::TUESDAY]);
         } else {
             $days = Days::getDaysMask([Days::MONDAY]);
