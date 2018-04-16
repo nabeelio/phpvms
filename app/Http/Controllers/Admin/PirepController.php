@@ -190,9 +190,7 @@ class PirepController extends Controller
         $this->pirepRepo->pushCriteria($criterea);
 
         $pireps = $this->pirepRepo
-            ->findWhere(['status', '!=', PirepState::CANCELLED])
-            ->findWhere(['status', '!=', PirepState::DRAFT])
-            ->orderBy('created_at', 'desc')
+            ->whereNotInOrder('status', [PirepState::CANCELLED, PirepState::DRAFT], 'created_at', 'desc')
             ->paginate();
 
         return view('admin.pireps.index', [
