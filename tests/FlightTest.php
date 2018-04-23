@@ -163,7 +163,7 @@ class FlightTest extends TestCase
         $this->user = factory(App\Models\User::class)->create();
 
         // Set it to Monday or Tuesday, depending on what today is
-        if (date('N') === 1) { // today is a monday
+        if (date('N') === '1') { // today is a monday
             $days = Days::getDaysMask([Days::TUESDAY]);
         } else {
             $days = Days::getDaysMask([Days::MONDAY]);
@@ -172,8 +172,6 @@ class FlightTest extends TestCase
         factory(App\Models\Flight::class, 5)->create();
         $flight = factory(App\Models\Flight::class)->create([
             'days' => $days,
-            #'start_date' => Carbon\Carbon::now('UTC')->subDay(1),
-            #'end_date' => Carbon\Carbon::now('UTC')->addDays(1),
         ]);
 
         // Run the event that will enable/disable flights
@@ -221,7 +219,7 @@ class FlightTest extends TestCase
         $this->user = factory(App\Models\User::class)->create();
 
         // Set it to Monday or Tuesday, depending on what today is
-        if (date('N') === 1) { // today is a monday
+        if (date('N') === '1') { // today is a monday
             $days = Days::getDaysMask([Days::TUESDAY]);
         } else {
             $days = Days::getDaysMask([Days::MONDAY]);

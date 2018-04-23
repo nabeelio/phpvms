@@ -76,4 +76,29 @@ abstract class Repository extends \Prettus\Repository\Eloquent\BaseRepository
             return $q;
         });
     }
+
+    /**
+     * Find records where values don't match a list but sort the rest
+     * @param string $col
+     * @param array  $values
+     * @param string $sort_by
+     * @param string $order_by
+     * @return $this
+     */
+    public function whereNotInOrder($col, $values, $sort_by, $order_by = 'asc')
+    {
+        return $this->scopeQuery(function ($query) use ($col, $values, $sort_by, $order_by) {
+            $q = $query->whereNotIn($col, $values);
+            # See if there are multi-column sorts
+            if (\is_array($sort_by)) {
+                foreach ($sort_by as $key => $sort) {
+                    $q = $q->orderBy($key, $sort);
+                }
+            } else {
+                $q = $q->orderBy($sort_by, $order_by);
+            }
+
+            return $q;
+        });
+    }
 }
