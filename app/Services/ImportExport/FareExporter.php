@@ -27,7 +27,7 @@ class FareExporter extends ImportExport
      * @param Fare $fare
      * @return array
      */
-    public function export(Fare $fare): array
+    public function export($fare): array
     {
         $ret = [];
         foreach(self::$columns as $column) {

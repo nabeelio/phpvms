@@ -30,7 +30,7 @@ class ExpenseExporter extends ImportExport
      * @param Expense $expense
      * @return array
      */
-    public function export(Expense $expense): array
+    public function export($expense): array
     {
         $ret = [];
 

@@ -25,6 +25,26 @@ class ImportExport
     public static $columns = [];
 
     /**
+     * @param mixed $row
+     * @return array
+     */
+    public function export($row): array
+    {
+        throw new \RuntimeException('export not implemented');
+    }
+
+    /**
+     * @param array $row
+     * @param mixed $index
+     * @return bool
+     * @throws \RuntimeException
+     */
+    public function import(array $row, $index): bool
+    {
+        throw new \RuntimeException('import not implemented');
+    }
+
+    /**
      * Get the airline from the ICAO. Create it if it doesn't exist
      * @param $code
      * @return \Illuminate\Database\Eloquent\Model

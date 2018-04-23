@@ -28,7 +28,7 @@ class FlightExporter extends ImportExport
      * @param Flight $flight
      * @return array
      */
-    public function export(Flight $flight): array
+    public function export($flight): array
     {
         $ret = [];
         foreach(self::$columns as $column) {

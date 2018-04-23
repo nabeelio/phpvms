@@ -20,7 +20,7 @@ class Money
     public static $subunit_multiplier;
 
     /**
-     * @param $amount
+     * @param mixed $amount
      * @return MoneyBase
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
@@ -32,7 +32,7 @@ class Money
 
     /**
      * Create from a dollar amount
-     * @param $amount
+     * @param mixed $amount
      * @return Money
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
@@ -46,7 +46,7 @@ class Money
 
     /**
      * Convert a whole unit into it's subunit, e,g: dollar to cents
-     * @param $amount
+     * @param mixed $amount
      * @return float|int
      */
     public static function convertToSubunit($amount)
@@ -72,7 +72,7 @@ class Money
 
     /**
      * Money constructor.
-     * @param $amount
+     * @param mixed $amount
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
      */
@@ -143,7 +143,7 @@ class Money
 
     /**
      * Add an amount
-     * @param $amount
+     * @param mixed $amount
      * @return Money
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
@@ -160,7 +160,7 @@ class Money
     }
 
     /**
-     * @param $percent
+     * @param mixed $percent
      * @return $this
      * @throws \OutOfBoundsException
      * @throws \InvalidArgumentException

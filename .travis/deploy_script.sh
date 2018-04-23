@@ -46,6 +46,7 @@ if [ "$TRAVIS" = "true" ]; then
     rm -rf .sass-cache
     rm -rf .idea phpvms.iml .travis .dpl
     rm -rf .phpstorm.meta.php _ide_helper.php phpunit.xml Procfile
+    rm -f phpstan.neon
 
     # remove large sized files
     rm -rf .git

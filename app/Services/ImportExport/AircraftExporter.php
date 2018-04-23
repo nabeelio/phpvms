@@ -29,7 +29,7 @@ class AircraftExporter extends ImportExport
      * @param Aircraft $aircraft
      * @return array
      */
-    public function export(Aircraft $aircraft): array
+    public function export($aircraft): array
     {
         $ret = [];
         foreach(self::$columns as $column) {

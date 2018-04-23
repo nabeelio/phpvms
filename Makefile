@@ -52,7 +52,7 @@ update: build
 	@echo "Done!"
 
 .PHONY: reset
-reset: clean
+reset: cleanapp/Models/Traits/JournalTrait.php
 	@php $(COMPOSER) dump-autoload
 	@make reload-db
 
@@ -71,6 +71,10 @@ tests: test
 test:
 	#php artisan database:create --reset
 	vendor/bin/phpunit --debug --verbose
+
+.PHONY:
+phpstan:
+	vendor/bin/phpstan analyse -c phpstan.neon -v --level 2 app
 
 .PHONY: replay-acars
 replay-acars:

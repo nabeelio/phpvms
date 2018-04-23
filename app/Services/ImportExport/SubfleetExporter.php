@@ -29,7 +29,7 @@ class SubfleetExporter extends ImportExport
      * @param Subfleet $subfleet
      * @return array
      */
-    public function export(Subfleet $subfleet): array
+    public function export($subfleet): array
     {
         $ret = [];
         foreach(self::$columns as $column) {

@@ -48,7 +48,9 @@
         "mockery/mockery": "0.9.*",
         "filp/whoops": "~2.0",
         "bpocallaghan/generators": "5.0.1",
-        "nunomaduro/collision": "^2.0"
+        "nunomaduro/collision": "^2.0",
+        "phpstan/phpstan": "^0.9.2",
+        "weebly/phpstan-laravel": "^1.1"
     },
     "autoload": {
         "classmap": [

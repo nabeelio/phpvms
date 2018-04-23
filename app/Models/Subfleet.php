@@ -8,13 +8,14 @@ use App\Models\Traits\ExpensableTrait;
 
 /**
  * Class Subfleet
- * @property int    id
- * @property string type
- * @property string name
- * @property string ground_handling_multiplier
- * @property Fare[] fares
- * @property float  cost_block_hour
- * @property float  cost_delay_minute
+ * @property int     id
+ * @property string  type
+ * @property string  name
+ * @property string  ground_handling_multiplier
+ * @property Fare[]  fares
+ * @property float   cost_block_hour
+ * @property float   cost_delay_minute
+ * @property Airline airline
  * @package App\Models
  */
 class Subfleet extends Model

@@ -27,7 +27,7 @@ class AirportExporter extends ImportExport
      * @param Airport $airport
      * @return array
      */
-    public function export(Airport $airport): array
+    public function export($airport): array
     {
         $ret = [];
         foreach(self::$columns as $column) {
