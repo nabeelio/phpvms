@@ -3,9 +3,11 @@
 namespace App\Services;
 
 use App\Exceptions\BidExists;
+use App\Interfaces\Service;
+use App\Models\Bid;
 use App\Models\Flight;
+use App\Models\FlightFieldValue;
 use App\Models\User;
-use App\Models\UserBid;
 use App\Repositories\FlightRepository;
 use App\Repositories\NavdataRepository;
 use Log;
@@ -14,15 +16,27 @@ use Log;
  * Class FlightService
  * @package App\Services
  */
-class FlightService extends BaseService
+class FlightService extends Service
 {
-    protected $flightRepo, $navDataRepo, $userSvc;
+    private $fareSvc,
+            $flightRepo,
+            $navDataRepo,
+            $userSvc;
 
+    /**
+     * FlightService constructor.
+     * @param FareService       $fareSvc
+     * @param FlightRepository  $flightRepo
+     * @param NavdataRepository $navdataRepo
+     * @param UserService       $userSvc
+     */
     public function __construct(
+        FareService $fareSvc,
         FlightRepository $flightRepo,
         NavdataRepository $navdataRepo,
         UserService $userSvc
     ) {
+        $this->fareSvc = $fareSvc;
         $this->flightRepo = $flightRepo;
         $this->navDataRepo = $navdataRepo;
         $this->userSvc = $userSvc;
@@ -41,7 +55,7 @@ class FlightService extends BaseService
         }
 
         return $this->flightRepo
-                ->whereOrder($where, 'flight_number', 'asc');
+            ->whereOrder($where, 'flight_number', 'asc');
     }
 
     /**
@@ -52,7 +66,6 @@ class FlightService extends BaseService
      */
     public function filterSubfleets($user, $flight)
     {
-
         $subfleets = $flight->subfleets;
 
         /**
@@ -70,8 +83,8 @@ class FlightService extends BaseService
         /**
          * Only allow aircraft that are at the current departure airport
          */
-        if(setting('pireps.only_aircraft_at_dep_airport', false)) {
-            foreach($subfleets as $subfleet) {
+        if (setting('pireps.only_aircraft_at_dpt_airport', false)) {
+            foreach ($subfleets as $subfleet) {
                 $subfleet->aircraft = $subfleet->aircraft->filter(
                     function ($aircraft, $i) use ($flight) {
                         if ($aircraft->airport_id === $flight->dpt_airport_id) {
@@ -92,11 +105,31 @@ class FlightService extends BaseService
      * @param Flight $flight
      * @throws \Exception
      */
-    public function deleteFlight(Flight $flight)
+    public function deleteFlight(Flight $flight): void
     {
         $where = ['flight_id' => $flight->id];
-        UserBid::where($where)->delete();
+        Bid::where($where)->delete();
         $flight->delete();
+    }
+
+    /**
+     * Update any custom PIREP fields
+     * @param Flight $flight
+     * @param array  $field_values
+     */
+    public function updateCustomFields(Flight $flight, array $field_values): void
+    {
+        foreach ($field_values as $fv) {
+            FlightFieldValue::updateOrCreate(
+                [
+                    'flight_id' => $flight->id,
+                    'name'     => $fv['name'],
+                ],
+                [
+                    'value'  => $fv['value']
+                ]
+            );
+        }
     }
 
     /**
@@ -106,11 +139,11 @@ class FlightService extends BaseService
      */
     public function getRoute(Flight $flight)
     {
-        if(!$flight->route) {
+        if (!$flight->route) {
             return collect();
         }
 
-        $route_points = array_map(function($point) {
+        $route_points = array_map(function ($point) {
             return strtoupper($point);
         }, explode(' ', $flight->route));
 
@@ -118,7 +151,7 @@ class FlightService extends BaseService
 
         // Put it back into the original order the route is in
         $return_points = [];
-        foreach($route_points as $rp) {
+        foreach ($route_points as $rp) {
             $return_points[] = $route->where('id', $rp)->first();
         }
 
@@ -128,39 +161,39 @@ class FlightService extends BaseService
     /**
      * Allow a user to bid on a flight. Check settings and all that good stuff
      * @param Flight $flight
-     * @param User $user
-     * @return UserBid|null
+     * @param User   $user
+     * @return Bid|null
      * @throws \App\Exceptions\BidExists
      */
     public function addBid(Flight $flight, User $user)
     {
         # If it's already been bid on, then it can't be bid on again
-        if($flight->has_bid && setting('bids.disable_flight_on_bid')) {
-            Log::info($flight->id . ' already has a bid, skipping');
+        if ($flight->has_bid && setting('bids.disable_flight_on_bid')) {
+            Log::info($flight->id.' already has a bid, skipping');
             throw new BidExists();
         }
 
         # See if we're allowed to have multiple bids or not
-        if(!setting('bids.allow_multiple_bids')) {
-            $user_bids = UserBid::where(['user_id' => $user->id])->first();
-            if($user_bids) {
-                Log::info('User "' . $user->id . '" already has bids, skipping');
+        if (!setting('bids.allow_multiple_bids')) {
+            $user_bids = Bid::where(['user_id' => $user->id])->first();
+            if ($user_bids) {
+                Log::info('User "'.$user->id.'" already has bids, skipping');
                 throw new BidExists();
             }
         }
 
         # See if this user has this flight bid on already
         $bid_data = [
-            'user_id' => $user->id,
+            'user_id'   => $user->id,
             'flight_id' => $flight->id
         ];
 
-        $user_bid = UserBid::where($bid_data)->first();
-        if($user_bid) {
+        $user_bid = Bid::where($bid_data)->first();
+        if ($user_bid) {
             return $user_bid;
         }
 
-        $user_bid = UserBid::create($bid_data);
+        $user_bid = Bid::create($bid_data);
 
         $flight->has_bid = true;
         $flight->save();
@@ -171,20 +204,20 @@ class FlightService extends BaseService
     /**
      * Remove a bid from a given flight
      * @param Flight $flight
-     * @param User $user
+     * @param User   $user
      */
     public function removeBid(Flight $flight, User $user)
     {
-        $user_bid = UserBid::where([
+        $user_bid = Bid::where([
             'flight_id' => $flight->id, 'user_id' => $user->id
         ])->first();
 
-        if($user_bid) {
+        if ($user_bid) {
             $user_bid->forceDelete();
         }
 
         # Only flip the flag if there are no bids left for this flight
-        if(!UserBid::where('flight_id', $flight->id)->exists()) {
+        if (!Bid::where('flight_id', $flight->id)->exists()) {
             $flight->has_bid = false;
             $flight->save();
         }

@@ -5,11 +5,12 @@ namespace App\Http\Controllers\Admin;
 use App\Facades\Utils;
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\UpdateUserRequest;
-use App\Models\Airline;
-use App\Models\Airport;
+use App\Interfaces\Controller;
 use App\Models\Rank;
 use App\Models\Role;
 use App\Models\User;
+use App\Repositories\AirlineRepository;
+use App\Repositories\AirportRepository;
 use App\Repositories\PirepRepository;
 use App\Repositories\UserRepository;
 use App\Services\UserService;
@@ -22,21 +23,35 @@ use Log;
 use Prettus\Repository\Exceptions\RepositoryException;
 use Response;
 
-class UserController extends BaseController
+/**
+ * Class UserController
+ * @package App\Http\Controllers\Admin
+ */
+class UserController extends Controller
 {
-    private $pirepRepo,
+    private $airlineRepo,
+            $airportRepo,
+            $pirepRepo,
             $userRepo,
             $userSvc;
 
     /**
      * UserController constructor.
-     * @param UserRepository $userRepo
+     * @param AirlineRepository $airlineRepo
+     * @param AirportRepository $airportRepo
+     * @param PirepRepository   $pirepRepo
+     * @param UserRepository    $userRepo
+     * @param UserService       $userSvc
      */
     public function __construct(
+        AirlineRepository $airlineRepo,
+        AirportRepository $airportRepo,
         PirepRepository $pirepRepo,
         UserRepository $userRepo,
         UserService $userSvc
     ) {
+        $this->airlineRepo = $airlineRepo;
+        $this->airportRepo = $airportRepo;
         $this->pirepRepo = $pirepRepo;
         $this->userSvc = $userSvc;
         $this->userRepo = $userRepo;
@@ -56,7 +71,7 @@ class UserController extends BaseController
         }
 
         return view('admin.users.index', [
-            'users' => $users,
+            'users'   => $users,
             'country' => new \League\ISO3166\ISO3166(),
         ]);
     }
@@ -67,8 +82,18 @@ class UserController extends BaseController
      */
     public function create()
     {
-        return view('admin.user.create', [
-            'airlines' => Airline::all()->pluck('name', 'id'),
+        $airlines = $this->airlineRepo->selectBoxList();
+        $airports = $this->airportRepo->selectBoxList(false, setting('pilots.home_hubs_only'));
+
+        return view('admin.users.create', [
+            'user'      => null,
+            'pireps'    => null,
+            'airlines'  => $airlines,
+            'timezones' => Timezonelist::toArray(),
+            'country'   => new \League\ISO3166\ISO3166(),
+            'airports'  => $airports,
+            'ranks'     => Rank::all()->pluck('name', 'id'),
+            'roles'     => Role::all()->pluck('name', 'id'),
         ]);
     }
 
@@ -98,6 +123,7 @@ class UserController extends BaseController
 
         if (empty($user)) {
             Flash::error('User not found');
+
             return redirect(route('admin.users.index'));
         }
 
@@ -105,15 +131,18 @@ class UserController extends BaseController
             ->whereOrder(['user_id' => $id], 'created_at', 'desc')
             ->paginate();
 
+        $airlines = $this->airlineRepo->selectBoxList();
+        $airports = $this->airportRepo->selectBoxList(false, setting('pilots.home_hubs_only'));
+
         return view('admin.users.show', [
-            'user' => $user,
-            'pireps' => $pireps,
-            'airlines' => Airline::all(),
+            'user'      => $user,
+            'pireps'    => $pireps,
+            'airlines'  => $airlines,
             'timezones' => Timezonelist::toArray(),
-            'country' => new \League\ISO3166\ISO3166(),
-            'airports' => Airport::all()->pluck('icao', 'id'),
-            'ranks' => Rank::all()->pluck('name', 'id'),
-            'roles' => Role::all()->pluck('name', 'id'),
+            'country'   => new \League\ISO3166\ISO3166(),
+            'airports'  => $airports,
+            'ranks'     => Rank::all()->pluck('name', 'id'),
+            'roles'     => Role::all()->pluck('name', 'id'),
         ]);
     }
 
@@ -128,6 +157,7 @@ class UserController extends BaseController
 
         if (empty($user)) {
             Flash::error('User not found');
+
             return redirect(route('admin.users.index'));
         }
 
@@ -140,21 +170,24 @@ class UserController extends BaseController
                 return [strtolower($item['alpha2']) => $item['name']];
             });
 
+        $airlines = $this->airlineRepo->selectBoxList();
+        $airports = $this->airportRepo->selectBoxList(false, setting('pilots.home_hubs_only'));
+
         return view('admin.users.edit', [
-            'user' => $user,
-            'pireps' => $pireps,
+            'user'      => $user,
+            'pireps'    => $pireps,
             'countries' => $countries,
             'timezones' => Timezonelist::toArray(),
-            'airports' => Airport::all()->pluck('icao', 'id'),
-            'airlines' => Airline::all()->pluck('name', 'id'),
-            'ranks' => Rank::all()->pluck('name', 'id'),
-            'roles' => Role::all()->pluck('name', 'id'),
+            'airports'  => $airports,
+            'airlines'  => $airlines,
+            'ranks'     => Rank::all()->pluck('name', 'id'),
+            'roles'     => Role::all()->pluck('name', 'id'),
         ]);
     }
 
     /**
      * Update the specified User in storage.
-     * @param int $id
+     * @param int               $id
      * @param UpdateUserRequest $request
      * @return Response
      * @throws \Prettus\Validator\Exceptions\ValidatorException
@@ -165,31 +198,48 @@ class UserController extends BaseController
 
         if (empty($user)) {
             Flash::error('User not found');
+
             return redirect(route('admin.users.index'));
         }
 
         $req_data = $request->all();
-        if(!$request->filled('password')) {
+        if (!$request->filled('password')) {
             unset($req_data['password']);
         } else {
             $req_data['password'] = Hash::make($req_data['password']);
         }
 
+        if ($request->filled('avatar_upload')) {
+            /**
+             * @var $file  \Illuminate\Http\UploadedFile
+             */
+            $file = $request->file('avatar_upload');
+            $file_path = $file->storeAs(
+                'avatars',
+                str_slug($file->getClientOriginalName()),
+                config('filesystems.public_files')
+            );
+
+            $user->avatar = $file_path;
+        }
+
+
         $original_user_state = $user->state;
 
         $user = $this->userRepo->update($req_data, $id);
 
-        if($original_user_state !== $user->state) {
+        if ($original_user_state !== $user->state) {
             $this->userSvc->changeUserState($user, $original_user_state);
         }
 
         # Delete all of the roles and then re-attach the valid ones
-        DB::table('role_user')->where('user_id',$id)->delete();
+        DB::table('role_user')->where('user_id', $id)->delete();
         foreach ($request->input('roles') as $key => $value) {
             $user->attachRole($value);
         }
 
         Flash::success('User updated successfully.');
+
         return redirect(route('admin.users.index'));
     }
 
@@ -204,30 +254,33 @@ class UserController extends BaseController
 
         if (empty($user)) {
             Flash::error('User not found');
+
             return redirect(route('admin.users.index'));
         }
 
         $this->userRepo->delete($id);
 
         Flash::success('User deleted successfully.');
+
         return redirect(route('admin.users.index'));
     }
 
     /**
      * Regenerate the user's API key
-     * @param $id
+     * @param         $id
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function regen_apikey($id, Request $request)
     {
         $user = User::find($id);
-        Log::info('Regenerating API key "' . $user->pilot_id . '"');
+        Log::info('Regenerating API key "'.$user->pilot_id.'"');
 
         $user->api_key = Utils::generateApiKey();
         $user->save();
 
         flash('New API key generated!')->success();
+
         return redirect(route('admin.users.edit', ['id' => $id]));
     }
 }

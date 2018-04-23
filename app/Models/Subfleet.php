@@ -2,71 +2,78 @@
 
 namespace App\Models;
 
+use App\Interfaces\Model;
+use App\Models\Enums\AircraftStatus;
+use App\Models\Traits\ExpensableTrait;
+
 /**
  * Class Subfleet
+ * @property int     id
+ * @property string  type
+ * @property string  name
+ * @property string  ground_handling_multiplier
+ * @property Fare[]  fares
+ * @property float   cost_block_hour
+ * @property float   cost_delay_minute
+ * @property Airline airline
  * @package App\Models
  */
-class Subfleet extends BaseModel
+class Subfleet extends Model
 {
+    use ExpensableTrait;
+
     public $table = 'subfleets';
-    protected $dates = ['deleted_at'];
 
     public $fillable = [
         'airline_id',
-        'name',
         'type',
+        'name',
+        'turn_time',
         'fuel_type',
+        'ground_handling_multiplier',
         'cargo_capacity',
         'fuel_capacity',
         'gross_weight',
     ];
 
-    /**
-     * The attributes that should be casted to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'airline_id' => 'integer',
-        'fuel_type' => 'integer',
-        'cargo_capacity' => 'double',
-        'fuel_capacity' => 'double',
-        'gross_weight' => 'double',
+    public $casts = [
+        'airline_id'                 => 'integer',
+        'turn_time'                  => 'integer',
+        'cost_block_hour'            => 'float',
+        'cost_delay_minute'          => 'float',
+        'fuel_type'                  => 'integer',
+        'ground_handling_multiplier' => 'float',
+        'cargo_capacity'             => 'float',
+        'fuel_capacity'              => 'float',
+        'gross_weight'               => 'float',
     ];
 
     public static $rules = [
-        'name' => 'required',
-        'type' => 'required',
+        'type'                       => 'required',
+        'name'                       => 'required',
+        'ground_handling_multiplier' => 'nullable|numeric',
     ];
 
     /**
-     * Modify some fields on the fly. Make sure the subfleet
-     * names don't have spaces in them.
+     * @param $type
      */
-    public static function boot()
+    public function setTypeAttribute($type)
     {
-        parent::boot();
-
-        static::creating(function ($model) {
-            if (filled($model->type)) {
-                $model->type = str_replace(' ', '_', $model->type);
-            }
-        });
-
-        static::updating(function ($model) {
-            if (filled($model->type)) {
-                $model->type = str_replace(' ', '_', $model->type);
-            }
-        });
+        $type = str_replace([' ', ','], array('-', ''), $type);
+        $this->attributes['type'] = $type;
     }
 
     /**
      * Relationships
      */
 
+    /**
+     * @return $this
+     */
     public function aircraft()
     {
-        return $this->hasMany(Aircraft::class, 'subfleet_id');
+        return $this->hasMany(Aircraft::class, 'subfleet_id')
+            ->where('status', AircraftStatus::ACTIVE);
     }
 
     public function airline()
@@ -77,17 +84,17 @@ class Subfleet extends BaseModel
     public function fares()
     {
         return $this->belongsToMany(Fare::class, 'subfleet_fare')
-                    ->withPivot('price', 'cost', 'capacity');
+            ->withPivot('price', 'cost', 'capacity');
     }
 
     public function flights()
     {
-        return $this->belongsToMany(Flight::class, 'subfleet_flight');
+        return $this->belongsToMany(Flight::class, 'flight_subfleet');
     }
 
     public function ranks()
     {
         return $this->belongsToMany(Rank::class, 'subfleet_rank')
-                    ->withPivot('acars_pay', 'manual_pay');
+            ->withPivot('acars_pay', 'manual_pay');
     }
 }

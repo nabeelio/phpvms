@@ -2,12 +2,26 @@
 
 namespace App\Models;
 
-class Setting extends BaseModel
+use App\Interfaces\Model;
+
+/**
+ * Class Setting
+ * @property string id
+ * @property string name
+ * @property string key
+ * @property string value
+ * @property string group
+ * @property string type
+ * @property string options
+ * @property string description
+ * @package App\Models
+ */
+class Setting extends Model
 {
     public $table = 'settings';
     public $incrementing = false;
 
-    public $fillable = [
+    protected $fillable = [
         'name',
         'key',
         'value',
@@ -33,29 +47,21 @@ class Setting extends BaseModel
     }
 
     /**
-     * Callbacks
+     * Force formatting the key
+     * @param $id
      */
-    protected static function boot()
+    public function setIdAttribute($id): void
     {
-        parent::boot();
-        static::creating(function (Setting $model) {
-            if (!empty($model->id)) {
-                $model->id = Setting::formatKey($model->id);
-            }
-        });
+        $id = strtolower($id);
+        $this->attributes['id'] = self::formatKey($id);
     }
 
     /**
-     * Override the casting mechanism
-     * @param string $key
-     * @return mixed|string
+     * Set the key to lowercase
+     * @param $key
      */
-    /*protected function getCastType($key)
+    public function setKeyAttribute($key): void
     {
-        if ($key === 'value' && !empty($this->type)) {
-            return $this->type;
-        } else {
-            return parent::getCastType($key);
-        }
-    }*/
+        $this->attributes['key'] = strtolower($key);
+    }
 }

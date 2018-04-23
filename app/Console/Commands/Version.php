@@ -2,10 +2,14 @@
 
 namespace App\Console\Commands;
 
-use App\Console\BaseCommand;
+use App\Console\Command;
 use Symfony\Component\Yaml\Yaml;
 
-class Version extends BaseCommand
+/**
+ * Class Version
+ * @package App\Console\Commands
+ */
+class Version extends Command
 {
     protected $signature = 'phpvms:version {--write} {--base-only}';
 
@@ -19,7 +23,6 @@ class Version extends BaseCommand
 
         # prefix with the date in YYMMDD format
         $date = date('ymd');
-
         $version = $date.'-'.$version;
 
         return $version;
@@ -34,24 +37,24 @@ class Version extends BaseCommand
         $version_file = config_path('version.yml');
         $cfg = Yaml::parse(file_get_contents($version_file));
 
-        if($this->option('write')) {
-            $version = $this->createVersionNumber($cfg);
-            $cfg['build']['number'] = $version;
+        # Get the current build id
+        $build_number = $this->createVersionNumber($cfg);
+        $cfg['build']['number'] = $build_number;
+
+        $c = $cfg['current'];
+        $version = "v{$c['major']}.{$c['minor']}.{$c['patch']}-{$build_number}";
+
+        if ($this->option('write')) {
             file_put_contents($version_file, Yaml::dump($cfg, 4, 2));
         }
 
         # Only show the major.minor.patch version
-        if($this->option('base-only')) {
-            $version = 'v'.$cfg['current']['major'] . '.'
-                       .$cfg['current']['minor'] . '.'
-                       .$cfg['current']['patch'];
-
-            print $version;
-        } else {
-            $this->call('version:show', [
-                '--format' => 'compact',
-                '--suppress-app-name' => true
-            ]);
+        if ($this->option('base-only')) {
+            $version = 'v'.$cfg['current']['major'].'.'
+                .$cfg['current']['minor'].'.'
+                .$cfg['current']['patch'];
         }
+
+        print $version."\n";
     }
 }

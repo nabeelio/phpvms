@@ -13,20 +13,55 @@ return [
         'url' => '$SITE_URL$',
 
         # Don't forget to change these when live
-        'env' => 'dev',
+        'env' => 'local',
         'debug' => true,
     ],
 
     # overrides phpvms.php
     'phpvms' => [
-        'skin' => 'default',
-        'vacentral_api_key' => '',
+        /**
+         * The ISO "Currency Code" to use, the list is in config/money.php
+         *
+         * Note, do not change this after you've set it, unless you don't
+         * care that the currencies aren't "exchanged" into the new format
+         */
+        'currency' => 'USD',
     ],
+
+    # This is the name of the active theme
+    'themes' => [
+        'default'   => 'default',
+    ],
+
+    'vacentral' => [
+        'api_key' => '',
+    ],
+
+    #
+    # Other settings and configuration you might not need to modify
+    #
 
     # overrides cache.php
     'cache' => [
         'default' => '$CACHE_DRIVER$',
         'prefix' => 'phpvms_',
+    ],
+
+    /*
+     * You can get a captcha key from here:
+     * https://www.google.com/recaptcha/admin
+     */
+    'captcha' => [
+        'enabled' => false,
+
+        'sitekey' => '',
+        'secret' => '',
+
+        # Attributes can be found here:
+        # https://developers.google.com/recaptcha/docs/display#render_param
+        'attributes' => [
+            'data-theme' => 'light',
+        ],
     ],
 
     # overrides database.php
@@ -53,7 +88,7 @@ return [
 
     # overrides mail.php
     'mail' => [
-        'driver' => 'smtp',
+        'driver' => 'mail',
         'host' => '',
         'port' => 587,
         'from' => [

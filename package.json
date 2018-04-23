@@ -1,39 +1,47 @@
 {
   "private": true,
   "scripts": {
-    "dev": "npm run development",
-    "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "watch": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --watch --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "watch-poll": "npm run watch -- --watch-poll",
-    "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "prod": "npm run production",
-    "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
+    "dev": "yarn run development",
+    "development": "NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "watch": "NODE_ENV=development node_modules/webpack/bin/webpack.js --watch --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "watch-poll": "yarn run watch -- --watch-poll",
+    "hot": "NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "prod": "yarns run production",
+    "production": "NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
   },
   "dependencies": {
     "Leaflet.Geodesic": "git+https://git@github.com/henrythasler/Leaflet.Geodesic.git",
-    "axios": "^0.17",
+    "animate.css": "^3.6.1",
+    "axios": "^0.17.1",
     "bootstrap-sass": "^3.3.7",
     "bootstrap3": "^3.3.5",
-    "cross-env": "^5.1.3",
+    "cross-env": "^5.1.4",
     "eonasdan-bootstrap-datetimepicker": "^4.17.47",
     "flag-icon-css": "^2.9.0",
     "icheck": "^1.0.2",
     "jquery": "^3.3.1",
     "jquery-pjax": "^2.0.1",
-    "laravel-mix": "^1.0",
+    "laravel-mix": "^2.1",
     "leaflet": "^1.3.1",
     "leaflet-ajax": "2.1.0",
     "leaflet-rotatedmarker": "^0.2.0",
     "lodash": "4.17.4",
     "marked": "0.3.9",
-    "moment": "^2.20.1",
+    "moment": "^2.21.0",
+    "paper-dashboard": "^1.1.0",
+    "pe7-icon": "^1.0.4",
+    "pikaday": "^1.7.0",
     "pjax": "^0.2.5",
-    "popper.js": "^1.13.0",
-    "rivets": "0.9.6",
+    "popper.js": "^1.14.1",
+    "rivets": "^0.9.6",
     "select2": "^4.0.5",
+    "ssri": "^5.3.0",
+    "webpack": "^3.0",
     "x-editable": "1.5.1"
   },
   "devDependencies": {
-    "copy-webpack-plugin": "^4.4.1"
+    "copy-webpack-plugin": "^4.5.1",
+    "tailwindcss": "^0.5.2",
+    "webpack-bundle-analyzer": "^2.11.1"
   }
 }

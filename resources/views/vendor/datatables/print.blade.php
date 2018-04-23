@@ -15,17 +15,17 @@
     <body>
         <table class="table table-bordered table-condensed table-striped">
             @foreach($data as $row)
-                @if ($row == reset($data)) 
+                @if ($row == reset($data))
                     <tr>
                         @foreach($row as $key => $value)
-                            <th>{!! $key !!}</th>
+                            <th>{{ $key }}</th>
                         @endforeach
                     </tr>
                 @endif
                 <tr>
                     @foreach($row as $key => $value)
                         @if(is_string($value) || is_numeric($value))
-                            <td>{!! $value !!}</td>
+                            <td>{{ $value }}</td>
                         @else
                             <td></td>
                         @endif

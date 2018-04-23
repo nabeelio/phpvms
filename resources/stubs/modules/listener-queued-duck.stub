@@ -2,10 +2,15 @@
 
 namespace $NAMESPACE$;
 
+use App\Interfaces\Listener;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class $CLASS$ implements ShouldQueue
+/**
+ * Class $CLASS$
+ * @package $NAMESPACE$
+ */
+class $CLASS$ extends Listener implements ShouldQueue
 {
     use InteractsWithQueue;
 

@@ -15,7 +15,7 @@ class Rank extends Resource
     public function toArray($request)
     {
         return [
-            'name' => $this->name,
+            'name'      => $this->name,
             'subfleets' => Subfleet::collection($this->subfleets),
         ];
     }

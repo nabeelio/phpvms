@@ -63,6 +63,18 @@ class ApiTest extends TestCase
     }
 
     /**
+     * Test getting the news from the API
+     */
+    public function testGetNews(): void
+    {
+        factory(App\Models\News::class)->create();
+        $response = $this->get('/api/news')->json();
+
+        $this->assertCount(1, $response['data']);
+        $this->assertTrue(array_key_exists('user', $response['data'][0]));
+    }
+
+    /**
      *
      */
     public function testGetAirlines()
@@ -109,17 +121,10 @@ class ApiTest extends TestCase
         factory(App\Models\Airport::class, 70)->create();
 
         $response = $this->get('/api/airports/')
-                         ->assertStatus(200)
-                         ->assertJsonCount(50, 'data');
+                         ->assertStatus(200);
 
         $body = $response->json();
-
         $this->assertHasKeys($body, ['data', 'links', 'meta']);
-
-        $last_page = $body['meta']['last_page'];
-        $this->get('/api/airports?page=' . $last_page)
-             ->assertStatus(200)
-             ->assertJsonCount(20, 'data');
     }
 
     public function testGetAllAirportsHubs()

@@ -21,9 +21,11 @@ trait TestData
         ]);
 
         // Return a Pirep model
-        return factory(\App\Models\Pirep::class)->make([
+        $pirep = factory(\App\Models\Pirep::class)->make([
             'aircraft_id' => $subfleet['aircraft']->random()->id
         ]);
+
+        return $pirep;
     }
 
     /**
@@ -56,7 +58,9 @@ trait TestData
      */
     public function createSubfleetWithAircraft($aircraft_count = null, $airport_id=null)
     {
-        $subfleet = factory(\App\Models\Subfleet::class)->create();
+        $subfleet = factory(\App\Models\Subfleet::class)->create([
+            'ground_handling_multiplier' => '100',
+        ]);
 
         if($aircraft_count === null) {
             $aircraft_count = \random_int(2, 10);

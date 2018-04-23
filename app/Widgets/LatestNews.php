@@ -2,13 +2,14 @@
 
 namespace App\Widgets;
 
+use App\Interfaces\Widget;
 use App\Repositories\NewsRepository;
 
 /**
  * Show the latest news in a view
  * @package App\Widgets
  */
-class LatestNews extends BaseWidget
+class LatestNews extends Widget
 {
     protected $config = [
         'count' => 5,
@@ -21,9 +22,9 @@ class LatestNews extends BaseWidget
     {
         $newsRepo = app(NewsRepository::class);
 
-        return $this->view('widgets.latest_news', [
+        return view('widgets.latest_news', [
             'config' => $this->config,
-            'news' => $newsRepo->recent($this->config['count']),
+            'news'   => $newsRepo->recent($this->config['count']),
         ]);
     }
 }

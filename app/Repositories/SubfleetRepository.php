@@ -2,11 +2,16 @@
 
 namespace App\Repositories;
 
+use App\Interfaces\Repository;
 use App\Models\Subfleet;
 use Prettus\Repository\Contracts\CacheableInterface;
 use Prettus\Repository\Traits\CacheableRepository;
 
-class SubfleetRepository extends BaseRepository implements CacheableInterface
+/**
+ * Class SubfleetRepository
+ * @package App\Repositories
+ */
+class SubfleetRepository extends Repository implements CacheableInterface
 {
     use CacheableRepository;
 
@@ -15,6 +20,9 @@ class SubfleetRepository extends BaseRepository implements CacheableInterface
         'type' => 'like',
     ];
 
+    /**
+     * @return string
+     */
     public function model()
     {
         return Subfleet::class;

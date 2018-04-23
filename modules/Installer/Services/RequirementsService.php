@@ -3,7 +3,10 @@
 namespace Modules\Installer\Services;
 
 
-class RequirementsService {
+use App\Interfaces\Service;
+
+class RequirementsService extends Service
+{
 
     /**
      * Check the PHP version that it meets the minimum requirement

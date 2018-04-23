@@ -2,24 +2,28 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
+use App\Interfaces\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Http\Request;
 
+/**
+ * Class ResetPasswordController
+ * @package App\Http\Controllers\Auth
+ */
 class ResetPasswordController extends Controller
 {
-    protected $redirectTo = '/login';
-
     use ResetsPasswords;
+
+    protected $redirectTo = '/login';
 
     /**
      * @param Request $request
-     * @param null $token
+     * @param null    $token
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function showResetForm(Request $request, $token = null)
     {
-        return $this->view('auth.passwords.reset',
+        return view('auth.passwords.reset',
             ['token' => $token, 'email' => $request->email]
         );
     }

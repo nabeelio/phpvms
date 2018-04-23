@@ -1,8 +1,9 @@
 <?php
 
+use App\Models\Enums\Days;
 use App\Models\Flight;
 use App\Models\User;
-use App\Models\UserBid;
+use App\Models\Bid;
 use App\Repositories\SettingRepository;
 use App\Services\FlightService;
 
@@ -118,10 +119,146 @@ class FlightTest extends TestCase
         $res->assertJsonCount(5, 'data');
     }
 
+    /**
+     * Test the bitmasks that they work for setting the day of week and
+     * then retrieving by searching on those
+     */
+    public function testFindDaysOfWeek(): void
+    {
+        $this->user = factory(App\Models\User::class)->create();
+        factory(App\Models\Flight::class, 20)->create([
+            'airline_id' => $this->user->airline_id
+        ]);
+
+        $saved_flight = factory(App\Models\Flight::class)->create([
+            'airline_id' => $this->user->airline_id,
+            'days' => Days::getDaysMask([
+                Days::SUNDAY,
+                Days::THURSDAY
+            ])
+        ]);
+
+        $flight = Flight::findByDays([Days::SUNDAY])->first();
+        $this->assertTrue($flight->on_day(Days::SUNDAY));
+        $this->assertTrue($flight->on_day(Days::THURSDAY));
+        $this->assertFalse($flight->on_day(Days::MONDAY));
+        $this->assertEquals($saved_flight->id, $flight->id);
+
+        $flight = Flight::findByDays([Days::SUNDAY, Days::THURSDAY])->first();
+        $this->assertEquals($saved_flight->id, $flight->id);
+
+        $flight = Flight::findByDays([Days::WEDNESDAY, Days::THURSDAY])->first();
+        $this->assertNull($flight);
+
+
+    }
+
+    /**
+     * Make sure that flights are marked as inactive when they're out of the start/end
+     * zones. also make sure that flights with a specific day of the week are only
+     * active on those days
+     */
+    public function testDayOfWeekActive(): void
+    {
+        $this->user = factory(App\Models\User::class)->create();
+
+        // Set it to Monday or Tuesday, depending on what today is
+        if (date('N') === '1') { // today is a monday
+            $days = Days::getDaysMask([Days::TUESDAY]);
+        } else {
+            $days = Days::getDaysMask([Days::MONDAY]);
+        }
+
+        factory(App\Models\Flight::class, 5)->create();
+        $flight = factory(App\Models\Flight::class)->create([
+            'days' => $days,
+        ]);
+
+        // Run the event that will enable/disable flights
+        $event = new \App\Events\CronNightly();
+        (new \App\Cron\Nightly\SetActiveFlights())->handle($event);
+
+        $res = $this->get('/api/flights');
+        $body = $res->json('data');
+
+        $flights = collect($body)->where('id', $flight->id)->first();
+        $this->assertNull($flights);
+    }
+
+    public function testStartEndDate(): void
+    {
+        $this->user = factory(App\Models\User::class)->create();
+
+        factory(App\Models\Flight::class, 5)->create();
+        $flight = factory(App\Models\Flight::class)->create([
+            'start_date' => Carbon\Carbon::now('UTC')->subDays(1),
+            'end_date'   => Carbon\Carbon::now('UTC')->addDays(1),
+        ]);
+
+        $flight_not_active = factory(App\Models\Flight::class)->create([
+            'start_date' => Carbon\Carbon::now('UTC')->subDays(10),
+            'end_date'   => Carbon\Carbon::now('UTC')->subDays(2),
+        ]);
+
+        // Run the event that will enable/disable flights
+        $event = new \App\Events\CronNightly();
+        (new \App\Cron\Nightly\SetActiveFlights())->handle($event);
+
+        $res = $this->get('/api/flights');
+        $body = $res->json('data');
+
+        $flights = collect($body)->where('id', $flight->id)->first();
+        $this->assertNotNull($flights);
+
+        $flights = collect($body)->where('id', $flight_not_active->id)->first();
+        $this->assertNull($flights);
+    }
+
+    public function testStartEndDateDayOfWeek(): void
+    {
+        $this->user = factory(App\Models\User::class)->create();
+
+        // Set it to Monday or Tuesday, depending on what today is
+        if (date('N') === '1') { // today is a monday
+            $days = Days::getDaysMask([Days::TUESDAY]);
+        } else {
+            $days = Days::getDaysMask([Days::MONDAY]);
+        }
+
+        factory(App\Models\Flight::class, 5)->create();
+        $flight = factory(App\Models\Flight::class)->create([
+            'start_date' => Carbon\Carbon::now('UTC')->subDays(1),
+            'end_date'   => Carbon\Carbon::now('UTC')->addDays(1),
+            'days'       => Days::$isoDayMap[date('N')],
+        ]);
+
+        $flight_not_active = factory(App\Models\Flight::class)->create([
+            'start_date' => Carbon\Carbon::now('UTC')->subDays(1),
+            'end_date'   => Carbon\Carbon::now('UTC')->addDays(1),
+            'days'       => $days,
+        ]);
+
+        // Run the event that will enable/disable flights
+        $event = new \App\Events\CronNightly();
+        (new \App\Cron\Nightly\SetActiveFlights())->handle($event);
+
+        $res = $this->get('/api/flights');
+        $body = $res->json('data');
+
+        $flights = collect($body)->where('id', $flight->id)->first();
+        $this->assertNotNull($flights);
+
+        $flights = collect($body)->where('id', $flight_not_active->id)->first();
+        $this->assertNull($flights);
+    }
+
+    /**
+     *
+     */
     public function testFlightSearchApi()
     {
         $this->user = factory(App\Models\User::class)->create();
-        $flights = factory(App\Models\Flight::class, 20)->create([
+        $flights = factory(App\Models\Flight::class, 10)->create([
             'airline_id' => $this->user->airline_id
         ]);
 
@@ -132,6 +269,28 @@ class FlightTest extends TestCase
         $body = $req->json();
 
         $this->assertEquals($flight->id, $body['data'][0]['id']);
+    }
+
+    /**
+     *
+     */
+    public function testAddSubfleet()
+    {
+        $subfleet = factory(App\Models\Subfleet::class)->create();
+        $flight = factory(App\Models\Flight::class)->create();
+
+        $fleetSvc = app(App\Services\FleetService::class);
+        $fleetSvc->addSubfleetToFlight($subfleet, $flight);
+
+        $flight->refresh();
+        $found = $flight->subfleets()->get();
+        $this->assertCount(1, $found);
+
+        # Make sure it hasn't been added twice
+        $fleetSvc->addSubfleetToFlight($subfleet, $flight);
+        $flight->refresh();
+        $found = $flight->subfleets()->get();
+        $this->assertCount(1, $found);
     }
 
     /**
@@ -235,10 +394,10 @@ class FlightTest extends TestCase
         $uri = '/api/user/bids';
         $data = ['flight_id' => $flight->id];
 
-        $body = $this->put($uri, $data)->json('data');
+        $body = $this->put($uri, $data);
+        $body = $body->json('data');
 
-        $this->assertCount(1, $body);
-        $this->assertEquals($body[0]['id'], $flight->id);
+        $this->assertEquals($body['flight_id'], $flight->id);
 
         # Now try to have the second user bid on it
         # Should return a 409 error
@@ -272,7 +431,7 @@ class FlightTest extends TestCase
         $this->assertNull($empty_flight);
 
         # Make sure no bids exist
-        $user_bids = UserBid::where('flight_id', $flight->id)->get();
+        $user_bids = Bid::where('flight_id', $flight->id)->get();
 
         #$this->assertEquals(0, $user_bid->count());
 

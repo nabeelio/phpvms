@@ -8,6 +8,7 @@
          convertWarningsToExceptions="false"
          beStrictAboutOutputDuringTests="false"
          beStrictAboutTestsThatDoNotTestAnything="false">
+    <!--printerClass="Codedungeon\PHPUnitPrettyResultPrinter\Printer"-->
     <testsuites>
         <testsuite name="Application Test Suite">
             <directory suffix="Test.php">./tests</directory>

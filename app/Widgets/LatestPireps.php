@@ -2,13 +2,14 @@
 
 namespace App\Widgets;
 
+use App\Interfaces\Widget;
 use App\Repositories\PirepRepository;
 
 /**
  * Show the latest PIREPs in a view
  * @package App\Widgets
  */
-class LatestPireps extends BaseWidget
+class LatestPireps extends Widget
 {
     protected $config = [
         'count' => 5,
@@ -21,7 +22,7 @@ class LatestPireps extends BaseWidget
     {
         $pirepRepo = app(PirepRepository::class);
 
-        return $this->view('widgets.latest_pireps', [
+        return view('widgets.latest_pireps', [
             'config' => $this->config,
             'pireps' => $pirepRepo->recent($this->config['count']),
         ]);

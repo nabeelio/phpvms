@@ -1,21 +1,30 @@
 <?php
+
 namespace App\Repositories;
 
+use App\Interfaces\Repository;
 use App\Models\Enums\UserState;
 use App\Models\User;
 use App\Repositories\Criteria\WhereCriteria;
 use Illuminate\Http\Request;
 
-class UserRepository extends BaseRepository
+/**
+ * Class UserRepository
+ * @package App\Repositories
+ */
+class UserRepository extends Repository
 {
     protected $fieldSearchable = [
-        'name' => 'like',
+        'name'  => 'like',
         'email' => 'like',
         'home_airport_id',
         'curr_airport_id',
         'state'
     ];
 
+    /**
+     * @return string
+     */
     public function model()
     {
         return User::class;
@@ -32,8 +41,8 @@ class UserRepository extends BaseRepository
         ];
 
         $users = $this->orderBy('created_at', 'desc')
-                      ->findWhere($where, ['id'])
-                      ->count();
+            ->findWhere($where, ['id'])
+            ->count();
 
         return $users;
     }
@@ -41,7 +50,7 @@ class UserRepository extends BaseRepository
     /**
      * Create the search criteria and return this with the stuff pushed
      * @param Request $request
-     * @param bool $only_active
+     * @param bool    $only_active
      * @return $this
      * @throws \Prettus\Repository\Exceptions\RepositoryException
      */
@@ -49,7 +58,7 @@ class UserRepository extends BaseRepository
     {
         $where = [];
 
-        if($only_active) {
+        if ($only_active) {
             $where['state'] = UserState::ACTIVE;
         }
 
@@ -66,6 +75,7 @@ class UserRepository extends BaseRepository
         }
 
         $this->pushCriteria(new WhereCriteria($request, $where));
+
         return $this;
     }
 }

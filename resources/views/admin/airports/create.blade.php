@@ -4,9 +4,9 @@
 @section('content')
 <div class="card border-blue-bottom">
     <div class="content">
-        {!! Form::open(['route' => 'admin.airports.store', 'id' => 'airportForm']) !!}
+        {{ Form::open(['route' => 'admin.airports.store', 'id' => 'airportForm']) }}
         @include('admin.airports.fields')
-        {!! Form::close() !!}
+        {{ Form::close() }}
     </div>
 </div>
 @endsection

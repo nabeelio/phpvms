@@ -1,9 +1,12 @@
 <?php
 
-use App\Models\Migrations\Migration;
+use App\Interfaces\Migration;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 
+/**
+ * Class $CLASS$
+ */
 class $CLASS$ extends Migration
 {
     /**

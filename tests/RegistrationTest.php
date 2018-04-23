@@ -17,7 +17,7 @@ class RegistrationTest extends TestCase
 
         $userSvc = app('App\Services\UserService');
 
-        setting('pilot.auto_accept', true);
+        setting('pilots.auto_accept', true);
 
         $user = factory(App\Models\User::class)->create();
         $user = $userSvc->createPilot($user);

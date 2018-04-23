@@ -8,15 +8,18 @@ use Hashids\Hashids;
  */
 $factory->define(App\Models\Airline::class, function (Faker $faker) {
     return [
-        'id' => null,
-        'icao' => function (array $apt) use ($faker) {
+        'id'      => null,
+        'icao'    => function (array $apt) use ($faker) {
             $hashids = new Hashids(microtime(), 5);
             $mt = str_replace('.', '', microtime(true));
+
             return $hashids->encode($mt);
         },
-        'iata' => function (array $apt) { return $apt['icao']; },
-        'name' => $faker->sentence(3),
+        'iata'    => function (array $apt) {
+            return $apt['icao'];
+        },
+        'name'    => $faker->sentence(3),
         'country' => $faker->country,
-        'active' => 1
+        'active'  => 1
     ];
 });

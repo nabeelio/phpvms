@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\CreateAirlineRequest;
 use App\Http\Requests\UpdateAirlineRequest;
+use App\Interfaces\Controller;
 use App\Repositories\AirlineRepository;
 use App\Support\Countries;
 use Flash;
@@ -11,18 +12,19 @@ use Illuminate\Http\Request;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 
-class AirlinesController extends BaseController
+/**
+ * Class AirlinesController
+ * @package App\Http\Controllers\Admin
+ */
+class AirlinesController extends Controller
 {
-    /** @var  AirlineRepository */
     private $airlineRepo;
 
     /**
      * AirlinesController constructor.
      * @param AirlineRepository $airlinesRepo
      */
-    public function __construct(
-        AirlineRepository $airlinesRepo
-    ) {
+    public function __construct(AirlineRepository $airlinesRepo) {
         $this->airlineRepo = $airlinesRepo;
     }
 
@@ -35,8 +37,9 @@ class AirlinesController extends BaseController
         $this->airlineRepo->pushCriteria(new RequestCriteria($request));
         $airlines = $this->airlineRepo->all();
 
-        return view('admin.airlines.index')
-            ->with('airlines', $airlines);
+        return view('admin.airlines.index', [
+            'airlines' => $airlines,
+        ]);
     }
 
     /**
@@ -51,6 +54,7 @@ class AirlinesController extends BaseController
 
     /**
      * Store a newly created Airlines in storage.
+     * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
     public function store(CreateAirlineRequest $request)
     {
@@ -95,14 +99,14 @@ class AirlinesController extends BaseController
         }
 
         return view('admin.airlines.edit', [
-            'airline' => $airline,
+            'airline'   => $airline,
             'countries' => Countries::getSelectList(),
         ]);
     }
 
     /**
      * Update the specified Airlines in storage.
-     * @param  int $id
+     * @param  int                 $id
      * @param UpdateAirlineRequest $request
      * @return Response
      * @throws \Prettus\Validator\Exceptions\ValidatorException
@@ -119,7 +123,6 @@ class AirlinesController extends BaseController
         $airlines = $this->airlineRepo->update($request->all(), $id);
 
         Flash::success('Airlines updated successfully.');
-
         return redirect(route('admin.airlines.index'));
     }
 

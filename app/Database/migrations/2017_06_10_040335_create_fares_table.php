@@ -1,11 +1,10 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
+use App\Interfaces\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
 class CreateFaresTable extends Migration
 {
-
     /**
      * Run the migrations.
      *
@@ -15,7 +14,7 @@ class CreateFaresTable extends Migration
     {
         Schema::create('fares', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('code', 50);
+            $table->string('code', 50)->unique();
             $table->string('name', 50);
             $table->unsignedDecimal('price')->nullable()->default(0.00);
             $table->unsignedDecimal('cost')->nullable()->default(0.00);

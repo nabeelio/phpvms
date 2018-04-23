@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
+use App\Interfaces\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
 class CreateAirportsTable extends Migration
@@ -16,6 +16,7 @@ class CreateAirportsTable extends Migration
             $table->string('country', 64)->nullable();
             $table->string('timezone', 64)->nullable();
             $table->boolean('hub')->default(false);
+            $table->unsignedDecimal('ground_handling_cost')->nullable()->default(0);
             $table->unsignedDecimal('fuel_100ll_cost')->nullable()->default(0);
             $table->unsignedDecimal('fuel_jeta_cost')->nullable()->default(0);
             $table->unsignedDecimal('fuel_mogas_cost')->nullable()->default(0);

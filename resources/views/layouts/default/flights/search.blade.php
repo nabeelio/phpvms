@@ -1,31 +1,32 @@
-<h2 class="description">search</h2>
-<div class="card">
+<h3 class="description">search</h3>
+<div class="card pull-right">
     <div class="card-block" style="min-height: 0px">
-        <div class="form-group text-right">
-            {!! Form::open(['route' => 'frontend.flights.search', 'method' => 'GET', 'class'=>'form-inline pull-right']) !!}
-
+        <div class="form-group">
+            {{ Form::open([
+                    'route' => 'frontend.flights.search',
+                    'method' => 'GET',
+                    'class'=>'form-inline'
+            ]) }}
             <div>
-            <p>Flight Number</p>
-            {!! Form::text('flight_number', null, ['class' => 'form-control']) !!}
+                <p>Flight Number</p>
+                {{ Form::text('flight_number', null, ['class' => 'form-control']) }}
             </div>
 
-            <div>
-            <p>Departure Airport</p>
-            {!! Form::select('dep_icao', $airports, null , ['class' => 'form-control']) !!}
+            <div style="margin-top: 10px;">
+                <p>Departure Airport</p>
+                {{ Form::select('dep_icao', $airports, null , ['class' => 'form-control']) }}
             </div>
 
-            <div class="">
+            <div style="margin-top: 10px;">
                 <p>Arrival Airport</p>
-                {!! Form::select('arr_icao', $airports, null , ['class' => 'form-control']) !!}
+                {{ Form::select('arr_icao', $airports, null , ['class' => 'form-control']) }}
             </div>
 
-            <br />
-            <div class="">
-                {!! Form::submit('find', ['class' => 'btn btn-primary']) !!}&nbsp;
-                <a href="{!! route('frontend.flights.index') !!}">clear</a>
+            <div class="clear" style="margin-top: 10px;">
+                {{ Form::submit('find', ['class' => 'btn btn-primary']) }}&nbsp;
+                <a href="{{ route('frontend.flights.index') }}">clear</a>
             </div>
-            <br />
-            {!! Form::close() !!}
+            {{ Form::close() }}
         </div>
     </div>
 </div>

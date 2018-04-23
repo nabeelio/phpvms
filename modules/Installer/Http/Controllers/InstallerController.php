@@ -2,39 +2,48 @@
 
 namespace Modules\Installer\Http\Controllers;
 
-use App\Support\Countries;
-use Log;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Database\QueryException;
-use Illuminate\Support\Facades\Validator;
-
-use App\Models\User;
-
-use App\Repositories\AirlineRepository;
 use App\Facades\Utils;
+use App\Interfaces\Controller;
+use App\Models\User;
+use App\Repositories\AirlineRepository;
 use App\Services\AnalyticsService;
 use App\Services\UserService;
-
-use App\Http\Controllers\Controller;
-
-use Modules\Installer\Services\DatabaseService;
+use App\Support\Countries;
+use Illuminate\Database\QueryException;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use Log;
 use Modules\Installer\Services\ConfigService;
+use Modules\Installer\Services\DatabaseService;
 use Modules\Installer\Services\MigrationService;
 use Modules\Installer\Services\RequirementsService;
-
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
+/**
+ * Class InstallerController
+ * @package Modules\Installer\Http\Controllers
+ */
 class InstallerController extends Controller
 {
-    protected $airlineRepo,
-              $analyticsSvc,
-              $dbService,
-              $envService,
-              $migrationSvc,
-              $reqService,
-              $userService;
+    private $airlineRepo,
+            $analyticsSvc,
+            $dbService,
+            $envService,
+            $migrationSvc,
+            $reqService,
+            $userService;
 
+    /**
+     * InstallerController constructor.
+     * @param AirlineRepository   $airlineRepo
+     * @param AnalyticsService    $analyticsSvc
+     * @param DatabaseService     $dbService
+     * @param ConfigService       $envService
+     * @param MigrationService    $migrationSvc
+     * @param RequirementsService $reqService
+     * @param UserService         $userService
+     */
     public function __construct(
         AirlineRepository $airlineRepo,
         AnalyticsService $analyticsSvc,
@@ -158,12 +167,18 @@ class InstallerController extends Controller
      */
     public function envsetup(Request $request)
     {
-        Log::info('ENV setup', $request->post());
+        $log_str = $request->post();
+        $log_str['db_pass'] = '';
+
+        Log::info('ENV setup', $log_str);
 
         // Before writing out the env file, test the DB credentials
         try {
             $this->testDb($request);
         } catch (\Exception $e) {
+            Log::error('Testing db before writing configs failed');
+            Log::error($e->getMessage());
+
             flash()->error($e->getMessage());
             return redirect(route('installer.step2'))->withInput();
         }
@@ -189,6 +204,9 @@ class InstallerController extends Controller
         try {
             $this->envService->createConfigFiles($attrs);
         } catch(FileException $e) {
+            Log::error('Config files failed to write');
+            Log::error($e->getMessage());
+
             flash()->error($e->getMessage());
             return redirect(route('installer.step2'))->withInput();
         }
@@ -211,6 +229,9 @@ class InstallerController extends Controller
             $console_out .= $this->dbService->setupDB();
             $console_out .= $this->migrationSvc->runAllMigrations();
         } catch(QueryException $e) {
+            Log::error('Error on db setup: ' . $e->getMessage());
+
+            $this->envService->removeConfigFiles();
             flash()->error($e->getMessage());
             return redirect(route('installer.step2'))->withInput();
         }

@@ -4,13 +4,19 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Resources\Aircraft as AircraftResource;
 use App\Http\Resources\Subfleet as SubfleetResource;
+use App\Interfaces\Controller;
 use App\Repositories\AircraftRepository;
 use App\Repositories\SubfleetRepository;
 use Illuminate\Http\Request;
 
-class FleetController extends RestController
+/**
+ * Class FleetController
+ * @package App\Http\Controllers\Api
+ */
+class FleetController extends Controller
 {
-    protected $aircraftRepo, $subfleetRepo;
+    private $aircraftRepo,
+            $subfleetRepo;
 
     /**
      * FleetController constructor.
@@ -32,8 +38,8 @@ class FleetController extends RestController
     public function index()
     {
         $subfleets = $this->subfleetRepo
-                          ->with(['aircraft', 'airline', 'fares', 'ranks'])
-                          ->paginate();
+            ->with(['aircraft', 'airline', 'fares', 'ranks'])
+            ->paginate();
 
         return SubfleetResource::collection($subfleets);
     }
@@ -41,23 +47,23 @@ class FleetController extends RestController
     /**
      * Get a specific aircraft. Query string required to specify the tail
      * /api/aircraft/XYZ?type=registration
-     * @param $id
+     * @param         $id
      * @param Request $request
      * @return AircraftResource
      */
     public function get_aircraft($id, Request $request)
     {
         $where = [];
-        if($request->filled('type')) {
+        if ($request->filled('type')) {
             $where[$request->get('type')] = $id;
         } else {
             $where['id'] = $id;
         }
 
         $aircraft = $this->aircraftRepo
-                         ->with(['subfleet', 'subfleet.fares'])
-                         ->findWhere($where)
-                         ->first();
+            ->with(['subfleet', 'subfleet.fares'])
+            ->findWhere($where)
+            ->first();
 
         return new AircraftResource($aircraft);
     }

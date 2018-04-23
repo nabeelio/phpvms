@@ -8,9 +8,9 @@
                     You must add a subfleet before you can add an aircraft!
                 </p>
             @else
-                {!! Form::open(['route' => 'admin.aircraft.store']) !!}
+                {{ Form::open(['route' => 'admin.aircraft.store']) }}
                     @include('admin.aircraft.fields')
-                {!! Form::close() !!}
+                {{ Form::close() }}
             @endif
         </div>
     </div>

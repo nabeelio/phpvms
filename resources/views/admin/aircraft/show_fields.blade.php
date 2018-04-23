@@ -2,12 +2,12 @@
 <div class="form-group col-sm-6">
     <div class="box box-solid">
         <div class="box-header with-border">
-            <h3 class="box-title">{!! Form::label('airport_id', 'Location') !!}</h3>
+            <h3 class="box-title">{{ Form::label('airport_id', 'Location') }}</h3>
         </div>
         <div class="box-body">
             <p class="lead">
             @if($aircraft->airport)
-                {!! $aircraft->airport->icao !!}</p>
+                {{ $aircraft->airport->icao }}</p>
             @endif
         </div>
     </div>
@@ -18,9 +18,9 @@
     <div class="box box-solid">
         <div class="box-header with-border">
             {{--<i class="fa fa-text-width"></i>--}}
-            <h3 class="box-title">{!! Form::label('name', 'Name') !!}</h3>
+            <h3 class="box-title">{{ Form::label('name', 'Name') }}</h3>
         </div>
-        <div class="box-body"><p class="lead">{!! $aircraft->name !!}</p></div>
+        <div class="box-body"><p class="lead">{{ $aircraft->name }}</p></div>
     </div>
 </div>
 
@@ -29,9 +29,9 @@
     <div class="box box-solid">
         <div class="box-header with-border">
             {{--<i class="fa fa-text-width"></i>--}}
-            <h3 class="box-title">{!! Form::label('registration', 'Registration') !!}</h3>
+            <h3 class="box-title">{{ Form::label('registration', 'Registration') }}</h3>
         </div>
-        <div class="box-body"><p class="lead">{!! $aircraft->registration !!}</p></div>
+        <div class="box-body"><p class="lead">{{ $aircraft->registration }}</p></div>
     </div>
 </div>
 
@@ -40,7 +40,7 @@
     <div class="box box-solid">
         <div class="box-header with-border">
             {{--<i class="fa fa-text-width"></i>--}}
-            <h3 class="box-title">{!! Form::label('active', 'Active:') !!}</h3>
+            <h3 class="box-title">{{ Form::label('active', 'Active:') }}</h3>
         </div>
         <div class="box-body"><p class="lead">@if ($aircraft->active == '1') yes @else no @endif</p></div>
     </div>

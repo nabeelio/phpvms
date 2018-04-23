@@ -4,28 +4,38 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\CreateRankRequest;
 use App\Http\Requests\UpdateRankRequest;
+use App\Interfaces\Controller;
 use App\Repositories\RankRepository;
 use App\Repositories\SubfleetRepository;
+use App\Services\FleetService;
 use Cache;
 use Flash;
 use Illuminate\Http\Request;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 
-class RankController extends BaseController
+/**
+ * Class RankController
+ * @package App\Http\Controllers\Admin
+ */
+class RankController extends Controller
 {
-    /** @var  RankRepository */
-    private $rankRepository, $subfleetRepo;
+    private $fleetSvc,
+            $rankRepository,
+            $subfleetRepo;
 
     /**
      * RankController constructor.
-     * @param RankRepository $rankingRepo
+     * @param FleetService       $fleetSvc
+     * @param RankRepository     $rankingRepo
      * @param SubfleetRepository $subfleetRepo
      */
     public function __construct(
+        FleetService $fleetSvc,
         RankRepository $rankingRepo,
         SubfleetRepository $subfleetRepo
     ) {
+        $this->fleetSvc = $fleetSvc;
         $this->rankRepository = $rankingRepo;
         $this->subfleetRepo = $subfleetRepo;
     }
@@ -103,6 +113,7 @@ class RankController extends BaseController
 
         if (empty($rank)) {
             Flash::error('Ranking not found');
+
             return redirect(route('admin.ranks.index'));
         }
 
@@ -122,19 +133,21 @@ class RankController extends BaseController
 
         if (empty($rank)) {
             Flash::error('Ranking not found');
+
             return redirect(route('admin.ranks.index'));
         }
 
         $avail_subfleets = $this->getAvailSubfleets($rank);
+
         return view('admin.ranks.edit', [
-            'rank' => $rank,
+            'rank'            => $rank,
             'avail_subfleets' => $avail_subfleets,
         ]);
     }
 
     /**
      * Update the specified Ranking in storage.
-     * @param  int $id
+     * @param  int              $id
      * @param UpdateRankRequest $request
      * @return Response
      * @throws \Prettus\Validator\Exceptions\ValidatorException
@@ -145,6 +158,7 @@ class RankController extends BaseController
 
         if (empty($rank)) {
             Flash::error('Ranking not found');
+
             return redirect(route('admin.ranks.index'));
         }
 
@@ -152,6 +166,7 @@ class RankController extends BaseController
         Cache::forget(config('cache.keys.RANKS_PILOT_LIST.key'));
 
         Flash::success('Ranking updated successfully.');
+
         return redirect(route('admin.ranks.index'));
     }
 
@@ -166,12 +181,14 @@ class RankController extends BaseController
 
         if (empty($rank)) {
             Flash::error('Ranking not found');
+
             return redirect(route('admin.ranks.index'));
         }
 
         $this->rankRepository->delete($id);
 
         Flash::success('Ranking deleted successfully.');
+
         return redirect(route('admin.ranks.index'));
     }
 
@@ -182,15 +199,16 @@ class RankController extends BaseController
     protected function return_subfleet_view($rank)
     {
         $avail_subfleets = $this->getAvailSubfleets($rank);
+
         return view('admin.ranks.subfleets', [
-            'rank' => $rank,
+            'rank'            => $rank,
             'avail_subfleets' => $avail_subfleets,
         ]);
     }
 
     /**
      * Subfleet operations on a rank
-     * @param $id
+     * @param         $id
      * @param Request $request
      * @return mixed
      */
@@ -204,12 +222,18 @@ class RankController extends BaseController
 
         // add aircraft to flight
         if ($request->isMethod('post')) {
-            $rank->subfleets()->syncWithoutDetaching([$request->subfleet_id]);
-        }
+            $subfleet = $this->subfleetRepo->find($request->input('subfleet_id'));
+            $this->fleetSvc->addSubfleetToRank($subfleet, $rank);
+        } elseif ($request->isMethod('put')) {
+            $override = [];
+            $override[$request->name] = $request->value;
+            $subfleet = $this->subfleetRepo->find($request->input('subfleet_id'));
 
-        // remove aircraft from flight
+            $this->fleetSvc->addSubfleetToRank($subfleet, $rank);
+        } // remove aircraft from flight
         elseif ($request->isMethod('delete')) {
-            $rank->subfleets()->detach($request->subfleet_id);
+            $subfleet = $this->subfleetRepo->find($request->input('subfleet_id'));
+            $this->fleetSvc->removeSubfleetFromRank($subfleet, $rank);
         }
 
         return $this->return_subfleet_view($rank);

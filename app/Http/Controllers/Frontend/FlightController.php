@@ -2,19 +2,23 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Http\Controllers\Controller;
-use App\Models\UserBid;
+use App\Interfaces\Controller;
+use App\Models\Bid;
 use App\Repositories\AirlineRepository;
 use App\Repositories\AirportRepository;
 use App\Repositories\Criteria\WhereCriteria;
 use App\Repositories\FlightRepository;
-use App\Services\FlightService;
 use App\Services\GeoService;
+use Flash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Log;
 use Prettus\Repository\Exceptions\RepositoryException;
 
+/**
+ * Class FlightController
+ * @package App\Http\Controllers\Frontend
+ */
 class FlightController extends Controller
 {
     private $airlineRepo,
@@ -26,21 +30,18 @@ class FlightController extends Controller
      * FlightController constructor.
      * @param AirlineRepository $airlineRepo
      * @param AirportRepository $airportRepo
-     * @param FlightRepository $flightRepo
-     * @param FlightService $flightSvc
-     * @param GeoService $geoSvc
+     * @param FlightRepository  $flightRepo
+     * @param GeoService        $geoSvc
      */
     public function __construct(
         AirlineRepository $airlineRepo,
         AirportRepository $airportRepo,
         FlightRepository $flightRepo,
-        FlightService $flightSvc,
         GeoService $geoSvc
     ) {
         $this->airlineRepo = $airlineRepo;
         $this->airportRepo = $airportRepo;
         $this->flightRepo = $flightRepo;
-        $this->flightSvc = $flightSvc;
         $this->geoSvc = $geoSvc;
     }
 
@@ -50,7 +51,9 @@ class FlightController extends Controller
      */
     public function index(Request $request)
     {
-        $where = ['active' => true];
+        $where = [
+            'active' => true
+        ];
 
         // default restrictions on the flights shown. Handle search differently
         if (setting('pilots.only_flights_from_current')) {
@@ -63,16 +66,39 @@ class FlightController extends Controller
             Log::emergency($e);
         }
 
-        $flights = $this->flightRepo->paginate();
+        $flights = $this->flightRepo
+            ->orderBy('flight_number', 'asc')
+            ->paginate();
 
-        $saved_flights = UserBid::where('user_id', Auth::id())
-                         ->pluck('flight_id')->toArray();
+        $saved_flights = Bid::where('user_id', Auth::id())
+            ->pluck('flight_id')->toArray();
 
-        return $this->view('flights.index', [
+        return view('flights.index', [
             'airlines' => $this->airlineRepo->selectBoxList(true),
             'airports' => $this->airportRepo->selectBoxList(true),
-            'flights' => $flights,
-            'saved' => $saved_flights,
+            'flights'  => $flights,
+            'saved'    => $saved_flights,
+        ]);
+    }
+
+    /**
+     * Find the user's bids and display them
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function bids(Request $request)
+    {
+        $user = Auth::user();
+
+        $flights = $user->flights()->paginate();
+        $saved_flights = $flights->pluck('id')->toArray();
+
+        return view('flights.index', [
+            'title'    => 'Bids',
+            'airlines' => $this->airlineRepo->selectBoxList(true),
+            'airports' => $this->airportRepo->selectBoxList(true),
+            'flights'  => $flights,
+            'saved'    => $saved_flights,
         ]);
     }
 
@@ -86,14 +112,14 @@ class FlightController extends Controller
     {
         $flights = $this->flightRepo->searchCriteria($request)->paginate();
 
-        $saved_flights = UserBid::where('user_id', Auth::id())
-                         ->pluck('flight_id')->toArray();
+        $saved_flights = Bid::where('user_id', Auth::id())
+            ->pluck('flight_id')->toArray();
 
-        return $this->view('flights.index', [
+        return view('flights.index', [
             'airlines' => $this->airlineRepo->selectBoxList(true),
             'airports' => $this->airportRepo->selectBoxList(true),
-            'flights' => $flights,
-            'saved' => $saved_flights,
+            'flights'  => $flights,
+            'saved'    => $saved_flights,
         ]);
     }
 
@@ -112,8 +138,8 @@ class FlightController extends Controller
 
         $map_features = $this->geoSvc->flightGeoJson($flight);
 
-        return $this->view('flights.show', [
-            'flight' => $flight,
+        return view('flights.show', [
+            'flight'       => $flight,
             'map_features' => $map_features,
         ]);
     }

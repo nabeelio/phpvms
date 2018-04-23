@@ -1,11 +1,10 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
+use App\Interfaces\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
 class CreateAirlinesTable extends Migration
 {
-
     /**
      * Run the migrations.
      *

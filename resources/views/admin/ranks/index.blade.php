@@ -2,15 +2,16 @@
 @section('title', 'Ranks')
 @section('actions')
     <li>
-        <a href="{!! route('admin.ranks.create') !!}">
+        <a href="{{ route('admin.ranks.create') }}">
             <i class="ti-plus"></i>
             Add New</a>
     </li>
 @endsection
 
 @section('content')
-    <div class="card">
-        @include('admin.ranks.table')
+    <div class="card border-blue-bottom">
+        <div class="content">
+            @include('admin.ranks.table')
+        </div>
     </div>
 @endsection
-@include('admin.ranks.scripts')

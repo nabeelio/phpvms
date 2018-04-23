@@ -2,11 +2,16 @@
 
 namespace App\Repositories;
 
+use App\Interfaces\Repository;
 use App\Models\Navdata;
 use Prettus\Repository\Contracts\CacheableInterface;
 use Prettus\Repository\Traits\CacheableRepository;
 
-class NavdataRepository extends BaseRepository implements CacheableInterface
+/**
+ * Class NavdataRepository
+ * @package App\Repositories
+ */
+class NavdataRepository extends Repository implements CacheableInterface
 {
     use CacheableRepository;
 

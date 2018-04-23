@@ -2,51 +2,29 @@
 
 namespace App\Support\Units;
 
-use Illuminate\Contracts\Support\Arrayable;
+use App\Interfaces\Unit;
+use PhpUnitsOfMeasure\PhysicalQuantity\Length;
 
 /**
- * Wrap the converter class
  * @package App\Support\Units
  */
-class Altitude extends \PhpUnitsOfMeasure\PhysicalQuantity\Length implements Arrayable
+class Altitude extends Unit
 {
     /**
-     * @return string
+     * @param float  $value
+     * @param string $unit
+     * @throws \PhpUnitsOfMeasure\Exception\NonNumericValue
+     * @throws \PhpUnitsOfMeasure\Exception\NonStringUnitName
      */
-    public function __toString()
+    public function __construct(float $value, string $unit)
     {
-        $unit = setting('general.altitude_unit');
-        $value = $this->toUnit($unit);
-        return (string) round($value, 2);
-    }
+        $this->unit = setting('units.altitude');
+        $this->instance = new Length($value, $unit);
 
-    /**
-     * Return value in native unit as integer
-     * @return array
-     */
-    public function toNumber()
-    {
-        return $this->toArray();
-    }
-
-    /**
-     * For the HTTP Resource call
-     */
-    public function toObject()
-    {
-        return [
-            'ft'  => round($this->toUnit('feet'), 2),
-            'm'   => round($this->toUnit('meters') / 1000, 2),
+        $this->units = [
+            'm'  => round($this->instance->toUnit('meters'), 2),
+            'km'  => round($this->instance->toUnit('meters') / 1000, 2),
+            'ft' => round($this->instance->toUnit('feet'), 2),
         ];
-    }
-
-    /**
-     * Get the instance as an array.
-     */
-    public function toArray()
-    {
-        return round($this->toUnit(
-            config('phpvms.internal_units.altitude')
-        ), 2);
     }
 }

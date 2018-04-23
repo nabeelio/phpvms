@@ -1,6 +1,52 @@
 /**
  *
  */
+.select2-container {
+    margin-top: 2px;
+}
+
+.dashboard-box {
+    background: #067ec1;
+    color: #FFF;
+}
+
+.dashboard-box .header {
+    left: 0;
+    right: 0;
+    height: 100px;
+    line-height: 100px;
+    white-space: nowrap;
+}
+
+.dashboard-box .icon-background {
+    float: left;
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 0;
+    right: 0;
+    font-size: 125px;
+}
+
+.dashboard-box .icon {
+    opacity: .1;
+}
+
+.dashboard-box .description {
+    position: absolute;
+    color: white;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    font-size: 1.3em;
+}
+
+.mini-splash {
+    padding: 30px 0;
+    text-align: center;
+    color: #9A9A9A;
+    font-weight: 300;
+}
 
 .font-large {
     font-size: 20px;

@@ -10,11 +10,11 @@
         @endif
 
         @foreach($news as $item)
-            <h4 style="margin-top: 0px;">{!! $item->subject !!}</h4>
-            <p class="category">{!! $item->user->name !!}
-                - {!! show_datetime($item->created_at) !!}</p>
+            <h4 style="margin-top: 0px;">{{ $item->subject }}</h4>
+            <p class="category">{{ $item->user->name }}
+                - {{ show_datetime($item->created_at) }}</p>
 
-            {!! $item->body !!}
+            {{ $item->body }}
         @endforeach
     </div>
 </div>

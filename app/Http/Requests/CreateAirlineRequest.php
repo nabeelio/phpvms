@@ -17,6 +17,7 @@ class CreateAirlineRequest extends FormRequest
         $rules = Airline::$rules;
         $rules['iata'] .= '|unique:airlines';
         $rules['icao'] .= '|unique:airlines';
+
         return $rules;
     }
 }

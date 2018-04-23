@@ -4,7 +4,7 @@
             <i class="fas fa-info-circle" style="color: #067ec1"></i>
         </span>
     </p>
-    <p class="category">
+    <p class="category" style="text-transform:none;">
         {{ $slot }}
     </p>
 </div>

@@ -17,6 +17,11 @@ class UserStateChanged
 
     public $old_state, $user;
 
+    /**
+     * UserStateChanged constructor.
+     * @param User $user
+     * @param      $old_state
+     */
     public function __construct(User $user, $old_state)
     {
         $this->old_state = $old_state;

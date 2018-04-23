@@ -16,14 +16,14 @@ class ApiAuth
      * Handle an incoming request.
      *
      * @param  \Illuminate\Http\Request $request
-     * @param  \Closure $next
+     * @param  \Closure                 $next
      * @return mixed
      */
     public function handle($request, Closure $next)
     {
         // Check if Authorization header is in place
         $api_key = $request->header('x-api-key', null);
-        if($api_key === null) {
+        if ($api_key === null) {
             $api_key = $request->header('Authorization', null);
             if ($api_key === null) {
                 return $this->unauthorized('X-API-KEY header missing');
@@ -32,11 +32,11 @@ class ApiAuth
 
         // Try to find the user via API key. Cache this lookup
         $user = User::where('api_key', $api_key)->first();
-        if($user === null) {
+        if ($user === null) {
             return $this->unauthorized('User not found with key "'.$api_key.'"');
         }
 
-        if($user->state !== UserState::ACTIVE) {
+        if ($user->state !== UserState::ACTIVE) {
             return $this->unauthorized('User is not ACTIVE, please contact an administrator');
         }
 
@@ -54,13 +54,13 @@ class ApiAuth
      * Return an unauthorized message
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      */
-    private function unauthorized($details='')
+    private function unauthorized($details = '')
     {
         return response([
             'error' => [
-                'code' => '401',
+                'code'      => '401',
                 'http_code' => 'Unauthorized',
-                'message' => 'Invalid or missing API key ('. $details .')',
+                'message'   => 'Invalid or missing API key ('.$details.')',
             ],
         ], 401);
     }

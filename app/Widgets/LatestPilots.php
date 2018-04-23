@@ -2,13 +2,14 @@
 
 namespace App\Widgets;
 
+use App\Interfaces\Widget;
 use App\Repositories\UserRepository;
 
 /**
  * Show the latest pilots in a view
  * @package App\Widgets
  */
-class LatestPilots extends BaseWidget
+class LatestPilots extends Widget
 {
     protected $config = [
         'count' => 5,
@@ -21,9 +22,9 @@ class LatestPilots extends BaseWidget
     {
         $userRepo = app(UserRepository::class);
 
-        return $this->view('widgets.latest_pilots', [
+        return view('widgets.latest_pilots', [
             'config' => $this->config,
-            'users' => $userRepo->recent($this->config['count']),
+            'users'  => $userRepo->recent($this->config['count']),
         ]);
     }
 }

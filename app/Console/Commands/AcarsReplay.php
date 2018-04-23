@@ -2,12 +2,16 @@
 
 namespace App\Console\Commands;
 
-use App\Console\BaseCommand;
+use App\Console\Command;
 use App\Facades\Utils;
 use GuzzleHttp\Client;
 use Illuminate\Database\Eloquent\Collection;
 
-class AcarsReplay extends BaseCommand
+/**
+ * Class AcarsReplay
+ * @package App\Console\Commands
+ */
+class AcarsReplay extends Command
 {
     protected $signature = 'phpvms:replay {files} {--manual} {--write-all} {--no-submit}';
     protected $description = 'Replay an ACARS file';
@@ -35,7 +39,6 @@ class AcarsReplay extends BaseCommand
      */
     protected $httpClient;
 
-
     /**
      * Return an instance of an HTTP client all ready to post
      */
@@ -45,46 +48,43 @@ class AcarsReplay extends BaseCommand
 
         $this->httpClient = new Client([
             'base_uri' => config('app.url'),
-            'headers' => [
+            'headers'  => [
                 'Authorization' => $this->apiKey,
             ]
         ]);
     }
 
-    /*protected function getArguments()
-    {
-        return [
-            ['--files', InputOption::VALUE_OPTIONAL]
-        ];
-    }*/
-
     /**
      * Make a request to start a PIREP
      * @param \stdClass $flight
      * @return string
+     * @throws \RuntimeException
      */
     protected function startPirep($flight): string
     {
         # convert the planned flight time to be completely in minutes
-        $pft = Utils::hoursToMinutes($flight->planned_hrsenroute,
-                                     $flight->planned_minenroute);
+        $pft = Utils::hoursToMinutes(
+            $flight->planned_hrsenroute,
+            $flight->planned_minenroute
+        );
 
         $flight_number = substr($flight->callsign, 3);
 
         $response = $this->httpClient->post('/api/pireps/prefile', [
             'json' => [
-                'airline_id'            => 1,
-                'flight_number'         => $flight_number,
-                'aircraft_id'           => 1,
-                'dpt_airport_id'        => $flight->planned_depairport,
-                'arr_airport_id'        => $flight->planned_destairport,
-                'level'                 => $flight->planned_altitude,
-                'planned_flight_time'   => $pft,
-                'route'                 => $flight->planned_route,
+                'airline_id'          => 1,
+                'flight_number'       => $flight_number,
+                'aircraft_id'         => 1,
+                'dpt_airport_id'      => $flight->planned_depairport,
+                'arr_airport_id'      => $flight->planned_destairport,
+                'level'               => $flight->planned_altitude,
+                'planned_flight_time' => $pft,
+                'route'               => $flight->planned_route,
             ]
         ]);
 
         $body = \json_decode($response->getBody()->getContents());
+
         return $body->id;
     }
 
@@ -92,14 +92,16 @@ class AcarsReplay extends BaseCommand
      * Mark the PIREP as filed
      * @param $pirep_id
      * @return mixed
+     * @throws \RuntimeException
      */
     protected function filePirep($pirep_id)
     {
         $response = $this->httpClient->post('/api/pireps/'.$pirep_id.'/file', [
-            'json'=> []
+            'json' => []
         ]);
 
         $body = \json_decode($response->getBody()->getContents());
+
         return $body;
     }
 
@@ -107,18 +109,19 @@ class AcarsReplay extends BaseCommand
      * @param $pirep_id
      * @param $data
      * @return array
+     * @throws \RuntimeException
      */
     protected function postUpdate($pirep_id, $data)
     {
-        $uri = '/api/pireps/' . $pirep_id . '/acars/position';
+        $uri = '/api/pireps/'.$pirep_id.'/acars/position';
 
         $position = [
-            'log' => '',
-            'lat' => $data->latitude,
-            'lon' => $data->longitude,
-            'heading' => $data->heading,
-            'altitude' => $data->altitude,
-            'gs' => $data->groundspeed,
+            'log'         => '',
+            'lat'         => $data->latitude,
+            'lon'         => $data->longitude,
+            'heading'     => $data->heading,
+            'altitude'    => $data->altitude,
+            'gs'          => $data->groundspeed,
             'transponder' => $data->transponder,
         ];
 
@@ -129,13 +132,14 @@ class AcarsReplay extends BaseCommand
         ];
 
         $this->info("Update: $data->callsign, $position[lat] x $position[lon] \t\t"
-                    . "hdg: $position[heading]\t\talt: $position[altitude]\t\tgs: $position[gs]");
+            ."hdg: $position[heading]\t\talt: $position[altitude]\t\tgs: $position[gs]");
 
         $response = $this->httpClient->post($uri, [
             'json' => $upd
         ]);
 
         $body = \json_decode($response->getBody()->getContents());
+
         return [
             $data->callsign,
             $position['lat'],
@@ -149,22 +153,24 @@ class AcarsReplay extends BaseCommand
     /**
      * Parse this file and run the updates
      * @param array $files
+     * @throws \RuntimeException
      */
     protected function updatesFromFile(array $files)
     {
         /**
          * @var $flights Collection
          */
-        $flights = collect($files)->transform(function ($f)
-        {
-            $file = storage_path('/replay/' . $f . '.json');
+        $flights = collect($files)->transform(function ($f) {
+            $file = storage_path('/replay/'.$f.'.json');
             if (file_exists($file)) {
-                $this->info('Loading ' . $file);
+                $this->info('Loading '.$file);
                 $contents = file_get_contents($file);
                 $contents = \json_decode($contents);
+
                 return collect($contents->updates);
             } else {
-                $this->error($file . ' not found, skipping');
+                $this->error($file.' not found, skipping');
+
                 return false;
             }
         })
@@ -178,12 +184,11 @@ class AcarsReplay extends BaseCommand
         /**
          * File the initial pirep to get a "preflight" status
          */
-        $flights->each(function ($updates, $idx)
-        {
+        $flights->each(function ($updates, $idx) {
             $update = $updates->first();
             $pirep_id = $this->startPirep($update);
             $this->pirepList[$update->callsign] = $pirep_id;
-            $this->info('Prefiled ' . $update->callsign . ', ID: ' . $pirep_id);
+            $this->info('Prefiled '.$update->callsign.', ID: '.$pirep_id);
         });
 
         /**
@@ -202,14 +207,14 @@ class AcarsReplay extends BaseCommand
                 $this->postUpdate($pirep_id, $update);
 
                 # we're done and don't put the "no-submit" option
-                if($updates->count() === 0 && !$this->option('no-submit')) {
+                if ($updates->count() === 0 && !$this->option('no-submit')) {
                     $this->filePirep($pirep_id);
                 }
             })->filter(function ($updates, $idx) {
                 return $updates->count() > 0;
             });
 
-            if(!$this->option('write-all')) {
+            if (!$this->option('write-all')) {
                 if (!$this->option('manual')) {
                     sleep($this->sleepTime);
                 } else {
@@ -221,8 +226,8 @@ class AcarsReplay extends BaseCommand
 
     /**
      * Execute the console command.
-     *
      * @return mixed
+     * @throws \RuntimeException
      */
     public function handle()
     {

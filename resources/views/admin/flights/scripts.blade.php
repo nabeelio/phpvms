@@ -1,42 +1,79 @@
 @section('scripts')
 <script>
 
-function setEditable() {
+const setEditable = () =>
+{
+    const api_key = $('meta[name="api-key"]').attr('content');
+    const csrf_token = $('meta[name="csrf-token"]').attr('content');
+
     $('#flight_fares a').editable({
         type: 'text',
         mode: 'inline',
         emptytext: 'inherited',
-        url: '{!! url('/admin/flights/'.$flight->id.'/fares') !!}',
+        url: '{{ url('/admin/flights/'.$flight->id.'/fares') }}',
         title: 'Enter override value',
-        ajaxOptions: {'type': 'put'},
+        ajaxOptions: {
+            type: 'post',
+            headers: {
+                'x-api-key': api_key,
+                'X-CSRF-TOKEN': csrf_token
+            }
+        },
         params: function (params) {
             return {
+                _method: 'put',
                 fare_id: params.pk,
                 name: params.name,
                 value: params.value
             }
         }
     });
-}
+};
 
-$(document).ready(function () {
-
-    setEditable();
+const setFieldsEditable = () =>
+{
+    const api_key = $('meta[name="api-key"]').attr('content');
+    const csrf_token = $('meta[name="csrf-token"]').attr('content');
 
     $('#flight_fields_wrapper a.inline').editable({
         type: 'text',
         mode: 'inline',
-        emptytext: '0',
-        url: '/admin/flights/{!! $flight->id !!}/fields',
-        ajaxOptions: {'type': 'put'},
+        emptytext: 'no value',
+        url: '{{ url('/admin/flights/'.$flight->id.'/fields') }}',
+        ajaxOptions: {
+            type: 'post',
+            headers: {
+                'x-api-key': api_key,
+                'X-CSRF-TOKEN': csrf_token
+            }
+        },
         params: function (params) {
             return {
+                _method: 'put',
                 field_id: params.pk,
                 name: params.name,
                 value: params.value
             }
         }
     });
+};
+
+$(document).ready(function () {
+
+    $("select#days_of_week").select2();
+
+    setEditable();
+    setFieldsEditable();
+
+  const start_date_picker = new Pikaday({
+    field: document.getElementById('start_date'),
+    minDate: new Date(),
+  });
+
+  const end_date_picker = new Pikaday({
+    field: document.getElementById('end_date'),
+    minDate: new Date(),
+  });
 
     $(document).on('submit', 'form.pjax_flight_fields', function (event) {
         event.preventDefault();
@@ -50,14 +87,13 @@ $(document).ready(function () {
 
     $(document).on('submit', 'form.pjax_fares_form', function (event) {
         event.preventDefault();
-        console.log(event);
         $.pjax.submit(event, '#flight_fares_wrapper', {push: false});
-        setEditable();
     });
 
     $(document).on('pjax:complete', function () {
-        $(".select2").select2();
+        initPlugins();
         setEditable();
+        setFieldsEditable();
     });
 });
 </script>

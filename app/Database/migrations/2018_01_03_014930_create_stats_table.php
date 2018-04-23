@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Migrations\Migration;
+use App\Interfaces\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
 class CreateStatsTable extends Migration
@@ -22,7 +22,6 @@ class CreateStatsTable extends Migration
             $table->primary('id');
             $table->timestamps();
         });
-
         /*$this->addCounterGroups([
             'flights' => 1,
         ]);

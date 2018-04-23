@@ -3,26 +3,39 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\CreateFareRequest;
+use App\Http\Requests\ImportRequest;
 use App\Http\Requests\UpdateFareRequest;
+use App\Interfaces\Controller;
 use App\Repositories\FareRepository;
+use App\Services\ExportService;
+use App\Services\ImportService;
 use Flash;
 use Illuminate\Http\Request;
+use Log;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use Storage;
 
-class FareController extends BaseController
+/**
+ * Class FareController
+ * @package App\Http\Controllers\Admin
+ */
+class FareController extends Controller
 {
-    /** @var  FareRepository */
-    private $fareRepository;
+    private $fareRepo,
+            $importSvc;
 
     /**
      * FareController constructor.
      * @param FareRepository $fareRepo
+     * @param ImportService  $importSvc
      */
     public function __construct(
-        FareRepository $fareRepo
+        FareRepository $fareRepo,
+        ImportService $importSvc
     ) {
-        $this->fareRepository = $fareRepo;
+        $this->fareRepo = $fareRepo;
+        $this->importSvc = $importSvc;
     }
 
     /**
@@ -33,8 +46,8 @@ class FareController extends BaseController
      */
     public function index(Request $request)
     {
-        $this->fareRepository->pushCriteria(new RequestCriteria($request));
-        $fares = $this->fareRepository->all();
+        $this->fareRepo->pushCriteria(new RequestCriteria($request));
+        $fares = $this->fareRepo->all();
 
         return view('admin.fares.index')
             ->with('fares', $fares);
@@ -59,9 +72,9 @@ class FareController extends BaseController
     public function store(CreateFareRequest $request)
     {
         $input = $request->all();
-        $fare = $this->fareRepository->create($input);
-        Flash::success('Fare saved successfully.');
+        $fare = $this->fareRepo->create($input);
 
+        Flash::success('Fare saved successfully.');
         return redirect(route('admin.fares.index'));
     }
 
@@ -72,7 +85,7 @@ class FareController extends BaseController
      */
     public function show($id)
     {
-        $fare = $this->fareRepository->findWithoutFail($id);
+        $fare = $this->fareRepo->findWithoutFail($id);
         if (empty($fare)) {
             Flash::error('Fare not found');
             return redirect(route('admin.fares.index'));
@@ -88,7 +101,7 @@ class FareController extends BaseController
      */
     public function edit($id)
     {
-        $fare = $this->fareRepository->findWithoutFail($id);
+        $fare = $this->fareRepo->findWithoutFail($id);
         if (empty($fare)) {
             Flash::error('Fare not found');
             return redirect(route('admin.fares.index'));
@@ -99,22 +112,22 @@ class FareController extends BaseController
 
     /**
      * Update the specified Fare in storage.
-     * @param  int $id
+     * @param  int              $id
      * @param UpdateFareRequest $request
      * @return Response
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
     public function update($id, UpdateFareRequest $request)
     {
-        $fare = $this->fareRepository->findWithoutFail($id);
+        $fare = $this->fareRepo->findWithoutFail($id);
         if (empty($fare)) {
             Flash::error('Fare not found');
             return redirect(route('admin.fares.index'));
         }
 
-        $fare = $this->fareRepository->update($request->all(), $id);
-        Flash::success('Fare updated successfully.');
+        $fare = $this->fareRepo->update($request->all(), $id);
 
+        Flash::success('Fare updated successfully.');
         return redirect(route('admin.fares.index'));
     }
 
@@ -125,15 +138,63 @@ class FareController extends BaseController
      */
     public function destroy($id)
     {
-        $fare = $this->fareRepository->findWithoutFail($id);
+        $fare = $this->fareRepo->findWithoutFail($id);
         if (empty($fare)) {
             Flash::error('Fare not found');
             return redirect(route('admin.fares.index'));
         }
 
-        $this->fareRepository->delete($id);
-        Flash::success('Fare deleted successfully.');
+        $this->fareRepo->delete($id);
 
+        Flash::success('Fare deleted successfully.');
         return redirect(route('admin.fares.index'));
+    }
+
+    /**
+     * Run the aircraft exporter
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     * @throws \League\Csv\Exception
+     */
+    public function export(Request $request)
+    {
+        $exporter = app(ExportService::class);
+        $fares = $this->fareRepo->all();
+
+        $path = $exporter->exportFares($fares);
+        return response()
+            ->download($path, 'fares.csv', [
+                'content-type' => 'text/csv',
+            ])
+            ->deleteFileAfterSend(true);
+    }
+
+    /**
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function import(Request $request)
+    {
+        $logs = [
+            'success' => [],
+            'errors'  => [],
+        ];
+
+        if ($request->isMethod('post')) {
+            ImportRequest::validate($request);
+            $path = Storage::putFileAs(
+                'import', $request->file('csv_file'), 'import_fares.csv'
+            );
+
+            $path = storage_path('app/'.$path);
+            Log::info('Uploaded fares import file to '.$path);
+            $logs = $this->importSvc->importFares($path);
+        }
+
+        return view('admin.fares.import', [
+            'logs' => $logs,
+        ]);
     }
 }

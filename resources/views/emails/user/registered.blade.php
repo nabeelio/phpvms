@@ -1,5 +1,5 @@
 @component('mail::message')
-# Thanks for signing up, {!! $user->name !!}!
+# Thanks for signing up, {{ $user->name }}!
 
 Your account is ready to use.
 

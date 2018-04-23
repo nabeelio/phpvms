@@ -30,18 +30,23 @@ if [ "$TRAVIS" = "true" ]; then
 
     make clean
 
+    # Clean up the dependencies to only remove the dev packages
+    #rm -rf vendor
+    #composer install --no-interaction --no-dev
+
     rm -rf env.php config.php
     find ./vendor -type d -name ".git" -print0 | xargs rm -rf
     find . -type d -name "sass-cache" -print0 | xargs rm -rf
 
     # clear any app specific stuff that might have been loaded in
     find storage/app/public -mindepth 1 -not -name '.gitignore' -print0 -exec rm -rf {} +
-    find storage/app -mindepth 1 -not -name '.gitignore' -not -name public -print0 -exec rm -rf {} +
+    find storage/app -mindepth 1 -not -name '.gitignore' -not -name public -not -name import -print0 -exec rm -rf {} +
 
     # Remove any development files
     rm -rf .sass-cache
     rm -rf .idea phpvms.iml .travis .dpl
     rm -rf .phpstorm.meta.php _ide_helper.php phpunit.xml Procfile
+    rm -f phpstan.neon
 
     # remove large sized files
     rm -rf .git
@@ -62,6 +67,18 @@ if [ "$TRAVIS" = "true" ]; then
 
     mv "/tmp/$TAR_NAME" "/tmp/$TAR_NAME.sha256" .
     artifacts upload --target-paths "/" $TAR_NAME $TRAVIS_BUILD_DIR/VERSION $TAR_NAME.sha256
+
+    # Upload the version for a tagged release. Move to a version file in different
+    # tags. Within phpVMS, we have an option of which version to track in the admin
+    if test "$TRAVIS_TAG"; then
+        echo "uploading release version file"
+        cp "$TRAVIS_BUILD_DIR/VERSION" release_version
+        artifacts upload --target-paths "/" release_version
+    else
+        echo "uploading ${TRAVIS_BRANCH}_version file"
+        cp $TRAVIS_BUILD_DIR/VERSION ${TRAVIS_BRANCH}_version
+        artifacts upload --target-paths "/" ${TRAVIS_BRANCH}_version
+    fi
 
     curl -X POST --data "{\"content\": \"A new build is available at http://downloads.phpvms.net/$TAR_NAME ($VERSION)\"}" -H "Content-Type: application/json"  $DISCORD_WEBHOOK_URL
 fi

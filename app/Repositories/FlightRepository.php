@@ -2,13 +2,18 @@
 
 namespace App\Repositories;
 
+use App\Interfaces\Repository;
 use App\Models\Flight;
 use App\Repositories\Criteria\WhereCriteria;
 use Illuminate\Http\Request;
 use Prettus\Repository\Contracts\CacheableInterface;
 use Prettus\Repository\Traits\CacheableRepository;
 
-class FlightRepository extends BaseRepository implements CacheableInterface
+/**
+ * Class FlightRepository
+ * @package App\Repositories
+ */
+class FlightRepository extends Repository implements CacheableInterface
 {
     use CacheableRepository;
 
@@ -16,8 +21,10 @@ class FlightRepository extends BaseRepository implements CacheableInterface
         'arr_airport_id',
         'dpt_airport_id',
         'flight_number' => 'like',
-        'route' => 'like',
-        'notes' => 'like',
+        'flight_code'   => 'like',
+        'flight_leg'    => 'like',
+        'route'         => 'like',
+        'notes'         => 'like',
     ];
 
     public function model()
@@ -26,17 +33,44 @@ class FlightRepository extends BaseRepository implements CacheableInterface
     }
 
     /**
+     * Find a flight based on the given criterea
+     * @param      $airline_id
+     * @param      $flight_num
+     * @param null $route_code
+     * @param null $route_leg
+     * @return mixed
+     */
+    public function findFlight($airline_id, $flight_num, $route_code = null, $route_leg = null)
+    {
+        $where = [
+            'airline_id'    => $airline_id,
+            'flight_number' => $flight_num,
+            'active'        => true,
+        ];
+
+        if (filled($route_code)) {
+            $where['route_code'] = $route_code;
+        }
+
+        if (filled($route_leg)) {
+            $where['route_leg'] = $route_leg;
+        }
+
+        return $this->findWhere($where);
+    }
+
+    /**
      * Create the search criteria and return this with the stuff pushed
      * @param Request $request
-     * @param bool $only_active
+     * @param bool    $only_active
      * @return $this
      * @throws \Prettus\Repository\Exceptions\RepositoryException
      */
-    public function searchCriteria(Request $request, bool $only_active=true)
+    public function searchCriteria(Request $request, bool $only_active = true)
     {
         $where = [];
 
-        if($only_active === true) {
+        if ($only_active === true) {
             $where['active'] = $only_active;
         }
 
@@ -48,7 +82,7 @@ class FlightRepository extends BaseRepository implements CacheableInterface
             $where['airline_id'] = $request->airline_id;
         }
 
-        if($request->filled('flight_number')) {
+        if ($request->filled('flight_number')) {
             $where['flight_number'] = $request->flight_number;
         }
 
@@ -65,6 +99,7 @@ class FlightRepository extends BaseRepository implements CacheableInterface
         }
 
         $this->pushCriteria(new WhereCriteria($request, $where));
+
         return $this;
     }
 }

@@ -10,10 +10,9 @@ use Illuminate\Queue\SerializesModels;
 class NewLoginDetails extends Mailable
 {
     use Queueable, SerializesModels;
-
     public $subject, $user, $newpw;
 
-    public function __construct(User $user, $newpw=null, $subject=null)
+    public function __construct(User $user, $newpw = null, $subject = null)
     {
         $this->subject = $subject ?: 'New Login Details';
         $this->newpw = $newpw ?: 'N/A';
@@ -23,7 +22,7 @@ class NewLoginDetails extends Mailable
     public function build()
     {
         return $this->markdown('emails.user.new_login_details')
-                    ->subject($this->subject)
-                    ->with(['user' => $this->user, 'newpw' => $this->newpw]);
+            ->subject($this->subject)
+            ->with(['user' => $this->user, 'newpw' => $this->newpw]);
     }
 }

@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Http\Controllers\Controller;
+use App\Interfaces\Controller;
 use App\Models\User;
 use Illuminate\Database\QueryException;
 
+/**
+ * Class HomeController
+ * @package App\Http\Controllers\Frontend
+ */
 class HomeController extends Controller
 {
     /**
@@ -19,7 +23,7 @@ class HomeController extends Controller
             return view('system/errors/not_installed');
         }
 
-        return $this->view('home', [
+        return view('home', [
             'users' => $users,
         ]);
     }

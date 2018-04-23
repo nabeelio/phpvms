@@ -1,38 +1,38 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>@yield('title') - {!! config('app.name') !!} admin</title>
+    <title>@yield('title') - {{ config('app.name') }} admin</title>
 
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
 
-    <script src="{!! public_asset('/assets/system/js/jquery.js') !!}"></script>
+    {{-- Start of required lines block. DON'T REMOVE THESE LINES! They're required or might break things --}}
+    <meta name="base-url" content="{{ url('') }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="api-key" content="{{ Auth::check() ? Auth::user()->api_key: '' }}">
+    {{-- End the required lines block --}}
 
-    <link rel="icon" type="image/png" href="{!! public_asset('/assets/admin/img/favicon.png') !!}">
+    <script src="{{ public_asset('/assets/global/js/jquery.js') }}"></script>
+
+    <link rel="shortcut icon" type="image/png" href="{{ public_asset('/assets/img/favicon.png') }}"/>
 
     <link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'>
     <link href="http://fonts.googleapis.com/css?family=Roboto:400,700,300" rel="stylesheet" type="text/css">
 
-    <link rel="stylesheet" href="{{ public_asset('/assets/system/css/vendor.min.css') }}"/>
-    <link rel="stylesheet" href="{{ public_asset('/assets/admin/css/vendor.min.css') }}">
+    <link rel="stylesheet" href="{{ public_asset('/assets/global/css/vendor.css') }}">
+    <link rel="stylesheet" href="{{ public_asset('/assets/admin/css/vendor.css') }}">
     <link rel="stylesheet" href="{{ public_asset('/assets/admin/css/admin.css') }}">
 
     <style type="text/css">
     @yield('css')
-
-    label {
-        text-transform: uppercase;
-        font-size: 14px;
-        margin: 0;
-    }
     </style>
 
     <script>
-        const BASE_URL ='{!! url('/') !!}';
+        const BASE_URL ='{{ url('/') }}';
     @if (Auth::user())
-        const PHPVMS_USER_API_KEY = "{!! Auth::user()->api_key !!}";
+        const PHPVMS_USER_API_KEY = "{{ Auth::user()->api_key }}";
     @else
         const PHPVMS_USER_API_KEY = false;
     @endif
@@ -94,16 +94,14 @@
 </body>
 
 <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
-<script src="{!! public_asset('/assets/admin/js/vendor.js') !!}"></script>
-<script src="{!! public_asset('/assets/system/js/phpvms.js') !!}"></script>
-<script src="{!! public_asset('/assets/admin/js/admin.js') !!}"></script>
+<script defer src="{{ public_asset('/assets/admin/js/vendor.js') }}"></script>
+<script defer src="{{ public_asset('/assets/admin/js/app.js') }}"></script>
 
 <script>
 const getStorage = function(key) {
     const st = window.localStorage.getItem(key);
-
-    console.log('storage: ', key, st);
-    if(_.isNil(st)) {
+    // console.log('storage: ', key, st);
+    if(!st) {
         return {
             "menu": [],
         };
@@ -113,15 +111,13 @@ const getStorage = function(key) {
 };
 
 const saveStorage = function(key, obj) {
-    console.log('save: ', key, obj);
+    // console.log('save: ', key, obj);
     window.localStorage.setItem(key, JSON.stringify(obj));
 };
 
 const addItem = function(obj, item) {
-
-    if (_.isNil(obj)) { obj = []; }
-
-    const index = _.indexOf(obj, item);
+    if (!obj) { obj = []; }
+    const index = obj.indexOf(item);
     if(index === -1) {
         obj.push(item);
     }
@@ -130,28 +126,31 @@ const addItem = function(obj, item) {
 };
 
 const removeItem = function (obj, item) {
-
-    if (_.isNil(obj)) { obj = []; }
-
-    const index = _.indexOf(obj, item);
+    if (!obj) { obj = []; }
+    const index = obj.indexOf(item);
     if (index !== -1) {
-        console.log("removing", item);
         obj.splice(index, 1);
     }
 
     return obj;
 };
 
+/**
+ * Initialize any plugins on the page
+ */
+const initPlugins = () => {
+  $('.select2').select2({width: 'resolve'});
+  $('input').iCheck({
+    checkboxClass: 'icheckbox_square-blue',
+    radioClass: 'icheckbox_square-blue'
+  });
+};
+
 $(document).ready(function () {
 
-    $(".select2").select2();
+    initPlugins();
 
-    $('input').iCheck({
-        checkboxClass: 'icheckbox_square-blue',
-        radioClass: 'icheckbox_square-blue'
-    });
-
-    let storage = getStorage("phpvms.admin");
+    let storage = getStorage('phpvms.admin');
 
     // see what menu items should be open
     for(let idx = 0; idx < storage.menu.length; idx++) {
@@ -161,32 +160,33 @@ $(document).ready(function () {
 
         const caret = $("a." + id + " b");
         caret.addClass("pe-7s-angle-down");
-        caret.removeClass("pe-7s-angle-up");
+        caret.removeClass("pe-7s-angle-right");
     }
 
     $(".collapse").on("hide.bs.collapse", function () {
-        console.log('hiding');
+        // console.log('hiding');
         const id = $(this).attr('id');
         const elem = $("a." + id + " b");
         elem.removeClass("pe-7s-angle-down");
-        elem.addClass("pe-7s-angle-up");
+        elem.addClass("pe-7s-angle-right");
 
         removeItem(storage.menu, id);
         saveStorage("phpvms.admin", storage);
     });
 
     $(".collapse").on("show.bs.collapse", function () {
-        console.log('showing');
+        // console.log('showing');
         const id = $(this).attr('id');
         const caret = $("a." + id + " b");
         caret.addClass("pe-7s-angle-down");
-        caret.removeClass("pe-7s-angle-up");
+        caret.removeClass("pe-7s-angle-right");
 
         addItem(storage.menu, id);
         saveStorage("phpvms.admin", storage);
     });
-
 });
 </script>
+
 @yield('scripts')
+
 </html>

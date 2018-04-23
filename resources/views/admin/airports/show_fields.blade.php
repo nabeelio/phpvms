@@ -5,7 +5,7 @@
             <h3 class="box-title">ICAO</h3>
         </div>
         <div class="box-body">
-            <p class="lead">{!! $airport->icao !!}<strong></p>
+            <p class="lead">{{ $airport->icao }}<strong></p>
         </div>
     </div>
 </div>
@@ -16,7 +16,7 @@
             <h3 class="box-title">Coordinates</h3>
         </div>
         <div class="box-body">
-            <p class="lead">{!! $airport->lat!!}/{!! $airport->lon !!}</p>
+            <p class="lead">{{ $airport->lat}}/{{ $airport->lon }}</p>
         </div>
     </div>
 </div>

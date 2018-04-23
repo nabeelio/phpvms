@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Resources\Flight as FlightResource;
+use App\Http\Resources\Bid as BidResource;
 use App\Http\Resources\Pirep as PirepResource;
 use App\Http\Resources\Subfleet as SubfleetResource;
 use App\Http\Resources\User as UserResource;
+use App\Interfaces\Controller;
+use App\Models\Bid;
 use App\Models\Enums\PirepState;
-use App\Models\UserBid;
 use App\Repositories\Criteria\WhereCriteria;
 use App\Repositories\FlightRepository;
 use App\Repositories\PirepRepository;
@@ -20,24 +21,27 @@ use Illuminate\Http\Request;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Prettus\Repository\Exceptions\RepositoryException;
 
-
-class UserController extends RestController
+/**
+ * Class UserController
+ * @package App\Http\Controllers\Api
+ */
+class UserController extends Controller
 {
-    protected $flightRepo,
-              $flightSvc,
-              $pirepRepo,
-              $subfleetRepo,
-              $userRepo,
-              $userSvc;
+    private $flightRepo,
+            $flightSvc,
+            $pirepRepo,
+            $subfleetRepo,
+            $userRepo,
+            $userSvc;
 
     /**
      * UserController constructor.
-     * @param FlightRepository $flightRepo
-     * @param FlightService $flightSvc
-     * @param PirepRepository $pirepRepo
+     * @param FlightRepository   $flightRepo
+     * @param FlightService      $flightSvc
+     * @param PirepRepository    $pirepRepo
      * @param SubfleetRepository $subfleetRepo
-     * @param UserRepository $userRepo
-     * @param UserService $userSvc
+     * @param UserRepository     $userRepo
+     * @param UserService        $userSvc
      */
     public function __construct(
         FlightRepository $flightRepo,
@@ -92,6 +96,7 @@ class UserController extends RestController
      * Return all of the bids for the passed-in user
      * @param Request $request
      * @return mixed
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      * @throws \App\Exceptions\BidExists
      * @throws \App\Services\Exception
      */
@@ -100,23 +105,30 @@ class UserController extends RestController
         $user = $this->userRepo->find($this->getUserId($request));
 
         # Add a bid
-        if ($request->isMethod('PUT')) {
+        if ($request->isMethod('PUT') || $request->isMethod('POST')) {
             $flight_id = $request->input('flight_id');
             $flight = $this->flightRepo->find($flight_id);
-            $this->flightSvc->addBid($flight, $user);
+            $bid = $this->flightSvc->addBid($flight, $user);
+
+            return new BidResource($bid);
         }
 
-        elseif ($request->isMethod('DELETE')) {
-            $flight_id = $request->input('flight_id');
+        if ($request->isMethod('DELETE')) {
+            if ($request->filled('bid_id')) {
+                $bid = Bid::findOrFail($request->input('bid_id'));
+                $flight_id = $bid->flight_id;
+            } else {
+                $flight_id = $request->input('flight_id');
+            }
+
             $flight = $this->flightRepo->find($flight_id);
             $this->flightSvc->removeBid($flight, $user);
         }
 
         # Return the flights they currently have bids on
-        $flights = UserBid::where(['user_id' => $user->id])
-                    ->get()->pluck('flight');
+        $bids = Bid::where(['user_id' => $user->id])->get();
 
-        return FlightResource::collection($flights);
+        return BidResource::collection($bids);
     }
 
     /**
@@ -145,7 +157,7 @@ class UserController extends RestController
             'user_id' => $this->getUserId($request),
         ];
 
-        if(filled($request->query('state'))) {
+        if (filled($request->query('state'))) {
             $where['state'] = $request->query('state');
         } else {
             $where[] = ['state', '!=', PirepState::CANCELLED];

@@ -1,24 +1,18 @@
-@extends("layouts.${SKIN_NAME}.app")
-@section('title', 'file pirep')
+@extends('app')
+@section('title', 'File Flight Report')
 
 @section('content')
     <div class="row">
         <div class="col-md-12">
-            <h2 class="description">new pilot report</h2>
+            <h2>New Flight Report</h2>
             @include('flash::message')
-            {!! Form::open(['route' => 'frontend.pireps.store']) !!}
+            {{ Form::open(['route' => 'frontend.pireps.store']) }}
 
-            @include("layouts.${SKIN_NAME}.pireps.fields")
+            @include('pireps.fields')
 
-            {!! Form::close() !!}
+            {{ Form::close() }}
         </div>
     </div>
 @endsection
 
-@section('scripts')
-<script>
-$(document).ready(function() {
-
-});
-</script>
-@endsection
+@include('pireps.scripts')

@@ -47,7 +47,7 @@ class SampleServiceProvider extends ServiceProvider
         // $this->moduleSvc->addFrontendLink('Sample', '/sample', '', $logged_in=true);
 
         // Admin links:
-        $this->moduleSvc->addAdminLink('Sample', '/sample/admin');
+        $this->moduleSvc->addAdminLink('Sample', '/admin/sample');
     }
 
     /**
@@ -73,7 +73,7 @@ class SampleServiceProvider extends ServiceProvider
          */
         Route::group([
             'as' => 'sample.',
-            'prefix' => 'api/sample/admin',
+            'prefix' => 'admin/sample',
             // If you want a RESTful module, change this to 'api'
             'middleware' => ['web', 'role:admin'],
             'namespace' => 'Modules\Sample\Http\Controllers\Admin'

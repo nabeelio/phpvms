@@ -1,0 +1,8 @@
+parameters:
+  autoload_files:
+    #- %currentWorkingDirectory%/_ide_helper.php
+  ignoreErrors:
+    - '#PHPDoc tag(.*)#'
+    - '#Access to an undefined property App\\Models(.*)#'
+includes:
+  - vendor/weebly/phpstan-laravel/extension.neon

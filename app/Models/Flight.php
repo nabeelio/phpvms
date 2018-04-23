@@ -2,22 +2,46 @@
 
 namespace App\Models;
 
-use App\Models\Traits\HashId;
+use App\Interfaces\Model;
+use App\Models\Enums\Days;
+use App\Models\Traits\HashIdTrait;
 use App\Support\Units\Distance;
-use App\Support\Units\Time;
+use Carbon\Carbon;
+use Illuminate\Support\Collection;
 use PhpUnitsOfMeasure\Exception\NonNumericValue;
 use PhpUnitsOfMeasure\Exception\NonStringUnitName;
 
-class Flight extends BaseModel
+/**
+ * @property string     id
+ * @property Airline    airline
+ * @property mixed      flight_number
+ * @property mixed      route_code
+ * @property mixed      route_leg
+ * @property Collection field_values
+ * @property Collection fares
+ * @property Collection subfleets
+ * @property integer    days
+ * @property Airport    dep_airport
+ * @property Airport    arr_airport
+ * @property Airport    alt_airport
+ * @property string     dpt_airport_id
+ * @property string     arr_airport_id
+ * @property string     alt_airport_id
+ * @property int        active
+ * @property Carbon     start_date
+ * @property Carbon     end_date
+ */
+class Flight extends Model
 {
-    use HashId;
-
-    public const ID_MAX_LENGTH = 12;
+    use HashIdTrait;
 
     public $table = 'flights';
     public $incrementing = false;
 
-    public $fillable = [
+    /** The form wants this */
+    public $hours, $minutes;
+
+    protected $fillable = [
         'id',
         'airline_id',
         'flight_number',
@@ -28,22 +52,27 @@ class Flight extends BaseModel
         'alt_airport_id',
         'dpt_time',
         'arr_time',
+        'days',
         'level',
         'distance',
         'flight_time',
         'flight_type',
         'route',
         'notes',
+        'start_date',
+        'end_date',
         'has_bid',
         'active',
     ];
 
     protected $casts = [
         'flight_number' => 'integer',
+        'days'          => 'integer',
         'level'         => 'integer',
         'distance'      => 'float',
         'flight_time'   => 'integer',
-        'flight_type'   => 'integer',
+        'start_date'    => 'date',
+        'end_date'      => 'date',
         'has_bid'       => 'boolean',
         'active'        => 'boolean',
     ];
@@ -59,19 +88,35 @@ class Flight extends BaseModel
     ];
 
     /**
+     * Return all of the flights on any given day(s) of the week
+     * Search using bitmasks
+     * @param Days[] $days List of the enumerated values
+     * @return Flight
+     */
+    public static function findByDays(array $days)
+    {
+        $flights = Flight::where('active', true);
+        foreach($days as $day) {
+            $flights = $flights->where('days', '&', $day);
+        }
+
+        return $flights;
+    }
+
+    /**
      * Get the flight ident, e.,g JBU1900
      */
-    public function getIdentAttribute()
+    public function getIdentAttribute(): string
     {
         $flight_id = $this->airline->code;
         $flight_id .= $this->flight_number;
 
         if (filled($this->route_code)) {
-            $flight_id .= '/C' . $this->route_code;
+            $flight_id .= '/C'.$this->route_code;
         }
 
         if (filled($this->route_leg)) {
-            $flight_id .= '/L' . $this->route_leg;
+            $flight_id .= '/L'.$this->route_leg;
         }
 
         return $flight_id;
@@ -89,6 +134,7 @@ class Flight extends BaseModel
 
         try {
             $distance = (float) $this->attributes['distance'];
+
             return new Distance($distance, config('phpvms.internal_units.distance'));
         } catch (NonNumericValue $e) {
             return 0;
@@ -101,9 +147,9 @@ class Flight extends BaseModel
      * Set the distance unit, convert to our internal default unit
      * @param $value
      */
-    public function setDistanceAttribute($value)
+    public function setDistanceAttribute($value): void
     {
-        if($value instanceof Distance) {
+        if ($value instanceof Distance) {
             $this->attributes['distance'] = $value->toUnit(
                 config('phpvms.internal_units.distance')
             );
@@ -113,28 +159,42 @@ class Flight extends BaseModel
     }
 
     /**
-     * @return Time
+     * @param $day
+     * @return bool
      */
-    /*public function getFlightTimeAttribute()
+    public function on_day($day): bool
     {
-        if (!array_key_exists('flight_time', $this->attributes)) {
-            return null;
-        }
-
-        return new Time($this->attributes['flight_time']);
-    }*/
+        return ($this->days & $day) === $day;
+    }
 
     /**
-     * @param $value
+     * Return a custom field value
+     * @param $field_name
+     * @return string
      */
-    /*public function setFlightTimeAttribute($value)
+    public function field($field_name): string
     {
-        if ($value instanceof Time) {
-            $this->attributes['flight_time'] = $value->getMinutes();
-        } else {
-            $this->attributes['flight_time'] = $value;
+        $field = $this->field_values->where('name', $field_name)->first();
+        if($field) {
+            return $field['value'];
         }
-    }*/
+
+        return '';
+    }
+
+    /**
+     * Set the days parameter. If an array is passed, it's
+     * AND'd together to create the mask value
+     * @param array|int $val
+     */
+    public function setDaysAttribute($val): void
+    {
+        if (\is_array($val)) {
+            $val = Days::getDaysMask($val);
+        }
+
+        $this->attributes['days'] = $val;
+    }
 
     /**
      * Relationship
@@ -163,16 +223,16 @@ class Flight extends BaseModel
     public function fares()
     {
         return $this->belongsToMany(Fare::class, 'flight_fare')
-                    ->withPivot('price', 'cost', 'capacity');
+            ->withPivot('price', 'cost', 'capacity');
     }
 
-    public function fields()
+    public function field_values()
     {
-        return $this->hasMany(FlightFields::class, 'flight_id');
+        return $this->hasMany(FlightFieldValue::class, 'flight_id');
     }
 
     public function subfleets()
     {
-        return $this->belongsToMany(Subfleet::class, 'subfleet_flight');
+        return $this->belongsToMany(Subfleet::class, 'flight_subfleet');
     }
 }

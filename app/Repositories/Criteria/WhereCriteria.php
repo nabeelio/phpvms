@@ -24,19 +24,18 @@ class WhereCriteria implements CriteriaInterface
         $this->where = $where;
     }
 
-
     /**
      * Apply criteria in query repository
      *
      * @param         Builder|Model $model
-     * @param RepositoryInterface $repository
+     * @param RepositoryInterface   $repository
      *
      * @return mixed
      * @throws \Exception
      */
     public function apply($model, RepositoryInterface $repository)
     {
-        if($this->where) {
+        if ($this->where) {
             $model = $model->where($this->where);
         }
 

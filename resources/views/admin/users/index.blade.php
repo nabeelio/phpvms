@@ -2,8 +2,8 @@
 
 @section('title', 'Users')
 @section('actions')
-    <li><a href="{!! route('admin.users.index') !!}?search=state:0">
-            <i class="ti-user"></i>{!! UserState::label(UserState::PENDING) !!}</a>
+    <li><a href="{{ route('admin.users.index') }}?search=state:0">
+            <i class="ti-user"></i>{{ UserState::label(UserState::PENDING) }}</a>
     </li>
 @endsection
 
@@ -12,8 +12,10 @@
         @include('admin.users.search')
     </div>
 
-    <div class="card">
-        @include('admin.users.table')
+    <div class="card border-blue-bottom">
+        <div class="content">
+            @include('admin.users.table')
+        </div>
     </div>
 
     <div class="row">

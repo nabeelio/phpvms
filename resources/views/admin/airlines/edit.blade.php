@@ -3,9 +3,15 @@
 @section('content')
 <div class="card border-blue-bottom">
    <div class="content">
-       {!! Form::model($airline, ['route' => ['admin.airlines.update', $airline->id], 'method' => 'patch']) !!}
+       {{ Form::model($airline, ['route' => ['admin.airlines.update', $airline->id], 'method' => 'patch']) }}
             @include('admin.airlines.fields')
-       {!! Form::close() !!}
+       {{ Form::close() }}
+   </div>
+</div>
+
+<div class="card border-blue-bottom">
+   <div class="content">
+      @include('admin.common.file_upload', ['model' => $airline])
    </div>
 </div>
 @endsection

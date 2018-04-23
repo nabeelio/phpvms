@@ -2,21 +2,28 @@
 
 namespace App\Models;
 
-use Illuminate\Notifications\Notifiable;
+use App\Interfaces\Model;
+use App\Models\Traits\ExpensableTrait;
+use App\Models\Traits\FilesTrait;
 
 /**
  * Class Airport
+ * @property string id
+ * @property string iata
+ * @property string icao
+ * @property float  ground_handling_cost
  * @package App\Models
  */
-class Airport extends BaseModel
+class Airport extends Model
 {
-    use Notifiable;
+    use ExpensableTrait;
+    use FilesTrait;
 
     public $table = 'airports';
     public $timestamps = false;
     public $incrementing = false;
 
-    public $fillable = [
+    protected $fillable = [
         'id',
         'iata',
         'icao',
@@ -27,57 +34,34 @@ class Airport extends BaseModel
         'lon',
         'hub',
         'timezone',
+        'ground_handling_cost',
         'fuel_100ll_cost',
         'fuel_jeta_cost',
         'fuel_mogas_cost',
     ];
 
     protected $casts = [
-        'lat' => 'float',
-        'lon' => 'float',
-        'hub' => 'boolean',
-        'fuel_100ll_cost' => 'float',
-        'fuel_jeta_cost' => 'float',
-        'fuel_mogas_cost' => 'float',
+        'lat'                  => 'float',
+        'lon'                  => 'float',
+        'hub'                  => 'boolean',
+        'ground_handling_cost' => 'float',
+        'fuel_100ll_cost'      => 'float',
+        'fuel_jeta_cost'       => 'float',
+        'fuel_mogas_cost'      => 'float',
     ];
 
     /**
      * Validation rules
      */
     public static $rules = [
-        'icao'      => 'required',
-        'iata'      => 'nullable',
-        'name'      => 'required',
-        'location'  => 'nullable',
-        'lat'       => 'required|numeric',
-        'lon'       => 'required|numeric',
+        'icao'                 => 'required',
+        'iata'                 => 'nullable',
+        'name'                 => 'required',
+        'location'             => 'nullable',
+        'lat'                  => 'required|numeric',
+        'lon'                  => 'required|numeric',
+        'ground_handling_cost' => 'nullable|numeric',
     ];
-
-    /**
-     * Callbacks
-     */
-    public static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($model) {
-            if(filled($model->iata)) {
-                $model->iata = strtoupper(trim($model->iata));
-            }
-
-            $model->icao = strtoupper(trim($model->icao));
-            $model->id = $model->icao;
-        });
-
-        static::updating(function($model) {
-            if (filled($model->iata)) {
-                $model->iata = strtoupper(trim($model->iata));
-            }
-
-            $model->icao = strtoupper(trim($model->icao));
-            $model->id = $model->icao;
-        });
-    }
 
     /**
      * @param $icao
@@ -92,12 +76,11 @@ class Airport extends BaseModel
     /**
      * @param $iata
      */
-    public function setIataAttribute($iata)
+    public function setIataAttribute($iata): void
     {
         $iata = strtoupper($iata);
         $this->attributes['iata'] = $iata;
     }
-
 
     /**
      * Return full name like:
@@ -106,7 +89,7 @@ class Airport extends BaseModel
      */
     public function getFullNameAttribute(): string
     {
-        return $this->icao . ' - ' . $this->name;
+        return $this->icao.' - '.$this->name;
     }
 
     /**
@@ -115,14 +98,14 @@ class Airport extends BaseModel
      */
     public function getTzAttribute(): string
     {
-        return $this->timezone;
+        return $this->attributes['timezone'];
     }
 
     /**
      * Shorthand for setting the timezone
      * @param $value
      */
-    public function setTzAttribute($value)
+    public function setTzAttribute($value): void
     {
         $this->attributes['timezone'] = $value;
     }

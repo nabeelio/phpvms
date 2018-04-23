@@ -4,15 +4,19 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\CreatePirepFieldRequest;
 use App\Http\Requests\UpdatePirepFieldRequest;
+use App\Interfaces\Controller;
 use App\Repositories\PirepFieldRepository;
 use Flash;
 use Illuminate\Http\Request;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 
-class PirepFieldController extends BaseController
+/**
+ * Class PirepFieldController
+ * @package App\Http\Controllers\Admin
+ */
+class PirepFieldController extends Controller
 {
-    /** @var  PirepFieldRepository */
     private $pirepFieldRepo;
 
     /**
@@ -21,7 +25,7 @@ class PirepFieldController extends BaseController
      */
     public function __construct(
         PirepFieldRepository $pirepFieldRepo
-    ){
+    ) {
         $this->pirepFieldRepo = $pirepFieldRepo;
     }
 
@@ -65,6 +69,7 @@ class PirepFieldController extends BaseController
         $this->pirepFieldRepo->create($attrs);
 
         Flash::success('Field added successfully.');
+
         return redirect(route('admin.pirepfields.index'));
     }
 
@@ -79,6 +84,7 @@ class PirepFieldController extends BaseController
 
         if (empty($field)) {
             Flash::error('PirepField not found');
+
             return redirect(route('admin.pirepfields.index'));
         }
 
@@ -98,6 +104,7 @@ class PirepFieldController extends BaseController
 
         if (empty($field)) {
             Flash::error('Field not found');
+
             return redirect(route('admin.pirepfields.index'));
         }
 
@@ -116,6 +123,7 @@ class PirepFieldController extends BaseController
 
         if (empty($field)) {
             Flash::error('PirepField not found');
+
             return redirect(route('admin.pirepfields.index'));
         }
 
@@ -125,6 +133,7 @@ class PirepFieldController extends BaseController
         $this->pirepFieldRepo->update($attrs, $id);
 
         Flash::success('Field updated successfully.');
+
         return redirect(route('admin.pirepfields.index'));
     }
 
@@ -139,12 +148,14 @@ class PirepFieldController extends BaseController
 
         if (empty($field)) {
             Flash::error('Field not found');
+
             return redirect(route('admin.pirepfields.index'));
         }
 
         $this->pirepFieldRepo->delete($id);
 
         Flash::success('Field deleted successfully.');
+
         return redirect(route('admin.pirepfields.index'));
     }
 }

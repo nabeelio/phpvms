@@ -8,7 +8,7 @@
  */
 
 return [
-    'name' => env('PHPVMS_VA_NAME', 'phpvms'),
+    'name' => env('APP_NAME', 'phpvms'),
     'env' => env('APP_ENV', 'dev'),
     'debug' => env('APP_DEBUG', true),
     'url' => env('APP_URL', 'http://localhost'),
@@ -16,6 +16,10 @@ return [
 
     'locale' => env('APP_LOCALE', 'en'),
     'fallback_locale' => 'en',
+
+    # Where to redirect after logging in/registration
+    'login_redirect' => '/dashboard',
+    'registration_redirect' => '/profile',
 
     # This sends install and vaCentral specific information to help with
     # optimizations and figuring out where slowdowns might be happening
@@ -64,7 +68,6 @@ return [
         /*
          * Package Service Providers...
          */
-        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
         Laracasts\Flash\FlashServiceProvider::class,
         Prettus\Repository\Providers\RepositoryServiceProvider::class,
@@ -73,6 +76,9 @@ return [
         Toin0u\Geotools\GeotoolsServiceProvider::class,
         Jackiedo\Timezonelist\TimezonelistServiceProvider::class,
         Irazasyed\LaravelGAMP\LaravelGAMPServiceProvider::class,
+        Igaster\LaravelTheme\themeServiceProvider::class,
+        Nwidart\Modules\LaravelModulesServiceProvider::class,
+        Anhskohbo\NoCaptcha\NoCaptchaServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -82,7 +88,7 @@ return [
         App\Providers\AuthServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        Nwidart\Modules\LaravelModulesServiceProvider::class,
+        App\Providers\vaCentralServiceProvider::class,
     ],
 
     'aliases' => [
@@ -108,6 +114,7 @@ return [
         'Lang' => Illuminate\Support\Facades\Lang::class,
         'Log' => Illuminate\Support\Facades\Log::class,
         'Mail' => Illuminate\Support\Facades\Mail::class,
+        'NoCaptcha' => Anhskohbo\NoCaptcha\Facades\NoCaptcha::class,
         'Notification' => Illuminate\Support\Facades\Notification::class,
         'Password' => Illuminate\Support\Facades\Password::class,
         'Queue' => Illuminate\Support\Facades\Queue::class,
@@ -119,6 +126,7 @@ return [
         'Schema' => Illuminate\Support\Facades\Schema::class,
         'Session' => Illuminate\Support\Facades\Session::class,
         'Storage' => Illuminate\Support\Facades\Storage::class,
+        'Theme' => Igaster\LaravelTheme\Facades\Theme::class,
         'URL' => Illuminate\Support\Facades\URL::class,
         'Utils' => App\Facades\Utils::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
@@ -127,7 +135,7 @@ return [
         'Yaml' => Symfony\Component\Yaml\Yaml::class,
 
         # ENUMS
-        'GenericState' => App\Models\Enums\GenericState::class,
+        'ActiveState' => App\Models\Enums\ActiveState::class,
         'UserState' => App\Models\Enums\UserState::class,
         'PirepSource' => App\Models\Enums\PirepSource::class,
         'PirepState' => App\Models\Enums\PirepState::class,

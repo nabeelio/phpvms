@@ -2,59 +2,78 @@
 
 namespace App\Models;
 
-use App\Support\ICAO;
+use App\Interfaces\Model;
+use App\Models\Enums\AircraftStatus;
+use App\Models\Traits\ExpensableTrait;
+use App\Models\Traits\FilesTrait;
 
-class Aircraft extends BaseModel
+/**
+ * @property int      id
+ * @property mixed    subfleet_id
+ * @property string   name
+ * @property string   icao
+ * @property string   registration
+ * @property string   hex_code
+ * @property Airport  airport
+ * @property Subfleet subfleet
+ * @property int      status
+ * @property int      state
+ * @package App\Models
+ */
+class Aircraft extends Model
 {
+    use ExpensableTrait;
+    use FilesTrait;
+
     public $table = 'aircraft';
 
-    public $fillable = [
+    protected $fillable = [
         'subfleet_id',
         'airport_id',
-        'name',
+        'iata',
         'icao',
+        'name',
         'registration',
         'hex_code',
         'zfw',
-        'active',
+        'status',
+        'state',
     ];
 
     /**
      * The attributes that should be casted to native types.
-     *
-     * @var array
      */
     protected $casts = [
-        'subfleet_id'   => 'integer',
-        'zfw'           => 'float',
-        'active'        => 'boolean',
+        'subfleet_id' => 'integer',
+        'zfw'         => 'float',
+        'state'       => 'integer',
     ];
 
     /**
      * Validation rules
-     *
-     * @var array
      */
     public static $rules = [
-        'subfleet_id' => 'required',
+        'subfleet_id'  => 'required',
         'name'         => 'required',
+        'registration' => 'required',
     ];
 
     /**
-     * Callbacks
+     * See if this aircraft is active
+     * @return bool
      */
-    protected static function boot()
+    public function getActiveAttribute(): bool
     {
-        parent::boot();
-        static::creating(function (Aircraft $model) {
-            if (!empty($model->icao)) {
-                $model->icao = strtoupper(trim($model->icao));
-            }
+        return $this->status === AircraftStatus::ACTIVE;
+    }
 
-            if(empty($model->hex_code)) {
-                $model->hex_code = ICAO::createHexCode();
-            }
-        });
+    /**
+     * Capitalize the ICAO when set
+     * @param $icao
+     */
+    public function setIcaoAttribute($icao): void
+    {
+        $this->attributes['icao'] = strtoupper($icao);
     }
 
     /**

@@ -3,6 +3,14 @@
  *
  */
 
+.select2-container {
+    margin-top: 2px;
+}
+
+textarea.input-text {
+    padding: 10px
+}
+
 .border-blue-bottom {
     border-bottom: 3px solid #067ec1;
 }

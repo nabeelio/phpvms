@@ -2,12 +2,16 @@
 
 namespace App\Repositories;
 
+use App\Interfaces\Repository;
 use App\Models\Airline;
 use Prettus\Repository\Contracts\CacheableInterface;
 use Prettus\Repository\Traits\CacheableRepository;
 
-
-class AirlineRepository extends BaseRepository implements CacheableInterface
+/**
+ * Class AirlineRepository
+ * @package App\Repositories
+ */
+class AirlineRepository extends Repository implements CacheableInterface
 {
     use CacheableRepository;
 
@@ -25,12 +29,12 @@ class AirlineRepository extends BaseRepository implements CacheableInterface
      * Return the list of airline formatted for a select box
      * @return array
      */
-    public function selectBoxList($add_blank=false): array
+    public function selectBoxList($add_blank = false): array
     {
         $retval = [];
         $items = $this->all();
 
-        if($add_blank) {
+        if ($add_blank) {
             $retval[''] = '';
         }
 

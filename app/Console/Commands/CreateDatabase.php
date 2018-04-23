@@ -2,15 +2,22 @@
 
 namespace App\Console\Commands;
 
-use App\Console\BaseCommand;
+use App\Console\Command;
 use Log;
 
-class CreateDatabase extends BaseCommand
+/**
+ * Class CreateDatabase
+ * @package App\Console\Commands
+ */
+class CreateDatabase extends Command
 {
     protected $signature = 'database:create {--reset} {--conn=?}';
     protected $description = 'Create a database';
     protected $os;
 
+    /**
+     * CreateDatabase constructor.
+     */
     public function __construct()
     {
         parent::__construct();
@@ -24,21 +31,22 @@ class CreateDatabase extends BaseCommand
      */
     protected function create_mysql($dbkey)
     {
-        $host = config($dbkey . 'host');
-        $port = config($dbkey . 'port');
-        $name = config($dbkey . 'database');
-        $user = config($dbkey . 'username');
-        $pass = config($dbkey . 'password');
+        $host = config($dbkey.'host');
+        $port = config($dbkey.'port');
+        $name = config($dbkey.'database');
+        $user = config($dbkey.'username');
+        $pass = config($dbkey.'password');
 
         $dbSvc = new \App\Console\Services\Database();
 
         $dsn = $dbSvc->createDsn($host, $port);
-        Log::info('Connection string: ' . $dsn);
+        Log::info('Connection string: '.$dsn);
 
         try {
             $conn = $dbSvc->createPDO($dsn, $user, $pass);
         } catch (\PDOException $e) {
             Log::error($e);
+
             return false;
         }
 
@@ -59,6 +67,7 @@ class CreateDatabase extends BaseCommand
             $conn->exec($sql);
         } catch (\PDOException $e) {
             Log::error($e);
+
             return false;
         }
     }
@@ -75,14 +84,14 @@ class CreateDatabase extends BaseCommand
         }
 
         if ($this->option('reset') === true) {
-            $cmd = ['rm', '-rf', config($dbkey . 'database')];
+            $cmd = ['rm', '-rf', config($dbkey.'database')];
             $this->runCommand($cmd);
         }
 
-        if (!file_exists(config($dbkey . 'database'))) {
+        if (!file_exists(config($dbkey.'database'))) {
             $cmd = [
                 $exec,
-                config($dbkey . 'database'),
+                config($dbkey.'database'),
                 '""',
             ];
 
@@ -108,21 +117,17 @@ class CreateDatabase extends BaseCommand
             }
         }*/
 
-        $this->info('Using connection "' . config('database.default') . '"');
+        $this->info('Using connection "'.config('database.default').'"');
 
         $conn = config('database.default');
-        $dbkey = 'database.connections.' . $conn . '.';
+        $dbkey = 'database.connections.'.$conn.'.';
 
-        if (config($dbkey . 'driver') === 'mysql') {
+        if (config($dbkey.'driver') === 'mysql') {
             $this->create_mysql($dbkey);
-        }
-
-        elseif (config($dbkey . 'driver') === 'sqlite') {
+        } elseif (config($dbkey.'driver') === 'sqlite') {
             $this->create_sqlite($dbkey);
-        }
-
-        // TODO: Eventually
-        elseif (config($dbkey . 'driver') === 'postgres') {
+        } // TODO: Eventually
+        elseif (config($dbkey.'driver') === 'postgres') {
             $this->create_postgres($dbkey);
         }
     }

@@ -4,6 +4,10 @@ namespace $NAMESPACE$;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
 
+/**
+ * Class $CLASS$
+ * @package $NAMESPACE$
+ */
 class $CLASS$
 {
     use HandlesAuthorization;

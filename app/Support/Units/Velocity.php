@@ -2,51 +2,29 @@
 
 namespace App\Support\Units;
 
-use Illuminate\Contracts\Support\Arrayable;
+use App\Interfaces\Unit;
+use PhpUnitsOfMeasure\PhysicalQuantity\Velocity as VelocityUnit;
 
 /**
  * Class Velocity
  * @package App\Support\Units
  */
-class Velocity extends \PhpUnitsOfMeasure\PhysicalQuantity\Velocity implements Arrayable
+class Velocity extends Unit
 {
     /**
-     * @return string
+     * @param float  $value
+     * @param string $unit
+     * @throws \PhpUnitsOfMeasure\Exception\NonNumericValue
+     * @throws \PhpUnitsOfMeasure\Exception\NonStringUnitName
      */
-    public function __toString()
+    public function __construct(float $value, string $unit)
     {
-        $unit = setting('general.speed_unit');
-        $value = $this->toUnit($unit);
-        return (string) round($value, 2);
-    }
+        $this->unit = setting('units.speed');
+        $this->instance = new VelocityUnit($value, $unit);
 
-    /**
-     * Return value in native unit as integer
-     * @return array
-     */
-    public function toNumber()
-    {
-        return $this->toArray();
-    }
-
-    /**
-     * For the HTTP Resource call
-     */
-    public function toObject()
-    {
-        return [
-            'knots' => round($this->toUnit('knots'), 2),
-            'km/h' => round($this->toUnit('km/h'), 2),
+        $this->units = [
+            'knots' => round($this->instance->toUnit('knots'), 2),
+            'km/h'  => round($this->instance->toUnit('km/h'), 2),
         ];
-    }
-
-    /**
-     * Get the instance as an array.
-     */
-    public function toArray()
-    {
-        return round($this->toUnit(
-            config('phpvms.internal_units.velocity')
-        ), 2);
     }
 }

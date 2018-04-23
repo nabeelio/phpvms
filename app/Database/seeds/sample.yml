@@ -75,17 +75,33 @@ ranks:
   - id: 2
     name: Junior First Officer
     hours: 10
+    acars_base_pay_rate: 100
+    manual_base_pay_rate: 90
   - id: 3
     name: First Officer
     hours: 15
+    acars_base_pay_rate: 250
+    manual_base_pay_rate: 200
     auto_approve_acars: 1
     auto_approve_manual: 1
   - id: 4
     name: Senior Captain
     hours: 20
+    acars_base_pay_rate: 500
+    manual_base_pay_rate: 400
     auto_approve_acars: 1
     auto_approve_manual: 1
     auto_promote: 0
+
+awards:
+  - id: 1
+    name: Pilot 50 flights
+    description: When a pilot has 50 flights, give this award
+    image_url:
+    ref_model: App\Awards\PilotFlightAwards
+    ref_model_params: 50
+    created_at: now
+    updated_at: now
 
 news:
   - id: 1
@@ -115,6 +131,7 @@ airports:
     lat: 30.1945278
     lon: -97.6698889
     hub: 1
+    ground_handling_cost: 100
   - id: KJFK
     iata: JFK
     icao: KJFK
@@ -125,51 +142,7 @@ airports:
     lat: 40.6399257
     lon: -73.7786950
     hub: 1
-  - id: KBWI
-    iata: BWI
-    icao: KBWI
-    name: Baltimore/Washington International Thurgood Marshall Airport
-    location: Baltimore, MD
-    country: United States
-    timezone: America/New_York
-    lat: 39.1754
-    lon: -76.6683
-  - id: KIAH
-    iata: IAH
-    icao: KIAH
-    name: George Bush Intercontinental Houston Airport
-    location: Houston, TX
-    country: United States
-    timezone: America/Chicago
-    lat: 29.9844
-    lon: -95.3414
-  - id: KORD
-    iata: ORD
-    icao: KORD
-    name: Chicago O'Hare International Airport
-    location: Chicago, IL
-    country: United States
-    timezone: America/Chicago
-    lat: 41.9786
-    lon: -87.9048
-  - id: KDFW
-    iata: DFW
-    icao: KDFW
-    name: Dallas Fort Worth International Airport
-    location: Dallas, TX
-    country: United States
-    timezone: America/Chicago
-    lat: 32.8968
-    lon: -97.038
-  - id: EFHK
-    iata: HEL
-    icao: EFHK
-    name: Helsinki Vantaa Airport
-    location: Helsinki
-    country: Finland
-    timezone: Europe/Helsinki
-    lat: 60.3172
-    lon: 24.9633
+    ground_handling_cost: 250
   - id: EGLL
     iata: LHR
     icao: EGLL
@@ -178,6 +151,7 @@ airports:
     timezone: Europe/London
     lat: 51.4775
     lon: -0.4614
+    ground_handling_cost: 500
   - id: LGRP
     iata: RHO
     icao: LGRP
@@ -187,20 +161,87 @@ airports:
     timezone: Europe/Athens
     lat: 36.4054
     lon: 28.0862
+    ground_handling_cost: 50
 #
 aircraft:
   - id: 1
     subfleet_id: 1
-    name: Boeing 747-400
+    airport_id: KJFK
+    name: Boeing 747-438
     registration: 001Z
+    status: A
   - id: 2
     subfleet_id: 2
+    airport_id: LGRP
     name: Boeing 777-200
     registration: C202
+    status: A
   - id: 3
     subfleet_id: 1
+    airport_id: KAUS
     name: Boeing 747-412
     registration: S2333
+    status: A
+  - id: 4
+    subfleet_id: 1
+    airport_id: KAUS
+    name: Boeing 747-436 RETIRED
+    registration:
+    status: R
+
+expenses:
+  - name: Per-Flight (no muliplier)
+    amount: 100
+    type: F
+    active: 1
+    ref_model: App\Models\Expense
+  - name: Per-Flight (multiplier)
+    amount: 100
+    type: F
+    multiplier: 1
+    active: 1
+    ref_model: App\Models\Expense
+  - name: Per-Flight (multiplier, on airline)
+    airline_id: 1
+    amount: 200
+    type: F
+    multiplier: 1
+    active: 1
+    ref_model: App\Models\Expense
+  - name: A daily fee
+    amount: 800
+    type: D
+    active: 1
+    ref_model: App\Models\Expense
+  - name: A monthly fee
+    amount: 5000
+    type: M
+    active: 1
+    ref_model: App\Models\Expense
+  - name: Catering
+    amount: 1000
+    type: F
+    active: 1
+    ref_model: App\Models\Subfleet
+    ref_model_id: 1
+    created_at: now
+    updated_at: now
+  - name: Catering Staff
+    amount: 1000
+    type: D
+    active: 1
+    ref_model: App\Models\Subfleet
+    ref_model_id: 1
+    created_at: now
+    updated_at: now
+  - name: Maintenance
+    amount: 1000
+    type: D
+    active: 1
+    ref_model: App\Models\Aircraft
+    ref_model_id: 1
+    created_at: now
+    updated_at: now
 
 fares:
   - id: 1
@@ -222,12 +263,22 @@ fares:
 subfleets:
   - id: 1
     airline_id: 1
-    name: 747-400 Winglets
-    type: 744W
+    name: 747-43X RB211-524G
+    type: 744-3X-RB211
+    cost_block_hour: 1000
+    ground_handling_multiplier: 200
   - id: 2
     airline_id: 1
-    name: 777-200 LR
-    type: 772-LR
+    name: 777-222ER GE90-76B
+    type: 772-22ER-GE90-76B
+    cost_block_hour: 500
+    ground_handling_multiplier: 150
+  - id: 3
+    airline_id: 1
+    name: 777-367 ER GE90-115B
+    type: 772-36ER-GE90-115B
+    cost_block_hour: 100
+    ground_handling_multiplier: 150
 
 # add a few mods to aircraft and fares
 subfleet_fare:
@@ -239,11 +290,11 @@ subfleet_fare:
     capacity: 400
   - subfleet_id: 1
     fare_id: 2
-    capacity: 20
+    price: 120%
   - subfleet_id: 1
     fare_id: 3
     price: 1000
-    capacity: 10
+    capacity: 110%
 
   # Fare classes on the 777
   - subfleet_id: 2
@@ -251,10 +302,6 @@ subfleet_fare:
   - subfleet_id: 2
     fare_id: 3
     capacity: 10
-
-subfleet_flight:
-  - subfleet_id: 1
-    flight_id: flightid_1
 
 subfleet_rank:
   - rank_id: 1
@@ -271,6 +318,8 @@ flights:
     level: 360
     dpt_time: 6PM CST
     arr_time: 11PM EST
+    flight_time: 240
+    flight_type: J
     created_at: NOW
     updated_at: NOW
   - id: flightid_2
@@ -281,6 +330,8 @@ flights:
     arr_airport_id: LGRP
     dpt_time: 9AM CST
     arr_time: 1030AM CST
+    flight_time: 30
+    flight_type: J
     route: PITZZ4 MNURE WLEEE4
     created_at: NOW
     updated_at: NOW
@@ -289,8 +340,10 @@ flights:
     flight_number: 6028
     route_code: A
     route_leg: 1
-    dpt_airport_id: KIAH
-    arr_airport_id: KAUS
+    dpt_airport_id: EGLL
+    arr_airport_id: KJFK
+    flight_time: 480
+    flight_type: J
     dpt_time: 9AM CST
     arr_time: 1030AM CST
     route: PITZZ4 MNURE WLEEE4
@@ -298,6 +351,12 @@ flights:
     updated_at: NOW
 
 flight_fields:
+  - name: Departure Gate
+    slug: departure_gate
+  - name: Arrival Gate
+    slug: arrival_gate
+
+flight_field_values:
   - id: 1
     flight_id: flightid_1
     name: cost index
@@ -307,7 +366,11 @@ flight_fields:
     name: cost index
     value: 100
 
-user_bids:
+flight_subfleet:
+  - subfleet_id: 1
+    flight_id: flightid_1
+
+bids:
   - id: 100
     user_id: 1
     flight_id: flightid_1
@@ -319,47 +382,77 @@ pireps:
   - id: pirepid_1
     user_id: 1
     airline_id: 1
-    flight_id: flightid_1
     flight_number: 100
     aircraft_id: 1
     dpt_airport_id: KAUS
     arr_airport_id: KJFK
+    block_off_time: 2018-04-04T12:42:36+00:00
+    block_on_time: 2018-04-04T16:42:36+00:00
     flight_time: 180  # 6 hours
-    state: 1
+    state: 1 # accepted
+    status: 0
+    source: 1
+    flight_type: J
     route: KAUS SID TNV J87 IAH J2 LCH J22 MEI J239 ATL J52 AJFEB J14 BYJAC Q60 JAXSN J14 COLIN J61 HUBBS J55 SIE STAR KJFK
     notes: just a pilot report
-    created_at: NOW
-    updated_at: NOW
+    submitted_at: 2018-04-04T16:50:36+00:00
+    created_at: 2018-04-04T16:50:36+00:00
+    updated_at: 2018-04-04T17:00:36+00:00
   - id: pirepid_2
     user_id: 1
     airline_id: 1
-    flight_id: flightid_2
-    flight_number: 101
-    aircraft_id: 1
+    flight_number: 2023
+    aircraft_id: 2
     dpt_airport_id: LGRP
     arr_airport_id: LGRP
     flight_time: 180  # 6 hours
     state: 1
+    flight_type: J
     route: PLMMR2 SPA Q22 BEARI FAK PHLBO3
     notes: just a pilot report
-    source: 1
+    source: 1 # pending
     source_name: sample
+    submitted_at: NOW
     created_at: NOW
     updated_at: NOW
   - id: pirepid_3
     user_id: 1
     airline_id: 1
-    flight_id: flightid_2
-    flight_number: 101
-    aircraft_id: 1
+    flight_number: 300
+    aircraft_id: 3
     dpt_airport_id: KJFK
     arr_airport_id: KAUS
     flight_time: 180  # 6 hours
-    state: 1
+    state: 1 # pending
+    source: 0 # manual
+    flight_type: J
     route: PLMMR2 SPA Q22 BEARI FAK PHLBO3
     notes: just a pilot report
+    submitted_at: NOW
     created_at: NOW
     updated_at: NOW
+
+pirep_fares:
+  - id: 1
+    pirep_id: pirepid_1
+    fare_id: 1
+    count: 300
+  - id: 2
+    pirep_id: pirepid_1
+    fare_id: 2
+    count: 25
+  - id: 3
+    pirep_id: pirepid_1
+    fare_id: 3
+    count: 10
+  - id: 4
+    pirep_id: pirepid_2
+    fare_id: 1
+    count: 200
+  - id: 5
+    pirep_id: pirepid_2
+    fare_id: 3
+    count: 15
 
 pirep_fields:
   - id: 1
@@ -375,7 +468,14 @@ pirep_field_values:
   - id: 1
     pirep_id: pirepid_1
     name: arrival gate
-    value: B14
+    slug: arrival_gate
+    value: 10
+    source: manual
+  - id: 2
+    pirep_id: pirepid_1
+    name: departure gate
+    slug: departure_gate
+    value: B32
     source: manual
 
 pirep_comments:
@@ -391,3 +491,182 @@ pirep_comments:
     comment: Another comment
     created_at: now
     updated_at: now
+
+journals:
+  -
+    id: 1
+    ledger_id: null
+    type: 0
+    balance: 7870000
+    currency: USD
+    morphed_type: App\Models\Airline
+    morphed_id: 1
+    created_at: '2018-03-06 12:33:45'
+    updated_at: '2018-03-06 12:34:15'
+  -
+    id: 2
+    ledger_id: null
+    type: 1
+    balance: 15000
+    currency: USD
+    morphed_type: App\Models\User
+    morphed_id: 1
+    created_at: '2018-03-06 12:33:45'
+    updated_at: '2018-03-06 12:34:15'
+
+journal_transactions:
+  -
+    id: 2cbb5990-c70c-40a8-8381-05b6402a96b4
+    transaction_group: 'Pilot Pay'
+    journal_id: 2
+    credit: 15000
+    debit: null
+    currency: USD
+    memo: 'Pilot Payment @ 50'
+    tags: "pilot_pay"
+    ref_model: App\Models\Pirep
+    ref_model_id: pirepid_1
+    created_at: '2018-03-06 12:34:15'
+    updated_at: '2018-03-06 12:34:15'
+    post_date: '2018-03-06 12:34:15'
+  -
+    id: 3471fb16-0afd-4815-8b0c-f92771274063
+    transaction_group: 'Expense: Per-Flight (no muliplier)'
+    journal_id: 1
+    credit: null
+    debit: 10000
+    currency: USD
+    memo: 'Expense: Per-Flight (no muliplier)'
+    tags: "expense"
+    ref_model: App\Models\Pirep
+    ref_model_id: pirepid_1
+    created_at: '2018-03-06 12:34:15'
+    updated_at: '2018-03-06 12:34:15'
+    post_date: '2018-03-06 12:34:15'
+  -
+    id: 37f21468-ebad-4850-8557-db310ca45eb4
+    transaction_group: Fares
+    journal_id: 1
+    credit: 6000000
+    debit: 0
+    currency: USD
+    memo: 'Fares Y300; price: 200, cost: 0'
+    tags: "fare"
+    ref_model: App\Models\Pirep
+    ref_model_id: pirepid_1
+    created_at: '2018-03-06 12:34:15'
+    updated_at: '2018-03-06 12:34:15'
+    post_date: '2018-03-06 12:34:15'
+  -
+    id: 3e933972-07ef-4bb2-b1e1-90ef7e8871c6
+    transaction_group: 'Expense: Per-Flight (multiplier, on airline)'
+    journal_id: 1
+    credit: null
+    debit: 20000
+    currency: USD
+    memo: 'Expense: Per-Flight (multiplier, on airline)'
+    tags: "expense"
+    ref_model: App\Models\Pirep
+    ref_model_id: pirepid_1
+    created_at: '2018-03-06 12:34:15'
+    updated_at: '2018-03-06 12:34:15'
+    post_date: '2018-03-06 12:34:15'
+  -
+    id: 522d8032-4ca0-4d6d-b7af-613be4bf281c
+    transaction_group: 'Expense: Per-Flight (multiplier)'
+    journal_id: 1
+    credit: null
+    debit: 10000
+    currency: USD
+    memo: 'Expense: Per-Flight (multiplier)'
+    tags: "expense"
+    ref_model: App\Models\Pirep
+    ref_model_id: pirepid_1
+    created_at: '2018-03-06 12:34:15'
+    updated_at: '2018-03-06 12:34:15'
+    post_date: '2018-03-06 12:34:15'
+  -
+    id: a9bca611-c251-4fde-9f28-206d4debeb01
+    transaction_group: 'Subfleet: Catering (747-43X RB211-524G)'
+    journal_id: 1
+    credit: null
+    debit: 100000
+    currency: USD
+    memo: 'Subfleet Expense: Catering (747-43X RB211-524G)'
+    tags: "subfleet"
+    ref_model: App\Models\Pirep
+    ref_model_id: pirepid_1
+    created_at: '2018-03-06 12:34:15'
+    updated_at: '2018-03-06 12:34:15'
+    post_date: '2018-03-06 12:34:15'
+  -
+    id: c3ff6a6d-03d0-4744-8678-e27329462dcb
+    transaction_group: Fares
+    journal_id: 1
+    credit: 1000000
+    debit: 0
+    currency: USD
+    memo: 'Fares F10; price: 1000, cost: 0'
+    tags: "fare"
+    ref_model: App\Models\Pirep
+    ref_model_id: pirepid_1
+    created_at: '2018-03-06 12:34:15'
+    updated_at: '2018-03-06 12:34:15'
+    post_date: '2018-03-06 12:34:15'
+  -
+    id: c4e05ec1-530f-4897-92e8-787bdec8a0a1
+    transaction_group: 'Pilot Pay'
+    journal_id: 1
+    credit: null
+    debit: 15000
+    currency: USD
+    memo: 'Pilot Payment @ 50'
+    tags: "pilot_pay"
+    ref_model: App\Models\Pirep
+    ref_model_id: pirepid_1
+    created_at: now
+    updated_at: now
+    post_date: now
+  -
+    id: ed516367-eeb9-4a09-bfb7-531ec4be2f93
+    transaction_group: Fares
+    journal_id: 1
+    credit: 1100000
+    debit: 0
+    currency: USD
+    memo: 'Fares B10; price: 1100, cost: 0'
+    tags: "fare"
+    ref_model: App\Models\Pirep
+    ref_model_id: pirepid_1
+    created_at: now
+    updated_at: now
+    post_date: now
+  -
+    id: f3f8585e-894c-4491-b19b-d07b6ad20208
+    transaction_group: 'Ground Handling'
+    journal_id: 1
+    credit: null
+    debit: 75000
+    currency: USD
+    memo: 'Ground Handling'
+    tags: "ground_handling"
+    ref_model: App\Models\Pirep
+    ref_model_id: pirepid_1
+    created_at: now
+    updated_at: now
+    post_date: now
+
+  -
+    id: 1bd1616c-eaa4-4ab9-b5c1-441004ceef14
+    transaction_group: 'Subfleet 744-3X-RB211'
+    journal_id: 1
+    credit: null
+    debit: 300000
+    currency: USD
+    memo: 'Subfleet 744-3X-RB211: Block Time Cost'
+    tags: "subfleet"
+    ref_model: App\Models\Pirep
+    ref_model_id: pirepid_1
+    created_at: now
+    updated_at: now
+    post_date: now

@@ -3,22 +3,21 @@
 
 <head>
     <meta charset="utf-8"/>
-    <link rel="apple-touch-icon" sizes="76x76" href="/assets/frontend/img/apple-icon.png">
-    <link rel="icon" type="image/png" href="/assets/frontend/img/favicon.png">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <title>@yield('title') - installer</title>
+
+    <link rel="shortcut icon" type="image/png" href="{{ public_asset('/assets/img/favicon.png') }}"/>
+
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
           name='viewport'/>
-    <!--     Fonts and icons     -->
+
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet"/>
-    <link rel="stylesheet"
-          href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css"/>
-    <!-- CSS Files -->
-    <link href="{!! public_asset('/assets/frontend/css/bootstrap.min.css') !!}" rel="stylesheet"/>
-    <link href="{!! public_asset('/assets/frontend/css/now-ui-kit.css') !!}" rel="stylesheet"/>
-    <link href="{!! public_asset('/assets/frontend/css/styles.css') !!}" rel="stylesheet"/>
-    <link href="{!! public_asset('/assets/system/css/installer.css') !!}" rel="stylesheet"/>
-    {{--<link href="/assets/frontend/css/installer.css" rel="stylesheet"/>--}}
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet"/>
+
+    <link href="{{ public_asset('/assets/installer/css/vendor.css') }}" rel="stylesheet"/>
+    <link href="{{ public_asset('/assets/frontend/css/styles.css') }}" rel="stylesheet"/>
 
     <link rel="stylesheet"
           href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
@@ -42,8 +41,8 @@
                 <span class="navbar-toggler-bar bar3"></span>
             </button>
             <p class="navbar-brand text-white" data-placement="bottom" target="_blank">
-                <a href="{!! url('/') !!}">
-                    <img src="{!! public_asset('/assets/frontend/img/logo_blue_bg.svg') !!}" width="135px" style=""/>
+                <a href="{{ url('/') }}">
+                    <img src="{{ public_asset('/assets/img/logo_blue_bg.svg') }}" width="135px" style=""/>
                 </a>
             </p>
         </div>
@@ -69,9 +68,7 @@
 
 {{--<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>--}}
 
-<script src="{!! public_asset('/assets/system/js/installer-vendor.js') !!}" type="text/javascript"></script>
-{{--<script src="/assets/frontend/js/core/bootstrap.min.js" type="text/javascript"></script>--}}
-{{--<script src="/assets/frontend/js/now-ui-kit.js" type="text/javascript"></script>--}}
+<script src="{{ public_asset('/assets/installer/js/vendor.js') }}" type="text/javascript"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
 
 <script>
@@ -87,6 +84,7 @@
         });
     });
 </script>
+
 @yield('scripts')
 
 </body>

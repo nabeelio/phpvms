@@ -13,7 +13,7 @@
                 <button type="button"class="close" data-dismiss="alert">&times;</button>
             @endif
 
-            {!! session('flash_notification.message') !!}
+            {{ session('flash_notification.message') }}
         </div>
     @endif
 @endif

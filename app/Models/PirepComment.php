@@ -2,16 +2,20 @@
 
 namespace App\Models;
 
+use App\Interfaces\Model;
+
 /**
  * Class PirepEvent
  *
+ * @property string pirep_id
+ * @property int user_id
  * @package App\Models
  */
-class PirepComment extends BaseModel
+class PirepComment extends Model
 {
     public $table = 'pirep_comments';
 
-    public $fillable = [
+    protected $fillable = [
         'pirep_id',
         'user_id',
         'comment',

@@ -14,9 +14,9 @@
     <link rel="stylesheet"
           href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css"/>
     <!-- CSS Files -->
-    <link href="{!! public_asset('/assets/frontend/css/bootstrap.min.css') !!}" rel="stylesheet"/>
-    <link href="{!! public_asset('/assets/frontend/css/now-ui-kit.css') !!}" rel="stylesheet"/>
-    <link href="{!! public_asset('/assets/frontend/css/styles.css') !!}" rel="stylesheet"/>
+    <link href="{{ public_asset('/assets/frontend/css/bootstrap.min.css') }}" rel="stylesheet"/>
+    <link href="{{ public_asset('/assets/frontend/css/now-ui-kit.css') }}" rel="stylesheet"/>
+    <link href="{{ public_asset('/assets/frontend/css/styles.css') }}" rel="stylesheet"/>
     {{--<link href="/assets/frontend/css/installer.css" rel="stylesheet"/>--}}
 
     <link rel="stylesheet"
@@ -43,8 +43,8 @@
                 <span class="navbar-toggler-bar bar3"></span>
             </button>
             <p class="navbar-brand text-white" data-placement="bottom" target="_blank">
-                <a href="{!! url('/') !!}">
-                    <img src="{!! public_asset('/assets/frontend/img/logo_blue_bg.svg') !!}" width="135px" style=""/>
+                <a href="{{ url('/') }}">
+                    <img src="{{ public_asset('/assets/frontend/img/logo_blue_bg.svg') }}" width="135px" style=""/>
                 </a>
             </p>
         </div>

@@ -10,7 +10,6 @@ use GeoJson\Geometry\Point;
 /**
  * Return different points/features in GeoJSON format
  * https://tools.ietf.org/html/rfc7946
- *
  * @package App\Models
  */
 class GeoJson
@@ -19,21 +18,19 @@ class GeoJson
      * @var int
      */
     protected $counter;
-
     /**
      * @var array [lon, lat] pairs
      */
     protected $line_coords = [];
-
     /**
      * @var Feature[]
      */
     protected $point_coords = [];
 
     /**
-     * @param $lat
-     * @param $lon
-     * @param array $attrs  Attributes of the Feature
+     * @param       $lat
+     * @param       $lon
+     * @param array $attrs Attributes of the Feature
      */
     public function addPoint($lat, $lon, array $attrs)
     {
@@ -48,7 +45,7 @@ class GeoJson
      */
     public function getLine(): FeatureCollection
     {
-        if(empty($this->line_coords) || \count($this->line_coords) < 2) {
+        if (empty($this->line_coords) || \count($this->line_coords) < 2) {
             return new FeatureCollection([]);
         }
 

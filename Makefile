@@ -36,8 +36,7 @@ build:
 # This is to build all the stylesheets, etc
 .PHONY: build-assets
 build-assets:
-	npm update
-	npm run dev
+	yarn run dev
 
 .PHONY: install
 install: build
@@ -53,7 +52,7 @@ update: build
 	@echo "Done!"
 
 .PHONY: reset
-reset: clean
+reset: cleanapp/Models/Traits/JournalTrait.php
 	@php $(COMPOSER) dump-autoload
 	@make reload-db
 
@@ -61,8 +60,8 @@ reset: clean
 reload-db:
 	@php artisan database:create --reset
 	@php artisan migrate:fresh --seed
-	@php artisan phpvms:import app/Database/seeds/sample.yml
-	@php artisan phpvms:import app/Database/seeds/acars.yml
+	@php artisan phpvms:yaml-import app/Database/seeds/sample.yml
+	@php artisan phpvms:yaml-import app/Database/seeds/acars.yml
 	#php artisan phpvms:navdata
 
 .PHONY: tests
@@ -72,6 +71,10 @@ tests: test
 test:
 	#php artisan database:create --reset
 	vendor/bin/phpunit --debug --verbose
+
+.PHONY:
+phpstan:
+	vendor/bin/phpstan analyse -c phpstan.neon -v --level 2 app
 
 .PHONY: replay-acars
 replay-acars:

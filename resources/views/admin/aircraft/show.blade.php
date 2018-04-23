@@ -2,9 +2,9 @@
 
 @section('content')
 <section class="content-header">
-    <h1 class="pull-left">{!! $aircraft->name !!}</h1>
+    <h1 class="pull-left">{{ $aircraft->name }}</h1>
     <h1 class="pull-right">
-        <a class="btn btn-primary pull-right" style="margin-top: -10px;margin-bottom: 5px" href="{!! route('admin.aircraft.edit', $aircraft->id) !!}">Edit</a>
+        <a class="btn btn-primary pull-right" style="margin-top: -10px;margin-bottom: 5px" href="{{ route('admin.aircraft.edit', $aircraft->id) }}">Edit</a>
     </h1>
 </section>
 <section class="content">
@@ -22,7 +22,7 @@ $(document).ready(function() {
         type: 'text',
         mode: 'inline',
         emptytext: 'default',
-        url: '/admin/aircraft/{!! $aircraft->id !!}/fares',
+        url: '/admin/aircraft/{{ $aircraft->id }}/fares',
         title: 'Enter override value',
         ajaxOptions: { 'type': 'put'},
         params: function(params) {

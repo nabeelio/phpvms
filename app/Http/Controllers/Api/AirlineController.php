@@ -3,12 +3,17 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Resources\Airline as AirlineResource;
+use App\Interfaces\Controller;
 use App\Repositories\AirlineRepository;
 use Illuminate\Http\Request;
 
-class AirlineController extends RestController
+/**
+ * Class AirlineController
+ * @package App\Http\Controllers\Api
+ */
+class AirlineController extends Controller
 {
-    protected $airlineRepo;
+    private $airlineRepo;
 
     /**
      * AirlineController constructor.
@@ -27,9 +32,10 @@ class AirlineController extends RestController
      */
     public function index(Request $request)
     {
+        #$this->airlineRepo->pushCriteria(new RequestCriteria($request));
         $airports = $this->airlineRepo
             ->whereOrder(['active' => true], 'name', 'asc')
-            ->paginate(50);
+            ->paginate();
 
         return AirlineResource::collection($airports);
     }
@@ -42,6 +48,7 @@ class AirlineController extends RestController
     public function get($id)
     {
         $id = strtoupper($id);
+
         return new AirlineResource($this->airlineRepo->find($id));
     }
 }

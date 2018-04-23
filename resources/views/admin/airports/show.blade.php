@@ -2,10 +2,10 @@
 
 @section('content')
 <section class="content-header">
-    <h1 class="pull-left">{!! $airport->name !!} - {!! $airport->location !!}</h1>
+    <h1 class="pull-left">{{ $airport->name }} - {{ $airport->location }}</h1>
     <h1 class="pull-right">
-        <a class="btn btn-primary pull-right" style="margin-top: -10px;margin-bottom: 5px" href="{!! route('admin.airports.edit', $airport->id) !!}">Edit</a>
-    </h1>    
+        <a class="btn btn-primary pull-right" style="margin-top: -10px;margin-bottom: 5px" href="{{ route('admin.airports.edit', $airport->id) }}">Edit</a>
+    </h1>
 </section>
 <section class="content">
     <div class="clearfix"></div>
@@ -26,10 +26,10 @@
 </section>
 @endsection
 @section('scripts')
-<script type="text/javascript"> 
+<script type="text/javascript">
 phpvms_render_airspace_map({
-    lat: {!! $airport->lat !!},
-    lon: {!! $airport->lon !!},
+    lat: {{ $airport->lat }},
+    lon: {{ $airport->lon }},
 });
 </script>
 @endsection

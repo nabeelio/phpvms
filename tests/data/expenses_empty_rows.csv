@@ -1,0 +1,11 @@
+airline,name,amount,type,charge_to_user,multiplier,active,ref_model,ref_model_id
+,"Per-Flight (no muliplier)",100,F,0,0,1,,
+,"Per-Flight (multiplier)",100,F,0,1,1,,
+VMS,"Per-Flight (multiplier, on airline)",200,F,0,1,1,,
+,"A daily fee",800,D,0,0,1,,
+,"A monthly fee",5000,M,0,0,1,,
+,Catering,1000,F,0,0,1,Subfleet,744-3X-RB211
+,"Catering Staff",1000,D,0,0,1,Subfleet,744-3X-RB211
+,Maintenance,1000,D,0,0,1,App\Models\Aircraft,001Z
+
+

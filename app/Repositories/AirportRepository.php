@@ -2,12 +2,16 @@
 
 namespace App\Repositories;
 
+use App\Interfaces\Repository;
 use App\Models\Airport;
 use Prettus\Repository\Contracts\CacheableInterface;
 use Prettus\Repository\Traits\CacheableRepository;
 
-
-class AirportRepository extends BaseRepository implements CacheableInterface
+/**
+ * Class AirportRepository
+ * @package App\Repositories
+ */
+class AirportRepository extends Repository implements CacheableInterface
 {
     use CacheableRepository;
 
@@ -25,12 +29,12 @@ class AirportRepository extends BaseRepository implements CacheableInterface
      * Return the list of airports formatted for a select box
      * @return array
      */
-    public function selectBoxList($add_blank=false, $only_hubs=false): array
+    public function selectBoxList($add_blank = false, $only_hubs = false): array
     {
         $retval = [];
         $where = [];
 
-        if($only_hubs) {
+        if ($only_hubs) {
             $where['hub'] = 1;
         }
 
@@ -41,7 +45,7 @@ class AirportRepository extends BaseRepository implements CacheableInterface
         }
 
         foreach ($items as $i) {
-            $retval[$i->icao] = $i->icao . ' - ' . $i->name;
+            $retval[$i->icao] = $i->icao.' - '.$i->name;
         }
 
         return $retval;

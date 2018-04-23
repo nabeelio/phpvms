@@ -2,13 +2,20 @@
 
 namespace App\Models;
 
-class Navdata extends BaseModel
+use App\Interfaces\Model;
+
+/**
+ * Class Navdata
+ * @package App\Models
+ */
+class Navdata extends Model
 {
     public $table = 'navdata';
+
     public $timestamps = false;
     public $incrementing = false;
 
-    public $fillable = [
+    protected $fillable = [
         'id',
         'name',
         'type',
@@ -17,24 +24,19 @@ class Navdata extends BaseModel
         'freq',
     ];
 
-    public $casts = [
-        'type'  => 'integer',
-        'lat'   => 'float',
-        'lon'   => 'float',
-        'freq'  => 'float',
+    protected $casts = [
+        'type' => 'integer',
+        'lat'  => 'float',
+        'lon'  => 'float',
+        'freq' => 'float',
     ];
 
-    protected static function boot()
+    /**
+     * Make sure the ID is in all caps
+     * @param $id
+     */
+    public function setIdAttribute($id): void
     {
-        parent::boot();
-
-        /**
-         * Make sure the ID is all caps
-         */
-        static::creating(function (Navdata $model) {
-            if (!empty($model->id)) {
-                $model->id = strtoupper($model->id);
-            }
-        });
+        $this->attributes['id'] = strtoupper($id);
     }
 }

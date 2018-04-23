@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Http\Controllers\Controller;
+use App\Interfaces\Controller;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
 
+/**
+ * Class UserController
+ * @package App\Http\Controllers\Frontend
+ */
 class UserController extends Controller
 {
     private $userRepo;
@@ -26,9 +30,9 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        return $this->view('users.index',[
+        return view('users.index', [
             'country' => new \League\ISO3166\ISO3166(),
-            'users' => $this->userRepo->orderBy('name', 'desc')->paginate(25),
+            'users'   => $this->userRepo->orderBy('name', 'desc')->paginate(),
         ]);
     }
 }

@@ -51,7 +51,7 @@ class Handler extends ExceptionHandler
     {
         return [
             'error' => [
-                'status' => $status_code,
+                'status'  => $status_code,
                 'message' => $message,
             ]
         ];
@@ -60,19 +60,18 @@ class Handler extends ExceptionHandler
     /**
      * Render an exception into an HTTP response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception  $exception
+     * @param  \Illuminate\Http\Request $request
+     * @param  \Exception               $exception
      * @return mixed
      */
     public function render($request, Exception $exception)
     {
-        if ($request->expectsJson() || $request->is('api/*')) {
-
+        if ($request->is('api/*')) {
             $headers = [];
 
             Log::error('API Error', $exception->getTrace());
 
-            if($exception instanceof ModelNotFoundException ||
+            if ($exception instanceof ModelNotFoundException ||
                 $exception instanceof NotFoundHttpException) {
                 $error = $this->createError(404, $exception->getMessage());
             }
@@ -88,10 +87,10 @@ class Handler extends ExceptionHandler
             }
 
             # Create the detailed errors from the validation errors
-            elseif($exception instanceof ValidationException) {
+            elseif ($exception instanceof ValidationException) {
                 $error_messages = [];
                 $errors = $exception->errors();
-                foreach($errors as $field => $error) {
+                foreach ($errors as $field => $error) {
                     $error_messages[] = implode(', ', $error);
                 }
 
@@ -107,7 +106,7 @@ class Handler extends ExceptionHandler
             }
 
             # Only add trace if in dev
-            if(config('app.env') === 'dev') {
+            if (config('app.env') === 'dev') {
                 $error['error']['trace'] = $exception->getTrace()[0];
             }
 
@@ -125,14 +124,15 @@ class Handler extends ExceptionHandler
     /**
      * Convert an authentication exception into an unauthenticated response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Illuminate\Auth\AuthenticationException  $exception
+     * @param  \Illuminate\Http\Request                 $request
+     * @param  \Illuminate\Auth\AuthenticationException $exception
      * @return \Illuminate\Http\Response
      */
     protected function unauthenticated($request, AuthenticationException $exception)
     {
         if ($request->expectsJson() || $request->is('api/*')) {
             $error = $this->createError(401, 'Unauthenticated');
+
             return response()->json($error, 401);
         }
 
@@ -148,13 +148,13 @@ class Handler extends ExceptionHandler
     {
         $status = $e->getStatusCode();
         view()->replaceNamespace('errors', [
-            resource_path('views/layouts/' . config('phpvms.skin') . '/errors'),
+            resource_path('views/layouts/'.config('phpvms.skin').'/errors'),
             resource_path('views/errors'),
-            __DIR__ . '/views',
+            __DIR__.'/views',
         ]);
 
         if (view()->exists("errors::{$status}")) {
-        #if (view()->exists('layouts' . config('phpvms.skin') .'.errors.' .$status)) {
+            #if (view()->exists('layouts' . config('phpvms.skin') .'.errors.' .$status)) {
             return response()->view("errors::{$status}", [
                 'exception' => $e,
                 'SKIN_NAME' => config('phpvms.skin'),

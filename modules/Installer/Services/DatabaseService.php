@@ -2,19 +2,25 @@
 
 namespace Modules\Installer\Services;
 
+use App\Interfaces\Service;
 use Log;
 use PDO;
 
-class DatabaseService {
-
+class DatabaseService extends Service
+{
     /**
      * Check the PHP version that it meets the minimum requirement
-     * @throws \PDOException
+     * @param $driver
+     * @param $host
+     * @param $port
+     * @param $name
+     * @param $user
+     * @param $pass
      * @return boolean
      */
     public function checkDbConnection($driver, $host, $port, $name, $user, $pass)
     {
-        Log::info('Testing Connection: '.$driver.'::'.$user.':'.$pass.'@'.$host.':'.$port.';'.$name);
+        Log::info('Testing Connection: '.$driver.'::'.$user.':<hidden>@'.$host.':'.$port.';'.$name);
 
         if($driver === 'mysql') {
             $dsn = "mysql:host=$host;port=$port;dbname=$name";
@@ -41,6 +47,8 @@ class DatabaseService {
 
     /**
      * Setup the database by running the migration commands
+     * Only run the setup for sqlite, otherwise, we're assuming
+     * that the MySQL database has already been created
      */
     public function setupDB()
     {

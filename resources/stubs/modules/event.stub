@@ -4,6 +4,10 @@ namespace $NAMESPACE$;
 
 use Illuminate\Queue\SerializesModels;
 
+/**
+ * Class $CLASS$
+ * @package $NAMESPACE$
+ */
 class $CLASS$
 {
     use SerializesModels;

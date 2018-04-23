@@ -2,14 +2,14 @@
 
 namespace App\Console\Commands;
 
-use App\Console\BaseCommand;
+use App\Console\Command;
 use Modules\Installer\Services\ConfigService;
 
 /**
  * Create a fresh development install
  * @package App\Console\Commands
  */
-class DevInstall extends BaseCommand
+class DevInstall extends Command
 {
     protected $signature = 'phpvms:dev-install {--reset-db}';
     protected $description = 'Run a developer install and run the sample migration';
@@ -20,7 +20,7 @@ class DevInstall extends BaseCommand
      */
     public function handle()
     {
-        if(!$this->option('reset-db')) {
+        if (!$this->option('reset-db')) {
             $this->rewriteConfigs();
         }
 
@@ -69,26 +69,26 @@ class DevInstall extends BaseCommand
 
         # Remove the old files
         $config_file = base_path('config.php');
-        if(file_exists($config_file)) {
+        if (file_exists($config_file)) {
             unlink($config_file);
         }
 
         $env_file = base_path('env.php');
-        if(file_exists($env_file)) {
+        if (file_exists($env_file)) {
             unlink($env_file);
         }
 
         $this->info('Removing the sqlite db');
         $db_file = storage_path('db.sqlite');
-        if(file_exists($db_file)) {
+        if (file_exists($db_file)) {
             unlink($db_file);
         }
 
         $this->info('Regenerating the config files');
         $cfgSvc->createConfigFiles([
-            'APP_ENV' => 'dev',
+            'APP_ENV'   => 'dev',
             'SITE_NAME' => 'phpvms test',
-            'DB_CONN' => 'sqlite',
+            'DB_CONN'   => 'sqlite',
         ]);
 
         $this->info('Config files generated!');

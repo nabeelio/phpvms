@@ -7,6 +7,10 @@ use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
+/**
+ * Class PirepAccepted
+ * @package App\Events
+ */
 class PirepAccepted
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
@@ -14,10 +18,11 @@ class PirepAccepted
     public $pirep;
 
     /**
-     * Create a new event instance.
+     * PirepAccepted constructor.
+     * @param Pirep $pirep
      */
     public function __construct(Pirep $pirep)
     {
-        //
+        $this->pirep = $pirep;
     }
 }

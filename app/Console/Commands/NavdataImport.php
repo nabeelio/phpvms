@@ -2,14 +2,32 @@
 
 namespace App\Console\Commands;
 
-use App\Console\BaseCommand;
+use App\Console\Command;
 use App\Models\Enums\NavaidType;
 use App\Models\Navdata;
 
-class NavdataImport extends BaseCommand
+/**
+ * Class NavdataImport
+ * @package App\Console\Commands
+ */
+class NavdataImport extends Command
 {
     protected $signature = 'phpvms:navdata';
     protected $description = '';
+
+    /**
+     * @return mixed|void
+     * @throws \League\Geotools\Exception\InvalidArgumentException
+     */
+    public function handle()
+    {
+        $this->info('Emptying the current navdata...');
+        Navdata::query()->truncate();
+
+        $this->info('Looking for nav files...');
+        $this->read_wp_nav_aid();
+        $this->read_wp_nav_fix();
+    }
 
     /**
      * Read and parse in the navaid file
@@ -49,6 +67,7 @@ class NavdataImport extends BaseCommand
         $file_path = storage_path('/navdata/WPNAVAID.txt');
         if (!file_exists($file_path)) {
             $this->error('WPNAVAID.txt not found in storage/navdata');
+
             return false;
         }
 
@@ -57,10 +76,9 @@ class NavdataImport extends BaseCommand
 
         $imported = 0;
 
-        foreach($generator as $line) {
-
+        foreach ($generator as $line) {
             $navaid = [
-                'id' => trim(substr($line, 24, 4)), // ident column
+                'id'    => trim(substr($line, 24, 4)), // ident column
                 'name'  => trim(substr($line, 0, 24)),
                 'type'  => trim(substr($line, 29, 4)),
                 'lat'   => trim(substr($line, 33, 9)),
@@ -70,8 +88,7 @@ class NavdataImport extends BaseCommand
             ];
 
             # Map to the Navaid enum
-            switch($navaid['type'])
-            {
+            switch ($navaid['type']) {
                 case 'ILS':
                     $navaid['type'] = NavaidType::LOC;
                     break;
@@ -104,12 +121,12 @@ class NavdataImport extends BaseCommand
             ], $navaid);
 
             $imported++;
-            if($imported % 100 === 0) {
-                $this->info('Imported ' . $imported . ' entries...');
+            if ($imported % 100 === 0) {
+                $this->info('Imported '.$imported.' entries...');
             }
         }
 
-        $this->info('Imported a total of ' . $imported . ' nav aids');
+        $this->info('Imported a total of '.$imported.' nav aids');
     }
 
     /**
@@ -137,8 +154,9 @@ class NavdataImport extends BaseCommand
          */
 
         $file_path = storage_path('/navdata/WPNAVFIX.txt');
-        if(!file_exists($file_path)) {
+        if (!file_exists($file_path)) {
             $this->error('WPNAVFIX.txt not found in storage/navdata');
+
             return false;
         }
 
@@ -148,11 +166,11 @@ class NavdataImport extends BaseCommand
         $imported = 0;
         foreach ($generator as $line) {
             $navfix = [
-                'id' => trim(substr($line, 0, 4)), // ident column
+                'id'   => trim(substr($line, 0, 4)), // ident column
                 'name' => trim(substr($line, 24, 6)),
                 'type' => NavaidType::FIX,
-                'lat' => trim(substr($line, 30, 10)),
-                'lon' => trim(substr($line, 40, 11)),
+                'lat'  => trim(substr($line, 30, 10)),
+                'lon'  => trim(substr($line, 40, 11)),
             ];
 
             switch ($navfix['type']) {
@@ -165,20 +183,10 @@ class NavdataImport extends BaseCommand
 
             $imported++;
             if ($imported % 100 === 0) {
-                $this->info('Imported ' . $imported . ' entries...');
+                $this->info('Imported '.$imported.' entries...');
             }
         }
 
-        $this->info('Imported a total of ' . $imported . ' nav fixes');
-    }
-
-    public function handle()
-    {
-        $this->info('Emptying the current navdata...');
-        Navdata::query()->truncate();
-
-        $this->info('Looking for nav files...');
-        $this->read_wp_nav_aid();
-        $this->read_wp_nav_fix();
+        $this->info('Imported a total of '.$imported.' nav fixes');
     }
 }

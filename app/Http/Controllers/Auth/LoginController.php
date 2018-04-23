@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
+use App\Interfaces\Controller;
 use App\Models\Enums\UserState;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
+/**
+ * Class LoginController
+ * @package App\Http\Controllers\Auth
+ */
 class LoginController extends Controller
 {
     use AuthenticatesUsers;
@@ -20,6 +24,7 @@ class LoginController extends Controller
      */
     public function __construct()
     {
+        $this->redirectTo = config('app.login_redirect');
         $this->middleware('guest', ['except' => 'logout']);
     }
 
@@ -28,7 +33,7 @@ class LoginController extends Controller
      */
     public function showLoginForm()
     {
-        return $this->view('auth/login');
+        return view('auth/login');
     }
 
     /**
@@ -43,22 +48,21 @@ class LoginController extends Controller
         $user->save();
 
         // TODO: How to handle ON_LEAVE?
-        if($user->state !== UserState::ACTIVE) {
-
-            Log::info('Trying to login '. $user->pilot_id .', state '
-                      . UserState::label($user->state));
+        if ($user->state !== UserState::ACTIVE) {
+            Log::info('Trying to login '.$user->pilot_id.', state '
+                .UserState::label($user->state));
 
             // Log them out
             $this->guard()->logout();
             $request->session()->invalidate();
 
             // Redirect to one of the error pages
-            if($user->state === UserState::PENDING) {
-                return $this->view('auth.pending');
+            if ($user->state === UserState::PENDING) {
+                return view('auth.pending');
             } elseif ($user->state === UserState::REJECTED) {
-                return $this->view('auth.rejected');
+                return view('auth.rejected');
             } elseif ($user->state === UserState::SUSPENDED) {
-                return $this->view('auth.suspended');
+                return view('auth.suspended');
             }
         }
 

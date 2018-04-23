@@ -10,13 +10,14 @@ return [
         'pdo',
         'mbstring',
         'tokenizer',
-        'JSON',
-        'cURL',
+        'json',
+        'curl',
     ],
 
     # Make sure these are writable
     'permissions' => [
         'bootstrap/cache',
+        'public/uploads',
         'storage',
         'storage/app/public',
         'storage/framework',

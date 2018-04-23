@@ -2,9 +2,8 @@
 
 namespace Modules\Installer\Providers;
 
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
-use Nwidart\Modules\Support\Stub;
+use Illuminate\Support\ServiceProvider;
 use Route;
 
 
@@ -60,7 +59,7 @@ class InstallerServiceProvider extends ServiceProvider
     {
         $this->publishes([
             __DIR__.'/../Config/config.php' => config_path('installer.php'),
-        ], 'config');
+        ], 'installer');
 
         $this->mergeConfigFrom(
             __DIR__.'/../Config/config.php', 'installer'

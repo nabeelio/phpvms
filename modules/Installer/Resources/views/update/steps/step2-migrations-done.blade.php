@@ -2,17 +2,17 @@
 @section('title', 'Update Completed')
 @section('content')
     <div style="align-content: center;">
-        {!! Form::open(['route' => 'update.complete', 'method' => 'GET']) !!}
+        {{ Form::open(['route' => 'update.complete', 'method' => 'GET']) }}
 
         <pre class="lang-sh">
         <code class="lang-sh">
-            {!! $console_output !!}
+            {{ $console_output }}
         </code>
     </pre>
 
         <p style="text-align: right">
-            {!! Form::submit('Complete >>', ['class' => 'btn btn-success']) !!}
+            {{ Form::submit('Complete >>', ['class' => 'btn btn-success']) }}
         </p>
-        {!! Form::close() !!}
+        {{ Form::close() }}
     </div>
 @endsection

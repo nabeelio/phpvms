@@ -3,9 +3,9 @@
 @section('content')
 <div class="card border-blue-bottom">
    <div class="content">
-       {!! Form::model($user, ['route' => ['admin.users.update', $user->id], 'method' => 'patch']) !!}
+       {{ Form::model($user, ['route' => ['admin.users.update', $user->id], 'method' => 'patch']) }}
             @include('admin.users.fields')
-       {!! Form::close() !!}
+       {{ Form::close() }}
    </div>
 </div>
 

@@ -1,16 +1,22 @@
 <?php
 
 namespace App\Models;
+use App\Interfaces\Model;
 
 /**
  * Class Fare
+ * @property integer capacity
+ * @property float   cost
+ * @property float   price
+ * @property mixed   code
+ * @property mixed   count Only when merged with pivot
  * @package App\Models
  */
-class Fare extends BaseModel
+class Fare extends Model
 {
     public $table = 'fares';
 
-    public $fillable = [
+    protected $fillable = [
         'code',
         'name',
         'price',
@@ -21,10 +27,10 @@ class Fare extends BaseModel
     ];
 
     protected $casts = [
-        'price'     => 'float',
-        'cost'      => 'float',
-        'capacity'  => 'integer',
-        'active'    => 'boolean',
+        'price'    => 'float',
+        'cost'     => 'float',
+        'capacity' => 'integer',
+        'active'   => 'boolean',
     ];
 
     public static $rules = [
@@ -36,9 +42,9 @@ class Fare extends BaseModel
      * any foreign keys
      */
 
-    public function subfleets() {
+    public function subfleets()
+    {
         return $this->belongsToMany(Subfleet::class, 'subfleet_fare')
             ->withPivot('price', 'cost', 'capacity');
     }
-
 }

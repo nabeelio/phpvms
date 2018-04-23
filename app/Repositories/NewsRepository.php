@@ -2,11 +2,16 @@
 
 namespace App\Repositories;
 
+use App\Interfaces\Repository;
 use App\Models\News;
 use Prettus\Repository\Contracts\CacheableInterface;
 use Prettus\Repository\Traits\CacheableRepository;
 
-class NewsRepository extends BaseRepository implements CacheableInterface
+/**
+ * Class NewsRepository
+ * @package App\Repositories
+ */
+class NewsRepository extends Repository implements CacheableInterface
 {
     use CacheableRepository;
 
@@ -20,10 +25,10 @@ class NewsRepository extends BaseRepository implements CacheableInterface
      * @param int $count
      * @return mixed
      */
-    public function getLatest($count=5)
+    public function getLatest($count = 5)
     {
         return $this->orderBy('created_at', 'desc')
-                    ->with(['user'])
-                    ->paginate($count);
+            ->with(['user'])
+            ->paginate($count);
     }
 }

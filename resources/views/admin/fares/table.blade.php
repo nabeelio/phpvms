@@ -11,11 +11,11 @@
     <tbody>
     @foreach($fares as $fare)
         <tr>
-            <td><a href="{!! route('admin.fares.edit', [$fare->id]) !!}">{!! $fare->code !!}</a></td>
-            <td>{!! $fare->name !!}</td>
-            <td>{!! $fare->price !!}</td>
-            <td>{!! $fare->cost !!}</td>
-            <td>{!! $fare->notes !!}</td>
+            <td><a href="{{ route('admin.fares.edit', [$fare->id]) }}">{{ $fare->code }}</a></td>
+            <td>{{ $fare->name }}</td>
+            <td>{{ $fare->price }}</td>
+            <td>{{ $fare->cost }}</td>
+            <td>{{ $fare->notes }}</td>
             <td class="text-center">
                 @if($fare->active == 1)
                     <span class="label label-success">Active</span>
@@ -24,11 +24,11 @@
                 @endif
             </td>
             <td class="text-right">
-                {!! Form::open(['route' => ['admin.fares.destroy', $fare->id], 'method' => 'delete']) !!}
-                <a href="{!! route('admin.fares.edit', [$fare->id]) !!}" class='btn btn-sm btn-success btn-icon'>
+                {{ Form::open(['route' => ['admin.fares.destroy', $fare->id], 'method' => 'delete']) }}
+                <a href="{{ route('admin.fares.edit', [$fare->id]) }}" class='btn btn-sm btn-success btn-icon'>
                     <i class="fas fa-pencil-alt"></i></a>
-                {!! Form::button('<i class="fa fa-times"></i>', ['type' => 'submit', 'class' => 'btn btn-sm btn-danger btn-icon', 'onclick' => "return confirm('Are you sure?')"]) !!}
-                {!! Form::close() !!}
+                {{ Form::button('<i class="fa fa-times"></i>', ['type' => 'submit', 'class' => 'btn btn-sm btn-danger btn-icon', 'onclick' => "return confirm('Are you sure?')"]) }}
+                {{ Form::close() }}
             </td>
         </tr>
     @endforeach

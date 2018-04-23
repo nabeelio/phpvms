@@ -15,7 +15,7 @@ services:
 
 before_script:
   - cp .travis/env.travis.php env.php
-  - composer install --no-interaction --verbose
+  - composer install --dev --no-interaction --verbose
 
 script:
 - php artisan database:create --reset

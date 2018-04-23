@@ -4,7 +4,7 @@
 @section('content')
     <div class="row"><div class="col-md-12">
 <div style="align-content: center;">
-    {!! Form::open(['route' => 'installer.usersetup', 'method' => 'POST']) !!}
+    {{ Form::open(['route' => 'installer.usersetup', 'method' => 'POST']) }}
     <table class="table" width="25%">
 
         <tr>
@@ -15,7 +15,7 @@
             <td><p>Airline ICAO</p></td>
             <td>
                 <div class="form-group">
-                    {!! Form::input('text', 'airline_icao', null, ['class' => 'form-control']) !!}
+                    {{ Form::input('text', 'airline_icao', null, ['class' => 'form-control']) }}
                     @include('installer::flash/check_error', ['field' => 'airline_icao'])
                 </div>
             </td>
@@ -25,7 +25,7 @@
             <td><p>Airline Name</p></td>
             <td>
                 <div class="form-group">
-                    {!! Form::input('text', 'airline_name', null, ['class' => 'form-control']) !!}
+                    {{ Form::input('text', 'airline_name', null, ['class' => 'form-control']) }}
                     @include('installer::flash/check_error', ['field' => 'airline_name'])
                 </div>
             </td>
@@ -35,7 +35,7 @@
             <td><p>Airline Country</p></td>
             <td>
                 <div class="form-group">
-                    {!! Form::select('airline_country', $countries, null, ['class' => 'form-control select2' ]); !!}
+                    {{ Form::select('airline_country', $countries, null, ['class' => 'form-control select2' ]) }}
                     @include('installer::flash/check_error', ['field' => 'airline_country'])
                 </div>
             </td>
@@ -49,7 +49,7 @@
             <td><p>Name</p></td>
             <td>
                 <div class="form-group">
-                    {!! Form::input('text', 'name', null, ['class' => 'form-control']) !!}
+                    {{ Form::input('text', 'name', null, ['class' => 'form-control']) }}
                     @include('installer::flash/check_error', ['field' => 'name'])
                 </div>
             </td>
@@ -59,7 +59,7 @@
             <td><p>Email</p></td>
             <td>
                 <div class="form-group">
-                    {!! Form::input('text', 'email', null, ['class' => 'form-control']) !!}
+                    {{ Form::input('text', 'email', null, ['class' => 'form-control']) }}
                     @include('installer::flash/check_error', ['field' => 'email'])
                 </div>
             </td>
@@ -68,7 +68,7 @@
         <tr>
             <td><p>Password</p></td>
             <td>
-                {!! Form::password('password', ['class' => 'form-control']) !!}
+                {{ Form::password('password', ['class' => 'form-control']) }}
                 @include('installer::flash/check_error', ['field' => 'password'])
             </td>
         </tr>
@@ -76,7 +76,7 @@
         <tr>
             <td width="40%"><p>Password Confirm</p></td>
             <td>
-                {!! Form::password('password_confirmation', ['class' => 'form-control']) !!}
+                {{ Form::password('password_confirmation', ['class' => 'form-control']) }}
                 @include('installer::flash/check_error', ['field' => 'password_confirmation'])
             </td>
         </tr>
@@ -90,8 +90,8 @@
                     <td><p>Analytics</p></td>
                     <td>
                         <div class="form-group">
-                            {!! Form::hidden('analytics', 0) !!}
-                            {!! Form::checkbox('analytics', 1, true, ['class' => 'form-control']) !!}
+                            {{ Form::hidden('analytics', 0) }}
+                            {{ Form::checkbox('analytics', 1, true, ['class' => 'form-control']) }}
                             <br />
                             <p>
                                 Allows collection of analytics. They won't identify you, and helps us to track
@@ -105,9 +105,9 @@
     </table>
     <div id="dbtest"></div>
     <p style="text-align: right">
-        {!! Form::submit('Complete Setup >>', ['class' => 'btn btn-success']) !!}
+        {{ Form::submit('Complete Setup >>', ['class' => 'btn btn-success']) }}
     </p>
-    {!! Form::close() !!}
+    {{ Form::close() }}
 </div>
         </div>
     </div>

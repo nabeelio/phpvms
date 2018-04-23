@@ -2,16 +2,22 @@
 
 namespace App\Console\Commands;
 
-use App\Console\BaseCommand;
+use App\Console\Command;
 use App\Models\Acars;
 use App\Models\Airline;
 use App\Models\Pirep;
 use App\Models\User;
+use App\Services\AwardService;
+use Artisan;
 use DB;
 use PDO;
 use Symfony\Component\Yaml\Yaml;
 
-class DevCommands extends BaseCommand
+/**
+ * Class DevCommands
+ * @package App\Console\Commands
+ */
+class DevCommands extends Command
 {
     protected $signature = 'phpvms {cmd} {param?}';
     protected $description = 'Developer commands';
@@ -29,14 +35,15 @@ class DevCommands extends BaseCommand
         }
 
         $commands = [
-            'clear-acars' => 'clearAcars',
-            'clear-users' => 'clearUsers',
+            'list-awards'    => 'listAwardClasses',
+            'clear-acars'    => 'clearAcars',
+            'clear-users'    => 'clearUsers',
             'compile-assets' => 'compileAssets',
-            'db-attrs' => 'dbAttrs',
-            'xml-to-yaml' => 'xmlToYaml',
+            'db-attrs'       => 'dbAttrs',
+            'xml-to-yaml'    => 'xmlToYaml',
         ];
 
-        if(!array_key_exists($command, $commands)) {
+        if (!array_key_exists($command, $commands)) {
             $this->error('Command not found!');
             exit();
         }
@@ -45,11 +52,28 @@ class DevCommands extends BaseCommand
     }
 
     /**
+     * List all award classes
+     */
+    protected function listAwardClasses()
+    {
+        $awardSvc = app(AwardService::class);
+        $awards = $awardSvc->findAllAwardClasses();
+
+        $headers = ['Award Name', 'Class'];
+        $formatted_awards = [];
+        foreach ($awards as $award) {
+            $formatted_awards[] = [$award->name, \get_class($award)];
+        }
+
+        $this->table($headers, $formatted_awards);
+    }
+
+    /**
      * Delete all the data from the ACARS and PIREP tables
      */
     protected function clearAcars()
     {
-        if(config('database.default') === 'mysql') {
+        if (config('database.default') === 'mysql') {
             DB::statement('SET foreign_key_checks=0');
         }
 
@@ -103,7 +127,7 @@ class DevCommands extends BaseCommand
         $server_version = $pdo->getAttribute(PDO::ATTR_SERVER_VERSION);
         $emulate_prepares = version_compare($server_version, $emulate_prepares_below_version, '<');
 
-        $this->info('Server Version: '. $server_version);
+        $this->info('Server Version: '.$server_version);
         $this->info('Emulate Prepares: '.$emulate_prepares);
 
         $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, $emulate_prepares);
@@ -115,7 +139,7 @@ class DevCommands extends BaseCommand
     protected function xmlToYaml()
     {
         $file = $this->argument('param');
-        $this->info('Reading '. $file);
+        $this->info('Reading '.$file);
 
         $xml_str = file_get_contents($file);
         $xml = new \SimpleXMLElement($xml_str);
@@ -129,7 +153,7 @@ class DevCommands extends BaseCommand
 
         foreach ($xml->database->table_data->row as $row) {
             $yaml_row = [];
-            foreach($row->field as $field) {
+            foreach ($row->field as $field) {
                 $fname = (string) $field['name'];
                 $fvalue = (string) $field;
 
@@ -144,6 +168,6 @@ class DevCommands extends BaseCommand
 
         $file_name = $table_name.'.yml';
         file_put_contents(storage_path($file_name), Yaml::dump($yaml, 4, 2));
-        $this->info('Writing yaml to storage: '. $file_name);
+        $this->info('Writing yaml to storage: '.$file_name);
     }
 }

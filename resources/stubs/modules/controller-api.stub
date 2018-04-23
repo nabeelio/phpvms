@@ -2,9 +2,13 @@
 
 namespace $MODULE_NAMESPACE$\$STUDLY_NAME$\Http\Controllers\Api;
 
-use App\Http\Controllers\Api\RestController;
+use App\Interfaces\Controller;
 use Illuminate\Http\Request;
 
+/**
+ * class SampleController
+ * @package $MODULE_NAMESPACE$\$STUDLY_NAME$\Http\Controllers\Api
+ */
 class SampleController extends RestController
 {
     /**

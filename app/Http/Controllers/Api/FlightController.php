@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Resources\Flight as FlightResource;
 use App\Http\Resources\Navdata as NavdataResource;
+use App\Interfaces\Controller;
 use App\Repositories\Criteria\WhereCriteria;
 use App\Repositories\FlightRepository;
 use App\Services\FlightService;
-use App\Services\UserService;
 use Auth;
 use Illuminate\Http\Request;
 use Prettus\Repository\Criteria\RequestCriteria;
@@ -17,24 +17,22 @@ use Prettus\Repository\Exceptions\RepositoryException;
  * Class FlightController
  * @package App\Http\Controllers\Api
  */
-class FlightController extends RestController
+class FlightController extends Controller
 {
-    protected $flightRepo, $flightSvc, $userSvc;
+    private $flightRepo,
+            $flightSvc;
 
     /**
      * FlightController constructor.
      * @param FlightRepository $flightRepo
-     * @param FlightService $flightSvc
-     * @param UserService $userSvc
+     * @param FlightService    $flightSvc
      */
     public function __construct(
         FlightRepository $flightRepo,
-        FlightService $flightSvc,
-        UserService $userSvc
+        FlightService $flightSvc
     ) {
         $this->flightRepo = $flightRepo;
         $this->flightSvc = $flightSvc;
-        $this->userSvc = $userSvc;
     }
 
     /**
@@ -52,10 +50,10 @@ class FlightController extends RestController
         }
 
         $flights = $this->flightRepo
-                    ->whereOrder($where, 'flight_number', 'asc')
-                    ->paginate();
+            ->whereOrder($where, 'flight_number', 'asc')
+            ->paginate();
 
-        foreach($flights as $flight) {
+        foreach ($flights as $flight) {
             $this->flightSvc->filterSubfleets($user, $flight);
         }
 
@@ -105,7 +103,7 @@ class FlightController extends RestController
 
     /**
      * Get a flight's route
-     * @param $id
+     * @param         $id
      * @param Request $request
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */

@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Migrations\Migration;
+use App\Interfaces\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
@@ -28,7 +28,7 @@ class CreateUsersTable extends Migration
             $table->unsignedBigInteger('flights')->default(0);
             $table->unsignedBigInteger('flight_time')->nullable()->default(0);
             $table->unsignedBigInteger('transfer_time')->nullable()->default(0);
-            $table->decimal('balance')->nullable();
+            $table->string('avatar')->nullable();
             $table->string('timezone', 64)->nullable();
             $table->unsignedTinyInteger('status')->nullable()->default(0);
             $table->unsignedTinyInteger('state')->nullable()->default(0);

@@ -3,9 +3,9 @@
 @section('content')
 <div class="card border-blue-bottom">
     <div class="content">
-        {!! Form::open(['route' => 'admin.ranks.store', 'class' => 'add_rank', 'method'=>'POST']) !!}
+        {{ Form::open(['route' => 'admin.ranks.store', 'class' => 'add_rank', 'method'=>'POST']) }}
             @include('admin.ranks.fields')
-        {!! Form::close() !!}
+        {{ Form::close() }}
     </div>
 </div>
 @endsection

@@ -1,3 +1,26 @@
+## Alpha 3
+
+!! Please do a complete reinstall, with a new database
+
+- Finances! The finance portions have been implemented, you can [read about them here](http://docs.phpvms.net/concepts/finances)
+- Awards! Added the award plugin system. [see docs](http://docs.phpvms.net/customizing/awards)
+- Import/Export in admin panel for aircraft, airports, expenses, fares, flights and subfleets
+- Changed theme system to using [laravel-theme](https://github.com/igaster/laravel-theme), there are changes to making theming much simpler with much more flexibility.
+- Added cron task for background tasks
+- Expanded on flight types to match IATA SIMM format
+- Added subfleet `cost_block_hour`
+- Fixed several security vulnerabilities (thanks magicflyer!)
+- Fuel units changed to lbs/kgs [#193](https://github.com/nabeelio/phpvms/issues/193)
+- Airports can be restricted to only hubs on registration/user profile
+- Cleaned up a lot unused icons and files [#195](https://github.com/nabeelio/phpvms/issues/195)
+- Rank restrictions for PIREPs are respected [#170](https://github.com/nabeelio/phpvms/issues/170)
+- API: Added the ability to get/update/delete user bids [#172](https://github.com/nabeelio/phpvms/issues/172)
+- API: Added `block_time` parameter for PIREP prefile/update/file calls
+- API: Added `block_on_time` and `block_off_time` for PIREP prefile/update/file calls
+- Artisan: Added a `phpvms:csv-import [table] [file]` to import from CSV
+- Artisan: Added a `phpvms:yaml-export [tables]` to export tables to YAML files which can be re-imported using `phpvms:yaml-import`
+- Numerous bug fixes
+
 ## Alpha 2 (2018-02-23, v7.0.0-alpha2)
 
 !! Please do a full reinstall, with recreating the database

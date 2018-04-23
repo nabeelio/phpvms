@@ -1,14 +1,14 @@
 <h4>Terms and Conditions</h4>
 <textarea class="form-control" style="height: 150px; border: 1px #ccc solid;">
-{!! config('app.name') !!} offers this Web site, including all information, software,
+{{ config('app.name') }} offers this Web site, including all information, software,
 products and services available from this Web site or offered as part of or in conjunction
 with this Web site (the “Web site”), to you, the user, conditioned upon your acceptance of
-all of the terms, conditions, policies and notices stated here. {!! config('app.name') !!}
+all of the terms, conditions, policies and notices stated here. {{ config('app.name') }}
 reserves the right to make changes to these Terms and Conditions immediately by posting the
 changed Terms and Conditions in this location.
 
 Your continued use of the Web site constitutes your agreement to all such terms, conditions
-and notices, and any changes to the Terms and Conditions made by {!! config('app.name') !!}.
+and notices, and any changes to the Terms and Conditions made by {{ config('app.name') }}.
 
 The term ‘genericwebsite.com’ or ‘us’ or ‘we’ refers to the owner of the website. The term
 ‘you’ refers to the user or viewer of our website.
@@ -16,11 +16,11 @@ The term ‘genericwebsite.com’ or ‘us’ or ‘we’ refers to the owner of
 The use of this website is subject to the following terms of use:
 
 Use the website at your own risk. This website is provided to you “as is,” without warranty
-of any kind either express or implied. Neither {!! config('app.name') !!} nor its employees,
+of any kind either express or implied. Neither {{ config('app.name') }} nor its employees,
 agents, third-party information providers, merchants, licensors or the like warrant that the
 Web site or its operation will be accurate, reliable, uninterrupted or error-free. No agent
 or representative has the authority to create any warranty regarding the Web site on behalf
-of {!! config('app.name') !!}. {!! config('app.name') !!} reserves the right to change or
+of {{ config('app.name') }}. {{ config('app.name') }} reserves the right to change or
 discontinue at any time any aspect or feature of the Web site.
 
 Exclusion of Liability
@@ -61,9 +61,9 @@ in these terms and conditions, you may not copy, distribute, transmit, display, 
 publish, license, modify, rewrite, create derivative works from, transfer, or sell any material
 contained on the Web site without the prior consent of the copyright owner.
 
-None of the material contained on {!! config('app.name') !!} may be reverse-engineered, disassembled,
+None of the material contained on {{ config('app.name') }} may be reverse-engineered, disassembled,
 decompiled, transcribed, stored in a retrieval system, translated into any language or computer language,
 retransmitted in any form or by any means (electronic, mechanical, photo reproduction, recordation or
-otherwise), resold or redistributed without the prior written consent of {!! config('app.name') !!}.
+otherwise), resold or redistributed without the prior written consent of {{ config('app.name') }}.
 Violation of this provision may result in severe civil and criminal penalties.
 </textarea>

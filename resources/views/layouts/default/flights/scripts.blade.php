@@ -5,34 +5,37 @@ $(document).ready(function () {
         e.preventDefault();
 
         const btn = $(this);
-        const class_name = btn.attr('x-saved-class');
+        const class_name = btn.attr('x-saved-class'); // classname to use is set on the element
 
         let params = {
+            url: '{{ url('/api/user/bids') }}',
             data: {
                 'flight_id': btn.attr('x-id')
-            },
-            headers: {
-                'x-api-key': "{!! Auth::user()->api_key !!}"
             }
         };
 
         if (btn.hasClass(class_name)) {
             params.method = 'DELETE';
-            params.success = function () {
+        } else {
+            params.method = 'POST';
+        }
+
+        axios(params).then(response => {
+            console.log('save bid response', response);
+
+            if(params.method === 'DELETE') {
                 console.log('successfully removed flight');
                 btn.removeClass(class_name);
                 alert('Your bid was removed');
-            }
-        } else {
-            params.method = 'PUT';
-            params.success = function () {
+            } else {
                 console.log('successfully saved flight');
                 btn.addClass(class_name);
                 alert('Your bid was added');
             }
-        }
-
-        $.ajax('/api/user/bids', params);
+        })
+        .catch(error => {
+            console.error('Error saving bid status', params, error);
+        });
     });
 });
 </script>

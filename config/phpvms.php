@@ -17,9 +17,18 @@ return [
     'installed' => env('PHPVMS_INSTALLED', false),
 
     /**
-     * The skin to use for the front-end
+     * The ISO "Currency Code" to use, the list is in config/money.php
+     *
+     * Note, do not change this after you've set it, unless you don't
+     * care that the currencies aren't "exchanged" into the new format
      */
-    'skin' => env('APP_SKIN', 'default'),
+    'currency' => 'USD',
+
+    /**
+     * Point to the class to use to retrieve the METAR string. If this
+     * goes inactive at some date, it can be replaced
+     */
+    'metar' => App\Services\Metar\AviationWeather::class,
 
     /**
      * Your vaCentral API key
@@ -30,12 +39,6 @@ return [
      * vaCentral API URL. You likely don't need to change this
      */
     'vacentral_api_url' => 'https://api.vacentral.net',
-
-    /**
-     * For METAR features, register for an API key at
-     * https://www.checkwx.com
-     */
-    'checkwx_api_key' => env('CHECKWX_API_KEY', false),
 
     /**
      * Misc Settings

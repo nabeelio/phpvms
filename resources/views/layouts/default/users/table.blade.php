@@ -14,30 +14,30 @@
             <td style="width: 80px;">
                 <div class="photo-container">
                     <img class="rounded-circle"
-                         src="{!! $user->gravatar(256) !!}&s=256"/>
+                         src="{{ $user->gravatar(256) }}&s=256"/>
                 </div>
             </td>
             <td>
-                <a href="{!! route('frontend.profile.show.public', ['id' => $user->id]) !!}">
-                    {!! $user->name !!}
+                <a href="{{ route('frontend.profile.show.public', ['id' => $user->id]) }}">
+                    {{ $user->name }}
                 </a>
             </td>
             <td align="center">
                 @if(filled($user->country))
-                    <span class="flag-icon flag-icon-{!! $user->country !!}"
-                          title="{!! $country->alpha2($user->country)['name'] !!}"></span>
+                    <span class="flag-icon flag-icon-{{ $user->country }}"
+                          title="{{ $country->alpha2($user->country)['name'] }}"></span>
                 @endif
             </td>
-            <td class="text-center">{!! $user->airline->icao !!}</td>
+            <td class="text-center">{{ $user->airline->icao }}</td>
             <td class="text-center">
                 @if($user->current_airport)
-                    {!! $user->curr_airport_id !!}
+                    {{ $user->curr_airport_id }}
                 @else
                     -
                 @endif
             </td>
-            <td align="center">{!! $user->flights !!}</td>
-            <td align="center">{!! \App\Facades\Utils::minutesToTimeString($user->flight_time) !!}</td>
+            <td align="center">{{ $user->flights }}</td>
+            <td align="center">{{ \App\Facades\Utils::minutesToTimeString($user->flight_time) }}</td>
         </tr>
     @endforeach
     </tbody>

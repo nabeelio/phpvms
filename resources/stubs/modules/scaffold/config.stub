@@ -1,4 +1,7 @@
 <?php
+/**
+ * Provide any configuration items here
+ */
 
 return [
     'name' => '$STUDLY_NAME$'

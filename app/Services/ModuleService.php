@@ -2,15 +2,23 @@
 
 namespace App\Services;
 
-class ModuleService extends BaseService
+use App\Interfaces\Service;
+
+/**
+ * Class ModuleService
+ * @package App\Services
+ */
+class ModuleService extends Service
 {
     protected static $adminLinks = [];
 
     /**
      * @var array 0 == logged out, 1 == logged in
      */
-    protected static $frontendLinks = [0 => [], 1 => []];
-
+    protected static $frontendLinks = [
+        0 => [],
+        1 => []
+    ];
 
     /**
      * Add a module link in the frontend
@@ -18,12 +26,12 @@ class ModuleService extends BaseService
      * @param string $url
      * @param string $icon
      */
-    public function addFrontendLink(string $title, string $url, string $icon = '', $logged_in=true)
+    public function addFrontendLink(string $title, string $url, string $icon = '', $logged_in = true)
     {
         self::$frontendLinks[$logged_in][] = [
             'title' => $title,
-            'url' => $url,
-            'icon' => 'pe-7s-users',
+            'url'   => $url,
+            'icon'  => 'pe-7s-users',
         ];
     }
 
@@ -42,12 +50,12 @@ class ModuleService extends BaseService
      * @param string $url
      * @param string $icon
      */
-    public function addAdminLink(string $title, string $url, string $icon='')
+    public function addAdminLink(string $title, string $url, string $icon = '')
     {
         self::$adminLinks[] = [
             'title' => $title,
-            'url' => $url,
-            'icon' => 'pe-7s-users'
+            'url'   => $url,
+            'icon'  => 'pe-7s-users'
         ];
     }
 

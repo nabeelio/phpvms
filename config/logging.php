@@ -28,7 +28,17 @@ return [
     'channels' => [
         'stack' => [
             'driver' => 'stack',
-            'channels' => ['daily'],
+            'channels' => [
+                'daily',
+                # PHP_SAPI === 'cli' ? 'console' : 'daily',
+            ],
+        ],
+        'cron' => [
+            'driver' => 'stack',
+            'channels' => [
+                'cron_rotating',
+                'stdout',
+            ],
         ],
         'single' => [
             'driver' => 'single',
@@ -41,12 +51,22 @@ return [
             'level' => 'debug',
             'days' => 3,
         ],
+        'cron_rotating' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/cron.log'),
+            'level' => 'debug',
+            'days' => 3,
+        ],
         'slack' => [
             'driver' => 'slack',
             'url' => env('LOG_SLACK_WEBHOOK_URL'),
             'username' => 'Laravel Log',
             'emoji' => ':boom:',
             'level' => 'critical',
+        ],
+        'stdout' => [
+            'driver' => 'custom',
+            'via' => \App\Console\Logger::class,
         ],
         'syslog' => [
             'driver' => 'syslog',

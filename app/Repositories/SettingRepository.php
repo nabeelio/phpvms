@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Exceptions\SettingNotFound;
+use App\Interfaces\Repository;
 use App\Models\Setting;
 use Illuminate\Support\Carbon;
 use Log;
@@ -10,12 +11,19 @@ use Prettus\Repository\Contracts\CacheableInterface;
 use Prettus\Repository\Traits\CacheableRepository;
 use Prettus\Validator\Exceptions\ValidatorException;
 
-class SettingRepository extends BaseRepository implements CacheableInterface
+/**
+ * Class SettingRepository
+ * @package App\Repositories
+ */
+class SettingRepository extends Repository implements CacheableInterface
 {
     use CacheableRepository;
 
     public $cacheMinutes = 1;
 
+    /**
+     * @return string
+     */
     public function model()
     {
         return Setting::class;
@@ -32,18 +40,18 @@ class SettingRepository extends BaseRepository implements CacheableInterface
         $key = Setting::formatKey($key);
         $setting = $this->findWhere(['id' => $key], ['type', 'value'])->first();
 
-        if(!$setting) {
-            throw new SettingNotFound($key . ' not found');
+        if (!$setting) {
+            throw new SettingNotFound($key.' not found');
         }
 
         # cast some types
-        switch($setting->type) {
+        switch ($setting->type) {
             case 'bool':
             case 'boolean':
                 $value = $setting->value;
-                if($value === 'true' || $value === '1') {
+                if ($value === 'true' || $value === '1') {
                     $value = true;
-                } elseif($value === 'false' || $value === '0') {
+                } elseif ($value === 'false' || $value === '0') {
                     $value = false;
                 }
 
@@ -93,7 +101,7 @@ class SettingRepository extends BaseRepository implements CacheableInterface
         }
 
         try {
-            if(\is_bool($value)) {
+            if (\is_bool($value)) {
                 $value = $value === true ? 1 : 0;
             }
 

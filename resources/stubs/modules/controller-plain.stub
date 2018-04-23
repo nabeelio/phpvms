@@ -2,8 +2,13 @@
 
 namespace $CLASS_NAMESPACE$;
 
-use App\Http\Controllers\Controller;
+use App\Interfaces\Controller;
 
+/**
+ * Class $CLASS$
+ * @package $CLASS_NAMESPACE$
+ */
 class $CLASS$ extends Controller
 {
+
 }

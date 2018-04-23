@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Facades\Utils;
-use App\Http\Controllers\Controller;
+use App\Interfaces\Controller;
 use App\Models\User;
 use App\Repositories\AirlineRepository;
 use App\Repositories\AirportRepository;
@@ -17,6 +17,10 @@ use Jackiedo\Timezonelist\Facades\Timezonelist;
 use Log;
 use Validator;
 
+/**
+ * Class ProfileController
+ * @package App\Http\Controllers\Frontend
+ */
 class ProfileController extends Controller
 {
     private $airlineRepo,
@@ -27,7 +31,7 @@ class ProfileController extends Controller
      * ProfileController constructor.
      * @param AirlineRepository $airlineRepo
      * @param AirportRepository $airportRepo
-     * @param UserRepository $userRepo
+     * @param UserRepository    $userRepo
      */
     public function __construct(
         AirlineRepository $airlineRepo,
@@ -44,10 +48,14 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        $airports = $this->airportRepo->all();
+        if (setting('pilots.home_hubs_only')) {
+            $airports = $this->airportRepo->findWhere(['hub' => true]);
+        } else {
+            $airports = $this->airportRepo->all();
+        }
 
-        return $this->view('profile.index', [
-            'user' => Auth::user(),
+        return view('profile.index', [
+            'user'     => Auth::user(),
             'airports' => $airports,
         ]);
     }
@@ -61,13 +69,14 @@ class ProfileController extends Controller
         $user = User::where('id', $id)->first();
         if (empty($user)) {
             Flash::error('User not found!');
+
             return redirect(route('frontend.dashboard.index'));
         }
 
         $airports = $this->airportRepo->all();
 
-        return $this->view('profile.index', [
-            'user' => $user,
+        return view('profile.index', [
+            'user'     => $user,
             'airports' => $airports,
         ]);
     }
@@ -82,13 +91,14 @@ class ProfileController extends Controller
         $user = User::where('id', Auth::user()->id)->first();
         if (empty($user)) {
             Flash::error('User not found!');
+
             return redirect(route('frontend.dashboard.index'));
         }
 
         $airlines = $this->airlineRepo->selectBoxList();
-        $airports = $this->airportRepo->selectBoxList();
+        $airports = $this->airportRepo->selectBoxList(false, setting('pilots.home_hubs_only'));
 
-        return $this->view('profile.edit', [
+        return view('profile.edit', [
             'user'      => $user,
             'airlines'  => $airlines,
             'airports'  => $airports,
@@ -108,10 +118,10 @@ class ProfileController extends Controller
         $user = $this->userRepo->findWithoutFail($id);
 
         $validator = Validator::make($request->toArray(), [
-            'name' => 'required',
-            'email' => 'required|unique:users,email,'.$id,
+            'name'       => 'required',
+            'email'      => 'required|unique:users,email,'.$id,
             'airline_id' => 'required',
-            'password' => 'confirmed'
+            'password'   => 'confirmed'
         ]);
 
         if ($validator->fails()) {
@@ -133,6 +143,7 @@ class ProfileController extends Controller
         $this->userRepo->update($req_data, $id);
 
         Flash::success('Profile updated successfully!');
+
         return redirect(route('frontend.profile.index'));
     }
 
@@ -150,6 +161,7 @@ class ProfileController extends Controller
         $user->save();
 
         flash('New API key generated!')->success();
+
         return redirect(route('frontend.profile.index'));
     }
 }

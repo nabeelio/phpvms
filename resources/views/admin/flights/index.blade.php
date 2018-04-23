@@ -1,11 +1,14 @@
 @extends('admin.app')
-
 @section('title', 'Flights')
+
 @section('actions')
+    <li><a href="{{ route('admin.flights.export') }}"><i class="ti-plus"></i>Export to CSV</a></li>
+    <li><a href="{{ route('admin.flights.import') }}"><i class="ti-plus"></i>Import from CSV</a></li>
+    <li><a href="{{ route('admin.flightfields.index') }}"><i class="ti-plus"></i>Fields</a></li>
     <li>
-        <a href="{!! route('admin.flights.create') !!}">
+        <a href="{{ route('admin.flights.create') }}">
             <i class="ti-plus"></i>
-            Add New</a>
+            Add Flight</a>
     </li>
 @endsection
 
@@ -14,8 +17,10 @@
         @include('admin.flights.search')
     </div>
 
-    <div class="card">
-        @include('admin.flights.table')
+    <div class="card border-blue-bottom">
+        <div class="content">
+            @include('admin.flights.table')
+        </div>
     </div>
 
     <div class="row">

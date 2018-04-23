@@ -2,17 +2,18 @@
 
 namespace Modules\Installer\Services;
 
-use Log;
-use PDO;
-use Nwidart\Modules\Support\Stub;
+use App\Interfaces\Service;
 use Illuminate\Encryption\Encrypter;
+use Log;
+use Nwidart\Modules\Support\Stub;
+use PDO;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 /**
  * Class ConfigService
  * @package Modules\Installer\Services
  */
-class ConfigService
+class ConfigService extends Service
 {
     /**
      * Create the .env file
@@ -156,6 +157,31 @@ class ConfigService
         }
 
         return $opts;
+    }
+
+    /**
+     * Remove the config files
+     */
+    public function removeConfigFiles()
+    {
+        $env_file = \App::environmentFilePath();
+        $config_file = \App::environmentPath().'/config.php';
+
+        if (file_exists($env_file)) {
+            try {
+                unlink($env_file);
+            } catch (\Exception $e) {
+                Log::error($e->getMessage());
+            }
+        }
+
+        if(file_exists($config_file)) {
+            try {
+                unlink($config_file);
+            } catch (\Exception $e) {
+                Log::error($e->getMessage());
+            }
+        }
     }
 
     /**

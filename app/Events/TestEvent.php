@@ -7,6 +7,10 @@ use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
+/**
+ * Class TestEvent
+ * @package App\Events
+ */
 class TestEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
@@ -15,6 +19,7 @@ class TestEvent
 
     /**
      * Create a new event instance.
+     * @param User $user
      */
     public function __construct(User $user)
     {
