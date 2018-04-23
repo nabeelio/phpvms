@@ -217,7 +217,6 @@ class RankController extends Controller
         $rank = $this->rankRepository->findWithoutFail($id);
         if (empty($rank)) {
             Flash::error('Rank not found!');
-
             return redirect(route('admin.ranks.index'));
         }
 

@@ -2,6 +2,9 @@
 <script>
 function setEditable() {
 
+    const token = $('meta[name="csrf-token"]').attr('content');
+    const api_key = $('meta[name="api-key"]').attr('content');
+
     @if(isset($rank))
     $('#subfleets-table a').editable({
         type: 'text',
@@ -9,7 +12,13 @@ function setEditable() {
         emptytext: 'inherited',
         url: '{{ url('/admin/ranks/'.$rank->id.'/subfleets') }}',
         title: 'Enter override value',
-        ajaxOptions: {'type': 'put'},
+        ajaxOptions: {
+            type: 'put',
+            headers: {
+                'x-api-key': api_key,
+                'X-CSRF-TOKEN': token,
+            }
+        },
         params: function (params) {
             return {
                 subfleet_id: params.pk,
