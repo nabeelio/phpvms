@@ -19,7 +19,7 @@
     <link rel="shortcut icon" type="image/png" href="{{ public_asset('/assets/img/favicon.png') }}"/>
 
     <link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'>
-    <link href="http://fonts.googleapis.com/css?family=Roboto:400,700,300" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700,300" rel="stylesheet" type="text/css">
 
     <link rel="stylesheet" href="{{ public_asset('/assets/global/css/vendor.css') }}">
     <link rel="stylesheet" href="{{ public_asset('/assets/admin/css/vendor.css') }}">
