@@ -225,11 +225,7 @@
     <div class="col-sm-4">
         {{ Form::label('active', 'Active:') }}
         {{ Form::hidden('active', 0, false) }}
-        @if($flight!==null)
-            {{ Form::checkbox('active', $flight->active, ['class' => 'form-control icheck']) }}
-        @else
-            {{ Form::checkbox('active', null, ['class' => 'form-control icheck']) }}
-        @endif
+        {{ Form::checkbox('active', null, ['class' => 'form-control icheck']) }}
     </div>
     <div class="col-8">
         <div class="text-right">
