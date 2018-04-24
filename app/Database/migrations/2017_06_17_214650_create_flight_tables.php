@@ -36,6 +36,7 @@ class CreateFlightTables extends Migration
             $table->date('end_date')->nullable();
             $table->boolean('has_bid')->default(false);
             $table->boolean('active')->default(true);
+            $table->boolean('flight_active')->default(true); // used by the cron
             $table->timestamps();
 
             $table->primary('id');

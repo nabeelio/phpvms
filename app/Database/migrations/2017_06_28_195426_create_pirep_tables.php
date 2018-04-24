@@ -36,6 +36,7 @@ class CreatePirepTables extends Migration
             $table->unsignedDecimal('block_fuel')->nullable();
             $table->unsignedDecimal('fuel_used')->nullable();
             $table->decimal('landing_rate')->nullable();
+            $table->smallInteger('score')->nullable();
             $table->text('route')->nullable();
             $table->text('notes')->nullable();
             $table->unsignedTinyInteger('source')->nullable()->default(0);

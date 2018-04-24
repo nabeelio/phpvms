@@ -22,6 +22,8 @@ class CreateRanksTable extends Migration
             $table->boolean('auto_approve_acars')->nullable()->default(false);
             $table->boolean('auto_approve_manual')->nullable()->default(false);
             $table->boolean('auto_promote')->nullable()->default(true);
+            $table->boolean('auto_approve_above_score')->nullable()->default(false);
+            $table->smallInteger('auto_approve_score')->nullable();
             $table->timestamps();
 
             $table->unique('name');
