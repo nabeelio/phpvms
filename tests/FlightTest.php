@@ -35,6 +35,57 @@ class FlightTest extends TestCase
         return $flight;
     }
 
+    /**
+     * Test adding a flight and also if there are duplicates
+     */
+    public function testDuplicateFlight()
+    {
+        $this->user = factory(App\Models\User::class)->create();
+        $flight = $this->addFlight($this->user);
+
+        // first flight shouldn't be a duplicate
+        $this->assertFalse($this->flightSvc->isFlightDuplicate($flight));
+
+        $flight_dupe = new Flight([
+            'airline_id'    => $flight->airline_id,
+            'flight_number' => $flight->flight_number,
+            'route_code'    => $flight->route_code,
+            'route_leg'     => $flight->route_leg,
+        ]);
+
+        $this->assertTrue($this->flightSvc->isFlightDuplicate($flight_dupe));
+
+        # same flight but diff airline shouldn't be a dupe
+        $new_airline = factory(App\Models\Airline::class)->create();
+        $flight_dupe = new Flight([
+            'airline_id'    => $new_airline->airline_id,
+            'flight_number' => $flight->flight_number,
+            'route_code'    => $flight->route_code,
+            'route_leg'     => $flight->route_leg,
+        ]);
+
+        $this->assertFalse($this->flightSvc->isFlightDuplicate($flight_dupe));
+
+        # add another flight with a code
+        $flight_leg = factory(App\Models\Flight::class)->create([
+            'airline_id'    => $flight->airline_id,
+            'flight_number' => $flight->flight_number,
+            'route_code'    => 'A',
+        ]);
+
+        $this->assertFalse($this->flightSvc->isFlightDuplicate($flight_leg));
+
+        // Add both a route and leg
+        $flight_leg = factory(App\Models\Flight::class)->create([
+            'airline_id'    => $flight->airline_id,
+            'flight_number' => $flight->flight_number,
+            'route_code'    => 'A',
+            'route_leg'     => 1,
+        ]);
+
+        $this->assertFalse($this->flightSvc->isFlightDuplicate($flight_leg));
+    }
+
     public function testGetFlight()
     {
         $this->user = factory(App\Models\User::class)->create();

@@ -101,6 +101,43 @@ class FlightService extends Service
     }
 
     /**
+     * Check if this flight has a duplicate already
+     * @param Flight $flight
+     * @return bool
+     */
+    public function isFlightDuplicate(Flight $flight)
+    {
+        $where = [
+            ['id', '<>', $flight->id],
+            'airline_id'    => $flight->airline_id,
+            'flight_number' => $flight->flight_number,
+        ];
+
+        $found_flights = $this->flightRepo->findWhere($where);
+        if($found_flights->count() === 0) {
+            return false;
+        }
+
+        // Find within all the flights with the same flight number
+        // Return any flights that have the same route code and leg
+        // If this list is > 0, then this has a duplicate
+        $found_flights = $found_flights->filter(function($value, $key) use ($flight) {
+            if($flight->route_code === $value->route_code
+                && $flight->route_leg === $value->route_leg) {
+                return true;
+            }
+
+            return false;
+        });
+
+        if($found_flights->count() === 0) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Delete a flight, and all the user bids, etc associated with it
      * @param Flight $flight
      * @throws \Exception

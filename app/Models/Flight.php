@@ -14,6 +14,7 @@ use PhpUnitsOfMeasure\Exception\NonStringUnitName;
 /**
  * @property string     id
  * @property Airline    airline
+ * @property integer    airline_id
  * @property mixed      flight_number
  * @property mixed      route_code
  * @property mixed      route_leg

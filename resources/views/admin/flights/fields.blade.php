@@ -223,9 +223,13 @@
 <div class="row">
     <!-- Active Field -->
     <div class="col-sm-4">
-        {{ Form::label('active', 'Active:') }}
-        {{ Form::hidden('active', 0, false) }}
-        {{ Form::checkbox('active', null, ['class' => 'form-control icheck']) }}
+        <div class="checkbox">
+            <label class="checkbox-inline">
+                {{ Form::label('active', 'Active:') }}
+                {{ Form::hidden('active', 0, false) }}
+                {{ Form::checkbox('active') }}
+            </label>
+        </div>
     </div>
     <div class="col-8">
         <div class="text-right">

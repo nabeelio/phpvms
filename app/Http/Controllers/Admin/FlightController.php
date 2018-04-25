@@ -166,21 +166,9 @@ class FlightController extends Controller
     {
         $input = $request->all();
 
-        # See if flight number exists with the route code/leg
-        $where = [
-            'flight_number' => $input['flight_number'],
-        ];
-
-        if (filled($input['route_code'])) {
-            $where['route_code'] = $input['route_code'];
-        }
-
-        if (filled($input['route_leg'])) {
-            $where['route_leg'] = $input['route_leg'];
-        }
-
-        $flights = $this->flightRepo->findWhere($where);
-        if ($flights->count() > 0) {
+        // Create a temporary flight so we can validate
+        $flight = new Flight($input);
+        if ($this->flightSvc->isFlightDuplicate($flight)) {
             Flash::error('Duplicate flight with same number/code/leg found, please change to proceed');
             return redirect()->back()->withInput($request->all());
         }
@@ -270,22 +258,11 @@ class FlightController extends Controller
 
         $input = $request->all();
 
-        # See if flight number exists with the route code/leg
-        $where = [
-            ['id', '<>', $id],
-            'flight_number' => $input['flight_number'],
-        ];
+        # apply the updates here temporarily, don't save
+        # the repo->update() call will actually do it
+        $flight->fill($input);
 
-        if (filled($input['route_code'])) {
-            $where['route_code'] = $input['route_code'];
-        }
-
-        if (filled($input['route_leg'])) {
-            $where['route_leg'] = $input['route_leg'];
-        }
-
-        $flights = $this->flightRepo->findWhere($where);
-        if ($flights->count() > 0) {
+        if($this->flightSvc->isFlightDuplicate($flight)) {
             Flash::error('Duplicate flight with same number/code/leg found, please change to proceed');
             return redirect()->back()->withInput($request->all());
         }

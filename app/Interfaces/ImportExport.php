@@ -47,7 +47,7 @@ class ImportExport
     /**
      * Get the airline from the ICAO. Create it if it doesn't exist
      * @param $code
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return Airline
      */
     public function getAirline($code)
     {

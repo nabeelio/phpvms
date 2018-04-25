@@ -75,6 +75,19 @@ class FlightImporter extends ImportExport
         // Get the airline ID from the ICAO code
         $airline = $this->getAirline($row['airline']);
 
+        // Check if the imported flight is a duplicate
+        $temp_flight = new Flight([
+            'airline_id'    => $airline->id,
+            'flight_number' => $row['flight_number'],
+            'route_code'    => $row['route_code'],
+            'route_leg'     => $row['route_leg'],
+        ]);
+
+        if($this->flightSvc->isFlightDuplicate($temp_flight)) {
+            $this->errorLog('Error in row '.$index.': Duplicate flight number detected');
+            return false;
+        }
+
         // Try to find this flight
         $flight = Flight::firstOrNew([
             'airline_id'    => $airline->id,
