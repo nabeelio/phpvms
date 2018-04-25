@@ -76,7 +76,7 @@ class FlightImporter extends ImportExport
         $airline = $this->getAirline($row['airline']);
 
         // Check if the imported flight is a duplicate
-        $temp_flight = new Flight([
+        /*$temp_flight = new Flight([
             'airline_id'    => $airline->id,
             'flight_number' => $row['flight_number'],
             'route_code'    => $row['route_code'],
@@ -86,7 +86,7 @@ class FlightImporter extends ImportExport
         if($this->flightSvc->isFlightDuplicate($temp_flight)) {
             $this->errorLog('Error in row '.$index.': Duplicate flight number detected');
             return false;
-        }
+        }*/
 
         // Try to find this flight
         $flight = Flight::firstOrNew([
