@@ -47,7 +47,7 @@ class UpdateRequest extends FormRequest
             'block_on_time'       => 'nullable|date',
             'created_at'          => 'nullable|date',
             'status'              => 'nullable',
-            'source_name'         => 'nullable',
+            'score'               => 'nullable|integer',
 
             # See if the fare objects are included and formatted properly
             'fares'               => 'nullable|array',

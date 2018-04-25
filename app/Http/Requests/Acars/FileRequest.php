@@ -42,6 +42,7 @@ class FileRequest extends FormRequest
             'route'               => 'nullable',
             'notes'               => 'nullable',
             'source_name'         => 'nullable',
+            'score'               => 'nullable|integer',
             'landing_rate'        => 'nullable|numeric',
             'flight_type'         => 'nullable|integer',
             'block_off_time'      => 'nullable|date',

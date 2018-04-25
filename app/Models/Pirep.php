@@ -33,6 +33,7 @@ use PhpUnitsOfMeasure\Exception\NonStringUnitName;
  * @property integer     block_time
  * @property integer     flight_time    In minutes
  * @property integer     planned_flight_time
+ * @property integer     score
  * @property User        user
  * @property Flight|null flight
  * @property Collection  fields
@@ -74,6 +75,7 @@ class Pirep extends Model
         'landing_rate',
         'route',
         'notes',
+        'score',
         'source',
         'source_name',
         'flight_type',
@@ -100,6 +102,7 @@ class Pirep extends Model
         'block_fuel'          => 'float',
         'fuel_used'           => 'float',
         'landing_rate'        => 'float',
+        'score'               => 'integer',
         'source'              => 'integer',
         'state'               => 'integer',
         'block_off_time'      => 'datetime',

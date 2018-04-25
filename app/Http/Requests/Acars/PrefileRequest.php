@@ -37,6 +37,7 @@ class PrefileRequest extends FormRequest
             'block_fuel'          => 'nullable|numeric',
             'route'               => 'nullable',
             'notes'               => 'nullable',
+            'score'               => 'nullable|integer',
             'flight_type'         => 'nullable|integer',
             'block_off_time'      => 'nullable|date',
             'block_on_time'       => 'nullable|date',
