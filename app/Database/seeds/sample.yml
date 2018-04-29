@@ -162,6 +162,27 @@ airports:
     lat: 36.4054
     lon: 28.0862
     ground_handling_cost: 50
+  - id: MKJP
+    iata: KIN
+    icao: MKJP
+    name: Norman Manley International Airport
+    location: Kingston, Jamaica
+    country:
+    timezone: America/Jamaica
+    lat: 17.9357
+    lon: -76.7875
+    ground_handling_cost: 50
+  - id: MWCR
+    iata: GCM
+    icao: MWCR
+    name: Owen Roberts International Airport
+    location: Georgetown
+    country: Cayman
+    timezone: America/Cayman
+    lat: 19.2928
+    lon: -81.3577
+    ground_handling_cost: 50
+
 #
 aircraft:
   - id: 1
@@ -347,6 +368,20 @@ flights:
     dpt_time: 9AM CST
     arr_time: 1030AM CST
     route: PITZZ4 MNURE WLEEE4
+    created_at: NOW
+    updated_at: NOW
+  - id: flightid_4
+    airline_id: 1
+    flight_number: 99
+    route_code:
+    route_leg:
+    dpt_airport_id: MKJP
+    arr_airport_id: MWCR
+    flight_time: 70
+    flight_type: J
+    dpt_time: 0800
+    arr_time: 0900
+    route: MLY5 KEMBO UG442 SIA UG633 OTEKO UR640 NALRO GUBEL3
     created_at: NOW
     updated_at: NOW
 
