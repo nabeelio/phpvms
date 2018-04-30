@@ -209,6 +209,11 @@ class PirepController extends Controller
             $this->checkCancelled($pirep);
         }
 
+        // Default to a scheduled passenger flight
+        if(!array_key_exists('flight_type', $attrs)) {
+            $attrs['flight_type'] = 'J';
+        }
+
         $pirep->save();
 
         Log::info('PIREP PREFILED');
