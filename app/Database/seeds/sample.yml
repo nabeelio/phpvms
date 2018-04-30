@@ -182,7 +182,26 @@ airports:
     lat: 19.2928
     lon: -81.3577
     ground_handling_cost: 50
-
+  - id: OMDB
+    iata: DXB
+    icao: OMDB
+    name: Dubai International Airport
+    location: Dubai, UAE
+    country:
+    timezone: Asia/Dubai
+    lat: 25.2528
+    lon: 55.3644
+    ground_handling_cost: 50
+  - id: LOWW
+    iata: VIE
+    icao: LOWW
+    name: Vienna International Airport
+    location: Vienna
+    country: Austria
+    timezone: Europe/Vienna
+    lat: 48.1103
+    lon: 16.5697
+    ground_handling_cost: 50
 #
 aircraft:
   - id: 1

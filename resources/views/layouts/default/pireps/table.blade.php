@@ -50,7 +50,9 @@
                 {{ PirepState::label($pirep->state) }}</div>
             </td>
             <td>
-                {{ $pirep->submitted_at->diffForHumans() }}
+                @if(filled($pirep->submitted_at))
+                    {{ $pirep->submitted_at->diffForHumans() }}
+                @endif
             </td>
             <td>
                 @if(!$pirep->read_only)
