@@ -5,7 +5,11 @@
 <div class="row profile-page content-center text-color-dark-beige">
     <div class="col-md-4" style="text-align:center;">
         <div class="photo-container">
-            <img src="{{ $user->gravatar(512) }}" style="width: 123px;">
+            @if ($user->avatar == null)
+                <img src="{{ $user->gravatar(512) }}" style="width: 123px;">
+            @else
+                <img src="{{ url($user->avatar) }}" style="width: 123px;">
+            @endif
         </div>
         <h3 class="title">{{ $user->name }}</h3>
         <h6><span class="flag-icon flag-icon-{{ $user->country }}"></span></h6>
