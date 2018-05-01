@@ -124,7 +124,7 @@ class ProfileController extends Controller
             'email'      => 'required|unique:users,email,'.$id,
             'airline_id' => 'required',
             'password'   => 'confirmed',
-            'avatar'     => 'present|mimes:jpeg,png,jpg',
+            'avatar'     => 'nullable|mimes:jpeg,png,jpg',
         ]);
 
         if ($validator->fails()) {
@@ -143,7 +143,7 @@ class ProfileController extends Controller
             $req_data['password'] = Hash::make($req_data['password']);
         }
 
-        if ($req_data['avatar'] !== null) {
+        if (isset($req_data['avatar']) !== null) {
             Storage::delete($user->avatar);
         }
         if ($request->hasFile('avatar')) {
