@@ -63,4 +63,13 @@ return [
         'velocity'  => 'knots',
         'volume'    => 'gallons',
     ],
+
+    /*
+     * Avatar resize settings
+     * feel free to edit the following lines.
+     */
+    'avatar' => [
+        'width' => '200px',
+        'height' => '200px',
+    ],
 ];
