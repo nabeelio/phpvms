@@ -122,6 +122,20 @@ class User extends Authenticatable
     {
         $this->attributes['timezone'] = $value;
     }
+    
+    /**
+    * Return a File model
+    */
+    public function getAvatarAttribute()
+    {
+        if (!$this->attributes['avatar']) {
+           return null;
+        }
+
+        return new File([
+               'path' => $this->attributes['avatar']
+        ]);
+    }
 
     /**
      * @param mixed $size Size of the gravatar, in pixels
