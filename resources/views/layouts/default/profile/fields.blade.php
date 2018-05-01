@@ -97,7 +97,7 @@
                 <div class="input-group form-group-no-border{{ $errors->has('avatar') ? ' has-danger' : '' }}">
                     {{ Form::file('avatar', null) }}
                 </div>
-            <p class="small">This avatar will be rezise to {{ config('phpvms.avatar.width'). ' x '. config('phpvms.avatar.height') }}</p>
+            <p class="small">This avatar will be resized to {{ config('phpvms.avatar.width'). ' x '. config('phpvms.avatar.height') }}</p>
                 @if ($errors->has('avatar'))
                     <p class="text-danger">{{ $errors->first('avatar') }}</p>
                 @endif
