@@ -149,7 +149,7 @@ class ProfileController extends Controller
         if ($request->hasFile('avatar')) {
             $avatar = $request->file('avatar');
             $file_name = $user->pilot_id . '.' .$avatar->getClientOriginalExtension();
-            $path = "uploads/avatars/{$file_name}";
+            $path = "avatars/{$file_name}";
             Image::make($avatar)->resize(config('phpvms.avatar.width'), config('phpvms.avatar.height'))->save(public_path('uploads/avatars/'.$file_name));
             $req_data['avatar'] = $path;
         }
