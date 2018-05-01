@@ -67,9 +67,10 @@ return [
     /*
      * Avatar resize settings
      * feel free to edit the following lines.
+     * Both parameters are in px.
      */
     'avatar' => [
-        'width' => '200px',
-        'height' => '200px',
+        'width' => '200',
+        'height' => '200',
     ],
 ];
