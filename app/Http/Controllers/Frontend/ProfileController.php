@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Auth;
 use Jackiedo\Timezonelist\Facades\Timezonelist;
 use Log;
 use Validator;
+use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * Class ProfileController
@@ -121,7 +123,8 @@ class ProfileController extends Controller
             'name'       => 'required',
             'email'      => 'required|unique:users,email,'.$id,
             'airline_id' => 'required',
-            'password'   => 'confirmed'
+            'password'   => 'confirmed',
+            'avatar'     => 'present|mimes:jpeg,png,jpg',
         ]);
 
         if ($validator->fails()) {
@@ -138,6 +141,17 @@ class ProfileController extends Controller
             unset($req_data['password']);
         } else {
             $req_data['password'] = Hash::make($req_data['password']);
+        }
+
+        if ($req_data['avatar'] !== null) {
+            Storage::delete($user->avatar);
+        }
+        if ($request->hasFile('avatar')) {
+            $avatar = $request->file('avatar');
+            $file_name = $user->pilot_id . '.' .$avatar->getClientOriginalExtension();
+            $path = "uploads/avatars/{$file_name}";
+            Image::make($avatar)->resize(config('phpvms.avatar.width'), config('phpvms.avatar.height'))->save(public_path('uploads/avatars/'.$file_name));
+            $req_data['avatar'] = $path;
         }
 
         $this->userRepo->update($req_data, $id);
