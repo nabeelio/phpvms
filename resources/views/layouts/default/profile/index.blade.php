@@ -8,7 +8,7 @@
             @if ($user->avatar == null)
                 <img src="{{ $user->gravatar(512) }}" style="width: 123px;">
             @else
-                <img src="{{ url($user->avatar) }}" style="width: 123px;">
+                <img src="{{ $user->avatar->url }}" style="width: 123px;">
             @endif
         </div>
         <h3 class="title">{{ $user->name }}</h3>
