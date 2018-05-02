@@ -190,12 +190,17 @@ class GeoService extends Service
         foreach ($pirep->acars as $point) {
             $route->addPoint($point->lat, $point->lon, [
                 'pirep_id' => $pirep->id,
-                'name'     => $point->altitude,
-                'popup'    => $counter.'<br />GS: '.$point->gs.'<br />Alt: '.$point->altitude,
+                'name'     => '',
+                'alt'      => $point->altitude,
+                'popup'    => 'GS: '.$point->gs.'<br />Alt: '.$point->altitude,
             ]);
         }
 
         return [
+            'position' => [
+                'lat' => $pirep->position->lat,
+                'lon' => $pirep->position->lon,
+            ],
             'line'   => $route->getLine(),
             'points' => $route->getPoints()
         ];
@@ -225,7 +230,7 @@ class GeoService extends Service
                 'gs'       => $point->gs,
                 'alt'      => $point->altitude,
                 'heading'  => $point->heading ?: 0,
-                'popup'    => $pirep->ident.'<br />GS: '.$point->gs.'<br />Alt: '.$point->altitude,
+                //'popup'    => $pirep->ident.'<br />GS: '.$point->gs.'<br />Alt: '.$point->altitude,
             ]);
         }
 

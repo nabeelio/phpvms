@@ -5,6 +5,7 @@
  */
 Route::group([], function () {
     Route::get('acars', 'AcarsController@index');
+    Route::get('pireps/{pirep_id}', 'PirepController@get');
     Route::get('pireps/{pirep_id}/acars/geojson', 'PirepController@acars_geojson');
 
     Route::get('news', 'NewsController@index');
@@ -32,7 +33,6 @@ Route::group(['middleware' => ['api.auth']], function () {
     Route::get('flights/{id}', 'FlightController@get');
     Route::get('flights/{id}/route', 'FlightController@route');
 
-    Route::get('pireps/{pirep_id}', 'PirepController@get');
     Route::put('pireps/{pirep_id}', 'PirepController@update');
 
     /*

@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Enums\PirepStatus;
 use App\Support\Units\Distance;
 use App\Support\Units\Fuel;
 use Illuminate\Http\Resources\Json\Resource;
@@ -40,9 +41,12 @@ class Pirep extends Resource
         if($this->block_off_time)
             $pirep['block_off_time'] = $this->block_off_time->toIso8601ZuluString();
 
+        $pirep['status_text'] = PirepStatus::label($this->status);
+
         $pirep['airline'] = new Airline($this->airline);
         $pirep['dpt_airport'] = new Airport($this->dpt_airport);
         $pirep['arr_airport'] = new Airport($this->arr_airport);
+
         $pirep['position'] = new Acars($this->position);
         $pirep['comments'] = PirepComment::collection($this->comments);
         $pirep['user'] = [

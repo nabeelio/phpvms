@@ -43,6 +43,7 @@ use PhpUnitsOfMeasure\Exception\NonStringUnitName;
  * @property Carbon      created_at
  * @property Carbon      updated_at
  * @property bool        state
+ * @property Acars       position
  * @package App\Models
  */
 class Pirep extends Model
@@ -172,6 +173,19 @@ class Pirep extends Model
     {
         if (array_key_exists('block_on_time', $this->attributes)) {
             return new Carbon($this->attributes['block_on_time']);
+        }
+
+        return null;
+    }
+
+    /**
+     * Return the block on time
+     * @return Carbon
+     */
+    public function getSubmittedAtAttribute()
+    {
+        if (array_key_exists('submitted_at', $this->attributes)) {
+            return new Carbon($this->attributes['submitted_at']);
         }
 
         return null;

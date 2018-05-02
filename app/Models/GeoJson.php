@@ -34,8 +34,14 @@ class GeoJson
      */
     public function addPoint($lat, $lon, array $attrs)
     {
+        $point = [$lon, $lat];
         $this->line_coords[] = [$lon, $lat];
-        $this->point_coords[] = new Feature(new Point([$lon, $lat]), $attrs);
+
+        if(array_key_exists('alt', $attrs)) {
+            $point[] = $attrs['alt'];
+        }
+
+        $this->point_coords[] = new Feature(new Point($point), $attrs);
         ++$this->counter;
     }
 

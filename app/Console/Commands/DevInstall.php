@@ -48,7 +48,7 @@ class DevInstall extends Command
         #
 
         $this->info('Importing sample data');
-        \Artisan::call('phpvms:import', [
+        \Artisan::call('phpvms:yaml-import', [
             'files' => ['app/Database/seeds/sample.yml'],
         ]);
 
