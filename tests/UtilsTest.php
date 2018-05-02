@@ -9,8 +9,8 @@ class UtilsTest extends TestCase
 
     public function testDates()
     {
-        $carbon = new \Carbon\Carbon('2018-03-18 00:20:43');
-        //echo $carbon;
+        $carbon = new \Carbon\Carbon('2018-04-28T12:55:40Z');
+        $this->assertNotNull($carbon);
     }
 
     public function testSecondsToTimeParts()

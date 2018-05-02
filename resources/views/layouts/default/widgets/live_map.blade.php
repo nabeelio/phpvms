@@ -16,9 +16,10 @@
         <table class="table">
             @foreach($pireps as $pirep)
                 <tr>
-                    <td>{{ $pirep->ident }}</td>
+                    <td>{{ $pirep->airline->code }}{{ $pirep->ident }}</td>
                     <td>{{ $pirep->dpt_airport_id }}</td>
                     <td>{{ $pirep->arr_airport_id }}</td>
+                    <td>{{ $pirep->aircraft->name }}</td>
                     <td>
                         {{ PirepStatus::label($pirep->status) }}
                     </td>

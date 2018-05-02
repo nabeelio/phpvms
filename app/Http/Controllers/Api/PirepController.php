@@ -240,7 +240,8 @@ class PirepController extends Controller
      */
     public function update($id, UpdateRequest $request)
     {
-        Log::info('PIREP Update, user '.Auth::id(), $request->post());
+        Log::info('PIREP Update, user '.Auth::id());
+        Log::info($request->getContent());
 
         $user = Auth::user();
         $pirep = Pirep::find($id);

@@ -18,6 +18,7 @@ use App\Models\Setting;
 use App\Models\Subfleet;
 use App\Repositories\SettingRepository;
 use App\Services\ModuleService;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use View;
@@ -27,6 +28,11 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Schema::defaultStringLength(191);
+
+        Carbon::serializeUsing(function ($carbon) {
+            return $carbon->format('U');
+        });
+
         $this->app->bind('setting', SettingRepository::class);
 
         View::share('moduleSvc', app(ModuleService::class));
@@ -39,6 +45,7 @@ class AppServiceProvider extends ServiceProvider
         PirepField::observe(PirepFieldObserver::class);
         Setting::observe(SettingObserver::class);
         Subfleet::observe(SubfleetObserver::class);
+
     }
 
     /**

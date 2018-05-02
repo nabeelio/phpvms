@@ -1,14 +1,9 @@
-
 const leaflet = require('leaflet');
 
 import draw_base_map from './base_map'
-import { addWMSLayer } from './helpers';
+import {addWMSLayer} from './helpers';
 
-import {
-  ACTUAL_ROUTE_COLOR,
-  PLAN_ROUTE_COLOR,
-  CIRCLE_COLOR
-} from './config'
+import {ACTUAL_ROUTE_COLOR, CIRCLE_COLOR, PLAN_ROUTE_COLOR} from './config'
 
 /**
  * Show some popup text when a feature is clicked on
@@ -16,12 +11,12 @@ import {
  * @param layer
  */
 export const onFeaturePointClick = (feature, layer) => {
-  let popup_html = '';
-  if (feature.properties && feature.properties.popup) {
-    popup_html += feature.properties.popup
-  }
+    let popup_html = '';
+    if (feature.properties && feature.properties.popup) {
+        popup_html += feature.properties.popup
+    }
 
-  layer.bindPopup(popup_html)
+    layer.bindPopup(popup_html)
 };
 
 /**
@@ -31,14 +26,14 @@ export const onFeaturePointClick = (feature, layer) => {
  * @returns {*}
  */
 export const pointToLayer = (feature, latlng) => {
-  return leaflet.circleMarker(latlng, {
-    radius: 5,
-    fillColor: CIRCLE_COLOR,
-    color: '#000',
-    weight: 1,
-    opacity: 1,
-    fillOpacity: 0.8
-  })
+    return leaflet.circleMarker(latlng, {
+        radius: 5,
+        fillColor: CIRCLE_COLOR,
+        color: '#000',
+        weight: 1,
+        opacity: 1,
+        fillOpacity: 0.8
+    })
 }
 
 /**
@@ -48,90 +43,125 @@ export const pointToLayer = (feature, latlng) => {
  */
 export default (opts) => {
 
-  opts = Object.assign({
-    route_points: null,
-    planned_route_line: null,
-    actual_route_points: null,
-    actual_route_line: null,
-    render_elem: 'map',
-    metar_wms: {
-        url: '',
-        params: {}
-    },
-  }, opts);
+    opts = Object.assign({
 
-  console.log(opts);
+        route_points: null,
+        planned_route_line: null,
+        actual_route_points: null,
+        actual_route_line: null,
+        render_elem: 'map',
+        live_map: false,
+        aircraft_icon: '/assets/img/acars/aircraft.png',
+        metar_wms: {
+            url: '',
+            params: {}
+        },
+    }, opts);
 
-  let map = draw_base_map(opts);
-
-  if (opts.metar_wms.url !== '') {
-      addWMSLayer(map, opts.metar_wms);
-  }
-
-  let geodesicLayer = leaflet.geodesic([], {
-    weight: 4,
-    opacity: 0.9,
-    color: PLAN_ROUTE_COLOR,
-    steps: 50,
-    wrap: false,
-  }).addTo(map);
-
-  geodesicLayer.geoJson(opts.planned_route_line);
-
-  try {
-    map.fitBounds(geodesicLayer.getBounds())
-  } catch (e) {
-    console.log(e)
-  }
-
-  // Draw the route points after
-  if (opts.route_points !== null) {
-    let route_points = leaflet.geoJSON(opts.route_points, {
-      onEachFeature: onFeaturePointClick,
-      pointToLayer: pointToLayer,
-      style: {
-        'color': PLAN_ROUTE_COLOR,
-        'weight': 3,
-        'opacity': 0.65,
-      },
+    const aircraftIcon = leaflet.icon({
+        iconUrl: opts.aircraft_icon,
+        iconSize: [42, 42],
+        iconAnchor: [21, 21],
     });
 
-    route_points.addTo(map);
-  }
+    let map = draw_base_map(opts);
+    let layerLiveFlight;
 
-  /**
-   * draw the actual route
-   */
+    if (opts.metar_wms.url !== '') {
+        addWMSLayer(map, opts.metar_wms);
+    }
 
-  if (opts.actual_route_line !== null && opts.actual_route_line.features.length > 0) {
     let geodesicLayer = leaflet.geodesic([], {
-      weight: 3,
-      opacity: 0.9,
-      color: ACTUAL_ROUTE_COLOR,
-      steps: 50,
-      wrap: false,
+        weight: 4,
+        opacity: 0.9,
+        color: PLAN_ROUTE_COLOR,
+        steps: 50,
+        wrap: false,
     }).addTo(map);
 
-    geodesicLayer.geoJson(opts.actual_route_line);
+    geodesicLayer.geoJson(opts.planned_route_line);
 
     try {
-      map.fitBounds(geodesicLayer.getBounds())
+        map.fitBounds(geodesicLayer.getBounds())
     } catch (e) {
-      console.log(e)
+        console.log(e)
     }
-  }
 
-  if (opts.actual_route_points !== null && opts.actual_route_points.features.length > 0) {
-    let route_points = leaflet.geoJSON(opts.actual_route_points, {
-      onEachFeature: onFeaturePointClick,
-      pointToLayer: pointToLayer,
-      style: {
-        'color': ACTUAL_ROUTE_COLOR,
-        'weight': 3,
-        'opacity': 0.65,
-      },
-    });
+    // Draw the route points after
+    if (opts.route_points !== null) {
+        let route_points = leaflet.geoJSON(opts.route_points, {
+            onEachFeature: onFeaturePointClick,
+            pointToLayer: pointToLayer,
+            style: {
+                'color': PLAN_ROUTE_COLOR,
+                'weight': 3,
+                'opacity': 0.65,
+            },
+        });
 
-    route_points.addTo(map)
-  }
+        route_points.addTo(map);
+    }
+
+    /**
+     * draw the actual route
+     */
+
+    if (opts.actual_route_line !== null && opts.actual_route_line.features.length > 0) {
+        let geodesicLayer = leaflet.geodesic([], {
+            weight: 3,
+            opacity: 0.9,
+            color: ACTUAL_ROUTE_COLOR,
+            steps: 50,
+            wrap: false,
+        }).addTo(map);
+
+        geodesicLayer.geoJson(opts.actual_route_line);
+
+        try {
+            map.fitBounds(geodesicLayer.getBounds())
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
+    if (opts.actual_route_points !== null && opts.actual_route_points.features.length > 0) {
+        let route_points = leaflet.geoJSON(opts.actual_route_points, {
+            onEachFeature: onFeaturePointClick,
+            pointToLayer: pointToLayer,
+            style: {
+                'color': ACTUAL_ROUTE_COLOR,
+                'weight': 3,
+                'opacity': 0.65,
+            },
+        });
+
+        route_points.addTo(map)
+    }
+
+    /**
+     *
+     */
+    const liveFlight = () => {
+        const uri = opts.pirep_uri;
+        const live_route = $.ajax({
+            url: uri,
+            dataType: 'json',
+            error: console.log
+        });
+
+        $.when(live_route).done((routeJson) => {
+            layerLiveFlight = leaflet.geoJSON(routeJson, {
+                pointToLayer: function (feature, latlon) {
+                    return leaflet.marker(latlon, {
+                        icon: aircraftIcon,
+                        rotationAngle: feature.properties.heading
+                    })
+                }
+            });
+
+            layerLiveFlight.addTo(map)
+        });
+    };
+
+    setInterval(liveFlight, 10000);
 };

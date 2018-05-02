@@ -1,0 +1,1075 @@
+acars:
+  -
+    id: aOYyrOopomBd
+    pirep_id: dNk9qNnojYKe
+    type: '0'
+    nav_type: null
+    order: '0'
+    name: null
+    log: null
+    lat: '17.934786422889'
+    lon: '-76.778003584686'
+    heading: '292'
+    altitude: '8.1515683516007'
+    vs: '0'
+    gs: '0'
+    transponder: null
+    autopilot: null
+    fuel_flow: null
+    sim_time: null
+    created_at: '2018-05-01 23:49:04'
+    updated_at: '2018-05-01 23:49:04'
+  -
+    id: bW67DZA551Ja
+    pirep_id: dNk9qNnojYKe
+    type: '0'
+    nav_type: null
+    order: '0'
+    name: null
+    log: null
+    lat: '17.934786432775'
+    lon: '-76.77800361008'
+    heading: '292'
+    altitude: '8.1583404581437'
+    vs: '0'
+    gs: '0.0074230431465574'
+    transponder: null
+    autopilot: null
+    fuel_flow: null
+    sim_time: null
+    created_at: '2018-05-02 00:28:36'
+    updated_at: '2018-05-02 00:28:36'
+  -
+    id: erkRwJWQnr4a
+    pirep_id: dNk9qNnojYKe
+    type: '0'
+    nav_type: null
+    order: '0'
+    name: null
+    log: null
+    lat: '17.934786689673'
+    lon: '-76.77800427491'
+    heading: '292'
+    altitude: '8.1583200798013'
+    vs: '0'
+    gs: '0.0063170024918172'
+    transponder: null
+    autopilot: null
+    fuel_flow: null
+    sim_time: null
+    created_at: '2018-05-02 00:28:58'
+    updated_at: '2018-05-02 00:28:58'
+  -
+    id: bmZQoAzRGYAd
+    pirep_id: dNk9qNnojYKe
+    type: '0'
+    nav_type: null
+    order: '0'
+    name: null
+    log: null
+    lat: '17.934786863364'
+    lon: '-76.778004724083'
+    heading: '292'
+    altitude: '8.1583258454302'
+    vs: '0'
+    gs: '0.0062211738290854'
+    transponder: null
+    autopilot: null
+    fuel_flow: null
+    sim_time: null
+    created_at: '2018-05-02 00:29:13'
+    updated_at: '2018-05-02 00:29:13'
+  -
+    id: mbk8EolwQOEd
+    pirep_id: dNk9qNnojYKe
+    type: '0'
+    nav_type: null
+    order: '0'
+    name: null
+    log: null
+    lat: '17.934787031837'
+    lon: '-76.778005160205'
+    heading: '292'
+    altitude: '8.1583950316794'
+    vs: '0'
+    gs: '0.0074284254152491'
+    transponder: null
+    autopilot: null
+    fuel_flow: null
+    sim_time: null
+    created_at: '2018-05-02 00:29:28'
+    updated_at: '2018-05-02 00:29:28'
+  -
+    id: bYEvG2JvOJAb
+    pirep_id: dNk9qNnojYKe
+    type: '0'
+    nav_type: null
+    order: '0'
+    name: null
+    log: null
+    lat: '17.934787200997'
+    lon: '-76.778005597894'
+    heading: '292'
+    altitude: '8.1583980328179'
+    vs: '0'
+    gs: '0.0056652719315407'
+    transponder: null
+    autopilot: null
+    fuel_flow: null
+    sim_time: null
+    created_at: '2018-05-02 00:29:43'
+    updated_at: '2018-05-02 00:29:43'
+  -
+    id: ejRqlxwJ5Ave
+    pirep_id: b68R5gwVzpVe
+    type: '0'
+    nav_type: null
+    order: '0'
+    name: null
+    log: null
+    lat: '17.934787330613'
+    lon: '-76.778005933186'
+    heading: '292'
+    altitude: '8.1584579148505'
+    vs: '0'
+    gs: '0'
+    transponder: null
+    autopilot: null
+    fuel_flow: null
+    sim_time: null
+    created_at: '2018-05-02 00:31:21'
+    updated_at: '2018-05-02 00:31:21'
+  -
+    id: bkRZmyxPQwva
+    pirep_id: b68R5gwVzpVe
+    type: '0'
+    nav_type: null
+    order: '0'
+    name: null
+    log: null
+    lat: '17.934787413408'
+    lon: '-76.778006147368'
+    heading: '292'
+    altitude: '8.1587934295896'
+    vs: '0'
+    gs: '0.0057051356580496'
+    transponder: null
+    autopilot: null
+    fuel_flow: null
+    sim_time: null
+    created_at: '2018-05-02 00:32:10'
+    updated_at: '2018-05-02 00:32:10'
+  -
+    id: lejZDnk5qMWe
+    pirep_id: b68R5gwVzpVe
+    type: '0'
+    nav_type: null
+    order: '0'
+    name: null
+    log: null
+    lat: '17.934788873785'
+    lon: '-76.778009925791'
+    heading: '292'
+    altitude: '8.1591462785382'
+    vs: '0'
+    gs: '0.0087238823686628'
+    transponder: null
+    autopilot: null
+    fuel_flow: null
+    sim_time: null
+    created_at: '2018-05-02 00:35:15'
+    updated_at: '2018-05-02 00:35:15'
+  -
+    id: aM8QpMPDAMPe
+    pirep_id: b68R5gwVzpVe
+    type: '0'
+    nav_type: null
+    order: '0'
+    name: null
+    log: null
+    lat: '17.934842509128'
+    lon: '-76.778532656292'
+    heading: '223'
+    altitude: '8.1607914299049'
+    vs: '0'
+    gs: '6.4202715128239'
+    transponder: null
+    autopilot: null
+    fuel_flow: null
+    sim_time: null
+    created_at: '2018-05-02 00:35:30'
+    updated_at: '2018-05-02 00:35:30'
+  -
+    id: aQW0wQl1jz7d
+    pirep_id: b68R5gwVzpVe
+    type: '0'
+    nav_type: null
+    order: '0'
+    name: null
+    log: null
+    lat: '17.934617196721'
+    lon: '-76.778605526212'
+    heading: '194'
+    altitude: '8.1632128918151'
+    vs: '0'
+    gs: '0.78235724264669'
+    transponder: null
+    autopilot: null
+    fuel_flow: null
+    sim_time: null
+    created_at: '2018-05-02 00:35:45'
+    updated_at: '2018-05-02 00:35:45'
+  -
+    id: eVOPBYqAPWMa
+    pirep_id: b68R5gwVzpVe
+    type: '0'
+    nav_type: null
+    order: '0'
+    name: null
+    log: null
+    lat: '17.934300718688'
+    lon: '-76.778703210335'
+    heading: '176'
+    altitude: '8.1666375744461'
+    vs: '0'
+    gs: '6.8945587994399'
+    transponder: null
+    autopilot: null
+    fuel_flow: null
+    sim_time: null
+    created_at: '2018-05-02 00:36:00'
+    updated_at: '2018-05-02 00:36:00'
+  -
+    id: epYQ0EpZyp1a
+    pirep_id: b68R5gwVzpVe
+    type: '0'
+    nav_type: null
+    order: '0'
+    name: null
+    log: null
+    lat: '17.934118452794'
+    lon: '-76.77856797319'
+    heading: '124'
+    altitude: '8.166254969636'
+    vs: '0'
+    gs: '0.0063371483834717'
+    transponder: null
+    autopilot: null
+    fuel_flow: null
+    sim_time: null
+    created_at: '2018-05-02 00:36:15'
+    updated_at: '2018-05-02 00:36:15'
+  -
+    id: b2kv53PWlqKd
+    pirep_id: b68R5gwVzpVe
+    type: '0'
+    nav_type: null
+    order: '0'
+    name: null
+    log: null
+    lat: '17.934118203036'
+    lon: '-76.778567591848'
+    heading: '124'
+    altitude: '8.1663702576785'
+    vs: '0'
+    gs: '0.0070555182089322'
+    transponder: null
+    autopilot: null
+    fuel_flow: null
+    sim_time: null
+    created_at: '2018-05-02 00:36:30'
+    updated_at: '2018-05-02 00:36:30'
+  -
+    id: aM8QpMPEB15e
+    pirep_id: b68R5gwVzpVe
+    type: '0'
+    nav_type: null
+    order: '0'
+    name: null
+    log: null
+    lat: '17.934117958358'
+    lon: '-76.77856721815'
+    heading: '124'
+    altitude: '8.1663703232199'
+    vs: '0'
+    gs: '0.0064996252497234'
+    transponder: null
+    autopilot: null
+    fuel_flow: null
+    sim_time: null
+    created_at: '2018-05-02 00:36:45'
+    updated_at: '2018-05-02 00:36:45'
+  -
+    id: eZ6VJ3xj8vge
+    pirep_id: b68R5gwVzpVe
+    type: '0'
+    nav_type: null
+    order: '0'
+    name: null
+    log: null
+    lat: '17.934117498661'
+    lon: '-76.778566516289'
+    heading: '124'
+    altitude: '8.1664622222087'
+    vs: '0'
+    gs: '0'
+    transponder: null
+    autopilot: null
+    fuel_flow: null
+    sim_time: null
+    created_at: '2018-05-02 00:40:16'
+    updated_at: '2018-05-02 00:40:16'
+  -
+    id: bo2QqDLl2lLa
+    pirep_id: b68R5gwVzpVe
+    type: '0'
+    nav_type: null
+    order: '0'
+    name: null
+    log: null
+    lat: '17.933884143334'
+    lon: '-76.778210172233'
+    heading: '124'
+    altitude: '8.1707802663933'
+    vs: '0'
+    gs: '14.419195209695'
+    transponder: null
+    autopilot: null
+    fuel_flow: null
+    sim_time: null
+    created_at: '2018-05-02 01:22:25'
+    updated_at: '2018-05-02 01:22:25'
+  -
+    id: aM8QpM4qV2Be
+    pirep_id: b68R5gwVzpVe
+    type: '0'
+    nav_type: null
+    order: '0'
+    name: null
+    log: null
+    lat: '17.933705349611'
+    lon: '-76.777936938059'
+    heading: '124'
+    altitude: '8.170089899507'
+    vs: '0'
+    gs: '15.392330039049'
+    transponder: null
+    autopilot: null
+    fuel_flow: null
+    sim_time: null
+    created_at: '2018-05-02 01:22:55'
+    updated_at: '2018-05-02 01:22:55'
+  -
+    id: dR6oxR9qjoOd
+    pirep_id: b68R5gwVzpVe
+    type: '0'
+    nav_type: null
+    order: '0'
+    name: null
+    log: null
+    lat: '17.933130691906'
+    lon: '-76.777152737985'
+    heading: '158'
+    altitude: '8.1683570286331'
+    vs: '0'
+    gs: '10.450467475023'
+    transponder: null
+    autopilot: null
+    fuel_flow: null
+    sim_time: null
+    created_at: '2018-05-02 01:23:10'
+    updated_at: '2018-05-02 01:23:10'
+  -
+    id: erkRwJODRvEa
+    pirep_id: b68R5gwVzpVe
+    type: '0'
+    nav_type: null
+    order: '0'
+    name: null
+    log: null
+    lat: '17.932580370289'
+    lon: '-76.777450200122'
+    heading: '221'
+    altitude: '8.1695896791822'
+    vs: '0'
+    gs: '12.932334300694'
+    transponder: null
+    autopilot: null
+    fuel_flow: null
+    sim_time: null
+    created_at: '2018-05-02 01:23:25'
+    updated_at: '2018-05-02 01:23:25'
+  -
+    id: b2kv53VMy7Ad
+    pirep_id: b68R5gwVzpVe
+    type: '0'
+    nav_type: null
+    order: '0'
+    name: null
+    log: null
+    lat: '17.932012550651'
+    lon: '-76.778009113329'
+    heading: '296'
+    altitude: '8.1683852467213'
+    vs: '0'
+    gs: '10.502719192825'
+    transponder: null
+    autopilot: null
+    fuel_flow: null
+    sim_time: null
+    created_at: '2018-05-02 01:23:41'
+    updated_at: '2018-05-02 01:23:41'
+  -
+    id: eXDoE14JxAve
+    pirep_id: b68R5gwVzpVe
+    type: '0'
+    nav_type: null
+    order: '0'
+    name: null
+    log: null
+    lat: '17.932052237309'
+    lon: '-76.778111495187'
+    heading: '290'
+    altitude: '8.1719753739837'
+    vs: '0'
+    gs: '12.643743277153'
+    transponder: null
+    autopilot: null
+    fuel_flow: null
+    sim_time: null
+    created_at: '2018-05-02 01:23:42'
+    updated_at: '2018-05-02 01:23:42'
+  -
+    id: b68R5gZ5YyOe
+    pirep_id: b68R5gwVzpVe
+    type: '0'
+    nav_type: null
+    order: '0'
+    name: null
+    log: null
+    lat: '17.932664026837'
+    lon: '-76.779705339967'
+    heading: '293'
+    altitude: '8.2203963962548'
+    vs: '0'
+    gs: '64.870244840054'
+    transponder: null
+    autopilot: null
+    fuel_flow: null
+    sim_time: null
+    created_at: '2018-05-02 01:23:52'
+    updated_at: '2018-05-02 01:23:52'
+  -
+    id: bqxYvGNN5N0a
+    pirep_id: b68R5gwVzpVe
+    type: '0'
+    nav_type: null
+    order: '0'
+    name: null
+    log: null
+    lat: '17.934300220408'
+    lon: '-76.783954914814'
+    heading: '293'
+    altitude: '8.3302468103811'
+    vs: '0'
+    gs: '122.78529244208'
+    transponder: null
+    autopilot: null
+    fuel_flow: null
+    sim_time: null
+    created_at: '2018-05-02 01:24:02'
+    updated_at: '2018-05-02 01:24:02'
+  -
+    id: en5rpBKw514d
+    pirep_id: b68R5gwVzpVe
+    type: '0'
+    nav_type: null
+    order: '0'
+    name: null
+    log: null
+    lat: '17.935736496556'
+    lon: '-76.78765616448'
+    heading: '293'
+    altitude: '49.554739665916'
+    vs: '21'
+    gs: '146.79677958636'
+    transponder: null
+    autopilot: null
+    fuel_flow: null
+    sim_time: null
+    created_at: '2018-05-02 01:24:08'
+    updated_at: '2018-05-02 01:24:08'
+  -
+    id: erkRwJA29l2a
+    pirep_id: b68R5gwVzpVe
+    type: '0'
+    nav_type: null
+    order: '0'
+    name: null
+    log: null
+    lat: '17.976972983585'
+    lon: '-76.896548114872'
+    heading: '297'
+    altitude: '6228.684012199'
+    vs: '62'
+    gs: '281.03976876098'
+    transponder: null
+    autopilot: null
+    fuel_flow: null
+    sim_time: null
+    created_at: '2018-05-02 01:26:08'
+    updated_at: '2018-05-02 01:26:08'
+  -
+    id: dR6oxR3r5nwd
+    pirep_id: b68R5gwVzpVe
+    type: '0'
+    nav_type: null
+    order: '0'
+    name: null
+    log: null
+    lat: '18.061360208405'
+    lon: '-77.056156629983'
+    heading: '301'
+    altitude: '12522.331716891'
+    vs: '25'
+    gs: '371.70833265547'
+    transponder: null
+    autopilot: null
+    fuel_flow: null
+    sim_time: null
+    created_at: '2018-05-02 01:28:08'
+    updated_at: '2018-05-02 01:28:08'
+  -
+    id: e1wr82J877Zb
+    pirep_id: b68R5gwVzpVe
+    type: '0'
+    nav_type: null
+    order: '0'
+    name: null
+    log: null
+    lat: '18.17373613295'
+    lon: '-77.260347185993'
+    heading: '301'
+    altitude: '16802.15636323'
+    vs: '43'
+    gs: '421.37353688139'
+    transponder: null
+    autopilot: null
+    fuel_flow: null
+    sim_time: null
+    created_at: '2018-05-02 01:30:08'
+    updated_at: '2018-05-02 01:30:08'
+  -
+    id: bqxYvGyExN2a
+    pirep_id: b68R5gwVzpVe
+    type: '0'
+    nav_type: null
+    order: '0'
+    name: null
+    log: null
+    lat: '18.193907285814'
+    lon: '-77.29810465405'
+    heading: '297'
+    altitude: '17395.953175647'
+    vs: '40'
+    gs: '425.98105291451'
+    transponder: null
+    autopilot: null
+    fuel_flow: null
+    sim_time: null
+    created_at: '2018-05-02 01:35:21'
+    updated_at: '2018-05-02 01:35:21'
+  -
+    id: aQW0wQDQk5Md
+    pirep_id: b68R5gwVzpVe
+    type: '0'
+    nav_type: null
+    order: '0'
+    name: null
+    log: null
+    lat: '18.648921231143'
+    lon: '-78.014696613517'
+    heading: '323'
+    altitude: '37108.124381987'
+    vs: '22'
+    gs: '438.52028383384'
+    transponder: null
+    autopilot: null
+    fuel_flow: null
+    sim_time: null
+    created_at: '2018-05-02 01:37:20'
+    updated_at: '2018-05-02 01:37:20'
+  -
+    id: e9rQ5lk3p63a
+    pirep_id: b68R5gwVzpVe
+    type: '0'
+    nav_type: null
+    order: '0'
+    name: null
+    log: null
+    lat: '18.796585259338'
+    lon: '-78.194734005052'
+    heading: '260'
+    altitude: '39718.178225504'
+    vs: '19'
+    gs: '432.41969107334'
+    transponder: null
+    autopilot: null
+    fuel_flow: null
+    sim_time: null
+    created_at: '2018-05-02 01:39:20'
+    updated_at: '2018-05-02 01:39:20'
+  -
+    id: aQW0wQP8vZqd
+    pirep_id: b68R5gwVzpVe
+    type: '0'
+    nav_type: null
+    order: '0'
+    name: null
+    log: null
+    lat: '18.660552760063'
+    lon: '-78.407597067994'
+    heading: '242'
+    altitude: '40998.775690971'
+    vs: '-25'
+    gs: '449.51695639627'
+    transponder: null
+    autopilot: null
+    fuel_flow: null
+    sim_time: null
+    created_at: '2018-05-02 01:41:20'
+    updated_at: '2018-05-02 01:41:20'
+  -
+    id: bqxYvGKgp32a
+    pirep_id: b68R5gwVzpVe
+    type: '0'
+    nav_type: null
+    order: '0'
+    name: null
+    log: null
+    lat: '18.592775999582'
+    lon: '-78.638711340118'
+    heading: '298'
+    altitude: '41060.297106821'
+    vs: '0'
+    gs: '427.14806185954'
+    transponder: null
+    autopilot: null
+    fuel_flow: null
+    sim_time: null
+    created_at: '2018-05-02 01:43:20'
+    updated_at: '2018-05-02 01:43:20'
+  -
+    id: bqxYvGg2r02a
+    pirep_id: b68R5gwVzpVe
+    type: '0'
+    nav_type: null
+    order: '0'
+    name: null
+    log: null
+    lat: '18.718367591656'
+    lon: '-78.840980459275'
+    heading: '284'
+    altitude: '41065.55293844'
+    vs: '1'
+    gs: '424.89060056552'
+    transponder: null
+    autopilot: null
+    fuel_flow: null
+    sim_time: null
+    created_at: '2018-05-02 01:45:20'
+    updated_at: '2018-05-02 01:45:20'
+  -
+    id: e0RV61wPj53b
+    pirep_id: b68R5gwVzpVe
+    type: '0'
+    nav_type: null
+    order: '0'
+    name: null
+    log: null
+    lat: '18.77448809677'
+    lon: '-79.082727467209'
+    heading: '283'
+    altitude: '41069.809333539'
+    vs: '0'
+    gs: '425.02780492483'
+    transponder: null
+    autopilot: null
+    fuel_flow: null
+    sim_time: null
+    created_at: '2018-05-02 01:47:21'
+    updated_at: '2018-05-02 01:47:21'
+  -
+    id: dwpmBOo3wWwe
+    pirep_id: b68R5gwVzpVe
+    type: '0'
+    nav_type: null
+    order: '0'
+    name: null
+    log: null
+    lat: '18.813031600863'
+    lon: '-79.249543355636'
+    heading: '283'
+    altitude: '41072.545805172'
+    vs: '0'
+    gs: '425.04687332464'
+    transponder: null
+    autopilot: null
+    fuel_flow: null
+    sim_time: null
+    created_at: '2018-05-02 01:48:46'
+    updated_at: '2018-05-02 01:48:46'
+  -
+    id: ejRqlxXoZPle
+    pirep_id: b68R5gwVzpVe
+    type: '0'
+    nav_type: null
+    order: '0'
+    name: null
+    log: null
+    lat: '18.840653974635'
+    lon: '-79.370042672541'
+    heading: '283'
+    altitude: '40396.200981621'
+    vs: '-16'
+    gs: '428.08364925851'
+    transponder: null
+    autopilot: null
+    fuel_flow: null
+    sim_time: null
+    created_at: '2018-05-02 01:49:16'
+    updated_at: '2018-05-02 01:49:16'
+  -
+    id: eVOPBYw4q9Xa
+    pirep_id: b68R5gwVzpVe
+    type: '0'
+    nav_type: null
+    order: '0'
+    name: null
+    log: null
+    lat: '18.868358744495'
+    lon: '-79.491434926253'
+    heading: '283'
+    altitude: '39399.093383161'
+    vs: '-16'
+    gs: '427.57826037174'
+    transponder: null
+    autopilot: null
+    fuel_flow: null
+    sim_time: null
+    created_at: '2018-05-02 01:49:46'
+    updated_at: '2018-05-02 01:49:46'
+  -
+    id: aOYyrOmVPzEd
+    pirep_id: b68R5gwVzpVe
+    type: '0'
+    nav_type: null
+    order: '0'
+    name: null
+    log: null
+    lat: '18.896191929474'
+    lon: '-79.613169477385'
+    heading: '284'
+    altitude: '36491.730092364'
+    vs: '-55'
+    gs: '429.74732238829'
+    transponder: null
+    autopilot: null
+    fuel_flow: null
+    sim_time: null
+    created_at: '2018-05-02 01:50:16'
+    updated_at: '2018-05-02 01:50:16'
+  -
+    id: dL98oLQgyzje
+    pirep_id: b68R5gwVzpVe
+    type: '0'
+    nav_type: null
+    order: '0'
+    name: null
+    log: null
+    lat: '18.9242378342'
+    lon: '-79.736368411294'
+    heading: '284'
+    altitude: '32998.644142986'
+    vs: '-61'
+    gs: '434.90864533098'
+    transponder: null
+    autopilot: null
+    fuel_flow: null
+    sim_time: null
+    created_at: '2018-05-02 01:50:46'
+    updated_at: '2018-05-02 01:50:46'
+  -
+    id: e9rQ5lqD2o8a
+    pirep_id: b68R5gwVzpVe
+    type: '0'
+    nav_type: null
+    order: '0'
+    name: null
+    log: null
+    lat: '18.952608029755'
+    lon: '-79.861339775352'
+    heading: '284'
+    altitude: '29069.168636089'
+    vs: '-68'
+    gs: '441.90475491564'
+    transponder: null
+    autopilot: null
+    fuel_flow: null
+    sim_time: null
+    created_at: '2018-05-02 01:51:16'
+    updated_at: '2018-05-02 01:51:16'
+  -
+    id: av2oANWY1vma
+    pirep_id: b68R5gwVzpVe
+    type: '0'
+    nav_type: null
+    order: '0'
+    name: null
+    log: null
+    lat: '18.981670375928'
+    lon: '-79.987960713131'
+    heading: '283'
+    altitude: '24954.890708875'
+    vs: '-56'
+    gs: '447.81957529674'
+    transponder: null
+    autopilot: null
+    fuel_flow: null
+    sim_time: null
+    created_at: '2018-05-02 01:51:46'
+    updated_at: '2018-05-02 01:51:46'
+  -
+    id: 9aAN4mxlK9zb
+    pirep_id: b68R5gwVzpVe
+    type: '0'
+    nav_type: null
+    order: '0'
+    name: null
+    log: null
+    lat: '19.01074931075'
+    lon: '-80.116947122245'
+    heading: '283'
+    altitude: '21483.90439337'
+    vs: '-57'
+    gs: '450.05461228268'
+    transponder: null
+    autopilot: null
+    fuel_flow: null
+    sim_time: null
+    created_at: '2018-05-02 01:52:16'
+    updated_at: '2018-05-02 01:52:16'
+  -
+    id: e1wr82gp8zGb
+    pirep_id: b68R5gwVzpVe
+    type: '0'
+    nav_type: null
+    order: '0'
+    name: null
+    log: null
+    lat: '19.039021032617'
+    lon: '-80.242584645189'
+    heading: '283'
+    altitude: '18000.954967422'
+    vs: '-58'
+    gs: '431.5690825604'
+    transponder: null
+    autopilot: null
+    fuel_flow: null
+    sim_time: null
+    created_at: '2018-05-02 01:52:46'
+    updated_at: '2018-05-02 01:52:46'
+  -
+    id: dG65jDL2gK0b
+    pirep_id: b68R5gwVzpVe
+    type: '0'
+    nav_type: null
+    order: '0'
+    name: null
+    log: null
+    lat: '19.066116186076'
+    lon: '-80.36338355333'
+    heading: '284'
+    altitude: '14630.153058153'
+    vs: '-55'
+    gs: '414.70845758094'
+    transponder: null
+    autopilot: null
+    fuel_flow: null
+    sim_time: null
+    created_at: '2018-05-02 01:53:16'
+    updated_at: '2018-05-02 01:53:16'
+  -
+    id: epYQ0ENmyvXa
+    pirep_id: b68R5gwVzpVe
+    type: '0'
+    nav_type: null
+    order: '0'
+    name: null
+    log: null
+    lat: '19.091238961633'
+    lon: '-80.475901417309'
+    heading: '284'
+    altitude: '11927.379697397'
+    vs: '-17'
+    gs: '381.57664353055'
+    transponder: null
+    autopilot: null
+    fuel_flow: null
+    sim_time: null
+    created_at: '2018-05-02 01:53:46'
+    updated_at: '2018-05-02 01:53:46'
+  -
+    id: erkRwJPrVoEa
+    pirep_id: b68R5gwVzpVe
+    type: '0'
+    nav_type: null
+    order: '0'
+    name: null
+    log: null
+    lat: '19.10261633392'
+    lon: '-80.527021151647'
+    heading: '284'
+    altitude: '11424.525210898'
+    vs: '-17'
+    gs: '337.58307680654'
+    transponder: null
+    autopilot: null
+    fuel_flow: null
+    sim_time: null
+    created_at: '2018-05-02 01:54:16'
+    updated_at: '2018-05-02 01:54:16'
+  -
+    id: e1wr82gZXqZb
+    pirep_id: b68R5gwVzpVe
+    type: '0'
+    nav_type: null
+    order: '0'
+    name: null
+    log: null
+    lat: '19.112886513796'
+    lon: '-80.57297038027'
+    heading: '284'
+    altitude: '10919.983208888'
+    vs: '-16'
+    gs: '307.28164751381'
+    transponder: null
+    autopilot: null
+    fuel_flow: null
+    sim_time: null
+    created_at: '2018-05-02 01:54:46'
+    updated_at: '2018-05-02 01:54:46'
+  -
+    id: eER95AJ4XLga
+    pirep_id: b68R5gwVzpVe
+    type: '0'
+    nav_type: null
+    order: '0'
+    name: null
+    log: null
+    lat: '19.122449020305'
+    lon: '-80.615560002642'
+    heading: '284'
+    altitude: '10418.227268525'
+    vs: '-16'
+    gs: '292.97011599774'
+    transponder: null
+    autopilot: null
+    fuel_flow: null
+    sim_time: null
+    created_at: '2018-05-02 01:55:16'
+    updated_at: '2018-05-02 01:55:16'
+  -
+    id: dPNZvP0O0Gza
+    pirep_id: b68R5gwVzpVe
+    type: '0'
+    nav_type: null
+    order: '0'
+    name: null
+    log: null
+    lat: '19.131746364354'
+    lon: '-80.657133675868'
+    heading: '284'
+    altitude: '9921.6695218175'
+    vs: '-16'
+    gs: '293.10586428433'
+    transponder: null
+    autopilot: null
+    fuel_flow: null
+    sim_time: null
+    created_at: '2018-05-02 01:55:46'
+    updated_at: '2018-05-02 01:55:46'
+  -
+    id: aQW0wQYVm2Yd
+    pirep_id: b68R5gwVzpVe
+    type: '0'
+    nav_type: null
+    order: '0'
+    name: null
+    log: null
+    lat: '19.141074988147'
+    lon: '-80.698952940579'
+    heading: '284'
+    altitude: '9423.0799985721'
+    vs: '-16'
+    gs: '291.77956791503'
+    transponder: null
+    autopilot: null
+    fuel_flow: null
+    sim_time: null
+    created_at: '2018-05-02 01:56:16'
+    updated_at: '2018-05-02 01:56:16'
+  -
+    id: eXDoE11x32We
+    pirep_id: b68R5gwVzpVe
+    type: '0'
+    nav_type: null
+    order: '0'
+    name: null
+    log: null
+    lat: '19.150291803457'
+    lon: '-80.740363792336'
+    heading: '284'
+    altitude: '8921.7506913567'
+    vs: '-16'
+    gs: '289.03760297791'
+    transponder: null
+    autopilot: null
+    fuel_flow: null
+    sim_time: null
+    created_at: '2018-05-02 01:56:46'
+    updated_at: '2018-05-02 01:56:46'
+pireps:
+  -
+    id: b68R5gwVzpVe
+    user_id: '1'
+    airline_id: '1'
+    aircraft_id: '1'
+    flight_number: '13'
+    route_code: null
+    route_leg: null
+    flight_type: J
+    dpt_airport_id: MKJP
+    arr_airport_id: MWCR
+    level: '320'
+    distance: '249.63'
+    planned_distance: '273.09'
+    block_time: null
+    flight_time: '0'
+    planned_flight_time: '0'
+    zfw: null
+    block_fuel: '21500.25390625'
+    fuel_used: null
+    landing_rate: '0'
+    score: '0'
+    route: ''
+    notes: null
+    source: '1'
+    source_name: vmsacars
+    state: '0'
+    status: APR
+    submitted_at: null
+    block_off_time: '2018-04-28T12:55:40Z'
+    block_on_time: null
+    created_at: '2018-05-02 00:31:21'
+    updated_at: '2018-05-02 01:56:46'

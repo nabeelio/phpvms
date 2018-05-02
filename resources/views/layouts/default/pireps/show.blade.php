@@ -9,7 +9,13 @@
                 <div class="col-12">
                     <p>
                     <h2 style="margin-bottom: 5px;">{{$pirep->airline->code}}{{ $pirep->ident }}</h2>
-                    <p>Arrived {{$pirep->created_at->diffForHumans()}}</p>
+                        <p>
+                            @if($pirep->state === PirepState::IN_PROGRESS)
+
+                            @else
+                                Arrived {{$pirep->created_at->diffForHumans()}}
+                            @endif
+                        </p>
                     </p>
 
                 </div>
@@ -55,8 +61,10 @@
                     <div class="progress" style="margin: 20px 0;">
                         <div class="progress-bar progress-bar-success" role="progressbar"
                              aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"
-                             style="width: {{$pirep->progress_percent}}%">
-                            {{ Utils::minutesToTimeString($pirep->flight_time) }}
+                             style="width: {{$pirep->progress_percent}}%;">
+                            {{--<p style="padding: 10px">
+                                {{ Utils::minutesToTimeString($pirep->flight_time) }}
+                            </p>--}}
                         </div>
                     </div>
                 </div>
@@ -78,8 +86,8 @@
         <div class="col-4">
 
             <h2>&nbsp;</h2>
-            <table class="table table-hover table-condensed">
-                <tr>
+            <table class="table table-striped">
+                {{--<tr>
                     <td width="30%">Status</td>
                     <td>
                         @php
@@ -94,6 +102,15 @@
                         @endphp
                         <div class="badge badge-{{$badge}}">
                             {{ PirepState::label($pirep->state) }}
+                        </div>
+                    </td>
+                </tr>--}}
+
+                <tr>
+                    <td width="30%">State</td>
+                    <td>
+                        <div class="badge badge-info">
+                            {{ PirepStatus::label($pirep->status) }}
                         </div>
                     </td>
                 </tr>

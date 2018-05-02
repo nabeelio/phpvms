@@ -33,6 +33,8 @@ use PhpUnitsOfMeasure\Exception\NonStringUnitName;
  * @property integer     block_time
  * @property integer     flight_time    In minutes
  * @property integer     planned_flight_time
+ * @property mixed       planned_distance
+ * @property mixed       distance
  * @property integer     score
  * @property User        user
  * @property Flight|null flight
@@ -105,10 +107,19 @@ class Pirep extends Model
         'score'               => 'integer',
         'source'              => 'integer',
         'state'               => 'integer',
-        'block_off_time'      => 'datetime',
-        'block_on_time'       => 'datetime',
-        'submitted_at'        => 'datetime',
+        #'block_off_time'      => 'datetime',
+        #'block_on_time'       => 'datetime',
+        #'submitted_at'        => 'datetime',
     ];
+
+    /*protected $dates = [
+        'block_off_time',
+        'block_on_time',
+        'submitted_at',
+        'created_at',
+        'updated_at',
+        'deleted_at'
+    ];*/
 
     public static $rules = [
         'airline_id'     => 'required|exists:airlines,id',
@@ -138,6 +149,24 @@ class Pirep extends Model
         }
 
         return $flight_id;
+    }
+
+    /**
+     * Return the block off time in carbon format
+     * @return Carbon
+     */
+    public function getBlockOffTimeAttribute()
+    {
+        return new Carbon($this->attributes['block_off_time']);
+    }
+
+    /**
+     * Return the block on time
+     * @return Carbon
+     */
+    public function getBlockOnTimeAttribute()
+    {
+        return new Carbon($this->attributes['block_on_time']);
     }
 
     /**
@@ -236,16 +265,16 @@ class Pirep extends Model
      */
     public function getProgressPercentAttribute()
     {
-        $upper_bound = $this->flight_time;
-        if($this->planned_flight_time) {
-            $upper_bound = $this->planned_flight_time;
+        $upper_bound = $this->distance['nmi'];
+        if($this->planned_distance) {
+            $upper_bound = $this->planned_distance['nmi'];
         }
 
         if(!$upper_bound) {
             $upper_bound = 1;
         }
 
-        return round(($this->flight_time / $upper_bound) * 100, 0);
+        return round(($this->distance['nmi'] / $upper_bound) * 100, 0);
     }
 
     /**
