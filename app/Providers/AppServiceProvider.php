@@ -29,9 +29,9 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
 
-        Carbon::serializeUsing(function ($carbon) {
+        /*Carbon::serializeUsing(function ($carbon) {
             return $carbon->format('U');
-        });
+        });*/
 
         $this->app->bind('setting', SettingRepository::class);
 

@@ -157,7 +157,11 @@ class Pirep extends Model
      */
     public function getBlockOffTimeAttribute()
     {
-        return new Carbon($this->attributes['block_off_time']);
+        if (array_key_exists('block_off_time', $this->attributes)) {
+            return new Carbon($this->attributes['block_off_time']);
+        }
+
+        return null;
     }
 
     /**
@@ -166,7 +170,11 @@ class Pirep extends Model
      */
     public function getBlockOnTimeAttribute()
     {
-        return new Carbon($this->attributes['block_on_time']);
+        if (array_key_exists('block_on_time', $this->attributes)) {
+            return new Carbon($this->attributes['block_on_time']);
+        }
+
+        return null;
     }
 
     /**

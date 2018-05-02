@@ -34,6 +34,12 @@ class Pirep extends Resource
          * Relationship fields
          */
 
+        if($this->block_on_time)
+            $pirep['block_on_time'] = $this->block_on_time->toIso8601ZuluString();
+
+        if($this->block_off_time)
+            $pirep['block_off_time'] = $this->block_off_time->toIso8601ZuluString();
+
         $pirep['airline'] = new Airline($this->airline);
         $pirep['dpt_airport'] = new Airport($this->dpt_airport);
         $pirep['arr_airport'] = new Airport($this->arr_airport);

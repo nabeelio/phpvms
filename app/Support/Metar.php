@@ -475,7 +475,7 @@ class Metar implements \ArrayAccess
     private function set_observed_date($time_utc)
     {
         $now = time();
-        $local = $time_utc + date('Z');
+        $local = $time_utc; // + date('Z');
 
         $this->set_result_value('observed_date', date('r', $local)); // or "D M j, H:i T"
         $time_diff = floor(($now - $local) / 60);
@@ -605,12 +605,16 @@ class Metar implements \ArrayAccess
         $minute = (int) $found[3];
 
         if ($this->result['observed_date'] === null) {
-            // Get observed time from a METAR/TAF part
-            $observed_time = mktime($hour, $minute, 0, date('n'), $day, date('Y'));
+
             // Take one month, if the observed day is greater than the current day
             if ($day > date('j')) {
-                $observed_time = strtotime('-1 month');
+                $month = date('n') - 1;
+            } else {
+                $month = date('n');
             }
+
+            // Get observed time from a METAR/TAF part
+            $observed_time = mktime($hour, $minute, 0, $month, $day, date('Y'));
 
             $this->set_observed_date($observed_time);
             $this->set_debug('Observation date is set from the METAR/TAF information (presented in format: ddhhmmZ)');
