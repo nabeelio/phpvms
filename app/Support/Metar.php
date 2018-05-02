@@ -408,8 +408,8 @@ class Metar implements \ArrayAccess
                 $method = 'get_'.static::$method_names[$this->method];
                 $token = $this->raw_parts[$this->part];
                 if ($this->$method($token) === true) {
-                    $this->set_debug('Token "'.$token.'" is parsed by method: '.$method.', '.
-                        ($this->method - $current_method).' previous methods skipped.');
+                    /*$this->set_debug('Token "'.$token.'" is parsed by method: '.$method.', '.
+                        ($this->method - $current_method).' previous methods skipped.');*/
                     $current_method = $this->method;
                     $this->method++;
                     break;
@@ -566,7 +566,7 @@ class Metar implements \ArrayAccess
             $this->part++;
         }
 
-        $this->set_debug('TAF information detected.');
+        //$this->set_debug('TAF information detected.');
         $this->set_result_value('taf', true);
         return true;
     }
@@ -617,7 +617,6 @@ class Metar implements \ArrayAccess
             $observed_time = mktime($hour, $minute, 0, $month, $day, date('Y'));
 
             $this->set_observed_date($observed_time);
-            $this->set_debug('Observation date is set from the METAR/TAF information (presented in format: ddhhmmZ)');
         }
 
         $this->set_result_value('observed_day', $day);
@@ -1400,11 +1399,11 @@ class Metar implements \ArrayAccess
             }
 
             // Process debug messages
-            if ($debug = $parser->debug()) {
+            /*if ($debug = $parser->debug()) {
                 foreach ($debug as $message) {
                     $this->set_debug('Recursion: '.$message);
                 }
-            }
+            }*/
 
             // Process parse errors
             if ($errors = $parser->errors()) {
