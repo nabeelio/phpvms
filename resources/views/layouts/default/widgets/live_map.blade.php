@@ -31,7 +31,7 @@
 
 <div class="clearfix" style="padding-top: 25px"></div>
 
-<div id="flights_table" class="row">
+{{--<div id="flights_table" class="row">
     <div class="col-md-12">
         @if(!filled($pireps))
             <div class="jumbotron text-center">There are no flights</div>
@@ -50,13 +50,14 @@
             @endforeach
         </table>
     </div>
-</div>
+</div>--}}
 
 @section('scripts')
 <script>
 phpvms.map.render_live_map({
     'update_uri': '{!! url('/api/acars') !!}',
     'pirep_uri': '{!! url('/api/pireps/{id}') !!}',
+    'pirep_link_uri': '{!! url('/pireps/{id}') !!}',
     'aircraft_icon': '{!! public_asset('/assets/img/acars/aircraft.png') !!}',
     'units': '{{ setting('units.distance') }}',
 });

@@ -13,6 +13,7 @@ export default (opts) => {
     opts = Object.assign({
         update_uri: '/api/acars',
         pirep_uri: '/api/pireps/{id}',
+        pirep_link_uri: '/pireps/{id}',
         positions: null,
         render_elem: 'map',
         aircraft_icon: '/assets/img/acars/aircraft.png',
@@ -40,6 +41,7 @@ export default (opts) => {
     const onFlightClick = (feature, layer) => {
 
         const pirep_uri = opts.pirep_uri.replace('{id}', feature.properties.pirep_id);
+        const link_uri = opts.pirep_link_uri.replace('{id}', feature.properties.pirep_id);
         const geojson_uri = opts.pirep_uri.replace('{id}', feature.properties.pirep_id) + "/acars/geojson";
 
         const pirep_info = $.ajax({
@@ -61,7 +63,7 @@ export default (opts) => {
             }
 
             layerSelFlight = leaflet.geodesic([], {
-                weight: 7,
+                weight: 5,
                 opacity: 0.9,
                 color: ACTUAL_ROUTE_COLOR,
                 wrap: false,
@@ -99,7 +101,12 @@ export default (opts) => {
             const hours = Math.floor(pirep.flight_time / 60);
             const mins = pirep.flight_time % 60;
 
-            $('#map_flight_id').text(pirep.airline.icao + pirep.flight_number);
+            $('#map_flight_id').html(
+                '<a href="' + link_uri  + '" target="_blank">' +
+                pirep.airline.icao + pirep.flight_number +
+                '</a>'
+            );
+
             $('#map_flight_info').text(
                 pirep.dpt_airport.name + ' (' + pirep.dpt_airport.icao + ') to ' +
                 pirep.arr_airport.name + ' (' + pirep.arr_airport.icao + ')'
