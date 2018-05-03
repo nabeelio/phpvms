@@ -38,3 +38,5 @@ if (api_key) {
   window.PHPVMS_USER_API_KEY = false;
   console.error('API Key not found!')
 }
+
+require('./common');

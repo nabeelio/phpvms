@@ -18,8 +18,8 @@
                      If you change it, remember to change it in the in-array line as well
                 --}}
                 <button class="btn btn-round btn-icon btn-icon-mini
-                               {{ in_array($flight->id, $saved, true) ? 'btn-info':'' }}
-                               save_flight"
+                           {{ in_array($flight->id, $saved, true) ? 'btn-info':'' }}
+                           save_flight"
                         x-id="{{ $flight->id }}"
                         x-saved-class="btn-info"
                         type="button"

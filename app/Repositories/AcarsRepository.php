@@ -55,7 +55,7 @@ class AcarsRepository extends Repository
      */
     public function getPositions()
     {
-        return Pirep::with(['airline', 'position'])
+        return Pirep::with(['airline', 'position', 'aircraft'])
             ->where(['state' => PirepState::IN_PROGRESS])
             ->get();
     }

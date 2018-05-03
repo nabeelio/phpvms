@@ -5,6 +5,16 @@
     margin-top: 2px;
 }
 
+.map-info-box {
+    display: none;
+    position: absolute;
+    bottom: 0;
+    padding: 20px;
+    height: 100px;
+    z-index: 9999;
+    background-color: rgba(232, 232, 232, 0.9);
+}
+
 .dashboard-box {
     background: #067ec1;
     color: #FFF;

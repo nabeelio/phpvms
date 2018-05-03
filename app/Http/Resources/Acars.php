@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources;
 
+use App\Support\Units\Distance;
+use App\Support\Units\Fuel;
 use Illuminate\Http\Resources\Json\Resource;
 
 class Acars extends Resource
@@ -14,6 +16,16 @@ class Acars extends Resource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        $obj = parent::toArray($request);
+
+        if ($this->distance instanceof Distance) {
+            $obj['distance'] = $this->distance->units;
+        }
+
+        if ($this->fuel instanceof Fuel) {
+            $obj['fuel'] = $this->fuel->units;
+        }
+
+        return $obj;
     }
 }

@@ -2,28 +2,62 @@
     <div class="col-md-12">
         <div class="box-body">
 
+            {{--
+            This map uses rivets.js to fill in the updates from the livemap
+            So the single brackets are used by rivets to fill in the values
+            And then the rv-* attributes are data-binds that will automatically
+            update whenever the base model behind it updates:
+
+                http://rivetsjs.com/docs/guide
+
+            Look in resources/js/maps/live_map.js to see where the actual binding
+            and update() call is made
+            --}}
             <div id="map" style="width: {{ $config['width'] }}; height: {{ $config['height'] }}">
-                <div id="map-info-bar"
-                     style="display: none;
-                            position: absolute;
-                            bottom: 0;
-                            padding: 20px;
-                            height: 100px;
-                            z-index: 9999;
-                            background-color:rgba(232, 232, 232, 0.9);
-                            width: {{ $config['width'] }};">
-                    <div style="float: left; margin-right: 30px; width: 50%;">
-                        <h3 style="margin: 0" id="map_flight_id"></h3>
-                        <p id="map_flight_info"></p>
+
+                {{--
+                This is the bottom bar that appears when you click on a flight in the map.
+                You can show any data you want - use a JS debugger to see the value of "pirep",
+                or look up the API documentation for the /api/pirep/{id}/acars call
+
+                It's basically any of the fields from the database and pirep.position.X is any
+                column from the ACARS table - holds the latest position.
+
+                Again, this is updated automatically via the rivets.js bindings, so be mindful
+                when you're editing the { } - single brackets == rivets, double brackets == laravel
+
+                A couple of places (like the distance) use both to output the correct bindings.
+                --}}
+                <div id="map-info-box" class="map-info-box"
+                     style="width: {{ $config['width'] }};">
+                    <div style="float: left; width: 50%;">
+                        <h3 style="margin: 0" id="map_flight_id">
+                            <a rv-href="pirep.id | prepend '{{url('/pireps/')}}/'" target="_blank">
+                                { pirep.airline.icao }{ pirep.flight_number }
+                            </a>
+                        </h3>
+                        <p id="map_flight_info">
+                            { pirep.dpt_airport.name } ({ pirep.dpt_airport.icao }) to
+                            { pirep.arr_airport.name } ({ pirep.arr_airport.icao })
+                        </p>
                     </div>
-                    <div style="float: left; margin-right: 30px;">
-                        <p id="map_flight_stats_middle"></p>
+                    <div style="float: right; margin-left: 30px; margin-right: 30px;">
+                        <p id="map_flight_stats_right">
+                            Ground Speed: <span style="font-weight: bold">{ pirep.position.gs }</span><br/>
+                            Altitude: <span style="font-weight: bold">{ pirep.position.altitude }</span><br/>
+                            Heading: <span style="font-weight: bold">{ pirep.position.heading }</span><br/>
+                        </p>
                     </div>
-                    <div style="float: left;">
-                        <p id="map_flight_stats_right"></p>
+                    <div style="float: right; margin-left: 30px;">
+                        <p id="map_flight_stats_middle">
+                            Status: <span style="font-weight: bold">{ pirep.status_text }</span><br />
+                            Flight Time: <span style="font-weight: bold">{ pirep.flight_time | time_hm }</span><br />
+                            Distance: <span style="font-weight: bold">{ pirep.position.distance.{{setting('units.distance')}} }</span>
+                                / <span style="font-weight: bold">
+                                        { pirep.planned_distance.{{setting('units.distance')}} }</span>
+                        </p>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -31,26 +65,47 @@
 
 <div class="clearfix" style="padding-top: 25px"></div>
 
-{{--<div id="flights_table" class="row">
+{{--
+This table is also handled/rendered by rivets from the livemap
+Handles the updates by automatically updating the data in the row.
+
+Same note applies from above about the data from the PIREP API being available
+and being mindful of the rivets bindings
+--}}
+<div id="live_flights" class="row">
     <div class="col-md-12">
-        @if(!filled($pireps))
-            <div class="jumbotron text-center">There are no flights</div>
-        @endif
-        <table class="table">
-            @foreach($pireps as $pirep)
-                <tr>
-                    <td>{{ $pirep->airline->code }}{{ $pirep->ident }}</td>
-                    <td>{{ $pirep->dpt_airport_id }}</td>
-                    <td>{{ $pirep->arr_airport_id }}</td>
-                    <td>{{ $pirep->aircraft->name }}</td>
-                    <td>
-                        {{ PirepStatus::label($pirep->status) }}
-                    </td>
+        <div rv-hide="has_data" class="jumbotron text-center">There are no flights</div>
+        <table rv-show="has_data" id="live_flights_table" class="table table-striped">
+            <thead>
+                <tr class="text-small header">
+                    <td class="text-small">Flight</td>
+                    <td class="text-small">Departure</td>
+                    <td class="text-small">Arrival</td>
+                    <td class="text-small">Aircraft</td>
+                    <td class="text-small">Altitude</td>
+                    <td class="text-small">GS</td>
+                    <td class="text-small">Distance</td>
+                    <td class="text-small">Status</td>
                 </tr>
-            @endforeach
+            </thead>
+            <tbody>
+                <tr rv-each-pirep="pireps">
+                    <td>{ pirep.airline.code }{ pirep.ident}</td>
+                    {{-- Show the full airport name on hover --}}
+                    <td><span rv-title="pirep.dpt_airport.name">{ pirep.dpt_airport.icao }</span></td>
+                    <td><span rv-title="pirep.arr_airport.name">{ pirep.arr_airport.icao }</span></td>
+                    <td>{ pirep.aircraft.name }</td>
+                    <td>{ pirep.position.altitude }</td>
+                    <td>{ pirep.position.gs }</td>
+                    <td>{ pirep.position.distance.{{setting('units.distance')}} } /
+                        { pirep.planned_distance.{{setting('units.distance')}} }
+                    </td>
+                    <td>{ pirep.status_text }</td>
+                </tr>
+            </tbody>
         </table>
     </div>
-</div>--}}
+</div>
 
 @section('scripts')
 <script>

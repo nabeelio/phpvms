@@ -98,6 +98,26 @@ class PirepController extends Controller
     }
 
     /**
+     * Get all the active PIREPs
+     * @param $id
+     * @return PirepResource
+     */
+    public function index()
+    {
+        $active = [];
+        $pireps = $this->acarsRepo->getPositions();
+        foreach($pireps as $pirep) {
+            if(\count($pirep->position) === 0) {
+                continue;
+            }
+
+            $active[] = $pirep;
+        }
+
+        return PirepResource::collection(collect($active));
+    }
+
+    /**
      * @param $id
      * @return PirepResource
      */

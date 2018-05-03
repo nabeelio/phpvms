@@ -19,6 +19,8 @@ class Pirep extends Resource
     {
         $pirep = parent::toArray($request);
 
+        $pirep['ident'] = $this->ident;
+
         if ($this->distance instanceof Distance) {
             $pirep['distance'] = $this->distance->units;
         }

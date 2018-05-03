@@ -1,4 +1,5 @@
 const leaflet = require('leaflet');
+const rivets = require('rivets');
 
 import draw_base_map from './base_map'
 import {ACTUAL_ROUTE_COLOR} from './config'
@@ -33,6 +34,9 @@ export default (opts) => {
     let layerSelFlightFeature = null;
     let layerSelFlightLayer = null;
 
+    const r_map_view = rivets.bind($('#map-info-box'), {pirep: {}});
+    const r_table_view = rivets.bind($('#live_flights'), {pireps: []});
+
     /**
      * When a flight is clicked on, show the path, etc for that flight
      * @param feature
@@ -41,7 +45,6 @@ export default (opts) => {
     const onFlightClick = (feature, layer) => {
 
         const pirep_uri = opts.pirep_uri.replace('{id}', feature.properties.pirep_id);
-        const link_uri = opts.pirep_link_uri.replace('{id}', feature.properties.pirep_id);
         const geojson_uri = opts.pirep_uri.replace('{id}', feature.properties.pirep_id) + "/acars/geojson";
 
         const pirep_info = $.ajax({
@@ -83,49 +86,9 @@ export default (opts) => {
         //
         // When the PIREP info is done loading, show the bottom bar
         //
-        $.when(pirep_info).done(pirep => { pirep = pirep.data;
-
-            let dist, planned_dist;
-            if(opts.units === 'nmi') {
-                dist = pirep.distance.nmi;
-                planned_dist = pirep.planned_distance.nmi;
-            } else if(opts.units === 'mi') {
-                dist = pirep.distance.mi;
-                planned_dist = pirep.planned_distance.mi;
-            } else if(opts.units === 'km') {
-                dist = pirep.distance.km;
-                planned_dist = pirep.planned_distance.km;
-            }
-
-            // Parse flight time
-            const hours = Math.floor(pirep.flight_time / 60);
-            const mins = pirep.flight_time % 60;
-
-            $('#map_flight_id').html(
-                '<a href="' + link_uri  + '" target="_blank">' +
-                pirep.airline.icao + pirep.flight_number +
-                '</a>'
-            );
-
-            $('#map_flight_info').text(
-                pirep.dpt_airport.name + ' (' + pirep.dpt_airport.icao + ') to ' +
-                pirep.arr_airport.name + ' (' + pirep.arr_airport.icao + ')'
-            );
-
-            $('#map_flight_stats_middle').html(
-                'Status: <strong>' + pirep.status_text + '</strong><br />' +
-                'Flight Time: <strong>' + hours + 'h ' + mins + 'm</strong><br />' +
-                'Distance: <strong>' + dist + '</strong> / ' + planned_dist + opts.units + '<br />'
-            );
-
-            // Show flight stat info
-            $('#map_flight_stats_right').html(
-                'Ground Speed: <strong>' + pirep.position.gs + '</strong><br />' +
-                'Altitude: <strong>' + pirep.position.altitude + '</strong><br />'  +
-                'Heading: <strong>' + pirep.position.heading + '</strong>'
-            );
-
-            $('#map-info-bar').show();
+        $.when(pirep_info).done(pirep => {
+            r_map_view.update({pirep:pirep.data});
+            $('#map-info-box').show();
         });
     };
 
@@ -136,6 +99,12 @@ export default (opts) => {
         /**
          * AJAX UPDATE
          */
+        const pirep_uri = opts.pirep_uri.replace('{id}', '');
+        let pireps = $.ajax({
+            url: pirep_uri,
+            dataType: 'json',
+            error: console.log
+        });
 
         let flights = $.ajax({
             url: opts.update_uri,
@@ -143,7 +112,7 @@ export default (opts) => {
             error: console.log
         });
 
-        $.when(flights).done(function (flightGeoJson) {
+        $.when(flights).done(flightGeoJson => {
 
             if (layerFlights !== null) {
                 layerFlights.clearLayers()
@@ -178,7 +147,14 @@ export default (opts) => {
             if (layerSelFlight !== null) {
                 onFlightClick(layerSelFlightFeature, layerSelFlightLayer)
             }
-        })
+        });
+
+        $.when(pireps).done(pireps => {
+            r_table_view.update({
+                pireps: pireps.data,
+                has_data: (pireps.data.length > 0),
+            });
+        });
     };
 
     updateMap();

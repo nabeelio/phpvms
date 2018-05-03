@@ -5,6 +5,7 @@
  */
 Route::group([], function () {
     Route::get('acars', 'AcarsController@index');
+    Route::get('pireps', 'PirepController@index');
     Route::get('pireps/{pirep_id}', 'PirepController@get');
     Route::get('pireps/{pirep_id}/acars/geojson', 'PirepController@acars_geojson');
 

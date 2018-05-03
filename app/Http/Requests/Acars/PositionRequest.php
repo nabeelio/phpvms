@@ -25,6 +25,7 @@ class PositionRequest extends FormRequest
             'positions'               => 'required|array',
             'positions.*.lat'         => 'required|numeric',
             'positions.*.lon'         => 'required|numeric',
+            'positions.*.status'      => 'nullable',
             'positions.*.altitude'    => 'nullable|numeric',
             'positions.*.heading'     => 'nullable|numeric|between:0,360',
             'positions.*.vs'          => 'nullable',
