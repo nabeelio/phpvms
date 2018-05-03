@@ -348,11 +348,9 @@ class AcarsTest extends TestCase
         $response->assertStatus(400);
 
         # Post an ACARS update
-        $acars = factory(App\Models\Acars::class)->make(
-            [
-                'id' => null,
-            ]
-        )->toArray();
+        $acars = factory(App\Models\Acars::class)->make(['pirep_id' => $pirep_id])->toArray();
+
+        $acars = $this->transformData($acars);
 
         $update = ['positions' => [$acars]];
         $response = $this->post($uri, $update);

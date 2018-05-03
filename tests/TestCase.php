@@ -116,9 +116,13 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
      * @param array $data
      * @return array
      */
-    protected function transformData(array $data): array
+    protected function transformData($data)
     {
         foreach($data as $key => $value) {
+            if(is_object($value)) {
+                $value = $this->transformData($value);
+            }
+
             if (is_subclass_of($value, App\Interfaces\Unit::class)) {
                 $data[$key] = $value->__toString();
             }
