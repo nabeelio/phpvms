@@ -8,7 +8,7 @@ use App\Models\Airline;
 use App\Models\Pirep;
 use App\Models\User;
 use App\Services\AwardService;
-use Artisan;
+use App\Services\DatabaseService;
 use DB;
 use PDO;
 use Symfony\Component\Yaml\Yaml;
@@ -21,6 +21,17 @@ class DevCommands extends Command
 {
     protected $signature = 'phpvms {cmd} {param?}';
     protected $description = 'Developer commands';
+    protected $dbSvc;
+
+    /**
+     * DevCommands constructor.
+     * @param DatabaseService $dbSvc
+     */
+    public function __construct(DatabaseService $dbSvc)
+    {
+        parent::__construct();
+        $this->dbSvc = $dbSvc;
+    }
 
     /**
      * Run dev related commands
@@ -40,6 +51,7 @@ class DevCommands extends Command
             'clear-users'    => 'clearUsers',
             'compile-assets' => 'compileAssets',
             'db-attrs'       => 'dbAttrs',
+            'manual-insert'  => 'manualInsert',
             'xml-to-yaml'    => 'xmlToYaml',
         ];
 
@@ -169,5 +181,36 @@ class DevCommands extends Command
         $file_name = $table_name.'.yml';
         file_put_contents(storage_path($file_name), Yaml::dump($yaml, 4, 2));
         $this->info('Writing yaml to storage: '.$file_name);
+    }
+
+    /**
+     * Insert the rows from the file, manually advancing each row
+     */
+    protected function manualInsert(): void
+    {
+        $file = $this->argument('param');
+        $this->info('Reading '.$file);
+
+        if (!file_exists($file)) {
+            $this->error('File '.$file.' doesn\'t exist');
+            exit;
+        }
+
+        $yml = Yaml::parse(file_get_contents($file));
+        foreach ($yml as $table => $rows) {
+
+            $this->info('Importing table ' . $table);
+            $this->info('Number of rows: ' . \count($rows));
+
+            foreach ($rows as $row) {
+                try {
+                    $this->dbSvc->insert_row($table, $row);
+                } catch (\Exception $e) {
+                    $this->error($e);
+                }
+
+                $this->confirm('Insert next row?', true);
+            }
+        }
     }
 }
