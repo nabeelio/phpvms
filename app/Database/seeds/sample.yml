@@ -485,6 +485,38 @@ pireps:
     submitted_at: NOW
     created_at: NOW
     updated_at: NOW
+  - id: b68R5gwVzpVe
+    user_id: '1'
+    airline_id: '1'
+    aircraft_id: '1'
+    flight_number: '13'
+    route_code: null
+    route_leg: null
+    flight_type: J
+    dpt_airport_id: MKJP
+    arr_airport_id: MWCR
+    level: '320'
+    distance: '249.63'
+    planned_distance: '273.09'
+    block_time: null
+    flight_time: '0'
+    planned_flight_time: '0'
+    zfw: null
+    block_fuel: '21500.25390625'
+    fuel_used: null
+    landing_rate: '0'
+    score: '0'
+    route: ''
+    notes: null
+    source: '1'
+    source_name: vmsacars
+    state: 0
+    status: ENR
+    submitted_at: null
+    block_off_time: now
+    block_on_time: null
+    created_at: now
+    updated_at: now
 
 pirep_fares:
   - id: 1
