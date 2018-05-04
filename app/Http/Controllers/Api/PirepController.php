@@ -107,7 +107,7 @@ class PirepController extends Controller
         $active = [];
         $pireps = $this->acarsRepo->getPositions();
         foreach($pireps as $pirep) {
-            if(\count($pirep->position) === 0) {
+            if(!$pirep->position) {
                 continue;
             }
 

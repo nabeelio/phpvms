@@ -15,6 +15,12 @@
     background-color: rgba(232, 232, 232, 0.9);
 }
 
+.map-info-label {
+    display:block;
+    padding: 5px;
+    background-color: rgba(232, 232, 232, 0.9);
+}
+
 .dashboard-box {
     background: #067ec1;
     color: #FFF;

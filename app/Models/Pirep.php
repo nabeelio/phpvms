@@ -44,6 +44,7 @@ use PhpUnitsOfMeasure\Exception\NonStringUnitName;
  * @property Carbon      updated_at
  * @property bool        state
  * @property Acars       position
+ * @property Acars[]     acars
  * @package App\Models
  */
 class Pirep extends Model

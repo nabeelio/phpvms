@@ -1,8 +1,11 @@
+//
+
+const geolib = require('geolib');
 const leaflet = require('leaflet');
 const rivets = require('rivets');
 
 import draw_base_map from './base_map'
-import {ACTUAL_ROUTE_COLOR} from './config'
+import { ACTUAL_ROUTE_COLOR } from './config'
 
 /**
  * Render the live map
@@ -28,14 +31,44 @@ export default (opts) => {
         iconAnchor: [21, 21],
     });
 
+    /**
+     * Hold the markers
+     * @type {{}}
+     */
+    let markers_list = {};
+
     let pannedToCenter = false;
+
     let layerFlights = null;
     let layerSelFlight = null;
     let layerSelFlightFeature = null;
     let layerSelFlightLayer = null;
+    let layerSelArr = null;
+    let layerSelDep = null;
 
-    const r_map_view = rivets.bind($('#map-info-box'), {pirep: {}});
-    const r_table_view = rivets.bind($('#live_flights'), {pireps: []});
+    /**
+     * Controller for two-way bindings
+     * @type {{focusMarker: focusMarker}}
+     */
+    const mapController = {
+        /**
+         * Focus on a specific marker
+         * @param e
+         * @param model
+         */
+        focusMarker: (e, model) => {
+            if(!(model.pirep.id in markers_list)) {
+                console.log('marker not found in list');
+                return;
+            }
+
+            const marker = markers_list[model.pirep.id];
+            onFlightClick(marker[0], marker[1]);
+        },
+    };
+
+    const r_map_view = rivets.bind($('#map-info-box'), {pirep: {}, controller: mapController});
+    const r_table_view = rivets.bind($('#live_flights'), {pireps: [], controller: mapController});
 
     /**
      * When a flight is clicked on, show the path, etc for that flight
@@ -60,9 +93,11 @@ export default (opts) => {
         });
 
         // Load up the PIREP info
-        $.when(flight_route).done((routeJson) => {
+        $.when(flight_route).done((rte) => {
             if (layerSelFlight !== null) {
                 map.removeLayer(layerSelFlight);
+                //map.removeLayer(layerSelArr);
+                //map.removeLayer(layerSelDep);
             }
 
             layerSelFlight = leaflet.geodesic([], {
@@ -72,13 +107,27 @@ export default (opts) => {
                 wrap: false,
             }).addTo(map);
 
-            layerSelFlight.geoJson(routeJson.line);
+            layerSelFlight.geoJson(rte.line);
             layerSelFlightFeature = feature;
             layerSelFlightLayer = layer;
 
+            /*const dptIcon = leaflet.divIcon({
+                html: '<div class="map-info-label"><h5>' + rte.airports.d.icao + '</h5></div>'
+            });
+
+            layerSelDep = leaflet.marker([rte.airports.d.lat, rte.airports.d.lon], {icon:dptIcon}).addTo(map);
+            */
+
             // Center on it, but only do it once, in case the map is moved
             if(!pannedToCenter) {
-                map.panTo({lat: routeJson.position.lat, lng: routeJson.position.lon});
+                // find center
+                const c = geolib.getCenter([
+                    {latitude: rte.airports.a.lat, longitude: rte.airports.a.lon},
+                    {latitude: rte.airports.d.lat, longitude: rte.airports.d.lon},
+                ]);
+
+                //map.panTo({lat: c.latitude, lng: c.longitude});
+                map.panTo({lat: rte.position.lat, lng: rte.position.lon});
                 pannedToCenter = true;
             }
         });
@@ -132,6 +181,9 @@ export default (opts) => {
                         popup_html += feature.properties.popup;
                         layer.bindPopup(popup_html);
                     }
+
+                    // add to the list
+                    markers_list[feature.properties.pirep_id] = [feature, layer];
                 },
                 pointToLayer: function (feature, latlon) {
                     return leaflet.marker(latlon, {

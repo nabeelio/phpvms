@@ -90,7 +90,7 @@ and being mindful of the rivets bindings
             </thead>
             <tbody>
                 <tr rv-each-pirep="pireps">
-                    <td>{ pirep.airline.code }{ pirep.ident}</td>
+                    <td><a href="#top_anchor" rv-on-click="controller.focusMarker">{ pirep.airline.icao }{ pirep.ident}</a> </td>
                     {{-- Show the full airport name on hover --}}
                     <td><span rv-title="pirep.dpt_airport.name">{ pirep.dpt_airport.icao }</span></td>
                     <td><span rv-title="pirep.arr_airport.name">{ pirep.arr_airport.icao }</span></td>

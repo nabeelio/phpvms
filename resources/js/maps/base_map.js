@@ -64,7 +64,7 @@ export default (opts) => {
     attrib.addAttribution('<a href="https://www.openstreetmap.org/copyright" target="_blank" style="">OpenStreetMap</a> contributors')
     attrib.addAttribution('<a href="https://www.openweathermap.org" target="_blank" style="">OpenWeatherMap</a>')
 
-    attrib.addTo(map)
+    attrib.addTo(map);
 
     return map
 };

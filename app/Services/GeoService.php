@@ -181,18 +181,29 @@ class GeoService extends Service
      */
     public function getFeatureFromAcars(Pirep $pirep)
     {
+        // Get the two airports
+        $airports = new GeoJson();
+        $airports->addPoint($pirep->dpt_airport->lat, $pirep->dpt_airport->lon, [
+            'name' => $pirep->dpt_airport->name,
+            'icao' => $pirep->dpt_airport->icao,
+            'type' => 'D',
+        ]);
+
+        $airports->addPoint($pirep->arr_airport->lat, $pirep->arr_airport->lon, [
+            'name' => $pirep->arr_airport->name,
+            'icao' => $pirep->arr_airport->icao,
+            'type' => 'A',
+        ]);
+
         $route = new GeoJson();
 
         /**
          * @var $point \App\Models\Acars
          */
-        $counter = 1;
         foreach ($pirep->acars as $point) {
             $route->addPoint($point->lat, $point->lon, [
                 'pirep_id' => $pirep->id,
-                'name'     => '',
                 'alt'      => $point->altitude,
-                'popup'    => 'GS: '.$point->gs.'<br />Alt: '.$point->altitude,
             ]);
         }
 
@@ -201,8 +212,20 @@ class GeoService extends Service
                 'lat' => $pirep->position->lat,
                 'lon' => $pirep->position->lon,
             ],
-            'line'   => $route->getLine(),
-            'points' => $route->getPoints()
+            'line'     => $route->getLine(),
+            'points'   => $route->getPoints(),
+            'airports' => [
+                'a' => [
+                    'icao' => $pirep->arr_airport->icao,
+                    'lat' => $pirep->arr_airport->lat,
+                    'lon' => $pirep->arr_airport->lon,
+                ],
+                'd' => [
+                    'icao' => $pirep->dpt_airport->icao,
+                    'lat' => $pirep->dpt_airport->lat,
+                    'lon' => $pirep->dpt_airport->lon,
+                ],
+            ]
         ];
     }
 
@@ -227,10 +250,8 @@ class GeoService extends Service
 
             $flight->addPoint($point->lat, $point->lon, [
                 'pirep_id' => $pirep->id,
-                'gs'       => $point->gs,
                 'alt'      => $point->altitude,
                 'heading'  => $point->heading ?: 0,
-                //'popup'    => $pirep->ident.'<br />GS: '.$point->gs.'<br />Alt: '.$point->altitude,
             ]);
         }
 

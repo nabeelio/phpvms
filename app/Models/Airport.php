@@ -11,7 +11,13 @@ use App\Models\Traits\FilesTrait;
  * @property string id
  * @property string iata
  * @property string icao
+ * @property string name
+ * @property string location
+ * @property string country
+ * @property string timezone
  * @property float  ground_handling_cost
+ * @property float  lat
+ * @property float  lon
  * @package App\Models
  */
 class Airport extends Model
