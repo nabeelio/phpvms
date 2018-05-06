@@ -28,11 +28,15 @@ if [ "$TRAVIS" = "true" ]; then
 
     echo "Cleaning files"
 
-    make clean
-
-    # Clean up the dependencies to only remove the dev packages
-    #rm -rf vendor
-    #composer install --no-interaction --no-dev
+    # Clean up the dependencies to remove some of the dev packages
+    composer remove \
+            --optimize-autoloader \
+            --no-interaction \
+            --update-with-dependencies \
+        phpstan/phpstan \
+        weebly/phpstan-laravel \
+        bpocallaghan/generators \
+        barryvdh/laravel-ide-helper
 
     rm -rf env.php config.php
     find ./vendor -type d -name ".git" -print0 | xargs rm -rf
@@ -55,6 +59,8 @@ if [ "$TRAVIS" = "true" ]; then
 
     # delete files in vendor that are rather large
     rm -rf vendor/willdurand/geocoder/tests
+
+    make clean
 
     echo "creating tarball"
     cd /tmp

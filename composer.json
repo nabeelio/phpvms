@@ -39,7 +39,6 @@
         "igaster/laravel-theme": "^2.0",
         "anhskohbo/no-captcha": "^3.0",
         "league/csv": "^9.1",
-        "codedungeon/phpunit-result-printer": "^0.13.0",
         "intervention/image": "^2.4"
     },
     "require-dev": {
@@ -51,7 +50,8 @@
         "bpocallaghan/generators": "5.0.1",
         "nunomaduro/collision": "^2.0",
         "phpstan/phpstan": "^0.9.2",
-        "weebly/phpstan-laravel": "^1.1"
+        "weebly/phpstan-laravel": "^1.1",
+        "codedungeon/phpunit-result-printer": "^0.13.0"
     },
     "autoload": {
         "classmap": [
@@ -80,12 +80,6 @@
          }
     },
     "scripts": {
-        "post-root-package-install": [
-            "php -r \"file_exists('env.php') || copy('env.php.example', 'env.php');\""
-        ],
-        "post-create-project-cmd": [
-            "php artisan key:generate"
-        ],
         "post-install-cmd": [
             "Illuminate\\Foundation\\ComposerScripts::postInstall"
         ],
