@@ -22,6 +22,10 @@ class CreateAirportsTable extends Migration
             $table->unsignedDecimal('fuel_mogas_cost')->nullable()->default(0);
             $table->float('lat', 7, 4)->nullable()->default(0.0);
             $table->float('lon', 7, 4)->nullable()->default(0.0);
+
+            $table->index('icao');
+            $table->index('iata');
+            $table->index('hub');
         });
     }
 

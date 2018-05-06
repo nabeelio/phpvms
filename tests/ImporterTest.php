@@ -569,7 +569,7 @@ class ImporterTest extends TestCase
         $file_path = base_path('tests/data/airports.csv');
         $status = $this->importSvc->importAirports($file_path);
 
-        $this->assertCount(1, $status['success']);
+        $this->assertCount(2, $status['success']);
         $this->assertCount(1, $status['errors']);
 
         // See if it imported
@@ -588,6 +588,14 @@ class ImporterTest extends TestCase
         $this->assertEquals(true, $airport->hub);
         $this->assertEquals('30.1945', $airport->lat);
         $this->assertEquals('-97.6699', $airport->lon);
+
+        // See if it imported
+        $airport = \App\Models\Airport::where([
+            'id' => 'KSFO',
+        ])->first();
+
+        $this->assertNotNull($airport);
+        $this->assertEquals(true, $airport->hub);
     }
 
     /**
