@@ -7,7 +7,7 @@ use Faker\Generator as Faker;
  */
 $factory->define(App\Models\Airport::class, function (Faker $faker) {
     return [
-        'id'                   => function () {
+        'id' => function () {
             $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
             $string = '';
             $max = strlen($characters) - 1;
@@ -28,6 +28,7 @@ $factory->define(App\Models\Airport::class, function (Faker $faker) {
         'timezone'             => $faker->timezone,
         'lat'                  => $faker->latitude,
         'lon'                  => $faker->longitude,
+        'hub'                  => false,
         'ground_handling_cost' => $faker->randomFloat(2, 0, 500),
         'fuel_100ll_cost'      => $faker->randomFloat(2, 0, 100),
         'fuel_jeta_cost'       => $faker->randomFloat(2, 0, 100),

@@ -24,8 +24,8 @@ class CreatePirepTables extends Migration
             $table->string('route_code', 5)->nullable();
             $table->string('route_leg', 5)->nullable();
             $table->char('flight_type', 1)->default(FlightType::SCHED_PAX);
-            $table->string('dpt_airport_id', 5);
-            $table->string('arr_airport_id', 5);
+            $table->string('dpt_airport_id', 4);
+            $table->string('arr_airport_id', 4);
             $table->unsignedInteger('level')->nullable();
             $table->unsignedDecimal('distance')->nullable();
             $table->unsignedDecimal('planned_distance')->nullable();
