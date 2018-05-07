@@ -11,7 +11,7 @@ $factory->define(App\Models\Airport::class, function (Faker $faker) {
             $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
             $string = '';
             $max = strlen($characters) - 1;
-            for ($i = 0; $i < 5; $i++) {
+            for ($i = 0; $i < 4; $i++) {
                 $string .= $characters[random_int(0, $max)];
             }
 
