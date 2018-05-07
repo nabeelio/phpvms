@@ -38,10 +38,8 @@ class MetarTest extends TestCase
             Wind        26 kts @ 280° gusts to 39
          */
         $this->assertEquals('KJFK', $parsed['station']);
-        $this->assertEquals('Wed, 04 Apr 2018 21:51:00 +0000', $parsed['observed_date']);
         $this->assertEquals(4, $parsed['observed_day']);
         $this->assertEquals('21:51 UTC', $parsed['observed_time']);
-        #$this->assertEquals('3:42 hr. ago', $parsed['observed_age']);
         $this->assertEquals(13.38, $parsed['wind_speed']);
         $this->assertEquals(20.06, $parsed['wind_gust_speed']);
         $this->assertEquals(280, $parsed['wind_direction']);
