@@ -45,6 +45,8 @@ class Acars extends Model
         'autopilot',
         'fuel_flow',
         'sim_time',
+        'created_at',
+        'updated_at',
     ];
 
     public $casts = [
