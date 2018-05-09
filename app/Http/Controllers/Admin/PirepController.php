@@ -8,6 +8,7 @@ use App\Http\Requests\UpdatePirepRequest;
 use App\Interfaces\Controller;
 use App\Models\Enums\PirepSource;
 use App\Models\Enums\PirepState;
+use App\Models\Enums\PirepStatus;
 use App\Models\Pirep;
 use App\Models\PirepComment;
 use App\Repositories\AircraftRepository;
@@ -190,7 +191,11 @@ class PirepController extends Controller
         $this->pirepRepo->pushCriteria($criterea);
 
         $pireps = $this->pirepRepo
-            ->whereNotInOrder('status', [PirepState::CANCELLED, PirepState::DRAFT], 'created_at', 'desc')
+            ->whereNotInOrder('status', [
+                PirepState::CANCELLED,
+                PirepState::DRAFT,
+                PirepState::IN_PROGRESS
+            ], 'created_at', 'desc')
             ->paginate();
 
         return view('admin.pireps.index', [

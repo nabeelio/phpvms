@@ -57,6 +57,7 @@ class AcarsRepository extends Repository
     {
         return Pirep::with(['airline', 'position', 'aircraft'])
             ->where(['state' => PirepState::IN_PROGRESS])
+            ->orderBy('created_at', 'desc')
             ->get();
     }
 

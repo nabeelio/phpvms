@@ -240,7 +240,8 @@ class Pirep extends Model
      */
     public function getReadOnlyAttribute(): bool
     {
-        return $this->state !== PirepState::PENDING;
+        return $this->state !== PirepState::PENDING
+                && $this->state != PirepState::IN_PROGRESS;
     }
 
     /**
