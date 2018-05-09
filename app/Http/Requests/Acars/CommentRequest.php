@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Acars;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Interfaces\FormRequest;
 
 /**
  * Class FileRequest

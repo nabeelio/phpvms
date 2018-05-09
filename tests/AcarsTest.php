@@ -314,8 +314,7 @@ class AcarsTest extends TestCase
          * Check the fields
          */
         $this->assertHasKeys($pirep, ['fields']);
-        $this->assertEquals('custom_field', $pirep['fields'][0]['name']);
-        $this->assertEquals('custom_value', $pirep['fields'][0]['value']);
+        $this->assertEquals('custom_value', $pirep['fields']['custom_field']);
 
         $this->assertHasKeys($pirep['planned_distance'], ['mi', 'nmi', 'km']);
 
@@ -323,17 +322,14 @@ class AcarsTest extends TestCase
          * Update the custom field
          */
         $uri = '/api/pireps/'.$pirep_id.'/update';
-        $this->post(
-            $uri,
-            [
-                'fields' => [
-                    'custom_field' => 'custom_value_changed',
-                ],
-            ]
-        );
+        $this->post($uri, [
+            'fields' => [
+                'custom_field' => 'custom_value_changed',
+            ],
+        ]);
 
         $pirep = $this->getPirep($pirep_id);
-        $this->assertEquals('custom_value_changed', $pirep['fields'][0]['value']);
+        $this->assertEquals('custom_value_changed', $pirep['fields']['custom_field']);
 
         /**
          * Add some position updates
@@ -376,6 +372,18 @@ class AcarsTest extends TestCase
         $this->assertEquals(round($acars['lat'], 2), round($body[0]['lat'], 2));
         $this->assertEquals(round($acars['lon'], 2), round($body[0]['lon'], 2));
 
+        # Update fields standalone
+        $uri = '/api/pireps/' . $pirep_id . '/fields';
+        $response = $this->post($uri, [
+            'fields' => [
+                'Departure Gate' => 'G26',
+            ],
+        ]);
+
+        $response->assertStatus(200);
+        $body = $response->json('data');
+        $this->assertEquals('G26', $body['Departure Gate']);
+
         # File the PIREP now
         $uri = '/api/pireps/'.$pirep_id.'/file';
         $response = $this->post($uri, []);
@@ -384,14 +392,11 @@ class AcarsTest extends TestCase
         $response = $this->post($uri, ['flight_time' => '1:30']);
         $response->assertStatus(400); // invalid flight time
 
-        $response = $this->post(
-            $uri,
-            [
-                'flight_time' => 130,
-                'fuel_used' => 8000.19,
-                'distance' => 400,
-            ]
-        );
+        $response = $this->post($uri, [
+            'flight_time' => 130,
+            'fuel_used' => 8000.19,
+            'distance' => 400,
+        ]);
 
         $response->assertStatus(200);
         $body = $response->json();

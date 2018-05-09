@@ -2,9 +2,10 @@
 
 namespace App\Http\Requests\Acars;
 
+use App\Interfaces\FormRequest;
+use App\Models\Acars;
 use App\Models\Pirep;
 use Auth;
-use Illuminate\Foundation\Http\FormRequest;
 
 /**
  * Class PositionRequest
@@ -12,13 +13,28 @@ use Illuminate\Foundation\Http\FormRequest;
  */
 class PositionRequest extends FormRequest
 {
+    /**
+     * @return bool
+     */
     public function authorize()
     {
         $pirep = Pirep::findOrFail($this->route('pirep_id'), ['user_id']);
-
         return $pirep->user_id === Auth::id();
     }
 
+    /**
+     * @return array
+     */
+    /*public function sanitize()
+    {
+        return [
+            'positions.*.sim_time' => Acars::$sanitize['sim_time'],
+        ];
+    }*/
+
+    /**
+     * @return array
+     */
     public function rules()
     {
         $rules = [
@@ -35,6 +51,7 @@ class PositionRequest extends FormRequest
             'positions.*.fuel'        => 'nullable|numeric',
             'positions.*.fuel_flow'   => 'nullable|numeric',
             'positions.*.log'         => 'nullable',
+            'positions.*.sim_time'    => 'nullable|date',
             'positions.*.created_at'  => 'nullable|date',
         ];
 

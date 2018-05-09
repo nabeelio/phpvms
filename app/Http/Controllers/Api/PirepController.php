@@ -7,10 +7,8 @@ use App\Exceptions\AircraftPermissionDenied;
 use App\Exceptions\PirepCancelled;
 use App\Exceptions\UserNotAtAirport;
 use App\Http\Requests\Acars\CommentRequest;
-use App\Http\Requests\Acars\EventRequest;
+use App\Http\Requests\Acars\FieldsRequest;
 use App\Http\Requests\Acars\FileRequest;
-use App\Http\Requests\Acars\LogRequest;
-use App\Http\Requests\Acars\PositionRequest;
 use App\Http\Requests\Acars\PrefileRequest;
 use App\Http\Requests\Acars\RouteRequest;
 use App\Http\Requests\Acars\UpdateRequest;
@@ -18,6 +16,7 @@ use App\Http\Resources\AcarsRoute as AcarsRouteResource;
 use App\Http\Resources\JournalTransaction as JournalTransactionResource;
 use App\Http\Resources\Pirep as PirepResource;
 use App\Http\Resources\PirepComment as PirepCommentResource;
+use App\Http\Resources\PirepFieldCollection;
 use App\Interfaces\Controller;
 use App\Models\Acars;
 use App\Models\Enums\AcarsType;
@@ -31,7 +30,6 @@ use App\Repositories\JournalRepository;
 use App\Repositories\PirepRepository;
 use App\Services\FareService;
 use App\Services\Finance\PirepFinanceService;
-use App\Services\GeoService;
 use App\Services\PirepService;
 use App\Services\UserService;
 use Auth;
@@ -48,7 +46,6 @@ class PirepController extends Controller
     private $acarsRepo,
             $fareSvc,
             $financeSvc,
-            $geoSvc,
             $journalRepo,
             $pirepRepo,
             $pirepSvc,
@@ -59,7 +56,6 @@ class PirepController extends Controller
      * @param AcarsRepository     $acarsRepo
      * @param FareService         $fareSvc
      * @param PirepFinanceService $financeSvc
-     * @param GeoService          $geoSvc
      * @param JournalRepository   $journalRepo
      * @param PirepRepository     $pirepRepo
      * @param PirepService        $pirepSvc
@@ -69,7 +65,6 @@ class PirepController extends Controller
         AcarsRepository $acarsRepo,
         FareService $fareSvc,
         PirepFinanceService $financeSvc,
-        GeoService $geoSvc,
         JournalRepository $journalRepo,
         PirepRepository $pirepRepo,
         PirepService $pirepSvc,
@@ -78,11 +73,26 @@ class PirepController extends Controller
         $this->acarsRepo = $acarsRepo;
         $this->fareSvc = $fareSvc;
         $this->financeSvc = $financeSvc;
-        $this->geoSvc = $geoSvc;
         $this->journalRepo = $journalRepo;
         $this->pirepRepo = $pirepRepo;
         $this->pirepSvc = $pirepSvc;
         $this->userSvc = $userSvc;
+    }
+
+    /**
+     * Parse any PIREP added in
+     * @param Request $request
+     * @return array|null|string
+     */
+    protected function parsePirep(Request $request)
+    {
+        $attrs = $request->input();
+
+        if (array_key_exists('created_at', $attrs)) {
+            $attrs['created_at'] = Carbon::createFromTimeString($attrs['created_at']);
+        }
+
+        return $attrs;
     }
 
     /**
@@ -95,35 +105,6 @@ class PirepController extends Controller
         if (!$pirep->allowedUpdates()) {
             throw new PirepCancelled();
         }
-    }
-
-    /**
-     * Get all the active PIREPs
-     * @param $id
-     * @return PirepResource
-     */
-    public function index()
-    {
-        $active = [];
-        $pireps = $this->acarsRepo->getPositions();
-        foreach($pireps as $pirep) {
-            if(!$pirep->position) {
-                continue;
-            }
-
-            $active[] = $pirep;
-        }
-
-        return PirepResource::collection(collect($active));
-    }
-
-    /**
-     * @param $id
-     * @return PirepResource
-     */
-    public function get($id)
-    {
-        return new PirepResource($this->pirepRepo->find($id));
     }
 
     /**
@@ -172,6 +153,34 @@ class PirepController extends Controller
     }
 
     /**
+     * Get all the active PIREPs
+     * @return mixed
+     */
+    public function index()
+    {
+        $active = [];
+        $pireps = $this->acarsRepo->getPositions();
+        foreach($pireps as $pirep) {
+            if(!$pirep->position) {
+                continue;
+            }
+
+            $active[] = $pirep;
+        }
+
+        return PirepResource::collection(collect($active));
+    }
+
+    /**
+     * @param $pirep_id
+     * @return PirepResource
+     */
+    public function get($pirep_id)
+    {
+        return new PirepResource($this->pirepRepo->find($pirep_id));
+    }
+
+    /**
      * Create a new PIREP and place it in a "inprogress" and "prefile" state
      * Once ACARS updates are being processed, then it can go into an 'ENROUTE'
      * status, and whatever other statuses may be defined
@@ -190,7 +199,7 @@ class PirepController extends Controller
 
         $user = Auth::user();
 
-        $attrs = $request->post();
+        $attrs = $this->parsePirep($request);
         $attrs['user_id'] = $user->id;
         $attrs['source'] = PirepSource::ACARS;
         $attrs['state'] = PirepState::IN_PROGRESS;
@@ -250,7 +259,7 @@ class PirepController extends Controller
      * Once ACARS updates are being processed, then it can go into an 'ENROUTE'
      * status, and whatever other statuses may be defined
      *
-     * @param               $id
+     * @param               $pirep_id
      * @param UpdateRequest $request
      * @return PirepResource
      * @throws \App\Exceptions\PirepCancelled
@@ -258,16 +267,16 @@ class PirepController extends Controller
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      * @throws \Exception
      */
-    public function update($id, UpdateRequest $request)
+    public function update($pirep_id, UpdateRequest $request)
     {
         Log::info('PIREP Update, user '.Auth::id());
         Log::info($request->getContent());
 
         $user = Auth::user();
-        $pirep = Pirep::find($id);
+        $pirep = Pirep::find($pirep_id);
         $this->checkCancelled($pirep);
 
-        $attrs = $request->post();
+        $attrs = $this->parsePirep($request);
         $attrs['user_id'] = Auth::id();
 
         # If aircraft is being changed, see if this user is allowed to fly this aircraft
@@ -280,7 +289,7 @@ class PirepController extends Controller
             }
         }
 
-        $pirep = $this->pirepRepo->update($attrs, $id);
+        $pirep = $this->pirepRepo->update($attrs, $pirep_id);
         $this->updateFields($pirep, $request);
         $this->updateFares($pirep, $request);
 
@@ -289,7 +298,7 @@ class PirepController extends Controller
 
     /**
      * File the PIREP
-     * @param             $id
+     * @param             $pirep_id
      * @param FileRequest $request
      * @return PirepResource
      * @throws \App\Exceptions\PirepCancelled
@@ -297,17 +306,17 @@ class PirepController extends Controller
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      * @throws \Exception
      */
-    public function file($id, FileRequest $request)
+    public function file($pirep_id, FileRequest $request)
     {
         Log::info('PIREP file, user '.Auth::id(), $request->post());
 
         $user = Auth::user();
 
         # Check if the status is cancelled...
-        $pirep = Pirep::find($id);
+        $pirep = Pirep::find($pirep_id);
         $this->checkCancelled($pirep);
 
-        $attrs = $request->post();
+        $attrs = $this->parsePirep($request);
 
         # If aircraft is being changed, see if this user is allowed to fly this aircraft
         if (array_key_exists('aircraft_id', $attrs)
@@ -323,7 +332,7 @@ class PirepController extends Controller
         $attrs['status'] = PirepStatus::ARRIVED;
         $attrs['submitted_at'] = Carbon::now('UTC');
 
-        $pirep = $this->pirepRepo->update($attrs, $id);
+        $pirep = $this->pirepRepo->update($attrs, $pirep_id);
 
         try {
             $pirep = $this->pirepSvc->create($pirep);
@@ -347,174 +356,29 @@ class PirepController extends Controller
 
     /**
      * Cancel the PIREP
-     * @param         $id
+     * @param         $pirep_id
      * @param Request $request
      * @return PirepResource
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
-    public function cancel($id, Request $request)
+    public function cancel($pirep_id, Request $request)
     {
         Log::info('PIREP Cancel, user '.Auth::id(), $request->post());
 
         $pirep = $this->pirepRepo->update([
             'state'  => PirepState::CANCELLED,
             'status' => PirepStatus::CANCELLED,
-        ], $id);
+        ], $pirep_id);
 
         return new PirepResource($pirep);
     }
 
     /**
-     * Return the GeoJSON for the ACARS line
-     * @param         $id
-     * @param Request $request
-     * @return \Illuminate\Contracts\Routing\ResponseFactory
-     */
-    public function acars_geojson($id, Request $request)
-    {
-        $pirep = Pirep::find($id);
-        $geodata = $this->geoSvc->getFeatureFromAcars($pirep);
-
-        return response(\json_encode($geodata), 200, [
-            'Content-Type' => 'application/json',
-        ]);
-    }
-
-    /**
-     * Return the routes for the ACARS line
-     * @param         $id
-     * @param Request $request
-     * @return AcarsRouteResource
-     */
-    public function acars_get($id, Request $request)
-    {
-        $this->pirepRepo->find($id);
-
-        return new AcarsRouteResource(Acars::where([
-            'pirep_id' => $id,
-            'type'     => AcarsType::FLIGHT_PATH
-        ])->orderBy('created_at', 'asc')->get());
-    }
-
-    /**
-     * Post ACARS updates for a PIREP
-     * @param                 $id
-     * @param PositionRequest $request
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \App\Exceptions\PirepCancelled
-     * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
-     */
-    public function acars_store($id, PositionRequest $request)
-    {
-        # Check if the status is cancelled...
-        $pirep = Pirep::find($id);
-        $this->checkCancelled($pirep);
-
-        Log::debug(
-            'Posting ACARS update (user: '.Auth::user()->pilot_id.', pirep id :'.$id.'): ',
-            $request->post()
-        );
-
-        $count = 0;
-        $positions = $request->post('positions');
-        foreach ($positions as $position) {
-            $position['pirep_id'] = $id;
-            $position['type'] = AcarsType::FLIGHT_PATH;
-
-            if(array_key_exists('sim_time', $position)) {
-                $position['sim_time'] = Carbon::createFromTimeString($position['sim_time']);
-            }
-
-            if (array_key_exists('created_at', $position)) {
-                $position['created_at'] = Carbon::createFromTimeString($position['created_at']);
-            }
-
-            $update = Acars::create($position);
-            $update->save();
-
-            ++$count;
-        }
-
-        # Change the PIREP status if it's as SCHEDULED before
-        if ($pirep->status === PirepStatus::INITIATED) {
-            $pirep->status = PirepStatus::AIRBORNE;
-        }
-
-        $pirep->save();
-
-        return $this->message($count.' positions added', $count);
-    }
-
-    /**
-     * Post ACARS LOG update for a PIREP. These updates won't show up on the map
-     * But rather in a log file.
-     * @param            $id
-     * @param LogRequest $request
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \App\Exceptions\PirepCancelled
-     * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
-     */
-    public function acars_logs($id, LogRequest $request)
-    {
-        # Check if the status is cancelled...
-        $pirep = Pirep::find($id);
-        $this->checkCancelled($pirep);
-
-        Log::debug('Posting ACARS log, PIREP: '.$id, $request->post());
-
-        $count = 0;
-        $logs = $request->post('logs');
-        foreach ($logs as $log) {
-            $log['pirep_id'] = $id;
-            $log['type'] = AcarsType::LOG;
-
-            $acars = Acars::create($log);
-            $acars->save();
-            ++$count;
-        }
-
-        return $this->message($count.' logs added', $count);
-    }
-
-    /**
-     * Post ACARS LOG update for a PIREP. These updates won't show up on the map
-     * But rather in a log file.
-     * @param              $id
-     * @param EventRequest $request
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \App\Exceptions\PirepCancelled
-     * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
-     */
-    public function acars_events($id, EventRequest $request)
-    {
-        # Check if the status is cancelled...
-        $pirep = Pirep::find($id);
-        $this->checkCancelled($pirep);
-
-        Log::debug('Posting ACARS event, PIREP: '.$id, $request->post());
-
-        $count = 0;
-        $logs = $request->post('events');
-        foreach ($logs as $log) {
-            $log['pirep_id'] = $id;
-            $log['type'] = AcarsType::LOG;
-            $log['log'] = $log['event'];
-
-            $acars = Acars::create($log);
-            $acars->save();
-            ++$count;
-        }
-
-        return $this->message($count.' logs added', $count);
-    }
-
-    /**
      * Add a new comment
      * @param         $id
-     * @param Request $request
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function comments_get($id, Request $request)
+    public function comments_get($id)
     {
         $pirep = Pirep::find($id);
         return PirepCommentResource::collection($pirep->comments);
@@ -544,13 +408,39 @@ class PirepController extends Controller
     }
 
     /**
+     * Get all of the fields for a PIREP
+     * @param $pirep_id
+     * @return PirepFieldCollection
+     */
+    public function fields_get($pirep_id)
+    {
+        $pirep = Pirep::find($pirep_id);
+        return new PirepFieldCollection($pirep->fields);
+    }
+
+    /**
+     * Set any fields for a PIREP
+     * @param string        $pirep_id
+     * @param FieldsRequest $request
+     * @return PirepFieldCollection
+     */
+    public function fields_post($pirep_id, FieldsRequest $request)
+    {
+        $pirep = Pirep::find($pirep_id);
+        $this->checkCancelled($pirep);
+
+        $this->updateFields($pirep, $request);
+
+        return new PirepFieldCollection($pirep->fields);
+    }
+
+    /**
      * @param         $id
-     * @param Request $request
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
      */
-    public function finances_get($id, Request $request)
+    public function finances_get($id)
     {
         $pirep = Pirep::find($id);
         $transactions = $this->journalRepo->getAllForObject($pirep);

@@ -2,7 +2,8 @@
 
 namespace App\Http\Requests\Acars;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Interfaces\FormRequest;
+use App\Models\Pirep;
 
 /**
  * Class PrefileRequest
@@ -10,11 +11,17 @@ use Illuminate\Foundation\Http\FormRequest;
  */
 class PrefileRequest extends FormRequest
 {
-    public function authorize()
+    /**
+     * @return array|void
+     */
+    /*public function sanitize()
     {
-        return true;
-    }
+        return Pirep::$sanitize;
+    }*/
 
+    /**
+     * @return array
+     */
     public function rules()
     {
         $rules = [

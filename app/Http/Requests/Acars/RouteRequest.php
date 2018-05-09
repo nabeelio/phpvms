@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests\Acars;
 
+use App\Interfaces\FormRequest;
 use App\Models\Pirep;
 use Auth;
-use Illuminate\Foundation\Http\FormRequest;
 
 /**
  * Class RouteRequest
@@ -15,7 +15,6 @@ class RouteRequest extends FormRequest
     public function authorize()
     {
         $pirep = Pirep::findOrFail($this->route('pirep_id'), ['user_id']);
-
         return $pirep->user_id === Auth::id();
     }
 

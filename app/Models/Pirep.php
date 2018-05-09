@@ -133,6 +133,11 @@ class Pirep extends Model
         'route'          => 'nullable',
     ];
 
+    /*public static $sanitize = [
+        'dpt_airport_id' => 'trim|uppercase',
+        'arr_airport_id' => 'trim|uppercase',
+    ];*/
+
     /**
      * Get the flight ident, e.,g JBU1900
      * @return string

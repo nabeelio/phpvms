@@ -58,7 +58,8 @@ class Pirep extends Resource
             'curr_airport_id' => $this->user->curr_airport_id,
         ];
 
-        $pirep['fields'] = $this->fields;
+        # format to kvp
+        $pirep['fields'] = new PirepFieldCollection($this->fields);
 
         return $pirep;
     }

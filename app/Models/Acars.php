@@ -69,6 +69,11 @@ class Acars extends Model
         'pirep_id' => 'required',
     ];
 
+    /*public static $sanitize = [
+        'sim_time' => 'carbon',
+        'created_at' => '',
+    ];*/
+
     /**
      * Return a new Length unit so conversions can be made
      * @return int|Distance

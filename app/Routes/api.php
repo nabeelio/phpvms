@@ -7,7 +7,7 @@ Route::group([], function () {
     Route::get('acars', 'AcarsController@index');
     Route::get('pireps', 'PirepController@index');
     Route::get('pireps/{pirep_id}', 'PirepController@get');
-    Route::get('pireps/{pirep_id}/acars/geojson', 'PirepController@acars_geojson');
+    Route::get('pireps/{pirep_id}/acars/geojson', 'AcarsController@acars_geojson');
 
     Route::get('news', 'NewsController@index');
     Route::get('status', 'StatusController@status');
@@ -45,6 +45,10 @@ Route::group(['middleware' => ['api.auth']], function () {
     Route::post('pireps/{pirep_id}/comments', 'PirepController@comments_post');
     Route::delete('pireps/{pirep_id}/cancel', 'PirepController@cancel');
 
+    Route::get('pireps/{pirep_id}/fields', 'PirepController@fields_get');
+    Route::post('pireps/{pirep_id}/fields', 'PirepController@fields_post');
+
+
     Route::get('pireps/{pirep_id}/finances', 'PirepController@finances_get');
     Route::post('pireps/{pirep_id}/finances/recalculate', 'PirepController@finances_recalculate');
 
@@ -54,12 +58,12 @@ Route::group(['middleware' => ['api.auth']], function () {
 
     Route::get('pireps/{pirep_id}/comments', 'PirepController@comments_get');
 
-    Route::get('pireps/{pirep_id}/acars/position', 'PirepController@acars_get');
-    Route::post('pireps/{pirep_id}/acars/position', 'PirepController@acars_store');
-    Route::post('pireps/{pirep_id}/acars/positions', 'PirepController@acars_store');
+    Route::get('pireps/{pirep_id}/acars/position', 'AcarsController@acars_get');
+    Route::post('pireps/{pirep_id}/acars/position', 'AcarsController@acars_store');
+    Route::post('pireps/{pirep_id}/acars/positions', 'AcarsController@acars_store');
 
-    Route::post('pireps/{pirep_id}/acars/events', 'PirepController@acars_events');
-    Route::post('pireps/{pirep_id}/acars/logs', 'PirepController@acars_logs');
+    Route::post('pireps/{pirep_id}/acars/events', 'AcarsController@acars_events');
+    Route::post('pireps/{pirep_id}/acars/logs', 'AcarsController@acars_logs');
 
     Route::get('settings', 'SettingsController@index');
 
