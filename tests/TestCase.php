@@ -126,6 +126,12 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
             if (is_subclass_of($value, App\Interfaces\Unit::class)) {
                 $data[$key] = $value->__toString();
             }
+
+            if($value instanceof DateTime) {
+                $data[$key] = $value->format(DATE_ATOM);
+            } elseif ($value instanceof Carbon) {
+                $data[$key] = $value->toIso8601ZuluString();
+            }
         }
 
         return $data;
