@@ -143,6 +143,26 @@ airports:
     lon: -73.7786950
     hub: 1
     ground_handling_cost: 250
+  - id: KPAE
+    iata: PAE
+    icao: KPAE
+    name: Snohomish County (Paine Field) Airport
+    location: Everett
+    country: United States
+    timezone: America/Los_Angeles
+    lat: 47.9063
+    lon: -122.282
+    hub: 0
+  - id: KSEA
+    iata: SEA
+    icao: KSEA
+    name: Seattle Tacoma International Airport
+    location: Seattle
+    country: United States
+    timezone: America/Los_Angeles
+    lat: 47.449
+    lon: -122.309
+    hub: 0
   - id: EGLL
     iata: LHR
     icao: EGLL
@@ -152,16 +172,6 @@ airports:
     lat: 51.4775
     lon: -0.4614
     ground_handling_cost: 500
-  - id: LGRP
-    iata: RHO
-    icao: LGRP
-    name: Diagoras Airport
-    location: Rhodos
-    country: Greece
-    timezone: Europe/Athens
-    lat: 36.4054
-    lon: 28.0862
-    ground_handling_cost: 50
   - id: MKJP
     iata: KIN
     icao: MKJP
@@ -192,16 +202,7 @@ airports:
     lat: 25.2528
     lon: 55.3644
     ground_handling_cost: 50
-  - id: LOWW
-    iata: VIE
-    icao: LOWW
-    name: Vienna International Airport
-    location: Vienna
-    country: Austria
-    timezone: Europe/Vienna
-    lat: 48.1103
-    lon: 16.5697
-    ground_handling_cost: 50
+
 #
 aircraft:
   - id: 1
@@ -453,23 +454,6 @@ pireps:
     created_at: 2018-04-04T16:50:36+00:00
     updated_at: 2018-04-04T17:00:36+00:00
   - id: pirepid_2
-    user_id: 1
-    airline_id: 1
-    flight_number: 2023
-    aircraft_id: 2
-    dpt_airport_id: LGRP
-    arr_airport_id: LGRP
-    flight_time: 180  # 6 hours
-    state: 1
-    flight_type: J
-    route: PLMMR2 SPA Q22 BEARI FAK PHLBO3
-    notes: just a pilot report
-    source: 1 # pending
-    source_name: sample
-    submitted_at: NOW
-    created_at: NOW
-    updated_at: NOW
-  - id: pirepid_3
     user_id: 1
     airline_id: 1
     flight_number: 300

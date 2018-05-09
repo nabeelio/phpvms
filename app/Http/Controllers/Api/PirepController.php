@@ -421,6 +421,14 @@ class PirepController extends Controller
             $position['pirep_id'] = $id;
             $position['type'] = AcarsType::FLIGHT_PATH;
 
+            if(array_key_exists('sim_time', $position)) {
+                $position['sim_time'] = Carbon::createFromTimeString($position['sim_time']);
+            }
+
+            if (array_key_exists('created_at', $position)) {
+                $position['created_at'] = Carbon::createFromTimeString($position['created_at']);
+            }
+
             $update = Acars::create($position);
             $update->save();
 
