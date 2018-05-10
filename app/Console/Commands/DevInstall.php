@@ -11,7 +11,7 @@ use Modules\Installer\Services\ConfigService;
  */
 class DevInstall extends Command
 {
-    protected $signature = 'phpvms:dev-install {--reset-db}';
+    protected $signature = 'phpvms:dev-install {--reset-db} {--reset-configs}';
     protected $description = 'Run a developer install and run the sample migration';
 
     /**
@@ -28,7 +28,7 @@ class DevInstall extends Command
      */
     public function handle()
     {
-        if (!$this->option('reset-db')) {
+        if ($this->option('reset-configs')) {
             $this->rewriteConfigs();
         }
 
@@ -36,29 +36,23 @@ class DevInstall extends Command
         \App::boot();
 
         $this->info('Recreating database');
-        \Artisan::call('database:create', [
+        $this->call('database:create', [
             '--reset' => true,
         ]);
 
-        $this->info(\Artisan::output());
-
         $this->info('Running migrations');
-        \Artisan::call('migrate:fresh', [
+        $this->call('migrate:fresh', [
             '--seed' => true,
         ]);
-
-        $this->info(\Artisan::output());
 
         #
         #
 
         $this->info('Importing sample data');
         foreach($this->yaml_imports as $yml) {
-            \Artisan::call('phpvms:yaml-import', [
+            $this->call('phpvms:yaml-import', [
                 'files' => ['app/Database/seeds/' . $yml],
             ]);
-
-            $this->info(\Artisan::output());
         }
 
         $this->info('Done!');
