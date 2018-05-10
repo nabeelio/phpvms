@@ -15,6 +15,14 @@ class DevInstall extends Command
     protected $description = 'Run a developer install and run the sample migration';
 
     /**
+     * The YAML files with sample data to import
+     */
+    protected $yaml_imports = [
+        'sample.yml',
+        'acars.yml',
+    ];
+
+    /**
      * Run dev related commands
      * @throws \Symfony\Component\HttpFoundation\File\Exception\FileException
      */
@@ -34,9 +42,6 @@ class DevInstall extends Command
 
         $this->info(\Artisan::output());
 
-        #
-        #
-
         $this->info('Running migrations');
         \Artisan::call('migrate:fresh', [
             '--seed' => true,
@@ -48,11 +53,13 @@ class DevInstall extends Command
         #
 
         $this->info('Importing sample data');
-        \Artisan::call('phpvms:yaml-import', [
-            'files' => ['app/Database/seeds/sample.yml'],
-        ]);
+        foreach($this->yaml_imports as $yml) {
+            \Artisan::call('phpvms:yaml-import', [
+                'files' => ['app/Database/seeds/' . $yml],
+            ]);
 
-        $this->info(\Artisan::output());
+            $this->info(\Artisan::output());
+        }
 
         $this->info('Done!');
     }

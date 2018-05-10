@@ -58,11 +58,7 @@ reset: cleanapp/Models/Traits/JournalTrait.php
 
 .PHONY: reload-db
 reload-db:
-	@php artisan database:create --reset
-	@php artisan migrate:fresh --seed
-	@php artisan phpvms:yaml-import app/Database/seeds/sample.yml
-	@php artisan phpvms:yaml-import app/Database/seeds/acars.yml
-	#php artisan phpvms:navdata
+	@php artisan phpvms:dev-install --reset-db
 
 .PHONY: tests
 tests: test
