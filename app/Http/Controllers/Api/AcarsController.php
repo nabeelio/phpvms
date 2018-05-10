@@ -182,6 +182,14 @@ class AcarsController extends Controller
             $log['pirep_id'] = $id;
             $log['type'] = AcarsType::LOG;
 
+            if (array_key_exists('sim_time', $log)) {
+                $log['sim_time'] = Carbon::createFromTimeString($log['sim_time']);
+            }
+
+            if (array_key_exists('created_at', $log)) {
+                $log['created_at'] = Carbon::createFromTimeString($log['created_at']);
+            }
+
             $acars = Acars::create($log);
             $acars->save();
             ++$count;
@@ -213,6 +221,14 @@ class AcarsController extends Controller
             $log['pirep_id'] = $id;
             $log['type'] = AcarsType::LOG;
             $log['log'] = $log['event'];
+
+            if (array_key_exists('sim_time', $log)) {
+                $log['sim_time'] = Carbon::createFromTimeString($log['sim_time']);
+            }
+
+            if (array_key_exists('created_at', $log)) {
+                $log['created_at'] = Carbon::createFromTimeString($log['created_at']);
+            }
 
             $acars = Acars::create($log);
             $acars->save();
