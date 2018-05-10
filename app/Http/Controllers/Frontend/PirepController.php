@@ -26,6 +26,7 @@ use Flash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Log;
+use PirepStatus;
 
 /**
  * Class PirepController
@@ -292,6 +293,17 @@ class PirepController extends Controller
         $this->saveFares($pirep, $request);
         $this->pirepSvc->saveRoute($pirep);
 
+        // Depending on the button they selected, set an initial state
+        // Can be saved as a draft or just submitted
+        if ($attrs['submit'] === 'save') {
+            $pirep->status = PirepState::DRAFT;
+            $pirep->save();
+            Flash::success('PIREP saved successfully.');
+        } else if ($attrs['submit'] === 'submit') {
+            $this->pirepSvc->submit($pirep);
+            Flash::success('PIREP submitted!');
+        }
+
         return redirect(route('frontend.pireps.show', ['id' => $pirep->id]));
     }
 
@@ -344,15 +356,12 @@ class PirepController extends Controller
     public function update($id, UpdatePirepRequest $request)
     {
         $pirep = $this->pirepRepo->findWithoutFail($id);
-
         if (empty($pirep)) {
             Flash::error('Pirep not found');
-
             return redirect(route('admin.pireps.index'));
         }
 
         $orig_route = $pirep->route;
-
         $attrs = $request->all();
 
         # Fix the time
@@ -370,8 +379,39 @@ class PirepController extends Controller
         $this->saveCustomFields($pirep, $request);
         $this->saveFares($pirep, $request);
 
-        Flash::success('Pirep updated successfully.');
+        if($attrs['submit'] === 'save') {
+            Flash::success('PIREP saved successfully.');
+        } else if($attrs['submit'] === 'submit') {
+            $this->pirepSvc->submit($pirep);
+            Flash::success('PIREP submitted!');
+        } else if($attrs['submit'] === 'cancel') {
+            $this->pirepRepo->update([
+                'state'  => PirepState::CANCELLED,
+                'status' => PirepStatus::CANCELLED,
+            ], $pirep->id);
 
+            Flash::success('PIREP cancelled!');
+            return redirect(route('frontend.pireps.index'));
+        }
+
+        return redirect(route('frontend.pireps.show', ['id' => $pirep->id]));
+    }
+
+    /**
+     * Submit the PIREP
+     * @param         $id
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function submit($id, Request $request)
+    {
+        $pirep = $this->pirepRepo->findWithoutFail($id);
+        if (empty($pirep)) {
+            Flash::error('PIREP not found');
+            return redirect(route('admin.pireps.index'));
+        }
+
+        $this->pirepSvc->submit($pirep);
         return redirect(route('frontend.pireps.show', ['id' => $pirep->id]));
     }
 }

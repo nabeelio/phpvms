@@ -461,7 +461,7 @@ pireps:
     dpt_airport_id: KJFK
     arr_airport_id: KAUS
     flight_time: 180  # 6 hours
-    state: 1 # pending
+    state: 5 # draft
     source: 0 # manual
     flight_type: J
     route: PLMMR2 SPA Q22 BEARI FAK PHLBO3

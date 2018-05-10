@@ -308,8 +308,31 @@ flight reports that have been filed. You've been warned!
     <div class="col-sm-12">
         <div class="float-right">
             <div class="form-group">
-                {{--{{ Form::button('Save Draft', ['class' => 'btn btn-primary']) }}--}}
-                {{ Form::submit('Save PIREP', ['class' => 'btn btn-info']) }}
+
+                @if(isset($pirep) && !$pirep->read_only)
+                    {{ Form::button('Delete PIREP', [
+                        'name' => 'submit',
+                        'value' => 'cancel',
+                        'class' => 'btn btn-warning',
+                        'type' => 'submit'])
+                        }}
+                @endif
+
+                @if(!isset($pirep) || (filled($pirep) && !$pirep->read_only))
+                    {{ Form::button('Save PIREP', [
+                        'name' => 'submit',
+                        'value' => 'save',
+                        'class' => 'btn btn-info',
+                        'type' => 'submit'])
+                    }}
+
+                    {{ Form::button('Submit PIREP', [
+                        'name' => 'submit',
+                        'value' => 'submit',
+                        'class' => 'btn btn-success',
+                        'type' => 'submit'])
+                    }}
+                @endif
             </div>
         </div>
     </div>

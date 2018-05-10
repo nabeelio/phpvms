@@ -62,7 +62,7 @@ return [
         ],
         'state' => [
             'accepted'    => 'Accepted',
-            'pending'     => 'Pending',
+            'pending'     => 'Pending Approval',
             'rejected'    => 'Rejected',
             'in_progress' => 'In Progress',
             'cancelled'   => 'Cancelled',

@@ -37,6 +37,7 @@ Route::group([
 
     Route::get('pireps/fares', 'PirepController@fares');
     Route::resource('pireps', 'PirepController');
+    Route::post('pireps/{id}/submit', 'PirepController@submit')->name('pireps.submit');
 
     Route::get('profile/regen_apikey', 'ProfileController@regen_apikey')
         ->name('profile.regen_apikey');

@@ -2,13 +2,12 @@
 @section('title', 'PIREP '.$pirep->ident)
 
 @section('content')
-
     <div class="row">
         <div class="col-8">
             <div class="row">
                 <div class="col-12">
                     <p>
-                    <h2 style="margin-bottom: 5px;">{{$pirep->airline->code}}{{ $pirep->ident }}</h2>
+                        <h2 style="margin-bottom: 5px;">{{$pirep->airline->code}}{{ $pirep->ident }}</h2>
                         <p>
                             @if($pirep->state === PirepState::IN_PROGRESS)
 
@@ -17,7 +16,6 @@
                             @endif
                         </p>
                     </p>
-
                 </div>
             </div>
             <div class="row">
@@ -62,9 +60,6 @@
                         <div class="progress-bar progress-bar-success" role="progressbar"
                              aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"
                              style="width: {{$pirep->progress_percent}}%;">
-                            {{--<p style="padding: 10px">
-                                {{ Utils::minutesToTimeString($pirep->flight_time) }}
-                            </p>--}}
                         </div>
                     </div>
                 </div>
@@ -86,26 +81,26 @@
         <div class="col-4">
 
             <h2>&nbsp;</h2>
-            <table class="table table-striped">
-                {{--<tr>
-                    <td width="30%">Status</td>
-                    <td>
-                        @php
-                        if($pirep->state === PirepState::PENDING)
-                            $badge = 'warning';
-                        elseif ($pirep->state === PirepState::ACCEPTED)
-                            $badge = 'success';
-                        elseif ($pirep->state === PirepState::REJECTED)
-                            $badge = 'danger';
-                        else
-                            $badge = 'info';
-                        @endphp
-                        <div class="badge badge-{{$badge}}">
-                            {{ PirepState::label($pirep->state) }}
-                        </div>
-                    </td>
-                </tr>--}}
 
+            {{-- Show the link to edit if it can be edited --}}
+            @if(!$pirep->read_only)
+                <div class="float-right" style="margin-bottom: 10px;">
+                    <form method="get"
+                          action="{{ route('frontend.pireps.edit', ['id' => $pirep->id]) }}"
+                          style="display: inline">
+                        @csrf
+                        <button class="btn btn-info">Edit</button>
+                    </form>
+                    &nbsp;
+                    <form method="post"
+                          action="{{ route('frontend.pireps.submit', ['id' => $pirep->id]) }}"
+                          style="display: inline">
+                        @csrf
+                        <button class="btn btn-success">Submit</button>
+                    </form>
+                </div>
+            @endif
+            <table class="table table-striped">
                 <tr>
                     <td width="30%">State</td>
                     <td>
@@ -119,20 +114,6 @@
                     <td>Source</td>
                     <td>{{ PirepSource::label($pirep->source) }}</td>
                 </tr>
-                {{--<tr>--}}
-                    {{--<td>Departure/Arrival</td>--}}
-                    {{--<td>--}}
-                        {{--{{ $pirep->dpt_airport->name }}--}}
-                        {{--(<a href="{{route('frontend.airports.show', [--}}
-                            {{--'id' => $pirep->dpt_airport->icao--}}
-                            {{--])}}">{{$pirep->dpt_airport->icao}}</a>)--}}
-                        {{--<span class="description">to</span>--}}
-                        {{--{{ $pirep->arr_airport->name }}--}}
-                        {{--(<a href="{{route('frontend.airports.show', [--}}
-                            {{--'id' => $pirep->arr_airport->icao--}}
-                            {{--])}}">{{$pirep->arr_airport->icao}}</a>)--}}
-                    {{--</td>--}}
-                {{--</tr>--}}
 
                 <tr>
                     <td>Flight Type</td>

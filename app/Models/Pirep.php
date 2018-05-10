@@ -109,19 +109,7 @@ class Pirep extends Model
         'score'               => 'integer',
         'source'              => 'integer',
         'state'               => 'integer',
-        #'block_off_time'      => 'datetime',
-        #'block_on_time'       => 'datetime',
-        #'submitted_at'        => 'datetime',
     ];
-
-    /*protected $dates = [
-        'block_off_time',
-        'block_on_time',
-        'submitted_at',
-        'created_at',
-        'updated_at',
-        'deleted_at'
-    ];*/
 
     public static $rules = [
         'airline_id'     => 'required|exists:airlines,id',
@@ -133,10 +121,15 @@ class Pirep extends Model
         'route'          => 'nullable',
     ];
 
-    /*public static $sanitize = [
-        'dpt_airport_id' => 'trim|uppercase',
-        'arr_airport_id' => 'trim|uppercase',
-    ];*/
+    /**
+     * If a PIREP is in these states, then it can't be changed.
+     */
+    public static $read_only_states = [
+        PirepState::ACCEPTED,
+        PirepState::REJECTED,
+        PirepState::PENDING,
+        PirepState::CANCELLED,
+    ];
 
     /**
      * Get the flight ident, e.,g JBU1900
@@ -240,8 +233,7 @@ class Pirep extends Model
      */
     public function getReadOnlyAttribute(): bool
     {
-        return $this->state !== PirepState::PENDING
-                && $this->state != PirepState::IN_PROGRESS;
+        return \in_array($this->state, static::$read_only_states, true);
     }
 
     /**
@@ -375,11 +367,7 @@ class Pirep extends Model
      */
     public function allowedUpdates(): bool
     {
-        if ($this->state === PirepState::CANCELLED) {
-            return false;
-        }
-
-        return true;
+        return ! $this->getReadOnlyAttribute();
     }
 
     /**

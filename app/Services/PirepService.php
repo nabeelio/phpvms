@@ -172,19 +172,6 @@ class PirepService extends Service
             $field_values = [];
         }
 
-        # Figure out what default state should be. Look at the default
-        # behavior from the rank that the pilot is assigned to
-        $default_state = PirepState::PENDING;
-        if ($pirep->source === PirepSource::ACARS) {
-            if ($pirep->pilot->rank->auto_approve_acars) {
-                $default_state = PirepState::ACCEPTED;
-            }
-        } else {
-            if ($pirep->pilot->rank->auto_approve_manual) {
-                $default_state = PirepState::ACCEPTED;
-            }
-        }
-
         # Check the block times. If a block on (arrival) time isn't
         # specified, then use the time that it was submitted. It won't
         # be the most accurate, but that might be OK
@@ -214,6 +201,28 @@ class PirepService extends Service
             $this->updateCustomFields($pirep->id, $field_values);
         }
 
+        return $pirep;
+    }
+
+    /**
+     * Submit the PIREP. Figure out its default state
+     * @param Pirep $pirep
+     */
+    public function submit(Pirep $pirep)
+    {
+        # Figure out what default state should be. Look at the default
+        # behavior from the rank that the pilot is assigned to
+        $default_state = PirepState::PENDING;
+        if ($pirep->source === PirepSource::ACARS) {
+            if ($pirep->pilot->rank->auto_approve_acars) {
+                $default_state = PirepState::ACCEPTED;
+            }
+        } else {
+            if ($pirep->pilot->rank->auto_approve_manual) {
+                $default_state = PirepState::ACCEPTED;
+            }
+        }
+
         Log::info('New PIREP filed', [$pirep]);
         event(new PirepFiled($pirep));
 
@@ -224,15 +233,13 @@ class PirepService extends Service
         }
 
         # Check the user state, set them to ACTIVE if on leave
-        if($pirep->user->state !== UserState::ACTIVE) {
+        if ($pirep->user->state !== UserState::ACTIVE) {
             $old_state = $pirep->user->state;
             $pirep->user->state = UserState::ACTIVE;
             $pirep->user->save();
 
             event(new UserStateChanged($pirep->user, $old_state));
         }
-
-        return $pirep;
     }
 
     /**

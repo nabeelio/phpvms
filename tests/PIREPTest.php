@@ -231,6 +231,7 @@ class PIREPTest extends TestCase
 
         # Pilot should be at rank 2, where accept should be automatic
         $this->pirepSvc->create($pirep);
+        $this->pirepSvc->submit($pirep);
 
         $pilot->refresh();
         $latest_pirep = Pirep::where('id', $pilot->last_pirep_id)->first();
