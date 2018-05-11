@@ -128,7 +128,7 @@ class Pirep extends Model
     public static $read_only_states = [
         PirepState::ACCEPTED,
         PirepState::REJECTED,
-        PirepState::PENDING,
+        //PirepState::PENDING,
         PirepState::CANCELLED,
     ];
 

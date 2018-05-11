@@ -1,7 +1,7 @@
 @if($aircraft)
 <table class="table table-hover table-responsive">
     <thead>
-        <th></th>
+        <th>Fare</th>
         <th>Count</th>
     </thead>
     </thead>
