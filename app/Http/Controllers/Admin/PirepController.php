@@ -191,7 +191,7 @@ class PirepController extends Controller
         $this->pirepRepo->pushCriteria($criterea);
 
         $pireps = $this->pirepRepo
-            ->whereNotInOrder('status', [
+            ->whereNotInOrder('state', [
                 PirepState::CANCELLED,
                 PirepState::DRAFT,
                 PirepState::IN_PROGRESS
