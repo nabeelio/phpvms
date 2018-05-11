@@ -400,7 +400,7 @@ class Pirep extends Model
     {
         return $this->hasMany(Acars::class, 'pirep_id')
             ->where('type', AcarsType::LOG)
-            ->orderBy('created_at', 'asc');
+            ->orderBy('created_at', 'desc');
     }
 
     public function acars_route()
