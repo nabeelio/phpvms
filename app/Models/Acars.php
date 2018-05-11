@@ -12,11 +12,16 @@ use PhpUnitsOfMeasure\Exception\NonStringUnitName;
 /**
  * Class Acars
  * @param string id
- * @property mixed gs
- * @property mixed lat
- * @property mixed lon
- * @property mixed altitude
- * @property mixed heading
+ * @property string pirep_id
+ * @property int    type
+ * @property string name
+ * @property double lat
+ * @property double lon
+ * @property double altitude
+ * @property int    gs
+ * @property int    heading
+ * @property int    order
+ * @property int    nav_type
  * @package App\Models
  */
 class Acars extends Model
@@ -64,15 +69,15 @@ class Acars extends Model
         'fuel'        => 'float',
         'fuel_flow'   => 'float',
     ];
+    /*public static $sanitize = [
+        'sim_time' => 'carbon',
+        'created_at' => '',
+    ];*/
 
     public static $rules = [
         'pirep_id' => 'required',
     ];
 
-    /*public static $sanitize = [
-        'sim_time' => 'carbon',
-        'created_at' => '',
-    ];*/
 
     /**
      * Return a new Length unit so conversions can be made

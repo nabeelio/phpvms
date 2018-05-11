@@ -102,7 +102,7 @@ class PirepController extends Controller
      */
     protected function checkCancelled(Pirep $pirep)
     {
-        if (!$pirep->allowedUpdates()) {
+        if ($pirep->cancelled) {
             throw new PirepCancelled();
         }
     }

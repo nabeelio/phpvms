@@ -33,8 +33,9 @@ use PhpUnitsOfMeasure\Exception\NonStringUnitName;
  * @property integer     block_time
  * @property integer     flight_time    In minutes
  * @property integer     planned_flight_time
- * @property mixed       planned_distance
- * @property mixed       distance
+ * @property double      distance
+ * @property double      planned_distance
+ * @property string      route
  * @property integer     score
  * @property User        user
  * @property Flight|null flight
@@ -359,6 +360,14 @@ class Pirep extends Model
     {
         $route = strtoupper(trim($route));
         $this->attributes['route'] = $route;
+    }
+
+    /**
+     * Return if this is cancelled or not
+     */
+    public function getCancelledAttribute()
+    {
+        return $this->state === PirepState::CANCELLED;
     }
 
     /**
