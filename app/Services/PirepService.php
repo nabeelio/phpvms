@@ -32,35 +32,23 @@ use Log;
  */
 class PirepService extends Service
 {
-    private $acarsRepo,
-            $flightRepo,
-            $geoSvc,
-            $navRepo,
+    private $geoSvc,
             $pilotSvc,
             $pirepRepo;
 
     /**
      * PirepService constructor.
-     * @param AcarsRepository   $acarsRepo
-     * @param FlightRepository  $flightRepo
      * @param GeoService        $geoSvc
-     * @param NavdataRepository $navRepo
      * @param PirepRepository   $pirepRepo
      * @param UserService       $pilotSvc
      */
     public function __construct(
-        AcarsRepository $acarsRepo,
-        FlightRepository $flightRepo,
         GeoService $geoSvc,
-        NavdataRepository $navRepo,
         PirepRepository $pirepRepo,
         UserService $pilotSvc
     ) {
-        $this->acarsRepo = $acarsRepo;
-        $this->flightRepo = $flightRepo;
         $this->geoSvc = $geoSvc;
         $this->pilotSvc = $pilotSvc;
-        $this->navRepo = $navRepo;
         $this->pirepRepo = $pirepRepo;
     }
 
