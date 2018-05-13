@@ -411,6 +411,12 @@ flight_field_values:
 flight_subfleet:
   - subfleet_id: 1
     flight_id: flightid_1
+  - subfleet_id: 1
+    flight_id: flightid_2
+  - subfleet_id: 1
+    flight_id: flightid_3
+  - subfleet_id: 1
+    flight_id: flightid_4
 
 bids:
   - id: 100

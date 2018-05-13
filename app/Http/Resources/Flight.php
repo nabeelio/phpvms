@@ -25,6 +25,8 @@ class Flight extends Resource
     {
         $flight = parent::toArray($request);
 
+        $flight['ident'] = $this->ident;
+
         // Return multiple measures so the client can pick what they want
         if ($this->distance instanceof Distance) {
             $flight['distance'] = $this->distance->units;
