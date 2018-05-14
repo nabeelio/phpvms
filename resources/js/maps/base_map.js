@@ -12,6 +12,10 @@ export default (opts) => {
         maxZoom: 10,
         layers: [],
         set_marker: false,
+        providers: [
+            'Esri.WorldStreetMap',
+        ],
+        tile_layers: [],
     }, opts);
 
     /*
@@ -50,7 +54,9 @@ export default (opts) => {
         scrollWheelZoom: false,
     });
 
-    leaflet.tileLayer.provider('Esri.WorldStreetMap').addTo(map);
+    for(const i in opts.providers) {
+        leaflet.tileLayer.provider(opts.providers[i]).addTo(map);
+    }
 
     return map;
 };
