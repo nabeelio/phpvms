@@ -20,6 +20,10 @@ class Http
      */
     public static function get($uri, array $opts)
     {
+        $opts = array_merge([
+            'connect_timeout' => 2, // wait two seconds by default
+        ], $opts);
+
         $client = new Client();
         $response = $client->request('GET', $uri, $opts);
 

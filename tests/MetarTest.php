@@ -17,6 +17,16 @@ class MetarTest extends TestCase
     }
 
     /**
+     * Make sure a blank metar doesn't give problems
+     */
+    public function testBlankMetar()
+    {
+        $metar = '';
+        $parsed = Metar::parse($metar);
+        $this->assertEquals('', $parsed['raw']);
+    }
+
+    /**
      * Test adding/subtracting a percentage
      */
     public function testMetar1()

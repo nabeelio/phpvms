@@ -4,6 +4,7 @@ namespace App\Services\Metar;
 
 use App\Interfaces\Metar;
 use App\Support\Http;
+use Cache;
 
 /**
  * Return the raw METAR string from the NOAA Aviation Weather Service
@@ -20,13 +21,25 @@ class AviationWeather extends Metar
      * Implement the METAR - Return the string
      * @param $icao
      * @return string
-     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     protected function metar($icao): string
     {
-        $url = static::METAR_URL.$icao;
-        $res = Http::get($url, []);
-        $xml = simplexml_load_string($res);
-        return $xml->data->METAR->raw_text->__toString();
+        $metar = Cache::remember(
+            config('cache.keys.WEATHER_LOOKUP.key').$icao,
+            config('cache.keys.WEATHER_LOOKUP.time'),
+            function () use ($icao) {
+                $url = static::METAR_URL.$icao;
+                try {
+                    $res = Http::get($url, []);
+                    $xml = simplexml_load_string($res);
+                    return $xml->data->METAR->raw_text->__toString();
+
+                } catch (\Exception $e) {
+                    return '';
+                }
+            }
+        );
+
+        return $metar;
     }
 }

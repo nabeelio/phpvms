@@ -84,13 +84,12 @@ class AirportController extends Controller
     {
         $airport = Cache::remember(
             config('cache.keys.AIRPORT_VACENTRAL_LOOKUP.key').$id,
-            config('cache.keys.RANKS_PILOT_LIST.time'),
+            config('cache.keys.AIRPORT_VACENTRAL_LOOKUP.time'),
             function () use ($id) {
                 try {
                     return AirportLookup::get($id);
                 } catch (\VaCentral\HttpException $e) {
                     Log::error($e);
-
                     return [];
                 }
             }

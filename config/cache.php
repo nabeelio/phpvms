@@ -12,7 +12,7 @@ return [
         ],
         'WEATHER_LOOKUP' => [
             'key' => 'airports.weather.', // append icao
-            'time' => 60 * 30,  // Cache for 30 minutes
+            'time' => 60 * 60,  // Cache for 60 minutes
         ],
         'RANKS_PILOT_LIST' => [
             'key' => 'ranks.pilot_list',
