@@ -4346,6 +4346,10 @@ leaflet-ajax@2.1.0:
   dependencies:
     lie "^3.0.1"
 
+leaflet-providers@^1.1.17:
+  version "1.1.17"
+  resolved "https://registry.yarnpkg.com/leaflet-providers/-/leaflet-providers-1.1.17.tgz#674628895dacae7f185ec0896039e95bbbadee46"
+
 leaflet-rotatedmarker@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/leaflet-rotatedmarker/-/leaflet-rotatedmarker-0.2.0.tgz#4467f49f98d1bfd56959bd9c6705203dd2601277"
