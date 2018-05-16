@@ -15,6 +15,8 @@ import { ACTUAL_ROUTE_COLOR } from './config'
 export default (opts) => {
 
     opts = Object.assign({
+        center: [29.98139, -95.33374],
+        zoom: 5,
         update_uri: '/api/acars',
         pirep_uri: '/api/pireps/{id}',
         pirep_link_uri: '/pireps/{id}',

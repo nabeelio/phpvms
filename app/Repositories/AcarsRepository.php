@@ -7,6 +7,7 @@ use App\Models\Acars;
 use App\Models\Enums\AcarsType;
 use App\Models\Enums\PirepState;
 use App\Models\Pirep;
+use Carbon\Carbon;
 
 /**
  * Class AcarsRepository
@@ -51,14 +52,21 @@ class AcarsRepository extends Repository
     /**
      * Get all of the PIREPS that are in-progress, and then
      * get the latest update for those flights
+     * @param int $live_time Age in hours of the oldest flights to show
      * @return Pirep
      */
-    public function getPositions()
+    public function getPositions($live_time = 0)
     {
-        return Pirep::with(['airline', 'position', 'aircraft'])
-            ->where(['state' => PirepState::IN_PROGRESS])
-            ->orderBy('created_at', 'desc')
-            ->get();
+        $q = Pirep::with(['airline', 'position', 'aircraft'])
+            ->where(['state' => PirepState::IN_PROGRESS]);
+
+        if($live_time !== null && $live_time > 0) {
+            $st = Carbon::now('UTC')->subHours($live_time);
+            $q = $q->whereDate('created_at', '>=', $st);
+        }
+
+        $q = $q->orderBy('created_at', 'desc');
+        return $q->get();
     }
 
     /**

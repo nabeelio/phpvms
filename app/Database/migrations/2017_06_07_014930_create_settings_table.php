@@ -123,6 +123,35 @@ class CreateSettingsTable extends Migration
         ]);
 
         /**
+         * ACARS Settings
+         */
+
+        $this->addSetting('acars.live_time', [
+            'name'        => 'Live Time',
+            'group'       => 'acars',
+            'value'       => 12,
+            'type'        => 'int',
+            'description' => 'Age of flights to show on the map in hours. '
+                            .'Set to 0 to show only all in-progress flights',
+        ]);
+
+        $this->addSetting('acars.center_coords', [
+            'name'        => 'Center Coords',
+            'group'       => 'acars',
+            'value'       => '30.1945,-97.6699',
+            'type'        => 'text',
+            'description' => 'Where to center the map; enter as LAT,LON',
+        ]);
+
+        $this->addSetting('acars.default_zoom', [
+            'name'        => 'Default Zoom',
+            'group'       => 'acars',
+            'value'       => 5,
+            'type'        => 'int',
+            'description' => 'Initial zoom level on the map',
+        ]);
+
+        /**
          * BIDS
          */
 

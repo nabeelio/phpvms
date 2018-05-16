@@ -110,11 +110,13 @@ and being mindful of the rivets bindings
 @section('scripts')
 <script>
 phpvms.map.render_live_map({
-    'update_uri': '{!! url('/api/acars') !!}',
-    'pirep_uri': '{!! url('/api/pireps/{id}') !!}',
-    'pirep_link_uri': '{!! url('/pireps/{id}') !!}',
-    'aircraft_icon': '{!! public_asset('/assets/img/acars/aircraft.png') !!}',
-    'units': '{{ setting('units.distance') }}',
+    center: ['{{ $center[0] }}', '{{ $center[1] }}'],
+    zoom: '{{ $zoom }}',
+    update_uri: '{!! url('/api/acars') !!}',
+    pirep_uri: '{!! url('/api/pireps/{id}') !!}',
+    pirep_link_uri: '{!! url('/pireps/{id}') !!}',
+    aircraft_icon: '{!! public_asset('/assets/img/acars/aircraft.png') !!}',
+    units: '{{ setting('units.distance') }}',
 });
 </script>
 @endsection

@@ -1448,16 +1448,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.6.20",
+            "version": "v5.6.22",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "3c11e7acc6ad14dd86e2f9e4bf3230010c3e611c"
+                "reference": "637fd797a6dde8d24a9f07da77e375ec251c5d24"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/3c11e7acc6ad14dd86e2f9e4bf3230010c3e611c",
-                "reference": "3c11e7acc6ad14dd86e2f9e4bf3230010c3e611c",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/637fd797a6dde8d24a9f07da77e375ec251c5d24",
+                "reference": "637fd797a6dde8d24a9f07da77e375ec251c5d24",
                 "shasum": ""
             },
             "require": {
@@ -1583,20 +1583,20 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2018-05-02T15:22:18+00:00"
+            "time": "2018-05-15T13:34:20+00:00"
         },
         {
             "name": "laravelcollective/html",
-            "version": "v5.6.7",
+            "version": "v5.6.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/LaravelCollective/html.git",
-                "reference": "38f2c6ff0d3dfc497175a5cff5e24b3937f6e2c9"
+                "reference": "42c0854e00d6bb3346883d122b444fbf15a13ecb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/LaravelCollective/html/zipball/38f2c6ff0d3dfc497175a5cff5e24b3937f6e2c9",
-                "reference": "38f2c6ff0d3dfc497175a5cff5e24b3937f6e2c9",
+                "url": "https://api.github.com/repos/LaravelCollective/html/zipball/42c0854e00d6bb3346883d122b444fbf15a13ecb",
+                "reference": "42c0854e00d6bb3346883d122b444fbf15a13ecb",
                 "shasum": ""
             },
             "require": {
@@ -1651,7 +1651,7 @@
             ],
             "description": "HTML and Form Builders for the Laravel Framework",
             "homepage": "https://laravelcollective.com",
-            "time": "2018-04-26T16:09:18+00:00"
+            "time": "2018-05-10T17:15:15+00:00"
         },
         {
             "name": "league/csv",
@@ -1722,16 +1722,16 @@
         },
         {
             "name": "league/flysystem",
-            "version": "1.0.44",
+            "version": "1.0.45",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "168dbe519737221dc87d17385cde33073881fd02"
+                "reference": "a99f94e63b512d75f851b181afcdf0ee9ebef7e6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/168dbe519737221dc87d17385cde33073881fd02",
-                "reference": "168dbe519737221dc87d17385cde33073881fd02",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/a99f94e63b512d75f851b181afcdf0ee9ebef7e6",
+                "reference": "a99f94e63b512d75f851b181afcdf0ee9ebef7e6",
                 "shasum": ""
             },
             "require": {
@@ -1802,7 +1802,7 @@
                 "sftp",
                 "storage"
             ],
-            "time": "2018-04-06T09:58:14+00:00"
+            "time": "2018-05-07T08:44:23+00:00"
         },
         {
             "name": "league/geotools",
