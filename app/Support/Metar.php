@@ -15,21 +15,21 @@ use App\Support\Units\Temperature;
  */
 
 /*
-	===========================
-	HSDN METAR/TAF Parser Class
-	===========================
-	Version: 0.55.4b
-	Based on GetWx script by Mark Woodward.
-	(c) 2013-2015, Information Networks, Ltd. (http://www.hsdn.org/)
-	(c) 2001-2006, Mark Woodward (http://woody.cowpi.com/phpscripts/)
-		This script is a PHP library which allows to parse the METAR and TAF code,
-	and convert it to an array of data parameters. These METAR or TAF can be given
-	in the form of the ICAO code string (in this case, the script will receive data
-	from the NOAA website) or in raw format (just METAR/TAF code string). METAR or
-	TAF code parsed using the syntactic analysis and regular expressions. It solves
-	the problem of parsing the data in the presence of any error in the code METAR
-	or TAF. In addition to the return METAR parameters, the script also displays the
-	interpreted (easy to understand) information of these parameters.
+    ===========================
+    HSDN METAR/TAF Parser Class
+    ===========================
+    Version: 0.55.4b
+    Based on GetWx script by Mark Woodward.
+    (c) 2013-2015, Information Networks, Ltd. (http://www.hsdn.org/)
+    (c) 2001-2006, Mark Woodward (http://woody.cowpi.com/phpscripts/)
+        This script is a PHP library which allows to parse the METAR and TAF code,
+    and convert it to an array of data parameters. These METAR or TAF can be given
+    in the form of the ICAO code string (in this case, the script will receive data
+    from the NOAA website) or in raw format (just METAR/TAF code string). METAR or
+    TAF code parsed using the syntactic analysis and regular expressions. It solves
+    the problem of parsing the data in the presence of any error in the code METAR
+    or TAF. In addition to the return METAR parameters, the script also displays the
+    interpreted (easy to understand) information of these parameters.
 */
 class Metar implements \ArrayAccess
 {

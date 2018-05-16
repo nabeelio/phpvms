@@ -52,7 +52,7 @@ https://api.checkwx.com/#metar-decoded
                 {{$metar['wind_speed']}} kts @lang('frontend.global.from') {{$metar['wind_direction_label']}}
                 ({{$metar['wind_direction']}}°)
                 @if($metar['wind_gust_speed'])
-					@lang('frontend.widgets.weather.guststo') {{ $metar['wind_gust_speed'] }}
+                    @lang('frontend.widgets.weather.guststo') {{ $metar['wind_gust_speed'] }}
                 @endif
             </td>
         </tr>
