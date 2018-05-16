@@ -1,5 +1,5 @@
 @extends('app')
-@section('title', 'registration denied')
+@section('title', __('Registration Denied'))
 
 @section('content')
 <div class="row">
@@ -7,7 +7,7 @@
         <div class="flex-center position-ref full-height">
             <div class="title m-b-md">
                 <h2 class="description">
-                    your registration was denied. please contact an administrator
+				{{ __('Your registration was denied. Please contact an administrator.') }}
                 </h2>
             </div>
         </div>

@@ -2,7 +2,7 @@
     <div class="col-md-12">
         <table class="table">
             <tr>
-                <td>Name</td>
+                <td>{{ __('Name') }}</td>
                 <td>
                     <div class="input-group form-group-no-border{{ $errors->has('name') ? ' has-danger' : '' }}">
                         {{ Form::text('name', null, ['class' => 'form-control']) }}
@@ -14,7 +14,7 @@
             </tr>
 
             <tr>
-                <td>Email</td>
+                <td>{{ __('Email') }}</td>
                 <td>
                     <div class="input-group form-group-no-border{{ $errors->has('email') ? ' has-danger' : '' }}">
                         {{ Form::text('email', null, ['class' => 'form-control']) }}
@@ -26,7 +26,7 @@
             </tr>
 
             <tr>
-                <td>Airline</td>
+                <td>{{ __('Airline') }}</td>
                 <td>
                     <div class="input-group form-group-no-border{{ $errors->has('airline') ? ' has-danger' : '' }}">
                         {{ Form::select('airline_id', $airlines, null , ['class' => 'form-control select2']) }}
@@ -38,7 +38,7 @@
             </tr>
 
             <tr>
-                <td>Home Airport</td>
+                <td>{{ __('Home Airport') }}</td>
                 <td>
                     <div class="input-group form-group-no-border{{ $errors->has('home_airport_id') ? ' has-danger' : '' }}">
                         {{ Form::select('home_airport_id', $airports, null , ['class' => 'form-control select2']) }}
@@ -50,7 +50,7 @@
             </tr>
 
             <tr>
-                <td>Country</td>
+                <td>{{ __('Country') }}</td>
                 <td>
                     <div class="input-group form-group-no-border{{ $errors->has('country') ? ' has-danger' : '' }}">
                         {{ Form::select('country', $countries, null, ['class' => 'form-control select2' ]) }}
@@ -62,7 +62,7 @@
             </tr>
 
             <tr>
-                <td>Timezone</td>
+                <td>{{ __('Timezone') }}</td>
                 <td>
                     <div class="input-group form-group-no-border{{ $errors->has('timezone') ? ' has-danger' : '' }}">
                         {{ Form::select('timezone', $timezones, null, ['class' => 'form-control select2' ]) }}
@@ -74,7 +74,7 @@
             </tr>
 
             <tr>
-                <td>Change Password</td>
+                <td>{{ __('Change Password') }}</td>
                 <td>
                     <div class="input-group form-group-no-border{{ $errors->has('password') ? ' has-danger' : '' }}">
                         {{ Form::password('password', ['class' => 'form-control']) }}
@@ -83,7 +83,7 @@
                         <p class="text-danger">{{ $errors->first('password') }}</p>
                     @endif
 
-                    <p>Confirm Password:</p>
+                    <p>{{ __('Confirm Password') }}:</p>
                     <div class="input-group form-group-no-border{{ $errors->has('password_confirmation') ? ' has-danger' : '' }}">
                         {{ Form::password('password_confirmation', ['class' => 'form-control']) }}
                     </div>
@@ -92,7 +92,7 @@
                     @endif
                 </td>
             </tr>
-            <td>Avatar</td>
+            <td>{{ __('Avatar') }}</td>
             <td>
                 <div class="input-group form-group-no-border{{ $errors->has('avatar') ? ' has-danger' : '' }}">
                     {{ Form::file('avatar', null) }}
@@ -106,7 +106,7 @@
         </table>
 
         <div style="width: 100%; text-align: right; padding-top: 20px;">
-            {{ Form::submit('Update Profile', ['class' => 'btn btn-primary']) }}
+            {{ Form::submit(__('Update Profile'), ['class' => 'btn btn-primary']) }}
         </div>
     </div>
 </div>

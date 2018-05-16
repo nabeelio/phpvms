@@ -1,5 +1,5 @@
 @extends('auth.layout')
-@section('title', 'Log In')
+@section('title', __('Log In'))
 
 @section('content')
 <div class="col-md-4 content-center">
@@ -51,16 +51,16 @@
 
             </div>
             <div class="footer text-center">
-                <button href="#pablo" class="btn btn-primary btn-round btn-lg btn-block">login</button>
+                <button href="#pablo" class="btn btn-primary btn-round btn-lg btn-block">{{ __('Login') }}</button>
             </div>
             <div class="pull-left">
                 <h6>
-                    <a href="{{ url('/register') }}" class="link">Create Account</a>
+                    <a href="{{ url('/register') }}" class="link">{{ __('Create Account') }}</a>
                 </h6>
             </div>
             <div class="pull-right">
                 <h6>
-                    <a href="{{ url('/password/reset') }}" class="link">Forgot Password?</a>
+                    <a href="{{ url('/password/reset') }}" class="link">{{ __('Forgot Password') }}?</a>
                 </h6>
             </div>
         {{ Form::close() }}

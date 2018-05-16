@@ -1,4 +1,4 @@
-<h4>Terms and Conditions</h4>
+<h4>{{ __('Terms and Conditions') }}</h4>
 <textarea class="form-control" style="height: 150px; border: 1px #ccc solid;">
 {{ config('app.name') }} offers this Web site, including all information, software,
 products and services available from this Web site or offered as part of or in conjunction

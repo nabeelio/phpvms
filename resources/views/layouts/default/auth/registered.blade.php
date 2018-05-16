@@ -1,12 +1,11 @@
 @extends('app')
-@section('title', 'registration submitted')
+@section('title', __('Registration Submitted'))
 
 @section('content')
 <div class="container registered-page">
-    <h3>Registration Confirmation</h3>
+    <h3>{{ __('Registration Confirmation') }}</h3>
     <p>
-        Your application has been submitted. It requires staff member approval, once a
-        staff member has reviewed your application, you will receive an email confirmation.
+        __('Your application has been submitted. It requires staff member approval, once a\nstaff member has reviewed your application, you will receive a confirmation email.') }}
     </p>
 </div>
 @endsection

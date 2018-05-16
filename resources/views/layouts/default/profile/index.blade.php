@@ -1,5 +1,5 @@
 @extends('app')
-@section('title', 'profile')
+@section('title', __('Profile'))
 
 @section('content')
 <div class="row profile-page content-center text-color-dark-beige">
@@ -23,25 +23,25 @@
         <div class="content">
             <div class="social-description">
                 <h2>{{ $user->flights}}</h2>
-                <p>Flights</p>
+                <p>{{ __trans_choice('Flight', $user->flights) }}</p>
             </div>
 
             <div class="social-description">
                 <h2>{{ \App\Facades\Utils::minutesToTimeString($user->flight_time, false) }}</h2>
-                <p>Flight Hours</p>
+                <p>{{ __('Flight Hours') }}</p>
             </div>
 
             @if($user->home_airport)
                 <div class="social-description">
                     <h2>{{ $user->home_airport->icao }}</h2>
-                    <p>Home Airport</p>
+                    <p>{{ __('Home Airport') }}</p>
                 </div>
             @endif
 
             @if($user->current_airport)
                 <div class="social-description">
                     <h2>{{ $user->current_airport->icao }}</h2>
-                    <p>Current Airport</p>
+                    <p>{{ __('Current Airport') }}</p>
                 </div>
             @endif
 
@@ -58,24 +58,24 @@
         <div class="col-sm-12">
             <div class="text-right">
                 <a href="{{ route('frontend.profile.regen_apikey') }}" class="btn btn-warning"
-                   onclick="return confirm('Are you sure? This will reset your API key.')">new api key</a>
+                   onclick="return confirm({{ __('Are you sure? This will reset your API key.') }})">{{ __('New API Key') }}</a>
                 &nbsp;
                 <a href="{{ route('frontend.profile.edit', ['id' => $user->id]) }}"
-                   class="btn btn-primary">edit</a>
+                   class="btn btn-primary">{{ __('Edit') }}</a>
             </div>
 
-            <h3 class="description">your profile</h3>
+            <h3 class="description">{{ __('Your Profile') }}</h3>
             <table class="table table-full-width">
                 <tr>
-                    <td>Email</td>
+                    <td>{{ __('Email') }}</td>
                     <td>{{ $user->email }}</td>
                 </tr>
                 <tr>
-                    <td>API Key&nbsp;&nbsp;<span class="description">don't share this!</span></td>
+                    <td>{{ __('API Key') }}&nbsp;&nbsp;<span class="description">({{ __('don\'t share this!') }})</span></td>
                     <td>{{ $user->api_key }}</td>
                 </tr>
                 <tr>
-                    <td>Timezone</td>
+                    <td>{{ __('Timezone') }}</td>
                     <td>{{ $user->timezone }}</td>
                 </tr>
             </table>

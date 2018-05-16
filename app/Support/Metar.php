@@ -481,9 +481,9 @@ class Metar implements \ArrayAccess
         $time_diff = floor(($now - $local) / 60);
 
         if ($time_diff < 91) {
-            $this->set_result_value('observed_age', $time_diff.' min. ago');
+            $this->set_result_value('observed_age', $time_diff.' '.__trans_choice('min ago', $time_diff));
         } else {
-            $this->set_result_value('observed_age', floor($time_diff / 60).':'.sprintf("%02d", $time_diff % 60).' hr. ago');
+            $this->set_result_value('observed_age', floor($time_diff / 60).':'.sprintf("%02d", $time_diff % 60).' '.__trans_choice('hr ago', floor($time_diff / 60)));
         }
     }
 

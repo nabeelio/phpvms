@@ -51,7 +51,7 @@ class FinanceController extends Controller
         # group by the airline
         foreach ($airlines as $airline) {
             # Return all the transactions, grouped by the transaction group
-            $transactions = JournalTransaction::groupBy('transaction_group')
+            $transactions = JournalTransaction::groupBy('transaction_group', 'currency')
                 ->selectRaw('transaction_group, currency, 
                              SUM(credit) as sum_credits, 
                              SUM(debit) as sum_debits')

@@ -142,7 +142,7 @@
                     </div>
 
                     <div class="form-group col-sm-4">
-                        {{Form::label('days', 'Days of Week')}}
+                        {{ Form::label('days', 'Days of Week') }}
                         <span class="description small">optional</span>
                         <select id="days_of_week" name="days[]" multiple="multiple" size="7" style="width: 100%;">
                             <option value="{{\App\Models\Enums\Days::MONDAY}}"
@@ -150,7 +150,7 @@
                                 @lang('system.days.mon')
                             </option>
                             <option value="{{\App\Models\Enums\Days::TUESDAY}}"
-                                    {{in_mask($days, \App\Models\Enums\Days::TUESDAY) ? 'select':'' }}>
+                                    {{in_mask($days, \App\Models\Enums\Days::TUESDAY) ? 'selected':'' }}>
                                 @lang('system.days.tues')
                             </option>
                             <option value="{{\App\Models\Enums\Days::WEDNESDAY}}"

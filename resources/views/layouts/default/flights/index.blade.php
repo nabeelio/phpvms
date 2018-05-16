@@ -1,11 +1,11 @@
 @extends('app')
-@section('title', 'flights')
+@section('title', __trans_choice('Flight', 2))
 
 @section('content')
 <div class="row">
     @include('flash::message')
     <div class="col-md-9">
-        <h2>{{ $title ?? 'Flights' }}</h2>
+        <h2>{{ $title ?? __trans_choice('Flight', 2) }}</h2>
         @include('flights.table')
     </div>
     <div class="col-md-3">

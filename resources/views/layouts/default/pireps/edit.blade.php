@@ -1,9 +1,9 @@
 @extends('app')
-@section('title', 'Edit Flight Report')
+@section('title', __('Edit Flight Report'))
 @section('content')
     <div class="row">
         <div class="col-md-12">
-            <h2>Edit Flight Report</h2>
+            <h2>{{ __('Edit Flight Report') }}</h2>
             @include('flash::message')
             {{ Form::model($pirep, [
                     'route' => ['frontend.pireps.update', $pirep->id],
