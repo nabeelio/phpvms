@@ -37,22 +37,22 @@
                             </a>
                         </h3>
                         <p id="map_flight_info">
-                            { pirep.dpt_airport.name } ({ pirep.dpt_airport.icao }) to
+                            { pirep.dpt_airport.name } ({ pirep.dpt_airport.icao }) {{ __('to') }}
                             { pirep.arr_airport.name } ({ pirep.arr_airport.icao })
                         </p>
                     </div>
                     <div style="float: right; margin-left: 30px; margin-right: 30px;">
                         <p id="map_flight_stats_right">
-                            Ground Speed: <span style="font-weight: bold">{ pirep.position.gs }</span><br/>
-                            Altitude: <span style="font-weight: bold">{ pirep.position.altitude }</span><br/>
-                            Heading: <span style="font-weight: bold">{ pirep.position.heading }</span><br/>
+							{{ __('Ground Speed') }}: <span style="font-weight: bold">{ pirep.position.gs }</span><br/>
+							{{ __('Altitude') }}: <span style="font-weight: bold">{ pirep.position.altitude }</span><br/>
+							{{ __('Heading') }}: <span style="font-weight: bold">{ pirep.position.heading }</span><br/>
                         </p>
                     </div>
                     <div style="float: right; margin-left: 30px;">
                         <p id="map_flight_stats_middle">
-                            Status: <span style="font-weight: bold">{ pirep.status_text }</span><br />
-                            Flight Time: <span style="font-weight: bold">{ pirep.flight_time | time_hm }</span><br />
-                            Distance: <span style="font-weight: bold">{ pirep.position.distance.{{setting('units.distance')}} }</span>
+							{{ __('Status') }}: <span style="font-weight: bold">{ pirep.status_text }</span><br />
+							{{ __('Flight Time') }}: <span style="font-weight: bold">{ pirep.flight_time | time_hm }</span><br />
+							{{ __('Distance') }}: <span style="font-weight: bold">{ pirep.position.distance.{{setting('units.distance')}} }</span>
                                 / <span style="font-weight: bold">
                                         { pirep.planned_distance.{{setting('units.distance')}} }</span>
                         </p>
@@ -74,18 +74,18 @@ and being mindful of the rivets bindings
 --}}
 <div id="live_flights" class="row">
     <div class="col-md-12">
-        <div rv-hide="has_data" class="jumbotron text-center">There are no flights</div>
+        <div rv-hide="has_data" class="jumbotron text-center">{{ __('There are no flights.') }}</div>
         <table rv-show="has_data" id="live_flights_table" class="table table-striped">
             <thead>
                 <tr class="text-small header">
-                    <td class="text-small">Flight</td>
-                    <td class="text-small">Departure</td>
-                    <td class="text-small">Arrival</td>
-                    <td class="text-small">Aircraft</td>
-                    <td class="text-small">Altitude</td>
-                    <td class="text-small">GS</td>
-                    <td class="text-small">Distance</td>
-                    <td class="text-small">Status</td>
+                    <td class="text-small">{{ __trans_choice('Flight', 1) }}</td>
+                    <td class="text-small">{{ __('Departure') }}</td>
+                    <td class="text-small">{{ __('Arrival') }}</td>
+                    <td class="text-small">{{ __('Aircraft') }}</td>
+                    <td class="text-small">{{ __('Altitude') }}</td>
+                    <td class="text-small">{{ __('GS') }}</td>
+                    <td class="text-small">{{ __('Distance') }}</td>
+                    <td class="text-small">{{ __('Status') }}</td>
                 </tr>
             </thead>
             <tbody>

@@ -1,10 +1,10 @@
 @extends('app')
-@section('title', 'File Flight Report')
+@section('title', __('File Flight Report'))
 
 @section('content')
     <div class="row">
         <div class="col-md-12">
-            <h2>New Flight Report</h2>
+            <h2>{{ __('New Flight Report') }}</h2>
             @include('flash::message')
             {{ Form::open(['route' => 'frontend.pireps.store']) }}
 
