@@ -1,7 +1,7 @@
 @if($aircraft)
     <div class="form-container">
         <h6><i class="fas fa-ellipsis-h"></i>
-            &nbsp;Fares
+            &nbsp;{{ __('Fare', 2) }}
         </h6>
         <div class="form-container-body">
             @foreach($aircraft->subfleet->fares as $fare)

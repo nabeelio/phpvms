@@ -1,20 +1,24 @@
 <table class="table table-hover" id="users-table">
     <thead>
         <th></th>
-        <th>Name</th>
+        <th>{{ __('Name') }}</th>
         <th style="text-align: center"></th>
-        <th style="text-align: center">Airline</th>
-        <th style="text-align: center">Location</th>
-        <th style="text-align: center">Flights</th>
-        <th style="text-align: center">Hours</th>
+        <th style="text-align: center">{{ __('Airline') }}</th>
+        <th style="text-align: center">{{ __('Location') }}</th>
+        <th style="text-align: center">{{ __trans_choice('Flight', 2) }}</th>
+        <th style="text-align: center">{{ __trans_choice('Hour', 2) }}</th>
     </thead>
     <tbody>
     @foreach($users as $user)
         <tr>
             <td style="width: 80px;">
                 <div class="photo-container">
-                    <img class="rounded-circle"
-                         src="{{ $user->gravatar(256) }}&s=256"/>
+				@if ($user->avatar == null)
+					<img class="rounded-circle"
+						 src="{{ $user->gravatar(256) }}&s=256"/>
+				@else
+					<img src="{{ $user->avatar->url }}">
+				@endif
                 </div>
             </td>
             <td>

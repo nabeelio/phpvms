@@ -1,10 +1,10 @@
 @extends('app')
-@section('title', 'Pilots')
+@section('title', __trans_choice('Pilot', 2))
 
 @section('content')
 <div class="row">
     <div class="col-md-12">
-        <h2>Pilots</h2>
+        <h2>{{ __trans_choice('Pilot', 2) }}</h2>
         @include('users.table')
     </div>
 </div>

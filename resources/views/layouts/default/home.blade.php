@@ -1,5 +1,5 @@
 @extends('app')
-@section('title', 'welcome!')
+@section('title', __('Welcome!'))
 
 @section('content')
     <div class="row">
@@ -8,10 +8,14 @@
     </div>
     <div class="row">
         <div class="col-sm-12">
-            <h2 class="description">newest pilots</h2>
+            <center><h1 class="description">{{ __('Welcome Message') }}</h1></center>
         </div>
-        @foreach($users as $user)
+		<div class="col-sm-9">
+			<img src="{{ public_asset('/assets/img/Airplane.jpg') }}" style=""/>
+		</div>
         <div class="col-sm-3 ">
+            <h2 class="description">{{ __('Newest Pilots') }}</h2>
+			@foreach($users as $user)
             <div class="card card-signup blue-bg">
                 {{--<div class="card-bg">--}}
                     {{--<i class="fa fa-user-o" style="opacity: .1;"></i>--}}
@@ -21,8 +25,12 @@
                         <a href="{{ route('frontend.profile.show', ['id' => $user->id]) }}" class="text-white">{{ $user->name }}</a>
                     </h3>
                     <div class="photo-container">
+					@if ($user->avatar == null)
                         <img class="rounded-circle"
                              src="{{ $user->gravatar(123) }}">
+					@else
+						<img src="{{ $user->avatar->url }}" style="width: 123px;">
+					@endif
                     </div>
                 </div>
                 <div class="content content-center">
@@ -35,10 +43,10 @@
                     </div>
                 </div>
                 <div class="footer text-center">
-                    <a href="{{ route('frontend.profile.show', ['id' => $user->id]) }}" class="btn btn-neutral btn-sm">Profile</a>
+                    <a href="{{ route('frontend.profile.show', ['id' => $user->id]) }}" class="btn btn-neutral btn-sm">{{ __('Profile') }}</a>
                 </div>
             </div>
+			@endforeach
         </div>
-        @endforeach
     </div>
 @endsection
