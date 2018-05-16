@@ -7,7 +7,7 @@
         <div class="flex-center position-ref full-height">
             <div class="title m-b-md">
                 <h2 class="description">
-				@lang('frontend.auth.suspendedmessage')
+                @lang('frontend.auth.suspendedmessage')
                 </h2>
             </div>
         </div>

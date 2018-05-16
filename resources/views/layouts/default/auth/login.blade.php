@@ -1,5 +1,5 @@
 @extends('auth.layout')
-@section('title', __('Log In'))
+@section('title', trans('frontend.global.login'))
 
 @section('content')
 <div class="col-md-4 content-center">

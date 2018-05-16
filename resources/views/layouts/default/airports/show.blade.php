@@ -39,7 +39,7 @@
         <h5>@lang('frontend.airports.inboundflights')</h5>
         @if(!$inbound_flights)
             <div class="jumbotron text-center">
-			@lang('frontend.airports.noflightfound')
+            @lang('frontend.airports.noflightfound')
             </div>
         @else
             <table class="table table-striped table-condensed">
@@ -74,7 +74,7 @@
         <h5>@lang('frontend.airports.outboundflights')</h5>
         @if(!$outbound_flights)
             <div class="jumbotron text-center">
-			@lang('frontend.airports.noflightfound')
+            @lang('frontend.airports.noflightfound')
             </div>
         @else
             <table class="table table-striped table-condensed">

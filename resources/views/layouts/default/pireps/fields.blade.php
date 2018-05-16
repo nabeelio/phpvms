@@ -12,7 +12,7 @@ flight reports that have been filed. You've been warned!
     <div class="row">
         <div class="col-sm-12">
             @component('components.info')
-			@lang('frontend.pireps.fieldsreadonly')
+            @lang('frontend.pireps.fieldsreadonly')
             @endcomponent
         </div>
     </div>

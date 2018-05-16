@@ -88,7 +88,7 @@
             @include('auth.toc')
 
             <div style="width: 100%; text-align: right; padding-top: 20px;">
-				@lang('frontend.auth.tocaccept')<br /><br />
+                @lang('frontend.auth.tocaccept')<br /><br />
                 {{ Form::submit(trans('frontend.auth.register'), ['class' => 'btn btn-primary']) }}
             </div>
 

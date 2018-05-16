@@ -74,13 +74,13 @@
         {{ Widget::Weather([
             'icao' => $flight->arr_airport_id,
           ]) }}
-		@if ($flight->alt_airport_id)
+        @if ($flight->alt_airport_id)
         <br />
         <h5>{{$flight->alt_airport_id}} @lang('frontend.global.metar')</h5>
         {{ Widget::Weather([
             'icao' => $flight->alt_airport_id,
           ]) }}
-		@endif
+        @endif
     </div>
 </div>
 @endsection

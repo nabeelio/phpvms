@@ -13,12 +13,12 @@
         <tr>
             <td style="width: 80px;">
                 <div class="photo-container">
-				@if ($user->avatar == null)
-					<img class="rounded-circle"
-						 src="{{ $user->gravatar(256) }}&s=256"/>
-				@else
-					<img src="{{ $user->avatar->url }}">
-				@endif
+                @if ($user->avatar == null)
+                    <img class="rounded-circle"
+                         src="{{ $user->gravatar(256) }}&s=256"/>
+                @else
+                    <img src="{{ $user->avatar->url }}">
+                @endif
                 </div>
             </td>
             <td>

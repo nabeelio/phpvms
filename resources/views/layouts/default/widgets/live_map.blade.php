@@ -43,16 +43,16 @@
                     </div>
                     <div style="float: right; margin-left: 30px; margin-right: 30px;">
                         <p id="map_flight_stats_right">
-							@lang('frontend.widgets.livemap.groundspeed'): <span style="font-weight: bold">{ pirep.position.gs }</span><br/>
-							@lang('frontend.widgets.livemap.altitude'): <span style="font-weight: bold">{ pirep.position.altitude }</span><br/>
-							@lang('frontend.widgets.livemap.heading'): <span style="font-weight: bold">{ pirep.position.heading }</span><br/>
+                            @lang('frontend.widgets.livemap.groundspeed'): <span style="font-weight: bold">{ pirep.position.gs }</span><br/>
+                            @lang('frontend.widgets.livemap.altitude'): <span style="font-weight: bold">{ pirep.position.altitude }</span><br/>
+                            @lang('frontend.widgets.livemap.heading'): <span style="font-weight: bold">{ pirep.position.heading }</span><br/>
                         </p>
                     </div>
                     <div style="float: right; margin-left: 30px;">
                         <p id="map_flight_stats_middle">
-							@lang('frontend.global.status'): <span style="font-weight: bold">{ pirep.status_text }</span><br />
-							@lang('frontend.global.flighttime'): <span style="font-weight: bold">{ pirep.flight_time | time_hm }</span><br />
-							@lang('frontend.global.distance'): <span style="font-weight: bold">{ pirep.position.distance.{{setting('units.distance')}} }</span>
+                            @lang('frontend.global.status'): <span style="font-weight: bold">{ pirep.status_text }</span><br />
+                            @lang('frontend.global.flighttime'): <span style="font-weight: bold">{ pirep.flight_time | time_hm }</span><br />
+                            @lang('frontend.global.distance'): <span style="font-weight: bold">{ pirep.position.distance.{{setting('units.distance')}} }</span>
                                 / <span style="font-weight: bold">
                                         { pirep.planned_distance.{{setting('units.distance')}} }</span>
                         </p>

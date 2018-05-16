@@ -36,7 +36,7 @@
         <li class="nav-item">
             <a class="nav-link" href="{{ url('/login') }}">
                 <i class="fas fa-sign-in-alt"></i>
-                <p>@lang('frontend.nav.login')</p>
+                <p>@lang('frontend.global.login')</p>
             </a>
         </li>
         <li class="nav-item">

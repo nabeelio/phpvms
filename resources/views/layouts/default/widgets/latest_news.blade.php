@@ -1,11 +1,11 @@
 <div class="nav nav-tabs" role="tablist" style="background: #067ec1; color: #FFF;">
-	@lang('frontend.widgets.latestnews.news')
+    @lang('frontend.widgets.latestnews.news')
 </div>
 <div class="card border-blue-bottom">
     <div class="card-block" style="min-height: 0px">
         @if($news->count() === 0)
             <div class="text-center text-muted" style="padding: 30px;">
-				@lang('frontend.widgets.latestnews.nonewsfound')
+                @lang('frontend.widgets.latestnews.nonewsfound')
             </div>
         @endif
 
