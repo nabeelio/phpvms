@@ -1,5 +1,5 @@
 @extends('app')
-@section('title', 'Flight '.$flight->ident)
+@section('title', __trans_choice('Flight', 1).' '.$flight->ident)
 
 @section('content')
 <div class="row">
@@ -13,7 +13,7 @@
             <div class="col-12">
                 <table class="table">
                     <tr>
-                        <td>Departure</td>
+                        <td>{{ __('Departure') }}</td>
                         <td>
                             {{ $flight->dpt_airport->name }}
                             (<a href="{{route('frontend.airports.show', [
@@ -24,7 +24,7 @@
                     </tr>
 
                     <tr>
-                        <td>Arrival</td>
+                        <td>{{ __('Arrival') }}</td>
                         <td>
                             {{ $flight->arr_airport->name }}
                             (<a href="{{route('frontend.airports.show', [
@@ -34,7 +34,7 @@
                     </tr>
                     @if($flight->alt_airport_id)
                     <tr>
-                        <td>Alternate Airport</td>
+                        <td>{{ __('Alternate Airport') }}</td>
                         <td>
                             {{ $flight->alt_airport->full_name }}
                         </td>
@@ -42,13 +42,13 @@
                     @endif
 
                     <tr>
-                        <td>Route</td>
+                        <td>{{ __('Route') }}</td>
                         <td>{{ $flight->route }}</td>
                     </tr>
 
                     @if(filled($flight->notes))
                         <tr>
-                            <td>Notes</td>
+                            <td>{{ __('Notes') }}</td>
                             <td>{{ $flight->notes }}</td>
                         </tr>
                     @endif

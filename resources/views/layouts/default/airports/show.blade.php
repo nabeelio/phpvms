@@ -28,7 +28,7 @@
     {{-- There are files uploaded and a user is logged in--}}
     @if(count($airport->files) > 0 && Auth::check())
         <div class="col-12">
-            <h3>Downloads</h3>
+            <h3>{{ __trans_choice('Download', 2) }}</h3>
             @include('downloads.table', ['files' => $airport->files])
         </div>
     @endif
@@ -36,19 +36,19 @@
 
 <div class="row">
     <div class="col-6">
-        <h5>Inbound Flights</h5>
+        <h5>{{ __('Inbound Flights') }}</h5>
         @if(!$inbound_flights)
             <div class="jumbotron text-center">
-                no flights found
+			{{ __('No Flight Found') }}
             </div>
         @else
             <table class="table table-striped table-condensed">
                 <thead>
                 <tr>
-                    <th class="text-left">Ident</th>
-                    <th class="text-left">From</th>
-                    <th>Departure</th>
-                    <th>Arrival</th>
+                    <th class="text-left">{{ __('Ident') }}</th>
+                    <th class="text-left">{{ __('From') }}</th>
+                    <th>{{ __('Departure') }}</th>
+                    <th>{{ __('Arrival') }}</th>
                 </tr>
                 </thead>
                 @foreach($inbound_flights as $flight)
@@ -71,19 +71,19 @@
     </div>
 
     <div class="col-6">
-        <h5>Outbound Flights</h5>
+        <h5>{{ __('Outbound Flights') }}</h5>
         @if(!$outbound_flights)
             <div class="jumbotron text-center">
-                no flights found
+			{{ __('No Flight Found') }}
             </div>
         @else
             <table class="table table-striped table-condensed">
                 <thead>
                 <tr>
-                    <th class="text-left">Ident</th>
-                    <th class="text-left">To</th>
-                    <th>Departure</th>
-                    <th>Arrival</th>
+                    <th class="text-left">{{ __('Ident') }}</th>
+                    <th class="text-left">{{ __('To') }}</th>
+                    <th>{{ __('Departure') }}</th>
+                    <th>{{ __('Arrival') }}</th>
                 </tr>
                 </thead>
                 @foreach($outbound_flights as $flight)

@@ -1,5 +1,5 @@
 @extends('app')
-@section('title', 'PIREP '.$pirep->ident)
+@section('title', __trans_choice('PIREP', 1).' '.$pirep->ident)
 
 @section('content')
     <div class="row">
@@ -12,7 +12,7 @@
                             @if($pirep->state === PirepState::IN_PROGRESS)
 
                             @else
-                                Arrived {{$pirep->created_at->diffForHumans()}}
+                                __('Arrived') {{$pirep->created_at->diffForHumans()}}
                             @endif
                         </p>
                     </p>
@@ -89,20 +89,20 @@
                           action="{{ route('frontend.pireps.edit', ['id' => $pirep->id]) }}"
                           style="display: inline">
                         @csrf
-                        <button class="btn btn-info">Edit</button>
+                        <button class="btn btn-info">{{ __('Edit') }}</button>
                     </form>
                     &nbsp;
                     <form method="post"
                           action="{{ route('frontend.pireps.submit', ['id' => $pirep->id]) }}"
                           style="display: inline">
                         @csrf
-                        <button class="btn btn-success">Submit</button>
+                        <button class="btn btn-success">{{ __('Submit') }}</button>
                     </form>
                 </div>
             @endif
             <table class="table table-striped">
                 <tr>
-                    <td width="30%">State</td>
+                    <td width="30%">{{ __('Status') }}</td>
                     <td>
                         <div class="badge badge-info">
                             {{ PirepStatus::label($pirep->status) }}
@@ -111,31 +111,31 @@
                 </tr>
 
                 <tr>
-                    <td>Source</td>
+                    <td>{{ __('Source') }}</td>
                     <td>{{ PirepSource::label($pirep->source) }}</td>
                 </tr>
 
                 <tr>
-                    <td>Flight Type</td>
+                    <td>{{ __('Flight Type') }}</td>
                     <td>{{ \App\Models\Enums\FlightType::label($pirep->flight_type) }}</td>
                 </tr>
 
                 <tr>
-                    <td>Filed Route</td>
+                    <td>{{ __('Filed Route') }}</td>
                     <td>
                         {{ $pirep->route }}
                     </td>
                 </tr>
 
                 <tr>
-                    <td>Notes</td>
+                    <td>{{ __('Notes') }}</td>
                     <td>
                         {{ $pirep->notes }}
                     </td>
                 </tr>
 
                 <tr>
-                    <td>Filed On</td>
+                    <td>{{ __('Filed On') }}</td>
                     <td>
                         {{ show_datetime($pirep->created_at) }}
                     </td>
@@ -148,11 +148,11 @@
             @endif
 
             @if(count($pirep->fields) > 0)
-                <h5>fields</h5>
+                <h5>{{ __trans_choice('Field', 2) }}</h5>
                 <table class="table table-hover table-condensed">
                     <thead>
-                    <th>Name</th>
-                    <th>Value</th>
+                    <th>{{ __('Name') }}</th>
+                    <th>{{ __('Value') }}</th>
                     </thead>
                     <tbody>
                     @foreach($pirep->fields as $field)
@@ -175,11 +175,11 @@
             @if(count($pirep->fares) > 0)
                 <div class="row">
                     <div class="col-12">
-                        <h5>fares</h5>
+                        <h5>{{ __trans_choice('Fare', 2) }}</h5>
                         <table class="table table-hover table-condensed">
                             <thead>
-                            <th>Class</th>
-                            <th>Count</th>
+                            <th>{{ __('Class') }}</th>
+                            <th>{{ __('Count') }}</th>
                             </thead>
                             <tbody>
                             @foreach($pirep->fares as $fare)
@@ -200,7 +200,7 @@
         <div class="separator"></div>
         <div class="row">
             <div class="col-12">
-                <h5>flight log</h5>
+                <h5>{{ __('Flight Log') }}</h5>
             </div>
             <div class="col-12">
                 <table class="table table-hover table-condensed" id="users-table">

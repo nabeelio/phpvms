@@ -69,7 +69,10 @@ class Airline extends Model
      */
     public function getCodeAttribute()
     {
-        return $this->icao;
+		if ($this->iata && $this->iata !== '')
+			return $this->iata;
+		else
+			return $this->icao;
     }
 
     /**

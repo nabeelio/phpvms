@@ -23,7 +23,7 @@
                         x-id="{{ $flight->id }}"
                         x-saved-class="btn-info"
                         type="button"
-                        title="Add/Remove Bid"
+                        title="{{ __('Add/Remove Bid') }}"
                 >
                     <i class="fas fa-map-marker"></i>
                 </button>
@@ -32,14 +32,14 @@
         <div class="row">
             <div class="col-sm-5">
                 {{--<table class="table-condensed"></table>--}}
-                <span class="title">DEP&nbsp;</span>
+                <span class="title">{{ __('DEP') }}&nbsp;</span>
                 {{ $flight->dpt_airport->name }}
                 (<a href="{{route('frontend.airports.show', [
                             'id' => $flight->dpt_airport->icao
                             ])}}">{{$flight->dpt_airport->icao}}</a>)
                 @if($flight->dpt_time), {{ $flight->dpt_time }}@endif
                 <br />
-                <span class="title">ARR&nbsp;</span>
+                <span class="title">{{ __('ARR') }}&nbsp;</span>
                 {{ $flight->arr_airport->name }}
                 (<a href="{{route('frontend.airports.show', [
                             'id' => $flight->arr_airport->icao
@@ -47,19 +47,19 @@
                 @if($flight->arr_time), {{ $flight->arr_time }}@endif
                 <br />
                 @if($flight->distance)
-                    <span class="title">DISTANCE&nbsp;</span>
+                    <span class="title">{{ __('DISTANCE') }}&nbsp;</span>
                     {{ $flight->distance }} {{ setting('units.distance') }}
                 @endif
                 <br />
                 @if($flight->level)
-                    <span class="title">LEVEL&nbsp;</span>
+                    <span class="title">{{ __('LEVEL') }}&nbsp;</span>
                     {{ $flight->level }} {{ setting('units.altitude') }}
                 @endif
             </div>
             <div class="col-sm-7">
                 <div class="row">
                     <div class="col-sm-12">
-                        <span class="title">ROUTE&nbsp;</span>
+                        <span class="title">{{ __('ROUTE') }}&nbsp;</span>
                         {{ $flight->route }}
                     </div>
                 </div>

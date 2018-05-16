@@ -112,12 +112,12 @@ class Flight extends Model
         $flight_id = $this->airline->code;
         $flight_id .= $this->flight_number;
 
-        if (filled($this->route_leg)) {
-            $flight_id .= '/L'.$this->route_leg;
+        if (filled($this->route_code)) {
+            $flight_id .= '-'.$this->route_code;
         }
 
-        if (filled($this->route_code)) {
-            $flight_id .= '/C'.$this->route_code;
+        if (filled($this->route_leg)) {
+            $flight_id .= '-'.$this->route_leg;
         }
 
         return $flight_id;
