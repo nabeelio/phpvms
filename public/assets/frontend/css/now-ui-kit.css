@@ -2089,6 +2089,7 @@ fieldset[disabled]
 
 .form-group .form-control,
 .input-group .form-control {
+  margin-top: 2px;
   padding: 4px 14px 4px 14px;
 }
 
