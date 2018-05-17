@@ -3,13 +3,13 @@
 <table class="table table-condensed table-hover">
     <thead>
         <tr>
-            <th>{{ __trans_choice('Flight', 1) }}</th>
-            <th>{{ __('Departure') }}</th>
-            <th>{{ __('Arrival') }}</th>
-            <th>{{ __('Aircraft') }}</th>
-            <th class="text-center">{{ __('Flight Time') }}</th>
-            <th class="text-center">{{ __('Status') }}</th>
-            <th>{{ __('Submitted') }}</th>
+            <th>{{ trans_choice('frontend.global.flight', 1) }}</th>
+            <th>@lang('frontend.global.departure')</th>
+            <th>@lang('frontend.global.arrival')</th>
+            <th>@lang('frontend.global.aircraft')</th>
+            <th class="text-center">@lang('frontend.global.flighttime')</th>
+            <th class="text-center">@lang('frontend.global.status')</th>
+            <th>@lang('frontend.pireps.submitted')</th>
             <th></th>
         </tr>
     </thead>
@@ -58,7 +58,7 @@
                 @if(!$pirep->read_only)
                 <a href="{{ route('frontend.pireps.edit', [
                         'id'    => $pirep->id,
-                    ]) }}">{{ __('Edit') }}</a>
+                    ]) }}">@lang('frontend.global.edit')</a>
                 @endif
             </td>
         </tr>

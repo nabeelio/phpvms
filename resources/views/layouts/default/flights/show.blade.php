@@ -1,5 +1,5 @@
 @extends('app')
-@section('title', __trans_choice('Flight', 1).' '.$flight->ident)
+@section('title', trans_choice('frontend.global.flight', 1).' '.$flight->ident)
 
 @section('content')
 <div class="row">
@@ -13,7 +13,7 @@
             <div class="col-12">
                 <table class="table">
                     <tr>
-                        <td>{{ __('Departure') }}</td>
+                        <td>@lang('frontend.global.departure')</td>
                         <td>
                             {{ $flight->dpt_airport->name }}
                             (<a href="{{route('frontend.airports.show', [
@@ -24,7 +24,7 @@
                     </tr>
 
                     <tr>
-                        <td>{{ __('Arrival') }}</td>
+                        <td>@lang('frontend.global.arrival')</td>
                         <td>
                             {{ $flight->arr_airport->name }}
                             (<a href="{{route('frontend.airports.show', [
@@ -34,21 +34,24 @@
                     </tr>
                     @if($flight->alt_airport_id)
                     <tr>
-                        <td>{{ __('Alternate Airport') }}</td>
+                        <td>@lang('frontend.flights.alternateairport')</td>
                         <td>
-                            {{ $flight->alt_airport->full_name }}
+                            {{ $flight->alt_airport->name }}
+                            (<a href="{{route('frontend.airports.show', [
+                            'id' => $flight->alt_airport->icao
+                            ])}}">{{$flight->alt_airport->icao}}</a>)
                         </td>
                     </tr>
                     @endif
 
                     <tr>
-                        <td>{{ __('Route') }}</td>
+                        <td>@lang('frontend.global.route')</td>
                         <td>{{ $flight->route }}</td>
                     </tr>
 
                     @if(filled($flight->notes))
                         <tr>
-                            <td>{{ __('Notes') }}</td>
+                            <td>{{ trans_choice('frontend.global.note', 2) }}</td>
                             <td>{{ $flight->notes }}</td>
                         </tr>
                     @endif
@@ -62,15 +65,22 @@
         </div>
     </div>
     <div class="col-4">
-        <h5>{{$flight->dpt_airport_id}} METAR</h5>
+        <h5>{{$flight->dpt_airport_id}} @lang('frontend.global.metar')</h5>
         {{ Widget::Weather([
             'icao' => $flight->dpt_airport_id,
           ]) }}
         <br />
-        <h5>{{$flight->arr_airport_id}} METAR</h5>
+        <h5>{{$flight->arr_airport_id}} @lang('frontend.global.metar')</h5>
         {{ Widget::Weather([
             'icao' => $flight->arr_airport_id,
           ]) }}
+		@if ($flight->alt_airport_id)
+        <br />
+        <h5>{{$flight->alt_airport_id}} @lang('frontend.global.metar')</h5>
+        {{ Widget::Weather([
+            'icao' => $flight->alt_airport_id,
+          ]) }}
+		@endif
     </div>
 </div>
 @endsection

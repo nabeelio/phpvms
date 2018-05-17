@@ -1,5 +1,5 @@
 @extends('app')
-@section('title', __('Welcome!'))
+@section('title', trans('frontend.home.welcome.title'))
 
 @section('content')
     <div class="row">
@@ -7,14 +7,14 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-12">
-            <center><h1 class="description">{{ __('Welcome Message') }}</h1></center>
+        <div class="col-sm-9">
+            <center><h1 class="description">@lang('frontend.home.welcome.message', ['Appname' => config('app.name')])</h1></center>
+			<div class="photo-container">
+				<img src="{{ public_asset('/assets/img/Airplane.jpg') }}" style=""/>
+			</div>
         </div>
-		<div class="col-sm-9">
-			<img src="{{ public_asset('/assets/img/Airplane.jpg') }}" style=""/>
-		</div>
         <div class="col-sm-3 ">
-            <h2 class="description">{{ __('Newest Pilots') }}</h2>
+            <h2 class="description">@lang('frontend.global.newestpilots')</h2>
 			@foreach($users as $user)
             <div class="card card-signup blue-bg">
                 {{--<div class="card-bg">--}}
@@ -43,7 +43,7 @@
                     </div>
                 </div>
                 <div class="footer text-center">
-                    <a href="{{ route('frontend.profile.show', ['id' => $user->id]) }}" class="btn btn-neutral btn-sm">{{ __('Profile') }}</a>
+                    <a href="{{ route('frontend.profile.show', ['id' => $user->id]) }}" class="btn btn-neutral btn-sm">@lang('frontend.global.profile')</a>
                 </div>
             </div>
 			@endforeach

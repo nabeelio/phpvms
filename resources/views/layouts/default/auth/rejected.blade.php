@@ -1,5 +1,5 @@
 @extends('app')
-@section('title', __('Registration Denied'))
+@section('title', trans('frontend.auth.registrationdenied'))
 
 @section('content')
 <div class="row">
@@ -7,7 +7,7 @@
         <div class="flex-center position-ref full-height">
             <div class="title m-b-md">
                 <h2 class="description">
-				{{ __('Your registration was denied. Please contact an administrator.') }}
+				@lang('frontend.auth.deniedmessage')
                 </h2>
             </div>
         </div>
