@@ -5,9 +5,8 @@
 version: 2
 jobs:
   build:
-    docker:
-      # specify the version you desire here
-      - image: circleci/php:7.1.5-browsers
+    docker: # run the steps with Docker 
+      - image: circleci/php:7.1-node-browsers
       
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -17,23 +16,21 @@ jobs:
     working_directory: ~/repo
 
     steps:
-      - checkout
-
-      # Download and cache dependencies
-      - restore_cache:
+      - checkout # special step to check out source code to working directory
+      - run: sudo apt install -y libsqlite3-dev zlib1g-dev
+      - run: sudo docker-php-ext-install zip
+      - run: sudo composer self-update
+      - restore_cache: # special step to restore the dependency cache if `composer.lock` does not change
           keys:
-          - v1-dependencies-{{ checksum "composer.json" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
-
+            - composer-v1-{{ checksum "composer.lock" }}
+            - composer-v1-
       - run: 
         - cp .travis/env.travis.php env.php
         - composer install --dev --no-interaction --verbose
-
-      - save_cache:
+      - save_cache: # special step to save the dependency cache with the `composer.lock` cache key template
+          key: composer-v1-{{ checksum "composer.lock" }}
           paths:
-            - ./vendor
-          key: v1-dependencies-{{ checksum "composer.json" }}
+            - vendor
         
       # run tests!
       - run: vendor/bin/phpunit --debug --verbose
