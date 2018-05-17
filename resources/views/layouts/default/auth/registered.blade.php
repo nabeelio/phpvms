@@ -1,11 +1,11 @@
 @extends('app')
-@section('title', __('Registration Submitted'))
+@section('title', trans('frontend.auth.registrationsubmitted'))
 
 @section('content')
 <div class="container registered-page">
-    <h3>{{ __('Registration Confirmation') }}</h3>
+    <h3>@lang('frontend.auth.registrationconfirmation')</h3>
     <p>
-        __('Your application has been submitted. It requires staff member approval, once a\nstaff member has reviewed your application, you will receive a confirmation email.') }}
+        @lang('frontend.auth.confirmationmessage')
     </p>
 </div>
 @endsection

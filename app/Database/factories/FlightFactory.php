@@ -13,7 +13,7 @@ $factory->define(App\Models\Flight::class, function (Faker $faker) {
         },
         'flight_number'  => $faker->unique()->numberBetween(10, 1000000),
         'route_code'     => $faker->randomElement(['', $faker->text(5)]),
-        'route_leg'      => $faker->randomElement(['', $faker->text(5)]),
+        'route_leg'      => $faker->randomElement(['', $faker->numberBetween(0, 1000)]),
         'dpt_airport_id' => function () {
             return factory(App\Models\Airport::class)->create()->id;
         },

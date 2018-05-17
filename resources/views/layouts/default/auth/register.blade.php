@@ -1,5 +1,5 @@
 @extends('app')
-@section('title', __('Register'))
+@section('title', trans('frontend.global.register'))
 
 @section('content')
 <div class="row">
@@ -10,8 +10,8 @@
 
     <div class="panel periodic-login">
         <div class="panel-body">
-            <h2>{{ __('Register') }}</h2>
-            <label for="name" class="control-label">{{ __('Full Name') }}</label>
+            <h2>@lang('frontend.global.register')</h2>
+            <label for="name" class="control-label">@lang('frontend.auth.fullname')</label>
             <div class="input-group form-group-no-border {{ $errors->has('name') ? 'has-danger' : '' }}">
                 {{ Form::text('name', null, ['class' => 'form-control']) }}
             </div>
@@ -19,7 +19,7 @@
             <p class="text-danger">{{ $errors->first('name') }}</p>
             @endif
 
-            <label for="email" class="control-label">{{ __('Email Address') }}</label>
+            <label for="email" class="control-label">@lang('frontend.auth.emailaddress')</label>
             <div class="input-group form-group-no-border {{ $errors->has('email') ? 'has-danger' : '' }}">
                 {{ Form::text('email', null, ['class' => 'form-control']) }}
             </div>
@@ -27,7 +27,7 @@
                 <p class="text-danger">{{ $errors->first('email') }}</p>
             @endif
 
-            <label for="airline" class="control-label">{{ __('Airline') }}</label>
+            <label for="airline" class="control-label">@lang('frontend.global.airline')</label>
             <div class="input-group form-group-no-border {{ $errors->has('airline') ? 'has-danger' : '' }}">
                 {{ Form::select('airline_id', $airlines, null , ['class' => 'form-control select2']) }}
             </div>
@@ -35,7 +35,7 @@
             <p class="text-danger">{{ $errors->first('airline_id') }}</p>
             @endif
 
-            <label for="home_airport" class="control-label">{{ __('Home Airport') }}</label>
+            <label for="home_airport" class="control-label">@lang('frontend.global.homeairport')</label>
             <div class="input-group form-group-no-border {{ $errors->has('home_airport') ? 'has-danger' : '' }}">
                 {{ Form::select('home_airport_id', $airports, null , ['class' => 'form-control select2']) }}
             </div>
@@ -43,7 +43,7 @@
             <p class="text-danger">{{ $errors->first('home_airport_id') }}</p>
             @endif
 
-            <label for="country" class="control-label">{{ __('Country') }}</label>
+            <label for="country" class="control-label">@lang('frontend.global.country')</label>
             <div class="input-group form-group-no-border {{ $errors->has('country') ? 'has-danger' : '' }}">
                 {{ Form::select('country', $countries, null, ['class' => 'form-control select2' ]) }}
             </div>
@@ -51,7 +51,7 @@
                 <p class="text-danger">{{ $errors->first('country') }}</p>
             @endif
 
-            <label for="timezone" class="control-label">{{ __('Timezone') }}</label>
+            <label for="timezone" class="control-label">@lang('frontend.global.timezone')</label>
             <div class="input-group form-group-no-border {{ $errors->has('timezone') ? 'has-danger' : '' }}">
                 {{ Form::select('timezone', $timezones, null, ['id'=>'timezone', 'class' => 'form-control select2' ]) }}
             </div>
@@ -59,7 +59,7 @@
                 <p class="text-danger">{{ $errors->first('timezone') }}</p>
             @endif
 
-            <label for="password" class="control-label">{{ __('Password') }}</label>
+            <label for="password" class="control-label">@lang('frontend.auth.password')</label>
             <div class="input-group form-group-no-border {{ $errors->has('password') ? 'has-danger' : '' }}">
                 {{ Form::password('password', ['class' => 'form-control']) }}
             </div>
@@ -67,7 +67,7 @@
             <p class="text-danger">{{ $errors->first('password') }}</p>
             @endif
 
-            <label for="password_confirmation" class="control-label">{{ __('Confirm Password') }}</label>
+            <label for="password_confirmation" class="control-label">@lang('frontend.global.confirmpassword')</label>
             <div class="input-group form-group-no-border {{ $errors->has('password_confirmation') ? 'has-danger' : '' }}">
                 {{ Form::password('password_confirmation', ['class' => 'form-control']) }}
             </div>
@@ -76,7 +76,7 @@
             @endif
 
             @if(config('captcha.enabled'))
-                <label for="g-recaptcha-response" class="control-label">{{ __('Fill out the captcha') }}</label>
+                <label for="g-recaptcha-response" class="control-label">@lang('frontend.auth.fillcaptcha')</label>
                 <div class="input-group form-group-no-border {{ $errors->has('g-recaptcha-response') ? 'has-danger' : '' }}">
                     {!! NoCaptcha::display(config('captcha.attributes')) !!}
                 </div>
@@ -88,8 +88,8 @@
             @include('auth.toc')
 
             <div style="width: 100%; text-align: right; padding-top: 20px;">
-				{{ __('By registering, you agree to the Terms and Conditions.') }}<br /><br />
-                {{ Form::submit(__('Register!'), ['class' => 'btn btn-primary']) }}
+				@lang('frontend.auth.tocaccept')<br /><br />
+                {{ Form::submit(trans('frontend.auth.register'), ['class' => 'btn btn-primary']) }}
             </div>
 
         </div>
