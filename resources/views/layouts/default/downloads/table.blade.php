@@ -9,7 +9,7 @@
             @if($file->description)
                 - {{$file->description}}
             @endif
-            <span style="margin-left: 20px">{{ $file->download_count.' '.__trans_choice('Download', $file->download_count) }}</span>
+            <span style="margin-left: 20px">{{ $file->download_count.' '.trans_choice('frontend.global.download', $file->download_count) }}</span>
         </li>
     @endforeach
 </ul>

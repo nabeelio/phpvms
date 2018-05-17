@@ -1,15 +1,15 @@
 @extends('app')
-@section('title', __trans_choice('Download', 2))
+@section('title', trans_choice('frontend.global.download', 2))
 
 @section('content')
     @include('flash::message')
     <div class="row">
         <div class="row-sm-12">
-            <h2>{{ __trans_choice('Download', 2) }}</h2>
+            <h2>{{ trans_choice('frontend.global.download', 2) }}</h2>
         </div>
     </div>
     @if(!$grouped_files || \count($grouped_files) === 0)
-        <div class="jumbotron text-center">{{ __('There are no downloads!') }}</div>
+        <div class="jumbotron text-center">@lang('frontend.downloads.nodownloads')</div>
     @else
         @foreach($grouped_files as $group => $files)
         <div class="row" style="margin-bottom: 40px;">

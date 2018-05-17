@@ -1,5 +1,5 @@
 @extends('app')
-@section('title', __('Profile'))
+@section('title', trans('frontend.global.profile'))
 
 @section('content')
 <div class="row profile-page content-center text-color-dark-beige">
@@ -23,25 +23,25 @@
         <div class="content">
             <div class="social-description">
                 <h2>{{ $user->flights}}</h2>
-                <p>{{ __trans_choice('Flight', $user->flights) }}</p>
+                <p>{{ trans_choice('frontend.global.flight', $user->flights) }}</p>
             </div>
 
             <div class="social-description">
                 <h2>{{ \App\Facades\Utils::minutesToTimeString($user->flight_time, false) }}</h2>
-                <p>{{ __('Flight Hours') }}</p>
+                <p>@lang('frontend.profile.flighthours')</p>
             </div>
 
             @if($user->home_airport)
                 <div class="social-description">
                     <h2>{{ $user->home_airport->icao }}</h2>
-                    <p>{{ __('Home Airport') }}</p>
+                    <p>@lang('frontend.global.homeairport')</p>
                 </div>
             @endif
 
             @if($user->current_airport)
                 <div class="social-description">
                     <h2>{{ $user->current_airport->icao }}</h2>
-                    <p>{{ __('Current Airport') }}</p>
+                    <p>@lang('frontend.global.currentairport')</p>
                 </div>
             @endif
 
@@ -58,24 +58,24 @@
         <div class="col-sm-12">
             <div class="text-right">
                 <a href="{{ route('frontend.profile.regen_apikey') }}" class="btn btn-warning"
-                   onclick="return confirm({{ __('Are you sure? This will reset your API key.') }})">{{ __('New API Key') }}</a>
+                   onclick="return confirm({{ __('Are you sure? This will reset your API key.') }})">@lang('frontend.profile.newapikey')</a>
                 &nbsp;
                 <a href="{{ route('frontend.profile.edit', ['id' => $user->id]) }}"
-                   class="btn btn-primary">{{ __('Edit') }}</a>
+                   class="btn btn-primary">@lang('frontend.global.edit')</a>
             </div>
 
-            <h3 class="description">{{ __('Your Profile') }}</h3>
+            <h3 class="description">@lang('frontend.profile.yourprofile')</h3>
             <table class="table table-full-width">
                 <tr>
-                    <td>{{ __('Email') }}</td>
+                    <td>@lang('frontend.global.email')</td>
                     <td>{{ $user->email }}</td>
                 </tr>
                 <tr>
-                    <td>{{ __('API Key') }}&nbsp;&nbsp;<span class="description">({{ __('don\'t share this!') }})</span></td>
+                    <td>@lang('frontend.profile.apikey')&nbsp;&nbsp;<span class="description">(@lang('frontend.profile.dontshare'))</span></td>
                     <td>{{ $user->api_key }}</td>
                 </tr>
                 <tr>
-                    <td>{{ __('Timezone') }}</td>
+                    <td>@lang('frontend.global.timezone')</td>
                     <td>{{ $user->timezone }}</td>
                 </tr>
             </table>
