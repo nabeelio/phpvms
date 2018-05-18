@@ -26,7 +26,7 @@
                             <i class="far fa-clock icon"></i>
                         </div>
                         <h3 class="header">{{ \App\Facades\Utils::minutesToTimeString($user->flight_time, false)}}</h3>
-                        <h5 class="description">@lang('frontend.dashboard.totalhours')</h5>
+                        <h5 class="description">@lang('dashboard.totalhours')</h5>
                     </div>
                 </div>
             </div>
@@ -37,7 +37,7 @@
                             <i class="fas fa-money-bill-alt icon"></i>
                         </div>
                         <h3 class="header">{{ $user->journal->balance }}</h3>
-                        <h5 class="description">@lang('frontend.dashboard.yourbalance')</h5>
+                        <h5 class="description">@lang('dashboard.yourbalance')</h5>
                     </div>
                 </div>
             </div>
@@ -62,11 +62,11 @@
 
         <div class="card">
             <div class="nav nav-tabs" role="tablist" style="background: #067ec1; color: #FFF;">
-            @lang('frontend.dashboard.yourlastreport')
+            @lang('dashboard.yourlastreport')
             </div>
         @if($last_pirep === null)
             <div class="card-block" style="text-align:center;">
-                @lang('frontend.dashboard.noreportsyet') <a href="{{ route('frontend.pireps.create') }}">@lang('frontend.dashboard.fileonenow')</a>
+                @lang('dashboard.noreportsyet') <a href="{{ route('frontend.pireps.create') }}">@lang('dashboard.fileonenow')</a>
             </div>
         @else
             @include('pireps.pirep_card', ['pirep' => $last_pirep])
@@ -81,7 +81,7 @@
     <div class="col-sm-4">
         <div class="card">
             <div class="nav nav-tabs" role="tablist" style="background: #067ec1; color: #FFF;">
-                @lang('frontend.dashboard.weatherat', ['ICAO' => $current_airport])
+                @lang('dashboard.weatherat', ['ICAO' => $current_airport])
             </div>
             <div class="card-block">
                 <!-- Tab panes -->
@@ -93,7 +93,7 @@
 
         <div class="card">
             <div class="nav nav-tabs" role="tablist" style="background: #067ec1; color: #FFF;">
-                @lang('frontend.dashboard.recentreports')
+                @lang('dashboard.recentreports')
             </div>
             <div class="card-block">
                 <!-- Tab panes -->
