@@ -74,9 +74,9 @@
             </tr>
 
             <tr>
-                <td>@lang('frontend.profile.changepassword')</td>
+                <td>@lang('profile.changepassword')</td>
                 <td>
-                    <p>@lang('frontend.profile.newpassword'):</p>
+                    <p>@lang('profile.newpassword'):</p>
                     <div class="input-group form-group-no-border{{ $errors->has('password') ? ' has-danger' : '' }}">
                         {{ Form::password('password', ['class' => 'form-control']) }}
                     </div>
@@ -93,12 +93,12 @@
                     @endif
                 </td>
             </tr>
-            <td>@lang('frontend.profile.avatar')</td>
+            <td>@lang('profile.avatar')</td>
             <td>
                 <div class="input-group form-group-no-border{{ $errors->has('avatar') ? ' has-danger' : '' }}">
                     {{ Form::file('avatar', null) }}
                 </div>
-            <p class="small">@lang('frontend.profile.avatarresize', ['width' => config('phpvms.avatar.width'), 'height' => config('phpvms.avatar.height')])</p>
+            <p class="small">@lang('profile.avatarresize', ['width' => config('phpvms.avatar.width'), 'height' => config('phpvms.avatar.height')])</p>
                 @if ($errors->has('avatar'))
                     <p class="text-danger">{{ $errors->first('avatar') }}</p>
                 @endif
@@ -107,7 +107,7 @@
         </table>
 
         <div style="width: 100%; text-align: right; padding-top: 20px;">
-            {{ Form::submit(trans('frontend.profile.updateprofile'), ['class' => 'btn btn-primary']) }}
+            {{ Form::submit(__('profile.updateprofile'), ['class' => 'btn btn-primary']) }}
         </div>
     </div>
 </div>

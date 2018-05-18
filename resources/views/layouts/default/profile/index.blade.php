@@ -28,7 +28,7 @@
 
             <div class="social-description">
                 <h2>{{ \App\Facades\Utils::minutesToTimeString($user->flight_time, false) }}</h2>
-                <p>@lang('frontend.profile.flighthours')</p>
+                <p>@lang('profile.flighthours')</p>
             </div>
 
             @if($user->home_airport)
@@ -58,20 +58,20 @@
         <div class="col-sm-12">
             <div class="text-right">
                 <a href="{{ route('frontend.profile.regen_apikey') }}" class="btn btn-warning"
-                   onclick="return confirm({{ __('Are you sure? This will reset your API key.') }})">@lang('frontend.profile.newapikey')</a>
+                   onclick="return confirm({{ __('Are you sure? This will reset your API key.') }})">@lang('profile.newapikey')</a>
                 &nbsp;
                 <a href="{{ route('frontend.profile.edit', ['id' => $user->id]) }}"
                    class="btn btn-primary">@lang('common.edit')</a>
             </div>
 
-            <h3 class="description">@lang('frontend.profile.yourprofile')</h3>
+            <h3 class="description">@lang('profile.yourprofile')</h3>
             <table class="table table-full-width">
                 <tr>
                     <td>@lang('common.email')</td>
                     <td>{{ $user->email }}</td>
                 </tr>
                 <tr>
-                    <td>@lang('frontend.profile.apikey')&nbsp;&nbsp;<span class="description">(@lang('frontend.profile.dontshare'))</span></td>
+                    <td>@lang('profile.apikey')&nbsp;&nbsp;<span class="description">(@lang('profile.dontshare'))</span></td>
                     <td>{{ $user->api_key }}</td>
                 </tr>
                 <tr>
