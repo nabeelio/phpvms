@@ -1,14 +1,12 @@
 @extends('app')
-@section('title', trans('frontend.errors.404title'))
+@section('title', __('errors.404.title'))
 
 @section('content')
-<div class="container registered-page">
-    <h3>@lang('frontend.errors.404header')</h3>
-    <p>
-		@foreach(trans('frontend.errors.404message') as $line)
-			{!! str_replace(':link', config('app.url'), $line).'<br />' !!}
-		@endforeach
-        {{ $exception->getMessage() }}
-    </p>
-</div>
+    <div class="container registered-page">
+        <h3>@lang('errors.404.title')</h3>
+        <p>
+            {!! str_replace(':link', config('app.url'), __('errors.404.message')).'<br />' !!}
+            {{ $exception->getMessage() }}
+        </p>
+    </div>
 @endsection

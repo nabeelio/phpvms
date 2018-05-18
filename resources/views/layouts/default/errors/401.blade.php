@@ -1,13 +1,11 @@
 @extends('app')
-@section('title', __trans('frontend.errors.401title'))
+@section('title', __('errors.401.title'))
 
 @section('content')
-<div class="container registered-page">
-    <h3>@lang('frontend.errors.401header')</h3>
-    <p>
-		@foreach(trans('frontend.errors.401message') as $line)
-			{!! str_replace(':link', config('app.url'), $line).'<br />' !!}
-		@endforeach
-    </p>
-</div>
+    <div class="container registered-page">
+        <h3>@lang('errors.401.title')</h3>
+        <p>
+            {!! str_replace(':link', config('app.url'), __('errors.401.message')).'<br />' !!}
+        </p>
+    </div>
 @endsection
