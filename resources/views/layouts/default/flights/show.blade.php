@@ -34,7 +34,7 @@
                     </tr>
                     @if($flight->alt_airport_id)
                     <tr>
-                        <td>@lang('frontend.flights.alternateairport')</td>
+                        <td>@lang('flights.alternateairport')</td>
                         <td>
                             {{ $flight->alt_airport->name }}
                             (<a href="{{route('frontend.airports.show', [

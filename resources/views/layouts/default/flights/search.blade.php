@@ -1,4 +1,4 @@
-<h3 class="description">@lang('frontend.flights.search')</h3>
+<h3 class="description">@lang('flights.search')</h3>
 <div class="card pull-right">
     <div class="card-block" style="min-height: 0px">
         <div class="form-group">
