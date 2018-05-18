@@ -3,7 +3,7 @@
 if (! empty($greeting)) {
     echo $greeting, "\n\n";
 } else {
-    echo $level == 'error' ? 'Whoops!' : 'Hello!', "\n\n";
+    echo $level == 'error' ? trans('frontend.emails.whoops').'!' : trans('frontend.emails.hello').',', "\n\n";
 }
 
 if (! empty($introLines)) {
@@ -18,5 +18,5 @@ if (! empty($outroLines)) {
     echo implode("\n", $outroLines), "\n\n";
 }
 
-echo 'Regards,', "\n";
+echo trans('frontend.emails.regards).',', "\n";
 echo config('app.name'), "\n";

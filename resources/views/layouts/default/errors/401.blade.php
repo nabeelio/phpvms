@@ -1,12 +1,13 @@
 @extends('app')
-@section('title', 'not authorized')
+@section('title', __trans('frontend.errors.401title'))
 
 @section('content')
 <div class="container registered-page">
-    <h3>Unauthorized</h3>
+    <h3>@lang('frontend.errors.401header')</h3>
     <p>
-        Well, this is embarrassing, you are not authorized to access or perform this function.
-        Click <a href="{{ url()->previous() }}">here</a> to go back to the home page.
+		@foreach(trans('frontend.errors.401message') as $line)
+			{!! str_replace(':link', config('app.url'), $line).'<br />' !!}
+		@endforeach
     </p>
 </div>
 @endsection
