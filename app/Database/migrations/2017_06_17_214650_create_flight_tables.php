@@ -18,7 +18,7 @@ class CreateFlightTables extends Migration
             $table->unsignedInteger('airline_id');
             $table->unsignedInteger('flight_number');
             $table->string('route_code', 5)->nullable();
-            $table->string('route_leg', 5)->nullable();
+            $table->unsignedInteger('route_leg')->nullable();
             $table->string('dpt_airport_id', 4);
             $table->string('arr_airport_id', 4);
             $table->string('alt_airport_id', 4)->nullable();
