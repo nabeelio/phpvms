@@ -1,5 +1,5 @@
 @extends('auth.layout')
-@section('title', trans('frontend.global.login'))
+@section('title', __('auth.login'))
 
 @section('content')
 <div class="col-md-4 content-center">
@@ -18,7 +18,7 @@
                     {{
                         Form::text('email', old('email'), [
                             'id' => 'email',
-                            'placeholder' => trans('frontend.global.email'),
+                            'placeholder' => __('common.email'),
                             'class' => 'form-control',
                             'required' => true,
                         ])
@@ -38,7 +38,7 @@
                         Form::password('password', [
                             'name' => 'password',
                             'class' => 'form-control',
-                            'placeholder' => trans('frontend.auth.password'),
+                            'placeholder' => __('auth.password'),
                             'required' => true,
                         ])
                     }}
@@ -51,16 +51,16 @@
 
             </div>
             <div class="footer text-center">
-                <button href="#pablo" class="btn btn-primary btn-round btn-lg btn-block">@lang('frontend.auth.login')</button>
+                <button class="btn btn-primary btn-round btn-lg btn-block">@lang('auth.login')</button>
             </div>
             <div class="pull-left">
                 <h6>
-                    <a href="{{ url('/register') }}" class="link">@lang('frontend.auth.createaccount')</a>
+                    <a href="{{ url('/register') }}" class="link">@lang('auth.createaccount')</a>
                 </h6>
             </div>
             <div class="pull-right">
                 <h6>
-                    <a href="{{ url('/password/reset') }}" class="link">@lang('frontend.auth.forgotpassword')?</a>
+                    <a href="{{ url('/password/reset') }}" class="link">@lang('auth.forgotpassword')?</a>
                 </h6>
             </div>
         {{ Form::close() }}

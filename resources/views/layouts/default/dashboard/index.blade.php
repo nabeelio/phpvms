@@ -1,5 +1,5 @@
 @extends('app')
-@section('title', trans('frontend.global.dashboard'))
+@section('title', __('common.dashboard'))
 
 @section('content')
 <div class="row">

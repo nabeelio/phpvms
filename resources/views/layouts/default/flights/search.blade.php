@@ -23,7 +23,7 @@
             </div>
 
             <div class="clear" style="margin-top: 10px;">
-                {{ Form::submit(trans('frontend.global.find'), ['class' => 'btn btn-primary']) }}&nbsp;
+                {{ Form::submit(__('common.find'), ['class' => 'btn btn-primary']) }}&nbsp;
                 <a href="{{ route('frontend.flights.index') }}">@lang('common.reset')</a>
             </div>
             {{ Form::close() }}

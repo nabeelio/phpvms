@@ -26,7 +26,7 @@ flight reports that have been filed. You've been warned!
             <div class="form-container-body">
                 <div class="row">
                     <div class="col-sm-4">
-                        {{ Form::label('airline_id', trans('frontend.global.airline')) }}
+                        {{ Form::label('airline_id', __('common.airline')) }}
                         @if(!empty($pirep) && $pirep->read_only)
                             <p>{{ $pirep->airline->name }}</p>
                             {{ Form::hidden('airline_id') }}
@@ -52,7 +52,7 @@ flight reports that have been filed. You've been warned!
                         @else
                             <div class="input-group input-group-sm mb3">
                                 {{ Form::text('flight_number', null, [
-                                    'placeholder' => trans('frontend.global.flightnumber'),
+                                    'placeholder' => __('common.flightnumber'),
                                     'class' => 'form-control',
                                     'readonly' => (!empty($pirep) && $pirep->read_only),
                                 ]) }}
@@ -96,7 +96,7 @@ flight reports that have been filed. You've been warned!
 
                 <div class="row">
                     <div class="col-3">
-                        {{ Form::label('hours', trans('frontend.global.flighttime')) }}
+                        {{ Form::label('hours', __('common.flighttime')) }}
                         @if(!empty($pirep) && $pirep->read_only)
                             <p>
                                 {{ $pirep->hours.' '.trans_choice('common.hour', $pirep->hours) }}, {{ $pirep->minutes.' '.trans_choice('common.minute', $pirep->minutes) }}
@@ -163,7 +163,7 @@ flight reports that have been filed. You've been warned!
             <div class="form-container-body">
                 <div class="row">
                     <div class="col-6">
-                        {{ Form::label('dpt_airport_id', trans('frontend.global.departureairport')) }}
+                        {{ Form::label('dpt_airport_id', __('common.departureairport')) }}
                         @if(!empty($pirep) && $pirep->read_only)
                             {{ $pirep->dpt_airport->name }}
                             (<a href="{{route('frontend.airports.show', [
@@ -183,7 +183,7 @@ flight reports that have been filed. You've been warned!
                     </div>
 
                     <div class="col-6">
-                        {{ Form::label('arr_airport_id', trans('frontend.global.arrivalairport')) }}
+                        {{ Form::label('arr_airport_id', __('common.arrivalairport')) }}
                         @if(!empty($pirep) && $pirep->read_only)
                             {{ $pirep->arr_airport->name }}
                             (<a href="{{route('frontend.airports.show', [
@@ -212,7 +212,7 @@ flight reports that have been filed. You've been warned!
             <div class="form-container-body">
                 <div class="row">
                     <div class="col">
-                        {{ Form::label('aircraft_id', trans('frontend.global.aircraft')) }}
+                        {{ Form::label('aircraft_id', __('common.aircraft')) }}
                         @if(!empty($pirep) && $pirep->read_only)
                             <p>{{ $pirep->aircraft->name }}</p>
                             {{ Form::hidden('aircraft_id') }}
@@ -240,7 +240,7 @@ flight reports that have been filed. You've been warned!
                 <div class="row">
                     <div class="col">
                         <div class="input-group input-group-sm form-group">
-                            {{ Form::textarea('route', null, ['class' => 'form-control', 'placeholder' => trans('frontend.global.route')]) }}
+                            {{ Form::textarea('route', null, ['class' => 'form-control', 'placeholder' => __('common.route')]) }}
                             <p class="text-danger">{{ $errors->first('route') }}</p>
                         </div>
                     </div>

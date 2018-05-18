@@ -49,7 +49,7 @@
                 @if($flight->arr_time), {{ $flight->arr_time }}@endif
                 <br />
                 @if($flight->distance)
-                    <span class="title">{{ strtoupper(trans('frontend.global.distance')) }}&nbsp;</span>
+                    <span class="title">{{ strtoupper(__('common.distance')) }}&nbsp;</span>
                     {{ $flight->distance }} {{ setting('units.distance') }}
                 @endif
                 <br />
@@ -61,7 +61,7 @@
             <div class="col-sm-7">
                 <div class="row">
                     <div class="col-sm-12">
-                        <span class="title">{{ strtoupper(trans('frontend.global.route')) }}&nbsp;</span>
+                        <span class="title">{{ strtoupper(__('common.route')) }}&nbsp;</span>
                         {{ $flight->route }}
                     </div>
                 </div>

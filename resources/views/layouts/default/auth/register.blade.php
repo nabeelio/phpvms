@@ -1,5 +1,5 @@
 @extends('app')
-@section('title', trans('frontend.global.register'))
+@section('title', __('auth.register'))
 
 @section('content')
 <div class="row">
@@ -11,7 +11,7 @@
     <div class="panel periodic-login">
         <div class="panel-body">
             <h2>@lang('common.register')</h2>
-            <label for="name" class="control-label">@lang('frontend.auth.fullname')</label>
+            <label for="name" class="control-label">@lang('auth.fullname')</label>
             <div class="input-group form-group-no-border {{ $errors->has('name') ? 'has-danger' : '' }}">
                 {{ Form::text('name', null, ['class' => 'form-control']) }}
             </div>
@@ -19,7 +19,7 @@
             <p class="text-danger">{{ $errors->first('name') }}</p>
             @endif
 
-            <label for="email" class="control-label">@lang('frontend.auth.emailaddress')</label>
+            <label for="email" class="control-label">@lang('auth.emailaddress')</label>
             <div class="input-group form-group-no-border {{ $errors->has('email') ? 'has-danger' : '' }}">
                 {{ Form::text('email', null, ['class' => 'form-control']) }}
             </div>
@@ -59,7 +59,7 @@
                 <p class="text-danger">{{ $errors->first('timezone') }}</p>
             @endif
 
-            <label for="password" class="control-label">@lang('frontend.auth.password')</label>
+            <label for="password" class="control-label">@lang('auth.password')</label>
             <div class="input-group form-group-no-border {{ $errors->has('password') ? 'has-danger' : '' }}">
                 {{ Form::password('password', ['class' => 'form-control']) }}
             </div>
@@ -76,7 +76,7 @@
             @endif
 
             @if(config('captcha.enabled'))
-                <label for="g-recaptcha-response" class="control-label">@lang('frontend.auth.fillcaptcha')</label>
+                <label for="g-recaptcha-response" class="control-label">@lang('auth.fillcaptcha')</label>
                 <div class="input-group form-group-no-border {{ $errors->has('g-recaptcha-response') ? 'has-danger' : '' }}">
                     {!! NoCaptcha::display(config('captcha.attributes')) !!}
                 </div>
@@ -88,8 +88,8 @@
             @include('auth.toc')
 
             <div style="width: 100%; text-align: right; padding-top: 20px;">
-                @lang('frontend.auth.tocaccept')<br /><br />
-                {{ Form::submit(trans('frontend.auth.register'), ['class' => 'btn btn-primary']) }}
+                @lang('auth.tocaccept')<br /><br />
+                {{ Form::submit(__('auth.register'), ['class' => 'btn btn-primary']) }}
             </div>
 
         </div>

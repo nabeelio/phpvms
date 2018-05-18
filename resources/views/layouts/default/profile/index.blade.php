@@ -1,5 +1,5 @@
 @extends('app')
-@section('title', trans('frontend.global.profile'))
+@section('title', __('common.profile'))
 
 @section('content')
 <div class="row profile-page content-center text-color-dark-beige">

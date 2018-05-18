@@ -1,5 +1,5 @@
 @extends('app')
-@section('title', trans('frontend.global.livemap'))
+@section('title', __('common.livemap'))
 
 @section('content')
     {{ Widget::liveMap() }}
