@@ -7,13 +7,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-9">
-            <center><h1 class="description">@lang('frontend.home.welcome.message', ['Appname' => config('app.name')])</h1></center>
-            <div class="photo-container">
-                <img src="{{ public_asset('/assets/img/Airplane.jpg') }}" style=""/>
-            </div>
-        </div>
-        <div class="col-sm-3 ">
+        <div class="col-sm-12">
             <h2 class="description">@lang('frontend.global.newestpilots')</h2>
             @foreach($users as $user)
             <div class="card card-signup blue-bg">
