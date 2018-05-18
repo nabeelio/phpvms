@@ -41,7 +41,7 @@
                     <div class="col-sm-6">
                         <table class="table-condensed" width="100%">
                             <tr>
-                                <td nowrap><span class="title">@lang('frontend.pireps.flighttime')&nbsp;</span></td>
+                                <td nowrap><span class="title">@lang('pireps.flighttime')&nbsp;</span></td>
                                 <td>{{ Utils::minutesToTimeString($pirep->flight_time) }}</td>
                             </tr>
                             <tr>
@@ -51,12 +51,12 @@
                             </tr>
                             @if($pirep->level)
                             <tr>
-                                <td nowrap><span class="title">@lang('frontend.pireps.flightlevel') }}&nbsp;</span></td>
+                                <td nowrap><span class="title">@lang('pireps.flightlevel') }}&nbsp;</span></td>
                                 <td>{{ $pirep->level }}</td>
                             </tr>
                             @endif
                             <tr>
-                                <td nowrap><span class="title">@lang('frontend.pireps.filedon'):&nbsp;</span></td>
+                                <td nowrap><span class="title">@lang('pireps.filedon'):&nbsp;</span></td>
                                 <td>{{ show_datetime($pirep->created_at) }}</td>
                             </tr>
                         </table>

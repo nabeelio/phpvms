@@ -12,7 +12,7 @@
                             @if($pirep->state === PirepState::IN_PROGRESS)
 
                             @else
-                               @lang('frontend.pireps.arrived') {{$pirep->created_at->diffForHumans()}}
+                               @lang('pireps.arrived') {{$pirep->created_at->diffForHumans()}}
                             @endif
                         </p>
                     </p>
@@ -111,17 +111,17 @@
                 </tr>
 
                 <tr>
-                    <td>@lang('frontend.pireps.source')</td>
+                    <td>@lang('pireps.source')</td>
                     <td>{{ PirepSource::label($pirep->source) }}</td>
                 </tr>
 
                 <tr>
-                    <td>@lang('frontend.pireps.flighttype')</td>
+                    <td>@lang('pireps.flighttype')</td>
                     <td>{{ \App\Models\Enums\FlightType::label($pirep->flight_type) }}</td>
                 </tr>
 
                 <tr>
-                    <td>@lang('frontend.pireps.filedroute')</td>
+                    <td>@lang('pireps.filedroute')</td>
                     <td>
                         {{ $pirep->route }}
                     </td>
@@ -135,7 +135,7 @@
                 </tr>
 
                 <tr>
-                    <td>@lang('frontend.pireps.filedon')</td>
+                    <td>@lang('pireps.filedon')</td>
                     <td>
                         {{ show_datetime($pirep->created_at) }}
                     </td>
@@ -178,8 +178,8 @@
                         <h5>{{ trans_choice('frontend.pireps.fare', 2) }}</h5>
                         <table class="table table-hover table-condensed">
                             <thead>
-                            <th>@lang('frontend.pireps.class')</th>
-                            <th>@lang('frontend.pireps.count')</th>
+                            <th>@lang('pireps.class')</th>
+                            <th>@lang('pireps.count')</th>
                             </thead>
                             <tbody>
                             @foreach($pirep->fares as $fare)
@@ -200,7 +200,7 @@
         <div class="separator"></div>
         <div class="row">
             <div class="col-12">
-                <h5>@lang('frontend.pireps.flightlog')</h5>
+                <h5>@lang('pireps.flightlog')</h5>
             </div>
             <div class="col-12">
                 <table class="table table-hover table-condensed" id="users-table">

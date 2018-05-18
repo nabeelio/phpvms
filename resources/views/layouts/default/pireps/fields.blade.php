@@ -12,7 +12,7 @@ flight reports that have been filed. You've been warned!
     <div class="row">
         <div class="col-sm-12">
             @component('components.info')
-            @lang('frontend.pireps.fieldsreadonly')
+            @lang('pireps.fieldsreadonly')
             @endcomponent
         </div>
     </div>
@@ -21,7 +21,7 @@ flight reports that have been filed. You've been warned!
     <div class="col-8">
         <div class="form-container">
             <h6><i class="fas fa-info-circle"></i>
-                &nbsp;@lang('frontend.pireps.flightinformations')
+                &nbsp;@lang('pireps.flightinformations')
             </h6>
             <div class="form-container-body">
                 <div class="row">
@@ -42,7 +42,7 @@ flight reports that have been filed. You've been warned!
                         @endif
                     </div>
                     <div class="col-sm-4">
-                        {{ Form::label('flight_number', trans('frontend.pireps.flightident')) }}
+                        {{ Form::label('flight_number', __('pireps.flightident')) }}
                         @if(!empty($pirep) && $pirep->read_only)
                             <p>{{ $pirep->ident }}
                                 {{ Form::hidden('flight_number') }}
@@ -58,13 +58,13 @@ flight reports that have been filed. You've been warned!
                                 ]) }}
                                 &nbsp;
                                 {{ Form::text('route_code', null, [
-                                    'placeholder' => trans('frontend.pireps.codeoptional'),
+                                    'placeholder' => __('pireps.codeoptional'),
                                     'class' => 'form-control',
                                     'readonly' => (!empty($pirep) && $pirep->read_only),
                                 ]) }}
                                 &nbsp;
                                 {{ Form::text('route_leg', null, [
-                                    'placeholder' => trans('frontend.pireps.legoptional'),
+                                    'placeholder' => __('pireps.legoptional'),
                                     'class' => 'form-control',
                                     'readonly' => (!empty($pirep) && $pirep->read_only),
                                 ]) }}
@@ -75,7 +75,7 @@ flight reports that have been filed. You've been warned!
                         @endif
                     </div>
                     <div class="col-lg-4">
-                        {{ Form::label('flight_type', trans('frontend.pireps.flighttype')) }}
+                        {{ Form::label('flight_type', __('pireps.flighttype')) }}
                         @if(!empty($pirep) && $pirep->read_only)
                             <p>{{ \App\Models\Enums\FlightType::label($pirep->flight_type) }}</p>
                             {{ Form::hidden('flight_type') }}
@@ -126,27 +126,27 @@ flight reports that have been filed. You've been warned!
 
 
                     <div class="col-3">
-                        {{--{{ Form::label('submitted_date', trans('frontend.pireps.dateflown')) }}
+                        {{--{{ Form::label('submitted_date', __('pireps.dateflown')) }}
                         {{ Form::text('submmitted_date', null, [
-                                'placeholder' => trans('frontend.pireps.departuredate'),
+                                'placeholder' => __('pireps.departuredate'),
                                 'class' => 'form-control',
                                 'readonly' => $pirep->read_only]) }}--}}
                     </div>
 
 
                     <div class="col-3">
-                        {{--{{ Form::label('departure_time', trans('frontend.pireps.departuretime')) }}
+                        {{--{{ Form::label('departure_time', __('pireps.departuretime')) }}
                         {{ Form::text('departure_time', null, [
-                                        'placeholder' => trans('frontend.pireps.departuretime'),
+                                        'placeholder' => __('pireps.departuretime'),
                                         'class' => 'form-control',
                                         'readonly' => $pirep->read_only]) }}--}}
                     </div>
 
 
                     <div class="col-3">
-                        {{--{{ Form::label('arrival_time', trans('frontend.pireps.arrivaltime')) }}
+                        {{--{{ Form::label('arrival_time', __('pireps.arrivaltime')) }}
                         {{ Form::text('arrival_time', null, [
-                                        'placeholder' => trans('frontend.pireps.arrivaltime'),
+                                        'placeholder' => __('pireps.arrivaltime'),
                                         'class' => 'form-control',
                                         'readonly' => $pirep->read_only]) }}--}}
                     </div>
@@ -158,7 +158,7 @@ flight reports that have been filed. You've been warned!
 
         <div class="form-container">
             <h6><i class="fas fa-globe"></i>
-                &nbsp;@lang('frontend.pireps.deparrinformations')
+                &nbsp;@lang('pireps.deparrinformations')
             </h6>
             <div class="form-container-body">
                 <div class="row">
@@ -207,7 +207,7 @@ flight reports that have been filed. You've been warned!
 
         <div class="form-container">
             <h6><i class="fab fa-avianex"></i>
-                &nbsp;@lang('frontend.pireps.aircraftinformations')
+                &nbsp;@lang('pireps.aircraftinformations')
             </h6>
             <div class="form-container-body">
                 <div class="row">
@@ -310,7 +310,7 @@ flight reports that have been filed. You've been warned!
             <div class="form-group">
 
                 @if(isset($pirep) && !$pirep->read_only)
-                    {{ Form::button(trans('frontend.pireps.deletepirep'), [
+                    {{ Form::button(__('pireps.deletepirep'), [
                         'name' => 'submit',
                         'value' => 'Delete',
                         'class' => 'btn btn-warning',
@@ -319,14 +319,14 @@ flight reports that have been filed. You've been warned!
                 @endif
 
                 @if(!isset($pirep) || (filled($pirep) && !$pirep->read_only))
-                    {{ Form::button(trans('frontend.pireps.savepirep'), [
+                    {{ Form::button(__('pireps.savepirep'), [
                         'name' => 'submit',
                         'value' => 'Save',
                         'class' => 'btn btn-info',
                         'type' => 'submit'])
                     }}
 
-                    {{ Form::button(trans('frontend.pireps.submitpirep'), [
+                    {{ Form::button(__('pireps.submitpirep'), [
                         'name' => 'submit',
                         'value' => 'Submit',
                         'class' => 'btn btn-success',
