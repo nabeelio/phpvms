@@ -18,10 +18,7 @@ return [
     ],
 
     'home' => [
-        'welcome' => [
-            'title' => 'Welcome!',
-            'message' => 'Welcome in :Appname',
-        ],
+
     ],
 
     'nav' => [

@@ -175,7 +175,7 @@
             @if(count($pirep->fares) > 0)
                 <div class="row">
                     <div class="col-12">
-                        <h5>{{ trans_choice('frontend.pireps.fare', 2) }}</h5>
+                        <h5>{{ trans_choice('pireps.fare', 2) }}</h5>
                         <table class="table table-hover table-condensed">
                             <thead>
                             <th>@lang('pireps.class')</th>

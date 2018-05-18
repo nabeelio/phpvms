@@ -1,5 +1,5 @@
 @extends('app')
-@section('title', trans('frontend.home.welcome.title'))
+@section('title', __('home.welcome.title'))
 
 @section('content')
     <div class="row">

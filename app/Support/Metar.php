@@ -481,9 +481,9 @@ class Metar implements \ArrayAccess
         $time_diff = floor(($now - $local) / 60);
 
         if ($time_diff < 91) {
-            $this->set_result_value('observed_age', $time_diff.' '.trans_choice('frontend.widgets.weather.minago', $time_diff));
+            $this->set_result_value('observed_age', $time_diff.' '.trans_choice('widgets.weather.minago', $time_diff));
         } else {
-            $this->set_result_value('observed_age', floor($time_diff / 60).':'.sprintf("%02d", $time_diff % 60).' '.trans_choice('frontend.widgets.weather.hrago', floor($time_diff / 60)));
+            $this->set_result_value('observed_age', floor($time_diff / 60).':'.sprintf("%02d", $time_diff % 60).' '.trans_choice('widgets.weather.hrago', floor($time_diff / 60)));
         }
     }
 

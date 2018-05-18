@@ -5,30 +5,30 @@ https://api.checkwx.com/#metar-decoded
 
 --}}
 @if(!$metar)
-    <p>@lang('frontend.widgets.weather.metarnotretrieved')</p>
+    <p>@lang('widgets.weather.metarnotretrieved')</p>
 @else
     <table class="table table-striped">
         <tr>
-            <td>@lang('frontend.widgets.weather.conditions')</td>
+            <td>@lang('widgets.weather.conditions')</td>
             <td>
                 {{ $metar['category'] }}
                 {{ $metar['temperature'][$unit_temp] }}
                 °{{strtoupper($unit_temp)}}
                 @if($metar['visibility'])
-                , @lang('frontend.widgets.weather.visibility') {{ $metar['visibility'][$unit_dist] }} {{$unit_dist}}
+                , @lang('widgets.weather.visibility') {{ $metar['visibility'][$unit_dist] }} {{$unit_dist}}
                 @endif
                 @if($metar['humidity'])
-                    , {{ $metar['humidity'] }}% @lang('frontend.widgets.weather.humidity')
+                    , {{ $metar['humidity'] }}% @lang('widgets.weather.humidity')
                 @endif
                 @if($metar['dew_point'])
-                    , @lang('frontend.widgets.weather.dewpoint')
+                    , @lang('widgets.weather.dewpoint')
                     {{ $metar['dew_point'][$unit_temp] }}
                     °{{strtoupper($unit_temp)}}
                 @endif
             </td>
         </tr>
         <tr>
-            <td>@lang('frontend.widgets.weather.barometer')</td>
+            <td>@lang('widgets.weather.barometer')</td>
             <td>
                 {{ number_format($metar['barometer'], 2) }} hPa
                 / {{ number_format($metar['barometer_in'], 2) }} inHg
@@ -36,7 +36,7 @@ https://api.checkwx.com/#metar-decoded
         </tr>
         @if($metar['clouds'])
             <tr>
-                <td>@lang('frontend.widgets.weather.clouds')</td>
+                <td>@lang('widgets.weather.clouds')</td>
                 <td>
                     @if($unit_alt === 'ft')
                         {{$metar['clouds_report_ft']}}
@@ -47,12 +47,12 @@ https://api.checkwx.com/#metar-decoded
             </tr>
         @endif
         <tr>
-            <td>@lang('frontend.widgets.weather.wind')</td>
+            <td>@lang('widgets.weather.wind')</td>
             <td>
                 {{$metar['wind_speed']}} kts @lang('common.from') {{$metar['wind_direction_label']}}
                 ({{$metar['wind_direction']}}°)
                 @if($metar['wind_gust_speed'])
-                    @lang('frontend.widgets.weather.guststo') {{ $metar['wind_gust_speed'] }}
+                    @lang('widgets.weather.guststo') {{ $metar['wind_gust_speed'] }}
                 @endif
             </td>
         </tr>
@@ -66,14 +66,14 @@ https://api.checkwx.com/#metar-decoded
         </tr>
         @if($metar['remarks'])
             <tr>
-                <td>@lang('frontend.widgets.weather.remarks')</td>
+                <td>@lang('widgets.weather.remarks')</td>
                 <td>
                     {{ $metar['remarks'] }}
                 </td>
             </tr>
         @endif
         <tr>
-            <td>@lang('frontend.widgets.weather.updated')</td>
+            <td>@lang('widgets.weather.updated')</td>
             <td>{{$metar['observed_time']}} ({{$metar['observed_age']}})</td>
         </tr>
     </table>

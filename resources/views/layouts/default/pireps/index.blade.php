@@ -9,7 +9,7 @@
                style="margin-top: -10px;margin-bottom: 5px"
                href="{{ route('frontend.pireps.create') }}">@lang('pireps.filenewpirep')</a>
         </div>
-        <h2>{{ trans_choice('frontend.pireps.pilotreport', 2) }}</h2>
+        <h2>{{ trans_choice('pireps.pilotreport', 2) }}</h2>
         @include('flash::message')
         @include('pireps.table')
     </div>

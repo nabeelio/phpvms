@@ -43,9 +43,9 @@
                     </div>
                     <div style="float: right; margin-left: 30px; margin-right: 30px;">
                         <p id="map_flight_stats_right">
-                            @lang('frontend.widgets.livemap.groundspeed'): <span style="font-weight: bold">{ pirep.position.gs }</span><br/>
-                            @lang('frontend.widgets.livemap.altitude'): <span style="font-weight: bold">{ pirep.position.altitude }</span><br/>
-                            @lang('frontend.widgets.livemap.heading'): <span style="font-weight: bold">{ pirep.position.heading }</span><br/>
+                            @lang('widgets.livemap.groundspeed'): <span style="font-weight: bold">{ pirep.position.gs }</span><br/>
+                            @lang('widgets.livemap.altitude'): <span style="font-weight: bold">{ pirep.position.altitude }</span><br/>
+                            @lang('widgets.livemap.heading'): <span style="font-weight: bold">{ pirep.position.heading }</span><br/>
                         </p>
                     </div>
                     <div style="float: right; margin-left: 30px;">
@@ -74,7 +74,7 @@ and being mindful of the rivets bindings
 --}}
 <div id="live_flights" class="row">
     <div class="col-md-12">
-        <div rv-hide="has_data" class="jumbotron text-center">@lang('frontend.widgets.livemap.noflights')</div>
+        <div rv-hide="has_data" class="jumbotron text-center">@lang('widgets.livemap.noflights')</div>
         <table rv-show="has_data" id="live_flights_table" class="table table-striped">
             <thead>
                 <tr class="text-small header">
@@ -82,9 +82,9 @@ and being mindful of the rivets bindings
                     <td class="text-small">@lang('common.departure')</td>
                     <td class="text-small">@lang('common.arrival')</td>
                     <td class="text-small">@lang('common.aircraft')</td>
-                    <td class="text-small">@lang('frontend.widgets.livemap.altitude')</td>
-                    <td class="text-small">@lang('frontend.widgets.livemap.gs')</td>
-                    <td class="text-small">@lang('frontend.widgets.livemap.distance')</td>
+                    <td class="text-small">@lang('widgets.livemap.altitude')</td>
+                    <td class="text-small">@lang('widgets.livemap.gs')</td>
+                    <td class="text-small">@lang('widgets.livemap.distance')</td>
                     <td class="text-small">@lang('common.status') }}</td>
                 </tr>
             </thead>

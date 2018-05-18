@@ -18,13 +18,6 @@ return [
         'nodownloads' => 'Non ci sono downloads!',
     ],
 
-    'home' => [
-        'welcome' => [
-            'title' => 'Benvenuti!',
-            'message' => 'Benvenuti in :Appname',
-        ],
-    ],
-
     'nav' => [
         'administration' => 'Amministrazione',
         'logout' => 'Uscita',
@@ -108,34 +101,4 @@ return [
         'location' => 'Posizione',
     ],
 
-    'widgets' => [
-        'latestnews' => [
-            'news' => 'Novità',
-            'nonewsfound' => 'Nessuna Novità Trovata',
-        ],
-
-        'livemap' => [
-            'groundspeed' => 'Velocità al Suolo',
-            'altitude' => 'Altitudine',
-            'heading' => 'Direzione',
-            'noflights' => 'Non ci sono voli.',
-            'gs' => 'VS',
-        ],
-
-        'weather' => [
-            'metarnotretrieved' => 'I dati METAR/TAF non possono essere recuperati',
-            'conditions' => 'Condizioni',
-            'visibility' => 'visibilità',
-            'humidity' => 'umidità',
-            'dewpoint' => 'punto di rugiada',
-            'barometer' => 'Barometro',
-            'clouds' => 'Nuvole',
-            'wind' => 'Vento',
-            'guststo' => 'raffiche da',
-            'remarks' => 'Remarks',
-            'updated' => 'Aggiornato',
-            'hrago' => 'ora fa|ore fa',
-            'minago' => 'ninuto fa|minuti fa',
-        ],
-    ],
 ];
