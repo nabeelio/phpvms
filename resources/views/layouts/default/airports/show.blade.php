@@ -36,16 +36,16 @@
 
 <div class="row">
     <div class="col-6">
-        <h5>@lang('frontend.airports.inboundflights')</h5>
+        <h5>@lang('airports.inboundflights')</h5>
         @if(!$inbound_flights)
             <div class="jumbotron text-center">
-            @lang('frontend.airports.noflightfound')
+            @lang('airports.noflightfound')
             </div>
         @else
             <table class="table table-striped table-condensed">
                 <thead>
                 <tr>
-                    <th class="text-left">@lang('frontend.airports.ident')</th>
+                    <th class="text-left">@lang('airports.ident')</th>
                     <th class="text-left">@lang('common.from')</th>
                     <th>@lang('common.departure')</th>
                     <th>@lang('common.arrival')</th>
@@ -71,16 +71,16 @@
     </div>
 
     <div class="col-6">
-        <h5>@lang('frontend.airports.outboundflights')</h5>
+        <h5>@lang('airports.outboundflights')</h5>
         @if(!$outbound_flights)
             <div class="jumbotron text-center">
-            @lang('frontend.airports.noflightfound')
+            @lang('airports.noflightfound')
             </div>
         @else
             <table class="table table-striped table-condensed">
                 <thead>
                 <tr>
-                    <th class="text-left">@lang('frontend.airports.ident')</th>
+                    <th class="text-left">@lang('airports.ident')</th>
                     <th class="text-left">@lang('common.to')</th>
                     <th>@lang('common.departure')</th>
                     <th>@lang('common.arrival')</th>
