@@ -1,5 +1,5 @@
 @extends('app')
-@section('title', 'account suspended')
+@section('title', trans('frontend.auth.accountsuspended'))
 
 @section('content')
 <div class="row">
@@ -7,7 +7,7 @@
         <div class="flex-center position-ref full-height">
             <div class="title m-b-md">
                 <h2 class="description">
-                    your has been suspended. please contact an administrator
+                @lang('frontend.auth.suspendedmessage')
                 </h2>
             </div>
         </div>

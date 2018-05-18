@@ -1,5 +1,5 @@
 @extends('app')
-@section('title', 'dashboard')
+@section('title', trans('frontend.global.dashboard'))
 
 @section('content')
 <div class="row">
@@ -14,7 +14,7 @@
                             <i class="fas fa-plane icon"></i>
                         </div>
                         <h3 class="header">{{ $user->flights }}</h3>
-                        <h5 class="description">{{ str_plural('flight', $user->flights) }}</h5>
+                        <h5 class="description">{{ trans_choice('frontend.global.flight', $user->flights) }}</h5>
                     </div>
                 </div>
             </div>
@@ -26,11 +26,10 @@
                             <i class="far fa-clock icon"></i>
                         </div>
                         <h3 class="header">{{ \App\Facades\Utils::minutesToTimeString($user->flight_time, false)}}</h3>
-                        <h5 class="description">total hours</h5>
+                        <h5 class="description">@lang('frontend.dashboard.totalhours')</h5>
                     </div>
                 </div>
             </div>
-
             <div class="col-sm-3">
                 <div class="card card-primary text-white dashboard-box">
                     <div class="card-block text-center">
@@ -38,7 +37,7 @@
                             <i class="fas fa-money-bill-alt icon"></i>
                         </div>
                         <h3 class="header">{{ $user->journal->balance }}</h3>
-                        <h5 class="description">your balance</h5>
+                        <h5 class="description">@lang('frontend.dashboard.yourbalance')</h5>
                     </div>
                 </div>
             </div>
@@ -54,28 +53,25 @@
                         @else
                             <h3 class="header">{{ $user->home_airport_id }}</h3>
                         @endif
-                        <h5 class="description">current airport</h5>
+                        <h5 class="description">@lang('frontend.global.currentairport')</h5>
                     </div>
                 </div>
             </div>
 
         </div>
 
-        @if($last_pirep === null)
         <div class="card">
             <div class="nav nav-tabs" role="tablist" style="background: #067ec1; color: #FFF;">
-                Your Last Report
+            @lang('frontend.dashboard.yourlastreport')
             </div>
+        @if($last_pirep === null)
             <div class="card-block" style="text-align:center;">
-                    No reports yet. <a href="{{ route('frontend.pireps.create') }}">File one now.</a>
+                @lang('frontend.dashboard.noreportsyet') <a href="{{ route('frontend.pireps.create') }}">@lang('frontend.dashboard.fileonenow')</a>
             </div>
-        </div>
         @else
-            <div class="nav nav-tabs" role="tablist" style="background: #067ec1; color: #FFF;">
-                Your Last Report
-            </div>
             @include('pireps.pirep_card', ['pirep' => $last_pirep])
         @endif
+        </div>
 
         {{ Widget::latestNews(['count' => 1]) }}
 
@@ -85,7 +81,7 @@
     <div class="col-sm-4">
         <div class="card">
             <div class="nav nav-tabs" role="tablist" style="background: #067ec1; color: #FFF;">
-                Weather at {{ $current_airport }}
+                @lang('frontend.dashboard.weatherat', ['ICAO' => $current_airport])
             </div>
             <div class="card-block">
                 <!-- Tab panes -->
@@ -97,7 +93,7 @@
 
         <div class="card">
             <div class="nav nav-tabs" role="tablist" style="background: #067ec1; color: #FFF;">
-                Recent Reports
+                @lang('frontend.dashboard.recentreports')
             </div>
             <div class="card-block">
                 <!-- Tab panes -->
@@ -109,7 +105,7 @@
 
         <div class="card">
             <div class="nav nav-tabs" role="tablist" style="background: #067ec1; color: #FFF;">
-                Newest Pilots
+                @lang('frontend.global.newestpilots')
             </div>
             <div class="card-block">
                 <!-- Tab panes -->

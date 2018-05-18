@@ -1,5 +1,5 @@
 @extends('app')
-@section('title', 'pireps')
+@section('title', trans_choice('frontend.global.pirep', 2))
 
 @section('content')
 <div class="row">
@@ -7,9 +7,9 @@
         <div style="float:right;">
             <a class="btn btn-info pull-right btn-lg"
                style="margin-top: -10px;margin-bottom: 5px"
-               href="{{ route('frontend.pireps.create') }}">File New PIREP</a>
+               href="{{ route('frontend.pireps.create') }}">@lang('frontend.pireps.filenewpirep')</a>
         </div>
-        <h2>Pilot Reports</h2>
+        <h2>{{ trans_choice('frontend.pireps.pilotreport', 2) }}</h2>
         @include('flash::message')
         @include('pireps.table')
     </div>

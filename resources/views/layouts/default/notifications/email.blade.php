@@ -85,9 +85,9 @@ $style = [
                                         <!-- Greeting -->
                                         <h1 style="{{ $style['header-1'] }}">
                                             @if ($level == 'error')
-                                                Whoops!
+                                                @lang('frontend.emails.whoops')!
                                             @else
-                                                Hello!
+                                                @lang('frontend.emails.hello'),
                                             @endif
                                         </h1>
 
@@ -136,7 +136,7 @@ $style = [
 
                                         <!-- Salutation -->
                                         <p style="{{ $style['paragraph'] }}">
-                                            Regards,<br>{{ config('app.name') }}
+                                            @lang('frontend.emails.regards'),<br>{{ config('app.name') }}
                                         </p>
 
                                         <!-- Sub Copy -->
@@ -145,8 +145,9 @@ $style = [
                                                 <tr>
                                                     <td style="{{ $fontFamily }}">
                                                         <p style="{{ $style['paragraph-sub'] }}">
-                                                            If you’re having trouble clicking the "{{ $actionText }}" button,
-                                                            copy and paste the URL below into your web browser:
+															@foreach(trans('frontend.emails.buttontroubles' as $line)
+																{{ str_replace(':actiontext', $actionText, $line) }}
+															@endforeach
                                                         </p>
 
                                                         <p style="{{ $style['paragraph-sub'] }}">
@@ -173,7 +174,7 @@ $style = [
                                         <p style="{{ $style['paragraph-sub'] }}">
                                             &copy; {{ date('Y') }}
                                             <a style="{{ $style['anchor'] }}" href="{{ url('/') }}" target="_blank">{{ config('app.name') }}</a>.
-                                            All rights reserved.
+                                            @lang(frontend.emails.allrightsreserved')
                                         </p>
                                     </td>
                                 </tr>

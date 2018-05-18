@@ -32,7 +32,10 @@ class AviationWeather extends Metar
                 try {
                     $res = Http::get($url, []);
                     $xml = simplexml_load_string($res);
-                    return $xml->data->METAR->raw_text->__toString();
+					if (count($xml->data->METAR->raw_text) == 0)
+						return '';
+					else
+						return $xml->data->METAR->raw_text->__toString();
 
                 } catch (\Exception $e) {
                     return '';

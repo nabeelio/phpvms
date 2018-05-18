@@ -1,12 +1,11 @@
 @extends('app')
-@section('title', 'registration submitted')
+@section('title', trans('frontend.auth.registrationsubmitted'))
 
 @section('content')
 <div class="container registered-page">
-    <h3>Registration Confirmation</h3>
+    <h3>@lang('frontend.auth.registrationconfirmation')</h3>
     <p>
-        Your application has been submitted. It requires staff member approval, once a
-        staff member has reviewed your application, you will receive an email confirmation.
+        @lang('frontend.auth.confirmationmessage')
     </p>
 </div>
 @endsection

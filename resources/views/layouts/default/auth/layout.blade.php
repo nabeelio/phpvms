@@ -40,7 +40,7 @@
 </div>
 </body>
 
-<script src="{{ public_asset('/assets/frontend/js/core/jquery.3.2.1.min.js') }}" type="text/javascript"></script>
+<script src="{{ public_asset('/assets/global/js/jquery.js') }}" type="text/javascript"></script>
 
 @yield('scripts')
 

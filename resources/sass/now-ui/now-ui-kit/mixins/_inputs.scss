@@ -106,7 +106,6 @@
     .form-group.form-group-no-border,
     .input-group.form-group-no-border{
         .form-control{
-            /*margin-top: 2px;*/
             padding: $padding-vertical $padding-horizontal;
 
             & + .input-group-addon{
@@ -122,7 +121,6 @@
     .form-group,
     .input-group{
         .form-control{
-            margin-top: 2px;
             padding: $padding-vertical - 1 $padding-horizontal - 1 $padding-vertical - 1 $padding-horizontal - 1;
 
             & + .input-group-addon{

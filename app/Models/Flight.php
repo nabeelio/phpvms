@@ -17,7 +17,7 @@ use PhpUnitsOfMeasure\Exception\NonStringUnitName;
  * @property integer    airline_id
  * @property mixed      flight_number
  * @property mixed      route_code
- * @property mixed      route_leg
+ * @property int      	route_leg
  * @property Collection field_values
  * @property Collection fares
  * @property Collection subfleets
@@ -76,6 +76,7 @@ class Flight extends Model
         'end_date'      => 'date',
         'has_bid'       => 'boolean',
         'active'        => 'boolean',
+		'route_leg'		=> 'integer'
     ];
 
     public static $rules = [
@@ -112,12 +113,12 @@ class Flight extends Model
         $flight_id = $this->airline->code;
         $flight_id .= $this->flight_number;
 
-        if (filled($this->route_leg)) {
-            $flight_id .= '/L'.$this->route_leg;
+        if (filled($this->route_code)) {
+            $flight_id .= '-'.$this->route_code;
         }
 
-        if (filled($this->route_code)) {
-            $flight_id .= '/C'.$this->route_code;
+        if (filled($this->route_leg)) {
+            $flight_id .= '-'.$this->route_leg;
         }
 
         return $flight_id;
