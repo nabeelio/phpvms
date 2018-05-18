@@ -87,6 +87,33 @@ return [
 		'nodownloads' => 'There are no downloads!',
 	],
 	
+	'emails' => [
+		'whoops' => 'Whoops',
+		'hello' => 'Hello',
+		'regards' => 'Regards',
+		'buttontroubles' => [
+			'If you’re having trouble clicking the ":actiontext" button,',
+			'copy and paste the URL below into your web browser:',
+		],
+		'allrightsreserved' => 'All Rights Reserved',
+	],
+	
+	'errors' => [
+		'401title' => 'Not Authorized',
+		'401header' => 'Unauthorized Access',
+		'401message' => [
+			'Well, this is embarrassing, you are not authorized to access or perform this function.',
+			'Click <a href=":link">here</a> to go back to the home page.',
+		],
+		'404title' => 'Not Found',
+		'404header' => 'Page Not Found',
+		'404message' => [
+			'Well, this is embarrassing, the page you requested does not exist.',
+			'Click <a href=":link">here</a> to go back to the home page.',
+		],
+		'503message' => 'Be right back.',
+	],
+	
 	'flights' => [
 		'mybid' => 'My Bid|My Bids',
 		'search' => 'Search',

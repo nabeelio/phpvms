@@ -1,12 +1,13 @@
 @extends('app')
-@section('title', 'not found')
+@section('title', trans('frontend.errors.404title'))
 
 @section('content')
 <div class="container registered-page">
-    <h3>Page Not Found</h3>
+    <h3>@lang('frontend.errors.404header')</h3>
     <p>
-        Well, this is embarrassing, the page you requested does not exist.
-        Click <a href="{{ url()->previous() }}">here</a> to go back to the home page.
+		@foreach(trans('frontend.errors.404message') as $line)
+			{!! str_replace(':link', config('app.url'), $line).'<br />' !!}
+		@endforeach
         {{ $exception->getMessage() }}
     </p>
 </div>

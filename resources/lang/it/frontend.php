@@ -83,6 +83,33 @@ return [
 		'recentreports' => 'Rapporti Recenti',
 	],
 	
+	'emails' => [
+		'whoops' => 'Ops',
+		'hello' => 'Ciao',
+		'regards' => 'Saluti',
+		'buttontroubles' => [
+			'Se hai problemi a cliccare il bottone ":actiontext",',
+			'copia e incolla l\'URL qui sotto nel tuo browser:',
+		],
+		'allrightsreserved' => 'Tutti i Diritti Riservati',
+	],
+	
+	'errors' => [
+		'401title' => 'Non Autorizzato',
+		'401header' => 'Accesso Non Autorizzato',
+		'401message' => [
+			'Beh, è imbarazzante, non sei autorizzato ad accedere o ad eseguire questa funzionalità.',
+			'Clicca <a href=":link">qui</a> per tornare alla home page.',
+		],
+		'404title' => 'Not Found',
+		'404header' => 'Page Not Found',
+		'404message' => [
+			'Beh, è imbarazzante, la pagina che hai richiesto non esiste.',
+			'Clicca <a href=":link">qui</a> per tornare alla home page.',
+		],
+		'503message' => 'Torniamo subito.',
+	],
+	
 	'downloads' => [
 		'nodownloads' => 'Non ci sono downloads!',
 	],
