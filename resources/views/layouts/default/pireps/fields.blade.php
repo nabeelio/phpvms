@@ -99,7 +99,7 @@ flight reports that have been filed. You've been warned!
                         {{ Form::label('hours', trans('frontend.global.flighttime')) }}
                         @if(!empty($pirep) && $pirep->read_only)
                             <p>
-                                {{ $pirep->hours.' '.trans_choice('frontend.global.hour', $pirep->hours) }}, {{ $pirep->minutes.' '.trans_choice('frontend.global.minute', $pirep->minutes) }}
+                                {{ $pirep->hours.' '.trans_choice('common.hour', $pirep->hours) }}, {{ $pirep->minutes.' '.trans_choice('common.minute', $pirep->minutes) }}
                                 {{ Form::hidden('hours') }}
                                 {{ Form::hidden('minutes') }}
                             </p>
@@ -107,14 +107,14 @@ flight reports that have been filed. You've been warned!
                             <div class="input-group input-group-sm" style="max-width: 200px;">
                                 {{ Form::number('hours', null, [
                                         'class' => 'form-control',
-                                        'placeholder' => trans_choice('frontend.global.hour', 2),
+                                        'placeholder' => trans_choice('common.hour', 2),
                                         'min' => '0',
                                         'readonly' => (!empty($pirep) && $pirep->read_only),
                                 ]) }}
 
                                 {{ Form::number('minutes', null, [
                                     'class' => 'form-control',
-                                    'placeholder' => trans_choice('frontend.global.minute', 2),
+                                    'placeholder' => trans_choice('common.minute', 2),
                                     'min' => 0,
                                     'readonly' => (!empty($pirep) && $pirep->read_only),
                                     ]) }}
@@ -234,7 +234,7 @@ flight reports that have been filed. You've been warned!
 
         <div class="form-container">
             <h6><i class="far fa-comments"></i>
-                &nbsp;@lang('frontend.global.route')
+                &nbsp;@lang('common.route')
             </h6>
             <div class="form-container-body">
                 <div class="row">
@@ -250,13 +250,13 @@ flight reports that have been filed. You've been warned!
 
         <div class="form-container">
             <h6><i class="far fa-comments"></i>
-                &nbsp;{{ trans_choice('frontend.global.remark', 2) }}
+                &nbsp;{{ trans_choice('common.remark', 2) }}
             </h6>
             <div class="form-container-body">
                 <div class="row">
                     <div class="col">
                         <div class="input-group input-group-sm form-group">
-                            {{ Form::textarea('notes', null, ['class' => 'form-control', 'placeholder' => trans_choice('frontend.global.note', 2)]) }}
+                            {{ Form::textarea('notes', null, ['class' => 'form-control', 'placeholder' => trans_choice('common.note', 2)]) }}
                             <p class="text-danger">{{ $errors->first('notes') }}</p>
                         </div>
                     </div>
@@ -269,7 +269,7 @@ flight reports that have been filed. You've been warned!
 
         <div class="form-container">
             <h6><i class="fab fa-wpforms"></i>
-                &nbsp;{{ trans_choice('frontend.global.field', 2) }}
+                &nbsp;{{ trans_choice('common.field', 2) }}
             </h6>
             <div class="form-container-body">
 

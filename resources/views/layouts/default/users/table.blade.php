@@ -1,12 +1,12 @@
 <table class="table table-hover" id="users-table">
     <thead>
         <th></th>
-        <th>@lang('frontend.global.name')</th>
+        <th>@lang('common.name')</th>
         <th style="text-align: center"></th>
-        <th style="text-align: center">@lang('frontend.global.airline')</th>
+        <th style="text-align: center">@lang('common.airline')</th>
         <th style="text-align: center">@lang('frontend.users.location')</th>
-        <th style="text-align: center">{{ trans_choice('frontend.global.flight', 2) }}</th>
-        <th style="text-align: center">{{ trans_choice('frontend.global.hour', 2) }}</th>
+        <th style="text-align: center">{{ trans_choice('common.flight', 2) }}</th>
+        <th style="text-align: center">{{ trans_choice('common.hour', 2) }}</th>
     </thead>
     <tbody>
     @foreach($users as $user)

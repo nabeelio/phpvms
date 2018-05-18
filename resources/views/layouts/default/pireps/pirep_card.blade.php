@@ -5,7 +5,7 @@
                 <p class="float-right">
                     <a href="{{ route('frontend.pireps.edit', [
                             'id'    => $pirep->id,
-                        ]) }}" class="btn btn-sm btn-info">@lang('frontend.global.edit') }}</a>
+                        ]) }}" class="btn btn-sm btn-info">@lang('common.edit') }}</a>
                 </p>
                 <h5>
                     <a href="{{ route('frontend.pireps.show', [$pirep->id]) }}">
@@ -45,7 +45,7 @@
                                 <td>{{ Utils::minutesToTimeString($pirep->flight_time) }}</td>
                             </tr>
                             <tr>
-                                <td nowrap><span class="title">@lang('frontend.global.aircraft')&nbsp;</span></td>
+                                <td nowrap><span class="title">@lang('common.aircraft')&nbsp;</span></td>
                                 <td>{{ $pirep->aircraft->name }}
                                     ({{ $pirep->aircraft->registration }})</td>
                             </tr>

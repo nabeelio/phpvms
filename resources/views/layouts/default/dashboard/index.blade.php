@@ -14,7 +14,7 @@
                             <i class="fas fa-plane icon"></i>
                         </div>
                         <h3 class="header">{{ $user->flights }}</h3>
-                        <h5 class="description">{{ trans_choice('frontend.global.flight', $user->flights) }}</h5>
+                        <h5 class="description">{{ trans_choice('common.flight', $user->flights) }}</h5>
                     </div>
                 </div>
             </div>
@@ -53,7 +53,7 @@
                         @else
                             <h3 class="header">{{ $user->home_airport_id }}</h3>
                         @endif
-                        <h5 class="description">@lang('frontend.global.currentairport')</h5>
+                        <h5 class="description">@lang('common.currentairport')</h5>
                     </div>
                 </div>
             </div>
@@ -105,7 +105,7 @@
 
         <div class="card">
             <div class="nav nav-tabs" role="tablist" style="background: #067ec1; color: #FFF;">
-                @lang('frontend.global.newestpilots')
+                @lang('common.newestpilots')
             </div>
             <div class="card-block">
                 <!-- Tab panes -->

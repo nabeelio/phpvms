@@ -28,7 +28,7 @@
     {{-- There are files uploaded and a user is logged in--}}
     @if(count($airport->files) > 0 && Auth::check())
         <div class="col-12">
-            <h3>{{ trans_choice('frontend.global.download', 2) }}</h3>
+            <h3>{{ trans_choice('common.download', 2) }}</h3>
             @include('downloads.table', ['files' => $airport->files])
         </div>
     @endif
@@ -46,9 +46,9 @@
                 <thead>
                 <tr>
                     <th class="text-left">@lang('frontend.airports.ident')</th>
-                    <th class="text-left">@lang('frontend.global.from')</th>
-                    <th>@lang('frontend.global.departure')</th>
-                    <th>@lang('frontend.global.arrival')</th>
+                    <th class="text-left">@lang('common.from')</th>
+                    <th>@lang('common.departure')</th>
+                    <th>@lang('common.arrival')</th>
                 </tr>
                 </thead>
                 @foreach($inbound_flights as $flight)
@@ -81,9 +81,9 @@
                 <thead>
                 <tr>
                     <th class="text-left">@lang('frontend.airports.ident')</th>
-                    <th class="text-left">@lang('frontend.global.to')</th>
-                    <th>@lang('frontend.global.departure')</th>
-                    <th>@lang('frontend.global.arrival')</th>
+                    <th class="text-left">@lang('common.to')</th>
+                    <th>@lang('common.departure')</th>
+                    <th>@lang('common.arrival')</th>
                 </tr>
                 </thead>
                 @foreach($outbound_flights as $flight)

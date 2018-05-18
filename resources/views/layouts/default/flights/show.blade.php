@@ -1,5 +1,5 @@
 @extends('app')
-@section('title', trans_choice('frontend.global.flight', 1).' '.$flight->ident)
+@section('title', trans_choice('common.flight', 1).' '.$flight->ident)
 
 @section('content')
 <div class="row">
@@ -13,7 +13,7 @@
             <div class="col-12">
                 <table class="table">
                     <tr>
-                        <td>@lang('frontend.global.departure')</td>
+                        <td>@lang('common.departure')</td>
                         <td>
                             {{ $flight->dpt_airport->name }}
                             (<a href="{{route('frontend.airports.show', [
@@ -24,7 +24,7 @@
                     </tr>
 
                     <tr>
-                        <td>@lang('frontend.global.arrival')</td>
+                        <td>@lang('common.arrival')</td>
                         <td>
                             {{ $flight->arr_airport->name }}
                             (<a href="{{route('frontend.airports.show', [
@@ -45,13 +45,13 @@
                     @endif
 
                     <tr>
-                        <td>@lang('frontend.global.route')</td>
+                        <td>@lang('common.route')</td>
                         <td>{{ $flight->route }}</td>
                     </tr>
 
                     @if(filled($flight->notes))
                         <tr>
-                            <td>{{ trans_choice('frontend.global.note', 2) }}</td>
+                            <td>{{ trans_choice('common.note', 2) }}</td>
                             <td>{{ $flight->notes }}</td>
                         </tr>
                     @endif
@@ -65,18 +65,18 @@
         </div>
     </div>
     <div class="col-4">
-        <h5>{{$flight->dpt_airport_id}} @lang('frontend.global.metar')</h5>
+        <h5>{{$flight->dpt_airport_id}} @lang('common.metar')</h5>
         {{ Widget::Weather([
             'icao' => $flight->dpt_airport_id,
           ]) }}
         <br />
-        <h5>{{$flight->arr_airport_id}} @lang('frontend.global.metar')</h5>
+        <h5>{{$flight->arr_airport_id}} @lang('common.metar')</h5>
         {{ Widget::Weather([
             'icao' => $flight->arr_airport_id,
           ]) }}
         @if ($flight->alt_airport_id)
         <br />
-        <h5>{{$flight->alt_airport_id}} @lang('frontend.global.metar')</h5>
+        <h5>{{$flight->alt_airport_id}} @lang('common.metar')</h5>
         {{ Widget::Weather([
             'icao' => $flight->alt_airport_id,
           ]) }}

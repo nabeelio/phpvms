@@ -1,5 +1,5 @@
 @extends('app')
-@section('title', trans_choice('frontend.global.pirep', 1).' '.$pirep->ident)
+@section('title', trans_choice('common.pirep', 1).' '.$pirep->ident)
 
 @section('content')
     <div class="row">
@@ -89,20 +89,20 @@
                           action="{{ route('frontend.pireps.edit', ['id' => $pirep->id]) }}"
                           style="display: inline">
                         @csrf
-                        <button class="btn btn-info">@lang('frontend.global.edit')</button>
+                        <button class="btn btn-info">@lang('common.edit')</button>
                     </form>
                     &nbsp;
                     <form method="post"
                           action="{{ route('frontend.pireps.submit', ['id' => $pirep->id]) }}"
                           style="display: inline">
                         @csrf
-                        <button class="btn btn-success">@lang('frontend.global.submit')</button>
+                        <button class="btn btn-success">@lang('common.submit')</button>
                     </form>
                 </div>
             @endif
             <table class="table table-striped">
                 <tr>
-                    <td width="30%">@lang('frontend.global.status')</td>
+                    <td width="30%">@lang('common.status')</td>
                     <td>
                         <div class="badge badge-info">
                             {{ PirepStatus::label($pirep->status) }}
@@ -128,7 +128,7 @@
                 </tr>
 
                 <tr>
-                    <td>{{ trans_choice('frontend.global.note', 2) }}</td>
+                    <td>{{ trans_choice('common.note', 2) }}</td>
                     <td>
                         {{ $pirep->notes }}
                     </td>
@@ -148,11 +148,11 @@
             @endif
 
             @if(count($pirep->fields) > 0)
-                <h5>{{ trans_choice('frontend.global.field', 2) }}</h5>
+                <h5>{{ trans_choice('common.field', 2) }}</h5>
                 <table class="table table-hover table-condensed">
                     <thead>
-                    <th>@lang('frontend.global.name')</th>
-                    <th>@lang('frontend.global.value')</th>
+                    <th>@lang('common.name')</th>
+                    <th>@lang('common.value')</th>
                     </thead>
                     <tbody>
                     @foreach($pirep->fields as $field)

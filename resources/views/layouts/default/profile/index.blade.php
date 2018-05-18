@@ -23,7 +23,7 @@
         <div class="content">
             <div class="social-description">
                 <h2>{{ $user->flights}}</h2>
-                <p>{{ trans_choice('frontend.global.flight', $user->flights) }}</p>
+                <p>{{ trans_choice('common.flight', $user->flights) }}</p>
             </div>
 
             <div class="social-description">
@@ -34,14 +34,14 @@
             @if($user->home_airport)
                 <div class="social-description">
                     <h2>{{ $user->home_airport->icao }}</h2>
-                    <p>@lang('frontend.global.homeairport')</p>
+                    <p>@lang('common.homeairport')</p>
                 </div>
             @endif
 
             @if($user->current_airport)
                 <div class="social-description">
                     <h2>{{ $user->current_airport->icao }}</h2>
-                    <p>@lang('frontend.global.currentairport')</p>
+                    <p>@lang('common.currentairport')</p>
                 </div>
             @endif
 
@@ -61,13 +61,13 @@
                    onclick="return confirm({{ __('Are you sure? This will reset your API key.') }})">@lang('frontend.profile.newapikey')</a>
                 &nbsp;
                 <a href="{{ route('frontend.profile.edit', ['id' => $user->id]) }}"
-                   class="btn btn-primary">@lang('frontend.global.edit')</a>
+                   class="btn btn-primary">@lang('common.edit')</a>
             </div>
 
             <h3 class="description">@lang('frontend.profile.yourprofile')</h3>
             <table class="table table-full-width">
                 <tr>
-                    <td>@lang('frontend.global.email')</td>
+                    <td>@lang('common.email')</td>
                     <td>{{ $user->email }}</td>
                 </tr>
                 <tr>
@@ -75,7 +75,7 @@
                     <td>{{ $user->api_key }}</td>
                 </tr>
                 <tr>
-                    <td>@lang('frontend.global.timezone')</td>
+                    <td>@lang('common.timezone')</td>
                     <td>{{ $user->timezone }}</td>
                 </tr>
             </table>

@@ -1,5 +1,5 @@
 @extends('app')
-@section('title', trans_choice('frontend.global.pirep', 2))
+@section('title', trans_choice('common.pirep', 2))
 
 @section('content')
 <div class="row">

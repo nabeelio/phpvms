@@ -8,7 +8,7 @@
     </div>
     <div class="row">
         <div class="col-sm-12">
-            <h2 class="description">@lang('frontend.global.newestpilots')</h2>
+            <h2 class="description">@lang('common.newestpilots')</h2>
             @foreach($users as $user)
             <div class="card card-signup blue-bg">
                 {{--<div class="card-bg">--}}
@@ -37,7 +37,7 @@
                     </div>
                 </div>
                 <div class="footer text-center">
-                    <a href="{{ route('frontend.profile.show', ['id' => $user->id]) }}" class="btn btn-neutral btn-sm">@lang('frontend.global.profile')</a>
+                    <a href="{{ route('frontend.profile.show', ['id' => $user->id]) }}" class="btn btn-neutral btn-sm">@lang('common.profile')</a>
                 </div>
             </div>
             @endforeach

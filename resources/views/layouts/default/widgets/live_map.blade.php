@@ -37,7 +37,7 @@
                             </a>
                         </h3>
                         <p id="map_flight_info">
-                            { pirep.dpt_airport.name } ({ pirep.dpt_airport.icao }) @lang('frontend.global.to')
+                            { pirep.dpt_airport.name } ({ pirep.dpt_airport.icao }) @lang('common.to')
                             { pirep.arr_airport.name } ({ pirep.arr_airport.icao })
                         </p>
                     </div>
@@ -50,9 +50,9 @@
                     </div>
                     <div style="float: right; margin-left: 30px;">
                         <p id="map_flight_stats_middle">
-                            @lang('frontend.global.status'): <span style="font-weight: bold">{ pirep.status_text }</span><br />
-                            @lang('frontend.global.flighttime'): <span style="font-weight: bold">{ pirep.flight_time | time_hm }</span><br />
-                            @lang('frontend.global.distance'): <span style="font-weight: bold">{ pirep.position.distance.{{setting('units.distance')}} }</span>
+                            @lang('common.status'): <span style="font-weight: bold">{ pirep.status_text }</span><br />
+                            @lang('common.flighttime'): <span style="font-weight: bold">{ pirep.flight_time | time_hm }</span><br />
+                            @lang('common.distance'): <span style="font-weight: bold">{ pirep.position.distance.{{setting('units.distance')}} }</span>
                                 / <span style="font-weight: bold">
                                         { pirep.planned_distance.{{setting('units.distance')}} }</span>
                         </p>
@@ -78,14 +78,14 @@ and being mindful of the rivets bindings
         <table rv-show="has_data" id="live_flights_table" class="table table-striped">
             <thead>
                 <tr class="text-small header">
-                    <td class="text-small">{{ trans_choice('frontend.global.Flight', 1) }}</td>
-                    <td class="text-small">@lang('frontend.global.departure')</td>
-                    <td class="text-small">@lang('frontend.global.arrival')</td>
-                    <td class="text-small">@lang('frontend.global.aircraft')</td>
+                    <td class="text-small">{{ trans_choice('common.Flight', 1) }}</td>
+                    <td class="text-small">@lang('common.departure')</td>
+                    <td class="text-small">@lang('common.arrival')</td>
+                    <td class="text-small">@lang('common.aircraft')</td>
                     <td class="text-small">@lang('frontend.widgets.livemap.altitude')</td>
                     <td class="text-small">@lang('frontend.widgets.livemap.gs')</td>
                     <td class="text-small">@lang('frontend.widgets.livemap.distance')</td>
-                    <td class="text-small">@lang('frontend.global.status') }}</td>
+                    <td class="text-small">@lang('common.status') }}</td>
                 </tr>
             </thead>
             <tbody>

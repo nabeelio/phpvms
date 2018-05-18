@@ -10,7 +10,7 @@
 
     <div class="panel periodic-login">
         <div class="panel-body">
-            <h2>@lang('frontend.global.register')</h2>
+            <h2>@lang('common.register')</h2>
             <label for="name" class="control-label">@lang('frontend.auth.fullname')</label>
             <div class="input-group form-group-no-border {{ $errors->has('name') ? 'has-danger' : '' }}">
                 {{ Form::text('name', null, ['class' => 'form-control']) }}
@@ -27,7 +27,7 @@
                 <p class="text-danger">{{ $errors->first('email') }}</p>
             @endif
 
-            <label for="airline" class="control-label">@lang('frontend.global.airline')</label>
+            <label for="airline" class="control-label">@lang('common.airline')</label>
             <div class="input-group form-group-no-border {{ $errors->has('airline') ? 'has-danger' : '' }}">
                 {{ Form::select('airline_id', $airlines, null , ['class' => 'form-control select2']) }}
             </div>
@@ -35,7 +35,7 @@
             <p class="text-danger">{{ $errors->first('airline_id') }}</p>
             @endif
 
-            <label for="home_airport" class="control-label">@lang('frontend.global.homeairport')</label>
+            <label for="home_airport" class="control-label">@lang('common.homeairport')</label>
             <div class="input-group form-group-no-border {{ $errors->has('home_airport') ? 'has-danger' : '' }}">
                 {{ Form::select('home_airport_id', $airports, null , ['class' => 'form-control select2']) }}
             </div>
@@ -43,7 +43,7 @@
             <p class="text-danger">{{ $errors->first('home_airport_id') }}</p>
             @endif
 
-            <label for="country" class="control-label">@lang('frontend.global.country')</label>
+            <label for="country" class="control-label">@lang('common.country')</label>
             <div class="input-group form-group-no-border {{ $errors->has('country') ? 'has-danger' : '' }}">
                 {{ Form::select('country', $countries, null, ['class' => 'form-control select2' ]) }}
             </div>
@@ -51,7 +51,7 @@
                 <p class="text-danger">{{ $errors->first('country') }}</p>
             @endif
 
-            <label for="timezone" class="control-label">@lang('frontend.global.timezone')</label>
+            <label for="timezone" class="control-label">@lang('common.timezone')</label>
             <div class="input-group form-group-no-border {{ $errors->has('timezone') ? 'has-danger' : '' }}">
                 {{ Form::select('timezone', $timezones, null, ['id'=>'timezone', 'class' => 'form-control select2' ]) }}
             </div>
@@ -67,7 +67,7 @@
             <p class="text-danger">{{ $errors->first('password') }}</p>
             @endif
 
-            <label for="password_confirmation" class="control-label">@lang('frontend.global.confirmpassword')</label>
+            <label for="password_confirmation" class="control-label">@lang('common.confirmpassword')</label>
             <div class="input-group form-group-no-border {{ $errors->has('password_confirmation') ? 'has-danger' : '' }}">
                 {{ Form::password('password_confirmation', ['class' => 'form-control']) }}
             </div>
