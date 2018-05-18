@@ -8874,7 +8874,6 @@ fieldset[disabled]
 
 .form-group.form-group-no-border .form-control,
 .input-group.form-group-no-border .form-control {
-  /*margin-top: 2px;*/
   padding: 5px 15px;
 }
 
@@ -8890,7 +8889,6 @@ fieldset[disabled]
 
 .form-group .form-control,
 .input-group .form-control {
-  /*margin-top: 2px;*/
   padding: 4px 14px 4px 14px;
 }
 
