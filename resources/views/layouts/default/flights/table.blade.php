@@ -17,6 +17,7 @@
                      "x-saved-class" is the class to add/remove if the bid exists or not
                      If you change it, remember to change it in the in-array line as well
                 --}}
+                @if (!setting('pilots.only_flights_from_current') || $flight->dpt_airport->icao == Auth::user()->current_airport->icao)
                 <button class="btn btn-round btn-icon btn-icon-mini
                            {{ in_array($flight->id, $saved, true) ? 'btn-info':'' }}
                            save_flight"
@@ -27,6 +28,7 @@
                 >
                     <i class="fas fa-map-marker"></i>
                 </button>
+                @endif
             </div>
         </div>
         <div class="row">

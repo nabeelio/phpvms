@@ -276,6 +276,14 @@ class CreateSettingsTable extends Migration
             'type'        => 'boolean',
             'description' => 'Don\'t show inactive pilots in the public view',
         ]);
+
+        $this->addSetting('pilots.restrict_to_company', [
+            'name'        => 'Restrict the flights to company',
+            'group'       => 'pilots',
+            'value'       => false,
+            'type'        => 'boolean',
+            'description' => 'Restrict flights to the user\'s airline',
+        ]);
     }
 
     /**
