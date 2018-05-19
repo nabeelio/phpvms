@@ -115,10 +115,10 @@ class FlightController extends Controller
     public function search(Request $request)
     {
         if(setting('pilots.restrict_to_company')) {
-            $flights = $this->flightRepo
-                ->pushCriteria(New WhereCriteria($request, ['airline_id' => Auth::user()->airline_id]));
+            $this->flightRepo
+                ->pushCriteria(New WhereCriteria($request, ['airline_id' => Auth::user()->airline_id]))
+                ->paginate();
         }
-        $flights = $this->flightRepo->paginate();
 
         $flights = $this->flightRepo->searchCriteria($request)
             ->orderBy('flight_number', 'asc')
