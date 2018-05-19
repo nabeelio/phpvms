@@ -53,8 +53,10 @@ class FlightController extends Controller
     {
         $where = [
             'active' => true,
-			'airline_id' =>  Auth::user()->airline_id,
         ];
+        if(setting('pilots.restrict_to_company')) {
+            $where['airline_id'] = Auth::user()->airline_id;
+        }
 
         // default restrictions on the flights shown. Handle search differently
         if (setting('pilots.only_flights_from_current')) {
@@ -70,7 +72,6 @@ class FlightController extends Controller
         $flights = $this->flightRepo
             ->orderBy('flight_number', 'asc')
             ->orderBy('route_leg', 'asc')
-			->orderBy('route_code', 'asc')
             ->paginate();
 
         $saved_flights = Bid::where('user_id', Auth::id())
@@ -113,14 +114,17 @@ class FlightController extends Controller
      */
     public function search(Request $request)
     {
-		$request['airline_id'] = Auth::user()->airline_id;
-		
         $flights = $this->flightRepo->searchCriteria($request)
-			->orderBy('flight_number', 'asc')
-			->orderBy('route_leg', 'asc')
-			->orderBy('route_code', 'asc')
-			->paginate();
-			
+            ->orderBy('flight_number', 'asc')
+            ->orderBy('route_leg', 'asc')
+            ->paginate();
+
+        if(setting('pilots.restrict_to_company')) {
+            $flights = $this->flightRepo
+                ->pushCriteria(New WhereCriteria($request, ['airline_id' => Auth::user()->airline_id]))
+                ->paginate();
+        }
+
         $saved_flights = Bid::where('user_id', Auth::id())
             ->pluck('flight_id')->toArray();
 
