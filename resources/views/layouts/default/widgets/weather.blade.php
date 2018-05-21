@@ -5,7 +5,7 @@ https://api.checkwx.com/#metar-decoded
 
 --}}
 @if(!$metar)
-    <p>@lang('widgets.weather.metarnotretrieved')</p>
+    <p>@lang('widgets.weather.nometar')</p>
 @else
     <table class="table table-striped">
         <tr>

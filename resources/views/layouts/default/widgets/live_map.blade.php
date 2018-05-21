@@ -51,7 +51,7 @@
                     <div style="float: right; margin-left: 30px;">
                         <p id="map_flight_stats_middle">
                             @lang('common.status'): <span style="font-weight: bold">{ pirep.status_text }</span><br />
-                            @lang('common.flighttime'): <span style="font-weight: bold">{ pirep.flight_time | time_hm }</span><br />
+                            @lang('flights.flighttime'): <span style="font-weight: bold">{ pirep.flight_time | time_hm }</span><br />
                             @lang('common.distance'): <span style="font-weight: bold">{ pirep.position.distance.{{setting('units.distance')}} }</span>
                                 / <span style="font-weight: bold">
                                         { pirep.planned_distance.{{setting('units.distance')}} }</span>

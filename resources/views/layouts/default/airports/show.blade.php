@@ -36,10 +36,10 @@
 
 <div class="row">
     <div class="col-6">
-        <h5>@lang('airports.inboundflights')</h5>
+        <h5>@lang('flights.inbound')</h5>
         @if(!$inbound_flights)
             <div class="jumbotron text-center">
-            @lang('airports.noflightfound')
+            @lang('flights.none')
             </div>
         @else
             <table class="table table-striped table-condensed">
@@ -71,10 +71,10 @@
     </div>
 
     <div class="col-6">
-        <h5>@lang('airports.outboundflights')</h5>
+        <h5>@lang('flights.outbound')</h5>
         @if(!$outbound_flights)
             <div class="jumbotron text-center">
-            @lang('airports.noflightfound')
+            @lang('flights.none')
             </div>
         @else
             <table class="table table-striped table-condensed">

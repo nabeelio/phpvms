@@ -17,7 +17,7 @@ return [
     'pendingmessage'           => 'La tua registrazione è in attesa di approvazione. Controlla la tua email per favore.',
     'registrationsubmitted'    => 'Registrazione Inviata',
     'registrationconfirmation' => 'Conferma di Registrazione',
-    'confirmationmessage'      => 'La tua richiesta è stata inviata e richiede l\'approvazione di un membro dello staff. Quando\nverrà esaminata, riceverai una email di conferma.',
+    'confirmationmessage'      => 'La tua richiesta è stata inviata e richiede l\'approvazione di un membro dello staff. Quando verrà esaminata, riceverai una email di conferma.',
     'registrationdenied'       => 'Registrazione Negata',
     'deniedmessage'            => 'La tua registrazione è stata rifiutata. Contatta un amministratore per favore.',
     'accountsuspended'         => 'Account Sospeso',

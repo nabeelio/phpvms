@@ -19,12 +19,12 @@ class PirepState extends Enum
     public const DRAFT       = 5;
 
     protected static $labels = [
-        PirepState::REJECTED    => 'system.pireps.state.rejected',
-        PirepState::IN_PROGRESS => 'system.pireps.state.in_progress',
-        PirepState::PENDING     => 'system.pireps.state.pending',
-        PirepState::ACCEPTED    => 'system.pireps.state.accepted',
-        PirepState::CANCELLED   => 'system.pireps.state.cancelled',
-        PirepState::DELETED     => 'system.pireps.state.deleted',
-        PirepState::DRAFT       => 'system.pireps.state.draft',
+        PirepState::REJECTED    => 'pireps.state.rejected',
+        PirepState::IN_PROGRESS => 'pireps.state.in_progress',
+        PirepState::PENDING     => 'pireps.state.pending',
+        PirepState::ACCEPTED    => 'pireps.state.accepted',
+        PirepState::CANCELLED   => 'pireps.state.cancelled',
+        PirepState::DELETED     => 'pireps.state.deleted',
+        PirepState::DRAFT       => 'pireps.state.draft',
     ];
 }

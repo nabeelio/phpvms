@@ -28,20 +28,20 @@
 
             <div class="social-description">
                 <h2>{{ \App\Facades\Utils::minutesToTimeString($user->flight_time, false) }}</h2>
-                <p>@lang('profile.flighthours')</p>
+                <p>@lang('flights.flighthours')</p>
             </div>
 
             @if($user->home_airport)
                 <div class="social-description">
                     <h2>{{ $user->home_airport->icao }}</h2>
-                    <p>@lang('common.homeairport')</p>
+                    <p>@lang('airports.home')</p>
                 </div>
             @endif
 
             @if($user->current_airport)
                 <div class="social-description">
                     <h2>{{ $user->current_airport->icao }}</h2>
-                    <p>@lang('common.currentairport')</p>
+                    <p>@lang('airports.current')</p>
                 </div>
             @endif
 

@@ -53,7 +53,7 @@
                         @else
                             <h3 class="header">{{ $user->home_airport_id }}</h3>
                         @endif
-                        <h5 class="description">@lang('common.currentairport')</h5>
+                        <h5 class="description">@lang('airports.current')</h5>
                     </div>
                 </div>
             </div>

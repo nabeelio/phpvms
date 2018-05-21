@@ -17,10 +17,10 @@ class AircraftStatus extends Enum
     public const WRITTEN_OFF = 'W';
 
     public static $labels = [
-        AircraftStatus::ACTIVE      => 'system.aircraft.status.active',
-        AircraftStatus::STORED      => 'system.aircraft.status.stored',
-        AircraftStatus::RETIRED     => 'system.aircraft.status.retired',
-        AircraftStatus::SCRAPPED    => 'system.aircraft.status.scrapped',
-        AircraftStatus::WRITTEN_OFF => 'system.aircraft.status.written',
+        AircraftStatus::ACTIVE      => 'aircraft.status.active',
+        AircraftStatus::STORED      => 'aircraft.status.stored',
+        AircraftStatus::RETIRED     => 'aircraft.status.retired',
+        AircraftStatus::SCRAPPED    => 'aircraft.status.scrapped',
+        AircraftStatus::WRITTEN_OFF => 'aircraft.status.written',
     ];
 }

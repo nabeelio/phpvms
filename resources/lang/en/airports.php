@@ -4,8 +4,9 @@
  */
 
 return [
-    'inboundflights'  => 'Inbound Flights',
-    'outboundflights' => 'Outbound Flights',
-    'ident'           => 'Identification',
-    'noflightfound'   => 'No Flight Found.',
+    'ident'     => 'Identification',
+    'home'      => 'Home Airport',
+    'current'   => 'Current Airport',
+    'departure' => 'Departure Airport',
+    'arrival'   => 'Arrival Airport',
 ];

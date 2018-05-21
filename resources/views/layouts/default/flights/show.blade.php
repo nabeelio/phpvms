@@ -45,7 +45,7 @@
                     @endif
 
                     <tr>
-                        <td>@lang('common.route')</td>
+                        <td>@lang('flights.route')</td>
                         <td>{{ $flight->route }}</td>
                     </tr>
 

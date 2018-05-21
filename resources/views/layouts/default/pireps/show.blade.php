@@ -116,7 +116,7 @@
                 </tr>
 
                 <tr>
-                    <td>@lang('pireps.flighttype')</td>
+                    <td>@lang('flights.flighttype')</td>
                     <td>{{ \App\Models\Enums\FlightType::label($pirep->flight_type) }}</td>
                 </tr>
 

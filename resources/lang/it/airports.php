@@ -4,8 +4,9 @@
  */
 
 return [
-    'inboundflights'  => 'Voli in Entrata',
-    'outboundflights' => 'Voli in Uscita',
-    'ident'           => 'Identificativo',
-    'noflightfound'   => 'Nessun Volo Trovato.',
+    'ident'     => 'Identificativo',
+    'home'      => 'Aeroporto di Casa',
+    'current'   => 'Aeroporto Corrente',
+    'departure' => 'Aeroporto di Partenza',
+    'arrival'   => 'Aeroporto d\'Arrivo',
 ];

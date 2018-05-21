@@ -14,7 +14,7 @@ class PirepSource extends Enum
     public const ACARS  = 1;
 
     protected static $labels = [
-        PirepSource::MANUAL => 'system.pireps.source.manual',
-        PirepSource::ACARS  => 'system.pireps.source.acars',
+        PirepSource::MANUAL => 'pireps.source_types.manual',
+        PirepSource::ACARS  => 'pireps.source_types.acars',
     ];
 }

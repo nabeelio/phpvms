@@ -147,31 +147,31 @@
                         <select id="days_of_week" name="days[]" multiple="multiple" size="7" style="width: 100%;">
                             <option value="{{\App\Models\Enums\Days::MONDAY}}"
                                     {{in_mask($days, \App\Models\Enums\Days::MONDAY) ? 'selected':'' }}>
-                                @lang('system.days.mon')
+                                @lang('common.days.mon')
                             </option>
                             <option value="{{\App\Models\Enums\Days::TUESDAY}}"
                                     {{in_mask($days, \App\Models\Enums\Days::TUESDAY) ? 'selected':'' }}>
-                                @lang('system.days.tues')
+                                @lang('common.days.tues')
                             </option>
                             <option value="{{\App\Models\Enums\Days::WEDNESDAY}}"
                                     {{in_mask($days, \App\Models\Enums\Days::WEDNESDAY) ? 'selected':'' }}>
-                                @lang('system.days.wed')
+                                @lang('common.days.wed')
                             </option>
                             <option value="{{\App\Models\Enums\Days::THURSDAY}}"
                                     {{in_mask($days, \App\Models\Enums\Days::THURSDAY) ? 'selected':'' }}>
-                                @lang('system.days.thurs')
+                                @lang('common.days.thurs')
                             </option>
                             <option value="{{\App\Models\Enums\Days::FRIDAY}}"
                                     {{in_mask($days, \App\Models\Enums\Days::FRIDAY) ? 'selected':'' }}>
-                                @lang('system.days.fri')
+                                @lang('common.days.fri')
                             </option>
                             <option value="{{\App\Models\Enums\Days::SATURDAY}}"
                                     {{in_mask($days, \App\Models\Enums\Days::SATURDAY) ? 'selected':'false' }}>
-                                @lang('system.days.sat')
+                                @lang('common.days.sat')
                             </option>
                             <option value="{{\App\Models\Enums\Days::SUNDAY}}"
                                     {{in_mask($days, \App\Models\Enums\Days::SUNDAY) ? 'selected':'false' }}>
-                                @lang('system.days.sun')
+                                @lang('common.days.sun')
                             </option>
                         </select>
                     </div>

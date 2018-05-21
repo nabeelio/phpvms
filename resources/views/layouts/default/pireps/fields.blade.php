@@ -52,7 +52,7 @@ flight reports that have been filed. You've been warned!
                         @else
                             <div class="input-group input-group-sm mb3">
                                 {{ Form::text('flight_number', null, [
-                                    'placeholder' => __('common.flightnumber'),
+                                    'placeholder' => __('flights.flightnumber'),
                                     'class' => 'form-control',
                                     'readonly' => (!empty($pirep) && $pirep->read_only),
                                 ]) }}
@@ -75,7 +75,7 @@ flight reports that have been filed. You've been warned!
                         @endif
                     </div>
                     <div class="col-lg-4">
-                        {{ Form::label('flight_type', __('pireps.flighttype')) }}
+                        {{ Form::label('flight_type', __('flights.flighttype')) }}
                         @if(!empty($pirep) && $pirep->read_only)
                             <p>{{ \App\Models\Enums\FlightType::label($pirep->flight_type) }}</p>
                             {{ Form::hidden('flight_type') }}
@@ -96,7 +96,7 @@ flight reports that have been filed. You've been warned!
 
                 <div class="row">
                     <div class="col-3">
-                        {{ Form::label('hours', __('common.flighttime')) }}
+                        {{ Form::label('hours', __('flights.flighttime')) }}
                         @if(!empty($pirep) && $pirep->read_only)
                             <p>
                                 {{ $pirep->hours.' '.trans_choice('common.hour', $pirep->hours) }}, {{ $pirep->minutes.' '.trans_choice('common.minute', $pirep->minutes) }}
@@ -135,18 +135,18 @@ flight reports that have been filed. You've been warned!
 
 
                     <div class="col-3">
-                        {{--{{ Form::label('departure_time', __('pireps.departuretime')) }}
+                        {{--{{ Form::label('departure_time', __('flights.departuretime')) }}
                         {{ Form::text('departure_time', null, [
-                                        'placeholder' => __('pireps.departuretime'),
+                                        'placeholder' => __('flights.departuretime'),
                                         'class' => 'form-control',
                                         'readonly' => $pirep->read_only]) }}--}}
                     </div>
 
 
                     <div class="col-3">
-                        {{--{{ Form::label('arrival_time', __('pireps.arrivaltime')) }}
+                        {{--{{ Form::label('arrival_time', __('flights.arrivaltime')) }}
                         {{ Form::text('arrival_time', null, [
-                                        'placeholder' => __('pireps.arrivaltime'),
+                                        'placeholder' => __('flights.arrivaltime'),
                                         'class' => 'form-control',
                                         'readonly' => $pirep->read_only]) }}--}}
                     </div>
@@ -163,7 +163,7 @@ flight reports that have been filed. You've been warned!
             <div class="form-container-body">
                 <div class="row">
                     <div class="col-6">
-                        {{ Form::label('dpt_airport_id', __('common.departureairport')) }}
+                        {{ Form::label('dpt_airport_id', __('airports.departure')) }}
                         @if(!empty($pirep) && $pirep->read_only)
                             {{ $pirep->dpt_airport->name }}
                             (<a href="{{route('frontend.airports.show', [
@@ -183,7 +183,7 @@ flight reports that have been filed. You've been warned!
                     </div>
 
                     <div class="col-6">
-                        {{ Form::label('arr_airport_id', __('common.arrivalairport')) }}
+                        {{ Form::label('arr_airport_id', __('airports.arrival')) }}
                         @if(!empty($pirep) && $pirep->read_only)
                             {{ $pirep->arr_airport->name }}
                             (<a href="{{route('frontend.airports.show', [
@@ -234,13 +234,13 @@ flight reports that have been filed. You've been warned!
 
         <div class="form-container">
             <h6><i class="far fa-comments"></i>
-                &nbsp;@lang('common.route')
+                &nbsp;@lang('flights.route')
             </h6>
             <div class="form-container-body">
                 <div class="row">
                     <div class="col">
                         <div class="input-group input-group-sm form-group">
-                            {{ Form::textarea('route', null, ['class' => 'form-control', 'placeholder' => __('common.route')]) }}
+                            {{ Form::textarea('route', null, ['class' => 'form-control', 'placeholder' => __('flights.route')]) }}
                             <p class="text-danger">{{ $errors->first('route') }}</p>
                         </div>
                     </div>

@@ -20,13 +20,13 @@ class Days extends Enum
     public const SUNDAY    = 1 << 6;
 
     public static $labels = [
-        Days::MONDAY    => 'system.days.mon',
-        Days::TUESDAY   => 'system.days.tues',
-        Days::WEDNESDAY => 'system.days.wed',
-        Days::THURSDAY  => 'system.days.thurs',
-        Days::FRIDAY    => 'system.days.fri',
-        Days::SATURDAY  => 'system.days.sat',
-        Days::SUNDAY    => 'system.days.sun',
+        Days::MONDAY    => 'common.days.mon',
+        Days::TUESDAY   => 'common.days.tues',
+        Days::WEDNESDAY => 'common.days.wed',
+        Days::THURSDAY  => 'common.days.thurs',
+        Days::FRIDAY    => 'common.days.fri',
+        Days::SATURDAY  => 'common.days.sat',
+        Days::SUNDAY    => 'common.days.sun',
     ];
 
     public static $codes = [

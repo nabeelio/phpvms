@@ -80,34 +80,34 @@ return [
      */
 
     'custom' => [
-        'airline_id' => [
+        'airline_id'           => [
             'required' => 'An airline is required',
-            'exists' => 'The airline doesn\'t exist',
+            'exists'   => 'The airline doesn\'t exist',
         ],
-        'aircraft_id' => [
+        'aircraft_id'          => [
             'required' => 'An aircraft is required',
-            'exists' => 'The aircraft doesn\'t exist',
+            'exists'   => 'The aircraft doesn\'t exist',
         ],
-        'arr_airport_id' => [
+        'arr_airport_id'       => [
             'required' => 'An arrival airport is required',
         ],
-        'dpt_airport_id' => [
+        'dpt_airport_id'       => [
             'required' => 'A departure airport is required',
         ],
-        'flight_time' => [
+        'flight_time'          => [
             'required' => 'Flight time, in minutes, is required',
-            'integer' => 'Flight time, in minutes, is required',
+            'integer'  => 'Flight time, in minutes, is required',
         ],
-        'planned_flight_time' => [
+        'planned_flight_time'  => [
             'required' => 'Flight time, in minutes, is required',
-            'integer' => 'Flight time, in minutes, is required',
+            'integer'  => 'Flight time, in minutes, is required',
         ],
-        'source_name' => [
+        'source_name'          => [
             'required' => 'PIREP Source is required',
         ],
         'g-recaptcha-response' => [
             'required' => 'Please verify that you are not a robot.',
-            'captcha' => 'Captcha error! try again later or contact site admin.',
+            'captcha'  => 'Captcha error! try again later or contact site admin.',
         ],
     ],
 

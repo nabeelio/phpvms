@@ -15,9 +15,9 @@ class ExpenseType extends Enum
     public const MONTHLY = 'M';
 
     protected static $labels = [
-        ExpenseType::FLIGHT  => 'system.expenses.type.flight',
-        ExpenseType::DAILY   => 'system.expenses.type.daily',
-        ExpenseType::MONTHLY => 'system.expenses.type.monthly',
+        ExpenseType::FLIGHT  => 'expenses.type.flight',
+        ExpenseType::DAILY   => 'expenses.type.daily',
+        ExpenseType::MONTHLY => 'expenses.type.monthly',
     ];
 
     protected static $codes = [

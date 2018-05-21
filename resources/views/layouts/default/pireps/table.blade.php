@@ -7,7 +7,7 @@
             <th>@lang('common.departure')</th>
             <th>@lang('common.arrival')</th>
             <th>@lang('common.aircraft')</th>
-            <th class="text-center">@lang('common.flighttime')</th>
+            <th class="text-center">@lang('flights.flighttime')</th>
             <th class="text-center">@lang('common.status')</th>
             <th>@lang('pireps.submitted')</th>
             <th></th>

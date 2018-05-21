@@ -38,7 +38,7 @@
             </tr>
 
             <tr>
-                <td>@lang('common.homeairport')</td>
+                <td>@lang('airports.home')</td>
                 <td>
                     <div class="input-group form-group-no-border{{ $errors->has('home_airport_id') ? ' has-danger' : '' }}">
                         {{ Form::select('home_airport_id', $airports, null , ['class' => 'form-control select2']) }}
@@ -84,7 +84,7 @@
                         <p class="text-danger">{{ $errors->first('password') }}</p>
                     @endif
 
-                    <p>@lang('common.confirmpassword'):</p>
+                    <p>@lang('passwords.confirm'):</p>
                     <div class="input-group form-group-no-border{{ $errors->has('password_confirmation') ? ' has-danger' : '' }}">
                         {{ Form::password('password_confirmation', ['class' => 'form-control']) }}
                     </div>

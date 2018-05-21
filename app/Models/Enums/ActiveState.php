@@ -14,7 +14,7 @@ class ActiveState extends Enum
     public const ACTIVE   = 1;
 
     public static $labels = [
-        ActiveState::ACTIVE   => 'system.global.active',
-        ActiveState::INACTIVE => 'system.global.inactive',
+        ActiveState::ACTIVE   => 'common.active',
+        ActiveState::INACTIVE => 'common.inactive',
     ];
 }

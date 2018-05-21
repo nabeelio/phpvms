@@ -8,17 +8,17 @@
                     'class'=>'form-inline'
             ]) }}
             <div>
-                <p>@lang('common.flightnumber')</p>
+                <p>@lang('flights.flightnumber')</p>
                 {{ Form::text('flight_number', null, ['class' => 'form-control']) }}
             </div>
 
             <div style="margin-top: 10px;">
-                <p>@lang('common.departureairport')</p>
+                <p>@lang('airports.departure')</p>
                 {{ Form::select('dep_icao', $airports, null , ['class' => 'form-control']) }}
             </div>
 
             <div style="margin-top: 10px;">
-                <p>@lang('common.arrivalairport')</p>
+                <p>@lang('airports.arrival')</p>
                 {{ Form::select('arr_icao', $airports, null , ['class' => 'form-control']) }}
             </div>
 

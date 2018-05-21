@@ -35,7 +35,7 @@
             <p class="text-danger">{{ $errors->first('airline_id') }}</p>
             @endif
 
-            <label for="home_airport" class="control-label">@lang('common.homeairport')</label>
+            <label for="home_airport" class="control-label">@lang('airports.home')</label>
             <div class="input-group form-group-no-border {{ $errors->has('home_airport') ? 'has-danger' : '' }}">
                 {{ Form::select('home_airport_id', $airports, null , ['class' => 'form-control select2']) }}
             </div>
@@ -67,7 +67,7 @@
             <p class="text-danger">{{ $errors->first('password') }}</p>
             @endif
 
-            <label for="password_confirmation" class="control-label">@lang('common.confirmpassword')</label>
+            <label for="password_confirmation" class="control-label">@lang('passwords.confirm')</label>
             <div class="input-group form-group-no-border {{ $errors->has('password_confirmation') ? 'has-danger' : '' }}">
                 {{ Form::password('password_confirmation', ['class' => 'form-control']) }}
             </div>

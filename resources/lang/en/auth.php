@@ -17,7 +17,7 @@ return [
     'pendingmessage'           => 'Your registration is pending approval. Please check your email!',
     'registrationsubmitted'    => 'Registration Submitted',
     'registrationconfirmation' => 'Registration Confirmation',
-    'confirmationmessage'      => 'Your application has been submitted. It requires staff member approval, once a\nstaff member has reviewed your application, you will receive a confirmation email.',
+    'confirmationmessage'      => 'Your application has been submitted. It requires staff member approval, once a staff member has reviewed your application, you will receive a confirmation email.',
     'registrationdenied'       => 'Registration Denied',
     'deniedmessage'            => 'Your registration was denied. Please contact an administrator.',
     'accountsuspended'         => 'Account Suspended',

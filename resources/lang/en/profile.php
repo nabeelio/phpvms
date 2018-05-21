@@ -5,7 +5,7 @@
 
 return [
     'avatarresize'    => 'This avatar will be resized to :width x :height pixels',
-    'flighthours'     => 'Flight Hours',
+
     'newapikey'       => 'New API Key',
     'yourprofile'     => 'Your Profile',
     'apikey'          => 'API Key',

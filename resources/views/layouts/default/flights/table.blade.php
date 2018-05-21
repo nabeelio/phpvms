@@ -61,7 +61,7 @@
             <div class="col-sm-7">
                 <div class="row">
                     <div class="col-sm-12">
-                        <span class="title">{{ strtoupper(__('common.route')) }}&nbsp;</span>
+                        <span class="title">{{ strtoupper(__('flights.route')) }}&nbsp;</span>
                         {{ $flight->route }}
                     </div>
                 </div>
