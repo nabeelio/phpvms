@@ -5,6 +5,7 @@
 
 return [
     'dashboard'        => 'Dashboard',
+    'administration'   => 'Amministrazione',
     'flight'           => 'Volo|Voli',
     'livemap'          => 'Mappa Live',
     'pilot'            => 'Pilota|Piloti',

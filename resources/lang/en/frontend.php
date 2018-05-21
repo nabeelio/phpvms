@@ -16,14 +16,4 @@ return [
         ],
         'allrightsreserved' => 'All Rights Reserved',
     ],
-
-    'home' => [
-
-    ],
-
-    'nav' => [
-        'login' => 'Login',
-        'administration' => 'Administration',
-        'logout' => 'Log Out',
-    ],
 ];

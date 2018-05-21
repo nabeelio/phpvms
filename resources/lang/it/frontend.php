@@ -18,9 +18,4 @@ return [
         'nodownloads' => 'Non ci sono downloads!',
     ],
 
-    'nav' => [
-        'administration' => 'Amministrazione',
-        'logout' => 'Uscita',
-    ],
-
 ];

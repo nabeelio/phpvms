@@ -77,7 +77,7 @@
         <li class="nav-item">
             <a class="nav-link" href="{{ url('/admin') }}">
                 <i class="fas fa-circle-notch"></i>
-                <p>@lang('frontend.nav.administration')</p>
+                <p>@lang('common.administration')</p>
             </a>
         </li>
         @endrole
@@ -95,7 +95,7 @@
         <li class="nav-item">
             <a class="nav-link" href="{{ url('/logout') }}">
                 <i class="fas fa-sign-out-alt"></i>
-                <p>@lang('frontend.nav.logout')</p>
+                <p>@lang('auth.logout')</p>
             </a>
         </li>
     @endif

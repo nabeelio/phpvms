@@ -4,6 +4,7 @@ return [
     'failed'                   => 'Queste credenziali non sono presenti nei nostri archivi.',
     'throttle'                 => 'Troppi tentativi di login. Tenta di nuovo tra :seconds secondi per favore.',
     'login'                    => 'Accedi',
+    'logout'                   => 'Uscita',
     'password'                 => 'Password',
     'createaccount'            => 'Crea Account',
     'forgotpassword'           => 'Password Dimenticata',
