@@ -46,4 +46,8 @@ return [
     'submit'           => 'Submit',
     'edit'             => 'Edit',
     'close'            => 'Close',
+    'whoops'           => 'Whoops',
+    'hello'            => 'Hello',
+    'regards'          => 'Regards',
+    'rightsreserved'   => 'All Rights Reserved',
 ];

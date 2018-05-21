@@ -47,4 +47,8 @@ return [
     'submit'           => 'Invia',
     'edit'             => 'Modifica',
     'close'            => 'Chiudi',
+    'whoops'           => 'Ops',
+    'hello'            => 'Ciao',
+    'regards'          => 'Saluti',
+    'rightsreserved'   => 'Tutti i Diritti Riservati',
 ];
