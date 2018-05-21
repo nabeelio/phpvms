@@ -98,7 +98,7 @@ class FlightController extends Controller
         $saved_flights = $flights->pluck('id')->toArray();
 
         return view('flights.index', [
-            'title'    => trans_choice('frontend.flights.mybid', 2),
+            'title'    => trans_choice('flights.mybid', 2),
             'airlines' => $this->airlineRepo->selectBoxList(true),
             'airports' => $this->airportRepo->selectBoxList(true),
             'flights'  => $flights,

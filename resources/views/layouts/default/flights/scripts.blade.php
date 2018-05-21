@@ -26,11 +26,11 @@ $(document).ready(function () {
             if(params.method === 'DELETE') {
                 console.log('successfully removed flight');
                 btn.removeClass(class_name);
-                alert('@lang("frontend.flights.bidremoved")');
+                alert('@lang("flights.bidremoved")');
             } else {
                 console.log('successfully saved flight');
                 btn.addClass(class_name);
-                alert('@lang("frontend.flights.bidadded")');
+                alert('@lang("flights.bidadded")');
             }
         })
         .catch(error => {
