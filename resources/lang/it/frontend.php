@@ -97,8 +97,4 @@ return [
         ],
     ],
 
-    'users' => [
-        'location' => 'Posizione',
-    ],
-
 ];

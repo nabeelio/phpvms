@@ -4,7 +4,7 @@
         <th>@lang('common.name')</th>
         <th style="text-align: center"></th>
         <th style="text-align: center">@lang('common.airline')</th>
-        <th style="text-align: center">@lang('frontend.users.location')</th>
+        <th style="text-align: center">@lang('user.location')</th>
         <th style="text-align: center">{{ trans_choice('common.flight', 2) }}</th>
         <th style="text-align: center">{{ trans_choice('common.hour', 2) }}</th>
     </thead>

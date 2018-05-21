@@ -98,8 +98,4 @@ return [
             'Violation of this provision may result in severe civil and criminal penalties.',
         ],
     ],
-
-    'users' => [
-        'location' => 'Location',
-    ],
 ];
