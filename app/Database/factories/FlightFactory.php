@@ -7,7 +7,7 @@ use Faker\Generator as Faker;
 
 $factory->define(App\Models\Flight::class, function (Faker $faker) {
     return [
-        'id'             => null,
+        'id'             => $faker->unique()->numberBetween(10, 10000000),
         'airline_id'     => function () {
             return factory(App\Models\Airline::class)->create()->id;
         },
