@@ -13,6 +13,7 @@ return [
         'groundspeed' => 'Velocità al Suolo',
         'altitude'    => 'Altitudine',
         'heading'     => 'Direzione',
+        'distance'    => 'Distanza',
         'noflights'   => 'Non ci sono voli.',
         'gs'          => 'VS',
     ],

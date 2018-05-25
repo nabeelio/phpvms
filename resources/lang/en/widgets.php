@@ -13,6 +13,7 @@ return [
         'groundspeed' => 'Ground Speed',
         'altitude'    => 'Altitude',
         'heading'     => 'Heading',
+        'distance'    => 'Distance',
         'noflights'   => 'There are no flights.',
         'gs'          => 'GS',
     ],

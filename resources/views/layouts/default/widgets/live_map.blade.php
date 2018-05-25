@@ -78,14 +78,14 @@ and being mindful of the rivets bindings
         <table rv-show="has_data" id="live_flights_table" class="table table-striped">
             <thead>
                 <tr class="text-small header">
-                    <td class="text-small">{{ trans_choice('common.Flight', 1) }}</td>
+                    <td class="text-small">{{ trans_choice('common.flight', 2) }}</td>
                     <td class="text-small">@lang('common.departure')</td>
                     <td class="text-small">@lang('common.arrival')</td>
                     <td class="text-small">@lang('common.aircraft')</td>
                     <td class="text-small">@lang('widgets.livemap.altitude')</td>
                     <td class="text-small">@lang('widgets.livemap.gs')</td>
                     <td class="text-small">@lang('widgets.livemap.distance')</td>
-                    <td class="text-small">@lang('common.status') }}</td>
+                    <td class="text-small">@lang('common.status')</td>
                 </tr>
             </thead>
             <tbody>
