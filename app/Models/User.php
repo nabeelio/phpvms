@@ -26,6 +26,7 @@ use Laratrust\Traits\LaratrustUserTrait;
  * @property Journal        journal
  * @property string         pilot_id
  * @property int            state
+ * @property bool           opt_in
  * @mixin \Illuminate\Notifications\Notifiable
  * @mixin \Laratrust\Traits\LaratrustUserTrait
  */
@@ -60,6 +61,7 @@ class User extends Authenticatable
         'timezone',
         'state',
         'status',
+        'opt_in',
         'created_at',
         'updated_at',
     ];
@@ -80,6 +82,7 @@ class User extends Authenticatable
         'balance'          => 'double',
         'state'            => 'integer',
         'status'           => 'integer',
+        'opt_in'           => 'boolean',
     ];
 
     public static $rules = [
@@ -122,7 +125,7 @@ class User extends Authenticatable
     {
         $this->attributes['timezone'] = $value;
     }
-    
+
     /**
     * Return a File model
     */

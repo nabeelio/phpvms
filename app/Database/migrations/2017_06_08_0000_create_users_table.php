@@ -32,6 +32,7 @@ class CreateUsersTable extends Migration
             $table->string('timezone', 64)->nullable();
             $table->unsignedTinyInteger('status')->nullable()->default(0);
             $table->unsignedTinyInteger('state')->nullable()->default(0);
+            $table->boolean('opt_in')->nullable();
             $table->boolean('active')->nullable();
             $table->ipAddress('last_ip')->nullable();
             $table->rememberToken();
