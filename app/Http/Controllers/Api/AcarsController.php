@@ -107,7 +107,7 @@ class AcarsController extends Controller
         return new AcarsRouteResource(Acars::where([
             'pirep_id' => $id,
             'type'     => AcarsType::FLIGHT_PATH
-        ])->orderBy('created_at', 'asc')->get());
+        ])->orderBy('sim_time', 'asc')->get());
     }
 
     /**

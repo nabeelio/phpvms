@@ -197,15 +197,24 @@ class GeoService extends Service
 
         $route = new GeoJson();
 
+        $actual_route = $this->acarsRepo->forPirep($pirep->id, AcarsType::FLIGHT_PATH);
+        foreach ($actual_route as $point) {
+            $route->addPoint($point->lat, $point->lon, [
+                'pirep_id' => $pirep->id,
+                'alt'      => $point->altitude,
+                //'popup'    => 'GS: '.$point->gs.'<br />Alt: '.$point->altitude,
+            ]);
+        }
+
         /**
          * @var $point \App\Models\Acars
          */
-        foreach ($pirep->acars as $point) {
+        /*foreach ($pirep->acars as $point) {
             $route->addPoint($point->lat, $point->lon, [
                 'pirep_id' => $pirep->id,
                 'alt'      => $point->altitude,
             ]);
-        }
+        }*/
 
         return [
             'position' => [

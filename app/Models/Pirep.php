@@ -402,14 +402,16 @@ class Pirep extends Model
     {
         return $this->hasMany(Acars::class, 'pirep_id')
             ->where('type', AcarsType::FLIGHT_PATH)
-            ->orderBy('created_at', 'desc');
+            ->orderBy('created_at', 'asc')
+            ->orderBy('sim_time', 'asc');
     }
 
     public function acars_logs()
     {
         return $this->hasMany(Acars::class, 'pirep_id')
             ->where('type', AcarsType::LOG)
-            ->orderBy('created_at', 'desc');
+            ->orderBy('created_at', 'desc')
+            ->orderBy('sim_time', 'asc');
     }
 
     public function acars_route()
