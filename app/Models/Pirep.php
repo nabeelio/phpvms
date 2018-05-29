@@ -40,10 +40,11 @@ use PhpUnitsOfMeasure\Exception\NonStringUnitName;
  * @property User        user
  * @property Flight|null flight
  * @property Collection  fields
+ * @property int         status
+ * @property bool        state
  * @property Carbon      submitted_at
  * @property Carbon      created_at
  * @property Carbon      updated_at
- * @property bool        state
  * @property Acars       position
  * @property Acars[]     acars
  * @package App\Models

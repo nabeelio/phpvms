@@ -38,11 +38,13 @@
                             {{ Utils::minutesToTimeString($pirep->flight_time) }}
                             </span>
                         </div>
-                        <div><span class="description"><b>Aircraft</b>&nbsp;
-                            {{ $pirep->aircraft->registration }}
-                            ({{ $pirep->aircraft->name }})
-                            </span>
-                        </div>
+                        @if($pirep->aircraft)
+                            <div><span class="description"><b>Aircraft</b>&nbsp;
+                                {{ $pirep->aircraft->registration }}
+                                ({{ $pirep->aircraft->name }})
+                                </span>
+                            </div>
+                        @endif
                         @if(filled($pirep->level))
                         <div>
                             <span class="description"><b>Flight Level</b>&nbsp;

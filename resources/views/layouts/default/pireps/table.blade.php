@@ -33,7 +33,13 @@
                     'id' => $pirep->arr_airport->icao
                     ])}}">{{$pirep->arr_airport->icao}}</a>)
             </td>
-            <td>{{ $pirep->aircraft->name }}</td>
+            <td>
+                @if($pirep->aircraft)
+                    {{ $pirep->aircraft->name }}
+                @else
+                    -
+                @endif
+            </td>
             <td class="text-center">
                 {{ (new \App\Support\Units\Time($pirep->flight_time)) }}
             </td>

@@ -21,6 +21,7 @@ return [
     'download'       => 'Download|Downloads',
     'from'           => 'da',
     'to'             => 'a',
+    'state'          => 'Stato',
     'status'         => 'Stato',
     'departure'      => 'Partenza',
     'arrival'        => 'Arrivo',
