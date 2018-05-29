@@ -13,6 +13,7 @@ return [
     'fare'                 => 'Tariffa|Tariffe',
     'class'                => 'Classe',
     'count'                => 'Numero',
+    'flighttime'           => 'Tempo di volo',
     'flightlevel'          => 'Livello di Volo',
     'fieldsreadonly'       => 'Quando un PIREP viene accettato/rifiutato, alcuni cami entrano in modalità di sola lettura.',
     'flightinformations'   => 'Informazioni di Volo',

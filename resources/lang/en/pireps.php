@@ -18,6 +18,7 @@ return [
     'fare'                 => 'Fare|Fares',
     'class'                => 'Class',
     'count'                => 'Count',
+    'flighttime'           => 'Flight Time',
     'flightlevel'          => 'Flight Level',
     'fieldsreadonly'       => 'Once a PIREP has been accepted/rejected, certain fields go into read-only mode.',
     'flightinformations'   => 'Flight Information',
