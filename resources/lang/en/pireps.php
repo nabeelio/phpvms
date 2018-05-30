@@ -20,7 +20,7 @@ return [
     'count'                => 'Count',
     'flighttime'           => 'Flight Time',
     'flightlevel'          => 'Flight Level',
-    'fieldsreadonly'       => 'Once a PIREP has been accepted/rejected, certain fields go into read-only mode.',
+    'fieldsreadonly'       => 'Once a PIREP has been submitted, certain fields go into read-only mode.',
     'flightinformations'   => 'Flight Information',
     'flightident'          => 'Flight Number/Code/Leg',
     'codeoptional'         => 'Code (optional)',

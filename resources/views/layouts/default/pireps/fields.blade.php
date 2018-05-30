@@ -240,7 +240,11 @@ flight reports that have been filed. You've been warned!
                 <div class="row">
                     <div class="col">
                         <div class="input-group input-group-sm form-group">
-                            {{ Form::textarea('route', null, ['class' => 'form-control', 'placeholder' => __('flights.route')]) }}
+                            {{ Form::textarea('route', null, [
+                                'class' => 'form-control',
+                                'placeholder' => __('flights.route'),
+                                'readonly' => (!empty($pirep) && $pirep->read_only),
+                            ]) }}
                             <p class="text-danger">{{ $errors->first('route') }}</p>
                         </div>
                     </div>
@@ -287,7 +291,8 @@ flight reports that have been filed. You've been warned!
                         <td>
                             <div class="input-group input-group-sm form-group">
                                 {{ Form::text($field->slug, null, [
-                                    'class' => 'form-control'
+                                    'class' => 'form-control',
+                                    'readonly' => (!empty($pirep) && $pirep->read_only),
                                     ]) }}
                             </div>
                             <p class="text-danger">{{ $errors->first($field->slug) }}</p>
@@ -318,14 +323,14 @@ flight reports that have been filed. You've been warned!
                         }}
                 @endif
 
-                @if(!isset($pirep) || (filled($pirep) && !$pirep->read_only))
-                    {{ Form::button(__('pireps.savepirep'), [
+                {{ Form::button(__('pireps.savepirep'), [
                         'name' => 'submit',
                         'value' => 'Save',
                         'class' => 'btn btn-info',
                         'type' => 'submit'])
                     }}
 
+                @if(!isset($pirep) || (filled($pirep) && !$pirep->read_only))
                     {{ Form::button(__('pireps.submitpirep'), [
                         'name' => 'submit',
                         'value' => 'Submit',

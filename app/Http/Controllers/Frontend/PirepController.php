@@ -121,6 +121,7 @@ class PirepController extends Controller
 
             $custom_fields[] = [
                 'name'   => $field->name,
+                'slug'   => $field->slug,
                 'value'  => $request->input($field->slug),
                 'source' => PirepSource::MANUAL
             ];
@@ -304,7 +305,10 @@ class PirepController extends Controller
         // Depending on the button they selected, set an initial state
         // Can be saved as a draft or just submitted
         if ($attrs['submit'] === 'save') {
-            $pirep->state = PirepState::DRAFT;
+            if(!$pirep->read_only) {
+                $pirep->state = PirepState::DRAFT;
+            }
+
             $pirep->save();
             Flash::success('PIREP saved successfully.');
         } else if ($attrs['submit'] === 'submit') {
@@ -334,6 +338,10 @@ class PirepController extends Controller
 
         # set the custom fields
         foreach ($pirep->fields as $field) {
+            if($field->slug == null) {
+                $field->slug = str_slug($field->name);
+            }
+
             $pirep->{$field->slug} = $field->value;
         }
 

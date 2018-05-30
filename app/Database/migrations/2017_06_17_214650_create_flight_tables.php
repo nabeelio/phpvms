@@ -73,6 +73,7 @@ class CreateFlightTables extends Migration
             $table->bigIncrements('id');
             $table->string('flight_id', \App\Interfaces\Model::ID_MAX_LENGTH);
             $table->string('name', 50);
+            $table->string('slug', 50)->nullable();
             $table->text('value');
             $table->timestamps();
 
