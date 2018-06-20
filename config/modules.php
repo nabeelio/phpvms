@@ -53,7 +53,7 @@ return [
             'config'           => ['path' => 'Config', 'generate' => true],
             'command'          => ['path' => 'Console', 'generate' => true],
             'migration'        => ['path' => 'Database/migrations', 'generate' => true],
-            'seeder'           => ['path' => 'Database/seeders', 'generate' => true],
+            'seeds'            => ['path' => 'Database/seeds', 'generate' => true],
             'factory'          => ['path' => 'Database/factories', 'generate' => true],
             'model'            => ['path' => 'Models', 'generate' => true],
             'controller'       => ['path' => 'Http/Controllers', 'generate' => true],

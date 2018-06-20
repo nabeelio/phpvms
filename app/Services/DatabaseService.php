@@ -3,9 +3,11 @@
 namespace App\Services;
 
 use App\Interfaces\Service;
+use App\Support\Database;
 use Carbon\Carbon;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
+use Symfony\Component\VarDumper\Cloner\Data;
 use Symfony\Component\Yaml\Yaml;
 use Webpatser\Uuid\Uuid;
 
@@ -42,8 +44,7 @@ class DatabaseService extends Service
      */
     public function seed_from_yaml_file($yaml_file, $ignore_errors = false): array
     {
-        $yml = file_get_contents($yaml_file);
-        return $this->seed_from_yaml($yml, $ignore_errors);
+        return Database::seed_from_yaml_file($yaml_file, $ignore_errors);
     }
 
     /**
@@ -54,27 +55,7 @@ class DatabaseService extends Service
      */
     public function seed_from_yaml($yml, $ignore_errors = false): array
     {
-        $imported = [];
-        $yml = Yaml::parse($yml);
-        foreach ($yml as $table => $rows) {
-            $imported[$table] = 0;
-
-            foreach ($rows as $row) {
-                try {
-                    $row = $this->insert_row($table, $row);
-                } catch(QueryException $e) {
-                    if ($ignore_errors) {
-                        continue;
-                    }
-
-                    throw $e;
-                }
-
-                ++$imported[$table];
-            }
-        }
-
-        return $imported;
+        return Database::seed_from_yaml($yml, $ignore_errors);
     }
 
     /**
@@ -92,24 +73,6 @@ class DatabaseService extends Service
             }
         }
 
-        # encrypt any password fields
-        if (array_key_exists('password', $row)) {
-            $row['password'] = bcrypt($row['password']);
-        }
-
-        # if any time fields are == to "now", then insert the right time
-        foreach($row as $column => $value) {
-            if(strtolower($value) === 'now') {
-                $row[$column] = $this->time();
-            }
-        }
-
-        try {
-            DB::table($table)->insert($row);
-        } catch (QueryException $e) {
-            throw $e;
-        }
-
-        return $row;
+        return Database::insert_row($table, $row);
     }
 }
