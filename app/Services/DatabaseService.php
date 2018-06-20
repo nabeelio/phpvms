@@ -5,10 +5,6 @@ namespace App\Services;
 use App\Interfaces\Service;
 use App\Support\Database;
 use Carbon\Carbon;
-use Illuminate\Database\QueryException;
-use Illuminate\Support\Facades\DB;
-use Symfony\Component\VarDumper\Cloner\Data;
-use Symfony\Component\Yaml\Yaml;
 use Webpatser\Uuid\Uuid;
 
 /**
