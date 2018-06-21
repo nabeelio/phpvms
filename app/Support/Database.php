@@ -10,6 +10,7 @@ use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\Yaml\Yaml;
 use Webpatser\Uuid\Uuid;
+use Log;
 
 class Database
 {
