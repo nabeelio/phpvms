@@ -15,7 +15,7 @@ return [
             'views/frontend'         => 'Resources/views/layouts/frontend.blade.php',
             'views/admin'            => 'Resources/views/layouts/admin.blade.php',
             'listener-test'          => 'Listeners/TestEventListener.php',
-            'controller-api'         => 'Http/Controllers/Api/SampleController.php',
+            'controller-api'         => 'Http/Controllers/Api/ApiController.php',
             'controller-admin'       => 'Http/Controllers/Admin/AdminController.php',
             'scaffold/config'        => 'Config/config.php',
             'composer'               => 'composer.json',

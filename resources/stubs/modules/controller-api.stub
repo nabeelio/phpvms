@@ -6,14 +6,15 @@ use App\Interfaces\Controller;
 use Illuminate\Http\Request;
 
 /**
- * class SampleController
+ * class ApiController
  * @package $MODULE_NAMESPACE$\$STUDLY_NAME$\Http\Controllers\Api
  */
-class SampleController extends RestController
+class ApiController extends Controller
 {
     /**
      * Just send out a message
      * @param Request $request
+     * @return mixed
      */
     public function index(Request $request)
     {
@@ -21,7 +22,9 @@ class SampleController extends RestController
     }
 
     /**
+     * Handles /hello
      * @param Request $request
+     * @return mixed
      */
     public function hello(Request $request)
     {
