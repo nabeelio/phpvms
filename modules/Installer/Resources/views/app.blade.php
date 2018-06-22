@@ -16,6 +16,8 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet"/>
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet"/>
 
+    <link href="{{ public_asset('/assets/frontend/css/bootstrap.min.css') }}" rel="stylesheet"/>
+    <link href="{{ public_asset('/assets/frontend/css/now-ui-kit.css') }}" rel="stylesheet"/>
     <link href="{{ public_asset('/assets/installer/css/vendor.css') }}" rel="stylesheet"/>
     <link href="{{ public_asset('/assets/frontend/css/styles.css') }}" rel="stylesheet"/>
 
@@ -24,8 +26,8 @@
 
     <style>
         .table tr:first-child td { border-top: 0px; }
+        @yield('css')
     </style>
-    @yield('css')
 </head>
 
 <body>
@@ -33,13 +35,6 @@
 <nav class="navbar navbar-toggleable-md" style="background: #067ec1;">
     <div class="container" style="width: 85%!important;">
         <div class="navbar-translate">
-            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
-                    data-target="#navigation" aria-controls="navigation-index" aria-expanded="false"
-                    aria-label="Toggle navigation">
-                <span class="navbar-toggler-bar bar1"></span>
-                <span class="navbar-toggler-bar bar2"></span>
-                <span class="navbar-toggler-bar bar3"></span>
-            </button>
             <p class="navbar-brand text-white" data-placement="bottom" target="_blank">
                 <a href="{{ url('/') }}">
                     <img src="{{ public_asset('/assets/img/logo_blue_bg.svg') }}" width="135px" style=""/>
