@@ -1,5 +1,5 @@
 @extends('auth.layout')
-@section('title', __('auth.login'))
+@section('title', __('common.login'))
 
 @section('content')
 <div class="col-md-4 content-center">
@@ -51,7 +51,7 @@
 
             </div>
             <div class="footer text-center">
-                <button class="btn btn-primary btn-round btn-lg btn-block">@lang('auth.login')</button>
+                <button class="btn btn-primary btn-round btn-lg btn-block">@lang('common.login')</button>
             </div>
             <div class="pull-left">
                 <h6>

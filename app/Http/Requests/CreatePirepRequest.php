@@ -26,6 +26,17 @@ class CreatePirepRequest extends FormRequest
      */
     public function rules()
     {
+        // Don't run validations if it's just being saved
+        $action = strtolower(request('submit', 'submit'));
+        if($action === 'save') {
+            return [
+                'airline_id'     => 'required|exists:airlines,id',
+                'flight_number'  => 'required',
+                'dpt_airport_id' => 'required',
+                'arr_airport_id' => 'required',
+            ];
+        }
+
         $field_rules = Pirep::$rules;
 
         $field_rules['hours'] = 'nullable|integer';

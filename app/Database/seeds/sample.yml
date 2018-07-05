@@ -394,18 +394,20 @@ flights:
 
 flight_fields:
   - name: Departure Gate
-    slug: departure_gate
+    slug: departure-gate
   - name: Arrival Gate
-    slug: arrival_gate
+    slug: arrival-gate
 
 flight_field_values:
   - id: 1
     flight_id: flightid_1
     name: cost index
+    slug: cost-index
     value: 80
   - id: 2
     flight_id: flightid_2
     name: cost index
+    slug: cost-index
     value: 100
 
 flight_subfleet:
@@ -539,24 +541,24 @@ pirep_fares:
 pirep_fields:
   - id: 1
     name: departure gate
-    slug: departure_gate
+    slug: departure-gate
     required: 1
   - id: 2
     name: arrival gate
-    slug: arrival_gate
+    slug: arrival-gate
     required: 0
 
 pirep_field_values:
   - id: 1
     pirep_id: pirepid_1
     name: arrival gate
-    slug: arrival_gate
+    slug: arrival-gate
     value: 10
     source: manual
   - id: 2
     pirep_id: pirepid_1
     name: departure gate
-    slug: departure_gate
+    slug: departure-gate
     value: B32
     source: manual
 

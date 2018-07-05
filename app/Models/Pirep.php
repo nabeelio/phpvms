@@ -40,10 +40,12 @@ use PhpUnitsOfMeasure\Exception\NonStringUnitName;
  * @property User        user
  * @property Flight|null flight
  * @property Collection  fields
+ * @property int         status
+ * @property bool        state
  * @property Carbon      submitted_at
  * @property Carbon      created_at
  * @property Carbon      updated_at
- * @property bool        state
+ * @property bool        read_only
  * @property Acars       position
  * @property Acars[]     acars
  * @package App\Models
@@ -126,9 +128,9 @@ class Pirep extends Model
      * If a PIREP is in these states, then it can't be changed.
      */
     public static $read_only_states = [
+        PirepState::PENDING,
         PirepState::ACCEPTED,
         PirepState::REJECTED,
-        //PirepState::PENDING,
         PirepState::CANCELLED,
     ];
 

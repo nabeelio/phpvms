@@ -95,7 +95,7 @@
         <li class="nav-item">
             <a class="nav-link" href="{{ url('/logout') }}">
                 <i class="fas fa-sign-out-alt"></i>
-                <p>@lang('auth.logout')</p>
+                <p>@lang('common.logout')</p>
             </a>
         </li>
     @endif

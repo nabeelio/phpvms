@@ -15,6 +15,7 @@ class PirepFieldValues extends Model
     protected $fillable = [
         'pirep_id',
         'name',
+        'slug',
         'value',
         'source',
     ];
@@ -22,6 +23,15 @@ class PirepFieldValues extends Model
     public static $rules = [
         'name' => 'required',
     ];
+
+    /**
+     * @param $name
+     */
+    public function setNameAttribute($name): void
+    {
+        $this->attributes['name'] = $name;
+        $this->attributes['slug'] = str_slug($name);
+    }
 
     /**
      * Foreign Keys

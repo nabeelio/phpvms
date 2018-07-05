@@ -13,6 +13,7 @@ use App\Models\Bid;
 use App\Models\Enums\AcarsType;
 use App\Models\Enums\PirepSource;
 use App\Models\Enums\PirepState;
+use App\Models\Enums\PirepStatus;
 use App\Models\Enums\UserState;
 use App\Models\Navdata;
 use App\Models\Pirep;
@@ -211,6 +212,10 @@ class PirepService extends Service
                 $default_state = PirepState::ACCEPTED;
             }
         }
+
+        $pirep->state = $default_state;
+        $pirep->status = PirepStatus::ARRIVED;
+        $pirep->save();
 
         Log::info('New PIREP filed', [$pirep]);
         event(new PirepFiled($pirep));

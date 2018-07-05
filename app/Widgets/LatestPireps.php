@@ -3,6 +3,7 @@
 namespace App\Widgets;
 
 use App\Interfaces\Widget;
+use App\Models\Enums\PirepState;
 use App\Repositories\PirepRepository;
 
 /**
@@ -22,9 +23,17 @@ class LatestPireps extends Widget
     {
         $pirepRepo = app(PirepRepository::class);
 
+        $pireps = $pirepRepo
+            ->whereNotInOrder('state', [
+                PirepState::CANCELLED,
+                PirepState::DRAFT,
+                PirepState::IN_PROGRESS
+            ], 'created_at', 'desc')
+            ->recent($this->config['count']);
+
         return view('widgets.latest_pireps', [
             'config' => $this->config,
-            'pireps' => $pirepRepo->recent($this->config['count']),
+            'pireps' => $pireps,
         ]);
     }
 }

@@ -7,7 +7,9 @@
             <td>
                 {{ $p->dpt_airport_id }}-
                 {{ $p->arr_airport_id }}&nbsp;
-                {{ $p->aircraft->name }}
+                @if($p->aircraft)
+                    {{ $p->aircraft->name }}
+                @endif
             </td>
         </tr>
     @endforeach

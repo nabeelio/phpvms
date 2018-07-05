@@ -18,10 +18,20 @@ class FlightFieldValue extends Model
     protected $fillable = [
         'flight_id',
         'name',
+        'slug',
         'value',
     ];
 
     public static $rules = [];
+
+    /**
+     * @param $name
+     */
+    public function setNameAttribute($name): void
+    {
+        $this->attributes['name'] = $name;
+        $this->attributes['slug'] = str_slug($name);
+    }
 
     /**
      * Relationships

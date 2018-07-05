@@ -33,7 +33,7 @@ class MigrationService extends Service
             'core' => \App::databasePath() . '/migrations'
         ];
 
-        $modules = Module::enabled();
+        $modules = Module::allEnabled();
         foreach ($modules as $module) {
             $module_path = $module->getPath() . '/Database/migrations';
             if(file_exists($module_path)) {

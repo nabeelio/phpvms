@@ -6,16 +6,7 @@
         <div class="col-8">
             <div class="row">
                 <div class="col-12">
-                    <p>
-                        <h2 style="margin-bottom: 5px;">{{$pirep->airline->code}}{{ $pirep->ident }}</h2>
-                        <p>
-                            @if($pirep->state === PirepState::IN_PROGRESS)
-
-                            @else
-                               @lang('pireps.arrived') {{$pirep->created_at->diffForHumans()}}
-                            @endif
-                        </p>
-                    </p>
+                    <h2 style="margin-bottom: 5px;">{{$pirep->airline->code}}{{ $pirep->ident }}</h2>
                 </div>
             </div>
             <div class="row">
@@ -101,6 +92,16 @@
                 </div>
             @endif
             <table class="table table-striped">
+
+                <tr>
+                    <td width="30%">@lang('common.state')</td>
+                    <td>
+                        <div class="badge badge-info">
+                            {{ PirepState::label($pirep->state) }}
+                        </div>
+                    </td>
+                </tr>
+
                 <tr>
                     <td width="30%">@lang('common.status')</td>
                     <td>

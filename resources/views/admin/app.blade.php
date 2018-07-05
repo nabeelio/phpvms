@@ -18,12 +18,12 @@
 
     <link rel="shortcut icon" type="image/png" href="{{ public_asset('/assets/img/favicon.png') }}"/>
 
-    <link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'>
-    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700,300" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'/>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700,300" rel="stylesheet" type="text/css"/>
 
-    <link rel="stylesheet" href="{{ public_asset('/assets/global/css/vendor.css') }}">
-    <link rel="stylesheet" href="{{ public_asset('/assets/admin/css/vendor.css') }}">
-    <link rel="stylesheet" href="{{ public_asset('/assets/admin/css/admin.css') }}">
+    <link rel="stylesheet" href="{{ public_asset('/assets/global/css/vendor.css') }}"/>
+    <link rel="stylesheet" href="{{ public_asset('/assets/admin/css/vendor.css') }}"/>
+    <link rel="stylesheet" href="{{ public_asset('/assets/admin/css/admin.css') }}"/>
 
     <style type="text/css">
     @yield('css')
@@ -36,6 +36,7 @@
     @else
         const PHPVMS_USER_API_KEY = false;
     @endif
+    @yield('scripts_head')
     </script>
 
 </head>

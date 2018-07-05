@@ -4,7 +4,7 @@
  * This is publicly accessible
  */
 Route::group(['middleware' => []], function() {
-    Route::get('/', '$STUDLY_NAME$Controller@index');
+    Route::get('/', 'ApiController@index');
 });
 
 /**
@@ -13,5 +13,5 @@ Route::group(['middleware' => []], function() {
 Route::group(['middleware' => [
     'api.auth'
 ]], function() {
-    Route::get('/hello', '$STUDLY_NAME$Controller@hello');
+    Route::get('/hello', 'ApiController@hello');
 });
