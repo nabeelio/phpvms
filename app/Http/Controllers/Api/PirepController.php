@@ -497,6 +497,12 @@ class PirepController extends Controller
 
         Log::info('Posting ROUTE, PIREP: '.$id, $request->post());
 
+        // Delete the route before posting a new one
+        Acars::where([
+            'pirep_id' => $id,
+            'type'     => AcarsType::ROUTE
+        ])->delete();
+
         $count = 0;
         $route = $request->post('route', []);
         foreach ($route as $position) {

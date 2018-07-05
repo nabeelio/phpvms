@@ -95,6 +95,8 @@ class PirepService extends Service
 
     /**
      * Save the route into the ACARS table with AcarsType::ROUTE
+     * This attempts to create the route from the navdata and the route
+     * entered into the PIREP's route field
      * @param Pirep $pirep
      * @return Pirep
      * @throws \Exception
@@ -114,7 +116,6 @@ class PirepService extends Service
 
         if (!filled($pirep->dpt_airport)) {
             Log::error('saveRoute: dpt_airport not found: '.$pirep->dpt_airport_id);
-
             return $pirep;
         }
 
