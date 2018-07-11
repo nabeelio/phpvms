@@ -108,7 +108,8 @@
                     <div class="form-group col-sm-3">
                         {{ Form::label('dpt_airport_id', 'Departure Airport:') }}
                         @if($pirep->read_only)
-                            <p>{{ $pirep->dpt_airport->id }} - {{ $pirep->dpt_airport->name }}</p>
+                            <p>{{ $pirep->dpt_airport_id }}@if($pirep->dpt_airport->name) - {{ $pirep->dpt_airport->name }}@endif
+                            </p>
                             {{ Form::hidden('dpt_airport_id') }}
                         @else
                             {{ Form::select('dpt_airport_id', $airports_list, null, [
@@ -121,7 +122,8 @@
                     <div class="form-group col-sm-3">
                         {{ Form::label('arr_airport_id', 'Arrival Airport:') }}
                         @if($pirep->read_only)
-                            <p>{{ $pirep->arr_airport->id }} - {{ $pirep->arr_airport->name }}</p>
+                            <p>{{ $pirep->arr_airport->id }}@if($pirep->arr_airport->name) - {{ $pirep->arr_airport->name }}@endif
+                            </p>
                             {{ Form::hidden('arr_airport_id') }}
                         @else
                             {{ Form::select('arr_airport_id', $airports_list, null, ['class' => 'form-control select2']) }}
