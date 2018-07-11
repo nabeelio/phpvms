@@ -27,7 +27,7 @@
         "jmikola/geojson": "1.0.x",
         "laracasts/flash": "3.0.x",
         "arrilot/laravel-widgets": "3.9.x",
-        "nabeel/vacentral": "1.0.x",
+        "nabeel/vacentral": "^1.0",
         "league/iso3166": "2.1.x",
         "theiconic/php-ga-measurement-protocol": "2.7.x",
         "joshbrw/laravel-module-installer": "0.1.x",

@@ -61,9 +61,6 @@ function phpvms_vacentral_airport_lookup(icao, callback) {
         .then(response => {
             console.log(response);
             callback(response.data);
-        })
-        .error(err => {
-            console.log(err);
         });
 }
 

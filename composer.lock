@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "cdbd47e5570d8787f6b54d22950466b7",
+    "content-hash": "65230ca9de4b86cf542d098549c08f60",
     "packages": [
         {
             "name": "akaunting/money",
@@ -2077,16 +2077,16 @@
         },
         {
             "name": "nabeel/vacentral",
-            "version": "v1.0.0",
+            "version": "v1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nabeelio/vacentral-library.git",
-                "reference": "35316106c8840c6ddacadcc0c80fdcc906482242"
+                "reference": "75dcd840e3d794b3c55c1f97d96f057fd84bf695"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nabeelio/vacentral-library/zipball/35316106c8840c6ddacadcc0c80fdcc906482242",
-                "reference": "35316106c8840c6ddacadcc0c80fdcc906482242",
+                "url": "https://api.github.com/repos/nabeelio/vacentral-library/zipball/75dcd840e3d794b3c55c1f97d96f057fd84bf695",
+                "reference": "75dcd840e3d794b3c55c1f97d96f057fd84bf695",
                 "shasum": ""
             },
             "require": {
@@ -2103,11 +2103,11 @@
                     "VaCentral\\": "src/"
                 }
             },
-            "notification-url": "http://packagist.org/downloads/",
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
-            "time": "2018-02-05T17:20:06+00:00"
+            "time": "2018-07-11T13:02:24+00:00"
         },
         {
             "name": "nesbot/carbon",
