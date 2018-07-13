@@ -8,7 +8,6 @@ use App\Models\Enums\Days;
 use App\Models\Flight;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
-use Log;
 
 /**
  * Figure out what flights need to be active for today
