@@ -27,10 +27,10 @@ class AirportImporter extends ImportExport
         'hub'                  => 'nullable|boolean',
         'lat'                  => 'required|numeric',
         'lon'                  => 'required|numeric',
-        'ground_handling_cost' => 'nullable|float',
-        'fuel_100ll_cost'      => 'nullable|float',
-        'fuel_jeta_cost'       => 'nullable|float',
-        'fuel_mogas_cost'      => 'nullable|float',
+        'ground_handling_cost' => 'nullable|numeric',
+        'fuel_100ll_cost'      => 'nullable|numeric',
+        'fuel_jeta_cost'       => 'nullable|numeric',
+        'fuel_mogas_cost'      => 'nullable|numeric',
     ];
 
     /**
