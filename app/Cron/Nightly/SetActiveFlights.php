@@ -40,7 +40,6 @@ class SetActiveFlights extends Listener
          * @var Flight $flight
          */
         foreach($flights as $flight) {
-
             if (!$flight->active) {
                 continue;
             }
@@ -54,6 +53,9 @@ class SetActiveFlights extends Listener
                         Log::info('Marking flight '.$flight->ident.' to '.($visible ? 'visible' : 'invisible'));
                         $flight->visible = $visible;
                     }
+                } else {
+                    Log::info('Toggling flight '.$flight->ident.' to visible');
+                    $flight->visible = true;
                 }
 
                 $flight->save();
@@ -72,7 +74,10 @@ class SetActiveFlights extends Listener
                         $flight->visible = true;
                     }
                 } else {
-                    $flight->visible = true;
+                    if ($flight->visible !== true) {
+                        Log::info('Toggling flight '.$flight->ident.' to visible');
+                        $flight->visible = true;
+                    }
                 }
             } else {
                 $flight->visible = false;

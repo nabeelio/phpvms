@@ -52,8 +52,10 @@ class FlightController extends Controller
     public function index(Request $request)
     {
         $where = [
-            'active' => true,
+            'active'  => true,
+            'visible' => true,
         ];
+
         if(setting('pilots.restrict_to_company')) {
             $where['airline_id'] = Auth::user()->airline_id;
         }
