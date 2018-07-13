@@ -13,6 +13,7 @@ return [
     'pilotreport'          => 'Pilot Report|Pilot Reports',
     'arrived'              => 'Arrived',
     'source'               => 'Source',
+    'flightlog'            => 'Flight Log',
     'filedroute'           => 'Filed Route',
     'filedon'              => 'Filed On',
     'fare'                 => 'Fare|Fares',
