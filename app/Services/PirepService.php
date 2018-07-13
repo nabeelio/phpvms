@@ -17,7 +17,7 @@ use App\Models\Enums\PirepStatus;
 use App\Models\Enums\UserState;
 use App\Models\Navdata;
 use App\Models\Pirep;
-use App\Models\PirepFieldValues;
+use App\Models\PirepFieldValue;
 use App\Models\User;
 use App\Repositories\AcarsRepository;
 use App\Repositories\FlightRepository;
@@ -152,7 +152,7 @@ class PirepService extends Service
      * Create a new PIREP with some given fields
      *
      * @param Pirep $pirep
-     * @param array [PirepFieldValues] $field_values
+     * @param array PirepFieldValue[] $field_values
      *
      * @return Pirep
      */
@@ -244,7 +244,7 @@ class PirepService extends Service
     public function updateCustomFields($pirep_id, array $field_values)
     {
         foreach ($field_values as $fv) {
-            PirepFieldValues::updateOrCreate(
+            PirepFieldValue::updateOrCreate(
                 ['pirep_id' => $pirep_id,
                  'name'     => $fv['name']
                 ],

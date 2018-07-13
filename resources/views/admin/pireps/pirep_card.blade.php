@@ -28,9 +28,9 @@
                         <div>
                             <span class="description">
                                 <b>DEP</b>&nbsp;
-                                {{ $pirep->dpt_airport->icao }}&nbsp;
+                                {{ $pirep->dpt_airport_id }}&nbsp;
                                 <b>ARR</b>&nbsp;
-                            {{ $pirep->arr_airport->icao }}&nbsp;
+                            {{ $pirep->arr_airport_id }}&nbsp;
                             </span>
                         </div>
                         <div>

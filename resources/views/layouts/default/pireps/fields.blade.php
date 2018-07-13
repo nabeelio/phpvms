@@ -276,36 +276,16 @@ flight reports that have been filed. You've been warned!
                 &nbsp;{{ trans_choice('common.field', 2) }}
             </h6>
             <div class="form-container-body">
-
                 {{--
                 Write out the custom fields, and label if they're required
                 --}}
-                @foreach($pirep_fields as $field)
-                    <tr>
-                        <td>
-                            {{ $field->name }}
-                            @if($field->required === true)
-                                <span class="text-danger">*</span>
-                            @endif
-                        </td>
-                        <td>
-                            <div class="input-group input-group-sm form-group">
-                                {{ Form::text($field->slug, null, [
-                                    'class' => 'form-control',
-                                    'readonly' => (!empty($pirep) && $pirep->read_only),
-                                    ]) }}
-                            </div>
-                            <p class="text-danger">{{ $errors->first($field->slug) }}</p>
-                        </td>
-                    </tr>
-                @endforeach
+                @each('pireps.custom_fields', $pirep->fields, 'field')
             </div>
         </div>
 
         <div id="fares_container">
             @include('pireps.fares')
         </div>
-
     </div>
 </div>
 <div class="row">

@@ -22,16 +22,12 @@
                     $pirep->id]) }}">{{ $pirep->airline->code }}{{ $pirep->ident }}</a>
             </td>
             <td>
-                {{ $pirep->dpt_airport->name }}
-                (<a href="{{route('frontend.airports.show', [
-                    'id' => $pirep->dpt_airport->icao
-                    ])}}">{{$pirep->dpt_airport->icao}}</a>)
+                @if($pirep->dpt_airport){{ $pirep->dpt_airport->name }}@endif
+                (<a href="{{route('frontend.airports.show', ['id' => $pirep->dpt_airport_id])}}">{{$pirep->dpt_airport_id}}</a>)
             </td>
             <td>
-                {{ $pirep->arr_airport->name }}
-                (<a href="{{route('frontend.airports.show', [
-                    'id' => $pirep->arr_airport->icao
-                    ])}}">{{$pirep->arr_airport->icao}}</a>)
+                @if($pirep->arr_airport){{ $pirep->arr_airport->name }}@endif
+                (<a href="{{route('frontend.airports.show', ['id' => $pirep->arr_airport_id])}}">{{$pirep->arr_airport_id}}</a>)
             </td>
             <td>
                 @if($pirep->aircraft)

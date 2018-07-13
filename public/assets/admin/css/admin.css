@@ -3,6 +3,10 @@
  *
  */
 
+.form-container {
+    font-weight: normal;
+}
+
 .select2-container {
     margin-top: 2px;
 }

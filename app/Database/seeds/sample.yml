@@ -393,10 +393,10 @@ flights:
     updated_at: NOW
 
 flight_fields:
-  - name: Departure Gate
-    slug: departure-gate
-  - name: Arrival Gate
-    slug: arrival-gate
+  - name: Departure Terminal
+    slug: departure-terminal
+  - name: Arrival Terminal
+    slug: arrival-terminal
 
 flight_field_values:
   - id: 1
@@ -540,27 +540,33 @@ pirep_fares:
 
 pirep_fields:
   - id: 1
-    name: departure gate
-    slug: departure-gate
+    name: departure terminal
+    slug: departure-terminal
     required: 1
   - id: 2
-    name: arrival gate
-    slug: arrival-gate
+    name: arrival terminal
+    slug: arrival-terminal
     required: 0
 
 pirep_field_values:
   - id: 1
     pirep_id: pirepid_1
-    name: arrival gate
-    slug: arrival-gate
+    name: arrival terminal
+    slug: arrival-terminal
     value: 10
-    source: manual
+    source: 0
   - id: 2
     pirep_id: pirepid_1
-    name: departure gate
-    slug: departure-gate
-    value: B32
-    source: manual
+    name: departure terminal
+    slug: departure-terminal
+    value: 4
+    source: 0
+  - id: 3
+    pirep_id: pirepid_1
+    name: Landing Rate
+    slug: landing-rate
+    value: -225.3
+    source: 1
 
 pirep_comments:
   - id: 1

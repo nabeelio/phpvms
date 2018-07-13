@@ -226,7 +226,7 @@ class AcarsTest extends TestCase
         $this->assertEquals($fare->capacity, $saved_fare['count']);
 
         # Check saved fields
-        $saved_fields = \App\Models\PirepFieldValues::where('pirep_id', $pirep['id'])->get();
+        $saved_fields = \App\Models\PirepFieldValue::where('pirep_id', $pirep['id'])->get();
         $this->assertCount(1, $saved_fields);
         $field = $saved_fields->first();
 

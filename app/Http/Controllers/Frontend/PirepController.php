@@ -332,6 +332,9 @@ class PirepController extends Controller
             return redirect(route('frontend.pireps.index'));
         }
 
+        # Eager load the subfleet and fares under it
+        $pirep->aircraft->load('subfleet.fares');
+
         $time = new Time($pirep->flight_time);
         $pirep->hours = $time->hours;
         $pirep->minutes = $time->minutes;
@@ -342,7 +345,8 @@ class PirepController extends Controller
                 $field->slug = str_slug($field->name);
             }
 
-            $pirep->{$field->slug} = $field->value;
+            $field_name = 'field_'.$field->slug;
+            $pirep->{$field_name} = $field->value;
         }
 
         # set the fares

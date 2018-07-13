@@ -4,7 +4,7 @@
             &nbsp;{{ trans_choice('pireps.fare', 2) }}
         </h6>
         <div class="form-container-body">
-            @foreach($aircraft->subfleet->fares as $fare)
+            @foreach($pirep->aircraft->subfleet->fares as $fare)
                 <div class="row">
                     <div class="col">
                         {{Form::label('fare_'.$fare->id, $fare->name.' ('.$fare->code.')')}}

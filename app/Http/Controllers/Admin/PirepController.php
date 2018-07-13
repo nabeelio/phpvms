@@ -298,7 +298,8 @@ class PirepController extends Controller
 
         # set the custom fields
         foreach ($pirep->fields as $field) {
-            $pirep->{$field->slug} = $field->value;
+            $field_name = 'field_'.$field->slug;
+            $pirep->{$field_name} = $field->value;
         }
 
         # set the fares

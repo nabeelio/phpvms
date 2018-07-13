@@ -20,6 +20,7 @@ use App\Http\Resources\PirepFieldCollection;
 use App\Interfaces\Controller;
 use App\Models\Acars;
 use App\Models\Enums\AcarsType;
+use App\Models\Enums\PirepFieldSource;
 use App\Models\Enums\PirepSource;
 use App\Models\Enums\PirepState;
 use App\Models\Enums\PirepStatus;
@@ -122,7 +123,7 @@ class PirepController extends Controller
             $pirep_fields[] = [
                 'name'   => $field_name,
                 'value'  => $field_value,
-                'source' => $pirep->source,
+                'source' => PirepFieldSource::ACARS,
             ];
         }
 

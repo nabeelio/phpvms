@@ -84,7 +84,7 @@ class CreatePirepTables extends Migration
             $table->string('name', 50);
             $table->string('slug', 50)->nullable();
             $table->string('value')->nullable();
-            $table->string('source')->nullable();
+            $table->unsignedTinyInteger('source');
             $table->timestamps();
 
             $table->index('pirep_id');

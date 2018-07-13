@@ -15,9 +15,13 @@
             </td>
             <td>
                 <div class="form-group">
-                    {{ Form::text($field->slug, null, [
-                        'class' => 'form-control'
-                        ]) }}
+                    @if(!$field->read_only)
+                        {{ Form::text($field->slug, $field->value, [
+                            'class' => 'form-control'
+                            ]) }}
+                    @else
+                        <p>{{ $field->value }}</p>
+                    @endif
                 </div>
                 <p class="text-danger">{{ $errors->first($field->slug) }}</p>
             </td>
