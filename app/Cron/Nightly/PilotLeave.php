@@ -42,6 +42,7 @@ class PilotLeave extends Listener
            ->whereDate('updated_at', '<', $date);
 
         foreach($users as $user) {
+            Log::info('Setting user '.$user->ident.' to ON LEAVE status');
             $this->userSvc->setStatusOnLeave($user);
         }
     }

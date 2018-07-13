@@ -118,7 +118,6 @@ class AircraftController extends Controller
 
         if (empty($aircraft)) {
             Flash::error('Aircraft not found');
-
             return redirect(route('admin.aircraft.index'));
         }
 
