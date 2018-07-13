@@ -66,7 +66,7 @@ class SetActiveFlights extends Listener
             // Start/end date is set, so make sure today is valid for it to be alive
             // and then make sure if days of the week are specified, check that too
             if ($today->gte($flight->start_date) && $today->lte($flight->end_date)) {
-                if ($flight->days === null || $flight->days > 0) {
+                if ($flight->days > 0) {
                     $visible = Days::isToday($flight->days);
                     if($flight->visible !== $visible) {
                         Log::info('Toggling flight '.$flight->ident.' to '.($visible?'visible':'invisible'));
