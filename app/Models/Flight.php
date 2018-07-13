@@ -64,6 +64,7 @@ class Flight extends Model
         'end_date',
         'has_bid',
         'active',
+        'visible',
     ];
 
     protected $casts = [
@@ -75,8 +76,9 @@ class Flight extends Model
         'start_date'    => 'date',
         'end_date'      => 'date',
         'has_bid'       => 'boolean',
+        'route_leg'     => 'integer',
         'active'        => 'boolean',
-		'route_leg'		=> 'integer'
+        'visible'       => 'boolean',
     ];
 
     public static $rules = [

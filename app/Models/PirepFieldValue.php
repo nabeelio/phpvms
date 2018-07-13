@@ -3,12 +3,13 @@
 namespace App\Models;
 
 use App\Interfaces\Model;
+use App\Models\Enums\PirepFieldSource;
 
 /**
- * Class PirepFieldValues
+ * Class PirepFieldValue
  * @package App\Models
  */
-class PirepFieldValues extends Model
+class PirepFieldValue extends Model
 {
     public $table = 'pirep_field_values';
 
@@ -23,6 +24,19 @@ class PirepFieldValues extends Model
     public static $rules = [
         'name' => 'required',
     ];
+
+    protected $casts = [
+        'source' => 'integer',
+    ];
+
+    /**
+     * If it was filled in from ACARS, then it's read only
+     * @return bool
+     */
+    public function getReadOnlyAttribute()
+    {
+        return $this->source === PirepFieldSource::ACARS;
+    }
 
     /**
      * @param $name

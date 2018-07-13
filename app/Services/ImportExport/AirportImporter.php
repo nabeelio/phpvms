@@ -18,15 +18,19 @@ class AirportImporter extends ImportExport
      * Should match the database fields, for the most part
      */
     public static $columns = [
-        'icao'     => 'required',
-        'iata'     => 'required',
-        'name'     => 'required',
-        'location' => 'nullable',
-        'country'  => 'nullable',
-        'timezone' => 'nullable',
-        'hub'      => 'nullable|boolean',
-        'lat'      => 'required|numeric',
-        'lon'      => 'required|numeric',
+        'icao'                 => 'required',
+        'iata'                 => 'required',
+        'name'                 => 'required',
+        'location'             => 'nullable',
+        'country'              => 'nullable',
+        'timezone'             => 'nullable',
+        'hub'                  => 'nullable|boolean',
+        'lat'                  => 'required|numeric',
+        'lon'                  => 'required|numeric',
+        'ground_handling_cost' => 'nullable|float',
+        'fuel_100ll_cost'      => 'nullable|float',
+        'fuel_jeta_cost'       => 'nullable|float',
+        'fuel_mogas_cost'      => 'nullable|float',
     ];
 
     /**
@@ -41,12 +45,12 @@ class AirportImporter extends ImportExport
         $row['hub'] = get_truth_state($row['hub']);
 
         $airport = Airport::firstOrNew([
-            'id'    => $row['icao']
+            'id' => $row['icao']
         ], $row);
 
         try {
             $airport->save();
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             $this->errorLog('Error in row '.$index.': '.$e->getMessage());
             return false;
         }

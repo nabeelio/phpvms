@@ -44,7 +44,11 @@ class FlightController extends Controller
     {
         $user = Auth::user();
 
-        $where = ['active' => true];
+        $where = [
+            'active'  => true,
+            'visible' => true,
+        ];
+
         if(setting('pilots.restrict_to_company')) {
             $where['airline_id'] = Auth::user()->airline_id;
         }
@@ -84,7 +88,11 @@ class FlightController extends Controller
         $user = Auth::user();
 
         try {
-            $where = ['active' => true];
+            $where = [
+                'active'  => true,
+                'visible' => true,
+            ];
+
             if(setting('pilots.restrict_to_company')) {
                 $where['airline_id'] = Auth::user()->airline_id;
             }

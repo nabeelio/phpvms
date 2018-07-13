@@ -20,6 +20,7 @@ use App\Http\Resources\PirepFieldCollection;
 use App\Interfaces\Controller;
 use App\Models\Acars;
 use App\Models\Enums\AcarsType;
+use App\Models\Enums\PirepFieldSource;
 use App\Models\Enums\PirepSource;
 use App\Models\Enums\PirepState;
 use App\Models\Enums\PirepStatus;
@@ -122,7 +123,7 @@ class PirepController extends Controller
             $pirep_fields[] = [
                 'name'   => $field_name,
                 'value'  => $field_value,
-                'source' => $pirep->source,
+                'source' => PirepFieldSource::ACARS,
             ];
         }
 
@@ -496,6 +497,12 @@ class PirepController extends Controller
         $this->checkCancelled($pirep);
 
         Log::info('Posting ROUTE, PIREP: '.$id, $request->post());
+
+        // Delete the route before posting a new one
+        Acars::where([
+            'pirep_id' => $id,
+            'type'     => AcarsType::ROUTE
+        ])->delete();
 
         $count = 0;
         $route = $request->post('route', []);

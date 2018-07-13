@@ -67,9 +67,6 @@ class Subfleet extends Model
      * Relationships
      */
 
-    /**
-     * @return $this
-     */
     public function aircraft()
     {
         return $this->hasMany(Aircraft::class, 'subfleet_id')

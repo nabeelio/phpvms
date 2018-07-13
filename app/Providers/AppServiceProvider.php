@@ -16,7 +16,7 @@ use App\Models\Observers\Sluggable;
 use App\Models\Observers\SettingObserver;
 use App\Models\Observers\SubfleetObserver;
 use App\Models\PirepField;
-use App\Models\PirepFieldValues;
+use App\Models\PirepFieldValue;
 use App\Models\Setting;
 use App\Models\Subfleet;
 use App\Repositories\SettingRepository;
@@ -49,7 +49,7 @@ class AppServiceProvider extends ServiceProvider
         FlightFieldValue::observe(Sluggable::class);
 
         PirepField::observe(Sluggable::class);
-        PirepFieldValues::observe(Sluggable::class);
+        PirepFieldValue::observe(Sluggable::class);
 
         Setting::observe(SettingObserver::class);
         Subfleet::observe(SubfleetObserver::class);

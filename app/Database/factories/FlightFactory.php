@@ -31,6 +31,7 @@ $factory->define(App\Models\Flight::class, function (Faker $faker) {
         'flight_time'    => $faker->numberBetween(60, 360),
         'has_bid'        => false,
         'active'         => true,
+        'visible'        => true,
         'days'           => 0,
         'start_date'     => null,
         'end_date'       => null,

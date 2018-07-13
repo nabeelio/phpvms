@@ -57,9 +57,11 @@ function phpvms_vacentral_airport_lookup(icao, callback) {
         url: '{{ url('/api/airports/') }}/' + icao + '/lookup',
     };
 
-    axios(params).then(response => {
-        callback(response.data);
-    });
+    axios(params)
+        .then(response => {
+            console.log(response);
+            callback(response.data);
+        });
 }
 
 $(document).ready(function() {

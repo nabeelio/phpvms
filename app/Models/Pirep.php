@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Interfaces\Model;
 use App\Models\Enums\AcarsType;
+use App\Models\Enums\PirepFieldSource;
 use App\Models\Enums\PirepState;
 use App\Models\Traits\HashIdTrait;
 use App\Support\Units\Distance;
@@ -128,7 +129,7 @@ class Pirep extends Model
      * If a PIREP is in these states, then it can't be changed.
      */
     public static $read_only_states = [
-        PirepState::PENDING,
+        //PirepState::PENDING,
         PirepState::ACCEPTED,
         PirepState::REJECTED,
         PirepState::CANCELLED,
@@ -302,6 +303,32 @@ class Pirep extends Model
     }
 
     /**
+     * Get the pirep_fields and then the pirep_field_values and
+     * merge them together. If a field value doesn't exist then add in a fake one
+     */
+    public function getFieldsAttribute()
+    {
+        $custom_fields = PirepField::all();
+        $field_values = PirepFieldValue::where('pirep_id', $this->id)->get();
+
+        # Merge the field values into $fields
+        foreach($custom_fields as $field) {
+            $has_value = $field_values->firstWhere('slug', $field->slug);
+            if(!$has_value) {
+                $field_values->push(new PirepFieldValue([
+                    'pirep_id' => $this->id,
+                    'name' => $field->name,
+                    'slug' => $field->slug,
+                    'value' => '',
+                    'source' => PirepFieldSource::MANUAL
+                ]));
+            }
+        }
+
+        return $field_values->sortBy('source');
+    }
+
+    /**
      * Look up the flight, based on the PIREP flight info
      * @return Flight|null
      */
@@ -454,9 +481,9 @@ class Pirep extends Model
         return $this->hasMany(PirepFare::class, 'pirep_id');
     }
 
-    public function fields()
+    public function field_values()
     {
-        return $this->hasMany(PirepFieldValues::class, 'pirep_id');
+        return $this->hasMany(PirepFieldValue::class, 'pirep_id');
     }
 
     public function pilot()

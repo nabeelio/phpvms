@@ -17,7 +17,7 @@ use App\Models\Enums\PirepStatus;
 use App\Models\Enums\UserState;
 use App\Models\Navdata;
 use App\Models\Pirep;
-use App\Models\PirepFieldValues;
+use App\Models\PirepFieldValue;
 use App\Models\User;
 use App\Repositories\AcarsRepository;
 use App\Repositories\FlightRepository;
@@ -96,6 +96,8 @@ class PirepService extends Service
 
     /**
      * Save the route into the ACARS table with AcarsType::ROUTE
+     * This attempts to create the route from the navdata and the route
+     * entered into the PIREP's route field
      * @param Pirep $pirep
      * @return Pirep
      * @throws \Exception
@@ -115,7 +117,6 @@ class PirepService extends Service
 
         if (!filled($pirep->dpt_airport)) {
             Log::error('saveRoute: dpt_airport not found: '.$pirep->dpt_airport_id);
-
             return $pirep;
         }
 
@@ -151,7 +152,7 @@ class PirepService extends Service
      * Create a new PIREP with some given fields
      *
      * @param Pirep $pirep
-     * @param array [PirepFieldValues] $field_values
+     * @param array PirepFieldValue[] $field_values
      *
      * @return Pirep
      */
@@ -243,7 +244,7 @@ class PirepService extends Service
     public function updateCustomFields($pirep_id, array $field_values)
     {
         foreach ($field_values as $fv) {
-            PirepFieldValues::updateOrCreate(
+            PirepFieldValue::updateOrCreate(
                 ['pirep_id' => $pirep_id,
                  'name'     => $fv['name']
                 ],

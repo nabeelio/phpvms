@@ -13,6 +13,7 @@ return [
     'fare'                 => 'Tariffa|Tariffe',
     'class'                => 'Classe',
     'count'                => 'Numero',
+    'flightlog'            => 'Flight Log',
     'flighttime'           => 'Tempo di volo',
     'flightlevel'          => 'Livello di Volo',
     'fieldsreadonly'       => 'Quando un PIREP viene sottoporre, alcuni cami entrano in modalità di sola lettura.',
