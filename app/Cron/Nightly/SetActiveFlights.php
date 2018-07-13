@@ -70,7 +70,7 @@ class SetActiveFlights extends Listener
                     $visible = Days::isToday($flight->days);
                     if($flight->visible !== $visible) {
                         Log::info('Toggling flight '.$flight->ident.' to '.($visible?'visible':'invisible'));
-                        $flight->visible = true;
+                        $flight->visible = $visible;
                     }
                 } else {
                     if ($flight->visible !== true) {

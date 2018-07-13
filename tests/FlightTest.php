@@ -283,6 +283,7 @@ class FlightTest extends TestCase
             'days'       => Days::$isoDayMap[date('N')],
         ]);
 
+        // Not active because of days of week not today
         $flight_not_active = factory(App\Models\Flight::class)->create([
             'start_date' => Carbon\Carbon::now('UTC')->subDays(1),
             'end_date'   => Carbon\Carbon::now('UTC')->addDays(1),
