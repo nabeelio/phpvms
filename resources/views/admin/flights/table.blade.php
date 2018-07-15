@@ -32,9 +32,9 @@
             <td>{{ $flight->notes }}</td>
             <td style="text-align: center;">
                 @if($flight->active == 1)
-                    <span class="label label-success">Active</span>
+                    <span class="label label-success">@lang('common.active')</span>
                 @else
-                    <span class="label label-default">Inactive</span>
+                    <span class="label label-default">@lang('common.inactive')</span>
                 @endif
             </td>
             <td style="text-align: right;">

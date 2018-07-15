@@ -88,6 +88,7 @@ class Database
         try {
             DB::table($table)->insert($row);
         } catch (QueryException $e) {
+            Log::error($e);
             throw $e;
         }
 
