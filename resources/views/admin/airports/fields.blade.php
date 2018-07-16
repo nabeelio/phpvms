@@ -27,13 +27,13 @@
         </div>
         <div class="form-group col-sm-4">
             {{ Form::label('lat', 'Latitude:') }}&nbsp;<span class="required">*</span>
-            {{ Form::number('lat', null, ['class' => 'form-control', 'step' => '0.000001', 'rv-value' => 'airport.lat']) }}
+            {{ Form::text('lat', null, ['class' => 'form-control', 'rv-value' => 'airport.lat']) }}
             <p class="text-danger">{{ $errors->first('lat') }}</p>
         </div>
 
         <div class="form-group col-sm-4">
             {{ Form::label('lon', 'Longitude:') }}&nbsp;<span class="required">*</span>
-            {{ Form::number('lon', null, ['class' => 'form-control', 'step' => '0.000001', 'rv-value' => 'airport.lon']) }}
+            {{ Form::text('lon', null, ['class' => 'form-control', 'rv-value' => 'airport.lon']) }}
             <p class="text-danger">{{ $errors->first('lon') }}</p>
         </div>
     </div>
