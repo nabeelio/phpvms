@@ -49,7 +49,7 @@
                             </tr>
                             @if($pirep->level)
                             <tr>
-                                <td nowrap><span class="title">@lang('pireps.flightlevel') }}&nbsp;</span></td>
+                                <td nowrap><span class="title">@lang('pireps.flightlevel')&nbsp;</span></td>
                                 <td>{{ $pirep->level }}</td>
                             </tr>
                             @endif
