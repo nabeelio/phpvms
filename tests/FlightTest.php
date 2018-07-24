@@ -200,8 +200,6 @@ class FlightTest extends TestCase
 
         $flight = Flight::findByDays([Days::WEDNESDAY, Days::THURSDAY])->first();
         $this->assertNull($flight);
-
-
     }
 
     /**
@@ -234,6 +232,30 @@ class FlightTest extends TestCase
 
         $flights = collect($body)->where('id', $flight->id)->first();
         $this->assertNull($flights);
+    }
+
+    /**
+     *
+     */
+    public function testDayOfWeekTests(): void
+    {
+        $mask = 127;
+        $this->assertTrue(Days::in($mask, Days::$isoDayMap[1]));
+        $this->assertTrue(Days::in($mask, Days::$isoDayMap[2]));
+        $this->assertTrue(Days::in($mask, Days::$isoDayMap[3]));
+        $this->assertTrue(Days::in($mask, Days::$isoDayMap[4]));
+        $this->assertTrue(Days::in($mask, Days::$isoDayMap[5]));
+        $this->assertTrue(Days::in($mask, Days::$isoDayMap[6]));
+        $this->assertTrue(Days::in($mask, Days::$isoDayMap[7]));
+
+        $mask = 125;
+        $this->assertTrue(Days::in($mask, Days::$isoDayMap[1]));
+        $this->assertFalse(Days::in($mask, Days::$isoDayMap[2]));
+        $this->assertTrue(Days::in($mask, Days::$isoDayMap[3]));
+        $this->assertTrue(Days::in($mask, Days::$isoDayMap[4]));
+        $this->assertTrue(Days::in($mask, Days::$isoDayMap[5]));
+        $this->assertTrue(Days::in($mask, Days::$isoDayMap[6]));
+        $this->assertTrue(Days::in($mask, Days::$isoDayMap[7]));
     }
 
     public function testStartEndDate(): void
