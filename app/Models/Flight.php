@@ -13,6 +13,7 @@ use PhpUnitsOfMeasure\Exception\NonStringUnitName;
 
 /**
  * @property string     id
+ * @property mixed      ident
  * @property Airline    airline
  * @property integer    airline_id
  * @property mixed      flight_number

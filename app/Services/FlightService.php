@@ -209,7 +209,7 @@ class FlightService extends Service
         # bids
         $bids = Bid::where('user_id', $user->id)->get();
         if ($bids->count() > 0 && setting('bids.allow_multiple_bids') === false) {
-            throw new BidExists('User "'.$user->id.'" already has bids, skipping');
+            throw new BidExists('User "'.$user->ident.'" already has bids, skipping');
         }
 
         # Get all of the bids for this flight
@@ -227,6 +227,11 @@ class FlightService extends Service
                     Log::info('Bid exists, user='.$user->ident.', flight='.$flight->id);
                     return $bid;
                 }
+            }
+
+            # Check if the flight should be blocked off
+            if (setting('bids.disable_flight_on_bid') === true) {
+                throw new BidExists('Flight "'.$flight->ident.'" already has a bid, skipping');
             }
 
             if (setting('bids.allow_multiple_bids') === false) {
