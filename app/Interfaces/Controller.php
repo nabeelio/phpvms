@@ -72,28 +72,6 @@ abstract class Controller extends \Illuminate\Routing\Controller
     }
 
     /**
-     * Run a validation
-     * @param $request
-     * @param $rules
-     * @return bool
-     * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
-     */
-    /*public function validate($request, $rules)
-    {
-        if ($request instanceof Request) {
-            $validator = Validator::make($request->all(), $rules);
-        } else {
-            $validator = Validator::make($request, $rules);
-        }
-
-        if (!$validator->passes()) {
-            throw new BadRequestHttpException($validator->errors(), null, 400);
-        }
-
-        return true;
-    }*/
-
-    /**
      * Simple normalized method for forming the JSON responses
      * @param $message
      * @return \Illuminate\Http\JsonResponse

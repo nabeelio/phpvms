@@ -16,6 +16,10 @@ class Bid extends Model
         'flight_id',
     ];
 
+    protected $casts = [
+        'user_id' => 'integer',
+    ];
+
     /**
      * Relationships
      */

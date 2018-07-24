@@ -10,18 +10,19 @@ use Illuminate\Notifications\Notifiable;
 use Laratrust\Traits\LaratrustUserTrait;
 
 /**
- * @property integer        $id
- * @property string         $name
- * @property string         $email
- * @property string         $password
- * @property string         $api_key
+ * @property integer        id
+ * @property string         name
+ * @property string         email
+ * @property string         password
+ * @property string         api_key
+ * @property mixed          ident
  * @property string         curr_airport_id
  * @property string         home_airport_id
- * @property Flight[]       $flights
- * @property string         $flight_time
- * @property string         $remember_token
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
+ * @property Flight[]       flights
+ * @property string         flight_time
+ * @property string         remember_token
+ * @property \Carbon\Carbon created_at
+ * @property \Carbon\Carbon updated_at
  * @property Rank           rank
  * @property Journal        journal
  * @property string         pilot_id

@@ -373,7 +373,11 @@ class FlightTest extends TestCase
      */
     public function testBids()
     {
+        $this->settingsRepo->store('bids.allow_multiple_bids', true);
+        $this->settingsRepo->store('bids.disable_flight_on_bid', false);
+
         $user = factory(User::class)->create();
+        $user2 = factory(User::class)->create();
         $headers = $this->headers($user);
 
         $flight = $this->addFlight($user);
@@ -387,12 +391,13 @@ class FlightTest extends TestCase
         $flight = Flight::find($flight->id);
         $this->assertTrue($flight->has_bid);
 
-        # Check the table and make sure thee entry is there
-        $this->expectException(\App\Exceptions\BidExists::class);
-        $this->flightSvc->addBid($flight, $user);
+        # Check the table and make sure the entry is there
+        $bid_retrieved = $this->flightSvc->addBid($flight, $user);
+        $this->assertEquals($bid->id, $bid_retrieved->id);
 
         $user->refresh();
-        $this->assertEquals(1, $user->bids->count());
+        $bids = $user->bids;
+        $this->assertEquals(1, $bids->count());
 
         # Query the API and see that the user has the bids
         # And pull the flight details for the user/bids
@@ -407,13 +412,25 @@ class FlightTest extends TestCase
 
         $body = $req->json()['data'];
         $req->assertStatus(200);
-        $this->assertEquals($flight->id, $body[0]['id']);
+        $this->assertEquals($flight->id, $body[0]['flight_id']);
+
+        # have a second user bid on it
+        $bid_user2 = $this->flightSvc->addBid($flight, $user2);
+        $this->assertNotNull($bid_user2);
+        $this->assertNotEquals($bid_retrieved->id, $bid_user2->id);
 
         # Now remove the flight and check API
 
         $this->flightSvc->removeBid($flight, $user);
 
         $flight = Flight::find($flight->id);
+
+        # user2 still has a bid on it
+        $this->assertTrue($flight->has_bid);
+
+        # Remove it from 2nd user
+        $this->flightSvc->removeBid($flight, $user2);
+        $flight->refresh();
         $this->assertFalse($flight->has_bid);
 
         $user->refresh();

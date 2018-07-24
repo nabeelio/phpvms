@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Exceptions\BidExists;
 use App\Http\Resources\Bid as BidResource;
 use App\Http\Resources\Pirep as PirepResource;
 use App\Http\Resources\Subfleet as SubfleetResource;
@@ -98,7 +99,6 @@ class UserController extends Controller
      * @return mixed
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      * @throws \App\Exceptions\BidExists
-     * @throws \App\Services\Exception
      */
     public function bids(Request $request)
     {

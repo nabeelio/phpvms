@@ -19,9 +19,9 @@ use Log;
 class FlightService extends Service
 {
     private $fareSvc,
-            $flightRepo,
-            $navDataRepo,
-            $userSvc;
+        $flightRepo,
+        $navDataRepo,
+        $userSvc;
 
     /**
      * FlightService constructor.
@@ -35,7 +35,8 @@ class FlightService extends Service
         FlightRepository $flightRepo,
         NavdataRepository $navdataRepo,
         UserService $userSvc
-    ) {
+    )
+    {
         $this->fareSvc = $fareSvc;
         $this->flightRepo = $flightRepo;
         $this->navDataRepo = $navdataRepo;
@@ -114,15 +115,15 @@ class FlightService extends Service
         ];
 
         $found_flights = $this->flightRepo->findWhere($where);
-        if($found_flights->count() === 0) {
+        if ($found_flights->count() === 0) {
             return false;
         }
 
         // Find within all the flights with the same flight number
         // Return any flights that have the same route code and leg
         // If this list is > 0, then this has a duplicate
-        $found_flights = $found_flights->filter(function($value, $key) use ($flight) {
-            if($flight->route_code === $value->route_code
+        $found_flights = $found_flights->filter(function ($value, $key) use ($flight) {
+            if ($flight->route_code === $value->route_code
                 && $flight->route_leg === $value->route_leg) {
                 return true;
             }
@@ -130,7 +131,7 @@ class FlightService extends Service
             return false;
         });
 
-        if($found_flights->count() === 0) {
+        if ($found_flights->count() === 0) {
             return false;
         }
 
@@ -160,10 +161,10 @@ class FlightService extends Service
             FlightFieldValue::updateOrCreate(
                 [
                     'flight_id' => $flight->id,
-                    'name'     => $fv['name'],
+                    'name'      => $fv['name'],
                 ],
                 [
-                    'value'  => $fv['value']
+                    'value' => $fv['value']
                 ]
             );
         }
@@ -199,43 +200,53 @@ class FlightService extends Service
      * Allow a user to bid on a flight. Check settings and all that good stuff
      * @param Flight $flight
      * @param User   $user
-     * @return Bid|null
+     * @return mixed
      * @throws \App\Exceptions\BidExists
      */
     public function addBid(Flight $flight, User $user)
     {
-        # If it's already been bid on, then it can't be bid on again
-        if ($flight->has_bid && setting('bids.disable_flight_on_bid')) {
-            Log::info($flight->id.' already has a bid, skipping');
-            throw new BidExists();
+        # Get all of the bids for this user. See if they're allowed to have multiple
+        # bids
+        $bids = Bid::where('user_id', $user->id)->get();
+        if ($bids->count() > 0 && setting('bids.allow_multiple_bids') === false) {
+            throw new BidExists('User "'.$user->id.'" already has bids, skipping');
         }
 
-        # See if we're allowed to have multiple bids or not
-        if (!setting('bids.allow_multiple_bids')) {
-            $user_bids = Bid::where(['user_id' => $user->id])->first();
-            if ($user_bids) {
-                Log::info('User "'.$user->id.'" already has bids, skipping');
-                throw new BidExists();
+        # Get all of the bids for this flight
+        $bids = Bid::where('flight_id', $flight->id)->get();
+        if ($bids->count() > 0) {
+            # Does the flight have a bid set?
+            if ($flight->has_bid === false) {
+                $flight->has_bid = true;
+                $flight->save();
+            }
+
+            # Check all the bids for one of this user
+            foreach ($bids as $bid) {
+                if ($bid->user_id === $user->id) {
+                    Log::info('Bid exists, user='.$user->ident.', flight='.$flight->id);
+                    return $bid;
+                }
+            }
+
+            if (setting('bids.allow_multiple_bids') === false) {
+                throw new BidExists('A bid already exists for this flight');
+            }
+        } else {
+            if ($flight->has_bid === true) {
+                Log::info('Bid exists, flight='.$flight->id.'; no entry in bids table, cleaning up');
             }
         }
 
-        # See if this user has this flight bid on already
-        $bid_data = [
+        $bid = Bid::firstOrCreate([
             'user_id'   => $user->id,
-            'flight_id' => $flight->id
-        ];
-
-        $user_bid = Bid::where($bid_data)->first();
-        if ($user_bid) {
-            return $user_bid;
-        }
-
-        $user_bid = Bid::create($bid_data);
+            'flight_id' => $flight->id,
+        ]);
 
         $flight->has_bid = true;
         $flight->save();
 
-        return $user_bid;
+        return $bid;
     }
 
     /**
@@ -245,16 +256,18 @@ class FlightService extends Service
      */
     public function removeBid(Flight $flight, User $user)
     {
-        $user_bid = Bid::where([
-            'flight_id' => $flight->id, 'user_id' => $user->id
-        ])->first();
+        $bids = Bid::where([
+            'flight_id' => $flight->id,
+            'user_id'   => $user->id
+        ])->get();
 
-        if ($user_bid) {
-            $user_bid->forceDelete();
+        foreach ($bids as $bid) {
+            $bid->forceDelete();
         }
 
         # Only flip the flag if there are no bids left for this flight
-        if (!Bid::where('flight_id', $flight->id)->exists()) {
+        $bids = Bid::where('flight_id', $flight->id)->get();
+        if ($bids->count() === 0) {
             $flight->has_bid = false;
             $flight->save();
         }

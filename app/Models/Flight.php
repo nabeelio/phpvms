@@ -17,7 +17,8 @@ use PhpUnitsOfMeasure\Exception\NonStringUnitName;
  * @property integer    airline_id
  * @property mixed      flight_number
  * @property mixed      route_code
- * @property int      	route_leg
+ * @property int        route_leg
+ * @property bool       has_bid
  * @property Collection field_values
  * @property Collection fares
  * @property Collection subfleets
