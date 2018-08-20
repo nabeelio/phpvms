@@ -28,22 +28,25 @@ if [ "$TRAVIS" = "true" ]; then
 
     echo "Cleaning files"
 
+    rm -rf vendor
+    composer install --no-dev --prefer-dist --no-interaction --verbose
+
     # Clean up the dependencies to remove some of the dev packages
-    composer remove \
-            --optimize-autoloader \
-            --no-interaction \
-            --update-with-dependencies \
-        phpstan/phpstan \
-        weebly/phpstan-laravel \
-        bpocallaghan/generators \
-        barryvdh/laravel-ide-helper
-
-    find ./vendor -type d -name ".git" -print0 | xargs rm -rf
-    find . -type d -name "sass-cache" -print0 | xargs rm -rf
-
-    # clear any app specific stuff that might have been loaded in
-    find storage/app/public -mindepth 1 -not -name '.gitignore' -print0 -exec rm -rf {} +
-    find storage/app -mindepth 1 -not -name '.gitignore' -not -name public -not -name import -print0 -exec rm -rf {} +
+#    declare -a remove_packages=(
+#        'barryvdh/laravel-ide-helper'
+#        'bpocallaghan/generators'
+#        'codedungeon/phpunit-result-printer'
+#        'fzaninotto/faker'
+#        'nikic/php-parser'
+#        'phpstan/phpstan'
+#        'phpunit/phpunit',
+#        'weebly/phpstan-laravel'
+#    )
+#
+#    for pkg in "${remove_packages[@]}"
+#    do
+#        composer --optimize-autoloader --no-interaction remove $pkg
+#    done
 
     # Leftover individual files to delete
     declare -a remove_files=(
@@ -54,8 +57,10 @@ if [ "$TRAVIS" = "true" ]; then
         .dpl
         .phpstorm.meta.php
         _ide_helper.php
+        test
         env.php
         config.php
+        Makefile
         phpunit.xml
         phpvms.iml
         Procfile
@@ -69,6 +74,13 @@ if [ "$TRAVIS" = "true" ]; then
     do
         rm -rf $file
     done
+
+    find ./vendor -type d -name ".git" -print0 | xargs rm -rf
+    find . -type d -name "sass-cache" -print0 | xargs rm -rf
+
+    # clear any app specific stuff that might have been loaded in
+    find storage/app/public -mindepth 1 -not -name '.gitignore' -print0 -exec rm -rf {} +
+    find storage/app -mindepth 1 -not -name '.gitignore' -not -name public -not -name import -print0 -exec rm -rf {} +
 
     make clean
 

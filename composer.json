@@ -6,6 +6,7 @@
     "type": "project",
     "minimum-stability": "stable",
     "homepage": "http://www.phpvms.net",
+    "optimize-autoloader": true,
     "require": {
         "php": ">=7.1",
         "laravel/framework": "^5.6",
