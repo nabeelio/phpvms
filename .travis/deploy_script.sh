@@ -57,7 +57,7 @@ if [ "$TRAVIS" = "true" ]; then
         .dpl
         .phpstorm.meta.php
         _ide_helper.php
-        test
+        tests
         env.php
         config.php
         Makefile
