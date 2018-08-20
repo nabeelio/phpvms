@@ -6,7 +6,9 @@ use App\Events\UserRegistered;
 use App\Events\UserStateChanged;
 use App\Events\UserStatsChanged;
 use App\Interfaces\Service;
+use App\Models\Enums\PirepState;
 use App\Models\Enums\UserState;
+use App\Models\Pirep;
 use App\Models\Rank;
 use App\Models\Role;
 use App\Models\User;
@@ -236,6 +238,21 @@ class UserService extends Service
      */
     public function recalculateStats(User $user): User
     {
+        # Recalc their hours
+        $w = [
+            'user_id' => $user->id,
+            'state' => PirepState::ACCEPTED,
+        ];
+
+        $flight_time = Pirep::where($w)->sum('flight_time');
+        $user->flight_time = $flight_time;
+
+        # Recalc the rank
+        $this->calculatePilotRank($user);
+
+        Log::info('User '.$user->ident.' updated; rank='.$user->rank->name.'; flight_time='.$user->flight_time.' minutes');
+
+        $user->save();
         return $user;
     }
 }
