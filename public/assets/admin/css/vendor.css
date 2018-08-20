@@ -15926,8 +15926,8 @@ fieldset[disabled] .card .btn-neutral.active {
   }
   .navbar-nav > li > .dropdown-menu:before {
     border-bottom: 11px solid #F1EAE0;
-    border-left: 11px solid rgba(0, 0, 0, 0);
-    border-right: 11px solid rgba(0, 0, 0, 0);
+    border-left: 11px solid transparent;
+    border-right: 11px solid transparent;
     content: "";
     display: inline-block;
     position: absolute;
@@ -15936,8 +15936,8 @@ fieldset[disabled] .card .btn-neutral.active {
   }
   .navbar-nav > li > .dropdown-menu:after {
     border-bottom: 11px solid #FFFCF5;
-    border-left: 11px solid rgba(0, 0, 0, 0);
-    border-right: 11px solid rgba(0, 0, 0, 0);
+    border-left: 11px solid transparent;
+    border-right: 11px solid transparent;
     content: "";
     display: inline-block;
     position: absolute;
@@ -16101,8 +16101,8 @@ fieldset[disabled] .card .btn-neutral.active {
     width: 100%;
     position: absolute;
     background-color: #ebeff2;
-    background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0)), color-stop(60%, rgba(112, 112, 112, 0)), to(rgba(186, 186, 186, 0.15)));
-    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(112, 112, 112, 0) 60%, rgba(186, 186, 186, 0.15) 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(60%, rgba(112, 112, 112, 0)), to(rgba(186, 186, 186, 0.15)));
+    background-image: linear-gradient(to bottom, transparent 0%, rgba(112, 112, 112, 0) 60%, rgba(186, 186, 186, 0.15) 100%);
     display: block;
     content: "";
     z-index: 1;
