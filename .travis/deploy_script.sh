@@ -79,8 +79,12 @@ if [ "$TRAVIS" = "true" ]; then
     find . -type d -name "sass-cache" -print0 | xargs rm -rf
 
     # clear any app specific stuff that might have been loaded in
-    find storage/app/public -mindepth 1 -not -name '.gitignore' -print0 -exec rm -rf {} +
     find storage/app -mindepth 1 -not -name '.gitignore' -not -name public -not -name import -print0 -exec rm -rf {} +
+    find storage/app/public -mindepth 1 -not -name '.gitignore' -print0 -exec rm -rf {} +
+    find storage/framework/cache -mindepth 1 -not -name '.gitignore' -print0 -exec rm -rf {} +
+    find storage/framework/sessions -mindepth 1 -not -name '.gitignore' -print0 -exec rm -rf {} +
+    find storage/framework/views -mindepth 1 -not -name '.gitignore' -print0 -exec rm -rf {} +
+    find storage/logs -mindepth 1 -not -name '.gitignore' -print0 -exec rm -rf {} +
 
     make clean
 
