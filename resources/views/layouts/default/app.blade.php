@@ -84,16 +84,34 @@
 {{-- Start of the required tags block. Don't remove these or things will break!! --}}
 <script src="{{ public_asset('/assets/global/js/vendor.js') }}"></script>
 <script src="{{ public_asset('/assets/frontend/js/app.js') }}"></script>
-{{--<script src="bower_components/sightglass/index.js"></script>
-<script src="bower_components/rivets/dist/rivets.min.js"></script>--}}
 @yield('scripts')
+
+{{--
+It's probably safe to keep this to ensure you're in compliance
+with the EU Cookie Law https://privacypolicies.com/blog/eu-cookie-law
+--}}
+<script>
+  window.addEventListener("load", function () {
+    window.cookieconsent.initialise({
+      "palette": {
+        "popup": {
+          "background": "#edeff5",
+          "text": "#838391"
+        },
+        "button": {
+          "background": "#067ec1"
+        }
+      },
+      "position": "top"
+    })
+  });
+</script>
 {{-- End the required tags block --}}
 
 <script>
-$(document).ready(function () {
+  $(document).ready(function () {
     $(".select2").select2({width: 'resolve'});
-});
+  });
 </script>
-
 </body>
 </html>

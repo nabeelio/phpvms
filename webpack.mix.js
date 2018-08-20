@@ -74,22 +74,16 @@ mix.copy('node_modules/icheck/skins/square/blue*.png', 'public/assets/admin/css'
 
 mix.scripts([
   'node_modules/lodash/lodash.js',
-  //'node_modules/axios/dist/axios.js',
   'node_modules/jquery/dist/jquery.js',
-  //'node_modules/bootstrap3/dist/js/bootstrap.js',
-  //'node_modules/popper.js/dist/umd/popper.js',
-  //'node_modules/popper.js/dist/umd/popper-utils.js',
   'node_modules/select2/dist/js/select2.js',
-  //'node_modules/leaflet/dist/leaflet.js',
-  //'node_modules/pjax/pjax.js',
-  //'node_modules/leaflet-rotatedmarker/leaflet.rotatedMarker.js',
-  //'node_modules/Leaflet.Geodesic/Leaflet.Geodesic.js',
+  'node_modules/cookieconsent/build/cookieconsent.min.js',
 ], 'public/assets/global/js/vendor.js');
 
 mix.styles([
   'node_modules/select2/dist/css/select2.css',
   'node_modules/leaflet/dist/leaflet.css',
   'node_modules/flag-icon-css/css/flag-icon.css',
+  'node_modules/cookieconsent/build/cookieconsent.min.css',
 ], 'public/assets/global/css/vendor.css')
   .options({
     //processCssUrls: true,

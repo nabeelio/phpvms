@@ -16,6 +16,7 @@
     "axios": "^0.17.1",
     "bootstrap-sass": "~3.3",
     "bootstrap3": "~3.3",
+    "cookieconsent": "^3.1.0",
     "cross-env": "~5.1",
     "eonasdan-bootstrap-datetimepicker": "^4.17.47",
     "flag-icon-css": "^2.9.0",
