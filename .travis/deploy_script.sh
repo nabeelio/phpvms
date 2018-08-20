@@ -38,7 +38,6 @@ if [ "$TRAVIS" = "true" ]; then
         bpocallaghan/generators \
         barryvdh/laravel-ide-helper
 
-    rm -rf env.php config.php
     find ./vendor -type d -name ".git" -print0 | xargs rm -rf
     find . -type d -name "sass-cache" -print0 | xargs rm -rf
 
@@ -46,28 +45,39 @@ if [ "$TRAVIS" = "true" ]; then
     find storage/app/public -mindepth 1 -not -name '.gitignore' -print0 -exec rm -rf {} +
     find storage/app -mindepth 1 -not -name '.gitignore' -not -name public -not -name import -print0 -exec rm -rf {} +
 
-    # Remove any development files
-    rm -rf .sass-cache
-    rm -rf .idea phpvms.iml .travis .dpl
-    rm -rf .phpstorm.meta.php _ide_helper.php phpunit.xml Procfile
-    rm -f phpstan.neon
+    # Leftover individual files to delete
+    declare -a remove_files=(
+        .git
+        .sass-cache
+        .idea
+        .travis
+        .dpl
+        .phpstorm.meta.php
+        _ide_helper.php
+        env.php
+        config.php
+        phpunit.xml
+        phpvms.iml
+        Procfile
+        phpstan.neon
+        node_modules
+        composer.phar
+        vendor/willdurand/geocoder/tests
+    )
 
-    # remove large sized files
-    rm -rf .git
-    rm -rf node_modules
-    rm -rf composer.phar
-
-    # delete files in vendor that are rather large
-    rm -rf vendor/willdurand/geocoder/tests
+    for file in "${remove_files[@]}"
+    do
+        rm -rf $file
+    done
 
     make clean
 
-    echo "creating tarball"
+    echo "Creating Tarball"
     cd /tmp
     tar -czf $TAR_NAME -C $TRAVIS_BUILD_DIR/../ phpvms
     sha256sum $TAR_NAME > "$TAR_NAME.sha256"
 
-    echo "uploading to s3"
+    echo "Uploading to S3"
     mkdir -p $TRAVIS_BUILD_DIR/build
     cd $TRAVIS_BUILD_DIR/build
 
@@ -77,11 +87,11 @@ if [ "$TRAVIS" = "true" ]; then
     # Upload the version for a tagged release. Move to a version file in different
     # tags. Within phpVMS, we have an option of which version to track in the admin
     if test "$TRAVIS_TAG"; then
-        echo "uploading release version file"
+        echo "Uploading release version file"
         cp "$TRAVIS_BUILD_DIR/VERSION" release_version
         artifacts upload --target-paths "/" release_version
     else
-        echo "uploading ${TRAVIS_BRANCH}_version file"
+        echo "Uploading ${TRAVIS_BRANCH}_version file"
         cp $TRAVIS_BUILD_DIR/VERSION ${TRAVIS_BRANCH}_version
         artifacts upload --target-paths "/" ${TRAVIS_BRANCH}_version
     fi
