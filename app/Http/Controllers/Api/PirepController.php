@@ -489,6 +489,7 @@ class PirepController extends Controller
      * @return \Illuminate\Http\JsonResponse
      * @throws \App\Exceptions\PirepCancelled
      * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
+     * @throws \Exception
      */
     public function route_post($id, RouteRequest $request)
     {
@@ -506,6 +507,10 @@ class PirepController extends Controller
 
         $count = 0;
         $route = $request->post('route', []);
+        if (\count($route) === 0) {
+            return $this->message('No points to add');
+        }
+
         foreach ($route as $position) {
             $position['pirep_id'] = $id;
             $position['type'] = AcarsType::ROUTE;

@@ -21,12 +21,12 @@ class RouteRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'route'            => 'nullable|array',
-            /*'route.*.name'     => 'required',
+            'route'            => 'required|array',
+            'route.*.name'     => 'required',
             'route.*.order'    => 'required|int',
             'route.*.nav_type' => 'nullable|int',
             'route.*.lat'      => 'required|numeric',
-            'route.*.lon'      => 'required|numeric',*/
+            'route.*.lon'      => 'required|numeric',
         ];
 
         return $rules;

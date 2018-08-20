@@ -1,9 +1,11 @@
 <table class="table table-responsive table-hover" id="flight-fields-table">
+    @if(count($pirep->fields))
     <thead>
     <th></th>
     <th>Value</th>
     <th>Source</th>
     </thead>
+    @endif
     <tbody>
     @foreach($pirep->fields as $field)
         <tr>

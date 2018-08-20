@@ -270,7 +270,7 @@ flight reports that have been filed. You've been warned!
     </div>
 
     <div class="col-4">
-
+        @if(isset($pirep) && $pirep->fields)
         <div class="form-container">
             <h6><i class="fab fa-wpforms"></i>
                 &nbsp;{{ trans_choice('common.field', 2) }}
@@ -282,7 +282,7 @@ flight reports that have been filed. You've been warned!
                 @each('pireps.custom_fields', $pirep->fields, 'field')
             </div>
         </div>
-
+        @endif
         <div id="fares_container">
             @include('pireps.fares')
         </div>

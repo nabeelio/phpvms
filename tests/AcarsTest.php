@@ -643,6 +643,7 @@ class AcarsTest extends TestCase
         $response = $this->post($uri, $pirep);
         $pirep_id = $response->json()['data']['id'];
 
+        // Missing lat/lon
         $post_route = ['order' => 1, 'name' => 'NAVPOINT'];
         $uri = '/api/pireps/'.$pirep_id.'/route';
         $response = $this->post($uri, $post_route);

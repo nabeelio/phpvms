@@ -132,7 +132,6 @@ class Handler extends ExceptionHandler
     {
         if ($request->expectsJson() || $request->is('api/*')) {
             $error = $this->createError(401, 'Unauthenticated');
-
             return response()->json($error, 401);
         }
 
@@ -159,8 +158,8 @@ class Handler extends ExceptionHandler
                 'exception' => $e,
                 'SKIN_NAME' => config('phpvms.skin'),
             ], $status, $e->getHeaders());
-        } else {
-            return $this->convertExceptionToResponse($e);
         }
+
+        return $this->convertExceptionToResponse($e);
     }
 }
