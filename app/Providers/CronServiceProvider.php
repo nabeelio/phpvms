@@ -12,10 +12,13 @@ use App\Cron\Nightly\PilotLeave;
 use App\Cron\Nightly\RecalculateBalances;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
+/**
+ * All of the hooks for the cron jobs
+ * @package App\Providers
+ */
 class CronServiceProvider extends ServiceProvider
 {
     protected $listen = [
-        # Cron hooks
         CronNightly::class => [
             ApplyExpenses::class,
             RecalculateBalances::class,
@@ -31,6 +34,4 @@ class CronServiceProvider extends ServiceProvider
             \App\Cron\Monthly\ApplyExpenses::class
         ],
     ];
-
-    protected $subscribe = [];
 }

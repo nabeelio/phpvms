@@ -25,7 +25,7 @@ use Laratrust\Traits\LaratrustUserTrait;
  * @property \Carbon\Carbon updated_at
  * @property Rank           rank
  * @property Journal        journal
- * @property string         pilot_id
+ * @property int            rank_id
  * @property int            state
  * @property bool           opt_in
  * @mixin \Illuminate\Notifications\Notifiable
@@ -137,7 +137,7 @@ class User extends Authenticatable
         }
 
         return new File([
-               'path' => $this->attributes['avatar']
+           'path' => $this->attributes['avatar']
         ]);
     }
 

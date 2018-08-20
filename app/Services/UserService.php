@@ -199,9 +199,9 @@ class UserService extends Service
         foreach ($ranks as $rank) {
             if ($rank->hours > $pilot_hours->hours) {
                 break;
-            } else {
-                $user->rank_id = $rank->id;
             }
+
+            $user->rank_id = $rank->id;
         }
 
         // Only trigger the event/update if there's been a change
