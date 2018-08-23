@@ -16,7 +16,7 @@ class NavdataImport extends Command
     protected $description = '';
 
     /**
-     * @return mixed|void
+     * @return void
      * @throws \League\Geotools\Exception\InvalidArgumentException
      */
     public function handle()
@@ -31,9 +31,10 @@ class NavdataImport extends Command
 
     /**
      * Read and parse in the navaid file
+     * @return void
      * @throws \League\Geotools\Exception\InvalidArgumentException
      */
-    public function read_wp_nav_aid()
+    public function read_wp_nav_aid(): void
     {
         /*
          * ....,....1....,....2....,....3....,....4....,....5....,....6..
@@ -67,8 +68,7 @@ class NavdataImport extends Command
         $file_path = storage_path('/navdata/WPNAVAID.txt');
         if (!file_exists($file_path)) {
             $this->error('WPNAVAID.txt not found in storage/navdata');
-
-            return false;
+            return;
         }
 
         $this->info('Importing navaids (WPNAVAID.txt) ...');
@@ -130,9 +130,9 @@ class NavdataImport extends Command
     }
 
     /**
-     *
+     * @return void
      */
-    public function read_wp_nav_fix()
+    public function read_wp_nav_fix(): void
     {
         /*
          * ....,....1....,....2....,...3....,....4....,....
@@ -156,8 +156,7 @@ class NavdataImport extends Command
         $file_path = storage_path('/navdata/WPNAVFIX.txt');
         if (!file_exists($file_path)) {
             $this->error('WPNAVFIX.txt not found in storage/navdata');
-
-            return false;
+            return;
         }
 
         $this->info('Importing navaids (WPNAVFIX.txt) ...');
@@ -173,13 +172,9 @@ class NavdataImport extends Command
                 'lon'  => trim(substr($line, 40, 11)),
             ];
 
-            switch ($navfix['type']) {
-                default:
-                    $navfix['type'] = NavaidType::UNKNOWN;
-                    break;
-            }
-
-            Navdata::updateOrCreate(['id' => $navfix['id']], $navfix);
+            Navdata::updateOrCreate([
+                'id' => $navfix['id'], 'name' => $navfix['name']
+            ], $navfix);
 
             $imported++;
             if ($imported % 100 === 0) {
