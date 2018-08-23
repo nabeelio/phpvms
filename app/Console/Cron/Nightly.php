@@ -8,6 +8,9 @@ use App\Events\CronNightly;
 /**
  * This just calls the CronNightly event, so all of the
  * listeners, etc can just be called to run those tasks
+ * 
+ * The actual cron tasks are in app/Cron
+ *
  * @package App\Console\Cron
  */
 class Nightly extends Command
