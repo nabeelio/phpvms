@@ -90,6 +90,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\vaCentralServiceProvider::class,
+        App\Providers\ExtendedTimezonelistProvider::class,
     ],
 
     'aliases' => [
