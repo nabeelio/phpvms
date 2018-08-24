@@ -43,7 +43,7 @@ class TimezonelistExtended extends Timezonelist
     public function create($name, $selected='', $attr='', $htmlencode=true)
     {
         // Attributes for select element
-        $attrSet = null;
+        $attrSet = '';
         if (!empty($attr)) {
             if (is_array($attr)) {
                 foreach ($attr as $attr_name => $attr_value) {
