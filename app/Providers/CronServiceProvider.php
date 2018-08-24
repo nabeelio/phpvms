@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Cron\Nightly\RecalculateStats;
 use App\Cron\Nightly\SetActiveFlights;
+use App\Events\CronHourly;
 use App\Events\CronMonthly;
 use App\Events\CronNightly;
 use App\Events\CronWeekly;
@@ -32,6 +33,10 @@ class CronServiceProvider extends ServiceProvider
 
         CronMonthly::class => [
             \App\Cron\Monthly\ApplyExpenses::class
+        ],
+
+        CronHourly::class => [
+            \App\Cron\Hourly\RemoveExpiredBids::class
         ],
     ];
 }
