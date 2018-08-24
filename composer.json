@@ -52,7 +52,8 @@
         "nunomaduro/collision": "^2.0",
         "phpstan/phpstan": "^0.9.2",
         "weebly/phpstan-laravel": "^1.1",
-        "codedungeon/phpunit-result-printer": "^0.13.0"
+        "codedungeon/phpunit-result-printer": "^0.13.0",
+        "barryvdh/laravel-debugbar": "^3.1"
     },
     "autoload": {
         "classmap": [
