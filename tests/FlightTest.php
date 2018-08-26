@@ -123,6 +123,7 @@ class FlightTest extends TestCase
 
     /**
      * Get the flight's route
+     *
      * @throws Exception
      */
     public function testFlightRoute()

@@ -438,7 +438,7 @@ class Metar implements \ArrayAccess
         if (array_key_exists('cavok', $this->result) && $this->result['cavok']) {
             $this->result['category'] = 'VFR';
         } else {
-            /** @noinspection NestedPositiveIfStatementsInspection */
+            /* @noinspection NestedPositiveIfStatementsInspection */
             if (array_key_exists('cloud_height', $this->result) && array_key_exists('visibility', $this->result)) {
                 if ($this->result['cloud_height']['ft'] > 3000 && $this->result['visibility']['nmi'] > 5) {
                     $this->result['category'] = 'VFR';
@@ -567,6 +567,7 @@ class Metar implements \ArrayAccess
      * Decodes TAF code if present.
      *
      * @param mixed $part
+     *
      * @return bool
      */
     private function get_taf($part)
@@ -772,7 +773,7 @@ class Metar implements \ArrayAccess
         if ($found[1] === 'CAVOK' || $found[1] === '9999') {
             $this->set_result_value('visibility', new Distance(10000, 'm'));
             $this->set_result_value('visibility_report', 'Greater than 10 km');
-            /** @noinspection NotOptimalIfConditionsInspection */
+            /* @noinspection NotOptimalIfConditionsInspection */
             if ($found[1] === 'CAVOK') {
                 $this->set_result_value('cavok', true);
                 $this->method += 4; // can skip the next 4 methods: visibility_min, runway_vr, present_weather, clouds

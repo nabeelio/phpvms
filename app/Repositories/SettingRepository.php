@@ -70,6 +70,7 @@ class SettingRepository extends Repository implements CacheableInterface
      *
      * @param mixed $key
      * @param mixed $value
+     *
      * @return null
      */
     public function save($key, $value)

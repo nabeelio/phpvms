@@ -122,5 +122,4 @@ class MetarTest extends TestCase
         $this->assertEquals('VFR', $metar['category']);
         $this->assertNotNull($metar);
     }
-
 }

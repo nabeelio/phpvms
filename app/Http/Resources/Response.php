@@ -9,5 +9,4 @@ use Illuminate\Http\Resources\Json\Resource;
  */
 class Response extends Resource
 {
-
 }

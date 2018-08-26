@@ -6,5 +6,4 @@ use Illuminate\Http\Resources\Json\Resource;
 
 class Airport extends Resource
 {
-
 }

@@ -11,7 +11,6 @@ use App\Models\Pirep;
 use App\Repositories\ExpenseRepository;
 use App\Repositories\JournalRepository;
 use App\Services\FareService;
-use App\Services\PirepService;
 use App\Support\Math;
 use App\Support\Money;
 use Log;
@@ -284,7 +283,7 @@ class PirepFinanceService extends Service
                     .$expense->name.'", A='.$expense->amount);
 
                 // If an airline_id is filled, then see if it matches
-                /** @noinspection NotOptimalIfConditionsInspection */
+                /* @noinspection NotOptimalIfConditionsInspection */
                 if (filled($expense->airline_id) && $expense->airline_id !== $pirep->airline_id) {
                     Log::info('Finance: Expense has an airline ID and it doesn\'t match, skipping');
                     continue;

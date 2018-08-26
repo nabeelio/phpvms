@@ -10,5 +10,4 @@ use Illuminate\Http\Resources\Json\Resource;
  */
 class AcarsRoute extends Resource
 {
-
 }

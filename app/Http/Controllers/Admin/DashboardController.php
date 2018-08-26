@@ -66,9 +66,11 @@ class DashboardController extends Controller
      * Show the admin dashboard
      *
      * @param Request $request
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function index(Request $request)
     {

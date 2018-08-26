@@ -228,6 +228,7 @@ class ImporterTest extends TestCase
 
     /**
      * Test exporting all the flights to a file
+     *
      * @throws \Illuminate\Validation\ValidationException
      */
     public function testAircraftExporter(): void

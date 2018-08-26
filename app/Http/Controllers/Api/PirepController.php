@@ -222,7 +222,7 @@ class PirepController extends Controller
         $pirep = new Pirep($attrs);
 
         // See if this user is at the current airport
-        /** @noinspection NotOptimalIfConditionsInspection */
+        /* @noinspection NotOptimalIfConditionsInspection */
         if (setting('pilots.only_flights_from_current')
             && $user->curr_airport_id !== $pirep->dpt_airport_id) {
             throw new UserNotAtAirport();
@@ -235,7 +235,7 @@ class PirepController extends Controller
         }
 
         // See if this aircraft is at the departure airport
-        /** @noinspection NotOptimalIfConditionsInspection */
+        /* @noinspection NotOptimalIfConditionsInspection */
         if (setting('pireps.only_aircraft_at_dpt_airport')
             && $pirep->aircraft_id !== $pirep->dpt_airport_id) {
             throw new AircraftNotAtAirport();
