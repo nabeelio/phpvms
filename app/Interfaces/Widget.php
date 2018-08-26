@@ -6,7 +6,6 @@ use Arrilot\Widgets\AbstractWidget;
 
 /**
  * Class Widget
- * @package App\Widgets
  */
 abstract class Widget extends AbstractWidget
 {
@@ -14,8 +13,10 @@ abstract class Widget extends AbstractWidget
 
     /**
      * Render the template
+     *
      * @param string $template
      * @param array  $vars
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function view(string $template, array $vars = [])

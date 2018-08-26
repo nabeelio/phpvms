@@ -1,7 +1,5 @@
 <?php
-/**
- *
- */
+
 
 return [
     'flightnumber'     => 'Numero di Volo',

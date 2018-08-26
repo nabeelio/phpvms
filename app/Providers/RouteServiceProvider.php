@@ -67,7 +67,7 @@ class RouteServiceProvider extends ServiceProvider
     {
         Route::group([
             'middleware' => ['api'],
-            'namespace'  => $this->namespace."\\Api",
+            'namespace'  => $this->namespace.'\\Api',
             'prefix'     => 'api',
             'as'         => 'api.',
         ], function ($router) {

@@ -6,10 +6,10 @@ use App\Interfaces\Model;
 
 /**
  * The Award model
+ *
  * @property mixed      id
  * @property mixed      ref_model
  * @property mixed|null ref_model_params
- * @package Award\Models
  */
 class Award extends Model
 {
@@ -28,25 +28,27 @@ class Award extends Model
         'description'      => 'nullable',
         'image_url'        => 'nullable',
         'ref_model'        => 'required',
-        'ref_model_params' => 'nullable'
+        'ref_model_params' => 'nullable',
     ];
 
     /**
      * Get the referring object
+     *
      * @param Award|null $award
      * @param User|null  $user
+     *
      * @return null
      */
-    public function getReference(Award $award = null, User $user = null)
+    public function getReference(self $award = null, User $user = null)
     {
         if (!$this->ref_model) {
-            return null;
+            return;
         }
 
         try {
             return new $this->ref_model($award, $user);
         } catch (\Exception $e) {
-            return null;
+            return;
         }
     }
 }

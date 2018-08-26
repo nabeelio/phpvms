@@ -6,12 +6,12 @@ use App\Models\Journal;
 
 /**
  * Class JournalObserver
- * @package App\Models\Observers
  */
 class JournalObserver
 {
     /**
      * @param Journal $journal
+     *
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
      */

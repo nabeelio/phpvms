@@ -15,17 +15,16 @@ use App\Models\Rank;
 use App\Models\Subfleet;
 use App\Models\User;
 use Carbon\Carbon;
-use PDOException;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use PDO;
+use PDOException;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
 /**
  * Class Importer
  * TODO: Batch import
- * @package App\Console\Services
  */
 class Importer
 {
@@ -36,6 +35,7 @@ class Importer
 
     /**
      * Hold the PDO connection to the old database
+     *
      * @var
      */
     private $conn;
@@ -47,6 +47,7 @@ class Importer
 
     /**
      * Hold the instance of the console logger
+     *
      * @var
      */
     private $log;
@@ -54,12 +55,12 @@ class Importer
     /**
      * CONSTANTS
      */
-
     const BATCH_READ_ROWS = 300;
-    const SUBFLEET_NAME   = 'Imported Aircraft';
+    const SUBFLEET_NAME = 'Imported Aircraft';
 
     /**
      * Importer constructor.
+     *
      * @param $db_creds
      */
     public function __construct($db_creds)
@@ -74,7 +75,7 @@ class Importer
             'name'         => '',
             'user'         => '',
             'pass'         => '',
-            'table_prefix' => 'phpvms_'
+            'table_prefix' => 'phpvms_',
         ], $db_creds);
     }
 
@@ -108,7 +109,7 @@ class Importer
         $dsn = 'mysql:'.implode(';', [
                 'host='.$this->creds['host'],
                 'port='.$this->creds['port'],
-                'dbname='.$this->creds['name']
+                'dbname='.$this->creds['name'],
             ]);
 
         $this->info('Connection string: '.$dsn);
@@ -152,7 +153,9 @@ class Importer
 
     /**
      * Return the table name with the prefix
+     *
      * @param $table
+     *
      * @return string
      */
     protected function tableName($table)
@@ -165,8 +168,8 @@ class Importer
     }
 
     /**
-     *
      * @param \Illuminate\Database\Eloquent\Model $model
+     *
      * @return bool
      */
     protected function saveModel($model)
@@ -186,6 +189,7 @@ class Importer
 
     /**
      * Create a new mapping between an old ID and the new one
+     *
      * @param $entity
      * @param $old_id
      * @param $new_id
@@ -201,8 +205,10 @@ class Importer
 
     /**
      * Return the ID for a mapping
+     *
      * @param $entity
      * @param $old_id
+     *
      * @return bool
      */
     protected function getMapping($entity, $old_id)
@@ -221,6 +227,7 @@ class Importer
 
     /**
      * @param $date
+     *
      * @return Carbon
      */
     protected function parseDate($date)
@@ -232,7 +239,9 @@ class Importer
 
     /**
      * Take a decimal duration and convert it to minutes
+     *
      * @param $duration
+     *
      * @return float|int
      */
     protected function convertDuration($duration)
@@ -255,6 +264,7 @@ class Importer
 
     /**
      * @param $table
+     *
      * @return mixed
      */
     protected function getTotalRows($table)
@@ -271,8 +281,10 @@ class Importer
 
     /**
      * Read all the rows in a table, but read them in a batched manner
+     *
      * @param string $table     The name of the table
      * @param null   $read_rows Number of rows to read
+     *
      * @return \Generator
      */
     protected function readRows($table, $read_rows = null)
@@ -318,6 +330,7 @@ class Importer
 
     /**
      * Return the subfleet
+     *
      * @return mixed
      */
     protected function getSubfleet()
@@ -332,10 +345,8 @@ class Importer
     }
 
     /**
-     *
      * All the individual importers, done on a per-table basis
      * Some tables get saved locally for tables that use FK refs
-     *
      */
 
     /**
@@ -356,7 +367,7 @@ class Importer
             $this->addMapping('ranks', $row->rank, $rank->id);
 
             if ($rank->wasRecentlyCreated) {
-                ++$count;
+                $count++;
             }
         }
 
@@ -382,7 +393,7 @@ class Importer
             $this->addMapping('airlines', $row->code, $airline->id);
 
             if ($airline->wasRecentlyCreated) {
-                ++$count;
+                $count++;
             }
         }
 
@@ -406,13 +417,13 @@ class Importer
                 ['name' => $row->fullname, 'registration' => $row->registration],
                 ['icao'        => $row->icao,
                  'subfleet_id' => $subfleet->id,
-                 'active'      => $row->enabled
+                 'active'      => $row->enabled,
                 ]);
 
             $this->addMapping('aircraft', $row->id, $aircraft->id);
 
             if ($aircraft->wasRecentlyCreated) {
-                ++$count;
+                $count++;
             }
         }
 
@@ -444,7 +455,7 @@ class Importer
             );
 
             if ($airport->wasRecentlyCreated) {
-                ++$count;
+                $count++;
             }
         }
 
@@ -491,7 +502,7 @@ class Importer
             // TODO: deserialize route_details into ACARS table
 
             if ($flight->wasRecentlyCreated) {
-                ++$count;
+                $count++;
             }
         }
 
@@ -579,7 +590,7 @@ class Importer
             $this->addMapping('pireps', $row->pirepid, $pirep->id);
 
             if ($pirep->wasRecentlyCreated) {
-                ++$count;
+                $count++;
             }
         }
 
@@ -624,7 +635,7 @@ class Importer
             $this->addMapping('users', $row->pilotid, $user->id);
 
             if ($user->wasRecentlyCreated) {
-                ++$count;
+                $count++;
             }
         }
 
@@ -648,7 +659,9 @@ class Importer
 
     /**
      * Get the user's new state from their original state
+     *
      * @param $state
+     *
      * @return int
      */
     protected function getUserState($state)
@@ -662,7 +675,7 @@ class Importer
             'ACTIVE'   => 0,
             'INACTIVE' => 1,
             'BANNED'   => 2,
-            'ON_LEAVE' => 3
+            'ON_LEAVE' => 3,
         ];
 
         // Decide which state they will be in accordance with v7
@@ -675,8 +688,7 @@ class Importer
             return UserState::SUSPENDED;
         } elseif ($state === $phpvms_classic_states['ON_LEAVE']) {
             return UserState::ON_LEAVE;
-        } else {
-            $this->error('Unknown status: '.$state);
         }
+        $this->error('Unknown status: '.$state);
     }
 }

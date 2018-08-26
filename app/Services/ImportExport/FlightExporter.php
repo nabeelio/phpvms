@@ -8,8 +8,6 @@ use App\Models\Flight;
 
 /**
  * The flight importer can be imported or export. Operates on rows
- *
- * @package App\Services\Import
  */
 class FlightExporter extends ImportExport
 {
@@ -25,13 +23,15 @@ class FlightExporter extends ImportExport
 
     /**
      * Import a flight, parse out the different rows
+     *
      * @param Flight $flight
+     *
      * @return array
      */
     public function export($flight): array
     {
         $ret = [];
-        foreach(self::$columns as $column) {
+        foreach (self::$columns as $column) {
             $ret[$column] = $flight->{$column};
         }
 
@@ -41,7 +41,7 @@ class FlightExporter extends ImportExport
 
         $ret['dpt_airport'] = $flight->dpt_airport_id;
         $ret['arr_airport'] = $flight->arr_airport_id;
-        if($flight->alt_airport) {
+        if ($flight->alt_airport) {
             $ret['alt_airport'] = $flight->alt_airport_id;
         }
 
@@ -56,14 +56,16 @@ class FlightExporter extends ImportExport
 
     /**
      * Return the days string
+     *
      * @param Flight $flight
+     *
      * @return string
      */
     protected function getDays(Flight &$flight)
     {
         $days_str = '';
 
-        if($flight->on_day(Days::MONDAY)) {
+        if ($flight->on_day(Days::MONDAY)) {
             $days_str .= '1';
         }
 
@@ -96,15 +98,17 @@ class FlightExporter extends ImportExport
 
     /**
      * Return any custom fares that have been made to this flight
+     *
      * @param Flight $flight
+     *
      * @return string
      */
     protected function getFares(Flight &$flight): string
     {
         $fares = [];
-        foreach($flight->fares as $fare) {
+        foreach ($flight->fares as $fare) {
             $fare_export = [];
-            if($fare->pivot->price) {
+            if ($fare->pivot->price) {
                 $fare_export['price'] = $fare->pivot->price;
             }
 
@@ -124,7 +128,9 @@ class FlightExporter extends ImportExport
 
     /**
      * Parse all of the subfields
+     *
      * @param Flight $flight
+     *
      * @return string
      */
     protected function getFields(Flight &$flight): string
@@ -139,13 +145,15 @@ class FlightExporter extends ImportExport
 
     /**
      * Create the list of subfleets that are associated here
+     *
      * @param Flight $flight
+     *
      * @return string
      */
     protected function getSubfleets(Flight &$flight): string
     {
         $subfleets = [];
-        foreach($flight->subfleets as $subfleet) {
+        foreach ($flight->subfleets as $subfleet) {
             $subfleets[] = $subfleet->type;
         }
 

@@ -6,15 +6,14 @@ use App\Interfaces\Widget;
 
 /**
  * Show the live map in a view
- * @package App\Widgets
  */
 class AirspaceMap extends Widget
 {
     protected $config = [
         'height' => '800px',
         'width'  => '100%',
-        'lat' => 0,
-        'lon' => 0,
+        'lat'    => 0,
+        'lon'    => 0,
     ];
 
     /**
@@ -23,7 +22,7 @@ class AirspaceMap extends Widget
     public function run()
     {
         return view('widgets.airspace_map', [
-            'config'    => $this->config,
+            'config' => $this->config,
         ]);
     }
 }

@@ -7,16 +7,16 @@ use Illuminate\Http\Request;
 
 /**
  * Validate that the files are imported
- * @package App\Http\Requests
  */
 class ImportRequest extends FormRequest
 {
     public static $rules = [
-        'csv_file'  => 'required|file',
+        'csv_file' => 'required|file',
     ];
 
     /**
      * @param Request $request
+     *
      * @throws \Illuminate\Validation\ValidationException
      */
     public static function validate(Request $request)

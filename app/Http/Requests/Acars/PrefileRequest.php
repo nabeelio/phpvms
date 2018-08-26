@@ -7,7 +7,6 @@ use App\Models\Pirep;
 
 /**
  * Class PrefileRequest
- * @package App\Http\Requests\Acars
  */
 class PrefileRequest extends FormRequest
 {
@@ -52,9 +51,9 @@ class PrefileRequest extends FormRequest
             'created_at'          => 'nullable|date',
 
             # See if the fare objects are included and formatted properly
-            'fares'               => 'nullable|array',
-            'fares.*.id'          => 'required',
-            'fares.*.count'       => 'required|numeric',
+            'fares'         => 'nullable|array',
+            'fares.*.id'    => 'required',
+            'fares.*.count' => 'required|numeric',
         ];
 
         return $rules;

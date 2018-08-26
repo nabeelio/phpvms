@@ -12,6 +12,7 @@ trait ExpensableTrait
 
     /**
      * Morph to Expenses.
+     *
      * @return mixed
      */
     public function expenses()

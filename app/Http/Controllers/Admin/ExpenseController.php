@@ -19,16 +19,16 @@ use Storage;
 
 /**
  * Class ExpenseController
- * @package App\Http\Controllers\Admin
  */
 class ExpenseController extends Controller
 {
-    private $airlineRepo,
-            $expenseRepo,
-            $importSvc;
+    private $airlineRepo;
+    private $expenseRepo;
+    private $importSvc;
 
     /**
      * expensesController constructor.
+     *
      * @param AirlineRepository $airlineRepo
      * @param ExpenseRepository $expenseRepo
      * @param ImportService     $importSvc
@@ -45,19 +45,22 @@ class ExpenseController extends Controller
 
     /**
      * Display a listing of the expenses.
+     *
      * @param Request $request
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     *
      * @throws \Prettus\Repository\Exceptions\RepositoryException
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index(Request $request)
     {
         $this->expenseRepo->pushCriteria(new RequestCriteria($request));
         $expenses = $this->expenseRepo->findWhere([
-            'ref_model' => Expense::class
+            'ref_model' => Expense::class,
         ]);
 
         return view('admin.expenses.index', [
-            'expenses' => $expenses
+            'expenses' => $expenses,
         ]);
     }
 
@@ -74,9 +77,12 @@ class ExpenseController extends Controller
 
     /**
      * Store a newly created expenses in storage.
+     *
      * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function store(Request $request)
     {
@@ -91,7 +97,9 @@ class ExpenseController extends Controller
 
     /**
      * Display the specified expenses.
-     * @param  int $id
+     *
+     * @param int $id
+     *
      * @return mixed
      */
     public function show($id)
@@ -111,7 +119,9 @@ class ExpenseController extends Controller
 
     /**
      * Show the form for editing the specified expenses.
-     * @param  int $id
+     *
+     * @param int $id
+     *
      * @return Response
      */
     public function edit($id)
@@ -133,10 +143,13 @@ class ExpenseController extends Controller
 
     /**
      * Update the specified expenses in storage.
-     * @param  int    $id
+     *
+     * @param int     $id
      * @param Request $request
-     * @return Response
+     *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
+     *
+     * @return Response
      */
     public function update($id, Request $request)
     {
@@ -157,7 +170,9 @@ class ExpenseController extends Controller
 
     /**
      * Remove the specified expenses from storage.
-     * @param  int $id
+     *
+     * @param int $id
+     *
      * @return Response
      */
     public function destroy($id)
@@ -177,9 +192,12 @@ class ExpenseController extends Controller
 
     /**
      * Run the airport exporter
+     *
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     *
      * @throws \League\Csv\Exception
+     *
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
      */
     public function export(Request $request)
     {
@@ -195,10 +213,11 @@ class ExpenseController extends Controller
     }
 
     /**
-     *
      * @param Request $request
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     *
      * @throws \Illuminate\Validation\ValidationException
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function import(Request $request)
     {

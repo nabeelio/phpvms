@@ -8,7 +8,6 @@ use Illuminate\Queue\SerializesModels;
 /**
  * This event is dispatched when the monthly cron is run
  * It happens after all of the default nightly tasks
- * @package App\Events
  */
 class CronMonthly
 {
@@ -19,6 +18,5 @@ class CronMonthly
      */
     public function __construct()
     {
-
     }
 }

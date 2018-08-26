@@ -7,7 +7,6 @@ use Symfony\Component\Yaml\Yaml;
 
 /**
  * Class Version
- * @package App\Console\Commands
  */
 class Version extends Command
 {
@@ -15,6 +14,8 @@ class Version extends Command
 
     /**
      * Create the version number that gets written out
+     *
+     * @param mixed $cfg
      */
     protected function createVersionNumber($cfg)
     {
@@ -30,6 +31,7 @@ class Version extends Command
 
     /**
      * Run dev related commands
+     *
      * @throws \Symfony\Component\Yaml\Exception\ParseException
      */
     public function handle()
@@ -55,6 +57,6 @@ class Version extends Command
                 .$cfg['current']['patch'];
         }
 
-        print $version."\n";
+        echo $version."\n";
     }
 }

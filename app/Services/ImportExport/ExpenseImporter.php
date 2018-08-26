@@ -5,14 +5,12 @@ namespace App\Services\ImportExport;
 use App\Interfaces\ImportExport;
 use App\Models\Aircraft;
 use App\Models\Airport;
-use App\Models\Enums\ExpenseType;
 use App\Models\Expense;
 use App\Models\Subfleet;
 use Log;
 
 /**
  * Import expenses
- * @package App\Services\Import
  */
 class ExpenseImporter extends ImportExport
 {
@@ -36,20 +34,22 @@ class ExpenseImporter extends ImportExport
 
     /**
      * Import a flight, parse out the different rows
+     *
      * @param array $row
      * @param int   $index
+     *
      * @return bool
      */
     public function import(array $row, $index): bool
     {
-        if($row['airline']) {
+        if ($row['airline']) {
             $row['airline_id'] = $this->getAirline($row['airline'])->id;
         }
 
         # Figure out what this is referring to
         $row = $this->getRefClassInfo($row);
 
-        if(!$row['active']) {
+        if (!$row['active']) {
             $row['active'] = true;
         }
 
@@ -70,7 +70,9 @@ class ExpenseImporter extends ImportExport
 
     /**
      * See if this expense refers to a ref_model
+     *
      * @param array $row
+     *
      * @return array
      */
     protected function getRefClassInfo(array $row)
@@ -93,19 +95,19 @@ class ExpenseImporter extends ImportExport
         $obj = null;
 
         if ($class === Aircraft::class) {
-            Log::info('Trying to import expense on aircraft, registration: ' . $id);
+            Log::info('Trying to import expense on aircraft, registration: '.$id);
             $obj = Aircraft::where('registration', $id)->first();
         } elseif ($class === Airport::class) {
-            Log::info('Trying to import expense on airport, icao: ' . $id);
+            Log::info('Trying to import expense on airport, icao: '.$id);
             $obj = Airport::where('icao', $id)->first();
         } elseif ($class === Subfleet::class) {
-            Log::info('Trying to import expense on subfleet, type: ' . $id);
+            Log::info('Trying to import expense on subfleet, type: '.$id);
             $obj = Subfleet::where('type', $id)->first();
         } else {
             $this->errorLog('Unknown/unsupported Expense class: '.$class);
         }
 
-        if(!$obj) {
+        if (!$obj) {
             return $row;
         }
 

@@ -5,14 +5,12 @@ namespace App\Support\Units;
 use App\Interfaces\Unit;
 use PhpUnitsOfMeasure\PhysicalQuantity\Mass;
 
-/**
- * @package App\Support\Units
- */
 class Fuel extends Unit
 {
     /**
      * @param float  $value
      * @param string $unit
+     *
      * @throws \PhpUnitsOfMeasure\Exception\NonNumericValue
      * @throws \PhpUnitsOfMeasure\Exception\NonStringUnitName
      */

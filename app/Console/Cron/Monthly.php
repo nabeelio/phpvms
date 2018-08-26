@@ -10,9 +10,6 @@ use App\Events\CronMonthly;
  * listeners, etc can just be called to run those tasks
  *
  * The actual cron tasks are in app/Cron
- *
- * @package App\Console\Cron
- *
  */
 class Monthly extends Command
 {
@@ -20,9 +17,6 @@ class Monthly extends Command
     protected $description = 'Run the monthly cron tasks';
     protected $schedule;
 
-    /**
-     *
-     */
     public function handle(): void
     {
         $this->redirectLoggingToStdout('cron');

@@ -5,15 +5,14 @@ namespace App\Support\Units;
 use App\Interfaces\Unit;
 use PhpUnitsOfMeasure\PhysicalQuantity\Length;
 
-/**
- * @package App\Support\Units
- */
 class Distance extends Unit
 {
     /**
      * Distance constructor.
+     *
      * @param float  $value
      * @param string $unit
+     *
      * @throws \PhpUnitsOfMeasure\Exception\NonNumericValue
      * @throws \PhpUnitsOfMeasure\Exception\NonStringUnitName
      */

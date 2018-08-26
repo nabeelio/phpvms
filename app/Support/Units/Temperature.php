@@ -7,13 +7,13 @@ use PhpUnitsOfMeasure\PhysicalQuantity\Temperature as TemperatureUnit;
 
 /**
  * Composition for the converter
- * @package App\Support\Units
  */
 class Temperature extends Unit
 {
     /**
      * @param float  $value
      * @param string $unit
+     *
      * @throws \PhpUnitsOfMeasure\Exception\NonNumericValue
      * @throws \PhpUnitsOfMeasure\Exception\NonStringUnitName
      */

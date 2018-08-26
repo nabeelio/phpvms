@@ -6,17 +6,19 @@ use GuzzleHttp\Client;
 
 /**
  * Helper for HTTP stuff
- * @package App\Support
  */
 class Http
 {
     /**
      * Download a URI. If a file is given, it will save the downloaded
      * content into that file
+     *
      * @param       $uri
      * @param array $opts
-     * @return string
+     *
      * @throws \GuzzleHttp\Exception\GuzzleException
+     *
+     * @return string
      */
     public static function get($uri, array $opts)
     {

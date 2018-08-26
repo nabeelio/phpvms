@@ -8,7 +8,6 @@ use App\Repositories\PirepRepository;
 
 /**
  * Show the latest PIREPs in a view
- * @package App\Widgets
  */
 class LatestPireps extends Widget
 {
@@ -27,7 +26,7 @@ class LatestPireps extends Widget
             ->whereNotInOrder('state', [
                 PirepState::CANCELLED,
                 PirepState::DRAFT,
-                PirepState::IN_PROGRESS
+                PirepState::IN_PROGRESS,
             ], 'created_at', 'desc')
             ->recent($this->config['count']);
 

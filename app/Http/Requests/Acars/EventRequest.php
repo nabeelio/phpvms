@@ -8,13 +8,13 @@ use Auth;
 
 /**
  * Class EventRequest
- * @package App\Http\Requests\Acars
  */
 class EventRequest extends FormRequest
 {
     /**
-     * @return bool
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     *
+     * @return bool
      */
     public function authorize()
     {

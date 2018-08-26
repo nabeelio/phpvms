@@ -7,7 +7,6 @@ use App\Models\Fare;
 
 /**
  * Import aircraft
- * @package App\Services\Import
  */
 class FareImporter extends ImportExport
 {
@@ -29,8 +28,10 @@ class FareImporter extends ImportExport
 
     /**
      * Import a flight, parse out the different rows
+     *
      * @param array $row
      * @param int   $index
+     *
      * @return bool
      */
     public function import(array $row, $index): bool
@@ -42,7 +43,7 @@ class FareImporter extends ImportExport
 
         try {
             $fare->save();
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             $this->errorLog('Error in row '.$index.': '.$e->getMessage());
             return false;
         }

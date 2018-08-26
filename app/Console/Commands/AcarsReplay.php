@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Collection;
 
 /**
  * Class AcarsReplay
- * @package App\Console\Commands
  */
 class AcarsReplay extends Command
 {
@@ -18,12 +17,14 @@ class AcarsReplay extends Command
 
     /**
      * API Key to post as
+     *
      * @var string
      */
     protected $apiKey = 'testadminapikey';
 
     /**
      * For automatic updates, how many seconds to sleep between updates
+     *
      * @var int
      */
     protected $sleepTime = 10;
@@ -50,15 +51,18 @@ class AcarsReplay extends Command
             'base_uri' => config('app.url'),
             'headers'  => [
                 'Authorization' => $this->apiKey,
-            ]
+            ],
         ]);
     }
 
     /**
      * Make a request to start a PIREP
+     *
      * @param \stdClass $flight
-     * @return string
+     *
      * @throws \RuntimeException
+     *
+     * @return string
      */
     protected function startPirep($flight): string
     {
@@ -80,7 +84,7 @@ class AcarsReplay extends Command
                 'level'               => $flight->planned_altitude,
                 'planned_flight_time' => $pft,
                 'route'               => $flight->planned_route,
-            ]
+            ],
         ]);
 
         $body = \json_decode($response->getBody()->getContents());
@@ -90,14 +94,17 @@ class AcarsReplay extends Command
 
     /**
      * Mark the PIREP as filed
+     *
      * @param $pirep_id
-     * @return mixed
+     *
      * @throws \RuntimeException
+     *
+     * @return mixed
      */
     protected function filePirep($pirep_id)
     {
         $response = $this->httpClient->post('/api/pireps/'.$pirep_id.'/file', [
-            'json' => []
+            'json' => [],
         ]);
 
         $body = \json_decode($response->getBody()->getContents());
@@ -108,8 +115,10 @@ class AcarsReplay extends Command
     /**
      * @param $pirep_id
      * @param $data
-     * @return array
+     *
      * @throws \RuntimeException
+     *
+     * @return array
      */
     protected function postUpdate($pirep_id, $data)
     {
@@ -127,15 +136,15 @@ class AcarsReplay extends Command
 
         $upd = [
             'positions' => [
-                $position
-            ]
+                $position,
+            ],
         ];
 
         $this->info("Update: $data->callsign, $position[lat] x $position[lon] \t\t"
             ."hdg: $position[heading]\t\talt: $position[altitude]\t\tgs: $position[gs]");
 
         $response = $this->httpClient->post($uri, [
-            'json' => $upd
+            'json' => $upd,
         ]);
 
         $body = \json_decode($response->getBody()->getContents());
@@ -146,13 +155,15 @@ class AcarsReplay extends Command
             $position['lon'],
             $position['heading'],
             $position['altitude'],
-            $position['gs']
+            $position['gs'],
         ];
     }
 
     /**
      * Parse this file and run the updates
+     *
      * @param array $files
+     *
      * @throws \RuntimeException
      */
     protected function updatesFromFile(array $files)
@@ -168,11 +179,10 @@ class AcarsReplay extends Command
                 $contents = \json_decode($contents);
 
                 return collect($contents->updates);
-            } else {
-                $this->error($file.' not found, skipping');
-
-                return false;
             }
+            $this->error($file.' not found, skipping');
+
+            return false;
         })
             # remove any of errored file entries
             ->filter(function ($value, $key) {
@@ -181,7 +191,7 @@ class AcarsReplay extends Command
 
         $this->info('Starting playback');
 
-        /**
+        /*
          * File the initial pirep to get a "preflight" status
          */
         $flights->each(function ($updates, $idx) {
@@ -191,7 +201,7 @@ class AcarsReplay extends Command
             $this->info('Prefiled '.$update->callsign.', ID: '.$pirep_id);
         });
 
-        /**
+        /*
          * Iterate through all of the flights, retrieving the updates
          * from each individual flight. Remove the update. Continue through
          * until there are no updates left, at which point we remove the flight
@@ -226,8 +236,10 @@ class AcarsReplay extends Command
 
     /**
      * Execute the console command.
-     * @return mixed
+     *
      * @throws \RuntimeException
+     *
+     * @return mixed
      */
     public function handle()
     {

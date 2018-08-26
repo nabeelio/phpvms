@@ -9,6 +9,7 @@ use App\Models\Traits\JournalTrait;
 
 /**
  * Class Airline
+ *
  * @property mixed   id
  * @property string  code
  * @property string  icao
@@ -17,7 +18,6 @@ use App\Models\Traits\JournalTrait;
  * @property string  logo
  * @property string  country
  * @property Journal journal
- * @package App\Models
  */
 class Airline extends Model
 {
@@ -44,6 +44,7 @@ class Airline extends Model
 
     /**
      * The attributes that should be casted to native types.
+     *
      * @var array
      */
     protected $casts = [
@@ -54,6 +55,7 @@ class Airline extends Model
 
     /**
      * Validation rules
+     *
      * @var array
      */
     public static $rules = [
@@ -69,14 +71,15 @@ class Airline extends Model
      */
     public function getCodeAttribute()
     {
-		if ($this->iata && $this->iata !== '')
-			return $this->iata;
-		else
-			return $this->icao;
+        if ($this->iata && $this->iata !== '') {
+            return $this->iata;
+        }
+        return $this->icao;
     }
 
     /**
      * Capitalize the IATA code when set
+     *
      * @param $iata
      */
     public function setIataAttribute($iata)
@@ -86,6 +89,7 @@ class Airline extends Model
 
     /**
      * Capitalize the ICAO when set
+     *
      * @param $icao
      */
     public function setIcaoAttribute($icao): void

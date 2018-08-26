@@ -13,7 +13,6 @@ use Illuminate\Support\Collection;
 
 /**
  * Class FareService
- * @package App\Services
  */
 class FareService extends Service
 {
@@ -24,8 +23,10 @@ class FareService extends Service
      * final "authoritative" list of the fares for a flight.
      *
      * If a subfleet is passed in,
+     *
      * @param Flight|null   $flight
      * @param Subfleet|null $subfleet
+     *
      * @return Collection
      */
     public function getAllFares($flight, $subfleet)
@@ -54,7 +55,9 @@ class FareService extends Service
 
     /**
      * Get fares
+     *
      * @param $fare
+     *
      * @return mixed
      */
     protected function getFares($fare)
@@ -92,14 +95,15 @@ class FareService extends Service
      * @param Flight $flight
      * @param Fare   $fare
      * @param array    set the price/cost/capacity
+     *
      * @return Flight
      */
     public function setForFlight(Flight $flight, Fare $fare, array $override = []): Flight
     {
         $flight->fares()->syncWithoutDetaching([$fare->id]);
 
-        foreach($override as $key => $item) {
-            if(!$item) {
+        foreach ($override as $key => $item) {
+            if (!$item) {
                 unset($override[$key]);
             }
         }
@@ -119,7 +123,9 @@ class FareService extends Service
      * return all the fares for a flight. check the pivot
      * table to see if the price/cost/capacity has been overridden
      * and return the correct amounts.
+     *
      * @param Flight $flight
+     *
      * @return Collection
      */
     public function getForFlight(Flight $flight)
@@ -134,6 +140,7 @@ class FareService extends Service
     /**
      * @param Flight $flight
      * @param Fare   $fare
+     *
      * @return Flight
      */
     public function delFareFromFlight(Flight $flight, Fare $fare)
@@ -150,6 +157,7 @@ class FareService extends Service
      * @param Subfleet $subfleet
      * @param Fare     $fare
      * @param array    set the price/cost/capacity
+     *
      * @return Subfleet
      */
     public function setForSubfleet(Subfleet $subfleet, Fare $fare, array $override = []): Subfleet
@@ -171,7 +179,9 @@ class FareService extends Service
      * return all the fares for an aircraft. check the pivot
      * table to see if the price/cost/capacity has been overridden
      * and return the correct amounts.
+     *
      * @param Subfleet $subfleet
+     *
      * @return Collection
      */
     public function getForSubfleet(Subfleet $subfleet)
@@ -185,8 +195,10 @@ class FareService extends Service
 
     /**
      * Delete the fare from a subfleet
+     *
      * @param Subfleet $subfleet
      * @param Fare     $fare
+     *
      * @return Subfleet|null|static
      */
     public function delFareFromSubfleet(Subfleet &$subfleet, Fare &$fare)
@@ -200,7 +212,9 @@ class FareService extends Service
     /**
      * Get the fares for a PIREP, this just returns the PirepFare
      * model which includes the counts for that particular fare
+     *
      * @param Pirep $pirep
+     *
      * @return Collection
      */
     public function getForPirep(Pirep $pirep)
@@ -213,8 +227,10 @@ class FareService extends Service
 
     /**
      * Save the list of fares
+     *
      * @param Pirep $pirep
      * @param array $fares ['fare_id', 'count']
+     *
      * @throws \Exception
      */
     public function saveForPirep(Pirep $pirep, array $fares)

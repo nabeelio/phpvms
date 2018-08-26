@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Auth;
 
 /**
  * Class DashboardController
- * @package App\Http\Controllers\Frontend
  */
 class DashboardController extends Controller
 {
@@ -16,6 +15,7 @@ class DashboardController extends Controller
 
     /**
      * DashboardController constructor.
+     *
      * @param PirepRepository $pirepRepo
      */
     public function __construct(PirepRepository $pirepRepo)

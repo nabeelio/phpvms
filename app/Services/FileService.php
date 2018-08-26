@@ -7,17 +7,19 @@ use App\Models\File;
 
 /**
  * Class FileService
- * @package App\Services
  */
 class FileService extends Service
 {
     /**
      * Save a file to disk and return a File asset
+     *
      * @param \Illuminate\Http\UploadedFile $file
      * @param string                        $folder
      * @param array                         $attrs
-     * @return File
+     *
      * @throws \Hashids\HashidsException
+     *
+     * @return File
      */
     public function saveFile($file, $folder, array $attrs)
     {
@@ -36,9 +38,9 @@ class FileService extends Service
         # Create the file, add the ID to the front of the file to account
         # for any duplicate filenames, but still can be found in an `ls`
 
-        $filename = $id . '_'
-            . str_slug(trim($path_info['filename']))
-            . '.' . $path_info['extension'];
+        $filename = $id.'_'
+            .str_slug(trim($path_info['filename']))
+            .'.'.$path_info['extension'];
 
         $file_path = $file->storeAs($folder, $filename, $attrs['disk']);
 

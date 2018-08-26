@@ -9,7 +9,6 @@ use Prettus\Repository\Traits\CacheableRepository;
 
 /**
  * Class AirportRepository
- * @package App\Repositories
  */
 class AirportRepository extends Repository implements CacheableInterface
 {
@@ -27,6 +26,10 @@ class AirportRepository extends Repository implements CacheableInterface
 
     /**
      * Return the list of airports formatted for a select box
+     *
+     * @param mixed $add_blank
+     * @param mixed $only_hubs
+     *
      * @return array
      */
     public function selectBoxList($add_blank = false, $only_hubs = false): array

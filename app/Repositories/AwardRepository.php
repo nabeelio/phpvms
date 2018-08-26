@@ -9,7 +9,6 @@ use Prettus\Repository\Traits\CacheableRepository;
 
 /**
  * Class AwardRepository
- * @package App\Repositories
  */
 class AwardRepository extends Repository implements CacheableInterface
 {

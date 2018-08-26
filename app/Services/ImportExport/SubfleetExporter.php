@@ -3,14 +3,11 @@
 namespace App\Services\ImportExport;
 
 use App\Interfaces\ImportExport;
-use App\Models\Enums\FlightType;
 use App\Models\Flight;
 use App\Models\Subfleet;
 
 /**
  * The flight importer can be imported or export. Operates on rows
- *
- * @package App\Services\Import
  */
 class SubfleetExporter extends ImportExport
 {
@@ -26,13 +23,15 @@ class SubfleetExporter extends ImportExport
 
     /**
      * Import a flight, parse out the different rows
+     *
      * @param Subfleet $subfleet
+     *
      * @return array
      */
     public function export($subfleet): array
     {
         $ret = [];
-        foreach(self::$columns as $column) {
+        foreach (self::$columns as $column) {
             $ret[$column] = $subfleet->{$column};
         }
 
@@ -45,15 +44,17 @@ class SubfleetExporter extends ImportExport
 
     /**
      * Return any custom fares that have been made to this flight
+     *
      * @param Subfleet $subfleet
+     *
      * @return string
      */
     protected function getFares(Subfleet &$subfleet): string
     {
         $fares = [];
-        foreach($subfleet->fares as $fare) {
+        foreach ($subfleet->fares as $fare) {
             $fare_export = [];
-            if($fare->pivot->price) {
+            if ($fare->pivot->price) {
                 $fare_export['price'] = $fare->pivot->price;
             }
 
@@ -73,7 +74,9 @@ class SubfleetExporter extends ImportExport
 
     /**
      * Parse all of the subfields
+     *
      * @param Flight $flight
+     *
      * @return string
      */
     protected function getFields(Flight &$flight): string
@@ -88,13 +91,15 @@ class SubfleetExporter extends ImportExport
 
     /**
      * Create the list of subfleets that are associated here
+     *
      * @param Flight $flight
+     *
      * @return string
      */
     protected function getSubfleets(Flight &$flight): string
     {
         $subfleets = [];
-        foreach($flight->subfleets as $subfleet) {
+        foreach ($flight->subfleets as $subfleet) {
             $subfleets[] = $subfleet->type;
         }
 

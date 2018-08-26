@@ -8,7 +8,6 @@ use Auth;
 
 /**
  * Class LogRequest
- * @package App\Http\Requests\Acars
  */
 class LogRequest extends FormRequest
 {

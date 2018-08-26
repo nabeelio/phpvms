@@ -7,7 +7,6 @@ use Symfony\Component\Process\Process;
 
 /**
  * Class BaseCommand
- * @package App\Console
  */
 abstract class Command extends \Illuminate\Console\Command
 {
@@ -52,7 +51,9 @@ abstract class Command extends \Illuminate\Console\Command
 
     /**
      * Streaming file reader
+     *
      * @param $filename
+     *
      * @return \Generator
      */
     public function readFile($filename): ?\Generator
@@ -71,16 +72,19 @@ abstract class Command extends \Illuminate\Console\Command
     }
 
     /**
-     * @param      $cmd
-     * @param bool $return
-     * @return string
+     * @param       $cmd
+     * @param bool  $return
+     * @param mixed $verbose
+     *
      * @throws \Symfony\Component\Process\Exception\RuntimeException
      * @throws \Symfony\Component\Process\Exception\LogicException
+     *
+     * @return string
      */
     public function runCommand($cmd, $return = false, $verbose = true): string
     {
         if (\is_array($cmd)) {
-            $cmd = join(' ', $cmd);
+            $cmd = implode(' ', $cmd);
         }
 
         if ($verbose) {

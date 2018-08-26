@@ -7,13 +7,14 @@ use App\Interfaces\Listener;
 
 /**
  * Class ExpenseListener
- * @package App\Listeners
  */
 class ExpenseListener extends Listener
 {
     /**
      * Return a list of additional expenses
+     *
      * @param Expenses $event
+     *
      * @return mixed
      */
     public function handle(Expenses $event)

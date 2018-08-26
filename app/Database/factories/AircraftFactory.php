@@ -4,11 +4,11 @@ use Faker\Generator as Faker;
 
 $factory->define(App\Models\Aircraft::class, function (Faker $faker) {
     return [
-        'id'           => null,
-        'subfleet_id'  => function () {
+        'id'          => null,
+        'subfleet_id' => function () {
             return factory(App\Models\Subfleet::class)->create()->id;
         },
-        'airport_id'   => function () {
+        'airport_id' => function () {
             return factory(App\Models\Airport::class)->create()->id;
         },
         'iata'         => $faker->unique()->text(5),

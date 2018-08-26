@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 
 /**
  * Class SettingsController
- * @package App\Http\Controllers\Api
  */
 class SettingsController extends Controller
 {
@@ -17,6 +16,7 @@ class SettingsController extends Controller
 
     /**
      * SettingsController constructor.
+     *
      * @param SettingRepository $settingRepo
      */
     public function __construct(
@@ -27,7 +27,9 @@ class SettingsController extends Controller
 
     /**
      * Return all the airlines, paginated
+     *
      * @param Request $request
+     *
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index(Request $request)

@@ -2,20 +2,20 @@
 
 namespace App\Console\Services;
 
-use PDOException;
 use PDO;
 
 /**
  * Class Database
- * @package App\Console\Services
  */
 class Database
 {
     /**
      * Create the base connection DSN, optionally include the DB name
+     *
      * @param      $host
      * @param      $port
      * @param null $name
+     *
      * @return string
      */
     public function createDsn($host, $port, $name = null)
@@ -33,8 +33,10 @@ class Database
      * @param $dsn
      * @param $user
      * @param $pass
-     * @return PDO
+     *
      * @throws \PDOException
+     *
+     * @return PDO
      */
     public function createPDO($dsn, $user, $pass)
     {

@@ -14,7 +14,7 @@ class EventServiceProvider extends ServiceProvider
 {
     protected $listen = [
         Expenses::class => [
-            ExpenseListener::class
+            ExpenseListener::class,
         ],
 
         UserStatsChanged::class => [

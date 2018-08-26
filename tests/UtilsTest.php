@@ -4,7 +4,8 @@ use App\Facades\Utils;
 
 class UtilsTest extends TestCase
 {
-    public function setUp() {
+    public function setUp()
+    {
     }
 
     public function testDates()

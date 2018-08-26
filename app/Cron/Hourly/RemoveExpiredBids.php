@@ -9,18 +9,19 @@ use Carbon\Carbon;
 
 /**
  * Remove expired bids
- * @package App\Listeners\Cron\Hourly
  */
 class RemoveExpiredBids extends Listener
 {
     /**
      * Remove expired bids
+     *
      * @param CronHourly $event
+     *
      * @throws \Exception
      */
     public function handle(CronHourly $event): void
     {
-        if(setting('bids.expire_time') === 0) {
+        if (setting('bids.expire_time') === 0) {
             return;
         }
 

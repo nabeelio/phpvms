@@ -16,16 +16,16 @@ use vierbergenlars\SemVer\version as semver;
 
 /**
  * Class DashboardController
- * @package App\Http\Controllers\Admin
  */
 class DashboardController extends Controller
 {
-    private $newsRepo,
-            $pirepRepo,
-            $userRepo;
+    private $newsRepo;
+    private $pirepRepo;
+    private $userRepo;
 
     /**
      * DashboardController constructor.
+     *
      * @param NewsRepository  $newsRepo
      * @param PirepRepository $pirepRepo
      * @param UserRepository  $userRepo
@@ -44,6 +44,7 @@ class DashboardController extends Controller
      * Check if a new version is available by checking the VERSION file from
      * S3 and then using the semver library to do the comparison. Just show
      * a session flash file on this page that'll get cleared right away
+     *
      * @throws \RuntimeException
      */
     protected function checkNewVersion()
@@ -63,6 +64,7 @@ class DashboardController extends Controller
 
     /**
      * Show the admin dashboard
+     *
      * @throws \RuntimeException
      */
     public function index(Request $request)
@@ -78,8 +80,10 @@ class DashboardController extends Controller
 
     /**
      * @param Request $request
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function news(Request $request)
     {

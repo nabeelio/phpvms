@@ -18,14 +18,15 @@ use Log;
 
 /**
  * Class GeoService
- * @package App\Services
  */
 class GeoService extends Service
 {
-    private $acarsRepo, $navRepo;
+    private $acarsRepo;
+    private $navRepo;
 
     /**
      * GeoService constructor.
+     *
      * @param AcarsRepository   $acarsRepo
      * @param NavdataRepository $navRepo
      */
@@ -39,10 +40,13 @@ class GeoService extends Service
 
     /**
      * Determine the closest set of coordinates from the starting position
+     *
      * @param array $coordStart
      * @param array $all_coords
-     * @return mixed
+     *
      * @throws \League\Geotools\Exception\InvalidArgumentException
+     *
+     * @return mixed
      */
     public function getClosestCoords($coordStart, $all_coords)
     {
@@ -66,10 +70,12 @@ class GeoService extends Service
      * Pass in a route string, with the departure/arrival airports, and the
      * starting coordinates. Return the route points that have been found
      * from the `navdata` table
+     *
      * @param $dep_icao     string  ICAO to ignore
      * @param $arr_icao     string  ICAO to ignore
      * @param $start_coords array   Starting point, [x, y]
      * @param $route        string  Textual route
+     *
      * @return array
      */
     public function getCoordsFromRoute($dep_icao, $arr_icao, $start_coords, $route): array
@@ -150,12 +156,15 @@ class GeoService extends Service
 
     /**
      * Determine the center point between two sets of coordinates
+     *
      * @param $latA
      * @param $lonA
      * @param $latB
      * @param $lonB
-     * @return array
+     *
      * @throws \League\Geotools\Exception\InvalidArgumentException
+     *
+     * @return array
      */
     public function getCenter($latA, $lonA, $latB, $lonB)
     {
@@ -168,7 +177,7 @@ class GeoService extends Service
 
         $center = [
             $middlePoint->getLatitude(),
-            $middlePoint->getLongitude()
+            $middlePoint->getLongitude(),
         ];
 
         return $center;
@@ -176,7 +185,9 @@ class GeoService extends Service
 
     /**
      * Read an array/relationship of ACARS model points
+     *
      * @param Pirep $pirep
+     *
      * @return array
      */
     public function getFeatureFromAcars(Pirep $pirep)
@@ -206,7 +217,7 @@ class GeoService extends Service
             ]);
         }
 
-        /**
+        /*
          * @var $point \App\Models\Acars
          */
         /*foreach ($pirep->acars as $point) {
@@ -226,20 +237,22 @@ class GeoService extends Service
             'airports' => [
                 'a' => [
                     'icao' => $pirep->arr_airport->icao,
-                    'lat' => $pirep->arr_airport->lat,
-                    'lon' => $pirep->arr_airport->lon,
+                    'lat'  => $pirep->arr_airport->lat,
+                    'lon'  => $pirep->arr_airport->lon,
                 ],
                 'd' => [
                     'icao' => $pirep->dpt_airport->icao,
-                    'lat' => $pirep->dpt_airport->lat,
-                    'lon' => $pirep->dpt_airport->lon,
+                    'lat'  => $pirep->dpt_airport->lat,
+                    'lon'  => $pirep->dpt_airport->lon,
                 ],
-            ]
+            ],
         ];
     }
 
     /**
      * Return a single feature point for the
+     *
+     * @param mixed $pireps
      */
     public function getFeatureForLiveFlights($pireps)
     {
@@ -269,7 +282,9 @@ class GeoService extends Service
 
     /**
      * Return a FeatureCollection GeoJSON object
+     *
      * @param Flight $flight
+     *
      * @return array
      */
     public function flightGeoJson(Flight $flight): array
@@ -295,7 +310,7 @@ class GeoService extends Service
                 $route->addPoint($point->lat, $point->lon, [
                     'name'  => $point->name,
                     'popup' => $point->name.' ('.$point->name.')',
-                    'icon'  => ''
+                    'icon'  => '',
                 ]);
             }
         }
@@ -314,7 +329,9 @@ class GeoService extends Service
 
     /**
      * Return a GeoJSON FeatureCollection for a PIREP
+     *
      * @param Pirep $pirep
+     *
      * @return array
      */
     public function pirepGeoJson(Pirep $pirep)
@@ -322,7 +339,7 @@ class GeoService extends Service
         $planned = new GeoJson();
         $actual = new GeoJson();
 
-        /**
+        /*
          * PLANNED ROUTE
          */
         $planned->addPoint($pirep->dpt_airport->lat, $pirep->dpt_airport->lon, [

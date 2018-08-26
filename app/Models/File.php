@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-
 use App\Interfaces\Model;
 use App\Models\Traits\HashIdTrait;
 use App\Models\Traits\ReferenceTrait;
@@ -13,11 +12,10 @@ use Illuminate\Support\Facades\Storage;
  * @property string  $description
  * @property string  $disk
  * @property string  $path
- * @property boolean $public
+ * @property bool $public
  * @property int     $download_count
  * @property string  $url
  * @property string  $filename
- * @package App\Models
  */
 class File extends Model
 {
@@ -42,13 +40,14 @@ class File extends Model
     ];
 
     public static $rules = [
-        'name'        => 'required',
+        'name' => 'required',
     ];
 
     private $pathinfo;
 
     /**
      * Return the file extension
+     *
      * @return string
      */
     public function getExtensionAttribute(): string
@@ -62,6 +61,7 @@ class File extends Model
 
     /**
      * Get just the filename
+     *
      * @return string
      */
     public function getFilenameAttribute() :string
@@ -75,6 +75,7 @@ class File extends Model
 
     /**
      * Get the full URL to this attribute
+     *
      * @return string
      */
     public function getUrlAttribute(): string

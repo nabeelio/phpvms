@@ -7,7 +7,6 @@ use App\Models\FlightField;
 
 /**
  * Class FlightFieldRepository
- * @package App\Repositories
  */
 class FlightFieldRepository extends Repository
 {

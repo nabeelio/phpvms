@@ -13,14 +13,13 @@ use Illuminate\Http\Request;
 
 /**
  * Class FinanceController
- * @package App\Http\Controllers\Admin
  */
 class FinanceController extends Controller
 {
     private $airlineRepo;
 
     /**
-     * @param AirlineRepository   $airlineRepo
+     * @param AirlineRepository $airlineRepo
      */
     public function __construct(
         AirlineRepository $airlineRepo
@@ -30,10 +29,13 @@ class FinanceController extends Controller
 
     /**
      * Display the summation tables for a given month by airline
+     *
      * @param Request $request
-     * @return mixed
+     *
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
+     *
+     * @return mixed
      */
     public function index(Request $request)
     {
@@ -56,7 +58,7 @@ class FinanceController extends Controller
                              SUM(credit) as sum_credits, 
                              SUM(debit) as sum_debits')
                 ->where([
-                    'journal_id' => $airline->journal->id
+                    'journal_id' => $airline->journal->id,
                 ])
                 ->whereBetween('created_at', $between, 'AND')
                 ->orderBy('sum_credits', 'desc')
@@ -89,6 +91,8 @@ class FinanceController extends Controller
 
     /**
      * Show a month
+     *
+     * @param mixed $id
      */
     public function show($id)
     {

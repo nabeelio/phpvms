@@ -6,9 +6,9 @@ use App\Interfaces\Model;
 
 /**
  * Class PirepField
+ *
  * @property string name
  * @property string slug
- * @package App\Models
  */
 class PirepField extends Model
 {
@@ -31,6 +31,7 @@ class PirepField extends Model
 
     /**
      * When setting the name attribute, also set the slug
+     *
      * @param $name
      */
     public function setNameAttribute($name): void

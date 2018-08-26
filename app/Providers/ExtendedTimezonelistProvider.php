@@ -24,7 +24,7 @@ class ExtendedTimezonelistProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton('timezonelist', function ($app) {
-            return new TimezonelistExtended;
+            return new TimezonelistExtended();
         });
     }
 }

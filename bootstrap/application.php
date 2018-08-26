@@ -10,10 +10,10 @@ if (!defined('DS')) {
  * Customized container to allow some of the base Laravel
  * configurations to be overridden
  */
-class Application extends Illuminate\Foundation\Application
+class application extends Illuminate\Foundation\Application
 {
-    private $publicDirPath,
-        $publicUrlPath = '/';
+    private $publicDirPath;
+    private $publicUrlPath = '/';
 
     public function __construct(string $basePath = null)
     {
@@ -28,6 +28,7 @@ class Application extends Illuminate\Foundation\Application
      * Override this method so we can inject our own LoadConfiguration
      * class, which looks for any configurations that have been overridden
      * in the root's config.php file
+     *
      * @param array $bootstrappers
      */
     public function bootstrapWith(array $bootstrappers)
@@ -46,9 +47,6 @@ class Application extends Illuminate\Foundation\Application
         parent::bootstrapWith($bootstrappers);
     }
 
-    /**
-     *
-     */
     public function bindInterfaces()
     {
         $this->singleton(
@@ -69,8 +67,9 @@ class Application extends Illuminate\Foundation\Application
 
     /**
      * Override paths
+     *
+     * @param mixed $publicDirPath
      */
-
     public function setPublicPath($publicDirPath)
     {
         $this->publicDirPath = $publicDirPath;

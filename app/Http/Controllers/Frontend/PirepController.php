@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Exceptions\UserNotAtAirport;
 use App\Facades\Utils;
 use App\Http\Requests\CreatePirepRequest;
 use App\Http\Requests\UpdatePirepRequest;
@@ -30,22 +29,22 @@ use PirepStatus;
 
 /**
  * Class PirepController
- * @package App\Http\Controllers\Frontend
  */
 class PirepController extends Controller
 {
-    private $aircraftRepo,
-            $airlineRepo,
-            $fareSvc,
-            $geoSvc,
-            $pirepRepo,
-            $airportRepo,
-            $pirepFieldRepo,
-            $pirepSvc,
-            $userSvc;
+    private $aircraftRepo;
+    private $airlineRepo;
+    private $fareSvc;
+    private $geoSvc;
+    private $pirepRepo;
+    private $airportRepo;
+    private $pirepFieldRepo;
+    private $pirepSvc;
+    private $userSvc;
 
     /**
      * PirepController constructor.
+     *
      * @param AircraftRepository   $aircraftRepo
      * @param AirlineRepository    $airlineRepo
      * @param AirportRepository    $airportRepo
@@ -81,7 +80,10 @@ class PirepController extends Controller
 
     /**
      * Dropdown with aircraft grouped by subfleet
-     * @param null $user
+     *
+     * @param null  $user
+     * @param mixed $add_blank
+     *
      * @return array
      */
     public function aircraftList($user = null, $add_blank = false)
@@ -107,6 +109,7 @@ class PirepController extends Controller
 
     /**
      * Save any custom fields found
+     *
      * @param Pirep   $pirep
      * @param Request $request
      */
@@ -123,7 +126,7 @@ class PirepController extends Controller
                 'name'   => $field->name,
                 'slug'   => $field->slug,
                 'value'  => $request->input($field->slug),
-                'source' => PirepSource::MANUAL
+                'source' => PirepSource::MANUAL,
             ];
         }
 
@@ -133,8 +136,10 @@ class PirepController extends Controller
 
     /**
      * Save the fares that have been specified/saved
+     *
      * @param Pirep   $pirep
      * @param Request $request
+     *
      * @throws \Exception
      */
     protected function saveFares(Pirep $pirep, Request $request)
@@ -163,8 +168,10 @@ class PirepController extends Controller
 
     /**
      * @param Request $request
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     *
      * @throws \Prettus\Repository\Exceptions\RepositoryException
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index(Request $request)
     {
@@ -184,6 +191,7 @@ class PirepController extends Controller
 
     /**
      * @param $id
+     *
      * @return mixed
      */
     public function show($id)
@@ -204,7 +212,9 @@ class PirepController extends Controller
 
     /**
      * Return the fares form for a given aircraft
+     *
      * @param Request $request
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function fares(Request $request)
@@ -220,6 +230,7 @@ class PirepController extends Controller
 
     /**
      * Create a new flight report
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function create()
@@ -239,8 +250,10 @@ class PirepController extends Controller
 
     /**
      * @param CreatePirepRequest $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     *
      * @throws \Exception
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function store(CreatePirepRequest $request)
     {
@@ -251,7 +264,7 @@ class PirepController extends Controller
         $attrs = $request->all();
         $attrs['submit'] = strtolower($attrs['submit']);
 
-        if($attrs['submit'] === 'submit') {
+        if ($attrs['submit'] === 'submit') {
             # Are they allowed at this airport?
             if (setting('pilots.only_flights_from_current')
                 && Auth::user()->curr_airport_id !== $pirep->dpt_airport_id) {
@@ -305,13 +318,13 @@ class PirepController extends Controller
         // Depending on the button they selected, set an initial state
         // Can be saved as a draft or just submitted
         if ($attrs['submit'] === 'save') {
-            if(!$pirep->read_only) {
+            if (!$pirep->read_only) {
                 $pirep->state = PirepState::DRAFT;
             }
 
             $pirep->save();
             Flash::success('PIREP saved successfully.');
-        } else if ($attrs['submit'] === 'submit') {
+        } elseif ($attrs['submit'] === 'submit') {
             $this->pirepSvc->submit($pirep);
             Flash::success('PIREP submitted!');
         }
@@ -321,7 +334,9 @@ class PirepController extends Controller
 
     /**
      * Show the form for editing the specified Pirep.
-     * @param  int $id
+     *
+     * @param int $id
+     *
      * @return mixed
      */
     public function edit($id)
@@ -341,7 +356,7 @@ class PirepController extends Controller
 
         # set the custom fields
         foreach ($pirep->fields as $field) {
-            if($field->slug == null) {
+            if ($field->slug == null) {
                 $field->slug = str_slug($field->name);
             }
 
@@ -368,9 +383,11 @@ class PirepController extends Controller
     /**
      * @param                    $id
      * @param UpdatePirepRequest $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      * @throws \Exception
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function update($id, UpdatePirepRequest $request)
     {
@@ -399,12 +416,12 @@ class PirepController extends Controller
         $this->saveCustomFields($pirep, $request);
         $this->saveFares($pirep, $request);
 
-        if($attrs['submit'] === 'save') {
+        if ($attrs['submit'] === 'save') {
             Flash::success('PIREP saved successfully.');
-        } else if($attrs['submit'] === 'submit') {
+        } elseif ($attrs['submit'] === 'submit') {
             $this->pirepSvc->submit($pirep);
             Flash::success('PIREP submitted!');
-        } else if($attrs['submit'] === 'delete' || $attrs['submit'] === 'cancel') {
+        } elseif ($attrs['submit'] === 'delete' || $attrs['submit'] === 'cancel') {
             $this->pirepRepo->update([
                 'state'  => PirepState::CANCELLED,
                 'status' => PirepStatus::CANCELLED,
@@ -419,8 +436,10 @@ class PirepController extends Controller
 
     /**
      * Submit the PIREP
+     *
      * @param         $id
      * @param Request $request
+     *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function submit($id, Request $request)

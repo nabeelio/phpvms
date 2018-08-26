@@ -1,7 +1,5 @@
 <?php
-/**
- *
- */
+
 
 return [
     'avatarresize'    => 'Questo avatar sarà ridimensionato a :width x :height pixels',

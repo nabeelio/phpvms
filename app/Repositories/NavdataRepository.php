@@ -9,7 +9,6 @@ use Prettus\Repository\Traits\CacheableRepository;
 
 /**
  * Class NavdataRepository
- * @package App\Repositories
  */
 class NavdataRepository extends Repository implements CacheableInterface
 {

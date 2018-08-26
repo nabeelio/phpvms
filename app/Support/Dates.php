@@ -8,7 +8,9 @@ class Dates
 {
     /**
      * Get the list of months, given a start date
+     *
      * @param Carbon $start_date
+     *
      * @return array
      */
     public static function getMonthsList(Carbon $start_date)
@@ -28,7 +30,9 @@ class Dates
 
     /**
      * Return the start/end dates for a given month/year
+     *
      * @param $month YYYY-MM
+     *
      * @return array
      */
     public static function getMonthBoundary($month)
@@ -38,7 +42,7 @@ class Dates
 
         return [
             "$year-$month-01",
-            "$year-$month-$days"
+            "$year-$month-$days",
         ];
     }
 }

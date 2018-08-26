@@ -3,21 +3,18 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Interfaces\Controller;
-use App\Models\User;
 use App\Repositories\AirportRepository;
 use App\Repositories\FlightRepository;
 use Flash;
-use Illuminate\Database\QueryException;
 use Request;
 
 /**
  * Class HomeController
- * @package App\Http\Controllers\Frontend
  */
 class AirportController extends Controller
 {
-    private $airportRepo,
-            $flightRepo;
+    private $airportRepo;
+    private $flightRepo;
 
     public function __construct(
         AirportRepository $airportRepo,
@@ -29,6 +26,8 @@ class AirportController extends Controller
 
     /**
      * Show the airport
+     *
+     * @param mixed $id
      */
     public function show($id, Request $request)
     {
@@ -53,8 +52,8 @@ class AirportController extends Controller
             ])->all();
 
         return view('airports.show', [
-            'airport' => $airport,
-            'inbound_flights' => $inbound_flights,
+            'airport'          => $airport,
+            'inbound_flights'  => $inbound_flights,
             'outbound_flights' => $outbound_flights,
         ]);
     }

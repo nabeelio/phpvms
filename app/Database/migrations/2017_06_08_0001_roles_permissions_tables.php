@@ -8,7 +8,7 @@ class RolesPermissionsTables extends Migration
     /**
      * Run the migrations.
      *
-     * @return  void
+     * @return void
      */
     public function up()
     {
@@ -77,7 +77,7 @@ class RolesPermissionsTables extends Migration
             [
                 'id'           => 2,
                 'name'         => 'user',
-                'display_name' => 'Pilot'
+                'display_name' => 'Pilot',
             ],
         ];
 
@@ -87,7 +87,7 @@ class RolesPermissionsTables extends Migration
     /**
      * Reverse the migrations.
      *
-     * @return  void
+     * @return void
      */
     public function down()
     {

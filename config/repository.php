@@ -7,7 +7,6 @@
 |
 */
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Repository Pagination Limit Default
@@ -15,7 +14,7 @@ return [
     |
     */
     'pagination' => [
-        'limit' => 15
+        'limit' => 15,
     ],
 
     /*
@@ -30,11 +29,11 @@ return [
     JsonApiSerializer
 
     */
-    'fractal'    => [
-        'params'     => [
-            'include' => 'include'
+    'fractal' => [
+        'params' => [
+            'include' => 'include',
         ],
-        'serializer' => League\Fractal\Serializer\DataArraySerializer::class
+        'serializer' => League\Fractal\Serializer\DataArraySerializer::class,
     ],
 
     /*
@@ -43,7 +42,7 @@ return [
     |--------------------------------------------------------------------------
     |
     */
-    'cache'      => [
+    'cache' => [
         /*
          |--------------------------------------------------------------------------
          | Cache Status
@@ -52,7 +51,7 @@ return [
          | Enable or disable cache
          |
          */
-        'enabled'    => env('CACHE_ENABLED', false),
+        'enabled' => env('CACHE_ENABLED', false),
 
         /*
          |--------------------------------------------------------------------------
@@ -62,7 +61,7 @@ return [
          | Time of expiration cache
          |
          */
-        'minutes'    => 30,
+        'minutes' => 30,
 
         /*
          |--------------------------------------------------------------------------
@@ -82,7 +81,7 @@ return [
           |
           |
           */
-        'clean'      => [
+        'clean' => [
 
             /*
               |--------------------------------------------------------------------------
@@ -102,14 +101,14 @@ return [
               | delete : Clear Cache on delete Entry in repository
               |
               */
-            'on'      => [
+            'on' => [
                 'create' => true,
                 'update' => true,
                 'delete' => true,
-            ]
+            ],
         ],
 
-        'params'     => [
+        'params' => [
             /*
             |--------------------------------------------------------------------------
             | Skip Cache Params
@@ -119,7 +118,7 @@ return [
             | Ex: http://prettus.local/?search=lorem&skipCache=true
             |
             */
-            'skipCache' => 'skipCache'
+            'skipCache' => 'skipCache',
         ],
 
         /*
@@ -137,10 +136,10 @@ return [
        |
        | 'except'  =>['find'],
        */
-        'allowed'    => [
+        'allowed' => [
             'only'   => null,
-            'except' => null
-        ]
+            'except' => null,
+        ],
     ],
 
     /*
@@ -151,7 +150,7 @@ return [
     | Settings of request parameters names that will be used by Criteria
     |
     */
-    'criteria'   => [
+    'criteria' => [
         /*
         |--------------------------------------------------------------------------
         | Accepted Conditions
@@ -169,7 +168,7 @@ return [
         */
         'acceptedConditions' => [
             '=',
-            'like'
+            'like',
         ],
         /*
         |--------------------------------------------------------------------------
@@ -203,14 +202,14 @@ return [
         |   http://prettus.local/?search=lorem&orderBy=id&sortedBy=desc
         |
         */
-        'params'             => [
+        'params' => [
             'search'       => 'search',
             'searchFields' => 'searchFields',
             'filter'       => 'filter',
             'orderBy'      => 'orderBy',
             'sortedBy'     => 'sortedBy',
-            'with'         => 'with'
-        ]
+            'with'         => 'with',
+        ],
     ],
     /*
     |--------------------------------------------------------------------------
@@ -218,20 +217,20 @@ return [
     |--------------------------------------------------------------------------
     |
     */
-    'generator'  => [
+    'generator' => [
         'basePath'      => app_path(),
         'rootNamespace' => 'App\\',
         'paths'         => [
-            'models'       => 'Models',
-            'repositories' => 'Repositories',
-            'interfaces'   => 'Repositories',
-            'transformers' => 'Transformers',
-            'presenters'   => 'Presenters',
-            'validators'   => 'Validators',
-            'controllers'  => 'Http/Controllers',
-            'provider'     => 'RepositoryServiceProvider',
-            'criteria'     => 'Criteria',
-            'stubsOverridePath' => app_path()
-        ]
-    ]
+            'models'            => 'Models',
+            'repositories'      => 'Repositories',
+            'interfaces'        => 'Repositories',
+            'transformers'      => 'Transformers',
+            'presenters'        => 'Presenters',
+            'validators'        => 'Validators',
+            'controllers'       => 'Http/Controllers',
+            'provider'          => 'RepositoryServiceProvider',
+            'criteria'          => 'Criteria',
+            'stubsOverridePath' => app_path(),
+        ],
+    ],
 ];

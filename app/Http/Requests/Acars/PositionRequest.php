@@ -9,7 +9,6 @@ use Auth;
 
 /**
  * Class PositionRequest
- * @package App\Http\Requests\Acars
  */
 class PositionRequest extends FormRequest
 {

@@ -26,8 +26,6 @@ use Illuminate\Queue\SerializesModels;
  * will filter out expenses that only apply to the current process
  *
  * The event will have a copy of the PIREP model, if it's applicable
- *
- * @package App\Events
  */
 class Expenses
 {

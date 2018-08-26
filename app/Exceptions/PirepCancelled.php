@@ -6,7 +6,6 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
  * Class PirepCancelled
- * @package App\Exceptions
  */
 class PirepCancelled extends HttpException
 {

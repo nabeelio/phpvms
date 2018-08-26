@@ -14,17 +14,17 @@ use Log;
 
 /**
  * Class FlightService
- * @package App\Services
  */
 class FlightService extends Service
 {
-    private $fareSvc,
-        $flightRepo,
-        $navDataRepo,
-        $userSvc;
+    private $fareSvc;
+    private $flightRepo;
+    private $navDataRepo;
+    private $userSvc;
 
     /**
      * FlightService constructor.
+     *
      * @param FareService       $fareSvc
      * @param FlightRepository  $flightRepo
      * @param NavdataRepository $navdataRepo
@@ -35,8 +35,7 @@ class FlightService extends Service
         FlightRepository $flightRepo,
         NavdataRepository $navdataRepo,
         UserService $userSvc
-    )
-    {
+    ) {
         $this->fareSvc = $fareSvc;
         $this->flightRepo = $flightRepo;
         $this->navDataRepo = $navdataRepo;
@@ -45,7 +44,9 @@ class FlightService extends Service
 
     /**
      * Filter out any flights according to different settings
+     *
      * @param $user
+     *
      * @return FlightRepository
      */
     public function filterFlights($user)
@@ -61,15 +62,17 @@ class FlightService extends Service
 
     /**
      * Filter out subfleets to only include aircraft that a user has access to
+     *
      * @param $user
      * @param $flight
+     *
      * @return mixed
      */
     public function filterSubfleets($user, $flight)
     {
         $subfleets = $flight->subfleets;
 
-        /**
+        /*
          * Only allow aircraft that the user has access to in their rank
          */
         if (setting('pireps.restrict_aircraft_to_rank', false)) {
@@ -81,7 +84,7 @@ class FlightService extends Service
             });
         }
 
-        /**
+        /*
          * Only allow aircraft that are at the current departure airport
          */
         if (setting('pireps.only_aircraft_at_dpt_airport', false)) {
@@ -103,7 +106,9 @@ class FlightService extends Service
 
     /**
      * Check if this flight has a duplicate already
+     *
      * @param Flight $flight
+     *
      * @return bool
      */
     public function isFlightDuplicate(Flight $flight)
@@ -140,7 +145,9 @@ class FlightService extends Service
 
     /**
      * Delete a flight, and all the user bids, etc associated with it
+     *
      * @param Flight $flight
+     *
      * @throws \Exception
      */
     public function deleteFlight(Flight $flight): void
@@ -152,6 +159,7 @@ class FlightService extends Service
 
     /**
      * Update any custom PIREP fields
+     *
      * @param Flight $flight
      * @param array  $field_values
      */
@@ -164,7 +172,7 @@ class FlightService extends Service
                     'name'      => $fv['name'],
                 ],
                 [
-                    'value' => $fv['value']
+                    'value' => $fv['value'],
                 ]
             );
         }
@@ -172,7 +180,9 @@ class FlightService extends Service
 
     /**
      * Return all of the navaid points as a collection
+     *
      * @param Flight $flight
+     *
      * @return \Illuminate\Support\Collection
      */
     public function getRoute(Flight $flight)
@@ -198,10 +208,13 @@ class FlightService extends Service
 
     /**
      * Allow a user to bid on a flight. Check settings and all that good stuff
+     *
      * @param Flight $flight
      * @param User   $user
-     * @return mixed
+     *
      * @throws \App\Exceptions\BidExists
+     *
+     * @return mixed
      */
     public function addBid(Flight $flight, User $user)
     {
@@ -256,6 +269,7 @@ class FlightService extends Service
 
     /**
      * Remove a bid from a given flight
+     *
      * @param Flight $flight
      * @param User   $user
      */
@@ -263,7 +277,7 @@ class FlightService extends Service
     {
         $bids = Bid::where([
             'flight_id' => $flight->id,
-            'user_id'   => $user->id
+            'user_id'   => $user->id,
         ])->get();
 
         foreach ($bids as $bid) {

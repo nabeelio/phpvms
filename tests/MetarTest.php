@@ -76,7 +76,6 @@ class MetarTest extends TestCase
         $this->assertEquals(0.87, $parsed['barometer_in']);
 
         $this->assertEquals('AO2 PK WND 27045/2128 PRESRR SLP018 T01221044', $parsed['remarks']);
-
     }
 
     public function testMetarTrends()
@@ -90,7 +89,6 @@ class MetarTest extends TestCase
          * Altimeter is 29.70. Remarks: automated station with precipitation discriminator sea level
          * pressure 1005.6 hectopascals hourly temp 7.8°C dewpoint 6.7°C
          */
-
         $parsed = Metar::parse($metar);
     }
 

@@ -6,7 +6,6 @@ use App\Interfaces\FormRequest;
 
 /**
  * Class PrefileRequest
- * @package App\Http\Requests\Acars
  */
 class FieldsRequest extends FormRequest
 {

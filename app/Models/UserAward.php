@@ -6,7 +6,6 @@ use App\Interfaces\Model;
 
 /**
  * Class UserAward
- * @package App\Models
  */
 class UserAward extends Model
 {
@@ -14,7 +13,7 @@ class UserAward extends Model
 
     protected $fillable = [
         'user_id',
-        'award_id'
+        'award_id',
     ];
 
     /**

@@ -7,13 +7,13 @@ use PhpUnitsOfMeasure\PhysicalQuantity\Velocity as VelocityUnit;
 
 /**
  * Class Velocity
- * @package App\Support\Units
  */
 class Velocity extends Unit
 {
     /**
      * @param float  $value
      * @param string $unit
+     *
      * @throws \PhpUnitsOfMeasure\Exception\NonNumericValue
      * @throws \PhpUnitsOfMeasure\Exception\NonStringUnitName
      */

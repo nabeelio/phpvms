@@ -9,7 +9,6 @@ use Illuminate\Queue\SerializesModels;
 
 /**
  * Class UserAccepted
- * @package App\Events
  */
 class UserAccepted
 {
@@ -19,6 +18,7 @@ class UserAccepted
 
     /**
      * UserAccepted constructor.
+     *
      * @param User $user
      */
     public function __construct(User $user)

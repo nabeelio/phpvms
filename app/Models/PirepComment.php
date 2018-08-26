@@ -9,7 +9,6 @@ use App\Interfaces\Model;
  *
  * @property string pirep_id
  * @property int user_id
- * @package App\Models
  */
 class PirepComment extends Model
 {
