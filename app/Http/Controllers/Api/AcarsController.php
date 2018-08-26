@@ -147,11 +147,19 @@ class AcarsController extends Controller
             $position['type'] = AcarsType::FLIGHT_PATH;
 
             if (array_key_exists('sim_time', $position)) {
-                $position['sim_time'] = Carbon::createFromTimeString($position['sim_time']);
+                if ($position['sim_time'] instanceof \DateTime) {
+                    $position['sim_time'] = Carbon::instance($position['sim_time']);
+                } else {
+                    $position['sim_time'] = Carbon::createFromTimeString($position['sim_time']);
+                }
             }
 
             if (array_key_exists('created_at', $position)) {
-                $position['created_at'] = Carbon::createFromTimeString($position['created_at']);
+                if ($position['created_at'] instanceof \DateTime) {
+                    $position['created_at'] = Carbon::instance($position['created_at']);
+                } else {
+                    $position['created_at'] = Carbon::createFromTimeString($position['created_at']);
+                }
             }
 
             $update = Acars::create($position);

@@ -78,6 +78,12 @@ class MetarTest extends TestCase
         $this->assertEquals('AO2 PK WND 27045/2128 PRESRR SLP018 T01221044', $parsed['remarks']);
     }
 
+    public function testMetar2()
+    {
+        $metar = 'EGLL 261250Z AUTO 17014KT 8000 -RA BKN010/// '
+                .'BKN016/// OVC040/// //////TCU 13/12 Q1008 TEMPO 4000 RA';
+    }
+
     public function testMetarTrends()
     {
         $metar =
@@ -116,4 +122,5 @@ class MetarTest extends TestCase
         $this->assertEquals('VFR', $metar['category']);
         $this->assertNotNull($metar);
     }
+
 }
