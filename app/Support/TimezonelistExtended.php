@@ -14,19 +14,20 @@ class TimezonelistExtended extends Timezonelist
      * @param string $continent
      * @param bool   $htmlencode
      *
+     * @throws \Exception
+     * @throws \Exception
+     *
      * @return string
-     * @throws \Exception
-     * @throws \Exception
      */
     protected function formatTimezone($timezone, $continent, $htmlencode = true)
     {
         $time = new \DateTimeImmutable(null, new DateTimeZone($timezone));
         $offset = $time->format('P');
         if ($htmlencode) {
-            $offset = str_replace(['-', '+'], array(' &minus; ', ' &plus; '), $offset);
+            $offset = str_replace(['-', '+'], [' &minus; ', ' &plus; '], $offset);
         }
         $timezone = substr($timezone, \strlen($continent) + 1);
-        $timezone = str_replace(['St_', '_'], array('St. ', ' '), $timezone);
+        $timezone = str_replace(['St_', '_'], ['St. ', ' '], $timezone);
 
         return '(GMT/UTC'.$offset.')'.self::WHITESPACE_SEP.$timezone;
     }

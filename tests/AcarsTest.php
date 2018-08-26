@@ -556,6 +556,7 @@ class AcarsTest extends TestCase
 
     /**
      * Test publishing multiple, batched updates
+     *
      * @throws Exception
      */
     public function testMultipleAcarsPositionUpdates()

@@ -237,7 +237,7 @@ class FlightService extends Service
                 throw new BidExists('A bid already exists for this flight');
             }
         } else {
-            /** @noinspection NestedPositiveIfStatementsInspection */
+            /* @noinspection NestedPositiveIfStatementsInspection */
             if ($flight->has_bid === true) {
                 Log::info('Bid exists, flight='.$flight->id.'; no entry in bids table, cleaning up');
             }

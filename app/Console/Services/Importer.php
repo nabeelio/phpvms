@@ -56,7 +56,7 @@ class Importer
      * CONSTANTS
      */
     public const BATCH_READ_ROWS = 300;
-    public const SUBFLEET_NAME   = 'Imported Aircraft';
+    public const SUBFLEET_NAME = 'Imported Aircraft';
 
     /**
      * Importer constructor.
@@ -145,7 +145,7 @@ class Importer
     protected function info($message)
     {
         if (\is_array($message)) {
-            /** @noinspection ForgottenDebugOutputInspection */
+            /* @noinspection ForgottenDebugOutputInspection */
             print_r($message);
         } else {
             $this->log->writeln('<info>'.$message.'</info>');

@@ -81,6 +81,7 @@ class Utils extends Facade
 
     /**
      * @param string $minutes
+     *
      * @return array
      */
     public static function minutesToTimeParts($minutes): array
@@ -102,8 +103,9 @@ class Utils extends Facade
      *
      * @param int $seconds
      *
-     * @return array['h', 'm', 's']
      * @throws \Exception
+     *
+     * @return array['h', 'm', 's']
      */
     public static function secondsToTimeParts($seconds): array
     {
@@ -126,8 +128,9 @@ class Utils extends Facade
      * @param int  $seconds
      * @param bool $incl_sec
      *
-     * @return string
      * @throws \Exception
+     *
+     * @return string
      */
     public static function secondsToTimeString($seconds, $incl_sec = false): string
     {

@@ -249,7 +249,7 @@ class AcarsReplay extends Command
         if ($this->option('write-all')) {
             $this->info('In "dump-all" mode, just writing it all in');
         } else {
-            /** @noinspection NestedPositiveIfStatementsInspection */
+            /* @noinspection NestedPositiveIfStatementsInspection */
             if (!$manual_mode) {
                 $this->info('Going to send updates every 10s');
             } else {

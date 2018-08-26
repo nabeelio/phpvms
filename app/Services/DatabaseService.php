@@ -70,7 +70,7 @@ class DatabaseService extends Service
         // see if this table uses a UUID as the PK
         // if no ID is specified
         if (\in_array($table, $this->uuid_tables, true)) {
-            /** @noinspection NestedPositiveIfStatementsInspection */
+            /* @noinspection NestedPositiveIfStatementsInspection */
             if (!array_key_exists('id', $row)) {
                 $row['id'] = Uuid::generate()->string;
             }

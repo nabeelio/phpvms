@@ -168,8 +168,6 @@ class Pirep extends Model
         if (array_key_exists('block_off_time', $this->attributes)) {
             return new Carbon($this->attributes['block_off_time']);
         }
-
-        return null;
     }
 
     /**
@@ -182,8 +180,6 @@ class Pirep extends Model
         if (array_key_exists('block_on_time', $this->attributes)) {
             return new Carbon($this->attributes['block_on_time']);
         }
-
-        return null;
     }
 
     /**
@@ -196,8 +192,6 @@ class Pirep extends Model
         if (array_key_exists('submitted_at', $this->attributes)) {
             return new Carbon($this->attributes['submitted_at']);
         }
-
-        return null;
     }
 
     /**

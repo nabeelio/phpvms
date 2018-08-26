@@ -12,7 +12,6 @@ use App\Models\Enums\PirepState;
 use App\Repositories\Criteria\WhereCriteria;
 use App\Repositories\FlightRepository;
 use App\Repositories\PirepRepository;
-use App\Repositories\SubfleetRepository;
 use App\Repositories\UserRepository;
 use App\Services\FlightService;
 use App\Services\UserService;
@@ -35,11 +34,11 @@ class UserController extends Controller
     /**
      * UserController constructor.
      *
-     * @param FlightRepository   $flightRepo
-     * @param FlightService      $flightSvc
-     * @param PirepRepository    $pirepRepo
-     * @param UserRepository     $userRepo
-     * @param UserService        $userSvc
+     * @param FlightRepository $flightRepo
+     * @param FlightService    $flightSvc
+     * @param PirepRepository  $pirepRepo
+     * @param UserRepository   $userRepo
+     * @param UserService      $userSvc
      */
     public function __construct(
         FlightRepository $flightRepo,

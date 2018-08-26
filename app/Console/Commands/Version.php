@@ -16,6 +16,7 @@ class Version extends Command
      * Create the version number that gets written out
      *
      * @param mixed $cfg
+     *
      * @return bool|string
      */
     protected function createVersionNumber($cfg)

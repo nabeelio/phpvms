@@ -19,7 +19,6 @@ use App\Models\Navdata;
 use App\Models\Pirep;
 use App\Models\PirepFieldValue;
 use App\Models\User;
-use App\Repositories\PirepRepository;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Log;
@@ -35,8 +34,8 @@ class PirepService extends Service
     /**
      * PirepService constructor.
      *
-     * @param GeoService      $geoSvc
-     * @param UserService     $pilotSvc
+     * @param GeoService  $geoSvc
+     * @param UserService $pilotSvc
      */
     public function __construct(
         GeoService $geoSvc,
@@ -196,6 +195,7 @@ class PirepService extends Service
      * Submit the PIREP. Figure out its default state
      *
      * @param Pirep $pirep
+     *
      * @throws \Exception
      */
     public function submit(Pirep $pirep)
@@ -302,8 +302,9 @@ class PirepService extends Service
     /**
      * @param Pirep $pirep
      *
-     * @return Pirep
      * @throws \Exception
+     *
+     * @return Pirep
      */
     public function accept(Pirep $pirep): Pirep
     {

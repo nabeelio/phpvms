@@ -10,5 +10,4 @@ use Illuminate\Http\Resources\Json\Resource;
  */
 class AcarsLog extends Resource
 {
-
 }

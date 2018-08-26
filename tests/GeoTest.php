@@ -35,6 +35,7 @@ class GeoTest extends TestCase
 
     /**
      * Make sure the departure airports/sid/star are all filtered out
+     *
      * @throws Exception
      */
     public function testGetCoords()

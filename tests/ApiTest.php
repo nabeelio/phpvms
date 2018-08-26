@@ -137,6 +137,7 @@ class ApiTest extends TestCase
 
     /**
      * Test getting the subfleets
+     *
      * @throws Exception
      */
     public function testGetSubfleets()
