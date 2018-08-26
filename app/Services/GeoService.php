@@ -253,6 +253,9 @@ class GeoService extends Service
      * Return a single feature point for the
      *
      * @param mixed $pireps
+     *
+     * @return mixed
+     * @return \GeoJson\Feature\FeatureCollection
      */
     public function getFeatureForLiveFlights($pireps)
     {

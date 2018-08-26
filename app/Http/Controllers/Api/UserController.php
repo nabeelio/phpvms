@@ -29,7 +29,6 @@ class UserController extends Controller
     private $flightRepo;
     private $flightSvc;
     private $pirepRepo;
-    private $subfleetRepo;
     private $userRepo;
     private $userSvc;
 
@@ -39,7 +38,6 @@ class UserController extends Controller
      * @param FlightRepository   $flightRepo
      * @param FlightService      $flightSvc
      * @param PirepRepository    $pirepRepo
-     * @param SubfleetRepository $subfleetRepo
      * @param UserRepository     $userRepo
      * @param UserService        $userSvc
      */
@@ -47,14 +45,12 @@ class UserController extends Controller
         FlightRepository $flightRepo,
         FlightService $flightSvc,
         PirepRepository $pirepRepo,
-        SubfleetRepository $subfleetRepo,
         UserRepository $userRepo,
         UserService $userSvc
     ) {
         $this->flightRepo = $flightRepo;
         $this->flightSvc = $flightSvc;
         $this->pirepRepo = $pirepRepo;
-        $this->subfleetRepo = $subfleetRepo;
         $this->userRepo = $userRepo;
         $this->userSvc = $userSvc;
     }

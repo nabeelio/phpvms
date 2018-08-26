@@ -104,6 +104,7 @@ class Flight extends Model
      */
     public static function findByDays(array $days)
     {
+        /** @noinspection DynamicInvocationViaScopeResolutionInspection */
         $flights = self::where('active', true);
         foreach ($days as $day) {
             $flights = $flights->where('days', '&', $day);
@@ -139,7 +140,7 @@ class Flight extends Model
     public function getDistanceAttribute()
     {
         if (!array_key_exists('distance', $this->attributes)) {
-            return;
+            return 0;
         }
 
         try {

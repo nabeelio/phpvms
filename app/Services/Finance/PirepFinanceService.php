@@ -24,7 +24,6 @@ class PirepFinanceService extends Service
     private $expenseRepo;
     private $fareSvc;
     private $journalRepo;
-    private $pirepSvc;
 
     /**
      * FinanceService constructor.
@@ -32,18 +31,15 @@ class PirepFinanceService extends Service
      * @param ExpenseRepository $expenseRepo
      * @param FareService       $fareSvc
      * @param JournalRepository $journalRepo
-     * @param PirepService      $pirepSvc
      */
     public function __construct(
         ExpenseRepository $expenseRepo,
         FareService $fareSvc,
-        JournalRepository $journalRepo,
-        PirepService $pirepSvc
+        JournalRepository $journalRepo
     ) {
         $this->expenseRepo = $expenseRepo;
         $this->fareSvc = $fareSvc;
         $this->journalRepo = $journalRepo;
-        $this->pirepSvc = $pirepSvc;
     }
 
     /**
@@ -288,6 +284,7 @@ class PirepFinanceService extends Service
                     .$expense->name.'", A='.$expense->amount);
 
                 // If an airline_id is filled, then see if it matches
+                /** @noinspection NotOptimalIfConditionsInspection */
                 if (filled($expense->airline_id) && $expense->airline_id !== $pirep->airline_id) {
                     Log::info('Finance: Expense has an airline ID and it doesn\'t match, skipping');
                     continue;

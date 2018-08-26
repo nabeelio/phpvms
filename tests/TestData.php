@@ -57,6 +57,7 @@ trait TestData
      * @param null $airport_id
      *
      * @return mixed
+     * @throws \Exception
      */
     public function createSubfleetWithAircraft($aircraft_count = null, $airport_id = null)
     {

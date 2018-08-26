@@ -100,7 +100,7 @@ class FlightController extends Controller
         }
 
         Log::info('PIREP Custom Fields', $custom_fields);
-        $this->flightSvc->updateCustomFields($flight->id, $custom_fields);
+        $this->flightSvc->updateCustomFields($flight, $custom_fields);
     }
 
     /**
@@ -483,6 +483,9 @@ class FlightController extends Controller
      * Get all the fares that haven't been assigned to a given subfleet
      *
      * @param mixed $flight
+     *
+     * @return mixed
+     * @return array
      */
     protected function getAvailFares($flight)
     {

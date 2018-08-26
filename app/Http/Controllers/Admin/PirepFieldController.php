@@ -129,6 +129,7 @@ class PirepFieldController extends Controller
      *
      * @param mixed $id
      *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
     public function update($id, UpdatePirepFieldRequest $request)

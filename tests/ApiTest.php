@@ -71,6 +71,9 @@ class ApiTest extends TestCase
         $this->assertTrue(array_key_exists('user', $response['data'][0]));
     }
 
+    /**
+     * @throws Exception
+     */
     public function testGetAirlines()
     {
         $size = \random_int(5, 10);
@@ -134,6 +137,7 @@ class ApiTest extends TestCase
 
     /**
      * Test getting the subfleets
+     * @throws Exception
      */
     public function testGetSubfleets()
     {

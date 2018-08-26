@@ -10,15 +10,5 @@ use Illuminate\Http\Resources\Json\Resource;
  */
 class AcarsLog extends Resource
 {
-    public function toArray($request)
-    {
-        return parent::toArray($request);
-        /*return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'log' => $this->log,
-            'lat' => $this->lat,
-            'lon' => $this->lon,
-        ];*/
-    }
+
 }

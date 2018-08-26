@@ -54,7 +54,10 @@ class DownloadController extends Controller
     /**
      * Show the application dashboard.
      *
-     * @param mixed $id
+     * @param string $id
+     *
+     * @return mixed
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Symfony\Component\HttpFoundation\StreamedResponse
      */
     public function show($id)
     {

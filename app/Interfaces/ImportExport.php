@@ -51,7 +51,7 @@ class ImportExport
      *
      * @param $code
      *
-     * @return Airline
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function getAirline($code)
     {

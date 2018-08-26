@@ -45,7 +45,7 @@ class DashboardController extends Controller
      * S3 and then using the semver library to do the comparison. Just show
      * a session flash file on this page that'll get cleared right away
      *
-     * @throws \RuntimeException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     protected function checkNewVersion()
     {
@@ -65,7 +65,10 @@ class DashboardController extends Controller
     /**
      * Show the admin dashboard
      *
-     * @throws \RuntimeException
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function index(Request $request)
     {

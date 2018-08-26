@@ -438,6 +438,7 @@ class Metar implements \ArrayAccess
         if (array_key_exists('cavok', $this->result) && $this->result['cavok']) {
             $this->result['category'] = 'VFR';
         } else {
+            /** @noinspection NestedPositiveIfStatementsInspection */
             if (array_key_exists('cloud_height', $this->result) && array_key_exists('visibility', $this->result)) {
                 if ($this->result['cloud_height']['ft'] > 3000 && $this->result['visibility']['nmi'] > 5) {
                     $this->result['category'] = 'VFR';
@@ -566,6 +567,7 @@ class Metar implements \ArrayAccess
      * Decodes TAF code if present.
      *
      * @param mixed $part
+     * @return bool
      */
     private function get_taf($part)
     {
@@ -770,6 +772,7 @@ class Metar implements \ArrayAccess
         if ($found[1] === 'CAVOK' || $found[1] === '9999') {
             $this->set_result_value('visibility', new Distance(10000, 'm'));
             $this->set_result_value('visibility_report', 'Greater than 10 km');
+            /** @noinspection NotOptimalIfConditionsInspection */
             if ($found[1] === 'CAVOK') {
                 $this->set_result_value('cavok', true);
                 $this->method += 4; // can skip the next 4 methods: visibility_min, runway_vr, present_weather, clouds
@@ -887,7 +890,7 @@ class Metar implements \ArrayAccess
         ];
 
         // Runway past tendency
-        if (isset($found[8]) && isset(static::$rvr_tendency_codes[$found[8]])) {
+        if (isset($found[8], static::$rvr_tendency_codes[$found[8]])) {
             $observed['tendency'] = $found[8];
         }
 
@@ -1002,7 +1005,7 @@ class Metar implements \ArrayAccess
             }
         }
         // Type
-        if (isset($found[6]) && !empty($found[6]) && isset(static::$cloud_type_codes[$found[6]]) && $found[4] != 'VV') {
+        if (isset($found[6], static::$cloud_type_codes[$found[6]]) && !empty($found[6]) && $found[4] !== 'VV') {
             $observed['type'] = $found[6];
         }
 
@@ -1204,13 +1207,13 @@ class Metar implements \ArrayAccess
 
             // Build runways report
             $report = [];
-            if (null !== $observed['deposits']) {
+            if ($observed['deposits'] !== null) {
                 $report[] = static::$runway_deposits_codes[$observed['deposits']];
                 if (null !== $observed['deposits_extent']) {
                     $report[] = 'contamination '.static::$runway_deposits_extent_codes[$observed['deposits_extent']];
                 }
 
-                if (null !== $observed['deposits_depth']) {
+                if ($observed['deposits_depth'] !== null) {
                     if ($observed['deposits_depth'] === '99') {
                         $report[] = 'runway closed';
                     } elseif (isset(static::$runway_deposits_depth_codes[$observed['deposits_depth']])) {
@@ -1221,7 +1224,7 @@ class Metar implements \ArrayAccess
                 }
             }
 
-            if (null !== $observed['friction']) {
+            if ($observed['friction'] !== null) {
                 if (isset(static::$runway_friction_codes[$observed['friction']])) {
                     $report[] = 'a braking action is '.static::$runway_friction_codes[$observed['friction']];
                 } else {
@@ -1385,7 +1388,7 @@ class Metar implements \ArrayAccess
         while ($this->part < \count($this->raw_parts)) {
             if (preg_match($r, $this->raw_parts[$this->part], $found)) {
                 // Get trend flag
-                if (isset($found[2]) && isset(static::$trends_flag_codes[$found[2]])) {
+                if (isset($found[2], static::$trends_flag_codes[$found[2]])) {
                     $trend['flag'] = $found[2];
                 } // Get PROBpp formatted period
 
@@ -1393,7 +1396,7 @@ class Metar implements \ArrayAccess
                     $trend['probability'] = $found[4];
                 } // Get AT, FM, TL formatted period
 
-                elseif (isset($found[8]) && isset(static::$trends_time_codes[$found[5]])) {
+                elseif (isset($found[8], static::$trends_time_codes[$found[5]])) {
                     $trend['period']['flag'] = $found[5];
                     if (!empty($found[6])) {
                         $trend['period']['day'] = (int) $found[6];
@@ -1512,7 +1515,7 @@ class Metar implements \ArrayAccess
 
         $remarks = [];
         // Get all parts after
-        while ($this->part < count($this->raw_parts)) {
+        while ($this->part < \count($this->raw_parts)) {
             if (isset($this->raw_parts[$this->part])) {
                 $remarks[] = $this->raw_parts[$this->part];
             }
@@ -1582,11 +1585,11 @@ class Metar implements \ArrayAccess
                 }
             }
 
-            if (null !== $observed['characteristics']) {
+            if ($observed['characteristics'] !== null) {
                 $report[] = static::$weather_char_codes[$observed['characteristics']];
             }
 
-            if (null !== $observed['types']) {
+            if ($observed['types'] !== null) {
                 foreach ($observed['types'] as $code) {
                     $report[] = static::$weather_type_codes[$code];
                 }

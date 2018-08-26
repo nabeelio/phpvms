@@ -14,6 +14,7 @@ class ICAO
      * @param null $country
      *
      * @return string
+     * @throws \Exception
      */
     public static function createHexCode($country = null)
     {

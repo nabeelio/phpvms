@@ -3,13 +3,10 @@
 namespace Modules\Vacentral\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Database\Eloquent\Factory;
-use Route;
-
+use App\Services\ModuleService;
 
 class AppServiceProvider extends ServiceProvider
 {
-    protected $defer = false;
     protected $moduleSvc;
 
     /**
@@ -17,7 +14,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->moduleSvc = app('App\Services\ModuleService');
+        $this->moduleSvc = app(ModuleService::class);
         $this->registerConfig();
     }
 

@@ -111,7 +111,7 @@ if (!function_exists('skin_view')) {
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    function skin_view($template, array $vars = [], $merge_data = [])
+    function skin_view($template, array $vars = [], array $merge_data = [])
     {
         // Add the current skin name so we don't need to hardcode it in the templates
         // Makes it a bit easier to create a new skin by modifying an existing one
@@ -149,7 +149,7 @@ if (!function_exists('setting')) {
  * set
  */
 if (!function_exists('public_asset')) {
-    function public_asset($path, $parameters = [], $secure = null)
+    function public_asset($path, array $parameters = [], $secure = null)
     {
         $publicBaseUrl = app()->publicUrlPath();
         $path = $publicBaseUrl.$path;
@@ -174,7 +174,7 @@ if (!function_exists('show_datetime')) {
      */
     function show_datetime(\Carbon\Carbon $date = null)
     {
-        if (empty($date)) {
+        if ($date === null) {
             return '-';
         }
 

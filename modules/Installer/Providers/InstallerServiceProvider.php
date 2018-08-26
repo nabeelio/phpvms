@@ -2,14 +2,13 @@
 
 namespace Modules\Installer\Providers;
 
+use App\Services\ModuleService;
 use Illuminate\Database\Eloquent\Factory;
 use Illuminate\Support\ServiceProvider;
 use Route;
 
-
 class InstallerServiceProvider extends ServiceProvider
 {
-    protected $defer = false;
     protected $moduleSvc;
 
     /**
@@ -17,7 +16,7 @@ class InstallerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->moduleSvc = app('App\Services\ModuleService');
+        $this->moduleSvc = app(ModuleService::class);
 
         $this->registerRoutes();
         $this->registerTranslations();
@@ -78,9 +77,15 @@ class InstallerServiceProvider extends ServiceProvider
             $sourcePath => $viewPath
         ],'views');
 
-        $this->loadViewsFrom(array_merge(array_map(function ($path) {
-            return $path . '/modules/installer';
-        }, \Config::get('view.paths')), [$sourcePath]), 'installer');
+        $paths = array_map(
+            function ($path) {
+                return $path.'/modules/installer';
+            },
+            \Config::get('view.paths')
+        );
+
+        $paths[] = $sourcePath;
+        $this->loadViewsFrom($paths, 'installer');
     }
 
     /**
@@ -111,7 +116,7 @@ class InstallerServiceProvider extends ServiceProvider
     /**
      * Get the services provided by the provider.
      */
-    public function provides()
+    public function provides(): array
     {
         return [];
     }

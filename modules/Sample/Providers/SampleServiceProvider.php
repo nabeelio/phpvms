@@ -2,14 +2,13 @@
 
 namespace Modules\Sample\Providers;
 
+use App\Services\ModuleService;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
 use Route;
 
-
 class SampleServiceProvider extends ServiceProvider
 {
-    protected $defer = false;
     protected $moduleSvc;
 
     /**
@@ -17,7 +16,7 @@ class SampleServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->moduleSvc = app('App\Services\ModuleService');
+        $this->moduleSvc = app(ModuleService::class);
 
         $this->registerRoutes();
         $this->registerTranslations();
@@ -121,9 +120,15 @@ class SampleServiceProvider extends ServiceProvider
             $sourcePath => $viewPath
         ],'views');
 
-        $this->loadViewsFrom(array_merge(array_map(function ($path) {
-            return $path . '/modules/sample';
-        }, \Config::get('view.paths')), [$sourcePath]), 'sample');
+        $paths = array_map(
+            function ($path) {
+                return $path.'/modules/sample';
+            },
+            \Config::get('view.paths')
+        );
+
+        $paths[] = $sourcePath;
+        $this->loadViewsFrom($paths, 'sample');
     }
 
     /**
@@ -154,7 +159,7 @@ class SampleServiceProvider extends ServiceProvider
     /**
      * Get the services provided by the provider.
      */
-    public function provides()
+    public function provides(): array
     {
         return [];
     }

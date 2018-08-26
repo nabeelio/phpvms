@@ -28,6 +28,9 @@ class AirportController extends Controller
      * Show the airport
      *
      * @param mixed $id
+     *
+     * @return mixed
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
      */
     public function show($id, Request $request)
     {

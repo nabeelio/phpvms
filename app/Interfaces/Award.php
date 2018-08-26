@@ -96,7 +96,7 @@ abstract class Award
                 $e->getTrace()
             );
 
-            return;
+            return false;
         }
 
         return $award;

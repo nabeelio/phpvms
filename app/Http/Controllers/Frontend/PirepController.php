@@ -284,6 +284,7 @@ class PirepController extends Controller
             }
 
             // is the aircraft in the right place?
+            /** @noinspection NotOptimalIfConditionsInspection */
             if (setting('pireps.only_aircraft_at_dpt_airport')
                 && $pirep->aircraft_id !== $pirep->dpt_airport_id) {
                 return $this->flashError(
@@ -356,7 +357,7 @@ class PirepController extends Controller
 
         // set the custom fields
         foreach ($pirep->fields as $field) {
-            if ($field->slug == null) {
+            if ($field->slug === null) {
                 $field->slug = str_slug($field->name);
             }
 

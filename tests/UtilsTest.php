@@ -14,6 +14,9 @@ class UtilsTest extends TestCase
         $this->assertNotNull($carbon);
     }
 
+    /**
+     * @throws Exception
+     */
     public function testSecondsToTimeParts()
     {
         $t = Utils::secondsToTimeParts(3600);

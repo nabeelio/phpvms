@@ -43,7 +43,7 @@ class Importer
     /**
      * @var array
      */
-    private $creds = [];
+    private $creds;
 
     /**
      * Hold the instance of the console logger
@@ -55,8 +55,8 @@ class Importer
     /**
      * CONSTANTS
      */
-    const BATCH_READ_ROWS = 300;
-    const SUBFLEET_NAME = 'Imported Aircraft';
+    public const BATCH_READ_ROWS = 300;
+    public const SUBFLEET_NAME   = 'Imported Aircraft';
 
     /**
      * Importer constructor.
@@ -140,11 +140,12 @@ class Importer
     }
 
     /**
-     * @param string $message
+     * @param string|array $message
      */
     protected function info($message)
     {
         if (\is_array($message)) {
+            /** @noinspection ForgottenDebugOutputInspection */
             print_r($message);
         } else {
             $this->log->writeln('<info>'.$message.'</info>');

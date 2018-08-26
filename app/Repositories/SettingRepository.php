@@ -51,25 +51,15 @@ class SettingRepository extends Repository implements CacheableInterface
             case 'bool':
             case 'boolean':
                 $value = $setting->value;
-                if ($value === 'true' || $value === '1') {
-                    $value = true;
-                } elseif ($value === 'false' || $value === '0') {
-                    $value = false;
-                }
-
-                return (bool) $value;
-                break;
+                return $value === 'true' || $value === '1' || $value === 1;
             case 'date':
                 return Carbon::parse($setting->value);
-                break;
             case 'int':
             case 'integer':
             case 'number':
                 return (int) $setting->value;
-                break;
             case 'float':
                 return (float) $setting->value;
-                break;
             default:
                 return $setting->value;
         }
@@ -80,6 +70,7 @@ class SettingRepository extends Repository implements CacheableInterface
      *
      * @param mixed $key
      * @param mixed $value
+     * @return null
      */
     public function save($key, $value)
     {

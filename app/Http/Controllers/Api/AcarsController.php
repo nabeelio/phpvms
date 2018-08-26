@@ -15,7 +15,6 @@ use App\Models\Pirep;
 use App\Repositories\AcarsRepository;
 use App\Repositories\PirepRepository;
 use App\Services\GeoService;
-use App\Services\PirepService;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -29,7 +28,6 @@ class AcarsController extends Controller
     private $acarsRepo;
     private $geoSvc;
     private $pirepRepo;
-    private $pirepSvc;
 
     /**
      * AcarsController constructor.
@@ -37,18 +35,15 @@ class AcarsController extends Controller
      * @param AcarsRepository $acarsRepo
      * @param GeoService      $geoSvc
      * @param PirepRepository $pirepRepo
-     * @param PirepService    $pirepSvc
      */
     public function __construct(
         AcarsRepository $acarsRepo,
         GeoService $geoSvc,
-        PirepRepository $pirepRepo,
-        PirepService $pirepSvc
+        PirepRepository $pirepRepo
     ) {
         $this->geoSvc = $geoSvc;
         $this->acarsRepo = $acarsRepo;
         $this->pirepRepo = $pirepRepo;
-        $this->pirepSvc = $pirepSvc;
     }
 
     /**

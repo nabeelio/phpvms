@@ -54,6 +54,7 @@ class AircraftImporter extends ImportExport
      * @param int   $index
      *
      * @return bool
+     * @throws \Exception
      */
     public function import(array $row, $index): bool
     {

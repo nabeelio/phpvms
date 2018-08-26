@@ -5,16 +5,11 @@ namespace App\Http\Requests\Acars;
 use App\Interfaces\FormRequest;
 
 /**
- * Class FileRequest
+ * Class CommentRequest
  */
 class CommentRequest extends FormRequest
 {
-    public function authorize()
-    {
-        return true;  // Anyone can comment
-    }
-
-    public function rules()
+    public function rules(): array
     {
         $rules = [
             'comment'    => 'required',

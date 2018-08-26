@@ -3,7 +3,6 @@
 namespace App\Http\Requests\Acars;
 
 use App\Interfaces\FormRequest;
-use App\Models\Pirep;
 
 /**
  * Class PrefileRequest

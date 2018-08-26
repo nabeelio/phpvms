@@ -49,6 +49,9 @@ class PIREPTest extends TestCase
         return $saved_route;
     }
 
+    /**
+     * @throws Exception
+     */
     public function testAddPirep()
     {
         $user = factory(App\Models\User::class)->create();
@@ -59,7 +62,11 @@ class PIREPTest extends TestCase
         ]);
 
         $pirep = $this->pirepSvc->create($pirep, []);
-        $this->pirepSvc->saveRoute($pirep);
+        try {
+            $this->pirepSvc->saveRoute($pirep);
+        } catch (Exception $e) {
+            throw $e;
+        }
 
         /*
          * Check the initial state info

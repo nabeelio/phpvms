@@ -15,7 +15,7 @@ abstract class Repository extends \Prettus\Repository\Eloquent\BaseRepository
      *
      * @return mixed|null
      */
-    public function findWithoutFail($id, $columns = ['*'])
+    public function findWithoutFail($id, array $columns = ['*'])
     {
         try {
             return $this->find($id, $columns);

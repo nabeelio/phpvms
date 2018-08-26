@@ -103,10 +103,10 @@ class application extends Illuminate\Foundation\Application
         return $this->basePath.DS.'config'.($path ? DS.$path : $path);
     }
 
-    public function environmentPath()
+    /*public function environmentPath()
     {
         return $this->environmentPath ?: $this->basePath;
-    }
+    }*/
 
     public function langPath()
     {

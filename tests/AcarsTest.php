@@ -24,7 +24,7 @@ class AcarsTest extends TestCase
      * @param $points
      * @param array $addtl_fields
      */
-    protected function allPointsInRoute($route, $points, $addtl_fields = [])
+    protected function allPointsInRoute($route, $points, array $addtl_fields = [])
     {
         if (empty($addtl_fields)) {
             $addtl_fields = [];
@@ -40,7 +40,7 @@ class AcarsTest extends TestCase
             $addtl_fields
         );
 
-        $this->assertEquals(\count($route), \count($points));
+        $this->assertCount(\count($route), $points);
         foreach ($route as $idx => $point) {
             $this->assertHasKeys($points[$idx], $fields);
             foreach ($fields as $f) {
@@ -556,6 +556,7 @@ class AcarsTest extends TestCase
 
     /**
      * Test publishing multiple, batched updates
+     * @throws Exception
      */
     public function testMultipleAcarsPositionUpdates()
     {

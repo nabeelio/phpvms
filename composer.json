@@ -8,6 +8,10 @@
     "homepage": "http://www.phpvms.net",
     "require": {
         "php": ">=7.1",
+        "ext-calendar": "*",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "ext-pdo": "*",
         "laravel/framework": "^5.6",
         "laravelcollective/html": "5.6.x",
         "prettus/l5-repository": "2.6.x",

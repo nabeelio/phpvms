@@ -4,7 +4,6 @@ namespace App\Services\ImportExport;
 
 use App\Interfaces\ImportExport;
 use App\Models\Aircraft;
-use App\Models\Flight;
 
 /**
  * The flight importer can be imported or export. Operates on rows

@@ -45,8 +45,6 @@ class AircraftController extends Controller
      *
      * @param Request $request
      *
-     * @throws \Prettus\Repository\Exceptions\RepositoryException
-     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index(Request $request)
@@ -101,6 +99,8 @@ class AircraftController extends Controller
      * Display the specified Aircraft.
      *
      * @param mixed $id
+     *
+     * @return mixed
      */
     public function show($id)
     {
@@ -120,6 +120,8 @@ class AircraftController extends Controller
      * Show the form for editing the specified Aircraft.
      *
      * @param mixed $id
+     *
+     * @return mixed
      */
     public function edit($id)
     {
@@ -143,6 +145,8 @@ class AircraftController extends Controller
      * @param mixed $id
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
+     *
+     * @return mixed
      */
     public function update($id, UpdateAircraftRequest $request)
     {
@@ -164,6 +168,8 @@ class AircraftController extends Controller
      * Remove the specified Aircraft from storage.
      *
      * @param mixed $id
+     *
+     * @return mixed
      */
     public function destroy($id)
     {
@@ -187,7 +193,7 @@ class AircraftController extends Controller
      *
      * @throws \League\Csv\Exception
      *
-     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     * @return mixed
      */
     public function export(Request $request)
     {
@@ -207,7 +213,7 @@ class AircraftController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return mixed
      */
     public function import(Request $request)
     {
@@ -254,7 +260,7 @@ class AircraftController extends Controller
      *
      * @throws \Exception
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return mixed
      */
     public function expenses($id, Request $request)
     {

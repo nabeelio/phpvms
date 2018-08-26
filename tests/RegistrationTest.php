@@ -9,6 +9,7 @@ class RegistrationTest extends TestCase
      * A basic test example.
      *
      * @return void
+     * @throws Exception
      */
     public function testRegistration()
     {

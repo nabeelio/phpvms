@@ -90,6 +90,7 @@ class SubfleetController extends Controller
      * Get all the fares that haven't been assigned to a given subfleet
      *
      * @param mixed $subfleet
+     * @return array
      */
     protected function getAvailFares($subfleet)
     {
@@ -268,6 +269,7 @@ class SubfleetController extends Controller
      * @param Request $request
      *
      * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     * @throws \League\Csv\CannotInsertRecord
      */
     public function export(Request $request)
     {

@@ -13,7 +13,7 @@ class Utils extends Facade
     /**
      * @return string
      */
-    protected static function getFacadeAccessor()
+    protected static function getFacadeAccessor(): string
     {
         return 'utils';
     }
@@ -25,7 +25,7 @@ class Utils extends Facade
      *
      * @return bool
      */
-    public static function isObject($obj)
+    public static function isObject($obj): bool
     {
         if (!$obj) {
             return false;
@@ -42,14 +42,15 @@ class Utils extends Facade
      * Download a URI. If a file is given, it will save the downloaded
      * content into that file
      *
-     * @param      $uri
-     * @param null $file
+     * @param string $uri
+     * @param null   $file
      *
      * @throws \RuntimeException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      *
      * @return string
      */
-    public static function downloadUrl($uri, $file = null)
+    public static function downloadUrl($uri, $file = null): string
     {
         $opts = [];
         if ($file !== null) {
@@ -72,12 +73,16 @@ class Utils extends Facade
      *
      * @return string
      */
-    public static function generateApiKey()
+    public static function generateApiKey(): string
     {
         $key = substr(sha1(time().mt_rand()), 0, 20);
         return $key;
     }
 
+    /**
+     * @param string $minutes
+     * @return array
+     */
     public static function minutesToTimeParts($minutes): array
     {
         $hours = floor($minutes / 60);
@@ -95,9 +100,10 @@ class Utils extends Facade
     /**
      * Convert seconds to an array of hours, minutes, seconds
      *
-     * @param $seconds
+     * @param int $seconds
      *
      * @return array['h', 'm', 's']
+     * @throws \Exception
      */
     public static function secondsToTimeParts($seconds): array
     {
@@ -117,10 +123,11 @@ class Utils extends Facade
     /**
      * Convert seconds to HH MM format
      *
-     * @param      $seconds
+     * @param int  $seconds
      * @param bool $incl_sec
      *
      * @return string
+     * @throws \Exception
      */
     public static function secondsToTimeString($seconds, $incl_sec = false): string
     {
@@ -191,7 +198,7 @@ class Utils extends Facade
      *
      * @return int
      */
-    public static function setDays(int $datefield, array $day_enums)
+    public static function setDays(int $datefield, array $day_enums): int
     {
         foreach ($day_enums as $day) {
             $datefield |= $day;
@@ -208,7 +215,7 @@ class Utils extends Facade
      *
      * @return bool
      */
-    public static function hasDay(int $datefield, int $day_enum)
+    public static function hasDay(int $datefield, int $day_enum): bool
     {
         return ($datefield & $day_enum) === $datefield;
     }

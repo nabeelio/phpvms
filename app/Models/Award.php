@@ -34,8 +34,8 @@ class Award extends Model
     /**
      * Get the referring object
      *
-     * @param Award|null $award
-     * @param User|null  $user
+     * @param self      $award
+     * @param User|null $user
      *
      * @return null
      */

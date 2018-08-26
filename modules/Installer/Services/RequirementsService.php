@@ -31,7 +31,7 @@ class RequirementsService extends Service
         $extensions = [];
         foreach(config('installer.extensions') as $ext) {
             $pass = true;
-            if(!extension_loaded($ext)) {
+            if(!\extension_loaded($ext)) {
                 $pass = false;
             }
 

@@ -165,7 +165,7 @@ class FareService extends Service
         $subfleet->fares()->syncWithoutDetaching([$fare->id]);
 
         // modify any pivot values?
-        if (count($override) > 0) {
+        if (\count($override) > 0) {
             $subfleet->fares()->updateExistingPivot($fare->id, $override);
         }
 

@@ -62,6 +62,7 @@ abstract class Controller extends \Illuminate\Routing\Controller
                     $fields[$field] = $request->input($field);
                 }
             } else {
+                /** @noinspection NestedPositiveIfStatementsInspection */
                 if (array_key_exists($field, $request)) {
                     $fields[$field] = $request[$field];
                 }

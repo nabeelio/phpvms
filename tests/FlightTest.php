@@ -123,6 +123,7 @@ class FlightTest extends TestCase
 
     /**
      * Get the flight's route
+     * @throws Exception
      */
     public function testFlightRoute()
     {
@@ -398,7 +399,7 @@ class FlightTest extends TestCase
         $req->assertStatus(200);
 
         $body = $req->json()['data'];
-        $this->assertEquals(1, count($body['bids']));
+        $this->assertCount(1, $body['bids']);
         $this->assertEquals($flight->id, $body['bids'][0]['flight_id']);
 
         $req = $this->get('/api/users/'.$user->id.'/bids', $headers);
@@ -435,7 +436,7 @@ class FlightTest extends TestCase
 
         $body = $req->json()['data'];
         $this->assertEquals($user->id, $body['id']);
-        $this->assertEquals(0, count($body['bids']));
+        $this->assertCount(0, $body['bids']);
 
         $req = $this->get('/api/users/'.$user->id.'/bids', $headers);
         $req->assertStatus(200);

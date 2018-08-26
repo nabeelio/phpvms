@@ -138,7 +138,7 @@ abstract class Enum
      */
     final public function equals(self $enum): bool
     {
-        return $this->getValue() === $enum->getValue() && get_called_class() == get_class($enum);
+        return $this->getValue() === $enum->getValue() && static::class === \get_class($enum);
     }
 
     /**
@@ -161,7 +161,7 @@ abstract class Enum
         }
 
         throw new \BadMethodCallException(
-            "No static method or enum constant '$name' in class ".get_called_class()
+            "No static method or enum constant '$name' in class ".static::class
         );
     }
 }

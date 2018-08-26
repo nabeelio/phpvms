@@ -17,7 +17,6 @@ use Log;
  */
 class FlightService extends Service
 {
-    private $fareSvc;
     private $flightRepo;
     private $navDataRepo;
     private $userSvc;
@@ -25,18 +24,15 @@ class FlightService extends Service
     /**
      * FlightService constructor.
      *
-     * @param FareService       $fareSvc
      * @param FlightRepository  $flightRepo
      * @param NavdataRepository $navdataRepo
      * @param UserService       $userSvc
      */
     public function __construct(
-        FareService $fareSvc,
         FlightRepository $flightRepo,
         NavdataRepository $navdataRepo,
         UserService $userSvc
     ) {
-        $this->fareSvc = $fareSvc;
         $this->flightRepo = $flightRepo;
         $this->navDataRepo = $navdataRepo;
         $this->userSvc = $userSvc;
@@ -128,19 +124,11 @@ class FlightService extends Service
         // Return any flights that have the same route code and leg
         // If this list is > 0, then this has a duplicate
         $found_flights = $found_flights->filter(function ($value, $key) use ($flight) {
-            if ($flight->route_code === $value->route_code
-                && $flight->route_leg === $value->route_leg) {
-                return true;
-            }
-
-            return false;
+            return $flight->route_code === $value->route_code
+                && $flight->route_leg === $value->route_leg;
         });
 
-        if ($found_flights->count() === 0) {
-            return false;
-        }
-
-        return true;
+        return !($found_flights->count() === 0);
     }
 
     /**
@@ -191,9 +179,7 @@ class FlightService extends Service
             return collect();
         }
 
-        $route_points = array_map(function ($point) {
-            return strtoupper($point);
-        }, explode(' ', $flight->route));
+        $route_points = array_map('strtoupper', explode(' ', $flight->route));
 
         $route = $this->navDataRepo->findWhereIn('id', $route_points);
 
@@ -251,6 +237,7 @@ class FlightService extends Service
                 throw new BidExists('A bid already exists for this flight');
             }
         } else {
+            /** @noinspection NestedPositiveIfStatementsInspection */
             if ($flight->has_bid === true) {
                 Log::info('Bid exists, flight='.$flight->id.'; no entry in bids table, cleaning up');
             }

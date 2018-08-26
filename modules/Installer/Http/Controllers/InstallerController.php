@@ -259,6 +259,7 @@ class InstallerController extends Controller
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      * @throws \RuntimeException
      * @throws \Prettus\Validator\Exceptions\ValidatorException
+     * @throws \Exception
      */
     public function usersetup(Request $request)
     {

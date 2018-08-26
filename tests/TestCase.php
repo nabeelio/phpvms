@@ -59,10 +59,11 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
     {
         if ($user !== null) {
             $headers['x-api-key'] = $user->api_key;
-        } else {
-            if ($this->user !== null) {
-                $headers['x-api-key'] = $this->user->api_key;
-            }
+            return $headers;
+        }
+
+        if ($this->user !== null) {
+            $headers['x-api-key'] = $this->user->api_key;
         }
 
         return $headers;
@@ -90,7 +91,7 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
      * @param $obj
      * @param array $keys
      */
-    public function assertHasKeys($obj, $keys = [])
+    public function assertHasKeys($obj, array $keys = []): void
     {
         foreach ($keys as $key) {
             $this->assertArrayHasKey($key, $obj);

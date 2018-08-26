@@ -21,9 +21,9 @@ use PhpUnitsOfMeasure\Exception\NonStringUnitName;
  * @property string      flight_number
  * @property string      route_code
  * @property string      route_leg
- * @property int     airline_id
- * @property int     user_id
- * @property int     aircraft_id
+ * @property int         airline_id
+ * @property int         user_id
+ * @property int         aircraft_id
  * @property Aircraft    aircraft
  * @property Airline     airline
  * @property Airport     arr_airport
@@ -32,13 +32,13 @@ use PhpUnitsOfMeasure\Exception\NonStringUnitName;
  * @property string      dpt_airport_id
  * @property Carbon      block_off_time
  * @property Carbon      block_on_time
- * @property int     block_time
- * @property int     flight_time    In minutes
- * @property int     planned_flight_time
- * @property float      distance
- * @property float      planned_distance
+ * @property int         block_time
+ * @property int         flight_time    In minutes
+ * @property int         planned_flight_time
+ * @property float       distance
+ * @property float       planned_distance
  * @property string      route
- * @property int     score
+ * @property int         score
  * @property User        user
  * @property Flight|null flight
  * @property Collection  fields
@@ -50,6 +50,7 @@ use PhpUnitsOfMeasure\Exception\NonStringUnitName;
  * @property bool        read_only
  * @property Acars       position
  * @property Acars[]     acars
+ * @property mixed       cancelled
  */
 class Pirep extends Model
 {
@@ -160,25 +161,29 @@ class Pirep extends Model
     /**
      * Return the block off time in carbon format
      *
-     * @return Carbon
+     * @return Carbon|null
      */
     public function getBlockOffTimeAttribute()
     {
         if (array_key_exists('block_off_time', $this->attributes)) {
             return new Carbon($this->attributes['block_off_time']);
         }
+
+        return null;
     }
 
     /**
      * Return the block on time
      *
-     * @return Carbon
+     * @return Carbon|null
      */
     public function getBlockOnTimeAttribute()
     {
         if (array_key_exists('block_on_time', $this->attributes)) {
             return new Carbon($this->attributes['block_on_time']);
         }
+
+        return null;
     }
 
     /**
@@ -191,6 +196,8 @@ class Pirep extends Model
         if (array_key_exists('submitted_at', $this->attributes)) {
             return new Carbon($this->attributes['submitted_at']);
         }
+
+        return null;
     }
 
     /**
@@ -201,7 +208,7 @@ class Pirep extends Model
     public function getDistanceAttribute()
     {
         if (!array_key_exists('distance', $this->attributes)) {
-            return;
+            return 0;
         }
 
         try {
@@ -249,7 +256,7 @@ class Pirep extends Model
     public function getFuelUsedAttribute()
     {
         if (!array_key_exists('fuel_used', $this->attributes)) {
-            return;
+            return 0;
         }
 
         try {
@@ -271,7 +278,7 @@ class Pirep extends Model
     public function getPlannedDistanceAttribute()
     {
         if (!array_key_exists('planned_distance', $this->attributes)) {
-            return;
+            return 0;
         }
 
         try {
@@ -401,7 +408,7 @@ class Pirep extends Model
     /**
      * Return if this is cancelled or not
      */
-    public function getCancelledAttribute()
+    public function getCancelledAttribute(): bool
     {
         return $this->state === PirepState::CANCELLED;
     }

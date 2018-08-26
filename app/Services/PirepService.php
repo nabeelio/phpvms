@@ -31,23 +31,19 @@ class PirepService extends Service
 {
     private $geoSvc;
     private $pilotSvc;
-    private $pirepRepo;
 
     /**
      * PirepService constructor.
      *
      * @param GeoService      $geoSvc
-     * @param PirepRepository $pirepRepo
      * @param UserService     $pilotSvc
      */
     public function __construct(
         GeoService $geoSvc,
-        PirepRepository $pirepRepo,
         UserService $pilotSvc
     ) {
         $this->geoSvc = $geoSvc;
         $this->pilotSvc = $pilotSvc;
-        $this->pirepRepo = $pirepRepo;
     }
 
     /**
@@ -200,6 +196,7 @@ class PirepService extends Service
      * Submit the PIREP. Figure out its default state
      *
      * @param Pirep $pirep
+     * @throws \Exception
      */
     public function submit(Pirep $pirep)
     {
@@ -306,6 +303,7 @@ class PirepService extends Service
      * @param Pirep $pirep
      *
      * @return Pirep
+     * @throws \Exception
      */
     public function accept(Pirep $pirep): Pirep
     {

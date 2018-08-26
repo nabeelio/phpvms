@@ -33,6 +33,7 @@ class ComposerCommand extends Command
     protected function postUpdate(): void
     {
         if (config('app.env') === 'dev') {
+            /** @noinspection NestedPositiveIfStatementsInspection */
             if (class_exists(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class)) {
                 Artisan::call('ide-helper:generate');
                 Artisan::call('ide-helper:meta');

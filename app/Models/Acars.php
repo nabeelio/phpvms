@@ -87,7 +87,7 @@ class Acars extends Model
     public function getDistanceAttribute()
     {
         if (!array_key_exists('distance', $this->attributes)) {
-            return;
+            return 0;
         }
 
         try {
@@ -127,7 +127,7 @@ class Acars extends Model
     public function getFuelAttribute()
     {
         if (!array_key_exists('fuel', $this->attributes)) {
-            return;
+            return 0;
         }
 
         try {
