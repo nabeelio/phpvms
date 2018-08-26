@@ -21,12 +21,11 @@ use Storage;
 
 /**
  * Class AirportController
- * @package App\Http\Controllers\Admin
  */
 class AirportController extends Controller
 {
-    private $airportRepo,
-            $importSvc;
+    private $airportRepo;
+    private $importSvc;
 
     /**
      * @param AirportRepository $airportRepo
@@ -42,9 +41,12 @@ class AirportController extends Controller
 
     /**
      * Display a listing of the Airport.
+     *
      * @param Request $request
-     * @return Response
+     *
      * @throws \Prettus\Repository\Exceptions\RepositoryException
+     *
+     * @return Response
      */
     public function index(Request $request)
     {
@@ -65,6 +67,7 @@ class AirportController extends Controller
 
     /**
      * Show the form for creating a new Airport.
+     *
      * @return Response
      */
     public function create()
@@ -76,9 +79,12 @@ class AirportController extends Controller
 
     /**
      * Store a newly created Airport in storage.
+     *
      * @param CreateAirportRequest $request
-     * @return Response
+     *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
+     *
+     * @return Response
      */
     public function store(CreateAirportRequest $request)
     {
@@ -93,7 +99,9 @@ class AirportController extends Controller
 
     /**
      * Display the specified Airport.
-     * @param  int $id
+     *
+     * @param int $id
+     *
      * @return Response
      */
     public function show($id)
@@ -112,7 +120,9 @@ class AirportController extends Controller
 
     /**
      * Show the form for editing the specified Airport.
-     * @param  int $id
+     *
+     * @param int $id
+     *
      * @return Response
      */
     public function edit($id)
@@ -132,10 +142,13 @@ class AirportController extends Controller
 
     /**
      * Update the specified Airport in storage.
-     * @param  int                 $id
+     *
+     * @param int                  $id
      * @param UpdateAirportRequest $request
-     * @return Response
+     *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
+     *
+     * @return Response
      */
     public function update($id, UpdateAirportRequest $request)
     {
@@ -157,7 +170,9 @@ class AirportController extends Controller
 
     /**
      * Remove the specified Airport from storage.
-     * @param  int $id
+     *
+     * @param int $id
+     *
      * @return Response
      */
     public function destroy($id)
@@ -177,9 +192,12 @@ class AirportController extends Controller
 
     /**
      * Run the airport exporter
+     *
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     *
      * @throws \League\Csv\Exception
+     *
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
      */
     public function export(Request $request)
     {
@@ -195,10 +213,11 @@ class AirportController extends Controller
     }
 
     /**
-     *
      * @param Request $request
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     *
      * @throws \Illuminate\Validation\ValidationException
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function import(Request $request)
     {
@@ -225,6 +244,7 @@ class AirportController extends Controller
 
     /**
      * @param Airport $airport
+     *
      * @return mixed
      */
     protected function return_expenses_view(Airport $airport)
@@ -237,10 +257,13 @@ class AirportController extends Controller
 
     /**
      * Operations for associating ranks to the subfleet
+     *
      * @param         $id
      * @param Request $request
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     *
      * @throws \Exception
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function expenses($id, Request $request)
     {
@@ -273,7 +296,9 @@ class AirportController extends Controller
 
     /**
      * Set fuel prices for this airport
+     *
      * @param Request $request
+     *
      * @return mixed
      */
     public function fuel(Request $request)

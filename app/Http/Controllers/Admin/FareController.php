@@ -18,15 +18,15 @@ use Storage;
 
 /**
  * Class FareController
- * @package App\Http\Controllers\Admin
  */
 class FareController extends Controller
 {
-    private $fareRepo,
-            $importSvc;
+    private $fareRepo;
+    private $importSvc;
 
     /**
      * FareController constructor.
+     *
      * @param FareRepository $fareRepo
      * @param ImportService  $importSvc
      */
@@ -40,9 +40,12 @@ class FareController extends Controller
 
     /**
      * Display a listing of the Fare.
+     *
      * @param Request $request
-     * @return Response
+     *
      * @throws \Prettus\Repository\Exceptions\RepositoryException
+     *
+     * @return Response
      */
     public function index(Request $request)
     {
@@ -65,9 +68,12 @@ class FareController extends Controller
 
     /**
      * Store a newly created Fare in storage.
+     *
      * @param CreateFareRequest $request
-     * @return Response
+     *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
+     *
+     * @return Response
      */
     public function store(CreateFareRequest $request)
     {
@@ -80,7 +86,9 @@ class FareController extends Controller
 
     /**
      * Display the specified Fare.
-     * @param  int $id
+     *
+     * @param int $id
+     *
      * @return Response
      */
     public function show($id)
@@ -96,7 +104,9 @@ class FareController extends Controller
 
     /**
      * Show the form for editing the specified Fare.
-     * @param  int $id
+     *
+     * @param int $id
+     *
      * @return Response
      */
     public function edit($id)
@@ -112,10 +122,13 @@ class FareController extends Controller
 
     /**
      * Update the specified Fare in storage.
-     * @param  int              $id
+     *
+     * @param int               $id
      * @param UpdateFareRequest $request
-     * @return Response
+     *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
+     *
+     * @return Response
      */
     public function update($id, UpdateFareRequest $request)
     {
@@ -133,7 +146,9 @@ class FareController extends Controller
 
     /**
      * Remove the specified Fare from storage.
-     * @param  int $id
+     *
+     * @param int $id
+     *
      * @return Response
      */
     public function destroy($id)
@@ -152,9 +167,12 @@ class FareController extends Controller
 
     /**
      * Run the aircraft exporter
+     *
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     *
      * @throws \League\Csv\Exception
+     *
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
      */
     public function export(Request $request)
     {
@@ -170,10 +188,11 @@ class FareController extends Controller
     }
 
     /**
-     *
      * @param Request $request
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     *
      * @throws \Illuminate\Validation\ValidationException
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function import(Request $request)
     {

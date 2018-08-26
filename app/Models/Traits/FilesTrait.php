@@ -8,6 +8,7 @@ trait FilesTrait
 {
     /**
      * Morph to type of File
+     *
      * @return mixed
      */
     public function files()

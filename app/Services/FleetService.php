@@ -9,7 +9,6 @@ use App\Models\Subfleet;
 
 /**
  * Class FleetService
- * @package App\Services
  */
 class FleetService extends Service
 {
@@ -17,6 +16,7 @@ class FleetService extends Service
      * @param Subfleet $subfleet
      * @param Rank     $rank
      * @param array    $overrides
+     *
      * @return Subfleet
      */
     public function addSubfleetToRank(Subfleet $subfleet, Rank $rank, array $overrides = [])
@@ -45,6 +45,7 @@ class FleetService extends Service
 
     /**
      * Add the subfleet to a flight
+     *
      * @param Subfleet $subfleet
      * @param Flight   $flight
      */
@@ -57,6 +58,7 @@ class FleetService extends Service
 
     /**
      * Remove the subfleet from a flight
+     *
      * @param Subfleet $subfleet
      * @param Flight   $flight
      */

@@ -14,7 +14,6 @@ use Response;
 
 /**
  * Class AirlinesController
- * @package App\Http\Controllers\Admin
  */
 class AirlinesController extends Controller
 {
@@ -22,14 +21,17 @@ class AirlinesController extends Controller
 
     /**
      * AirlinesController constructor.
+     *
      * @param AirlineRepository $airlinesRepo
      */
-    public function __construct(AirlineRepository $airlinesRepo) {
+    public function __construct(AirlineRepository $airlinesRepo)
+    {
         $this->airlineRepo = $airlinesRepo;
     }
 
     /**
      * Display a listing of the Airlines.
+     *
      * @throws \Prettus\Repository\Exceptions\RepositoryException
      */
     public function index(Request $request)
@@ -54,6 +56,7 @@ class AirlinesController extends Controller
 
     /**
      * Store a newly created Airlines in storage.
+     *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
     public function store(CreateAirlineRequest $request)
@@ -67,7 +70,9 @@ class AirlinesController extends Controller
 
     /**
      * Display the specified Airlines.
-     * @param  int $id
+     *
+     * @param int $id
+     *
      * @return mixed
      */
     public function show($id)
@@ -86,7 +91,9 @@ class AirlinesController extends Controller
 
     /**
      * Show the form for editing the specified Airlines.
-     * @param  int $id
+     *
+     * @param int $id
+     *
      * @return Response
      */
     public function edit($id)
@@ -106,10 +113,13 @@ class AirlinesController extends Controller
 
     /**
      * Update the specified Airlines in storage.
-     * @param  int                 $id
+     *
+     * @param int                  $id
      * @param UpdateAirlineRequest $request
-     * @return Response
+     *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
+     *
+     * @return Response
      */
     public function update($id, UpdateAirlineRequest $request)
     {
@@ -128,7 +138,9 @@ class AirlinesController extends Controller
 
     /**
      * Remove the specified Airlines from storage.
-     * @param  int $id
+     *
+     * @param int $id
+     *
      * @return Response
      */
     public function destroy($id)

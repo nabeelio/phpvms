@@ -15,7 +15,6 @@ use Symfony\Component\Yaml\Yaml;
 
 /**
  * Class DevCommands
- * @package App\Console\Commands
  */
 class DevCommands extends Command
 {
@@ -25,6 +24,7 @@ class DevCommands extends Command
 
     /**
      * DevCommands constructor.
+     *
      * @param DatabaseService $dbSvc
      */
     public function __construct(DatabaseService $dbSvc)
@@ -173,7 +173,7 @@ class DevCommands extends Command
             }
 
             $yaml[$table_name][] = $yaml_row;
-            ++$count;
+            $count++;
         }
 
         $this->info('Exporting '.$count.' rows');
@@ -198,9 +198,8 @@ class DevCommands extends Command
 
         $yml = Yaml::parse(file_get_contents($file));
         foreach ($yml as $table => $rows) {
-
-            $this->info('Importing table ' . $table);
-            $this->info('Number of rows: ' . \count($rows));
+            $this->info('Importing table '.$table);
+            $this->info('Number of rows: '.\count($rows));
 
             foreach ($rows as $row) {
                 try {

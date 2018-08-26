@@ -7,7 +7,6 @@ use PragmaRX\Version\Package\Facade as Version;
 
 /**
  * Class StatusController
- * @package App\Http\Controllers\Api
  */
 class StatusController extends Controller
 {

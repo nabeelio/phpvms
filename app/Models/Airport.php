@@ -8,6 +8,7 @@ use App\Models\Traits\FilesTrait;
 
 /**
  * Class Airport
+ *
  * @property string id
  * @property string iata
  * @property string icao
@@ -18,7 +19,6 @@ use App\Models\Traits\FilesTrait;
  * @property float  ground_handling_cost
  * @property float  lat
  * @property float  lon
- * @package App\Models
  */
 class Airport extends Model
 {
@@ -91,6 +91,7 @@ class Airport extends Model
     /**
      * Return full name like:
      * KJFK - John F Kennedy
+     *
      * @return string
      */
     public function getFullNameAttribute(): string
@@ -100,6 +101,7 @@ class Airport extends Model
 
     /**
      * Shorthand for getting the timezone
+     *
      * @return string
      */
     public function getTzAttribute(): string
@@ -109,6 +111,7 @@ class Airport extends Model
 
     /**
      * Shorthand for setting the timezone
+     *
      * @param $value
      */
     public function setTzAttribute($value): void

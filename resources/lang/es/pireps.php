@@ -1,7 +1,5 @@
 <?php
-/**
- *
- */
+
 
 return [
     'newflightreport'      => 'Nuevo informe de vuelo',
@@ -36,7 +34,7 @@ return [
         'manual' => 'Manual',
         'acars'  => 'ACARS',
     ],
-    'state'  => [
+    'state' => [
         'accepted'    => 'Aceptado',
         'pending'     => 'Pendiente de aprobación',
         'rejected'    => 'Rechazado',
@@ -67,5 +65,5 @@ return [
         'arrived'      => 'Llegó',
         'cancelled'    => 'Cancelado',
         'emerg_decent' => 'Descenso de emergencía',
-    ]
+    ],
 ];

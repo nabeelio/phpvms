@@ -7,7 +7,6 @@ use Log;
 
 /**
  * Class CreateDatabase
- * @package App\Console\Commands
  */
 class CreateDatabase extends Command
 {
@@ -26,7 +25,9 @@ class CreateDatabase extends Command
 
     /**
      * Create the mysql database
+     *
      * @param $dbkey
+     *
      * @return bool
      */
     protected function create_mysql($dbkey)
@@ -52,6 +53,7 @@ class CreateDatabase extends Command
 
         if ($this->option('reset') === true) {
             $sql = "DROP DATABASE IF EXISTS `$name`";
+
             try {
                 Log::info('Dropping database: '.$sql);
                 $conn->exec($sql);
@@ -74,6 +76,7 @@ class CreateDatabase extends Command
 
     /**
      * Create the sqlite database
+     *
      * @param $dbkey
      */
     protected function create_sqlite($dbkey)

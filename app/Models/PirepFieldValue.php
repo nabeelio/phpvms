@@ -7,7 +7,6 @@ use App\Models\Enums\PirepFieldSource;
 
 /**
  * Class PirepFieldValue
- * @package App\Models
  */
 class PirepFieldValue extends Model
 {
@@ -31,6 +30,7 @@ class PirepFieldValue extends Model
 
     /**
      * If it was filled in from ACARS, then it's read only
+     *
      * @return bool
      */
     public function getReadOnlyAttribute()
@@ -50,7 +50,6 @@ class PirepFieldValue extends Model
     /**
      * Foreign Keys
      */
-
     public function pirep()
     {
         return $this->belongsTo(Pirep::class, 'pirep_id');

@@ -15,10 +15,10 @@ use App\Models\Traits\ReferenceTrait;
  * @property string  memo
  * @property string  transaction_group
  * @property string  post_date
- * @property integer credit
- * @property integer debit
+ * @property int credit
+ * @property int debit
  * @property string  ref_model
- * @property integer ref_model_id
+ * @property int ref_model_id
  * @property Journal journal
  */
 class JournalTransaction extends Model
@@ -39,7 +39,7 @@ class JournalTransaction extends Model
         'tags',
         'ref_model',
         'ref_model_id',
-        'post_date'
+        'post_date',
     ];
 
     protected $casts = [

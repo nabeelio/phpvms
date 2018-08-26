@@ -3,8 +3,10 @@
 if (!function_exists('in_mask')) {
     /**
      * Return true/false if a value exists in a mask
+     *
      * @param $mask
      * @param $value
+     *
      * @return bool
      */
     function in_mask($mask, $value)
@@ -17,7 +19,9 @@ if (!function_exists('get_truth_state')) {
     /**
      * Check if the passed state matches any of the states that
      * we regard as being true or false
+     *
      * @param $state
+     *
      * @return bool
      */
     function get_truth_state($state)
@@ -50,6 +54,7 @@ if (!function_exists('list_to_assoc')) {
      *    ['item1' => 'item1', 'item2' => 'item2']
      *
      * @param array $list
+     *
      * @return array
      */
     function list_to_assoc(array $list)
@@ -77,7 +82,9 @@ if (!function_exists('list_to_editable')) {
      *    [value => text, valueN => textN, ...]
      * Return:
      *    [{value: 1, text: "text1"}, {value: 2, text: "text2"}, ...]
+     *
      * @param array $list
+     *
      * @return array
      */
     function list_to_editable(array $list)
@@ -97,9 +104,11 @@ if (!function_exists('list_to_editable')) {
 if (!function_exists('skin_view')) {
     /**
      * Render a skin
+     *
      * @param       $template
      * @param array $vars
      * @param array $merge_data
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     function skin_view($template, array $vars = [], $merge_data = [])
@@ -117,13 +126,14 @@ if (!function_exists('skin_view')) {
     }
 }
 
-/**
+/*
  * Shortcut for retrieving a setting value
  */
 if (!function_exists('setting')) {
     function setting($key, $default = null)
     {
         $settingRepo = app('setting');
+
         try {
             $value = $settingRepo->retrieve($key);
         } catch (\App\Exceptions\SettingNotFound $e) {
@@ -134,7 +144,7 @@ if (!function_exists('setting')) {
     }
 }
 
-/**
+/*
  * Wrap the asset URL in the publicBaseUrl that's been
  * set
  */
@@ -150,14 +160,16 @@ if (!function_exists('public_asset')) {
     }
 }
 
-/**
+/*
  * Show a date/time in the proper timezone for a user
  */
 if (!function_exists('show_datetime')) {
     /**
      * Format the a Carbon date into the datetime string
      * but convert it into the user's timezone
+     *
      * @param \Carbon\Carbon $date
+     *
      * @return string
      */
     function show_datetime(\Carbon\Carbon $date = null)
@@ -175,14 +187,16 @@ if (!function_exists('show_datetime')) {
     }
 }
 
-/**
+/*
  * Show a date/time in the proper timezone for a user
  */
 if (!function_exists('show_date')) {
     /**
      * Format the a Carbon date into the datetime string
      * but convert it into the user's timezone
+     *
      * @param \Carbon\Carbon $date
+     *
      * @return string
      */
     function show_date(\Carbon\Carbon $date)
@@ -199,8 +213,10 @@ if (!function_exists('show_date')) {
 if (!function_exists('_fmt')) {
     /**
      * Replace strings
+     *
      * @param       $line    "Hi, my name is :name"
      * @param array $replace ['name' => 'Nabeel']
+     *
      * @return mixed
      */
     function _fmt($line, array $replace)

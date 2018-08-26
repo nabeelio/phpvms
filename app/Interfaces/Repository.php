@@ -6,13 +6,13 @@ use Illuminate\Validation\Validator;
 
 /**
  * Class Repository
- * @package App\Interfaces
  */
 abstract class Repository extends \Prettus\Repository\Eloquent\BaseRepository
 {
     /**
      * @param       $id
      * @param array $columns
+     *
      * @return mixed|null
      */
     public function findWithoutFail($id, $columns = ['*'])
@@ -20,12 +20,13 @@ abstract class Repository extends \Prettus\Repository\Eloquent\BaseRepository
         try {
             return $this->find($id, $columns);
         } catch (\Exception $e) {
-            return null;
+            return;
         }
     }
 
     /**
      * @param $values
+     *
      * @return bool
      */
     public function validate($values)
@@ -44,8 +45,10 @@ abstract class Repository extends \Prettus\Repository\Eloquent\BaseRepository
 
     /**
      * Return N most recent items, sorted by created_at
+     *
      * @param int    $count
      * @param string $sort_by created_at (default) or updated_at
+     *
      * @return mixed
      */
     public function recent($count = null, $sort_by = 'created_at')
@@ -55,9 +58,11 @@ abstract class Repository extends \Prettus\Repository\Eloquent\BaseRepository
 
     /**
      * Find records with a WHERE clause but also sort them
+     *
      * @param $where
      * @param $sort_by
      * @param $order_by
+     *
      * @return $this
      */
     public function whereOrder($where, $sort_by, $order_by = 'asc')
@@ -79,10 +84,12 @@ abstract class Repository extends \Prettus\Repository\Eloquent\BaseRepository
 
     /**
      * Find records where values don't match a list but sort the rest
+     *
      * @param string $col
      * @param array  $values
      * @param string $sort_by
      * @param string $order_by
+     *
      * @return $this
      */
     public function whereNotInOrder($col, $values, $sort_by, $order_by = 'asc')

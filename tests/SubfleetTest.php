@@ -3,8 +3,8 @@
 
 class SubfleetTest extends TestCase
 {
-    protected $ac_svc,
-              $ICAO = 'B777';
+    protected $ac_svc;
+    protected $ICAO = 'B777';
 
     public function setUp()
     {
@@ -30,7 +30,7 @@ class SubfleetTest extends TestCase
         # set an override now
         #
         $fare_svc->setForSubfleet($subfleet, $fare, [
-            'price' => 50, 'capacity' => 400
+            'price' => 50, 'capacity' => 400,
         ]);
 
         # look for them again
@@ -53,7 +53,7 @@ class SubfleetTest extends TestCase
         $fare = factory(App\Models\Fare::class)->create();
 
         $fare_svc->setForSubfleet($subfleet, $fare, [
-            'price' => 50, 'capacity' => 400
+            'price' => 50, 'capacity' => 400,
         ]);
 
         $ac_fares = $fare_svc->getForSubfleet($subfleet);
@@ -67,7 +67,7 @@ class SubfleetTest extends TestCase
         #
 
         $fare_svc->setForSubfleet($subfleet, $fare, [
-            'price' => 150, 'capacity' => 50
+            'price' => 150, 'capacity' => 50,
         ]);
 
         $ac_fares = $fare_svc->getForSubfleet($subfleet);

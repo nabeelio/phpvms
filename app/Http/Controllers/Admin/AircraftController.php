@@ -16,20 +16,19 @@ use App\Services\ImportService;
 use Flash;
 use Illuminate\Http\Request;
 use Log;
-use Prettus\Repository\Criteria\RequestCriteria;
 use Storage;
 
 /**
  * Class AircraftController
- * @package App\Http\Controllers\Admin
  */
 class AircraftController extends Controller
 {
-    private $aircraftRepo,
-            $importSvc;
+    private $aircraftRepo;
+    private $importSvc;
 
     /**
      * AircraftController constructor.
+     *
      * @param AircraftRepository $aircraftRepo
      * @param ImportService      $importSvc
      */
@@ -43,16 +42,19 @@ class AircraftController extends Controller
 
     /**
      * Display a listing of the Aircraft.
+     *
      * @param Request $request
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     *
      * @throws \Prettus\Repository\Exceptions\RepositoryException
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index(Request $request)
     {
         // If subfleet ID is passed part of the query string, then only
         // show the aircraft that are in that subfleet
         $w = [];
-        if($request->filled('subfleet')) {
+        if ($request->filled('subfleet')) {
             $w['subfleet_id'] = $request->input('subfleet');
         }
 
@@ -60,27 +62,30 @@ class AircraftController extends Controller
         $aircraft = $aircraft->all();
 
         return view('admin.aircraft.index', [
-            'aircraft' => $aircraft,
+            'aircraft'    => $aircraft,
             'subfleet_id' => $request->input('subfleet'),
         ]);
     }
 
     /**
      * Show the form for creating a new Aircraft.
+     *
      * @param Request $request
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function create(Request $request)
     {
         return view('admin.aircraft.create', [
-            'subfleets' => Subfleet::all()->pluck('name', 'id'),
-            'statuses'  => AircraftStatus::select(true),
-            'subfleet_id' => $request->query('subfleet')
+            'subfleets'   => Subfleet::all()->pluck('name', 'id'),
+            'statuses'    => AircraftStatus::select(true),
+            'subfleet_id' => $request->query('subfleet'),
         ]);
     }
 
     /**
      * Store a newly created Aircraft in storage.
+     *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
     public function store(CreateAircraftRequest $request)
@@ -94,6 +99,8 @@ class AircraftController extends Controller
 
     /**
      * Display the specified Aircraft.
+     *
+     * @param mixed $id
      */
     public function show($id)
     {
@@ -111,6 +118,8 @@ class AircraftController extends Controller
 
     /**
      * Show the form for editing the specified Aircraft.
+     *
+     * @param mixed $id
      */
     public function edit($id)
     {
@@ -130,6 +139,9 @@ class AircraftController extends Controller
 
     /**
      * Update the specified Aircraft in storage.
+     *
+     * @param mixed $id
+     *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
     public function update($id, UpdateAircraftRequest $request)
@@ -150,6 +162,8 @@ class AircraftController extends Controller
 
     /**
      * Remove the specified Aircraft from storage.
+     *
+     * @param mixed $id
      */
     public function destroy($id)
     {
@@ -168,9 +182,12 @@ class AircraftController extends Controller
 
     /**
      * Run the aircraft exporter
+     *
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     *
      * @throws \League\Csv\Exception
+     *
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
      */
     public function export(Request $request)
     {
@@ -187,8 +204,10 @@ class AircraftController extends Controller
 
     /**
      * @param Request $request
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     *
      * @throws \Illuminate\Validation\ValidationException
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function import(Request $request)
     {
@@ -215,6 +234,7 @@ class AircraftController extends Controller
 
     /**
      * @param Aircraft|null $aircraft
+     *
      * @return mixed
      */
     protected function return_expenses_view(Aircraft $aircraft)
@@ -228,10 +248,13 @@ class AircraftController extends Controller
 
     /**
      * Operations for associating ranks to the subfleet
+     *
      * @param         $id
      * @param Request $request
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     *
      * @throws \Exception
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function expenses($id, Request $request)
     {

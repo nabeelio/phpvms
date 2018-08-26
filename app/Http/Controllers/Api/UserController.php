@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Exceptions\BidExists;
 use App\Http\Resources\Bid as BidResource;
 use App\Http\Resources\Pirep as PirepResource;
 use App\Http\Resources\Subfleet as SubfleetResource;
@@ -24,19 +23,19 @@ use Prettus\Repository\Exceptions\RepositoryException;
 
 /**
  * Class UserController
- * @package App\Http\Controllers\Api
  */
 class UserController extends Controller
 {
-    private $flightRepo,
-            $flightSvc,
-            $pirepRepo,
-            $subfleetRepo,
-            $userRepo,
-            $userSvc;
+    private $flightRepo;
+    private $flightSvc;
+    private $pirepRepo;
+    private $subfleetRepo;
+    private $userRepo;
+    private $userSvc;
 
     /**
      * UserController constructor.
+     *
      * @param FlightRepository   $flightRepo
      * @param FlightService      $flightSvc
      * @param PirepRepository    $pirepRepo
@@ -62,6 +61,7 @@ class UserController extends Controller
 
     /**
      * @param Request $request
+     *
      * @return int|mixed
      */
     protected function getUserId(Request $request)
@@ -75,7 +75,9 @@ class UserController extends Controller
 
     /**
      * Return the profile for the currently auth'd user
+     *
      * @param Request $request
+     *
      * @return UserResource
      */
     public function index(Request $request)
@@ -85,7 +87,9 @@ class UserController extends Controller
 
     /**
      * Get the profile for the passed-in user
+     *
      * @param $id
+     *
      * @return UserResource
      */
     public function get($id)
@@ -95,10 +99,13 @@ class UserController extends Controller
 
     /**
      * Return all of the bids for the passed-in user
+     *
      * @param Request $request
-     * @return mixed
+     *
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      * @throws \App\Exceptions\BidExists
+     *
+     * @return mixed
      */
     public function bids(Request $request)
     {
@@ -133,7 +140,9 @@ class UserController extends Controller
 
     /**
      * Return the fleet that this user is allowed to
+     *
      * @param Request $request
+     *
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function fleet(Request $request)
@@ -146,8 +155,10 @@ class UserController extends Controller
 
     /**
      * @param Request $request
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     *
      * @throws RepositoryException
+     *
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function pireps(Request $request)
     {

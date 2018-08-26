@@ -7,7 +7,6 @@ use DB;
 
 /**
  * Class Migration
- * @package App\Interfaces
  */
 abstract class Migration extends \Illuminate\Database\Migrations\Migration
 {
@@ -16,6 +15,7 @@ abstract class Migration extends \Illuminate\Database\Migrations\Migration
 
     /**
      * At a minimum, this function needs to be implemented
+     *
      * @return mixed
      */
     abstract public function up();
@@ -25,13 +25,13 @@ abstract class Migration extends \Illuminate\Database\Migrations\Migration
      */
     public function down()
     {
-
     }
 
     /**
      * Dynamically figure out the offset and the start number for a group.
      * This way we don't need to mess with how to order things
      * When calling getNextOrderNumber(users) 31, will be returned, then 32, and so on
+     *
      * @param      $name
      * @param null $offset
      * @param int  $start_offset
@@ -58,7 +58,7 @@ abstract class Migration extends \Illuminate\Database\Migrations\Migration
                 if ($start_offset === null) {
                     $start_offset = $offset + 1;
                 } else {
-                    ++$start_offset;
+                    $start_offset++;
                 }
 
                 $offset = $group->offset;
@@ -71,7 +71,9 @@ abstract class Migration extends \Illuminate\Database\Migrations\Migration
 
     /**
      * Get the next increment number from a group
+     *
      * @param $group
+     *
      * @return int
      */
     public function getNextOrderNumber($group): int
@@ -81,7 +83,7 @@ abstract class Migration extends \Illuminate\Database\Migrations\Migration
         }
 
         $idx = $this->counters[$group];
-        ++$this->counters[$group];
+        $this->counters[$group]++;
 
         return $idx;
     }
@@ -114,6 +116,7 @@ abstract class Migration extends \Illuminate\Database\Migrations\Migration
 
     /**
      * Update a setting
+     *
      * @param       $key
      * @param       $value
      * @param array $attrs
@@ -128,6 +131,7 @@ abstract class Migration extends \Illuminate\Database\Migrations\Migration
 
     /**
      * Add rows to a table
+     *
      * @param $table
      * @param $rows
      */

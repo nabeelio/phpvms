@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Log;
 
 /**
  * Figure out what flights need to be active for today
- * @package App\Cron\Nightly
  */
 class SetActiveFlights extends Listener
 {
@@ -38,7 +37,7 @@ class SetActiveFlights extends Listener
         /**
          * @var Flight $flight
          */
-        foreach($flights as $flight) {
+        foreach ($flights as $flight) {
             if (!$flight->active) {
                 continue;
             }
@@ -73,8 +72,8 @@ class SetActiveFlights extends Listener
             if ($today->gte($flight->start_date) && $today->lte($flight->end_date)) {
                 if ($flight->days !== null && $flight->days > 0) {
                     $visible = Days::isToday($flight->days);
-                    if($flight->visible !== $visible) {
-                        Log::info('Toggling flight '.$flight->ident.' to '.($visible?'shown':'hidden').'');
+                    if ($flight->visible !== $visible) {
+                        Log::info('Toggling flight '.$flight->ident.' to '.($visible ? 'shown' : 'hidden').'');
 
                         $flight->visible = $visible;
                         if ($visible === false) {

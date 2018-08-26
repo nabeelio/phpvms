@@ -15,15 +15,15 @@ use Prettus\Repository\Exceptions\RepositoryException;
 
 /**
  * Class FlightController
- * @package App\Http\Controllers\Api
  */
 class FlightController extends Controller
 {
-    private $flightRepo,
-            $flightSvc;
+    private $flightRepo;
+    private $flightSvc;
 
     /**
      * FlightController constructor.
+     *
      * @param FlightRepository $flightRepo
      * @param FlightService    $flightSvc
      */
@@ -37,7 +37,9 @@ class FlightController extends Controller
 
     /**
      * Return all the flights, paginated
+     *
      * @param Request $request
+     *
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index(Request $request)
@@ -49,7 +51,7 @@ class FlightController extends Controller
             'visible' => true,
         ];
 
-        if(setting('pilots.restrict_to_company')) {
+        if (setting('pilots.restrict_to_company')) {
             $where['airline_id'] = Auth::user()->airline_id;
         }
         if (setting('pilots.only_flights_from_current', false)) {
@@ -69,6 +71,7 @@ class FlightController extends Controller
 
     /**
      * @param $id
+     *
      * @return FlightResource
      */
     public function get($id)
@@ -81,6 +84,7 @@ class FlightController extends Controller
 
     /**
      * @param Request $request
+     *
      * @return mixed
      */
     public function search(Request $request)
@@ -93,7 +97,7 @@ class FlightController extends Controller
                 'visible' => true,
             ];
 
-            if(setting('pilots.restrict_to_company')) {
+            if (setting('pilots.restrict_to_company')) {
                 $where['airline_id'] = Auth::user()->airline_id;
             }
             if (setting('pilots.only_flights_from_current')) {
@@ -117,8 +121,10 @@ class FlightController extends Controller
 
     /**
      * Get a flight's route
+     *
      * @param         $id
      * @param Request $request
+     *
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function route($id, Request $request)

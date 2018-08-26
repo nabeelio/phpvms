@@ -13,7 +13,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Class Handler
- * @package App\Exceptions
  */
 class Handler extends ExceptionHandler
 {
@@ -32,9 +31,12 @@ class Handler extends ExceptionHandler
     /**
      * Report or log an exception.
      * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
-     * @param  \Exception $exception
-     * @return void
+     *
+     * @param \Exception $exception
+     *
      * @throws Exception
+     *
+     * @return void
      */
     public function report(Exception $exception)
     {
@@ -43,8 +45,10 @@ class Handler extends ExceptionHandler
 
     /**
      * Create an error message
+     *
      * @param $status_code
      * @param $message
+     *
      * @return array
      */
     protected function createError($status_code, $message)
@@ -53,15 +57,16 @@ class Handler extends ExceptionHandler
             'error' => [
                 'status'  => $status_code,
                 'message' => $message,
-            ]
+            ],
         ];
     }
 
     /**
      * Render an exception into an HTTP response.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \Exception               $exception
+     * @param \Illuminate\Http\Request $request
+     * @param \Exception               $exception
+     *
      * @return mixed
      */
     public function render($request, Exception $exception)
@@ -99,9 +104,7 @@ class Handler extends ExceptionHandler
                 $error['error']['errors'] = $errors;
 
                 Log::error('Validation errors', $errors);
-            }
-
-            else {
+            } else {
                 $error = $this->createError(400, $exception->getMessage());
             }
 
@@ -124,8 +127,9 @@ class Handler extends ExceptionHandler
     /**
      * Convert an authentication exception into an unauthenticated response.
      *
-     * @param  \Illuminate\Http\Request                 $request
-     * @param  \Illuminate\Auth\AuthenticationException $exception
+     * @param \Illuminate\Http\Request                 $request
+     * @param \Illuminate\Auth\AuthenticationException $exception
+     *
      * @return \Illuminate\Http\Response
      */
     protected function unauthenticated($request, AuthenticationException $exception)
@@ -140,7 +144,9 @@ class Handler extends ExceptionHandler
 
     /**
      * Render the given HttpException.
+     *
      * @param HttpException $e
+     *
      * @return \Illuminate\Http\Response|\Symfony\Component\HttpFoundation\Response
      */
     protected function renderHttpException(HttpException $e)

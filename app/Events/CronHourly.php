@@ -7,7 +7,6 @@ use Illuminate\Queue\SerializesModels;
 
 /**
  * This event is dispatched when the hourly cron is run
- * @package App\Events
  */
 class CronHourly
 {
@@ -18,6 +17,5 @@ class CronHourly
      */
     public function __construct()
     {
-
     }
 }

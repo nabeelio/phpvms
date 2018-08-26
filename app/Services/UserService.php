@@ -20,15 +20,15 @@ use Log;
 
 /**
  * Class UserService
- * @package App\Services
  */
 class UserService extends Service
 {
-    private $aircraftRepo,
-            $subfleetRepo;
+    private $aircraftRepo;
+    private $subfleetRepo;
 
     /**
      * UserService constructor.
+     *
      * @param AircraftRepository $aircraftRepo
      * @param SubfleetRepository $subfleetRepo
      */
@@ -43,10 +43,13 @@ class UserService extends Service
     /**
      * Register a pilot. Also attaches the initial roles
      * required, and then triggers the UserRegistered event
+     *
      * @param User  $user   User model
      * @param array $groups Additional groups to assign
-     * @return mixed
+     *
      * @throws \Exception
+     *
+     * @return mixed
      */
     public function createPilot(User $user, array $groups = null)
     {
@@ -82,7 +85,9 @@ class UserService extends Service
     /**
      * Return the subfleets this user is allowed access to,
      * based on their current rank
+     *
      * @param $user
+     *
      * @return Collection
      */
     public function getAllowableSubfleets($user)
@@ -97,8 +102,10 @@ class UserService extends Service
 
     /**
      * Return a bool if a user is allowed to fly the current aircraft
+     *
      * @param $user
      * @param $aircraft_id
+     *
      * @return bool
      */
     public function aircraftAllowed($user, $aircraft_id)
@@ -113,8 +120,10 @@ class UserService extends Service
     /**
      * Change the user's state. PENDING to ACCEPTED, etc
      * Send out an email
+     *
      * @param User $user
      * @param      $old_state
+     *
      * @return User
      */
     public function changeUserState(User $user, $old_state): User
@@ -135,8 +144,10 @@ class UserService extends Service
     /**
      * Adjust the number of flights a user has. Triggers
      * UserStatsChanged event
+     *
      * @param User $user
      * @param int  $count
+     *
      * @return User
      */
     public function adjustFlightCount(User $user, int $count): User
@@ -153,8 +164,10 @@ class UserService extends Service
 
     /**
      * Update a user's flight times
+     *
      * @param User $user
      * @param int  $minutes
+     *
      * @return User
      */
     public function adjustFlightTime(User $user, int $minutes): User
@@ -168,7 +181,9 @@ class UserService extends Service
 
     /**
      * See if a pilot's rank has change. Triggers the UserStatsChanged event
+     *
      * @param User $user
+     *
      * @return User
      */
     public function calculatePilotRank(User $user): User
@@ -216,7 +231,9 @@ class UserService extends Service
 
     /**
      * Set the user's status to being on leave
+     *
      * @param User $user
+     *
      * @return User
      */
     public function setStatusOnLeave(User $user): User
@@ -233,7 +250,9 @@ class UserService extends Service
 
     /**
      * Recount/update all of the stats for a user
+     *
      * @param User $user
+     *
      * @return User
      */
     public function recalculateStats(User $user): User
@@ -241,7 +260,7 @@ class UserService extends Service
         # Recalc their hours
         $w = [
             'user_id' => $user->id,
-            'state' => PirepState::ACCEPTED,
+            'state'   => PirepState::ACCEPTED,
         ];
 
         $flight_time = Pirep::where($w)->sum('flight_time');

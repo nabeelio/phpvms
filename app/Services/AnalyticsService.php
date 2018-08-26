@@ -11,7 +11,6 @@ use PDO;
 
 /**
  * Class AnalyticsService
- * @package App\Services
  */
 class AnalyticsService extends Service
 {

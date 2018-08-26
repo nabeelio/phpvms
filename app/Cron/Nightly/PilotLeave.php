@@ -11,7 +11,6 @@ use Carbon\Carbon;
 
 /**
  * Determine if any pilots should be set to ON LEAVE status
- * @package App\Listeners\Cron\Nightly
  */
 class PilotLeave extends Listener
 {
@@ -27,13 +26,15 @@ class PilotLeave extends Listener
 
     /**
      * Set any users to being on leave after X days
+     *
      * @param CronNightly $event
+     *
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
      */
     public function handle(CronNightly $event): void
     {
-        if(setting('pilots.auto_leave_days') === 0) {
+        if (setting('pilots.auto_leave_days') === 0) {
             return;
         }
 
@@ -41,7 +42,7 @@ class PilotLeave extends Listener
         $users = User::where('status', UserState::ACTIVE)
            ->whereDate('updated_at', '<', $date);
 
-        foreach($users as $user) {
+        foreach ($users as $user) {
             Log::info('Setting user '.$user->ident.' to ON LEAVE status');
             $this->userSvc->setStatusOnLeave($user);
         }

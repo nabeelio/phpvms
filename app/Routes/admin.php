@@ -2,7 +2,6 @@
 /**
  * Admin Routes
  */
-
 Route::group([
     'namespace'  => 'Admin', 'prefix' => 'admin', 'as' => 'admin.',
     'middleware' => ['role:admin'],

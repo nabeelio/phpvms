@@ -40,20 +40,20 @@ use Log;
 
 /**
  * Class PirepController
- * @package App\Http\Controllers\Api
  */
 class PirepController extends Controller
 {
-    private $acarsRepo,
-            $fareSvc,
-            $financeSvc,
-            $journalRepo,
-            $pirepRepo,
-            $pirepSvc,
-            $userSvc;
+    private $acarsRepo;
+    private $fareSvc;
+    private $financeSvc;
+    private $journalRepo;
+    private $pirepRepo;
+    private $pirepSvc;
+    private $userSvc;
 
     /**
      * PirepController constructor.
+     *
      * @param AcarsRepository     $acarsRepo
      * @param FareService         $fareSvc
      * @param PirepFinanceService $financeSvc
@@ -82,7 +82,9 @@ class PirepController extends Controller
 
     /**
      * Parse any PIREP added in
+     *
      * @param Request $request
+     *
      * @return array|null|string
      */
     protected function parsePirep(Request $request)
@@ -98,7 +100,9 @@ class PirepController extends Controller
 
     /**
      * Check if a PIREP is cancelled
+     *
      * @param $pirep
+     *
      * @throws \App\Exceptions\PirepCancelled
      */
     protected function checkCancelled(Pirep $pirep)
@@ -132,8 +136,10 @@ class PirepController extends Controller
 
     /**
      * Save the fares
+     *
      * @param         $pirep
      * @param Request $request
+     *
      * @throws \Exception
      */
     protected function updateFares($pirep, Request $request)
@@ -155,14 +161,15 @@ class PirepController extends Controller
 
     /**
      * Get all the active PIREPs
+     *
      * @return mixed
      */
     public function index()
     {
         $active = [];
         $pireps = $this->acarsRepo->getPositions();
-        foreach($pireps as $pirep) {
-            if(!$pirep->position) {
+        foreach ($pireps as $pirep) {
+            if (!$pirep->position) {
                 continue;
             }
 
@@ -174,6 +181,7 @@ class PirepController extends Controller
 
     /**
      * @param $pirep_id
+     *
      * @return PirepResource
      */
     public function get($pirep_id)
@@ -187,12 +195,14 @@ class PirepController extends Controller
      * status, and whatever other statuses may be defined
      *
      * @param PrefileRequest $request
-     * @return PirepResource
+     *
      * @throws \App\Exceptions\AircraftNotAtAirport
      * @throws \App\Exceptions\UserNotAtAirport
      * @throws \App\Exceptions\PirepCancelled
      * @throws \App\Exceptions\AircraftPermissionDenied
      * @throws \Exception
+     *
+     * @return PirepResource
      */
     public function prefile(PrefileRequest $request)
     {
@@ -213,22 +223,19 @@ class PirepController extends Controller
 
         # See if this user is at the current airport
         if (setting('pilots.only_flights_from_current')
-            && $user->curr_airport_id !== $pirep->dpt_airport_id)
-        {
+            && $user->curr_airport_id !== $pirep->dpt_airport_id) {
             throw new UserNotAtAirport();
         }
 
         # See if this user is allowed to fly this aircraft
         if (setting('pireps.restrict_aircraft_to_rank', false)
-            && !$this->userSvc->aircraftAllowed($user, $pirep->aircraft_id))
-        {
+            && !$this->userSvc->aircraftAllowed($user, $pirep->aircraft_id)) {
             throw new AircraftPermissionDenied();
         }
 
         # See if this aircraft is at the departure airport
         if (setting('pireps.only_aircraft_at_dpt_airport')
-            && $pirep->aircraft_id !== $pirep->dpt_airport_id)
-        {
+            && $pirep->aircraft_id !== $pirep->dpt_airport_id) {
             throw new AircraftNotAtAirport();
         }
 
@@ -240,7 +247,7 @@ class PirepController extends Controller
         }
 
         // Default to a scheduled passenger flight
-        if(!array_key_exists('flight_type', $attrs)) {
+        if (!array_key_exists('flight_type', $attrs)) {
             $attrs['flight_type'] = 'J';
         }
 
@@ -262,11 +269,13 @@ class PirepController extends Controller
      *
      * @param               $pirep_id
      * @param UpdateRequest $request
-     * @return PirepResource
+     *
      * @throws \App\Exceptions\PirepCancelled
      * @throws \App\Exceptions\AircraftPermissionDenied
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      * @throws \Exception
+     *
+     * @return PirepResource
      */
     public function update($pirep_id, UpdateRequest $request)
     {
@@ -299,13 +308,16 @@ class PirepController extends Controller
 
     /**
      * File the PIREP
+     *
      * @param             $pirep_id
      * @param FileRequest $request
-     * @return PirepResource
+     *
      * @throws \App\Exceptions\PirepCancelled
      * @throws \App\Exceptions\AircraftPermissionDenied
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      * @throws \Exception
+     *
+     * @return PirepResource
      */
     public function file($pirep_id, FileRequest $request)
     {
@@ -357,10 +369,13 @@ class PirepController extends Controller
 
     /**
      * Cancel the PIREP
+     *
      * @param         $pirep_id
      * @param Request $request
-     * @return PirepResource
+     *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
+     *
+     * @return PirepResource
      */
     public function cancel($pirep_id, Request $request)
     {
@@ -376,7 +391,9 @@ class PirepController extends Controller
 
     /**
      * Add a new comment
-     * @param         $id
+     *
+     * @param   $id
+     *
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function comments_get($id)
@@ -387,10 +404,13 @@ class PirepController extends Controller
 
     /**
      * Add a new comment
+     *
      * @param                $id
      * @param CommentRequest $request
-     * @return PirepCommentResource
+     *
      * @throws \App\Exceptions\PirepCancelled
+     *
+     * @return PirepCommentResource
      */
     public function comments_post($id, CommentRequest $request)
     {
@@ -410,7 +430,9 @@ class PirepController extends Controller
 
     /**
      * Get all of the fields for a PIREP
+     *
      * @param $pirep_id
+     *
      * @return PirepFieldCollection
      */
     public function fields_get($pirep_id)
@@ -421,8 +443,10 @@ class PirepController extends Controller
 
     /**
      * Set any fields for a PIREP
+     *
      * @param string        $pirep_id
      * @param FieldsRequest $request
+     *
      * @return PirepFieldCollection
      */
     public function fields_post($pirep_id, FieldsRequest $request)
@@ -436,10 +460,12 @@ class PirepController extends Controller
     }
 
     /**
-     * @param         $id
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @param   $id
+     *
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
+     *
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function finances_get($id)
     {
@@ -451,11 +477,13 @@ class PirepController extends Controller
     /**
      * @param         $id
      * @param Request $request
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     *
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
      * @throws \Exception
      * @throws \Prettus\Validator\Exceptions\ValidatorException
+     *
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function finances_recalculate($id, Request $request)
     {
@@ -471,6 +499,7 @@ class PirepController extends Controller
     /**
      * @param         $id
      * @param Request $request
+     *
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function route_get($id, Request $request)
@@ -478,18 +507,21 @@ class PirepController extends Controller
         $pirep = Pirep::find($id);
         return AcarsRouteResource::collection(Acars::where([
             'pirep_id' => $id,
-            'type'     => AcarsType::ROUTE
+            'type'     => AcarsType::ROUTE,
         ])->orderBy('order', 'asc')->get());
     }
 
     /**
      * Post the ROUTE for a PIREP, can be done from the ACARS log
+     *
      * @param              $id
      * @param RouteRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     *
      * @throws \App\Exceptions\PirepCancelled
      * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
      * @throws \Exception
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function route_post($id, RouteRequest $request)
     {
@@ -502,7 +534,7 @@ class PirepController extends Controller
         // Delete the route before posting a new one
         Acars::where([
             'pirep_id' => $id,
-            'type'     => AcarsType::ROUTE
+            'type'     => AcarsType::ROUTE,
         ])->delete();
 
         $count = 0;
@@ -518,7 +550,7 @@ class PirepController extends Controller
             $acars = Acars::create($position);
             $acars->save();
 
-            ++$count;
+            $count++;
         }
 
         return $this->message($count.' points added', $count);
@@ -527,8 +559,10 @@ class PirepController extends Controller
     /**
      * @param         $id
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     *
      * @throws \Exception
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function route_delete($id, Request $request)
     {
@@ -536,7 +570,7 @@ class PirepController extends Controller
 
         Acars::where([
             'pirep_id' => $id,
-            'type'     => AcarsType::ROUTE
+            'type'     => AcarsType::ROUTE,
         ])->delete();
 
         return $this->message('Route deleted');

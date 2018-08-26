@@ -9,7 +9,6 @@ use Symfony\Component\Yaml\Yaml;
 
 /**
  * Class YamlExport
- * @package App\Console\Commands
  */
 class YamlExport extends Command
 {
@@ -18,6 +17,7 @@ class YamlExport extends Command
 
     /**
      * YamlExport constructor.
+     *
      * @param DatabaseService $dbSvc
      */
     public function __construct(DatabaseService $dbSvc)
@@ -47,6 +47,6 @@ class YamlExport extends Command
         }
 
         $yaml = Yaml::dump($export_tables, 4, 2);
-        print($yaml);
+        echo $yaml;
     }
 }

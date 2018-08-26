@@ -1,7 +1,5 @@
 <?php
-/**
- *
- */
+
 
 return [
     'filenewpirep'         => 'Inserici Nuovo PIREP',
@@ -36,7 +34,7 @@ return [
         'manual' => 'Manuale',
         'acars'  => 'ACARS',
     ],
-    'state'       => [
+    'state' => [
         'accepted'    => 'Accettato',
         'pending'     => 'In Attesa di Approvazione',
         'rejected'    => 'Rifiutato',
@@ -45,7 +43,7 @@ return [
         'deleted'     => 'Eliminato',
         'draft'       => 'Bozza',
     ],
-    'status'      => [
+    'status' => [
         'initialized'  => 'Iniziato',
         'scheduled'    => 'Programmato',
         'boarding'     => 'Imbarco',
@@ -67,5 +65,5 @@ return [
         'arrived'      => 'Arrivato',
         'cancelled'    => 'Cancellato',
         'emerg_decent' => 'Discesa di Emergenza',
-    ]
+    ],
 ];

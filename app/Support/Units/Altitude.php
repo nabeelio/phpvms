@@ -5,14 +5,12 @@ namespace App\Support\Units;
 use App\Interfaces\Unit;
 use PhpUnitsOfMeasure\PhysicalQuantity\Length;
 
-/**
- * @package App\Support\Units
- */
 class Altitude extends Unit
 {
     /**
      * @param float  $value
      * @param string $unit
+     *
      * @throws \PhpUnitsOfMeasure\Exception\NonNumericValue
      * @throws \PhpUnitsOfMeasure\Exception\NonStringUnitName
      */
@@ -23,7 +21,7 @@ class Altitude extends Unit
 
         $this->units = [
             'm'  => round($this->instance->toUnit('meters'), 2),
-            'km'  => round($this->instance->toUnit('meters') / 1000, 2),
+            'km' => round($this->instance->toUnit('meters') / 1000, 2),
             'ft' => round($this->instance->toUnit('feet'), 2),
         ];
     }

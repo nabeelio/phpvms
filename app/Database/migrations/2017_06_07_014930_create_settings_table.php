@@ -30,7 +30,7 @@ class CreateSettingsTable extends Migration
             $table->timestamps();
         });
 
-        /**
+        /*
          * Initial default settings
          */
 
@@ -122,7 +122,7 @@ class CreateSettingsTable extends Migration
             'description' => 'The units for temperature',
         ]);
 
-        /**
+        /*
          * ACARS Settings
          */
 
@@ -151,7 +151,7 @@ class CreateSettingsTable extends Migration
             'description' => 'Initial zoom level on the map',
         ]);
 
-        /**
+        /*
          * BIDS
          */
 
@@ -179,7 +179,7 @@ class CreateSettingsTable extends Migration
             'description' => 'Number of hours to expire bids after',
         ]);
 
-        /**
+        /*
          * PIREPS
          */
 
@@ -223,7 +223,7 @@ class CreateSettingsTable extends Migration
             'description' => 'When a PIREP is accepted, remove the bid, if it exists',
         ]);
 
-        /**
+        /*
          * PILOTS
          */
 

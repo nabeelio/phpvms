@@ -8,7 +8,6 @@ use App\Services\GeoService;
 
 /**
  * Show the live map in a view
- * @package App\Widgets
  */
 class LiveMap extends Widget
 {
@@ -29,16 +28,16 @@ class LiveMap extends Widget
         $positions = $geoSvc->getFeatureForLiveFlights($pireps);
 
         $center_coords = setting('acars.center_coords', '0,0');
-        $center_coords = array_map(function($c) {
+        $center_coords = array_map(function ($c) {
             return (float) trim($c);
         }, explode(',', $center_coords));
 
         return view('widgets.live_map', [
-            'config'        => $this->config,
-            'pireps'        => $pireps,
-            'positions'     => $positions,
-            'center'        => $center_coords,
-            'zoom'          => setting('acars.default_zoom', 5),
+            'config'    => $this->config,
+            'pireps'    => $pireps,
+            'positions' => $positions,
+            'center'    => $center_coords,
+            'zoom'      => setting('acars.default_zoom', 5),
         ]);
     }
 }

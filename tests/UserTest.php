@@ -5,7 +5,8 @@ use App\Services\UserService;
 
 class UserTest extends TestCase
 {
-    protected $settingsRepo, $userSvc;
+    protected $settingsRepo;
+    protected $userSvc;
 
     public function setUp()
     {
@@ -57,7 +58,7 @@ class UserTest extends TestCase
         /**
          * Check the user ID call
          */
-        $resp = $this->get('/api/users/' . $user->id . '/fleet', [], $user)->assertStatus(200);
+        $resp = $this->get('/api/users/'.$user->id.'/fleet', [], $user)->assertStatus(200);
         $body = $resp->json()['data'];
 
         # Get the subfleet that's been added in
@@ -68,7 +69,6 @@ class UserTest extends TestCase
         $aircraft_from_api = collect($subfleet_from_api['aircraft'])->pluck('id');
         $this->assertEquals($added_aircraft, $aircraft_from_api);
     }
-
 
     /**
      * Flip the setting for getting all of the user's aircraft restricted
@@ -104,7 +104,6 @@ class UserTest extends TestCase
 
         $this->assertEquals($added_aircraft, $all_aircraft);
 
-
         /**
          * Check via API
          */
@@ -137,17 +136,17 @@ class UserTest extends TestCase
         $rank = $this->createRank(10, [$subfleetA['subfleet']->id]);
         $user = factory(App\Models\User::class)->create([
             'curr_airport_id' => $airport->id,
-            'rank_id' => $rank->id,
+            'rank_id'         => $rank->id,
         ]);
 
         $flight = factory(App\Models\Flight::class)->create([
-            'airline_id' => $user->airline_id,
+            'airline_id'     => $user->airline_id,
             'dpt_airport_id' => $airport->id,
         ]);
 
         $flight->subfleets()->syncWithoutDetaching([
             $subfleetA['subfleet']->id,
-            $subfleetB['subfleet']->id
+            $subfleetB['subfleet']->id,
         ]);
 
         /*
@@ -164,7 +163,7 @@ class UserTest extends TestCase
         # And restrict the aircraft
         $this->settingsRepo->store('pireps.restrict_aircraft_to_rank', false);
 
-        $response = $this->get('/api/flights/' . $flight->id, [], $user);
+        $response = $this->get('/api/flights/'.$flight->id, [], $user);
         $response->assertStatus(200);
         $this->assertCount(2, $response->json()['data']['subfleets']);
 
@@ -176,7 +175,7 @@ class UserTest extends TestCase
         /**
          * Make sure it's filtered out from the single flight call
          */
-        $response = $this->get('/api/flights/' . $flight->id, [], $user);
+        $response = $this->get('/api/flights/'.$flight->id, [], $user);
         $response->assertStatus(200);
         $this->assertCount(1, $response->json()['data']['subfleets']);
 
@@ -191,7 +190,7 @@ class UserTest extends TestCase
         /**
          * Filtered from search?
          */
-        $response = $this->get('/api/flights/search?flight_id=' . $flight->id, [], $user);
+        $response = $this->get('/api/flights/search?flight_id='.$flight->id, [], $user);
         $response->assertStatus(200);
         $body = $response->json()['data'];
         $this->assertCount(1, $body[0]['subfleets']);

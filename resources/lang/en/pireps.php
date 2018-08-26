@@ -1,7 +1,5 @@
 <?php
-/**
- *
- */
+
 
 return [
     'newflightreport'      => 'New Flight Report',
@@ -36,7 +34,7 @@ return [
         'manual' => 'Manual',
         'acars'  => 'ACARS',
     ],
-    'state'  => [
+    'state' => [
         'accepted'    => 'Accepted',
         'pending'     => 'Pending Approval',
         'rejected'    => 'Rejected',
@@ -67,5 +65,5 @@ return [
         'arrived'      => 'Arrived',
         'cancelled'    => 'Cancelled',
         'emerg_decent' => 'Emergency decent',
-    ]
+    ],
 ];

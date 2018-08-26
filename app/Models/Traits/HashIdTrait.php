@@ -8,8 +8,9 @@ use Hashids\Hashids;
 trait HashIdTrait
 {
     /**
-     * @return string
      * @throws \Hashids\HashidsException
+     *
+     * @return string
      */
     final protected static function createNewHashId(): string
     {
@@ -20,6 +21,7 @@ trait HashIdTrait
 
     /**
      * Register callbacks
+     *
      * @throws \Hashids\HashidsException
      */
     final protected static function bootHashIdTrait(): void

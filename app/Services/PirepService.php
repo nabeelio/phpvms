@@ -19,9 +19,6 @@ use App\Models\Navdata;
 use App\Models\Pirep;
 use App\Models\PirepFieldValue;
 use App\Models\User;
-use App\Repositories\AcarsRepository;
-use App\Repositories\FlightRepository;
-use App\Repositories\NavdataRepository;
 use App\Repositories\PirepRepository;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -29,19 +26,19 @@ use Log;
 
 /**
  * Class PirepService
- * @package App\Services
  */
 class PirepService extends Service
 {
-    private $geoSvc,
-            $pilotSvc,
-            $pirepRepo;
+    private $geoSvc;
+    private $pilotSvc;
+    private $pirepRepo;
 
     /**
      * PirepService constructor.
-     * @param GeoService        $geoSvc
-     * @param PirepRepository   $pirepRepo
-     * @param UserService       $pilotSvc
+     *
+     * @param GeoService      $geoSvc
+     * @param PirepRepository $pirepRepo
+     * @param UserService     $pilotSvc
      */
     public function __construct(
         GeoService $geoSvc,
@@ -56,7 +53,9 @@ class PirepService extends Service
     /**
      * Find if there are duplicates to a given PIREP. Ideally, the passed
      * in PIREP hasn't been saved or gone through the create() method
+     *
      * @param Pirep $pirep
+     *
      * @return bool|Pirep
      */
     public function findDuplicate(Pirep $pirep)
@@ -98,9 +97,12 @@ class PirepService extends Service
      * Save the route into the ACARS table with AcarsType::ROUTE
      * This attempts to create the route from the navdata and the route
      * entered into the PIREP's route field
+     *
      * @param Pirep $pirep
-     * @return Pirep
+     *
      * @throws \Exception
+     *
+     * @return Pirep
      */
     public function saveRoute(Pirep $pirep): Pirep
     {
@@ -142,7 +144,7 @@ class PirepService extends Service
             $acars->lon = $point->lon;
 
             $acars->save();
-            ++$point_count;
+            $point_count++;
         }
 
         return $pirep;
@@ -151,7 +153,7 @@ class PirepService extends Service
     /**
      * Create a new PIREP with some given fields
      *
-     * @param Pirep $pirep
+     * @param Pirep                   $pirep
      * @param array PirepFieldValue[] $field_values
      *
      * @return Pirep
@@ -165,8 +167,8 @@ class PirepService extends Service
         # Check the block times. If a block on (arrival) time isn't
         # specified, then use the time that it was submitted. It won't
         # be the most accurate, but that might be OK
-        if(!$pirep->block_on_time) {
-            if($pirep->submitted_at) {
+        if (!$pirep->block_on_time) {
+            if ($pirep->submitted_at) {
                 $pirep->block_on_time = $pirep->submitted_at;
             } else {
                 $pirep->block_on_time = Carbon::now('UTC');
@@ -175,7 +177,7 @@ class PirepService extends Service
 
         # If the depart time isn't set, then try to calculate it by
         # subtracting the flight time from the block_on (arrival) time
-        if(!$pirep->block_off_time && $pirep->flight_time > 0) {
+        if (!$pirep->block_off_time && $pirep->flight_time > 0) {
             $pirep->block_off_time = $pirep->block_on_time->subMinutes($pirep->flight_time);
         }
 
@@ -196,6 +198,7 @@ class PirepService extends Service
 
     /**
      * Submit the PIREP. Figure out its default state
+     *
      * @param Pirep $pirep
      */
     public function submit(Pirep $pirep)
@@ -238,6 +241,7 @@ class PirepService extends Service
 
     /**
      * Update any custom PIREP fields
+     *
      * @param       $pirep_id
      * @param array $field_values
      */
@@ -246,10 +250,10 @@ class PirepService extends Service
         foreach ($field_values as $fv) {
             PirepFieldValue::updateOrCreate(
                 ['pirep_id' => $pirep_id,
-                 'name'     => $fv['name']
+                 'name'     => $fv['name'],
                 ],
                 ['value'  => $fv['value'],
-                 'source' => $fv['source']
+                 'source' => $fv['source'],
                 ]
             );
         }
@@ -258,6 +262,7 @@ class PirepService extends Service
     /**
      * @param Pirep $pirep
      * @param int   $new_state
+     *
      * @return Pirep
      */
     public function changeState(Pirep $pirep, int $new_state)
@@ -268,7 +273,7 @@ class PirepService extends Service
             return $pirep;
         }
 
-        /**
+        /*
          * Move from a PENDING status into either ACCEPTED or REJECTED
          */
         if ($pirep->state === PirepState::PENDING) {
@@ -276,9 +281,8 @@ class PirepService extends Service
                 return $this->accept($pirep);
             } elseif ($new_state === PirepState::REJECTED) {
                 return $this->reject($pirep);
-            } else {
-                return $pirep;
             }
+            return $pirep;
         } /*
          * Move from a ACCEPTED to REJECTED status
          */
@@ -286,7 +290,7 @@ class PirepService extends Service
             $pirep = $this->reject($pirep);
 
             return $pirep;
-        } /**
+        } /*
          * Move from REJECTED to ACCEPTED
          */
         elseif ($pirep->state === PirepState::REJECTED) {
@@ -300,6 +304,7 @@ class PirepService extends Service
 
     /**
      * @param Pirep $pirep
+     *
      * @return Pirep
      */
     public function accept(Pirep $pirep): Pirep
@@ -343,6 +348,7 @@ class PirepService extends Service
 
     /**
      * @param Pirep $pirep
+     *
      * @return Pirep
      */
     public function reject(Pirep $pirep): Pirep
@@ -393,7 +399,9 @@ class PirepService extends Service
 
     /**
      * If the setting is enabled, remove the bid
+     *
      * @param Pirep $pirep
+     *
      * @throws \Exception
      */
     public function removeBid(Pirep $pirep)

@@ -8,12 +8,12 @@ use Module;
 
 /**
  * Class AwardService
- * @package App\Services
  */
 class AwardService extends Service
 {
     /**
      * Find any of the award classes
+     *
      * @return \App\Interfaces\Award[]
      */
     public function findAllAwardClasses(): array

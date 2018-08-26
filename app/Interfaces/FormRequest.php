@@ -4,7 +4,6 @@ namespace App\Interfaces;
 
 /**
  * Class FormRequest
- * @package App\Interfaces
  */
 class FormRequest extends \Illuminate\Foundation\Http\FormRequest
 {

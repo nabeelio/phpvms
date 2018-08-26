@@ -6,7 +6,7 @@ use ArrayAccess;
 
 /**
  * Class Unit
- * @package App\Interfaces
+ *
  * @property mixed  $instance
  * @property string $unit
  * @property array  $units
@@ -20,12 +20,14 @@ class Unit implements ArrayAccess
 
     /**
      * All of the units of this class
+     *
      * @var array
      */
     public $units;
 
     /**
      * Holds an instance of the PhpUnit type
+     *
      * @var
      */
     protected $instance;
@@ -40,7 +42,9 @@ class Unit implements ArrayAccess
 
     /**
      * Implements ArrayAccess
+     *
      * @param $offset
+     *
      * @return bool
      */
     public function offsetExists($offset)
@@ -50,7 +54,9 @@ class Unit implements ArrayAccess
 
     /**
      * Implements ArrayAccess
+     *
      * @param $offset
+     *
      * @return mixed
      */
     public function offsetGet($offset)
@@ -60,6 +66,7 @@ class Unit implements ArrayAccess
 
     /**
      * Implements ArrayAccess
+     *
      * @param $offset
      * @param $value
      */
@@ -70,6 +77,7 @@ class Unit implements ArrayAccess
 
     /**
      * Implements ArrayAccess
+     *
      * @param $offset
      */
     public function offsetUnset($offset)

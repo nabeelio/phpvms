@@ -2,7 +2,7 @@
 
 use Faker\Generator as Faker;
 
-/**
+/*
  * Add any number of airports. Don't really care if they're real or not
  */
 $factory->define(App\Models\Airport::class, function (Faker $faker) {
@@ -17,10 +17,10 @@ $factory->define(App\Models\Airport::class, function (Faker $faker) {
 
             return $string;
         },
-        'icao'                 => function (array $apt) {
+        'icao' => function (array $apt) {
             return $apt['id'];
         },
-        'iata'                 => function (array $apt) {
+        'iata' => function (array $apt) {
             return $apt['id'];
         },
         'name'                 => $faker->sentence(3),

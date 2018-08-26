@@ -9,15 +9,14 @@ use Illuminate\Queue\SerializesModels;
 
 /**
  * Class UserStatsChanged
- * @package App\Events
  */
 class UserStatsChanged
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $stat_name,
-           $old_value,
-           $user;
+    public $stat_name;
+    public $old_value;
+    public $user;
 
     /*
      * When a user's stats change. Stats changed match the field name:

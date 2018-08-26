@@ -9,15 +9,15 @@ use Illuminate\Http\Request;
 
 /**
  * Class AcarsController
- * @package App\Http\Controllers\Frontend
  */
 class AcarsController extends Controller
 {
-    private $acarsRepo,
-            $geoSvc;
+    private $acarsRepo;
+    private $geoSvc;
 
     /**
      * AcarsController constructor.
+     *
      * @param AcarsRepository $acarsRepo
      * @param GeoService      $geoSvc
      */
@@ -31,6 +31,7 @@ class AcarsController extends Controller
 
     /**
      * @param Request $request
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index(Request $request)

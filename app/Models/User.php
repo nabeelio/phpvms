@@ -10,7 +10,7 @@ use Illuminate\Notifications\Notifiable;
 use Laratrust\Traits\LaratrustUserTrait;
 
 /**
- * @property integer        id
+ * @property int        id
  * @property string         name
  * @property string         email
  * @property string         password
@@ -111,6 +111,7 @@ class User extends Authenticatable
 
     /**
      * Shorthand for getting the timezone
+     *
      * @return string
      */
     public function getTzAttribute(): string
@@ -120,6 +121,7 @@ class User extends Authenticatable
 
     /**
      * Shorthand for setting the timezone
+     *
      * @param $value
      */
     public function setTzAttribute($value)
@@ -128,21 +130,22 @@ class User extends Authenticatable
     }
 
     /**
-    * Return a File model
-    */
+     * Return a File model
+     */
     public function getAvatarAttribute()
     {
         if (!$this->attributes['avatar']) {
-           return null;
+            return;
         }
 
         return new File([
-           'path' => $this->attributes['avatar']
+           'path' => $this->attributes['avatar'],
         ]);
     }
 
     /**
      * @param mixed $size Size of the gravatar, in pixels
+     *
      * @return string
      */
     public function gravatar($size = null)
@@ -162,7 +165,6 @@ class User extends Authenticatable
     /**
      * Foreign Keys
      */
-
     public function airline()
     {
         return $this->belongsTo(Airline::class, 'airline_id');
@@ -198,6 +200,7 @@ class User extends Authenticatable
 
     /**
      * The bid rows
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function bids()

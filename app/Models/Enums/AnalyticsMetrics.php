@@ -7,7 +7,6 @@ use App\Interfaces\Enum;
 /**
  * Class AnalyticsMetrics
  * Metrics IDs used in Google Analytics
- * @package App\Models\Enums
  */
 class AnalyticsMetrics extends Enum
 {

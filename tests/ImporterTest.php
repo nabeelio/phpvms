@@ -1,16 +1,16 @@
 <?php
 
-use App\Services\FareService;
 use App\Models\Enums\FlightType;
+use App\Services\FareService;
 
 /**
  * Class ImporterTest
  */
 class ImporterTest extends TestCase
 {
-    private $importBaseClass,
-            $importSvc,
-            $fareSvc;
+    private $importBaseClass;
+    private $importSvc;
+    private $fareSvc;
 
     public function setUp()
     {
@@ -24,6 +24,7 @@ class ImporterTest extends TestCase
 
     /**
      * Add some of the basic data needed to properly import the flights.csv file
+     *
      * @return mixed
      */
     protected function insertFlightsScaffoldData()
@@ -60,79 +61,79 @@ class ImporterTest extends TestCase
     {
         $tests = [
             [
-                'input' => '',
+                'input'    => '',
                 'expected' => [],
             ],
             [
-                'input' => 'gate',
-                'expected' => ['gate']
+                'input'    => 'gate',
+                'expected' => ['gate'],
             ],
             [
-                'input' => 'gate;cost index',
+                'input'    => 'gate;cost index',
                 'expected' => [
                     'gate',
                     'cost index',
-                ]
+                ],
             ],
             [
-                'input' => 'gate=B32;cost index=100',
+                'input'    => 'gate=B32;cost index=100',
                 'expected' => [
-                    'gate' => 'B32',
-                    'cost index' => '100'
-                ]
+                    'gate'       => 'B32',
+                    'cost index' => '100',
+                ],
             ],
             [
-                'input' => 'Y?price=200&cost=100; F?price=1200',
+                'input'    => 'Y?price=200&cost=100; F?price=1200',
                 'expected' => [
                     'Y' => [
                         'price' => 200,
-                        'cost' => 100,
+                        'cost'  => 100,
                     ],
                     'F' => [
-                        'price' => 1200
-                    ]
-                ]
+                        'price' => 1200,
+                    ],
+                ],
             ],
             [
-                'input' => 'Y?price&cost; F?price=1200',
+                'input'    => 'Y?price&cost; F?price=1200',
                 'expected' => [
                     'Y' => [
                         'price',
                         'cost',
                     ],
                     'F' => [
-                        'price' => 1200
-                    ]
-                ]
+                        'price' => 1200,
+                    ],
+                ],
             ],
             [
                 'input'    => 'Y; F?price=1200',
                 'expected' => [
-                    0 => 'Y',
+                    0   => 'Y',
                     'F' => [
-                        'price' => 1200
-                    ]
-                ]
+                        'price' => 1200,
+                    ],
+                ],
             ],
             [
                 'input'    => 'Y?;F?price=1200',
                 'expected' => [
                     'Y' => [],
                     'F' => [
-                        'price' => 1200
-                    ]
-                ]
+                        'price' => 1200,
+                    ],
+                ],
             ],
             [
-                'input' => 'Departure Gate=4;Arrival Gate=C61',
+                'input'    => 'Departure Gate=4;Arrival Gate=C61',
                 'expected' => [
                     'Departure Gate' => '4',
-                    'Arrival Gate' => 'C61',
-                ]
+                    'Arrival Gate'   => 'C61',
+                ],
             ],
         ];
 
-        foreach($tests as $test) {
+        foreach ($tests as $test) {
             $parsed = $this->importBaseClass->parseMultiColumnValues($test['input']);
             $this->assertEquals($test['expected'], $parsed);
         }
@@ -146,12 +147,12 @@ class ImporterTest extends TestCase
     {
         $tests = [
             [
-                'input' => '',
-                'expected' => ''
+                'input'    => '',
+                'expected' => '',
             ],
             [
-                'input' => ['gate'],
-                'expected'    => 'gate',
+                'input'    => ['gate'],
+                'expected' => 'gate',
             ],
             [
                 'input' => [
@@ -163,7 +164,7 @@ class ImporterTest extends TestCase
             [
                 'input' => [
                     'gate'       => 'B32',
-                    'cost index' => '100'
+                    'cost index' => '100',
                 ],
                 'expected' => 'gate=B32;cost index=100',
             ],
@@ -174,8 +175,8 @@ class ImporterTest extends TestCase
                         'cost'  => 100,
                     ],
                     'F' => [
-                        'price' => 1200
-                    ]
+                        'price' => 1200,
+                    ],
                 ],
                 'expected' => 'Y?price=200&cost=100;F?price=1200',
             ],
@@ -186,18 +187,18 @@ class ImporterTest extends TestCase
                         'cost',
                     ],
                     'F' => [
-                        'price' => 1200
-                    ]
+                        'price' => 1200,
+                    ],
                 ],
                 'expected' => 'Y?price&cost;F?price=1200',
             ],
             [
-                'input'    => [
+                'input' => [
                     'Y' => [
                         'price',
                         'cost',
                     ],
-                    'F' => []
+                    'F' => [],
                 ],
                 'expected' => 'Y?price&cost;F',
             ],
@@ -205,8 +206,8 @@ class ImporterTest extends TestCase
                 'input' => [
                     0   => 'Y',
                     'F' => [
-                        'price' => 1200
-                    ]
+                        'price' => 1200,
+                    ],
                 ],
                 'expected' => 'Y;F?price=1200',
             ],
@@ -284,9 +285,9 @@ class ImporterTest extends TestCase
         $fareF = \App\Models\Fare::where('code', 'F')->first();
 
         $flight = factory(App\Models\Flight::class)->create([
-            'airline_id' => $airline->id,
+            'airline_id'  => $airline->id,
             'flight_type' => 'J',
-            'days' => \App\Models\Enums\Days::getDaysMask([
+            'days'        => \App\Models\Enums\Days::getDaysMask([
                 \App\Models\Enums\Days::TUESDAY,
                 \App\Models\Enums\Days::SUNDAY,
             ]),
@@ -301,14 +302,14 @@ class ImporterTest extends TestCase
         // Add some custom fields
         \App\Models\FlightFieldValue::create([
             'flight_id' => $flight->id,
-            'name' => 'Departure Gate',
-            'value' => '4'
+            'name'      => 'Departure Gate',
+            'value'     => '4',
         ]);
 
         \App\Models\FlightFieldValue::create([
             'flight_id' => $flight->id,
             'name'      => 'Arrival Gate',
-            'value'     => 'C41'
+            'value'     => 'C41',
         ]);
 
         // Test the conversion
@@ -334,6 +335,7 @@ class ImporterTest extends TestCase
 
     /**
      * Try importing the aicraft in the airports. Should fail
+     *
      * @expectedException \Illuminate\Validation\ValidationException
      */
     public function testInvalidFileImport(): void
@@ -356,6 +358,7 @@ class ImporterTest extends TestCase
 
     /**
      * Test the importing of expenses
+     *
      * @throws \Illuminate\Validation\ValidationException
      */
     public function testExpenseImporter(): void
@@ -363,7 +366,7 @@ class ImporterTest extends TestCase
         $airline = factory(App\Models\Airline::class)->create(['icao' => 'VMS']);
         $subfleet = factory(App\Models\Subfleet::class)->create(['type' => '744-3X-RB211']);
         $aircraft = factory(App\Models\Aircraft::class)->create([
-            'subfleet_id' => $subfleet->id,
+            'subfleet_id'  => $subfleet->id,
             'registration' => '001Z',
         ]);
 
@@ -434,6 +437,7 @@ class ImporterTest extends TestCase
 
     /**
      * Test the flight importer
+     *
      * @throws \Illuminate\Validation\ValidationException
      */
     public function testFlightImporter(): void
@@ -449,7 +453,7 @@ class ImporterTest extends TestCase
         // See if it imported
         $flight = \App\Models\Flight::where([
             'airline_id'    => $airline->id,
-            'flight_number' => '1972'
+            'flight_number' => '1972',
         ])->first();
 
         $this->assertNotNull($flight);
@@ -505,6 +509,7 @@ class ImporterTest extends TestCase
 
     /**
      * Test the flight importer
+     *
      * @throws \Illuminate\Validation\ValidationException
      */
     public function testFlightImporterEmptyCustomFields(): void
@@ -520,7 +525,7 @@ class ImporterTest extends TestCase
         // See if it imported
         $flight = \App\Models\Flight::where([
             'airline_id'    => $airline->id,
-            'flight_number' => '1972'
+            'flight_number' => '1972',
         ])->first();
 
         $this->assertNotNull($flight);
@@ -600,6 +605,7 @@ class ImporterTest extends TestCase
 
     /**
      * Test importing the subfleets
+     *
      * @throws \Illuminate\Validation\ValidationException
      */
     public function testSubfleetImporter(): void

@@ -16,13 +16,14 @@ use PhpUnitsOfMeasure\Exception\NonStringUnitName;
 
 /**
  * Class Pirep
+ *
  * @property string      id
  * @property string      flight_number
  * @property string      route_code
  * @property string      route_leg
- * @property integer     airline_id
- * @property integer     user_id
- * @property integer     aircraft_id
+ * @property int     airline_id
+ * @property int     user_id
+ * @property int     aircraft_id
  * @property Aircraft    aircraft
  * @property Airline     airline
  * @property Airport     arr_airport
@@ -31,13 +32,13 @@ use PhpUnitsOfMeasure\Exception\NonStringUnitName;
  * @property string      dpt_airport_id
  * @property Carbon      block_off_time
  * @property Carbon      block_on_time
- * @property integer     block_time
- * @property integer     flight_time    In minutes
- * @property integer     planned_flight_time
- * @property double      distance
- * @property double      planned_distance
+ * @property int     block_time
+ * @property int     flight_time    In minutes
+ * @property int     planned_flight_time
+ * @property float      distance
+ * @property float      planned_distance
  * @property string      route
- * @property integer     score
+ * @property int     score
  * @property User        user
  * @property Flight|null flight
  * @property Collection  fields
@@ -49,7 +50,6 @@ use PhpUnitsOfMeasure\Exception\NonStringUnitName;
  * @property bool        read_only
  * @property Acars       position
  * @property Acars[]     acars
- * @package App\Models
  */
 class Pirep extends Model
 {
@@ -59,7 +59,8 @@ class Pirep extends Model
     public $incrementing = false;
 
     /** The form wants this */
-    public $hours, $minutes;
+    public $hours;
+    public $minutes;
 
     protected $fillable = [
         'id',
@@ -137,6 +138,7 @@ class Pirep extends Model
 
     /**
      * Get the flight ident, e.,g JBU1900
+     *
      * @return string
      */
     public function getIdentAttribute(): string
@@ -157,6 +159,7 @@ class Pirep extends Model
 
     /**
      * Return the block off time in carbon format
+     *
      * @return Carbon
      */
     public function getBlockOffTimeAttribute()
@@ -164,12 +167,11 @@ class Pirep extends Model
         if (array_key_exists('block_off_time', $this->attributes)) {
             return new Carbon($this->attributes['block_off_time']);
         }
-
-        return null;
     }
 
     /**
      * Return the block on time
+     *
      * @return Carbon
      */
     public function getBlockOnTimeAttribute()
@@ -177,12 +179,11 @@ class Pirep extends Model
         if (array_key_exists('block_on_time', $this->attributes)) {
             return new Carbon($this->attributes['block_on_time']);
         }
-
-        return null;
     }
 
     /**
      * Return the block on time
+     *
      * @return Carbon
      */
     public function getSubmittedAtAttribute()
@@ -190,18 +191,17 @@ class Pirep extends Model
         if (array_key_exists('submitted_at', $this->attributes)) {
             return new Carbon($this->attributes['submitted_at']);
         }
-
-        return null;
     }
 
     /**
      * Return a new Length unit so conversions can be made
+     *
      * @return int|Distance
      */
     public function getDistanceAttribute()
     {
         if (!array_key_exists('distance', $this->attributes)) {
-            return null;
+            return;
         }
 
         try {
@@ -220,6 +220,7 @@ class Pirep extends Model
 
     /**
      * Set the distance unit, convert to our internal default unit
+     *
      * @param $value
      */
     public function setDistanceAttribute($value): void
@@ -242,12 +243,13 @@ class Pirep extends Model
 
     /**
      * Return a new Fuel unit so conversions can be made
+     *
      * @return int|Fuel
      */
     public function getFuelUsedAttribute()
     {
         if (!array_key_exists('fuel_used', $this->attributes)) {
-            return null;
+            return;
         }
 
         try {
@@ -263,12 +265,13 @@ class Pirep extends Model
 
     /**
      * Return the planned_distance in a converter class
+     *
      * @return int|Distance
      */
     public function getPlannedDistanceAttribute()
     {
         if (!array_key_exists('planned_distance', $this->attributes)) {
-            return null;
+            return;
         }
 
         try {
@@ -291,11 +294,11 @@ class Pirep extends Model
     public function getProgressPercentAttribute()
     {
         $upper_bound = $this->distance['nmi'];
-        if($this->planned_distance) {
+        if ($this->planned_distance) {
             $upper_bound = $this->planned_distance['nmi'];
         }
 
-        if(!$upper_bound) {
+        if (!$upper_bound) {
             $upper_bound = 1;
         }
 
@@ -312,15 +315,15 @@ class Pirep extends Model
         $field_values = PirepFieldValue::where('pirep_id', $this->id)->get();
 
         # Merge the field values into $fields
-        foreach($custom_fields as $field) {
+        foreach ($custom_fields as $field) {
             $has_value = $field_values->firstWhere('slug', $field->slug);
-            if(!$has_value) {
+            if (!$has_value) {
                 $field_values->push(new PirepFieldValue([
                     'pirep_id' => $this->id,
-                    'name' => $field->name,
-                    'slug' => $field->slug,
-                    'value' => '',
-                    'source' => PirepFieldSource::MANUAL
+                    'name'     => $field->name,
+                    'slug'     => $field->slug,
+                    'value'    => '',
+                    'source'   => PirepFieldSource::MANUAL,
                 ]));
             }
         }
@@ -330,6 +333,7 @@ class Pirep extends Model
 
     /**
      * Look up the flight, based on the PIREP flight info
+     *
      * @return Flight|null
      */
     public function getFlightAttribute(): ?Flight
@@ -353,6 +357,7 @@ class Pirep extends Model
 
     /**
      * Set the amount of fuel used
+     *
      * @param $value
      */
     public function setFuelUsedAttribute($value)
@@ -368,6 +373,7 @@ class Pirep extends Model
 
     /**
      * Set the distance unit, convert to our internal default unit
+     *
      * @param $value
      */
     public function setPlannedDistanceAttribute($value)
@@ -383,6 +389,7 @@ class Pirep extends Model
 
     /**
      * Do some cleanup on the route
+     *
      * @param $route
      */
     public function setRouteAttribute($route): void
@@ -401,16 +408,19 @@ class Pirep extends Model
 
     /**
      * Check if this PIREP is allowed to be updated
+     *
      * @return bool
      */
     public function allowedUpdates(): bool
     {
-        return ! $this->getReadOnlyAttribute();
+        return !$this->getReadOnlyAttribute();
     }
 
     /**
      * Return a custom field value
+     *
      * @param $field_name
+     *
      * @return string
      */
     public function field($field_name): string
@@ -426,7 +436,6 @@ class Pirep extends Model
     /**
      * Foreign Keys
      */
-
     public function acars()
     {
         return $this->hasMany(Acars::class, 'pirep_id')

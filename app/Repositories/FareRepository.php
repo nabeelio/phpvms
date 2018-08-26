@@ -9,7 +9,6 @@ use Prettus\Repository\Traits\CacheableRepository;
 
 /**
  * Class FareRepository
- * @package App\Repositories
  */
 class FareRepository extends Repository implements CacheableInterface
 {

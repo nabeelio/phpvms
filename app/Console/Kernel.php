@@ -11,7 +11,6 @@ use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 /**
  * Class Kernel
- * @package App\Console
  */
 class Kernel extends ConsoleKernel
 {
@@ -27,7 +26,9 @@ class Kernel extends ConsoleKernel
 
     /**
      * Define the application's command schedule.
-     * @param  \Illuminate\Console\Scheduling\Schedule $schedule
+     *
+     * @param \Illuminate\Console\Scheduling\Schedule $schedule
+     *
      * @return void
      */
     protected function schedule(Schedule $schedule): void
@@ -40,6 +41,7 @@ class Kernel extends ConsoleKernel
 
     /**
      * Register the Closure based commands for the application.
+     *
      * @return void
      */
     protected function commands(): void

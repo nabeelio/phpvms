@@ -4,14 +4,15 @@ namespace App\Models\Traits;
 
 /**
  * Trait ReferenceTrait
+ *
  * @property \App\Interfaces\Model $ref_model
  * @property mixed                 $ref_model_id
- * @package App\Models\Traits
  */
 trait ReferenceTrait
 {
     /**
      * @param \App\Interfaces\Model $object
+     *
      * @return self
      */
     public function referencesObject($object)
@@ -25,12 +26,13 @@ trait ReferenceTrait
 
     /**
      * Return an instance of the object or null
+     *
      * @return \App\Interfaces\Model|null
      */
     public function getReferencedObject()
     {
         if (!$this->ref_model || !$this->ref_model_id) {
-            return null;
+            return;
         }
 
         if ($this->ref_model === __CLASS__) {
@@ -38,11 +40,11 @@ trait ReferenceTrait
         }
 
         try {
-            $klass = new $this->ref_model;
+            $klass = new $this->ref_model();
             $obj = $klass->find($this->ref_model_id);
             return $obj;
         } catch (\Exception $e) {
-            return null;
+            return;
         }
     }
 }

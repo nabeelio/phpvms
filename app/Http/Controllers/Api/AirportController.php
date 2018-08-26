@@ -12,7 +12,6 @@ use VaCentral\Airport as AirportLookup;
 
 /**
  * Class AirportController
- * @package App\Http\Controllers\Api
  */
 class AirportController extends Controller
 {
@@ -20,6 +19,7 @@ class AirportController extends Controller
 
     /**
      * AirportController constructor.
+     *
      * @param AirportRepository $airportRepo
      */
     public function __construct(
@@ -30,7 +30,9 @@ class AirportController extends Controller
 
     /**
      * Return all the airports, paginated
+     *
      * @param Request $request
+     *
      * @return mixed
      */
     public function index(Request $request)
@@ -65,7 +67,9 @@ class AirportController extends Controller
 
     /**
      * Do a lookup, via vaCentral, for the airport information
+     *
      * @param $id
+     *
      * @return AirportResource
      */
     public function get($id)
@@ -77,7 +81,9 @@ class AirportController extends Controller
 
     /**
      * Do a lookup, via vaCentral, for the airport information
+     *
      * @param $id
+     *
      * @return AirportResource
      */
     public function lookup($id)

@@ -4,7 +4,6 @@ namespace App\Exceptions;
 
 /**
  * Class AircraftPermissionDenied
- * @package App\Exceptions
  */
 class AircraftPermissionDenied extends InternalError
 {

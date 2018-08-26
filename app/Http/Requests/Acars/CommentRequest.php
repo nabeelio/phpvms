@@ -6,7 +6,6 @@ use App\Interfaces\FormRequest;
 
 /**
  * Class FileRequest
- * @package App\Http\Requests\Acars
  */
 class CommentRequest extends FormRequest
 {

@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 
 /**
  * Class UserController
- * @package App\Http\Controllers\Frontend
  */
 class UserController extends Controller
 {
@@ -16,6 +15,7 @@ class UserController extends Controller
 
     /**
      * UserController constructor.
+     *
      * @param UserRepository $userRepo
      */
     public function __construct(
@@ -26,6 +26,7 @@ class UserController extends Controller
 
     /**
      * @param Request $request
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index(Request $request)

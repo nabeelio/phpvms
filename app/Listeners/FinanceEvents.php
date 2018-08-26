@@ -11,7 +11,6 @@ use Illuminate\Contracts\Events\Dispatcher;
 /**
  * Subscribe for events that we do some financial processing for
  * This includes when a PIREP is accepted, or rejected
- * @package App\Listeners
  */
 class FinanceEvents extends Listener
 {
@@ -19,6 +18,7 @@ class FinanceEvents extends Listener
 
     /**
      * FinanceEvents constructor.
+     *
      * @param PirepFinanceService $financeSvc
      */
     public function __construct(
@@ -45,7 +45,9 @@ class FinanceEvents extends Listener
 
     /**
      * Kick off the finance events when a PIREP is accepted
+     *
      * @param PirepAccepted $event
+     *
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
      * @throws \Exception
@@ -58,7 +60,9 @@ class FinanceEvents extends Listener
 
     /**
      * Delete all finances in the journal for a given PIREP
+     *
      * @param PirepRejected $event
+     *
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
      * @throws \Exception

@@ -9,13 +9,12 @@ use Webpatser\Uuid\Uuid;
 
 /**
  * Class DatabaseService
- * @package App\Services
  */
 class DatabaseService extends Service
 {
     protected $time_fields = [
         'created_at',
-        'updated_at'
+        'updated_at',
     ];
 
     protected $uuid_tables = [
@@ -35,8 +34,10 @@ class DatabaseService extends Service
     /**
      * @param      $yaml_file
      * @param bool $ignore_errors
-     * @return array
+     *
      * @throws \Exception
+     *
+     * @return array
      */
     public function seed_from_yaml_file($yaml_file, $ignore_errors = false): array
     {
@@ -46,8 +47,10 @@ class DatabaseService extends Service
     /**
      * @param      $yml
      * @param bool $ignore_errors
-     * @return array
+     *
      * @throws \Exception
+     *
+     * @return array
      */
     public function seed_from_yaml($yml, $ignore_errors = false): array
     {
@@ -55,12 +58,15 @@ class DatabaseService extends Service
     }
 
     /**
-     * @param      $table
-     * @param      $row
-     * @return mixed
+     * @param   $table
+     * @param   $row
+     *
      * @throws \Exception
+     *
+     * @return mixed
      */
-    public function insert_row($table, $row) {
+    public function insert_row($table, $row)
+    {
         # see if this table uses a UUID as the PK
         # if no ID is specified
         if (\in_array($table, $this->uuid_tables, true)) {

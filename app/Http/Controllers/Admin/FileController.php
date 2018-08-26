@@ -14,7 +14,6 @@ use Validator;
 
 /**
  * Class FileController
- * @package App\Http\Controllers\Admin
  */
 class FileController extends Controller
 {
@@ -27,9 +26,12 @@ class FileController extends Controller
 
     /**
      * Store a newly file
+     *
      * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     *
      * @throws \Hashids\HashidsException
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function store(Request $request)
     {
@@ -41,7 +43,7 @@ class FileController extends Controller
         $validator = Validator::make($request->all(), [
             'filename'         => 'required',
             'file_description' => 'nullable',
-            'file'             => 'required|file'
+            'file'             => 'required|file',
         ]);
 
         if ($validator->fails()) {
@@ -49,7 +51,6 @@ class FileController extends Controller
         }
 
         Log::info('Uploading files', $attrs);
-
 
         $file = $request->file('file');
         $this->fileSvc->saveFile($file, 'files', [
@@ -65,9 +66,12 @@ class FileController extends Controller
 
     /**
      * Remove the file from storage.
+     *
      * @param $id
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     *
      * @throws \Exception
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function destroy($id)
     {

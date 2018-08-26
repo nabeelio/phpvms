@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 
 /**
  * Class ResetPasswordController
- * @package App\Http\Controllers\Auth
  */
 class ResetPasswordController extends Controller
 {
@@ -19,6 +18,7 @@ class ResetPasswordController extends Controller
     /**
      * @param Request $request
      * @param null    $token
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function showResetForm(Request $request, $token = null)
@@ -30,6 +30,7 @@ class ResetPasswordController extends Controller
 
     /**
      * Create a new controller instance.
+     *
      * @return void
      */
     public function __construct()

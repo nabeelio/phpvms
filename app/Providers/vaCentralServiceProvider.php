@@ -7,7 +7,6 @@ use VaCentral\VaCentral;
 
 /**
  * Bootstrap the vaCentral library
- * @package App\Providers
  */
 class vaCentralServiceProvider extends ServiceProvider
 {

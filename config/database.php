@@ -4,13 +4,13 @@ return [
     'fetch'       => PDO::FETCH_ASSOC,
     'default'     => env('DB_CONNECTION', 'mysql'),
     'connections' => [
-        'mysql'    => [
-            'driver'    => 'mysql',
-            'host'      => env('DB_HOST', '127.0.0.1'),
-            'port'      => env('DB_PORT', 3306),
-            'database'  => env('DB_DATABASE', ''),
-            'username'  => env('DB_USERNAME', ''),
-            'password'  => env('DB_PASSWORD', ''),
+        'mysql' => [
+            'driver'   => 'mysql',
+            'host'     => env('DB_HOST', '127.0.0.1'),
+            'port'     => env('DB_PORT', 3306),
+            'database' => env('DB_DATABASE', ''),
+            'username' => env('DB_USERNAME', ''),
+            'password' => env('DB_PASSWORD', ''),
             //'unix_socket' => env('DB_SOCKET', ''),
             'prefix'    => env('DB_PREFIX', ''),
             'timezone'  => '+00:00',
@@ -23,7 +23,7 @@ return [
                 #PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
             ],
         ],
-        'sqlite'   => [
+        'sqlite' => [
             'driver'   => 'sqlite',
             'database' => storage_path('db.sqlite'),
             'timezone' => '+00:00',
@@ -35,7 +35,7 @@ return [
             'timezone' => '+00:00',
             'prefix'   => '',
         ],
-        'memory'   => [
+        'memory' => [
             'driver'   => 'sqlite',
             'database' => ':memory:',
             'timezone' => '+00:00',
@@ -53,5 +53,5 @@ return [
             'port'     => env('REDIS_PORT', 6379),
             'database' => env('REDIS_DATABASE', 1),
         ],
-    ]
+    ],
 ];

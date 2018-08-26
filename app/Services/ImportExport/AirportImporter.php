@@ -7,7 +7,6 @@ use App\Models\Airport;
 
 /**
  * Import airports
- * @package App\Services\Import
  */
 class AirportImporter extends ImportExport
 {
@@ -35,8 +34,10 @@ class AirportImporter extends ImportExport
 
     /**
      * Import a flight, parse out the different rows
+     *
      * @param array $row
      * @param int   $index
+     *
      * @return bool
      */
     public function import(array $row, $index): bool
@@ -45,7 +46,7 @@ class AirportImporter extends ImportExport
         $row['hub'] = get_truth_state($row['hub']);
 
         $airport = Airport::firstOrNew([
-            'id' => $row['icao']
+            'id' => $row['icao'],
         ], $row);
 
         try {

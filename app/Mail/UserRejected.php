@@ -10,7 +10,8 @@ use Illuminate\Queue\SerializesModels;
 class UserRejected extends Mailable
 {
     use Queueable, SerializesModels;
-    public $subject, $user;
+    public $subject;
+    public $user;
 
     public function __construct(User $user, $subject = null)
     {

@@ -7,7 +7,6 @@ use Artisan;
 
 /**
  * Class ComposerCommand
- * @package App\Console\Commands
  */
 class ComposerCommand extends Command
 {
@@ -19,8 +18,7 @@ class ComposerCommand extends Command
      */
     public function handle()
     {
-        switch(trim($this->argument('cmd')))
-        {
+        switch (trim($this->argument('cmd'))) {
             case 'post-update':
                 $this->postUpdate();
                 break;

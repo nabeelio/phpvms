@@ -24,7 +24,7 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
     protected $user;
 
     protected static $auth_headers = [
-        'x-api-key' => 'testadminapikey'
+        'x-api-key' => 'testadminapikey',
     ];
 
     /**
@@ -39,11 +39,12 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
 
     /**
      * Creates the application. Required to be implemented
+     *
      * @return \Illuminate\Foundation\Application
      */
     public function createApplication()
     {
-        $app = require __DIR__ . '/../bootstrap/app.php';
+        $app = require __DIR__.'/../bootstrap/app.php';
         $app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
         return $app;
     }
@@ -51,14 +52,15 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
     /**
      * @param $user
      * @param array $headers
+     *
      * @return array
      */
-    public function headers($user=null, array $headers = []): array
+    public function headers($user = null, array $headers = []): array
     {
-        if($user !== null) {
+        if ($user !== null) {
             $headers['x-api-key'] = $user->api_key;
         } else {
-            if($this->user !== null) {
+            if ($this->user !== null) {
                 $headers['x-api-key'] = $this->user->api_key;
             }
         }
@@ -68,12 +70,14 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
 
     /**
      * Import data from a YML file
+     *
      * @param $file
      */
     public function addData($file)
     {
         $svc = app(DatabaseService::class);
-        $file_path = base_path('tests/data/' . $file . '.yml');
+        $file_path = base_path('tests/data/'.$file.'.yml');
+
         try {
             $svc->seed_from_yaml_file($file_path);
         } catch (Exception $e) {
@@ -82,12 +86,13 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
 
     /**
      * Make sure an object has the list of keys
+     *
      * @param $obj
      * @param array $keys
      */
-    public function assertHasKeys($obj, $keys=[])
+    public function assertHasKeys($obj, $keys = [])
     {
-        foreach($keys as $key) {
+        foreach ($keys as $key) {
             $this->assertArrayHasKey($key, $obj);
         }
     }
@@ -95,11 +100,14 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
     /**
      * So we can test private/protected methods
      * http://bit.ly/1mr5hMq
+     *
      * @param       $object
      * @param       $methodName
      * @param array $parameters
-     * @return mixed
+     *
      * @throws ReflectionException
+     *
+     * @return mixed
      */
     public function invokeMethod(&$object, $methodName, array $parameters = [])
     {
@@ -113,13 +121,15 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
     /**
      * Transform any data that's passed in. E.g, make sure that any mutator
      * classes (e.g, units) are not passed in as the mutator class
+     *
      * @param array $data
+     *
      * @return array
      */
     protected function transformData(&$data)
     {
-        foreach($data as $key => &$value) {
-            if(is_array($value)) {
+        foreach ($data as $key => &$value) {
+            if (is_array($value)) {
                 $this->transformData($value);
             }
 
@@ -127,7 +137,7 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
                 $data[$key] = $value->__toString();
             }
 
-            if($value instanceof DateTime) {
+            if ($value instanceof DateTimeImmutable) {
                 $data[$key] = $value->format(DATE_ATOM);
             } elseif ($value instanceof Carbon) {
                 $data[$key] = $value->toIso8601ZuluString();
@@ -139,16 +149,18 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
 
     /**
      * Override the GET call to inject the user API key
+     *
      * @param string $uri
-     * @param array $headers
-     * @param null $user
+     * @param array  $headers
+     * @param null   $user
+     *
      * @return \Illuminate\Foundation\Testing\TestResponse
      */
-    public function get($uri, array $headers=[], $user=null): \Illuminate\Foundation\Testing\TestResponse
+    public function get($uri, array $headers = [], $user = null): \Illuminate\Foundation\Testing\TestResponse
     {
         $req = parent::get($uri, $this->headers($user, $headers));
-        if($req->isClientError() || $req->isServerError()) {
-            Log::error('GET Error: ' . $uri, $req->json());
+        if ($req->isClientError() || $req->isServerError()) {
+            Log::error('GET Error: '.$uri, $req->json());
         }
 
         return $req;
@@ -156,18 +168,20 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
 
     /**
      * Override the POST calls to inject the user API key
+     *
      * @param string $uri
-     * @param array $data
-     * @param array $headers
-     * @param null $user
+     * @param array  $data
+     * @param array  $headers
+     * @param null   $user
+     *
      * @return \Illuminate\Foundation\Testing\TestResponse
      */
-    public function post($uri, array $data = [], array $headers = [], $user=null)
+    public function post($uri, array $data = [], array $headers = [], $user = null)
     {
         $data = $this->transformData($data);
         $req = parent::post($uri, $data, $this->headers($user, $headers));
         if ($req->isClientError() || $req->isServerError()) {
-            Log::error('POST Error: ' . $uri, $req->json());
+            Log::error('POST Error: '.$uri, $req->json());
         }
 
         return $req;
@@ -175,17 +189,19 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
 
     /**
      * Override the PUT calls to inject the user API key
+     *
      * @param string $uri
-     * @param array $data
-     * @param array $headers
-     * @param null $user
+     * @param array  $data
+     * @param array  $headers
+     * @param null   $user
+     *
      * @return \Illuminate\Foundation\Testing\TestResponse
      */
     public function put($uri, array $data = [], array $headers = [], $user = null)
     {
         $req = parent::put($uri, $this->transformData($data), $this->headers($user, $headers));
         if ($req->isClientError() || $req->isServerError()) {
-            Log::error('PUT Error: ' . $uri, $req->json());
+            Log::error('PUT Error: '.$uri, $req->json());
         }
 
         return $req;
@@ -193,17 +209,19 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
 
     /**
      * Override the DELETE calls to inject the user API key
+     *
      * @param string $uri
-     * @param array $data
-     * @param array $headers
-     * @param null $user
+     * @param array  $data
+     * @param array  $headers
+     * @param null   $user
+     *
      * @return \Illuminate\Foundation\Testing\TestResponse
      */
-    public function delete($uri, array $data = [], array $headers = [], $user=null)
+    public function delete($uri, array $data = [], array $headers = [], $user = null)
     {
         $req = parent::delete($uri, $this->transformData($data), $this->headers($user, $headers));
         if ($req->isClientError() || $req->isServerError()) {
-            Log::error('DELETE Error: ' . $uri, $req->json());
+            Log::error('DELETE Error: '.$uri, $req->json());
         }
 
         return $req;

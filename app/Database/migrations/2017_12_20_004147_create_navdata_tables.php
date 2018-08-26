@@ -13,7 +13,7 @@ class CreateNavdataTables extends Migration
      */
     public function up()
     {
-        /**
+        /*
          * See for defs, modify/update based on this
          * https://github.com/skiselkov/openfmc/blob/master/airac.h
          */

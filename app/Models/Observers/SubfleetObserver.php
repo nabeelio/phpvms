@@ -6,7 +6,6 @@ use App\Models\Subfleet;
 
 /**
  * Class SubfleetObserver
- * @package App\Models\Observers
  */
 class SubfleetObserver
 {
