@@ -40,13 +40,17 @@ class AirportController extends Controller
             return redirect(route('frontend.dashboard.index'));
         }
 
-        $inbound_flights = $this->flightRepo->findWhere([
-            'arr_airport_id' => $id,
-        ])->all();
+        $inbound_flights = $this->flightRepo
+            ->with(['dpt_airport', 'arr_airport', 'airline'])
+            ->findWhere([
+                'arr_airport_id' => $id,
+            ])->all();
 
-        $outbound_flights = $this->flightRepo->findWhere([
-            'dpt_airport_id' => $id,
-        ])->all();
+        $outbound_flights = $this->flightRepo
+            ->with(['dpt_airport', 'arr_airport', 'airline'])
+            ->findWhere([
+                'dpt_airport_id' => $id,
+            ])->all();
 
         return view('airports.show', [
             'airport' => $airport,

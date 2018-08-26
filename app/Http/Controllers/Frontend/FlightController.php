@@ -72,6 +72,7 @@ class FlightController extends Controller
         }
 
         $flights = $this->flightRepo
+            ->with(['dpt_airport', 'arr_airport', 'airline'])
             ->orderBy('flight_number', 'asc')
             ->orderBy('route_leg', 'asc')
             ->paginate();
