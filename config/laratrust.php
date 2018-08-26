@@ -5,7 +5,6 @@
  * a role & permission management solution for Laravel.
  *
  * @license MIT
- * @package Laratrust
  */
 
 return [
@@ -81,17 +80,17 @@ return [
     |
     */
     'models' => [
-        /**
+        /*
          * Role model
          */
         'role' => 'App\Models\Role',
 
-        /**
+        /*
          * Permission model
          */
         'permission' => 'App\Models\Permission',
 
-        /**
+        /*
          * Team model
          */
         'team' => 'App\Team',
@@ -107,32 +106,32 @@ return [
     |
     */
     'tables' => [
-        /**
+        /*
          * Roles table.
          */
         'roles' => 'roles',
 
-        /**
+        /*
          * Permissions table.
          */
         'permissions' => 'permissions',
 
-        /**
+        /*
          * Teams table.
          */
         'teams' => 'teams',
 
-        /**
+        /*
          * Role - User intermediate table.
          */
         'role_user' => 'role_user',
 
-        /**
+        /*
          * Permission - User intermediate table.
          */
         'permission_user' => 'permission_user',
 
-        /**
+        /*
          * Permission - Role intermediate table.
          */
         'permission_role' => 'permission_role',
@@ -148,22 +147,22 @@ return [
     |
     */
     'foreign_keys' => [
-        /**
+        /*
          * User foreign key on Laratrust's role_user and permission_user tables.
          */
         'user' => 'user_id',
 
-        /**
+        /*
          * Role foreign key on Laratrust's role_user and permission_role tables.
          */
         'role' => 'role_id',
 
-        /**
+        /*
          * Role foreign key on Laratrust's permission_user and permission_role tables.
          */
         'permission' => 'permission_id',
 
-        /**
+        /*
          * Role foreign key on Laratrust's role_user and permission_user tables.
          */
         'team' => 'team_id',
@@ -179,18 +178,18 @@ return [
     |
     */
     'middleware' => [
-        /**
+        /*
          * Define if the laratrust middleware are registered automatically in the service provider
          */
         'register' => true,
 
-        /**
+        /*
          * Method to be called in the middleware return case.
          * Available: abort|redirect
          */
         'handling' => 'abort',
 
-        /**
+        /*
          * Parameter passed to the middleware_handling method
          */
         'params' => '403',

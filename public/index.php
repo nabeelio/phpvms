@@ -9,7 +9,6 @@
  * folder, be sure to go into the bootstrap/app.php file, and change
  * the 'path.public' path to where it lives.
  */
-
 $path_to_phpvms_folder = __DIR__.'/../';
 
 require $path_to_phpvms_folder.'/bootstrap/autoload.php';

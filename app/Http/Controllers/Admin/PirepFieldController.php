@@ -13,7 +13,6 @@ use Response;
 
 /**
  * Class PirepFieldController
- * @package App\Http\Controllers\Admin
  */
 class PirepFieldController extends Controller
 {
@@ -21,6 +20,7 @@ class PirepFieldController extends Controller
 
     /**
      * PirepFieldController constructor.
+     *
      * @param PirepFieldRepository $pirepFieldRepo
      */
     public function __construct(
@@ -31,9 +31,12 @@ class PirepFieldController extends Controller
 
     /**
      * Display a listing of the PirepField.
+     *
      * @param Request $request
-     * @return Response
+     *
      * @throws \Prettus\Repository\Exceptions\RepositoryException
+     *
+     * @return Response
      */
     public function index(Request $request)
     {
@@ -47,6 +50,7 @@ class PirepFieldController extends Controller
 
     /**
      * Show the form for creating a new PirepField.
+     *
      * @return Response
      */
     public function create()
@@ -56,9 +60,12 @@ class PirepFieldController extends Controller
 
     /**
      * Store a newly created PirepField in storage.
+     *
      * @param CreatePirepFieldRequest $request
-     * @return Response
+     *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
+     *
+     * @return Response
      */
     public function store(CreatePirepFieldRequest $request)
     {
@@ -75,7 +82,9 @@ class PirepFieldController extends Controller
 
     /**
      * Display the specified PirepField.
-     * @param  int $id
+     *
+     * @param int $id
+     *
      * @return Response
      */
     public function show($id)
@@ -95,7 +104,9 @@ class PirepFieldController extends Controller
 
     /**
      * Show the form for editing the specified PirepField.
-     * @param  int $id
+     *
+     * @param int $id
+     *
      * @return Response
      */
     public function edit($id)
@@ -115,6 +126,9 @@ class PirepFieldController extends Controller
 
     /**
      * Update the specified PirepField in storage.
+     *
+     * @param mixed $id
+     *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
     public function update($id, UpdatePirepFieldRequest $request)
@@ -139,7 +153,9 @@ class PirepFieldController extends Controller
 
     /**
      * Remove the specified PirepField from storage.
-     * @param  int $id
+     *
+     * @param int $id
+     *
      * @return Response
      */
     public function destroy($id)

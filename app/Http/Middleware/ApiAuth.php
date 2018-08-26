@@ -15,8 +15,9 @@ class ApiAuth
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \Closure                 $next
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure                 $next
+     *
      * @return mixed
      */
     public function handle($request, Closure $next)
@@ -52,6 +53,9 @@ class ApiAuth
 
     /**
      * Return an unauthorized message
+     *
+     * @param mixed $details
+     *
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      */
     private function unauthorized($details = '')

@@ -10,7 +10,6 @@ use Log;
 
 /**
  * This recalculates the balances on all of the journals
- * @package App\Listeners\Cron
  */
 class RecalculateBalances extends Listener
 {
@@ -18,6 +17,7 @@ class RecalculateBalances extends Listener
 
     /**
      * Nightly constructor.
+     *
      * @param JournalRepository $journalRepo
      */
     public function __construct(JournalRepository $journalRepo)
@@ -27,7 +27,9 @@ class RecalculateBalances extends Listener
 
     /**
      * Recalculate all the balances for the different ledgers
+     *
      * @param CronNightly $event
+     *
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
      */

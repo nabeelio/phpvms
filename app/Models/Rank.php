@@ -6,10 +6,10 @@ use App\Interfaces\Model;
 
 /**
  * Class Rank
+ *
  * @property int   hours
  * @property float manual_base_pay_rate
  * @property float acars_base_pay_rate
- * @package App\Models
  */
 class Rank extends Model
 {

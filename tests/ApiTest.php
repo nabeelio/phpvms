@@ -1,6 +1,6 @@
 <?php
 
-#use Swagger\Serializer;
+//use Swagger\Serializer;
 use App\Models\User;
 use App\Services\FareService;
 
@@ -49,13 +49,10 @@ class ApiTest extends TestCase
             ->assertJson(['data' => ['id' => $user->id]]);
     }
 
-    /**
-     *
-     */
     public function testApiDeniedOnInactiveUser()
     {
         $this->user = factory(User::class)->create([
-            'state' => UserState::PENDING
+            'state' => UserState::PENDING,
         ]);
 
         $uri = '/api/user';
@@ -74,14 +71,11 @@ class ApiTest extends TestCase
         $this->assertTrue(array_key_exists('user', $response['data'][0]));
     }
 
-    /**
-     *
-     */
     public function testGetAirlines()
     {
         $size = \random_int(5, 10);
         $this->user = factory(App\Models\User::class)->create([
-            'airline_id' => 0
+            'airline_id' => 0,
         ]);
 
         $airlines = factory(App\Models\Airline::class, $size)->create();
@@ -104,7 +98,7 @@ class ApiTest extends TestCase
         $this->user = factory(App\Models\User::class)->create();
         $airport = factory(App\Models\Airport::class)->create();
 
-        $response = $this->get('/api/airports/' . $airport->icao);
+        $response = $this->get('/api/airports/'.$airport->icao);
 
         $response->assertStatus(200);
         $response->assertJson(['data' => ['icao' => $airport->icao]]);
@@ -156,19 +150,19 @@ class ApiTest extends TestCase
         $subfleetA_size = \random_int(2, 10);
         $subfleetB_size = \random_int(2, 10);
         factory(App\Models\Aircraft::class, $subfleetA_size)->create([
-            'subfleet_id' => $subfleetA->id
+            'subfleet_id' => $subfleetA->id,
         ]);
 
         factory(App\Models\Aircraft::class, $subfleetB_size)->create([
-            'subfleet_id' => $subfleetB->id
+            'subfleet_id' => $subfleetB->id,
         ]);
 
         $response = $this->get('/api/fleet');
         $response->assertStatus(200);
         $body = $response->json()['data'];
 
-        foreach($body as $subfleet) {
-            if($subfleet['id'] === $subfleetA->id) {
+        foreach ($body as $subfleet) {
+            if ($subfleet['id'] === $subfleetA->id) {
                 $size = $subfleetA_size;
             } else {
                 $size = $subfleetB_size;
@@ -188,28 +182,28 @@ class ApiTest extends TestCase
         $fare_svc = app(FareService::class);
 
         $subfleet = factory(App\Models\Subfleet::class)->create([
-            'airline_id' => $this->user->airline_id
+            'airline_id' => $this->user->airline_id,
         ]);
 
         $fare = factory(App\Models\Fare::class)->create();
 
         $fare_svc->setForSubfleet($subfleet, $fare);
         $aircraft = factory(App\Models\Aircraft::class)->create([
-            'subfleet_id' => $subfleet->id
+            'subfleet_id' => $subfleet->id,
         ]);
 
         /**
          * Just try retrieving by ID
          */
-        $resp = $this->get('/api/fleet/aircraft/' . $aircraft->id);
+        $resp = $this->get('/api/fleet/aircraft/'.$aircraft->id);
         $body = $resp->json()['data'];
         $this->assertEquals($body['id'], $aircraft->id);
 
-        $resp = $this->get('/api/fleet/aircraft/' . $aircraft->id . '?registration=' . $aircraft->registration);
+        $resp = $this->get('/api/fleet/aircraft/'.$aircraft->id.'?registration='.$aircraft->registration);
         $body = $resp->json()['data'];
         $this->assertEquals($body['id'], $aircraft->id);
 
-        $resp = $this->get('/api/fleet/aircraft/' . $aircraft->id . '?icao=' . $aircraft->icao);
+        $resp = $this->get('/api/fleet/aircraft/'.$aircraft->id.'?icao='.$aircraft->icao);
         $body = $resp->json()['data'];
         $this->assertEquals($body['id'], $aircraft->id);
     }

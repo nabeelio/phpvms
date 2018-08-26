@@ -8,7 +8,6 @@ use App\Models\Navdata;
 
 /**
  * Class NavdataImport
- * @package App\Console\Commands
  */
 class NavdataImport extends Command
 {
@@ -16,8 +15,9 @@ class NavdataImport extends Command
     protected $description = '';
 
     /**
-     * @return void
      * @throws \League\Geotools\Exception\InvalidArgumentException
+     *
+     * @return void
      */
     public function handle()
     {
@@ -31,8 +31,10 @@ class NavdataImport extends Command
 
     /**
      * Read and parse in the navaid file
-     * @return void
+     *
      * @throws \League\Geotools\Exception\InvalidArgumentException
+     *
+     * @return void
      */
     public function read_wp_nav_aid(): void
     {
@@ -87,7 +89,7 @@ class NavdataImport extends Command
                 'class' => trim($line[60]),
             ];
 
-            # Map to the Navaid enum
+            // Map to the Navaid enum
             switch ($navaid['type']) {
                 case 'ILS':
                     $navaid['type'] = NavaidType::LOC;
@@ -117,7 +119,7 @@ class NavdataImport extends Command
             }*/
 
             Navdata::updateOrCreate([
-                'id' => $navaid['id'], 'name' => $navaid['name']
+                'id' => $navaid['id'], 'name' => $navaid['name'],
             ], $navaid);
 
             $imported++;
@@ -173,7 +175,7 @@ class NavdataImport extends Command
             ];
 
             Navdata::updateOrCreate([
-                'id' => $navfix['id'], 'name' => $navfix['name']
+                'id' => $navfix['id'], 'name' => $navfix['name'],
             ], $navfix);
 
             $imported++;

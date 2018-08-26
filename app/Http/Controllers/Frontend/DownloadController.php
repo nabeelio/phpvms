@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Storage;
 
 /**
  * Class DownloadController
- * @package App\Http\Controllers\Frontend
  */
 class DownloadController extends Controller
 {
@@ -25,7 +24,7 @@ class DownloadController extends Controller
          * Group all the files but compound the model with the ID,
          * since we can have multiple files for every `ref_model`
          */
-        $grouped_files = $files->groupBy(function($item, $key) {
+        $grouped_files = $files->groupBy(function ($item, $key) {
             return $item['ref_model'].'_'.$item['ref_model_id'];
         });
 
@@ -35,7 +34,7 @@ class DownloadController extends Controller
          * name of the group to the object instance "name"
          */
         $regrouped_files = [];
-        foreach($grouped_files as $group => $files) {
+        foreach ($grouped_files as $group => $files) {
             [$class, $id] = explode('_', $group);
             $klass = new $class();
             $obj = $klass->find($id);
@@ -54,6 +53,8 @@ class DownloadController extends Controller
 
     /**
      * Show the application dashboard.
+     *
+     * @param mixed $id
      */
     public function show($id)
     {
@@ -71,10 +72,10 @@ class DownloadController extends Controller
             return redirect(config('app.login_redirect'));
         }
 
-        ++$file->download_count;
+        $file->download_count++;
         $file->save();
 
-        if($file->disk === 'public') {
+        if ($file->disk === 'public') {
             $storage = Storage::disk('public');
             return $storage->download($file->path, $file->filename);
         }

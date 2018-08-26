@@ -7,7 +7,6 @@ use App\Services\DatabaseService;
 
 /**
  * Class YamlImport
- * @package App\Console\Commands
  */
 class YamlImport extends Command
 {
@@ -17,6 +16,7 @@ class YamlImport extends Command
 
     /**
      * YamlImport constructor.
+     *
      * @param DatabaseService $dbSvc
      */
     public function __construct(DatabaseService $dbSvc)
@@ -27,6 +27,7 @@ class YamlImport extends Command
 
     /**
      * Run dev related commands
+     *
      * @throws \Exception
      */
     public function handle()

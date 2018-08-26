@@ -16,16 +16,16 @@ use Response;
 
 /**
  * Class RankController
- * @package App\Http\Controllers\Admin
  */
 class RankController extends Controller
 {
-    private $fleetSvc,
-            $rankRepository,
-            $subfleetRepo;
+    private $fleetSvc;
+    private $rankRepository;
+    private $subfleetRepo;
 
     /**
      * RankController constructor.
+     *
      * @param FleetService       $fleetSvc
      * @param RankRepository     $rankingRepo
      * @param SubfleetRepository $subfleetRepo
@@ -42,7 +42,9 @@ class RankController extends Controller
 
     /**
      * Get the available subfleets for a rank
+     *
      * @param $rank
+     *
      * @return array
      */
     protected function getAvailSubfleets($rank)
@@ -60,9 +62,12 @@ class RankController extends Controller
 
     /**
      * Display a listing of the Ranking.
+     *
      * @param Request $request
-     * @return Response
+     *
      * @throws \Prettus\Repository\Exceptions\RepositoryException
+     *
+     * @return Response
      */
     public function index(Request $request)
     {
@@ -86,9 +91,12 @@ class RankController extends Controller
 
     /**
      * Store a newly created Ranking in storage.
+     *
      * @param CreateRankRequest $request
-     * @return Response
+     *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
+     *
+     * @return Response
      */
     public function store(CreateRankRequest $request)
     {
@@ -104,7 +112,9 @@ class RankController extends Controller
 
     /**
      * Display the specified Ranking.
-     * @param  int $id
+     *
+     * @param int $id
+     *
      * @return Response
      */
     public function show($id)
@@ -118,13 +128,15 @@ class RankController extends Controller
         }
 
         return view('admin.ranks.show', [
-            'rank' => $rank
+            'rank' => $rank,
         ]);
     }
 
     /**
      * Show the form for editing the specified Ranking.
-     * @param  int $id
+     *
+     * @param int $id
+     *
      * @return Response
      */
     public function edit($id)
@@ -147,10 +159,13 @@ class RankController extends Controller
 
     /**
      * Update the specified Ranking in storage.
-     * @param  int              $id
+     *
+     * @param int               $id
      * @param UpdateRankRequest $request
-     * @return Response
+     *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
+     *
+     * @return Response
      */
     public function update($id, UpdateRankRequest $request)
     {
@@ -172,7 +187,9 @@ class RankController extends Controller
 
     /**
      * Remove the specified Ranking from storage.
-     * @param  int $id
+     *
+     * @param int $id
+     *
      * @return Response
      */
     public function destroy($id)
@@ -194,6 +211,7 @@ class RankController extends Controller
 
     /**
      * @param $rank
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     protected function return_subfleet_view($rank)
@@ -208,8 +226,10 @@ class RankController extends Controller
 
     /**
      * Subfleet operations on a rank
+     *
      * @param         $id
      * @param Request $request
+     *
      * @return mixed
      */
     public function subfleets($id, Request $request)

@@ -13,7 +13,6 @@ use Prettus\Validator\Exceptions\ValidatorException;
 
 /**
  * Class SettingRepository
- * @package App\Repositories
  */
 class SettingRepository extends Repository implements CacheableInterface
 {
@@ -31,9 +30,12 @@ class SettingRepository extends Repository implements CacheableInterface
 
     /**
      * Get a setting, reading it from the cache possibly
+     *
      * @param string $key
-     * @return mixed
+     *
      * @throws SettingNotFound
+     *
+     * @return mixed
      */
     public function retrieve($key)
     {
@@ -44,7 +46,7 @@ class SettingRepository extends Repository implements CacheableInterface
             throw new SettingNotFound($key.' not found');
         }
 
-        # cast some types
+        // cast some types
         switch ($setting->type) {
             case 'bool':
             case 'boolean':
@@ -75,6 +77,9 @@ class SettingRepository extends Repository implements CacheableInterface
 
     /**
      * @alias store($key,$value)
+     *
+     * @param mixed $key
+     * @param mixed $value
      */
     public function save($key, $value)
     {
@@ -84,8 +89,10 @@ class SettingRepository extends Repository implements CacheableInterface
     /**
      * Update an existing setting with a new value. Doesn't create
      * a new setting
+     *
      * @param $key
      * @param $value
+     *
      * @return null
      */
     public function store($key, $value)
@@ -93,11 +100,11 @@ class SettingRepository extends Repository implements CacheableInterface
         $key = Setting::formatKey($key);
         $setting = $this->findWhere(
             ['id' => $key],
-            ['id', 'value'] # only get these columns
+            ['id', 'value'] // only get these columns
         )->first();
 
         if (!$setting) {
-            return null;
+            return;
         }
 
         try {

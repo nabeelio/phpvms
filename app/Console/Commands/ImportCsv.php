@@ -1,7 +1,4 @@
 <?php
-/**
- *
- */
 
 namespace App\Console\Commands;
 
@@ -10,7 +7,6 @@ use App\Services\ImportService;
 
 /**
  * Class ImportCsv
- * @package App\Console\Commands
  */
 class ImportCsv extends Command
 {
@@ -21,6 +17,7 @@ class ImportCsv extends Command
 
     /**
      * Import constructor.
+     *
      * @param ImportService $importer
      */
     public function __construct(ImportService $importer)
@@ -30,8 +27,9 @@ class ImportCsv extends Command
     }
 
     /**
-     * @return mixed|void
      * @throws \Illuminate\Validation\ValidationException
+     *
+     * @return mixed|void
      */
     public function handle()
     {
@@ -48,7 +46,7 @@ class ImportCsv extends Command
             $status = $this->importer->importSubfleets($file);
         }
 
-        foreach($status['success'] as $line) {
+        foreach ($status['success'] as $line) {
             $this->info($line);
         }
 

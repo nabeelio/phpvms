@@ -20,15 +20,15 @@ use Log;
 
 /**
  * Class UserService
- * @package App\Services
  */
 class UserService extends Service
 {
-    private $aircraftRepo,
-            $subfleetRepo;
+    private $aircraftRepo;
+    private $subfleetRepo;
 
     /**
      * UserService constructor.
+     *
      * @param AircraftRepository $aircraftRepo
      * @param SubfleetRepository $subfleetRepo
      */
@@ -43,14 +43,17 @@ class UserService extends Service
     /**
      * Register a pilot. Also attaches the initial roles
      * required, and then triggers the UserRegistered event
+     *
      * @param User  $user   User model
      * @param array $groups Additional groups to assign
-     * @return mixed
+     *
      * @throws \Exception
+     *
+     * @return mixed
      */
     public function createPilot(User $user, array $groups = null)
     {
-        # Determine if we want to auto accept
+        // Determine if we want to auto accept
         if (setting('pilots.auto_accept') === true) {
             $user->state = UserState::ACTIVE;
         } else {
@@ -59,7 +62,7 @@ class UserService extends Service
 
         $user->save();
 
-        # Attach the user roles
+        // Attach the user roles
         $role = Role::where('name', 'user')->first();
         $user->attachRole($role);
 
@@ -70,7 +73,7 @@ class UserService extends Service
             }
         }
 
-        # Let's check their rank and where they should start
+        // Let's check their rank and where they should start
         $this->calculatePilotRank($user);
         $user->refresh();
 
@@ -82,7 +85,9 @@ class UserService extends Service
     /**
      * Return the subfleets this user is allowed access to,
      * based on their current rank
+     *
      * @param $user
+     *
      * @return Collection
      */
     public function getAllowableSubfleets($user)
@@ -97,8 +102,10 @@ class UserService extends Service
 
     /**
      * Return a bool if a user is allowed to fly the current aircraft
+     *
      * @param $user
      * @param $aircraft_id
+     *
      * @return bool
      */
     public function aircraftAllowed($user, $aircraft_id)
@@ -113,8 +120,10 @@ class UserService extends Service
     /**
      * Change the user's state. PENDING to ACCEPTED, etc
      * Send out an email
+     *
      * @param User $user
      * @param      $old_state
+     *
      * @return User
      */
     public function changeUserState(User $user, $old_state): User
@@ -135,8 +144,10 @@ class UserService extends Service
     /**
      * Adjust the number of flights a user has. Triggers
      * UserStatsChanged event
+     *
      * @param User $user
      * @param int  $count
+     *
      * @return User
      */
     public function adjustFlightCount(User $user, int $count): User
@@ -153,8 +164,10 @@ class UserService extends Service
 
     /**
      * Update a user's flight times
+     *
      * @param User $user
      * @param int  $minutes
+     *
      * @return User
      */
     public function adjustFlightTime(User $user, int $minutes): User
@@ -168,24 +181,26 @@ class UserService extends Service
 
     /**
      * See if a pilot's rank has change. Triggers the UserStatsChanged event
+     *
      * @param User $user
+     *
      * @return User
      */
     public function calculatePilotRank(User $user): User
     {
         $user->refresh();
 
-        # If their current rank is one they were assigned, then
-        # don't change away from it automatically.
+        // If their current rank is one they were assigned, then
+        // don't change away from it automatically.
         if ($user->rank && $user->rank->auto_promote === false) {
             return $user;
         }
 
         $pilot_hours = new Time($user->flight_time);
 
-        # The current rank's hours are over the pilot's current hours,
-        # so assume that they were "placed" here by an admin so don't
-        # bother with updating it
+        // The current rank's hours are over the pilot's current hours,
+        // so assume that they were "placed" here by an admin so don't
+        // bother with updating it
         if ($user->rank && $user->rank->hours > $pilot_hours->hours) {
             return $user;
         }
@@ -216,7 +231,9 @@ class UserService extends Service
 
     /**
      * Set the user's status to being on leave
+     *
      * @param User $user
+     *
      * @return User
      */
     public function setStatusOnLeave(User $user): User
@@ -233,21 +250,23 @@ class UserService extends Service
 
     /**
      * Recount/update all of the stats for a user
+     *
      * @param User $user
+     *
      * @return User
      */
     public function recalculateStats(User $user): User
     {
-        # Recalc their hours
+        // Recalc their hours
         $w = [
             'user_id' => $user->id,
-            'state' => PirepState::ACCEPTED,
+            'state'   => PirepState::ACCEPTED,
         ];
 
         $flight_time = Pirep::where($w)->sum('flight_time');
         $user->flight_time = $flight_time;
 
-        # Recalc the rank
+        // Recalc the rank
         $this->calculatePilotRank($user);
 
         Log::info('User '.$user->ident.' updated; rank='.$user->rank->name.'; flight_time='.$user->flight_time.' minutes');

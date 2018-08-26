@@ -1,4 +1,5 @@
 <?php
+
 return [
     /*
     |--------------------------------------------------------------------------
@@ -27,14 +28,14 @@ return [
     */
     'channels' => [
         'stack' => [
-            'driver' => 'stack',
+            'driver'   => 'stack',
             'channels' => [
                 'daily',
-                # PHP_SAPI === 'cli' ? 'console' : 'daily',
+                // PHP_SAPI === 'cli' ? 'console' : 'daily',
             ],
         ],
         'cron' => [
-            'driver' => 'stack',
+            'driver'   => 'stack',
             'channels' => [
                 'cron_rotating',
                 'stdout',
@@ -42,39 +43,39 @@ return [
         ],
         'single' => [
             'driver' => 'single',
-            'path' => storage_path('logs/laravel.log'),
-            'level' => 'debug',
+            'path'   => storage_path('logs/laravel.log'),
+            'level'  => 'debug',
         ],
         'daily' => [
             'driver' => 'daily',
-            'path' => storage_path('logs/laravel.log'),
-            'level' => 'debug',
-            'days' => 3,
+            'path'   => storage_path('logs/laravel.log'),
+            'level'  => 'debug',
+            'days'   => 3,
         ],
         'cron_rotating' => [
             'driver' => 'daily',
-            'path' => storage_path('logs/cron.log'),
-            'level' => 'debug',
-            'days' => 3,
+            'path'   => storage_path('logs/cron.log'),
+            'level'  => 'debug',
+            'days'   => 3,
         ],
         'slack' => [
-            'driver' => 'slack',
-            'url' => env('LOG_SLACK_WEBHOOK_URL'),
+            'driver'   => 'slack',
+            'url'      => env('LOG_SLACK_WEBHOOK_URL'),
             'username' => 'Laravel Log',
-            'emoji' => ':boom:',
-            'level' => 'critical',
+            'emoji'    => ':boom:',
+            'level'    => 'critical',
         ],
         'stdout' => [
             'driver' => 'custom',
-            'via' => \App\Console\Logger::class,
+            'via'    => \App\Console\Logger::class,
         ],
         'syslog' => [
             'driver' => 'syslog',
-            'level' => 'debug',
+            'level'  => 'debug',
         ],
         'errorlog' => [
             'driver' => 'errorlog',
-            'level' => 'debug',
+            'level'  => 'debug',
         ],
     ],
 ];

@@ -11,7 +11,6 @@ use PDO;
 
 /**
  * Class AnalyticsService
- * @package App\Services
  */
 class AnalyticsService extends Service
 {
@@ -24,13 +23,13 @@ class AnalyticsService extends Service
             return;
         }
 
-        # some analytics
+        // some analytics
         $gamp = GAMP::setClientId(uniqid('', true));
         $gamp->setDocumentPath('/install');
 
         $gamp->setCustomDimension(PHP_VERSION, AnalyticsDimensions::PHP_VERSION);
 
-        # figure out database version
+        // figure out database version
         $pdo = DB::connection()->getPdo();
         $gamp->setCustomDimension(
             strtolower($pdo->getAttribute(PDO::ATTR_SERVER_VERSION)),

@@ -7,13 +7,13 @@ use PhpUnitsOfMeasure\PhysicalQuantity\Volume as VolumeUnit;
 
 /**
  * Wrap the converter class
- * @package App\Support\Units
  */
 class Volume extends Unit
 {
     /**
      * @param float  $value
      * @param string $unit
+     *
      * @throws \PhpUnitsOfMeasure\Exception\NonNumericValue
      * @throws \PhpUnitsOfMeasure\Exception\NonStringUnitName
      */

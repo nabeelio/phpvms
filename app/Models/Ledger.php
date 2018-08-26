@@ -12,7 +12,7 @@ use Carbon\Carbon;
 
 /**
  * Class Journal
- * @package Scottlaurent\Accounting
+ *
  * @property    Money  $balance
  * @property    string $currency
  * @property    Carbon $updated_at
@@ -23,9 +23,6 @@ class Ledger extends Model
 {
     public $table = 'ledgers';
 
-    /**
-     *
-     */
     public function journals()
     {
         return $this->hasMany(Journal::class);
@@ -40,7 +37,6 @@ class Ledger extends Model
     }
 
     /**
-     *
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
      */
@@ -56,7 +52,6 @@ class Ledger extends Model
     }
 
     /**
-     *
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
      */

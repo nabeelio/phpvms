@@ -2,10 +2,8 @@
 
 namespace App\Exceptions;
 
-
 /**
  * Class UserNotAtAirport
- * @package App\Exceptions
  */
 class UserNotAtAirport extends InternalError
 {

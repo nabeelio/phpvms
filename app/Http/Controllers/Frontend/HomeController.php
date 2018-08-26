@@ -8,7 +8,6 @@ use Illuminate\Database\QueryException;
 
 /**
  * Class HomeController
- * @package App\Http\Controllers\Frontend
  */
 class HomeController extends Controller
 {

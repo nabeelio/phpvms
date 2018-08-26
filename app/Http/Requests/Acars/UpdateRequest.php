@@ -8,7 +8,6 @@ use Auth;
 
 /**
  * Class UpdateRequest
- * @package App\Http\Requests\Acars
  */
 class UpdateRequest extends FormRequest
 {
@@ -48,10 +47,10 @@ class UpdateRequest extends FormRequest
             'status'              => 'nullable',
             'score'               => 'nullable|integer',
 
-            # See if the fare objects are included and formatted properly
-            'fares'               => 'nullable|array',
-            'fares.*.id'          => 'required',
-            'fares.*.count'       => 'required|numeric',
+            // See if the fare objects are included and formatted properly
+            'fares'         => 'nullable|array',
+            'fares.*.id'    => 'required',
+            'fares.*.count' => 'required|numeric',
         ];
 
         return $rules;

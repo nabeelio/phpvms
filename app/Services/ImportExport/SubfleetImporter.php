@@ -9,7 +9,6 @@ use App\Services\FareService;
 
 /**
  * Import subfleets
- * @package App\Services\Import
  */
 class SubfleetImporter extends ImportExport
 {
@@ -38,8 +37,10 @@ class SubfleetImporter extends ImportExport
 
     /**
      * Import a flight, parse out the different rows
+     *
      * @param array $row
      * @param int   $index
+     *
      * @return bool
      */
     public function import(array $row, $index): bool
@@ -48,12 +49,12 @@ class SubfleetImporter extends ImportExport
         $row['airline_id'] = $airline->id;
 
         $subfleet = Subfleet::firstOrNew([
-            'type'    => $row['type']
+            'type' => $row['type'],
         ], $row);
 
         try {
             $subfleet->save();
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             $this->errorLog('Error in row '.$index.': '.$e->getMessage());
             return false;
         }
@@ -66,8 +67,9 @@ class SubfleetImporter extends ImportExport
 
     /**
      * Parse all of the fares in the multi-format
+     *
      * @param Subfleet $subfleet
-     * @param        $col
+     * @param          $col
      */
     protected function processFares(Subfleet &$subfleet, $col): void
     {

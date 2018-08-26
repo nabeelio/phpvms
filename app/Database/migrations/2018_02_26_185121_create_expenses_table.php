@@ -19,8 +19,8 @@ class CreateExpensesTable extends Migration
             $table->boolean('multiplier')->nullable()->default(0);
             $table->boolean('active')->nullable()->default(true);
 
-            # ref fields are expenses tied to some model object
-            # EG, the airports has an internal expense for gate costs
+            // ref fields are expenses tied to some model object
+            // EG, the airports has an internal expense for gate costs
             $table->string('ref_model')->nullable();
             $table->string('ref_model_id', 36)->nullable();
 

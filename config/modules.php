@@ -3,9 +3,9 @@
 return [
     'namespace' => 'Modules',
     'stubs'     => [
-        'enabled'      => true,
-        'path'         => resource_path().'/stubs/modules',
-        'files'        => [
+        'enabled' => true,
+        'path'    => resource_path().'/stubs/modules',
+        'files'   => [
             'routes'                 => 'Http/Routes/web.php',
             'routes-api'             => 'Http/Routes/api.php',
             'routes-admin'           => 'Http/Routes/admin.php',
@@ -43,9 +43,9 @@ return [
                 'MODULE_NAMESPACE',
             ],
         ],
-        'gitkeep'      => false,
+        'gitkeep' => false,
     ],
-    'paths'     => [
+    'paths' => [
         'modules'   => base_path('modules'),
         'assets'    => public_path('modules'),
         'migration' => base_path('database/migrations'),
@@ -118,7 +118,7 @@ return [
     | Here is the config for setting up caching feature.
     |
     */
-    'cache'    => [
+    'cache' => [
         'enabled'  => true,
         'key'      => 'phpvms-modules',
         'lifetime' => 60,

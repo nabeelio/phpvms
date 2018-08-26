@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Log;
 
 /**
  * Class LoginController
- * @package App\Http\Controllers\Auth
  */
 class LoginController extends Controller
 {
@@ -38,6 +37,7 @@ class LoginController extends Controller
 
     /**
      * @param Request $request
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
     protected function sendLoginResponse(Request $request)

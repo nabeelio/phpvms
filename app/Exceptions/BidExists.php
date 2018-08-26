@@ -6,7 +6,6 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
  * Class BidExists
- * @package App\Exceptions
  */
 class BidExists extends HttpException
 {

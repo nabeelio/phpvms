@@ -4,7 +4,6 @@ namespace App\Models\Observers;
 
 /**
  * Create a slug from a name
- * @package App\Models\Observers
  */
 class Sluggable
 {

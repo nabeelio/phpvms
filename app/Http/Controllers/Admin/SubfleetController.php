@@ -27,20 +27,20 @@ use Storage;
 
 /**
  * Class SubfleetController
- * @package App\Http\Controllers\Admin
  */
 class SubfleetController extends Controller
 {
-    private $aircraftRepo,
-            $fareRepo,
-            $fareSvc,
-            $fleetSvc,
-            $importSvc,
-            $rankRepo,
-            $subfleetRepo;
+    private $aircraftRepo;
+    private $fareRepo;
+    private $fareSvc;
+    private $fleetSvc;
+    private $importSvc;
+    private $rankRepo;
+    private $subfleetRepo;
 
     /**
      * SubfleetController constructor.
+     *
      * @param AircraftRepository $aircraftRepo
      * @param FleetService       $fleetSvc
      * @param FareRepository     $fareRepo
@@ -69,7 +69,9 @@ class SubfleetController extends Controller
 
     /**
      * Get the ranks that are available to the subfleet
+     *
      * @param $subfleet
+     *
      * @return array
      */
     protected function getAvailRanks($subfleet)
@@ -86,6 +88,8 @@ class SubfleetController extends Controller
 
     /**
      * Get all the fares that haven't been assigned to a given subfleet
+     *
+     * @param mixed $subfleet
      */
     protected function getAvailFares($subfleet)
     {
@@ -104,9 +108,12 @@ class SubfleetController extends Controller
 
     /**
      * Display a listing of the Subfleet.
+     *
      * @param Request $request
-     * @return Response
+     *
      * @throws \Prettus\Repository\Exceptions\RepositoryException
+     *
+     * @return Response
      */
     public function index(Request $request)
     {
@@ -120,6 +127,7 @@ class SubfleetController extends Controller
 
     /**
      * Show the form for creating a new Subfleet.
+     *
      * @return Response
      */
     public function create()
@@ -132,9 +140,12 @@ class SubfleetController extends Controller
 
     /**
      * Store a newly created Subfleet in storage.
+     *
      * @param CreateSubfleetRequest $request
-     * @return Response
+     *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
+     *
+     * @return Response
      */
     public function store(CreateSubfleetRequest $request)
     {
@@ -147,7 +158,9 @@ class SubfleetController extends Controller
 
     /**
      * Display the specified Subfleet.
-     * @param  int $id
+     *
+     * @param int $id
+     *
      * @return Response
      */
     public function show($id)
@@ -168,7 +181,9 @@ class SubfleetController extends Controller
 
     /**
      * Show the form for editing the specified Subfleet.
-     * @param  int $id
+     *
+     * @param int $id
+     *
      * @return Response
      */
     public function edit($id)
@@ -194,10 +209,13 @@ class SubfleetController extends Controller
 
     /**
      * Update the specified Subfleet in storage.
-     * @param  int                  $id
+     *
+     * @param int                   $id
      * @param UpdateSubfleetRequest $request
-     * @return Response
+     *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
+     *
+     * @return Response
      */
     public function update($id, UpdateSubfleetRequest $request)
     {
@@ -216,7 +234,9 @@ class SubfleetController extends Controller
 
     /**
      * Remove the specified Subfleet from storage.
-     * @param  int $id
+     *
+     * @param int $id
+     *
      * @return Response
      */
     public function destroy($id)
@@ -228,8 +248,8 @@ class SubfleetController extends Controller
             return redirect(route('admin.subfleets.index'));
         }
 
-        # Make sure no aircraft are assigned to this subfleet
-        # before trying to delete it, or else things might go boom
+        // Make sure no aircraft are assigned to this subfleet
+        // before trying to delete it, or else things might go boom
         $aircraft = $this->aircraftRepo->findWhere(['subfleet_id' => $id], ['id']);
         if ($aircraft->count() > 0) {
             Flash::error('There are aircraft still assigned to this subfleet, you can\'t delete it!')->important();
@@ -244,7 +264,9 @@ class SubfleetController extends Controller
 
     /**
      * Run the subfleet exporter
+     *
      * @param Request $request
+     *
      * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
      */
     public function export(Request $request)
@@ -261,10 +283,11 @@ class SubfleetController extends Controller
     }
 
     /**
-     *
      * @param Request $request
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     *
      * @throws \Illuminate\Validation\ValidationException
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function import(Request $request)
     {
@@ -292,6 +315,7 @@ class SubfleetController extends Controller
 
     /**
      * @param Subfleet $subfleet
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     protected function return_ranks_view(?Subfleet $subfleet)
@@ -307,6 +331,7 @@ class SubfleetController extends Controller
 
     /**
      * @param Subfleet $subfleet
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     protected function return_fares_view(?Subfleet $subfleet)
@@ -322,8 +347,10 @@ class SubfleetController extends Controller
 
     /**
      * Operations for associating ranks to the subfleet
+     *
      * @param         $id
      * @param Request $request
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function ranks($id, Request $request)
@@ -337,7 +364,7 @@ class SubfleetController extends Controller
             return $this->return_ranks_view($subfleet);
         }
 
-        /**
+        /*
          * update specific rank data
          */
         if ($request->isMethod('post')) {
@@ -362,6 +389,7 @@ class SubfleetController extends Controller
 
     /**
      * @param Subfleet $subfleet
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     protected function return_expenses_view(?Subfleet $subfleet)
@@ -374,10 +402,13 @@ class SubfleetController extends Controller
 
     /**
      * Operations for associating ranks to the subfleet
+     *
      * @param         $id
      * @param Request $request
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     *
      * @throws \Exception
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function expenses($id, Request $request)
     {
@@ -390,7 +421,7 @@ class SubfleetController extends Controller
             return $this->return_expenses_view($subfleet);
         }
 
-        /**
+        /*
          * update specific rank data
          */
         if ($request->isMethod('post')) {
@@ -413,8 +444,10 @@ class SubfleetController extends Controller
 
     /**
      * Operations on fares to the subfleet
+     *
      * @param         $id
      * @param Request $request
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function fares($id, Request $request)
@@ -428,7 +461,7 @@ class SubfleetController extends Controller
             return $this->return_fares_view($subfleet);
         }
 
-        /**
+        /*
          * update specific fare data
          */
         if ($request->isMethod('post')) {

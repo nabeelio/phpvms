@@ -7,7 +7,6 @@ use App\Repositories\UserRepository;
 
 /**
  * Show the latest pilots in a view
- * @package App\Widgets
  */
 class LatestPilots extends Widget
 {

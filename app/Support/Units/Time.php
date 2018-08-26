@@ -6,26 +6,27 @@ use Illuminate\Contracts\Support\Arrayable;
 
 /**
  * Class Time
- * @package App\Support\Units
  */
 class Time implements Arrayable
 {
-    public $hours,
-           $minutes;
+    public $hours;
+    public $minutes;
 
     /**
      * @param $minutes
      * @param $hours
+     *
      * @return static
      */
     public static function init($minutes, $hours)
     {
-        return new Time($minutes, $hours);
+        return new self($minutes, $hours);
     }
 
     /**
      * Pass just minutes to figure out how many hours
      * Or both hours and minutes
+     *
      * @param $minutes
      * @param $hours
      */
@@ -44,6 +45,7 @@ class Time implements Arrayable
 
     /**
      * Get the total number minutes, adding up the hours
+     *
      * @return float|int
      */
     public function getMinutes()
@@ -53,7 +55,9 @@ class Time implements Arrayable
 
     /**
      * Alias to getMinutes()
+     *
      * @alias getMinutes()
+     *
      * @return float|int
      */
     public function asInt()
@@ -63,6 +67,7 @@ class Time implements Arrayable
 
     /**
      * Return a time string
+     *
      * @return string
      */
     public function __toString()

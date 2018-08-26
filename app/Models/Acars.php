@@ -11,18 +11,19 @@ use PhpUnitsOfMeasure\Exception\NonStringUnitName;
 
 /**
  * Class Acars
+ *
  * @param string id
+ *
  * @property string pirep_id
  * @property int    type
  * @property string name
- * @property double lat
- * @property double lon
- * @property double altitude
+ * @property float lat
+ * @property float lon
+ * @property float altitude
  * @property int    gs
  * @property int    heading
  * @property int    order
  * @property int    nav_type
- * @package App\Models
  */
 class Acars extends Model
 {
@@ -78,15 +79,15 @@ class Acars extends Model
         'pirep_id' => 'required',
     ];
 
-
     /**
      * Return a new Length unit so conversions can be made
+     *
      * @return int|Distance
      */
     public function getDistanceAttribute()
     {
         if (!array_key_exists('distance', $this->attributes)) {
-            return null;
+            return;
         }
 
         try {
@@ -105,6 +106,7 @@ class Acars extends Model
 
     /**
      * Set the distance unit, convert to our internal default unit
+     *
      * @param $value
      */
     public function setDistanceAttribute($value): void
@@ -119,12 +121,13 @@ class Acars extends Model
 
     /**
      * Return a new Fuel unit so conversions can be made
+     *
      * @return int|Fuel
      */
     public function getFuelAttribute()
     {
         if (!array_key_exists('fuel', $this->attributes)) {
-            return null;
+            return;
         }
 
         try {
@@ -139,6 +142,7 @@ class Acars extends Model
 
     /**
      * Set the amount of fuel
+     *
      * @param $value
      */
     public function setFuelAttribute($value)
@@ -155,7 +159,6 @@ class Acars extends Model
     /**
      * FKs
      */
-
     public function pirep()
     {
         return $this->belongsTo(Pirep::class, 'pirep_id');

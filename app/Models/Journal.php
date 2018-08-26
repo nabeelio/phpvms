@@ -12,6 +12,7 @@ use Carbon\Carbon;
 
 /**
  * Class Journal
+ *
  * @property mixed                         id
  * @property Money                         $balance
  * @property string                        $currency
@@ -38,7 +39,7 @@ class Journal extends Model
     protected $dates = [
         'created_at',
         'deleted_at',
-        'updated_at'
+        'updated_at',
     ];
 
     /**
@@ -51,6 +52,7 @@ class Journal extends Model
 
     /**
      * Relationship
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function ledger()
@@ -60,6 +62,7 @@ class Journal extends Model
 
     /**
      * Relationship
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function transactions()
@@ -77,6 +80,7 @@ class Journal extends Model
 
     /**
      * @param Ledger $ledger
+     *
      * @return Journal
      */
     public function assignToLedger(Ledger $ledger)
@@ -87,7 +91,6 @@ class Journal extends Model
     }
 
     /**
-     *
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
      */
@@ -99,9 +102,11 @@ class Journal extends Model
 
     /**
      * @param $value
-     * @return Money
+     *
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
+     *
+     * @return Money
      */
     public function getBalanceAttribute($value): Money
     {
@@ -110,6 +115,7 @@ class Journal extends Model
 
     /**
      * @param $value
+     *
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
      */
@@ -124,6 +130,7 @@ class Journal extends Model
 
     /**
      * @param Journal $object
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function transactionsReferencingObjectQuery($object)
@@ -136,10 +143,13 @@ class Journal extends Model
 
     /**
      * Get the credit only balance of the journal based on a given date.
+     *
      * @param Carbon $date
-     * @return Money
+     *
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
+     *
+     * @return Money
      */
     public function getCreditBalanceOn(Carbon $date)
     {
@@ -152,10 +162,13 @@ class Journal extends Model
 
     /**
      * Get the balance of the journal based on a given date.
+     *
      * @param Carbon $date
-     * @return Money
+     *
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
+     *
+     * @return Money
      */
     public function getBalanceOn(Carbon $date)
     {
@@ -165,9 +178,11 @@ class Journal extends Model
 
     /**
      * Get the balance of the journal as of right now, excluding future transactions.
-     * @return Money
+     *
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
+     *
+     * @return Money
      */
     public function getCurrentBalance()
     {
@@ -176,9 +191,11 @@ class Journal extends Model
 
     /**
      * Get the balance of the journal.  This "could" include future dates.
-     * @return Money
+     *
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
+     *
+     * @return Money
      */
     public function getBalance()
     {

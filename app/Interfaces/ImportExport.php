@@ -9,14 +9,13 @@ use Validator;
 
 /**
  * Common functionality used across all of the importers
- * @package App\Interfaces
  */
 class ImportExport
 {
     public $assetType;
     public $status = [
         'success' => [],
-        'errors' => [],
+        'errors'  => [],
     ];
 
     /**
@@ -26,6 +25,7 @@ class ImportExport
 
     /**
      * @param mixed $row
+     *
      * @return array
      */
     public function export($row): array
@@ -36,8 +36,10 @@ class ImportExport
     /**
      * @param array $row
      * @param mixed $index
-     * @return bool
+     *
      * @throws \RuntimeException
+     *
+     * @return bool
      */
     public function import(array $row, $index): bool
     {
@@ -46,7 +48,9 @@ class ImportExport
 
     /**
      * Get the airline from the ICAO. Create it if it doesn't exist
+     *
      * @param $code
+     *
      * @return Airline
      */
     public function getAirline($code)
@@ -68,7 +72,9 @@ class ImportExport
 
     /**
      * Do a basic check that the number of columns match
+     *
      * @param $row
+     *
      * @return bool
      */
     public function checkColumns($row): bool
@@ -78,8 +84,10 @@ class ImportExport
 
     /**
      * Bubble up an error to the interface that we need to stop
+     *
      * @param $error
      * @param $e
+     *
      * @throws ValidationException
      */
     protected function throwError($error, \Exception $e = null): void
@@ -91,11 +99,13 @@ class ImportExport
 
         $validator = Validator::make([], []);
         $validator->errors()->add('csv_file', $error);
+
         throw new ValidationException($validator);
     }
 
     /**
      * Add to the log messages for this importer
+     *
      * @param $msg
      */
     public function log($msg): void
@@ -106,6 +116,7 @@ class ImportExport
 
     /**
      * Add to the error log for this import
+     *
      * @param $msg
      */
     public function errorLog($msg): void
@@ -116,15 +127,16 @@ class ImportExport
 
     /**
      * Set a key-value pair to an array
+     *
      * @param       $kvp_str
      * @param array $arr
      */
     protected function kvpToArray($kvp_str, array &$arr)
     {
         $item = explode('=', $kvp_str);
-        if (\count($item) === 1) {  # just a list?
+        if (\count($item) === 1) {  // just a list?
             $arr[] = trim($item[0]);
-        } else {  # actually a key-value pair
+        } else {  // actually a key-value pair
             $k = trim($item[0]);
             $v = trim($item[1]);
             $arr[$k] = $v;
@@ -140,6 +152,7 @@ class ImportExport
      * Converted into a multi-dimensional array
      *
      * @param $field
+     *
      * @return array|string
      */
     public function parseMultiColumnValues($field)
@@ -147,9 +160,9 @@ class ImportExport
         $ret = [];
         $split_values = explode(';', $field);
 
-        # No multiple values in here, just a straight value
+        // No multiple values in here, just a straight value
         if (\count($split_values) === 1) {
-            if(trim($split_values[0]) === '') {
+            if (trim($split_values[0]) === '') {
                 return [];
             }
 
@@ -157,15 +170,15 @@ class ImportExport
         }
 
         foreach ($split_values as $value) {
-            # This isn't in the query string format, so it's
-            # just a straight key-value pair set
+            // This isn't in the query string format, so it's
+            // just a straight key-value pair set
             if (strpos($value, '?') === false) {
                 $this->kvpToArray($value, $ret);
                 continue;
             }
 
-            # This contains the query string, which turns it
-            # into the multi-level array
+            // This contains the query string, which turns it
+            // into the multi-level array
 
             $query_str = explode('?', $value);
             $parent = trim($query_str[0]);
@@ -173,7 +186,7 @@ class ImportExport
             $children = [];
             $kvp = explode('&', trim($query_str[1]));
             foreach ($kvp as $items) {
-                if(!$items) {
+                if (!$items) {
                     continue;
                 }
 
@@ -188,30 +201,31 @@ class ImportExport
 
     /**
      * @param $obj
+     *
      * @return mixed
      */
     public function objectToMultiString($obj)
     {
-        if(!\is_array($obj)) {
+        if (!\is_array($obj)) {
             return $obj;
         }
 
         $ret_list = [];
         foreach ($obj as $key => $val) {
-            if(is_numeric($key) && !\is_array($val)) {
+            if (is_numeric($key) && !\is_array($val)) {
                 $ret_list[] = $val;
                 continue;
             }
 
             $key = trim($key);
 
-            if(!\is_array($val)) {
+            if (!\is_array($val)) {
                 $val = trim($val);
                 $ret_list[] = "{$key}={$val}";
             } else {
                 $q = [];
-                foreach($val as $subkey => $subval) {
-                    if(is_numeric($subkey)) {
+                foreach ($val as $subkey => $subval) {
+                    if (is_numeric($subkey)) {
                         $q[] = $subval;
                     } else {
                         $q[] = "{$subkey}={$subval}";
@@ -219,7 +233,7 @@ class ImportExport
                 }
 
                 $q = implode('&', $q);
-                if(!empty($q)) {
+                if (!empty($q)) {
                     $ret_list[] = "{$key}?{$q}";
                 } else {
                     $ret_list[] = $key;

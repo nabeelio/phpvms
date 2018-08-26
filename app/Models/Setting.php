@@ -6,6 +6,7 @@ use App\Interfaces\Model;
 
 /**
  * Class Setting
+ *
  * @property string id
  * @property string name
  * @property string key
@@ -14,7 +15,6 @@ use App\Interfaces\Model;
  * @property string type
  * @property string options
  * @property string description
- * @package App\Models
  */
 class Setting extends Model
 {
@@ -39,6 +39,7 @@ class Setting extends Model
 
     /**
      * @param $key
+     *
      * @return mixed
      */
     public static function formatKey($key)
@@ -48,6 +49,7 @@ class Setting extends Model
 
     /**
      * Force formatting the key
+     *
      * @param $id
      */
     public function setIdAttribute($id): void
@@ -58,6 +60,7 @@ class Setting extends Model
 
     /**
      * Set the key to lowercase
+     *
      * @param $key
      */
     public function setKeyAttribute($key): void

@@ -7,7 +7,6 @@ use App\Models\PirepField;
 
 /**
  * Class PirepFieldRepository
- * @package App\Repositories
  */
 class PirepFieldRepository extends Repository
 {

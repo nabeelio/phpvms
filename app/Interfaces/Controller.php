@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 
 /**
  * Class Controller
- * @package App\Http\Controllers
  */
 abstract class Controller extends \Illuminate\Routing\Controller
 {
@@ -17,8 +16,10 @@ abstract class Controller extends \Illuminate\Routing\Controller
 
     /**
      * Write a error to the flash and redirect the user to a route
+     *
      * @param $message
      * @param $route
+     *
      * @return mixed
      */
     public function flashError($message, $route)
@@ -29,15 +30,18 @@ abstract class Controller extends \Illuminate\Routing\Controller
 
     /**
      * Shortcut function to get the attributes from a request while running the validations
+     *
      * @param Request $request
      * @param array   $attrs_or_validations
      * @param array   $addtl_fields
-     * @return array
+     *
      * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
+     *
+     * @return array
      */
     public function getFromReq($request, $attrs_or_validations, $addtl_fields = null)
     {
-        # See if a list of values is passed in, or if a validation list is passed in
+        // See if a list of values is passed in, or if a validation list is passed in
         $is_validation = false;
         if (\count(array_filter(array_keys($attrs_or_validations), '\is_string')) > 0) {
             $is_validation = true;
@@ -73,13 +77,16 @@ abstract class Controller extends \Illuminate\Routing\Controller
 
     /**
      * Simple normalized method for forming the JSON responses
+     *
      * @param $message
+     * @param null|mixed $count
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function message($message, $count = null)
     {
         $attrs = [
-            'message' => $message
+            'message' => $message,
         ];
 
         if ($count !== null) {

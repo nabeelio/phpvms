@@ -3,14 +3,13 @@
 namespace App\Exceptions;
 
 use Illuminate\Validation\ValidationException;
-use Validator;
 use Log;
+use Validator;
 
 /**
  * Show an internal error, bug piggyback off of the validation
  * exception type - this has a place to show up in the UI as a
  * flash message.
- * @package App\Exceptions
  */
 class InternalError extends ValidationException
 {
@@ -19,6 +18,7 @@ class InternalError extends ValidationException
 
     /**
      * InternalError constructor.
+     *
      * @param string|null $message
      * @param null        $field
      */

@@ -9,7 +9,6 @@ use Prettus\Repository\Traits\CacheableRepository;
 
 /**
  * Class SubfleetRepository
- * @package App\Repositories
  */
 class SubfleetRepository extends Repository implements CacheableInterface
 {

@@ -3,32 +3,32 @@
 use Carbon\Carbon;
 use Faker\Generator as Faker;
 
-/**
+/*
  * Create a new PIREP
  */
 $factory->define(App\Models\Pirep::class, function (Faker $faker) {
     return [
-        'id'                  => $faker->unique()->numberBetween(10, 10000000),
-        'airline_id'          => function () {
+        'id'         => $faker->unique()->numberBetween(10, 10000000),
+        'airline_id' => function () {
             return factory(App\Models\Airline::class)->create()->id;
         },
-        'user_id'             => function () {
+        'user_id' => function () {
             return factory(App\Models\User::class)->create()->id;
         },
-        'aircraft_id'         => function () {
+        'aircraft_id' => function () {
             return factory(App\Models\Aircraft::class)->create()->id;
         },
-        'flight_number'       => function (array $pirep) {
+        'flight_number' => function (array $pirep) {
             return factory(App\Models\Flight::class)->create([
-                'airline_id' => $pirep['airline_id']
+                'airline_id' => $pirep['airline_id'],
             ])->flight_number;
         },
-        'route_code'          => null,
-        'route_leg'           => null,
-        'dpt_airport_id'      => function () {
+        'route_code'     => null,
+        'route_leg'      => null,
+        'dpt_airport_id' => function () {
             return factory(App\Models\Airport::class)->create()->id;
         },
-        'arr_airport_id'      => function () {
+        'arr_airport_id' => function () {
             return factory(App\Models\Airport::class)->create()->id;
         },
         'level'               => $faker->numberBetween(20, 400),
@@ -43,15 +43,15 @@ $factory->define(App\Models\Pirep::class, function (Faker $faker) {
         'block_off_time'      => function (array $pirep) {
             return $pirep['block_on_time']->subMinutes($pirep['flight_time']);
         },
-        'route'               => $faker->text(200),
-        'notes'               => $faker->text(200),
-        'source'              => $faker->randomElement([PirepSource::MANUAL, PirepSource::ACARS]),
-        'source_name'         => 'Test Factory',
-        'state'               => PirepState::PENDING,
-        'status'              => PirepStatus::SCHEDULED,
-        'submitted_at'        => Carbon::now('UTC')->toDateTimeString(),
-        'created_at'          => Carbon::now('UTC')->toDateTimeString(),
-        'updated_at'          => function (array $pirep) {
+        'route'        => $faker->text(200),
+        'notes'        => $faker->text(200),
+        'source'       => $faker->randomElement([PirepSource::MANUAL, PirepSource::ACARS]),
+        'source_name'  => 'Test Factory',
+        'state'        => PirepState::PENDING,
+        'status'       => PirepStatus::SCHEDULED,
+        'submitted_at' => Carbon::now('UTC')->toDateTimeString(),
+        'created_at'   => Carbon::now('UTC')->toDateTimeString(),
+        'updated_at'   => function (array $pirep) {
             return $pirep['created_at'];
         },
     ];

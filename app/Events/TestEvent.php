@@ -9,7 +9,6 @@ use Illuminate\Queue\SerializesModels;
 
 /**
  * Class TestEvent
- * @package App\Events
  */
 class TestEvent
 {
@@ -19,6 +18,7 @@ class TestEvent
 
     /**
      * Create a new event instance.
+     *
      * @param User $user
      */
     public function __construct(User $user)

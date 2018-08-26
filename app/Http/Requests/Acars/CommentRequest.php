@@ -6,13 +6,12 @@ use App\Interfaces\FormRequest;
 
 /**
  * Class FileRequest
- * @package App\Http\Requests\Acars
  */
 class CommentRequest extends FormRequest
 {
     public function authorize()
     {
-        return true;  # Anyone can comment
+        return true;  // Anyone can comment
     }
 
     public function rules()

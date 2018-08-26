@@ -15,8 +15,6 @@ use Log;
 
 /**
  * The flight importer can be imported or export. Operates on rows
- *
- * @package App\Services\Import
  */
 class FlightImporter extends ImportExport
 {
@@ -49,11 +47,9 @@ class FlightImporter extends ImportExport
         'fields'        => 'nullable',
     ];
 
-    /**
-     *
-     */
-    private $fareSvc,
-            $flightSvc;
+    private $fareSvc;
+
+    private $flightSvc;
 
     /**
      * FlightImportExporter constructor.
@@ -66,8 +62,10 @@ class FlightImporter extends ImportExport
 
     /**
      * Import a flight, parse out the different rows
+     *
      * @param array $row
      * @param int   $index
+     *
      * @return bool
      */
     public function import(array $row, $index): bool
@@ -108,7 +106,7 @@ class FlightImporter extends ImportExport
 
         // Check for a valid value
         $flight_type = $row['flight_type'];
-        if(!array_key_exists($flight_type, FlightType::labels())) {
+        if (!array_key_exists($flight_type, FlightType::labels())) {
             $flight_type = 'J';
         }
 
@@ -139,17 +137,19 @@ class FlightImporter extends ImportExport
 
     /**
      * Return the mask of the days
+     *
      * @param $day_str
+     *
      * @return int|mixed
      */
     protected function setDays($day_str)
     {
-        if(!$day_str) {
+        if (!$day_str) {
             return 0;
         }
 
         $days = [];
-        if(strpos($day_str, '1') !== false) {
+        if (strpos($day_str, '1') !== false) {
             $days[] = Days::MONDAY;
         }
 
@@ -182,7 +182,9 @@ class FlightImporter extends ImportExport
 
     /**
      * Process the airport
+     *
      * @param $airport
+     *
      * @return \Illuminate\Database\Eloquent\Model
      */
     protected function processAirport($airport)
@@ -195,6 +197,7 @@ class FlightImporter extends ImportExport
     /**
      * Parse out all of the subfleets and associate them to the flight
      * The subfleet is created if it doesn't exist
+     *
      * @param Flight $flight
      * @param        $col
      */
@@ -202,7 +205,7 @@ class FlightImporter extends ImportExport
     {
         $count = 0;
         $subfleets = $this->parseMultiColumnValues($col);
-        foreach($subfleets as $subfleet_type) {
+        foreach ($subfleets as $subfleet_type) {
             $subfleet = Subfleet::firstOrCreate(
                 ['type' => $subfleet_type],
                 ['name' => $subfleet_type]
@@ -210,9 +213,9 @@ class FlightImporter extends ImportExport
 
             $subfleet->save();
 
-            # sync
+            // sync
             $flight->subfleets()->syncWithoutDetaching([$subfleet->id]);
-            $count ++;
+            $count++;
         }
 
         Log::info('Subfleets added/processed: '.$count);
@@ -220,6 +223,7 @@ class FlightImporter extends ImportExport
 
     /**
      * Parse all of the fares in the multi-format
+     *
      * @param Flight $flight
      * @param        $col
      */
@@ -239,6 +243,7 @@ class FlightImporter extends ImportExport
 
     /**
      * Parse all of the subfields
+     *
      * @param Flight $flight
      * @param        $col
      */
@@ -246,9 +251,9 @@ class FlightImporter extends ImportExport
     {
         $pass_fields = [];
         $fields = $this->parseMultiColumnValues($col);
-        foreach($fields as $field_name => $field_value) {
+        foreach ($fields as $field_name => $field_value) {
             $pass_fields[] = [
-                'name' => $field_name,
+                'name'  => $field_name,
                 'value' => $field_value,
             ];
         }

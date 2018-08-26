@@ -1,10 +1,8 @@
 <?php
-/**
- *
- */
+
 
 return [
-    'avatarresize'    => 'This avatar will be resized to :width x :height pixels',
+    'avatarresize' => 'This avatar will be resized to :width x :height pixels',
 
     'newapikey'       => 'New API Key',
     'yourprofile'     => 'Your Profile',

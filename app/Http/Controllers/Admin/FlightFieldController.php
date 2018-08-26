@@ -11,7 +11,6 @@ use Response;
 
 /**
  * Class FlightFieldController
- * @package App\Http\Controllers\Admin
  */
 class FlightFieldController extends Controller
 {
@@ -19,6 +18,7 @@ class FlightFieldController extends Controller
 
     /**
      * FlightFieldController constructor.
+     *
      * @param FlightFieldRepository $flightFieldRepository
      */
     public function __construct(
@@ -29,9 +29,12 @@ class FlightFieldController extends Controller
 
     /**
      * Display a listing of the FlightField.
+     *
      * @param Request $request
-     * @return Response
+     *
      * @throws \Prettus\Repository\Exceptions\RepositoryException
+     *
+     * @return Response
      */
     public function index(Request $request)
     {
@@ -45,6 +48,7 @@ class FlightFieldController extends Controller
 
     /**
      * Show the form for creating a new FlightField.
+     *
      * @return Response
      */
     public function create()
@@ -54,9 +58,12 @@ class FlightFieldController extends Controller
 
     /**
      * Store a newly created FlightField in storage.
+     *
      * @param Request $request
-     * @return Response
+     *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
+     *
+     * @return Response
      */
     public function store(Request $request)
     {
@@ -71,7 +78,9 @@ class FlightFieldController extends Controller
 
     /**
      * Display the specified FlightField.
-     * @param  int $id
+     *
+     * @param int $id
+     *
      * @return Response
      */
     public function show($id)
@@ -90,7 +99,9 @@ class FlightFieldController extends Controller
 
     /**
      * Show the form for editing the specified FlightField.
-     * @param  int $id
+     *
+     * @param int $id
+     *
      * @return Response
      */
     public function edit($id)
@@ -109,10 +120,13 @@ class FlightFieldController extends Controller
 
     /**
      * Update the specified FlightField in storage.
+     *
      * @param         $id
      * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function update($id, Request $request)
     {
@@ -133,7 +147,9 @@ class FlightFieldController extends Controller
 
     /**
      * Remove the specified FlightField from storage.
-     * @param  int $id
+     *
+     * @param int $id
+     *
      * @return Response
      */
     public function destroy($id)

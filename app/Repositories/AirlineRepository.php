@@ -9,7 +9,6 @@ use Prettus\Repository\Traits\CacheableRepository;
 
 /**
  * Class AirlineRepository
- * @package App\Repositories
  */
 class AirlineRepository extends Repository implements CacheableInterface
 {
@@ -27,6 +26,9 @@ class AirlineRepository extends Repository implements CacheableInterface
 
     /**
      * Return the list of airline formatted for a select box
+     *
+     * @param mixed $add_blank
+     *
      * @return array
      */
     public function selectBoxList($add_blank = false): array

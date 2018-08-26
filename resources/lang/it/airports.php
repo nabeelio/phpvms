@@ -1,7 +1,5 @@
 <?php
-/**
- *
- */
+
 
 return [
     'ident'     => 'Identificativo',

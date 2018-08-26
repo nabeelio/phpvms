@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Facade;
 
 /**
  * Class Utils
- * @package App\Facades
  */
 class Utils extends Facade
 {
@@ -21,7 +20,9 @@ class Utils extends Facade
 
     /**
      * Simple check on the first character if it's an object or not
+     *
      * @param $obj
+     *
      * @return bool
      */
     public static function isObject($obj)
@@ -40,10 +41,13 @@ class Utils extends Facade
     /**
      * Download a URI. If a file is given, it will save the downloaded
      * content into that file
+     *
      * @param      $uri
      * @param null $file
-     * @return string
+     *
      * @throws \RuntimeException
+     *
+     * @return string
      */
     public static function downloadUrl($uri, $file = null)
     {
@@ -65,6 +69,7 @@ class Utils extends Facade
 
     /**
      * Returns a 40 character API key that a user can use
+     *
      * @return string
      */
     public static function generateApiKey()
@@ -89,13 +94,15 @@ class Utils extends Facade
 
     /**
      * Convert seconds to an array of hours, minutes, seconds
+     *
      * @param $seconds
+     *
      * @return array['h', 'm', 's']
      */
     public static function secondsToTimeParts($seconds): array
     {
-        $dtF = new \DateTime('@0', new \DateTimeZone('UTC'));
-        $dtT = new \DateTime("@$seconds", new \DateTimeZone('UTC'));
+        $dtF = new \DateTimeImmutable('@0', new \DateTimeZone('UTC'));
+        $dtT = new \DateTimeImmutable("@$seconds", new \DateTimeZone('UTC'));
 
         $t = $dtF->diff($dtT);
 
@@ -109,8 +116,10 @@ class Utils extends Facade
 
     /**
      * Convert seconds to HH MM format
+     *
      * @param      $seconds
      * @param bool $incl_sec
+     *
      * @return string
      */
     public static function secondsToTimeString($seconds, $incl_sec = false): string
@@ -126,6 +135,7 @@ class Utils extends Facade
 
     /**
      * @param $minutes
+     *
      * @return float|int
      */
     public static function minutesToSeconds($minutes)
@@ -135,7 +145,9 @@ class Utils extends Facade
 
     /**
      * Convert the seconds to minutes and then round it up
+     *
      * @param $seconds
+     *
      * @return float|int
      */
     public static function secondsToMinutes($seconds)
@@ -145,7 +157,9 @@ class Utils extends Facade
 
     /**
      * Convert hours to minutes. Pretty complex
+     *
      * @param $minutes
+     *
      * @return float|int
      */
     public static function minutesToHours($minutes)
@@ -156,6 +170,7 @@ class Utils extends Facade
     /**
      * @param      $hours
      * @param null $minutes
+     *
      * @return float|int
      */
     public static function hoursToMinutes($hours, $minutes = null)
@@ -170,8 +185,10 @@ class Utils extends Facade
 
     /**
      * Bitwise operator for setting days of week to integer field
+     *
      * @param int   $datefield initial datefield
      * @param array $day_enums Array of values from config("enum.days")
+     *
      * @return int
      */
     public static function setDays(int $datefield, array $day_enums)
@@ -185,8 +202,10 @@ class Utils extends Facade
 
     /**
      * Bit check if a day exists within a integer bitfield
+     *
      * @param int $datefield datefield from database
      * @param int $day_enum  Value from config("enum.days")
+     *
      * @return bool
      */
     public static function hasDay(int $datefield, int $day_enum)

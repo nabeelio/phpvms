@@ -9,6 +9,7 @@ class Flight extends Resource
 {
     /**
      * Set the fields on the flight object
+     *
      * @return array
      */
     private function setFields()

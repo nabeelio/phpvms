@@ -9,7 +9,6 @@ use Illuminate\Queue\SerializesModels;
 
 /**
  * Class PirepRejected
- * @package App\Events
  */
 class PirepRejected
 {
@@ -19,6 +18,7 @@ class PirepRejected
 
     /**
      * PirepRejected constructor.
+     *
      * @param Pirep $pirep
      */
     public function __construct(Pirep $pirep)

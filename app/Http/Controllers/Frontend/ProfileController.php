@@ -13,24 +13,24 @@ use Flash;
 use Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 use Jackiedo\Timezonelist\Facades\Timezonelist;
 use Log;
 use Validator;
-use Intervention\Image\Facades\Image;
-use Illuminate\Support\Facades\Storage;
 
 /**
  * Class ProfileController
- * @package App\Http\Controllers\Frontend
  */
 class ProfileController extends Controller
 {
-    private $airlineRepo,
-            $airportRepo,
-            $userRepo;
+    private $airlineRepo;
+    private $airportRepo;
+    private $userRepo;
 
     /**
      * ProfileController constructor.
+     *
      * @param AirlineRepository $airlineRepo
      * @param AirportRepository $airportRepo
      * @param UserRepository    $userRepo
@@ -64,6 +64,7 @@ class ProfileController extends Controller
 
     /**
      * @param $id
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
      */
     public function show($id)
@@ -85,7 +86,9 @@ class ProfileController extends Controller
 
     /**
      * Show the edit for form the user's profile
+     *
      * @param Request $request
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
      */
     public function edit(Request $request)
@@ -111,8 +114,10 @@ class ProfileController extends Controller
 
     /**
      * @param Request $request
-     * @return $this
+     *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
+     *
+     * @return $this
      */
     public function update(Request $request)
     {
@@ -148,7 +153,7 @@ class ProfileController extends Controller
         }
         if ($request->hasFile('avatar')) {
             $avatar = $request->file('avatar');
-            $file_name = $user->pilot_id . '.' .$avatar->getClientOriginalExtension();
+            $file_name = $user->pilot_id.'.'.$avatar->getClientOriginalExtension();
             $path = "avatars/{$file_name}";
             Image::make($avatar)->resize(config('phpvms.avatar.width'), config('phpvms.avatar.height'))->save(public_path('uploads/avatars/'.$file_name));
             $req_data['avatar'] = $path;
@@ -163,7 +168,9 @@ class ProfileController extends Controller
 
     /**
      * Regenerate the user's API key
+     *
      * @param Request $request
+     *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function regen_apikey(Request $request)

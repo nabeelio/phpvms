@@ -4,7 +4,6 @@ namespace App\Exceptions;
 
 /**
  * Class AircraftNotAtAirport
- * @package App\Exceptions
  */
 class AircraftNotAtAirport extends InternalError
 {

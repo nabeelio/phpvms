@@ -17,17 +17,17 @@ use Prettus\Repository\Exceptions\RepositoryException;
 
 /**
  * Class FlightController
- * @package App\Http\Controllers\Frontend
  */
 class FlightController extends Controller
 {
-    private $airlineRepo,
-            $airportRepo,
-            $flightRepo,
-            $geoSvc;
+    private $airlineRepo;
+    private $airportRepo;
+    private $flightRepo;
+    private $geoSvc;
 
     /**
      * FlightController constructor.
+     *
      * @param AirlineRepository $airlineRepo
      * @param AirportRepository $airportRepo
      * @param FlightRepository  $flightRepo
@@ -47,6 +47,7 @@ class FlightController extends Controller
 
     /**
      * @param Request $request
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index(Request $request)
@@ -56,7 +57,7 @@ class FlightController extends Controller
             'visible' => true,
         ];
 
-        if(setting('pilots.restrict_to_company')) {
+        if (setting('pilots.restrict_to_company')) {
             $where['airline_id'] = Auth::user()->airline_id;
         }
 
@@ -90,7 +91,9 @@ class FlightController extends Controller
 
     /**
      * Find the user's bids and display them
+     *
      * @param Request $request
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function bids(Request $request)
@@ -111,15 +114,18 @@ class FlightController extends Controller
 
     /**
      * Make a search request using the Repository search
+     *
      * @param Request $request
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     *
      * @throws \Prettus\Repository\Exceptions\RepositoryException
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function search(Request $request)
     {
-        if(setting('pilots.restrict_to_company')) {
+        if (setting('pilots.restrict_to_company')) {
             $this->flightRepo
-                ->pushCriteria(New WhereCriteria($request, ['airline_id' => Auth::user()->airline_id]))
+                ->pushCriteria(new WhereCriteria($request, ['airline_id' => Auth::user()->airline_id]))
                 ->paginate();
         }
 
@@ -141,7 +147,9 @@ class FlightController extends Controller
 
     /**
      * Show the flight information page
+     *
      * @param $id
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
      */
     public function show($id)

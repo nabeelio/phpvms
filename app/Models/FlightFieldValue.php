@@ -6,10 +6,10 @@ use App\Interfaces\Model;
 
 /**
  * Class FlightFieldValue
+ *
  * @property string   flight_id
  * @property string   name
  * @property string   value
- * @package App\Models
  */
 class FlightFieldValue extends Model
 {
@@ -36,7 +36,6 @@ class FlightFieldValue extends Model
     /**
      * Relationships
      */
-
     public function flight()
     {
         return $this->belongsTo(Flight::class, 'flight_id');

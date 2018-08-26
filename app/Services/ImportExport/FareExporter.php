@@ -7,8 +7,6 @@ use App\Models\Fare;
 
 /**
  * The flight importer can be imported or export. Operates on rows
- *
- * @package App\Services\Import
  */
 class FareExporter extends ImportExport
 {
@@ -24,13 +22,15 @@ class FareExporter extends ImportExport
 
     /**
      * Import a flight, parse out the different rows
+     *
      * @param Fare $fare
+     *
      * @return array
      */
     public function export($fare): array
     {
         $ret = [];
-        foreach(self::$columns as $column) {
+        foreach (self::$columns as $column) {
             $ret[$column] = $fare->{$column};
         }
 

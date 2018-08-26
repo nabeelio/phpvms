@@ -7,7 +7,6 @@ use App\Support\ICAO;
 
 /**
  * Class AircraftObserver
- * @package App\Models\Observers
  */
 class AircraftObserver
 {

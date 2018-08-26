@@ -8,10 +8,10 @@ $factory->define(App\Models\JournalTransactions::class, function (Faker $faker) 
         'journal_id'        => function () {
             return factory(App\Models\Journal::class)->create()->id;
         },
-        'credit'            => $faker->numberBetween(100, 10000),
-        'debit'             => $faker->numberBetween(100, 10000),
-        'currency'          => 'USD',
-        'memo'              => $faker->sentence(6),
-        'post_date'         => \Carbon\Carbon::now(),
+        'credit'    => $faker->numberBetween(100, 10000),
+        'debit'     => $faker->numberBetween(100, 10000),
+        'currency'  => 'USD',
+        'memo'      => $faker->sentence(6),
+        'post_date' => \Carbon\Carbon::now(),
     ];
 });

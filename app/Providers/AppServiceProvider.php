@@ -12,8 +12,8 @@ use App\Models\Observers\AircraftObserver;
 use App\Models\Observers\AirportObserver;
 use App\Models\Observers\JournalObserver;
 use App\Models\Observers\JournalTransactionObserver;
-use App\Models\Observers\Sluggable;
 use App\Models\Observers\SettingObserver;
+use App\Models\Observers\Sluggable;
 use App\Models\Observers\SubfleetObserver;
 use App\Models\PirepField;
 use App\Models\PirepFieldValue;
@@ -60,10 +60,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        # Only dev environment stuff
+        // Only dev environment stuff
         if ($this->app->environment() === 'dev') {
-            # Only load the IDE helper if it's included. This lets use distribute the
-            # package without any dev dependencies
+            // Only load the IDE helper if it's included. This lets use distribute the
+            // package without any dev dependencies
             if (class_exists(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class)) {
                 $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
             }

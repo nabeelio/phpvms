@@ -6,7 +6,6 @@ use App\Interfaces\Model;
 
 /**
  * Class PirepFare
- * @package App\Models
  */
 class PirepFare extends Model
 {
@@ -30,7 +29,6 @@ class PirepFare extends Model
     /**
      * Relationships
      */
-
     public function fare()
     {
         return $this->belongsTo(Fare::class, 'fare_id');

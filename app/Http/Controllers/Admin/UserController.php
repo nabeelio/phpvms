@@ -25,18 +25,18 @@ use Response;
 
 /**
  * Class UserController
- * @package App\Http\Controllers\Admin
  */
 class UserController extends Controller
 {
-    private $airlineRepo,
-            $airportRepo,
-            $pirepRepo,
-            $userRepo,
-            $userSvc;
+    private $airlineRepo;
+    private $airportRepo;
+    private $pirepRepo;
+    private $userRepo;
+    private $userSvc;
 
     /**
      * UserController constructor.
+     *
      * @param AirlineRepository $airlineRepo
      * @param AirportRepository $airportRepo
      * @param PirepRepository   $pirepRepo
@@ -59,6 +59,7 @@ class UserController extends Controller
 
     /**
      * @param Request $request
+     *
      * @return mixed
      */
     public function index(Request $request)
@@ -78,6 +79,7 @@ class UserController extends Controller
 
     /**
      * Show the form for creating a new User.
+     *
      * @return Response
      */
     public function create()
@@ -99,9 +101,12 @@ class UserController extends Controller
 
     /**
      * Store a newly created User in storage.
+     *
      * @param CreateUserRequest $request
-     * @return Response
+     *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
+     *
+     * @return Response
      */
     public function store(CreateUserRequest $request)
     {
@@ -114,7 +119,9 @@ class UserController extends Controller
 
     /**
      * Display the specified User.
-     * @param  int $id
+     *
+     * @param int $id
+     *
      * @return Response
      */
     public function show($id)
@@ -148,7 +155,9 @@ class UserController extends Controller
 
     /**
      * Show the form for editing the specified User.
-     * @param  int $id
+     *
+     * @param int $id
+     *
      * @return Response
      */
     public function edit($id)
@@ -165,7 +174,7 @@ class UserController extends Controller
             ->whereOrder(['user_id' => $id], 'created_at', 'desc')
             ->paginate();
 
-        $countries = collect((new \League\ISO3166\ISO3166)->all())
+        $countries = collect((new \League\ISO3166\ISO3166())->all())
             ->mapWithKeys(function ($item, $key) {
                 return [strtolower($item['alpha2']) => $item['name']];
             });
@@ -187,10 +196,13 @@ class UserController extends Controller
 
     /**
      * Update the specified User in storage.
+     *
      * @param int               $id
      * @param UpdateUserRequest $request
-     * @return Response
+     *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
+     *
+     * @return Response
      */
     public function update($id, UpdateUserRequest $request)
     {
@@ -211,7 +223,7 @@ class UserController extends Controller
 
         if ($request->filled('avatar_upload')) {
             /**
-             * @var $file  \Illuminate\Http\UploadedFile
+             * @var $file \Illuminate\Http\UploadedFile
              */
             $file = $request->file('avatar_upload');
             $file_path = $file->storeAs(
@@ -223,7 +235,6 @@ class UserController extends Controller
             $user->avatar = $file_path;
         }
 
-
         $original_user_state = $user->state;
 
         $user = $this->userRepo->update($req_data, $id);
@@ -232,7 +243,7 @@ class UserController extends Controller
             $this->userSvc->changeUserState($user, $original_user_state);
         }
 
-        # Delete all of the roles and then re-attach the valid ones
+        // Delete all of the roles and then re-attach the valid ones
         DB::table('role_user')->where('user_id', $id)->delete();
         foreach ($request->input('roles') as $key => $value) {
             $user->attachRole($value);
@@ -245,7 +256,9 @@ class UserController extends Controller
 
     /**
      * Remove the specified User from storage.
-     * @param  int $id
+     *
+     * @param int $id
+     *
      * @return Response
      */
     public function destroy($id)
@@ -267,8 +280,10 @@ class UserController extends Controller
 
     /**
      * Regenerate the user's API key
+     *
      * @param         $id
      * @param Request $request
+     *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function regen_apikey($id, Request $request)

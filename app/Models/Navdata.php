@@ -6,7 +6,6 @@ use App\Interfaces\Model;
 
 /**
  * Class Navdata
- * @package App\Models
  */
 class Navdata extends Model
 {
@@ -33,6 +32,7 @@ class Navdata extends Model
 
     /**
      * Make sure the ID is in all caps
+     *
      * @param $id
      */
     public function setIdAttribute($id): void
