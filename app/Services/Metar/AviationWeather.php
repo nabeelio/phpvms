@@ -8,7 +8,6 @@ use Cache;
 
 /**
  * Return the raw METAR string from the NOAA Aviation Weather Service
- * @package App\Services\Metar
  */
 class AviationWeather extends Metar
 {
@@ -19,7 +18,9 @@ class AviationWeather extends Metar
 
     /**
      * Implement the METAR - Return the string
+     *
      * @param $icao
+     *
      * @return string
      */
     protected function metar($icao): string
@@ -29,14 +30,14 @@ class AviationWeather extends Metar
             config('cache.keys.WEATHER_LOOKUP.time'),
             function () use ($icao) {
                 $url = static::METAR_URL.$icao;
+
                 try {
                     $res = Http::get($url, []);
                     $xml = simplexml_load_string($res);
-					if (count($xml->data->METAR->raw_text) == 0)
-						return '';
-					else
-						return $xml->data->METAR->raw_text->__toString();
-
+                    if (count($xml->data->METAR->raw_text) == 0) {
+                        return '';
+                    }
+                    return $xml->data->METAR->raw_text->__toString();
                 } catch (\Exception $e) {
                     return '';
                 }

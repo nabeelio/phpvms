@@ -6,7 +6,6 @@ use App\Interfaces\Enum;
 
 /**
  * Class AircraftState
- * @package App\Models\Enums
  */
 class AircraftState extends Enum
 {
@@ -15,8 +14,8 @@ class AircraftState extends Enum
     public const IN_AIR = 2;
 
     public static $labels = [
-        AircraftState::PARKED => 'On Ground',
-        AircraftState::IN_USE => 'In Use',
-        AircraftState::IN_AIR => 'In Air',
+        self::PARKED => 'On Ground',
+        self::IN_USE => 'In Use',
+        self::IN_AIR => 'In Air',
     ];
 }

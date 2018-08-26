@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     'AED' => [
         'name'                => 'UAE Dirham',
         'code'                => 784,

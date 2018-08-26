@@ -10,7 +10,9 @@ use Illuminate\Queue\SerializesModels;
 class NewLoginDetails extends Mailable
 {
     use Queueable, SerializesModels;
-    public $subject, $user, $newpw;
+    public $subject;
+    public $user;
+    public $newpw;
 
     public function __construct(User $user, $newpw = null, $subject = null)
     {

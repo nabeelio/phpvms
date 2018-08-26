@@ -9,7 +9,6 @@ use App\Services\Finance\RecurringFinanceService;
 
 /**
  * Go through and apply any finances that are daily
- * @package App\Listeners\Cron\Nightly
  */
 class ApplyExpenses extends Listener
 {
@@ -17,6 +16,7 @@ class ApplyExpenses extends Listener
 
     /**
      * ApplyExpenses constructor.
+     *
      * @param RecurringFinanceService $financeSvc
      */
     public function __construct(RecurringFinanceService $financeSvc)
@@ -26,7 +26,9 @@ class ApplyExpenses extends Listener
 
     /**
      * Apply all of the expenses for a day
+     *
      * @param CronNightly $event
+     *
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
      * @throws \Prettus\Validator\Exceptions\ValidatorException

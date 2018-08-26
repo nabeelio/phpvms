@@ -2,7 +2,6 @@
 /**
  * Admin Routes
  */
-
 Route::group([
     'namespace'  => 'Admin', 'prefix' => 'admin', 'as' => 'admin.',
     'middleware' => ['role:admin'],
@@ -15,33 +14,33 @@ Route::group([
     Route::match(['get', 'post', 'put', 'delete'], 'airports/{id}/expenses', 'AirportController@expenses');
     Route::resource('airports', 'AirportController');
 
-    # Awards
+    // Awards
     Route::resource('awards', 'AwardController');
 
-    # aircraft and fare associations
+    // aircraft and fare associations
     Route::get('aircraft/export', 'AircraftController@export')->name('aircraft.export');
     Route::match(['get', 'post'], 'aircraft/import', 'AircraftController@import')->name('aircraft.import');
     Route::match(['get', 'post', 'put', 'delete'], 'aircraft/{id}/expenses', 'AircraftController@expenses');
     Route::resource('aircraft', 'AircraftController');
 
-    # expenses
+    // expenses
     Route::get('expenses/export', 'ExpenseController@export')->name('expenses.export');
     Route::match(['get', 'post'], 'expenses/import', 'ExpenseController@import')->name('expenses.import');
     Route::resource('expenses', 'ExpenseController');
 
-    # fares
+    // fares
     Route::get('fares/export', 'FareController@export')->name('fares.export');
     Route::match(['get', 'post'], 'fares/import', 'FareController@import')->name('fares.import');
     Route::resource('fares', 'FareController');
 
-    # files
+    // files
     Route::post('files', 'FileController@store')->name('files.store');
     Route::delete('files/{id}', 'FileController@destroy')->name('files.delete');
 
-    # finances
+    // finances
     Route::resource('finances', 'FinanceController');
 
-    # flights and aircraft associations
+    // flights and aircraft associations
     Route::get('flights/export', 'FlightController@export')->name('flights.export');
     Route::match(['get', 'post'], 'flights/import', 'FlightController@import')->name('flights.import');
     Route::match(['get', 'post', 'put', 'delete'], 'flights/{id}/fares', 'FlightController@fares');
@@ -51,7 +50,7 @@ Route::group([
 
     Route::resource('flightfields', 'FlightFieldController');
 
-    # pirep related routes
+    // pirep related routes
     Route::get('pireps/fares', 'PirepController@fares');
     Route::get('pireps/pending', 'PirepController@pending');
     Route::resource('pireps', 'PirepController');
@@ -60,15 +59,15 @@ Route::group([
 
     Route::resource('pirepfields', 'PirepFieldController');
 
-    # rankings
+    // rankings
     Route::resource('ranks', 'RankController');
     Route::match(['get', 'post', 'put', 'delete'], 'ranks/{id}/subfleets', 'RankController@subfleets');
 
-    # settings
+    // settings
     Route::match(['get'], 'settings', 'SettingsController@index');
     Route::match(['post', 'put'], 'settings', 'SettingsController@update')->name('settings.update');
 
-    # subfleet
+    // subfleet
     Route::get('subfleets/export', 'SubfleetController@export')->name('subfleets.export');
     Route::match(['get', 'post'], 'subfleets/import', 'SubfleetController@import')->name('subfleets.import');
     Route::match(['get', 'post', 'put', 'delete'], 'subfleets/{id}/expenses', 'SubfleetController@expenses');
@@ -80,7 +79,7 @@ Route::group([
     Route::get('users/{id}/regen_apikey',
         'UserController@regen_apikey')->name('users.regen_apikey');
 
-    # defaults
+    // defaults
     Route::get('', ['uses' => 'DashboardController@index']);
     Route::get('/', ['uses' => 'DashboardController@index']);
 

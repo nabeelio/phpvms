@@ -4,8 +4,8 @@ use App\Models\UserAward;
 
 class AwardsTest extends TestCase
 {
-    private $awardSvc,
-            $pirepSvc;
+    private $awardSvc;
+    private $pirepSvc;
 
     public function setUp()
     {
@@ -30,7 +30,7 @@ class AwardsTest extends TestCase
     {
         // Create one award that's given out with one flight
         $award = factory(App\Models\Award::class)->create([
-            'ref_model' => App\Awards\PilotFlightAwards::class,
+            'ref_model'        => App\Awards\PilotFlightAwards::class,
             'ref_model_params' => 1,
         ]);
 
@@ -40,18 +40,18 @@ class AwardsTest extends TestCase
 
         $pirep = factory(App\Models\Pirep::class)->create([
             'airline_id' => $user->airline->id,
-            'user_id' => $user->id,
+            'user_id'    => $user->id,
         ]);
 
         $this->pirepSvc->create($pirep);
         $this->pirepSvc->accept($pirep);
 
         $w = [
-            'user_id' => $user->id,
+            'user_id'  => $user->id,
             'award_id' => $award->id,
         ];
 
-        # Make sure only one is awarded
+        // Make sure only one is awarded
         $this->assertEquals(1, UserAward::where($w)->count(['id']));
 
         $found_award = UserAward::where($w)->first();

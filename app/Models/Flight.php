@@ -15,7 +15,7 @@ use PhpUnitsOfMeasure\Exception\NonStringUnitName;
  * @property string     id
  * @property mixed      ident
  * @property Airline    airline
- * @property integer    airline_id
+ * @property int    airline_id
  * @property mixed      flight_number
  * @property mixed      route_code
  * @property int        route_leg
@@ -23,7 +23,7 @@ use PhpUnitsOfMeasure\Exception\NonStringUnitName;
  * @property Collection field_values
  * @property Collection fares
  * @property Collection subfleets
- * @property integer    days
+ * @property int    days
  * @property Airport    dep_airport
  * @property Airport    arr_airport
  * @property Airport    alt_airport
@@ -42,7 +42,8 @@ class Flight extends Model
     public $incrementing = false;
 
     /** The form wants this */
-    public $hours, $minutes;
+    public $hours;
+    public $minutes;
 
     protected $fillable = [
         'id',
@@ -96,13 +97,15 @@ class Flight extends Model
     /**
      * Return all of the flights on any given day(s) of the week
      * Search using bitmasks
+     *
      * @param Days[] $days List of the enumerated values
+     *
      * @return Flight
      */
     public static function findByDays(array $days)
     {
-        $flights = Flight::where('active', true);
-        foreach($days as $day) {
+        $flights = self::where('active', true);
+        foreach ($days as $day) {
             $flights = $flights->where('days', '&', $day);
         }
 
@@ -130,12 +133,13 @@ class Flight extends Model
 
     /**
      * Return a new Length unit so conversions can be made
+     *
      * @return int|Distance
      */
     public function getDistanceAttribute()
     {
         if (!array_key_exists('distance', $this->attributes)) {
-            return null;
+            return;
         }
 
         try {
@@ -151,6 +155,7 @@ class Flight extends Model
 
     /**
      * Set the distance unit, convert to our internal default unit
+     *
      * @param $value
      */
     public function setDistanceAttribute($value): void
@@ -166,6 +171,7 @@ class Flight extends Model
 
     /**
      * @param $day
+     *
      * @return bool
      */
     public function on_day($day): bool
@@ -175,13 +181,15 @@ class Flight extends Model
 
     /**
      * Return a custom field value
+     *
      * @param $field_name
+     *
      * @return string
      */
     public function field($field_name): string
     {
         $field = $this->field_values->where('name', $field_name)->first();
-        if($field) {
+        if ($field) {
             return $field['value'];
         }
 
@@ -191,6 +199,7 @@ class Flight extends Model
     /**
      * Set the days parameter. If an array is passed, it's
      * AND'd together to create the mask value
+     *
      * @param array|int $val
      */
     public function setDaysAttribute($val): void
@@ -205,7 +214,6 @@ class Flight extends Model
     /**
      * Relationship
      */
-
     public function airline()
     {
         return $this->belongsTo(Airline::class, 'airline_id');

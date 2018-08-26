@@ -1,11 +1,9 @@
 <?php
-/**
- *
- */
+
 
 return [
     'location' => 'Location',
-    'state' => [
+    'state'    => [
         'pending'   => 'Pending',
         'active'    => 'Active',
         'rejected'  => 'Rejected',

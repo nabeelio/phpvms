@@ -19,7 +19,7 @@ class ImportFromClassic extends Command
             'name'         => $this->argument('db_name'),
             'user'         => $this->argument('db_user'),
             'pass'         => $this->argument('db_pass'),
-            'table_prefix' => $this->argument('table_prefix')
+            'table_prefix' => $this->argument('table_prefix'),
         ];
 
         $importerSvc = new \App\Console\Services\Importer($db_creds);

@@ -5,13 +5,11 @@ namespace App\Services\ImportExport;
 use App\Interfaces\ImportExport;
 use App\Models\Aircraft;
 use App\Models\Airport;
-use App\Models\Enums\ExpenseType;
 use App\Models\Expense;
 use App\Models\Subfleet;
 
 /**
  * Import expenses
- * @package App\Services\Import
  */
 class ExpenseExporter extends ImportExport
 {
@@ -27,20 +25,22 @@ class ExpenseExporter extends ImportExport
 
     /**
      * Import a flight, parse out the different rows
+     *
      * @param Expense $expense
+     *
      * @return array
      */
     public function export($expense): array
     {
         $ret = [];
 
-        foreach(self::$columns as $col) {
+        foreach (self::$columns as $col) {
             $ret[$col] = $expense->{$col};
         }
 
         // Special fields
 
-        if($ret['airline']) {
+        if ($ret['airline']) {
             $ret['airline'] = $expense->airline->icao;
         }
 
@@ -51,7 +51,7 @@ class ExpenseExporter extends ImportExport
             $ret['ref_model_id'] = '';
         } else {
             $obj = $expense->getReferencedObject();
-            if(!$obj) { // bail out
+            if (!$obj) { // bail out
                 return $ret;
             }
 

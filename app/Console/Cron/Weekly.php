@@ -10,8 +10,6 @@ use App\Events\CronWeekly;
  * listeners, etc can just be called to run those tasks.
  *
  * The actual cron tasks are in app/Cron
- *
- * @package App\Console\Cron
  */
 class Weekly extends Command
 {
@@ -19,9 +17,6 @@ class Weekly extends Command
     protected $description = 'Run the weekly cron tasks';
     protected $schedule;
 
-    /**
-     *
-     */
     public function handle(): void
     {
         $this->redirectLoggingToStdout('cron');

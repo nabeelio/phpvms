@@ -6,7 +6,6 @@ use App\Models\Airport;
 
 /**
  * Make sure that the fields are properly capitalized
- * @package App\Models\Observers
  */
 class AirportObserver
 {

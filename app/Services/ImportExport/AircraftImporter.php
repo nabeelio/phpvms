@@ -11,7 +11,6 @@ use App\Support\ICAO;
 
 /**
  * Import aircraft
- * @package App\Services\Import
  */
 class AircraftImporter extends ImportExport
 {
@@ -34,7 +33,9 @@ class AircraftImporter extends ImportExport
 
     /**
      * Find the subfleet specified, or just create it on the fly
+     *
      * @param $type
+     *
      * @return Subfleet|\Illuminate\Database\Eloquent\Model|null|object|static
      */
     protected function getSubfleet($type)
@@ -48,8 +49,10 @@ class AircraftImporter extends ImportExport
 
     /**
      * Import a flight, parse out the different rows
+     *
      * @param array $row
      * @param int   $index
+     *
      * @return bool
      */
     public function import(array $row, $index): bool
@@ -57,28 +60,28 @@ class AircraftImporter extends ImportExport
         $subfleet = $this->getSubfleet($row['subfleet']);
         $row['subfleet_id'] = $subfleet->id;
 
-        # Generate a hex code
-        if(!$row['hex_code']) {
+        // Generate a hex code
+        if (!$row['hex_code']) {
             $row['hex_code'] = ICAO::createHexCode();
         }
 
-        # Set a default status
+        // Set a default status
         $row['status'] = trim($row['status']);
-        if($row['status'] === null || $row['status'] === '') {
+        if ($row['status'] === null || $row['status'] === '') {
             $row['status'] = AircraftStatus::ACTIVE;
         }
 
-        # Just set its state right now as parked
+        // Just set its state right now as parked
         $row['state'] = AircraftState::PARKED;
 
-        # Try to add or update
+        // Try to add or update
         $aircraft = Aircraft::firstOrNew([
             'registration' => $row['registration'],
         ], $row);
 
         try {
             $aircraft->save();
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             $this->errorLog('Error in row '.$index.': '.$e->getMessage());
             return false;
         }

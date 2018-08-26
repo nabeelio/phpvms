@@ -8,7 +8,6 @@ use App\Http\Requests\UpdatePirepRequest;
 use App\Interfaces\Controller;
 use App\Models\Enums\PirepSource;
 use App\Models\Enums\PirepState;
-use App\Models\Enums\PirepStatus;
 use App\Models\Pirep;
 use App\Models\PirepComment;
 use App\Repositories\AircraftRepository;
@@ -31,23 +30,23 @@ use Response;
 
 /**
  * Class PirepController
- * @package App\Http\Controllers\Admin
  */
 class PirepController extends Controller
 {
-    private $airportRepo,
-            $airlineRepo,
-            $aircraftRepo,
-            $fareSvc,
-            $journalRepo,
-            $pirepSvc,
-            $pirepRepo,
-            $pirepFieldRepo,
-            $subfleetRepo,
-            $userSvc;
+    private $airportRepo;
+    private $airlineRepo;
+    private $aircraftRepo;
+    private $fareSvc;
+    private $journalRepo;
+    private $pirepSvc;
+    private $pirepRepo;
+    private $pirepFieldRepo;
+    private $subfleetRepo;
+    private $userSvc;
 
     /**
      * PirepController constructor.
+     *
      * @param AirportRepository    $airportRepo
      * @param AirlineRepository    $airlineRepo
      * @param AircraftRepository   $aircraftRepo
@@ -85,7 +84,9 @@ class PirepController extends Controller
 
     /**
      * Dropdown with aircraft grouped by subfleet
+     *
      * @param null $user
+     *
      * @return array
      */
     public function aircraftList($user = null)
@@ -112,6 +113,7 @@ class PirepController extends Controller
 
     /**
      * Save any custom fields found
+     *
      * @param Pirep   $pirep
      * @param Request $request
      */
@@ -127,7 +129,7 @@ class PirepController extends Controller
             $custom_fields[] = [
                 'name'   => $field->name,
                 'value'  => $request->input($field->slug),
-                'source' => PirepSource::MANUAL
+                'source' => PirepSource::MANUAL,
             ];
         }
 
@@ -137,8 +139,10 @@ class PirepController extends Controller
 
     /**
      * Save the fares that have been specified/saved
+     *
      * @param Pirep   $pirep
      * @param Request $request
+     *
      * @throws \Exception
      */
     protected function saveFares(Pirep $pirep, Request $request)
@@ -163,7 +167,9 @@ class PirepController extends Controller
 
     /**
      * Return the fares form for a given aircraft
+     *
      * @param Request $request
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function fares(Request $request)
@@ -182,8 +188,10 @@ class PirepController extends Controller
 
     /**
      * @param Request $request
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     *
      * @throws \Prettus\Repository\Exceptions\RepositoryException
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index(Request $request)
     {
@@ -194,19 +202,21 @@ class PirepController extends Controller
             ->whereNotInOrder('state', [
                 PirepState::CANCELLED,
                 PirepState::DRAFT,
-                PirepState::IN_PROGRESS
+                PirepState::IN_PROGRESS,
             ], 'created_at', 'desc')
             ->paginate();
 
         return view('admin.pireps.index', [
-            'pireps' => $pireps
+            'pireps' => $pireps,
         ]);
     }
 
     /**
      * @param Request $request
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     *
      * @throws \Prettus\Repository\Exceptions\RepositoryException
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function pending(Request $request)
     {
@@ -219,12 +229,13 @@ class PirepController extends Controller
             ->paginate();
 
         return view('admin.pireps.index', [
-            'pireps' => $pireps
+            'pireps' => $pireps,
         ]);
     }
 
     /**
      * Show the form for creating a new Pirep.
+     *
      * @return Response
      */
     public function create()
@@ -238,9 +249,11 @@ class PirepController extends Controller
 
     /**
      * @param CreatePirepRequest $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      * @throws \Exception
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function store(CreatePirepRequest $request)
     {
@@ -261,7 +274,9 @@ class PirepController extends Controller
 
     /**
      * Display the specified Pirep.
-     * @param  int $id
+     *
+     * @param int $id
+     *
      * @return Response
      */
     public function show($id)
@@ -280,9 +295,12 @@ class PirepController extends Controller
 
     /**
      * Show the form for editing the specified Pirep.
-     * @param  int $id
-     * @return Response
+     *
+     * @param int $id
+     *
      * @throws \InvalidArgumentException
+     *
+     * @return Response
      */
     public function edit($id)
     {
@@ -296,13 +314,13 @@ class PirepController extends Controller
         $pirep->hours = $time->hours;
         $pirep->minutes = $time->minutes;
 
-        # set the custom fields
+        // set the custom fields
         foreach ($pirep->fields as $field) {
             $field_name = 'field_'.$field->slug;
             $pirep->{$field_name} = $field->value;
         }
 
-        # set the fares
+        // set the fares
         foreach ($pirep->fares as $fare) {
             $field_name = 'fare_'.$fare->fare_id;
             $pirep->{$field_name} = $fare->count;
@@ -323,9 +341,11 @@ class PirepController extends Controller
     /**
      * @param                    $id
      * @param UpdatePirepRequest $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      * @throws \Exception
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function update($id, UpdatePirepRequest $request)
     {
@@ -341,7 +361,7 @@ class PirepController extends Controller
 
         $attrs = $request->all();
 
-        # Fix the time
+        // Fix the time
         $attrs['flight_time'] = Time::init(
             $attrs['minutes'],
             $attrs['hours'])->getMinutes();
@@ -362,7 +382,9 @@ class PirepController extends Controller
 
     /**
      * Remove the specified Pirep from storage.
-     * @param  int $id
+     *
+     * @param int $id
+     *
      * @return Response
      */
     public function destroy($id)
@@ -382,7 +404,9 @@ class PirepController extends Controller
 
     /**
      * Change or update the PIREP status. Just return the new actionbar
+     *
      * @param Request $request
+     *
      * @return \Illuminate\View\View
      */
     public function status(Request $request)
@@ -402,10 +426,13 @@ class PirepController extends Controller
 
     /**
      * Add a comment to the Pirep
+     *
      * @param         $id
      * @param Request $request
-     * @return mixed
+     *
      * @throws \Exception
+     *
+     * @return mixed
      */
     public function comments($id, Request $request)
     {

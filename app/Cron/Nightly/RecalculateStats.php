@@ -5,19 +5,17 @@ namespace App\Cron\Nightly;
 use App\Events\CronNightly;
 use App\Interfaces\Listener;
 use App\Models\Enums\UserState;
-use App\Models\Journal;
 use App\Repositories\UserRepository;
 use App\Services\UserService;
 use Log;
 
 /**
  * This recalculates the balances on all of the journals
- * @package App\Listeners\Cron
  */
 class RecalculateStats extends Listener
 {
-    private $userRepo,
-            $userSvc;
+    private $userRepo;
+    private $userSvc;
 
     public function __construct(UserRepository $userRepo, UserService $userService)
     {
@@ -27,7 +25,9 @@ class RecalculateStats extends Listener
 
     /**
      * Recalculate the stats for active users
+     *
      * @param CronNightly $event
+     *
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
      */
@@ -36,7 +36,7 @@ class RecalculateStats extends Listener
         Log::info('Recalculating balances');
 
         $w = [
-            ['state', '!=', UserState::REJECTED]
+            ['state', '!=', UserState::REJECTED],
         ];
 
         $users = $this->userRepo->findWhere($w, ['id', 'name', 'airline_id']);

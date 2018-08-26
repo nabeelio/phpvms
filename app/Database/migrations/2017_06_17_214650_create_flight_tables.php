@@ -57,7 +57,7 @@ class CreateFlightTables extends Migration
             $table->primary(['flight_id', 'fare_id']);
         });
 
-        /**
+        /*
          * Hold a master list of fields
          */
         Schema::create('flight_fields', function (Blueprint $table) {
@@ -66,7 +66,7 @@ class CreateFlightTables extends Migration
             $table->string('slug', 50)->nullable();
         });
 
-        /**
+        /*
          * The values for the actual fields
          */
         Schema::create('flight_field_values', function (Blueprint $table) {

@@ -13,14 +13,13 @@ use Illuminate\Http\Request;
 
 /**
  * Class FinanceController
- * @package App\Http\Controllers\Admin
  */
 class FinanceController extends Controller
 {
     private $airlineRepo;
 
     /**
-     * @param AirlineRepository   $airlineRepo
+     * @param AirlineRepository $airlineRepo
      */
     public function __construct(
         AirlineRepository $airlineRepo
@@ -30,10 +29,13 @@ class FinanceController extends Controller
 
     /**
      * Display the summation tables for a given month by airline
+     *
      * @param Request $request
-     * @return mixed
+     *
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
+     *
+     * @return mixed
      */
     public function index(Request $request)
     {
@@ -48,15 +50,15 @@ class FinanceController extends Controller
         $transaction_groups = [];
         $airlines = $this->airlineRepo->orderBy('icao')->all();
 
-        # group by the airline
+        // group by the airline
         foreach ($airlines as $airline) {
-            # Return all the transactions, grouped by the transaction group
+            // Return all the transactions, grouped by the transaction group
             $transactions = JournalTransaction::groupBy('transaction_group', 'currency')
                 ->selectRaw('transaction_group, currency, 
                              SUM(credit) as sum_credits, 
                              SUM(debit) as sum_debits')
                 ->where([
-                    'journal_id' => $airline->journal->id
+                    'journal_id' => $airline->journal->id,
                 ])
                 ->whereBetween('created_at', $between, 'AND')
                 ->orderBy('sum_credits', 'desc')
@@ -64,7 +66,7 @@ class FinanceController extends Controller
                 ->orderBy('transaction_group', 'asc')
                 ->get();
 
-            # Summate it so we can show it on the footer of the table
+            // Summate it so we can show it on the footer of the table
             $sum_all_credits = 0;
             $sum_all_debits = 0;
             foreach ($transactions as $ta) {
@@ -89,6 +91,8 @@ class FinanceController extends Controller
 
     /**
      * Show a month
+     *
+     * @param mixed $id
      */
     public function show($id)
     {

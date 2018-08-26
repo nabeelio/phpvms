@@ -9,7 +9,6 @@ use Prettus\Repository\Traits\CacheableRepository;
 
 /**
  * Class RankRepository
- * @package App\Repositories
  */
 class RankRepository extends Repository implements CacheableInterface
 {

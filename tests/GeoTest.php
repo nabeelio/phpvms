@@ -19,10 +19,10 @@ class GeoTest extends TestCase
          * [2017-12-21 00:54:10] dev.INFO: name: SIE - 41.15169x-3.604667
          * [2017-12-21 00:54:10] dev.INFO: name: SIE - 52.15527x22.200833
          */
-        # Start at ATL
+        // Start at ATL
         $start_point = [36.58106, 26.375603];
 
-        # These are all SIE
+        // These are all SIE
         $potential_points = [
             [39.0955, -74.800344],
             [41.15169, -3.604667],

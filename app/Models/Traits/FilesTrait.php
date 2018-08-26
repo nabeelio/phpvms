@@ -8,13 +8,14 @@ trait FilesTrait
 {
     /**
      * Morph to type of File
+     *
      * @return mixed
      */
     public function files()
     {
         return $this->morphMany(
             File::class,
-            'files',  # overridden by the next two anyway
+            'files',  // overridden by the next two anyway
             'ref_model',
             'ref_model_id'
         );

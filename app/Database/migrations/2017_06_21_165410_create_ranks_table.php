@@ -39,7 +39,7 @@ class CreateRanksTable extends Migration
                 'hours'                => 0,
                 'acars_base_pay_rate'  => 50,
                 'manual_base_pay_rate' => 25,
-            ]
+            ],
         ];
 
         $this->addData('ranks', $ranks);

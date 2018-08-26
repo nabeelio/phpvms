@@ -6,7 +6,6 @@ use App\Interfaces\Model;
 
 /**
  * Class News
- * @package App\Models
  */
 class News extends Model
 {
@@ -26,7 +25,6 @@ class News extends Model
     /**
      * FOREIGN KEYS
      */
-
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');

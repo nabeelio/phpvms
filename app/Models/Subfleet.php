@@ -8,6 +8,7 @@ use App\Models\Traits\ExpensableTrait;
 
 /**
  * Class Subfleet
+ *
  * @property int     id
  * @property string  type
  * @property string  name
@@ -16,7 +17,6 @@ use App\Models\Traits\ExpensableTrait;
  * @property float   cost_block_hour
  * @property float   cost_delay_minute
  * @property Airline airline
- * @package App\Models
  */
 class Subfleet extends Model
 {
@@ -59,14 +59,13 @@ class Subfleet extends Model
      */
     public function setTypeAttribute($type)
     {
-        $type = str_replace([' ', ','], array('-', ''), $type);
+        $type = str_replace([' ', ','], ['-', ''], $type);
         $this->attributes['type'] = $type;
     }
 
     /**
      * Relationships
      */
-
     public function aircraft()
     {
         return $this->hasMany(Aircraft::class, 'subfleet_id')

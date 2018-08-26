@@ -7,7 +7,6 @@ use Modules\Installer\Services\ConfigService;
 
 /**
  * Create a fresh development install
- * @package App\Console\Commands
  */
 class DevInstall extends Command
 {
@@ -24,6 +23,7 @@ class DevInstall extends Command
 
     /**
      * Run dev related commands
+     *
      * @throws \Symfony\Component\HttpFoundation\File\Exception\FileException
      */
     public function handle()
@@ -32,7 +32,7 @@ class DevInstall extends Command
             $this->rewriteConfigs();
         }
 
-        # Reload the configuration
+        // Reload the configuration
         \App::boot();
 
         $this->info('Recreating database');
@@ -45,13 +45,13 @@ class DevInstall extends Command
             '--seed' => true,
         ]);
 
-        #
-        #
+        //
+        //
 
         $this->info('Importing sample data');
-        foreach($this->yaml_imports as $yml) {
+        foreach ($this->yaml_imports as $yml) {
             $this->call('phpvms:yaml-import', [
-                'files' => ['app/Database/seeds/' . $yml],
+                'files' => ['app/Database/seeds/'.$yml],
             ]);
         }
 
@@ -60,6 +60,7 @@ class DevInstall extends Command
 
     /**
      * Rewrite the configuration files
+     *
      * @throws \Symfony\Component\HttpFoundation\File\Exception\FileException
      */
     protected function rewriteConfigs()
@@ -68,7 +69,7 @@ class DevInstall extends Command
 
         $this->info('Removing the old config files');
 
-        # Remove the old files
+        // Remove the old files
         $config_file = base_path('config.php');
         if (file_exists($config_file)) {
             unlink($config_file);

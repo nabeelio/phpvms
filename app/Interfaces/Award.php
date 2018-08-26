@@ -15,7 +15,6 @@ use Log;
  *  public function check($parameter=null)
  *
  * See: http://docs.phpvms.net/customizing/awards
- * @package App\Interfaces
  */
 abstract class Award
 {
@@ -25,7 +24,9 @@ abstract class Award
     /**
      * Each award class just needs to return true or false if it should actually
      * be awarded to a user. This is the only method that needs to be implemented
+     *
      * @param null $parameter Optional parameters that are passed in from the UI
+     *
      * @return bool
      */
     abstract public function check($parameter = null): bool;
@@ -34,11 +35,12 @@ abstract class Award
      * You don't really need to mess with anything below here
      */
 
-    protected $award,
-              $user;
+    protected $award;
+    protected $user;
 
     /**
      * AwardInterface constructor.
+     *
      * @param AwardModel $award
      * @param User       $user
      */
@@ -55,7 +57,7 @@ abstract class Award
      */
     final public function handle(): void
     {
-        # Check if the params are a JSON object or array
+        // Check if the params are a JSON object or array
         $param = $this->award->ref_model_params;
         if (Utils::isObject($this->award->ref_model_params)) {
             $param = json_decode($this->award->ref_model_params);
@@ -68,6 +70,7 @@ abstract class Award
 
     /**
      * Add the award to this user, if they don't already have it
+     *
      * @return bool|UserAward
      */
     final protected function addAward()
@@ -87,13 +90,13 @@ abstract class Award
 
         try {
             $award->save();
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             Log::error(
                 'Error saving award: '.$e->getMessage(),
                 $e->getTrace()
             );
 
-            return null;
+            return;
         }
 
         return $award;

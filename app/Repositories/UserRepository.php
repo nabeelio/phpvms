@@ -10,7 +10,6 @@ use Illuminate\Http\Request;
 
 /**
  * Class UserRepository
- * @package App\Repositories
  */
 class UserRepository extends Repository
 {
@@ -19,7 +18,7 @@ class UserRepository extends Repository
         'email' => 'like',
         'home_airport_id',
         'curr_airport_id',
-        'state'
+        'state',
     ];
 
     /**
@@ -32,6 +31,7 @@ class UserRepository extends Repository
 
     /**
      * Number of PIREPs that are pending
+     *
      * @return mixed
      */
     public function getPendingCount()
@@ -49,10 +49,13 @@ class UserRepository extends Repository
 
     /**
      * Create the search criteria and return this with the stuff pushed
+     *
      * @param Request $request
      * @param bool    $only_active
-     * @return $this
+     *
      * @throws \Prettus\Repository\Exceptions\RepositoryException
+     *
+     * @return $this
      */
     public function searchCriteria(Request $request, bool $only_active = true)
     {

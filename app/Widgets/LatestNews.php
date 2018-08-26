@@ -7,7 +7,6 @@ use App\Repositories\NewsRepository;
 
 /**
  * Show the latest news in a view
- * @package App\Widgets
  */
 class LatestNews extends Widget
 {

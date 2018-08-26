@@ -8,7 +8,6 @@ use Auth;
 
 /**
  * Class RouteRequest
- * @package App\Http\Requests\Acars
  */
 class RouteRequest extends FormRequest
 {

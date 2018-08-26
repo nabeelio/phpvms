@@ -13,7 +13,6 @@ use Log;
 
 /**
  * Process all of the daily expenses and charge them
- * @package App\Services\Finance
  */
 class RecurringFinanceService extends Service
 {
@@ -21,6 +20,7 @@ class RecurringFinanceService extends Service
 
     /**
      * RecurringFinanceService constructor.
+     *
      * @param JournalRepository $journalRepo
      */
     public function __construct(JournalRepository $journalRepo)
@@ -31,7 +31,9 @@ class RecurringFinanceService extends Service
     /**
      * Determine the journal to charge to, otherwise, it's charged
      * to every airline journal
+     *
      * @param Expense $expense
+     *
      * @return \Generator
      */
     protected function findJournals(Expense $expense)
@@ -51,7 +53,9 @@ class RecurringFinanceService extends Service
 
     /**
      * Get the name of the transaction group from the expense
+     *
      * @param Expense $expense
+     *
      * @return array
      */
     protected function getMemoAndGroup(Expense $expense): array
@@ -82,7 +86,9 @@ class RecurringFinanceService extends Service
 
     /**
      * Run all of the daily expense/financials
+     *
      * @param int $type
+     *
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
      * @throws \Prettus\Validator\Exceptions\ValidatorException
@@ -102,13 +108,13 @@ class RecurringFinanceService extends Service
          * @var $expenses Expense[]
          */
         foreach ($expenses as $expense) {
-            # Apply the expenses to the appropriate journals
+            // Apply the expenses to the appropriate journals
             $journals = $this->findJournals($expense);
             foreach ($journals as $journal) {
                 $amount = $expense->amount;
 
-                # Has this expense already been charged? Check
-                # against this specific journal, on today
+                // Has this expense already been charged? Check
+                // against this specific journal, on today
                 $w = [
                     'journal_id'   => $journal->id,
                     'ref_model'    => Expense::class,

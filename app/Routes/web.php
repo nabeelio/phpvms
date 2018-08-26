@@ -4,7 +4,7 @@
  * User doesn't need to be logged in for these
  */
 Route::group([
-    'namespace' => 'Frontend', 'prefix' => '', 'as' => 'frontend.'
+    'namespace' => 'Frontend', 'prefix' => '', 'as' => 'frontend.',
 ], function () {
     Route::get('/', 'HomeController@index')->name('home');
     Route::get('r/{id}', 'PirepController@show')->name('pirep.show.public');
@@ -16,7 +16,7 @@ Route::group([
     Route::get('livemap', 'AcarsController@index')->name('livemap.index');
 });
 
-/**
+/*
  * These are only visible to a logged in user
  */
 Route::group([

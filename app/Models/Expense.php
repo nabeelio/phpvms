@@ -1,17 +1,18 @@
 <?php
 
 namespace App\Models;
+
 use App\Interfaces\Model;
 use App\Models\Traits\ReferenceTrait;
 
 /**
  * Class Expense
+ *
  * @property int    airline_id
  * @property float  amount
  * @property string name
  * @property string ref_model
  * @property string ref_model_id
- * @package App\Models
  */
 class Expense extends Model
 {
@@ -42,7 +43,6 @@ class Expense extends Model
     /**
      * Foreign Keys
      */
-
     public function airline()
     {
         return $this->belongsTo(Airline::class, 'airline_id');

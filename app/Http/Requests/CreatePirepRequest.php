@@ -28,7 +28,7 @@ class CreatePirepRequest extends FormRequest
     {
         // Don't run validations if it's just being saved
         $action = strtolower(request('submit', 'submit'));
-        if($action === 'save') {
+        if ($action === 'save') {
             return [
                 'airline_id'     => 'required|exists:airlines,id',
                 'flight_number'  => 'required',
@@ -42,7 +42,7 @@ class CreatePirepRequest extends FormRequest
         $field_rules['hours'] = 'nullable|integer';
         $field_rules['minutes'] = 'nullable|integer';
 
-        # Add the validation rules for the custom fields
+        // Add the validation rules for the custom fields
         $pirepFieldRepo = app(PirepFieldRepository::class);
 
         $custom_fields = $pirepFieldRepo->all();

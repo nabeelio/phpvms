@@ -18,7 +18,6 @@ use App\Models\Traits\FilesTrait;
  * @property Subfleet subfleet
  * @property int      status
  * @property int      state
- * @package App\Models
  */
 class Aircraft extends Model
 {
@@ -60,6 +59,7 @@ class Aircraft extends Model
 
     /**
      * See if this aircraft is active
+     *
      * @return bool
      */
     public function getActiveAttribute(): bool
@@ -69,6 +69,7 @@ class Aircraft extends Model
 
     /**
      * Capitalize the ICAO when set
+     *
      * @param $icao
      */
     public function setIcaoAttribute($icao): void
@@ -79,7 +80,6 @@ class Aircraft extends Model
     /**
      * foreign keys
      */
-
     public function airport()
     {
         return $this->belongsTo(Airport::class, 'airport_id');

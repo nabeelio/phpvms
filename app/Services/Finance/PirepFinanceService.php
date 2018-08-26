@@ -18,18 +18,17 @@ use Log;
 
 /**
  * Class FinanceService
- * @package App\Services
- *
  */
 class PirepFinanceService extends Service
 {
-    private $expenseRepo,
-            $fareSvc,
-            $journalRepo,
-            $pirepSvc;
+    private $expenseRepo;
+    private $fareSvc;
+    private $journalRepo;
+    private $pirepSvc;
 
     /**
      * FinanceService constructor.
+     *
      * @param ExpenseRepository $expenseRepo
      * @param FareService       $fareSvc
      * @param JournalRepository $journalRepo
@@ -40,8 +39,7 @@ class PirepFinanceService extends Service
         FareService $fareSvc,
         JournalRepository $journalRepo,
         PirepService $pirepSvc
-    )
-    {
+    ) {
         $this->expenseRepo = $expenseRepo;
         $this->fareSvc = $fareSvc;
         $this->journalRepo = $journalRepo;
@@ -51,12 +49,15 @@ class PirepFinanceService extends Service
     /**
      * Process all of the finances for a pilot report. This is called
      * from a listener (FinanceEvents)
+     *
      * @param Pirep $pirep
-     * @return mixed
+     *
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      * @throws \Exception
+     *
+     * @return mixed
      */
     public function processFinancesForPirep(Pirep $pirep)
     {
@@ -68,12 +69,12 @@ class PirepFinanceService extends Service
             $pirep->user->journal = $pirep->user->initJournal(config('phpvms.currency'));
         }
 
-        # Clean out the expenses first
+        // Clean out the expenses first
         $this->deleteFinancesForPirep($pirep);
 
         Log::info('Finance: Starting PIREP pay for '.$pirep->id);
 
-        # Now start and pay from scratch
+        // Now start and pay from scratch
         $this->payFaresForPirep($pirep);
         $this->payExpensesForSubfleet($pirep);
         $this->payExpensesForPirep($pirep);
@@ -102,7 +103,9 @@ class PirepFinanceService extends Service
     /**
      * Collect all of the fares and then post each fare class's profit and
      * the costs for each seat and post it to the journal
+     *
      * @param $pirep
+     *
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
      * @throws \Prettus\Validator\Exceptions\ValidatorException
@@ -137,7 +140,9 @@ class PirepFinanceService extends Service
     /**
      * Calculate what the cost is for the operating an aircraft
      * in this subfleet, as-per the block time
+     *
      * @param Pirep $pirep
+     *
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
      * @throws \Prettus\Validator\Exceptions\ValidatorException
@@ -146,18 +151,18 @@ class PirepFinanceService extends Service
     {
         $sf = $pirep->aircraft->subfleet;
 
-        # Haven't entered a cost
+        // Haven't entered a cost
         if (!filled($sf->cost_block_hour)) {
             return;
         }
 
-        # Convert to cost per-minute
+        // Convert to cost per-minute
         $cost_per_min = round($sf->cost_block_hour / 60, 2);
 
-        # Time to use - use the block time if it's there, actual
-        # flight time if that hasn't been used
+        // Time to use - use the block time if it's there, actual
+        // flight time if that hasn't been used
         $block_time = $pirep->block_time;
-        if(!filled($block_time)) {
+        if (!filled($block_time)) {
             Log::info('Finance: No block time, using PIREP flight time');
             $block_time = $pirep->flight_time;
         }
@@ -179,7 +184,9 @@ class PirepFinanceService extends Service
 
     /**
      * Collect all of the expenses and apply those to the journal
+     *
      * @param Pirep $pirep
+     *
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
      */
@@ -190,7 +197,7 @@ class PirepFinanceService extends Service
             $pirep->airline_id
         );
 
-        /**
+        /*
          * Go through the expenses and apply a mulitplier if present
          */
         $expenses->map(function ($expense, $i) use ($pirep) {
@@ -200,16 +207,16 @@ class PirepFinanceService extends Service
 
             Log::info('Finance: PIREP: '.$pirep->id.', expense:', $expense->toArray());
 
-            # Get the transaction group name from the ref_model name
-            # This way it can be more dynamic and don't have to add special
-            # tables or specific expense calls to accomodate all of these
+            // Get the transaction group name from the ref_model name
+            // This way it can be more dynamic and don't have to add special
+            // tables or specific expense calls to accomodate all of these
             $klass = 'Expense';
             if ($expense->ref_model) {
                 $ref = explode('\\', $expense->ref_model);
                 $klass = end($ref);
             }
 
-            # Form the memo, with some specific ones depending on the group
+            // Form the memo, with some specific ones depending on the group
             if ($klass === 'Airport') {
                 $memo = "Airport Expense: {$expense->name} ({$expense->ref_model_id})";
                 $transaction_group = "Airport: {$expense->ref_model_id}";
@@ -227,8 +234,8 @@ class PirepFinanceService extends Service
 
             $debit = Money::createFromAmount($expense->amount);
 
-            # If the expense is marked to charge it to a user (only applicable to Flight)
-            # then change the journal to the user's to debit there
+            // If the expense is marked to charge it to a user (only applicable to Flight)
+            // then change the journal to the user's to debit there
             $journal = $pirep->airline->journal;
             if ($expense->charge_to_user) {
                 $journal = $pirep->user->journal;
@@ -249,7 +256,9 @@ class PirepFinanceService extends Service
 
     /**
      * Collect all of the expenses from the listeners and apply those to the journal
+     *
      * @param Pirep $pirep
+     *
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
      * @throws \Prettus\Validator\Exceptions\ValidatorException
@@ -270,7 +279,7 @@ class PirepFinanceService extends Service
             }
 
             foreach ($event_expense as $expense) {
-                # Make sure it's of type expense Model
+                // Make sure it's of type expense Model
                 if (!($expense instanceof Expense)) {
                     continue;
                 }
@@ -278,8 +287,8 @@ class PirepFinanceService extends Service
                 Log::info('Finance: Expense from listener, N="'
                     .$expense->name.'", A='.$expense->amount);
 
-                # If an airline_id is filled, then see if it matches
-                if(filled($expense->airline_id) && $expense->airline_id !== $pirep->airline_id) {
+                // If an airline_id is filled, then see if it matches
+                if (filled($expense->airline_id) && $expense->airline_id !== $pirep->airline_id) {
                     Log::info('Finance: Expense has an airline ID and it doesn\'t match, skipping');
                     continue;
                 }
@@ -302,7 +311,9 @@ class PirepFinanceService extends Service
 
     /**
      * Collect and apply the ground handling cost
+     *
      * @param Pirep $pirep
+     *
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
      * @throws \Prettus\Validator\Exceptions\ValidatorException
@@ -326,7 +337,9 @@ class PirepFinanceService extends Service
     /**
      * Figure out what the pilot pay is. Debit it from the airline journal
      * But also reference the PIREP
+     *
      * @param Pirep $pirep
+     *
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
      * @throws \Prettus\Validator\Exceptions\ValidatorException
@@ -373,12 +386,14 @@ class PirepFinanceService extends Service
      *      capacity    = max number of pax units
      *
      * If count > capacity, count will be adjusted to capacity
+     *
      * @param $pirep
+     *
      * @return \Illuminate\Support\Collection
      */
     public function getReconciledFaresForPirep($pirep)
     {
-        # Collect all of the fares and prices
+        // Collect all of the fares and prices
         $flight_fares = $this->fareSvc->getForPirep($pirep);
         Log::info('Finance: PIREP: '.$pirep->id.', flight fares: ', $flight_fares->toArray());
 
@@ -392,8 +407,8 @@ class PirepFinanceService extends Service
             if ($fare_count) {
                 Log::info('Finance: PIREP: '.$pirep->id.', fare count: '.$fare_count);
 
-                # If the count is greater than capacity, then just set it
-                # to the maximum amount
+                // If the count is greater than capacity, then just set it
+                // to the maximum amount
                 if ($fare_count->count > $fare->capacity) {
                     $fare->count = $fare->capacity;
                 } else {
@@ -412,7 +427,9 @@ class PirepFinanceService extends Service
     /**
      * Return the costs for the ground handling, with the multiplier
      * being applied from the subfleet
+     *
      * @param Pirep $pirep
+     *
      * @return float|null
      */
     public function getGroundHandlingCost(Pirep $pirep)
@@ -432,17 +449,20 @@ class PirepFinanceService extends Service
 
     /**
      * Return the pilot's hourly pay for the given PIREP
+     *
      * @param Pirep $pirep
-     * @return float
+     *
      * @throws \InvalidArgumentException
+     *
+     * @return float
      */
     public function getPilotPayRateForPirep(Pirep $pirep)
     {
-        # Get the base rate for the rank
+        // Get the base rate for the rank
         $rank = $pirep->user->rank;
         $subfleet_id = $pirep->aircraft->subfleet_id;
 
-        # find the right subfleet
+        // find the right subfleet
         $override_rate = $rank->subfleets()
             ->where('subfleet_id', $subfleet_id)
             ->first();
@@ -477,10 +497,13 @@ class PirepFinanceService extends Service
 
     /**
      * Get the user's payment amount for a PIREP
+     *
      * @param Pirep $pirep
-     * @return Money
+     *
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
+     *
+     * @return Money
      */
     public function getPilotPay(Pirep $pirep)
     {

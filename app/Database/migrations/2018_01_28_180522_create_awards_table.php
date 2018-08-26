@@ -19,11 +19,11 @@ class CreateAwardsTable extends Migration
             $table->text('description')->nullable();
             $table->text('image_url')->nullable();
 
-            # ref fields are expenses tied to some model object
-            # EG, the airports has an internal expense for gate costs
+            // ref fields are expenses tied to some model object
+            // EG, the airports has an internal expense for gate costs
             $table->string('ref_model')->nullable();
             $table->text('ref_model_params')->nullable();
-            #$table->string('ref_model_id', 36)->nullable();
+            //$table->string('ref_model_id', 36)->nullable();
 
             $table->timestamps();
 

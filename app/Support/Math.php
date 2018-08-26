@@ -4,15 +4,16 @@ namespace App\Support;
 
 /**
  * Helper math
- * @package App\Support
  */
 class Math
 {
     /**
      * Determine from the base rate, if we want to return the overridden rate
      * or if the overridden rate is a percentage, then return that amount
+     *
      * @param $base_rate
      * @param $override_rate
+     *
      * @return float|null
      */
     public static function applyAmountOrPercent($base_rate, $override_rate = null): ?float
@@ -21,7 +22,7 @@ class Math
             return $base_rate;
         }
 
-        # Not a percentage override
+        // Not a percentage override
         if (substr_count($override_rate, '%') === 0) {
             return $override_rate;
         }
@@ -31,8 +32,10 @@ class Math
 
     /**
      * Add/subtract a percentage to a number
+     *
      * @param $number
      * @param $percent
+     *
      * @return float
      */
     public static function addPercent($number, $percent): float

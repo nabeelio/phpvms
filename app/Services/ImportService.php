@@ -21,7 +21,6 @@ use Validator;
 
 /**
  * Class ImportService
- * @package App\Services
  */
 class ImportService extends Service
 {
@@ -29,35 +28,42 @@ class ImportService extends Service
 
     /**
      * ImporterService constructor.
+     *
      * @param FlightRepository $flightRepo
      */
-    public function __construct(FlightRepository $flightRepo) {
+    public function __construct(FlightRepository $flightRepo)
+    {
         $this->flightRepo = $flightRepo;
     }
 
     /**
      * Throw a validation error back up because it will automatically show
      * itself under the CSV file upload, and nothing special needs to be done
+     *
      * @param $error
      * @param $e
+     *
      * @throws ValidationException
      */
-    protected function throwError($error, \Exception $e= null): void
+    protected function throwError($error, \Exception $e = null): void
     {
         Log::error($error);
-        if($e) {
+        if ($e) {
             Log::error($e->getMessage());
         }
 
         $validator = Validator::make([], []);
         $validator->errors()->add('csv_file', $error);
+
         throw new ValidationException($validator);
     }
 
     /**
-     * @param      $csv_file
-     * @return Reader
+     * @param   $csv_file
+     *
      * @throws ValidationException
+     *
+     * @return Reader
      */
     public function openCsv($csv_file)
     {
@@ -74,10 +80,13 @@ class ImportService extends Service
     /**
      * Run the actual importer, pass in one of the Import classes which implements
      * the ImportExport interface
+     *
      * @param              $file_path
      * @param ImportExport $importer
-     * @return array
+     *
      * @throws ValidationException
+     *
+     * @return array
      */
     protected function runImport($file_path, ImportExport $importer): array
     {
@@ -93,7 +102,7 @@ class ImportService extends Service
             if ($first) {
                 $first = false;
 
-                if($row[$first_header] !== $first_header) {
+                if ($row[$first_header] !== $first_header) {
                     $this->throwError('CSV file doesn\'t seem to match import type');
                 }
 
@@ -109,16 +118,16 @@ class ImportService extends Service
             // turn it into a collection and run some filtering
             $row = collect($row)->map(function ($val, $index) {
                 $val = trim($val);
-                if($val === '') {
-                    return null;
+                if ($val === '') {
+                    return;
                 }
 
                 return $val;
             })->toArray();
 
-            # Try to validate
+            // Try to validate
             $validator = Validator::make($row, $importer->getColumns());
-            if($validator->fails()) {
+            if ($validator->fails()) {
                 $errors = 'Error in row '.$offset.','.implode(';', $validator->errors()->all());
                 $importer->errorLog($errors);
                 continue;
@@ -132,15 +141,18 @@ class ImportService extends Service
 
     /**
      * Import aircraft
+     *
      * @param string $csv_file
      * @param bool   $delete_previous
-     * @return mixed
+     *
      * @throws ValidationException
+     *
+     * @return mixed
      */
     public function importAircraft($csv_file, bool $delete_previous = true)
     {
         if ($delete_previous) {
-            # TODO: delete airports
+            // TODO: delete airports
         }
 
         $importer = new AircraftImporter();
@@ -149,10 +161,13 @@ class ImportService extends Service
 
     /**
      * Import airports
+     *
      * @param string $csv_file
      * @param bool   $delete_previous
-     * @return mixed
+     *
      * @throws ValidationException
+     *
+     * @return mixed
      */
     public function importAirports($csv_file, bool $delete_previous = true)
     {
@@ -166,10 +181,13 @@ class ImportService extends Service
 
     /**
      * Import expenses
+     *
      * @param string $csv_file
      * @param bool   $delete_previous
-     * @return mixed
+     *
      * @throws ValidationException
+     *
+     * @return mixed
      */
     public function importExpenses($csv_file, bool $delete_previous = true)
     {
@@ -183,15 +201,18 @@ class ImportService extends Service
 
     /**
      * Import fares
+     *
      * @param string $csv_file
      * @param bool   $delete_previous
-     * @return mixed
+     *
      * @throws ValidationException
+     *
+     * @return mixed
      */
     public function importFares($csv_file, bool $delete_previous = true)
     {
         if ($delete_previous) {
-            # TODO: Delete all from: fares
+            // TODO: Delete all from: fares
         }
 
         $importer = new FareImporter();
@@ -200,15 +221,18 @@ class ImportService extends Service
 
     /**
      * Import flights
+     *
      * @param string $csv_file
      * @param bool   $delete_previous
-     * @return mixed
+     *
      * @throws ValidationException
+     *
+     * @return mixed
      */
     public function importFlights($csv_file, bool $delete_previous = true)
     {
         if ($delete_previous) {
-            # TODO: Delete all from: flights, flight_field_values
+            // TODO: Delete all from: flights, flight_field_values
         }
 
         $importer = new FlightImporter();
@@ -217,15 +241,18 @@ class ImportService extends Service
 
     /**
      * Import subfleets
+     *
      * @param string $csv_file
      * @param bool   $delete_previous
-     * @return mixed
+     *
      * @throws ValidationException
+     *
+     * @return mixed
      */
     public function importSubfleets($csv_file, bool $delete_previous = true)
     {
         if ($delete_previous) {
-            # TODO: Cleanup subfleet data
+            // TODO: Cleanup subfleet data
         }
 
         $importer = new SubfleetImporter();

@@ -1,16 +1,17 @@
 <?php
 
 namespace App\Models;
+
 use App\Interfaces\Model;
 
 /**
  * Class Fare
- * @property integer capacity
+ *
+ * @property int capacity
  * @property float   cost
  * @property float   price
  * @property mixed   code
  * @property mixed   count Only when merged with pivot
- * @package App\Models
  */
 class Fare extends Model
 {
@@ -41,7 +42,6 @@ class Fare extends Model
     /**
      * any foreign keys
      */
-
     public function subfleets()
     {
         return $this->belongsToMany(Subfleet::class, 'subfleet_fare')

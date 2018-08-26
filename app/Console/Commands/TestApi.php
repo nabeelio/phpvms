@@ -7,7 +7,6 @@ use GuzzleHttp\Client;
 
 /**
  * Class TestApi
- * @package App\Console\Commands
  */
 class TestApi extends Command
 {
@@ -24,7 +23,7 @@ class TestApi extends Command
                 'Authorization' => $this->argument('apikey'),
                 'Content-type'  => 'application/json',
                 'X-API-Key'     => $this->argument('apikey'),
-            ]
+            ],
         ]);
 
         $result = $this->httpClient->get($this->argument('url'));

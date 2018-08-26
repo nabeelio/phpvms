@@ -6,15 +6,14 @@ use App\Interfaces\Enum;
 
 /**
  * Class ActiveState
- * @package App\Models\Enums
  */
 class ActiveState extends Enum
 {
     public const INACTIVE = 0;
-    public const ACTIVE   = 1;
+    public const ACTIVE = 1;
 
     public static $labels = [
-        ActiveState::ACTIVE   => 'common.active',
-        ActiveState::INACTIVE => 'common.inactive',
+        self::ACTIVE   => 'common.active',
+        self::INACTIVE => 'common.inactive',
     ];
 }

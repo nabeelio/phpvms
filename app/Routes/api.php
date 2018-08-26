@@ -14,7 +14,7 @@ Route::group([], function () {
     Route::get('version', 'StatusController@status');
 });
 
-/**
+/*
  * these need to be authenticated with a user's API key
  */
 Route::group(['middleware' => ['api.auth']], function () {
@@ -48,7 +48,6 @@ Route::group(['middleware' => ['api.auth']], function () {
     Route::get('pireps/{pirep_id}/fields', 'PirepController@fields_get');
     Route::post('pireps/{pirep_id}/fields', 'PirepController@fields_post');
 
-
     Route::get('pireps/{pirep_id}/finances', 'PirepController@finances_get');
     Route::post('pireps/{pirep_id}/finances/recalculate', 'PirepController@finances_recalculate');
 
@@ -67,7 +66,7 @@ Route::group(['middleware' => ['api.auth']], function () {
 
     Route::get('settings', 'SettingsController@index');
 
-    # This is the info of the user whose token is in use
+    // This is the info of the user whose token is in use
     Route::get('user', 'UserController@index');
     Route::get('user/fleet', 'UserController@fleet');
     Route::get('user/pireps', 'UserController@pireps');

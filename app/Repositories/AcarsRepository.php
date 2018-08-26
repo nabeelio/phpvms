@@ -11,7 +11,6 @@ use Carbon\Carbon;
 
 /**
  * Class AcarsRepository
- * @package App\Repositories
  */
 class AcarsRepository extends Repository
 {
@@ -26,6 +25,7 @@ class AcarsRepository extends Repository
     /**
      * @param $pirep_id
      * @param $type
+     *
      * @return mixed
      */
     public function forPirep($pirep_id, $type)
@@ -52,7 +52,9 @@ class AcarsRepository extends Repository
     /**
      * Get all of the PIREPS that are in-progress, and then
      * get the latest update for those flights
+     *
      * @param int $live_time Age in hours of the oldest flights to show
+     *
      * @return Pirep
      */
     public function getPositions($live_time = 0)
@@ -60,7 +62,7 @@ class AcarsRepository extends Repository
         $q = Pirep::with(['airline', 'position', 'aircraft'])
             ->where(['state' => PirepState::IN_PROGRESS]);
 
-        if($live_time !== null && $live_time > 0) {
+        if ($live_time !== null && $live_time > 0) {
             $st = Carbon::now('UTC')->subHours($live_time);
             $q = $q->whereDate('created_at', '>=', $st);
         }
@@ -75,7 +77,7 @@ class AcarsRepository extends Repository
     public function getAllAcarsPoints()
     {
         return Pirep::with('acars')->where([
-            'state' => PirepState::IN_PROGRESS
+            'state' => PirepState::IN_PROGRESS,
         ]);
     }
 }

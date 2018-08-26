@@ -14,7 +14,6 @@ use Prettus\Validator\Exceptions\ValidatorException;
 
 /**
  * Class JournalRepository
- * @package App\Repositories
  */
 class JournalRepository extends Repository implements CacheableInterface
 {
@@ -30,13 +29,15 @@ class JournalRepository extends Repository implements CacheableInterface
 
     /**
      * Return a Y-m-d string for the post date
+     *
      * @param Carbon $date
+     *
      * @return string
      */
     public function formatPostDate(Carbon $date = null)
     {
         if (!$date) {
-            return null;
+            return;
         }
 
         return $date->setTimezone('UTC')->toDateString();
@@ -44,15 +45,18 @@ class JournalRepository extends Repository implements CacheableInterface
 
     /**
      * Recalculate the balance of the given journal
+     *
      * @param Journal $journal
-     * @return Journal
+     *
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
+     *
+     * @return Journal
      */
     public function recalculateBalance(Journal $journal)
     {
         $where = [
-            'journal_id' => $journal->id
+            'journal_id' => $journal->id,
         ];
 
         $credits = Money::create($this->findWhere($where)->sum('credit') ?: 0);
@@ -71,15 +75,17 @@ class JournalRepository extends Repository implements CacheableInterface
      * balance nightly, since they're not atomic operations
      *
      * @param Journal           $journal
-     * @param Money|null        $credit    Amount to credit
-     * @param Money|null        $debit     Amount to debit
-     * @param Model|null        $reference The object this is a reference to
-     * @param string|null       $memo      Memo for this transaction
-     * @param string|null       $post_date Date of the posting
+     * @param Money|null        $credit            Amount to credit
+     * @param Money|null        $debit             Amount to debit
+     * @param Model|null        $reference         The object this is a reference to
+     * @param string|null       $memo              Memo for this transaction
+     * @param string|null       $post_date         Date of the posting
      * @param string|null       $transaction_group
      * @param array|string|null $tags
-     * @return mixed
+     *
      * @throws ValidatorException
+     *
+     * @return mixed
      */
     public function post(
         Journal &$journal,
@@ -90,9 +96,8 @@ class JournalRepository extends Repository implements CacheableInterface
         $post_date = null,
         $transaction_group = null,
         $tags = null
-    )
-    {
-        # tags can be passed in a list
+    ) {
+        // tags can be passed in a list
         if ($tags && \is_array($tags)) {
             $tags = implode(',', $tags);
         }
@@ -109,7 +114,7 @@ class JournalRepository extends Repository implements CacheableInterface
             'memo'              => $memo,
             'post_date'         => $post_date,
             'transaction_group' => $transaction_group,
-            'tags'              => $tags
+            'tags'              => $tags,
         ];
 
         if ($reference !== null) {
@@ -131,9 +136,11 @@ class JournalRepository extends Repository implements CacheableInterface
     /**
      * @param Journal     $journal
      * @param Carbon|null $date
-     * @return Money
+     *
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
+     *
+     * @return Money
      */
     public function getBalance(Journal $journal = null, Carbon $date = null)
     {
@@ -151,21 +158,23 @@ class JournalRepository extends Repository implements CacheableInterface
 
     /**
      * Get the credit only balance of the journal based on a given date.
+     *
      * @param Carbon      $date
      * @param Journal     $journal
      * @param Carbon|null $start_date
      * @param null        $transaction_group
-     * @return Money
+     *
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
+     *
+     * @return Money
      */
     public function getCreditBalanceBetween(
         Carbon $date,
         Journal $journal = null,
         Carbon $start_date = null,
         $transaction_group = null
-    ): Money
-    {
+    ): Money {
         $where = [];
 
         if ($journal) {
@@ -193,17 +202,18 @@ class JournalRepository extends Repository implements CacheableInterface
      * @param Journal     $journal
      * @param Carbon|null $start_date
      * @param null        $transaction_group
-     * @return Money
+     *
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
+     *
+     * @return Money
      */
     public function getDebitBalanceBetween(
         Carbon $date,
         Journal $journal = null,
         Carbon $start_date = null,
         $transaction_group = null
-    ): Money
-    {
+    ): Money {
         $where = [];
 
         if ($journal) {
@@ -228,12 +238,15 @@ class JournalRepository extends Repository implements CacheableInterface
 
     /**
      * Return all transactions for a given object
+     *
      * @param             $object
      * @param null        $journal
      * @param Carbon|null $date
-     * @return array
+     *
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
+     *
+     * @return array
      */
     public function getAllForObject($object, $journal = null, Carbon $date = null)
     {
@@ -253,7 +266,7 @@ class JournalRepository extends Repository implements CacheableInterface
 
         $transactions = $this->whereOrder($where, [
             'credit' => 'desc',
-            'debit'  => 'desc'
+            'debit'  => 'desc',
         ])->get();
 
         return [
@@ -265,8 +278,10 @@ class JournalRepository extends Repository implements CacheableInterface
 
     /**
      * Delete all transactions for a given object
+     *
      * @param      $object
      * @param null $journal
+     *
      * @return void
      */
     public function deleteAllForObject($object, $journal = null)

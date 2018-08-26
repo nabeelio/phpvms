@@ -9,10 +9,10 @@
 return [
     'enabled' => false,
     'sitekey' => '',
-    'secret' => '',
+    'secret'  => '',
 
-    # Attributes can be found here:
-    # https://developers.google.com/recaptcha/docs/display#render_param
+    // Attributes can be found here:
+    // https://developers.google.com/recaptcha/docs/display#render_param
     'attributes' => [
         'data-theme' => 'light',
     ],

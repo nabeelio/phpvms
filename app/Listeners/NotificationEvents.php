@@ -12,7 +12,6 @@ use Log;
 
 /**
  * Handle sending emails on different events
- * @package App\Listeners
  */
 class NotificationEvents extends Listener
 {
@@ -48,6 +47,7 @@ class NotificationEvents extends Listener
     /**
      * @param $to
      * @param $email
+     *
      * @return mixed
      */
     protected function sendEmail($to, $email)
@@ -62,6 +62,7 @@ class NotificationEvents extends Listener
 
     /**
      * Send an email when the user registered
+     *
      * @param UserRegistered $event
      */
     public function onUserRegister(UserRegistered $event): void
@@ -75,7 +76,7 @@ class NotificationEvents extends Listener
             return;
         }
 
-        # First send the admin a notification
+        // First send the admin a notification
         $admin_email = setting('general.admin_email');
         Log::info('Sending admin notification email to "'.$admin_email.'"');
 
@@ -84,10 +85,10 @@ class NotificationEvents extends Listener
             $this->sendEmail($admin_email, $email);
         }
 
-        # Then notify the user
+        // Then notify the user
         if ($event->user->state === UserState::ACTIVE) {
             $email = new \App\Mail\UserRegistered($event->user);
-        } else if ($event->user->state === UserState::PENDING) {
+        } elseif ($event->user->state === UserState::PENDING) {
             $email = new \App\Mail\UserPending($event->user);
         }
 
@@ -96,6 +97,7 @@ class NotificationEvents extends Listener
 
     /**
      * When a user's state changes, send an email out
+     *
      * @param UserStateChanged $event
      */
     public function onUserStateChange(UserStateChanged $event): void
@@ -108,11 +110,11 @@ class NotificationEvents extends Listener
             if ($event->user->state === UserState::ACTIVE) {
                 $email = new \App\Mail\UserRegistered($event->user,
                     'Your registration has been accepted!');
-            } else if ($event->user->state === UserState::REJECTED) {
+            } elseif ($event->user->state === UserState::REJECTED) {
                 $email = new \App\Mail\UserRejected($event->user);
             }
             $this->sendEmail($event->user->email, $email);
-        } # TODO: Other state transitions
+        } // TODO: Other state transitions
         elseif ($event->old_state === UserState::ACTIVE) {
             Log::info('User state change from active to ??');
         }

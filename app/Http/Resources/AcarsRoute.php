@@ -7,7 +7,6 @@ use Illuminate\Http\Resources\Json\Resource;
 /**
  * ACARS table but only include the fields for the routes
  * Class AcarsRoute
- * @package App\Http\Resources
  */
 class AcarsRoute extends Resource
 {

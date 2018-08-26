@@ -12,7 +12,8 @@ class Pirep extends Resource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return array
      */
     public function toArray($request)
@@ -37,11 +38,13 @@ class Pirep extends Resource
          * Relationship fields
          */
 
-        if($this->block_on_time)
+        if ($this->block_on_time) {
             $pirep['block_on_time'] = $this->block_on_time->toIso8601ZuluString();
+        }
 
-        if($this->block_off_time)
+        if ($this->block_off_time) {
             $pirep['block_off_time'] = $this->block_off_time->toIso8601ZuluString();
+        }
 
         $pirep['status_text'] = PirepStatus::label($this->status);
 
@@ -58,7 +61,7 @@ class Pirep extends Resource
             'curr_airport_id' => $this->user->curr_airport_id,
         ];
 
-        # format to kvp
+        // format to kvp
         $pirep['fields'] = new PirepFieldCollection($this->fields);
 
         return $pirep;

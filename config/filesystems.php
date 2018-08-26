@@ -5,24 +5,24 @@ return [
 
     // This is the filesystem the uploaded files should go to
     'public_files' => 'public',
-    'cloud' => 's3',
-    'disks' => [
+    'cloud'        => 's3',
+    'disks'        => [
 
         'local' => [
             'driver' => 'local',
-            'root' => storage_path('app'),
+            'root'   => storage_path('app'),
         ],
 
         'public' => [
-            'driver' => 'local',
-            'root' => public_path('uploads'),
-            'url' => '/uploads',
+            'driver'     => 'local',
+            'root'       => public_path('uploads'),
+            'url'        => '/uploads',
             'visibility' => 'public',
         ],
 
         's3' => [
             'driver' => 's3',
-            'key' => 'your-key',
+            'key'    => 'your-key',
             'secret' => 'your-secret',
             'region' => 'your-region',
             'bucket' => 'your-bucket',

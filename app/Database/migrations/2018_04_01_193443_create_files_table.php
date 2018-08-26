@@ -1,13 +1,14 @@
 <?php
 
 use App\Interfaces\Migration;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateFilesTable extends Migration
 {
     /**
      * Create the files table. Acts as a morphable
+     *
      * @return void
      */
     public function up()

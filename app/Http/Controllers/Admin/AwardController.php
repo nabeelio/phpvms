@@ -14,20 +14,20 @@ use Response;
 
 class AwardController extends Controller
 {
-    /** @var  AwardRepository */
-    private $awardRepository,
-        $awardSvc;
+    /** @var AwardRepository */
+    private $awardRepository;
+    private $awardSvc;
 
     /**
      * AwardController constructor.
+     *
      * @param AwardRepository $awardRepo
      * @param AwardService    $awardSvc
      */
     public function __construct(
         AwardRepository $awardRepo,
         AwardService $awardSvc
-    )
-    {
+    ) {
         $this->awardRepository = $awardRepo;
         $this->awardSvc = $awardSvc;
     }
@@ -57,9 +57,12 @@ class AwardController extends Controller
 
     /**
      * Display a listing of the Fare.
+     *
      * @param Request $request
-     * @return Response
+     *
      * @throws \Prettus\Repository\Exceptions\RepositoryException
+     *
+     * @return Response
      */
     public function index(Request $request)
     {
@@ -73,6 +76,7 @@ class AwardController extends Controller
 
     /**
      * Show the form for creating a new Fare.
+     *
      * @return Response
      */
     public function create()
@@ -87,9 +91,12 @@ class AwardController extends Controller
 
     /**
      * Store a newly created Fare in storage.
+     *
      * @param CreateAwardRequest $request
-     * @return Response
+     *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
+     *
+     * @return Response
      */
     public function store(CreateAwardRequest $request)
     {
@@ -102,7 +109,9 @@ class AwardController extends Controller
 
     /**
      * Display the specified Fare.
-     * @param  int $id
+     *
+     * @param int $id
+     *
      * @return Response
      */
     public function show($id)
@@ -121,7 +130,9 @@ class AwardController extends Controller
 
     /**
      * Show the form for editing the specified award.
-     * @param  int $id
+     *
+     * @param int $id
+     *
      * @return Response
      */
     public function edit($id)
@@ -144,10 +155,13 @@ class AwardController extends Controller
 
     /**
      * Update the specified award in storage.
-     * @param  int               $id
+     *
+     * @param int                $id
      * @param UpdateAwardRequest $request
-     * @return Response
+     *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
+     *
+     * @return Response
      */
     public function update($id, UpdateAwardRequest $request)
     {
@@ -167,7 +181,7 @@ class AwardController extends Controller
     /**
      * Remove the specified Fare from storage.
      *
-     * @param  int $id
+     * @param int $id
      *
      * @return Response
      */

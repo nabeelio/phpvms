@@ -7,7 +7,6 @@ use App\Support\Metar;
 
 /**
  * This is a widget for the 3rd party CheckWX service
- * @package App\Widgets
  */
 class Weather extends Widget
 {
@@ -26,7 +25,7 @@ class Weather extends Widget
          * @var \App\Interfaces\Metar
          */
         $klass = config('phpvms.metar');
-        $metar_class = new $klass;
+        $metar_class = new $klass();
 
         $metar = null;
         $wind = null;

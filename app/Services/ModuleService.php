@@ -6,7 +6,6 @@ use App\Interfaces\Service;
 
 /**
  * Class ModuleService
- * @package App\Services
  */
 class ModuleService extends Service
 {
@@ -17,14 +16,16 @@ class ModuleService extends Service
      */
     protected static $frontendLinks = [
         0 => [],
-        1 => []
+        1 => [],
     ];
 
     /**
      * Add a module link in the frontend
+     *
      * @param string $title
      * @param string $url
      * @param string $icon
+     * @param mixed  $logged_in
      */
     public function addFrontendLink(string $title, string $url, string $icon = '', $logged_in = true)
     {
@@ -37,6 +38,9 @@ class ModuleService extends Service
 
     /**
      * Get all of the frontend links
+     *
+     * @param mixed $logged_in
+     *
      * @return array
      */
     public function getFrontendLinks($logged_in): array
@@ -46,6 +50,7 @@ class ModuleService extends Service
 
     /**
      * Add a module link in the admin panel
+     *
      * @param string $title
      * @param string $url
      * @param string $icon
@@ -55,12 +60,13 @@ class ModuleService extends Service
         self::$adminLinks[] = [
             'title' => $title,
             'url'   => $url,
-            'icon'  => 'pe-7s-users'
+            'icon'  => 'pe-7s-users',
         ];
     }
 
     /**
      * Get all of the module links in the admin panel
+     *
      * @return array
      */
     public function getAdminLinks(): array

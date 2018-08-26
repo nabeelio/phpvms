@@ -6,6 +6,7 @@ class DatabaseSeeder extends Seeder
 {
     /**
      * Map these other environments to a specific seed file
+     *
      * @var array
      */
     public static $seed_mapper = [
@@ -16,6 +17,7 @@ class DatabaseSeeder extends Seeder
 
     /**
      * Run the database seeds.
+     *
      * @throws Exception
      */
     public function run()
