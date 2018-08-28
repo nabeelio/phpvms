@@ -993,7 +993,7 @@ class Metar implements \ArrayAccess
                 $observed['amount'] = $found[2];
             }
         } // Cloud cover observed
-        elseif (isset($found[5]) && !empty($found[5])) {
+        elseif (isset($found[5]) && !empty($found[5]) && is_numeric($found[5])) {
             $observed['height'] = new Altitude($found[5] * 100, 'feet');
 
             // Cloud height
