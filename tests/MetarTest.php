@@ -82,6 +82,14 @@ class MetarTest extends TestCase
     {
         $metar = 'EGLL 261250Z AUTO 17014KT 8000 -RA BKN010/// '
                 .'BKN016/// OVC040/// //////TCU 13/12 Q1008 TEMPO 4000 RA';
+
+        $parsed = Metar::parse($metar);
+
+        $this->assertCount(4, $parsed['clouds']);
+        $this->assertEquals(1000, $parsed['clouds'][0]['height']['ft']);
+        $this->assertEquals(1600, $parsed['clouds'][1]['height']['ft']);
+        $this->assertEquals(4000, $parsed['clouds'][2]['height']['ft']);
+        $this->assertNull($parsed['clouds'][3]['height']['ft']);
     }
 
     public function testMetarTrends()
