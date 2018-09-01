@@ -751,6 +751,7 @@ class Metar implements \ArrayAccess
      *
      * @param mixed $part
      *
+     * @return bool
      * @throws \PhpUnitsOfMeasure\Exception\NonStringUnitName
      * @throws \PhpUnitsOfMeasure\Exception\NonNumericValue
      */
@@ -912,20 +913,15 @@ class Metar implements \ArrayAccess
         if (!empty($observed['runway'])) {
             $report = [];
             if ($observed['variable'] !== null) {
-                $unit = ' meters';
-                if ($observed['variable'] <= 1) {
-                    $unit = ' meter';
-                }
-
-                $report[] = $observed['variable'].$unit;
-            } elseif (null !== $observed['interval_min'] && null !== $observed['interval_max']) {
+                $report[] = $observed['variable']['nmi'].' nmi';
+            } elseif ($observed['interval_min'] !== null && $observed['interval_max'] !== null) {
                 if (isset(static::$rvr_prefix_codes[$observed['variable_prefix']])) {
-                    $report[] = 'varying from a min. of '.$observed['interval_min'].' meters until a max. of '.
+                    $report[] = 'varying from a min. of '.$observed['interval_min']['nmi'].' nmi until a max. of '.
                         static::$rvr_prefix_codes[$observed['variable_prefix']].' that '.
-                        $observed['interval_max'].' meters';
+                        $observed['interval_max']['nmi'].' nmi';
                 } else {
-                    $report[] = 'varying from a min. of '.$observed['interval_min'].' meters until a max. of '.
-                        $observed['interval_max'].' meters';
+                    $report[] = 'varying from a min. of '.$observed['interval_min']['nmi'].' nmi until a max. of '.
+                        $observed['interval_max']['nmi'].' nmi';
                 }
             }
 

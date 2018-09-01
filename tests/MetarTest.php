@@ -92,6 +92,15 @@ class MetarTest extends TestCase
         $this->assertNull($parsed['clouds'][3]['height']['ft']);
     }
 
+    public function testMetar3()
+    {
+        $metar = 'LEBL 310337Z 24006G18KT 210V320 1000 '
+                .'R25R/P2000 R07L/1900N R07R/1700D R25L/1900N '
+                .'+TSRA SCT006 BKN015 SCT030CB 22/21 Q1018 NOSIG';
+
+        $parsed = Metar::parse($metar);
+    }
+
     public function testMetarTrends()
     {
         $metar =
