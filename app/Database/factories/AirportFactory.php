@@ -2,7 +2,7 @@
 
 use Faker\Generator as Faker;
 
-/**
+/*
  * Create an ICAO for use in the factory.
  */
 if (!function_exists('createFactoryICAO')) {
