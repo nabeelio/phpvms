@@ -1,5 +1,6 @@
 <?php
 
+use App\Services\DatabaseService;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -33,7 +34,7 @@ class DatabaseSeeder extends Seeder
             $path = database_path('seeds/prod.yml');
         }
 
-        $svc = app('App\Services\DatabaseService');
+        $svc = app(DatabaseService::class);
         $svc->seed_from_yaml_file($path);
     }
 }

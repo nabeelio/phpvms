@@ -1,0 +1,182 @@
+- key: general.start_date
+  name: 'Start Date'
+  group: general
+  value: ''
+  options: ''
+  type: date
+  description: 'The date your VA started'
+- key: general.admin_email
+  name: 'Admin Email'
+  group: general
+  value: ''
+  options: ''
+  type: text
+  description: 'Email where notices, etc are sent'
+- key: units.distance
+  name: 'Distance Units'
+  group: units
+  value: nmi
+  options: 'km=kilometers,mi=miles,nmi=nautical miles'
+  type: select
+  description: 'The distance unit for display'
+- key: units.weight
+  name: 'Weight Units'
+  group: units
+  value: lbs
+  options: 'lbs,kg'
+  type: select
+  description: 'The weight unit for display'
+- key: units.speed
+  name: 'Speed Units'
+  group: units
+  value: knot
+  options: 'km/h,knot'
+  type: select
+  description: 'The speed unit for display'
+- key: units.altitude
+  name: 'Altitude Units'
+  group: units
+  value: ft
+  options: 'ft=feet,m=meters'
+  type: select
+  description: 'The altitude unit for display'
+- key: units.fuel
+  name: 'Fuel Units'
+  group: units
+  value: lbs
+  options: 'lbs,kg'
+  type: select
+  description: 'The units for fuel for display'
+- key: units.volume
+  name: 'Volume Units'
+  group: units
+  value: gallons
+  options: 'gallons,l=liters'
+  type: select
+  description: 'The units for fuel for display'
+- key: units.temperature
+  name: 'Temperature Units'
+  group: units
+  value: F
+  options: 'F=Fahrenheit,C=Celsius'
+  type: select
+  description: 'The units for temperature'
+- key: acars.live_time
+  name: 'Live Time'
+  group: acars
+  value: 12
+  options: ''
+  type: int
+  description: 'Age of flights to show on the map in hours. Set to 0 to show only all in-progress flights'
+- key: acars.center_coords
+  name: 'Center Coords'
+  group: acars
+  value: '30.1945,-97.6699'
+  options: ''
+  type: text
+  description: 'Where to center the map; enter as LAT,LON'
+- key: acars.default_zoom
+  name: 'Default Zoom'
+  group: acars
+  value: 5
+  options: ''
+  type: int
+  description: 'Initial zoom level on the map'
+- key: bids.disable_flight_on_bid
+  name: 'Disable flight on bid'
+  group: bids
+  value: true
+  options: ''
+  type: boolean
+  description: 'When a flight is bid on, no one else can bid on it'
+- key: bids.allow_multiple_bids
+  name: 'Allow multiple bids'
+  group: bids
+  value: true
+  options: ''
+  type: boolean
+  description: 'Whether or not someone can bid on multiple flights'
+- key: bids.expire_time
+  name: 'Expire Time'
+  group: bids
+  value: 48
+  options: ''
+  type: int
+  description: 'Number of hours to expire bids after'
+- key: pireps.duplicate_check_time
+  name: 'PIREP duplicate time check'
+  group: pireps
+  value: 10
+  options: ''
+  type: int
+  description: 'The time in minutes to check for a duplicate PIREP'
+- key: pireps.restrict_aircraft_to_rank
+  name: 'Restrict Aircraft to Ranks'
+  group: pireps
+  value: true
+  options: ''
+  type: boolean
+  description: 'Aircraft that can be flown are restricted to a user''s rank'
+- key: pireps.only_aircraft_at_dpt_airport
+  name: 'Restrict Aircraft At Departure'
+  group: pireps
+  value: false
+  options: ''
+  type: boolean
+  description: 'Only allow aircraft that are at the departure airport'
+- key: pireps.remove_bid_on_accept
+  name: 'Remove bid on accept'
+  group: pireps
+  value: false
+  options: ''
+  type: boolean
+  description: 'When a PIREP is accepted, remove the bid, if it exists'
+- key: pilots.id_length
+  name: 'Pilot ID Length'
+  group: pilots
+  value: 4
+  options: ''
+  type: int
+  description: 'The length of a pilot''s ID'
+- key: pilots.auto_accept
+  name: 'Auto Accept New Pilot'
+  group: pilots
+  value: true
+  options: ''
+  type: boolean
+  description: 'Automatically accept a pilot when they register'
+- key: pilots.home_hubs_only
+  name: 'Hubs as home airport'
+  group: pilots
+  value: false
+  options: ''
+  type: boolean
+  description: 'Pilots can only select hubs as their home airport'
+- key: pilots.only_flights_from_current
+  name: 'Flights from Current'
+  group: pilots
+  value: false
+  options: ''
+  type: boolean
+  description: 'Only show/allow flights from their current location'
+- key: pilots.auto_leave_days
+  name: 'Pilot to ON LEAVE days'
+  group: pilots
+  value: 30
+  options: ''
+  type: int
+  description: 'Automatically set a pilot to ON LEAVE status after N days of no activity'
+- key: pilots.hide_inactive
+  name: 'Hide Inactive Pilots'
+  group: pilots
+  value: true
+  options: ''
+  type: boolean
+  description: 'Don''t show inactive pilots in the public view'
+- key: pilots.restrict_to_company
+  name: 'Restrict the flights to company'
+  group: pilots
+  value: false
+  options: ''
+  type: boolean
+  description: 'Restrict flights to the user''s airline'

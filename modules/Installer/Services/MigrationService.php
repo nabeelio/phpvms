@@ -3,8 +3,11 @@
 namespace Modules\Installer\Services;
 
 use App\Interfaces\Service;
+use App\Models\Setting;
+use DB;
 use Log;
 use Nwidart\Modules\Facades\Module;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * Class MigrationsService
@@ -12,14 +15,129 @@ use Nwidart\Modules\Facades\Module;
  */
 class MigrationService extends Service
 {
-    /**
-     * @return \Illuminate\Database\Migrations\Migrator
-     */
+    private $counters = [];
+    private $offsets = [];
+
     protected function getMigrator()
     {
         $m = app('migrator');
         $m->setConnection(config('database.default'));
         return $m;
+    }
+
+    /**
+     * Update all of the settings and sync them with the settings.yml file
+     */
+    public function updateAllSettings(): void
+    {
+        $data = file_get_contents(database_path('/seeds/settings.yml'));
+        $yml = Yaml::parse($data);
+        foreach ($yml as $setting) {
+            if ($setting['key'] === '') {
+                continue;
+            }
+
+            $this->addSetting($setting['key'], $setting);
+        }
+    }
+
+    /**
+     * @param $key
+     * @param $attrs
+     */
+    public function addSetting($key, $attrs): void
+    {
+        $id = Setting::formatKey($key);
+        $group = $attrs['group'];
+        $order = $this->getNextOrderNumber($group);
+
+        $attrs = array_merge(
+            [
+                'id'          => $id,
+                'key'         => $key,
+                'offset'      => $this->offsets[$group],
+                'order'       => $order,
+                'name'        => '',
+                'group'       => $group,
+                'value'       => '',
+                'default'     => $attrs['value'],
+                'options'     => '',
+                'type'        => 'hidden',
+                'description' => '',
+            ],
+            $attrs
+        );
+
+        $count = DB::table('settings')->where('id', $id)->count('id');
+        if ($count === 0) {
+            DB::table('settings')->insert($attrs);
+        } else {
+            unset($attrs['value']);  // Don't overwrite this
+            DB::table('settings')
+                ->where('id', $id)
+                ->update($attrs);
+        }
+    }
+
+    /**
+     * Dynamically figure out the offset and the start number for a group.
+     * This way we don't need to mess with how to order things
+     * When calling getNextOrderNumber(users) 31, will be returned, then 32, and so on
+     *
+     * @param      $name
+     * @param null $offset
+     * @param int  $start_offset
+     */
+    private function addCounterGroup($name, $offset = null, $start_offset = 0): void
+    {
+        if ($offset === null) {
+            $group = DB::table('settings')
+                ->where('group', $name)
+                ->first();
+
+            if ($group === null) {
+                $offset = (int)DB::table('settings')->max('offset');
+                if ($offset === null) {
+                    $offset = 0;
+                    $start_offset = 1;
+                } else {
+                    $offset += 100;
+                    $start_offset = $offset + 1;
+                }
+            } else {
+                // Now find the number to start from
+                $start_offset = (int)DB::table('settings')->where('group', $name)->max('order');
+                if ($start_offset === null) {
+                    $start_offset = $offset + 1;
+                } else {
+                    $start_offset++;
+                }
+
+                $offset = $group->offset;
+            }
+        }
+
+        $this->counters[$name] = $start_offset;
+        $this->offsets[$name] = $offset;
+    }
+
+    /**
+     * Get the next increment number from a group
+     *
+     * @param $group
+     *
+     * @return int
+     */
+    private function getNextOrderNumber($group): int
+    {
+        if (!\in_array($group, $this->counters, true)) {
+            $this->addCounterGroup($group);
+        }
+
+        $idx = $this->counters[$group];
+        $this->counters[$group]++;
+
+        return $idx;
     }
 
     /**

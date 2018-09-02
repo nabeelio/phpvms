@@ -41,11 +41,10 @@ class UpdaterController extends Controller
     {
         $migrations = $this->migrationSvc->migrationsAvailable();
         if(\count($migrations) > 0) {
-            return view('installer::update/steps/step1-update-available');
+            Log::info('No migrations found');
         }
 
-        Log::info('No migrations found');
-        return view('installer::update/steps/step1-no-update');
+        return view('installer::update/steps/step1-update-available');
     }
 
     /**
@@ -57,9 +56,12 @@ class UpdaterController extends Controller
     {
         Log::info('Update: run_migrations', $request->post());
 
+        // Resync all of the settings
+        $this->migrationSvc->updateAllSettings();
+
         $migrations = $this->migrationSvc->migrationsAvailable();
         if(\count($migrations) === 0) {
-            return redirect(route('update.complete'));
+            return view('installer::update/steps/step3-update-complete');
         }
 
         $output = $this->migrationSvc->runAllMigrations();
