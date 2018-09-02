@@ -751,9 +751,10 @@ class Metar implements \ArrayAccess
      *
      * @param mixed $part
      *
-     * @return bool
      * @throws \PhpUnitsOfMeasure\Exception\NonStringUnitName
      * @throws \PhpUnitsOfMeasure\Exception\NonNumericValue
+     *
+     * @return bool
      */
     private function get_visibility($part)
     {
