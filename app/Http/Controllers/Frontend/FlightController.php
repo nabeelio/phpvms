@@ -123,13 +123,28 @@ class FlightController extends Controller
      */
     public function search(Request $request)
     {
+        $where = [
+            'active'  => true,
+            'visible' => true,
+        ];
+
         if (setting('pilots.restrict_to_company')) {
-            $this->flightRepo
-                ->pushCriteria(new WhereCriteria($request, ['airline_id' => Auth::user()->airline_id]))
-                ->paginate();
+            $where['airline_id'] = Auth::user()->airline_id;
+        }
+
+        // default restrictions on the flights shown. Handle search differently
+        if (setting('pilots.only_flights_from_current')) {
+            $where['dpt_airport_id'] = Auth::user()->curr_airport_id;
+        }
+
+        try {
+            $this->flightRepo->pushCriteria(new WhereCriteria($request, $where));
+        } catch (RepositoryException $e) {
+            Log::emergency($e);
         }
 
         $flights = $this->flightRepo->searchCriteria($request)
+            ->with(['dpt_airport', 'arr_airport', 'airline'])
             ->orderBy('flight_number', 'asc')
             ->orderBy('route_leg', 'asc')
             ->paginate();
