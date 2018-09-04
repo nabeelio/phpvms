@@ -40,6 +40,10 @@ class SettingsController extends Controller
                 continue;
             }
 
+            if ($setting->type == 'bool' || $setting->type == 'boolean') {
+                $value = get_truth_state($value);
+            }
+
             Log::info('Updating "'.$setting->id.'" from "'.$setting->value.'" to "'.$value.'"');
             $setting->value = $value;
             $setting->save();
