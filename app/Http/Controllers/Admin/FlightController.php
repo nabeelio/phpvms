@@ -133,6 +133,7 @@ class FlightController extends Controller
     public function index(Request $request)
     {
         $flights = $this->flightRepo
+            ->with(['dpt_airport', 'arr_airport', 'alt_airport', 'airline'])
             ->searchCriteria($request, false)
             ->orderBy('flight_number', 'asc')
             ->paginate();

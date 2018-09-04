@@ -23,7 +23,7 @@ class LatestPilots extends Widget
 
         return view('widgets.latest_pilots', [
             'config' => $this->config,
-            'users'  => $userRepo->recent($this->config['count']),
+            'users'  => $userRepo->with(['airline'])->recent($this->config['count']),
         ]);
     }
 }

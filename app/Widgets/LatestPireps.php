@@ -23,6 +23,7 @@ class LatestPireps extends Widget
         $pirepRepo = app(PirepRepository::class);
 
         $pireps = $pirepRepo
+            ->with(['airline', 'aircraft'])
             ->whereNotInOrder('state', [
                 PirepState::CANCELLED,
                 PirepState::DRAFT,

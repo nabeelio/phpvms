@@ -56,7 +56,7 @@ class AircraftController extends Controller
             $w['subfleet_id'] = $request->input('subfleet');
         }
 
-        $aircraft = $this->aircraftRepo->whereOrder($w, 'registration', 'asc');
+        $aircraft = $this->aircraftRepo->with(['subfleet'])->whereOrder($w, 'registration', 'asc');
         $aircraft = $aircraft->all();
 
         return view('admin.aircraft.index', [
