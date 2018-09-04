@@ -199,6 +199,7 @@ class PirepController extends Controller
         $this->pirepRepo->pushCriteria($criterea);
 
         $pireps = $this->pirepRepo
+            ->with(['airline', 'aircraft', 'dpt_airport', 'arr_airport'])
             ->whereNotInOrder('state', [
                 PirepState::CANCELLED,
                 PirepState::DRAFT,

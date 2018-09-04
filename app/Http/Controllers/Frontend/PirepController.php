@@ -180,7 +180,8 @@ class PirepController extends Controller
         $where = [['user_id', $user->id]];
         $where[] = ['state', '<>', PirepState::CANCELLED];
 
-        $this->pirepRepo->pushCriteria(new WhereCriteria($request, $where));
+        $this->pirepRepo->with(['airline', 'aircraft', 'dpt_airport', 'arr_airport'])
+            ->pushCriteria(new WhereCriteria($request, $where));
         $pireps = $this->pirepRepo->orderBy('created_at', 'desc')->paginate();
 
         return view('pireps.index', [
