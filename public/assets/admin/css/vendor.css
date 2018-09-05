@@ -13430,7 +13430,7 @@ fieldset[disabled] .btn-neutral.active {
   font-family: "Avenir-light", "AvenirLTStd-Light", sans-serif !important;
   border-radius: 0;
   background-color: transparent;
-  border: 1px solid #E3E3E3;
+  border: 1px solid #AAAAAA;
   color: #333333;
   line-height: 1em;
   font-size: 14px;
@@ -13758,7 +13758,7 @@ textarea.form-control {
   padding: 10px 10px;
   resize: none;
   background-color: transparent;
-  border: 1px solid #E3E3E3;
+  border: 1px solid #AAAAAA;
   color: #333333;
   line-height: 1em;
   font-size: 14px;
