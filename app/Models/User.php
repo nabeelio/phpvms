@@ -77,13 +77,13 @@ class User extends Authenticatable
     ];
 
     protected $casts = [
-        'flights'          => 'integer',
-        'flight_time'      => 'integer',
-        'transfer_time'    => 'integer',
-        'balance'          => 'double',
-        'state'            => 'integer',
-        'status'           => 'integer',
-        'opt_in'           => 'boolean',
+        'flights'       => 'integer',
+        'flight_time'   => 'integer',
+        'transfer_time' => 'integer',
+        'balance'       => 'double',
+        'state'         => 'integer',
+        'status'        => 'integer',
+        'opt_in'        => 'boolean',
     ];
 
     public static $rules = [
