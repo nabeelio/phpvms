@@ -20,4 +20,5 @@ return [
     'deniedmessage'            => 'La tua registrazione è stata rifiutata. Contatta un amministratore per favore.',
     'accountsuspended'         => 'Account Sospeso',
     'suspendedmessage'         => 'Il tuo account è stato sospeso. Contatta un amministratore per favore.',
+    'transferhours'            => 'Ore di trasferimento',
 ];

@@ -115,6 +115,11 @@ class RegisterController extends Controller
         $opts['curr_airport_id'] = $data['home_airport_id'];
         $opts['password'] = Hash::make($data['password']);
 
+        // Convert transfer hours into minutes
+        if (isset($opts['transfer_time'])) {
+            $opts['transfer_time'] = $opts['transfer_time'] * 60;
+        }
+
         $user = User::create($opts);
         $user = $this->userService->createPilot($user);
 
@@ -142,6 +147,7 @@ class RegisterController extends Controller
             'password'        => 'required|confirmed',
             'timezone'        => 'required',
             'country'         => 'required',
+            'transfer_time'   => 'integer|min:0',
         ];
 
         if (config('captcha.enabled')) {

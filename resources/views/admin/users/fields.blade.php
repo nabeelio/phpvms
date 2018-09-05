@@ -30,6 +30,11 @@
             {{ Form::select('timezone', $timezones, null, ['id' => 'timezone', 'class' => 'select2' ]) }}
             <p class="text-danger">{{ $errors->first('timezone') }}</p>
         </div>
+        <div class="form-group col-sm-4">
+            {{ Form::label('transfer_time', 'Transferred Hours:') }}
+            {{ Form::text('transfer_time', \App\Facades\Utils::minutesToHours($user->transfer_time), ['class' => 'form-control']) }}
+            <p class="text-danger">{{ $errors->first('transfer_time') }}</p>
+        </div>
     </div>
     <div class="form-group col-sm-6">
         {{ Form::label('home_airport_id', 'Home Airport:') }}

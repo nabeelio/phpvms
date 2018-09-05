@@ -237,6 +237,9 @@ class UserController extends Controller
 
         $original_user_state = $user->state;
 
+        // Convert transferred hours to minutes
+        $req_data['transfer_time'] = $req_data['transfer_time'] * 60;
+
         $user = $this->userRepo->update($req_data, $id);
 
         if ($original_user_state !== $user->state) {
