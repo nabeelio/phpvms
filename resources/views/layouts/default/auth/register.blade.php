@@ -59,6 +59,16 @@
                 <p class="text-danger">{{ $errors->first('timezone') }}</p>
             @endif
 
+            @if (setting('pilots.allow_transfer_hours') === true)
+                <label for="transfer_time" class="control-label">@lang('auth.transferhours')</label>
+                <div class="input-group form-group-no-border {{ $errors->has('transfer_time') ? 'has-danger' : '' }}">
+                    {{ Form::text('transfer_time', 0, ['class' => 'form-control']) }}
+                </div>
+                @if ($errors->has('transfer_time'))
+                    <p class="text-danger">{{ $errors->first('transfer_time') }}</p>
+                @endif
+            @endif
+
             <label for="password" class="control-label">@lang('auth.password')</label>
             <div class="input-group form-group-no-border {{ $errors->has('password') ? 'has-danger' : '' }}">
                 {{ Form::password('password', ['class' => 'form-control']) }}

@@ -57,7 +57,7 @@ class User extends Authenticatable
         'last_pirep_id',
         'flights',
         'flight_time',
-        'transferred_time',
+        'transfer_time',
         'avatar',
         'timezone',
         'state',
@@ -77,13 +77,13 @@ class User extends Authenticatable
     ];
 
     protected $casts = [
-        'flights'          => 'integer',
-        'flight_time'      => 'integer',
-        'transferred_time' => 'integer',
-        'balance'          => 'double',
-        'state'            => 'integer',
-        'status'           => 'integer',
-        'opt_in'           => 'boolean',
+        'flights'       => 'integer',
+        'flight_time'   => 'integer',
+        'transfer_time' => 'integer',
+        'balance'       => 'double',
+        'state'         => 'integer',
+        'status'        => 'integer',
+        'opt_in'        => 'boolean',
     ];
 
     public static $rules = [

@@ -14,4 +14,5 @@ return [
     'updateprofile'   => 'Update Profile',
     'editprofile'     => 'Edit Profile',
     'edityourprofile' => 'Edit Your Profile',
+    'transferhours'   => 'Transferred Hours',
 ];

@@ -45,6 +45,13 @@
                 </div>
             @endif
 
+            @if(setting('pilots.allow_transfer_hours') === true)
+                <div class="social-description">
+                    <h2>{{ \App\Facades\Utils::minutesToHours($user->transfer_time) }}h</h2>
+                    <p>@lang('profile.transferhours')</p>
+                </div>
+            @endif
+
         </div>
     </div>
 </div>

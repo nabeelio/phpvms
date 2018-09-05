@@ -20,4 +20,5 @@ return [
     'deniedmessage'            => 'Your registration was denied. Please contact an administrator.',
     'accountsuspended'         => 'Account Suspended',
     'suspendedmessage'         => 'Your account has been suspended. Please contact an administrator.',
+    'transferhours'            => 'Transfer Hours',
 ];

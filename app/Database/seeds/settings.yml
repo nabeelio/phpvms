@@ -180,3 +180,10 @@
   options: ''
   type: boolean
   description: 'Restrict flights to the user''s airline'
+- key: pilots.allow_transfer_hours
+  name: 'Allow transfer hours'
+  group: pilots
+  value: true
+  options: ''
+  type: boolean
+  description: 'Allow specifying transfer hours on registration page and displayed on profile page'

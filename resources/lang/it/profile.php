@@ -13,4 +13,5 @@ return [
     'updateprofile'   => 'Aggiorna Profilo',
     'editprofile'     => 'Modifica Profilo',
     'edityourprofile' => 'Modifica Il Tuo Profilo',
+    'transferhours'   => 'Ore trasferite',
 ];
