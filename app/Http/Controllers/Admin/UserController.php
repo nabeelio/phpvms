@@ -85,7 +85,7 @@ class UserController extends Controller
     public function create()
     {
         $airlines = $this->airlineRepo->selectBoxList();
-        $airports = $this->airportRepo->selectBoxList(false, setting('pilots.home_hubs_only'));
+        $airports = $this->airportRepo->selectBoxList(false);
 
         return view('admin.users.create', [
             'user'      => null,
@@ -139,7 +139,7 @@ class UserController extends Controller
             ->paginate();
 
         $airlines = $this->airlineRepo->selectBoxList();
-        $airports = $this->airportRepo->selectBoxList(false, setting('pilots.home_hubs_only'));
+        $airports = $this->airportRepo->selectBoxList(false);
 
         return view('admin.users.show', [
             'user'      => $user,
@@ -180,7 +180,7 @@ class UserController extends Controller
             });
 
         $airlines = $this->airlineRepo->selectBoxList();
-        $airports = $this->airportRepo->selectBoxList(false, setting('pilots.home_hubs_only'));
+        $airports = $this->airportRepo->selectBoxList(false);
 
         return view('admin.users.edit', [
             'user'      => $user,
@@ -238,7 +238,7 @@ class UserController extends Controller
         $original_user_state = $user->state;
 
         // Convert transferred hours to minutes
-        $req_data['transfer_time'] = $req_data['transfer_time'] * 60;
+        $req_data['transfer_time'] *= 60;
 
         $user = $this->userRepo->update($req_data, $id);
 

@@ -48,7 +48,12 @@ class AirportRepository extends Repository implements CacheableInterface
         }
 
         foreach ($items as $i) {
-            $retval[$i->icao] = $i->icao.' - '.$i->name;
+            $s = $i->icao.' - '.$i->name;
+            if (!$only_hubs && $i->hub) {
+                $s .= ' (hub)';
+            }
+
+            $retval[$i->icao] = $s;
         }
 
         return $retval;
