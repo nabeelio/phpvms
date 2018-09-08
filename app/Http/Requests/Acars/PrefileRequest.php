@@ -30,6 +30,7 @@ class PrefileRequest extends FormRequest
             'arr_airport_id' => 'required',
             'source_name'    => 'required',
 
+            'alt_airport_id'      => 'nullable',
             'status'              => 'nullable',
             'level'               => 'nullable|numeric',
             'flight_type'         => 'nullable',
