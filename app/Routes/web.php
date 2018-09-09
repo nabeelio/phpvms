@@ -44,7 +44,7 @@ Route::group([
     Route::resource('profile', 'ProfileController');
 });
 
-Auth::routes();
+Auth::routes(['verify' => true]);
 Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 
 require app_path('Routes/admin.php');
