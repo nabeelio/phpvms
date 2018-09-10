@@ -54,10 +54,13 @@ if [ "$TRAVIS" = "true" ]; then
         .sass-cache
         .idea
         .travis
-        .dpl
-        .phpstorm.meta.php
-        _ide_helper.php
         tests
+        _ide_helper.php
+        .dpl
+        .eslintignore
+        .eslintrc
+        .phpstorm.meta.php
+        .styleci.yml
         env.php
         config.php
         Makefile

@@ -1,0 +1,7 @@
+.travis/*
+.idea/*
+.vscode/*
+node_modules/*
+public/*
+gulpfile.js
+webpack.mix.js
