@@ -52,7 +52,7 @@ class RegisterController extends Controller
         $this->userService = $userService;
         $this->middleware('guest');
 
-        $this->redirectTo = config('app.registration_redirect');
+        $this->redirectTo = config('phpvms.registration_redirect');
     }
 
     /**

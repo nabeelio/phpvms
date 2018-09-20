@@ -72,7 +72,7 @@ class DownloadController extends Controller
 
         // Allowed to download? If not, direct to login
         if (!$file->public && !Auth::check()) {
-            return redirect(config('app.login_redirect'));
+            return redirect(config('phpvms.login_redirect'));
         }
 
         $file->download_count++;

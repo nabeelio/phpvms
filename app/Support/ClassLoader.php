@@ -2,8 +2,8 @@
 
 namespace App\Support;
 
+use Composer\Autoload\ClassMapGenerator;
 use Log;
-use Symfony\Component\ClassLoader\ClassMapGenerator;
 
 /**
  * Class find/load related functionality. Is used to find
