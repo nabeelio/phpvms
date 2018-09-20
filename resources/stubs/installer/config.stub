@@ -14,7 +14,7 @@ return [
 
         # Don't forget to change these when live
         'env' => 'local',
-        'debug' => true,
+        'debug' => false,
     ],
 
     # overrides phpvms.php
