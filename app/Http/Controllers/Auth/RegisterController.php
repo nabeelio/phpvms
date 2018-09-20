@@ -86,6 +86,7 @@ class RegisterController extends Controller
             'airline_id'      => 'required',
             'home_airport_id' => 'required',
             'password'        => 'required|min:5|confirmed',
+            'toc_accepted'    => 'accepted',
         ];
 
         if (config('captcha.enabled')) {
@@ -117,7 +118,7 @@ class RegisterController extends Controller
 
         // Convert transfer hours into minutes
         if (isset($opts['transfer_time'])) {
-            $opts['transfer_time'] = $opts['transfer_time'] * 60;
+            $opts['transfer_time'] *= 60;
         }
 
         $user = User::create($opts);
@@ -148,6 +149,7 @@ class RegisterController extends Controller
             'timezone'        => 'required',
             'country'         => 'required',
             'transfer_time'   => 'integer|min:0',
+            'toc_accepted'    => 'accepted',
         ];
 
         if (config('captcha.enabled')) {

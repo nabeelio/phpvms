@@ -95,11 +95,45 @@
                 @endif
             @endif
 
-            @include('auth.toc')
+            <div>
+                @include('auth.toc')
+                <br />
+            </div>
+
+            <table>
+                <tr>
+                    <td style="vertical-align: top; padding: 5px 10px 0 0">
+                        <div class="input-group form-group-no-border">
+                            {{ Form::hidden('toc_accepted', 0, false) }}
+                            {{ Form::checkbox('toc_accepted', 1, null, ['id' => 'toc_accepted']) }}
+                        </div>
+                    </td>
+                    <td style="vertical-align: top;">
+                        <label for="toc_accepted" class="control-label">@lang('auth.tocaccept')</label>
+                        @if ($errors->has('toc_accepted'))
+                            <p class="text-danger">{{ $errors->first('toc_accepted') }}</p>
+                        @endif
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="input-group form-group-no-border">
+                            {{ Form::hidden('opt_in', 0, false) }}
+                            {{ Form::checkbox('opt_in', 1, null) }}
+                        </div>
+                    </td>
+                    <td>
+                        <label for="opt_in" class="control-label">@lang('profile.opt-in-descrip')</label>
+                    </td>
+                </tr>
+            </table>
 
             <div style="width: 100%; text-align: right; padding-top: 20px;">
-                @lang('auth.tocaccept')<br /><br />
-                {{ Form::submit(__('auth.register'), ['class' => 'btn btn-primary']) }}
+                {{ Form::submit(__('auth.register'), [
+                    'id' => 'register_button',
+                    'class' => 'btn btn-primary',
+                    'disabled' => true,
+                   ]) }}
             </div>
 
         </div>
@@ -112,4 +146,16 @@
 
 @section('scripts')
 {!! NoCaptcha::renderJs(config('app.locale')) !!}
+
+<script>
+$('#toc_accepted').click(function () {
+  if ($(this).is(':checked')) {
+    console.log('toc accepted');
+    $('#register_button').removeAttr('disabled');
+  } else {
+    console.log('toc not accepted');
+    $('#register_button').attr('disabled', 'true');
+  }
+});
+</script>
 @endsection

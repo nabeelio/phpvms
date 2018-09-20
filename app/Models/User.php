@@ -62,6 +62,7 @@ class User extends Authenticatable
         'timezone',
         'state',
         'status',
+        'toc_accepted',
         'opt_in',
         'created_at',
         'updated_at',
@@ -83,6 +84,7 @@ class User extends Authenticatable
         'balance'       => 'double',
         'state'         => 'integer',
         'status'        => 'integer',
+        'toc_accepted'  => 'boolean',
         'opt_in'        => 'boolean',
     ];
 
