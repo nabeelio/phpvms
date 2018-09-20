@@ -93,16 +93,16 @@ with the EU Cookie Law https://privacypolicies.com/blog/eu-cookie-law
 <script>
   window.addEventListener("load", function () {
     window.cookieconsent.initialise({
-      "palette": {
-        "popup": {
-          "background": "#edeff5",
-          "text": "#838391"
+      palette: {
+        popup: {
+          background: "#edeff5",
+          text: "#838391"
         },
-        "button": {
+        button: {
           "background": "#067ec1"
         }
       },
-      "position": "top"
+      position: "top",
     })
   });
 </script>
