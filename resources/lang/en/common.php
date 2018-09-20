@@ -45,6 +45,8 @@ return [
     'rightsreserved' => 'All Rights Reserved',
     'active'         => 'Active',
     'inactive'       => 'Inactive',
+    'yes'            => 'Yes',
+    'no'             => 'No',
     'days'           => [
         'mon'   => 'Monday',
         'tues'  => 'Tuesday',

@@ -93,18 +93,34 @@
                     @endif
                 </td>
             </tr>
-            <td>@lang('profile.avatar')</td>
-            <td>
-                <div class="input-group form-group-no-border{{ $errors->has('avatar') ? ' has-danger' : '' }}">
-                    {{ Form::file('avatar', null) }}
-                </div>
-            <p class="small">@lang('profile.avatarresize', ['width' => config('phpvms.avatar.width'), 'height' => config('phpvms.avatar.height')])</p>
-                @if ($errors->has('avatar'))
-                    <p class="text-danger">{{ $errors->first('avatar') }}</p>
-                @endif
-            </td>
+            <tr>
+                <td>@lang('profile.avatar')</td>
+                <td>
+                    <div class="input-group form-group-no-border{{ $errors->has('avatar') ? ' has-danger' : '' }}">
+                        {{ Form::file('avatar', null) }}
+                    </div>
+                    <p class="small">@lang('profile.avatarresize', [
+                        'width' => config('phpvms.avatar.width'),
+                        'height' => config('phpvms.avatar.height')])
+                    </p>
+                    @if ($errors->has('avatar'))
+                        <p class="text-danger">{{ $errors->first('avatar') }}</p>
+                    @endif
+                </td>
+            </tr>
+            <tr>
+                <td>@lang('profile.opt-in')</td>
+                <td>
+                    <div class="input-group form-group-no-border">
+                        {{ Form::hidden('opt_in', 0, false) }}
+                        {{ Form::checkbox('opt_in', 1, null) }}
+                    </div>
+                    <p class="small">@lang('profile.opt-in-descrip')
+                    </p>
+                </td>
+            </tr>
 
-        </table>
+       </table>
 
         <div style="width: 100%; text-align: right; padding-top: 20px;">
             {{ Form::submit(__('profile.updateprofile'), ['class' => 'btn btn-primary']) }}

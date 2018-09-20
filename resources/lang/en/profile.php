@@ -15,4 +15,6 @@ return [
     'editprofile'     => 'Edit Profile',
     'edityourprofile' => 'Edit Your Profile',
     'transferhours'   => 'Transferred Hours',
+    'opt-in'          => 'Opt-In',
+    'opt-in-descrip'  => 'Yes, include me on non-administrative emails',
 ];

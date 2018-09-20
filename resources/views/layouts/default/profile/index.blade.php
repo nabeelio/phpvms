@@ -85,6 +85,10 @@
                     <td>@lang('common.timezone')</td>
                     <td>{{ $user->timezone }}</td>
                 </tr>
+                <tr>
+                    <td>@lang('profile.opt-in')</td>
+                    <td>{{ $user->opt_in ? __('common.yes') : __('common.no') }}</td>
+                </tr>
             </table>
         </div>
     </div>

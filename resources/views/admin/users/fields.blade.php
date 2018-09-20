@@ -111,6 +111,10 @@
                 <td>Last Login</td>
                 <td>{{ show_datetime($user->updated_at) }}</td>
             </tr>
+            <tr>
+                <td>@lang('profile.opt-in')</td>
+                <td>{{ $user->opt_in ? __('common.yes') : __('common.no') }}</td>
+            </tr>
         </table>
     </div>
 </div>
