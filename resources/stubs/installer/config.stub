@@ -103,5 +103,4 @@ return [
         'default' => 'file',
         'lifetime' => 60 * 24,  # 24 hours
     ],
-
 ];

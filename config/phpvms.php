@@ -16,6 +16,16 @@ return [
     'installed' => env('PHPVMS_INSTALLED', false),
 
     /*
+     * Where to redirect after logging in
+     */
+    'login_redirect'        => '/dashboard',
+
+    /*
+     * Where to redirect after registration
+     */
+    'registration_redirect' => '/profile',
+
+    /*
      * The ISO "Currency Code" to use, the list is in config/money.php
      *
      * Note, do not change this after you've set it, unless you don't

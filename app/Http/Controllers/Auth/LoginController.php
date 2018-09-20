@@ -23,7 +23,7 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->redirectTo = config('app.login_redirect');
+        $this->redirectTo = config('phpvms.login_redirect');
         $this->middleware('guest', ['except' => 'logout']);
     }
 
