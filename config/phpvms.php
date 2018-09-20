@@ -18,7 +18,7 @@ return [
     /*
      * Where to redirect after logging in
      */
-    'login_redirect'        => '/dashboard',
+    'login_redirect' => '/dashboard',
 
     /*
      * Where to redirect after registration
