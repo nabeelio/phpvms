@@ -69,7 +69,7 @@ class AcarsController extends Controller
      */
     public function index(Request $request)
     {
-        $pireps = $this->acarsRepo->getPositions();
+        $pireps = $this->acarsRepo->getPositions(setting('acars.live_time'));
         $positions = $this->geoSvc->getFeatureForLiveFlights($pireps);
 
         return response(json_encode($positions), 200, [

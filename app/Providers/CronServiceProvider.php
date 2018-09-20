@@ -36,6 +36,7 @@ class CronServiceProvider extends ServiceProvider
 
         CronHourly::class => [
             \App\Cron\Hourly\RemoveExpiredBids::class,
+            \App\Cron\Hourly\RemoveExpiredLiveFlights::class,
         ],
     ];
 }

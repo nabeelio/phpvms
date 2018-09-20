@@ -13,7 +13,7 @@ class CronHourly
     use Dispatchable, SerializesModels;
 
     /**
-     * CronNightly constructor.
+     * CronHourly constructor.
      */
     public function __construct()
     {
