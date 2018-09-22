@@ -11,6 +11,7 @@ use App\Models\Enums\AircraftStatus;
 use App\Models\Expense;
 use App\Models\Subfleet;
 use App\Repositories\AircraftRepository;
+use App\Repositories\AirportRepository;
 use App\Services\ExportService;
 use App\Services\ImportService;
 use Flash;
@@ -24,19 +25,23 @@ use Storage;
 class AircraftController extends Controller
 {
     private $aircraftRepo;
+    private $airportRepo;
     private $importSvc;
 
     /**
      * AircraftController constructor.
      *
+     * @param AirportRepository  $airportRepo
      * @param AircraftRepository $aircraftRepo
      * @param ImportService      $importSvc
      */
     public function __construct(
+        AirportRepository $airportRepo,
         AircraftRepository $aircraftRepo,
         ImportService $importSvc
     ) {
         $this->aircraftRepo = $aircraftRepo;
+        $this->airportRepo = $airportRepo;
         $this->importSvc = $importSvc;
     }
 
@@ -75,6 +80,7 @@ class AircraftController extends Controller
     public function create(Request $request)
     {
         return view('admin.aircraft.create', [
+            'airports' => $this->airportRepo->selectBoxList(),
             'subfleets'   => Subfleet::all()->pluck('name', 'id'),
             'statuses'    => AircraftStatus::select(true),
             'subfleet_id' => $request->query('subfleet'),
@@ -133,9 +139,10 @@ class AircraftController extends Controller
         }
 
         return view('admin.aircraft.edit', [
+            'aircraft'  => $aircraft,
+            'airports' => $this->airportRepo->selectBoxList(),
             'subfleets' => Subfleet::all()->pluck('name', 'id'),
             'statuses'  => AircraftStatus::select(true),
-            'aircraft'  => $aircraft,
         ]);
     }
 
