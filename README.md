@@ -32,4 +32,4 @@ The latest documentation, with installation instructions is available
 1. Upload to your server
 2. Visit the site, and follow the link to the installer
 
-[View installation details](http://docs.phpvms.net/basics/installation)
+[View installation details](http://docs.phpvms.net/setup/installation)
