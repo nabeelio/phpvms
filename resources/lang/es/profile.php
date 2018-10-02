@@ -14,6 +14,6 @@ return [
     'updateprofile'   => 'Actualizar perfil',
     'editprofile'     => 'Editar perfil',
     'edityourprofile' => 'Editar tu perfil',
-    'opt-in'          => 'Optar En',
+    'opt-in'          => 'Inscribirse',
     'opt-in-descrip'  => 'Sí, incluirme en correos electrónicos no administrativos',
 ];
