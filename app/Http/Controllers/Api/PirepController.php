@@ -366,6 +366,8 @@ class PirepController extends Controller
             $this->pirepSvc->saveRoute($pirep);
         }
 
+        $this->pirepSvc->submit($pirep);
+
         return new PirepResource($pirep);
     }
 
