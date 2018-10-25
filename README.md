@@ -25,11 +25,11 @@ The latest documentation, with installation instructions is available
 - Database:
   - MySQL 5.5+ (or MySQL variant, including MariaDB and Percona)
 
-[View more details on requirements](http://docs.phpvms.net/basics/requirements)
+[View more details on requirements](http://docs.phpvms.net/setup/requirements)
 
 ## Installer
 
 1. Upload to your server
 2. Visit the site, and follow the link to the installer
 
-[View installation details](http://docs.phpvms.net/basics/installation)
+[View installation details](http://docs.phpvms.net/setup/installation)
