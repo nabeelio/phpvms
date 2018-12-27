@@ -33,6 +33,7 @@ class Acars extends Model
     public $incrementing = false;
 
     public $fillable = [
+        'id',
         'pirep_id',
         'type',
         'nav_type',
