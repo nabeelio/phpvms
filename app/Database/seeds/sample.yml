@@ -483,7 +483,6 @@ pireps:
     level: '320'
     distance: '249.63'
     planned_distance: '273.09'
-    block_time: null
     flight_time: '0'
     planned_flight_time: '0'
     zfw: null
