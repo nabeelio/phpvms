@@ -29,7 +29,10 @@ class AwardService extends Service
         foreach (Module::all() as $module) {
             $path = $module->getExtraPath('Awards');
             $classes = ClassLoader::getClassesInPath($path);
-            $awards = array_merge($awards, $classes);
+
+            foreach ($classes as $class) {
+                $awards[] = $class;
+            }
         }
 
         foreach ($awards as $award) {
