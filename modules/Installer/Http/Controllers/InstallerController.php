@@ -7,6 +7,7 @@ use App\Interfaces\Controller;
 use App\Models\User;
 use App\Repositories\AirlineRepository;
 use App\Services\AnalyticsService;
+use App\Services\Installer\MigrationService;
 use App\Services\UserService;
 use App\Support\Countries;
 use Illuminate\Database\QueryException;
@@ -16,7 +17,6 @@ use Illuminate\Support\Facades\Validator;
 use Log;
 use Modules\Installer\Services\ConfigService;
 use Modules\Installer\Services\DatabaseService;
-use Modules\Installer\Services\MigrationService;
 use Modules\Installer\Services\RequirementsService;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 

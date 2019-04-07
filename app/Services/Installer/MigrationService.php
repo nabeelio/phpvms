@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Installer\Services;
+namespace App\Services\Installer;
 
 use App\Interfaces\Service;
 use App\Models\Setting;
@@ -26,14 +26,18 @@ class MigrationService extends Service
     }
 
     /**
-     * Update all of the settings and sync them with the settings.yml file
+     * Syncronize all of the seed files, run this after the
      */
-    public function updateAllSettings(): void
+    public function syncAllSeeds(): void
     {
+        $this->syncAllSettings();
+    }
+
+    public function syncAllSettings(): void {
         $data = file_get_contents(database_path('/seeds/settings.yml'));
         $yml = Yaml::parse($data);
         foreach ($yml as $setting) {
-            if ($setting['key'] === '') {
+            if (\trim($setting['key']) === '') {
                 continue;
             }
 

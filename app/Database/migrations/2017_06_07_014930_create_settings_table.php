@@ -1,6 +1,7 @@
 <?php
 
 use App\Interfaces\Migration;
+use App\Services\Installer\MigrationService;
 use Illuminate\Database\Schema\Blueprint;
 
 class CreateSettingsTable extends Migration
@@ -9,7 +10,7 @@ class CreateSettingsTable extends Migration
 
     public function __construct()
     {
-        $this->migrationSvc = new \Modules\Installer\Services\MigrationService();
+        $this->migrationSvc = new MigrationService();
     }
 
     /**
@@ -37,7 +38,7 @@ class CreateSettingsTable extends Migration
             $table->timestamps();
         });
 
-        $this->migrationSvc->updateAllSettings();
+        $this->migrationSvc->syncAllSettings();
     }
 
     /**
