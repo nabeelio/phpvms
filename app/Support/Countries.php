@@ -2,6 +2,8 @@
 
 namespace App\Support;
 
+use League\ISO3166\ISO3166;
+
 /**
  * Class Countries
  */
@@ -14,8 +16,8 @@ class Countries
      */
     public static function getSelectList()
     {
-        $countries = collect((new \League\ISO3166\ISO3166())->all())
-            ->mapWithKeys(function ($item, $key) {
+        $countries = collect((new ISO3166())->all())
+            ->mapWithKeys(static function ($item, $key) {
                 return [strtolower($item['alpha2']) => $item['name']];
             });
 
