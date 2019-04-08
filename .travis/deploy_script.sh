@@ -51,6 +51,7 @@ if [ "$TRAVIS" = "true" ]; then
     # Leftover individual files to delete
     declare -a remove_files=(
         .git
+        .github
         .sass-cache
         .idea
         .travis
