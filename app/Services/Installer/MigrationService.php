@@ -9,10 +9,6 @@ use Log;
 use Nwidart\Modules\Facades\Module;
 use Symfony\Component\Yaml\Yaml;
 
-/**
- * Class MigrationsService
- * @package Modules\Installer\Services
- */
 class MigrationService extends Service
 {
     private $counters = [];
@@ -33,7 +29,8 @@ class MigrationService extends Service
         $this->syncAllSettings();
     }
 
-    public function syncAllSettings(): void {
+    public function syncAllSettings(): void
+    {
         $data = file_get_contents(database_path('/seeds/settings.yml'));
         $yml = Yaml::parse($data);
         foreach ($yml as $setting) {
@@ -100,7 +97,7 @@ class MigrationService extends Service
                 ->first();
 
             if ($group === null) {
-                $offset = (int)DB::table('settings')->max('offset');
+                $offset = (int) DB::table('settings')->max('offset');
                 if ($offset === null) {
                     $offset = 0;
                     $start_offset = 1;
@@ -110,7 +107,7 @@ class MigrationService extends Service
                 }
             } else {
                 // Now find the number to start from
-                $start_offset = (int)DB::table('settings')->where('group', $name)->max('order');
+                $start_offset = (int) DB::table('settings')->where('group', $name)->max('order');
                 if ($start_offset === null) {
                     $start_offset = $offset + 1;
                 } else {
@@ -147,17 +144,18 @@ class MigrationService extends Service
     /**
      * Find all of the possible paths that migrations exist.
      * Include looking in all of the modules Database/migrations directories
+     *
      * @return array
      */
     public function getMigrationPaths(): array
     {
         $paths = [
-            'core' => \App::databasePath() . '/migrations'
+            'core' => \App::databasePath().'/migrations'
         ];
 
         $modules = Module::allEnabled();
         foreach ($modules as $module) {
-            $module_path = $module->getPath() . '/Database/migrations';
+            $module_path = $module->getPath().'/Database/migrations';
             if(file_exists($module_path)) {
                 $paths[$module->getName()] = $module_path;
             }
