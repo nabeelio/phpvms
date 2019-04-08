@@ -22,7 +22,8 @@ class MigrationService extends Service
     }
 
     /**
-     * Syncronize all of the seed files, run this after the
+     * Syncronize all of the seed files, run this after the migrations
+     * and on first install.
      */
     public function syncAllSeeds(): void
     {
@@ -150,13 +151,13 @@ class MigrationService extends Service
     public function getMigrationPaths(): array
     {
         $paths = [
-            'core' => \App::databasePath().'/migrations'
+            'core' => \App::databasePath().'/migrations',
         ];
 
         $modules = Module::allEnabled();
         foreach ($modules as $module) {
             $module_path = $module->getPath().'/Database/migrations';
-            if(file_exists($module_path)) {
+            if (file_exists($module_path)) {
                 $paths[$module->getName()] = $module_path;
             }
         }
