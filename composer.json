@@ -13,6 +13,7 @@
         "ext-mbstring": "*",
         "ext-pdo": "*",
         "composer/composer": "1.8.x",
+        "composer/semver": "1.4.x",
         "laravel/framework": "5.7.x",
         "laravelcollective/html": "5.7.x",
         "prettus/l5-repository": "2.6.x",
@@ -28,7 +29,6 @@
         "spatie/laravel-pjax": "1.3.x",
         "league/geotools": "0.8.x",
         "fzaninotto/faker": "^1.8",
-        "composer/semver": "1.4.x",
         "hashids/hashids": "2.0.x",
         "jackiedo/timezonelist": "5.x",
         "tivie/php-os-detector": "1.1.x",
@@ -49,7 +49,7 @@
         "waavi/sanitizer": "1.0.x"
     },
     "require-dev": {
-        "phpunit/phpunit": "7.4.x",
+        "phpunit/phpunit": "7.3.x",
         "barryvdh/laravel-ide-helper": "^2.0",
         "barryvdh/laravel-debugbar": "^3.0",
         "mockery/mockery": "0.9.*",
