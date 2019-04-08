@@ -81,7 +81,10 @@
     },
      "extra": {
          "installer-paths": {
-             "modules/{$name}/": ["type:phpvms-plugin"]
+             "modules/{$name}/": [
+                 "type:laravel-library",
+                 "type:phpvms-plugin"
+             ]
          }
     },
     "scripts": {
