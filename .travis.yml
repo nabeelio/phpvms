@@ -1,10 +1,7 @@
 language: php
 php:
-- '7.1'
 - '7.2'
 - '7.3'
-- '7.4'
-#- nightly
 
 cache:
   directories:
@@ -16,6 +13,8 @@ services:
 
 before_script:
   - cp .travis/env.travis.php env.php
+
+install:
   - composer install --dev --no-interaction --verbose
 
 script:
@@ -31,6 +30,7 @@ jobs:
   include:
     - stage: package
       script: skip
+      if: branch IN (master, dev)
       before_deploy:
         - curl -sL https://raw.githubusercontent.com/travis-ci/artifacts/master/install | bash
       deploy:
@@ -38,7 +38,6 @@ jobs:
           skip_cleanup: true
           script: ./.travis/deploy_script.sh
           on:
-            all_branches: true
             php: '7.2'
     - stage: release
       script: skip
