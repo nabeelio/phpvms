@@ -48,6 +48,7 @@ jobs:
           skip_cleanup: true
           script: ./.travis/deploy_script.sh
           on:
+            all_branches: true
             php: '7.2'
 
     # RELEASE STAGE
