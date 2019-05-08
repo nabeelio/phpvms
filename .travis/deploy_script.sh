@@ -90,6 +90,8 @@ if [ "$TRAVIS" = "true" ]; then
     find storage/framework/views -mindepth 1 -not -name '.gitignore' -print0 -exec rm -rf {} +
     find storage/logs -mindepth 1 -not -name '.gitignore' -print0 -exec rm -rf {} +
 
+    # Regenerate the autoloader and classes
+    composer dump-autoload
     make clean
 
     echo "Creating Tarball"
