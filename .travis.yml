@@ -1,3 +1,7 @@
+#
+# Travis CI config file
+#
+
 language: php
 php:
   - '7.2'
@@ -10,7 +14,8 @@ matrix:
   fast_finish: true
 
 cache:
-  # Cache lives for 10 minutes. Default of 3 might not be long enough for all the runs
+  # Cache lives for 10 min
+  # Default of 3m might not be long enough for all the runs
   timeout: 600
   directories:
   - "$HOME/.composer/cache"
@@ -41,6 +46,7 @@ jobs:
       script: skip
       before_deploy:
         - curl -sL https://raw.githubusercontent.com/travis-ci/artifacts/6b10798/install | bash
+
       # Configure the conditional deployment
       # https://docs.travis-ci.com/user/deployment/#examples-of-conditional-deployment
       deploy:
@@ -49,6 +55,7 @@ jobs:
           script: ./.travis/deploy_script.sh
           on:
             all_branches: true
+            repo: nabeelio/phpvms
             php: '7.2'
 
     # RELEASE STAGE
