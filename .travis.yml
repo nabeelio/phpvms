@@ -1,7 +1,13 @@
 language: php
 php:
-- '7.2'
-- '7.3'
+  - '7.2'
+  - '7.3'
+
+matrix:
+  include:
+    - php: 7.2
+    - php: 7.3
+  fast_finish: true
 
 cache:
   directories:
@@ -18,13 +24,13 @@ install:
   - composer install --dev --no-interaction --verbose
 
 script:
-- php artisan database:create --reset
-- php artisan migrate:refresh --seed
-- cp .travis/phpunit.travis.xml phpunit.xml
-- vendor/bin/phpunit --debug --verbose
+  - php artisan database:create --reset
+  - php artisan migrate:refresh --seed
+  - cp .travis/phpunit.travis.xml phpunit.xml
+  - vendor/bin/phpunit --debug --verbose
 
 after_failure:
-- cat storage/logs/*.log
+  - cat storage/logs/*.log
 
 jobs:
   include:
