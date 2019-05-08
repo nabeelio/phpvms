@@ -5,11 +5,13 @@ php:
 
 matrix:
   include:
-    - php: 7.2
-    - php: 7.3
+    - php: '7.2'
+    - php: '7.3'
   fast_finish: true
 
 cache:
+  # Cache lives for 10 minutes. Default of 3 might not be long enough for all the runs
+  timeout: 600
   directories:
   - "$HOME/.composer/cache"
   - "$HOME/.npm"
@@ -34,6 +36,7 @@ after_failure:
 
 jobs:
   include:
+    # Just packages up a release
     - stage: package
       script: skip
       before_deploy:
@@ -46,6 +49,11 @@ jobs:
           script: ./.travis/deploy_script.sh
           on:
             php: '7.2'
+
+    # RELEASE STAGE
+    # Only runs when there's a tag applied to this release (tag should be the version)
+    # This uses Github Releases and posts it there (provider: releases)
+    # https://docs.travis-ci.com/user/deployment/releases
     - stage: release
       script: skip
       before_deploy:
