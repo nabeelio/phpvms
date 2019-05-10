@@ -342,6 +342,44 @@ class FlightTest extends TestCase
         $this->assertEquals($flight->id, $body['data'][0]['id']);
     }
 
+    public function testFlightSearchApiDistance()
+    {
+        $total_flights = 10;
+        $this->user = factory(App\Models\User::class)->create();
+        $flights = factory(App\Models\Flight::class, $total_flights)->create([
+            'airline_id' => $this->user->airline_id,
+        ]);
+
+        // Max distance generated in factory is 1000, so set a random flight
+        // and try to find it again through the search
+
+        $flight = $flights->random();
+        $flight->distance = 1500;
+        $flight->save();
+
+        $distance_gt = 1000;
+        $distance_lt = 1600;
+
+        // look for all of the flights now less than the "factory default" of 1000
+        $query = 'dlt=1000&ignore_restrictions=1';
+        $req = $this->get('/api/flights/search?'.$query);
+        $body = $req->json();
+        $this->assertCount($total_flights - 1, $body['data']);
+
+        // Try using greater than
+        $query = 'dgt='.$distance_gt.'&ignore_restrictions=1';
+        $req = $this->get('/api/flights/search?'.$query);
+        $body = $req->json();
+        $this->assertCount(1, $body['data']);
+        $this->assertEquals($flight->id, $body['data'][0]['id']);
+
+        $query = 'dgt='.$distance_gt.'&dlt='.$distance_lt.'&ignore_restrictions=1';
+        $req = $this->get('/api/flights/search?'.$query);
+        $body = $req->json();
+        $this->assertCount(1, $body['data']);
+        $this->assertEquals($flight->id, $body['data'][0]['id']);
+    }
+
     public function testAddSubfleet()
     {
         $subfleet = factory(App\Models\Subfleet::class)->create();

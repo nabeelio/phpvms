@@ -13,6 +13,7 @@ use Flash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Log;
+use Prettus\Repository\Criteria\RequestCriteria;
 use Prettus\Repository\Exceptions\RepositoryException;
 
 /**
@@ -68,6 +69,7 @@ class FlightController extends Controller
 
         try {
             $this->flightRepo->pushCriteria(new WhereCriteria($request, $where));
+            $this->flightRepo->pushCriteria(new RequestCriteria($request));
         } catch (RepositoryException $e) {
             Log::emergency($e);
         }

@@ -103,6 +103,16 @@ class FlightRepository extends Repository implements CacheableInterface
             $where['arr_airport_id'] = $request->arr_icao;
         }
 
+        // Distance, greater than
+        if ($request->filled('dgt')) {
+            $where[] = ['distance', '>=', $request->dgt];
+        }
+
+        // Distance, less than
+        if ($request->filled('dlt')) {
+            $where[] = ['distance', '<', $request->dlt];
+        }
+
         $this->pushCriteria(new WhereCriteria($request, $where));
 
         return $this;
