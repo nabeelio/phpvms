@@ -1,7 +1,7 @@
 <?php
 
 /**
- * phpVMS
+ * phpVMS (root folder)
  */
 $path_to_phpvms_folder = __DIR__;
 
