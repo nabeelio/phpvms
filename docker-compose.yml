@@ -27,13 +27,12 @@ services:
   mysql:
     image: mysql:5.7.26
     environment:
-      - MYSQL_DATABASE=phpvms
-      - MYSQL_ROOT_PASSWORD=
-      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+      MYSQL_DATABASE: phpvms
+      MYSQL_USER: phpvms
+      MYSQL_PASSWORD: phpvms
+      MYSQL_ROOT_PASSWORD:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
     volumes:
-      - mysql-data:/var/lib/mysql
+      - ./docker/data/mysql:/var/lib/mysql
     ports:
-      - 3306
-
-volumes:
-  mysql-data:
+      - 3306:3306
