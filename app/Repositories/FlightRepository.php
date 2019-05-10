@@ -18,15 +18,16 @@ class FlightRepository extends Repository implements CacheableInterface
 
     protected $fieldSearchable = [
         'arr_airport_id',
+        'distance',
         'dpt_airport_id',
         'flight_number' => 'like',
-        'flight_code'   => 'like',
-        'flight_leg'    => 'like',
+        'route_code'    => 'like',
+        'route_leg'     => 'like',
         'route'         => 'like',
         'notes'         => 'like',
     ];
 
-    public function model()
+    public function model(): string
     {
         return Flight::class;
     }
@@ -70,7 +71,7 @@ class FlightRepository extends Repository implements CacheableInterface
      *
      * @return $this
      */
-    public function searchCriteria(Request $request, bool $only_active = true)
+    public function searchCriteria(Request $request, bool $only_active = true): self
     {
         $where = [];
 
