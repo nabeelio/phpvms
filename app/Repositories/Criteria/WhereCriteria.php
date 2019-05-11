@@ -18,6 +18,12 @@ class WhereCriteria implements CriteriaInterface
     protected $request;
     protected $where;
 
+    /**
+     * Create a new Where search.
+     *
+     * @param $request
+     * @param $where
+     */
     public function __construct($request, $where)
     {
         $this->request = $request;

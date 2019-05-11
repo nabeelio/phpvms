@@ -55,6 +55,7 @@ if [ "$TRAVIS" = "true" ]; then
         .sass-cache
         .idea
         .travis
+        docker
         tests
         _ide_helper.php
         .dpl
@@ -64,6 +65,7 @@ if [ "$TRAVIS" = "true" ]; then
         .styleci.yml
         env.php
         config.php
+        docker-compose.yml
         Makefile
         phpunit.xml
         phpvms.iml

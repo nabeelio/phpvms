@@ -52,7 +52,7 @@ update: build
 	@echo "Done!"
 
 .PHONY: reset
-reset: cleanapp/Models/Traits/JournalTrait.php
+reset: clean
 	@php $(COMPOSER) dump-autoload
 	@make reload-db
 

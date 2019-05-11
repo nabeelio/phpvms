@@ -1,0 +1,48 @@
+---
+version: '3'
+
+services:
+  app:
+    build:
+      context: ./docker/php
+    environment:
+      DB_HOST: mysql
+    volumes:
+      - ./:/var/www
+      - ./docker/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
+    depends_on:
+      - mysql
+
+  nginx:
+    image: nginx:1.13.8
+    command: /bin/bash -c "exec nginx -g 'daemon off;'"
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - 80:80
+    depends_on:
+      - app
+
+  mysql:
+    image: mysql:5.7.26
+    environment:
+      MYSQL_DATABASE: phpvms
+      MYSQL_USER: phpvms
+      MYSQL_PASSWORD: phpvms
+      MYSQL_ROOT_PASSWORD:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+    volumes:
+      - ./docker/data/mysql:/var/lib/mysql
+    ports:
+      - 3306:3306
+
+  # Use this to tail the logs so it's just all in a single window
+  logs:
+      image: busybox
+      command: tail -f -F -n 0 /var/www/storage/logs/laravel.log
+      restart: always
+      volumes:
+        - ./storage:/var/www/storage
+      depends_on:
+        - app

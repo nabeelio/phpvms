@@ -1,5 +1,8 @@
 <?php
 
+use App\Exceptions\SettingNotFound;
+use Illuminate\Contracts\View\Factory;
+
 if (!function_exists('in_mask')) {
     /**
      * Return true/false if a value exists in a mask
@@ -109,7 +112,7 @@ if (!function_exists('skin_view')) {
      * @param array $vars
      * @param array $merge_data
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Factory|\Illuminate\View\View
      */
     function skin_view($template, array $vars = [], array $merge_data = [])
     {
@@ -136,7 +139,7 @@ if (!function_exists('setting')) {
 
         try {
             $value = $settingRepo->retrieve($key);
-        } catch (\App\Exceptions\SettingNotFound $e) {
+        } catch (SettingNotFound $e) {
             return $default;
         }
 
