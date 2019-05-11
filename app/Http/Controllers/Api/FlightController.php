@@ -9,7 +9,6 @@ use App\Repositories\Criteria\WhereCriteria;
 use App\Repositories\FlightRepository;
 use App\Services\FlightService;
 use Auth;
-use DB;
 use Illuminate\Http\Request;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Prettus\Repository\Exceptions\RepositoryException;
