@@ -139,6 +139,8 @@ class FlightController extends Controller
             $where['dpt_airport_id'] = Auth::user()->curr_airport_id;
         }
 
+        $this->flightRepo->resetCriteria();
+
         try {
             $this->flightRepo->pushCriteria(new WhereCriteria($request, $where));
         } catch (RepositoryException $e) {

@@ -111,7 +111,7 @@ class FlightRepository extends Repository implements CacheableInterface
 
         // Distance, less than
         if ($request->filled('dlt')) {
-            $where[] = ['distance', '<', $request->dlt];
+            $where[] = ['distance', '<=', $request->dlt];
         }
 
         $this->pushCriteria(new WhereCriteria($request, $where));

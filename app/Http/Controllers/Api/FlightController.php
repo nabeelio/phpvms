@@ -9,6 +9,7 @@ use App\Repositories\Criteria\WhereCriteria;
 use App\Repositories\FlightRepository;
 use App\Services\FlightService;
 use Auth;
+use DB;
 use Illuminate\Http\Request;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Prettus\Repository\Exceptions\RepositoryException;
@@ -95,7 +96,9 @@ class FlightController extends Controller
         ];
 
         // Allow the option to bypass some of these restrictions for the searches
-        if (!$request->filled('ignore_restrictions') || $request->ignore_restrictions === '0') {
+        if (!$request->filled('ignore_restrictions')
+            || $request->get('ignore_restrictions') === '0'
+        ) {
             if (setting('pilots.restrict_to_company')) {
                 $where['airline_id'] = Auth::user()->airline_id;
             }
@@ -106,6 +109,7 @@ class FlightController extends Controller
         }
 
         try {
+            $this->flightRepo->resetCriteria();
             $this->flightRepo->searchCriteria($request);
             $this->flightRepo->pushCriteria(new WhereCriteria($request, $where));
             $this->flightRepo->pushCriteria(new RequestCriteria($request));

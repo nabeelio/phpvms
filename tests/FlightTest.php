@@ -357,7 +357,7 @@ class FlightTest extends TestCase
         $flight->distance = 1500;
         $flight->save();
 
-        $distance_gt = 1000;
+        $distance_gt = 1100;
         $distance_lt = 1600;
 
         // look for all of the flights now less than the "factory default" of 1000
@@ -370,6 +370,7 @@ class FlightTest extends TestCase
         $query = 'dgt='.$distance_gt.'&ignore_restrictions=1';
         $req = $this->get('/api/flights/search?'.$query);
         $body = $req->json();
+
         $this->assertCount(1, $body['data']);
         $this->assertEquals($flight->id, $body['data'][0]['id']);
 

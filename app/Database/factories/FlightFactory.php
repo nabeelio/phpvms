@@ -35,7 +35,7 @@ $factory->define(App\Models\Flight::class, function (Faker $faker) {
         'start_date'  => null,
         'end_date'    => null,
         'created_at'  => $faker->dateTimeBetween('-1 week', 'now'),
-        'updated_at'  => function (array $flight) {
+        'updated_at'  => static function (array $flight) {
             return $flight['created_at'];
         },
     ];
