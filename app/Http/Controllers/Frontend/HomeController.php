@@ -19,7 +19,6 @@ class HomeController extends Controller
     {
         try {
             $users = User::orderBy('created_at', 'desc')->take(4)->get();
-            debug($users);
         } catch (\PDOException $e) {
             Log::emergency($e);
             return view('system/errors/database_error', [
