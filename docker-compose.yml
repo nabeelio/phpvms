@@ -43,6 +43,6 @@ services:
       command: tail -f -F -n 0 /var/www/storage/logs/laravel.log
       restart: always
       volumes:
-        - ./:/var/www
+        - ./storage:/var/www/storage
       depends_on:
         - app
