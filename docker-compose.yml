@@ -40,7 +40,7 @@ services:
   # Use this to tail the logs so it's just all in a single window
   logs:
       image: busybox
-      command: tail -f /var/www/storage/logs/laravel.log
+      command: tail -f -F -n 0 /var/www/storage/logs/laravel.log
       restart: always
       volumes:
         - ./:/var/www
