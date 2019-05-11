@@ -29,6 +29,11 @@ class HomeController extends Controller
             return view('system/errors/not_installed');
         }
 
+        // No users
+        if (!$users) {
+            return view('system/errors/not_installed');
+        }
+
         return view('home', [
             'users' => $users,
         ]);
