@@ -419,7 +419,8 @@ class Importer
                 ['icao'        => $row->icao,
                  'subfleet_id' => $subfleet->id,
                  'active'      => $row->enabled,
-                ]);
+                ]
+            );
 
             $this->addMapping('aircraft', $row->id, $aircraft->id);
 

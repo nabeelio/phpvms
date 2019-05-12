@@ -306,7 +306,8 @@ class GeoService extends Service
                 $flight->dpt_airport->icao,
                 $flight->arr_airport->icao,
                 [$flight->dpt_airport->lat, $flight->dpt_airport->lon],
-                $flight->route);
+                $flight->route
+            );
 
             // lat, lon needs to be reversed for GeoJSON
             foreach ($all_route_points as $point) {

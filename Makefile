@@ -68,6 +68,10 @@ test:
 	#php artisan database:create --reset
 	vendor/bin/phpunit --debug --verbose
 
+.PHONY: phpcs
+phpcs:
+	@vendor/bin/phpcs -s --standard=phpcs.xml --colors
+
 .PHONY:
 phpstan:
 	vendor/bin/phpstan analyse -c phpstan.neon -v --level 2 app
