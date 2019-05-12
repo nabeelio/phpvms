@@ -61,8 +61,9 @@ if [ "$TRAVIS" = "true" ]; then
         .dpl
         .eslintignore
         .eslintrc
-        .phpstorm.meta.php
+        .php_cs
         .php_cs.cache
+        .phpstorm.meta.php
         .styleci.yml
         env.php
         config.php
