@@ -276,23 +276,28 @@ class PirepService extends Service
         if ($pirep->state === PirepState::PENDING) {
             if ($new_state === PirepState::ACCEPTED) {
                 return $this->accept($pirep);
-            } elseif ($new_state === PirepState::REJECTED) {
+            }
+
+            if ($new_state === PirepState::REJECTED) {
                 return $this->reject($pirep);
             }
+
             return $pirep;
-        } /*
+        }
+
+        /*
          * Move from a ACCEPTED to REJECTED status
          */
-        elseif ($pirep->state === PirepState::ACCEPTED) {
+        if ($pirep->state === PirepState::ACCEPTED) {
             $pirep = $this->reject($pirep);
-
             return $pirep;
-        } /*
+        }
+
+        /*
          * Move from REJECTED to ACCEPTED
          */
-        elseif ($pirep->state === PirepState::REJECTED) {
+        if ($pirep->state === PirepState::REJECTED) {
             $pirep = $this->accept($pirep);
-
             return $pirep;
         }
 

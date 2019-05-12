@@ -683,14 +683,22 @@ class Importer
         // Decide which state they will be in accordance with v7
         if ($state === $phpvms_classic_states['ACTIVE']) {
             return UserState::ACTIVE;
-        } elseif ($state === $phpvms_classic_states['INACTIVE']) {
+        }
+
+        if ($state === $phpvms_classic_states['INACTIVE']) {
             // TODO: Make an inactive state?
             return UserState::REJECTED;
-        } elseif ($state === $phpvms_classic_states['BANNED']) {
+        }
+
+        if ($state === $phpvms_classic_states['BANNED']) {
             return UserState::SUSPENDED;
-        } elseif ($state === $phpvms_classic_states['ON_LEAVE']) {
+        }
+
+        if ($state === $phpvms_classic_states['ON_LEAVE']) {
             return UserState::ON_LEAVE;
         }
+
         $this->error('Unknown status: '.$state);
+        return UserState::ACTIVE;
     }
 }
