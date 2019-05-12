@@ -30,6 +30,7 @@ class ExportService extends Service
     {
         $writer = Writer::createFromPath($path, 'w+');
         CharsetConverter::addTo($writer, 'utf-8', 'iso-8859-15');
+
         return $writer;
     }
 
@@ -39,9 +40,9 @@ class ExportService extends Service
      * @param Collection   $collection
      * @param ImportExport $exporter
      *
+     * @return string
      * @throws \League\Csv\CannotInsertRecord
      *
-     * @return string
      */
     protected function runExport(Collection $collection, ImportExport $exporter): string
     {
@@ -71,14 +72,13 @@ class ExportService extends Service
      *
      * @param Collection $aircraft
      *
+     * @return mixed
      * @throws \League\Csv\CannotInsertRecord
      *
-     * @return mixed
      */
     public function exportAircraft($aircraft)
     {
-        $exporter = new AircraftExporter();
-        return $this->runExport($aircraft, $exporter);
+        return $this->runExport($aircraft, new AircraftExporter());
     }
 
     /**
@@ -86,14 +86,13 @@ class ExportService extends Service
      *
      * @param Collection $airports
      *
+     * @return mixed
      * @throws \League\Csv\CannotInsertRecord
      *
-     * @return mixed
      */
     public function exportAirports($airports)
     {
-        $exporter = new AirportExporter();
-        return $this->runExport($airports, $exporter);
+        return $this->runExport($airports, new AirportExporter());
     }
 
     /**
@@ -101,14 +100,13 @@ class ExportService extends Service
      *
      * @param Collection $expenses
      *
+     * @return mixed
      * @throws \League\Csv\CannotInsertRecord
      *
-     * @return mixed
      */
     public function exportExpenses($expenses)
     {
-        $exporter = new ExpenseExporter();
-        return $this->runExport($expenses, $exporter);
+        return $this->runExport($expenses, new ExpenseExporter());
     }
 
     /**
@@ -116,14 +114,13 @@ class ExportService extends Service
      *
      * @param Collection $fares
      *
+     * @return mixed
      * @throws \League\Csv\CannotInsertRecord
      *
-     * @return mixed
      */
     public function exportFares($fares)
     {
-        $exporter = new FareExporter();
-        return $this->runExport($fares, $exporter);
+        return $this->runExport($fares, new FareExporter());
     }
 
     /**
@@ -131,14 +128,13 @@ class ExportService extends Service
      *
      * @param Collection $flights
      *
+     * @return mixed
      * @throws \League\Csv\CannotInsertRecord
      *
-     * @return mixed
      */
     public function exportFlights($flights)
     {
-        $exporter = new FlightExporter();
-        return $this->runExport($flights, $exporter);
+        return $this->runExport($flights, new FlightExporter());
     }
 
     /**
@@ -146,13 +142,12 @@ class ExportService extends Service
      *
      * @param Collection $subfleets
      *
+     * @return mixed
      * @throws \League\Csv\CannotInsertRecord
      *
-     * @return mixed
      */
     public function exportSubfleets($subfleets)
     {
-        $exporter = new SubfleetExporter();
-        return $this->runExport($subfleets, $exporter);
+        return $this->runExport($subfleets, new SubfleetExporter());
     }
 }
