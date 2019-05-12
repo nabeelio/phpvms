@@ -70,7 +70,7 @@ test:
 
 .PHONY: phpcs
 phpcs:
-	@vendor/bin/php-cs-fixer fix --config=.php_cs -v --dry-run --diff
+	@vendor/bin/php-cs-fixer fix --config=.php_cs -v --diff --dry-run
 
 .PHONY:
 phpstan:

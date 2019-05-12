@@ -10,11 +10,30 @@ return PhpCsFixer\Config::create()
     ->setRiskyAllowed(true)
     ->setRules(
         [
-            '@PSR2'        => true,
-            'strict_param' => true,
-            'array_syntax' => ['syntax' => 'short'],
-            'binary_operator_spaces' => [
+            '@PSR2'                             => true,
+            'strict_param'                      => true,
+            'no_php4_constructor'               => true,
+            'no_extra_blank_lines'              => true,
+            'no_superfluous_elseif'             => true,
+            'single_line_comment_style'         => false,
+            'phpdoc_summary'                    => false,
+            'phpdoc_no_empty_return'            => false,
+            'simple_to_complex_string_variable' => true,
+            'array_syntax'                      => [
+                'syntax' => 'short',
+            ],
+            'binary_operator_spaces'            => [
                 'align_double_arrow' => true,
+            ],
+            'blank_line_before_statement'       => [
+                'statements' => [
+                    'declare',
+                    'if',
+                    'for',
+                    'return',
+                    'throw',
+                    'try',
+                ],
             ],
         ]
     )
