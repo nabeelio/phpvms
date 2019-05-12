@@ -9,6 +9,7 @@ use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\ValidationException;
 use Log;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
@@ -134,7 +135,7 @@ class Handler extends ExceptionHandler
      *
      * @return \Illuminate\Http\Response|\Symfony\Component\HttpFoundation\Response
      */
-    protected function renderHttpException(HttpException $e)
+    protected function renderHttpException(HttpExceptionInterface $e)
     {
         $status = $e->getStatusCode();
         view()->replaceNamespace('errors', [
