@@ -12,7 +12,7 @@ class ImporterTest extends TestCase
     private $importSvc;
     private $fareSvc;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->importBaseClass = new \App\Interfaces\ImportExport();

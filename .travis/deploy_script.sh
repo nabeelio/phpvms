@@ -61,12 +61,15 @@ if [ "$TRAVIS" = "true" ]; then
         .dpl
         .eslintignore
         .eslintrc
+        .php_cs
+        .php_cs.cache
         .phpstorm.meta.php
         .styleci.yml
         env.php
         config.php
         docker-compose.yml
         Makefile
+        phpcs.xml
         phpunit.xml
         phpvms.iml
         Procfile

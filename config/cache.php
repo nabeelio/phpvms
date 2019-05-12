@@ -24,8 +24,6 @@ return [
     ],
 
     'stores' => [
-
-        'apc'      => ['driver' => 'apc'],
         'array'    => ['driver' => 'array'],
         'database' => [
             'driver'     => 'database',
@@ -61,6 +59,5 @@ return [
             'driver'     => 'redis',
             'connection' => 'default',
         ],
-
     ],
 ];

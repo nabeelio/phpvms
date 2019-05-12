@@ -229,7 +229,9 @@ class AirportController extends Controller
         if ($request->isMethod('post')) {
             ImportRequest::validate($request);
             $path = Storage::putFileAs(
-                'import', $request->file('csv_file'), 'import_airports.csv'
+                'import',
+                $request->file('csv_file'),
+                'import_airports.csv'
             );
 
             $path = storage_path('app/'.$path);

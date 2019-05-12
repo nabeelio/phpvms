@@ -27,7 +27,27 @@ return [
     | Defines if Laratrust will use Laravel's Cache to cache the roles and permissions.
     |
     */
-    'use_cache' => true,
+    'cache' => [
+        /*
+        |--------------------------------------------------------------------------
+        | Use cache in the package
+        |--------------------------------------------------------------------------
+        |
+        | Defines if Laratrust will use Laravel's Cache to cache the roles and permissions.
+        | NOTE: Currently the database check does not use cache.
+        |
+        */
+        'enabled' => true,
+        /*
+        |--------------------------------------------------------------------------
+        | Time to store in cache Laratrust's roles and permissions.
+        |--------------------------------------------------------------------------
+        |
+        | Determines the time in SECONDS to store Laratrust's roles and permissions in the cache.
+        |
+        */
+        'expiration_time' => 3600,
+    ],
 
     /*
     |--------------------------------------------------------------------------

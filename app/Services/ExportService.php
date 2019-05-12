@@ -30,6 +30,7 @@ class ExportService extends Service
     {
         $writer = Writer::createFromPath($path, 'w+');
         CharsetConverter::addTo($writer, 'utf-8', 'iso-8859-15');
+
         return $writer;
     }
 
@@ -77,8 +78,7 @@ class ExportService extends Service
      */
     public function exportAircraft($aircraft)
     {
-        $exporter = new AircraftExporter();
-        return $this->runExport($aircraft, $exporter);
+        return $this->runExport($aircraft, new AircraftExporter());
     }
 
     /**
@@ -92,8 +92,7 @@ class ExportService extends Service
      */
     public function exportAirports($airports)
     {
-        $exporter = new AirportExporter();
-        return $this->runExport($airports, $exporter);
+        return $this->runExport($airports, new AirportExporter());
     }
 
     /**
@@ -107,8 +106,7 @@ class ExportService extends Service
      */
     public function exportExpenses($expenses)
     {
-        $exporter = new ExpenseExporter();
-        return $this->runExport($expenses, $exporter);
+        return $this->runExport($expenses, new ExpenseExporter());
     }
 
     /**
@@ -122,8 +120,7 @@ class ExportService extends Service
      */
     public function exportFares($fares)
     {
-        $exporter = new FareExporter();
-        return $this->runExport($fares, $exporter);
+        return $this->runExport($fares, new FareExporter());
     }
 
     /**
@@ -137,8 +134,7 @@ class ExportService extends Service
      */
     public function exportFlights($flights)
     {
-        $exporter = new FlightExporter();
-        return $this->runExport($flights, $exporter);
+        return $this->runExport($flights, new FlightExporter());
     }
 
     /**
@@ -152,7 +148,6 @@ class ExportService extends Service
      */
     public function exportSubfleets($subfleets)
     {
-        $exporter = new SubfleetExporter();
-        return $this->runExport($subfleets, $exporter);
+        return $this->runExport($subfleets, new SubfleetExporter());
     }
 }

@@ -229,7 +229,9 @@ class ExpenseController extends Controller
         if ($request->isMethod('post')) {
             ImportRequest::validate($request);
             $path = Storage::putFileAs(
-                'import', $request->file('csv_file'), 'import_expenses.csv'
+                'import',
+                $request->file('csv_file'),
+                'import_expenses.csv'
             );
 
             $path = storage_path('app/'.$path);

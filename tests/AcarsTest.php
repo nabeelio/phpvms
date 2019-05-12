@@ -11,7 +11,7 @@ class AcarsTest extends TestCase
 {
     protected $settingsRepo;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->addData('base');

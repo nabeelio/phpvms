@@ -18,7 +18,9 @@ class BidExists extends HttpException
         parent::__construct(
             409,
             'A bid already exists for this flight',
-            $previous, $headers, $code
+            $previous,
+            $headers,
+            $code
         );
     }
 }

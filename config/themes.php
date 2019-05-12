@@ -10,15 +10,15 @@ return [
     |--------------------------------------------------------------------------
     | Define available themes. Format:
     |
-    | 	'theme-name' => [
-    | 		'extends'	 	=> 'theme-to-extend',  // optional
-    | 		'views-path' 	=> 'path-to-views',    // defaults to: resources/views/theme-name
-    | 		'asset-path' 	=> 'path-to-assets',   // defaults to: public/theme-name
+    |     'theme-name' => [
+    |         'extends'         => 'theme-to-extend',  // optional
+    |         'views-path'     => 'path-to-views',    // defaults to: resources/views/theme-name
+    |         'asset-path'     => 'path-to-assets',   // defaults to: public/theme-name
     |
-    |		// You can add your own custom keys
-    |		// Use Theme::getSetting('key') & Theme::setSetting('key', 'value') to access them
-    | 		'key' 			=> 'value',
-    | 	],
+    |        // You can add your own custom keys
+    |        // Use Theme::getSetting('key') & Theme::setSetting('key', 'value') to access them
+    |         'key'             => 'value',
+    |     ],
     |
     |--------------------------------------------------------------------------
     */
@@ -29,37 +29,37 @@ return [
             'extends' => 'false',
         ],
 
-                // Add your themes here. These settings will override theme.json settings defined for each theme
+        // Add your themes here. These settings will override theme.json settings defined for each theme
 
         /*
         |---------------------------[ Example Structure ]--------------------------
         |
-        |	// Full theme Syntax:
+        |    // Full theme Syntax:
         |
-        |	'example1' => [
-        |		'extends'	 	=> null, 	// doesn't extend any theme
-        |		'views-path' 	=> example, // = resources/views/example_theme
-        |		'asset-path' 	=> example, // = public/example_theme
-        |	],
+        |    'example1' => [
+        |        'extends'         => null,     // doesn't extend any theme
+        |        'views-path'     => example, // = resources/views/example_theme
+        |        'asset-path'     => example, // = public/example_theme
+        |    ],
         |
-        |	// Use all Defaults:
+        |    // Use all Defaults:
         |
-        |	'example2',	// Assets =\public\example2, Views =\resources\views\example2
-        |				// Note that if you use all default values, you can omit declaration completely.
-        |				// i.e. defaults will be used when you call Theme::set('undefined-theme')
+        |    'example2',    // Assets =\public\example2, Views =\resources\views\example2
+        |                // Note that if you use all default values, you can omit declaration completely.
+        |                // i.e. defaults will be used when you call Theme::set('undefined-theme')
         |
         |
-        |	// This theme shares the views with example2 but defines its own assets in \public\example3
+        |    // This theme shares the views with example2 but defines its own assets in \public\example3
         |
-        |	'example3' => [
-        |		'views-path'	=> 'example',
-        |	],
+        |    'example3' => [
+        |        'views-path'    => 'example',
+        |    ],
         |
-        |	// This theme extends example1 and may override SOME views\assets in its own paths
+        |    // This theme extends example1 and may override SOME views\assets in its own paths
         |
-        |	'example4' => [
-        |		'extends'	=> 'example1',
-        |	],
+        |    'example4' => [
+        |        'extends'    => 'example1',
+        |    ],
         |
         |--------------------------------------------------------------------------
         */

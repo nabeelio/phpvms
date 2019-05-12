@@ -4,10 +4,6 @@ use App\Support\Math;
 
 class MathTest extends TestCase
 {
-    public function setUp()
-    {
-    }
-
     /**
      * Test adding/subtracting a percentage
      */

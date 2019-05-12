@@ -40,6 +40,7 @@ A full development environment can be brought up using Docker:
 ```bash
 composer install
 npm install
+docker-compose build
 docker-compose up
 ```
 

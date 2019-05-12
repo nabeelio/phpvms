@@ -22,6 +22,14 @@
         <listener class="NunoMaduro\Collision\Adapters\Phpunit\Listener"/>
     </listeners>
     <php>
+        <env name="APP_ENV" value="test"/>
+        <env name="APP_KEY" value="base64:ve66Z5Kt/zTN3p++0zOPu854PHfZkwJE5VuoFAlzHtI="/>
+        <env name="APP_DEBUG" value="true"/>
+        <env name="APP_LOG_LEVEL" value="debug"/>
+        <env name="DB_CONNECTION" value="memory"/>
+        <env name="CACHE_DRIVER" value="array"/>
+        <env name="SESSION_DRIVER" value="array"/>
+        <env name="QUEUE_DRIVER" value="sync"/>
         <ini name="error_reporting" value="E_ALL"/>
         <ini name="display_errors" value="On"/>
         <ini name="display_startup_errors" value="On"/>

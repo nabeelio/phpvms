@@ -7,22 +7,23 @@ services:
       context: ./docker/php
     environment:
       DB_HOST: mysql
+      REDIS_HOST: redis
     volumes:
       - ./:/var/www
       - ./docker/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
     depends_on:
+      - nginx
       - mysql
+      - redis
 
   nginx:
-    image: nginx:1.13.8
-    command: /bin/bash -c "exec nginx -g 'daemon off;'"
+    image: nginx:1.15.12-alpine
+    command: /bin/sh -c "exec nginx -g 'daemon off;'"
     volumes:
       - ./:/var/www
       - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
     ports:
       - 80:80
-    depends_on:
-      - app
 
   mysql:
     image: mysql:5.7.26
@@ -36,6 +37,9 @@ services:
       - ./docker/data/mysql:/var/lib/mysql
     ports:
       - 3306:3306
+
+  redis:
+    image: redis:5.0.4-alpine
 
   # Use this to tail the logs so it's just all in a single window
   logs:

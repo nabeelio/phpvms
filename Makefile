@@ -68,6 +68,10 @@ test:
 	#php artisan database:create --reset
 	vendor/bin/phpunit --debug --verbose
 
+.PHONY: phpcs
+phpcs:
+	@vendor/bin/php-cs-fixer fix --config=.php_cs -v --diff --dry-run
+
 .PHONY:
 phpstan:
 	vendor/bin/phpstan analyse -c phpstan.neon -v --level 2 app

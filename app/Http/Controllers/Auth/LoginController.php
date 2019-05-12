@@ -59,9 +59,13 @@ class LoginController extends Controller
             // Redirect to one of the error pages
             if ($user->state === UserState::PENDING) {
                 return view('auth.pending');
-            } elseif ($user->state === UserState::REJECTED) {
+            }
+
+            if ($user->state === UserState::REJECTED) {
                 return view('auth.rejected');
-            } elseif ($user->state === UserState::SUSPENDED) {
+            }
+
+            if ($user->state === UserState::SUSPENDED) {
                 return view('auth.suspended');
             }
         }

@@ -36,11 +36,11 @@ class ImportCsv extends Command
         $type = $this->argument('type');
         $file = $this->argument('file');
 
-        if (\in_array($type, ['flight', 'flights'])) {
+        if (\in_array($type, ['flight', 'flights'], true)) {
             $status = $this->importer->importFlights($file);
         } elseif ($type === 'aircraft') {
             $status = $this->importer->importAircraft($file);
-        } elseif (\in_array($type, ['airport', 'airports'])) {
+        } elseif (\in_array($type, ['airport', 'airports'], true)) {
             $status = $this->importer->importAirports($file);
         } elseif ($type === 'subfleet') {
             $status = $this->importer->importSubfleets($file);

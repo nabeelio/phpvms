@@ -113,7 +113,9 @@ class GeoService extends Service
 
             if ($size === 0) {
                 continue;
-            } elseif ($size === 1) {
+            }
+
+            if ($size === 1) {
                 $point = $points[0];
                 Log::debug('name: '.$point->id.' - '.$point->lat.'x'.$point->lon);
                 $coords[] = $point;
@@ -306,7 +308,8 @@ class GeoService extends Service
                 $flight->dpt_airport->icao,
                 $flight->arr_airport->icao,
                 [$flight->dpt_airport->lat, $flight->dpt_airport->lon],
-                $flight->route);
+                $flight->route
+            );
 
             // lat, lon needs to be reversed for GeoJSON
             foreach ($all_route_points as $point) {
