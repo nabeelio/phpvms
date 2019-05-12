@@ -7,7 +7,7 @@ class AwardsTest extends TestCase
     private $awardSvc;
     private $pirepSvc;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->awardSvc = app(\App\Services\AwardService::class);

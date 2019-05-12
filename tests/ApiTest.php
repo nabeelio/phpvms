@@ -9,7 +9,7 @@ use App\Services\FareService;
  */
 class ApiTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->addData('base');

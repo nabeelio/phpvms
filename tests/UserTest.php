@@ -8,7 +8,7 @@ class UserTest extends TestCase
     protected $settingsRepo;
     protected $userSvc;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->userSvc = app(UserService::class);

@@ -19,7 +19,7 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
 
     protected $app;
     protected $baseUrl = 'http://localhost';
-    protected $connectionsToTransact = ['testing'];
+    protected $connectionsToTransact = ['test'];
 
     protected $user;
 
@@ -30,11 +30,16 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
     /**
      * @throws Exception
      */
-    public function setUp()
+    public function setUp() : void
     {
         parent::setUp();
         Artisan::call('database:create', ['--reset' => true]);
         Artisan::call('migrate:refresh', ['--env' => 'unittest']);
+    }
+
+    public function tearDown() : void
+    {
+        parent::tearDown();
     }
 
     /**
