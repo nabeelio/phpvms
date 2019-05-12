@@ -40,9 +40,9 @@ class ExportService extends Service
      * @param Collection   $collection
      * @param ImportExport $exporter
      *
-     * @return string
      * @throws \League\Csv\CannotInsertRecord
      *
+     * @return string
      */
     protected function runExport(Collection $collection, ImportExport $exporter): string
     {
@@ -72,9 +72,9 @@ class ExportService extends Service
      *
      * @param Collection $aircraft
      *
-     * @return mixed
      * @throws \League\Csv\CannotInsertRecord
      *
+     * @return mixed
      */
     public function exportAircraft($aircraft)
     {
@@ -86,9 +86,9 @@ class ExportService extends Service
      *
      * @param Collection $airports
      *
-     * @return mixed
      * @throws \League\Csv\CannotInsertRecord
      *
+     * @return mixed
      */
     public function exportAirports($airports)
     {
@@ -100,9 +100,9 @@ class ExportService extends Service
      *
      * @param Collection $expenses
      *
-     * @return mixed
      * @throws \League\Csv\CannotInsertRecord
      *
+     * @return mixed
      */
     public function exportExpenses($expenses)
     {
@@ -114,9 +114,9 @@ class ExportService extends Service
      *
      * @param Collection $fares
      *
-     * @return mixed
      * @throws \League\Csv\CannotInsertRecord
      *
+     * @return mixed
      */
     public function exportFares($fares)
     {
@@ -128,9 +128,9 @@ class ExportService extends Service
      *
      * @param Collection $flights
      *
-     * @return mixed
      * @throws \League\Csv\CannotInsertRecord
      *
+     * @return mixed
      */
     public function exportFlights($flights)
     {
@@ -142,9 +142,9 @@ class ExportService extends Service
      *
      * @param Collection $subfleets
      *
-     * @return mixed
      * @throws \League\Csv\CannotInsertRecord
      *
+     * @return mixed
      */
     public function exportSubfleets($subfleets)
     {
