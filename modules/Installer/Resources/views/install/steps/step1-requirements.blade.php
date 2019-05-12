@@ -31,7 +31,12 @@
             </tr>
         @endforeach
 
-        <tr><td colspan="2"><h4>directory permissions</h4></td></tr>
+        <tr>
+            <td colspan="2">
+                <h4>directory permissions</h4>
+                <p>Make sure these directories have read and write permissions</p>
+            </td>
+        </tr>
         @foreach($directories as $dir)
             <tr>
                 <td>{{ $dir['dir'] }}</td>
