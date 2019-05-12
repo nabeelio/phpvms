@@ -285,7 +285,8 @@ class FlightController extends Controller
 
         $input['flight_time'] = Time::init(
             $input['minutes'],
-            $input['hours'])->getMinutes();
+            $input['hours']
+        )->getMinutes();
 
         $input['active'] = get_truth_state($input['active']);
 
@@ -355,7 +356,9 @@ class FlightController extends Controller
 
         if ($request->isMethod('post')) {
             $path = Storage::putFileAs(
-                'import', $request->file('csv_file'), 'import_flights.csv'
+                'import',
+                $request->file('csv_file'),
+                'import_flights.csv'
             );
 
             $path = storage_path('app/'.$path);

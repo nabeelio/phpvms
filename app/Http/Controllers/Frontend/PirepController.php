@@ -406,7 +406,8 @@ class PirepController extends Controller
         // Fix the time
         $attrs['flight_time'] = Time::init(
             $attrs['minutes'],
-            $attrs['hours'])->getMinutes();
+            $attrs['hours']
+        )->getMinutes();
 
         $pirep = $this->pirepRepo->update($attrs, $id);
 

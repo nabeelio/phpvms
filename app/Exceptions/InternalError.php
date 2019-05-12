@@ -28,7 +28,8 @@ class InternalError extends ValidationException
         $validator = Validator::make([], []);
         $validator->errors()->add(
             $field ?? static::FIELD,
-            $message ?? static::MESSAGE);
+            $message ?? static::MESSAGE
+        );
 
         parent::__construct($validator);
     }

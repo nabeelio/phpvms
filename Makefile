@@ -70,7 +70,7 @@ test:
 
 .PHONY: phpcs
 phpcs:
-	@vendor/bin/phpcs -s --standard=phpcs.xml --colors
+	@vendor/bin/php-cs-fixer fix --config=.php_cs -v --dry-run --diff
 
 .PHONY:
 phpstan:

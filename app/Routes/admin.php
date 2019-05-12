@@ -76,15 +76,19 @@ Route::group([
     Route::resource('subfleets', 'SubfleetController');
 
     Route::resource('users', 'UserController');
-    Route::get('users/{id}/regen_apikey',
-        'UserController@regen_apikey')->name('users.regen_apikey');
+    Route::get(
+        'users/{id}/regen_apikey',
+        'UserController@regen_apikey'
+    )->name('users.regen_apikey');
 
     // defaults
     Route::get('', ['uses' => 'DashboardController@index']);
     Route::get('/', ['uses' => 'DashboardController@index']);
 
     Route::get('dashboard', ['uses' => 'DashboardController@index', 'name' => 'dashboard']);
-    Route::match(['get', 'post', 'delete'],
-        'dashboard/news', ['uses' => 'DashboardController@news'])
-        ->name('dashboard.news');
+    Route::match(
+        ['get', 'post', 'delete'],
+        'dashboard/news',
+        ['uses' => 'DashboardController@news']
+    )->name('dashboard.news');
 });

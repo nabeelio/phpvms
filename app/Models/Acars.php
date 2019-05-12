@@ -114,7 +114,8 @@ class Acars extends Model
     {
         if ($value instanceof Distance) {
             $this->attributes['distance'] = $value->toUnit(
-                config('phpvms.internal_units.distance'));
+                config('phpvms.internal_units.distance')
+            );
         } else {
             $this->attributes['distance'] = $value;
         }

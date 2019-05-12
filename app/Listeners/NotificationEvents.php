@@ -108,8 +108,10 @@ class NotificationEvents extends Listener
 
         if ($event->old_state === UserState::PENDING) {
             if ($event->user->state === UserState::ACTIVE) {
-                $email = new \App\Mail\UserRegistered($event->user,
-                    'Your registration has been accepted!');
+                $email = new \App\Mail\UserRegistered(
+                    $event->user,
+                    'Your registration has been accepted!'
+                );
             } elseif ($event->user->state === UserState::REJECTED) {
                 $email = new \App\Mail\UserRejected($event->user);
             }

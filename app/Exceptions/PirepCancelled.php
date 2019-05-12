@@ -18,7 +18,9 @@ class PirepCancelled extends HttpException
         parent::__construct(
             400,
             'PIREP has been cancelled, updates are not allowed',
-            $previous, $headers, $code
+            $previous,
+            $headers,
+            $code
         );
     }
 }

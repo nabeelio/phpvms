@@ -304,7 +304,9 @@ class SubfleetController extends Controller
             ImportRequest::validate($request);
 
             $path = Storage::putFileAs(
-                'import', $request->file('csv_file'), 'import_subfleets.csv'
+                'import',
+                $request->file('csv_file'),
+                'import_subfleets.csv'
             );
 
             $path = storage_path('app/'.$path);
