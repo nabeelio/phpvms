@@ -37,7 +37,7 @@ return [
         | NOTE: Currently the database check does not use cache.
         |
         */
-        'enabled'         => true,
+        'enabled' => true,
         /*
         |--------------------------------------------------------------------------
         | Time to store in cache Laratrust's roles and permissions.
