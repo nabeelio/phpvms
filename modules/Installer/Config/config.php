@@ -2,7 +2,7 @@
 
 return [
     'php' => [
-        'version' => '7.1.3'
+        'version' => '7.2'
     ],
 
     'extensions' => [
