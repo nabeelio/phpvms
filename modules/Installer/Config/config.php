@@ -21,6 +21,8 @@ return [
         'public/uploads',
         'storage',
         'storage/app/public',
+        'storage/app/public/avatars',
+        'storage/app/public/uploads',
         'storage/framework',
         'storage/framework/cache',
         'storage/framework/sessions',
