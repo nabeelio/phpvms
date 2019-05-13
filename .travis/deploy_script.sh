@@ -99,10 +99,6 @@ if [ "$TRAVIS" = "true" ]; then
     composer dump-autoload
     make clean
 
-    # Create a blank env.php file and config.php file
-    touch env.php; chmod 775 env.php
-    touch config.php; chmod 775 config.php
-
     echo "Creating Tarball"
     cd /tmp
     tar -czf $TAR_NAME -C $TRAVIS_BUILD_DIR/../ phpvms

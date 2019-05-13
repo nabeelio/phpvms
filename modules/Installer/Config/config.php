@@ -17,8 +17,6 @@ return [
 
     # Make sure these are writable
     'permissions' => [
-        'env.php',
-        'config.php',
         'bootstrap/cache',
         'public/uploads',
         'storage',
