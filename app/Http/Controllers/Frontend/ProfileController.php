@@ -155,7 +155,20 @@ class ProfileController extends Controller
             $avatar = $request->file('avatar');
             $file_name = $user->pilot_id.'.'.$avatar->getClientOriginalExtension();
             $path = "avatars/{$file_name}";
-            Image::make($avatar)->resize(config('phpvms.avatar.width'), config('phpvms.avatar.height'))->save(public_path('uploads/avatars/'.$file_name));
+
+            // Create the avatar, resizing it and keeping the aspect ratio.
+            // https://stackoverflow.com/a/26892028
+            $w = config('phpvms.avatar.width');
+            $h = config('phpvms.avatar.height');
+
+            $canvas = Image::canvas($w, $h);
+            $image = Image::make($avatar)->resize($w, $h, static function ($constraint) {
+                $constraint->aspectRatio();
+            });
+
+            $canvas->insert($image);
+            $canvas->save(public_path('uploads/avatars/'.$file_name));
+
             $req_data['avatar'] = $path;
         }
 
