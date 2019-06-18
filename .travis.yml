@@ -24,12 +24,12 @@ cache:
 services:
 - mysql
 
-before_script:
+install:
+  - composer install --dev --no-interaction --verbose
   - cp .travis/env.travis.php env.php
   - cp .travis/phpunit.travis.xml phpunit.xml
 
-install:
-  - composer install --dev --no-interaction --verbose
+before_script:
   - php artisan database:create --reset
   - php artisan migrate:refresh --seed
 
