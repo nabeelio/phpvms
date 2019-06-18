@@ -66,8 +66,8 @@ class Database
     }
 
     /**
-     * @param   $table
-     * @param   $row
+     * @param $table
+     * @param $row
      *
      * @throws \Exception
      *

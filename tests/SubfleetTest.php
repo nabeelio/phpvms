@@ -1,6 +1,5 @@
 <?php
 
-
 class SubfleetTest extends TestCase
 {
     protected $ac_svc;

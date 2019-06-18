@@ -396,7 +396,7 @@ class PirepController extends Controller
     /**
      * Add a new comment
      *
-     * @param   $id
+     * @param $id
      *
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
@@ -464,7 +464,7 @@ class PirepController extends Controller
     }
 
     /**
-     * @param   $id
+     * @param $id
      *
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException

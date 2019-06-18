@@ -1,6 +1,5 @@
 <?php
 
-
 return [
     'newflightreport'      => 'Nuevo informe de vuelo',
     'editflightreport'     => 'Editar informe de vuelo',

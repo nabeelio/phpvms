@@ -59,7 +59,7 @@ class ImportService extends Service
     }
 
     /**
-     * @param   $csv_file
+     * @param $csv_file
      *
      * @throws ValidationException
      *

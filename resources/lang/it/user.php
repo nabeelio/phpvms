@@ -1,6 +1,5 @@
 <?php
 
-
 return [
     'location' => 'Posizione',
     'state'    => [

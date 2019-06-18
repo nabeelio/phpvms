@@ -1,6 +1,5 @@
 <?php
 
-
 return [
     'welcome' => [
         'title'   => 'Benvenuti!',

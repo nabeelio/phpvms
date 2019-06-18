@@ -1,6 +1,5 @@
 <?php
 
-
 return [
     'dashboard'      => 'Dashboard',
     'administration' => 'Administration',
