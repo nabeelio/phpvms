@@ -1,6 +1,5 @@
 <?php
 
-
 return [
     'status' => [
         'active'   => 'Active',

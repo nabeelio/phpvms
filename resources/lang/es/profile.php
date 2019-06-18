@@ -1,6 +1,5 @@
 <?php
 
-
 return [
     'avatarresize' => 'Este avatar será redimensionado a :width x :height pixeles',
 

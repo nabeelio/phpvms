@@ -1,6 +1,5 @@
 <?php
 
-
 return [
     401 => [
         'title'   => 'Acceso no autorizado',

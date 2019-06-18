@@ -1,6 +1,5 @@
 <?php
 
-
 return [
     'type' => [
         'flight'  => 'Volo',

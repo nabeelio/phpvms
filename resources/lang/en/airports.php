@@ -1,6 +1,5 @@
 <?php
 
-
 return [
     'ident'     => 'Identification',
     'home'      => 'Home Airport',

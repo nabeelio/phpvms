@@ -1,6 +1,5 @@
 <?php
 
-
 return [
     'totalhours'     => 'Total Hours',
     'yourbalance'    => 'Your Balance',

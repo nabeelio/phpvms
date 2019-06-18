@@ -58,8 +58,8 @@ class DatabaseService extends Service
     }
 
     /**
-     * @param   $table
-     * @param   $row
+     * @param $table
+     * @param $row
      *
      * @throws \Exception
      *
