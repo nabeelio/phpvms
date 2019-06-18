@@ -13,7 +13,7 @@
     "@turf/center": "^6.0.1",
     "Leaflet.Geodesic": "git+https://git@github.com/henrythasler/Leaflet.Geodesic.git",
     "animate.css": "~3.6",
-    "axios": "^0.17.1",
+    "axios": "^0.18.1",
     "bootstrap": "~3.4",
     "bootstrap-sass": "^3.4.1",
     "cookieconsent": "^3.1.0",
@@ -30,7 +30,7 @@
     "leaflet-providers": "1.0.*",
     "leaflet-rotatedmarker": "^0.2.0",
     "lodash": ">=4.17.11",
-    "marked": "0.3.9",
+    "marked": ">0.3.18",
     "moment": "^2.24.0",
     "paper-dashboard": "^1.1.0",
     "pe7-icon": "^1.0.4",
@@ -47,7 +47,7 @@
   "devDependencies": {
     "copy-webpack-plugin": "^4.6.0",
     "tailwindcss": "^0.5.3",
-    "webpack-bundle-analyzer": "^2.13.1",
+    "webpack-bundle-analyzer": "^3.3",
     "webpack-dev-server": ">=3.1.11"
   }
 }
