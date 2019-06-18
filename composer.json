@@ -59,6 +59,7 @@
         "bpocallaghan/generators": "5.0.1",
         "codedungeon/phpunit-result-printer": "^0.13.0",
         "filp/whoops": "~2.0",
+        "friendsofphp/php-cs-fixer": "^2.15",
         "mockery/mockery": "0.9.*",
         "nunomaduro/collision": "^2.0",
         "phpunit/phpunit": "7.5.*",

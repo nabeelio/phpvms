@@ -72,9 +72,9 @@ test:
 phpcs:
 	@vendor/bin/php-cs-fixer fix --config=.php_cs -v --diff --dry-run
 
-.PHONY:
-phpstan:
-	vendor/bin/phpstan analyse -c phpstan.neon -v --level 2 app
+#.PHONY: phpstan
+#phpstan:
+#	vendor/bin/phpstan analyse -c phpstan.neon -v --level 2 app
 
 .PHONY: replay-acars
 replay-acars:
