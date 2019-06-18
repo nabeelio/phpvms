@@ -30,11 +30,11 @@ before_script:
 
 install:
   - composer install --dev --no-interaction --verbose
+  - php artisan database:create --reset
+  - php artisan migrate:refresh --seed
 
 script:
   - vendor/bin/php-cs-fixer fix --config=.php_cs -v --dry-run --diff --using-cache=no
-  - php artisan database:create --reset
-  - php artisan migrate:refresh --seed
   - vendor/bin/phpunit --debug --verbose
 
 after_failure:
