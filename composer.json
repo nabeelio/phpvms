@@ -14,6 +14,7 @@
         "ext-pdo": "*",
         "composer/composer": "1.8.*",
         "composer/semver": "1.4.*",
+        "laravel/framework": "5.8.*",
         "akaunting/money": "1.0.*",
         "anhskohbo/no-captcha": "3.0.*",
         "appstract/laravel-opcache": "^2.0",
@@ -28,7 +29,6 @@
         "jmikola/geojson": "1.0.*",
         "joshbrw/laravel-module-installer": "0.1.*",
         "laracasts/flash": "3.0.*",
-        "laravel/framework": "5.8.*",
         "laravel/helpers": "^1.0",
         "laravelcollective/html": "^5.8",
         "league/csv": "9.2.*",
@@ -93,16 +93,9 @@
          }
     },
     "scripts": {
-        "post-install-cmd": [
-            "Illuminate\\Foundation\\ComposerScripts::postInstall"
-        ],
-        "post-update-cmd": [
-            "Illuminate\\Foundation\\ComposerScripts::postUpdate",
-            "php artisan phpvms:composer post-update"
-        ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-            "php artisan package:discover"
+            "@php artisan package:discover --ansi"
         ]
     },
     "config": {
