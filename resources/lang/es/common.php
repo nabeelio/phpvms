@@ -25,6 +25,7 @@ return [
     'aircraft'       => 'Aeronave',
     'airline'        => 'Aerolínea',
     'distance'       => 'Distancía',
+    'fuel'           => 'Combustible',
     'metar'          => 'METAR',
     'hour'           => 'Hora|Horas',
     'minute'         => 'Minuto|Minutos',

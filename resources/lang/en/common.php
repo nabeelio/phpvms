@@ -25,6 +25,7 @@ return [
     'aircraft'       => 'Aircraft',
     'airline'        => 'Airline',
     'distance'       => 'Distance',
+    'fuel'           => 'Fuel',
     'metar'          => 'METAR',
     'hour'           => 'Hour|Hours',
     'minute'         => 'Minute|Minutes',

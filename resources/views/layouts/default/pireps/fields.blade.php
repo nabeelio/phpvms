@@ -211,7 +211,7 @@ flight reports that have been filed. You've been warned!
             </h6>
             <div class="form-container-body">
                 <div class="row">
-                    <div class="col">
+                    <div class="col-4">
                         {{ Form::label('aircraft_id', __('common.aircraft')) }}
                         @if(!empty($pirep) && $pirep->read_only)
                             <p>{{ $pirep->aircraft->name }}</p>
@@ -228,8 +228,28 @@ flight reports that have been filed. You've been warned!
                             <p class="text-danger">{{ $errors->first('aircraft_id') }}</p>
                         @endif
                     </div>
+                    <div class="col-4">
+                        {{ Form::label('fuel_used', __('pireps.fuel_used')) }}
+                        @if(!empty($pirep) && $pirep->read_only)
+                            <p>{{ $pirep->fuel_used }}</p>
+                        @else
+                            <div class="input-group input-group-sm form-group">
+                                {{-- You probably don't want to change this ID if you want the fare select to work --}}
+                                {{ Form::number('fuel_used', null, [
+                                    'class' => 'form-control',
+                                    'min' => '0',
+                                    'readonly' => (!empty($pirep) && $pirep->read_only),
+                                    ]) }}
+                            </div>
+                            <p class="text-danger">{{ $errors->first('fuel_used') }}</p>
+                        @endif
+                    </div>
                 </div>
             </div>
+        </div>
+
+        <div id="fares_container" class="form-container">
+            @include('pireps.fares')
         </div>
 
         <div class="form-container">
@@ -283,9 +303,6 @@ flight reports that have been filed. You've been warned!
             </div>
         </div>
         @endif
-        <div id="fares_container">
-            @include('pireps.fares')
-        </div>
     </div>
 </div>
 <div class="row">

@@ -21,6 +21,7 @@ return [
     'fieldsreadonly'       => 'Once a PIREP has been submitted, certain fields go into read-only mode.',
     'flightinformations'   => 'Flight Information',
     'flightident'          => 'Flight Number/Code/Leg',
+    'fuel_used'            => 'Fuel Used',
     'codeoptional'         => 'Code (optional)',
     'legoptional'          => 'Leg (optional)',
     'deparrinformations'   => 'Departure/Arrival Information',
@@ -28,7 +29,6 @@ return [
     'dateflown'            => 'Date Flown',
     'deletepirep'          => 'Delete PIREP',
     'submitted'            => 'Submitted',
-
     'source_types' => [
         'manual' => 'Manual',
         'acars'  => 'ACARS',
