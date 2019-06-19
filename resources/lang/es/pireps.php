@@ -29,7 +29,7 @@ return [
     'dateflown'            => 'Fecha de vuelo',
     'deletepirep'          => 'Borrar PIREP',
     'submitted'            => 'Enviado',
-    'source_types' => [
+    'source_types'         => [
         'manual' => 'Manual',
         'acars'  => 'ACARS',
     ],

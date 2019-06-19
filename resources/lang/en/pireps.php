@@ -29,7 +29,7 @@ return [
     'dateflown'            => 'Date Flown',
     'deletepirep'          => 'Delete PIREP',
     'submitted'            => 'Submitted',
-    'source_types' => [
+    'source_types'         => [
         'manual' => 'Manual',
         'acars'  => 'ACARS',
     ],
