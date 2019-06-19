@@ -13,7 +13,7 @@ class Dates
      *
      * @return array
      */
-    public static function getMonthsList(Carbon $start_date)
+    public static function getMonthsList(Carbon $start_date): array
     {
         $months = [];
         $now = date('Y-m');
@@ -35,10 +35,10 @@ class Dates
      *
      * @return array
      */
-    public static function getMonthBoundary($month)
+    public static function getMonthBoundary($month): array
     {
         [$year, $month] = explode('-', $month);
-        $days = cal_days_in_month(CAL_GREGORIAN, $month, $year);
+        $days = \cal_days_in_month(CAL_GREGORIAN, $month, $year);
 
         return [
             "$year-$month-01",

@@ -34,12 +34,18 @@ services:
       MYSQL_ROOT_PASSWORD:
       MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
     volumes:
-      - ./storage/docker/data/mysql:/var/lib/mysql
+      - ./storage/docker/mysql:/var/lib/mysql
     ports:
       - 3306:3306
 
   redis:
     image: redis:5.0.4-alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - ./storage/docker/redis:/data
+    ports:
+      - 6379:6379
+    restart: always
 
   # Use this to tail the logs so it's just all in a single window
   logs:

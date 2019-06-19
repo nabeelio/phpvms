@@ -92,7 +92,6 @@ if [ "$TRAVIS" = "true" ]; then
     find storage/app/public -mindepth 1 -not -name '.gitignore' -print0 -exec rm -rf {} +
     find storage/debugbar -mindepth 1 -not -name '.gitignore' -print0 -exec rm -rf {} +
     find storage/docker -mindepth 1 -not -name '.gitignore' -print0 -exec rm -rf {} +
-    find storage/docker/data -mindepth 1 -not -name '.gitignore' -print0 -exec rm -rf {} +
     find storage/framework/cache -mindepth 1 -not -name '.gitignore' -print0 -exec rm -rf {} +
     find storage/framework/sessions -mindepth 1 -not -name '.gitignore' -print0 -exec rm -rf {} +
     find storage/framework/views -mindepth 1 -not -name '.gitignore' -print0 -exec rm -rf {} +
