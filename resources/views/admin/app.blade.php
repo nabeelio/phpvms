@@ -84,10 +84,6 @@
                     <ul>
                     </ul>
                 </nav>
-                <div class="copyright pull-right">
-                    powered by <a href="http://www.phpvms.net" target="_blank">phpvms</a>
-                    @version
-                </div>
             </div>
         </footer>
     </div>
