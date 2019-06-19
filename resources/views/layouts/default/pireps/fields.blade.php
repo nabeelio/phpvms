@@ -229,7 +229,7 @@ flight reports that have been filed. You've been warned!
                         @endif
                     </div>
                     <div class="col-4">
-                        {{ Form::label('fuel_used', __('pireps.fuel_used')) }}
+                        {{ Form::label('fuel_used', __('pireps.fuel_used')) }} ({{config('phpvms.internal_units.fuel')}})
                         @if(!empty($pirep) && $pirep->read_only)
                             <p>{{ $pirep->fuel_used }}</p>
                         @else
