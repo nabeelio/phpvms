@@ -56,6 +56,7 @@ if [ "$TRAVIS" = "true" ]; then
         .idea
         .travis
         docker
+        resources/docker
         tests
         _ide_helper.php
         .dpl
@@ -90,6 +91,9 @@ if [ "$TRAVIS" = "true" ]; then
     # clear any app specific stuff that might have been loaded in
     find storage/app -mindepth 1 -not -name '.gitignore' -not -name public -not -name import -print0 -exec rm -rf {} +
     find storage/app/public -mindepth 1 -not -name '.gitignore' -print0 -exec rm -rf {} +
+    find storage/debugbar -mindepth 1 -not -name '.gitignore' -print0 -exec rm -rf {} +
+    find storage/docker -mindepth 1 -not -name '.gitignore' -print0 -exec rm -rf {} +
+    find storage/docker/data -mindepth 1 -not -name '.gitignore' -print0 -exec rm -rf {} +
     find storage/framework/cache -mindepth 1 -not -name '.gitignore' -print0 -exec rm -rf {} +
     find storage/framework/sessions -mindepth 1 -not -name '.gitignore' -print0 -exec rm -rf {} +
     find storage/framework/views -mindepth 1 -not -name '.gitignore' -print0 -exec rm -rf {} +
