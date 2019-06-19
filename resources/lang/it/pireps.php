@@ -16,6 +16,7 @@ return [
     'fieldsreadonly'       => 'Quando un PIREP viene sottoporre, alcuni cami entrano in modalità di sola lettura.',
     'flightinformations'   => 'Informazioni di Volo',
     'flightident'          => 'Numero di Volo/Codice/Leg',
+    'fuel_used'            => 'Carburante Usato',
     'codeoptional'         => 'Codice (facoltativo)',
     'legoptional'          => 'Leg (facoltativa)',
     'deparrinformations'   => 'Informazioni di Partenza/Arrivo',

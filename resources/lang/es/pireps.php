@@ -21,6 +21,7 @@ return [
     'fieldsreadonly'       => 'Una vez que se ha enviado un PIREP, ciertos campos pasan al modo de solo lectura.',
     'flightinformations'   => 'Información de vuelo',
     'flightident'          => 'Vuelo Número/Código/Etapa',
+    'fuel_used'            => 'Combustible Usado',
     'codeoptional'         => 'Código (opcional)',
     'legoptional'          => 'Etapa (opcional)',
     'deparrinformations'   => 'Información Salida/Legada',
@@ -28,8 +29,7 @@ return [
     'dateflown'            => 'Fecha de vuelo',
     'deletepirep'          => 'Borrar PIREP',
     'submitted'            => 'Enviado',
-
-    'source_types' => [
+    'source_types'         => [
         'manual' => 'Manual',
         'acars'  => 'ACARS',
     ],
