@@ -56,7 +56,6 @@ if [ "$TRAVIS" = "true" ]; then
         .idea
         .travis
         docker
-        resources/docker
         tests
         _ide_helper.php
         .dpl
