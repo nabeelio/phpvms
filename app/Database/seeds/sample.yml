@@ -9,6 +9,10 @@ airlines:
     created_at: now
     updated_at: now
 
+roles:
+  - name: fleet-only
+    display_name: Edit Fleet
+
 users:
   - id: 1
     name: Admin User

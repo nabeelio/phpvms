@@ -51,7 +51,7 @@ class UserService extends Service
      *
      * @return mixed
      */
-    public function createPilot(User $user, array $groups = null)
+    public function createUser(User $user, array $groups = null)
     {
         // Determine if we want to auto accept
         if (setting('pilots.auto_accept') === true) {
@@ -63,9 +63,10 @@ class UserService extends Service
         $user->save();
 
         // Attach the user roles
-        $role = Role::where('name', 'user')->first();
-        $user->attachRole($role);
+        // $role = Role::where('name', 'user')->first();
+        // $user->attachRole($role);
 
+        // Attach any additional roles
         if (!empty($groups) && \is_array($groups)) {
             foreach ($groups as $group) {
                 $role = Role::where('name', $group)->first();

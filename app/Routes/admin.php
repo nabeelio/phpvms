@@ -4,9 +4,13 @@
  */
 Route::group([
     'namespace'  => 'Admin', 'prefix' => 'admin', 'as' => 'admin.',
-    'middleware' => ['role:admin'],
-], function () {
+    'middleware' => ['ability:admin,admin-access'],
+], static function () {
+    // CRUD for airlines
     Route::resource('airlines', 'AirlinesController');
+
+    // CRUD for roles
+    Route::resource('roles', 'RolesController');
 
     Route::get('airports/export', 'AirportController@export')->name('airports.export');
     Route::match(['get', 'post', 'put'], 'airports/fuel', 'AirportController@fuel');

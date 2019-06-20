@@ -74,11 +74,6 @@ class RolesPermissionsTables extends Migration
                 'name'         => 'admin',
                 'display_name' => 'Administrators',
             ],
-            [
-                'id'           => 2,
-                'name'         => 'user',
-                'display_name' => 'Pilot',
-            ],
         ];
 
         $this->addData('roles', $roles);
