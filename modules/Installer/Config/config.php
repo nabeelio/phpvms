@@ -13,7 +13,6 @@ return [
         'tokenizer',
         'json',
         'curl',
-        'gmp',
     ],
 
     # Make sure these are writable
