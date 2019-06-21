@@ -2,14 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\CreateAirlineRequest;
 use App\Http\Requests\CreateRoleRequest;
-use App\Http\Requests\UpdateAirlineRequest;
 use App\Http\Requests\UpdateRoleRequest;
 use App\Interfaces\Controller;
-use App\Repositories\RoleRepository;
 use App\Repositories\PermissionsRepository;
-use App\Support\Countries;
+use App\Repositories\RoleRepository;
 use Flash;
 use Illuminate\Http\Request;
 use Prettus\Repository\Criteria\RequestCriteria;
@@ -40,9 +37,9 @@ class RolesController extends Controller
      *
      * @param Request $request
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     *
      * @throws \Prettus\Repository\Exceptions\RepositoryException
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index(Request $request)
     {
@@ -69,9 +66,9 @@ class RolesController extends Controller
      *
      * @param CreateRoleRequest $request
      *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function store(CreateRoleRequest $request)
     {
@@ -135,9 +132,9 @@ class RolesController extends Controller
      * @param int               $id
      * @param UpdateRoleRequest $request
      *
-     * @return Response
-     *@throws \Prettus\Validator\Exceptions\ValidatorException
+     * @throws \Prettus\Validator\Exceptions\ValidatorException
      *
+     * @return Response
      */
     public function update($id, UpdateRoleRequest $request)
     {

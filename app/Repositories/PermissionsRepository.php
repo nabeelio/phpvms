@@ -26,7 +26,7 @@ class PermissionsRepository extends Repository implements CacheableInterface
     /**
      * Return the list of roles formatted for a select box
      *
-     * @param boolean $add_blank
+     * @param bool $add_blank
      *
      * @return array
      */
