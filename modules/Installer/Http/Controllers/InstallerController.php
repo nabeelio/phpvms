@@ -124,6 +124,10 @@ class InstallerController extends Controller
 
     /**
      * Step 1. Check the modules and permissions
+     *
+     * @param Request $request
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function step1(Request $request)
     {
@@ -151,6 +155,10 @@ class InstallerController extends Controller
 
     /**
      * Step 2. Database Setup
+     *
+     * @param Request $request
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function step2(Request $request)
     {
@@ -186,13 +194,13 @@ class InstallerController extends Controller
         // Now write out the env file
         $attrs = [
             'SITE_NAME' => $request->post('site_name'),
-            'SITE_URL' => $request->post('site_url'),
-            'DB_CONN' => $request->post('db_conn'),
-            'DB_HOST' => $request->post('db_host'),
-            'DB_PORT' => $request->post('db_port'),
-            'DB_NAME' => $request->post('db_name'),
-            'DB_USER' => $request->post('db_user'),
-            'DB_PASS' => $request->post('db_pass'),
+            'SITE_URL'  => $request->post('site_url'),
+            'DB_CONN'   => $request->post('db_conn'),
+            'DB_HOST'   => $request->post('db_host'),
+            'DB_PORT'   => $request->post('db_port'),
+            'DB_NAME'   => $request->post('db_name'),
+            'DB_USER'   => $request->post('db_user'),
+            'DB_PASS'   => $request->post('db_pass'),
             'DB_PREFIX' => $request->post('db_prefix'),
         ];
 
@@ -264,12 +272,12 @@ class InstallerController extends Controller
     public function usersetup(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'airline_name' => 'required',
-            'airline_icao' => 'required|unique:airlines,icao',
+            'airline_name'    => 'required',
+            'airline_icao'    => 'required|unique:airlines,icao',
             'airline_country' => 'required',
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|confirmed'
+            'name'            => 'required',
+            'email'           => 'required|email|unique:users,email',
+            'password'        => 'required|confirmed'
         ]);
 
         if ($validator->fails()) {
@@ -283,8 +291,8 @@ class InstallerController extends Controller
          */
 
         $attrs = [
-            'icao' => $request->get('airline_icao'),
-            'name' => $request->get('airline_name'),
+            'icao'    => $request->get('airline_icao'),
+            'name'    => $request->get('airline_name'),
             'country' => $request->get('airline_country'),
         ];
 
@@ -297,17 +305,17 @@ class InstallerController extends Controller
          */
 
         $attrs = [
-            'name'       => $request->get('name'),
-            'email'      => $request->get('email'),
-            'api_key'    => Utils::generateApiKey(),
-            'airline_id' => $airline->id,
+            'name'            => $request->get('name'),
+            'email'           => $request->get('email'),
+            'api_key'         => Utils::generateApiKey(),
+            'airline_id'      => $airline->id,
             'home_airport_id' => 'KAUS',
             'curr_airport_id' => 'KAUS',
-            'password'   => Hash::make($request->get('password'))
+            'password'        => Hash::make($request->get('password'))
         ];
 
         $user = User::create($attrs);
-        $user = $this->userService->createPilot($user, ['admin']);
+        $user = $this->userService->createUser($user, ['admin']);
         Log::info('User registered: ', $user->toArray());
 
         # Set the intial admin e-mail address

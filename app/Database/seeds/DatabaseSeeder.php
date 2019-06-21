@@ -5,15 +5,14 @@ use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Map these other environments to a specific seed file
-     *
-     * @var array
-     */
-    public static $seed_mapper = [
+    private static $seed_mapper = [
         'local'   => 'dev',
         'qa'      => 'dev',
         'staging' => 'dev',
+    ];
+
+    private static $always_seed = [
+        'permissions',
     ];
 
     /**
@@ -28,6 +27,7 @@ class DatabaseSeeder extends Seeder
             $env = self::$seed_mapper[$env];
         }
 
+        Log::info('Seeding from environment '.$env);
         $path = database_path('seeds/'.$env.'.yml');
 
         if (!file_exists($path)) {
@@ -36,5 +36,14 @@ class DatabaseSeeder extends Seeder
 
         $svc = app(DatabaseService::class);
         $svc->seed_from_yaml_file($path);
+
+        // Always seed/sync these
+        foreach (self::$always_seed as $file) {
+            Log::info('Importing '.$file);
+            $path = database_path('seeds/'.$file.'.yml');
+            if (file_exists($path)) {
+                $svc->seed_from_yaml_file($path);
+            }
+        }
     }
 }

@@ -122,7 +122,7 @@ class RegisterController extends Controller
         }
 
         $user = User::create($opts);
-        $user = $this->userService->createPilot($user);
+        $user = $this->userService->createUser($user);
 
         Log::info('User registered: ', $user->toArray());
 
