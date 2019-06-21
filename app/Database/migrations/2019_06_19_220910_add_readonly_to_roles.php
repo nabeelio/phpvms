@@ -14,7 +14,7 @@ class AddReadonlyToRoles extends Migration
     public function up(): void
     {
         Schema::table('roles', static function (Blueprint $table) {
-            $table->boolean('read_only');
+            $table->boolean('read_only')->default(false);
         });
 
         // Set the two main roles as read-only
