@@ -461,6 +461,7 @@ class Metar implements \ArrayAccess
 
     /**
      * Create a new velocity unit
+     *
      * @param int|float $value
      * @param string    $unit  "knots", "km/hour", "m/s"
      *
