@@ -2,8 +2,8 @@
 
 namespace App\Listeners;
 
-use App\Events\Expenses;
 use App\Contracts\Listener;
+use App\Events\Expenses;
 
 /**
  * Class ExpenseListener

@@ -2,8 +2,8 @@
 
 namespace App\Cron\Hourly;
 
-use App\Events\CronHourly;
 use App\Contracts\Listener;
+use App\Events\CronHourly;
 use App\Models\Bid;
 use Carbon\Carbon;
 

@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
-use App\Exceptions\BidExists;
 use App\Contracts\Service;
+use App\Exceptions\BidExists;
 use App\Models\Bid;
 use App\Models\Flight;
 use App\Models\FlightFieldValue;

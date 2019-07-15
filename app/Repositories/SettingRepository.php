@@ -2,8 +2,8 @@
 
 namespace App\Repositories;
 
-use App\Exceptions\SettingNotFound;
 use App\Contracts\Repository;
+use App\Exceptions\SettingNotFound;
 use App\Models\Setting;
 use Illuminate\Support\Carbon;
 use Log;

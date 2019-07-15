@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Resources\Airport as AirportResource;
 use App\Contracts\Controller;
+use App\Http\Resources\Airport as AirportResource;
 use App\Repositories\AirportRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;

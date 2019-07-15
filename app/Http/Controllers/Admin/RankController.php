@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Contracts\Controller;
 use App\Http\Requests\CreateRankRequest;
 use App\Http\Requests\UpdateRankRequest;
-use App\Contracts\Controller;
 use App\Repositories\RankRepository;
 use App\Repositories\SubfleetRepository;
 use App\Services\FleetService;

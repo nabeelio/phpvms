@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Contracts\Controller;
 use App\Http\Requests\CreateAwardRequest;
 use App\Http\Requests\UpdateAwardRequest;
-use App\Contracts\Controller;
 use App\Repositories\AwardRepository;
 use App\Services\AwardService;
 use Flash;

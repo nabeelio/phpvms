@@ -2,8 +2,8 @@
 
 namespace App\Listeners;
 
-use App\Events\UserStatsChanged;
 use App\Contracts\Listener;
+use App\Events\UserStatsChanged;
 use App\Models\Award;
 
 /**

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Contracts\Controller;
 use App\Http\Requests\CreateRoleRequest;
 use App\Http\Requests\UpdateRoleRequest;
-use App\Contracts\Controller;
 use App\Repositories\PermissionsRepository;
 use App\Repositories\RoleRepository;
 use Flash;

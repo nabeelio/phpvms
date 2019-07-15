@@ -2,9 +2,9 @@
 
 namespace App\Listeners;
 
+use App\Contracts\Listener;
 use App\Events\PirepAccepted;
 use App\Events\PirepRejected;
-use App\Contracts\Listener;
 use App\Services\Finance\PirepFinanceService;
 use Illuminate\Contracts\Events\Dispatcher;
 

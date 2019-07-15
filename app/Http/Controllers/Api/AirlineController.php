@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Resources\Airline as AirlineResource;
 use App\Contracts\Controller;
+use App\Http\Resources\Airline as AirlineResource;
 use App\Repositories\AirlineRepository;
 use Illuminate\Http\Request;
 
