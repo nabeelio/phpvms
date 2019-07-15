@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Interfaces\Repository;
+use App\Contracts\Repository;
 use App\Models\Acars;
 use App\Models\Enums\AcarsType;
 use App\Models\Enums\PirepState;

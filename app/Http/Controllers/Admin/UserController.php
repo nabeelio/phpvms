@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Facades\Utils;
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\UpdateUserRequest;
-use App\Interfaces\Controller;
+use App\Contracts\Controller;
 use App\Models\Rank;
 use App\Models\Role;
 use App\Models\User;

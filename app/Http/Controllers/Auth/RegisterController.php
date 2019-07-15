@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Facades\Utils;
-use App\Interfaces\Controller;
+use App\Contracts\Controller;
 use App\Models\Enums\UserState;
 use App\Models\User;
 use App\Repositories\AirlineRepository;

@@ -5,7 +5,7 @@ namespace App\Services;
 use App\Events\UserRegistered;
 use App\Events\UserStateChanged;
 use App\Events\UserStatsChanged;
-use App\Interfaces\Service;
+use App\Contracts\Service;
 use App\Models\Enums\PirepState;
 use App\Models\Enums\UserState;
 use App\Models\Pirep;

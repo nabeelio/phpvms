@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Interfaces;
+namespace App\Contracts;
 
 use App\Facades\Utils;
 use App\Models\Award as AwardModel;

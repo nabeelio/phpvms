@@ -2,7 +2,7 @@
 
 namespace Modules\Installer\Services;
 
-use App\Interfaces\Service;
+use App\Contracts\Service;
 use Log;
 use PDO;
 

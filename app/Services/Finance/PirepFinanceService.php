@@ -3,7 +3,7 @@
 namespace App\Services\Finance;
 
 use App\Events\Expenses as ExpensesEvent;
-use App\Interfaces\Service;
+use App\Contracts\Service;
 use App\Models\Enums\ExpenseType;
 use App\Models\Enums\PirepSource;
 use App\Models\Expense;

@@ -3,7 +3,7 @@
 namespace App\Cron\Nightly;
 
 use App\Events\CronNightly;
-use App\Interfaces\Listener;
+use App\Contracts\Listener;
 use App\Models\Enums\Days;
 use App\Models\Flight;
 use Carbon\Carbon;

@@ -3,7 +3,7 @@
 namespace App\Cron\Hourly;
 
 use App\Events\CronHourly;
-use App\Interfaces\Listener;
+use App\Contracts\Listener;
 use App\Models\Pirep;
 use Carbon\Carbon;
 

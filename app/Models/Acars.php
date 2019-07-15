@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Interfaces\Model;
+use App\Contracts\Model;
 use App\Models\Traits\HashIdTrait;
 use App\Support\Units\Distance;
 use App\Support\Units\Fuel;

@@ -2,7 +2,7 @@
 
 namespace App\Services\Installer;
 
-use App\Interfaces\Service;
+use App\Contracts\Service;
 use App\Models\Setting;
 use DB;
 use Log;

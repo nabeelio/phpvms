@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\CreateAirlineRequest;
 use App\Http\Requests\UpdateAirlineRequest;
-use App\Interfaces\Controller;
+use App\Contracts\Controller;
 use App\Repositories\AirlineRepository;
 use App\Support\Countries;
 use Flash;

@@ -2,7 +2,7 @@
 
 namespace App\Widgets;
 
-use App\Interfaces\Widget;
+use App\Contracts\Widget;
 
 /**
  * Show the live map in a view

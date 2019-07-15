@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Interfaces\Controller;
+use App\Contracts\Controller;
 use App\Repositories\FlightFieldRepository;
 use Flash;
 use Illuminate\Http\Request;

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\CreateSubfleetRequest;
 use App\Http\Requests\ImportRequest;
 use App\Http\Requests\UpdateSubfleetRequest;
-use App\Interfaces\Controller;
+use App\Contracts\Controller;
 use App\Models\Airline;
 use App\Models\Enums\FuelType;
 use App\Models\Expense;

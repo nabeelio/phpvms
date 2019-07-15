@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Interfaces\Controller;
+use App\Contracts\Controller;
 use App\Models\Setting;
 use Illuminate\Http\Request;
 use Log;

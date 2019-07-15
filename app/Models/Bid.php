@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Interfaces\Model;
+use App\Contracts\Model;
 
 class Bid extends Model
 {

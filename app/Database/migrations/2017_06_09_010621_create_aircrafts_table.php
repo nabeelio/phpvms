@@ -1,6 +1,6 @@
 <?php
 
-use App\Interfaces\Migration;
+use App\Contracts\Migration;
 use App\Models\Enums\AircraftState;
 use App\Models\Enums\AircraftStatus;
 use Illuminate\Database\Schema\Blueprint;

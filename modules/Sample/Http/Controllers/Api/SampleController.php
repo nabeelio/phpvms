@@ -2,7 +2,7 @@
 
 namespace Modules\Sample\Http\Controllers\Api;
 
-use App\Interfaces\Controller;
+use App\Contracts\Controller;
 use Illuminate\Http\Request;
 
 /**

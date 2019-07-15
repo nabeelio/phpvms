@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Interfaces\Repository;
+use App\Contracts\Repository;
 use App\Models\Journal;
 use App\Models\JournalTransaction;
 use App\Support\Money;

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\CreateFareRequest;
 use App\Http\Requests\ImportRequest;
 use App\Http\Requests\UpdateFareRequest;
-use App\Interfaces\Controller;
+use App\Contracts\Controller;
 use App\Repositories\FareRepository;
 use App\Services\ExportService;
 use App\Services\ImportService;

@@ -3,7 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\UserStatsChanged;
-use App\Interfaces\Listener;
+use App\Contracts\Listener;
 use App\Models\Award;
 
 /**

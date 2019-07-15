@@ -3,7 +3,7 @@
 namespace Modules\Installer\Services;
 
 
-use App\Interfaces\Service;
+use App\Contracts\Service;
 
 class RequirementsService extends Service
 {

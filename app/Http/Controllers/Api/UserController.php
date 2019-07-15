@@ -6,7 +6,7 @@ use App\Http\Resources\Bid as BidResource;
 use App\Http\Resources\Pirep as PirepResource;
 use App\Http\Resources\Subfleet as SubfleetResource;
 use App\Http\Resources\User as UserResource;
-use App\Interfaces\Controller;
+use App\Contracts\Controller;
 use App\Models\Bid;
 use App\Models\Enums\PirepState;
 use App\Repositories\Criteria\WhereCriteria;

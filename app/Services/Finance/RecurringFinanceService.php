@@ -2,7 +2,7 @@
 
 namespace App\Services\Finance;
 
-use App\Interfaces\Service;
+use App\Contracts\Service;
 use App\Models\Airline;
 use App\Models\Enums\ExpenseType;
 use App\Models\Expense;

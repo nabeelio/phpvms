@@ -3,7 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\Expenses;
-use App\Interfaces\Listener;
+use App\Contracts\Listener;
 
 /**
  * Class ExpenseListener

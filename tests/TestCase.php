@@ -139,7 +139,7 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
                 $this->transformData($value);
             }
 
-            if (is_subclass_of($value, App\Interfaces\Unit::class)) {
+            if (is_subclass_of($value, App\Contracts\Unit::class)) {
                 $data[$key] = $value->__toString();
             }
 

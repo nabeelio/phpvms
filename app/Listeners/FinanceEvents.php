@@ -4,7 +4,7 @@ namespace App\Listeners;
 
 use App\Events\PirepAccepted;
 use App\Events\PirepRejected;
-use App\Interfaces\Listener;
+use App\Contracts\Listener;
 use App\Services\Finance\PirepFinanceService;
 use Illuminate\Contracts\Events\Dispatcher;
 

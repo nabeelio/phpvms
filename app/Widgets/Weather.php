@@ -2,7 +2,7 @@
 
 namespace App\Widgets;
 
-use App\Interfaces\Widget;
+use App\Contracts\Widget;
 use App\Support\Metar;
 
 /**
@@ -22,7 +22,7 @@ class Weather extends Widget
     public function run()
     {
         /**
-         * @var \App\Interfaces\Metar
+         * @var \App\Contracts\Metar
          */
         $klass = config('phpvms.metar');
         $metar_class = new $klass();

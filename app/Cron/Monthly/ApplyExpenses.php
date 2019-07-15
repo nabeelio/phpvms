@@ -3,7 +3,7 @@
 namespace App\Cron\Monthly;
 
 use App\Events\CronMonthly;
-use App\Interfaces\Listener;
+use App\Contracts\Listener;
 use App\Models\Enums\ExpenseType;
 use App\Services\Finance\RecurringFinanceService;
 
