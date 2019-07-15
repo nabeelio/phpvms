@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Interfaces\Service;
+use App\Contracts\Service;
 use App\Support\ClassLoader;
 use Module;
 
@@ -14,7 +14,7 @@ class AwardService extends Service
     /**
      * Find any of the award classes
      *
-     * @return \App\Interfaces\Award[]
+     * @return \App\Contracts\Award[]
      */
     public function findAllAwardClasses(): array
     {

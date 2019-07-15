@@ -2,7 +2,7 @@
 
 namespace App\Widgets;
 
-use App\Interfaces\Widget;
+use App\Contracts\Widget;
 use App\Models\Enums\PirepState;
 use App\Repositories\PirepRepository;
 

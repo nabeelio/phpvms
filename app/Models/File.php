@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Interfaces\Model;
+use App\Contracts\Model;
 use App\Models\Traits\HashIdTrait;
 use App\Models\Traits\ReferenceTrait;
 use Illuminate\Support\Facades\Storage;

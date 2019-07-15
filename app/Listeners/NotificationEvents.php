@@ -2,9 +2,9 @@
 
 namespace App\Listeners;
 
+use App\Contracts\Listener;
 use App\Events\UserRegistered;
 use App\Events\UserStateChanged;
-use App\Interfaces\Listener;
 use App\Models\Enums\UserState;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Support\Facades\Mail;

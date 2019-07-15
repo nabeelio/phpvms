@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Interfaces;
+namespace App\Contracts;
 
 /**
  * Borrowed some ideas from myclabs/php-enum after this was created

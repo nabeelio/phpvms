@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Interfaces\Service;
+use App\Contracts\Service;
 use App\Models\Acars;
 use App\Models\Enums\AcarsType;
 use App\Models\Flight;

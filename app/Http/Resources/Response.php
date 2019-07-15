@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources;
 
-use App\Interfaces\Unit;
+use App\Contracts\Unit;
 use Illuminate\Http\Resources\Json\Resource;
 
 /**

@@ -2,7 +2,7 @@
 
 namespace App\Services\Metar;
 
-use App\Interfaces\Metar;
+use App\Contracts\Metar;
 use App\Support\Http;
 use Cache;
 

@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Interfaces\Service;
+use App\Contracts\Service;
 use App\Models\File;
 
 /**

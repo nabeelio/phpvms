@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
-use App\Interfaces\ImportExport;
-use App\Interfaces\Service;
+use App\Contracts\ImportExport;
+use App\Contracts\Service;
 use App\Models\Airport;
 use App\Models\Expense;
 use App\Repositories\FlightRepository;

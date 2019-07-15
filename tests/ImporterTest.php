@@ -15,7 +15,7 @@ class ImporterTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->importBaseClass = new \App\Interfaces\ImportExport();
+        $this->importBaseClass = new \App\Contracts\ImportExport();
         $this->importSvc = app(\App\Services\ImportService::class);
         $this->fareSvc = app(\App\Services\FareService::class);
 

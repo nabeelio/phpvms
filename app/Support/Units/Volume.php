@@ -2,7 +2,7 @@
 
 namespace App\Support\Units;
 
-use App\Interfaces\Unit;
+use App\Contracts\Unit;
 use PhpUnitsOfMeasure\PhysicalQuantity\Volume as VolumeUnit;
 
 /**

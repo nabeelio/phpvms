@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Contracts\Controller;
 use App\Http\Requests\CreateAirportRequest;
 use App\Http\Requests\ImportRequest;
 use App\Http\Requests\UpdateAirportRequest;
-use App\Interfaces\Controller;
 use App\Models\Airport;
 use App\Models\Expense;
 use App\Repositories\AirportRepository;

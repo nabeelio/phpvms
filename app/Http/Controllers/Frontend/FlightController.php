@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Interfaces\Controller;
+use App\Contracts\Controller;
 use App\Models\Bid;
 use App\Repositories\AirlineRepository;
 use App\Repositories\AirportRepository;

@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Contracts\Controller;
 use App\Exceptions\PirepCancelled;
 use App\Http\Requests\Acars\EventRequest;
 use App\Http\Requests\Acars\LogRequest;
 use App\Http\Requests\Acars\PositionRequest;
 use App\Http\Resources\AcarsRoute as AcarsRouteResource;
-use App\Interfaces\Controller;
 use App\Models\Acars;
 use App\Models\Enums\AcarsType;
 use App\Models\Enums\PirepStatus;

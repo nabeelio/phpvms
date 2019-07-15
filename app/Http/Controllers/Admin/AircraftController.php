@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Contracts\Controller;
 use App\Http\Requests\CreateAircraftRequest;
 use App\Http\Requests\ImportRequest;
 use App\Http\Requests\UpdateAircraftRequest;
-use App\Interfaces\Controller;
 use App\Models\Aircraft;
 use App\Models\Enums\AircraftStatus;
 use App\Models\Expense;

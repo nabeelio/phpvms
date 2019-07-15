@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Contracts\Controller;
 use App\Http\Requests\ImportRequest;
-use App\Interfaces\Controller;
 use App\Models\Enums\ExpenseType;
 use App\Models\Expense;
 use App\Repositories\AirlineRepository;

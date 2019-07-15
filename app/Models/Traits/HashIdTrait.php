@@ -2,7 +2,7 @@
 
 namespace App\Models\Traits;
 
-use App\Interfaces\Model;
+use App\Contracts\Model;
 use Hashids\Hashids;
 
 trait HashIdTrait

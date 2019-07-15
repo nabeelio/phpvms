@@ -5,13 +5,13 @@ namespace App\Models\Traits;
 /**
  * Trait ReferenceTrait
  *
- * @property \App\Interfaces\Model $ref_model
- * @property mixed                 $ref_model_id
+ * @property \App\Contracts\Model $ref_model
+ * @property mixed                $ref_model_id
  */
 trait ReferenceTrait
 {
     /**
-     * @param \App\Interfaces\Model $object
+     * @param \App\Contracts\Model $object
      *
      * @return self
      */
@@ -27,7 +27,7 @@ trait ReferenceTrait
     /**
      * Return an instance of the object or null
      *
-     * @return \App\Interfaces\Model|null
+     * @return \App\Contracts\Model|null
      */
     public function getReferencedObject()
     {

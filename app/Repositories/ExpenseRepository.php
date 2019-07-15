@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Interfaces\Repository;
+use App\Contracts\Repository;
 use App\Models\Expense;
 use Illuminate\Support\Collection;
 use Prettus\Repository\Contracts\CacheableInterface;

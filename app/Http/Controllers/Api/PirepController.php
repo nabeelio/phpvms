@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Contracts\Controller;
 use App\Exceptions\AircraftNotAtAirport;
 use App\Exceptions\AircraftPermissionDenied;
 use App\Exceptions\PirepCancelled;
@@ -17,7 +18,6 @@ use App\Http\Resources\JournalTransaction as JournalTransactionResource;
 use App\Http\Resources\Pirep as PirepResource;
 use App\Http\Resources\PirepComment as PirepCommentResource;
 use App\Http\Resources\PirepFieldCollection;
-use App\Interfaces\Controller;
 use App\Models\Acars;
 use App\Models\Enums\AcarsType;
 use App\Models\Enums\PirepFieldSource;

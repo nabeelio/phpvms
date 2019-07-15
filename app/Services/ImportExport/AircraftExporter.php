@@ -2,7 +2,7 @@
 
 namespace App\Services\ImportExport;
 
-use App\Interfaces\ImportExport;
+use App\Contracts\ImportExport;
 use App\Models\Aircraft;
 
 /**

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Contracts\Controller;
 use App\Http\Resources\Aircraft as AircraftResource;
 use App\Http\Resources\Subfleet as SubfleetResource;
-use App\Interfaces\Controller;
 use App\Repositories\AircraftRepository;
 use App\Repositories\SubfleetRepository;
 use Illuminate\Http\Request;

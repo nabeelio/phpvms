@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Contracts\Controller;
 use App\Http\Requests\CreatePirepFieldRequest;
 use App\Http\Requests\UpdatePirepFieldRequest;
-use App\Interfaces\Controller;
 use App\Repositories\PirepFieldRepository;
 use Flash;
 use Illuminate\Http\Request;

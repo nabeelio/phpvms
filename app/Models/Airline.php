@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Interfaces\Model;
+use App\Contracts\Model;
 use App\Models\Enums\JournalType;
 use App\Models\Traits\FilesTrait;
 use App\Models\Traits\JournalTrait;

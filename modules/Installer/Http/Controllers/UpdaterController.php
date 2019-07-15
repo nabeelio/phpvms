@@ -2,7 +2,7 @@
 
 namespace Modules\Installer\Http\Controllers;
 
-use App\Interfaces\Controller;
+use App\Contracts\Controller;
 use App\Services\Installer\MigrationService;
 use Illuminate\Http\Request;
 use Log;

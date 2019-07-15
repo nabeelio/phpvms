@@ -2,12 +2,12 @@
 
 namespace App\Services;
 
+use App\Contracts\Service;
 use App\Events\PirepAccepted;
 use App\Events\PirepFiled;
 use App\Events\PirepRejected;
 use App\Events\UserStateChanged;
 use App\Events\UserStatsChanged;
-use App\Interfaces\Service;
 use App\Models\Acars;
 use App\Models\Bid;
 use App\Models\Enums\AcarsType;

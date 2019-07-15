@@ -2,7 +2,7 @@
 
 namespace App\Models\Enums;
 
-use App\Interfaces\Enum;
+use App\Contracts\Enum;
 
 /**
  * Class Days

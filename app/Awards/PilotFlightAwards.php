@@ -2,7 +2,7 @@
 
 namespace App\Awards;
 
-use App\Interfaces\Award;
+use App\Contracts\Award;
 
 /**
  * Simple example of an awards class, where you can apply an award when a user

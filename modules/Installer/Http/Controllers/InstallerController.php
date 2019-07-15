@@ -3,7 +3,7 @@
 namespace Modules\Installer\Http\Controllers;
 
 use App\Facades\Utils;
-use App\Interfaces\Controller;
+use App\Contracts\Controller;
 use App\Models\User;
 use App\Repositories\AirlineRepository;
 use App\Services\AnalyticsService;

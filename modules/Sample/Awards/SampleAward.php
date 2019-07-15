@@ -2,7 +2,7 @@
 
 namespace Modules\Sample\Awards;
 
-use App\Interfaces\Award;
+use App\Contracts\Award;
 
 /**
  * Class SampleAward

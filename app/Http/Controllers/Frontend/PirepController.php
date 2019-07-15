@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Contracts\Controller;
 use App\Facades\Utils;
 use App\Http\Requests\CreatePirepRequest;
 use App\Http\Requests\UpdatePirepRequest;
-use App\Interfaces\Controller;
 use App\Models\Enums\PirepSource;
 use App\Models\Enums\PirepState;
 use App\Models\Pirep;
