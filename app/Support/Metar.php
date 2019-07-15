@@ -399,7 +399,7 @@ class Metar implements \ArrayAccess
      * Return an Altitude value or object
      *
      * @param int|float $value
-     * @param string    $unit "feet" or "meters"
+     * @param string    $unit  "feet" or "meters"
      *
      * @throws NonStringUnitName
      * @throws NonNumericValue
@@ -415,7 +415,7 @@ class Metar implements \ArrayAccess
      * Return a Distance value or object
      *
      * @param int|float $value
-     * @param string    $unit "m" (meters) or "mi" (miles)
+     * @param string    $unit  "m" (meters) or "mi" (miles)
      *
      * @throws NonNumericValue
      * @throws NonStringUnitName
@@ -431,7 +431,7 @@ class Metar implements \ArrayAccess
      * Return a Pressure value or object
      *
      * @param int|float $value
-     * @param string    $unit "F" or "C"
+     * @param string    $unit  "F" or "C"
      *
      * @throws NonNumericValue
      * @throws NonStringUnitName
@@ -447,7 +447,7 @@ class Metar implements \ArrayAccess
      * Return a Temperature value or object
      *
      * @param int|float $value
-     * @param string    $unit "F" or "C"
+     * @param string    $unit  "F" or "C"
      *
      * @throws NonNumericValue
      * @throws NonStringUnitName
@@ -462,7 +462,7 @@ class Metar implements \ArrayAccess
     /**
      * Create a new velocity unit
      * @param int|float $value
-     * @param string    $unit "knots", "km/hour", "m/s"
+     * @param string    $unit  "knots", "km/hour", "m/s"
      *
      * @throws NonStringUnitName
      * @throws NonNumericValue
