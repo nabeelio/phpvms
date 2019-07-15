@@ -27,5 +27,4 @@ class Response extends Resource
             }
         }
     }
-
 }

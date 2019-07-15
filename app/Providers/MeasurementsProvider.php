@@ -5,12 +5,9 @@ namespace App\Providers;
 use Exception;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
-use PhpUnitsOfMeasure\Exception\DuplicateUnitNameOrAlias;
 use PhpUnitsOfMeasure\Exception\NonStringUnitName;
 use PhpUnitsOfMeasure\Exception\UnknownUnitOfMeasure;
-use PhpUnitsOfMeasure\PhysicalQuantity\Length;
 use PhpUnitsOfMeasure\PhysicalQuantity\Temperature;
-use PhpUnitsOfMeasure\UnitOfMeasure;
 
 /**
  * Add new measurement units to PhpUnitsOfMeasure

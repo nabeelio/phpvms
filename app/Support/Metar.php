@@ -7,6 +7,7 @@ use App\Support\Units\Distance;
 use App\Support\Units\Pressure;
 use App\Support\Units\Temperature;
 use App\Support\Units\Velocity;
+use function count;
 use PhpUnitsOfMeasure\Exception\NonNumericValue;
 use PhpUnitsOfMeasure\Exception\NonStringUnitName;
 
@@ -392,15 +393,13 @@ class Metar implements \ArrayAccess
         if (isset($this->result[$parameter])) {
             return $this->result[$parameter];
         }
-
-        return null;
     }
 
     /**
      * Return an Altitude value or object
      *
      * @param int|float $value
-     * @param string $unit "feet" or "meters"
+     * @param string    $unit "feet" or "meters"
      *
      * @throws NonStringUnitName
      * @throws NonNumericValue
@@ -416,7 +415,7 @@ class Metar implements \ArrayAccess
      * Return a Distance value or object
      *
      * @param int|float $value
-     * @param string $unit "m" (meters) or "mi" (miles)
+     * @param string    $unit "m" (meters) or "mi" (miles)
      *
      * @throws NonNumericValue
      * @throws NonStringUnitName
@@ -448,7 +447,7 @@ class Metar implements \ArrayAccess
      * Return a Temperature value or object
      *
      * @param int|float $value
-     * @param string $unit "F" or "C"
+     * @param string    $unit "F" or "C"
      *
      * @throws NonNumericValue
      * @throws NonStringUnitName
@@ -463,7 +462,7 @@ class Metar implements \ArrayAccess
     /**
      * Create a new velocity unit
      * @param int|float $value
-     * @param string $unit "knots", "km/hour", "m/s"
+     * @param string    $unit "knots", "km/hour", "m/s"
      *
      * @throws NonStringUnitName
      * @throws NonNumericValue
@@ -483,8 +482,8 @@ class Metar implements \ArrayAccess
         $this->raw_parts = explode(' ', $this->raw);
         $current_method = 0;
 
-        $raw_part_count = \count($this->raw_parts);
-        $method_name_count = \count(static::$method_names);
+        $raw_part_count = count($this->raw_parts);
+        $method_name_count = count(static::$method_names);
 
         while ($this->part < $raw_part_count) {
             $this->method = $current_method;
@@ -878,7 +877,7 @@ class Metar implements \ArrayAccess
 
             // ICAO visibility (in meters)
             if (isset($found[2]) && !empty($found[2])) {
-                $visibility = $this->createDistance((int)$found[2], 'm');
+                $visibility = $this->createDistance((int) $found[2], 'm');
             } // US visibility (in miles)
             else {
                 if (isset($found[3]) && !empty($found[3])) {
@@ -927,7 +926,7 @@ class Metar implements \ArrayAccess
             return false;
         }
 
-        $meters = $this->createDistance((int)$found[1], 'm');
+        $meters = $this->createDistance((int) $found[1], 'm');
         $this->set_result_value('visibility_min', $meters);
 
         if (isset($found[2]) && !empty($found[2])) {
@@ -1488,7 +1487,7 @@ class Metar implements \ArrayAccess
         $raw_parts = [];
 
         // Get all parts after trend part
-        while ($this->part < \count($this->raw_parts)) {
+        while ($this->part < count($this->raw_parts)) {
             if (preg_match($r, $this->raw_parts[$this->part], $found)) {
                 // Get trend flag
                 if (isset($found[2], static::$trends_flag_codes[$found[2]])) {
@@ -1618,7 +1617,7 @@ class Metar implements \ArrayAccess
 
         $remarks = [];
         // Get all parts after
-        while ($this->part < \count($this->raw_parts)) {
+        while ($this->part < count($this->raw_parts)) {
             if (isset($this->raw_parts[$this->part])) {
                 $remarks[] = $this->raw_parts[$this->part];
             }

@@ -2,8 +2,6 @@
 
 namespace App\Http\Resources;
 
-use App\Support\Units\Distance;
-
 class Flight extends Response
 {
     /**
