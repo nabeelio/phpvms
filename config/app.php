@@ -86,6 +86,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\vaCentralServiceProvider::class,
         App\Providers\ExtendedTimezonelistProvider::class,
+        App\Providers\MeasurementsProvider::class,
     ],
 
     'aliases' => [

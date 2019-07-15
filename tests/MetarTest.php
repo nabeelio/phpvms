@@ -50,8 +50,8 @@ class MetarTest extends TestCase
         $this->assertEquals('KJFK', $parsed['station']);
         $this->assertEquals(4, $parsed['observed_day']);
         $this->assertEquals('21:51 UTC', $parsed['observed_time']);
-        $this->assertEquals(13.38, $parsed['wind_speed']);
-        $this->assertEquals(20.06, $parsed['wind_gust_speed']);
+        $this->assertEquals(26, $parsed['wind_speed']['knots']);
+        $this->assertEquals(39, $parsed['wind_gust_speed']['knots']);
         $this->assertEquals(280, $parsed['wind_direction']);
         $this->assertEquals('W', $parsed['wind_direction_label']);
         $this->assertEquals(false, $parsed['wind_direction_varies']);
@@ -72,8 +72,7 @@ class MetarTest extends TestCase
         $this->assertEquals(24.8, $parsed['dew_point']['f']);
 
         $this->assertEquals(33, $parsed['humidity']);
-        $this->assertEquals(29.58, $parsed['barometer']);
-        $this->assertEquals(0.87, $parsed['barometer_in']);
+        $this->assertEquals(29.58, $parsed['barometer']['hPa']);
 
         $this->assertEquals('AO2 PK WND 27045/2128 PRESRR SLP018 T01221044', $parsed['remarks']);
     }
@@ -121,7 +120,7 @@ class MetarTest extends TestCase
         $parsed = Metar::parse($metar);
 
         $this->assertEquals('VFR', $parsed['category']);
-        $this->assertEquals(9.26, $parsed['wind_speed']);
+        $this->assertEquals(18, $parsed['wind_speed']['knots']);
         $this->assertEquals(8, $parsed['visibility']['mi']);
         $this->assertEquals(
             'Scattered at 4500 feet, cumulonimbus; broken sky at 6000 feet; overcast sky at 8000 feet',

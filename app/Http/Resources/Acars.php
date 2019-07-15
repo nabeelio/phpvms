@@ -2,11 +2,7 @@
 
 namespace App\Http\Resources;
 
-use App\Support\Units\Distance;
-use App\Support\Units\Fuel;
-use Illuminate\Http\Resources\Json\Resource;
-
-class Acars extends Resource
+class Acars extends Response
 {
     /**
      * Transform the resource into an array.
@@ -17,16 +13,13 @@ class Acars extends Resource
      */
     public function toArray($request)
     {
-        $obj = parent::toArray($request);
+        $res = parent::toArray($request);
 
-        if ($this->distance instanceof Distance) {
-            $obj['distance'] = $this->distance->units;
-        }
+        $this->checkUnitFields($res, [
+            'distance',
+            'fuel',
+        ]);
 
-        if ($this->fuel instanceof Fuel) {
-            $obj['fuel'] = $this->fuel->units;
-        }
-
-        return $obj;
+        return $res;
     }
 }

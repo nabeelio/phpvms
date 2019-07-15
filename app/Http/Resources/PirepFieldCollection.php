@@ -11,11 +11,11 @@ class PirepFieldCollection extends ResourceCollection
 {
     public function toArray($request)
     {
-        $obj = [];
+        $res = [];
         foreach ($this->collection as $field) {
-            $obj[$field->name] = $field->value;
+            $res[$field->name] = $field->value;
         }
 
-        return $obj;
+        return $res;
     }
 }

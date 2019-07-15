@@ -2,9 +2,7 @@
 
 namespace App\Http\Resources;
 
-use Illuminate\Http\Resources\Json\Resource;
-
-class JournalTransaction extends Resource
+class JournalTransaction extends Response
 {
     public function toArray($request)
     {
