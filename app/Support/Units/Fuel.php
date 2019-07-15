@@ -7,6 +7,11 @@ use PhpUnitsOfMeasure\PhysicalQuantity\Mass;
 
 class Fuel extends Unit
 {
+    public $responseUnits = [
+        'kg',
+        'lbs',
+    ];
+
     /**
      * @param float  $value
      * @param string $unit
@@ -18,10 +23,5 @@ class Fuel extends Unit
     {
         $this->unit = setting('units.fuel');
         $this->instance = new Mass($value, $unit);
-
-        $this->units = [
-            'kg'  => round($this->instance->toUnit('kg'), 2),
-            'lbs' => round($this->instance->toUnit('lbs'), 2),
-        ];
     }
 }

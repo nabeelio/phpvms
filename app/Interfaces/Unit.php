@@ -20,17 +20,18 @@ class Unit implements ArrayAccess
 
     /**
      * All of the units of this class
-     *
-     * @var array
      */
     public $units;
 
     /**
      * Holds an instance of the PhpUnit type
-     *
-     * @var
      */
     protected $instance;
+
+    /**
+     * Units that are included as part of the REST response
+     */
+    public $responseUnits = [];
 
     /**
      * @return mixed
@@ -38,6 +39,31 @@ class Unit implements ArrayAccess
     public function value()
     {
         return $this->__toString();
+    }
+
+    /**
+     * Just call toUnit() on the PhpUnitOfMeasure instance
+     *
+     * @param string $unit
+     *
+     * @return mixed
+     */
+    public function toUnit($unit)
+    {
+        return $this->instance->toUnit($unit);
+    }
+
+    /**
+     * Return all of the units that get sent back in a response
+     */
+    public function getResponseUnits(): array
+    {
+        $response = [];
+        foreach ($this->responseUnits as $unit) {
+            $response[$unit] = $this[$unit];
+        }
+
+        return $response;
     }
 
     /**
@@ -61,7 +87,7 @@ class Unit implements ArrayAccess
      */
     public function offsetGet($offset)
     {
-        return $this->units[$offset];
+        return round($this->instance->toUnit($offset), 2);
     }
 
     /**
@@ -72,7 +98,7 @@ class Unit implements ArrayAccess
      */
     public function offsetSet($offset, $value)
     {
-        $this->units[$offset] = $value;
+        // $this->units[$offset] = $value;
     }
 
     /**
@@ -82,7 +108,7 @@ class Unit implements ArrayAccess
      */
     public function offsetUnset($offset)
     {
-        $this->units[$offset] = null;
+        // $this->units[$offset] = null;
     }
 
     /**

@@ -2,15 +2,13 @@
 
 namespace App\Http\Resources;
 
-use Illuminate\Http\Resources\Json\Resource;
-
-class Bid extends Resource
+class Bid extends Response
 {
     public function toArray($request)
     {
-        $bid = parent::toArray($request);
-        $bid['flight'] = new Flight($this->flight);
+        $res = parent::toArray($request);
+        $res['flight'] = new Flight($this->flight);
 
-        return $bid;
+        return $res;
     }
 }

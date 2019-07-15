@@ -7,6 +7,12 @@ use PhpUnitsOfMeasure\PhysicalQuantity\Length;
 
 class Distance extends Unit
 {
+    public $responseUnits = [
+        'km',
+        'mi',
+        'nmi',
+    ];
+
     /**
      * Distance constructor.
      *
@@ -20,12 +26,5 @@ class Distance extends Unit
     {
         $this->unit = setting('units.distance');
         $this->instance = new Length($value, $unit);
-
-        $this->units = [
-            'mi'  => round($this->instance->toUnit('miles'), 2),
-            'nmi' => round($this->instance->toUnit('nmi'), 2),
-            'm'   => round($this->instance->toUnit('meters'), 2),
-            'km'  => round($this->instance->toUnit('meters') / 1000, 2),
-        ];
     }
 }

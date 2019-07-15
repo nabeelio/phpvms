@@ -10,6 +10,11 @@ use PhpUnitsOfMeasure\PhysicalQuantity\Volume as VolumeUnit;
  */
 class Volume extends Unit
 {
+    public $responseUnits = [
+        'gal',
+        'liters',
+    ];
+
     /**
      * @param float  $value
      * @param string $unit
@@ -21,10 +26,5 @@ class Volume extends Unit
     {
         $this->unit = setting('units.volume');
         $this->instance = new VolumeUnit($value, $unit);
-
-        $this->units = [
-            'gal'    => round($this->instance->toUnit('gal'), 2),
-            'liters' => round($this->instance->toUnit('liters'), 2),
-        ];
     }
 }

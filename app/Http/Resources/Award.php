@@ -2,9 +2,7 @@
 
 namespace App\Http\Resources;
 
-use Illuminate\Http\Resources\Json\Resource;
-
-class Award extends Resource
+class Award extends Response
 {
     public function toArray($request)
     {

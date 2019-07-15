@@ -7,6 +7,12 @@ use PhpUnitsOfMeasure\PhysicalQuantity\Length;
 
 class Altitude extends Unit
 {
+    public $responseUnits = [
+        'ft',
+        'km',
+        'm',
+    ];
+
     /**
      * @param float  $value
      * @param string $unit
@@ -18,11 +24,5 @@ class Altitude extends Unit
     {
         $this->unit = setting('units.altitude');
         $this->instance = new Length($value, $unit);
-
-        $this->units = [
-            'm'  => round($this->instance->toUnit('meters'), 2),
-            'km' => round($this->instance->toUnit('meters') / 1000, 2),
-            'ft' => round($this->instance->toUnit('feet'), 2),
-        ];
     }
 }

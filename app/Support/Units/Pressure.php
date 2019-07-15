@@ -3,16 +3,16 @@
 namespace App\Support\Units;
 
 use App\Interfaces\Unit;
-use PhpUnitsOfMeasure\PhysicalQuantity\Temperature as TemperatureUnit;
+use PhpUnitsOfMeasure\PhysicalQuantity\Pressure as PressureUnit;
 
 /**
  * Composition for the converter
  */
-class Temperature extends Unit
+class Pressure extends Unit
 {
     public $responseUnits = [
-        'C',
-        'F',
+        'atm',
+        'hPa',
     ];
 
     /**
@@ -25,6 +25,6 @@ class Temperature extends Unit
     public function __construct(float $value, string $unit)
     {
         $this->unit = setting('units.temperature');
-        $this->instance = new TemperatureUnit($value, $unit);
+        $this->instance = new PressureUnit($value, $unit);
     }
 }

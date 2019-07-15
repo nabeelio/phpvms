@@ -8,9 +8,9 @@ class Subfleet extends Resource
 {
     public function toArray($request)
     {
-        $arr = parent::toArray($request);
-        $arr['aircraft'] = Aircraft::collection($this->aircraft);
+        $res = parent::toArray($request);
+        $res['aircraft'] = Aircraft::collection($this->aircraft);
 
-        return $arr;
+        return $res;
     }
 }

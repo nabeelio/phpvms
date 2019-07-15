@@ -18,12 +18,12 @@ class News extends Resource
      */
     public function toArray($request)
     {
-        $resp = parent::toArray($request);
-        $resp['user'] = [
+        $res = parent::toArray($request);
+        $res['user'] = [
             'id'   => $this->user->id,
             'name' => $this->user->name,
         ];
 
-        return $resp;
+        return $res;
     }
 }

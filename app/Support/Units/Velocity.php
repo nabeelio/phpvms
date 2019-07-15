@@ -10,6 +10,11 @@ use PhpUnitsOfMeasure\PhysicalQuantity\Velocity as VelocityUnit;
  */
 class Velocity extends Unit
 {
+    public $responseUnits = [
+        'km/h',
+        'knots',
+    ];
+
     /**
      * @param float  $value
      * @param string $unit
@@ -21,10 +26,5 @@ class Velocity extends Unit
     {
         $this->unit = setting('units.speed');
         $this->instance = new VelocityUnit($value, $unit);
-
-        $this->units = [
-            'knots' => round($this->instance->toUnit('knots'), 2),
-            'km/h'  => round($this->instance->toUnit('km/h'), 2),
-        ];
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Support\Math;
+use App\Support\Units\Distance;
 
 class MathTest extends TestCase
 {
@@ -25,5 +26,12 @@ class MathTest extends TestCase
         foreach ($tests as $test) {
             $this->assertEquals($test['expected'], $test['fn']);
         }
+    }
+
+    public function testDistanceMeasurement()
+    {
+        $dist = new Distance(1, 'mi');
+        $this->assertEquals(1609.34, $dist['m']);
+        $this->assertEquals(1.61, $dist['km']);
     }
 }

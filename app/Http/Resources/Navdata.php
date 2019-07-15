@@ -9,16 +9,16 @@ class Navdata extends Resource
 {
     public function toArray($request)
     {
-        $point = parent::toArray($request);
+        $res = parent::toArray($request);
 
         // Some details about the navaid type
         $type = [
-            'type' => $point['type'],
-            'name' => NavaidType::label($point['type']),
+            'type' => $res['type'],
+            'name' => NavaidType::label($res['type']),
         ];
 
-        $point['type'] = $type;
+        $res['type'] = $type;
 
-        return $point;
+        return $res;
     }
 }

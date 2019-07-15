@@ -133,9 +133,9 @@ class Flight extends Model
     }
 
     /**
-     * Return a new Length unit so conversions can be made
+     * Return a new Distance unit so conversions can be made
      *
-     * @return int|Distance
+     * @return Distance
      */
     public function getDistanceAttribute()
     {
@@ -148,9 +148,9 @@ class Flight extends Model
 
             return new Distance($distance, config('phpvms.internal_units.distance'));
         } catch (NonNumericValue $e) {
-            return 0;
+            return new Distance(0, config('phpvms.internal_units.distance', 'nmi'));
         } catch (NonStringUnitName $e) {
-            return 0;
+            return new Distance(0, config('phpvms.internal_units.distance', 'nmi'));
         }
     }
 

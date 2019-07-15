@@ -277,7 +277,7 @@ class AcarsTest extends TestCase
         $aircraft = $subfleet['aircraft']->random();
 
         $uri = '/api/pireps/prefile';
-        $pirep = [
+        $pirep_create = [
             'airline_id'          => $airline->id,
             'aircraft_id'         => $aircraft->id,
             'dpt_airport_id'      => $airport->icao,
@@ -293,7 +293,7 @@ class AcarsTest extends TestCase
             ],
         ];
 
-        $response = $this->post($uri, $pirep);
+        $response = $this->post($uri, $pirep_create);
         $response->assertStatus(201);
 
         // Get the PIREP ID
@@ -314,7 +314,7 @@ class AcarsTest extends TestCase
          */
         $this->assertHasKeys($pirep, ['fields']);
         $this->assertEquals('custom_value', $pirep['fields']['custom_field']);
-
+        $this->assertEquals($pirep_create['planned_distance'], $pirep['planned_distance']['nmi']);
         $this->assertHasKeys($pirep['planned_distance'], ['mi', 'nmi', 'km']);
 
         /**
