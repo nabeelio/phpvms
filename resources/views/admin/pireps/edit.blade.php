@@ -11,7 +11,7 @@
                <div class="col-md-8">
                    <h5 style="margin-top: 0px;">
                        Filed By: <a href="{{ route('admin.users.edit', [$pirep->user_id]) }}" target="_blank">
-                           {{ $pirep->user->pilot_id }} {{ $pirep->user->name }}
+                           {{ $pirep->user->ident }} {{ $pirep->user->name }}
                        </a>
                    </h5>
                </div>

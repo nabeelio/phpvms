@@ -15,10 +15,12 @@ use App\Models\Observers\JournalTransactionObserver;
 use App\Models\Observers\SettingObserver;
 use App\Models\Observers\Sluggable;
 use App\Models\Observers\SubfleetObserver;
+use App\Models\Observers\UserObserver;
 use App\Models\PirepField;
 use App\Models\PirepFieldValue;
 use App\Models\Setting;
 use App\Models\Subfleet;
+use App\Models\User;
 use App\Repositories\SettingRepository;
 use App\Services\ModuleService;
 use Illuminate\Support\Facades\Schema;
@@ -53,6 +55,7 @@ class AppServiceProvider extends ServiceProvider
 
         Setting::observe(SettingObserver::class);
         Subfleet::observe(SubfleetObserver::class);
+        User::observe(UserObserver::class);
     }
 
     /**
