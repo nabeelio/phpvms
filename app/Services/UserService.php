@@ -103,7 +103,7 @@ class UserService extends Service
         $user->pilot_id = $max + 1;
         $user->save();
 
-        Log::info('Set pilot ID for user ' . $user->id . ' to ' . $user->pilot_id);
+        Log::info('Set pilot ID for user '.$user->id.' to '.$user->pilot_id);
 
         return $user;
     }
@@ -112,7 +112,7 @@ class UserService extends Service
      * Change a user's pilot ID
      *
      * @param User $user
-     * @param int $pilot_id
+     * @param int  $pilot_id
      *
      * @throws UserPilotIdExists
      *
@@ -122,6 +122,7 @@ class UserService extends Service
     {
         if (User::where('pilot_id', '=', $pilot_id)->exists()) {
             Log::error('User with id '.$pilot_id.' already exists');
+
             throw new UserPilotIdExists();
         }
 

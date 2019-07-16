@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Airport;
 use App\Models\User;
 use App\Repositories\SettingRepository;
 use App\Services\UserService;
@@ -192,6 +191,7 @@ class UserTest extends TestCase
 
     /**
      * Test the pilot ID being added when a new user is created
+     *
      * @expectedException \App\Exceptions\UserPilotIdExists
      */
     public function testUserPilotIdChangeAlreadyExists()
