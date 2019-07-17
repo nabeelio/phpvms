@@ -359,7 +359,7 @@ class ImporterTest extends TestCase
     /**
      * Try importing the aicraft in the airports. Should fail
      *
-     * @expectedException ValidationException
+     * @expectedException \Illuminate\Validation\ValidationException
      */
     public function testInvalidFileImport(): void
     {
