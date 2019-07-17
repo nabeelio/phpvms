@@ -126,7 +126,6 @@ class MetarTest extends TestCase
             'Scattered at 4500 feet, cumulonimbus; broken sky at 6000 feet; overcast sky at 8000 feet',
             $parsed['clouds_report_ft']
         );
-
     }
 
     public function testMetarTrends3()
