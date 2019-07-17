@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use App\Models\Pirep;
 use App\Repositories\PirepFieldRepository;
 use Illuminate\Foundation\Http\FormRequest;
-use Log;
+use Illuminate\Support\Facades\Log;
 
 class CreatePirepRequest extends FormRequest
 {

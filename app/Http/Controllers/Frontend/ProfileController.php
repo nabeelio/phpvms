@@ -133,7 +133,7 @@ class ProfileController extends Controller
         ]);
 
         if ($validator->fails()) {
-            Log::info('validator failed for user '.$user->pilot_id);
+            Log::info('validator failed for user '.$user->ident);
             Log::info($validator->errors()->toArray());
 
             return redirect(route('frontend.profile.edit', $id))
@@ -153,7 +153,7 @@ class ProfileController extends Controller
         }
         if ($request->hasFile('avatar')) {
             $avatar = $request->file('avatar');
-            $file_name = $user->pilot_id.'.'.$avatar->getClientOriginalExtension();
+            $file_name = $user->ident.'.'.$avatar->getClientOriginalExtension();
             $path = "avatars/{$file_name}";
 
             // Create the avatar, resizing it and keeping the aspect ratio.
@@ -189,7 +189,7 @@ class ProfileController extends Controller
     public function regen_apikey(Request $request)
     {
         $user = User::find(Auth::user()->id);
-        Log::info('Regenerating API key "'.$user->pilot_id.'"');
+        Log::info('Regenerating API key "'.$user->ident.'"');
 
         $user->api_key = Utils::generateApiKey();
         $user->save();

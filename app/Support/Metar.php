@@ -8,6 +8,7 @@ use App\Support\Units\Pressure;
 use App\Support\Units\Temperature;
 use App\Support\Units\Velocity;
 use function count;
+use Illuminate\Support\Facades\Log;
 use PhpUnitsOfMeasure\Exception\NonNumericValue;
 use PhpUnitsOfMeasure\Exception\NonStringUnitName;
 
@@ -341,6 +342,7 @@ class Metar implements \ArrayAccess
     public function __construct($raw, $taf = false, $debug = false, $icao = true)
     {
         $this->debug_enabled = $debug;
+        // Log::info('Parsing metar="'.$raw.'"');
 
         $raw_lines = explode("\n", $raw, 2);
         if (isset($raw_lines[1])) {
@@ -408,7 +410,7 @@ class Metar implements \ArrayAccess
      */
     protected function createAltitude($value, $unit)
     {
-        return new Altitude($value, $unit);
+        return new Altitude((float) $value, $unit);
     }
 
     /**
@@ -424,7 +426,7 @@ class Metar implements \ArrayAccess
      */
     protected function createDistance($value, $unit)
     {
-        return new Distance($value, $unit);
+        return new Distance((float) $value, $unit);
     }
 
     /**
@@ -440,7 +442,7 @@ class Metar implements \ArrayAccess
      */
     protected function createPressure($value, $unit)
     {
-        return new Pressure($value, $unit);
+        return new Pressure((float) $value, $unit);
     }
 
     /**
@@ -456,7 +458,7 @@ class Metar implements \ArrayAccess
      */
     protected function createTemperature($value, $unit)
     {
-        return new Temperature($value, $unit);
+        return new Temperature((float) $value, $unit);
     }
 
     /**
@@ -472,7 +474,7 @@ class Metar implements \ArrayAccess
      */
     protected function createVelocity($value, $unit)
     {
-        return new Velocity($value, $unit);
+        return new Velocity((float) $value, $unit);
     }
 
     /**
@@ -1118,6 +1120,7 @@ class Metar implements \ArrayAccess
             $report = implode(' ', $report);
             $report_ft = implode(' ', $report_ft);
 
+            $observed['report'] = $this->createAltitude($report_ft, 'ft');
             $observed['report'] = ucfirst($report);
             $observed['report_ft'] = ucfirst($report_ft);
 

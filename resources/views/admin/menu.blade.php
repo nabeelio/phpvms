@@ -32,6 +32,10 @@
             @ability('admin', 'finances')
             <li><a href="{{ url('/admin/finances') }}"><i class="pe-7s-display1"></i>finances</a></li>
             @endability
+
+            @ability('admin', 'users')
+            <li><a href="{{ url('/admin/users') }}"><i class="pe-7s-users"></i>users</a></li>
+            @endability
         </ul>
     </div>
 </li>
@@ -53,10 +57,6 @@
 
             @ability('admin', 'finances')
             <li><a href="{{ url('/admin/expenses') }}"><i class="pe-7s-cash"></i>expenses</a></li>
-            @endability
-
-            @ability('admin', 'users')
-            <li><a href="{{ url('/admin/users') }}"><i class="pe-7s-users"></i>users</a></li>
             @endability
 
             @ability('admin', 'ranks')

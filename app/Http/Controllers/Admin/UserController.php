@@ -292,7 +292,7 @@ class UserController extends Controller
     public function regen_apikey($id, Request $request)
     {
         $user = User::find($id);
-        Log::info('Regenerating API key "'.$user->pilot_id.'"');
+        Log::info('Regenerating API key "'.$user->ident.'"');
 
         $user->api_key = Utils::generateApiKey();
         $user->save();

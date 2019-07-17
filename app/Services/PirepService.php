@@ -425,7 +425,7 @@ class PirepService extends Service
         ]);
 
         if ($bid) {
-            Log::info('Bid for user: '.$pirep->user->pilot_id.' on flight '.$flight->ident);
+            Log::info('Bid for user: '.$pirep->user->ident.' on flight '.$flight->ident);
             $bid->delete();
         }
     }

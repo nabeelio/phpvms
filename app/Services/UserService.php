@@ -6,6 +6,7 @@ use App\Contracts\Service;
 use App\Events\UserRegistered;
 use App\Events\UserStateChanged;
 use App\Events\UserStatsChanged;
+use App\Exceptions\UserPilotIdExists;
 use App\Models\Enums\PirepState;
 use App\Models\Enums\UserState;
 use App\Models\Pirep;
@@ -16,6 +17,7 @@ use App\Repositories\AircraftRepository;
 use App\Repositories\SubfleetRepository;
 use App\Support\Units\Time;
 use Illuminate\Support\Collection;
+use function is_array;
 use Log;
 
 /**
@@ -67,7 +69,7 @@ class UserService extends Service
         // $user->attachRole($role);
 
         // Attach any additional roles
-        if (!empty($groups) && \is_array($groups)) {
+        if (!empty($groups) && is_array($groups)) {
             foreach ($groups as $group) {
                 $role = Role::where('name', $group)->first();
                 $user->attachRole($role);
@@ -79,6 +81,65 @@ class UserService extends Service
         $user->refresh();
 
         event(new UserRegistered($user));
+
+        return $user;
+    }
+
+    /**
+     * Find the next available pilot ID and set the current user's pilot_id to that +1
+     * Called from UserObserver right now after a record is created
+     *
+     * @param User $user
+     *
+     * @return User
+     */
+    public function findAndSetPilotId(User $user): User
+    {
+        if ($user->pilot_id !== null && $user->pilot_id > 0) {
+            return $user;
+        }
+
+        $max = (int) User::max('pilot_id');
+        $user->pilot_id = $max + 1;
+        $user->save();
+
+        Log::info('Set pilot ID for user '.$user->id.' to '.$user->pilot_id);
+
+        return $user;
+    }
+
+    public function isPilotIdAlreadyUsed(int $pilot_id): bool
+    {
+        return User::where('pilot_id', '=', $pilot_id)->exists();
+    }
+
+    /**
+     * Change a user's pilot ID
+     *
+     * @param User $user
+     * @param int  $pilot_id
+     *
+     * @throws UserPilotIdExists
+     *
+     * @return User
+     */
+    public function changePilotId(User $user, int $pilot_id): User
+    {
+        if ($user->pilot_id === $pilot_id) {
+            return $user;
+        }
+
+        if ($this->isPilotIdAlreadyUsed($pilot_id)) {
+            Log::error('User with id '.$pilot_id.' already exists');
+
+            throw new UserPilotIdExists();
+        }
+
+        $old_id = $user->pilot_id;
+        $user->pilot_id = $pilot_id;
+        $user->save();
+
+        Log::info('Changed pilot ID for user '.$user->id.' from '.$old_id.' to '.$user->pilot_id);
 
         return $user;
     }
@@ -133,7 +194,7 @@ class UserService extends Service
             return $user;
         }
 
-        Log::info('User '.$user->pilot_id.' state changing from '
+        Log::info('User '.$user->ident.' state changing from '
             .UserState::label($old_state).' to '
             .UserState::label($user->state));
 

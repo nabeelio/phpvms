@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
+use function request;
 
 class UpdateUserRequest extends FormRequest
 {
@@ -24,6 +25,13 @@ class UpdateUserRequest extends FormRequest
      */
     public function rules()
     {
-        return User::$rules;
+        $rules = User::$rules;
+
+        $user_id = request('id', null);
+
+        $rules['email'] .= '|unique:users,email,'.$user_id.',id';
+        $rules['pilot_id'] .= '|unique:users,pilot_id,'.$user_id.',id';
+
+        return $rules;
     }
 }

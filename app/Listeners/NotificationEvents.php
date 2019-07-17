@@ -68,7 +68,7 @@ class NotificationEvents extends Listener
     public function onUserRegister(UserRegistered $event): void
     {
         Log::info('onUserRegister: '
-            .$event->user->pilot_id.' is '
+            .$event->user->ident.' is '
             .UserState::label($event->user->state)
             .', sending active email');
 

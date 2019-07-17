@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use App\Repositories\SettingRepository;
 use App\Services\UserService;
 
@@ -149,14 +150,6 @@ class UserTest extends TestCase
             $subfleetB['subfleet']->id,
         ]);
 
-        /*
-         * Now we can do some actual tests
-         */
-
-        /*
-         * Do some sanity checks first
-         */
-
         // Make sure no flights are filtered out
         $this->settingsRepo->store('pilots.only_flights_from_current', false);
 
@@ -194,5 +187,42 @@ class UserTest extends TestCase
         $response->assertStatus(200);
         $body = $response->json()['data'];
         $this->assertCount(1, $body[0]['subfleets']);
+    }
+
+    /**
+     * Test the pilot ID being added when a new user is created
+     *
+     * @expectedException \App\Exceptions\UserPilotIdExists
+     */
+    public function testUserPilotIdChangeAlreadyExists()
+    {
+        $user1 = factory(App\Models\User::class)->create(['id' => 1]);
+        $user2 = factory(App\Models\User::class)->create(['id' => 2]);
+
+        // Now try to change the original user's pilot_id to 2 (should conflict)
+        $this->userSvc->changePilotId($user1, 2);
+    }
+
+    /**
+     * Test the pilot ID being added when a new user is created
+     */
+    public function testUserPilotIdAdded()
+    {
+        $new_user = factory(App\Models\User::class)->create(['id' => 1]);
+        $user = $this->userSvc->createUser($new_user);
+        $this->assertEquals($user->id, $user->pilot_id);
+
+        // Add a second user
+        $new_user = factory(App\Models\User::class)->create(['id' => 2]);
+        $user2 = $this->userSvc->createUser($new_user);
+        $this->assertEquals($user2->id, $user2->pilot_id);
+
+        // Now try to change the original user's pilot_id to 3
+        $user = $this->userSvc->changePilotId($user, 3);
+        $this->assertEquals(3, $user->pilot_id);
+
+        // Create a new user and the pilot_id should be 4
+        $user3 = factory(App\Models\User::class)->create(['id' => 3]);
+        $this->assertEquals(4, $user3->pilot_id);
     }
 }

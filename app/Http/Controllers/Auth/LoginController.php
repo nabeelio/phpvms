@@ -49,7 +49,7 @@ class LoginController extends Controller
 
         // TODO: How to handle ON_LEAVE?
         if ($user->state !== UserState::ACTIVE) {
-            Log::info('Trying to login '.$user->pilot_id.', state '
+            Log::info('Trying to login '.$user->ident.', state '
                 .UserState::label($user->state));
 
             // Log them out

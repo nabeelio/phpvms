@@ -15,6 +15,7 @@ roles:
 
 users:
   - id: 1
+    pilot_id: 1
     name: Admin User
     email: admin@phpvms.net
     password: admin
@@ -34,6 +35,7 @@ users:
     created_at: now
     updated_at: now
   - id: 2
+    pilot_id: 2
     name: Carla Walters
     email: carla.walters68@example.com
     password: admin
@@ -50,6 +52,7 @@ users:
     opt_in: 1
     toc_accepted: 1
   - id: 3
+    pilot_id: 3
     name: Raymond Pearson
     email: raymond.pearson56@example.com
     password: admin

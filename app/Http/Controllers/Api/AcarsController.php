@@ -131,7 +131,7 @@ class AcarsController extends Controller
         $this->checkCancelled($pirep);
 
         Log::debug(
-            'Posting ACARS update (user: '.Auth::user()->pilot_id.', pirep id :'.$id.'): ',
+            'Posting ACARS update (user: '.Auth::user()->ident.', pirep id :'.$id.'): ',
             $request->post()
         );
 

@@ -27,6 +27,7 @@ class PirepComment extends Resource
             'user'       => [
                 'id'       => $user->id,
                 'pilot_id' => $user->pilot_id,
+                'ident'    => $user->ident,
                 'name'     => $user->name,
             ],
         ];
