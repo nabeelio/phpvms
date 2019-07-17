@@ -2,7 +2,7 @@
 
 return [
     'dashboard'      => 'Tablero',
-    'administration' => 'Administración',
+    'administration' => 'Admin',
     'flight'         => 'Vuelo|Vuelos',
     'livemap'        => 'Mapa en vivo',
     'pilot'          => 'Piloto|Pilotos',

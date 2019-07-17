@@ -2,7 +2,7 @@
 
 return [
     'dashboard'      => 'Dashboard',
-    'administration' => 'Administration',
+    'administration' => 'Admin',
     'flight'         => 'Flight|Flights',
     'livemap'        => 'Live Map',
     'pilot'          => 'Pilot|Pilots',
