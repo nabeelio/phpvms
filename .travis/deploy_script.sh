@@ -90,7 +90,7 @@ if [ "$TRAVIS" = "true" ]; then
     # clear any app specific stuff that might have been loaded in
     find storage/app -mindepth 1 -not -name '.gitignore' -not -name public -not -name import -print0 -exec rm -rf {} +
     find storage/app/public -mindepth 1 -not -name '.gitignore' -not -name avatar -not -name uploads -print0 -exec rm -rf {} +
-    find storage/app/public/avatar -mindepth 1 -not -name '.gitignore' -print0 -exec rm -rf {} +
+    find storage/app/public/avatars -mindepth 1 -not -name '.gitignore' -print0 -exec rm -rf {} +
     find storage/app/public/uploads -mindepth 1 -not -name '.gitignore' -print0 -exec rm -rf {} +
     find storage/debugbar -mindepth 1 -not -name '.gitignore' -print0 -exec rm -rf {} +
     find storage/docker -mindepth 1 -not -name '.gitignore' -print0 -exec rm -rf {} +
