@@ -32,6 +32,9 @@ class UpdateUserRequest extends FormRequest
         // Validate if the pilot ID is already being used or not
         $rules['pilot_id'] = 'required|integer|unique:users,pilot_id,'.$user_id.',id';
 
+        // Add additional rules for when we're modifying
+        $rules['email'] .= '|unique:users,email,'.$user_id.',id';
+
         return $rules;
     }
 }
