@@ -96,8 +96,9 @@ class User extends Authenticatable
     ];
 
     public static $rules = [
-        'name'  => 'required',
-        'email' => 'required|email',
+        'pilot_id' => 'required|integer|unique:users,pilot_id',
+        'name'     => 'required',
+        'email'    => 'required|email',
     ];
 
     /**

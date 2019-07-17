@@ -108,6 +108,11 @@ class UserService extends Service
         return $user;
     }
 
+    public function isPilotIdAlreadyUsed(int $pilot_id): bool
+    {
+        return User::where('pilot_id', '=', $pilot_id)->exists();
+    }
+
     /**
      * Change a user's pilot ID
      *
@@ -120,7 +125,11 @@ class UserService extends Service
      */
     public function changePilotId(User $user, int $pilot_id): User
     {
-        if (User::where('pilot_id', '=', $pilot_id)->exists()) {
+        if ($user->pilot_id === $pilot_id) {
+            return $user;
+        }
+
+        if ($this->isPilotIdAlreadyUsed($pilot_id)) {
             Log::error('User with id '.$pilot_id.' already exists');
 
             throw new UserPilotIdExists();
