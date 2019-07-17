@@ -30,8 +30,8 @@ https://api.checkwx.com/#metar-decoded
         <tr>
             <td>@lang('widgets.weather.barometer')</td>
             <td>
-                {{ number_format($metar['barometer'], 2) }} hPa
-                / {{ number_format($metar['barometer_in'], 2) }} inHg
+                {{ number_format($metar['barometer']['hPa'], 2) }} hPa
+                / {{ number_format($metar['barometer']['inHg'], 2) }} inHg
             </td>
         </tr>
         @if($metar['clouds'])

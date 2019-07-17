@@ -138,4 +138,13 @@ class MetarTest extends TestCase
         $this->assertEquals('VFR', $metar['category']);
         $this->assertNotNull($metar);
     }
+
+    public function testMetar4Clouds()
+    {
+        $metar = 'KAUS 171153Z 18006KT 9SM FEW015 FEW250 26/24 A3003 RMK AO2 SLP156 T02560244 10267 20239 $';
+        $metar = Metar::parse($metar);
+
+        $this->assertNotNull($metar);
+        $this->assertEquals(2, count($metar->clouds));
+    }
 }
