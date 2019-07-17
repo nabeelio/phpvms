@@ -17,7 +17,6 @@ use App\Services\ImportExport\AircraftExporter;
 use App\Services\ImportExport\AirportExporter;
 use App\Services\ImportExport\FlightExporter;
 use App\Services\ImportService;
-use Illuminate\Validation\ValidationException;
 
 /**
  * Class ImporterTest
@@ -245,7 +244,7 @@ class ImporterTest extends TestCase
     /**
      * Test exporting all the flights to a file
      *
-     * @throws ValidationException
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function testAircraftExporter(): void
     {
@@ -383,7 +382,7 @@ class ImporterTest extends TestCase
     /**
      * Test the importing of expenses
      *
-     * @throws ValidationException
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function testExpenseImporter(): void
     {
@@ -422,7 +421,7 @@ class ImporterTest extends TestCase
     }
 
     /**
-     * @throws ValidationException
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function testFareImporter(): void
     {
@@ -462,7 +461,7 @@ class ImporterTest extends TestCase
     /**
      * Test the flight importer
      *
-     * @throws ValidationException
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function testFlightImporter(): void
     {
@@ -534,7 +533,7 @@ class ImporterTest extends TestCase
     /**
      * Test the flight importer
      *
-     * @throws ValidationException
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function testFlightImporterEmptyCustomFields(): void
     {
@@ -563,7 +562,7 @@ class ImporterTest extends TestCase
     }
 
     /**
-     * @throws ValidationException
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function testAircraftImporter(): void
     {
@@ -591,7 +590,7 @@ class ImporterTest extends TestCase
     }
 
     /**
-     * @throws ValidationException
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function testAirportImporter(): void
     {
@@ -630,7 +629,7 @@ class ImporterTest extends TestCase
     /**
      * Test importing the subfleets
      *
-     * @throws ValidationException
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function testSubfleetImporter(): void
     {
