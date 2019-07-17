@@ -29,7 +29,7 @@ class ExportService extends Service
     public function openCsv($path): Writer
     {
         $writer = Writer::createFromPath($path, 'w+');
-        CharsetConverter::addTo($writer, 'utf-8', 'iso-8859-15');
+        CharsetConverter::addTo($writer, 'utf-8', 'utf-8');
 
         return $writer;
     }

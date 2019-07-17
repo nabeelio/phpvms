@@ -1,7 +1,22 @@
 <?php
 
+use App\Contracts\ImportExport;
+use App\Models\Aircraft;
+use App\Models\Airport;
+use App\Models\Enums\Days;
+use App\Models\Enums\ExpenseType;
 use App\Models\Enums\FlightType;
+use App\Models\Expense;
+use App\Models\Fare;
+use App\Models\Flight;
+use App\Models\FlightFieldValue;
+use App\Models\Subfleet;
+use App\Services\ExportService;
 use App\Services\FareService;
+use App\Services\ImportExport\AircraftExporter;
+use App\Services\ImportExport\AirportExporter;
+use App\Services\ImportExport\FlightExporter;
+use App\Services\ImportService;
 
 /**
  * Class ImporterTest
@@ -15,9 +30,9 @@ class ImporterTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->importBaseClass = new \App\Contracts\ImportExport();
-        $this->importSvc = app(\App\Services\ImportService::class);
-        $this->fareSvc = app(\App\Services\FareService::class);
+        $this->importBaseClass = new ImportExport();
+        $this->importSvc = app(ImportService::class);
+        $this->fareSvc = app(FareService::class);
 
         Storage::fake('local');
     }
@@ -235,7 +250,7 @@ class ImporterTest extends TestCase
     {
         $aircraft = factory(App\Models\Aircraft::class)->create();
 
-        $exporter = new \App\Services\ImportExport\AircraftExporter();
+        $exporter = new AircraftExporter();
         $exported = $exporter->export($aircraft);
 
         $this->assertEquals($aircraft->iata, $exported['iata']);
@@ -244,8 +259,8 @@ class ImporterTest extends TestCase
         $this->assertEquals($aircraft->zfw, $exported['zfw']);
         $this->assertEquals($aircraft->subfleet->type, $exported['subfleet']);
 
-        $importer = app(\App\Services\ImportService::class);
-        $exporter = app(\App\Services\ExportService::class);
+        $importer = app(ImportService::class);
+        $exporter = app(ExportService::class);
         $file = $exporter->exportAircraft(collect([$aircraft]));
         $status = $importer->importAircraft($file);
         $this->assertCount(1, $status['success']);
@@ -257,18 +272,24 @@ class ImporterTest extends TestCase
      */
     public function testAirportExporter(): void
     {
-        $airport = factory(App\Models\Airport::class)->create();
-        $exporter = new \App\Services\ImportExport\AirportExporter();
+        $airport_name = 'Adolfo Suárez Madrid–Barajas Airport';
+
+        $airport = factory(App\Models\Airport::class)->create([
+            'name' => $airport_name,
+        ]);
+
+        $exporter = new AirportExporter();
         $exported = $exporter->export($airport);
 
         $this->assertEquals($airport->iata, $exported['iata']);
         $this->assertEquals($airport->icao, $exported['icao']);
         $this->assertEquals($airport->name, $exported['name']);
 
-        $importer = app(\App\Services\ImportService::class);
-        $exporter = app(\App\Services\ExportService::class);
+        $importer = app(ImportService::class);
+        $exporter = app(ExportService::class);
         $file = $exporter->exportAirports(collect([$airport]));
         $status = $importer->importAirports($file);
+
         $this->assertCount(1, $status['success']);
         $this->assertCount(0, $status['errors']);
     }
@@ -283,15 +304,15 @@ class ImporterTest extends TestCase
         [$airline, $subfleet] = $this->insertFlightsScaffoldData();
         $subfleet2 = factory(App\Models\Subfleet::class)->create(['type' => 'B74X']);
 
-        $fareY = \App\Models\Fare::where('code', 'Y')->first();
-        $fareF = \App\Models\Fare::where('code', 'F')->first();
+        $fareY = Fare::where('code', 'Y')->first();
+        $fareF = Fare::where('code', 'F')->first();
 
         $flight = factory(App\Models\Flight::class)->create([
             'airline_id'  => $airline->id,
             'flight_type' => 'J',
-            'days'        => \App\Models\Enums\Days::getDaysMask([
-                \App\Models\Enums\Days::TUESDAY,
-                \App\Models\Enums\Days::SUNDAY,
+            'days'        => Days::getDaysMask([
+                Days::TUESDAY,
+                Days::SUNDAY,
             ]),
         ]);
 
@@ -302,13 +323,13 @@ class ImporterTest extends TestCase
         $fareSvc->setForFlight($flight, $fareF);
 
         // Add some custom fields
-        \App\Models\FlightFieldValue::create([
+        FlightFieldValue::create([
             'flight_id' => $flight->id,
             'name'      => 'Departure Gate',
             'value'     => '4',
         ]);
 
-        \App\Models\FlightFieldValue::create([
+        FlightFieldValue::create([
             'flight_id' => $flight->id,
             'name'      => 'Arrival Gate',
             'value'     => 'C41',
@@ -316,7 +337,7 @@ class ImporterTest extends TestCase
 
         // Test the conversion
 
-        $exporter = new \App\Services\ImportExport\FlightExporter();
+        $exporter = new FlightExporter();
         $exported = $exporter->export($flight);
 
         $this->assertEquals('27', $exported['days']);
@@ -327,8 +348,8 @@ class ImporterTest extends TestCase
         $this->assertEquals('Y?capacity=100;F', $exported['fares']);
         $this->assertEquals('Departure Gate=4;Arrival Gate=C41', $exported['fields']);
 
-        $importer = app(\App\Services\ImportService::class);
-        $exporter = app(\App\Services\ExportService::class);
+        $importer = app(ImportService::class);
+        $exporter = app(ExportService::class);
         $file = $exporter->exportFlights(collect([$flight]));
         $status = $importer->importFlights($file);
         $this->assertCount(1, $status['success']);
@@ -378,7 +399,7 @@ class ImporterTest extends TestCase
         $this->assertCount(8, $status['success']);
         $this->assertCount(0, $status['errors']);
 
-        $expenses = \App\Models\Expense::all();
+        $expenses = Expense::all();
 
         $on_airline = $expenses->where('name', 'Per-Flight (multiplier, on airline)')->first();
         $this->assertEquals(200, $on_airline->amount);
@@ -386,16 +407,16 @@ class ImporterTest extends TestCase
 
         $pf = $expenses->where('name', 'Per-Flight (no muliplier)')->first();
         $this->assertEquals(100, $pf->amount);
-        $this->assertEquals(\App\Models\Enums\ExpenseType::FLIGHT, $pf->type);
+        $this->assertEquals(ExpenseType::FLIGHT, $pf->type);
 
         $catering = $expenses->where('name', 'Catering Staff')->first();
         $this->assertEquals(1000, $catering->amount);
-        $this->assertEquals(\App\Models\Enums\ExpenseType::DAILY, $catering->type);
-        $this->assertEquals(\App\Models\Subfleet::class, $catering->ref_model);
+        $this->assertEquals(ExpenseType::DAILY, $catering->type);
+        $this->assertEquals(Subfleet::class, $catering->ref_model);
         $this->assertEquals($subfleet->id, $catering->ref_model_id);
 
         $mnt = $expenses->where('name', 'Maintenance')->first();
-        $this->assertEquals(\App\Models\Aircraft::class, $mnt->ref_model);
+        $this->assertEquals(Aircraft::class, $mnt->ref_model);
         $this->assertEquals($aircraft->id, $mnt->ref_model_id);
     }
 
@@ -410,7 +431,7 @@ class ImporterTest extends TestCase
         $this->assertCount(3, $status['success']);
         $this->assertCount(0, $status['errors']);
 
-        $fares = \App\Models\Fare::all();
+        $fares = Fare::all();
 
         $y_class = $fares->where('code', 'Y')->first();
         $this->assertEquals('Economy', $y_class->name);
@@ -453,7 +474,7 @@ class ImporterTest extends TestCase
         $this->assertCount(1, $status['errors']);
 
         // See if it imported
-        $flight = \App\Models\Flight::where([
+        $flight = Flight::where([
             'airline_id'    => $airline->id,
             'flight_number' => '1972',
         ])->first();
@@ -474,12 +495,12 @@ class ImporterTest extends TestCase
         $this->assertEquals(true, $flight->active);
 
         // Test that the days were set properly
-        $this->assertTrue($flight->on_day(\App\Models\Enums\Days::MONDAY));
-        $this->assertTrue($flight->on_day(\App\Models\Enums\Days::FRIDAY));
-        $this->assertFalse($flight->on_day(\App\Models\Enums\Days::TUESDAY));
+        $this->assertTrue($flight->on_day(Days::MONDAY));
+        $this->assertTrue($flight->on_day(Days::FRIDAY));
+        $this->assertFalse($flight->on_day(Days::TUESDAY));
 
         // Check the custom fields entered
-        $fields = \App\Models\FlightFieldValue::where([
+        $fields = FlightFieldValue::where([
             'flight_id' => $flight->id,
         ])->get();
 
@@ -525,7 +546,7 @@ class ImporterTest extends TestCase
         $this->assertCount(0, $status['errors']);
 
         // See if it imported
-        $flight = \App\Models\Flight::where([
+        $flight = Flight::where([
             'airline_id'    => $airline->id,
             'flight_number' => '1972',
         ])->first();
@@ -533,7 +554,7 @@ class ImporterTest extends TestCase
         $this->assertNotNull($flight);
 
         // Check the custom fields entered
-        $fields = \App\Models\FlightFieldValue::where([
+        $fields = FlightFieldValue::where([
             'flight_id' => $flight->id,
         ])->get();
 
@@ -554,7 +575,7 @@ class ImporterTest extends TestCase
         $this->assertCount(1, $status['errors']);
 
         // See if it imported
-        $aircraft = \App\Models\Aircraft::where([
+        $aircraft = Aircraft::where([
             'registration' => 'N309US',
         ])->first();
 
@@ -580,7 +601,7 @@ class ImporterTest extends TestCase
         $this->assertCount(1, $status['errors']);
 
         // See if it imported
-        $airport = \App\Models\Airport::where([
+        $airport = Airport::where([
             'id' => 'KAUS',
         ])->first();
 
@@ -597,7 +618,7 @@ class ImporterTest extends TestCase
         $this->assertEquals('-97.6699', $airport->lon);
 
         // See if it imported
-        $airport = \App\Models\Airport::where([
+        $airport = Airport::where([
             'id' => 'KSFO',
         ])->first();
 
@@ -623,7 +644,7 @@ class ImporterTest extends TestCase
         $this->assertCount(1, $status['errors']);
 
         // See if it imported
-        $subfleet = \App\Models\Subfleet::where([
+        $subfleet = Subfleet::where([
             'type' => 'A32X',
         ])->first();
 
@@ -652,5 +673,19 @@ class ImporterTest extends TestCase
         $this->assertEquals('500%', $busi->pivot->price);
         $this->assertEquals(100, $busi->pivot->capacity);
         $this->assertEquals(null, $busi->pivot->cost);
+    }
+
+    public function testAirportSpecialCharsImporter(): void
+    {
+        $file_path = base_path('tests/data/airports_special_chars.csv');
+        $status = $this->importSvc->importAirports($file_path);
+
+        // See if it imported
+        $airport = Airport::where([
+            'id' => 'LEMD',
+        ])->first();
+
+        $this->assertNotNull($airport);
+        $this->assertEquals('Adolfo Suárez Madrid–Barajas Airport', $airport->name);
     }
 }
