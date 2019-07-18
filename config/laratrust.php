@@ -159,16 +159,16 @@ return [
     ],
 
     'foreign_keys' => [
-        'user' => 'user_id',
-        'role' => 'role_id',
+        'user'       => 'user_id',
+        'role'       => 'role_id',
         'permission' => 'permission_id',
-        'team' => 'team_id',
+        'team'       => 'team_id',
     ],
 
     'middleware' => [
         'register' => true,
         'handling' => 'redirect',
-        'params' => '/login',
+        'params'   => '/login',
 
     ],
 
