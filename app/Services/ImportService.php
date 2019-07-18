@@ -13,8 +13,8 @@ use App\Services\ImportExport\ExpenseImporter;
 use App\Services\ImportExport\FareImporter;
 use App\Services\ImportExport\FlightImporter;
 use App\Services\ImportExport\SubfleetImporter;
-use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 use League\Csv\Exception;
 use League\Csv\Reader;
@@ -119,7 +119,7 @@ class ImportService extends Service
             $row = collect($row)->map(function ($val, $index) {
                 $val = trim($val);
                 if ($val === '') {
-                    return;
+                    return null;
                 }
 
                 return $val;
