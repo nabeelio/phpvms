@@ -47,4 +47,4 @@ Route::group([
 Auth::routes(['verify' => true]);
 Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 
-require app_path('Routes/admin.php');
+require app_path('Http/Routes/admin.php');

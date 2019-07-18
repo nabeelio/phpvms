@@ -158,61 +158,17 @@ return [
 
     ],
 
-    /*
-    |--------------------------------------------------------------------------
-    | Laratrust Foreign Keys
-    |--------------------------------------------------------------------------
-    |
-    | These are the foreign keys used by laratrust in the intermediate tables.
-    |
-    */
     'foreign_keys' => [
-        /*
-         * User foreign key on Laratrust's role_user and permission_user tables.
-         */
-        'user' => 'user_id',
-
-        /*
-         * Role foreign key on Laratrust's role_user and permission_role tables.
-         */
-        'role' => 'role_id',
-
-        /*
-         * Role foreign key on Laratrust's permission_user and permission_role tables.
-         */
+        'user'       => 'user_id',
+        'role'       => 'role_id',
         'permission' => 'permission_id',
-
-        /*
-         * Role foreign key on Laratrust's role_user and permission_user tables.
-         */
-        'team' => 'team_id',
-
+        'team'       => 'team_id',
     ],
 
-    /*
-    |--------------------------------------------------------------------------
-    | Laratrust Middleware
-    |--------------------------------------------------------------------------
-    |
-    | This configuration helps to customize the Laratrust middleware behavior.
-    |
-    */
     'middleware' => [
-        /*
-         * Define if the laratrust middleware are registered automatically in the service provider
-         */
         'register' => true,
-
-        /*
-         * Method to be called in the middleware return case.
-         * Available: abort|redirect
-         */
-        'handling' => 'abort',
-
-        /*
-         * Parameter passed to the middleware_handling method
-         */
-        'params' => '403',
+        'handling' => 'redirect',
+        'params'   => '/login',
 
     ],
 

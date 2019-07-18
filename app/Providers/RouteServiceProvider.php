@@ -40,7 +40,7 @@ class RouteServiceProvider extends ServiceProvider
             'middleware' => 'web',
             'namespace'  => $this->namespace,
         ], function ($router) {
-            require app_path('Routes/web.php');
+            require app_path('Http/Routes/web.php');
         });
     }
 
@@ -59,7 +59,7 @@ class RouteServiceProvider extends ServiceProvider
             'prefix'     => 'api',
             'as'         => 'api.',
         ], function ($router) {
-            require app_path('Routes/api.php');
+            require app_path('Http/Routes/api.php');
         });
     }
 }
