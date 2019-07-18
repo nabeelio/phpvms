@@ -4,7 +4,7 @@
  */
 Route::group([
     'namespace'  => 'Admin', 'prefix' => 'admin', 'as' => 'admin.',
-    'middleware' => ['ability:admin,admin-access'],
+    'middleware' => ['update_pending', 'ability:admin,admin-access'],
 ], static function () {
     // CRUD for airlines
     Route::resource('airlines', 'AirlinesController');

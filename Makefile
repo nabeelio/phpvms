@@ -29,6 +29,13 @@ clean:
 clean-routes:
 	@php artisan route:clear
 
+.PHONY: clear
+clear:
+	@php artisan cache:clear
+	@php artisan config:clear
+	@php artisan route:clear
+	@php artisan view:clear
+
 .PHONY:  build
 build:
 	@php $(COMPOSER) install --no-interaction

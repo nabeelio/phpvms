@@ -7,16 +7,13 @@ use App\Facades\Utils;
 use App\Repositories\NewsRepository;
 use App\Repositories\PirepRepository;
 use App\Repositories\UserRepository;
-use Auth;
-use Flash;
 use Illuminate\Http\Request;
-use Log;
-use Version;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Laracasts\Flash\Flash;
+use SebastianBergmann\Version;
 use vierbergenlars\SemVer\version as semver;
 
-/**
- * Class DashboardController
- */
 class DashboardController extends Controller
 {
     private $newsRepo;
