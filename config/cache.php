@@ -24,7 +24,14 @@ return [
     ],
 
     'stores' => [
-        'array'    => ['driver' => 'array'],
+        'apc' => [
+            'driver' => 'apc',
+        ],
+
+        'array' => [
+            'driver' => 'array',
+        ],
+
         'database' => [
             'driver'     => 'database',
             'table'      => 'cache',
@@ -53,6 +60,10 @@ return [
                     'weight' => 100,
                 ],
             ],
+        ],
+
+        'opcache' => [
+            'driver' => 'opcache',
         ],
 
         'redis' => [

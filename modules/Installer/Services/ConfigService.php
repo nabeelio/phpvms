@@ -3,8 +3,12 @@
 namespace Modules\Installer\Services;
 
 use App\Contracts\Service;
+use Exception;
+use function extension_loaded;
 use Illuminate\Encryption\Encrypter;
-use Log;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Log;
+use function is_bool;
 use Nwidart\Modules\Support\Stub;
 use PDO;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -24,25 +28,26 @@ class ConfigService extends Service
     public function createConfigFiles($attrs): bool
     {
         $opts = [
-            'APP_ENV' => 'dev',
-            'APP_KEY' => $this->createAppKey(),
-            'SITE_NAME' => '',
-            'SITE_URL' => 'http://phpvms.test',
-            'DB_CONN' => '',
-            'DB_HOST' => '',
-            'DB_PORT' => 3306,
-            'DB_NAME' => '',
-            'DB_USER' => '',
-            'DB_PASS' => '',
-            'DB_PREFIX' => '',
+            'APP_ENV'             => 'dev',
+            'APP_KEY'             => $this->createAppKey(),
+            'SITE_NAME'           => '',
+            'SITE_URL'            => 'http://phpvms.test',
+            'CACHE_PREFIX'        => '',
+            'DB_CONN'             => '',
+            'DB_HOST'             => '',
+            'DB_PORT'             => 3306,
+            'DB_NAME'             => '',
+            'DB_USER'             => '',
+            'DB_PASS'             => '',
+            'DB_PREFIX'           => '',
             'DB_EMULATE_PREPARES' => false,
         ];
 
         $opts = array_merge($opts, $attrs);
 
         $opts = $this->determinePdoOptions($opts);
-        $opts = $this->getCacheDriver($opts);
-        $opts = $this->getQueueDriver($opts);
+        $opts = $this->configCacheDriver($opts);
+        $opts = $this->configQueueDriver($opts);
 
         $this->writeConfigFiles($opts);
 
@@ -64,7 +69,7 @@ class ConfigService extends Service
             $key = strtoupper($key);
 
             # cast for any boolean values
-            if(\is_bool($value)) {
+            if(is_bool($value)) {
                 $value = $value === true ? 'true' : 'false';
             }
 
@@ -129,14 +134,23 @@ class ConfigService extends Service
      * @param $opts
      * @return mixed
      */
-    protected function getCacheDriver($opts)
+    protected function configCacheDriver($opts)
     {
-        if(\extension_loaded('apc')) {
-            $opts['CACHE_DRIVER'] = 'apc';
-        } else {
-            $opts['CACHE_DRIVER'] = 'array';
+        // Set the cache prefix
+        $opts['CACHE_PREFIX'] = $opts['SITE_NAME'].'_';
+
+        // Figure out what cache driver to initially use, depending on
+        // what is installed. It won't detect redis or anything, though
+        foreach (config('installer.cache.drivers') as $ext => $driver) {
+            if (extension_loaded($ext)) {
+                Log::info('Detected extension "'.$ext.'", setting driver to "'.$driver.'"');
+                $opts['CACHE_DRIVER'] = $driver;
+                return $opts;
+            }
         }
 
+        Log::info('No extension detected, using file cache');
+        $opts['CACHE_DRIVER'] = config('installer.cache.default');
         return $opts;
     }
 
@@ -146,7 +160,7 @@ class ConfigService extends Service
      * @param $opts
      * @return mixed
      */
-    protected function getQueueDriver($opts)
+    protected function configQueueDriver($opts)
     {
         # If we're setting up a database, then also setup
         # the default queue driver to use the database
@@ -164,13 +178,13 @@ class ConfigService extends Service
      */
     public function removeConfigFiles()
     {
-        $env_file = \App::environmentFilePath();
-        $config_file = \App::environmentPath().'/config.php';
+        $env_file = App::environmentFilePath();
+        $config_file = App::environmentPath().'/config.php';
 
         if (file_exists($env_file)) {
             try {
                 unlink($env_file);
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 Log::error($e->getMessage());
             }
         }
@@ -178,7 +192,7 @@ class ConfigService extends Service
         if(file_exists($config_file)) {
             try {
                 unlink($config_file);
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 Log::error($e->getMessage());
             }
         }
@@ -193,7 +207,7 @@ class ConfigService extends Service
     {
         Stub::setBasePath(resource_path('/stubs/installer'));
 
-        $env_file = \App::environmentFilePath();
+        $env_file = App::environmentFilePath();
 
         if(file_exists($env_file) && !is_writable($env_file)) {
             Log::error('Permissions on existing env.php is not writable');
@@ -206,8 +220,8 @@ class ConfigService extends Service
         try {
             $stub = new Stub('/env.stub', $opts);
             $stub->render();
-            $stub->saveTo(\App::environmentPath(), \App::environmentFile());
-        } catch(\Exception $e) {
+            $stub->saveTo(App::environmentPath(), App::environmentFile());
+        } catch(Exception $e) {
             throw new FileException('Couldn\'t write env.php. (' . $e . ')');
         }
 
@@ -218,9 +232,9 @@ class ConfigService extends Service
         try {
             $stub = new Stub('/config.stub', $opts);
             $stub->render();
-            $stub->saveTo(\App::environmentPath(), 'config.php');
-        } catch (\Exception $e) {
-            unlink(\App::environmentPath().'/'. \App::environmentFile());
+            $stub->saveTo(App::environmentPath(), 'config.php');
+        } catch (Exception $e) {
+            unlink(App::environmentPath().'/'. App::environmentFile());
             throw new FileException('Couldn\'t write config.php. (' . $e . ')');
         }
     }

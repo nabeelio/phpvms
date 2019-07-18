@@ -5,6 +5,15 @@ return [
         'version' => '7.2'
     ],
 
+    'cache' => [
+        // Default driver to use when no driver is present
+        'default' => 'file',
+        'drivers' => [
+            'Zend OPcache' => 'opcache',
+            'apc' => 'apc',
+        ],
+    ],
+
     'extensions' => [
         'calendar',
         'openssl',

@@ -7,17 +7,17 @@
 
 return [
 
-    # overrides app.php
+    // Overrides config/app.php
     'app' => [
         'name' => '$SITE_NAME$',
-        'url' => '$SITE_URL$',
+        'url'  => '$SITE_URL$',
 
         # Don't forget to change these when live
-        'env' => 'local',
+        'env'   => 'local',
         'debug' => false,
     ],
 
-    # overrides phpvms.php
+    // Overrides config/phpvms.php
     'phpvms' => [
         /**
          * The ISO "Currency Code" to use, the list is in config/money.php
@@ -28,23 +28,25 @@ return [
         'currency' => 'USD',
     ],
 
-    # This is the name of the active theme
+    // This is the name of the active theme
+    // Overrides config/themes.php
     'themes' => [
         'default'   => 'default',
     ],
 
+    // Overrides config/vacentral.php
     'vacentral' => [
         'api_key' => '',
     ],
 
-    #
-    # Other settings and configuration you might not need to modify
-    #
+    //
+    // Other settings and configuration you might not need to modify
+    //
 
-    # overrides cache.php
+    // Overrides config/cache.php
     'cache' => [
         'default' => '$CACHE_DRIVER$',
-        'prefix' => 'phpvms_',
+        'prefix'  => '$CACHE_PREFIX$',
     ],
 
     /*
@@ -55,7 +57,7 @@ return [
         'enabled' => false,
 
         'sitekey' => '',
-        'secret' => '',
+        'secret'  => '',
 
         # Attributes can be found here:
         # https://developers.google.com/recaptcha/docs/display#render_param
@@ -64,7 +66,7 @@ return [
         ],
     ],
 
-    # overrides database.php
+    // Overrides config/database.php
     'database' => [
         'default' => env('DB_CONNECTION', '$DB_CONN$'),
         'connections' => [
@@ -79,6 +81,7 @@ return [
         ],
     ],
 
+    // Overrides config/logging.php
     'logging' => [
         'channels' => [
             'single' => ['level' => 'debug'],
@@ -86,7 +89,7 @@ return [
         ],
     ],
 
-    # overrides mail.php
+    // Overrides config/mail.php
     'mail' => [
         'driver' => 'mail',
         'host' => '',
@@ -99,6 +102,7 @@ return [
         'password' => '',
     ],
 
+    // Overrides config/session.php
     'session' => [
         'default' => 'file',
         'lifetime' => 60 * 24,  # 24 hours

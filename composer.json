@@ -20,6 +20,7 @@
         "appstract/laravel-opcache": "^2.0",
         "arrilot/laravel-widgets": "3.13.*",
         "doctrine/dbal": "2.9.*",
+        "elcobvg/laravel-opcache": "0.4.*",
         "fzaninotto/faker": "^1.8",
         "guzzlehttp/guzzle": "6.3.*",
         "hashids/hashids": "2.0.*",

@@ -13,11 +13,11 @@ use App\Services\ImportExport\ExpenseImporter;
 use App\Services\ImportExport\FareImporter;
 use App\Services\ImportExport\FlightImporter;
 use App\Services\ImportExport\SubfleetImporter;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 use League\Csv\Exception;
 use League\Csv\Reader;
-use Log;
-use Validator;
 
 /**
  * Class ImportService
