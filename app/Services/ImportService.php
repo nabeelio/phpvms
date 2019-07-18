@@ -119,7 +119,7 @@ class ImportService extends Service
             $row = collect($row)->map(function ($val, $index) {
                 $val = trim($val);
                 if ($val === '') {
-                    return null;
+                    return;
                 }
 
                 return $val;
