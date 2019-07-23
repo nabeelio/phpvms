@@ -8,8 +8,6 @@ use App\Models\Traits\HashIdTrait;
 use App\Support\Units\Distance;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
-use PhpUnitsOfMeasure\Exception\NonNumericValue;
-use PhpUnitsOfMeasure\Exception\NonStringUnitName;
 
 /**
  * @property string     id
@@ -131,30 +129,6 @@ class Flight extends Model
 
         return $flight_id;
     }
-
-    /**
-     * Return a new Distance unit so conversions can be made
-     *
-     * @param mixed $value
-     *
-     * @return Distance
-     */
-    /*public function getDistanceAttribute()
-    {
-        if (!array_key_exists('distance', $this->attributes)) {
-            return 0;
-        }
-
-        try {
-            $distance = (float) $this->attributes['distance'];
-
-            return new Distance($distance, config('phpvms.internal_units.distance'));
-        } catch (NonNumericValue $e) {
-            return new Distance(0, config('phpvms.internal_units.distance', 'nmi'));
-        } catch (NonStringUnitName $e) {
-            return new Distance(0, config('phpvms.internal_units.distance', 'nmi'));
-        }
-    }*/
 
     /**
      * Set the distance unit, convert to our internal default unit

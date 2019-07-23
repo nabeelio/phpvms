@@ -6,8 +6,6 @@ use App\Contracts\Model;
 use App\Models\Traits\HashIdTrait;
 use App\Support\Units\Distance;
 use App\Support\Units\Fuel;
-use PhpUnitsOfMeasure\Exception\NonNumericValue;
-use PhpUnitsOfMeasure\Exception\NonStringUnitName;
 
 /**
  * Class Acars
@@ -71,41 +69,10 @@ class Acars extends Model
         'fuel'        => 'float',
         'fuel_flow'   => 'float',
     ];
-    /*public static $sanitize = [
-        'sim_time' => 'carbon',
-        'created_at' => '',
-    ];*/
 
     public static $rules = [
         'pirep_id' => 'required',
     ];
-
-    /**
-     * Return a new Length unit so conversions can be made
-     *
-     * @param mixed $value
-     *
-     * @return int|Distance
-     */
-    /*public function getDistanceAttribute()
-    {
-        if (!array_key_exists('distance', $this->attributes)) {
-            return 0;
-        }
-
-        try {
-            $distance = (float) $this->attributes['distance'];
-            if ($this->skip_mutator) {
-                return $distance;
-            }
-
-            return new Distance($distance, config('phpvms.internal_units.distance'));
-        } catch (NonNumericValue $e) {
-            return 0;
-        } catch (NonStringUnitName $e) {
-            return 0;
-        }
-    }*/
 
     /**
      * Set the distance unit, convert to our internal default unit
@@ -122,29 +89,6 @@ class Acars extends Model
             $this->attributes['distance'] = $value;
         }
     }
-
-    /**
-     * Return a new Fuel unit so conversions can be made
-     *
-     * @param mixed $value
-     *
-     * @return int|Fuel
-     */
-    /*public function getFuelAttribute()
-    {
-        if (!array_key_exists('fuel', $this->attributes)) {
-            return 0;
-        }
-
-        try {
-            $fuel = (float) $this->attributes['fuel'];
-            return new Fuel($fuel, config('phpvms.internal_units.fuel'));
-        } catch (NonNumericValue $e) {
-            return 0;
-        } catch (NonStringUnitName $e) {
-            return 0;
-        }
-    }*/
 
     /**
      * Set the amount of fuel
