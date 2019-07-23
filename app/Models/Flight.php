@@ -135,6 +135,8 @@ class Flight extends Model
     /**
      * Return a new Distance unit so conversions can be made
      *
+     * @param mixed $value
+     *
      * @return Distance
      */
     /*public function getDistanceAttribute()

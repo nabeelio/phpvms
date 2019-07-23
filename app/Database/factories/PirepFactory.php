@@ -41,8 +41,8 @@ $factory->define(App\Models\Pirep::class, function (Faker $faker) {
         'fuel_used'           => function (array $pirep) {
             return round($pirep['block_fuel'] * .9, 2); // 90% of the fuel loaded was used
         },
-        'block_on_time'       => Carbon::now('UTC'),
-        'block_off_time'      => function (array $pirep) {
+        'block_on_time'  => Carbon::now('UTC'),
+        'block_off_time' => function (array $pirep) {
             return $pirep['block_on_time']->subMinutes($pirep['flight_time']);
         },
         'route'        => $faker->text(200),

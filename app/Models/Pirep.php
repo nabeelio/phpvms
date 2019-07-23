@@ -201,6 +201,8 @@ class Pirep extends Model
     /**
      * Return a new Length unit so conversions can be made
      *
+     * @param mixed $value
+     *
      * @return int|Distance
      */
     /*public function getDistanceAttribute()
