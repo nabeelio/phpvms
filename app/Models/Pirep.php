@@ -220,7 +220,6 @@ class Pirep extends Model
         return \in_array($this->state, static::$read_only_states, true);
     }
 
-
     /**
      * Return the flight progress in a percent.
      */
