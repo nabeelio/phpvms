@@ -28,6 +28,7 @@ class MigrationService extends Service
     public function syncAllSeeds(): void
     {
         $this->syncAllSettings();
+        $this->syncAllPermissions();
     }
 
     public function syncAllSettings(): void
@@ -40,6 +41,22 @@ class MigrationService extends Service
             }
 
             $this->addSetting($setting['key'], $setting);
+        }
+    }
+
+    public function syncAllPermissions(): void
+    {
+        $data = file_get_contents(database_path('/seeds/permissions.yml'));
+        $yml = Yaml::parse($data);
+        foreach ($yml as $perm) {
+            $count = DB::table('permissions')->where('name', $perm['name'])->count('name');
+            if ($count === 0) {
+                DB::table('permissions')->insert($perm);
+            } else {
+                DB::table('settings')
+                    ->where('name', $perm['name'])
+                    ->update($perm);
+            }
         }
     }
 

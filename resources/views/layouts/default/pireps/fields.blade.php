@@ -229,12 +229,26 @@ flight reports that have been filed. You've been warned!
                         @endif
                     </div>
                     <div class="col-4">
+                        {{ Form::label('block_fuel', __('pireps.block_fuel')) }} ({{config('phpvms.internal_units.fuel')}})
+                        @if(!empty($pirep) && $pirep->read_only)
+                            <p>{{ $pirep->block_fuel }}</p>
+                        @else
+                            <div class="input-group input-group-sm form-group">
+                                {{ Form::number('block_fuel', null, [
+                                    'class' => 'form-control',
+                                    'min' => '0',
+                                    'readonly' => (!empty($pirep) && $pirep->read_only),
+                                    ]) }}
+                            </div>
+                            <p class="text-danger">{{ $errors->first('block_fuel') }}</p>
+                        @endif
+                    </div>
+                    <div class="col-4">
                         {{ Form::label('fuel_used', __('pireps.fuel_used')) }} ({{config('phpvms.internal_units.fuel')}})
                         @if(!empty($pirep) && $pirep->read_only)
                             <p>{{ $pirep->fuel_used }}</p>
                         @else
                             <div class="input-group input-group-sm form-group">
-                                {{-- You probably don't want to change this ID if you want the fare select to work --}}
                                 {{ Form::number('fuel_used', null, [
                                     'class' => 'form-control',
                                     'min' => '0',

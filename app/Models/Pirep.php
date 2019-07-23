@@ -11,8 +11,6 @@ use App\Support\Units\Distance;
 use App\Support\Units\Fuel;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
-use PhpUnitsOfMeasure\Exception\NonNumericValue;
-use PhpUnitsOfMeasure\Exception\NonStringUnitName;
 
 /**
  * Class Pirep
@@ -35,6 +33,8 @@ use PhpUnitsOfMeasure\Exception\NonStringUnitName;
  * @property int         block_time
  * @property int         flight_time    In minutes
  * @property int         planned_flight_time
+ * @property float       block_fuel
+ * @property float       fuel_used
  * @property float       distance
  * @property float       planned_distance
  * @property string      route
@@ -124,6 +124,8 @@ class Pirep extends Model
         'flight_number'  => 'required',
         'dpt_airport_id' => 'required',
         'arr_airport_id' => 'required',
+        'block_fuel'     => 'required|numeric',
+        'fuel_used'      => 'required|numeric',
         'notes'          => 'nullable',
         'route'          => 'nullable',
     ];
@@ -132,7 +134,6 @@ class Pirep extends Model
      * If a PIREP is in these states, then it can't be changed.
      */
     public static $read_only_states = [
-        //PirepState::PENDING,
         PirepState::ACCEPTED,
         PirepState::REJECTED,
         PirepState::CANCELLED,
@@ -196,31 +197,6 @@ class Pirep extends Model
     }
 
     /**
-     * Return a new Length unit so conversions can be made
-     *
-     * @return int|Distance
-     */
-    public function getDistanceAttribute()
-    {
-        if (!array_key_exists('distance', $this->attributes)) {
-            return 0;
-        }
-
-        try {
-            $distance = (float) $this->attributes['distance'];
-            if ($this->skip_mutator) {
-                return $distance;
-            }
-
-            return new Distance($distance, config('phpvms.internal_units.distance'));
-        } catch (NonNumericValue $e) {
-            return 0;
-        } catch (NonStringUnitName $e) {
-            return 0;
-        }
-    }
-
-    /**
      * Set the distance unit, convert to our internal default unit
      *
      * @param $value
@@ -242,53 +218,6 @@ class Pirep extends Model
     public function getReadOnlyAttribute(): bool
     {
         return \in_array($this->state, static::$read_only_states, true);
-    }
-
-    /**
-     * Return a new Fuel unit so conversions can be made
-     *
-     * @return int|Fuel
-     */
-    public function getFuelUsedAttribute()
-    {
-        if (!array_key_exists('fuel_used', $this->attributes)) {
-            return 0;
-        }
-
-        try {
-            $fuel_used = (float) $this->attributes['fuel_used'];
-
-            return new Fuel($fuel_used, config('phpvms.internal_units.fuel'));
-        } catch (NonNumericValue $e) {
-            return 0;
-        } catch (NonStringUnitName $e) {
-            return 0;
-        }
-    }
-
-    /**
-     * Return the planned_distance in a converter class
-     *
-     * @return int|Distance
-     */
-    public function getPlannedDistanceAttribute()
-    {
-        if (!array_key_exists('planned_distance', $this->attributes)) {
-            return 0;
-        }
-
-        try {
-            $distance = (float) $this->attributes['planned_distance'];
-            if ($this->skip_mutator) {
-                return $distance;
-            }
-
-            return new Distance($distance, config('phpvms.internal_units.distance'));
-        } catch (NonNumericValue $e) {
-            return 0;
-        } catch (NonStringUnitName $e) {
-            return 0;
-        }
     }
 
     /**

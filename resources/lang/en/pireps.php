@@ -21,6 +21,7 @@ return [
     'fieldsreadonly'       => 'Once a PIREP has been submitted, certain fields go into read-only mode.',
     'flightinformations'   => 'Flight Information',
     'flightident'          => 'Flight Number/Code/Leg',
+    'block_fuel'           => 'Block Fuel',
     'fuel_used'            => 'Fuel Used',
     'codeoptional'         => 'Code (optional)',
     'legoptional'          => 'Leg (optional)',

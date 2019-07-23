@@ -37,10 +37,12 @@ $factory->define(App\Models\Pirep::class, function (Faker $faker) {
         'flight_time'         => $faker->numberBetween(60, 360),
         'planned_flight_time' => $faker->numberBetween(60, 360),
         'zfw'                 => $faker->randomFloat(2),
-        'block_fuel'          => $faker->randomFloat(2, 0, 30000),
-        'fuel_used'           => $faker->randomFloat(2, 0, 30000),
-        'block_on_time'       => Carbon::now('UTC'),
-        'block_off_time'      => function (array $pirep) {
+        'block_fuel'          => $faker->randomFloat(2, 0, 1000),
+        'fuel_used'           => function (array $pirep) {
+            return round($pirep['block_fuel'] * .9, 2); // 90% of the fuel loaded was used
+        },
+        'block_on_time'  => Carbon::now('UTC'),
+        'block_off_time' => function (array $pirep) {
             return $pirep['block_on_time']->subMinutes($pirep['flight_time']);
         },
         'route'        => $faker->text(200),

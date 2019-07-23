@@ -44,6 +44,10 @@ class Database
     {
         $imported = [];
         $yml = Yaml::parse($yml);
+        if (empty($yml)) {
+            return $imported;
+        }
+
         foreach ($yml as $table => $rows) {
             $imported[$table] = 0;
 
@@ -78,6 +82,10 @@ class Database
         // encrypt any password fields
         if (array_key_exists('password', $row)) {
             $row['password'] = bcrypt($row['password']);
+        }
+
+        if (empty($row)) {
+            return $row;
         }
 
         // if any time fields are == to "now", then insert the right time

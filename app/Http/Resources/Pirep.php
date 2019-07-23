@@ -3,6 +3,8 @@
 namespace App\Http\Resources;
 
 use App\Models\Enums\PirepStatus;
+use App\Support\Units\Distance;
+use App\Support\Units\Fuel;
 
 class Pirep extends Response
 {
@@ -11,6 +13,9 @@ class Pirep extends Response
      *
      * @param \Illuminate\Http\Request $request
      *
+     * @throws \PhpUnitsOfMeasure\Exception\NonNumericValue
+     * @throws \PhpUnitsOfMeasure\Exception\NonStringUnitName
+     *
      * @return array
      */
     public function toArray($request)
@@ -18,11 +23,21 @@ class Pirep extends Response
         $res = parent::toArray($request);
         $res['ident'] = $this->ident;
 
-        $this->checkUnitFields($res, [
-            'distance',
-            'fuel_used',
-            'planned_distance',
-        ]);
+        // Set these to the response units
+        if (!empty($res['distance'])) {
+            $distance = new Distance($res['distance'], config('phpvms.internal_units.distance'));
+            $res['distance'] = $distance->getResponseUnits();
+        }
+
+        if (!empty($res['fuel_used'])) {
+            $fuel_used = new Fuel($res['fuel_used'], config('phpvms.internal_units.fuel'));
+            $res['fuel_used'] = $fuel_used->getResponseUnits();
+        }
+
+        if (!empty($res['planned_distance'])) {
+            $planned_dist = new Distance($res['planned_distance'], config('phpvms.internal_units.distance'));
+            $res['planned_distance'] = $planned_dist->getResponseUnits();
+        }
 
         /*
          * Relationship fields

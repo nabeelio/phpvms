@@ -11,7 +11,7 @@ use App\Support\Money;
 use Carbon\Carbon;
 
 /**
- * Class Journal
+ * Class Ledger
  *
  * @property    Money  $balance
  * @property    string $currency

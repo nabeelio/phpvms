@@ -17,6 +17,9 @@ use App\Models\Traits\FilesTrait;
  * @property string country
  * @property string timezone
  * @property float  ground_handling_cost
+ * @property float  fuel_100ll_cost
+ * @property float  fuel_jeta_cost
+ * @property float  fuel_mogas_cost
  * @property float  lat
  * @property float  lon
  */
@@ -67,6 +70,9 @@ class Airport extends Model
         'lat'                  => 'required|numeric',
         'lon'                  => 'required|numeric',
         'ground_handling_cost' => 'nullable|numeric',
+        'fuel_100ll_cost'      => 'nullable|numeric',
+        'fuel_jeta_cost'       => 'nullable|numeric',
+        'fuel_mogas_cost'      => 'nullable|numeric',
     ];
 
     /**
