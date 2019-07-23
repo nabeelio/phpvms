@@ -1,5 +1,6 @@
 acars:
-  - pirep_id: pirepid_1
+  - id: acars_1
+    pirep_id: pirepid_1
     type: 1
     nav_type: 2
     name: TNV
@@ -7,7 +8,8 @@ acars:
     lon: -96.058239
     created_at: now
     updated_at: now
-  - pirep_id: pirepid_1
+  - id: acars_2
+    pirep_id: pirepid_1
     type: 1
     nav_type: 2
     name: IAH
@@ -15,7 +17,8 @@ acars:
     lon: -95.345719
     created_at: now
     updated_at: now
-  - pirep_id: pirepid_1
+  - id: acars_3
+    pirep_id: pirepid_1
     type: 1
     nav_type: 2
     name: LCH
@@ -23,7 +26,8 @@ acars:
     lon: -93.105569
     created_at: now
     updated_at: now
-  - pirep_id: pirepid_1
+  - id: acars_4
+    pirep_id: pirepid_1
     type: 1
     nav_type: 2
     name: MEI
@@ -31,7 +35,8 @@ acars:
     lon: -88.804267
     created_at: now
     updated_at: now
-  - pirep_id: pirepid_1
+  - id: acars_5
+    pirep_id: pirepid_1
     type: 1
     nav_type: 2
     name: ATL
@@ -39,7 +44,8 @@ acars:
     lon: -84.435064
     created_at: now
     updated_at: now
-  - pirep_id: pirepid_1
+  - id: acars_6
+    pirep_id: pirepid_1
     type: 1
     nav_type: 2
     name: SIE

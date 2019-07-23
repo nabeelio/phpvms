@@ -3,7 +3,6 @@
 namespace App\Console\Commands;
 
 use App\Console\Command;
-use App\Services\DatabaseService;
 use DB;
 use Symfony\Component\Yaml\Yaml;
 
@@ -15,12 +14,7 @@ class YamlExport extends Command
     protected $signature = 'phpvms:yaml-export {tables*}';
     protected $description = 'YAML table export';
 
-    /**
-     * YamlExport constructor.
-     *
-     * @param DatabaseService $dbSvc
-     */
-    public function __construct(DatabaseService $dbSvc)
+    public function __construct()
     {
         parent::__construct();
     }

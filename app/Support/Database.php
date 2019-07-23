@@ -44,6 +44,10 @@ class Database
     {
         $imported = [];
         $yml = Yaml::parse($yml);
+        if (empty($yml)) {
+            return $imported;
+        }
+
         foreach ($yml as $table => $rows) {
             $imported[$table] = 0;
 
@@ -80,6 +84,10 @@ class Database
             $row['password'] = bcrypt($row['password']);
         }
 
+        if (empty($row)) {
+            return $row;
+        }
+
         // if any time fields are == to "now", then insert the right time
         foreach ($row as $column => $value) {
             if (strtolower($value) === 'now') {
@@ -91,6 +99,7 @@ class Database
             DB::table($table)->insert($row);
         } catch (QueryException $e) {
             Log::error($e);
+            dd($row);
 
             throw $e;
         }

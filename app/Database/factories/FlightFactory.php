@@ -22,7 +22,7 @@ $factory->define(App\Models\Flight::class, function (Faker $faker) {
         'alt_airport_id' => function () {
             return factory(App\Models\Airport::class)->create()->id;
         },
-        'distance'    => $faker->numberBetween(0, 1000),
+        'distance'    => $faker->numberBetween(1, 1000),
         'route'       => null,
         'level'       => 0,
         'dpt_time'    => $faker->time(),

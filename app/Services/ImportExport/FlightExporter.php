@@ -37,7 +37,7 @@ class FlightExporter extends ImportExport
 
         // Modify special fields
         $ret['airline'] = $ret['airline']->icao;
-        $ret['distance'] = $ret['distance'][config('phpvms.internal_units.distance')];
+        // $ret['distance'] = $ret['distance'][config('phpvms.internal_units.distance')];
 
         $ret['dpt_airport'] = $flight->dpt_airport_id;
         $ret['arr_airport'] = $flight->arr_airport_id;

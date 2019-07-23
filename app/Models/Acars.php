@@ -85,7 +85,7 @@ class Acars extends Model
      *
      * @return int|Distance
      */
-    public function getDistanceAttribute()
+    /*public function getDistanceAttribute()
     {
         if (!array_key_exists('distance', $this->attributes)) {
             return 0;
@@ -103,7 +103,7 @@ class Acars extends Model
         } catch (NonStringUnitName $e) {
             return 0;
         }
-    }
+    }*/
 
     /**
      * Set the distance unit, convert to our internal default unit
@@ -126,7 +126,7 @@ class Acars extends Model
      *
      * @return int|Fuel
      */
-    public function getFuelAttribute()
+    /*public function getFuelAttribute()
     {
         if (!array_key_exists('fuel', $this->attributes)) {
             return 0;
@@ -140,7 +140,7 @@ class Acars extends Model
         } catch (NonStringUnitName $e) {
             return 0;
         }
-    }
+    }*/
 
     /**
      * Set the amount of fuel

@@ -72,7 +72,13 @@
         </div>
 
         <div class="form-group col-md-6">
+            {{ Form::label('fuel_jeta_cost', 'Jet A Fuel Cost:') }}
+            {{ Form::number('fuel_jeta_cost', null, ['class' => 'form-control']) }}
+            <p class="text-danger">{{ $errors->first('fuel_jeta_cost') }}</p>
 
+            @component('admin.components.info')
+                This is the cost per {{ config('phpvms.internal_units.fuel') }}
+            @endcomponent
         </div>
 
     </div>

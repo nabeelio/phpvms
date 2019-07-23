@@ -28,6 +28,7 @@
             @endif
         </td>
         <td>&nbsp;</td>
+        @if ($on_edit_page === false)
         <td>
             <form action="{{ route('admin.pireps.edit', [$pirep->id]) }}">
             <button type="submit"
@@ -35,5 +36,6 @@
                 <i class="fas fa-pencil-alt"></i>&nbsp;&nbsp;Edit</button>
             </form>
         </td>
+        @endif
     </tr>
 </table>

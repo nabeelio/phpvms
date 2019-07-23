@@ -21,6 +21,7 @@ return [
     'fieldsreadonly'       => 'Una vez que se ha enviado un PIREP, ciertos campos pasan al modo de solo lectura.',
     'flightinformations'   => 'Información de vuelo',
     'flightident'          => 'Vuelo Número/Código/Etapa',
+    'block_fuel'           => 'Bloque de Combustible',
     'fuel_used'            => 'Combustible Usado',
     'codeoptional'         => 'Código (opcional)',
     'legoptional'          => 'Etapa (opcional)',

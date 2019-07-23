@@ -137,7 +137,7 @@ class Flight extends Model
      *
      * @return Distance
      */
-    public function getDistanceAttribute()
+    /*public function getDistanceAttribute()
     {
         if (!array_key_exists('distance', $this->attributes)) {
             return 0;
@@ -152,7 +152,7 @@ class Flight extends Model
         } catch (NonStringUnitName $e) {
             return new Distance(0, config('phpvms.internal_units.distance', 'nmi'));
         }
-    }
+    }*/
 
     /**
      * Set the distance unit, convert to our internal default unit
