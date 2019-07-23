@@ -99,7 +99,6 @@ class Database
             DB::table($table)->insert($row);
         } catch (QueryException $e) {
             Log::error($e);
-            dd($row);
 
             throw $e;
         }
