@@ -325,6 +325,9 @@ class UserService extends Service
             'state'   => PirepState::ACCEPTED,
         ];
 
+        $flight_count = Pirep::where($w)->count();
+        $user->flights = $flight_count;
+
         $flight_time = Pirep::where($w)->sum('flight_time');
         $user->flight_time = $flight_time;
 

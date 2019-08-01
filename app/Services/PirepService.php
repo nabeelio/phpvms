@@ -21,7 +21,7 @@ use App\Models\PirepFieldValue;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Log;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Class PirepService
@@ -181,6 +181,8 @@ class PirepService extends Service
             $pirep->submitted_at = Carbon::now('UTC');
         }
 
+        $pirep->status = PirepStatus::ARRIVED;
+
         $pirep->save();
         $pirep->refresh();
 
@@ -213,10 +215,6 @@ class PirepService extends Service
             }
         }
 
-        $pirep->state = $default_state;
-        $pirep->status = PirepStatus::ARRIVED;
-        $pirep->save();
-
         Log::info('New PIREP filed', [$pirep]);
         event(new PirepFiled($pirep));
 
@@ -224,7 +222,11 @@ class PirepService extends Service
         if ($default_state === PirepState::ACCEPTED) {
             $pirep = $this->accept($pirep);
             $this->setPilotState($pirep->pilot, $pirep);
+        } else {
+            $pirep->state = $default_state;
         }
+
+        $pirep->save();
 
         // Check the user state, set them to ACTIVE if on leave
         if ($pirep->user->state !== UserState::ACTIVE) {
@@ -258,7 +260,9 @@ class PirepService extends Service
 
     /**
      * @param Pirep $pirep
-     * @param int   $new_state
+     * @param int $new_state
+     *
+     * @throws \Exception
      *
      * @return Pirep
      */
@@ -340,9 +344,6 @@ class PirepService extends Service
         $pirep->aircraft->save();
 
         $pirep->refresh();
-
-        // Any ancillary tasks before an event is dispatched
-        $this->removeBid($pirep);
 
         $this->setPilotState($pilot, $pirep);
         event(new PirepAccepted($pirep));
