@@ -99,6 +99,12 @@ if [ "$TRAVIS" = "true" ]; then
     find storage/framework/views -mindepth 1 -not -name '.gitignore' -print0 -exec rm -rf {} +
     find storage/logs -mindepth 1 -not -name '.gitignore' -print0 -exec rm -rf {} +
 
+    mkdir -p storage/app/public/avatars
+    mkdir -p storage/app/public/uploads
+    mkdir -p storage/framework/cache
+    mkdir -p storage/framework/sessions
+    mkdir -p storage/framework/views
+
     # Regenerate the autoloader and classes
     composer dump-autoload
     make clean
