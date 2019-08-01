@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Events\Expenses;
 use App\Events\UserStatsChanged;
 use App\Listeners\AwardListener;
+use App\Listeners\BidEvents;
 use App\Listeners\ExpenseListener;
 use App\Listeners\FinanceEvents;
 use App\Listeners\NotificationEvents;
@@ -29,6 +30,7 @@ class EventServiceProvider extends ServiceProvider
     ];
 
     protected $subscribe = [
+        BidEvents::class,
         FinanceEvents::class,
         NotificationEvents::class,
     ];

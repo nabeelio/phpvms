@@ -7,7 +7,7 @@ use App\Events\CronNightly;
 use App\Models\Enums\UserState;
 use App\Repositories\UserRepository;
 use App\Services\UserService;
-use Log;
+use Illuminate\Support\Facades\Log;
 
 /**
  * This recalculates the balances on all of the journals

@@ -279,7 +279,7 @@ class PirepController extends Controller
             // Can they fly this aircraft?
             if (setting('pireps.restrict_aircraft_to_rank', false)
                 && !$this->userSvc->aircraftAllowed(Auth::user(), $pirep->aircraft_id)) {
-                Log::info('Pilot ' . Auth::user()->id . ' not allowed to fly aircraft');
+                Log::info('Pilot '.Auth::user()->id.' not allowed to fly aircraft');
                 return $this->flashError(
                     'You are not allowed to fly this aircraft!',
                     'frontend.pireps.create'
@@ -290,7 +290,7 @@ class PirepController extends Controller
             /* @noinspection NotOptimalIfConditionsInspection */
             if (setting('pireps.only_aircraft_at_dpt_airport')
                 && $pirep->aircraft_id !== $pirep->dpt_airport_id) {
-                Log::info('Aircraft ' . $pirep->aircraft_id . ' not at departure airport '.$pirep->dpt_airport_id.', erroring out');
+                Log::info('Aircraft '.$pirep->aircraft_id.' not at departure airport '.$pirep->dpt_airport_id.', erroring out');
                 return $this->flashError(
                     'This aircraft is not positioned at the departure airport!',
                     'frontend.pireps.create'

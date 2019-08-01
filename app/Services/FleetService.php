@@ -7,9 +7,6 @@ use App\Models\Flight;
 use App\Models\Rank;
 use App\Models\Subfleet;
 
-/**
- * Class FleetService
- */
 class FleetService extends Service
 {
     /**

@@ -221,6 +221,8 @@ class PIREPTest extends TestCase
         $this->assertGreaterThan($user->rank_id, $pilot->rank_id);
         $this->assertEquals($last_pirep->arr_airport_id, $pilot->curr_airport_id);
 
+        $this->assertEquals(2, $pilot->flights);
+
         //
         // Submit another PIREP, adding another 6 hours
         // it should automatically be accepted
@@ -238,6 +240,9 @@ class PIREPTest extends TestCase
         $this->pirepSvc->submit($pirep);
 
         $pilot->refresh();
+
+        $this->assertEquals(3, $pilot->flights);
+
         $latest_pirep = Pirep::where('id', $pilot->last_pirep_id)->first();
 
         // Make sure PIREP was auto updated
