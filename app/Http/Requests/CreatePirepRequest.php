@@ -51,8 +51,6 @@ class CreatePirepRequest extends FormRequest
             $field_rules[$field->slug] = $field->required ? 'required' : 'nullable';
         }
 
-        Log::debug('createPirepFormRequest::rules', $field_rules);
-
         return $field_rules;
     }
 }

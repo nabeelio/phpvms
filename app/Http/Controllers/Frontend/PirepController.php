@@ -24,7 +24,7 @@ use Carbon\Carbon;
 use Flash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Log;
+use Illuminate\Support\Facades\Log;
 use PirepStatus;
 
 /**
@@ -269,6 +269,7 @@ class PirepController extends Controller
             // Are they allowed at this airport?
             if (setting('pilots.only_flights_from_current')
                 && Auth::user()->curr_airport_id !== $pirep->dpt_airport_id) {
+                Log::info('Pilot '.Auth::user()->id.' not at departure airport, erroring out');
                 return $this->flashError(
                     'You are currently not at the departure airport!',
                     'frontend.pireps.create'
@@ -278,6 +279,7 @@ class PirepController extends Controller
             // Can they fly this aircraft?
             if (setting('pireps.restrict_aircraft_to_rank', false)
                 && !$this->userSvc->aircraftAllowed(Auth::user(), $pirep->aircraft_id)) {
+                Log::info('Pilot ' . Auth::user()->id . ' not allowed to fly aircraft');
                 return $this->flashError(
                     'You are not allowed to fly this aircraft!',
                     'frontend.pireps.create'
@@ -288,6 +290,7 @@ class PirepController extends Controller
             /* @noinspection NotOptimalIfConditionsInspection */
             if (setting('pireps.only_aircraft_at_dpt_airport')
                 && $pirep->aircraft_id !== $pirep->dpt_airport_id) {
+                Log::info('Aircraft ' . $pirep->aircraft_id . ' not at departure airport '.$pirep->dpt_airport_id.', erroring out');
                 return $this->flashError(
                     'This aircraft is not positioned at the departure airport!',
                     'frontend.pireps.create'
@@ -297,6 +300,7 @@ class PirepController extends Controller
             // Make sure this isn't a duplicate
             $dupe_pirep = $this->pirepSvc->findDuplicate($pirep);
             if ($dupe_pirep !== false) {
+                Log::info('Duplicate PIREP found');
                 return $this->flashError(
                     'This PIREP has already been filed.',
                     'frontend.pireps.create'
