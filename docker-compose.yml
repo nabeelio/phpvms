@@ -48,11 +48,11 @@ services:
     restart: always
 
   # Use this to tail the logs so it's just all in a single window
-  logs:
-      image: busybox
-      command: tail -f -F -n 0 /var/www/storage/logs/laravel.log
-      restart: always
-      volumes:
-        - ./storage:/var/www/storage
-      depends_on:
-        - app
+  #logs:
+  #    image: busybox
+  #    command: tail -f -F -n 0 /var/www/storage/logs/laravel.log
+  #    restart: always
+  #    volumes:
+  #      - ./storage:/var/www/storage
+  #    depends_on:
+  #      - app
