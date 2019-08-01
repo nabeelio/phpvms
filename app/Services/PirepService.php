@@ -260,7 +260,7 @@ class PirepService extends Service
 
     /**
      * @param Pirep $pirep
-     * @param int $new_state
+     * @param int   $new_state
      *
      * @throws \Exception
      *
