@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Services\Installer;
-
 
 use App\Contracts\Service;
 use App\Models\Setting;
@@ -47,24 +45,24 @@ class SeederService extends Service
      */
     public function syncAllYamlFileSeeds(): void
     {
-        Log::info("Running seeder");
+        Log::info('Running seeder');
         $env = App::environment();
         if (array_key_exists($env, self::$seed_mapper)) {
             $env = self::$seed_mapper[$env];
         }
 
-        # Gather all of the files to seed
+        // Gather all of the files to seed
         collect()
             ->concat(Storage::disk('seeds')->files($env))
             ->map(function ($file) {
-                return database_path('seeds/' . $file);
+                return database_path('seeds/'.$file);
             })
             ->filter(function ($file) {
                 $info = pathinfo($file);
                 return $info['extension'] === 'yml';
             })
             ->each(function ($file) {
-                Log::info('Seeding .' . $file);
+                Log::info('Seeding .'.$file);
                 $this->databaseSvc->seed_from_yaml_file($file);
             });
     }
@@ -143,7 +141,7 @@ class SeederService extends Service
      *
      * @param      $name
      * @param null $offset
-     * @param int $start_offset
+     * @param int  $start_offset
      */
     private function addCounterGroup($name, $offset = null, $start_offset = 0): void
     {
@@ -153,7 +151,7 @@ class SeederService extends Service
                 ->first();
 
             if ($group === null) {
-                $offset = (int)DB::table('settings')->max('offset');
+                $offset = (int) DB::table('settings')->max('offset');
                 if ($offset === null) {
                     $offset = 0;
                     $start_offset = 1;
@@ -163,7 +161,7 @@ class SeederService extends Service
                 }
             } else {
                 // Now find the number to start from
-                $start_offset = (int)DB::table('settings')->where('group', $name)->max('order');
+                $start_offset = (int) DB::table('settings')->where('group', $name)->max('order');
                 if ($start_offset === null) {
                     $start_offset = $offset + 1;
                 } else {

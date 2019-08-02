@@ -88,7 +88,7 @@ class Database
     /**
      * @param string $table
      * @param array  $row
-     * @param string $id_col The ID column to use for update/insert
+     * @param string $id_col            The ID column to use for update/insert
      * @param array  $ignore_on_updates
      * @param bool   $ignore_errors
      *
