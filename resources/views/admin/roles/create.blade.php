@@ -1,10 +1,10 @@
 @extends('admin.app')
-@section('title', 'Add Airline')
+@section('title', 'Add Role')
 @section('content')
     <div class="card border-blue-bottom">
         <div class="content">
-            {{ Form::open(['route' => 'admin.airlines.store']) }}
-             @include('admin.airlines.fields')
+            {{ Form::open(['route' => 'admin.roles.store']) }}
+             @include('admin.roles.fields')
             {{ Form::close() }}
         </div>
     </div>
