@@ -3,160 +3,18 @@
 namespace App\Services\Installer;
 
 use App\Contracts\Service;
-use App\Models\Setting;
-use DB;
-use Log;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Log;
 use Nwidart\Modules\Facades\Module;
-use Symfony\Component\Yaml\Yaml;
 
 class MigrationService extends Service
 {
-    private $counters = [];
-    private $offsets = [];
-
     protected function getMigrator()
     {
         $m = app('migrator');
         $m->setConnection(config('database.default'));
         return $m;
-    }
-
-    /**
-     * Syncronize all of the seed files, run this after the migrations
-     * and on first install.
-     */
-    public function syncAllSeeds(): void
-    {
-        $this->syncAllSettings();
-        $this->syncAllPermissions();
-    }
-
-    public function syncAllSettings(): void
-    {
-        $data = file_get_contents(database_path('/seeds/settings.yml'));
-        $yml = Yaml::parse($data);
-        foreach ($yml as $setting) {
-            if (\trim($setting['key']) === '') {
-                continue;
-            }
-
-            $this->addSetting($setting['key'], $setting);
-        }
-    }
-
-    public function syncAllPermissions(): void
-    {
-        $data = file_get_contents(database_path('/seeds/permissions.yml'));
-        $yml = Yaml::parse($data);
-        foreach ($yml as $perm) {
-            $count = DB::table('permissions')->where('name', $perm['name'])->count('name');
-            if ($count === 0) {
-                DB::table('permissions')->insert($perm);
-            } else {
-                DB::table('settings')
-                    ->where('name', $perm['name'])
-                    ->update($perm);
-            }
-        }
-    }
-
-    /**
-     * @param $key
-     * @param $attrs
-     */
-    public function addSetting($key, $attrs): void
-    {
-        $id = Setting::formatKey($key);
-        $group = $attrs['group'];
-        $order = $this->getNextOrderNumber($group);
-
-        $attrs = array_merge(
-            [
-                'id'          => $id,
-                'key'         => $key,
-                'offset'      => $this->offsets[$group],
-                'order'       => $order,
-                'name'        => '',
-                'group'       => $group,
-                'value'       => '',
-                'default'     => $attrs['value'],
-                'options'     => '',
-                'type'        => 'hidden',
-                'description' => '',
-            ],
-            $attrs
-        );
-
-        $count = DB::table('settings')->where('id', $id)->count('id');
-        if ($count === 0) {
-            DB::table('settings')->insert($attrs);
-        } else {
-            unset($attrs['value']);  // Don't overwrite this
-            DB::table('settings')
-                ->where('id', $id)
-                ->update($attrs);
-        }
-    }
-
-    /**
-     * Dynamically figure out the offset and the start number for a group.
-     * This way we don't need to mess with how to order things
-     * When calling getNextOrderNumber(users) 31, will be returned, then 32, and so on
-     *
-     * @param      $name
-     * @param null $offset
-     * @param int  $start_offset
-     */
-    private function addCounterGroup($name, $offset = null, $start_offset = 0): void
-    {
-        if ($offset === null) {
-            $group = DB::table('settings')
-                ->where('group', $name)
-                ->first();
-
-            if ($group === null) {
-                $offset = (int) DB::table('settings')->max('offset');
-                if ($offset === null) {
-                    $offset = 0;
-                    $start_offset = 1;
-                } else {
-                    $offset += 100;
-                    $start_offset = $offset + 1;
-                }
-            } else {
-                // Now find the number to start from
-                $start_offset = (int) DB::table('settings')->where('group', $name)->max('order');
-                if ($start_offset === null) {
-                    $start_offset = $offset + 1;
-                } else {
-                    $start_offset++;
-                }
-
-                $offset = $group->offset;
-            }
-        }
-
-        $this->counters[$name] = $start_offset;
-        $this->offsets[$name] = $offset;
-    }
-
-    /**
-     * Get the next increment number from a group
-     *
-     * @param $group
-     *
-     * @return int
-     */
-    private function getNextOrderNumber($group): int
-    {
-        if (!\in_array($group, $this->counters, true)) {
-            $this->addCounterGroup($group);
-        }
-
-        $idx = $this->counters[$group];
-        $this->counters[$group]++;
-
-        return $idx;
     }
 
     /**
@@ -168,7 +26,7 @@ class MigrationService extends Service
     public function getMigrationPaths(): array
     {
         $paths = [
-            'core' => \App::databasePath().'/migrations',
+            'core' => App::databasePath().'/migrations',
         ];
 
         $modules = Module::allEnabled();
@@ -208,8 +66,8 @@ class MigrationService extends Service
     {
         $output = '';
 
-        \Artisan::call('migrate');
-        $output .= trim(\Artisan::output());
+        Artisan::call('migrate');
+        $output .= trim(Artisan::output());
 
         return $output;
     }

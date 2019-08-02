@@ -21,6 +21,14 @@ class DevInstall extends Command
         'acars.yml',
     ];
 
+    private $databaseSeeder;
+
+    public function __construct(\DatabaseSeeder $databaseSeeder)
+    {
+        parent::__construct();
+        $this->databaseSeeder = $databaseSeeder;
+    }
+
     /**
      * Run dev related commands
      *
@@ -44,16 +52,6 @@ class DevInstall extends Command
         $this->call('migrate:fresh', [
             '--seed' => true,
         ]);
-
-        //
-        //
-
-        $this->info('Importing sample data');
-        foreach ($this->yaml_imports as $yml) {
-            $this->call('phpvms:yaml-import', [
-                'files' => ['app/Database/seeds/'.$yml],
-            ]);
-        }
 
         $this->info('Done!');
     }

@@ -13,6 +13,11 @@ return [
             'root'   => storage_path('app'),
         ],
 
+        'seeds' => [
+            'driver' => 'local',
+            'root'   => database_path('seeds')
+        ],
+
         'public' => [
             'driver'     => 'local',
             'root'       => public_path('uploads'),

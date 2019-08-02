@@ -9,6 +9,7 @@ use App\Events\PirepRejected;
 use App\Events\UserStateChanged;
 use App\Events\UserStatsChanged;
 use App\Models\Acars;
+use App\Models\Aircraft;
 use App\Models\Bid;
 use App\Models\Enums\AcarsType;
 use App\Models\Enums\PirepSource;
@@ -338,7 +339,7 @@ class PirepService extends Service
         Log::info('PIREP '.$pirep->id.' state change to ACCEPTED');
 
         // Update the aircraft
-        $pirep->aircraft->flight_time += $pirep->flight_time;
+        $pirep->aircraft->flight_time = $pirep->aircraft->flight_time + $pirep->flight_time;
         $pirep->aircraft->airport_id = $pirep->arr_airport_id;
         $pirep->aircraft->landing_time = $pirep->updated_at;
         $pirep->aircraft->save();
