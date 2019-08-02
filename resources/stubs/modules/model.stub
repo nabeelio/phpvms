@@ -2,7 +2,7 @@
 
 namespace $NAMESPACE$;
 
-use App\Interfaces\Model;
+use App\Contracts\Model;
 
 /**
  * Class $CLASS$

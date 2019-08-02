@@ -2,7 +2,7 @@
 
 namespace $CLASS_NAMESPACE$;
 
-use App\Interfaces\Controller;
+use App\Contracts\Controller;
 use Illuminate\Http\Request;
 
 /**

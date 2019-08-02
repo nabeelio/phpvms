@@ -2,7 +2,7 @@
 
 namespace $MODULE_NAMESPACE$\$STUDLY_NAME$\Http\Controllers\Api;
 
-use App\Interfaces\Controller;
+use App\Contracts\Controller;
 use Illuminate\Http\Request;
 
 /**
