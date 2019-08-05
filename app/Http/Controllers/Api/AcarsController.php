@@ -15,10 +15,11 @@ use App\Models\Pirep;
 use App\Repositories\AcarsRepository;
 use App\Repositories\PirepRepository;
 use App\Services\GeoService;
-use Auth;
 use Carbon\Carbon;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
-use Log;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Class AcarsController
@@ -157,10 +158,14 @@ class AcarsController extends Controller
                 }
             }
 
-            $update = Acars::create($position);
-            $update->save();
+            try {
+                $update = Acars::create($position);
+                $update->save();
+                $count++;
+            } catch (QueryException $ex) {
+                Log::info('Error on adding ACARS position: '.$ex->getMessage());
+            }
 
-            $count++;
         }
 
         // Change the PIREP status if it's as SCHEDULED before
@@ -207,9 +212,13 @@ class AcarsController extends Controller
                 $log['created_at'] = Carbon::createFromTimeString($log['created_at']);
             }
 
-            $acars = Acars::create($log);
-            $acars->save();
-            $count++;
+            try {
+                $acars = Acars::create($log);
+                $acars->save();
+                $count++;
+            } catch (QueryException $ex) {
+                Log::info('Error on adding ACARS position: ' . $ex->getMessage());
+            }
         }
 
         return $this->message($count.' logs added', $count);
@@ -250,9 +259,13 @@ class AcarsController extends Controller
                 $log['created_at'] = Carbon::createFromTimeString($log['created_at']);
             }
 
-            $acars = Acars::create($log);
-            $acars->save();
-            $count++;
+            try {
+                $acars = Acars::create($log);
+                $acars->save();
+                $count++;
+            } catch (QueryException $ex) {
+                Log::info('Error on adding ACARS position: ' . $ex->getMessage());
+            }
         }
 
         return $this->message($count.' logs added', $count);
