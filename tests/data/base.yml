@@ -1,12 +1,12 @@
 #
-#airlines:
-#  - id: 1
-#    icao: VMS
-#    iata: VM
-#    name: phpvms airlines
-#    active: 1
-#    created_at: now
-#    updated_at: now
+airlines:
+  - id: 1
+    icao: VMS
+    iata: VM
+    name: phpvms airlines
+    active: 1
+    created_at: now
+    updated_at: now
 
 users:
   - id: 1
@@ -31,6 +31,12 @@ role_user:
     user_type: App\Models\User
 
 ranks:
+  - id: 1
+    name: New Pilot
+    hours: 0
+    acars_base_pay_rate: 50
+    manual_base_pay_rate: 25
+
   - id: 2
     name: Junior First Officer
     hours: 10

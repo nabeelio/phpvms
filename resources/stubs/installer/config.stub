@@ -13,7 +13,7 @@ return [
         'url'  => '$SITE_URL$',
 
         # Don't forget to change these when live
-        'env'   => 'local',
+        'env'   => 'prod',
         'debug' => false,
     ],
 

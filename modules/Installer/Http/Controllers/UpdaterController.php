@@ -4,6 +4,7 @@ namespace Modules\Installer\Http\Controllers;
 
 use App\Contracts\Controller;
 use App\Services\Installer\MigrationService;
+use App\Services\Installer\SeederService;
 use function count;
 use Illuminate\Http\Request;
 use Log;
@@ -16,15 +17,19 @@ use Log;
 class UpdaterController extends Controller
 {
     private $migrationSvc;
+    private $seederSvc;
 
     /**
      * UpdaterController constructor.
      * @param MigrationService $migrationSvc
+     * @param SeederService    $seederSvc
      */
     public function __construct(
-        MigrationService $migrationSvc
+        MigrationService $migrationSvc,
+        SeederService $seederSvc
     ) {
         $this->migrationSvc = $migrationSvc;
+        $this->seederSvc = $seederSvc;
     }
 
     /**
@@ -66,12 +71,12 @@ class UpdaterController extends Controller
 
         $migrations = $this->migrationSvc->migrationsAvailable();
         if(count($migrations) === 0) {
-            $this->migrationSvc->syncAllSeeds();
+            $this->seederSvc->syncAllSeeds();
             return view('installer::update/steps/step3-update-complete');
         }
 
         $output = $this->migrationSvc->runAllMigrations();
-        $this->migrationSvc->syncAllSeeds();
+        $this->seederSvc->syncAllSeeds();
 
         return view('installer::update/steps/step2-migrations-done', [
             'console_output' => $output,

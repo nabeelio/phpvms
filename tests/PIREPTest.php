@@ -8,6 +8,7 @@ use App\Models\Pirep;
 use App\Models\User;
 use App\Repositories\SettingRepository;
 use App\Services\FlightService;
+use App\Services\PirepService;
 use Carbon\Carbon;
 
 class PIREPTest extends TestCase
@@ -19,8 +20,9 @@ class PIREPTest extends TestCase
     {
         parent::setUp();
         $this->addData('base');
+        $this->addData('fleet');
 
-        $this->pirepSvc = app('App\Services\PirepService');
+        $this->pirepSvc = app(PirepService::class);
         $this->settingsRepo = app(SettingRepository::class);
     }
 
@@ -195,7 +197,6 @@ class PIREPTest extends TestCase
     public function testPilotStatsIncr()
     {
         $user = factory(User::class)->create([
-            'airline_id'  => 1,
             'flights'     => 0,
             'flight_time' => 0,
             'rank_id'     => 1,
@@ -203,8 +204,9 @@ class PIREPTest extends TestCase
 
         // Submit two PIREPs
         $pireps = factory(Pirep::class, 2)->create([
-            'airline_id' => 1,
-            'user_id'    => $user->id,
+            'airline_id'  => $user->airline_id,
+            'aircraft_id' => 1,
+            'user_id'     => $user->id,
             // 360min == 6 hours, rank should bump up
             'flight_time' => 360,
         ]);

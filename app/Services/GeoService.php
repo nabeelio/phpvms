@@ -12,9 +12,9 @@ use App\Repositories\AcarsRepository;
 use App\Repositories\NavdataRepository;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 use League\Geotools\Coordinate\Coordinate;
 use League\Geotools\Geotools;
-use Log;
 
 /**
  * Class GeoService
@@ -109,6 +109,7 @@ class GeoService extends Service
                 continue;
             }
 
+            $point = null;
             $size = \count($points);
 
             if ($size === 0) {
@@ -148,6 +149,10 @@ class GeoService extends Service
                 if ($point->lat === $closest_coords[0] && $point->lon === $closest_coords[1]) {
                     break;
                 }
+            }
+
+            if ($point === null) {
+                continue;
             }
 
             $coords[] = $point;

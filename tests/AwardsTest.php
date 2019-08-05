@@ -1,6 +1,8 @@
 <?php
 
 use App\Models\UserAward;
+use App\Services\AwardService;
+use App\Services\PirepService;
 
 class AwardsTest extends TestCase
 {
@@ -10,8 +12,10 @@ class AwardsTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->awardSvc = app(\App\Services\AwardService::class);
-        $this->pirepSvc = app(\App\Services\PirepService::class);
+        $this->addData('base');
+        $this->addData('fleet');
+        $this->awardSvc = app(AwardService::class);
+        $this->pirepSvc = app(PirepService::class);
     }
 
     /**

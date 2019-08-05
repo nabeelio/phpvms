@@ -13,6 +13,7 @@ use App\Models\Traits\FilesTrait;
  * @property string iata
  * @property string icao
  * @property string name
+ * @property string full_name
  * @property string location
  * @property string country
  * @property string timezone
