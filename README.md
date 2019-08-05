@@ -39,7 +39,7 @@ A full development environment can be brought up using Docker:
 
 ```bash
 composer install
-npm install
+yarn install
 docker-compose build
 docker-compose up
 ```
@@ -49,3 +49,13 @@ Then go to `http://localhost`. If you're using dnsmasq, the `app` container is l
 ```
 127.0.0.1   phpvms.test
 ```
+
+## Building JS/CSS assets
+
+Yarn is required, run:
+
+```bash
+make build-assets
+```
+
+This will build all of the assets according to the webpack file.
