@@ -13,7 +13,7 @@ Route::group([
     Route::get('users', 'UserController@index')->name('users.index');
     Route::get('pilots', 'UserController@index')->name('pilots.index');
 
-    Route::get('livemap', 'AcarsController@index')->name('livemap.index');
+    Route::get('livemap', 'LiveMapController@index')->name('livemap.index');
 });
 
 /*
