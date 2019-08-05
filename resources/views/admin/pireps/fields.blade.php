@@ -168,7 +168,11 @@
                         {{ Form::label('block_fuel', 'Block Fuel:') }}
                         <div class="row">
                             <div class="col-sm-12">
-                                {{ Form::number('block_fuel', null, ['class' => 'form-control', 'min' => 0]) }}
+                                {{ Form::number('block_fuel', null, [
+                                    'class' => 'form-control',
+                                    'min' => 0,
+                                    'step' => '0.01',
+                                    ]) }}
                                 <p class="text-danger">{{ $errors->first('block_fuel') }}</p>
                             </div>
                         </div>
@@ -179,7 +183,11 @@
                         {{ Form::label('fuel_used', 'Fuel Used:') }}
                         <div class="row">
                             <div class="col-sm-12">
-                                {{ Form::number('fuel_used', null, ['class' => 'form-control', 'min' => 0]) }}
+                                {{ Form::number('fuel_used', null, [
+                                    'class' => 'form-control',
+                                    'min' => 0,
+                                    'step' => '0.01'
+                                    ]) }}
                                 <p class="text-danger">{{ $errors->first('fuel_used') }}</p>
                             </div>
                         </div>

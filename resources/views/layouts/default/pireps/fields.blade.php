@@ -123,34 +123,6 @@ flight reports that have been filed. You've been warned!
                             <p class="text-danger">{{ $errors->first('minutes') }}</p>
                         @endif
                     </div>
-
-
-                    <div class="col-3">
-                        {{--{{ Form::label('submitted_date', __('pireps.dateflown')) }}
-                        {{ Form::text('submmitted_date', null, [
-                                'placeholder' => __('pireps.departuredate'),
-                                'class' => 'form-control',
-                                'readonly' => $pirep->read_only]) }}--}}
-                    </div>
-
-
-                    <div class="col-3">
-                        {{--{{ Form::label('departure_time', __('flights.departuretime')) }}
-                        {{ Form::text('departure_time', null, [
-                                        'placeholder' => __('flights.departuretime'),
-                                        'class' => 'form-control',
-                                        'readonly' => $pirep->read_only]) }}--}}
-                    </div>
-
-
-                    <div class="col-3">
-                        {{--{{ Form::label('arrival_time', __('flights.arrivaltime')) }}
-                        {{ Form::text('arrival_time', null, [
-                                        'placeholder' => __('flights.arrivaltime'),
-                                        'class' => 'form-control',
-                                        'readonly' => $pirep->read_only]) }}--}}
-                    </div>
-
                 </div>
             </div>
         </div>
@@ -237,6 +209,7 @@ flight reports that have been filed. You've been warned!
                                 {{ Form::number('block_fuel', null, [
                                     'class' => 'form-control',
                                     'min' => '0',
+                                    'step' => '0.01',
                                     'readonly' => (!empty($pirep) && $pirep->read_only),
                                     ]) }}
                             </div>
@@ -252,6 +225,7 @@ flight reports that have been filed. You've been warned!
                                 {{ Form::number('fuel_used', null, [
                                     'class' => 'form-control',
                                     'min' => '0',
+                                    'step' => '0.01',
                                     'readonly' => (!empty($pirep) && $pirep->read_only),
                                     ]) }}
                             </div>
