@@ -165,7 +165,6 @@ class AcarsController extends Controller
             } catch (QueryException $ex) {
                 Log::info('Error on adding ACARS position: '.$ex->getMessage());
             }
-
         }
 
         // Change the PIREP status if it's as SCHEDULED before
@@ -217,7 +216,7 @@ class AcarsController extends Controller
                 $acars->save();
                 $count++;
             } catch (QueryException $ex) {
-                Log::info('Error on adding ACARS position: ' . $ex->getMessage());
+                Log::info('Error on adding ACARS position: '.$ex->getMessage());
             }
         }
 
@@ -264,7 +263,7 @@ class AcarsController extends Controller
                 $acars->save();
                 $count++;
             } catch (QueryException $ex) {
-                Log::info('Error on adding ACARS position: ' . $ex->getMessage());
+                Log::info('Error on adding ACARS position: '.$ex->getMessage());
             }
         }
 
