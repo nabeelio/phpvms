@@ -1,6 +1,11 @@
 <?php
 
+use App\Repositories\SettingRepository;
 use App\Services\DatabaseService;
+use GuzzleHttp\Client;
+use GuzzleHttp\Handler\MockHandler;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Psr7\Response;
 use Tests\TestData;
 
 /**
@@ -101,6 +106,61 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
         foreach ($keys as $key) {
             $this->assertArrayHasKey($key, $obj);
         }
+    }
+
+    /**
+     * Read a file from the data directory
+     * @param $filename
+     *
+     * @return false|string
+     */
+    public function readDataFile($filename)
+    {
+        $paths = [
+            'data/'.$filename,
+            'tests/data/'.$filename,
+        ];
+
+        foreach ($paths as $p) {
+            if (file_exists($p)) {
+                return file_get_contents($p);
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Return a mock Guzzle Client with a response loaded from $mockFile
+     *
+     * @param $mockFile
+     */
+    public function mockGuzzleClient($mockFile): void
+    {
+        $mock = new MockHandler([
+            new Response(200,
+                [
+                    'Content-Type' => 'application/json; charset=utf-8',
+                ],
+                $this->readDataFile($mockFile)
+            ),
+        ]);
+
+        $handler = HandlerStack::create($mock);
+        $guzzleClient = new Client(['handler' => $handler]);
+        app()->instance(Client::class, $guzzleClient);
+    }
+
+    /**
+     * Update a setting
+     *
+     * @param $key
+     * @param $value
+     */
+    public function updateSetting($key, $value)
+    {
+        $settingsRepo = app(SettingRepository::class);
+        $settingsRepo->store($key, $value);
     }
 
     /**

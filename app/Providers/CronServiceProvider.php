@@ -2,7 +2,10 @@
 
 namespace App\Providers;
 
+use App\Cron\Hourly\RemoveExpiredBids;
+use App\Cron\Hourly\RemoveExpiredLiveFlights;
 use App\Cron\Nightly\ApplyExpenses;
+use App\Cron\Nightly\NewVersionCheck;
 use App\Cron\Nightly\PilotLeave;
 use App\Cron\Nightly\RecalculateBalances;
 use App\Cron\Nightly\RecalculateStats;
@@ -25,6 +28,7 @@ class CronServiceProvider extends ServiceProvider
             PilotLeave::class,
             SetActiveFlights::class,
             RecalculateStats::class,
+            NewVersionCheck::class,
         ],
 
         CronWeekly::class => [
@@ -35,8 +39,8 @@ class CronServiceProvider extends ServiceProvider
         ],
 
         CronHourly::class => [
-            \App\Cron\Hourly\RemoveExpiredBids::class,
-            \App\Cron\Hourly\RemoveExpiredLiveFlights::class,
+            RemoveExpiredBids::class,
+            RemoveExpiredLiveFlights::class,
         ],
     ];
 }

@@ -12,6 +12,13 @@
   options: ''
   type: text
   description: 'Email where notices, etc are sent'
+- key: general.check_prerelease_version
+  name: 'Pre-release versions in version check'
+  group: general
+  value: false
+  options: ''
+  type: boolean
+  description: 'Include beta and other pre-release versions when checking for a new version'
 - key: units.distance
   name: 'Distance Units'
   group: units
