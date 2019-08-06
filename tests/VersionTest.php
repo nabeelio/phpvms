@@ -23,8 +23,8 @@ class VersionTest extends TestCase
 
         $str = $versionSvc->getLatestVersion();
 
-        $this->assertEquals('v7.0.0-alpha2', $str);
-        $this->assertEquals('v7.0.0-alpha2', $this->kvpRepo->get('latest_version_tag'));
+        $this->assertEquals('7.0.0-alpha2', $str);
+        $this->assertEquals('7.0.0-alpha2', $this->kvpRepo->get('latest_version_tag'));
     }
 
     public function testGetLatestPrereleaseVersion()
@@ -36,8 +36,8 @@ class VersionTest extends TestCase
 
         $str = $versionSvc->getLatestVersion();
 
-        $this->assertEquals('v7.0.0-beta', $str);
-        $this->assertEquals('v7.0.0-beta', $this->kvpRepo->get('latest_version_tag'));
+        $this->assertEquals('7.0.0-beta', $str);
+        $this->assertEquals('7.0.0-beta', $this->kvpRepo->get('latest_version_tag'));
     }
 
     public function testNewVersionNotAvailable()
