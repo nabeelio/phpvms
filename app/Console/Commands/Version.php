@@ -46,7 +46,7 @@ class Version extends Command
         $cfg['build']['number'] = $build_number;
 
         $c = $cfg['current'];
-        $version = "v{$c['major']}.{$c['minor']}.{$c['patch']}-{$build_number}";
+        $version = "{$c['major']}.{$c['minor']}.{$c['patch']}+{$build_number}";
 
         if ($this->option('write')) {
             file_put_contents($version_file, Yaml::dump($cfg, 4, 2));
