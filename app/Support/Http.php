@@ -27,7 +27,7 @@ class Http
         ], $opts);
 
         $client = new Client();
-        $response = $client->request('GET', $uri, $opts);
+        $responseSeederService = $client->request('GET', $uri, $opts);
 
         $body = $response->getBody()->getContents();
         if ($response->getHeader('content-type') === 'application/json') {

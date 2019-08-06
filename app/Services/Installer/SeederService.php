@@ -19,9 +19,7 @@ class SeederService extends Service
     private $offsets = [];
 
     // Map an environment to a seeder directory, if we want to share
-    private $seed_mapper = [
-
-    ];
+    static $seed_mapper = [];
 
     public function __construct(DatabaseService $databaseSvc)
     {
