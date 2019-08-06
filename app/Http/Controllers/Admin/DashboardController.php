@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Contracts\Controller;
-use App\Facades\Utils;
 use App\Repositories\KvpRepository;
 use App\Repositories\NewsRepository;
 use App\Repositories\PirepRepository;
@@ -25,10 +24,10 @@ class DashboardController extends Controller
     /**
      * DashboardController constructor.
      *
-     * @param KvpRepository $kvpRepo
-     * @param NewsRepository $newsRepo
+     * @param KvpRepository   $kvpRepo
+     * @param NewsRepository  $newsRepo
      * @param PirepRepository $pirepRepo
-     * @param UserRepository $userRepo
+     * @param UserRepository  $userRepo
      */
     public function __construct(
         KvpRepository $kvpRepo,

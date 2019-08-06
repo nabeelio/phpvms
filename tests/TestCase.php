@@ -110,6 +110,7 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
 
     /**
      * Read a file from the data directory
+     *
      * @param $filename
      *
      * @return false|string
@@ -126,8 +127,6 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
                 return file_get_contents($p);
             }
         }
-
-        return null;
     }
 
     /**

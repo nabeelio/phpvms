@@ -100,9 +100,8 @@ class VersionService extends Service
                         $release['tag_name'],
                         $this->getGithubAsset($release)
                     );
-                } else {
-                    continue;
                 }
+                continue;
             }
 
             return $this->setLatestRelease(
@@ -125,6 +124,7 @@ class VersionService extends Service
 
     /**
      * Get the build ID, which is the date and the git log version
+     *
      * @param array $cfg
      *
      * @return string
