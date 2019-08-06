@@ -22,7 +22,7 @@
 
     <div class="form-group col-md-4">
         {{ Form::label('acars_base_pay_rate', 'ACARS Base Pay Rate:') }}
-        {{ Form::number('acars_base_pay_rate', null, ['min' => 0, 'class' => 'form-control']) }}
+        {{ Form::number('acars_base_pay_rate', null, ['min' => 0, 'class' => 'form-control', 'step' => '0.01']) }}
         <p class="text-danger">{{ $errors->first('acars_base_pay_rate') }}</p>
         @component('admin.components.info')
             Base rate, per-flight hour, for ACARS PIREPs.
@@ -32,7 +32,7 @@
 
     <div class="form-group col-md-4">
         {{ Form::label('manual_base_pay_rate', 'Manual Base Pay Rate:') }}
-        {{ Form::number('manual_base_pay_rate', null, ['min' => 0, 'class' => 'form-control']) }}
+        {{ Form::number('manual_base_pay_rate', null, ['min' => 0, 'class' => 'form-control', 'step' => '0.01']) }}
         <p class="text-danger">{{ $errors->first('manual_base_pay_rate') }}</p>
         @component('admin.components.info')
             Base rate, per-flight hour, for manually-filed PIREPs.

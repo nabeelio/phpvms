@@ -41,7 +41,7 @@
     @component('admin.components.info')
         The operating cost
     @endcomponent
-    {{ Form::text('cost', null, ['class' => 'form-control', 'placeholder' => 0]) }}
+    {{ Form::number('cost', null, ['class' => 'form-control', 'placeholder' => 0, 'step' => '0.01']) }}
     <p class="text-danger">{{ $errors->first('cost') }}</p>
 </div>
 
@@ -50,7 +50,7 @@
     @component('admin.components.info')
         The number of seats available in this class.
     @endcomponent
-    {{ Form::text('capacity', null, ['class' => 'form-control', 'placeholder' => 0]) }}
+    {{ Form::number('capacity', null, ['class' => 'form-control', 'min' => 0]) }}
     <p class="text-danger">{{ $errors->first('capacity') }}</p>
 </div>
 

@@ -46,12 +46,14 @@
                                     'class' => 'form-control',
                                     'placeholder' => 'hours',
                                     'style' => 'width: 50%',
+                                    'min' => '0',
                                 ]) }}
 
                             {{ Form::number('minutes', null, [
                                     'class' => 'form-control',
                                     'placeholder' => 'minutes',
                                     'style' => 'width: 50%',
+                                    'min' => '0',
                                 ]) }}
                         </div>
 

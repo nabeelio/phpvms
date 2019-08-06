@@ -35,13 +35,13 @@
 
     <div class="form-group col-sm-3">
         {{ Form::label('cost_block_hour', 'Cost Per Hour:') }}
-        {{ Form::number('cost_block_hour', null , ['class' => 'form-control']) }}
+        {{ Form::number('cost_block_hour', null , ['class' => 'form-control', 'step' => '0.01']) }}
         <p class="text-danger">{{ $errors->first('cost_block_hour') }}</p>
     </div>
 
     <div class="form-group col-sm-3">
         {{ Form::label('cost_delay_minute', 'Cost Delay Per Minute:') }}
-        {{ Form::number('cost_delay_minute', null , ['class' => 'form-control']) }}
+        {{ Form::number('cost_delay_minute', null , ['class' => 'form-control', 'step' => '0.01']) }}
         <p class="text-danger">{{ $errors->first('cost_delay_minute') }}</p>
     </div>
 
