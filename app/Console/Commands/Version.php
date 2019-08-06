@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Console\Command;
+use App\Services\VersionService;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -12,23 +13,12 @@ class Version extends Command
 {
     protected $signature = 'phpvms:version {--write} {--base-only}';
 
-    /**
-     * Create the version number that gets written out
-     *
-     * @param mixed $cfg
-     *
-     * @return bool|string
-     */
-    protected function createVersionNumber($cfg)
+    private $versionSvc;
+
+    public function __construct(VersionService $versionSvc)
     {
-        exec($cfg['git']['git-local'], $version);
-        $version = substr($version[0], 0, $cfg['build']['length']);
-
-        // prefix with the date in YYMMDD format
-        $date = date('ymd');
-        $version = $date.'-'.$version;
-
-        return $version;
+        parent::__construct();
+        $this->versionSvc = $versionSvc;
     }
 
     /**
@@ -38,27 +28,17 @@ class Version extends Command
      */
     public function handle()
     {
-        $version_file = config_path('version.yml');
-        $cfg = Yaml::parse(file_get_contents($version_file));
-
-        // Get the current build id
-        $build_number = $this->createVersionNumber($cfg);
-        $cfg['build']['number'] = $build_number;
-
-        $c = $cfg['current'];
-        $version = "v{$c['major']}.{$c['minor']}.{$c['patch']}-{$build_number}";
-
+        // Write the updated build number out to the file
         if ($this->option('write')) {
+            $version_file = config_path('version.yml');
+            $cfg = Yaml::parse(file_get_contents($version_file));
+            $build_number = $this->versionSvc->getBuildId($cfg);
+            $cfg['build']['number'] = $build_number;
+
             file_put_contents($version_file, Yaml::dump($cfg, 4, 2));
         }
 
-        // Only show the major.minor.patch version
-        if ($this->option('base-only')) {
-            $version = 'v'.$cfg['current']['major'].'.'
-                .$cfg['current']['minor'].'.'
-                .$cfg['current']['patch'];
-        }
-
+        $version = $this->versionSvc->getCurrentVersion(!$this->option('base-only'));
         echo $version."\n";
     }
 }

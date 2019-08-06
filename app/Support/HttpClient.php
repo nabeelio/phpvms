@@ -7,8 +7,16 @@ use GuzzleHttp\Client;
 /**
  * Helper for HTTP stuff
  */
-class Http
+class HttpClient
 {
+    private $httpClient;
+
+    public function __construct(
+        Client $httpClient
+    ) {
+        $this->httpClient = $httpClient;
+    }
+
     /**
      * Download a URI. If a file is given, it will save the downloaded
      * content into that file
@@ -20,18 +28,18 @@ class Http
      *
      * @return string
      */
-    public static function get($uri, array $opts = [])
+    public function get($uri, array $opts = [])
     {
         $opts = array_merge([
             'connect_timeout' => 2, // wait two seconds by default
         ], $opts);
 
-        $client = new Client();
-        $responseSeederService = $client->request('GET', $uri, $opts);
+        $response = $this->httpClient->request('GET', $uri, $opts);
 
         $body = $response->getBody()->getContents();
-        if ($response->getHeader('content-type') === 'application/json') {
-            $body = \GuzzleHttp\json_decode($body);
+        $content_type = $response->getHeaderLine('content-type');
+        if (strpos($content_type, 'application/json') !== false) {
+            $body = \GuzzleHttp\json_decode($body, true);
         }
 
         return $body;

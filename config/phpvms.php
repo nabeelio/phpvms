@@ -57,7 +57,12 @@ return [
     /*
      * URL to the latest version file
      */
-    'version_file' => 'http://downloads.phpvms.net/VERSION',
+    'version_file' => 'https://api.github.com/repos/nabeelio/phpvms/releases',
+
+    /*
+     * Where the KVP file is stored
+     */
+    'kvp_storage_path' => storage_path('app/kvp.json'),
 
     /*
      * DO NOT CHANGE THESE! It will result in messed up data

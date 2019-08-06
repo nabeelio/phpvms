@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Contracts\Controller;
-use App\Facades\Utils;
+use App\Repositories\KvpRepository;
 use App\Repositories\NewsRepository;
 use App\Repositories\PirepRepository;
 use App\Repositories\UserRepository;
@@ -16,6 +16,7 @@ use vierbergenlars\SemVer\version as semver;
 
 class DashboardController extends Controller
 {
+    private $kvpRepo;
     private $newsRepo;
     private $pirepRepo;
     private $userRepo;
@@ -23,15 +24,18 @@ class DashboardController extends Controller
     /**
      * DashboardController constructor.
      *
+     * @param KvpRepository   $kvpRepo
      * @param NewsRepository  $newsRepo
      * @param PirepRepository $pirepRepo
      * @param UserRepository  $userRepo
      */
     public function __construct(
+        KvpRepository $kvpRepo,
         NewsRepository $newsRepo,
         PirepRepository $pirepRepo,
         UserRepository $userRepo
     ) {
+        $this->kvpRepo = $kvpRepo;
         $this->newsRepo = $newsRepo;
         $this->pirepRepo = $pirepRepo;
         $this->userRepo = $userRepo;
@@ -47,10 +51,8 @@ class DashboardController extends Controller
     protected function checkNewVersion()
     {
         try {
-            $current_version = new semver(Version::compact());
-            $latest_version = new semver(Utils::downloadUrl(config('phpvms.version_file')));
-
-            if (semver::gt($latest_version, $current_version)) {
+            if ($this->kvpRepo->get('new_version_available', false) === true) {
+                $latest_version = $this->kvpRepo->get('latest_version_tag');
                 Flash::warning('New version '.$latest_version.' is available!');
             }
         } catch (\Exception $e) {
