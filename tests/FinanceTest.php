@@ -25,6 +25,7 @@ class FinanceTest extends TestCase
     {
         parent::setUp();
         $this->addData('base');
+        $this->addData('fleet');
 
         $this->expenseRepo = app(ExpenseRepository::class);
         $this->fareSvc = app(FareService::class);

@@ -7,10 +7,7 @@ use App\Repositories\AcarsRepository;
 use App\Services\GeoService;
 use Illuminate\Http\Request;
 
-/**
- * Class AcarsController
- */
-class AcarsController extends Controller
+class LiveMapController extends Controller
 {
     private $acarsRepo;
     private $geoSvc;
@@ -39,7 +36,7 @@ class AcarsController extends Controller
         $pireps = $this->acarsRepo->getPositions();
         $positions = $this->geoSvc->getFeatureForLiveFlights($pireps);
 
-        return view('acars.index', [
+        return view('livemap.index', [
             'pireps'    => $pireps,
             'positions' => $positions,
         ]);

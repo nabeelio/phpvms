@@ -1,0 +1,60 @@
+
+subfleets:
+  - id: 1
+    airline_id: 1
+    name: 747-43X RB211-524G
+    type: 744-3X-RB211
+    cost_block_hour: 1000
+    ground_handling_multiplier: 200
+  - id: 2
+    airline_id: 1
+    name: 777-222ER GE90-76B
+    type: 772-22ER-GE90-76B
+    cost_block_hour: 500
+    ground_handling_multiplier: 150
+  - id: 3
+    airline_id: 1
+    name: 777-367 ER GE90-115B
+    type: 772-36ER-GE90-115B
+    cost_block_hour: 100
+    ground_handling_multiplier: 150
+
+aircraft:
+  - id: 1
+    subfleet_id: 1
+    airport_id: KJFK
+    name: Boeing 747-438
+    registration: 001Z
+    status: A
+  - id: 2
+    subfleet_id: 2
+    airport_id: LGRP
+    name: Boeing 777-200
+    registration: C202
+    status: A
+  - id: 3
+    subfleet_id: 1
+    airport_id: KAUS
+    name: Boeing 747-412
+    registration: S2333
+    status: A
+  - id: 4
+    subfleet_id: 1
+    airport_id: KAUS
+    name: Boeing 747-436 RETIRED
+    registration:
+    status: R
+
+subfleet_rank:
+  - rank_id: 1
+    subfleet_id: 1
+  - rank_id: 1
+    subfleet_id: 2
+  - rank_id: 1
+    subfleet_id: 3
+  - rank_id: 2
+    subfleet_id: 2
+  - rank_id: 2
+    subfleet_id: 3
+  - rank_id: 3
+    subfleet_id: 3

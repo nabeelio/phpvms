@@ -13,7 +13,7 @@ use Illuminate\Support\Collection;
  * @property string     id
  * @property mixed      ident
  * @property Airline    airline
- * @property int    airline_id
+ * @property int        airline_id
  * @property mixed      flight_number
  * @property mixed      route_code
  * @property int        route_leg
@@ -21,8 +21,9 @@ use Illuminate\Support\Collection;
  * @property Collection field_values
  * @property Collection fares
  * @property Collection subfleets
- * @property int    days
- * @property Airport    dep_airport
+ * @property int        days
+ * @property string     route
+ * @property Airport    dpt_airport
  * @property Airport    arr_airport
  * @property Airport    alt_airport
  * @property string     dpt_airport_id

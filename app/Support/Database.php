@@ -5,7 +5,7 @@ namespace App\Support;
 use Carbon\Carbon;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
-use Log;
+use Illuminate\Support\Facades\Log;
 use Symfony\Component\Yaml\Yaml;
 
 class Database
@@ -48,12 +48,28 @@ class Database
             return $imported;
         }
 
-        foreach ($yml as $table => $rows) {
+        foreach ($yml as $table => $data) {
             $imported[$table] = 0;
+
+            $id_column = 'id';
+            if (array_key_exists('id_column', $data)) {
+                $id_column = $data['id_column'];
+            }
+
+            $ignore_on_update = [];
+            if (array_key_exists('ignore_on_update', $data)) {
+                $ignore_on_update = $data['ignore_on_update'];
+            }
+
+            if (array_key_exists('data', $data)) {
+                $rows = $data['data'];
+            } else {
+                $rows = $data;
+            }
 
             foreach ($rows as $row) {
                 try {
-                    static::insert_row($table, $row);
+                    static::insert_row($table, $row, $id_column, $ignore_on_update);
                 } catch (QueryException $e) {
                     if ($ignore_errors) {
                         continue;
@@ -70,15 +86,21 @@ class Database
     }
 
     /**
-     * @param $table
-     * @param $row
-     *
-     * @throws \Exception
+     * @param string $table
+     * @param array  $row
+     * @param string $id_col            The ID column to use for update/insert
+     * @param array  $ignore_on_updates
+     * @param bool   $ignore_errors
      *
      * @return mixed
      */
-    public static function insert_row($table, $row)
-    {
+    public static function insert_row(
+        $table,
+        $row,
+        $id_col = 'id',
+        $ignore_on_updates = [],
+        $ignore_errors = true
+    ) {
         // encrypt any password fields
         if (array_key_exists('password', $row)) {
             $row['password'] = bcrypt($row['password']);
@@ -95,12 +117,30 @@ class Database
             }
         }
 
+        $count = 0;
+        if (array_key_exists($id_col, $row)) {
+            $count = DB::table($table)->where($id_col, $row[$id_col])->count($id_col);
+        }
+
         try {
-            DB::table($table)->insert($row);
+            if ($count > 0) {
+                foreach ($ignore_on_updates as $ignore_column) {
+                    if (array_key_exists($ignore_column, $row)) {
+                        unset($row[$ignore_column]);
+                    }
+                }
+
+                DB::table($table)
+                    ->where($id_col, $row[$id_col])
+                    ->update($row);
+            } else {
+                DB::table($table)->insert($row);
+            }
         } catch (QueryException $e) {
             Log::error($e);
-
-            throw $e;
+            if (!$ignore_errors) {
+                throw $e;
+            }
         }
 
         return $row;

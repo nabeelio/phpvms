@@ -84,9 +84,7 @@ class ApiTest extends TestCase
         $airlines = factory(App\Models\Airline::class, $size)->create();
 
         $res = $this->get('/api/airlines');
-        $body = $res->json();
-
-        $this->assertCount($size, $body['data']);
+        $this->assertTrue($res->isOk());
 
         $airline = $airlines->random();
         $this->get('/api/airlines/'.$airline->id)

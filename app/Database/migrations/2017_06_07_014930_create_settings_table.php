@@ -1,16 +1,16 @@
 <?php
 
 use App\Contracts\Migration;
-use App\Services\Installer\MigrationService;
+use App\Services\Installer\SeederService;
 use Illuminate\Database\Schema\Blueprint;
 
 class CreateSettingsTable extends Migration
 {
-    private $migrationSvc;
+    private $seederSvc;
 
     public function __construct()
     {
-        $this->migrationSvc = new MigrationService();
+        $this->seederSvc = app(SeederService::class);
     }
 
     /**
@@ -38,7 +38,7 @@ class CreateSettingsTable extends Migration
             $table->timestamps();
         });
 
-        $this->migrationSvc->syncAllSettings();
+        $this->seederSvc->syncAllSettings();
     }
 
     /**
