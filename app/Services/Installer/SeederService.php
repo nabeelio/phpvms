@@ -18,12 +18,6 @@ class SeederService extends Service
     private $counters = [];
     private $offsets = [];
 
-    private static $seed_mapper = [
-        'local'   => 'dev',
-        'qa'      => 'dev',
-        'staging' => 'dev',
-    ];
-
     public function __construct(DatabaseService $databaseSvc)
     {
         $this->databaseSvc = $databaseSvc;
