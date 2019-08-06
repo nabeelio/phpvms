@@ -18,11 +18,8 @@ class SeederService extends Service
     private $counters = [];
     private $offsets = [];
 
-    private static $seed_mapper = [
-        'local'   => 'dev',
-        'qa'      => 'dev',
-        'staging' => 'dev',
-    ];
+    // Map an environment to a seeder directory, if we want to share
+    public static $seed_mapper = [];
 
     public function __construct(DatabaseService $databaseSvc)
     {

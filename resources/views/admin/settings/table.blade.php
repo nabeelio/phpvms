@@ -24,8 +24,10 @@
                             @elseif($setting->type === 'boolean' || $setting->type === 'bool')
                                 {{ Form::hidden($setting->id, 0)  }}
                                 {{ Form::checkbox($setting->id, null, $setting->value) }}
-                            @elseif($setting->type === 'int' || $setting->type === 'number')
+                            @elseif($setting->type === 'int')
                                 {{ Form::number($setting->id, $setting->value, ['class'=>'form-control']) }}
+                            @elseif($setting->type === 'number')
+                                {{ Form::number($setting->id, $setting->value, ['class'=>'form-control', 'step' => '0.01']) }}
                             @elseif($setting->type === 'select')
                                 {{ Form::select(
                                         $setting->id,

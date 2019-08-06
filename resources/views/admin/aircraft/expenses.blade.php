@@ -64,7 +64,7 @@
                 {{ Form::open(['url' => url('/admin/aircraft/'.$aircraft->id.'/expenses'),
                                 'method' => 'post', 'class' => 'modify_expense form-inline']) }}
                 {{ Form::input('text', 'name', null, ['class' => 'form-control input-sm', 'placeholder' => 'Name']) }}
-                {{ Form::number('amount', null, ['class' => 'form-control input-sm', 'placeholder' => 'Amount']) }}
+                {{ Form::number('amount', null, ['class' => 'form-control input-sm', 'placeholder' => 'Amount', 'step' => '0.01']) }}
                 {{ Form::select('type', \App\Models\Enums\ExpenseType::select(), null, ['class' => 'select2']) }}
                 {{ Form::button('<i class="fa fa-plus"></i> Add', ['type' => 'submit',
                                  'class' => 'btn btn-success btn-small']) }}

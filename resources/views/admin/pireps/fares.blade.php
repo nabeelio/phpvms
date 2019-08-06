@@ -18,6 +18,7 @@
                     {{ Form::number('fare_'.$fare->id, null, [
                         'class' => 'form-control',
                         'min' => 0,
+                        'step' => '0.01',
                         'readonly' => $pirep->read_only]) }}
                 @endif
             </div>
