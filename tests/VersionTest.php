@@ -48,7 +48,7 @@ class VersionTest extends TestCase
             'v7.0.0',
             '7.0.0',
             '8.0.0',
-            '7.0.0-alpha',
+            '7.0.0-beta',
             '7.0.0+buildid',
         ];
 
