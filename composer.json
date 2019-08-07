@@ -11,6 +11,7 @@
         "ext-calendar": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
+        "ext-simplexml": "*",
         "ext-pdo": "*",
         "composer/composer": "1.8.*",
         "laravel/framework": "5.8.*",

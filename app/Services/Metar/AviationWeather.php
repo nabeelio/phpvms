@@ -4,7 +4,8 @@ namespace App\Services\Metar;
 
 use App\Contracts\Metar;
 use App\Support\Http;
-use Cache;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Return the raw METAR string from the NOAA Aviation Weather Service
@@ -39,6 +40,7 @@ class AviationWeather extends Metar
                     }
                     return $xml->data->METAR->raw_text->__toString();
                 } catch (\Exception $e) {
+                    Log::error('Error reading METAR: '.$e->getMessage());
                     return '';
                 }
             }
