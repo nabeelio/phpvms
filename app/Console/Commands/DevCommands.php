@@ -9,7 +9,6 @@ use App\Models\Pirep;
 use App\Models\User;
 use App\Services\AwardService;
 use App\Services\DatabaseService;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use PDO;
