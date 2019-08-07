@@ -12,8 +12,11 @@ return [
         'name' => '$SITE_NAME$',
         'url'  => '$SITE_URL$',
 
-        # Don't forget to change these when live
+        // When live, 'env' should be 'prod'
         'env'   => 'prod',
+
+        // debug as true shows the Laravel debug bar, which is helpful for
+        // debugging templates and other internals
         'debug' => false,
     ],
 
@@ -71,7 +74,7 @@ return [
         'default' => env('DB_CONNECTION', '$DB_CONN$'),
         'connections' => [
             'mysql' => [
-                'host' => '$DB_HOST$',
+                'host' => env('DB_HOST', '$DB_HOST$'),
                 'port' => $DB_PORT$,
                 'database' => '$DB_NAME$',
                 'username' => '$DB_USER$',

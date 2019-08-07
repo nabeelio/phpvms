@@ -9,7 +9,9 @@ use App\Models\Pirep;
 use App\Models\User;
 use App\Services\AwardService;
 use App\Services\DatabaseService;
-use DB;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use PDO;
 use Symfony\Component\Yaml\Yaml;
 
@@ -46,12 +48,13 @@ class DevCommands extends Command
         }
 
         $commands = [
-            'list-awards'    => 'listAwardClasses',
             'clear-acars'    => 'clearAcars',
             'clear-users'    => 'clearUsers',
             'compile-assets' => 'compileAssets',
             'db-attrs'       => 'dbAttrs',
+            'list-awards'    => 'listAwardClasses',
             'manual-insert'  => 'manualInsert',
+            'reset-install'  => 'resetInstall',
             'xml-to-yaml'    => 'xmlToYaml',
         ];
 
@@ -211,5 +214,34 @@ class DevCommands extends Command
                 $this->confirm('Insert next row?', true);
             }
         }
+    }
+
+    /**
+     * Delete all of the tables, etc from the database, for a clean install
+     */
+    protected function resetInstall(): void
+    {
+        $confirm = $this->ask('This will erase your entire install and database, are you sure? y/n ');
+        if (strtolower($confirm) !== 'y') {
+            exit(0);
+        }
+
+        if (config('database.default') === 'mysql') {
+            DB::statement('SET foreign_key_checks=0');
+        }
+
+        $this->info('Dropping all tables');
+        $tables = DB::connection()->getDoctrineSchemaManager()->listTableNames();
+        foreach ($tables as $table) {
+            Schema::dropIfExists($table);
+        }
+
+        $this->info('Deleting config file');
+        unlink('config.php');
+
+        $this->info('Deleting env file');
+        unlink('env.php');
+
+        $this->info('Done!');
     }
 }

@@ -8,13 +8,14 @@ use App\Models\User;
 use App\Repositories\AirlineRepository;
 use App\Services\AnalyticsService;
 use App\Services\Installer\MigrationService;
+use App\Services\Installer\SeederService;
 use App\Services\UserService;
 use App\Support\Countries;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
-use Log;
 use Modules\Installer\Services\ConfigService;
 use Modules\Installer\Services\DatabaseService;
 use Modules\Installer\Services\RequirementsService;
@@ -28,21 +29,23 @@ class InstallerController extends Controller
 {
     private $airlineRepo,
             $analyticsSvc,
-            $dbService,
-            $envService,
+            $dbSvc,
+            $envSvc,
             $migrationSvc,
-            $reqService,
+            $reqSvc,
+            $seederSvc,
             $userService;
 
     /**
      * InstallerController constructor.
-     * @param AirlineRepository   $airlineRepo
-     * @param AnalyticsService    $analyticsSvc
-     * @param DatabaseService     $dbService
-     * @param ConfigService       $envService
-     * @param MigrationService    $migrationSvc
-     * @param RequirementsService $reqService
-     * @param UserService         $userService
+     * @param AirlineRepository $airlineRepo
+     * @param AnalyticsService $analyticsSvc
+     * @param DatabaseService $dbService
+     * @param ConfigService $envService
+     * @param MigrationService $migrationSvc
+     * @param RequirementsService $reqSvc
+     * @param SeederService $seederSvc
+     * @param UserService $userService
      */
     public function __construct(
         AirlineRepository $airlineRepo,
@@ -50,15 +53,17 @@ class InstallerController extends Controller
         DatabaseService $dbService,
         ConfigService $envService,
         MigrationService $migrationSvc,
-        RequirementsService $reqService,
+        RequirementsService $reqSvc,
+        SeederService $seederSvc,
         UserService $userService
     ) {
         $this->airlineRepo = $airlineRepo;
         $this->analyticsSvc = $analyticsSvc;
-        $this->dbService = $dbService;
-        $this->envService = $envService;
+        $this->dbSvc = $dbService;
+        $this->envSvc = $envService;
         $this->migrationSvc = $migrationSvc;
-        $this->reqService = $reqService;
+        $this->reqSvc = $reqSvc;
+        $this->seederSvc = $seederSvc;
         $this->userService = $userService;
     }
     /**
@@ -75,7 +80,7 @@ class InstallerController extends Controller
 
     protected function testDb(Request $request)
     {
-        $this->dbService->checkDbConnection(
+        $this->dbSvc->checkDbConnection(
             $request->post('db_conn'),
             $request->post('db_host'),
             $request->post('db_port'),
@@ -131,9 +136,9 @@ class InstallerController extends Controller
      */
     public function step1(Request $request)
     {
-        $php_version = $this->reqService->checkPHPVersion();
-        $extensions = $this->reqService->checkExtensions();
-        $directories = $this->reqService->checkPermissions();
+        $php_version = $this->reqSvc->checkPHPVersion();
+        $extensions = $this->reqSvc->checkExtensions();
+        $directories = $this->reqSvc->checkPermissions();
 
         # Only pass if all the items in the ext and dirs are passed
         $statuses = [
@@ -210,7 +215,7 @@ class InstallerController extends Controller
          * setup the database and stuff
          */
         try {
-            $this->envService->createConfigFiles($attrs);
+            $this->envSvc->createConfigFiles($attrs);
         } catch(FileException $e) {
             Log::error('Config files failed to write');
             Log::error($e->getMessage());
@@ -234,12 +239,13 @@ class InstallerController extends Controller
         $console_out = '';
 
         try {
-            $console_out .= $this->dbService->setupDB();
+            $console_out .= $this->dbSvc->setupDB();
             $console_out .= $this->migrationSvc->runAllMigrations();
+            $this->seederSvc->syncAllSeeds();
         } catch(QueryException $e) {
             Log::error('Error on db setup: ' . $e->getMessage());
 
-            $this->envService->removeConfigFiles();
+            $this->envSvc->removeConfigFiles();
             flash()->error($e->getMessage());
             return redirect(route('installer.step2'))->withInput();
         }
@@ -309,8 +315,6 @@ class InstallerController extends Controller
             'email'           => $request->get('email'),
             'api_key'         => Utils::generateApiKey(),
             'airline_id'      => $airline->id,
-            'home_airport_id' => 'KAUS',
-            'curr_airport_id' => 'KAUS',
             'password'        => Hash::make($request->get('password'))
         ];
 
