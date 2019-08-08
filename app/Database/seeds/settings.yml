@@ -194,3 +194,10 @@
   options: ''
   type: boolean
   description: 'Allow specifying transfer hours on registration page and displayed on profile page'
+- key: pilots.count_transfer_hours
+  name: 'Count transfer hours in calculations'
+  group: pilots
+  value: false
+  options: ''
+  type: boolean
+  description: 'Count transfer hours in calculations, like ranks and the total hours'

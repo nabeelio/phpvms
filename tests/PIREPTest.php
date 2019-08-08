@@ -196,6 +196,8 @@ class PIREPTest extends TestCase
      */
     public function testPilotStatsIncr()
     {
+        $this->updateSetting('pilots.count_transfer_hours', false);
+
         $user = factory(User::class)->create([
             'flights'     => 0,
             'flight_time' => 0,
@@ -252,6 +254,41 @@ class PIREPTest extends TestCase
 
         // Make sure latest PIREP was updated
         $this->assertNotEquals($last_pirep->id, $latest_pirep->id);
+    }
+
+    /**
+     * check the stats/ranks, etc have incremented properly
+     */
+    public function testPilotStatsIncrWithTransferHours()
+    {
+        $this->updateSetting('pilots.count_transfer_hours', true);
+
+        $user = factory(User::class)->create([
+            'flights'       => 0,
+            'flight_time'   => 0,
+            'transfer_time' => 720,
+            'rank_id'       => 1,
+        ]);
+
+        // Submit two PIREPs
+        // 1 hour flight times, but the rank should bump up because of the transfer hours
+        $pireps = factory(Pirep::class, 2)->create([
+            'airline_id'  => $user->airline_id,
+            'aircraft_id' => 1,
+            'user_id'     => $user->id,
+            'flight_time' => 60,
+        ]);
+
+        foreach ($pireps as $pirep) {
+            $this->pirepSvc->create($pirep);
+            $this->pirepSvc->accept($pirep);
+        }
+
+        $pilot = User::find($user->id);
+        $last_pirep = Pirep::where('id', $pilot->last_pirep_id)->first();
+
+        // Make sure rank went up
+        $this->assertGreaterThan($user->rank_id, $pilot->rank_id);
     }
 
     /**
