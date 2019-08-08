@@ -35,6 +35,10 @@ class AviationWeather extends Metar
      */
     protected function metar($icao): string
     {
+        if ($icao === '') {
+            return '';
+        }
+
         $url = static::METAR_URL.$icao;
 
         try {

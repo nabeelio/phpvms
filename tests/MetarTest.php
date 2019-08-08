@@ -1,7 +1,12 @@
 <?php
 
 use App\Repositories\SettingRepository;
+use App\Services\AirportService;
 use App\Support\Metar;
+use GuzzleHttp\Client;
+use GuzzleHttp\Handler\MockHandler;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Psr7\Response;
 
 /**
  * Test the parsing/support class of the metar
@@ -14,6 +19,25 @@ class MetarTest extends TestCase
     {
         parent::setUp();
         $this->settingsRepo = app(SettingRepository::class);
+    }
+
+    /**
+     * @param string $filename
+     */
+    private function mockXmlResponse($filename)
+    {
+        $mock = new MockHandler([
+            new Response(200,
+                [
+                    'Content-Type' => 'text/xml',
+                ],
+                $this->readDataFile($filename)
+            ),
+        ]);
+
+        $handler = HandlerStack::create($mock);
+        $guzzleClient = new Client(['handler' => $handler]);
+        app()->instance(Client::class, $guzzleClient);
     }
 
     /**
@@ -144,5 +168,21 @@ class MetarTest extends TestCase
         $this->assertEquals(2, count($metar['clouds']));
         $this->assertEquals('A few at 457 meters; a few at 7620 meters', $metar['clouds_report']);
         $this->assertEquals('A few at 1500 feet; a few at 25000 feet', $metar['clouds_report_ft']);
+    }
+
+    public function testHttpCallSuccess()
+    {
+        $this->mockXmlResponse('aviationweather/kjfk.xml');
+        $airportSvc = app(AirportService::class);
+
+        $this->assertInstanceOf(Metar::class, $airportSvc->getMetar('kjfk'));
+    }
+
+    public function testHttpCallEmpty()
+    {
+        $this->mockXmlResponse('aviationweather/empty.xml');
+        $airportSvc = app(AirportService::class);
+
+        $this->assertNull($airportSvc->getMetar('idk'));
     }
 }
