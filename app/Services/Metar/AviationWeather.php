@@ -47,6 +47,7 @@ class AviationWeather extends Metar
             return $xml->data->METAR->raw_text->__toString();
         } catch (\Exception $e) {
             Log::error('Error reading METAR: '.$e->getMessage());
+
             throw $e;
         }
     }
