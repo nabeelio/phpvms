@@ -7,6 +7,7 @@ use App\Models\Acars;
 use App\Models\Airline;
 use App\Models\Pirep;
 use App\Models\User;
+use App\Services\AirportService;
 use App\Services\AwardService;
 use App\Services\DatabaseService;
 use Illuminate\Database\QueryException;
@@ -55,6 +56,7 @@ class DevCommands extends Command
             'db-attrs'       => 'dbAttrs',
             'list-awards'    => 'listAwardClasses',
             'manual-insert'  => 'manualInsert',
+            'metar'          => 'getMetar',
             'reset-install'  => 'resetInstall',
             'xml-to-yaml'    => 'xmlToYaml',
         ];
@@ -185,6 +187,19 @@ class DevCommands extends Command
         $file_name = $table_name.'.yml';
         file_put_contents(storage_path($file_name), Yaml::dump($yaml, 4, 2));
         $this->info('Writing yaml to storage: '.$file_name);
+    }
+
+    protected function getMetar(): void
+    {
+        $icao = $this->argument('param');
+        if (!$icao) {
+            $this->error('Enter an ICAO!');
+            exit();
+        }
+
+        $airportSvc = app(AirportService::class);
+        $metar = $airportSvc->getMetar($icao);
+        $this->info($metar->raw);
     }
 
     /**

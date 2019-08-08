@@ -2,7 +2,6 @@
 
 namespace App\Contracts;
 
-use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
@@ -12,22 +11,14 @@ use Illuminate\Support\Facades\Log;
 abstract class Metar
 {
     /**
-     * Implement retrieving the METAR- Return the string
-     * Needs to be protected, since this shouldn't be
-     * directly called. Call `get_metar($icao)` instead
+     * Implement retrieving the METAR - return the METAR string. Needs to be protected,
+     * since this shouldn't be directly called. Call `get_metar($icao)` instead
      *
      * @param $icao
      *
      * @return mixed
      */
     abstract protected function metar($icao): string;
-
-    /**
-     * @param $icao
-     *
-     * @return string
-     */
-    //abstract protected function taf($icao): string;
 
     /**
      * Download the METAR, wrap in caching
@@ -41,17 +32,23 @@ abstract class Metar
         $cache = config('cache.keys.WEATHER_LOOKUP');
         $key = $cache['key'].$icao;
 
-        $raw_metar = Cache::remember($key, $cache['time'], function () use ($icao) {
-            try {
-                return $this->metar($icao);
-            } catch (GuzzleException $e) {
-                Log::error('Error getting METAR: '.$e->getMessage(), $e->getTrace());
-                return '';
-            } catch (\Exception $e) {
-                Log::error('Error getting METAR: '.$e->getMessage(), $e->getTrace());
-                return '';
+        if (Cache::has($key)) {
+            $raw_metar = Cache::get($key);
+            if ($raw_metar !== '') {
+                return $raw_metar;
             }
-        });
+        }
+
+        try {
+            $raw_metar = $this->metar($icao);
+        } catch (\Exception $e) {
+            Log::error('Error getting METAR: '.$e->getMessage(), $e->getTrace());
+            return '';
+        }
+
+        if ($raw_metar !== '') {
+            Cache::put($key, $raw_metar, $cache['time']);
+        }
 
         return $raw_metar;
     }
