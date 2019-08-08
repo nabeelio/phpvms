@@ -279,7 +279,7 @@ class InstallerController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'airline_name'    => 'required',
-            'airline_icao'    => 'required|unique:airlines,icao',
+            'airline_icao'    => 'required|size:3|unique:airlines,icao',
             'airline_country' => 'required',
             'name'            => 'required',
             'email'           => 'required|email|unique:users,email',

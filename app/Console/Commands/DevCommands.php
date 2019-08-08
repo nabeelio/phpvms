@@ -9,6 +9,8 @@ use App\Models\Pirep;
 use App\Models\User;
 use App\Services\AwardService;
 use App\Services\DatabaseService;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use PDO;
@@ -225,21 +227,35 @@ class DevCommands extends Command
             exit(0);
         }
 
-        if (config('database.default') === 'mysql') {
-            DB::statement('SET foreign_key_checks=0');
-        }
+        try {
+            if (config('database.default') === 'mysql') {
+                DB::statement('SET foreign_key_checks=0');
+            }
 
-        $this->info('Dropping all tables');
-        $tables = DB::connection()->getDoctrineSchemaManager()->listTableNames();
-        foreach ($tables as $table) {
-            Schema::dropIfExists($table);
+            $this->info('Dropping all tables');
+            $tables = DB::connection()->getDoctrineSchemaManager()->listTableNames();
+            foreach ($tables as $table) {
+                Schema::dropIfExists($table);
+            }
+        } catch (QueryException $e) {
+            $this->error('DB error: '.$e->getMessage());
         }
 
         $this->info('Deleting config file');
-        unlink('config.php');
+        try {
+            unlink('config.php');
+        } catch (\Exception $e) { }
 
         $this->info('Deleting env file');
-        unlink('env.php');
+        try {
+            unlink('env.php');
+        } catch (\Exception $e) { }
+
+        $this->info('Clearing caches');
+        Artisan::call('cache:clear');
+        Artisan::call('route:clear');
+        Artisan::call('config:clear');
+        Artisan::call('view:clear');
 
         $this->info('Done!');
     }
