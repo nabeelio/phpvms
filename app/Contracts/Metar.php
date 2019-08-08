@@ -2,8 +2,9 @@
 
 namespace App\Contracts;
 
-use Cache;
-use Log;
+use GuzzleHttp\Exception\GuzzleException;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Base class for implementing retrieving METARs
@@ -43,7 +44,7 @@ abstract class Metar
         $raw_metar = Cache::remember($key, $cache['time'], function () use ($icao) {
             try {
                 return $this->metar($icao);
-            } catch (\GuzzleHttp\Exception\GuzzleException $e) {
+            } catch (GuzzleException $e) {
                 Log::error('Error getting METAR: '.$e->getMessage(), $e->getTrace());
                 return '';
             } catch (\Exception $e) {
