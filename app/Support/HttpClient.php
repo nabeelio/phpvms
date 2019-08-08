@@ -2,7 +2,7 @@
 
 namespace App\Support;
 
-use GuzzleHttp\Client;
+use GuzzleHttp\Client as GuzzleClient;
 
 /**
  * Helper for HTTP stuff
@@ -12,7 +12,7 @@ class HttpClient
     private $httpClient;
 
     public function __construct(
-        Client $httpClient
+        GuzzleClient $httpClient
     ) {
         $this->httpClient = $httpClient;
     }

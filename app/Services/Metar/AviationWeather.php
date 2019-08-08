@@ -3,8 +3,7 @@
 namespace App\Services\Metar;
 
 use App\Contracts\Metar;
-use App\Support\Http;
-use Illuminate\Support\Facades\Cache;
+use App\Support\HttpClient;
 use Illuminate\Support\Facades\Log;
 
 /**
@@ -17,35 +16,38 @@ class AviationWeather extends Metar
         .'dataSource=metars&requestType=retrieve&format=xml&hoursBeforeNow=3'
         .'&mostRecent=true&fields=raw_text&stationString=';
 
+    private $httpClient;
+
+    public function __construct(HttpClient $httpClient)
+    {
+        $this->httpClient = $httpClient;
+    }
+
     /**
      * Implement the METAR - Return the string
      *
      * @param $icao
      *
+     * @throws \Exception
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     *
      * @return string
      */
     protected function metar($icao): string
     {
-        $metar = Cache::remember(
-            config('cache.keys.WEATHER_LOOKUP.key').$icao,
-            config('cache.keys.WEATHER_LOOKUP.time'),
-            function () use ($icao) {
-                $url = static::METAR_URL.$icao;
+        $url = static::METAR_URL.$icao;
 
-                try {
-                    $res = Http::get($url, []);
-                    $xml = simplexml_load_string($res);
-                    if (\count($xml->data->METAR->raw_text) === 0) {
-                        return '';
-                    }
-                    return $xml->data->METAR->raw_text->__toString();
-                } catch (\Exception $e) {
-                    Log::error('Error reading METAR: '.$e->getMessage());
-                    return '';
-                }
+        try {
+            $res = $this->httpClient->get($url, []);
+            $xml = simplexml_load_string($res);
+            if (\count($xml->data->METAR->raw_text) === 0) {
+                return '';
             }
-        );
 
-        return $metar;
+            return $xml->data->METAR->raw_text->__toString();
+        } catch (\Exception $e) {
+            Log::error('Error reading METAR: '.$e->getMessage());
+            throw $e;
+        }
     }
 }

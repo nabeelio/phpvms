@@ -310,7 +310,7 @@ class Metar implements \ArrayAccess
     /*
      * Other variables.
      */
-    private $raw;
+    public $raw;
 
     private $raw_parts = [];
 

@@ -24,7 +24,6 @@ class VersionTest extends TestCase
             '7.0.0-beta'   => '7.0.0-alpha',
             '7.0.0-beta.1' => '7.0.0-beta',
             '7.0.0-beta.2' => '7.0.0-beta.1',
-            '7.0.0-beta.1' => '7.0.0-alpha',
         ];
 
         $versionSvc = app(VersionService::class);
