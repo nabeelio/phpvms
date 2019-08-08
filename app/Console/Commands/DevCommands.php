@@ -242,14 +242,18 @@ class DevCommands extends Command
         }
 
         $this->info('Deleting config file');
+
         try {
             unlink('config.php');
-        } catch (\Exception $e) { }
+        } catch (\Exception $e) {
+        }
 
         $this->info('Deleting env file');
+
         try {
             unlink('env.php');
-        } catch (\Exception $e) { }
+        } catch (\Exception $e) {
+        }
 
         $this->info('Clearing caches');
         Artisan::call('cache:clear');
