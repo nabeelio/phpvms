@@ -60,7 +60,7 @@
   value: gallons
   options: 'gallons,l=liters'
   type: select
-  description: 'The units for fuel for display'
+  description: 'The units of volume for display'
 - key: units.temperature
   name: 'Temperature Units'
   group: units
