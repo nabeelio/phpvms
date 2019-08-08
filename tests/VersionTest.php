@@ -14,7 +14,24 @@ class VersionTest extends TestCase
         $this->kvpRepo = app(KvpRepository::class);
     }
 
-    public function testGetLatestVersion()
+    /**
+     * Test that the new versions (keys) are properly regarded as new versions
+     */
+    public function testGreaterThanVersionStrings(): void
+    {
+        $test = [
+            '7.0.0'        => '6.0.0',
+            '7.0.0-beta'   => '7.0.0-alpha',
+            '7.0.0-beta.1' => '7.0.0-beta',
+        ];
+
+        $versionSvc = app(VersionService::class);
+        foreach ($test as $newVersion => $currentVersion) {
+            $this->assertTrue($versionSvc->isGreaterThan($newVersion, $currentVersion));
+        }
+    }
+
+    public function testGetLatestVersion(): void
     {
         setting('general.check_prerelease_version', false);
 
@@ -27,7 +44,7 @@ class VersionTest extends TestCase
         $this->assertEquals('7.0.0-alpha2', $this->kvpRepo->get('latest_version_tag'));
     }
 
-    public function testGetLatestPrereleaseVersion()
+    public function testGetLatestPrereleaseVersion(): void
     {
         $this->updateSetting('general.check_prerelease_version', true);
 
@@ -40,7 +57,7 @@ class VersionTest extends TestCase
         $this->assertEquals('7.0.0-beta', $this->kvpRepo->get('latest_version_tag'));
     }
 
-    public function testNewVersionNotAvailable()
+    public function testNewVersionNotAvailable(): void
     {
         $this->updateSetting('general.check_prerelease_version', false);
 
@@ -59,7 +76,10 @@ class VersionTest extends TestCase
         }
     }
 
-    public function testNewVersionIsAvailable()
+    /**
+     * Version in the prerelease releases.json is v7.0.0-beta
+     */
+    public function testNewVersionIsAvailable(): void
     {
         $this->updateSetting('general.check_prerelease_version', true);
 
