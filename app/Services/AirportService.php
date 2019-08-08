@@ -26,12 +26,14 @@ class AirportService extends Service
      *
      * @return Metar|null
      */
-    public function getMetar($icao): Metar
+    public function getMetar($icao)
     {
-        $metar = null;
-        $wind = null;
-        $raw_metar = $this->metarProvider->get_metar($icao);
+        $icao = trim($icao);
+        if ($icao === '') {
+            return null;
+        }
 
+        $raw_metar = $this->metarProvider->get_metar($icao);
         if ($raw_metar && $raw_metar !== '') {
             return new Metar($raw_metar);
         }
