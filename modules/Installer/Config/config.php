@@ -15,7 +15,6 @@ return [
     ],
 
     'extensions' => [
-        'calendar',
         'openssl',
         'pdo',
         'mbstring',

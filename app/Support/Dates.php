@@ -38,11 +38,27 @@ class Dates
     public static function getMonthBoundary($month): array
     {
         [$year, $month] = explode('-', $month);
-        $days = \cal_days_in_month(CAL_GREGORIAN, $month, $year);
+        $days = static::getDaysInMonth($month, $year);
 
         return [
             "$year-$month-01",
             "$year-$month-$days",
         ];
+    }
+
+    /**
+     * Get the number of days in a month
+     * https://www.php.net/manual/en/function.cal-days-in-month.php#38666
+     *
+     * @param int $month
+     * @param int $year
+     *
+     * @return int
+     */
+    public static function getDaysInMonth($month, $year): int
+    {
+        $month = (int) $month;
+        $year = (int) $year;
+        return $month == 2 ? ($year % 4 ? 28 : ($year % 100 ? 29 : ($year % 400 ? 28 : 29))) : (($month - 1) % 7 % 2 ? 30 : 31);
     }
 }
