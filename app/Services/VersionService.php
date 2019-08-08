@@ -179,16 +179,28 @@ class VersionService extends Service
             $current_version = $this->cleanVersionString($current_version);
         }
 
-        $current_version = Version::fromString($current_version);
-        $latest_version = Version::fromString($this->getLatestVersion());
+        $latest_version = $this->getLatestVersion();
 
         // Convert to semver
-        if ($latest_version->isGreaterThan($current_version)) {
+        if ($this->isGreaterThan($latest_version, $current_version)) {
             $this->kvpRepo->save('new_version_available', true);
             return true;
         }
 
         $this->kvpRepo->save('new_version_available', false);
         return false;
+    }
+
+    /**
+     * @param string $version1
+     * @param string $version2
+     *
+     * @return bool If $version1 is greater than $version2
+     */
+    public function isGreaterThan($version1, $version2): bool
+    {
+        $version1 = Version::fromString($version1);
+        $version2 = Version::fromString($version2);
+        return $version1->isGreaterThan($version2);
     }
 }

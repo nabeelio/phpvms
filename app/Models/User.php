@@ -22,7 +22,8 @@ use Laratrust\Traits\LaratrustUserTrait;
  * @property string         home_airport_id
  * @property Airline        airline
  * @property Flight[]       flights
- * @property string         flight_time
+ * @property int            flight_time
+ * @property int            transfer_time
  * @property string         remember_token
  * @property \Carbon\Carbon created_at
  * @property \Carbon\Carbon updated_at

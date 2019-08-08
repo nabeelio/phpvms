@@ -17,8 +17,8 @@ use App\Repositories\AircraftRepository;
 use App\Repositories\SubfleetRepository;
 use App\Support\Units\Time;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 use function is_array;
-use Log;
 
 /**
  * Class UserService
@@ -258,7 +258,12 @@ class UserService extends Service
             return $user;
         }
 
-        $pilot_hours = new Time($user->flight_time);
+        // If we should count their transfer hours?
+        if (setting('pilots.count_transfer_hours') === true) {
+            $pilot_hours = new Time($user->flight_time + $user->transfer_time);
+        } else {
+            $pilot_hours = new Time($user->flight_time);
+        }
 
         // The current rank's hours are over the pilot's current hours,
         // so assume that they were "placed" here by an admin so don't

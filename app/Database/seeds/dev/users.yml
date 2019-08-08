@@ -1,0 +1,71 @@
+users:
+  - id: 1
+    pilot_id: 1
+    name: Admin User
+    email: admin@phpvms.net
+    password: admin
+    api_key: testadminapikey
+    airline_id: 1
+    rank_id: 1
+    country: us
+    home_airport_id: KAUS
+    curr_airport_id: KJFK
+    last_pirep_id: pirepid_3
+    flights: 3
+    flight_time: 0
+    timezone: America/Chicago
+    state: 1
+    opt_in: 1
+    toc_accepted: 1
+    created_at: now
+    updated_at: now
+  - id: 2
+    pilot_id: 2
+    name: Carla Walters
+    email: carla.walters68@example.com
+    password: admin
+    api_key: testuserapikey1
+    airline_id: 1
+    rank_id: 1
+    home_airport_id: KJFK
+    curr_airport_id: KJFK
+    flights: 1
+    flight_time: 4320
+    transfer_time: 360
+    created_at: now
+    updated_at: now
+    state: 0
+    opt_in: 1
+    toc_accepted: 1
+  - id: 3
+    pilot_id: 3
+    name: Raymond Pearson
+    email: raymond.pearson56@example.com
+    password: admin
+    api_key: testuserapikey2
+    airline_id: 1
+    rank_id: 1
+    home_airport_id: KJFK
+    curr_airport_id: KAUS
+    flights: 1
+    flight_time: 4320
+    transfer_time: 120
+    created_at: now
+    updated_at: now
+    state: 1
+    opt_in: 0
+    toc_accepted: 1
+
+role_user:
+  - user_id: 1
+    role_id: 1
+    user_type: App\Models\User
+  - user_id: 1
+    role_id: 2
+    user_type: App\Models\User
+  - user_id: 2
+    role_id: 2
+    user_type: App\Models\User
+  - user_id: 3
+    role_id: 2
+    user_type: App\Models\User

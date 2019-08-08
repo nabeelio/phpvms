@@ -11,6 +11,7 @@ use App\Contracts\Model;
  * @property int    hours
  * @property float  manual_base_pay_rate
  * @property float  acars_base_pay_rate
+ * @property bool   auto_promote
  */
 class Rank extends Model
 {
