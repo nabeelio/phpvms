@@ -22,7 +22,7 @@
         <listener class="NunoMaduro\Collision\Adapters\Phpunit\Listener"/>
     </listeners>
     <php>
-        <env name="APP_ENV" value="test"/>
+        <env name="APP_ENV" value="unittest"/>
         <env name="APP_KEY" value="base64:ve66Z5Kt/zTN3p++0zOPu854PHfZkwJE5VuoFAlzHtI="/>
         <env name="APP_DEBUG" value="true"/>
         <env name="APP_LOG_LEVEL" value="debug"/>
