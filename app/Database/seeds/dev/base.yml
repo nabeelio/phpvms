@@ -3,4 +3,12 @@
 # want to modify or erase any of this here
 #
 
-
+airlines:
+  - id: 1
+    icao: VMS
+    iata: VM
+    name: phpvms airlines
+    country: us
+    active: 1
+    created_at: now
+    updated_at: now

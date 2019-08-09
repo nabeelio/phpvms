@@ -66,6 +66,7 @@ reset: clean
 .PHONY: reload-db
 reload-db:
 	@php artisan phpvms:dev-install --reset-db
+	@make clean
 
 .PHONY: tests
 tests: test
