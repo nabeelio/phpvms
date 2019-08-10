@@ -7,6 +7,7 @@ use App\Models\Acars;
 use App\Models\Airline;
 use App\Models\Pirep;
 use App\Models\User;
+use App\Repositories\AcarsRepository;
 use App\Services\AirportService;
 use App\Services\AwardService;
 use App\Services\DatabaseService;
@@ -55,6 +56,7 @@ class DevCommands extends Command
             'compile-assets' => 'compileAssets',
             'db-attrs'       => 'dbAttrs',
             'list-awards'    => 'listAwardClasses',
+            'live-flights'   => 'liveFlights',
             'manual-insert'  => 'manualInsert',
             'metar'          => 'getMetar',
             'reset-install'  => 'resetInstall',
@@ -277,5 +279,13 @@ class DevCommands extends Command
         Artisan::call('view:clear');
 
         $this->info('Done!');
+    }
+
+    public function liveFlights(): void
+    {
+        $acarsRepo = app(AcarsRepository::class);
+        $flights = $acarsRepo->getPositions(setting('acars.live_time'))->toArray();
+
+        dd($flights);
     }
 }

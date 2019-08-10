@@ -166,17 +166,13 @@ class PirepController extends Controller
      */
     public function index()
     {
-        $active = [];
-        $pireps = $this->acarsRepo->getPositions();
-        foreach ($pireps as $pirep) {
-            if (!$pirep->position) {
-                continue;
-            }
+        $pireps = $this->acarsRepo
+            ->getPositions(setting('acars.live_time'))
+            ->filter(function ($pirep) {
+                return $pirep->position !== null;
+            });
 
-            $active[] = $pirep;
-        }
-
-        return PirepResource::collection(collect($active));
+        return PirepResource::collection($pireps);
     }
 
     /**
