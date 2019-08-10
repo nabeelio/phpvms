@@ -13,6 +13,12 @@ class TestApi extends Command
     protected $signature = 'phpvms:test-api {apikey} {url}';
     protected $httpClient;
 
+    public function __construct()
+    {
+        parent::__construct();
+        $this->redirectLoggingToFile('stdout');
+    }
+
     /**
      * Run dev related commands
      */

@@ -18,6 +18,8 @@ class Version extends Command
     public function __construct(VersionService $versionSvc)
     {
         parent::__construct();
+
+        $this->redirectLoggingToFile('stdout');
         $this->versionSvc = $versionSvc;
     }
 

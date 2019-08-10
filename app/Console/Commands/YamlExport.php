@@ -17,6 +17,8 @@ class YamlExport extends Command
     public function __construct()
     {
         parent::__construct();
+
+        $this->redirectLoggingToFile('stdout');
     }
 
     /**

@@ -16,15 +16,12 @@ abstract class Command extends \Illuminate\Console\Command
     abstract public function handle();
 
     /**
-     * Splice the logger and replace the active handlers with
-     * the handlers from the "cron" stack in config/logging.php
+     * Splice the logger and replace the active handlers with the handlers from the
+     * a stack in config/logging.php
      *
-     * Close out any of the existing handlers so we don't leave
-     * file descriptors leaking around
-     *
-     * @param string $channel_name Channel name to grab the handlers from
+     * @param string $channel_name Channel name from config/logging.php
      */
-    public function redirectLoggingToStdout($channel_name): void
+    public function redirectLoggingToFile($channel_name): void
     {
         $logger = app(\Illuminate\Log\Logger::class);
 

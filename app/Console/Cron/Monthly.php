@@ -19,7 +19,7 @@ class Monthly extends Command
 
     public function handle(): void
     {
-        $this->redirectLoggingToStdout('cron');
+        $this->redirectLoggingToFile('cron');
         event(new CronMonthly());
     }
 }

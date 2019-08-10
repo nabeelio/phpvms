@@ -47,6 +47,8 @@ class AcarsReplay extends Command
     {
         parent::__construct();
 
+        $this->redirectLoggingToFile('stdout');
+
         $this->httpClient = new Client([
             'base_uri' => config('app.url'),
             'headers'  => [

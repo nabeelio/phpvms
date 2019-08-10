@@ -13,6 +13,13 @@ class ComposerCommand extends Command
     protected $signature = 'phpvms:composer {cmd}';
     protected $description = 'Composer related tasks';
 
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->redirectLoggingToFile('stdout');
+    }
+
     /**
      * Run composer update related commands
      */

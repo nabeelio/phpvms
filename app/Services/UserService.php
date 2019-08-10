@@ -15,6 +15,7 @@ use App\Models\Role;
 use App\Models\User;
 use App\Repositories\AircraftRepository;
 use App\Repositories\SubfleetRepository;
+use App\Repositories\UserRepository;
 use App\Support\Units\Time;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
@@ -27,19 +28,23 @@ class UserService extends Service
 {
     private $aircraftRepo;
     private $subfleetRepo;
+    private $userRepo;
 
     /**
      * UserService constructor.
      *
      * @param AircraftRepository $aircraftRepo
      * @param SubfleetRepository $subfleetRepo
+     * @param UserRepository     $userRepo
      */
     public function __construct(
         AircraftRepository $aircraftRepo,
-        SubfleetRepository $subfleetRepo
+        SubfleetRepository $subfleetRepo,
+        UserRepository $userRepo
     ) {
         $this->aircraftRepo = $aircraftRepo;
         $this->subfleetRepo = $subfleetRepo;
+        $this->userRepo = $userRepo;
     }
 
     /**
@@ -259,7 +264,7 @@ class UserService extends Service
         }
 
         // If we should count their transfer hours?
-        if (setting('pilots.count_transfer_hours') === true) {
+        if (setting('pilots.count_transfer_hours', false) === true) {
             $pilot_hours = new Time($user->flight_time + $user->transfer_time);
         } else {
             $pilot_hours = new Time($user->flight_time);
@@ -316,6 +321,22 @@ class UserService extends Service
     }
 
     /**
+     * Recalculate the stats for all active users
+     */
+    public function recalculateAllUserStats(): void
+    {
+        $w = [
+            ['state', '!=', UserState::REJECTED],
+        ];
+
+        $this->userRepo
+            ->findWhere($w, ['id', 'name', 'airline_id'])
+            ->each(function($user, $_) {
+                return $this->recalculateStats($user);
+            });
+    }
+
+    /**
      * Recount/update all of the stats for a user
      *
      * @param User $user
@@ -336,10 +357,14 @@ class UserService extends Service
         $flight_time = Pirep::where($w)->sum('flight_time');
         $user->flight_time = $flight_time;
 
+        $user->save();
+
         // Recalc the rank
         $this->calculatePilotRank($user);
 
-        Log::info('User '.$user->ident.' updated; rank='.$user->rank->name.'; flight_time='.$user->flight_time.' minutes');
+        Log::info('User '.$user->ident.' updated; flight count='.$flight_count
+            .', rank='.$user->rank->name
+            .', flight_time='.$user->flight_time.' minutes');
 
         $user->save();
         return $user;

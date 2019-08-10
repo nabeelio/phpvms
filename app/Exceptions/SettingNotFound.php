@@ -2,11 +2,8 @@
 
 namespace App\Exceptions;
 
-use Symfony\Component\HttpKernel\Exception\HttpException;
+use Exception;
 
-/**
- * Class SettingNotFound
- */
-class SettingNotFound extends HttpException
+class SettingNotFound extends Exception
 {
 }

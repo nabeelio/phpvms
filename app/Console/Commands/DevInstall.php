@@ -26,6 +26,8 @@ class DevInstall extends Command
     public function __construct(\DatabaseSeeder $databaseSeeder)
     {
         parent::__construct();
+
+        $this->redirectLoggingToFile('stdout');
         $this->databaseSeeder = $databaseSeeder;
     }
 

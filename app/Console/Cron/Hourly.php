@@ -17,7 +17,7 @@ class Hourly extends Command
 
     public function handle(): void
     {
-        $this->redirectLoggingToStdout('cron');
+        $this->redirectLoggingToFile('cron');
         event(new CronHourly());
     }
 }
