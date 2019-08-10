@@ -331,7 +331,7 @@ class UserService extends Service
 
         $this->userRepo
             ->findWhere($w, ['id', 'name', 'airline_id'])
-            ->each(function($user, $_) {
+            ->each(function ($user, $_) {
                 return $this->recalculateStats($user);
             });
     }
