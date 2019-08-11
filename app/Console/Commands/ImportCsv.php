@@ -23,6 +23,8 @@ class ImportCsv extends Command
     public function __construct(ImportService $importer)
     {
         parent::__construct();
+
+        $this->redirectLoggingToFile('stdout');
         $this->importer = $importer;
     }
 

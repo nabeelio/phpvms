@@ -4,8 +4,6 @@ namespace App\Cron\Nightly;
 
 use App\Contracts\Listener;
 use App\Events\CronNightly;
-use App\Models\Enums\UserState;
-use App\Repositories\UserRepository;
 use App\Services\UserService;
 use Illuminate\Support\Facades\Log;
 
@@ -14,12 +12,10 @@ use Illuminate\Support\Facades\Log;
  */
 class RecalculateStats extends Listener
 {
-    private $userRepo;
     private $userSvc;
 
-    public function __construct(UserRepository $userRepo, UserService $userService)
+    public function __construct(UserService $userService)
     {
-        $this->userRepo = $userRepo;
         $this->userSvc = $userService;
     }
 
@@ -35,14 +31,7 @@ class RecalculateStats extends Listener
     {
         Log::info('Recalculating balances');
 
-        $w = [
-            ['state', '!=', UserState::REJECTED],
-        ];
-
-        $users = $this->userRepo->findWhere($w, ['id', 'name', 'airline_id']);
-        foreach ($users as $user) {
-            $this->userSvc->recalculateStats($user);
-        }
+        $this->userSvc->recalculateAllUserStats();
 
         Log::info('Done recalculating stats');
     }

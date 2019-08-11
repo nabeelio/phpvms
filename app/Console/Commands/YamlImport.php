@@ -22,7 +22,9 @@ class YamlImport extends Command
     public function __construct(DatabaseService $dbSvc)
     {
         parent::__construct();
+
         $this->dbSvc = $dbSvc;
+        $this->redirectLoggingToFile('stdout');
     }
 
     /**

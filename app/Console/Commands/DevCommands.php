@@ -11,6 +11,7 @@ use App\Repositories\AcarsRepository;
 use App\Services\AirportService;
 use App\Services\AwardService;
 use App\Services\DatabaseService;
+use App\Services\UserService;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
@@ -35,6 +36,8 @@ class DevCommands extends Command
     public function __construct(DatabaseService $dbSvc)
     {
         parent::__construct();
+
+        $this->redirectLoggingToFile('stdout');
         $this->dbSvc = $dbSvc;
     }
 
@@ -51,16 +54,17 @@ class DevCommands extends Command
         }
 
         $commands = [
-            'clear-acars'    => 'clearAcars',
-            'clear-users'    => 'clearUsers',
-            'compile-assets' => 'compileAssets',
-            'db-attrs'       => 'dbAttrs',
-            'list-awards'    => 'listAwardClasses',
-            'live-flights'   => 'liveFlights',
-            'manual-insert'  => 'manualInsert',
-            'metar'          => 'getMetar',
-            'reset-install'  => 'resetInstall',
-            'xml-to-yaml'    => 'xmlToYaml',
+            'clear-acars'       => 'clearAcars',
+            'clear-users'       => 'clearUsers',
+            'compile-assets'    => 'compileAssets',
+            'db-attrs'          => 'dbAttrs',
+            'list-awards'       => 'listAwardClasses',
+            'live-flights'      => 'liveFlights',
+            'manual-insert'     => 'manualInsert',
+            'metar'             => 'getMetar',
+            'recalculate-stats' => 'recalculateStats',
+            'reset-install'     => 'resetInstall',
+            'xml-to-yaml'       => 'xmlToYaml',
         ];
 
         if (!array_key_exists($command, $commands)) {
@@ -232,6 +236,15 @@ class DevCommands extends Command
                 $this->confirm('Insert next row?', true);
             }
         }
+    }
+
+    /**
+     * Recalculate the stats for all users
+     */
+    protected function recalculateStats(): void
+    {
+        $userSvc = app(UserService::class);
+        $userSvc->recalculateAllUserStats();
     }
 
     /**
