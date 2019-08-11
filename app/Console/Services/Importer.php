@@ -75,7 +75,7 @@ class Importer
             'name'         => '',
             'user'         => '',
             'pass'         => '',
-            'table_prefix' => 'phpvms_',
+            'table_prefix' => '',
         ], $db_creds);
     }
 
