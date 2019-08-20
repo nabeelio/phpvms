@@ -2,13 +2,21 @@
 
 namespace App\Exceptions;
 
+use App\Exceptions\Converters\GenericException;
+use App\Exceptions\Converters\NotFound;
+use App\Exceptions\Converters\SymfonyException;
+use App\Exceptions\Converters\ValidationException;
 use Exception;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Illuminate\Validation\ValidationException;
-use Log;
-use Symfony\Component\HttpKernel\Exception\HttpException;
+use Illuminate\Http\Request;
+use Illuminate\Session\TokenMismatchException;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException as IlluminateValidationException;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\HttpException as SymfonyHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -21,85 +29,56 @@ class Handler extends ExceptionHandler
      * A list of the exception types that should not be reported.
      */
     protected $dontReport = [
-        \Illuminate\Auth\AuthenticationException::class,
-        \Illuminate\Auth\Access\AuthorizationException::class,
-        \Symfony\Component\HttpKernel\Exception\HttpException::class,
-        \Illuminate\Database\Eloquent\ModelNotFoundException::class,
-        \Illuminate\Session\TokenMismatchException::class,
-        \Illuminate\Validation\ValidationException::class,
+        AuthenticationException::class,
+        AuthorizationException::class,
+        HttpException::class,
+        IlluminateValidationException::class,
+        ModelNotFoundException::class,
+        SymfonyHttpException::class,
+        TokenMismatchException::class,
     ];
-
-    /**
-     * Create an error message
-     *
-     * @param $status_code
-     * @param $message
-     *
-     * @return array
-     */
-    protected function createError($status_code, $message)
-    {
-        return [
-            'error' => [
-                'status'  => $status_code,
-                'message' => $message,
-            ],
-        ];
-    }
 
     /**
      * Render an exception into an HTTP response.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \Exception               $exception
+     * @param Request $request
+     * @param Exception $exception
      *
      * @return mixed
      */
     public function render($request, Exception $exception)
     {
         if ($request->is('api/*')) {
-            $headers = [];
-
             Log::error('API Error', $exception->getTrace());
+
+            if ($exception instanceof HttpException) {
+                return $exception->getResponse();
+            }
+
+            /*
+             * Not of the HttpException abstract class. Map these into
+             */
 
             if ($exception instanceof ModelNotFoundException ||
                 $exception instanceof NotFoundHttpException) {
-                $error = $this->createError(404, $exception->getMessage());
+                $error = new NotFound($exception);
+                return $error->getResponse();
             }
 
             // Custom exceptions should be extending HttpException
-            elseif ($exception instanceof HttpException) {
-                $error = $this->createError(
-                    $exception->getStatusCode(),
-                    $exception->getMessage()
-                );
-
-                $headers = $exception->getHeaders();
+            if ($exception instanceof SymfonyHttpException) {
+                $error = new SymfonyException($exception);
+                return $error->getResponse();
             }
 
             // Create the detailed errors from the validation errors
-            elseif ($exception instanceof ValidationException) {
-                $error_messages = [];
-                $errors = $exception->errors();
-                foreach ($errors as $field => $error) {
-                    $error_messages[] = implode(', ', $error);
-                }
-
-                $message = implode(', ', $error_messages);
-                $error = $this->createError(400, $message);
-                $error['error']['errors'] = $errors;
-
-                Log::error('Validation errors', $errors);
-            } else {
-                $error = $this->createError(400, $exception->getMessage());
+            if ($exception instanceof IlluminateValidationException) {
+                $error = new ValidationException($exception);
+                return $error->getResponse();
             }
 
-            // Only add trace if in dev
-            if (config('app.env') === 'dev') {
-                $error['error']['trace'] = $exception->getTrace()[0];
-            }
-
-            return response()->json($error, $error['error']['status'], $headers);
+            $error = new GenericException($exception);
+            return $error->getResponse();
         }
 
         if ($exception instanceof HttpException
@@ -113,16 +92,16 @@ class Handler extends ExceptionHandler
     /**
      * Convert an authentication exception into an unauthenticated response.
      *
-     * @param \Illuminate\Http\Request                 $request
-     * @param \Illuminate\Auth\AuthenticationException $exception
+     * @param Request                 $request
+     * @param AuthenticationException $exception
      *
      * @return \Illuminate\Http\Response
      */
     protected function unauthenticated($request, AuthenticationException $exception)
     {
         if ($request->expectsJson() || $request->is('api/*')) {
-            $error = $this->createError(401, 'Unauthenticated');
-            return response()->json($error, 401);
+            $error = new Unauthenticated();
+            return $error->getResponse();
         }
 
         return redirect()->guest('login');
@@ -133,7 +112,7 @@ class Handler extends ExceptionHandler
      *
      * @param HttpException $e
      *
-     * @return \Illuminate\Http\Response|\Symfony\Component\HttpFoundation\Response
+     * @return \Illuminate\Http\Response|Response
      */
     protected function renderHttpException(HttpExceptionInterface $e)
     {

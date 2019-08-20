@@ -57,7 +57,7 @@ class AcarsController extends Controller
     protected function checkCancelled(Pirep $pirep)
     {
         if ($pirep->cancelled) {
-            throw new PirepCancelled();
+            throw new PirepCancelled($pirep);
         }
     }
 

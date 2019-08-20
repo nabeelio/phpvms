@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "da494f087ae565d209fc971170f5a259",
+    "content-hash": "4ff465ff2b45de41c61ce5a6f55db121",
     "packages": [
         {
             "name": "akaunting/money",
@@ -856,6 +856,66 @@
                 "performance"
             ],
             "time": "2019-05-27T17:52:04+00:00"
+        },
+        {
+            "name": "crell/api-problem",
+            "version": "3.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Crell/ApiProblem.git",
+                "reference": "de9ab4d17f80b19af772f9906061863b296ab427"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Crell/ApiProblem/zipball/de9ab4d17f80b19af772f9906061863b296ab427",
+                "reference": "de9ab4d17f80b19af772f9906061863b296ab427",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "7.*",
+                "psr/http-factory": "^1.0",
+                "psr/http-message": "1.*",
+                "zendframework/zend-diactoros": "~1.0"
+            },
+            "suggest": {
+                "psr/http-factory": "Common interfaces for PSR-7 HTTP message factories",
+                "psr/http-message": "Common interface for HTTP messages"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Crell\\ApiProblem\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Larry Garfield",
+                    "email": "larry@garfieldtech.com",
+                    "homepage": "http://www.garfieldtech.com/"
+                }
+            ],
+            "description": "PHP wrapper for the api-problem IETF specification",
+            "homepage": "https://github.com/Crell/ApiProblem",
+            "keywords": [
+                "api-problem",
+                "http",
+                "json",
+                "rest",
+                "xml"
+            ],
+            "time": "2019-08-18T10:47:17+00:00"
         },
         {
             "name": "doctrine/cache",
@@ -9305,9 +9365,9 @@
     "prefer-lowest": false,
     "platform": {
         "php": ">=7.2",
-        "ext-calendar": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
+        "ext-simplexml": "*",
         "ext-pdo": "*"
     },
     "platform-dev": []

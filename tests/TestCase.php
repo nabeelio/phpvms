@@ -6,6 +6,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
+use Illuminate\Routing\Middleware\ThrottleRequests;
 use Tests\TestData;
 
 /**
@@ -38,6 +39,12 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
     public function setUp() : void
     {
         parent::setUp();
+
+        // Don't throttle requests when running the tests
+        $this->withoutMiddleware(
+            ThrottleRequests::class
+        );
+
         Artisan::call('database:create', ['--reset' => true]);
         Artisan::call('migrate:refresh', ['--env' => 'unittest']);
     }

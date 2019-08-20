@@ -98,7 +98,7 @@ class UserController extends Controller
      * @param Request $request
      *
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
-     * @throws \App\Exceptions\BidExists
+     * @throws \App\Exceptions\BidExistsForFlight
      *
      * @return mixed
      */

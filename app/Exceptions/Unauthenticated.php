@@ -2,21 +2,15 @@
 
 namespace App\Exceptions;
 
-use App\Models\User;
+use App\Models\Flight;
 
-class UserPilotIdExists extends HttpException
+class Unauthenticated extends HttpException
 {
-    public const MESSAGE = 'A user with this pilot ID already exists';
-
-    private $user;
-
-    public function __construct(User $user)
+    public function __construct()
     {
-        $this->user = $user;
-
         parent::__construct(
-            400,
-            static::MESSAGE
+            401,
+            'User not authenticated'
         );
     }
 
@@ -25,7 +19,7 @@ class UserPilotIdExists extends HttpException
      */
     public function getErrorType(): string
     {
-        return 'pilot-id-already-exists';
+        return 'unauthenticated';
     }
 
     /**
@@ -41,8 +35,6 @@ class UserPilotIdExists extends HttpException
      */
     public function getErrorMetadata(): array
     {
-        return [
-            'user_id' => $this->user->id,
-        ];
+        return [];
     }
 }

@@ -1,22 +1,20 @@
 <?php
 
-namespace App\Exceptions;
+namespace App\Exceptions\Converters;
 
-use App\Models\User;
+use App\Exceptions\HttpException;
+use Exception;
 
-class UserPilotIdExists extends HttpException
+class NotFound extends HttpException
 {
-    public const MESSAGE = 'A user with this pilot ID already exists';
+    private $exception;
 
-    private $user;
-
-    public function __construct(User $user)
+    public function __construct(Exception $exception)
     {
-        $this->user = $user;
-
+        $this->exception = $exception;
         parent::__construct(
-            400,
-            static::MESSAGE
+            404,
+            $exception->getMessage()
         );
     }
 
@@ -25,7 +23,7 @@ class UserPilotIdExists extends HttpException
      */
     public function getErrorType(): string
     {
-        return 'pilot-id-already-exists';
+        return 'not-found';
     }
 
     /**
@@ -41,8 +39,6 @@ class UserPilotIdExists extends HttpException
      */
     public function getErrorMetadata(): array
     {
-        return [
-            'user_id' => $this->user->id,
-        ];
+        return [];
     }
 }

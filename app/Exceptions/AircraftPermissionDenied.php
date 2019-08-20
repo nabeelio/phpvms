@@ -2,11 +2,51 @@
 
 namespace App\Exceptions;
 
-/**
- * Class AircraftPermissionDenied
- */
-class AircraftPermissionDenied extends InternalError
+use App\Models\Aircraft;
+use App\Models\User;
+
+class AircraftPermissionDenied extends HttpException
 {
-    public const FIELD = 'aircraft_id';
     public const MESSAGE = 'User is not allowed to fly this aircraft';
+
+    private $aircraft;
+    private $user;
+
+    public function __construct(User $user, Aircraft $aircraft)
+    {
+        $this->aircraft = $aircraft;
+        $this->user = $user;
+
+        parent::__construct(
+            400,
+            static::MESSAGE
+        );
+    }
+
+    /**
+     * Return the RFC 7807 error type (without the URL root)
+     */
+    public function getErrorType(): string
+    {
+        return 'aircraft-permission-denied';
+    }
+
+    /**
+     * Get the detailed error string
+     */
+    public function getErrorDetails(): string
+    {
+        return $this->getMessage();
+    }
+
+    /**
+     * Return an array with the error details, merged with the RFC7807 response
+     */
+    public function getErrorMetadata(): array
+    {
+        return [
+            'aircraft_id' => $this->aircraft->id,
+            'user_id'     => $this->user->id,
+        ];
+    }
 }
