@@ -198,9 +198,9 @@ class FlightService extends Service
      * @param Flight $flight
      * @param User   $user
      *
-     * @return mixed
      *@throws \App\Exceptions\BidExistsForFlight
      *
+     * @return mixed
      */
     public function addBid(Flight $flight, User $user)
     {

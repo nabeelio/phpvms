@@ -57,7 +57,7 @@ class ValidationException extends HttpException
     public function getErrorMetadata(): array
     {
         return [
-            'errors' => $this->errors
+            'errors' => $this->errors,
         ];
     }
 }

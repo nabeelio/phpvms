@@ -34,7 +34,7 @@ abstract class HttpException extends SymfonyHttpException
 
         // For backwards compatibility
         $response['error'] = [
-            'status'  => $this-> getStatusCode(),
+            'status'  => $this->getStatusCode(),
             'message' => $this->getErrorDetails(),
         ];
 
@@ -53,7 +53,7 @@ abstract class HttpException extends SymfonyHttpException
                 $this->getJson(),
                 $this->getStatusCode(),
                 [
-                    'content-type' => 'application/problem+json'
+                    'content-type' => 'application/problem+json',
                 ]
             );
     }

@@ -42,7 +42,7 @@ class GenericException extends HttpException
         // Only add trace if in dev
         if (config('app.env') === 'dev') {
             return [
-                'trace' => $this->exception->getTrace()[0]
+                'trace' => $this->exception->getTrace()[0],
             ];
         }
 

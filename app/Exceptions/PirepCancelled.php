@@ -8,7 +8,8 @@ class PirepCancelled extends HttpException
 {
     private $pirep;
 
-    public function __construct(Pirep $pirep) {
+    public function __construct(Pirep $pirep)
+    {
         $this->pirep = $pirep;
         parent::__construct(
             400,

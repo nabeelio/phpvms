@@ -2,8 +2,6 @@
 
 namespace App\Exceptions;
 
-use App\Models\Flight;
-
 class Unauthenticated extends HttpException
 {
     public function __construct()
