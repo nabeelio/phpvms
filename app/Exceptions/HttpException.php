@@ -31,6 +31,7 @@ abstract class HttpException extends SymfonyHttpException
         $response['type'] = config('phpvms.error_root').'/'.$this->getErrorType();
         $response['title'] = $this->getMessage();
         $response['details'] = $this->getErrorDetails();
+        $response['status'] = $this->getStatusCode();
 
         // For backwards compatibility
         $response['error'] = [
