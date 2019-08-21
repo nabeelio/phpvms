@@ -221,20 +221,20 @@ class PirepController extends Controller
         /* @noinspection NotOptimalIfConditionsInspection */
         if (setting('pilots.only_flights_from_current')
             && $user->curr_airport_id !== $pirep->dpt_airport_id) {
-            throw new UserNotAtAirport();
+            throw new UserNotAtAirport($user, $pirep->dpt_airport);
         }
 
         // See if this user is allowed to fly this aircraft
         if (setting('pireps.restrict_aircraft_to_rank', false)
             && !$this->userSvc->aircraftAllowed($user, $pirep->aircraft_id)) {
-            throw new AircraftPermissionDenied();
+            throw new AircraftPermissionDenied($user, $pirep->aircraft);
         }
 
         // See if this aircraft is at the departure airport
         /* @noinspection NotOptimalIfConditionsInspection */
         if (setting('pireps.only_aircraft_at_dpt_airport')
             && $pirep->aircraft_id !== $pirep->dpt_airport_id) {
-            throw new AircraftNotAtAirport();
+            throw new AircraftNotAtAirport($pirep->aircraft);
         }
 
         // Find if there's a duplicate, if so, let's work on that
@@ -293,7 +293,7 @@ class PirepController extends Controller
         ) {
             $can_use_ac = $this->userSvc->aircraftAllowed($user, $pirep->aircraft_id);
             if (!$can_use_ac) {
-                throw new AircraftPermissionDenied();
+                throw new AircraftPermissionDenied($user, $pirep->aircraft);
             }
         }
 
@@ -335,7 +335,7 @@ class PirepController extends Controller
         ) {
             $can_use_ac = $this->userSvc->aircraftAllowed($user, $pirep->aircraft_id);
             if (!$can_use_ac) {
-                throw new AircraftPermissionDenied();
+                throw new AircraftPermissionDenied($user, $pirep->aircraft);
             }
         }
 

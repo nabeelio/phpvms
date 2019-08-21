@@ -137,7 +137,7 @@ class UserService extends Service
         if ($this->isPilotIdAlreadyUsed($pilot_id)) {
             Log::error('User with id '.$pilot_id.' already exists');
 
-            throw new UserPilotIdExists();
+            throw new UserPilotIdExists($user);
         }
 
         $old_id = $user->pilot_id;

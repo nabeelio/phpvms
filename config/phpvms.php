@@ -16,6 +16,16 @@ return [
     'installed' => env('PHPVMS_INSTALLED', false),
 
     /*
+     * Avatar resize settings
+     * feel free to edit the following lines.
+     * Both parameters are in px.
+     */
+    'avatar' => [
+        'width'  => '200',
+        'height' => '200',
+    ],
+
+    /*
      * Where to redirect after logging in
      */
     'login_redirect' => '/dashboard',
@@ -79,12 +89,8 @@ return [
     ],
 
     /*
-     * Avatar resize settings
-     * feel free to edit the following lines.
-     * Both parameters are in px.
+     * DO NOT CHANGE THIS. This is used to map error codes to the approriate
+     * RFC 7807 type, which can be used as a machine-readable error code/map
      */
-    'avatar' => [
-        'width'  => '200',
-        'height' => '200',
-    ],
+    'error_root' => 'https://phpvms.net/errors',
 ];

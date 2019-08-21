@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\Contracts\Service;
-use App\Exceptions\BidExists;
+use App\Exceptions\BidExistsForFlight;
 use App\Models\Bid;
 use App\Models\Flight;
 use App\Models\FlightFieldValue;
@@ -198,7 +198,7 @@ class FlightService extends Service
      * @param Flight $flight
      * @param User   $user
      *
-     * @throws \App\Exceptions\BidExists
+     *@throws \App\Exceptions\BidExistsForFlight
      *
      * @return mixed
      */
@@ -208,7 +208,7 @@ class FlightService extends Service
         // bids
         $bids = Bid::where('user_id', $user->id)->get();
         if ($bids->count() > 0 && setting('bids.allow_multiple_bids') === false) {
-            throw new BidExists('User "'.$user->ident.'" already has bids, skipping');
+            throw new BidExistsForFlight('User "'.$user->ident.'" already has bids, skipping');
         }
 
         // Get all of the bids for this flight
@@ -230,11 +230,11 @@ class FlightService extends Service
 
             // Check if the flight should be blocked off
             if (setting('bids.disable_flight_on_bid') === true) {
-                throw new BidExists('Flight "'.$flight->ident.'" already has a bid, skipping');
+                throw new BidExistsForFlight($flight);
             }
 
             if (setting('bids.allow_multiple_bids') === false) {
-                throw new BidExists('A bid already exists for this flight');
+                throw new BidExistsForFlight($flight);
             }
         } else {
             /* @noinspection NestedPositiveIfStatementsInspection */

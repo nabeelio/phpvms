@@ -2,24 +2,18 @@
 
 namespace App\Exceptions;
 
-use App\Models\Airport;
-use App\Models\User;
+use App\Models\Flight;
 
-class UserNotAtAirport extends HttpException
+class BidExistsForFlight extends HttpException
 {
-    public const MESSAGE = 'Pilot is not at the departure airport';
+    private $flight;
 
-    private $airport;
-    private $user;
-
-    public function __construct(User $user, Airport $airport)
+    public function __construct(Flight $flight)
     {
-        $this->airport = $airport;
-        $this->user = $user;
-
+        $this->flight = $flight;
         parent::__construct(
-            400,
-            static::MESSAGE
+            409,
+            'A bid already exists for this flight'
         );
     }
 
@@ -28,7 +22,7 @@ class UserNotAtAirport extends HttpException
      */
     public function getErrorType(): string
     {
-        return 'user-not-at-airport';
+        return 'bid-exists';
     }
 
     /**
@@ -45,8 +39,7 @@ class UserNotAtAirport extends HttpException
     public function getErrorMetadata(): array
     {
         return [
-            'airport_id' => $this->airport->id,
-            'user_id'    => $this->user->id,
+            'flight_id' => $this->flight->id,
         ];
     }
 }

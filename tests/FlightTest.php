@@ -500,7 +500,7 @@ class FlightTest extends TestCase
         $this->flightSvc->addBid($flight, $user1);
 
         // Try adding again, should throw an exception
-        $this->expectException(\App\Exceptions\BidExists::class);
+        $this->expectException(\App\Exceptions\BidExistsForFlight::class);
         $this->flightSvc->addBid($flight, $user2);
     }
 
