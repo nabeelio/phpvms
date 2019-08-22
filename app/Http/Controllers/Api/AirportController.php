@@ -5,10 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Contracts\Controller;
 use App\Http\Resources\Airport as AirportResource;
 use App\Repositories\AirportRepository;
+use App\Services\AirportService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
-use Log;
-use VaCentral\Airport as AirportLookup;
 
 /**
  * Class AirportController
@@ -16,16 +14,20 @@ use VaCentral\Airport as AirportLookup;
 class AirportController extends Controller
 {
     private $airportRepo;
+    private $airportSvc;
 
     /**
      * AirportController constructor.
      *
      * @param AirportRepository $airportRepo
+     * @param AirportService    $airportSvc
      */
     public function __construct(
-        AirportRepository $airportRepo
+        AirportRepository $airportRepo,
+        AirportService $airportSvc
     ) {
         $this->airportRepo = $airportRepo;
+        $this->airportSvc = $airportSvc;
     }
 
     /**
@@ -88,19 +90,7 @@ class AirportController extends Controller
      */
     public function lookup($id)
     {
-        $airport = Cache::remember(
-            config('cache.keys.AIRPORT_VACENTRAL_LOOKUP.key').$id,
-            config('cache.keys.AIRPORT_VACENTRAL_LOOKUP.time'),
-            function () use ($id) {
-                try {
-                    return AirportLookup::get($id);
-                } catch (\VaCentral\HttpException $e) {
-                    Log::error($e);
-                    return [];
-                }
-            }
-        );
-
+        $airport = $this->airportSvc->lookupAirport($id);
         return new AirportResource(collect($airport));
     }
 }

@@ -47,7 +47,13 @@ return [
      * Point to the class to use to retrieve the METAR string. If this
      * goes inactive at some date, it can be replaced
      */
-    'metar' => App\Services\Metar\AviationWeather::class,
+    'metar_lookup' => App\Services\Metar\AviationWeather::class,
+
+    /*
+     * Point to the class used to retrieve the airport information.
+     * If this goes inactive at some date, it can be replaced
+     */
+    'airport_lookup' => App\Services\AirportLookup\VaCentralLookup::class,
 
     /*
      * Your vaCentral API key
