@@ -14,7 +14,9 @@ class SymfonyException extends HttpException
         $this->exception = $exception;
         parent::__construct(
             $exception->getStatusCode(),
-            $exception->getMessage()
+            $exception->getMessage(),
+            null,
+            $exception->getHeaders()
         );
     }
 
@@ -23,7 +25,7 @@ class SymfonyException extends HttpException
      */
     public function getErrorType(): string
     {
-        return 'internal-error';
+        return 'http-exception';
     }
 
     /**

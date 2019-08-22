@@ -39,13 +39,16 @@ class GenericException extends HttpException
      */
     public function getErrorMetadata(): array
     {
+        $metadata = [];
+        $metadata['error'] = [
+            'original_exception' => get_class($this->exception),
+        ];
+
         // Only add trace if in dev
         if (config('app.env') === 'dev') {
-            return [
-                'trace' => $this->exception->getTrace()[0],
-            ];
+            $metadata['trace'] = $this->exception->getTrace()[0];
         }
 
-        return [];
+        return $metadata;
     }
 }
