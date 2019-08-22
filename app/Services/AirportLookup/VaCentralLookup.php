@@ -9,7 +9,6 @@ use VaCentral\HttpException;
 
 class VaCentralLookup extends AirportLookup
 {
-
     /**
      * Lookup the information for an airport
      *
@@ -23,7 +22,7 @@ class VaCentralLookup extends AirportLookup
             return Airport::get($icao);
         } catch (HttpException $e) {
             Log::error($e);
-            return null;
+            return;
         }
     }
 }

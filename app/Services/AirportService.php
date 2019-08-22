@@ -7,9 +7,7 @@ use App\Contracts\Metar as MetarProvider;
 use App\Contracts\Service;
 use App\Support\Metar;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Log;
 use VaCentral\Airport;
-use VaCentral\HttpException;
 
 /**
  * Class AnalyticsService
@@ -39,15 +37,13 @@ class AirportService extends Service
     {
         $icao = trim($icao);
         if ($icao === '') {
-            return null;
+            return;
         }
 
         $raw_metar = $this->metarProvider->get_metar($icao);
         if ($raw_metar && $raw_metar !== '') {
             return new Metar($raw_metar);
         }
-
-        return null;
     }
 
     /**

@@ -20,7 +20,7 @@ class AirportController extends Controller
      * AirportController constructor.
      *
      * @param AirportRepository $airportRepo
-     * @param AirportService $airportSvc
+     * @param AirportService    $airportSvc
      */
     public function __construct(
         AirportRepository $airportRepo,
