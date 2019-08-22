@@ -49,13 +49,15 @@ abstract class HttpException extends SymfonyHttpException
      */
     public function getResponse()
     {
+        $headers = [];
+        $headers['content-type'] = 'application/problem+json';
+        $headers = array_merge($headers, $this->getHeaders());
+
         return response()
             ->json(
                 $this->getJson(),
                 $this->getStatusCode(),
-                [
-                    'content-type' => 'application/problem+json',
-                ]
+                $headers
             );
     }
 }
