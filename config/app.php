@@ -87,7 +87,7 @@ return [
         App\Providers\vaCentralServiceProvider::class,
         App\Providers\ExtendedTimezonelistProvider::class,
         App\Providers\MeasurementsProvider::class,
-        App\Providers\WeatherServiceProvider::class,
+        App\Providers\BindServiceProviders::class,
     ],
 
     'aliases' => [
