@@ -47,6 +47,7 @@ class Kernel extends HttpKernel
             //\Spatie\Pjax\Middleware\FilterIfPjax::class,
         ],
     ];
+
     protected $routeMiddleware = [
         'api.auth'       => ApiAuth::class,
         'auth'           => Authenticate::class,
