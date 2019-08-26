@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Contracts\Controller;
-use App\Http\Requests\FileUploadRequest;
 use App\Models\File;
 use App\Services\FileService;
 use Illuminate\Http\Request;
@@ -54,11 +53,11 @@ class FileController extends Controller
                 'file_description' => 'nullable',
                 'file'             => [
                     Rule::requiredIf(function () {
-                        return ! request()->filled('url');
+                        return !request()->filled('url');
                     }),
                     'file',
                 ],
-                'url'              => [
+                'url' => [
                     Rule::requiredIf(function () {
                         return !request()->hasFile('file');
                     }),
@@ -90,7 +89,7 @@ class FileController extends Controller
 
         // Didn't provide a file to upload, just a URL to a file
         // Create the model directly and just associate that
-        else if($request->filled('url')) {
+        elseif ($request->filled('url')) {
             $file = new File($attrs);
             $file->path = $attrs['url'];
             $file->save();
