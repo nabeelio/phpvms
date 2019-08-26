@@ -3,8 +3,8 @@
 namespace Modules\Sample\Providers;
 
 use App\Events\TestEvent;
-use Modules\Sample\Listeners\TestEventListener;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+use Modules\Sample\Listeners\TestEventListener;
 
 class EventServiceProvider extends ServiceProvider
 {

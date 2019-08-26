@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 
 /**
  * Class AdminController
- * @package Modules\Sample\Http\Controllers\Admin
  */
 class AdminController extends Controller
 {

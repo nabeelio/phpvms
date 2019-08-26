@@ -10,21 +10,24 @@ class DatabaseService extends Service
 {
     /**
      * Check the PHP version that it meets the minimum requirement
+     *
      * @param $driver
      * @param $host
      * @param $port
      * @param $name
      * @param $user
      * @param $pass
-     * @return boolean
+     *
+     * @return bool
      */
     public function checkDbConnection($driver, $host, $port, $name, $user, $pass)
     {
         Log::info('Testing Connection: '.$driver.'::'.$user.':<hidden>@'.$host.':'.$port.';'.$name);
 
-        if($driver === 'mysql') {
+        if ($driver === 'mysql') {
             $dsn = "mysql:host=$host;port=$port;dbname=$name";
-            Log::info('Connection string: '. $dsn);
+            Log::info('Connection string: '.$dsn);
+
             try {
                 $conn = new PDO($dsn, $user, $pass);
             } catch (\PDOException $e) {
@@ -35,6 +38,7 @@ class DatabaseService extends Service
         // TODO: Needs testing
         elseif ($driver === 'postgres') {
             $dsn = "pgsql:host=$host;port=$port;dbname=$name";
+
             try {
                 $conn = new PDO($dsn, $user, $pass);
             } catch (\PDOException $e) {
@@ -54,7 +58,7 @@ class DatabaseService extends Service
     {
         $output = '';
 
-        if(config('database.default') === 'sqlite') {
+        if (config('database.default') === 'sqlite') {
             \Artisan::call('database:create');
             $output .= \Artisan::output();
         }

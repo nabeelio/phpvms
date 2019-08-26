@@ -9,10 +9,8 @@ use function count;
 use Illuminate\Http\Request;
 use Log;
 
-
 /**
  * Class UpdaterController
- * @package Modules\Installer\Http\Controllers
  */
 class UpdaterController extends Controller
 {
@@ -21,6 +19,7 @@ class UpdaterController extends Controller
 
     /**
      * UpdaterController constructor.
+     *
      * @param MigrationService $migrationSvc
      * @param SeederService    $seederSvc
      */
@@ -51,7 +50,7 @@ class UpdaterController extends Controller
     public function step1(Request $request)
     {
         $migrations = $this->migrationSvc->migrationsAvailable();
-        if(count($migrations) > 0) {
+        if (count($migrations) > 0) {
             Log::info('No migrations found');
         }
 
@@ -70,7 +69,7 @@ class UpdaterController extends Controller
         Log::info('Update: run_migrations', $request->post());
 
         $migrations = $this->migrationSvc->migrationsAvailable();
-        if(count($migrations) === 0) {
+        if (count($migrations) === 0) {
             $this->seederSvc->syncAllSeeds();
             return view('installer::update/steps/step3-update-complete');
         }

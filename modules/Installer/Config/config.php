@@ -2,7 +2,7 @@
 
 return [
     'php' => [
-        'version' => '7.2'
+        'version' => '7.2',
     ],
 
     'cache' => [
@@ -10,7 +10,7 @@ return [
         'default' => 'file',
         'drivers' => [
             'Zend OPcache' => 'opcache',
-            'apc' => 'apc',
+            'apc'          => 'apc',
         ],
     ],
 
@@ -23,7 +23,7 @@ return [
         'curl',
     ],
 
-    # Make sure these are writable
+    // Make sure these are writable
     'permissions' => [
         'bootstrap/cache',
         'public/uploads',

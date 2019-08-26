@@ -6,7 +6,6 @@ use App\Contracts\Model;
 
 /**
  * Class SampleTable
- * @package Modules\Sample\Models
  */
 class SampleTable extends Model
 {

@@ -10,7 +10,8 @@ class TestEventListener
     /**
      * Handle the event.
      */
-    public function handle(TestEvent $event) {
+    public function handle(TestEvent $event)
+    {
         Log::info('Received event', [$event]);
     }
 }
