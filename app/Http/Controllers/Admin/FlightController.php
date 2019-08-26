@@ -22,11 +22,9 @@ use App\Services\FleetService;
 use App\Services\FlightService;
 use App\Services\ImportService;
 use App\Support\Units\Time;
-use Flash;
 use Illuminate\Http\Request;
-use Log;
-use Response;
-use Storage;
+use Illuminate\Support\Facades\Log;
+use Laracasts\Flash\Flash;
 
 /**
  * Class FlightController
@@ -172,28 +170,15 @@ class FlightController extends Controller
      */
     public function store(CreateFlightRequest $request)
     {
-        $input = $request->all();
+        try {
+            $flight = $this->flightSvc->createFlight($request->all());
+            Flash::success('Flight saved successfully.');
 
-        // Create a temporary flight so we can validate
-        $flight = new Flight($input);
-        if ($this->flightSvc->isFlightDuplicate($flight)) {
-            Flash::error('Duplicate flight with same number/code/leg found, please change to proceed');
+            return redirect(route('admin.flights.edit', $flight->id));
+        } catch (\Exception $e) {
+            Flash::error($e->getMessage());
             return redirect()->back()->withInput($request->all());
         }
-
-        if (array_key_exists('days', $input) && filled($input['days'])) {
-            $input['days'] = Days::getDaysMask($input['days']);
-        }
-
-        $input['active'] = get_truth_state($input['active']);
-
-        $time = new Time($input['minutes'], $input['hours']);
-        $input['flight_time'] = $time->getMinutes();
-
-        $flight = $this->flightRepo->create($input);
-
-        Flash::success('Flight saved successfully.');
-        return redirect(route('admin.flights.edit', $flight->id));
     }
 
     /**
@@ -268,32 +253,16 @@ class FlightController extends Controller
             return redirect(route('admin.flights.index'));
         }
 
-        $input = $request->all();
+        try {
+            $this->flightSvc->updateFlight($flight, $request->all());
+            Flash::success('Flight updated successfully.');
 
-        // apply the updates here temporarily, don't save
-        // the repo->update() call will actually do it
-        $flight->fill($input);
+            return redirect(route('admin.flights.index'));
+        } catch (\Exception $e) {
+            Flash::error($e->getMessage());
 
-        if ($this->flightSvc->isFlightDuplicate($flight)) {
-            Flash::error('Duplicate flight with same number/code/leg found, please change to proceed');
             return redirect()->back()->withInput($request->all());
         }
-
-        if (array_key_exists('days', $input) && filled($input['days'])) {
-            $input['days'] = Days::getDaysMask($input['days']);
-        }
-
-        $input['flight_time'] = Time::init(
-            $input['minutes'],
-            $input['hours']
-        )->getMinutes();
-
-        $input['active'] = get_truth_state($input['active']);
-
-        $this->flightRepo->update($input, $id);
-
-        Flash::success('Flight updated successfully.');
-        return redirect(route('admin.flights.index'));
     }
 
     /**

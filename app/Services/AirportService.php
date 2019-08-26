@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Contracts\AirportLookup as AirportLookupProvider;
 use App\Contracts\Metar as MetarProvider;
 use App\Contracts\Service;
+use App\Exceptions\AirportNotFound;
 use App\Repositories\AirportRepository;
 use App\Support\Metar;
 use App\Support\Units\Distance;
@@ -98,6 +99,14 @@ class AirportService extends Service
     {
         $from = $this->airportRepo->find($fromIcao, ['lat', 'lon']);
         $to = $this->airportRepo->find($toIcao, ['lat', 'lon']);
+
+        if (!$from) {
+            throw new AirportNotFound($fromIcao);
+        }
+
+        if (!$to) {
+            throw new AirportNotFound($toIcao);
+        }
 
         // Calculate the distance
         $geotools = new Geotools();
