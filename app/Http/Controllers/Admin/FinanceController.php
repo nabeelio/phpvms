@@ -7,8 +7,8 @@ use App\Models\Enums\JournalType;
 use App\Models\Journal;
 use App\Models\JournalTransaction;
 use App\Repositories\AirlineRepository;
+use App\Services\FinanceService;
 use App\Support\Dates;
-use App\Support\Money;
 use Illuminate\Http\Request;
 
 /**
@@ -17,14 +17,18 @@ use Illuminate\Http\Request;
 class FinanceController extends Controller
 {
     private $airlineRepo;
+    private $financeSvc;
 
     /**
      * @param AirlineRepository $airlineRepo
+     * @param FinanceService    $financeSvc
      */
     public function __construct(
-        AirlineRepository $airlineRepo
+        AirlineRepository $airlineRepo,
+        FinanceService $financeSvc
     ) {
         $this->airlineRepo = $airlineRepo;
+        $this->financeSvc = $financeSvc;
     }
 
     /**
@@ -52,34 +56,11 @@ class FinanceController extends Controller
 
         // group by the airline
         foreach ($airlines as $airline) {
-            // Return all the transactions, grouped by the transaction group
-            $transactions = JournalTransaction::groupBy('transaction_group', 'currency')
-                ->selectRaw('transaction_group, currency, 
-                             SUM(credit) as sum_credits, 
-                             SUM(debit) as sum_debits')
-                ->where([
-                    'journal_id' => $airline->journal->id,
-                ])
-                ->whereBetween('created_at', $between, 'AND')
-                ->orderBy('sum_credits', 'desc')
-                ->orderBy('sum_debits', 'desc')
-                ->orderBy('transaction_group', 'asc')
-                ->get();
-
-            // Summate it so we can show it on the footer of the table
-            $sum_all_credits = 0;
-            $sum_all_debits = 0;
-            foreach ($transactions as $ta) {
-                $sum_all_credits += $ta->sum_credits ?? 0;
-                $sum_all_debits += $ta->sum_debits ?? 0;
-            }
-
-            $transaction_groups[] = [
-                'airline'      => $airline,
-                'credits'      => new Money($sum_all_credits),
-                'debits'       => new Money($sum_all_debits),
-                'transactions' => $transactions,
-            ];
+            $transaction_groups[] = $this->financeSvc->getAirlineTransactionsBetween(
+                $airline,
+                $between[0],
+                $between[1]
+            );
         }
 
         return view('admin.finances.index', [
