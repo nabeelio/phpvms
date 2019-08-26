@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Contracts\Controller;
 use App\Http\Requests\CreateFlightRequest;
 use App\Http\Requests\UpdateFlightRequest;
-use App\Models\Enums\Days;
 use App\Models\Enums\FlightType;
 use App\Models\Flight;
 use App\Models\FlightField;

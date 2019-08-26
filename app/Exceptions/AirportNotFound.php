@@ -2,8 +2,6 @@
 
 namespace App\Exceptions;
 
-use App\Models\Flight;
-
 class AirportNotFound extends HttpException
 {
     private $icao;

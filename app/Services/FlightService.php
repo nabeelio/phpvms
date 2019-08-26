@@ -28,10 +28,10 @@ class FlightService extends Service
     /**
      * FlightService constructor.
      *
-     * @param AirportService $airportSvc
-     * @param FlightRepository             $flightRepo
-     * @param NavdataRepository            $navdataRepo
-     * @param UserService                  $userSvc
+     * @param AirportService    $airportSvc
+     * @param FlightRepository  $flightRepo
+     * @param NavdataRepository $navdataRepo
+     * @param UserService       $userSvc
      */
     public function __construct(
         AirportService $airportSvc,
