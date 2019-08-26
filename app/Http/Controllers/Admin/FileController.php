@@ -117,8 +117,7 @@ class FileController extends Controller
             return redirect()->back();
         }
 
-        Storage::disk(config('filesystems.public_files'))->delete($file->path);
-        $file->delete();
+        $this->fileSvc->removeFile($file);
 
         Flash::success('File deleted successfully.');
 

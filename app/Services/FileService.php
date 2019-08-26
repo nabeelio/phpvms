@@ -5,6 +5,8 @@ namespace App\Services;
 use App\Contracts\Service;
 use App\Models\File;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class FileService extends Service
 {
@@ -46,5 +48,22 @@ class FileService extends Service
         $asset->save();
 
         return $asset;
+    }
+
+    /**
+     * Remove a file, if it exists on disk
+     *
+     * @param File $file
+     *
+     * @throws \Exception
+     */
+    public function removeFile($file)
+    {
+        if (!Str::startsWith($file->path, 'http')) {
+            Storage::disk(config('filesystems.public_files'))
+                ->delete($file->path);
+        }
+
+        $file->delete();
     }
 }
