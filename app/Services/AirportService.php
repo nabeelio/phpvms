@@ -94,7 +94,8 @@ class AirportService extends Service
      *
      * @return Distance
      */
-    public function calculateDistance($fromIcao, $toIcao) {
+    public function calculateDistance($fromIcao, $toIcao)
+    {
         $from = $this->airportRepo->find($fromIcao, ['lat', 'lon']);
         $to = $this->airportRepo->find($toIcao, ['lat', 'lon']);
 
@@ -109,9 +110,9 @@ class AirportService extends Service
             $distance = new Distance($dist->in('mi')->greatCircle(), 'mi');
             return $distance;
         } catch (NonNumericValue $e) {
-            return null;
+            return;
         } catch (NonStringUnitName $e) {
-            return null;
+            return;
         }
     }
 }
