@@ -15,7 +15,7 @@ class FinanceService extends Service
      * grouped transactions (e.g, "Fares" and "Ground Handling", etc)
      *
      * @param Airline $airline
-     * @param string $start_date YYYY-MM-DD
+     * @param string  $start_date YYYY-MM-DD
      * @param string  $end_date   YYYY-MM-DD
      *
      * @return array

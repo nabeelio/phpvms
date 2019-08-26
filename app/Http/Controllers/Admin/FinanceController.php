@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Contracts\Controller;
 use App\Models\Enums\JournalType;
 use App\Models\Journal;
-use App\Models\JournalTransaction;
 use App\Repositories\AirlineRepository;
 use App\Services\FinanceService;
 use App\Support\Dates;
