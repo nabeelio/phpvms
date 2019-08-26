@@ -4,10 +4,8 @@ namespace App\Services;
 
 use App\Contracts\Service;
 use App\Models\File;
+use Illuminate\Support\Facades\Log;
 
-/**
- * Class FileService
- */
 class FileService extends Service
 {
     /**
@@ -37,12 +35,10 @@ class FileService extends Service
 
         // Create the file, add the ID to the front of the file to account
         // for any duplicate filenames, but still can be found in an `ls`
-
-        $filename = $id.'_'
-            .str_slug(trim($path_info['filename']))
-            .'.'.$path_info['extension'];
-
+        $filename = $id.'_'.str_slug(trim($path_info['filename'])).'.'.$path_info['extension'];
         $file_path = $file->storeAs($folder, $filename, $attrs['disk']);
+
+        Log::info('File saved to '.$file_path);
 
         $asset = new File($attrs);
         $asset->id = $id;

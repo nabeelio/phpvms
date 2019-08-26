@@ -3,14 +3,16 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Contracts\Controller;
+use App\Http\Requests\FileUploadRequest;
 use App\Models\File;
 use App\Services\FileService;
-use Flash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use Log;
-use Validator;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
+use Laracasts\Flash\Flash;
 
 /**
  * Class FileController
@@ -37,30 +39,65 @@ class FileController extends Controller
     {
         $attrs = $request->post();
 
-        // Not using a form validation here because when it redirects,
-        // it leaves the parent forms all blank, even though it goes
-        // back to the right place. So just manually validate
-        $validator = Validator::make($request->all(), [
-            'filename'         => 'required',
-            'file_description' => 'nullable',
-            'file'             => 'required|file',
-        ]);
+        /*
+         * Not using a form validation here because when it redirects, it leaves
+         * the parent forms all blank, even though it goes back to the right place.
+         *
+         * The fields are also named file_name and file_description so that if there
+         * are validation errors, the flash messages  doesn't conflict with other
+         * fields on the page that might have the "name" and "description" fields
+         */
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'file_name'        => 'required',
+                'file_description' => 'nullable',
+                'file'             => [
+                    Rule::requiredIf(function () {
+                        return ! request()->filled('url');
+                    }),
+                    'file',
+                ],
+                'url'              => [
+                    Rule::requiredIf(function () {
+                        return !request()->hasFile('file');
+                    }),
+                    'url',
+                ],
+            ],
+            [
+                'file.required' => 'File or URL are required',
+                'url.required'  => 'File or URL are required',
+            ]
+        );
 
         if ($validator->fails()) {
-            return redirect()->back()->withInput(Input::all())->withErrors($validator);
+            return redirect()
+                ->back()
+                ->withErrors($validator)
+                ->withInput(Input::all());
         }
 
         Log::info('Uploading files', $attrs);
 
-        $file = $request->file('file');
-        $this->fileSvc->saveFile($file, 'files', [
-            'name'         => $attrs['filename'],
-            'description'  => $attrs['file_description'],
-            'ref_model'    => $attrs['ref_model'],
-            'ref_model_id' => $attrs['ref_model_id'],
-        ]);
+        $attrs['name'] = $attrs['file_name'];
+        $attrs['description'] = $attrs['file_description'];
 
-        Flash::success('Files uploaded successfully.');
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $this->fileSvc->saveFile($file, 'files', $attrs);
+        }
+
+        // Didn't provide a file to upload, just a URL to a file
+        // Create the model directly and just associate that
+        else if($request->filled('url')) {
+            $file = new File($attrs);
+            $file->path = $attrs['url'];
+            $file->save();
+        }
+
+        Flash::success('Files saved successfully');
+
         return redirect()->back();
     }
 
@@ -85,6 +122,7 @@ class FileController extends Controller
         $file->delete();
 
         Flash::success('File deleted successfully.');
+
         return redirect()->back();
     }
 }
