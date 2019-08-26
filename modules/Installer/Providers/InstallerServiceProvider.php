@@ -24,7 +24,7 @@ class InstallerServiceProvider extends ServiceProvider
         $this->registerViews();
 
         $this->registerFactories();
-        $this->loadMigrationsFrom(__DIR__ . '/../Database/migrations');
+        $this->loadMigrationsFrom(__DIR__.'/../Database/migrations');
     }
 
     /**
@@ -33,22 +33,22 @@ class InstallerServiceProvider extends ServiceProvider
     protected function registerRoutes()
     {
         Route::group([
-            'as' => 'installer.',
-            'prefix' => 'install',
+            'as'         => 'installer.',
+            'prefix'     => 'install',
             'middleware' => ['web'],
-            'namespace' => 'Modules\Installer\Http\Controllers'
-        ], function() {
-            $this->loadRoutesFrom(__DIR__ . '/../Http/Routes/install.php');
+            'namespace'  => 'Modules\Installer\Http\Controllers',
+        ], function () {
+            $this->loadRoutesFrom(__DIR__.'/../Http/Routes/install.php');
         });
 
         Route::group([
-             'as' => 'update.',
-             'prefix' => 'update',
+             'as'         => 'update.',
+             'prefix'     => 'update',
              'middleware' => ['web'],
-             'namespace' => 'Modules\Installer\Http\Controllers'
+             'namespace'  => 'Modules\Installer\Http\Controllers',
          ], function () {
-            $this->loadRoutesFrom(__DIR__ . '/../Http/Routes/update.php');
-        });
+             $this->loadRoutesFrom(__DIR__.'/../Http/Routes/update.php');
+         });
     }
 
     /**
@@ -74,8 +74,8 @@ class InstallerServiceProvider extends ServiceProvider
         $sourcePath = __DIR__.'/../Resources/views';
 
         $this->publishes([
-            $sourcePath => $viewPath
-        ],'views');
+            $sourcePath => $viewPath,
+        ], 'views');
 
         $paths = array_map(
             function ($path) {
@@ -98,18 +98,19 @@ class InstallerServiceProvider extends ServiceProvider
         if (is_dir($langPath)) {
             $this->loadTranslationsFrom($langPath, 'installer');
         } else {
-            $this->loadTranslationsFrom(__DIR__ .'/../Resources/lang', 'installer');
+            $this->loadTranslationsFrom(__DIR__.'/../Resources/lang', 'installer');
         }
     }
 
     /**
      * Register an additional directory of factories.
+     *
      * @source https://github.com/sebastiaanluca/laravel-resource-flow/blob/develop/src/Modules/ModuleServiceProvider.php#L66
      */
     public function registerFactories()
     {
-        if (! app()->environment('production')) {
-            app(Factory::class)->load(__DIR__ . '/../Database/factories');
+        if (!app()->environment('production')) {
+            app(Factory::class)->load(__DIR__.'/../Database/factories');
         }
     }
 

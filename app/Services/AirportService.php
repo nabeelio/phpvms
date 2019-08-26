@@ -5,8 +5,15 @@ namespace App\Services;
 use App\Contracts\AirportLookup as AirportLookupProvider;
 use App\Contracts\Metar as MetarProvider;
 use App\Contracts\Service;
+use App\Exceptions\AirportNotFound;
+use App\Repositories\AirportRepository;
 use App\Support\Metar;
+use App\Support\Units\Distance;
 use Illuminate\Support\Facades\Cache;
+use League\Geotools\Coordinate\Coordinate;
+use League\Geotools\Geotools;
+use PhpUnitsOfMeasure\Exception\NonNumericValue;
+use PhpUnitsOfMeasure\Exception\NonStringUnitName;
 use VaCentral\Airport;
 
 /**
@@ -14,14 +21,17 @@ use VaCentral\Airport;
  */
 class AirportService extends Service
 {
+    private $airportRepo;
     private $lookupProvider;
     private $metarProvider;
 
     public function __construct(
         AirportLookupProvider $lookupProvider,
+        AirportRepository $airportRepo,
         MetarProvider $metarProvider
 
     ) {
+        $this->airportRepo = $airportRepo;
         $this->lookupProvider = $lookupProvider;
         $this->metarProvider = $metarProvider;
     }
@@ -75,5 +85,43 @@ class AirportService extends Service
         );
 
         return $airport;
+    }
+
+    /**
+     * Calculate the distance from one airport to another
+     *
+     * @param string $fromIcao
+     * @param string $toIcao
+     *
+     * @return Distance
+     */
+    public function calculateDistance($fromIcao, $toIcao)
+    {
+        $from = $this->airportRepo->find($fromIcao, ['lat', 'lon']);
+        $to = $this->airportRepo->find($toIcao, ['lat', 'lon']);
+
+        if (!$from) {
+            throw new AirportNotFound($fromIcao);
+        }
+
+        if (!$to) {
+            throw new AirportNotFound($toIcao);
+        }
+
+        // Calculate the distance
+        $geotools = new Geotools();
+        $start = new Coordinate([$from->lat, $from->lon]);
+        $end = new Coordinate([$to->lat, $to->lon]);
+        $dist = $geotools->distance()->setFrom($start)->setTo($end);
+
+        // Convert into a Distance object
+        try {
+            $distance = new Distance($dist->in('mi')->greatCircle(), 'mi');
+            return $distance;
+        } catch (NonNumericValue $e) {
+            return;
+        } catch (NonStringUnitName $e) {
+            return;
+        }
     }
 }

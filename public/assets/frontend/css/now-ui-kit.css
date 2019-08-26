@@ -300,7 +300,7 @@
 .noUi-target,
 .noUi-target * {
   -webkit-touch-callout: none;
-  -webkit-tap-highlight-color: transparent;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   -webkit-user-select: none;
   -ms-touch-action: none;
   touch-action: none;
@@ -419,8 +419,8 @@
   border-radius: 3px;
   background: #FFF;
   cursor: default;
-  -webkit-box-shadow: inset 0 0 1px #FFF, inset 0 1px 7px #EBEBEB, 0 3px 6px -3px #BBB;
-          box-shadow: inset 0 0 1px #FFF, inset 0 1px 7px #EBEBEB, 0 3px 6px -3px #BBB;
+  -webkit-box-shadow: inset 0 0 1px #FFF, inset 0 1px 7px #EBEBEB, 0 3px 6px -3px #BBB;
+          box-shadow: inset 0 0 1px #FFF, inset 0 1px 7px #EBEBEB, 0 3px 6px -3px #BBB;
   -webkit-transition: 300ms ease 0s;
   -moz-transition: 300ms ease 0s;
   -ms-transition: 300ms ease 0s;

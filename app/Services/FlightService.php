@@ -4,19 +4,23 @@ namespace App\Services;
 
 use App\Contracts\Service;
 use App\Exceptions\BidExistsForFlight;
+use App\Exceptions\DuplicateFlight;
 use App\Models\Bid;
+use App\Models\Enums\Days;
 use App\Models\Flight;
 use App\Models\FlightFieldValue;
 use App\Models\User;
 use App\Repositories\FlightRepository;
 use App\Repositories\NavdataRepository;
-use Log;
+use App\Support\Units\Time;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Class FlightService
  */
 class FlightService extends Service
 {
+    private $airportSvc;
     private $flightRepo;
     private $navDataRepo;
     private $userSvc;
@@ -24,18 +28,96 @@ class FlightService extends Service
     /**
      * FlightService constructor.
      *
+     * @param AirportService    $airportSvc
      * @param FlightRepository  $flightRepo
      * @param NavdataRepository $navdataRepo
      * @param UserService       $userSvc
      */
     public function __construct(
+        AirportService $airportSvc,
         FlightRepository $flightRepo,
         NavdataRepository $navdataRepo,
         UserService $userSvc
     ) {
+        $this->airportSvc = $airportSvc;
         $this->flightRepo = $flightRepo;
         $this->navDataRepo = $navdataRepo;
         $this->userSvc = $userSvc;
+    }
+
+    /**
+     * Create a new flight
+     *
+     * @param array $fields
+     *
+     * @throws \Prettus\Validator\Exceptions\ValidatorException
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function createFlight($fields)
+    {
+        $flightTmp = new Flight($fields);
+        if ($this->isFlightDuplicate($flightTmp)) {
+            throw new DuplicateFlight($flightTmp);
+        }
+
+        $fields = $this->transformFlightFields($fields);
+        $flight = $this->flightRepo->create($fields);
+
+        return $flight;
+    }
+
+    /**
+     * Update a flight with values from the given fields
+     *
+     * @param Flight $flight
+     * @param array  $fields
+     *
+     * @throws \Prettus\Validator\Exceptions\ValidatorException
+     *
+     * @return \App\Models\Flight|mixed
+     */
+    public function updateFlight($flight, $fields)
+    {
+        // apply the updates here temporarily, don't save
+        // the repo->update() call will actually do it
+        $flight->fill($fields);
+
+        if ($this->isFlightDuplicate($flight)) {
+            throw new DuplicateFlight($flight);
+        }
+
+        $fields = $this->transformFlightFields($fields);
+        $flight = $this->flightRepo->update($fields, $flight->id);
+
+        return $flight;
+    }
+
+    /**
+     * Check the fields for a flight and transform them
+     *
+     * @param array $fields
+     *
+     * @return array
+     */
+    protected function transformFlightFields($fields)
+    {
+        if (array_key_exists('days', $fields) && filled($fields['days'])) {
+            $fields['days'] = Days::getDaysMask($fields['days']);
+        }
+
+        $fields['flight_time'] = Time::init($fields['minutes'], $fields['hours'])->getMinutes();
+        $fields['active'] = get_truth_state($fields['active']);
+
+        // Figure out a distance if not found
+        if (empty($fields['distance'])) {
+            $fields['distance'] = $this->airportSvc->calculateDistance(
+                $fields['dpt_airport_id'],
+                $fields['arr_airport_id']
+            );
+        }
+
+        return $fields;
     }
 
     /**

@@ -7,8 +7,8 @@ const mix = require('laravel-mix');
  * Copy required assets
  */
 
-mix.copy('node_modules/bootstrap3/fonts/*.woff2', 'public/assets/fonts/');
-mix.copy('node_modules/bootstrap3/fonts/*.woff2', 'public/assets/admin/fonts/');
+mix.copy('node_modules/bootstrap/fonts/*.woff2', 'public/assets/fonts/');
+mix.copy('node_modules/bootstrap/fonts/*.woff2', 'public/assets/admin/fonts/');
 mix.copy('node_modules/x-editable/dist/bootstrap3-editable/img/*', 'public/assets/admin/img/');
 mix.copy('node_modules/jquery/dist/jquery.js', 'public/assets/global/js/');
 mix.copy('node_modules/flag-icon-css/flags/', 'public/assets/global/flags/');
@@ -32,7 +32,7 @@ mix.sass('resources/sass/now-ui/now-ui-kit.scss',
 mix.sass('resources/sass/admin/paper-dashboard.scss',
       'public/assets/admin/css/vendor.min.css')
     .styles([
-      'node_modules/bootstrap3/dist/css/bootstrap.css',
+      'node_modules/bootstrap/dist/css/bootstrap.css',
       'node_modules/animate.css/animate.css',
       'node_modules/icheck/skins/square/blue.css',
       'node_modules/select2/dist/css/select2.css',
@@ -51,9 +51,9 @@ mix.scripts([
   'node_modules/jquery/dist/jquery.js',
   'node_modules/moment/moment.js',
   //'node_modules/axios/dist/axios.js',
-  'node_modules/bootstrap3/dist/js/bootstrap.js',
-  'node_modules/bootstrap3/js/collapse.js',
-  'node_modules/bootstrap3/js/transition.js',
+  'node_modules/bootstrap/dist/js/bootstrap.js',
+  'node_modules/bootstrap/js/collapse.js',
+  'node_modules/bootstrap/js/transition.js',
   'node_modules/popper.js/dist/umd/popper.js',
   'node_modules/popper.js/dist/umd/popper-utils.js',
   'node_modules/select2/dist/js/select2.js',
@@ -96,7 +96,7 @@ mix.styles([
  */
 
 mix.styles([
-  'node_modules/bootstrap3/dist/css/bootstrap.css',
+  'node_modules/bootstrap/dist/css/bootstrap.css',
   'public/assets/frontend/css/now-ui-kit.css',
   'node_modules/select2/dist/css/select2.css',
   'node_modules/flag-icon-css/css/flag-icon.css',

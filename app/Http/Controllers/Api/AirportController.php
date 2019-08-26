@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Contracts\Controller;
 use App\Http\Resources\Airport as AirportResource;
+use App\Http\Resources\AirportDistance as AirportDistanceResource;
 use App\Repositories\AirportRepository;
 use App\Services\AirportService;
 use Illuminate\Http\Request;
@@ -92,5 +93,23 @@ class AirportController extends Controller
     {
         $airport = $this->airportSvc->lookupAirport($id);
         return new AirportResource(collect($airport));
+    }
+
+    /**
+     * Do a lookup, via vaCentral, for the airport information
+     *
+     * @param $fromIcao
+     * @param $toIcao
+     *
+     * @return AirportDistanceResource
+     */
+    public function distance($fromIcao, $toIcao)
+    {
+        $distance = $this->airportSvc->calculateDistance($fromIcao, $toIcao);
+        return new AirportDistanceResource([
+            'fromIcao' => $fromIcao,
+            'toIcao'   => $toIcao,
+            'distance' => $distance,
+        ]);
     }
 }

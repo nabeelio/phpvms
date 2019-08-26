@@ -66,6 +66,7 @@ if [ "$TRAVIS" = "true" ]; then
         .phpstorm.meta.php
         .styleci.yml
         env.php
+        intellij_style.xml
         config.php
         docker-compose.yml
         Makefile

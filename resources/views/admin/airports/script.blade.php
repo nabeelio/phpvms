@@ -51,19 +51,6 @@ function setEditable() {
     @endif
 }
 
-function phpvms_vacentral_airport_lookup(icao, callback) {
-    let params = {
-        method: 'GET',
-        url: '{{ url('/api/airports/') }}/' + icao + '/lookup',
-    };
-
-    axios(params)
-        .then(response => {
-            console.log(response);
-            callback(response.data);
-        });
-}
-
 $(document).ready(function() {
 
     const api_key = $('meta[name="api-key"]').attr('content');
@@ -101,7 +88,7 @@ $(document).ready(function() {
             return;
         }
 
-        phpvms_vacentral_airport_lookup(icao, function(response) {
+        phpvms.airport_lookup(icao, function(response) {
             _.forEach(response.data, function(value, key) {
                 if(key === 'city') {
                     key = 'location';
