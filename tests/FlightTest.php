@@ -5,6 +5,7 @@ use App\Models\Enums\Days;
 use App\Models\Flight;
 use App\Models\User;
 use App\Repositories\SettingRepository;
+use App\Services\AirportService;
 use App\Services\FlightService;
 
 class FlightTest extends TestCase
@@ -571,5 +572,51 @@ class FlightTest extends TestCase
 
         $body = $req->json()['data'];
         $this->assertCount(0, $body);
+    }
+
+    public function testAirportDistance()
+    {
+        // KJFK
+        $fromIcao = factory(App\Models\Airport::class)->create([
+            'lat' => 40.6399257,
+            'lon' => -73.7786950,
+        ]);
+
+        // KSFO
+        $toIcao = factory(App\Models\Airport::class)->create([
+            'lat' => 37.6188056,
+            'lon' => -122.3754167,
+        ]);
+
+        $airportSvc = app(AirportService::class);
+        $distance = $airportSvc->calculateDistance($fromIcao->id, $toIcao->id);
+        $this->assertNotNull($distance);
+        $this->assertEquals(2244.33, $distance['nmi']);
+    }
+
+    public function testAirportDistanceApi()
+    {
+        $user = factory(User::class)->create();
+        $headers = $this->headers($user);
+
+        // KJFK
+        $fromIcao = factory(App\Models\Airport::class)->create([
+            'lat' => 40.6399257,
+            'lon' => -73.7786950,
+        ]);
+
+        // KSFO
+        $toIcao = factory(App\Models\Airport::class)->create([
+            'lat' => 37.6188056,
+            'lon' => -122.3754167,
+        ]);
+
+        $req = $this->get('/api/airports/'.$fromIcao->id.'/distance/'.$toIcao->id, $headers);
+        $req->assertStatus(200);
+
+        $body = $req->json()['data'];
+
+        $this->assertNotNull($body['distance']);
+        $this->assertEquals(2244.33, $body['distance']['nmi']);
     }
 }

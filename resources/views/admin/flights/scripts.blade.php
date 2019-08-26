@@ -95,6 +95,21 @@ $(document).ready(function () {
         setEditable();
         setFieldsEditable();
     });
+
+    $('a.airport_distance_lookup').click(function (e) {
+        e.preventDefault();
+        const fromIcao = $("select#dpt_airport_id option:selected").val();
+        const toIcao = $("select#arr_airport_id option:selected").val();
+        if (fromIcao === '' || toIcao === '') {
+            return;
+        }
+
+        console.log(`Calculating from ${fromIcao} to ${toIcao}`);
+        phpvms.calculate_distance(fromIcao, toIcao, function (response) {
+          console.log('Calculate distance:', response);
+          $("#distance").val(response.data.distance.nmi);
+        });
+    });
 });
 </script>
 @endsection
