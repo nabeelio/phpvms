@@ -8,7 +8,6 @@ use App\Services\FileService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Laracasts\Flash\Flash;
@@ -45,6 +44,9 @@ class FileController extends Controller
          * The fields are also named file_name and file_description so that if there
          * are validation errors, the flash messages  doesn't conflict with other
          * fields on the page that might have the "name" and "description" fields
+         *
+         * Was also going to use the "required_without" rule, but that doesn't appear
+         * to work properly with a file upload
          */
         $validator = Validator::make(
             $request->all(),
