@@ -1,19 +1,16 @@
 /**
  * Lookup an airport from the server
- * @param fromICAO
- * @param toICAO
- * @param callback
+ *
+ * @param {String} fromICAO
+ * @param {String} toICAO
  */
-export default (fromICAO, toICAO, callback) => {
+export default async (fromICAO, toICAO) => {
     let params = {
         method: 'GET',
         url: '/api/airports/' + fromICAO + '/distance/' + toICAO,
     };
 
-    console.log('Calcuating airport distance');
-    axios(params)
-        .then(response => {
-            console.log(response);
-            callback(response.data);
-        });
+    const response = await axios(params);
+    console.log('distance raw response: ', response);
+    return response.data;
 };

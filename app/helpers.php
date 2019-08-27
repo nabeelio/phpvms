@@ -1,6 +1,7 @@
 <?php
 
 use App\Exceptions\SettingNotFound;
+use Carbon\Carbon;
 use Illuminate\Contracts\View\Factory;
 
 if (!function_exists('in_mask')) {
@@ -152,14 +153,29 @@ if (!function_exists('setting')) {
  * set
  */
 if (!function_exists('public_asset')) {
-    function public_asset($path, array $parameters = [], $secure = null)
+    function public_asset($path, array $parameters = [])
     {
         $publicBaseUrl = app()->publicUrlPath();
         $path = $publicBaseUrl.$path;
 
         $path = str_replace('//', '/', $path);
 
-        return url($path, $parameters, $secure);
+        return url($path, $parameters);
+    }
+}
+
+/*
+ * Call mix() and then prepend the proper public URL
+ */
+if (!function_exists('mix_public')) {
+    function mix_public($path, array $parameters = [])
+    {
+        try {
+            $path = mix($path);
+        } catch (Exception $e) {
+        }
+
+        return public_asset($path, $parameters);
     }
 }
 
@@ -171,11 +187,11 @@ if (!function_exists('show_datetime')) {
      * Format the a Carbon date into the datetime string
      * but convert it into the user's timezone
      *
-     * @param \Carbon\Carbon $date
+     * @param Carbon $date
      *
      * @return string
      */
-    function show_datetime(\Carbon\Carbon $date = null)
+    function show_datetime(Carbon $date = null)
     {
         if ($date === null) {
             return '-';
@@ -202,7 +218,7 @@ if (!function_exists('show_date')) {
      *
      * @return string
      */
-    function show_date(\Carbon\Carbon $date)
+    function show_date(Carbon $date)
     {
         $timezone = 'UTC';
         if (Auth::check()) {

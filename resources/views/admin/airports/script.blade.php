@@ -1,5 +1,7 @@
 @section('scripts')
 <script>
+'use strict';
+
 function setEditable() {
     const csrf_token = $('meta[name="csrf-token"]').attr('content');
     const api_key = $('meta[name="api-key"]').attr('content');
@@ -81,26 +83,32 @@ $(document).ready(function() {
         }
     });
 
-    $('a.airport_data_lookup').click(function(e) {
+    $('a.airport_data_lookup').click(async function(e) {
         e.preventDefault();
         const icao = $("input#airport_icao").val();
         if(icao === '') {
             return;
         }
 
-        phpvms.airport_lookup(icao, function(response) {
-            _.forEach(response.data, function(value, key) {
-                if(key === 'city') {
-                    key = 'location';
-                }
+        let response;
+        try {
+            response = await phpvms.airport_lookup(icao);
+        } catch (e) {
+            console.log('Error looking up airport!', e);
+            return;
+        }
 
-                $("#" + key).val(value);
+        _.forEach(response.data, function (value, key) {
+            if (key === 'city') {
+                key = 'location';
+            }
 
-                if(key === 'tz') {
-                    $("#timezone").val(value);
-                    $("#timezone").trigger('change');
-                }
-            });
+            $("#" + key).val(value);
+
+            if (key === 'tz') {
+                $("#timezone").val(value);
+                $("#timezone").trigger('change');
+            }
         });
     });
 

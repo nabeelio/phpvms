@@ -6,9 +6,11 @@
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport'/>
 
     <title>@yield('title') - {{ config('app.name') }}</title>
+
     {{-- Start of required lines block. DON'T REMOVE THESE LINES! They're required or might break things --}}
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="api-key" content="{{ Auth::check() ? Auth::user()->api_key: '' }}">
+    <meta name="base-url" content="{!! url('') !!}">
+    <meta name="api-key" content="{!! Auth::check() ? Auth::user()->api_key: '' !!}">
+    <meta name="csrf-token" content="{!! csrf_token() !!}">
     {{-- End the required lines block --}}
 
     <link rel="shortcut icon" type="image/png" href="{{ public_asset('/assets/img/favicon.png') }}"/>
@@ -18,7 +20,7 @@
     <link href="{{ public_asset('/assets/frontend/css/styles.css') }}" rel="stylesheet"/>
 
     {{-- Start of the required files in the head block --}}
-    <link href="{{ public_asset('/assets/global/css/vendor.css') }}" rel="stylesheet"/>
+    <link href="{{ mix_public('/assets/global/css/vendor.css') }}" rel="stylesheet"/>
     <style type="text/css">
     @yield('css')
     </style>
@@ -82,8 +84,8 @@
 <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
 
 {{-- Start of the required tags block. Don't remove these or things will break!! --}}
-<script src="{{ public_asset('/assets/global/js/vendor.js') }}"></script>
-<script src="{{ public_asset('/assets/frontend/js/app.js') }}"></script>
+<script src="{{ mix_public('/assets/global/js/vendor.js') }}"></script>
+<script src="{{ mix_public('/assets/frontend/js/app.js') }}"></script>
 @yield('scripts')
 
 {{--
