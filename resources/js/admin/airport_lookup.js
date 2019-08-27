@@ -1,18 +1,17 @@
+'use strict';
+
 /**
  * Lookup an airport from the server
- * @param icao
- * @param callback
+ *
+ * @param {String} icao
  */
-export default (icao, callback) => {
+export default async (icao) => {
     let params = {
         method: 'GET',
         url: '/api/airports/' + icao + '/lookup',
     };
 
-    console.log('Looking airport up');
-    axios(params)
-        .then(response => {
-            console.log(response);
-            callback(response.data);
-        });
+    const response = await axios(params);
+    console.log('lookup raw response: ', response);
+    return response.data;
 };

@@ -96,7 +96,7 @@ $(document).ready(function () {
         setFieldsEditable();
     });
 
-    $('a.airport_distance_lookup').click(function (e) {
+    $('a.airport_distance_lookup').click(async function (e) {
         e.preventDefault();
         const fromIcao = $("select#dpt_airport_id option:selected").val();
         const toIcao = $("select#arr_airport_id option:selected").val();
@@ -105,10 +105,16 @@ $(document).ready(function () {
         }
 
         console.log(`Calculating from ${fromIcao} to ${toIcao}`);
-        phpvms.calculate_distance(fromIcao, toIcao, function (response) {
-          console.log('Calculate distance:', response);
-          $("#distance").val(response.data.distance.nmi);
-        });
+        let response;
+
+        try {
+            response = await phpvms.calculate_distance(fromIcao, toIcao);
+        } catch (e) {
+            console.log('Error calculating distance:', e);
+            return;
+        }
+
+        $("#distance").val(response.data.distance.nmi);
     });
 });
 </script>
