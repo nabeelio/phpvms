@@ -2,13 +2,17 @@
  * Bootstrap any Javascript libraries required
  */
 
+
 window.axios = require('axios');
+
+import Storage from "./storage";
 
 /**
  * Container for phpVMS specific functions
  */
 window.phpvms = {
   config: {},
+  Storage,
 };
 
 /**

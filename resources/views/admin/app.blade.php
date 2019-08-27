@@ -95,41 +95,6 @@
 <script defer src="{{ mix_public('/assets/admin/js/app.js') }}"></script>
 
 <script>
-const getStorage = function(key) {
-    const st = window.localStorage.getItem(key);
-    if(!st) {
-        return {
-            "menu": [],
-        };
-    }
-
-    return JSON.parse(st);
-};
-
-const saveStorage = function(key, obj) {
-    window.localStorage.setItem(key, JSON.stringify(obj));
-};
-
-const addItem = function(obj, item) {
-    if (!obj) { obj = []; }
-    const index = obj.indexOf(item);
-    if(index === -1) {
-        obj.push(item);
-    }
-
-    return obj;
-};
-
-const removeItem = function (obj, item) {
-    if (!obj) { obj = []; }
-    const index = obj.indexOf(item);
-    if (index !== -1) {
-        obj.splice(index, 1);
-    }
-
-    return obj;
-};
-
 /**
  * Initialize any plugins on the page
  */
@@ -142,14 +107,17 @@ const initPlugins = () => {
 };
 
 $(document).ready(function () {
-
     initPlugins();
 
-    let storage = getStorage('phpvms.admin');
+    //let storage = getStorage('phpvms.admin');
+    const storage = new phpvms.Storage('phpvms.admin', {
+        "menu": [],
+    });
 
     // see what menu items should be open
-    for(let idx = 0; idx < storage.menu.length; idx++) {
-        const id = storage.menu[idx];
+    const menu = storage.getList('menu');
+    for (const id of menu) {
+        console.log('found '+id);
         const elem = $(".collapse#" + id);
         elem.addClass("in").trigger("show.bs.collapse");
 
@@ -158,26 +126,26 @@ $(document).ready(function () {
         caret.removeClass("pe-7s-angle-right");
     }
 
-    $(".collapse").on("hide.bs.collapse", function () {
-        // console.log('hiding');
+    $(".collapse").on("hide.bs.collapse", function() {
         const id = $(this).attr('id');
         const elem = $("a." + id + " b");
         elem.removeClass("pe-7s-angle-down");
         elem.addClass("pe-7s-angle-right");
 
-        removeItem(storage.menu, id);
-        saveStorage("phpvms.admin", storage);
+        // console.log('hiding ' + id);
+        storage.removeFromList('menu', id);
+        storage.save();
     });
 
-    $(".collapse").on("show.bs.collapse", function () {
-        // console.log('showing');
+    $(".collapse").on("show.bs.collapse", function() {
         const id = $(this).attr('id');
         const caret = $("a." + id + " b");
         caret.addClass("pe-7s-angle-down");
         caret.removeClass("pe-7s-angle-right");
 
-        addItem(storage.menu, id);
-        saveStorage("phpvms.admin", storage);
+        // console.log('showing ' + id);
+        storage.addToList('menu', id);
+        storage.save();
     });
 });
 </script>
