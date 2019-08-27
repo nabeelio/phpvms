@@ -6,9 +6,11 @@
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport'/>
 
     <title>@yield('title') - {{ config('app.name') }}</title>
+
     {{-- Start of required lines block. DON'T REMOVE THESE LINES! They're required or might break things --}}
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="api-key" content="{{ Auth::check() ? Auth::user()->api_key: '' }}">
+    <meta name="base-url" content="{!! url('') !!}">
+    <meta name="api-key" content="{!! Auth::check() ? Auth::user()->api_key: '' !!}">
+    <meta name="csrf-token" content="{!! csrf_token() !!}">
     {{-- End the required lines block --}}
 
     <link rel="shortcut icon" type="image/png" href="{{ public_asset('/assets/img/favicon.png') }}"/>
