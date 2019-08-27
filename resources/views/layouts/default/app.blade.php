@@ -20,7 +20,7 @@
     <link href="{{ public_asset('/assets/frontend/css/styles.css') }}" rel="stylesheet"/>
 
     {{-- Start of the required files in the head block --}}
-    <link href="{{ public_asset('/assets/global/css/vendor.css') }}" rel="stylesheet"/>
+    <link href="{{ mix_public('/assets/global/css/vendor.css') }}" rel="stylesheet"/>
     <style type="text/css">
     @yield('css')
     </style>
@@ -84,8 +84,8 @@
 <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
 
 {{-- Start of the required tags block. Don't remove these or things will break!! --}}
-<script src="{{ public_asset('/assets/global/js/vendor.js') }}"></script>
-<script src="{{ public_asset('/assets/frontend/js/app.js') }}"></script>
+<script src="{{ mix_public('/assets/global/js/vendor.js') }}"></script>
+<script src="{{ mix_public('/assets/frontend/js/app.js') }}"></script>
 @yield('scripts')
 
 {{--

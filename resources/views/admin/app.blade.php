@@ -21,9 +21,9 @@
     <link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'/>
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700,300" rel="stylesheet" type="text/css"/>
 
-    <link rel="stylesheet" href="{{ public_asset('/assets/global/css/vendor.css') }}"/>
-    <link rel="stylesheet" href="{{ public_asset('/assets/admin/css/vendor.css') }}"/>
-    <link rel="stylesheet" href="{{ public_asset('/assets/admin/css/admin.css') }}"/>
+    <link rel="stylesheet" href="{{ mix_public('/assets/global/css/vendor.css') }}"/>
+    <link rel="stylesheet" href="{{ mix_public('/assets/admin/css/vendor.css') }}"/>
+    <link rel="stylesheet" href="{{ mix_public('/assets/admin/css/admin.css') }}"/>
 
     <style type="text/css">
     @yield('css')
@@ -91,13 +91,12 @@
 </body>
 
 <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
-<script defer src="{{ public_asset('/assets/admin/js/vendor.js') }}"></script>
-<script defer src="{{ public_asset('/assets/admin/js/app.js') }}"></script>
+<script defer src="{{ mix_public('/assets/admin/js/vendor.js') }}"></script>
+<script defer src="{{ mix_public('/assets/admin/js/app.js') }}"></script>
 
 <script>
 const getStorage = function(key) {
     const st = window.localStorage.getItem(key);
-    // console.log('storage: ', key, st);
     if(!st) {
         return {
             "menu": [],
@@ -108,7 +107,6 @@ const getStorage = function(key) {
 };
 
 const saveStorage = function(key, obj) {
-    // console.log('save: ', key, obj);
     window.localStorage.setItem(key, JSON.stringify(obj));
 };
 
