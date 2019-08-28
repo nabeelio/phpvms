@@ -167,8 +167,8 @@ if (!function_exists('public_asset')) {
 /*
  * Call mix() and then prepend the proper public URL
  */
-if (!function_exists('mix_public')) {
-    function mix_public($path, array $parameters = [])
+if (!function_exists('public_mix')) {
+    function public_mix($path, array $parameters = [])
     {
         try {
             $path = mix($path);
