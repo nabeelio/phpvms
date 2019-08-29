@@ -1,4 +1,4 @@
-//
+'use strict';
 
 const geolib = require('geolib');
 const leaflet = require('leaflet');
@@ -6,6 +6,7 @@ const rivets = require('rivets');
 
 import draw_base_map from './base_map'
 import { ACTUAL_ROUTE_COLOR } from './config'
+import request from '../request';
 
 /**
  * Render the live map
@@ -13,9 +14,9 @@ import { ACTUAL_ROUTE_COLOR } from './config'
  * @private
  */
 export default (opts) => {
-
     opts = Object.assign({
         center: [29.98139, -95.33374],
+        refresh_interval: 10, // seconds
         zoom: 5,
         update_uri: '/api/acars',
         pirep_uri: '/api/pireps/{id}',
@@ -38,15 +39,11 @@ export default (opts) => {
      * @type {{}}
      */
     let markers_list = {};
-
     let pannedToCenter = false;
-
     let layerFlights = null;
     let layerSelFlight = null;
     let layerSelFlightFeature = null;
     let layerSelFlightLayer = null;
-    let layerSelArr = null;
-    let layerSelDep = null;
 
     /**
      * Controller for two-way bindings
@@ -78,28 +75,29 @@ export default (opts) => {
      * @param layer
      */
     const onFlightClick = (feature, layer) => {
-
         const pirep_uri = opts.pirep_uri.replace('{id}', feature.properties.pirep_id);
         const geojson_uri = opts.pirep_uri.replace('{id}', feature.properties.pirep_id) + "/acars/geojson";
 
-        const pirep_info = $.ajax({
-            url: pirep_uri,
-            dataType: 'json',
-            error: console.log
+        /*
+         * Get information about the PIREP and populate the bottom box/container
+         */
+        request(pirep_uri).then(response => {
+            const pirep = response.data.data;
+            console.log(pirep);
+
+            r_map_view.update({ pirep });
+            $('#map-info-box').show();
         });
 
-        const flight_route = $.ajax({
-            url: geojson_uri,
-            dataType: 'json',
-            error: console.log
-        });
+        /*
+         * Draw out the flight route
+         */
+        request(geojson_uri).then(response => {
+            const rte = response.data.data;
+            console.log(rte);
 
-        // Load up the PIREP info
-        $.when(flight_route).done((rte) => {
             if (layerSelFlight !== null) {
                 map.removeLayer(layerSelFlight);
-                //map.removeLayer(layerSelArr);
-                //map.removeLayer(layerSelDep);
             }
 
             layerSelFlight = leaflet.geodesic([], {
@@ -113,15 +111,8 @@ export default (opts) => {
             layerSelFlightFeature = feature;
             layerSelFlightLayer = layer;
 
-            /*const dptIcon = leaflet.divIcon({
-                html: '<div class="map-info-label"><h5>' + rte.airports.d.icao + '</h5></div>'
-            });
-
-            layerSelDep = leaflet.marker([rte.airports.d.lat, rte.airports.d.lon], {icon:dptIcon}).addTo(map);
-            */
-
             // Center on it, but only do it once, in case the map is moved
-            if(!pannedToCenter) {
+            if (!pannedToCenter) {
                 // find center
                 const c = geolib.getCenter([
                     {latitude: rte.airports.a.lat, longitude: rte.airports.a.lon},
@@ -133,37 +124,21 @@ export default (opts) => {
                 pannedToCenter = true;
             }
         });
-
-        //
-        // When the PIREP info is done loading, show the bottom bar
-        //
-        $.when(pirep_info).done(pirep => {
-            r_map_view.update({pirep:pirep.data});
-            $('#map-info-box').show();
-        });
     };
 
     const updateMap = () => {
-
-        console.log('reloading flights from acars...');
-
-        /**
-         * AJAX UPDATE
-         */
         const pirep_uri = opts.pirep_uri.replace('{id}', '');
-        let pireps = $.ajax({
-            url: pirep_uri,
-            dataType: 'json',
-            error: console.log
+
+        request(pirep_uri ).then(response => {
+            const pireps = response.data.data;
+            r_table_view.update({
+                pireps,
+                has_data: (pireps.length > 0),
+            });
         });
 
-        let flights = $.ajax({
-            url: opts.update_uri,
-            dataType: 'json',
-            error: console.log
-        });
-
-        $.when(flights).done(flightGeoJson => {
+        request({ url: opts.update_uri }).then(response => {
+            const flightGeoJson = response.data.data;
 
             if (layerFlights !== null) {
                 layerFlights.clearLayers()
@@ -202,15 +177,8 @@ export default (opts) => {
                 onFlightClick(layerSelFlightFeature, layerSelFlightLayer)
             }
         });
-
-        $.when(pireps).done(pireps => {
-            r_table_view.update({
-                pireps: pireps.data,
-                has_data: (pireps.data.length > 0),
-            });
-        });
     };
 
     updateMap();
-    setInterval(updateMap, 10000)
+    setInterval(updateMap, opts.refresh_interval * 1000)
 };

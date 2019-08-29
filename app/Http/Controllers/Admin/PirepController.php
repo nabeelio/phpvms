@@ -181,6 +181,7 @@ class PirepController extends Controller
         Log::info('aircraft', $aircraft->toArray());
 
         return view('admin.pireps.fares', [
+            'pirep'     => null,
             'aircraft'  => $aircraft,
             'read_only' => false,
         ]);

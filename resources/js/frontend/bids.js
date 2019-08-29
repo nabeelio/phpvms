@@ -1,5 +1,7 @@
 'use strict';
 
+import request from '../request';
+
 /**
  * Add a bid to a flight
  *
@@ -17,7 +19,7 @@ export async function addBid(flight_id) {
         }
     };
 
-    return axios(params);
+    return request(params);
 }
 
 /**
@@ -37,5 +39,5 @@ export async function removeBid(flight_id) {
         }
     };
 
-    return axios(params);
+    return request(params);
 }

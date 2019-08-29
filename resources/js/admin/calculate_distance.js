@@ -1,3 +1,7 @@
+'use strict';
+
+import request from '../request';
+
 /**
  * Lookup an airport from the server
  *
@@ -10,7 +14,7 @@ export default async (fromICAO, toICAO) => {
         url: '/api/airports/' + fromICAO + '/distance/' + toICAO,
     };
 
-    const response = await axios(params);
+    const response = await request(params);
     console.log('distance raw response: ', response);
     return response.data;
 };

@@ -1,5 +1,7 @@
 'use strict';
 
+import request from '../request';
+
 /**
  * Lookup an airport from the server
  *
@@ -11,7 +13,7 @@ export default async (icao) => {
         url: '/api/airports/' + icao + '/lookup',
     };
 
-    const response = await axios(params);
+    const response = await request(params);
     console.log('lookup raw response: ', response);
     return response.data;
 };

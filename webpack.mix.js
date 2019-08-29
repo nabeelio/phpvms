@@ -2,6 +2,8 @@
 
 const mix = require('laravel-mix');
 
+mix.disableNotifications();
+
 /**
  * COPY ASSETS
  * Copy required assets

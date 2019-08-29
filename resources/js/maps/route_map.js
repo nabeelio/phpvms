@@ -1,7 +1,10 @@
+'use strict';
+
 const leaflet = require('leaflet');
 
 import draw_base_map from './base_map'
 import {addWMSLayer} from './helpers';
+import request from '../request';
 
 import {ACTUAL_ROUTE_COLOR, CIRCLE_COLOR, PLAN_ROUTE_COLOR} from './config'
 
@@ -34,7 +37,7 @@ export const pointToLayer = (feature, latlng) => {
         opacity: 1,
         fillOpacity: 0.8
     })
-}
+};
 
 /**
  *
@@ -42,9 +45,7 @@ export const pointToLayer = (feature, latlng) => {
  * @private
  */
 export default (opts) => {
-
     opts = Object.assign({
-
         route_points: null,
         planned_route_line: null,
         actual_route_points: null,
@@ -52,6 +53,7 @@ export default (opts) => {
         render_elem: 'map',
         live_map: false,
         aircraft_icon: '/assets/img/acars/aircraft.png',
+        refresh_interval: 10,
         metar_wms: {
             url: '',
             params: {}
@@ -142,14 +144,8 @@ export default (opts) => {
      *
      */
     const liveFlight = () => {
-        const uri = opts.pirep_uri;
-        const live_route = $.ajax({
-            url: uri,
-            dataType: 'json',
-            error: console.log
-        });
-
-        $.when(live_route).done((routeJson) => {
+        request({ url: opts.pirep_uri }).then(response => {
+            const routeJson = response.data.data;
             layerLiveFlight = leaflet.geoJSON(routeJson, {
                 pointToLayer: function (feature, latlon) {
                     return leaflet.marker(latlon, {
@@ -163,5 +159,5 @@ export default (opts) => {
         });
     };
 
-    setInterval(liveFlight, 10000);
+    setInterval(liveFlight, opts.refresh_interval * 1000);
 };

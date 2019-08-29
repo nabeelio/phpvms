@@ -1,7 +1,6 @@
 @section('scripts')
 <script>
 function setEditable() {
-
     const token = $('meta[name="csrf-token"]').attr('content');
     const api_key = $('meta[name="api-key"]').attr('content');
 

@@ -4,7 +4,6 @@ const leaflet = require('leaflet');
 require('leaflet-providers');
 
 export default (opts) => {
-
     opts = Object.assign({
         render_elem: 'map',
         center: [29.98139, -95.33374],
@@ -54,8 +53,8 @@ export default (opts) => {
         scrollWheelZoom: false,
     });
 
-    for(const i in opts.providers) {
-        leaflet.tileLayer.provider(opts.providers[i]).addTo(map);
+    for (const p of opts.providers) {
+        leaflet.tileLayer.provider(p).addTo(map);
     }
 
     return map;
