@@ -1,30 +1,30 @@
-'use strict';
-
-const axios = require('axios');
 
 import config from './config';
+
+const axios = require('axios');
 
 /**
  * Run an API request, with some common options
  *
- * @param {Object|String} opts Axios request options, or pass a URL
- * @param {String} opts.url
+ * @param {Object|String} _opts Axios request options, or pass a URL
+ * @param {String} _opts.url
  */
-export default async (opts) => {
-    if (typeof opts === 'string' || opts instanceof String) {
-        opts = {
-            url: opts,
-        };
-    }
+export default async (_opts) => {
+  if (typeof _opts === 'string' || _opts instanceof String) {
+    // eslint-disable-next-line no-param-reassign
+    _opts = {
+      url: _opts,
+    };
+  }
 
-    const _opts = Object.assign({}, {
-        baseURL: config.base_url,
-        headers: {
-            'X-Requested-With': 'XMLHttpRequest',
-            'X-CSRF-TOKEN': config.csrf_token,
-            'x-api-key': config.api_key,
-        }
-    }, opts);
+  const opts = Object.assign({}, {
+    baseURL: config.base_url,
+    headers: {
+      'X-API-KEY': config.api_key,
+      'X-CSRF-TOKEN': config.csrf_token,
+      'x-api-key': config.api_key,
+    },
+  }, _opts);
 
-    return axios.request(_opts);
+  return axios.request(opts);
 };

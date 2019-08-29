@@ -1,4 +1,3 @@
-'use strict';
 
 import request from '../request';
 
@@ -9,12 +8,12 @@ import request from '../request';
  * @param {String} toICAO
  */
 export default async (fromICAO, toICAO) => {
-    let params = {
-        method: 'GET',
-        url: '/api/airports/' + fromICAO + '/distance/' + toICAO,
-    };
+  const params = {
+    method: 'GET',
+    url: `/api/airports/${fromICAO}/distance/${toICAO}`,
+  };
 
-    const response = await request(params);
-    console.log('distance raw response: ', response);
-    return response.data;
+  const response = await request(params);
+  console.log('distance raw response: ', response);
+  return response.data;
 };

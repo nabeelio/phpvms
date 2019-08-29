@@ -11,25 +11,24 @@ const leaflet = require('leaflet');
  * @param opts
  */
 export function addWMSLayer(map, opts) {
+  if (opts.url === '') {
+    return null;
+  }
 
-    if(opts.url === '') {
-        return;
-    }
+  opts.params = Object.assign({
+    format: 'image/png',
+    transparent: true,
+    maxZoom: 14,
+    minZoom: 4,
+  }, opts.params);
 
-    opts.params = Object.assign({
-        format: 'image/png',
-        transparent: true,
-        maxZoom: 14,
-        minZoom: 4,
-    }, opts.params);
+  const mlayer = leaflet.tileLayer.wms(
+    opts.url, opts.params,
+  );
 
-    const mlayer = leaflet.tileLayer.wms(
-        opts.url, opts.params
-    );
+  mlayer.addTo(map);
 
-    mlayer.addTo(map);
-
-    return mlayer;
+  return mlayer;
 }
 
 /**
@@ -38,10 +37,10 @@ export function addWMSLayer(map, opts) {
  * @param layer
  */
 export function showFeaturePopup(feature, layer) {
-    let popup_html = '';
-    if (feature.properties && feature.properties.popup) {
-        popup_html += feature.properties.popup
-    }
+  let popup_html = '';
+  if (feature.properties && feature.properties.popup) {
+    popup_html += feature.properties.popup;
+  }
 
-    layer.bindPopup(popup_html)
+  layer.bindPopup(popup_html);
 }

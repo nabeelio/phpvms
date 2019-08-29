@@ -47,6 +47,12 @@
   },
   "devDependencies": {
     "copy-webpack-plugin": "^4.6.0",
+    "eslint": "^6.2.2",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.14.3",
     "tailwindcss": "^0.5.3",
     "webpack-bundle-analyzer": "^3.3",
     "webpack-dev-server": "^3.1.11"

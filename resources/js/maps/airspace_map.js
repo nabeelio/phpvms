@@ -1,16 +1,16 @@
 
-const leaflet = require('leaflet');
-
-import draw_base_map from './base_map'
+import draw_base_map from './base_map';
 import { addWMSLayer } from './helpers';
+
+const leaflet = require('leaflet');
 
 /**
  * Render a map with the airspace, etc around a given set of coords
  * e.g, the airport map
- * @param opts
+ * @param {Object} _opts
  */
-export default (opts) => {
-  opts = Object.assign({
+export default (_opts) => {
+  const opts = Object.assign({
     render_elem: 'map',
     overlay_elem: '',
     lat: 0,
@@ -22,12 +22,12 @@ export default (opts) => {
 
     // Passed from the config/maps.php file
     metar_wms: {
-        url: '',
-        params: {}
+      url: '',
+      params: {},
     },
-  }, opts);
+  }, _opts);
 
-  let map = draw_base_map(opts);
+  const map = draw_base_map(opts);
   const coords = [opts.lat, opts.lon];
   console.log('Applying coords', coords);
 
@@ -36,8 +36,8 @@ export default (opts) => {
     leaflet.marker(coords).addTo(map).bindPopup(opts.marker_popup);
   }
 
-  if(opts.metar_wms.url !== '') {
-      addWMSLayer(map, opts.metar_wms);
+  if (opts.metar_wms.url !== '') {
+    addWMSLayer(map, opts.metar_wms);
   }
 
   return map;

@@ -1,11 +1,12 @@
 
+// Import the bids functionality
+import { addBid, removeBid } from './bids';
+
 require('./../bootstrap');
 
-// Import the bids functionality
-import {addBid, removeBid} from './bids';
 window.phpvms.bids = {
-    addBid,
-    removeBid,
+  addBid,
+  removeBid,
 };
 
 // Import the mapping function
