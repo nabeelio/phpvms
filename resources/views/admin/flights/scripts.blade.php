@@ -98,6 +98,8 @@ $(document).ready(function () {
      e.preventDefault();
      const fromIcao = $("select#dpt_airport_id option:selected").val();
      const toIcao = $("select#arr_airport_id option:selected").val();
+     console.log('fromIcao="' + fromIcao + '", toIcao="' + toIcao + '"');
+
      if (fromIcao === '' || toIcao === '') {
        return;
      }
