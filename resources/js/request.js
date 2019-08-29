@@ -22,7 +22,6 @@ export default async (_opts) => {
     headers: {
       'X-API-KEY': config.api_key,
       'X-CSRF-TOKEN': config.csrf_token,
-      'x-api-key': config.api_key,
     },
   }, _opts);
 
