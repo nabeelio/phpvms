@@ -8,8 +8,6 @@ use App\Http\Requests\Acars\EventRequest;
 use App\Http\Requests\Acars\LogRequest;
 use App\Http\Requests\Acars\PositionRequest;
 use App\Http\Resources\AcarsRoute as AcarsRouteResource;
-use App\Http\Resources\GeoJson as GeoJsonResource;
-use App\Http\Resources\GeoJsonCollection;
 use App\Models\Acars;
 use App\Models\Enums\AcarsType;
 use App\Models\Enums\PirepStatus;
