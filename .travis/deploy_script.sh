@@ -50,7 +50,6 @@ if [ "$TRAVIS" = "true" ]; then
 
     # Leftover individual files to delete
     declare -a remove_files=(
-        .editorconfig
         .git
         .github
         .sass-cache
@@ -60,6 +59,7 @@ if [ "$TRAVIS" = "true" ]; then
         tests
         _ide_helper.php
         .dpl
+        .editorconfig
         .eslintignore
         .eslintrc
         .php_cs
