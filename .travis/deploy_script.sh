@@ -14,7 +14,7 @@ if [ "$TRAVIS" = "true" ]; then
             exit 0;
         fi;
 
-        BASE_VERSION=`php artisan phpvms:version --base-only`
+        BASE_VERSION=$(php artisan phpvms:version --base-only)
         PKG_NAME=${BASE_VERSION}-${TRAVIS_BRANCH}
     fi
 
@@ -23,7 +23,7 @@ if [ "$TRAVIS" = "true" ]; then
     echo "Writing $TAR_NAME"
 
     php artisan phpvms:version --write > VERSION
-    VERSION=`cat VERSION`
+    VERSION=$(cat VERSION)
     echo "Version: $VERSION"
 
     echo "Cleaning files"
