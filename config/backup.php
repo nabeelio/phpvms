@@ -13,7 +13,7 @@ use Spatie\Backup\Tasks\Monitor\HealthChecks\MaximumStorageInMegabytes;
 
 return [
     'backup' => [
-        'name' => config('app.name', 'phpvms-backup'),
+        'name'   => config('app.name', 'phpvms-backup'),
         'source' => [
             'files' => [
                 'include' => [
@@ -104,12 +104,12 @@ return [
      */
     'notifications' => [
         'notifications' => [
-            BackupHasFailed::class => ['mail'],
+            BackupHasFailed::class         => ['mail'],
             UnhealthyBackupWasFound::class => ['mail'],
-            CleanupHasFailed::class => ['mail'],
-            BackupWasSuccessful::class => ['mail'],
-            HealthyBackupWasFound::class => ['mail'],
-            CleanupWasSuccessful::class => ['mail'],
+            CleanupHasFailed::class        => ['mail'],
+            BackupWasSuccessful::class     => ['mail'],
+            HealthyBackupWasFound::class   => ['mail'],
+            CleanupWasSuccessful::class    => ['mail'],
         ],
 
         /*
@@ -117,14 +117,14 @@ return [
          * notifiable will use the variables specified in this config file.
          */
         'notifiable' => Backups::class,
-        'slack' => [
+        'slack'      => [
             'webhook_url' => '',
             /*
              * If this is set to null the default channel of the webhook will be used.
              */
-            'channel' => null,
+            'channel'  => null,
             'username' => null,
-            'icon' => null,
+            'icon'     => null,
         ],
     ],
 
@@ -135,10 +135,10 @@ return [
      */
     'monitor_backups' => [
         [
-            'name' => config(config('app.name'), 'phpvms-backup'),
-            'disks' => ['local'],
+            'name'          => config(config('app.name'), 'phpvms-backup'),
+            'disks'         => ['local'],
             'health_checks' => [
-                MaximumAgeInDays::class => 1,
+                MaximumAgeInDays::class          => 1,
                 MaximumStorageInMegabytes::class => 5000,
             ],
         ],

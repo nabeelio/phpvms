@@ -85,9 +85,7 @@ class NotificationEvents extends Listener
             } elseif ($event->user->state === UserState::REJECTED) {
                 $event->user->notify(new \App\Notifications\UserRejected($event->user));
             }
-        }
-
-        elseif ($event->old_state === UserState::ACTIVE) {
+        } elseif ($event->old_state === UserState::ACTIVE) {
             Log::info('User state change from active to ??');
         }
     }
