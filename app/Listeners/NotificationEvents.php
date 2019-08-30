@@ -3,12 +3,17 @@
 namespace App\Listeners;
 
 use App\Contracts\Listener;
+use App\Events\PirepAccepted;
+use App\Events\PirepFiled;
+use App\Events\PirepRejected;
 use App\Events\UserRegistered;
 use App\Events\UserStateChanged;
 use App\Models\Enums\UserState;
+use App\Models\User;
+use App\Notifications\PirepSubmitted;
 use Illuminate\Contracts\Events\Dispatcher;
-use Illuminate\Support\Facades\Mail;
-use Log;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Notification;
 
 /**
  * Handle sending emails on different events
@@ -20,44 +25,22 @@ class NotificationEvents extends Listener
      */
     public function subscribe(Dispatcher $events): void
     {
-        $events->listen(
-            \App\Events\UserRegistered::class,
-            'App\Listeners\NotificationEvents@onUserRegister'
-        );
-
-        $events->listen(
-            \App\Events\UserStateChanged::class,
-            'App\Listeners\NotificationEvents@onUserStateChange'
-        );
+        $events->listen(UserRegistered::class, 'App\Listeners\NotificationEvents@onUserRegister');
+        $events->listen(UserStateChanged::class, 'App\Listeners\NotificationEvents@onUserStateChange');
+        $events->listen(PirepFiled::class, 'App\Listeners\NotificationEvents@onPirepFile');
+        $events->listen(PirepAccepted::class, 'App\Listeners\NotificationEvents@onPirepAccepted');
+        $events->listen(PirepRejected::class, 'App\Listeners\NotificationEvents@onPirepRejected');
     }
 
     /**
-     * @return bool
-     */
-    protected function mailerActive(): bool
-    {
-        if (empty(config('mail.host'))) {
-            Log::info('No mail host specified!');
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * @param $to
-     * @param $email
+     * Send a notification to all of the admins
      *
-     * @return mixed
+     * @param \Illuminate\Notifications\Notification $notification
      */
-    protected function sendEmail($to, $email)
+    protected function notifyAdmins($notification)
     {
-        try {
-            return Mail::to($to)->send($email);
-        } catch (\Exception $e) {
-            Log::error('Error sending email!');
-            Log::error($e);
-        }
+        $admin_users = User::whereRoleIs('admin')->get();
+        Notification::send($admin_users, $notification);
     }
 
     /**
@@ -67,32 +50,24 @@ class NotificationEvents extends Listener
      */
     public function onUserRegister(UserRegistered $event): void
     {
-        Log::info('onUserRegister: '
+        Log::info('NotificationEvents::onUserRegister: '
             .$event->user->ident.' is '
             .UserState::label($event->user->state)
             .', sending active email');
 
-        if (!$this->mailerActive()) {
-            return;
-        }
+        /*
+         * Send all of the admins a notification that a new user registered
+         */
+        $this->notifyAdmins(new \App\Notifications\Admin\UserRegistered($event->user));
 
-        // First send the admin a notification
-        $admin_email = setting('general.admin_email');
-        Log::info('Sending admin notification email to "'.$admin_email.'"');
-
-        if (!empty($admin_email)) {
-            $email = new \App\Mail\Admin\UserRegistered($event->user);
-            $this->sendEmail($admin_email, $email);
-        }
-
-        // Then notify the user
+        /*
+         * Send the user a confirmation email
+         */
         if ($event->user->state === UserState::ACTIVE) {
-            $email = new \App\Mail\UserRegistered($event->user);
+            $event->user->notify(new \App\Notifications\UserRegistered($event->user));
         } elseif ($event->user->state === UserState::PENDING) {
-            $email = new \App\Mail\UserPending($event->user);
+            $event->user->notify(new \App\Notifications\UserPending($event->user));
         }
-
-        $this->sendEmail($event->user->email, $email);
     }
 
     /**
@@ -102,23 +77,49 @@ class NotificationEvents extends Listener
      */
     public function onUserStateChange(UserStateChanged $event): void
     {
-        if (!$this->mailerActive()) {
-            return;
-        }
+        Log::info('NotificationEvents::onUserStateChange: New user state='.$event->user->state);
 
         if ($event->old_state === UserState::PENDING) {
             if ($event->user->state === UserState::ACTIVE) {
-                $email = new \App\Mail\UserRegistered(
-                    $event->user,
-                    'Your registration has been accepted!'
-                );
+                $event->user->notify(new \App\Notifications\UserRegistered($event->user));
             } elseif ($event->user->state === UserState::REJECTED) {
-                $email = new \App\Mail\UserRejected($event->user);
+                $event->user->notify(new \App\Notifications\UserRejected($event->user));
             }
-            $this->sendEmail($event->user->email, $email);
-        } // TODO: Other state transitions
-        elseif ($event->old_state === UserState::ACTIVE) {
+        } elseif ($event->old_state === UserState::ACTIVE) {
             Log::info('User state change from active to ??');
         }
+    }
+
+    /**
+     * Notify the admins that a new PIREP has been filed
+     *
+     * @param \App\Events\PirepFiled $event
+     */
+    public function onPirepFile(PirepFiled $event): void
+    {
+        Log::info('NotificationEvents::onPirepFile: '.$event->pirep->id.' filed ');
+        $this->notifyAdmins(new PirepSubmitted($event->pirep));
+    }
+
+    /**
+     * Notify the user that their PIREP has been accepted
+     *
+     * @param \App\Events\PirepAccepted $event
+     */
+    public function onPirepAccepted(PirepAccepted $event): void
+    {
+        Log::info('NotificationEvents::onPirepAccepted: '.$event->pirep->id.' accepted');
+        $event->pirep->user->notify(new \App\Notifications\PirepAccepted($event->pirep));
+    }
+
+    /**
+     * Notify the user that their PIREP has been accepted
+     *
+     * @param \App\Events\PirepRejected $event
+     */
+    public function onPirepRejected(PirepRejected $event): void
+    {
+        Log::info('NotificationEvents::onPirepRejected: '.$event->pirep->id.' rejected');
+        $event->pirep->user->notify(new \App\Notifications\PirepRejected($event->pirep));
     }
 }

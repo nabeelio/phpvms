@@ -99,7 +99,7 @@ return [
         'port' => 587,
         'from' => [
             'name' => '',
-            'address' => '',
+            'address' => 'no-reply@phpvms.net',
         ],
         'username' => '',
         'password' => '',

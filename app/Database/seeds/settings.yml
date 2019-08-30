@@ -11,7 +11,7 @@
   value: ''
   options: ''
   type: text
-  description: 'Email where notices, etc are sent'
+  description: 'Email where system notices, etc are sent'
 - key: general.check_prerelease_version
   name: 'Pre-release versions in version check'
   group: general
