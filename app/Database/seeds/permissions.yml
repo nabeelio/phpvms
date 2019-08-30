@@ -39,3 +39,6 @@
 - name: settings
   display_name: Settings
   description: Edit VA settings
+- name: maintenance
+  display_name: Maintenance
+  description: Run maintenance tasks
