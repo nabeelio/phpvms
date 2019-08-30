@@ -27,6 +27,10 @@ class Kernel extends ConsoleKernel
         $schedule->command(Weekly::class)->weeklyOn(0);
         $schedule->command(Monthly::class)->monthlyOn(1);
         $schedule->command(Hourly::class)->hourly();
+
+        // When spatie-backups runs
+        $schedule->command('backup:clean')->daily()->at('01:00');
+        $schedule->command('backup:run')->daily()->at('02:00');
     }
 
     /**

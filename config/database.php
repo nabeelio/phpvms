@@ -22,6 +22,9 @@ return [
                 PDO::ATTR_EMULATE_PREPARES => env('DB_EMULATE_PREPARES', false),
                 //PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
             ],
+            'dump' => [
+                'timeout' => 60 * 5, // 5 minute timeout
+            ],
         ],
         'sqlite' => [
             'driver'   => 'sqlite',
