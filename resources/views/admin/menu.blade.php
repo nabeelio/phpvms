@@ -74,6 +74,10 @@
             @ability('admin', 'settings')
             <li><a href="{{ url('/admin/settings') }}"><i class="pe-7s-config"></i>settings</a></li>
             @endability
+
+            @ability('admin', 'maintenance')
+            <li><a href="{{ url('/admin/maintenance') }}"><i class="pe-7s-config"></i>maintenance</a></li>
+            @endability
         </ul>
     </div>
 </li>

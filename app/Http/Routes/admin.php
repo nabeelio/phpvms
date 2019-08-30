@@ -71,6 +71,10 @@ Route::group([
     Route::match(['get'], 'settings', 'SettingsController@index');
     Route::match(['post', 'put'], 'settings', 'SettingsController@update')->name('settings.update');
 
+    // maintenance
+    Route::match(['get'], 'maintenance', 'MaintenanceController@index')->name('maintenance.index');
+    Route::match(['post'], 'maintenance', 'MaintenanceController@cache')->name('maintenance.cache');
+
     // subfleet
     Route::get('subfleets/export', 'SubfleetController@export')->name('subfleets.export');
     Route::match(['get', 'post'], 'subfleets/import', 'SubfleetController@import')->name('subfleets.import');
