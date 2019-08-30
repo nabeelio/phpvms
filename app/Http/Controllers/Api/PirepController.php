@@ -505,6 +505,7 @@ class PirepController extends Controller
     public function route_get($id, Request $request)
     {
         $pirep = Pirep::find($id);
+
         return AcarsRouteResource::collection(Acars::where([
             'pirep_id' => $id,
             'type'     => AcarsType::ROUTE,

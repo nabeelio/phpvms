@@ -1,6 +1,3 @@
-/**
- *
- */
 
 const rivets = require('rivets');
 
@@ -11,7 +8,7 @@ const rivets = require('rivets');
  * @returns {*}
  */
 rivets.formatters.prepend = function (value, prepend) {
-    return prepend + value
+  return prepend + value;
 };
 
 /**
@@ -19,10 +16,10 @@ rivets.formatters.prepend = function (value, prepend) {
  * @param value
  * @returns {string}
  */
-rivets.formatters.time_hm = function(value) {
-    const hours = Math.floor(value / 60);
-    const mins = value % 60;
-    return hours + 'h ' + mins + 'm';
+rivets.formatters.time_hm = function (value) {
+  const hours = Math.floor(value / 60);
+  const mins = value % 60;
+  return `${hours}h ${mins}m`;
 };
 
 /**
@@ -31,9 +28,7 @@ rivets.formatters.time_hm = function(value) {
  * @param len
  * @returns {boolean}
  */
-rivets.formatters.gt = (value, len) => {
-    return value.length > len;
-};
+rivets.formatters.gt = (value, len) => value.length > len;
 
 /**
  *
@@ -41,9 +36,7 @@ rivets.formatters.gt = (value, len) => {
  * @param len
  * @returns {boolean}
  */
-rivets.formatters.lt = (value, len) => {
-    return value.length < len;
-};
+rivets.formatters.lt = (value, len) => value.length < len;
 
 /**
  *
@@ -51,6 +44,4 @@ rivets.formatters.lt = (value, len) => {
  * @param len
  * @returns {boolean}
  */
-rivets.formatters.eq = (value, len) => {
-    return value.length > len;
-};
+rivets.formatters.eq = (value, len) => value.length > len;

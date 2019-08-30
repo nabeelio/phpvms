@@ -73,8 +73,8 @@ class AcarsController extends Controller
         $pireps = $this->acarsRepo->getPositions(setting('acars.live_time'));
         $positions = $this->geoSvc->getFeatureForLiveFlights($pireps);
 
-        return response(json_encode($positions), 200, [
-            'Content-type' => 'application/json',
+        return response()->json([
+            'data' => $positions,
         ]);
     }
 
@@ -84,15 +84,15 @@ class AcarsController extends Controller
      * @param         $pirep_id
      * @param Request $request
      *
-     * @return \Illuminate\Contracts\Routing\ResponseFactory
+     * @return \Illuminate\Http\JsonResponse
      */
     public function acars_geojson($pirep_id, Request $request)
     {
         $pirep = Pirep::find($pirep_id);
         $geodata = $this->geoSvc->getFeatureFromAcars($pirep);
 
-        return response(\json_encode($geodata), 200, [
-            'Content-Type' => 'application/json',
+        return response()->json([
+            'data' => $geodata,
         ]);
     }
 

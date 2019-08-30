@@ -3,10 +3,10 @@
  */
 
 
-require('./../bootstrap');
+import airport_lookup from './airport_lookup';
+import calculate_distance from './calculate_distance';
 
-import airport_lookup from "./airport_lookup";
-import calculate_distance from "./calculate_distance";
+require('./../bootstrap');
 
 window.phpvms.airport_lookup = airport_lookup;
 window.phpvms.calculate_distance = calculate_distance;

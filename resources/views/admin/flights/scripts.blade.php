@@ -30,8 +30,7 @@ const setEditable = () =>
     });
 };
 
-const setFieldsEditable = () =>
-{
+const setFieldsEditable = () => {
     const api_key = $('meta[name="api-key"]').attr('content');
     const csrf_token = $('meta[name="csrf-token"]').attr('content');
 
@@ -59,11 +58,10 @@ const setFieldsEditable = () =>
 };
 
 $(document).ready(function () {
+  $("select#days_of_week").select2();
 
-    $("select#days_of_week").select2();
-
-    setEditable();
-    setFieldsEditable();
+  setEditable();
+  setFieldsEditable();
 
   const start_date_picker = new Pikaday({
     field: document.getElementById('start_date'),
@@ -75,47 +73,49 @@ $(document).ready(function () {
     minDate: new Date(),
   });
 
-    $(document).on('submit', 'form.pjax_flight_fields', function (event) {
-        event.preventDefault();
-        $.pjax.submit(event, '#flight_fields_wrapper', {push: false});
-    });
+  $(document).on('submit', 'form.pjax_flight_fields', function (event) {
+    event.preventDefault();
+    $.pjax.submit(event, '#flight_fields_wrapper', {push: false});
+  });
 
-    $(document).on('submit', 'form.pjax_subfleet_form', function (event) {
-        event.preventDefault();
-        $.pjax.submit(event, '#subfleet_flight_wrapper', {push: false});
-    });
+  $(document).on('submit', 'form.pjax_subfleet_form', function (event) {
+    event.preventDefault();
+    $.pjax.submit(event, '#subfleet_flight_wrapper', {push: false});
+  });
 
-    $(document).on('submit', 'form.pjax_fares_form', function (event) {
-        event.preventDefault();
-        $.pjax.submit(event, '#flight_fares_wrapper', {push: false});
-    });
+  $(document).on('submit', 'form.pjax_fares_form', function (event) {
+    event.preventDefault();
+    $.pjax.submit(event, '#flight_fares_wrapper', {push: false});
+  });
 
-    $(document).on('pjax:complete', function () {
-        initPlugins();
-        setEditable();
-        setFieldsEditable();
-    });
+  $(document).on('pjax:complete', function () {
+    initPlugins();
+    setEditable();
+    setFieldsEditable();
+  });
 
-    $('a.airport_distance_lookup').click(async function (e) {
-        e.preventDefault();
-        const fromIcao = $("select#dpt_airport_id option:selected").val();
-        const toIcao = $("select#arr_airport_id option:selected").val();
-        if (fromIcao === '' || toIcao === '') {
-            return;
-        }
+  $('a.airport_distance_lookup').click(async function (e) {
+     e.preventDefault();
+     const fromIcao = $("select#dpt_airport_id option:selected").val();
+     const toIcao = $("select#arr_airport_id option:selected").val();
+     console.log('fromIcao="' + fromIcao + '", toIcao="' + toIcao + '"');
 
-        console.log(`Calculating from ${fromIcao} to ${toIcao}`);
-        let response;
+     if (fromIcao === '' || toIcao === '') {
+       return;
+     }
 
-        try {
-            response = await phpvms.calculate_distance(fromIcao, toIcao);
-        } catch (e) {
-            console.log('Error calculating distance:', e);
-            return;
-        }
+     console.log(`Calculating from ${fromIcao} to ${toIcao}`);
+     let response;
 
-        $("#distance").val(response.data.distance.nmi);
-    });
+     try {
+       response = await phpvms.calculate_distance(fromIcao, toIcao);
+     } catch (e) {
+       console.log('Error calculating distance:', e);
+       return;
+     }
+
+     $("#distance").val(response.data.distance.nmi);
+  });
 });
 </script>
 @endsection

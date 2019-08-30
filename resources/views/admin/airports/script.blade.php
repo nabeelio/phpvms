@@ -54,7 +54,6 @@ function setEditable() {
 }
 
 $(document).ready(function() {
-
     const api_key = $('meta[name="api-key"]').attr('content');
     const csrf_token = $('meta[name="csrf-token"]').attr('content');
 
