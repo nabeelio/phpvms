@@ -23,7 +23,7 @@
 
     <link rel="stylesheet" href="{{ public_mix('/assets/global/css/vendor.css') }}"/>
     <link rel="stylesheet" href="{{ public_mix('/assets/admin/css/vendor.css') }}"/>
-    <link rel="stylesheet" href="{{ public_mix('/assets/admin/css/admin.css') }}"/>
+    <link rel="stylesheet" href="{{ public_asset('/assets/admin/css/admin.css') }}"/>
 
     <style type="text/css">
     @yield('css')
