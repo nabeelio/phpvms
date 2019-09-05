@@ -29,7 +29,6 @@ class AirportService extends Service
         AirportLookupProvider $lookupProvider,
         AirportRepository $airportRepo,
         MetarProvider $metarProvider
-
     ) {
         $this->airportRepo = $airportRepo;
         $this->lookupProvider = $lookupProvider;
