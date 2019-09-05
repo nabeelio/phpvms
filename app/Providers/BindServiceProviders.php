@@ -5,6 +5,8 @@ namespace App\Providers;
 use App\Contracts\AirportLookup;
 use App\Contracts\Metar;
 use Illuminate\Support\ServiceProvider;
+use VaCentral\Contracts\IVaCentral;
+use VaCentral\VaCentral;
 
 class BindServiceProviders extends ServiceProvider
 {
@@ -24,6 +26,21 @@ class BindServiceProviders extends ServiceProvider
         $this->app->bind(
             AirportLookup::class,
             config('phpvms.airport_lookup')
+        );
+
+        $this->app->bind(
+            IVaCentral::class,
+            function ($app) {
+                $client = new VaCentral();
+                $client->setVaCentralUrl(config('vacentral.api_url'));
+
+                // Set API if exists
+                if (filled(config('vacentral.api_key'))) {
+                    $client->setApiKey(config('vacentral.api_key'));
+                }
+
+                return $client;
+            }
         );
     }
 }

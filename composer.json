@@ -37,7 +37,7 @@
         "league/iso3166": "2.1.*",
         "markrogoyski/math-php": "^0.38.0",
         "myclabs/deep-copy": "1.8.*",
-        "nabeel/vacentral": "1.*",
+        "nabeel/vacentral": "2.x",
         "nwidart/laravel-modules": "5.*",
         "php-units-of-measure/php-units-of-measure": "2.1.*",
         "pragmarx/version": "0.2.*",

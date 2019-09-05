@@ -14,7 +14,6 @@ use League\Geotools\Coordinate\Coordinate;
 use League\Geotools\Geotools;
 use PhpUnitsOfMeasure\Exception\NonNumericValue;
 use PhpUnitsOfMeasure\Exception\NonStringUnitName;
-use VaCentral\Airport;
 
 /**
  * Class AnalyticsService
@@ -29,7 +28,6 @@ class AirportService extends Service
         AirportLookupProvider $lookupProvider,
         AirportRepository $airportRepo,
         MetarProvider $metarProvider
-
     ) {
         $this->airportRepo = $airportRepo;
         $this->lookupProvider = $lookupProvider;
@@ -62,7 +60,7 @@ class AirportService extends Service
      *
      * @param string $icao ICAO
      *
-     * @return Airport|array
+     * @return mixed
      */
     public function lookupAirport($icao)
     {

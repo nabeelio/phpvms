@@ -12,5 +12,5 @@ return [
     /*
      * vaCentral API URL. You likely don't need to change this
      */
-    'api_url' => 'https://api.vacentral.net',
+    'api_url' => env('VACENTRAL_API_URL', 'https://api.vacentral.net'),
 ];
