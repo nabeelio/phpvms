@@ -7,14 +7,15 @@
     "watch-poll": "yarn run watch -- --watch-poll",
     "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
     "prod": "yarns run production",
-    "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
+    "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
   },
   "dependencies": {
     "@turf/center": "^6.0.1",
     "Leaflet.Geodesic": "git+https://git@github.com/henrythasler/Leaflet.Geodesic.git",
     "animate.css": "~3.6",
     "axios": "^0.18.1",
-    "bootstrap": "~3.4",
+    "bootstrap": "~4.3",
+    "bootstrap3": "npm:bootstrap@~3.4",
     "bootstrap-sass": "^3.4.1",
     "cookieconsent": "^3.1.0",
     "cross-env": "^5.1.6",
