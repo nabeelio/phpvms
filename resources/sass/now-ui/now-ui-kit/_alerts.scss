@@ -6,6 +6,11 @@
     padding-top: .9rem;
     padding-bottom: .9rem;
 
+    .alert-link{
+      color: $white-color;
+      opacity: .8;
+    }
+
     &.alert-success{
         background-color: $success-color-alert;
     }
@@ -49,5 +54,8 @@
         text-shadow: none;
         line-height: 0;
         outline: 0;
+        display: inline-block;
+        cursor: pointer;
+
     }
 }

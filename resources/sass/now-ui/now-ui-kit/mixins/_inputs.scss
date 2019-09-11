@@ -5,76 +5,42 @@
 @mixin form-control-placeholder($color, $opacity){
    .form-control::-moz-placeholder{
        color: $color;
-       @include opacity(1);
+       @include opacity($opacity);
    }
    .form-control:-moz-placeholder{
        color: $color;
-       @include opacity(1);
+       @include opacity($opacity);
    }
    .form-control::-webkit-input-placeholder{
        color: $color;
-       @include opacity(1);
+       @include opacity($opacity);
    }
    .form-control:-ms-input-placeholder{
        color: $color;
-       @include opacity(1);
+       @include opacity($opacity);
    }
 }
 
-@mixin light-form() {
+@mixin light-form(){
     border-radius: 0;
     border:0;
     padding: 0;
     background-color: transparent;
+
 }
 
-@mixin input-sm-padding($padding-vertical, $padding-horizontal) {
-    .form-group.form-group-no-border.input-sm,
-    .input-group.form-group-no-border.input-sm {
-        .input-group-addon {
-            padding: $padding-vertical 0 $padding-vertical $padding-horizontal;
-        }
-
-        .form-control {
-            padding: $padding-vertical $padding-horizontal;
-
-            & + .input-group-addon {
-                padding: $padding-vertical $padding-horizontal $padding-vertical 0;
-            }
-        }
-    }
-
-    .form-group.input-sm,
-    .input-group.input-sm {
-        .form-control {
-            padding: $padding-vertical - 1 $padding-horizontal - 1;
-
-            & + .input-group-addon {
-                padding: $padding-vertical - 1 $padding-horizontal - 1 $padding-vertical - 1 0;
-            }
-        }
-
-        .input-group-addon {
-            padding: $padding-vertical - 1 0 $padding-vertical $padding-horizontal - 1;
-
-            & + .form-control {
-                padding: $padding-vertical $padding-horizontal - 1 $padding-vertical $padding-horizontal - 3;
-            }
-        }
-    }
-}
 
 @mixin input-lg-padding($padding-vertical, $padding-horizontal) {
-    .form-group.form-group-no-border.input-lg,
-    .input-group.form-group-no-border.input-lg {
-        .input-group-addon{
+    .form-group.no-border.input-lg,
+    .input-group.no-border.input-lg{
+        .input-group-text{
             padding: $padding-vertical 0 $padding-vertical $padding-horizontal;
         }
 
         .form-control{
             padding: $padding-vertical $padding-horizontal;
 
-            & + .input-group-addon{
+            & + .input-group-text{
                 padding: $padding-vertical $padding-horizontal $padding-vertical 0;
             }
         }
@@ -85,12 +51,12 @@
         .form-control{
             padding: $padding-vertical - 1 $padding-horizontal - 1;
 
-            & + .input-group-addon{
+            & + .input-group-text{
                 padding: $padding-vertical - 1 $padding-horizontal - 1 $padding-vertical - 1 0;
             }
         }
 
-        .input-group-addon{
+        .input-group-text{
             padding: $padding-vertical - 1 0 $padding-vertical $padding-horizontal - 1;
 
             & + .form-control{
@@ -103,17 +69,17 @@
 
 
 @mixin input-base-padding($padding-vertical, $padding-horizontal) {
-    .form-group.form-group-no-border,
-    .input-group.form-group-no-border{
+    .form-group.no-border,
+    .input-group.no-border{
         .form-control{
             padding: $padding-vertical $padding-horizontal;
 
-            & + .input-group-addon{
+            & + .input-group-text{
                 padding: $padding-vertical $padding-horizontal $padding-vertical 0;
             }
         }
 
-        .input-group-addon{
+        .input-group-text{
             padding: $padding-vertical 0 $padding-vertical $padding-horizontal;
         }
     }
@@ -123,12 +89,12 @@
         .form-control{
             padding: $padding-vertical - 1 $padding-horizontal - 1 $padding-vertical - 1 $padding-horizontal - 1;
 
-            & + .input-group-addon{
+            & + .input-group-text{
                 padding: $padding-vertical - 1 $padding-horizontal - 1 $padding-vertical - 1 0;
             }
         }
 
-        .input-group-addon{
+        .input-group-text{
             padding: $padding-vertical - 1 0 $padding-vertical - 1 $padding-horizontal - 1;
 
             & + .form-control,
@@ -175,22 +141,22 @@
         }
     }
 
-    .input-group-addon{
+    .input-group-text{
         background-color: $color4;
         border-color: $color1;
         color: $color2;
     }
 
     .input-group-focus{
-        .input-group-addon{
+        .input-group-text{
             background-color: $color4;
             border-color: $color3;
             color: $color3;
         }
     }
 
-    .form-group.form-group-no-border,
-    .input-group.form-group-no-border{
+    .form-group.no-border,
+    .input-group.no-border{
         .form-control{
             background-color: $color5;
             color: $color2;
@@ -203,7 +169,7 @@
             }
         }
 
-        .form-control + .input-group-addon{
+        .form-control + .input-group-text{
             background-color: $color5;
 
             &:focus,
@@ -216,21 +182,21 @@
 
         .form-control{
             &:focus{
-                & + .input-group-addon{
+                & + .input-group-text{
                     background-color: $color6;
                     color: $color3;
                 }
             }
         }
 
-        .input-group-addon{
+        .input-group-text{
             background-color: $color5;
             border: none;
             color: $color2;
         }
 
         &.input-group-focus{
-            .input-group-addon{
+            .input-group-text{
                 background-color: $color6;
                 color: $color3;
             }

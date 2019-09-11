@@ -2,7 +2,19 @@
 @section('title', __('common.login'))
 
 @section('content')
-<div class="col-md-4 content-center">
+<div class="navbar-translate">
+    <a class="navbar-brand" href="https://demos.creative-tim.com/now-ui-kit/index.html" rel="tooltip"
+       title="Designed by Invision. Coded by Creative Tim" data-placement="bottom" target="_blank">
+        Now Ui Kit
+    </a>
+    <button class="navbar-toggler navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation"
+            aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-bar top-bar"></span>
+        <span class="navbar-toggler-bar middle-bar"></span>
+        <span class="navbar-toggler-bar bottom-bar"></span>
+    </button>
+</div>
+<div class="col-md-4 ml-auto mr-auto content-center">
     <div class="card card-login card-plain">
         {{ Form::open(['url' => url('/login'), 'method' => 'post']) }}
             <div class="header header-primary text-center">

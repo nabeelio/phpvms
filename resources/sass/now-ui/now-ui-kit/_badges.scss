@@ -8,7 +8,14 @@
     background-color: $transparent-bg;
     border: $border;
     margin-bottom: 5px;
+    color: $white-color;
     border-radius: $border-radius-extreme;
+
+    &:hover,
+    &:focus{
+      text-decoration: none;
+    }
+
 }
 .badge-icon{
     padding: 0.4em 0.55em;
@@ -36,4 +43,5 @@
 }
 .badge-neutral{
     @include badge-color($white-color);
+    color: inherit !important;
 }

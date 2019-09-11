@@ -2,19 +2,26 @@
 @mixin btn-styles($btn-color, $btn-states-color) {
     background-color: $btn-color;
 
+
+
     &:hover,
     &:focus,
-    &:active,
-    &.active,
-    &:active:focus,
+    &:not(:disabled):not(.disabled):active,
+    &:not(:disabled):not(.disabled).active,
+    &:not(:disabled):not(.disabled):active:focus,
+    &:not(:disabled):not(.disabled).active:focus,
     &:active:hover,
-    &.active:focus,
     &.active:hover,
-    .open > &.dropdown-toggle,
-    .open > &.dropdown-toggle:focus,
-    .open > &.dropdown-toggle:hover {
+    .show > &.dropdown-toggle,
+    .show > &.dropdown-toggle:focus,
+    .show > &.dropdown-toggle:hover {
         background-color: $btn-states-color;
         color: $white-color;
+        box-shadow: none;
+    }
+
+    &:hover{
+        box-shadow:  0 3px 8px 0 rgba(0,0,0, 0.17);
     }
 
     &.disabled,
@@ -32,14 +39,10 @@
         }
     }
 
-    &.focus,
-    &:focus{
-        box-shadow: none;
-    }
-
     // btn-neutral style
     @if $btn-color == $white-color{
         color: $primary-color;
+
 
         &.btn-danger{
             color: $danger-color;
@@ -47,7 +50,17 @@
             &:hover,
             &:focus,
             &:active{
-                color: $danger-states-color;
+                color: $danger-states-color !important;
+            }
+        }
+
+        &.btn-primary{
+            color: $primary-color;
+
+            &:hover,
+            &:focus,
+            &:active{
+                color: $primary-states-color !important;
             }
         }
 
@@ -57,7 +70,7 @@
             &:hover,
             &:focus,
             &:active{
-                color: $info-states-color;
+                color: $info-states-color !important;
             }
         }
 
@@ -67,7 +80,7 @@
             &:hover,
             &:focus,
             &:active{
-                color: $warning-states-color;
+                color: $warning-states-color !important;
             }
         }
 
@@ -77,7 +90,7 @@
             &:hover,
             &:focus,
             &:active{
-                color: $success-states-color;
+                color: $success-states-color !important;
             }
         }
 
@@ -87,26 +100,34 @@
             &:hover,
             &:focus,
             &:active{
-                color: $default-states-color;
+                color: $default-states-color !important;
             }
-        }
-
-        &.active,
-        &:active:focus,
-        &:active:hover,
-        &.active:focus,
-        &.active:hover,
-        .open > &.dropdown-toggle,
-        .open > &.dropdown-toggle:focus,
-        .open > &.dropdown-toggle:hover {
-            background-color: $white-color;
-            color: $primary-color;
         }
 
         &:hover,
         &:focus,
-        &:active{
+        &:not(:disabled):not(.disabled):active,
+        &:not(:disabled):not(.disabled).active,
+        &:not(:disabled):not(.disabled):active:focus,
+        &:not(:disabled):not(.disabled).active:focus,
+        &:active:hover,
+        &.active:hover,
+        .show > &.dropdown-toggle,
+        .show > &.dropdown-toggle:focus,
+        .show > &.dropdown-toggle:hover {
+            background-color: $white-color;
             color: $primary-states-color;
+            box-shadow: none;
+        }
+
+        &:hover,
+        &:focus{
+            color: $primary-states-color !important;
+
+            &:not(.nav-link){
+                box-shadow: none;
+            }
+
         }
 
     } @else {
@@ -119,10 +140,19 @@
 
         &:hover,
         &:focus,
-        &:active{
+        &:not(:disabled):not(.disabled):active,
+        &:not(:disabled):not(.disabled).active,
+        &:not(:disabled):not(.disabled):active:focus,
+        &:not(:disabled):not(.disabled).active:focus,
+        &:active:hover,
+        &.active:hover,
+        .show > &.dropdown-toggle,
+        .show > &.dropdown-toggle:focus,
+        .show > &.dropdown-toggle:hover{
             background-color: $transparent-bg;
             color: $btn-states-color;
             border-color: $btn-states-color;
+            box-shadow: none;
         }
     }
 
@@ -131,12 +161,43 @@
 
         &:hover,
         &:focus,
-        &:active{
+        &:not(:disabled):not(.disabled):active,
+        &:not(:disabled):not(.disabled).active,
+        &:not(:disabled):not(.disabled):active:focus,
+        &:not(:disabled):not(.disabled).active:focus,
+        &:active:hover,
+        &.active:hover,
+        .show > &.dropdown-toggle,
+        .show > &.dropdown-toggle:focus,
+        .show > &.dropdown-toggle:hover{
             background-color: $transparent-bg;
             color: $btn-states-color;
             text-decoration: none;
+            box-shadow: none;
         }
     }
+}
+
+@mixin outline-buttons($btn-color, $btn-states-color) {
+  color: $btn-color;
+  border-color: $btn-color;
+
+  &:hover,
+  &:focus,
+  &:not(:disabled):not(.disabled):active,
+  &:not(:disabled):not(.disabled).active,
+  &:not(:disabled):not(.disabled):active:focus,
+  &:not(:disabled):not(.disabled).active:focus,
+  &:active:hover,
+  &.active:hover,
+  .show > &.dropdown-toggle,
+  .show > &.dropdown-toggle:focus,
+  .show > &.dropdown-toggle:hover {
+      background-color: $transparent-bg;
+      color: $btn-states-color;
+      border-color: $btn-states-color;
+      box-shadow: none;
+  }
 }
 
 
@@ -145,8 +206,8 @@
    border-radius: $border;
    padding: $padding-vertical $padding-horizontal;
 
-   &.btn-simple{
-       padding: $padding-vertical - 1 $padding-horizontal - 1;
+   &[class*="btn-outline-"] {
+    padding: $padding-vertical - 1 $padding-horizontal - 1;
    }
 
 }

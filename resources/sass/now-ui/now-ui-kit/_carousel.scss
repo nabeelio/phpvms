@@ -8,8 +8,12 @@
 .carousel{
     .carousel-inner{
         box-shadow: $box-shadow-raised;
+        border-radius: $border-radius-small;
     }
-    .now-ui-icons{
-        font-size: 2em;
+
+    .card {
+        max-width: 650px;
+        margin: 60px auto;
+        display: block;
     }
 }

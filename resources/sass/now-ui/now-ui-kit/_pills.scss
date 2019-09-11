@@ -1,16 +1,37 @@
 .nav-pills{
 
+    &.nav-pills-just-icons{
+      .nav-item .nav-link{
+        text-align: center;
+        border-radius: 50%;
+        height: 80px;
+        width: 80px;
+        padding: 0;
+        max-width: 80px;
+        min-width: auto;
+        margin-bottom: 4px;
+
+        i{
+          line-height: 80px;
+        }
+      }
+    }
+
+    &:not(.flex-column) .nav-item {
+        &:not(:last-child) .nav-link{
+            margin-right: 19px;
+        }
+    }
+
     .nav-item {
         .nav-link{
-            padding: 0 15.5px;
-            text-align: center;
-            height: 60px;
-            width: 60px;
-            font-weight: $font-weight-normal;
-            color: $dark-gray;
-            margin-right: 19px;
-            background-color: $opacity-gray-3;
-            border-radius: $btn-round-radius;
+          padding: $padding-btn-vertical - 1 $padding-round-horizontal;
+          background-color: $opacity-gray-3;
+          min-width: 100px;
+          font-weight: $font-weight-normal;
+          text-align: center;
+          color: $light-black;
+
 
             &:hover{
                 background-color: $opacity-gray-3;
@@ -35,8 +56,8 @@
 
         i{
             display: block;
-            font-size: 20px;
             line-height: 60px;
+            font-size: 24px;
         }
     }
 
