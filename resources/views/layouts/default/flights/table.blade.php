@@ -1,6 +1,6 @@
 @foreach($flights as $flight)
 <div class="card border-blue-bottom">
-    <div class="card-block" style="min-height: 0">
+    <div class="card-body" style="min-height: 0">
         <div class="row">
             <div class="col-sm-9">
                 <h5>
