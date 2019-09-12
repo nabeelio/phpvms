@@ -8,6 +8,7 @@ use App\Http\Resources\AirportDistance as AirportDistanceResource;
 use App\Repositories\AirportRepository;
 use App\Services\AirportService;
 use Illuminate\Http\Request;
+use Prettus\Repository\Criteria\RequestCriteria;
 
 /**
  * Class AirportController
@@ -44,6 +45,8 @@ class AirportController extends Controller
         if ($request->filled('hub')) {
             $where['hub'] = $request->get('hub');
         }
+
+        $this->airportRepo->pushCriteria(new RequestCriteria($request));
 
         $airports = $this->airportRepo
             ->whereOrder($where, 'icao', 'asc')

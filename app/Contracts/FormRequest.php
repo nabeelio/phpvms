@@ -7,8 +7,6 @@ namespace App\Contracts;
  */
 class FormRequest extends \Illuminate\Foundation\Http\FormRequest
 {
-    protected $sanitizer;
-
     /**
      * @return bool
      */
