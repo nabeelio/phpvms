@@ -5,8 +5,6 @@ namespace App\Models;
 use App\Contracts\Model;
 
 /**
- * Class PirepField
- *
  * @property string name
  * @property string slug
  */

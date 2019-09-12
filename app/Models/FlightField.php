@@ -13,7 +13,8 @@ use App\Contracts\Model;
 class FlightField extends Model
 {
     public $table = 'flight_fields';
-    public $timestamps = false;
+
+    protected $timestamps = false;
 
     protected $fillable = [
         'name',

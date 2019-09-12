@@ -4,9 +4,6 @@ namespace App\Models;
 
 use App\Contracts\Model;
 
-/**
- * Class UserAward
- */
 class UserAward extends Model
 {
     public $table = 'user_awards';

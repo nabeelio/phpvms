@@ -13,8 +13,6 @@ use Carbon\Carbon;
 use Illuminate\Support\Collection;
 
 /**
- * Class Pirep
- *
  * @property string      id
  * @property string      flight_number
  * @property string      route_code
@@ -57,7 +55,9 @@ class Pirep extends Model
     use HashIdTrait;
 
     public $table = 'pireps';
-    public $incrementing = false;
+
+    protected $keyType = 'string';
+    protected $incrementing = false;
 
     /** The form wants this */
     public $hours;

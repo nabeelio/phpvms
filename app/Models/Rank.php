@@ -5,8 +5,6 @@ namespace App\Models;
 use App\Contracts\Model;
 
 /**
- * Class Rank
- *
  * @property string name
  * @property int    hours
  * @property float  manual_base_pay_rate

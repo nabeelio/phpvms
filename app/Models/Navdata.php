@@ -4,15 +4,13 @@ namespace App\Models;
 
 use App\Contracts\Model;
 
-/**
- * Class Navdata
- */
 class Navdata extends Model
 {
     public $table = 'navdata';
 
-    public $timestamps = false;
-    public $incrementing = false;
+    protected $keyType = 'string';
+    protected $timestamps = false;
+    protected $incrementing = false;
 
     protected $fillable = [
         'id',

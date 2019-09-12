@@ -38,11 +38,13 @@ class Flight extends Model
     use HashIdTrait;
 
     public $table = 'flights';
-    public $incrementing = false;
 
     /** The form wants this */
     public $hours;
     public $minutes;
+
+    protected $keyType = 'string';
+    protected $incrementing = false;
 
     protected $fillable = [
         'id',

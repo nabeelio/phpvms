@@ -30,8 +30,10 @@ class Airport extends Model
     use FilesTrait;
 
     public $table = 'airports';
-    public $timestamps = false;
-    public $incrementing = false;
+
+    protected $keyType = 'string';
+    protected $incrementing = false;
+    protected $timestamps = false;
 
     protected $fillable = [
         'id',

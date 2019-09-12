@@ -23,8 +23,10 @@ class File extends Model
     use HashIdTrait;
     use ReferenceTrait;
 
-    protected $table = 'files';
-    public $incrementing = false;
+    public $table = 'files';
+
+    protected $keyType = 'string';
+    protected $incrementing = false;
 
     protected $fillable = [
         'name',
