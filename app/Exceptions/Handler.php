@@ -9,6 +9,7 @@ use App\Exceptions\Converters\ValidationException;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Request;
@@ -19,6 +20,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException as SymfonyHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Whoops\Handler\HandlerInterface;
 
 /**
  * Class Handler
@@ -132,5 +134,17 @@ class Handler extends ExceptionHandler
         }
 
         return $this->convertExceptionToResponse($e);
+    }
+
+    /**
+     * Ignition error page integration
+     */
+    protected function whoopsHandler()
+    {
+        try {
+            return app(HandlerInterface::class);
+        } catch (BindingResolutionException $e) {
+            return parent::whoopsHandler();
+        }
     }
 }
