@@ -86,6 +86,7 @@ return [
 
     // Overrides config/logging.php
     'logging' => [
+        'default'  => 'stack',
         'channels' => [
             'single' => ['level' => 'debug'],
             'daily' => ['level' => 'debug'],

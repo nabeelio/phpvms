@@ -2,7 +2,7 @@
 
 namespace App\Console;
 
-use Log;
+use Illuminate\Support\Facades\Log;
 use Symfony\Component\Process\Process;
 
 /**
@@ -10,6 +10,16 @@ use Symfony\Component\Process\Process;
  */
 abstract class Command extends \Illuminate\Console\Command
 {
+    public function __construct()
+    {
+        parent::__construct();
+
+        // Running in the console but not in the tests
+        if (app()->runningInConsole() && env('APP_ENV') !== 'testing') {
+            $this->redirectLoggingToFile('stdout');
+        }
+    }
+
     /**
      * @return mixed
      */

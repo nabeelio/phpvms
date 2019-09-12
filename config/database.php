@@ -32,9 +32,9 @@ return [
             'timezone' => '+00:00',
             'prefix'   => '',
         ],
-        'unittest' => [
+        'testing' => [
             'driver'   => 'sqlite',
-            'database' => storage_path('unittest.sqlite'),
+            'database' => storage_path('testing.sqlite'),
             'timezone' => '+00:00',
             'prefix'   => '',
         ],

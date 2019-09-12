@@ -14,6 +14,9 @@
             <directory suffix="Test.php">./tests</directory>
         </testsuite>
     </testsuites>
+    <extensions>
+        <extension class="Tests\Bootstrap"/>
+    </extensions>
     <listeners>
         <listener class="NunoMaduro\Collision\Adapters\Phpunit\Listener"/>
     </listeners>
@@ -23,16 +26,21 @@
         </whitelist>
     </filter>
     <php>
-        <env name="APP_ENV" value="unittest"/>
-        <env name="APP_KEY" value="base64:ve66Z5Kt/zTN3p++0zOPu854PHfZkwJE5VuoFAlzHtI="/>
-        <env name="APP_DEBUG" value="true"/>
-        <env name="APP_LOG_LEVEL" value="error"/>
-        <env name="DB_CONNECTION" value="memory"/>
-        <env name="CACHE_DRIVER" value="array"/>
-        <env name="SESSION_DRIVER" value="array"/>
-        <env name="QUEUE_DRIVER" value="sync"/>
         <ini name="error_reporting" value="E_ALL" />
         <ini name="display_errors" value="On" />
         <ini name="display_startup_errors" value="On" />
+        <server name="APP_ENV" value="testing"/>
+        <server name="APP_KEY" value="base64:ve66Z5Kt/zTN3p++0zOPu854PHfZkwJE5VuoFAlzHtI="/>
+        <server name="APP_DEBUG" value="true"/>
+        <server name="APP_LOG_LEVEL" value="error"/>
+        <server name="DB_CONNECTION" value="memory"/>
+        <server name="CACHE_DRIVER" value="array"/>
+        <server name="SESSION_DRIVER" value="array"/>
+        <server name="QUEUE_DRIVER" value="sync"/>
+        <server name="APP_CONFIG_CACHE" value="bootstrap/cache/config.phpunit.php"/>
+        <server name="APP_SERVICES_CACHE" value="bootstrap/cache/services.phpunit.php"/>
+        <server name="APP_PACKAGES_CACHE" value="bootstrap/cache/packages.phpunit.php"/>
+        <server name="APP_ROUTES_CACHE" value="bootstrap/cache/routes.phpunit.php"/>
+        <server name="APP_EVENTS_CACHE" value="bootstrap/cache/events.phpunit.php"/>
     </php>
 </phpunit>

@@ -6,9 +6,6 @@ use App\Console\Command;
 use App\Services\VersionService;
 use Symfony\Component\Yaml\Yaml;
 
-/**
- * Class Version
- */
 class Version extends Command
 {
     protected $signature = 'phpvms:version {--write} {--base-only}';
@@ -19,7 +16,6 @@ class Version extends Command
     {
         parent::__construct();
 
-        $this->redirectLoggingToFile('stdout');
         $this->versionSvc = $versionSvc;
     }
 

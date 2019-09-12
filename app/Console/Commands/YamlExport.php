@@ -14,13 +14,6 @@ class YamlExport extends Command
     protected $signature = 'phpvms:yaml-export {tables*}';
     protected $description = 'YAML table export';
 
-    public function __construct()
-    {
-        parent::__construct();
-
-        $this->redirectLoggingToFile('stdout');
-    }
-
     /**
      * Run dev related commands
      */
