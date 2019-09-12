@@ -114,13 +114,24 @@
   font-weight: $font-weight-light;
   font-size: $font-size-base;
   border: none;
-  z-index: -1;
+   z-index: 1;
   position: relative;
   cursor: pointer;
 }
 
 .datepicker th{
     color: $primary-color;
+}
+
+.table-condensed > tbody > tr > td,
+.table-condensed > tbody > tr > th,
+.table-condensed > tfoot > tr > td,
+.table-condensed > tfoot > tr > th,
+.table-condensed > thead > tr > td,
+.table-condensed > thead > tr > th{
+    padding: 2px;
+    text-align: center;
+    cursor: pointer;
 }
 
 .table-striped .datepicker table tr td,
@@ -507,4 +518,9 @@
   border: 1px solid #ccc;
   margin-left: -5px;
   margin-right: -5px;
+}
+
+.table-condensed>tbody>tr>td, .table-condensed>tbody>tr>th, .table-condensed>tfoot>tr>td, .table-condensed>tfoot>tr>th, .table-condensed>thead>tr>td, .table-condensed>thead>tr>th{
+     position: relative;
+     z-index: -1;
 }

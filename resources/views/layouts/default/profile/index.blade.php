@@ -11,47 +11,77 @@
                 <img src="{{ $user->avatar->url }}" style="width: 123px;">
             @endif
         </div>
-        <h3 class="title">{{ $user->name }}</h3>
-        <h6><span class="flag-icon flag-icon-{{ $user->country }}"></span></h6>
-        <h6>{{ $user->ident }}</h6>
-        <h6>{{ $user->rank->name }}</h6>
+        <div><br /></div>
+        <div class="social-description">
+            <h2>{{ $user->name }}</h2>
+            <p>{{ $user->ident }}</p>
+        </div>
         <p class="description" style="color: #9A9A9A;">
             {{ $user->airline->name }}
         </p>
+        <h6><span class="flag-icon flag-icon-{{ $user->country }}"></span></h6>
+        <div class="social-description">
+            <h2>{{ $user->rank->name }}</h2>
+            <p>Rank</p>
+        </div>
+        @if($user->home_airport)
+            <div class="social-description">
+                <h2>{{ $user->home_airport->icao }}</h2>
+                <p>@lang('airports.home')</p>
+            </div>
+        @endif
     </div>
     <div class="col-md-8  content-center">
         <div class="content">
-            <div class="social-description">
-                <h2>{{ $user->flights}}</h2>
-                <p>{{ trans_choice('common.flight', $user->flights) }}</p>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h2 class="card-title">{{ $user->flights}}</h2>
+                            <p class="card-text">Flights</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <div class="social-description">
+                                <h2>{{ \App\Facades\Utils::minutesToTimeString($user->flight_time, false) }}</h2>
+                                <p>@lang('flights.flighthours')</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+            <div class="row">
+                @if($user->current_airport)
+                    <div class="col-lg-6">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                    <div class="social-description">
+                                        <h2>{{ $user->current_airport->icao }}</h2>
+                                        <p>@lang('airports.current')</p>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                @endif
 
-            <div class="social-description">
-                <h2>{{ \App\Facades\Utils::minutesToTimeString($user->flight_time, false) }}</h2>
-                <p>@lang('flights.flighthours')</p>
+
+                @if(setting('pilots.allow_transfer_hours') === true)
+                    <div class="col-lg-6">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <div class="social-description">
+                                    <h2>{{ \App\Facades\Utils::minutesToHours($user->transfer_time) }}h</h2>
+                                    <p>@lang('profile.transferhours')</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endif
             </div>
-
-            @if($user->home_airport)
-                <div class="social-description">
-                    <h2>{{ $user->home_airport->icao }}</h2>
-                    <p>@lang('airports.home')</p>
-                </div>
-            @endif
-
-            @if($user->current_airport)
-                <div class="social-description">
-                    <h2>{{ $user->current_airport->icao }}</h2>
-                    <p>@lang('airports.current')</p>
-                </div>
-            @endif
-
-            @if(setting('pilots.allow_transfer_hours') === true)
-                <div class="social-description">
-                    <h2>{{ \App\Facades\Utils::minutesToHours($user->transfer_time) }}h</h2>
-                    <p>@lang('profile.transferhours')</p>
-                </div>
-            @endif
-
         </div>
     </div>
 </div>

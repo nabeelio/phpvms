@@ -1,4 +1,4 @@
-<ul class="navbar-nav">
+<ul class="navbar-nav align-middle">
     @if(Auth::check())
         <li class="nav-item">
             <a class="nav-link" href="{{ route('frontend.dashboard.index') }}">
@@ -47,7 +47,6 @@
         </li>
 
     @else
-
         <li class="nav-item">
             <a class="nav-link" href="{{ route('frontend.flights.index') }}">
                 <i class="fab fa-avianex"></i>
@@ -61,26 +60,11 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('frontend.profile.index') }}">
-                <i class="far fa-user"></i>
-                <p>@lang('common.profile')</p>
+            <a class="nav-link" href="{{ route('frontend.downloads.index') }}">
+                <i class="fas fa-download"></i>
+                <p>{{ trans_choice('common.download', 2) }}</p>
             </a>
         </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('frontend.downloads.index') }}">
-                    <i class="fas fa-download"></i>
-                    <p>{{ trans_choice('common.download', 2) }}</p>
-                </a>
-            </li>
-
-        @role('admin')
-        <li class="nav-item">
-            <a class="nav-link" href="{{ url('/admin') }}">
-                <i class="fas fa-circle-notch"></i>
-                <p>@lang('common.administration')</p>
-            </a>
-        </li>
-        @endrole
 
         {{-- Show the module links for being logged in --}}
         @foreach($moduleSvc->getFrontendLinks($logged_in=true) as &$link)
@@ -92,11 +76,32 @@
             </li>
         @endforeach
 
-        <li class="nav-item">
-            <a class="nav-link" href="{{ url('/logout') }}">
-                <i class="fas fa-sign-out-alt"></i>
-                <p>@lang('common.logout')</p>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                @if (Auth::user()->avatar == null)
+                    <img src="{{ Auth::user()->gravatar(38) }}" style=" height: 38px; width: 38px;">
+                @else
+                    <img src="{{ Auth::user()->avatar->url }}" style="height: 38px; width: 38px;">
+                @endif
             </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+
+                <a class="dropdown-item" href="{{ route('frontend.profile.index') }}">
+                    <i class="far fa-user"></i>&nbsp;&nbsp;@lang('common.profile')
+                </a>
+
+                @role('admin')
+                <a class="dropdown-item" href="{{ url('/admin') }}">
+                    <i class="fas fa-circle-notch"></i>&nbsp;&nbsp;@lang('common.administration')
+                </a>
+                @endrole
+
+                <a class="dropdown-item" href="{{ url('/logout') }}">
+                    <i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;@lang('common.logout')
+                </a>
+            </div>
         </li>
     @endif
+
 </ul>

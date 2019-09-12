@@ -33,16 +33,9 @@
 </head>
 <body>
 <!-- Navbar -->
-<nav class="navbar navbar-toggleable-md" style="background: #067ec1;">
+<nav class="navbar navbar-expand-lg " style="background: #067ec1;">
     <div class="container" style="width: 85%!important;">
         <div class="navbar-translate">
-            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
-                    data-target="#navigation" aria-controls="navigation-index" aria-expanded="false"
-                    aria-label="Toggle navigation">
-                <span class="navbar-toggler-bar bar1"></span>
-                <span class="navbar-toggler-bar bar2"></span>
-                <span class="navbar-toggler-bar bar3"></span>
-            </button>
             <p class="navbar-brand text-white" data-placement="bottom" target="_blank">
                 <a href="{{ url('/') }}">
                     <img src="{{ public_asset('/assets/img/logo_blue_bg.svg') }}" width="135px" style=""/>
@@ -85,6 +78,7 @@
 
 {{-- Start of the required tags block. Don't remove these or things will break!! --}}
 <script src="{{ public_mix('/assets/global/js/vendor.js') }}"></script>
+<script src="{{ public_mix('/assets/frontend/js/vendor.js') }}"></script>
 <script src="{{ public_mix('/assets/frontend/js/app.js') }}"></script>
 @yield('scripts')
 

@@ -12,8 +12,7 @@ Created using IcoMoon - icomoon.io
   src: url('../fonts/nucleo-outline.eot') format('embedded-opentype'),
   url('../fonts/nucleo-outline.woff2') format('woff2'),
   url('../fonts/nucleo-outline.woff') format('woff'),
-  url('../fonts/nucleo-outline.ttf') format('truetype'),
-  url('../fonts/nucleo-outline.svg') format('svg');
+  url('../fonts/nucleo-outline.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
@@ -531,4 +530,27 @@ Created using IcoMoon - icomoon.io
 
 .now-ui-icons.users_single-02:before {
   content: "\ea51";
+}
+
+.all-icons .font-icon-detail {
+    text-align: center;
+    padding: 45px 0px 30px;
+    border: 1px solid #e5e5e5;
+    border-radius: 0.1875rem;
+    margin: 15px 0;
+    min-height: 168px;
+}
+
+.all-icons [class*="now-ui-icons"] {
+    font-size: 32px;
+}
+
+.all-icons .font-icon-detail p {
+    margin: 25px auto 0;
+    width: 100%;
+    text-align: center;
+    display: block;
+    color: #B8B8B8;
+    padding:0 10px;
+    font-size: 0.7142em;
 }
