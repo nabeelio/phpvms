@@ -7,11 +7,10 @@ use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Routing\Middleware\ThrottleRequests;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Mail;
 use Tests\TestData;
 
-/**
- * Class TestCase
- */
 class TestCase extends Illuminate\Foundation\Testing\TestCase
 {
     use TestData;
@@ -44,6 +43,8 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
         $this->withoutMiddleware(
             ThrottleRequests::class
         );
+
+        Mail::fake();
 
         Artisan::call('database:create', ['--reset' => true]);
         Artisan::call('migrate:refresh', ['--env' => 'unittest']);

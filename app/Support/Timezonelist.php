@@ -21,7 +21,6 @@
 
 namespace App\Support;
 
-use DateTime;
 use DateTimeZone;
 
 /**
@@ -38,6 +37,7 @@ class Timezonelist
     const WHITESPACE_SEP = '&nbsp;&nbsp;&nbsp;&nbsp;';
     /**
      * Popular timezones
+     *
      * @var array
      */
     protected $popularTimezones = [
@@ -46,6 +46,7 @@ class Timezonelist
     ];
     /**
      * All continents of the world
+     *
      * @var array
      */
     protected $continents = [
@@ -58,7 +59,7 @@ class Timezonelist
         'Australia'  => DateTimeZone::AUSTRALIA,
         'Europe'     => DateTimeZone::EUROPE,
         'Indian'     => DateTimeZone::INDIAN,
-        'Pacific'    => DateTimeZone::PACIFIC
+        'Pacific'    => DateTimeZone::PACIFIC,
     ];
 
     /**
