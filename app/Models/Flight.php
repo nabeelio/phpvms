@@ -44,7 +44,7 @@ class Flight extends Model
     public $minutes;
 
     protected $keyType = 'string';
-    protected $incrementing = false;
+    public $incrementing = false;
 
     protected $fillable = [
         'id',

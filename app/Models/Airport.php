@@ -32,8 +32,8 @@ class Airport extends Model
     public $table = 'airports';
 
     protected $keyType = 'string';
-    protected $incrementing = false;
-    protected $timestamps = false;
+    public $incrementing = false;
+    public $timestamps = false;
 
     protected $fillable = [
         'id',

@@ -26,7 +26,7 @@ class File extends Model
     public $table = 'files';
 
     protected $keyType = 'string';
-    protected $incrementing = false;
+    public $incrementing = false;
 
     protected $fillable = [
         'name',

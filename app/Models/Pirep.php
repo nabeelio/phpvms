@@ -57,7 +57,7 @@ class Pirep extends Model
     public $table = 'pireps';
 
     protected $keyType = 'string';
-    protected $incrementing = false;
+    public $incrementing = false;
 
     /** The form wants this */
     public $hours;

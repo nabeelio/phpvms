@@ -19,7 +19,7 @@ class Setting extends Model
     public $table = 'settings';
 
     protected $keyType = 'string';
-    protected $incrementing = false;
+    public $incrementing = false;
 
     protected $fillable = [
         'name',

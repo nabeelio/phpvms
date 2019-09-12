@@ -9,8 +9,8 @@ class Navdata extends Model
     public $table = 'navdata';
 
     protected $keyType = 'string';
-    protected $timestamps = false;
-    protected $incrementing = false;
+    public $timestamps = false;
+    public $incrementing = false;
 
     protected $fillable = [
         'id',

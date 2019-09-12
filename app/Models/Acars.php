@@ -30,7 +30,7 @@ class Acars extends Model
     public $table = 'acars';
 
     protected $keyType = 'string';
-    protected $incrementing = false;
+    public $incrementing = false;
 
     public $fillable = [
         'id',
