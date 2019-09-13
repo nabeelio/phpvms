@@ -3,7 +3,6 @@
 namespace Modules\Sample\Providers;
 
 use App\Services\ModuleService;
-use Illuminate\Database\Eloquent\Factory;
 use Illuminate\Support\ServiceProvider;
 use Route;
 
