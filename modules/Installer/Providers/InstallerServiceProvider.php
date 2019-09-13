@@ -23,7 +23,6 @@ class InstallerServiceProvider extends ServiceProvider
         $this->registerConfig();
         $this->registerViews();
 
-        $this->registerFactories();
         $this->loadMigrationsFrom(__DIR__.'/../Database/migrations');
     }
 
@@ -100,18 +99,6 @@ class InstallerServiceProvider extends ServiceProvider
         } else {
             $this->loadTranslationsFrom(__DIR__.'/../Resources/lang', 'installer');
         }
-    }
-
-    /**
-     * Register an additional directory of factories.
-     *
-     * @source https://github.com/sebastiaanluca/laravel-resource-flow/blob/develop/src/Modules/ModuleServiceProvider.php#L66
-     */
-    public function registerFactories()
-    {
-        /*if (!app()->environment('production')) {
-            app(Factory::class)->load(__DIR__.'/../Database/factories');
-        }*/
     }
 
     /**
