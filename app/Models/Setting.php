@@ -5,8 +5,6 @@ namespace App\Models;
 use App\Contracts\Model;
 
 /**
- * Class Setting
- *
  * @property string id
  * @property string name
  * @property string key
@@ -19,6 +17,8 @@ use App\Contracts\Model;
 class Setting extends Model
 {
     public $table = 'settings';
+
+    protected $keyType = 'string';
     public $incrementing = false;
 
     protected $fillable = [

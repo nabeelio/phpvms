@@ -28,6 +28,8 @@ class Acars extends Model
     use HashIdTrait;
 
     public $table = 'acars';
+
+    protected $keyType = 'string';
     public $incrementing = false;
 
     public $fillable = [

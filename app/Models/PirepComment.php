@@ -5,8 +5,6 @@ namespace App\Models;
 use App\Contracts\Model;
 
 /**
- * Class PirepComment
- *
  * @property string pirep_id
  * @property int user_id
  */

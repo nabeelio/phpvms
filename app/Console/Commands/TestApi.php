@@ -5,19 +5,10 @@ namespace App\Console\Commands;
 use App\Console\Command;
 use GuzzleHttp\Client;
 
-/**
- * Class TestApi
- */
 class TestApi extends Command
 {
     protected $signature = 'phpvms:test-api {apikey} {url}';
     protected $httpClient;
-
-    public function __construct()
-    {
-        parent::__construct();
-        $this->redirectLoggingToFile('stdout');
-    }
 
     /**
      * Run dev related commands

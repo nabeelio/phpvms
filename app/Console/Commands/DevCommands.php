@@ -19,9 +19,6 @@ use Illuminate\Support\Facades\Schema;
 use PDO;
 use Symfony\Component\Yaml\Yaml;
 
-/**
- * Class DevCommands
- */
 class DevCommands extends Command
 {
     protected $signature = 'phpvms {cmd} {param?}';
@@ -37,7 +34,6 @@ class DevCommands extends Command
     {
         parent::__construct();
 
-        $this->redirectLoggingToFile('stdout');
         $this->dbSvc = $dbSvc;
     }
 

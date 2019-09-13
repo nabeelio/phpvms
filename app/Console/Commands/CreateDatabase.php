@@ -3,12 +3,9 @@
 namespace App\Console\Commands;
 
 use App\Console\Command;
-use Log;
+use Illuminate\Support\Facades\Log;
 use Tivie\OS\Detector;
 
-/**
- * Class CreateDatabase
- */
 class CreateDatabase extends Command
 {
     protected $signature = 'database:create {--reset} {--conn=?}';
@@ -21,8 +18,6 @@ class CreateDatabase extends Command
     public function __construct()
     {
         parent::__construct();
-
-        $this->redirectLoggingToFile('stdout');
         $this->os = new Detector();
     }
 

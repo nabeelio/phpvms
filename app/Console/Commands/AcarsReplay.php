@@ -7,9 +7,6 @@ use App\Facades\Utils;
 use GuzzleHttp\Client;
 use Illuminate\Database\Eloquent\Collection;
 
-/**
- * Class AcarsReplay
- */
 class AcarsReplay extends Command
 {
     protected $signature = 'phpvms:replay {files} {--manual} {--write-all} {--no-submit}';
@@ -46,8 +43,6 @@ class AcarsReplay extends Command
     public function __construct()
     {
         parent::__construct();
-
-        $this->redirectLoggingToFile('stdout');
 
         $this->httpClient = new Client([
             'base_uri' => config('app.url'),

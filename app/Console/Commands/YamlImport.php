@@ -24,7 +24,6 @@ class YamlImport extends Command
         parent::__construct();
 
         $this->dbSvc = $dbSvc;
-        $this->redirectLoggingToFile('stdout');
     }
 
     /**

@@ -2,10 +2,10 @@
 
 namespace App\Providers;
 
-use App\Support\TimezonelistExtended;
+use App\Support\Timezonelist;
 use Illuminate\Support\ServiceProvider;
 
-class ExtendedTimezonelistProvider extends ServiceProvider
+class TimezonelistProvider extends ServiceProvider
 {
     /**
      * Bootstrap services.
@@ -24,7 +24,7 @@ class ExtendedTimezonelistProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton('timezonelist', function ($app) {
-            return new TimezonelistExtended();
+            return new Timezonelist();
         });
     }
 }

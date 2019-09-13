@@ -5,9 +5,6 @@ namespace App\Console\Commands;
 use App\Console\Command;
 use App\Services\ImportService;
 
-/**
- * Class ImportCsv
- */
 class ImportCsv extends Command
 {
     protected $signature = 'phpvms:csv-import {type} {file}';
@@ -24,7 +21,6 @@ class ImportCsv extends Command
     {
         parent::__construct();
 
-        $this->redirectLoggingToFile('stdout');
         $this->importer = $importer;
     }
 

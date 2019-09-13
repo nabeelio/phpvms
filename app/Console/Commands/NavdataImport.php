@@ -6,20 +6,10 @@ use App\Console\Command;
 use App\Models\Enums\NavaidType;
 use App\Models\Navdata;
 
-/**
- * Class NavdataImport
- */
 class NavdataImport extends Command
 {
     protected $signature = 'phpvms:navdata';
     protected $description = '';
-
-    public function __construct()
-    {
-        parent::__construct();
-
-        $this->redirectLoggingToFile('stdout');
-    }
 
     /**
      * @throws \League\Geotools\Exception\InvalidArgumentException

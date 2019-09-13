@@ -4,9 +4,6 @@ namespace App\Models;
 
 use App\Contracts\Model;
 
-/**
- * Class News
- */
 class News extends Model
 {
     public $table = 'news';
