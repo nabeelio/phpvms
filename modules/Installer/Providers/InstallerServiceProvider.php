@@ -3,7 +3,6 @@
 namespace Modules\Installer\Providers;
 
 use App\Services\ModuleService;
-use Illuminate\Database\Eloquent\Factory;
 use Illuminate\Support\ServiceProvider;
 use Route;
 
@@ -23,7 +22,6 @@ class InstallerServiceProvider extends ServiceProvider
         $this->registerConfig();
         $this->registerViews();
 
-        $this->registerFactories();
         $this->loadMigrationsFrom(__DIR__.'/../Database/migrations');
     }
 
@@ -99,18 +97,6 @@ class InstallerServiceProvider extends ServiceProvider
             $this->loadTranslationsFrom($langPath, 'installer');
         } else {
             $this->loadTranslationsFrom(__DIR__.'/../Resources/lang', 'installer');
-        }
-    }
-
-    /**
-     * Register an additional directory of factories.
-     *
-     * @source https://github.com/sebastiaanluca/laravel-resource-flow/blob/develop/src/Modules/ModuleServiceProvider.php#L66
-     */
-    public function registerFactories()
-    {
-        if (!app()->environment('production')) {
-            app(Factory::class)->load(__DIR__.'/../Database/factories');
         }
     }
 

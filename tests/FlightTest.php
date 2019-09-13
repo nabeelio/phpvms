@@ -165,12 +165,12 @@ class FlightTest extends TestCase
             'airline_id' => $this->user->airline_id,
         ]);
 
-        $res = $this->get('/api/flights');
+        $res = $this->get('/api/flights?limit=10');
 
         $body = $res->json();
         $this->assertEquals(2, $body['meta']['last_page']);
 
-        $res = $this->get('/api/flights?page=2');
+        $res = $this->get('/api/flights?page=2&limit=5');
         $res->assertJsonCount(5, 'data');
     }
 

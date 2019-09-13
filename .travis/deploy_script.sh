@@ -66,6 +66,7 @@ if [ "$TRAVIS" = "true" ]; then
         .php_cs.cache
         .phpstorm.meta.php
         .styleci.yml
+        .phpunit.result.cache
         env.php
         intellij_style.xml
         config.php

@@ -4,8 +4,9 @@
  * Public routes
  */
 Route::group([], function () {
-    Route::get('acars', 'AcarsController@index');
-    Route::get('pireps', 'PirepController@index');
+    Route::get('acars', 'AcarsController@live_flights');
+    Route::get('acars/geojson', 'AcarsController@pireps_geojson');
+
     Route::get('pireps/{pirep_id}', 'PirepController@get');
     Route::get('pireps/{pirep_id}/acars/geojson', 'AcarsController@acars_geojson');
 
@@ -15,7 +16,7 @@ Route::group([], function () {
 });
 
 /*
- * these need to be authenticated with a user's API key
+ * These need to be authenticated with a user's API key
  */
 Route::group(['middleware' => ['api.auth']], function () {
     Route::get('airlines', 'AirlineController@index');
@@ -35,6 +36,7 @@ Route::group(['middleware' => ['api.auth']], function () {
     Route::get('flights/{id}', 'FlightController@get');
     Route::get('flights/{id}/route', 'FlightController@route');
 
+    Route::get('pireps', 'UserController@pireps');
     Route::put('pireps/{pirep_id}', 'PirepController@update');
 
     /*

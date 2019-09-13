@@ -92,6 +92,52 @@ class ApiTest extends TestCase
     }
 
     /**
+     * @throws Exception
+     */
+    public function testPagination()
+    {
+        $size = \random_int(5, 10);
+        $this->user = factory(App\Models\User::class)->create([
+            'airline_id' => 0,
+        ]);
+
+        factory(App\Models\Airline::class, $size)->create();
+
+        /*
+         * Page 0 and page 1 should return the same thing
+         */
+
+        // Test pagination
+        $res = $this->get('/api/airlines?limit=1&page=0');
+        $this->assertTrue($res->isOk());
+        $body = $res->json('data');
+
+        $this->assertCount(1, $body);
+
+        $id_first = $body[0]['id'];
+
+        $res = $this->get('/api/airlines?limit=1&page=1');
+        $this->assertTrue($res->isOk());
+        $body = $res->json('data');
+
+        $id_second = $body[0]['id'];
+
+        $this->assertEquals($id_first, $id_second);
+
+        /*
+         * Page 2 should be different from page 1
+         */
+
+        $res = $this->get('/api/airlines?limit=1&page=2');
+        $this->assertTrue($res->isOk());
+        $body = $res->json('data');
+
+        $id_third = $body[0]['id'];
+
+        $this->assertNotEquals($id_first, $id_third);
+    }
+
+    /**
      * Make sure the airport data is returned
      */
     public function testAirportRequest()

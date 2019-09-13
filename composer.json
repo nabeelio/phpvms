@@ -34,7 +34,7 @@
         "league/geotools": "0.8.*",
         "league/iso3166": "2.1.*",
         "markrogoyski/math-php": "^0.38.0",
-        "myclabs/deep-copy": "1.8.*",
+        "myclabs/deep-copy": "~1.9.0",
         "nabeel/vacentral": "~2.0",
         "nwidart/laravel-modules": "~5.1",
         "php-units-of-measure/php-units-of-measure": "~2.1.0",
@@ -60,8 +60,8 @@
         "fzaninotto/faker": "~1.8.0",
         "friendsofphp/php-cs-fixer": "^2.15",
         "mockery/mockery": "0.9.*",
-        "nunomaduro/collision": "^2.0",
-        "phpunit/phpunit": "7.5.*",
+        "nunomaduro/collision": "^3.0",
+        "phpunit/phpunit": "~8.3",
         "squizlabs/php_codesniffer": "3.*"
     },
     "autoload": {

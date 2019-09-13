@@ -3,7 +3,6 @@
 namespace $NAMESPACE$;
 
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Database\Eloquent\Factory;
 use Route;
 
 /**
@@ -30,7 +29,6 @@ class $CLASS$ extends ServiceProvider
 
         $this->registerLinks();
 
-        $this->registerFactories();
         $this->loadMigrationsFrom(__DIR__ . '/../$MIGRATIONS_PATH$');
     }
 
@@ -141,17 +139,6 @@ class $CLASS$ extends ServiceProvider
             $this->loadTranslationsFrom($langPath, '$LOWER_NAME$');
         } else {
             $this->loadTranslationsFrom(__DIR__ .'/../$PATH_LANG$', '$LOWER_NAME$');
-        }
-    }
-
-    /**
-     * Register an additional directory of factories.
-     * @source https://github.com/sebastiaanluca/laravel-resource-flow/blob/develop/src/Modules/ModuleServiceProvider.php#L66
-     */
-    public function registerFactories()
-    {
-        if (! app()->environment('production')) {
-            app(Factory::class)->load(__DIR__ . '/../$FACTORIES_PATH$');
         }
     }
 
