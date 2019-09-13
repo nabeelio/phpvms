@@ -299,6 +299,6 @@ class UserController extends Controller
 
         flash('New API key generated!')->success();
 
-        return redirect(route('admin.users.edit', ['id' => $id]));
+        return redirect(route('admin.users.edit', [$id]));
     }
 }

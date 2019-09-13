@@ -98,7 +98,7 @@ class AircraftController extends Controller
         $aircraft = $this->aircraftRepo->create($attrs);
 
         Flash::success('Aircraft saved successfully.');
-        return redirect(route('admin.aircraft.edit', ['id' => $aircraft->id]));
+        return redirect(route('admin.aircraft.edit', [$aircraft->id]));
     }
 
     /**

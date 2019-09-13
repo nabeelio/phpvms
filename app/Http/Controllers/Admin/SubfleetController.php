@@ -155,7 +155,7 @@ class SubfleetController extends Controller
         $subfleet = $this->subfleetRepo->create($input);
 
         Flash::success('Subfleet saved successfully.');
-        return redirect(route('admin.subfleets.edit', ['id' => $subfleet->id]));
+        return redirect(route('admin.subfleets.edit', [$subfleet->id]));
     }
 
     /**

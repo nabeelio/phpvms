@@ -97,7 +97,7 @@
                 <a href="{{ route('frontend.profile.regen_apikey') }}" class="btn btn-warning"
                    onclick="return confirm({{ __('Are you sure? This will reset your API key.') }})">@lang('profile.newapikey')</a>
                 &nbsp;
-                <a href="{{ route('frontend.profile.edit', ['id' => $user->id]) }}"
+                <a href="{{ route('frontend.profile.edit', [$user->id]) }}"
                    class="btn btn-primary">@lang('common.edit')</a>
             </div>
 

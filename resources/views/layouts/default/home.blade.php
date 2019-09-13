@@ -16,7 +16,7 @@
                 {{--</div>--}}
                 <div class="header header-primary text-center blue-bg">
                     <h3 class="title title-up text-white">
-                        <a href="{{ route('frontend.profile.show', ['id' => $user->id]) }}" class="text-white">{{ $user->name }}</a>
+                        <a href="{{ route('frontend.profile.show', [$user->id]) }}" class="text-white">{{ $user->name }}</a>
                     </h3>
                     <div class="photo-container">
                     @if ($user->avatar == null)
@@ -37,7 +37,7 @@
                     </div>
                 </div>
                 <div class="footer text-center">
-                    <a href="{{ route('frontend.profile.show', ['id' => $user->id]) }}" class="btn btn-neutral btn-sm">@lang('common.profile')</a>
+                    <a href="{{ route('frontend.profile.show', [$user->id]) }}" class="btn btn-neutral btn-sm">@lang('common.profile')</a>
                 </div>
             </div>
             @endforeach

@@ -335,7 +335,7 @@ class PirepController extends Controller
             Flash::success('PIREP submitted!');
         }
 
-        return redirect(route('frontend.pireps.show', ['id' => $pirep->id]));
+        return redirect(route('frontend.pireps.show', [$pirep->id]));
     }
 
     /**
@@ -438,7 +438,7 @@ class PirepController extends Controller
             return redirect(route('frontend.pireps.index'));
         }
 
-        return redirect(route('frontend.pireps.show', ['id' => $pirep->id]));
+        return redirect(route('frontend.pireps.show', [$pirep->id]));
     }
 
     /**
@@ -458,6 +458,6 @@ class PirepController extends Controller
         }
 
         $this->pirepSvc->submit($pirep);
-        return redirect(route('frontend.pireps.show', ['id' => $pirep->id]));
+        return redirect(route('frontend.pireps.show', [$pirep->id]));
     }
 }

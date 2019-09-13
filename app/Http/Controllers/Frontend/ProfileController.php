@@ -86,6 +86,7 @@ class ProfileController extends Controller
 
     /**
      * Show the edit for form the user's profile
+     *
      * @param Request $request
      *
      * @throws \Exception

@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-12">
                 <p class="float-right">
-                    <a href="{{ route('frontend.pireps.edit', ['id' => $pirep->id]) }}" class="btn btn-sm btn-info">@lang('common.edit')</a>
+                    <a href="{{ route('frontend.pireps.edit', [$pirep->id]) }}" class="btn btn-sm btn-info">@lang('common.edit')</a>
                 </p>
                 <h5>
                     <a href="{{ route('frontend.pireps.show', [$pirep->id]) }}">

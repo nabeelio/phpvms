@@ -35,7 +35,7 @@
         <table class="table table-hover">
             <tr>
                 <td>Pilot</td>
-                <td><a href="{{ route('admin.users.show', ['id' => $pirep->pilot->id]) }}"
+                <td><a href="{{ route('admin.users.show', [$pirep->pilot->id]) }}"
                         target="_blank">{{ $pirep->user->name }}</a>
                 </td>
             </tr>

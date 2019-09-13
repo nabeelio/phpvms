@@ -3,11 +3,9 @@
 namespace App\Contracts;
 
 use Illuminate\Validation\Validator;
+use Prettus\Repository\Eloquent\BaseRepository;
 
-/**
- * Class Repository
- */
-abstract class Repository extends \Prettus\Repository\Eloquent\BaseRepository
+abstract class Repository extends BaseRepository
 {
     /**
      * @param       $id
@@ -20,7 +18,7 @@ abstract class Repository extends \Prettus\Repository\Eloquent\BaseRepository
         try {
             return $this->find($id, $columns);
         } catch (\Exception $e) {
-            return;
+            return null;
         }
     }
 

@@ -83,7 +83,7 @@
 
     <!-- Submit Field -->
     <div class="form-group col-sm-6 text-right">
-        {{--<a href="{{ route('admin.users.regen_apikey', ['id' => $user->id]) }}" class="btn btn-warning"
+        {{--<a href="{{ route('admin.users.regen_apikey', [$user->id]) }}" class="btn btn-warning"
            onclick="return confirm('Are you sure? This will reset this user\'s API key.')">new api key</a>--}}
         &nbsp;
         {{ Form::button('Save', ['type' => 'submit', 'class' => 'btn btn-success']) }}

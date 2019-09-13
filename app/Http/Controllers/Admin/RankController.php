@@ -107,7 +107,7 @@ class RankController extends Controller
 
         Cache::forget(config('cache.keys.RANKS_PILOT_LIST.key'));
 
-        return redirect(route('admin.ranks.edit', ['id' => $model->id]));
+        return redirect(route('admin.ranks.edit', [$model->id]));
     }
 
     /**

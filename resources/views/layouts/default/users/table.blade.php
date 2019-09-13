@@ -22,7 +22,7 @@
                 </div>
             </td>
             <td>
-                <a href="{{ route('frontend.profile.show.public', ['id' => $user->id]) }}">
+                <a href="{{ route('frontend.profile.show.public', [$user->id]) }}">
                     {{ $user->name }}
                 </a>
             </td>
