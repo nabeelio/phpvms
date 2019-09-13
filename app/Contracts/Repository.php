@@ -128,7 +128,7 @@ abstract class Repository extends \Prettus\Repository\Eloquent\BaseRepository
 
         $max = config('repository.pagination.limit', 50);
         $limit = (int) ($limit ?? request()->query('limit') ?? $max);
-        $page = request()->query('page', 1);
+        $page = (int) request()->query('page', 1);
 
         $results = $this->model->{$method}($limit, $columns, 'page', $page);
         $results->appends(app('request')->query());
