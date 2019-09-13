@@ -121,7 +121,7 @@ abstract class Repository extends \Prettus\Repository\Eloquent\BaseRepository
      *
      * @return mixed
      */
-    public function paginate($limit = null, $columns = ['*'], $method = "paginate")
+    public function paginate($limit = null, $columns = ['*'], $method = 'paginate')
     {
         $this->applyCriteria();
         $this->applyScope();

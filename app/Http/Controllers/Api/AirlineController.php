@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api;
 use App\Contracts\Controller;
 use App\Http\Resources\Airline as AirlineResource;
 use App\Repositories\AirlineRepository;
-use App\Repositories\Criteria\PaginationCriteria;
 use Illuminate\Http\Request;
 
 class AirlineController extends Controller
