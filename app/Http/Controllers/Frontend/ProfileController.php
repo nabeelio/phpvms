@@ -9,15 +9,15 @@ use App\Repositories\AirlineRepository;
 use App\Repositories\AirportRepository;
 use App\Repositories\UserRepository;
 use App\Support\Countries;
-use Flash;
-use Hash;
+use App\Support\Timezonelist;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use Intervention\Image\Facades\Image;
-use Jackiedo\Timezonelist\Facades\Timezonelist;
-use Log;
-use Validator;
+use Laracasts\Flash\Flash;
 
 /**
  * Class ProfileController
@@ -86,8 +86,9 @@ class ProfileController extends Controller
 
     /**
      * Show the edit for form the user's profile
-     *
      * @param Request $request
+     *
+     * @throws \Exception
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
      */

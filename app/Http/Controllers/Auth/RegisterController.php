@@ -10,12 +10,12 @@ use App\Repositories\AirlineRepository;
 use App\Repositories\AirportRepository;
 use App\Services\UserService;
 use App\Support\Countries;
+use App\Support\Timezonelist;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
-use Jackiedo\Timezonelist\Facades\Timezonelist;
 
 /**
  * Class RegisterController
@@ -56,6 +56,8 @@ class RegisterController extends Controller
     }
 
     /**
+     * @throws \Exception
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function showRegistrationForm()

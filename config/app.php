@@ -82,7 +82,6 @@ return [
         App\Providers\AuthServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        App\Providers\TimezonelistProvider::class,
         App\Providers\MeasurementsProvider::class,
         App\Providers\BindServiceProviders::class,
     ],
