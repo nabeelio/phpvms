@@ -19,6 +19,7 @@ export default (_opts) => {
     center: [29.98139, -95.33374],
     refresh_interval: 10, // seconds
     zoom: 5,
+    acars_uri: '/api/acars',
     update_uri: '/api/acars/geojson',
     pirep_uri: '/api/pireps/{id}',
     pirep_link_uri: '/pireps/{id}',
@@ -71,7 +72,7 @@ export default (_opts) => {
   rivets.bind($('#map-info-box'), liveMapController);
   rivets.bind($('#live_flights'), liveMapController);
 
-  const drawRoute = (feature, layer, route) => {
+  function drawRoute(feature, layer, route) {
     console.log('drawRoute');
     if (layerSelFlight !== null) {
       map.removeLayer(layerSelFlight);
@@ -97,14 +98,14 @@ export default (_opts) => {
 
       pannedToCenter = true;
     }
-  };
+  }
 
   /**
    * When a flight is clicked on, show the path, etc for that flight
    * @param feature
    * @param layer
    */
-  const onFlightClick = (feature, layer) => {
+  function onFlightClick(feature, layer) {
     const pirep_uri = opts.pirep_uri.replace('{id}', feature.properties.pirep_id);
     const geojson_uri = `${opts.pirep_uri.replace('{id}', feature.properties.pirep_id)}/acars/geojson`;
 
@@ -126,12 +127,10 @@ export default (_opts) => {
 
       drawRoute(feature, layer, route);
     });
-  };
+  }
 
   const updateMap = () => {
-    const pirep_uri = opts.pirep_uri.replace('{id}', '');
-
-    request(pirep_uri).then((response) => {
+    request(opts.acars_uri).then((response) => {
       const pireps = response.data.data;
       liveMapController.pireps = pireps;
       liveMapController.has_data = pireps.length > 0;
