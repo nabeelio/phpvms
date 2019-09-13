@@ -108,4 +108,32 @@ abstract class Repository extends \Prettus\Repository\Eloquent\BaseRepository
             return $q;
         });
     }
+
+    /**
+     * Retrieve all data of repository, paginated. Added in extra parameter to read from the
+     * request which page it should be on
+     *
+     * @param null   $limit
+     * @param array  $columns
+     * @param string $method
+     *
+     * @throws \Prettus\Repository\Exceptions\RepositoryException
+     *
+     * @return mixed
+     */
+    public function paginate($limit = null, $columns = ['*'], $method = "paginate")
+    {
+        $this->applyCriteria();
+        $this->applyScope();
+
+        $max = config('repository.pagination.limit', 50);
+        $limit = (int) ($limit ?? request()->query('limit') ?? $max);
+        $page = request()->query('page', 1);
+
+        $results = $this->model->{$method}($limit, $columns, 'page', $page);
+        $results->appends(app('request')->query());
+        $this->resetModel();
+
+        return $this->parserResult($results);
+    }
 }

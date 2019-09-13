@@ -37,6 +37,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Prettus\Repository\Criteria\RequestCriteria;
 
 /**
  * Class PirepController
