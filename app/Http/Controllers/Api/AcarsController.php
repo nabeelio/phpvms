@@ -8,6 +8,7 @@ use App\Http\Requests\Acars\EventRequest;
 use App\Http\Requests\Acars\LogRequest;
 use App\Http\Requests\Acars\PositionRequest;
 use App\Http\Resources\AcarsRoute as AcarsRouteResource;
+use App\Http\Resources\Pirep as PirepResource;
 use App\Models\Acars;
 use App\Models\Enums\AcarsType;
 use App\Models\Enums\PirepStatus;
@@ -21,9 +22,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
-/**
- * Class AcarsController
- */
 class AcarsController extends Controller
 {
     private $acarsRepo;
@@ -62,13 +60,26 @@ class AcarsController extends Controller
     }
 
     /**
+     * Get all the active PIREPs
+     * @return mixed
+     */
+    public function live_flights()
+    {
+        $pireps = $this->acarsRepo->getPositions(setting('acars.live_time'))->filter(function ($pirep) {
+                return $pirep->position !== null;
+            });
+
+        return PirepResource::collection($pireps);
+    }
+
+    /**
      * Return all of the flights (as points) in GeoJSON format
      *
      * @param Request $request
      *
      * @return mixed
      */
-    public function index(Request $request)
+    public function pireps_geojson(Request $request)
     {
         $pireps = $this->acarsRepo->getPositions(setting('acars.live_time'));
         $positions = $this->geoSvc->getFeatureForLiveFlights($pireps);

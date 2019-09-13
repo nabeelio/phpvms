@@ -33,10 +33,10 @@ use App\Services\FareService;
 use App\Services\Finance\PirepFinanceService;
 use App\Services\PirepService;
 use App\Services\UserService;
-use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Log;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Class PirepController
@@ -52,8 +52,6 @@ class PirepController extends Controller
     private $userSvc;
 
     /**
-     * PirepController constructor.
-     *
      * @param AcarsRepository     $acarsRepo
      * @param FareService         $fareSvc
      * @param PirepFinanceService $financeSvc
@@ -157,22 +155,6 @@ class PirepController extends Controller
         }
 
         $this->fareSvc->saveForPirep($pirep, $fares);
-    }
-
-    /**
-     * Get all the active PIREPs
-     *
-     * @return mixed
-     */
-    public function index()
-    {
-        $pireps = $this->acarsRepo
-            ->getPositions(setting('acars.live_time'))
-            ->filter(function ($pirep) {
-                return $pirep->position !== null;
-            });
-
-        return PirepResource::collection($pireps);
     }
 
     /**

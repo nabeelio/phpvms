@@ -19,7 +19,7 @@ export default (_opts) => {
     center: [29.98139, -95.33374],
     refresh_interval: 10, // seconds
     zoom: 5,
-    update_uri: '/api/acars',
+    update_uri: '/api/acars/geojson',
     pirep_uri: '/api/pireps/{id}',
     pirep_link_uri: '/pireps/{id}',
     positions: null,
