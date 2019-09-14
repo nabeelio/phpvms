@@ -169,7 +169,7 @@ class AcarsReplay extends Command
          * @var $flights Collection
          */
         $flights = collect($files)->transform(function ($f) {
-            $file = storage_path('/replay/'.$f.'.json');
+            $file = $f;
             if (file_exists($file)) {
                 $this->info('Loading '.$file);
                 $contents = file_get_contents($file);
