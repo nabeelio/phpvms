@@ -18,7 +18,7 @@ abstract class Repository extends BaseRepository
         try {
             return $this->find($id, $columns);
         } catch (\Exception $e) {
-            return null;
+            return;
         }
     }
 
