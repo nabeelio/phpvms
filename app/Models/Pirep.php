@@ -130,13 +130,23 @@ class Pirep extends Model
         'route'          => 'nullable',
     ];
 
-    /**
+    /*
      * If a PIREP is in these states, then it can't be changed.
      */
     public static $read_only_states = [
         PirepState::ACCEPTED,
         PirepState::REJECTED,
         PirepState::CANCELLED,
+    ];
+
+    /*
+     * If a PIREP is in one of these states, it can't be cancelled
+     */
+    public static $cancel_states = [
+        PirepState::ACCEPTED,
+        PirepState::REJECTED,
+        PirepState::CANCELLED,
+        PirepState::DELETED,
     ];
 
     /**

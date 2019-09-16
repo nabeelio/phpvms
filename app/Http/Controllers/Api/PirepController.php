@@ -363,10 +363,8 @@ class PirepController extends Controller
     {
         Log::info('PIREP Cancel, user '.Auth::id(), $request->post());
 
-        $pirep = $this->pirepRepo->update([
-            'state'  => PirepState::CANCELLED,
-            'status' => PirepStatus::CANCELLED,
-        ], $pirep_id);
+        $pirep = Pirep::find($pirep_id);
+        $this->pirepSvc->cancel($pirep);
 
         return new PirepResource($pirep);
     }

@@ -4,9 +4,6 @@ namespace App\Models\Enums;
 
 use App\Contracts\Enum;
 
-/**
- * Class AircraftState
- */
 class AircraftState extends Enum
 {
     public const PARKED = 0;

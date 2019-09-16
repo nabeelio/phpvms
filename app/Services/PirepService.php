@@ -8,8 +8,9 @@ use App\Events\PirepFiled;
 use App\Events\PirepRejected;
 use App\Events\UserStateChanged;
 use App\Events\UserStatsChanged;
+use App\Exceptions\PirepCancelled;
+use App\Exceptions\PirepCancelNotAllowed;
 use App\Models\Acars;
-use App\Models\Aircraft;
 use App\Models\Bid;
 use App\Models\Enums\AcarsType;
 use App\Models\Enums\PirepSource;
@@ -20,6 +21,7 @@ use App\Models\Navdata;
 use App\Models\Pirep;
 use App\Models\PirepFieldValue;
 use App\Models\User;
+use App\Repositories\PirepRepository;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Log;
@@ -31,19 +33,23 @@ class PirepService extends Service
 {
     private $geoSvc;
     private $pilotSvc;
+    private $pirepRepo;
 
     /**
      * PirepService constructor.
      *
-     * @param GeoService  $geoSvc
-     * @param UserService $pilotSvc
+     * @param GeoService      $geoSvc
+     * @param PirepRepository $pirepRepo
+     * @param UserService     $pilotSvc
      */
     public function __construct(
         GeoService $geoSvc,
+        PirepRepository $pirepRepo,
         UserService $pilotSvc
     ) {
         $this->geoSvc = $geoSvc;
         $this->pilotSvc = $pilotSvc;
+        $this->pirepRepo = $pirepRepo;
     }
 
     /**
@@ -237,6 +243,30 @@ class PirepService extends Service
 
             event(new UserStateChanged($pirep->user, $old_state));
         }
+    }
+
+    /**
+     * Cancel a PIREP
+     *
+     * @param Pirep $pirep
+     *
+     * @throws \Prettus\Validator\Exceptions\ValidatorException
+     *
+     * @return Pirep
+     */
+    public function cancel(Pirep $pirep): Pirep
+    {
+        if (in_array($pirep->state, Pirep::$cancel_states, true)) {
+            Log::info('PIREP '.$pirep->id.' can\'t be cancelled, state='.$pirep->state);
+            throw new PirepCancelNotAllowed($pirep);
+        }
+
+        $pirep = $this->pirepRepo->update([
+            'state'  => PirepState::CANCELLED,
+            'status' => PirepStatus::CANCELLED,
+        ], $pirep->id);
+
+        return $pirep;
     }
 
     /**

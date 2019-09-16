@@ -5,7 +5,6 @@ namespace App\Models\Enums;
 use App\Contracts\Enum;
 
 /**
- * Class Days
  * Start on Monday - ISO8601
  */
 class Days extends Enum

@@ -4,9 +4,6 @@ namespace App\Models\Enums;
 
 use App\Contracts\Enum;
 
-/**
- * Class ActiveState
- */
 class ActiveState extends Enum
 {
     public const INACTIVE = 0;
