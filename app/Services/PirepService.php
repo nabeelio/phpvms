@@ -227,7 +227,6 @@ class PirepService extends Service
         // only update the pilot last state if they are accepted
         if ($default_state === PirepState::ACCEPTED) {
             $pirep = $this->accept($pirep);
-            $this->setPilotState($pirep->pilot, $pirep);
         } else {
             $pirep->state = $default_state;
         }
