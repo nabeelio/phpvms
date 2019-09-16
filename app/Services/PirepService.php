@@ -8,7 +8,6 @@ use App\Events\PirepFiled;
 use App\Events\PirepRejected;
 use App\Events\UserStateChanged;
 use App\Events\UserStatsChanged;
-use App\Exceptions\PirepCancelled;
 use App\Exceptions\PirepCancelNotAllowed;
 use App\Models\Acars;
 use App\Models\Bid;
@@ -258,6 +257,7 @@ class PirepService extends Service
     {
         if (in_array($pirep->state, Pirep::$cancel_states, true)) {
             Log::info('PIREP '.$pirep->id.' can\'t be cancelled, state='.$pirep->state);
+
             throw new PirepCancelNotAllowed($pirep);
         }
 
