@@ -21,9 +21,6 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use function is_array;
 
-/**
- * Class UserService
- */
 class UserService extends Service
 {
     private $aircraftRepo;

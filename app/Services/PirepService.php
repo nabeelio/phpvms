@@ -212,11 +212,11 @@ class PirepService extends Service
         // behavior from the rank that the pilot is assigned to
         $default_state = PirepState::PENDING;
         if ($pirep->source === PirepSource::ACARS) {
-            if ($pirep->pilot->rank->auto_approve_acars) {
+            if ($pirep->user->rank->auto_approve_acars) {
                 $default_state = PirepState::ACCEPTED;
             }
         } else {
-            if ($pirep->pilot->rank->auto_approve_manual) {
+            if ($pirep->user->rank->auto_approve_manual) {
                 $default_state = PirepState::ACCEPTED;
             }
         }
@@ -232,15 +232,6 @@ class PirepService extends Service
         }
 
         $pirep->save();
-
-        // Check the user state, set them to ACTIVE if on leave
-        if ($pirep->user->state !== UserState::ACTIVE) {
-            $old_state = $pirep->user->state;
-            $pirep->user->state = UserState::ACTIVE;
-            $pirep->user->save();
-
-            event(new UserStateChanged($pirep->user, $old_state));
-        }
     }
 
     /**
@@ -353,12 +344,12 @@ class PirepService extends Service
         }
 
         $ft = $pirep->flight_time;
-        $pilot = $pirep->pilot;
+        $pilot = $pirep->user;
 
         $this->pilotSvc->adjustFlightTime($pilot, $ft);
         $this->pilotSvc->adjustFlightCount($pilot, +1);
         $this->pilotSvc->calculatePilotRank($pilot);
-        $pirep->pilot->refresh();
+        $pirep->user->refresh();
 
         // Change the status
         $pirep->state = PirepState::ACCEPTED;
@@ -391,13 +382,13 @@ class PirepService extends Service
         // If this was previously ACCEPTED, then reconcile the flight hours
         // that have already been counted, etc
         if ($pirep->state === PirepState::ACCEPTED) {
-            $pilot = $pirep->pilot;
+            $user = $pirep->user;
             $ft = $pirep->flight_time * -1;
 
-            $this->pilotSvc->adjustFlightTime($pilot, $ft);
-            $this->pilotSvc->adjustFlightCount($pilot, -1);
-            $this->pilotSvc->calculatePilotRank($pilot);
-            $pirep->pilot->refresh();
+            $this->pilotSvc->adjustFlightTime($user, $ft);
+            $this->pilotSvc->adjustFlightCount($user, -1);
+            $this->pilotSvc->calculatePilotRank($user);
+            $pirep->user->refresh();
         }
 
         // Change the status
@@ -416,6 +407,7 @@ class PirepService extends Service
     }
 
     /**
+     * @param User  $pilot
      * @param Pirep $pirep
      */
     public function setPilotState(User $pilot, Pirep $pirep)

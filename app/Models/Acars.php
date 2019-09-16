@@ -9,9 +9,7 @@ use App\Support\Units\Fuel;
 
 /**
  * Class Acars
- *
  * @param string id
- *
  * @property string pirep_id
  * @property int    type
  * @property string name

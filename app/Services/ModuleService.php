@@ -4,9 +4,6 @@ namespace App\Services;
 
 use App\Contracts\Service;
 
-/**
- * Class ModuleService
- */
 class ModuleService extends Service
 {
     protected static $adminLinks = [];

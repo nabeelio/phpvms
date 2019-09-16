@@ -4,14 +4,11 @@ namespace App\Services;
 
 use App\Contracts\Service;
 use App\Models\Enums\AnalyticsDimensions;
-use DB;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Irazasyed\LaravelGAMP\Facades\GAMP;
-use Log;
 use PDO;
 
-/**
- * Class AnalyticsService
- */
 class AnalyticsService extends Service
 {
     /**

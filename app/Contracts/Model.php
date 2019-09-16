@@ -4,9 +4,10 @@ namespace App\Contracts;
 
 /**
  * Class Model
- *
  * @property mixed $id
  * @property bool  $skip_mutator
+ *
+ * @method static where(array $array)
  */
 abstract class Model extends \Illuminate\Database\Eloquent\Model
 {

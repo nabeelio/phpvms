@@ -19,9 +19,6 @@ use Illuminate\Validation\ValidationException;
 use League\Csv\Exception;
 use League\Csv\Reader;
 
-/**
- * Class ImportService
- */
 class ImportService extends Service
 {
     protected $flightRepo;
