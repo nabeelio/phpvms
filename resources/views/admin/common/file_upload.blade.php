@@ -61,6 +61,8 @@ Pass in:
                    ])
                 }}
 
+                {{ Form::token() }}
+
                 <span class="required">*</span>
                 {{ Form::text('file_name', null, ['class' => 'form-control', 'placeholder' => 'Name']) }}
                 {{ Form::text('file_description', null, ['class' => 'form-control', 'placeholder' => 'Description']) }}

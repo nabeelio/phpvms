@@ -6,7 +6,6 @@ use App\Contracts\Controller;
 use App\Models\File;
 use App\Services\FileService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -53,18 +52,20 @@ class FileController extends Controller
             [
                 'file_name'        => 'required',
                 'file_description' => 'nullable',
-                'file'             => [
+                'file'             => 'nullable|file',
+                'url'              => 'nullable|url',
+                /*'file'             => [
                     Rule::requiredIf(function () {
-                        return !request()->filled('url');
+                        return request()->filled('url') === false;
                     }),
                     'file',
                 ],
                 'url' => [
                     Rule::requiredIf(function () {
-                        return !request()->hasFile('file');
+                        return request()->hasFile('file') === false;
                     }),
                     'url',
-                ],
+                ],*/
             ],
             [
                 'file.required' => 'File or URL are required',
@@ -76,7 +77,12 @@ class FileController extends Controller
             return redirect()
                 ->back()
                 ->withErrors($validator)
-                ->withInput(Input::all());
+                ->withInput($request->all());
+        }
+
+        if (!$request->hasFile('file') && !$request->filled('url')) {
+            $validator->errors()->add('url', 'A URL or file must be uploaded!');
+            return redirect()->back()->withErrors($validator)->withInput($request->all());
         }
 
         Log::info('Uploading files', $attrs);

@@ -34,3 +34,10 @@
     }
   }
 }
+
+/*
+ * This color falls through from bootstrap which defaults it to transparent
+ */
+.form-control {
+  background-color: $white-bg;
+}

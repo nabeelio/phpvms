@@ -27,7 +27,8 @@ function copyAssets()
 
 function buildFrontendAssets()
 {
-  mix.sass('resources/sass/now-ui/now-ui-kit.scss', 'public/assets/frontend/css/now-ui-kit.css');
+  mix.sass('resources/sass/now-ui/now-ui-kit.scss', 'public/assets/frontend/css/now-ui-kit.css')
+    .sourceMaps();
 
   mix.scripts([
     'node_modules/moment/moment.js',

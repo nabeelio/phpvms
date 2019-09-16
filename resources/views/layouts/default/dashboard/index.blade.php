@@ -9,7 +9,7 @@
         <div class="row">
             <div class="col-sm-3">
                 <div class="card card-primary text-white dashboard-box">
-                    <div class="card-block text-center">
+                    <div class="card-body text-center">
                         <div class="icon-background">
                             <i class="fas fa-plane icon"></i>
                         </div>
@@ -21,7 +21,7 @@
 
             <div class="col-sm-3">
                 <div class="card card-primary text-white dashboard-box">
-                    <div class="card-block text-center">
+                    <div class="card-body text-center">
                         <div class="icon-background">
                             <i class="far fa-clock icon"></i>
                         </div>
@@ -32,7 +32,7 @@
             </div>
             <div class="col-sm-3">
                 <div class="card card-primary text-white dashboard-box">
-                    <div class="card-block text-center">
+                    <div class="card-body text-center">
                         <div class="icon-background"> {{--110px font-size--}}
                             <i class="fas fa-money-bill-alt icon"></i>
                         </div>
@@ -44,7 +44,7 @@
 
             <div class="col-sm-3">
                 <div class="card card-primary text-white dashboard-box">
-                    <div class="card-block text-center">
+                    <div class="card-body text-center">
                         <div class="icon-background">
                             <i class="fas fa-map-marker icon"></i>
                         </div>
@@ -65,7 +65,7 @@
             @lang('dashboard.yourlastreport')
             </div>
         @if($last_pirep === null)
-            <div class="card-block" style="text-align:center;">
+            <div class="card-body" style="text-align:center;">
                 @lang('dashboard.noreportsyet') <a href="{{ route('frontend.pireps.create') }}">@lang('dashboard.fileonenow')</a>
             </div>
         @else
@@ -83,7 +83,7 @@
             <div class="nav nav-tabs" role="tablist" style="background: #067ec1; color: #FFF;">
                 @lang('dashboard.weatherat', ['ICAO' => $current_airport])
             </div>
-            <div class="card-block">
+            <div class="card-body">
                 <!-- Tab panes -->
                 <div class="tab-content">
                     {{ Widget::Weather(['icao' => $current_airport]) }}
@@ -95,7 +95,7 @@
             <div class="nav nav-tabs" role="tablist" style="background: #067ec1; color: #FFF;">
                 @lang('dashboard.recentreports')
             </div>
-            <div class="card-block">
+            <div class="card-body">
                 <!-- Tab panes -->
                 <div class="tab-content">
                     {{ Widget::latestPireps(['count' => 5]) }}
@@ -107,7 +107,7 @@
             <div class="nav nav-tabs" role="tablist" style="background: #067ec1; color: #FFF;">
                 @lang('common.newestpilots')
             </div>
-            <div class="card-block">
+            <div class="card-body">
                 <!-- Tab panes -->
                 <div class="tab-content">
                     {{ Widget::latestPilots(['count' => 5]) }}

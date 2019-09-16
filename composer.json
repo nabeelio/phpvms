@@ -20,6 +20,7 @@
         "arrilot/laravel-widgets": "~3.13.0",
         "doctrine/dbal": "~2.9.2",
         "elcobvg/laravel-opcache": "~0.4",
+        "facade/ignition": "^1.6",
         "guzzlehttp/guzzle": "~6.3.3",
         "hashids/hashids": "^2.0.0",
         "igaster/laravel-theme": "^2.0",
@@ -48,8 +49,7 @@
         "symfony/polyfill-iconv": "~1.12",
         "theiconic/php-ga-measurement-protocol": "2.7.*",
         "tivie/php-os-detector": "~1.1.0",
-        "webpatser/laravel-uuid": "~3.0",
-        "facade/ignition": "^1.6"
+        "webpatser/laravel-uuid": "~3.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.0",
