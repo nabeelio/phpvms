@@ -4,6 +4,7 @@ namespace App\Contracts;
 
 /**
  * Class Model
+ *
  * @property mixed $id
  * @property bool  $skip_mutator
  *
