@@ -95,6 +95,11 @@ class PIREPTest extends TestCase
         $this->get('/api/fleet/aircraft/'.$pirep->aircraft_id, [], $user)
              ->assertJson(['data' => ['airport_id' => $pirep->arr_airport_id]]);
 
+        // Try cancelling it
+        $uri = '/api/pireps/'.$pirep->id.'/cancel';
+        $response = $this->put($uri, [], [], $user);
+        $response->assertStatus(400);
+
         /**
          * Now go from ACCEPTED to REJECTED
          */

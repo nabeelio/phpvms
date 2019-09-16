@@ -17,6 +17,7 @@ use App\Services\ImportExport\AircraftExporter;
 use App\Services\ImportExport\AirportExporter;
 use App\Services\ImportExport\FlightExporter;
 use App\Services\ImportService;
+use Illuminate\Validation\ValidationException;
 
 /**
  * Class ImporterTest
@@ -358,11 +359,10 @@ class ImporterTest extends TestCase
 
     /**
      * Try importing the aicraft in the airports. Should fail
-     *
-     * @expectedException \Illuminate\Validation\ValidationException
      */
     public function testInvalidFileImport(): void
     {
+        $this->expectException(ValidationException::class);
         $file_path = base_path('tests/data/aircraft.csv');
         $this->importSvc->importAirports($file_path);
     }

@@ -11,9 +11,6 @@ use App\Models\Subfleet;
 use App\Support\Math;
 use Illuminate\Support\Collection;
 
-/**
- * Class FareService
- */
 class FareService extends Service
 {
     /**

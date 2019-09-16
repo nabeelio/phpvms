@@ -11,14 +11,11 @@ use App\Services\ImportExport\FareExporter;
 use App\Services\ImportExport\FlightExporter;
 use App\Services\ImportExport\SubfleetExporter;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use League\Csv\CharsetConverter;
 use League\Csv\Writer;
-use Log;
 
-/**
- * Class ExportService
- */
 class ExportService extends Service
 {
     /**

@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Console\Command;
+use App\Contracts\Command;
 use App\Services\VersionService;
 use Symfony\Component\Yaml\Yaml;
 

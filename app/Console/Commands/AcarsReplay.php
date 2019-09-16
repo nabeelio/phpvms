@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Console\Command;
+use App\Contracts\Command;
 use App\Facades\Utils;
 use GuzzleHttp\Client;
 use Illuminate\Database\Eloquent\Collection;

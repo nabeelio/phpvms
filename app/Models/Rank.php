@@ -10,6 +10,8 @@ use App\Contracts\Model;
  * @property float  manual_base_pay_rate
  * @property float  acars_base_pay_rate
  * @property bool   auto_promote
+ * @property bool   auto_approve_acars
+ * @property bool   auto_approve_manual
  */
 class Rank extends Model
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console;
+namespace App\Contracts;
 
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\Process\Process;
@@ -10,6 +10,14 @@ use Symfony\Component\Process\Process;
  */
 abstract class Command extends \Illuminate\Console\Command
 {
+    /**
+     * @return mixed
+     */
+    abstract public function handle();
+
+    /**
+     * Adjust the logging depending on where we're running from
+     */
     public function __construct()
     {
         parent::__construct();
@@ -19,11 +27,6 @@ abstract class Command extends \Illuminate\Console\Command
             $this->redirectLoggingToFile('stdout');
         }
     }
-
-    /**
-     * @return mixed
-     */
-    abstract public function handle();
 
     /**
      * Splice the logger and replace the active handlers with the handlers from the

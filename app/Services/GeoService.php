@@ -16,9 +16,6 @@ use Illuminate\Support\Facades\Log;
 use League\Geotools\Coordinate\Coordinate;
 use League\Geotools\Geotools;
 
-/**
- * Class GeoService
- */
 class GeoService extends Service
 {
     private $acarsRepo;

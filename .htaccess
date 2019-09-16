@@ -20,6 +20,7 @@ RedirectMatch 403 ^/storage/.*?$
 RedirectMatch 403 ^/tests/.*?$
 RedirectMatch 403 ^/vendor/.*?$
 RedirectMatch 403 ^/.bowerrc$
+RedirectMatch 403 ^/.env
 RedirectMatch 403 ^/artisan$
 RedirectMatch 403 ^/composer.json
 RedirectMatch 403 ^/composer.lock
@@ -32,6 +33,7 @@ RedirectMatch 403 ^/package.json
 RedirectMatch 403 ^/package-lock.json
 RedirectMatch 403 ^/phpunit.xml
 RedirectMatch 403 ^/webpack.mix.js
+RedirectMatch 403 ^/yarn.lock
 
 # Redirect Trailing Slashes If Not A Folder...
 RewriteCond %{REQUEST_FILENAME} !-d

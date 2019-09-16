@@ -7,9 +7,6 @@ use App\Support\Database;
 use Carbon\Carbon;
 use Webpatser\Uuid\Uuid;
 
-/**
- * Class DatabaseService
- */
 class DatabaseService extends Service
 {
     protected $time_fields = [

@@ -1,5 +1,6 @@
 <?php
 
+use App\Exceptions\UserPilotIdExists;
 use App\Models\User;
 use App\Repositories\SettingRepository;
 use App\Services\UserService;
@@ -191,11 +192,10 @@ class UserTest extends TestCase
 
     /**
      * Test the pilot ID being added when a new user is created
-     *
-     * @expectedException \App\Exceptions\UserPilotIdExists
      */
     public function testUserPilotIdChangeAlreadyExists()
     {
+        $this->expectException(UserPilotIdExists::class);
         $user1 = factory(App\Models\User::class)->create(['id' => 1]);
         $user2 = factory(App\Models\User::class)->create(['id' => 2]);
 

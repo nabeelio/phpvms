@@ -42,6 +42,7 @@ use Illuminate\Support\Collection;
  * @property Collection  fields
  * @property int         status
  * @property bool        state
+ * @property string      source
  * @property Carbon      submitted_at
  * @property Carbon      created_at
  * @property Carbon      updated_at
@@ -130,13 +131,23 @@ class Pirep extends Model
         'route'          => 'nullable',
     ];
 
-    /**
+    /*
      * If a PIREP is in these states, then it can't be changed.
      */
     public static $read_only_states = [
         PirepState::ACCEPTED,
         PirepState::REJECTED,
         PirepState::CANCELLED,
+    ];
+
+    /*
+     * If a PIREP is in one of these states, it can't be cancelled
+     */
+    public static $cancel_states = [
+        PirepState::ACCEPTED,
+        PirepState::REJECTED,
+        PirepState::CANCELLED,
+        PirepState::DELETED,
     ];
 
     /**

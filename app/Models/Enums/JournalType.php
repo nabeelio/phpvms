@@ -4,9 +4,6 @@ namespace App\Models\Enums;
 
 use App\Contracts\Enum;
 
-/**
- * Class JournalType
- */
 class JournalType extends Enum
 {
     public const AIRLINE = 0;

@@ -4,9 +4,6 @@ namespace App\Models\Enums;
 
 use App\Contracts\Enum;
 
-/**
- * Class FlightType
- */
 class FlightType extends Enum
 {
     public const SCHED_PAX = 'J';

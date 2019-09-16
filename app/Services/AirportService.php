@@ -15,9 +15,6 @@ use League\Geotools\Geotools;
 use PhpUnitsOfMeasure\Exception\NonNumericValue;
 use PhpUnitsOfMeasure\Exception\NonStringUnitName;
 
-/**
- * Class AnalyticsService
- */
 class AirportService extends Service
 {
     private $airportRepo;

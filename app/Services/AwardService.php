@@ -4,11 +4,8 @@ namespace App\Services;
 
 use App\Contracts\Service;
 use App\Support\ClassLoader;
-use Module;
+use Nwidart\Modules\Facades\Module;
 
-/**
- * Class AwardService
- */
 class AwardService extends Service
 {
     /**

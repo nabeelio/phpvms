@@ -32,6 +32,7 @@ use Laratrust\Traits\LaratrustUserTrait;
  * @property int            rank_id
  * @property int            state
  * @property bool           opt_in
+ * @property string         last_pirep_id
  * @mixin \Illuminate\Notifications\Notifiable
  * @mixin \Laratrust\Traits\LaratrustUserTrait
  */

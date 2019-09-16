@@ -15,9 +15,6 @@ use App\Repositories\NavdataRepository;
 use App\Support\Units\Time;
 use Illuminate\Support\Facades\Log;
 
-/**
- * Class FlightService
- */
 class FlightService extends Service
 {
     private $airportSvc;
