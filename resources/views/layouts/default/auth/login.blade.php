@@ -1,10 +1,10 @@
-@extends('auth.layout')
+@extends('auth.login_layout')
 @section('title', __('common.login'))
 
 @section('content')
   <div class="col-md-4 ml-auto mr-auto content-center">
     <div class="card card-login card-plain">
-      {{ Form::open(['url' => url('/login'), 'method' => 'post']) }}
+      {{ Form::open(['url' => url('/login'), 'method' => 'post', 'class' => 'form']) }}
       <div class="header header-primary text-center">
         <div class="logo-container" style="width: 320px;">
           <img src="{{ public_asset('/assets/frontend/img/logo.svg') }}" width="320" height="320"

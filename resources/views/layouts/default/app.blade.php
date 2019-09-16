@@ -34,18 +34,14 @@
 <body>
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg " style="background: #067ec1;">
-    <div class="container" style="width: 85%!important;">
-        <div class="navbar-translate">
-            <p class="navbar-brand text-white" data-placement="bottom" target="_blank">
-                <a href="{{ url('/') }}">
-                    <img src="{{ public_asset('/assets/img/logo_blue_bg.svg') }}" width="135px" style=""/>
-                </a>
-            </p>
-        </div>
-        <div class="collapse navbar-collapse justify-content-end" id="navigation">
-            @include('nav')
-        </div>
-    </div>
+  <p class="navbar-brand text-white" data-placement="bottom" target="_blank">
+      <a href="{{ url('/') }}">
+          <img src="{{ public_asset('/assets/img/logo_blue_bg.svg') }}" width="135px" style=""/>
+      </a>
+  </p>
+  <div class="collapse navbar-collapse justify-content-end" id="navigation">
+      @include('nav')
+  </div>
 </nav>
 <!-- End Navbar -->
 <div id="top_anchor" class="clearfix" style="height: 25px;"></div>
