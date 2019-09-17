@@ -40,7 +40,24 @@ class NotificationEvents extends Listener
     protected function notifyAdmins($notification)
     {
         $admin_users = User::whereRoleIs('admin')->get();
-        Notification::send($admin_users, $notification);
+        try {
+            Notification::send($admin_users, $notification);
+        } catch (\Exception $e) {
+            Log::emergency('Error emailing admins, malformed email='.$e->getMessage());
+        }
+    }
+
+    /**
+     * @param User                                   $user
+     * @param \Illuminate\Notifications\Notification $notification
+     */
+    protected function notifyUser($user, $notification)
+    {
+        try {
+            $user->notify($notification);
+        } catch (\Exception $e) {
+            Log::emergency('Error emailing admins, malformed email='.$e->getMessage());
+        }
     }
 
     /**
@@ -64,9 +81,9 @@ class NotificationEvents extends Listener
          * Send the user a confirmation email
          */
         if ($event->user->state === UserState::ACTIVE) {
-            $event->user->notify(new \App\Notifications\UserRegistered($event->user));
+            $this->notifyUser($event->user, new \App\Notifications\UserRegistered($event->user));
         } elseif ($event->user->state === UserState::PENDING) {
-            $event->user->notify(new \App\Notifications\UserPending($event->user));
+            $this->notifyUser($event->user, new \App\Notifications\UserPending($event->user));
         }
     }
 
@@ -81,9 +98,9 @@ class NotificationEvents extends Listener
 
         if ($event->old_state === UserState::PENDING) {
             if ($event->user->state === UserState::ACTIVE) {
-                $event->user->notify(new \App\Notifications\UserRegistered($event->user));
+                $this->notifyUser($event->user, new \App\Notifications\UserRegistered($event->user));
             } elseif ($event->user->state === UserState::REJECTED) {
-                $event->user->notify(new \App\Notifications\UserRejected($event->user));
+                $this->notifyUser($event->user, new \App\Notifications\UserRejected($event->user));
             }
         } elseif ($event->old_state === UserState::ACTIVE) {
             Log::info('User state change from active to ??');
@@ -109,7 +126,7 @@ class NotificationEvents extends Listener
     public function onPirepAccepted(PirepAccepted $event): void
     {
         Log::info('NotificationEvents::onPirepAccepted: '.$event->pirep->id.' accepted');
-        $event->pirep->user->notify(new \App\Notifications\PirepAccepted($event->pirep));
+        $this->notifyUser($event->pirep->user, new \App\Notifications\PirepAccepted($event->pirep));
     }
 
     /**
@@ -120,6 +137,6 @@ class NotificationEvents extends Listener
     public function onPirepRejected(PirepRejected $event): void
     {
         Log::info('NotificationEvents::onPirepRejected: '.$event->pirep->id.' rejected');
-        $event->pirep->user->notify(new \App\Notifications\PirepRejected($event->pirep));
+        $this->notifyUser($event->pirep->user, new \App\Notifications\PirepRejected($event->pirep));
     }
 }
