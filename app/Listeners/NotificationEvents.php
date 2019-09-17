@@ -40,6 +40,7 @@ class NotificationEvents extends Listener
     protected function notifyAdmins($notification)
     {
         $admin_users = User::whereRoleIs('admin')->get();
+
         try {
             Notification::send($admin_users, $notification);
         } catch (\Exception $e) {
