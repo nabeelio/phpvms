@@ -38,7 +38,7 @@ class Pirep extends Response
         $fuel_used = new Fuel($res['fuel_used'], config('phpvms.internal_units.fuel'));
         $res['fuel_used'] = $fuel_used->getResponseUnits();
 
-        if (! array_key_exists('planned_distance', $res)) {
+        if (!array_key_exists('planned_distance', $res)) {
             $res['planned_distance'] = 0;
         }
 
