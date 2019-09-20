@@ -19,8 +19,12 @@ class Fuel extends Unit
      * @throws \PhpUnitsOfMeasure\Exception\NonNumericValue
      * @throws \PhpUnitsOfMeasure\Exception\NonStringUnitName
      */
-    public function __construct(float $value, string $unit)
+    public function __construct($value, string $unit)
     {
+        if (empty($value)) {
+            $value = 0;
+        }
+
         $this->unit = setting('units.fuel');
         $this->instance = new Mass($value, $unit);
     }

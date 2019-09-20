@@ -35,10 +35,8 @@ class Flight extends Response
 
         $res['ident'] = $this->ident;
 
-        if (!empty($res['distance'])) {
-            $distance = new Distance($res['distance'], config('phpvms.internal_units.distance'));
-            $res['distance'] = $distance->getResponseUnits();
-        }
+        $distance = new Distance($res['distance'], config('phpvms.internal_units.distance'));
+        $res['distance'] = $distance->getResponseUnits();
 
         $res['airline'] = new Airline($this->airline);
         $res['subfleets'] = Subfleet::collection($this->subfleets);

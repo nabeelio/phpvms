@@ -24,20 +24,26 @@ class Pirep extends Response
         $res['ident'] = $this->ident;
 
         // Set these to the response units
-        if (!empty($res['distance'])) {
-            $distance = new Distance($res['distance'], config('phpvms.internal_units.distance'));
-            $res['distance'] = $distance->getResponseUnits();
+        if (!array_key_exists('distance', $res)) {
+            $res['distance'] = 0;
         }
 
-        if (!empty($res['fuel_used'])) {
-            $fuel_used = new Fuel($res['fuel_used'], config('phpvms.internal_units.fuel'));
-            $res['fuel_used'] = $fuel_used->getResponseUnits();
+        $distance = new Distance($res['distance'], config('phpvms.internal_units.distance'));
+        $res['distance'] = $distance->getResponseUnits();
+
+        if (!array_key_exists('fuel_used', $res)) {
+            $res['fuel_used'] = 0;
         }
 
-        if (!empty($res['planned_distance'])) {
-            $planned_dist = new Distance($res['planned_distance'], config('phpvms.internal_units.distance'));
-            $res['planned_distance'] = $planned_dist->getResponseUnits();
+        $fuel_used = new Fuel($res['fuel_used'], config('phpvms.internal_units.fuel'));
+        $res['fuel_used'] = $fuel_used->getResponseUnits();
+
+        if (! array_key_exists('planned_distance', $res)) {
+            $res['planned_distance'] = 0;
         }
+
+        $planned_dist = new Distance($res['planned_distance'], config('phpvms.internal_units.distance'));
+        $res['planned_distance'] = $planned_dist->getResponseUnits();
 
         /*
          * Relationship fields
