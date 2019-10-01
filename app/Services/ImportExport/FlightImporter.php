@@ -9,6 +9,7 @@ use App\Models\Enums\FlightType;
 use App\Models\Fare;
 use App\Models\Flight;
 use App\Models\Subfleet;
+use App\Services\AirportService;
 use App\Services\FareService;
 use App\Services\FlightService;
 use Log;
@@ -47,8 +48,8 @@ class FlightImporter extends ImportExport
         'fields'        => 'nullable',
     ];
 
+    private $airportSvc;
     private $fareSvc;
-
     private $flightSvc;
 
     /**
@@ -56,6 +57,7 @@ class FlightImporter extends ImportExport
      */
     public function __construct()
     {
+        $this->airportSvc = app(AirportService::class);
         $this->fareSvc = app(FareService::class);
         $this->flightSvc = app(FlightService::class);
     }
@@ -189,9 +191,7 @@ class FlightImporter extends ImportExport
      */
     protected function processAirport($airport)
     {
-        return Airport::firstOrCreate([
-            'id' => $airport,
-        ], ['icao' => $airport, 'name' => $airport]);
+        return $this->airportSvc->lookupAirportIfNotFound($airport);
     }
 
     /**

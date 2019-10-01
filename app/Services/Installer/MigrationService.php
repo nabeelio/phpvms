@@ -5,7 +5,6 @@ namespace App\Services\Installer;
 use App\Contracts\Service;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Log;
 use Nwidart\Modules\Facades\Module;
 
 class MigrationService extends Service
@@ -37,7 +36,7 @@ class MigrationService extends Service
             }
         }
 
-        Log::info('Update - migration paths', $paths);
+        // Log::info('Update - migration paths', $paths);
 
         return $paths;
     }
@@ -53,7 +52,7 @@ class MigrationService extends Service
         $files = $migrator->getMigrationFiles(array_values($migration_dirs));
         $availMigrations = array_diff(array_keys($files), $migrator->getRepository()->getRan());
 
-        Log::info('Migrations available:', $availMigrations);
+        // Log::info('Migrations available:', $availMigrations);
 
         return $availMigrations;
     }
