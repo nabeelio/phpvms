@@ -94,6 +94,7 @@ class AirportService extends Service
      */
     public function lookupAirportIfNotFound($icao)
     {
+        $icao = strtoupper($icao);
         $airport = $this->airportRepo->findWithoutFail($icao);
         if ($airport !== null) {
             return $airport;

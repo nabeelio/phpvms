@@ -96,6 +96,9 @@ class FlightImporter extends ImportExport
             'route_leg'     => $row['route_leg'],
         ], $row);
 
+        $row['dpt_airport'] = strtoupper($row['dpt_airport']);
+        $row['arr_airport'] = strtoupper($row['arr_airport']);
+
         // Airport atttributes
         $flight->setAttribute('days', $this->setDays($row['days']));
         $flight->setAttribute('dpt_airport_id', $row['dpt_airport']);
