@@ -6,6 +6,7 @@ use App\Contracts\AirportLookup as AirportLookupProvider;
 use App\Contracts\Metar as MetarProvider;
 use App\Contracts\Service;
 use App\Exceptions\AirportNotFound;
+use App\Models\Airport;
 use App\Repositories\AirportRepository;
 use App\Support\Metar;
 use App\Support\Units\Distance;
@@ -73,11 +74,54 @@ class AirportService extends Service
             return [];
         }
 
+        $airport = (array) $airport;
+
         Cache::add(
             $key,
             $airport,
             config('cache.keys.AIRPORT_VACENTRAL_LOOKUP.time')
         );
+
+        return $airport;
+    }
+
+    /**
+     * Lookup an airport and save it if it hasn't been found
+     *
+     * @param string $icao
+     *
+     * @return \Illuminate\Database\Eloquent\Model|null
+     */
+    public function lookupAirportIfNotFound($icao)
+    {
+        $icao = strtoupper($icao);
+        $airport = $this->airportRepo->findWithoutFail($icao);
+        if ($airport !== null) {
+            return $airport;
+        }
+
+        // Don't lookup the airport, so just add in something generic
+        if (!setting('general.auto_airport_lookup')) {
+            $airport = new Airport([
+                'id'   => $icao,
+                'icao' => $icao,
+                'name' => $icao,
+                'lat'  => 0,
+                'lon'  => 0,
+            ]);
+
+            $airport->save();
+
+            return $airport;
+        }
+
+        $lookup = $this->lookupAirport($icao);
+        if (empty($lookup)) {
+            return;
+        }
+
+        $airport = new Airport($lookup);
+        $airport->save();
 
         return $airport;
     }

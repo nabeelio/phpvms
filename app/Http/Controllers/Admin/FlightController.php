@@ -175,6 +175,7 @@ class FlightController extends Controller
 
             return redirect(route('admin.flights.edit', $flight->id));
         } catch (\Exception $e) {
+            Log::error($e);
             Flash::error($e->getMessage());
             return redirect()->back()->withInput($request->all());
         }
@@ -258,8 +259,8 @@ class FlightController extends Controller
 
             return redirect(route('admin.flights.index'));
         } catch (\Exception $e) {
+            Log::error($e);
             Flash::error($e->getMessage());
-
             return redirect()->back()->withInput($request->all());
         }
     }

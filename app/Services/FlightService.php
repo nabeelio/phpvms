@@ -53,10 +53,16 @@ class FlightService extends Service
      */
     public function createFlight($fields)
     {
+        $fields['dpt_airport_id'] = strtoupper($fields['dpt_airport_id']);
+        $fields['arr_airport_id'] = strtoupper($fields['arr_airport_id']);
+
         $flightTmp = new Flight($fields);
         if ($this->isFlightDuplicate($flightTmp)) {
             throw new DuplicateFlight($flightTmp);
         }
+
+        $this->airportSvc->lookupAirportIfNotFound($fields['dpt_airport_id']);
+        $this->airportSvc->lookupAirportIfNotFound($fields['arr_airport_id']);
 
         $fields = $this->transformFlightFields($fields);
         $flight = $this->flightRepo->create($fields);

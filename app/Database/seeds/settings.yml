@@ -12,6 +12,13 @@
   options: ''
   type: text
   description: 'Email where system notices, etc are sent'
+- key: general.auto_airport_lookup
+  name: 'Automatic airport lookup'
+  group: general
+  value: true
+  options:
+  type: boolean
+  description: If an airport isn't added, try to look it up when adding schedules
 - key: general.check_prerelease_version
   name: 'Pre-release versions in version check'
   group: general
