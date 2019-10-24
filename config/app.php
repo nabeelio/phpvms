@@ -17,10 +17,6 @@ return [
     'locale'          => env('APP_LOCALE', 'en'),
     'fallback_locale' => 'en',
 
-    // This sends install and vaCentral specific information to help with
-    // optimizations and figuring out where slowdowns might be happening
-    'analytics' => true,
-
     //
     // Anything below here won't need changing and could break things
     //

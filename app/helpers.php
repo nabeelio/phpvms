@@ -43,7 +43,7 @@ if (!function_exists('get_truth_state')) {
             $state = strtolower($state);
         }
 
-        return \in_array($state, $enabledStates, false);
+        return in_array($state, $enabledStates, false);
     }
 }
 
@@ -144,6 +144,18 @@ if (!function_exists('setting')) {
             return $default;
         }
 
+        return $value;
+    }
+}
+
+/*
+ * Shortcut for retrieving a setting value
+ */
+if (!function_exists('setting_save')) {
+    function setting_save($key, $value)
+    {
+        $settingRepo = app('setting');
+        $settingRepo->save($key, $value);
         return $value;
     }
 }
