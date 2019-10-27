@@ -3,14 +3,15 @@
     <div class="card-block" style="min-height: 0px">
         <div class="form-group">
             {{ Form::open([
-            'route' => 'frontend.flights.search',
-            'method' => 'GET',
-            'class'=>'form-inline'
+                    'route' => 'frontend.flights.search',
+                    'method' => 'GET',
+                    'class'=>'form-inline'
             ]) }}
-            <style>
-                .form-group .form-control {
-                    width: 250px;
-                }
+            <style> 
+            .form-group .form-control {
+             width: 250px;
+             border-radius: 5px;
+            }
             </style>
             <div style="margin-left: 5px;">
                 <p>@lang('flights.flightnumber')</p>
