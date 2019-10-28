@@ -1,18 +1,12 @@
 <h3 class="description">@lang('flights.search')</h3>
 <div class="card pull-right">
     <div class="card-block" style="min-height: 0px">
-        <div class="form-group">
+        <div class="form-group search-form">
             {{ Form::open([
                     'route' => 'frontend.flights.search',
                     'method' => 'GET',
                     'class'=>'form-inline'
             ]) }}
-            <style> 
-            .form-group .form-control {
-             width: 250px;
-             border-radius: 5px;
-            }
-            </style>
             <div style="margin-left: 5px;">
                 <p>@lang('flights.flightnumber')</p>
                 {{ Form::text('flight_number', null, ['class' => 'form-control']) }}

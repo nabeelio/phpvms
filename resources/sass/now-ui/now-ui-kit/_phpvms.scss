@@ -26,6 +26,10 @@
     padding: 8px;
   }
 
+  .form-group .form-control {
+    border-radius: 5px;
+  }
+
   &:focus {
     border: 1px solid $brand-primary;
     & + .input-group-addon,
