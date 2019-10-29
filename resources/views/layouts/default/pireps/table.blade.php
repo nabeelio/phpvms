@@ -61,7 +61,7 @@
                     class="btn btn-info btn-sm"
                     style="z-index: 9999"
                     title="@lang('common.edit')">
-                    edit
+                    @lang('common.edit')
                   </a>
                   @endif
               </td>

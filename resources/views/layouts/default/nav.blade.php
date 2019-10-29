@@ -1,111 +1,111 @@
 <div class="nav-tabs-navigation">
   <div class="nav-tabs-wrapper">
-  <ul class="navbar-nav align-middle">
+    <ul class="navbar-nav align-middle">
       @if(Auth::check())
-          <li class="nav-item">
-              <a class="nav-link" href="{{ route('frontend.dashboard.index') }}">
-                  <i class="fas fa-tachometer-alt"></i>
-                  <p>@lang('common.dashboard')</p>
-              </a>
-          </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ route('frontend.dashboard.index') }}">
+            <i class="fas fa-tachometer-alt"></i>
+            <p>@lang('common.dashboard')</p>
+          </a>
+        </li>
       @endif
 
       <li class="nav-item">
-          <a class="nav-link" href="{{ route('frontend.livemap.index') }}">
-              <i class="fas fa-globe"></i>
-              <p>@lang('common.livemap')</p>
-          </a>
+        <a class="nav-link" href="{{ route('frontend.livemap.index') }}">
+          <i class="fas fa-globe"></i>
+          <p>@lang('common.livemap')</p>
+        </a>
       </li>
 
       <li class="nav-item">
-          <a class="nav-link" href="{{ route('frontend.pilots.index') }}">
-              <i class="fas fa-users"></i>
-              <p>{{ trans_choice('common.pilot', 2) }}</p>
-          </a>
+        <a class="nav-link" href="{{ route('frontend.pilots.index') }}">
+          <i class="fas fa-users"></i>
+          <p>{{ trans_choice('common.pilot', 2) }}</p>
+        </a>
       </li>
 
       {{-- Show the module links that don't require being logged in --}}
       @foreach($moduleSvc->getFrontendLinks($logged_in=false) as &$link)
-          <li class="nav-item">
-              <a class="nav-link" href="{{ url($link['url']) }}">
-                  <i class="{{ $link['icon'] }}"></i>
-                  <p>{{ ($link['title']) }}</p>
-              </a>
-          </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url($link['url']) }}">
+            <i class="{{ $link['icon'] }}"></i>
+            <p>{{ ($link['title']) }}</p>
+          </a>
+        </li>
       @endforeach
 
       @if(!Auth::check())
-          <li class="nav-item">
-              <a class="nav-link" href="{{ url('/login') }}">
-                  <i class="fas fa-sign-in-alt"></i>
-                  <p>@lang('common.login')</p>
-              </a>
-          </li>
-          <li class="nav-item">
-              <a class="nav-link" href="{{ url('/register') }}">
-                  <i class="far fa-id-card"></i>
-                  <p>@lang('common.register')</p>
-              </a>
-          </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url('/login') }}">
+            <i class="fas fa-sign-in-alt"></i>
+            <p>@lang('common.login')</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url('/register') }}">
+            <i class="far fa-id-card"></i>
+            <p>@lang('common.register')</p>
+          </a>
+        </li>
 
       @else
+        <li class="nav-item">
+          <a class="nav-link" href="{{ route('frontend.flights.index') }}">
+            <i class="fab fa-avianex"></i>
+            <p>{{ trans_choice('common.flight', 2) }}</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ route('frontend.pireps.index') }}">
+            <i class="fas fa-cloud-upload-alt"></i>
+            <p>{{ trans_choice('common.pirep', 2) }}</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ route('frontend.downloads.index') }}">
+            <i class="fas fa-download"></i>
+            <p>{{ trans_choice('common.download', 2) }}</p>
+          </a>
+        </li>
+
+        {{-- Show the module links for being logged in --}}
+        @foreach($moduleSvc->getFrontendLinks($logged_in=true) as &$link)
           <li class="nav-item">
-              <a class="nav-link" href="{{ route('frontend.flights.index') }}">
-                  <i class="fab fa-avianex"></i>
-                  <p>{{ trans_choice('common.flight', 2) }}</p>
-              </a>
+            <a class="nav-link" href="{{ url($link['url']) }}">
+              <i class="{{ $link['icon'] }}"></i>
+              <p>{{ ($link['title']) }}</p>
+            </a>
           </li>
-          <li class="nav-item">
-              <a class="nav-link" href="{{ route('frontend.pireps.index') }}">
-                  <i class="fas fa-cloud-upload-alt"></i>
-                  <p>{{ trans_choice('common.pirep', 2) }}</p>
-              </a>
-          </li>
-          <li class="nav-item">
-              <a class="nav-link" href="{{ route('frontend.downloads.index') }}">
-                  <i class="fas fa-download"></i>
-                  <p>{{ trans_choice('common.download', 2) }}</p>
-              </a>
-          </li>
+        @endforeach
 
-          {{-- Show the module links for being logged in --}}
-          @foreach($moduleSvc->getFrontendLinks($logged_in=true) as &$link)
-              <li class="nav-item">
-                  <a class="nav-link" href="{{ url($link['url']) }}">
-                      <i class="{{ $link['icon'] }}"></i>
-                      <p>{{ ($link['title']) }}</p>
-                  </a>
-              </li>
-          @endforeach
+        <li class="nav-item dropdown ">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+             data-toggle="dropdown" data-boundary="viewport" aria-haspopup="true" aria-expanded="false">
+            @if (Auth::user()->avatar == null)
+              <img src="{{ Auth::user()->gravatar(38) }}" style="height: 38px; width: 38px;">
+            @else
+              <img src="{{ Auth::user()->avatar->url }}" style="height: 38px; width: 38px;">
+            @endif
+          </a>
+          <div class="dropdown-menu dropdown-menu-right">
 
-          <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
-                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  @if (Auth::user()->avatar == null)
-                      <img src="{{ Auth::user()->gravatar(38) }}" style=" height: 38px; width: 38px;">
-                  @else
-                      <img src="{{ Auth::user()->avatar->url }}" style="height: 38px; width: 38px;">
-                  @endif
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <a class="dropdown-item" href="{{ route('frontend.profile.index') }}">
+              <i class="far fa-user"></i>&nbsp;&nbsp;@lang('common.profile')
+            </a>
 
-                  <a class="dropdown-item" href="{{ route('frontend.profile.index') }}">
-                      <i class="far fa-user"></i>&nbsp;&nbsp;@lang('common.profile')
-                  </a>
-
-                  @role('admin')
-                  <a class="dropdown-item" href="{{ url('/admin') }}">
-                      <i class="fas fa-circle-notch"></i>&nbsp;&nbsp;@lang('common.administration')
-                  </a>
-                  @endrole
-
-                  <a class="dropdown-item" href="{{ url('/logout') }}">
-                      <i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;@lang('common.logout')
-                  </a>
-              </div>
-          </li>
+            @role('admin')
+            <a class="dropdown-item" href="{{ url('/admin') }}">
+              <i class="fas fa-circle-notch"></i>&nbsp;&nbsp;@lang('common.administration')
+            </a>
+            @endrole
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="{{ url('/logout') }}">
+              <i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;@lang('common.logout')
+            </a>
+          </div>
+        </li>
       @endif
 
-  </ul>
+    </ul>
   </div>
 </div>

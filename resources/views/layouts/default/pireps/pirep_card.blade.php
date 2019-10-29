@@ -36,7 +36,7 @@
             </div>
             <div class="col-sm-10">
                 <div class="row">
-                    <div class="col-sm-6">
+                    <div class="col-sm-12">
                         <table class="table-condensed" width="100%">
                             <tr>
                                 <td nowrap><span class="title">@lang('pireps.flighttime')&nbsp;</span></td>
@@ -58,9 +58,6 @@
                                 <td>{{ show_datetime($pirep->created_at) }}</td>
                             </tr>
                         </table>
-                    </div>
-                    <div class="col-sm-6">
-
                     </div>
                 </div>
             </div>
