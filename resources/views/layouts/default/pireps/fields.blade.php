@@ -104,7 +104,7 @@ flight reports that have been filed. You've been warned!
                                 {{ Form::hidden('minutes') }}
                             </p>
                         @else
-                            <div class="input-group input-group-sm" style="max-width: 200px;">
+                            <div class="input-group input-group-sm" style="max-width: 400px;">
                                 {{ Form::number('hours', null, [
                                         'class' => 'form-control',
                                         'placeholder' => trans_choice('common.hour', 2),
