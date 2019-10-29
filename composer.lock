@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "65a0339b4ba756f5d21382236bdcc42b",
+    "content-hash": "646a110be5a7dc5a530dd8f6f634a5de",
     "packages": [
         {
             "name": "akaunting/money",
@@ -2367,16 +2367,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v6.0.4",
+            "version": "v6.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "372e0add8a58e0e3deb78f87cbb2dc40d3e0ff08"
+                "reference": "ebd8fcc038effa8c5f8791346c48047f7d0ed320"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/372e0add8a58e0e3deb78f87cbb2dc40d3e0ff08",
-                "reference": "372e0add8a58e0e3deb78f87cbb2dc40d3e0ff08",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/ebd8fcc038effa8c5f8791346c48047f7d0ed320",
+                "reference": "ebd8fcc038effa8c5f8791346c48047f7d0ed320",
                 "shasum": ""
             },
             "require": {
@@ -2472,7 +2472,8 @@
                 "league/flysystem-sftp": "Required to use the Flysystem SFTP driver (^1.0).",
                 "moontoast/math": "Required to use ordered UUIDs (^1.1).",
                 "pda/pheanstalk": "Required to use the beanstalk queue driver (^4.0).",
-                "pusher/pusher-php-server": "Required to use the Pusher broadcast driver (^3.0).",
+                "psr/http-message": "Required to allow Storage::put to accept a StreamInterface (^1.0)",
+                "pusher/pusher-php-server": "Required to use the Pusher broadcast driver (^4.0).",
                 "symfony/cache": "Required to PSR-6 cache bridge (^4.3.4).",
                 "symfony/psr-http-message-bridge": "Required to use PSR-7 bridging features (^1.2).",
                 "wildbit/swiftmailer-postmark": "Required to use Postmark mail driver (^3.0)."
@@ -2508,7 +2509,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2019-09-24T13:40:36+00:00"
+            "time": "2019-10-29T14:30:39+00:00"
         },
         {
             "name": "laravel/helpers",
