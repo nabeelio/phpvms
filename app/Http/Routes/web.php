@@ -3,8 +3,11 @@
 /**
  * User doesn't need to be logged in for these
  */
+use App\Http\Middleware\SetActiveTheme;
+
 Route::group([
-    'namespace' => 'Frontend', 'prefix' => '', 'as' => 'frontend.',
+    'namespace'  => 'Frontend', 'prefix' => '', 'as' => 'frontend.',
+    'middleware' => [SetActiveTheme::class],
 ], function () {
     Route::get('/', 'HomeController@index')->name('home');
     Route::get('r/{id}', 'PirepController@show')->name('pirep.show.public');
@@ -21,7 +24,7 @@ Route::group([
  */
 Route::group([
     'namespace'  => 'Frontend', 'prefix' => '', 'as' => 'frontend.',
-    'middleware' => ['role:admin|user'],
+    'middleware' => ['role:admin|user', SetActiveTheme::class],
 ], function () {
     Route::resource('dashboard', 'DashboardController');
 

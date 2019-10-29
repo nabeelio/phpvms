@@ -31,17 +31,6 @@ return [
         'currency' => 'USD',
     ],
 
-    // This is the name of the active theme
-    // Overrides config/themes.php
-    'themes' => [
-        'default'   => 'default',
-    ],
-
-    // Overrides config/vacentral.php
-    'vacentral' => [
-        'api_key' => '',
-    ],
-
     //
     // Other settings and configuration you might not need to modify
     //
