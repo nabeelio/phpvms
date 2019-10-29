@@ -24,7 +24,7 @@
                     x-saved-class="btn-info"
                     type="button"
                     title="@lang('flights.addremovebid')"
-                  >
+            >
               <i class="fas fa-map-marker"></i>
             </button>
           @endif
@@ -59,8 +59,8 @@
         </div>
         <div class="col-sm-5">
           @if($flight->route)
-          <span class="title">{{ strtoupper(__('flights.route')) }}&nbsp;</span>
-          {{ $flight->route }}
+            <span class="title">{{ strtoupper(__('flights.route')) }}&nbsp;</span>
+            {{ $flight->route }}
           @endif
         </div>
       </div>
