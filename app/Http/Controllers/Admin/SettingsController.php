@@ -13,8 +13,12 @@ use Illuminate\Support\Facades\Log;
  */
 class SettingsController extends Controller
 {
-    // Get a list of themes formatted for a select box
-    private function getThemes()
+    /**
+     * Get a list of themes formatted for a select box
+     *
+     * @return array
+     */
+    private function getThemes(): array
     {
         $themes = Theme::all();
         $theme_list = [];
