@@ -35,8 +35,8 @@
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg " style="background: #067ec1;">
   <p class="navbar-brand text-white" data-placement="bottom" target="_blank">
-      <a href="{{ url('/') }}">
-          <img src="{{ public_asset('/assets/img/logo_blue_bg.svg') }}" width="135px" style=""/>
+      <a href="{{ url('/') }}" style="margin-left: 20px;">
+          <img src="{{ public_asset('/assets/img/logo_blue_bg.svg') }}" width="135px" />
       </a>
   </p>
   <div class="collapse navbar-collapse justify-content-end" id="navigation">

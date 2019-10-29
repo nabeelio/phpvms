@@ -78,16 +78,16 @@
               </li>
           @endforeach
 
-          <li class="nav-item dropdown">
+          <li class="nav-item dropdown ">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
-                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                 data-toggle="dropdown" data-boundary="viewport" aria-haspopup="true" aria-expanded="false">
                   @if (Auth::user()->avatar == null)
-                      <img src="{{ Auth::user()->gravatar(38) }}" style=" height: 38px; width: 38px;">
+                      <img src="{{ Auth::user()->gravatar(38) }}" style="height: 38px; width: 38px;">
                   @else
                       <img src="{{ Auth::user()->avatar->url }}" style="height: 38px; width: 38px;">
                   @endif
               </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <div class="dropdown-menu dropdown-menu-right">
 
                   <a class="dropdown-item" href="{{ route('frontend.profile.index') }}">
                       <i class="far fa-user"></i>&nbsp;&nbsp;@lang('common.profile')
@@ -98,7 +98,7 @@
                       <i class="fas fa-circle-notch"></i>&nbsp;&nbsp;@lang('common.administration')
                   </a>
                   @endrole
-
+                  <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="{{ url('/logout') }}">
                       <i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;@lang('common.logout')
                   </a>
