@@ -14,12 +14,12 @@
 
       <div style="margin-top: 10px; margin-left: 5px;">
         <p>@lang('airports.departure')</p>
-        {{ Form::select('dep_icao', $airports, null , ['class' => 'form-control']) }}
+        {{ Form::select('dep_icao', $airports, null , ['class' => 'form-control select2']) }}
       </div>
 
       <div style="margin-top: 10px; margin-left: 5px;">
         <p>@lang('airports.arrival')</p>
-        {{ Form::select('arr_icao', $airports, null , ['class' => 'form-control']) }}
+        {{ Form::select('arr_icao', $airports, null , ['class' => 'form-control select2']) }}
       </div>
 
       <div class="clear" style="margin-top: 10px; margin-left: 5px;">
