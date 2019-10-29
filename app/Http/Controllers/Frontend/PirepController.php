@@ -8,6 +8,7 @@ use App\Http\Requests\CreatePirepRequest;
 use App\Http\Requests\UpdatePirepRequest;
 use App\Models\Enums\PirepSource;
 use App\Models\Enums\PirepState;
+use App\Models\Enums\PirepStatus;
 use App\Models\Pirep;
 use App\Repositories\AircraftRepository;
 use App\Repositories\AirlineRepository;
@@ -21,11 +22,10 @@ use App\Services\PirepService;
 use App\Services\UserService;
 use App\Support\Units\Time;
 use Carbon\Carbon;
-use Flash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
-use PirepStatus;
+use Laracasts\Flash\Flash;
 
 /**
  * Class PirepController
@@ -81,15 +81,14 @@ class PirepController extends Controller
     /**
      * Dropdown with aircraft grouped by subfleet
      *
-     * @param null  $user
      * @param mixed $add_blank
      *
      * @return array
      */
-    public function aircraftList($user = null, $add_blank = false)
+    public function aircraftList($add_blank = false)
     {
         $aircraft = [];
-        $subfleets = $this->userSvc->getAllowableSubfleets($user);
+        $subfleets = $this->userSvc->getAllowableSubfleets(Auth::user());
 
         if ($add_blank) {
             $aircraft[''] = '';
@@ -236,13 +235,11 @@ class PirepController extends Controller
      */
     public function create()
     {
-        $user = Auth::user();
-
         return view('pireps.create', [
             'aircraft'      => null,
             'read_only'     => false,
             'airline_list'  => $this->airlineRepo->selectBoxList(true),
-            'aircraft_list' => $this->aircraftList($user, true),
+            'aircraft_list' => $this->aircraftList(true),
             'airport_list'  => $this->airportRepo->selectBoxList(true),
             'pirep_fields'  => $this->pirepFieldRepo->all(),
             'field_values'  => [],
@@ -354,7 +351,9 @@ class PirepController extends Controller
         }
 
         // Eager load the subfleet and fares under it
-        $pirep->aircraft->load('subfleet.fares');
+        if ($pirep->aircraft) {
+            $pirep->aircraft->load('subfleet.fares');
+        }
 
         $time = new Time($pirep->flight_time);
         $pirep->hours = $time->hours;
@@ -379,7 +378,7 @@ class PirepController extends Controller
         return view('pireps.edit', [
             'pirep'         => $pirep,
             'aircraft'      => $pirep->aircraft,
-            'aircraft_list' => $this->aircraftList(),
+            'aircraft_list' => $this->aircraftList(true),
             'airline_list'  => $this->airlineRepo->selectBoxList(),
             'airport_list'  => $this->airportRepo->selectBoxList(),
             'pirep_fields'  => $this->pirepFieldRepo->all(),
@@ -446,6 +445,8 @@ class PirepController extends Controller
      *
      * @param         $id
      * @param Request $request
+     *
+     * @throws \Exception
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
