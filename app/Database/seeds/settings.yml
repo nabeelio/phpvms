@@ -26,6 +26,13 @@
   options: ''
   type: boolean
   description: 'Include beta and other pre-release versions when checking for a new version'
+- key: general.telemetry
+  name: 'Send telemetry to phpVMS'
+  group: general
+  value: true
+  options: ''
+  type: boolean
+  description: 'Send some data (php version, mysql version) to phpVMS. See AnalyticsSvc code for details'
 - key: units.distance
   name: 'Distance Units'
   group: units

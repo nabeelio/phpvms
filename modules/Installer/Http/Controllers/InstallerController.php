@@ -330,9 +330,13 @@ class InstallerController extends Controller
         $user = $this->userService->createUser($user, ['admin']);
         Log::info('User registered: ', $user->toArray());
 
-        // Set the intial admin e-mail address
-        setting('general.admin_email', $user->email);
+        // Set the initial admin e-mail address
+        setting_save('general.admin_email', $user->email);
 
+        // Save telemetry setting
+        setting_save('general.telemetry', get_truth_state($request->get('telemetry')));
+
+        // Try sending telemetry info
         $this->analyticsSvc->sendInstall();
 
         return view('installer::install/steps/step3a-completed', []);
