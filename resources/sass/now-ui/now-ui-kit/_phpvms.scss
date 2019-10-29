@@ -5,6 +5,10 @@
 @include input-sm-padding($padding-small-vertical, $padding-small-horizontal);
 @include input-base-padding($padding-small-vertical, $padding-small-horizontal);
 
+a {
+  z-index: 99;
+}
+
 .form-container {
   @extend .form-container;
 
