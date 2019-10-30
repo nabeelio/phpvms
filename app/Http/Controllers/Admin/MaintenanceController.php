@@ -3,19 +3,33 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Contracts\Controller;
+use App\Services\CronService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Laracasts\Flash\Flash;
 
 class MaintenanceController extends Controller
 {
-    public function __construct()
+    private $cronSvc;
+
+    public function __construct(CronService $cronSvc)
     {
+        $this->cronSvc = $cronSvc;
     }
 
     public function index()
     {
-        return view('admin.maintenance.index');
+        // Generate the cron path. Replace php-fpm with just php
+        $cron_path = [
+            '* * * * *',
+            $this->cronSvc->getCronPath(),
+            '>> /dev/null 2>&1',
+        ];
+
+        return view('admin.maintenance.index', [
+            'cron_path'           => implode(' ', $cron_path),
+            'cron_problem_exists' => $this->cronSvc->cronProblemExists(),
+        ]);
     }
 
     /**

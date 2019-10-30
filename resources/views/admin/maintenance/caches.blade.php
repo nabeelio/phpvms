@@ -4,7 +4,7 @@
             <h6><i class="fas fa-clock"></i>
                 &nbsp;Reset Caches
             </h6>
-            <div class="row">
+            <div class="row" style="padding-top: 5px">
                 <div class="col-sm-4 text-center">
                     {{ Form::open(['route' => 'admin.maintenance.cache']) }}
                     {{ Form::hidden('type', 'all') }}
