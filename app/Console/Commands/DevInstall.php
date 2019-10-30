@@ -13,14 +13,6 @@ class DevInstall extends Command
     protected $signature = 'phpvms:dev-install {--reset-db} {--reset-configs}';
     protected $description = 'Run a developer install and run the sample migration';
 
-    /**
-     * The YAML files with sample data to import
-     */
-    protected $yaml_imports = [
-        'sample.yml',
-        'acars.yml',
-    ];
-
     private $databaseSeeder;
 
     public function __construct(\DatabaseSeeder $databaseSeeder)

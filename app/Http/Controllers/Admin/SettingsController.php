@@ -4,14 +4,34 @@ namespace App\Http\Controllers\Admin;
 
 use App\Contracts\Controller;
 use App\Models\Setting;
+use Igaster\LaravelTheme\Facades\Theme;
 use Illuminate\Http\Request;
-use Log;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Class SettingsController
  */
 class SettingsController extends Controller
 {
+    /**
+     * Get a list of themes formatted for a select box
+     *
+     * @return array
+     */
+    private function getThemes(): array
+    {
+        $themes = Theme::all();
+        $theme_list = [];
+        foreach ($themes as $t) {
+            if (!$t || !$t->name || $t->name === 'false') {
+                continue;
+            }
+            $theme_list[] = $t->name;
+        }
+
+        return $theme_list;
+    }
+
     /**
      * Display the settings. Group them by the setting group
      */
@@ -22,6 +42,7 @@ class SettingsController extends Controller
 
         return view('admin.settings.index', [
             'grouped_settings' => $settings,
+            'themes'           => $this->getThemes(),
         ]);
     }
 

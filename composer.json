@@ -13,7 +13,7 @@
         "ext-simplexml": "*",
         "ext-pdo": "*",
         "composer/composer": "~1.8.0",
-        "laravel/framework": "~6.0.0",
+        "laravel/framework": "~6.0",
         "akaunting/money": "^1.0",
         "anhskohbo/no-captcha": "^3.0",
         "appstract/laravel-opcache": "^2.0",
