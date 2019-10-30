@@ -8,20 +8,10 @@ use App\Console\Cron\Nightly;
 use App\Console\Cron\Weekly;
 use App\Services\CronService;
 use Illuminate\Console\Scheduling\Schedule;
-use Illuminate\Contracts\Events\Dispatcher;
-use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel
 {
-    private $cronSvc;
-
-    public function __construct(Application $app, Dispatcher $events)
-    {
-        parent::__construct($app, $events);
-        $this->cronSvc = app(CronService::class);
-    }
-
     /**
      * Define the application's command schedule.
      *
@@ -41,7 +31,8 @@ class Kernel extends ConsoleKernel
         $schedule->command('backup:run')->daily()->at('02:00');
 
         // Update the last time the cron was run
-        $this->cronSvc->updateLastRunTime();
+        $cronSvc = app(CronService::class);
+        $cronSvc->updateLastRunTime();
     }
 
     /**
