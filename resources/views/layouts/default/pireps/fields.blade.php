@@ -301,6 +301,8 @@ flight reports that have been filed. You've been warned!
         <div class="float-right">
             <div class="form-group">
 
+              {{ Form::hidden('flight_id') }}
+
                 @if(isset($pirep) && !$pirep->read_only)
                     {{ Form::button(__('pireps.deletepirep'), [
                         'name' => 'submit',
