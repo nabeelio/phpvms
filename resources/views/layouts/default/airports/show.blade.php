@@ -83,7 +83,7 @@
                     <th class="text-left">@lang('airports.ident')</th>
 		    <th class="text-left">@lang('airports.arrival')</th>
                     <th>@lang('flights.dep')</th>
-		    <th>@lang('flights.arr')</th>
+                    <th>@lang('flights.arr')</th>
                 </tr>
                 </thead>
                 @foreach($outbound_flights as $flight)
