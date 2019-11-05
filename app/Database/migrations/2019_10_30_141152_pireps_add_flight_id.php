@@ -5,18 +5,15 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class PirepsChangeStateType extends Migration
+class PirepsAddFlightId extends Migration
 {
     /**
-     * Change the PIREP state column to be a TINYINT
-     *
-     * @return void
+     * Add a `flight_id` column to the PIREPs table
      */
     public function up()
     {
-        // Change the column type to an unsigned small int (tinyint not supported on all)
         Schema::table('pireps', function (Blueprint $table) {
-            $table->string('flight_id', Model::ID_MAX_LENGTH)->change();
+            $table->string('flight_id', Model::ID_MAX_LENGTH)->nullable()->after('aircraft_id');
         });
     }
 
@@ -27,5 +24,8 @@ class PirepsChangeStateType extends Migration
      */
     public function down()
     {
+        Schema::table('pireps', function (Blueprint $table) {
+            $table->dropColumn('flight_id');
+        });
     }
 }

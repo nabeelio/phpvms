@@ -12,6 +12,7 @@ use Laratrust\Traits\LaratrustUserTrait;
 /**
  * @property int            id
  * @property int            pilot_id
+ * @property int            airline_id
  * @property string         name
  * @property string         email
  * @property string         password

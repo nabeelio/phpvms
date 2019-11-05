@@ -4,7 +4,7 @@ namespace App\Listeners;
 
 use App\Contracts\Listener;
 use App\Events\PirepAccepted;
-use App\Services\PirepService;
+use App\Services\BidService;
 use Illuminate\Contracts\Events\Dispatcher;
 
 /**
@@ -12,17 +12,10 @@ use Illuminate\Contracts\Events\Dispatcher;
  */
 class BidEvents extends Listener
 {
-    private $pirepSvc;
+    private $bidSvc;
 
-    /**
-     * FinanceEvents constructor.
-     *
-     * @param PirepService $pirepSvc
-     */
-    public function __construct(
-        PirepService $pirepSvc
-    ) {
-        $this->pirepSvc = $pirepSvc;
+    public function __construct(BidService $bidSvc) {
+        $this->bidSvc = $bidSvc;
     }
 
     /**
@@ -44,10 +37,9 @@ class BidEvents extends Listener
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
      * @throws \Exception
-     * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
     public function onPirepAccept(PirepAccepted $event): void
     {
-        $this->pirepSvc->removeBid($event->pirep);
+        $this->bidSvc->removeBidForPirep($event->pirep);
     }
 }

@@ -7,6 +7,7 @@ use App\Models\Enums\PirepState;
 use App\Models\Pirep;
 use App\Models\User;
 use App\Repositories\SettingRepository;
+use App\Services\BidService;
 use App\Services\FlightService;
 use App\Services\PirepService;
 use Carbon\Carbon;
@@ -358,6 +359,7 @@ class PIREPTest extends TestCase
      */
     public function testPirepBidRemoved()
     {
+        $bidSvc = app(BidService::class);
         $flightSvc = app(FlightService::class);
         $this->settingsRepo->store('pireps.remove_bid_on_accept', true);
 
@@ -370,11 +372,12 @@ class PIREPTest extends TestCase
             'route_leg'  => null,
         ]);
 
-        $flightSvc->addBid($flight, $user);
+        $bidSvc->addBid($flight, $user);
 
         $pirep = factory(App\Models\Pirep::class)->create([
             'user_id'       => $user->id,
             'airline_id'    => $flight->airline_id,
+            'flight_id'     => $flight->id,
             'flight_number' => $flight->flight_number,
         ]);
 

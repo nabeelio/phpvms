@@ -7,6 +7,7 @@ return [
     'submitpirep'          => 'Enviar PIREP',
     'fileflightreport'     => 'Archivo informe de vuelo',
     'filenewpirep'         => 'Archivo nuevo PIREP',
+    'newpirep'             => 'Nuevo PIREP',
     'pilotreport'          => 'Informe de piloto|Informes de piloto',
     'arrived'              => 'Llegó',
     'source'               => 'Origen',
