@@ -159,7 +159,7 @@ class Pirep extends Model
      */
     public static function fromFlight(Flight $flight)
     {
-        return new Pirep([
+        return new self([
             'flight_id'      => $flight->id,
             'airline_id'     => $flight->airline_id,
             'flight_number'  => $flight->flight_number,
@@ -298,6 +298,8 @@ class Pirep extends Model
 
     /**
      * Look up the flight, based on the PIREP flight info
+     *
+     * @param mixed $value
      *
      * @return Flight|null
      */

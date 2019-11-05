@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Bid;
 use App\Models\Enums\Days;
 use App\Models\Flight;
 use App\Models\User;

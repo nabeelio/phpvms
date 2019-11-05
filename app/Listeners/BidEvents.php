@@ -14,7 +14,8 @@ class BidEvents extends Listener
 {
     private $bidSvc;
 
-    public function __construct(BidService $bidSvc) {
+    public function __construct(BidService $bidSvc)
+    {
         $this->bidSvc = $bidSvc;
     }
 

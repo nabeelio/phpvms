@@ -16,28 +16,28 @@ $factory->define(App\Models\Pirep::class, function (Faker $faker) {
     ]);
 
     return [
-        'id'                  => $faker->unique()->numberBetween(10, 10000000),
-        'airline_id'          => function () use ($airline) {
+        'id'         => $faker->unique()->numberBetween(10, 10000000),
+        'airline_id' => function () use ($airline) {
             return $airline->id;
         },
-        'user_id'             => function () {
+        'user_id' => function () {
             return factory(App\Models\User::class)->create()->id;
         },
-        'aircraft_id'         => function () {
+        'aircraft_id' => function () {
             return factory(App\Models\Aircraft::class)->create()->id;
         },
-        'flight_id'           => function () use ($flight) {
+        'flight_id' => function () use ($flight) {
             return $flight->id;
         },
-        'flight_number'       => function () use ($flight) {
+        'flight_number' => function () use ($flight) {
             return $flight->flight_number;
         },
-        'route_code'          => null,
-        'route_leg'           => null,
-        'dpt_airport_id'      => function () use ($flight) {
+        'route_code'     => null,
+        'route_leg'      => null,
+        'dpt_airport_id' => function () use ($flight) {
             return $flight->dpt_airport_id;
         },
-        'arr_airport_id'      => function () use ($flight) {
+        'arr_airport_id' => function () use ($flight) {
             return $flight->arr_airport_id;
         },
         'level'               => $faker->numberBetween(20, 400),
@@ -50,19 +50,19 @@ $factory->define(App\Models\Pirep::class, function (Faker $faker) {
         'fuel_used'           => function (array $pirep) {
             return round($pirep['block_fuel'] * .9, 2); // 90% of the fuel loaded was used
         },
-        'block_on_time'       => Carbon::now('UTC'),
-        'block_off_time'      => function (array $pirep) {
+        'block_on_time'  => Carbon::now('UTC'),
+        'block_off_time' => function (array $pirep) {
             return $pirep['block_on_time']->subMinutes($pirep['flight_time']);
         },
-        'route'               => $faker->text(200),
-        'notes'               => $faker->text(200),
-        'source'              => $faker->randomElement([PirepSource::MANUAL, PirepSource::ACARS]),
-        'source_name'         => 'TestFactory',
-        'state'               => PirepState::PENDING,
-        'status'              => PirepStatus::SCHEDULED,
-        'submitted_at'        => Carbon::now('UTC')->toDateTimeString(),
-        'created_at'          => Carbon::now('UTC')->toDateTimeString(),
-        'updated_at'          => function (array $pirep) {
+        'route'        => $faker->text(200),
+        'notes'        => $faker->text(200),
+        'source'       => $faker->randomElement([PirepSource::MANUAL, PirepSource::ACARS]),
+        'source_name'  => 'TestFactory',
+        'state'        => PirepState::PENDING,
+        'status'       => PirepStatus::SCHEDULED,
+        'submitted_at' => Carbon::now('UTC')->toDateTimeString(),
+        'created_at'   => Carbon::now('UTC')->toDateTimeString(),
+        'updated_at'   => function (array $pirep) {
             return $pirep['created_at'];
         },
     ];
