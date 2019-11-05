@@ -4,20 +4,17 @@ namespace App\Http\Requests\Acars;
 
 use App\Contracts\FormRequest;
 use App\Models\Pirep;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 
-/**
- * Class UpdateRequest
- */
 class UpdateRequest extends FormRequest
 {
-    public function authorize()
+    public function authorize(): bool
     {
         $pirep = Pirep::findOrFail($this->route('pirep_id'), ['user_id']);
         return $pirep->user_id === Auth::id();
     }
 
-    public function rules()
+    public function rules(): array
     {
         $rules = [
             'airline_id'          => 'nullable|exists:airlines,id',

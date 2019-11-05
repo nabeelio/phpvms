@@ -9,7 +9,6 @@ use App\Events\PirepRejected;
 use App\Events\UserStatsChanged;
 use App\Exceptions\PirepCancelNotAllowed;
 use App\Models\Acars;
-use App\Models\Bid;
 use App\Models\Enums\AcarsType;
 use App\Models\Enums\PirepSource;
 use App\Models\Enums\PirepState;
@@ -20,12 +19,10 @@ use App\Models\PirepFieldValue;
 use App\Models\User;
 use App\Repositories\PirepRepository;
 use Carbon\Carbon;
+use function count;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Log;
 
-/**
- * Class PirepService
- */
 class PirepService extends Service
 {
     private $geoSvc;
@@ -33,8 +30,6 @@ class PirepService extends Service
     private $pirepRepo;
 
     /**
-     * PirepService constructor.
-     *
      * @param GeoService      $geoSvc
      * @param PirepRepository $pirepRepo
      * @param UserService     $pilotSvc
@@ -47,6 +42,60 @@ class PirepService extends Service
         $this->geoSvc = $geoSvc;
         $this->pilotSvc = $pilotSvc;
         $this->pirepRepo = $pirepRepo;
+    }
+
+    /**
+     * Create a new PIREP with some given fields
+     *
+     * @param Pirep                   $pirep
+     * @param array PirepFieldValue[] $field_values
+     *
+     * @return Pirep
+     */
+    public function create(Pirep $pirep, array $field_values = []): Pirep
+    {
+        if (empty($field_values)) {
+            $field_values = [];
+        }
+
+        // Check the block times. If a block on (arrival) time isn't
+        // specified, then use the time that it was submitted. It won't
+        // be the most accurate, but that might be OK
+        if (!$pirep->block_on_time) {
+            if ($pirep->submitted_at) {
+                $pirep->block_on_time = $pirep->submitted_at;
+            } else {
+                $pirep->block_on_time = Carbon::now('UTC');
+            }
+        }
+
+        // If the depart time isn't set, then try to calculate it by
+        // subtracting the flight time from the block_on (arrival) time
+        if (!$pirep->block_off_time && $pirep->flight_time > 0) {
+            $pirep->block_off_time = $pirep->block_on_time->subMinutes($pirep->flight_time);
+        }
+
+        // Check that there's a submit time
+        if (!$pirep->submitted_at) {
+            $pirep->submitted_at = Carbon::now('UTC');
+        }
+
+        $pirep->status = PirepStatus::ARRIVED;
+
+        // Copy some fields over from Flight if we have it
+        if ($pirep->flight) {
+            $pirep->planned_distance = $pirep->flight->distance;
+            $pirep->planned_flight_time = $pirep->flight->flight_time;
+        }
+
+        $pirep->save();
+        $pirep->refresh();
+
+        if (count($field_values) > 0) {
+            $this->updateCustomFields($pirep->id, $field_values);
+        }
+
+        return $pirep;
     }
 
     /**
@@ -144,54 +193,6 @@ class PirepService extends Service
 
             $acars->save();
             $point_count++;
-        }
-
-        return $pirep;
-    }
-
-    /**
-     * Create a new PIREP with some given fields
-     *
-     * @param Pirep                   $pirep
-     * @param array PirepFieldValue[] $field_values
-     *
-     * @return Pirep
-     */
-    public function create(Pirep $pirep, array $field_values = []): Pirep
-    {
-        if (empty($field_values)) {
-            $field_values = [];
-        }
-
-        // Check the block times. If a block on (arrival) time isn't
-        // specified, then use the time that it was submitted. It won't
-        // be the most accurate, but that might be OK
-        if (!$pirep->block_on_time) {
-            if ($pirep->submitted_at) {
-                $pirep->block_on_time = $pirep->submitted_at;
-            } else {
-                $pirep->block_on_time = Carbon::now('UTC');
-            }
-        }
-
-        // If the depart time isn't set, then try to calculate it by
-        // subtracting the flight time from the block_on (arrival) time
-        if (!$pirep->block_off_time && $pirep->flight_time > 0) {
-            $pirep->block_off_time = $pirep->block_on_time->subMinutes($pirep->flight_time);
-        }
-
-        // Check that there's a submit time
-        if (!$pirep->submitted_at) {
-            $pirep->submitted_at = Carbon::now('UTC');
-        }
-
-        $pirep->status = PirepStatus::ARRIVED;
-
-        $pirep->save();
-        $pirep->refresh();
-
-        if (\count($field_values) > 0) {
-            $this->updateCustomFields($pirep->id, $field_values);
         }
 
         return $pirep;
@@ -420,34 +421,5 @@ class PirepService extends Service
         $pirep->refresh();
 
         event(new UserStatsChanged($pilot, 'airport', $previous_airport));
-    }
-
-    /**
-     * If the setting is enabled, remove the bid
-     *
-     * @param Pirep $pirep
-     *
-     * @throws \Exception
-     */
-    public function removeBid(Pirep $pirep)
-    {
-        if (!setting('pireps.remove_bid_on_accept')) {
-            return;
-        }
-
-        $flight = $pirep->flight;
-        if (!$flight) {
-            return;
-        }
-
-        $bid = Bid::where([
-            'user_id'   => $pirep->user->id,
-            'flight_id' => $flight->id,
-        ]);
-
-        if ($bid) {
-            Log::info('Bid for user: '.$pirep->user->ident.' on flight '.$flight->ident);
-            $bid->delete();
-        }
     }
 }

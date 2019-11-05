@@ -2,6 +2,7 @@
 
 return [
     'filenewpirep'         => 'Inserici Nuovo PIREP',
+    'newpirep'             => 'Nuovo PIREP',
     'pilotreport'          => 'Rapporto Pilota|Rapporti Pilota',
     'arrived'              => 'Arrivato',
     'source'               => 'Fonte',

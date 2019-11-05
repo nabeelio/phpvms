@@ -7,6 +7,7 @@ return [
     'submitpirep'          => 'Submit PIREP',
     'fileflightreport'     => 'File New Report',
     'filenewpirep'         => 'File New PIREP',
+    'newpirep'             => 'New PIREP',
     'pilotreport'          => 'Pilot Report|Pilot Reports',
     'arrived'              => 'Arrived',
     'source'               => 'Source',

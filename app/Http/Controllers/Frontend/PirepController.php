@@ -14,6 +14,7 @@ use App\Repositories\AircraftRepository;
 use App\Repositories\AirlineRepository;
 use App\Repositories\AirportRepository;
 use App\Repositories\Criteria\WhereCriteria;
+use App\Repositories\FlightRepository;
 use App\Repositories\PirepFieldRepository;
 use App\Repositories\PirepRepository;
 use App\Services\FareService;
@@ -35,6 +36,7 @@ class PirepController extends Controller
     private $aircraftRepo;
     private $airlineRepo;
     private $fareSvc;
+    private $flightRepo;
     private $geoSvc;
     private $pirepRepo;
     private $airportRepo;
@@ -43,12 +45,11 @@ class PirepController extends Controller
     private $userSvc;
 
     /**
-     * PirepController constructor.
-     *
      * @param AircraftRepository   $aircraftRepo
      * @param AirlineRepository    $airlineRepo
      * @param AirportRepository    $airportRepo
      * @param FareService          $fareSvc
+     * @param FlightRepository     $flightRepo
      * @param GeoService           $geoSvc
      * @param PirepRepository      $pirepRepo
      * @param PirepFieldRepository $pirepFieldRepo
@@ -60,6 +61,7 @@ class PirepController extends Controller
         AirlineRepository $airlineRepo,
         AirportRepository $airportRepo,
         FareService $fareSvc,
+        FlightRepository $flightRepo,
         GeoService $geoSvc,
         PirepRepository $pirepRepo,
         PirepFieldRepository $pirepFieldRepo,
@@ -73,6 +75,7 @@ class PirepController extends Controller
         $this->pirepFieldRepo = $pirepFieldRepo;
 
         $this->fareSvc = $fareSvc;
+        $this->flightRepo = $flightRepo;
         $this->geoSvc = $geoSvc;
         $this->pirepSvc = $pirepSvc;
         $this->userSvc = $userSvc;
@@ -231,12 +234,24 @@ class PirepController extends Controller
     /**
      * Create a new flight report
      *
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function create()
+    public function create(Request $request)
     {
+        $pirep = null;
+
+        // See if request has a ?flight_id, so we can pre-populate the fields from the flight
+        // Makes filing easier, but we can also more easily find a bid and close it
+        if ($request->has('flight_id')) {
+            $flight = $this->flightRepo->find($request->get('flight_id'));
+            $pirep = Pirep::fromFlight($flight);
+        }
+
         return view('pireps.create', [
             'aircraft'      => null,
+            'pirep'         => $pirep,
             'read_only'     => false,
             'airline_list'  => $this->airlineRepo->selectBoxList(true),
             'aircraft_list' => $this->aircraftList(true),

@@ -9,10 +9,7 @@ use App\Contracts\FormRequest;
  */
 class FieldsRequest extends FormRequest
 {
-    /**
-     * @return array
-     */
-    public function rules()
+    public function rules(): array
     {
         return [
             'fields' => 'required|array',

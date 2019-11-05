@@ -151,6 +151,28 @@ class Pirep extends Model
     ];
 
     /**
+     * Create a new PIREP model from a given flight. Pre-populates the fields
+     *
+     * @param \App\Models\Flight $flight
+     *
+     * @return \App\Models\Pirep
+     */
+    public static function fromFlight(Flight $flight)
+    {
+        return new self([
+            'flight_id'      => $flight->id,
+            'airline_id'     => $flight->airline_id,
+            'flight_number'  => $flight->flight_number,
+            'route_code'     => $flight->route_code,
+            'route_leg'      => $flight->route_leg,
+            'dpt_airport_id' => $flight->dpt_airport_id,
+            'arr_airport_id' => $flight->arr_airport_id,
+            'route'          => $flight->route,
+            'level'          => $flight->level,
+        ]);
+    }
+
+    /**
      * Get the flight ident, e.,g JBU1900
      *
      * @return string
@@ -277,10 +299,16 @@ class Pirep extends Model
     /**
      * Look up the flight, based on the PIREP flight info
      *
+     * @param mixed $value
+     *
      * @return Flight|null
      */
-    public function getFlightAttribute(): ?Flight
+    /*public function getFlightAttribute(): ?Flight
     {
+        if (!empty($this->flight_id)) {
+            return Flight::find($this->flight_id);
+        }
+
         $where = [
             'airline_id'    => $this->airline_id,
             'flight_number' => $this->flight_number,
@@ -296,7 +324,7 @@ class Pirep extends Model
         }
 
         return Flight::where($where)->first();
-    }
+    }*/
 
     /**
      * Set the amount of fuel used
@@ -410,6 +438,11 @@ class Pirep extends Model
     public function airline()
     {
         return $this->belongsTo(Airline::class, 'airline_id');
+    }
+
+    public function flight()
+    {
+        return $this->belongsTo(Flight::class, 'flight_id');
     }
 
     public function arr_airport()

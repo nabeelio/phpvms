@@ -8,8 +8,8 @@ use App\Http\Resources\Navdata as NavdataResource;
 use App\Repositories\Criteria\WhereCriteria;
 use App\Repositories\FlightRepository;
 use App\Services\FlightService;
-use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Prettus\Repository\Exceptions\RepositoryException;
 
@@ -44,6 +44,9 @@ class FlightController extends Controller
      */
     public function index(Request $request)
     {
+        /**
+         * @var $user \App\Models\User
+         */
         $user = Auth::user();
 
         $where = [
@@ -52,7 +55,7 @@ class FlightController extends Controller
         ];
 
         if (setting('pilots.restrict_to_company')) {
-            $where['airline_id'] = Auth::user()->airline_id;
+            $where['airline_id'] = $user->airline_id;
         }
         if (setting('pilots.only_flights_from_current', false)) {
             $where['dpt_airport_id'] = $user->curr_airport_id;

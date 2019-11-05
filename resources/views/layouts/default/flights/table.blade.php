@@ -23,8 +23,7 @@
                     x-id="{{ $flight->id }}"
                     x-saved-class="btn-info"
                     type="button"
-                    title="@lang('flights.addremovebid')"
-            >
+                    title="@lang('flights.addremovebid')">
               <i class="fas fa-map-marker"></i>
             </button>
           @endif
@@ -62,6 +61,14 @@
             <span class="title">{{ strtoupper(__('flights.route')) }}&nbsp;</span>
             {{ $flight->route }}
           @endif
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12 text-right">
+          <a href="{{ route('frontend.pireps.create') }}?flight_id={{ $flight->id }}"
+             class="btn btn-sm btn-info">
+            {{ __('pireps.newpirep') }}
+          </a>
         </div>
       </div>
     </div>

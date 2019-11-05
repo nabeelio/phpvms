@@ -22,7 +22,10 @@ use Illuminate\Support\Collection;
  * @property Collection fares
  * @property Collection subfleets
  * @property int        days
+ * @property int        distance
+ * @property int        flight_time
  * @property string     route
+ * @property int        level
  * @property Airport    dpt_airport
  * @property Airport    arr_airport
  * @property Airport    alt_airport

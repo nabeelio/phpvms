@@ -1,5 +1,8 @@
 <?php
 
+use App\Models\Enums\PirepSource;
+use App\Models\Enums\PirepState;
+use App\Models\Enums\PirepStatus;
 use Carbon\Carbon;
 use Faker\Generator as Faker;
 
@@ -7,10 +10,15 @@ use Faker\Generator as Faker;
  * Create a new PIREP
  */
 $factory->define(App\Models\Pirep::class, function (Faker $faker) {
+    $airline = factory(App\Models\Airline::class)->create();
+    $flight = factory(App\Models\Flight::class)->create([
+        'airline_id' => $airline->id,
+    ]);
+
     return [
         'id'         => $faker->unique()->numberBetween(10, 10000000),
-        'airline_id' => function () {
-            return factory(App\Models\Airline::class)->create()->id;
+        'airline_id' => function () use ($airline) {
+            return $airline->id;
         },
         'user_id' => function () {
             return factory(App\Models\User::class)->create()->id;
@@ -18,18 +26,19 @@ $factory->define(App\Models\Pirep::class, function (Faker $faker) {
         'aircraft_id' => function () {
             return factory(App\Models\Aircraft::class)->create()->id;
         },
-        'flight_number' => function (array $pirep) {
-            return factory(App\Models\Flight::class)->create([
-                'airline_id' => $pirep['airline_id'],
-            ])->flight_number;
+        'flight_id' => function () use ($flight) {
+            return $flight->id;
+        },
+        'flight_number' => function () use ($flight) {
+            return $flight->flight_number;
         },
         'route_code'     => null,
         'route_leg'      => null,
-        'dpt_airport_id' => function () {
-            return factory(App\Models\Airport::class)->create()->id;
+        'dpt_airport_id' => function () use ($flight) {
+            return $flight->dpt_airport_id;
         },
-        'arr_airport_id' => function () {
-            return factory(App\Models\Airport::class)->create()->id;
+        'arr_airport_id' => function () use ($flight) {
+            return $flight->arr_airport_id;
         },
         'level'               => $faker->numberBetween(20, 400),
         'distance'            => $faker->randomFloat(2, 0, 6000),
@@ -48,7 +57,7 @@ $factory->define(App\Models\Pirep::class, function (Faker $faker) {
         'route'        => $faker->text(200),
         'notes'        => $faker->text(200),
         'source'       => $faker->randomElement([PirepSource::MANUAL, PirepSource::ACARS]),
-        'source_name'  => 'Test Factory',
+        'source_name'  => 'TestFactory',
         'state'        => PirepState::PENDING,
         'status'       => PirepStatus::SCHEDULED,
         'submitted_at' => Carbon::now('UTC')->toDateTimeString(),

@@ -20,6 +20,7 @@ use App\Http\Resources\PirepComment as PirepCommentResource;
 use App\Http\Resources\PirepFieldCollection;
 use App\Models\Acars;
 use App\Models\Enums\AcarsType;
+use App\Models\Enums\FlightType;
 use App\Models\Enums\PirepFieldSource;
 use App\Models\Enums\PirepSource;
 use App\Models\Enums\PirepState;
@@ -91,6 +92,10 @@ class PirepController extends Controller
 
         if (array_key_exists('created_at', $attrs)) {
             $attrs['created_at'] = Carbon::createFromTimeString($attrs['created_at']);
+        }
+
+        if (array_key_exists('updated_at', $attrs)) {
+            $attrs['updated_at'] = Carbon::createFromTimeString($attrs['updated_at']);
         }
 
         return $attrs;
@@ -186,6 +191,9 @@ class PirepController extends Controller
     {
         Log::info('PIREP Prefile, user '.Auth::id(), $request->post());
 
+        /**
+         * @var $user \App\Models\User
+         */
         $user = Auth::user();
 
         $attrs = $this->parsePirep($request);
@@ -228,7 +236,7 @@ class PirepController extends Controller
 
         // Default to a scheduled passenger flight
         if (!array_key_exists('flight_type', $attrs)) {
-            $attrs['flight_type'] = 'J';
+            $attrs['flight_type'] = FlightType::SCHED_PAX;
         }
 
         $pirep->save();
