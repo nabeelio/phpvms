@@ -145,7 +145,7 @@ class ConfigService extends Service
     protected function configCacheDriver($opts)
     {
         // Set the cache prefix
-        $opts['CACHE_PREFIX'] = $opts['SITE_NAME'].'_';
+        $opts['CACHE_PREFIX'] = uniqid($opts['SITE_NAME'].'_');
 
         // Figure out what cache driver to initially use, depending on
         // what is installed. It won't detect redis or anything, though
