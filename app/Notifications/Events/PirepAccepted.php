@@ -8,8 +8,6 @@ use App\Notifications\Channels\MailChannel;
 
 /**
  * Send the PIREP accepted message to a particular user
- *
- * @package App\Notifications\Messages
  */
 class PirepAccepted extends BaseNotification
 {

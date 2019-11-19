@@ -11,7 +11,7 @@ class PirepSubmitted extends BaseNotification
     use MailChannel;
 
     public $channels = [
-        'mail'
+        'mail',
     ];
 
     private $pirep;

@@ -10,8 +10,6 @@ use Illuminate\Notifications\Notifiable;
  *
  * $notifyable = app(Broadcast::class);
  * $notifyable->notify($eventclass);
- *
- * @package App\Notifications\Notifiables
  */
 class Broadcast
 {
