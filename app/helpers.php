@@ -124,7 +124,7 @@ if (!function_exists('skin_view')) {
         }
 
         // TODO: Look for an overridden template in a special folder
-        $tpl = 'layouts/'.config('phpvms.skin').'/'.$template;
+        $tpl = 'layouts/'.setting('general.theme').'/'.$template;
 
         return view($tpl, $vars, $merge_data);
     }

@@ -121,7 +121,7 @@ class Handler extends ExceptionHandler
 
         $status = $e->getStatusCode();
         view()->replaceNamespace('errors', [
-            resource_path('views/layouts/'.config('phpvms.skin').'/errors'),
+            resource_path('views/layouts/'.setting('general.theme').'/errors'),
             resource_path('views/errors'),
             __DIR__.'/views',
         ]);
@@ -129,7 +129,7 @@ class Handler extends ExceptionHandler
         if (view()->exists("errors::{$status}")) {
             return response()->view("errors::{$status}", [
                 'exception' => $e,
-                'SKIN_NAME' => config('phpvms.skin'),
+                'SKIN_NAME' => setting('general.theme'),
             ], $status, $e->getHeaders());
         }
 
