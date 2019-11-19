@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'name' => 'vacentral',
+    'name'    => 'vacentral',
     'address' => 'https://api.vacentral.net',
-    'api_key' => ''
+    'api_key' => '',
 ];

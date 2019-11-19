@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Contracts\Controller;
 use App\Http\Requests\CreateFareRequest;
 use App\Http\Requests\ImportRequest;
 use App\Http\Requests\UpdateFareRequest;
-use App\Interfaces\Controller;
 use App\Repositories\FareRepository;
 use App\Services\ExportService;
 use App\Services\ImportService;
@@ -204,7 +204,9 @@ class FareController extends Controller
         if ($request->isMethod('post')) {
             ImportRequest::validate($request);
             $path = Storage::putFileAs(
-                'import', $request->file('csv_file'), 'import_fares.csv'
+                'import',
+                $request->file('csv_file'),
+                'import_fares.csv'
             );
 
             $path = storage_path('app/'.$path);

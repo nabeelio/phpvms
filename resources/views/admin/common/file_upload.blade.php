@@ -8,6 +8,9 @@ Pass in:
 <div id="airport-files-wrapper" class="col-12">
     <div class="header">
         <h3>files</h3>
+        @component('admin.components.info')
+            Add a download link or upload a file to make available
+        @endcomponent
     </div>
 
     @if(count($model->files) === 0)
@@ -58,18 +61,26 @@ Pass in:
                    ])
                 }}
 
+                {{ Form::token() }}
+
+                <span class="required">*</span>
+                {{ Form::text('file_name', null, ['class' => 'form-control', 'placeholder' => 'Name']) }}
+                {{ Form::text('file_description', null, ['class' => 'form-control', 'placeholder' => 'Description']) }}
+                {{ Form::text('url', null, ['class' => 'form-control', 'placeholder' => 'URL']) }}
+                {{ Form::file('file', ['class' => 'form-control']) }}
+
                 {{-- Fields for the model --}}
                 {{ Form::hidden('ref_model', get_class($model)) }}
                 {{ Form::hidden('ref_model_id', $model->id) }}
 
-                <span class="required">*</span>
-                {{ Form::text('filename', null, ['class' => 'form-control', 'placeholder' => 'Name']) }}
-                {{ Form::text('file_description', null, ['class' => 'form-control', 'placeholder' => 'Description']) }}
-                {{ Form::file('file', ['class' => 'form-control']) }}
-
-                {{ Form::submit('Upload', ['class' => 'btn btn-success']) }}
+                {{ Form::submit('Save', [
+                    'id'    => 'save_file_upload',
+                    'class' => 'btn btn-success'
+                   ])
+                }}
                 <div class="text-danger" style="padding-top: 10px;">
                     <span>{{ $errors->first('filename') }}</span>
+                    <span>{{ $errors->first('url') }}</span>
                     <span>{{ $errors->first('file') }}</span>
                 </div>
 

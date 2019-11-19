@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Interfaces\Controller;
+use App\Contracts\Controller;
 use App\Models\Enums\UserState;
 use App\Repositories\Criteria\WhereCriteria;
 use App\Repositories\UserRepository;

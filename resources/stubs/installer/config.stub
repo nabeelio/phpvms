@@ -7,17 +7,20 @@
 
 return [
 
-    # overrides app.php
+    // Overrides config/app.php
     'app' => [
         'name' => '$SITE_NAME$',
-        'url' => '$SITE_URL$',
+        'url'  => '$SITE_URL$',
 
-        # Don't forget to change these when live
-        'env' => 'local',
-        'debug' => false,
+        // When live, 'env' should be 'prod'
+        'env'   => 'prod',
+
+        // debug as true shows the Laravel debug bar, which is helpful for
+        // debugging templates and other internals
+        'debug' => true,
     ],
 
-    # overrides phpvms.php
+    // Overrides config/phpvms.php
     'phpvms' => [
         /**
          * The ISO "Currency Code" to use, the list is in config/money.php
@@ -28,23 +31,14 @@ return [
         'currency' => 'USD',
     ],
 
-    # This is the name of the active theme
-    'themes' => [
-        'default'   => 'default',
-    ],
+    //
+    // Other settings and configuration you might not need to modify
+    //
 
-    'vacentral' => [
-        'api_key' => '',
-    ],
-
-    #
-    # Other settings and configuration you might not need to modify
-    #
-
-    # overrides cache.php
+    // Overrides config/cache.php
     'cache' => [
         'default' => '$CACHE_DRIVER$',
-        'prefix' => 'phpvms_',
+        'prefix'  => '$CACHE_PREFIX$',
     ],
 
     /*
@@ -55,7 +49,7 @@ return [
         'enabled' => false,
 
         'sitekey' => '',
-        'secret' => '',
+        'secret'  => '',
 
         # Attributes can be found here:
         # https://developers.google.com/recaptcha/docs/display#render_param
@@ -64,12 +58,12 @@ return [
         ],
     ],
 
-    # overrides database.php
+    // Overrides config/database.php
     'database' => [
         'default' => env('DB_CONNECTION', '$DB_CONN$'),
         'connections' => [
             'mysql' => [
-                'host' => '$DB_HOST$',
+                'host' => env('DB_HOST', '$DB_HOST$'),
                 'port' => $DB_PORT$,
                 'database' => '$DB_NAME$',
                 'username' => '$DB_USER$',
@@ -79,26 +73,29 @@ return [
         ],
     ],
 
+    // Overrides config/logging.php
     'logging' => [
+        'default'  => 'stack',
         'channels' => [
             'single' => ['level' => 'debug'],
             'daily' => ['level' => 'debug'],
         ],
     ],
 
-    # overrides mail.php
+    // Overrides config/mail.php
     'mail' => [
         'driver' => 'mail',
         'host' => '',
         'port' => 587,
         'from' => [
             'name' => '',
-            'address' => '',
+            'address' => 'no-reply@phpvms.net',
         ],
         'username' => '',
         'password' => '',
     ],
 
+    // Overrides config/session.php
     'session' => [
         'default' => 'file',
         'lifetime' => 60 * 24,  # 24 hours

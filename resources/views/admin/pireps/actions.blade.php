@@ -2,7 +2,7 @@
     <tr>
         <td>
             @if($pirep->state === PirepState::PENDING || $pirep->state === PirepState::REJECTED)
-                {{ Form::open(['url' => route('admin.pirep.status', ['id' => $pirep->id]),
+                {{ Form::open(['url' => route('admin.pirep.status', [$pirep->id]),
                                 'method' => 'post',
                                 'name' => 'accept_'.$pirep->id,
                                 'id' => $pirep->id.'_accept',
@@ -16,7 +16,7 @@
         <td>&nbsp;</td>
         <td>
             @if($pirep->state === PirepState::PENDING || $pirep->state === PirepState::ACCEPTED)
-                {{ Form::open(['url' => route('admin.pirep.status', ['id' => $pirep->id]),
+                {{ Form::open(['url' => route('admin.pirep.status', [$pirep->id]),
                                 'method' => 'post',
                                 'name' => 'reject_'.$pirep->id,
                                 'id' => $pirep->id.'_reject',
@@ -28,6 +28,7 @@
             @endif
         </td>
         <td>&nbsp;</td>
+        @if ($on_edit_page === false)
         <td>
             <form action="{{ route('admin.pireps.edit', [$pirep->id]) }}">
             <button type="submit"
@@ -35,5 +36,6 @@
                 <i class="fas fa-pencil-alt"></i>&nbsp;&nbsp;Edit</button>
             </form>
         </td>
+        @endif
     </tr>
 </table>

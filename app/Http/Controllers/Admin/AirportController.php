@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Contracts\Controller;
 use App\Http\Requests\CreateAirportRequest;
 use App\Http\Requests\ImportRequest;
 use App\Http\Requests\UpdateAirportRequest;
-use App\Interfaces\Controller;
 use App\Models\Airport;
 use App\Models\Expense;
 use App\Repositories\AirportRepository;
 use App\Repositories\Criteria\WhereCriteria;
 use App\Services\ExportService;
 use App\Services\ImportService;
+use App\Support\Timezonelist;
 use Flash;
 use Illuminate\Http\Request;
-use Jackiedo\Timezonelist\Facades\Timezonelist;
 use Log;
 use Response;
 use Storage;
@@ -229,7 +229,9 @@ class AirportController extends Controller
         if ($request->isMethod('post')) {
             ImportRequest::validate($request);
             $path = Storage::putFileAs(
-                'import', $request->file('csv_file'), 'import_airports.csv'
+                'import',
+                $request->file('csv_file'),
+                'import_airports.csv'
             );
 
             $path = storage_path('app/'.$path);

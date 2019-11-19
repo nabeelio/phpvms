@@ -2,14 +2,11 @@
 
 namespace App\Console\Commands;
 
-use App\Console\Command;
+use App\Contracts\Command;
 use App\Facades\Utils;
 use GuzzleHttp\Client;
 use Illuminate\Database\Eloquent\Collection;
 
-/**
- * Class AcarsReplay
- */
 class AcarsReplay extends Command
 {
     protected $signature = 'phpvms:replay {files} {--manual} {--write-all} {--no-submit}';
@@ -172,7 +169,7 @@ class AcarsReplay extends Command
          * @var $flights Collection
          */
         $flights = collect($files)->transform(function ($f) {
-            $file = storage_path('/replay/'.$f.'.json');
+            $file = $f;
             if (file_exists($file)) {
                 $this->info('Loading '.$file);
                 $contents = file_get_contents($file);

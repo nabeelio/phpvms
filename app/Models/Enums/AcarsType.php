@@ -2,11 +2,8 @@
 
 namespace App\Models\Enums;
 
-use App\Interfaces\Enum;
+use App\Contracts\Enum;
 
-/**
- * Class AcarsType
- */
 class AcarsType extends Enum
 {
     public const FLIGHT_PATH = 0;

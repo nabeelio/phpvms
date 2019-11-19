@@ -2,12 +2,11 @@
 
 namespace Modules\Sample\Http\Controllers;
 
-use App\Interfaces\Controller;
+use App\Contracts\Controller;
 use Illuminate\Http\Request;
 
 /**
  * Class SampleController
- * @package Modules\Sample\Http\Controllers
  */
 class SampleController extends Controller
 {
@@ -29,7 +28,8 @@ class SampleController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     * @param  Request $request
+     *
+     * @param Request $request
      */
     public function store(Request $request)
     {

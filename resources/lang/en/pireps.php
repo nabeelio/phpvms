@@ -1,6 +1,5 @@
 <?php
 
-
 return [
     'newflightreport'      => 'New Flight Report',
     'editflightreport'     => 'Edit Flight Report',
@@ -8,6 +7,7 @@ return [
     'submitpirep'          => 'Submit PIREP',
     'fileflightreport'     => 'File New Report',
     'filenewpirep'         => 'File New PIREP',
+    'newpirep'             => 'New PIREP',
     'pilotreport'          => 'Pilot Report|Pilot Reports',
     'arrived'              => 'Arrived',
     'source'               => 'Source',
@@ -22,6 +22,8 @@ return [
     'fieldsreadonly'       => 'Once a PIREP has been submitted, certain fields go into read-only mode.',
     'flightinformations'   => 'Flight Information',
     'flightident'          => 'Flight Number/Code/Leg',
+    'block_fuel'           => 'Block Fuel',
+    'fuel_used'            => 'Fuel Used',
     'codeoptional'         => 'Code (optional)',
     'legoptional'          => 'Leg (optional)',
     'deparrinformations'   => 'Departure/Arrival Information',
@@ -29,8 +31,7 @@ return [
     'dateflown'            => 'Date Flown',
     'deletepirep'          => 'Delete PIREP',
     'submitted'            => 'Submitted',
-
-    'source_types' => [
+    'source_types'         => [
         'manual' => 'Manual',
         'acars'  => 'ACARS',
     ],

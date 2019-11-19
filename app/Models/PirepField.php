@@ -2,11 +2,9 @@
 
 namespace App\Models;
 
-use App\Interfaces\Model;
+use App\Contracts\Model;
 
 /**
- * Class PirepField
- *
  * @property string name
  * @property string slug
  */

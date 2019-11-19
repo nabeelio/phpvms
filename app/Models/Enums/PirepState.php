@@ -2,28 +2,28 @@
 
 namespace App\Models\Enums;
 
-use App\Interfaces\Enum;
+use App\Contracts\Enum;
 
 /**
  * Class PirepState
  */
 class PirepState extends Enum
 {
-    public const REJECTED = -1;
     public const IN_PROGRESS = 0;  // flight is ongoing
     public const PENDING = 1;  // waiting admin approval
     public const ACCEPTED = 2;
     public const CANCELLED = 3;
     public const DELETED = 4;
     public const DRAFT = 5;
+    public const REJECTED = 6;
 
     protected static $labels = [
-        self::REJECTED    => 'pireps.state.rejected',
         self::IN_PROGRESS => 'pireps.state.in_progress',
         self::PENDING     => 'pireps.state.pending',
         self::ACCEPTED    => 'pireps.state.accepted',
         self::CANCELLED   => 'pireps.state.cancelled',
         self::DELETED     => 'pireps.state.deleted',
         self::DRAFT       => 'pireps.state.draft',
+        self::REJECTED    => 'pireps.state.rejected',
     ];
 }

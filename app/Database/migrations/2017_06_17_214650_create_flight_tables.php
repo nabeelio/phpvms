@@ -1,6 +1,7 @@
 <?php
 
-use App\Interfaces\Migration;
+use App\Contracts\Migration;
+use App\Contracts\Model;
 use App\Models\Enums\FlightType;
 use Illuminate\Database\Schema\Blueprint;
 
@@ -14,7 +15,7 @@ class CreateFlightTables extends Migration
     public function up()
     {
         Schema::create('flights', function (Blueprint $table) {
-            $table->string('id', \App\Interfaces\Model::ID_MAX_LENGTH);
+            $table->string('id', Model::ID_MAX_LENGTH);
             $table->unsignedInteger('airline_id');
             $table->unsignedInteger('flight_number');
             $table->string('route_code', 5)->nullable();
@@ -47,7 +48,7 @@ class CreateFlightTables extends Migration
         });
 
         Schema::create('flight_fare', function (Blueprint $table) {
-            $table->string('flight_id', \App\Interfaces\Model::ID_MAX_LENGTH);
+            $table->string('flight_id', Model::ID_MAX_LENGTH);
             $table->unsignedInteger('fare_id');
             $table->string('price', 10)->nullable();
             $table->string('cost', 10)->nullable();
@@ -71,7 +72,7 @@ class CreateFlightTables extends Migration
          */
         Schema::create('flight_field_values', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('flight_id', \App\Interfaces\Model::ID_MAX_LENGTH);
+            $table->string('flight_id', Model::ID_MAX_LENGTH);
             $table->string('name', 50);
             $table->string('slug', 50)->nullable();
             $table->text('value');
@@ -83,7 +84,7 @@ class CreateFlightTables extends Migration
         Schema::create('flight_subfleet', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedInteger('subfleet_id');
-            $table->string('flight_id', \App\Interfaces\Model::ID_MAX_LENGTH);
+            $table->string('flight_id', Model::ID_MAX_LENGTH);
 
             $table->index(['subfleet_id', 'flight_id']);
             $table->index(['flight_id', 'subfleet_id']);

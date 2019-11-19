@@ -18,7 +18,7 @@
                         {{$pirep->dpt_airport->location}}
                     </h4>
                     <p>
-                        <a href="{{route('frontend.airports.show', ['id' => $pirep->dpt_airport_id])}}">
+                        <a href="{{route('frontend.airports.show', $pirep->dpt_airport_id)}}">
                             {{ $pirep->dpt_airport->full_name }} ({{  $pirep->dpt_airport_id }})</a>
                         <br/>
                         @if($pirep->block_off_time)
@@ -35,7 +35,7 @@
                         {{$pirep->arr_airport->location}}
                     </h4>
                     <p>
-                        <a href="{{route('frontend.airports.show', ['id' => $pirep->arr_airport_id])}}">
+                        <a href="{{route('frontend.airports.show', $pirep->arr_airport_id)}}">
                             {{ $pirep->arr_airport->full_name }} ({{  $pirep->arr_airport_id }})</a>
                         <br/>
                         @if($pirep->block_on_time)
@@ -77,14 +77,14 @@
             @if(!$pirep->read_only)
                 <div class="float-right" style="margin-bottom: 10px;">
                     <form method="get"
-                          action="{{ route('frontend.pireps.edit', ['id' => $pirep->id]) }}"
+                          action="{{ route('frontend.pireps.edit', $pirep->id) }}"
                           style="display: inline">
                         @csrf
                         <button class="btn btn-info">@lang('common.edit')</button>
                     </form>
                     &nbsp;
                     <form method="post"
-                          action="{{ route('frontend.pireps.submit', ['id' => $pirep->id]) }}"
+                          action="{{ route('frontend.pireps.submit', $pirep->id) }}"
                           style="display: inline">
                         @csrf
                         <button class="btn btn-success">@lang('common.submit')</button>

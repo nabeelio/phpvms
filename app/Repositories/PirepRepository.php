@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Interfaces\Repository;
+use App\Contracts\Repository;
 use App\Models\Enums\PirepState;
 use App\Models\Pirep;
 use App\Models\User;

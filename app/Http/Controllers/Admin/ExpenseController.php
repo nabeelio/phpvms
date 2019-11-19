@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Contracts\Controller;
 use App\Http\Requests\ImportRequest;
-use App\Interfaces\Controller;
 use App\Models\Enums\ExpenseType;
 use App\Models\Expense;
 use App\Repositories\AirlineRepository;
@@ -229,7 +229,9 @@ class ExpenseController extends Controller
         if ($request->isMethod('post')) {
             ImportRequest::validate($request);
             $path = Storage::putFileAs(
-                'import', $request->file('csv_file'), 'import_expenses.csv'
+                'import',
+                $request->file('csv_file'),
+                'import_expenses.csv'
             );
 
             $path = storage_path('app/'.$path);

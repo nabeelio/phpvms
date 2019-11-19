@@ -3,9 +3,8 @@
 namespace App\Http\Resources;
 
 use App\Support\Units\Distance;
-use Illuminate\Http\Resources\Json\Resource;
 
-class Flight extends Resource
+class Flight extends Response
 {
     /**
      * Set the fields on the flight object
@@ -22,21 +21,27 @@ class Flight extends Resource
         return $fields;
     }
 
+    /**
+     * @param \Illuminate\Http\Request $request
+     *
+     * @throws \PhpUnitsOfMeasure\Exception\NonNumericValue
+     * @throws \PhpUnitsOfMeasure\Exception\NonStringUnitName
+     *
+     * @return array
+     */
     public function toArray($request)
     {
-        $flight = parent::toArray($request);
+        $res = parent::toArray($request);
 
-        $flight['ident'] = $this->ident;
+        $res['ident'] = $this->ident;
 
-        // Return multiple measures so the client can pick what they want
-        if ($this->distance instanceof Distance) {
-            $flight['distance'] = $this->distance->units;
-        }
+        $distance = new Distance($res['distance'], config('phpvms.internal_units.distance'));
+        $res['distance'] = $distance->getResponseUnits();
 
-        $flight['airline'] = new Airline($this->airline);
-        $flight['subfleets'] = Subfleet::collection($this->subfleets);
-        $flight['fields'] = $this->setFields();
+        $res['airline'] = new Airline($this->airline);
+        $res['subfleets'] = Subfleet::collection($this->subfleets);
+        $res['fields'] = $this->setFields();
 
-        return $flight;
+        return $res;
     }
 }

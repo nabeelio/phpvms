@@ -16,6 +16,16 @@ return [
     'installed' => env('PHPVMS_INSTALLED', false),
 
     /*
+     * Avatar resize settings
+     * feel free to edit the following lines.
+     * Both parameters are in px.
+     */
+    'avatar' => [
+        'width'  => '200',
+        'height' => '200',
+    ],
+
+    /*
      * Where to redirect after logging in
      */
     'login_redirect' => '/dashboard',
@@ -37,7 +47,13 @@ return [
      * Point to the class to use to retrieve the METAR string. If this
      * goes inactive at some date, it can be replaced
      */
-    'metar' => App\Services\Metar\AviationWeather::class,
+    'metar_lookup' => App\Services\Metar\AviationWeather::class,
+
+    /*
+     * Point to the class used to retrieve the airport information.
+     * If this goes inactive at some date, it can be replaced
+     */
+    'airport_lookup' => App\Services\AirportLookup\VaCentralLookup::class,
 
     /*
      * Your vaCentral API key
@@ -57,7 +73,12 @@ return [
     /*
      * URL to the latest version file
      */
-    'version_file' => 'http://downloads.phpvms.net/VERSION',
+    'version_file' => 'https://api.github.com/repos/nabeelio/phpvms/releases',
+
+    /*
+     * Where the KVP file is stored
+     */
+    'kvp_storage_path' => storage_path('app/kvp.json'),
 
     /*
      * DO NOT CHANGE THESE! It will result in messed up data
@@ -74,12 +95,8 @@ return [
     ],
 
     /*
-     * Avatar resize settings
-     * feel free to edit the following lines.
-     * Both parameters are in px.
+     * DO NOT CHANGE THIS. This is used to map error codes to the approriate
+     * RFC 7807 type, which can be used as a machine-readable error code/map
      */
-    'avatar' => [
-        'width'  => '200',
-        'height' => '200',
-    ],
+    'error_root' => 'https://phpvms.net/errors',
 ];

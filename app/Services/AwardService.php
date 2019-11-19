@@ -2,19 +2,16 @@
 
 namespace App\Services;
 
-use App\Interfaces\Service;
+use App\Contracts\Service;
 use App\Support\ClassLoader;
-use Module;
+use Nwidart\Modules\Facades\Module;
 
-/**
- * Class AwardService
- */
 class AwardService extends Service
 {
     /**
      * Find any of the award classes
      *
-     * @return \App\Interfaces\Award[]
+     * @return \App\Contracts\Award[]
      */
     public function findAllAwardClasses(): array
     {
@@ -29,7 +26,10 @@ class AwardService extends Service
         foreach (Module::all() as $module) {
             $path = $module->getExtraPath('Awards');
             $classes = ClassLoader::getClassesInPath($path);
-            $awards = array_merge($awards, $classes);
+
+            foreach ($classes as $class) {
+                $awards[] = $class;
+            }
         }
 
         foreach ($awards as $award) {

@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Interfaces\Repository;
+use App\Contracts\Repository;
 use App\Models\Journal;
 use App\Models\JournalTransaction;
 use App\Support\Money;
@@ -80,8 +80,8 @@ class JournalRepository extends Repository implements CacheableInterface
      * @param Model|null        $reference         The object this is a reference to
      * @param string|null       $memo              Memo for this transaction
      * @param string|null       $post_date         Date of the posting
-     * @param string|null       $transaction_group
-     * @param array|string|null $tags
+     * @param string|null       $transaction_group Grouping name for the summaries
+     * @param array|string|null $tags              Tag used for grouping/finding items
      *
      * @throws ValidatorException
      *

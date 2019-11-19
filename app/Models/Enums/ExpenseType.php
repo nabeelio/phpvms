@@ -2,11 +2,8 @@
 
 namespace App\Models\Enums;
 
-use App\Interfaces\Enum;
+use App\Contracts\Enum;
 
-/**
- * Class ExpenseType
- */
 class ExpenseType extends Enum
 {
     public const FLIGHT = 'F';

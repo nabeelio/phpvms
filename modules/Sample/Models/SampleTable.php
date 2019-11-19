@@ -2,11 +2,10 @@
 
 namespace Modules\Sample\Models;
 
-use App\Interfaces\Model;
+use App\Contracts\Model;
 
 /**
  * Class SampleTable
- * @package Modules\Sample\Models
  */
 class SampleTable extends Model
 {

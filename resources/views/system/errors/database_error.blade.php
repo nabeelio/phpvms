@@ -62,7 +62,7 @@
         <div class="row">
             <div class="col-12">
                 <h2>Database Error</h2>
-                @yield('content')
+                {{ $error }}
             </div>
         </div>
     </div>

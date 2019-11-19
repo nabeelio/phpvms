@@ -2,11 +2,8 @@
 
 namespace App\Models\Enums;
 
-use App\Interfaces\Enum;
+use App\Contracts\Enum;
 
-/**
- * Class AircraftState
- */
 class AircraftStatus extends Enum
 {
     public const ACTIVE = 'A';

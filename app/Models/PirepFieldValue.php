@@ -2,11 +2,17 @@
 
 namespace App\Models;
 
-use App\Interfaces\Model;
+use App\Contracts\Model;
 use App\Models\Enums\PirepFieldSource;
 
 /**
- * Class PirepFieldValue
+ * @property string pirep_id
+ * @property string name
+ * @property string slug
+ * @property string value
+ * @property string source
+ *
+ * @method static updateOrCreate(array $array, array $array1)
  */
 class PirepFieldValue extends Model
 {

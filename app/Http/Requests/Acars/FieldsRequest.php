@@ -2,17 +2,14 @@
 
 namespace App\Http\Requests\Acars;
 
-use App\Interfaces\FormRequest;
+use App\Contracts\FormRequest;
 
 /**
  * Class PrefileRequest
  */
 class FieldsRequest extends FormRequest
 {
-    /**
-     * @return array
-     */
-    public function rules()
+    public function rules(): array
     {
         return [
             'fields' => 'required|array',

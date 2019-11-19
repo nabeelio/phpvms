@@ -5,56 +5,67 @@ namespace App\Http\Resources;
 use App\Models\Enums\PirepStatus;
 use App\Support\Units\Distance;
 use App\Support\Units\Fuel;
-use Illuminate\Http\Resources\Json\Resource;
 
-class Pirep extends Resource
+class Pirep extends Response
 {
     /**
      * Transform the resource into an array.
      *
      * @param \Illuminate\Http\Request $request
      *
+     * @throws \PhpUnitsOfMeasure\Exception\NonNumericValue
+     * @throws \PhpUnitsOfMeasure\Exception\NonStringUnitName
+     *
      * @return array
      */
     public function toArray($request)
     {
-        $pirep = parent::toArray($request);
+        $res = parent::toArray($request);
+        $res['ident'] = $this->ident;
 
-        $pirep['ident'] = $this->ident;
-
-        if ($this->distance instanceof Distance) {
-            $pirep['distance'] = $this->distance->units;
+        // Set these to the response units
+        if (!array_key_exists('distance', $res)) {
+            $res['distance'] = 0;
         }
 
-        if ($this->fuel_used instanceof Fuel) {
-            $pirep['fuel_used'] = $this->fuel_used->units;
+        $distance = new Distance($res['distance'], config('phpvms.internal_units.distance'));
+        $res['distance'] = $distance->getResponseUnits();
+
+        if (!array_key_exists('fuel_used', $res)) {
+            $res['fuel_used'] = 0;
         }
 
-        if ($this->planned_distance instanceof Distance) {
-            $pirep['planned_distance'] = $this->planned_distance->units;
+        $fuel_used = new Fuel($res['fuel_used'], config('phpvms.internal_units.fuel'));
+        $res['fuel_used'] = $fuel_used->getResponseUnits();
+
+        if (!array_key_exists('planned_distance', $res)) {
+            $res['planned_distance'] = 0;
         }
+
+        $planned_dist = new Distance($res['planned_distance'], config('phpvms.internal_units.distance'));
+        $res['planned_distance'] = $planned_dist->getResponseUnits();
 
         /*
          * Relationship fields
          */
 
         if ($this->block_on_time) {
-            $pirep['block_on_time'] = $this->block_on_time->toIso8601ZuluString();
+            $res['block_on_time'] = $this->block_on_time->toIso8601ZuluString();
         }
 
         if ($this->block_off_time) {
-            $pirep['block_off_time'] = $this->block_off_time->toIso8601ZuluString();
+            $res['block_off_time'] = $this->block_off_time->toIso8601ZuluString();
         }
 
-        $pirep['status_text'] = PirepStatus::label($this->status);
+        $res['status_text'] = PirepStatus::label($this->status);
 
-        $pirep['airline'] = new Airline($this->airline);
-        $pirep['dpt_airport'] = new Airport($this->dpt_airport);
-        $pirep['arr_airport'] = new Airport($this->arr_airport);
+        $res['airline'] = new Airline($this->airline);
+        $res['dpt_airport'] = new Airport($this->dpt_airport);
+        $res['arr_airport'] = new Airport($this->arr_airport);
 
-        $pirep['position'] = new Acars($this->position);
-        $pirep['comments'] = PirepComment::collection($this->comments);
-        $pirep['user'] = [
+        $res['position'] = new Acars($this->position);
+        $res['comments'] = PirepComment::collection($this->comments);
+        $res['user'] = [
             'id'              => $this->user->id,
             'name'            => $this->user->name,
             'home_airport_id' => $this->user->home_airport_id,
@@ -62,8 +73,8 @@ class Pirep extends Resource
         ];
 
         // format to kvp
-        $pirep['fields'] = new PirepFieldCollection($this->fields);
+        $res['fields'] = new PirepFieldCollection($this->fields);
 
-        return $pirep;
+        return $res;
     }
 }

@@ -2,12 +2,9 @@
 
 namespace App\Console\Commands;
 
-use App\Console\Command;
-use Artisan;
+use App\Contracts\Command;
+use Illuminate\Support\Facades\Artisan;
 
-/**
- * Class ComposerCommand
- */
 class ComposerCommand extends Command
 {
     protected $signature = 'phpvms:composer {cmd}';

@@ -2,8 +2,8 @@
 
 namespace App\Services\Finance;
 
+use App\Contracts\Service;
 use App\Events\Expenses as ExpensesEvent;
-use App\Interfaces\Service;
 use App\Models\Enums\ExpenseType;
 use App\Models\Enums\PirepSource;
 use App\Models\Expense;
@@ -13,7 +13,7 @@ use App\Repositories\JournalRepository;
 use App\Services\FareService;
 use App\Support\Math;
 use App\Support\Money;
-use Log;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Class FinanceService
@@ -70,6 +70,7 @@ class PirepFinanceService extends Service
         Log::info('Finance: Starting PIREP pay for '.$pirep->id);
 
         // Now start and pay from scratch
+        $this->payFuelCosts($pirep);
         $this->payFaresForPirep($pirep);
         $this->payExpensesForSubfleet($pirep);
         $this->payExpensesForPirep($pirep);
@@ -130,6 +131,34 @@ class PirepFinanceService extends Service
                 'fare'
             );
         }
+    }
+
+    /**
+     * Calculate the fuel used by the PIREP and add those costs in
+     *
+     * @param Pirep $pirep
+     *
+     * @throws \Prettus\Validator\Exceptions\ValidatorException
+     */
+    public function payFuelCosts(Pirep $pirep): void
+    {
+        $ap = $pirep->dpt_airport;
+        $fuel_used = $pirep->block_fuel;
+
+        $debit = Money::createFromAmount($fuel_used * $ap->fuel_jeta_cost);
+        Log::info('Finance: Fuel cost, (fuel='.$fuel_used.', cost='.$ap->fuel_jeta_cost.') D='
+            .$debit->getAmount());
+
+        $this->journalRepo->post(
+            $pirep->airline->journal,
+            null,
+            $debit,
+            $pirep,
+            'Fuel Cost ('.$ap->fuel_jeta_cost.'/'.config('phpvms.internal_units.fuel').')',
+            null,
+            'Fuel',
+            'fuel'
+        );
     }
 
     /**

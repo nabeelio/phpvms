@@ -4,7 +4,13 @@ namespace App\Support;
 
 use App\Support\Units\Altitude;
 use App\Support\Units\Distance;
+use App\Support\Units\Pressure;
 use App\Support\Units\Temperature;
+use App\Support\Units\Velocity;
+use function count;
+use Illuminate\Support\Facades\Log;
+use PhpUnitsOfMeasure\Exception\NonNumericValue;
+use PhpUnitsOfMeasure\Exception\NonStringUnitName;
 
 /**
  * Class Metar
@@ -304,7 +310,7 @@ class Metar implements \ArrayAccess
     /*
      * Other variables.
      */
-    private $raw;
+    public $raw;
 
     private $raw_parts = [];
 
@@ -336,6 +342,7 @@ class Metar implements \ArrayAccess
     public function __construct($raw, $taf = false, $debug = false, $icao = true)
     {
         $this->debug_enabled = $debug;
+        // Log::info('Parsing metar="'.$raw.'"');
 
         $raw_lines = explode("\n", $raw, 2);
         if (isset($raw_lines[1])) {
@@ -391,6 +398,86 @@ class Metar implements \ArrayAccess
     }
 
     /**
+     * Return an Altitude value or object
+     *
+     * @param int|float $value
+     * @param string    $unit  "feet" or "meters"
+     *
+     * @throws NonStringUnitName
+     * @throws NonNumericValue
+     *
+     * @return Altitude
+     */
+    protected function createAltitude($value, $unit)
+    {
+        return new Altitude((float) $value, $unit);
+    }
+
+    /**
+     * Return a Distance value or object
+     *
+     * @param int|float $value
+     * @param string    $unit  "m" (meters) or "mi" (miles)
+     *
+     * @throws NonNumericValue
+     * @throws NonStringUnitName
+     *
+     * @return Distance
+     */
+    protected function createDistance($value, $unit)
+    {
+        return new Distance((float) $value, $unit);
+    }
+
+    /**
+     * Return a Pressure value or object
+     *
+     * @param int|float $value
+     * @param string    $unit  "F" or "C"
+     *
+     * @throws NonNumericValue
+     * @throws NonStringUnitName
+     *
+     * @return Pressure
+     */
+    protected function createPressure($value, $unit)
+    {
+        return new Pressure((float) $value, $unit);
+    }
+
+    /**
+     * Return a Temperature value or object
+     *
+     * @param int|float $value
+     * @param string    $unit  "F" or "C"
+     *
+     * @throws NonNumericValue
+     * @throws NonStringUnitName
+     *
+     * @return Temperature
+     */
+    protected function createTemperature($value, $unit)
+    {
+        return new Temperature((float) $value, $unit);
+    }
+
+    /**
+     * Create a new velocity unit
+     *
+     * @param int|float $value
+     * @param string    $unit  "knots", "km/hour", "m/s"
+     *
+     * @throws NonStringUnitName
+     * @throws NonNumericValue
+     *
+     * @return Velocity
+     */
+    protected function createVelocity($value, $unit)
+    {
+        return new Velocity((float) $value, $unit);
+    }
+
+    /**
      * Parses the METAR or TAF information and returns result array.
      */
     public function parse_all(): array
@@ -398,8 +485,8 @@ class Metar implements \ArrayAccess
         $this->raw_parts = explode(' ', $this->raw);
         $current_method = 0;
 
-        $raw_part_count = \count($this->raw_parts);
-        $method_name_count = \count(static::$method_names);
+        $raw_part_count = count($this->raw_parts);
+        $method_name_count = count(static::$method_names);
 
         while ($this->part < $raw_part_count) {
             $this->method = $current_method;
@@ -591,6 +678,8 @@ class Metar implements \ArrayAccess
      * Decodes station code.
      *
      * @param mixed $part
+     *
+     * @return bool
      */
     private function get_station($part)
     {
@@ -609,6 +698,8 @@ class Metar implements \ArrayAccess
      * Format is ddhhmmZ where dd = day, hh = hours, mm = minutes in UTC time.
      *
      * @param mixed $part
+     *
+     * @return bool
      */
     private function get_time($part)
     {
@@ -625,7 +716,6 @@ class Metar implements \ArrayAccess
         $minute = (int) $found[3];
 
         if ($this->result['observed_date'] === null) {
-
             // Take one month, if the observed day is greater than the current day
             if ($day > date('j')) {
                 $month = date('n') - 1;
@@ -649,6 +739,8 @@ class Metar implements \ArrayAccess
      * Ignore station type if present.
      *
      * @param mixed $part
+     *
+     * @return bool
      */
     private function get_station_type($part)
     {
@@ -751,8 +843,8 @@ class Metar implements \ArrayAccess
      *
      * @param mixed $part
      *
-     * @throws \PhpUnitsOfMeasure\Exception\NonStringUnitName
-     * @throws \PhpUnitsOfMeasure\Exception\NonNumericValue
+     * @throws NonStringUnitName
+     * @throws NonNumericValue
      *
      * @return bool
      */
@@ -773,7 +865,7 @@ class Metar implements \ArrayAccess
 
         // Cloud and visibilty OK or ICAO visibilty greater than 10 km
         if ($found[1] === 'CAVOK' || $found[1] === '9999') {
-            $this->set_result_value('visibility', new Distance(10000, 'm'));
+            $this->set_result_value('visibility', $this->createDistance(10000, 'm'));
             $this->set_result_value('visibility_report', 'Greater than 10 km');
             /* @noinspection NotOptimalIfConditionsInspection */
             if ($found[1] === 'CAVOK') {
@@ -788,7 +880,7 @@ class Metar implements \ArrayAccess
 
             // ICAO visibility (in meters)
             if (isset($found[2]) && !empty($found[2])) {
-                $visibility = new Distance((int) $found[2], 'm');
+                $visibility = $this->createDistance((int) $found[2], 'm');
             } // US visibility (in miles)
             else {
                 if (isset($found[3]) && !empty($found[3])) {
@@ -801,7 +893,7 @@ class Metar implements \ArrayAccess
                     $visibility = (int) $found[4];
                 }
 
-                $visibility = new Distance($visibility, 'mi');
+                $visibility = $this->createDistance($visibility, 'mi');
             }
 
             $unit = ' meters';
@@ -825,9 +917,9 @@ class Metar implements \ArrayAccess
      *
      * @param $part
      *
-     * @throws \PhpUnitsOfMeasure\Exception\NonStringUnitName
-     * @throws \PhpUnitsOfMeasure\Exception\NonNumericValue
-     * @throws \PhpUnitsOfMeasure\Exception\NonStringUnitName
+     * @throws NonStringUnitName
+     * @throws NonNumericValue
+     * @throws NonStringUnitName
      *
      * @return bool
      */
@@ -837,7 +929,7 @@ class Metar implements \ArrayAccess
             return false;
         }
 
-        $meters = new Distance((int) $found[1], 'm');
+        $meters = $this->createDistance((int) $found[1], 'm');
         $this->set_result_value('visibility_min', $meters);
 
         if (isset($found[2]) && !empty($found[2])) {
@@ -855,8 +947,8 @@ class Metar implements \ArrayAccess
      *
      * @param $part
      *
-     * @throws \PhpUnitsOfMeasure\Exception\NonStringUnitName
-     * @throws \PhpUnitsOfMeasure\Exception\NonNumericValue
+     * @throws NonStringUnitName
+     * @throws NonNumericValue
      *
      * @return bool
      */
@@ -900,13 +992,13 @@ class Metar implements \ArrayAccess
         // Runway visual range
         if (isset($found[6])) {
             if (!empty($found[4])) {
-                $observed['interval_min'] = new Distance($found[4], $unit);
-                $observed['interval_max'] = new Distance($found[6], $unit);
+                $observed['interval_min'] = $this->createDistance($found[4], $unit);
+                $observed['interval_max'] = $this->createDistance($found[6], $unit);
                 if (!empty($found[5])) {
                     $observed['variable_prefix'] = $found[5];
                 }
             } else {
-                $observed['variable'] = new Distance($found[6], $unit);
+                $observed['variable'] = $this->createDistance($found[6], $unit);
             }
         }
 
@@ -961,8 +1053,8 @@ class Metar implements \ArrayAccess
      *
      * @param $part
      *
-     * @throws \PhpUnitsOfMeasure\Exception\NonStringUnitName
-     * @throws \PhpUnitsOfMeasure\Exception\NonNumericValue
+     * @throws NonStringUnitName
+     * @throws NonNumericValue
      *
      * @return bool
      */
@@ -991,7 +1083,7 @@ class Metar implements \ArrayAccess
             }
         } // Cloud cover observed
         elseif (isset($found[5]) && !empty($found[5]) && is_numeric($found[5])) {
-            $observed['height'] = new Altitude($found[5] * 100, 'feet');
+            $observed['height'] = $this->createAltitude($found[5] * 100, 'feet');
 
             // Cloud height
             if (null === $this->result['cloud_height']['m'] || $observed['height']['m'] < $this->result['cloud_height']['m']) {
@@ -1028,6 +1120,7 @@ class Metar implements \ArrayAccess
             $report = implode(' ', $report);
             $report_ft = implode(' ', $report_ft);
 
+            $observed['report'] = $this->createAltitude($report_ft, 'ft');
             $observed['report'] = ucfirst($report);
             $observed['report_ft'] = ucfirst($report_ft);
 
@@ -1048,8 +1141,10 @@ class Metar implements \ArrayAccess
      *
      * @param mixed $part
      *
-     * @throws \PhpUnitsOfMeasure\Exception\NonStringUnitName
-     * @throws \PhpUnitsOfMeasure\Exception\NonNumericValue
+     * @throws NonNumericValue
+     * @throws NonStringUnitName
+     *
+     * @return bool
      */
     private function get_temperature($part)
     {
@@ -1066,20 +1161,20 @@ class Metar implements \ArrayAccess
 
         // Temperature
         $temperature_c = (int) str_replace('M', '-', $found[1]);
-        $temperature = new Temperature($temperature_c, 'C');
+        $temperature = $this->createTemperature($temperature_c, 'C');
 
         $this->set_result_value('temperature', $temperature);
-        $this->calculate_wind_chill($temperature['f']);
+        $this->calculate_wind_chill($temperature['F']);
 
         // Dew point
         if (isset($found[2]) && '' !== $found[2] && $found[2] !== 'XX') {
             $dew_point_c = (int) str_replace('M', '-', $found[2]);
-            $dew_point = new Temperature($dew_point_c, 'C');
+            $dew_point = $this->createTemperature($dew_point_c, 'C');
             $rh = round(100 * (((112 - (0.1 * $temperature_c) + $dew_point_c) / (112 + (0.9 * $temperature_c))) ** 8));
 
             $this->set_result_value('dew_point', $dew_point);
             $this->set_result_value('humidity', $rh);
-            $this->calculate_heat_index($temperature['f'], $rh);
+            $this->calculate_heat_index($temperature['F'], $rh);
         }
 
         $this->method++;
@@ -1097,21 +1192,26 @@ class Metar implements \ArrayAccess
      *   1 lb/sq in = 0.491154 in Hg = 0.014504 hPa
      *   1 atm      = 0.33421 in Hg  = 0.0009869 hPa
      *
+     *
      * @param mixed $part
+     *
+     * @throws NonNumericValue
+     * @throws NonStringUnitName
+     *
+     * @return bool
      */
     private function get_pressure($part)
     {
         if (!preg_match('@^(Q|A)(////|[\d]{4})@', $part, $found)) {
             return false;
         }
+
         $pressure = (int) $found[2];
         if ($found[1] === 'A') {
             $pressure /= 100;
         }
 
-        $this->set_result_value('barometer', $pressure); // units are hPa
-        $this->set_result_value('barometer_mb', $pressure); // units are hPa
-        $this->set_result_value('barometer_in', round(0.02953 * $pressure, 2)); // convert to in Hg
+        $this->set_result_value('barometer', $this->createPressure($pressure, 'hPa'));
 
         $this->method++;
         return true;
@@ -1122,6 +1222,8 @@ class Metar implements \ArrayAccess
      * Format is REww where ww = Weather phenomenon code (see get_present_weather above).
      *
      * @param mixed $part
+     *
+     * @return bool
      */
     private function get_recent_weather($part)
     {
@@ -1134,6 +1236,8 @@ class Metar implements \ArrayAccess
      * C = extent of deposit, ee = depth of deposit, BB = friction coefficient.
      *
      * @param mixed $part
+     *
+     * @return bool
      */
     private function get_runways_report($part)
     {
@@ -1242,6 +1346,8 @@ class Metar implements \ArrayAccess
      * Format is 'WS ALL RWY' or 'WS RWYdd' where dd = Runway designator (see get_runway_vr above).
      *
      * @param mixed $part
+     *
+     * @return bool
      */
     private function get_wind_shear($part)
     {
@@ -1290,8 +1396,8 @@ class Metar implements \ArrayAccess
      *                     HH   - Forecast hour, i.e. the time(hour) when the temperature is expected
      *                     Z    - Time Zone indicator, Z=GMT.
      *
-     * @throws \PhpUnitsOfMeasure\Exception\NonStringUnitName
-     * @throws \PhpUnitsOfMeasure\Exception\NonNumericValue
+     * @throws NonStringUnitName
+     * @throws NonNumericValue
      *
      * @return bool
      */
@@ -1308,7 +1414,7 @@ class Metar implements \ArrayAccess
 
         // Temperature
         $temperature_c = (int) str_replace('M', '-', $found[2]);
-        $temperture = new Temperature($temperature_c, 'C');
+        $temperture = $this->createTemperature($temperature_c, 'C');
 
         $forecast = [
             'value' => $temperture,
@@ -1337,6 +1443,8 @@ class Metar implements \ArrayAccess
      * LTDDhhmm or DDhh/DDhh, where hh = hours, mm = minutes, DD = day of month.
      *
      * @param mixed $part
+     *
+     * @return bool
      */
     private function get_trends($part)
     {
@@ -1383,7 +1491,7 @@ class Metar implements \ArrayAccess
         $raw_parts = [];
 
         // Get all parts after trend part
-        while ($this->part < \count($this->raw_parts)) {
+        while ($this->part < count($this->raw_parts)) {
             if (preg_match($r, $this->raw_parts[$this->part], $found)) {
                 // Get trend flag
                 if (isset($found[2], static::$trends_flag_codes[$found[2]])) {
@@ -1513,7 +1621,7 @@ class Metar implements \ArrayAccess
 
         $remarks = [];
         // Get all parts after
-        while ($this->part < \count($this->raw_parts)) {
+        while ($this->part < count($this->raw_parts)) {
             if (isset($this->raw_parts[$this->part])) {
                 $remarks[] = $this->raw_parts[$this->part];
             }
@@ -1609,8 +1717,8 @@ class Metar implements \ArrayAccess
      * @param $temperature_f
      * @param $rh
      *
-     * @throws \PhpUnitsOfMeasure\Exception\NonNumericValue
-     * @throws \PhpUnitsOfMeasure\Exception\NonStringUnitName
+     * @throws NonNumericValue
+     * @throws NonStringUnitName
      */
     private function calculate_heat_index($temperature_f, $rh): void
     {
@@ -1622,7 +1730,7 @@ class Metar implements \ArrayAccess
             $hi_f = round($hi_f);
             $hi_c = round(($hi_f - 32) / 1.8);
 
-            $this->set_result_value('heat_index', new Temperature($hi_c, 'C'));
+            $this->set_result_value('heat_index', $this->createTemperature($hi_c, 'C'));
         }
     }
 
@@ -1632,20 +1740,20 @@ class Metar implements \ArrayAccess
      *
      * @param $temperature_f
      *
-     * @throws \PhpUnitsOfMeasure\Exception\NonNumericValue
-     * @throws \PhpUnitsOfMeasure\Exception\NonStringUnitName
+     * @throws NonNumericValue
+     * @throws NonStringUnitName
      */
     private function calculate_wind_chill($temperature_f): void
     {
         if ($temperature_f < 51 && $this->result['wind_speed'] !== 0) {
-            $windspeed = round(2.23694 * $this->result['wind_speed']); // convert m/s to mi/h
+            $windspeed = $this->result['wind_speed']->toUnit('mph');
             if ($windspeed > 3) {
                 $chill_f = 35.74 + 0.6215 * $temperature_f - 35.75 * ($windspeed ** 0.16);
                 $chill_f += 0.4275 * $temperature_f * ($windspeed ** 0.16);
                 $chill_f = round($chill_f);
                 $chill_c = round(($chill_f - 32) / 1.8);
 
-                $this->set_result_value('wind_chill', new Temperature($chill_c, 'C'));
+                $this->set_result_value('wind_chill', $this->createTemperature($chill_c, 'C'));
             }
         }
     }
@@ -1662,7 +1770,10 @@ class Metar implements \ArrayAccess
      * @param $speed
      * @param $unit
      *
-     * @return float|null
+     * @throws NonStringUnitName
+     * @throws NonNumericValue
+     *
+     * @return Velocity
      */
     private function convert_speed($speed, $unit)
     {
@@ -1670,36 +1781,11 @@ class Metar implements \ArrayAccess
 
         switch ($unit) {
             case 'KT':
-                return round(0.514444 * $speed, 2); // from knots
+                return $this->createVelocity($speed, 'knots');
             case 'KPH':
-                return round(0.277778 * $speed, 2); // from km/h
-            case 'MPS':
-                return round($speed, 2); // m/s
-        }
-    }
-
-    /**
-     * Convert distance into meters.
-     * Some other common conversion factors:
-     *   1 m  = 3.28084 ft = 0.00062 mi
-     *   1 ft = 0.3048 m   = 0.00019 mi
-     *   1 mi = 5279.99 ft = 1609.34 m
-     *
-     * @param $distance
-     * @param $unit
-     *
-     * @return float|null
-     */
-    private function convert_distance($distance, $unit)
-    {
-        // TODO: return dict w/ multiple units - NS
-        switch ($unit) {
-            case 'FT':
-                return round(0.3048 * $distance); // from ft.
-            case 'SM':
-                return round(1609.34 * $distance); // from miles
-            case 'M':
-                return round($distance); // meters
+                return $this->createVelocity($speed, 'km/hour');
+            default:
+                return $this->createVelocity($speed, 'm/s');
         }
     }
 
@@ -1707,12 +1793,16 @@ class Metar implements \ArrayAccess
      * Convert direction degrees to compass label.
      *
      * @param mixed $direction
+     *
+     * @return string Direction string
      */
-    private function convert_direction_label($direction)
+    private function convert_direction_label($direction): string
     {
         if ($direction >= 0 && $direction <= 360) {
             return static::$direction_codes[round($direction / 22.5) % 16];
         }
+
+        return 'N';
     }
 
     /**

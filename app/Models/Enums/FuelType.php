@@ -2,11 +2,8 @@
 
 namespace App\Models\Enums;
 
-use App\Interfaces\Enum;
+use App\Contracts\Enum;
 
-/**
- * Class FuelType
- */
 class FuelType extends Enum
 {
     public const LOW_LEAD = 0;

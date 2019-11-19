@@ -20,6 +20,14 @@
     transition: all $time $type;
 }
 
+@mixin transition-on-prop($prop ,$time, $type){
+    -webkit-transition: $prop $time $type;
+    -moz-transition: $prop $time $type;
+    -o-transition: $prop $time $type;
+    -ms-transition: all $time $type;
+    transition: $prop $time $type;
+}
+
 @mixin rotate-180(){
     filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);
     -webkit-transform: rotate(180deg);
@@ -27,6 +35,13 @@
     transform: rotate(180deg);
 }
 
+@mixin transform-scale($value){
+-webkit-transform: scale($value);
+-moz-transform: scale($value);
+-o-transform: scale($value);
+-ms-transform: scale($value);
+transform: scale($value);
+}
 
 @mixin transform-translate-x($value){
      -webkit-transform:  translate3d($value, 0, 0);
@@ -34,6 +49,14 @@
         -o-transform: translate3d($value, 0, 0);
         -ms-transform: translate3d($value, 0, 0);
         transform: translate3d($value, 0, 0);
+}
+
+@mixin transform-translate-y-dropdown($value) {
+    -webkit-transform:  translate3d(0,$value,0) !important;
+       -moz-transform: translate3d(0,$value,0) !important;
+       -o-transform: translate3d(0,$value,0) !important;
+       -ms-transform: translate3d(0,$value,0) !important;
+       transform: translate3d(0,$value,0) !important;
 }
 
 @mixin transform-translate-y($value){

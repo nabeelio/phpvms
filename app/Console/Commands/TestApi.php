@@ -2,12 +2,9 @@
 
 namespace App\Console\Commands;
 
-use App\Console\Command;
+use App\Contracts\Command;
 use GuzzleHttp\Client;
 
-/**
- * Class TestApi
- */
 class TestApi extends Command
 {
     protected $signature = 'phpvms:test-api {apikey} {url}';

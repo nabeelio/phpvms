@@ -1,6 +1,6 @@
 <?php
 
-use App\Interfaces\Migration;
+use App\Contracts\Migration;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 

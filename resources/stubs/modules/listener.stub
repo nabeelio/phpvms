@@ -3,7 +3,7 @@
 namespace $NAMESPACE$;
 
 use $EVENTNAME$;
-use App\Interfaces\Listener;
+use App\Contracts\Listener;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 

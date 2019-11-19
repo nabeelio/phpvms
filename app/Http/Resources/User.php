@@ -11,6 +11,7 @@ class User extends Resource
         return [
             'id'            => $this->id,
             'pilot_id'      => $this->pilot_id,
+            'ident'         => $this->ident,
             'name'          => $this->name,
             'email'         => $this->email,
             'apikey'        => $this->apikey,

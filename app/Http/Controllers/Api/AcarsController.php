@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Contracts\Controller;
 use App\Exceptions\PirepCancelled;
 use App\Http\Requests\Acars\EventRequest;
 use App\Http\Requests\Acars\LogRequest;
 use App\Http\Requests\Acars\PositionRequest;
 use App\Http\Resources\AcarsRoute as AcarsRouteResource;
-use App\Interfaces\Controller;
+use App\Http\Resources\Pirep as PirepResource;
 use App\Models\Acars;
 use App\Models\Enums\AcarsType;
 use App\Models\Enums\PirepStatus;
@@ -15,14 +16,12 @@ use App\Models\Pirep;
 use App\Repositories\AcarsRepository;
 use App\Repositories\PirepRepository;
 use App\Services\GeoService;
-use Auth;
 use Carbon\Carbon;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
-use Log;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
-/**
- * Class AcarsController
- */
 class AcarsController extends Controller
 {
     private $acarsRepo;
@@ -56,8 +55,22 @@ class AcarsController extends Controller
     protected function checkCancelled(Pirep $pirep)
     {
         if ($pirep->cancelled) {
-            throw new PirepCancelled();
+            throw new PirepCancelled($pirep);
         }
+    }
+
+    /**
+     * Get all the active PIREPs
+     *
+     * @return mixed
+     */
+    public function live_flights()
+    {
+        $pireps = $this->acarsRepo->getPositions(setting('acars.live_time'))->filter(function ($pirep) {
+            return $pirep->position !== null;
+        });
+
+        return PirepResource::collection($pireps);
     }
 
     /**
@@ -67,13 +80,13 @@ class AcarsController extends Controller
      *
      * @return mixed
      */
-    public function index(Request $request)
+    public function pireps_geojson(Request $request)
     {
         $pireps = $this->acarsRepo->getPositions(setting('acars.live_time'));
         $positions = $this->geoSvc->getFeatureForLiveFlights($pireps);
 
-        return response(json_encode($positions), 200, [
-            'Content-type' => 'application/json',
+        return response()->json([
+            'data' => $positions,
         ]);
     }
 
@@ -83,15 +96,15 @@ class AcarsController extends Controller
      * @param         $pirep_id
      * @param Request $request
      *
-     * @return \Illuminate\Contracts\Routing\ResponseFactory
+     * @return \Illuminate\Http\JsonResponse
      */
     public function acars_geojson($pirep_id, Request $request)
     {
         $pirep = Pirep::find($pirep_id);
         $geodata = $this->geoSvc->getFeatureFromAcars($pirep);
 
-        return response(\json_encode($geodata), 200, [
-            'Content-Type' => 'application/json',
+        return response()->json([
+            'data' => $geodata,
         ]);
     }
 
@@ -131,7 +144,7 @@ class AcarsController extends Controller
         $this->checkCancelled($pirep);
 
         Log::debug(
-            'Posting ACARS update (user: '.Auth::user()->pilot_id.', pirep id :'.$id.'): ',
+            'Posting ACARS update (user: '.Auth::user()->ident.', pirep id :'.$id.'): ',
             $request->post()
         );
 
@@ -157,10 +170,13 @@ class AcarsController extends Controller
                 }
             }
 
-            $update = Acars::create($position);
-            $update->save();
-
-            $count++;
+            try {
+                $update = Acars::create($position);
+                $update->save();
+                $count++;
+            } catch (QueryException $ex) {
+                Log::info('Error on adding ACARS position: '.$ex->getMessage());
+            }
         }
 
         // Change the PIREP status if it's as SCHEDULED before
@@ -207,9 +223,13 @@ class AcarsController extends Controller
                 $log['created_at'] = Carbon::createFromTimeString($log['created_at']);
             }
 
-            $acars = Acars::create($log);
-            $acars->save();
-            $count++;
+            try {
+                $acars = Acars::create($log);
+                $acars->save();
+                $count++;
+            } catch (QueryException $ex) {
+                Log::info('Error on adding ACARS position: '.$ex->getMessage());
+            }
         }
 
         return $this->message($count.' logs added', $count);
@@ -250,9 +270,13 @@ class AcarsController extends Controller
                 $log['created_at'] = Carbon::createFromTimeString($log['created_at']);
             }
 
-            $acars = Acars::create($log);
-            $acars->save();
-            $count++;
+            try {
+                $acars = Acars::create($log);
+                $acars->save();
+                $count++;
+            } catch (QueryException $ex) {
+                Log::info('Error on adding ACARS position: '.$ex->getMessage());
+            }
         }
 
         return $this->message($count.' logs added', $count);

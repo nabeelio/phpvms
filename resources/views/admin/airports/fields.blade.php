@@ -62,7 +62,7 @@
     <div class="row">
         <div class="form-group col-sm-6">
             {{ Form::label('ground_handling_cost', 'Ground Handling Cost:') }}
-            {{ Form::number('ground_handling_cost', null, ['class' => 'form-control']) }}
+            {{ Form::number('ground_handling_cost', null, ['class' => 'form-control', 'step' => '0.01']) }}
             <p class="text-danger">{{ $errors->first('ground_handling_cost') }}</p>
 
             @component('admin.components.info')
@@ -72,7 +72,13 @@
         </div>
 
         <div class="form-group col-md-6">
+            {{ Form::label('fuel_jeta_cost', 'Jet A Fuel Cost:') }}
+            {{ Form::number('fuel_jeta_cost', null, ['class' => 'form-control', 'step' => '0.01']) }}
+            <p class="text-danger">{{ $errors->first('fuel_jeta_cost') }}</p>
 
+            @component('admin.components.info')
+                This is the cost per {{ config('phpvms.internal_units.fuel') }}
+            @endcomponent
         </div>
 
     </div>

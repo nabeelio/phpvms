@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
-use App\Interfaces\ImportExport;
-use App\Interfaces\Service;
+use App\Contracts\ImportExport;
+use App\Contracts\Service;
 use App\Services\ImportExport\AircraftExporter;
 use App\Services\ImportExport\AirportExporter;
 use App\Services\ImportExport\ExpenseExporter;
@@ -11,14 +11,11 @@ use App\Services\ImportExport\FareExporter;
 use App\Services\ImportExport\FlightExporter;
 use App\Services\ImportExport\SubfleetExporter;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use League\Csv\CharsetConverter;
 use League\Csv\Writer;
-use Log;
 
-/**
- * Class ExportService
- */
 class ExportService extends Service
 {
     /**
@@ -29,7 +26,8 @@ class ExportService extends Service
     public function openCsv($path): Writer
     {
         $writer = Writer::createFromPath($path, 'w+');
-        CharsetConverter::addTo($writer, 'utf-8', 'iso-8859-15');
+        CharsetConverter::addTo($writer, 'utf-8', 'utf-8');
+
         return $writer;
     }
 
@@ -77,8 +75,7 @@ class ExportService extends Service
      */
     public function exportAircraft($aircraft)
     {
-        $exporter = new AircraftExporter();
-        return $this->runExport($aircraft, $exporter);
+        return $this->runExport($aircraft, new AircraftExporter());
     }
 
     /**
@@ -92,8 +89,7 @@ class ExportService extends Service
      */
     public function exportAirports($airports)
     {
-        $exporter = new AirportExporter();
-        return $this->runExport($airports, $exporter);
+        return $this->runExport($airports, new AirportExporter());
     }
 
     /**
@@ -107,8 +103,7 @@ class ExportService extends Service
      */
     public function exportExpenses($expenses)
     {
-        $exporter = new ExpenseExporter();
-        return $this->runExport($expenses, $exporter);
+        return $this->runExport($expenses, new ExpenseExporter());
     }
 
     /**
@@ -122,8 +117,7 @@ class ExportService extends Service
      */
     public function exportFares($fares)
     {
-        $exporter = new FareExporter();
-        return $this->runExport($fares, $exporter);
+        return $this->runExport($fares, new FareExporter());
     }
 
     /**
@@ -137,8 +131,7 @@ class ExportService extends Service
      */
     public function exportFlights($flights)
     {
-        $exporter = new FlightExporter();
-        return $this->runExport($flights, $exporter);
+        return $this->runExport($flights, new FlightExporter());
     }
 
     /**
@@ -152,7 +145,6 @@ class ExportService extends Service
      */
     public function exportSubfleets($subfleets)
     {
-        $exporter = new SubfleetExporter();
-        return $this->runExport($subfleets, $exporter);
+        return $this->runExport($subfleets, new SubfleetExporter());
     }
 }

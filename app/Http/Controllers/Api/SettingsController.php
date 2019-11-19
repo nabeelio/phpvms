@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Contracts\Controller;
 use App\Http\Resources\Setting as SettingResource;
-use App\Interfaces\Controller;
 use App\Repositories\SettingRepository;
 use Illuminate\Http\Request;
 

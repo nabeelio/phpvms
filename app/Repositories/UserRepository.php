@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Interfaces\Repository;
+use App\Contracts\Repository;
 use App\Models\Enums\UserState;
 use App\Models\User;
 use App\Repositories\Criteria\WhereCriteria;

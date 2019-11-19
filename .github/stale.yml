@@ -1,0 +1,10 @@
+---
+daysUntilStale: 60
+daysUntilClose: false
+exemptLabels:
+  - pinned
+  - security
+exemptMilestones: true
+staleLabel: wontfix
+markComment: false
+closeComment: false

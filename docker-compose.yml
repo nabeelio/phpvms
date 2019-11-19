@@ -1,0 +1,58 @@
+---
+version: '3'
+services:
+  app:
+    build:
+      context: ./resources/docker/php
+    environment:
+      DB_HOST: mysql
+      REDIS_HOST: redis
+    volumes:
+      - ./:/var/www
+      - ./resources/docker/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
+    depends_on:
+      - mysql
+      - redis
+
+  nginx:
+    image: nginx:1.15.12-alpine
+    command: /bin/sh -c "exec nginx -g 'daemon off;'"
+    volumes:
+      - ./:/var/www
+      - ./resources/docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - 80:80
+    depends_on:
+      - app
+
+  mysql:
+    image: mysql:5.7.26
+    environment:
+      MYSQL_DATABASE: phpvms
+      MYSQL_USER: phpvms
+      MYSQL_PASSWORD: phpvms
+      MYSQL_ROOT_PASSWORD:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+    volumes:
+      - ./storage/docker/mysql:/var/lib/mysql
+    ports:
+      - 3306:3306
+
+  redis:
+    image: redis:5.0.4-alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - ./storage/docker/redis:/data
+    ports:
+      - 6379:6379
+    restart: always
+
+  # Use this to tail the logs so it's just all in a single window
+  #logs:
+  #    image: busybox
+  #    command: tail -f -F -n 0 /var/www/storage/logs/laravel.log
+  #    restart: always
+  #    volumes:
+  #      - ./storage:/var/www/storage
+  #    depends_on:
+  #      - app

@@ -8,12 +8,12 @@
     <tbody>
     @foreach($airlines as $al)
         <tr>
-            <td>
+            <td nowrap="true">
                 @if(filled($al->country))
                     <span class="flag-icon flag-icon-{{ $al->country }}"></span>
                     &nbsp;
                 @endif
-                <a href="{{ route('admin.airlines.edit', [$al->id]) }}">{{ $al->code }}</a>
+                <a href="{{ route('admin.airlines.edit', [$al->id]) }}">{{ $al->iata }}/{{ $al->icao }}</a>
             </td>
             <td>{{ $al->name }}</td>
             <td class="text-center">

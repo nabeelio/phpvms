@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use App\Models\Pirep;
 use App\Repositories\PirepFieldRepository;
 use Illuminate\Foundation\Http\FormRequest;
-use Log;
+use Illuminate\Support\Facades\Log;
 
 class CreatePirepRequest extends FormRequest
 {
@@ -39,19 +39,17 @@ class CreatePirepRequest extends FormRequest
 
         $field_rules = Pirep::$rules;
 
-        $field_rules['hours'] = 'nullable|integer';
-        $field_rules['minutes'] = 'nullable|integer';
+        $field_rules['hours'] = 'required|integer';
+        $field_rules['minutes'] = 'required|integer';
 
         // Add the validation rules for the custom fields
         $pirepFieldRepo = app(PirepFieldRepository::class);
 
         $custom_fields = $pirepFieldRepo->all();
         foreach ($custom_fields as $field) {
-            Log::info('field:', $field->toArray());
+            // Log::info('field:', $field->toArray());
             $field_rules[$field->slug] = $field->required ? 'required' : 'nullable';
         }
-
-        Log::debug('createPirepFormRequest::rules', $field_rules);
 
         return $field_rules;
     }

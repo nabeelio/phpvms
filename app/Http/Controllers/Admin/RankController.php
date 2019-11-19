@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Contracts\Controller;
 use App\Http\Requests\CreateRankRequest;
 use App\Http\Requests\UpdateRankRequest;
-use App\Interfaces\Controller;
 use App\Repositories\RankRepository;
 use App\Repositories\SubfleetRepository;
 use App\Services\FleetService;
@@ -107,7 +107,7 @@ class RankController extends Controller
 
         Cache::forget(config('cache.keys.RANKS_PILOT_LIST.key'));
 
-        return redirect(route('admin.ranks.edit', ['id' => $model->id]));
+        return redirect(route('admin.ranks.edit', [$model->id]));
     }
 
     /**

@@ -29,6 +29,7 @@
                 A couple of places (like the distance) use both to output the correct bindings.
                 --}}
                 <div id="map-info-box" class="map-info-box"
+                     rv-show="pirep"
                      style="width: {{ $config['width'] }};">
                     <div style="float: left; width: 50%;">
                         <h3 style="margin: 0" id="map_flight_id">
@@ -97,8 +98,8 @@ and being mindful of the rivets bindings
                     <td>{ pirep.aircraft.name }</td>
                     <td>{ pirep.position.altitude }</td>
                     <td>{ pirep.position.gs }</td>
-                    <td>{ pirep.position.distance.{{setting('units.distance')}} } /
-                        { pirep.planned_distance.{{setting('units.distance')}} }
+                    <td>{ pirep.position.distance.{{setting('units.distance')}} | fallback 0 } /
+                        { pirep.planned_distance.{{setting('units.distance')}} | fallback 0 }
                     </td>
                     <td>{ pirep.status_text }</td>
                 </tr>
@@ -112,9 +113,6 @@ and being mindful of the rivets bindings
 phpvms.map.render_live_map({
     center: ['{{ $center[0] }}', '{{ $center[1] }}'],
     zoom: '{{ $zoom }}',
-    update_uri: '{!! url('/api/acars') !!}',
-    pirep_uri: '{!! url('/api/pireps/{id}') !!}',
-    pirep_link_uri: '{!! url('/pireps/{id}') !!}',
     aircraft_icon: '{!! public_asset('/assets/img/acars/aircraft.png') !!}',
     units: '{{ setting('units.distance') }}',
 });

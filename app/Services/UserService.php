@@ -2,10 +2,11 @@
 
 namespace App\Services;
 
+use App\Contracts\Service;
 use App\Events\UserRegistered;
 use App\Events\UserStateChanged;
 use App\Events\UserStatsChanged;
-use App\Interfaces\Service;
+use App\Exceptions\UserPilotIdExists;
 use App\Models\Enums\PirepState;
 use App\Models\Enums\UserState;
 use App\Models\Pirep;
@@ -14,30 +15,33 @@ use App\Models\Role;
 use App\Models\User;
 use App\Repositories\AircraftRepository;
 use App\Repositories\SubfleetRepository;
+use App\Repositories\UserRepository;
 use App\Support\Units\Time;
 use Illuminate\Support\Collection;
-use Log;
+use Illuminate\Support\Facades\Log;
+use function is_array;
 
-/**
- * Class UserService
- */
 class UserService extends Service
 {
     private $aircraftRepo;
     private $subfleetRepo;
+    private $userRepo;
 
     /**
      * UserService constructor.
      *
      * @param AircraftRepository $aircraftRepo
      * @param SubfleetRepository $subfleetRepo
+     * @param UserRepository     $userRepo
      */
     public function __construct(
         AircraftRepository $aircraftRepo,
-        SubfleetRepository $subfleetRepo
+        SubfleetRepository $subfleetRepo,
+        UserRepository $userRepo
     ) {
         $this->aircraftRepo = $aircraftRepo;
         $this->subfleetRepo = $subfleetRepo;
+        $this->userRepo = $userRepo;
     }
 
     /**
@@ -51,7 +55,7 @@ class UserService extends Service
      *
      * @return mixed
      */
-    public function createPilot(User $user, array $groups = null)
+    public function createUser(User $user, array $groups = null)
     {
         // Determine if we want to auto accept
         if (setting('pilots.auto_accept') === true) {
@@ -63,10 +67,11 @@ class UserService extends Service
         $user->save();
 
         // Attach the user roles
-        $role = Role::where('name', 'user')->first();
-        $user->attachRole($role);
+        // $role = Role::where('name', 'user')->first();
+        // $user->attachRole($role);
 
-        if (!empty($groups) && \is_array($groups)) {
+        // Attach any additional roles
+        if (!empty($groups) && is_array($groups)) {
             foreach ($groups as $group) {
                 $role = Role::where('name', $group)->first();
                 $user->attachRole($role);
@@ -78,6 +83,65 @@ class UserService extends Service
         $user->refresh();
 
         event(new UserRegistered($user));
+
+        return $user;
+    }
+
+    /**
+     * Find the next available pilot ID and set the current user's pilot_id to that +1
+     * Called from UserObserver right now after a record is created
+     *
+     * @param User $user
+     *
+     * @return User
+     */
+    public function findAndSetPilotId(User $user): User
+    {
+        if ($user->pilot_id !== null && $user->pilot_id > 0) {
+            return $user;
+        }
+
+        $max = (int) User::max('pilot_id');
+        $user->pilot_id = $max + 1;
+        $user->save();
+
+        Log::info('Set pilot ID for user '.$user->id.' to '.$user->pilot_id);
+
+        return $user;
+    }
+
+    public function isPilotIdAlreadyUsed(int $pilot_id): bool
+    {
+        return User::where('pilot_id', '=', $pilot_id)->exists();
+    }
+
+    /**
+     * Change a user's pilot ID
+     *
+     * @param User $user
+     * @param int  $pilot_id
+     *
+     * @throws UserPilotIdExists
+     *
+     * @return User
+     */
+    public function changePilotId(User $user, int $pilot_id): User
+    {
+        if ($user->pilot_id === $pilot_id) {
+            return $user;
+        }
+
+        if ($this->isPilotIdAlreadyUsed($pilot_id)) {
+            Log::error('User with id '.$pilot_id.' already exists');
+
+            throw new UserPilotIdExists($user);
+        }
+
+        $old_id = $user->pilot_id;
+        $user->pilot_id = $pilot_id;
+        $user->save();
+
+        Log::info('Changed pilot ID for user '.$user->id.' from '.$old_id.' to '.$user->pilot_id);
 
         return $user;
     }
@@ -132,7 +196,7 @@ class UserService extends Service
             return $user;
         }
 
-        Log::info('User '.$user->pilot_id.' state changing from '
+        Log::info('User '.$user->ident.' state changing from '
             .UserState::label($old_state).' to '
             .UserState::label($user->state));
 
@@ -196,7 +260,12 @@ class UserService extends Service
             return $user;
         }
 
-        $pilot_hours = new Time($user->flight_time);
+        // If we should count their transfer hours?
+        if (setting('pilots.count_transfer_hours', false) === true) {
+            $pilot_hours = new Time($user->flight_time + $user->transfer_time);
+        } else {
+            $pilot_hours = new Time($user->flight_time);
+        }
 
         // The current rank's hours are over the pilot's current hours,
         // so assume that they were "placed" here by an admin so don't
@@ -249,6 +318,22 @@ class UserService extends Service
     }
 
     /**
+     * Recalculate the stats for all active users
+     */
+    public function recalculateAllUserStats(): void
+    {
+        $w = [
+            ['state', '!=', UserState::REJECTED],
+        ];
+
+        $this->userRepo
+            ->findWhere($w, ['id', 'name', 'airline_id'])
+            ->each(function ($user, $_) {
+                return $this->recalculateStats($user);
+            });
+    }
+
+    /**
      * Recount/update all of the stats for a user
      *
      * @param User $user
@@ -263,13 +348,20 @@ class UserService extends Service
             'state'   => PirepState::ACCEPTED,
         ];
 
+        $flight_count = Pirep::where($w)->count();
+        $user->flights = $flight_count;
+
         $flight_time = Pirep::where($w)->sum('flight_time');
         $user->flight_time = $flight_time;
+
+        $user->save();
 
         // Recalc the rank
         $this->calculatePilotRank($user);
 
-        Log::info('User '.$user->ident.' updated; rank='.$user->rank->name.'; flight_time='.$user->flight_time.' minutes');
+        Log::info('User '.$user->ident.' updated; flight count='.$flight_count
+            .', rank='.$user->rank->name
+            .', flight_time='.$user->flight_time.' minutes');
 
         $user->save();
         return $user;

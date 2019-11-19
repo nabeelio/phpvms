@@ -1,5 +1,9 @@
 <?php
 
+use App\Exceptions\SettingNotFound;
+use Carbon\Carbon;
+use Illuminate\Contracts\View\Factory;
+
 if (!function_exists('in_mask')) {
     /**
      * Return true/false if a value exists in a mask
@@ -39,7 +43,7 @@ if (!function_exists('get_truth_state')) {
             $state = strtolower($state);
         }
 
-        return \in_array($state, $enabledStates, false);
+        return in_array($state, $enabledStates, false);
     }
 }
 
@@ -109,7 +113,7 @@ if (!function_exists('skin_view')) {
      * @param array $vars
      * @param array $merge_data
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Factory|\Illuminate\View\View
      */
     function skin_view($template, array $vars = [], array $merge_data = [])
     {
@@ -119,8 +123,7 @@ if (!function_exists('skin_view')) {
             return view($template, $vars, $merge_data);
         }
 
-        // TODO: Look for an overridden template in a special folder
-        $tpl = 'layouts/'.config('phpvms.skin').'/'.$template;
+        $tpl = 'layouts/'.setting('general.theme', 'default').'/'.$template;
 
         return view($tpl, $vars, $merge_data);
     }
@@ -130,16 +133,36 @@ if (!function_exists('skin_view')) {
  * Shortcut for retrieving a setting value
  */
 if (!function_exists('setting')) {
+    /**
+     * Read a setting from the settings table
+     *
+     * @param       $key
+     * @param mixed $default
+     *
+     * @return mixed|null
+     */
     function setting($key, $default = null)
     {
         $settingRepo = app('setting');
 
         try {
             $value = $settingRepo->retrieve($key);
-        } catch (\App\Exceptions\SettingNotFound $e) {
+        } catch (SettingNotFound $e) {
             return $default;
         }
 
+        return $value;
+    }
+}
+
+/*
+ * Shortcut for retrieving a setting value
+ */
+if (!function_exists('setting_save')) {
+    function setting_save($key, $value)
+    {
+        $settingRepo = app('setting');
+        $settingRepo->save($key, $value);
         return $value;
     }
 }
@@ -149,14 +172,29 @@ if (!function_exists('setting')) {
  * set
  */
 if (!function_exists('public_asset')) {
-    function public_asset($path, array $parameters = [], $secure = null)
+    function public_asset($path, array $parameters = [])
     {
         $publicBaseUrl = app()->publicUrlPath();
         $path = $publicBaseUrl.$path;
 
         $path = str_replace('//', '/', $path);
 
-        return url($path, $parameters, $secure);
+        return url($path, $parameters);
+    }
+}
+
+/*
+ * Call mix() and then prepend the proper public URL
+ */
+if (!function_exists('public_mix')) {
+    function public_mix($path, array $parameters = [])
+    {
+        try {
+            $path = mix($path);
+        } catch (Exception $e) {
+        }
+
+        return public_asset($path, $parameters);
     }
 }
 
@@ -168,11 +206,11 @@ if (!function_exists('show_datetime')) {
      * Format the a Carbon date into the datetime string
      * but convert it into the user's timezone
      *
-     * @param \Carbon\Carbon $date
+     * @param Carbon $date
      *
      * @return string
      */
-    function show_datetime(\Carbon\Carbon $date = null)
+    function show_datetime(Carbon $date = null)
     {
         if ($date === null) {
             return '-';
@@ -199,7 +237,7 @@ if (!function_exists('show_date')) {
      *
      * @return string
      */
-    function show_date(\Carbon\Carbon $date)
+    function show_date(Carbon $date)
     {
         $timezone = 'UTC';
         if (Auth::check()) {

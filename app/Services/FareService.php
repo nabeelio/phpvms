@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Interfaces\Service;
+use App\Contracts\Service;
 use App\Models\Fare;
 use App\Models\Flight;
 use App\Models\Pirep;
@@ -11,9 +11,6 @@ use App\Models\Subfleet;
 use App\Support\Math;
 use Illuminate\Support\Collection;
 
-/**
- * Class FareService
- */
 class FareService extends Service
 {
     /**

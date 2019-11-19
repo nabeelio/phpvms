@@ -2,21 +2,19 @@
 
 namespace App\Services;
 
-use App\Exceptions\BidExists;
-use App\Interfaces\Service;
+use App\Contracts\Service;
+use App\Exceptions\DuplicateFlight;
 use App\Models\Bid;
+use App\Models\Enums\Days;
 use App\Models\Flight;
 use App\Models\FlightFieldValue;
-use App\Models\User;
 use App\Repositories\FlightRepository;
 use App\Repositories\NavdataRepository;
-use Log;
+use App\Support\Units\Time;
 
-/**
- * Class FlightService
- */
 class FlightService extends Service
 {
+    private $airportSvc;
     private $flightRepo;
     private $navDataRepo;
     private $userSvc;
@@ -24,36 +22,102 @@ class FlightService extends Service
     /**
      * FlightService constructor.
      *
+     * @param AirportService    $airportSvc
      * @param FlightRepository  $flightRepo
      * @param NavdataRepository $navdataRepo
      * @param UserService       $userSvc
      */
     public function __construct(
+        AirportService $airportSvc,
         FlightRepository $flightRepo,
         NavdataRepository $navdataRepo,
         UserService $userSvc
     ) {
+        $this->airportSvc = $airportSvc;
         $this->flightRepo = $flightRepo;
         $this->navDataRepo = $navdataRepo;
         $this->userSvc = $userSvc;
     }
 
     /**
-     * Filter out any flights according to different settings
+     * Create a new flight
      *
-     * @param $user
+     * @param array $fields
      *
-     * @return FlightRepository
+     * @throws \Prettus\Validator\Exceptions\ValidatorException
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function filterFlights($user)
+    public function createFlight($fields)
     {
-        $where = [];
-        if (setting('pilots.only_flights_from_current', false)) {
-            $where['dpt_airport_id'] = $user->curr_airport_id;
+        $fields['dpt_airport_id'] = strtoupper($fields['dpt_airport_id']);
+        $fields['arr_airport_id'] = strtoupper($fields['arr_airport_id']);
+
+        $flightTmp = new Flight($fields);
+        if ($this->isFlightDuplicate($flightTmp)) {
+            throw new DuplicateFlight($flightTmp);
         }
 
-        return $this->flightRepo
-            ->whereOrder($where, 'flight_number', 'asc');
+        $this->airportSvc->lookupAirportIfNotFound($fields['dpt_airport_id']);
+        $this->airportSvc->lookupAirportIfNotFound($fields['arr_airport_id']);
+
+        $fields = $this->transformFlightFields($fields);
+        $flight = $this->flightRepo->create($fields);
+
+        return $flight;
+    }
+
+    /**
+     * Update a flight with values from the given fields
+     *
+     * @param Flight $flight
+     * @param array  $fields
+     *
+     * @throws \Prettus\Validator\Exceptions\ValidatorException
+     *
+     * @return \App\Models\Flight|mixed
+     */
+    public function updateFlight($flight, $fields)
+    {
+        // apply the updates here temporarily, don't save
+        // the repo->update() call will actually do it
+        $flight->fill($fields);
+
+        if ($this->isFlightDuplicate($flight)) {
+            throw new DuplicateFlight($flight);
+        }
+
+        $fields = $this->transformFlightFields($fields);
+        $flight = $this->flightRepo->update($fields, $flight->id);
+
+        return $flight;
+    }
+
+    /**
+     * Check the fields for a flight and transform them
+     *
+     * @param array $fields
+     *
+     * @return array
+     */
+    protected function transformFlightFields($fields)
+    {
+        if (array_key_exists('days', $fields) && filled($fields['days'])) {
+            $fields['days'] = Days::getDaysMask($fields['days']);
+        }
+
+        $fields['flight_time'] = Time::init($fields['minutes'], $fields['hours'])->getMinutes();
+        $fields['active'] = get_truth_state($fields['active']);
+
+        // Figure out a distance if not found
+        if (empty($fields['distance'])) {
+            $fields['distance'] = $this->airportSvc->calculateDistance(
+                $fields['dpt_airport_id'],
+                $fields['arr_airport_id']
+            );
+        }
+
+        return $fields;
     }
 
     /**
@@ -190,92 +254,5 @@ class FlightService extends Service
         }
 
         return collect($return_points);
-    }
-
-    /**
-     * Allow a user to bid on a flight. Check settings and all that good stuff
-     *
-     * @param Flight $flight
-     * @param User   $user
-     *
-     * @throws \App\Exceptions\BidExists
-     *
-     * @return mixed
-     */
-    public function addBid(Flight $flight, User $user)
-    {
-        // Get all of the bids for this user. See if they're allowed to have multiple
-        // bids
-        $bids = Bid::where('user_id', $user->id)->get();
-        if ($bids->count() > 0 && setting('bids.allow_multiple_bids') === false) {
-            throw new BidExists('User "'.$user->ident.'" already has bids, skipping');
-        }
-
-        // Get all of the bids for this flight
-        $bids = Bid::where('flight_id', $flight->id)->get();
-        if ($bids->count() > 0) {
-            // Does the flight have a bid set?
-            if ($flight->has_bid === false) {
-                $flight->has_bid = true;
-                $flight->save();
-            }
-
-            // Check all the bids for one of this user
-            foreach ($bids as $bid) {
-                if ($bid->user_id === $user->id) {
-                    Log::info('Bid exists, user='.$user->ident.', flight='.$flight->id);
-                    return $bid;
-                }
-            }
-
-            // Check if the flight should be blocked off
-            if (setting('bids.disable_flight_on_bid') === true) {
-                throw new BidExists('Flight "'.$flight->ident.'" already has a bid, skipping');
-            }
-
-            if (setting('bids.allow_multiple_bids') === false) {
-                throw new BidExists('A bid already exists for this flight');
-            }
-        } else {
-            /* @noinspection NestedPositiveIfStatementsInspection */
-            if ($flight->has_bid === true) {
-                Log::info('Bid exists, flight='.$flight->id.'; no entry in bids table, cleaning up');
-            }
-        }
-
-        $bid = Bid::firstOrCreate([
-            'user_id'   => $user->id,
-            'flight_id' => $flight->id,
-        ]);
-
-        $flight->has_bid = true;
-        $flight->save();
-
-        return $bid;
-    }
-
-    /**
-     * Remove a bid from a given flight
-     *
-     * @param Flight $flight
-     * @param User   $user
-     */
-    public function removeBid(Flight $flight, User $user)
-    {
-        $bids = Bid::where([
-            'flight_id' => $flight->id,
-            'user_id'   => $user->id,
-        ])->get();
-
-        foreach ($bids as $bid) {
-            $bid->forceDelete();
-        }
-
-        // Only flip the flag if there are no bids left for this flight
-        $bids = Bid::where('flight_id', $flight->id)->get();
-        if ($bids->count() === 0) {
-            $flight->has_bid = false;
-            $flight->save();
-        }
     }
 }

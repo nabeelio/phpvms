@@ -1,3 +1,10 @@
+- key: general.theme
+  name: 'Current Theme'
+  group: general
+  value: 'default'
+  options: ''
+  type: select
+  description: 'The currently active theme'
 - key: general.start_date
   name: 'Start Date'
   group: general
@@ -11,7 +18,28 @@
   value: ''
   options: ''
   type: text
-  description: 'Email where notices, etc are sent'
+  description: 'Email where system notices, etc are sent'
+- key: general.auto_airport_lookup
+  name: 'Automatic airport lookup'
+  group: general
+  value: true
+  options:
+  type: boolean
+  description: If an airport isn't added, try to look it up when adding schedules
+- key: general.check_prerelease_version
+  name: 'Pre-release versions in version check'
+  group: general
+  value: false
+  options: ''
+  type: boolean
+  description: 'Include beta and other pre-release versions when checking for a new version'
+- key: general.telemetry
+  name: 'Send telemetry to phpVMS'
+  group: general
+  value: true
+  options: ''
+  type: boolean
+  description: 'Send some data (php version, mysql version) to phpVMS. See AnalyticsSvc code for details'
 - key: units.distance
   name: 'Distance Units'
   group: units
@@ -53,7 +81,7 @@
   value: gallons
   options: 'gallons,l=liters'
   type: select
-  description: 'The units for fuel for display'
+  description: 'The units of volume for display'
 - key: units.temperature
   name: 'Temperature Units'
   group: units
@@ -187,3 +215,10 @@
   options: ''
   type: boolean
   description: 'Allow specifying transfer hours on registration page and displayed on profile page'
+- key: pilots.count_transfer_hours
+  name: 'Count transfer hours in calculations'
+  group: pilots
+  value: false
+  options: ''
+  type: boolean
+  description: 'Count transfer hours in calculations, like ranks and the total hours'

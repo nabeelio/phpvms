@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Interfaces\Controller;
+use App\Contracts\Controller;
 use PragmaRX\Version\Package\Facade as Version;
 
 /**

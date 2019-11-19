@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Contracts\Controller;
 use App\Facades\Utils;
 use App\Http\Requests\CreatePirepRequest;
 use App\Http\Requests\UpdatePirepRequest;
-use App\Interfaces\Controller;
 use App\Models\Enums\PirepSource;
 use App\Models\Enums\PirepState;
 use App\Models\Pirep;
@@ -181,6 +181,7 @@ class PirepController extends Controller
         Log::info('aircraft', $aircraft->toArray());
 
         return view('admin.pireps.fares', [
+            'pirep'     => null,
             'aircraft'  => $aircraft,
             'read_only' => false,
         ]);
@@ -365,7 +366,8 @@ class PirepController extends Controller
         // Fix the time
         $attrs['flight_time'] = Time::init(
             $attrs['minutes'],
-            $attrs['hours'])->getMinutes();
+            $attrs['hours']
+        )->getMinutes();
 
         $pirep = $this->pirepRepo->update($attrs, $id);
 

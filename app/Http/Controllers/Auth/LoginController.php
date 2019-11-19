@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Interfaces\Controller;
+use App\Contracts\Controller;
 use App\Models\Enums\UserState;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
@@ -49,7 +49,7 @@ class LoginController extends Controller
 
         // TODO: How to handle ON_LEAVE?
         if ($user->state !== UserState::ACTIVE) {
-            Log::info('Trying to login '.$user->pilot_id.', state '
+            Log::info('Trying to login '.$user->ident.', state '
                 .UserState::label($user->state));
 
             // Log them out
@@ -59,9 +59,13 @@ class LoginController extends Controller
             // Redirect to one of the error pages
             if ($user->state === UserState::PENDING) {
                 return view('auth.pending');
-            } elseif ($user->state === UserState::REJECTED) {
+            }
+
+            if ($user->state === UserState::REJECTED) {
                 return view('auth.rejected');
-            } elseif ($user->state === UserState::SUSPENDED) {
+            }
+
+            if ($user->state === UserState::SUSPENDED) {
                 return view('auth.suspended');
             }
         }

@@ -2,29 +2,28 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Contracts\Controller;
 use App\Http\Resources\Bid as BidResource;
 use App\Http\Resources\Pirep as PirepResource;
 use App\Http\Resources\Subfleet as SubfleetResource;
 use App\Http\Resources\User as UserResource;
-use App\Interfaces\Controller;
 use App\Models\Bid;
 use App\Models\Enums\PirepState;
 use App\Repositories\Criteria\WhereCriteria;
 use App\Repositories\FlightRepository;
 use App\Repositories\PirepRepository;
 use App\Repositories\UserRepository;
+use App\Services\BidService;
 use App\Services\FlightService;
 use App\Services\UserService;
-use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Prettus\Repository\Exceptions\RepositoryException;
 
-/**
- * Class UserController
- */
 class UserController extends Controller
 {
+    private $bidSvc;
     private $flightRepo;
     private $flightSvc;
     private $pirepRepo;
@@ -32,8 +31,7 @@ class UserController extends Controller
     private $userSvc;
 
     /**
-     * UserController constructor.
-     *
+     * @param BidService       $bidSvc
      * @param FlightRepository $flightRepo
      * @param FlightService    $flightSvc
      * @param PirepRepository  $pirepRepo
@@ -41,12 +39,14 @@ class UserController extends Controller
      * @param UserService      $userSvc
      */
     public function __construct(
+        BidService $bidSvc,
         FlightRepository $flightRepo,
         FlightService $flightSvc,
         PirepRepository $pirepRepo,
         UserRepository $userRepo,
         UserService $userSvc
     ) {
+        $this->bidSvc = $bidSvc;
         $this->flightRepo = $flightRepo;
         $this->flightSvc = $flightSvc;
         $this->pirepRepo = $pirepRepo;
@@ -61,11 +61,11 @@ class UserController extends Controller
      */
     protected function getUserId(Request $request)
     {
-        if ($request->id === null) {
+        if ($request->get('id') === null) {
             return Auth::user()->id;
         }
 
-        return $request->id;
+        return $request->get('id');
     }
 
     /**
@@ -98,7 +98,7 @@ class UserController extends Controller
      * @param Request $request
      *
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
-     * @throws \App\Exceptions\BidExists
+     * @throws \App\Exceptions\BidExistsForFlight
      *
      * @return mixed
      */
@@ -110,7 +110,7 @@ class UserController extends Controller
         if ($request->isMethod('PUT') || $request->isMethod('POST')) {
             $flight_id = $request->input('flight_id');
             $flight = $this->flightRepo->find($flight_id);
-            $bid = $this->flightSvc->addBid($flight, $user);
+            $bid = $this->bidSvc->addBid($flight, $user);
 
             return new BidResource($bid);
         }
@@ -124,11 +124,11 @@ class UserController extends Controller
             }
 
             $flight = $this->flightRepo->find($flight_id);
-            $this->flightSvc->removeBid($flight, $user);
+            $this->bidSvc->removeBid($flight, $user);
         }
 
         // Return the flights they currently have bids on
-        $bids = Bid::where(['user_id' => $user->id])->get();
+        $bids = $this->bidSvc->findBidsForUser($user);
 
         return BidResource::collection($bids);
     }

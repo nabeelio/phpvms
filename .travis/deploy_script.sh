@@ -14,7 +14,7 @@ if [ "$TRAVIS" = "true" ]; then
             exit 0;
         fi;
 
-        BASE_VERSION=`php artisan phpvms:version --base-only`
+        BASE_VERSION=$(php artisan phpvms:version --base-only)
         PKG_NAME=${BASE_VERSION}-${TRAVIS_BRANCH}
     fi
 
@@ -23,7 +23,7 @@ if [ "$TRAVIS" = "true" ]; then
     echo "Writing $TAR_NAME"
 
     php artisan phpvms:version --write > VERSION
-    VERSION=`cat VERSION`
+    VERSION=$(cat VERSION)
     echo "Version: $VERSION"
 
     echo "Cleaning files"
@@ -51,19 +51,28 @@ if [ "$TRAVIS" = "true" ]; then
     # Leftover individual files to delete
     declare -a remove_files=(
         .git
+        .github
         .sass-cache
         .idea
         .travis
+        docker
         tests
         _ide_helper.php
         .dpl
+        .editorconfig
         .eslintignore
         .eslintrc
+        .php_cs
+        .php_cs.cache
         .phpstorm.meta.php
         .styleci.yml
+        .phpunit.result.cache
         env.php
+        intellij_style.xml
         config.php
+        docker-compose.yml
         Makefile
+        phpcs.xml
         phpunit.xml
         phpvms.iml
         Procfile
@@ -82,13 +91,25 @@ if [ "$TRAVIS" = "true" ]; then
     find . -type d -name "sass-cache" -print0 | xargs rm -rf
 
     # clear any app specific stuff that might have been loaded in
-    find storage/app -mindepth 1 -not -name '.gitignore' -not -name public -not -name import -print0 -exec rm -rf {} +
-    find storage/app/public -mindepth 1 -not -name '.gitignore' -print0 -exec rm -rf {} +
+    find storage/app -mindepth 1 -maxdepth 1 -not -name '.gitignore' -not -name public -not -name import -print0 -exec rm -rf {} +
+    find storage/app/public -mindepth 1 -maxdepth 1 -not -name '.gitignore' -not -name avatars -not -name uploads -print0 -exec rm -rf {} +
+    find storage/app/public/avatars -mindepth 1 -not -name '.gitignore' -print0 -exec rm -rf {} +
+    find storage/app/public/uploads -mindepth 1 -not -name '.gitignore' -print0 -exec rm -rf {} +
+    find storage/debugbar -mindepth 1 -not -name '.gitignore' -print0 -exec rm -rf {} +
+    find storage/docker -mindepth 1 -not -name '.gitignore' -print0 -exec rm -rf {} +
     find storage/framework/cache -mindepth 1 -not -name '.gitignore' -print0 -exec rm -rf {} +
     find storage/framework/sessions -mindepth 1 -not -name '.gitignore' -print0 -exec rm -rf {} +
     find storage/framework/views -mindepth 1 -not -name '.gitignore' -print0 -exec rm -rf {} +
     find storage/logs -mindepth 1 -not -name '.gitignore' -print0 -exec rm -rf {} +
 
+    mkdir -p storage/app/public/avatars
+    mkdir -p storage/app/public/uploads
+    mkdir -p storage/framework/cache
+    mkdir -p storage/framework/sessions
+    mkdir -p storage/framework/views
+
+    # Regenerate the autoloader and classes
+    composer dump-autoload
     make clean
 
     echo "Creating Tarball"

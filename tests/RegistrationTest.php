@@ -22,7 +22,7 @@ class RegistrationTest extends TestCase
         setting('pilots.auto_accept', true);
 
         $user = factory(App\Models\User::class)->create();
-        $user = $userSvc->createPilot($user);
+        $user = $userSvc->createUser($user);
 
         $this->assertEquals(UserState::ACTIVE, $user->state);
 

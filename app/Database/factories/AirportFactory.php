@@ -48,8 +48,8 @@ $factory->define(App\Models\Airport::class, function (Faker $faker) {
         'lon'                  => $faker->longitude,
         'hub'                  => false,
         'ground_handling_cost' => $faker->randomFloat(2, 0, 500),
-        'fuel_100ll_cost'      => $faker->randomFloat(2, 0, 100),
-        'fuel_jeta_cost'       => $faker->randomFloat(2, 0, 100),
-        'fuel_mogas_cost'      => $faker->randomFloat(2, 0, 100),
+        'fuel_100ll_cost'      => $faker->randomFloat(2, 1, 10),
+        'fuel_jeta_cost'       => $faker->randomFloat(2, 1, 10),
+        'fuel_mogas_cost'      => $faker->randomFloat(2, 1, 10),
     ];
 });

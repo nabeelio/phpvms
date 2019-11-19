@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Console\Command;
+use App\Contracts\Command;
 use App\Services\DatabaseService;
 
 /**
@@ -22,6 +22,7 @@ class YamlImport extends Command
     public function __construct(DatabaseService $dbSvc)
     {
         parent::__construct();
+
         $this->dbSvc = $dbSvc;
     }
 

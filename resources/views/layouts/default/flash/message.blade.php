@@ -10,7 +10,7 @@
                     alert-{{ session('flash_notification.level') }}
                     {{ session()->has('flash_notification.important') ? 'alert-important' : '' }}">
             @if(session()->has('flash_notification.important'))
-                <button type="button"class="close" data-dismiss="alert">&times;</button>
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
             @endif
 
             {{ session('flash_notification.message') }}

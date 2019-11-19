@@ -25,7 +25,10 @@ class CreateUserRequest extends FormRequest
     public function rules(): array
     {
         $rules = User::$rules;
+
         $rules['email'] .= '|unique:users,email';
+        $rules['pilot_id'] .= '|unique:users,pilot_id';
+
         return $rules;
     }
 }

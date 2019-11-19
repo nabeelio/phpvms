@@ -4,7 +4,6 @@ namespace Modules\Sample\Providers;
 
 use App\Services\ModuleService;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Database\Eloquent\Factory;
 use Route;
 
 class SampleServiceProvider extends ServiceProvider
@@ -25,8 +24,7 @@ class SampleServiceProvider extends ServiceProvider
 
         $this->registerLinks();
 
-        $this->registerFactories();
-        $this->loadMigrationsFrom(__DIR__ . '/../Database/migrations');
+        $this->loadMigrationsFrom(__DIR__.'/../Database/migrations');
     }
 
     /**
@@ -54,43 +52,43 @@ class SampleServiceProvider extends ServiceProvider
      */
     protected function registerRoutes()
     {
-        /**
+        /*
          * Routes for the frontend
          */
         Route::group([
-            'as' => 'sample.',
+            'as'     => 'sample.',
             'prefix' => 'sample',
             // If you want a RESTful module, change this to 'api'
             'middleware' => ['web'],
-            'namespace' => 'Modules\Sample\Http\Controllers'
-        ], function() {
-            $this->loadRoutesFrom(__DIR__ . '/../Http/Routes/web.php');
+            'namespace'  => 'Modules\Sample\Http\Controllers',
+        ], function () {
+            $this->loadRoutesFrom(__DIR__.'/../Http/Routes/web.php');
         });
 
-        /**
+        /*
          * Routes for the admin
          */
         Route::group([
-            'as' => 'sample.',
+            'as'     => 'sample.',
             'prefix' => 'admin/sample',
             // If you want a RESTful module, change this to 'api'
             'middleware' => ['web', 'role:admin'],
-            'namespace' => 'Modules\Sample\Http\Controllers\Admin'
-        ], function() {
-            $this->loadRoutesFrom(__DIR__ . '/../Http/Routes/admin.php');
+            'namespace'  => 'Modules\Sample\Http\Controllers\Admin',
+        ], function () {
+            $this->loadRoutesFrom(__DIR__.'/../Http/Routes/admin.php');
         });
 
-        /**
+        /*
          * Routes for an API
          */
         Route::group([
-            'as' => 'sample.',
+            'as'     => 'sample.',
             'prefix' => 'api/sample',
             // If you want a RESTful module, change this to 'api'
             'middleware' => ['api'],
-            'namespace' => 'Modules\Sample\Http\Controllers\Api'
-        ], function() {
-            $this->loadRoutesFrom(__DIR__ . '/../Http/Routes/api.php');
+            'namespace'  => 'Modules\Sample\Http\Controllers\Api',
+        ], function () {
+            $this->loadRoutesFrom(__DIR__.'/../Http/Routes/api.php');
         });
     }
 
@@ -117,8 +115,8 @@ class SampleServiceProvider extends ServiceProvider
         $sourcePath = __DIR__.'/../Resources/views';
 
         $this->publishes([
-            $sourcePath => $viewPath
-        ],'views');
+            $sourcePath => $viewPath,
+        ], 'views');
 
         $paths = array_map(
             function ($path) {
@@ -141,18 +139,7 @@ class SampleServiceProvider extends ServiceProvider
         if (is_dir($langPath)) {
             $this->loadTranslationsFrom($langPath, 'sample');
         } else {
-            $this->loadTranslationsFrom(__DIR__ .'/../Resources/lang', 'sample');
-        }
-    }
-
-    /**
-     * Register an additional directory of factories.
-     * @source https://github.com/sebastiaanluca/laravel-resource-flow/blob/develop/src/Modules/ModuleServiceProvider.php#L66
-     */
-    public function registerFactories()
-    {
-        if (! app()->environment('production')) {
-            app(Factory::class)->load(__DIR__ . '/../Database/factories');
+            $this->loadTranslationsFrom(__DIR__.'/../Resources/lang', 'sample');
         }
     }
 

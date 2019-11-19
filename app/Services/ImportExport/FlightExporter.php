@@ -2,7 +2,7 @@
 
 namespace App\Services\ImportExport;
 
-use App\Interfaces\ImportExport;
+use App\Contracts\ImportExport;
 use App\Models\Enums\Days;
 use App\Models\Flight;
 
@@ -37,16 +37,14 @@ class FlightExporter extends ImportExport
 
         // Modify special fields
         $ret['airline'] = $ret['airline']->icao;
-        $ret['distance'] = $ret['distance'][config('phpvms.internal_units.distance')];
-
         $ret['dpt_airport'] = $flight->dpt_airport_id;
         $ret['arr_airport'] = $flight->arr_airport_id;
+
         if ($flight->alt_airport) {
             $ret['alt_airport'] = $flight->alt_airport_id;
         }
 
         $ret['days'] = $this->getDays($flight);
-
         $ret['fares'] = $this->getFares($flight);
         $ret['fields'] = $this->getFields($flight);
         $ret['subfleets'] = $this->getSubfleets($flight);

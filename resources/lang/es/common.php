@@ -1,9 +1,8 @@
 <?php
 
-
 return [
     'dashboard'      => 'Tablero',
-    'administration' => 'Administración',
+    'administration' => 'Admin',
     'flight'         => 'Vuelo|Vuelos',
     'livemap'        => 'Mapa en vivo',
     'pilot'          => 'Piloto|Pilotos',
@@ -26,6 +25,7 @@ return [
     'aircraft'       => 'Aeronave',
     'airline'        => 'Aerolínea',
     'distance'       => 'Distancía',
+    'fuel'           => 'Combustible',
     'metar'          => 'METAR',
     'hour'           => 'Hora|Horas',
     'minute'         => 'Minuto|Minutos',

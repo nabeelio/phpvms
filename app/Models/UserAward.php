@@ -2,11 +2,8 @@
 
 namespace App\Models;
 
-use App\Interfaces\Model;
+use App\Contracts\Model;
 
-/**
- * Class UserAward
- */
 class UserAward extends Model
 {
     public $table = 'user_awards';

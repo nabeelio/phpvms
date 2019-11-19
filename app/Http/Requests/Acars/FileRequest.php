@@ -2,28 +2,24 @@
 
 namespace App\Http\Requests\Acars;
 
-use App\Interfaces\FormRequest;
+use App\Contracts\FormRequest;
 use App\Models\Pirep;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 
-/**
- * Class FileRequest
- */
 class FileRequest extends FormRequest
 {
-    public function authorize()
+    public function authorize(): bool
     {
         $pirep = Pirep::findOrFail($this->route('pirep_id'), ['user_id']);
         return $pirep->user_id === Auth::id();
     }
 
-    public function rules()
+    public function rules(): array
     {
         $rules = [
-            'distance'    => 'required|numeric',
-            'flight_time' => 'required|integer',
-            'fuel_used'   => 'required|numeric',
-
+            'distance'            => 'required|numeric',
+            'flight_time'         => 'required|integer',
+            'fuel_used'           => 'required|numeric',
             'block_time'          => 'nullable|integer',
             'airline_id'          => 'nullable|exists:airlines,id',
             'aircraft_id'         => 'nullable|exists:aircraft,id',

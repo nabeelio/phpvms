@@ -6,12 +6,10 @@ use App\Console\Cron\Hourly;
 use App\Console\Cron\Monthly;
 use App\Console\Cron\Nightly;
 use App\Console\Cron\Weekly;
+use App\Services\CronService;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
-/**
- * Class Kernel
- */
 class Kernel extends ConsoleKernel
 {
     /**
@@ -27,6 +25,14 @@ class Kernel extends ConsoleKernel
         $schedule->command(Weekly::class)->weeklyOn(0);
         $schedule->command(Monthly::class)->monthlyOn(1);
         $schedule->command(Hourly::class)->hourly();
+
+        // When spatie-backups runs
+        $schedule->command('backup:clean')->daily()->at('01:00');
+        $schedule->command('backup:run')->daily()->at('02:00');
+
+        // Update the last time the cron was run
+        $cronSvc = app(CronService::class);
+        $cronSvc->updateLastRunTime();
     }
 
     /**
@@ -36,7 +42,7 @@ class Kernel extends ConsoleKernel
      */
     protected function commands(): void
     {
-        require app_path('Routes/console.php');
+        require app_path('Http/Routes/console.php');
         $this->load(__DIR__.'/Commands');
         $this->load(__DIR__.'/Cron');
     }

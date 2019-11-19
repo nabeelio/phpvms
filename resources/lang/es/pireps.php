@@ -1,6 +1,5 @@
 <?php
 
-
 return [
     'newflightreport'      => 'Nuevo informe de vuelo',
     'editflightreport'     => 'Editar informe de vuelo',
@@ -8,6 +7,7 @@ return [
     'submitpirep'          => 'Enviar PIREP',
     'fileflightreport'     => 'Archivo informe de vuelo',
     'filenewpirep'         => 'Archivo nuevo PIREP',
+    'newpirep'             => 'Nuevo PIREP',
     'pilotreport'          => 'Informe de piloto|Informes de piloto',
     'arrived'              => 'Llegó',
     'source'               => 'Origen',
@@ -22,6 +22,8 @@ return [
     'fieldsreadonly'       => 'Una vez que se ha enviado un PIREP, ciertos campos pasan al modo de solo lectura.',
     'flightinformations'   => 'Información de vuelo',
     'flightident'          => 'Vuelo Número/Código/Etapa',
+    'block_fuel'           => 'Bloque de Combustible',
+    'fuel_used'            => 'Combustible Usado',
     'codeoptional'         => 'Código (opcional)',
     'legoptional'          => 'Etapa (opcional)',
     'deparrinformations'   => 'Información Salida/Legada',
@@ -29,8 +31,7 @@ return [
     'dateflown'            => 'Fecha de vuelo',
     'deletepirep'          => 'Borrar PIREP',
     'submitted'            => 'Enviado',
-
-    'source_types' => [
+    'source_types'         => [
         'manual' => 'Manual',
         'acars'  => 'ACARS',
     ],

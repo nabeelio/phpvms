@@ -2,38 +2,22 @@
 
 namespace App\Http\Requests\Acars;
 
-use App\Interfaces\FormRequest;
+use App\Contracts\FormRequest;
 use App\Models\Pirep;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 
-/**
- * Class PositionRequest
- */
 class PositionRequest extends FormRequest
 {
     /**
-     * @return bool
+     * Is the user allowed to do this?
      */
-    public function authorize()
+    public function authorize(): bool
     {
         $pirep = Pirep::findOrFail($this->route('pirep_id'), ['user_id']);
         return $pirep->user_id === Auth::id();
     }
 
-    /**
-     * @return array
-     */
-    /*public function sanitize()
-    {
-        return [
-            'positions.*.sim_time' => Acars::$sanitize['sim_time'],
-        ];
-    }*/
-
-    /**
-     * @return array
-     */
-    public function rules()
+    public function rules(): array
     {
         $rules = [
             'positions'               => 'required|array',

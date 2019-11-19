@@ -2,11 +2,8 @@
 
 namespace App\Models;
 
-use App\Interfaces\Model;
+use App\Contracts\Model;
 
-/**
- * Class PirepFare
- */
 class PirepFare extends Model
 {
     public $table = 'pirep_fares';

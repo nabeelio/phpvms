@@ -2,11 +2,8 @@
 
 namespace App\Models\Enums;
 
-use App\Interfaces\Enum;
+use App\Contracts\Enum;
 
-/**
- * Class AcarsType
- */
 class PirepFieldSource extends Enum
 {
     public const MANUAL = 0;

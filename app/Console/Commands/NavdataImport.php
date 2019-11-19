@@ -2,13 +2,10 @@
 
 namespace App\Console\Commands;
 
-use App\Console\Command;
+use App\Contracts\Command;
 use App\Models\Enums\NavaidType;
 use App\Models\Navdata;
 
-/**
- * Class NavdataImport
- */
 class NavdataImport extends Command
 {
     protected $signature = 'phpvms:navdata';

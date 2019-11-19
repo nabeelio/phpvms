@@ -1,6 +1,6 @@
 <?php
 
-use App\Interfaces\Migration;
+use App\Contracts\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
@@ -14,7 +14,7 @@ class CreateFilesTable extends Migration
     public function up()
     {
         Schema::create('files', function (Blueprint $table) {
-            $table->string('id', \App\Interfaces\Model::ID_MAX_LENGTH);
+            $table->string('id', \App\Contracts\Model::ID_MAX_LENGTH);
             $table->string('name');
             $table->string('description')->nullable();
             $table->string('disk')->nullable();

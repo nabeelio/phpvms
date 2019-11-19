@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Interfaces\Service;
+use App\Contracts\Service;
 use App\Models\Acars;
 use App\Models\Enums\AcarsType;
 use App\Models\Flight;
@@ -12,13 +12,10 @@ use App\Repositories\AcarsRepository;
 use App\Repositories\NavdataRepository;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 use League\Geotools\Coordinate\Coordinate;
 use League\Geotools\Geotools;
-use Log;
 
-/**
- * Class GeoService
- */
 class GeoService extends Service
 {
     private $acarsRepo;
@@ -109,11 +106,14 @@ class GeoService extends Service
                 continue;
             }
 
+            $point = null;
             $size = \count($points);
 
             if ($size === 0) {
                 continue;
-            } elseif ($size === 1) {
+            }
+
+            if ($size === 1) {
                 $point = $points[0];
                 Log::debug('name: '.$point->id.' - '.$point->lat.'x'.$point->lon);
                 $coords[] = $point;
@@ -146,6 +146,10 @@ class GeoService extends Service
                 if ($point->lat === $closest_coords[0] && $point->lon === $closest_coords[1]) {
                     break;
                 }
+            }
+
+            if ($point === null) {
+                continue;
             }
 
             $coords[] = $point;
@@ -306,7 +310,8 @@ class GeoService extends Service
                 $flight->dpt_airport->icao,
                 $flight->arr_airport->icao,
                 [$flight->dpt_airport->lat, $flight->dpt_airport->lon],
-                $flight->route);
+                $flight->route
+            );
 
             // lat, lon needs to be reversed for GeoJSON
             foreach ($all_route_points as $point) {

@@ -23,9 +23,8 @@ disabled:
   # - unalign_equals
 finder:
   exclude:
-  - modules
-  - node_modules
-  - storage
-  - vendor
+    - node_modules
+    - storage
+    - vendor
   name: "*.php"
   not-name: "*.blade.php"

@@ -9,7 +9,7 @@ use App\Services\FareService;
  */
 class ApiTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->addData('base');
@@ -84,13 +84,57 @@ class ApiTest extends TestCase
         $airlines = factory(App\Models\Airline::class, $size)->create();
 
         $res = $this->get('/api/airlines');
-        $body = $res->json();
-
-        $this->assertCount($size, $body['data']);
+        $this->assertTrue($res->isOk());
 
         $airline = $airlines->random();
         $this->get('/api/airlines/'.$airline->id)
              ->assertJson(['data' => ['name' => $airline->name]]);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testPagination()
+    {
+        $size = \random_int(5, 10);
+        $this->user = factory(App\Models\User::class)->create([
+            'airline_id' => 0,
+        ]);
+
+        factory(App\Models\Airline::class, $size)->create();
+
+        /*
+         * Page 0 and page 1 should return the same thing
+         */
+
+        // Test pagination
+        $res = $this->get('/api/airlines?limit=1&page=0');
+        $this->assertTrue($res->isOk());
+        $body = $res->json('data');
+
+        $this->assertCount(1, $body);
+
+        $id_first = $body[0]['id'];
+
+        $res = $this->get('/api/airlines?limit=1&page=1');
+        $this->assertTrue($res->isOk());
+        $body = $res->json('data');
+
+        $id_second = $body[0]['id'];
+
+        $this->assertEquals($id_first, $id_second);
+
+        /*
+         * Page 2 should be different from page 1
+         */
+
+        $res = $this->get('/api/airlines?limit=1&page=2');
+        $this->assertTrue($res->isOk());
+        $body = $res->json('data');
+
+        $id_third = $body[0]['id'];
+
+        $this->assertNotEquals($id_first, $id_third);
     }
 
     /**

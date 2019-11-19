@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
-use App\Interfaces\Model;
+use App\Contracts\Model;
 use App\Models\Traits\HashIdTrait;
 use App\Models\Traits\ReferenceTrait;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 /**
  * @property string  $name
@@ -22,7 +23,9 @@ class File extends Model
     use HashIdTrait;
     use ReferenceTrait;
 
-    protected $table = 'files';
+    public $table = 'files';
+
+    protected $keyType = 'string';
     public $incrementing = false;
 
     protected $fillable = [
@@ -80,6 +83,10 @@ class File extends Model
      */
     public function getUrlAttribute(): string
     {
+        if (Str::startsWith($this->path, 'http')) {
+            return $this->path;
+        }
+
         $disk = $this->disk ?? config('filesystems.public_files');
 
         // If the disk isn't stored in public (S3 or something),

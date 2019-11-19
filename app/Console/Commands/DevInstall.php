@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Console\Command;
+use App\Contracts\Command;
 use Modules\Installer\Services\ConfigService;
 
 /**
@@ -13,13 +13,14 @@ class DevInstall extends Command
     protected $signature = 'phpvms:dev-install {--reset-db} {--reset-configs}';
     protected $description = 'Run a developer install and run the sample migration';
 
-    /**
-     * The YAML files with sample data to import
-     */
-    protected $yaml_imports = [
-        'sample.yml',
-        'acars.yml',
-    ];
+    private $databaseSeeder;
+
+    public function __construct(\DatabaseSeeder $databaseSeeder)
+    {
+        parent::__construct();
+
+        $this->databaseSeeder = $databaseSeeder;
+    }
 
     /**
      * Run dev related commands
@@ -44,16 +45,6 @@ class DevInstall extends Command
         $this->call('migrate:fresh', [
             '--seed' => true,
         ]);
-
-        //
-        //
-
-        $this->info('Importing sample data');
-        foreach ($this->yaml_imports as $yml) {
-            $this->call('phpvms:yaml-import', [
-                'files' => ['app/Database/seeds/'.$yml],
-            ]);
-        }
 
         $this->info('Done!');
     }

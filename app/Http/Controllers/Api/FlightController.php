@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Contracts\Controller;
 use App\Http\Resources\Flight as FlightResource;
 use App\Http\Resources\Navdata as NavdataResource;
-use App\Interfaces\Controller;
 use App\Repositories\Criteria\WhereCriteria;
 use App\Repositories\FlightRepository;
 use App\Services\FlightService;
-use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Prettus\Repository\Exceptions\RepositoryException;
 
@@ -44,6 +44,9 @@ class FlightController extends Controller
      */
     public function index(Request $request)
     {
+        /**
+         * @var $user \App\Models\User
+         */
         $user = Auth::user();
 
         $where = [
@@ -52,7 +55,7 @@ class FlightController extends Controller
         ];
 
         if (setting('pilots.restrict_to_company')) {
-            $where['airline_id'] = Auth::user()->airline_id;
+            $where['airline_id'] = $user->airline_id;
         }
         if (setting('pilots.only_flights_from_current', false)) {
             $where['dpt_airport_id'] = $user->curr_airport_id;
@@ -89,31 +92,37 @@ class FlightController extends Controller
      */
     public function search(Request $request)
     {
-        $user = Auth::user();
+        $where = [
+            'active'  => true,
+            'visible' => true,
+        ];
 
-        try {
-            $where = [
-                'active'  => true,
-                'visible' => true,
-            ];
-
+        // Allow the option to bypass some of these restrictions for the searches
+        if (!$request->filled('ignore_restrictions')
+            || $request->get('ignore_restrictions') === '0'
+        ) {
             if (setting('pilots.restrict_to_company')) {
                 $where['airline_id'] = Auth::user()->airline_id;
             }
+
             if (setting('pilots.only_flights_from_current')) {
                 $where['dpt_airport_id'] = Auth::user()->curr_airport_id;
             }
+        }
 
+        try {
+            $this->flightRepo->resetCriteria();
             $this->flightRepo->searchCriteria($request);
-            $this->flightRepo->pushCriteria(new RequestCriteria($request));
             $this->flightRepo->pushCriteria(new WhereCriteria($request, $where));
+            $this->flightRepo->pushCriteria(new RequestCriteria($request));
+
             $flights = $this->flightRepo->paginate();
         } catch (RepositoryException $e) {
             return response($e, 503);
         }
 
         foreach ($flights as $flight) {
-            $this->flightSvc->filterSubfleets($user, $flight);
+            $this->flightSvc->filterSubfleets(Auth::user(), $flight);
         }
 
         return FlightResource::collection($flights);

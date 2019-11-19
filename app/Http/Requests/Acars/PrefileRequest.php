@@ -2,34 +2,20 @@
 
 namespace App\Http\Requests\Acars;
 
-use App\Interfaces\FormRequest;
+use App\Contracts\FormRequest;
 
-/**
- * Class PrefileRequest
- */
 class PrefileRequest extends FormRequest
 {
-    /**
-     * @return array|void
-     */
-    /*public function sanitize()
-    {
-        return Pirep::$sanitize;
-    }*/
-
-    /**
-     * @return array
-     */
-    public function rules()
+    public function rules(): array
     {
         $rules = [
-            'airline_id'     => 'required|exists:airlines,id',
-            'aircraft_id'    => 'required|exists:aircraft,id',
-            'flight_number'  => 'required',
-            'dpt_airport_id' => 'required',
-            'arr_airport_id' => 'required',
-            'source_name'    => 'required',
-
+            'airline_id'          => 'required|exists:airlines,id',
+            'aircraft_id'         => 'required|exists:aircraft,id',
+            'flight_number'       => 'required',
+            'dpt_airport_id'      => 'required',
+            'arr_airport_id'      => 'required',
+            'flight_id'           => 'nullable',
+            'source_name'         => 'required',
             'alt_airport_id'      => 'nullable',
             'status'              => 'nullable',
             'level'               => 'nullable|numeric',

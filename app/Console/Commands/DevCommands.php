@@ -2,20 +2,23 @@
 
 namespace App\Console\Commands;
 
-use App\Console\Command;
+use App\Contracts\Command;
 use App\Models\Acars;
 use App\Models\Airline;
 use App\Models\Pirep;
 use App\Models\User;
+use App\Repositories\AcarsRepository;
+use App\Services\AirportService;
 use App\Services\AwardService;
 use App\Services\DatabaseService;
-use DB;
+use App\Services\UserService;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use PDO;
 use Symfony\Component\Yaml\Yaml;
 
-/**
- * Class DevCommands
- */
 class DevCommands extends Command
 {
     protected $signature = 'phpvms {cmd} {param?}';
@@ -30,6 +33,7 @@ class DevCommands extends Command
     public function __construct(DatabaseService $dbSvc)
     {
         parent::__construct();
+
         $this->dbSvc = $dbSvc;
     }
 
@@ -46,13 +50,17 @@ class DevCommands extends Command
         }
 
         $commands = [
-            'list-awards'    => 'listAwardClasses',
-            'clear-acars'    => 'clearAcars',
-            'clear-users'    => 'clearUsers',
-            'compile-assets' => 'compileAssets',
-            'db-attrs'       => 'dbAttrs',
-            'manual-insert'  => 'manualInsert',
-            'xml-to-yaml'    => 'xmlToYaml',
+            'clear-acars'       => 'clearAcars',
+            'clear-users'       => 'clearUsers',
+            'compile-assets'    => 'compileAssets',
+            'db-attrs'          => 'dbAttrs',
+            'list-awards'       => 'listAwardClasses',
+            'live-flights'      => 'liveFlights',
+            'manual-insert'     => 'manualInsert',
+            'metar'             => 'getMetar',
+            'recalculate-stats' => 'recalculateStats',
+            'reset-install'     => 'resetInstall',
+            'xml-to-yaml'       => 'xmlToYaml',
         ];
 
         if (!array_key_exists($command, $commands)) {
@@ -183,6 +191,19 @@ class DevCommands extends Command
         $this->info('Writing yaml to storage: '.$file_name);
     }
 
+    protected function getMetar(): void
+    {
+        $icao = $this->argument('param');
+        if (!$icao) {
+            $this->error('Enter an ICAO!');
+            exit();
+        }
+
+        $airportSvc = app(AirportService::class);
+        $metar = $airportSvc->getMetar($icao);
+        $this->info($metar->raw);
+    }
+
     /**
      * Insert the rows from the file, manually advancing each row
      */
@@ -211,5 +232,69 @@ class DevCommands extends Command
                 $this->confirm('Insert next row?', true);
             }
         }
+    }
+
+    /**
+     * Recalculate the stats for all users
+     */
+    protected function recalculateStats(): void
+    {
+        $userSvc = app(UserService::class);
+        $userSvc->recalculateAllUserStats();
+    }
+
+    /**
+     * Delete all of the tables, etc from the database, for a clean install
+     */
+    protected function resetInstall(): void
+    {
+        $confirm = $this->ask('This will erase your entire install and database, are you sure? y/n ');
+        if (strtolower($confirm) !== 'y') {
+            exit(0);
+        }
+
+        try {
+            if (config('database.default') === 'mysql') {
+                DB::statement('SET foreign_key_checks=0');
+            }
+
+            $this->info('Dropping all tables');
+            $tables = DB::connection()->getDoctrineSchemaManager()->listTableNames();
+            foreach ($tables as $table) {
+                Schema::dropIfExists($table);
+            }
+        } catch (QueryException $e) {
+            $this->error('DB error: '.$e->getMessage());
+        }
+
+        $this->info('Deleting config file');
+
+        try {
+            unlink('config.php');
+        } catch (\Exception $e) {
+        }
+
+        $this->info('Deleting env file');
+
+        try {
+            unlink('env.php');
+        } catch (\Exception $e) {
+        }
+
+        $this->info('Clearing caches');
+        Artisan::call('cache:clear');
+        Artisan::call('route:clear');
+        Artisan::call('config:clear');
+        Artisan::call('view:clear');
+
+        $this->info('Done!');
+    }
+
+    public function liveFlights(): void
+    {
+        $acarsRepo = app(AcarsRepository::class);
+        $flights = $acarsRepo->getPositions(setting('acars.live_time'))->toArray();
+
+        dd($flights);
     }
 }

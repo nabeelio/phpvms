@@ -2,8 +2,8 @@
 
 namespace App\Widgets;
 
-use App\Interfaces\Widget;
-use App\Support\Metar;
+use App\Contracts\Widget;
+use App\Services\AirportService;
 
 /**
  * This is a widget for the 3rd party CheckWX service
@@ -14,26 +14,13 @@ class Weather extends Widget
         'icao' => null,
     ];
 
-    public const URL = 'https://avwx.rest/api/metar/';
-
     /**
      * Attempt to get the data from the CheckWX API
      */
     public function run()
     {
-        /**
-         * @var \App\Interfaces\Metar
-         */
-        $klass = config('phpvms.metar');
-        $metar_class = new $klass();
-
-        $metar = null;
-        $wind = null;
-        $raw_metar = $metar_class->get_metar($this->config['icao']);
-
-        if ($raw_metar && $raw_metar !== '') {
-            $metar = new Metar($raw_metar);
-        }
+        $airportSvc = app(AirportService::class);
+        $metar = $airportSvc->getMetar($this->config['icao']);
 
         return view('widgets.weather', [
             'config'    => $this->config,

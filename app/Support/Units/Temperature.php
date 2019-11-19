@@ -2,7 +2,7 @@
 
 namespace App\Support\Units;
 
-use App\Interfaces\Unit;
+use App\Contracts\Unit;
 use PhpUnitsOfMeasure\PhysicalQuantity\Temperature as TemperatureUnit;
 
 /**
@@ -10,6 +10,11 @@ use PhpUnitsOfMeasure\PhysicalQuantity\Temperature as TemperatureUnit;
  */
 class Temperature extends Unit
 {
+    public $responseUnits = [
+        'C',
+        'F',
+    ];
+
     /**
      * @param float  $value
      * @param string $unit
@@ -17,16 +22,13 @@ class Temperature extends Unit
      * @throws \PhpUnitsOfMeasure\Exception\NonNumericValue
      * @throws \PhpUnitsOfMeasure\Exception\NonStringUnitName
      */
-    public function __construct(float $value, string $unit)
+    public function __construct($value, string $unit)
     {
+        if (empty($value)) {
+            $value = 0;
+        }
+
         $this->unit = setting('units.temperature');
         $this->instance = new TemperatureUnit($value, $unit);
-
-        $this->units = [
-            'F' => round($this->instance->toUnit('F'), 2),
-            'f' => round($this->instance->toUnit('F'), 2),
-            'C' => round($this->instance->toUnit('C'), 2),
-            'c' => round($this->instance->toUnit('C'), 2),
-        ];
     }
 }

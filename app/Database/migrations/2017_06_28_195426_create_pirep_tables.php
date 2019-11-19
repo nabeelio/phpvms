@@ -1,6 +1,7 @@
 <?php
 
-use App\Interfaces\Migration;
+use App\Contracts\Migration;
+use App\Contracts\Model;
 use App\Models\Enums\FlightType;
 use App\Models\Enums\PirepState;
 use App\Models\Enums\PirepStatus;
@@ -16,7 +17,7 @@ class CreatePirepTables extends Migration
     public function up()
     {
         Schema::create('pireps', function (Blueprint $table) {
-            $table->string('id', \App\Interfaces\Model::ID_MAX_LENGTH);
+            $table->string('id', Model::ID_MAX_LENGTH);
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('airline_id');
             $table->unsignedInteger('aircraft_id')->nullable();
@@ -57,7 +58,7 @@ class CreatePirepTables extends Migration
 
         Schema::create('pirep_comments', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('pirep_id', \App\Interfaces\Model::ID_MAX_LENGTH);
+            $table->string('pirep_id', Model::ID_MAX_LENGTH);
             $table->unsignedInteger('user_id');
             $table->text('comment');
             $table->timestamps();
@@ -65,7 +66,7 @@ class CreatePirepTables extends Migration
 
         Schema::create('pirep_fares', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('pirep_id', \App\Interfaces\Model::ID_MAX_LENGTH);
+            $table->string('pirep_id', Model::ID_MAX_LENGTH);
             $table->unsignedInteger('fare_id');
             $table->unsignedInteger('count')->nullable()->default(0);
 
@@ -81,7 +82,7 @@ class CreatePirepTables extends Migration
 
         Schema::create('pirep_field_values', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('pirep_id', \App\Interfaces\Model::ID_MAX_LENGTH);
+            $table->string('pirep_id', Model::ID_MAX_LENGTH);
             $table->string('name', 50);
             $table->string('slug', 50)->nullable();
             $table->string('value')->nullable();

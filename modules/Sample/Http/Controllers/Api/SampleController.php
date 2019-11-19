@@ -2,18 +2,19 @@
 
 namespace Modules\Sample\Http\Controllers\Api;
 
-use App\Interfaces\Controller;
+use App\Contracts\Controller;
 use Illuminate\Http\Request;
 
 /**
  * Class SampleController
- * @package Modules\Sample\Http\Controllers\Api
  */
 class SampleController extends Controller
 {
     /**
      * Just send out a message
+     *
      * @param Request $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function index(Request $request)
@@ -23,6 +24,7 @@ class SampleController extends Controller
 
     /**
      * @param Request $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function hello(Request $request)
@@ -33,5 +35,4 @@ class SampleController extends Controller
             'name' => Auth::user()->name,
         ]);
     }
-
 }

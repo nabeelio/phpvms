@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Contracts\Controller;
 use App\Http\Requests\CreateAircraftRequest;
 use App\Http\Requests\ImportRequest;
 use App\Http\Requests\UpdateAircraftRequest;
-use App\Interfaces\Controller;
 use App\Models\Aircraft;
 use App\Models\Enums\AircraftStatus;
 use App\Models\Expense;
@@ -98,7 +98,7 @@ class AircraftController extends Controller
         $aircraft = $this->aircraftRepo->create($attrs);
 
         Flash::success('Aircraft saved successfully.');
-        return redirect(route('admin.aircraft.edit', ['id' => $aircraft->id]));
+        return redirect(route('admin.aircraft.edit', [$aircraft->id]));
     }
 
     /**
@@ -232,7 +232,9 @@ class AircraftController extends Controller
         if ($request->isMethod('post')) {
             ImportRequest::validate($request);
             $path = Storage::putFileAs(
-                'import', $request->file('csv_file'), 'import_aircraft.csv'
+                'import',
+                $request->file('csv_file'),
+                'import_aircraft.csv'
             );
 
             $path = storage_path('app/'.$path);

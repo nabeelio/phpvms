@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
-use App\Interfaces\ImportExport;
-use App\Interfaces\Service;
+use App\Contracts\ImportExport;
+use App\Contracts\Service;
 use App\Models\Airport;
 use App\Models\Expense;
 use App\Repositories\FlightRepository;
@@ -13,15 +13,12 @@ use App\Services\ImportExport\ExpenseImporter;
 use App\Services\ImportExport\FareImporter;
 use App\Services\ImportExport\FlightImporter;
 use App\Services\ImportExport\SubfleetImporter;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 use League\Csv\Exception;
 use League\Csv\Reader;
-use Log;
-use Validator;
 
-/**
- * Class ImportService
- */
 class ImportService extends Service
 {
     protected $flightRepo;
@@ -59,7 +56,7 @@ class ImportService extends Service
     }
 
     /**
-     * @param   $csv_file
+     * @param $csv_file
      *
      * @throws ValidationException
      *

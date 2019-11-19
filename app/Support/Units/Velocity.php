@@ -2,7 +2,7 @@
 
 namespace App\Support\Units;
 
-use App\Interfaces\Unit;
+use App\Contracts\Unit;
 use PhpUnitsOfMeasure\PhysicalQuantity\Velocity as VelocityUnit;
 
 /**
@@ -10,6 +10,11 @@ use PhpUnitsOfMeasure\PhysicalQuantity\Velocity as VelocityUnit;
  */
 class Velocity extends Unit
 {
+    public $responseUnits = [
+        'km/h',
+        'knots',
+    ];
+
     /**
      * @param float  $value
      * @param string $unit
@@ -17,14 +22,13 @@ class Velocity extends Unit
      * @throws \PhpUnitsOfMeasure\Exception\NonNumericValue
      * @throws \PhpUnitsOfMeasure\Exception\NonStringUnitName
      */
-    public function __construct(float $value, string $unit)
+    public function __construct($value, string $unit)
     {
+        if (empty($value)) {
+            $value = 0;
+        }
+
         $this->unit = setting('units.speed');
         $this->instance = new VelocityUnit($value, $unit);
-
-        $this->units = [
-            'knots' => round($this->instance->toUnit('knots'), 2),
-            'km/h'  => round($this->instance->toUnit('km/h'), 2),
-        ];
     }
 }

@@ -1,9 +1,8 @@
 <?php
 
-
 return [
     'dashboard'      => 'Dashboard',
-    'administration' => 'Administration',
+    'administration' => 'Admin',
     'flight'         => 'Flight|Flights',
     'livemap'        => 'Live Map',
     'pilot'          => 'Pilot|Pilots',
@@ -26,6 +25,7 @@ return [
     'aircraft'       => 'Aircraft',
     'airline'        => 'Airline',
     'distance'       => 'Distance',
+    'fuel'           => 'Fuel',
     'metar'          => 'METAR',
     'hour'           => 'Hour|Hours',
     'minute'         => 'Minute|Minutes',

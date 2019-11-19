@@ -39,8 +39,8 @@ class UpdatePirepRequest extends FormRequest
 
         $field_rules = Pirep::$rules;
 
-        $field_rules['hours'] = 'nullable|integer';
-        $field_rules['minutes'] = 'nullable|integer';
+        $field_rules['hours'] = 'required|integer';
+        $field_rules['minutes'] = 'required|integer';
 
         // Add the validation rules for the custom fields
         $pirepFieldRepo = app(PirepFieldRepository::class);

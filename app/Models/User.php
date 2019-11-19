@@ -10,16 +10,21 @@ use Illuminate\Notifications\Notifiable;
 use Laratrust\Traits\LaratrustUserTrait;
 
 /**
- * @property int        id
+ * @property int            id
+ * @property int            pilot_id
+ * @property int            airline_id
  * @property string         name
  * @property string         email
  * @property string         password
  * @property string         api_key
- * @property mixed          ident
+ * @property mixed          timezone
+ * @property string         ident
  * @property string         curr_airport_id
  * @property string         home_airport_id
+ * @property Airline        airline
  * @property Flight[]       flights
- * @property string         flight_time
+ * @property int            flight_time
+ * @property int            transfer_time
  * @property string         remember_token
  * @property \Carbon\Carbon created_at
  * @property \Carbon\Carbon updated_at
@@ -28,6 +33,7 @@ use Laratrust\Traits\LaratrustUserTrait;
  * @property int            rank_id
  * @property int            state
  * @property bool           opt_in
+ * @property string         last_pirep_id
  * @mixin \Illuminate\Notifications\Notifiable
  * @mixin \Laratrust\Traits\LaratrustUserTrait
  */
@@ -45,9 +51,11 @@ class User extends Authenticatable
     public $journal_type = JournalType::USER;
 
     protected $fillable = [
+        'id',
         'name',
         'email',
         'password',
+        'pilot_id',
         'airline_id',
         'rank_id',
         'api_key',
@@ -78,6 +86,8 @@ class User extends Authenticatable
     ];
 
     protected $casts = [
+        'id'            => 'integer',
+        'pilot_id'      => 'integer',
         'flights'       => 'integer',
         'flight_time'   => 'integer',
         'transfer_time' => 'integer',
@@ -89,26 +99,19 @@ class User extends Authenticatable
     ];
 
     public static $rules = [
-        'name'  => 'required',
-        'email' => 'required|email',
+        'name'     => 'required',
+        'email'    => 'required|email',
+        'pilot_id' => 'required|integer',
     ];
-
-    /**
-     * @return string
-     */
-    public function getPilotIdAttribute()
-    {
-        $length = setting('pilots.id_length');
-
-        return $this->airline->icao.str_pad($this->id, $length, '0', STR_PAD_LEFT);
-    }
 
     /**
      * @return string
      */
     public function getIdentAttribute()
     {
-        return $this->getPilotIdAttribute();
+        $length = setting('pilots.id_length');
+
+        return $this->airline->icao.str_pad($this->pilot_id, $length, '0', STR_PAD_LEFT);
     }
 
     /**

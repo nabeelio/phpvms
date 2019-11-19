@@ -27,7 +27,7 @@
 
     <div class="form-group col-sm-6">
         {{ Form::label('amount', 'Amount:') }}
-        {{ Form::number('amount', null, ['class' => 'form-control', 'min' => 0]) }}
+        {{ Form::number('amount', null, ['class' => 'form-control', 'min' => 0, 'step' => '0.01']) }}
         <p class="text-danger">{{ $errors->first('amount') }}</p>
     </div>
 

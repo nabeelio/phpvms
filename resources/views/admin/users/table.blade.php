@@ -1,5 +1,6 @@
 <table class="table table-hover table-responsive" id="users-table">
     <thead>
+        <th>ID</th>
         <th>Name</th>
         <th>Email</th>
         <th>Registered</th>
@@ -9,6 +10,7 @@
     <tbody>
     @foreach($users as $user)
         <tr>
+            <td>{{ $user->ident }}</td>
             <td>
                 @if(filled($user->country))
                     <span class="flag-icon flag-icon-{{ $user->country }}"

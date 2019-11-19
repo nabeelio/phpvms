@@ -2,7 +2,7 @@
 
 namespace App\Models\Enums;
 
-use App\Interfaces\Enum;
+use App\Contracts\Enum;
 
 /**
  * Tied to the ACARS statuses/states.

@@ -81,27 +81,25 @@
             </td>
         </tr>
 
-        {{--
-                <tr>
-                    <td colspan="2"><h4>Options</h4></td>
-                </tr>
+        <tr>
+            <td colspan="2"><h4>Options</h4></td>
+        </tr>
 
-                <tr>
-                    <td><p>Analytics</p></td>
-                    <td>
-                        <div class="form-group">
-                            {{ Form::hidden('analytics', 0) }}
-                            {{ Form::checkbox('analytics', 1, true, ['class' => 'form-control']) }}
-                            <br />
-                            <p>
-                                Allows collection of analytics. They won't identify you, and helps us to track
-                                the PHP and database versions that are used, and help to figure out problems
-                                and slowdowns when vaCentral integration is enabled.
-                            </p>
-                        </div>
-                    </td>
-                </tr>
-        --}}
+        <tr>
+            <td><p>Analytics</p></td>
+            <td>
+                <div class="form-group">
+                    {{ Form::hidden('telemetry', 0) }}
+                    {{ Form::checkbox('telemetry', 1, true, ['class' => 'form-control']) }}
+                    <br />
+                    <p>
+                        Allows collection of analytics. They won't identify you, and helps us to track
+                        the PHP and database versions that are used, and help to figure out problems
+                        and slowdowns when vaCentral integration is enabled.
+                    </p>
+                </div>
+            </td>
+        </tr>
     </table>
     <div id="dbtest"></div>
     <p style="text-align: right">

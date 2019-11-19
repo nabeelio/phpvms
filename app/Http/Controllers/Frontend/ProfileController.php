@@ -2,22 +2,22 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Contracts\Controller;
 use App\Facades\Utils;
-use App\Interfaces\Controller;
 use App\Models\User;
 use App\Repositories\AirlineRepository;
 use App\Repositories\AirportRepository;
 use App\Repositories\UserRepository;
 use App\Support\Countries;
-use Flash;
-use Hash;
+use App\Support\Timezonelist;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use Intervention\Image\Facades\Image;
-use Jackiedo\Timezonelist\Facades\Timezonelist;
-use Log;
-use Validator;
+use Laracasts\Flash\Flash;
 
 /**
  * Class ProfileController
@@ -89,6 +89,8 @@ class ProfileController extends Controller
      *
      * @param Request $request
      *
+     * @throws \Exception
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
      */
     public function edit(Request $request)
@@ -133,7 +135,7 @@ class ProfileController extends Controller
         ]);
 
         if ($validator->fails()) {
-            Log::info('validator failed for user '.$user->pilot_id);
+            Log::info('validator failed for user '.$user->ident);
             Log::info($validator->errors()->toArray());
 
             return redirect(route('frontend.profile.edit', $id))
@@ -153,9 +155,22 @@ class ProfileController extends Controller
         }
         if ($request->hasFile('avatar')) {
             $avatar = $request->file('avatar');
-            $file_name = $user->pilot_id.'.'.$avatar->getClientOriginalExtension();
+            $file_name = $user->ident.'.'.$avatar->getClientOriginalExtension();
             $path = "avatars/{$file_name}";
-            Image::make($avatar)->resize(config('phpvms.avatar.width'), config('phpvms.avatar.height'))->save(public_path('uploads/avatars/'.$file_name));
+
+            // Create the avatar, resizing it and keeping the aspect ratio.
+            // https://stackoverflow.com/a/26892028
+            $w = config('phpvms.avatar.width');
+            $h = config('phpvms.avatar.height');
+
+            $canvas = Image::canvas($w, $h);
+            $image = Image::make($avatar)->resize($w, $h, static function ($constraint) {
+                $constraint->aspectRatio();
+            });
+
+            $canvas->insert($image);
+            $canvas->save(public_path('uploads/avatars/'.$file_name));
+
             $req_data['avatar'] = $path;
         }
 
@@ -176,7 +191,7 @@ class ProfileController extends Controller
     public function regen_apikey(Request $request)
     {
         $user = User::find(Auth::user()->id);
-        Log::info('Regenerating API key "'.$user->pilot_id.'"');
+        Log::info('Regenerating API key "'.$user->ident.'"');
 
         $user->api_key = Utils::generateApiKey();
         $user->save();

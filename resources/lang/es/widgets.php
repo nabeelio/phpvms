@@ -1,6 +1,5 @@
 <?php
 
-
 return [
     'latestnews' => [
         'news'        => 'Noticias',

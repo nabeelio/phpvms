@@ -1,8 +1,8 @@
 <?php
 
-
 return [
     'filenewpirep'         => 'Inserici Nuovo PIREP',
+    'newpirep'             => 'Nuovo PIREP',
     'pilotreport'          => 'Rapporto Pilota|Rapporti Pilota',
     'arrived'              => 'Arrivato',
     'source'               => 'Fonte',
@@ -17,6 +17,8 @@ return [
     'fieldsreadonly'       => 'Quando un PIREP viene sottoporre, alcuni cami entrano in modalità di sola lettura.',
     'flightinformations'   => 'Informazioni di Volo',
     'flightident'          => 'Numero di Volo/Codice/Leg',
+    'block_fuel'           => 'Bloccare il Carburante',
+    'fuel_used'            => 'Carburante Usato',
     'codeoptional'         => 'Codice (facoltativo)',
     'legoptional'          => 'Leg (facoltativa)',
     'deparrinformations'   => 'Informazioni di Partenza/Arrivo',

@@ -13,7 +13,6 @@ const changeParamDescription = (award_class) => {
 };
 
 $(document).ready(() => {
-
     const select_id = "select#award_class_select";
     console.log('award descriptions', award_descriptions);
     $(select_id).change((e) => {

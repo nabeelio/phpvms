@@ -42,13 +42,13 @@
             @lang('flights.none')
             </div>
         @else
-            <table class="table table-striped table-condensed">
+            <table class="table table-striped">
                 <thead>
                 <tr>
                     <th class="text-left">@lang('airports.ident')</th>
-                    <th class="text-left">@lang('common.from')</th>
-                    <th>@lang('common.departure')</th>
-                    <th>@lang('common.arrival')</th>
+                    <th class="text-left">@lang('airports.departure')</th>
+                    <th>@lang('flights.dep')</th>
+                    <th>@lang('flights.arr')</th>
                 </tr>
                 </thead>
                 @foreach($inbound_flights as $flight)
@@ -77,13 +77,13 @@
             @lang('flights.none')
             </div>
         @else
-            <table class="table table-striped table-condensed">
+            <table class="table table-striped">
                 <thead>
                 <tr>
                     <th class="text-left">@lang('airports.ident')</th>
-                    <th class="text-left">@lang('common.to')</th>
-                    <th>@lang('common.departure')</th>
-                    <th>@lang('common.arrival')</th>
+                    <th class="text-left">@lang('airports.arrival')</th>
+                    <th>@lang('flights.dep')</th>
+                    <th>@lang('flights.arr')</th>
                 </tr>
                 </thead>
                 @foreach($outbound_flights as $flight)

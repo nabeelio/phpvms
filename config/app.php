@@ -17,10 +17,6 @@ return [
     'locale'          => env('APP_LOCALE', 'en'),
     'fallback_locale' => 'en',
 
-    // This sends install and vaCentral specific information to help with
-    // optimizations and figuring out where slowdowns might be happening
-    'analytics' => true,
-
     //
     // Anything below here won't need changing and could break things
     //
@@ -67,10 +63,7 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         Laracasts\Flash\FlashServiceProvider::class,
         Prettus\Repository\Providers\RepositoryServiceProvider::class,
-        SebastiaanLuca\Helpers\Methods\GlobalHelpersServiceProvider::class,
         SebastiaanLuca\Helpers\Collections\CollectionMacrosServiceProvider::class,
-        Toin0u\Geotools\GeotoolsServiceProvider::class,
-        Jackiedo\Timezonelist\TimezonelistServiceProvider::class,
         Irazasyed\LaravelGAMP\LaravelGAMPServiceProvider::class,
         Igaster\LaravelTheme\themeServiceProvider::class,
         Nwidart\Modules\LaravelModulesServiceProvider::class,
@@ -85,8 +78,8 @@ return [
         App\Providers\AuthServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        App\Providers\vaCentralServiceProvider::class,
-        App\Providers\ExtendedTimezonelistProvider::class,
+        App\Providers\MeasurementsProvider::class,
+        App\Providers\BindServiceProviders::class,
     ],
 
     'aliases' => [
@@ -106,7 +99,6 @@ return [
         'Flash'        => Laracasts\Flash\Flash::class,
         'Form'         => Collective\Html\FormFacade::class,
         'Gate'         => Illuminate\Support\Facades\Gate::class,
-        'Geotools'     => Toin0u\Geotools\Facade\Geotools::class,
         'Hash'         => Illuminate\Support\Facades\Hash::class,
         'Html'         => Collective\Html\HtmlFacade::class,
         'Lang'         => Illuminate\Support\Facades\Lang::class,

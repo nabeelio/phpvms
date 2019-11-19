@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Interfaces\Controller;
+use App\Contracts\Controller;
 use App\Models\Bid;
 use App\Repositories\AirlineRepository;
 use App\Repositories\AirportRepository;
@@ -13,6 +13,7 @@ use Flash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Log;
+use Prettus\Repository\Criteria\RequestCriteria;
 use Prettus\Repository\Exceptions\RepositoryException;
 
 /**
@@ -68,6 +69,7 @@ class FlightController extends Controller
 
         try {
             $this->flightRepo->pushCriteria(new WhereCriteria($request, $where));
+            $this->flightRepo->pushCriteria(new RequestCriteria($request));
         } catch (RepositoryException $e) {
             Log::emergency($e);
         }
@@ -136,6 +138,8 @@ class FlightController extends Controller
         if (setting('pilots.only_flights_from_current')) {
             $where['dpt_airport_id'] = Auth::user()->curr_airport_id;
         }
+
+        $this->flightRepo->resetCriteria();
 
         try {
             $this->flightRepo->pushCriteria(new WhereCriteria($request, $where));

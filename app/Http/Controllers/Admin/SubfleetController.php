@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Contracts\Controller;
 use App\Http\Requests\CreateSubfleetRequest;
 use App\Http\Requests\ImportRequest;
 use App\Http\Requests\UpdateSubfleetRequest;
-use App\Interfaces\Controller;
 use App\Models\Airline;
 use App\Models\Enums\FuelType;
 use App\Models\Expense;
@@ -155,7 +155,7 @@ class SubfleetController extends Controller
         $subfleet = $this->subfleetRepo->create($input);
 
         Flash::success('Subfleet saved successfully.');
-        return redirect(route('admin.subfleets.edit', ['id' => $subfleet->id]));
+        return redirect(route('admin.subfleets.edit', [$subfleet->id]));
     }
 
     /**
@@ -304,7 +304,9 @@ class SubfleetController extends Controller
             ImportRequest::validate($request);
 
             $path = Storage::putFileAs(
-                'import', $request->file('csv_file'), 'import_subfleets.csv'
+                'import',
+                $request->file('csv_file'),
+                'import_subfleets.csv'
             );
 
             $path = storage_path('app/'.$path);

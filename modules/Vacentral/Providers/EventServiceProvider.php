@@ -3,8 +3,8 @@
 namespace Modules\Vacentral\Providers;
 
 use App\Events\PirepAccepted;
-use Modules\Vacentral\Listeners\PirepAcceptedEventListener;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+use Modules\Vacentral\Listeners\PirepAcceptedEventListener;
 
 class EventServiceProvider extends ServiceProvider
 {

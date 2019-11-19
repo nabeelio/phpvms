@@ -10,15 +10,32 @@
 
     <div class="collapse" id="operations_menu" aria-expanded="true">
         <ul class="nav">
+            @ability('admin', 'pireps')
             <li><a href="{{ url('/admin/pireps') }}"><i class="pe-7s-cloud-upload"></i>pireps
-                    <span data-toggle="tooltip" title="3 New"
-                          class="badge bg-light-blue pull-right">3</span>
+                    <span data-toggle="tooltip" title="3 New" class="badge bg-light-blue pull-right">3</span>
                 </a>
             </li>
+            @endability
+
+            @ability('admin', 'flights')
             <li><a href="{{ url('/admin/flights') }}"><i class="pe-7s-vector"></i>flights</a></li>
+            @endability
+
+            @ability('admin', 'fleet')
             <li><a href="{{ url('/admin/subfleets') }}"><i class="pe-7s-plane"></i>fleet</a></li>
+            @endability
+
+            @ability('admin', 'fares')
             <li><a href="{{ url('/admin/fares') }}"><i class="pe-7s-graph2"></i>fares</a></li>
+            @endability
+
+            @ability('admin', 'finances')
             <li><a href="{{ url('/admin/finances') }}"><i class="pe-7s-display1"></i>finances</a></li>
+            @endability
+
+            @ability('admin', 'users')
+            <li><a href="{{ url('/admin/users') }}"><i class="pe-7s-users"></i>users</a></li>
+            @endability
         </ul>
     </div>
 </li>
@@ -30,15 +47,37 @@
 
     <div class="collapse" id="config_menu" aria-expanded="true">
         <ul class="nav">
-            <li><a href="{{ url('/admin/airlines') }}"><i
-                   class="pe-7s-paper-plane"></i>airlines</a></li>
-            <li><a href="{{ url('/admin/airports') }}"><i
-                   class="pe-7s-map-marker"></i>airports</a></li>
+            @ability('admin', 'airlines')
+            <li><a href="{{ url('/admin/airlines') }}"><i class="pe-7s-paper-plane"></i>airlines</a></li>
+            @endability
+
+            @ability('admin', 'airports')
+            <li><a href="{{ url('/admin/airports') }}"><i class="pe-7s-map-marker"></i>airports</a></li>
+            @endability
+
+            @ability('admin', 'finances')
             <li><a href="{{ url('/admin/expenses') }}"><i class="pe-7s-cash"></i>expenses</a></li>
-            <li><a href="{{ url('/admin/users') }}"><i class="pe-7s-users"></i>users</a></li>
+            @endability
+
+            @ability('admin', 'ranks')
             <li><a href="{{ url('/admin/ranks') }}"><i class="pe-7s-graph1"></i>ranks</a></li>
+            @endability
+
+            @ability('admin', 'awards')
             <li><a href="{!! url('/admin/awards') !!}"><i class="pe-7s-diamond"></i>awards</a></li>
+            @endability
+
+            @ability('admin', 'users')
+            <li><a href="{!! url('/admin/roles') !!}"><i class="pe-7s-network"></i>roles</a></li>
+            @endability
+
+            @ability('admin', 'settings')
             <li><a href="{{ url('/admin/settings') }}"><i class="pe-7s-config"></i>settings</a></li>
+            @endability
+
+            @ability('admin', 'maintenance')
+            <li><a href="{{ url('/admin/maintenance') }}"><i class="pe-7s-tools"></i>maintenance</a></li>
+            @endability
         </ul>
     </div>
 </li>
@@ -50,9 +89,11 @@
 
     <div class="collapse" id="addons_menu" aria-expanded="true">
         <ul class="nav">
+            @ability('admin', 'addons')
             @foreach($moduleSvc->getAdminLinks() as &$link)
                 <li><a href="{{ url($link['url']) }}"><i class="{{ $link['icon'] }}"></i>{{ $link['title'] }}</a></li>
             @endforeach
+            @endability
         </ul>
     </div>
 </li>

@@ -1,41 +1,26 @@
 @section('scripts')
 <script>
 $(document).ready(function () {
-    $("button.save_flight").click(function (e) {
+    $("button.save_flight").click(async function (e) {
         e.preventDefault();
 
         const btn = $(this);
         const class_name = btn.attr('x-saved-class'); // classname to use is set on the element
+        const flight_id = btn.attr('x-id');
 
-        let params = {
-            url: '{{ url('/api/user/bids') }}',
-            data: {
-                'flight_id': btn.attr('x-id')
-            }
-        };
+        if (!btn.hasClass(class_name)) {
+            await phpvms.bids.addBid(flight_id);
 
-        if (btn.hasClass(class_name)) {
-            params.method = 'DELETE';
+            console.log('successfully saved flight');
+            btn.addClass(class_name);
+            alert('@lang("flights.bidadded")');
         } else {
-            params.method = 'POST';
+            await phpvms.bids.removeBid(flight_id);
+
+            console.log('successfully removed flight');
+            btn.removeClass(class_name);
+            alert('@lang("flights.bidremoved")');
         }
-
-        axios(params).then(response => {
-            console.log('save bid response', response);
-
-            if(params.method === 'DELETE') {
-                console.log('successfully removed flight');
-                btn.removeClass(class_name);
-                alert('@lang("flights.bidremoved")');
-            } else {
-                console.log('successfully saved flight');
-                btn.addClass(class_name);
-                alert('@lang("flights.bidadded")');
-            }
-        })
-        .catch(error => {
-            console.error('Error saving bid status', params, error);
-        });
     });
 });
 </script>

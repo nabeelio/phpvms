@@ -2,9 +2,9 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
-use Log;
-use Validator;
 
 /**
  * Show an internal error, bug piggyback off of the validation
@@ -28,7 +28,8 @@ class InternalError extends ValidationException
         $validator = Validator::make([], []);
         $validator->errors()->add(
             $field ?? static::FIELD,
-            $message ?? static::MESSAGE);
+            $message ?? static::MESSAGE
+        );
 
         parent::__construct($validator);
     }

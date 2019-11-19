@@ -2,11 +2,8 @@
 
 namespace App\Models\Enums;
 
-use App\Interfaces\Enum;
+use App\Contracts\Enum;
 
-/**
- * Class UserState
- */
 class UserState extends Enum
 {
     public const PENDING = 0;

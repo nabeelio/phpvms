@@ -29,6 +29,13 @@ clean:
 clean-routes:
 	@php artisan route:clear
 
+.PHONY: clear
+clear:
+	@php artisan cache:clear
+	@php artisan config:clear
+	@php artisan route:clear
+	@php artisan view:clear
+
 .PHONY:  build
 build:
 	@php $(COMPOSER) install --no-interaction
@@ -36,7 +43,7 @@ build:
 # This is to build all the stylesheets, etc
 .PHONY: build-assets
 build-assets:
-	yarn run dev
+	yarn run production
 
 .PHONY: install
 install: build
@@ -52,13 +59,16 @@ update: build
 	@echo "Done!"
 
 .PHONY: reset
-reset: cleanapp/Models/Traits/JournalTrait.php
+reset: clean
 	@php $(COMPOSER) dump-autoload
 	@make reload-db
 
 .PHONY: reload-db
 reload-db:
-	@php artisan phpvms:dev-install --reset-db
+	@php artisan database:create --reset
+	@php artisan migrate --seed
+	@echo "Done!"
+	@make clean
 
 .PHONY: tests
 tests: test
@@ -68,9 +78,13 @@ test:
 	#php artisan database:create --reset
 	vendor/bin/phpunit --debug --verbose
 
-.PHONY:
-phpstan:
-	vendor/bin/phpstan analyse -c phpstan.neon -v --level 2 app
+.PHONY: phpcs
+phpcs:
+	@vendor/bin/php-cs-fixer fix --config=.php_cs -v --diff --dry-run
+
+#.PHONY: phpstan
+#phpstan:
+#	vendor/bin/phpstan analyse -c phpstan.neon -v --level 2 app
 
 .PHONY: replay-acars
 replay-acars:

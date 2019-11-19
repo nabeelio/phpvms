@@ -1,14 +1,21 @@
 <?php
 
+use App\Repositories\SettingRepository;
 use App\Services\DatabaseService;
+use GuzzleHttp\Client;
+use GuzzleHttp\Handler\MockHandler;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Psr7\Response;
+use Illuminate\Routing\Middleware\ThrottleRequests;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Mail;
+use Tests\CreatesApplication;
 use Tests\TestData;
 
-/**
- * Class TestCase
- */
 class TestCase extends Illuminate\Foundation\Testing\TestCase
 {
     use TestData;
+    use CreatesApplication;
 
     /**
      * The base URL to use while testing the application.
@@ -19,7 +26,7 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
 
     protected $app;
     protected $baseUrl = 'http://localhost';
-    protected $connectionsToTransact = ['testing'];
+    protected $connectionsToTransact = ['test'];
 
     protected $user;
 
@@ -30,23 +37,24 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
     /**
      * @throws Exception
      */
-    public function setUp()
+    public function setUp() : void
     {
         parent::setUp();
+
+        // Don't throttle requests when running the tests
+        $this->withoutMiddleware(
+            ThrottleRequests::class
+        );
+
+        Mail::fake();
+
         Artisan::call('database:create', ['--reset' => true]);
-        Artisan::call('migrate:refresh', ['--env' => 'unittest']);
+        Artisan::call('migrate:refresh', ['--env' => 'testing']);
     }
 
-    /**
-     * Creates the application. Required to be implemented
-     *
-     * @return \Illuminate\Foundation\Application
-     */
-    public function createApplication()
+    public function tearDown() : void
     {
-        $app = require __DIR__.'/../bootstrap/app.php';
-        $app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
-        return $app;
+        parent::tearDown();
     }
 
     /**
@@ -99,6 +107,60 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
     }
 
     /**
+     * Read a file from the data directory
+     *
+     * @param $filename
+     *
+     * @return false|string
+     */
+    public function readDataFile($filename)
+    {
+        $paths = [
+            'data/'.$filename,
+            'tests/data/'.$filename,
+        ];
+
+        foreach ($paths as $p) {
+            if (file_exists($p)) {
+                return file_get_contents($p);
+            }
+        }
+    }
+
+    /**
+     * Return a mock Guzzle Client with a response loaded from $mockFile
+     *
+     * @param $mockFile
+     */
+    public function mockGuzzleClient($mockFile): void
+    {
+        $mock = new MockHandler([
+            new Response(200,
+                [
+                    'Content-Type' => 'application/json; charset=utf-8',
+                ],
+                $this->readDataFile($mockFile)
+            ),
+        ]);
+
+        $handler = HandlerStack::create($mock);
+        $guzzleClient = new Client(['handler' => $handler]);
+        app()->instance(Client::class, $guzzleClient);
+    }
+
+    /**
+     * Update a setting
+     *
+     * @param $key
+     * @param $value
+     */
+    public function updateSetting($key, $value)
+    {
+        $settingsRepo = app(SettingRepository::class);
+        $settingsRepo->store($key, $value);
+    }
+
+    /**
      * So we can test private/protected methods
      * http://bit.ly/1mr5hMq
      *
@@ -134,7 +196,7 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
                 $this->transformData($value);
             }
 
-            if (is_subclass_of($value, App\Interfaces\Unit::class)) {
+            if (is_subclass_of($value, App\Contracts\Unit::class)) {
                 $data[$key] = $value->__toString();
             }
 

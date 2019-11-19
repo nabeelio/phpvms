@@ -1,6 +1,5 @@
 <?php
 
-
 return [
     'ident'     => 'Identificativo',
     'home'      => 'Aeroporto di Casa',

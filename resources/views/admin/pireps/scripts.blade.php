@@ -1,53 +1,29 @@
 @section('scripts')
 <script>
-const changeStatus = (values, fn) => {
-
-    const api_key = $('meta[name="api-key"]').attr('content');
-    const token = $('meta[name="csrf-token"]').attr('content');
-
+const changeStatus = async (values, fn) => {
     console.log('Changing PIREP ' + values.pirep_id + ' to state ' + values.new_status);
 
-    $.ajax({
+    const opts = {
+        method: 'POST',
         url: '{{url('/admin/pireps')}}/' + values.pirep_id + '/status',
         data: values,
-        type: 'POST',
-        headers: {
-            'x-api-key': api_key,
-            'X-CSRF-TOKEN': token,
-        },
-        success: function (data) {
-            fn(data);
-        }
-    });
+    };
+
+    const response = await phpvms.request(opts);
+    fn(response.data);
 };
 
 $(document).ready(() => {
-
-    const api_key = $('meta[name="api-key"]').attr('content');
-    const token = $('meta[name="csrf-token"]').attr('content');
-
     const select_id = "select#aircraft_select";
     const destContainer = $('#fares_container');
 
-    $(select_id).change((e) => {
+    $(select_id).change(async (e) => {
         const aircraft_id = $(select_id + " option:selected").val();
         console.log('aircraft select change: ', aircraft_id);
 
-        $.ajax({
-            url: "{{ url('/admin/pireps/fares') }}?aircraft_id=" + aircraft_id,
-            type: 'GET',
-            headers: {
-                'x-api-key': api_key,
-                'X-CSRF-TOKEN': token,
-            },
-            success: (data) => {
-                console.log('returned new fares', data);
-                destContainer.html(data);
-            },
-            error: () => {
-                destContainer.html('');
-            }
-        });
+        const response = await phpvms.request("{{ url('/admin/pireps/fares') }}?aircraft_id=" + aircraft_id);
+        console.log('returned new fares', response.data);
+        destContainer.html(response.data);
     });
 
     $(document).on('submit', 'form.pjax_form', (event) => {
@@ -62,23 +38,19 @@ $(document).ready(() => {
     /**
      * Recalculate finances button is clicked
      */
-    $('button#recalculate-finances').on('click', (event) => {
+    $('button#recalculate-finances').on('click', async (event) => {
         event.preventDefault();
         console.log('Sending recalculate finances request');
         const pirep_id = $(event.currentTarget).attr('data-pirep-id');
 
-        $.ajax({
+        const opts = {
+            method: 'POST',
             url: '{{url('/api/pireps')}}/' + pirep_id + '/finances/recalculate',
-            type: 'POST',
-            headers: {
-                'x-api-key': api_key,
-                'X-CSRF-TOKEN': token,
-            },
-            success: (data) => {
-                console.log(data);
-                location.reload();
-            }
-        });
+        };
+
+        const response = await phpvms.request(opts);
+        console.log(response.data);
+        location.reload();
     });
 
     $(document).on('submit', 'form.pirep_submit_status', (event) => {

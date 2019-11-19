@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Interfaces\Controller;
+use App\Contracts\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Http\Request;
 
@@ -23,7 +23,8 @@ class ResetPasswordController extends Controller
      */
     public function showResetForm(Request $request, $token = null)
     {
-        return view('auth.passwords.reset',
+        return view(
+            'auth.passwords.reset',
             ['token' => $token, 'email' => $request->email]
         );
     }

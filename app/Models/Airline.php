@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Interfaces\Model;
+use App\Contracts\Model;
 use App\Models\Enums\JournalType;
 use App\Models\Traits\FilesTrait;
 use App\Models\Traits\JournalTrait;
@@ -95,5 +95,15 @@ class Airline extends Model
     public function setIcaoAttribute($icao): void
     {
         $this->attributes['icao'] = strtoupper($icao);
+    }
+
+    public function flights()
+    {
+        return $this->belongsTo(Flight::class, 'airline_id');
+    }
+
+    public function pireps()
+    {
+        return $this->belongsTo(Pirep::class, 'airline_id');
     }
 }

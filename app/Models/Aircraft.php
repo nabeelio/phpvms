@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Interfaces\Model;
+use App\Contracts\Model;
 use App\Models\Enums\AircraftStatus;
 use App\Models\Traits\ExpensableTrait;
 use App\Models\Traits\FilesTrait;
@@ -10,14 +10,17 @@ use App\Models\Traits\FilesTrait;
 /**
  * @property int      id
  * @property mixed    subfleet_id
+ * @property string   airport_id   The apt where the aircraft is
  * @property string   name
  * @property string   icao
  * @property string   registration
+ * @property int      flight_time
  * @property string   hex_code
  * @property Airport  airport
  * @property Subfleet subfleet
  * @property int      status
  * @property int      state
+ * @property Carbon   landing_time
  */
 class Aircraft extends Model
 {

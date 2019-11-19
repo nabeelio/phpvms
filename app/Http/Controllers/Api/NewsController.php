@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Contracts\Controller;
 use App\Http\Resources\News as NewsResource;
-use App\Interfaces\Controller;
 use App\Repositories\NewsRepository;
 use Illuminate\Http\Request;
 

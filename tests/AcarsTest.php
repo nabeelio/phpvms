@@ -2,6 +2,7 @@
 
 use App\Models\Enums\PirepState;
 use App\Models\Enums\PirepStatus;
+use App\Models\PirepFare;
 use App\Repositories\SettingRepository;
 
 /**
@@ -11,7 +12,7 @@ class AcarsTest extends TestCase
 {
     protected $settingsRepo;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->addData('base');
@@ -217,7 +218,7 @@ class AcarsTest extends TestCase
         $pirep = $response->json('data');
 
         // See that the fields and fares were set
-        $fares = \App\Models\PirepFare::where('pirep_id', $pirep['id'])->get();
+        $fares = PirepFare::where('pirep_id', $pirep['id'])->get();
         $this->assertCount(1, $fares);
         $saved_fare = $fares->first();
 
@@ -246,16 +247,30 @@ class AcarsTest extends TestCase
         ];
 
         $response = $this->post($uri, $update);
-        $response->assertStatus(200);
-        $updated_pirep = $response->json('data');
+        $response->assertOk();
 
         // Make sure there are no duplicates
-        $fares = \App\Models\PirepFare::where('pirep_id', $pirep['id'])->get();
+        $fares = PirepFare::where('pirep_id', $pirep['id'])->get();
         $this->assertCount(1, $fares);
         $saved_fare = $fares->first();
 
         $this->assertEquals($fare->id, $saved_fare['fare_id']);
         $this->assertEquals($fare->capacity, $saved_fare['count']);
+
+        /*
+         * Try cancelling the PIREP now
+         */
+        $uri = '/api/pireps/'.$pirep['id'].'/cancel';
+        $response = $this->put($uri, []);
+        $response->assertOk();
+
+        // Read it
+        $uri = '/api/pireps/'.$pirep['id'];
+        $response = $this->get($uri);
+        $response->assertOk();
+        $body = $response->json('data');
+
+        $this->assertEquals($body['state'], PirepState::CANCELLED);
     }
 
     /**
@@ -277,7 +292,7 @@ class AcarsTest extends TestCase
         $aircraft = $subfleet['aircraft']->random();
 
         $uri = '/api/pireps/prefile';
-        $pirep = [
+        $pirep_create = [
             'airline_id'          => $airline->id,
             'aircraft_id'         => $aircraft->id,
             'dpt_airport_id'      => $airport->icao,
@@ -293,7 +308,7 @@ class AcarsTest extends TestCase
             ],
         ];
 
-        $response = $this->post($uri, $pirep);
+        $response = $this->post($uri, $pirep_create);
         $response->assertStatus(201);
 
         // Get the PIREP ID
@@ -314,7 +329,7 @@ class AcarsTest extends TestCase
          */
         $this->assertHasKeys($pirep, ['fields']);
         $this->assertEquals('custom_value', $pirep['fields']['custom_field']);
-
+        $this->assertEquals($pirep_create['planned_distance'], $pirep['planned_distance']['nmi']);
         $this->assertHasKeys($pirep['planned_distance'], ['mi', 'nmi', 'km']);
 
         /**
@@ -460,11 +475,6 @@ class AcarsTest extends TestCase
         $body = $this->get('/api/pireps/'.$pirep_id)->json('data');
         $this->assertNotNull($body['block_off_time']);
         $this->assertNotNull($body['block_on_time']);
-
-        // make sure the time matches up
-        /*$block_on = new Carbon($body['block_on_time'], 'UTC');
-        $block_off = new Carbon($body['block_off_time'], 'UTC');
-        $this->assertEquals($block_on->subMinutes($body['flight_time']), $block_off);*/
     }
 
     /**

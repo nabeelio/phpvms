@@ -1,6 +1,6 @@
 <?php
 
-use App\Interfaces\Migration;
+use App\Contracts\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
 class RolesPermissionsTables extends Migration
@@ -73,11 +73,6 @@ class RolesPermissionsTables extends Migration
                 'id'           => 1,
                 'name'         => 'admin',
                 'display_name' => 'Administrators',
-            ],
-            [
-                'id'           => 2,
-                'name'         => 'user',
-                'display_name' => 'Pilot',
             ],
         ];
 

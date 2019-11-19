@@ -1,6 +1,5 @@
 <?php
 
-
 return [
     'dashboard'      => 'Dashboard',
     'administration' => 'Amministrazione',
@@ -26,6 +25,7 @@ return [
     'aircraft'       => 'Aereomobile',
     'airline'        => 'Compagnia Aerea',
     'distance'       => 'Distanza',
+    'fuel'           => 'Carburante',
     'metar'          => 'METAR',
     'hour'           => 'Ora|Ore',
     'minute'         => 'Minuto|Minuti',

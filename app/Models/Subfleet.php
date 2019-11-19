@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-use App\Interfaces\Model;
+use App\Contracts\Model;
 use App\Models\Enums\AircraftStatus;
 use App\Models\Traits\ExpensableTrait;
+use App\Models\Traits\FilesTrait;
 
 /**
  * Class Subfleet
@@ -17,10 +18,12 @@ use App\Models\Traits\ExpensableTrait;
  * @property float   cost_block_hour
  * @property float   cost_delay_minute
  * @property Airline airline
+ * @property int     airline_id
  */
 class Subfleet extends Model
 {
     use ExpensableTrait;
+    use FilesTrait;
 
     public $table = 'subfleets';
 

@@ -17,10 +17,12 @@ class GeoJson
      * @var int
      */
     protected $counter;
+
     /**
      * @var array [lon, lat] pairs
      */
     protected $line_coords = [];
+
     /**
      * @var Feature[]
      */

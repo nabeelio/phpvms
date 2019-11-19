@@ -2,14 +2,16 @@
 
 namespace App\Models;
 
-use App\Interfaces\Model;
+use App\Contracts\Model;
 
 /**
- * Class Rank
- *
- * @property int   hours
- * @property float manual_base_pay_rate
- * @property float acars_base_pay_rate
+ * @property string name
+ * @property int    hours
+ * @property float  manual_base_pay_rate
+ * @property float  acars_base_pay_rate
+ * @property bool   auto_promote
+ * @property bool   auto_approve_acars
+ * @property bool   auto_approve_manual
  */
 class Rank extends Model
 {
@@ -28,7 +30,6 @@ class Rank extends Model
 
     protected $casts = [
         'hours'               => 'integer',
-        'base_pay_rate'       => 'float',
         'auto_approve_acars'  => 'bool',
         'auto_approve_manual' => 'bool',
         'auto_promote'        => 'bool',

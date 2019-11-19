@@ -2,14 +2,11 @@
 
 namespace App\Services;
 
-use App\Interfaces\Service;
+use App\Contracts\Service;
 use App\Support\Database;
 use Carbon\Carbon;
 use Webpatser\Uuid\Uuid;
 
-/**
- * Class DatabaseService
- */
 class DatabaseService extends Service
 {
     protected $time_fields = [
@@ -58,8 +55,8 @@ class DatabaseService extends Service
     }
 
     /**
-     * @param   $table
-     * @param   $row
+     * @param $table
+     * @param $row
      *
      * @throws \Exception
      *

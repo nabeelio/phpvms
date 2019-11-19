@@ -2,10 +2,9 @@
 
 namespace App\Models\Enums;
 
-use App\Interfaces\Enum;
+use App\Contracts\Enum;
 
 /**
- * Class AnalyticsMetrics
  * Metrics IDs used in Google Analytics
  */
 class AnalyticsMetrics extends Enum

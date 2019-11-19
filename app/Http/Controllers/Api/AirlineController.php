@@ -2,14 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Contracts\Controller;
 use App\Http\Resources\Airline as AirlineResource;
-use App\Interfaces\Controller;
 use App\Repositories\AirlineRepository;
 use Illuminate\Http\Request;
 
-/**
- * Class AirlineController
- */
 class AirlineController extends Controller
 {
     private $airlineRepo;
@@ -34,7 +31,6 @@ class AirlineController extends Controller
      */
     public function index(Request $request)
     {
-        //$this->airlineRepo->pushCriteria(new RequestCriteria($request));
         $airports = $this->airlineRepo
             ->whereOrder(['active' => true], 'name', 'asc')
             ->paginate();

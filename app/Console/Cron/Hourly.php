@@ -2,7 +2,7 @@
 
 namespace App\Console\Cron;
 
-use App\Console\Command;
+use App\Contracts\Command;
 use App\Events\CronHourly;
 
 /**
@@ -17,7 +17,7 @@ class Hourly extends Command
 
     public function handle(): void
     {
-        $this->redirectLoggingToStdout('cron');
+        $this->redirectLoggingToFile('cron');
         event(new CronHourly());
     }
 }

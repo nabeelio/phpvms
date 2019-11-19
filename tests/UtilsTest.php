@@ -4,10 +4,6 @@ use App\Facades\Utils;
 
 class UtilsTest extends TestCase
 {
-    public function setUp()
-    {
-    }
-
     public function testDates()
     {
         $carbon = new \Carbon\Carbon('2018-04-28T12:55:40Z');

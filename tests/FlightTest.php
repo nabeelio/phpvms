@@ -1,10 +1,10 @@
 <?php
 
-use App\Models\Bid;
 use App\Models\Enums\Days;
 use App\Models\Flight;
 use App\Models\User;
 use App\Repositories\SettingRepository;
+use App\Services\AirportService;
 use App\Services\FlightService;
 
 class FlightTest extends TestCase
@@ -12,7 +12,7 @@ class FlightTest extends TestCase
     protected $flightSvc;
     protected $settingsRepo;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->addData('base');
@@ -164,12 +164,12 @@ class FlightTest extends TestCase
             'airline_id' => $this->user->airline_id,
         ]);
 
-        $res = $this->get('/api/flights');
+        $res = $this->get('/api/flights?limit=10');
 
         $body = $res->json();
         $this->assertEquals(2, $body['meta']['last_page']);
 
-        $res = $this->get('/api/flights?page=2');
+        $res = $this->get('/api/flights?page=2&limit=5');
         $res->assertJsonCount(5, 'data');
     }
 
@@ -342,6 +342,45 @@ class FlightTest extends TestCase
         $this->assertEquals($flight->id, $body['data'][0]['id']);
     }
 
+    public function testFlightSearchApiDistance()
+    {
+        $total_flights = 10;
+        $this->user = factory(App\Models\User::class)->create();
+        $flights = factory(App\Models\Flight::class, $total_flights)->create([
+            'airline_id' => $this->user->airline_id,
+        ]);
+
+        // Max distance generated in factory is 1000, so set a random flight
+        // and try to find it again through the search
+
+        $flight = $flights->random();
+        $flight->distance = 1500;
+        $flight->save();
+
+        $distance_gt = 1100;
+        $distance_lt = 1600;
+
+        // look for all of the flights now less than the "factory default" of 1000
+        $query = 'dlt=1000&ignore_restrictions=1';
+        $req = $this->get('/api/flights/search?'.$query);
+        $body = $req->json();
+        $this->assertCount($total_flights - 1, $body['data']);
+
+        // Try using greater than
+        $query = 'dgt='.$distance_gt.'&ignore_restrictions=1';
+        $req = $this->get('/api/flights/search?'.$query);
+        $body = $req->json();
+
+        $this->assertCount(1, $body['data']);
+        $this->assertEquals($flight->id, $body['data'][0]['id']);
+
+        $query = 'dgt='.$distance_gt.'&dlt='.$distance_lt.'&ignore_restrictions=1';
+        $req = $this->get('/api/flights/search?'.$query);
+        $body = $req->json();
+        $this->assertCount(1, $body['data']);
+        $this->assertEquals($flight->id, $body['data'][0]['id']);
+    }
+
     public function testAddSubfleet()
     {
         $subfleet = factory(App\Models\Subfleet::class)->create();
@@ -362,175 +401,62 @@ class FlightTest extends TestCase
     }
 
     /**
-     * Add/remove a bid, test the API, etc
-     *
-     * @throws \App\Services\Exception
-     */
-    public function testBids()
-    {
-        $this->settingsRepo->store('bids.allow_multiple_bids', true);
-        $this->settingsRepo->store('bids.disable_flight_on_bid', false);
-
-        $user = factory(User::class)->create();
-        $user2 = factory(User::class)->create();
-        $headers = $this->headers($user);
-
-        $flight = $this->addFlight($user);
-
-        $bid = $this->flightSvc->addBid($flight, $user);
-        $this->assertEquals($user->id, $bid->user_id);
-        $this->assertEquals($flight->id, $bid->flight_id);
-        $this->assertTrue($flight->has_bid);
-
-        // Refresh
-        $flight = Flight::find($flight->id);
-        $this->assertTrue($flight->has_bid);
-
-        // Check the table and make sure the entry is there
-        $bid_retrieved = $this->flightSvc->addBid($flight, $user);
-        $this->assertEquals($bid->id, $bid_retrieved->id);
-
-        $user->refresh();
-        $bids = $user->bids;
-        $this->assertEquals(1, $bids->count());
-
-        // Query the API and see that the user has the bids
-        // And pull the flight details for the user/bids
-        $req = $this->get('/api/user', $headers);
-        $req->assertStatus(200);
-
-        $body = $req->json()['data'];
-        $this->assertCount(1, $body['bids']);
-        $this->assertEquals($flight->id, $body['bids'][0]['flight_id']);
-
-        $req = $this->get('/api/users/'.$user->id.'/bids', $headers);
-
-        $body = $req->json()['data'];
-        $req->assertStatus(200);
-        $this->assertEquals($flight->id, $body[0]['flight_id']);
-
-        // have a second user bid on it
-        $bid_user2 = $this->flightSvc->addBid($flight, $user2);
-        $this->assertNotNull($bid_user2);
-        $this->assertNotEquals($bid_retrieved->id, $bid_user2->id);
-
-        // Now remove the flight and check API
-
-        $this->flightSvc->removeBid($flight, $user);
-
-        $flight = Flight::find($flight->id);
-
-        // user2 still has a bid on it
-        $this->assertTrue($flight->has_bid);
-
-        // Remove it from 2nd user
-        $this->flightSvc->removeBid($flight, $user2);
-        $flight->refresh();
-        $this->assertFalse($flight->has_bid);
-
-        $user->refresh();
-        $bids = $user->bids()->get();
-        $this->assertTrue($bids->isEmpty());
-
-        $req = $this->get('/api/user', $headers);
-        $req->assertStatus(200);
-
-        $body = $req->json()['data'];
-        $this->assertEquals($user->id, $body['id']);
-        $this->assertCount(0, $body['bids']);
-
-        $req = $this->get('/api/users/'.$user->id.'/bids', $headers);
-        $req->assertStatus(200);
-        $body = $req->json()['data'];
-
-        $this->assertCount(0, $body);
-    }
-
-    public function testMultipleBidsSingleFlight()
-    {
-        $this->settingsRepo->store('bids.disable_flight_on_bid', true);
-
-        $user1 = factory(User::class)->create();
-        $user2 = factory(User::class)->create([
-            'airline_id' => $user1->airline_id,
-        ]);
-
-        $flight = $this->addFlight($user1);
-
-        // Put bid on the flight to block it off
-        $this->flightSvc->addBid($flight, $user1);
-
-        // Try adding again, should throw an exception
-        $this->expectException(\App\Exceptions\BidExists::class);
-        $this->flightSvc->addBid($flight, $user2);
-    }
-
-    /**
-     * Add a flight bid VIA the API
-     */
-    public function testAddBidApi()
-    {
-        $this->user = factory(User::class)->create();
-        $user2 = factory(User::class)->create();
-        $flight = $this->addFlight($this->user);
-
-        $uri = '/api/user/bids';
-        $data = ['flight_id' => $flight->id];
-
-        $body = $this->put($uri, $data);
-        $body = $body->json('data');
-
-        $this->assertEquals($body['flight_id'], $flight->id);
-
-        // Now try to have the second user bid on it
-        // Should return a 409 error
-        $response = $this->put($uri, $data, [], $user2);
-        $response->assertStatus(409);
-
-        // Try now deleting the bid from the user
-        $response = $this->delete($uri, $data);
-        $body = $response->json('data');
-        $this->assertCount(0, $body);
-    }
-
-    /**
      * Delete a flight and make sure all the bids are gone
      */
     public function testDeleteFlight()
     {
         $user = factory(User::class)->create();
-        $headers = $this->headers($user);
 
         $flight = $this->addFlight($user);
-
-        $bid = $this->flightSvc->addBid($flight, $user);
-        $this->assertEquals($user->id, $bid->user_id);
-        $this->assertEquals($flight->id, $bid->flight_id);
-        $this->assertTrue($flight->has_bid);
-
         $this->flightSvc->deleteFlight($flight);
 
         $empty_flight = Flight::find($flight->id);
         $this->assertNull($empty_flight);
+    }
 
-        // Make sure no bids exist
-        $user_bids = Bid::where('flight_id', $flight->id)->get();
+    public function testAirportDistance()
+    {
+        // KJFK
+        $fromIcao = factory(App\Models\Airport::class)->create([
+            'lat' => 40.6399257,
+            'lon' => -73.7786950,
+        ]);
 
-        //$this->assertEquals(0, $user_bid->count());
+        // KSFO
+        $toIcao = factory(App\Models\Airport::class)->create([
+            'lat' => 37.6188056,
+            'lon' => -122.3754167,
+        ]);
 
-        // Query the API and see that the user has the bids
-        // And pull the flight details for the user/bids
-        $req = $this->get('/api/user', $headers);
+        $airportSvc = app(AirportService::class);
+        $distance = $airportSvc->calculateDistance($fromIcao->id, $toIcao->id);
+        $this->assertNotNull($distance);
+        $this->assertEquals(2244.33, $distance['nmi']);
+    }
+
+    public function testAirportDistanceApi()
+    {
+        $user = factory(User::class)->create();
+        $headers = $this->headers($user);
+
+        // KJFK
+        $fromIcao = factory(App\Models\Airport::class)->create([
+            'lat' => 40.6399257,
+            'lon' => -73.7786950,
+        ]);
+
+        // KSFO
+        $toIcao = factory(App\Models\Airport::class)->create([
+            'lat' => 37.6188056,
+            'lon' => -122.3754167,
+        ]);
+
+        $req = $this->get('/api/airports/'.$fromIcao->id.'/distance/'.$toIcao->id, $headers);
         $req->assertStatus(200);
 
         $body = $req->json()['data'];
-        $this->assertEquals($user->id, $body['id']);
-        $this->assertCount(0, $body['bids']);
 
-        $req = $this->get('/api/users/'.$user->id.'/bids', $headers);
-        $req->assertStatus(200);
-
-        $body = $req->json()['data'];
-        $this->assertCount(0, $body);
+        $this->assertNotNull($body['distance']);
+        $this->assertEquals(2244.33, $body['distance']['nmi']);
     }
 }

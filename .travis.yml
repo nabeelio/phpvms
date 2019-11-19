@@ -1,11 +1,22 @@
+#
+# Travis CI config file
+#
+
 language: php
 php:
-#- '7.0'
-- '7.1'
-- '7.2'
-#- nightly
+  - '7.2'
+  - '7.3'
+
+matrix:
+  include:
+    - php: '7.2'
+    - php: '7.3'
+  fast_finish: true
 
 cache:
+  # Cache lives for 10 min
+  # Default of 3m might not be long enough for all the runs
+  timeout: 600
   directories:
   - "$HOME/.composer/cache"
   - "$HOME/.npm"
@@ -13,45 +24,58 @@ cache:
 services:
 - mysql
 
-before_script:
-  - cp .travis/env.travis.php env.php
+install:
   - composer install --dev --no-interaction --verbose
+  - cp .travis/env.travis.php env.php
+  - cp .travis/phpunit.travis.xml phpunit.xml
+
+before_script:
+  - php artisan database:create --reset
+  - php artisan migrate:refresh --seed
 
 script:
-- php artisan database:create --reset
-- php artisan migrate:refresh --seed
-- cp .travis/phpunit.travis.xml phpunit.xml
-- vendor/bin/phpunit --debug --verbose
+  - vendor/bin/php-cs-fixer fix --config=.php_cs -v --dry-run --diff --using-cache=no
+  - vendor/bin/phpunit --debug --verbose
 
 after_failure:
-- cat storage/logs/*.log
+  - cat storage/logs/*.log
 
 jobs:
   include:
+    # Just packages up a release
     - stage: package
       script: skip
       before_deploy:
-        - curl -sL https://raw.githubusercontent.com/travis-ci/artifacts/master/install | bash
+        - curl -sL https://raw.githubusercontent.com/travis-ci/artifacts/6b10798/install | bash
+
+      # Configure the conditional deployment
+      # https://docs.travis-ci.com/user/deployment/#examples-of-conditional-deployment
       deploy:
         - provider: script
           skip_cleanup: true
           script: ./.travis/deploy_script.sh
           on:
             all_branches: true
-            php: '7.1'
+            repo: nabeelio/phpvms
+            php: '7.2'
+            tags: false
+
+    # RELEASE STAGE
+    # Only runs when there's a tag applied to this release (tag should be the version)
+    # This uses Github Releases and posts it there (provider: releases)
+    # https://docs.travis-ci.com/user/deployment/releases
     - stage: release
       script: skip
       before_deploy:
-        - curl -sL https://raw.githubusercontent.com/travis-ci/artifacts/master/install | bash
+        - curl -sL https://raw.githubusercontent.com/travis-ci/artifacts/6b10798/install | bash
         - ./.travis/deploy_script.sh
       deploy:
         provider: releases
         skip_cleanup: true
-        api_key:
-          secure: kAOYEThsSF8wM7vx+e+xWKhlvsNzhgKn1bk0zLBb7RLUM5pHIGKV/j0KrCNspwIUEPF0O594H6hCyswlpIZfxW2mTnmPqfbKxG/H2rLEAoOV0/MqzeC/gffxm7Eop6Sn4T/UC9kLSgqRynllbYtJDK6aWESdnvK3Fka0Cnpn7l/2phEf2J/nOF6QT/utpws1E0MUGqrKvX1/UYIu8np5e5aYLPOXnqahK8qzJFL4CyNBv+fhXuXfmOF4UbNbSPnrg/kY0QpUtFpz9ebvg5BjfMXJT0P4Q1BjgKBN76A7vz+ZfPmW6SqKv3o1yisXAgBWzylXh8B6pK+cUk4uXbagcGcIdkGOI6pQ5sLq+JOkBhVjSfogERePkt44KPif4EMsLRw/Jp4pTMy/vmgrON/jkbA+jXsOARTG5vAwIq4lyZzZXWUfirYwXeCfasgf+xTdo9C0cOE0jlqojO7SdF2CinDk9BduYpBTectea8Xx+YP5R1JCZNORDYynlLHKMW/8PJyAG+AsbcfKNTobQAfxw1nHa7GoKP1j4MSx1UtbulZdhmeRX/nUTFIvfgEDrl4cdBlt0/o5SuyN92DiCnvJZaYHcgXwYMvoqdXxBCnBKsM/1BZcykWi7Zt/q8krWYCOfCzBN4TDdmrKsEOUkCSOL9mI6gERHGmcGZN05PxU950=
+        api_key: $GITHUB_TOKEN
         file_glob: true
         file: build/*
         on:
           tags: true
           repo: nabeelio/phpvms
-          php: '7.1'
+          php: '7.2'

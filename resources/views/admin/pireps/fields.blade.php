@@ -135,7 +135,7 @@
 
                 <div class="row">
                     <!-- Flight Time Field -->
-                    <div class="form-group col-sm-6">
+                    <div class="form-group col-sm-3">
                         {{ Form::label('flight_time', 'Flight Time (hours & minutes):') }}
                         @if($pirep->read_only)
                             <p>
@@ -163,8 +163,38 @@
                         @endif
                     </div>
 
+                    <!-- Block Fuel Field -->
+                    <div class="form-group col-sm-2">
+                        {{ Form::label('block_fuel', 'Block Fuel:') }}
+                        <div class="row">
+                            <div class="col-sm-12">
+                                {{ Form::number('block_fuel', null, [
+                                    'class' => 'form-control',
+                                    'min' => 0,
+                                    'step' => '0.01',
+                                    ]) }}
+                                <p class="text-danger">{{ $errors->first('block_fuel') }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Fuel Used Field -->
+                    <div class="form-group col-sm-2">
+                        {{ Form::label('fuel_used', 'Fuel Used:') }}
+                        <div class="row">
+                            <div class="col-sm-12">
+                                {{ Form::number('fuel_used', null, [
+                                    'class' => 'form-control',
+                                    'min' => 0,
+                                    'step' => '0.01'
+                                    ]) }}
+                                <p class="text-danger">{{ $errors->first('fuel_used') }}</p>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Level Field -->
-                    <div class="form-group col-sm-6">
+                    <div class="form-group col-sm-5">
                         {{ Form::label('level', 'Flight Level:') }}
                         <div class="row">
                             <div class="col-sm-12">

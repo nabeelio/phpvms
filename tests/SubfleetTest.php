@@ -1,12 +1,11 @@
 <?php
 
-
 class SubfleetTest extends TestCase
 {
     protected $ac_svc;
     protected $ICAO = 'B777';
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->addData('base');

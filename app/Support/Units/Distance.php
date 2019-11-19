@@ -2,11 +2,17 @@
 
 namespace App\Support\Units;
 
-use App\Interfaces\Unit;
+use App\Contracts\Unit;
 use PhpUnitsOfMeasure\PhysicalQuantity\Length;
 
 class Distance extends Unit
 {
+    public $responseUnits = [
+        'km',
+        'mi',
+        'nmi',
+    ];
+
     /**
      * Distance constructor.
      *
@@ -16,16 +22,13 @@ class Distance extends Unit
      * @throws \PhpUnitsOfMeasure\Exception\NonNumericValue
      * @throws \PhpUnitsOfMeasure\Exception\NonStringUnitName
      */
-    public function __construct(float $value, string $unit)
+    public function __construct($value, string $unit)
     {
+        if (empty($value)) {
+            $value = 0;
+        }
+
         $this->unit = setting('units.distance');
         $this->instance = new Length($value, $unit);
-
-        $this->units = [
-            'mi'  => round($this->instance->toUnit('miles'), 2),
-            'nmi' => round($this->instance->toUnit('nmi'), 2),
-            'm'   => round($this->instance->toUnit('meters'), 2),
-            'km'  => round($this->instance->toUnit('meters') / 1000, 2),
-        ];
     }
 }

@@ -108,3 +108,25 @@
 .m-b-md {
     margin-bottom: 30px;
 }
+
+.my-bids {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    margin: 15px;
+    padding: 10px;
+    border-radius: .1875rem;
+    background-color: #fa7a50;
+}
+
+.my-bids a {
+    color: #fff;
+    text-decoration: none;
+    text-align: center;
+}
+
+.search-form .form-control {
+    border-radius: 5px;
+    width: 250px;
+}

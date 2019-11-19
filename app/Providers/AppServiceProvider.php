@@ -4,21 +4,25 @@ namespace App\Providers;
 
 use App\Models\Aircraft;
 use App\Models\Airport;
+use App\Models\Flight;
 use App\Models\FlightField;
 use App\Models\FlightFieldValue;
 use App\Models\Journal;
 use App\Models\JournalTransaction;
 use App\Models\Observers\AircraftObserver;
 use App\Models\Observers\AirportObserver;
+use App\Models\Observers\FlightObserver;
 use App\Models\Observers\JournalObserver;
 use App\Models\Observers\JournalTransactionObserver;
 use App\Models\Observers\SettingObserver;
 use App\Models\Observers\Sluggable;
 use App\Models\Observers\SubfleetObserver;
+use App\Models\Observers\UserObserver;
 use App\Models\PirepField;
 use App\Models\PirepFieldValue;
 use App\Models\Setting;
 use App\Models\Subfleet;
+use App\Models\User;
 use App\Repositories\SettingRepository;
 use App\Services\ModuleService;
 use Illuminate\Support\Facades\Schema;
@@ -45,6 +49,7 @@ class AppServiceProvider extends ServiceProvider
         Journal::observe(JournalObserver::class);
         JournalTransaction::observe(JournalTransactionObserver::class);
 
+        Flight::observe(FlightObserver::class);
         FlightField::observe(Sluggable::class);
         FlightFieldValue::observe(Sluggable::class);
 
@@ -53,6 +58,7 @@ class AppServiceProvider extends ServiceProvider
 
         Setting::observe(SettingObserver::class);
         Subfleet::observe(SubfleetObserver::class);
+        User::observe(UserObserver::class);
     }
 
     /**

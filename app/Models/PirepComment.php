@@ -2,11 +2,9 @@
 
 namespace App\Models;
 
-use App\Interfaces\Model;
+use App\Contracts\Model;
 
 /**
- * Class PirepEvent
- *
  * @property string pirep_id
  * @property int user_id
  */

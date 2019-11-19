@@ -22,6 +22,9 @@ return [
                 PDO::ATTR_EMULATE_PREPARES => env('DB_EMULATE_PREPARES', false),
                 //PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
             ],
+            'dump' => [
+                'timeout' => 60 * 5, // 5 minute timeout
+            ],
         ],
         'sqlite' => [
             'driver'   => 'sqlite',
@@ -29,9 +32,9 @@ return [
             'timezone' => '+00:00',
             'prefix'   => '',
         ],
-        'unittest' => [
+        'testing' => [
             'driver'   => 'sqlite',
-            'database' => storage_path('unittest.sqlite'),
+            'database' => storage_path('testing.sqlite'),
             'timezone' => '+00:00',
             'prefix'   => '',
         ],
@@ -47,11 +50,19 @@ return [
 
     'redis' => [
         'cluster' => false,
+        'client'  => 'phpredis',
         'default' => [
             'host'     => env('REDIS_HOST', 'localhost'),
             'password' => env('REDIS_PASSWORD', null),
             'port'     => env('REDIS_PORT', 6379),
             'database' => env('REDIS_DATABASE', 1),
+        ],
+        'cache' => [
+            'url'      => env('REDIS_URL'),
+            'host'     => env('REDIS_HOST', '127.0.0.1'),
+            'password' => env('REDIS_PASSWORD', null),
+            'port'     => env('REDIS_PORT', 6379),
+            'database' => env('REDIS_CACHE_DB', 1),
         ],
     ],
 ];

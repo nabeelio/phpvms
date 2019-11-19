@@ -2,7 +2,7 @@
 
 namespace App\Console\Cron;
 
-use App\Console\Command;
+use App\Contracts\Command;
 use App\Events\CronMonthly;
 
 /**
@@ -19,7 +19,7 @@ class Monthly extends Command
 
     public function handle(): void
     {
-        $this->redirectLoggingToStdout('cron');
+        $this->redirectLoggingToFile('cron');
         event(new CronMonthly());
     }
 }

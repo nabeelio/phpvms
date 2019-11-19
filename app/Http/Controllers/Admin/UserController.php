@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Contracts\Controller;
 use App\Facades\Utils;
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\UpdateUserRequest;
-use App\Interfaces\Controller;
 use App\Models\Rank;
 use App\Models\Role;
 use App\Models\User;
@@ -14,11 +14,11 @@ use App\Repositories\AirportRepository;
 use App\Repositories\PirepRepository;
 use App\Repositories\UserRepository;
 use App\Services\UserService;
+use App\Support\Timezonelist;
 use DB;
 use Flash;
 use Hash;
 use Illuminate\Http\Request;
-use Jackiedo\Timezonelist\Facades\Timezonelist;
 use Log;
 use Prettus\Repository\Exceptions\RepositoryException;
 use Response;
@@ -292,13 +292,13 @@ class UserController extends Controller
     public function regen_apikey($id, Request $request)
     {
         $user = User::find($id);
-        Log::info('Regenerating API key "'.$user->pilot_id.'"');
+        Log::info('Regenerating API key "'.$user->ident.'"');
 
         $user->api_key = Utils::generateApiKey();
         $user->save();
 
         flash('New API key generated!')->success();
 
-        return redirect(route('admin.users.edit', ['id' => $id]));
+        return redirect(route('admin.users.edit', [$id]));
     }
 }

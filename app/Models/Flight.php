@@ -2,20 +2,18 @@
 
 namespace App\Models;
 
-use App\Interfaces\Model;
+use App\Contracts\Model;
 use App\Models\Enums\Days;
 use App\Models\Traits\HashIdTrait;
 use App\Support\Units\Distance;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
-use PhpUnitsOfMeasure\Exception\NonNumericValue;
-use PhpUnitsOfMeasure\Exception\NonStringUnitName;
 
 /**
  * @property string     id
  * @property mixed      ident
  * @property Airline    airline
- * @property int    airline_id
+ * @property int        airline_id
  * @property mixed      flight_number
  * @property mixed      route_code
  * @property int        route_leg
@@ -23,8 +21,12 @@ use PhpUnitsOfMeasure\Exception\NonStringUnitName;
  * @property Collection field_values
  * @property Collection fares
  * @property Collection subfleets
- * @property int    days
- * @property Airport    dep_airport
+ * @property int        days
+ * @property int        distance
+ * @property int        flight_time
+ * @property string     route
+ * @property int        level
+ * @property Airport    dpt_airport
  * @property Airport    arr_airport
  * @property Airport    alt_airport
  * @property string     dpt_airport_id
@@ -39,11 +41,13 @@ class Flight extends Model
     use HashIdTrait;
 
     public $table = 'flights';
-    public $incrementing = false;
 
     /** The form wants this */
     public $hours;
     public $minutes;
+
+    protected $keyType = 'string';
+    public $incrementing = false;
 
     protected $fillable = [
         'id',
@@ -130,28 +134,6 @@ class Flight extends Model
         }
 
         return $flight_id;
-    }
-
-    /**
-     * Return a new Length unit so conversions can be made
-     *
-     * @return int|Distance
-     */
-    public function getDistanceAttribute()
-    {
-        if (!array_key_exists('distance', $this->attributes)) {
-            return 0;
-        }
-
-        try {
-            $distance = (float) $this->attributes['distance'];
-
-            return new Distance($distance, config('phpvms.internal_units.distance'));
-        } catch (NonNumericValue $e) {
-            return 0;
-        } catch (NonStringUnitName $e) {
-            return 0;
-        }
     }
 
     /**

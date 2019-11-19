@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Interfaces\Model;
+use App\Contracts\Model;
 use App\Models\Traits\ExpensableTrait;
 use App\Models\Traits\FilesTrait;
 
@@ -13,10 +13,14 @@ use App\Models\Traits\FilesTrait;
  * @property string iata
  * @property string icao
  * @property string name
+ * @property string full_name
  * @property string location
  * @property string country
  * @property string timezone
  * @property float  ground_handling_cost
+ * @property float  fuel_100ll_cost
+ * @property float  fuel_jeta_cost
+ * @property float  fuel_mogas_cost
  * @property float  lat
  * @property float  lon
  */
@@ -26,8 +30,10 @@ class Airport extends Model
     use FilesTrait;
 
     public $table = 'airports';
-    public $timestamps = false;
+
+    protected $keyType = 'string';
     public $incrementing = false;
+    public $timestamps = false;
 
     protected $fillable = [
         'id',
@@ -67,6 +73,9 @@ class Airport extends Model
         'lat'                  => 'required|numeric',
         'lon'                  => 'required|numeric',
         'ground_handling_cost' => 'nullable|numeric',
+        'fuel_100ll_cost'      => 'nullable|numeric',
+        'fuel_jeta_cost'       => 'nullable|numeric',
+        'fuel_mogas_cost'      => 'nullable|numeric',
     ];
 
     /**

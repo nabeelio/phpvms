@@ -2,7 +2,7 @@
 
 namespace {{namespace}};
 
-use App\Interfaces\Widget;
+use App\Contracts\Widget;
 
 /**
  * Class {{class}}

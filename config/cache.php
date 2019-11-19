@@ -24,9 +24,14 @@ return [
     ],
 
     'stores' => [
+        'apc' => [
+            'driver' => 'apc',
+        ],
 
-        'apc'      => ['driver' => 'apc'],
-        'array'    => ['driver' => 'array'],
+        'array' => [
+            'driver' => 'array',
+        ],
+
         'database' => [
             'driver'     => 'database',
             'table'      => 'cache',
@@ -57,10 +62,13 @@ return [
             ],
         ],
 
+        'opcache' => [
+            'driver' => 'opcache',
+        ],
+
         'redis' => [
             'driver'     => 'redis',
             'connection' => 'default',
         ],
-
     ],
 ];

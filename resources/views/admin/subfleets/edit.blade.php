@@ -27,5 +27,11 @@
            @include('admin.subfleets.expenses')
        </div>
    </div>
+
+   <div class="card border-blue-bottom">
+       <div class="content">
+           @include('admin.common.file_upload', ['model' => $subfleet])
+       </div>
+   </div>
 @endsection
 @include('admin.subfleets.script')

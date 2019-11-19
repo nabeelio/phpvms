@@ -2,11 +2,16 @@
 
 namespace App\Support\Units;
 
-use App\Interfaces\Unit;
+use App\Contracts\Unit;
 use PhpUnitsOfMeasure\PhysicalQuantity\Mass as MassUnit;
 
 class Mass extends Unit
 {
+    public $responseUnits = [
+        'kg',
+        'lbs',
+    ];
+
     /**
      * @param float  $value
      * @param string $unit
@@ -14,14 +19,13 @@ class Mass extends Unit
      * @throws \PhpUnitsOfMeasure\Exception\NonNumericValue
      * @throws \PhpUnitsOfMeasure\Exception\NonStringUnitName
      */
-    public function __construct(float $value, string $unit)
+    public function __construct($value, string $unit)
     {
+        if (empty($value)) {
+            $value = 0;
+        }
+
         $this->unit = setting('units.weight');
         $this->instance = new MassUnit($value, $unit);
-
-        $this->units = [
-            'kg'  => round($this->instance->toUnit('kg'), 2),
-            'lbs' => round($this->instance->toUnit('lbs'), 2),
-        ];
     }
 }
