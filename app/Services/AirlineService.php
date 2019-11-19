@@ -41,7 +41,7 @@ class AirlineService extends Service
         $repos = [
             $this->pirepRepo,
             $this->flightRepo,
-            $this->subfleetRepo
+            $this->subfleetRepo,
         ];
 
         $w = ['airline_id' => $airline->id];
