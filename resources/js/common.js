@@ -3,8 +3,10 @@ const rivets = require('rivets');
 
 /**
  * Generic formatter to prepend
+ *
  * @param value
  * @param prepend
+ *
  * @returns {*}
  */
 rivets.formatters.prepend = function (value, prepend) {
@@ -13,7 +15,9 @@ rivets.formatters.prepend = function (value, prepend) {
 
 /**
  * Format minutes into HHh MMm
+ *
  * @param value
+ *
  * @returns {string}
  */
 rivets.formatters.time_hm = function (value) {
@@ -26,6 +30,7 @@ rivets.formatters.time_hm = function (value) {
  *
  * @param value
  * @param len
+ *
  * @returns {boolean}
  */
 rivets.formatters.gt = (value, len) => value.length > len;
@@ -34,6 +39,7 @@ rivets.formatters.gt = (value, len) => value.length > len;
  *
  * @param value
  * @param len
+ *
  * @returns {boolean}
  */
 rivets.formatters.lt = (value, len) => value.length < len;
@@ -42,6 +48,15 @@ rivets.formatters.lt = (value, len) => value.length < len;
  *
  * @param value
  * @param len
+ *
  * @returns {boolean}
  */
 rivets.formatters.eq = (value, len) => value.length > len;
+
+/**
+ * Use a default value if value is null or blank
+ *
+ * @param value Value to use
+ * @param def   Default value to use if value is null
+ */
+rivets.formatters.fallback = (value, def) => value || def;
