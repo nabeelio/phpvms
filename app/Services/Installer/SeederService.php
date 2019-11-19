@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\Yaml\Yaml;
+use function trim;
 
 class SeederService extends Service
 {
@@ -24,6 +25,24 @@ class SeederService extends Service
     public function __construct(DatabaseService $databaseSvc)
     {
         $this->databaseSvc = $databaseSvc;
+    }
+
+    /**
+     * See if there are any seeds that are out of sync
+     *
+     * @return bool
+     */
+    public function seedsPending(): bool
+    {
+        if ($this->settingsSeedsPending()) {
+            return true;
+        }
+
+        if ($this->permissionsSeedsPending()) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -69,7 +88,7 @@ class SeederService extends Service
         $data = file_get_contents(database_path('/seeds/settings.yml'));
         $yml = Yaml::parse($data);
         foreach ($yml as $setting) {
-            if (\trim($setting['key']) === '') {
+            if (trim($setting['key']) === '') {
                 continue;
             }
 
@@ -190,5 +209,62 @@ class SeederService extends Service
         $this->counters[$group]++;
 
         return $idx;
+    }
+
+    /**
+     * See if there are seeds pending for the settings
+     *
+     * @return bool
+     */
+    private function settingsSeedsPending(): bool
+    {
+        $data = file_get_contents(database_path('/seeds/settings.yml'));
+        $yml = Yaml::parse($data);
+
+        // See if any are missing from the DB
+        foreach ($yml as $setting) {
+            if (trim($setting['key']) === '') {
+                continue;
+            }
+
+            $id = Setting::formatKey($setting['key']);
+            $row = DB::table('settings')->where('id', $id)->first();
+
+            // Doesn't exist in the table, quit early and say there is stuff pending
+            if (!$row) {
+                Log::info('Setting '.$id.' missing, update available');
+                return true;
+            }
+
+            // See if any of the options have changed
+            if ($row->type === 'select') {
+                if ($row->options !== $setting['options']) {
+                    Log::info('Options for '.$id.' changed, update available');
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * See if there are seeds pending for the permissions
+     *
+     * @return bool
+     */
+    private function permissionsSeedsPending(): bool
+    {
+        $data = file_get_contents(database_path('/seeds/permissions.yml'));
+        $yml = Yaml::parse($data);
+
+        foreach ($yml as $perm) {
+            $count = DB::table('permissions')->where('name', $perm['name'])->count('name');
+            if ($count === 0) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
