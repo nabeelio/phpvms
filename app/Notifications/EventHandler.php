@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Listeners;
+namespace App\Notifications;
 
 use App\Contracts\Listener;
 use App\Events\PirepAccepted;
@@ -10,7 +10,9 @@ use App\Events\UserRegistered;
 use App\Events\UserStateChanged;
 use App\Models\Enums\UserState;
 use App\Models\User;
-use App\Notifications\PirepSubmitted;
+use App\Notifications\Events\PirepSubmitted;
+use App\Notifications\Events\UserPending;
+use App\Notifications\Events\UserRejected;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
@@ -18,18 +20,18 @@ use Illuminate\Support\Facades\Notification;
 /**
  * Handle sending emails on different events
  */
-class NotificationEvents extends Listener
+class EventHandler extends Listener
 {
     /**
      * @param Dispatcher $events
      */
     public function subscribe(Dispatcher $events): void
     {
-        $events->listen(UserRegistered::class, 'App\Listeners\NotificationEvents@onUserRegister');
-        $events->listen(UserStateChanged::class, 'App\Listeners\NotificationEvents@onUserStateChange');
-        $events->listen(PirepFiled::class, 'App\Listeners\NotificationEvents@onPirepFile');
-        $events->listen(PirepAccepted::class, 'App\Listeners\NotificationEvents@onPirepAccepted');
-        $events->listen(PirepRejected::class, 'App\Listeners\NotificationEvents@onPirepRejected');
+        $events->listen(UserRegistered::class, 'App\Notifications\EventHandler@onUserRegister');
+        $events->listen(UserStateChanged::class, 'App\Notifications\EventHandler@onUserStateChange');
+        $events->listen(PirepFiled::class, 'App\Notifications\EventHandler@onPirepFile');
+        $events->listen(PirepAccepted::class, 'App\Notifications\EventHandler@onPirepAccepted');
+        $events->listen(PirepRejected::class, 'App\Notifications\EventHandler@onPirepRejected');
     }
 
     /**
@@ -76,15 +78,15 @@ class NotificationEvents extends Listener
         /*
          * Send all of the admins a notification that a new user registered
          */
-        $this->notifyAdmins(new \App\Notifications\Admin\UserRegistered($event->user));
+        $this->notifyAdmins(new Events\Admin\UserRegistered($event->user));
 
         /*
          * Send the user a confirmation email
          */
         if ($event->user->state === UserState::ACTIVE) {
-            $this->notifyUser($event->user, new \App\Notifications\UserRegistered($event->user));
+            $this->notifyUser($event->user, new Events\UserRegistered($event->user));
         } elseif ($event->user->state === UserState::PENDING) {
-            $this->notifyUser($event->user, new \App\Notifications\UserPending($event->user));
+            $this->notifyUser($event->user, new UserPending($event->user));
         }
     }
 
@@ -99,9 +101,9 @@ class NotificationEvents extends Listener
 
         if ($event->old_state === UserState::PENDING) {
             if ($event->user->state === UserState::ACTIVE) {
-                $this->notifyUser($event->user, new \App\Notifications\UserRegistered($event->user));
+                $this->notifyUser($event->user, new Events\UserRegistered($event->user));
             } elseif ($event->user->state === UserState::REJECTED) {
-                $this->notifyUser($event->user, new \App\Notifications\UserRejected($event->user));
+                $this->notifyUser($event->user, new UserRejected($event->user));
             }
         } elseif ($event->old_state === UserState::ACTIVE) {
             Log::info('User state change from active to ??');
@@ -127,7 +129,7 @@ class NotificationEvents extends Listener
     public function onPirepAccepted(PirepAccepted $event): void
     {
         Log::info('NotificationEvents::onPirepAccepted: '.$event->pirep->id.' accepted');
-        $this->notifyUser($event->pirep->user, new \App\Notifications\PirepAccepted($event->pirep));
+        $this->notifyUser($event->pirep->user, new Events\PirepAccepted($event->pirep));
     }
 
     /**
@@ -138,6 +140,6 @@ class NotificationEvents extends Listener
     public function onPirepRejected(PirepRejected $event): void
     {
         Log::info('NotificationEvents::onPirepRejected: '.$event->pirep->id.' rejected');
-        $this->notifyUser($event->pirep->user, new \App\Notifications\PirepRejected($event->pirep));
+        $this->notifyUser($event->pirep->user, new Events\PirepRejected($event->pirep));
     }
 }

@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Notifications;
+namespace App\Notifications\Events;
 
 use App\Models\User;
+use App\Notifications\BaseNotification;
 use App\Notifications\Channels\MailChannel;
 
-class UserRejected extends BaseNotification
+class UserPending extends BaseNotification
 {
     use MailChannel;
 
@@ -21,8 +22,8 @@ class UserRejected extends BaseNotification
         $this->user = $user;
 
         $this->setMailable(
-            'Your registration has been denied',
-            'notifications.mail.user.rejected',
+            'Your registration is pending',
+            'notifications.mail.user.pending',
             ['user' => $this->user]
         );
     }

@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Notifications;
+namespace App\Notifications\Events;
 
 use App\Models\User;
+use App\Notifications\BaseNotification;
 use App\Notifications\Channels\MailChannel;
 
-class UserPending extends BaseNotification
+class UserRegistered extends BaseNotification
 {
     use MailChannel;
 
@@ -14,6 +15,8 @@ class UserPending extends BaseNotification
     private $user;
 
     /**
+     * Create a new notification instance.
+     *
      * @param \App\Models\User $user
      */
     public function __construct(User $user)
@@ -21,19 +24,12 @@ class UserPending extends BaseNotification
         $this->user = $user;
 
         $this->setMailable(
-            'Your registration is pending',
-            'notifications.mail.user.pending',
+            'Welcome to '.config('app.name').'!',
+            'notifications.mail.user.registered',
             ['user' => $this->user]
         );
     }
 
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param mixed $notifiable
-     *
-     * @return array
-     */
     public function toArray($notifiable)
     {
         return [

@@ -9,7 +9,7 @@ use App\Listeners\AwardListener;
 use App\Listeners\BidEvents;
 use App\Listeners\ExpenseListener;
 use App\Listeners\FinanceEvents;
-use App\Listeners\NotificationEvents;
+use App\Notifications\EventHandler;
 use App\Listeners\SetUserActive;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -38,6 +38,6 @@ class EventServiceProvider extends ServiceProvider
     protected $subscribe = [
         BidEvents::class,
         FinanceEvents::class,
-        NotificationEvents::class,
+        EventHandler::class,
     ];
 }

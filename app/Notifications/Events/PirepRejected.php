@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Notifications;
+namespace App\Notifications\Events;
 
 use App\Models\Pirep;
+use App\Notifications\BaseNotification;
 use App\Notifications\Channels\MailChannel;
 
-class PirepAccepted extends BaseNotification
+class PirepRejected extends BaseNotification
 {
     use MailChannel;
 
@@ -23,8 +24,8 @@ class PirepAccepted extends BaseNotification
         $this->pirep = $pirep;
 
         $this->setMailable(
-            'PIREP Accepted!',
-            'notifications.mail.pirep.accepted',
+            'PIREP Rejected!',
+            'notifications.mail.pirep.rejected',
             ['pirep' => $this->pirep]
         );
     }
