@@ -6,27 +6,28 @@ use App\Contracts\Controller;
 use App\Http\Requests\CreateAirlineRequest;
 use App\Http\Requests\UpdateAirlineRequest;
 use App\Repositories\AirlineRepository;
+use App\Services\AirlineService;
 use App\Support\Countries;
-use Flash;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Laracasts\Flash\Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
-use Response;
 
-/**
- * Class AirlinesController
- */
 class AirlinesController extends Controller
 {
     private $airlineRepo;
+    private $airlineSvc;
 
     /**
      * AirlinesController constructor.
      *
      * @param AirlineRepository $airlinesRepo
+     * @param                   $airlineSvc
      */
-    public function __construct(AirlineRepository $airlinesRepo)
+    public function __construct(AirlineRepository $airlinesRepo, AirlineService $airlineSvc)
     {
         $this->airlineRepo = $airlinesRepo;
+        $this->airlineSvc = $airlineSvc;
     }
 
     /**
@@ -145,10 +146,15 @@ class AirlinesController extends Controller
      */
     public function destroy($id)
     {
-        $airlines = $this->airlineRepo->findWithoutFail($id);
+        $airline = $this->airlineRepo->findWithoutFail($id);
 
-        if (empty($airlines)) {
+        if (empty($airline)) {
             Flash::error('Airlines not found');
+            return redirect(route('admin.airlines.index'));
+        }
+
+        if (!$this->airlineSvc->canDeleteAirline($airline)) {
+            Flash::error('Airlines cannot be deleted; flights/PIREPs/subfleets exist');
             return redirect(route('admin.airlines.index'));
         }
 

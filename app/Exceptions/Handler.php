@@ -2,10 +2,10 @@
 
 namespace App\Exceptions;
 
-use App\Exceptions\Converters\GenericException;
+use App\Exceptions\Converters\GenericExceptionAbstract;
 use App\Exceptions\Converters\NotFound;
-use App\Exceptions\Converters\SymfonyException;
-use App\Exceptions\Converters\ValidationException;
+use App\Exceptions\Converters\SymfonyExceptionAbstract;
+use App\Exceptions\Converters\ValidationExceptionAbstract;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
@@ -33,7 +33,7 @@ class Handler extends ExceptionHandler
     protected $dontReport = [
         AuthenticationException::class,
         AuthorizationException::class,
-        HttpException::class,
+        AbstractHttpException::class,
         IlluminateValidationException::class,
         ModelNotFoundException::class,
         SymfonyHttpException::class,
@@ -53,7 +53,7 @@ class Handler extends ExceptionHandler
         if ($request->is('api/*')) {
             Log::error('API Error', $exception->getTrace());
 
-            if ($exception instanceof HttpException) {
+            if ($exception instanceof AbstractHttpException) {
                 return $exception->getResponse();
             }
 
@@ -69,21 +69,21 @@ class Handler extends ExceptionHandler
 
             // Custom exceptions should be extending HttpException
             if ($exception instanceof SymfonyHttpException) {
-                $error = new SymfonyException($exception);
+                $error = new SymfonyExceptionAbstract($exception);
                 return $error->getResponse();
             }
 
             // Create the detailed errors from the validation errors
             if ($exception instanceof IlluminateValidationException) {
-                $error = new ValidationException($exception);
+                $error = new ValidationExceptionAbstract($exception);
                 return $error->getResponse();
             }
 
-            $error = new GenericException($exception);
+            $error = new GenericExceptionAbstract($exception);
             return $error->getResponse();
         }
 
-        if ($exception instanceof HttpException
+        if ($exception instanceof AbstractHttpException
             && $exception->getStatusCode() === 403) {
             return redirect()->guest('login');
         }
@@ -112,7 +112,7 @@ class Handler extends ExceptionHandler
     /**
      * Render the given HttpException.
      *
-     * @param HttpException $e
+     * @param AbstractHttpException $e
      *
      * @return \Illuminate\Http\Response|Response
      */

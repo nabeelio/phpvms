@@ -4,7 +4,7 @@ namespace App\Exceptions;
 
 use App\Models\Flight;
 
-class DuplicateFlight extends HttpException
+class DuplicateFlight extends AbstractHttpException
 {
     private $flight;
 

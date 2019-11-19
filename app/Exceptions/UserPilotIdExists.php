@@ -4,7 +4,7 @@ namespace App\Exceptions;
 
 use App\Models\User;
 
-class UserPilotIdExists extends HttpException
+class UserPilotIdExists extends AbstractHttpException
 {
     public const MESSAGE = 'A user with this pilot ID already exists';
 

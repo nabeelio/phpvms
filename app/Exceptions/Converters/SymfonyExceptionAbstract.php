@@ -2,19 +2,21 @@
 
 namespace App\Exceptions\Converters;
 
-use App\Exceptions\HttpException;
-use Exception;
+use App\Exceptions\AbstractHttpException;
+use Symfony\Component\HttpKernel\Exception\HttpException as SymfonyHttpException;
 
-class GenericException extends HttpException
+class SymfonyExceptionAbstract extends AbstractHttpException
 {
     private $exception;
 
-    public function __construct(Exception $exception)
+    public function __construct(SymfonyHttpException $exception)
     {
         $this->exception = $exception;
         parent::__construct(
-            503,
-            $exception->getMessage()
+            $exception->getStatusCode(),
+            $exception->getMessage(),
+            null,
+            $exception->getHeaders()
         );
     }
 
@@ -23,7 +25,7 @@ class GenericException extends HttpException
      */
     public function getErrorType(): string
     {
-        return 'internal-error';
+        return 'http-exception';
     }
 
     /**
@@ -39,14 +41,13 @@ class GenericException extends HttpException
      */
     public function getErrorMetadata(): array
     {
-        $metadata = [];
-        $metadata['original_exception'] = get_class($this->exception);
-
         // Only add trace if in dev
         if (config('app.env') === 'dev') {
-            $metadata['trace'] = $this->exception->getTrace()[0];
+            return [
+                'trace' => $this->exception->getTrace()[0],
+            ];
         }
 
-        return $metadata;
+        return [];
     }
 }

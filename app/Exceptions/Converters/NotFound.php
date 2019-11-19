@@ -2,10 +2,10 @@
 
 namespace App\Exceptions\Converters;
 
-use App\Exceptions\HttpException;
+use App\Exceptions\AbstractHttpException;
 use Exception;
 
-class NotFound extends HttpException
+class NotFound extends AbstractHttpException
 {
     private $exception;
 

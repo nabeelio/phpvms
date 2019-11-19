@@ -2,7 +2,7 @@
 
 namespace App\Exceptions;
 
-class AirportNotFound extends HttpException
+class AirportNotFound extends AbstractHttpException
 {
     private $icao;
 

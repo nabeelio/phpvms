@@ -5,7 +5,7 @@ namespace App\Exceptions;
 use App\Models\Airport;
 use App\Models\User;
 
-class UserNotAtAirport extends HttpException
+class UserNotAtAirport extends AbstractHttpException
 {
     public const MESSAGE = 'Pilot is not at the departure airport';
 

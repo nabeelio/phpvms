@@ -7,7 +7,7 @@ use App\Models\Aircraft;
 /**
  * Class AircraftNotAtAirport
  */
-class AircraftNotAtAirport extends HttpException
+class AircraftNotAtAirport extends AbstractHttpException
 {
     public const MESSAGE = 'The aircraft is not at the departure airport';
 

@@ -4,7 +4,7 @@ namespace App\Exceptions;
 
 use App\Models\Flight;
 
-class BidExistsForFlight extends HttpException
+class BidExistsForFlight extends AbstractHttpException
 {
     private $flight;
 

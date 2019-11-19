@@ -5,7 +5,7 @@ namespace App\Exceptions;
 use App\Models\Aircraft;
 use App\Models\User;
 
-class AircraftPermissionDenied extends HttpException
+class AircraftPermissionDenied extends AbstractHttpException
 {
     public const MESSAGE = 'User is not allowed to fly this aircraft';
 

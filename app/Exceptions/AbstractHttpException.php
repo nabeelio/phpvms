@@ -4,7 +4,7 @@ namespace App\Exceptions;
 
 use Symfony\Component\HttpKernel\Exception\HttpException as SymfonyHttpException;
 
-abstract class HttpException extends SymfonyHttpException
+abstract class AbstractHttpException extends SymfonyHttpException
 {
     /**
      * Return the RFC 7807 error type (without the URL root)
