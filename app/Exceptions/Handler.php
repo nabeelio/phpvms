@@ -117,8 +117,6 @@ class Handler extends ExceptionHandler
      */
     protected function renderHttpException(HttpExceptionInterface $e)
     {
-        Flash::error($e->getMessage());
-
         $status = $e->getStatusCode();
         view()->replaceNamespace('errors', [
             resource_path('views/layouts/'.setting('general.theme', 'default').'/errors'),

@@ -1,25 +1,20 @@
 <?php
-/**
- * Determine if an update is pending by checking if there are available migrations
- * Redirect to the updater if there are. Done as middlware so it can happen before
- * any authentication checks when someone goes to the admin panel
- */
 
 namespace App\Http\Middleware;
 
-use App\Services\Installer\MigrationService;
+use App\Services\Installer\InstallerService;
 use Closure;
 
+/**
+ * Determine if an update is pending by checking in with the Installer service
+ */
 class UpdatePending
 {
-    private $migrationSvc;
+    private $installerSvc;
 
-    /**
-     * @param MigrationService $migrationSvc
-     */
-    public function __construct(MigrationService $migrationSvc)
+    public function __construct(InstallerService $installerSvc)
     {
-        $this->migrationSvc = $migrationSvc;
+        $this->installerSvc = $installerSvc;
     }
 
     /**
@@ -30,7 +25,7 @@ class UpdatePending
      */
     public function handle($request, Closure $next)
     {
-        if (count($this->migrationSvc->migrationsAvailable()) > 0) {
+        if ($this->installerSvc->isUpgradePending()) {
             return redirect('/update/step1');
         }
 

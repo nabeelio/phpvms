@@ -4,7 +4,7 @@
  */
 Route::group([
     'namespace'  => 'Admin', 'prefix' => 'admin', 'as' => 'admin.',
-    'middleware' => ['update_pending', 'ability:admin,admin-access'],
+    'middleware' => ['ability:admin,admin-access'],
 ], static function () {
     // CRUD for airlines
     Route::resource('airlines', 'AirlinesController');
@@ -90,8 +90,8 @@ Route::group([
     )->name('users.regen_apikey');
 
     // defaults
-    Route::get('', ['uses' => 'DashboardController@index']);
-    Route::get('/', ['uses' => 'DashboardController@index']);
+    Route::get('', ['uses' => 'DashboardController@index'])->middleware('update_pending');
+    Route::get('/', ['uses' => 'DashboardController@index'])->middleware('update_pending');
 
     Route::get('dashboard', ['uses' => 'DashboardController@index', 'name' => 'dashboard']);
     Route::match(
