@@ -18,6 +18,7 @@ use App\Models\Traits\FilesTrait;
  * @property float   cost_block_hour
  * @property float   cost_delay_minute
  * @property Airline airline
+ * @property int     airline_id
  */
 class Subfleet extends Model
 {

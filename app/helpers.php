@@ -123,8 +123,7 @@ if (!function_exists('skin_view')) {
             return view($template, $vars, $merge_data);
         }
 
-        // TODO: Look for an overridden template in a special folder
-        $tpl = 'layouts/'.config('phpvms.skin').'/'.$template;
+        $tpl = 'layouts/'.setting('general.theme', 'default').'/'.$template;
 
         return view($tpl, $vars, $merge_data);
     }
@@ -134,6 +133,14 @@ if (!function_exists('skin_view')) {
  * Shortcut for retrieving a setting value
  */
 if (!function_exists('setting')) {
+    /**
+     * Read a setting from the settings table
+     *
+     * @param       $key
+     * @param mixed $default
+     *
+     * @return mixed|null
+     */
     function setting($key, $default = null)
     {
         $settingRepo = app('setting');

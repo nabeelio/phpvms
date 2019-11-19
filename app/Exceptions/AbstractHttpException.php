@@ -3,8 +3,12 @@
 namespace App\Exceptions;
 
 use Symfony\Component\HttpKernel\Exception\HttpException as SymfonyHttpException;
+use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 
-abstract class HttpException extends SymfonyHttpException
+/**
+ * Abstract class for an exception which needs to satisty the RFC 78707 interface
+ */
+abstract class AbstractHttpException extends SymfonyHttpException implements HttpExceptionInterface
 {
     /**
      * Return the RFC 7807 error type (without the URL root)
@@ -45,7 +49,7 @@ abstract class HttpException extends SymfonyHttpException
     /**
      * Return a response object that can be used by Laravel
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
      */
     public function getResponse()
     {
@@ -53,11 +57,6 @@ abstract class HttpException extends SymfonyHttpException
         $headers['content-type'] = 'application/problem+json';
         $headers = array_merge($headers, $this->getHeaders());
 
-        return response()
-            ->json(
-                $this->getJson(),
-                $this->getStatusCode(),
-                $headers
-            );
+        return response()->json($this->getJson(), $this->getStatusCode(), $headers);
     }
 }

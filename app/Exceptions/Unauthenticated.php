@@ -2,7 +2,7 @@
 
 namespace App\Exceptions;
 
-class Unauthenticated extends HttpException
+class Unauthenticated extends AbstractHttpException
 {
     public function __construct()
     {

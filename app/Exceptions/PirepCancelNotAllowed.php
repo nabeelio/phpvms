@@ -4,7 +4,7 @@ namespace App\Exceptions;
 
 use App\Models\Pirep;
 
-class PirepCancelNotAllowed extends HttpException
+class PirepCancelNotAllowed extends AbstractHttpException
 {
     private $pirep;
 

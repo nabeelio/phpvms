@@ -4,7 +4,7 @@ namespace App\Exceptions;
 
 use App\Models\User;
 
-class UserBidLimit extends HttpException
+class UserBidLimit extends AbstractHttpException
 {
     private $user;
 

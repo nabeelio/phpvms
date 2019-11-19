@@ -22,15 +22,13 @@ class Acars extends Response
         $res = parent::toArray($request);
 
         // Set these to the response units
-        if (!empty($res['distance'])) {
-            $distance = new Distance($res['distance'], config('phpvms.internal_units.distance'));
-            $res['distance'] = $distance->getResponseUnits();
-        }
+        $distance = !empty($res['distance']) ? $res['distance'] : 0;
+        $distance = new Distance($distance, config('phpvms.internal_units.distance'));
+        $res['distance'] = $distance->getResponseUnits();
 
-        if (!empty($res['fuel'])) {
-            $fuel = new Fuel($res['fuel'], config('phpvms.internal_units.fuel'));
-            $res['fuel'] = $fuel->getResponseUnits();
-        }
+        $fuel = !empty($res['fuel']) ? $res['fuel'] : 0;
+        $fuel = new Fuel($fuel, config('phpvms.internal_units.fuel'));
+        $res['fuel'] = $fuel->getResponseUnits();
 
         return $res;
     }

@@ -96,4 +96,14 @@ class Airline extends Model
     {
         $this->attributes['icao'] = strtoupper($icao);
     }
+
+    public function flights()
+    {
+        return $this->belongsTo(Flight::class, 'airline_id');
+    }
+
+    public function pireps()
+    {
+        return $this->belongsTo(Pirep::class, 'airline_id');
+    }
 }

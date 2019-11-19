@@ -2,10 +2,10 @@
 
 namespace App\Exceptions\Converters;
 
-use App\Exceptions\HttpException;
+use App\Exceptions\AbstractHttpException;
 use Exception;
 
-class NotFound extends HttpException
+class GenericExceptionAbstract extends AbstractHttpException
 {
     private $exception;
 
@@ -13,7 +13,7 @@ class NotFound extends HttpException
     {
         $this->exception = $exception;
         parent::__construct(
-            404,
+            503,
             $exception->getMessage()
         );
     }
@@ -23,7 +23,7 @@ class NotFound extends HttpException
      */
     public function getErrorType(): string
     {
-        return 'not-found';
+        return 'internal-error';
     }
 
     /**
@@ -39,6 +39,14 @@ class NotFound extends HttpException
      */
     public function getErrorMetadata(): array
     {
-        return [];
+        $metadata = [];
+        $metadata['original_exception'] = get_class($this->exception);
+
+        // Only add trace if in dev
+        if (config('app.env') === 'dev') {
+            $metadata['trace'] = $this->exception->getTrace()[0];
+        }
+
+        return $metadata;
     }
 }

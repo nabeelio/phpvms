@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Exceptions\Converters;
+namespace App\Exceptions;
 
-use App\Exceptions\HttpException;
 use Exception;
 
-class GenericException extends HttpException
+class AssetNotFound extends AbstractHttpException
 {
     private $exception;
 
@@ -13,7 +12,7 @@ class GenericException extends HttpException
     {
         $this->exception = $exception;
         parent::__construct(
-            503,
+            404,
             $exception->getMessage()
         );
     }
@@ -23,7 +22,7 @@ class GenericException extends HttpException
      */
     public function getErrorType(): string
     {
-        return 'internal-error';
+        return 'not-found';
     }
 
     /**
@@ -39,14 +38,6 @@ class GenericException extends HttpException
      */
     public function getErrorMetadata(): array
     {
-        $metadata = [];
-        $metadata['original_exception'] = get_class($this->exception);
-
-        // Only add trace if in dev
-        if (config('app.env') === 'dev') {
-            $metadata['trace'] = $this->exception->getTrace()[0];
-        }
-
-        return $metadata;
+        return [];
     }
 }

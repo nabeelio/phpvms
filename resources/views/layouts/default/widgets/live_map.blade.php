@@ -98,8 +98,8 @@ and being mindful of the rivets bindings
                     <td>{ pirep.aircraft.name }</td>
                     <td>{ pirep.position.altitude }</td>
                     <td>{ pirep.position.gs }</td>
-                    <td>{ pirep.position.distance.{{setting('units.distance')}} } /
-                        { pirep.planned_distance.{{setting('units.distance')}} }
+                    <td>{ pirep.position.distance.{{setting('units.distance')}} | fallback 0 } /
+                        { pirep.planned_distance.{{setting('units.distance')}} | fallback 0 }
                     </td>
                     <td>{ pirep.status_text }</td>
                 </tr>
