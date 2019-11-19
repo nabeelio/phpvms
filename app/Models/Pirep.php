@@ -35,6 +35,7 @@ use Illuminate\Support\Collection;
  * @property float       fuel_used
  * @property float       distance
  * @property float       planned_distance
+ * @property int         level
  * @property string      route
  * @property int         score
  * @property User        user
@@ -127,6 +128,7 @@ class Pirep extends Model
         'arr_airport_id' => 'required',
         'block_fuel'     => 'required|numeric',
         'fuel_used'      => 'required|numeric',
+        'level'          => 'nullable|numeric',
         'notes'          => 'nullable',
         'route'          => 'nullable',
     ];
@@ -295,36 +297,6 @@ class Pirep extends Model
 
         return $field_values->sortBy('source');
     }
-
-    /**
-     * Look up the flight, based on the PIREP flight info
-     *
-     * @param mixed $value
-     *
-     * @return Flight|null
-     */
-    /*public function getFlightAttribute(): ?Flight
-    {
-        if (!empty($this->flight_id)) {
-            return Flight::find($this->flight_id);
-        }
-
-        $where = [
-            'airline_id'    => $this->airline_id,
-            'flight_number' => $this->flight_number,
-            'active'        => true,
-        ];
-
-        if (filled($this->route_code)) {
-            $where['route_code'] = $this->route_code;
-        }
-
-        if (filled($this->route_leg)) {
-            $where['route_leg'] = $this->route_leg;
-        }
-
-        return Flight::where($where)->first();
-    }*/
 
     /**
      * Set the amount of fuel used

@@ -95,7 +95,7 @@ flight reports that have been filed. You've been warned!
         </div>
 
         <div class="row">
-          <div class="col-3">
+          <div class="col-6">
             {{ Form::label('hours', __('flights.flighttime')) }}
             @if(!empty($pirep) && $pirep->read_only)
               <p>
@@ -122,6 +122,22 @@ flight reports that have been filed. You've been warned!
               </div>
               <p class="text-danger">{{ $errors->first('hours') }}</p>
               <p class="text-danger">{{ $errors->first('minutes') }}</p>
+            @endif
+          </div>
+          <div class="col-6">
+            {{ Form::label('level', __('flights.level')) }} ({{config('phpvms.internal_units.altitude')}})
+            @if(!empty($pirep) && $pirep->read_only)
+              <p>{{ $pirep->level }}</p>
+            @else
+              <div class="input-group input-group-sm form-group">
+                {{ Form::number('level', null, [
+                    'class' => 'form-control',
+                    'min' => '0',
+                    'step' => '0.01',
+                    'readonly' => (!empty($pirep) && $pirep->read_only),
+                    ]) }}
+              </div>
+              <p class="text-danger">{{ $errors->first('level') }}</p>
             @endif
           </div>
         </div>
