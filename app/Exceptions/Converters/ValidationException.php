@@ -3,10 +3,9 @@
 namespace App\Exceptions\Converters;
 
 use App\Exceptions\AbstractHttpException;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException as IlluminateValidationException;
 
-class ValidationExceptionAbstract extends AbstractHttpException
+class ValidationException extends AbstractHttpException
 {
     private $validationException;
     private $errorDetail;

@@ -23,8 +23,8 @@ class AirlineService extends Service
         SubfleetRepository $subfleetRepo
     ) {
         $this->airlineRepo = $airlineRepo;
-        $this->pirepRepo = $pirepRepo;
         $this->flightRepo = $flightRepo;
+        $this->pirepRepo = $pirepRepo;
         $this->subfleetRepo = $subfleetRepo;
     }
 
@@ -37,7 +37,7 @@ class AirlineService extends Service
      */
     public function canDeleteAirline(Airline $airline): bool
     {
-        // Check these asset counts to see if the airline exists for any of these
+        // Check these asset counts in these repositories
         $repos = [
             $this->pirepRepo,
             $this->flightRepo,

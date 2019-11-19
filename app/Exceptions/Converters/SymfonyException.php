@@ -5,7 +5,7 @@ namespace App\Exceptions\Converters;
 use App\Exceptions\AbstractHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException as SymfonyHttpException;
 
-class SymfonyExceptionAbstract extends AbstractHttpException
+class SymfonyException extends AbstractHttpException
 {
     private $exception;
 

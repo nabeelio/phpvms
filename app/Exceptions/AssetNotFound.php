@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Exceptions\Converters;
+namespace App\Exceptions;
 
-use App\Exceptions\AbstractHttpException;
 use Exception;
 
-class NotFound extends AbstractHttpException
+class AssetNotFound extends AbstractHttpException
 {
     private $exception;
 

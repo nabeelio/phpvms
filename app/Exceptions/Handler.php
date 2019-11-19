@@ -3,9 +3,8 @@
 namespace App\Exceptions;
 
 use App\Exceptions\Converters\GenericExceptionAbstract;
-use App\Exceptions\Converters\NotFound;
-use App\Exceptions\Converters\SymfonyExceptionAbstract;
-use App\Exceptions\Converters\ValidationExceptionAbstract;
+use App\Exceptions\Converters\SymfonyException;
+use App\Exceptions\Converters\ValidationException;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
@@ -63,19 +62,19 @@ class Handler extends ExceptionHandler
 
             if ($exception instanceof ModelNotFoundException ||
                 $exception instanceof NotFoundHttpException) {
-                $error = new NotFound($exception);
+                $error = new AssetNotFound($exception);
                 return $error->getResponse();
             }
 
             // Custom exceptions should be extending HttpException
             if ($exception instanceof SymfonyHttpException) {
-                $error = new SymfonyExceptionAbstract($exception);
+                $error = new SymfonyException($exception);
                 return $error->getResponse();
             }
 
             // Create the detailed errors from the validation errors
             if ($exception instanceof IlluminateValidationException) {
-                $error = new ValidationExceptionAbstract($exception);
+                $error = new ValidationException($exception);
                 return $error->getResponse();
             }
 
@@ -118,6 +117,8 @@ class Handler extends ExceptionHandler
      */
     protected function renderHttpException(HttpExceptionInterface $e)
     {
+        Flash::error($e->getMessage());
+
         $status = $e->getStatusCode();
         view()->replaceNamespace('errors', [
             resource_path('views/layouts/'.config('phpvms.skin').'/errors'),
@@ -126,7 +127,6 @@ class Handler extends ExceptionHandler
         ]);
 
         if (view()->exists("errors::{$status}")) {
-            //if (view()->exists('layouts' . config('phpvms.skin') .'.errors.' .$status)) {
             return response()->view("errors::{$status}", [
                 'exception' => $e,
                 'SKIN_NAME' => config('phpvms.skin'),
