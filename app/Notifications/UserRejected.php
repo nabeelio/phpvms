@@ -3,14 +3,13 @@
 namespace App\Notifications;
 
 use App\Models\User;
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Notifications\Notification;
+use App\Notifications\Channels\MailChannel;
 
-class UserRejected extends Notification implements ShouldQueue
+class UserRejected extends BaseNotification
 {
-    use Queueable;
+    use MailChannel;
+
+    public $channels = ['mail'];
 
     private $user;
 
@@ -20,33 +19,12 @@ class UserRejected extends Notification implements ShouldQueue
     public function __construct(User $user)
     {
         $this->user = $user;
-    }
 
-    /**
-     * Get the notification's delivery channels.
-     *
-     * @param mixed $notifiable
-     *
-     * @return array
-     */
-    public function via($notifiable)
-    {
-        return ['mail'];
-    }
-
-    /**
-     * Get the mail representation of the notification.
-     *
-     * @param mixed $notifiable
-     *
-     * @return \Illuminate\Notifications\Messages\MailMessage
-     */
-    public function toMail($notifiable)
-    {
-        return (new MailMessage())
-            ->from(config('mail.from.address', 'no-reply@phpvms.net'))
-            ->subject('Your registration has been denied')
-            ->markdown('mail.user.rejected', ['user' => $this->user]);
+        $this->setMailable(
+            'Your registration has been denied',
+            'notifications.mail.user.rejected',
+            ['user' => $this->user]
+        );
     }
 
     /**

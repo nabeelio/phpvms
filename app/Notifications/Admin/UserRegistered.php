@@ -46,8 +46,8 @@ class UserRegistered extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage())
-            ->from(config('mail.from.address'))
-            ->markdown('mail.admin.user.registered')
+            ->from(config('mail.from.address', 'no-reply@phpvms.net'))
+            ->markdown('notifications.mail.admin.user.registered')
             ->subject('A new user registered')
             ->with(['user' => $this->user]);
     }

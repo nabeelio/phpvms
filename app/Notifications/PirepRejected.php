@@ -3,14 +3,13 @@
 namespace App\Notifications;
 
 use App\Models\Pirep;
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Notifications\Notification;
+use App\Notifications\Channels\MailChannel;
 
-class PirepRejected extends Notification implements ShouldQueue
+class PirepRejected extends BaseNotification
 {
-    use Queueable;
+    use MailChannel;
+
+    public $channels = ['mail'];
 
     private $pirep;
 
@@ -22,33 +21,12 @@ class PirepRejected extends Notification implements ShouldQueue
     public function __construct(Pirep $pirep)
     {
         $this->pirep = $pirep;
-    }
 
-    /**
-     * Get the notification's delivery channels.
-     *
-     * @param mixed $notifiable
-     *
-     * @return array
-     */
-    public function via($notifiable)
-    {
-        return ['mail'];
-    }
-
-    /**
-     * Get the mail representation of the notification.
-     *
-     * @param mixed $notifiable
-     *
-     * @return \Illuminate\Notifications\Messages\MailMessage
-     */
-    public function toMail($notifiable)
-    {
-        return (new MailMessage())
-            ->from(config('mail.from.address', 'no-reply@phpvms.net'))
-            ->subject('PIREP Rejected!')
-            ->markdown('mail.pirep.rejected', ['pirep' => $this->pirep]);
+        $this->setMailable(
+            'PIREP Rejected!',
+            'notifications.mail.pirep.rejected',
+            ['pirep' => $this->pirep]
+        );
     }
 
     /**
