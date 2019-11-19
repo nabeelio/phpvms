@@ -7,8 +7,6 @@ use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 
 /**
  * Abstract class for an exception which needs to satisty the RFC 78707 interface
- *
- * @package App\Exceptions
  */
 abstract class AbstractHttpException extends SymfonyHttpException implements HttpExceptionInterface
 {
