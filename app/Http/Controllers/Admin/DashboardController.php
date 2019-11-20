@@ -7,6 +7,7 @@ use App\Repositories\KvpRepository;
 use App\Repositories\NewsRepository;
 use App\Repositories\PirepRepository;
 use App\Repositories\UserRepository;
+use App\Services\NewsService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -15,7 +16,7 @@ use Laracasts\Flash\Flash;
 class DashboardController extends Controller
 {
     private $kvpRepo;
-    private $newsRepo;
+    private $newsSvc;
     private $pirepRepo;
     private $userRepo;
 
@@ -23,20 +24,20 @@ class DashboardController extends Controller
      * DashboardController constructor.
      *
      * @param KvpRepository   $kvpRepo
-     * @param NewsRepository  $newsRepo
      * @param PirepRepository $pirepRepo
      * @param UserRepository  $userRepo
+     * @param                 $newsSvc
      */
     public function __construct(
         KvpRepository $kvpRepo,
-        NewsRepository $newsRepo,
+        NewsService $newsSvc,
         PirepRepository $pirepRepo,
         UserRepository $userRepo
     ) {
         $this->kvpRepo = $kvpRepo;
-        $this->newsRepo = $newsRepo;
         $this->pirepRepo = $pirepRepo;
         $this->userRepo = $userRepo;
+        $this->newsSvc = $newsSvc;
     }
 
     /**
@@ -93,10 +94,10 @@ class DashboardController extends Controller
             $attrs = $request->post();
             $attrs['user_id'] = Auth::user()->id;
 
-            $this->newsRepo->create($attrs);
+            $this->newsSvc->addNews($attrs);
         } elseif ($request->isMethod('delete')) {
-            $news_id = $request->input('news_id');
-            $this->newsRepo->delete($news_id);
+            $id = $request->input('news_id');
+            $this->newsSvc->deleteNews($id);
         }
 
         return view('admin.dashboard.news', [

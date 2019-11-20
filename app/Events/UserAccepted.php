@@ -3,24 +3,11 @@
 namespace App\Events;
 
 use App\Models\User;
-use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Queue\SerializesModels;
 
-/**
- * Class UserAccepted
- */
-class UserAccepted
+class UserAccepted extends BaseEvent
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
-
     public $user;
 
-    /**
-     * UserAccepted constructor.
-     *
-     * @param User $user
-     */
     public function __construct(User $user)
     {
         $this->user = $user;
