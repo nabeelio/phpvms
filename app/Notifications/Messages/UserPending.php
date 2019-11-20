@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Notifications\Events;
+namespace App\Notifications\Messages;
 
 use App\Models\User;
 use App\Notifications\BaseNotification;
@@ -9,8 +9,6 @@ use App\Notifications\Channels\MailChannel;
 class UserPending extends BaseNotification
 {
     use MailChannel;
-
-    public $channels = ['mail'];
 
     private $user;
 

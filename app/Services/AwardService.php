@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Contracts\Service;
 use App\Support\ClassLoader;
 use Nwidart\Modules\Facades\Module;
+use function get_class;
 
 class AwardService extends Service
 {
@@ -18,9 +19,9 @@ class AwardService extends Service
         $awards = [];
         $formatted_awards = [];
 
-        // Find the awards in the app/Awards directory
-        $classes = ClassLoader::getClassesInPath(app_path('/Awards'));
-        $awards = array_merge($awards, $classes);
+        // Find the awards in the modules/Awards directory
+//        $classes = ClassLoader::getClassesInPath(module_path('Awards'));
+//        $awards = array_merge($awards, $classes);
 
         // Look throughout all the other modules, in the module/{MODULE}/Awards directory
         foreach (Module::all() as $module) {
@@ -33,7 +34,7 @@ class AwardService extends Service
         }
 
         foreach ($awards as $award) {
-            $formatted_awards[\get_class($award)] = $award;
+            $formatted_awards[get_class($award)] = $award;
         }
 
         return $formatted_awards;

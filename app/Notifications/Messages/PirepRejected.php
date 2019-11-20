@@ -1,19 +1,14 @@
 <?php
 
-namespace App\Notifications\Events;
+namespace App\Notifications\Messages;
 
 use App\Models\Pirep;
 use App\Notifications\BaseNotification;
 use App\Notifications\Channels\MailChannel;
 
-/**
- * Send the PIREP accepted message to a particular user
- */
-class PirepAccepted extends BaseNotification
+class PirepRejected extends BaseNotification
 {
     use MailChannel;
-
-    public $channels = ['mail'];
 
     private $pirep;
 
@@ -24,11 +19,13 @@ class PirepAccepted extends BaseNotification
      */
     public function __construct(Pirep $pirep)
     {
+        parent::__construct();
+
         $this->pirep = $pirep;
 
         $this->setMailable(
-            'PIREP Accepted!',
-            'notifications.mail.pirep.accepted',
+            'PIREP Rejected!',
+            'notifications.mail.pirep.rejected',
             ['pirep' => $this->pirep]
         );
     }

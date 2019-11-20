@@ -1,40 +1,33 @@
 <?php
 
-namespace App\Notifications\Events;
+namespace App\Notifications\Messages;
 
 use App\Models\User;
 use App\Notifications\BaseNotification;
 use App\Notifications\Channels\MailChannel;
 
-class UserRejected extends BaseNotification
+class AdminUserRegistered extends BaseNotification
 {
     use MailChannel;
-
-    public $channels = ['mail'];
 
     private $user;
 
     /**
+     * Create a new notification instance.
+     *
      * @param \App\Models\User $user
      */
     public function __construct(User $user)
     {
-        $this->user = $user;
+        parent::__construct();
 
+        $this->user = $user;
         $this->setMailable(
-            'Your registration has been denied',
-            'notifications.mail.user.rejected',
-            ['user' => $this->user]
+            'A new user registered', 'notifications.mail.admin.user.registered',
+            ['user' => $user]
         );
     }
 
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param mixed $notifiable
-     *
-     * @return array
-     */
     public function toArray($notifiable)
     {
         return [

@@ -3,6 +3,7 @@
 namespace App\Notifications;
 
 use App\Contracts\Listener;
+use App\Events\NewsAdded;
 use App\Events\PirepAccepted;
 use App\Events\PirepFiled;
 use App\Events\PirepRejected;
@@ -10,28 +11,32 @@ use App\Events\UserRegistered;
 use App\Events\UserStateChanged;
 use App\Models\Enums\UserState;
 use App\Models\User;
-use App\Notifications\Events\PirepSubmitted;
-use App\Notifications\Events\UserPending;
-use App\Notifications\Events\UserRejected;
-use Illuminate\Contracts\Events\Dispatcher;
+use App\Notifications\Messages\PirepSubmitted;
+use App\Notifications\Messages\UserPending;
+use App\Notifications\Messages\UserRejected;
+use App\Notifications\Notifiables\Broadcast;
+use Exception;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
 
 /**
- * Handle sending emails on different events
+ * Listen for different events and map them to different notifications
  */
 class EventHandler extends Listener
 {
-    /**
-     * @param Dispatcher $events
-     */
-    public function subscribe(Dispatcher $events): void
+    private static $broadcastNotifyable;
+
+    public static $callbacks = [
+        PirepAccepted::class    => 'onPirepAccepted',
+        PirepFiled::class       => 'onPirepFile',
+        PirepRejected::class    => 'onPirepRejected',
+        UserRegistered::class   => 'onUserRegister',
+        UserStateChanged::class => 'onUserStateChange',
+    ];
+
+    public function __construct()
     {
-        $events->listen(UserRegistered::class, 'App\Notifications\EventHandler@onUserRegister');
-        $events->listen(UserStateChanged::class, 'App\Notifications\EventHandler@onUserStateChange');
-        $events->listen(PirepFiled::class, 'App\Notifications\EventHandler@onPirepFile');
-        $events->listen(PirepAccepted::class, 'App\Notifications\EventHandler@onPirepAccepted');
-        $events->listen(PirepRejected::class, 'App\Notifications\EventHandler@onPirepRejected');
+        static::$broadcastNotifyable = app(Broadcast::class);
     }
 
     /**
@@ -45,7 +50,7 @@ class EventHandler extends Listener
 
         try {
             Notification::send($admin_users, $notification);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Log::emergency('Error emailing admins, malformed email='.$e->getMessage());
         }
     }
@@ -58,7 +63,22 @@ class EventHandler extends Listener
     {
         try {
             $user->notify($notification);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
+            Log::emergency('Error emailing admins, malformed email='.$e->getMessage());
+        }
+    }
+
+    /**
+     * Send a notification to all users
+     *
+     * @param $notification
+     */
+    protected function notifyAllUsers($notification)
+    {
+        $users = User::all()->get();
+        try {
+            Notification::send($users, $notification);
+        } catch (Exception $e) {
             Log::emergency('Error emailing admins, malformed email='.$e->getMessage());
         }
     }
@@ -72,19 +92,18 @@ class EventHandler extends Listener
     {
         Log::info('NotificationEvents::onUserRegister: '
             .$event->user->ident.' is '
-            .UserState::label($event->user->state)
-            .', sending active email');
+            .UserState::label($event->user->state).', sending active email');
 
         /*
          * Send all of the admins a notification that a new user registered
          */
-        $this->notifyAdmins(new Events\Admin\UserRegistered($event->user));
+        $this->notifyAdmins(new Messages\AdminUserRegistered($event->user));
 
         /*
          * Send the user a confirmation email
          */
         if ($event->user->state === UserState::ACTIVE) {
-            $this->notifyUser($event->user, new Events\UserRegistered($event->user));
+            $this->notifyUser($event->user, new Messages\UserRegistered($event->user));
         } elseif ($event->user->state === UserState::PENDING) {
             $this->notifyUser($event->user, new UserPending($event->user));
         }
@@ -101,7 +120,7 @@ class EventHandler extends Listener
 
         if ($event->old_state === UserState::PENDING) {
             if ($event->user->state === UserState::ACTIVE) {
-                $this->notifyUser($event->user, new Events\UserRegistered($event->user));
+                $this->notifyUser($event->user, new Messages\UserRegistered($event->user));
             } elseif ($event->user->state === UserState::REJECTED) {
                 $this->notifyUser($event->user, new UserRejected($event->user));
             }
@@ -129,7 +148,7 @@ class EventHandler extends Listener
     public function onPirepAccepted(PirepAccepted $event): void
     {
         Log::info('NotificationEvents::onPirepAccepted: '.$event->pirep->id.' accepted');
-        $this->notifyUser($event->pirep->user, new Events\PirepAccepted($event->pirep));
+        $this->notifyUser($event->pirep->user, new Messages\PirepAccepted($event->pirep));
     }
 
     /**
@@ -140,6 +159,17 @@ class EventHandler extends Listener
     public function onPirepRejected(PirepRejected $event): void
     {
         Log::info('NotificationEvents::onPirepRejected: '.$event->pirep->id.' rejected');
-        $this->notifyUser($event->pirep->user, new Events\PirepRejected($event->pirep));
+        $this->notifyUser($event->pirep->user, new Messages\PirepRejected($event->pirep));
+    }
+
+    /**
+     * Notify all users of a news event
+     *
+     * @param \App\Events\NewsAdded $event
+     */
+    public function onNewsAdded(NewsAdded $event): void
+    {
+        Log::info('NotificationEvents::onNewsAdded');
+        $this->notifyAllUsers(new Messages\NewsAdded($event->news));
     }
 }

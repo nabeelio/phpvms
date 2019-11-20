@@ -229,10 +229,10 @@
   options: ''
   type: text
   description: Discord API token for notifications
-- key: notifications.discord_channel_id
-  name: Discord Channel ID
-  group: notifications
+- key: 'notifications.discord_public_channel_id'
+  name: 'Discord Public Channel ID'
+  group: 'notifications'
   value: ''
   options: ''
-  type: text
-  description: Discord channel ID for notifications
+  type: 'text'
+  description: 'Discord public channel ID for broadcasat notifications'

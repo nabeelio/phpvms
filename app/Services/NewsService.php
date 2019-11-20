@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Contracts\Service;
+use App\Events\NewsAdded;
 use App\Repositories\NewsRepository;
 
 class NewsService extends Service
@@ -19,11 +20,16 @@ class NewsService extends Service
      *
      * @param array $attrs
      *
+     * @throws \Prettus\Validator\Exceptions\ValidatorException
+     *
      * @return mixed
      */
     public function addNews(array $attrs)
     {
-        return $this->newsRepo->create($attrs);
+        $news = $this->newsRepo->create($attrs);
+        event(new NewsAdded($news));
+
+        return $news;
     }
 
     /**

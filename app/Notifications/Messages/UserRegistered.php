@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Notifications\Events;
+namespace App\Notifications\Messages;
 
 use App\Models\User;
 use App\Notifications\BaseNotification;
@@ -9,8 +9,6 @@ use App\Notifications\Channels\MailChannel;
 class UserRegistered extends BaseNotification
 {
     use MailChannel;
-
-    public $channels = ['mail'];
 
     private $user;
 
@@ -21,6 +19,8 @@ class UserRegistered extends BaseNotification
      */
     public function __construct(User $user)
     {
+        parent::__construct();
+
         $this->user = $user;
 
         $this->setMailable(

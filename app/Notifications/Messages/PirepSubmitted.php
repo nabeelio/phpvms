@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Notifications\Events;
+namespace App\Notifications\Messages;
 
 use App\Models\Pirep;
 use App\Notifications\BaseNotification;
@@ -9,10 +9,6 @@ use App\Notifications\Channels\MailChannel;
 class PirepSubmitted extends BaseNotification
 {
     use MailChannel;
-
-    public $channels = [
-        'mail',
-    ];
 
     private $pirep;
 
@@ -23,6 +19,8 @@ class PirepSubmitted extends BaseNotification
      */
     public function __construct(Pirep $pirep)
     {
+        parent::__construct();
+
         $this->pirep = $pirep;
 
         $this->setMailable(

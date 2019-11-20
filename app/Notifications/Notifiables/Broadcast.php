@@ -14,4 +14,12 @@ use Illuminate\Notifications\Notifiable;
 class Broadcast
 {
     use Notifiable;
+
+    /**
+     * Routing for Discord - the public channel ID that's used
+     */
+    public function routeNotificationForDiscord()
+    {
+        return setting('notifications.discord_public_channel_id');
+    }
 }

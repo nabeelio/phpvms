@@ -6,7 +6,8 @@ use App\Facades\Utils;
 use App\Models\Award as AwardModel;
 use App\Models\User;
 use App\Models\UserAward;
-use Log;
+use Exception;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Base class for the Awards, you need to extend this, and implement:
@@ -38,12 +39,6 @@ abstract class Award
     protected $award;
     protected $user;
 
-    /**
-     * AwardInterface constructor.
-     *
-     * @param AwardModel $award
-     * @param User       $user
-     */
     public function __construct(AwardModel $award = null, User $user = null)
     {
         $this->award = $award;
@@ -73,7 +68,7 @@ abstract class Award
      *
      * @return bool|UserAward
      */
-    final protected function addAward()
+    protected function addAward()
     {
         $w = [
             'user_id'  => $this->user->id,
@@ -90,7 +85,7 @@ abstract class Award
 
         try {
             $award->save();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Log::error(
                 'Error saving award: '.$e->getMessage(),
                 $e->getTrace()
