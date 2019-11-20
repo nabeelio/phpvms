@@ -1,6 +1,6 @@
 <?php
 
-use App\Notifications\Backups;
+use App\Notifications\Notifiables\Backups;
 use Spatie\Backup\Notifications\Notifications\BackupHasFailed;
 use Spatie\Backup\Notifications\Notifications\BackupWasSuccessful;
 use Spatie\Backup\Notifications\Notifications\CleanupHasFailed;

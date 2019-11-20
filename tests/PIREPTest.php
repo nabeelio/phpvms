@@ -6,11 +6,13 @@ use App\Models\Enums\AcarsType;
 use App\Models\Enums\PirepState;
 use App\Models\Pirep;
 use App\Models\User;
+use App\Notifications\Messages\PirepAccepted;
 use App\Repositories\SettingRepository;
 use App\Services\BidService;
 use App\Services\FlightService;
 use App\Services\PirepService;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Notification;
 
 class PIREPTest extends TestCase
 {
@@ -81,7 +83,6 @@ class PIREPTest extends TestCase
          * Now set the PIREP state to ACCEPTED
          */
         $new_pirep_count = $pirep->pilot->flights + 1;
-        $original_flight_time = $pirep->pilot->flight_time;
         $new_flight_time = $pirep->pilot->flight_time + $pirep->flight_time;
 
         $this->pirepSvc->changeState($pirep, PirepState::ACCEPTED);
@@ -95,6 +96,9 @@ class PIREPTest extends TestCase
         // Also check via API:
         $this->get('/api/fleet/aircraft/'.$pirep->aircraft_id, [], $user)
              ->assertJson(['data' => ['airport_id' => $pirep->arr_airport_id]]);
+
+        // Make sure a notification was sent out to both the user and the admin(s)
+        Notification::assertSentTo([$user], PirepAccepted::class);
 
         // Try cancelling it
         $uri = '/api/pireps/'.$pirep->id.'/cancel';

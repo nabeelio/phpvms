@@ -8,7 +8,7 @@ use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Routing\Middleware\ThrottleRequests;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 use Tests\CreatesApplication;
 use Tests\TestData;
 
@@ -46,7 +46,7 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
             ThrottleRequests::class
         );
 
-        Mail::fake();
+        Notification::fake();
 
         Artisan::call('database:create', ['--reset' => true]);
         Artisan::call('migrate:refresh', ['--env' => 'testing']);

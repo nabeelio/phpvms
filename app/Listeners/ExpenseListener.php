@@ -5,9 +5,6 @@ namespace App\Listeners;
 use App\Contracts\Listener;
 use App\Events\Expenses;
 
-/**
- * Class ExpenseListener
- */
 class ExpenseListener extends Listener
 {
     /**

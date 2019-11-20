@@ -3,8 +3,6 @@
 namespace App\Events;
 
 use App\Models\Pirep;
-use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Queue\SerializesModels;
 
 /**
  * This event is dispatched when the expenses for a flight report
@@ -27,9 +25,8 @@ use Illuminate\Queue\SerializesModels;
  *
  * The event will have a copy of the PIREP model, if it's applicable
  */
-class Expenses
+class Expenses extends BaseEvent
 {
-    use Dispatchable, SerializesModels;
     public $pirep;
 
     /**

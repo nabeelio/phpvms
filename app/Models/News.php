@@ -4,6 +4,10 @@ namespace App\Models;
 
 use App\Contracts\Model;
 
+/**
+ * @property string subject
+ * @property string body
+ */
 class News extends Model
 {
     public $table = 'news';

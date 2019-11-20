@@ -6,11 +6,11 @@ use App\Events\Expenses;
 use App\Events\PirepFiled;
 use App\Events\UserStatsChanged;
 use App\Listeners\AwardListener;
-use App\Listeners\BidEvents;
+use App\Listeners\BidEventHandler;
 use App\Listeners\ExpenseListener;
-use App\Listeners\FinanceEvents;
-use App\Listeners\NotificationEvents;
-use App\Listeners\SetUserActive;
+use App\Listeners\FinanceEventHandler;
+use App\Listeners\UserStateListener;
+use App\Notifications\EventHandler;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -23,7 +23,7 @@ class EventServiceProvider extends ServiceProvider
         ],
 
         PirepFiled::class => [
-            SetUserActive::class,
+            UserStateListener::class,
         ],
 
         Registered::class => [
@@ -36,8 +36,8 @@ class EventServiceProvider extends ServiceProvider
     ];
 
     protected $subscribe = [
-        BidEvents::class,
-        FinanceEvents::class,
-        NotificationEvents::class,
+        BidEventHandler::class,
+        FinanceEventHandler::class,
+        EventHandler::class,
     ];
 }

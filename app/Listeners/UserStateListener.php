@@ -7,7 +7,7 @@ use App\Events\PirepFiled;
 use App\Events\UserStateChanged;
 use App\Models\Enums\UserState;
 
-class SetUserActive extends Listener
+class UserStateListener extends Listener
 {
     public function handle(PirepFiled $event): void
     {

@@ -3,6 +3,7 @@
 /*
 /*/
 !.gitignore
+!/Awards
 !/Installer
 !/Sample
 !/Vacentral

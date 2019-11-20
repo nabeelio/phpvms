@@ -6,41 +6,23 @@ use App\Contracts\Listener;
 use App\Events\PirepAccepted;
 use App\Events\PirepRejected;
 use App\Services\Finance\PirepFinanceService;
-use Illuminate\Contracts\Events\Dispatcher;
 
 /**
  * Subscribe for events that we do some financial processing for
  * This includes when a PIREP is accepted, or rejected
  */
-class FinanceEvents extends Listener
+class FinanceEventHandler extends Listener
 {
     private $financeSvc;
 
-    /**
-     * FinanceEvents constructor.
-     *
-     * @param PirepFinanceService $financeSvc
-     */
-    public function __construct(
-        PirepFinanceService $financeSvc
-    ) {
-        $this->financeSvc = $financeSvc;
-    }
+    public static $callbacks = [
+        PirepAccepted::class => 'onPirepAccept',
+        PirepRejected::class => 'onPirepReject',
+    ];
 
-    /**
-     * @param $events
-     */
-    public function subscribe(Dispatcher $events): void
+    public function __construct(PirepFinanceService $financeSvc)
     {
-        $events->listen(
-            PirepAccepted::class,
-            'App\Listeners\FinanceEvents@onPirepAccept'
-        );
-
-        $events->listen(
-            PirepRejected::class,
-            'App\Listeners\FinanceEvents@onPirepReject'
-        );
+        $this->financeSvc = $financeSvc;
     }
 
     /**
