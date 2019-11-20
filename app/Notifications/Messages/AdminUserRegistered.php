@@ -23,7 +23,8 @@ class AdminUserRegistered extends BaseNotification
 
         $this->user = $user;
         $this->setMailable(
-            'A new user registered', 'notifications.mail.admin.user.registered',
+            'A new user registered',
+            'notifications.mail.admin.user.registered',
             ['user' => $user]
         );
     }
