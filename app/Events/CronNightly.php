@@ -8,5 +8,4 @@ namespace App\Events;
  */
 class CronNightly extends BaseEvent
 {
-
 }

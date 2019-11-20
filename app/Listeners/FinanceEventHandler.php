@@ -20,7 +20,8 @@ class FinanceEventHandler extends Listener
         PirepRejected::class => 'onPirepReject',
     ];
 
-    public function __construct(PirepFinanceService $financeSvc) {
+    public function __construct(PirepFinanceService $financeSvc)
+    {
         $this->financeSvc = $financeSvc;
     }
 

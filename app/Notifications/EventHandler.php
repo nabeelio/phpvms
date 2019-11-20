@@ -76,6 +76,7 @@ class EventHandler extends Listener
     protected function notifyAllUsers($notification)
     {
         $users = User::all()->get();
+
         try {
             Notification::send($users, $notification);
         } catch (Exception $e) {

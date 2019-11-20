@@ -10,7 +10,7 @@ use App\Notifications\Messages\UserRegistered;
 use App\Notifications\Messages\UserRejected;
 
 return [
-    /**
+    /*
      * The channels that notifications are sent on
      */
     'channels' => [
