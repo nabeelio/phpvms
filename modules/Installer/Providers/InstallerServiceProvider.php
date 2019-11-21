@@ -4,6 +4,7 @@ namespace Modules\Installer\Providers;
 
 use App\Services\ModuleService;
 use Illuminate\Support\ServiceProvider;
+use Modules\Installer\Console\Commands\ImportFromClassicCommand;
 use Route;
 
 class InstallerServiceProvider extends ServiceProvider
@@ -17,12 +18,20 @@ class InstallerServiceProvider extends ServiceProvider
     {
         $this->moduleSvc = app(ModuleService::class);
 
+        $this->registerCommands();
         $this->registerRoutes();
         $this->registerTranslations();
         $this->registerConfig();
         $this->registerViews();
 
         $this->loadMigrationsFrom(__DIR__.'/../Database/migrations');
+    }
+
+    protected function registerCommands()
+    {
+        $this->commands([
+            ImportFromClassicCommand::class,
+        ]);
     }
 
     /**

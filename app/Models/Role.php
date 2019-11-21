@@ -6,6 +6,7 @@ use Laratrust\Models\LaratrustRole;
 
 /**
  * @method static where(string $string, $group)
+ * @method static firstOrCreate(array $array, array $array1)
  */
 class Role extends LaratrustRole
 {

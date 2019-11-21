@@ -9,6 +9,8 @@ namespace App\Contracts;
  * @property bool  $skip_mutator
  *
  * @method static where(array $array)
+ * @method static updateOrCreate(array $array, array $attrs)
+ * @method static truncate()
  */
 abstract class Model extends \Illuminate\Database\Eloquent\Model
 {

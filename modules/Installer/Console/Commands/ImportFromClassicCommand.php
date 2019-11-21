@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Console\Commands;
+namespace Modules\Installer\Console\Commands;
 
 use App\Contracts\Command;
+use Modules\Installer\Services\Importer\Importer;
 
-class ImportFromClassic extends Command
+class ImportFromClassicCommand extends Command
 {
     protected $signature = 'phpvms:importer {db_host} {db_name} {db_user} {db_pass?} {table_prefix=phpvms_}';
     protected $description = 'Import from an older version of phpVMS';
@@ -22,7 +23,7 @@ class ImportFromClassic extends Command
             'table_prefix' => $this->argument('table_prefix'),
         ];
 
-        $importerSvc = new \App\Console\Services\Importer($db_creds);
-        $importerSvc->run();
+        $importerSvc = new Importer();
+        $importerSvc->run($db_creds);
     }
 }
