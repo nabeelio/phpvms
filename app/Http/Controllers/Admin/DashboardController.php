@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Contracts\Controller;
 use App\Repositories\KvpRepository;
+use App\Repositories\NewsRepository;
 use App\Repositories\PirepRepository;
 use App\Repositories\UserRepository;
 use App\Services\NewsService;
@@ -15,6 +16,7 @@ use Laracasts\Flash\Flash;
 class DashboardController extends Controller
 {
     private $kvpRepo;
+    private $newsRepo;
     private $newsSvc;
     private $pirepRepo;
     private $userRepo;
@@ -23,20 +25,23 @@ class DashboardController extends Controller
      * DashboardController constructor.
      *
      * @param KvpRepository   $kvpRepo
+     * @param NewsRepository  $newsRepo
+     * @param NewsService     $newsSvc
      * @param PirepRepository $pirepRepo
      * @param UserRepository  $userRepo
-     * @param                 $newsSvc
      */
     public function __construct(
         KvpRepository $kvpRepo,
+        NewsRepository $newsRepo,
         NewsService $newsSvc,
         PirepRepository $pirepRepo,
         UserRepository $userRepo
     ) {
         $this->kvpRepo = $kvpRepo;
+        $this->newsRepo = $newsRepo;
+        $this->newsSvc = $newsSvc;
         $this->pirepRepo = $pirepRepo;
         $this->userRepo = $userRepo;
-        $this->newsSvc = $newsSvc;
     }
 
     /**
