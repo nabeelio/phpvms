@@ -72,7 +72,12 @@ class FinanceService extends Service
      * @return mixed
      */
     public function debitFromJournal(
-        Journal $journal, Money $amount, $reference, $memo, $transaction_group, $tag
+        Journal $journal,
+        Money $amount,
+        $reference,
+        $memo,
+        $transaction_group,
+        $tag
     ) {
         return $this->journalRepo->post(
             $journal,
