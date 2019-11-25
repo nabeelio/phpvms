@@ -33,6 +33,7 @@ class FinanceService extends Service
      * @param string|array                        $tag
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
+     *
      * @return mixed
      */
     public function creditToJournal(
@@ -67,6 +68,7 @@ class FinanceService extends Service
      * @param string|array                        $tag
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
+     *
      * @return mixed
      */
     public function debitFromJournal(

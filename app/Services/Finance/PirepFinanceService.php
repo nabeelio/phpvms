@@ -204,8 +204,6 @@ class PirepFinanceService extends Service
         );
     }
 
-
-
     /**
      * Collect all of the expenses and apply those to the journal
      *
