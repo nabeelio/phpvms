@@ -11,17 +11,16 @@ use App\Models\Pirep;
 use App\Repositories\ExpenseRepository;
 use App\Repositories\JournalRepository;
 use App\Services\FareService;
+use App\Services\FinanceService;
 use App\Support\Math;
 use App\Support\Money;
 use Illuminate\Support\Facades\Log;
 
-/**
- * Class FinanceService
- */
 class PirepFinanceService extends Service
 {
     private $expenseRepo;
     private $fareSvc;
+    private $financeSvc;
     private $journalRepo;
 
     /**
@@ -30,15 +29,18 @@ class PirepFinanceService extends Service
      * @param ExpenseRepository $expenseRepo
      * @param FareService       $fareSvc
      * @param JournalRepository $journalRepo
+     * @param FinanceService    $financeSvc
      */
     public function __construct(
         ExpenseRepository $expenseRepo,
         FareService $fareSvc,
+        FinanceService $financeSvc,
         JournalRepository $journalRepo
     ) {
         $this->expenseRepo = $expenseRepo;
         $this->fareSvc = $fareSvc;
         $this->journalRepo = $journalRepo;
+        $this->financeSvc = $financeSvc;
     }
 
     /**
@@ -149,13 +151,11 @@ class PirepFinanceService extends Service
         Log::info('Finance: Fuel cost, (fuel='.$fuel_used.', cost='.$ap->fuel_jeta_cost.') D='
             .$debit->getAmount());
 
-        $this->journalRepo->post(
+        $this->financeSvc->debitFromJournal(
             $pirep->airline->journal,
-            null,
             $debit,
             $pirep,
             'Fuel Cost ('.$ap->fuel_jeta_cost.'/'.config('phpvms.internal_units.fuel').')',
-            null,
             'Fuel',
             'fuel'
         );
@@ -194,17 +194,17 @@ class PirepFinanceService extends Service
         $debit = Money::createFromAmount($cost_per_min * $block_time);
         Log::info('Finance: Subfleet Block Hourly, D='.$debit->getAmount());
 
-        $this->journalRepo->post(
+        $this->financeSvc->debitFromJournal(
             $pirep->airline->journal,
-            null,
             $debit,
             $pirep,
             'Subfleet '.$sf->type.': Block Time Cost',
-            null,
             'Subfleet '.$sf->type,
             'subfleet'
         );
     }
+
+
 
     /**
      * Collect all of the expenses and apply those to the journal
@@ -265,13 +265,11 @@ class PirepFinanceService extends Service
                 $journal = $pirep->user->journal;
             }
 
-            $this->journalRepo->post(
+            $this->financeSvc->debitFromJournal(
                 $journal,
-                null,
                 $debit,
                 $pirep,
                 $memo,
-                null,
                 $transaction_group,
                 strtolower($klass)
             );
@@ -320,13 +318,11 @@ class PirepFinanceService extends Service
 
                 $debit = Money::createFromAmount($expense->amount);
 
-                $this->journalRepo->post(
+                $this->financeSvc->debitFromJournal(
                     $pirep->airline->journal,
-                    null,
                     $debit,
                     $pirep,
                     'Expense: '.$expense->name,
-                    null,
                     $expense->transaction_group ?? 'Expenses',
                     'expense'
                 );
@@ -347,13 +343,12 @@ class PirepFinanceService extends Service
     {
         $ground_handling_cost = $this->getGroundHandlingCost($pirep);
         Log::info('Finance: PIREP: '.$pirep->id.'; ground handling: '.$ground_handling_cost);
-        $this->journalRepo->post(
+
+        $this->financeSvc->debitFromJournal(
             $pirep->airline->journal,
-            null,
             Money::createFromAmount($ground_handling_cost),
             $pirep,
             'Ground Handling',
-            null,
             'Ground Handling',
             'ground_handling'
         );
@@ -378,24 +373,20 @@ class PirepFinanceService extends Service
         Log::info('Finance: PIREP: '.$pirep->id
             .'; pilot pay: '.$pilot_pay_rate.', total: '.$pilot_pay);
 
-        $this->journalRepo->post(
+        $this->financeSvc->debitFromJournal(
             $pirep->airline->journal,
-            null,
             $pilot_pay,
             $pirep,
             $memo,
-            null,
             'Pilot Pay',
             'pilot_pay'
         );
 
-        $this->journalRepo->post(
+        $this->financeSvc->creditToJournal(
             $pirep->user->journal,
             $pilot_pay,
-            null,
             $pirep,
             $memo,
-            null,
             'Pilot Pay',
             'pilot_pay'
         );

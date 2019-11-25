@@ -8,23 +8,22 @@ use App\Models\Enums\ExpenseType;
 use App\Models\Expense;
 use App\Models\JournalTransaction;
 use App\Repositories\JournalRepository;
+use App\Services\FinanceService;
 use App\Support\Money;
-use Log;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Process all of the daily expenses and charge them
  */
 class RecurringFinanceService extends Service
 {
+    private $financeSvc;
     private $journalRepo;
 
-    /**
-     * RecurringFinanceService constructor.
-     *
-     * @param JournalRepository $journalRepo
-     */
-    public function __construct(JournalRepository $journalRepo)
+    public function __construct(JournalRepository $journalRepo, FinanceService $financeSvc)
     {
+        $this->financeSvc = $financeSvc;
         $this->journalRepo = $journalRepo;
     }
 
@@ -87,10 +86,8 @@ class RecurringFinanceService extends Service
     /**
      * Run all of the daily expense/financials
      *
-     * @param int $type
+     * @param string $type
      *
-     * @throws \UnexpectedValueException
-     * @throws \InvalidArgumentException
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
     public function processExpenses($type = ExpenseType::DAILY): void
@@ -101,7 +98,7 @@ class RecurringFinanceService extends Service
         if ($type === ExpenseType::DAILY) {
             $tag = 'expenses_daily';
         } elseif ($type === ExpenseType::MONTHLY) {
-            $tag === 'expenses_monthly';
+            $tag = 'expenses_monthly';
         }
 
         /**
@@ -122,7 +119,7 @@ class RecurringFinanceService extends Service
                 ];
 
                 $found = JournalTransaction::where($w)
-                    ->whereDate('post_date', '=', \Carbon::now('UTC')->toDateString())
+                    ->whereDate('post_date', '=', Carbon::now('UTC')->toDateString())
                     ->count(['id']);
 
                 if ($found > 0) {
@@ -132,13 +129,11 @@ class RecurringFinanceService extends Service
 
                 [$memo, $ta_group] = $this->getMemoAndGroup($expense);
 
-                $this->journalRepo->post(
+                $this->financeSvc->debitFromJournal(
                     $journal,
-                    null,
                     Money::createFromAmount($amount),
                     $expense,
                     $memo,
-                    null,
                     $ta_group,
                     $tag
                 );
