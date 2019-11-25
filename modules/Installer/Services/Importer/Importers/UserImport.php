@@ -11,9 +11,6 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Modules\Installer\Services\Importer\BaseImporter;
 
-/**
- * Class UserImport
- */
 class UserImport extends BaseImporter
 {
     /**

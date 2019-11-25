@@ -61,13 +61,18 @@ class GroupImporter extends BaseImporter
 
     public function run()
     {
-        $this->comment('--- ROLES IMPORT ---');
+        $this->comment('--- ROLES/GROUPS IMPORT ---');
 
         $roleSvc = app(RoleService::class);
 
         $count = 0;
         foreach ($this->db->readRows('groups') as $row) {
-            $role = Role::firstOrCreate(['display_name' => $row->name], []);
+            $name = str_slug($row->name);
+            $role = Role::firstOrCreate(
+                ['name' => $name],
+                ['display_name' => $row->name]
+            );
+
             $this->idMapper->addMapping('group', $row->groupid, $role->id);
 
             // See if the permission set mask contains one of the mappings above

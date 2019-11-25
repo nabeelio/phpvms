@@ -136,8 +136,6 @@ class RolesController extends Controller
      * @param int               $id
      * @param UpdateRoleRequest $request
      *
-     * @throws \Prettus\Validator\Exceptions\ValidatorException
-     *
      * @return Response
      */
     public function update($id, UpdateRoleRequest $request)

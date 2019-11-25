@@ -13,6 +13,7 @@ use App\Models\Journal;
 use App\Models\JournalTransaction;
 use App\Models\News;
 use App\Models\Pirep;
+use App\Models\Subfleet;
 use App\Models\User;
 use App\Models\UserAward;
 use Illuminate\Support\Facades\DB;
@@ -49,21 +50,36 @@ class Stage1 extends BaseStage
     {
         $this->info('Running database cleanup/empty before starting');
 
-        Acars::truncate();
         Bid::truncate();
-        Expense::truncate();
-        Pirep::truncate();
-        User::truncate();
-        UserAward::truncate();
         File::truncate();
         News::truncate();
-        Journal::truncate();
-        JournalTransaction::truncate();
-        Flight::truncate();
-        FlightField::truncate();
-        FlightFieldValue::truncate();
 
+        Expense::truncate();
+        JournalTransaction::truncate();
+        Journal::truncate();
+
+        // Clear flights
         DB::table('flight_fare')->truncate();
         DB::table('flight_subfleet')->truncate();
+        FlightField::truncate();
+        FlightFieldValue::truncate();
+        Flight::truncate();
+        Subfleet::truncate();
+
+        // Clear permissions
+//        DB::table('permission_role')->truncate();
+//        DB::table('permission_user')->truncate();
+//        DB::table('role_user')->truncate();
+//        Role::truncate();
+
+        Acars::truncate();
+        Pirep::truncate();
+
+        UserAward::truncate();
+        User::truncate();
+
+        // Re-run the base seeds
+        //$seederSvc = app(SeederService::class);
+        //$seederSvc->syncAllSeeds();
     }
 }
