@@ -37,6 +37,7 @@ class AirportImporter extends BaseImporter
         }
 
         $this->info('Imported '.$count.' airports');
+
         throw new ImporterNoMoreRecords();
     }
 }

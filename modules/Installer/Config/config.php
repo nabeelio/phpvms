@@ -21,7 +21,7 @@ return [
         ],
     ],
 
-    'extensions'  => [
+    'extensions' => [
         'openssl',
         'pdo',
         'mbstring',

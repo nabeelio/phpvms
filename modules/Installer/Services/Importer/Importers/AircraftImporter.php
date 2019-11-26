@@ -49,6 +49,7 @@ class AircraftImporter extends BaseImporter
         }
 
         $this->info('Imported '.$count.' aircraft');
+
         throw new ImporterNoMoreRecords();
     }
 

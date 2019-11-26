@@ -33,7 +33,7 @@ class ImportFromClassicCommand extends Command
         $stage = 'stage1';
         $start = 0;
 
-        while(true) {
+        while (true) {
             try {
                 $importerSvc->run($stage, $start);
             } catch (ImporterNextRecordSet $e) {

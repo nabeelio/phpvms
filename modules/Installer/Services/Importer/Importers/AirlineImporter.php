@@ -37,6 +37,7 @@ class AirlineImporter extends BaseImporter
         }
 
         $this->info('Imported '.$count.' airlines');
+
         throw new ImporterNoMoreRecords();
     }
 }

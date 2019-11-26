@@ -12,6 +12,6 @@ class StageCompleted extends \Exception
     public function __construct($nextStage)
     {
         $this->nextStage = $nextStage;
-        parent::__construct("", 0, null);
+        parent::__construct('', 0, null);
     }
 }

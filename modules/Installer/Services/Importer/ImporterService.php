@@ -90,8 +90,8 @@ class ImporterService extends Service
     /**
      * Run a given stage
      *
-     * @param       $stage
-     * @param int   $start
+     * @param     $stage
+     * @param int $start
      *
      * @throws ImporterNextRecordSet
      * @throws StageCompleted

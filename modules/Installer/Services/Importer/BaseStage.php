@@ -4,9 +4,9 @@ namespace Modules\Installer\Services\Importer;
 
 use App\Repositories\KvpRepository;
 use Illuminate\Support\Facades\Log;
+use Modules\Installer\Exceptions\ImporterNextRecordSet;
 use Modules\Installer\Exceptions\ImporterNoMoreRecords;
 use Modules\Installer\Exceptions\StageCompleted;
-use Modules\Installer\Exceptions\ImporterNextRecordSet;
 use Modules\Installer\Utils\IdMapper;
 use Modules\Installer\Utils\ImporterDB;
 use Modules\Installer\Utils\LoggerTrait;
@@ -54,6 +54,7 @@ class BaseStage
                 $importer->run($start);
             } catch (ImporterNextRecordSet $e) {
                 Log::info('Requesting next set of records');
+
                 throw $e;
             } catch (ImporterNoMoreRecords $e) {
                 $importersRun[] = $importer;
@@ -61,6 +62,7 @@ class BaseStage
         }
 
         $this->kvpRepo->save('importers.run', $importersRun);
+
         throw new StageCompleted($this->nextStage);
     }
 }

@@ -16,7 +16,7 @@ class ImporterNextRecordSet extends \Exception
      */
     public function __construct($nextOffset)
     {
-        parent::__construct("", 0, null);
+        parent::__construct('', 0, null);
         $this->nextOffset = $nextOffset;
     }
 }
