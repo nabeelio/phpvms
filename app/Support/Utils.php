@@ -6,8 +6,6 @@ use Nwidart\Modules\Facades\Module;
 
 /**
  * Global utilities
- *
- * @package App\Support
  */
 class Utils
 {

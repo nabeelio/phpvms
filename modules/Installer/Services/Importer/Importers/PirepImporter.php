@@ -4,7 +4,9 @@ namespace Modules\Installer\Services\Importer\Importers;
 
 use App\Models\Enums\FlightType;
 use App\Models\Enums\PirepSource;
+use App\Models\Enums\PirepState;
 use App\Models\Pirep;
+use Illuminate\Support\Facades\Log;
 use Modules\Installer\Services\Importer\BaseImporter;
 
 class PirepImporter extends BaseImporter
@@ -30,6 +32,7 @@ class PirepImporter extends BaseImporter
                 'block_fuel'     => $row->fuelused,
                 'route'          => $row->route ?: '',
                 'source_name'    => $row->source,
+                'state'          => $this->mapState($row->accepted),
                 'created_at'     => $this->parseDate($row->submitdate),
                 'updated_at'     => $this->parseDate($row->submitdate),
             ];
@@ -70,6 +73,9 @@ class PirepImporter extends BaseImporter
 
             $pirep = Pirep::updateOrCreate(['id' => $pirep_id], $attrs);
 
+            //Log::debug('pirep oldid='.$pirep_id.', olduserid='.$row->pilotid
+            //    .'; new id='.$pirep->id.', user id='.$user_id);
+
             $source = strtoupper($row->source);
             if ($source === 'SMARTCARS') {
                 // TODO: Parse smartcars log into the acars table
@@ -88,5 +94,30 @@ class PirepImporter extends BaseImporter
         }
 
         $this->info('Imported '.$count.' pireps');
+    }
+
+    /**
+     * Map the old status to the current
+     * https://github.com/nabeelio/phpvms_v2/blob/master/core/app.config.php#L450
+     *
+     * @param int $old_state
+     *
+     * @return int
+     */
+    private function mapState($old_state)
+    {
+        $map = [
+            0 => PirepState::PENDING,
+            1 => PirepState::ACCEPTED,
+            2 => PirepState::REJECTED,
+            3 => PirepState::IN_PROGRESS,
+        ];
+
+        $old_state = (int) $old_state;
+        if (!in_array($old_state, $map)) {
+            return PirepState::PENDING;
+        }
+
+        return $map[$old_state];
     }
 }

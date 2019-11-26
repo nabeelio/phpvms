@@ -102,9 +102,10 @@ class UserImport extends BaseImporter
      */
     protected function getUserState($state)
     {
-        // TODO: This state might differ between simpilot and classic version
+        // Return active for now, let the stats/cron determine the status later
+        return UserState::ACTIVE;
 
-        $state = (int) $state;
+        /*$state = (int) $state;
 
         // Declare array of classic states
         $phpvms_classic_states = [
@@ -134,6 +135,6 @@ class UserImport extends BaseImporter
 
         $this->error('Unknown status: '.$state);
 
-        return UserState::ACTIVE;
+        return UserState::ACTIVE;*/
     }
 }

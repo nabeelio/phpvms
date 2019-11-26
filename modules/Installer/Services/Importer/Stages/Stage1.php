@@ -3,6 +3,8 @@
 namespace Modules\Installer\Services\Importer\Stages;
 
 use App\Models\Acars;
+use App\Models\Airline;
+use App\Models\Airport;
 use App\Models\Bid;
 use App\Models\Expense;
 use App\Models\File;
@@ -80,6 +82,8 @@ class Stage1 extends BaseStage
 //        DB::table('role_user')->truncate();
 //        Role::truncate();
 
+        Airline::truncate();
+        Airport::truncate();
         Acars::truncate();
         Pirep::truncate();
 

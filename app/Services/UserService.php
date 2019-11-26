@@ -368,8 +368,8 @@ class UserService extends Service
             'state'   => PirepState::ACCEPTED,
         ];
 
-        $flight_count = Pirep::where($w)->count();
-        $user->flights = $flight_count;
+        $pirep_count = Pirep::where($w)->count();
+        $user->flights = $pirep_count;
 
         $flight_time = Pirep::where($w)->sum('flight_time');
         $user->flight_time = $flight_time;
@@ -379,7 +379,7 @@ class UserService extends Service
         // Recalc the rank
         $this->calculatePilotRank($user);
 
-        Log::info('User '.$user->ident.' updated; flight count='.$flight_count
+        Log::info('User '.$user->ident.' updated; pirep count='.$pirep_count
             .', rank='.$user->rank->name
             .', flight_time='.$user->flight_time.' minutes');
 
