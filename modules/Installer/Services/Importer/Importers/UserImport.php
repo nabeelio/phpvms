@@ -18,7 +18,7 @@ class UserImport extends BaseImporter
      */
     private $userSvc;
 
-    public function run()
+    public function run($start = 0)
     {
         $this->comment('--- USER IMPORT ---');
 
@@ -26,12 +26,14 @@ class UserImport extends BaseImporter
 
         $count = 0;
         $first_row = true;
-        foreach ($this->db->readRows('pilots', 50) as $row) {
+        foreach ($this->db->readRows('pilots', $start) as $row) {
             $pilot_id = $row->pilotid; // This isn't their actual ID
             $name = $row->firstname.' '.$row->lastname;
 
             // Figure out which airline, etc, they belong to
             $airline_id = $this->idMapper->getMapping('airlines', $row->code);
+            // Log::info('User airline from '.$row->code.' to ID '.$airline_id);
+
             $rank_id = $this->idMapper->getMapping('ranks', $row->rank);
             $state = $this->getUserState($row->retired);
 

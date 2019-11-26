@@ -21,9 +21,6 @@ use Modules\Installer\Services\DatabaseService;
 use Modules\Installer\Services\RequirementsService;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
-/**
- * Class InstallerController
- */
 class InstallerController extends Controller
 {
     private $airlineRepo;

@@ -7,7 +7,7 @@ use App\Services\Installer\MigrationService;
 use App\Services\Installer\SeederService;
 use function count;
 use Illuminate\Http\Request;
-use Log;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Class UpdaterController

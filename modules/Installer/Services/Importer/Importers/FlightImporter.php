@@ -7,12 +7,12 @@ use Modules\Installer\Services\Importer\BaseImporter;
 
 class FlightImporter extends BaseImporter
 {
-    public function run()
+    public function run($start = 0)
     {
         $this->comment('--- FLIGHT SCHEDULE IMPORT ---');
 
         $count = 0;
-        foreach ($this->db->readRows('schedules') as $row) {
+        foreach ($this->db->readRows('schedules', $start) as $row) {
             $airline_id = $this->idMapper->getMapping('airlines', $row->code);
 
             $flight_num = trim($row->flightnum);

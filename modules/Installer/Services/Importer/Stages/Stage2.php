@@ -3,11 +3,13 @@
 namespace Modules\Installer\Services\Importer\Stages;
 
 use Modules\Installer\Services\Importer\BaseStage;
-use Modules\Installer\Services\Importer\Importers\UserImport;
+use Modules\Installer\Services\Importer\Importers\AirportImporter;
 
 class Stage2 extends BaseStage
 {
     public $importers = [
-        UserImport::class,
+        AirportImporter::class,
     ];
+
+    public $nextStage = 'stage3';
 }

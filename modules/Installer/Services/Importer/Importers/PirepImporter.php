@@ -9,12 +9,12 @@ use Modules\Installer\Services\Importer\BaseImporter;
 
 class PirepImporter extends BaseImporter
 {
-    public function run()
+    public function run($start = 0)
     {
         $this->comment('--- PIREP IMPORT ---');
 
         $count = 0;
-        foreach ($this->db->readRows('pireps') as $row) {
+        foreach ($this->db->readRows('pireps', $start) as $row) {
             $pirep_id = $row->pirepid;
             $user_id = $this->idMapper->getMapping('users', $row->pilotid);
             $airline_id = $this->idMapper->getMapping('airlines', $row->code);
@@ -31,7 +31,7 @@ class PirepImporter extends BaseImporter
                 'route'          => $row->route ?: '',
                 'source_name'    => $row->source,
                 'created_at'     => $this->parseDate($row->submitdate),
-                'updated_at'     => $this->parseDate($row->modifieddate),
+                'updated_at'     => $this->parseDate($row->submitdate),
             ];
 
             // Set the distance

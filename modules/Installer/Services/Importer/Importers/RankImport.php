@@ -7,7 +7,7 @@ use Modules\Installer\Services\Importer\BaseImporter;
 
 class RankImport extends BaseImporter
 {
-    public function run()
+    public function run($start = 0)
     {
         $this->comment('--- RANK IMPORT ---');
 

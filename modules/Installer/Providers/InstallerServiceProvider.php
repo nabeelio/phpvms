@@ -3,9 +3,9 @@
 namespace Modules\Installer\Providers;
 
 use App\Services\ModuleService;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Modules\Installer\Console\Commands\ImportFromClassicCommand;
-use Route;
 
 class InstallerServiceProvider extends ServiceProvider
 {
@@ -56,6 +56,15 @@ class InstallerServiceProvider extends ServiceProvider
          ], function () {
              $this->loadRoutesFrom(__DIR__.'/../Http/Routes/update.php');
          });
+
+        Route::group([
+            'as'         => 'importer.',
+            'prefix'     => 'importer',
+            'middleware' => ['web'],
+            'namespace'  => 'Modules\Installer\Http\Controllers',
+        ], function () {
+            $this->loadRoutesFrom(__DIR__.'/../Http/Routes/importer.php');
+        });
     }
 
     /**

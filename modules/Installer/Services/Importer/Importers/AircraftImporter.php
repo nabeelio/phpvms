@@ -5,6 +5,7 @@ namespace Modules\Installer\Services\Importer\Importers;
 use App\Models\Aircraft;
 use App\Models\Airline;
 use App\Models\Subfleet;
+use Modules\Installer\Exceptions\ImporterNoMoreRecords;
 use Modules\Installer\Services\Importer\BaseImporter;
 
 class AircraftImporter extends BaseImporter
@@ -14,7 +15,12 @@ class AircraftImporter extends BaseImporter
      */
     public const SUBFLEET_NAME = 'Imported Aircraft';
 
-    public function run()
+    /**
+     * @param int $start
+     *
+     * @throws \Modules\Installer\Exceptions\ImporterNoMoreRecords
+     */
+    public function run($start = 0)
     {
         $this->comment('--- AIRCRAFT IMPORT ---');
 
@@ -43,6 +49,7 @@ class AircraftImporter extends BaseImporter
         }
 
         $this->info('Imported '.$count.' aircraft');
+        throw new ImporterNoMoreRecords();
     }
 
     /**

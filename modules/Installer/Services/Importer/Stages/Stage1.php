@@ -17,10 +17,11 @@ use App\Models\Subfleet;
 use App\Models\User;
 use App\Models\UserAward;
 use Illuminate\Support\Facades\DB;
+use Modules\Installer\Exceptions\ImporterNextRecordSet;
+use Modules\Installer\Exceptions\StageCompleted;
 use Modules\Installer\Services\Importer\BaseStage;
 use Modules\Installer\Services\Importer\Importers\AircraftImporter;
 use Modules\Installer\Services\Importer\Importers\AirlineImporter;
-use Modules\Installer\Services\Importer\Importers\AirportImporter;
 use Modules\Installer\Services\Importer\Importers\GroupImporter;
 use Modules\Installer\Services\Importer\Importers\RankImport;
 
@@ -30,16 +31,23 @@ class Stage1 extends BaseStage
         RankImport::class,
         AirlineImporter::class,
         AircraftImporter::class,
-        AirportImporter::class,
         GroupImporter::class,
     ];
 
-    public function run()
+    public $nextStage = 'stage2';
+
+    /**
+     * @param int $start Record number to start from
+     *
+     * @throws ImporterNextRecordSet
+     * @throws StageCompleted
+     */
+    public function run($start = 0)
     {
         $this->cleanupDb();
 
         // Run the first set of importers
-        parent::run();
+        parent::run($start);
     }
 
     /**

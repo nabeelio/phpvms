@@ -59,7 +59,7 @@ class GroupImporter extends BaseImporter
         'MODERATE_REGISTRATIONS' => 'users',
     ];
 
-    public function run()
+    public function run($start = 0)
     {
         $this->comment('--- ROLES/GROUPS IMPORT ---');
 

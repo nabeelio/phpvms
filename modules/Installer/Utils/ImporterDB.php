@@ -3,6 +3,8 @@
 namespace Modules\Installer\Utils;
 
 use Illuminate\Support\Facades\Log;
+use Modules\Installer\Exceptions\ImporterNextRecordSet;
+use Modules\Installer\Exceptions\ImporterNoMoreRecords;
 use PDO;
 use PDOException;
 
@@ -11,10 +13,14 @@ use PDOException;
  */
 class ImporterDB
 {
-    public const BATCH_READ_ROWS = 300;
+    /**
+     * @var PDO
+     */
     private $conn;
+
     private $dsn;
     private $creds;
+    private $batchSize;
 
     public function __construct($creds)
     {
@@ -26,12 +32,12 @@ class ImporterDB
             ]);
 
         Log::info('Using DSN: '.$this->dsn);
+
+        $this->batchSize = config('installer.importer.batch_size');
     }
 
     public function connect()
     {
-        Log::info('Connection string: '.$this->dsn);
-
         try {
             $this->conn = new PDO($this->dsn, $this->creds['user'], $this->creds['pass']);
             $this->conn->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
@@ -77,33 +83,31 @@ class ImporterDB
     /**
      * Read all the rows in a table, but read them in a batched manner
      *
-     * @param string $table     The name of the table
-     * @param null   $read_rows Number of rows to read
+     * @param string $table The name of the table
+     * @param int    [$start_offset]
+     *
+     * @throws \Modules\Installer\Exceptions\ImporterNextRecordSet
+     * @throws \Modules\Installer\Exceptions\ImporterNoMoreRecords
      *
      * @return \Generator
      */
-    public function readRows($table, $read_rows = null)
+    public function readRows($table, $start_offset = 0)
     {
         $this->connect();
 
-        $offset = 0;
-        if ($read_rows === null) {
-            $read_rows = self::BATCH_READ_ROWS;
-        }
-
+        $offset = $start_offset;
         $total_rows = $this->getTotalRows($table);
 
         while ($offset < $total_rows) {
-            $rows_to_read = $offset + $read_rows;
+            $rows_to_read = $offset + $this->batchSize;
             if ($rows_to_read > $total_rows) {
                 $rows_to_read = $total_rows;
             }
 
             Log::info('Reading '.$offset.' to '.$rows_to_read.' of '.$total_rows);
+            yield from $this->readRowsOffset($table, $this->batchSize, $offset);
 
-            yield from $this->readRowsOffset($table, self::BATCH_READ_ROWS, $offset);
-
-            $offset += self::BATCH_READ_ROWS;
+            $offset += $this->batchSize;
         }
     }
 
@@ -112,6 +116,9 @@ class ImporterDB
      * @param int    $limit  Number of rows to read
      * @param int    $offset Where to start from
      *
+     * @throws ImporterNextRecordSet
+     * @throws ImporterNoMoreRecords
+     *
      * @return \Generator
      */
     public function readRowsOffset($table, $limit, $offset)
@@ -119,12 +126,30 @@ class ImporterDB
         $sql = 'SELECT * FROM '.$this->tableName($table).' LIMIT '.$limit.' OFFSET '.$offset;
 
         try {
-            foreach ($this->conn->query($sql) as $row) {
+            $result = $this->conn->query($sql);
+            if (!$result) {
+                throw new ImporterNoMoreRecords();
+            }
+
+            $rowCount = $result->rowCount();
+
+            if (!$rowCount === 0) {
+                throw new ImporterNoMoreRecords();
+            }
+
+            foreach ($result as $row) {
                 yield $row;
             }
+
+            // No more records left since we got the number below the limit
+            if ($rowCount < $limit) {
+                throw new ImporterNoMoreRecords();
+            }
+
+            throw new ImporterNextRecordSet($offset + $limit);
         } catch (PDOException $e) {
             // Without incrementing the offset, it should re-run the same query
-            Log::error($e);
+            Log::error('Error readRowsOffset: '.$e->getMessage());
 
             if (strpos($e->getMessage(), 'server has gone away') !== false) {
                 $this->connect();
