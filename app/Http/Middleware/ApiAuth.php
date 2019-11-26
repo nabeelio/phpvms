@@ -5,12 +5,14 @@
 
 namespace App\Http\Middleware;
 
+use App\Contracts\Middleware;
 use App\Models\Enums\UserState;
 use App\Models\User;
-use Auth;
 use Closure;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class ApiAuth
+class ApiAuth implements Middleware
 {
     /**
      * Handle an incoming request.
@@ -20,7 +22,7 @@ class ApiAuth
      *
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle(Request $request, Closure $next)
     {
         // Check if Authorization header is in place
         $api_key = $request->header('x-api-key', null);

@@ -238,7 +238,9 @@ class SeederService extends Service
 
             // See if any of these column values have changed
             foreach (['name', 'description'] as $column) {
-                if ($row[$column] !== $setting[$column]) {
+                $currVal = $row->{$column};
+                $newVal = $setting[$column];
+                if ($currVal !== $newVal) {
                     return true;
                 }
             }
@@ -276,7 +278,7 @@ class SeederService extends Service
 
             // See if any of these column values have changed
             foreach (['display_name', 'description'] as $column) {
-                if ($row[$column] !== $perm[$column]) {
+                if ($row->{$column} !== $perm[$column]) {
                     return true;
                 }
             }

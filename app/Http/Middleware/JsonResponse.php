@@ -5,11 +5,13 @@
 
 namespace App\Http\Middleware;
 
+use App\Contracts\Middleware;
 use Closure;
+use Illuminate\Http\Request;
 
-class JsonResponse
+class JsonResponse implements Middleware
 {
-    public function handle($request, Closure $next)
+    public function handle(Request $request, Closure $next)
     {
         $response = $next($request);
         $response->headers->set('Content-Type', 'application/json');

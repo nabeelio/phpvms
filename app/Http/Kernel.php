@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\ApiAuth;
 use App\Http\Middleware\EncryptCookies;
 use App\Http\Middleware\InstalledCheck;

@@ -1,5 +1,7 @@
 <?php
 
+use Nwidart\Modules\Activators\FileActivator;
+
 return [
     'namespace' => 'Modules',
     'stubs'     => [
@@ -132,5 +134,15 @@ return [
     */
     'register' => [
         'translations' => true,
+    ],
+
+    'activator'  => 'file',
+    'activators' => [
+        'file' => [
+            'class'          => FileActivator::class,
+            'statuses-file'  => config_path('modules_statuses.json'),
+            'cache-key'      => 'activator.installed',
+            'cache-lifetime' => 604800,
+        ],
     ],
 ];

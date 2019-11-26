@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Laracasts\Flash\Flash;
+use Nwidart\Modules\Facades\Module;
 
 class DashboardController extends Controller
 {
@@ -78,10 +79,13 @@ class DashboardController extends Controller
     {
         $this->checkNewVersion();
 
+
+
         return view('admin.dashboard.index', [
-            'news'           => $this->newsRepo->getLatest(),
-            'pending_pireps' => $this->pirepRepo->getPendingCount(),
-            'pending_users'  => $this->userRepo->getPendingCount(),
+            'news'              => $this->newsRepo->getLatest(),
+//            'installer_enabled' => $installerEnabled,
+            'pending_pireps'    => $this->pirepRepo->getPendingCount(),
+            'pending_users'     => $this->userRepo->getPendingCount(),
         ]);
     }
 
