@@ -7,6 +7,19 @@
     <table class="table" width="25%">
 
       <tr>
+        <td colspan="2">
+          <h4>IMPORTANT NOTES</h4>
+          <ul>
+            <li>If you have more than 1000 PIREPs or flights, it's best to use the command-line importer!
+              <a href="http://docs.phpvms.net/setup/importing-from-v2-v5" target="_blank">Click here</a> to
+              see the documentation of how to use it.</li>
+            <li><strong>THIS WILL WIPE OUT YOUR EXISTING DATA</strong> - this is required to make sure that things like
+            pilot IDs match up</li>
+          </ul>
+        </td>
+      </tr>
+
+      <tr>
         <td colspan="2"><h4>Site Config</h4></td>
       </tr>
 
