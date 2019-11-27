@@ -3,12 +3,13 @@
 namespace App\Contracts;
 
 /**
- * Class Model
- *
  * @property mixed $id
  * @property bool  $skip_mutator
  *
- * @method static where(array $array)
+ * @method static Model find(int $airline_id)
+ * @method static Model where(array $array)
+ * @method static Model updateOrCreate(array $array, array $attrs)
+ * @method static truncate()
  */
 abstract class Model extends \Illuminate\Database\Eloquent\Model
 {

@@ -236,6 +236,15 @@ class SeederService extends Service
                 return true;
             }
 
+            // See if any of these column values have changed
+            foreach (['name', 'description'] as $column) {
+                $currVal = $row->{$column};
+                $newVal = $setting[$column];
+                if ($currVal !== $newVal) {
+                    return true;
+                }
+            }
+
             // See if any of the options have changed
             if ($row->type === 'select') {
                 if ($row->options !== $setting['options']) {
@@ -259,9 +268,19 @@ class SeederService extends Service
         $yml = Yaml::parse($data);
 
         foreach ($yml as $perm) {
-            $count = DB::table('permissions')->where('name', $perm['name'])->count('name');
-            if ($count === 0) {
+            $row = DB::table('permissions')
+                ->where('name', $perm['name'])
+                ->first();
+
+            if (!$row) {
                 return true;
+            }
+
+            // See if any of these column values have changed
+            foreach (['display_name', 'description'] as $column) {
+                if ($row->{$column} !== $perm[$column]) {
+                    return true;
+                }
             }
         }
 

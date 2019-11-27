@@ -79,7 +79,8 @@ class DashboardController extends Controller
         $this->checkNewVersion();
 
         return view('admin.dashboard.index', [
-            'news'           => $this->newsRepo->getLatest(),
+            'news' => $this->newsRepo->getLatest(),
+//            'installer_enabled' => $installerEnabled,
             'pending_pireps' => $this->pirepRepo->getPendingCount(),
             'pending_users'  => $this->userRepo->getPendingCount(),
         ]);

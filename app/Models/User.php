@@ -34,6 +34,10 @@ use Laratrust\Traits\LaratrustUserTrait;
  * @property int            state
  * @property bool           opt_in
  * @property string         last_pirep_id
+ *
+ * @method static           updateOrCreate(array $array, array $attrs)
+ * @method static           where()
+ * @method static           truncate()
  * @mixin \Illuminate\Notifications\Notifiable
  * @mixin \Laratrust\Traits\LaratrustUserTrait
  */

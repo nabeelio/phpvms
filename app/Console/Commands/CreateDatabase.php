@@ -2,13 +2,14 @@
 
 namespace App\Console\Commands;
 
+use App\Console\Services\Database;
 use App\Contracts\Command;
 use Illuminate\Support\Facades\Log;
 use Tivie\OS\Detector;
 
 class CreateDatabase extends Command
 {
-    protected $signature = 'database:create {--reset} {--conn=?}';
+    protected $signature = 'database:create {--reset} {--migrate} {--conn=?}';
     protected $description = 'Create a database';
     protected $os;
 
@@ -36,8 +37,7 @@ class CreateDatabase extends Command
         $user = config($dbkey.'username');
         $pass = config($dbkey.'password');
 
-        $dbSvc = new \App\Console\Services\Database();
-
+        $dbSvc = new Database();
         $dsn = $dbSvc->createDsn($host, $port);
         Log::info('Connection string: '.$dsn);
 

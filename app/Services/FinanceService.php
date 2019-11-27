@@ -4,11 +4,93 @@ namespace App\Services;
 
 use App\Contracts\Service;
 use App\Models\Airline;
+use App\Models\Journal;
 use App\Models\JournalTransaction;
+use App\Repositories\JournalRepository;
 use App\Support\Money;
 
 class FinanceService extends Service
 {
+    private $journalRepo;
+
+    public function __construct(JournalRepository $journalRepo)
+    {
+        $this->journalRepo = $journalRepo;
+    }
+
+    /**
+     * Credit some amount to a given journal
+     * E.g, some amount for expenses or ground handling fees, etc. Example, to pay a user a dollar
+     * for a pirep:
+     *
+     * creditToJournal($user->journal, new Money(1000), $pirep, 'Payment', 'pirep', 'payment');
+     *
+     * @param \App\Models\Journal                 $journal
+     * @param Money                               $amount
+     * @param \Illuminate\Database\Eloquent\Model $reference
+     * @param string                              $memo
+     * @param string                              $transaction_group
+     * @param string|array                        $tag
+     *
+     * @throws \Prettus\Validator\Exceptions\ValidatorException
+     *
+     * @return mixed
+     */
+    public function creditToJournal(
+        Journal $journal,
+        Money $amount,
+        $reference,
+        $memo,
+        $transaction_group,
+        $tag
+    ) {
+        return $this->journalRepo->post(
+            $journal,
+            $amount,
+            null,
+            $reference,
+            $memo,
+            null,
+            $transaction_group,
+            $tag
+        );
+    }
+
+    /**
+     * Charge some expense for a given PIREP to the airline its file against
+     * E.g, some amount for expenses or ground handling fees, etc.
+     *
+     * @param \App\Models\Journal                 $journal
+     * @param Money                               $amount
+     * @param \Illuminate\Database\Eloquent\Model $reference
+     * @param string                              $memo
+     * @param string                              $transaction_group
+     * @param string|array                        $tag
+     *
+     * @throws \Prettus\Validator\Exceptions\ValidatorException
+     *
+     * @return mixed
+     */
+    public function debitFromJournal(
+        Journal $journal,
+        Money $amount,
+        $reference,
+        $memo,
+        $transaction_group,
+        $tag
+    ) {
+        return $this->journalRepo->post(
+            $journal,
+            null,
+            $amount,
+            $reference,
+            $memo,
+            null,
+            $transaction_group,
+            $tag
+        );
+    }
+
     /**
      * Get all of the transactions for an airline between two given dates. Returns an array
      * with `credits`, `debits` and `transactions` fields, where transactions contains the

@@ -1,7 +1,7 @@
 # All of the different permissions that can be assigned to roles
 ---
 - name: admin-access
-  display_name: Admin Access
+  display_name: Administrator
   description: Access the admin panel
 - name: airlines
   display_name: Airlines
