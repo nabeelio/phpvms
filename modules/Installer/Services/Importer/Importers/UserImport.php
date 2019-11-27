@@ -104,7 +104,6 @@ class UserImport extends BaseImporter
     {
         // Return active for now, let the stats/cron determine the status later
         return UserState::ACTIVE;
-
         /*$state = (int) $state;
 
         // Declare array of classic states
