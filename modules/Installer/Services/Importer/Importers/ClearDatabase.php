@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Installer\Services\Importer\Stages;
+namespace Modules\Installer\Services\Importer\Importers;
 
 use App\Models\Acars;
 use App\Models\Airline;
@@ -19,37 +19,28 @@ use App\Models\Subfleet;
 use App\Models\User;
 use App\Models\UserAward;
 use Illuminate\Support\Facades\DB;
-use Modules\Installer\Exceptions\ImporterNextRecordSet;
-use Modules\Installer\Exceptions\StageCompleted;
-use Modules\Installer\Services\Importer\BaseStage;
-use Modules\Installer\Services\Importer\Importers\AircraftImporter;
-use Modules\Installer\Services\Importer\Importers\AirlineImporter;
-use Modules\Installer\Services\Importer\Importers\GroupImporter;
-use Modules\Installer\Services\Importer\Importers\RankImport;
+use Modules\Installer\Services\Importer\BaseImporter;
 
-class Stage1 extends BaseStage
+class ClearDatabase extends BaseImporter
 {
-    public $importers = [
-        RankImport::class,
-        AirlineImporter::class,
-        AircraftImporter::class,
-        GroupImporter::class,
-    ];
-
-    public $nextStage = 'stage2';
-
     /**
-     * @param int $start Record number to start from
-     *
-     * @throws ImporterNextRecordSet
-     * @throws StageCompleted
+     * Returns a default manifest just so this step gets run
      */
+    public function getManifest(): array
+    {
+        return [
+            [
+                'importer' => get_class($this),
+                'start'    => 0,
+                'end'      => 1,
+                'message'  => 'Clearing database',
+            ]
+        ];
+    }
+
     public function run($start = 0)
     {
         $this->cleanupDb();
-
-        // Run the first set of importers
-        parent::run($start);
     }
 
     /**
@@ -59,6 +50,8 @@ class Stage1 extends BaseStage
     protected function cleanupDb()
     {
         $this->info('Running database cleanup/empty before starting');
+
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
 
         Bid::truncate();
         File::truncate();
@@ -77,10 +70,10 @@ class Stage1 extends BaseStage
         Subfleet::truncate();
 
         // Clear permissions
-//        DB::table('permission_role')->truncate();
-//        DB::table('permission_user')->truncate();
-//        DB::table('role_user')->truncate();
-//        Role::truncate();
+        //        DB::table('permission_role')->truncate();
+        //        DB::table('permission_user')->truncate();
+        //        DB::table('role_user')->truncate();
+        //        Role::truncate();
 
         Airline::truncate();
         Airport::truncate();
@@ -89,6 +82,8 @@ class Stage1 extends BaseStage
 
         UserAward::truncate();
         User::truncate();
+
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         // Re-run the base seeds
         //$seederSvc = app(SeederService::class);

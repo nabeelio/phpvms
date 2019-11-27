@@ -3,22 +3,29 @@
 namespace Modules\Installer\Services\Importer\Importers;
 
 use App\Models\Airport;
-use Modules\Installer\Exceptions\ImporterNoMoreRecords;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Log;
 use Modules\Installer\Services\Importer\BaseImporter;
 
 class AirportImporter extends BaseImporter
 {
-    /**
-     * @param int $start
-     *
-     * @throws \Modules\Installer\Exceptions\ImporterNoMoreRecords
-     */
+    protected $table = 'airports';
+
     public function run($start = 0)
     {
         $this->comment('--- AIRPORT IMPORT ---');
 
+        $fields = [
+            'icao',
+            'name',
+            'country',
+            'lat',
+            'lng',
+            'hub',
+        ];
+
         $count = 0;
-        foreach ($this->db->readRows('airports', $start) as $row) {
+        foreach ($this->db->readRows($this->table, $start, $fields) as $row) {
             $attrs = [
                 'id'      => trim($row->icao),
                 'icao'    => trim($row->icao),
@@ -29,7 +36,21 @@ class AirportImporter extends BaseImporter
                 'hub'     => $row->hub,
             ];
 
-            $airport = Airport::updateOrCreate(['id' => $attrs['id']], $attrs);
+            $w = ['id' => $attrs['id']];
+            //$airport = Airport::updateOrCreate($w, $attrs);
+
+            try {
+                $airport = Airport::create(array_merge($w, $attrs));
+            } catch (QueryException $e) {
+                $sqlState = $e->errorInfo[0];
+                $errorCode = $e->errorInfo[1];
+                if ($sqlState === "23000" && $errorCode === 1062) {
+                    Log::info('Found duplicate for '.$row->icao.', ignoring');
+                    return true;
+                }
+
+                return false;
+            }
 
             if ($airport->wasRecentlyCreated) {
                 $count++;
@@ -37,7 +58,5 @@ class AirportImporter extends BaseImporter
         }
 
         $this->info('Imported '.$count.' airports');
-
-        throw new ImporterNoMoreRecords();
     }
 }

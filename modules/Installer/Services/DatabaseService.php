@@ -3,7 +3,8 @@
 namespace Modules\Installer\Services;
 
 use App\Contracts\Service;
-use Log;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Log;
 use PDO;
 
 class DatabaseService extends Service
@@ -24,19 +25,8 @@ class DatabaseService extends Service
     {
         Log::info('Testing Connection: '.$driver.'::'.$user.':<hidden>@'.$host.':'.$port.';'.$name);
 
-        if ($driver === 'mysql') {
-            $dsn = "mysql:host=$host;port=$port;dbname=$name";
-            Log::info('Connection string: '.$dsn);
-
-            try {
-                $conn = new PDO($dsn, $user, $pass);
-            } catch (\PDOException $e) {
-                throw $e;
-            }
-        }
-
         // TODO: Needs testing
-        elseif ($driver === 'postgres') {
+        if ($driver === 'postgres') {
             $dsn = "pgsql:host=$host;port=$port;dbname=$name";
 
             try {
@@ -44,8 +34,19 @@ class DatabaseService extends Service
             } catch (\PDOException $e) {
                 throw $e;
             }
+
+            return true;
         }
 
+        // Default MySQL
+        $dsn = "mysql:host=$host;port=$port;dbname=$name";
+        Log::info('Connection string: '.$dsn);
+
+        try {
+            $conn = new PDO($dsn, $user, $pass);
+        } catch (\PDOException $e) {
+            throw $e;
+        }
         return true;
     }
 
@@ -59,8 +60,8 @@ class DatabaseService extends Service
         $output = '';
 
         if (config('database.default') === 'sqlite') {
-            \Artisan::call('database:create');
-            $output .= \Artisan::output();
+            Artisan::call('database:create');
+            $output .= Artisan::output();
         }
 
         return trim($output);

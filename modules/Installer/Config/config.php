@@ -1,12 +1,5 @@
 <?php
 
-use Modules\Installer\Services\Importer\Stages\Stage1;
-use Modules\Installer\Services\Importer\Stages\Stage2;
-use Modules\Installer\Services\Importer\Stages\Stage3;
-use Modules\Installer\Services\Importer\Stages\Stage4;
-use Modules\Installer\Services\Importer\Stages\Stage5;
-use Modules\Installer\Services\Importer\Stages\Stage6;
-
 return [
     'php' => [
         'version' => '7.2',
@@ -46,14 +39,6 @@ return [
     ],
 
     'importer' => [
-        'batch_size' => 150,
-        'stages'     => [
-            'stage1' => Stage1::class,
-            'stage2' => Stage2::class,
-            'stage3' => Stage3::class,
-            'stage4' => Stage4::class,
-            'stage5' => Stage5::class,
-            'stage6' => Stage6::class,
-        ],
+        'batch_size' => 20,
     ],
 ];

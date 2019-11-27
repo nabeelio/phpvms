@@ -4,11 +4,18 @@ namespace Modules\Installer\Services\Importer;
 
 use App\Contracts\Service;
 use App\Repositories\KvpRepository;
+use Exception;
 use Illuminate\Http\Request;
-use Modules\Installer\Exceptions\ImporterNextRecordSet;
-use Modules\Installer\Exceptions\StageCompleted;
-use Modules\Installer\Utils\IdMapper;
-use Modules\Installer\Utils\ImporterDB;
+use Modules\Installer\Services\Importer\Importers\AircraftImporter;
+use Modules\Installer\Services\Importer\Importers\AirlineImporter;
+use Modules\Installer\Services\Importer\Importers\AirportImporter;
+use Modules\Installer\Services\Importer\Importers\ClearDatabase;
+use Modules\Installer\Services\Importer\Importers\FinalizeImporter;
+use Modules\Installer\Services\Importer\Importers\FlightImporter;
+use Modules\Installer\Services\Importer\Importers\GroupImporter;
+use Modules\Installer\Services\Importer\Importers\PirepImporter;
+use Modules\Installer\Services\Importer\Importers\RankImport;
+use Modules\Installer\Services\Importer\Importers\UserImport;
 
 class ImporterService extends Service
 {
@@ -20,22 +27,23 @@ class ImporterService extends Service
     private $kvpRepo;
 
     /**
-     * Hold some of our data on disk for the migration
-     *
-     * @var IdMapper
+     * The list of importers, in proper order
      */
-    private $idMapper;
-
-    /**
-     * Hold the PDO connection to the old database
-     *
-     * @var ImporterDB
-     */
-    private $db;
+    private $importList = [
+        ClearDatabase::class,
+        RankImport::class,
+        GroupImporter::class,
+        AirlineImporter::class,
+        AircraftImporter::class,
+        AirportImporter::class,
+        FlightImporter::class,
+        UserImport::class,
+        PirepImporter::class,
+        FinalizeImporter::class,
+    ];
 
     public function __construct()
     {
-        $this->idMapper = app(IdMapper::class);
         $this->kvpRepo = app(KvpRepository::class);
     }
 
@@ -88,24 +96,40 @@ class ImporterService extends Service
     }
 
     /**
+     * Create a manifest of the import. Creates an array with the importer name,
+     * which then has a subarray of all of the different steps/stages it needs to run
+     */
+    public function generateImportManifest()
+    {
+        $manifest = [];
+
+        foreach ($this->importList as $importerKlass) {
+            /** @var \Modules\Installer\Services\Importer\BaseImporter $importer */
+            $importer = new $importerKlass();
+            $manifest = array_merge($manifest, $importer->getManifest());
+        }
+
+        return $manifest;
+    }
+
+    /**
      * Run a given stage
      *
-     * @param     $stage
+     * @param     $importer
      * @param int $start
      *
-     * @throws ImporterNextRecordSet
-     * @throws StageCompleted
+     * @throws \Exception
      *
      * @return int|void
      */
-    public function run($stage, $start = 0)
+    public function run($importer, $start = 0)
     {
-        $db = new ImporterDB($this->kvpRepo->get($this->CREDENTIALS_KEY));
+        if (!in_array($importer, $this->importList)) {
+            throw new Exception('Unknown importer "'.$importer.'"');
+        }
 
-        $stageKlass = config('installer.importer.stages.'.$stage);
-
-        /** @var $stage \Modules\Installer\Services\Importer\BaseStage */
-        $stage = new $stageKlass($db, $this->idMapper);
-        $stage->run($start);
+        /** @var $importerInst \Modules\Installer\Services\Importer\BaseImporter */
+        $importerInst = new $importer();
+        $importerInst->run($start);
     }
 }

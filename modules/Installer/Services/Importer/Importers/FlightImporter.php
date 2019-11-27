@@ -7,12 +7,30 @@ use Modules\Installer\Services\Importer\BaseImporter;
 
 class FlightImporter extends BaseImporter
 {
+    protected $table = 'schedules';
+
     public function run($start = 0)
     {
         $this->comment('--- FLIGHT SCHEDULE IMPORT ---');
 
+        $fields = [
+            'id',
+            'code',
+            'flightnum',
+            'depicao',
+            'arricao',
+            'route',
+            'distance',
+            'flightlevel',
+            'deptime',
+            'arrtime',
+            'flightttime',
+            'notes',
+            'enabled'
+        ];
+
         $count = 0;
-        foreach ($this->db->readRows('schedules', $start) as $row) {
+        foreach ($this->db->readRows($this->table, $start, $fields) as $row) {
             $airline_id = $this->idMapper->getMapping('airlines', $row->code);
 
             $flight_num = trim($row->flightnum);
@@ -32,7 +50,8 @@ class FlightImporter extends BaseImporter
 
             try {
                 $w = ['airline_id' => $airline_id, 'flight_number' => $flight_num];
-                $flight = Flight::updateOrCreate($w, $attrs);
+                // $flight = Flight::updateOrCreate($w, $attrs);
+                $flight = Flight::create(array_merge($w, $attrs));
             } catch (\Exception $e) {
                 //$this->error($e);
             }

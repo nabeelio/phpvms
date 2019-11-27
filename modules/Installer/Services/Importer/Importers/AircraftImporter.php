@@ -5,21 +5,19 @@ namespace Modules\Installer\Services\Importer\Importers;
 use App\Models\Aircraft;
 use App\Models\Airline;
 use App\Models\Subfleet;
+use Modules\Installer\Exceptions\ImporterNextRecordSet;
 use Modules\Installer\Exceptions\ImporterNoMoreRecords;
 use Modules\Installer\Services\Importer\BaseImporter;
 
 class AircraftImporter extends BaseImporter
 {
+    public $table = 'aircraft';
+
     /**
      * CONSTANTS
      */
     public const SUBFLEET_NAME = 'Imported Aircraft';
 
-    /**
-     * @param int $start
-     *
-     * @throws \Modules\Installer\Exceptions\ImporterNoMoreRecords
-     */
     public function run($start = 0)
     {
         $this->comment('--- AIRCRAFT IMPORT ---');
@@ -29,7 +27,7 @@ class AircraftImporter extends BaseImporter
         $this->info('Subfleet ID is '.$subfleet->id);
 
         $count = 0;
-        foreach ($this->db->readRows('aircraft') as $row) {
+        foreach ($this->db->readRows($this->table, $start) as $row) {
             $where = [
                 'name'         => $row->fullname,
                 'registration' => $row->registration,
@@ -49,8 +47,6 @@ class AircraftImporter extends BaseImporter
         }
 
         $this->info('Imported '.$count.' aircraft');
-
-        throw new ImporterNoMoreRecords();
     }
 
     /**
