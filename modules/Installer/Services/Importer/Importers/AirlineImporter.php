@@ -4,7 +4,6 @@ namespace Modules\Installer\Services\Importer\Importers;
 
 use App\Models\Airline;
 use Illuminate\Support\Facades\Log;
-use Modules\Installer\Exceptions\ImporterNoMoreRecords;
 use Modules\Installer\Services\Importer\BaseImporter;
 
 class AirlineImporter extends BaseImporter

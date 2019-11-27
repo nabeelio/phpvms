@@ -23,12 +23,12 @@ return [
     //
 
     // DON'T CHANGE THIS OR ELSE YOUR TIMES WILL BE MESSED UP!
-    'timezone'        => 'UTC',
+    'timezone' => 'UTC',
 
     // Is the default key cipher. Needs to be changed, otherwise phpVMS will think
     // that it isn't installed. Doubles as a security feature, so keys are scrambled
-    'key'             => env('APP_KEY', 'base64:zdgcDqu9PM8uGWCtMxd74ZqdGJIrnw812oRMmwDF6KY='),
-    'cipher'          => 'AES-256-CBC',
+    'key'    => env('APP_KEY', 'base64:zdgcDqu9PM8uGWCtMxd74ZqdGJIrnw812oRMmwDF6KY='),
+    'cipher' => 'AES-256-CBC',
 
     'providers' => [
 
@@ -126,10 +126,10 @@ return [
         'Yaml'         => Symfony\Component\Yaml\Yaml::class,
 
         // ENUMS
-        'ActiveState'  => App\Models\Enums\ActiveState::class,
-        'UserState'    => App\Models\Enums\UserState::class,
-        'PirepSource'  => App\Models\Enums\PirepSource::class,
-        'PirepState'   => App\Models\Enums\PirepState::class,
-        'PirepStatus'  => App\Models\Enums\PirepStatus::class,
+        'ActiveState' => App\Models\Enums\ActiveState::class,
+        'UserState'   => App\Models\Enums\UserState::class,
+        'PirepSource' => App\Models\Enums\PirepSource::class,
+        'PirepState'  => App\Models\Enums\PirepState::class,
+        'PirepStatus' => App\Models\Enums\PirepStatus::class,
     ],
 ];

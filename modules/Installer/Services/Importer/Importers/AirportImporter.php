@@ -44,7 +44,7 @@ class AirportImporter extends BaseImporter
             } catch (QueryException $e) {
                 $sqlState = $e->errorInfo[0];
                 $errorCode = $e->errorInfo[1];
-                if ($sqlState === "23000" && $errorCode === 1062) {
+                if ($sqlState === '23000' && $errorCode === 1062) {
                     Log::info('Found duplicate for '.$row->icao.', ignoring');
                     return true;
                 }

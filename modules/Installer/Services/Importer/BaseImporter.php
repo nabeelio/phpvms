@@ -38,6 +38,7 @@ abstract class BaseImporter implements ShouldQueue
     /**
      * Return a manifest of the import tasks to run. Returns an array of objects,
      * which contain a start and end row
+     *
      * @return array
      */
     public function getManifest(): array
@@ -62,7 +63,7 @@ abstract class BaseImporter implements ShouldQueue
             ];
 
             $start += $this->db->batchSize;
-        } while($start < $total_rows);
+        } while ($start < $total_rows);
 
         return $manifest;
     }
@@ -74,7 +75,6 @@ abstract class BaseImporter implements ShouldQueue
      */
     public function getColumns(): array
     {
-
     }
 
     /**

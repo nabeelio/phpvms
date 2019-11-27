@@ -19,7 +19,7 @@ class FinalizeImporter extends BaseImporter
                 'start'    => 0,
                 'end'      => 1,
                 'message'  => 'Finalizing import',
-            ]
+            ],
         ];
     }
 

@@ -26,7 +26,7 @@ class FlightImporter extends BaseImporter
             'arrtime',
             'flightttime',
             'notes',
-            'enabled'
+            'enabled',
         ];
 
         $count = 0;

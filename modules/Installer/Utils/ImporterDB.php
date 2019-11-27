@@ -3,8 +3,6 @@
 namespace Modules\Installer\Utils;
 
 use Illuminate\Support\Facades\Log;
-use Modules\Installer\Exceptions\ImporterNextRecordSet;
-use Modules\Installer\Exceptions\ImporterNoMoreRecords;
 use PDO;
 use PDOException;
 
@@ -59,6 +57,7 @@ class ImporterDB
             $this->conn->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
         } catch (PDOException $e) {
             Log::error($e);
+
             throw $e;
         }
     }
@@ -143,7 +142,7 @@ class ImporterDB
     public function readRowsOffset($table, $limit, $offset, $fields = '*')
     {
         if (is_array($fields)) {
-            $fields = join(',', $fields);
+            $fields = implode(',', $fields);
         }
 
         $sql = 'SELECT '.$fields.' FROM '.$this->tableName($table).' LIMIT '.$limit.' OFFSET '.$offset;

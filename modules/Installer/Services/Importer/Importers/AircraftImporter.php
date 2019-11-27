@@ -5,8 +5,6 @@ namespace Modules\Installer\Services\Importer\Importers;
 use App\Models\Aircraft;
 use App\Models\Airline;
 use App\Models\Subfleet;
-use Modules\Installer\Exceptions\ImporterNextRecordSet;
-use Modules\Installer\Exceptions\ImporterNoMoreRecords;
 use Modules\Installer\Services\Importer\BaseImporter;
 
 class AircraftImporter extends BaseImporter
