@@ -6,7 +6,6 @@ use App\Models\Enums\FlightType;
 use App\Models\Enums\PirepSource;
 use App\Models\Enums\PirepState;
 use App\Models\Pirep;
-use Illuminate\Support\Facades\Log;
 use Modules\Installer\Services\Importer\BaseImporter;
 
 class PirepImporter extends BaseImporter
