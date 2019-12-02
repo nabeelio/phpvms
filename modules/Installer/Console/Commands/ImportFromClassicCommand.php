@@ -4,8 +4,6 @@ namespace Modules\Installer\Console\Commands;
 
 use App\Contracts\Command;
 use Illuminate\Support\Facades\Log;
-use Modules\Installer\Exceptions\ImporterNextRecordSet;
-use Modules\Installer\Exceptions\StageCompleted;
 use Modules\Installer\Services\Importer\ImporterService;
 
 class ImportFromClassicCommand extends Command
@@ -29,24 +27,13 @@ class ImportFromClassicCommand extends Command
         $importerSvc = new ImporterService();
 
         $importerSvc->saveCredentials($creds);
+        $manifest = $importerSvc->generateImportManifest();
 
-        $stage = 'stage1';
-        $start = 0;
-
-        while (true) {
+        foreach ($manifest as $record) {
             try {
-                $importerSvc->run($stage, $start);
-            } catch (ImporterNextRecordSet $e) {
-                Log::info('More records, starting from '.$e->nextOffset);
-                $start = $e->nextOffset;
-            } catch (StageCompleted $e) {
-                $stage = $e->nextStage;
-                $start = 0;
-
-                Log::info('Stage '.$stage.' completed, moving to '.$e->nextStage);
-                if ($e->nextStage === 'complete') {
-                    break;
-                }
+                $importerSvc->run($record['importer'], $record['start']);
+            } catch (\Exception $e) {
+                Log::error($e->getMessage());
             }
         }
     }

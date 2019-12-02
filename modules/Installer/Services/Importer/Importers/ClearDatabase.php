@@ -51,7 +51,7 @@ class ClearDatabase extends BaseImporter
     {
         $this->info('Running database cleanup/empty before starting');
 
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        DB::statement('SET FOREIGN_KEY_CHECKS=0');
 
         Bid::truncate();
         File::truncate();
@@ -83,10 +83,6 @@ class ClearDatabase extends BaseImporter
         UserAward::truncate();
         User::truncate();
 
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-
-        // Re-run the base seeds
-        //$seederSvc = app(SeederService::class);
-        //$seederSvc->syncAllSeeds();
+        DB::statement('SET FOREIGN_KEY_CHECKS=1');
     }
 }
