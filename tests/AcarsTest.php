@@ -104,7 +104,7 @@ class AcarsTest extends TestCase
          */
         $uri = '/api/pireps/prefile';
         $pirep = [
-            'airline_id'         => $airline->id,
+            'airline_id'          => $airline->id,
             'aircraft_id'         => $aircraft->id,
             'dpt_airport_id'      => null,
             'arr_airport_id'      => null,
