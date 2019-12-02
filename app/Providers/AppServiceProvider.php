@@ -25,7 +25,6 @@ use App\Models\Subfleet;
 use App\Models\User;
 use App\Repositories\SettingRepository;
 use App\Services\ModuleService;
-use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -70,8 +69,10 @@ class AppServiceProvider extends ServiceProvider
         // Only load the IDE helper if it's included and enabled
         if (config('app.debug_toolbar') === true) {
             /* @noinspection NestedPositiveIfStatementsInspection */
-            if (class_exists(IdeHelperServiceProvider::class)) {
-                $this->app->register(IdeHelperServiceProvider::class);
+            /** @noinspection PhpFullyQualifiedNameUsageInspection */
+            if (class_exists(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class)) {
+                /** @noinspection PhpFullyQualifiedNameUsageInspection */
+                $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
             }
         }
     }
