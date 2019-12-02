@@ -19,9 +19,9 @@ class LogRequest extends FormRequest
         $rules = [
             'logs'              => 'required|array',
             'logs.*.log'        => 'required',
-            'logs.*.lat'        => 'nullable|numeric',
-            'logs.*.lon'        => 'nullable|numeric',
-            'logs.*.created_at' => 'nullable|date',
+            'logs.*.lat'        => 'sometimes|numeric',
+            'logs.*.lon'        => 'sometimes|numeric',
+            'logs.*.created_at' => 'sometimes|date',
         ];
 
         return $rules;

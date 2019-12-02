@@ -19,9 +19,9 @@ class EventRequest extends FormRequest
         $rules = [
             'events'              => 'required|array',
             'events.*.event'      => 'required',
-            'events.*.lat'        => 'nullable|numeric',
-            'events.*.lon'        => 'nullable|numeric',
-            'events.*.created_at' => 'nullable|date',
+            'events.*.lat'        => 'sometimes|numeric',
+            'events.*.lon'        => 'sometimes|numeric',
+            'events.*.created_at' => 'sometimes|date',
         ];
 
         return $rules;
