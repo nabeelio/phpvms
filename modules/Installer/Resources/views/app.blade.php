@@ -12,6 +12,9 @@
 
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
           name='viewport'/>
+    <meta name="base-url" content="{!! url('') !!}">
+    <meta name="api-key" content="{!! Auth::check() ? Auth::user()->api_key: '' !!}">
+    <meta name="csrf-token" content="{!! csrf_token() !!}">
 
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet"/>
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet"/>
@@ -63,6 +66,9 @@
 
 {{--<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>--}}
 
+<script src="{{ public_mix('/assets/global/js/vendor.js') }}"></script>
+<script src="{{ public_mix('/assets/frontend/js/vendor.js') }}"></script>
+<script src="{{ public_mix('/assets/frontend/js/app.js') }}"></script>
 <script src="{{ public_asset('/assets/installer/js/vendor.js') }}" type="text/javascript"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
 

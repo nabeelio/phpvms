@@ -7,8 +7,6 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
-use Modules\Installer\Exceptions\ImporterNextRecordSet;
-use Modules\Installer\Exceptions\ImporterNoMoreRecords;
 use Modules\Installer\Utils\IdMapper;
 use Modules\Installer\Utils\ImporterDB;
 use Modules\Installer\Utils\LoggerTrait;
@@ -19,6 +17,7 @@ abstract class BaseImporter implements ShouldQueue
 
     protected $db;
     protected $idMapper;
+    protected $table;
 
     public function __construct()
     {
@@ -32,12 +31,51 @@ abstract class BaseImporter implements ShouldQueue
      *
      * @param int $start
      *
-     * @throws ImporterNoMoreRecords
-     * @throws ImporterNextRecordSet
-     *
      * @return mixed
      */
     abstract public function run($start = 0);
+
+    /**
+     * Return a manifest of the import tasks to run. Returns an array of objects,
+     * which contain a start and end row
+     *
+     * @return array
+     */
+    public function getManifest(): array
+    {
+        $manifest = [];
+
+        $start = 0;
+        $total_rows = $this->db->getTotalRows($this->table);
+        do {
+            $end = $start + $this->db->batchSize;
+            if ($end > $total_rows) {
+                $end = $total_rows;
+            }
+
+            $idx = $start + 1;
+
+            $manifest[] = [
+                'importer' => get_class($this),
+                'start'    => $start,
+                'end'      => $end,
+                'message'  => 'Importing '.$this->table.' ('.$idx.' - '.$end.' of '.$total_rows.')',
+            ];
+
+            $start += $this->db->batchSize;
+        } while ($start < $total_rows);
+
+        return $manifest;
+    }
+
+    /**
+     * Determine what columns exist, can be used for feature testing between v2/v5
+     *
+     * @return array
+     */
+    public function getColumns(): array
+    {
+    }
 
     /**
      * @param $date

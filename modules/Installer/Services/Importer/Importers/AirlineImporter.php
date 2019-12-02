@@ -4,27 +4,31 @@ namespace Modules\Installer\Services\Importer\Importers;
 
 use App\Models\Airline;
 use Illuminate\Support\Facades\Log;
-use Modules\Installer\Exceptions\ImporterNoMoreRecords;
 use Modules\Installer\Services\Importer\BaseImporter;
 
 class AirlineImporter extends BaseImporter
 {
+    public $table = 'airlines';
+
     /**
      * @param int $start
-     *
-     * @throws \Modules\Installer\Exceptions\ImporterNoMoreRecords
      */
     public function run($start = 0)
     {
         $this->comment('--- AIRLINE IMPORT ---');
 
         $count = 0;
-        foreach ($this->db->readRows('airlines', $start) as $row) {
-            $airline = Airline::firstOrCreate(['icao' => $row->code], [
-                    'iata'   => $row->code,
-                    'name'   => $row->name,
-                    'active' => $row->enabled,
-                ]);
+        foreach ($this->db->readRows($this->table, $start) as $row) {
+            $attrs = [
+                'iata'   => $row->code,
+                'name'   => $row->name,
+                'active' => $row->enabled,
+            ];
+
+            $w = ['icao' => $row->code];
+
+            //$airline = Airline::firstOrCreate($w, $attrs);
+            $airline = Airline::create(array_merge($w, $attrs));
 
             $this->idMapper->addMapping('airlines', $row->id, $airline->id);
             $this->idMapper->addMapping('airlines', $row->code, $airline->id);
@@ -37,7 +41,5 @@ class AirlineImporter extends BaseImporter
         }
 
         $this->info('Imported '.$count.' airlines');
-
-        throw new ImporterNoMoreRecords();
     }
 }

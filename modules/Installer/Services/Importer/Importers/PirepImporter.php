@@ -10,12 +10,33 @@ use Modules\Installer\Services\Importer\BaseImporter;
 
 class PirepImporter extends BaseImporter
 {
+    protected $table = 'pireps';
+
     public function run($start = 0)
     {
         $this->comment('--- PIREP IMPORT ---');
 
+        $fields = [
+            'pirepid',
+            'pilotid',
+            'code',
+            'aircraft',
+            'flightnum',
+            'depicao',
+            'arricao',
+            'fuelused',
+            'route',
+            'source',
+            'accepted',
+            'submitdate',
+            'distance',
+            'flighttime_stamp',
+            'flighttype',
+            'flightlevel',
+        ];
+
         $count = 0;
-        foreach ($this->db->readRows('pireps', $start) as $row) {
+        foreach ($this->db->readRows($this->table, $start, $fields) as $row) {
             $pirep_id = $row->pirepid;
             $user_id = $this->idMapper->getMapping('users', $row->pilotid);
             $airline_id = $this->idMapper->getMapping('airlines', $row->code);
@@ -70,7 +91,10 @@ class PirepImporter extends BaseImporter
                 $attrs['level'] = 0;
             }
 
-            $pirep = Pirep::updateOrCreate(['id' => $pirep_id], $attrs);
+            $w = ['id' => $pirep_id];
+
+            $pirep = Pirep::updateOrCreate($w, $attrs);
+            //$pirep = Pirep::create(array_merge($w, $attrs));
 
             //Log::debug('pirep oldid='.$pirep_id.', olduserid='.$row->pilotid
             //    .'; new id='.$pirep->id.', user id='.$user_id);

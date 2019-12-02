@@ -11,6 +11,8 @@ use Modules\Installer\Services\Importer\BaseImporter;
  */
 class GroupImporter extends BaseImporter
 {
+    protected $table = 'groups';
+
     /**
      * Permissions in the legacy system, mapping them to the current system
      */
@@ -66,7 +68,7 @@ class GroupImporter extends BaseImporter
         $roleSvc = app(RoleService::class);
 
         $count = 0;
-        foreach ($this->db->readRows('groups') as $row) {
+        foreach ($this->db->readRows($this->table, $start) as $row) {
             $name = str_slug($row->name);
             $role = Role::firstOrCreate(
                 ['name' => $name],

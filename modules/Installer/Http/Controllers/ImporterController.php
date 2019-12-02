@@ -5,8 +5,6 @@ namespace Modules\Installer\Http\Controllers;
 use App\Contracts\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use Modules\Installer\Exceptions\ImporterNextRecordSet;
-use Modules\Installer\Exceptions\StageCompleted;
 use Modules\Installer\Services\Importer\ImporterService;
 
 class ImporterController extends Controller
@@ -28,6 +26,8 @@ class ImporterController extends Controller
      */
     public function index(Request $request)
     {
+        app('debugbar')->disable(); // saves the query logging
+
         return view('installer::importer/step1-configure');
     }
 
@@ -40,11 +40,26 @@ class ImporterController extends Controller
      */
     public function config(Request $request)
     {
-        // Save the credentials to use later
-        $this->importerSvc->saveCredentialsFromRequest($request);
+        app('debugbar')->disable(); // saves the query logging
+
+        try {
+            // Save the credentials to use later
+            $this->importerSvc->saveCredentialsFromRequest($request);
+
+            // Generate the import manifest
+            $manifest = $this->importerSvc->generateImportManifest();
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            // Send it to run, step1
+            return view('installer::importer/error', [
+                'error' => $e->getMessage(),
+            ]);
+        }
 
         // Send it to run, step1
-        return redirect(route('importer.run').'?stage=stage1&start=0');
+        return view('installer::importer/step2-processing', [
+            'manifest' => $manifest,
+        ]);
     }
 
     /**
@@ -55,33 +70,31 @@ class ImporterController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      *
+     * @throws \Exception
+     *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function run(Request $request)
     {
-        $stage = $request->get('stage');
-        $start = $request->get('start');
+        app('debugbar')->disable(); // saves the query logging
 
-        Log::info('Starting stage '.$stage.' from offset '.$start);
+        $importer = $request->input('importer');
+        $start = $request->input('start');
 
-        try {
-            $this->importerSvc->run($stage, $start);
-        }
+        Log::info('Starting stage '.$importer.' from offset '.$start);
 
-        // The importer wants to move onto the next set of records, so refresh this page and continue
-        catch (ImporterNextRecordSet $e) {
-            Log::info('Getting more records for stage '.$stage.', starting at '.$e->nextOffset);
-            return redirect(route('importer.run').'?stage='.$stage.'&start='.$e->nextOffset);
-        }
+        $this->importerSvc->run($importer, $start);
 
-        // This stage is completed, so move onto the next one
-        catch (StageCompleted $e) {
-            if ($e->nextStage === 'complete') {
-                return view('installer::importer/complete');
-            }
+        return response()->json([
+            'message' => 'completed',
+        ]);
+    }
 
-            Log::info('Completed stage '.$stage.', redirect to '.$e->nextStage);
-            return redirect(route('importer.run').'?stage='.$e->nextStage.'&start=0');
-        }
+    /**
+     * Complete the import
+     */
+    public function complete()
+    {
+        return redirect('/');
     }
 }

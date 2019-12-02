@@ -117,7 +117,7 @@
         e.preventDefault();
         const opts = {
           _token: "{{ csrf_token() }}",
-          db_conn: $("#db_conn option:selected").text(),
+          db_conn: 'mysql',
           db_host: $("input[name=db_host]").val(),
           db_port: $("input[name=db_port]").val(),
           db_name: $("input[name=db_name]").val(),

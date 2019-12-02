@@ -13,6 +13,8 @@ use Modules\Installer\Services\Importer\BaseImporter;
 
 class UserImport extends BaseImporter
 {
+    protected $table = 'pilots';
+
     /**
      * @var UserService
      */
@@ -26,7 +28,7 @@ class UserImport extends BaseImporter
 
         $count = 0;
         $first_row = true;
-        foreach ($this->db->readRows('pilots', $start) as $row) {
+        foreach ($this->db->readRows($this->table, $start) as $row) {
             $pilot_id = $row->pilotid; // This isn't their actual ID
             $name = $row->firstname.' '.$row->lastname;
 
