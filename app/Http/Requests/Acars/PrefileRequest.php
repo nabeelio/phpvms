@@ -11,10 +11,10 @@ class PrefileRequest extends FormRequest
         $rules = [
             'airline_id'          => 'required|exists:airlines,id',
             'aircraft_id'         => 'required|exists:aircraft,id',
+            'flight_id'           => 'sometimes|exists:flights,id',
             'flight_number'       => 'required',
             'dpt_airport_id'      => 'required|size:4',
             'arr_airport_id'      => 'required|size:4',
-            'flight_id'           => 'sometimes|exists:flights,id',
             'source_name'         => 'required',
             'alt_airport_id'      => 'sometimes|size:4',
             'status'              => 'sometimes',
