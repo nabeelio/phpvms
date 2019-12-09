@@ -67,7 +67,7 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         // Only load the IDE helper if it's included and enabled
-        if (config('app.debug_toolbar') === true) {
+        if (config('app.debug') === true) {
             /* @noinspection NestedPositiveIfStatementsInspection */
             /* @noinspection PhpFullyQualifiedNameUsageInspection */
             if (class_exists(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class)) {

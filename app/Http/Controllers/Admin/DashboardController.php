@@ -7,6 +7,7 @@ use App\Repositories\KvpRepository;
 use App\Repositories\NewsRepository;
 use App\Repositories\PirepRepository;
 use App\Repositories\UserRepository;
+use App\Services\CronService;
 use App\Services\NewsService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,6 +16,7 @@ use Laracasts\Flash\Flash;
 
 class DashboardController extends Controller
 {
+    private $cronSvc;
     private $kvpRepo;
     private $newsRepo;
     private $newsSvc;
@@ -24,6 +26,7 @@ class DashboardController extends Controller
     /**
      * DashboardController constructor.
      *
+     * @param CronService     $cronSvc
      * @param KvpRepository   $kvpRepo
      * @param NewsRepository  $newsRepo
      * @param NewsService     $newsSvc
@@ -31,12 +34,14 @@ class DashboardController extends Controller
      * @param UserRepository  $userRepo
      */
     public function __construct(
+        CronService $cronSvc,
         KvpRepository $kvpRepo,
         NewsRepository $newsRepo,
         NewsService $newsSvc,
         PirepRepository $pirepRepo,
         UserRepository $userRepo
     ) {
+        $this->cronSvc = $cronSvc;
         $this->kvpRepo = $kvpRepo;
         $this->newsRepo = $newsRepo;
         $this->newsSvc = $newsSvc;
@@ -79,10 +84,10 @@ class DashboardController extends Controller
         $this->checkNewVersion();
 
         return view('admin.dashboard.index', [
-            'news' => $this->newsRepo->getLatest(),
-//            'installer_enabled' => $installerEnabled,
-            'pending_pireps' => $this->pirepRepo->getPendingCount(),
-            'pending_users'  => $this->userRepo->getPendingCount(),
+            'news'                => $this->newsRepo->getLatest(),
+            'pending_pireps'      => $this->pirepRepo->getPendingCount(),
+            'pending_users'       => $this->userRepo->getPendingCount(),
+            'cron_problem_exists' => $this->cronSvc->cronProblemExists(),
         ]);
     }
 
