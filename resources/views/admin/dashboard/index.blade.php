@@ -2,6 +2,12 @@
 @section('title', 'Dashboard')
 @section('content')
   <div class="content">
+    @if($cron_problem_exists)
+      <div class="alert alert-danger" role="alert">
+        There was a problem running the cron; make sure it's setup and check logs at
+        <span class="text-monospace bg-gradient-dark">storage/logs/cron.log</span>
+      </div>
+    @endif
 
     <div class="row">
       <div class="col-md-7">

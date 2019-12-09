@@ -8,6 +8,7 @@ use DateTime;
 use DateTimeZone;
 use Exception;
 use Illuminate\Support\Facades\Log;
+use Symfony\Component\Process\PhpExecutableFinder;
 
 class CronService extends Service
 {
@@ -26,14 +27,31 @@ class CronService extends Service
      */
     public function getCronPath(): string
     {
+        $finder = new PhpExecutableFinder();
+        $php_path = $finder->find(false);
+
         $path = [
             'cd '.base_path(),
             '&&',
-            str_replace('-fpm', '', PHP_BINARY),
+            str_replace('-fpm', '', $php_path),
             'artisan schedule:run',
         ];
 
         return implode(' ', $path);
+    }
+
+    /**
+     * Show an example cron command that runs every minute
+     *
+     * @return string
+     */
+    public function getCronExecString(): string
+    {
+        return implode(' ', [
+            '* * * * *',
+            $this->getCronPath(),
+            '>> /dev/null 2>&1',
+        ]);
     }
 
     /**
