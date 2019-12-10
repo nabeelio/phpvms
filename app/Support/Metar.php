@@ -527,11 +527,28 @@ class Metar implements \ArrayAccess
         } else {
             /* @noinspection NestedPositiveIfStatementsInspection */
             if (array_key_exists('cloud_height', $this->result) && array_key_exists('visibility', $this->result)) {
-                if ($this->result['cloud_height']['ft'] > 3000 && $this->result['visibility']['nmi'] > 5) {
-                    $this->result['category'] = 'VFR';
-                } else {
-                    $this->result['category'] = 'IFR';
+                if (array_key_exists('ft', $this->result['cloud_height'])) {
+                    if ($this->result['cloud_height']['ft'] > 3000) {
+                        $this->result['category'] = 'VFR';
+                    } else {
+                        $this->result['category'] = 'IFR';
+                    }
+
+                    return $this->result;
                 }
+
+                if (array_key_exists('nmi', $this->result['cloud_height'])) {
+                    if ($this->result['visibility']['nmi'] > 5) {
+                        $this->result['category'] = 'VFR';
+                    } else {
+                        $this->result['category'] = 'IFR';
+                    }
+
+                    return $this->result;
+                }
+
+                // Default to IFR
+                $this->result['category'] = 'IFR';
             }
         }
 
