@@ -27,6 +27,8 @@ addons:
   mariadb: '10.2'
 
 install:
+  - php --version
+  - mysql --version
   - composer install --dev --no-interaction --verbose
   - cp .travis/env.travis.php env.php
   - cp .travis/phpunit.travis.xml phpunit.xml
