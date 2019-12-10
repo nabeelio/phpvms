@@ -6,14 +6,10 @@ use App\Contracts\Controller;
 use App\Http\Requests\CreatePirepFieldRequest;
 use App\Http\Requests\UpdatePirepFieldRequest;
 use App\Repositories\PirepFieldRepository;
-use Flash;
 use Illuminate\Http\Request;
+use Laracasts\Flash\Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
-use Response;
 
-/**
- * Class PirepFieldController
- */
 class PirepFieldController extends Controller
 {
     private $pirepFieldRepo;
@@ -36,7 +32,7 @@ class PirepFieldController extends Controller
      *
      * @throws \Prettus\Repository\Exceptions\RepositoryException
      *
-     * @return Response
+     * @return mixed
      */
     public function index(Request $request)
     {
@@ -51,7 +47,7 @@ class PirepFieldController extends Controller
     /**
      * Show the form for creating a new PirepField.
      *
-     * @return Response
+     * @return mixed
      */
     public function create()
     {
@@ -65,7 +61,7 @@ class PirepFieldController extends Controller
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      *
-     * @return Response
+     * @return mixed
      */
     public function store(CreatePirepFieldRequest $request)
     {
@@ -85,7 +81,7 @@ class PirepFieldController extends Controller
      *
      * @param int $id
      *
-     * @return Response
+     * @return mixed
      */
     public function show($id)
     {
@@ -107,7 +103,7 @@ class PirepFieldController extends Controller
      *
      * @param int $id
      *
-     * @return Response
+     * @return mixed
      */
     public function edit($id)
     {
@@ -158,7 +154,7 @@ class PirepFieldController extends Controller
      *
      * @param int $id
      *
-     * @return Response
+     * @return mixed
      */
     public function destroy($id)
     {

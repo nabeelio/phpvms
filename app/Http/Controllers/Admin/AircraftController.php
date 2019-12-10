@@ -14,10 +14,10 @@ use App\Repositories\AircraftRepository;
 use App\Repositories\AirportRepository;
 use App\Services\ExportService;
 use App\Services\ImportService;
-use Flash;
 use Illuminate\Http\Request;
-use Log;
-use Storage;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+use Laracasts\Flash\Flash;
 
 /**
  * Class AircraftController

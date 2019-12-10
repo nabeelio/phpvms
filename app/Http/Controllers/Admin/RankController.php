@@ -9,14 +9,10 @@ use App\Repositories\RankRepository;
 use App\Repositories\SubfleetRepository;
 use App\Services\FleetService;
 use Cache;
-use Flash;
 use Illuminate\Http\Request;
+use Laracasts\Flash\Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
-use Response;
 
-/**
- * Class RankController
- */
 class RankController extends Controller
 {
     private $fleetSvc;
@@ -67,7 +63,7 @@ class RankController extends Controller
      *
      * @throws \Prettus\Repository\Exceptions\RepositoryException
      *
-     * @return Response
+     * @return mixed
      */
     public function index(Request $request)
     {
@@ -82,7 +78,7 @@ class RankController extends Controller
     /**
      * Show the form for creating a new Ranking.
      *
-     * @return Response
+     * @return mixed
      */
     public function create()
     {
@@ -96,7 +92,7 @@ class RankController extends Controller
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      *
-     * @return Response
+     * @return mixed
      */
     public function store(CreateRankRequest $request)
     {
@@ -115,7 +111,7 @@ class RankController extends Controller
      *
      * @param int $id
      *
-     * @return Response
+     * @return mixed
      */
     public function show($id)
     {
@@ -137,7 +133,7 @@ class RankController extends Controller
      *
      * @param int $id
      *
-     * @return Response
+     * @return mixed
      */
     public function edit($id)
     {
@@ -165,7 +161,7 @@ class RankController extends Controller
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      *
-     * @return Response
+     * @return mixed
      */
     public function update($id, UpdateRankRequest $request)
     {
@@ -190,7 +186,7 @@ class RankController extends Controller
      *
      * @param int $id
      *
-     * @return Response
+     * @return mixed
      */
     public function destroy($id)
     {

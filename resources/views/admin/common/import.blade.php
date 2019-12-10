@@ -4,7 +4,7 @@
 
             {{ Form::open(['method' => 'post', 'route' => $route, 'files' => true]) }}
             <div class="form-group col-12">
-                {{ Form::label('csv_file', 'Chose a CSV file to import') }}
+                {{ Form::label('csv_file', 'Choose a CSV file to import') }}
                 {{ Form::file('csv_file', ['accept' => '.csv']) }}
                 <p class="text-danger">{{ $errors->first('csv_file') }}</p>
             </div>

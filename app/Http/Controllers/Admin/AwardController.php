@@ -7,10 +7,9 @@ use App\Http\Requests\CreateAwardRequest;
 use App\Http\Requests\UpdateAwardRequest;
 use App\Repositories\AwardRepository;
 use App\Services\AwardService;
-use Flash;
 use Illuminate\Http\Request;
+use Laracasts\Flash\Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
-use Response;
 
 class AwardController extends Controller
 {
@@ -62,7 +61,7 @@ class AwardController extends Controller
      *
      * @throws \Prettus\Repository\Exceptions\RepositoryException
      *
-     * @return Response
+     * @return mixed
      */
     public function index(Request $request)
     {
@@ -76,8 +75,6 @@ class AwardController extends Controller
 
     /**
      * Show the form for creating a new Fare.
-     *
-     * @return Response
      */
     public function create()
     {
@@ -96,7 +93,7 @@ class AwardController extends Controller
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      *
-     * @return Response
+     * @return mixed
      */
     public function store(CreateAwardRequest $request)
     {
@@ -112,7 +109,7 @@ class AwardController extends Controller
      *
      * @param int $id
      *
-     * @return Response
+     * @return mixed
      */
     public function show($id)
     {
@@ -133,7 +130,7 @@ class AwardController extends Controller
      *
      * @param int $id
      *
-     * @return Response
+     * @return mixed
      */
     public function edit($id)
     {
@@ -161,7 +158,7 @@ class AwardController extends Controller
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      *
-     * @return Response
+     * @return mixed
      */
     public function update($id, UpdateAwardRequest $request)
     {
@@ -183,7 +180,7 @@ class AwardController extends Controller
      *
      * @param int $id
      *
-     * @return Response
+     * @return mixed
      */
     public function destroy($id)
     {
