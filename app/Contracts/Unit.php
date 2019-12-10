@@ -89,7 +89,7 @@ class Unit implements ArrayAccess
     {
         $value = $this->instance->toUnit($offset);
         if (!$value) {
-            return null;
+            return;
         }
 
         return round($value, 2);
