@@ -59,7 +59,7 @@ class CronService extends Service
      */
     public function updateLastRunTime()
     {
-        $dt = new DateTime('now', DateTimeZone::UTC);
+        $dt = new DateTime('now', new DateTimeZone('UTC'));
         $this->kvpRepo->save('cron_last_run', $dt->format(DateTime::ISO8601));
     }
 
@@ -78,7 +78,7 @@ class CronService extends Service
 
         try {
             $dt = DateTime::createFromFormat(DateTime::ISO8601, $last_run);
-            $dt_now = new DateTime('now', DateTimeZone::UTC);
+            $dt_now = new DateTime('now', new DateTimeZone('UTC'));
         } catch (Exception $e) {
             Log::error('Error checking for cron problem: '.$e->getMessage());
             return true;
