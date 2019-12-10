@@ -520,13 +520,18 @@ class Metar implements \ArrayAccess
                 }
             }
         }
+
+
         // Finally determine if it's VFR or IFR conditions
         // https://www.aviationweather.gov/cva/help
+        $this->result['category'] = 'VFR';
+
         if (array_key_exists('cavok', $this->result) && $this->result['cavok']) {
             $this->result['category'] = 'VFR';
         } else {
             /* @noinspection NestedPositiveIfStatementsInspection */
-            if (array_key_exists('cloud_height', $this->result) && array_key_exists('visibility', $this->result)) {
+            if (array_key_exists('cloud_height', $this->result) && $this->result['cloud_height'] !== null) {
+
                 if (array_key_exists('ft', $this->result['cloud_height'])) {
                     if ($this->result['cloud_height']['ft'] > 3000) {
                         $this->result['category'] = 'VFR';
@@ -546,9 +551,6 @@ class Metar implements \ArrayAccess
 
                     return $this->result;
                 }
-
-                // Default to IFR
-                $this->result['category'] = 'IFR';
             }
         }
 
