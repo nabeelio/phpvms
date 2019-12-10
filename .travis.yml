@@ -6,12 +6,10 @@ language: php
 php:
   - '7.2'
   - '7.3'
+  - '7.4'
 
-matrix:
-  include:
-    - php: '7.2'
-    - php: '7.3'
-  fast_finish: true
+env:
+  - DB=mysql
 
 cache:
   # Cache lives for 10 min
@@ -21,8 +19,8 @@ cache:
   - "$HOME/.composer/cache"
   - "$HOME/.npm"
 
-services:
-- mysql
+#services:
+#- mysql
 
 install:
   - composer install --dev --no-interaction --verbose
@@ -41,6 +39,7 @@ after_failure:
   - cat storage/logs/*.log
 
 jobs:
+  fast_finish: true
   include:
     # Just packages up a release
     - stage: package
