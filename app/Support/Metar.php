@@ -521,7 +521,6 @@ class Metar implements \ArrayAccess
             }
         }
 
-
         // Finally determine if it's VFR or IFR conditions
         // https://www.aviationweather.gov/cva/help
         $this->result['category'] = 'VFR';
@@ -531,7 +530,6 @@ class Metar implements \ArrayAccess
         } else {
             /* @noinspection NestedPositiveIfStatementsInspection */
             if (array_key_exists('cloud_height', $this->result) && $this->result['cloud_height'] !== null) {
-
                 if (array_key_exists('ft', $this->result['cloud_height'])) {
                     if ($this->result['cloud_height']['ft'] > 3000) {
                         $this->result['category'] = 'VFR';
