@@ -10,6 +10,7 @@ php:
 
 env:
   - DB=mysql
+  - DB=mariadb
 
 cache:
   # Cache lives for 10 min
@@ -19,8 +20,11 @@ cache:
   - "$HOME/.composer/cache"
   - "$HOME/.npm"
 
-#services:
-#- mysql
+services:
+- mysql
+
+addons:
+  mariadb: '10.2'
 
 install:
   - composer install --dev --no-interaction --verbose
