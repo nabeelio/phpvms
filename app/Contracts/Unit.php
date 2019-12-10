@@ -88,7 +88,7 @@ class Unit implements ArrayAccess
     {
         try {
             $value = $this->instance->toUnit($offset);
-            if (! $value) {
+            if (!$value) {
                 return;
             }
         } catch (UnknownUnitOfMeasure $e) {
