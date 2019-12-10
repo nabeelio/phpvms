@@ -6,7 +6,7 @@ use ArrayAccess;
 use PhpUnitsOfMeasure\Exception\UnknownUnitOfMeasure;
 
 /**
- *
+ * Abstract unit wrapper
  */
 class Unit implements ArrayAccess
 {
