@@ -3,13 +3,10 @@
 namespace App\Contracts;
 
 use ArrayAccess;
+use PhpUnitsOfMeasure\Exception\UnknownUnitOfMeasure;
 
 /**
- * Class Unit
  *
- * @property mixed  $instance
- * @property string $unit
- * @property array  $units
  */
 class Unit implements ArrayAccess
 {
@@ -25,6 +22,8 @@ class Unit implements ArrayAccess
 
     /**
      * Holds an instance of the PhpUnit type
+     *
+     * @var \PhpUnitsOfMeasure\AbstractPhysicalQuantity
      */
     protected $instance;
 
@@ -87,8 +86,12 @@ class Unit implements ArrayAccess
      */
     public function offsetGet($offset)
     {
-        $value = $this->instance->toUnit($offset);
-        if (!$value) {
+        try {
+            $value = $this->instance->toUnit($offset);
+            if (! $value) {
+                return;
+            }
+        } catch (UnknownUnitOfMeasure $e) {
             return;
         }
 
