@@ -22,16 +22,20 @@ if (!function_exists('createFactoryICAO')) {
     }
 }
 
+/**
+ * Used ICAOs
+ */
+$usedIcaos = [];
+
 /*
  * Add any number of airports. Don't really care if they're real or not
  */
-$factory->define(App\Models\Airport::class, function (Faker $faker) {
-    $used = [];
+$factory->define(App\Models\Airport::class, function (Faker $faker) use ($usedIcaos) {
     return [
-        'id' => function () use ($used) {
+        'id' => function () use ($usedIcaos) {
             do {
                 $string = createFactoryICAO();
-            } while (in_array($string, $used, true));
+            } while (in_array($string, $usedIcaos, true));
 
             return $string;
         },
