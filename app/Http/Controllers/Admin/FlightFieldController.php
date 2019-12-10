@@ -4,14 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Contracts\Controller;
 use App\Repositories\FlightFieldRepository;
-use Flash;
 use Illuminate\Http\Request;
+use Laracasts\Flash\Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
-use Response;
 
-/**
- * Class FlightFieldController
- */
 class FlightFieldController extends Controller
 {
     private $flightFieldRepo;
@@ -34,7 +30,7 @@ class FlightFieldController extends Controller
      *
      * @throws \Prettus\Repository\Exceptions\RepositoryException
      *
-     * @return Response
+     * @return mixed
      */
     public function index(Request $request)
     {
@@ -48,8 +44,6 @@ class FlightFieldController extends Controller
 
     /**
      * Show the form for creating a new FlightField.
-     *
-     * @return Response
      */
     public function create()
     {
@@ -63,7 +57,7 @@ class FlightFieldController extends Controller
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      *
-     * @return Response
+     * @return mixed
      */
     public function store(Request $request)
     {
@@ -81,7 +75,7 @@ class FlightFieldController extends Controller
      *
      * @param int $id
      *
-     * @return Response
+     * @return mixed
      */
     public function show($id)
     {
@@ -102,7 +96,7 @@ class FlightFieldController extends Controller
      *
      * @param int $id
      *
-     * @return Response
+     * @return mixed
      */
     public function edit($id)
     {
@@ -126,7 +120,7 @@ class FlightFieldController extends Controller
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return mixed
      */
     public function update($id, Request $request)
     {
@@ -150,7 +144,7 @@ class FlightFieldController extends Controller
      *
      * @param int $id
      *
-     * @return Response
+     * @return mixed
      */
     public function destroy($id)
     {

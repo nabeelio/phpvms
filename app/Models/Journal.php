@@ -11,7 +11,7 @@ use App\Support\Money;
 use Carbon\Carbon;
 
 /**
- * Class Journal
+ * Holds various journals, depending on the morphed_type and morphed_id columns
  *
  * @property mixed                         id
  * @property Money                         $balance

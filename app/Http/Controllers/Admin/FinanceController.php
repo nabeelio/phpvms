@@ -10,9 +10,6 @@ use App\Services\FinanceService;
 use App\Support\Dates;
 use Illuminate\Http\Request;
 
-/**
- * Class FinanceController
- */
 class FinanceController extends Controller
 {
     private $airlineRepo;
@@ -43,24 +40,13 @@ class FinanceController extends Controller
     public function index(Request $request)
     {
         $month = $request->query('month', date('Y-m'));
-        $between = Dates::getMonthBoundary($month);
+        $transaction_groups = $this->financeSvc->getAllAirlineTransactionsBetween($month);
 
-        $first_journal = Journal::where(['type' => JournalType::AIRLINE])
+        $first_journal = Journal::select(['created_at'])
+            ->where(['type' => JournalType::AIRLINE])
             ->orderBy('created_at', 'asc')
             ->limit(1)
             ->first();
-
-        $transaction_groups = [];
-        $airlines = $this->airlineRepo->orderBy('icao')->all();
-
-        // group by the airline
-        foreach ($airlines as $airline) {
-            $transaction_groups[] = $this->financeSvc->getAirlineTransactionsBetween(
-                $airline,
-                $between[0],
-                $between[1]
-            );
-        }
 
         return view('admin.finances.index', [
             'current_month'      => $month,

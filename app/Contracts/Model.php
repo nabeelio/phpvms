@@ -8,10 +8,14 @@ namespace App\Contracts;
  *
  * @method static create(array $attrs)
  * @method static Model find(int $id)
+ * @method static Model select(array $array)
  * @method static Model where(array $array)
  * @method static Model firstOrCreate(array $where, array $array)
  * @method static Model updateOrCreate(array $array, array $attrs)
  * @method static truncate()
+ * @method Model orderBy(string $column, string $order)
+ * @method Model limit(int $limit)
+ * @method Model first()
  */
 abstract class Model extends \Illuminate\Database\Eloquent\Model
 {

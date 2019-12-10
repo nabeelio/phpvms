@@ -21,16 +21,12 @@ use App\Services\FareService;
 use App\Services\PirepService;
 use App\Services\UserService;
 use App\Support\Units\Time;
-use Flash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Log;
+use Illuminate\Support\Facades\Log;
+use Laracasts\Flash\Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
-use Response;
 
-/**
- * Class PirepController
- */
 class PirepController extends Controller
 {
     private $airportRepo;
@@ -170,7 +166,7 @@ class PirepController extends Controller
      *
      * @param Request $request
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return mixed
      */
     public function fares(Request $request)
     {
@@ -192,7 +188,7 @@ class PirepController extends Controller
      *
      * @throws \Prettus\Repository\Exceptions\RepositoryException
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return mixed
      */
     public function index(Request $request)
     {
@@ -218,7 +214,7 @@ class PirepController extends Controller
      *
      * @throws \Prettus\Repository\Exceptions\RepositoryException
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return mixed
      */
     public function pending(Request $request)
     {
@@ -238,7 +234,7 @@ class PirepController extends Controller
     /**
      * Show the form for creating a new Pirep.
      *
-     * @return Response
+     * @return mixed
      */
     public function create()
     {
@@ -279,7 +275,7 @@ class PirepController extends Controller
      *
      * @param int $id
      *
-     * @return Response
+     * @return mixed
      */
     public function show($id)
     {
@@ -302,7 +298,7 @@ class PirepController extends Controller
      *
      * @throws \InvalidArgumentException
      *
-     * @return Response
+     * @return mixed
      */
     public function edit($id)
     {
@@ -388,7 +384,7 @@ class PirepController extends Controller
      *
      * @param int $id
      *
-     * @return Response
+     * @return mixed
      */
     public function destroy($id)
     {

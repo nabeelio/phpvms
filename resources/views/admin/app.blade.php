@@ -70,11 +70,11 @@
     <div class="content">
       <div class="container-fluid">
         <div class="row">
-          @if(\App\Support\Utils::installerEnabled())
+          {{--@if(\App\Support\Utils::installerEnabled())
             <div class="col-lg-12 alert alert-danger alert-important">
               <p>Remove the modules/Installer folder or set the module to disabled! It's a security risk</p>
             </div>
-          @endif
+          @endif--}}
 
           <div class="col-12">
             @include('admin.flash.message')

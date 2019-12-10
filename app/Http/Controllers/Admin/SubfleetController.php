@@ -18,16 +18,12 @@ use App\Services\ExportService;
 use App\Services\FareService;
 use App\Services\FleetService;
 use App\Services\ImportService;
-use Flash;
 use Illuminate\Http\Request;
-use Log;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+use Laracasts\Flash\Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
-use Response;
-use Storage;
 
-/**
- * Class SubfleetController
- */
 class SubfleetController extends Controller
 {
     private $aircraftRepo;
@@ -115,7 +111,7 @@ class SubfleetController extends Controller
      *
      * @throws \Prettus\Repository\Exceptions\RepositoryException
      *
-     * @return Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index(Request $request)
     {
@@ -129,8 +125,6 @@ class SubfleetController extends Controller
 
     /**
      * Show the form for creating a new Subfleet.
-     *
-     * @return Response
      */
     public function create()
     {
@@ -147,7 +141,7 @@ class SubfleetController extends Controller
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      *
-     * @return Response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function store(CreateSubfleetRequest $request)
     {
@@ -163,7 +157,7 @@ class SubfleetController extends Controller
      *
      * @param int $id
      *
-     * @return Response
+     * @return mixed
      */
     public function show($id)
     {
@@ -186,7 +180,7 @@ class SubfleetController extends Controller
      *
      * @param int $id
      *
-     * @return Response
+     * @return mixed
      */
     public function edit($id)
     {
@@ -217,7 +211,7 @@ class SubfleetController extends Controller
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      *
-     * @return Response
+     * @return mixed
      */
     public function update($id, UpdateSubfleetRequest $request)
     {
@@ -239,7 +233,7 @@ class SubfleetController extends Controller
      *
      * @param int $id
      *
-     * @return Response
+     * @return mixed
      */
     public function destroy($id)
     {
@@ -269,8 +263,6 @@ class SubfleetController extends Controller
      *
      * @param Request $request
      *
-     * @throws \League\Csv\CannotInsertRecord
-     *
      * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
      */
     public function export(Request $request)
@@ -291,7 +283,7 @@ class SubfleetController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return mixed
      */
     public function import(Request $request)
     {
@@ -322,7 +314,7 @@ class SubfleetController extends Controller
     /**
      * @param Subfleet $subfleet
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return mixed
      */
     protected function return_ranks_view(?Subfleet $subfleet)
     {
@@ -338,7 +330,7 @@ class SubfleetController extends Controller
     /**
      * @param Subfleet $subfleet
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return mixed
      */
     protected function return_fares_view(?Subfleet $subfleet)
     {
@@ -357,7 +349,7 @@ class SubfleetController extends Controller
      * @param         $id
      * @param Request $request
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return mixed
      */
     public function ranks($id, Request $request)
     {
@@ -396,7 +388,7 @@ class SubfleetController extends Controller
     /**
      * @param Subfleet $subfleet
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return mixed
      */
     protected function return_expenses_view(?Subfleet $subfleet)
     {
@@ -414,7 +406,7 @@ class SubfleetController extends Controller
      *
      * @throws \Exception
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return mixed
      */
     public function expenses($id, Request $request)
     {
@@ -454,7 +446,7 @@ class SubfleetController extends Controller
      * @param         $id
      * @param Request $request
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return mixed
      */
     public function fares($id, Request $request)
     {

@@ -10,16 +10,12 @@ use App\Repositories\AirlineRepository;
 use App\Repositories\ExpenseRepository;
 use App\Services\ExportService;
 use App\Services\ImportService;
-use Flash;
 use Illuminate\Http\Request;
-use Log;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+use Laracasts\Flash\Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
-use Response;
-use Storage;
 
-/**
- * Class ExpenseController
- */
 class ExpenseController extends Controller
 {
     private $airlineRepo;
@@ -122,7 +118,7 @@ class ExpenseController extends Controller
      *
      * @param int $id
      *
-     * @return Response
+     * @return mixed
      */
     public function edit($id)
     {
@@ -149,7 +145,7 @@ class ExpenseController extends Controller
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      *
-     * @return Response
+     * @return mixed
      */
     public function update($id, Request $request)
     {
@@ -173,7 +169,7 @@ class ExpenseController extends Controller
      *
      * @param int $id
      *
-     * @return Response
+     * @return mixed
      */
     public function destroy($id)
     {

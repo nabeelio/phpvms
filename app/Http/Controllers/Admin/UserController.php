@@ -15,17 +15,13 @@ use App\Repositories\PirepRepository;
 use App\Repositories\UserRepository;
 use App\Services\UserService;
 use App\Support\Timezonelist;
-use DB;
-use Flash;
-use Hash;
 use Illuminate\Http\Request;
-use Log;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
+use Laracasts\Flash\Flash;
 use Prettus\Repository\Exceptions\RepositoryException;
-use Response;
 
-/**
- * Class UserController
- */
 class UserController extends Controller
 {
     private $airlineRepo;
@@ -80,7 +76,7 @@ class UserController extends Controller
     /**
      * Show the form for creating a new User.
      *
-     * @return Response
+     * @return mixed
      */
     public function create()
     {
@@ -106,7 +102,7 @@ class UserController extends Controller
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      *
-     * @return Response
+     * @return mixed
      */
     public function store(CreateUserRequest $request)
     {
@@ -122,7 +118,7 @@ class UserController extends Controller
      *
      * @param int $id
      *
-     * @return Response
+     * @return mixed
      */
     public function show($id)
     {
@@ -158,7 +154,7 @@ class UserController extends Controller
      *
      * @param int $id
      *
-     * @return Response
+     * @return mixed
      */
     public function edit($id)
     {
@@ -202,7 +198,7 @@ class UserController extends Controller
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      *
-     * @return Response
+     * @return mixed
      */
     public function update($id, UpdateUserRequest $request)
     {
@@ -262,7 +258,7 @@ class UserController extends Controller
      *
      * @param int $id
      *
-     * @return Response
+     * @return mixed
      */
     public function destroy($id)
     {

@@ -8,12 +8,8 @@ use App\Services\FileService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
 use Laracasts\Flash\Flash;
 
-/**
- * Class FileController
- */
 class FileController extends Controller
 {
     private $fileSvc;

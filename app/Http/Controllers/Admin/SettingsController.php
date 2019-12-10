@@ -8,9 +8,6 @@ use Igaster\LaravelTheme\Facades\Theme;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
-/**
- * Class SettingsController
- */
 class SettingsController extends Controller
 {
     /**

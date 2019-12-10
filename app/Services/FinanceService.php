@@ -6,15 +6,21 @@ use App\Contracts\Service;
 use App\Models\Airline;
 use App\Models\Journal;
 use App\Models\JournalTransaction;
+use App\Repositories\AirlineRepository;
 use App\Repositories\JournalRepository;
+use App\Support\Dates;
 use App\Support\Money;
 
 class FinanceService extends Service
 {
+    private $airlineRepo;
     private $journalRepo;
 
-    public function __construct(JournalRepository $journalRepo)
-    {
+    public function __construct(
+        AirlineRepository $airlineRepo,
+        JournalRepository $journalRepo
+    ) {
+        $this->airlineRepo = $airlineRepo;
         $this->journalRepo = $journalRepo;
     }
 
@@ -89,6 +95,32 @@ class FinanceService extends Service
             $transaction_group,
             $tag
         );
+    }
+
+    /**
+     * Get all of the transactions for every airline in a given month
+     *
+     * @param string $month In Y-m format
+     *
+     * @return array
+     */
+    public function getAllAirlineTransactionsBetween($month): array
+    {
+        $between = Dates::getMonthBoundary($month);
+
+        $transaction_groups = [];
+        $airlines = $this->airlineRepo->orderBy('icao')->all();
+
+        // group by the airline
+        foreach ($airlines as $airline) {
+            $transaction_groups[] = $this->getAirlineTransactionsBetween(
+                $airline,
+                $between[0],
+                $between[1]
+            );
+        }
+
+        return $transaction_groups;
     }
 
     /**
