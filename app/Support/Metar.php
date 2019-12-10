@@ -919,7 +919,7 @@ class Metar implements \ArrayAccess
             }
 
             $this->set_result_value('visibility', $visibility);
-            $this->set_result_value('visibility_report', $prefix.$visibility.$unit);
+            $this->set_result_value('visibility_report', $prefix.$visibility['m'].$unit);
         }
 
         return true;

@@ -75,7 +75,7 @@ class Unit implements ArrayAccess
      */
     public function offsetExists($offset)
     {
-        return array_key_exists($offset, $this->units);
+        return $this->offsetGet($offset) !== null;
     }
 
     /**
@@ -87,7 +87,12 @@ class Unit implements ArrayAccess
      */
     public function offsetGet($offset)
     {
-        return round($this->instance->toUnit($offset), 2);
+        $value = $this->instance->toUnit($offset);
+        if (!$value) {
+            return null;
+        }
+
+        return round($value, 2);
     }
 
     /**
@@ -116,6 +121,6 @@ class Unit implements ArrayAccess
      */
     public function __toString()
     {
-        return (string) $this->units[$this->unit];
+        return (string) $this->offsetGet($this->unit);
     }
 }
