@@ -18,15 +18,20 @@ if [ "$TRAVIS" = "true" ]; then
       exit 0
     fi
 
+    # Write the version out but place the branch ID in there
+    # This is only for the dev branch
     BASE_VERSION=$(php artisan phpvms:version --base-only)
-    PKG_NAME=${BASE_VERSION}-${TRAVIS_BRANCH}
+
+    # This now includes the pre-release version, so "-dev" by default
+    PKG_NAME=${BASE_VERSION}
 
     # Don't pass in a version here, just write out the latest hash
-    php artisan phpvms:version --write > VERSION
+    php artisan phpvms:version --write >VERSION
     VERSION=$(cat VERSION)
   fi
 
   echo "Version: $VERSION"
+  echo "Package name: $TAR_NAME"
 
   FILE_NAME="phpvms-$PKG_NAME"
   TAR_NAME="$FILE_NAME.tar.gz"
@@ -98,8 +103,6 @@ if [ "$TRAVIS" = "true" ]; then
   # Regenerate the autoloader and classes
   composer dump-autoload
   make clean
-
-  echo "Writing $TAR_NAME"
 
   cd /tmp
   tar -czf $TAR_NAME -C $TRAVIS_BUILD_DIR/../ phpvms

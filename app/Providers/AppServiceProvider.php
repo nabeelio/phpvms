@@ -25,6 +25,7 @@ use App\Models\Subfleet;
 use App\Models\User;
 use App\Repositories\SettingRepository;
 use App\Services\ModuleService;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -75,11 +76,13 @@ class AppServiceProvider extends ServiceProvider
                 $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
             }
 
-            if (config('app.debug_toolbar') === true) {
-                app('debugbar')->enable();
-            } else {
-                app('debugbar')->disable();
-            }
+            try {
+                if (config('app.debug_toolbar') === true) {
+                    app('debugbar')->enable();
+                } else {
+                    app('debugbar')->disable();
+                }
+            } catch (BindingResolutionException $e) {}
         }
     }
 }

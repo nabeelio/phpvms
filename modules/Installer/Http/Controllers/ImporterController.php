@@ -3,6 +3,7 @@
 namespace Modules\Installer\Http\Controllers;
 
 use App\Contracts\Controller;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Modules\Installer\Services\Importer\ImporterService;
@@ -15,7 +16,10 @@ class ImporterController extends Controller
     {
         $this->importerSvc = $importerSvc;
 
-        app('debugbar')->disable();
+        try {
+            app('debugbar')->disable();
+        } catch (BindingResolutionException $e) {
+        }
     }
 
     /**
@@ -28,7 +32,10 @@ class ImporterController extends Controller
      */
     public function index(Request $request)
     {
-        app('debugbar')->disable(); // saves the query logging
+        try {
+            app('debugbar')->disable();
+        } catch (BindingResolutionException $e) {
+        }
 
         return view('installer::importer/step1-configure');
     }
@@ -42,7 +49,10 @@ class ImporterController extends Controller
      */
     public function config(Request $request)
     {
-        app('debugbar')->disable(); // saves the query logging
+        try {
+            app('debugbar')->disable();
+        } catch (BindingResolutionException $e) {
+        }
 
         try {
             // Save the credentials to use later
@@ -78,7 +88,10 @@ class ImporterController extends Controller
      */
     public function run(Request $request)
     {
-        app('debugbar')->disable(); // saves the query logging
+        try {
+            app('debugbar')->disable();
+        } catch (BindingResolutionException $e) {
+        }
 
         $importer = $request->input('importer');
         $start = $request->input('start');
