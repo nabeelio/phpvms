@@ -20,10 +20,12 @@ class VersionTest extends TestCase
     public function testGreaterThanVersionStrings(): void
     {
         $test = [
-            '7.0.0'        => '6.0.0',
-            '7.0.0-beta'   => '7.0.0-alpha',
-            '7.0.0-beta.1' => '7.0.0-beta',
-            '7.0.0-beta.2' => '7.0.0-beta.1',
+            '7.0.0'               => '6.0.0',
+            '7.0.0+1231s'         => '6.0.0',
+            '7.0.0-beta'          => '7.0.0-alpha',
+            '7.0.0-beta.1'        => '7.0.0-beta',
+            '7.0.0-beta.2'        => '7.0.0-beta.1',
+            '7.0.0-beta.2+a34sdf' => '7.0.0-beta.1',
         ];
 
         $versionSvc = app(VersionService::class);

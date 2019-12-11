@@ -153,6 +153,12 @@ class VersionService extends Service
 
         $c = $cfg['current'];
         $version = "{$c['major']}.{$c['minor']}.{$c['patch']}";
+        if ($c['prerelease'] !== '') {
+            $version .= "-{$c['prerelease']}";
+            if ($c['buildmetadata'] !== '') {
+                $version .= ".{$c['buildmetadata']}";
+            }
+        }
 
         if ($include_build) {
             // Get the current build id
