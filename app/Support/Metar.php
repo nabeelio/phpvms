@@ -530,24 +530,10 @@ class Metar implements \ArrayAccess
         } else {
             /* @noinspection NestedPositiveIfStatementsInspection */
             if (array_key_exists('cloud_height', $this->result) && $this->result['cloud_height'] !== null) {
-                if (array_key_exists('ft', $this->result['cloud_height'])) {
-                    if ($this->result['cloud_height']['ft'] > 3000) {
-                        $this->result['category'] = 'VFR';
-                    } else {
-                        $this->result['category'] = 'IFR';
-                    }
-
-                    return $this->result;
-                }
-
-                if (array_key_exists('nmi', $this->result['cloud_height'])) {
-                    if ($this->result['visibility']['nmi'] > 5) {
-                        $this->result['category'] = 'VFR';
-                    } else {
-                        $this->result['category'] = 'IFR';
-                    }
-
-                    return $this->result;
+                if ($this->result['cloud_height']['ft'] > 3000 && $this->result['visibility']['nmi'] > 5) {
+                    $this->result['category'] = 'VFR';
+                } else {
+                    $this->result['category'] = 'IFR';
                 }
             }
         }
@@ -1103,7 +1089,7 @@ class Metar implements \ArrayAccess
             $observed['height'] = $this->createAltitude($found[5] * 100, 'feet');
 
             // Cloud height
-            if (null === $this->result['cloud_height']['m'] || $observed['height']['m'] < $this->result['cloud_height']['m']) {
+            if (null === $this->result['cloud_height'] || $observed['height']['m'] < $this->result['cloud_height']['m']) {
                 $this->set_result_value('cloud_height', $observed['height']);
             }
 
