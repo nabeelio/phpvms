@@ -82,7 +82,8 @@ class AppServiceProvider extends ServiceProvider
                 } else {
                     app('debugbar')->disable();
                 }
-            } catch (BindingResolutionException $e) {}
+            } catch (BindingResolutionException $e) {
+            }
         }
     }
 }

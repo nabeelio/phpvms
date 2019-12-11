@@ -4,16 +4,15 @@ use App\Exceptions\SettingNotFound;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\Factory;
 
-/**
+/*
  * array_key_first only exists in PHP 7.3+
  */
 if (!function_exists('array_key_first')) {
-    function array_key_first(array $arr) {
+    function array_key_first(array $arr)
+    {
         foreach ($arr as $key => $unused) {
             return $key;
         }
-
-        return null;
     }
 }
 
