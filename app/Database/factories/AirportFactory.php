@@ -22,10 +22,6 @@ if (!function_exists('createFactoryICAO')) {
     }
 }
 
-/**
- * Used ICAOs
- */
-
 /*
  * Add any number of airports. Don't really care if they're real or not
  */
