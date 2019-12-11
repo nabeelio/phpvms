@@ -14,6 +14,8 @@ class ImporterController extends Controller
     public function __construct(ImporterService $importerSvc)
     {
         $this->importerSvc = $importerSvc;
+
+        app('debugbar')->disable();
     }
 
     /**

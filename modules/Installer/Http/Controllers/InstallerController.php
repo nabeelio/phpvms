@@ -62,6 +62,8 @@ class InstallerController extends Controller
         $this->reqSvc = $reqSvc;
         $this->seederSvc = $seederSvc;
         $this->userService = $userService;
+
+        app('debugbar')->disable();
     }
 
     /**

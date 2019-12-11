@@ -74,6 +74,12 @@ class AppServiceProvider extends ServiceProvider
                 /* @noinspection PhpFullyQualifiedNameUsageInspection */
                 $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
             }
+
+            if (config('app.debug_toolbar') === true) {
+                app('debugbar')->enable();
+            } else {
+                app('debugbar')->disable();
+            }
         }
     }
 }
