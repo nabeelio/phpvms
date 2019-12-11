@@ -50,6 +50,7 @@ class Version extends Command
                 }
             }
 
+            // Always write out the build ID/build number which is the commit hash
             $build_number = $this->versionSvc->getBuildId($cfg);
             $cfg['current']['commit'] = $build_number;
             $cfg['build']['number'] = $build_number;

@@ -185,6 +185,8 @@ class VersionService extends Service
             $current_version = $this->cleanVersionString($current_version);
         }
 
+        // Replace "dev" with "alpha", since
+
         $latest_version = $this->getLatestVersion();
 
         // Convert to semver

@@ -4,6 +4,18 @@ use App\Exceptions\SettingNotFound;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\Factory;
 
+/*
+ * array_key_first only exists in PHP 7.3+
+ */
+if (!function_exists('array_key_first')) {
+    function array_key_first(array $arr)
+    {
+        foreach ($arr as $key => $unused) {
+            return $key;
+        }
+    }
+}
+
 if (!function_exists('in_mask')) {
     /**
      * Return true/false if a value exists in a mask
