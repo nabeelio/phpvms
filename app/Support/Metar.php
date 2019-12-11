@@ -520,13 +520,16 @@ class Metar implements \ArrayAccess
                 }
             }
         }
+
         // Finally determine if it's VFR or IFR conditions
         // https://www.aviationweather.gov/cva/help
+        $this->result['category'] = 'VFR';
+
         if (array_key_exists('cavok', $this->result) && $this->result['cavok']) {
             $this->result['category'] = 'VFR';
         } else {
             /* @noinspection NestedPositiveIfStatementsInspection */
-            if (array_key_exists('cloud_height', $this->result) && array_key_exists('visibility', $this->result)) {
+            if (array_key_exists('cloud_height', $this->result) && $this->result['cloud_height'] !== null) {
                 if ($this->result['cloud_height']['ft'] > 3000 && $this->result['visibility']['nmi'] > 5) {
                     $this->result['category'] = 'VFR';
                 } else {
@@ -902,7 +905,7 @@ class Metar implements \ArrayAccess
             }
 
             $this->set_result_value('visibility', $visibility);
-            $this->set_result_value('visibility_report', $prefix.$visibility.$unit);
+            $this->set_result_value('visibility_report', $prefix.$visibility['m'].$unit);
         }
 
         return true;
@@ -1086,7 +1089,7 @@ class Metar implements \ArrayAccess
             $observed['height'] = $this->createAltitude($found[5] * 100, 'feet');
 
             // Cloud height
-            if (null === $this->result['cloud_height']['m'] || $observed['height']['m'] < $this->result['cloud_height']['m']) {
+            if (null === $this->result['cloud_height'] || $observed['height']['m'] < $this->result['cloud_height']['m']) {
                 $this->set_result_value('cloud_height', $observed['height']);
             }
 

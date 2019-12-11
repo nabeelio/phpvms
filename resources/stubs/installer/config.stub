@@ -17,7 +17,8 @@ return [
 
         // debug as true shows the Laravel debug bar, which is helpful for
         // debugging templates and other internals
-        'debug' => true,
+        'debug'         => true,
+        'debug_toolbar' => false,
     ],
 
     // Overrides config/phpvms.php
