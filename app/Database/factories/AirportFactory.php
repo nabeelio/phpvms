@@ -8,7 +8,7 @@ use Faker\Generator as Faker;
 if (!function_exists('createFactoryICAO')) {
     function createFactoryICAO(): string
     {
-        $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
         $max = strlen($characters) - 1;
         $string = '';
         for ($i = 0; $i < 4; $i++) {
@@ -25,19 +25,20 @@ if (!function_exists('createFactoryICAO')) {
 /**
  * Used ICAOs
  */
-$usedIcaos = [];
 
 /*
  * Add any number of airports. Don't really care if they're real or not
  */
-$factory->define(App\Models\Airport::class, function (Faker $faker) use ($usedIcaos) {
+$factory->define(App\Models\Airport::class, function (Faker $faker) {
+    $usedIcaos = [];
+
     return [
         'id' => function () use ($usedIcaos) {
             do {
-                $string = createFactoryICAO();
-            } while (in_array($string, $usedIcaos, true));
+                $airport = createFactoryICAO();
+            } while (in_array($airport, $usedIcaos, true));
 
-            return $string;
+            return $airport;
         },
         'icao' => function (array $apt) {
             return $apt['id'];
