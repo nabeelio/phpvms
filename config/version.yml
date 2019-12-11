@@ -3,7 +3,7 @@ current:
   major: 7
   minor: 0
   patch: 0
-  prerelease: 'alpha'
+  prerelease: 'dev'
   buildmetadata: ''
   commit: ''
   git_absorb: git-local
