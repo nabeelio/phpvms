@@ -1,5 +1,5 @@
 {
-    "name": "phpvms/installer",
+    "name": "phpvms/updater",
     "license": "",
     "type": "laravel-library",
     "description": "The installer module for phpVMS",
@@ -15,7 +15,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Modules\\Installer\\Providers\\InstallerServiceProvider"
+                "Modules\\Updater\\Providers\\UpdateServiceProvider"
             ],
             "aliases": {
 

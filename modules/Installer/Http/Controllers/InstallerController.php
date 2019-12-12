@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Modules\Installer\Services\ConfigService;
-use Modules\Installer\Services\DatabaseService;
+use App\Services\Installer\DatabaseService;
 use Modules\Installer\Services\RequirementsService;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 

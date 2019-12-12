@@ -7,7 +7,7 @@ use App\Support\Utils;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Modules\Importer\Services\ImporterService;
-use Modules\Installer\Services\DatabaseService;
+use App\Services\Installer\DatabaseService;
 
 class ImporterController extends Controller
 {

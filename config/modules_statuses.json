@@ -3,6 +3,7 @@
     "Importer": true,
     "Installer": true,
     "Sample": true,
+    "Updater": true,
     "VMSAcars": true,
     "Vacentral": true
 }

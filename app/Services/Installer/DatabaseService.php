@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Installer\Services;
+namespace App\Services\Installer;
 
 use App\Contracts\Service;
 use Illuminate\Support\Facades\Artisan;
