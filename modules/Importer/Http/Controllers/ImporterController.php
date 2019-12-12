@@ -3,11 +3,11 @@
 namespace Modules\Importer\Http\Controllers;
 
 use App\Contracts\Controller;
+use App\Services\Installer\DatabaseService;
 use App\Support\Utils;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Modules\Importer\Services\ImporterService;
-use App\Services\Installer\DatabaseService;
 
 class ImporterController extends Controller
 {

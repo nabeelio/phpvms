@@ -7,6 +7,7 @@ use App\Facades\Utils;
 use App\Models\User;
 use App\Repositories\AirlineRepository;
 use App\Services\AnalyticsService;
+use App\Services\Installer\DatabaseService;
 use App\Services\Installer\MigrationService;
 use App\Services\Installer\SeederService;
 use App\Services\UserService;
@@ -17,7 +18,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Modules\Installer\Services\ConfigService;
-use App\Services\Installer\DatabaseService;
 use Modules\Installer\Services\RequirementsService;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
