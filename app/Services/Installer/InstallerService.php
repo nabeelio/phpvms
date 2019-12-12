@@ -3,6 +3,7 @@
 namespace App\Services\Installer;
 
 use App\Contracts\Service;
+use Nwidart\Modules\Facades\Module;
 
 class InstallerService extends Service
 {
@@ -35,5 +36,17 @@ class InstallerService extends Service
         }
 
         return false;
+    }
+
+    /**
+     * Disable the installer and importer modules
+     */
+    public function disableInstallerModules()
+    {
+        $module = Module::find('installer');
+        $module->disable();
+
+        $module = Module::find('importer');
+        $module->disable();
     }
 }

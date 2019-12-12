@@ -4,6 +4,7 @@ namespace Modules\Importer\Http\Controllers;
 
 use App\Contracts\Controller;
 use App\Services\Installer\DatabaseService;
+use App\Services\Installer\InstallerService;
 use App\Support\Utils;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -128,7 +129,8 @@ class ImporterController extends Controller
      */
     public function complete()
     {
-        // TODO: Disable the module
+        $installerSvc = app(InstallerService::class);
+        $installerSvc->disableInstallerModules();
 
         return redirect('/');
     }

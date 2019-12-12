@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Repositories\AirlineRepository;
 use App\Services\AnalyticsService;
 use App\Services\Installer\DatabaseService;
+use App\Services\Installer\InstallerService;
 use App\Services\Installer\MigrationService;
 use App\Services\Installer\SeederService;
 use App\Services\UserService;
@@ -19,6 +20,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Modules\Installer\Services\ConfigService;
 use Modules\Installer\Services\RequirementsService;
+use Nwidart\Modules\Facades\Module;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class InstallerController extends Controller
@@ -350,6 +352,9 @@ class InstallerController extends Controller
      */
     public function complete(Request $request)
     {
+        $installerSvc = app(InstallerService::class);
+        $installerSvc->disableInstallerModules();
+
         return redirect('/login');
     }
 }
