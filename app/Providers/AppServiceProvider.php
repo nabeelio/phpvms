@@ -26,7 +26,6 @@ use App\Models\User;
 use App\Repositories\SettingRepository;
 use App\Services\ModuleService;
 use App\Support\Utils;
-use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;

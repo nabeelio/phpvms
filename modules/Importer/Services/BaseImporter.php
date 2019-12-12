@@ -2,6 +2,7 @@
 
 namespace Modules\Importer\Services;
 
+use App\Services\Installer\LoggerTrait;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -9,7 +10,6 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Modules\Importer\Utils\IdMapper;
 use Modules\Importer\Utils\ImporterDB;
-use App\Services\Installer\LoggerTrait;
 
 abstract class BaseImporter implements ShouldQueue
 {
