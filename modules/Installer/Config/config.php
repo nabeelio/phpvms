@@ -37,8 +37,4 @@ return [
         'storage/framework/views',
         'storage/logs',
     ],
-
-    'importer' => [
-        'batch_size' => 20,
-    ],
 ];

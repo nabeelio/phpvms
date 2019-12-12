@@ -13,9 +13,6 @@ use Nwidart\Modules\Support\Stub;
 use PDO;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
-/**
- * Class ConfigService
- */
 class ConfigService extends Service
 {
     /**

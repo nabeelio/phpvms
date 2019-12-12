@@ -1,12 +1,11 @@
 {
-    "name": "phpvms/installer",
-    "license": "",
+    "name": "phpvms/importer",
     "type": "laravel-library",
-    "description": "The installer module for phpVMS",
+    "description": "The importer module for phpVMS",
     "authors": [
         {
             "name": "Nabeel Shahzad",
-            "email": "nabeel@phpvms.net"
+            "email": ""
         }
     ],
     "require": {
@@ -15,7 +14,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Modules\\Installer\\Providers\\InstallerServiceProvider"
+                "Modules\\Importer\\Providers\\ImporterServiceProvider"
             ],
             "aliases": {
 
@@ -24,7 +23,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Modules\\Installer\\": ""
+            "Modules\\Importer\\": ""
         }
     }
 }

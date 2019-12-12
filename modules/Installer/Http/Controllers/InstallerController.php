@@ -7,18 +7,18 @@ use App\Facades\Utils;
 use App\Models\User;
 use App\Repositories\AirlineRepository;
 use App\Services\AnalyticsService;
+use App\Services\Installer\DatabaseService;
+use App\Services\Installer\InstallerService;
 use App\Services\Installer\MigrationService;
 use App\Services\Installer\SeederService;
 use App\Services\UserService;
 use App\Support\Countries;
-use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Modules\Installer\Services\ConfigService;
-use Modules\Installer\Services\DatabaseService;
 use Modules\Installer\Services\RequirementsService;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
@@ -64,10 +64,7 @@ class InstallerController extends Controller
         $this->seederSvc = $seederSvc;
         $this->userService = $userService;
 
-        try {
-            app('debugbar')->disable();
-        } catch (BindingResolutionException $e) {
-        }
+        \App\Support\Utils::disableDebugToolbar();
     }
 
     /**
@@ -109,7 +106,7 @@ class InstallerController extends Controller
             $message = 'Failed! '.$e->getMessage();
         }
 
-        return view('installer::flash/dbtest', [
+        return view('installer::install/dbtest', [
             'status'  => $status,
             'message' => $message,
         ]);
@@ -354,6 +351,9 @@ class InstallerController extends Controller
      */
     public function complete(Request $request)
     {
+        $installerSvc = app(InstallerService::class);
+        $installerSvc->disableInstallerModules();
+
         return redirect('/login');
     }
 }

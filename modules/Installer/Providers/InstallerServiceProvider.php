@@ -2,36 +2,20 @@
 
 namespace Modules\Installer\Providers;
 
-use App\Services\ModuleService;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
-use Modules\Installer\Console\Commands\ImportFromClassicCommand;
 
 class InstallerServiceProvider extends ServiceProvider
 {
-    protected $moduleSvc;
-
     /**
      * Boot the application events.
      */
     public function boot()
     {
-        $this->moduleSvc = app(ModuleService::class);
-
-        $this->registerCommands();
         $this->registerRoutes();
         $this->registerTranslations();
         $this->registerConfig();
         $this->registerViews();
-
-        $this->loadMigrationsFrom(__DIR__.'/../Database/migrations');
-    }
-
-    protected function registerCommands()
-    {
-        $this->commands([
-            ImportFromClassicCommand::class,
-        ]);
     }
 
     /**
@@ -45,25 +29,20 @@ class InstallerServiceProvider extends ServiceProvider
             'middleware' => ['web'],
             'namespace'  => 'Modules\Installer\Http\Controllers',
         ], function () {
-            $this->loadRoutesFrom(__DIR__.'/../Http/Routes/install.php');
-        });
+            Route::get('/', 'InstallerController@index')->name('index');
+            Route::post('/dbtest', 'InstallerController@dbtest')->name('dbtest');
 
-        Route::group([
-             'as'         => 'update.',
-             'prefix'     => 'update',
-             'middleware' => ['web'],
-             'namespace'  => 'Modules\Installer\Http\Controllers',
-         ], function () {
-             $this->loadRoutesFrom(__DIR__.'/../Http/Routes/update.php');
-         });
+            Route::get('/step1', 'InstallerController@step1')->name('step1');
+            Route::post('/step1', 'InstallerController@step1')->name('step1');
 
-        Route::group([
-            'as'         => 'importer.',
-            'prefix'     => 'importer',
-            'middleware' => ['web'],
-            'namespace'  => 'Modules\Installer\Http\Controllers',
-        ], function () {
-            $this->loadRoutesFrom(__DIR__.'/../Http/Routes/importer.php');
+            Route::get('/step2', 'InstallerController@step2')->name('step2');
+            Route::post('/envsetup', 'InstallerController@envsetup')->name('envsetup');
+            Route::get('/dbsetup', 'InstallerController@dbsetup')->name('dbsetup');
+
+            Route::get('/step3', 'InstallerController@step3')->name('step3');
+            Route::post('/usersetup', 'InstallerController@usersetup')->name('usersetup');
+
+            Route::get('/complete', 'InstallerController@complete')->name('complete');
         });
     }
 
@@ -72,13 +51,7 @@ class InstallerServiceProvider extends ServiceProvider
      */
     protected function registerConfig()
     {
-        $this->publishes([
-            __DIR__.'/../Config/config.php' => config_path('installer.php'),
-        ], 'installer');
-
-        $this->mergeConfigFrom(
-            __DIR__.'/../Config/config.php', 'installer'
-        );
+        $this->mergeConfigFrom(__DIR__.'/../Config/config.php', 'installer');
     }
 
     /**
