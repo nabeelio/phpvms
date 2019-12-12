@@ -44,9 +44,16 @@ script:
 after_failure:
   - cat storage/logs/*.log
 
+# Refer to: https://github.com/doctrine/dbal/blob/master/.travis.yml#L39
 jobs:
   fast_finish: true
   include:
+    - stage: Test
+      name: PHP 7.2 + MySQL
+      php: 7.2
+      env: DB=mysql
+      services:
+        - mysql
     # Just packages up a release
     - stage: package
       script: skip
