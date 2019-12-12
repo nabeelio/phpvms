@@ -3,14 +3,14 @@
 #
 
 language: php
-php:
-  - '7.2'
-  - '7.3'
-  - '7.4'
-
-env:
-  - DB=mysql
-  - DB=mariadb
+#php:
+#  - '7.2'
+#  - '7.3'
+#  - '7.4'
+#
+#env:
+#  - DB=mysql
+#  - DB=mariadb
 
 cache:
   # Cache lives for 10 min
@@ -20,11 +20,11 @@ cache:
   - "$HOME/.composer/cache"
   - "$HOME/.npm"
 
-services:
-- mysql
-
-addons:
-  mariadb: '10.2'
+#services:
+#- mysql
+#
+#addons:
+#  mariadb: '10.2'
 
 install:
   - php --version
@@ -48,12 +48,21 @@ after_failure:
 jobs:
   fast_finish: true
   include:
+    # Different test stages
     - stage: Test
       name: PHP 7.2 + MySQL
       php: 7.2
       env: DB=mysql
       services:
         - mysql
+
+    - stage: Test
+      name: PHP 7.2 + MariaDB 10.3
+      php: 7.2
+      env: DB=mariadb MARIADB_VERSION=10.3
+      addons:
+        mariadb: '10.3'
+
     # Just packages up a release
     - stage: package
       script: skip
