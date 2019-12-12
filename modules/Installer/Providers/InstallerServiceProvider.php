@@ -2,36 +2,22 @@
 
 namespace Modules\Installer\Providers;
 
-use App\Services\ModuleService;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
-use Modules\Installer\Console\Commands\ImportFromClassicCommand;
 
 class InstallerServiceProvider extends ServiceProvider
 {
-    protected $moduleSvc;
-
     /**
      * Boot the application events.
      */
     public function boot()
     {
-        $this->moduleSvc = app(ModuleService::class);
-
-        $this->registerCommands();
         $this->registerRoutes();
         $this->registerTranslations();
         $this->registerConfig();
         $this->registerViews();
 
         $this->loadMigrationsFrom(__DIR__.'/../Database/migrations');
-    }
-
-    protected function registerCommands()
-    {
-        $this->commands([
-            ImportFromClassicCommand::class,
-        ]);
     }
 
     /**
@@ -56,15 +42,6 @@ class InstallerServiceProvider extends ServiceProvider
          ], function () {
              $this->loadRoutesFrom(__DIR__.'/../Http/Routes/update.php');
          });
-
-        Route::group([
-            'as'         => 'importer.',
-            'prefix'     => 'importer',
-            'middleware' => ['web'],
-            'namespace'  => 'Modules\Installer\Http\Controllers',
-        ], function () {
-            $this->loadRoutesFrom(__DIR__.'/../Http/Routes/importer.php');
-        });
     }
 
     /**
@@ -72,13 +49,7 @@ class InstallerServiceProvider extends ServiceProvider
      */
     protected function registerConfig()
     {
-        $this->publishes([
-            __DIR__.'/../Config/config.php' => config_path('installer.php'),
-        ], 'installer');
-
-        $this->mergeConfigFrom(
-            __DIR__.'/../Config/config.php', 'installer'
-        );
+        $this->mergeConfigFrom(__DIR__.'/../Config/config.php', 'installer');
     }
 
     /**

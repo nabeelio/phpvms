@@ -64,10 +64,7 @@ class InstallerController extends Controller
         $this->seederSvc = $seederSvc;
         $this->userService = $userService;
 
-        try {
-            app('debugbar')->disable();
-        } catch (BindingResolutionException $e) {
-        }
+        \App\Support\Utils::disableDebugToolbar();
     }
 
     /**
@@ -109,7 +106,7 @@ class InstallerController extends Controller
             $message = 'Failed! '.$e->getMessage();
         }
 
-        return view('installer::flash/dbtest', [
+        return view('installer::install/dbtest', [
             'status'  => $status,
             'message' => $message,
         ]);

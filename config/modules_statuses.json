@@ -1,5 +1,6 @@
 {
     "Awards": true,
+    "Importer": true,
     "Installer": true,
     "Sample": true,
     "VMSAcars": true,

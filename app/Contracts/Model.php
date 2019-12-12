@@ -6,7 +6,7 @@ namespace App\Contracts;
  * @property mixed $id
  * @property bool  $skip_mutator
  *
- * @method static create(array $attrs)
+ * @method static Model create(array $attrs)
  * @method static Model find(int $id)
  * @method static Model select(array $array)
  * @method static Model where(array $array)

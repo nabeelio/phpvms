@@ -1,0 +1,135 @@
+<?php
+
+namespace Modules\Importer\Http\Controllers;
+
+use App\Contracts\Controller;
+use App\Support\Utils;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Modules\Importer\Services\ImporterService;
+use Modules\Installer\Services\DatabaseService;
+
+class ImporterController extends Controller
+{
+    private $dbSvc;
+    private $importerSvc;
+
+    public function __construct(DatabaseService $dbSvc, ImporterService $importerSvc)
+    {
+        $this->dbSvc = $dbSvc;
+        $this->importerSvc = $importerSvc;
+
+        Utils::disableDebugToolbar();
+    }
+
+    /**
+     * Show the main page for the importer; show form for the admin email
+     * and the credentials for the other database
+     *
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return mixed
+     */
+    public function index(Request $request)
+    {
+        return view('importer::step1-configure');
+    }
+
+    /**
+     * Check the database connection
+     *
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return mixed
+     */
+    public function dbtest(Request $request)
+    {
+        $status = 'success';  // success|warn|danger
+        $message = 'Database connection looks good!';
+
+        try {
+            $this->dbSvc->checkDbConnection(
+                $request->post('db_conn'),
+                $request->post('db_host'),
+                $request->post('db_port'),
+                $request->post('db_name'),
+                $request->post('db_user'),
+                $request->post('db_pass')
+            );
+        } catch (\Exception $e) {
+            $status = 'danger';
+            $message = 'Failed! '.$e->getMessage();
+        }
+
+        return view('importer::dbtest', [
+            'status'  => $status,
+            'message' => $message,
+        ]);
+    }
+
+    /**
+     * The post from the above
+     *
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return mixed
+     */
+    public function config(Request $request)
+    {
+        try {
+            // Save the credentials to use later
+            $this->importerSvc->saveCredentialsFromRequest($request);
+
+            // Generate the import manifest
+            $manifest = $this->importerSvc->generateImportManifest();
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+
+            // Send it to run, step1
+            return view('importer::error', [
+                'error' => $e->getMessage(),
+            ]);
+        }
+
+        // Send it to run, step1
+        return view('importer::step2-processing', [
+            'manifest' => $manifest,
+        ]);
+    }
+
+    /**
+     * Run the importer. Pass in query string with a few different parameters:
+     *
+     * stage=STAGE NAME
+     * start=record_start
+     *
+     * @param \Illuminate\Http\Request $request
+     *
+     * @throws \Exception
+     *
+     * @return mixed
+     */
+    public function run(Request $request)
+    {
+        $importer = $request->input('importer');
+        $start = $request->input('start');
+
+        Log::info('Starting stage '.$importer.' from offset '.$start);
+
+        $this->importerSvc->run($importer, $start);
+
+        return response()->json([
+            'message' => 'completed',
+        ]);
+    }
+
+    /**
+     * Complete the import
+     */
+    public function complete()
+    {
+        // TODO: Disable the module
+
+        return redirect('/');
+    }
+}
