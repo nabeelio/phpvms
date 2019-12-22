@@ -35,9 +35,7 @@ use Laratrust\Traits\LaratrustUserTrait;
  * @property bool           opt_in
  * @property string         last_pirep_id
  *
- * @method static           updateOrCreate(array $array, array $attrs)
- * @method static           where()
- * @method static           truncate()
+ * @mixin \Illuminate\Database\Eloquent\Builder
  * @mixin \Illuminate\Notifications\Notifiable
  * @mixin \Laratrust\Traits\LaratrustUserTrait
  */

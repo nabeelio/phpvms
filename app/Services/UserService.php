@@ -92,7 +92,7 @@ class UserService extends Service
      */
     public function addUserToRole(User $user, $roleName): User
     {
-        $role = Role::where('name', $roleName)->first();
+        $role = Role::where(['name' => $roleName])->first();
         $user->attachRole($role);
 
         return $user;

@@ -7,9 +7,6 @@ use App\Models\Airline;
 use Prettus\Repository\Contracts\CacheableInterface;
 use Prettus\Repository\Traits\CacheableRepository;
 
-/**
- * Class AirlineRepository
- */
 class AirlineRepository extends Repository implements CacheableInterface
 {
     use CacheableRepository;
