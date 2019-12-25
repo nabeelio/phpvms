@@ -2,14 +2,13 @@
 /**
  * Admin Routes
  */
-
 use Illuminate\Support\Facades\Route;
 
 Route::group(
     [
-        'namespace' => 'Admin',
-        'prefix' => 'admin',
-        'as' => 'admin.',
+        'namespace'  => 'Admin',
+        'prefix'     => 'admin',
+        'as'         => 'admin.',
         'middleware' => ['auth', 'ability:admin,admin-access'],
     ],
     static function () {
