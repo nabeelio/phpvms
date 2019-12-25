@@ -4,6 +4,8 @@
  * User doesn't need to be logged in for these
  */
 use App\Http\Middleware\SetActiveTheme;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
 Route::group([
     'namespace'  => 'Frontend', 'prefix' => '', 'as' => 'frontend.',
@@ -24,7 +26,7 @@ Route::group([
  */
 Route::group([
     'namespace'  => 'Frontend', 'prefix' => '', 'as' => 'frontend.',
-    'middleware' => ['role:admin|user', SetActiveTheme::class],
+    'middleware' => ['auth', SetActiveTheme::class],
 ], function () {
     Route::resource('dashboard', 'DashboardController');
 

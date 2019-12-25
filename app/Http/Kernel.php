@@ -10,7 +10,6 @@ use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Http\Middleware\UpdatePending;
 use App\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Auth\Middleware\Authenticate;
-use Illuminate\Auth\Middleware\AuthenticateWithBasicAuth;
 use Illuminate\Auth\Middleware\Authorize;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
@@ -44,14 +43,12 @@ class Kernel extends HttpKernel
             ShareErrorsFromSession::class,
             VerifyCsrfToken::class,
             SubstituteBindings::class,
-            //\Spatie\Pjax\Middleware\FilterIfPjax::class,
         ],
     ];
 
     protected $routeMiddleware = [
         'api.auth'       => ApiAuth::class,
         'auth'           => Authenticate::class,
-        'auth.basic'     => AuthenticateWithBasicAuth::class,
         'bindings'       => SubstituteBindings::class,
         'can'            => Authorize::class,
         'guest'          => RedirectIfAuthenticated::class,
