@@ -3,7 +3,6 @@
 namespace App\Services\ImportExport;
 
 use App\Contracts\ImportExport;
-use App\Models\Airport;
 use App\Models\Enums\Days;
 use App\Models\Enums\FlightType;
 use App\Models\Fare;
@@ -37,7 +36,7 @@ class FlightImporter extends ImportExport
         'dpt_time'      => 'nullable',
         'arr_time'      => 'nullable',
         'level'         => 'nullable|integer',
-        'distance'      => 'required|numeric',
+        'distance'      => 'nullable|numeric',
         'flight_time'   => 'required|integer',
         'flight_type'   => 'required|alpha',
         'route'         => 'nullable',
@@ -108,6 +107,14 @@ class FlightImporter extends ImportExport
         }
 
         // Any specific transformations
+
+        // Check/calculate the distance
+        if (empty($row['distance'])) {
+            $row['distance'] = $this->airportSvc->calculateDistance(
+                $row['dpt_airport'],
+                $row['arr_airport']
+            );
+        }
 
         // Check for a valid value
         $flight_type = $row['flight_type'];

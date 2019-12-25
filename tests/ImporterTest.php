@@ -19,9 +19,6 @@ use App\Services\ImportExport\FlightExporter;
 use App\Services\ImportService;
 use Illuminate\Validation\ValidationException;
 
-/**
- * Class ImporterTest
- */
 class ImporterTest extends TestCase
 {
     private $importBaseClass;
@@ -470,7 +467,7 @@ class ImporterTest extends TestCase
         $file_path = base_path('tests/data/flights.csv');
         $status = $this->importSvc->importFlights($file_path);
 
-        $this->assertCount(1, $status['success']);
+        $this->assertCount(2, $status['success']);
         $this->assertCount(1, $status['errors']);
 
         // See if it imported
