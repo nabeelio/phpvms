@@ -10,7 +10,7 @@ Route::group(
         'namespace' => 'Admin',
         'prefix' => 'admin',
         'as' => 'admin.',
-        'middleware' => ['ability:admin,admin-access'],
+        'middleware' => ['auth', 'ability:admin,admin-access'],
     ],
     static function () {
         // CRUD for airlines
