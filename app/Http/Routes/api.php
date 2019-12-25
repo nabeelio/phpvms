@@ -3,6 +3,8 @@
 /**
  * Public routes
  */
+use Illuminate\Support\Facades\Route;
+
 Route::group([], function () {
     Route::get('acars', 'AcarsController@live_flights');
     Route::get('acars/geojson', 'AcarsController@pireps_geojson');

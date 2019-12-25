@@ -42,7 +42,6 @@ class Kernel extends ConsoleKernel
      */
     protected function commands(): void
     {
-        require app_path('Http/Routes/console.php');
         $this->load(__DIR__.'/Commands');
         $this->load(__DIR__.'/Cron');
     }

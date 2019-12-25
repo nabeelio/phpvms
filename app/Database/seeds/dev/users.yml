@@ -21,10 +21,10 @@ users:
     updated_at: now
   - id: 2
     pilot_id: 2
-    name: Carla Walters
-    email: carla.walters68@example.com
-    password: admin
-    api_key: testuserapikey1
+    name: Test User
+    email: test@phpvms.net
+    password: test
+    api_key: testuserapikey
     airline_id: 1
     rank_id: 1
     home_airport_id: KJFK
@@ -34,7 +34,7 @@ users:
     transfer_time: 360
     created_at: now
     updated_at: now
-    state: 0
+    state: 1
     opt_in: 1
     toc_accepted: 1
   - id: 3
