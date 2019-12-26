@@ -243,9 +243,11 @@ class UserController extends Controller
         }
 
         // Delete all of the roles and then re-attach the valid ones
-        DB::table('role_user')->where('user_id', $id)->delete();
-        foreach ($request->input('roles') as $key => $value) {
-            $user->attachRole($value);
+        if (!empty($request->input('roles'))) {
+            DB::table('role_user')->where('user_id', $id)->delete();
+            foreach ($request->input('roles') as $key => $value) {
+                $user->attachRole($value);
+            }
         }
 
         Flash::success('User updated successfully.');
