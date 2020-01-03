@@ -21,11 +21,11 @@ class UpdateServiceProvider extends ServiceProvider
     protected function registerRoutes()
     {
         Route::group([
-             'as'         => 'update.',
-             'prefix'     => 'update',
-             'middleware' => ['auth', 'ability:admin,admin-access', 'web'],
-             'namespace'  => 'Modules\Updater\Http\Controllers',
-         ], function () {
+            'as'         => 'update.',
+            'prefix'     => 'update',
+            'middleware' => ['auth', 'ability:admin,admin-access', 'web'],
+            'namespace'  => 'Modules\Updater\Http\Controllers',
+        ], function () {
              Route::get('/', 'UpdateController@index')->name('index');
 
              Route::get('/step1', 'UpdateController@step1')->name('step1');

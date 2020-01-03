@@ -146,7 +146,7 @@ class User extends Authenticatable
         }
 
         return new File([
-           'path' => $this->attributes['avatar'],
+            'path' => $this->attributes['avatar'],
         ]);
     }
 

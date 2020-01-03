@@ -37,7 +37,7 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
     /**
      * @throws Exception
      */
-    public function setUp() : void
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -52,7 +52,7 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
         Artisan::call('migrate:refresh', ['--env' => 'testing']);
     }
 
-    public function tearDown() : void
+    public function tearDown(): void
     {
         parent::tearDown();
     }

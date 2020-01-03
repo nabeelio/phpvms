@@ -38,7 +38,7 @@ class ImporterDB
             'host='.$this->creds['host'],
             'port='.$this->creds['port'],
             'dbname='.$this->creds['name'],
-            ]);
+        ]);
 
         Log::info('Using DSN: '.$this->dsn);
 

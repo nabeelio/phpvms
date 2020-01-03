@@ -67,7 +67,7 @@ class File extends Model
      *
      * @return string
      */
-    public function getFilenameAttribute() :string
+    public function getFilenameAttribute(): string
     {
         if (!$this->pathinfo) {
             $this->pathinfo = pathinfo($this->path);
