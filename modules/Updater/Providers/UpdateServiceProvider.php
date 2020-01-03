@@ -26,14 +26,14 @@ class UpdateServiceProvider extends ServiceProvider
             'middleware' => ['auth', 'ability:admin,admin-access', 'web'],
             'namespace'  => 'Modules\Updater\Http\Controllers',
         ], function () {
-             Route::get('/', 'UpdateController@index')->name('index');
+            Route::get('/', 'UpdateController@index')->name('index');
 
-             Route::get('/step1', 'UpdateController@step1')->name('step1');
-             Route::post('/step1', 'UpdateController@step1')->name('step1');
+            Route::get('/step1', 'UpdateController@step1')->name('step1');
+            Route::post('/step1', 'UpdateController@step1')->name('step1');
 
-             Route::post('/run-migrations', 'UpdateController@run_migrations')->name('run_migrations');
-             Route::get('/complete', 'UpdateController@complete')->name('complete');
-         });
+            Route::post('/run-migrations', 'UpdateController@run_migrations')->name('run_migrations');
+            Route::get('/complete', 'UpdateController@complete')->name('complete');
+        });
     }
 
     /**
