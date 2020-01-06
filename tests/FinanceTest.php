@@ -177,7 +177,7 @@ class FinanceTest extends TestCase
             'capacity' => $percent_200,
         ]);
 
-        $ac_fares = $this->fareSvc->getForFlight($flight);
+        $ac_fares = $this->fareSvc->getAllFares($flight, null);
 
         $this->assertCount(1, $ac_fares);
         $this->assertEquals($new_price, $ac_fares[0]->price);

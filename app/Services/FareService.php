@@ -34,7 +34,14 @@ class FareService extends Service
             $flight_fares = $this->getForFlight($flight);
         }
 
+        if (empty($subfleet)) {
+            return $flight_fares;
+        }
+
         $subfleet_fares = $this->getForSubfleet($subfleet);
+        if (empty($subfleet_fares) || $subfleet_fares->count() === 0) {
+            return $flight_fares;
+        }
 
         // Go through all of the fares assigned by the subfleet
         // See if any of the same fares are assigned to the flight
@@ -60,7 +67,7 @@ class FareService extends Service
     protected function getFares($fare)
     {
         if (filled($fare->pivot->price)) {
-            if (substr_count($fare->pivot->price, '%', -1)) {
+            if (strpos($fare->pivot->price, '%', -1) !== false) {
                 $fare->price = Math::addPercent($fare->price, $fare->pivot->price);
             } else {
                 $fare->price = $fare->pivot->price;
@@ -68,7 +75,7 @@ class FareService extends Service
         }
 
         if (filled($fare->pivot->cost)) {
-            if (substr_count($fare->pivot->cost, '%', -1)) {
+            if (strpos($fare->pivot->cost, '%', -1) !== false) {
                 $fare->cost = Math::addPercent($fare->cost, $fare->pivot->cost);
             } else {
                 $fare->cost = $fare->pivot->cost;
@@ -76,7 +83,7 @@ class FareService extends Service
         }
 
         if (filled($fare->pivot->capacity)) {
-            if (substr_count($fare->pivot->capacity, '%', -1)) {
+            if (strpos($fare->pivot->capacity, '%', -1) !== false) {
                 $fare->capacity = Math::addPercent($fare->capacity, $fare->pivot->capacity);
             } else {
                 $fare->capacity = $fare->pivot->capacity;

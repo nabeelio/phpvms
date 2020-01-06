@@ -16,9 +16,9 @@ class RankImport extends BaseImporter
         $count = 0;
         foreach ($this->db->readRows($this->table, $start) as $row) {
             $rank = Rank::firstOrCreate(['name' => $row->rank], [
-                    'image_url' => $row->rankimage,
-                    'hours'     => $row->minhours,
-                ]);
+                'image_url' => $row->rankimage,
+                'hours'     => $row->minhours,
+            ]);
 
             $this->idMapper->addMapping('ranks', $row->rankid, $rank->id);
             $this->idMapper->addMapping('ranks', $row->rank, $rank->id);
