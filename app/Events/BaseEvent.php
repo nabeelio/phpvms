@@ -8,5 +8,7 @@ use Illuminate\Queue\SerializesModels;
 
 class BaseEvent
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
+    use Dispatchable;
+    use InteractsWithSockets;
+    use SerializesModels;
 }

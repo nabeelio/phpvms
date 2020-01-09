@@ -342,6 +342,26 @@ class FlightTest extends TestCase
         $this->assertEquals($flight->id, $body['data'][0]['id']);
     }
 
+    public function testFlightSearchApiDepartureAirport()
+    {
+        $this->user = factory(App\Models\User::class)->create();
+        factory(App\Models\Flight::class, 10)->create([
+            'airline_id' => $this->user->airline_id,
+        ]);
+
+        $flight = factory(App\Models\Flight::class)->create([
+            'airline_id'     => $this->user->airline_id,
+            'dpt_airport_id' => 'KAUS',
+        ]);
+
+        $query = 'dpt_airport_id=kaus';
+        $req = $this->get('/api/flights/search?'.$query);
+        $body = $req->json();
+
+        $this->assertCount(1, $body['data']);
+        $this->assertEquals($flight->id, $body['data'][0]['id']);
+    }
+
     public function testFlightSearchApiDistance()
     {
         $total_flights = 10;

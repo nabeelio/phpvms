@@ -96,12 +96,20 @@ class FlightRepository extends Repository implements CacheableInterface
             $where['route_code'] = $request->route_code;
         }
 
+        if ($request->filled('dpt_airport_id')) {
+            $where['dpt_airport_id'] = strtoupper($request->dpt_airport_id);
+        }
+
         if ($request->filled('dep_icao')) {
-            $where['dpt_airport_id'] = $request->dep_icao;
+            $where['dpt_airport_id'] = strtoupper($request->dep_icao);
+        }
+
+        if ($request->filled('arr_airport_id')) {
+            $where['arr_airport_id'] = strtoupper($request->arr_airport_id);
         }
 
         if ($request->filled('arr_icao')) {
-            $where['arr_airport_id'] = $request->arr_icao;
+            $where['arr_airport_id'] = strtoupper($request->arr_icao);
         }
 
         // Distance, greater than
