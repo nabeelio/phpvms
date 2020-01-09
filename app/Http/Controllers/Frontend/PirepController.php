@@ -21,6 +21,7 @@ use App\Services\FareService;
 use App\Services\GeoService;
 use App\Services\PirepService;
 use App\Services\UserService;
+use App\Support\Units\Fuel;
 use App\Support\Units\Time;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -325,8 +326,13 @@ class PirepController extends Controller
         $minutes = (int) $request->input('minutes', 0);
         $pirep->flight_time = Utils::hoursToMinutes($hours) + $minutes;
 
+        // Set the correct fuel units
+        $pirep->block_fuel = new Fuel((float) $request->input('block_fuel'), setting('units.fuel'));
+        $pirep->fuel_used = new Fuel((float) $request->input('fuel_used'), setting('units.fuel'));
+
         // Put the time that this is currently submitted
         $attrs['submitted_at'] = Carbon::now('UTC');
+        $pirep->submitted_at = Carbon::now('UTC');
 
         $pirep = $this->pirepSvc->create($pirep);
         $this->saveCustomFields($pirep, $request);
