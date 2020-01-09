@@ -8,7 +8,7 @@ assignees: ''
 ---
 
 **Describe the bug**
-A clear and concise description of what the bug is.
+A clear and concise description of what the bug is. Please upload the Laravel logs as well from `storage/logs/laravel.log` (or the file with the correct date)
 
 **Version**
 Please enter the version
