@@ -41,32 +41,7 @@ class FlightController extends Controller
      */
     public function index(Request $request)
     {
-        /**
-         * @var $user \App\Models\User
-         */
-        $user = Auth::user();
-
-        $where = [
-            'active'  => true,
-            'visible' => true,
-        ];
-
-        if (setting('pilots.restrict_to_company')) {
-            $where['airline_id'] = $user->airline_id;
-        }
-        if (setting('pilots.only_flights_from_current', false)) {
-            $where['dpt_airport_id'] = $user->curr_airport_id;
-        }
-
-        $flights = $this->flightRepo
-            ->whereOrder($where, 'flight_number', 'asc')
-            ->paginate();
-
-        foreach ($flights as $flight) {
-            $this->flightSvc->filterSubfleets($user, $flight);
-        }
-
-        return FlightResource::collection($flights);
+        return $this->search($request);
     }
 
     /**
