@@ -7,11 +7,11 @@
                 {{ Form::label('flight_number', 'Flight Number:') }}
                 {{ Form::text('flight_number', null, ['class' => 'form-control']) }}
                 &nbsp;
-                {{ Form::label('dep_icao', 'Departure:') }}
-                {{ Form::select('dep_icao', $airports, null , ['class' => 'form-control']) }}
+                {{ Form::label('dpt_airport_id', 'Departure:') }}
+                {{ Form::select('dpt_airport_id', $airports, null , ['class' => 'form-control']) }}
                 &nbsp;
-                {{ Form::label('arr_icao', 'Arrival:') }}
-                {{ Form::select('arr_icao', $airports, null , ['class' => 'form-control']) }}
+                {{ Form::label('arr_airport_id', 'Arrival:') }}
+                {{ Form::select('arr_airport_id', $airports, null , ['class' => 'form-control']) }}
                 &nbsp;
                 {{ Form::submit('find', ['class' => 'btn btn-primary']) }}
                 &nbsp;

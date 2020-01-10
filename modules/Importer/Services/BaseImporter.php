@@ -13,8 +13,10 @@ use Modules\Importer\Utils\ImporterDB;
 
 abstract class BaseImporter implements ShouldQueue
 {
-    use LoggerTrait, Dispatchable, InteractsWithQueue, Queueable;
-
+    use LoggerTrait;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
     /**
      * Holds the connection to the legacy database
      *

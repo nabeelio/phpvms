@@ -12,7 +12,9 @@ use Illuminate\Http\Request;
  */
 abstract class Controller extends \Illuminate\Routing\Controller
 {
-    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+    use AuthorizesRequests;
+    use DispatchesJobs;
+    use ValidatesRequests;
 
     /**
      * Write a error to the flash and redirect the user to a route

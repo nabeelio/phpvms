@@ -13,9 +13,6 @@ use Illuminate\Support\Facades\Auth;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Prettus\Repository\Exceptions\RepositoryException;
 
-/**
- * Class FlightController
- */
 class FlightController extends Controller
 {
     private $flightRepo;
