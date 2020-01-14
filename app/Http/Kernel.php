@@ -8,7 +8,6 @@ use App\Http\Middleware\InstalledCheck;
 use App\Http\Middleware\JsonResponse;
 use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Http\Middleware\UpdatePending;
-use App\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Auth\Middleware\Authenticate;
 use Illuminate\Auth\Middleware\Authorize;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
@@ -41,7 +40,7 @@ class Kernel extends HttpKernel
             AddQueuedCookiesToResponse::class,
             StartSession::class,
             ShareErrorsFromSession::class,
-            VerifyCsrfToken::class,
+            // VerifyCsrfToken::class,
             SubstituteBindings::class,
         ],
     ];

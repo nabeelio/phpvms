@@ -53,7 +53,7 @@
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.0",
-        "barryvdh/laravel-ide-helper": "^2.0",
+        "barryvdh/laravel-ide-helper": "^2.6",
         "bpocallaghan/generators": "5.0.1",
         "codedungeon/phpunit-result-printer": "^0.13.0",
         "filp/whoops": "~2.0",
