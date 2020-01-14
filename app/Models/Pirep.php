@@ -260,16 +260,14 @@ class Pirep extends Model
      */
     public function getProgressPercentAttribute()
     {
-        $upper_bound = $this->distance['nmi'];
+        $distance = $this->distance;
+
+        $upper_bound = $distance;
         if ($this->planned_distance) {
-            $upper_bound = $this->planned_distance['nmi'];
+            $upper_bound = $this->planned_distance;
         }
 
-        if (!$upper_bound) {
-            $upper_bound = 1;
-        }
-
-        return round(($this->distance['nmi'] / $upper_bound) * 100, 0);
+        return round(($distance / $upper_bound) * 100, 0);
     }
 
     /**
