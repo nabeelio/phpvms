@@ -22,36 +22,10 @@ class AirportRepository extends Repository implements CacheableInterface
     }
 
     /**
-     * Returns an airport, or a empty model with just some default values
-     *
-     * @param       $id
-     * @param array $columns
-     *
-     * @return \App\Models\Airport|mixed|null
-     */
-    public function findWithoutFail($id, array $columns = ['*'])
-    {
-        $value = parent::findWithoutFail($id, $columns);
-        if (!empty($value)) {
-            return $value;
-        }
-
-        // Not found, return a 'generic' airport object
-        return new Airport([
-            'id'   => $id,
-            'icao' => $id,
-            'iata' => $id,
-            'name' => $id,
-            'lat'  => 0,
-            'lon'  => 0,
-        ]);
-    }
-
-    /**
      * Return the list of airports formatted for a select box
      *
-     * @param mixed $add_blank
-     * @param mixed $only_hubs
+     * @param bool $add_blank
+     * @param bool $only_hubs
      *
      * @return array
      */

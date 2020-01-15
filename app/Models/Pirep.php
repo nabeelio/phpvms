@@ -420,13 +420,16 @@ class Pirep extends Model
 
     public function arr_airport()
     {
-        return $this->belongsTo(Airport::class, 'arr_airport_id')->withDefault([
-            'id'   => $this->attributes['arr_airport_id'],
-            'icao' => $this->attributes['arr_airport_id'],
-            'name' => $this->attributes['arr_airport_id'],
-            'lat'  => 0,
-            'lon'  => 0,
-        ]);
+        return $this->belongsTo(Airport::class, 'arr_airport_id')
+            ->withDefault(function ($model) {
+                if (!empty($this->attributes['arr_airport_id'])) {
+                    $model->id = $this->attributes['arr_airport_id'];
+                    $model->icao = $this->attributes['arr_airport_id'];
+                    $model->name = $this->attributes['arr_airport_id'];
+                }
+
+                return $model;
+            });
     }
 
     public function alt_airport()
@@ -436,13 +439,16 @@ class Pirep extends Model
 
     public function dpt_airport()
     {
-        return $this->belongsTo(Airport::class, 'dpt_airport_id')->withDefault([
-            'id'   => $this->attributes['dpt_airport_id'],
-            'icao' => $this->attributes['dpt_airport_id'],
-            'name' => $this->attributes['dpt_airport_id'],
-            'lat'  => 0,
-            'lon'  => 0,
-        ]);
+        return $this->belongsTo(Airport::class, 'dpt_airport_id')
+            ->withDefault(function ($model) {
+                if (!empty($this->attributes['dpt_airport_id'])) {
+                    $model->id = $this->attributes['dpt_airport_id'];
+                    $model->icao = $this->attributes['dpt_airport_id'];
+                    $model->name = $this->attributes['dpt_airport_id'];
+                }
+
+                return $model;
+            });
     }
 
     public function comments()
