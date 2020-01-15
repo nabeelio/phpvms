@@ -20,7 +20,6 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Modules\Installer\Services\ConfigService;
 use Modules\Installer\Services\RequirementsService;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class InstallerController extends Controller
 {
