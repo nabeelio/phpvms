@@ -7,9 +7,6 @@ use App\Models\Airport;
 use Prettus\Repository\Contracts\CacheableInterface;
 use Prettus\Repository\Traits\CacheableRepository;
 
-/**
- * Class AirportRepository
- */
 class AirportRepository extends Repository implements CacheableInterface
 {
     use CacheableRepository;
@@ -22,6 +19,32 @@ class AirportRepository extends Repository implements CacheableInterface
     public function model()
     {
         return Airport::class;
+    }
+
+    /**
+     * Returns an airport, or a empty model with just some default values
+     *
+     * @param       $id
+     * @param array $columns
+     *
+     * @return \App\Models\Airport|mixed|null
+     */
+    public function findWithoutFail($id, array $columns = ['*'])
+    {
+        $value = parent::findWithoutFail($id, $columns);
+        if (!empty($value)) {
+            return $value;
+        }
+
+        // Not found, return a 'generic' airport object
+        return new Airport([
+            'id'   => $id,
+            'icao' => $id,
+            'iata' => $id,
+            'name' => $id,
+            'lat'  => 0,
+            'lon'  => 0,
+        ]);
     }
 
     /**
