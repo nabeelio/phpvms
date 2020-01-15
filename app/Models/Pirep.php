@@ -267,6 +267,9 @@ class Pirep extends Model
             $upper_bound = $this->planned_distance;
         }
 
+        $upper_bound = empty($upper_bound) ? 1 : $upper_bound;
+        $distance = empty($distance) ? $upper_bound : $distance;
+
         return round(($distance / $upper_bound) * 100, 0);
     }
 
