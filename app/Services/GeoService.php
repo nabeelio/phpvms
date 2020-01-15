@@ -231,23 +231,13 @@ class GeoService extends Service
             ]);
         }*/
 
-        // If there is a position update from ACARS, show where it is
-        // Otherwise, just assume it's at the arrival airport currently
-        if ($pirep->position) {
-            $position = [
-                'lat' => $pirep->position->lat,
-                'lon' => $pirep->position->lon,
-            ];
-        } else {
-            // if arrived, show it being at the arrival airport
-            $position = [
-                'lat' => $pirep->arr_airport->lat,
-                'lon' => $pirep->arr_airport->lon,
-            ];
-        }
-
         return [
-            'position' => $position,
+            // If there is a position update from ACARS, show where it is
+            // Otherwise, just assume it's at the arrival airport currently
+            'position' => [
+                'lat' => optional($pirep->position)->lat ?? $pirep->arr_airport->lat,
+                'lon' => optional($pirep->position)->lon ?? $pirep->arr_airport->lon,
+            ],
             'line'     => $route->getLine(),
             'points'   => $route->getPoints(),
             'airports' => [

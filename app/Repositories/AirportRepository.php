@@ -7,9 +7,6 @@ use App\Models\Airport;
 use Prettus\Repository\Contracts\CacheableInterface;
 use Prettus\Repository\Traits\CacheableRepository;
 
-/**
- * Class AirportRepository
- */
 class AirportRepository extends Repository implements CacheableInterface
 {
     use CacheableRepository;
@@ -27,8 +24,8 @@ class AirportRepository extends Repository implements CacheableInterface
     /**
      * Return the list of airports formatted for a select box
      *
-     * @param mixed $add_blank
-     * @param mixed $only_hubs
+     * @param bool $add_blank
+     * @param bool $only_hubs
      *
      * @return array
      */
