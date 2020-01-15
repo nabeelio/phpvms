@@ -437,9 +437,9 @@ class Pirep extends Model
     public function dpt_airport()
     {
         return $this->belongsTo(Airport::class, 'dpt_airport_id')->withDefault([
-            'id'   => $this->attributes['dep_airport_id'],
-            'icao' => $this->attributes['dep_airport_id'],
-            'name' => $this->attributes['dep_airport_id'],
+            'id'   => $this->attributes['dpt_airport_id'],
+            'icao' => $this->attributes['dpt_airport_id'],
+            'name' => $this->attributes['dpt_airport_id'],
             'lat'  => 0,
             'lon'  => 0,
         ]);
