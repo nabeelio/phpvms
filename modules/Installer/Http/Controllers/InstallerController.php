@@ -221,7 +221,7 @@ class InstallerController extends Controller
          */
         try {
             $this->envSvc->createConfigFiles($attrs);
-        } catch (FileException $e) {
+        } catch (\Exception $e) {
             Log::error('Config files failed to write');
             Log::error($e->getMessage());
 
