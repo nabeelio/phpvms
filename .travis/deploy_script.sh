@@ -50,6 +50,7 @@ if [ "$TRAVIS" = "true" ]; then
     .travis
     docker
     _ide_helper.php
+    .dockerignore
     .dpl
     .editorconfig
     .eslintignore
