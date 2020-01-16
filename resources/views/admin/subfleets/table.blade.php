@@ -15,7 +15,7 @@
                 {{ $subfleet->name }}
                 </a>
             </td>
-            <td>{{ $subfleet->airline->name }}</td>
+            <td>{{ optional($subfleet->airline)->name }}</td>
             <td>{{ $subfleet->type }}</td>
             <td>{{ $subfleet->aircraft->count() }}</td>
             <td class="text-right">
