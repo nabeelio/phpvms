@@ -7,7 +7,7 @@ use App\Models\Aircraft;
 use App\Models\Airport;
 use App\Models\Expense;
 use App\Models\Subfleet;
-use Log;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Import expenses
@@ -53,12 +53,10 @@ class ExpenseImporter extends ImportExport
             $row['active'] = true;
         }
 
-        $expense = Expense::firstOrNew([
-            'name' => $row['name'],
-        ], $row);
-
         try {
-            $expense->save();
+            $expense = Expense::updateOrCreate([
+                'name' => $row['name'],
+            ], $row);
         } catch (\Exception $e) {
             $this->errorLog('Error in row '.$index.': '.$e->getMessage());
             return false;
