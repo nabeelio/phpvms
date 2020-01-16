@@ -3,6 +3,7 @@
 use App\Contracts\ImportExport;
 use App\Models\Aircraft;
 use App\Models\Airport;
+use App\Models\Enums\AircraftStatus;
 use App\Models\Enums\Days;
 use App\Models\Enums\ExpenseType;
 use App\Models\Enums\FlightType;
@@ -583,7 +584,20 @@ class ImporterTest extends TestCase
         $this->assertEquals('A320-211', $aircraft->name);
         $this->assertEquals('N309US', $aircraft->registration);
         $this->assertEquals(null, $aircraft->zfw);
-        $this->assertEquals('A', $aircraft->status);
+        $this->assertEquals(AircraftStatus::ACTIVE, $aircraft->status);
+
+        // Now try importing the updated file, the status for the aircraft should change
+        // to being stored
+
+        $file_path = base_path('tests/data/aircraft-update.csv');
+        $status = $this->importSvc->importAircraft($file_path);
+        $this->assertCount(1, $status['success']);
+
+        $aircraft = Aircraft::where([
+            'registration' => 'N309US',
+        ])->first();
+
+        $this->assertEquals(AircraftStatus::STORED, $aircraft->status);
     }
 
     /**

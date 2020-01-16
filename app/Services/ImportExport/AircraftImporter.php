@@ -69,7 +69,7 @@ class AircraftImporter extends ImportExport
 
         // Set a default status
         $row['status'] = trim($row['status']);
-        if ($row['status'] === null || $row['status'] === '') {
+        if (empty($row['status'])) {
             $row['status'] = AircraftStatus::ACTIVE;
         }
 
@@ -77,12 +77,10 @@ class AircraftImporter extends ImportExport
         $row['state'] = AircraftState::PARKED;
 
         // Try to add or update
-        $aircraft = Aircraft::firstOrNew([
-            'registration' => $row['registration'],
-        ], $row);
-
         try {
-            $aircraft->save();
+            Aircraft::updateOrCreate([
+                'registration' => $row['registration'],
+            ], $row);
         } catch (\Exception $e) {
             $this->errorLog('Error in row '.$index.': '.$e->getMessage());
             return false;

@@ -111,7 +111,7 @@ class FlightImporter extends ImportExport
         // Check for a valid value
         $flight_type = $row['flight_type'];
         if (!array_key_exists($flight_type, FlightType::labels())) {
-            $flight_type = 'J';
+            $flight_type = FlightType::SCHED_PAX;
         }
 
         $flight->setAttribute('flight_type', $flight_type);
@@ -216,7 +216,7 @@ class FlightImporter extends ImportExport
         $count = 0;
         $subfleets = $this->parseMultiColumnValues($col);
         foreach ($subfleets as $subfleet_type) {
-            $subfleet = Subfleet::firstOrCreate(
+            $subfleet = Subfleet::updateOrCreate(
                 ['type' => $subfleet_type],
                 ['name' => $subfleet_type]
             );
@@ -246,7 +246,7 @@ class FlightImporter extends ImportExport
                 $fare_attributes = [];
             }
 
-            $fare = Fare::firstOrCreate(['code' => $fare_code], ['name' => $fare_code]);
+            $fare = Fare::updateOrCreate(['code' => $fare_code], ['name' => $fare_code]);
             $this->fareSvc->setForFlight($flight, $fare, $fare_attributes);
         }
     }

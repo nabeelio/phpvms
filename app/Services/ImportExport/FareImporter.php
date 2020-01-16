@@ -36,13 +36,11 @@ class FareImporter extends ImportExport
      */
     public function import(array $row, $index): bool
     {
-        // Try to add or update
-        $fare = Fare::firstOrNew([
-            'code' => $row['code'],
-        ], $row);
-
         try {
-            $fare->save();
+            // Try to add or update
+            $fare = Fare::updateOrCreate([
+                'code' => $row['code'],
+            ], $row);
         } catch (\Exception $e) {
             $this->errorLog('Error in row '.$index.': '.$e->getMessage());
             return false;
