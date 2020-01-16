@@ -74,6 +74,7 @@ class FlightRepository extends Repository implements CacheableInterface
     public function searchCriteria(Request $request, bool $only_active = true): self
     {
         $where = [];
+        $relations = [];
 
         if ($only_active === true) {
             $where['active'] = $only_active;
@@ -81,48 +82,55 @@ class FlightRepository extends Repository implements CacheableInterface
         }
 
         if ($request->filled('flight_id')) {
-            $where['id'] = $request->flight_id;
+            $where['id'] = $request->input('flight_id');
         }
 
         if ($request->filled('airline_id')) {
-            $where['airline_id'] = $request->airline_id;
+            $where['airline_id'] = $request->input('airline_id');
         }
 
         if ($request->filled('flight_number')) {
-            $where['flight_number'] = $request->flight_number;
+            $where['flight_number'] = $request->input('flight_number');
         }
 
         if ($request->filled('route_code')) {
-            $where['route_code'] = $request->route_code;
+            $where['route_code'] = $request->input('route_code');
         }
 
         if ($request->filled('dpt_airport_id')) {
-            $where['dpt_airport_id'] = strtoupper($request->dpt_airport_id);
+            $where['dpt_airport_id'] = strtoupper($request->input('dpt_airport_id'));
         }
 
         if ($request->filled('dep_icao')) {
-            $where['dpt_airport_id'] = strtoupper($request->dep_icao);
+            $where['dpt_airport_id'] = strtoupper($request->input('dep_icao'));
         }
 
         if ($request->filled('arr_airport_id')) {
-            $where['arr_airport_id'] = strtoupper($request->arr_airport_id);
+            $where['arr_airport_id'] = strtoupper($request->input('arr_airport_id'));
         }
 
         if ($request->filled('arr_icao')) {
-            $where['arr_airport_id'] = strtoupper($request->arr_icao);
+            $where['arr_airport_id'] = strtoupper($request->input('arr_icao'));
         }
 
         // Distance, greater than
         if ($request->filled('dgt')) {
-            $where[] = ['distance', '>=', $request->dgt];
+            $where[] = ['distance', '>=', $request->input('dgt')];
         }
 
         // Distance, less than
         if ($request->filled('dlt')) {
-            $where[] = ['distance', '<=', $request->dlt];
+            $where[] = ['distance', '<=', $request->input('dlt')];
         }
 
-        $this->pushCriteria(new WhereCriteria($request, $where));
+        // Do a special query for finding the child subfleets
+        if ($request->filled('subfleet_id')) {
+            $relations['subfleets'] = [
+                'subfleets.id' => $request->input('subfleet_id'),
+            ];
+        }
+
+        $this->pushCriteria(new WhereCriteria($request, $where, $relations));
 
         return $this;
     }

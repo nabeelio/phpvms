@@ -1,6 +1,9 @@
 <?php
 
+use App\Cron\Nightly\SetActiveFlights;
+use App\Events\CronNightly;
 use App\Models\Enums\Days;
+use App\Models\Enums\NavaidType;
 use App\Models\Flight;
 use App\Models\User;
 use App\Repositories\SettingRepository;
@@ -21,6 +24,13 @@ class FlightTest extends TestCase
         $this->settingsRepo = app(SettingRepository::class);
     }
 
+    /**
+     * Add a single flight
+     *
+     * @param $user
+     *
+     * @return mixed
+     */
     public function addFlight($user)
     {
         $flight = factory(App\Models\Flight::class)->create([
@@ -34,6 +44,25 @@ class FlightTest extends TestCase
         ]);
 
         return $flight;
+    }
+
+    /**
+     * Add a given number of flights for a subfleet
+     *
+     * @param $subfleet
+     * @param $num_flights
+     *
+     * @return \App\Models\Flight[]
+     */
+    public function addFlightsForSubfleet($subfleet, $num_flights)
+    {
+        return factory(App\Models\Flight::class, $num_flights)->create([
+            'airline_id' => $subfleet->airline->id,
+        ])->each(function (Flight $f) use ($subfleet) {
+            $f->subfleets()->syncWithoutDetaching([
+                $subfleet->id,
+            ]);
+        });
     }
 
     /**
@@ -148,10 +177,7 @@ class FlightTest extends TestCase
         $this->assertEquals($first_point['id'], $route[0]->id);
         $this->assertEquals($first_point['name'], $route[0]->name);
         $this->assertEquals($first_point['type']['type'], $route[0]->type);
-        $this->assertEquals(
-            $first_point['type']['name'],
-            \App\Models\Enums\NavaidType::label($route[0]->type)
-        );
+        $this->assertEquals($first_point['type']['name'], NavaidType::label($route[0]->type));
     }
 
     /**
@@ -171,6 +197,38 @@ class FlightTest extends TestCase
 
         $res = $this->get('/api/flights?page=2&limit=5');
         $res->assertJsonCount(5, 'data');
+    }
+
+    /**
+     * Search for flights based on a subfleet. If subfleet is blank
+     */
+    public function testSearchFlightBySubfleet()
+    {
+        $airline = factory(App\Models\Airline::class)->create();
+        $subfleetA = factory(App\Models\Subfleet::class)->create(['airline_id' => $airline->id]);
+        $subfleetB = factory(App\Models\Subfleet::class)->create(['airline_id' => $airline->id]);
+
+        $rank = $this->createRank(0, [$subfleetB->id]);
+        $this->user = factory(App\Models\User::class)->create([
+            'airline_id' => $airline->id,
+            'rank_id'    => $rank->id,
+        ]);
+
+        $this->addFlightsForSubfleet($subfleetA, 5);
+        $this->addFlightsForSubfleet($subfleetB, 10);
+
+        // search specifically for a given subfleet
+        //$query = 'subfleet_id='.$subfleetB->id;
+        $query = 'subfleet_id='.$subfleetB->id;
+        $res = $this->get('/api/flights/search?'.$query);
+        $res->assertStatus(200);
+        $res->assertJsonCount(10, 'data');
+
+        $body = $res->json('data');
+        collect($body)->each(function ($flight) use ($subfleetB) {
+            self::assertNotEmpty($flight['subfleets']);
+            self::assertEquals($subfleetB->id, $flight['subfleets'][0]['id']);
+        });
     }
 
     /**
@@ -227,8 +285,8 @@ class FlightTest extends TestCase
         ]);
 
         // Run the event that will enable/disable flights
-        $event = new \App\Events\CronNightly();
-        (new \App\Cron\Nightly\SetActiveFlights())->handle($event);
+        $event = new CronNightly();
+        (new SetActiveFlights())->handle($event);
 
         $res = $this->get('/api/flights');
         $body = $res->json('data');
@@ -274,8 +332,8 @@ class FlightTest extends TestCase
         ]);
 
         // Run the event that will enable/disable flights
-        $event = new \App\Events\CronNightly();
-        (new \App\Cron\Nightly\SetActiveFlights())->handle($event);
+        $event = new CronNightly();
+        (new SetActiveFlights())->handle($event);
 
         $res = $this->get('/api/flights');
         $body = $res->json('data');
@@ -313,8 +371,8 @@ class FlightTest extends TestCase
         ]);
 
         // Run the event that will enable/disable flights
-        $event = new \App\Events\CronNightly();
-        (new \App\Cron\Nightly\SetActiveFlights())->handle($event);
+        $event = new CronNightly();
+        (new SetActiveFlights())->handle($event);
 
         $res = $this->get('/api/flights');
         $body = $res->json('data');

@@ -24,6 +24,7 @@ return [
     'arrival'        => 'Llegada',
     'aircraft'       => 'Aeronave',
     'airline'        => 'Aerolínea',
+    'subfleet'       => 'Subfleet',
     'distance'       => 'Distancía',
     'fuel'           => 'Combustible',
     'metar'          => 'METAR',
