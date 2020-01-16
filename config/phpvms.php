@@ -99,4 +99,11 @@ return [
      * RFC 7807 type, which can be used as a machine-readable error code/map
      */
     'error_root' => 'https://phpvms.net/errors',
+
+    /**
+     * The links to various docs on the documentation site
+     */
+    'docs' => [
+        'cron' => 'http://docs.phpvms.net/configuration/cron',
+    ],
 ];
