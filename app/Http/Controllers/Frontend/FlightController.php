@@ -12,13 +12,10 @@ use App\Services\GeoService;
 use Flash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Log;
+use Illuminate\Support\Facades\Log;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Prettus\Repository\Exceptions\RepositoryException;
 
-/**
- * Class FlightController
- */
 class FlightController extends Controller
 {
     private $airlineRepo;
@@ -68,7 +65,8 @@ class FlightController extends Controller
         }
 
         try {
-            $this->flightRepo->pushCriteria(new WhereCriteria($request, $where));
+            $this->flightRepo->searchCriteria($request);
+            //$this->flightRepo->pushCriteria(new WhereCriteria($request, $where));
             $this->flightRepo->pushCriteria(new RequestCriteria($request));
         } catch (RepositoryException $e) {
             Log::emergency($e);

@@ -93,6 +93,7 @@ class FlightController extends Controller
             return response($e, 503);
         }
 
+        // TODO: Remove any flights here that a user doesn't have permissions to
         foreach ($flights as $flight) {
             $this->flightSvc->filterSubfleets(Auth::user(), $flight);
         }
