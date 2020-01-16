@@ -564,7 +564,8 @@ class ImporterTest extends TestCase
      */
     public function testAircraftImporter(): void
     {
-        $subfleet = factory(App\Models\Subfleet::class)->create(['type' => 'A32X']);
+        factory(App\Models\Airline::class)->create();
+        // $subfleet = factory(App\Models\Subfleet::class)->create(['type' => 'A32X']);
 
         $file_path = base_path('tests/data/aircraft.csv');
         $status = $this->importSvc->importAircraft($file_path);
@@ -579,8 +580,10 @@ class ImporterTest extends TestCase
 
         $this->assertNotNull($aircraft);
         $this->assertNotNull($aircraft->hex_code);
-        $this->assertEquals($subfleet->id, $aircraft->id);
-        $this->assertEquals($subfleet->type, $aircraft->subfleet->type);
+        //$this->assertEquals($subfleet->id, $aircraft->id);
+        $this->assertNotNull($aircraft->subfleet);
+        $this->assertNotNull($aircraft->subfleet->airline);
+        $this->assertEquals('A32X', $aircraft->subfleet->type);
         $this->assertEquals('A320-211', $aircraft->name);
         $this->assertEquals('N309US', $aircraft->registration);
         $this->assertEquals(null, $aircraft->zfw);
