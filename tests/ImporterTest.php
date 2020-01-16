@@ -580,7 +580,6 @@ class ImporterTest extends TestCase
 
         $this->assertNotNull($aircraft);
         $this->assertNotNull($aircraft->hex_code);
-        //$this->assertEquals($subfleet->id, $aircraft->id);
         $this->assertNotNull($aircraft->subfleet);
         $this->assertNotNull($aircraft->subfleet->airline);
         $this->assertEquals('A32X', $aircraft->subfleet->type);
