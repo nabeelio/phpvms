@@ -22,6 +22,11 @@
         {{ Form::select('arr_icao', $airports, null , ['class' => 'form-control select2']) }}
       </div>
 
+      <div style="margin-top: 10px; margin-left: 5px;">
+        <p>@lang('common.subfleet')</p>
+        {{ Form::select('subfleet_id', $subfleets, null , ['class' => 'form-control select2']) }}
+      </div>
+
       <div class="clear" style="margin-top: 10px; margin-left: 5px;">
         {{ Form::submit(__('common.find'), ['class' => 'btn btn-primary']) }}&nbsp;
         <a href="{{ route('frontend.flights.index') }}">@lang('common.reset')</a>
