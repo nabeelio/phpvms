@@ -4,6 +4,7 @@ namespace App\Services\ImportExport;
 
 use App\Contracts\ImportExport;
 use App\Models\Aircraft;
+use App\Models\Airline;
 use App\Models\Enums\AircraftState;
 use App\Models\Enums\AircraftStatus;
 use App\Models\Subfleet;
@@ -32,7 +33,8 @@ class AircraftImporter extends ImportExport
     ];
 
     /**
-     * Find the subfleet specified, or just create it on the fly
+     * Find the subfleet specified, or just create it on the fly and attach it to the
+     * first airline that's been found
      *
      * @param $type
      *
@@ -40,11 +42,12 @@ class AircraftImporter extends ImportExport
      */
     protected function getSubfleet($type)
     {
-        $subfleet = Subfleet::firstOrCreate([
+        return Subfleet::firstOrCreate([
             'type' => $type,
-        ], ['name' => $type]);
-
-        return $subfleet;
+        ], [
+            'name'       => $type,
+            'airline_id' => Airline::where('active', true)->first()->id,
+        ]);
     }
 
     /**
