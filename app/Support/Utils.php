@@ -3,6 +3,7 @@
 namespace App\Support;
 
 use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Support\Str;
 use Nwidart\Modules\Facades\Module;
 
 /**
@@ -46,5 +47,30 @@ class Utils
         }
 
         return $installer->isEnabled();
+    }
+
+    /**
+     * Get the domain from a URL
+     *
+     * @param string $url
+     *
+     * @return string
+     */
+    public static function getRootDomain(string $url): string
+    {
+        if (!Str::contains($url, ['https://', 'http://'])) {
+            $url = 'http://'.$url;
+        }
+
+        $domain = parse_url($url, PHP_URL_HOST);
+        $domain = explode('.', $domain);
+        $len = count($domain);
+        if ($len == 1) {
+            return $domain[0];
+        }
+
+        $domain = $domain[$len - 2].'.'.$domain[$len - 1];
+
+        return $domain;
     }
 }
