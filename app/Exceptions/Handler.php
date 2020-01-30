@@ -73,7 +73,7 @@ class Handler extends ExceptionHandler
     {
         Log::error('API Error', $exception->getTrace());
 
-        if($exception instanceof AbstractHttpException) {
+        if ($exception instanceof AbstractHttpException) {
             return $exception->getResponse();
         }
 
@@ -81,21 +81,21 @@ class Handler extends ExceptionHandler
          * Not of the HttpException abstract class. Map these into
          */
 
-        if($exception instanceof ModelNotFoundException || $exception instanceof NotFoundHttpException) {
+        if ($exception instanceof ModelNotFoundException || $exception instanceof NotFoundHttpException) {
             $error = new AssetNotFound($exception);
 
             return $error->getResponse();
         }
 
         // Custom exceptions should be extending HttpException
-        if($exception instanceof SymfonyHttpException) {
+        if ($exception instanceof SymfonyHttpException) {
             $error = new SymfonyException($exception);
 
             return $error->getResponse();
         }
 
         // Create the detailed errors from the validation errors
-        if($exception instanceof IlluminateValidationException) {
+        if ($exception instanceof IlluminateValidationException) {
             $error = new ValidationException($exception);
 
             return $error->getResponse();
