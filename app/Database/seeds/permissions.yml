@@ -24,6 +24,9 @@
 - name: fares
   display_name: Fares
   description: Create/edit fares
+- name: files
+  display_name: Files
+  description: Manage the files available
 - name: finances
   display_name: Finances
   description: Create/view finance related items
