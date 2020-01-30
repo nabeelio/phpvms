@@ -3,6 +3,7 @@
 namespace Modules\Updater\Http\Controllers;
 
 use App\Contracts\Controller;
+use App\Services\Installer\InstallerService;
 use App\Services\Installer\MigrationService;
 use App\Services\Installer\SeederService;
 use function count;
@@ -11,19 +12,23 @@ use Illuminate\Support\Facades\Log;
 
 class UpdateController extends Controller
 {
+    private $installerSvc;
     private $migrationSvc;
     private $seederSvc;
 
     /**
+     * @param InstallerService $installerSvc
      * @param MigrationService $migrationSvc
      * @param SeederService    $seederSvc
      */
     public function __construct(
+        InstallerService $installerSvc,
         MigrationService $migrationSvc,
         SeederService $seederSvc
     ) {
         $this->migrationSvc = $migrationSvc;
         $this->seederSvc = $seederSvc;
+        $this->installerSvc = $installerSvc;
     }
 
     /**
@@ -44,9 +49,8 @@ class UpdateController extends Controller
      */
     public function step1(Request $request)
     {
-        $migrations = $this->migrationSvc->migrationsAvailable();
-        if (count($migrations) > 0) {
-            Log::info('No migrations found');
+        if ($this->installerSvc->isUpgradePending()) {
+            Log::info('Upgrade is pending');
         }
 
         return view('updater::steps/step1-update-available');
