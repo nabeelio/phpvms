@@ -49,6 +49,8 @@ class UpdateController extends Controller
      */
     public function step1(Request $request)
     {
+        $this->installerSvc->clearCaches();
+
         if ($this->installerSvc->isUpgradePending()) {
             Log::info('Upgrade is pending');
         }
