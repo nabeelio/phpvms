@@ -151,6 +151,8 @@ if (!function_exists('setting')) {
      * @param       $key
      * @param mixed $default
      *
+     * @throws \Exception
+     *
      * @return mixed|null
      */
     function setting($key, $default = null)
@@ -160,6 +162,8 @@ if (!function_exists('setting')) {
         try {
             $value = $settingRepo->retrieve($key);
         } catch (SettingNotFound $e) {
+            return $default;
+        } catch (Exception $e) {
             return $default;
         }
 
