@@ -7,7 +7,7 @@
     </div>
 
     @if(count($flight->subfleets) === 0)
-        @include('admin.common.none_added', ['type' => 'expenses'])
+        @include('admin.common.none_added', ['type' => 'subfleets'])
     @endif
 
     <table class="table table-responsive" id="aircrafts-table">
