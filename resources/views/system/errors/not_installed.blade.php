@@ -60,7 +60,7 @@
                 <br />
                 <br />
                 <p style="text-align: right; font-size: 22px;">
-                    <a href="{{ url('/install') }}" class="btn btn-success">Head on to the installer ></a>
+                    <a href="{{ public_url('/install') }}" class="btn btn-success">Head on to the installer ></a>
                 </p>
                 @yield('content')
             </div>

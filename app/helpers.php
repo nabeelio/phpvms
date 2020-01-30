@@ -210,6 +210,21 @@ if (!function_exists('public_mix')) {
     }
 }
 
+/**
+ * Wrap a call to url() and append the public folder before it
+ */
+if (!function_exists('public_url')) {
+    function public_url($path, array $parameters = [])
+    {
+        $publicBaseUrl = app()->publicUrlPath();
+        $path = $publicBaseUrl.$path;
+
+        $path = str_replace('//', '/', $path);
+
+        return url($path, $parameters);
+    }
+}
+
 /*
  * Show a date/time in the proper timezone for a user
  */
