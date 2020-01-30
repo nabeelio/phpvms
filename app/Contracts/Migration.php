@@ -40,6 +40,7 @@ abstract class Migration extends \Illuminate\Database\Migrations\Migration
             Log::error($e);
         }
     }
+
     /**
      * Add rows to a table
      *
