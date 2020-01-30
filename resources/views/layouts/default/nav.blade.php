@@ -93,11 +93,11 @@
               <i class="far fa-user"></i>&nbsp;&nbsp;@lang('common.profile')
             </a>
 
-            @role('admin')
+            @ability('admin', 'admin-access')
             <a class="dropdown-item" href="{{ url('/admin') }}">
               <i class="fas fa-circle-notch"></i>&nbsp;&nbsp;@lang('common.administration')
             </a>
-            @endrole
+            @endability
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="{{ url('/logout') }}">
               <i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;@lang('common.logout')

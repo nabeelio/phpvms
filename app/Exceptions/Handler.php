@@ -30,8 +30,8 @@ class Handler extends ExceptionHandler
      * A list of the exception types that should not be reported.
      */
     protected $dontReport = [
-        AuthenticationException::class,
-        AuthorizationException::class,
+        //AuthenticationException::class,
+        //AuthorizationException::class,
         AbstractHttpException::class,
         IlluminateValidationException::class,
         ModelNotFoundException::class,
@@ -50,36 +50,7 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $exception)
     {
         if ($request->is('api/*')) {
-            Log::error('API Error', $exception->getTrace());
-
-            if ($exception instanceof AbstractHttpException) {
-                return $exception->getResponse();
-            }
-
-            /*
-             * Not of the HttpException abstract class. Map these into
-             */
-
-            if ($exception instanceof ModelNotFoundException ||
-                $exception instanceof NotFoundHttpException) {
-                $error = new AssetNotFound($exception);
-                return $error->getResponse();
-            }
-
-            // Custom exceptions should be extending HttpException
-            if ($exception instanceof SymfonyHttpException) {
-                $error = new SymfonyException($exception);
-                return $error->getResponse();
-            }
-
-            // Create the detailed errors from the validation errors
-            if ($exception instanceof IlluminateValidationException) {
-                $error = new ValidationException($exception);
-                return $error->getResponse();
-            }
-
-            $error = new GenericExceptionAbstract($exception);
-            return $error->getResponse();
+            return $this->handleApiError($request, $exception);
         }
 
         if ($exception instanceof AbstractHttpException
@@ -88,6 +59,51 @@ class Handler extends ExceptionHandler
         }
 
         return parent::render($request, $exception);
+    }
+
+    /**
+     * Handle errors in the API
+     *
+     * @param            $request
+     * @param \Exception $exception
+     *
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
+     */
+    private function handleApiError($request, Exception $exception)
+    {
+        Log::error('API Error', $exception->getTrace());
+
+        if($exception instanceof AbstractHttpException) {
+            return $exception->getResponse();
+        }
+
+        /*
+         * Not of the HttpException abstract class. Map these into
+         */
+
+        if($exception instanceof ModelNotFoundException || $exception instanceof NotFoundHttpException) {
+            $error = new AssetNotFound($exception);
+
+            return $error->getResponse();
+        }
+
+        // Custom exceptions should be extending HttpException
+        if($exception instanceof SymfonyHttpException) {
+            $error = new SymfonyException($exception);
+
+            return $error->getResponse();
+        }
+
+        // Create the detailed errors from the validation errors
+        if($exception instanceof IlluminateValidationException) {
+            $error = new ValidationException($exception);
+
+            return $error->getResponse();
+        }
+
+        $error = new GenericExceptionAbstract($exception);
+
+        return $error->getResponse();
     }
 
     /**

@@ -22,8 +22,8 @@ users:
   - id: 2
     pilot_id: 2
     name: Test User
-    email: test@phpvms.net
-    password: test
+    email: user@phpvms.net
+    password: user
     api_key: testuserapikey
     airline_id: 1
     rank_id: 1

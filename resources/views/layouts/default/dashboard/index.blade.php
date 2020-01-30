@@ -36,7 +36,7 @@
                         <div class="icon-background"> {{--110px font-size--}}
                             <i class="fas fa-money-bill-alt icon"></i>
                         </div>
-                        <h3 class="header">{{ $user->journal->balance }}</h3>
+                        <h3 class="header">{{ optional($user->journal)->balance ?? 0 }}</h3>
                         <h5 class="description">@lang('dashboard.yourbalance')</h5>
                     </div>
                 </div>
