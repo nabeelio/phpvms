@@ -1,4 +1,4 @@
-@foreach (session('flash_notification', collect())->toArray() as $message)
+@foreach (session('flash_notification', []) as $message)
 <div class="alert alert-danger" role="alert">
     <div class="container">
         <div class="alert-icon">

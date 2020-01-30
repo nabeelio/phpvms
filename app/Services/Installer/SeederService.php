@@ -218,6 +218,7 @@ class SeederService extends Service
      */
     private function settingsSeedsPending(): bool
     {
+        $all_settings = DB::table('settings')->get();
         $data = file_get_contents(database_path('/seeds/settings.yml'));
         $yml = Yaml::parse($data);
 
@@ -228,7 +229,7 @@ class SeederService extends Service
             }
 
             $id = Setting::formatKey($setting['key']);
-            $row = DB::table('settings')->where('id', $id)->first();
+            $row = $all_settings->firstWhere('id', $id);
 
             // Doesn't exist in the table, quit early and say there is stuff pending
             if (!$row) {
@@ -264,14 +265,13 @@ class SeederService extends Service
      */
     private function permissionsSeedsPending(): bool
     {
+        $all_permissions = DB::table('permissions')->get();
+
         $data = file_get_contents(database_path('/seeds/permissions.yml'));
         $yml = Yaml::parse($data);
 
         foreach ($yml as $perm) {
-            $row = DB::table('permissions')
-                ->where('name', $perm['name'])
-                ->first();
-
+            $row = $all_permissions->firstWhere('name', $perm['name']);
             if (!$row) {
                 return true;
             }
