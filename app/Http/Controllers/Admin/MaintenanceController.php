@@ -42,6 +42,7 @@ class MaintenanceController extends Controller
             $calls[] = 'config:cache';
             $calls[] = 'cache:clear';
             $calls[] = 'route:cache';
+            $calls[] = 'clear-compiled';
         }
 
         // If we want to clear only the views but keep everything else
