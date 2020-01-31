@@ -70,7 +70,7 @@ export default (_opts) => {
     addWMSLayer(map, opts.metar_wms);
   }
 
-  const plannedRouteLayer = leaflet.geodesic([], {
+  const plannedRouteLayer = new L.Geodesic([], {
     weight: 4,
     opacity: 0.9,
     color: PLAN_ROUTE_COLOR,
@@ -78,7 +78,7 @@ export default (_opts) => {
     wrap: false,
   }).addTo(map);
 
-  plannedRouteLayer.geoJson(opts.planned_route_line);
+  plannedRouteLayer.fromGeoJson(opts.planned_route_line);
 
   try {
     map.fitBounds(plannedRouteLayer.getBounds());
@@ -106,7 +106,7 @@ export default (_opts) => {
      */
 
   if (opts.actual_route_line !== null && opts.actual_route_line.features.length > 0) {
-    const actualRouteLayer = leaflet.geodesic([], {
+    const actualRouteLayer = new L.Geodesic([], {
       weight: 3,
       opacity: 0.9,
       color: ACTUAL_ROUTE_COLOR,
@@ -114,7 +114,7 @@ export default (_opts) => {
       wrap: false,
     }).addTo(map);
 
-    actualRouteLayer.geoJson(opts.actual_route_line);
+    actualRouteLayer.fromGeoJson(opts.actual_route_line);
 
     try {
       map.fitBounds(actualRouteLayer.getBounds());
@@ -138,11 +138,13 @@ export default (_opts) => {
   }
 
   /**
-     *
-     */
+   *
+   */
+  /*
   const liveFlight = () => {
     request({ url: opts.pirep_uri }).then((response) => {
       const routeJson = response.data.data;
+      console.log(routeJson);
       layerLiveFlight = leaflet.geoJSON(routeJson, {
         pointToLayer(feature, latlon) {
           return leaflet.marker(latlon, {
@@ -157,4 +159,5 @@ export default (_opts) => {
   };
 
   setInterval(liveFlight, opts.refresh_interval * 1000);
+  */
 };

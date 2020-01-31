@@ -221,16 +221,6 @@ class GeoService extends Service
             ]);
         }
 
-        /*
-         * @var $point \App\Models\Acars
-         */
-        /*foreach ($pirep->acars as $point) {
-            $route->addPoint($point->lat, $point->lon, [
-                'pirep_id' => $pirep->id,
-                'alt'      => $point->altitude,
-            ]);
-        }*/
-
         return [
             // If there is a position update from ACARS, show where it is
             // Otherwise, just assume it's at the arrival airport currently
@@ -384,9 +374,8 @@ class GeoService extends Service
         }
 
         return [
-            'planned_rte_points' => $planned->getPoints(),
-            'planned_rte_line'   => $planned->getLine(),
-
+            'planned_rte_points'  => $planned->getPoints(),
+            'planned_rte_line'    => $planned->getLine(),
             'actual_route_points' => $actual->getPoints(),
             'actual_route_line'   => $actual->getLine(),
         ];
