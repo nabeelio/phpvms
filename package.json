@@ -11,7 +11,6 @@
   },
   "dependencies": {
     "@turf/center": "^6.0.1",
-    "Leaflet.Geodesic": "git+https://git@github.com/henrythasler/Leaflet.Geodesic.git",
     "animate.css": "~3.6",
     "axios": "^0.18.1",
     "bootstrap": "~4.3",
@@ -31,6 +30,7 @@
     "leaflet-ajax": "2.1.0",
     "leaflet-providers": "1.0.*",
     "leaflet-rotatedmarker": "^0.2.0",
+    "leaflet.geodesic": "^2.5.2",
     "lodash": ">=4.17.13",
     "marked": ">0.3.18",
     "moment": "^2.24.0",
