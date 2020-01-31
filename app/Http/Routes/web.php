@@ -41,7 +41,6 @@ Route::group([
     Route::get('flights/search', 'FlightController@search')->name('flights.search');
     Route::resource('flights', 'FlightController');
 
-
     Route::get('/pireps', 'PirepController@index')->name('pireps.index');
     Route::get('/pireps/create', 'PirepController@create')->name('pireps.create');
     Route::post('/pireps', 'PirepController@store')->name('pireps.store');
