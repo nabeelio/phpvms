@@ -1,12 +1,12 @@
 @component('mail::message')
-# Thanks for signing up, {{ $user->name }}!
+  # Thanks for signing up, {{ $user->name }}!
 
-Your account is ready to use.
+  Your account is ready to use.
 
-@component('mail::button', ['url' => url('/login')])
-Visit your account now!
-@endcomponent
+  @component('mail::button', ['url' => url('/login')])
+    Visit your account now!
+  @endcomponent
 
-Thanks,<br>
-Management, {{ config('app.name') }}
+  Thanks,<br>
+  Management, {{ config('app.name') }}
 @endcomponent

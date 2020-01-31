@@ -1,12 +1,12 @@
 @component('mail::message')
-# PIREP Accepted!
+  # PIREP Accepted!
 
-Your PIREP has been rejected
+  Your PIREP has been rejected
 
-@component('mail::button', ['url' => route('frontend.pireps.show', [$pirep->id])])
+  @component('mail::button', ['url' => route('frontend.pireps.show', [$pirep->id])])
     View PIREP
-@endcomponent
+  @endcomponent
 
-Thanks,<br>
-{{ config('app.name') }}
+  Thanks,<br>
+  {{ config('app.name') }}
 @endcomponent
