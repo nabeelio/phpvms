@@ -13,8 +13,9 @@ Route::group([
 ], function () {
     Route::get('/', 'HomeController@index')->name('home');
     Route::get('r/{id}', 'PirepController@show')->name('pirep.show.public');
-    Route::get('p/{id}', 'ProfileController@show')->name('profile.show.public');
+    Route::get('pireps/{id}', 'PirepController@show')->name('pireps.show');
 
+    Route::get('p/{id}', 'ProfileController@show')->name('profile.show.public');
     Route::get('users', 'UserController@index')->name('users.index');
     Route::get('pilots', 'UserController@index')->name('pilots.index');
 
@@ -40,8 +41,15 @@ Route::group([
     Route::get('flights/search', 'FlightController@search')->name('flights.search');
     Route::resource('flights', 'FlightController');
 
+
+    Route::get('/pireps', 'PirepController@index')->name('pireps.index');
+    Route::get('/pireps/create', 'PirepController@create')->name('pireps.create');
+    Route::post('/pireps', 'PirepController@store')->name('pireps.store');
+    Route::post('/pireps/{id}/edit', 'PirepController@edit')->name('pireps.edit');
+    Route::put('/pireps/{id}', 'PirepController@update')->name('pireps.update');
+    Route::delete('/pireps/{id}', 'PirepController@destroy')->name('pireps.destroy');
+
     Route::get('pireps/fares', 'PirepController@fares');
-    Route::resource('pireps', 'PirepController');
     Route::post('pireps/{id}/submit', 'PirepController@submit')->name('pireps.submit');
 
     Route::get('profile/regen_apikey', 'ProfileController@regen_apikey')
