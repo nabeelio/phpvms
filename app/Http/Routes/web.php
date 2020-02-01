@@ -41,12 +41,9 @@ Route::group([
     Route::get('flights/search', 'FlightController@search')->name('flights.search');
     Route::resource('flights', 'FlightController');
 
-    Route::get('/pireps', 'PirepController@index')->name('pireps.index');
-    Route::get('/pireps/create', 'PirepController@create')->name('pireps.create');
-    Route::post('/pireps', 'PirepController@store')->name('pireps.store');
-    Route::get('/pireps/{id}/edit', 'PirepController@edit')->name('pireps.edit');
-    Route::put('/pireps/{id}', 'PirepController@update')->name('pireps.update');
-    Route::delete('/pireps/{id}', 'PirepController@destroy')->name('pireps.destroy');
+    Route::resource('pireps', 'PirepController', [
+        'except' => ['show'],
+    ]);
 
     Route::get('pireps/fares', 'PirepController@fares');
     Route::post('pireps/{id}/submit', 'PirepController@submit')->name('pireps.submit');
