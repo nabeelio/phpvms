@@ -2,12 +2,12 @@
 @section('title', 'Add Airport')
 
 @section('content')
-<div class="card border-blue-bottom">
+  <div class="card border-blue-bottom">
     <div class="content">
-        {{ Form::open(['route' => 'admin.airports.store', 'id' => 'airportForm']) }}
-        @include('admin.airports.fields')
-        {{ Form::close() }}
+      {{ Form::open(['route' => 'admin.airports.store', 'id' => 'airportForm']) }}
+      @include('admin.airports.fields')
+      {{ Form::close() }}
     </div>
-</div>
+  </div>
 @endsection
 @include('admin.airports.script')

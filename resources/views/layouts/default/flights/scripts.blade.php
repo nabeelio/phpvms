@@ -1,7 +1,7 @@
 @section('scripts')
-<script>
-$(document).ready(function () {
-    $("button.save_flight").click(async function (e) {
+  <script>
+    $(document).ready(function () {
+      $("button.save_flight").click(async function (e) {
         e.preventDefault();
 
         const btn = $(this);
@@ -9,19 +9,19 @@ $(document).ready(function () {
         const flight_id = btn.attr('x-id');
 
         if (!btn.hasClass(class_name)) {
-            await phpvms.bids.addBid(flight_id);
+          await phpvms.bids.addBid(flight_id);
 
-            console.log('successfully saved flight');
-            btn.addClass(class_name);
-            alert('@lang("flights.bidadded")');
+          console.log('successfully saved flight');
+          btn.addClass(class_name);
+          alert('@lang("flights.bidadded")');
         } else {
-            await phpvms.bids.removeBid(flight_id);
+          await phpvms.bids.removeBid(flight_id);
 
-            console.log('successfully removed flight');
-            btn.removeClass(class_name);
-            alert('@lang("flights.bidremoved")');
+          console.log('successfully removed flight');
+          btn.removeClass(class_name);
+          alert('@lang("flights.bidremoved")');
         }
+      });
     });
-});
-</script>
+  </script>
 @endsection

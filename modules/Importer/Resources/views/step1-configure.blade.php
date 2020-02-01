@@ -12,9 +12,11 @@
           <ul>
             <li>If you have more than 1000 PIREPs or flights, it's best to use the command-line importer!
               <a href="http://docs.phpvms.net/setup/importing-from-v2-v5" target="_blank">Click here</a> to
-              see the documentation of how to use it.</li>
+              see the documentation of how to use it.
+            </li>
             <li><strong>THIS WILL WIPE OUT YOUR EXISTING DATA</strong> - this is required to make sure that things like
-            pilot IDs match up</li>
+              pilot IDs match up
+            </li>
           </ul>
         </td>
       </tr>
