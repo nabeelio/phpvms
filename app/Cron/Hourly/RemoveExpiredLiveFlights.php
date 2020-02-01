@@ -4,6 +4,7 @@ namespace App\Cron\Hourly;
 
 use App\Contracts\Listener;
 use App\Events\CronHourly;
+use App\Models\Enums\PirepState;
 use App\Models\Pirep;
 use Carbon\Carbon;
 
@@ -13,7 +14,7 @@ use Carbon\Carbon;
 class RemoveExpiredLiveFlights extends Listener
 {
     /**
-     * Remove expired live flights
+     * Remove expired live flights that haven't had an update in the live time
      *
      * @param CronHourly $event
      *
@@ -26,7 +27,7 @@ class RemoveExpiredLiveFlights extends Listener
         }
 
         $date = Carbon::now()->subHours(setting('acars.live_time'));
-        Pirep::whereDate('created_at', '<', $date)
+        Pirep::whereDate('updated_at', '<', $date)
             ->where('state', PirepState::IN_PROGRESS)
             ->delete();
     }
