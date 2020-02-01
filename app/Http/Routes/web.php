@@ -44,7 +44,7 @@ Route::group([
     Route::get('/pireps', 'PirepController@index')->name('pireps.index');
     Route::get('/pireps/create', 'PirepController@create')->name('pireps.create');
     Route::post('/pireps', 'PirepController@store')->name('pireps.store');
-    Route::post('/pireps/{id}/edit', 'PirepController@edit')->name('pireps.edit');
+    Route::get('/pireps/{id}/edit', 'PirepController@edit')->name('pireps.edit');
     Route::put('/pireps/{id}', 'PirepController@update')->name('pireps.update');
     Route::delete('/pireps/{id}', 'PirepController@destroy')->name('pireps.destroy');
 
