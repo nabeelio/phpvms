@@ -17,7 +17,7 @@
                "x-saved-class" is the class to add/remove if the bid exists or not
                If you change it, remember to change it in the in-array line as well
           --}}
-          @if (!setting('pilots.only_flights_from_current') || $flight->dpt_airport->icao == Auth::user()->current_airport->icao)
+          @if (!setting('pilots.only_flights_from_current') || $flight->dpt_airport_id == Auth::user()->current_airport->icao)
             <button class="btn btn-round btn-icon btn-icon-mini save_flight
                            {{ in_array($flight->id, $saved, true) ? 'btn-info':'' }}"
                     x-id="{{ $flight->id }}"
@@ -33,17 +33,17 @@
         <div class="col-sm-7">
           {{--<table class="table-condensed"></table>--}}
           <span class="title">{{ strtoupper(__('flights.dep')) }}&nbsp;</span>
-          {{ $flight->dpt_airport->name }}
+          {{ optional($flight->dpt_airport)->name ?? $flight->dpt_airport_id }}
           (<a href="{{route('frontend.airports.show', [
-                'id' => $flight->dpt_airport->icao
-              ])}}">{{$flight->dpt_airport->icao}}</a>)
+                'id' => $flight->dpt_airport_id
+              ])}}">{{$flight->dpt_airport_id}}</a>)
           @if($flight->dpt_time), {{ $flight->dpt_time }}@endif
           <br/>
           <span class="title">{{ strtoupper(__('flights.arr')) }}&nbsp;</span>
-          {{ $flight->arr_airport->name }}
+          {{ optional($flight->arr_airport)->name ?? $flight->arr_airport_id }}
           (<a href="{{route('frontend.airports.show', [
-                'id' => $flight->arr_airport->icao
-              ])}}">{{$flight->arr_airport->icao}}</a>)
+                'id' => $flight->arr_airport_id
+              ])}}">{{$flight->arr_airport_id}}</a>)
           @if($flight->arr_time), {{ $flight->arr_time }}@endif
           <br/>
           @if($flight->distance)

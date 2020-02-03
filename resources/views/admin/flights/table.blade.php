@@ -19,11 +19,11 @@
             {{$flight->ident}}
           </a>
         </td>
-        <td>{{ $flight->dpt_airport->icao }}</td>
+        <td>{{ $flight->dpt_airport_id }}</td>
         <td>
-          {{ $flight->arr_airport->icao }}
+          {{ $flight->arr_airport_id }}
           @if($flight->alt_airport)
-            (Alt: {{ $flight->alt_airport->icao }})
+            (Alt: {{ $flight->alt_airport_id }})
           @endif
         </td>
         {{--<td>{{ $flight->route }}</td>--}}

@@ -291,17 +291,17 @@ class GeoService extends Service
         $route = new GeoJson();
 
         //# Departure Airport
-        $route->addPoint($flight->dpt_airport->lat, $flight->dpt_airport->lon, [
-            'name'  => $flight->dpt_airport->icao,
-            'popup' => $flight->dpt_airport->full_name,
+        $route->addPoint(optional($flight->dpt_airport)->lat, optional($flight->dpt_airport)->lon, [
+            'name'  => $flight->dpt_airport_id,
+            'popup' => optional($flight->dpt_airport)->full_name,
             'icon'  => 'airport',
         ]);
 
         if ($flight->route) {
             $all_route_points = $this->getCoordsFromRoute(
-                $flight->dpt_airport->icao,
-                $flight->arr_airport->icao,
-                [$flight->dpt_airport->lat, $flight->dpt_airport->lon],
+                $flight->dpt_airport_id,
+                $flight->arr_airport_id,
+                [optional($flight->dpt_airport)->lat, optional($flight->dpt_airport)->lon],
                 $flight->route
             );
 
@@ -315,9 +315,9 @@ class GeoService extends Service
             }
         }
 
-        $route->addPoint($flight->arr_airport->lat, $flight->arr_airport->lon, [
-            'name'  => $flight->arr_airport->icao,
-            'popup' => $flight->arr_airport->full_name,
+        $route->addPoint(optional($flight->arr_airport)->lat, optional($flight->arr_airport)->lon, [
+            'name'  => $flight->arr_airport_id,
+            'popup' => optional($flight->arr_airport)->full_name,
             'icon'  => 'airport',
         ]);
 
@@ -342,9 +342,9 @@ class GeoService extends Service
         /*
          * PLANNED ROUTE
          */
-        $planned->addPoint($pirep->dpt_airport->lat, $pirep->dpt_airport->lon, [
-            'name'  => $pirep->dpt_airport->icao,
-            'popup' => $pirep->dpt_airport->full_name,
+        $planned->addPoint(optional($pirep->dpt_airport)->lat, optional($pirep->dpt_airport)->lon, [
+            'name'  => $pirep->dpt_airport_id,
+            'popup' => optional($pirep->dpt_airport)->full_name,
         ]);
 
         $planned_route = $this->acarsRepo->forPirep($pirep->id, AcarsType::ROUTE);
@@ -355,9 +355,9 @@ class GeoService extends Service
             ]);
         }
 
-        $planned->addPoint($pirep->arr_airport->lat, $pirep->arr_airport->lon, [
-            'name'  => $pirep->arr_airport->icao,
-            'popup' => $pirep->arr_airport->full_name,
+        $planned->addPoint(optional($pirep->arr_airport)->lat, optional($pirep->arr_airport)->lon, [
+            'name'  => $pirep->arr_airport_id,
+            'popup' => optional($pirep->arr_airport)->full_name,
             'icon'  => 'airport',
         ]);
 
