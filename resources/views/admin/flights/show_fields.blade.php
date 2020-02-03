@@ -5,7 +5,7 @@
       <h3 class="box-title">{{ Form::label('dpt_airport_id', 'Dep ICAO') }}</h3>
     </div>
     <div class="box-body"><p class="lead">
-        {{ $flight->dpt_airport->icao }} - {{ $flight->dpt_airport->name }}
+        {{ $flight->dpt_airport_id }} - {{ optional($flight->dpt_airport)->name }}
       </p></div>
   </div>
 </div>
@@ -17,7 +17,7 @@
       <h3 class="box-title">{{ Form::label('arr_airport_id', 'Arrival ICAO') }}</h3>
     </div>
     <div class="box-body"><p class="lead">
-        {{ $flight->arr_airport->icao }} - {{ $flight->arr_airport->name }}
+        {{ $flight->arr_airport_id }} - {{ optional($flight->arr_airport)->name }}
       </p>
     </div>
   </div>
@@ -43,7 +43,7 @@
       @if($flight->alt_airport_id)
         <div class="form-group">
           {{ Form::label('alt_airport_id', 'Alt Airport Id:') }}
-          <p>{{ $flight->alt_airport->icao }}</p>
+          <p>{{ $flight->alt_airport_id }}</p>
         </div>
     @endif
 

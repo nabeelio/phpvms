@@ -15,10 +15,10 @@
             <tr>
               <td>@lang('common.departure')</td>
               <td>
-                {{ $flight->dpt_airport->name }}
+                {{ optional($flight->dpt_airport)->name ?? $flight->dpt_airport_id }}
                 (<a href="{{route('frontend.airports.show', [
-                            'id' => $flight->dpt_airport->icao
-                            ])}}">{{$flight->dpt_airport->icao}}</a>)
+                            'id' => $flight->dpt_airport_id
+                            ])}}">{{$flight->dpt_airport_id}}</a>)
                 @ {{ $flight->dpt_time }}
               </td>
             </tr>
@@ -26,20 +26,20 @@
             <tr>
               <td>@lang('common.arrival')</td>
               <td>
-                {{ $flight->arr_airport->name }}
+                {{ optional($flight->arr_airport)->name ?? $flight->arr_airport_id }}
                 (<a href="{{route('frontend.airports.show', [
-                            'id' => $flight->arr_airport->icao
-                            ])}}">{{$flight->arr_airport->icao}}</a>)
+                            'id' => $flight->arr_airport_id
+                            ])}}">{{$flight->arr_airport_id }}</a>)
                 @ {{ $flight->arr_time }}</td>
             </tr>
             @if($flight->alt_airport_id)
               <tr>
                 <td>@lang('flights.alternateairport')</td>
                 <td>
-                  {{ $flight->alt_airport->name }}
+                  {{ optional($flight->alt_airport)->name ?? $flight->alt_airport_id }}
                   (<a href="{{route('frontend.airports.show', [
-                            'id' => $flight->alt_airport->icao
-                            ])}}">{{$flight->alt_airport->icao}}</a>)
+                            'id' => $flight->alt_airport_id
+                            ])}}">{{$flight->alt_airport_id}}</a>)
                 </td>
               </tr>
             @endif

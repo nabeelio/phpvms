@@ -58,9 +58,9 @@
                   {{ $flight->ident }}
                 </a>
               </td>
-              <td class="text-left">{{ $flight->dpt_airport->name }}
+              <td class="text-left">{{ optional($flight->dpt_airport)->name }}
                 (<a href="{{route('frontend.airports.show',
-                         ['id'=>$flight->dpt_airport->icao])}}">{{$flight->dpt_airport->icao}}</a>)
+                         ['id' => $flight->dpt_airport_id])}}">{{$flight->dpt_airport_id}}</a>)
               </td>
               <td>{{ $flight->dpt_time }}</td>
               <td>{{ $flight->arr_time }}</td>
