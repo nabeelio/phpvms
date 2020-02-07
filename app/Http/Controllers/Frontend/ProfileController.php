@@ -43,7 +43,7 @@ class ProfileController extends Controller
         $this->userRepo = $userRepo;
     }
 
-        /**
+    /**
      * Return whether the vmsACARS module is enabled or not
      */
     private function acarsEnabled(): bool
