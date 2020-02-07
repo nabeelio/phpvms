@@ -18,10 +18,8 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Intervention\Image\Facades\Image;
 use Laracasts\Flash\Flash;
+use Nwidart\Modules\Facades\Module;
 
-/**
- * Class ProfileController
- */
 class ProfileController extends Controller
 {
     private $airlineRepo;
@@ -46,6 +44,21 @@ class ProfileController extends Controller
     }
 
     /**
+     * Return whether the vmsACARS module is enabled or not
+     */
+    private function acarsEnabled(): bool
+    {
+        // Is the ACARS module enabled?
+        $acars_enabled = false;
+        $acars = Module::find('VMSACARS');
+        if ($acars) {
+            $acars_enabled = $acars->isEnabled();
+        }
+
+        return $acars_enabled;
+    }
+
+    /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index()
@@ -57,6 +70,7 @@ class ProfileController extends Controller
         }
 
         return view('profile.index', [
+            'acars'    => $this->acarsEnabled(),
             'user'     => Auth::user(),
             'airports' => $airports,
         ]);
@@ -119,7 +133,7 @@ class ProfileController extends Controller
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      *
-     * @return $this
+     * @return mixed
      */
     public function update(Request $request)
     {
@@ -199,5 +213,25 @@ class ProfileController extends Controller
         flash('New API key generated!')->success();
 
         return redirect(route('frontend.profile.index'));
+    }
+
+    /**
+     * Generate the ACARS config and send it to download
+     *
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     */
+    public function acars(Request $request)
+    {
+        $user = Auth::user();
+        $config = view('system.acars.config', ['user' => $user])->render();
+
+        return response($config)->withHeaders([
+            'Content-Type'        => 'text/xml',
+            'Content-Length'      => strlen($config),
+            'Cache-Control'       => 'no-store, no-cache',
+            'Content-Disposition' => 'attachment; filename="settings.xml',
+        ]);
     }
 }

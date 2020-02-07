@@ -94,6 +94,11 @@
     <div class="row">
       <div class="col-sm-12">
         <div class="text-right">
+          @if ($acars)
+          <a href="{{ route('frontend.profile.acars') }}" class="btn btn-primary"
+             onclick="alert('Save to \'My Documents/phpVMS\'')">ACARS Config</a>
+          &nbsp;
+          @endif
           <a href="{{ route('frontend.profile.regen_apikey') }}" class="btn btn-warning"
              onclick="return confirm({{ __('Are you sure? This will reset your API key.') }})">@lang('profile.newapikey')</a>
           &nbsp;
