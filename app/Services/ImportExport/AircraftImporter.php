@@ -4,6 +4,7 @@ namespace App\Services\ImportExport;
 
 use App\Contracts\ImportExport;
 use App\Models\Aircraft;
+use App\Models\Airline;
 use App\Models\Enums\AircraftState;
 use App\Models\Enums\AircraftStatus;
 use App\Models\Subfleet;
@@ -32,7 +33,8 @@ class AircraftImporter extends ImportExport
     ];
 
     /**
-     * Find the subfleet specified, or just create it on the fly
+     * Find the subfleet specified, or just create it on the fly and attach it to the
+     * first airline that's been found
      *
      * @param $type
      *
@@ -40,11 +42,12 @@ class AircraftImporter extends ImportExport
      */
     protected function getSubfleet($type)
     {
-        $subfleet = Subfleet::firstOrCreate([
+        return Subfleet::firstOrCreate([
             'type' => $type,
-        ], ['name' => $type]);
-
-        return $subfleet;
+        ], [
+            'name'       => $type,
+            'airline_id' => Airline::where('active', true)->first()->id,
+        ]);
     }
 
     /**
@@ -69,7 +72,7 @@ class AircraftImporter extends ImportExport
 
         // Set a default status
         $row['status'] = trim($row['status']);
-        if ($row['status'] === null || $row['status'] === '') {
+        if (empty($row['status'])) {
             $row['status'] = AircraftStatus::ACTIVE;
         }
 
@@ -77,12 +80,10 @@ class AircraftImporter extends ImportExport
         $row['state'] = AircraftState::PARKED;
 
         // Try to add or update
-        $aircraft = Aircraft::firstOrNew([
-            'registration' => $row['registration'],
-        ], $row);
-
         try {
-            $aircraft->save();
+            Aircraft::updateOrCreate([
+                'registration' => $row['registration'],
+            ], $row);
         } catch (\Exception $e) {
             $this->errorLog('Error in row '.$index.': '.$e->getMessage());
             return false;

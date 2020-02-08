@@ -2,13 +2,15 @@
 
 namespace App\Http\Middleware;
 
+use App\Contracts\Middleware;
 use App\Services\Installer\InstallerService;
 use Closure;
+use Illuminate\Http\Request;
 
 /**
  * Determine if an update is pending by checking in with the Installer service
  */
-class UpdatePending
+class UpdatePending implements Middleware
 {
     private $installerSvc;
 
@@ -17,13 +19,7 @@ class UpdatePending
         $this->installerSvc = $installerSvc;
     }
 
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @param \Closure                 $next
-     *
-     * @return mixed
-     */
-    public function handle($request, Closure $next)
+    public function handle(Request $request, Closure $next)
     {
         if ($this->installerSvc->isUpgradePending()) {
             return redirect('/update/step1');

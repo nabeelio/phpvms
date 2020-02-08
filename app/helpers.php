@@ -4,6 +4,18 @@ use App\Exceptions\SettingNotFound;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\Factory;
 
+/*
+ * array_key_first only exists in PHP 7.3+
+ */
+if (!function_exists('array_key_first')) {
+    function array_key_first(array $arr)
+    {
+        foreach ($arr as $key => $unused) {
+            return $key;
+        }
+    }
+}
+
 if (!function_exists('in_mask')) {
     /**
      * Return true/false if a value exists in a mask
@@ -139,6 +151,8 @@ if (!function_exists('setting')) {
      * @param       $key
      * @param mixed $default
      *
+     * @throws \Exception
+     *
      * @return mixed|null
      */
     function setting($key, $default = null)
@@ -148,6 +162,8 @@ if (!function_exists('setting')) {
         try {
             $value = $settingRepo->retrieve($key);
         } catch (SettingNotFound $e) {
+            return $default;
+        } catch (Exception $e) {
             return $default;
         }
 
@@ -195,6 +211,21 @@ if (!function_exists('public_mix')) {
         }
 
         return public_asset($path, $parameters);
+    }
+}
+
+/**
+ * Wrap a call to url() and append the public folder before it
+ */
+if (!function_exists('public_url')) {
+    function public_url($path, array $parameters = [])
+    {
+        $publicBaseUrl = app()->publicUrlPath();
+        $path = $publicBaseUrl.$path;
+
+        $path = str_replace('//', '/', $path);
+
+        return url($path, $parameters);
     }
 }
 

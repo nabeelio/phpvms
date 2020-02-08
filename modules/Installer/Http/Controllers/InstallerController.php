@@ -7,6 +7,8 @@ use App\Facades\Utils;
 use App\Models\User;
 use App\Repositories\AirlineRepository;
 use App\Services\AnalyticsService;
+use App\Services\Installer\DatabaseService;
+use App\Services\Installer\InstallerService;
 use App\Services\Installer\MigrationService;
 use App\Services\Installer\SeederService;
 use App\Services\UserService;
@@ -17,13 +19,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Modules\Installer\Services\ConfigService;
-use Modules\Installer\Services\DatabaseService;
 use Modules\Installer\Services\RequirementsService;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
-/**
- * Class InstallerController
- */
 class InstallerController extends Controller
 {
     private $airlineRepo;
@@ -65,6 +62,8 @@ class InstallerController extends Controller
         $this->reqSvc = $reqSvc;
         $this->seederSvc = $seederSvc;
         $this->userService = $userService;
+
+        \App\Support\Utils::disableDebugToolbar();
     }
 
     /**
@@ -106,7 +105,7 @@ class InstallerController extends Controller
             $message = 'Failed! '.$e->getMessage();
         }
 
-        return view('installer::flash/dbtest', [
+        return view('installer::install/dbtest', [
             'status'  => $status,
             'message' => $message,
         ]);
@@ -221,7 +220,7 @@ class InstallerController extends Controller
          */
         try {
             $this->envSvc->createConfigFiles($attrs);
-        } catch (FileException $e) {
+        } catch (\Exception $e) {
             Log::error('Config files failed to write');
             Log::error($e->getMessage());
 
@@ -351,6 +350,9 @@ class InstallerController extends Controller
      */
     public function complete(Request $request)
     {
+        $installerSvc = app(InstallerService::class);
+        $installerSvc->disableInstallerModules();
+
         return redirect('/login');
     }
 }

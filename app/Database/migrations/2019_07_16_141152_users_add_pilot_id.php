@@ -28,28 +28,6 @@ class UsersAddPilotId extends Migration
 
         // Migrate the current pilot IDs
         DB::update('UPDATE `users` SET `pilot_id`=`id`');
-
-        // Drop the old ID column and add a new one
-        /*Schema::table('users', function (Blueprint $table) {
-            $table->dropPrimary('users_id_primary');
-            $table->dropColumn('id');
-            $table->string('id', Model::ID_MAX_LENGTH)->primary();
-        });
-
-        // Update the users to use the `pilot_id` (so we don't need to migrate data from other tables)
-        $users = DB::table('users')->get(['id']);
-        foreach ($users as $user) {
-            $user->id = $user->pilot_id;
-            $user->save();
-        }*/
-
-        // role_user
-        // permission_user
-        // sessions
-        // pireps
-        // bids
-        // news
-        // user_awards
     }
 
     /**

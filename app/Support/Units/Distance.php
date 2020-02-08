@@ -8,6 +8,7 @@ use PhpUnitsOfMeasure\PhysicalQuantity\Length;
 class Distance extends Unit
 {
     public $responseUnits = [
+        'm',
         'km',
         'mi',
         'nmi',

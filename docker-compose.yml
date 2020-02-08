@@ -2,8 +2,9 @@
 version: '3'
 services:
   app:
+    # For your own docker-compose, use `image: phpvms:latest` instead of the build/context block
     build:
-      context: ./resources/docker/php
+      context: .
     environment:
       DB_HOST: mysql
       REDIS_HOST: redis

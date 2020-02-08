@@ -221,20 +221,12 @@ class GeoService extends Service
             ]);
         }
 
-        /*
-         * @var $point \App\Models\Acars
-         */
-        /*foreach ($pirep->acars as $point) {
-            $route->addPoint($point->lat, $point->lon, [
-                'pirep_id' => $pirep->id,
-                'alt'      => $point->altitude,
-            ]);
-        }*/
-
         return [
+            // If there is a position update from ACARS, show where it is
+            // Otherwise, just assume it's at the arrival airport currently
             'position' => [
-                'lat' => $pirep->position->lat,
-                'lon' => $pirep->position->lon,
+                'lat' => optional($pirep->position)->lat ?? $pirep->arr_airport->lat,
+                'lon' => optional($pirep->position)->lon ?? $pirep->arr_airport->lon,
             ],
             'line'     => $route->getLine(),
             'points'   => $route->getPoints(),
@@ -299,17 +291,17 @@ class GeoService extends Service
         $route = new GeoJson();
 
         //# Departure Airport
-        $route->addPoint($flight->dpt_airport->lat, $flight->dpt_airport->lon, [
-            'name'  => $flight->dpt_airport->icao,
-            'popup' => $flight->dpt_airport->full_name,
+        $route->addPoint(optional($flight->dpt_airport)->lat, optional($flight->dpt_airport)->lon, [
+            'name'  => $flight->dpt_airport_id,
+            'popup' => optional($flight->dpt_airport)->full_name ?? $flight->dpt_airport_id,
             'icon'  => 'airport',
         ]);
 
         if ($flight->route) {
             $all_route_points = $this->getCoordsFromRoute(
-                $flight->dpt_airport->icao,
-                $flight->arr_airport->icao,
-                [$flight->dpt_airport->lat, $flight->dpt_airport->lon],
+                $flight->dpt_airport_id,
+                $flight->arr_airport_id,
+                [optional($flight->dpt_airport)->lat, optional($flight->dpt_airport)->lon],
                 $flight->route
             );
 
@@ -323,9 +315,9 @@ class GeoService extends Service
             }
         }
 
-        $route->addPoint($flight->arr_airport->lat, $flight->arr_airport->lon, [
-            'name'  => $flight->arr_airport->icao,
-            'popup' => $flight->arr_airport->full_name,
+        $route->addPoint(optional($flight->arr_airport)->lat, optional($flight->arr_airport)->lon, [
+            'name'  => $flight->arr_airport_id,
+            'popup' => optional($flight->arr_airport)->full_name ?? $flight->arr_airport_id,
             'icon'  => 'airport',
         ]);
 
@@ -350,9 +342,9 @@ class GeoService extends Service
         /*
          * PLANNED ROUTE
          */
-        $planned->addPoint($pirep->dpt_airport->lat, $pirep->dpt_airport->lon, [
-            'name'  => $pirep->dpt_airport->icao,
-            'popup' => $pirep->dpt_airport->full_name,
+        $planned->addPoint(optional($pirep->dpt_airport)->lat, optional($pirep->dpt_airport)->lon, [
+            'name'  => $pirep->dpt_airport_id,
+            'popup' => optional($pirep->dpt_airport)->full_name ?? $pirep->dpt_airport_id,
         ]);
 
         $planned_route = $this->acarsRepo->forPirep($pirep->id, AcarsType::ROUTE);
@@ -363,9 +355,9 @@ class GeoService extends Service
             ]);
         }
 
-        $planned->addPoint($pirep->arr_airport->lat, $pirep->arr_airport->lon, [
-            'name'  => $pirep->arr_airport->icao,
-            'popup' => $pirep->arr_airport->full_name,
+        $planned->addPoint(optional($pirep->arr_airport)->lat, optional($pirep->arr_airport)->lon, [
+            'name'  => $pirep->arr_airport_id,
+            'popup' => optional($pirep->arr_airport)->full_name ?? $pirep->arr_airport_id,
             'icon'  => 'airport',
         ]);
 
@@ -382,9 +374,8 @@ class GeoService extends Service
         }
 
         return [
-            'planned_rte_points' => $planned->getPoints(),
-            'planned_rte_line'   => $planned->getLine(),
-
+            'planned_rte_points'  => $planned->getPoints(),
+            'planned_rte_line'    => $planned->getLine(),
             'actual_route_points' => $actual->getPoints(),
             'actual_route_line'   => $actual->getLine(),
         ];

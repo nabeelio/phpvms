@@ -3,26 +3,15 @@
 namespace App\Events;
 
 use App\Models\User;
-use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Queue\SerializesModels;
 
 /**
  * Event triggered when a user's state changes
  */
-class UserStateChanged
+class UserStateChanged extends BaseEvent
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
-
     public $old_state;
     public $user;
 
-    /**
-     * UserStateChanged constructor.
-     *
-     * @param User $user
-     * @param      $old_state
-     */
     public function __construct(User $user, $old_state)
     {
         $this->old_state = $old_state;

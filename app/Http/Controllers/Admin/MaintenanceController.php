@@ -19,15 +19,8 @@ class MaintenanceController extends Controller
 
     public function index()
     {
-        // Generate the cron path. Replace php-fpm with just php
-        $cron_path = [
-            '* * * * *',
-            $this->cronSvc->getCronPath(),
-            '>> /dev/null 2>&1',
-        ];
-
         return view('admin.maintenance.index', [
-            'cron_path'           => implode(' ', $cron_path),
+            'cron_path'           => $this->cronSvc->getCronExecString(),
             'cron_problem_exists' => $this->cronSvc->cronProblemExists(),
         ]);
     }
@@ -49,6 +42,7 @@ class MaintenanceController extends Controller
             $calls[] = 'config:cache';
             $calls[] = 'cache:clear';
             $calls[] = 'route:cache';
+            $calls[] = 'clear-compiled';
         }
 
         // If we want to clear only the views but keep everything else

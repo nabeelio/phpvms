@@ -222,3 +222,17 @@
   options: ''
   type: boolean
   description: 'Count transfer hours in calculations, like ranks and the total hours'
+- key: notifications.discord_api_key
+  name: Discord API token
+  group: notifications
+  value: ''
+  options: ''
+  type: text
+  description: Discord API token for notifications
+- key: 'notifications.discord_public_channel_id'
+  name: 'Discord Public Channel ID'
+  group: 'notifications'
+  value: ''
+  options: ''
+  type: 'text'
+  description: 'Discord public channel ID for broadcasat notifications'

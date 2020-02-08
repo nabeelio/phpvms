@@ -7,9 +7,6 @@ use App\Models\Subfleet;
 use Prettus\Repository\Contracts\CacheableInterface;
 use Prettus\Repository\Traits\CacheableRepository;
 
-/**
- * Class SubfleetRepository
- */
 class SubfleetRepository extends Repository implements CacheableInterface
 {
     use CacheableRepository;
@@ -25,5 +22,28 @@ class SubfleetRepository extends Repository implements CacheableInterface
     public function model()
     {
         return Subfleet::class;
+    }
+
+    /**
+     * Return the list of aircraft formatted for a select box
+     *
+     * @param bool $add_blank
+     *
+     * @return array
+     */
+    public function selectBoxList($add_blank = false): array
+    {
+        $retval = [];
+        $items = $this->all();
+
+        if ($add_blank) {
+            $retval[''] = '';
+        }
+
+        foreach ($items as $i) {
+            $retval[$i->id] = $i->name;
+        }
+
+        return $retval;
     }
 }

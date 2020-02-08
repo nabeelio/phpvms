@@ -34,6 +34,8 @@ use Laratrust\Traits\LaratrustUserTrait;
  * @property int            state
  * @property bool           opt_in
  * @property string         last_pirep_id
+ *
+ * @mixin \Illuminate\Database\Eloquent\Builder
  * @mixin \Illuminate\Notifications\Notifiable
  * @mixin \Laratrust\Traits\LaratrustUserTrait
  */
@@ -144,7 +146,7 @@ class User extends Authenticatable
         }
 
         return new File([
-           'path' => $this->attributes['avatar'],
+            'path' => $this->attributes['avatar'],
         ]);
     }
 

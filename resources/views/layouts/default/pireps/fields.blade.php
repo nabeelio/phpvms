@@ -218,7 +218,7 @@ flight reports that have been filed. You've been warned!
             @endif
           </div>
           <div class="col-4">
-            {{ Form::label('block_fuel', __('pireps.block_fuel')) }} ({{config('phpvms.internal_units.fuel')}})
+            {{ Form::label('block_fuel', __('pireps.block_fuel')) }} ({{setting('units.fuel')}})
             @if(!empty($pirep) && $pirep->read_only)
               <p>{{ $pirep->block_fuel }}</p>
             @else
@@ -234,7 +234,7 @@ flight reports that have been filed. You've been warned!
             @endif
           </div>
           <div class="col-4">
-            {{ Form::label('fuel_used', __('pireps.fuel_used')) }} ({{config('phpvms.internal_units.fuel')}})
+            {{ Form::label('fuel_used', __('pireps.fuel_used')) }} ({{setting('units.fuel')}})
             @if(!empty($pirep) && $pirep->read_only)
               <p>{{ $pirep->fuel_used }}</p>
             @else

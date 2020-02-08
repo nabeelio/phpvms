@@ -1,0 +1,30 @@
+{
+    "name": "phpvms/updater",
+    "license": "",
+    "type": "laravel-library",
+    "description": "The installer module for phpVMS",
+    "authors": [
+        {
+            "name": "Nabeel Shahzad",
+            "email": "nabeel@phpvms.net"
+        }
+    ],
+    "require": {
+        "composer/installers": "~1.0"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\Updater\\Providers\\UpdateServiceProvider"
+            ],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Installer\\": ""
+        }
+    }
+}

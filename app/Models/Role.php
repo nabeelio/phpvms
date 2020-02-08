@@ -5,7 +5,7 @@ namespace App\Models;
 use Laratrust\Models\LaratrustRole;
 
 /**
- * @method static where(string $string, $group)
+ * @mixin \Illuminate\Database\Eloquent\Builder
  */
 class Role extends LaratrustRole
 {

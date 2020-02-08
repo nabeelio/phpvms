@@ -52,20 +52,7 @@ export default (_opts) => {
     pireps: [],
     has_data: false,
     controller: {
-      /**
-       * Focus on a specific marker
-       * @param e
-       * @param model
-       */
-      focusMarker: (e, model) => {
-        if (!(model.pirep.id in markers_list)) {
-          console.log('marker not found in list');
-          return;
-        }
-
-        const marker = markers_list[model.pirep.id];
-        onFlightClick(marker[0], marker[1]);
-      },
+      focusMarker: null, // assigned below
     },
   };
 
@@ -73,19 +60,18 @@ export default (_opts) => {
   rivets.bind($('#live_flights'), liveMapController);
 
   function drawRoute(feature, layer, route) {
-    console.log('drawRoute');
     if (layerSelFlight !== null) {
       map.removeLayer(layerSelFlight);
     }
 
-    layerSelFlight = leaflet.geodesic([], {
+    layerSelFlight = new L.Geodesic([], {
       weight: 5,
       opacity: 0.9,
       color: ACTUAL_ROUTE_COLOR,
       wrap: false,
     }).addTo(map);
 
-    layerSelFlight.geoJson(route.line);
+    layerSelFlight.fromGeoJson(route.line);
     layerSelFlightFeature = feature;
     layerSelFlightLayer = layer;
 
@@ -128,6 +114,28 @@ export default (_opts) => {
       drawRoute(feature, layer, route);
     });
   }
+
+  /**
+   * Focus on a specific marker
+   * @param e
+   * @param model
+   */
+  function focusMarker(e, model) {
+    if (!(model.pirep.id in markers_list)) {
+      console.log('marker not found in list');
+      return;
+    }
+
+    const marker = markers_list[model.pirep.id];
+    onFlightClick(marker[0], marker[1]);
+  }
+
+  /*
+   * Assign functions to the controller
+   */
+  liveMapController.controller.drawRoute = drawRoute;
+  liveMapController.controller.focusMarker = focusMarker;
+  liveMapController.controller.onFlightClick = onFlightClick;
 
   const updateMap = () => {
     request(opts.acars_uri).then((response) => {

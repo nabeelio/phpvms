@@ -6,12 +6,11 @@ language: php
 php:
   - '7.2'
   - '7.3'
+  - '7.4'
 
-matrix:
-  include:
-    - php: '7.2'
-    - php: '7.3'
-  fast_finish: true
+env:
+  - DB=mysql
+  - DB=mariadb
 
 cache:
   # Cache lives for 10 min
@@ -24,7 +23,12 @@ cache:
 services:
 - mysql
 
+addons:
+  mariadb: '10.2'
+
 install:
+  - php --version
+  - mysql --version
   - composer install --dev --no-interaction --verbose
   - cp .travis/env.travis.php env.php
   - cp .travis/phpunit.travis.xml phpunit.xml
@@ -40,8 +44,83 @@ script:
 after_failure:
   - cat storage/logs/*.log
 
+# Refer to: https://github.com/doctrine/dbal/blob/master/.travis.yml#L39
 jobs:
   include:
+    # Different test stages
+#    - stage: Test
+#      name: PHP 7.2 + MySQL 5.7
+#      php: 7.2
+#      env: DB=mysql
+#      services:
+#        - mysql
+#    - stage: Test
+#      name: PHP 7.3 + MySQL 5.7
+#      php: 7.3
+#      env: DB=mysql
+#      services:
+#        - mysql
+#    - stage: Test
+#      name: PHP 7.4 + MySQL 5.7
+#      php: 7.4
+#      env: DB=mysql
+#      services:
+#        - mysql
+#    - stage: Test
+#      name: PHP 7.2 + MariaDB 10.1
+#      php: 7.2
+#      env: DB=mariadb
+#      addons:
+#        mariadb: '10.1'
+#    - stage: Test
+#      name: PHP 7.3 + MariaDB 10.1
+#      php: 7.3
+#      env: DB=mariadb
+#      addons:
+#        mariadb: '10.1'
+#    - stage: Test
+#      name: PHP 7.4 + MariaDB 10.1
+#      php: 7.4
+#      env: DB=mariadb MARIADB_VERSION=10.1
+#      addons:
+#        mariadb: '10.1'
+#    - stage: Test
+#      name: PHP 7.2 + MariaDB 10.2
+#      php: 7.2
+#      env: DB=mariadb
+#      addons:
+#        mariadb: '10.2'
+#    - stage: Test
+#      name: PHP 7.3 + MariaDB 10.3
+#      php: 7.3
+#      env: DB=mariadb
+#      addons:
+#        mariadb: '10.2'
+#    - stage: Test
+#      name: PHP 7.4 + MariaDB 10.2
+#      php: 7.4
+#      env: DB=mariadb
+#      addons:
+#        mariadb: '10.2'
+#    - stage: Test
+#      name: PHP 7.2 + MariaDB 10.3
+#      php: 7.2
+#      env: DB=mariadb
+#      addons:
+#        mariadb: '10.3'
+#    - stage: Test
+#      name: PHP 7.3 + MariaDB 10.3
+#      php: 7.3
+#      env: DB=mariadb
+#      addons:
+#        mariadb: '10.3'
+#    - stage: Test
+#      name: PHP 7.4 + MariaDB 10.3
+#      php: 7.4
+#      env: DB=mariadb
+#      addons:
+#        mariadb: '10.3'
+
     # Just packages up a release
     - stage: package
       script: skip

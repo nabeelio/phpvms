@@ -20,7 +20,7 @@ awards:
     name: Pilot 50 flights
     description: When a pilot has 50 flights, give this award
     image_url:
-    ref_model: App\Awards\PilotFlightAwards
+    ref_model: Modules\Awards\Awards\PilotFlightAwards
     ref_model_params: 50
     created_at: now
     updated_at: now
@@ -307,10 +307,10 @@ flights:
     dpt_airport_id: MKJP
     arr_airport_id: MWCR
     flight_time: 70
-    flight_type: J
-    dpt_time: 0800
-    arr_time: 0900
-    route: MLY5 KEMBO UG442 SIA UG633 OTEKO UR640 NALRO GUBEL3
+    flight_type: 'J'
+    dpt_time: '0800'
+    arr_time: '0900'
+    route: 'MLY5 KEMBO UG442 SIA UG633 OTEKO UR640 NALRO GUBEL3'
     created_at: NOW
     updated_at: NOW
 

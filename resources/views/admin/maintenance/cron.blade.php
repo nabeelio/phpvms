@@ -14,7 +14,8 @@
           @if($cron_problem_exists)
             <div class="alert alert-danger" role="alert">
               There was a problem running the cron; make sure it's setup and check logs at
-              <span class="text-monospace bg-gradient-dark">storage/logs/cron.log</span>
+              <span class="text-monospace bg-gradient-dark">storage/logs/cron.log</span>.
+              <a href="{{ config('phpvms.docs.cron') }}" target="_blank">See the docs</a>
             </div>
           @endif
         </div>

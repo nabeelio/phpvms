@@ -69,4 +69,22 @@ class UtilsTest extends TestCase
         $hex_code = \App\Support\ICAO::createHexCode();
         $this->assertNotNull($hex_code);
     }
+
+    public function testGetDomain()
+    {
+        $tests = [
+            'http://phpvms.net',
+            'https://phpvms.net',
+            'phpvms.net',
+            'https://phpvms.net/index.php',
+            'https://demo.phpvms.net',
+            'https://demo.phpvms.net/file/index.php',
+        ];
+
+        foreach ($tests as $case) {
+            $this->assertEquals('phpvms.net', \App\Support\Utils::getRootDomain($case));
+        }
+
+        $this->assertEquals('phpvms', \App\Support\Utils::getRootDomain('http://phpvms'));
+    }
 }

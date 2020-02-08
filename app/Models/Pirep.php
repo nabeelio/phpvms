@@ -126,8 +126,8 @@ class Pirep extends Model
         'flight_number'  => 'required',
         'dpt_airport_id' => 'required',
         'arr_airport_id' => 'required',
-        'block_fuel'     => 'required|numeric',
-        'fuel_used'      => 'required|numeric',
+        'block_fuel'     => 'sometimes|numeric',
+        'fuel_used'      => 'sometimes|numeric',
         'level'          => 'nullable|numeric',
         'notes'          => 'nullable',
         'route'          => 'nullable',
@@ -260,16 +260,17 @@ class Pirep extends Model
      */
     public function getProgressPercentAttribute()
     {
-        $upper_bound = $this->distance['nmi'];
+        $distance = $this->distance;
+
+        $upper_bound = $distance;
         if ($this->planned_distance) {
-            $upper_bound = $this->planned_distance['nmi'];
+            $upper_bound = $this->planned_distance;
         }
 
-        if (!$upper_bound) {
-            $upper_bound = 1;
-        }
+        $upper_bound = empty($upper_bound) ? 1 : $upper_bound;
+        $distance = empty($distance) ? $upper_bound : $distance;
 
-        return round(($this->distance['nmi'] / $upper_bound) * 100, 0);
+        return round(($distance / $upper_bound) * 100, 0);
     }
 
     /**
@@ -419,7 +420,16 @@ class Pirep extends Model
 
     public function arr_airport()
     {
-        return $this->belongsTo(Airport::class, 'arr_airport_id');
+        return $this->belongsTo(Airport::class, 'arr_airport_id')
+            ->withDefault(function ($model) {
+                if (!empty($this->attributes['arr_airport_id'])) {
+                    $model->id = $this->attributes['arr_airport_id'];
+                    $model->icao = $this->attributes['arr_airport_id'];
+                    $model->name = $this->attributes['arr_airport_id'];
+                }
+
+                return $model;
+            });
     }
 
     public function alt_airport()
@@ -429,7 +439,16 @@ class Pirep extends Model
 
     public function dpt_airport()
     {
-        return $this->belongsTo(Airport::class, 'dpt_airport_id');
+        return $this->belongsTo(Airport::class, 'dpt_airport_id')
+            ->withDefault(function ($model) {
+                if (!empty($this->attributes['dpt_airport_id'])) {
+                    $model->id = $this->attributes['dpt_airport_id'];
+                    $model->icao = $this->attributes['dpt_airport_id'];
+                    $model->name = $this->attributes['dpt_airport_id'];
+                }
+
+                return $model;
+            });
     }
 
     public function comments()

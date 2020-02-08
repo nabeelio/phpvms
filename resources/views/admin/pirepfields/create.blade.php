@@ -1,11 +1,11 @@
 @extends('admin.app')
 @section('title', 'Adding Field')
 @section('content')
-    <div class="card border-blue-bottom">
-        <div class="content">
-            {{ Form::open(['route' => 'admin.pirepfields.store']) }}
-                @include('admin.pirepfields.fields')
-            {{ Form::close() }}
-        </div>
+  <div class="card border-blue-bottom">
+    <div class="content">
+      {{ Form::open(['route' => 'admin.pirepfields.store']) }}
+      @include('admin.pirepfields.fields')
+      {{ Form::close() }}
     </div>
+  </div>
 @endsection

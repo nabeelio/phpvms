@@ -112,7 +112,7 @@ class MetarTest extends TestCase
         $this->assertEquals(1000, $parsed['clouds'][0]['height']['ft']);
         $this->assertEquals(1600, $parsed['clouds'][1]['height']['ft']);
         $this->assertEquals(4000, $parsed['clouds'][2]['height']['ft']);
-        $this->assertNull($parsed['clouds'][3]['height']['ft']);
+        $this->assertNull($parsed['clouds'][3]['height']);
     }
 
     public function testMetar3()

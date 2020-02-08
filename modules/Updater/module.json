@@ -1,0 +1,14 @@
+{
+    "name": "Updater",
+    "alias": "updater",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\Updater\\Providers\\UpdateServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

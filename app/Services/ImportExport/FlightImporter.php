@@ -3,7 +3,6 @@
 namespace App\Services\ImportExport;
 
 use App\Contracts\ImportExport;
-use App\Models\Airport;
 use App\Models\Enums\Days;
 use App\Models\Enums\FlightType;
 use App\Models\Fare;
@@ -37,7 +36,7 @@ class FlightImporter extends ImportExport
         'dpt_time'      => 'nullable',
         'arr_time'      => 'nullable',
         'level'         => 'nullable|integer',
-        'distance'      => 'required|numeric',
+        'distance'      => 'nullable|numeric',
         'flight_time'   => 'required|integer',
         'flight_type'   => 'required|alpha',
         'route'         => 'nullable',
@@ -112,7 +111,7 @@ class FlightImporter extends ImportExport
         // Check for a valid value
         $flight_type = $row['flight_type'];
         if (!array_key_exists($flight_type, FlightType::labels())) {
-            $flight_type = 'J';
+            $flight_type = FlightType::SCHED_PAX;
         }
 
         $flight->setAttribute('flight_type', $flight_type);
@@ -130,6 +129,14 @@ class FlightImporter extends ImportExport
         $this->processAirport($row['arr_airport']);
         if ($row['alt_airport']) {
             $this->processAirport($row['alt_airport']);
+        }
+
+        // Check/calculate the distance
+        if (empty($row['distance'])) {
+            $row['distance'] = $this->airportSvc->calculateDistance(
+                $row['dpt_airport'],
+                $row['arr_airport']
+            );
         }
 
         $this->processSubfleets($flight, $row['subfleets']);
@@ -209,7 +216,7 @@ class FlightImporter extends ImportExport
         $count = 0;
         $subfleets = $this->parseMultiColumnValues($col);
         foreach ($subfleets as $subfleet_type) {
-            $subfleet = Subfleet::firstOrCreate(
+            $subfleet = Subfleet::updateOrCreate(
                 ['type' => $subfleet_type],
                 ['name' => $subfleet_type]
             );
@@ -239,7 +246,7 @@ class FlightImporter extends ImportExport
                 $fare_attributes = [];
             }
 
-            $fare = Fare::firstOrCreate(['code' => $fare_code], ['name' => $fare_code]);
+            $fare = Fare::updateOrCreate(['code' => $fare_code], ['name' => $fare_code]);
             $this->fareSvc->setForFlight($flight, $fare, $fare_attributes);
         }
     }

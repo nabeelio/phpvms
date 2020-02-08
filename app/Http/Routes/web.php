@@ -4,6 +4,8 @@
  * User doesn't need to be logged in for these
  */
 use App\Http\Middleware\SetActiveTheme;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
 Route::group([
     'namespace'  => 'Frontend', 'prefix' => '', 'as' => 'frontend.',
@@ -11,8 +13,9 @@ Route::group([
 ], function () {
     Route::get('/', 'HomeController@index')->name('home');
     Route::get('r/{id}', 'PirepController@show')->name('pirep.show.public');
-    Route::get('p/{id}', 'ProfileController@show')->name('profile.show.public');
+    Route::get('pireps/{id}', 'PirepController@show')->name('pireps.show');
 
+    Route::get('p/{id}', 'ProfileController@show')->name('profile.show.public');
     Route::get('users', 'UserController@index')->name('users.index');
     Route::get('pilots', 'UserController@index')->name('pilots.index');
 
@@ -24,7 +27,7 @@ Route::group([
  */
 Route::group([
     'namespace'  => 'Frontend', 'prefix' => '', 'as' => 'frontend.',
-    'middleware' => ['role:admin|user', SetActiveTheme::class],
+    'middleware' => ['auth', SetActiveTheme::class],
 ], function () {
     Route::resource('dashboard', 'DashboardController');
 
@@ -38,12 +41,16 @@ Route::group([
     Route::get('flights/search', 'FlightController@search')->name('flights.search');
     Route::resource('flights', 'FlightController');
 
+    Route::resource('pireps', 'PirepController', [
+        'except' => ['show'],
+    ]);
+
     Route::get('pireps/fares', 'PirepController@fares');
-    Route::resource('pireps', 'PirepController');
     Route::post('pireps/{id}/submit', 'PirepController@submit')->name('pireps.submit');
 
-    Route::get('profile/regen_apikey', 'ProfileController@regen_apikey')
-        ->name('profile.regen_apikey');
+    Route::get('profile/acars', 'ProfileController@acars')->name('profile.acars');
+    Route::get('profile/regen_apikey', 'ProfileController@regen_apikey')->name('profile.regen_apikey');
+
     Route::resource('profile', 'ProfileController');
 });
 

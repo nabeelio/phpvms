@@ -19,7 +19,7 @@ clean:
 	@php artisan view:clear
 	@find bootstrap/cache -type f -not -name '.gitignore' -print0 | xargs -0 rm -rf
 
-	@find storage/framework/cache/ -mindepth 1 -not -name '.gitignore' -print0 | xargs -0 rm -rf
+	@find storage/framework/cache/ -mindepth 1 -type f -not -name '.gitignore' -print0 | xargs -0 rm -rf
 	@find storage/framework/sessions/ -mindepth 1 -type f -not -name '.gitignore' -print0 | xargs -0 rm -rf
 	@find storage/framework/views/ -mindepth 1 -not -name '.gitignore' -print0 | xargs -0 rm -rf
 

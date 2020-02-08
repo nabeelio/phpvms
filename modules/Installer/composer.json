@@ -1,11 +1,12 @@
 {
     "name": "phpvms/installer",
+    "license": "",
     "type": "laravel-library",
     "description": "The installer module for phpVMS",
     "authors": [
         {
             "name": "Nabeel Shahzad",
-            "email": ""
+            "email": "nabeel@phpvms.net"
         }
     ],
     "require": {

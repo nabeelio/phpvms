@@ -5,13 +5,11 @@ namespace App\Bootstrap;
 use Illuminate\Contracts\Config\Repository as RepositoryContract;
 use Illuminate\Contracts\Foundation\Application;
 
-/**
- * Class LoadConfiguration
- */
 class LoadConfiguration extends \Illuminate\Foundation\Bootstrap\LoadConfiguration
 {
     /**
-     * Load the configuration items from all of the files.
+     * Load the configuration items from all of the files. This reads the config.php from
+     * that's sitting in the root, and then recursively merges it with the current configs
      *
      * @param \Illuminate\Contracts\Foundation\Application $app
      * @param \Illuminate\Contracts\Config\Repository      $repository

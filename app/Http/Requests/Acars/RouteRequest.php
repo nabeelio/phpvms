@@ -20,7 +20,7 @@ class RouteRequest extends FormRequest
             'route'            => 'required|array',
             'route.*.name'     => 'required',
             'route.*.order'    => 'required|int',
-            'route.*.nav_type' => 'nullable|int',
+            'route.*.nav_type' => 'sometimes|int',
             'route.*.lat'      => 'required|numeric',
             'route.*.lon'      => 'required|numeric',
         ];

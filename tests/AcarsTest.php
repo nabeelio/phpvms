@@ -92,6 +92,38 @@ class AcarsTest extends TestCase
         $response->assertStatus(400);
     }
 
+    public function testBlankAirport()
+    {
+        $this->user = factory(App\Models\User::class)->create();
+
+        $airline = factory(App\Models\Airline::class)->create();
+        $aircraft = factory(App\Models\Aircraft::class)->create();
+
+        /**
+         * INVALID AIRLINE_ID FIELD
+         */
+        $uri = '/api/pireps/prefile';
+        $pirep = [
+            'airline_id'          => $airline->id,
+            'aircraft_id'         => $aircraft->id,
+            'dpt_airport_id'      => null,
+            'arr_airport_id'      => null,
+            'flight_number'       => '6000',
+            'level'               => 38000,
+            'planned_flight_time' => 120,
+            'source_name'         => 'ACARSTESTS',
+            'route'               => 'POINTA POINTB',
+        ];
+
+        $response = $this->post($uri, $pirep);
+        $response->assertStatus(400);
+
+        $this->assertEquals(
+            'A departure airport is required, An arrival airport is required',
+            $response->json('details')
+        );
+    }
+
     /**
      * Make sure an error is thrown if the pilot is not at the current airport
      */
@@ -271,6 +303,52 @@ class AcarsTest extends TestCase
         $body = $response->json('data');
 
         $this->assertEquals($body['state'], PirepState::CANCELLED);
+    }
+
+    public function testPrefileAndInvalidUpdates()
+    {
+        $subfleet = $this->createSubfleetWithAircraft(2);
+        $rank = $this->createRank(10, [$subfleet['subfleet']->id]);
+
+        $this->user = factory(App\Models\User::class)->create([
+            'rank_id' => $rank->id,
+        ]);
+
+        $airport = factory(App\Models\Airport::class)->create();
+        $airline = factory(App\Models\Airline::class)->create();
+        $aircraft = $subfleet['aircraft']->random();
+
+        $uri = '/api/pireps/prefile';
+        $pirep = [
+            'airline_id'          => $airline->id,
+            'aircraft_id'         => $aircraft->id,
+            'dpt_airport_id'      => $airport->icao,
+            'arr_airport_id'      => $airport->icao,
+            'flight_number'       => '6000',
+            'level'               => 38000,
+            'planned_distance'    => 400,
+            'planned_flight_time' => 120,
+            'route'               => 'POINTA POINTB',
+            'source_name'         => 'UnitTest',
+        ];
+
+        $response = $this->post($uri, $pirep);
+        $response->assertStatus(201);
+        $pirep = $response->json('data');
+
+        /**
+         * Try to update fields
+         */
+        $uri = '/api/pireps/'.$pirep['id'].'/update';
+        $update = [
+            'dpt_airport_id' => '',
+        ];
+
+        $response = $this->post($uri, $update);
+        $response->assertStatus(400);
+        $detail = $response->json('details');
+
+        $this->assertEquals('A departure airport is required', $detail);
     }
 
     /**

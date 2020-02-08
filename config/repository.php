@@ -2,7 +2,7 @@
 
 return [
     'pagination' => [
-        'limit' => 50,
+        'limit' => 20,
     ],
 
     /*

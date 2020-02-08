@@ -4,11 +4,125 @@ namespace App\Services;
 
 use App\Contracts\Service;
 use App\Models\Airline;
+use App\Models\Journal;
 use App\Models\JournalTransaction;
+use App\Repositories\AirlineRepository;
+use App\Repositories\JournalRepository;
+use App\Support\Dates;
 use App\Support\Money;
 
 class FinanceService extends Service
 {
+    private $airlineRepo;
+    private $journalRepo;
+
+    public function __construct(
+        AirlineRepository $airlineRepo,
+        JournalRepository $journalRepo
+    ) {
+        $this->airlineRepo = $airlineRepo;
+        $this->journalRepo = $journalRepo;
+    }
+
+    /**
+     * Credit some amount to a given journal
+     * E.g, some amount for expenses or ground handling fees, etc. Example, to pay a user a dollar
+     * for a pirep:
+     *
+     * creditToJournal($user->journal, new Money(1000), $pirep, 'Payment', 'pirep', 'payment');
+     *
+     * @param \App\Models\Journal                 $journal
+     * @param Money                               $amount
+     * @param \Illuminate\Database\Eloquent\Model $reference
+     * @param string                              $memo
+     * @param string                              $transaction_group
+     * @param string|array                        $tag
+     *
+     * @throws \Prettus\Validator\Exceptions\ValidatorException
+     *
+     * @return mixed
+     */
+    public function creditToJournal(
+        Journal $journal,
+        Money $amount,
+        $reference,
+        $memo,
+        $transaction_group,
+        $tag
+    ) {
+        return $this->journalRepo->post(
+            $journal,
+            $amount,
+            null,
+            $reference,
+            $memo,
+            null,
+            $transaction_group,
+            $tag
+        );
+    }
+
+    /**
+     * Charge some expense for a given PIREP to the airline its file against
+     * E.g, some amount for expenses or ground handling fees, etc.
+     *
+     * @param \App\Models\Journal                 $journal
+     * @param Money                               $amount
+     * @param \Illuminate\Database\Eloquent\Model $reference
+     * @param string                              $memo
+     * @param string                              $transaction_group
+     * @param string|array                        $tag
+     *
+     * @throws \Prettus\Validator\Exceptions\ValidatorException
+     *
+     * @return mixed
+     */
+    public function debitFromJournal(
+        Journal $journal,
+        Money $amount,
+        $reference,
+        $memo,
+        $transaction_group,
+        $tag
+    ) {
+        return $this->journalRepo->post(
+            $journal,
+            null,
+            $amount,
+            $reference,
+            $memo,
+            null,
+            $transaction_group,
+            $tag
+        );
+    }
+
+    /**
+     * Get all of the transactions for every airline in a given month
+     *
+     * @param string $month In Y-m format
+     *
+     * @return array
+     */
+    public function getAllAirlineTransactionsBetween($month): array
+    {
+        $between = Dates::getMonthBoundary($month);
+
+        $transaction_groups = [];
+        $airlines = $this->airlineRepo->orderBy('icao')->all();
+
+        // group by the airline
+        foreach ($airlines as $airline) {
+            $transaction_groups[] = $this->getAirlineTransactionsBetween(
+                $airline,
+                $between[0],
+                $between[1]
+            );
+        }
+
+        return $transaction_groups;
+    }
+
     /**
      * Get all of the transactions for an airline between two given dates. Returns an array
      * with `credits`, `debits` and `transactions` fields, where transactions contains the

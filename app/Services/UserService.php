@@ -48,14 +48,14 @@ class UserService extends Service
      * Register a pilot. Also attaches the initial roles
      * required, and then triggers the UserRegistered event
      *
-     * @param User  $user   User model
-     * @param array $groups Additional groups to assign
+     * @param User  $user  User model
+     * @param array $roles List of "display_name" of groups to assign
      *
      * @throws \Exception
      *
      * @return mixed
      */
-    public function createUser(User $user, array $groups = null)
+    public function createUser(User $user, array $roles = null)
     {
         // Determine if we want to auto accept
         if (setting('pilots.auto_accept') === true) {
@@ -66,15 +66,10 @@ class UserService extends Service
 
         $user->save();
 
-        // Attach the user roles
-        // $role = Role::where('name', 'user')->first();
-        // $user->attachRole($role);
-
         // Attach any additional roles
-        if (!empty($groups) && is_array($groups)) {
-            foreach ($groups as $group) {
-                $role = Role::where('name', $group)->first();
-                $user->attachRole($role);
+        if (!empty($roles) && is_array($roles)) {
+            foreach ($roles as $role) {
+                $this->addUserToRole($user, $role);
             }
         }
 
@@ -85,6 +80,32 @@ class UserService extends Service
         event(new UserRegistered($user));
 
         return $user;
+    }
+
+    /**
+     * Add a user to a given role
+     *
+     * @param User   $user
+     * @param string $roleName
+     *
+     * @return User
+     */
+    public function addUserToRole(User $user, $roleName): User
+    {
+        $role = Role::where(['name' => $roleName])->first();
+        $user->attachRole($role);
+
+        return $user;
+    }
+
+    /**
+     * Find and return the next available pilot ID (usually just the max+1)
+     *
+     * @return int
+     */
+    public function getNextAvailablePilotId(): int
+    {
+        return (int) User::max('pilot_id') + 1;
     }
 
     /**
@@ -101,8 +122,7 @@ class UserService extends Service
             return $user;
         }
 
-        $max = (int) User::max('pilot_id');
-        $user->pilot_id = $max + 1;
+        $user->pilot_id = $this->getNextAvailablePilotId();
         $user->save();
 
         Log::info('Set pilot ID for user '.$user->id.' to '.$user->pilot_id);
@@ -348,8 +368,8 @@ class UserService extends Service
             'state'   => PirepState::ACCEPTED,
         ];
 
-        $flight_count = Pirep::where($w)->count();
-        $user->flights = $flight_count;
+        $pirep_count = Pirep::where($w)->count();
+        $user->flights = $pirep_count;
 
         $flight_time = Pirep::where($w)->sum('flight_time');
         $user->flight_time = $flight_time;
@@ -359,7 +379,7 @@ class UserService extends Service
         // Recalc the rank
         $this->calculatePilotRank($user);
 
-        Log::info('User '.$user->ident.' updated; flight count='.$flight_count
+        Log::info('User '.$user->ident.' updated; pirep count='.$pirep_count
             .', rank='.$user->rank->name
             .', flight_time='.$user->flight_time.' minutes');
 

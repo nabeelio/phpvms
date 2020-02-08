@@ -1,7 +1,7 @@
 # All of the different permissions that can be assigned to roles
 ---
 - name: admin-access
-  display_name: Admin Access
+  display_name: Admin Panel
   description: Access the admin panel
 - name: airlines
   display_name: Airlines
@@ -24,6 +24,9 @@
 - name: fares
   display_name: Fares
   description: Create/edit fares
+- name: files
+  display_name: Files
+  description: Manage the files available
 - name: finances
   display_name: Finances
   description: Create/view finance related items

@@ -48,12 +48,10 @@ class SubfleetImporter extends ImportExport
         $airline = $this->getAirline($row['airline']);
         $row['airline_id'] = $airline->id;
 
-        $subfleet = Subfleet::firstOrNew([
-            'type' => $row['type'],
-        ], $row);
-
         try {
-            $subfleet->save();
+            $subfleet = Subfleet::updateOrCreate([
+                'type' => $row['type'],
+            ], $row);
         } catch (\Exception $e) {
             $this->errorLog('Error in row '.$index.': '.$e->getMessage());
             return false;
@@ -80,7 +78,7 @@ class SubfleetImporter extends ImportExport
                 $fare_attributes = [];
             }
 
-            $fare = Fare::firstOrCreate(['code' => $fare_code], ['name' => $fare_code]);
+            $fare = Fare::updateOrCreate(['code' => $fare_code], ['name' => $fare_code]);
             $this->fareSvc->setForSubfleet($subfleet, $fare, $fare_attributes);
         }
     }

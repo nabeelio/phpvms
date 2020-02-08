@@ -13,15 +13,11 @@ use App\Repositories\Criteria\WhereCriteria;
 use App\Services\ExportService;
 use App\Services\ImportService;
 use App\Support\Timezonelist;
-use Flash;
 use Illuminate\Http\Request;
-use Log;
-use Response;
-use Storage;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+use Laracasts\Flash\Flash;
 
-/**
- * Class AirportController
- */
 class AirportController extends Controller
 {
     private $airportRepo;
@@ -46,7 +42,7 @@ class AirportController extends Controller
      *
      * @throws \Prettus\Repository\Exceptions\RepositoryException
      *
-     * @return Response
+     * @return mixed
      */
     public function index(Request $request)
     {
@@ -68,7 +64,7 @@ class AirportController extends Controller
     /**
      * Show the form for creating a new Airport.
      *
-     * @return Response
+     * @return mixed
      */
     public function create()
     {
@@ -84,7 +80,7 @@ class AirportController extends Controller
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      *
-     * @return Response
+     * @return mixed
      */
     public function store(CreateAirportRequest $request)
     {
@@ -102,7 +98,7 @@ class AirportController extends Controller
      *
      * @param int $id
      *
-     * @return Response
+     * @return mixed
      */
     public function show($id)
     {
@@ -123,7 +119,7 @@ class AirportController extends Controller
      *
      * @param int $id
      *
-     * @return Response
+     * @return mixed
      */
     public function edit($id)
     {
@@ -148,7 +144,7 @@ class AirportController extends Controller
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      *
-     * @return Response
+     * @return mixed
      */
     public function update($id, UpdateAirportRequest $request)
     {
@@ -173,7 +169,7 @@ class AirportController extends Controller
      *
      * @param int $id
      *
-     * @return Response
+     * @return mixed
      */
     public function destroy($id)
     {

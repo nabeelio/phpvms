@@ -7,29 +7,33 @@ use App\Http\Requests\CreateRoleRequest;
 use App\Http\Requests\UpdateRoleRequest;
 use App\Repositories\PermissionsRepository;
 use App\Repositories\RoleRepository;
-use Flash;
+use App\Services\RoleService;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Laracasts\Flash\Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
-use Response;
 
-/**
- * Class AirlinesController
- */
 class RolesController extends Controller
 {
     private $permsRepo;
     private $rolesRepo;
+    private $roleSvc;
 
     /**
      * AirlinesController constructor.
      *
      * @param PermissionsRepository $permsRepo
      * @param RoleRepository        $rolesRepo
+     * @param                       $roleSvc
      */
-    public function __construct(PermissionsRepository $permsRepo, RoleRepository $rolesRepo)
-    {
+    public function __construct(
+        PermissionsRepository $permsRepo,
+        RoleRepository $rolesRepo,
+        RoleService $roleSvc
+    ) {
         $this->permsRepo = $permsRepo;
         $this->rolesRepo = $rolesRepo;
+        $this->roleSvc = $roleSvc;
     }
 
     /**
@@ -132,8 +136,6 @@ class RolesController extends Controller
      * @param int               $id
      * @param UpdateRoleRequest $request
      *
-     * @throws \Prettus\Validator\Exceptions\ValidatorException
-     *
      * @return Response
      */
     public function update($id, UpdateRoleRequest $request)
@@ -145,14 +147,8 @@ class RolesController extends Controller
             return redirect(route('admin.roles.index'));
         }
 
-        $this->rolesRepo->update($request->all(), $id);
-
-        // Update the permissions, filter out null/invalid values
-        $perms = collect($request->permissions)->filter(static function ($v, $k) {
-            return $v;
-        });
-
-        $role->permissions()->sync($perms);
+        $this->roleSvc->updateRole($role, $request->all());
+        $this->roleSvc->setPermissionsForRole($role, $request->permissions);
 
         Flash::success('Roles updated successfully.');
         return redirect(route('admin.roles.index'));

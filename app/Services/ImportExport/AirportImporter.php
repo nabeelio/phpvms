@@ -45,12 +45,10 @@ class AirportImporter extends ImportExport
         $row['id'] = $row['icao'];
         $row['hub'] = get_truth_state($row['hub']);
 
-        $airport = Airport::firstOrNew([
-            'id' => $row['icao'],
-        ], $row);
-
         try {
-            $airport->save();
+            $airport = Airport::updateOrCreate([
+                'id' => $row['icao'],
+            ], $row);
         } catch (\Exception $e) {
             $this->errorLog('Error in row '.$index.': '.$e->getMessage());
             return false;

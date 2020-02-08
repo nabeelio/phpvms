@@ -25,9 +25,10 @@ use App\Models\Subfleet;
 use App\Models\User;
 use App\Repositories\SettingRepository;
 use App\Services\ModuleService;
+use App\Support\Utils;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
-use View;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -66,13 +67,19 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        // Only dev environment stuff
-        if ($this->app->environment() === 'dev') {
-            // Only load the IDE helper if it's included. This lets use distribute the
-            // package without any dev dependencies
+        // Only load the IDE helper if it's included and enabled
+        if (config('app.debug') === true) {
             /* @noinspection NestedPositiveIfStatementsInspection */
+            /* @noinspection PhpFullyQualifiedNameUsageInspection */
             if (class_exists(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class)) {
+                /* @noinspection PhpFullyQualifiedNameUsageInspection */
                 $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
+            }
+
+            if (config('app.debug_toolbar') === true) {
+                Utils::enableDebugToolbar();
+            } else {
+                Utils::disableDebugToolbar();
             }
         }
     }

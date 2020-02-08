@@ -5,9 +5,6 @@ namespace App\Facades;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Facade;
 
-/**
- * Class Utils
- */
 class Utils extends Facade
 {
     /**

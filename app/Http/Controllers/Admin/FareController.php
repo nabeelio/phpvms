@@ -9,16 +9,12 @@ use App\Http\Requests\UpdateFareRequest;
 use App\Repositories\FareRepository;
 use App\Services\ExportService;
 use App\Services\ImportService;
-use Flash;
 use Illuminate\Http\Request;
-use Log;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+use Laracasts\Flash\Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
-use Response;
-use Storage;
 
-/**
- * Class FareController
- */
 class FareController extends Controller
 {
     private $fareRepo;
@@ -45,7 +41,7 @@ class FareController extends Controller
      *
      * @throws \Prettus\Repository\Exceptions\RepositoryException
      *
-     * @return Response
+     * @return mixed
      */
     public function index(Request $request)
     {
@@ -58,8 +54,6 @@ class FareController extends Controller
 
     /**
      * Show the form for creating a new Fare.
-     *
-     * @return Response
      */
     public function create()
     {
@@ -73,7 +67,7 @@ class FareController extends Controller
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      *
-     * @return Response
+     * @return mixed
      */
     public function store(CreateFareRequest $request)
     {
@@ -89,7 +83,7 @@ class FareController extends Controller
      *
      * @param int $id
      *
-     * @return Response
+     * @return mixed
      */
     public function show($id)
     {
@@ -107,7 +101,7 @@ class FareController extends Controller
      *
      * @param int $id
      *
-     * @return Response
+     * @return mixed
      */
     public function edit($id)
     {
@@ -128,7 +122,7 @@ class FareController extends Controller
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      *
-     * @return Response
+     * @return mixed
      */
     public function update($id, UpdateFareRequest $request)
     {
@@ -149,7 +143,7 @@ class FareController extends Controller
      *
      * @param int $id
      *
-     * @return Response
+     * @return mixed
      */
     public function destroy($id)
     {

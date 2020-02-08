@@ -8,11 +8,12 @@
  */
 
 return [
-    'name'    => env('APP_NAME', 'phpvms'),
-    'env'     => env('APP_ENV', 'dev'),
-    'debug'   => env('APP_DEBUG', true),
-    'url'     => env('APP_URL', 'http://localhost'),
-    'version' => '7.0.0',
+    'name'          => env('APP_NAME', 'phpvms'),
+    'env'           => env('APP_ENV', 'dev'),
+    'debug'         => env('APP_DEBUG', true),
+    'url'           => env('APP_URL', 'http://localhost'),
+    'version'       => '7.0.0',
+    'debug_toolbar' => false,
 
     'locale'          => env('APP_LOCALE', 'en'),
     'fallback_locale' => 'en',

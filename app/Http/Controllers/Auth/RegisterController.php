@@ -17,9 +17,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 
-/**
- * Class RegisterController
- */
 class RegisterController extends Controller
 {
     use RegistersUsers;
@@ -58,7 +55,7 @@ class RegisterController extends Controller
     /**
      * @throws \Exception
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return mixed
      */
     public function showRegistrationForm()
     {
