@@ -21,7 +21,7 @@ return [
     'departuretime'    => 'Hora de salida',
     'arrivaltime'      => 'Hora de llegada',
     'type'             => [
-        'pass_scheduled'    => 'Pasagero - Programado',
+        'pass_scheduled'    => 'Pasajero - Programado',
         'cargo_scheduled'   => 'Carga - Programado',
         'charter_pass_only' => 'Charter - Solo pasajeros',
         'addtl_cargo_mail'  => 'Carga/correo adicional',
