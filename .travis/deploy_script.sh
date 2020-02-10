@@ -107,7 +107,7 @@ if [ "$TRAVIS" = "true" ]; then
   make clean
 
   cd /tmp
-  tar -czf $TAR_NAME -C $TRAVIS_BUILD_DIR/../ phpvms
+  tar -czf $TAR_NAME -C $TRAVIS_BUILD_DIR/../
   sha256sum $TAR_NAME >"$TAR_NAME.sha256"
   tar2zip $TAR_NAME
 
