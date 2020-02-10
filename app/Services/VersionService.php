@@ -96,6 +96,7 @@ class VersionService extends Service
         foreach ($releases as $release) {
             if ($release['prerelease'] === true) {
                 if ($include_prerelease) {
+                    Log::info('Found latest pre-release of '.$release['tag_name']);
                     return $this->setLatestRelease(
                         $release['tag_name'],
                         $this->getGithubAsset($release)
@@ -104,6 +105,7 @@ class VersionService extends Service
                 continue;
             }
 
+            Log::info('Found latest release of '.$release['tag_name']);
             return $this->setLatestRelease(
                 $release['tag_name'],
                 $this->getGithubAsset($release)

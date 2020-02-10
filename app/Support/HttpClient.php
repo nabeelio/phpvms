@@ -44,4 +44,21 @@ class HttpClient
 
         return $body;
     }
+
+    /**
+     * Download a file to a given path
+     *
+     * @param $uri
+     * @param $local_path
+     *
+     * @return string
+     */
+    public function download($uri, $local_path)
+    {
+        $response = $this->httpClient->request('GET', $uri, [
+            'sink' => $local_path,
+        ]);
+
+        return $response;
+    }
 }

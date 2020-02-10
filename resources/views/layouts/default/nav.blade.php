@@ -35,19 +35,18 @@
       @endforeach
 
       @if(!Auth::check())
+         <li class="nav-item">
+          <a class="nav-link" href="{{ url('/register') }}">
+            <i class="far fa-id-card"></i>
+            <p>@lang('common.register')</p>
+          </a>
+        </li>
         <li class="nav-item">
           <a class="nav-link" href="{{ url('/login') }}">
             <i class="fas fa-sign-in-alt"></i>
             <p>@lang('common.login')</p>
           </a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{{ url('/register') }}">
-            <i class="far fa-id-card"></i>
-            <p>@lang('common.register')</p>
-          </a>
-        </li>
-
       @else
         <li class="nav-item">
           <a class="nav-link" href="{{ route('frontend.flights.index') }}">

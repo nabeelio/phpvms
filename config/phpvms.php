@@ -75,6 +75,11 @@ return [
      */
     'version_file' => 'https://api.github.com/repos/nabeelio/phpvms/releases',
 
+    /**
+     * The URL to download the latest phpVMS version from
+     */
+    'distrib_url' => 'http://downloads.phpvms.net/phpvms-{VERSION}.zip',
+
     /*
      * Where the KVP file is stored
      */
