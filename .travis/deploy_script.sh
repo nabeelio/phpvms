@@ -35,6 +35,7 @@ if [ "$TRAVIS" = "true" ]; then
 
   FILE_NAME="phpvms-$PKG_NAME"
   TAR_NAME="$FILE_NAME.tar.gz"
+  ZIP_NAME="$FILE_NAME.zip"
 
   echo "Cleaning files"
 
@@ -108,6 +109,15 @@ if [ "$TRAVIS" = "true" ]; then
   cd /tmp
   tar -czf $TAR_NAME -C $TRAVIS_BUILD_DIR/../ phpvms
   sha256sum $TAR_NAME >"$TAR_NAME.sha256"
+
+  # Create zip https://stackoverflow.com/a/6301947
+  for f in *.tar.gz;\
+  do rm -rf ${f%.tar.gz} ;\
+  mkdir ${f%.tar.gz} ;\
+  tar -C ${f%.tar.gz} zxvf $f ;\
+  zip -r ${f%.tar.gz} $f.zip ;\
+  rm -rf ${f%.tar.gz} ;\
+  done
 
   echo "Uploading to S3"
   mkdir -p $TRAVIS_BUILD_DIR/build
