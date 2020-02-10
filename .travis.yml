@@ -137,7 +137,7 @@ jobs:
           on:
             all_branches: true
             repo: nabeelio/phpvms
-            php: '7.2'
+            php: '7.4'
             tags: false
 
     # RELEASE STAGE
@@ -158,4 +158,4 @@ jobs:
         on:
           tags: true
           repo: nabeelio/phpvms
-          php: '7.2'
+          php: '7.4'
