@@ -111,6 +111,8 @@ if [ "$TRAVIS" = "true" ]; then
   sha256sum $TAR_NAME >"$TAR_NAME.sha256"
   tar2zip $TAR_NAME
 
+  ls -al /tmp
+
   echo "Uploading to S3"
   mkdir -p $TRAVIS_BUILD_DIR/build
   cd $TRAVIS_BUILD_DIR/build
