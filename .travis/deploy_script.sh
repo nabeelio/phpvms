@@ -118,7 +118,7 @@ if [ "$TRAVIS" = "true" ]; then
   cd $TRAVIS_BUILD_DIR/build
 
   mv "/tmp/$TAR_NAME" "/tmp/$ZIP_NAME" "/tmp/$TAR_NAME.sha256" .
-  artifacts upload --target-paths "/" $TAR_NAME $TRAVIS_BUILD_DIR/VERSION $TAR_NAME.sha256
+  artifacts upload --target-paths "/" $ZIP_NAME $TAR_NAME $TRAVIS_BUILD_DIR/VERSION $TAR_NAME.sha256
 
   # Upload the version for a tagged release. Move to a version file in different
   # tags. Within phpVMS, we have an option of which version to track in the admin
