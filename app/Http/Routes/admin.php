@@ -165,6 +165,10 @@ Route::group(
             ->name('maintenance.update')
             ->middleware('ability:admin,maintenance');
 
+        Route::match(['post'], 'maintenance/forcecheck', 'MaintenanceController@forcecheck')
+            ->name('maintenance.forcecheck')
+            ->middleware('ability:admin,maintenance');
+
         // subfleet
         Route::get('subfleets/export', 'SubfleetController@export')
             ->name('subfleets.export')

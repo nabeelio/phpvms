@@ -118,6 +118,7 @@ return [
         'Session'      => Illuminate\Support\Facades\Session::class,
         'Storage'      => Illuminate\Support\Facades\Storage::class,
         'Theme'        => Igaster\LaravelTheme\Facades\Theme::class,
+        'Updater'      => Codedge\Updater\UpdaterFacade::class,
         'URL'          => Illuminate\Support\Facades\URL::class,
         'Utils'        => App\Facades\Utils::class,
         'Validator'    => Illuminate\Support\Facades\Validator::class,

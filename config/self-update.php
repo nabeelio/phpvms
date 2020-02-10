@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'default'           => 'http',
+    'default'           => 'vms',
     'version_installed' => env('SELF_UPDATER_VERSION_INSTALLED', ''),
 
     'repository_types' => [
@@ -11,15 +11,13 @@ return [
             'repository_name'      => 'phpvms',
             'repository_url'       => 'https://github.com/nabeelio/phpvms',
             'download_path'        => env('SELF_UPDATER_DOWNLOAD_PATH', '/tmp'),
-            'private_access_token' => '',
-            'use_branch'           => 'master',
         ],
-        'http' => [
-            'type'                 => 'http',
-            'repository_url'       => 'http://downloads.phpvms.net',
-            'pkg_filename_format'  => 'phpvms-_VERSION_.zip',
+        'vms' => [
+            'type'                 => 'github',
+            'repository_vendor'    => 'nabeelio',
+            'repository_name'      => 'phpvms',
+            'repository_url'       => 'https://github.com/nabeelio/phpvms',
             'download_path'        => env('SELF_UPDATER_DOWNLOAD_PATH', '/tmp'),
-            'private_access_token' => env('SELF_UPDATER_HTTP_PRIVATE_ACCESS_TOKEN', ''),
         ],
     ],
 
