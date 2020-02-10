@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'location' => 'Location',
+    'location' => 'Localización',
     'state'    => [
         'pending'   => 'Pendiente',
         'active'    => 'Activo',
