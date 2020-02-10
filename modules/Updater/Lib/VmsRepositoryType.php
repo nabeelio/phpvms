@@ -18,13 +18,11 @@ use Psr\Http\Message\ResponseInterface;
  * Just replace the new update checks, etc, with the VersionService stubs. They're
  * essentially the same except for the current version checks and all that. Adds some
  * additional logging too, but the base update method is from GithubRepositoryType
- *
- * @package Modules\Updater\Lib
  */
 final class VmsRepositoryType extends GithubRepositoryType implements GithubRepositoryTypeContract
 {
-    use UseVersionFile, SupportPrivateAccessToken;
-
+    use UseVersionFile;
+    use SupportPrivateAccessToken;
     /**
      * @var Client
      */
@@ -35,7 +33,7 @@ final class VmsRepositoryType extends GithubRepositoryType implements GithubRepo
      */
     protected $versionSvc;
 
-   public function __construct(array $config, Client $client)
+    public function __construct(array $config, Client $client)
     {
         $this->config = $config;
         $this->client = $client;
@@ -63,14 +61,15 @@ final class VmsRepositoryType extends GithubRepositoryType implements GithubRepo
      * Example: 2.6.5 or v2.6.5.
      *
      * @param string $prepend Prepend a string to the latest version
-     * @param string $append Append a string to the latest version
+     * @param string $append  Append a string to the latest version
+     *
+     * @throws Exception
      *
      * @return string
-     * @throws Exception
      */
     public function getVersionAvailable(string $prepend = '', string $append = ''): string
     {
-       return $this->versionSvc->getLatestVersion();
+        return $this->versionSvc->getLatestVersion();
     }
 
     /**
@@ -78,9 +77,9 @@ final class VmsRepositoryType extends GithubRepositoryType implements GithubRepo
      *
      * @param string $version
      *
-     * @return void
-     *
      * @throws Exception
+     *
+     * @return void
      */
     public function fetch($version = ''): void
     {
@@ -91,11 +90,11 @@ final class VmsRepositoryType extends GithubRepositoryType implements GithubRepo
             throw new Exception('Cannot find a release to update. Please check the repository you\'re pulling from');
         }
 
-        if (! File::exists($this->storagePath)) {
+        if (!File::exists($this->storagePath)) {
             File::makeDirectory($this->storagePath, 493, true, true);
         }
 
-        if (! empty($version)) {
+        if (!empty($version)) {
             $release = $releaseCollection->where('name', $version)->first();
         } else {
             $release = $releaseCollection->first();
@@ -105,7 +104,7 @@ final class VmsRepositoryType extends GithubRepositoryType implements GithubRepo
         $storageFolder = $this->storagePath.$release->name.'-'.now()->timestamp;
         $storageFilename = $storageFolder.'.zip';
 
-        if (! $this->isSourceAlreadyFetched($release->name)) {
+        if (!$this->isSourceAlreadyFetched($release->name)) {
             $this->downloadRelease($this->client, $release->zipball_url, $storageFilename);
             $this->unzipArchive($storageFilename, $storageFolder);
             $this->createReleaseFolder($storageFolder, $release->name);

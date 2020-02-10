@@ -13,8 +13,6 @@ use App\Listeners\UserStateListener;
 use App\Notifications\EventHandler;
 use Codedge\Updater\Events\UpdateAvailable;
 use Codedge\Updater\Events\UpdateSucceeded;
-use Codedge\Updater\Listeners\SendUpdateAvailableNotification;
-use Codedge\Updater\Listeners\SendUpdateSucceededNotification;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
