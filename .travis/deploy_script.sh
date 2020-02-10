@@ -109,21 +109,13 @@ if [ "$TRAVIS" = "true" ]; then
   cd /tmp
   tar -czf $TAR_NAME -C $TRAVIS_BUILD_DIR/../ phpvms
   sha256sum $TAR_NAME >"$TAR_NAME.sha256"
-
-  # Create zip https://stackoverflow.com/a/6301947
-  for f in *.tar.gz;\
-  do rm -rf ${f%.tar.gz} ;\
-  mkdir ${f%.tar.gz} ;\
-  tar -C ${f%.tar.gz} zxvf $f ;\
-  zip -r ${f%.tar.gz} $f.zip ;\
-  rm -rf ${f%.tar.gz} ;\
-  done
+  tar2zip $TAR_NAME
 
   echo "Uploading to S3"
   mkdir -p $TRAVIS_BUILD_DIR/build
   cd $TRAVIS_BUILD_DIR/build
 
-  mv "/tmp/$TAR_NAME" "/tmp/$TAR_NAME.sha256" .
+  mv "/tmp/$TAR_NAME" "/tmp/$ZIP_NAME" "/tmp/$TAR_NAME.sha256" .
   artifacts upload --target-paths "/" $TAR_NAME $TRAVIS_BUILD_DIR/VERSION $TAR_NAME.sha256
 
   # Upload the version for a tagged release. Move to a version file in different
