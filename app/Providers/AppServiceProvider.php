@@ -26,11 +26,9 @@ use App\Models\User;
 use App\Repositories\SettingRepository;
 use App\Services\ModuleService;
 use App\Support\Utils;
-use Codedge\Updater\UpdaterManager;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
-use Modules\Updater\Lib\VmsRepositoryType;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -62,11 +60,6 @@ class AppServiceProvider extends ServiceProvider
         Setting::observe(SettingObserver::class);
         Subfleet::observe(SubfleetObserver::class);
         User::observe(UserObserver::class);
-
-        // $manager = app(UpdaterManager::class);
-        // $manager->extend('vms', function($app) use ($manager) {
-        //     return $manager->sourceRepository(new VmsRepositoryType);
-        // });
     }
 
     /**

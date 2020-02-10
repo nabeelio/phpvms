@@ -2,7 +2,7 @@
 
 return [
     'default'           => 'vms',
-    'version_installed' => env('SELF_UPDATER_VERSION_INSTALLED', ''),
+    'version_installed' => '',
 
     'repository_types' => [
         'github' => [
@@ -10,15 +10,17 @@ return [
             'repository_vendor'    => 'nabeelio',
             'repository_name'      => 'phpvms',
             'repository_url'       => 'https://github.com/nabeelio/phpvms',
-            'download_path'        => env('SELF_UPDATER_DOWNLOAD_PATH', '/tmp'),
+            'download_path'        => storage_path('app'),
+            'private_access_token' => '',
+            'use_branch'           => '',
         ],
-        'vms' => [
-            'type'                 => 'github',
-            'repository_vendor'    => 'nabeelio',
-            'repository_name'      => 'phpvms',
-            'repository_url'       => 'https://github.com/nabeelio/phpvms',
-            'download_path'        => env('SELF_UPDATER_DOWNLOAD_PATH', '/tmp'),
-        ],
+    ],
+
+    'mail_to' => [
+        'address'                  => 'no-reply@phpvms.net',
+        'name'                     => 'no name',
+        'subject_update_available' => 'Update available',
+        'subject_update_succeeded' => 'Update succeeded',
     ],
 
     'exclude_folders' => [

@@ -38,13 +38,8 @@ class EventServiceProvider extends ServiceProvider
             AwardListener::class,
         ],
 
-        UpdateAvailable::class => [
-            SendUpdateAvailableNotification::class,
-        ],
-
-        UpdateSucceeded::class => [
-            SendUpdateSucceededNotification::class,
-        ],
+        UpdateAvailable::class => [],
+        UpdateSucceeded::class => [],
 
     ];
 
