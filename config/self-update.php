@@ -17,7 +17,7 @@ return [
         'http' => [
             'type'                 => 'http',
             'repository_url'       => 'http://downloads.phpvms.net',
-            'pkg_filename_format'  => 'phpvms-v_VERSION_.zip',
+            'pkg_filename_format'  => 'phpvms-_VERSION_.zip',
             'download_path'        => env('SELF_UPDATER_DOWNLOAD_PATH', '/tmp'),
             'private_access_token' => env('SELF_UPDATER_HTTP_PRIVATE_ACCESS_TOKEN', ''),
         ],

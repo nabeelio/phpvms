@@ -30,6 +30,7 @@ install:
   - php --version
   - mysql --version
   - composer install --dev --no-interaction --verbose
+  - npm i tar-to-zip -g
   - cp .travis/env.travis.php env.php
   - cp .travis/phpunit.travis.xml phpunit.xml
 
