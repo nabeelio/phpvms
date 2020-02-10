@@ -14,7 +14,7 @@ return [
             'private_access_token' => '',
             'use_branch'           => 'master',
         ],
-        'http'   => [
+        'http' => [
             'type'                 => 'http',
             'repository_url'       => 'http://downloads.phpvms.net',
             'pkg_filename_format'  => 'phpvms-v_VERSION_.zip',
@@ -42,7 +42,7 @@ return [
     */
 
     'artisan_commands' => [
-        'pre_update'  => [
+        'pre_update' => [
             //'command:signature' => [
             //    'class' => Command class
             //    'params' => []

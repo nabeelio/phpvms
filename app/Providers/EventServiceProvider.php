@@ -39,11 +39,11 @@ class EventServiceProvider extends ServiceProvider
         ],
 
         UpdateAvailable::class => [
-            SendUpdateAvailableNotification::class
+            SendUpdateAvailableNotification::class,
         ],
 
         UpdateSucceeded::class => [
-            SendUpdateSucceededNotification::class
+            SendUpdateSucceededNotification::class,
         ],
 
     ];
