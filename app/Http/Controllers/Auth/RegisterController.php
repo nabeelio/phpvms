@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Contracts\Controller;
-use App\Facades\Utils;
 use App\Models\Enums\UserState;
 use App\Models\User;
 use App\Repositories\AirlineRepository;
@@ -11,6 +10,7 @@ use App\Repositories\AirportRepository;
 use App\Services\UserService;
 use App\Support\Countries;
 use App\Support\Timezonelist;
+use App\Support\Utils;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;

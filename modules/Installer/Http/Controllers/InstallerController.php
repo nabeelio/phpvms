@@ -3,7 +3,6 @@
 namespace Modules\Installer\Http\Controllers;
 
 use App\Contracts\Controller;
-use App\Facades\Utils;
 use App\Models\User;
 use App\Repositories\AirlineRepository;
 use App\Services\AnalyticsService;
@@ -13,6 +12,7 @@ use App\Services\Installer\MigrationService;
 use App\Services\Installer\SeederService;
 use App\Services\UserService;
 use App\Support\Countries;
+use App\Support\Utils;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Contracts\Controller;
-use App\Facades\Utils;
 use App\Http\Requests\CreatePirepRequest;
 use App\Http\Requests\UpdatePirepRequest;
 use App\Models\Enums\PirepSource;
@@ -324,7 +323,7 @@ class PirepController extends Controller
         // Any special fields
         $hours = (int) $request->input('hours', 0);
         $minutes = (int) $request->input('minutes', 0);
-        $pirep->flight_time = Utils::hoursToMinutes($hours) + $minutes;
+        $pirep->flight_time = Time::hoursToMinutes($hours) + $minutes;
 
         // Set the correct fuel units
         $pirep->block_fuel = new Fuel((float) $request->input('block_fuel'), setting('units.fuel'));

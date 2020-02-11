@@ -25,15 +25,15 @@
         <div>
           @if($pirep->state === PirepState::PENDING)
             <div class="badge badge-warning">
-              @elseif($pirep->state === PirepState::ACCEPTED)
-                <div class="badge badge-success">
-                  @elseif($pirep->state === PirepState::REJECTED)
-                    <div class="badge badge-danger">
-                      @else
-                        <div class="badge badge-info">
-                          @endif
-                          {{ PirepState::label($pirep->state) }}</div>
-                    </div>
+          @elseif($pirep->state === PirepState::ACCEPTED)
+            <div class="badge badge-success">
+          @elseif($pirep->state === PirepState::REJECTED)
+            <div class="badge badge-danger">
+          @else
+            <div class="badge badge-info">
+          @endif
+          {{ PirepState::label($pirep->state) }}</div>
+          </div>
                 </div>
                 <div class="col-sm-10">
                   <div class="row">
@@ -41,7 +41,7 @@
                       <table class="table-condensed" width="100%">
                         <tr>
                           <td nowrap><span class="title">@lang('pireps.flighttime')&nbsp;</span></td>
-                          <td>{{ Utils::minutesToTimeString($pirep->flight_time) }}</td>
+                          <td>@minutestotime($pirep->flight_time)</td>
                         </tr>
                         <tr>
                           <td nowrap><span class="title">@lang('common.aircraft')&nbsp;</span></td>

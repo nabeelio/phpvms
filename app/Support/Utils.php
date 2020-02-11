@@ -12,6 +12,37 @@ use Nwidart\Modules\Facades\Module;
 class Utils
 {
     /**
+     * Returns a 40 character API key that a user can use
+     *
+     * @return string
+     */
+    public static function generateApiKey(): string
+    {
+        $key = substr(sha1(time().mt_rand()), 0, 20);
+        return $key;
+    }
+
+    /**
+     * Simple check on the first character if it's an object or not
+     *
+     * @param $obj
+     *
+     * @return bool
+     */
+    public static function isObject($obj): bool
+    {
+        if (!$obj) {
+            return false;
+        }
+
+        if ($obj[0] === '{' || $obj[0] === '[') {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Enable the debug toolbar
      */
     public static function enableDebugToolbar()

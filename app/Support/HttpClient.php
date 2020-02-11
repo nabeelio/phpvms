@@ -55,10 +55,18 @@ class HttpClient
      */
     public function download($uri, $local_path)
     {
-        $response = $this->httpClient->request('GET', $uri, [
-            'sink' => $local_path,
-        ]);
+        $opts = [];
+        if ($local_path !== null) {
+            $opts['sink'] = $local_path;
+        }
 
-        return $response;
+        $response = $this->httpClient->request('GET', $uri, $opts);
+
+        $body = $response->getBody()->getContents();
+        if ($response->getHeader('content-type') === 'application/json') {
+            $body = \GuzzleHttp\json_decode($body);
+        }
+
+        return $body;
     }
 }

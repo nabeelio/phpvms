@@ -104,7 +104,7 @@
       </tr>
       <tr>
         <td>Flight Time</td>
-        <td>{{ Utils::minutesToTimeString($user->flight_time) }}</td>
+        <td>@minutestotime($user->flight_time)</td>
       </tr>
       <tr>
         <td>IP Address</td>

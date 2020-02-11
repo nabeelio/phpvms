@@ -74,13 +74,14 @@ return [
          * Application Service Providers...
          */
         App\Providers\AppServiceProvider::class,
-        App\Providers\CronServiceProvider::class,
-        App\Providers\BroadcastServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
-        App\Providers\EventServiceProvider::class,
-        App\Providers\RouteServiceProvider::class,
-        App\Providers\MeasurementsProvider::class,
         App\Providers\BindServiceProviders::class,
+        App\Providers\BroadcastServiceProvider::class,
+        App\Providers\CronServiceProvider::class,
+        App\Providers\DirectiveServiceProvider::class,
+        App\Providers\EventServiceProvider::class,
+        App\Providers\MeasurementsProvider::class,
+        App\Providers\RouteServiceProvider::class,
     ],
 
     'aliases' => [
@@ -120,7 +121,6 @@ return [
         'Theme'        => Igaster\LaravelTheme\Facades\Theme::class,
         'Updater'      => Codedge\Updater\UpdaterFacade::class,
         'URL'          => Illuminate\Support\Facades\URL::class,
-        'Utils'        => App\Facades\Utils::class,
         'Validator'    => Illuminate\Support\Facades\Validator::class,
         'Version'      => PragmaRX\Version\Package\Facade::class,
         'View'         => Illuminate\Support\Facades\View::class,

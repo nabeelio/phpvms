@@ -56,7 +56,7 @@
       </tr>
       <tr>
         <td>Flight Time</td>
-        <td>{{ Utils::minutesToTimeString($pirep->flight_time) }}</td>
+        <td>@minutestotime($pirep->flight_time)</td>
       </tr>
       <tr>
         <td>Flight Level</td>

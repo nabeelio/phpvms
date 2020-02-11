@@ -8,8 +8,8 @@ php:
 #  - '7.3'
   - '7.4'
 
-env:
-  - DB=mysql
+#env:
+#  - DB=mysql
 #  - DB=mariadb
 
 cache:
@@ -23,8 +23,8 @@ cache:
 services:
 - mysql
 
-addons:
-  mariadb: '10.2'
+#addons:
+#  mariadb: '10.2'
 
 install:
   - php --version
