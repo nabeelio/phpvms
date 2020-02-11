@@ -120,7 +120,7 @@ if [ "$TRAVIS" = "true" ]; then
   mkdir -p $TRAVIS_BUILD_DIR/build
   cd $TRAVIS_BUILD_DIR/build
 
-  mv "/tmp/$TAR_NAME" "/tmp/$ZIP_NAME" "/tmp/$TAR_NAME.sha256" "/tmp/$ZIP_NAME.sha256".
+  mv "/tmp/$TAR_NAME" "/tmp/$ZIP_NAME" "/tmp/$TAR_NAME.sha256" "/tmp/$ZIP_NAME.sha256" .
   artifacts upload --target-paths "/" $ZIP_NAME $TAR_NAME $TRAVIS_BUILD_DIR/VERSION $TAR_NAME.sha256 $ZIP_NAME.sha256
 
   # Upload the version for a tagged release. Move to a version file in different
