@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Contracts\Controller;
+use App\Events\PirepPrefiled;
+use App\Events\PirepUpdated;
 use App\Exceptions\AircraftNotAtAirport;
 use App\Exceptions\AircraftPermissionDenied;
 use App\Exceptions\PirepCancelled;
@@ -247,6 +249,8 @@ class PirepController extends Controller
         $this->updateFields($pirep, $request);
         $this->updateFares($pirep, $request);
 
+        event(new PirepPrefiled($pirep));
+
         return new PirepResource($pirep);
     }
 
@@ -290,6 +294,8 @@ class PirepController extends Controller
         $pirep = $this->pirepRepo->update($attrs, $pirep_id);
         $this->updateFields($pirep, $request);
         $this->updateFares($pirep, $request);
+
+        event(new PirepUpdated($pirep));
 
         return new PirepResource($pirep);
     }

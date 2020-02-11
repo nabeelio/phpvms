@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Contracts\Service;
 use App\Events\PirepAccepted;
+use App\Events\PirepCancelled;
 use App\Events\PirepFiled;
 use App\Events\PirepRejected;
 use App\Events\UserStatsChanged;
@@ -254,6 +255,8 @@ class PirepService extends Service
             'state'  => PirepState::CANCELLED,
             'status' => PirepStatus::CANCELLED,
         ], $pirep->id);
+
+        event(new PirepCancelled($pirep));
 
         return $pirep;
     }
