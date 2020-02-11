@@ -15,12 +15,12 @@ class ImportExportType extends Enum
     public const SUBFLEETS = 7;
 
     public static $labels = [
-        ImportExportType::AIRLINE   => 'airline',
-        ImportExportType::AIRCRAFT  => 'aircraft',
-        ImportExportType::AIRPORT   => 'airport',
-        ImportExportType::EXPENSES  => 'expense',
-        ImportExportType::FARES     => 'fare',
-        ImportExportType::FLIGHTS   => 'flight',
-        ImportExportType::SUBFLEETS => 'subfleet',
+        self::AIRLINE   => 'airline',
+        self::AIRCRAFT  => 'aircraft',
+        self::AIRPORT   => 'airport',
+        self::EXPENSES  => 'expense',
+        self::FARES     => 'fare',
+        self::FLIGHTS   => 'flight',
+        self::SUBFLEETS => 'subfleet',
     ];
 }
