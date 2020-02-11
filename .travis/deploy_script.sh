@@ -109,7 +109,7 @@ if [ "$TRAVIS" = "true" ]; then
   cd /tmp
   ls -al $TRAVIS_BUILD_DIR/../
 
-  tar -czf $TAR_NAME -C $TRAVIS_BUILD_DIR
+  tar -czf $TAR_NAME -C $TRAVIS_BUILD_DIR .
   sha256sum $TAR_NAME >"$TAR_NAME.sha256"
   tar2zip $TAR_NAME
   sha256sum $ZIP_NAME >"$ZIP_NAME.sha256"
