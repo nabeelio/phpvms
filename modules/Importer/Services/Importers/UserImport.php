@@ -2,10 +2,11 @@
 
 namespace Modules\Importer\Services\Importers;
 
-use App\Facades\Utils;
 use App\Models\Enums\UserState;
 use App\Models\User;
 use App\Services\UserService;
+use App\Support\Units\Time;
+use App\Support\Utils;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -62,7 +63,7 @@ class UserImport extends BaseImporter
                 'home_airport_id' => $row->hub,
                 'curr_airport_id' => $row->hub,
                 'flights'         => (int) $row->totalflights,
-                'flight_time'     => Utils::hoursToMinutes($row->totalhours),
+                'flight_time'     => Time::hoursToMinutes($row->totalhours),
                 'state'           => $state,
                 'created_at'      => $this->parseDate($row->joindate),
             ];

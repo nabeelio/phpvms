@@ -2,10 +2,10 @@
 
 namespace App\Contracts;
 
-use App\Facades\Utils;
 use App\Models\Award as AwardModel;
 use App\Models\User;
 use App\Models\UserAward;
+use App\Support\Utils;
 use Exception;
 use Illuminate\Support\Facades\Log;
 

@@ -260,7 +260,7 @@ class PirepController extends Controller
 
         $hours = (int) $attrs['hours'];
         $minutes = (int) $attrs['minutes'];
-        $pirep->flight_time = Utils::hoursToMinutes($hours) + $minutes;
+        $pirep->flight_time = Time::hoursToMinutes($hours) + $minutes;
 
         $this->saveCustomFields($pirep, $request);
         $this->saveFares($pirep, $request);

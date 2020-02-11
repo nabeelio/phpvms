@@ -47,7 +47,7 @@
             <div class="card text-center">
               <div class="card-body">
                 <div class="social-description">
-                  <h2>{{ \App\Facades\Utils::minutesToTimeString($user->flight_time, false) }}</h2>
+                  <h2>@minutestotime($user->flight_time)</h2>
                   <p>@lang('flights.flighthours')</p>
                 </div>
               </div>
@@ -74,7 +74,7 @@
               <div class="card text-center">
                 <div class="card-body">
                   <div class="social-description">
-                    <h2>{{ \App\Facades\Utils::minutesToHours($user->transfer_time) }}h</h2>
+                    <h2>@minutestohours($user->transfer_time)h</h2>
                     <p>@lang('profile.transferhours')</p>
                   </div>
                 </div>

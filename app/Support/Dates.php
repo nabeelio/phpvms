@@ -7,6 +7,36 @@ use Carbon\Carbon;
 class Dates
 {
     /**
+     * Bitwise operator for setting days of week to integer field
+     *
+     * @param int   $datefield initial datefield
+     * @param array $day_enums Array of values from config("enum.days")
+     *
+     * @return int
+     */
+    public static function setDays(int $datefield, array $day_enums): int
+    {
+        foreach ($day_enums as $day) {
+            $datefield |= $day;
+        }
+
+        return $datefield;
+    }
+
+    /**
+     * Bit check if a day exists within a integer bitfield
+     *
+     * @param int $datefield datefield from database
+     * @param int $day_enum  Value from config("enum.days")
+     *
+     * @return bool
+     */
+    public static function hasDay(int $datefield, int $day_enum): bool
+    {
+        return ($datefield & $day_enum) === $datefield;
+    }
+
+    /**
      * Get the list of months, given a start date
      *
      * @param Carbon $start_date
