@@ -4,9 +4,9 @@
 
 language: php
 php:
-  - '7.2'
-  - '7.3'
   - '7.4'
+  - '7.3'
+  - '7.2'
 
 #env:
 #  - DB=mysql
@@ -132,7 +132,7 @@ jobs:
       # https://docs.travis-ci.com/user/deployment/#examples-of-conditional-deployment
       deploy:
         - provider: script
-          cleanup: false
+          skip_cleanup: true
           script: ./.travis/deploy_script.sh
           on:
             all_branches: true
@@ -151,7 +151,7 @@ jobs:
         - ./.travis/deploy_script.sh
       deploy:
         provider: releases
-        cleanup: false
+        skip_cleanup: true
         api_key: $GITHUB_TOKEN
         file_glob: true
         file: build/*
