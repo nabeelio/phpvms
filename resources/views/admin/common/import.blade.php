@@ -7,6 +7,13 @@
         {{ Form::label('csv_file', 'Choose a CSV file to import') }}
         {{ Form::file('csv_file', ['accept' => '.csv']) }}
         <p class="text-danger">{{ $errors->first('csv_file') }}</p>
+        <div class="checkbox">
+          <label class="checkbox-inline">
+            {{ Form::label('delete', 'Delete existing data:') }}
+            {{ Form::hidden('delete', 0, false) }}
+            {{ Form::checkbox('delete') }}
+          </label>
+        </div>
       </div>
 
       <div class="form-group col-md-12">
