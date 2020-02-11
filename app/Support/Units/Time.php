@@ -201,5 +201,4 @@ class Time implements Arrayable
 
         return $total;
     }
-
 }

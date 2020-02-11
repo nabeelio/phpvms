@@ -7,8 +7,6 @@ use Illuminate\Support\ServiceProvider;
 
 /**
  * Keep custom directives that can be used in templates
- *
- * @package App\Providers
  */
 class DirectiveServiceProvider extends ServiceProvider
 {

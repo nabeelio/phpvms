@@ -52,9 +52,6 @@ class UtilsTest extends TestCase
         $this->assertEquals('1h 2m 2s', $t);
     }
 
-    /**
-     *
-     */
     public function testMinutesToTime()
     {
         $t = Time::minutesToTimeParts(65);
@@ -67,9 +64,6 @@ class UtilsTest extends TestCase
         $this->assertEquals('720h 0m', $t);
     }
 
-    /**
-     *
-     */
     public function testApiKey()
     {
         $api_key = Utils::generateApiKey();

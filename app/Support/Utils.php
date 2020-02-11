@@ -11,7 +11,7 @@ use Nwidart\Modules\Facades\Module;
  */
 class Utils
 {
-        /**
+    /**
      * Returns a 40 character API key that a user can use
      *
      * @return string

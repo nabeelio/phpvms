@@ -2,7 +2,6 @@
 
 namespace App\Support;
 
-use GuzzleHttp\Client;
 use GuzzleHttp\Client as GuzzleClient;
 
 /**
