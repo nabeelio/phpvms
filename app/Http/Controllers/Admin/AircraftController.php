@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Contracts\Controller;
+use App\Http\Controllers\Admin\Traits\Importable;
 use App\Http\Requests\CreateAircraftRequest;
-use App\Http\Requests\ImportRequest;
 use App\Http\Requests\UpdateAircraftRequest;
 use App\Models\Aircraft;
 use App\Models\Enums\AircraftStatus;
+use App\Models\Enums\ImportExportType;
 use App\Models\Expense;
 use App\Models\Subfleet;
 use App\Repositories\AircraftRepository;
@@ -15,15 +16,12 @@ use App\Repositories\AirportRepository;
 use App\Services\ExportService;
 use App\Services\ImportService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 use Laracasts\Flash\Flash;
 
-/**
- * Class AircraftController
- */
 class AircraftController extends Controller
 {
+    use Importable;
+
     private $aircraftRepo;
     private $airportRepo;
     private $importSvc;
@@ -218,8 +216,6 @@ class AircraftController extends Controller
     /**
      * @param Request $request
      *
-     * @throws \Illuminate\Validation\ValidationException
-     *
      * @return mixed
      */
     public function import(Request $request)
@@ -230,16 +226,7 @@ class AircraftController extends Controller
         ];
 
         if ($request->isMethod('post')) {
-            ImportRequest::validate($request);
-            $path = Storage::putFileAs(
-                'import',
-                $request->file('csv_file'),
-                'import_aircraft.csv'
-            );
-
-            $path = storage_path('app/'.$path);
-            Log::info('Uploaded aircraft import file to '.$path);
-            $logs = $this->importSvc->importAircraft($path);
+            $logs = $this->importFile($request, ImportExportType::AIRCRAFT);
         }
 
         return view('admin.aircraft.import', [

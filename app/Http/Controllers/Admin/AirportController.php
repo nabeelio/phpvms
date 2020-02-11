@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Contracts\Controller;
+use App\Http\Controllers\Admin\Traits\Importable;
 use App\Http\Requests\CreateAirportRequest;
-use App\Http\Requests\ImportRequest;
 use App\Http\Requests\UpdateAirportRequest;
 use App\Models\Airport;
+use App\Models\Enums\ImportExportType;
 use App\Models\Expense;
 use App\Repositories\AirportRepository;
 use App\Repositories\Criteria\WhereCriteria;
@@ -14,12 +15,12 @@ use App\Services\ExportService;
 use App\Services\ImportService;
 use App\Support\Timezonelist;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 use Laracasts\Flash\Flash;
 
 class AirportController extends Controller
 {
+    use Importable;
+
     private $airportRepo;
     private $importSvc;
 
@@ -223,16 +224,7 @@ class AirportController extends Controller
         ];
 
         if ($request->isMethod('post')) {
-            ImportRequest::validate($request);
-            $path = Storage::putFileAs(
-                'import',
-                $request->file('csv_file'),
-                'import_airports.csv'
-            );
-
-            $path = storage_path('app/'.$path);
-            Log::info('Uploaded airport import file to '.$path);
-            $logs = $this->importSvc->importAirports($path);
+            $logs = $this->importFile($request, ImportExportType::AIRPORT);
         }
 
         return view('admin.airports.import', [
