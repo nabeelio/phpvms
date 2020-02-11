@@ -25,7 +25,7 @@
               <div class="icon-background">
                 <i class="far fa-clock icon"></i>
               </div>
-              <h3 class="header">@minutestotime($user->flight_time), {{$user->flight_time}}</h3>
+              <h3 class="header">@minutestotime($user->flight_time)</h3>
               <h5 class="description">@lang('dashboard.totalhours')</h5>
             </div>
           </div>
