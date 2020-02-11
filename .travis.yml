@@ -132,7 +132,7 @@ jobs:
       # https://docs.travis-ci.com/user/deployment/#examples-of-conditional-deployment
       deploy:
         - provider: script
-          skip_cleanup: true
+          cleanup: false
           script: ./.travis/deploy_script.sh
           on:
             all_branches: true
@@ -151,7 +151,7 @@ jobs:
         - ./.travis/deploy_script.sh
       deploy:
         provider: releases
-        skip_cleanup: true
+        cleanup: false
         api_key: $GITHUB_TOKEN
         file_glob: true
         file: build/*
