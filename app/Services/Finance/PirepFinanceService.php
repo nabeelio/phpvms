@@ -232,7 +232,7 @@ class PirepFinanceService extends Service
             // if there is and it doesn't match up the flight type for the PIREP, skip it
             if ($expense->ref_model === Expense::class) {
                 if (is_array($expense->flight_type) && count($expense->flight_type) > 0) {
-                    if (!in_array($pirep->flight_type, $expense->flight_type)) {
+                    if (!in_array($pirep->flight_type, $expense->flight_type, true)) {
                         return;
                     }
                 }
