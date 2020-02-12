@@ -1,6 +1,9 @@
 <?php
 
 use App\Models\Enums\ExpenseType;
+use App\Models\Enums\FlightType;
+use App\Models\Expense;
+use App\Models\Subfleet;
 use App\Repositories\ExpenseRepository;
 use App\Repositories\JournalRepository;
 use App\Services\FareService;
@@ -79,6 +82,7 @@ class FinanceTest extends TestCase
 
         $pirep = factory(App\Models\Pirep::class)->create([
             'flight_number'  => $flight->flight_number,
+            'flight_type'    => FlightType::SCHED_PAX,
             'route_code'     => $flight->route_code,
             'route_leg'      => $flight->route_leg,
             'dpt_airport_id' => $dpt_apt->id,
@@ -114,7 +118,7 @@ class FinanceTest extends TestCase
 
         // Add a subfleet expense
         factory(App\Models\Expense::class)->create([
-            'ref_model'    => \App\Models\Subfleet::class,
+            'ref_model'    => Subfleet::class,
             'ref_model_id' => $subfleet['subfleet']->id,
             'amount'       => 200,
         ]);
@@ -594,7 +598,7 @@ class FinanceTest extends TestCase
         $expenses = $this->expenseRepo->getAllForType(
             ExpenseType::FLIGHT,
             $airline->id,
-            \App\Models\Expense::class
+            Expense::class
         );
 
         $this->assertCount(2, $expenses);
@@ -615,7 +619,7 @@ class FinanceTest extends TestCase
         $subfleet = factory(App\Models\Subfleet::class)->create();
         factory(App\Models\Expense::class)->create([
             'airline_id'   => null,
-            'ref_model'    => \App\Models\Subfleet::class,
+            'ref_model'    => Subfleet::class,
             'ref_model_id' => $subfleet->id,
         ]);
 
@@ -628,7 +632,7 @@ class FinanceTest extends TestCase
         $this->assertCount(1, $expenses);
 
         $expense = $expenses->random();
-        $this->assertEquals(\App\Models\Subfleet::class, $expense->ref_model);
+        $this->assertEquals(Subfleet::class, $expense->ref_model);
         $obj = $expense->getReferencedObject();
         $this->assertEquals($obj->id, $expense->ref_model_id);
     }
@@ -669,6 +673,99 @@ class FinanceTest extends TestCase
         $transaction_tags = [
             'fuel'            => 1,
             'expense'         => 1,
+            'subfleet'        => 2,
+            'fare'            => 3,
+            'ground_handling' => 1,
+            'pilot_pay'       => 2, // debit on the airline, credit to the pilot
+        ];
+
+        foreach ($transaction_tags as $type => $count) {
+            $find = $transactions['transactions']->where('tags', $type);
+            $this->assertEquals($count, $find->count());
+        }
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testPirepFinancesSpecificExpense()
+    {
+        $journalRepo = app(JournalRepository::class);
+
+        // Add an expense that's only for a cargo flight
+        factory(App\Models\Expense::class)->create([
+            'airline_id' => null,
+            'amount'     => 100,
+            'flight_type' => FlightType::SCHED_CARGO,
+        ]);
+
+        [$user, $pirep, $fares] = $this->createFullPirep();
+        $user->airline->initJournal(config('phpvms.currency'));
+
+        // Override the fares
+        $fare_counts = [];
+        foreach ($fares as $fare) {
+            $fare_counts[] = [
+                'fare_id' => $fare->id,
+                'price'   => $fare->price,
+                'count'   => 100,
+            ];
+        }
+
+        $this->fareSvc->saveForPirep($pirep, $fare_counts);
+
+        // This should process all of the
+        $pirep = $this->pirepSvc->accept($pirep);
+
+        $transactions = $journalRepo->getAllForObject($pirep);
+
+//        $this->assertCount(9, $transactions['transactions']);
+        $this->assertEquals(3020, $transactions['credits']->getValue());
+        $this->assertEquals(1960, $transactions['debits']->getValue());
+
+        // Check that all the different transaction types are there
+        // test by the different groups that exist
+        $transaction_tags = [
+            'fuel'            => 1,
+            'expense'         => 1,
+            'subfleet'        => 2,
+            'fare'            => 3,
+            'ground_handling' => 1,
+            'pilot_pay'       => 2, // debit on the airline, credit to the pilot
+        ];
+
+        foreach ($transaction_tags as $type => $count) {
+            $find = $transactions['transactions']->where('tags', $type);
+            $this->assertEquals($count, $find->count());
+        }
+
+        // Add a new PIREP;
+        $pirep2 = factory(App\Models\Pirep::class)->create([
+            'flight_number'  => 100,
+            'flight_type'    => FlightType::SCHED_CARGO,
+            'dpt_airport_id' => $pirep->dpt_airport_id,
+            'arr_airport_id' => $pirep->arr_airport_id,
+            'user_id'        => $user->id,
+            'airline_id'     => $user->airline_id,
+            'aircraft_id'    => $pirep->aircraft_id,
+            'source'         => PirepSource::ACARS,
+            'flight_time'    => 120,
+            'block_fuel'     => 10,
+            'fuel_used'      => 9,
+        ]);
+
+        $this->fareSvc->saveForPirep($pirep2, $fare_counts);
+        $pirep2 = $this->pirepSvc->accept($pirep2);
+
+        $transactions = $journalRepo->getAllForObject($pirep2);
+        $this->assertEquals(3020, $transactions['credits']->getValue());
+        $this->assertEquals(2060, $transactions['debits']->getValue());
+
+        // Check that all the different transaction types are there
+        // test by the different groups that exist
+        $transaction_tags = [
+            'fuel'            => 1,
+            'expense'         => 2,
             'subfleet'        => 2,
             'fare'            => 3,
             'ground_handling' => 1,

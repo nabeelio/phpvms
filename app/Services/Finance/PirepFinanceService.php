@@ -4,10 +4,13 @@ namespace App\Services\Finance;
 
 use App\Contracts\Service;
 use App\Events\Expenses as ExpensesEvent;
+use App\Models\Aircraft;
+use App\Models\Airport;
 use App\Models\Enums\ExpenseType;
 use App\Models\Enums\PirepSource;
 use App\Models\Expense;
 use App\Models\Pirep;
+use App\Models\Subfleet;
 use App\Repositories\ExpenseRepository;
 use App\Repositories\JournalRepository;
 use App\Services\FareService;
@@ -222,12 +225,18 @@ class PirepFinanceService extends Service
         /*
          * Go through the expenses and apply a mulitplier if present
          */
-        $expenses->map(function ($expense, $i) use ($pirep) {
-            /*if ($expense->multiplier) {
-                # TODO: Modify the amount
-            }*/
-
+        $expenses->map(function (/** @var \App\Models\Expense */ $expense, $i) use ($pirep) {
             Log::info('Finance: PIREP: '.$pirep->id.', expense:', $expense->toArray());
+
+            // Check to see if there is a certain fleet or flight type set on this expense
+            // if there is and it doesn't match up the flight type for the PIREP, skip it
+            if ($expense->ref_model === Expense::class) {
+                if (is_array($expense->flight_type) && count($expense->flight_type) > 0) {
+                    if (!in_array($pirep->flight_type, $expense->flight_type)) {
+                        return;
+                    }
+                }
+            }
 
             // Get the transaction group name from the ref_model name
             // This way it can be more dynamic and don't have to add special
@@ -239,13 +248,13 @@ class PirepFinanceService extends Service
             }
 
             // Form the memo, with some specific ones depending on the group
-            if ($klass === 'Airport') {
+            if ($expense->ref_model === Airport::class) {
                 $memo = "Airport Expense: {$expense->name} ({$expense->ref_model_id})";
                 $transaction_group = "Airport: {$expense->ref_model_id}";
-            } elseif ($klass === 'Subfleet') {
+            } elseif ($expense->ref_model === Subfleet::class) {
                 $memo = "Subfleet Expense: {$expense->name} ({$pirep->aircraft->subfleet->name})";
                 $transaction_group = "Subfleet: {$expense->name} ({$pirep->aircraft->subfleet->name})";
-            } elseif ($klass === 'Aircraft') {
+            } elseif ($expense->ref_model === Aircraft::class) {
                 $memo = "Aircraft Expense: {$expense->name} ({$pirep->aircraft->name})";
                 $transaction_group = "Aircraft: {$expense->name} "
                     ."({$pirep->aircraft->name}-{$pirep->aircraft->registration})";
