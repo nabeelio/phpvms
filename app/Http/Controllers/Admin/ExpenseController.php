@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Contracts\Controller;
 use App\Http\Controllers\Admin\Traits\Importable;
 use App\Models\Enums\ExpenseType;
+use App\Models\Enums\FlightType;
 use App\Models\Enums\ImportExportType;
 use App\Models\Expense;
 use App\Repositories\AirlineRepository;
@@ -69,6 +70,7 @@ class ExpenseController extends Controller
         return view('admin.expenses.create', [
             'airlines_list' => $this->airlineRepo->selectBoxList(true),
             'expense_types' => ExpenseType::select(),
+            'flight_types'  => FlightType::select(),
         ]);
     }
 
@@ -135,6 +137,7 @@ class ExpenseController extends Controller
             'expense'       => $expense,
             'airlines_list' => $this->airlineRepo->selectBoxList(true),
             'expense_types' => ExpenseType::select(),
+            'flight_types'  => FlightType::select(),
         ]);
     }
 
@@ -154,14 +157,12 @@ class ExpenseController extends Controller
 
         if (empty($expenses)) {
             Flash::error('Expense not found');
-
             return redirect(route('admin.expenses.index'));
         }
 
         $this->expenseRepo->update($request->all(), $id);
 
         Flash::success('Expense updated successfully.');
-
         return redirect(route('admin.expenses.index'));
     }
 

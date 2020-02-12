@@ -6,13 +6,15 @@ use App\Contracts\Model;
 use App\Models\Traits\ReferenceTrait;
 
 /**
- * Class Expense
- *
  * @property int    airline_id
  * @property float  amount
  * @property string name
+ * @property string type
+ * @property string flight_type
  * @property string ref_model
  * @property string ref_model_id
+ *
+ * @mixin \Illuminate\Database\Eloquent\Builder
  */
 class Expense extends Model
 {
@@ -25,6 +27,7 @@ class Expense extends Model
         'name',
         'amount',
         'type',
+        'flight_type',
         'multiplier',
         'charge_to_user',
         'ref_model',
@@ -39,6 +42,34 @@ class Expense extends Model
         'multiplier'     => 'bool',
         'charge_to_user' => 'bool',
     ];
+
+    /**
+     * flight_type is stored a comma delimited list in table. Retrieve it as an array
+     *
+     * @return array
+     */
+    public function getFlightTypeAttribute()
+    {
+        if (empty(trim($this->attributes['flight_type']))) {
+            return [];
+        }
+
+        return explode(',', $this->attributes['flight_type']);
+    }
+
+    /**
+     * Make sure the flight type is stored a comma-delimited list in the table
+     *
+     * @param string $value
+     */
+    public function setFlightTypeAttribute($value)
+    {
+        if (is_array($value)) {
+            $this->attributes['flight_type'] = implode(',', $value);
+        } else {
+            $this->attributes['flight_type'] = trim($value);
+        }
+    }
 
     /**
      * Foreign Keys

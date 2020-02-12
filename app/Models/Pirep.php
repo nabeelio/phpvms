@@ -17,6 +17,7 @@ use Illuminate\Support\Collection;
  * @property string      flight_number
  * @property string      route_code
  * @property string      route_leg
+ * @property string      flight_type
  * @property int         airline_id
  * @property int         user_id
  * @property int         aircraft_id
