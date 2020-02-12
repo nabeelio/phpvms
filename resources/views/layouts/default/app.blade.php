@@ -108,5 +108,27 @@ with the EU Cookie Law https://privacypolicies.com/blog/eu-cookie-law
     $(".select2").select2({width: 'resolve'});
   });
 </script>
+
+{{--
+Google Analytics tracking code. Only active if an ID has been entered
+You can modify to any tracking code and re-use that settings field, or
+just remove it completely. Only added as a convenience factor
+--}}
+@php
+$gtag = setting('general.google_analytics_id');
+@endphp
+@if($gtag)
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id={{ $gtag }}"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', '{{ $gtag }}');
+</script>
+@endif
+{{-- End of the Google Analytics code --}}
+
 </body>
 </html>
