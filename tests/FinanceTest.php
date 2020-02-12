@@ -694,8 +694,8 @@ class FinanceTest extends TestCase
 
         // Add an expense that's only for a cargo flight
         factory(App\Models\Expense::class)->create([
-            'airline_id' => null,
-            'amount'     => 100,
+            'airline_id'  => null,
+            'amount'      => 100,
             'flight_type' => FlightType::SCHED_CARGO,
         ]);
 
