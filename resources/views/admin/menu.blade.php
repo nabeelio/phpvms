@@ -70,12 +70,12 @@
       <li><a href="{!! url('/admin/roles') !!}"><i class="pe-7s-network"></i>roles</a></li>
       @endability
 
-      @ability('admin', 'settings')
-      <li><a href="{{ url('/admin/settings') }}"><i class="pe-7s-config"></i>settings</a></li>
-      @endability
-
       @ability('admin', 'maintenance')
       <li><a href="{{ url('/admin/maintenance') }}"><i class="pe-7s-tools"></i>maintenance</a></li>
+      @endability
+
+      @ability('admin', 'settings')
+      <li><a href="{{ url('/admin/settings') }}"><i class="pe-7s-config"></i>settings</a></li>
       @endability
     </ul>
   </div>

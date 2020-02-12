@@ -40,6 +40,13 @@
   options: ''
   type: boolean
   description: 'Send some data (php version, mysql version) to phpVMS. See AnalyticsSvc code for details'
+- key: general.google_analytics_id
+  name: 'Google Analytics Tracking ID'
+  group: general
+  value: ''
+  options: ''
+  type: text
+  description: 'Enter your Google Analytics Tracking ID'
 - key: units.distance
   name: 'Distance Units'
   group: units
