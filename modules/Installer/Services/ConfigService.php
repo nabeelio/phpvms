@@ -220,6 +220,7 @@ class ConfigService extends Service
 
         if (file_exists($env_file) && !is_writable($env_file)) {
             Log::error('Permissions on existing env.php is not writable');
+
             throw new FileException('Can\'t write to the env.php file! Check the permissions');
         }
 
@@ -244,6 +245,7 @@ class ConfigService extends Service
             $stub->saveTo(App::environmentPath(), 'config.php');
         } catch (Exception $e) {
             unlink(App::environmentPath().'/'.App::environmentFile());
+
             throw new FileException('Couldn\'t write config.php. ('.$e.')');
         }
     }
