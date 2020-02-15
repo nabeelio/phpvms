@@ -16,8 +16,9 @@ class PirepsChangeStateType extends Migration
     public function up()
     {
         // Migrate the old rejected state
-        DB::update('UPDATE `pireps` SET `state`='.PirepState::REJECTED
-                  .' WHERE state=-1');
+        DB::table('pireps')
+            ->where(['state' => -1])
+            ->update(['state' => PirepState::REJECTED]);
 
         // Change the column type to an unsigned small int (tinyint not supported on all)
         Schema::table('pireps', function (Blueprint $table) {
