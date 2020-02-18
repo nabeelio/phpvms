@@ -1,7 +1,7 @@
 {{ Form::model($grouped_settings, ['route' => ['admin.settings.update'], 'method' => 'post']) }}
 @foreach($grouped_settings as $group => $settings)
   <div class="card border-blue-bottom">
-    <div class="content table-responsive table-full-width">
+    <div class="content table-responsive">
       <div class="row">
         <table class="table table-hover" id="flights-table">
           <thead>
@@ -77,6 +77,7 @@
 </div>
 
 {{ Form::close() }}
+
 <script>
   $(document).ready(function () {
     $('#datepicker').datetimepicker({

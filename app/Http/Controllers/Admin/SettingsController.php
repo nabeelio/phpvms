@@ -17,6 +17,7 @@ class SettingsController extends Controller
      */
     private function getThemes(): array
     {
+        Theme::rebuildCache();
         $themes = Theme::all();
         $theme_list = [];
         foreach ($themes as $t) {
