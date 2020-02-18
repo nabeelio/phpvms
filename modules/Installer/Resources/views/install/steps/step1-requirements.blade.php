@@ -12,9 +12,9 @@
         <td>PHP Version: {{ $php['version'] }}</td>
         <td style="text-align:center;">
           @if($php['passed'] === true)
-            <span class="badge badge-success">OK!</span>
+            <span class="badge badge-success">OK</span>
           @else
-            <span class="badge badge-danger">Failed!</span>
+            <span class="badge badge-danger">Failed</span>
           @endif
         </td>
       </tr>
@@ -27,9 +27,9 @@
           <td>{{ $ext['ext'] }}</td>
           <td style="text-align:center;">
             @if($ext['passed'] === true)
-              <span class="badge badge-success">OK!</span>
+              <span class="badge badge-success">OK</span>
             @else
-              <span class="badge badge-danger">Failed!</span>
+              <span class="badge badge-danger">Failed</span>
             @endif
           </td>
         </tr>
@@ -46,9 +46,9 @@
           <td>{{ $dir['dir'] }}</td>
           <td style="text-align:center;">
             @if($dir['passed'] === true)
-              <span class="badge badge-success">OK!</span>
+              <span class="badge badge-success">OK</span>
             @else
-              <span class="badge badge-danger">Failed!</span>
+              <span class="badge badge-danger">Failed</span>
             @endif
           </td>
         </tr>
@@ -59,9 +59,6 @@
         {{ Form::submit('Database Setup >>', ['class' => 'btn btn-success']) }}
       </p>
     @endif
-    {{--{{ $php_version }}
-    {{ $extensions }}
-    {{ $passed }}--}}
     {{ Form::close() }}
   </div>
 @endsection

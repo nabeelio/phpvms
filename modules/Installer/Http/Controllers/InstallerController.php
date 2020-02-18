@@ -18,6 +18,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use Laracasts\Flash\Flash;
 use Modules\Installer\Services\ConfigService;
 use Modules\Installer\Services\RequirementsService;
 
@@ -196,7 +197,7 @@ class InstallerController extends Controller
             Log::error('Testing db before writing configs failed');
             Log::error($e->getMessage());
 
-            flash()->error($e->getMessage());
+            Flash::error($e->getMessage());
             return redirect(route('installer.step2'))->withInput();
         }
 
@@ -224,7 +225,7 @@ class InstallerController extends Controller
             Log::error('Config files failed to write');
             Log::error($e->getMessage());
 
-            flash()->error($e->getMessage());
+            Flash::error($e->getMessage());
             return redirect(route('installer.step2'))->withInput();
         }
 
@@ -238,7 +239,7 @@ class InstallerController extends Controller
      *
      * @param Request $request
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
+     * @return mixed
      */
     public function dbsetup(Request $request)
     {
@@ -250,9 +251,9 @@ class InstallerController extends Controller
             $this->seederSvc->syncAllSeeds();
         } catch (QueryException $e) {
             Log::error('Error on db setup: '.$e->getMessage());
-
+            dd($e);
             $this->envSvc->removeConfigFiles();
-            flash()->error($e->getMessage());
+            Flash::error($e->getMessage());
             return redirect(route('installer.step2'))->withInput();
         }
 

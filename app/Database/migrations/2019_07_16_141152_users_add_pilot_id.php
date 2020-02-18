@@ -18,7 +18,7 @@ class UsersAddPilotId extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('users', static function (Blueprint $table) {
             $table->unsignedBigInteger('pilot_id')
                 ->after('id')
                 ->unique()
@@ -26,8 +26,7 @@ class UsersAddPilotId extends Migration
                 ->index('users_pilot_id');
         });
 
-        // Migrate the current pilot IDs
-        DB::update('UPDATE `users` SET `pilot_id`=`id`');
+        DB::table('users')->update(['pilot_id' => DB::raw('`id`')]);
     }
 
     /**
