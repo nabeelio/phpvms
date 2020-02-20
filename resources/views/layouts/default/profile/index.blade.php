@@ -94,7 +94,7 @@
     <div class="row">
       <div class="col-sm-12">
         <div class="text-right">
-          @if ($acars)
+          @if (isset($acars) && $acars === true)
           <a href="{{ route('frontend.profile.acars') }}" class="btn btn-primary"
              onclick="alert('Save to \'My Documents/phpVMS\'')">ACARS Config</a>
           &nbsp;

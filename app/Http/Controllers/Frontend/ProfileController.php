@@ -79,7 +79,7 @@ class ProfileController extends Controller
     /**
      * @param $id
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
+     * @return mixed
      */
     public function show($id)
     {
