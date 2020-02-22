@@ -4,6 +4,7 @@ use App\Models\Enums\PirepState;
 use App\Models\Enums\PirepStatus;
 use App\Models\PirepFare;
 use App\Repositories\SettingRepository;
+use App\Support\Utils;
 
 /**
  * Test API calls and authentication, etc
@@ -660,10 +661,19 @@ class AcarsTest extends TestCase
         $uri = '/api/pireps/'.$pirep_id.'/acars/position';
 
         // Post an ACARS update
-        $acars_count = \random_int(2, 10);
-        $acars = factory(App\Models\Acars::class, $acars_count)->make(['id' => ''])->toArray();
+        $acars_count = \random_int(5, 10);
+        $acars = factory(App\Models\Acars::class, $acars_count)->make(['id' => ''])
+            ->map(function ($point) {
+                $point['id'] = Utils::generateNewId();
+                return $point;
+            })
+            ->toArray();
 
         $update = ['positions' => $acars];
+        $response = $this->post($uri, $update);
+        $response->assertStatus(200)->assertJson(['count' => $acars_count]);
+
+        // Try posting again, should be ignored/not throw any sql errors
         $response = $this->post($uri, $update);
         $response->assertStatus(200)->assertJson(['count' => $acars_count]);
 
@@ -700,11 +710,9 @@ class AcarsTest extends TestCase
 
         $dt = date('c');
         $uri = '/api/pireps/'.$pirep_id.'/acars/position';
-        $acars = factory(App\Models\Acars::class)->make(
-            [
-                'sim_time' => $dt,
-            ]
-        )->toArray();
+        $acars = factory(App\Models\Acars::class)->make([
+            'sim_time' => $dt,
+        ])->toArray();
 
         $update = ['positions' => [$acars]];
         $response = $this->post($uri, $update);
@@ -729,7 +737,13 @@ class AcarsTest extends TestCase
         $response->assertStatus(400);
 
         $post_route = [
-            ['order' => 1, 'name' => 'NAVPOINT', 'lat' => 'notanumber', 'lon' => 34.11],
+            [
+                'id'    => 'NAVPOINT',
+                'order' => 1,
+                'name'  => 'NAVPOINT',
+                'lat'   => 'notanumber',
+                'lon'   => 34.11,
+            ],
         ];
 
         $uri = '/api/pireps/'.$pirep_id.'/route';
@@ -800,6 +814,10 @@ class AcarsTest extends TestCase
         }
 
         $uri = '/api/pireps/'.$pirep_id.'/route';
+        $response = $this->post($uri, ['route' => $post_route]);
+        $response->assertStatus(200)->assertJson(['count' => $route_count]);
+
+        // Try double post to ignore SQL update
         $response = $this->post($uri, ['route' => $post_route]);
         $response->assertStatus(200)->assertJson(['count' => $route_count]);
 
