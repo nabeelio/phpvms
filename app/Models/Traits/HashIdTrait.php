@@ -2,8 +2,7 @@
 
 namespace App\Models\Traits;
 
-use App\Contracts\Model;
-use Hashids\Hashids;
+use App\Support\Utils;
 
 trait HashIdTrait
 {
@@ -14,9 +13,7 @@ trait HashIdTrait
      */
     final protected static function createNewHashId(): string
     {
-        $hashids = new Hashids('', Model::ID_MAX_LENGTH);
-        $mt = str_replace('.', '', microtime(true));
-        return $hashids->encode($mt);
+        return Utils::generateNewId();
     }
 
     /**

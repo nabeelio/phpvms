@@ -542,8 +542,12 @@ class PirepController extends Controller
             $position['pirep_id'] = $id;
             $position['type'] = AcarsType::ROUTE;
 
-            $acars = Acars::create($position);
-            $acars->save();
+            if (isset($position['id'])) {
+                Acars::updateOrInsert(['id' => $position['id']], $position);
+            } else {
+                $acars = Acars::create($position);
+                $acars->save();
+            }
 
             $count++;
         }

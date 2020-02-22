@@ -2,6 +2,8 @@
 
 namespace App\Support;
 
+use App\Contracts\Model;
+use Hashids\Hashids;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Str;
 use Nwidart\Modules\Facades\Module;
@@ -11,6 +13,24 @@ use Nwidart\Modules\Facades\Module;
  */
 class Utils
 {
+    /**
+     * Generate a new ID with a given length
+     *
+     * @param int [$length]
+     *
+     * @return string
+     */
+    public static function generateNewId(int $length = null)
+    {
+        if (!$length) {
+            $length = Model::ID_MAX_LENGTH;
+        }
+
+        $hashids = new Hashids('', $length);
+        $mt = str_replace('.', '', microtime(true));
+        return $hashids->encode($mt);
+    }
+
     /**
      * Returns a 40 character API key that a user can use
      *
