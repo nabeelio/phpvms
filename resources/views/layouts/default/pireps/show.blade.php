@@ -91,7 +91,7 @@
           </form>
         </div>
       @endif
-      <table class="table table-striped">
+      <table class="table table-striped table-condensed">
 
         <tr>
           <td width="30%">@lang('common.state')</td>
@@ -153,7 +153,7 @@
         <table class="table table-hover table-condensed">
           <thead>
           <th>@lang('common.name')</th>
-          <th>@lang('common.value')</th>
+          <th>{{ trans_choice('common.value', 1) }}</th>
           </thead>
           <tbody>
           @foreach($pirep->fields as $field)
