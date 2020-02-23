@@ -34,7 +34,7 @@ class Version extends Command
             // If a version is being passed in, the update the build, etc data against this
             if ($this->argument('version')) {
                 $version = \SemVer\SemVer\Version::fromString($this->argument('version'));
-                if ($this->option('write_full_version')) {
+                if ($this->option('write-full-version')) {
                     $cfg['current']['major'] = $version->getMajor();
                     $cfg['current']['minor'] = $version->getMinor();
                     $cfg['current']['patch'] = $version->getPatch();

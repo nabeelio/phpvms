@@ -133,12 +133,19 @@ class VersionService extends Service
      */
     public function getBuildId($cfg)
     {
-        exec($cfg['git']['git-local'], $version);
-        $version = substr($version[0], 0, $cfg['build']['length']);
+        // No version number specified, query git
+        if (empty(trim($cfg['build']['number']))) {
+            exec($cfg['git']['git-local'], $version);
+            $version = substr($version[0], 0, $cfg['build']['length']);
 
-        // prefix with the date in YYMMDD format
-        $date = date('ymd');
-        return $date.'.'.$version;
+            // prefix with the date in YYMMDD format
+            $date = date('ymd');
+            $version = $date.'.'.$version;
+        } else {
+            $version = $cfg['build']['number'];
+        }
+
+        return $version;
     }
 
     /**
