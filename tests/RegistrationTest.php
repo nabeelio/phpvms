@@ -1,7 +1,11 @@
 <?php
 
+use App\Events\UserRegistered;
 use App\Models\Enums\UserState;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 
 class RegistrationTest extends TestCase
 {
@@ -15,25 +19,26 @@ class RegistrationTest extends TestCase
     public function testRegistration()
     {
         Event::fake();
-        Mail::fake();
+        Notification::fake();
 
         $userSvc = app('App\Services\UserService');
 
         setting('pilots.auto_accept', true);
 
-        $user = factory(App\Models\User::class)->create();
-        $user = $userSvc->createUser($user);
+        $attrs = factory(App\Models\User::class)->make()->toArray();
+        $attrs['password'] = Hash::make('secret');
+        $user = $userSvc->createUser($attrs);
 
         $this->assertEquals(UserState::ACTIVE, $user->state);
 
-        Event::assertDispatched(\App\Events\UserRegistered::class, function ($e) use ($user) {
+        Event::assertDispatched(UserRegistered::class, function ($e) use ($user) {
             return $e->user->id === $user->id
                 && $e->user->state === $user->state;
         });
 
-        /*Mail::assertSent(\App\Mail\UserRegistered::class, function ($mail) use ($user) {
-            return $mail->user->id === $user->id
-                   && $mail->user->state === $user->state;
-        });*/
+        /*Notification::assertSentTo(
+            [$user],
+            \App\Notifications\Messages\UserRegistered::class
+        );*/
     }
 }
