@@ -4,6 +4,7 @@ use App\Exceptions\UserPilotIdExists;
 use App\Models\User;
 use App\Repositories\SettingRepository;
 use App\Services\UserService;
+use Illuminate\Support\Facades\Hash;
 
 class UserTest extends TestCase
 {
@@ -208,12 +209,14 @@ class UserTest extends TestCase
      */
     public function testUserPilotIdAdded()
     {
-        $new_user = factory(App\Models\User::class)->create(['id' => 1]);
+        $new_user = factory(App\Models\User::class)->make()->toArray();
+        $new_user['password'] = Hash::make('secret');
         $user = $this->userSvc->createUser($new_user);
         $this->assertEquals($user->id, $user->pilot_id);
 
         // Add a second user
-        $new_user = factory(App\Models\User::class)->create(['id' => 2]);
+        $new_user = factory(App\Models\User::class)->make()->toArray();
+        $new_user['password'] = Hash::make('secret');
         $user2 = $this->userSvc->createUser($new_user);
         $this->assertEquals($user2->id, $user2->pilot_id);
 
@@ -222,7 +225,7 @@ class UserTest extends TestCase
         $this->assertEquals(3, $user->pilot_id);
 
         // Create a new user and the pilot_id should be 4
-        $user3 = factory(App\Models\User::class)->create(['id' => 3]);
+        $user3 = factory(App\Models\User::class)->create();
         $this->assertEquals(4, $user3->pilot_id);
     }
 }
