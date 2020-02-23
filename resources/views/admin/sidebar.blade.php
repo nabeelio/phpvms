@@ -21,11 +21,11 @@
 
     <div class="row" style="margin-bottom: 20px;">
       <div class="col-xs-12 text-center">
-{{--        <p class="small">{{ $version }}</p>--}}
         <a class="small"
             data-container="body"
             data-toggle="popover"
-            data-placement="top" data-content="{{$version_full}}">
+            data-placement="right"
+           data-content="{{$version_full}}">
           version {{ $version }}
         </a>
       </div>
