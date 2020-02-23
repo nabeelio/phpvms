@@ -39,7 +39,7 @@
     </div>
     <div class="form-group col-sm-4">
       {{ Form::label('transfer_time', 'Transferred Hours:') }}
-      {{ Form::text('transfer_time', \App\Facades\Utils::minutesToHours($user->transfer_time), ['class' => 'form-control']) }}
+      {{ Form::text('transfer_time', \App\Support\Units\Time::minutesToHours($user->transfer_time), ['class' => 'form-control']) }}
       <p class="text-danger">{{ $errors->first('transfer_time') }}</p>
     </div>
   </div>
