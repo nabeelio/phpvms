@@ -7,11 +7,10 @@ fi
 cd $TRAVIS_BUILD_DIR
 
 if test "$TRAVIS_TAG"; then
-  PKG_NAME=$TRAVIS_TAG
   VERSION=$TRAVIS_TAG
 
   # Pass in the tag as the version to write out
-  php artisan phpvms:version --write $VERSION
+  php artisan phpvms:version --write --write-full-version "${VERSION}"
 else
   echo "On branch $TRAVIS_BRANCH"
 
@@ -25,19 +24,20 @@ else
   BASE_VERSION=$(php artisan phpvms:version --base-only)
 
   # This now includes the pre-release version, so "-dev" by default
-  PKG_NAME=${BASE_VERSION}
+  VERSION=${BASE_VERSION}
 
   # Don't pass in a version here, just write out the latest hash
-  php artisan phpvms:version --write >VERSION
-  VERSION=$(cat VERSION)
+  php artisan phpvms:version --write "${VERSION}"
 fi
+
+FILE_NAME="phpvms-${VERSION}"
+TAR_NAME="$FILE_NAME.tar.gz"
+ZIP_NAME="$FILE_NAME.zip"
 
 echo "Version: $VERSION"
 echo "Package name: $TAR_NAME"
 
-FILE_NAME="phpvms-$PKG_NAME"
-TAR_NAME="$FILE_NAME.tar.gz"
-ZIP_NAME="$FILE_NAME.zip"
+echo "==========================="
 
 echo "Cleaning files"
 

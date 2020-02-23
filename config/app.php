@@ -77,6 +77,7 @@ return [
         App\Providers\AuthServiceProvider::class,
         App\Providers\BindServiceProviders::class,
         App\Providers\BroadcastServiceProvider::class,
+        App\Providers\ComposerServiceProvider::class,
         App\Providers\CronServiceProvider::class,
         App\Providers\DirectiveServiceProvider::class,
         App\Providers\EventServiceProvider::class,
