@@ -11,7 +11,6 @@ use App\Repositories\AirportRepository;
 use App\Services\UserService;
 use App\Support\Countries;
 use App\Support\Timezonelist;
-use App\Support\Utils;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
