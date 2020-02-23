@@ -133,17 +133,28 @@ class VersionService extends Service
      */
     public function getBuildId($cfg)
     {
-        // No version number specified, query git
-        if (empty(trim($cfg['build']['number']))) {
-            exec($cfg['git']['git-local'], $version);
-            $version = substr($version[0], 0, $cfg['build']['length']);
+        return $cfg['build']['number'];
+    }
 
-            // prefix with the date in YYMMDD format
-            $date = date('ymd');
-            $version = $date.'.'.$version;
-        } else {
-            $version = $cfg['build']['number'];
+    /**
+     * Generate a build ID
+     *
+     * @param array $cfg The version config
+     *
+     * @return false|string
+     */
+    public function generateBuildId($cfg)
+    {
+        $date = date('ymd');
+        exec($cfg['git']['git-local'], $version);
+        if (empty($version)) {
+            return $date;
         }
+
+        $version = substr($version[0], 0, $cfg['build']['length']);
+
+        // prefix with the date in YYMMDD format
+        $version = $date.'.'.$version;
 
         return $version;
     }
@@ -172,8 +183,9 @@ class VersionService extends Service
         if ($include_build) {
             // Get the current build id
             $build_number = $this->getBuildId($cfg);
-            $cfg['build']['number'] = $build_number;
-            $version = $version.'+'.$build_number;
+            if (!empty($build_number)) {
+                $version = $version.'+'.$build_number;
+            }
         }
 
         return $version;
