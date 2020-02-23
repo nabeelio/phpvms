@@ -74,7 +74,7 @@ reload-db:
 tests: test
 
 .PHONY: test
-test:
+test: phpcs
 	#php artisan database:create --reset
 	vendor/bin/phpunit --debug --verbose
 
