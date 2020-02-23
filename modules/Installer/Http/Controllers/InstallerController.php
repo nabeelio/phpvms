@@ -283,7 +283,7 @@ class InstallerController extends Controller
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      * @throws \Exception
      *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return mixed
      */
     public function usersetup(Request $request)
     {
@@ -326,8 +326,7 @@ class InstallerController extends Controller
             'password'   => Hash::make($request->get('password')),
         ];
 
-        $user = User::create($attrs);
-        $user = $this->userService->createUser($user, ['admin']);
+        $user = $this->userService->createUser($attrs, ['admin']);
         Log::info('User registered: ', $user->toArray());
 
         // Set the initial admin e-mail address

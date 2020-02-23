@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Contracts\Controller;
+use App\Http\Requests\CreateUserRequest;
 use App\Models\Enums\UserState;
 use App\Models\User;
 use App\Repositories\AirlineRepository;
@@ -59,7 +60,7 @@ class RegisterController extends Controller
      */
     public function showRegistrationForm()
     {
-        $airports = $this->airportRepo->selectBoxList(false, true);
+        $airports = $this->airportRepo->selectBoxList(false, setting('pilots.home_hubs_only'));
         $airlines = $this->airlineRepo->selectBoxList();
 
         return view('auth.register', [
@@ -81,7 +82,7 @@ class RegisterController extends Controller
     {
         $rules = [
             'name'            => 'required|max:255',
-            'email'           => 'required|email|max:255|unique:users',
+            'email'           => 'required|email|max:255|unique:users, email',
             'airline_id'      => 'required',
             'home_airport_id' => 'required',
             'password'        => 'required|min:5|confirmed',
@@ -98,30 +99,24 @@ class RegisterController extends Controller
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param array $data
+     * @param array $opts
      *
      * @throws \RuntimeException
      * @throws \Exception
      *
      * @return User
      */
-    protected function create(array $data)
+    protected function create(array $opts)
     {
         // Default options
-        $opts = array_merge([
-            'api_key' => Utils::generateApiKey(),
-        ], $data);
-
-        $opts['curr_airport_id'] = $data['home_airport_id'];
-        $opts['password'] = Hash::make($data['password']);
+        $opts['password'] = Hash::make($opts['password']);
 
         // Convert transfer hours into minutes
         if (isset($opts['transfer_time'])) {
             $opts['transfer_time'] *= 60;
         }
 
-        $user = User::create($opts);
-        $user = $this->userService->createUser($user);
+        $user = $this->userService->createUser($opts);
 
         Log::info('User registered: ', $user->toArray());
 
@@ -137,26 +132,8 @@ class RegisterController extends Controller
      *
      * @return mixed
      */
-    public function register(Request $request)
+    public function register(CreateUserRequest $request)
     {
-        $rules = [
-            'name'            => 'required',
-            'email'           => 'required|email|unique:users,email',
-            'airline_id'      => 'required',
-            'home_airport_id' => 'required',
-            'password'        => 'required|confirmed',
-            'timezone'        => 'required',
-            'country'         => 'required',
-            'transfer_time'   => 'integer|min:0',
-            'toc_accepted'    => 'accepted',
-        ];
-
-        if (config('captcha.enabled')) {
-            $rules['g-recaptcha-response'] = 'required|captcha';
-        }
-
-        $this->validate(request(), $rules);
-
         $user = $this->create($request->all());
         if ($user->state === UserState::PENDING) {
             return view('auth.pending');
