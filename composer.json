@@ -59,7 +59,7 @@
         "codedungeon/phpunit-result-printer": "^0.13.0",
         "filp/whoops": "~2.0",
         "fzaninotto/faker": "~1.9.0",
-        "friendsofphp/php-cs-fixer": "^2.15",
+        "friendsofphp/php-cs-fixer": "^2.16",
         "mockery/mockery": "0.9.*",
         "nunomaduro/collision": "^3.0",
         "phpunit/phpunit": "~8.3",
