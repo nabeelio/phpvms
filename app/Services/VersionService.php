@@ -76,7 +76,7 @@ class VersionService extends Service
     }
 
     /**
-     * Download the latest version from github
+     * Download the latest version from github and return the version number
      */
     private function getLatestVersionGithub()
     {
@@ -112,7 +112,7 @@ class VersionService extends Service
             );
         }
 
-        return $releases;
+        return null;
     }
 
     /**
@@ -188,8 +188,11 @@ class VersionService extends Service
         }
 
         // Replace "dev" with "alpha", since
-
         $latest_version = $this->getLatestVersion();
+
+        if (empty($latest_version)) {
+            return false;
+        }
 
         // Convert to semver
         if ($this->isGreaterThan($latest_version, $current_version)) {
