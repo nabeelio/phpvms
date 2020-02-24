@@ -25,7 +25,8 @@ class AirportImporter extends BaseImporter
         ];
 
         $count = 0;
-        foreach ($this->db->readRows($this->table, $start, $fields) as $row) {
+        $rows = $this->db->readRows($this->table, $this->idField, $start, $fields);
+        foreach ($rows as $row) {
             $attrs = [
                 'id'      => trim($row->icao),
                 'icao'    => trim($row->icao),

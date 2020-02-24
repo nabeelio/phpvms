@@ -135,6 +135,13 @@ class UserService extends Service
         return $user;
     }
 
+    /**
+     * Return true or false if a pilot ID already exists
+     *
+     * @param int $pilot_id
+     *
+     * @return bool
+     */
     public function isPilotIdAlreadyUsed(int $pilot_id): bool
     {
         return User::where('pilot_id', '=', $pilot_id)->exists();

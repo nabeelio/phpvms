@@ -34,6 +34,7 @@ class FinalizeImporter extends BaseImporter
     {
         $this->findLastPireps();
         $this->recalculateUserStats();
+        $this->clearValueStore();
     }
 
     /**
@@ -41,6 +42,7 @@ class FinalizeImporter extends BaseImporter
      */
     protected function findLastPireps()
     {
+        // TODO
     }
 
     /**
@@ -54,5 +56,13 @@ class FinalizeImporter extends BaseImporter
         User::all()->each(function ($user) use ($userSvc) {
             $userSvc->recalculateStats($user);
         });
+    }
+
+    /**
+     * Clear the value store of any old value mappings
+     */
+    protected function clearValueStore()
+    {
+        $this->idMapper->clear();
     }
 }

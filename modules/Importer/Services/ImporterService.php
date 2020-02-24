@@ -6,6 +6,7 @@ use App\Contracts\Service;
 use App\Repositories\KvpRepository;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Modules\Importer\Services\Importers\AircraftImporter;
 use Modules\Importer\Services\Importers\AirlineImporter;
 use Modules\Importer\Services\Importers\AirportImporter;
@@ -130,6 +131,11 @@ class ImporterService extends Service
 
         /** @var $importerInst \Modules\Importer\Services\BaseImporter */
         $importerInst = new $importer();
-        $importerInst->run($start);
+
+        try {
+            $importerInst->run($start);
+        } catch (Exception $e) {
+            Log::error('Error running importer: '.$e->getMessage());
+        }
     }
 }
