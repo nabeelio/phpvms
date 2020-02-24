@@ -78,6 +78,14 @@ class GroupImporter extends BaseImporter
                 continue;
             }
 
+            // Map the "core" roles, which are active/inactive pilots to a new ID of
+            // -1; so then we can ignore/not add these groups, and then ignore them
+            // for any of the users that are being imported. these groups are unused
+            if ($row->core === 1 || $row->core === '1') {
+                $this->idMapper->addMapping('group', $row->groupid, -1);
+                continue;
+            }
+
             $name = str_slug($row->name);
             $role = Role::firstOrCreate(
                 ['name' => $name],
