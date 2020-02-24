@@ -12,6 +12,7 @@ use Modules\Importer\Services\BaseImporter;
 class GroupImporter extends BaseImporter
 {
     protected $table = 'groups';
+    protected $idField = 'groupid';
 
     /**
      * Permissions in the legacy system, mapping them to the current system
@@ -68,7 +69,15 @@ class GroupImporter extends BaseImporter
         $roleSvc = app(RoleService::class);
 
         $count = 0;
-        foreach ($this->db->readRows($this->table, $start) as $row) {
+        $rows = $this->db->readRows($this->table, $this->idField, $start);
+        foreach ($rows as $row) {
+            // Legacy "administrator" role is now "admin", just map that 1:1
+            if (strtolower($row->name) === 'administrators') {
+                $role = Role::where('name', 'admin')->first();
+                $this->idMapper->addMapping('group', $row->groupid, $role->id);
+                continue;
+            }
+
             $name = str_slug($row->name);
             $role = Role::firstOrCreate(
                 ['name' => $name],

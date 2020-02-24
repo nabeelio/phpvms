@@ -9,7 +9,7 @@ use Modules\Importer\Services\BaseImporter;
 
 class AircraftImporter extends BaseImporter
 {
-    public $table = 'aircraft';
+    protected $table = 'aircraft';
 
     /**
      * CONSTANTS
@@ -25,7 +25,8 @@ class AircraftImporter extends BaseImporter
         $this->info('Subfleet ID is '.$subfleet->id);
 
         $count = 0;
-        foreach ($this->db->readRows($this->table, $start) as $row) {
+        $rows = $this->db->readRows($this->table, $this->idField, $start);
+        foreach ($rows as $row) {
             $where = [
                 'name'         => $row->fullname,
                 'registration' => $row->registration,

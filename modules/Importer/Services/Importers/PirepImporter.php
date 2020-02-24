@@ -11,6 +11,7 @@ use Modules\Importer\Services\BaseImporter;
 class PirepImporter extends BaseImporter
 {
     protected $table = 'pireps';
+    protected $idField = 'pirepid';
 
     public function run($start = 0)
     {
@@ -32,11 +33,17 @@ class PirepImporter extends BaseImporter
             'distance',
             'flighttime_stamp',
             'flighttype',
-            'flightlevel',
         ];
 
+        // See if there's a flightlevel column, export that if there is
+        $columns = $this->db->getColumns($this->table);
+        if (in_array('flightlevel', $columns)) {
+            $fields[] = 'flightlevel';
+        }
+
         $count = 0;
-        foreach ($this->db->readRows($this->table, $start, $fields) as $row) {
+        $rows = $this->db->readRows($this->table, $this->idField, $start, $fields);
+        foreach ($rows as $row) {
             $pirep_id = $row->pirepid;
             $user_id = $this->idMapper->getMapping('users', $row->pilotid);
             $airline_id = $this->idMapper->getMapping('airlines', $row->code);

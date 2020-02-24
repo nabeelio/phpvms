@@ -3,6 +3,7 @@
 namespace Modules\Importer\Services\Importers;
 
 use App\Models\Enums\UserState;
+use App\Models\Role;
 use App\Models\User;
 use App\Services\UserService;
 use App\Support\Units\Time;
@@ -15,6 +16,7 @@ use Modules\Importer\Services\BaseImporter;
 class UserImport extends BaseImporter
 {
     protected $table = 'pilots';
+    protected $idField = 'pilotid';
 
     /**
      * @var UserService
@@ -29,7 +31,8 @@ class UserImport extends BaseImporter
 
         $count = 0;
         $first_row = true;
-        foreach ($this->db->readRows($this->table, $start) as $row) {
+        $rows = $this->db->readRows($this->table, $this->idField, $start);
+        foreach ($rows as $row) {
             $pilot_id = $row->pilotid; // This isn't their actual ID
             $name = $row->firstname.' '.$row->lastname;
 
@@ -49,8 +52,13 @@ class UserImport extends BaseImporter
 
             // Look for a user with that pilot ID already. If someone has it
             if ($this->userSvc->isPilotIdAlreadyUsed($pilot_id)) {
-                Log::info('User with pilot id '.$pilot_id.' exists, reassigning');
-                $pilot_id = $this->userSvc->getNextAvailablePilotId();
+                Log::info('User with pilot id '.$pilot_id.' exists');
+
+                // Is this the same user? If not, get a new pilot ID
+                $user_exist = User::where('pilot_id', $pilot_id)->first();
+                if ($user_exist->email !== $row->email) {
+                    $pilot_id = $this->userSvc->getNextAvailablePilotId();
+                }
             }
 
             $attrs = [
@@ -91,9 +99,26 @@ class UserImport extends BaseImporter
     {
         // Be default add them to the user role, and then determine if they
         // belong to any other groups, and add them to that
-        $this->userSvc->addUserToRole($user, 'user');
+        $roleMappings = [];
+        $newRoles = [];
 
-        // Figure out what other groups they belong to
+        // Figure out what other groups they belong to... read from the old table, and map
+        // them to the new group(s)
+        $old_user_groups = $this->db->findBy('groupmembers', ['pilotid' => $old_pilot_id]);
+        foreach ($old_user_groups as $oldGroup) {
+            $newRoleId = $this->idMapper->getMapping('group', $oldGroup->groupid);
+
+            // Only lookup a new role ID if found
+            // if (!in_array($newRoleId, $roleMappings)) {
+            //     $roleMappings[$newRoleId] = Role::where(['id' => $newRoleId])->first();
+            // }
+
+            // $newRoles[] = $roleMappings[$newRoleId];
+            $newRoles[] = $newRoleId;
+        }
+
+        // Assign the groups to the new user
+        $user->attachRoles($newRoles);
     }
 
     /**
