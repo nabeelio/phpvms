@@ -26,12 +26,10 @@ else
 
   # This now includes the pre-release version, so "-dev" by default
   VERSION=${BASE_VERSION}
-  FULL_VERSION=$(php artisan phpvms:version)
-
-  echo "Writing version as ${VERSION}"
 
   # Don't pass in a version here, just write out the latest hash
   php artisan phpvms:version --write "${VERSION}"
+  FULL_VERSION=$(php artisan phpvms:version)
 fi
 
 FILE_NAME="phpvms-${VERSION}"
