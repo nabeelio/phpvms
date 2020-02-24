@@ -70,6 +70,7 @@ class UserImport extends BaseImporter
                 'rank_id'         => $rank_id,
                 'home_airport_id' => $row->hub,
                 'curr_airport_id' => $row->hub,
+                'country'         => $row->location,
                 'flights'         => (int) $row->totalflights,
                 'flight_time'     => Time::hoursToMinutes($row->totalhours),
                 'state'           => $state,

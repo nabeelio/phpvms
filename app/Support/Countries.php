@@ -12,15 +12,13 @@ class Countries
     /**
      * Get a select box list of all the countries
      *
-     * @return static
+     * @return \Illuminate\Support\Collection
      */
     public static function getSelectList()
     {
-        $countries = collect((new ISO3166())->all())
+        return collect((new ISO3166())->all())
             ->mapWithKeys(static function ($item, $key) {
                 return [strtolower($item['alpha2']) => $item['name']];
             });
-
-        return $countries;
     }
 }
