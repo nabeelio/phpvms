@@ -3,6 +3,7 @@
 namespace Modules\Importer\Services\Importers;
 
 use App\Models\User;
+use App\Services\AircraftService;
 use App\Services\UserService;
 use Modules\Importer\Services\BaseImporter;
 
@@ -51,11 +52,25 @@ class FinalizeImporter extends BaseImporter
     protected function recalculateUserStats()
     {
         $this->comment('--- RECALCULATING USER STATS ---');
+
+        /** @var UserService $userSvc */
         $userSvc = app(UserService::class);
 
         User::all()->each(function ($user) use ($userSvc) {
             $userSvc->recalculateStats($user);
         });
+    }
+
+    /**
+     * Update the aircraft stats with the newest/latest PIREPs
+     */
+    protected function recalculateAircraftStats()
+    {
+        $this->comment('--- RECALCULATING AIRCRAFT STATS ---');
+
+        /** @var AircraftService $aircraftSvc */
+        $aircraftSvc = app(AircraftService::class);
+        $aircraftSvc->recalculateStats();
     }
 
     /**

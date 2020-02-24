@@ -4,6 +4,7 @@ namespace App\Cron\Nightly;
 
 use App\Contracts\Listener;
 use App\Events\CronNightly;
+use App\Services\AircraftService;
 use App\Services\UserService;
 use Illuminate\Support\Facades\Log;
 
@@ -12,11 +13,13 @@ use Illuminate\Support\Facades\Log;
  */
 class RecalculateStats extends Listener
 {
+    private $aircraftSvc;
     private $userSvc;
 
-    public function __construct(UserService $userService)
+    public function __construct(AircraftService $aircraftSvc, UserService $userSvc)
     {
-        $this->userSvc = $userService;
+        $this->aircraftSvc = $aircraftSvc;
+        $this->userSvc = $userSvc;
     }
 
     /**
@@ -29,10 +32,10 @@ class RecalculateStats extends Listener
      */
     public function handle(CronNightly $event): void
     {
-        Log::info('Recalculating balances');
-
+        Log::info('Recalculating user stats');
         $this->userSvc->recalculateAllUserStats();
 
-        Log::info('Done recalculating stats');
+        Log::info('Recalcuating aircraft status');
+        $this->aircraftSvc->recalculateStats();
     }
 }
