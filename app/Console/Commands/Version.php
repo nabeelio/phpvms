@@ -58,7 +58,8 @@ class Version extends Command
             file_put_contents($version_file, Yaml::dump($cfg, 4, 2));
         }
 
-        $version = $this->versionSvc->getCurrentVersion(!$this->option('base-only'));
+        $incl_build = empty($this->option('base-only')) ? true : false;
+        $version = $this->versionSvc->getCurrentVersion($incl_build);
         echo $version."\n";
     }
 }
