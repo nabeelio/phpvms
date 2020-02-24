@@ -100,7 +100,7 @@ class ImporterDB
         $result = $this->conn->query($sql)->fetchAll();
 
         $rows = [];
-        foreach($result as $row) {
+        foreach ($result as $row) {
             $rows[] = $row->Field;
         }
 
@@ -137,19 +137,19 @@ class ImporterDB
         $this->connect();
 
         $where = [];
-        foreach($attrs as $col => $value) {
+        foreach ($attrs as $col => $value) {
             $where[] = $col.'=\''.$value.'\'';
         }
 
-        $where = join(' AND ', $where);
+        $where = implode(' AND ', $where);
 
-        $sql = join(' ', [
+        $sql = implode(' ', [
             'SELECT',
             '*',
             'FROM',
             $this->tableName($table),
             'WHERE',
-            $where
+            $where,
         ]);
 
         return $this->conn->query($sql);
@@ -158,8 +158,8 @@ class ImporterDB
     /**
      * Read all the rows in a table, but read them in a batched manner
      *
-     * @param string $table    The name of the table
-     * @param string $order_by Column to order by
+     * @param string $table        The name of the table
+     * @param string $order_by     Column to order by
      * @param int    $start_offset
      * @param string $fields
      *
@@ -191,8 +191,8 @@ class ImporterDB
 
     /**
      * @param string $table
-     * @param int    $limit  Number of rows to read
-     * @param int    $offset Where to start from
+     * @param int    $limit    Number of rows to read
+     * @param int    $offset   Where to start from
      * @param        $order_by
      * @param string $fields
      *
@@ -204,14 +204,14 @@ class ImporterDB
             $fields = implode(',', $fields);
         }
 
-        $sql = join(' ', [
+        $sql = implode(' ', [
             'SELECT',
             $fields,
             'FROM',
             $this->tableName($table),
             'ORDER BY '.$order_by.' ASC',
             'LIMIT '.$limit,
-            'OFFSET '.$offset
+            'OFFSET '.$offset,
         ]);
 
         try {

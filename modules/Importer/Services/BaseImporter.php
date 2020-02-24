@@ -39,7 +39,6 @@ abstract class BaseImporter implements ShouldQueue
      */
     protected $table;
 
-
     /**
      * The column used for the ID, used for the ORDER BY
      *
@@ -47,9 +46,6 @@ abstract class BaseImporter implements ShouldQueue
      */
     protected $idField = 'id';
 
-    /**
-     *
-     */
     public function __construct()
     {
         $importerService = app(ImporterService::class);

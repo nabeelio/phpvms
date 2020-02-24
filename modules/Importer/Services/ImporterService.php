@@ -131,6 +131,7 @@ class ImporterService extends Service
 
         /** @var $importerInst \Modules\Importer\Services\BaseImporter */
         $importerInst = new $importer();
+
         try {
             $importerInst->run($start);
         } catch (Exception $e) {
