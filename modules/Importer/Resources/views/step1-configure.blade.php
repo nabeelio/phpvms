@@ -10,6 +10,8 @@
         <td colspan="2">
           <h4>IMPORTANT NOTES</h4>
           <ul>
+            <li>The first user's password (admin) will be "admin". Please change it after logging in</li>
+            <li>User passwords will be reset and they will need to use "Forgot Password" to reset it</li>
             <li>If you have more than 1000 PIREPs or flights, it's best to use the command-line importer!
               <a href="http://docs.phpvms.net/setup/importing-from-v2-v5" target="_blank">Click here</a> to
               see the documentation of how to use it.
