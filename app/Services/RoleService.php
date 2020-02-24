@@ -39,7 +39,7 @@ class RoleService extends Service
     {
         // Update the permissions, filter out null/invalid values
         $perms = collect($permissions)->filter(static function ($v, $k) {
-            return $v;
+            return !empty($v);
         });
 
         $role->permissions()->sync($perms);

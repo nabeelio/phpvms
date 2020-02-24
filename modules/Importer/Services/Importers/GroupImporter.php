@@ -2,6 +2,7 @@
 
 namespace Modules\Importer\Services\Importers;
 
+use App\Models\Permission;
 use App\Models\Role;
 use App\Services\RoleService;
 use Modules\Importer\Services\BaseImporter;
@@ -66,9 +67,12 @@ class GroupImporter extends BaseImporter
     {
         $this->comment('--- ROLES/GROUPS IMPORT ---');
 
+        /** @var \App\Services\RoleService $roleSvc */
         $roleSvc = app(RoleService::class);
+        $permMappings = $this->getPermissions();
 
         $count = 0;
+        $permCount = 0;
         $rows = $this->db->readRows($this->table, $this->idField, $start);
         foreach ($rows as $row) {
             // Legacy "administrator" role is now "admin", just map that 1:1
@@ -98,22 +102,46 @@ class GroupImporter extends BaseImporter
             // Add all of the ones which apply, and then set them on the new role
             $permissions = [];
             foreach ($this->legacy_permission_set as $legacy_name => $mask) {
-                if (($row->permissions & $mask) === true) {
+                $val = $row->permissions & $mask;
+                if ($val === $mask) {
+                    // Map this legacy permission to what it is under the new system
                     if (!array_key_exists($legacy_name, $this->legacy_to_permission)) {
                         continue;
                     }
 
-                    $permissions[] = $this->legacy_to_permission[$legacy_name];
+                    // Get the ID of the permission
+                    $permissions[] = $permMappings[$this->legacy_to_permission[$legacy_name]];
                 }
             }
 
-            $roleSvc->setPermissionsForRole($role, $permissions);
+            if (count($permissions) > 0) {
+                $roleSvc->setPermissionsForRole($role, $permissions);
+                $permCount += count($permissions);
+            }
 
             if ($role->wasRecentlyCreated) {
                 $count++;
             }
         }
 
-        $this->info('Imported '.$count.' ranks');
+        $this->info('Imported '.$count.' roles, synced '.$permCount.' permissions');
+    }
+
+    /**
+     * Get all of the permissions from locally and return a kvp with the
+     * key being the permission short-name and the value being the ID
+     *
+     * @return array
+     */
+    private function getPermissions(): array
+    {
+        $mappings = [];
+        $permissions = Permission::all();
+        /** @var \App\Models\Permission $p */
+        foreach ($permissions as $p) {
+            $mappings[$p->name] = $p->id;
+        }
+
+        return $mappings;
     }
 }
