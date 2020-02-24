@@ -70,6 +70,7 @@ class UserImport extends BaseImporter
                 'rank_id'         => $rank_id,
                 'home_airport_id' => $row->hub,
                 'curr_airport_id' => $row->hub,
+                'country'         => $row->location,
                 'flights'         => (int) $row->totalflights,
                 'flight_time'     => Time::hoursToMinutes($row->totalhours),
                 'state'           => $state,
@@ -99,7 +100,6 @@ class UserImport extends BaseImporter
     {
         // Be default add them to the user role, and then determine if they
         // belong to any other groups, and add them to that
-        $roleMappings = [];
         $newRoles = [];
 
         // Figure out what other groups they belong to... read from the old table, and map
@@ -108,12 +108,11 @@ class UserImport extends BaseImporter
         foreach ($old_user_groups as $oldGroup) {
             $newRoleId = $this->idMapper->getMapping('group', $oldGroup->groupid);
 
-            // Only lookup a new role ID if found
-            // if (!in_array($newRoleId, $roleMappings)) {
-            //     $roleMappings[$newRoleId] = Role::where(['id' => $newRoleId])->first();
-            // }
+            // This role should be ignored
+            if ($newRoleId === -1) {
+                continue;
+            }
 
-            // $newRoles[] = $roleMappings[$newRoleId];
             $newRoles[] = $newRoleId;
         }
 
