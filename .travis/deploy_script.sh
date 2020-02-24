@@ -11,6 +11,7 @@ if test "$TRAVIS_TAG"; then
 
   # Pass in the tag as the version to write out
   php artisan phpvms:version --write --write-full-version "${VERSION}"
+  FULL_VERSION=$(php artisan phpvms:version)
 else
   echo "On branch $TRAVIS_BRANCH"
 
@@ -25,6 +26,7 @@ else
 
   # This now includes the pre-release version, so "-dev" by default
   VERSION=${BASE_VERSION}
+  FULL_VERSION=$(php artisan phpvms:version)
 
   # Don't pass in a version here, just write out the latest hash
   php artisan phpvms:version --write "${VERSION}"
@@ -137,4 +139,4 @@ else
   artifacts upload --target-paths "/" ${TRAVIS_BRANCH}_version
 fi
 
-curl -X POST --data "{\"content\": \"A new build is available at http://downloads.phpvms.net/$TAR_NAME ($VERSION)\"}" -H "Content-Type: application/json" $DISCORD_WEBHOOK_URL
+curl -X POST --data "{\"content\": \"A new build is available at http://downloads.phpvms.net/$TAR_NAME ($FULL_VERSION)\"}" -H "Content-Type: application/json" $DISCORD_WEBHOOK_URL
