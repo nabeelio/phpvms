@@ -28,6 +28,8 @@ else
   VERSION=${BASE_VERSION}
   FULL_VERSION=$(php artisan phpvms:version)
 
+  echo "Writing version as ${VERSION}"
+
   # Don't pass in a version here, just write out the latest hash
   php artisan phpvms:version --write "${VERSION}"
 fi
@@ -36,8 +38,9 @@ FILE_NAME="phpvms-${VERSION}"
 TAR_NAME="$FILE_NAME.tar.gz"
 ZIP_NAME="$FILE_NAME.zip"
 
-echo "Version: $VERSION"
-echo "Package name: $TAR_NAME"
+echo "Version: ${VERSION}"
+echo "Full Version: ${FULL_VERSION}"
+echo "Package name: ${TAR_NAME}"
 
 echo "==========================="
 
@@ -139,4 +142,4 @@ else
   artifacts upload --target-paths "/" ${TRAVIS_BRANCH}_version
 fi
 
-curl -X POST --data "{\"content\": \"A new build is available at http://downloads.phpvms.net/$TAR_NAME ($FULL_VERSION)\"}" -H "Content-Type: application/json" $DISCORD_WEBHOOK_URL
+curl -X POST --data "{\"content\": \"A new build is available at http://downloads.phpvms.net/$TAR_NAME (${FULL_VERSION})\"}" -H "Content-Type: application/json" $DISCORD_WEBHOOK_URL
