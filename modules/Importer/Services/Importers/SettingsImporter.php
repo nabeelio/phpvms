@@ -19,7 +19,7 @@ class SettingsImporter extends BaseImporter
         $count = 0;
         $rows = $this->db->readRows($this->table, $this->idField, $start);
         foreach ($rows as $row) {
-            switch($row->name) {
+            switch ($row->name) {
                 case 'ADMIN_EMAIL':
                     $settingsRepo->store('general.admin_email', $row->value);
                     break;

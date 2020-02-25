@@ -3,7 +3,6 @@
 namespace Modules\Importer\Services\Importers;
 
 use App\Models\Airline;
-use App\Models\Enums\ExpenseType;
 use App\Models\Expense;
 use App\Services\FinanceService;
 use App\Support\Money;
@@ -15,6 +14,7 @@ class ExpenseLogImporter extends BaseImporter
 
     /**
      * {@inheritdoc}
+     *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
     public function run($start = 0)
