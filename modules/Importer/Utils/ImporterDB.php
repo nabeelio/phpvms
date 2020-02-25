@@ -86,6 +86,27 @@ class ImporterDB
     }
 
     /**
+     * Does a table exist? Try to get the column information on it.
+     * The result will be 'false' if that table isn't there
+     *
+     * @param $table
+     *
+     * @return bool
+     */
+    public function tableExists($table): bool
+    {
+        $this->connect();
+
+        $sql = 'SHOW COLUMNS FROM '.$this->tableName($table);
+        $result = $this->conn->query($sql);
+        if (!$result) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Get the names of the columns for a particular table
      *
      * @param $table

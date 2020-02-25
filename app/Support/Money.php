@@ -16,7 +16,9 @@ class Money
     public static $subunit_multiplier;
 
     /**
-     * @param mixed $amount
+     * Create a new Money instance, passing in the amount in pennies
+     *
+     * @param mixed $amount The amount, in pennies
      *
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
@@ -31,7 +33,7 @@ class Money
     /**
      * Create from a dollar amount
      *
-     * @param mixed $amount
+     * @param mixed $amount The amount in pennies
      *
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException

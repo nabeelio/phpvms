@@ -72,6 +72,12 @@ abstract class BaseImporter implements ShouldQueue
     {
         $manifest = [];
 
+        // Ensure that the table exists; if it doesn't skip it from the manifest
+        if (!$this->db->tableExists($this->table)) {
+            Log::info('Table '.$this->table.' doesn\'t exist');
+            return [];
+        }
+
         $start = 0;
         $total_rows = $this->db->getTotalRows($this->table);
         Log::info('Found '.$total_rows.' rows for '.$this->table);

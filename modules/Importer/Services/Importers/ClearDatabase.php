@@ -14,6 +14,7 @@ use App\Models\FlightField;
 use App\Models\FlightFieldValue;
 use App\Models\Journal;
 use App\Models\JournalTransaction;
+use App\Models\Ledger;
 use App\Models\News;
 use App\Models\Pirep;
 use App\Models\Role;
@@ -62,6 +63,7 @@ class ClearDatabase extends BaseImporter
         Expense::truncate();
         JournalTransaction::truncate();
         Journal::truncate();
+        Ledger::truncate();
 
         // Clear flights
         DB::table('flight_fare')->truncate();

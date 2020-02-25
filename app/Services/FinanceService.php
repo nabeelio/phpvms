@@ -37,6 +37,7 @@ class FinanceService extends Service
      * @param string                              $memo
      * @param string                              $transaction_group
      * @param string|array                        $tag
+     * @param string                              $post_date
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      *
@@ -48,7 +49,8 @@ class FinanceService extends Service
         $reference,
         $memo,
         $transaction_group,
-        $tag
+        $tag,
+        $post_date = null
     ) {
         return $this->journalRepo->post(
             $journal,
@@ -72,6 +74,7 @@ class FinanceService extends Service
      * @param string                              $memo
      * @param string                              $transaction_group
      * @param string|array                        $tag
+     * @param string                              $post_date
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      *
@@ -83,7 +86,8 @@ class FinanceService extends Service
         $reference,
         $memo,
         $transaction_group,
-        $tag
+        $tag,
+        $post_date = null
     ) {
         return $this->journalRepo->post(
             $journal,
@@ -91,7 +95,7 @@ class FinanceService extends Service
             $amount,
             $reference,
             $memo,
-            null,
+            $post_date,
             $transaction_group,
             $tag
         );

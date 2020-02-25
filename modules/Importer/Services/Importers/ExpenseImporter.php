@@ -9,7 +9,7 @@ class ExpenseImporter extends BaseImporter
     protected $table = 'expenses';
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function run($start = 0)
     {
