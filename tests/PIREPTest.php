@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Acars;
+use App\Models\Aircraft;
 use App\Models\Bid;
 use App\Models\Enums\AcarsType;
 use App\Models\Enums\PirepState;
@@ -8,6 +9,7 @@ use App\Models\Pirep;
 use App\Models\User;
 use App\Notifications\Messages\PirepAccepted;
 use App\Repositories\SettingRepository;
+use App\Services\AircraftService;
 use App\Services\BidService;
 use App\Services\FlightService;
 use App\Services\PirepService;
@@ -299,6 +301,22 @@ class PIREPTest extends TestCase
 
         // Make sure rank went up
         $this->assertGreaterThan($user->rank_id, $pilot->rank_id);
+
+        // Check the aircraft
+        $aircraft = Aircraft::where('id', 1)->first();
+        $this->assertEquals(120, $aircraft->flight_time);
+
+        // Reset the aircraft flight time
+        $aircraft->flight_time = 10;
+        $aircraft->save();
+
+        // Recalculate the status
+        /** @var AircraftService $aircraftSvc */
+        $aircraftSvc = app(AircraftService::class);
+        $aircraftSvc->recalculateStats();
+
+        $aircraft = Aircraft::where('id', 1)->first();
+        $this->assertEquals(120, $aircraft->flight_time);
     }
 
     /**

@@ -24,7 +24,9 @@
       </tr>
 
       <tr>
-        <td colspan="2"><h4>Site Config</h4></td>
+        <td colspan="2"><h4>Site Config</h4>
+          <p>Enter the database information for your legacy (v2 or v5) database</p>
+        </td>
       </tr>
 
       <tr>
