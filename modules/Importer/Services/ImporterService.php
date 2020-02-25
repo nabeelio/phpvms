@@ -18,6 +18,7 @@ use Modules\Importer\Services\Importers\GroupImporter;
 use Modules\Importer\Services\Importers\LedgerImporter;
 use Modules\Importer\Services\Importers\PirepImporter;
 use Modules\Importer\Services\Importers\RankImport;
+use Modules\Importer\Services\Importers\SettingsImporter;
 use Modules\Importer\Services\Importers\UserImport;
 
 class ImporterService extends Service
@@ -44,6 +45,7 @@ class ImporterService extends Service
         PirepImporter::class,
         ExpenseImporter::class,
         LedgerImporter::class,
+        SettingsImporter::class,
         FinalizeImporter::class,
     ];
 
