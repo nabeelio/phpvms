@@ -17,7 +17,7 @@ class RankImport extends BaseImporter
         $count = 0;
         $rows = $this->db->readRows($this->table, $this->idField, $start);
         foreach ($rows as $row) {
-            $rank = Rank::firstOrCreate(['name' => $row->rank], [
+            $rank = Rank::updateOrCreate(['name' => $row->rank], [
                 'image_url'           => $row->rankimage,
                 'hours'               => $row->minhours,
                 'acars_base_payrate'  => $row->payrate,

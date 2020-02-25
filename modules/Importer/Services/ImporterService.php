@@ -11,6 +11,7 @@ use Modules\Importer\Services\Importers\AircraftImporter;
 use Modules\Importer\Services\Importers\AirlineImporter;
 use Modules\Importer\Services\Importers\AirportImporter;
 use Modules\Importer\Services\Importers\ClearDatabase;
+use Modules\Importer\Services\Importers\ExpenseImporter;
 use Modules\Importer\Services\Importers\FinalizeImporter;
 use Modules\Importer\Services\Importers\FlightImporter;
 use Modules\Importer\Services\Importers\GroupImporter;
@@ -36,10 +37,11 @@ class ImporterService extends Service
         GroupImporter::class,
         AirlineImporter::class,
         AircraftImporter::class,
-        AirportImporter::class,
-        FlightImporter::class,
+        // AirportImporter::class,
+        // FlightImporter::class,
         UserImport::class,
         PirepImporter::class,
+        ExpenseImporter::class,
         FinalizeImporter::class,
     ];
 
