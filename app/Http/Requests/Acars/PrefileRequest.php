@@ -8,15 +8,15 @@ class PrefileRequest extends FormRequest
 {
     public function rules(): array
     {
-        $rules = [
+        return [
             'airline_id'          => 'required|exists:airlines,id',
             'aircraft_id'         => 'required|exists:aircraft,id',
             'flight_id'           => 'sometimes|exists:flights,id',
             'flight_number'       => 'required',
-            'dpt_airport_id'      => 'required|size:4',
-            'arr_airport_id'      => 'required|size:4',
+            'dpt_airport_id'      => 'required',
+            'arr_airport_id'      => 'required',
             'source_name'         => 'required',
-            'alt_airport_id'      => 'sometimes|size:4',
+            'alt_airport_id'      => 'sometimes',
             'status'              => 'sometimes',
             'level'               => 'nullable|numeric',
             'flight_type'         => 'sometimes',
@@ -41,7 +41,5 @@ class PrefileRequest extends FormRequest
             'fares.*.id'    => 'required',
             'fares.*.count' => 'required|numeric',
         ];
-
-        return $rules;
     }
 }
