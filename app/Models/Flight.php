@@ -93,8 +93,8 @@ class Flight extends Model
         'flight_number'  => 'required',
         'route_code'     => 'nullable',
         'route_leg'      => 'nullable',
-        'dpt_airport_id' => 'required|size:4|exists:airports,id',
-        'arr_airport_id' => 'required|size:4|exists:airports,id',
+        'dpt_airport_id' => 'required|exists:airports,id',
+        'arr_airport_id' => 'required|exists:airports,id',
         'level'          => 'nullable',
     ];
 
