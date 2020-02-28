@@ -64,7 +64,7 @@ class InstallerController extends Controller
         $this->seederSvc = $seederSvc;
         $this->userService = $userService;
 
-        \App\Support\Utils::disableDebugToolbar();
+        Utils::disableDebugToolbar();
     }
 
     /**

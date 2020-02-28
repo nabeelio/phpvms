@@ -12,6 +12,7 @@
         "ext-json": "*",
         "ext-mbstring": "*",
         "ext-simplexml": "*",
+        "ext-bcmath": "*",
         "ext-pdo": "*",
         "composer/composer": "~1.8.0",
         "composer/installers": "~1.0",

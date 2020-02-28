@@ -10,7 +10,7 @@
       </tr>
       <tr>
         <td>PHP Version: {{ $php['version'] }}</td>
-        <td style="text-align:center;">
+        <td style="text-align:right;">
           @if($php['passed'] === true)
             <span class="badge badge-success">OK</span>
           @else
@@ -25,7 +25,7 @@
       @foreach($extensions as $ext)
         <tr>
           <td>{{ $ext['ext'] }}</td>
-          <td style="text-align:center;">
+          <td style="text-align:right;">
             @if($ext['passed'] === true)
               <span class="badge badge-success">OK</span>
             @else
@@ -44,7 +44,7 @@
       @foreach($directories as $dir)
         <tr>
           <td>{{ $dir['dir'] }}</td>
-          <td style="text-align:center;">
+          <td style="text-align:right;">
             @if($dir['passed'] === true)
               <span class="badge badge-success">OK</span>
             @else

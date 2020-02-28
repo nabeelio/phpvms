@@ -32,7 +32,7 @@
       </tr>
 
       <tr>
-        <td><p>Select Database Type</p></td>
+        <td><p>Database Type</p></td>
         <td style="text-align:center;">
           <div class="form-group">
             {{ Form::select('db_conn', $db_types, null, ['class' => 'form-control', 'id' => 'db_conn']) }}

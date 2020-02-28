@@ -15,7 +15,7 @@ return [
     ],
 
     'extensions' => [
-        'bcmath',
+        // 'bcmath',
         'openssl',
         'pdo',
         'mbstring',
