@@ -50,7 +50,7 @@
             </div>
             <div class="card-body">
               <hr />
-              @include('installer::flash.message')
+              @include('updater::flash.message')
               @yield('content')
             </div>
           </div>
