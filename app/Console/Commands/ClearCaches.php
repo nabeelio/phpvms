@@ -11,7 +11,7 @@ class ClearCaches extends Command
     protected $description = 'Clear all caches';
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function handle()
     {
