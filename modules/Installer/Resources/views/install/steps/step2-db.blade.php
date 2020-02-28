@@ -28,7 +28,10 @@
       </tr>
 
       <tr>
-        <td colspan="2"><h4>Database Config</h4></td>
+        <td colspan="2">
+          <h4>Database Config</h4>
+          <p>Enter the target database information</p>
+        </td>
       </tr>
 
       <tr>

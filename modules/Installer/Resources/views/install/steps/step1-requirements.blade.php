@@ -20,7 +20,7 @@
       </tr>
 
       <tr>
-        <td colspan="2"><h4>php extensions</h4></td>
+        <td colspan="2"><h4>PHP Extensions</h4></td>
       </tr>
       @foreach($extensions as $ext)
         <tr>
@@ -37,7 +37,7 @@
 
       <tr>
         <td colspan="2">
-          <h4>directory permissions</h4>
+          <h4>Directory Permissions</h4>
           <p>Make sure these directories have read and write permissions</p>
         </td>
       </tr>
