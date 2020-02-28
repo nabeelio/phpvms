@@ -1,6 +1,6 @@
 {
     "name": "VENDOR/$LOWER_NAME$-module",
-    "type": "laravel-module",
+    "type": "phpvms-module",
     "description": "",
     "authors": [
         {
@@ -9,7 +9,7 @@
         }
     ],
     "require": {
-        "joshbrw/laravel-module-installer": "0.1.x"
+        "composer/installers": "~1.0"
     },
     "extra": {
         "laravel": {
@@ -24,7 +24,7 @@
     },
     "autoload": {
         "psr-4": {
-            "$MODULE_NAMESPACE$\\$STUDLY_NAME$\\": ""
+            "$MODULE_NAMESPACE$\\$STUDLY_NAME$\\": "."
         }
     }
 }

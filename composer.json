@@ -4,7 +4,8 @@
     "keywords": ["phpvms", "virtual", "airlines"],
     "license": "BSD-3-Clause",
     "type": "project",
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "homepage": "http://www.phpvms.net",
     "require": {
         "php": ">=7.2",
@@ -19,6 +20,7 @@
         "anhskohbo/no-captcha": "^3.0",
         "appstract/laravel-opcache": "^2.0",
         "arrilot/laravel-widgets": "~3.13.0",
+        "codedge/laravel-selfupdater": "^2.5",
         "doctrine/dbal": "~2.9.2",
         "elcobvg/laravel-opcache": "~0.4",
         "facade/ignition": "^1.6",
@@ -40,6 +42,7 @@
         "nabeel/vacentral": "~2.0",
         "nwidart/laravel-modules": "^6.0",
         "php-units-of-measure/php-units-of-measure": "~2.1.0",
+        "phpvms/sample-module": "^1.0",
         "pragmarx/version": "0.2.*",
         "prettus/l5-repository": "~2.6.0",
         "santigarcor/laratrust": "~5.2.0",
@@ -50,8 +53,7 @@
         "symfony/polyfill-iconv": "~1.12",
         "theiconic/php-ga-measurement-protocol": "2.7.*",
         "tivie/php-os-detector": "~1.1.0",
-        "webpatser/laravel-uuid": "~3.0",
-        "codedge/laravel-selfupdater": "^2.5"
+        "webpatser/laravel-uuid": "~3.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.0",
@@ -88,11 +90,9 @@
     },
      "extra": {
          "installer-paths": {
-             "modules/{$name}/": [
-                 "type:laravel-library",
-                 "type:phpvms-plugin"
-             ]
-         }
+             "modules/{$name}/": ["type:phpvms-module"]
+         },
+         "module-dir": "modules"
     },
     "scripts": {
         "post-autoload-dump": [
