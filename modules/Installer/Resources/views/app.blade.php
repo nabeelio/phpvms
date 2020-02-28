@@ -35,9 +35,9 @@
   </style>
 </head>
 
-<body>
+<body class="login-page" style="background: #067ec1;">
 <!-- Navbar -->
-<nav class="navbar navbar-toggleable-md" style="background: #067ec1;">
+{{--<nav class="navbar navbar-toggleable-md" style="background: #067ec1;">
   <div class="container" style="width: 85%!important;">
     <div class="navbar-translate">
       <p class="navbar-brand text-white" data-placement="bottom" target="_blank">
@@ -50,16 +50,25 @@
       @yield('title')
     </div>
   </div>
-</nav>
+</nav>--}}
 <!-- End Navbar -->
 {{--<div class="clearfix" style="height: 25px;"></div>--}}
 <div class="wrapper">
   <div class="clear"></div>
-  <div class="container" style="width: 50%">
+  <div class="page-header">
+    <div class="container">
     <div class="row">
-      <div class="col-12">
-        @include('installer::flash.message')
-        @yield('content')
+        <div class="col-md-8 ml-auto mr-auto content-center">
+          <div class="p-10" style="padding: 10px 0;">
+            <img src="{{ public_asset('/assets/img/logo_blue_bg.svg') }}" width="135px" style="" alt=""/>
+          </div>
+          <div class="card card-login card-plain" style="background: #FFF">
+            <div class="card-body">
+              @include('installer::flash.message')
+              @yield('content')
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
