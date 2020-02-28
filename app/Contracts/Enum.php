@@ -49,9 +49,9 @@ abstract class Enum
             $val = static::$labels[$value];
             if (strpos($val, '.') !== false) {
                 return trans($val);
-            } else {
-                return $val;
             }
+
+            return $val;
         }
     }
 
