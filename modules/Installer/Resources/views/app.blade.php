@@ -52,18 +52,33 @@
   </div>
 </nav>--}}
 <!-- End Navbar -->
-{{--<div class="clearfix" style="height: 25px;"></div>--}}
-<div class="wrapper">
-  <div class="clear"></div>
-  <div class="page-header">
+<div class="page-header clear-filter">
+{{--  <div class="page-header-image" style="background-image:url({{ public_asset('/assets/installer/bg.jpg') }})"></div>--}}
+  <div class="content">
     <div class="container">
-    <div class="row">
+      <div class="row">
         <div class="col-md-8 ml-auto mr-auto content-center">
           <div class="p-10" style="padding: 10px 0;">
             <img src="{{ public_asset('/assets/img/logo_blue_bg.svg') }}" width="135px" style="" alt=""/>
           </div>
           <div class="card card-login card-plain" style="background: #FFF">
+            <div class="card-header text-center">
+              <h3 class="card-title title">@yield('title')</h3>
+
+              {{--<div class="text-large">
+                <a href="#" onclick="return false;" class="btn btn-neutral btn-facebook btn-icon btn-round">
+                  <i class="now-ui-icons design_bullet-list-02"></i>
+                </a>
+                <a href="#" onclick="return false;" class="btn btn-neutral btn-twitter btn-icon btn-lg btn-round">
+                  <i class="now-ui-icons users_single-02"></i>
+                </a>
+                <a href="#" onclick="return false;" class="btn btn-neutral btn-google btn-icon btn-round">
+                  <i class="now-ui-icons users_single-02"></i>
+                </a>
+              </div>--}}
+            </div>
             <div class="card-body">
+              <hr />
               @include('installer::flash.message')
               @yield('content')
             </div>
@@ -72,7 +87,6 @@
       </div>
     </div>
   </div>
-  <div class="clearfix" style="height: 200px;"></div>
 </div>
 
 {{--<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>--}}
