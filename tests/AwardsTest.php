@@ -6,7 +6,9 @@ use App\Services\PirepService;
 
 class AwardsTest extends TestCase
 {
+    /** @var AwardService */
     private $awardSvc;
+
     private $pirepSvc;
 
     public function setUp(): void

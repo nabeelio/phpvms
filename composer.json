@@ -4,7 +4,8 @@
     "keywords": ["phpvms", "virtual", "airlines"],
     "license": "BSD-3-Clause",
     "type": "project",
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "homepage": "http://www.phpvms.net",
     "require": {
         "php": ">=7.2",
@@ -13,11 +14,13 @@
         "ext-simplexml": "*",
         "ext-pdo": "*",
         "composer/composer": "~1.8.0",
+        "composer/installers": "~1.0",
         "laravel/framework": "~6.0",
         "akaunting/money": "^1.0",
         "anhskohbo/no-captcha": "^3.0",
         "appstract/laravel-opcache": "^2.0",
         "arrilot/laravel-widgets": "~3.13.0",
+        "codedge/laravel-selfupdater": "^2.5",
         "doctrine/dbal": "~2.9.2",
         "elcobvg/laravel-opcache": "~0.4",
         "facade/ignition": "^1.6",
@@ -50,7 +53,8 @@
         "theiconic/php-ga-measurement-protocol": "2.7.*",
         "tivie/php-os-detector": "~1.1.0",
         "webpatser/laravel-uuid": "~3.0",
-        "codedge/laravel-selfupdater": "^2.5"
+        "oomphinc/composer-installers-extender": "^1.1",
+        "phpvms/sample-module": "^1.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.0",
@@ -86,17 +90,28 @@
         ]
     },
      "extra": {
+         "installer-types": ["phpvms-module"],
          "installer-paths": {
-             "modules/{$name}/": [
-                 "type:laravel-library",
-                 "type:phpvms-plugin"
-             ]
-         }
+             "modules/{$name}/": ["type:phpvms-module"]
+         },
+         "module-dir": "modules"
     },
     "scripts": {
+        "pre-package-uninstall": [
+            "@php -r \"array_map('unlink', glob('bootstrap/cache/*'));\""
+        ],
+        "post-package-uninstall": [
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "@php artisan package:discover --ansi",
+            "@php artisan phpvms:caches"
+        ],
+        "pre-autoload-dump": [
+            "@php -r \"array_map('unlink', glob('bootstrap/cache/*'));\""
+        ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-            "@php artisan package:discover --ansi"
+            "@php artisan package:discover --ansi",
+            "@php artisan phpvms:caches"
         ]
     },
     "config": {
