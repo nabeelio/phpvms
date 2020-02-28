@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
   <meta name="csrf-token" content="{{ csrf_token() }}">
 
-  <title>@yield('title') - updater</title>
+  <title>@yield('title') - installer</title>
 
   <link rel="shortcut icon" type="image/png" href="{{ public_asset('/assets/img/favicon.png') }}"/>
 
@@ -35,35 +35,29 @@
   </style>
 </head>
 
-<body>
-<!-- Navbar -->
-<nav class="navbar navbar-toggleable-md" style="background: #067ec1;">
-  <div class="container" style="width: 85%!important;">
-    <div class="navbar-translate">
-      <p class="navbar-brand text-white" data-placement="bottom" target="_blank">
-        <a href="{{ url('/') }}">
-          <img src="{{ public_asset('/assets/img/logo_blue_bg.svg') }}" width="135px" style=""/>
-        </a>
-      </p>
-    </div>
-    <div class="justify-content-center" id="navigation" style="margin-left: 50px; color: white; font-size: 20px;">
-      @yield('title')
-    </div>
-  </div>
-</nav>
-<!-- End Navbar -->
-{{--<div class="clearfix" style="height: 25px;"></div>--}}
-<div class="wrapper">
-  <div class="clear"></div>
-  <div class="container" style="width: 50%">
-    <div class="row">
-      <div class="col-12">
-        @include('installer::flash.message')
-        @yield('content')
+<body class="login-page" style="background: #067ec1;">
+<div class="page-header clear-filter">
+  <div class="content">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8 ml-auto mr-auto content-center">
+          <div class="p-10" style="padding: 10px 0;">
+            <img src="{{ public_asset('/assets/img/logo_blue_bg.svg') }}" width="135px" style="" alt=""/>
+          </div>
+          <div class="card card-login card-plain" style="background: #FFF">
+            <div class="card-header text-center">
+              <h3 class="card-title title">@yield('title')</h3>
+            </div>
+            <div class="card-body">
+              <hr />
+              @include('installer::flash.message')
+              @yield('content')
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-  <div class="clearfix" style="height: 200px;"></div>
 </div>
 
 {{--<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>--}}

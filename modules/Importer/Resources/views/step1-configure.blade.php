@@ -4,8 +4,7 @@
 @section('content')
   <div style="align-content: center;">
     {{ Form::open(['route' => 'importer.config', 'method' => 'POST']) }}
-    <table class="table" width="25%">
-
+    <table class="table">
       <tr>
         <td colspan="2">
           <h4>IMPORTANT NOTES</h4>
@@ -24,23 +23,10 @@
       </tr>
 
       <tr>
-        <td colspan="2"><h4>Site Config</h4>
-          <p>Enter the database information for your legacy (v2 or v5) database</p>
+        <td colspan="2">
+          <h4>Database Config</h4>
+          <p>Enter the database information for your legacy phpVMS installation</p>
         </td>
-      </tr>
-
-      <tr>
-        <td>Admin Email</td>
-        <td style="text-align:center;">
-          <div class="form-group">
-            {{ Form::input('text', 'email', '', ['class' => 'form-control']) }}
-            <p>The admin's email address, the password for this will be reset</p>
-          </div>
-        </td>
-      </tr>
-
-      <tr>
-        <td colspan="2"><h4>Database Config</h4></td>
       </tr>
 
       <tbody id="mysql_settings">

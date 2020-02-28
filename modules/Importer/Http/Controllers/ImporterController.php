@@ -36,6 +36,18 @@ class ImporterController extends Controller
         return view('importer::step1-configure');
     }
 
+    protected function testDb(Request $request)
+    {
+        $this->dbSvc->checkDbConnection(
+            $request->post('db_conn'),
+            $request->post('db_host'),
+            $request->post('db_port'),
+            $request->post('db_name'),
+            $request->post('db_user'),
+            $request->post('db_pass')
+        );
+    }
+
     /**
      * Check the database connection
      *
@@ -49,14 +61,7 @@ class ImporterController extends Controller
         $message = 'Database connection looks good!';
 
         try {
-            $this->dbSvc->checkDbConnection(
-                $request->post('db_conn'),
-                $request->post('db_host'),
-                $request->post('db_port'),
-                $request->post('db_name'),
-                $request->post('db_user'),
-                $request->post('db_pass')
-            );
+            $this->testDb($request);
         } catch (\Exception $e) {
             $status = 'danger';
             $message = 'Failed! '.$e->getMessage();
@@ -78,6 +83,8 @@ class ImporterController extends Controller
     public function config(Request $request)
     {
         try {
+            $this->testDb($request);
+
             // Save the credentials to use later
             $this->importerSvc->saveCredentialsFromRequest($request);
 

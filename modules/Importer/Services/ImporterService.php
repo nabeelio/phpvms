@@ -62,7 +62,6 @@ class ImporterService extends Service
     public function saveCredentialsFromRequest(Request $request)
     {
         $creds = [
-            'admin_email'  => $request->post('email'),
             'host'         => $request->post('db_host'),
             'port'         => $request->post('db_port'),
             'name'         => $request->post('db_name'),

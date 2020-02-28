@@ -64,18 +64,6 @@
           <div class="card card-login card-plain" style="background: #FFF">
             <div class="card-header text-center">
               <h3 class="card-title title">@yield('title')</h3>
-
-              {{--<div class="text-large">
-                <a href="#" onclick="return false;" class="btn btn-neutral btn-facebook btn-icon btn-round">
-                  <i class="now-ui-icons design_bullet-list-02"></i>
-                </a>
-                <a href="#" onclick="return false;" class="btn btn-neutral btn-twitter btn-icon btn-lg btn-round">
-                  <i class="now-ui-icons users_single-02"></i>
-                </a>
-                <a href="#" onclick="return false;" class="btn btn-neutral btn-google btn-icon btn-round">
-                  <i class="now-ui-icons users_single-02"></i>
-                </a>
-              </div>--}}
             </div>
             <div class="card-body">
               <hr />
