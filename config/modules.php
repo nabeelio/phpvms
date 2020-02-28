@@ -94,6 +94,7 @@ return [
         'enabled' => false,
         'paths'   => [
             base_path('vendor/*/*'),
+            base_path('modules/*'),
         ],
     ],
     /*
