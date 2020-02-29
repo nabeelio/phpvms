@@ -4,9 +4,9 @@ namespace App\Services\Metar;
 
 use App\Contracts\Metar;
 use App\Support\HttpClient;
+use function count;
 use Exception;
 use Illuminate\Support\Facades\Log;
-use function count;
 
 /**
  * Return the raw METAR string from the NOAA Aviation Weather Service
@@ -57,7 +57,7 @@ class AviationWeather extends Metar
                 return '';
             }
 
-            $num_results = intval($num_results);
+            $num_results = (int) $num_results;
             if ($num_results === 0) {
                 return '';
             }

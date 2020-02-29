@@ -196,5 +196,4 @@ class MetarTest extends TestCase
         $metar = $airportSvc->getMetar('7AK4');
         $this->assertNull($metar);
     }
-
 }
