@@ -58,6 +58,7 @@ class Aircraft extends Model
     public static $rules = [
         'subfleet_id'  => 'required',
         'name'         => 'required',
+        'status'       => 'required',
         'registration' => 'required',
     ];
 
