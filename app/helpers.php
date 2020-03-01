@@ -1,6 +1,7 @@
 <?php
 
 use App\Exceptions\SettingNotFound;
+use App\Repositories\SettingRepository;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\Factory;
 
@@ -157,7 +158,7 @@ if (!function_exists('setting')) {
      */
     function setting($key, $default = null)
     {
-        $settingRepo = app('setting');
+        $settingRepo = app(SettingRepository::class);
 
         try {
             $value = $settingRepo->retrieve($key);

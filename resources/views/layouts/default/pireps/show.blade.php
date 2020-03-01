@@ -91,7 +91,7 @@
           </form>
         </div>
       @endif
-      <table class="table table-striped table-condensed">
+      <table class="table table-striped">
 
         <tr>
           <td width="30%">@lang('common.state')</td>

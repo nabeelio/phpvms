@@ -1,5 +1,5 @@
 <div class="table-responsive">
-  <table class="table table-sm table-hover table-striped">
+  <table class="table table-hover table-striped">
     <thead>
     <tr>
       <th>{{ trans_choice('common.flight', 1) }}</th>
@@ -36,7 +36,7 @@
           @endif
         </td>
         <td class="text-center">
-          {{ (new \App\Support\Units\Time($pirep->flight_time)) }}
+          @minutestotime($pirep->flight_time)
         </td>
         <td class="text-center">
           @if($pirep->state === PirepState::PENDING)

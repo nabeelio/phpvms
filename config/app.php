@@ -82,6 +82,7 @@ return [
         App\Providers\DirectiveServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\MeasurementsProvider::class,
+        App\Providers\ObserverServiceProviders::class,
         App\Providers\RouteServiceProvider::class,
     ],
 
