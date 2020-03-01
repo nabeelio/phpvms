@@ -80,7 +80,7 @@ class AircraftController extends Controller
         return view('admin.aircraft.create', [
             'airports'    => $this->airportRepo->selectBoxList(),
             'subfleets'   => Subfleet::all()->pluck('name', 'id'),
-            'statuses'    => AircraftStatus::select(true),
+            'statuses'    => AircraftStatus::select(false),
             'subfleet_id' => $request->query('subfleet'),
         ]);
     }
@@ -88,7 +88,11 @@ class AircraftController extends Controller
     /**
      * Store a newly created Aircraft in storage.
      *
+     * @param \App\Http\Requests\CreateAircraftRequest $request
+     *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function store(CreateAircraftRequest $request)
     {
@@ -140,14 +144,15 @@ class AircraftController extends Controller
             'aircraft'  => $aircraft,
             'airports'  => $this->airportRepo->selectBoxList(),
             'subfleets' => Subfleet::all()->pluck('name', 'id'),
-            'statuses'  => AircraftStatus::select(true),
+            'statuses'  => AircraftStatus::select(false),
         ]);
     }
 
     /**
      * Update the specified Aircraft in storage.
      *
-     * @param mixed $id
+     * @param mixed                 $id
+     * @param UpdateAircraftRequest $request
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      *
