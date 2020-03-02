@@ -178,7 +178,7 @@ if (!function_exists('setting')) {
 if (!function_exists('setting_save')) {
     function setting_save($key, $value)
     {
-        $settingRepo = app('setting');
+        $settingRepo = app(SettingRepository::class);
         $settingRepo->save($key, $value);
         return $value;
     }
