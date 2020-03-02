@@ -23,7 +23,7 @@ class InstalledCheck implements Middleware
             && !$request->is(['install', 'install/*'])
             && !$request->is(['update', 'update/*'])
         ) {
-            return view('system.errors.not_installed');
+            return response(view('system.errors.not_installed'));
         }
 
         return $next($request);

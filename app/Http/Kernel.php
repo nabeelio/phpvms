@@ -35,13 +35,13 @@ class Kernel extends HttpKernel
             'json',
         ],
         'web' => [
+            InstalledCheck::class,
             EncryptCookies::class,
             AddQueuedCookiesToResponse::class,
             StartSession::class,
             ShareErrorsFromSession::class,
             // VerifyCsrfToken::class,
             SubstituteBindings::class,
-            InstalledCheck::class,
         ],
     ];
 
