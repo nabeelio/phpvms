@@ -12,7 +12,7 @@ class Fare extends Resource
             'code'     => $this->code,
             'name'     => $this->name,
             'price'    => $this->price,
-            'cost'     => $this->code,
+            'cost'     => $this->cost,
             'capacity' => $this->capacity,
             'notes'    => $this->notes,
             'active'   => $this->active,
