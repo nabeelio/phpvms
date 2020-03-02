@@ -5,9 +5,10 @@
  */
 
 /**
- * If you move the public folder, or all the files in the public
- * folder, be sure to go into the bootstrap/app.php file, and change
- * the 'path.public' path to where it lives.
+ * If you move the public folder, or all the files in the public folder,
+ * be sure to change this to point to the right place. View these docs:
+ *
+ * http://docs.phpvms.net/setup/installation/cpanel-setup
  */
 $path_to_phpvms_folder = __DIR__.'/../';
 
