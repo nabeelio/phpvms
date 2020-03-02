@@ -5,13 +5,14 @@ namespace App\Models;
 use App\Contracts\Model;
 
 /**
- * Class Fare
- *
- * @property int capacity
+ * @property string  name
  * @property float   cost
  * @property float   price
- * @property mixed   code
- * @property mixed   count Only when merged with pivot
+ * @property int     code
+ * @property int     capacity
+ * @property int     count Only when merged with pivot
+ * @property string  notes
+ * @property bool    active
  */
 class Fare extends Model
 {
