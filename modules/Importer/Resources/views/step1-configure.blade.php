@@ -102,12 +102,14 @@
 @endsection
 
 @section('scripts')
-  <script>
-    $(document).ready(() => {
-
-      $("#dbtest_button").click((e) => {
-        e.preventDefault();
-        const opts = {
+<script>
+  $(document).ready(() => {
+    $("#dbtest_button").click((e) => {
+      e.preventDefault();
+      const opts = {
+        method: 'POST',
+        url: '/importer/dbtest',
+        data: {
           _token: "{{ csrf_token() }}",
           db_conn: 'mysql',
           db_host: $("input[name=db_host]").val(),
@@ -115,12 +117,13 @@
           db_name: $("input[name=db_name]").val(),
           db_user: $("input[name=db_user]").val(),
           db_pass: $("input[name=db_pass]").val(),
-        };
+        },
+      };
 
-        $.post("{{ route('importer.dbtest') }}", opts, (data) => {
-          $("#dbtest").html(data);
-        })
-      })
+      phpvms.request(opts).then(response => {
+        $("#dbtest").html(response.data);
+      });
     });
-  </script>
+  });
+</script>
 @endsection

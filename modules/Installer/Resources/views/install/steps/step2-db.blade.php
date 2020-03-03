@@ -139,18 +139,22 @@
       $("#dbtest_button").click((e) => {
         e.preventDefault();
         const opts = {
-          _token: "{{ csrf_token() }}",
-          db_conn: $("#db_conn option:selected").text(),
-          db_host: $("input[name=db_host]").val(),
-          db_port: $("input[name=db_port]").val(),
-          db_name: $("input[name=db_name]").val(),
-          db_user: $("input[name=db_user]").val(),
-          db_pass: $("input[name=db_pass]").val(),
+          method: 'POST',
+          url: '/importer/dbtest',
+          data: {
+            _token: "{{ csrf_token() }}",
+            db_conn: 'mysql',
+            db_host: $("input[name=db_host]").val(),
+            db_port: $("input[name=db_port]").val(),
+            db_name: $("input[name=db_name]").val(),
+            db_user: $("input[name=db_user]").val(),
+            db_pass: $("input[name=db_pass]").val(),
+          },
         };
 
-        $.post("{{ route('installer.dbtest') }}", opts, (data) => {
-          $("#dbtest").html(data);
-        })
+        phpvms.request(opts).then(response => {
+          $("#dbtest").html(response.data);
+        });
       })
     });
   </script>
