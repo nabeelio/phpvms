@@ -33,12 +33,6 @@ class ImporterController extends Controller
      */
     public function index(Request $request)
     {
-        if ($request->isSecure()) {
-            Log::info('request is secure');
-        } else {
-            Log::info('request is not secure');
-        }
-
         return view('importer::step1-configure');
     }
 
