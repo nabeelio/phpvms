@@ -49,7 +49,6 @@
               <h3 class="card-title title">@yield('title')</h3>
             </div>
             <div class="card-body">
-              <hr />
               @include('updater::flash.message')
               @yield('content')
             </div>
