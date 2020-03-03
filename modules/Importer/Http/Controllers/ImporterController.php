@@ -37,10 +37,6 @@ class ImporterController extends Controller
             Log::info("$name: $value\n");
         }
 
-        foreach ($_SERVER as $name => $value) {
-            Log::info("$name: $value\n");
-        }
-
         return view('importer::step1-configure');
     }
 
