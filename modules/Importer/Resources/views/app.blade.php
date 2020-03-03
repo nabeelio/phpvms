@@ -42,14 +42,17 @@
       <div class="row">
         <div class="col-md-8 ml-auto mr-auto content-center">
           <div class="p-10" style="padding: 10px 0;">
-            <img src="{{ public_asset('/assets/img/logo_blue_bg.svg') }}" width="135px" style="" alt=""/>
+            <div class="row">
+              <div class="col-4">
+                <img src="{{ public_asset('/assets/img/logo_blue_bg.svg') }}" width="135px" style="" alt=""/>
+              </div>
+              <div class="col-8 text-right">
+                <h4 class="text-white mb-0 mr-0 ml-0" style="margin-top: 5px;">@yield('title')</h4>
+              </div>
+            </div>
           </div>
           <div class="card card-login card-plain" style="background: #FFF">
-            <div class="card-header text-center">
-              <h3 class="card-title title">@yield('title')</h3>
-            </div>
             <div class="card-body">
-              <hr />
               @include('importer::flash.message')
               @yield('content')
             </div>
@@ -63,9 +66,8 @@
 {{--<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>--}}
 
 <script src="{{ public_mix('/assets/global/js/vendor.js') }}"></script>
-<script src="{{ public_mix('/assets/frontend/js/vendor.js') }}"></script>
-<script src="{{ public_mix('/assets/frontend/js/app.js') }}"></script>
-<script src="{{ public_asset('/assets/installer/js/vendor.js') }}" type="text/javascript"></script>
+<script src="{{ public_mix('/assets/installer/js/vendor.js') }}"></script>
+<script src="{{ public_mix('/assets/installer/js/app.js') }}"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
 
 <script>

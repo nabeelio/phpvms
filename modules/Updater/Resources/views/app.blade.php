@@ -63,9 +63,8 @@
 {{--<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>--}}
 
 <script src="{{ public_mix('/assets/global/js/vendor.js') }}"></script>
-<script src="{{ public_mix('/assets/frontend/js/vendor.js') }}"></script>
-<script src="{{ public_mix('/assets/frontend/js/app.js') }}"></script>
-<script src="{{ public_asset('/assets/installer/js/vendor.js') }}" type="text/javascript"></script>
+<script src="{{ public_mix('/assets/installer/js/vendor.js') }}"></script>
+<script src="{{ public_mix('/assets/installer/js/app.js') }}"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
 
 <script>
