@@ -55,7 +55,8 @@
         "tivie/php-os-detector": "~1.1.0",
         "webpatser/laravel-uuid": "~3.0",
         "oomphinc/composer-installers-extender": "^1.1",
-        "phpvms/sample-module": "^1.0"
+        "phpvms/sample-module": "^1.0",
+        "fideloper/proxy": "^4.3"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.0",
