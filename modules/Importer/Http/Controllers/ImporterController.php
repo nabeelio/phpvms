@@ -33,6 +33,10 @@ class ImporterController extends Controller
      */
     public function index(Request $request)
     {
+        foreach (getallheaders() as $name => $value) {
+            Log::info("$name: $value\n");
+        }
+
         return view('importer::step1-configure');
     }
 

@@ -140,4 +140,6 @@ else
   artifacts upload --target-paths "/" ${TRAVIS_BRANCH}_version
 fi
 
-curl -X POST --data "{\"content\": \"A new build is available at http://downloads.phpvms.net/$TAR_NAME (${FULL_VERSION})\"}" -H "Content-Type: application/json" $DISCORD_WEBHOOK_URL
+if [ "$TRAVIS_BRANCH" == "master" ] || [ "$TRAVIS_BRANCH" == "dev" ]; then
+  curl -X POST --data "{\"content\": \"A new build is available at http://downloads.phpvms.net/$TAR_NAME (${FULL_VERSION})\"}" -H "Content-Type: application/json" $DISCORD_WEBHOOK_URL
+  fi
