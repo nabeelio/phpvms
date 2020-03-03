@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "da599f3debb0ee10c34fce9127e7edd4",
+    "content-hash": "add2551f0dcadfb273fa70e8264c7ce5",
     "packages": [
         {
             "name": "akaunting/money",
@@ -558,30 +558,30 @@
         },
         {
             "name": "codedge/laravel-selfupdater",
-            "version": "2.6.1",
+            "version": "2.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/codedge/laravel-selfupdater.git",
-                "reference": "59ab56c0d377446429a205d2d298cc7b367439e3"
+                "reference": "0d7d4eb7ea9e9ab42177df560d0b2e06296a84bd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/codedge/laravel-selfupdater/zipball/59ab56c0d377446429a205d2d298cc7b367439e3",
-                "reference": "59ab56c0d377446429a205d2d298cc7b367439e3",
+                "url": "https://api.github.com/repos/codedge/laravel-selfupdater/zipball/0d7d4eb7ea9e9ab42177df560d0b2e06296a84bd",
+                "reference": "0d7d4eb7ea9e9ab42177df560d0b2e06296a84bd",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "ext-zip": "*",
                 "guzzlehttp/guzzle": "6.*",
-                "laravel/framework": "^6.0|^7.0",
-                "php": ">=7.3"
+                "laravel/framework": "^5.8|6.*",
+                "php": ">=7.2"
             },
             "require-dev": {
                 "dg/bypass-finals": "^1.1",
-                "mockery/mockery": "^1.3",
-                "orchestra/testbench": "4.*|5.*",
-                "phpunit/phpunit": "^8.4|^9.0"
+                "mockery/mockery": "^1.0",
+                "orchestra/testbench": "^4.0",
+                "phpunit/phpunit": "^8.0"
             },
             "type": "library",
             "extra": {
@@ -622,7 +622,7 @@
                 "self-update",
                 "update"
             ],
-            "time": "2020-03-03T08:34:27+00:00"
+            "time": "2020-03-02T22:07:04+00:00"
         },
         {
             "name": "composer/ca-bundle",

@@ -21,7 +21,7 @@
         "anhskohbo/no-captcha": "^3.0",
         "appstract/laravel-opcache": "^2.0",
         "arrilot/laravel-widgets": "~3.13.0",
-        "codedge/laravel-selfupdater": "^2.5",
+        "codedge/laravel-selfupdater": "~2.5.1",
         "doctrine/dbal": "~2.9.2",
         "elcobvg/laravel-opcache": "~0.4",
         "facade/ignition": "^1.6",
