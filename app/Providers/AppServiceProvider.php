@@ -5,7 +5,6 @@ namespace App\Providers;
 use App\Services\ModuleService;
 use App\Support\Utils;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -16,9 +15,9 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191);
         View::share('moduleSvc', app(ModuleService::class));
 
-        if (!empty(config('app.url'))) {
-            URL::forceRootUrl(config('app.url'));
-        }
+        // if (!empty(config('app.url'))) {
+        //     URL::forceRootUrl(config('app.url'));
+        // }
     }
 
     /**

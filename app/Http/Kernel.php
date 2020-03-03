@@ -7,6 +7,7 @@ use App\Http\Middleware\EncryptCookies;
 use App\Http\Middleware\InstalledCheck;
 use App\Http\Middleware\JsonResponse;
 use App\Http\Middleware\RedirectIfAuthenticated;
+use App\Http\Middleware\TrustProxies;
 use App\Http\Middleware\UpdatePending;
 use Illuminate\Auth\Middleware\Authenticate;
 use Illuminate\Auth\Middleware\Authorize;
@@ -23,6 +24,7 @@ use Illuminate\View\Middleware\ShareErrorsFromSession;
 class Kernel extends HttpKernel
 {
     protected $middleware = [
+        TrustProxies::class,
         CheckForMaintenanceMode::class,
         TrimStrings::class,
         ConvertEmptyStringsToNull::class,
