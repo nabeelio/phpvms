@@ -14,10 +14,6 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
         View::share('moduleSvc', app(ModuleService::class));
-
-        // if (!empty(config('app.url'))) {
-        //     URL::forceRootUrl(config('app.url'));
-        // }
     }
 
     /**
