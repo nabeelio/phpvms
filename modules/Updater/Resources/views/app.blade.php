@@ -42,12 +42,16 @@
       <div class="row">
         <div class="col-md-8 ml-auto mr-auto content-center">
           <div class="p-10" style="padding: 10px 0;">
-            <img src="{{ public_asset('/assets/img/logo_blue_bg.svg') }}" width="135px" style="" alt=""/>
+            <div class="row">
+              <div class="col-4">
+                <img src="{{ public_asset('/assets/img/logo_blue_bg.svg') }}" width="135px" style="" alt=""/>
+              </div>
+              <div class="col-8 text-right">
+                <h4 class="text-white mb-0 mr-0 ml-0" style="margin-top: 5px;">@yield('title')</h4>
+              </div>
+            </div>
           </div>
           <div class="card card-login card-plain" style="background: #FFF">
-            <div class="card-header text-center">
-              <h3 class="card-title title">@yield('title')</h3>
-            </div>
             <div class="card-body">
               @include('updater::flash.message')
               @yield('content')
