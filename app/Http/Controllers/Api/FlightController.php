@@ -97,7 +97,6 @@ class FlightController extends Controller
                     'field_values',
                 ])
                 ->paginate();
-
         } catch (RepositoryException $e) {
             return response($e, 503);
         }
