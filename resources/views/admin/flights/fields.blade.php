@@ -235,7 +235,7 @@
     <div class="checkbox">
       <label class="checkbox-inline">
         {{ Form::label('active', 'Active:') }}
-        {{ Form::hidden('active', 0, false) }}
+        <input name="active" type="hidden" value="0" />
         {{ Form::checkbox('active') }}
       </label>
     </div>
