@@ -15,23 +15,16 @@ class SetActiveTheme implements Middleware
 {
     public function handle(Request $request, Closure $next)
     {
-        if (!$request->session()->has('theme')) {
-            try {
-                $theme = setting('general.theme');
-                if (empty($theme)) {
-                    $theme = 'default';
-                }
-            } catch (\Exception $e) {
-                Log::error($e->getMessage());
-                $theme = 'default';
-            }
-
-            $request->session()->put('theme', $theme);
-        } else {
-            $theme = $request->session()->get('theme', 'default');
+        try {
+            $theme = setting('general.theme');
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            $theme = 'default';
         }
 
-        Theme::set($theme);
+        if (!empty($theme)) {
+            Theme::set($theme);
+        }
 
         return $next($request);
     }
