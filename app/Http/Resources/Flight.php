@@ -3,18 +3,25 @@
 namespace App\Http\Resources;
 
 use App\Support\Units\Distance;
+use stdClass;
 
 class Flight extends Response
 {
     /**
      * Set the fields on the flight object
      *
-     * @return array
+     * @mixin \App\Models\Flight
      */
     private function setFields()
     {
+        /** @var \Illuminate\Support\Collection $field_values */
+        $field_values = $this->field_values;
+        if (empty($field_values) || $field_values->count() === 0) {
+            return new stdClass();
+        }
+
         $fields = [];
-        foreach ($this->field_values as $field) {
+        foreach ($field_values as $field) {
             $fields[$field->name] = $field->value;
         }
 
