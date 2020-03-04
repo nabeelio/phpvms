@@ -88,7 +88,16 @@ class FlightController extends Controller
             $this->flightRepo->pushCriteria(new WhereCriteria($request, $where));
             $this->flightRepo->pushCriteria(new RequestCriteria($request));
 
-            $flights = $this->flightRepo->paginate();
+            $flights = $this->flightRepo
+                ->with([
+                    'airline',
+                    'subfleets',
+                    'subfleets.aircraft',
+                    'subfleets.fares',
+                    'field_values',
+                ])
+                ->paginate();
+
         } catch (RepositoryException $e) {
             return response($e, 503);
         }
