@@ -124,7 +124,16 @@ airports:
     lat: 25.2528
     lon: 55.3644
     ground_handling_cost: 50
-
+  - id: OMAA
+    iata: AUH
+    icao: OMAA
+    name: Abu Dhabi International Airport
+    location: Abu Dhabi
+    country:
+    timezone: Asia/Dubai
+    lat: 24.433
+    lon: 54.6511
+    ground_handling_cost: 50
 #
 aircraft:
   - id: 1
@@ -283,6 +292,7 @@ flights:
     arr_time: 11PM EST
     flight_time: 240
     flight_type: J
+    load_factor: 100
     created_at: NOW
     updated_at: NOW
   - id: flightid_3
@@ -294,6 +304,7 @@ flights:
     arr_airport_id: KJFK
     flight_time: 480
     flight_type: J
+    load_factor: 63
     dpt_time: 9AM CST
     arr_time: 1030AM CST
     route: PITZZ4 MNURE WLEEE4
@@ -308,6 +319,37 @@ flights:
     arr_airport_id: MWCR
     flight_time: 70
     flight_type: 'J'
+    load_factor: 80
+    dpt_time: '0800'
+    arr_time: '0900'
+    route: 'MLY5 KEMBO UG442 SIA UG633 OTEKO UR640 NALRO GUBEL3'
+    created_at: NOW
+    updated_at: NOW
+  - id: flightid_5
+    airline_id: 1
+    flight_number: 112
+    route_code:
+    route_leg:
+    dpt_airport_id: OMAA
+    arr_airport_id: OMDB
+    flight_time: 30
+    flight_type: 'J'
+    load_factor:
+    dpt_time: '0800'
+    arr_time: '0900'
+    route: 'MLY5 KEMBO UG442 SIA UG633 OTEKO UR640 NALRO GUBEL3'
+    created_at: NOW
+    updated_at: NOW
+  - id: flightid_6
+    airline_id: 1
+    flight_number: 113
+    route_code:
+    route_leg:
+    dpt_airport_id: OMDB
+    arr_airport_id: OMAA
+    flight_time: 30
+    flight_type: 'J'
+    load_factor: 100
     dpt_time: '0800'
     arr_time: '0900'
     route: 'MLY5 KEMBO UG442 SIA UG633 OTEKO UR640 NALRO GUBEL3'
@@ -467,12 +509,8 @@ pirep_fares:
 
 pirep_fields:
   - id: 1
-    name: departure terminal
-    slug: departure-terminal
-    required: 1
-  - id: 2
-    name: arrival terminal
-    slug: arrival-terminal
+    name: Cost Index
+    slug: cost-index
     required: 0
 
 pirep_field_values:
