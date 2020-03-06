@@ -277,8 +277,7 @@
   </div>
   <div class="col-8">
     <div class="text-right">
-      {{ Form::button('Save', ['type' => 'submit', 'class' => 'btn btn-success']) }}
-      <a href="{{ route('admin.flights.index') }}" class="btn btn-default">Cancel</a>
+      {{ Form::button('Save', ['type' => 'submit', 'class' => 'btn btn-info']) }}
     </div>
   </div>
 </div>
