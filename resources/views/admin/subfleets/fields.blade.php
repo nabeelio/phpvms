@@ -5,10 +5,7 @@
       group aircraft together by feature, so 737s with winglets might have a type of
       "B.738-WL". You can create as many as you want, you need at least one, though.
 
-      Read more about subfleets <a
-        href="http://docs.phpvms.net/concepts/basics#subfleets-and-aircraft"
-        target="_new">here</a>.
-
+      Read more about subfleets <a href="{{ docs_link('finances') }}" target="_new">here</a>.
     @endcomponent
   </div>
 

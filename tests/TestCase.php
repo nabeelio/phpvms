@@ -135,7 +135,8 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
     public function mockGuzzleClient($mockFile): void
     {
         $mock = new MockHandler([
-            new Response(200,
+            new Response(
+                200,
                 [
                     'Content-Type' => 'application/json; charset=utf-8',
                 ],

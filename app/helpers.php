@@ -307,3 +307,17 @@ if (!function_exists('_fmt')) {
         return $line;
     }
 }
+
+if (!function_exists('docs_link')) {
+    /**
+     * Return a link to the docs
+     *
+     * @param string $key Key from phpvms.config.docs
+     *
+     * @return string
+     */
+    function docs_link($key)
+    {
+        return config('phpvms.docs.root').config('phpvms.docs.'.$key);
+    }
+}

@@ -27,7 +27,8 @@ class MetarTest extends TestCase
     private function mockXmlResponse($filename)
     {
         $mock = new MockHandler([
-            new Response(200,
+            new Response(
+                200,
                 [
                     'Content-Type' => 'text/xml',
                 ],
@@ -85,7 +86,8 @@ class MetarTest extends TestCase
         $this->assertCount(4, $parsed['clouds']);
         $this->assertEquals(
             'A few at 1676 meters; scattered at 2896 meters; broken sky at 3353 meters; broken sky at 7010 meters',
-            $parsed['clouds_report']);
+            $parsed['clouds_report']
+        );
         $this->assertEquals(1676.4, $parsed['cloud_height']['m']);
         $this->assertEquals(false, $parsed['cavok']);
 

@@ -109,6 +109,11 @@ return [
      * The links to various docs on the documentation site
      */
     'docs' => [
-        'cron' => 'http://docs.phpvms.net/configuration/cron',
+        'root'             => 'http://docs.phpvms.net',
+        'cron'             => '/configuration/cron',
+        'finances'         => '/concepts/finances',
+        'importing_legacy' => '/setup/importing-from-v2-v5',
+        'load_factor'      => '/operations/flights#load-factor',
+        'subfleets'        => '/concepts/basics#subfleets-and-aircraft',
     ],
 ];

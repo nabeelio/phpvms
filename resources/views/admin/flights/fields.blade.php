@@ -99,25 +99,28 @@
         {{-- NEXT ROW --}}
 
         <div class="row">
-          <div class="form-group col-sm-3">
-            {{ Form::label('dpt_time', 'Departure Time:') }}
-            {{ Form::text('dpt_time', null, ['class' => 'form-control']) }}
-            <p class="text-danger">{{ $errors->first('dpt_time') }}</p>
+          <div class="form-group col-sm-4">
+            {{ Form::label('load_factor', 'Load Factor:') }}
+            {{ Form::text('load_factor', null, ['class' => 'form-control']) }}
+            <p class="text-danger">{{ $errors->first('load_factor') }}</p>
+            @component('admin.components.info')
+              Value between 1 and 100. See
+              <a href="{{ docs_link('load_factor') }}" target="_blank">docs</a>.
+              Leave blank to use the default value.
+            @endcomponent
           </div>
 
-          <div class="form-group col-sm-3">
-            {{ Form::label('arr_time', 'Arrival Time:') }}
-            {{ Form::text('arr_time', null, ['class' => 'form-control']) }}
-            <p class="text-danger">{{ $errors->first('arr_time') }}</p>
+          <div class="form-group col-sm-4">
+            {{ Form::label('load_factor_variance', 'Load Factor Variance:') }}
+            {{ Form::text('load_factor_variance', null, ['class' => 'form-control']) }}
+            <p class="text-danger">{{ $errors->first('load_factor_variance') }}</p>
+            @component('admin.components.info')
+              How much the load factor can vary per flight (+ or -). Leave blank to
+              use the default value.
+            @endcomponent
           </div>
 
-          <div class="form-group col-sm-3">
-            {{ Form::label('level', 'Flight Level:') }}
-            {{ Form::text('level', null, ['class' => 'form-control']) }}
-            <p class="text-danger">{{ $errors->first('level') }}</p>
-          </div>
-
-          <div class="form-group col-sm-3">
+          <div class="form-group col-sm-4">
             {{ Form::label('distance', 'Distance:') }} <span class="description small">in nautical miles</span>
             <a href="#" class="airport_distance_lookup">Calculate</a>
             {{ Form::text('distance', null, ['id' => 'distance', 'class' => 'form-control']) }}
@@ -185,6 +188,20 @@
             </select>
           </div>
         </div>
+
+        <div class="row">
+          <div class="form-group col-sm-4">
+            {{ Form::label('dpt_time', 'Departure Time:') }}
+            {{ Form::text('dpt_time', null, ['class' => 'form-control']) }}
+            <p class="text-danger">{{ $errors->first('dpt_time') }}</p>
+          </div>
+
+          <div class="form-group col-sm-4">
+            {{ Form::label('arr_time', 'Arrival Time:') }}
+            {{ Form::text('arr_time', null, ['class' => 'form-control']) }}
+            <p class="text-danger">{{ $errors->first('arr_time') }}</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -204,6 +221,14 @@
               'style' => 'padding: 10px',
           ]) }}
           <p class="text-danger">{{ $errors->first('route') }}</p>
+        </div>
+      </div>
+
+      <div class="form-container-body row">
+        <div class="form-group col-sm-4">
+          {{ Form::label('level', 'Flight Level:') }}
+          {{ Form::text('level', null, ['class' => 'form-control']) }}
+          <p class="text-danger">{{ $errors->first('level') }}</p>
         </div>
       </div>
     </div>

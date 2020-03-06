@@ -138,6 +138,20 @@
   options: ''
   type: int
   description: 'Number of hours to expire bids after'
+- key: flights.default_load_factor
+  name: 'Load Factor'
+  group: flights
+  value: 82
+  options: ''
+  type: number
+  description: 'The default load factor for a flight, as a percent'
+- key: flights.load_factor_variance
+  name: 'Load Factor Variance'
+  group: flights
+  value: 5
+  options: ''
+  type: number
+  description: 'How much the load factor can vary per-flight'
 - key: pireps.duplicate_check_time
   name: 'PIREP duplicate time check'
   group: pireps

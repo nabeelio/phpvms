@@ -5,12 +5,13 @@ namespace App\Http\Resources;
 use App\Support\Units\Distance;
 use stdClass;
 
+/**
+ * @mixin \App\Models\Flight
+ */
 class Flight extends Response
 {
     /**
      * Set the fields on the flight object
-     *
-     * @mixin \App\Models\Flight
      */
     private function setFields()
     {
@@ -41,6 +42,14 @@ class Flight extends Response
         $res = parent::toArray($request);
 
         $res['ident'] = $this->ident;
+
+        if (empty($res['load_factor'])) {
+            $res['load_factor'] = setting('flights.default_load_factor');
+        }
+
+        if (empty($res['load_factor_variance'])) {
+            $res['load_factor_variance'] = setting('flights.load_factor_variance');
+        }
 
         $distance = new Distance($res['distance'], config('phpvms.internal_units.distance'));
         $res['distance'] = $distance->getResponseUnits();

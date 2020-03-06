@@ -435,7 +435,9 @@ class FinanceTest extends TestCase
         // Change to a percentage
         $manual_pay_rate = '50%';
         $manual_pay_adjusted = Math::addPercent(
-            $rank->manual_base_pay_rate, $manual_pay_rate);
+            $rank->manual_base_pay_rate,
+            $manual_pay_rate
+        );
 
         $this->fleetSvc->addSubfleetToRank($subfleet['subfleet'], $rank, [
             'manual_pay' => $manual_pay_rate,

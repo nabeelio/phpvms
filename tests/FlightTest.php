@@ -27,15 +27,18 @@ class FlightTest extends TestCase
     /**
      * Add a single flight
      *
-     * @param $user
+     * @param       $user
+     * @param array $flight_properties
      *
      * @return mixed
      */
-    public function addFlight($user)
+    public function addFlight($user, $flight_properties = [])
     {
-        $flight = factory(App\Models\Flight::class)->create([
+        $opts = array_merge([
             'airline_id' => $user->airline_id,
-        ]);
+        ], $flight_properties);
+
+        $flight = factory(App\Models\Flight::class)->create($opts);
 
         $flight->subfleets()->syncWithoutDetaching([
             factory(App\Models\Subfleet::class)->create([
@@ -119,7 +122,10 @@ class FlightTest extends TestCase
     public function testGetFlight()
     {
         $this->user = factory(App\Models\User::class)->create();
-        $flight = $this->addFlight($this->user);
+        $flight = $this->addFlight($this->user, [
+            'load_factor'          => '',
+            'load_factor_variance' => '',
+        ]);
 
         $req = $this->get('/api/flights/'.$flight->id);
         $req->assertStatus(200);
@@ -128,6 +134,7 @@ class FlightTest extends TestCase
         $this->assertEquals($flight->id, $body['id']);
         $this->assertEquals($flight->dpt_airport_id, $body['dpt_airport_id']);
         $this->assertEquals($flight->arr_airport_id, $body['arr_airport_id']);
+        $this->assertEquals(setting('flights.default_load_factor'), $body['load_factor']);
 
         // Distance conversion
         $this->assertHasKeys($body['distance'], ['mi', 'nmi', 'km']);
@@ -166,6 +173,12 @@ class FlightTest extends TestCase
 
         $flight->route = $route_text;
         $flight->save();
+
+        $req = $this->get('/api/flights/'.$flight->id);
+        $req->assertStatus(200);
+
+        $body = $req->json()['data'];
+        $this->assertEquals($flight->load_factor, $body['load_factor']);
 
         $res = $this->get('/api/flights/'.$flight->id.'/route');
         $res->assertStatus(200);

@@ -26,6 +26,8 @@ use Illuminate\Support\Collection;
  * @property int        flight_time
  * @property string     route
  * @property int        level
+ * @property float      load_factor
+ * @property float      load_factor_variance
  * @property Airport    dpt_airport
  * @property Airport    arr_airport
  * @property Airport    alt_airport
@@ -65,6 +67,8 @@ class Flight extends Model
         'distance',
         'flight_time',
         'flight_type',
+        'load_factor',
+        'load_factor_variance',
         'route',
         'notes',
         'start_date',
@@ -75,27 +79,31 @@ class Flight extends Model
     ];
 
     protected $casts = [
-        'flight_number' => 'integer',
-        'days'          => 'integer',
-        'level'         => 'integer',
-        'distance'      => 'float',
-        'flight_time'   => 'integer',
-        'start_date'    => 'date',
-        'end_date'      => 'date',
-        'has_bid'       => 'boolean',
-        'route_leg'     => 'integer',
-        'active'        => 'boolean',
-        'visible'       => 'boolean',
+        'flight_number'        => 'integer',
+        'days'                 => 'integer',
+        'level'                => 'integer',
+        'distance'             => 'float',
+        'flight_time'          => 'integer',
+        'start_date'           => 'date',
+        'end_date'             => 'date',
+        'load_factor'          => 'double',
+        'load_factor_variance' => 'double',
+        'has_bid'              => 'boolean',
+        'route_leg'            => 'integer',
+        'active'               => 'boolean',
+        'visible'              => 'boolean',
     ];
 
     public static $rules = [
-        'airline_id'     => 'required|exists:airlines,id',
-        'flight_number'  => 'required',
-        'route_code'     => 'nullable',
-        'route_leg'      => 'nullable',
-        'dpt_airport_id' => 'required|exists:airports,id',
-        'arr_airport_id' => 'required|exists:airports,id',
-        'level'          => 'nullable',
+        'airline_id'           => 'required|exists:airlines,id',
+        'flight_number'        => 'required',
+        'route_code'           => 'nullable',
+        'route_leg'            => 'nullable',
+        'dpt_airport_id'       => 'required|exists:airports,id',
+        'arr_airport_id'       => 'required|exists:airports,id',
+        'load_factor'          => 'nullable|numeric',
+        'load_factor_variance' => 'nullable|numeric',
+        'level'                => 'nullable',
     ];
 
     /**
