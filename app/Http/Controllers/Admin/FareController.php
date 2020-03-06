@@ -6,6 +6,7 @@ use App\Contracts\Controller;
 use App\Http\Controllers\Admin\Traits\Importable;
 use App\Http\Requests\CreateFareRequest;
 use App\Http\Requests\UpdateFareRequest;
+use App\Models\Enums\FareType;
 use App\Models\Enums\ImportExportType;
 use App\Repositories\FareRepository;
 use App\Services\ExportService;
@@ -58,7 +59,9 @@ class FareController extends Controller
      */
     public function create()
     {
-        return view('admin.fares.create');
+        return view('admin.fares.create', [
+            'fare_types' => FareType::select(),
+        ]);
     }
 
     /**
@@ -94,7 +97,9 @@ class FareController extends Controller
             return redirect(route('admin.fares.index'));
         }
 
-        return view('admin.fares.show')->with('fare', $fare);
+        return view('admin.fares.show', [
+            'fare' => $fare,
+        ]);
     }
 
     /**
@@ -112,7 +117,10 @@ class FareController extends Controller
             return redirect(route('admin.fares.index'));
         }
 
-        return view('admin.fares.edit')->with('fare', $fare);
+        return view('admin.fares.edit', [
+            'fare'       => $fare,
+            'fare_types' => FareType::select(),
+        ]);
     }
 
     /**
