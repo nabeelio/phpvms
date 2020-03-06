@@ -11,6 +11,7 @@ use App\Contracts\Model;
  * @property int     code
  * @property int     capacity
  * @property int     count Only when merged with pivot
+ * @property int     type
  * @property string  notes
  * @property bool    active
  */
@@ -32,12 +33,14 @@ class Fare extends Model
         'price'    => 'float',
         'cost'     => 'float',
         'capacity' => 'integer',
+        'type'     => 'integer',
         'active'   => 'boolean',
     ];
 
     public static $rules = [
         'code' => 'required',
         'name' => 'required',
+        'type' => 'required',
     ];
 
     /**

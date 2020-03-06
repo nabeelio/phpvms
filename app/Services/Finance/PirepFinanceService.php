@@ -7,6 +7,7 @@ use App\Events\Expenses as ExpensesEvent;
 use App\Models\Aircraft;
 use App\Models\Airport;
 use App\Models\Enums\ExpenseType;
+use App\Models\Enums\FareType;
 use App\Models\Enums\PirepSource;
 use App\Models\Expense;
 use App\Models\Pirep;
@@ -124,13 +125,15 @@ class PirepFinanceService extends Service
 
             Log::info('Finance: Calculate: C='.$credit->toAmount().', D='.$debit->toAmount());
 
+            $memo = FareType::label($fare->type).' fare: '.$fare->code.$fare->count
+                .'; price: '.$fare->price.', cost: '.$fare->cost;
+
             $this->journalRepo->post(
                 $pirep->airline->journal,
                 $credit,
                 $debit,
                 $pirep,
-                'Fares '.$fare->code.$fare->count
-                .'; price: '.$fare->price.', cost: '.$fare->cost,
+                $memo,
                 null,
                 'Fares',
                 'fare'

@@ -78,4 +78,9 @@ class Expense extends Model
     {
         return $this->belongsTo(Airline::class, 'airline_id');
     }
+
+    public function ref_model()
+    {
+        return $this->morphTo();
+    }
 }
