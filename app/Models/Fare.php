@@ -22,6 +22,7 @@ class Fare extends Model
     protected $fillable = [
         'code',
         'name',
+        'type',
         'price',
         'cost',
         'capacity',

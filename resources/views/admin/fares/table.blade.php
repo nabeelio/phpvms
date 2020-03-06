@@ -2,6 +2,7 @@
   <thead>
   <th>Code</th>
   <th>Name</th>
+  <th>Type</th>
   <th>Price</th>
   <th>Cost</th>
   <th>Notes</th>
@@ -13,6 +14,7 @@
     <tr>
       <td><a href="{{ route('admin.fares.edit', [$fare->id]) }}">{{ $fare->code }}</a></td>
       <td>{{ $fare->name }}</td>
+      <td>{{ \App\Models\Enums\FareType::label($fare->type) }}</td>
       <td>{{ $fare->price }}</td>
       <td>{{ $fare->cost }}</td>
       <td>{{ $fare->notes }}</td>
