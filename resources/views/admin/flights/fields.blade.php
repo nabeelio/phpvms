@@ -67,38 +67,14 @@
 
         <div class="row">
           <div class="form-group col-sm-4">
-            {{ Form::label('dpt_airport_id', 'Departure Airport:') }}&nbsp;<span
-              class="required">*</span>
-            {{ Form::select('dpt_airport_id', $airports, null , [
-                    'id'    => 'dpt_airport_id',
-                    'class' => 'form-control select2'
-                ]) }}
-            <p class="text-danger">{{ $errors->first('dpt_airport_id') }}</p>
+            {{ Form::label('pilot_pay', 'Pilot Pay:') }}
+            {{ Form::text('pilot_pay', null, ['class' => 'form-control']) }}
+            <p class="text-danger">{{ $errors->first('pilot_pay') }}</p>
+            @component('admin.components.info')
+              Fill this in to pay a pilot a fixed amount for this flight.
+            @endcomponent
           </div>
 
-          <!-- Arr Airport Id Field -->
-          <div class="form-group col-sm-4">
-            {{ Form::label('arr_airport_id', 'Arrival Airport:') }}&nbsp;<span
-              class="required">*</span>
-            {{ Form::select('arr_airport_id', $airports, null , [
-                    'id'    => 'arr_airport_id',
-                    'class' => 'form-control select2 select2'
-                ]) }}
-            <p class="text-danger">{{ $errors->first('arr_airport_id') }}</p>
-          </div>
-
-          <!-- Alt Airport Id Field -->
-          <div class="form-group col-sm-4">
-            {{ Form::label('alt_airport_id', 'Alt Airport:') }}
-            {{ Form::select('alt_airport_id', $alt_airports, null , ['class' => 'form-control select2']) }}
-            <p class="text-danger">{{ $errors->first('alt_airport_id') }}</p>
-          </div>
-        </div>
-
-
-        {{-- NEXT ROW --}}
-
-        <div class="row">
           <div class="form-group col-sm-4">
             {{ Form::label('load_factor', 'Load Factor:') }}
             {{ Form::text('load_factor', null, ['class' => 'form-control']) }}
@@ -119,6 +95,66 @@
               use the default value.
             @endcomponent
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="form-container">
+      <h6><i class="fas fa-map"></i>
+        &nbsp;Route
+      </h6>
+      <div class="form-container-body">
+        <div class="row">
+          <div class="form-group col-sm-6">
+            {{ Form::label('dpt_airport_id', 'Departure Airport:') }}&nbsp;<span
+              class="required">*</span>
+            {{ Form::select('dpt_airport_id', $airports, null , [
+                    'id'    => 'dpt_airport_id',
+                    'class' => 'form-control select2'
+                ]) }}
+            <p class="text-danger">{{ $errors->first('dpt_airport_id') }}</p>
+          </div>
+
+          <!-- Arr Airport Id Field -->
+          <div class="form-group col-sm-6">
+            {{ Form::label('arr_airport_id', 'Arrival Airport:') }}&nbsp;<span
+              class="required">*</span>
+            {{ Form::select('arr_airport_id', $airports, null , [
+                    'id'    => 'arr_airport_id',
+                    'class' => 'form-control select2 select2'
+                ]) }}
+            <p class="text-danger">{{ $errors->first('arr_airport_id') }}</p>
+          </div>
+
+        </div>
+        <div class="row">
+          <!-- Route Field -->
+          <div class="form-group col-sm-12">
+            {{ Form::label('route', 'Route:') }}
+            {{ Form::textarea('route', null, [
+                'class' => 'form-control input-text',
+                'style' => 'padding: 10px',
+            ]) }}
+            <p class="text-danger">{{ $errors->first('route') }}</p>
+          </div>
+        </div>
+        <div class="row">
+          <!-- Alt Airport Id Field -->
+          <div class="form-group col-sm-4">
+            {{ Form::label('alt_airport_id', 'Alt Airport:') }}
+            {{ Form::select('alt_airport_id', $alt_airports, null , ['class' => 'form-control select2']) }}
+            <p class="text-danger">{{ $errors->first('alt_airport_id') }}</p>
+          </div>
+
+          <div class="form-group col-sm-4">
+            {{ Form::label('level', 'Flight Level:') }}
+            {{ Form::text('level', null, ['class' => 'form-control']) }}
+            <p class="text-danger">{{ $errors->first('level') }}</p>
+          </div>
 
           <div class="form-group col-sm-4">
             {{ Form::label('distance', 'Distance:') }} <span class="description small">in nautical miles</span>
@@ -132,6 +168,7 @@
   </div>
 </div>
 
+
 <div class="row">
   <div class="col-12">
     <div class="form-container">
@@ -140,7 +177,6 @@
       </h6>
       <div class="form-container-body">
         <div class="row">
-
           <div class="col-sm-4">
             {{ Form::label('start_date', 'Start Date') }}
             <span class="description small">optional</span>
@@ -210,44 +246,18 @@
 <div class="row">
   <div class="col-lg-12">
     <div class="form-container">
-      <h6><i class="fas fa-map"></i>
-        &nbsp;Route
-      </h6>
-      <div class="form-container-body row">
-        <!-- Route Field -->
-        <div class="form-group col-sm-12">
-          {{ Form::textarea('route', null, [
-              'class' => 'form-control input-text',
-              'style' => 'padding: 10px',
-          ]) }}
-          <p class="text-danger">{{ $errors->first('route') }}</p>
-        </div>
-      </div>
-
-      <div class="form-container-body row">
-        <div class="form-group col-sm-4">
-          {{ Form::label('level', 'Flight Level:') }}
-          {{ Form::text('level', null, ['class' => 'form-control']) }}
-          <p class="text-danger">{{ $errors->first('level') }}</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="row">
-  <div class="col-lg-12">
-    <div class="form-container">
       <h6><i class="fas fa-sticky-note"></i>
         &nbsp;Remarks
       </h6>
-      <div class="form-container-body row">
-        <div class="form-group col-sm-12">
-          {{ Form::textarea('notes', null, [
-              'class' => 'form-control input-text',
-              'style' => 'padding: 10px',
-          ]) }}
-          <p class="text-danger">{{ $errors->first('notes') }}</p>
+      <div class="form-container-body">
+        <div class="row">
+          <div class="form-group col-sm-12">
+            {{ Form::textarea('notes', null, [
+                'class' => 'form-control input-text',
+                'style' => 'padding: 10px',
+            ]) }}
+            <p class="text-danger">{{ $errors->first('notes') }}</p>
+          </div>
         </div>
       </div>
     </div>

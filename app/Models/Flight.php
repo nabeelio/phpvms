@@ -28,6 +28,7 @@ use Illuminate\Support\Collection;
  * @property int        level
  * @property float      load_factor
  * @property float      load_factor_variance
+ * @property float      pilot_pay
  * @property Airport    dpt_airport
  * @property Airport    arr_airport
  * @property Airport    alt_airport
@@ -69,6 +70,7 @@ class Flight extends Model
         'flight_type',
         'load_factor',
         'load_factor_variance',
+        'pilot_pay',
         'route',
         'notes',
         'start_date',
@@ -88,6 +90,7 @@ class Flight extends Model
         'end_date'             => 'date',
         'load_factor'          => 'double',
         'load_factor_variance' => 'double',
+        'pilot_pay'            => 'float',
         'has_bid'              => 'boolean',
         'route_leg'            => 'integer',
         'active'               => 'boolean',
