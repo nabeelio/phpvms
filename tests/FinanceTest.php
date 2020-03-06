@@ -90,6 +90,7 @@ class FinanceTest extends TestCase
             'user_id'        => $user->id,
             'airline_id'     => $user->airline_id,
             'aircraft_id'    => $subfleet['aircraft']->random(),
+            'flight_id'      => $flight->id,
             'source'         => PirepSource::ACARS,
             'flight_time'    => 120,
             'block_fuel'     => 10,
@@ -483,6 +484,47 @@ class FinanceTest extends TestCase
 
         $payment = $this->financeSvc->getPilotPay($pirep_acars);
         $this->assertEquals(100, $payment->getValue());
+
+        $pirep_acars = factory(App\Models\Pirep::class)->create([
+            'user_id'     => $this->user->id,
+            'aircraft_id' => $subfleet['aircraft']->random(),
+            'source'      => PirepSource::ACARS,
+            'flight_time' => 90,
+        ]);
+
+        $payment = $this->financeSvc->getPilotPay($pirep_acars);
+        $this->assertEquals($payment->getValue(), 150);
+    }
+
+    public function testGetPirepPilotPayWithFixedPrice()
+    {
+        $acars_pay_rate = 100;
+
+        $subfleet = $this->createSubfleetWithAircraft(2);
+        $rank = $this->createRank(10, [$subfleet['subfleet']->id]);
+        $this->fleetSvc->addSubfleetToRank($subfleet['subfleet'], $rank, [
+            'acars_pay' => $acars_pay_rate,
+        ]);
+
+        $this->user = factory(App\Models\User::class)->create([
+            'rank_id' => $rank->id,
+        ]);
+
+        $flight = factory(App\Models\Flight::class)->create([
+            'airline_id' => $this->user->airline_id,
+            'pilot_pay'  => 1000,
+        ]);
+
+        $pirep_acars = factory(App\Models\Pirep::class)->create([
+            'user_id'     => $this->user->id,
+            'aircraft_id' => $subfleet['aircraft']->random(),
+            'source'      => PirepSource::ACARS,
+            'flight_id'   => $flight->id,
+            'flight_time' => 60,
+        ]);
+
+        $payment = $this->financeSvc->getPilotPay($pirep_acars);
+        $this->assertEquals(1000, $payment->getValue());
 
         $pirep_acars = factory(App\Models\Pirep::class)->create([
             'user_id'     => $this->user->id,

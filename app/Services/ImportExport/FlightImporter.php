@@ -41,6 +41,7 @@ class FlightImporter extends ImportExport
         'flight_type'          => 'required|alpha',
         'load_factor'          => 'nullable',
         'load_factor_variance' => 'nullable',
+        'pilot_pay'            => 'nullable',
         'route'                => 'nullable',
         'notes'                => 'nullable',
         'active'               => 'nullable|boolean',

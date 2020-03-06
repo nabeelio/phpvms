@@ -374,11 +374,18 @@ class PirepFinanceService extends Service
     public function payPilotForPirep(Pirep $pirep): void
     {
         $pilot_pay = $this->getPilotPay($pirep);
-        $pilot_pay_rate = $this->getPilotPayRateForPirep($pirep);
-        $memo = 'Pilot Payment @ '.$pilot_pay_rate;
 
-        Log::info('Finance: PIREP: '.$pirep->id
-            .'; pilot pay: '.$pilot_pay_rate.', total: '.$pilot_pay);
+        if ($pirep->flight && !empty($pirep->flight->pilot_pay)) {
+            $memo = 'Pilot fixed payment for flight: '.$pirep->flight->pilot_pay;
+            Log::info('Finance: PIREP: '.$pirep->id
+                .'; pilot pay: fixed for flight='.$pirep->flight->pilot_pay.', total: '.$pilot_pay);
+        } else {
+            $pilot_pay_rate = $this->getPilotPayRateForPirep($pirep);
+            $memo = 'Pilot Payment @ '.$pilot_pay_rate;
+
+            Log::info('Finance: PIREP: '.$pirep->id
+                .'; pilot pay: '.$pilot_pay_rate.', total: '.$pilot_pay);
+        }
 
         $this->financeSvc->debitFromJournal(
             $pirep->airline->journal,
@@ -530,6 +537,13 @@ class PirepFinanceService extends Service
      */
     public function getPilotPay(Pirep $pirep)
     {
+        // If there is a fixed price for this flight, return that amount
+        $flight = $pirep->flight;
+        if ($flight && !empty($flight->pilot_pay)) {
+            return new Money(Money::convertToSubunit($flight->pilot_pay));
+        }
+
+        // Divided by 60 to get the rate per minute
         $pilot_rate = $this->getPilotPayRateForPirep($pirep) / 60;
         $payment = round($pirep->flight_time * $pilot_rate, 2);
 
