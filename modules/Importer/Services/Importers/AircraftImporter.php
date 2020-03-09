@@ -82,7 +82,7 @@ class AircraftImporter extends BaseImporter
      */
     protected function getSubfleet($icao, $airline_id = null)
     {
-        if ($airline_id === null) {
+        if (empty($airline_id)) {
             $airline = Airline::first();
             $airline_id = $airline->id;
         }
