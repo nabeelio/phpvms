@@ -37,12 +37,15 @@ class AircraftImporter extends BaseImporter
         $count = 0;
         $rows = $this->db->readRows($this->table, $this->idField, $start, $fields);
         foreach ($rows as $row) {
+            $subfleet_name = $row->icao;
+
             $airline_id = null;
             if (!empty($row->airline)) {
+                $subfleet_name = $row->airline.' - '.$row->icao;
                 $airline_id = $this->idMapper->getMapping('airlines', $row->airline);
             }
 
-            $subfleet = $this->getSubfleet($row->icao, $airline_id);
+            $subfleet = $this->getSubfleet($subfleet_name, $row->icao, $airline_id);
             $this->info('Subfleet ID is '.$subfleet->id);
 
             $where = [
@@ -75,12 +78,13 @@ class AircraftImporter extends BaseImporter
     /**
      * Return the subfleet
      *
-     * @param string $icao       ICAO of the subfleet
+     * @param string $name
+     * @param string $icao ICAO of the subfleet
      * @param int    $airline_id
      *
      * @return mixed
      */
-    protected function getSubfleet($icao, $airline_id = null)
+    protected function getSubfleet($name, $icao, $airline_id = null)
     {
         if (empty($airline_id)) {
             $airline = Airline::first();
@@ -89,7 +93,7 @@ class AircraftImporter extends BaseImporter
 
         return Subfleet::firstOrCreate([
             'airline_id' => $airline_id,
-            'name'       => $icao,
+            'name'       => $name,
         ], ['type' => $icao]);
     }
 }
