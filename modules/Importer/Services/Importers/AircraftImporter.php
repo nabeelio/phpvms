@@ -39,7 +39,7 @@ class AircraftImporter extends BaseImporter
         foreach ($rows as $row) {
             $airline_id = null;
             if (!empty($row->airline)) {
-                $airline_id = $this->idMapper->getMapping('airlines', $row->airline_id);
+                $airline_id = $this->idMapper->getMapping('airlines', $row->airline);
             }
 
             $subfleet = $this->getSubfleet($row->icao, $airline_id);
