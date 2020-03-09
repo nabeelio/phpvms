@@ -79,7 +79,7 @@ class AircraftImporter extends BaseImporter
      * Return the subfleet
      *
      * @param string $name
-     * @param string $icao ICAO of the subfleet
+     * @param string $icao       ICAO of the subfleet
      * @param int    $airline_id
      *
      * @return mixed
