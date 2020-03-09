@@ -2,6 +2,7 @@
 
 use App\Contracts\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateStatsTable extends Migration
 {
@@ -22,28 +23,6 @@ class CreateStatsTable extends Migration
             $table->primary('id');
             $table->timestamps();
         });
-        /*$this->addCounterGroups([
-            'flights' => 1,
-        ]);
-
-        $stats = [
-            [
-                'id' => $this->formatSettingId('flights.total_flights'),
-                'order' => $this->getNextOrderNumber('flights'),
-                'value' => 0,
-                'type' => 'int',
-                'description' => 'Total number of flights in the VA',
-            ],
-            [
-                'id' => $this->formatSettingId('flights.total_time'),
-                'order' => $this->getNextOrderNumber('flights'),
-                'value' => 0,
-                'type' => 'int',
-                'description' => 'Total number of hours in the VA',
-            ],
-        ];
-
-        $this->addData('stats', $stats);*/
     }
 
     /**
@@ -53,6 +32,6 @@ class CreateStatsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('settings');
+        Schema::dropIfExists('stats');
     }
 }

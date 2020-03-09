@@ -26,7 +26,7 @@ class Utils
             $length = Model::ID_MAX_LENGTH;
         }
 
-        $hashids = new Hashids('', $length);
+        $hashids = new Hashids(uniqid(), $length);
         $mt = str_replace('.', '', microtime(true));
         return $hashids->encode($mt);
     }
