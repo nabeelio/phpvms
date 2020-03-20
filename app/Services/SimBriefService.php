@@ -33,7 +33,8 @@ class SimBriefService extends Service
      */
     public function checkForOfp(string $user_id, string $ofp_id, string $flight_id): SimBrief
     {
-        $uri = 'http://www.simbrief.com/ofp/flightplans/xml/'.$ofp_id.'.xml';
+        $uri = str_replace('{id}', $ofp_id, config('phpvms.simbrief_url'));
+
         $opts = [
             'connect_timeout' => 2, // wait two seconds by default
             'allow_redirects' => false,
@@ -41,7 +42,7 @@ class SimBriefService extends Service
 
         try {
             $response = $this->httpClient->request('GET', $uri, $opts);
-            if ($response->getStatusCode() === 404 || $response->getStatusCode() === 302) {
+            if ($response->getStatusCode() !== 200) {
                 return null;
             }
         } catch (GuzzleException $e) {
@@ -49,11 +50,22 @@ class SimBriefService extends Service
             return null;
         }
 
+        $body = $response->getBody()->getContents();
+
         $attrs = [
             'user_id'   => $user_id,
             'flight_id' => $flight_id,
-            'ofp_xml'   => $response->getBody()->getContents(),
+            'ofp_xml'   => $body,
         ];
+
+        // TODO: Retrieve the ACARS XML and store that. For now, replace the doctype
+
+        $new_doctype = '<VMSAcars Type="FlightPlan" version="1.0" generated="'.time().'">';
+        $acars_xml = str_replace('<OFP>', $new_doctype, $body);
+        $acars_xml = str_replace('</OFP>', '</VMSAcars>', $acars_xml);
+        $acars_xml = str_replace("\n", '', $acars_xml);
+
+        $attrs['acars_xml'] = simplexml_load_string($acars_xml)->asXML();
 
         // Save this into the Simbrief table, if it doesn't already exist
         return SimBrief::updateOrCreate(

@@ -16,6 +16,7 @@ class AddSimbriefTable extends Migration
             $table->unsignedInteger('user_id');
             $table->string('flight_id', 36)->nullable();
             $table->string('pirep_id', 36)->nullable();
+            $table->mediumText('acars_xml');
             $table->mediumText('ofp_xml');
             $table->timestamps();
 

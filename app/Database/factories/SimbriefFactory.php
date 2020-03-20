@@ -11,6 +11,7 @@ $factory->define(App\Models\SimBrief::class, function (Faker $faker) {
         'user_id'    => null,
         'flight_id'  => null,
         'pirep_id'   => null,
+        'acars_xml'  => '',
         'ofp_xml'    => '',
         'created_at' => Carbon::now('UTC')->toDateTimeString(),
         'updated_at' => function (array $sb) {

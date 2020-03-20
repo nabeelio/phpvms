@@ -56,6 +56,11 @@ return [
     'airport_lookup' => App\Services\AirportLookup\VaCentralLookup::class,
 
     /*
+     * URL for where to lookup the Simbrief flight plans
+     */
+    'simbrief_url' => 'https://www.simbrief.com/ofp/flightplans/xml/{id}.xml',
+
+    /*
      * Your vaCentral API key
      */
     'vacentral_api_key' => env('VACENTRAL_API_KEY', ''),

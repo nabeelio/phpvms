@@ -36,8 +36,8 @@ class SimBriefTest extends TestCase
      */
     public function testReadSimbrief()
     {
-        $user = factory(App\Models\User::class)->create();
-        $briefing = $this->loadSimBrief($user);
+        $this->user = factory(App\Models\User::class)->create();
+        $briefing = $this->loadSimBrief($this->user);
 
         $this->assertNotEmpty($briefing->ofp_xml);
         $this->assertNotNull($briefing->xml);
@@ -68,6 +68,38 @@ class SimBriefTest extends TestCase
             'ORGUR DCT PEBUS DCT EMOPO DCT LOTUK DCT LAGTA DCT LOVOL DCT',
             $routeStr
         );
+    }
+
+    /**
+     * Check that the API calls are working (simbrief in the response, can retrieve the briefing)
+     */
+    public function testApiCalls()
+    {
+        $this->user = factory(App\Models\User::class)->create();
+        $briefing = $this->loadSimBrief($this->user);
+
+        // Check the flight API response
+        $response = $this->get('/api/flights/'.$briefing->flight_id);
+        $response->assertOk();
+        $flight = $response->json('data');
+
+        $this->assertNotNull($flight['simbrief']);
+        $this->assertEquals($briefing->id, $flight['simbrief']['id']);
+        $this->assertEquals(
+            'http://localhost/api/flights/'.$briefing->id.'/briefing',
+            $flight['simbrief']['url']
+        );
+
+        // Retrieve the briefing via API, and then check the doctype
+        $response = $this->get('/api/flights/'.$briefing->flight_id.'/briefing');
+        $response->assertOk();
+        // $response->assertHeader('Content-Type', 'application/xml');
+
+        $xml = simplexml_load_string($response->content());
+        $this->assertNotNull($xml);
+
+        $this->assertEquals('VMSAcars', $xml->getName());
+        $this->assertEquals('FlightPlan', $xml->attributes()->Type);
     }
 
     public function testAttachToPirep()

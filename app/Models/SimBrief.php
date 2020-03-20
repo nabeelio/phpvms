@@ -10,6 +10,7 @@ use Illuminate\Support\Collection;
  * @property int         $user_id   The user that generated this
  * @property string      $flight_id Optional, if attached to a flight, removed if attached to PIREP
  * @property string      $pirep_id  Optional, if attached to a PIREP, removed if attached to flight
+ * @property string      $acars_xml
  * @property string      $ofp_xml
  * @property string      $ofp_html
  * @property Collection  $images
@@ -29,6 +30,7 @@ class SimBrief extends Model
         'user_id',
         'flight_id',
         'pirep_id',
+        'acars_xml',
         'ofp_xml',
         'created_at',
         'updated_at',
@@ -38,7 +40,7 @@ class SimBrief extends Model
     private $xml_instance;
 
     /**
-     * Return a SimpleXML object of the ofp_xml
+     * Return a SimpleXML object of the $ofp_xml
      *
      * @return \App\Models\SimBriefXML|null
      */
@@ -56,22 +58,6 @@ class SimBrief extends Model
         }
 
         return $this->xml_instance;
-    }
-
-    /**
-     * Get the URL to the ACARS flightplan. Use like
-     * echo $simbrief->acars_flightplan_url
-     *
-     * @return string
-     */
-    public function getAcarsFlightplanUrlAttribute()
-    {
-        $xml = $this->getXmlAttribute();
-        if (!empty($xml->fms_downloads->vma)) {
-            return $xml->fms_downloads->directory.$xml->fms_downloads->vma->link;
-        }
-
-        return '';
     }
 
     /**

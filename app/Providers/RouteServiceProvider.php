@@ -420,6 +420,7 @@ class RouteServiceProvider extends ServiceProvider
                 Route::get('flights', 'FlightController@index');
                 Route::get('flights/search', 'FlightController@search');
                 Route::get('flights/{id}', 'FlightController@get');
+                Route::get('flights/{id}/briefing', 'FlightController@briefing')->name('flights.briefing');
                 Route::get('flights/{id}/route', 'FlightController@route');
 
                 Route::get('pireps', 'UserController@pireps');

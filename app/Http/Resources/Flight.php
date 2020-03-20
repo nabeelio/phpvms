@@ -57,7 +57,7 @@ class Flight extends Resource
         $res['distance'] = $distance->getResponseUnits();
 
         $res['airline'] = new Airline($this->airline);
-        $res['subfleets'] = Subfleet::collection($this->subfleets);
+        $res['subfleets'] = Subfleet::collection($this->whenLoaded('subfleets'));
         $res['fields'] = $this->setFields();
 
         // Simbrief info
