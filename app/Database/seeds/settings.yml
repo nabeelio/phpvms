@@ -152,6 +152,20 @@
   options: ''
   type: number
   description: 'How much the load factor can vary per-flight'
+- key: simbrief.api_key
+  name: 'SimBrief API Key'
+  group: simbrief
+  value: ''
+  options: ''
+  type: string
+  description: 'Your SimBrief API key'
+- key: simbrief.expire_days
+  name: 'SimBrief Expire Time'
+  group: simbrief
+  value: 5
+  options: ''
+  type: number
+  description: 'Days after how long to remove unused briefs'
 - key: pireps.duplicate_check_time
   name: 'PIREP duplicate time check'
   group: pireps

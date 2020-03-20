@@ -51,7 +51,18 @@ class FlightController extends Controller
      */
     public function get($id)
     {
-        $flight = $this->flightRepo->find($id);
+        $user = Auth::user();
+        $flight = $this->flightRepo->with([
+            'airline',
+            'subfleets',
+            'subfleets.aircraft',
+            'subfleets.fares',
+            'field_values',
+            'simbrief' => function ($query) use ($user) {
+                return $query->where('user_id', $user->id);
+            },
+        ])->find($id);
+
         $this->flightSvc->filterSubfleets(Auth::user(), $flight);
 
         return new FlightResource($flight);
@@ -64,6 +75,7 @@ class FlightController extends Controller
      */
     public function search(Request $request)
     {
+        $user = Auth::user();
         $where = [
             'active'  => true,
             'visible' => true,
@@ -95,6 +107,9 @@ class FlightController extends Controller
                     'subfleets.aircraft',
                     'subfleets.fares',
                     'field_values',
+                    'simbrief' => function ($query) use ($user) {
+                        return $query->where('user_id', $user->id);
+                    },
                 ])
                 ->paginate();
         } catch (RepositoryException $e) {

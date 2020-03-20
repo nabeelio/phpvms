@@ -160,7 +160,7 @@ class Pirep extends Model
      *
      * @return \App\Models\Pirep
      */
-    public static function fromFlight(Flight $flight)
+    public static function fromFlight(Flight $flight): self
     {
         return new self([
             'flight_id'      => $flight->id,
@@ -172,6 +172,28 @@ class Pirep extends Model
             'arr_airport_id' => $flight->arr_airport_id,
             'route'          => $flight->route,
             'level'          => $flight->level,
+        ]);
+    }
+
+    /**
+     * Create a new PIREP from a SimBrief instance
+     *
+     * @param \App\Models\SimBrief $simBrief
+     *
+     * @return \App\Models\Pirep
+     */
+    public static function fromSimBrief(SimBrief $simBrief): self
+    {
+        return new self([
+            'flight_id'      => $simBrief->flight->id,
+            'airline_id'     => $simBrief->flight->airline_id,
+            'flight_number'  => $simBrief->flight->flight_number,
+            'route_code'     => $simBrief->flight->route_code,
+            'route_leg'      => $simBrief->flight->route_leg,
+            'dpt_airport_id' => $simBrief->flight->dpt_airport_id,
+            'arr_airport_id' => $simBrief->flight->arr_airport_id,
+            'route'          => $simBrief->xml->getRouteString(),
+            'level'          => $simBrief->xml->getFlightLevel(),
         ]);
     }
 
@@ -482,6 +504,11 @@ class Pirep extends Model
         return $this->hasOne(Acars::class, 'pirep_id')
             ->where('type', AcarsType::FLIGHT_PATH)
             ->latest();
+    }
+
+    public function simbrief()
+    {
+        return $this->belongsTo(SimBrief::class, 'id', 'pirep_id');
     }
 
     public function transactions()

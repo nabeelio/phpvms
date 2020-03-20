@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources;
 
-use Illuminate\Http\Resources\Json\Resource;
+use App\Contracts\Resource;
 
 /**
  * @mixin \App\Models\Fare

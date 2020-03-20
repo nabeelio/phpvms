@@ -125,6 +125,8 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
                 return file_get_contents($p);
             }
         }
+
+        return false;
     }
 
     /**
@@ -141,6 +143,26 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
                     'Content-Type' => 'application/json; charset=utf-8',
                 ],
                 $this->readDataFile($mockFile)
+            ),
+        ]);
+
+        $handler = HandlerStack::create($mock);
+        $guzzleClient = new Client(['handler' => $handler]);
+        app()->instance(Client::class, $guzzleClient);
+    }
+
+    /**
+     * @param string $filename
+     */
+    public function mockXmlResponse($filename)
+    {
+        $mock = new MockHandler([
+            new Response(
+                200,
+                [
+                    'Content-Type' => 'text/xml',
+                ],
+                $this->readDataFile($filename)
             ),
         ]);
 

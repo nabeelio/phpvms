@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources;
 
-class Airport extends Response
+use App\Contracts\Resource;
+
+class Airport extends Resource
 {
 }

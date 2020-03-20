@@ -7,7 +7,6 @@
       <h2>@lang('pireps.newflightreport')</h2>
       @include('flash::message')
       @if(!empty($pirep))
-        wee
         {{ Form::model($pirep, ['route' => 'frontend.pireps.store']) }}
       @else
         {{ Form::open(['route' => 'frontend.pireps.store']) }}

@@ -3,10 +3,6 @@
 use App\Repositories\SettingRepository;
 use App\Services\AirportService;
 use App\Support\Metar;
-use GuzzleHttp\Client;
-use GuzzleHttp\Handler\MockHandler;
-use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Psr7\Response;
 
 /**
  * Test the parsing/support class of the metar
@@ -19,26 +15,6 @@ class MetarTest extends TestCase
     {
         parent::setUp();
         $this->settingsRepo = app(SettingRepository::class);
-    }
-
-    /**
-     * @param string $filename
-     */
-    private function mockXmlResponse($filename)
-    {
-        $mock = new MockHandler([
-            new Response(
-                200,
-                [
-                    'Content-Type' => 'text/xml',
-                ],
-                $this->readDataFile($filename)
-            ),
-        ]);
-
-        $handler = HandlerStack::create($mock);
-        $guzzleClient = new Client(['handler' => $handler]);
-        app()->instance(Client::class, $guzzleClient);
     }
 
     /**

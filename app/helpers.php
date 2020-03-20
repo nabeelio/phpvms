@@ -152,8 +152,6 @@ if (!function_exists('setting')) {
      * @param       $key
      * @param mixed $default
      *
-     * @throws \Exception
-     *
      * @return mixed|null
      */
     function setting($key, $default = null)
@@ -193,7 +191,6 @@ if (!function_exists('public_asset')) {
     {
         $publicBaseUrl = app()->publicUrlPath();
         $path = $publicBaseUrl.$path;
-
         $path = str_replace('//', '/', $path);
 
         return url($path, $parameters);

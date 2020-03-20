@@ -8,9 +8,13 @@ use App\Events\PirepCancelled;
 use App\Events\PirepFiled;
 use App\Events\PirepRejected;
 use App\Events\UserStatsChanged;
+use App\Exceptions\AircraftNotAtAirport;
+use App\Exceptions\AircraftPermissionDenied;
 use App\Exceptions\PirepCancelNotAllowed;
+use App\Exceptions\UserNotAtAirport;
 use App\Models\Acars;
 use App\Models\Enums\AcarsType;
+use App\Models\Enums\FlightType;
 use App\Models\Enums\PirepSource;
 use App\Models\Enums\PirepState;
 use App\Models\Enums\PirepStatus;
@@ -27,22 +31,82 @@ use Illuminate\Support\Facades\Log;
 class PirepService extends Service
 {
     private $geoSvc;
-    private $pilotSvc;
+    private $userSvc;
     private $pirepRepo;
 
     /**
      * @param GeoService      $geoSvc
      * @param PirepRepository $pirepRepo
-     * @param UserService     $pilotSvc
+     * @param UserService     $userSvc
      */
     public function __construct(
         GeoService $geoSvc,
         PirepRepository $pirepRepo,
-        UserService $pilotSvc
+        UserService $userSvc
     ) {
         $this->geoSvc = $geoSvc;
-        $this->pilotSvc = $pilotSvc;
+        $this->userSvc = $userSvc;
         $this->pirepRepo = $pirepRepo;
+    }
+
+    /**
+     * Create a prefiled PIREP
+     *
+     * @param \App\Models\User $user
+     * @param array            $attrs
+     *
+     * @throws \Exception
+     *
+     * @return \App\Models\Pirep
+     */
+    public function prefile(User $user, array $attrs): Pirep
+    {
+        $attrs['user_id'] = $user->id;
+        $attrs['state'] = PirepState::IN_PROGRESS;
+
+        if (!array_key_exists('status', $attrs)) {
+            $attrs['status'] = PirepStatus::INITIATED;
+        }
+
+        // Default to a scheduled passenger flight
+        if (!array_key_exists('flight_type', $attrs)) {
+            $attrs['flight_type'] = FlightType::SCHED_PAX;
+        }
+
+        $pirep = new Pirep($attrs);
+
+        // See if this user is at the current airport
+        /* @noinspection NotOptimalIfConditionsInspection */
+        if (setting('pilots.only_flights_from_current')
+            && $user->curr_airport_id !== $pirep->dpt_airport_id) {
+            throw new UserNotAtAirport($user, $pirep->dpt_airport);
+        }
+
+        // See if this user is allowed to fly this aircraft
+        if (setting('pireps.restrict_aircraft_to_rank', false)
+            && !$this->userSvc->aircraftAllowed($user, $pirep->aircraft_id)) {
+            throw new AircraftPermissionDenied($user, $pirep->aircraft);
+        }
+
+        // See if this aircraft is at the departure airport
+        /* @noinspection NotOptimalIfConditionsInspection */
+        if (setting('pireps.only_aircraft_at_dpt_airport')
+            && $pirep->aircraft_id !== $pirep->dpt_airport_id) {
+            throw new AircraftNotAtAirport($pirep->aircraft);
+        }
+
+        // Find if there's a duplicate, if so, let's work on that
+        $dupe_pirep = $this->findDuplicate($pirep);
+        if ($dupe_pirep !== false) {
+            $pirep = $dupe_pirep;
+            if ($pirep->cancelled) {
+                throw new \App\Exceptions\PirepCancelled($pirep);
+            }
+        }
+
+        $pirep->save();
+
+        return $pirep;
     }
 
     /**
@@ -348,9 +412,9 @@ class PirepService extends Service
         $ft = $pirep->flight_time;
         $pilot = $pirep->user;
 
-        $this->pilotSvc->adjustFlightTime($pilot, $ft);
-        $this->pilotSvc->adjustFlightCount($pilot, +1);
-        $this->pilotSvc->calculatePilotRank($pilot);
+        $this->userSvc->adjustFlightTime($pilot, $ft);
+        $this->userSvc->adjustFlightCount($pilot, +1);
+        $this->userSvc->calculatePilotRank($pilot);
         $pirep->user->refresh();
 
         // Change the status
@@ -387,9 +451,9 @@ class PirepService extends Service
             $user = $pirep->user;
             $ft = $pirep->flight_time * -1;
 
-            $this->pilotSvc->adjustFlightTime($user, $ft);
-            $this->pilotSvc->adjustFlightCount($user, -1);
-            $this->pilotSvc->calculatePilotRank($user);
+            $this->userSvc->adjustFlightTime($user, $ft);
+            $this->userSvc->adjustFlightCount($user, -1);
+            $this->userSvc->calculatePilotRank($user);
             $pirep->user->refresh();
         }
 

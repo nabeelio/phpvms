@@ -72,6 +72,14 @@ class RouteServiceProvider extends ServiceProvider
                 Route::get('profile/regen_apikey', 'ProfileController@regen_apikey')->name('profile.regen_apikey');
 
                 Route::resource('profile', 'ProfileController');
+
+                // SimBrief stuff
+                Route::get('simbrief/generate', 'SimBriefController@generate')->name('simbrief.generate');
+                Route::post('simbrief/apicode', 'SimBriefController@api_code')->name('simbrief.api_code');
+                Route::get('simbrief/check_ofp', 'SimBriefController@check_ofp')->name('simbrief.check_ofp');
+                Route::get('simbrief/{id}', 'SimBriefController@briefing')->name('simbrief.briefing');
+                Route::get('simbrief/{id}/prefile', 'SimBriefController@prefile')->name('simbrief.prefile');
+                Route::get('simbrief/{id}/cancel', 'SimBriefController@cancel')->name('simbrief.cancel');
             });
 
             Route::group([

@@ -2,7 +2,9 @@
 
 namespace App\Http\Resources;
 
-class AirportDistance extends Response
+use App\Contracts\Resource;
+
+class AirportDistance extends Resource
 {
     public function toArray($request)
     {
