@@ -195,7 +195,7 @@ class ImporterDB
 
         $rows = [];
         $result = $this->readRowsOffset($table, $this->batchSize, $offset, $order_by, $fields);
-        if ($result === false) {
+        if ($result === false || $result === null) {
             return [];
         }
 
@@ -203,7 +203,7 @@ class ImporterDB
             foreach ($result as $row) {
                 $rows[] = $row;
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             Log::error('foreach rows error: '.$e->getMessage());
         }
 

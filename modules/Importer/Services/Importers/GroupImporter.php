@@ -5,6 +5,7 @@ namespace Modules\Importer\Services\Importers;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Services\RoleService;
+use Illuminate\Support\Facades\Log;
 use Modules\Importer\Services\BaseImporter;
 
 /**
@@ -110,7 +111,25 @@ class GroupImporter extends BaseImporter
                     }
 
                     // Get the ID of the permission
-                    $permissions[] = $permMappings[$this->legacy_to_permission[$legacy_name]];
+                    try {
+                        $permName = $this->legacy_to_permission[$legacy_name];
+                        if ($permName === 'admin') {
+                            foreach ($permMappings as $name => $value) {
+                                if (!in_array($value, $permissions)) {
+                                    $permissions[] = $value;
+                                }
+                            }
+
+                            continue;
+                        }
+
+                        $permMapId = $permMappings[$permName];
+                        if (!in_array($permMapId, $permissions)) {
+                            $permissions[] = $permMapId;
+                        }
+                    } catch (\Exception $e) {
+                        Log::error($e->getMessage());
+                    }
                 }
             }
 
