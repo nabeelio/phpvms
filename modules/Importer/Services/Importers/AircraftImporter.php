@@ -46,7 +46,6 @@ class AircraftImporter extends BaseImporter
             }
 
             $subfleet = $this->getSubfleet($subfleet_name, $row->icao, $airline_id);
-            $this->info('Subfleet ID is '.$subfleet->id);
 
             $where = [
                 'registration' => $row->registration,
