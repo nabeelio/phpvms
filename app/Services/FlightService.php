@@ -130,7 +130,11 @@ class FlightService extends Service
      */
     public function filterSubfleets($user, $flight)
     {
+        /** @var \Illuminate\Support\Collection $subfleets */
         $subfleets = $flight->subfleets;
+        if ($subfleets === null || $subfleets->count() === 0) {
+            return $flight;
+        }
 
         /*
          * Only allow aircraft that the user has access to in their rank

@@ -2,11 +2,16 @@
 
 namespace App\Http\Resources;
 
+use App\Contracts\Resource;
+use App\Http\Resources\SimBrief as SimbriefResource;
 use App\Models\Enums\PirepStatus;
 use App\Support\Units\Distance;
 use App\Support\Units\Fuel;
 
-class Pirep extends Response
+/**
+ * @mixin \App\Models\Pirep
+ */
+class Pirep extends Resource
 {
     /**
      * Transform the resource into an array.
@@ -74,6 +79,9 @@ class Pirep extends Response
 
         // format to kvp
         $res['fields'] = new PirepFieldCollection($this->fields);
+
+        // Simbrief info
+        $res['simbrief'] = new SimbriefResource($this->whenLoaded('simbrief'));
 
         return $res;
     }

@@ -26,8 +26,6 @@ class FlightController extends Controller
     private $geoSvc;
 
     /**
-     * FlightController constructor.
-     *
      * @param AirlineRepository  $airlineRepo
      * @param AirportRepository  $airportRepo
      * @param FlightRepository   $flightRepo
@@ -114,6 +112,7 @@ class FlightController extends Controller
             'arr_icao'      => $request->input('arr_icao'),
             'dep_icao'      => $request->input('dep_icao'),
             'subfleet_id'   => $request->input('subfleet_id'),
+            'simbrief'      => !empty(setting('simbrief.api_key')),
         ]);
     }
 
@@ -138,6 +137,7 @@ class FlightController extends Controller
             'flights'   => $flights,
             'saved'     => $saved_flights,
             'subfleets' => $this->subfleetRepo->selectBoxList(true),
+            'simbrief'  => !empty(setting('simbrief.api_key')),
         ]);
     }
 

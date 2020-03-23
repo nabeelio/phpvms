@@ -2,13 +2,15 @@
 
 namespace App\Http\Resources;
 
+use App\Contracts\Resource;
+use App\Http\Resources\SimBrief as SimbriefResource;
 use App\Support\Units\Distance;
 use stdClass;
 
 /**
  * @mixin \App\Models\Flight
  */
-class Flight extends Response
+class Flight extends Resource
 {
     /**
      * Set the fields on the flight object
@@ -55,8 +57,11 @@ class Flight extends Response
         $res['distance'] = $distance->getResponseUnits();
 
         $res['airline'] = new Airline($this->airline);
-        $res['subfleets'] = Subfleet::collection($this->subfleets);
+        $res['subfleets'] = Subfleet::collection($this->whenLoaded('subfleets'));
         $res['fields'] = $this->setFields();
+
+        // Simbrief info
+        $res['simbrief'] = new SimbriefResource($this->whenLoaded('simbrief'));
 
         return $res;
     }

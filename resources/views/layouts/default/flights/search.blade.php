@@ -28,7 +28,7 @@
       </div>
 
       <div class="clear mt-1" style="margin-top: 10px;">
-        {{ Form::submit(__('common.find'), ['class' => 'btn btn-primary']) }}&nbsp;
+        {{ Form::submit(__('common.find'), ['class' => 'btn btn-outline-primary']) }}&nbsp;
         <a href="{{ route('frontend.flights.index') }}">@lang('common.reset')</a>
       </div>
       {{ Form::close() }}

@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Api;
 
 use App\Contracts\Controller;
+use App\Exceptions\AssetNotFound;
 use App\Http\Resources\Flight as FlightResource;
 use App\Http\Resources\Navdata as NavdataResource;
+use App\Models\SimBrief;
 use App\Repositories\Criteria\WhereCriteria;
 use App\Repositories\FlightRepository;
 use App\Services\FlightService;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Prettus\Repository\Criteria\RequestCriteria;
@@ -51,7 +54,18 @@ class FlightController extends Controller
      */
     public function get($id)
     {
-        $flight = $this->flightRepo->find($id);
+        $user = Auth::user();
+        $flight = $this->flightRepo->with([
+            'airline',
+            'subfleets',
+            'subfleets.aircraft',
+            'subfleets.fares',
+            'field_values',
+            'simbrief' => function ($query) use ($user) {
+                return $query->where('user_id', $user->id);
+            },
+        ])->find($id);
+
         $this->flightSvc->filterSubfleets(Auth::user(), $flight);
 
         return new FlightResource($flight);
@@ -64,6 +78,7 @@ class FlightController extends Controller
      */
     public function search(Request $request)
     {
+        $user = Auth::user();
         $where = [
             'active'  => true,
             'visible' => true,
@@ -95,6 +110,9 @@ class FlightController extends Controller
                     'subfleets.aircraft',
                     'subfleets.fares',
                     'field_values',
+                    'simbrief' => function ($query) use ($user) {
+                        return $query->where('user_id', $user->id);
+                    },
                 ])
                 ->paginate();
         } catch (RepositoryException $e) {
@@ -107,6 +125,32 @@ class FlightController extends Controller
         }
 
         return FlightResource::collection($flights);
+    }
+
+    /**
+     * Output the flight briefing from simbrief or whatever other format
+     *
+     * @param string $id The flight ID
+     *
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     */
+    public function briefing($id)
+    {
+        $user = Auth::user();
+        $w = [
+            'user_id'   => $user->id,
+            'flight_id' => $id,
+        ];
+
+        $simbrief = SimBrief::where($w)->first();
+
+        if ($simbrief === null) {
+            throw new AssetNotFound(new Exception('Flight briefing not found'));
+        }
+
+        return response($simbrief->acars_xml, 200, [
+            'Content-Type' => 'application/xml',
+        ]);
     }
 
     /**

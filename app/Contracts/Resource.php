@@ -1,14 +1,11 @@
 <?php
 
-namespace App\Http\Resources;
-
-use App\Contracts\Unit;
-use Illuminate\Http\Resources\Json\Resource;
+namespace App\Contracts;
 
 /**
- * Class Response
+ * Base class for a resource/response
  */
-class Response extends Resource
+class Resource extends \Illuminate\Http\Resources\Json\Resource
 {
     /**
      * Iterate through the list of $fields and check if they're a "Unit"

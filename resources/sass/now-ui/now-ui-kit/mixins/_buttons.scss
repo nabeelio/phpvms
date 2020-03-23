@@ -2,8 +2,6 @@
 @mixin btn-styles($btn-color, $btn-states-color) {
     background-color: $btn-color;
 
-
-
     &:hover,
     &:focus,
     &:not(:disabled):not(.disabled):active,

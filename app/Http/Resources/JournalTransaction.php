@@ -2,7 +2,9 @@
 
 namespace App\Http\Resources;
 
-class JournalTransaction extends Response
+use App\Contracts\Resource;
+
+class JournalTransaction extends Resource
 {
     public function toArray($request)
     {

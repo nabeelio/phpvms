@@ -2,7 +2,9 @@
 
 namespace App\Http\Resources;
 
-class Airline extends Response
+use App\Contracts\Resource;
+
+class Airline extends Resource
 {
     public function toArray($request)
     {

@@ -2,10 +2,11 @@
 
 namespace App\Http\Resources;
 
+use App\Contracts\Resource;
 use App\Support\Units\Distance;
 use App\Support\Units\Fuel;
 
-class Acars extends Response
+class Acars extends Resource
 {
     /**
      * Transform the resource into an array.

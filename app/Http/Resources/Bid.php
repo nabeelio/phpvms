@@ -2,7 +2,9 @@
 
 namespace App\Http\Resources;
 
-class Bid extends Response
+use App\Contracts\Resource;
+
+class Bid extends Resource
 {
     public function toArray($request)
     {
