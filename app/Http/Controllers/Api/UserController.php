@@ -77,7 +77,7 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        return new UserResource(Auth::user());
+        return $this->get(Auth::user()->id);
     }
 
     /**
@@ -89,7 +89,11 @@ class UserController extends Controller
      */
     public function get($id)
     {
-        return new UserResource($this->userRepo->find($id));
+        $user = $this->userRepo
+            ->with(['airline', 'bids'])
+            ->find($id);
+
+        return new UserResource($user);
     }
 
     /**

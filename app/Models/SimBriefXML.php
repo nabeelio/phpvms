@@ -37,10 +37,10 @@ class SimBriefXML extends SimpleXMLElement
         $base_url = $this->fms_downloads->directory;
 
         // TODO: Put vmsACARS on top
-        if (!empty($this->fms_downloads->vma)) {
+        if (!empty($this->fms_downloads->vms)) {
             $fps[] = [
-                'name' => $this->fms_downloads->vma->name->__toString(),
-                'url'  => $base_url.$this->fms_downloads->vma->link,
+                'name' => $this->fms_downloads->vms->name->__toString(),
+                'url'  => $base_url.$this->fms_downloads->vms->link,
             ];
         }
 
