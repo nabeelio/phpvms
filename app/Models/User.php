@@ -21,6 +21,7 @@ use Laratrust\Traits\LaratrustUserTrait;
  * @property string         ident
  * @property string         curr_airport_id
  * @property string         home_airport_id
+ * @property string         avatar
  * @property Airline        airline
  * @property Flight[]       flights
  * @property int            flight_time
@@ -142,7 +143,7 @@ class User extends Authenticatable
     public function getAvatarAttribute()
     {
         if (!$this->attributes['avatar']) {
-            return;
+            return $this->gravatar();
         }
 
         return new File([

@@ -263,4 +263,12 @@ class ApiTest extends TestCase
         $res = $this->get('/api/settings')->assertStatus(200);
         $settings = $res->json();
     }
+
+    public function testGetUser()
+    {
+        $this->user = factory(App\Models\User::class)->create();
+        $res = $this->get('/api/user')->assertStatus(200);
+        $user = $res->json('data');
+        $this->assertNotNull($user);
+    }
 }
