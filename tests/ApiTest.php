@@ -266,9 +266,22 @@ class ApiTest extends TestCase
 
     public function testGetUser()
     {
-        $this->user = factory(App\Models\User::class)->create();
+        $this->user = factory(App\Models\User::class)->create([
+            'avatar' => '/assets/avatar.jpg',
+        ]);
+
         $res = $this->get('/api/user')->assertStatus(200);
         $user = $res->json('data');
         $this->assertNotNull($user);
+        $this->assertTrue(strpos($user['avatar'], 'http') !== -1);
+
+        // Should go to gravatar
+
+        $this->user = factory(App\Models\User::class)->create();
+
+        $res = $this->get('/api/user')->assertStatus(200);
+        $user = $res->json('data');
+        $this->assertNotNull($user);
+        $this->assertTrue(strpos($user['avatar'], 'gravatar') !== -1);
     }
 }

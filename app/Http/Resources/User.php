@@ -15,7 +15,7 @@ class User extends Resource
         $res = [
             'id'            => $this->id,
             'pilot_id'      => $this->pilot_id,
-            'avatar'        => $this->avatar,
+            'avatar'        => $this->avatar->url,
             'ident'         => $this->ident,
             'name'          => $this->name,
             'email'         => $this->email,
