@@ -143,9 +143,7 @@ class User extends Authenticatable
     public function getAvatarAttribute()
     {
         if (!$this->attributes['avatar']) {
-            return new File([
-                'path' => $this->gravatar(),
-            ]);
+            return null;
         }
 
         return new File([

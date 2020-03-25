@@ -15,7 +15,6 @@ class User extends Resource
         $res = [
             'id'            => $this->id,
             'pilot_id'      => $this->pilot_id,
-            'avatar'        => $this->avatar->url,
             'ident'         => $this->ident,
             'name'          => $this->name,
             'email'         => $this->email,
@@ -26,12 +25,22 @@ class User extends Resource
             'flight_time'   => $this->flight_time,
             'timezone'      => $this->timezone,
             'state'         => $this->state,
-            'rank'          => Rank::make($this->rank),
         ];
 
         $res['airline'] = Airline::make($this->airline);
         $res['bids'] = UserBid::collection($this->whenLoaded('bids'));
         $res['flights'] = new FlightResource($this->whenLoaded('flights'));
+        $res['rank'] = Rank::make($this->rank);
+
+        /*
+         * Determine which avatar to send/use
+         */
+        $res['avatar'] = $this->avatar;
+        if (empty($res['avatar'])) {
+            $res['avatar'] = $this->gravatar();
+        } else {
+            $res['avatar'] = $res['avatar']->url;
+        }
 
         return $res;
     }
