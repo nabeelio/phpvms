@@ -3,7 +3,6 @@
 namespace App\Http\Resources;
 
 use App\Contracts\Resource;
-use App\Http\Resources\Flight as FlightResource;
 
 /**
  * @mixin \App\Models\User
@@ -30,7 +29,6 @@ class User extends Resource
 
         $res['airline'] = Airline::make($this->airline);
         $res['bids'] = UserBid::collection($this->whenLoaded('bids'));
-        $res['flights'] = new FlightResource($this->whenLoaded('flights'));
         $res['rank'] = Rank::make($this->rank);
 
         /*

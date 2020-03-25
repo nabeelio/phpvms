@@ -3,7 +3,14 @@
 namespace App\Models;
 
 use App\Contracts\Model;
+use Carbon\Carbon;
 
+/**
+ * @property string user_id
+ * @property string flight_id
+ * @property Carbon created_at
+ * @property Carbon updated_at
+ */
 class Bid extends Model
 {
     public $table = 'bids';

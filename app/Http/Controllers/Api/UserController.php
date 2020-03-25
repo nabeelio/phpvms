@@ -90,7 +90,7 @@ class UserController extends Controller
     public function get($id)
     {
         $user = $this->userRepo
-            ->with(['airline', 'bids', 'rank'])
+            ->with(['airline', 'rank'])
             ->find($id);
 
         return new UserResource($user);

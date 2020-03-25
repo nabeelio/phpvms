@@ -201,10 +201,10 @@ class User extends Authenticatable
     /**
      * These are the flights they've bid on
      */
-    public function flights()
-    {
-        return $this->belongsToMany(Flight::class, 'bids');
-    }
+    // public function flights()
+    // {
+    //     return $this->belongsToMany(Flight::class, 'bids');
+    // }
 
     /**
      * The bid rows
