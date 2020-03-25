@@ -22,6 +22,7 @@ class User extends Resource
             'home_airport'  => $this->home_airport_id,
             'curr_airport'  => $this->curr_airport_id,
             'last_pirep_id' => $this->last_pirep_id,
+            'flights'       => $this->flights,
             'flight_time'   => $this->flight_time,
             'timezone'      => $this->timezone,
             'state'         => $this->state,
