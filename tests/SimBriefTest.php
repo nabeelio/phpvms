@@ -23,7 +23,10 @@ class SimBriefTest extends TestCase
             'arr_airport_id' => 'OMDB',
         ]);
 
-        $this->mockXmlResponse('briefing.xml');
+        $this->mockXmlResponse([
+            'simbrief/briefing.xml',
+            'simbrief/acars_briefing.xml',
+        ]);
 
         /** @var SimBriefService $sb */
         $sb = app(SimBriefService::class);
@@ -44,7 +47,7 @@ class SimBriefTest extends TestCase
 
         // Spot check reading of the files
         $files = $briefing->files;
-        $this->assertEquals(45, $files->count());
+        $this->assertEquals(47, $files->count());
         $this->assertEquals(
             'http://www.simbrief.com/ofp/flightplans/OMAAOMDB_PDF_1584226092.pdf',
             $files->firstWhere('name', 'PDF Document')['url']

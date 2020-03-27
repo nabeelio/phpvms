@@ -27,6 +27,21 @@ class SimBriefXML extends SimpleXMLElement
     }
 
     /**
+     * Return the URL to the vmsACARS flight plan file
+     *
+     * @return string|null
+     */
+    public function getAcarsXmlUrl()
+    {
+        if (!empty($this->fms_downloads->vms)) {
+            $base_url = $this->fms_downloads->directory;
+            return $base_url.$this->fms_downloads->vms->link;
+        }
+
+        return null;
+    }
+
+    /**
      * Retrieve all of the flightplans
      *
      * @return Collection

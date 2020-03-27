@@ -7,6 +7,7 @@ use App\Models\Acars;
 use App\Models\Enums\AcarsType;
 use App\Models\Pirep;
 use App\Models\SimBrief;
+use App\Models\SimBriefXML;
 use Carbon\Carbon;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\GuzzleException;
@@ -31,7 +32,7 @@ class SimBriefService extends Service
      *
      * @return SimBrief|null
      */
-    public function checkForOfp(string $user_id, string $ofp_id, string $flight_id): SimBrief
+    public function checkForOfp(string $user_id, string $ofp_id, string $flight_id)
     {
         $uri = str_replace('{id}', $ofp_id, config('phpvms.simbrief_url'));
 
@@ -52,26 +53,65 @@ class SimBriefService extends Service
 
         $body = $response->getBody()->getContents();
 
+        /** @var SimBriefXML $ofp */
+        $ofp = simplexml_load_string($body, SimBriefXML::class);
+
         $attrs = [
             'user_id'   => $user_id,
             'flight_id' => $flight_id,
-            'ofp_xml'   => $body,
+            'ofp_xml'   => $ofp->asXML(),
         ];
 
-        // TODO: Retrieve the ACARS XML and store that. For now, replace the doctype
+        // Try to download the XML file for ACARS. If it doesn't work, try to modify the main OFP
+        $acars_xml = $this->getAcarsOFP($ofp);
+        if (empty($acars_xml)) {
+            $new_doctype = '<VMSAcars Type="FlightPlan" version="1.0" generated="'.time().'">';
+            $acars_xml = str_replace('<OFP>', $new_doctype, $body);
+            $acars_xml = str_replace('</OFP>', '</VMSAcars>', $acars_xml);
+            $acars_xml = str_replace("\n", '', $acars_xml);
 
-        $new_doctype = '<VMSAcars Type="FlightPlan" version="1.0" generated="'.time().'">';
-        $acars_xml = str_replace('<OFP>', $new_doctype, $body);
-        $acars_xml = str_replace('</OFP>', '</VMSAcars>', $acars_xml);
-        $acars_xml = str_replace("\n", '', $acars_xml);
-
-        $attrs['acars_xml'] = simplexml_load_string($acars_xml)->asXML();
+            $attrs['acars_xml'] = simplexml_load_string($acars_xml)->asXML();
+        } else {
+            $attrs['acars_xml'] = $acars_xml->asXML();
+        }
 
         // Save this into the Simbrief table, if it doesn't already exist
         return SimBrief::updateOrCreate(
             ['id' => $ofp_id],
             $attrs
         );
+    }
+
+    /**
+     * @param \App\Models\SimBriefXML $ofp
+     *
+     * @return \SimpleXMLElement|null
+     */
+    public function getAcarsOFP(SimBriefXML $ofp)
+    {
+        $url = $ofp->getAcarsXmlUrl();
+        if (empty($url)) {
+            return null;
+        }
+
+        $opts = [
+            'connect_timeout' => 2, // wait two seconds by default
+            'allow_redirects' => true,
+        ];
+
+        try {
+            $response = $this->httpClient->request('GET', $url, $opts);
+            if ($response->getStatusCode() !== 200) {
+                return null;
+            }
+        } catch (GuzzleException $e) {
+            Log::error('Simbrief HTTP Error: '.$e->getMessage());
+            dd($e);
+            return null;
+        }
+
+        $body = $response->getBody()->getContents();
+        return simplexml_load_string($body);
     }
 
     /**

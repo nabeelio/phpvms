@@ -71,10 +71,12 @@
       <div class="row">
         <div class="col-sm-12 text-right">
           @if ($simbrief !== false)
-            <a href="{{ route('frontend.simbrief.generate') }}?flight_id={{ $flight->id }}"
-               class="btn btn-sm btn-outline-primary">
-              Create SimBrief Flight Plan
-            </a>
+            @if ($simbrief_bids === false || ($simbrief_bids === true && in_array($flight->id, $saved, true)))
+              <a href="{{ route('frontend.simbrief.generate') }}?flight_id={{ $flight->id }}"
+                 class="btn btn-sm btn-outline-primary">
+                Create SimBrief Flight Plan
+              </a>
+            @endif
           @endif
 
           <a href="{{ route('frontend.pireps.create') }}?flight_id={{ $flight->id }}"

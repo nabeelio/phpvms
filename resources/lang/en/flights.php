@@ -6,7 +6,7 @@ return [
     'flighttype'       => 'Flight Type',
     'flighthours'      => 'Flight Hours',
     'route'            => 'Route',
-    'mybid'            => 'My Bid|My Bids',
+    'mybid'            => 'My Bids',
     'search'           => 'Search',
     'addremovebid'     => 'Add/Remove Bid',
     'bidremoved'       => 'Your bid was removed.',

@@ -159,6 +159,13 @@
   options: ''
   type: string
   description: 'Your SimBrief API key'
+- key: simbrief.only_bids
+  name: 'Only allow for bids'
+  group: simbrief
+  value: true
+  options: ''
+  type: boolean
+  description: 'Only allow briefs to be created for bidded flights'
 - key: simbrief.expire_days
   name: 'SimBrief Expire Time'
   group: simbrief
