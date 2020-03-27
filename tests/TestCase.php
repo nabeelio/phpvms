@@ -132,19 +132,22 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
     /**
      * Return a mock Guzzle Client with a response loaded from $mockFile
      *
-     * @param $mockFile
+     * @param array|string $files
      */
-    public function mockGuzzleClient($mockFile): void
+    public function mockGuzzleClient($files): void
     {
-        $mock = new MockHandler([
-            new Response(
-                200,
-                [
-                    'Content-Type' => 'application/json; charset=utf-8',
-                ],
-                $this->readDataFile($mockFile)
-            ),
-        ]);
+        if (!is_array($files)) {
+            $files = [$files];
+        }
+
+        $responses = [];
+        foreach ($files as $file) {
+            $responses[] = new Response(200, [
+                'Content-Type' => 'application/json; charset=utf-8',
+            ], $this->readDataFile($file));
+        }
+
+        $mock = new MockHandler($responses);
 
         $handler = HandlerStack::create($mock);
         $guzzleClient = new Client(['handler' => $handler]);
@@ -152,7 +155,7 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
     }
 
     /**
-     * @param string|array $files The filename or files to respond with
+     * @param array|string $files The filename or files to respond with
      */
     public function mockXmlResponse($files)
     {
