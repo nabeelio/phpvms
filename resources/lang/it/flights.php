@@ -6,7 +6,7 @@ return [
     'flighttype'       => 'Tipo di Volo',
     'flighthours'      => 'Ore di Volo',
     'route'            => 'Rotta',
-    'mybid'            => 'Mia prenotazione|Mie Prenotazioni',
+    'mybid'            => 'Mie Prenotazioni',
     'addremovebid'     => 'Aggiungi/Rimuovi Prenotazione',
     'bidremoved'       => 'La tua prenotazione è stata rimossa.',
     'bidadded'         => 'La tua prenotazione è stata aggiunta.',

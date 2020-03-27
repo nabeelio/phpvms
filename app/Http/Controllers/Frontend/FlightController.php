@@ -9,11 +9,12 @@ use App\Repositories\AirportRepository;
 use App\Repositories\Criteria\WhereCriteria;
 use App\Repositories\FlightRepository;
 use App\Repositories\SubfleetRepository;
+use App\Repositories\UserRepository;
 use App\Services\GeoService;
-use Flash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Laracasts\Flash\Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Prettus\Repository\Exceptions\RepositoryException;
 
@@ -24,6 +25,7 @@ class FlightController extends Controller
     private $flightRepo;
     private $subfleetRepo;
     private $geoSvc;
+    private $userRepo;
 
     /**
      * @param AirlineRepository  $airlineRepo
@@ -31,19 +33,22 @@ class FlightController extends Controller
      * @param FlightRepository   $flightRepo
      * @param GeoService         $geoSvc
      * @param SubfleetRepository $subfleetRepo
+     * @param UserRepository     $userRepo
      */
     public function __construct(
         AirlineRepository $airlineRepo,
         AirportRepository $airportRepo,
         FlightRepository $flightRepo,
         GeoService $geoSvc,
-        SubfleetRepository $subfleetRepo
+        SubfleetRepository $subfleetRepo,
+        UserRepository $userRepo
     ) {
         $this->airlineRepo = $airlineRepo;
         $this->airportRepo = $airportRepo;
         $this->flightRepo = $flightRepo;
         $this->geoSvc = $geoSvc;
         $this->subfleetRepo = $subfleetRepo;
+        $this->userRepo = $userRepo;
     }
 
     /**
@@ -113,6 +118,7 @@ class FlightController extends Controller
             'dep_icao'      => $request->input('dep_icao'),
             'subfleet_id'   => $request->input('subfleet_id'),
             'simbrief'      => !empty(setting('simbrief.api_key')),
+            'simbrief_bids' => setting('simbrief.only_bids'),
         ]);
     }
 
@@ -125,19 +131,25 @@ class FlightController extends Controller
      */
     public function bids(Request $request)
     {
-        $user = Auth::user();
+        $user = $this->userRepo
+            ->with(['bids', 'bids.flight'])
+            ->find(Auth::user()->id);
 
-        $flights = $user->flights()->paginate();
-        $saved_flights = $flights->pluck('id')->toArray();
+        $flights = collect();
+        $saved_flights = [];
+        foreach ($user->bids as $bid) {
+            $flights->add($bid->flight);
+            $saved_flights[] = $bid->flight->id;
+        }
 
-        return view('flights.index', [
-            'title'     => trans_choice('flights.mybid', 2),
-            'airlines'  => $this->airlineRepo->selectBoxList(true),
-            'airports'  => $this->airportRepo->selectBoxList(true),
-            'flights'   => $flights,
-            'saved'     => $saved_flights,
-            'subfleets' => $this->subfleetRepo->selectBoxList(true),
-            'simbrief'  => !empty(setting('simbrief.api_key')),
+        return view('flights.bids', [
+            'airlines'      => $this->airlineRepo->selectBoxList(true),
+            'airports'      => $this->airportRepo->selectBoxList(true),
+            'flights'       => $flights,
+            'saved'         => $saved_flights,
+            'subfleets'     => $this->subfleetRepo->selectBoxList(true),
+            'simbrief'      => !empty(setting('simbrief.api_key')),
+            'simbrief_bids' => setting('simbrief.only_bids'),
         ]);
     }
 

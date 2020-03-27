@@ -152,19 +152,22 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
     }
 
     /**
-     * @param string $filename
+     * @param string|array $files The filename or files to respond with
      */
-    public function mockXmlResponse($filename)
+    public function mockXmlResponse($files)
     {
-        $mock = new MockHandler([
-            new Response(
-                200,
-                [
-                    'Content-Type' => 'text/xml',
-                ],
-                $this->readDataFile($filename)
-            ),
-        ]);
+        if (!is_array($files)) {
+            $files = [$files];
+        }
+
+        $responses = [];
+        foreach ($files as $file) {
+            $responses[] = new Response(200, [
+                'Content-Type' => 'text/xml',
+            ], $this->readDataFile($file));
+        }
+
+        $mock = new MockHandler($responses);
 
         $handler = HandlerStack::create($mock);
         $guzzleClient = new Client(['handler' => $handler]);

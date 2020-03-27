@@ -4277,6 +4277,10 @@ NIL
       <name>X-Plane 9/10</name>
       <link>OMAAOMDB_XP9_1584226092.fms</link>
     </file>
+    <file>
+      <name>phpVMS ACARS</name>
+      <link>MKJPMWCR_VMS_1585313544.xml</link>
+    </file>
   </files>
   <fms_downloads>
     <directory>http://www.simbrief.com/ofp/flightplans/</directory>
@@ -4460,6 +4464,10 @@ NIL
       <name>X-Plane 9/10</name>
       <link>OMAAOMDB_XP9_1584226092.fms</link>
     </xp9>
+    <vms>
+      <name>phpVMS ACARS</name>
+      <link>MKJPMWCR_VMS_1585313544.xml</link>
+    </vms>
   </fms_downloads>
   <images>
     <directory>http://www.simbrief.com/ofp/uads/</directory>
