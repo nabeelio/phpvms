@@ -7,6 +7,7 @@ use App\Http\Middleware\EncryptCookies;
 use App\Http\Middleware\InstalledCheck;
 use App\Http\Middleware\JsonResponse;
 use App\Http\Middleware\RedirectIfAuthenticated;
+use App\Http\Middleware\SetActiveTheme;
 use App\Http\Middleware\TrustProxies;
 use App\Http\Middleware\UpdatePending;
 use Illuminate\Auth\Middleware\Authenticate;
@@ -54,6 +55,7 @@ class Kernel extends HttpKernel
         'can'            => Authorize::class,
         'guest'          => RedirectIfAuthenticated::class,
         'json'           => JsonResponse::class,
+        'theme'          => SetActiveTheme::class,
         'throttle'       => ThrottleRequests::class,
         'update_pending' => UpdatePending::class,
     ];

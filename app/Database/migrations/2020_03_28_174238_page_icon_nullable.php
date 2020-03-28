@@ -15,6 +15,5 @@ class PageIconNullable extends Migration
 
     public function down()
     {
-
     }
 }
