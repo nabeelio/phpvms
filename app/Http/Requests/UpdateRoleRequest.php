@@ -2,24 +2,14 @@
 
 namespace App\Http\Requests;
 
+use App\Contracts\FormRequest;
 use App\Models\Role;
-use Illuminate\Foundation\Http\FormRequest;
 
 /**
  * @property array permissions
  */
 class UpdateRoleRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize(): bool
-    {
-        return true;
-    }
-
     /**
      * Get the validation rules that apply to the request.
      *

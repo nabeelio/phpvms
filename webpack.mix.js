@@ -25,6 +25,9 @@ function copyAssets()
   mix.copy('node_modules/icheck/skins/square/blue*.png', 'public/assets/admin/css');
 }
 
+/**
+ *
+ */
 function buildFrontendAssets()
 {
   mix.sass('resources/sass/now-ui/now-ui-kit.scss', 'public/assets/frontend/css/now-ui-kit.css')
@@ -38,6 +41,9 @@ function buildFrontendAssets()
   ], 'public/assets/frontend/js/vendor.js');
 }
 
+/**
+ *
+ */
 function buildAdminAssets()
 {
   mix.sass('resources/sass/admin/paper-dashboard.scss',
@@ -75,6 +81,8 @@ function buildAdminAssets()
     'node_modules/jquery-pjax/jquery.pjax.js',
     'node_modues/paper-dashboard/assets/js/paper-dashboard.js',
   ], 'public/assets/admin/js/vendor.js');
+
+  mix.copy('node_modules/ckeditor4', 'public/assets/vendor/ckeditor4/');
 }
 
 function buildGlobalAssets()

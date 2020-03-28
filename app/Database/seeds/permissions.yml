@@ -30,6 +30,9 @@
 - name: finances
   display_name: Finances
   description: Create/view finance related items
+- name: pages
+  display_name: Pages
+  description: Add/edit/delete pages
 - name: pireps
   display_name: PIREPs
   description: Accept/reject/edit PIREPs

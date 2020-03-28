@@ -2,15 +2,14 @@
 
 namespace App\Contracts;
 
-/**
- * Class FormRequest
- */
 class FormRequest extends \Illuminate\Foundation\Http\FormRequest
 {
     /**
+     * Authorized by default
+     *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -18,7 +17,7 @@ class FormRequest extends \Illuminate\Foundation\Http\FormRequest
     /**
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [];
     }

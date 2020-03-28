@@ -16,7 +16,7 @@ class UpdateRequest extends FormRequest
 
     public function rules(): array
     {
-        $rules = [
+        return [
             'airline_id'          => 'nullable|exists:airlines,id',
             'aircraft_id'         => 'nullable|exists:aircraft,id',
             'flight_id'           => 'sometimes|nullable|exists:flights,id',
@@ -50,7 +50,5 @@ class UpdateRequest extends FormRequest
             'fares.*.id'    => 'required',
             'fares.*.count' => 'required|numeric',
         ];
-
-        return $rules;
     }
 }

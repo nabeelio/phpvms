@@ -55,6 +55,7 @@
         "symfony/polyfill-iconv": "~1.12",
         "theiconic/php-ga-measurement-protocol": "2.7.*",
         "tivie/php-os-detector": "~1.1.0",
+        "vlucas/phpdotenv": "v3.6.0",
         "webpatser/laravel-uuid": "~3.0",
         "oomphinc/composer-installers-extender": "^1.1"
     },
