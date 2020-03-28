@@ -4,6 +4,7 @@ namespace App\Http\Composers;
 
 use App\Contracts\Composer;
 use App\Repositories\PageRepository;
+use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
@@ -26,13 +27,18 @@ class PageLinksComposer extends Composer
      */
     public function compose(View $view)
     {
-        // If not logged in, then only get the public pages
-        $w = ['enabled' => true];
-        if (!Auth::check()) {
-            $w = ['public' => true];
+        try {
+            // If not logged in, then only get the public pages
+            $w = ['enabled' => true];
+            if (!Auth::check()) {
+                $w = ['public' => true];
+            }
+
+            $pages = $this->pageRepo->findWhere($w, ['id', 'name', 'slug', 'icon']);
+        } catch (Exception $e) {
+            $pages = [];
         }
 
-        $pages = $this->pageRepo->findWhere($w, ['id', 'name', 'slug', 'icon']);
         $view->with('page_links', $pages);
     }
 }
