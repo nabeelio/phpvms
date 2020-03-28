@@ -36,6 +36,7 @@
         "laracasts/flash": "^3.0",
         "laravel/helpers": "^1.0",
         "laravelcollective/html": "~6.0.0",
+        "layershifter/tld-extract": "^2.0",
         "league/csv": "9.2.*",
         "league/geotools": "0.8.*",
         "league/iso3166": "2.1.*",
@@ -104,7 +105,6 @@
             "@php -r \"array_map('unlink', glob('bootstrap/cache/*'));\""
         ],
         "post-package-uninstall": [
-            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi",
             "@php artisan phpvms:caches"
         ],
