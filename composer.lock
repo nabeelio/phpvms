@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "39ac8c1896bfc4427e9382c7e57e2e62",
+    "content-hash": "dd64c8c9fc4c4548a21073225e1dcebe",
     "packages": [
         {
             "name": "akaunting/money",
@@ -2839,6 +2839,153 @@
             "description": "HTML and Form Builders for the Laravel Framework",
             "homepage": "https://laravelcollective.com",
             "time": "2019-10-02T00:37:39+00:00"
+        },
+        {
+            "name": "layershifter/tld-database",
+            "version": "1.0.69",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/layershifter/TLDDatabase.git",
+                "reference": "7423c7acdc5147268fb856f532a5d8875f6fe41e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/layershifter/TLDDatabase/zipball/7423c7acdc5147268fb856f532a5d8875f6fe41e",
+                "reference": "7423c7acdc5147268fb856f532a5d8875f6fe41e",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "layershifter/tld-support": "^1.0.0",
+                "php": "^5.5.0 || ^7.0"
+            },
+            "require-dev": {
+                "codeclimate/php-test-reporter": "dev-master",
+                "mikey179/vfsstream": "^1.6",
+                "phpmd/phpmd": "@stable",
+                "phpunit/phpunit": "^4.8 || ^5.0",
+                "squizlabs/php_codesniffer": "~2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "LayerShifter\\TLDDatabase\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Alexander Fedyashov",
+                    "email": "a@fedyashov.com"
+                }
+            ],
+            "description": "Database abstraction for Public Suffix List",
+            "keywords": [
+                "PSL",
+                "Public Suffix List",
+                "domain database",
+                "tld database"
+            ],
+            "time": "2019-08-04T10:03:36+00:00"
+        },
+        {
+            "name": "layershifter/tld-extract",
+            "version": "2.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/layershifter/TLDExtract.git",
+                "reference": "b49cb89a4ed59a9474a47589054e56ce57787348"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/layershifter/TLDExtract/zipball/b49cb89a4ed59a9474a47589054e56ce57787348",
+                "reference": "b49cb89a4ed59a9474a47589054e56ce57787348",
+                "shasum": ""
+            },
+            "require": {
+                "layershifter/tld-database": "^1.0",
+                "layershifter/tld-support": "^1.1",
+                "php": "^5.5.0 || ^7.0",
+                "symfony/polyfill-intl-idn": "^1.10"
+            },
+            "require-dev": {
+                "phpmd/phpmd": "@stable",
+                "phpunit/phpunit": "^4.8 || ^5.0",
+                "squizlabs/php_codesniffer": "~2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/static.php"
+                ],
+                "psr-4": {
+                    "LayerShifter\\TLDExtract\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Alexander Fedyashov",
+                    "email": "a@fedyashov.com"
+                }
+            ],
+            "description": "TLDExtract, library for extracting parts of domain, e.q. domain parser",
+            "keywords": [
+                "TLDExtract",
+                "domain parser"
+            ],
+            "abandoned": true,
+            "time": "2019-02-11T14:37:05+00:00"
+        },
+        {
+            "name": "layershifter/tld-support",
+            "version": "1.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/layershifter/TLDSupport.git",
+                "reference": "9b9eb2350db82239289f4e6eb250a2fe4865b0db"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/layershifter/TLDSupport/zipball/9b9eb2350db82239289f4e6eb250a2fe4865b0db",
+                "reference": "9b9eb2350db82239289f4e6eb250a2fe4865b0db",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5",
+                "symfony/polyfill-mbstring": "^1.2"
+            },
+            "require-dev": {
+                "codeclimate/php-test-reporter": "dev-master",
+                "phpmd/phpmd": "@stable",
+                "phpunit/phpunit": "4.8.*",
+                "squizlabs/php_codesniffer": "2.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "LayerShifter\\TLDSupport\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Alexander Fedyashov",
+                    "email": "a@fedyashov.com"
+                }
+            ],
+            "description": "Support package for TLDDatabase and TLDExtract",
+            "abandoned": true,
+            "time": "2016-06-18T12:28:04+00:00"
         },
         {
             "name": "league/commonmark",

@@ -6,6 +6,7 @@ use App\Contracts\Model;
 use Hashids\Hashids;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Str;
+use LayerShifter\TLDExtract\Extract;
 use Nwidart\Modules\Facades\Module;
 
 /**
@@ -109,19 +110,14 @@ class Utils
      */
     public static function getRootDomain(string $url): string
     {
-        if (!Str::contains($url, ['https://', 'http://'])) {
-            $url = 'http://'.$url;
+        if (Str::contains($url, ['https://', 'http://'])) {
+            $url = str_replace('https://', '', $url);
+            $url = str_replace('http://', '', $url);
         }
 
-        $domain = parse_url($url, PHP_URL_HOST);
-        $domain = explode('.', $domain);
-        $len = count($domain);
-        if ($len == 1) {
-            return $domain[0];
-        }
+        $extract = new Extract();
+        $result = $extract->parse($url);
 
-        $domain = $domain[$len - 2].'.'.$domain[$len - 1];
-
-        return $domain;
+        return $result->getRegistrableDomain();
     }
 }
