@@ -2,9 +2,6 @@
 
 namespace App\Contracts;
 
-/**
- * Class FormRequest
- */
 class FormRequest extends \Illuminate\Foundation\Http\FormRequest
 {
     /**

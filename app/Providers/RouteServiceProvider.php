@@ -61,6 +61,8 @@ class RouteServiceProvider extends ServiceProvider
                 Route::get('flights/search', 'FlightController@search')->name('flights.search');
                 Route::resource('flights', 'FlightController');
 
+                Route::get('p/{slug}', 'PageController@show')->name('pages.show');
+
                 Route::get('pireps/fares', 'PirepController@fares');
                 Route::post('pireps/{id}/submit', 'PirepController@submit')->name('pireps.submit');
 
@@ -284,6 +286,9 @@ class RouteServiceProvider extends ServiceProvider
 
             Route::resource('pirepfields', 'PirepFieldController')
                 ->middleware('ability:admin,pireps');
+
+            // Pages
+            Route::resource('pages', 'PagesController')->middleware('ability:admin,pages');
 
             // rankings
             Route::resource('ranks', 'RankController')->middleware('ability:admin,ranks');

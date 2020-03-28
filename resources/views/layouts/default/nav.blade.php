@@ -77,6 +77,15 @@
           </li>
         @endforeach
 
+        @foreach($page_links as $page)
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url(route('frontend.pages.show', ['slug' => $page->slug])) }}">
+              <i class="{{ $page['icon'] }}"></i>
+              <p>{{ $page['name'] }}</p>
+            </a>
+          </li>
+        @endforeach
+
         <li class="nav-item dropdown ">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
              data-toggle="dropdown" data-boundary="viewport" aria-haspopup="true" aria-expanded="false">

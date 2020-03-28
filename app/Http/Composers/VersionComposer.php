@@ -2,10 +2,11 @@
 
 namespace App\Http\Composers;
 
+use App\Contracts\Composer;
 use App\Services\VersionService;
 use Illuminate\View\View;
 
-class VersionComposer
+class VersionComposer extends Composer
 {
     protected $versionSvc;
 

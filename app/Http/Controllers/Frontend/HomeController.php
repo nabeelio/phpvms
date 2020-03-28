@@ -5,11 +5,8 @@ namespace App\Http\Controllers\Frontend;
 use App\Contracts\Controller;
 use App\Models\User;
 use Illuminate\Database\QueryException;
-use Log;
+use Illuminate\Support\Facades\Log;
 
-/**
- * Class HomeController
- */
 class HomeController extends Controller
 {
     /**

@@ -1498,6 +1498,10 @@ cipher-base@^1.0.0, cipher-base@^1.0.1, cipher-base@^1.0.3:
     inherits "^2.0.1"
     safe-buffer "^5.0.1"
 
+ckeditor4@ckeditor/ckeditor4-releases#full/latest:
+  version "4.14.0"
+  resolved "https://codeload.github.com/ckeditor/ckeditor4-releases/tar.gz/11f834a9713b9c8ee4e6cd7aa5bf603ff331ba14"
+
 clap@^1.0.9:
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/clap/-/clap-1.2.3.tgz#4f36745b32008492557f46412d66d50cb99bce51"
