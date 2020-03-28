@@ -16,7 +16,7 @@ class FileRequest extends FormRequest
 
     public function rules(): array
     {
-        $rules = [
+        return [
             'distance'            => 'required|numeric',
             'flight_time'         => 'required|integer',
             'fuel_used'           => 'required|numeric',
@@ -48,7 +48,5 @@ class FileRequest extends FormRequest
             'fares.*.id'    => 'required',
             'fares.*.count' => 'required|numeric',
         ];
-
-        return $rules;
     }
 }
