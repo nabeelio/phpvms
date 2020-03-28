@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Http\Middleware\SetActiveTheme;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -40,14 +39,14 @@ class RouteServiceProvider extends ServiceProvider
     private function mapWebRoutes()
     {
         Route::group([
-            'middleware' => 'web',
+            'middleware' => ['web', 'theme'],
             'namespace'  => $this->namespace,
         ], function ($router) {
             Route::group([
                 'namespace'  => 'Frontend',
                 'prefix'     => '',
                 'as'         => 'frontend.',
-                'middleware' => ['auth', SetActiveTheme::class],
+                'middleware' => ['auth'],
             ], function () {
                 Route::resource('dashboard', 'DashboardController');
 
@@ -85,10 +84,9 @@ class RouteServiceProvider extends ServiceProvider
             });
 
             Route::group([
-                'namespace'  => 'Frontend',
-                'prefix'     => '',
-                'as'         => 'frontend.',
-                'middleware' => [SetActiveTheme::class],
+                'namespace' => 'Frontend',
+                'prefix'    => '',
+                'as'        => 'frontend.',
             ], function () {
                 Route::get('/', 'HomeController@index')->name('home');
                 Route::get('r/{id}', 'PirepController@show')->name('pirep.show.public');
