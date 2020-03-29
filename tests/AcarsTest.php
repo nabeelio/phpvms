@@ -484,7 +484,7 @@ class AcarsTest extends TestCase
         $response = $this->get($uri);
 
         $response->assertStatus(200);
-        $body = $response->json('data');
+        $body = $response->json('data')[0];
 
         $this->assertEquals($pirep->id, $body['id']);
         $this->assertNotEmpty($body['user']['name']);
