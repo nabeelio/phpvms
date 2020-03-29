@@ -175,9 +175,8 @@ class User extends Authenticatable
         $avatar = $this->getAvatarAttribute();
         if (empty($avatar)) {
             return $this->gravatar();
-        } else {
-            return $avatar->url;
         }
+        return $avatar->url;
     }
 
     /**
