@@ -162,13 +162,17 @@ class PirepController extends Controller
     }
 
     /**
-     * @param $pirep_id
+     * @param string $id The PIREP ID
      *
      * @return PirepResource
      */
-    public function get($pirep_id)
+    public function get($id)
     {
-        return new PirepResource($this->pirepRepo->find($pirep_id));
+        $pirep = $this->pirepRepo
+            ->with(['acars', 'arr_airport', 'dpt_airport', 'comments', 'flight', 'simbrief', 'user'])
+            ->find($id);
+
+        return new PirepResource($pirep);
     }
 
     /**

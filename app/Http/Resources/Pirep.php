@@ -27,6 +27,7 @@ class Pirep extends Resource
     {
         $res = parent::toArray($request);
         $res['ident'] = $this->ident;
+        $res['status_text'] = PirepStatus::label($this->status);
 
         // Set these to the response units
         if (!array_key_exists('distance', $res)) {
@@ -62,8 +63,6 @@ class Pirep extends Resource
             $res['block_off_time'] = $this->block_off_time->toIso8601ZuluString();
         }
 
-        $res['status_text'] = PirepStatus::label($this->status);
-
         $res['airline'] = new Airline($this->airline);
         $res['dpt_airport'] = new Airport($this->dpt_airport);
         $res['arr_airport'] = new Airport($this->arr_airport);
@@ -73,9 +72,12 @@ class Pirep extends Resource
         $res['user'] = [
             'id'              => $this->user->id,
             'name'            => $this->user->name,
+            'avatar'          => $this->user->resolveAvatarUrl(),
             'home_airport_id' => $this->user->home_airport_id,
             'curr_airport_id' => $this->user->curr_airport_id,
         ];
+
+        $res['flight'] = Flight::make($this->whenLoaded('flight'));
 
         // format to kvp
         $res['fields'] = new PirepFieldCollection($this->fields);

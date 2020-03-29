@@ -416,7 +416,8 @@ class AcarsTest extends TestCase
          */
         $uri = '/api/pireps/'.$pirep_id.'/update';
         $this->post($uri, [
-            'fields' => [
+            'flight_time' => 60,
+            'fields'      => [
                 'custom_field' => 'custom_value_changed',
             ],
         ]);
@@ -476,7 +477,23 @@ class AcarsTest extends TestCase
         $body = $response->json('data');
         $this->assertEquals('G26', $body['Departure Gate']);
 
-        // File the PIREP now
+        /*
+         * Get the live flights and make sure all the fields we want are there
+         */
+        $uri = '/api/acars';
+        $response = $this->get($uri);
+
+        $response->assertStatus(200);
+        $body = $response->json('data');
+
+        $this->assertEquals($pirep->id, $body['id']);
+        $this->assertNotEmpty($body['user']['name']);
+        $this->assertNotEmpty($body['user']['avatar']);
+
+        /*
+         * File the PIREP
+         */
+
         $uri = '/api/pireps/'.$pirep_id.'/file';
         $response = $this->post($uri, []);
         $response->assertStatus(400); // missing field

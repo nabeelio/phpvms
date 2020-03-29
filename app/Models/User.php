@@ -170,6 +170,16 @@ class User extends Authenticatable
         return $uri;
     }
 
+    public function resolveAvatarUrl()
+    {
+        $avatar = $this->getAvatarAttribute();
+        if (empty($avatar)) {
+            return $this->gravatar();
+        } else {
+            return $avatar->url;
+        }
+    }
+
     /**
      * Foreign Keys
      */

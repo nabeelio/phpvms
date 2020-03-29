@@ -14,6 +14,7 @@ use Illuminate\Support\Collection;
 
 /**
  * @property string      id
+ * @property string      ident
  * @property string      flight_number
  * @property string      route_code
  * @property string      route_leg
