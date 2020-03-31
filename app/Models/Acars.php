@@ -8,7 +8,6 @@ use App\Support\Units\Distance;
 use App\Support\Units\Fuel;
 
 /**
- *
  * @property string id
  * @property string pirep_id
  * @property int    type
