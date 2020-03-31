@@ -119,11 +119,15 @@ class AcarsController extends Controller
     public function acars_get($id, Request $request)
     {
         $this->pirepRepo->find($id);
+        $acars = Acars::with(['pirep'])
+            ->where([
+                'pirep_id' => $id,
+                'type'     => AcarsType::FLIGHT_PATH,
+            ])
+            ->orderBy('sim_time', 'asc')
+            ->get();
 
-        return new AcarsRouteResource(Acars::where([
-            'pirep_id' => $id,
-            'type'     => AcarsType::FLIGHT_PATH,
-        ])->orderBy('sim_time', 'asc')->get());
+        return new AcarsRouteResource($acars);
     }
 
     /**
