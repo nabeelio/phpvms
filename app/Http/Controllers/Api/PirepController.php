@@ -212,7 +212,7 @@ class PirepController extends Controller
 
         event(new PirepPrefiled($pirep));
 
-        return new PirepResource($pirep);
+        return $this->get($pirep->id);
     }
 
     /**
@@ -258,7 +258,7 @@ class PirepController extends Controller
 
         event(new PirepUpdated($pirep));
 
-        return new PirepResource($pirep);
+        return $this->get($pirep->id);
     }
 
     /**
@@ -321,7 +321,7 @@ class PirepController extends Controller
 
         $this->pirepSvc->submit($pirep);
 
-        return new PirepResource($pirep);
+        return $this->get($pirep->id);
     }
 
     /**
@@ -461,7 +461,7 @@ class PirepController extends Controller
     {
         $pirep = Pirep::find($id);
 
-        return AcarsRouteResource::collection(Acars::where([
+        return AcarsRouteResource::collection(Acars::with('pirep')->where([
             'pirep_id' => $id,
             'type'     => AcarsType::ROUTE,
         ])->orderBy('order', 'asc')->get());
