@@ -168,8 +168,18 @@ class PirepController extends Controller
      */
     public function get($id)
     {
+        $with = [
+            'acars',
+            'arr_airport',
+            'dpt_airport',
+            'comments',
+            'flight',
+            'simbrief',
+            'user',
+        ];
+
         $pirep = $this->pirepRepo
-            ->with(['acars', 'arr_airport', 'dpt_airport', 'comments', 'flight', 'simbrief', 'user'])
+            ->with($with)
             ->find($id);
 
         return new PirepResource($pirep);

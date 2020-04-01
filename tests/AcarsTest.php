@@ -3,6 +3,7 @@
 use App\Models\Enums\PirepState;
 use App\Models\Enums\PirepStatus;
 use App\Models\PirepFare;
+use App\Models\PirepFieldValue;
 use App\Repositories\SettingRepository;
 use App\Support\Utils;
 
@@ -247,7 +248,7 @@ class AcarsTest extends TestCase
         ];
 
         $response = $this->post($uri, $pirep);
-        $response->assertStatus(201);
+        $response->assertStatus(200);
         $pirep = $response->json('data');
 
         // See that the fields and fares were set
@@ -259,7 +260,7 @@ class AcarsTest extends TestCase
         $this->assertEquals($fare->capacity, $saved_fare['count']);
 
         // Check saved fields
-        $saved_fields = \App\Models\PirepFieldValue::where('pirep_id', $pirep['id'])->get();
+        $saved_fields = PirepFieldValue::where('pirep_id', $pirep['id'])->get();
         $this->assertCount(1, $saved_fields);
         $field = $saved_fields->first();
 
@@ -334,7 +335,7 @@ class AcarsTest extends TestCase
         ];
 
         $response = $this->post($uri, $pirep);
-        $response->assertStatus(201);
+        $response->assertStatus(200);
         $pirep = $response->json('data');
 
         /**
@@ -388,13 +389,13 @@ class AcarsTest extends TestCase
         ];
 
         $response = $this->post($uri, $pirep_create);
-        $response->assertStatus(201);
+        $response->assertStatus(200);
 
         // Get the PIREP ID
         $body = $response->json();
         $pirep_id = $body['data']['id'];
 
-        $this->assertHasKeys($body['data'], ['airline', 'arr_airport', 'dpt_airport', 'position']);
+        $this->assertHasKeys($body['data'], ['airline', 'arr_airport', 'dpt_airport']);
         $this->assertNotNull($pirep_id);
         $this->assertEquals($body['data']['user_id'], $this->user->id);
 
@@ -550,7 +551,7 @@ class AcarsTest extends TestCase
         ];
 
         $response = $this->post($uri, $pirep);
-        $response->assertStatus(201);
+        $response->assertStatus(200);
 
         // Get the PIREP ID
         $body = $response->json();
@@ -616,7 +617,7 @@ class AcarsTest extends TestCase
         // Try refiling with a valid aircraft
         $pirep['aircraft_id'] = $subfleetA['aircraft']->random()->id;
         $response = $this->post($uri, $pirep);
-        $response->assertStatus(201);
+        $response->assertStatus(200);
     }
 
     /**
@@ -657,7 +658,7 @@ class AcarsTest extends TestCase
         ];
 
         $response = $this->post($uri, $pirep);
-        $response->assertStatus(201);
+        $response->assertStatus(200);
     }
 
     /**
@@ -671,7 +672,7 @@ class AcarsTest extends TestCase
 
         $uri = '/api/pireps/prefile';
         $response = $this->post($uri, $pirep);
-        $response->assertStatus(201);
+        $response->assertStatus(200);
 
         $pirep_id = $response->json()['data']['id'];
 
@@ -869,7 +870,7 @@ class AcarsTest extends TestCase
 
         $uri = '/api/pireps/prefile';
         $response = $this->post($uri, $pirep);
-        $response->assertStatus(201);
+        $response->assertStatus(200);
         $pirep_id = $response->json()['data']['id'];
 
         // try readding

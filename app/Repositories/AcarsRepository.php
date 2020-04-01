@@ -56,7 +56,16 @@ class AcarsRepository extends Repository
      */
     public function getPositions($live_time = 0)
     {
-        $q = Pirep::with(['aircraft', 'airline', 'arr_airport', 'dpt_airport', 'position', 'user'])
+        $with = [
+            'aircraft',
+            'airline',
+            'arr_airport',
+            'dpt_airport',
+            'position',
+            'user',
+        ];
+
+        $q = Pirep::with($with)
             ->where(['state' => PirepState::IN_PROGRESS]);
 
         if ($live_time !== null && $live_time > 0) {
