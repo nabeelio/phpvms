@@ -5,8 +5,10 @@ namespace App\Models;
 use App\Contracts\Model;
 
 /**
- * @property string pirep_id
- * @property int user_id
+ * @property string $pirep_id
+ * @property int    $user_id
+ * @property Pirep  $pirep
+ * @property User   $user
  */
 class PirepComment extends Model
 {

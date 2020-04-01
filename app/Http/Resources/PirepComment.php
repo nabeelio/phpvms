@@ -4,6 +4,9 @@ namespace App\Http\Resources;
 
 use App\Contracts\Resource;
 
+/**
+ * @mixin \App\Models\PirepComment
+ */
 class PirepComment extends Resource
 {
     /**
@@ -15,6 +18,10 @@ class PirepComment extends Resource
      */
     public function toArray($request)
     {
+        if (!$this->user) {
+            return [];
+        }
+
         $user = $this->user;
 
         return [
