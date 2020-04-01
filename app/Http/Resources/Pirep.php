@@ -69,13 +69,7 @@ class Pirep extends Resource
 
         $res['position'] = Acars::make($this->whenLoaded('position'));
         $res['comments'] = PirepComment::make($this->whenLoaded('comments'));
-        $res['user'] = [
-            'id'              => $this->user->id,
-            'name'            => $this->user->name,
-            'avatar'          => $this->user->resolveAvatarUrl(),
-            'home_airport_id' => $this->user->home_airport_id,
-            'curr_airport_id' => $this->user->curr_airport_id,
-        ];
+        $res['user'] = User::make($this->whenLoaded('user'));
 
         $res['flight'] = Flight::make($this->whenLoaded('flight'));
 
