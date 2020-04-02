@@ -84,6 +84,9 @@ if (!function_exists('list_to_assoc')) {
                 $title = $item;
             }
 
+            $item = trim($item);
+            $title = trim($title);
+
             $ret[$item] = $title;
         }
 
