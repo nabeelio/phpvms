@@ -92,6 +92,9 @@ class RouteServiceProvider extends ServiceProvider
                 Route::get('r/{id}', 'PirepController@show')->name('pirep.show.public');
                 Route::get('pireps/{id}', 'PirepController@show')->name('pireps.show');
 
+                Route::get('users/{id}', 'ProfileController@show')->name('users.show.public');
+                Route::get('pilots/{id}', 'ProfileController@show')->name('pilots.show.public');
+
                 Route::get('p/{id}', 'ProfileController@show')->name('profile.show.public');
                 Route::get('users', 'UserController@index')->name('users.index');
                 Route::get('pilots', 'UserController@index')->name('pilots.index');
