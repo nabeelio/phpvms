@@ -7,24 +7,19 @@ use App\Models\Enums\UserState;
 use App\Repositories\Criteria\WhereCriteria;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
-use Log;
+use Illuminate\Support\Facades\Log;
+use League\ISO3166\ISO3166;
 use Prettus\Repository\Exceptions\RepositoryException;
 
-/**
- * Class UserController
- */
 class UserController extends Controller
 {
     private $userRepo;
 
     /**
-     * UserController constructor.
-     *
      * @param UserRepository $userRepo
      */
-    public function __construct(
-        UserRepository $userRepo
-    ) {
+    public function __construct(UserRepository $userRepo)
+    {
         $this->userRepo = $userRepo;
     }
 
@@ -49,11 +44,11 @@ class UserController extends Controller
 
         $users = $this->userRepo
             ->with(['airline', 'current_airport'])
-            ->orderBy('name', 'desc')
+            ->orderBy('pilot_id', 'asc')
             ->paginate();
 
         return view('users.index', [
-            'country' => new \League\ISO3166\ISO3166(),
+            'country' => new ISO3166(),
             'users'   => $users,
         ]);
     }

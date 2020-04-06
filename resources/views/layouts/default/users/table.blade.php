@@ -23,7 +23,7 @@
       </td>
       <td>
         <a href="{{ route('frontend.profile.show.public', [$user->id]) }}">
-          {{ $user->name }}
+          {{$user->ident}}&nbsp;{{ $user->name_private }}
         </a>
       </td>
       <td align="center">

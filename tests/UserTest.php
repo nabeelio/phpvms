@@ -228,4 +228,21 @@ class UserTest extends TestCase
         $user3 = factory(App\Models\User::class)->create();
         $this->assertEquals(4, $user3->pilot_id);
     }
+
+    /**
+     * Test that a user's name is private
+     */
+    public function testUserNamePrivate()
+    {
+        $vals = [
+            'Firstname'                     => 'Firstname',
+            'Firstname Lastname'            => 'Firstname L',
+            'Firstname Middlename Lastname' => 'Firstname L',
+        ];
+
+        foreach ($vals as $input => $expected) {
+            $user = new User(['name' => $input]);
+            $this->assertEquals($expected, $user->name_private);
+        }
+    }
 }
