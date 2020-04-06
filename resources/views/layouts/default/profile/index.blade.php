@@ -13,7 +13,7 @@
       </div>
       <div><br/></div>
       <div class="social-description">
-        <h2>{{ $user->name }}</h2>
+        <h2>{{ $user->name_private }}</h2>
         <p>{{ $user->ident }}</p>
       </div>
       <p class="description" style="color: #9A9A9A;">

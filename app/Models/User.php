@@ -14,6 +14,7 @@ use Laratrust\Traits\LaratrustUserTrait;
  * @property int            pilot_id
  * @property int            airline_id
  * @property string         name
+ * @property string         name_private Only first name, rest are initials
  * @property string         email
  * @property string         password
  * @property string         api_key
@@ -110,11 +111,30 @@ class User extends Authenticatable
     /**
      * @return string
      */
-    public function getIdentAttribute()
+    public function getIdentAttribute(): string
     {
         $length = setting('pilots.id_length');
 
         return $this->airline->icao.str_pad($this->pilot_id, $length, '0', STR_PAD_LEFT);
+    }
+
+    /**
+     * Return a "privatized" version of someones name - First name full, rest of the names are initials
+     *
+     * @return string
+     */
+    public function getNamePrivateAttribute(): string
+    {
+        $name_parts = explode(' ', $this->attributes['name']);
+        $count = count($name_parts);
+        if ($count === 1) {
+            return $name_parts[0];
+        }
+
+        $first_name = $name_parts[0];
+        $last_name = $name_parts[$count - 1];
+
+        return $first_name.' '.$last_name[0];
     }
 
     /**
