@@ -9,6 +9,8 @@ use Carbon\Carbon;
 
 class SimBriefTest extends TestCase
 {
+    private static $simbrief_flight_id = 'simbriefflightid';
+
     /**
      * Load SimBrief
      *
@@ -19,6 +21,7 @@ class SimBriefTest extends TestCase
     protected function loadSimBrief($user): SimBrief
     {
         $flight = factory(App\Models\Flight::class)->create([
+            'id'             => self::$simbrief_flight_id,
             'dpt_airport_id' => 'OMAA',
             'arr_airport_id' => 'OMDB',
         ]);
@@ -105,6 +108,25 @@ class SimBriefTest extends TestCase
 
         $this->assertEquals('VMSAcars', $xml->getName());
         $this->assertEquals('FlightPlan', $xml->attributes()->Type);
+    }
+
+    /**
+     * Make sure the user's bids have the Simbrief data show up
+     */
+    public function testUserBidSimbrief()
+    {
+        $this->user = factory(App\Models\User::class)->create();
+        $this->loadSimBrief($this->user);
+
+        // Find the flight
+        $uri = '/api/user/bids';
+        $data = ['flight_id' => self::$simbrief_flight_id];
+
+        $body = $this->put($uri, $data);
+        $body = $body->json('data');
+
+        // Make sure Simbrief is there
+        $this->assertNotNull($body['flight']['simbrief']['id']);
     }
 
     public function testAttachToPirep()

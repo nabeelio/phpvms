@@ -14,6 +14,19 @@ use Illuminate\Support\Facades\Log;
 class BidService extends Service
 {
     /**
+     * Get a specific bid for a user
+     *
+     * @param $bid_id
+     *
+     * @return \App\Models\Bid|\Illuminate\Database\Eloquent\Model|object|null
+     */
+    public function getBid($bid_id)
+    {
+        return Bid::with(['flight', 'flight.simbrief'])
+            ->where(['id' => $bid_id])->first();
+    }
+
+    /**
      * Find all of the bids for a given user
      *
      * @param \App\Models\User $user
@@ -22,8 +35,8 @@ class BidService extends Service
      */
     public function findBidsForUser(User $user)
     {
-        $bids = Bid::where(['user_id' => $user->id])->get();
-        return $bids;
+        return Bid::with(['flight', 'flight.simbrief'])
+            ->where(['user_id' => $user->id])->get();
     }
 
     /**
@@ -86,7 +99,7 @@ class BidService extends Service
         $flight->has_bid = true;
         $flight->save();
 
-        return $bid;
+        return $this->getBid($bid->id);
     }
 
     /**
