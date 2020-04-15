@@ -94,7 +94,7 @@ class SimBriefTest extends TestCase
 
         $url = str_replace('http://', 'https://', $flight['simbrief']['url']);
         $this->assertEquals(
-            'https://localhost/api/flights/'.$briefing->id.'/briefing',
+            'https://localhost/api/flights/'.$briefing->flight_id.'/briefing',
             $url
         );
 
