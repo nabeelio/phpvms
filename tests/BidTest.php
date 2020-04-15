@@ -1,5 +1,6 @@
 <?php
 
+use App\Exceptions\BidExistsForFlight;
 use App\Models\Bid;
 use App\Models\Flight;
 use App\Models\User;
@@ -136,7 +137,7 @@ class BidTest extends TestCase
         $this->bidSvc->addBid($flight, $user1);
 
         // Try adding again, should throw an exception
-        $this->expectException(\App\Exceptions\BidExistsForFlight::class);
+        $this->expectException(BidExistsForFlight::class);
         $this->bidSvc->addBid($flight, $user2);
     }
 
