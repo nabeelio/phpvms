@@ -1,3 +1,6 @@
+settings:
+  - id: simbrief_api_key
+    value: xyz
 simbrief:
   -
     id: 1585320637_8D7FFD7036
