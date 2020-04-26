@@ -10,7 +10,7 @@
     @if(count($subfleet->expenses))
       <thead>
       <th>Name</th>
-      <th>Cost&nbsp;<span class="small">{{ currency(config('phpvms.currency')) }}</span></th>
+      <th>Cost&nbsp;<span class="small">{{ currency(setting('units.currency', 'USD')) }}</span></th>
       <th>Type</th>
       <th></th>
       </thead>

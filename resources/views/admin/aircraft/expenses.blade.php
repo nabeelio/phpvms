@@ -14,7 +14,7 @@
     @if(count($aircraft->expenses) > 0)
       <thead>
       <th>Name</th>
-      <th>Cost&nbsp;<span class="small">{{ currency(config('phpvms.currency')) }}</span></th>
+      <th>Cost&nbsp;<span class="small">{{ currency(setting('units.currency')) }}</span></th>
       <th>Type</th>
       <th></th>
       </thead>

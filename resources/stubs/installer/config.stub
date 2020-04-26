@@ -23,13 +23,7 @@ return [
 
     // Overrides config/phpvms.php
     'phpvms' => [
-        /**
-         * The ISO "Currency Code" to use, the list is in config/money.php
-         *
-         * Note, do not change this after you've set it, unless you don't
-         * care that the currencies aren't "exchanged" into the new format
-         */
-        'currency' => 'USD',
+
     ],
 
     //

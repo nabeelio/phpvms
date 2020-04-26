@@ -36,14 +36,6 @@ return [
     'registration_redirect' => '/profile',
 
     /*
-     * The ISO "Currency Code" to use, the list is in config/money.php
-     *
-     * Note, do not change this after you've set it, unless you don't
-     * care that the currencies aren't "exchanged" into the new format
-     */
-    'currency' => 'USD',
-
-    /*
      * Point to the class to use to retrieve the METAR string. If this
      * goes inactive at some date, it can be replaced
      */

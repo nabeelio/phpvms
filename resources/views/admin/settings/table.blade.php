@@ -37,6 +37,12 @@
                           list_to_assoc($themes),
                           $setting->value,
                           ['class' => 'select2', 'style' => 'width: 100%; text-align: left;']) }}
+                  @elseif($setting->id === 'units_currency')
+                    {{ Form::select(
+                          $setting->id,
+                          $currencies,
+                          $setting->value,
+                          ['class' => 'select2', 'style' => 'width: 100%; text-align: left;']) }}
                   @else
                     {{ Form::select(
                             $setting->id,

@@ -4,12 +4,23 @@ namespace App\Http\Controllers\Admin;
 
 use App\Contracts\Controller;
 use App\Models\Setting;
+use App\Services\FinanceService;
 use Igaster\LaravelTheme\Facades\Theme;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class SettingsController extends Controller
 {
+    private $financeSvc;
+
+    /**
+     * @param FinanceService $financeSvc
+     */
+    public function __construct(FinanceService $financeSvc)
+    {
+        $this->financeSvc = $financeSvc;
+    }
+
     /**
      * Get a list of themes formatted for a select box
      *
@@ -31,6 +42,22 @@ class SettingsController extends Controller
     }
 
     /**
+     * Return the currency list
+     *
+     * @return array
+     */
+    private function getCurrencyList(): array
+    {
+        $curr = [];
+        foreach (config('money') as $currency => $attrs) {
+            $name = $attrs['name'].' ('.$attrs['symbol'].'/'.$currency.')';
+            $curr[$currency] = $name;
+        }
+
+        return $curr;
+    }
+
+    /**
      * Display the settings. Group them by the setting group
      */
     public function index()
@@ -39,6 +66,7 @@ class SettingsController extends Controller
         $settings = $settings->groupBy('group');
 
         return view('admin.settings.index', [
+            'currencies'       => $this->getCurrencyList(),
             'grouped_settings' => $settings,
             'themes'           => $this->getThemes(),
         ]);
@@ -67,6 +95,8 @@ class SettingsController extends Controller
             $setting->value = $value;
             $setting->save();
         }
+
+        $this->financeSvc->changeJournalCurrencies();
 
         flash('Settings saved!');
 

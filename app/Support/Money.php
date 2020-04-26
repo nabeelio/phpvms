@@ -56,7 +56,7 @@ class Money
      */
     public static function convertToSubunit($amount)
     {
-        $currency = config('phpvms.currency');
+        $currency = setting('units.currency', 'USD');
         return (int) $amount * config('money.'.$currency.'.subunit');
     }
 
@@ -71,7 +71,7 @@ class Money
     public static function currency()
     {
         try {
-            return new Currency(config('phpvms.currency', 'USD'));
+            return new Currency(setting('units.currency', 'USD'));
         } catch (\OutOfBoundsException $e) {
             return new Currency('USD');
         }
