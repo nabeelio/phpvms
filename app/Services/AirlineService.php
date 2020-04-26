@@ -29,6 +29,21 @@ class AirlineService extends Service
     }
 
     /**
+     * Create a new airline, and initialize the journal
+     *
+     * @param array $attr
+     *
+     * @return \App\Models\Airline
+     */
+    public function createAirline(array $attr): Airline
+    {
+        $airline = $this->airlineRepo->create($attr);
+        $airline->initJournal(setting('units.currency'));
+
+        return $airline;
+    }
+
+    /**
      * Can the airline be deleted? Check if there are flights, etc associated with it
      *
      * @param Airline $airline
