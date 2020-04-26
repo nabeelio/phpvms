@@ -47,6 +47,12 @@
   options: ''
   type: text
   description: 'Enter your Google Analytics Tracking ID'
+- key: units.currency
+  name: 'Currency'
+  group: units
+  value: USD
+  type: select
+  description: 'The currency to use'
 - key: units.distance
   name: 'Distance Units'
   group: units

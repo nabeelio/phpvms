@@ -3,8 +3,7 @@
 namespace Modules\Installer\Http\Controllers;
 
 use App\Contracts\Controller;
-use App\Models\User;
-use App\Repositories\AirlineRepository;
+use App\Services\AirlineService;
 use App\Services\AnalyticsService;
 use App\Services\Installer\DatabaseService;
 use App\Services\Installer\InstallerService;
@@ -24,7 +23,7 @@ use Modules\Installer\Services\RequirementsService;
 
 class InstallerController extends Controller
 {
-    private $airlineRepo;
+    private $airlineSvc;
     private $analyticsSvc;
     private $dbSvc;
     private $envSvc;
@@ -36,7 +35,7 @@ class InstallerController extends Controller
     /**
      * InstallerController constructor.
      *
-     * @param AirlineRepository   $airlineRepo
+     * @param AirlineService      $airlineSvc
      * @param AnalyticsService    $analyticsSvc
      * @param DatabaseService     $dbService
      * @param ConfigService       $envService
@@ -46,7 +45,7 @@ class InstallerController extends Controller
      * @param UserService         $userService
      */
     public function __construct(
-        AirlineRepository $airlineRepo,
+        AirlineService $airlineRepo,
         AnalyticsService $analyticsSvc,
         DatabaseService $dbService,
         ConfigService $envService,
@@ -311,7 +310,7 @@ class InstallerController extends Controller
             'country' => $request->get('airline_country'),
         ];
 
-        $airline = $this->airlineRepo->create($attrs);
+        $airline = $this->airlineSvc->create($attrs);
 
         /**
          * Create the user, and associate to the airline
