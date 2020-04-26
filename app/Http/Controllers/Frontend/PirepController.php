@@ -350,10 +350,11 @@ class PirepController extends Controller
 
         if ($request->has('sb_id')) {
             $brief = SimBrief::find($request->input('sb_id'));
-
-            /** @var SimBriefService $sbSvc */
-            $sbSvc = app(SimBriefService::class);
-            $sbSvc->attachSimbriefToPirep($pirep, $brief);
+            if ($brief !== null) {
+                /** @var SimBriefService $sbSvc */
+                $sbSvc = app(SimBriefService::class);
+                $sbSvc->attachSimbriefToPirep($pirep, $brief);
+            }
         }
 
         // Depending on the button they selected, set an initial state
