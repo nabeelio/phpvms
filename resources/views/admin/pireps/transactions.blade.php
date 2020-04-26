@@ -7,12 +7,12 @@
           <td>{{ $entry->memo }}</td>
           <td>
             @if($entry->credit)
-              {{ money($entry->credit, config('phpvms.currency')) }}
+              {{ money($entry->credit, setting('units.currency')) }}
             @endif
           </td>
           <td>
             @if($entry->debit)
-              {{ money($entry->debit, config('phpvms.currency')) }}
+              {{ money($entry->debit, setting('units.currency')) }}
             @endif
           </td>
         </tr>

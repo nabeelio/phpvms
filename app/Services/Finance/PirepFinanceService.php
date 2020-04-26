@@ -63,11 +63,11 @@ class PirepFinanceService extends Service
     public function processFinancesForPirep(Pirep $pirep)
     {
         if (!$pirep->airline->journal) {
-            $pirep->airline->journal = $pirep->airline->initJournal(config('phpvms.currency'));
+            $pirep->airline->journal = $pirep->airline->initJournal(setting('units.currency', 'USD'));
         }
 
         if (!$pirep->user->journal) {
-            $pirep->user->journal = $pirep->user->initJournal(config('phpvms.currency'));
+            $pirep->user->journal = $pirep->user->initJournal(setting('units.currency', 'USD'));
         }
 
         // Clean out the expenses first

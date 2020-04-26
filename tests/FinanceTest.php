@@ -689,7 +689,7 @@ class FinanceTest extends TestCase
         $journalRepo = app(JournalRepository::class);
 
         [$user, $pirep, $fares] = $this->createFullPirep();
-        $user->airline->initJournal(config('phpvms.currency'));
+        $user->airline->initJournal(setting('units.currency', 'USD'));
 
         // Override the fares
         $fare_counts = [];
@@ -744,7 +744,7 @@ class FinanceTest extends TestCase
         ]);
 
         [$user, $pirep, $fares] = $this->createFullPirep();
-        $user->airline->initJournal(config('phpvms.currency'));
+        $user->airline->initJournal(setting('units.currency', 'USD'));
 
         // Override the fares
         $fare_counts = [];

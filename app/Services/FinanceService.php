@@ -168,4 +168,16 @@ class FinanceService extends Service
             'transactions' => $transactions,
         ];
     }
+
+    /**
+     * Change the currencies on the journals and transactions to the current currency value
+     */
+    public function changeJournalCurrencies(): void
+    {
+        $currency = setting('units.currency', 'USD');
+        $update = ['currency' => $currency];
+
+        Journal::query()->update($update);
+        JournalTransaction::query()->update($update);
+    }
 }

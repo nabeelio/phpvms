@@ -12,7 +12,7 @@ trait JournalTrait
     public static function bootJournalTrait()
     {
         static::created(function ($model) {
-            $model->initJournal(config('phpvms.currency'));
+            $model->initJournal(setting('units.currency'));
         });
     }
 
