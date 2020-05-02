@@ -45,7 +45,7 @@ class InstallerController extends Controller
      * @param UserService         $userService
      */
     public function __construct(
-        AirlineService $airlineRepo,
+        AirlineService $airlineSvc,
         AnalyticsService $analyticsSvc,
         DatabaseService $dbService,
         ConfigService $envService,
@@ -54,7 +54,7 @@ class InstallerController extends Controller
         SeederService $seederSvc,
         UserService $userService
     ) {
-        $this->airlineRepo = $airlineRepo;
+        $this->airlineSvc = $airlineSvc;
         $this->analyticsSvc = $analyticsSvc;
         $this->dbSvc = $dbService;
         $this->envSvc = $envService;
@@ -310,7 +310,7 @@ class InstallerController extends Controller
             'country' => $request->get('airline_country'),
         ];
 
-        $airline = $this->airlineSvc->create($attrs);
+        $airline = $this->airlineSvc->createAirline($attrs);
 
         /**
          * Create the user, and associate to the airline

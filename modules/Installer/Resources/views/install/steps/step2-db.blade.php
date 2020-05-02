@@ -140,7 +140,7 @@
         e.preventDefault();
         const opts = {
           method: 'POST',
-          url: '/importer/dbtest',
+          url: '/install/dbtest',
           data: {
             _token: "{{ csrf_token() }}",
             db_conn: 'mysql',
