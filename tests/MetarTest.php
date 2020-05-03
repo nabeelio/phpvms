@@ -148,6 +148,20 @@ class MetarTest extends TestCase
         $this->assertEquals('A few at 1500 feet; a few at 25000 feet', $metar['clouds_report_ft']);
     }
 
+    /**
+     * Visibility in KM not parsed
+     *
+     * https://github.com/nabeelio/phpvms/issues/680
+     */
+    public function testMetar5()
+    {
+        $metar = 'NZOH 031300Z 04004KT 38KM SCT075 BKN090 15/14 Q1002 RMK AUTO NZPM VATSIM USE ONL';
+        $metar = Metar::parse($metar);
+
+        $this->assertEquals(38, $metar['visibility']['km']);
+        $this->assertEquals('38 km', $metar['visibility_report']);
+    }
+
     public function testHttpCallSuccess()
     {
         $this->mockXmlResponse('aviationweather/kjfk.xml');
