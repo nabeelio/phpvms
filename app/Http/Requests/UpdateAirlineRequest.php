@@ -14,6 +14,10 @@ class UpdateAirlineRequest extends FormRequest
      */
     public function rules(): array
     {
+        $rules = Airline::$rules;
+        $rules['iata'] .= '|unique:airlines,iata,'.$this->id.',id';
+        $rules['icao'] .= '|unique:airlines,icao,'.$this->id.',id';
+
         return Airline::$rules;
     }
 }
