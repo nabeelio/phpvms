@@ -4,6 +4,7 @@ use App\Services\AirlineService;
 
 class AirlineTest extends TestCase
 {
+    /** @var AirlineService */
     protected $airlineSvc;
 
     public function setUp(): void
@@ -12,6 +13,23 @@ class AirlineTest extends TestCase
         $this->addData('base');
 
         $this->airlineSvc = app(AirlineService::class);
+    }
+
+    public function testAddAirline()
+    {
+        $attrs = factory(App\Models\Airline::class)->make([
+            'iata' => '',
+        ])->toArray();
+
+        $airline = $this->airlineSvc->createAirline($attrs);
+        $this->assertNotNull($airline);
+
+        // Add another airline, also blank IATA
+        $attrs = factory(App\Models\Airline::class)->make([
+            'iata' => '',
+        ])->toArray();
+        $airline = $this->airlineSvc->createAirline($attrs);
+        $this->assertNotNull($airline);
     }
 
     /**
