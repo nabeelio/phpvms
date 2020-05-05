@@ -24,7 +24,7 @@
       </td>
       <td style="text-align: center;">{{ $ac->airport_id }}</td>
       <td style="text-align: center;">
-        @minutestotime($ac->flight_hours)
+        @minutestotime($ac->flight_time)
       </td>
       <td style="text-align: center;">
         @if($ac->status == \App\Models\Enums\AircraftStatus::ACTIVE)
