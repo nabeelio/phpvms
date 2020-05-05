@@ -225,6 +225,9 @@ class PIREPTest extends TestCase
             'flight_time' => 360,
         ]);
 
+        $aircraft = Aircraft::find(1);
+        $flight_time_initial = $aircraft->flight_time;
+
         foreach ($pireps as $pirep) {
             $this->pirepSvc->create($pirep);
             $this->pirepSvc->accept($pirep);
@@ -236,8 +239,11 @@ class PIREPTest extends TestCase
         // Make sure rank went up
         $this->assertGreaterThan($user->rank_id, $pilot->rank_id);
         $this->assertEquals($last_pirep->arr_airport_id, $pilot->curr_airport_id);
-
         $this->assertEquals(2, $pilot->flights);
+
+        $aircraft = Aircraft::find(1);
+        $after_time = $flight_time_initial + 720;
+        $this->assertEquals($after_time, $aircraft->flight_time);
 
         //
         // Submit another PIREP, adding another 6 hours
