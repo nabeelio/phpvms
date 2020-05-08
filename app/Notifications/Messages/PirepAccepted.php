@@ -13,6 +13,8 @@ class PirepAccepted extends BaseNotification
 {
     use MailChannel;
 
+    public $channels = ['mail'];
+
     private $pirep;
 
     /**

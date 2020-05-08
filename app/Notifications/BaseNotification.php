@@ -20,7 +20,7 @@ class BaseNotification extends Notification implements ShouldQueue
         $klass = get_class($this);
         $notif_config = config('notifications.channels', []);
         if (!array_key_exists($klass, $notif_config)) {
-            Log::error('Notification type '.$klass.' missing from notifications config');
+            Log::error('Notification type '.$klass.' missing from notifications config, defaulting to mail');
             return;
         }
 

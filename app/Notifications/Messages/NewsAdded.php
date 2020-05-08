@@ -10,6 +10,8 @@ class NewsAdded extends BaseNotification
 {
     use MailChannel;
 
+    public $channels = ['mail'];
+
     private $news;
 
     public function __construct(News $news)
