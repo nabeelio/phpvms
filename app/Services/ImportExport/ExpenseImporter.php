@@ -25,6 +25,7 @@ class ExpenseImporter extends ImportExport
         'name'           => 'required',
         'amount'         => 'required|numeric',
         'type'           => 'required',
+        'flight_type'    => 'nullable',
         'charge_to_user' => 'nullable|boolean',
         'multiplier'     => 'nullable|numeric',
         'active'         => 'nullable|boolean',

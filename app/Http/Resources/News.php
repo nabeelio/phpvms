@@ -2,11 +2,8 @@
 
 namespace App\Http\Resources;
 
-use Illuminate\Http\Resources\Json\Resource;
+use App\Contracts\Resource;
 
-/**
- * Class Response
- */
 class News extends Resource
 {
     /**

@@ -2,8 +2,11 @@
 
 namespace App\Support;
 
+use App\Contracts\Model;
+use Hashids\Hashids;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Str;
+use LayerShifter\TLDExtract\Extract;
 use Nwidart\Modules\Facades\Module;
 
 /**
@@ -11,6 +14,55 @@ use Nwidart\Modules\Facades\Module;
  */
 class Utils
 {
+    /**
+     * Generate a new ID with a given length
+     *
+     * @param int [$length]
+     *
+     * @return string
+     */
+    public static function generateNewId(int $length = null)
+    {
+        if (!$length) {
+            $length = Model::ID_MAX_LENGTH;
+        }
+
+        $hashids = new Hashids(uniqid(), $length);
+        $mt = str_replace('.', '', microtime(true));
+        return $hashids->encode($mt);
+    }
+
+    /**
+     * Returns a 40 character API key that a user can use
+     *
+     * @return string
+     */
+    public static function generateApiKey(): string
+    {
+        $key = substr(sha1(time().mt_rand()), 0, 20);
+        return $key;
+    }
+
+    /**
+     * Simple check on the first character if it's an object or not
+     *
+     * @param $obj
+     *
+     * @return bool
+     */
+    public static function isObject($obj): bool
+    {
+        if (!$obj) {
+            return false;
+        }
+
+        if ($obj[0] === '{' || $obj[0] === '[') {
+            return true;
+        }
+
+        return false;
+    }
+
     /**
      * Enable the debug toolbar
      */
@@ -58,19 +110,14 @@ class Utils
      */
     public static function getRootDomain(string $url): string
     {
-        if (!Str::contains($url, ['https://', 'http://'])) {
-            $url = 'http://'.$url;
+        if (Str::contains($url, ['https://', 'http://'])) {
+            $url = str_replace('https://', '', $url);
+            $url = str_replace('http://', '', $url);
         }
 
-        $domain = parse_url($url, PHP_URL_HOST);
-        $domain = explode('.', $domain);
-        $len = count($domain);
-        if ($len == 1) {
-            return $domain[0];
-        }
+        $extract = new Extract();
+        $result = $extract->parse($url);
 
-        $domain = $domain[$len - 2].'.'.$domain[$len - 1];
-
-        return $domain;
+        return $result->getRegistrableDomain();
     }
 }

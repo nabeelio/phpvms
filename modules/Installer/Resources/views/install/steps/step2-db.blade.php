@@ -28,11 +28,14 @@
       </tr>
 
       <tr>
-        <td colspan="2"><h4>Database Config</h4></td>
+        <td colspan="2">
+          <h4>Database Config</h4>
+          <p>Enter the target database information</p>
+        </td>
       </tr>
 
       <tr>
-        <td><p>Select Database Type</p></td>
+        <td><p>Database Type</p></td>
         <td style="text-align:center;">
           <div class="form-group">
             {{ Form::select('db_conn', $db_types, null, ['class' => 'form-control', 'id' => 'db_conn']) }}
@@ -136,18 +139,22 @@
       $("#dbtest_button").click((e) => {
         e.preventDefault();
         const opts = {
-          _token: "{{ csrf_token() }}",
-          db_conn: $("#db_conn option:selected").text(),
-          db_host: $("input[name=db_host]").val(),
-          db_port: $("input[name=db_port]").val(),
-          db_name: $("input[name=db_name]").val(),
-          db_user: $("input[name=db_user]").val(),
-          db_pass: $("input[name=db_pass]").val(),
+          method: 'POST',
+          url: '/install/dbtest',
+          data: {
+            _token: "{{ csrf_token() }}",
+            db_conn: 'mysql',
+            db_host: $("input[name=db_host]").val(),
+            db_port: $("input[name=db_port]").val(),
+            db_name: $("input[name=db_name]").val(),
+            db_user: $("input[name=db_user]").val(),
+            db_pass: $("input[name=db_pass]").val(),
+          },
         };
 
-        $.post("{{ route('installer.dbtest') }}", opts, (data) => {
-          $("#dbtest").html(data);
-        })
+        phpvms.request(opts).then(response => {
+          $("#dbtest").html(response.data);
+        });
       })
     });
   </script>

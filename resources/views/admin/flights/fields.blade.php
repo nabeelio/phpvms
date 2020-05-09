@@ -1,4 +1,3 @@
-<!-- Airline Id Field -->
 <div class="row">
   <div class="col-12">
     <div class="form-container">
@@ -67,6 +66,49 @@
 
         <div class="row">
           <div class="form-group col-sm-4">
+            {{ Form::label('pilot_pay', 'Pilot Pay:') }}
+            {{ Form::text('pilot_pay', null, ['class' => 'form-control']) }}
+            <p class="text-danger">{{ $errors->first('pilot_pay') }}</p>
+            @component('admin.components.info')
+              Fill this in to pay a pilot a fixed amount for this flight.
+            @endcomponent
+          </div>
+
+          <div class="form-group col-sm-4">
+            {{ Form::label('load_factor', 'Load Factor:') }}
+            {{ Form::text('load_factor', null, ['class' => 'form-control']) }}
+            <p class="text-danger">{{ $errors->first('load_factor') }}</p>
+            @component('admin.components.info')
+              Value between 1 and 100. See
+              <a href="{{ docs_link('load_factor') }}" target="_blank">docs</a>.
+              Leave blank to use the default value.
+            @endcomponent
+          </div>
+
+          <div class="form-group col-sm-4">
+            {{ Form::label('load_factor_variance', 'Load Factor Variance:') }}
+            {{ Form::text('load_factor_variance', null, ['class' => 'form-control']) }}
+            <p class="text-danger">{{ $errors->first('load_factor_variance') }}</p>
+            @component('admin.components.info')
+              How much the load factor can vary per flight (+ or -). Leave blank to
+              use the default value.
+            @endcomponent
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="form-container">
+      <h6><i class="fas fa-map"></i>
+        &nbsp;Route
+      </h6>
+      <div class="form-container-body">
+        <div class="row">
+          <div class="form-group col-sm-6">
             {{ Form::label('dpt_airport_id', 'Departure Airport:') }}&nbsp;<span
               class="required">*</span>
             {{ Form::select('dpt_airport_id', $airports, null , [
@@ -77,7 +119,7 @@
           </div>
 
           <!-- Arr Airport Id Field -->
-          <div class="form-group col-sm-4">
+          <div class="form-group col-sm-6">
             {{ Form::label('arr_airport_id', 'Arrival Airport:') }}&nbsp;<span
               class="required">*</span>
             {{ Form::select('arr_airport_id', $airports, null , [
@@ -87,37 +129,33 @@
             <p class="text-danger">{{ $errors->first('arr_airport_id') }}</p>
           </div>
 
+        </div>
+        <div class="row">
+          <!-- Route Field -->
+          <div class="form-group col-sm-12">
+            {{ Form::label('route', 'Route:') }}
+            {{ Form::textarea('route', null, [
+                'class' => 'form-control input-text',
+                'style' => 'padding: 10px',
+            ]) }}
+            <p class="text-danger">{{ $errors->first('route') }}</p>
+          </div>
+        </div>
+        <div class="row">
           <!-- Alt Airport Id Field -->
           <div class="form-group col-sm-4">
             {{ Form::label('alt_airport_id', 'Alt Airport:') }}
             {{ Form::select('alt_airport_id', $alt_airports, null , ['class' => 'form-control select2']) }}
             <p class="text-danger">{{ $errors->first('alt_airport_id') }}</p>
           </div>
-        </div>
 
-
-        {{-- NEXT ROW --}}
-
-        <div class="row">
-          <div class="form-group col-sm-3">
-            {{ Form::label('dpt_time', 'Departure Time:') }}
-            {{ Form::text('dpt_time', null, ['class' => 'form-control']) }}
-            <p class="text-danger">{{ $errors->first('dpt_time') }}</p>
-          </div>
-
-          <div class="form-group col-sm-3">
-            {{ Form::label('arr_time', 'Arrival Time:') }}
-            {{ Form::text('arr_time', null, ['class' => 'form-control']) }}
-            <p class="text-danger">{{ $errors->first('arr_time') }}</p>
-          </div>
-
-          <div class="form-group col-sm-3">
+          <div class="form-group col-sm-4">
             {{ Form::label('level', 'Flight Level:') }}
             {{ Form::text('level', null, ['class' => 'form-control']) }}
             <p class="text-danger">{{ $errors->first('level') }}</p>
           </div>
 
-          <div class="form-group col-sm-3">
+          <div class="form-group col-sm-4">
             {{ Form::label('distance', 'Distance:') }} <span class="description small">in nautical miles</span>
             <a href="#" class="airport_distance_lookup">Calculate</a>
             {{ Form::text('distance', null, ['id' => 'distance', 'class' => 'form-control']) }}
@@ -129,6 +167,7 @@
   </div>
 </div>
 
+
 <div class="row">
   <div class="col-12">
     <div class="form-container">
@@ -137,7 +176,6 @@
       </h6>
       <div class="form-container-body">
         <div class="row">
-
           <div class="col-sm-4">
             {{ Form::label('start_date', 'Start Date') }}
             <span class="description small">optional</span>
@@ -185,25 +223,19 @@
             </select>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-</div>
 
-<div class="row">
-  <div class="col-lg-12">
-    <div class="form-container">
-      <h6><i class="fas fa-map"></i>
-        &nbsp;Route
-      </h6>
-      <div class="form-container-body row">
-        <!-- Route Field -->
-        <div class="form-group col-sm-12">
-          {{ Form::textarea('route', null, [
-              'class' => 'form-control input-text',
-              'style' => 'padding: 10px',
-          ]) }}
-          <p class="text-danger">{{ $errors->first('route') }}</p>
+        <div class="row">
+          <div class="form-group col-sm-4">
+            {{ Form::label('dpt_time', 'Departure Time:') }}
+            {{ Form::text('dpt_time', null, ['class' => 'form-control']) }}
+            <p class="text-danger">{{ $errors->first('dpt_time') }}</p>
+          </div>
+
+          <div class="form-group col-sm-4">
+            {{ Form::label('arr_time', 'Arrival Time:') }}
+            {{ Form::text('arr_time', null, ['class' => 'form-control']) }}
+            <p class="text-danger">{{ $errors->first('arr_time') }}</p>
+          </div>
         </div>
       </div>
     </div>
@@ -216,13 +248,15 @@
       <h6><i class="fas fa-sticky-note"></i>
         &nbsp;Remarks
       </h6>
-      <div class="form-container-body row">
-        <div class="form-group col-sm-12">
-          {{ Form::textarea('notes', null, [
-              'class' => 'form-control input-text',
-              'style' => 'padding: 10px',
-          ]) }}
-          <p class="text-danger">{{ $errors->first('notes') }}</p>
+      <div class="form-container-body">
+        <div class="row">
+          <div class="form-group col-sm-12">
+            {{ Form::textarea('notes', null, [
+                'class' => 'form-control input-text',
+                'style' => 'padding: 10px',
+            ]) }}
+            <p class="text-danger">{{ $errors->first('notes') }}</p>
+          </div>
         </div>
       </div>
     </div>
@@ -235,15 +269,14 @@
     <div class="checkbox">
       <label class="checkbox-inline">
         {{ Form::label('active', 'Active:') }}
-        {{ Form::hidden('active', 0, false) }}
+        <input name="active" type="hidden" value="0" />
         {{ Form::checkbox('active') }}
       </label>
     </div>
   </div>
   <div class="col-8">
     <div class="text-right">
-      {{ Form::button('Save', ['type' => 'submit', 'class' => 'btn btn-success']) }}
-      <a href="{{ route('admin.flights.index') }}" class="btn btn-default">Cancel</a>
+      {{ Form::button('Save', ['type' => 'submit', 'class' => 'btn btn-info']) }}
     </div>
   </div>
 </div>

@@ -4,10 +4,14 @@ namespace App\Services\Finance;
 
 use App\Contracts\Service;
 use App\Events\Expenses as ExpensesEvent;
+use App\Models\Aircraft;
+use App\Models\Airport;
 use App\Models\Enums\ExpenseType;
+use App\Models\Enums\FareType;
 use App\Models\Enums\PirepSource;
 use App\Models\Expense;
 use App\Models\Pirep;
+use App\Models\Subfleet;
 use App\Repositories\ExpenseRepository;
 use App\Repositories\JournalRepository;
 use App\Services\FareService;
@@ -59,11 +63,11 @@ class PirepFinanceService extends Service
     public function processFinancesForPirep(Pirep $pirep)
     {
         if (!$pirep->airline->journal) {
-            $pirep->airline->journal = $pirep->airline->initJournal(config('phpvms.currency'));
+            $pirep->airline->journal = $pirep->airline->initJournal(setting('units.currency', 'USD'));
         }
 
         if (!$pirep->user->journal) {
-            $pirep->user->journal = $pirep->user->initJournal(config('phpvms.currency'));
+            $pirep->user->journal = $pirep->user->initJournal(setting('units.currency', 'USD'));
         }
 
         // Clean out the expenses first
@@ -121,13 +125,15 @@ class PirepFinanceService extends Service
 
             Log::info('Finance: Calculate: C='.$credit->toAmount().', D='.$debit->toAmount());
 
+            $memo = FareType::label($fare->type).' fare: '.$fare->code.$fare->count
+                .'; price: '.$fare->price.', cost: '.$fare->cost;
+
             $this->journalRepo->post(
                 $pirep->airline->journal,
                 $credit,
                 $debit,
                 $pirep,
-                'Fares '.$fare->code.$fare->count
-                .'; price: '.$fare->price.', cost: '.$fare->cost,
+                $memo,
                 null,
                 'Fares',
                 'fare'
@@ -222,12 +228,18 @@ class PirepFinanceService extends Service
         /*
          * Go through the expenses and apply a mulitplier if present
          */
-        $expenses->map(function ($expense, $i) use ($pirep) {
-            /*if ($expense->multiplier) {
-                # TODO: Modify the amount
-            }*/
-
+        $expenses->map(function (/** @var \App\Models\Expense */ $expense, $i) use ($pirep) {
             Log::info('Finance: PIREP: '.$pirep->id.', expense:', $expense->toArray());
+
+            // Check to see if there is a certain fleet or flight type set on this expense
+            // if there is and it doesn't match up the flight type for the PIREP, skip it
+            if ($expense->ref_model === Expense::class) {
+                if (is_array($expense->flight_type) && count($expense->flight_type) > 0) {
+                    if (!in_array($pirep->flight_type, $expense->flight_type, true)) {
+                        return;
+                    }
+                }
+            }
 
             // Get the transaction group name from the ref_model name
             // This way it can be more dynamic and don't have to add special
@@ -239,13 +251,13 @@ class PirepFinanceService extends Service
             }
 
             // Form the memo, with some specific ones depending on the group
-            if ($klass === 'Airport') {
+            if ($expense->ref_model === Airport::class) {
                 $memo = "Airport Expense: {$expense->name} ({$expense->ref_model_id})";
                 $transaction_group = "Airport: {$expense->ref_model_id}";
-            } elseif ($klass === 'Subfleet') {
+            } elseif ($expense->ref_model === Subfleet::class) {
                 $memo = "Subfleet Expense: {$expense->name} ({$pirep->aircraft->subfleet->name})";
                 $transaction_group = "Subfleet: {$expense->name} ({$pirep->aircraft->subfleet->name})";
-            } elseif ($klass === 'Aircraft') {
+            } elseif ($expense->ref_model === Aircraft::class) {
                 $memo = "Aircraft Expense: {$expense->name} ({$pirep->aircraft->name})";
                 $transaction_group = "Aircraft: {$expense->name} "
                     ."({$pirep->aircraft->name}-{$pirep->aircraft->registration})";
@@ -365,11 +377,18 @@ class PirepFinanceService extends Service
     public function payPilotForPirep(Pirep $pirep): void
     {
         $pilot_pay = $this->getPilotPay($pirep);
-        $pilot_pay_rate = $this->getPilotPayRateForPirep($pirep);
-        $memo = 'Pilot Payment @ '.$pilot_pay_rate;
 
-        Log::info('Finance: PIREP: '.$pirep->id
-            .'; pilot pay: '.$pilot_pay_rate.', total: '.$pilot_pay);
+        if ($pirep->flight && !empty($pirep->flight->pilot_pay)) {
+            $memo = 'Pilot fixed payment for flight: '.$pirep->flight->pilot_pay;
+            Log::info('Finance: PIREP: '.$pirep->id
+                .'; pilot pay: fixed for flight='.$pirep->flight->pilot_pay.', total: '.$pilot_pay);
+        } else {
+            $pilot_pay_rate = $this->getPilotPayRateForPirep($pirep);
+            $memo = 'Pilot Payment @ '.$pilot_pay_rate;
+
+            Log::info('Finance: PIREP: '.$pirep->id
+                .'; pilot pay: '.$pilot_pay_rate.', total: '.$pilot_pay);
+        }
 
         $this->financeSvc->debitFromJournal(
             $pirep->airline->journal,
@@ -521,6 +540,13 @@ class PirepFinanceService extends Service
      */
     public function getPilotPay(Pirep $pirep)
     {
+        // If there is a fixed price for this flight, return that amount
+        $flight = $pirep->flight;
+        if ($flight && !empty($flight->pilot_pay)) {
+            return new Money(Money::convertToSubunit($flight->pilot_pay));
+        }
+
+        // Divided by 60 to get the rate per minute
         $pilot_rate = $this->getPilotPayRateForPirep($pirep) / 60;
         $payment = round($pirep->flight_time * $pilot_rate, 2);
 

@@ -18,7 +18,8 @@ class AirlineImporter extends BaseImporter
         $this->comment('--- AIRLINE IMPORT ---');
 
         $count = 0;
-        foreach ($this->db->readRows($this->table, $start) as $row) {
+        $rows = $this->db->readRows($this->table, $this->idField, $start);
+        foreach ($rows as $row) {
             $attrs = [
                 'iata'   => $row->code,
                 'name'   => $row->name,

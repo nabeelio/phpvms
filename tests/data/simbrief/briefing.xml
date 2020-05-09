@@ -1,0 +1,4598 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OFP>
+  <params>
+    <request_id>19317474</request_id>
+    <user_id>120867</user_id>
+    <time_generated>1584226092</time_generated>
+    <ofp_layout>lido2</ofp_layout>
+    <airac>2001</airac>
+    <units>lbs</units>
+  </params>
+  <general>
+    <release>1</release>
+    <icao_airline>VMS</icao_airline>
+    <flight_number>112</flight_number>
+    <is_etops>0</is_etops>
+    <dx_rmk>PLANNED OPTIMUM FLIGHT LEVEL</dx_rmk>
+    <dx_rmk>PAYLOAD/CARGO LIMITED BY MLW</dx_rmk>
+    <sys_rmk/>
+    <is_detailed_profile>1</is_detailed_profile>
+    <cruise_profile>CI5</cruise_profile>
+    <climb_profile>250/300/78</climb_profile>
+    <descent_profile>78/300/250</descent_profile>
+    <alternate_profile>CI0</alternate_profile>
+    <reserve_profile>RES</reserve_profile>
+    <costindex>5</costindex>
+    <initial_altitude>16000</initial_altitude>
+    <stepclimb_string>OMAA/0160</stepclimb_string>
+    <avg_temp_dev>11</avg_temp_dev>
+    <avg_tropopause>53437</avg_tropopause>
+    <avg_wind_comp>7</avg_wind_comp>
+    <avg_wind_dir>283</avg_wind_dir>
+    <avg_wind_spd>018</avg_wind_spd>
+    <gc_distance>63</gc_distance>
+    <route_distance>138</route_distance>
+    <air_distance>134</air_distance>
+    <total_burn>3340</total_burn>
+    <cruise_tas>344</cruise_tas>
+    <cruise_mach>.54</cruise_mach>
+    <passengers>167</passengers>
+    <route>DCT BOMUP DCT LOVIM DCT RESIG DCT NODVI DCT OBMUK DCT LORID DCT ORGUR DCT PEBUS DCT EMOPO DCT LOTUK DCT LAGTA DCT LOVOL DCT</route>
+    <route_ifps>DCT BOMUP DCT LOVIM DCT RESIG DCT NODVI DCT OBMUK DCT LORID DCT ORGUR DCT PEBUS DCT EMOPO DCT LOTUK DCT LAGTA DCT LOVOL DCT</route_ifps>
+    <route_navigraph>DCT BOMUP DCT LOVIM DCT RESIG DCT NODVI DCT OBMUK DCT LORID DCT ORGUR DCT PEBUS DCT EMOPO DCT LOTUK DCT LAGTA DCT LOVOL DCT</route_navigraph>
+  </general>
+  <origin>
+    <icao_code>OMAA</icao_code>
+    <iata_code>AUH</iata_code>
+    <faa_code/>
+    <elevation>83</elevation>
+    <pos_lat>24.433056</pos_lat>
+    <pos_long>54.651111</pos_long>
+    <name>ABU DHABI INTL</name>
+    <plan_rwy>31L</plan_rwy>
+  </origin>
+  <destination>
+    <icao_code>OMDB</icao_code>
+    <iata_code>DXB</iata_code>
+    <faa_code/>
+    <elevation>62</elevation>
+    <pos_lat>25.252778</pos_lat>
+    <pos_long>55.364444</pos_long>
+    <name>DUBAI INTL</name>
+    <plan_rwy>12R</plan_rwy>
+  </destination>
+  <alternate>
+    <icao_code>OTHH</icao_code>
+    <iata_code>DOH</iata_code>
+    <faa_code/>
+    <elevation>13</elevation>
+    <pos_lat>25.274564</pos_lat>
+    <pos_long>51.608378</pos_long>
+    <name>HAMAD INTL</name>
+    <plan_rwy>16L</plan_rwy>
+    <cruise_altitude>38000</cruise_altitude>
+    <distance>298</distance>
+    <gc_distance>204</gc_distance>
+    <air_distance>343</air_distance>
+    <track_true>271</track_true>
+    <track_mag>269</track_mag>
+    <tas>453</tas>
+    <gs>404</gs>
+    <avg_wind_comp>M049</avg_wind_comp>
+    <avg_wind_dir>270</avg_wind_dir>
+    <avg_wind_spd>057</avg_wind_spd>
+    <avg_tropopause>53600</avg_tropopause>
+    <avg_tdv>P11</avg_tdv>
+    <ete>3259</ete>
+    <burn>5323</burn>
+    <route>NABI2G NABIX P699 ORMID UP699 DASLO UY856 ALKAN UL721 BAYAN BAYA1M</route>
+    <route_ifps>NABIX2G NABIX P699 ORMID UP699 DASLO UY856 ALKAN UL721 BAYAN BAYAN1M</route_ifps>
+  </alternate>
+  <takeoff_altn/>
+  <enroute_altn/>
+  <navlog>
+    <fix>
+      <ident>BOMUP</ident>
+      <name>BOMUP</name>
+      <type>wpt</type>
+      <frequency/>
+      <pos_lat>24.484639</pos_lat>
+      <pos_long>54.578444</pos_long>
+      <stage>CLB</stage>
+      <via_airway>DCT</via_airway>
+      <is_sid_star>0</is_sid_star>
+      <distance>5</distance>
+      <track_true>307</track_true>
+      <track_mag>306</track_mag>
+      <heading_true>306</heading_true>
+      <heading_mag>304</heading_mag>
+      <altitude_feet>7100</altitude_feet>
+      <ind_airspeed>250</ind_airspeed>
+      <true_airspeed>283</true_airspeed>
+      <mach>0.43</mach>
+      <mach_thousandths>0.43</mach_thousandths>
+      <wind_component>-6</wind_component>
+      <groundspeed>277</groundspeed>
+      <time_leg>65</time_leg>
+      <time_total>65</time_total>
+      <fuel_flow>16524</fuel_flow>
+      <fuel_leg>256</fuel_leg>
+      <fuel_totalused>256</fuel_totalused>
+      <fuel_min_onboard>12390</fuel_min_onboard>
+      <fuel_plan_onboard>13837</fuel_plan_onboard>
+      <oat>10</oat>
+      <oat_isa_dev>9</oat_isa_dev>
+      <wind_dir>259</wind_dir>
+      <wind_spd>09</wind_spd>
+      <shear>0</shear>
+      <tropopause_feet>54300</tropopause_feet>
+      <ground_height>369</ground_height>
+      <mora>2100</mora>
+      <fir>OMAE</fir>
+      <fir_units>N,F</fir_units>
+      <fir_valid_levels>2000,4000,6000,8000,10000,12000,14000,16000,18000,20000,22000,24000,26000,28000,30000,32000,34000,36000,38000,40000,43000,47000,51000,55000,59000,63000,67000</fir_valid_levels>
+      <wind_data>
+        <level>
+          <altitude>0</altitude>
+          <wind_dir>68</wind_dir>
+          <wind_spd>7</wind_spd>
+          <oat>23</oat>
+        </level>
+        <level>
+          <altitude>5000</altitude>
+          <wind_dir>214</wind_dir>
+          <wind_spd>11</wind_spd>
+          <oat>14</oat>
+        </level>
+        <level>
+          <altitude>10000</altitude>
+          <wind_dir>328</wind_dir>
+          <wind_spd>15</wind_spd>
+          <oat>6</oat>
+        </level>
+        <level>
+          <altitude>14000</altitude>
+          <wind_dir>299</wind_dir>
+          <wind_spd>15</wind_spd>
+          <oat>-2</oat>
+        </level>
+        <level>
+          <altitude>18000</altitude>
+          <wind_dir>293</wind_dir>
+          <wind_spd>18</wind_spd>
+          <oat>-12</oat>
+        </level>
+        <level>
+          <altitude>24000</altitude>
+          <wind_dir>270</wind_dir>
+          <wind_spd>48</wind_spd>
+          <oat>-24</oat>
+        </level>
+        <level>
+          <altitude>30000</altitude>
+          <wind_dir>264</wind_dir>
+          <wind_spd>99</wind_spd>
+          <oat>-31</oat>
+        </level>
+        <level>
+          <altitude>34000</altitude>
+          <wind_dir>262</wind_dir>
+          <wind_spd>103</wind_spd>
+          <oat>-40</oat>
+        </level>
+        <level>
+          <altitude>39000</altitude>
+          <wind_dir>267</wind_dir>
+          <wind_spd>88</wind_spd>
+          <oat>-51</oat>
+        </level>
+        <level>
+          <altitude>45000</altitude>
+          <wind_dir>269</wind_dir>
+          <wind_spd>66</wind_spd>
+          <oat>-63</oat>
+        </level>
+      </wind_data>
+      <fir_crossing/>
+    </fix>
+    <fix>
+      <ident>LOVIM</ident>
+      <name>LOVIM</name>
+      <type>wpt</type>
+      <frequency/>
+      <pos_lat>24.495750</pos_lat>
+      <pos_long>54.564972</pos_long>
+      <stage>CLB</stage>
+      <via_airway>DCT</via_airway>
+      <is_sid_star>0</is_sid_star>
+      <distance>1</distance>
+      <track_true>312</track_true>
+      <track_mag>310</track_mag>
+      <heading_true>312</heading_true>
+      <heading_mag>310</heading_mag>
+      <altitude_feet>7900</altitude_feet>
+      <ind_airspeed>250</ind_airspeed>
+      <true_airspeed>287</true_airspeed>
+      <mach>0.43</mach>
+      <mach_thousandths>0.43</mach_thousandths>
+      <wind_component>-12</wind_component>
+      <groundspeed>275</groundspeed>
+      <time_leg>13</time_leg>
+      <time_total>77</time_total>
+      <fuel_flow>16597</fuel_flow>
+      <fuel_leg>51</fuel_leg>
+      <fuel_totalused>307</fuel_totalused>
+      <fuel_min_onboard>12339</fuel_min_onboard>
+      <fuel_plan_onboard>13786</fuel_plan_onboard>
+      <oat>10</oat>
+      <oat_isa_dev>11</oat_isa_dev>
+      <wind_dir>301</wind_dir>
+      <wind_spd>12</wind_spd>
+      <shear>0</shear>
+      <tropopause_feet>54300</tropopause_feet>
+      <ground_height>369</ground_height>
+      <mora>2100</mora>
+      <fir>OMAE</fir>
+      <fir_units>N,F</fir_units>
+      <fir_valid_levels>2000,4000,6000,8000,10000,12000,14000,16000,18000,20000,22000,24000,26000,28000,30000,32000,34000,36000,38000,40000,43000,47000,51000,55000,59000,63000,67000</fir_valid_levels>
+      <wind_data>
+        <level>
+          <altitude>0</altitude>
+          <wind_dir>68</wind_dir>
+          <wind_spd>7</wind_spd>
+          <oat>23</oat>
+        </level>
+        <level>
+          <altitude>5000</altitude>
+          <wind_dir>214</wind_dir>
+          <wind_spd>11</wind_spd>
+          <oat>14</oat>
+        </level>
+        <level>
+          <altitude>10000</altitude>
+          <wind_dir>328</wind_dir>
+          <wind_spd>15</wind_spd>
+          <oat>6</oat>
+        </level>
+        <level>
+          <altitude>14000</altitude>
+          <wind_dir>299</wind_dir>
+          <wind_spd>15</wind_spd>
+          <oat>-2</oat>
+        </level>
+        <level>
+          <altitude>18000</altitude>
+          <wind_dir>293</wind_dir>
+          <wind_spd>18</wind_spd>
+          <oat>-12</oat>
+        </level>
+        <level>
+          <altitude>24000</altitude>
+          <wind_dir>270</wind_dir>
+          <wind_spd>48</wind_spd>
+          <oat>-24</oat>
+        </level>
+        <level>
+          <altitude>30000</altitude>
+          <wind_dir>264</wind_dir>
+          <wind_spd>99</wind_spd>
+          <oat>-31</oat>
+        </level>
+        <level>
+          <altitude>34000</altitude>
+          <wind_dir>262</wind_dir>
+          <wind_spd>103</wind_spd>
+          <oat>-40</oat>
+        </level>
+        <level>
+          <altitude>39000</altitude>
+          <wind_dir>267</wind_dir>
+          <wind_spd>88</wind_spd>
+          <oat>-51</oat>
+        </level>
+        <level>
+          <altitude>45000</altitude>
+          <wind_dir>269</wind_dir>
+          <wind_spd>66</wind_spd>
+          <oat>-63</oat>
+        </level>
+      </wind_data>
+      <fir_crossing/>
+    </fix>
+    <fix>
+      <ident>RESIG</ident>
+      <name>RESIG</name>
+      <type>wpt</type>
+      <frequency/>
+      <pos_lat>24.525611</pos_lat>
+      <pos_long>54.552889</pos_long>
+      <stage>CLB</stage>
+      <via_airway>DCT</via_airway>
+      <is_sid_star>0</is_sid_star>
+      <distance>2</distance>
+      <track_true>339</track_true>
+      <track_mag>338</track_mag>
+      <heading_true>338</heading_true>
+      <heading_mag>336</heading_mag>
+      <altitude_feet>9200</altitude_feet>
+      <ind_airspeed>250</ind_airspeed>
+      <true_airspeed>293</true_airspeed>
+      <mach>0.44</mach>
+      <mach_thousandths>0.44</mach_thousandths>
+      <wind_component>-14</wind_component>
+      <groundspeed>279</groundspeed>
+      <time_leg>25</time_leg>
+      <time_total>103</time_total>
+      <fuel_flow>16581</fuel_flow>
+      <fuel_leg>102</fuel_leg>
+      <fuel_totalused>409</fuel_totalused>
+      <fuel_min_onboard>12237</fuel_min_onboard>
+      <fuel_plan_onboard>13684</fuel_plan_onboard>
+      <oat>8</oat>
+      <oat_isa_dev>11</oat_isa_dev>
+      <wind_dir>313</wind_dir>
+      <wind_spd>15</wind_spd>
+      <shear>0</shear>
+      <tropopause_feet>53400</tropopause_feet>
+      <ground_height>12</ground_height>
+      <mora>2100</mora>
+      <fir>OMAE</fir>
+      <fir_units>N,F</fir_units>
+      <fir_valid_levels>2000,4000,6000,8000,10000,12000,14000,16000,18000,20000,22000,24000,26000,28000,30000,32000,34000,36000,38000,40000,43000,47000,51000,55000,59000,63000,67000</fir_valid_levels>
+      <wind_data>
+        <level>
+          <altitude>0</altitude>
+          <wind_dir>71</wind_dir>
+          <wind_spd>10</wind_spd>
+          <oat>22</oat>
+        </level>
+        <level>
+          <altitude>5000</altitude>
+          <wind_dir>219</wind_dir>
+          <wind_spd>12</wind_spd>
+          <oat>14</oat>
+        </level>
+        <level>
+          <altitude>10000</altitude>
+          <wind_dir>317</wind_dir>
+          <wind_spd>15</wind_spd>
+          <oat>6</oat>
+        </level>
+        <level>
+          <altitude>14000</altitude>
+          <wind_dir>289</wind_dir>
+          <wind_spd>18</wind_spd>
+          <oat>-2</oat>
+        </level>
+        <level>
+          <altitude>18000</altitude>
+          <wind_dir>280</wind_dir>
+          <wind_spd>21</wind_spd>
+          <oat>-12</oat>
+        </level>
+        <level>
+          <altitude>24000</altitude>
+          <wind_dir>274</wind_dir>
+          <wind_spd>37</wind_spd>
+          <oat>-27</oat>
+        </level>
+        <level>
+          <altitude>30000</altitude>
+          <wind_dir>264</wind_dir>
+          <wind_spd>89</wind_spd>
+          <oat>-33</oat>
+        </level>
+        <level>
+          <altitude>34000</altitude>
+          <wind_dir>264</wind_dir>
+          <wind_spd>98</wind_spd>
+          <oat>-39</oat>
+        </level>
+        <level>
+          <altitude>39000</altitude>
+          <wind_dir>267</wind_dir>
+          <wind_spd>84</wind_spd>
+          <oat>-49</oat>
+        </level>
+        <level>
+          <altitude>45000</altitude>
+          <wind_dir>274</wind_dir>
+          <wind_spd>66</wind_spd>
+          <oat>-62</oat>
+        </level>
+      </wind_data>
+      <fir_crossing/>
+    </fix>
+    <fix>
+      <ident>NODVI</ident>
+      <name>NODVI</name>
+      <type>wpt</type>
+      <frequency/>
+      <pos_lat>24.577889</pos_lat>
+      <pos_long>54.479444</pos_long>
+      <stage>CLB</stage>
+      <via_airway>DCT</via_airway>
+      <is_sid_star>0</is_sid_star>
+      <distance>5</distance>
+      <track_true>308</track_true>
+      <track_mag>306</track_mag>
+      <heading_true>308</heading_true>
+      <heading_mag>306</heading_mag>
+      <altitude_feet>11500</altitude_feet>
+      <ind_airspeed>300</ind_airspeed>
+      <true_airspeed>364</true_airspeed>
+      <mach>0.56</mach>
+      <mach_thousandths>0.56</mach_thousandths>
+      <wind_component>-19</wind_component>
+      <groundspeed>345</groundspeed>
+      <time_leg>64</time_leg>
+      <time_total>166</time_total>
+      <fuel_flow>16498</fuel_flow>
+      <fuel_leg>255</fuel_leg>
+      <fuel_totalused>664</fuel_totalused>
+      <fuel_min_onboard>11982</fuel_min_onboard>
+      <fuel_plan_onboard>13429</fuel_plan_onboard>
+      <oat>2</oat>
+      <oat_isa_dev>10</oat_isa_dev>
+      <wind_dir>309</wind_dir>
+      <wind_spd>19</wind_spd>
+      <shear>0</shear>
+      <tropopause_feet>53000</tropopause_feet>
+      <ground_height>0</ground_height>
+      <mora>2100</mora>
+      <fir>OMAE</fir>
+      <fir_units>N,F</fir_units>
+      <fir_valid_levels>2000,4000,6000,8000,10000,12000,14000,16000,18000,20000,22000,24000,26000,28000,30000,32000,34000,36000,38000,40000,43000,47000,51000,55000,59000,63000,67000</fir_valid_levels>
+      <wind_data>
+        <level>
+          <altitude>0</altitude>
+          <wind_dir>108</wind_dir>
+          <wind_spd>11</wind_spd>
+          <oat>22</oat>
+        </level>
+        <level>
+          <altitude>5000</altitude>
+          <wind_dir>249</wind_dir>
+          <wind_spd>11</wind_spd>
+          <oat>15</oat>
+        </level>
+        <level>
+          <altitude>10000</altitude>
+          <wind_dir>318</wind_dir>
+          <wind_spd>15</wind_spd>
+          <oat>5</oat>
+        </level>
+        <level>
+          <altitude>14000</altitude>
+          <wind_dir>296</wind_dir>
+          <wind_spd>23</wind_spd>
+          <oat>-2</oat>
+        </level>
+        <level>
+          <altitude>18000</altitude>
+          <wind_dir>276</wind_dir>
+          <wind_spd>23</wind_spd>
+          <oat>-12</oat>
+        </level>
+        <level>
+          <altitude>24000</altitude>
+          <wind_dir>275</wind_dir>
+          <wind_spd>39</wind_spd>
+          <oat>-27</oat>
+        </level>
+        <level>
+          <altitude>30000</altitude>
+          <wind_dir>266</wind_dir>
+          <wind_spd>89</wind_spd>
+          <oat>-33</oat>
+        </level>
+        <level>
+          <altitude>34000</altitude>
+          <wind_dir>266</wind_dir>
+          <wind_spd>94</wind_spd>
+          <oat>-39</oat>
+        </level>
+        <level>
+          <altitude>39000</altitude>
+          <wind_dir>268</wind_dir>
+          <wind_spd>81</wind_spd>
+          <oat>-49</oat>
+        </level>
+        <level>
+          <altitude>45000</altitude>
+          <wind_dir>274</wind_dir>
+          <wind_spd>65</wind_spd>
+          <oat>-62</oat>
+        </level>
+      </wind_data>
+      <fir_crossing/>
+    </fix>
+    <fix>
+      <ident>OBMUK</ident>
+      <name>OBMUK</name>
+      <type>wpt</type>
+      <frequency/>
+      <pos_lat>24.734194</pos_lat>
+      <pos_long>54.491778</pos_long>
+      <stage>CLB</stage>
+      <via_airway>DCT</via_airway>
+      <is_sid_star>0</is_sid_star>
+      <distance>9</distance>
+      <track_true>004</track_true>
+      <track_mag>002</track_mag>
+      <heading_true>001</heading_true>
+      <heading_mag>359</heading_mag>
+      <altitude_feet>14200</altitude_feet>
+      <ind_airspeed>300</ind_airspeed>
+      <true_airspeed>381</true_airspeed>
+      <mach>0.59</mach>
+      <mach_thousandths>0.59</mach_thousandths>
+      <wind_component>-9</wind_component>
+      <groundspeed>372</groundspeed>
+      <time_leg>115</time_leg>
+      <time_total>281</time_total>
+      <fuel_flow>16442</fuel_flow>
+      <fuel_leg>459</fuel_leg>
+      <fuel_totalused>1123</fuel_totalused>
+      <fuel_min_onboard>11523</fuel_min_onboard>
+      <fuel_plan_onboard>12970</fuel_plan_onboard>
+      <oat>-3</oat>
+      <oat_isa_dev>10</oat_isa_dev>
+      <wind_dir>295</wind_dir>
+      <wind_spd>23</wind_spd>
+      <shear>0</shear>
+      <tropopause_feet>53000</tropopause_feet>
+      <ground_height>0</ground_height>
+      <mora>2000</mora>
+      <fir>OMAE</fir>
+      <fir_units>N,F</fir_units>
+      <fir_valid_levels>1000,3000,5000,7000,9000,11000,13000,15000,17000,19000,21000,23000,25000,27000,29000,31000,33000,35000,37000,39000,41000,45000,49000,53000,57000,61000,65000,69000</fir_valid_levels>
+      <wind_data>
+        <level>
+          <altitude>0</altitude>
+          <wind_dir>108</wind_dir>
+          <wind_spd>11</wind_spd>
+          <oat>22</oat>
+        </level>
+        <level>
+          <altitude>5000</altitude>
+          <wind_dir>249</wind_dir>
+          <wind_spd>11</wind_spd>
+          <oat>15</oat>
+        </level>
+        <level>
+          <altitude>10000</altitude>
+          <wind_dir>318</wind_dir>
+          <wind_spd>15</wind_spd>
+          <oat>5</oat>
+        </level>
+        <level>
+          <altitude>14000</altitude>
+          <wind_dir>296</wind_dir>
+          <wind_spd>23</wind_spd>
+          <oat>-2</oat>
+        </level>
+        <level>
+          <altitude>18000</altitude>
+          <wind_dir>276</wind_dir>
+          <wind_spd>23</wind_spd>
+          <oat>-12</oat>
+        </level>
+        <level>
+          <altitude>24000</altitude>
+          <wind_dir>275</wind_dir>
+          <wind_spd>39</wind_spd>
+          <oat>-27</oat>
+        </level>
+        <level>
+          <altitude>30000</altitude>
+          <wind_dir>266</wind_dir>
+          <wind_spd>89</wind_spd>
+          <oat>-33</oat>
+        </level>
+        <level>
+          <altitude>34000</altitude>
+          <wind_dir>266</wind_dir>
+          <wind_spd>94</wind_spd>
+          <oat>-39</oat>
+        </level>
+        <level>
+          <altitude>39000</altitude>
+          <wind_dir>268</wind_dir>
+          <wind_spd>81</wind_spd>
+          <oat>-49</oat>
+        </level>
+        <level>
+          <altitude>45000</altitude>
+          <wind_dir>274</wind_dir>
+          <wind_spd>65</wind_spd>
+          <oat>-62</oat>
+        </level>
+      </wind_data>
+      <fir_crossing/>
+    </fix>
+    <fix>
+      <ident>TOC</ident>
+      <name>TOP OF CLIMB</name>
+      <type>ltlg</type>
+      <frequency/>
+      <pos_lat>24.881909</pos_lat>
+      <pos_long>54.611176</pos_long>
+      <stage>CLB</stage>
+      <via_airway>DCT</via_airway>
+      <is_sid_star>0</is_sid_star>
+      <distance>11</distance>
+      <track_true>036</track_true>
+      <track_mag>034</track_mag>
+      <heading_true>034</heading_true>
+      <heading_mag>032</heading_mag>
+      <altitude_feet>16000</altitude_feet>
+      <ind_airspeed>300</ind_airspeed>
+      <true_airspeed>392</true_airspeed>
+      <mach>0.61</mach>
+      <mach_thousandths>0.61</mach_thousandths>
+      <wind_component>8</wind_component>
+      <groundspeed>400</groundspeed>
+      <time_leg>140</time_leg>
+      <time_total>421</time_total>
+      <fuel_flow>16429</fuel_flow>
+      <fuel_leg>561</fuel_leg>
+      <fuel_totalused>1684</fuel_totalused>
+      <fuel_min_onboard>10962</fuel_min_onboard>
+      <fuel_plan_onboard>12409</fuel_plan_onboard>
+      <oat>-6</oat>
+      <oat_isa_dev>11</oat_isa_dev>
+      <wind_dir>280</wind_dir>
+      <wind_spd>19</wind_spd>
+      <shear>0</shear>
+      <tropopause_feet>53400</tropopause_feet>
+      <ground_height>12</ground_height>
+      <mora>2000</mora>
+      <fir>OMAE</fir>
+      <fir_units>N,F</fir_units>
+      <fir_valid_levels>1000,3000,5000,7000,9000,11000,13000,15000,17000,19000,21000,23000,25000,27000,29000,31000,33000,35000,37000,39000,41000,45000,49000,53000,57000,61000,65000,69000</fir_valid_levels>
+      <wind_data>
+        <level>
+          <altitude>0</altitude>
+          <wind_dir>71</wind_dir>
+          <wind_spd>10</wind_spd>
+          <oat>22</oat>
+        </level>
+        <level>
+          <altitude>5000</altitude>
+          <wind_dir>219</wind_dir>
+          <wind_spd>12</wind_spd>
+          <oat>14</oat>
+        </level>
+        <level>
+          <altitude>10000</altitude>
+          <wind_dir>317</wind_dir>
+          <wind_spd>15</wind_spd>
+          <oat>6</oat>
+        </level>
+        <level>
+          <altitude>14000</altitude>
+          <wind_dir>289</wind_dir>
+          <wind_spd>18</wind_spd>
+          <oat>-2</oat>
+        </level>
+        <level>
+          <altitude>18000</altitude>
+          <wind_dir>280</wind_dir>
+          <wind_spd>21</wind_spd>
+          <oat>-12</oat>
+        </level>
+        <level>
+          <altitude>24000</altitude>
+          <wind_dir>274</wind_dir>
+          <wind_spd>37</wind_spd>
+          <oat>-27</oat>
+        </level>
+        <level>
+          <altitude>30000</altitude>
+          <wind_dir>264</wind_dir>
+          <wind_spd>89</wind_spd>
+          <oat>-33</oat>
+        </level>
+        <level>
+          <altitude>34000</altitude>
+          <wind_dir>264</wind_dir>
+          <wind_spd>98</wind_spd>
+          <oat>-39</oat>
+        </level>
+        <level>
+          <altitude>39000</altitude>
+          <wind_dir>267</wind_dir>
+          <wind_spd>84</wind_spd>
+          <oat>-49</oat>
+        </level>
+        <level>
+          <altitude>45000</altitude>
+          <wind_dir>274</wind_dir>
+          <wind_spd>66</wind_spd>
+          <oat>-62</oat>
+        </level>
+      </wind_data>
+      <fir_crossing/>
+    </fix>
+    <fix>
+      <ident>LORID</ident>
+      <name>LORID</name>
+      <type>wpt</type>
+      <frequency/>
+      <pos_lat>24.931250</pos_lat>
+      <pos_long>54.651139</pos_long>
+      <stage>CRZ</stage>
+      <via_airway>DCT</via_airway>
+      <is_sid_star>0</is_sid_star>
+      <distance>4</distance>
+      <track_true>036</track_true>
+      <track_mag>034</track_mag>
+      <heading_true>033</heading_true>
+      <heading_mag>031</heading_mag>
+      <altitude_feet>16000</altitude_feet>
+      <ind_airspeed>263</ind_airspeed>
+      <true_airspeed>344</true_airspeed>
+      <mach>0.54</mach>
+      <mach_thousandths>0.54</mach_thousandths>
+      <wind_component>8</wind_component>
+      <groundspeed>352</groundspeed>
+      <time_leg>41</time_leg>
+      <time_total>462</time_total>
+      <fuel_flow>5349</fuel_flow>
+      <fuel_leg>61</fuel_leg>
+      <fuel_totalused>1745</fuel_totalused>
+      <fuel_min_onboard>10901</fuel_min_onboard>
+      <fuel_plan_onboard>12348</fuel_plan_onboard>
+      <oat>-6</oat>
+      <oat_isa_dev>11</oat_isa_dev>
+      <wind_dir>280</wind_dir>
+      <wind_spd>19</wind_spd>
+      <shear>0</shear>
+      <tropopause_feet>53400</tropopause_feet>
+      <ground_height>12</ground_height>
+      <mora>2000</mora>
+      <fir>OMAE</fir>
+      <fir_units>N,F</fir_units>
+      <fir_valid_levels>1000,3000,5000,7000,9000,11000,13000,15000,17000,19000,21000,23000,25000,27000,29000,31000,33000,35000,37000,39000,41000,45000,49000,53000,57000,61000,65000,69000</fir_valid_levels>
+      <wind_data>
+        <level>
+          <altitude>0</altitude>
+          <wind_dir>71</wind_dir>
+          <wind_spd>10</wind_spd>
+          <oat>22</oat>
+        </level>
+        <level>
+          <altitude>5000</altitude>
+          <wind_dir>219</wind_dir>
+          <wind_spd>12</wind_spd>
+          <oat>14</oat>
+        </level>
+        <level>
+          <altitude>10000</altitude>
+          <wind_dir>317</wind_dir>
+          <wind_spd>15</wind_spd>
+          <oat>6</oat>
+        </level>
+        <level>
+          <altitude>14000</altitude>
+          <wind_dir>289</wind_dir>
+          <wind_spd>18</wind_spd>
+          <oat>-2</oat>
+        </level>
+        <level>
+          <altitude>18000</altitude>
+          <wind_dir>280</wind_dir>
+          <wind_spd>21</wind_spd>
+          <oat>-12</oat>
+        </level>
+        <level>
+          <altitude>24000</altitude>
+          <wind_dir>274</wind_dir>
+          <wind_spd>37</wind_spd>
+          <oat>-27</oat>
+        </level>
+        <level>
+          <altitude>30000</altitude>
+          <wind_dir>264</wind_dir>
+          <wind_spd>89</wind_spd>
+          <oat>-33</oat>
+        </level>
+        <level>
+          <altitude>34000</altitude>
+          <wind_dir>264</wind_dir>
+          <wind_spd>98</wind_spd>
+          <oat>-39</oat>
+        </level>
+        <level>
+          <altitude>39000</altitude>
+          <wind_dir>267</wind_dir>
+          <wind_spd>84</wind_spd>
+          <oat>-49</oat>
+        </level>
+        <level>
+          <altitude>45000</altitude>
+          <wind_dir>274</wind_dir>
+          <wind_spd>66</wind_spd>
+          <oat>-62</oat>
+        </level>
+      </wind_data>
+      <fir_crossing/>
+    </fix>
+    <fix>
+      <ident>ORGUR</ident>
+      <name>ORGUR</name>
+      <type>wpt</type>
+      <frequency/>
+      <pos_lat>25.103583</pos_lat>
+      <pos_long>54.785972</pos_long>
+      <stage>CRZ</stage>
+      <via_airway>DCT</via_airway>
+      <is_sid_star>0</is_sid_star>
+      <distance>13</distance>
+      <track_true>035</track_true>
+      <track_mag>033</track_mag>
+      <heading_true>032</heading_true>
+      <heading_mag>030</heading_mag>
+      <altitude_feet>16000</altitude_feet>
+      <ind_airspeed>263</ind_airspeed>
+      <true_airspeed>344</true_airspeed>
+      <mach>0.54</mach>
+      <mach_thousandths>0.54</mach_thousandths>
+      <wind_component>8</wind_component>
+      <groundspeed>352</groundspeed>
+      <time_leg>133</time_leg>
+      <time_total>595</time_total>
+      <fuel_flow>5341</fuel_flow>
+      <fuel_leg>197</fuel_leg>
+      <fuel_totalused>1942</fuel_totalused>
+      <fuel_min_onboard>10704</fuel_min_onboard>
+      <fuel_plan_onboard>12151</fuel_plan_onboard>
+      <oat>-6</oat>
+      <oat_isa_dev>11</oat_isa_dev>
+      <wind_dir>280</wind_dir>
+      <wind_spd>19</wind_spd>
+      <shear>0</shear>
+      <tropopause_feet>53400</tropopause_feet>
+      <ground_height>12</ground_height>
+      <mora>2000</mora>
+      <fir>OMAE</fir>
+      <fir_units>N,F</fir_units>
+      <fir_valid_levels>1000,3000,5000,7000,9000,11000,13000,15000,17000,19000,21000,23000,25000,27000,29000,31000,33000,35000,37000,39000,41000,45000,49000,53000,57000,61000,65000,69000</fir_valid_levels>
+      <wind_data>
+        <level>
+          <altitude>0</altitude>
+          <wind_dir>71</wind_dir>
+          <wind_spd>10</wind_spd>
+          <oat>22</oat>
+        </level>
+        <level>
+          <altitude>5000</altitude>
+          <wind_dir>219</wind_dir>
+          <wind_spd>12</wind_spd>
+          <oat>14</oat>
+        </level>
+        <level>
+          <altitude>10000</altitude>
+          <wind_dir>317</wind_dir>
+          <wind_spd>15</wind_spd>
+          <oat>6</oat>
+        </level>
+        <level>
+          <altitude>14000</altitude>
+          <wind_dir>289</wind_dir>
+          <wind_spd>18</wind_spd>
+          <oat>-2</oat>
+        </level>
+        <level>
+          <altitude>18000</altitude>
+          <wind_dir>280</wind_dir>
+          <wind_spd>21</wind_spd>
+          <oat>-12</oat>
+        </level>
+        <level>
+          <altitude>24000</altitude>
+          <wind_dir>274</wind_dir>
+          <wind_spd>37</wind_spd>
+          <oat>-27</oat>
+        </level>
+        <level>
+          <altitude>30000</altitude>
+          <wind_dir>264</wind_dir>
+          <wind_spd>89</wind_spd>
+          <oat>-33</oat>
+        </level>
+        <level>
+          <altitude>34000</altitude>
+          <wind_dir>264</wind_dir>
+          <wind_spd>98</wind_spd>
+          <oat>-39</oat>
+        </level>
+        <level>
+          <altitude>39000</altitude>
+          <wind_dir>267</wind_dir>
+          <wind_spd>84</wind_spd>
+          <oat>-49</oat>
+        </level>
+        <level>
+          <altitude>45000</altitude>
+          <wind_dir>274</wind_dir>
+          <wind_spd>66</wind_spd>
+          <oat>-62</oat>
+        </level>
+      </wind_data>
+      <fir_crossing/>
+    </fix>
+    <fix>
+      <ident>PEBUS</ident>
+      <name>PEBUS</name>
+      <type>wpt</type>
+      <frequency/>
+      <pos_lat>25.154944</pos_lat>
+      <pos_long>54.826278</pos_long>
+      <stage>CRZ</stage>
+      <via_airway>DCT</via_airway>
+      <is_sid_star>0</is_sid_star>
+      <distance>4</distance>
+      <track_true>035</track_true>
+      <track_mag>033</track_mag>
+      <heading_true>032</heading_true>
+      <heading_mag>030</heading_mag>
+      <altitude_feet>16000</altitude_feet>
+      <ind_airspeed>263</ind_airspeed>
+      <true_airspeed>344</true_airspeed>
+      <mach>0.54</mach>
+      <mach_thousandths>0.539</mach_thousandths>
+      <wind_component>8</wind_component>
+      <groundspeed>352</groundspeed>
+      <time_leg>41</time_leg>
+      <time_total>636</time_total>
+      <fuel_flow>5331</fuel_flow>
+      <fuel_leg>61</fuel_leg>
+      <fuel_totalused>2003</fuel_totalused>
+      <fuel_min_onboard>10643</fuel_min_onboard>
+      <fuel_plan_onboard>12090</fuel_plan_onboard>
+      <oat>-6</oat>
+      <oat_isa_dev>11</oat_isa_dev>
+      <wind_dir>280</wind_dir>
+      <wind_spd>19</wind_spd>
+      <shear>0</shear>
+      <tropopause_feet>53400</tropopause_feet>
+      <ground_height>12</ground_height>
+      <mora>2000</mora>
+      <fir>OMAE</fir>
+      <fir_units>N,F</fir_units>
+      <fir_valid_levels>1000,3000,5000,7000,9000,11000,13000,15000,17000,19000,21000,23000,25000,27000,29000,31000,33000,35000,37000,39000,41000,45000,49000,53000,57000,61000,65000,69000</fir_valid_levels>
+      <wind_data>
+        <level>
+          <altitude>0</altitude>
+          <wind_dir>71</wind_dir>
+          <wind_spd>10</wind_spd>
+          <oat>22</oat>
+        </level>
+        <level>
+          <altitude>5000</altitude>
+          <wind_dir>219</wind_dir>
+          <wind_spd>12</wind_spd>
+          <oat>14</oat>
+        </level>
+        <level>
+          <altitude>10000</altitude>
+          <wind_dir>317</wind_dir>
+          <wind_spd>15</wind_spd>
+          <oat>6</oat>
+        </level>
+        <level>
+          <altitude>14000</altitude>
+          <wind_dir>289</wind_dir>
+          <wind_spd>18</wind_spd>
+          <oat>-2</oat>
+        </level>
+        <level>
+          <altitude>18000</altitude>
+          <wind_dir>280</wind_dir>
+          <wind_spd>21</wind_spd>
+          <oat>-12</oat>
+        </level>
+        <level>
+          <altitude>24000</altitude>
+          <wind_dir>274</wind_dir>
+          <wind_spd>37</wind_spd>
+          <oat>-27</oat>
+        </level>
+        <level>
+          <altitude>30000</altitude>
+          <wind_dir>264</wind_dir>
+          <wind_spd>89</wind_spd>
+          <oat>-33</oat>
+        </level>
+        <level>
+          <altitude>34000</altitude>
+          <wind_dir>264</wind_dir>
+          <wind_spd>98</wind_spd>
+          <oat>-39</oat>
+        </level>
+        <level>
+          <altitude>39000</altitude>
+          <wind_dir>267</wind_dir>
+          <wind_spd>84</wind_spd>
+          <oat>-49</oat>
+        </level>
+        <level>
+          <altitude>45000</altitude>
+          <wind_dir>274</wind_dir>
+          <wind_spd>66</wind_spd>
+          <oat>-62</oat>
+        </level>
+      </wind_data>
+      <fir_crossing/>
+    </fix>
+    <fix>
+      <ident>EMOPO</ident>
+      <name>EMOPO</name>
+      <type>wpt</type>
+      <frequency/>
+      <pos_lat>25.286056</pos_lat>
+      <pos_long>54.948444</pos_long>
+      <stage>CRZ</stage>
+      <via_airway>DCT</via_airway>
+      <is_sid_star>0</is_sid_star>
+      <distance>10</distance>
+      <track_true>040</track_true>
+      <track_mag>038</track_mag>
+      <heading_true>037</heading_true>
+      <heading_mag>035</heading_mag>
+      <altitude_feet>16000</altitude_feet>
+      <ind_airspeed>262</ind_airspeed>
+      <true_airspeed>343</true_airspeed>
+      <mach>0.54</mach>
+      <mach_thousandths>0.539</mach_thousandths>
+      <wind_component>9</wind_component>
+      <groundspeed>352</groundspeed>
+      <time_leg>102</time_leg>
+      <time_total>738</time_total>
+      <fuel_flow>5322</fuel_flow>
+      <fuel_leg>151</fuel_leg>
+      <fuel_totalused>2154</fuel_totalused>
+      <fuel_min_onboard>10492</fuel_min_onboard>
+      <fuel_plan_onboard>11939</fuel_plan_onboard>
+      <oat>-6</oat>
+      <oat_isa_dev>11</oat_isa_dev>
+      <wind_dir>280</wind_dir>
+      <wind_spd>19</wind_spd>
+      <shear>0</shear>
+      <tropopause_feet>53400</tropopause_feet>
+      <ground_height>12</ground_height>
+      <mora>2000</mora>
+      <fir>OMAE</fir>
+      <fir_units>N,F</fir_units>
+      <fir_valid_levels>1000,3000,5000,7000,9000,11000,13000,15000,17000,19000,21000,23000,25000,27000,29000,31000,33000,35000,37000,39000,41000,45000,49000,53000,57000,61000,65000,69000</fir_valid_levels>
+      <wind_data>
+        <level>
+          <altitude>0</altitude>
+          <wind_dir>71</wind_dir>
+          <wind_spd>10</wind_spd>
+          <oat>22</oat>
+        </level>
+        <level>
+          <altitude>5000</altitude>
+          <wind_dir>219</wind_dir>
+          <wind_spd>12</wind_spd>
+          <oat>14</oat>
+        </level>
+        <level>
+          <altitude>10000</altitude>
+          <wind_dir>317</wind_dir>
+          <wind_spd>15</wind_spd>
+          <oat>6</oat>
+        </level>
+        <level>
+          <altitude>14000</altitude>
+          <wind_dir>289</wind_dir>
+          <wind_spd>18</wind_spd>
+          <oat>-2</oat>
+        </level>
+        <level>
+          <altitude>18000</altitude>
+          <wind_dir>280</wind_dir>
+          <wind_spd>21</wind_spd>
+          <oat>-12</oat>
+        </level>
+        <level>
+          <altitude>24000</altitude>
+          <wind_dir>274</wind_dir>
+          <wind_spd>37</wind_spd>
+          <oat>-27</oat>
+        </level>
+        <level>
+          <altitude>30000</altitude>
+          <wind_dir>264</wind_dir>
+          <wind_spd>89</wind_spd>
+          <oat>-33</oat>
+        </level>
+        <level>
+          <altitude>34000</altitude>
+          <wind_dir>264</wind_dir>
+          <wind_spd>98</wind_spd>
+          <oat>-39</oat>
+        </level>
+        <level>
+          <altitude>39000</altitude>
+          <wind_dir>267</wind_dir>
+          <wind_spd>84</wind_spd>
+          <oat>-49</oat>
+        </level>
+        <level>
+          <altitude>45000</altitude>
+          <wind_dir>274</wind_dir>
+          <wind_spd>66</wind_spd>
+          <oat>-62</oat>
+        </level>
+      </wind_data>
+      <fir_crossing/>
+    </fix>
+    <fix>
+      <ident>LOTUK</ident>
+      <name>LOTUK</name>
+      <type>wpt</type>
+      <frequency/>
+      <pos_lat>25.188889</pos_lat>
+      <pos_long>55.145000</pos_long>
+      <stage>CRZ</stage>
+      <via_airway>DCT</via_airway>
+      <is_sid_star>0</is_sid_star>
+      <distance>12</distance>
+      <track_true>118</track_true>
+      <track_mag>116</track_mag>
+      <heading_true>119</heading_true>
+      <heading_mag>117</heading_mag>
+      <altitude_feet>16000</altitude_feet>
+      <ind_airspeed>261</ind_airspeed>
+      <true_airspeed>341</true_airspeed>
+      <mach>0.54</mach>
+      <mach_thousandths>0.535</mach_thousandths>
+      <wind_component>18</wind_component>
+      <groundspeed>359</groundspeed>
+      <time_leg>120</time_leg>
+      <time_total>858</time_total>
+      <fuel_flow>5289</fuel_flow>
+      <fuel_leg>177</fuel_leg>
+      <fuel_totalused>2331</fuel_totalused>
+      <fuel_min_onboard>10315</fuel_min_onboard>
+      <fuel_plan_onboard>11762</fuel_plan_onboard>
+      <oat>-6</oat>
+      <oat_isa_dev>11</oat_isa_dev>
+      <wind_dir>280</wind_dir>
+      <wind_spd>19</wind_spd>
+      <shear>0</shear>
+      <tropopause_feet>53400</tropopause_feet>
+      <ground_height>12</ground_height>
+      <mora>2100</mora>
+      <fir>OMAE</fir>
+      <fir_units>N,F</fir_units>
+      <fir_valid_levels>1000,3000,5000,7000,9000,11000,13000,15000,17000,19000,21000,23000,25000,27000,29000,31000,33000,35000,37000,39000,41000,45000,49000,53000,57000,61000,65000,69000</fir_valid_levels>
+      <wind_data>
+        <level>
+          <altitude>0</altitude>
+          <wind_dir>71</wind_dir>
+          <wind_spd>10</wind_spd>
+          <oat>22</oat>
+        </level>
+        <level>
+          <altitude>5000</altitude>
+          <wind_dir>219</wind_dir>
+          <wind_spd>12</wind_spd>
+          <oat>14</oat>
+        </level>
+        <level>
+          <altitude>10000</altitude>
+          <wind_dir>317</wind_dir>
+          <wind_spd>15</wind_spd>
+          <oat>6</oat>
+        </level>
+        <level>
+          <altitude>14000</altitude>
+          <wind_dir>289</wind_dir>
+          <wind_spd>18</wind_spd>
+          <oat>-2</oat>
+        </level>
+        <level>
+          <altitude>18000</altitude>
+          <wind_dir>280</wind_dir>
+          <wind_spd>21</wind_spd>
+          <oat>-12</oat>
+        </level>
+        <level>
+          <altitude>24000</altitude>
+          <wind_dir>274</wind_dir>
+          <wind_spd>37</wind_spd>
+          <oat>-27</oat>
+        </level>
+        <level>
+          <altitude>30000</altitude>
+          <wind_dir>264</wind_dir>
+          <wind_spd>89</wind_spd>
+          <oat>-33</oat>
+        </level>
+        <level>
+          <altitude>34000</altitude>
+          <wind_dir>264</wind_dir>
+          <wind_spd>98</wind_spd>
+          <oat>-39</oat>
+        </level>
+        <level>
+          <altitude>39000</altitude>
+          <wind_dir>267</wind_dir>
+          <wind_spd>84</wind_spd>
+          <oat>-49</oat>
+        </level>
+        <level>
+          <altitude>45000</altitude>
+          <wind_dir>274</wind_dir>
+          <wind_spd>66</wind_spd>
+          <oat>-62</oat>
+        </level>
+      </wind_data>
+      <fir_crossing/>
+    </fix>
+    <fix>
+      <ident>TOD</ident>
+      <name>TOP OF DESCENT</name>
+      <type>ltlg</type>
+      <frequency/>
+      <pos_lat>25.127188</pos_lat>
+      <pos_long>55.431415</pos_long>
+      <stage>CRZ</stage>
+      <via_airway>DCT</via_airway>
+      <is_sid_star>0</is_sid_star>
+      <distance>16</distance>
+      <track_true>103</track_true>
+      <track_mag>101</track_mag>
+      <heading_true>103</heading_true>
+      <heading_mag>101</heading_mag>
+      <altitude_feet>16000</altitude_feet>
+      <ind_airspeed>260</ind_airspeed>
+      <true_airspeed>341</true_airspeed>
+      <mach>0.53</mach>
+      <mach_thousandths>0.535</mach_thousandths>
+      <wind_component>19</wind_component>
+      <groundspeed>360</groundspeed>
+      <time_leg>160</time_leg>
+      <time_total>1018</time_total>
+      <fuel_flow>5349</fuel_flow>
+      <fuel_leg>238</fuel_leg>
+      <fuel_totalused>2569</fuel_totalused>
+      <fuel_min_onboard>10077</fuel_min_onboard>
+      <fuel_plan_onboard>11524</fuel_plan_onboard>
+      <oat>-6</oat>
+      <oat_isa_dev>11</oat_isa_dev>
+      <wind_dir>280</wind_dir>
+      <wind_spd>19</wind_spd>
+      <shear>0</shear>
+      <tropopause_feet>53400</tropopause_feet>
+      <ground_height>12</ground_height>
+      <mora>2400</mora>
+      <fir>OMAE</fir>
+      <fir_units>N,F</fir_units>
+      <fir_valid_levels>1000,3000,5000,7000,9000,11000,13000,15000,17000,19000,21000,23000,25000,27000,29000,31000,33000,35000,37000,39000,41000,45000,49000,53000,57000,61000,65000,69000</fir_valid_levels>
+      <wind_data>
+        <level>
+          <altitude>0</altitude>
+          <wind_dir>71</wind_dir>
+          <wind_spd>10</wind_spd>
+          <oat>22</oat>
+        </level>
+        <level>
+          <altitude>5000</altitude>
+          <wind_dir>219</wind_dir>
+          <wind_spd>12</wind_spd>
+          <oat>14</oat>
+        </level>
+        <level>
+          <altitude>10000</altitude>
+          <wind_dir>317</wind_dir>
+          <wind_spd>15</wind_spd>
+          <oat>6</oat>
+        </level>
+        <level>
+          <altitude>14000</altitude>
+          <wind_dir>289</wind_dir>
+          <wind_spd>18</wind_spd>
+          <oat>-2</oat>
+        </level>
+        <level>
+          <altitude>18000</altitude>
+          <wind_dir>280</wind_dir>
+          <wind_spd>21</wind_spd>
+          <oat>-12</oat>
+        </level>
+        <level>
+          <altitude>24000</altitude>
+          <wind_dir>274</wind_dir>
+          <wind_spd>37</wind_spd>
+          <oat>-27</oat>
+        </level>
+        <level>
+          <altitude>30000</altitude>
+          <wind_dir>264</wind_dir>
+          <wind_spd>89</wind_spd>
+          <oat>-33</oat>
+        </level>
+        <level>
+          <altitude>34000</altitude>
+          <wind_dir>264</wind_dir>
+          <wind_spd>98</wind_spd>
+          <oat>-39</oat>
+        </level>
+        <level>
+          <altitude>39000</altitude>
+          <wind_dir>267</wind_dir>
+          <wind_spd>84</wind_spd>
+          <oat>-49</oat>
+        </level>
+        <level>
+          <altitude>45000</altitude>
+          <wind_dir>274</wind_dir>
+          <wind_spd>66</wind_spd>
+          <oat>-62</oat>
+        </level>
+      </wind_data>
+      <fir_crossing/>
+    </fix>
+    <fix>
+      <ident>LAGTA</ident>
+      <name>LAGTA</name>
+      <type>wpt</type>
+      <frequency/>
+      <pos_lat>25.100556</pos_lat>
+      <pos_long>55.554167</pos_long>
+      <stage>DSC</stage>
+      <via_airway>DCT</via_airway>
+      <is_sid_star>0</is_sid_star>
+      <distance>7</distance>
+      <track_true>103</track_true>
+      <track_mag>101</track_mag>
+      <heading_true>103</heading_true>
+      <heading_mag>101</heading_mag>
+      <altitude_feet>11100</altitude_feet>
+      <ind_airspeed>300</ind_airspeed>
+      <true_airspeed>362</true_airspeed>
+      <mach>0.55</mach>
+      <mach_thousandths>0.55</mach_thousandths>
+      <wind_component>13</wind_component>
+      <groundspeed>375</groundspeed>
+      <time_leg>164</time_leg>
+      <time_total>1183</time_total>
+      <fuel_flow>3554</fuel_flow>
+      <fuel_leg>67</fuel_leg>
+      <fuel_totalused>2636</fuel_totalused>
+      <fuel_min_onboard>10010</fuel_min_onboard>
+      <fuel_plan_onboard>11457</fuel_plan_onboard>
+      <oat>4</oat>
+      <oat_isa_dev>11</oat_isa_dev>
+      <wind_dir>290</wind_dir>
+      <wind_spd>13</wind_spd>
+      <shear>0</shear>
+      <tropopause_feet>53800</tropopause_feet>
+      <ground_height>1070</ground_height>
+      <mora>2600</mora>
+      <fir>OMAE</fir>
+      <fir_units>N,F</fir_units>
+      <fir_valid_levels>1000,3000,5000,7000,9000,11000,13000,15000,17000,19000,21000,23000,25000,27000,29000,31000,33000,35000,37000,39000,41000,45000,49000,53000,57000,61000,65000,69000</fir_valid_levels>
+      <wind_data>
+        <level>
+          <altitude>0</altitude>
+          <wind_dir>96</wind_dir>
+          <wind_spd>3</wind_spd>
+          <oat>23</oat>
+        </level>
+        <level>
+          <altitude>5000</altitude>
+          <wind_dir>229</wind_dir>
+          <wind_spd>13</wind_spd>
+          <oat>14</oat>
+        </level>
+        <level>
+          <altitude>10000</altitude>
+          <wind_dir>290</wind_dir>
+          <wind_spd>12</wind_spd>
+          <oat>6</oat>
+        </level>
+        <level>
+          <altitude>14000</altitude>
+          <wind_dir>283</wind_dir>
+          <wind_spd>15</wind_spd>
+          <oat>-2</oat>
+        </level>
+        <level>
+          <altitude>18000</altitude>
+          <wind_dir>281</wind_dir>
+          <wind_spd>20</wind_spd>
+          <oat>-12</oat>
+        </level>
+        <level>
+          <altitude>24000</altitude>
+          <wind_dir>274</wind_dir>
+          <wind_spd>36</wind_spd>
+          <oat>-26</oat>
+        </level>
+        <level>
+          <altitude>30000</altitude>
+          <wind_dir>262</wind_dir>
+          <wind_spd>88</wind_spd>
+          <oat>-33</oat>
+        </level>
+        <level>
+          <altitude>34000</altitude>
+          <wind_dir>262</wind_dir>
+          <wind_spd>100</wind_spd>
+          <oat>-40</oat>
+        </level>
+        <level>
+          <altitude>39000</altitude>
+          <wind_dir>265</wind_dir>
+          <wind_spd>89</wind_spd>
+          <oat>-50</oat>
+        </level>
+        <level>
+          <altitude>45000</altitude>
+          <wind_dir>274</wind_dir>
+          <wind_spd>69</wind_spd>
+          <oat>-62</oat>
+        </level>
+      </wind_data>
+      <fir_crossing/>
+    </fix>
+    <fix>
+      <ident>LOVOL</ident>
+      <name>LOVOL</name>
+      <type>wpt</type>
+      <frequency/>
+      <pos_lat>25.144167</pos_lat>
+      <pos_long>55.567222</pos_long>
+      <stage>DSC</stage>
+      <via_airway>DCT</via_airway>
+      <is_sid_star>0</is_sid_star>
+      <distance>3</distance>
+      <track_true>015</track_true>
+      <track_mag>013</track_mag>
+      <heading_true>013</heading_true>
+      <heading_mag>011</heading_mag>
+      <altitude_feet>9000</altitude_feet>
+      <ind_airspeed>250</ind_airspeed>
+      <true_airspeed>292</true_airspeed>
+      <mach>0.44</mach>
+      <mach_thousandths>0.44</mach_thousandths>
+      <wind_component>1</wind_component>
+      <groundspeed>293</groundspeed>
+      <time_leg>70</time_leg>
+      <time_total>1253</time_total>
+      <fuel_flow>3558</fuel_flow>
+      <fuel_leg>29</fuel_leg>
+      <fuel_totalused>2665</fuel_totalused>
+      <fuel_min_onboard>9981</fuel_min_onboard>
+      <fuel_plan_onboard>11428</fuel_plan_onboard>
+      <oat>8</oat>
+      <oat_isa_dev>11</oat_isa_dev>
+      <wind_dir>281</wind_dir>
+      <wind_spd>10</wind_spd>
+      <shear>0</shear>
+      <tropopause_feet>53800</tropopause_feet>
+      <ground_height>1070</ground_height>
+      <mora>2500</mora>
+      <fir>OMAE</fir>
+      <fir_units>N,F</fir_units>
+      <fir_valid_levels>1000,3000,5000,7000,9000,11000,13000,15000,17000,19000,21000,23000,25000,27000,29000,31000,33000,35000,37000,39000,41000,45000,49000,53000,57000,61000,65000,69000</fir_valid_levels>
+      <wind_data>
+        <level>
+          <altitude>0</altitude>
+          <wind_dir>96</wind_dir>
+          <wind_spd>3</wind_spd>
+          <oat>23</oat>
+        </level>
+        <level>
+          <altitude>5000</altitude>
+          <wind_dir>229</wind_dir>
+          <wind_spd>13</wind_spd>
+          <oat>14</oat>
+        </level>
+        <level>
+          <altitude>10000</altitude>
+          <wind_dir>290</wind_dir>
+          <wind_spd>12</wind_spd>
+          <oat>6</oat>
+        </level>
+        <level>
+          <altitude>14000</altitude>
+          <wind_dir>283</wind_dir>
+          <wind_spd>15</wind_spd>
+          <oat>-2</oat>
+        </level>
+        <level>
+          <altitude>18000</altitude>
+          <wind_dir>281</wind_dir>
+          <wind_spd>20</wind_spd>
+          <oat>-12</oat>
+        </level>
+        <level>
+          <altitude>24000</altitude>
+          <wind_dir>274</wind_dir>
+          <wind_spd>36</wind_spd>
+          <oat>-26</oat>
+        </level>
+        <level>
+          <altitude>30000</altitude>
+          <wind_dir>262</wind_dir>
+          <wind_spd>88</wind_spd>
+          <oat>-33</oat>
+        </level>
+        <level>
+          <altitude>34000</altitude>
+          <wind_dir>262</wind_dir>
+          <wind_spd>100</wind_spd>
+          <oat>-40</oat>
+        </level>
+        <level>
+          <altitude>39000</altitude>
+          <wind_dir>265</wind_dir>
+          <wind_spd>89</wind_spd>
+          <oat>-50</oat>
+        </level>
+        <level>
+          <altitude>45000</altitude>
+          <wind_dir>274</wind_dir>
+          <wind_spd>69</wind_spd>
+          <oat>-62</oat>
+        </level>
+      </wind_data>
+      <fir_crossing/>
+    </fix>
+    <fix>
+      <ident>OMDB</ident>
+      <name>DUBAI INTL</name>
+      <type>apt</type>
+      <frequency/>
+      <pos_lat>25.252778</pos_lat>
+      <pos_long>55.364444</pos_long>
+      <stage>DSC</stage>
+      <via_airway>DCT</via_airway>
+      <is_sid_star>0</is_sid_star>
+      <distance>36</distance>
+      <track_true>300</track_true>
+      <track_mag>299</track_mag>
+      <heading_true>299</heading_true>
+      <heading_mag>297</heading_mag>
+      <altitude_feet>2600</altitude_feet>
+      <ind_airspeed>250</ind_airspeed>
+      <true_airspeed>264</true_airspeed>
+      <mach>0.39</mach>
+      <mach_thousandths>0.39</mach_thousandths>
+      <wind_component>1</wind_component>
+      <groundspeed>265</groundspeed>
+      <time_leg>824</time_leg>
+      <time_total>2077</time_total>
+      <fuel_flow>3552</fuel_flow>
+      <fuel_leg>675</fuel_leg>
+      <fuel_totalused>3340</fuel_totalused>
+      <fuel_min_onboard>9306</fuel_min_onboard>
+      <fuel_plan_onboard>10753</fuel_plan_onboard>
+      <oat>20</oat>
+      <oat_isa_dev>10</oat_isa_dev>
+      <wind_dir>180</wind_dir>
+      <wind_spd>03</wind_spd>
+      <shear>1</shear>
+      <tropopause_feet>53400</tropopause_feet>
+      <ground_height>12</ground_height>
+      <mora>2500</mora>
+      <fir>OMAE</fir>
+      <fir_units>N,F</fir_units>
+      <fir_valid_levels>2000,4000,6000,8000,10000,12000,14000,16000,18000,20000,22000,24000,26000,28000,30000,32000,34000,36000,38000,40000,43000,47000,51000,55000,59000,63000,67000</fir_valid_levels>
+      <wind_data>
+        <level>
+          <altitude>0</altitude>
+          <wind_dir>71</wind_dir>
+          <wind_spd>10</wind_spd>
+          <oat>22</oat>
+        </level>
+        <level>
+          <altitude>5000</altitude>
+          <wind_dir>219</wind_dir>
+          <wind_spd>12</wind_spd>
+          <oat>14</oat>
+        </level>
+        <level>
+          <altitude>10000</altitude>
+          <wind_dir>317</wind_dir>
+          <wind_spd>15</wind_spd>
+          <oat>6</oat>
+        </level>
+        <level>
+          <altitude>14000</altitude>
+          <wind_dir>289</wind_dir>
+          <wind_spd>18</wind_spd>
+          <oat>-2</oat>
+        </level>
+        <level>
+          <altitude>18000</altitude>
+          <wind_dir>280</wind_dir>
+          <wind_spd>21</wind_spd>
+          <oat>-12</oat>
+        </level>
+        <level>
+          <altitude>24000</altitude>
+          <wind_dir>274</wind_dir>
+          <wind_spd>37</wind_spd>
+          <oat>-27</oat>
+        </level>
+        <level>
+          <altitude>30000</altitude>
+          <wind_dir>264</wind_dir>
+          <wind_spd>89</wind_spd>
+          <oat>-33</oat>
+        </level>
+        <level>
+          <altitude>34000</altitude>
+          <wind_dir>264</wind_dir>
+          <wind_spd>98</wind_spd>
+          <oat>-39</oat>
+        </level>
+        <level>
+          <altitude>39000</altitude>
+          <wind_dir>267</wind_dir>
+          <wind_spd>84</wind_spd>
+          <oat>-49</oat>
+        </level>
+        <level>
+          <altitude>45000</altitude>
+          <wind_dir>274</wind_dir>
+          <wind_spd>66</wind_spd>
+          <oat>-62</oat>
+        </level>
+      </wind_data>
+      <fir_crossing/>
+    </fix>
+  </navlog>
+  <etops/>
+  <atc>
+    <flightplan_text>(FPL-VMS112-IS
+-A320/M-SDE3FGHIRWY/LB1
+-OMAA1230
+-N0344F160 DCT BOMUP DCT LOVIM DCT RESIG DCT NODVI DCT OBMUK DCT
+ LORID DCT ORGUR DCT PEBUS DCT EMOPO DCT LOTUK DCT LAGTA DCT LOVOL
+ DCT
+-OMDB0034 OTHH
+-PBN/A1B1C1D1O1S1 DOF/140101 REG/N320SB OPR/VMS PER/C RMK/TCAS)</flightplan_text>
+    <route>N0344F160 DCT BOMUP DCT LOVIM DCT RESIG DCT NODVI DCT OBMUK DCT LORID DCT ORGUR DCT PEBUS DCT EMOPO DCT LOTUK DCT LAGTA DCT LOVOL DCT</route>
+    <route_ifps>N0344F160 DCT BOMUP DCT LOVIM DCT RESIG DCT NODVI DCT OBMUK DCT LORID DCT ORGUR DCT PEBUS DCT EMOPO DCT LOTUK DCT LAGTA DCT LOVOL DCT</route_ifps>
+    <callsign>VMS112</callsign>
+    <initial_spd>0344</initial_spd>
+    <initial_spd_unit>N</initial_spd_unit>
+    <initial_alt>160</initial_alt>
+    <initial_alt_unit>F</initial_alt_unit>
+    <section18>PBN/A1B1C1D1O1S1 DOF/140101 REG/N320SB OPR/VMS PER/C RMK/TCAS</section18>
+    <fir_orig>OMAE</fir_orig>
+    <fir_dest>OMAE</fir_dest>
+    <fir_altn>OBBB</fir_altn>
+    <fir_etops/>
+    <fir_enroute/>
+  </atc>
+  <aircraft>
+    <icaocode>A320</icaocode>
+    <iatacode>320</iatacode>
+    <name>A320-200</name>
+    <reg>N320SB</reg>
+    <fin>205</fin>
+    <selcal/>
+    <equip>M-SDE3FGHIRWY/LB1</equip>
+    <max_passengers>180</max_passengers>
+    <fuelfact>1</fuelfact>
+  </aircraft>
+  <fuel>
+    <taxi>220</taxi>
+    <enroute_burn>3340</enroute_burn>
+    <contingency>1447</contingency>
+    <alternate_burn>5323</alternate_burn>
+    <reserve>3983</reserve>
+    <etops>0</etops>
+    <extra>0</extra>
+    <min_takeoff>14093</min_takeoff>
+    <plan_takeoff>14093</plan_takeoff>
+    <plan_ramp>14313</plan_ramp>
+    <plan_landing>10973</plan_landing>
+    <avg_fuel_flow>5788</avg_fuel_flow>
+    <max_tanks>42600</max_tanks>
+  </fuel>
+  <times>
+    <est_time_enroute>2077</est_time_enroute>
+    <sched_time_enroute>7140</sched_time_enroute>
+    <sched_out>1388579400</sched_out>
+    <sched_off>1388580000</sched_off>
+    <sched_on>1388587140</sched_on>
+    <sched_in>1388587500</sched_in>
+    <sched_block>8100</sched_block>
+    <est_out>1388579400</est_out>
+    <est_off>1388580000</est_off>
+    <est_on>1388582077</est_on>
+    <est_in>1388582437</est_in>
+    <est_block>3037</est_block>
+    <orig_timezone>4</orig_timezone>
+    <dest_timezone>4</dest_timezone>
+    <taxi_out>600</taxi_out>
+    <taxi_in>360</taxi_in>
+    <reserve_time>2700</reserve_time>
+    <endurance>9488</endurance>
+    <contfuel_time>900</contfuel_time>
+    <etopsfuel_time>0</etopsfuel_time>
+    <extrafuel_time>0</extrafuel_time>
+  </times>
+  <weights>
+    <oew>96518</oew>
+    <pax_count>167</pax_count>
+    <pax_weight>230</pax_weight>
+    <cargo>0</cargo>
+    <payload>38234</payload>
+    <est_zfw>134752</est_zfw>
+    <max_zfw>137789</max_zfw>
+    <est_tow>148845</est_tow>
+    <max_tow>148845</max_tow>
+    <max_tow_struct>171961</max_tow_struct>
+    <tow_limit_code>L</tow_limit_code>
+    <est_ldw>145505</est_ldw>
+    <max_ldw>145505</max_ldw>
+    <est_ramp>149065</est_ramp>
+  </weights>
+  <impacts>
+    <minus_6000ft>
+      <time_enroute>2183</time_enroute>
+      <time_difference>106</time_difference>
+      <enroute_burn>3386</enroute_burn>
+      <burn_difference>46</burn_difference>
+      <ramp_fuel>14308</ramp_fuel>
+      <initial_fl>100</initial_fl>
+      <initial_tas>316</initial_tas>
+      <initial_mach>0.49</initial_mach>
+      <cost_index>5</cost_index>
+    </minus_6000ft>
+    <minus_4000ft>
+      <time_enroute>2199</time_enroute>
+      <time_difference>122</time_difference>
+      <enroute_burn>3411</enroute_burn>
+      <burn_difference>71</burn_difference>
+      <ramp_fuel>14333</ramp_fuel>
+      <initial_fl>120</initial_fl>
+      <initial_tas>323</initial_tas>
+      <initial_mach>0.50</initial_mach>
+      <cost_index>5</cost_index>
+    </minus_4000ft>
+    <minus_2000ft>
+      <time_enroute>2106</time_enroute>
+      <time_difference>29</time_difference>
+      <enroute_burn>3363</enroute_burn>
+      <burn_difference>23</burn_difference>
+      <ramp_fuel>14326</ramp_fuel>
+      <initial_fl>140</initial_fl>
+      <initial_tas>334</initial_tas>
+      <initial_mach>0.52</initial_mach>
+      <cost_index>5</cost_index>
+    </minus_2000ft>
+    <plus_2000ft>
+      <time_enroute>2052</time_enroute>
+      <time_difference>-25</time_difference>
+      <enroute_burn>3330</enroute_burn>
+      <burn_difference>-10</burn_difference>
+      <ramp_fuel>14316</ramp_fuel>
+      <initial_fl>180</initial_fl>
+      <initial_tas>354</initial_tas>
+      <initial_mach>0.56</initial_mach>
+      <cost_index>5</cost_index>
+    </plus_2000ft>
+    <plus_4000ft/>
+    <plus_6000ft/>
+    <higher_ci>
+      <time_enroute>2001</time_enroute>
+      <time_difference>-76</time_difference>
+      <enroute_burn>3389</enroute_burn>
+      <burn_difference>49</burn_difference>
+      <ramp_fuel>14439</ramp_fuel>
+      <initial_fl>160</initial_fl>
+      <initial_tas>395</initial_tas>
+      <initial_mach>0.62</initial_mach>
+      <cost_index>50</cost_index>
+    </higher_ci>
+    <lower_ci>
+      <time_enroute>2090</time_enroute>
+      <time_difference>13</time_difference>
+      <enroute_burn>3332</enroute_burn>
+      <burn_difference>-8</burn_difference>
+      <ramp_fuel>14293</ramp_fuel>
+      <initial_fl>160</initial_fl>
+      <initial_tas>336</initial_tas>
+      <initial_mach>0.53</initial_mach>
+      <cost_index>0</cost_index>
+    </lower_ci>
+    <zfw_plus_1000>
+      <time_enroute>2076</time_enroute>
+      <time_difference>-2</time_difference>
+      <enroute_burn>3360</enroute_burn>
+      <burn_difference>20</burn_difference>
+      <ramp_fuel>14343</ramp_fuel>
+      <initial_fl>160</initial_fl>
+      <initial_tas>345</initial_tas>
+      <initial_mach>0.54</initial_mach>
+      <cost_index>5</cost_index>
+    </zfw_plus_1000>
+    <zfw_minus_1000>
+      <time_enroute>2090</time_enroute>
+      <time_difference>12</time_difference>
+      <enroute_burn>3334</enroute_burn>
+      <burn_difference>-6</burn_difference>
+      <ramp_fuel>14296</ramp_fuel>
+      <initial_fl>160</initial_fl>
+      <initial_tas>343</initial_tas>
+      <initial_mach>0.54</initial_mach>
+      <cost_index>5</cost_index>
+    </zfw_minus_1000>
+  </impacts>
+  <crew>
+    <pilot_id>120867</pilot_id>
+    <cpt>NABEEL SHAHZAD</cpt>
+    <fo>SHANE WALKER</fo>
+    <dx>CONSTANCE DIXON</dx>
+    <pu>TOMMIE SHORT</pu>
+    <fa>ANGELICA AYALA</fa>
+    <fa>BYRON THOMPSON</fa>
+    <fa>RANDAL ROWE</fa>
+  </crew>
+  <notams>
+  <notamdrec>
+    <source_id>M</source_id>
+    <account_id>KNSF</account_id>
+    <notam_id>V0090/20</notam_id>
+    <notam_part>1</notam_part>
+    <cns_location_id>OMAA</cns_location_id>
+    <icao_id>OMAA</icao_id>
+    <icao_name>ABU DHABI INTL</icao_name>
+    <total_parts>1</total_parts>
+    <notam_effective_dtg>202002101229</notam_effective_dtg>
+    <notam_expire_dtg>202004230001</notam_expire_dtg>
+    <notam_lastmod_dtg>202002101229</notam_lastmod_dtg>
+    <notam_text>V0090/20 NOTAMN
+Q) OMAE/QPICH/I/BO/A/000/999/2426N05439E005 A) OMAA B) 2002101229 C) 2004230001
+E) [US DOD PROCEDURAL NOTAM] INSTRUMENT APPROACH PROCEDURE CHANGED
+ VOR RWY 31L; MINIMA TO READ&#xC2;&#x85;S-31L* CAT AB 520-750M 437 (500-750M).
+ CIRCLING CAT AB 800-1600M 717 (800-1600M).</notam_text>
+    <notam_report>[US DOD PROCEDURAL NOTAM] INSTRUMENT APPROACH PROCEDURE CHANGED VOR RWY 31L; MINIMA TO READ S-31L* CAT AB 520-750M 437 (500-750M). CIRCLING CAT AB 800-1600M 717 (800-1600M). 10 FEB 12:29 2020 UNTIL 23 APR 00:01 2020. CREATED: 10 FEB 12:29 2020</notam_report>
+    <notam_nrc>NOTAMN</notam_nrc>
+    <notam_qcode>QPICH</notam_qcode>
+  </notamdrec>
+  <notamdrec>
+    <source_id>M</source_id>
+    <account_id>KNSF</account_id>
+    <notam_id>V0089/20</notam_id>
+    <notam_part>1</notam_part>
+    <cns_location_id>OMAA</cns_location_id>
+    <icao_id>OMAA</icao_id>
+    <icao_name>ABU DHABI INTL</icao_name>
+    <total_parts>1</total_parts>
+    <notam_effective_dtg>202002101228</notam_effective_dtg>
+    <notam_expire_dtg>202004230001</notam_expire_dtg>
+    <notam_lastmod_dtg>202002101228</notam_lastmod_dtg>
+    <notam_text>V0089/20 NOTAMN
+Q) OMAE/QPICH/I/BO/A/000/999/2426N05439E005 A) OMAA B) 2002101228 C) 2004230001
+E) [US DOD PROCEDURAL NOTAM] INSTRUMENT APPROACH PROCEDURE CHANGED
+ VOR RWY 13R; MINIMA TO READ&#xC2;&#x85;S-13R* CAT AB 540-1200M 462
+ (500-1200M), CAT CD 540-1500M 462 (500-1500M). *WHEN ALS INOP,
+ INCREASE CAT CD VIS TO 2200M. CIRCLING CAT AB 800-1900M 717
+ (800-1900M), CAT C 900-4000M 817 (900-4000M), CAT D 900-4400M 817
+ (900-4400M).</notam_text>
+    <notam_report>[US DOD PROCEDURAL NOTAM] INSTRUMENT APPROACH PROCEDURE CHANGED VOR RWY 13R; MINIMA TO READ S-13R* CAT AB 540-1200M 462 (500-1200M), CAT CD 540-1500M 462 (500-1500M). *WHEN ALS INOP, INCREASE CAT CD VIS TO 2200M. CIRCLING CAT AB 800-1900M 717 (800-1900M), CAT C 900-4000M 817 (900-4000M), CAT D 900-4400M 817 (900-4400M). 10 FEB 12:28 2020 UNTIL 23 APR 00:01 2020. CREATED: 10 FEB 12:28 2020</notam_report>
+    <notam_nrc>NOTAMN</notam_nrc>
+    <notam_qcode>QPICH</notam_qcode>
+  </notamdrec>
+  <notamdrec>
+    <source_id>M</source_id>
+    <account_id>KNSF</account_id>
+    <notam_id>V0088/20</notam_id>
+    <notam_part>1</notam_part>
+    <cns_location_id>OMAA</cns_location_id>
+    <icao_id>OMAA</icao_id>
+    <icao_name>ABU DHABI INTL</icao_name>
+    <total_parts>1</total_parts>
+    <notam_effective_dtg>202002101226</notam_effective_dtg>
+    <notam_expire_dtg>202004230001</notam_expire_dtg>
+    <notam_lastmod_dtg>202002101226</notam_lastmod_dtg>
+    <notam_text>V0088/20 NOTAMN
+Q) OMAE/QPICH/I/BO/A/000/999/2426N05439E005 A) OMAA B) 2002101226 C) 2004230001
+E) [US DOD PROCEDURAL NOTAM] INSTRUMENT APPROACH PROCEDURE CHANGED
+ ILS RWY 31R; MINIMA TO READ&#xC2;&#x85;S-LOC 31R* CAT ABCD 750-2400M 678
+ (700-2400M). *WHEN ALS INOP, INCREASE CAT AB VIS TO 3100M. CIRCLING
+ 780-3200M 697 (700-3200M), CAT CD 880-3600M 797 (800-3600M).</notam_text>
+    <notam_report>[US DOD PROCEDURAL NOTAM] INSTRUMENT APPROACH PROCEDURE CHANGED ILS RWY 31R; MINIMA TO READ S-LOC 31R* CAT ABCD 750-2400M 678 (700-2400M). *WHEN ALS INOP, INCREASE CAT AB VIS TO 3100M. CIRCLING 780-3200M 697 (700-3200M), CAT CD 880-3600M 797 (800-3600M). 10 FEB 12:26 2020 UNTIL 23 APR 00:01 2020. CREATED: 10 FEB 12:26 2020</notam_report>
+    <notam_nrc>NOTAMN</notam_nrc>
+    <notam_qcode>QPICH</notam_qcode>
+  </notamdrec>
+  <notamdrec>
+    <source_id>M</source_id>
+    <account_id>KNSF</account_id>
+    <notam_id>V0087/20</notam_id>
+    <notam_part>1</notam_part>
+    <cns_location_id>OMAA</cns_location_id>
+    <icao_id>OMAA</icao_id>
+    <icao_name>ABU DHABI INTL</icao_name>
+    <total_parts>1</total_parts>
+    <notam_effective_dtg>202002101224</notam_effective_dtg>
+    <notam_expire_dtg>202004230001</notam_expire_dtg>
+    <notam_lastmod_dtg>202002101225</notam_lastmod_dtg>
+    <notam_text>V0087/20 NOTAMN
+Q) OMAE/QPICH/I/BO/A/000/999/2426N05439E005 A) OMAA B) 2002101224 C) 2004230001
+E) [US DOD PROCEDURAL NOTAM] INSTRUMENT APPROACH PROCEDURE CHANGED
+ ILS RWY 31L; MA CG REQUIRED TO CROSS VEDEX AT 4000 IS 247 FPNM OR
+ 4.05%. MINIMA TO READ&#xC2;&#x85;S-ILS 31L* CAT AB 350-800M 267 (300-800M),
+ CAT CD 369-800M 286 (300-800M). *WHEN ALS INOP, INCREASE CAT AB VIS
+ TO 1300M, CAT CD VIS TO 1400M. S-LOC 31L** CAT ABCD 480-1100M 397
+ (400-1100M). **WHEN ALS INOP, INCREASE CAT ABCD VIS TO 1800M.
+ CIRCLING CAT AB 780-3200M 697 (700-3200M), CAT CD 880-3600M 797
+ (800-3600M).</notam_text>
+    <notam_report>[US DOD PROCEDURAL NOTAM] INSTRUMENT APPROACH PROCEDURE CHANGED ILS RWY 31L; MA CG REQUIRED TO CROSS VEDEX AT 4000 IS 247 FPNM OR 4.05%. MINIMA TO READ S-ILS 31L* CAT AB 350-800M 267 (300-800M), CAT CD 369-800M 286 (300-800M). *WHEN ALS INOP, INCREASE CAT AB VIS TO 1300M, CAT CD VIS TO 1400M. S-LOC 31L** CAT ABCD 480-1100M 397 (400-1100M). **WHEN ALS INOP, INCREASE CAT ABCD VIS TO 1800M. CIRCLING CAT AB 780-3200M 697 (700-3200M), CAT CD 880-3600M 797 (800-3600M). 10 FEB 12:24 2020 UNTIL 23 APR 00:01 2020. CREATED: 10 FEB 12:25 2020</notam_report>
+    <notam_nrc>NOTAMN</notam_nrc>
+    <notam_qcode>QPICH</notam_qcode>
+  </notamdrec>
+  <notamdrec>
+    <source_id>M</source_id>
+    <account_id>KNSF</account_id>
+    <notam_id>V0086/20</notam_id>
+    <notam_part>1</notam_part>
+    <cns_location_id>OMAA</cns_location_id>
+    <icao_id>OMAA</icao_id>
+    <icao_name>ABU DHABI INTL</icao_name>
+    <total_parts>1</total_parts>
+    <notam_effective_dtg>202002101221</notam_effective_dtg>
+    <notam_expire_dtg>202004230001</notam_expire_dtg>
+    <notam_lastmod_dtg>202002101222</notam_lastmod_dtg>
+    <notam_text>V0086/20 NOTAMN
+Q) OMAE/QPICH/I/BO/A/000/999/2426N05439E005 A) OMAA B) 2002101221 C) 2004230001
+E) [US DOD PROCEDURAL NOTAM] INSTRUMENT APPROACH PROCEDURE CHANGED
+ ILS RWY 13R; MINIMA TO READ&#xC2;&#x85;S-ILS 13R* CAT AB 288-800M 210
+ (300-800M), CAT CD 309-800M 231 (300-800M). *WHEN ALS INOP,
+ INCREASE CAT ABCD VIS TO 1200M. S-LOC 13R** CAT ABC 510-1300M 427
+ (500-1300M). **WHEN ALS INOP, INCREASE CAT ABC VIS TO 2000M.
+ CIRCLING CAT AB 780-3200M 697 (700-3200M), CAT C 880-3600M 797
+ (800-3600M), CAT D 970-3800M 827 (900-3800M).</notam_text>
+    <notam_report>[US DOD PROCEDURAL NOTAM] INSTRUMENT APPROACH PROCEDURE CHANGED ILS RWY 13R; MINIMA TO READ S-ILS 13R* CAT AB 288-800M 210 (300-800M), CAT CD 309-800M 231 (300-800M). *WHEN ALS INOP, INCREASE CAT ABCD VIS TO 1200M. S-LOC 13R** CAT ABC 510-1300M 427 (500-1300M). **WHEN ALS INOP, INCREASE CAT ABC VIS TO 2000M. CIRCLING CAT AB 780-3200M 697 (700-3200M), CAT C 880-3600M 797 (800-3600M), CAT D 970-3800M 827 (900-3800M). 10 FEB 12:21 2020 UNTIL 23 APR 00:01 2020. CREATED: 10 FEB 12:22 2020</notam_report>
+    <notam_nrc>NOTAMN</notam_nrc>
+    <notam_qcode>QPICH</notam_qcode>
+  </notamdrec>
+  <notamdrec>
+    <source_id>M</source_id>
+    <account_id>KNSF</account_id>
+    <notam_id>V0085/20</notam_id>
+    <notam_part>1</notam_part>
+    <cns_location_id>OMAA</cns_location_id>
+    <icao_id>OMAA</icao_id>
+    <icao_name>ABU DHABI INTL</icao_name>
+    <total_parts>1</total_parts>
+    <notam_effective_dtg>202002101213</notam_effective_dtg>
+    <notam_expire_dtg>202004230001</notam_expire_dtg>
+    <notam_lastmod_dtg>202002101214</notam_lastmod_dtg>
+    <notam_text>V0085/20 NOTAMN
+Q) OMAE/QPICH/I/BO/A/000/999/2426N05439E005 A) OMAA B) 2002101213 C) 2004230001
+E) [US DOD PROCEDURAL NOTAM] INSTRUMENT APPROACH PROCEDURE CHANGED
+ ILS RWY 13L; MINIMA TO READ&#xC2;&#x85;S-ILS 13L* CAT AB 375-800M 313
+ (300-800M), CAT CD 395-800M 333 (400-800M). *WHEN ALS INOP,
+ INCREASE CAT AB VIS TO 1500M AND CAT CD VIS TO 1700M. S-LOC 13L**
+ CAT AB 570-1600M 506 (500-1600M). WHEN ALS INOP, INCREASE CAT AB
+ VIS TO 2400M. CIRCLING CAT AB 780-3200M 697 (700-3200M), CAT CD
+ 890-3600M 797 (800-3600M).</notam_text>
+    <notam_report>[US DOD PROCEDURAL NOTAM] INSTRUMENT APPROACH PROCEDURE CHANGED ILS RWY 13L; MINIMA TO READ S-ILS 13L* CAT AB 375-800M 313 (300-800M), CAT CD 395-800M 333 (400-800M). *WHEN ALS INOP, INCREASE CAT AB VIS TO 1500M AND CAT CD VIS TO 1700M. S-LOC 13L** CAT AB 570-1600M 506 (500-1600M). WHEN ALS INOP, INCREASE CAT AB VIS TO 2400M. CIRCLING CAT AB 780-3200M 697 (700-3200M), CAT CD 890-3600M 797 (800-3600M). 10 FEB 12:13 2020 UNTIL 23 APR 00:01 2020. CREATED: 10 FEB 12:13 2020</notam_report>
+    <notam_nrc>NOTAMN</notam_nrc>
+    <notam_qcode>QPICH</notam_qcode>
+  </notamdrec>
+  <notamdrec>
+    <source_id>I</source_id>
+    <account_id>OMAEYNYX</account_id>
+    <notam_id>A0612/20</notam_id>
+    <notam_part>1</notam_part>
+    <cns_location_id>OMAA</cns_location_id>
+    <icao_id>OMAA</icao_id>
+    <icao_name>ABU DHABI INTL</icao_name>
+    <total_parts>1</total_parts>
+    <notam_effective_dtg>202003150200</notam_effective_dtg>
+    <notam_expire_dtg>202003151415</notam_expire_dtg>
+    <notam_lastmod_dtg>202003121410</notam_lastmod_dtg>
+    <notam_text>A0612/20 NOTAMN
+Q) OMAE/QWULW/IV/BO/AW/000/001/2428N05436E001
+A) OMAA B) 2003150200 C) 2003151415
+E) UAS ACT WILL TAKE PLACE WI 120M RADIUS CENTERED ON PSN 242802.03N
+0543619.44E
+F) SFC G) 100FT AGL</notam_text>
+    <notam_report>UAS ACT WILL TAKE PLACE WI 120M RADIUS CENTERED ON PSN 242802.03N 0543619.44E. SFC - 100FT AGL, 15 MAR 02:00 2020 UNTIL 15 MAR 14:15 2020. CREATED: 12 MAR 14:10 2020</notam_report>
+    <notam_nrc>NOTAMN</notam_nrc>
+    <notam_qcode>QWULW</notam_qcode>
+  </notamdrec>
+  <notamdrec>
+    <source_id>I</source_id>
+    <account_id>OMAEYNYX</account_id>
+    <notam_id>A0611/20</notam_id>
+    <notam_part>1</notam_part>
+    <cns_location_id>OMAA</cns_location_id>
+    <icao_id>OMAA</icao_id>
+    <icao_name>ABU DHABI INTL</icao_name>
+    <total_parts>1</total_parts>
+    <notam_effective_dtg>202003150200</notam_effective_dtg>
+    <notam_expire_dtg>202003151415</notam_expire_dtg>
+    <notam_lastmod_dtg>202003121406</notam_lastmod_dtg>
+    <notam_text>A0611/20 NOTAMN
+Q) OMAE/QWULW/IV/BO/AW/000/001/2428N05436E001
+A) OMAA B) 2003150200 C) 2003151415
+E) UAS ACT WILL TAKE PLACE WI 120M RADIUS CENTERED ON PSN 242830.15N
+0543614.02E
+F) SFC G) 100FT AGL</notam_text>
+    <notam_report>UAS ACT WILL TAKE PLACE WI 120M RADIUS CENTERED ON PSN 242830.15N 0543614.02E. SFC - 100FT AGL, 15 MAR 02:00 2020 UNTIL 15 MAR 14:15 2020. CREATED: 12 MAR 14:06 2020</notam_report>
+    <notam_nrc>NOTAMN</notam_nrc>
+    <notam_qcode>QWULW</notam_qcode>
+  </notamdrec>
+  <notamdrec>
+    <source_id>I</source_id>
+    <account_id>OMAEYNYX</account_id>
+    <notam_id>A0610/20</notam_id>
+    <notam_part>1</notam_part>
+    <cns_location_id>OMAA</cns_location_id>
+    <icao_id>OMAA</icao_id>
+    <icao_name>ABU DHABI INTL</icao_name>
+    <total_parts>1</total_parts>
+    <notam_effective_dtg>202003150200</notam_effective_dtg>
+    <notam_expire_dtg>202003151415</notam_expire_dtg>
+    <notam_lastmod_dtg>202003121359</notam_lastmod_dtg>
+    <notam_text>A0610/20 NOTAMN
+Q) OMAE/QWULW/IV/BO/AW/000/001/2428N05436E001
+A) OMAA B) 2003150200 C) 2003151415
+E) UAS ACT WILL TAKE PLACE WI 120M RADIUS CENTERED ON PSN 242800.04N
+0543633.98E
+F) SFC G) 100FT AGL</notam_text>
+    <notam_report>UAS ACT WILL TAKE PLACE WI 120M RADIUS CENTERED ON PSN 242800.04N 0543633.98E. SFC - 100FT AGL, 15 MAR 02:00 2020 UNTIL 15 MAR 14:15 2020. CREATED: 12 MAR 13:59 2020</notam_report>
+    <notam_nrc>NOTAMN</notam_nrc>
+    <notam_qcode>QWULW</notam_qcode>
+  </notamdrec>
+  <notamdrec>
+    <source_id>I</source_id>
+    <account_id>OMAEYNYX</account_id>
+    <notam_id>A0609/20</notam_id>
+    <notam_part>1</notam_part>
+    <cns_location_id>OMAA</cns_location_id>
+    <icao_id>OMAA</icao_id>
+    <icao_name>ABU DHABI INTL</icao_name>
+    <total_parts>1</total_parts>
+    <notam_effective_dtg>202003150200</notam_effective_dtg>
+    <notam_expire_dtg>202003151415</notam_expire_dtg>
+    <notam_lastmod_dtg>202003121343</notam_lastmod_dtg>
+    <notam_text>A0609/20 NOTAMN
+Q) OMAE/QWULW/IV/BO/AW/000/001/2427N05435E001
+A) OMAA B) 2003150200 C) 2003151415
+E) UAS ACT WILL TAKE PLACE WI 120M RADIUS CENTERED ON PSN 242743.28N
+0543532.12E
+F) SFC G) 100FT AGL</notam_text>
+    <notam_report>UAS ACT WILL TAKE PLACE WI 120M RADIUS CENTERED ON PSN 242743.28N 0543532.12E. SFC - 100FT AGL, 15 MAR 02:00 2020 UNTIL 15 MAR 14:15 2020. CREATED: 12 MAR 13:43 2020</notam_report>
+    <notam_nrc>NOTAMN</notam_nrc>
+    <notam_qcode>QWULW</notam_qcode>
+  </notamdrec>
+  <notamdrec>
+    <source_id>I</source_id>
+    <account_id>OMAEYNYX</account_id>
+    <notam_id>A0599/20</notam_id>
+    <notam_part>1</notam_part>
+    <cns_location_id>OMAA</cns_location_id>
+    <icao_id>OMAA</icao_id>
+    <icao_name>ABU DHABI INTL</icao_name>
+    <total_parts>1</total_parts>
+    <notam_effective_dtg>202003150200</notam_effective_dtg>
+    <notam_expire_dtg>202003151415</notam_expire_dtg>
+    <notam_lastmod_dtg>202003120942</notam_lastmod_dtg>
+    <notam_text>A0599/20 NOTAMN
+Q) OMAE/QWULW/IV/BO/AW/000/002/2429N05436E001
+A) OMAA B) 2003150200 C) 2003151415
+E) UAS ACT WILL TAKE PLACE WI 120M RADIUS CENTERED ON PSN 242901.69N
+0543624.97E.
+F) SFC G) 200FT AGL</notam_text>
+    <notam_report>UAS ACT WILL TAKE PLACE WI 120M RADIUS CENTERED ON PSN 242901.69N 0543624.97E. SFC - 200FT AGL, 15 MAR 02:00 2020 UNTIL 15 MAR 14:15 2020. CREATED: 12 MAR 09:42 2020</notam_report>
+    <notam_nrc>NOTAMN</notam_nrc>
+    <notam_qcode>QWULW</notam_qcode>
+  </notamdrec>
+  <notamdrec>
+    <source_id>I</source_id>
+    <account_id>OMAEYNYX</account_id>
+    <notam_id>A0598/20</notam_id>
+    <notam_part>1</notam_part>
+    <cns_location_id>OMAA</cns_location_id>
+    <icao_id>OMAA</icao_id>
+    <icao_name>ABU DHABI INTL</icao_name>
+    <total_parts>1</total_parts>
+    <notam_effective_dtg>202003150200</notam_effective_dtg>
+    <notam_expire_dtg>202003151415</notam_expire_dtg>
+    <notam_lastmod_dtg>202003120941</notam_lastmod_dtg>
+    <notam_text>A0598/20 NOTAMN
+Q) OMAE/QWULW/IV/BO/AW/000/002/2429N05436E001
+A) OMAA B) 2003150200 C) 2003151415
+E) UAS ACT WILL TAKE PLACE WI 250M RADIUS CENTERED ON PSN 242920.0N
+0543559.1E.
+F) SFC G) 200FT AGL</notam_text>
+    <notam_report>UAS ACT WILL TAKE PLACE WI 250M RADIUS CENTERED ON PSN 242920.0N 0543559.1E. SFC - 200FT AGL, 15 MAR 02:00 2020 UNTIL 15 MAR 14:15 2020. CREATED: 12 MAR 09:41 2020</notam_report>
+    <notam_nrc>NOTAMN</notam_nrc>
+    <notam_qcode>QWULW</notam_qcode>
+  </notamdrec>
+  <notamdrec>
+    <source_id>I</source_id>
+    <account_id>OMAEYNYX</account_id>
+    <notam_id>A0568/20</notam_id>
+    <notam_part>1</notam_part>
+    <cns_location_id>OMAA</cns_location_id>
+    <icao_id>OMAA</icao_id>
+    <icao_name>ABU DHABI INTL</icao_name>
+    <total_parts>1</total_parts>
+    <notam_effective_dtg>202003080300</notam_effective_dtg>
+    <notam_expire_dtg>202003251400</notam_expire_dtg>
+    <notam_lastmod_dtg>202003051237</notam_lastmod_dtg>
+    <notam_text>A0568/20 NOTAMN
+Q) OMAE/QOBCE/IV/M/AE/000/001/2426N05439E001
+A) OMAA B) 2003080300 C) 2003251400
+D) H24
+E) OBST CRANE OPR WI AREA BOUNDED BY LINES JOINING:
+242655.40N 0543922.10E
+242654.80N 0543922.90E
+242621.50N 0543853.50E
+242620.80N 0543854.80E
+F) SFC G) 036FT AGL</notam_text>
+    <notam_report>OBST CRANE OPR WI AREA BOUNDED BY LINES JOINING: 242655.40N 0543922.10E 242654.80N 0543922.90E 242621.50N 0543853.50E 242620.80N 0543854.80E. SFC - 036FT AGL, H24, 08 MAR 03:00 2020 UNTIL 25 MAR 14:00 2020. CREATED: 05 MAR 12:36 2020</notam_report>
+    <notam_nrc>NOTAMN</notam_nrc>
+    <notam_qcode>QOBCE</notam_qcode>
+  </notamdrec>
+  <notamdrec>
+    <source_id>I</source_id>
+    <account_id>OMAEYNYX</account_id>
+    <notam_id>A0563/20</notam_id>
+    <notam_part>1</notam_part>
+    <cns_location_id>OMAA</cns_location_id>
+    <icao_id>OMAA</icao_id>
+    <icao_name>ABU DHABI INTL</icao_name>
+    <total_parts>1</total_parts>
+    <notam_effective_dtg>202003080300</notam_effective_dtg>
+    <notam_expire_dtg>202003171400</notam_expire_dtg>
+    <notam_lastmod_dtg>202003051214</notam_lastmod_dtg>
+    <notam_text>A0563/20 NOTAMN
+Q) OMAE/QMXLC/IV/M/A/000/999/2426N05439E005
+A) OMAA B) 2003080300 C) 2003171400
+D) DLY BTN 0300-1400
+E) SECN OF TWY H BTN TWY B AND TWY L2 CLSD DUE WIP</notam_text>
+    <notam_report>SECN OF TWY H BTN TWY B AND TWY L2 CLSD DUE WIP. DLY BTN 0300-1400, 08 MAR 03:00 2020 UNTIL 17 MAR 14:00 2020. CREATED: 05 MAR 12:14 2020</notam_report>
+    <notam_nrc>NOTAMN</notam_nrc>
+    <notam_qcode>QMXLC</notam_qcode>
+  </notamdrec>
+  <notamdrec>
+    <source_id>I</source_id>
+    <account_id>OMAEYNYX</account_id>
+    <notam_id>A0562/20</notam_id>
+    <notam_part>1</notam_part>
+    <cns_location_id>OMAA</cns_location_id>
+    <icao_id>OMAA</icao_id>
+    <icao_name>ABU DHABI INTL</icao_name>
+    <total_parts>1</total_parts>
+    <notam_effective_dtg>202003080300</notam_effective_dtg>
+    <notam_expire_dtg>202003171400</notam_expire_dtg>
+    <notam_lastmod_dtg>202003051211</notam_lastmod_dtg>
+    <notam_text>A0562/20 NOTAMN
+Q) OMAE/QMXLC/IV/M/A/000/999/2426N05439E005
+A) OMAA B) 2003080300 C) 2003171400
+D) H24
+E) SECN OF TWY H BTN TWY C AND TWY L3 CLSD DUE WIP</notam_text>
+    <notam_report>SECN OF TWY H BTN TWY C AND TWY L3 CLSD DUE WIP. H24, 08 MAR 03:00 2020 UNTIL 17 MAR 14:00 2020. CREATED: 05 MAR 12:11 2020</notam_report>
+    <notam_nrc>NOTAMN</notam_nrc>
+    <notam_qcode>QMXLC</notam_qcode>
+  </notamdrec>
+  <notamdrec>
+    <source_id>I</source_id>
+    <account_id>OMAEYNYX</account_id>
+    <notam_id>A0408/20</notam_id>
+    <notam_part>1</notam_part>
+    <cns_location_id>OMAA</cns_location_id>
+    <icao_id>OMAA</icao_id>
+    <icao_name>ABU DHABI INTL</icao_name>
+    <total_parts>1</total_parts>
+    <notam_effective_dtg>202002190130</notam_effective_dtg>
+    <notam_expire_dtg>202005191530</notam_expire_dtg>
+    <notam_lastmod_dtg>202002182001</notam_lastmod_dtg>
+    <notam_text>A0408/20 NOTAMN
+Q) OMAE/QMGXX/IV/B/A/000/999/2426N05439E005
+A) OMAA B) 2002190130 C) 2005191530
+D) DLY BTN 0130-0300 AND 1430-1530
+E) IN ORDER TO MNTN ATC FAMILIARITY WITH THE NEW AIRFIELD LGT SYSTEM,
+ATC WILL UTILISE THE SYSTEM IN THE SOUTH AIRFIELD DURING THESE
+TIMES IN CAT I COND. ATC WILL CONT TO ISSUE STANDARD TWY ROUTINGS
+BY RTF, AND WILL SUPPLEMENT THESE BY PROVIDING GREEN CL LIGHT
+ROUTINGS. INSTRUCTIONS ISSUED BY RTF TAKE PRECEDENCE, AND THEREFORE
+SHOULD THERE BE ANY DOUBT, OR IF IT IS BELIEVED THERE IS A
+DISCREPANCY BTN RTF INSTRUCTIONS AND GND LGT ROUTINGS, ACFT SHALL
+CTC ATC AT THE EARLIEST OPPORTUNITY AND, IF NECCESSARY, HOLD PSN
+WHEN SAFE TO DO SO.</notam_text>
+    <notam_report>IN ORDER TO MNTN ATC FAMILIARITY WITH THE NEW AIRFIELD LGT SYSTEM, ATC WILL UTILISE THE SYSTEM IN THE SOUTH AIRFIELD DURING THESE TIMES IN CAT I COND. ATC WILL CONT TO ISSUE STANDARD TWY ROUTINGS BY RTF, AND WILL SUPPLEMENT THESE BY PROVIDING GREEN CL LIGHT ROUTINGS. INSTRUCTIONS ISSUED BY RTF TAKE PRECEDENCE, AND THEREFORE SHOULD THERE BE ANY DOUBT, OR IF IT IS BELIEVED THERE IS A DISCREPANCY BTN RTF INSTRUCTIONS AND GND LGT ROUTINGS, ACFT SHALL CTC ATC AT THE EARLIEST OPPORTUNITY AND, IF NECCESSARY, HOLD PSN WHEN SAFE TO DO SO. DLY BTN 0130-0300 AND 1430-1530, 19 FEB 01:30 2020 UNTIL 19 MAY 15:30 2020. CREATED: 18 FEB 20:01 2020</notam_report>
+    <notam_nrc>NOTAMN</notam_nrc>
+    <notam_qcode>QMGXX</notam_qcode>
+  </notamdrec>
+  <notamdrec>
+    <source_id>I</source_id>
+    <account_id>OMAEYNYX</account_id>
+    <notam_id>A0401/20</notam_id>
+    <notam_part>1</notam_part>
+    <cns_location_id>OMAA</cns_location_id>
+    <icao_id>OMAA</icao_id>
+    <icao_name>ABU DHABI INTL</icao_name>
+    <total_parts>1</total_parts>
+    <notam_effective_dtg>202002250200</notam_effective_dtg>
+    <notam_expire_dtg>202004201600</notam_expire_dtg>
+    <notam_lastmod_dtg>202002181239</notam_lastmod_dtg>
+    <notam_text>A0401/20 NOTAMN
+Q) OMAE/QOBCE/IV/M/AE/000/004/2427N05436E001
+A) OMAA B) 2002250200 C) 2004201600
+D) DLY BTN 0200-1600
+E) OBST CRAWLER CRANE OPR IN YAS ISLAND WI RADIUS 56M AT PSN
+242742.38N 0543602.65E
+F) SFC G) 338FT AGL</notam_text>
+    <notam_report>OBST CRAWLER CRANE OPR IN YAS ISLAND WI RADIUS 56M AT PSN 242742.38N 0543602.65E. SFC - 338FT AGL, DLY BTN 0200-1600, 25 FEB 02:00 2020 UNTIL 20 APR 16:00 2020. CREATED: 18 FEB 12:39 2020</notam_report>
+    <notam_nrc>NOTAMN</notam_nrc>
+    <notam_qcode>QOBCE</notam_qcode>
+  </notamdrec>
+  <notamdrec>
+    <source_id>I</source_id>
+    <account_id>OMAEYNYX</account_id>
+    <notam_id>A0395/20</notam_id>
+    <notam_part>1</notam_part>
+    <cns_location_id>OMAA</cns_location_id>
+    <icao_id>OMAA</icao_id>
+    <icao_name>ABU DHABI INTL</icao_name>
+    <total_parts>1</total_parts>
+    <notam_effective_dtg>202002190300</notam_effective_dtg>
+    <notam_expire_dtg>202003191400</notam_expire_dtg>
+    <notam_lastmod_dtg>202002181117</notam_lastmod_dtg>
+    <notam_text>A0395/20 NOTAMN
+Q) OMAE/QMXLC/IV/M/A/000/999/2426N05439E005
+A) OMAA B) 2002190300 C) 2003191400
+D) H24
+E) TWY B BTN TWY B4 AND TWY B7 CLSD DUE WIP.</notam_text>
+    <notam_report>TWY B BTN TWY B4 AND TWY B7 CLSD DUE WIP. H24, 19 FEB 03:00 2020 UNTIL 19 MAR 14:00 2020. CREATED: 18 FEB 11:16 2020</notam_report>
+    <notam_nrc>NOTAMN</notam_nrc>
+    <notam_qcode>QMXLC</notam_qcode>
+  </notamdrec>
+  <notamdrec>
+    <source_id>I</source_id>
+    <account_id>OMAEYNYX</account_id>
+    <notam_id>A0340/20</notam_id>
+    <notam_part>1</notam_part>
+    <cns_location_id>OMAA</cns_location_id>
+    <icao_id>OMAA</icao_id>
+    <icao_name>ABU DHABI INTL</icao_name>
+    <total_parts>1</total_parts>
+    <notam_effective_dtg>202002110800</notam_effective_dtg>
+    <notam_expire_dtg>202003262359</notam_expire_dtg>
+    <notam_lastmod_dtg>202002110803</notam_lastmod_dtg>
+    <notam_text>A0340/20 NOTAMN
+Q) OMAE/QMRAK/IV/M/A/000/999/2426N05439E005
+A) OMAA B) 2002110800 C) 2003262359
+E) CNL UAE SUP 07/2019</notam_text>
+    <notam_report>CNL UAE SUP 07/2019. 11 FEB 08:00 2020 UNTIL 26 MAR 23:59 2020. CREATED: 11 FEB 08:00 2020</notam_report>
+    <notam_nrc>NOTAMN</notam_nrc>
+  </notamdrec>
+  <notamdrec>
+    <source_id>I</source_id>
+    <account_id>OMAEYNYX</account_id>
+    <notam_id>A0314/20</notam_id>
+    <notam_part>1</notam_part>
+    <cns_location_id>OMAA</cns_location_id>
+    <icao_id>OMAA</icao_id>
+    <icao_name>ABU DHABI INTL</icao_name>
+    <total_parts>1</total_parts>
+    <notam_effective_dtg>202002061110</notam_effective_dtg>
+    <notam_lastmod_dtg>202002061110</notam_lastmod_dtg>
+    <notam_text>A0314/20 NOTAMR A2227/19
+Q) OMAE/QOBCE/IV/M/AE/000/001/2427N05437E001
+A) OMAA B) 2002061110 C) PERM
+D) DLY BTN 0200-1800
+E) OBST CRANE ELEV 20M ERECTED AT PSN 242759.50N 0543755.10E.
+F) SFC G) 065FT AGL</notam_text>
+    <notam_report>OBST CRANE ELEV 20M ERECTED AT PSN 242759.50N 0543755.10E. SFC - 065FT AGL, DLY BTN 0200-1800, 06 FEB 11:10 2020 UNTIL PERM. CREATED: 06 FEB 11:10 2020</notam_report>
+    <notam_nrc>NOTAMR</notam_nrc>
+    <notam_qcode>QOBCE</notam_qcode>
+  </notamdrec>
+  <notamdrec>
+    <source_id>I</source_id>
+    <account_id>OMAEYNYX</account_id>
+    <notam_id>A0284/20</notam_id>
+    <notam_part>1</notam_part>
+    <cns_location_id>OMAA</cns_location_id>
+    <icao_id>OMAA</icao_id>
+    <icao_name>ABU DHABI INTL</icao_name>
+    <total_parts>1</total_parts>
+    <notam_effective_dtg>202002040802</notam_effective_dtg>
+    <notam_expire_dtg>202005031800</notam_expire_dtg>
+    <notam_lastmod_dtg>202002040803</notam_lastmod_dtg>
+    <notam_text>A0284/20 NOTAMN
+Q) OMAE/QOBCE/IV/M/AE/000/002/2427N05437E001
+A) OMAA B) 2002040802 C) 2005031800
+D) DLY BTN 0200-1800
+E) OBST CRANE ERECTED AT PSN 242715.90N 0543658.18E.
+F) SFC G) 167FT AMSL</notam_text>
+    <notam_report>OBST CRANE ERECTED AT PSN 242715.90N 0543658.18E. SFC - 167FT AMSL, DLY BTN 0200-1800, 04 FEB 08:02 2020 UNTIL 03 MAY 18:00 2020. CREATED: 04 FEB 08:03 2020</notam_report>
+    <notam_nrc>NOTAMN</notam_nrc>
+    <notam_qcode>QOBCE</notam_qcode>
+  </notamdrec>
+  <notamdrec>
+    <source_id>I</source_id>
+    <account_id>OMAEYNYX</account_id>
+    <notam_id>A0277/20</notam_id>
+    <notam_part>1</notam_part>
+    <cns_location_id>OMAA</cns_location_id>
+    <icao_id>OMAA</icao_id>
+    <icao_name>ABU DHABI INTL</icao_name>
+    <total_parts>1</total_parts>
+    <notam_effective_dtg>202002031500</notam_effective_dtg>
+    <notam_lastmod_dtg>202002031501</notam_lastmod_dtg>
+    <notam_text>A0277/20 NOTAMN
+Q) OMAE/QMXAO/IV/M/A/000/999/2426N05439E005
+A) OMAA B) 2002031500 C) PERM
+E) TWY D3 OPR. REF UAE AIP SUP 09/2019</notam_text>
+    <notam_report>TWY D3 OPR. REF UAE AIP SUP 09/2019. 03 FEB 15:00 2020 UNTIL PERM. CREATED: 03 FEB 14:58 2020</notam_report>
+    <notam_nrc>NOTAMN</notam_nrc>
+  </notamdrec>
+  <notamdrec>
+    <source_id>I</source_id>
+    <account_id>OMAEYNYX</account_id>
+    <notam_id>A0276/20</notam_id>
+    <notam_part>1</notam_part>
+    <cns_location_id>OMAA</cns_location_id>
+    <icao_id>OMAA</icao_id>
+    <icao_name>ABU DHABI INTL</icao_name>
+    <total_parts>1</total_parts>
+    <notam_effective_dtg>202002031500</notam_effective_dtg>
+    <notam_lastmod_dtg>202002031459</notam_lastmod_dtg>
+    <notam_text>A0276/20 NOTAMN
+Q) OMAE/QMYAO/IV/M/A/000/999/2426N05439E005
+A) OMAA B) 2002031500 C) PERM
+E) RAPID EXIT TWY D5 OPR
+REF UAE AIP SUP 09/2019</notam_text>
+    <notam_report>RAPID EXIT TWY D5 OPR REF UAE AIP SUP 09/2019. 03 FEB 15:00 2020 UNTIL PERM. CREATED: 03 FEB 14:56 2020</notam_report>
+    <notam_nrc>NOTAMN</notam_nrc>
+  </notamdrec>
+  <notamdrec>
+    <source_id>I</source_id>
+    <account_id>OMAEYNYX</account_id>
+    <notam_id>A0271/20</notam_id>
+    <notam_part>1</notam_part>
+    <cns_location_id>OMAA</cns_location_id>
+    <icao_id>OMAA</icao_id>
+    <icao_name>ABU DHABI INTL</icao_name>
+    <total_parts>1</total_parts>
+    <notam_effective_dtg>202002030655</notam_effective_dtg>
+    <notam_expire_dtg>202005021800</notam_expire_dtg>
+    <notam_lastmod_dtg>202002030655</notam_lastmod_dtg>
+    <notam_text>A0271/20 NOTAMN
+Q) OMAE/QOBCE/IV/M/AE/000/002/2427N05437E001
+A) OMAA B) 2002030655 C) 2005021800
+D) DLY BTN 0200-1800
+E) OBST CRANE ERECTED AT PSN 242718.01N 0543659.38E.
+F) SFC G) 169FT AMSL</notam_text>
+    <notam_report>OBST CRANE ERECTED AT PSN 242718.01N 0543659.38E. SFC - 169FT AMSL, DLY BTN 0200-1800, 03 FEB 06:55 2020 UNTIL 02 MAY 18:00 2020. CREATED: 03 FEB 06:55 2020</notam_report>
+    <notam_nrc>NOTAMN</notam_nrc>
+    <notam_qcode>QOBCE</notam_qcode>
+  </notamdrec>
+  <notamdrec>
+    <source_id>I</source_id>
+    <account_id>OMAEYNYX</account_id>
+    <notam_id>A0580/20</notam_id>
+    <notam_part>1</notam_part>
+    <cns_location_id>OMDB</cns_location_id>
+    <icao_id>OMDB</icao_id>
+    <icao_name>DUBAI INTL</icao_name>
+    <total_parts>1</total_parts>
+    <notam_effective_dtg>202003080915</notam_effective_dtg>
+    <notam_expire_dtg>202003310800</notam_expire_dtg>
+    <notam_lastmod_dtg>202003080915</notam_lastmod_dtg>
+    <notam_text>A0580/20 NOTAMR A0514/20
+Q) OMAE/QMXXX/IV/M/A/000/999/2515N05522E005
+A) OMDB B) 2003080915 C) 2003310800
+D) H24
+E) TWY Z8 AND TWY Z9 NOT AVBL.</notam_text>
+    <notam_report>TWY Z8 AND TWY Z9 NOT AVBL. H24, 08 MAR 09:15 2020 UNTIL 31 MAR 08:00 2020. CREATED: 08 MAR 09:14 2020</notam_report>
+    <notam_nrc>NOTAMR</notam_nrc>
+    <notam_qcode>QMXXX</notam_qcode>
+  </notamdrec>
+  <notamdrec>
+    <source_id>I</source_id>
+    <account_id>OMAEYNYX</account_id>
+    <notam_id>A0531/20</notam_id>
+    <notam_part>1</notam_part>
+    <cns_location_id>OMDB</cns_location_id>
+    <icao_id>OMDB</icao_id>
+    <icao_name>DUBAI INTL</icao_name>
+    <total_parts>1</total_parts>
+    <notam_effective_dtg>202003091200</notam_effective_dtg>
+    <notam_expire_dtg>202003171300</notam_expire_dtg>
+    <notam_lastmod_dtg>202003020915</notam_lastmod_dtg>
+    <notam_text>A0531/20 NOTAMN
+Q) OMAE/QMRXX/IV/NBO/A/000/999/2515N05522E005
+A) OMDB B) 2003091200 C) 2003171300
+D) EV MON AND TUE BTN 1200-1300
+E) RWY 12L/30R AND RWY 12R/30L NOT AVBL. FLT CLBR INPR</notam_text>
+    <notam_report>RWY 12L/30R AND RWY 12R/30L NOT AVBL. FLT CLBR INPR. EV MON AND TUE BTN 1200-1300, 09 MAR 12:00 2020 UNTIL 17 MAR 13:00 2020. CREATED: 02 MAR 09:15 2020</notam_report>
+    <notam_nrc>NOTAMN</notam_nrc>
+    <notam_qcode>QMRXX</notam_qcode>
+  </notamdrec>
+  <notamdrec>
+    <source_id>I</source_id>
+    <account_id>OMAEYNYX</account_id>
+    <notam_id>A0476/20</notam_id>
+    <notam_part>1</notam_part>
+    <cns_location_id>OMDB</cns_location_id>
+    <icao_id>OMDB</icao_id>
+    <icao_name>DUBAI INTL</icao_name>
+    <total_parts>1</total_parts>
+    <notam_effective_dtg>202003120800</notam_effective_dtg>
+    <notam_expire_dtg>202003160800</notam_expire_dtg>
+    <notam_lastmod_dtg>202002241201</notam_lastmod_dtg>
+    <notam_text>A0476/20 NOTAMN
+Q) OMAE/QMXLC/IV/M/A/000/999/2515N05522E005
+A) OMDB B) 2003120800 C) 2003160800
+D) H24
+E) SECN OF TXL P BTN ACFT STANDS E34 AND E38 CLSD.</notam_text>
+    <notam_report>SECN OF TXL P BTN ACFT STANDS E34 AND E38 CLSD. H24, 12 MAR 08:00 2020 UNTIL 16 MAR 08:00 2020. CREATED: 24 FEB 12:01 2020</notam_report>
+    <notam_nrc>NOTAMN</notam_nrc>
+    <notam_qcode>QMXLC</notam_qcode>
+  </notamdrec>
+  <notamdrec>
+    <source_id>I</source_id>
+    <account_id>OMAEYNYX</account_id>
+    <notam_id>A0475/20</notam_id>
+    <notam_part>1</notam_part>
+    <cns_location_id>OMDB</cns_location_id>
+    <icao_id>OMDB</icao_id>
+    <icao_name>DUBAI INTL</icao_name>
+    <total_parts>1</total_parts>
+    <notam_effective_dtg>202003080800</notam_effective_dtg>
+    <notam_expire_dtg>202003150800</notam_expire_dtg>
+    <notam_lastmod_dtg>202002241157</notam_lastmod_dtg>
+    <notam_text>A0475/20 NOTAMN
+Q) OMAE/QMXLC/IV/M/A/000/999/2515N05522E005
+A) OMDB B) 2003080800 C) 2003150800
+D) H24
+E) SECN OF TWY M WEST OF TWY M1B CLSD.
+TWY M1A CLSD</notam_text>
+    <notam_report>SECN OF TWY M WEST OF TWY M1B CLSD. TWY M1A CLSD. H24, 08 MAR 08:00 2020 UNTIL 15 MAR 08:00 2020. CREATED: 24 FEB 11:57 2020</notam_report>
+    <notam_nrc>NOTAMN</notam_nrc>
+    <notam_qcode>QMXLC</notam_qcode>
+  </notamdrec>
+  <notamdrec>
+    <source_id>I</source_id>
+    <account_id>OMAEYNYX</account_id>
+    <notam_id>A0469/20</notam_id>
+    <notam_part>1</notam_part>
+    <cns_location_id>OMDB</cns_location_id>
+    <icao_id>OMDB</icao_id>
+    <icao_name>DUBAI INTL</icao_name>
+    <total_parts>1</total_parts>
+    <notam_effective_dtg>202002240909</notam_effective_dtg>
+    <notam_expire_dtg>202005240559</notam_expire_dtg>
+    <notam_lastmod_dtg>202002240910</notam_lastmod_dtg>
+    <notam_text>A0469/20 NOTAMN
+Q) OMAE/QOBCE/IV/M/AE/000/012/2512N05520E001
+A) OMDB B) 2002240909 C) 2005240559
+D) H24
+E) OBST CRANE ELEV 338M ERECTED AT VCY OF PSN 251233.9N 0552037.8E
+OMDB ARP BRG 201 DEG MAG DIST 5230M.
+CRANE LGT AT NGT.
+F) SFC G) 1109FT AMSL</notam_text>
+    <notam_report>OBST CRANE ELEV 338M ERECTED AT VCY OF PSN 251233.9N 0552037.8E OMDB ARP BRG 201 DEG MAG DIST 5230M. CRANE LGT AT NGT. SFC - 1109FT AMSL, H24, 24 FEB 09:09 2020 UNTIL 24 MAY 05:59 2020. CREATED: 24 FEB 09:09 2020</notam_report>
+    <notam_nrc>NOTAMN</notam_nrc>
+    <notam_qcode>QOBCE</notam_qcode>
+  </notamdrec>
+  <notamdrec>
+    <source_id>I</source_id>
+    <account_id>OMAEYNYX</account_id>
+    <notam_id>A0275/20</notam_id>
+    <notam_part>1</notam_part>
+    <cns_location_id>OMDB</cns_location_id>
+    <icao_id>OMDB</icao_id>
+    <icao_name>DUBAI INTL</icao_name>
+    <total_parts>1</total_parts>
+    <notam_effective_dtg>202002031000</notam_effective_dtg>
+    <notam_lastmod_dtg>202002030943</notam_lastmod_dtg>
+    <notam_text>A0275/20 NOTAMN
+Q) OMAE/QPDAW/I/NBO/A/000/999/2515N05522E005
+A) OMDB B) 2002031000 C) PERM
+E) SID ITOTU 1F RWY 30L/R WITHDRAWN
+REF UAE AIP CHART OMDB AD 2-42.</notam_text>
+    <notam_report>SID ITOTU 1F RWY 30L/R WITHDRAWN REF UAE AIP CHART OMDB AD 2-42. 03 FEB 10:00 2020 UNTIL PERM. CREATED: 03 FEB 09:43 2020</notam_report>
+    <notam_nrc>NOTAMN</notam_nrc>
+    <notam_qcode>QPDAW</notam_qcode>
+  </notamdrec>
+  <notamdrec>
+    <source_id>I</source_id>
+    <account_id>OMAEYNYX</account_id>
+    <notam_id>A0264/20</notam_id>
+    <notam_part>1</notam_part>
+    <cns_location_id>OMDB</cns_location_id>
+    <icao_id>OMDB</icao_id>
+    <icao_name>DUBAI INTL</icao_name>
+    <total_parts>1</total_parts>
+    <notam_effective_dtg>202002020527</notam_effective_dtg>
+    <notam_expire_dtg>202004020700</notam_expire_dtg>
+    <notam_lastmod_dtg>202002020527</notam_lastmod_dtg>
+    <notam_text>A0264/20 NOTAMR A2125/19
+Q) OMAE/QFAXX/IV/NBO/AW/005/015/2515N05522E005
+A) OMDB B) 2002020527 C) 2004020700
+D) DLY BTN 0300-0700
+E) PILOTS TO BE ADVISED OF FLOCKS OF GULLS TRAVELLING FM NORTH TO
+SOUTH AND VICE VERSA. ANY BIRDSTRIKE TO BE REPORTED TO ATC.
+F) 500FT AGL G) 1500FT AGL</notam_text>
+    <notam_report>PILOTS TO BE ADVISED OF FLOCKS OF GULLS TRAVELLING FM NORTH TO SOUTH AND VICE VERSA. ANY BIRDSTRIKE TO BE REPORTED TO ATC. 500FT AGL - 1500FT AGL, DLY BTN 0300-0700, 02 FEB 05:27 2020 UNTIL 02 APR 07:00 2020. CREATED: 02 FEB 05:27 2020</notam_report>
+    <notam_nrc>NOTAMR</notam_nrc>
+    <notam_qcode>QFAXX</notam_qcode>
+  </notamdrec>
+  <notamdrec>
+    <source_id>I</source_id>
+    <account_id>OMAEYNYX</account_id>
+    <notam_id>A0171/20</notam_id>
+    <notam_part>1</notam_part>
+    <cns_location_id>OMDB</cns_location_id>
+    <icao_id>OMDB</icao_id>
+    <icao_name>DUBAI INTL</icao_name>
+    <total_parts>1</total_parts>
+    <notam_effective_dtg>202001211145</notam_effective_dtg>
+    <notam_expire_dtg>202004210559</notam_expire_dtg>
+    <notam_lastmod_dtg>202001211145</notam_lastmod_dtg>
+    <notam_text>A0171/20 NOTAMR A2077/19
+Q) OMAE/QOBCE/IV/M/AE/000/007/2510N05518E001
+A) OMDB B) 2001211145 C) 2004210559
+D) H24
+E) OBST CRANE ELEV 207M ERECTED AT VCY OF PSN 251043.69N 0551835.79E
+ARP BRG 212 DEG MAG DIST 9.93KM.
+CRANE LGT AT NGT.
+
+F) SFC G) 679FT AMSL</notam_text>
+    <notam_report>OBST CRANE ELEV 207M ERECTED AT VCY OF PSN 251043.69N 0551835.79E ARP BRG 212 DEG MAG DIST 9.93KM. CRANE LGT AT NGT. SFC - 679FT AMSL, H24, 21 JAN 11:45 2020 UNTIL 21 APR 05:59 2020. CREATED: 21 JAN 11:45 2020</notam_report>
+    <notam_nrc>NOTAMR</notam_nrc>
+    <notam_qcode>QOBCE</notam_qcode>
+  </notamdrec>
+  <notamdrec>
+    <source_id>I</source_id>
+    <account_id>OMAEYNYX</account_id>
+    <notam_id>A0154/20</notam_id>
+    <notam_part>1</notam_part>
+    <cns_location_id>OMDB</cns_location_id>
+    <icao_id>OMDB</icao_id>
+    <icao_name>DUBAI INTL</icao_name>
+    <total_parts>1</total_parts>
+    <notam_effective_dtg>202001210725</notam_effective_dtg>
+    <notam_expire_dtg>202003301500</notam_expire_dtg>
+    <notam_lastmod_dtg>202001210726</notam_lastmod_dtg>
+    <notam_text>A0154/20 NOTAMR A2849/19
+Q) OMAE/QPICH/I/NBO/A/000/999/2515N05522E005
+A) OMDB B) 2001210725 C) 2003301500
+D) DLY BTN 0300-1500
+E) DUE TO CRANE ACTIVITIES IN THE VCY OF OMDB AD.
+GP INOP OCA/H RWY 12L TO READ AS 540(529) REF CHART OMDB AD 2-66.</notam_text>
+    <notam_report>DUE TO CRANE ACTIVITIES IN THE VCY OF OMDB AD. GP INOP OCA/H RWY 12L TO READ AS 540(529) REF CHART OMDB AD 2-66. DLY BTN 0300-1500, 21 JAN 07:25 2020 UNTIL 30 MAR 15:00 2020. CREATED: 21 JAN 07:25 2020</notam_report>
+    <notam_nrc>NOTAMR</notam_nrc>
+    <notam_qcode>QPICH</notam_qcode>
+  </notamdrec>
+  <notamdrec>
+    <source_id>I</source_id>
+    <account_id>OMAEYNYX</account_id>
+    <notam_id>A0149/20</notam_id>
+    <notam_part>1</notam_part>
+    <cns_location_id>OMDB</cns_location_id>
+    <icao_id>OMDB</icao_id>
+    <icao_name>DUBAI INTL</icao_name>
+    <total_parts>1</total_parts>
+    <notam_effective_dtg>202001210600</notam_effective_dtg>
+    <notam_expire_dtg>202004210559</notam_expire_dtg>
+    <notam_lastmod_dtg>202001210534</notam_lastmod_dtg>
+    <notam_text>A0149/20 NOTAMN
+Q) OMAE/QOBCE/IV/M/AE/000/011/2512N05520E005
+A) OMDB B) 2001210600 C) 2004210559
+D) H24
+E) OBST CRANES ELEV 306M ERECTED AT VCY OF PSN 251225.83N 0552032.74E
+ARP BRG 202 DEG MAG DIST 5.5KM
+CRANE LIT AT NGT.
+F) SFC G) 1004FT AMSL</notam_text>
+    <notam_report>OBST CRANES ELEV 306M ERECTED AT VCY OF PSN 251225.83N 0552032.74E ARP BRG 202 DEG MAG DIST 5.5KM CRANE LIT AT NGT. SFC - 1004FT AMSL, H24, 21 JAN 06:00 2020 UNTIL 21 APR 05:59 2020. CREATED: 21 JAN 05:34 2020</notam_report>
+    <notam_nrc>NOTAMN</notam_nrc>
+    <notam_qcode>QOBCE</notam_qcode>
+  </notamdrec>
+  <notamdrec>
+    <source_id>I</source_id>
+    <account_id>OMAEYNYX</account_id>
+    <notam_id>A0127/20</notam_id>
+    <notam_part>1</notam_part>
+    <cns_location_id>OMDB</cns_location_id>
+    <icao_id>OMDB</icao_id>
+    <icao_name>DUBAI INTL</icao_name>
+    <total_parts>1</total_parts>
+    <notam_effective_dtg>202002040800</notam_effective_dtg>
+    <notam_expire_dtg>202003150800</notam_expire_dtg>
+    <notam_lastmod_dtg>202001151235</notam_lastmod_dtg>
+    <notam_text>A0127/20 NOTAMN
+Q) OMAE/QMXLC/IV/M/A/000/999/2515N05522E005
+A) OMDB B) 2002040800 C) 2003150800
+D) H24
+E) SECN OF TWY K BTN TWY K5 AND TWY K7 CLSD.
+EAST LINK OF TWY K6 CLSD. TWY Z10 CLSD.
+SECN OF TXL W BTN TWY K AND TXL Z CLSD.
+PILOTS TO EXER CTN AT TWY K8-J2 INT.
+REF UAE AIP SUP 33/2019 AREA C27 + C28</notam_text>
+    <notam_report>SECN OF TWY K BTN TWY K5 AND TWY K7 CLSD. EAST LINK OF TWY K6 CLSD. TWY Z10 CLSD. SECN OF TXL W BTN TWY K AND TXL Z CLSD. PILOTS TO EXER CTN AT TWY K8-J2 INT. REF UAE AIP SUP 33/2019 AREA C27 + C28. H24, 04 FEB 08:00 2020 UNTIL 15 MAR 08:00 2020. CREATED: 15 JAN 12:35 2020</notam_report>
+    <notam_nrc>NOTAMN</notam_nrc>
+    <notam_qcode>QMXLC</notam_qcode>
+  </notamdrec>
+  <notamdrec>
+    <source_id>I</source_id>
+    <account_id>OMAEYNYX</account_id>
+    <notam_id>A2848/19</notam_id>
+    <notam_part>1</notam_part>
+    <cns_location_id>OMDB</cns_location_id>
+    <icao_id>OMDB</icao_id>
+    <icao_name>DUBAI INTL</icao_name>
+    <total_parts>1</total_parts>
+    <notam_effective_dtg>201912300300</notam_effective_dtg>
+    <notam_expire_dtg>202003301500</notam_expire_dtg>
+    <notam_lastmod_dtg>201912291137</notam_lastmod_dtg>
+    <notam_text>A2848/19 NOTAMN
+Q) OMAE/QOBCE/IV/M/AE/000/003/2517N05518E005
+A) OMDB B) 1912300300 C) 2003301500
+D) H24
+E) OBST CRANE ELEV 87M ERECTED AT VCY OF PSN 251739N 0551804E ARP BRG
+304 DEG MAG DIST 7.8KM.
+CRANE LGT AT NGT.
+F) SFC G) 286FT AMSL</notam_text>
+    <notam_report>OBST CRANE ELEV 87M ERECTED AT VCY OF PSN 251739N 0551804E ARP BRG 304 DEG MAG DIST 7.8KM. CRANE LGT AT NGT. SFC - 286FT AMSL, H24, 30 DEC 03:00 2019 UNTIL 30 MAR 15:00 2020. CREATED: 29 DEC 11:37 2019</notam_report>
+    <notam_nrc>NOTAMN</notam_nrc>
+    <notam_qcode>QOBCE</notam_qcode>
+  </notamdrec>
+  <notamdrec>
+    <source_id>I</source_id>
+    <account_id>OMAEYNYX</account_id>
+    <notam_id>A2797/19</notam_id>
+    <notam_part>1</notam_part>
+    <cns_location_id>OMDB</cns_location_id>
+    <icao_id>OMDB</icao_id>
+    <icao_name>DUBAI INTL</icao_name>
+    <total_parts>1</total_parts>
+    <notam_effective_dtg>201912240805</notam_effective_dtg>
+    <notam_expire_dtg>202003250559</notam_expire_dtg>
+    <notam_lastmod_dtg>201912240805</notam_lastmod_dtg>
+    <notam_text>A2797/19 NOTAMR A1842/19
+Q) OMAE/QOBCE/IV/M/AE/000/003/2515N05520E005
+A) OMDB B) 1912240805 C) 2003250559
+D) H24
+E) OBST CRANE ELEV 88M ERECTED AT VCY OF PSN 251505.28N 0552024.29E
+ARP BRG 266 DEG MAG DIST 2.5KM. CRANE LGT AT NGT
+F) SFC G) 289FT AMSL</notam_text>
+    <notam_report>OBST CRANE ELEV 88M ERECTED AT VCY OF PSN 251505.28N 0552024.29E ARP BRG 266 DEG MAG DIST 2.5KM. CRANE LGT AT NGT. SFC - 289FT AMSL, H24, 24 DEC 08:05 2019 UNTIL 25 MAR 05:59 2020. CREATED: 24 DEC 08:05 2019</notam_report>
+    <notam_nrc>NOTAMR</notam_nrc>
+    <notam_qcode>QOBCE</notam_qcode>
+  </notamdrec>
+  <notamdrec>
+    <source_id>I</source_id>
+    <account_id>OBBBYNYX</account_id>
+    <notam_id>G0248/20</notam_id>
+    <notam_part>1</notam_part>
+    <cns_location_id>OTHH</cns_location_id>
+    <icao_id>OTHH</icao_id>
+    <icao_name>HAMAD INTL</icao_name>
+    <total_parts>1</total_parts>
+    <notam_effective_dtg>202003110752</notam_effective_dtg>
+    <notam_expire_dtg>202004161100</notam_expire_dtg>
+    <notam_lastmod_dtg>202003110752</notam_lastmod_dtg>
+    <notam_text>G0248/20 NOTAMR G0177/20
+Q) OBBB/QOBCE/IV/M/A/000/999/2515N05136E001
+A) OTHH B) 2003110752 C) 2004161100
+E) MOBILE CRANE WITH MAX HEIGHT OF 22M AGL OPERATING WI AN AREA
+BOUNDED BY THE FLW COORDINATES:
+
+AREA 1
+251719.93N 0513550.34E - 251722.97N 0513553.14E -
+251721.04N 0513555.65E - 251718.00N 0513552.84E -
+251719.93N 0513550.34E.
+
+AREA 2
+25168.88N 0513622.83E - 25167.72N 0513625.82E -
+25168.15N 0513626.02E - 25166.62N 0513629.96E -
+25164.25N 0513628.85E - 25166.94N 0513621.92E -
+25168.88N 0513622.83E.
+
+AREA 3
+25152.88N 0513648.69E - 25151.44N 0513649.06E -
+25151.12N 0513647.58E - 25152.55N 0513647.22E -
+25152.88N 0513648.69E.
+
+AREA 4
+251627.96N 0513608.96E - 251629.06N 0513612.28E -
+251626.28N 0513613.49E - 251625.08N 0513610.17E -
+251627.96N 0513608.96E.</notam_text>
+    <notam_report>MOBILE CRANE WITH MAX HEIGHT OF 22M AGL OPERATING WI AN AREA BOUNDED BY THE FLW COORDINATES: AREA 1 251719.93N 0513550.34E - 251722.97N 0513553.14E - 251721.04N 0513555.65E - 251718.00N 0513552.84E - 251719.93N 0513550.34E. AREA 2 25168.88N 0513622.83E - 25167.72N 0513625.82E - 25168.15N 0513626.02E - 25166.62N 0513629.96E - 25164.25N 0513628.85E - 25166.94N 0513621.92E - 25168.88N 0513622.83E. AREA 3 25152.88N 0513648.69E - 25151.44N 0513649.06E - 25151.12N 0513647.58E - 25152.55N 0513647.22E - 25152.88N 0513648.69E. AREA 4 251627.96N 0513608.96E - 251629.06N 0513612.28E - 251626.28N 0513613.49E - 251625.08N 0513610.17E - 251627.96N 0513608.96E. 11 MAR 07:52 2020 UNTIL 16 APR 11:00 2020. CREATED: 11 MAR 07:52 2020</notam_report>
+    <notam_nrc>NOTAMR</notam_nrc>
+    <notam_qcode>QOBCE</notam_qcode>
+  </notamdrec>
+  <notamdrec>
+    <source_id>I</source_id>
+    <account_id>OBBBYNYX</account_id>
+    <notam_id>G0247/20</notam_id>
+    <notam_part>1</notam_part>
+    <cns_location_id>OTHH</cns_location_id>
+    <icao_id>OTHH</icao_id>
+    <icao_name>HAMAD INTL</icao_name>
+    <total_parts>1</total_parts>
+    <notam_effective_dtg>202003140300</notam_effective_dtg>
+    <notam_lastmod_dtg>202003101404</notam_lastmod_dtg>
+    <notam_text>G0247/20 NOTAMN
+Q) OBBB/QOBCE/IV/M/A/000/999/2516N05136E001
+A) OTHH B) 2003140300 C) 2006142359 EST
+E) MOBILE CRANE WITH MAX HEIGHT OF 37M AGL OPERATING WI THE AREA
+BOUNDED BY FLW COORDS:
+
+251633.82N 0513609.79E  -  251631.53N 0513603.61E  -
+251625.73N 0513606.16E  -  251626.32N 0513607.78E  -
+251624.11N 0513608.75E  -  251625.79N 0513613.37E  -
+251633.82N 0513609.79E.</notam_text>
+    <notam_report>MOBILE CRANE WITH MAX HEIGHT OF 37M AGL OPERATING WI THE AREA BOUNDED BY FLW COORDS: 251633.82N 0513609.79E - 251631.53N 0513603.61E - 251625.73N 0513606.16E - 251626.32N 0513607.78E - 251624.11N 0513608.75E - 251625.79N 0513613.37E - 251633.82N 0513609.79E. 14 MAR 03:00 2020 UNTIL 14 JUN 23:59 2020 ESTIMATED. CREATED: 10 MAR 14:04 2020</notam_report>
+    <notam_nrc>NOTAMN</notam_nrc>
+    <notam_qcode>QOBCE</notam_qcode>
+  </notamdrec>
+  <notamdrec>
+    <source_id>I</source_id>
+    <account_id>OBBBYNYX</account_id>
+    <notam_id>G0245/20</notam_id>
+    <notam_part>1</notam_part>
+    <cns_location_id>OTHH</cns_location_id>
+    <icao_id>OTHH</icao_id>
+    <icao_name>HAMAD INTL</icao_name>
+    <total_parts>1</total_parts>
+    <notam_effective_dtg>202003120700</notam_effective_dtg>
+    <notam_expire_dtg>202006121100</notam_expire_dtg>
+    <notam_lastmod_dtg>202003081216</notam_lastmod_dtg>
+    <notam_text>G0245/20 NOTAMN
+Q) OBBB/QOBCE/IV/M/AE/000/999/2516N05137E005
+A) OTHH B) 2003120700 C) 2006121100
+E) PRESENCE OF EQUIPMENT WITH MAX HEIGHT OF 42M AGL OPERATING WI THE
+AREA BOUNDED BY FLW COORDS:
+251727.04N 0513616.86E - 251725.83N 0513617.39E -
+251725.23N 0513615.74E - 251726.43N 0513615.20E -
+251727.04N 0513616.86E</notam_text>
+    <notam_report>PRESENCE OF EQUIPMENT WITH MAX HEIGHT OF 42M AGL OPERATING WI THE AREA BOUNDED BY FLW COORDS: 251727.04N 0513616.86E - 251725.83N 0513617.39E - 251725.23N 0513615.74E - 251726.43N 0513615.20E - 251727.04N 0513616.86E. 12 MAR 07:00 2020 UNTIL 12 JUN 11:00 2020. CREATED: 08 MAR 12:15 2020</notam_report>
+    <notam_nrc>NOTAMN</notam_nrc>
+    <notam_qcode>QOBCE</notam_qcode>
+  </notamdrec>
+  <notamdrec>
+    <source_id>I</source_id>
+    <account_id>OBBBYNYX</account_id>
+    <notam_id>G0227/20</notam_id>
+    <notam_part>1</notam_part>
+    <cns_location_id>OTHH</cns_location_id>
+    <icao_id>OTHH</icao_id>
+    <icao_name>HAMAD INTL</icao_name>
+    <total_parts>1</total_parts>
+    <notam_effective_dtg>202003080600</notam_effective_dtg>
+    <notam_expire_dtg>202003291500</notam_expire_dtg>
+    <notam_lastmod_dtg>202003031821</notam_lastmod_dtg>
+    <notam_text>G0227/20 NOTAMN
+Q) OBBB/QWULW/IV/BO/AW/000/004/2516N05137E002
+A) OTHH B) 2003080600 C) 2003291500
+D) 08 0600-0800, 15 1100-1800, 22 0200-0500, 24 29 1200-1500
+E) REMOTELY PILOTED ACFT SYSTEM (RPAS) ACTIVITY WILL TAKE PLACE WITHIN
+AN AREA BOUNDED BY FLW COORDS: (LUSAIL CITY)
+252430.4378N 0513029.5162E - 252448.3950N 0513136.6036E -
+252300.4224N 0513216.5810E - 252239.8611N 0513109.4344E -
+252430.4378N 0513029.5162E
+F) SFC G) 330FT AGL</notam_text>
+    <notam_report>REMOTELY PILOTED ACFT SYSTEM (RPAS) ACTIVITY WILL TAKE PLACE WITHIN AN AREA BOUNDED BY FLW COORDS: (LUSAIL CITY) 252430.4378N 0513029.5162E - 252448.3950N 0513136.6036E - 252300.4224N 0513216.5810E - 252239.8611N 0513109.4344E - 252430.4378N 0513029.5162E. SFC - 330FT AGL, 08 0600-0800, 15 1100-1800, 22 0200-0500, 24 29 1200-1500, 08 MAR 06:00 2020 UNTIL 29 MAR 15:00 2020. CREATED: 03 MAR 18:21 2020</notam_report>
+    <notam_nrc>NOTAMN</notam_nrc>
+    <notam_qcode>QWULW</notam_qcode>
+  </notamdrec>
+  <notamdrec>
+    <source_id>I</source_id>
+    <account_id>OBBBYNYX</account_id>
+    <notam_id>G0225/20</notam_id>
+    <notam_part>1</notam_part>
+    <cns_location_id>OTHH</cns_location_id>
+    <icao_id>OTHH</icao_id>
+    <icao_name>HAMAD INTL</icao_name>
+    <total_parts>1</total_parts>
+    <notam_effective_dtg>202003070700</notam_effective_dtg>
+    <notam_lastmod_dtg>202003031811</notam_lastmod_dtg>
+    <notam_text>G0225/20 NOTAMN
+Q) OBBB/QOBCE/IV/M/A/000/999/2516N05137E005
+A) OTHH B) 2003070700 C) 2006072359 EST
+E) PRESENCE OF EQUIPMENT WITH MAX HEIGHT OF 42M AGL OPERATING WI THE
+AREA BOUNDED BY FLW COORDS:
+251704.71N 0513615.00E - 251703.48N 0513615.54E -
+251701.13N 0513609.05E - 251702.36N 0513608.51E -
+251704.71N 0513615.00E</notam_text>
+    <notam_report>PRESENCE OF EQUIPMENT WITH MAX HEIGHT OF 42M AGL OPERATING WI THE AREA BOUNDED BY FLW COORDS: 251704.71N 0513615.00E - 251703.48N 0513615.54E - 251701.13N 0513609.05E - 251702.36N 0513608.51E - 251704.71N 0513615.00E. 07 MAR 07:00 2020 UNTIL 07 JUN 23:59 2020 ESTIMATED. CREATED: 03 MAR 18:11 2020</notam_report>
+    <notam_nrc>NOTAMN</notam_nrc>
+    <notam_qcode>QOBCE</notam_qcode>
+  </notamdrec>
+  <notamdrec>
+    <source_id>I</source_id>
+    <account_id>OBBBYNYX</account_id>
+    <notam_id>G0220/20</notam_id>
+    <notam_part>1</notam_part>
+    <cns_location_id>OTHH</cns_location_id>
+    <icao_id>OTHH</icao_id>
+    <icao_name>HAMAD INTL</icao_name>
+    <total_parts>1</total_parts>
+    <notam_effective_dtg>202003080300</notam_effective_dtg>
+    <notam_lastmod_dtg>202003020435</notam_lastmod_dtg>
+    <notam_text>G0220/20 NOTAMN
+Q) OBBB/QOBCE/IV/M/AE/000/999/2517N05136E001
+A) OTHH B) 2003080300 C) 2006082359 EST
+E) PRESENCE OF TOWER CRANE AND MOBILE CRANE WITH MAX HEIGHT OF 42.08M
+AGL OPERATING WI THE AREA BOUNDED BY FLW COORDS:
+
+251658.74N 0513557.28E - 251657.54N 0513555.72E  -
+251655.59N 0513556.58E - 251656.30N 0513558.54E  -
+251658.24N 0513558.44E - 251658.74N 0513557.28E.</notam_text>
+    <notam_report>PRESENCE OF TOWER CRANE AND MOBILE CRANE WITH MAX HEIGHT OF 42.08M AGL OPERATING WI THE AREA BOUNDED BY FLW COORDS: 251658.74N 0513557.28E - 251657.54N 0513555.72E - 251655.59N 0513556.58E - 251656.30N 0513558.54E - 251658.24N 0513558.44E - 251658.74N 0513557.28E. 08 MAR 03:00 2020 UNTIL 08 JUN 23:59 2020 ESTIMATED. CREATED: 02 MAR 04:35 2020</notam_report>
+    <notam_nrc>NOTAMN</notam_nrc>
+    <notam_qcode>QOBCE</notam_qcode>
+  </notamdrec>
+  <notamdrec>
+    <source_id>I</source_id>
+    <account_id>OBBBYNYX</account_id>
+    <notam_id>G0213/20</notam_id>
+    <notam_part>1</notam_part>
+    <cns_location_id>OTHH</cns_location_id>
+    <icao_id>OTHH</icao_id>
+    <icao_name>HAMAD INTL</icao_name>
+    <total_parts>1</total_parts>
+    <notam_effective_dtg>202003010700</notam_effective_dtg>
+    <notam_expire_dtg>202005311100</notam_expire_dtg>
+    <notam_lastmod_dtg>202002261525</notam_lastmod_dtg>
+    <notam_text>G0213/20 NOTAMN
+Q) OBBB/QMPLC/IV/BO/A/000/999/2516N05137E005
+A) OTHH B) 2003010700 C) 2005311100
+E) ACFT STAND V5 CLSD.</notam_text>
+    <notam_report>ACFT STAND V5 CLSD. 01 MAR 07:00 2020 UNTIL 31 MAY 11:00 2020. CREATED: 26 FEB 15:25 2020</notam_report>
+    <notam_nrc>NOTAMN</notam_nrc>
+    <notam_qcode>QMPLC</notam_qcode>
+  </notamdrec>
+  <notamdrec>
+    <source_id>I</source_id>
+    <account_id>OBBBYNYX</account_id>
+    <notam_id>G0212/20</notam_id>
+    <notam_part>1</notam_part>
+    <cns_location_id>OTHH</cns_location_id>
+    <icao_id>OTHH</icao_id>
+    <icao_name>HAMAD INTL</icao_name>
+    <total_parts>1</total_parts>
+    <notam_effective_dtg>202003010700</notam_effective_dtg>
+    <notam_expire_dtg>202005311100</notam_expire_dtg>
+    <notam_lastmod_dtg>202002261523</notam_lastmod_dtg>
+    <notam_text>G0212/20 NOTAMN
+Q) OBBB/QMXLC/IV/M/A/000/999/2516N05137E005
+A) OTHH B) 2003010700 C) 2005311100
+E) PORTIONS OF FLW TWY CLOSED DUE WIP.
+1.TWY C BETWEEN TWY A1 AND TWY E
+2.TWY A2 BETWEEN TWY B AND TWY C
+3.TWY V BETWEEN TWY C AND ACFT STAND V5</notam_text>
+    <notam_report>PORTIONS OF FLW TWY CLOSED DUE WIP. 1.TWY C BETWEEN TWY A1 AND TWY E 2.TWY A2 BETWEEN TWY B AND TWY C 3.TWY V BETWEEN TWY C AND ACFT STAND V5. 01 MAR 07:00 2020 UNTIL 31 MAY 11:00 2020. CREATED: 26 FEB 15:23 2020</notam_report>
+    <notam_nrc>NOTAMN</notam_nrc>
+    <notam_qcode>QMXLC</notam_qcode>
+  </notamdrec>
+  <notamdrec>
+    <source_id>I</source_id>
+    <account_id>OBBBYNYX</account_id>
+    <notam_id>G0211/20</notam_id>
+    <notam_part>1</notam_part>
+    <cns_location_id>OTHH</cns_location_id>
+    <icao_id>OTHH</icao_id>
+    <icao_name>HAMAD INTL</icao_name>
+    <total_parts>1</total_parts>
+    <notam_effective_dtg>202003010700</notam_effective_dtg>
+    <notam_expire_dtg>202005311100</notam_expire_dtg>
+    <notam_lastmod_dtg>202002261518</notam_lastmod_dtg>
+    <notam_text>G0211/20 NOTAMN
+Q) OBBB/QOBCE/IV/M/A/000/999/2516N05137E005
+A) OTHH B) 2003010700 C) 2005311100
+E) PRESENCE OF EQUIPMENT WITH MAX HEIGHT OF 18M AGL OPERATING WI THE
+AREA BOUNDED BY FLW COORDS:
+
+251543.0290N 0513716.7545E - 251533.2698N 0513721.0536E -
+251529.7637N 0513718.2849E - 251528.5570N 0513718.8162E -
+251528.3154N 0513716.7545E - 251529.5222N 0513717.6218E -
+251527.5328N 0513712.1584E - 251528.4378N 0513711.7602E -
+251529.7749N 0513715.4315E - 251532.6099N 0513714.1830E -
+251534.6882N 0513715.2746E - 251535.1198N 0513716.4651E -
+251541.1811N 0513713.7657E - 251539.9668N 0513710.4621E -
+251540.6307N 0513710.1698E - 251543.0290N 0513716.7545E</notam_text>
+    <notam_report>PRESENCE OF EQUIPMENT WITH MAX HEIGHT OF 18M AGL OPERATING WI THE AREA BOUNDED BY FLW COORDS: 251543.0290N 0513716.7545E - 251533.2698N 0513721.0536E - 251529.7637N 0513718.2849E - 251528.5570N 0513718.8162E - 251528.3154N 0513716.7545E - 251529.5222N 0513717.6218E - 251527.5328N 0513712.1584E - 251528.4378N 0513711.7602E - 251529.7749N 0513715.4315E - 251532.6099N 0513714.1830E - 251534.6882N 0513715.2746E - 251535.1198N 0513716.4651E - 251541.1811N 0513713.7657E - 251539.9668N 0513710.4621E - 251540.6307N 0513710.1698E - 251543.0290N 0513716.7545E. 01 MAR 07:00 2020 UNTIL 31 MAY 11:00 2020. CREATED: 26 FEB 15:18 2020</notam_report>
+    <notam_nrc>NOTAMN</notam_nrc>
+    <notam_qcode>QOBCE</notam_qcode>
+  </notamdrec>
+  <notamdrec>
+    <source_id>I</source_id>
+    <account_id>OBBBYNYX</account_id>
+    <notam_id>G0210/20</notam_id>
+    <notam_part>1</notam_part>
+    <cns_location_id>OTHH</cns_location_id>
+    <icao_id>OTHH</icao_id>
+    <icao_name>HAMAD INTL</icao_name>
+    <total_parts>1</total_parts>
+    <notam_effective_dtg>202003010700</notam_effective_dtg>
+    <notam_expire_dtg>202005311100</notam_expire_dtg>
+    <notam_lastmod_dtg>202002260955</notam_lastmod_dtg>
+    <notam_text>G0210/20 NOTAMN
+Q) OBBB/QMXLC/IV/M/A/000/999/2516N05137E005
+A) OTHH B) 2003010700 C) 2005311100
+E) PORTION OF TWY A9 (BTN TWY B AND TWY C) CLOSED DUE WIP.</notam_text>
+    <notam_report>PORTION OF TWY A9 (BTN TWY B AND TWY C) CLOSED DUE WIP. 01 MAR 07:00 2020 UNTIL 31 MAY 11:00 2020. CREATED: 26 FEB 09:54 2020</notam_report>
+    <notam_nrc>NOTAMN</notam_nrc>
+    <notam_qcode>QMXLC</notam_qcode>
+  </notamdrec>
+  <notamdrec>
+    <source_id>I</source_id>
+    <account_id>OBBBYNYX</account_id>
+    <notam_id>G0209/20</notam_id>
+    <notam_part>1</notam_part>
+    <cns_location_id>OTHH</cns_location_id>
+    <icao_id>OTHH</icao_id>
+    <icao_name>HAMAD INTL</icao_name>
+    <total_parts>1</total_parts>
+    <notam_effective_dtg>202003010700</notam_effective_dtg>
+    <notam_expire_dtg>202005311100</notam_expire_dtg>
+    <notam_lastmod_dtg>202002260952</notam_lastmod_dtg>
+    <notam_text>G0209/20 NOTAMN
+Q) OBBB/QMXLC/IV/M/A/000/999/2516N05137E005
+A) OTHH B) 2003010700 C) 2005311100
+E) PORTION OF TWY C (BTN TWY A8 AND ACFT STAND F11) CLOSED DUE WIP.</notam_text>
+    <notam_report>PORTION OF TWY C (BTN TWY A8 AND ACFT STAND F11) CLOSED DUE WIP. 01 MAR 07:00 2020 UNTIL 31 MAY 11:00 2020. CREATED: 26 FEB 09:52 2020</notam_report>
+    <notam_nrc>NOTAMN</notam_nrc>
+    <notam_qcode>QMXLC</notam_qcode>
+  </notamdrec>
+  <notamdrec>
+    <source_id>I</source_id>
+    <account_id>OBBBYNYX</account_id>
+    <notam_id>G0208/20</notam_id>
+    <notam_part>1</notam_part>
+    <cns_location_id>OTHH</cns_location_id>
+    <icao_id>OTHH</icao_id>
+    <icao_name>HAMAD INTL</icao_name>
+    <total_parts>1</total_parts>
+    <notam_effective_dtg>202003010700</notam_effective_dtg>
+    <notam_expire_dtg>202005311100</notam_expire_dtg>
+    <notam_lastmod_dtg>202002260950</notam_lastmod_dtg>
+    <notam_text>G0208/20 NOTAMN
+Q) OBBB/QOBCE/IV/M/A/000/999/2517N05137E001
+A) OTHH B) 2003010700 C) 2005311100
+E) PRESENCE OF EQUIPMENT WITH MAX HEIGHT OF 22M AGL OPERATING WI THE
+AREA BOUNDED BY FLW COORDS:
+
+251700.59N 0513638.64E - 251701.83N 0513642.04E -
+251645.22N 0513649.36E - 251643.98N 0513645.96E -
+251700.59N 0513638.64E.</notam_text>
+    <notam_report>PRESENCE OF EQUIPMENT WITH MAX HEIGHT OF 22M AGL OPERATING WI THE AREA BOUNDED BY FLW COORDS: 251700.59N 0513638.64E - 251701.83N 0513642.04E - 251645.22N 0513649.36E - 251643.98N 0513645.96E - 251700.59N 0513638.64E. 01 MAR 07:00 2020 UNTIL 31 MAY 11:00 2020. CREATED: 26 FEB 09:49 2020</notam_report>
+    <notam_nrc>NOTAMN</notam_nrc>
+    <notam_qcode>QOBCE</notam_qcode>
+  </notamdrec>
+  <notamdrec>
+    <source_id>I</source_id>
+    <account_id>OBBBYNYX</account_id>
+    <notam_id>G0200/20</notam_id>
+    <notam_part>1</notam_part>
+    <cns_location_id>OTHH</cns_location_id>
+    <icao_id>OTHH</icao_id>
+    <icao_name>HAMAD INTL</icao_name>
+    <total_parts>1</total_parts>
+    <notam_effective_dtg>202002212059</notam_effective_dtg>
+    <notam_expire_dtg>202005212059</notam_expire_dtg>
+    <notam_lastmod_dtg>202002200635</notam_lastmod_dtg>
+    <notam_text>G0200/20 NOTAMN
+Q) OBBB/QMPLC/IV/BO/A/000/999/2516N05137E005
+A) OTHH B) 2002212059 C) 2005212059
+E) ACFT STAND D2, D4, E2, E4, E6, E6L, E6R, E8, E8L AND E8R CLSD DUE
+WIP.</notam_text>
+    <notam_report>ACFT STAND D2, D4, E2, E4, E6, E6L, E6R, E8, E8L AND E8R CLSD DUE WIP. 21 FEB 20:59 2020 UNTIL 21 MAY 20:59 2020. CREATED: 20 FEB 06:35 2020</notam_report>
+    <notam_nrc>NOTAMN</notam_nrc>
+    <notam_qcode>QMPLC</notam_qcode>
+  </notamdrec>
+  <notamdrec>
+    <source_id>I</source_id>
+    <account_id>OBBBYNYX</account_id>
+    <notam_id>G0199/20</notam_id>
+    <notam_part>1</notam_part>
+    <cns_location_id>OTHH</cns_location_id>
+    <icao_id>OTHH</icao_id>
+    <icao_name>HAMAD INTL</icao_name>
+    <total_parts>1</total_parts>
+    <notam_effective_dtg>202002212059</notam_effective_dtg>
+    <notam_expire_dtg>202005212059</notam_expire_dtg>
+    <notam_lastmod_dtg>202002200632</notam_lastmod_dtg>
+    <notam_text>G0199/20 NOTAMN
+Q) OBBB/QMXLC/IV/M/A/000/999/2516N05137E005
+A) OTHH B) 2002212059 C) 2005212059
+E) PORTION OF TWY N (BTN TWY S AND ACFT STAND E10R) CLOSED DUE WIP.
+REMARK: TWY S AND STAND E10R AVAILABLE.</notam_text>
+    <notam_report>PORTION OF TWY N (BTN TWY S AND ACFT STAND E10R) CLOSED DUE WIP. REMARK: TWY S AND STAND E10R AVAILABLE. 21 FEB 20:59 2020 UNTIL 21 MAY 20:59 2020. CREATED: 20 FEB 06:32 2020</notam_report>
+    <notam_nrc>NOTAMN</notam_nrc>
+    <notam_qcode>QMXLC</notam_qcode>
+  </notamdrec>
+  <notamdrec>
+    <source_id>I</source_id>
+    <account_id>OBBBYNYX</account_id>
+    <notam_id>G0194/20</notam_id>
+    <notam_part>1</notam_part>
+    <cns_location_id>OTHH</cns_location_id>
+    <icao_id>OTHH</icao_id>
+    <icao_name>HAMAD INTL</icao_name>
+    <total_parts>1</total_parts>
+    <notam_effective_dtg>202002190700</notam_effective_dtg>
+    <notam_expire_dtg>202003261100</notam_expire_dtg>
+    <notam_lastmod_dtg>202002190559</notam_lastmod_dtg>
+    <notam_text>G0194/20 NOTAMN
+Q) OBBB/QOBCE/IV/M/A/000/999/2516N05137E001
+A) OTHH B) 2002190700 C) 2003261100
+D) WED THU 0700-1100 1800-1930, SAT 1800-1930
+E) CRANE ACTIVITY WITH MAX HEIGHT OF 20M AGL OPERATING WI AN AREA
+BOUNDED BY THE FLW COORD:
+
+251641.08513N 0513538.99532E - 251631.35282N 0513543.01840E -
+251623.93970N 0513521.32799E - 251633.67185N 0513517.30449E -
+251641.08513N 0513538.99532E.</notam_text>
+    <notam_report>CRANE ACTIVITY WITH MAX HEIGHT OF 20M AGL OPERATING WI AN AREA BOUNDED BY THE FLW COORD: 251641.08513N 0513538.99532E - 251631.35282N 0513543.01840E - 251623.93970N 0513521.32799E - 251633.67185N 0513517.30449E - 251641.08513N 0513538.99532E. WED THU 0700-1100 1800-1930, SAT 1800-1930, 19 FEB 07:00 2020 UNTIL 26 MAR 11:00 2020. CREATED: 19 FEB 05:59 2020</notam_report>
+    <notam_nrc>NOTAMN</notam_nrc>
+    <notam_qcode>QOBCE</notam_qcode>
+  </notamdrec>
+  <notamdrec>
+    <source_id>I</source_id>
+    <account_id>OBBBYNYX</account_id>
+    <notam_id>G0191/20</notam_id>
+    <notam_part>1</notam_part>
+    <cns_location_id>OTHH</cns_location_id>
+    <icao_id>OTHH</icao_id>
+    <icao_name>HAMAD INTL</icao_name>
+    <total_parts>1</total_parts>
+    <notam_effective_dtg>202002230400</notam_effective_dtg>
+    <notam_expire_dtg>202003221600</notam_expire_dtg>
+    <notam_lastmod_dtg>202002171614</notam_lastmod_dtg>
+    <notam_text>G0191/20 NOTAMN
+Q) OBBB/QWULW/IV/BO/AW/000/007/2516N05137E001
+A) OTHH B) 2002230400 C) 2003221600
+D) 0400-0500 1500-1600
+E) REMOTELY PILOTED ACFT SYSTEM (RPAS) WILL TAKE PLACE WI AN AREA
+BOUNDED BY THE FLW COORDS (KATARA TOWER LUSAIL):
+252328.81N 0513152.80E - 252327.76N 0513157.82E -
+252314.95N 0513154.45E - 252316.81N 0513147.73E -
+252325.95N 0513149.66E - 252328.81N 0513152.80E
+F) SFC G) 665FT AGL</notam_text>
+    <notam_report>REMOTELY PILOTED ACFT SYSTEM (RPAS) WILL TAKE PLACE WI AN AREA BOUNDED BY THE FLW COORDS (KATARA TOWER LUSAIL): 252328.81N 0513152.80E - 252327.76N 0513157.82E - 252314.95N 0513154.45E - 252316.81N 0513147.73E - 252325.95N 0513149.66E - 252328.81N 0513152.80E. SFC - 665FT AGL, 0400-0500 1500-1600, 23 FEB 04:00 2020 UNTIL 22 MAR 16:00 2020. CREATED: 17 FEB 16:14 2020</notam_report>
+    <notam_nrc>NOTAMN</notam_nrc>
+    <notam_qcode>QWULW</notam_qcode>
+  </notamdrec>
+  <notamdrec>
+    <source_id>I</source_id>
+    <account_id>OBBBYNYX</account_id>
+    <notam_id>G0159/20</notam_id>
+    <notam_part>1</notam_part>
+    <cns_location_id>OTHH</cns_location_id>
+    <icao_id>OTHH</icao_id>
+    <icao_name>HAMAD INTL</icao_name>
+    <total_parts>1</total_parts>
+    <notam_effective_dtg>202002120500</notam_effective_dtg>
+    <notam_expire_dtg>202005121100</notam_expire_dtg>
+    <notam_lastmod_dtg>202002091353</notam_lastmod_dtg>
+    <notam_text>G0159/20 NOTAMN
+Q) OBBB/QOBCE/IV/M/A/000/999/2516N05137E001
+A) OTHH B) 2002120500 C) 2005121100
+E) CRANE WITH MAX HEIGHT OF 25M AGL OPERATING WI THE WORK AREA BOUNDED
+BY THE FLW COORDS:
+
+251541.17N 0513713.79E - 251535.11N 0513716.46E -
+251534.68N 0513715.26E - 251532.60N 0513714.17E -
+251529.77N 0513715.42E - 251528.43N 0513711.75E -
+251532.76N 0513709.85E - 251535.22N 0513709.83E -
+251536.07N 0513712.17E - 251539.96N 0513710.45E -
+251541.17N 0513713.79E.</notam_text>
+    <notam_report>CRANE WITH MAX HEIGHT OF 25M AGL OPERATING WI THE WORK AREA BOUNDED BY THE FLW COORDS: 251541.17N 0513713.79E - 251535.11N 0513716.46E - 251534.68N 0513715.26E - 251532.60N 0513714.17E - 251529.77N 0513715.42E - 251528.43N 0513711.75E - 251532.76N 0513709.85E - 251535.22N 0513709.83E - 251536.07N 0513712.17E - 251539.96N 0513710.45E - 251541.17N 0513713.79E. 12 FEB 05:00 2020 UNTIL 12 MAY 11:00 2020. CREATED: 09 FEB 13:53 2020</notam_report>
+    <notam_nrc>NOTAMN</notam_nrc>
+    <notam_qcode>QOBCE</notam_qcode>
+  </notamdrec>
+  <notamdrec>
+    <source_id>I</source_id>
+    <account_id>OBBBYNYX</account_id>
+    <notam_id>G0138/20</notam_id>
+    <notam_part>1</notam_part>
+    <cns_location_id>OTHH</cns_location_id>
+    <icao_id>OTHH</icao_id>
+    <icao_name>HAMAD INTL</icao_name>
+    <total_parts>1</total_parts>
+    <notam_effective_dtg>202002050700</notam_effective_dtg>
+    <notam_expire_dtg>202005050700</notam_expire_dtg>
+    <notam_lastmod_dtg>202002021450</notam_lastmod_dtg>
+    <notam_text>G0138/20 NOTAMN
+Q) OBBB/QOBCE/IV/M/A/000/999/2516N05135E002
+A) OTHH B) 2002050700 C) 2005050700
+E) CRANE WITH MAX HEIGHT OF 45M AGL OPERATING WI THE WORK AREA BOUNDED
+BY THE FLW COORDS:
+251453.4999N 0513608.5400E - 251633.9599N 0513521.5100E -
+251641.7999N 0513514.2800E - 251632.8899N 0513435.7100E -
+251614.0999N 0513444.0400E - 251435.8499N 0513527.6700E -
+251453.4999N 0513608.5400E.</notam_text>
+    <notam_report>CRANE WITH MAX HEIGHT OF 45M AGL OPERATING WI THE WORK AREA BOUNDED BY THE FLW COORDS: 251453.4999N 0513608.5400E - 251633.9599N 0513521.5100E - 251641.7999N 0513514.2800E - 251632.8899N 0513435.7100E - 251614.0999N 0513444.0400E - 251435.8499N 0513527.6700E - 251453.4999N 0513608.5400E. 05 FEB 07:00 2020 UNTIL 05 MAY 07:00 2020. CREATED: 02 FEB 14:50 2020</notam_report>
+    <notam_nrc>NOTAMN</notam_nrc>
+    <notam_qcode>QOBCE</notam_qcode>
+  </notamdrec>
+  <notamdrec>
+    <source_id>I</source_id>
+    <account_id>OBBBYNYX</account_id>
+    <notam_id>G0127/20</notam_id>
+    <notam_part>1</notam_part>
+    <cns_location_id>OTHH</cns_location_id>
+    <icao_id>OTHH</icao_id>
+    <icao_name>HAMAD INTL</icao_name>
+    <total_parts>1</total_parts>
+    <notam_effective_dtg>202001301458</notam_effective_dtg>
+    <notam_lastmod_dtg>202001301500</notam_lastmod_dtg>
+    <notam_text>G0127/20 NOTAMN
+Q) OBBB/QOBCE/IV/M/A/000/999/2513N05136E001
+A) OTHH B) 2001301458 C) 2004302359 EST
+E) CRANE (LIGHTED) WITH MAX HEIGHT OF 35M AGL OPERATING WI THE WORK
+AREA BOUNDED BY THE FLW COORDS:
+251254.3060N 0513510.7628E - 251255.3284N 0513608.9640E -
+251234.7220N 0513608.7912E - 251234.7688N 0513527.1176E -
+251254.3060N 0513510.7628E.</notam_text>
+    <notam_report>CRANE (LIGHTED) WITH MAX HEIGHT OF 35M AGL OPERATING WI THE WORK AREA BOUNDED BY THE FLW COORDS: 251254.3060N 0513510.7628E - 251255.3284N 0513608.9640E - 251234.7220N 0513608.7912E - 251234.7688N 0513527.1176E - 251254.3060N 0513510.7628E. 30 JAN 14:58 2020 UNTIL 30 APR 23:59 2020 ESTIMATED. CREATED: 30 JAN 14:59 2020</notam_report>
+    <notam_nrc>NOTAMN</notam_nrc>
+    <notam_qcode>QOBCE</notam_qcode>
+  </notamdrec>
+  <notamdrec>
+    <source_id>I</source_id>
+    <account_id>OBBBYNYX</account_id>
+    <notam_id>G0125/20</notam_id>
+    <notam_part>1</notam_part>
+    <cns_location_id>OTHH</cns_location_id>
+    <icao_id>OTHH</icao_id>
+    <icao_name>HAMAD INTL</icao_name>
+    <total_parts>1</total_parts>
+    <notam_effective_dtg>202001301455</notam_effective_dtg>
+    <notam_lastmod_dtg>202001301456</notam_lastmod_dtg>
+    <notam_text>G0125/20 NOTAMN
+Q) OBBB/QOBCE/IV/M/A/000/999/2513N05136E001
+A) OTHH B) 2001301455 C) 2004302359 EST
+E) CRANE (LIGHTED) WITH MAX HEIGHT OF 26M AGL OPERATING WI THE WORK
+AREA BOUNDED BY THE FLW COORDS:
+251259.1804N 0513513.9560E - 251300.6204N 0513559.7336E -
+251301.2108N 0513611.3616E - 251256.7576N 0513535.1672E -
+251259.1804N 0513513.9560E.</notam_text>
+    <notam_report>CRANE (LIGHTED) WITH MAX HEIGHT OF 26M AGL OPERATING WI THE WORK AREA BOUNDED BY THE FLW COORDS: 251259.1804N 0513513.9560E - 251300.6204N 0513559.7336E - 251301.2108N 0513611.3616E - 251256.7576N 0513535.1672E - 251259.1804N 0513513.9560E. 30 JAN 14:55 2020 UNTIL 30 APR 23:59 2020 ESTIMATED. CREATED: 30 JAN 14:56 2020</notam_report>
+    <notam_nrc>NOTAMN</notam_nrc>
+    <notam_qcode>QOBCE</notam_qcode>
+  </notamdrec>
+  <notamdrec>
+    <source_id>I</source_id>
+    <account_id>OBBBYNYX</account_id>
+    <notam_id>G0119/20</notam_id>
+    <notam_part>1</notam_part>
+    <cns_location_id>OTHH</cns_location_id>
+    <icao_id>OTHH</icao_id>
+    <icao_name>HAMAD INTL</icao_name>
+    <total_parts>1</total_parts>
+    <notam_effective_dtg>202001300902</notam_effective_dtg>
+    <notam_lastmod_dtg>202001300902</notam_lastmod_dtg>
+    <notam_text>G0119/20 NOTAMN
+Q) OBBB/QOBXX/IV/M/A/000/999/2516N05137E005
+A) OTHH B) 2001300902 C) 2004292359 EST
+E) REF QATAR AIRAC AIP SUP 01/20 WEF 02 JAN 2020, AMEND THE FOLLOWING.
+
+
+CRANE ID A-29, HEIGHT TO READ AS 55M AMSL AND END DATE OF OPERATION
+TO READ AS 30 JUN 2020.
+
+CRANE ID A-30, HEIGHT TO READ AS 55M AMSL AND END DATE OF OPERATION
+TO READ AS 30 JUN 2020.</notam_text>
+    <notam_report>REF QATAR AIRAC AIP SUP 01/20 WEF 02 JAN 2020, AMEND THE FOLLOWING. CRANE ID A-29, HEIGHT TO READ AS 55M AMSL AND END DATE OF OPERATION TO READ AS 30 JUN 2020. CRANE ID A-30, HEIGHT TO READ AS 55M AMSL AND END DATE OF OPERATION TO READ AS 30 JUN 2020. 30 JAN 09:02 2020 UNTIL 29 APR 23:59 2020 ESTIMATED. CREATED: 30 JAN 09:02 2020</notam_report>
+    <notam_nrc>NOTAMN</notam_nrc>
+    <notam_qcode>QOBXX</notam_qcode>
+  </notamdrec>
+  <notamdrec>
+    <source_id>I</source_id>
+    <account_id>OBBBYNYX</account_id>
+    <notam_id>G0087/20</notam_id>
+    <notam_part>1</notam_part>
+    <cns_location_id>OTHH</cns_location_id>
+    <icao_id>OTHH</icao_id>
+    <icao_name>HAMAD INTL</icao_name>
+    <total_parts>1</total_parts>
+    <notam_effective_dtg>202001230620</notam_effective_dtg>
+    <notam_expire_dtg>202003311200</notam_expire_dtg>
+    <notam_lastmod_dtg>202001230621</notam_lastmod_dtg>
+    <notam_text>G0087/20 NOTAMR G1238/19
+Q) OBBB/QOBXX/IV/BO/A/000/999/2516N05137E005
+A) OTHH B) 2001230620 C) 2003311200
+E) UNMARKED JET BLAST DEFLECTOR (LIGHTED AT NIGHT) INSTALLED NORTH OF
+STAND 519.
+PILOT TO EXER CTN.</notam_text>
+    <notam_report>UNMARKED JET BLAST DEFLECTOR (LIGHTED AT NIGHT) INSTALLED NORTH OF STAND 519. PILOT TO EXER CTN. 23 JAN 06:20 2020 UNTIL 31 MAR 12:00 2020. CREATED: 23 JAN 06:21 2020</notam_report>
+    <notam_nrc>NOTAMR</notam_nrc>
+    <notam_qcode>QOBXX</notam_qcode>
+  </notamdrec>
+  <notamdrec>
+    <source_id>I</source_id>
+    <account_id>OBBBYNYX</account_id>
+    <notam_id>G0032/20</notam_id>
+    <notam_part>1</notam_part>
+    <cns_location_id>OTHH</cns_location_id>
+    <icao_id>OTHH</icao_id>
+    <icao_name>HAMAD INTL</icao_name>
+    <total_parts>1</total_parts>
+    <notam_effective_dtg>202001160700</notam_effective_dtg>
+    <notam_expire_dtg>202003261100</notam_expire_dtg>
+    <notam_lastmod_dtg>202001071007</notam_lastmod_dtg>
+    <notam_text>G0032/20 NOTAMN
+Q) OBBB/QMRLC/IV/NBO/A/000/999/2516N05137E005
+A) OTHH B) 2001160700 C) 2003261100
+D) THU 0700-1100
+E) RWY 16R/34L CLSD DUE MAINT.</notam_text>
+    <notam_report>RWY 16R/34L CLSD DUE MAINT. THU 0700-1100, 16 JAN 07:00 2020 UNTIL 26 MAR 11:00 2020. CREATED: 07 JAN 10:06 2020</notam_report>
+    <notam_nrc>NOTAMN</notam_nrc>
+    <notam_qcode>QMRLC</notam_qcode>
+  </notamdrec>
+  <notamdrec>
+    <source_id>I</source_id>
+    <account_id>OBBBYNYX</account_id>
+    <notam_id>G0031/20</notam_id>
+    <notam_part>1</notam_part>
+    <cns_location_id>OTHH</cns_location_id>
+    <icao_id>OTHH</icao_id>
+    <icao_name>HAMAD INTL</icao_name>
+    <total_parts>1</total_parts>
+    <notam_effective_dtg>202001180700</notam_effective_dtg>
+    <notam_expire_dtg>202003311100</notam_expire_dtg>
+    <notam_lastmod_dtg>202001071002</notam_lastmod_dtg>
+    <notam_text>G0031/20 NOTAMN
+Q) OBBB/QMRLC/IV/NBO/A/000/999/2516N05137E005
+A) OTHH B) 2001180700 C) 2003311100
+D) EVERY SAT SUN TUE 0700-1100
+E) RWY 16L/34R CLSD DUE MAINT.</notam_text>
+    <notam_report>RWY 16L/34R CLSD DUE MAINT. EVERY SAT SUN TUE 0700-1100, 18 JAN 07:00 2020 UNTIL 31 MAR 11:00 2020. CREATED: 07 JAN 10:02 2020</notam_report>
+    <notam_nrc>NOTAMN</notam_nrc>
+    <notam_qcode>QMRLC</notam_qcode>
+  </notamdrec>
+  <notamdrec>
+    <source_id>I</source_id>
+    <account_id>OBBBYNYX</account_id>
+    <notam_id>G1498/19</notam_id>
+    <notam_part>1</notam_part>
+    <cns_location_id>OTHH</cns_location_id>
+    <icao_id>OTHH</icao_id>
+    <icao_name>HAMAD INTL</icao_name>
+    <total_parts>1</total_parts>
+    <notam_effective_dtg>201912311405</notam_effective_dtg>
+    <notam_lastmod_dtg>201912311407</notam_lastmod_dtg>
+    <notam_text>G1498/19 NOTAMR G1158/19
+Q) OBBB/QOBCE/IV/M/A/000/999/2517N05134E001
+A) OTHH B) 1912311405 C) 2003312359 EST
+E) CRANE (LIGHTED) WITH MAX HEIGHT OF 48M AMSL OPERATING WI AN AREA
+BOUNDED BY FOLLOWING COORDINATES:
+
+251640.1059N 0513417.6546E - 251641.6754N 0513420.0882E -
+251621.6847N E 0513428.6272 - 251620.5579N 0513426.1181E -
+251640.1059N 0513417.6546E
+
+PILOT TO EXER CTN.</notam_text>
+    <notam_report>CRANE (LIGHTED) WITH MAX HEIGHT OF 48M AMSL OPERATING WI AN AREA BOUNDED BY FOLLOWING COORDINATES: 251640.1059N 0513417.6546E - 251641.6754N 0513420.0882E - 251621.6847N E 0513428.6272 - 251620.5579N 0513426.1181E - 251640.1059N 0513417.6546E PILOT TO EXER CTN. 31 DEC 14:05 2019 UNTIL 31 MAR 23:59 2020 ESTIMATED. CREATED: 31 DEC 14:07 2019</notam_report>
+    <notam_nrc>NOTAMR</notam_nrc>
+    <notam_qcode>QOBCE</notam_qcode>
+  </notamdrec>
+  <notamdrec>
+    <source_id>I</source_id>
+    <account_id>OBBBYNYX</account_id>
+    <notam_id>G1497/19</notam_id>
+    <notam_part>1</notam_part>
+    <cns_location_id>OTHH</cns_location_id>
+    <icao_id>OTHH</icao_id>
+    <icao_name>HAMAD INTL</icao_name>
+    <total_parts>1</total_parts>
+    <notam_effective_dtg>201912311403</notam_effective_dtg>
+    <notam_lastmod_dtg>201912311403</notam_lastmod_dtg>
+    <notam_text>G1497/19 NOTAMR G1446/19
+Q) OBBB/QOBCE/IV/M/A/000/999/2515N05136E001
+A) OTHH B) 1912311403 C) 2003312359 EST
+E) CRANE WITH MAX HEIGHT OF 26M AGL OPERATING WI AN AREA BOUNDED BY
+THE FLW COORDINATES:
+
+AREA 1
+251436.0631N 0513536.7128E - 251437.1772N 0513538.4147E -
+251438.3471N 0513538.0518E - 251439.0482N 0513539.9115E -
+251435.1789N 0513538.5902E - 251435.9742N 0513539.2138E -
+251436.0631N 0513536.7128E.
+
+AREA 2
+251452.2400N 0513608.7100E - 251451.1300N 0513609.3300E -
+251448.6700N 0513604.5800E - 251450.3800N 0513603.8500E -
+251452.2400N 0513608.7100E.</notam_text>
+    <notam_report>CRANE WITH MAX HEIGHT OF 26M AGL OPERATING WI AN AREA BOUNDED BY THE FLW COORDINATES: AREA 1 251436.0631N 0513536.7128E - 251437.1772N 0513538.4147E - 251438.3471N 0513538.0518E - 251439.0482N 0513539.9115E - 251435.1789N 0513538.5902E - 251435.9742N 0513539.2138E - 251436.0631N 0513536.7128E. AREA 2 251452.2400N 0513608.7100E - 251451.1300N 0513609.3300E - 251448.6700N 0513604.5800E - 251450.3800N 0513603.8500E - 251452.2400N 0513608.7100E. 31 DEC 14:03 2019 UNTIL 31 MAR 23:59 2020 ESTIMATED. CREATED: 31 DEC 14:03 2019</notam_report>
+    <notam_nrc>NOTAMR</notam_nrc>
+    <notam_qcode>QOBCE</notam_qcode>
+  </notamdrec>
+  <notamdrec>
+    <source_id>I</source_id>
+    <account_id>OBBBYNYX</account_id>
+    <notam_id>G1487/19</notam_id>
+    <notam_part>1</notam_part>
+    <cns_location_id>OTHH</cns_location_id>
+    <icao_id>OTHH</icao_id>
+    <icao_name>HAMAD INTL</icao_name>
+    <total_parts>1</total_parts>
+    <notam_effective_dtg>202001021800</notam_effective_dtg>
+    <notam_expire_dtg>202003281930</notam_expire_dtg>
+    <notam_lastmod_dtg>201912310924</notam_lastmod_dtg>
+    <notam_text>G1487/19 NOTAMN
+Q) OBBB/QMRLC/IV/NBO/A/000/999/2516N05137E005
+A) OTHH B) 2001021800 C) 2003281930
+D) EVERY THU SAT 1800-1930
+E) RWY 16R/34L CLSD DUE MAINT.</notam_text>
+    <notam_report>RWY 16R/34L CLSD DUE MAINT. EVERY THU SAT 1800-1930, 02 JAN 18:00 2020 UNTIL 28 MAR 19:30 2020. CREATED: 31 DEC 09:24 2019</notam_report>
+    <notam_nrc>NOTAMN</notam_nrc>
+    <notam_qcode>QMRLC</notam_qcode>
+  </notamdrec>
+  <notamdrec>
+    <source_id>I</source_id>
+    <account_id>OBBBYNYX</account_id>
+    <notam_id>G1486/19</notam_id>
+    <notam_part>1</notam_part>
+    <cns_location_id>OTHH</cns_location_id>
+    <icao_id>OTHH</icao_id>
+    <icao_name>HAMAD INTL</icao_name>
+    <total_parts>1</total_parts>
+    <notam_effective_dtg>202001051800</notam_effective_dtg>
+    <notam_expire_dtg>202003311930</notam_expire_dtg>
+    <notam_lastmod_dtg>201912310914</notam_lastmod_dtg>
+    <notam_text>G1486/19 NOTAMN
+Q) OBBB/QMRLC/IV/NBO/A/000/999/2516N05137E005
+A) OTHH B) 2001051800 C) 2003311930
+D) EVERY SUN TUE 1800-1930
+E) RWY 16L/34R CLSD DUE MAINT.</notam_text>
+    <notam_report>RWY 16L/34R CLSD DUE MAINT. EVERY SUN TUE 1800-1930, 05 JAN 18:00 2020 UNTIL 31 MAR 19:30 2020. CREATED: 31 DEC 09:14 2019</notam_report>
+    <notam_nrc>NOTAMN</notam_nrc>
+    <notam_qcode>QMRLC</notam_qcode>
+  </notamdrec>
+  <rec-count>65</rec-count>
+  </notams>
+  <weather>
+    <orig_metar>OMAA 142200Z VRB02KT CAVOK 23/13 Q1012 NOSIG</orig_metar>
+    <orig_taf>OMAA 141700Z 1418/1600 10006KT 8000 NSC
+BECMG 1500/1502 17012KT
+PROB30 TEMPO 1503/1509 17018KT 3000 BLDU
+BECMG 1514/1516 06006KT
+BECMG 1522/1600 14010KT</orig_taf>
+    <dest_metar>OMDB 142200Z 08005KT 040V120 CAVOK 25/11 Q1012 NOSIG</dest_metar>
+    <dest_taf>OMDB 141659Z 1418/1600 09005KT 8000 NSC
+BECMG 1502/1504 18010KT
+BECMG 1510/1512 35012KT
+BECMG 1515/1517 05007KT</dest_taf>
+    <altn_metar>OTHH 142200Z AUTO 09013KT CAVOK 22/16 Q1010 NOSIG</altn_metar>
+    <altn_taf>OTHH 141704Z 1418/1524 12010KT 8000 NSC
+TEMPO 1418/1502 06007KT 8000 -RA FEW035 BKN120</altn_taf>
+    <toaltn_metar/>
+    <toaltn_taf/>
+    <eualtn_metar/>
+    <eualtn_taf/>
+    <etops_metar/>
+    <etops_taf/>
+  </weather>
+  <sigmets/>
+  <text>
+    <nat_tracks/>
+    <plan_html>&lt;div style="line-height:14px;font-size:13px"&gt;&lt;pre&gt;&lt;!--BKMK///OFP///0--&gt;&lt;!--BKMK///Summary and Fuel///1--&gt;&lt;b&gt;[ OFP ]
+--------------------------------------------------------------------&lt;/b&gt;
+VMS0112   01JAN2014    OMAA-OMDB   A320 N320SB  RELEASE 2248 14MAR20
+OFP 1        ABU DHABI INTL-DUBAI INTL
+                                   WX PROG 0112 0115   OBS 0800 0800
+
+  ATC C/S   VMS112       OMAA/AUH   OMDB/DXB      CRZ SYS       CI 5
+01JAN2014   N320SB       1230/1240  1314/1320     GND DIST       138
+A320-200 / CFM56-5B4/P              STA  1445     AIR DIST       134
+                         CTOT:....                G/C DIST        63
+                                                  AVG WIND   283/018
+MAXIMUM    TOW 171961  LAW 145505  ZFW 137789     AVG W/C       P007
+ESTIMATED  TOW 148845  LAW 145505  ZFW 134752     AVG ISA       P011
+                                                  AVG FF LBS/HR 5788
+                                                  FUEL BIAS    P00.0
+ALTN OTHH                                         TKOF ALTN  .......
+FL STEPS OMAA/0160/
+--------------------------------------------------------------------
+DISP RMKS   PLANNED OPTIMUM FLIGHT LEVEL
+            PAYLOAD/CARGO LIMITED BY MLW
+
+--------------------------------------------------------------------
+         PLANNED FUEL
+---------------------------------
+FUEL           ARPT   FUEL   TIME
+---------------------------------
+TRIP            DXB   3340   0034
+CONT 15 MIN           1447   0015
+ALTN            DOH   5323   0054
+FINRES                3983   0045
+---------------------------------
+MINIMUM T/OFF FUEL   14093   0228
+---------------------------------
+EXTRA                    0   0000
+---------------------------------
+T/OFF FUEL           14093   0228
+TAXI            AUH    220   0010
+---------------------------------
+BLOCK FUEL      AUH  14313
+PIC EXTRA            .....
+TOTAL FUEL           .....
+REASON FOR PIC EXTRA ............
+--------------------------------------------------------------------
+NO TANKERING RECOMMENDED (P)
+--------------------------------------------------------------------
+I HEREWITH CONFIRM THAT I HAVE PERFORMED A THOROUGH SELF BRIEFING
+ABOUT THE DESTINATION AND ALTERNATE AIRPORTS OF THIS FLIGHT
+INCLUDING THE APPLICABLE INSTRUMENT APPROACH PROCEDURES, AIRPORT
+FACILITIES, NOTAMS AND ALL OTHER RELEVANT PARTICULAR INFORMATION.
+
+DISPATCHER: CONSTANCE DIXON             PIC NAME: SHAHZAD, NABEEL
+
+TEL: +1 800 555 0199               PIC SIGNATURE: ...............&lt;h2 style="page-break-after: always;"&gt; &lt;/h2&gt;&lt;!--BKMK///Routing and Impacts///1--&gt;
+ALTERNATE ROUTE TO:                                    FINRES   3983
+APT      TRK DST              VIA                 FL  WC  TIME  FUEL
+--------------------------------------------------------------------
+OTHH/16L 271 298  NABIX2G NABIX P699 ORMID       380 M049 0054  5323
+                  UP699 DASLO UY856 ALKAN UL721
+                  BAYAN BAYAN1M
+--------------------------------------------------------------------
+
+MEL/CDL ITEMS DESCRIPTION
+------------- -----------
+
+--------------------------------------------------------------------
+
+ROUTING:
+
+ROUTE ID: DEFRTE
+OMAA/31L DCT BOMUP DCT LOVIM DCT RESIG DCT NODVI DCT OBMUK DCT LORID
+DCT ORGUR DCT PEBUS DCT EMOPO DCT LOTUK DCT LAGTA DCT LOVOL DCT
+OMDB/12R
+
+--------------------------------------------------------------------
+DEPARTURE ATC CLEARANCE:
+.
+.
+.
+--------------------------------------------------------------------
+                         OPERATIONAL IMPACTS
+                         -------------------
+WEIGHT CHANGE UP 1.0          TRIP  P 0020 LBS   TIME M 0000
+WEIGHT CHANGE DN 1.0          TRIP  M 0006 LBS   TIME P 0000
+FL CHANGE     UP FL1          TRIP  M 0010 LBS   TIME M 0000
+FL CHANGE     DN FL1          TRIP  P 0023 LBS   TIME P 0000
+FL CHANGE     DN FL2          TRIP  P 0071 LBS   TIME P 0002
+SPD CHANGE    CI 0            TRIP  M 0008 LBS   TIME P 0000
+SPD CHANGE    CI 50           TRIP  P 0049 LBS   TIME M 0001
+--------------------------------------------------------------------&lt;h2 style="page-break-after: always;"&gt; &lt;/h2&gt;&lt;!--BKMK///Times and Weights///1--&gt;--------------------------------------------------------------------
+ATIS:
+.
+.
+--------- --------- --------- --------- --------- --------- --------
+RVSM: ALT SYS  LEFT:             STBY:             RIGHT:
+
+--------- --------- --------- --------- --------- --------- --------
+--------------------------------------------------------------------
+                                TIMES
+                                -----
+
+               ESTIMATED        SKED              ACTUAL
+
+OUT            1230Z/1630L      1230Z/1630L       ......Z
+
+OFF            1240Z/1640L      1240Z/1640L       ......Z
+
+ON             1314Z/1714L      1439Z/1839L       ......Z
+
+IN             1320Z/1720L      1445Z/1845L       ......Z
+
+BLOCK TIME     0050             0215              ......
+
+--------------------------------------------------------------------
+                               WEIGHTS
+                               -------
+
+                EST      MAX     ACTUAL
+
+PAX             167              ......
+
+CARGO           0.0              ......
+
+PAYLOAD        38.2              ......
+
+ZFW           134.8    137.8     ......
+
+FUEL           14.3     14.3     ......  POSS EXTRA 0.0
+
+TOW           148.8    148.8  LDG......
+
+STAB TRIM                        ......
+
+LAW           145.5    145.5     ......
+
+--------------------------------------------------------------------
+                       TERRAIN CLEARANCE CHECK
+                       -----------------------
+DD CHECK - TERRAIN CLEARANCE CHECK DISABLED
+
+DP CHECK - TERRAIN CLEARANCE CHECK DISABLED
+--------------------------------------------------------------------&lt;h2 style="page-break-after: always;"&gt; &lt;/h2&gt;&lt;!--BKMK///Flight Log///1--&gt;                             FLIGHT LOG
+                             ----------
+
+MOST CRITICAL MORA 02600 FEET AT TOD///MXSHR 01 AT TOC
+--------------------------------------------------------------------
+AWY                           FL   IMT   MN    WIND  OAT  EFOB  PBRN
+POSITION    LAT      EET ETO MORA  ITT  TAS    COMP  TDV
+IDENT       LONG    TTLT ATO DIS  RDIS   GS     SHR  TRP  AFOB  ABRN
+FREQ
+--------------------------------------------------------------------
+                                   306                    14.1   0.2
+ABU DHABI I N2426.0      ...  21   307         M006
+OMAA       E05439.1 0000 ...       138  277               ....  ....
+
+DCT                          071   310  .43 259/009   10  13.8   0.5
+BOMUP       N2429.1 0001 ...  21   312         M006  P09
+BOMUP      E05434.7 0001 ...   5   133  277          543  ....  ....
+
+DCT                          079   338  .43 301/012   10  13.8   0.5
+LOVIM       N2429.7 0000 ...  21   339         M012  P11
+LOVIM      E05433.9 0001 ...   1   132  275          543  ....  ....
+
+DCT                          092   306  .44 313/015   08  13.7   0.6
+RESIG       N2431.5 0000 ...  21   308         M014  P11
+RESIG      E05433.2 0001 ...   2   130  279          534  ....  ....
+
+DCT                          115   002  .56 309/019   02  13.4   0.9
+NODVI       N2434.7 0001 ...  20   004         M019  P10
+NODVI      E05428.8 0002 ...   5   125  345          530  ....  ....
+
+DCT                          142   034  .59 295/023  M03  13.0   1.3
+OBMUK       N2444.1 0002 ...  20   036         M009  P10
+OBMUK      E05429.5 0004 ...   9   116  372          530  ....  ....
+
+DCT                          160   034  .61 280/019  M06  12.4   1.9
+T O C       N2452.9 0003 ...  20   036  392    P008  P11
+           E05436.7 0007 ...  11   105  400       1  534  ....  ....
+
+DCT                          160   033  .54 280/019  M06  12.3   2.0
+LORID       N2455.9 0000 ...  20   035  344    P008  P11
+LORID      E05439.1 0007 ...   4   101  352       1  534  ....  ....
+
+DCT                          160   033  .54 280/019  M06  12.2   2.2
+ORGUR       N2506.2 0002 ...  20   035  344    P008  P11
+ORGUR      E05447.2 0009 ...  13    88  352       1  534  ....  ....
+
+DCT                          160   038  .54 280/019  M06  12.1   2.2
+PEBUS       N2509.3 0001 ...  20   040  344    P008  P11
+PEBUS      E05449.6 0010 ...   4    84  352       1  534  ....  ....
+
+DCT                          160   116  .54 280/019  M06  11.9   2.4
+EMOPO       N2517.2 0002 ...  21   118  343    P009  P11
+EMOPO      E05456.9 0012 ...  10    74  352       1  534  ....  ....
+
+DCT                          160   101  .54 280/019  M06  11.8   2.6
+LOTUK       N2511.3 0002 ...  24   103  341    P018  P11
+LOTUK      E05508.7 0014 ...  12    62  359       1  534  ....  ....
+
+&lt;h2 style="page-break-after: always;"&gt; &lt;/h2&gt;AWY                           FL   IMT   MN    WIND  OAT  EFOB  PBRN
+POSITION    LAT      EET ETO MORA  ITT  TAS    COMP  TDV
+IDENT       LONG    TTLT ATO DIS  RDIS   GS     SHR  TRP  AFOB  ABRN
+FREQ
+--------------------------------------------------------------------
+DCT                          160   101  .53 280/019  M06  11.5   2.8
+T O D       N2507.6 0002 ...  26   103  341    P019  P11
+           E05525.9 0016 ...  16    46  360       1  534  ....  ....
+
+DCT                          111   013  .55 290/013   04  11.5   2.9
+LAGTA       N2506.0 0003 ...  25   015         P013  P11
+LAGTA      E05533.3 0019 ...   7    39  375          538  ....  ....
+
+DCT                          090   299  .44 281/010   08  11.4   2.9
+LOVOL       N2508.7 0001 ...  25   300         P001  P11
+LOVOL      E05534.0 0020 ...   3    36  293          538  ....  ....
+
+DCT                                                       10.8   3.6
+DUBAI INTL  N2515.2 0014 ...
+OMDB       E05521.9 0034 ...  36                          ....  ....
+
+
+
+&lt;h2 style="page-break-after: always;"&gt; &lt;/h2&gt;&lt;!--BKMK///Wind Information///1--&gt;--------------------------------------------------------------------
+                          WIND INFORMATION
+                          ----------------
+
+CLIMB            T O C            LORID            ORGUR
+350 263/100 -42  200 276/023 -17  200 276/023 -17  200 276/023 -17
+310 264/101 -34  180 280/021 -12  180 280/021 -12  180 280/021 -12
+200 287/022 -17  160 280/019 -06  160 280/019 -06  160 280/019 -06
+150 297/015 -04  140 289/018 -02  140 289/018 -02  140 289/018 -02
+100 328/015 +06  120 297/015 +01  120 297/015 +01  120 297/015 +01
+
+PEBUS            EMOPO            LOTUK            T O D
+200 276/023 -17  200 276/023 -17  200 276/023 -17  200 276/023 -17
+180 280/021 -12  180 280/021 -12  180 280/021 -12  180 280/021 -12
+160 280/019 -06  160 280/019 -06  160 280/019 -06  160 280/019 -06
+140 289/018 -02  140 289/018 -02  140 289/018 -02  140 289/018 -02
+120 297/015 +01  120 297/015 +01  120 297/015 +01  120 297/015 +01
+
+DESCENT
+350 262/098 -42
+310 262/092 -35
+200 282/022 -17
+150 283/016 -04
+100 290/012 +06
+
+--------------------------------------------------------------------&lt;h2 style="page-break-after: always;"&gt; &lt;/h2&gt;&lt;!--BKMK///ATC Flight Plan///0--&gt;&lt;b&gt;[ ATC Flight Plan ]
+--------------------------------------------------------------------&lt;/b&gt;
+                          ICAO FLIGHT PLAN
+                          ----------------
+
+FF OMAEZQZX
+142248 CYULSBFP
+(FPL-VMS112-IS
+-A320/M-SDE3FGHIRWY/LB1
+-OMAA1230
+-N0344F160 DCT BOMUP DCT LOVIM DCT RESIG DCT NODVI DCT OBMUK DCT
+ LORID DCT ORGUR DCT PEBUS DCT EMOPO DCT LOTUK DCT LAGTA DCT LOVOL
+ DCT
+-OMDB0024 OTHH
+-PBN/A1B1C1D1O1S1 DOF/140101 REG/N320SB OPR/VMS PER/C RMK/TCAS)&lt;h2 style="page-break-after: always;"&gt; &lt;/h2&gt;&lt;!--BKMK///Additional Info///0--&gt;&lt;b&gt;[ Additional Info ]
+--------------------------------------------------------------------&lt;/b&gt;
+D I S P A T C H  B R I E F I N G  I N F O    VMS0112   OMAA/OMDB
+
+
+&lt;h2 style="page-break-after: always;"&gt; &lt;/h2&gt;&lt;!--BKMK///Airport WX List///0--&gt;&lt;b&gt;[ Airport WX List ]
+--------------------------------------------------------------------&lt;/b&gt;
+OMAA --&gt; OMDB   VMS   112 / 01JAN2014
+LIDO/WEATHER SERVICE       DATE : 14Mar2020   TIME : 22:48 UTC
+
+AIRMETs:
+  No Wx data available
+
+SIGMETs:
+  No Wx data available
+
+Tropical Cyclone SIGMETs:
+  No Wx data available
+
+Volcanic Ash SIGMETs:
+  No Wx data available
+
+Departure:
+OMAA/AUH  ABU DHABI INTL
+  SA  142200  VRB02KT CAVOK 23/13 Q1012 NOSIG
+  FT  141700  1418/1600 10006KT 8000 NSC
+              BECMG 1500/1502 17012KT
+              PROB30 TEMPO 1503/1509 17018KT 3000 BLDU
+              BECMG 1514/1516 06006KT
+              BECMG 1522/1600 14010KT
+
+Destination:
+OMDB/DXB  DUBAI INTL
+  SA  142200  08005KT 040V120 CAVOK 25/11 Q1012 NOSIG
+  FT  141659  1418/1600 09005KT 8000 NSC
+              BECMG 1502/1504 18010KT
+              BECMG 1510/1512 35012KT
+              BECMG 1515/1517 05007KT
+
+Destination Alternates:
+OTHH/DOH  HAMAD INTL
+  SA  142200  AUTO 09013KT CAVOK 22/16 Q1010 NOSIG
+  FT  141704  1418/1524 12010KT 8000 NSC
+              TEMPO 1418/1502 06007KT 8000 -RA FEW035 BKN120
+
+
+  AIRPORTLIST ENDED&lt;h2 style="page-break-after: always;"&gt; &lt;/h2&gt;&lt;!--BKMK///NOTAM///0--&gt;&lt;b&gt;[ NOTAM ]
+--------------------------------------------------------------------&lt;/b&gt;
+LIDO-NOTAM-BULLETIN INCLUDES NOTAM, COMP NOTAM AND AIP-REGULATION
+&lt;b&gt;VALID: 1401011230 - 1401011714&lt;/b&gt;  STD(EOBT)+TRIP+ALTN+3HRS
+VMS 112 /01JAN      OFP-NR: 1
+ROUTE:    OMAA - OMDB   ALTN: OTHH
+N0344F160 DCT BOMUP DCT LOVIM DCT RESIG DCT NODVI DCT OBMUK DCT
+LORID DCT ORGUR DCT PEBUS DCT EMOPO DCT LOTUK DCT LAGTA DCT LOVOL
+DCT
+
+
+&lt;b&gt;=================================
+DEPARTURE AIRPORT - DETAILED INFO
+=================================&lt;/b&gt;
+
+&lt;b&gt;OMAA/AUH     ABU DHABI INTL
+---------------------------&lt;/b&gt;
+
++++++++++++++++++++++++++++++ AIRPORT ++++++++++++++++++++++++++++++
+
+&lt;b&gt;A0609/20   VALID: 15-MAR-20 0200 - 15-MAR-20 1415&lt;/b&gt;
+  UAS ACT WILL TAKE PLACE WI 120M RADIUS CENTERED ON PSN 242743.28N
+  0543532.12E
+  F) SFC  G) 100FT AGL
+&lt;b&gt;A0610/20   VALID: 15-MAR-20 0200 - 15-MAR-20 1415&lt;/b&gt;
+  UAS ACT WILL TAKE PLACE WI 120M RADIUS CENTERED ON PSN 242800.04N
+  0543633.98E
+  F) SFC  G) 100FT AGL
+&lt;b&gt;A0611/20   VALID: 15-MAR-20 0200 - 15-MAR-20 1415&lt;/b&gt;
+  UAS ACT WILL TAKE PLACE WI 120M RADIUS CENTERED ON PSN 242830.15N
+  0543614.02E
+  F) SFC  G) 100FT AGL
+&lt;b&gt;A0612/20   VALID: 15-MAR-20 0200 - 15-MAR-20 1415&lt;/b&gt;
+  UAS ACT WILL TAKE PLACE WI 120M RADIUS CENTERED ON PSN 242802.03N
+  0543619.44E
+  F) SFC  G) 100FT AGL
+&lt;b&gt;A0598/20   VALID: 15-MAR-20 0200 - 15-MAR-20 1415&lt;/b&gt;
+  UAS ACT WILL TAKE PLACE WI 250M RADIUS CENTERED ON PSN 242920.0N
+  0543559.1E.
+  F) SFC  G) 200FT AGL
+&lt;b&gt;A0599/20   VALID: 15-MAR-20 0200 - 15-MAR-20 1415&lt;/b&gt;
+  UAS ACT WILL TAKE PLACE WI 120M RADIUS CENTERED ON PSN 242901.69N
+  0543624.97E.
+  F) SFC  G) 200FT AGL
+&lt;b&gt;A0562/20   &lt;/b&gt;
+  H24
+  SECN OF &lt;b&gt;TWY H&lt;/b&gt; BTN &lt;b&gt;TWY C&lt;/b&gt; AND &lt;b&gt;TWY L3&lt;/b&gt; &lt;b&gt;CLSD&lt;/b&gt; DUE &lt;b&gt;WIP&lt;/b&gt;
+&lt;b&gt;A0563/20   &lt;/b&gt;
+  DLY BTN 0300-1400
+  SECN OF &lt;b&gt;TWY H&lt;/b&gt; BTN &lt;b&gt;TWY B&lt;/b&gt; AND &lt;b&gt;TWY L2&lt;/b&gt; &lt;b&gt;CLSD&lt;/b&gt; DUE &lt;b&gt;WIP&lt;/b&gt;
+&lt;b&gt;A0568/20   &lt;/b&gt;
+  H24
+  OBST CRANE OPR WI AREA BOUNDED BY LINES JOINING:
+  242655.40N 0543922.10E
+  242654.80N 0543922.90E
+  242621.50N 0543853.50E
+  242620.80N 0543854.80E
+  F) SFC  G) 036FT AGL&lt;h2 style="page-break-after: always;"&gt; &lt;/h2&gt;&lt;b&gt;A0401/20   &lt;/b&gt;
+  DLY BTN 0200-1600
+  OBST CRAWLER CRANE OPR IN YAS ISLAND WI RADIUS 56M AT PSN
+  242742.38N 0543602.65E
+  F) SFC  G) 338FT AGL
+&lt;b&gt;A0395/20   &lt;/b&gt;
+  H24
+  &lt;b&gt;TWY B&lt;/b&gt; BTN &lt;b&gt;TWY B4&lt;/b&gt; AND &lt;b&gt;TWY B7&lt;/b&gt; &lt;b&gt;CLSD&lt;/b&gt; DUE &lt;b&gt;WIP&lt;/b&gt;.
+&lt;b&gt;A0408/20   &lt;/b&gt;
+  DLY BTN 0130-0300 AND 1430-1530
+  IN ORDER TO MNTN ATC FAMILIARITY WITH THE NEW AIRFIELD LGT SYSTEM,
+  ATC WILL UTILISE THE SYSTEM IN THE SOUTH AIRFIELD DURING THESE
+  TIMES IN &lt;b&gt;CAT&lt;/b&gt; I COND. ATC WILL CONT TO ISSUE STANDARD &lt;b&gt;TWY&lt;/b&gt; ROUTINGS
+  BY RTF, AND WILL SUPPLEMENT THESE BY PROVIDING GREEN CL LIGHT
+  ROUTINGS. INSTRUCTIONS ISSUED BY RTF TAKE PRECEDENCE, AND
+  THEREFORE SHOULD THERE BE ANY DOUBT, OR IF IT IS BELIEVED THERE IS
+  A DISCREPANCY BTN RTF INSTRUCTIONS AND GND LGT ROUTINGS, ACFT
+  SHALL CTC ATC AT THE EARLIEST OPPORTUNITY AND, IF NECCESSARY, HOLD
+  PSN WHEN SAFE TO DO SO.
+&lt;b&gt;A0340/20   &lt;/b&gt;
+  CNL UAE SUP 07/2019
+&lt;b&gt;A0314/20   &lt;/b&gt;
+  DLY BTN 0200-1800
+  OBST CRANE ELEV 20M ERECTED AT PSN 242759.50N 0543755.10E.
+  F) SFC  G) 065FT AGL
+&lt;b&gt;A0284/20   &lt;/b&gt;
+  DLY BTN 0200-1800
+  OBST CRANE ERECTED AT PSN 242715.90N 0543658.18E.
+  F) SFC  G) 167FT AMSL
+&lt;b&gt;A0276/20   &lt;/b&gt;
+  RAPID EXIT &lt;b&gt;TWY D5&lt;/b&gt; OPR
+  REF UAE AIP SUP 09/2019
+&lt;b&gt;A0277/20   &lt;/b&gt;
+  &lt;b&gt;TWY D3&lt;/b&gt; OPR. REF UAE AIP SUP 09/2019
+&lt;b&gt;A0271/20   &lt;/b&gt;
+  DLY BTN 0200-1800
+  OBST CRANE ERECTED AT PSN 242718.01N 0543659.38E.
+  F) SFC  G) 169FT AMSL
+
+&lt;b&gt;===================================
+DESTINATION AIRPORT - DETAILED INFO
+===================================&lt;/b&gt;
+
+&lt;b&gt;OMDB/DXB     DUBAI INTL
+-----------------------&lt;/b&gt;
+
++++++++++++++++++++++++++++++ AIRPORT ++++++++++++++++++++++++++++++
+
+&lt;b&gt;A0476/20   &lt;/b&gt;
+  H24
+  SECN OF TXL P BTN ACFT STANDS E34 AND E38 &lt;b&gt;CLSD&lt;/b&gt;.
+&lt;b&gt;A0580/20   &lt;/b&gt;
+  H24
+  &lt;b&gt;TWY Z8&lt;/b&gt; AND &lt;b&gt;TWY Z9&lt;/b&gt; &lt;b&gt;NOT AVBL&lt;/b&gt;.
+&lt;b&gt;A0475/20   &lt;/b&gt;
+  H24
+  SECN OF &lt;b&gt;TWY M&lt;/b&gt; WEST OF &lt;b&gt;TWY&lt;/b&gt; M1B &lt;b&gt;CLSD&lt;/b&gt;.
+  &lt;b&gt;TWY&lt;/b&gt; M1A &lt;b&gt;CLSD&lt;/b&gt;&lt;h2 style="page-break-after: always;"&gt; &lt;/h2&gt;&lt;b&gt;A0469/20   &lt;/b&gt;
+  H24
+  OBST CRANE ELEV 338M ERECTED AT VCY OF PSN 251233.9N 0552037.8E
+  OMDB ARP BRG 201 DEG MAG DIST 5230M.
+  CRANE LGT AT NGT.
+  F) SFC  G) 1109FT AMSL
+&lt;b&gt;A0127/20   &lt;/b&gt;
+  H24
+  SECN OF &lt;b&gt;TWY K&lt;/b&gt; BTN &lt;b&gt;TWY K5&lt;/b&gt; AND &lt;b&gt;TWY K7&lt;/b&gt; &lt;b&gt;CLSD&lt;/b&gt;.
+  EAST LINK OF &lt;b&gt;TWY K6&lt;/b&gt; &lt;b&gt;CLSD&lt;/b&gt;. &lt;b&gt;TWY Z10&lt;/b&gt; &lt;b&gt;CLSD&lt;/b&gt;.
+  SECN OF TXL W BTN &lt;b&gt;TWY K&lt;/b&gt; AND TXL Z &lt;b&gt;CLSD&lt;/b&gt;.
+  PILOTS TO EXER CTN AT &lt;b&gt;TWY&lt;/b&gt; K8-J2 INT.
+  REF UAE AIP SUP 33/2019 AREA C27 + C28
+&lt;b&gt;A0264/20   &lt;/b&gt;
+  DLY BTN 0300-0700
+  PILOTS TO BE ADVISED OF FLOCKS OF GULLS TRAVELLING FM NORTH TO
+  SOUTH AND VICE VERSA. ANY BIRDSTRIKE TO BE REPORTED TO ATC.
+  F) 500FT AGL  G) 1500FT AGL
+&lt;b&gt;A0171/20   &lt;/b&gt;
+  H24
+  OBST CRANE ELEV 207M ERECTED AT VCY OF PSN 251043.69N 0551835.79E
+  ARP BRG 212 DEG MAG DIST 9.93KM.
+  CRANE LGT AT NGT.
+  F) SFC  G) 679FT AMSL
+&lt;b&gt;A0149/20   &lt;/b&gt;
+  H24
+  OBST CRANES ELEV 306M ERECTED AT VCY OF PSN 251225.83N 0552032.74E
+  ARP BRG 202 DEG MAG DIST 5.5KM
+  CRANE LIT AT NGT.
+  F) SFC  G) 1004FT AMSL
+&lt;b&gt;A2848/19   &lt;/b&gt;
+  H24
+  OBST CRANE ELEV 87M ERECTED AT VCY OF PSN 251739N 0551804E ARP BRG
+  304 DEG MAG DIST 7.8KM.
+  CRANE LGT AT NGT.
+  F) SFC  G) 286FT AMSL
+&lt;b&gt;A2797/19   &lt;/b&gt;
+  H24
+  OBST CRANE ELEV 88M ERECTED AT VCY OF PSN 251505.28N 0552024.29E
+  ARP BRG 266 DEG MAG DIST 2.5KM. CRANE LGT AT NGT
+  F) SFC  G) 289FT AMSL
+
+++++++++++++++++++++++++++++++ RUNWAY ++++++++++++++++++++++++++++++
+
+&lt;b&gt;A0531/20   &lt;/b&gt;
+  EV MON AND TUE BTN 1200-1300
+  &lt;b&gt;RWY 12L/30R&lt;/b&gt; AND &lt;b&gt;RWY 12R/30L&lt;/b&gt; &lt;b&gt;NOT AVBL&lt;/b&gt;. FLT CLBR INPR
+
++++++++++++++++++++++++++++++++ SID ++++++++++++++++++++++++++++++++
+
+&lt;b&gt;A0275/20   &lt;/b&gt;
+  SID ITOTU 1F &lt;b&gt;RWY&lt;/b&gt; 30L/R &lt;b&gt;WITHDRAWN&lt;/b&gt;
+  REF UAE AIP CHART OMDB &lt;b&gt;AD&lt;/b&gt; 2-42.
+
++++++++++++++++++++++++ APPROACH PROCEDURES ++++++++++++++++++++++++
+
+&lt;b&gt;A0154/20   &lt;/b&gt;
+  DLY BTN 0300-1500
+  DUE TO CRANE ACTIVITIES IN THE VCY OF OMDB &lt;b&gt;AD&lt;/b&gt;.
+  &lt;b&gt;GP&lt;/b&gt; INOP OCA/H &lt;b&gt;RWY 12L&lt;/b&gt; TO READ AS 540(529) REF CHART OMDB &lt;b&gt;AD&lt;/b&gt; 2-66.&lt;h2 style="page-break-after: always;"&gt; &lt;/h2&gt;&lt;b&gt;================================
+DESTINATION ALTERNATE AIRPORT(S)
+================================&lt;/b&gt;
+
+&lt;b&gt;OTHH/DOH     HAMAD INTL
+-----------------------&lt;/b&gt;
+
++++++++++++++++++++++++++++++ AIRPORT ++++++++++++++++++++++++++++++
+
+&lt;b&gt;G0247/20   &lt;/b&gt;
+  MOBILE CRANE WITH MAX HEIGHT OF 37M AGL OPERATING WI THE AREA
+  BOUNDED BY FLW COORDS:
+  251633.82N 0513609.79E  -  251631.53N 0513603.61E  -
+  251625.73N 0513606.16E  -  251626.32N 0513607.78E  -
+  251624.11N 0513608.75E  -  251625.79N 0513613.37E  -
+  251633.82N 0513609.79E.
+&lt;b&gt;G0245/20   &lt;/b&gt;
+  PRESENCE OF EQUIPMENT WITH MAX HEIGHT OF 42M AGL OPERATING WI THE
+  AREA BOUNDED BY FLW COORDS:
+  251727.04N 0513616.86E - 251725.83N 0513617.39E -
+  251725.23N 0513615.74E - 251726.43N 0513615.20E -
+  251727.04N 0513616.86E
+&lt;b&gt;G0248/20   &lt;/b&gt;
+  MOBILE CRANE WITH MAX HEIGHT OF 22M AGL OPERATING WI AN AREA
+  BOUNDED BY THE FLW COORDINATES:
+  AREA 1
+  251719.93N 0513550.34E - 251722.97N 0513553.14E -
+  251721.04N 0513555.65E - 251718.00N 0513552.84E -
+  251719.93N 0513550.34E.
+  AREA 2
+  25168.88N 0513622.83E - 25167.72N 0513625.82E -
+  25168.15N 0513626.02E - 25166.62N 0513629.96E -
+  25164.25N 0513628.85E - 25166.94N 0513621.92E -
+  25168.88N 0513622.83E.
+  AREA 3
+  25152.88N 0513648.69E - 25151.44N 0513649.06E -
+  25151.12N 0513647.58E - 25152.55N 0513647.22E -
+  25152.88N 0513648.69E.
+  AREA 4
+  251627.96N 0513608.96E - 251629.06N 0513612.28E -
+  251626.28N 0513613.49E - 251625.08N 0513610.17E -
+  251627.96N 0513608.96E.
+&lt;b&gt;G0227/20   &lt;/b&gt;
+  08 0600-0800, 15 1100-1800, 22 0200-0500, 24 29 1200-1500
+  REMOTELY PILOTED ACFT SYSTEM (RPAS) ACTIVITY WILL TAKE PLACE
+  WITHIN AN AREA BOUNDED BY FLW COORDS: (LUSAIL CITY)
+  252430.4378N 0513029.5162E - 252448.3950N 0513136.6036E -
+  252300.4224N 0513216.5810E - 252239.8611N 0513109.4344E -
+  252430.4378N 0513029.5162E
+  F) SFC  G) 330FT AGL
+&lt;b&gt;G0220/20   &lt;/b&gt;
+  PRESENCE OF TOWER CRANE AND MOBILE CRANE WITH MAX HEIGHT OF 42.08M
+  AGL OPERATING WI THE AREA BOUNDED BY FLW COORDS:
+  251658.74N 0513557.28E - 251657.54N 0513555.72E  -
+  251655.59N 0513556.58E - 251656.30N 0513558.54E  -
+  251658.24N 0513558.44E - 251658.74N 0513557.28E.&lt;h2 style="page-break-after: always;"&gt; &lt;/h2&gt;&lt;b&gt;G0225/20   &lt;/b&gt;
+  PRESENCE OF EQUIPMENT WITH MAX HEIGHT OF 42M AGL OPERATING WI THE
+  AREA BOUNDED BY FLW COORDS:
+  251704.71N 0513615.00E - 251703.48N 0513615.54E -
+  251701.13N 0513609.05E - 251702.36N 0513608.51E -
+  251704.71N 0513615.00E
+&lt;b&gt;G0208/20   &lt;/b&gt;
+  PRESENCE OF EQUIPMENT WITH MAX HEIGHT OF 22M AGL OPERATING WI THE
+  AREA BOUNDED BY FLW COORDS:
+  251700.59N 0513638.64E - 251701.83N 0513642.04E -
+  251645.22N 0513649.36E - 251643.98N 0513645.96E -
+  251700.59N 0513638.64E.
+&lt;b&gt;G0209/20   &lt;/b&gt;
+  PORTION OF &lt;b&gt;TWY C&lt;/b&gt; (BTN &lt;b&gt;TWY A8&lt;/b&gt; AND ACFT STAND F11) &lt;b&gt;CLOSED&lt;/b&gt; DUE &lt;b&gt;WIP&lt;/b&gt;.
+&lt;b&gt;G0210/20   &lt;/b&gt;
+  PORTION OF &lt;b&gt;TWY A9&lt;/b&gt; (BTN &lt;b&gt;TWY B&lt;/b&gt; AND &lt;b&gt;TWY&lt;/b&gt; C) &lt;b&gt;CLOSED&lt;/b&gt; DUE &lt;b&gt;WIP&lt;/b&gt;.
+&lt;b&gt;G0211/20   &lt;/b&gt;
+  PRESENCE OF EQUIPMENT WITH MAX HEIGHT OF 18M AGL OPERATING WI THE
+  AREA BOUNDED BY FLW COORDS:
+  251543.0290N 0513716.7545E - 251533.2698N 0513721.0536E -
+  251529.7637N 0513718.2849E - 251528.5570N 0513718.8162E -
+  251528.3154N 0513716.7545E - 251529.5222N 0513717.6218E -
+  251527.5328N 0513712.1584E - 251528.4378N 0513711.7602E -
+  251529.7749N 0513715.4315E - 251532.6099N 0513714.1830E -
+  251534.6882N 0513715.2746E - 251535.1198N 0513716.4651E -
+  251541.1811N 0513713.7657E - 251539.9668N 0513710.4621E -
+  251540.6307N 0513710.1698E - 251543.0290N 0513716.7545E
+&lt;b&gt;G0212/20   &lt;/b&gt;
+  PORTIONS OF FLW &lt;b&gt;TWY&lt;/b&gt; &lt;b&gt;CLOSED&lt;/b&gt; DUE &lt;b&gt;WIP&lt;/b&gt;.
+  1.TWY C BETWEEN &lt;b&gt;TWY A1&lt;/b&gt; AND &lt;b&gt;TWY E&lt;/b&gt;
+  2.TWY A2 BETWEEN &lt;b&gt;TWY B&lt;/b&gt; AND &lt;b&gt;TWY C&lt;/b&gt;
+  3.TWY V BETWEEN &lt;b&gt;TWY C&lt;/b&gt; AND ACFT STAND V5
+&lt;b&gt;G0213/20   &lt;/b&gt;
+  ACFT STAND V5 &lt;b&gt;CLSD&lt;/b&gt;.
+&lt;b&gt;G0191/20   &lt;/b&gt;
+  0400-0500 1500-1600
+  REMOTELY PILOTED ACFT SYSTEM (RPAS) WILL TAKE PLACE WI AN AREA
+  BOUNDED BY THE FLW COORDS (KATARA TOWER LUSAIL):
+  252328.81N 0513152.80E - 252327.76N 0513157.82E -
+  252314.95N 0513154.45E - 252316.81N 0513147.73E -
+  252325.95N 0513149.66E - 252328.81N 0513152.80E
+  F) SFC  G) 665FT AGL
+&lt;b&gt;G0199/20   &lt;/b&gt;
+  PORTION OF &lt;b&gt;TWY N&lt;/b&gt; (BTN &lt;b&gt;TWY S&lt;/b&gt; AND ACFT STAND E10R) &lt;b&gt;CLOSED&lt;/b&gt; DUE &lt;b&gt;WIP&lt;/b&gt;.
+  REMARK: &lt;b&gt;TWY S&lt;/b&gt; AND STAND E10R &lt;b&gt;AVAILABLE&lt;/b&gt;.
+&lt;b&gt;G0200/20   &lt;/b&gt;
+  ACFT STAND D2, D4, E2, E4, E6, E6L, E6R, E8, E8L AND E8R &lt;b&gt;CLSD&lt;/b&gt; DUE
+  &lt;b&gt;WIP&lt;/b&gt;.
+&lt;b&gt;G0194/20   &lt;/b&gt;
+  WED THU 0700-1100 1800-1930, SAT 1800-1930
+  CRANE ACTIVITY WITH MAX HEIGHT OF 20M AGL OPERATING WI AN AREA
+  BOUNDED BY THE FLW COORD:
+  251641.08513N 0513538.99532E - 251631.35282N 0513543.01840E -
+  251623.93970N 0513521.32799E - 251633.67185N 0513517.30449E -
+  251641.08513N 0513538.99532E.&lt;h2 style="page-break-after: always;"&gt; &lt;/h2&gt;&lt;b&gt;G0159/20   &lt;/b&gt;
+  CRANE WITH MAX HEIGHT OF 25M AGL OPERATING WI THE WORK AREA
+  BOUNDED BY THE FLW COORDS:
+  251541.17N 0513713.79E - 251535.11N 0513716.46E -
+  251534.68N 0513715.26E - 251532.60N 0513714.17E -
+  251529.77N 0513715.42E - 251528.43N 0513711.75E -
+  251532.76N 0513709.85E - 251535.22N 0513709.83E -
+  251536.07N 0513712.17E - 251539.96N 0513710.45E -
+  251541.17N 0513713.79E.
+&lt;b&gt;G0138/20   &lt;/b&gt;
+  CRANE WITH MAX HEIGHT OF 45M AGL OPERATING WI THE WORK AREA
+  BOUNDED BY THE FLW COORDS:
+  251453.4999N 0513608.5400E - 251633.9599N 0513521.5100E -
+  251641.7999N 0513514.2800E - 251632.8899N 0513435.7100E -
+  251614.0999N 0513444.0400E - 251435.8499N 0513527.6700E -
+  251453.4999N 0513608.5400E.
+&lt;b&gt;G0127/20   &lt;/b&gt;
+  CRANE (LIGHTED) WITH MAX HEIGHT OF 35M AGL OPERATING WI THE WORK
+  AREA BOUNDED BY THE FLW COORDS:
+  251254.3060N 0513510.7628E - 251255.3284N 0513608.9640E -
+  251234.7220N 0513608.7912E - 251234.7688N 0513527.1176E -
+  251254.3060N 0513510.7628E.
+&lt;b&gt;G0125/20   &lt;/b&gt;
+  CRANE (LIGHTED) WITH MAX HEIGHT OF 26M AGL OPERATING WI THE WORK
+  AREA BOUNDED BY THE FLW COORDS:
+  251259.1804N 0513513.9560E - 251300.6204N 0513559.7336E -
+  251301.2108N 0513611.3616E - 251256.7576N 0513535.1672E -
+  251259.1804N 0513513.9560E.
+&lt;b&gt;G0119/20   &lt;/b&gt;
+  REF QATAR AIRAC AIP SUP 01/20 WEF 02 JAN 2020, AMEND THE
+  FOLLOWING.
+  CRANE ID A-29, HEIGHT TO READ AS 55M AMSL AND END DATE OF
+  OPERATION TO READ AS 30 JUN 2020.
+  CRANE ID A-30, HEIGHT TO READ AS 55M AMSL AND END DATE OF
+  OPERATION TO READ AS 30 JUN 2020.
+&lt;b&gt;G0087/20   &lt;/b&gt;
+  UNMARKED JET BLAST DEFLECTOR (LIGHTED AT NIGHT) INSTALLED NORTH OF
+  STAND 519.
+  PILOT TO EXER CTN.
+&lt;b&gt;G1498/19   &lt;/b&gt;
+  CRANE (LIGHTED) WITH MAX HEIGHT OF 48M AMSL OPERATING WI AN AREA
+  BOUNDED BY FOLLOWING COORDINATES:
+  251640.1059N 0513417.6546E - 251641.6754N 0513420.0882E -
+  251621.6847N E 0513428.6272 - 251620.5579N 0513426.1181E -
+  251640.1059N 0513417.6546E
+  PILOT TO EXER CTN.
+&lt;b&gt;G1497/19   &lt;/b&gt;
+  CRANE WITH MAX HEIGHT OF 26M AGL OPERATING WI AN AREA BOUNDED BY
+  THE FLW COORDINATES:
+  AREA 1
+  251436.0631N 0513536.7128E - 251437.1772N 0513538.4147E -
+  251438.3471N 0513538.0518E - 251439.0482N 0513539.9115E -
+  251435.1789N 0513538.5902E - 251435.9742N 0513539.2138E -
+  251436.0631N 0513536.7128E.
+  AREA 2
+  251452.2400N 0513608.7100E - 251451.1300N 0513609.3300E -
+  251448.6700N 0513604.5800E - 251450.3800N 0513603.8500E -
+  251452.2400N 0513608.7100E.&lt;h2 style="page-break-after: always;"&gt; &lt;/h2&gt;++++++++++++++++++++++++++++++ RUNWAY ++++++++++++++++++++++++++++++
+
+&lt;b&gt;G0031/20   &lt;/b&gt;
+  EVERY SAT SUN TUE 0700-1100
+  &lt;b&gt;RWY 16L/34R&lt;/b&gt; &lt;b&gt;CLSD&lt;/b&gt; DUE MAINT.
+&lt;b&gt;G0032/20   &lt;/b&gt;
+  THU 0700-1100
+  &lt;b&gt;RWY 16R/34L&lt;/b&gt; &lt;b&gt;CLSD&lt;/b&gt; DUE MAINT.
+&lt;b&gt;G1486/19   &lt;/b&gt;
+  EVERY SUN TUE 1800-1930
+  &lt;b&gt;RWY 16L/34R&lt;/b&gt; &lt;b&gt;CLSD&lt;/b&gt; DUE MAINT.
+&lt;b&gt;G1487/19   &lt;/b&gt;
+  EVERY THU SAT 1800-1930
+  &lt;b&gt;RWY 16R/34L&lt;/b&gt; &lt;b&gt;CLSD&lt;/b&gt; DUE MAINT.
+&lt;h2 style="page-break-after: always;"&gt; &lt;/h2&gt;&lt;!--BKMK///Company NOTAM///0--&gt;&lt;b&gt;[ Company NOTAM ]
+--------------------------------------------------------------------&lt;/b&gt;
+&lt;b&gt;==========
+CREW ALERT
+==========&lt;/b&gt;
+
+&lt;b&gt;SB007/14   &lt;/b&gt;
+  SUBJECT: AUTO COST INDEXES
+  WHEN PLANNING A COST INDEX, 2 OPTIONS ARE AVAILABLE. PILOTS MAY
+  EITHER SELECT A SPECIFIC COST INDEX NUMBER FROM THE LIST, OR THEY
+  MAY SELECT "AUTO". WHEN PLANNING AN "AUTO" COST INDEX, THE SYSTEM
+  WILL REFERENCE THE "TIME ENROUTE" OPTION AND ATTEMPT TO CHOOSE A
+  COST INDEX WHICH CLOSELY MATCHES THIS VALUE. NOTE THAT THE "TIME
+  ENROUTE" OPTION IS MEANT AS A GATE TO GATE TIME (AS INDICATED ON
+  AN AIRLINE'S FLIGHT SCHEDULE, FOR EXAMPLE). IF A "TIME ENROUTE" OF
+  2:30 IS SELECTED, THE SYSTEM WILL SUBTRACT THE TAXI TIMES FROM
+  THIS VALUE TO DETERMINE THE SCHEDULED AIR TIME. IT WILL THEN
+  DETERMINE AND USE THE COST INDEX WHICH MATCHES THIS AIR TIME.
+
+&lt;b&gt;SB003/13   &lt;/b&gt;
+  SUBJECT: FLIGHT RELEASE UNITS
+  ALL FLIGHT CREW: PLEASE PAY SPECIAL ATTENTION TO THE UNITS
+  SELECTION WHEN GENERATING A FLIGHT PLAN. FAILURE TO IDENTIFY THE
+  CORRECT UNITS WHEN REFUELING PRIOR TO FLIGHT CAN RESULT IN
+  DEPARTING WITH INSUFFICIENT FUEL AND/OR AN ERRONEOUS PAYLOAD.
+
+&lt;b&gt;=============
+CREW BULLETIN
+=============&lt;/b&gt;
+
+NIL
+
+
+==================== END OF LIDO-NOTAM-BULLETIN ====================&lt;h2 style="page-break-after: always;"&gt; &lt;/h2&gt;Route
+&lt;a class="ofpmaplink" href="http://www.simbrief.com/ofp/uads/OMAAOMDB_1584226092_ROUTE.gif" target="_blank"&gt;&lt;img src="http://www.simbrief.com/ofp/uads/OMAAOMDB_1584226092_ROUTE.gif" alt="Image no longer available, please regenerate the flightplan." width="600px"&gt;&lt;/a&gt;&lt;h2 style="page-break-after: always;"&gt; &lt;/h2&gt;UAD 1 of 3
+&lt;a class="ofpmaplink" href="http://www.simbrief.com/ofp/uads/OMAAOMDB_1584226092_WINDS14000.gif" target="_blank"&gt;&lt;img src="http://www.simbrief.com/ofp/uads/OMAAOMDB_1584226092_WINDS14000.gif" alt="Image no longer available, please regenerate the flightplan." width="600px"&gt;&lt;/a&gt;&lt;h2 style="page-break-after: always;"&gt; &lt;/h2&gt;UAD 2 of 3
+&lt;a class="ofpmaplink" href="http://www.simbrief.com/ofp/uads/OMAAOMDB_1584226092_WINDS18000.gif" target="_blank"&gt;&lt;img src="http://www.simbrief.com/ofp/uads/OMAAOMDB_1584226092_WINDS18000.gif" alt="Image no longer available, please regenerate the flightplan." width="600px"&gt;&lt;/a&gt;&lt;h2 style="page-break-after: always;"&gt; &lt;/h2&gt;UAD 3 of 3
+&lt;a class="ofpmaplink" href="http://www.simbrief.com/ofp/uads/OMAAOMDB_1584226092_WINDS24000.gif" target="_blank"&gt;&lt;img src="http://www.simbrief.com/ofp/uads/OMAAOMDB_1584226092_WINDS24000.gif" alt="Image no longer available, please regenerate the flightplan." width="600px"&gt;&lt;/a&gt;&lt;h2 style="page-break-after: always;"&gt; &lt;/h2&gt;Vertical profile
+&lt;a class="ofpmaplink" href="http://www.simbrief.com/ofp/uads/OMAAOMDB_1584226092_PROFILE.gif" target="_blank"&gt;&lt;img src="http://www.simbrief.com/ofp/uads/OMAAOMDB_1584226092_PROFILE.gif" alt="Image no longer available, please regenerate the flightplan." width="600px"&gt;&lt;/a&gt;&lt;/pre&gt;&lt;/div&gt;</plan_html>
+  </text>
+  <tracks/>
+  <database_updates>
+    <metar_taf>1584225901</metar_taf>
+    <winds>1584208800</winds>
+    <sigwx>1584225181</sigwx>
+    <sigmet>1584226028</sigmet>
+    <notams>1584225663</notams>
+    <tracks>1584216960</tracks>
+  </database_updates>
+  <files>
+    <directory>http://www.simbrief.com/ofp/flightplans/</directory>
+    <pdf>
+      <name>PDF Document</name>
+      <link>OMAAOMDB_PDF_1584226092.pdf</link>
+    </pdf>
+    <file>
+      <name>Aerosoft Airbus</name>
+      <link>OMAAOMDB_ABX_1584226092.flp</link>
+    </file>
+    <file>
+      <name>Aerosoft Airbus EFB</name>
+      <link>OMAAOMDB_PDF_1584226092.pdf--A3E</link>
+    </file>
+    <file>
+      <name>Aerosoft CRJ</name>
+      <link>OMAAOMDB_CRX_1584226092.flp</link>
+    </file>
+    <file>
+      <name>Aerowinx PSX 747</name>
+      <link>OMAAOMDB_PSX_1584226092.route</link>
+    </file>
+    <file>
+      <name>AivlaSoft EFB</name>
+      <link>OMAAOMDB_EFB_1584226092.efbr</link>
+    </file>
+    <file>
+      <name>AivlaSoft EFB v2</name>
+      <link>OMAAOMDB_EF2_1584226092.efbr</link>
+    </file>
+    <file>
+      <name>Black Box Airbus</name>
+      <link>OMAAOMDB_BBS_1584226092.pln</link>
+    </file>
+    <file>
+      <name>Captain Sim (PLN)</name>
+      <link>OMAAOMDB_CSF_1584226092.pln</link>
+    </file>
+    <file>
+      <name>FeelThere</name>
+      <link>OMAAOMDB_FTR_1584226092.fpl</link>
+    </file>
+    <file>
+      <name>Flight1 GTN</name>
+      <link>OMAAOMDB_GTN_1584226092.gfp</link>
+    </file>
+    <file>
+      <name>FlightFactor 757-777</name>
+      <link>OMAAOMDB_VMX_1584226092.flp</link>
+    </file>
+    <file>
+      <name>FlightFactor A320</name>
+      <link>OMAAOMDB_FFA_1584226092.in</link>
+    </file>
+    <file>
+      <name>FS Commander</name>
+      <link>OMAAOMDB_FSC_1584226092.pln</link>
+    </file>
+    <file>
+      <name>FS2004</name>
+      <link>OMAAOMDB_FS9_1584226092.pln</link>
+    </file>
+    <file>
+      <name>FSLabs A320</name>
+      <link>OMAAOMDB_FSL_1584226092.txt</link>
+    </file>
+    <file>
+      <name>FSX/P3D</name>
+      <link>OMAAOMDB_FSX_1584226092.pln</link>
+    </file>
+    <file>
+      <name>FSX/P3D (No SID/STAR)</name>
+      <link>OMAAOMDB_FSN_1584226092.pln</link>
+    </file>
+    <file>
+      <name>Google Earth KML</name>
+      <link>OMAAOMDB_KML_1584226092.kml</link>
+    </file>
+    <file>
+      <name>iFly 737NG</name>
+      <link>OMAAOMDB_IFY_1584226092.FLTPLAN</link>
+    </file>
+    <file>
+      <name>iFly 747 V2</name>
+      <link>OMAAOMDB_I74_1584226092.route</link>
+    </file>
+    <file>
+      <name>IVAO/IVAP</name>
+      <link>OMAAOMDB_IVO_1584226092.fpl</link>
+    </file>
+    <file>
+      <name>IVAO/IVAP (Default.fpl)</name>
+      <link>OMAAOMDB_XVD_1584226092.fpl</link>
+    </file>
+    <file>
+      <name>IVAO/XIVAP</name>
+      <link>OMAAOMDB_XVP_1584226092.fpl</link>
+    </file>
+    <file>
+      <name>IXEG 737 Classic</name>
+      <link>OMAAOMDB_IXG_1584226092.fpl</link>
+    </file>
+    <file>
+      <name>JARDesign Airbus</name>
+      <link>OMAAOMDB_JAR_1584226092.txt</link>
+    </file>
+    <file>
+      <name>Leonardo MD80</name>
+      <link>OMAAOMDB_MDR_1584226092.mdr</link>
+    </file>
+    <file>
+      <name>Leonardo MD80 (ACARS)</name>
+      <link>OMAAOMDB_MDA_1584226092.txt</link>
+    </file>
+    <file>
+      <name>Level-D 767</name>
+      <link>OMAAOMDB_LVD_1584226092.rte</link>
+    </file>
+    <file>
+      <name>Majestic Q400</name>
+      <link>OMAAOMDB_MJC_1584226092.fpr</link>
+    </file>
+    <file>
+      <name>PMDG Flightplan</name>
+      <link>OMAAOMDB_PMR_1584226092.rte</link>
+    </file>
+    <file>
+      <name>PMDG Wind Uplink</name>
+      <link>OMAAOMDB_PMW_1584226092.wx</link>
+    </file>
+    <file>
+      <name>Project Magenta</name>
+      <link>OMAAOMDB_MGA_1584226092.sbp</link>
+    </file>
+    <file>
+      <name>ProSim 737</name>
+      <link>OMAAOMDB_PSM_1584226092.xml</link>
+    </file>
+    <file>
+      <name>QualityWings</name>
+      <link>OMAAOMDB_QTY_1584226092.RTE</link>
+    </file>
+    <file>
+      <name>Sim-Avionics</name>
+      <link>xml/OMAAOMDB_XML_1584226092.xml--sbr</link>
+    </file>
+    <file>
+      <name>Squawkbox</name>
+      <link>OMAAOMDB_SFP_1584226092.sfp</link>
+    </file>
+    <file>
+      <name>TFDi Design 717</name>
+      <link>OMAAOMDB_TFD_1584226092.xml</link>
+    </file>
+    <file>
+      <name>UFMC - Universal FMC</name>
+      <link>OMAAOMDB_UFC_1584226092.ufmc</link>
+    </file>
+    <file>
+      <name>vasFMC</name>
+      <link>OMAAOMDB_VAS_1584226092.fmc</link>
+    </file>
+    <file>
+      <name>vPilot</name>
+      <link>OMAAOMDB_VFP_1584226092.vfp</link>
+    </file>
+    <file>
+      <name>Wilco Airbus Evo</name>
+      <link>OMAAOMDB_WAE_1584226092.rte</link>
+    </file>
+    <file>
+      <name>X-FMC</name>
+      <link>OMAAOMDB_XFM_1584226092.FPL</link>
+    </file>
+    <file>
+      <name>X-Plane 11</name>
+      <link>OMAAOMDB_XPE_1584226092.fms</link>
+    </file>
+    <file>
+      <name>X-Plane 9/10</name>
+      <link>OMAAOMDB_XP9_1584226092.fms</link>
+    </file>
+    <file>
+      <name>phpVMS ACARS</name>
+      <link>MKJPMWCR_VMS_1585313544.xml</link>
+    </file>
+  </files>
+  <fms_downloads>
+    <directory>http://www.simbrief.com/ofp/flightplans/</directory>
+    <pdf>
+      <name>PDF Document</name>
+      <link>OMAAOMDB_PDF_1584226092.pdf</link>
+    </pdf>
+    <abx>
+      <name>Aerosoft Airbus</name>
+      <link>OMAAOMDB_ABX_1584226092.flp</link>
+    </abx>
+    <a3e>
+      <name>Aerosoft Airbus EFB</name>
+      <link>OMAAOMDB_PDF_1584226092.pdf--A3E</link>
+    </a3e>
+    <crx>
+      <name>Aerosoft CRJ</name>
+      <link>OMAAOMDB_CRX_1584226092.flp</link>
+    </crx>
+    <psx>
+      <name>Aerowinx PSX 747</name>
+      <link>OMAAOMDB_PSX_1584226092.route</link>
+    </psx>
+    <efb>
+      <name>AivlaSoft EFB</name>
+      <link>OMAAOMDB_EFB_1584226092.efbr</link>
+    </efb>
+    <ef2>
+      <name>AivlaSoft EFB v2</name>
+      <link>OMAAOMDB_EF2_1584226092.efbr</link>
+    </ef2>
+    <bbs>
+      <name>Black Box Airbus</name>
+      <link>OMAAOMDB_BBS_1584226092.pln</link>
+    </bbs>
+    <csf>
+      <name>Captain Sim (PLN)</name>
+      <link>OMAAOMDB_CSF_1584226092.pln</link>
+    </csf>
+    <ftr>
+      <name>FeelThere</name>
+      <link>OMAAOMDB_FTR_1584226092.fpl</link>
+    </ftr>
+    <gtn>
+      <name>Flight1 GTN</name>
+      <link>OMAAOMDB_GTN_1584226092.gfp</link>
+    </gtn>
+    <vmx>
+      <name>FlightFactor 757-777</name>
+      <link>OMAAOMDB_VMX_1584226092.flp</link>
+    </vmx>
+    <ffa>
+      <name>FlightFactor A320</name>
+      <link>OMAAOMDB_FFA_1584226092.in</link>
+    </ffa>
+    <fsc>
+      <name>FS Commander</name>
+      <link>OMAAOMDB_FSC_1584226092.pln</link>
+    </fsc>
+    <fs9>
+      <name>FS2004</name>
+      <link>OMAAOMDB_FS9_1584226092.pln</link>
+    </fs9>
+    <fsl>
+      <name>FSLabs A320</name>
+      <link>OMAAOMDB_FSL_1584226092.txt</link>
+    </fsl>
+    <fsx>
+      <name>FSX/P3D</name>
+      <link>OMAAOMDB_FSX_1584226092.pln</link>
+    </fsx>
+    <fsn>
+      <name>FSX/P3D (No SID/STAR)</name>
+      <link>OMAAOMDB_FSN_1584226092.pln</link>
+    </fsn>
+    <kml>
+      <name>Google Earth KML</name>
+      <link>OMAAOMDB_KML_1584226092.kml</link>
+    </kml>
+    <ify>
+      <name>iFly 737NG</name>
+      <link>OMAAOMDB_IFY_1584226092.FLTPLAN</link>
+    </ify>
+    <i74>
+      <name>iFly 747 V2</name>
+      <link>OMAAOMDB_I74_1584226092.route</link>
+    </i74>
+    <ivo>
+      <name>IVAO/IVAP</name>
+      <link>OMAAOMDB_IVO_1584226092.fpl</link>
+    </ivo>
+    <xvd>
+      <name>IVAO/IVAP (Default.fpl)</name>
+      <link>OMAAOMDB_XVD_1584226092.fpl</link>
+    </xvd>
+    <xvp>
+      <name>IVAO/XIVAP</name>
+      <link>OMAAOMDB_XVP_1584226092.fpl</link>
+    </xvp>
+    <ixg>
+      <name>IXEG 737 Classic</name>
+      <link>OMAAOMDB_IXG_1584226092.fpl</link>
+    </ixg>
+    <jar>
+      <name>JARDesign Airbus</name>
+      <link>OMAAOMDB_JAR_1584226092.txt</link>
+    </jar>
+    <mdr>
+      <name>Leonardo MD80</name>
+      <link>OMAAOMDB_MDR_1584226092.mdr</link>
+    </mdr>
+    <mda>
+      <name>Leonardo MD80 (ACARS)</name>
+      <link>OMAAOMDB_MDA_1584226092.txt</link>
+    </mda>
+    <lvd>
+      <name>Level-D 767</name>
+      <link>OMAAOMDB_LVD_1584226092.rte</link>
+    </lvd>
+    <mjc>
+      <name>Majestic Q400</name>
+      <link>OMAAOMDB_MJC_1584226092.fpr</link>
+    </mjc>
+    <pmr>
+      <name>PMDG Flightplan</name>
+      <link>OMAAOMDB_PMR_1584226092.rte</link>
+    </pmr>
+    <pmw>
+      <name>PMDG Wind Uplink</name>
+      <link>OMAAOMDB_PMW_1584226092.wx</link>
+    </pmw>
+    <mga>
+      <name>Project Magenta</name>
+      <link>OMAAOMDB_MGA_1584226092.sbp</link>
+    </mga>
+    <psm>
+      <name>ProSim 737</name>
+      <link>OMAAOMDB_PSM_1584226092.xml</link>
+    </psm>
+    <qty>
+      <name>QualityWings</name>
+      <link>OMAAOMDB_QTY_1584226092.RTE</link>
+    </qty>
+    <sbr>
+      <name>Sim-Avionics</name>
+      <link>xml/OMAAOMDB_XML_1584226092.xml--sbr</link>
+    </sbr>
+    <sfp>
+      <name>Squawkbox</name>
+      <link>OMAAOMDB_SFP_1584226092.sfp</link>
+    </sfp>
+    <tfd>
+      <name>TFDi Design 717</name>
+      <link>OMAAOMDB_TFD_1584226092.xml</link>
+    </tfd>
+    <ufc>
+      <name>UFMC - Universal FMC</name>
+      <link>OMAAOMDB_UFC_1584226092.ufmc</link>
+    </ufc>
+    <vas>
+      <name>vasFMC</name>
+      <link>OMAAOMDB_VAS_1584226092.fmc</link>
+    </vas>
+    <vfp>
+      <name>vPilot</name>
+      <link>OMAAOMDB_VFP_1584226092.vfp</link>
+    </vfp>
+    <wae>
+      <name>Wilco Airbus Evo</name>
+      <link>OMAAOMDB_WAE_1584226092.rte</link>
+    </wae>
+    <xfm>
+      <name>X-FMC</name>
+      <link>OMAAOMDB_XFM_1584226092.FPL</link>
+    </xfm>
+    <xpe>
+      <name>X-Plane 11</name>
+      <link>OMAAOMDB_XPE_1584226092.fms</link>
+    </xpe>
+    <xp9>
+      <name>X-Plane 9/10</name>
+      <link>OMAAOMDB_XP9_1584226092.fms</link>
+    </xp9>
+    <vms>
+      <name>phpVMS ACARS</name>
+      <link>MKJPMWCR_VMS_1585313544.xml</link>
+    </vms>
+  </fms_downloads>
+  <images>
+    <directory>http://www.simbrief.com/ofp/uads/</directory>
+    <map>
+      <name>Route</name>
+      <link>OMAAOMDB_1584226092_ROUTE.gif</link>
+    </map>
+    <map>
+      <name>UAD 1 of 3</name>
+      <link>OMAAOMDB_1584226092_WINDS14000.gif</link>
+    </map>
+    <map>
+      <name>UAD 2 of 3</name>
+      <link>OMAAOMDB_1584226092_WINDS18000.gif</link>
+    </map>
+    <map>
+      <name>UAD 3 of 3</name>
+      <link>OMAAOMDB_1584226092_WINDS24000.gif</link>
+    </map>
+    <map>
+      <name>Vertical profile</name>
+      <link>OMAAOMDB_1584226092_PROFILE.gif</link>
+    </map>
+  </images>
+  <links>
+    <skyvector>http://skyvector.com/?ll=24.840821,55.01014&amp;chart=304&amp;zoom=2&amp;fpl= OMAA BOMUP LOVIM RESIG NODVI OBMUK LORID ORGUR PEBUS EMOPO LOTUK LAGTA LOVOL OMDB</skyvector>
+  </links>
+  <vatsim_prefile>&lt;Form method="get" action="https://cert.vatsim.net/fp/file.php" target="_blank"&gt;
+&lt;button type="submit"&gt;Pre-file on VATSIM&lt;/button&gt;
+&lt;input type="hidden" name="2" value="VMS112"&gt;
+&lt;input type="hidden" name="3" value="A320/L"&gt;
+&lt;input type="hidden" name="4" value="344"&gt;
+&lt;input type="hidden" name="5" value="OMAA"&gt;
+&lt;input type="hidden" name="6" value="1230"&gt;
+&lt;input type="hidden" name="7" value="16000"&gt;
+&lt;input type="hidden" name="8" value="BOMUP LOVIM RESIG NODVI OBMUK LORID ORGUR PEBUS EMOPO LOTUK LAGTA LOVOL"&gt;
+&lt;input type="hidden" name="9" value="OMDB"&gt;
+&lt;input type="hidden" name="10a" value="00"&gt;
+&lt;input type="hidden" name="10b" value="34"&gt;
+&lt;input type="hidden" name="11" value="PBN%2FA1B1C1D1O1S1+DOF%2F140101+REG%2FN320SB+OPR%2FVMS+PER%2FC+RMK%2FTCAS SIMBRIEF"&gt;
+&lt;input type="hidden" name="12a" value="02"&gt;
+&lt;input type="hidden" name="12b" value="38"&gt;
+&lt;input type="hidden" name="13" value="OTHH"&gt;
+&lt;input type="hidden" name="14" value="NABEEL SHAHZAD"&gt;
+&lt;input type="hidden" name="voice" value="/V/"&gt;
+&lt;/Form&gt;</vatsim_prefile>
+  <ivao_prefile>&lt;form action="https://fpl.ivao.aero/api/fp/load" method="POST" target="_blank"&gt;
+&lt;button type="submit"&gt;Pre-file on IVAO&lt;/button&gt;
+&lt;input type="hidden" name="CALLSIGN" value="VMS112"&gt;
+&lt;input type="hidden" name="RULES" value="I"&gt;
+&lt;input type="hidden" name="FLIGHTTYPE" value="S"&gt;
+&lt;input type="hidden" name="NUMBER" value="1"&gt;
+&lt;input type="hidden" name="ACTYPE" value="A320"&gt;
+&lt;input type="hidden" name="WAKECAT" value="M"&gt;
+&lt;input type="hidden" name="EQUIPMENT" value="SDE3FGHIRWY"&gt;
+&lt;input type="hidden" name="TRANSPONDER" value="LB1"&gt;
+&lt;input type="hidden" name="DEPICAO" value="OMAA"&gt;
+&lt;input type="hidden" name="DEPTIME" value="1230"&gt;
+&lt;input type="hidden" name="SPEEDTYPE" value="N"&gt;
+&lt;input type="hidden" name="SPEED" value="0344"&gt;
+&lt;input type="hidden" name="LEVELTYPE" value="F"&gt;
+&lt;input type="hidden" name="LEVEL" value="160"&gt;
+&lt;input type="hidden" name="ROUTE" value="DCT BOMUP DCT LOVIM DCT RESIG DCT NODVI DCT OBMUK DCT LORID DCT ORGUR DCT PEBUS DCT EMOPO DCT LOTUK DCT LAGTA DCT LOVOL DCT"&gt;
+&lt;input type="hidden" name="DESTICAO" value="OMDB"&gt;
+&lt;input type="hidden" name="EET" value="0034"&gt;
+&lt;input type="hidden" name="ALTICAO" value="OTHH"&gt;
+&lt;input type="hidden" name="ALTICAO2" value=""&gt;
+&lt;input type="hidden" name="OTHER" value="PBN/A1B1C1D1O1S1 DOF/140101 REG/N320SB OPR/VMS PER/C RMK/TCAS SIMBRIEF"&gt;
+&lt;input type="hidden" name="ENDURANCE" value="0238"&gt;
+&lt;input type="hidden" name="POB" value="167"&gt;
+&lt;/form&gt;</ivao_prefile>
+  <map_data>https://www.simbrief.com/ofp/flightplans/OMAAOMDB_MJS_1584226092.js</map_data>
+  <api_params>
+    <airline>VMS</airline>
+    <fltnum>112</fltnum>
+    <type>A320</type>
+    <orig>OMAA</orig>
+    <dest>OMDB</dest>
+    <date>1388534400</date>
+    <dephour>43200</dephour>
+    <depmin>1800</depmin>
+    <route>BOMUP LOVIM RESIG NODVI OBMUK LORID ORGUR PEBUS EMOPO LOTUK LAGTA LOVOL</route>
+    <stehour>7200</stehour>
+    <stemin>900</stemin>
+    <reg/>
+    <fin/>
+    <selcal/>
+    <pax>auto</pax>
+    <altn>OTHH</altn>
+    <fl/>
+    <cpt>NABEEL SHAHZAD</cpt>
+    <pid>120867</pid>
+    <fuelfactor>1</fuelfactor>
+    <manualzfw>auto</manualzfw>
+    <addedfuel>0</addedfuel>
+    <contpct>auto</contpct>
+    <resvrule>45</resvrule>
+    <taxiout>auto</taxiout>
+    <taxiin>auto</taxiin>
+    <cargo>auto</cargo>
+    <origrwy>auto</origrwy>
+    <destrwy>auto</destrwy>
+    <climb>auto</climb>
+    <descent>auto</descent>
+    <cruisemode>auto</cruisemode>
+    <cruisesub>AUTO</cruisesub>
+    <planformat>lido</planformat>
+    <pounds>1</pounds>
+    <navlog>1</navlog>
+    <etops>0</etops>
+    <stepclimbs>1</stepclimbs>
+    <tlr>1</tlr>
+    <notams_opt>1</notams_opt>
+    <firnot>0</firnot>
+    <maps>1</maps>
+    <turntoflt/>
+    <turntoapt/>
+    <turntotime/>
+    <turnfrflt/>
+    <turnfrapt/>
+    <turnfrtime/>
+    <fuelstats/>
+    <contlabel/>
+    <static_id/>
+    <acdata>false</acdata>
+    <acdata_parsed/>
+  </api_params>
+</OFP>

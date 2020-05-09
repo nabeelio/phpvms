@@ -1,5 +1,6 @@
 <?php
 
+use App\Exceptions\BidExistsForFlight;
 use App\Models\Bid;
 use App\Models\Flight;
 use App\Models\User;
@@ -73,12 +74,12 @@ class BidTest extends TestCase
 
         // Query the API and see that the user has the bids
         // And pull the flight details for the user/bids
-        $req = $this->get('/api/user', $headers);
+        $req = $this->get('/api/user/bids', $headers);
         $req->assertStatus(200);
 
         $body = $req->json()['data'];
-        $this->assertCount(1, $body['bids']);
-        $this->assertEquals($flight->id, $body['bids'][0]['flight_id']);
+        $req->assertStatus(200);
+        $this->assertEquals($flight->id, $body[0]['flight_id']);
 
         $req = $this->get('/api/users/'.$user->id.'/bids', $headers);
 
@@ -109,17 +110,15 @@ class BidTest extends TestCase
         $bids = $user->bids()->get();
         $this->assertTrue($bids->isEmpty());
 
-        $req = $this->get('/api/user', $headers);
+        $req = $this->get('/api/user/bids', $headers);
         $req->assertStatus(200);
 
         $body = $req->json()['data'];
-        $this->assertEquals($user->id, $body['id']);
-        $this->assertCount(0, $body['bids']);
+        $this->assertCount(0, $body);
 
         $req = $this->get('/api/users/'.$user->id.'/bids', $headers);
         $req->assertStatus(200);
         $body = $req->json()['data'];
-
         $this->assertCount(0, $body);
     }
 
@@ -138,7 +137,7 @@ class BidTest extends TestCase
         $this->bidSvc->addBid($flight, $user1);
 
         // Try adding again, should throw an exception
-        $this->expectException(\App\Exceptions\BidExistsForFlight::class);
+        $this->expectException(BidExistsForFlight::class);
         $this->bidSvc->addBid($flight, $user2);
     }
 
@@ -196,12 +195,11 @@ class BidTest extends TestCase
 
         // Query the API and see that the user has the bids
         // And pull the flight details for the user/bids
-        $req = $this->get('/api/user', $headers);
+        $req = $this->get('/api/user/bids', $headers);
         $req->assertStatus(200);
 
         $body = $req->json()['data'];
-        $this->assertEquals($user->id, $body['id']);
-        $this->assertCount(0, $body['bids']);
+        $this->assertCount(0, $body);
 
         $req = $this->get('/api/users/'.$user->id.'/bids', $headers);
         $req->assertStatus(200);

@@ -303,22 +303,24 @@ flight reports that have been filed. You've been warned!
         &nbsp;{{ trans_choice('common.field', 2) }}
       </h6>
       <div class="form-container-body">
-        @if(isset($pirep) && $pirep->fields)
-          @each('pireps.custom_fields', $pirep->fields, 'field')
-        @else
-          @each('pireps.custom_fields', $pirep_fields, 'field')
-        @endif
+        <table class="table table-striped">
+          @if(isset($pirep) && $pirep->fields)
+            @each('pireps.custom_fields', $pirep->fields, 'field')
+          @else
+            @each('pireps.custom_fields', $pirep_fields, 'field')
+          @endif
+        </table>
       </div>
     </div>
   </div>
 </div>
 <div class="row">
-
   <div class="col-sm-12">
     <div class="float-right">
       <div class="form-group">
 
         {{ Form::hidden('flight_id') }}
+        {{ Form::hidden('sb_id', $simbrief_id) }}
 
         @if(isset($pirep) && !$pirep->read_only)
           {{ Form::button(__('pireps.deletepirep'), [

@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Contracts\Controller;
+use App\Http\Controllers\Admin\Traits\Importable;
 use App\Http\Requests\CreateSubfleetRequest;
-use App\Http\Requests\ImportRequest;
 use App\Http\Requests\UpdateSubfleetRequest;
 use App\Models\Airline;
+use App\Models\Enums\FareType;
 use App\Models\Enums\FuelType;
+use App\Models\Enums\ImportExportType;
 use App\Models\Expense;
 use App\Models\Subfleet;
 use App\Repositories\AircraftRepository;
@@ -19,13 +21,13 @@ use App\Services\FareService;
 use App\Services\FleetService;
 use App\Services\ImportService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 use Laracasts\Flash\Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 
 class SubfleetController extends Controller
 {
+    use Importable;
+
     private $aircraftRepo;
     private $fareRepo;
     private $fareSvc;
@@ -97,6 +99,7 @@ class SubfleetController extends Controller
         foreach ($avail_fares as $fare) {
             $retval[$fare->id] = $fare->name.
                 ' (price: '.$fare->price.
+                ', type: '.FareType::label($fare->type).
                 ', cost: '.$fare->cost.
                 ', capacity: '.$fare->capacity.')';
         }
@@ -161,7 +164,9 @@ class SubfleetController extends Controller
      */
     public function show($id)
     {
-        $subfleet = $this->subfleetRepo->findWithoutFail($id);
+        $subfleet = $this->subfleetRepo
+            ->with(['fares'])
+            ->findWithoutFail($id);
 
         if (empty($subfleet)) {
             Flash::error('Subfleet not found');
@@ -184,7 +189,9 @@ class SubfleetController extends Controller
      */
     public function edit($id)
     {
-        $subfleet = $this->subfleetRepo->findWithoutFail($id);
+        $subfleet = $this->subfleetRepo
+            ->with(['fares', 'ranks'])
+            ->findWithoutFail($id);
 
         if (empty($subfleet)) {
             Flash::error('Subfleet not found');
@@ -293,17 +300,7 @@ class SubfleetController extends Controller
         ];
 
         if ($request->isMethod('post')) {
-            ImportRequest::validate($request);
-
-            $path = Storage::putFileAs(
-                'import',
-                $request->file('csv_file'),
-                'import_subfleets.csv'
-            );
-
-            $path = storage_path('app/'.$path);
-            Log::info('Uploaded subfleets import file to '.$path);
-            $logs = $this->importSvc->importSubfleets($path);
+            $logs = $this->importFile($request, ImportExportType::SUBFLEETS);
         }
 
         return view('admin.subfleets.import', [

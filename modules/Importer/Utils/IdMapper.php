@@ -46,4 +46,12 @@ class IdMapper extends Service
 
         return $this->valueStore->get($key_name);
     }
+
+    /**
+     * Clear the value store
+     */
+    public function clear()
+    {
+        $this->valueStore->flush();
+    }
 }

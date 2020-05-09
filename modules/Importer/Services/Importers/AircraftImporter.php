@@ -9,33 +9,60 @@ use Modules\Importer\Services\BaseImporter;
 
 class AircraftImporter extends BaseImporter
 {
-    public $table = 'aircraft';
-
-    /**
-     * CONSTANTS
-     */
-    public const SUBFLEET_NAME = 'Imported Aircraft';
+    protected $table = 'aircraft';
 
     public function run($start = 0)
     {
         $this->comment('--- AIRCRAFT IMPORT ---');
 
-        $subfleet = $this->getSubfleet();
+        $fields = [
+            'id',
+            'icao',
+            'name',
+            'fullname',
+            'registration',
+            'enabled',
+        ];
 
-        $this->info('Subfleet ID is '.$subfleet->id);
+        // See if there is an airline column
+        $columns = $this->db->getColumns($this->table);
+        if (in_array('airline', $columns)) {
+            $fields[] = 'airline';
+        }
+
+        if (in_array('location', $columns)) {
+            $fields[] = 'location';
+        }
 
         $count = 0;
-        foreach ($this->db->readRows($this->table, $start) as $row) {
+        $rows = $this->db->readRows($this->table, $this->idField, $start, $fields);
+        foreach ($rows as $row) {
+            $subfleet_name = $row->icao;
+
+            $airline_id = null;
+            if (!empty($row->airline)) {
+                $subfleet_name = $row->airline.' - '.$row->icao;
+                $airline_id = $this->idMapper->getMapping('airlines', $row->airline);
+            }
+
+            $subfleet = $this->getSubfleet($subfleet_name, $row->icao, $airline_id);
+
             $where = [
-                'name'         => $row->fullname,
                 'registration' => $row->registration,
             ];
 
-            $aircraft = Aircraft::firstOrCreate($where, [
+            $cols = [
                 'icao'        => $row->icao,
+                'name'        => $row->fullname,
                 'subfleet_id' => $subfleet->id,
                 'active'      => $row->enabled,
-            ]);
+            ];
+
+            if (!empty($row->location)) {
+                $cols['airport_id'] = $row->location;
+            }
+
+            $aircraft = Aircraft::firstOrCreate($where, $cols);
 
             $this->idMapper->addMapping('aircraft', $row->id, $aircraft->id);
 
@@ -50,16 +77,22 @@ class AircraftImporter extends BaseImporter
     /**
      * Return the subfleet
      *
+     * @param string $name
+     * @param string $icao       ICAO of the subfleet
+     * @param int    $airline_id
+     *
      * @return mixed
      */
-    protected function getSubfleet()
+    protected function getSubfleet($name, $icao, $airline_id = null)
     {
-        $airline = Airline::first();
-        $subfleet = Subfleet::firstOrCreate([
-            'airline_id' => $airline->id,
-            'name'       => self::SUBFLEET_NAME,
-        ], ['type' => 'PHPVMS']);
+        if (empty($airline_id)) {
+            $airline = Airline::first();
+            $airline_id = $airline->id;
+        }
 
-        return $subfleet;
+        return Subfleet::firstOrCreate([
+            'airline_id' => $airline_id,
+            'name'       => $name,
+        ], ['type' => $icao]);
     }
 }

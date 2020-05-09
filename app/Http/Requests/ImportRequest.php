@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Contracts\FormRequest;
 use Illuminate\Http\Request;
 
 /**
@@ -22,11 +22,6 @@ class ImportRequest extends FormRequest
     public static function validate(Request $request)
     {
         \Validator::make($request->all(), static::$rules)->validate();
-    }
-
-    public function authorize(): bool
-    {
-        return true;
     }
 
     public function rules(): array

@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Acars;
+use App\Models\Aircraft;
 use App\Models\Bid;
 use App\Models\Enums\AcarsType;
 use App\Models\Enums\PirepState;
@@ -8,6 +9,7 @@ use App\Models\Pirep;
 use App\Models\User;
 use App\Notifications\Messages\PirepAccepted;
 use App\Repositories\SettingRepository;
+use App\Services\AircraftService;
 use App\Services\BidService;
 use App\Services\FlightService;
 use App\Services\PirepService;
@@ -82,8 +84,8 @@ class PIREPTest extends TestCase
         /**
          * Now set the PIREP state to ACCEPTED
          */
-        $new_pirep_count = $pirep->pilot->flights + 1;
-        $new_flight_time = $pirep->pilot->flight_time + $pirep->flight_time;
+        $new_pirep_count = $pirep->user->flights + 1;
+        $new_flight_time = $pirep->user->flight_time + $pirep->flight_time;
 
         $this->pirepSvc->changeState($pirep, PirepState::ACCEPTED);
         $this->assertEquals($new_pirep_count, $pirep->pilot->flights);
@@ -223,6 +225,9 @@ class PIREPTest extends TestCase
             'flight_time' => 360,
         ]);
 
+        $aircraft = Aircraft::find(1);
+        $flight_time_initial = $aircraft->flight_time;
+
         foreach ($pireps as $pirep) {
             $this->pirepSvc->create($pirep);
             $this->pirepSvc->accept($pirep);
@@ -234,8 +239,11 @@ class PIREPTest extends TestCase
         // Make sure rank went up
         $this->assertGreaterThan($user->rank_id, $pilot->rank_id);
         $this->assertEquals($last_pirep->arr_airport_id, $pilot->curr_airport_id);
-
         $this->assertEquals(2, $pilot->flights);
+
+        $aircraft = Aircraft::find(1);
+        $after_time = $flight_time_initial + 720;
+        $this->assertEquals($after_time, $aircraft->flight_time);
 
         //
         // Submit another PIREP, adding another 6 hours
@@ -299,6 +307,22 @@ class PIREPTest extends TestCase
 
         // Make sure rank went up
         $this->assertGreaterThan($user->rank_id, $pilot->rank_id);
+
+        // Check the aircraft
+        $aircraft = Aircraft::where('id', 1)->first();
+        $this->assertEquals(120, $aircraft->flight_time);
+
+        // Reset the aircraft flight time
+        $aircraft->flight_time = 10;
+        $aircraft->save();
+
+        // Recalculate the status
+        /** @var AircraftService $aircraftSvc */
+        $aircraftSvc = app(AircraftService::class);
+        $aircraftSvc->recalculateStats();
+
+        $aircraft = Aircraft::where('id', 1)->first();
+        $this->assertEquals(120, $aircraft->flight_time);
     }
 
     /**

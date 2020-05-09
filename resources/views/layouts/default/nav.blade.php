@@ -35,19 +35,18 @@
       @endforeach
 
       @if(!Auth::check())
+         <li class="nav-item">
+          <a class="nav-link" href="{{ url('/register') }}">
+            <i class="far fa-id-card"></i>
+            <p>@lang('common.register')</p>
+          </a>
+        </li>
         <li class="nav-item">
           <a class="nav-link" href="{{ url('/login') }}">
             <i class="fas fa-sign-in-alt"></i>
             <p>@lang('common.login')</p>
           </a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{{ url('/register') }}">
-            <i class="far fa-id-card"></i>
-            <p>@lang('common.register')</p>
-          </a>
-        </li>
-
       @else
         <li class="nav-item">
           <a class="nav-link" href="{{ route('frontend.flights.index') }}">
@@ -74,6 +73,15 @@
             <a class="nav-link" href="{{ url($link['url']) }}">
               <i class="{{ $link['icon'] }}"></i>
               <p>{{ ($link['title']) }}</p>
+            </a>
+          </li>
+        @endforeach
+
+        @foreach($page_links as $page)
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url(route('frontend.pages.show', ['slug' => $page->slug])) }}">
+              <i class="{{ $page['icon'] }}"></i>
+              <p>{{ $page['name'] }}</p>
             </a>
           </li>
         @endforeach

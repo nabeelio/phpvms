@@ -3,20 +3,22 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Contracts\Controller;
+use App\Http\Controllers\Admin\Traits\Importable;
 use App\Http\Requests\CreateFareRequest;
-use App\Http\Requests\ImportRequest;
 use App\Http\Requests\UpdateFareRequest;
+use App\Models\Enums\FareType;
+use App\Models\Enums\ImportExportType;
 use App\Repositories\FareRepository;
 use App\Services\ExportService;
 use App\Services\ImportService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 use Laracasts\Flash\Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 
 class FareController extends Controller
 {
+    use Importable;
+
     private $fareRepo;
     private $importSvc;
 
@@ -57,7 +59,9 @@ class FareController extends Controller
      */
     public function create()
     {
-        return view('admin.fares.create');
+        return view('admin.fares.create', [
+            'fare_types' => FareType::select(),
+        ]);
     }
 
     /**
@@ -93,7 +97,9 @@ class FareController extends Controller
             return redirect(route('admin.fares.index'));
         }
 
-        return view('admin.fares.show')->with('fare', $fare);
+        return view('admin.fares.show', [
+            'fare' => $fare,
+        ]);
     }
 
     /**
@@ -111,7 +117,10 @@ class FareController extends Controller
             return redirect(route('admin.fares.index'));
         }
 
-        return view('admin.fares.edit')->with('fare', $fare);
+        return view('admin.fares.edit', [
+            'fare'       => $fare,
+            'fare_types' => FareType::select(),
+        ]);
     }
 
     /**
@@ -196,16 +205,7 @@ class FareController extends Controller
         ];
 
         if ($request->isMethod('post')) {
-            ImportRequest::validate($request);
-            $path = Storage::putFileAs(
-                'import',
-                $request->file('csv_file'),
-                'import_fares.csv'
-            );
-
-            $path = storage_path('app/'.$path);
-            Log::info('Uploaded fares import file to '.$path);
-            $logs = $this->importSvc->importFares($path);
+            $logs = $this->importFile($request, ImportExportType::FARES);
         }
 
         return view('admin.fares.import', [

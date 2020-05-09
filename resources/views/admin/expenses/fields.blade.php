@@ -1,6 +1,6 @@
 <div class="row">
   <!-- Code Field -->
-  <div class="form-group col-sm-6">
+  <div class="form-group col-sm-4">
     {{ Form::label('airline_id', 'Airline:') }}
 
     {{ Form::select('airline_id', $airlines_list, null , ['class' => 'form-control select2']) }}
@@ -11,11 +11,19 @@
     @endcomponent
   </div>
 
-  <!-- Name Field -->
-  <div class="form-group col-sm-6">
+  <div class="form-group col-sm-4">
     {{ Form::label('type', 'Expense Type:') }}&nbsp;<span class="required">*</span>
     {{ Form::select('type', $expense_types, null , ['class' => 'form-control select2']) }}
     <p class="text-danger">{{ $errors->first('type') }}</p>
+  </div>
+
+  <div class="form-group col-sm-4">
+    {{ Form::label('flight_type', 'Flight Types:') }}&nbsp;
+    {{ Form::select('flight_type[]', $flight_types, null , ['class' => 'form-control select2', 'multiple']) }}
+    <p class="text-danger">{{ $errors->first('type') }}</p>
+    @component('admin.components.info')
+      If selected and the expense type is "flight", this expense will only apply to the specified flight types
+    @endcomponent
   </div>
 </div>
 <div class="row">

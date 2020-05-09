@@ -76,7 +76,7 @@ class VersionService extends Service
     }
 
     /**
-     * Download the latest version from github
+     * Download the latest version from github and return the version number
      */
     private function getLatestVersionGithub()
     {
@@ -96,6 +96,7 @@ class VersionService extends Service
         foreach ($releases as $release) {
             if ($release['prerelease'] === true) {
                 if ($include_prerelease) {
+                    Log::info('Found latest pre-release of '.$release['tag_name']);
                     return $this->setLatestRelease(
                         $release['tag_name'],
                         $this->getGithubAsset($release)
@@ -104,13 +105,14 @@ class VersionService extends Service
                 continue;
             }
 
+            Log::info('Found latest release of '.$release['tag_name']);
             return $this->setLatestRelease(
                 $release['tag_name'],
                 $this->getGithubAsset($release)
             );
         }
 
-        return $releases;
+        return null;
     }
 
     /**
@@ -131,12 +133,30 @@ class VersionService extends Service
      */
     public function getBuildId($cfg)
     {
+        return $cfg['build']['number'];
+    }
+
+    /**
+     * Generate a build ID
+     *
+     * @param array $cfg The version config
+     *
+     * @return false|string
+     */
+    public function generateBuildId($cfg)
+    {
+        $date = date('ymd');
         exec($cfg['git']['git-local'], $version);
+        if (empty($version)) {
+            return $date;
+        }
+
         $version = substr($version[0], 0, $cfg['build']['length']);
 
         // prefix with the date in YYMMDD format
-        $date = date('ymd');
-        return $date.'.'.$version;
+        $version = $date.'.'.$version;
+
+        return $version;
     }
 
     /**
@@ -163,8 +183,9 @@ class VersionService extends Service
         if ($include_build) {
             // Get the current build id
             $build_number = $this->getBuildId($cfg);
-            $cfg['build']['number'] = $build_number;
-            $version = $version.'+'.$build_number;
+            if (!empty($build_number)) {
+                $version = $version.'+'.$build_number;
+            }
         }
 
         return $version;
@@ -186,8 +207,11 @@ class VersionService extends Service
         }
 
         // Replace "dev" with "alpha", since
-
         $latest_version = $this->getLatestVersion();
+
+        if (empty($latest_version)) {
+            return false;
+        }
 
         // Convert to semver
         if ($this->isGreaterThan($latest_version, $current_version)) {

@@ -2,10 +2,10 @@
 
 namespace App\Http\Resources;
 
-use Illuminate\Http\Resources\Json\Resource;
+use App\Contracts\Resource;
 
 /**
- * Class Response
+ * @mixin \App\Models\PirepComment
  */
 class PirepComment extends Resource
 {
@@ -18,6 +18,10 @@ class PirepComment extends Resource
      */
     public function toArray($request)
     {
+        if (!$this->user) {
+            return [];
+        }
+
         $user = $this->user;
 
         return [

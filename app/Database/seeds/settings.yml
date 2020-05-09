@@ -40,6 +40,19 @@
   options: ''
   type: boolean
   description: 'Send some data (php version, mysql version) to phpVMS. See AnalyticsSvc code for details'
+- key: general.google_analytics_id
+  name: 'Google Analytics Tracking ID'
+  group: general
+  value: ''
+  options: ''
+  type: text
+  description: 'Enter your Google Analytics Tracking ID'
+- key: units.currency
+  name: 'Currency'
+  group: units
+  value: USD
+  type: select
+  description: 'The currency to use'
 - key: units.distance
   name: 'Distance Units'
   group: units
@@ -131,6 +144,41 @@
   options: ''
   type: int
   description: 'Number of hours to expire bids after'
+- key: flights.default_load_factor
+  name: 'Load Factor'
+  group: flights
+  value: 82
+  options: ''
+  type: number
+  description: 'The default load factor for a flight, as a percent'
+- key: flights.load_factor_variance
+  name: 'Load Factor Variance'
+  group: flights
+  value: 5
+  options: ''
+  type: number
+  description: 'How much the load factor can vary per-flight'
+- key: simbrief.api_key
+  name: 'SimBrief API Key'
+  group: simbrief
+  value: ''
+  options: ''
+  type: string
+  description: 'Your SimBrief API key'
+- key: simbrief.only_bids
+  name: 'Only allow for bids'
+  group: simbrief
+  value: true
+  options: ''
+  type: boolean
+  description: 'Only allow briefs to be created for bidded flights'
+- key: simbrief.expire_days
+  name: 'SimBrief Expire Time'
+  group: simbrief
+  value: 5
+  options: ''
+  type: number
+  description: 'Days after how long to remove unused briefs'
 - key: pireps.duplicate_check_time
   name: 'PIREP duplicate time check'
   group: pireps

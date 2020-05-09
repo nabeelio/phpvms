@@ -119,11 +119,15 @@ class AcarsController extends Controller
     public function acars_get($id, Request $request)
     {
         $this->pirepRepo->find($id);
+        $acars = Acars::with(['pirep'])
+            ->where([
+                'pirep_id' => $id,
+                'type'     => AcarsType::FLIGHT_PATH,
+            ])
+            ->orderBy('sim_time', 'asc')
+            ->get();
 
-        return new AcarsRouteResource(Acars::where([
-            'pirep_id' => $id,
-            'type'     => AcarsType::FLIGHT_PATH,
-        ])->orderBy('sim_time', 'asc')->get());
+        return new AcarsRouteResource($acars);
     }
 
     /**
@@ -154,7 +158,7 @@ class AcarsController extends Controller
             $position['pirep_id'] = $id;
             $position['type'] = AcarsType::FLIGHT_PATH;
 
-            if (array_key_exists('sim_time', $position)) {
+            if (isset($position['sim_time'])) {
                 if ($position['sim_time'] instanceof \DateTime) {
                     $position['sim_time'] = Carbon::instance($position['sim_time']);
                 } else {
@@ -162,7 +166,7 @@ class AcarsController extends Controller
                 }
             }
 
-            if (array_key_exists('created_at', $position)) {
+            if (isset($position['created_at'])) {
                 if ($position['created_at'] instanceof \DateTime) {
                     $position['created_at'] = Carbon::instance($position['created_at']);
                 } else {
@@ -171,8 +175,16 @@ class AcarsController extends Controller
             }
 
             try {
-                $update = Acars::create($position);
-                $update->save();
+                if (isset($position['id'])) {
+                    Acars::updateOrInsert(
+                        ['id' => $position['id']],
+                        $position
+                    );
+                } else {
+                    $update = Acars::create($position);
+                    $update->save();
+                }
+
                 $count++;
             } catch (QueryException $ex) {
                 Log::info('Error on adding ACARS position: '.$ex->getMessage());
@@ -215,17 +227,25 @@ class AcarsController extends Controller
             $log['pirep_id'] = $id;
             $log['type'] = AcarsType::LOG;
 
-            if (array_key_exists('sim_time', $log)) {
+            if (isset($log['sim_time'])) {
                 $log['sim_time'] = Carbon::createFromTimeString($log['sim_time']);
             }
 
-            if (array_key_exists('created_at', $log)) {
+            if (isset($log['created_at'])) {
                 $log['created_at'] = Carbon::createFromTimeString($log['created_at']);
             }
 
             try {
-                $acars = Acars::create($log);
-                $acars->save();
+                if (isset($log['id'])) {
+                    Acars::updateOrInsert(
+                        ['id' => $log['id']],
+                        $log
+                    );
+                } else {
+                    $acars = Acars::create($log);
+                    $acars->save();
+                }
+
                 $count++;
             } catch (QueryException $ex) {
                 Log::info('Error on adding ACARS position: '.$ex->getMessage());
@@ -262,17 +282,25 @@ class AcarsController extends Controller
             $log['type'] = AcarsType::LOG;
             $log['log'] = $log['event'];
 
-            if (array_key_exists('sim_time', $log)) {
+            if (isset($log['sim_time'])) {
                 $log['sim_time'] = Carbon::createFromTimeString($log['sim_time']);
             }
 
-            if (array_key_exists('created_at', $log)) {
+            if (isset($log['created_at'])) {
                 $log['created_at'] = Carbon::createFromTimeString($log['created_at']);
             }
 
             try {
-                $acars = Acars::create($log);
-                $acars->save();
+                if (isset($log['id'])) {
+                    Acars::updateOrInsert(
+                        ['id' => $log['id']],
+                        $log
+                    );
+                } else {
+                    $acars = Acars::create($log);
+                    $acars->save();
+                }
+
                 $count++;
             } catch (QueryException $ex) {
                 Log::info('Error on adding ACARS position: '.$ex->getMessage());

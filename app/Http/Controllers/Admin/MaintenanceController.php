@@ -3,18 +3,32 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Contracts\Controller;
+use App\Repositories\KvpRepository;
 use App\Services\CronService;
+use App\Services\VersionService;
+use Codedge\Updater\UpdaterManager;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Log;
 use Laracasts\Flash\Flash;
 
 class MaintenanceController extends Controller
 {
     private $cronSvc;
+    private $kvpRepo;
+    private $updateManager;
+    private $versionSvc;
 
-    public function __construct(CronService $cronSvc)
-    {
+    public function __construct(
+        CronService $cronSvc,
+        KvpRepository $kvpRepo,
+        UpdaterManager $updateManager,
+        VersionService $versionSvc
+    ) {
         $this->cronSvc = $cronSvc;
+        $this->kvpRepo = $kvpRepo;
+        $this->updateManager = $updateManager;
+        $this->versionSvc = $versionSvc;
     }
 
     public function index()
@@ -22,6 +36,8 @@ class MaintenanceController extends Controller
         return view('admin.maintenance.index', [
             'cron_path'           => $this->cronSvc->getCronExecString(),
             'cron_problem_exists' => $this->cronSvc->cronProblemExists(),
+            'new_version'         => true, //$this->kvpRepo->get('new_version_available', false),
+            'new_version_tag'     => $this->kvpRepo->get('latest_version_tag'),
         ]);
     }
 
@@ -30,7 +46,7 @@ class MaintenanceController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return mixed
      */
     public function cache(Request $request)
     {
@@ -56,5 +72,44 @@ class MaintenanceController extends Controller
 
         Flash::success('Cache cleared!');
         return redirect(route('admin.maintenance.index'));
+    }
+
+    /**
+     * Force an update check
+     *
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return mixed
+     */
+    public function forcecheck(Request $request)
+    {
+        $this->versionSvc->isNewVersionAvailable();
+
+        $new_version_avail = $this->kvpRepo->get('new_version_available', false);
+        $new_version_tag = $this->kvpRepo->get('latest_version_tag');
+
+        Log::info('Force check, available='.$new_version_avail.', tag='.$new_version_tag);
+
+        if (!$new_version_avail) {
+            Flash::success('No new version available');
+        } else {
+            Flash::success('New version available: '.$new_version_tag);
+        }
+
+        return redirect(route('admin.maintenance.index'));
+    }
+
+    /**
+     * Update the phpVMS install
+     *
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return mixed
+     */
+    public function update(Request $request)
+    {
+        $new_version_tag = $this->kvpRepo->get('latest_version_tag');
+        Log::info('Attempting to update to '.$new_version_tag);
+        return redirect('/update/downloader');
     }
 }

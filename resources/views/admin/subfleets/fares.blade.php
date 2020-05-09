@@ -14,6 +14,7 @@
       <tr>
         <th>Name</th>
         <th style="text-align: center;">Code</th>
+        <th style="text-align: center;">Type</th>
         <th style="text-align: center;">Capacity (default)</th>
         <th style="text-align: center;">Price (default)</th>
         <th style="text-align: center;">Cost (default)</th>
@@ -24,16 +25,17 @@
     <tbody>
     @foreach($subfleet->fares as $atf)
       <tr>
-        <td class="sorting_1">{{ $atf->name }}</td>
-        <td style="text-align: center;">{{ $atf->code }}</td>
-        <td style="text-align: center;">
+        <td class="sorting_1 text-center">{{ $atf->name }}</td>
+        <td class="text-center">{{ $atf->code }}</td>
+        <td class="sorting_1 text-center">{{ \App\Models\Enums\FareType::label($atf->type)  }}</td>
+        <td class="text-center">
           <a href="#" data-pk="{{ $atf->id }}" data-name="capacity">{{ $atf->pivot->capacity }}</a>
           <span class="small background-color-grey-light">({{ $atf->capacity }})</span>
         </td>
-        <td style="text-align: center;">
+        <td class="text-center">
           <a href="#" data-pk="{{ $atf->id }}" data-name="price">{{ $atf->pivot->price }}</a>
           <span class="small background-color-grey-light">({{ $atf->price }})</span></td>
-        <td style="text-align: center;">
+        <td class="text-center">
           <a href="#" data-pk="{{ $atf->id }}" data-name="cost">{{ $atf->pivot->cost }}</a>
           <span class="small background-color-grey-light">({{ $atf->cost}})</span></td>
         <td style="text-align: right; width:3%;">

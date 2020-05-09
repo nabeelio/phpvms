@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Contracts\Controller;
-use App\Facades\Utils;
 use App\Http\Requests\CreatePirepRequest;
 use App\Http\Requests\UpdatePirepRequest;
 use App\Models\Enums\PirepSource;
 use App\Models\Enums\PirepState;
 use App\Models\Enums\PirepStatus;
 use App\Models\Pirep;
+use App\Models\SimBrief;
 use App\Repositories\AircraftRepository;
 use App\Repositories\AirlineRepository;
 use App\Repositories\AirportRepository;
@@ -20,6 +20,7 @@ use App\Repositories\PirepRepository;
 use App\Services\FareService;
 use App\Services\GeoService;
 use App\Services\PirepService;
+use App\Services\SimBriefService;
 use App\Services\UserService;
 use App\Support\Units\Fuel;
 use App\Support\Units\Time;
@@ -29,9 +30,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Laracasts\Flash\Flash;
 
-/**
- * Class PirepController
- */
 class PirepController extends Controller
 {
     private $aircraftRepo;
@@ -200,7 +198,7 @@ class PirepController extends Controller
      */
     public function show($id)
     {
-        $pirep = $this->pirepRepo->find($id);
+        $pirep = $this->pirepRepo->with(['simbrief'])->find($id);
         if (empty($pirep)) {
             Flash::error('Pirep not found');
             return redirect(route('frontend.pirep.index'));
@@ -246,8 +244,18 @@ class PirepController extends Controller
         // See if request has a ?flight_id, so we can pre-populate the fields from the flight
         // Makes filing easier, but we can also more easily find a bid and close it
         if ($request->has('flight_id')) {
-            $flight = $this->flightRepo->find($request->get('flight_id'));
+            $flight = $this->flightRepo->find($request->input('flight_id'));
             $pirep = Pirep::fromFlight($flight);
+        }
+
+        /**
+         * They have a SimBrief ID, load that up and figure out the flight that it's from
+         */
+        $simbrief_id = null;
+        if ($request->has('sb_id')) {
+            $simbrief_id = $request->input('sb_id');
+            $brief = SimBrief::find($simbrief_id);
+            $pirep = Pirep::fromSimBrief($brief);
         }
 
         return view('pireps.create', [
@@ -259,6 +267,7 @@ class PirepController extends Controller
             'airport_list'  => $this->airportRepo->selectBoxList(true),
             'pirep_fields'  => $this->pirepFieldRepo->all(),
             'field_values'  => [],
+            'simbrief_id'   => $simbrief_id,
         ]);
     }
 
@@ -324,7 +333,11 @@ class PirepController extends Controller
         // Any special fields
         $hours = (int) $request->input('hours', 0);
         $minutes = (int) $request->input('minutes', 0);
-        $pirep->flight_time = Utils::hoursToMinutes($hours) + $minutes;
+        $pirep->flight_time = Time::hoursToMinutes($hours) + $minutes;
+
+        // Set the correct fuel units
+        $pirep->block_fuel = new Fuel((float) $request->input('block_fuel'), setting('units.fuel'));
+        $pirep->fuel_used = new Fuel((float) $request->input('fuel_used'), setting('units.fuel'));
 
         // Set the correct fuel units
         $pirep->block_fuel = new Fuel((float) $request->input('block_fuel'), setting('units.fuel'));
@@ -338,6 +351,15 @@ class PirepController extends Controller
         $this->saveCustomFields($pirep, $request);
         $this->saveFares($pirep, $request);
         $this->pirepSvc->saveRoute($pirep);
+
+        if ($request->has('sb_id')) {
+            $brief = SimBrief::find($request->input('sb_id'));
+            if ($brief !== null) {
+                /** @var SimBriefService $sbSvc */
+                $sbSvc = app(SimBriefService::class);
+                $sbSvc->attachSimbriefToPirep($pirep, $brief);
+            }
+        }
 
         // Depending on the button they selected, set an initial state
         // Can be saved as a draft or just submitted
@@ -376,6 +398,11 @@ class PirepController extends Controller
             $pirep->aircraft->load('subfleet.fares');
         }
 
+        $simbrief_id = null;
+        if ($pirep->simbrief) {
+            $simbrief_id = $pirep->simbrief->id;
+        }
+
         $time = new Time($pirep->flight_time);
         $pirep->hours = $time->hours;
         $pirep->minutes = $time->minutes;
@@ -403,6 +430,7 @@ class PirepController extends Controller
             'airline_list'  => $this->airlineRepo->selectBoxList(),
             'airport_list'  => $this->airportRepo->selectBoxList(),
             'pirep_fields'  => $this->pirepFieldRepo->all(),
+            'simbrief_id'   => $simbrief_id,
         ]);
     }
 

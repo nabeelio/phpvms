@@ -9,6 +9,7 @@ use App\Contracts\Model;
  *
  * @property string name
  * @property string slug
+ * @property bool   required
  */
 class FlightField extends Model
 {

@@ -66,7 +66,7 @@ class Airport extends Model
      * Validation rules
      */
     public static $rules = [
-        'icao'                 => 'required|size:4',
+        'icao'                 => 'required',
         'iata'                 => 'sometimes|nullable',
         'name'                 => 'required',
         'location'             => 'sometimes',

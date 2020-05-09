@@ -110,7 +110,7 @@ class JournalRepository extends Repository implements CacheableInterface
             'journal_id'        => $journal->id,
             'credit'            => $credit ? $credit->getAmount() : null,
             'debit'             => $debit ? $debit->getAmount() : null,
-            'currency'          => config('phpvms.currency'),
+            'currency'          => setting('units.currency', 'USD'),
             'memo'              => $memo,
             'post_date'         => $post_date,
             'transaction_group' => $transaction_group,

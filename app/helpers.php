@@ -1,6 +1,7 @@
 <?php
 
 use App\Exceptions\SettingNotFound;
+use App\Repositories\SettingRepository;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\Factory;
 
@@ -83,6 +84,9 @@ if (!function_exists('list_to_assoc')) {
                 $title = $item;
             }
 
+            $item = trim($item);
+            $title = trim($title);
+
             $ret[$item] = $title;
         }
 
@@ -157,7 +161,7 @@ if (!function_exists('setting')) {
      */
     function setting($key, $default = null)
     {
-        $settingRepo = app('setting');
+        $settingRepo = app(SettingRepository::class);
 
         try {
             $value = $settingRepo->retrieve($key);
@@ -177,7 +181,7 @@ if (!function_exists('setting')) {
 if (!function_exists('setting_save')) {
     function setting_save($key, $value)
     {
-        $settingRepo = app('setting');
+        $settingRepo = app(SettingRepository::class);
         $settingRepo->save($key, $value);
         return $value;
     }
@@ -192,7 +196,6 @@ if (!function_exists('public_asset')) {
     {
         $publicBaseUrl = app()->publicUrlPath();
         $path = $publicBaseUrl.$path;
-
         $path = str_replace('//', '/', $path);
 
         return url($path, $parameters);
@@ -304,5 +307,19 @@ if (!function_exists('_fmt')) {
         }
 
         return $line;
+    }
+}
+
+if (!function_exists('docs_link')) {
+    /**
+     * Return a link to the docs
+     *
+     * @param string $key Key from phpvms.config.docs
+     *
+     * @return string
+     */
+    function docs_link($key)
+    {
+        return config('phpvms.docs.root').config('phpvms.docs.'.$key);
     }
 }

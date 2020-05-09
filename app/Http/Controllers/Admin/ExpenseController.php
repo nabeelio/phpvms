@@ -3,21 +3,23 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Contracts\Controller;
-use App\Http\Requests\ImportRequest;
+use App\Http\Controllers\Admin\Traits\Importable;
 use App\Models\Enums\ExpenseType;
+use App\Models\Enums\FlightType;
+use App\Models\Enums\ImportExportType;
 use App\Models\Expense;
 use App\Repositories\AirlineRepository;
 use App\Repositories\ExpenseRepository;
 use App\Services\ExportService;
 use App\Services\ImportService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 use Laracasts\Flash\Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 
 class ExpenseController extends Controller
 {
+    use Importable;
+
     private $airlineRepo;
     private $expenseRepo;
     private $importSvc;
@@ -68,6 +70,7 @@ class ExpenseController extends Controller
         return view('admin.expenses.create', [
             'airlines_list' => $this->airlineRepo->selectBoxList(true),
             'expense_types' => ExpenseType::select(),
+            'flight_types'  => FlightType::select(),
         ]);
     }
 
@@ -134,6 +137,7 @@ class ExpenseController extends Controller
             'expense'       => $expense,
             'airlines_list' => $this->airlineRepo->selectBoxList(true),
             'expense_types' => ExpenseType::select(),
+            'flight_types'  => FlightType::select(),
         ]);
     }
 
@@ -153,14 +157,12 @@ class ExpenseController extends Controller
 
         if (empty($expenses)) {
             Flash::error('Expense not found');
-
             return redirect(route('admin.expenses.index'));
         }
 
         $this->expenseRepo->update($request->all(), $id);
 
         Flash::success('Expense updated successfully.');
-
         return redirect(route('admin.expenses.index'));
     }
 
@@ -223,16 +225,7 @@ class ExpenseController extends Controller
         ];
 
         if ($request->isMethod('post')) {
-            ImportRequest::validate($request);
-            $path = Storage::putFileAs(
-                'import',
-                $request->file('csv_file'),
-                'import_expenses.csv'
-            );
-
-            $path = storage_path('app/'.$path);
-            Log::info('Uploaded expenses import file to '.$path);
-            $logs = $this->importSvc->importExpenses($path);
+            $logs = $this->importFile($request, ImportExportType::EXPENSES);
         }
 
         return view('admin.expenses.import', [

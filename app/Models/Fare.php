@@ -5,13 +5,15 @@ namespace App\Models;
 use App\Contracts\Model;
 
 /**
- * Class Fare
- *
- * @property int capacity
+ * @property string  name
  * @property float   cost
  * @property float   price
- * @property mixed   code
- * @property mixed   count Only when merged with pivot
+ * @property int     code
+ * @property int     capacity
+ * @property int     count Only when merged with pivot
+ * @property int     type
+ * @property string  notes
+ * @property bool    active
  */
 class Fare extends Model
 {
@@ -20,6 +22,7 @@ class Fare extends Model
     protected $fillable = [
         'code',
         'name',
+        'type',
         'price',
         'cost',
         'capacity',
@@ -31,12 +34,14 @@ class Fare extends Model
         'price'    => 'float',
         'cost'     => 'float',
         'capacity' => 'integer',
+        'type'     => 'integer',
         'active'   => 'boolean',
     ];
 
     public static $rules = [
         'code' => 'required',
         'name' => 'required',
+        'type' => 'required',
     ];
 
     /**

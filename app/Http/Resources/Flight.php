@@ -2,19 +2,29 @@
 
 namespace App\Http\Resources;
 
+use App\Contracts\Resource;
+use App\Http\Resources\SimBrief as SimbriefResource;
 use App\Support\Units\Distance;
+use stdClass;
 
-class Flight extends Response
+/**
+ * @mixin \App\Models\Flight
+ */
+class Flight extends Resource
 {
     /**
      * Set the fields on the flight object
-     *
-     * @return array
      */
     private function setFields()
     {
+        /** @var \Illuminate\Support\Collection $field_values */
+        $field_values = $this->field_values;
+        if (empty($field_values) || $field_values->count() === 0) {
+            return new stdClass();
+        }
+
         $fields = [];
-        foreach ($this->field_values as $field) {
+        foreach ($field_values as $field) {
             $fields[$field->name] = $field->value;
         }
 
@@ -35,12 +45,23 @@ class Flight extends Response
 
         $res['ident'] = $this->ident;
 
+        if (empty($res['load_factor'])) {
+            $res['load_factor'] = setting('flights.default_load_factor');
+        }
+
+        if (empty($res['load_factor_variance'])) {
+            $res['load_factor_variance'] = setting('flights.load_factor_variance');
+        }
+
         $distance = new Distance($res['distance'], config('phpvms.internal_units.distance'));
         $res['distance'] = $distance->getResponseUnits();
 
         $res['airline'] = new Airline($this->airline);
-        $res['subfleets'] = Subfleet::collection($this->subfleets);
+        $res['subfleets'] = Subfleet::collection($this->whenLoaded('subfleets'));
         $res['fields'] = $this->setFields();
+
+        // Simbrief info
+        $res['simbrief'] = new SimbriefResource($this->whenLoaded('simbrief'));
 
         return $res;
     }

@@ -4,6 +4,8 @@ namespace App\Services\Metar;
 
 use App\Contracts\Metar;
 use App\Support\HttpClient;
+use function count;
+use Exception;
 use Illuminate\Support\Facades\Log;
 
 /**
@@ -44,15 +46,31 @@ class AviationWeather extends Metar
         try {
             $res = $this->httpClient->get($url, []);
             $xml = simplexml_load_string($res);
-            if (\count($xml->data->METAR->raw_text) === 0) {
+
+            $attrs = $xml->data->attributes();
+            if (!isset($attrs['num_results'])) {
+                return '';
+            }
+
+            $num_results = $attrs['num_results'];
+            if (empty($num_results)) {
+                return '';
+            }
+
+            $num_results = (int) $num_results;
+            if ($num_results === 0) {
+                return '';
+            }
+
+            if (count($xml->data->METAR->raw_text) === 0) {
                 return '';
             }
 
             return $xml->data->METAR->raw_text->__toString();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Log::error('Error reading METAR: '.$e->getMessage());
 
-            throw $e;
+            return '';
         }
     }
 }

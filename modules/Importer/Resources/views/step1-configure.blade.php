@@ -4,14 +4,15 @@
 @section('content')
   <div style="align-content: center;">
     {{ Form::open(['route' => 'importer.config', 'method' => 'POST']) }}
-    <table class="table" width="25%">
-
+    <table class="table">
       <tr>
         <td colspan="2">
           <h4>IMPORTANT NOTES</h4>
           <ul>
+            <li>The first user's password (admin) will be "admin". Please change it after logging in</li>
+            <li>User passwords will be reset and they will need to use "Forgot Password" to reset it</li>
             <li>If you have more than 1000 PIREPs or flights, it's best to use the command-line importer!
-              <a href="http://docs.phpvms.net/setup/importing-from-v2-v5" target="_blank">Click here</a> to
+              <a href="{{ docs_link('importing_legacy') }}" target="_blank">Click here</a> to
               see the documentation of how to use it.
             </li>
             <li><strong>THIS WILL WIPE OUT YOUR EXISTING DATA</strong> - this is required to make sure that things like
@@ -22,21 +23,10 @@
       </tr>
 
       <tr>
-        <td colspan="2"><h4>Site Config</h4></td>
-      </tr>
-
-      <tr>
-        <td>Admin Email</td>
-        <td style="text-align:center;">
-          <div class="form-group">
-            {{ Form::input('text', 'email', '', ['class' => 'form-control']) }}
-            <p>The admin's email address, the password for this will be reset</p>
-          </div>
+        <td colspan="2">
+          <h4>Database Config</h4>
+          <p>Enter the database information for your legacy phpVMS installation</p>
         </td>
-      </tr>
-
-      <tr>
-        <td colspan="2"><h4>Database Config</h4></td>
       </tr>
 
       <tbody id="mysql_settings">
@@ -112,12 +102,14 @@
 @endsection
 
 @section('scripts')
-  <script>
-    $(document).ready(() => {
-
-      $("#dbtest_button").click((e) => {
-        e.preventDefault();
-        const opts = {
+<script>
+  $(document).ready(() => {
+    $("#dbtest_button").click((e) => {
+      e.preventDefault();
+      const opts = {
+        method: 'POST',
+        url: '/importer/dbtest',
+        data: {
           _token: "{{ csrf_token() }}",
           db_conn: 'mysql',
           db_host: $("input[name=db_host]").val(),
@@ -125,12 +117,13 @@
           db_name: $("input[name=db_name]").val(),
           db_user: $("input[name=db_user]").val(),
           db_pass: $("input[name=db_pass]").val(),
-        };
+        },
+      };
 
-        $.post("{{ route('importer.dbtest') }}", opts, (data) => {
-          $("#dbtest").html(data);
-        })
-      })
+      phpvms.request(opts).then(response => {
+        $("#dbtest").html(response.data);
+      });
     });
-  </script>
+  });
+</script>
 @endsection

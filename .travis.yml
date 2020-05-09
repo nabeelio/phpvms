@@ -4,13 +4,13 @@
 
 language: php
 php:
-  - '7.2'
-  - '7.3'
   - '7.4'
+  - '7.3'
+  - '7.2'
 
-env:
-  - DB=mysql
-  - DB=mariadb
+#env:
+#  - DB=mysql
+#  - DB=mariadb
 
 cache:
   # Cache lives for 10 min
@@ -23,13 +23,14 @@ cache:
 services:
 - mysql
 
-addons:
-  mariadb: '10.2'
+#addons:
+#  mariadb: '10.2'
 
 install:
   - php --version
   - mysql --version
   - composer install --dev --no-interaction --verbose
+  - npm i tar-to-zip -g
   - cp .travis/env.travis.php env.php
   - cp .travis/phpunit.travis.xml phpunit.xml
 
@@ -136,7 +137,7 @@ jobs:
           on:
             all_branches: true
             repo: nabeelio/phpvms
-            php: '7.2'
+            php: '7.4'
             tags: false
 
     # RELEASE STAGE
@@ -157,4 +158,4 @@ jobs:
         on:
           tags: true
           repo: nabeelio/phpvms
-          php: '7.2'
+          php: '7.4'

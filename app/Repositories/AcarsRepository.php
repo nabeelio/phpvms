@@ -9,9 +9,6 @@ use App\Models\Enums\PirepState;
 use App\Models\Pirep;
 use Carbon\Carbon;
 
-/**
- * Class AcarsRepository
- */
 class AcarsRepository extends Repository
 {
     /**
@@ -59,7 +56,16 @@ class AcarsRepository extends Repository
      */
     public function getPositions($live_time = 0)
     {
-        $q = Pirep::with(['airline', 'position', 'aircraft'])
+        $with = [
+            'aircraft',
+            'airline',
+            'arr_airport',
+            'dpt_airport',
+            'position',
+            'user',
+        ];
+
+        $q = Pirep::with($with)
             ->where(['state' => PirepState::IN_PROGRESS]);
 
         if ($live_time !== null && $live_time > 0) {

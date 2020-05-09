@@ -4,7 +4,7 @@
       <td style="padding-right: 10px;">
         <span class="title">{{ $u->ident }}</span>
       </td>
-      <td>{{ $u->name }}</td>
+      <td>{{ $u->name_private }}</td>
     </tr>
   @endforeach
 </table>

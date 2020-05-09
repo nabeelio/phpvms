@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources;
 
-class Aircraft extends Response
+use App\Contracts\Resource;
+
+class Aircraft extends Resource
 {
 }

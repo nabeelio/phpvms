@@ -1,34 +1,34 @@
 <h3 class="description">@lang('flights.search')</h3>
-<div class="card pull-right">
-  <div class="card-block" style="min-height: 0px">
+<div class="card border-blue-bottom">
+  <div class="card-body ml-1 mr-1" style="min-height: 0px; display: flex; justify-content: center; align-items: center;">
     <div class="form-group search-form">
       {{ Form::open([
               'route' => 'frontend.flights.search',
               'method' => 'GET',
               'class'=>'form-inline'
       ]) }}
-      <div style="margin-left: 5px;">
+      <div>
         <p>@lang('flights.flightnumber')</p>
         {{ Form::text('flight_number', null, ['class' => 'form-control']) }}
       </div>
 
-      <div style="margin-top: 10px; margin-left: 5px;">
+      <div class="mt-1">
         <p>@lang('airports.departure')</p>
         {{ Form::select('dep_icao', $airports, null , ['class' => 'form-control select2']) }}
       </div>
 
-      <div style="margin-top: 10px; margin-left: 5px;">
+      <div class="mt-1">
         <p>@lang('airports.arrival')</p>
         {{ Form::select('arr_icao', $airports, null , ['class' => 'form-control select2']) }}
       </div>
 
-      <div style="margin-top: 10px; margin-left: 5px;">
+      <div class="mt-1">
         <p>@lang('common.subfleet')</p>
         {{ Form::select('subfleet_id', $subfleets, null , ['class' => 'form-control select2']) }}
       </div>
 
-      <div class="clear" style="margin-top: 10px; margin-left: 5px;">
-        {{ Form::submit(__('common.find'), ['class' => 'btn btn-primary']) }}&nbsp;
+      <div class="clear mt-1" style="margin-top: 10px;">
+        {{ Form::submit(__('common.find'), ['class' => 'btn btn-outline-primary']) }}&nbsp;
         <a href="{{ route('frontend.flights.index') }}">@lang('common.reset')</a>
       </div>
       {{ Form::close() }}

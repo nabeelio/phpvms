@@ -13,7 +13,7 @@
       </div>
       <div><br/></div>
       <div class="social-description">
-        <h2>{{ $user->name }}</h2>
+        <h2>{{ $user->name_private }}</h2>
         <p>{{ $user->ident }}</p>
       </div>
       <p class="description" style="color: #9A9A9A;">
@@ -47,7 +47,7 @@
             <div class="card text-center">
               <div class="card-body">
                 <div class="social-description">
-                  <h2>{{ \App\Facades\Utils::minutesToTimeString($user->flight_time, false) }}</h2>
+                  <h2>@minutestotime($user->flight_time)</h2>
                   <p>@lang('flights.flighthours')</p>
                 </div>
               </div>
@@ -74,7 +74,7 @@
               <div class="card text-center">
                 <div class="card-body">
                   <div class="social-description">
-                    <h2>{{ \App\Facades\Utils::minutesToHours($user->transfer_time) }}h</h2>
+                    <h2>@minutestohours($user->transfer_time)h</h2>
                     <p>@lang('profile.transferhours')</p>
                   </div>
                 </div>
@@ -94,7 +94,7 @@
     <div class="row">
       <div class="col-sm-12">
         <div class="text-right">
-          @if ($acars)
+          @if (isset($acars) && $acars === true)
           <a href="{{ route('frontend.profile.acars') }}" class="btn btn-primary"
              onclick="alert('Save to \'My Documents/phpVMS\'')">ACARS Config</a>
           &nbsp;

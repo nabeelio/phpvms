@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Contracts\Controller;
-use App\Exceptions\AircraftNotAtAirport;
+use App\Events\PirepPrefiled;
+use App\Events\PirepUpdated;
 use App\Exceptions\AircraftPermissionDenied;
 use App\Exceptions\PirepCancelled;
-use App\Exceptions\UserNotAtAirport;
 use App\Http\Requests\Acars\CommentRequest;
 use App\Http\Requests\Acars\FieldsRequest;
 use App\Http\Requests\Acars\FileRequest;
@@ -20,7 +20,6 @@ use App\Http\Resources\PirepComment as PirepCommentResource;
 use App\Http\Resources\PirepFieldCollection;
 use App\Models\Acars;
 use App\Models\Enums\AcarsType;
-use App\Models\Enums\FlightType;
 use App\Models\Enums\PirepFieldSource;
 use App\Models\Enums\PirepSource;
 use App\Models\Enums\PirepState;
@@ -111,7 +110,7 @@ class PirepController extends Controller
     protected function checkCancelled(Pirep $pirep)
     {
         if ($pirep->cancelled) {
-            throw new PirepCancelled();
+            throw new PirepCancelled($pirep);
         }
     }
 
@@ -163,13 +162,27 @@ class PirepController extends Controller
     }
 
     /**
-     * @param $pirep_id
+     * @param string $id The PIREP ID
      *
      * @return PirepResource
      */
-    public function get($pirep_id)
+    public function get($id)
     {
-        return new PirepResource($this->pirepRepo->find($pirep_id));
+        $with = [
+            'acars',
+            'arr_airport',
+            'dpt_airport',
+            'comments',
+            'flight',
+            'simbrief',
+            'user',
+        ];
+
+        $pirep = $this->pirepRepo
+            ->with($with)
+            ->find($id);
+
+        return new PirepResource($pirep);
     }
 
     /**
@@ -197,49 +210,9 @@ class PirepController extends Controller
         $user = Auth::user();
 
         $attrs = $this->parsePirep($request);
-        $attrs['user_id'] = $user->id;
         $attrs['source'] = PirepSource::ACARS;
-        $attrs['state'] = PirepState::IN_PROGRESS;
 
-        if (!array_key_exists('status', $attrs)) {
-            $attrs['status'] = PirepStatus::INITIATED;
-        }
-
-        $pirep = new Pirep($attrs);
-
-        // See if this user is at the current airport
-        /* @noinspection NotOptimalIfConditionsInspection */
-        if (setting('pilots.only_flights_from_current')
-            && $user->curr_airport_id !== $pirep->dpt_airport_id) {
-            throw new UserNotAtAirport($user, $pirep->dpt_airport);
-        }
-
-        // See if this user is allowed to fly this aircraft
-        if (setting('pireps.restrict_aircraft_to_rank', false)
-            && !$this->userSvc->aircraftAllowed($user, $pirep->aircraft_id)) {
-            throw new AircraftPermissionDenied($user, $pirep->aircraft);
-        }
-
-        // See if this aircraft is at the departure airport
-        /* @noinspection NotOptimalIfConditionsInspection */
-        if (setting('pireps.only_aircraft_at_dpt_airport')
-            && $pirep->aircraft_id !== $pirep->dpt_airport_id) {
-            throw new AircraftNotAtAirport($pirep->aircraft);
-        }
-
-        // Find if there's a duplicate, if so, let's work on that
-        $dupe_pirep = $this->pirepSvc->findDuplicate($pirep);
-        if ($dupe_pirep !== false) {
-            $pirep = $dupe_pirep;
-            $this->checkCancelled($pirep);
-        }
-
-        // Default to a scheduled passenger flight
-        if (!array_key_exists('flight_type', $attrs)) {
-            $attrs['flight_type'] = FlightType::SCHED_PAX;
-        }
-
-        $pirep->save();
+        $pirep = $this->pirepSvc->prefile($user, $attrs);
 
         Log::info('PIREP PREFILED');
         Log::info($pirep->id);
@@ -247,7 +220,9 @@ class PirepController extends Controller
         $this->updateFields($pirep, $request);
         $this->updateFares($pirep, $request);
 
-        return new PirepResource($pirep);
+        event(new PirepPrefiled($pirep));
+
+        return $this->get($pirep->id);
     }
 
     /**
@@ -291,7 +266,9 @@ class PirepController extends Controller
         $this->updateFields($pirep, $request);
         $this->updateFares($pirep, $request);
 
-        return new PirepResource($pirep);
+        event(new PirepUpdated($pirep));
+
+        return $this->get($pirep->id);
     }
 
     /**
@@ -354,7 +331,7 @@ class PirepController extends Controller
 
         $this->pirepSvc->submit($pirep);
 
-        return new PirepResource($pirep);
+        return $this->get($pirep->id);
     }
 
     /**
@@ -494,7 +471,7 @@ class PirepController extends Controller
     {
         $pirep = Pirep::find($id);
 
-        return AcarsRouteResource::collection(Acars::where([
+        return AcarsRouteResource::collection(Acars::with('pirep')->where([
             'pirep_id' => $id,
             'type'     => AcarsType::ROUTE,
         ])->orderBy('order', 'asc')->get());
@@ -536,8 +513,12 @@ class PirepController extends Controller
             $position['pirep_id'] = $id;
             $position['type'] = AcarsType::ROUTE;
 
-            $acars = Acars::create($position);
-            $acars->save();
+            if (isset($position['id'])) {
+                Acars::updateOrInsert(['id' => $position['id']], $position);
+            } else {
+                $acars = Acars::create($position);
+                $acars->save();
+            }
 
             $count++;
         }

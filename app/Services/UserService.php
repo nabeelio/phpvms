@@ -17,6 +17,7 @@ use App\Repositories\AircraftRepository;
 use App\Repositories\SubfleetRepository;
 use App\Repositories\UserRepository;
 use App\Support\Units\Time;
+use App\Support\Utils;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use function is_array;
@@ -48,15 +49,19 @@ class UserService extends Service
      * Register a pilot. Also attaches the initial roles
      * required, and then triggers the UserRegistered event
      *
-     * @param User  $user  User model
+     * @param array $attrs Array with the user data
      * @param array $roles List of "display_name" of groups to assign
      *
      * @throws \Exception
      *
-     * @return mixed
+     * @return User
      */
-    public function createUser(User $user, array $roles = null)
+    public function createUser(array $attrs, array $roles = null): User
     {
+        $user = User::create($attrs);
+        $user->api_key = Utils::generateApiKey();
+        $user->curr_airport_id = $user->home_airport_id;
+
         // Determine if we want to auto accept
         if (setting('pilots.auto_accept') === true) {
             $user->state = UserState::ACTIVE;
@@ -130,6 +135,13 @@ class UserService extends Service
         return $user;
     }
 
+    /**
+     * Return true or false if a pilot ID already exists
+     *
+     * @param int $pilot_id
+     *
+     * @return bool
+     */
     public function isPilotIdAlreadyUsed(int $pilot_id): bool
     {
         return User::where('pilot_id', '=', $pilot_id)->exists();

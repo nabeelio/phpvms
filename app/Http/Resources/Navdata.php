@@ -2,8 +2,8 @@
 
 namespace App\Http\Resources;
 
+use App\Contracts\Resource;
 use App\Models\Enums\NavaidType;
-use Illuminate\Http\Resources\Json\Resource;
 
 class Navdata extends Resource
 {

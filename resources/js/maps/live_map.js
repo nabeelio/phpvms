@@ -41,7 +41,7 @@ export default (_opts) => {
    * @type {{}}
    */
   const markers_list = {};
-  let pannedToCenter = false;
+  let pannedToFlight = false;
   let layerFlights = null;
   let layerSelFlight = null;
   let layerSelFlightFeature = null;
@@ -76,13 +76,13 @@ export default (_opts) => {
     layerSelFlightLayer = layer;
 
     // Center on it, but only do it once, in case the map is moved
-    if (!pannedToCenter) {
+    if (!pannedToFlight) {
       map.panTo({
         lat: route.position.lat,
         lng: route.position.lon,
       });
 
-      pannedToCenter = true;
+      pannedToFlight = true;
     }
   }
 
@@ -156,7 +156,7 @@ export default (_opts) => {
           layer.on({
             // eslint-disable-next-line no-unused-vars
             click: (e) => {
-              pannedToCenter = false;
+              pannedToFlight = false;
               liveMapController.controller.onFlightClick(feature, layer);
             },
           });
@@ -183,6 +183,12 @@ export default (_opts) => {
       // Reload the clicked-flight information
       if (layerSelFlight !== null) {
         liveMapController.controller.onFlightClick(layerSelFlightFeature, layerSelFlightLayer);
+      } else {
+        // Center on active flights
+        // eslint-disable-next-line no-lonely-if
+        if (!pannedToFlight) {
+          map.panTo(layerFlights.getBounds().getCenter());
+        }
       }
     });
   };

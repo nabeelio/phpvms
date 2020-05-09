@@ -46,7 +46,12 @@ abstract class Enum
     final public static function label($value)
     {
         if (isset(static::$labels[$value])) {
-            return trans(static::$labels[$value]);
+            $val = static::$labels[$value];
+            if (strpos($val, '.') !== false) {
+                return trans($val);
+            }
+
+            return $val;
         }
     }
 

@@ -266,8 +266,7 @@
 <div class="row">
   <div class="form-group col-sm-12">
     <div class="pull-right">
-      {{ Form::button('Save', ['type' => 'submit', 'class' => 'btn btn-success']) }}
-      <a href="{{ route('admin.pireps.index') }}" class="btn btn-warn">Cancel</a>
+      {{ Form::button('Save', ['type' => 'submit', 'class' => 'btn btn-info']) }}
     </div>
   </div>
 </div>

@@ -5,6 +5,9 @@ namespace App\Contracts;
 use Illuminate\Validation\Validator;
 use Prettus\Repository\Eloquent\BaseRepository;
 
+/**
+ * @mixin \Prettus\Repository\Eloquent\BaseRepository
+ */
 abstract class Repository extends BaseRepository
 {
     /**

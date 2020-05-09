@@ -2,33 +2,36 @@
 
 namespace App\Http\Resources;
 
-use Illuminate\Http\Resources\Json\Resource;
+use App\Contracts\Resource;
 
+/**
+ * @mixin \App\Models\User
+ */
 class User extends Resource
 {
     public function toArray($request)
     {
-        return [
+        $res = [
             'id'            => $this->id,
             'pilot_id'      => $this->pilot_id,
             'ident'         => $this->ident,
             'name'          => $this->name,
             'email'         => $this->email,
-            'apikey'        => $this->apikey,
+            'avatar'        => $this->resolveAvatarUrl(),
             'rank_id'       => $this->rank_id,
             'home_airport'  => $this->home_airport_id,
             'curr_airport'  => $this->curr_airport_id,
             'last_pirep_id' => $this->last_pirep_id,
-            'flights'       => $this->flight,
+            'flights'       => $this->flights,
             'flight_time'   => $this->flight_time,
-            'balance'       => $this->balance,
             'timezone'      => $this->timezone,
-            'status'        => $this->status,
             'state'         => $this->state,
-
-            'airline' => Airline::make($this->airline),
-            'bids'    => UserBid::collection($this->bids),
-            'rank'    => Rank::make($this->rank),
         ];
+
+        $res['airline'] = Airline::make($this->whenLoaded('airline'));
+        $res['bids'] = UserBid::collection($this->whenLoaded('bids'));
+        $res['rank'] = Rank::make($this->whenLoaded('rank'));
+
+        return $res;
     }
 }

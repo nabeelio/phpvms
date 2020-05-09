@@ -16,13 +16,13 @@ class UpdateRequest extends FormRequest
 
     public function rules(): array
     {
-        $rules = [
+        return [
             'airline_id'          => 'nullable|exists:airlines,id',
             'aircraft_id'         => 'nullable|exists:aircraft,id',
             'flight_id'           => 'sometimes|nullable|exists:flights,id',
             'flight_number'       => 'sometimes|required',
-            'dpt_airport_id'      => 'sometimes|required|size:4',
-            'arr_airport_id'      => 'sometimes|required|size:4',
+            'dpt_airport_id'      => 'sometimes|required',
+            'arr_airport_id'      => 'sometimes|required',
             'route_code'          => 'nullable',
             'route_leg'           => 'nullable',
             'distance'            => 'sometimes|numeric',
@@ -50,7 +50,5 @@ class UpdateRequest extends FormRequest
             'fares.*.id'    => 'required',
             'fares.*.count' => 'required|numeric',
         ];
-
-        return $rules;
     }
 }

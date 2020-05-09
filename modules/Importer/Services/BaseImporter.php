@@ -5,13 +5,13 @@ namespace Modules\Importer\Services;
 use App\Services\Installer\LoggerTrait;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Log;
 use Modules\Importer\Utils\IdMapper;
 use Modules\Importer\Utils\ImporterDB;
 
-abstract class BaseImporter implements ShouldQueue
+abstract class BaseImporter
 {
     use LoggerTrait;
     use Dispatchable;
@@ -27,7 +27,7 @@ abstract class BaseImporter implements ShouldQueue
     /**
      * The mapper class used for old IDs to new IDs
      *
-     * @var \Illuminate\Contracts\Foundation\Application|mixed
+     * @var IdMapper
      */
     protected $idMapper;
 
@@ -37,6 +37,13 @@ abstract class BaseImporter implements ShouldQueue
      * @var string
      */
     protected $table;
+
+    /**
+     * The column used for the ID, used for the ORDER BY
+     *
+     * @var string
+     */
+    protected $idField = 'id';
 
     public function __construct()
     {
@@ -64,8 +71,16 @@ abstract class BaseImporter implements ShouldQueue
     {
         $manifest = [];
 
+        // Ensure that the table exists; if it doesn't skip it from the manifest
+        if (!$this->db->tableExists($this->table)) {
+            Log::info('Table '.$this->table.' doesn\'t exist');
+            return [];
+        }
+
         $start = 0;
         $total_rows = $this->db->getTotalRows($this->table);
+        Log::info('Found '.$total_rows.' rows for '.$this->table);
+
         do {
             $end = $start + $this->db->batchSize;
             if ($end > $total_rows) {

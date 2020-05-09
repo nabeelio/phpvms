@@ -27,7 +27,7 @@ trait ReferenceTrait
     /**
      * Return an instance of the object or null
      *
-     * @return \App\Contracts\Model|null
+     * @return \App\Contracts\Model|$this|null
      */
     public function getReferencedObject()
     {

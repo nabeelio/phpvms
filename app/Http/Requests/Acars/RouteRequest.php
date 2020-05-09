@@ -16,7 +16,7 @@ class RouteRequest extends FormRequest
 
     public function rules(): array
     {
-        $rules = [
+        return [
             'route'            => 'required|array',
             'route.*.name'     => 'required',
             'route.*.order'    => 'required|int',
@@ -24,7 +24,5 @@ class RouteRequest extends FormRequest
             'route.*.lat'      => 'required|numeric',
             'route.*.lon'      => 'required|numeric',
         ];
-
-        return $rules;
     }
 }

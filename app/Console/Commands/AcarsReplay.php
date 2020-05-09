@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Contracts\Command;
-use App\Facades\Utils;
+use App\Support\Units\Time;
 use GuzzleHttp\Client;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -64,7 +64,7 @@ class AcarsReplay extends Command
     protected function startPirep($flight): string
     {
         // convert the planned flight time to be completely in minutes
-        $pft = Utils::hoursToMinutes(
+        $pft = Time::hoursToMinutes(
             $flight->planned_hrsenroute,
             $flight->planned_minenroute
         );

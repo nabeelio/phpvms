@@ -1,4 +1,4 @@
-@extends('installer::app')
+@extends('updater::app')
 @section('title', 'Update phpVMS')
 
 @section('content')

@@ -25,7 +25,7 @@
               <div class="icon-background">
                 <i class="far fa-clock icon"></i>
               </div>
-              <h3 class="header">{{ \App\Facades\Utils::minutesToTimeString($user->flight_time, false)}}</h3>
+              <h3 class="header">@minutestotime($user->flight_time)</h3>
               <h5 class="description">@lang('dashboard.totalhours')</h5>
             </div>
           </div>
@@ -60,17 +60,17 @@
 
       </div>
 
-      <div class="card">
-        <div class="nav nav-tabs" role="tablist" style="background: #067ec1; color: #FFF;">
-          @lang('dashboard.yourlastreport')
-        </div>
+      <div class="nav nav-tabs" role="tablist" style="background: #067ec1; color: #FFF;">
+        @lang('dashboard.yourlastreport')
+      </div>
+      <div class="card border-blue-bottom">
         @if($last_pirep === null)
           <div class="card-body" style="text-align:center;">
             @lang('dashboard.noreportsyet') <a
               href="{{ route('frontend.pireps.create') }}">@lang('dashboard.fileonenow')</a>
           </div>
         @else
-          @include('pireps.pirep_card', ['pirep' => $last_pirep])
+          @include('dashboard.pirep_card', ['pirep' => $last_pirep])
         @endif
       </div>
 
