@@ -36,14 +36,6 @@ return [
     'registration_redirect' => '/profile',
 
     /*
-     * The ISO "Currency Code" to use, the list is in config/money.php
-     *
-     * Note, do not change this after you've set it, unless you don't
-     * care that the currencies aren't "exchanged" into the new format
-     */
-    'currency' => 'USD',
-
-    /*
      * Point to the class to use to retrieve the METAR string. If this
      * goes inactive at some date, it can be replaced
      */
@@ -54,6 +46,11 @@ return [
      * If this goes inactive at some date, it can be replaced
      */
     'airport_lookup' => App\Services\AirportLookup\VaCentralLookup::class,
+
+    /*
+     * URL for where to lookup the Simbrief flight plans
+     */
+    'simbrief_url' => 'https://www.simbrief.com/ofp/flightplans/xml/{id}.xml',
 
     /*
      * Your vaCentral API key
@@ -74,6 +71,11 @@ return [
      * URL to the latest version file
      */
     'version_file' => 'https://api.github.com/repos/nabeelio/phpvms/releases',
+
+    /**
+     * The URL to download the latest phpVMS version from
+     */
+    'distrib_url' => 'http://downloads.phpvms.net/phpvms-{VERSION}.zip',
 
     /*
      * Where the KVP file is stored
@@ -104,6 +106,11 @@ return [
      * The links to various docs on the documentation site
      */
     'docs' => [
-        'cron' => 'http://docs.phpvms.net/configuration/cron',
+        'root'             => 'http://docs.phpvms.net',
+        'cron'             => '/configuration/cron',
+        'finances'         => '/concepts/finances',
+        'importing_legacy' => '/setup/importing-from-v2-v5',
+        'load_factor'      => '/operations/flights#load-factor',
+        'subfleets'        => '/concepts/basics#subfleets-and-aircraft',
     ],
 ];

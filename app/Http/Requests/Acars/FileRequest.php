@@ -16,7 +16,7 @@ class FileRequest extends FormRequest
 
     public function rules(): array
     {
-        $rules = [
+        return [
             'distance'            => 'required|numeric',
             'flight_time'         => 'required|integer',
             'fuel_used'           => 'required|numeric',
@@ -25,8 +25,8 @@ class FileRequest extends FormRequest
             'aircraft_id'         => 'sometimes|exists:aircraft,id',
             'flight_number'       => 'sometimes',
             'flight_type'         => 'sometimes',
-            'dpt_airport_id'      => 'sometimes|size:4',
-            'arr_airport_id'      => 'sometimes|size:4',
+            'dpt_airport_id'      => 'sometimes',
+            'arr_airport_id'      => 'sometimes',
             'route_code'          => 'sometimes',
             'route_leg'           => 'sometimes',
             'planned_distance'    => 'sometimes|numeric',
@@ -48,7 +48,5 @@ class FileRequest extends FormRequest
             'fares.*.id'    => 'required',
             'fares.*.count' => 'required|numeric',
         ];
-
-        return $rules;
     }
 }

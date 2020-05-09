@@ -11,7 +11,7 @@ return [
     'name'          => env('APP_NAME', 'phpvms'),
     'env'           => env('APP_ENV', 'dev'),
     'debug'         => env('APP_DEBUG', true),
-    'url'           => env('APP_URL', 'http://localhost'),
+    'url'           => env('APP_URL', ''),
     'version'       => '7.0.0',
     'debug_toolbar' => false,
 
@@ -74,13 +74,16 @@ return [
          * Application Service Providers...
          */
         App\Providers\AppServiceProvider::class,
-        App\Providers\CronServiceProvider::class,
-        App\Providers\BroadcastServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
-        App\Providers\EventServiceProvider::class,
-        App\Providers\RouteServiceProvider::class,
-        App\Providers\MeasurementsProvider::class,
         App\Providers\BindServiceProviders::class,
+        App\Providers\BroadcastServiceProvider::class,
+        App\Providers\ViewComposerServiceProvider::class,
+        App\Providers\CronServiceProvider::class,
+        App\Providers\DirectiveServiceProvider::class,
+        App\Providers\EventServiceProvider::class,
+        App\Providers\MeasurementsProvider::class,
+        App\Providers\ObserverServiceProviders::class,
+        App\Providers\RouteServiceProvider::class,
     ],
 
     'aliases' => [
@@ -118,8 +121,8 @@ return [
         'Session'      => Illuminate\Support\Facades\Session::class,
         'Storage'      => Illuminate\Support\Facades\Storage::class,
         'Theme'        => Igaster\LaravelTheme\Facades\Theme::class,
+        'Updater'      => Codedge\Updater\UpdaterFacade::class,
         'URL'          => Illuminate\Support\Facades\URL::class,
-        'Utils'        => App\Facades\Utils::class,
         'Validator'    => Illuminate\Support\Facades\Validator::class,
         'Version'      => PragmaRX\Version\Package\Facade::class,
         'View'         => Illuminate\Support\Facades\View::class,

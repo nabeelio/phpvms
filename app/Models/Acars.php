@@ -8,16 +8,13 @@ use App\Support\Units\Distance;
 use App\Support\Units\Fuel;
 
 /**
- * Class Acars
- *
- * @param string id
- *
+ * @property string id
  * @property string pirep_id
  * @property int    type
  * @property string name
- * @property float lat
- * @property float lon
- * @property float altitude
+ * @property float  lat
+ * @property float  lon
+ * @property float  altitude
  * @property int    gs
  * @property int    heading
  * @property int    order

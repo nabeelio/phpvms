@@ -22,8 +22,8 @@
         </div>
       </td>
       <td>
-        <a href="{{ route('frontend.profile.show.public', [$user->id]) }}">
-          {{ $user->name }}
+        <a href="{{ route('frontend.users.show.public', [$user->id]) }}">
+          {{$user->ident}}&nbsp;{{ $user->name_private }}
         </a>
       </td>
       <td align="center">
@@ -41,7 +41,7 @@
         @endif
       </td>
       <td align="center">{{ $user->flights }}</td>
-      <td align="center">{{ \App\Facades\Utils::minutesToTimeString($user->flight_time) }}</td>
+      <td align="center">@minutestotime($user->flight_time)</td>
     </tr>
   @endforeach
   </tbody>

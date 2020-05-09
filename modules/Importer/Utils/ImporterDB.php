@@ -86,6 +86,49 @@ class ImporterDB
     }
 
     /**
+     * Does a table exist? Try to get the column information on it.
+     * The result will be 'false' if that table isn't there
+     *
+     * @param $table
+     *
+     * @return bool
+     */
+    public function tableExists($table): bool
+    {
+        $this->connect();
+
+        $sql = 'SHOW COLUMNS FROM '.$this->tableName($table);
+        $result = $this->conn->query($sql);
+        if (!$result) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Get the names of the columns for a particular table
+     *
+     * @param $table
+     *
+     * @return mixed
+     */
+    public function getColumns($table)
+    {
+        $this->connect();
+
+        $sql = 'SHOW COLUMNS FROM '.$this->tableName($table);
+        $result = $this->conn->query($sql)->fetchAll();
+
+        $rows = [];
+        foreach ($result as $row) {
+            $rows[] = $row->Field;
+        }
+
+        return $rows;
+    }
+
+    /**
      * @param $table
      *
      * @return mixed
@@ -103,49 +146,94 @@ class ImporterDB
     }
 
     /**
+     * Read rows from a table with a given assoc array. Simple
+     *
+     * @param string $table
+     * @param array  $attrs
+     *
+     * @return false|\PDOStatement
+     */
+    public function findBy($table, array $attrs)
+    {
+        $this->connect();
+
+        $where = [];
+        foreach ($attrs as $col => $value) {
+            $where[] = $col.'=\''.$value.'\'';
+        }
+
+        $where = implode(' AND ', $where);
+
+        $sql = implode(' ', [
+            'SELECT',
+            '*',
+            'FROM',
+            $this->tableName($table),
+            'WHERE',
+            $where,
+        ]);
+
+        return $this->conn->query($sql);
+    }
+
+    /**
      * Read all the rows in a table, but read them in a batched manner
      *
-     * @param string $table The name of the table
-     * @param int    [$start_offset]
-     * @param string [$fields]
+     * @param string $table        The name of the table
+     * @param string $order_by     Column to order by
+     * @param int    $start_offset
+     * @param string $fields
      *
-     * @return \Generator
+     * @return array
      */
-    public function readRows($table, $start_offset = 0, $fields = '*')
+    public function readRows($table, $order_by = 'id', $start_offset = 0, $fields = '*')
     {
         $this->connect();
 
         $offset = $start_offset;
-        $total_rows = $this->getTotalRows($table);
+        // $total_rows = $this->getTotalRows($table);
 
-        while ($offset < $total_rows) {
-            $rows_to_read = $offset + $this->batchSize;
-            if ($rows_to_read > $total_rows) {
-                $rows_to_read = $total_rows;
-            }
-
-            // Log::info('Reading '.$offset.' to '.$rows_to_read.' of '.$total_rows);
-            yield from $this->readRowsOffset($table, $this->batchSize, $offset, $fields);
-
-            $offset += $this->batchSize;
+        $rows = [];
+        $result = $this->readRowsOffset($table, $this->batchSize, $offset, $order_by, $fields);
+        if ($result === false || $result === null) {
+            return [];
         }
+
+        try {
+            foreach ($result as $row) {
+                $rows[] = $row;
+            }
+        } catch (\Exception $e) {
+            Log::error('foreach rows error: '.$e->getMessage());
+        }
+
+        return $rows;
     }
 
     /**
      * @param string $table
-     * @param int    $limit  Number of rows to read
-     * @param int    $offset Where to start from
-     * @param string [$fields]
+     * @param int    $limit    Number of rows to read
+     * @param int    $offset   Where to start from
+     * @param        $order_by
+     * @param string $fields
      *
-     * @return \Generator
+     * @return false|\PDOStatement|void
      */
-    public function readRowsOffset($table, $limit, $offset, $fields = '*')
+    public function readRowsOffset($table, $limit, $offset, $order_by, $fields = '*')
     {
         if (is_array($fields)) {
             $fields = implode(',', $fields);
         }
 
-        $sql = 'SELECT '.$fields.' FROM '.$this->tableName($table).' LIMIT '.$limit.' OFFSET '.$offset;
+        $sql = implode(' ', [
+            'SELECT',
+            $fields,
+            'FROM',
+            $this->tableName($table),
+            'ORDER BY '.$order_by.' ASC',
+            'LIMIT '.$limit,
+            'OFFSET '.$offset,
+        ]);
 
         try {
             $result = $this->conn->query($sql);
@@ -153,9 +241,7 @@ class ImporterDB
                 return;
             }
 
-            foreach ($result as $row) {
-                yield $row;
-            }
+            return $result;
         } catch (PDOException $e) {
             // Without incrementing the offset, it should re-run the same query
             Log::error('Error readRowsOffset: '.$e->getMessage());
@@ -163,6 +249,8 @@ class ImporterDB
             if (strpos($e->getMessage(), 'server has gone away') !== false) {
                 $this->connect();
             }
+        } catch (\Exception $e) {
+            Log::error('Error readRowsOffset: '.$e->getMessage());
         }
     }
 }

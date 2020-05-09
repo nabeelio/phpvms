@@ -28,7 +28,8 @@ class AppServiceProvider extends ServiceProvider
         ], 'config');
 
         $this->mergeConfigFrom(
-            __DIR__.'/../Config/config.php', 'vacentral'
+            __DIR__.'/../Config/config.php',
+            'vacentral'
         );
     }
 }

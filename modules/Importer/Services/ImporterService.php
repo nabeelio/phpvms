@@ -6,15 +6,19 @@ use App\Contracts\Service;
 use App\Repositories\KvpRepository;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Modules\Importer\Services\Importers\AircraftImporter;
 use Modules\Importer\Services\Importers\AirlineImporter;
 use Modules\Importer\Services\Importers\AirportImporter;
 use Modules\Importer\Services\Importers\ClearDatabase;
+use Modules\Importer\Services\Importers\ExpenseImporter;
 use Modules\Importer\Services\Importers\FinalizeImporter;
 use Modules\Importer\Services\Importers\FlightImporter;
 use Modules\Importer\Services\Importers\GroupImporter;
+use Modules\Importer\Services\Importers\LedgerImporter;
 use Modules\Importer\Services\Importers\PirepImporter;
 use Modules\Importer\Services\Importers\RankImport;
+use Modules\Importer\Services\Importers\SettingsImporter;
 use Modules\Importer\Services\Importers\UserImport;
 
 class ImporterService extends Service
@@ -39,6 +43,9 @@ class ImporterService extends Service
         FlightImporter::class,
         UserImport::class,
         PirepImporter::class,
+        ExpenseImporter::class,
+        LedgerImporter::class,
+        SettingsImporter::class,
         FinalizeImporter::class,
     ];
 
@@ -55,7 +62,6 @@ class ImporterService extends Service
     public function saveCredentialsFromRequest(Request $request)
     {
         $creds = [
-            'admin_email'  => $request->post('email'),
             'host'         => $request->post('db_host'),
             'port'         => $request->post('db_port'),
             'name'         => $request->post('db_name'),
@@ -130,6 +136,11 @@ class ImporterService extends Service
 
         /** @var $importerInst \Modules\Importer\Services\BaseImporter */
         $importerInst = new $importer();
-        $importerInst->run($start);
+
+        try {
+            $importerInst->run($start);
+        } catch (Exception $e) {
+            Log::error('Error running importer: '.$e->getMessage());
+        }
     }
 }

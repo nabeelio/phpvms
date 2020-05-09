@@ -63,7 +63,7 @@ class AirlinesController extends Controller
     public function store(CreateAirlineRequest $request)
     {
         $input = $request->all();
-        $airlines = $this->airlineRepo->create($input);
+        $this->airlineSvc->createAirline($input);
 
         Flash::success('Airlines saved successfully.');
         return redirect(route('admin.airlines.index'));

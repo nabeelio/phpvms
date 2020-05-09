@@ -9,12 +9,13 @@ return [
         // Default driver to use when no driver is present
         'default' => 'file',
         'drivers' => [
-            'Zend OPcache' => 'opcache',
-            'apc'          => 'apc',
+            // 'Zend OPcache' => 'opcache',
+            // 'apc'          => 'apc',
         ],
     ],
 
     'extensions' => [
+        // 'bcmath',
         'openssl',
         'pdo',
         'mbstring',

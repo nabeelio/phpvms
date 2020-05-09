@@ -3,12 +3,40 @@
 
 @section('content')
   <div class="row">
-    <div class="col-8">
-      <div class="row">
-        <div class="col-12">
-          <h2 style="margin-bottom: 5px;">{{$pirep->airline->code}}{{ $pirep->ident }}</h2>
+    <div class="col-sm-8">
+      <h2>{{ $pirep->airline->icao }}{{ $pirep->ident }}
+        : {{ $pirep->dpt_airport_id }} to {{ $pirep->arr_airport_id }}</h2>
+    </div>
+
+    <div class="col-sm-4">
+      {{-- Show the link to edit if it can be edited --}}
+      @if (!empty($pirep->simbrief))
+        <a href="{{ url(route('frontend.simbrief.briefing', [$pirep->simbrief->id])) }}"
+           class="btn btn-outline-info">View SimBrief</a>
+      @endif
+
+      @if(!$pirep->read_only)
+        <div class="float-right" style="margin-bottom: 10px;">
+          <form method="get"
+                action="{{ route('frontend.pireps.edit', $pirep->id) }}"
+                style="display: inline">
+            @csrf
+            <button class="btn btn-outline-info">@lang('common.edit')</button>
+          </form>
+          &nbsp;
+          <form method="post"
+                action="{{ route('frontend.pireps.submit', $pirep->id) }}"
+                style="display: inline">
+            @csrf
+            <button class="btn btn-outline-success">@lang('common.submit')</button>
+          </form>
         </div>
-      </div>
+      @endif
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-8">
       <div class="row">
         {{--
             DEPARTURE INFO
@@ -70,29 +98,7 @@
     --}}
 
     <div class="col-4">
-
-      <h2>&nbsp;</h2>
-
-      {{-- Show the link to edit if it can be edited --}}
-      @if(!$pirep->read_only)
-        <div class="float-right" style="margin-bottom: 10px;">
-          <form method="get"
-                action="{{ route('frontend.pireps.edit', $pirep->id) }}"
-                style="display: inline">
-            @csrf
-            <button class="btn btn-info">@lang('common.edit')</button>
-          </form>
-          &nbsp;
-          <form method="post"
-                action="{{ route('frontend.pireps.submit', $pirep->id) }}"
-                style="display: inline">
-            @csrf
-            <button class="btn btn-success">@lang('common.submit')</button>
-          </form>
-        </div>
-      @endif
       <table class="table table-striped">
-
         <tr>
           <td width="30%">@lang('common.state')</td>
           <td>
@@ -102,6 +108,7 @@
           </td>
         </tr>
 
+        @if ($pirep->state !== PirepState::DRAFT)
         <tr>
           <td width="30%">@lang('common.status')</td>
           <td>
@@ -110,6 +117,7 @@
             </div>
           </td>
         </tr>
+        @endif
 
         <tr>
           <td>@lang('pireps.source')</td>
@@ -153,7 +161,7 @@
         <table class="table table-hover table-condensed">
           <thead>
           <th>@lang('common.name')</th>
-          <th>@lang('common.value')</th>
+          <th>{{ trans_choice('common.value', 1) }}</th>
           </thead>
           <tbody>
           @foreach($pirep->fields as $field)
@@ -217,5 +225,22 @@
       </div>
     </div>
   @endif
-@endsection
 
+  @if(!empty($pirep->simbrief))
+    <div class="separator"></div>
+    <div class="row mt-5">
+      <div class="col-12">
+        <div class="form-container">
+          <h6><i class="fas fa-info-circle"></i>
+            &nbsp;OFP
+          </h6>
+          <div class="form-container-body border border-dark">
+            <div class="overflow-auto" style="height: 600px;">
+              {!! $pirep->simbrief->xml->text->plan_html !!}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  @endif
+@endsection

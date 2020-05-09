@@ -25,5 +25,7 @@ export default async (_opts) => {
     },
   }, _opts);
 
+  console.log(opts);
+
   return axios.request(opts);
 };

@@ -10,6 +10,8 @@ class UserPending extends BaseNotification
 {
     use MailChannel;
 
+    public $channels = ['mail'];
+
     private $user;
 
     /**
@@ -17,6 +19,8 @@ class UserPending extends BaseNotification
      */
     public function __construct(User $user)
     {
+        parent::__construct();
+
         $this->user = $user;
 
         $this->setMailable(

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Contracts\Controller;
-use App\Facades\Utils;
 use App\Http\Requests\CreatePirepRequest;
 use App\Http\Requests\UpdatePirepRequest;
 use App\Models\Enums\PirepSource;
@@ -260,7 +259,7 @@ class PirepController extends Controller
 
         $hours = (int) $attrs['hours'];
         $minutes = (int) $attrs['minutes'];
-        $pirep->flight_time = Utils::hoursToMinutes($hours) + $minutes;
+        $pirep->flight_time = Time::hoursToMinutes($hours) + $minutes;
 
         $this->saveCustomFields($pirep, $request);
         $this->saveFares($pirep, $request);

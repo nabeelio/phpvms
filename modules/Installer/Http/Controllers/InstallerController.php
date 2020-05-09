@@ -3,9 +3,7 @@
 namespace Modules\Installer\Http\Controllers;
 
 use App\Contracts\Controller;
-use App\Facades\Utils;
-use App\Models\User;
-use App\Repositories\AirlineRepository;
+use App\Services\AirlineService;
 use App\Services\AnalyticsService;
 use App\Services\Installer\DatabaseService;
 use App\Services\Installer\InstallerService;
@@ -13,17 +11,19 @@ use App\Services\Installer\MigrationService;
 use App\Services\Installer\SeederService;
 use App\Services\UserService;
 use App\Support\Countries;
+use App\Support\Utils;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use Laracasts\Flash\Flash;
 use Modules\Installer\Services\ConfigService;
 use Modules\Installer\Services\RequirementsService;
 
 class InstallerController extends Controller
 {
-    private $airlineRepo;
+    private $airlineSvc;
     private $analyticsSvc;
     private $dbSvc;
     private $envSvc;
@@ -35,7 +35,7 @@ class InstallerController extends Controller
     /**
      * InstallerController constructor.
      *
-     * @param AirlineRepository   $airlineRepo
+     * @param AirlineService      $airlineSvc
      * @param AnalyticsService    $analyticsSvc
      * @param DatabaseService     $dbService
      * @param ConfigService       $envService
@@ -45,7 +45,7 @@ class InstallerController extends Controller
      * @param UserService         $userService
      */
     public function __construct(
-        AirlineRepository $airlineRepo,
+        AirlineService $airlineSvc,
         AnalyticsService $analyticsSvc,
         DatabaseService $dbService,
         ConfigService $envService,
@@ -54,7 +54,7 @@ class InstallerController extends Controller
         SeederService $seederSvc,
         UserService $userService
     ) {
-        $this->airlineRepo = $airlineRepo;
+        $this->airlineSvc = $airlineSvc;
         $this->analyticsSvc = $analyticsSvc;
         $this->dbSvc = $dbService;
         $this->envSvc = $envService;
@@ -63,7 +63,7 @@ class InstallerController extends Controller
         $this->seederSvc = $seederSvc;
         $this->userService = $userService;
 
-        \App\Support\Utils::disableDebugToolbar();
+        Utils::disableDebugToolbar();
     }
 
     /**
@@ -196,7 +196,7 @@ class InstallerController extends Controller
             Log::error('Testing db before writing configs failed');
             Log::error($e->getMessage());
 
-            flash()->error($e->getMessage());
+            Flash::error($e->getMessage());
             return redirect(route('installer.step2'))->withInput();
         }
 
@@ -224,7 +224,7 @@ class InstallerController extends Controller
             Log::error('Config files failed to write');
             Log::error($e->getMessage());
 
-            flash()->error($e->getMessage());
+            Flash::error($e->getMessage());
             return redirect(route('installer.step2'))->withInput();
         }
 
@@ -238,7 +238,7 @@ class InstallerController extends Controller
      *
      * @param Request $request
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
+     * @return mixed
      */
     public function dbsetup(Request $request)
     {
@@ -250,9 +250,9 @@ class InstallerController extends Controller
             $this->seederSvc->syncAllSeeds();
         } catch (QueryException $e) {
             Log::error('Error on db setup: '.$e->getMessage());
-
+            dd($e);
             $this->envSvc->removeConfigFiles();
-            flash()->error($e->getMessage());
+            Flash::error($e->getMessage());
             return redirect(route('installer.step2'))->withInput();
         }
 
@@ -282,7 +282,7 @@ class InstallerController extends Controller
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      * @throws \Exception
      *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return mixed
      */
     public function usersetup(Request $request)
     {
@@ -310,7 +310,7 @@ class InstallerController extends Controller
             'country' => $request->get('airline_country'),
         ];
 
-        $airline = $this->airlineRepo->create($attrs);
+        $airline = $this->airlineSvc->createAirline($attrs);
 
         /**
          * Create the user, and associate to the airline
@@ -325,8 +325,7 @@ class InstallerController extends Controller
             'password'   => Hash::make($request->get('password')),
         ];
 
-        $user = User::create($attrs);
-        $user = $this->userService->createUser($user, ['admin']);
+        $user = $this->userService->createUser($attrs, ['admin']);
         Log::info('User registered: ', $user->toArray());
 
         // Set the initial admin e-mail address

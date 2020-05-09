@@ -3,6 +3,7 @@
 namespace Modules\Importer\Services\Importers;
 
 use App\Models\Acars;
+use App\Models\Aircraft;
 use App\Models\Airline;
 use App\Models\Airport;
 use App\Models\Bid;
@@ -13,8 +14,10 @@ use App\Models\FlightField;
 use App\Models\FlightFieldValue;
 use App\Models\Journal;
 use App\Models\JournalTransaction;
+use App\Models\Ledger;
 use App\Models\News;
 use App\Models\Pirep;
+use App\Models\Role;
 use App\Models\Subfleet;
 use App\Models\User;
 use App\Models\UserAward;
@@ -60,6 +63,7 @@ class ClearDatabase extends BaseImporter
         Expense::truncate();
         JournalTransaction::truncate();
         Journal::truncate();
+        Ledger::truncate();
 
         // Clear flights
         DB::table('flight_fare')->truncate();
@@ -68,12 +72,7 @@ class ClearDatabase extends BaseImporter
         FlightFieldValue::truncate();
         Flight::truncate();
         Subfleet::truncate();
-
-        // Clear permissions
-        //        DB::table('permission_role')->truncate();
-        //        DB::table('permission_user')->truncate();
-        //        DB::table('role_user')->truncate();
-        //        Role::truncate();
+        Aircraft::truncate();
 
         Airline::truncate();
         Airport::truncate();
@@ -83,6 +82,15 @@ class ClearDatabase extends BaseImporter
         UserAward::truncate();
         User::truncate();
 
+        // Clear permissions
+        DB::table('permission_role')->truncate();
+        DB::table('permission_user')->truncate();
+        DB::table('role_user')->truncate();
+
+        // Role::truncate();
+
         DB::statement('SET FOREIGN_KEY_CHECKS=1');
+
+        $this->idMapper->clear();
     }
 }

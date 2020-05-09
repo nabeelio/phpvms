@@ -59,7 +59,7 @@ class Unit implements ArrayAccess
     {
         $response = [];
         foreach ($this->responseUnits as $unit) {
-            $response[$unit] = $this[$unit];
+            $response[$unit] = $this[$unit] ?? 0;
         }
 
         return $response;

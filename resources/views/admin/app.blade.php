@@ -110,6 +110,8 @@
       checkboxClass: 'icheckbox_square-blue',
       radioClass: 'icheckbox_square-blue'
     });
+
+    $('[data-toggle="popover"]').popover();
   };
 
   $(document).ready(function () {

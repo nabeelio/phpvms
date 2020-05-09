@@ -74,13 +74,13 @@ reload-db:
 tests: test
 
 .PHONY: test
-test:
+test: phpcs
 	#php artisan database:create --reset
 	vendor/bin/phpunit --debug --verbose
 
 .PHONY: phpcs
 phpcs:
-	@vendor/bin/php-cs-fixer fix --config=.php_cs -v --diff --dry-run
+	@vendor/bin/php-cs-fixer fix --config=.php_cs -v --diff --diff-format=udiff --dry-run
 
 #.PHONY: phpstan
 #phpstan:

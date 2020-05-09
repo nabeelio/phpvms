@@ -2,29 +2,19 @@
 
 namespace App\Http\Requests;
 
+use App\Contracts\FormRequest;
 use App\Models\Pirep;
 use App\Repositories\PirepFieldRepository;
-use Illuminate\Foundation\Http\FormRequest;
-use Log;
+use Illuminate\Support\Facades\Log;
 
 class UpdatePirepRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return true;
-    }
-
     /**
      * Get the validation rules that apply to the request.
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         // Don't run validations if it's just being saved
         $action = strtolower(request('submit', 'submit'));

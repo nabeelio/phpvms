@@ -2,7 +2,9 @@
 
 namespace App\Http\Resources;
 
-class Award extends Response
+use App\Contracts\Resource;
+
+class Award extends Resource
 {
     public function toArray($request)
     {

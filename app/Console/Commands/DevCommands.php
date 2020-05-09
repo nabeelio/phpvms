@@ -7,6 +7,7 @@ use App\Models\Acars;
 use App\Models\Airline;
 use App\Models\Pirep;
 use App\Models\User;
+use App\Notifications\Messages\UserRegistered;
 use App\Repositories\AcarsRepository;
 use App\Services\AirportService;
 use App\Services\AwardService;
@@ -60,6 +61,7 @@ class DevCommands extends Command
             'metar'             => 'getMetar',
             'recalculate-stats' => 'recalculateStats',
             'reset-install'     => 'resetInstall',
+            'new-user-email'    => 'newUserEmail',
             'xml-to-yaml'       => 'xmlToYaml',
         ];
 
@@ -288,6 +290,16 @@ class DevCommands extends Command
         Artisan::call('view:clear');
 
         $this->info('Done!');
+    }
+
+    /**
+     * Test sending a user a registered email
+     */
+    protected function newUserEmail()
+    {
+        $user_id = $this->argument('param');
+        $user = User::find($user_id);
+        $user->notify(new UserRegistered($user));
     }
 
     public function liveFlights(): void

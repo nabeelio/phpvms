@@ -3,7 +3,9 @@
 use App\Models\Enums\PirepState;
 use App\Models\Enums\PirepStatus;
 use App\Models\PirepFare;
+use App\Models\PirepFieldValue;
 use App\Repositories\SettingRepository;
+use App\Support\Utils;
 
 /**
  * Test API calls and authentication, etc
@@ -246,7 +248,7 @@ class AcarsTest extends TestCase
         ];
 
         $response = $this->post($uri, $pirep);
-        $response->assertStatus(201);
+        $response->assertStatus(200);
         $pirep = $response->json('data');
 
         // See that the fields and fares were set
@@ -258,7 +260,7 @@ class AcarsTest extends TestCase
         $this->assertEquals($fare->capacity, $saved_fare['count']);
 
         // Check saved fields
-        $saved_fields = \App\Models\PirepFieldValue::where('pirep_id', $pirep['id'])->get();
+        $saved_fields = PirepFieldValue::where('pirep_id', $pirep['id'])->get();
         $this->assertCount(1, $saved_fields);
         $field = $saved_fields->first();
 
@@ -333,7 +335,7 @@ class AcarsTest extends TestCase
         ];
 
         $response = $this->post($uri, $pirep);
-        $response->assertStatus(201);
+        $response->assertStatus(200);
         $pirep = $response->json('data');
 
         /**
@@ -387,13 +389,13 @@ class AcarsTest extends TestCase
         ];
 
         $response = $this->post($uri, $pirep_create);
-        $response->assertStatus(201);
+        $response->assertStatus(200);
 
         // Get the PIREP ID
         $body = $response->json();
         $pirep_id = $body['data']['id'];
 
-        $this->assertHasKeys($body['data'], ['airline', 'arr_airport', 'dpt_airport', 'position']);
+        $this->assertHasKeys($body['data'], ['airline', 'arr_airport', 'dpt_airport']);
         $this->assertNotNull($pirep_id);
         $this->assertEquals($body['data']['user_id'], $this->user->id);
 
@@ -415,7 +417,8 @@ class AcarsTest extends TestCase
          */
         $uri = '/api/pireps/'.$pirep_id.'/update';
         $this->post($uri, [
-            'fields' => [
+            'flight_time' => 60,
+            'fields'      => [
                 'custom_field' => 'custom_value_changed',
             ],
         ]);
@@ -475,7 +478,23 @@ class AcarsTest extends TestCase
         $body = $response->json('data');
         $this->assertEquals('G26', $body['Departure Gate']);
 
-        // File the PIREP now
+        /*
+         * Get the live flights and make sure all the fields we want are there
+         */
+        $uri = '/api/acars';
+        $response = $this->get($uri);
+
+        $response->assertStatus(200);
+        $body = collect($response->json('data'));
+        $body = $body->firstWhere('id', $pirep['id']);
+
+        $this->assertNotEmpty($body['user']['name']);
+        $this->assertNotEmpty($body['user']['avatar']);
+
+        /*
+         * File the PIREP
+         */
+
         $uri = '/api/pireps/'.$pirep_id.'/file';
         $response = $this->post($uri, []);
         $response->assertStatus(400); // missing field
@@ -532,7 +551,7 @@ class AcarsTest extends TestCase
         ];
 
         $response = $this->post($uri, $pirep);
-        $response->assertStatus(201);
+        $response->assertStatus(200);
 
         // Get the PIREP ID
         $body = $response->json();
@@ -598,7 +617,7 @@ class AcarsTest extends TestCase
         // Try refiling with a valid aircraft
         $pirep['aircraft_id'] = $subfleetA['aircraft']->random()->id;
         $response = $this->post($uri, $pirep);
-        $response->assertStatus(201);
+        $response->assertStatus(200);
     }
 
     /**
@@ -639,7 +658,7 @@ class AcarsTest extends TestCase
         ];
 
         $response = $this->post($uri, $pirep);
-        $response->assertStatus(201);
+        $response->assertStatus(200);
     }
 
     /**
@@ -653,17 +672,26 @@ class AcarsTest extends TestCase
 
         $uri = '/api/pireps/prefile';
         $response = $this->post($uri, $pirep);
-        $response->assertStatus(201);
+        $response->assertStatus(200);
 
         $pirep_id = $response->json()['data']['id'];
 
         $uri = '/api/pireps/'.$pirep_id.'/acars/position';
 
         // Post an ACARS update
-        $acars_count = \random_int(2, 10);
-        $acars = factory(App\Models\Acars::class, $acars_count)->make(['id' => ''])->toArray();
+        $acars_count = \random_int(5, 10);
+        $acars = factory(App\Models\Acars::class, $acars_count)->make(['id' => ''])
+            ->map(function ($point) {
+                $point['id'] = Utils::generateNewId();
+                return $point;
+            })
+            ->toArray();
 
         $update = ['positions' => $acars];
+        $response = $this->post($uri, $update);
+        $response->assertStatus(200)->assertJson(['count' => $acars_count]);
+
+        // Try posting again, should be ignored/not throw any sql errors
         $response = $this->post($uri, $update);
         $response->assertStatus(200)->assertJson(['count' => $acars_count]);
 
@@ -700,11 +728,9 @@ class AcarsTest extends TestCase
 
         $dt = date('c');
         $uri = '/api/pireps/'.$pirep_id.'/acars/position';
-        $acars = factory(App\Models\Acars::class)->make(
-            [
-                'sim_time' => $dt,
-            ]
-        )->toArray();
+        $acars = factory(App\Models\Acars::class)->make([
+            'sim_time' => $dt,
+        ])->toArray();
 
         $update = ['positions' => [$acars]];
         $response = $this->post($uri, $update);
@@ -729,7 +755,13 @@ class AcarsTest extends TestCase
         $response->assertStatus(400);
 
         $post_route = [
-            ['order' => 1, 'name' => 'NAVPOINT', 'lat' => 'notanumber', 'lon' => 34.11],
+            [
+                'id'    => 'NAVPOINT',
+                'order' => 1,
+                'name'  => 'NAVPOINT',
+                'lat'   => 'notanumber',
+                'lon'   => 34.11,
+            ],
         ];
 
         $uri = '/api/pireps/'.$pirep_id.'/route';
@@ -803,6 +835,10 @@ class AcarsTest extends TestCase
         $response = $this->post($uri, ['route' => $post_route]);
         $response->assertStatus(200)->assertJson(['count' => $route_count]);
 
+        // Try double post to ignore SQL update
+        $response = $this->post($uri, ['route' => $post_route]);
+        $response->assertStatus(200)->assertJson(['count' => $route_count]);
+
         /**
          * Get
          */
@@ -834,7 +870,7 @@ class AcarsTest extends TestCase
 
         $uri = '/api/pireps/prefile';
         $response = $this->post($uri, $pirep);
-        $response->assertStatus(201);
+        $response->assertStatus(200);
         $pirep_id = $response->json()['data']['id'];
 
         // try readding

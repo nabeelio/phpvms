@@ -1,6 +1,7 @@
 <?php
 
 use App\Contracts\Migration;
+use App\Models\Pirep;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
@@ -24,7 +25,7 @@ class CreateUsersTable extends Migration
             $table->string('country', 2)->nullable();
             $table->string('home_airport_id', 5)->nullable();
             $table->string('curr_airport_id', 5)->nullable();
-            $table->string('last_pirep_id', \App\Models\Pirep::ID_MAX_LENGTH)->nullable();
+            $table->string('last_pirep_id', Pirep::ID_MAX_LENGTH)->nullable();
             $table->unsignedBigInteger('flights')->default(0);
             $table->unsignedBigInteger('flight_time')->nullable()->default(0);
             $table->unsignedBigInteger('transfer_time')->nullable()->default(0);

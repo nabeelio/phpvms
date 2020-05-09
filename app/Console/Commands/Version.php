@@ -34,7 +34,7 @@ class Version extends Command
             // If a version is being passed in, the update the build, etc data against this
             if ($this->argument('version')) {
                 $version = \SemVer\SemVer\Version::fromString($this->argument('version'));
-                if ($this->option('write_full_version')) {
+                if ($this->option('write-full-version')) {
                     $cfg['current']['major'] = $version->getMajor();
                     $cfg['current']['minor'] = $version->getMinor();
                     $cfg['current']['patch'] = $version->getPatch();
@@ -51,14 +51,15 @@ class Version extends Command
             }
 
             // Always write out the build ID/build number which is the commit hash
-            $build_number = $this->versionSvc->getBuildId($cfg);
+            $build_number = $this->versionSvc->generateBuildId($cfg);
             $cfg['current']['commit'] = $build_number;
             $cfg['build']['number'] = $build_number;
 
             file_put_contents($version_file, Yaml::dump($cfg, 4, 2));
         }
 
-        $version = $this->versionSvc->getCurrentVersion(!$this->option('base-only'));
+        $incl_build = empty($this->option('base-only')) ? true : false;
+        $version = $this->versionSvc->getCurrentVersion($incl_build);
         echo $version."\n";
     }
 }

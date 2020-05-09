@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Contracts\Controller;
-use App\Facades\Utils;
 use App\Models\User;
 use App\Repositories\AirlineRepository;
 use App\Repositories\AirportRepository;
 use App\Repositories\UserRepository;
 use App\Support\Countries;
 use App\Support\Timezonelist;
+use App\Support\Utils;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -79,7 +79,7 @@ class ProfileController extends Controller
     /**
      * @param $id
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
+     * @return mixed
      */
     public function show($id)
     {

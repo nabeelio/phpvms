@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Contracts\Controller;
+use App\Http\Controllers\Admin\Traits\Importable;
 use App\Http\Requests\CreateFlightRequest;
 use App\Http\Requests\UpdateFlightRequest;
 use App\Models\Enums\FlightType;
+use App\Models\Enums\ImportExportType;
 use App\Models\Flight;
 use App\Models\FlightField;
 use App\Models\FlightFieldValue;
@@ -23,14 +25,12 @@ use App\Services\ImportService;
 use App\Support\Units\Time;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 use Laracasts\Flash\Flash;
 
-/**
- * Class FlightController
- */
 class FlightController extends Controller
 {
+    use Importable;
+
     private $airlineRepo;
     private $airportRepo;
     private $fareRepo;
@@ -325,15 +325,7 @@ class FlightController extends Controller
         ];
 
         if ($request->isMethod('post')) {
-            $path = Storage::putFileAs(
-                'import',
-                $request->file('csv_file'),
-                'import_flights.csv'
-            );
-
-            $path = storage_path('app/'.$path);
-            Log::info('Uploaded flights import file to '.$path);
-            $logs = $this->importSvc->importFlights($path);
+            $logs = $this->importFile($request, ImportExportType::FLIGHTS);
         }
 
         return view('admin.flights.import', [

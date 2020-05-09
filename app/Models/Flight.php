@@ -26,6 +26,9 @@ use Illuminate\Support\Collection;
  * @property int        flight_time
  * @property string     route
  * @property int        level
+ * @property float      load_factor
+ * @property float      load_factor_variance
+ * @property float      pilot_pay
  * @property Airport    dpt_airport
  * @property Airport    arr_airport
  * @property Airport    alt_airport
@@ -65,6 +68,9 @@ class Flight extends Model
         'distance',
         'flight_time',
         'flight_type',
+        'load_factor',
+        'load_factor_variance',
+        'pilot_pay',
         'route',
         'notes',
         'start_date',
@@ -75,27 +81,32 @@ class Flight extends Model
     ];
 
     protected $casts = [
-        'flight_number' => 'integer',
-        'days'          => 'integer',
-        'level'         => 'integer',
-        'distance'      => 'float',
-        'flight_time'   => 'integer',
-        'start_date'    => 'date',
-        'end_date'      => 'date',
-        'has_bid'       => 'boolean',
-        'route_leg'     => 'integer',
-        'active'        => 'boolean',
-        'visible'       => 'boolean',
+        'flight_number'        => 'integer',
+        'days'                 => 'integer',
+        'level'                => 'integer',
+        'distance'             => 'float',
+        'flight_time'          => 'integer',
+        'start_date'           => 'date',
+        'end_date'             => 'date',
+        'load_factor'          => 'double',
+        'load_factor_variance' => 'double',
+        'pilot_pay'            => 'float',
+        'has_bid'              => 'boolean',
+        'route_leg'            => 'integer',
+        'active'               => 'boolean',
+        'visible'              => 'boolean',
     ];
 
     public static $rules = [
-        'airline_id'     => 'required|exists:airlines,id',
-        'flight_number'  => 'required',
-        'route_code'     => 'nullable',
-        'route_leg'      => 'nullable',
-        'dpt_airport_id' => 'required|size:4|exists:airports,id',
-        'arr_airport_id' => 'required|size:4|exists:airports,id',
-        'level'          => 'nullable',
+        'airline_id'           => 'required|exists:airlines,id',
+        'flight_number'        => 'required',
+        'route_code'           => 'nullable',
+        'route_leg'            => 'nullable',
+        'dpt_airport_id'       => 'required|exists:airports,id',
+        'arr_airport_id'       => 'required|exists:airports,id',
+        'load_factor'          => 'nullable|numeric',
+        'load_factor_variance' => 'nullable|numeric',
+        'level'                => 'nullable',
     ];
 
     /**
@@ -226,6 +237,12 @@ class Flight extends Model
     public function field_values()
     {
         return $this->hasMany(FlightFieldValue::class, 'flight_id');
+    }
+
+    public function simbrief()
+    {
+        // id = key from table, flight_id = reference key
+        return $this->belongsTo(SimBrief::class, 'id', 'flight_id');
     }
 
     public function subfleets()

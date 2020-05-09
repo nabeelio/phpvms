@@ -2,11 +2,16 @@
 
 namespace App\Http\Resources;
 
+use App\Contracts\Resource;
+use App\Http\Resources\SimBrief as SimbriefResource;
 use App\Models\Enums\PirepStatus;
 use App\Support\Units\Distance;
 use App\Support\Units\Fuel;
 
-class Pirep extends Response
+/**
+ * @mixin \App\Models\Pirep
+ */
+class Pirep extends Resource
 {
     /**
      * Transform the resource into an array.
@@ -22,6 +27,7 @@ class Pirep extends Response
     {
         $res = parent::toArray($request);
         $res['ident'] = $this->ident;
+        $res['status_text'] = PirepStatus::label($this->status);
 
         // Set these to the response units
         if (!array_key_exists('distance', $res)) {
@@ -57,23 +63,21 @@ class Pirep extends Response
             $res['block_off_time'] = $this->block_off_time->toIso8601ZuluString();
         }
 
-        $res['status_text'] = PirepStatus::label($this->status);
-
         $res['airline'] = new Airline($this->airline);
         $res['dpt_airport'] = new Airport($this->dpt_airport);
         $res['arr_airport'] = new Airport($this->arr_airport);
 
-        $res['position'] = new Acars($this->position);
-        $res['comments'] = PirepComment::collection($this->comments);
-        $res['user'] = [
-            'id'              => $this->user->id,
-            'name'            => $this->user->name,
-            'home_airport_id' => $this->user->home_airport_id,
-            'curr_airport_id' => $this->user->curr_airport_id,
-        ];
+        $res['position'] = Acars::make($this->whenLoaded('position'));
+        $res['comments'] = PirepComment::collection($this->whenLoaded('comments'));
+        $res['user'] = User::make($this->whenLoaded('user'));
+
+        $res['flight'] = Flight::make($this->whenLoaded('flight'));
 
         // format to kvp
         $res['fields'] = new PirepFieldCollection($this->fields);
+
+        // Simbrief info
+        $res['simbrief'] = new SimbriefResource($this->whenLoaded('simbrief'));
 
         return $res;
     }

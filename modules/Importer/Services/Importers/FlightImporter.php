@@ -24,13 +24,14 @@ class FlightImporter extends BaseImporter
             'flightlevel',
             'deptime',
             'arrtime',
-            'flightttime',
+            'flighttime',
             'notes',
             'enabled',
         ];
 
         $count = 0;
-        foreach ($this->db->readRows($this->table, $start, $fields) as $row) {
+        $rows = $this->db->readRows($this->table, $this->idField, $start, $fields);
+        foreach ($rows as $row) {
             $airline_id = $this->idMapper->getMapping('airlines', $row->code);
 
             $flight_num = trim($row->flightnum);
@@ -53,7 +54,7 @@ class FlightImporter extends BaseImporter
                 // $flight = Flight::updateOrCreate($w, $attrs);
                 $flight = Flight::create(array_merge($w, $attrs));
             } catch (\Exception $e) {
-                //$this->error($e);
+                $this->error($e);
             }
 
             $this->idMapper->addMapping('flights', $row->id, $flight->id);

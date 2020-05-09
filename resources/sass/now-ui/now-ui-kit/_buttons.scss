@@ -94,6 +94,7 @@
 .btn-outline-warning { @include outline-buttons($warning-color, $warning-states-color); }
 .btn-outline-danger  { @include outline-buttons($danger-color, $danger-states-color); }
 .btn-outline-default { @include outline-buttons($default-color, $default-states-color); }
+.btn-outline-dark { @include outline-buttons($brand-inverse, $default-states-color); }
 
 .btn-round{
     border-width: $border-thin;

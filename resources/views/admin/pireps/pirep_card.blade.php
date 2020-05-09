@@ -35,7 +35,7 @@
                         </div>
                         <div>
                             <span class="description"><b>Flight Time</b>&nbsp;
-                            {{ Utils::minutesToTimeString($pirep->flight_time) }}
+                            @minutestotime($pirep->flight_time)
                             </span>
                         </div>
                         @if($pirep->aircraft)

@@ -1,5 +1,5 @@
 <div class="table-responsive">
-  <table class="table table-sm table-hover table-striped">
+  <table class="table table-hover table-striped">
     <thead>
     <tr>
       <th>{{ trans_choice('common.flight', 1) }}</th>
@@ -36,19 +36,20 @@
           @endif
         </td>
         <td class="text-center">
-          {{ (new \App\Support\Units\Time($pirep->flight_time)) }}
+          @minutestotime($pirep->flight_time)
         </td>
         <td class="text-center">
-          @if($pirep->state === PirepState::PENDING)
-            <div class="badge badge-warning">
-              @elseif($pirep->state === PirepState::ACCEPTED)
-                <div class="badge badge-success">
-                  @elseif($pirep->state === PirepState::REJECTED)
-                    <div class="badge badge-danger">
-                      @else
-                        <div class="badge badge-info">
-                          @endif
-                          {{ PirepState::label($pirep->state) }}</div>
+          @php
+            $color = 'badge-info';
+            if($pirep->state === PirepState::PENDING) {
+                $color = 'badge-warning';
+            } elseif ($pirep->state === PirepState::ACCEPTED) {
+                $color = 'badge-success';
+            } elseif ($pirep->state === PirepState::REJECTED) {
+                $color = 'badge-danger';
+            }
+          @endphp
+          <div class="badge {{ $color }}">{{ PirepState::label($pirep->state) }}</div>
         </td>
         <td>
           @if(filled($pirep->submitted_at))
@@ -58,7 +59,7 @@
         <td>
           @if(!$pirep->read_only)
             <a href="{{ route('frontend.pireps.edit', [$pirep->id]) }}"
-               class="btn btn-info btn-sm"
+               class="btn btn-outline-info btn-sm"
                style="z-index: 9999"
                title="@lang('common.edit')">
               @lang('common.edit')

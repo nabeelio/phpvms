@@ -29,11 +29,18 @@ class CronService extends Service
     {
         $finder = new PhpExecutableFinder();
         $php_path = $finder->find(false);
+        $php_exec = str_replace('-fpm', '', $php_path);
+
+        // If this is the cgi version of the exec, add this arg, otherwise there's
+        // an error with no arguments existing
+        if (str_contains($php_exec, '-cgi')) {
+            $php_exec .= ' -d register_argc_argv=On';
+        }
 
         $path = [
             'cd '.base_path(),
             '&&',
-            str_replace('-fpm', '', $php_path),
+            $php_exec,
             'artisan schedule:run',
         ];
 

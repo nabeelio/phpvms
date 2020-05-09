@@ -23,13 +23,7 @@ return [
 
     // Overrides config/phpvms.php
     'phpvms' => [
-        /**
-         * The ISO "Currency Code" to use, the list is in config/money.php
-         *
-         * Note, do not change this after you've set it, unless you don't
-         * care that the currencies aren't "exchanged" into the new format
-         */
-        'currency' => 'USD',
+
     ],
 
     //
@@ -64,12 +58,13 @@ return [
         'default' => env('DB_CONNECTION', '$DB_CONN$'),
         'connections' => [
             'mysql' => [
-                'host' => env('DB_HOST', '$DB_HOST$'),
-                'port' => $DB_PORT$,
-                'database' => '$DB_NAME$',
-                'username' => '$DB_USER$',
-                'password' => '$DB_PASS$',
-                'prefix' => '$DB_PREFIX$',
+                'host'           => env('DB_HOST', '$DB_HOST$'),
+                'port'           => $DB_PORT$,
+                'database'       => '$DB_NAME$',
+                'username'       => '$DB_USER$',
+                'password'       => '$DB_PASS$',
+                'prefix'         => '$DB_PREFIX$',
+                'prefix_indexes' => true,
             ],
         ],
     ],

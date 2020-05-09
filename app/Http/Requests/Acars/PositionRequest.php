@@ -19,7 +19,7 @@ class PositionRequest extends FormRequest
 
     public function rules(): array
     {
-        $rules = [
+        return [
             'positions'               => 'required|array',
             'positions.*.lat'         => 'required|numeric',
             'positions.*.lon'         => 'required|numeric',
@@ -36,7 +36,5 @@ class PositionRequest extends FormRequest
             'positions.*.sim_time'    => 'sometimes|date',
             'positions.*.created_at'  => 'sometimes|date',
         ];
-
-        return $rules;
     }
 }

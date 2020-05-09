@@ -4,23 +4,28 @@
     "keywords": ["phpvms", "virtual", "airlines"],
     "license": "BSD-3-Clause",
     "type": "project",
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "homepage": "http://www.phpvms.net",
     "require": {
         "php": ">=7.2",
         "ext-json": "*",
         "ext-mbstring": "*",
         "ext-simplexml": "*",
+        "ext-bcmath": "*",
         "ext-pdo": "*",
         "composer/composer": "~1.8.0",
+        "composer/installers": "~1.0",
         "laravel/framework": "~6.0",
         "akaunting/money": "^1.0",
         "anhskohbo/no-captcha": "^3.0",
         "appstract/laravel-opcache": "^2.0",
         "arrilot/laravel-widgets": "~3.13.0",
+        "codedge/laravel-selfupdater": "~2.5.1",
         "doctrine/dbal": "~2.9.2",
         "elcobvg/laravel-opcache": "~0.4",
         "facade/ignition": "^1.6",
+        "fideloper/proxy": "^4.3",
         "guzzlehttp/guzzle": "~6.3.3",
         "hashids/hashids": "^2.0.0",
         "igaster/laravel-theme": "^2.0",
@@ -31,6 +36,7 @@
         "laracasts/flash": "^3.0",
         "laravel/helpers": "^1.0",
         "laravelcollective/html": "~6.0.0",
+        "layershifter/tld-extract": "^2.0",
         "league/csv": "9.2.*",
         "league/geotools": "0.8.*",
         "league/iso3166": "2.1.*",
@@ -39,6 +45,7 @@
         "nabeel/vacentral": "~2.0",
         "nwidart/laravel-modules": "^6.0",
         "php-units-of-measure/php-units-of-measure": "~2.1.0",
+        "phpvms/sample-module": "^1.0",
         "pragmarx/version": "0.2.*",
         "prettus/l5-repository": "~2.6.0",
         "santigarcor/laratrust": "~5.2.0",
@@ -49,7 +56,9 @@
         "symfony/polyfill-iconv": "~1.12",
         "theiconic/php-ga-measurement-protocol": "2.7.*",
         "tivie/php-os-detector": "~1.1.0",
-        "webpatser/laravel-uuid": "~3.0"
+        "vlucas/phpdotenv": "v3.6.0",
+        "webpatser/laravel-uuid": "~3.0",
+        "oomphinc/composer-installers-extender": "^1.1"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.0",
@@ -58,7 +67,7 @@
         "codedungeon/phpunit-result-printer": "^0.13.0",
         "filp/whoops": "~2.0",
         "fzaninotto/faker": "~1.9.0",
-        "friendsofphp/php-cs-fixer": "^2.15",
+        "friendsofphp/php-cs-fixer": "^2.16",
         "mockery/mockery": "0.9.*",
         "nunomaduro/collision": "^3.0",
         "phpunit/phpunit": "~8.3",
@@ -85,17 +94,27 @@
         ]
     },
      "extra": {
+         "installer-types": ["phpvms-module"],
          "installer-paths": {
-             "modules/{$name}/": [
-                 "type:laravel-library",
-                 "type:phpvms-plugin"
-             ]
-         }
+             "modules/{$name}/": ["type:phpvms-module"]
+         },
+         "module-dir": "modules"
     },
     "scripts": {
+        "pre-package-uninstall": [
+            "@php -r \"array_map('unlink', glob('bootstrap/cache/*'));\""
+        ],
+        "post-package-uninstall": [
+            "@php artisan package:discover --ansi",
+            "@php artisan phpvms:caches"
+        ],
+        "pre-autoload-dump": [
+            "@php -r \"array_map('unlink', glob('bootstrap/cache/*'));\""
+        ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-            "@php artisan package:discover --ansi"
+            "@php artisan package:discover --ansi",
+            "@php artisan phpvms:caches"
         ]
     },
     "config": {

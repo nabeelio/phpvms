@@ -38,6 +38,7 @@ class Aircraft extends Model
         'name',
         'registration',
         'hex_code',
+        'flight_time',
         'zfw',
         'status',
         'state',
@@ -49,6 +50,7 @@ class Aircraft extends Model
     protected $casts = [
         'subfleet_id' => 'integer',
         'zfw'         => 'float',
+        'flight_time' => 'float',
         'state'       => 'integer',
     ];
 
@@ -58,6 +60,7 @@ class Aircraft extends Model
     public static $rules = [
         'subfleet_id'  => 'required',
         'name'         => 'required',
+        'status'       => 'required',
         'registration' => 'required',
     ];
 

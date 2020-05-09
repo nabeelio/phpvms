@@ -6,6 +6,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
+use Laracasts\Flash\Flash;
 
 /**
  * Class Controller
@@ -26,7 +27,7 @@ abstract class Controller extends \Illuminate\Routing\Controller
      */
     public function flashError($message, $route)
     {
-        flash()->error($message);
+        Flash::error($message);
         return redirect(route($route))->withInput();
     }
 

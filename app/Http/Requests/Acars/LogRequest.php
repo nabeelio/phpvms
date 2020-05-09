@@ -16,14 +16,12 @@ class LogRequest extends FormRequest
 
     public function rules(): array
     {
-        $rules = [
+        return [
             'logs'              => 'required|array',
             'logs.*.log'        => 'required',
             'logs.*.lat'        => 'sometimes|numeric',
             'logs.*.lon'        => 'sometimes|numeric',
             'logs.*.created_at' => 'sometimes|date',
         ];
-
-        return $rules;
     }
 }

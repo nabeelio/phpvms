@@ -8,11 +8,9 @@ class CommentRequest extends FormRequest
 {
     public function rules(): array
     {
-        $rules = [
+        return [
             'comment'    => 'required',
             'created_at' => 'sometimes|date',
         ];
-
-        return $rules;
     }
 }

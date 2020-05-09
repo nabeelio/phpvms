@@ -843,6 +843,7 @@ class Metar implements \ArrayAccess
      * if visibility is limited to an integer mile plus a fraction part.
      * Format is mmSM for mm = statute miles, or m n/dSM for m = mile and n/d = fraction of a mile,
      * or just a 4-digit number nnnn (with leading zeros) for nnnn = meters.
+     * Unit can also be in KM
      *
      * @param mixed $part
      *
@@ -858,7 +859,7 @@ class Metar implements \ArrayAccess
             .'([\d]{0,2})?'       // 3
             .'(([1357])'          // 4
             .'/(2|4|8|16))?'      // 5
-            .'SM|////)$@';        // 6
+            .'(SM|KM|M|MI)|////)$@';        // 6
 
         if (!preg_match($r, $part, $found)) {
             return false;
@@ -884,8 +885,7 @@ class Metar implements \ArrayAccess
             // ICAO visibility (in meters)
             if (isset($found[2]) && !empty($found[2])) {
                 $visibility = $this->createDistance((int) $found[2], 'm');
-            } // US visibility (in miles)
-            else {
+            } else {
                 if (isset($found[3]) && !empty($found[3])) {
                     $prefix = 'Less than ';
                 }
@@ -896,16 +896,34 @@ class Metar implements \ArrayAccess
                     $visibility = (int) $found[4];
                 }
 
-                $visibility = $this->createDistance($visibility, 'mi');
+                $units = strtoupper($found[8]);
+                if ($units == 'MI' || $units == 'SM') {
+                    $unit = 'mi';
+                } elseif ($units == 'M') {
+                    $unit = 'm';
+                } elseif ($units == 'KM') {
+                    $unit = 'km';
+                } else {
+                    $unit = $units;
+                }
+
+                $visibility = $this->createDistance($visibility, $unit);
             }
 
-            $unit = ' meters';
-            if ($visibility['m'] <= 1) {
-                $unit = ' meter';
+            if ($visibility['m'] > 1000) {
+                $unit = ' km';
+                $report = $prefix.$visibility['km'].$unit;
+            } else {
+                $unit = ' meters';
+                if ($visibility['m'] <= 1) {
+                    $unit = ' meter';
+                }
+
+                $report = $prefix.$visibility['m'].$unit;
             }
 
             $this->set_result_value('visibility', $visibility);
-            $this->set_result_value('visibility_report', $prefix.$visibility['m'].$unit);
+            $this->set_result_value('visibility_report', $report);
         }
 
         return true;
