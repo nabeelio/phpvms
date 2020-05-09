@@ -10,6 +10,8 @@ class UserRejected extends BaseNotification
 {
     use MailChannel;
 
+    public $channels = ['mail'];
+
     private $user;
 
     /**

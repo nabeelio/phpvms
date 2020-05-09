@@ -5,14 +5,13 @@ namespace Modules\Importer\Services;
 use App\Services\Installer\LoggerTrait;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Log;
 use Modules\Importer\Utils\IdMapper;
 use Modules\Importer\Utils\ImporterDB;
 
-abstract class BaseImporter implements ShouldQueue
+abstract class BaseImporter
 {
     use LoggerTrait;
     use Dispatchable;

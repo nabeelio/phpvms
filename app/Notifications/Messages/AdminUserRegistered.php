@@ -10,6 +10,8 @@ class AdminUserRegistered extends BaseNotification
 {
     use MailChannel;
 
+    public $channels = ['mail'];
+
     private $user;
 
     /**
