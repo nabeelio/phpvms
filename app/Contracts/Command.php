@@ -93,12 +93,12 @@ abstract class Command extends \Illuminate\Console\Command
      */
     public function runCommand($cmd, $return = false, $verbose = true): string
     {
-        if (\is_array($cmd)) {
-            $cmd = implode(' ', $cmd);
+        if (!\is_array($cmd)) {
+            $cmd = explode(' ', $cmd);
         }
 
         if ($verbose) {
-            $this->info('Running "'.$cmd.'"');
+            $this->info('Running "'.implode(' ', $cmd).'"');
         }
 
         $val = '';

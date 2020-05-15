@@ -2,10 +2,12 @@
 
 namespace App\Contracts;
 
+use Illuminate\Http\Resources\Json\JsonResource;
+
 /**
  * Base class for a resource/response
  */
-class Resource extends \Illuminate\Http\Resources\Json\Resource
+class Resource extends JsonResource
 {
     /**
      * Iterate through the list of $fields and check if they're a "Unit"

@@ -19,6 +19,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException as SymfonyHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Throwable;
 use Whoops\Handler\HandlerInterface;
 
 /**
@@ -43,11 +44,11 @@ class Handler extends ExceptionHandler
      * Render an exception into an HTTP response.
      *
      * @param Request   $request
-     * @param Exception $exception
+     * @param \Throwable $exception
      *
      * @return mixed
      */
-    public function render($request, Exception $exception)
+    public function render($request, Throwable $exception)
     {
         if ($request->is('api/*')) {
             return $this->handleApiError($request, $exception);
@@ -65,11 +66,11 @@ class Handler extends ExceptionHandler
      * Handle errors in the API
      *
      * @param            $request
-     * @param \Exception $exception
+     * @param \Throwable $exception
      *
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
      */
-    private function handleApiError($request, Exception $exception)
+    private function handleApiError($request, Throwable $exception)
     {
         Log::error('API Error', $exception->getTrace());
 

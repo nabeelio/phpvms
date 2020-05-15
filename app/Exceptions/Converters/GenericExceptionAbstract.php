@@ -3,13 +3,13 @@
 namespace App\Exceptions\Converters;
 
 use App\Exceptions\AbstractHttpException;
-use Exception;
+use Throwable;
 
 class GenericExceptionAbstract extends AbstractHttpException
 {
     private $exception;
 
-    public function __construct(Exception $exception)
+    public function __construct(Throwable $exception)
     {
         $this->exception = $exception;
         parent::__construct(

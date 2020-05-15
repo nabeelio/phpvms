@@ -246,9 +246,9 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
      * @param array  $headers
      * @param null   $user
      *
-     * @return \Illuminate\Foundation\Testing\TestResponse
+     * @return Illuminate\Testing\TestResponse
      */
-    public function get($uri, array $headers = [], $user = null): \Illuminate\Foundation\Testing\TestResponse
+    public function get($uri, array $headers = [], $user = null): Illuminate\Testing\TestResponse
     {
         $req = parent::get($uri, $this->headers($user, $headers));
         if ($req->isClientError() || $req->isServerError()) {
@@ -266,9 +266,9 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
      * @param array  $headers
      * @param null   $user
      *
-     * @return \Illuminate\Foundation\Testing\TestResponse
+     * @return Illuminate\Testing\TestResponse
      */
-    public function post($uri, array $data = [], array $headers = [], $user = null)
+    public function post($uri, array $data = [], array $headers = [], $user = null): Illuminate\Testing\TestResponse
     {
         $data = $this->transformData($data);
         $req = parent::post($uri, $data, $this->headers($user, $headers));
@@ -287,9 +287,9 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
      * @param array  $headers
      * @param null   $user
      *
-     * @return \Illuminate\Foundation\Testing\TestResponse
+     * @return Illuminate\Testing\TestResponse
      */
-    public function put($uri, array $data = [], array $headers = [], $user = null)
+    public function put($uri, array $data = [], array $headers = [], $user = null): Illuminate\Testing\TestResponse
     {
         $req = parent::put($uri, $this->transformData($data), $this->headers($user, $headers));
         if ($req->isClientError() || $req->isServerError()) {
@@ -307,9 +307,9 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
      * @param array  $headers
      * @param null   $user
      *
-     * @return \Illuminate\Foundation\Testing\TestResponse
+     * @return Illuminate\Testing\TestResponse
      */
-    public function delete($uri, array $data = [], array $headers = [], $user = null)
+    public function delete($uri, array $data = [], array $headers = [], $user = null): Illuminate\Testing\TestResponse
     {
         $req = parent::delete($uri, $this->transformData($data), $this->headers($user, $headers));
         if ($req->isClientError() || $req->isServerError()) {
