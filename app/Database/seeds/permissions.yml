@@ -3,6 +3,9 @@
 - name: admin-access
   display_name: Admin Panel
   description: Access the admin panel
+- name: aircraft
+  display_name: Aircraft
+  description: Create/edit aircraft  
 - name: airlines
   display_name: Airlines
   description: Create/edit airlines
