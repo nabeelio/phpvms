@@ -6,6 +6,7 @@ use App\Contracts\Service;
 use App\Events\UserRegistered;
 use App\Events\UserStateChanged;
 use App\Events\UserStatsChanged;
+use App\Exceptions\PilotIdNotFound;
 use App\Exceptions\UserPilotIdExists;
 use App\Models\Enums\PirepState;
 use App\Models\Enums\UserState;
@@ -14,6 +15,7 @@ use App\Models\Rank;
 use App\Models\Role;
 use App\Models\User;
 use App\Repositories\AircraftRepository;
+use App\Repositories\AirlineRepository;
 use App\Repositories\SubfleetRepository;
 use App\Repositories\UserRepository;
 use App\Support\Units\Time;
@@ -25,6 +27,7 @@ use function is_array;
 class UserService extends Service
 {
     private $aircraftRepo;
+    private $airlineRepo;
     private $subfleetRepo;
     private $userRepo;
 
@@ -32,15 +35,18 @@ class UserService extends Service
      * UserService constructor.
      *
      * @param AircraftRepository $aircraftRepo
+     * @param AirlineRepository  $airlineRepo
      * @param SubfleetRepository $subfleetRepo
      * @param UserRepository     $userRepo
      */
     public function __construct(
         AircraftRepository $aircraftRepo,
+        AirlineRepository $airlineRepo,
         SubfleetRepository $subfleetRepo,
         UserRepository $userRepo
     ) {
         $this->aircraftRepo = $aircraftRepo;
+        $this->airlineRepo = $airlineRepo;
         $this->subfleetRepo = $subfleetRepo;
         $this->userRepo = $userRepo;
     }
@@ -174,6 +180,42 @@ class UserService extends Service
         $user->save();
 
         Log::info('Changed pilot ID for user '.$user->id.' from '.$old_id.' to '.$user->pilot_id);
+
+        return $user;
+    }
+
+    /**
+     * Split a given pilot ID into an airline and ID portions
+     *
+     * @param string $pilot_id
+     */
+    public function findUserByPilotId(string $pilot_id)
+    {
+        $airlines = $this->airlineRepo->all(['id', 'icao', 'iata']);
+
+        $ident_str = null;
+        $pilot_id = strtoupper($pilot_id);
+        foreach ($airlines as $airline) {
+            if (strpos($pilot_id, $airline->icao) !== false) {
+                $ident_str = $airline->icao;
+                break;
+            }
+
+            if (strpos($pilot_id, $airline->iata) !== false) {
+                $ident_str = $airline->iata;
+                break;
+            }
+        }
+
+        if (empty($ident_str)) {
+            throw new PilotIdNotFound($pilot_id);
+        }
+
+        $parsed_pilot_id = str_replace($ident_str, '', $pilot_id);
+        $user = User::where(['airline_id' => $airline->id, 'pilot_id' => $parsed_pilot_id])->first();
+        if (empty($user)) {
+            throw new PilotIdNotFound($pilot_id);
+        }
 
         return $user;
     }

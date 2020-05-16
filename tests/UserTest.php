@@ -1,5 +1,6 @@
 <?php
 
+use App\Exceptions\PilotIdNotFound;
 use App\Exceptions\UserPilotIdExists;
 use App\Models\User;
 use App\Repositories\SettingRepository;
@@ -8,7 +9,10 @@ use Illuminate\Support\Facades\Hash;
 
 class UserTest extends TestCase
 {
+    /** @var SettingRepository */
     protected $settingsRepo;
+
+    /** @var UserService */
     protected $userSvc;
 
     public function setUp(): void
@@ -202,6 +206,33 @@ class UserTest extends TestCase
 
         // Now try to change the original user's pilot_id to 2 (should conflict)
         $this->userSvc->changePilotId($user1, 2);
+    }
+
+    /**
+     * Make sure that the splitting of the user ID works
+     */
+    public function testUserPilotIdSplit(): void
+    {
+        /** @var \App\Models\User $user */
+        $user = factory(App\Models\User::class)->create();
+        $found_user = $this->userSvc->findUserByPilotId($user->ident);
+        $this->assertEquals($user->id, $found_user->id);
+
+        // Look for them with the IATA code
+        $found_user = $this->userSvc->findUserByPilotId($user->airline->iata.$user->id);
+        $this->assertEquals($user->id, $found_user->id);
+    }
+
+    /**
+     * Pilot ID not found
+     */
+    public function testUserPilotIdSplitInvalidId(): void
+    {
+        /** @var \App\Models\User $user */
+        $user = factory(App\Models\User::class)->create();
+
+        $this->expectException(PilotIdNotFound::class);
+        $this->userSvc->findUserByPilotId($user->airline->iata);
     }
 
     /**
