@@ -27,6 +27,6 @@ return [
     'cookie'          => 'phpvms_session',
     'path'            => '/',
     'domain'          => env('SESSION_DOMAIN', null),
-    'secure'          => false,
+    'secure'          => env('SESSION_SECURE_COOKIE', null),
     'http_only'       => true,
 ];

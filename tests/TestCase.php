@@ -2,13 +2,16 @@
 
 use App\Repositories\SettingRepository;
 use App\Services\DatabaseService;
+use Carbon\Carbon;
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Routing\Middleware\ThrottleRequests;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Testing\TestResponse;
 use Tests\CreatesApplication;
 use Tests\TestData;
 
@@ -246,9 +249,9 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
      * @param array  $headers
      * @param null   $user
      *
-     * @return \Illuminate\Foundation\Testing\TestResponse
+     * @return Illuminate\Testing\TestResponse
      */
-    public function get($uri, array $headers = [], $user = null): \Illuminate\Foundation\Testing\TestResponse
+    public function get($uri, array $headers = [], $user = null): Illuminate\Testing\TestResponse
     {
         $req = parent::get($uri, $this->headers($user, $headers));
         if ($req->isClientError() || $req->isServerError()) {
@@ -266,9 +269,9 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
      * @param array  $headers
      * @param null   $user
      *
-     * @return \Illuminate\Foundation\Testing\TestResponse
+     * @return TestResponse
      */
-    public function post($uri, array $data = [], array $headers = [], $user = null)
+    public function post($uri, array $data = [], array $headers = [], $user = null): TestResponse
     {
         $data = $this->transformData($data);
         $req = parent::post($uri, $data, $this->headers($user, $headers));
@@ -287,9 +290,9 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
      * @param array  $headers
      * @param null   $user
      *
-     * @return \Illuminate\Foundation\Testing\TestResponse
+     * @return TestResponse
      */
-    public function put($uri, array $data = [], array $headers = [], $user = null)
+    public function put($uri, array $data = [], array $headers = [], $user = null): TestResponse
     {
         $req = parent::put($uri, $this->transformData($data), $this->headers($user, $headers));
         if ($req->isClientError() || $req->isServerError()) {
@@ -307,9 +310,9 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
      * @param array  $headers
      * @param null   $user
      *
-     * @return \Illuminate\Foundation\Testing\TestResponse
+     * @return TestResponse
      */
-    public function delete($uri, array $data = [], array $headers = [], $user = null)
+    public function delete($uri, array $data = [], array $headers = [], $user = null): TestResponse
     {
         $req = parent::delete($uri, $this->transformData($data), $this->headers($user, $headers));
         if ($req->isClientError() || $req->isServerError()) {

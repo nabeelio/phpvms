@@ -2,7 +2,7 @@
 
 namespace $NAMESPACE$;
 
-use Illuminate\Http\Resources\Json\Resource;
+use App\Contracts\Resource;
 
 /**
  * Class $CLASS$
