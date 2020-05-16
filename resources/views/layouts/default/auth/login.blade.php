@@ -21,7 +21,7 @@
           {{
             Form::text('email', old('email'), [
               'id' => 'email',
-              'placeholder' => __('common.email'),
+              'placeholder' => __('common.email').' '.__('common.or').' '.__('common.pilot_id'),
               'class' => 'form-control',
               'required' => true,
             ])

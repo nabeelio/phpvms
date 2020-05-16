@@ -10,6 +10,7 @@ return [
     'newestpilots'   => 'Ultimi Piloti',
     'profile'        => 'Profilo',
     'email'          => 'Email',
+    'pilot_id'       => 'Pilot ID',
     'login'          => 'Accesso',
     'logout'         => 'Uscita',
     'register'       => 'Registrazione',
@@ -48,6 +49,7 @@ return [
     'inactive'       => 'Inattivo',
     'yes'            => 'Sì',
     'no'             => 'No',
+    'or'             => 'o',
     'days'           => [
         'mon'   => 'Lunedì',
         'tues'  => 'Martedì',
