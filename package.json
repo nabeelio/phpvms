@@ -24,7 +24,7 @@
     "flag-icon-css": "^2.9.0",
     "geolib": "^2.0.24",
     "icheck": "~1.0",
-    "jquery": "~3.4",
+    "jquery": "~3.5",
     "jquery-pjax": "~2.0",
     "js-yaml": "^3.4",
     "laravel-mix": "^2.1.14",
