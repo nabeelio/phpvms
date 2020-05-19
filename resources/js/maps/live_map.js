@@ -4,6 +4,7 @@ import draw_base_map from './base_map';
 import { ACTUAL_ROUTE_COLOR } from './config';
 
 import request from '../request';
+import {LatLng} from "leaflet/dist/leaflet-src.esm";
 
 // const geolib = require('geolib');
 const leaflet = require('leaflet');
@@ -35,6 +36,8 @@ export default (_opts) => {
     iconSize: [42, 42],
     iconAnchor: [21, 21],
   });
+
+  const centerCoords = new LatLng(opts.center[0], opts.center[1]);
 
   /**
    * Hold the markers
@@ -187,7 +190,11 @@ export default (_opts) => {
         // Center on active flights
         // eslint-disable-next-line no-lonely-if
         if (!pannedToFlight) {
-          map.panTo(layerFlights.getBounds().getCenter());
+          try {
+            map.panTo(layerFlights.getBounds().getCenter());
+          } catch (e) {
+            map.panTo(centerCoords);
+          }
         }
       }
     });
