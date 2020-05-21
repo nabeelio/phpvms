@@ -131,7 +131,12 @@ class UpdateController extends Controller
     public function update_download(Request $request)
     {
         $version = $this->kvpRepo->get('latest_version_tag');
-        $this->updateManager->source('github')->update($version);
+        if (empty($version)) {
+            return view('updater::steps/step1-no-update');
+        }
+
+        $release = $this->updateManager->source('github')->fetch($version);
+        $this->updateManager->source('github')->update($release);
 
         Log::info('Update completed to '.$version.', redirecting');
         return redirect('/update');
