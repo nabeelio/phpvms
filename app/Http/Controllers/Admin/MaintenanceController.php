@@ -36,7 +36,7 @@ class MaintenanceController extends Controller
         return view('admin.maintenance.index', [
             'cron_path'           => $this->cronSvc->getCronExecString(),
             'cron_problem_exists' => $this->cronSvc->cronProblemExists(),
-            'new_version'         => true, //$this->kvpRepo->get('new_version_available', false),
+            'new_version'         => $this->kvpRepo->get('new_version_available', false),
             'new_version_tag'     => $this->kvpRepo->get('latest_version_tag'),
         ]);
     }

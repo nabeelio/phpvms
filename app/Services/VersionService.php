@@ -93,15 +93,18 @@ class VersionService extends Service
         }
 
         $include_prerelease = setting('general.check_prerelease_version', false);
+        Log::info('Include prerelease='.$include_prerelease);
         foreach ($releases as $release) {
             if ($release['prerelease'] === true) {
                 if ($include_prerelease) {
                     Log::info('Found latest pre-release of '.$release['tag_name']);
+
                     return $this->setLatestRelease(
                         $release['tag_name'],
                         $this->getGithubAsset($release)
                     );
                 }
+
                 continue;
             }
 
@@ -206,15 +209,18 @@ class VersionService extends Service
             $current_version = $this->cleanVersionString($current_version);
         }
 
-        // Replace "dev" with "alpha", since
         $latest_version = $this->getLatestVersion();
+        Log::info('Current version='.$current_version.'; latest detected='.$latest_version);
 
+        // No new/released version found
         if (empty($latest_version)) {
+            $this->kvpRepo->save('new_version_available', false);
             return false;
         }
 
         // Convert to semver
         if ($this->isGreaterThan($latest_version, $current_version)) {
+            Log::info('Latest version "'.$latest_version.'" is greater than "'.$current_version.'"');
             $this->kvpRepo->save('new_version_available', true);
             return true;
         }
