@@ -15,6 +15,23 @@ class SetActiveTheme implements Middleware
 {
     public function handle(Request $request, Closure $next)
     {
+        $skip = [
+            'admin',
+            'admin/*',
+            'api',
+            'api/*',
+            'importer',
+            'importer/*',
+            'install',
+            'install/*',
+            'update',
+            'update/*',
+        ];
+
+        if ($request->is($skip)) {
+            return $next($request);
+        }
+
         try {
             $theme = setting('general.theme');
         } catch (\Exception $e) {

@@ -39,7 +39,7 @@ class RouteServiceProvider extends ServiceProvider
     private function mapWebRoutes()
     {
         Route::group([
-            'middleware' => ['web', 'theme'],
+            'middleware' => ['web'],
             'namespace'  => $this->namespace,
         ], function ($router) {
             Route::group([
