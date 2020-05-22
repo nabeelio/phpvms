@@ -56,12 +56,10 @@ class AppServiceProvider extends ServiceProvider
     protected function registerConfig()
     {
         $this->publishes([
-            __DIR__.'/../$PATH_CONFIG$/config.php' => config_path('$LOWER_NAME$.php'),
+            __DIR__.'/../Config/config.php' => config_path('$LOWER_NAME$.php'),
         ], '$LOWER_NAME$');
 
-        $this->mergeConfigFrom(
-            __DIR__.'/../$PATH_CONFIG$/config.php', '$LOWER_NAME$'
-        );
+        $this->mergeConfigFrom(__DIR__.'/../Config/config.php', '$LOWER_NAME$');
     }
 
     /**
@@ -70,11 +68,9 @@ class AppServiceProvider extends ServiceProvider
     public function registerViews()
     {
         $viewPath = resource_path('views/modules/$LOWER_NAME$');
-        $sourcePath = __DIR__.'/../$PATH_VIEWS$';
+        $sourcePath = __DIR__.'/../Resources/views';
 
-        $this->publishes([
-            $sourcePath => $viewPath
-        ],'views');
+        $this->publishes([$sourcePath => $viewPath],'views');
 
         $this->loadViewsFrom(array_merge(array_map(function ($path) {
             return $path . '/modules/$LOWER_NAME$';
@@ -91,7 +87,7 @@ class AppServiceProvider extends ServiceProvider
         if (is_dir($langPath)) {
             $this->loadTranslationsFrom($langPath, '$LOWER_NAME$');
         } else {
-            $this->loadTranslationsFrom(__DIR__ .'/../$PATH_LANG$', '$LOWER_NAME$');
+            $this->loadTranslationsFrom(__DIR__ .'/../Resources/lang', '$LOWER_NAME$');
         }
     }
 }
