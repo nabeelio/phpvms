@@ -2,8 +2,8 @@
 
 namespace Modules\Importer\Providers;
 
+use App\Contracts\Modules\ServiceProvider;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\ServiceProvider;
 use Modules\Importer\Console\Commands\ImportFromClassicCommand;
 
 class ImporterServiceProvider extends ServiceProvider
@@ -11,7 +11,7 @@ class ImporterServiceProvider extends ServiceProvider
     /**
      * Boot the application events.
      */
-    public function boot()
+    public function boot(): void
     {
         $this->registerCommands();
         $this->registerRoutes();
@@ -20,6 +20,9 @@ class ImporterServiceProvider extends ServiceProvider
         $this->registerViews();
     }
 
+    /**
+     * Register console commands
+     */
     protected function registerCommands()
     {
         $this->commands([
@@ -44,7 +47,6 @@ class ImporterServiceProvider extends ServiceProvider
 
             // Run the actual importer process. Additional middleware
             Route::post('/run', 'ImporterController@run')->middleware('api')->name('run');
-
             Route::post('/complete', 'ImporterController@complete')->name('complete');
         });
     }
@@ -90,13 +92,5 @@ class ImporterServiceProvider extends ServiceProvider
         } else {
             $this->loadTranslationsFrom(__DIR__.'/../Resources/lang', 'importer');
         }
-    }
-
-    /**
-     * Get the services provided by the provider.
-     */
-    public function provides(): array
-    {
-        return [];
     }
 }

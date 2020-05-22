@@ -2,15 +2,15 @@
 
 namespace Modules\Installer\Providers;
 
+use App\Contracts\Modules\ServiceProvider;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\ServiceProvider;
 
 class InstallerServiceProvider extends ServiceProvider
 {
     /**
      * Boot the application events.
      */
-    public function boot()
+    public function boot(): void
     {
         $this->registerRoutes();
         $this->registerTranslations();
