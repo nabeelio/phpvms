@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
  * Class $CLASS$
  * @package $CLASS_NAMESPACE$
  */
-class $CLASS$ extends Controller
+class IndexController extends Controller
 {
     /**
      * Display a listing of the resource.
