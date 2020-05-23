@@ -109,8 +109,7 @@ class LoginController extends Controller
         $user->last_ip = $request->ip();
         $user->save();
 
-        // TODO: How to handle ON_LEAVE?
-        if ($user->state !== UserState::ACTIVE) {
+        if ($user->state !== UserState::ACTIVE && $user->state !== UserState::ON_LEAVE) {
             Log::info('Trying to login '.$user->ident.', state '
                 .UserState::label($user->state));
 

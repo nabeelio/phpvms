@@ -5,6 +5,16 @@
   <div class="row">
     <div class="col-sm-8">
 
+      @if(Auth::user()->state === \App\Models\Enums\UserState::ON_LEAVE)
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="alert alert-warning" role="alert">
+              You are on leave! File a PIREP to set your status to active!
+            </div>
+          </div>
+        </div>
+      @endif
+
       {{-- TOP BAR WITH BOXES --}}
       <div class="row">
         <div class="col-sm-3">

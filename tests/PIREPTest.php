@@ -5,6 +5,7 @@ use App\Models\Aircraft;
 use App\Models\Bid;
 use App\Models\Enums\AcarsType;
 use App\Models\Enums\PirepState;
+use App\Models\Enums\UserState;
 use App\Models\Pirep;
 use App\Models\User;
 use App\Notifications\Messages\PirepAccepted;
@@ -18,7 +19,10 @@ use Illuminate\Support\Facades\Notification;
 
 class PIREPTest extends TestCase
 {
+    /** @var PirepService */
     protected $pirepSvc;
+
+    /** @var SettingRepository */
     protected $settingsRepo;
 
     public function setUp(): void
@@ -62,6 +66,7 @@ class PIREPTest extends TestCase
     public function testAddPirep()
     {
         $user = factory(App\Models\User::class)->create();
+
         $route = $this->createNewRoute();
         $pirep = factory(App\Models\Pirep::class)->create([
             'user_id' => $user->id,
@@ -323,6 +328,31 @@ class PIREPTest extends TestCase
 
         $aircraft = Aircraft::where('id', 1)->first();
         $this->assertEquals(120, $aircraft->flight_time);
+    }
+
+    /**
+     * When a PIREP is filed by a user on leave, make sure they flip from leave to active
+     * It doesn't matter if the PIREP is accepted or rejected
+     */
+    public function testPilotStatusChange()
+    {
+        /** @var \App\Models\User $user */
+        $user = factory(User::class)->create([
+            'state' => UserState::ON_LEAVE,
+        ]);
+
+        // Submit two PIREPs
+        // 1 hour flight times, but the rank should bump up because of the transfer hours
+        $pirep = factory(Pirep::class)->create([
+            'airline_id' => $user->airline_id,
+            'user_id'    => $user->id,
+        ]);
+
+        $this->pirepSvc->create($pirep);
+        $this->pirepSvc->file($pirep);
+
+        $user = User::find($user->id);
+        $this->assertEquals(UserState::ACTIVE, $user->state);
     }
 
     /**
