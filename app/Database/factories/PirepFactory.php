@@ -10,8 +10,8 @@ use Faker\Generator as Faker;
  * Create a new PIREP
  */
 $factory->define(App\Models\Pirep::class, function (Faker $faker) {
-    $airline = factory(App\Models\Airline::class)->create();
-    $flight = factory(App\Models\Flight::class)->create([
+    $airline = factory(\App\Models\Airline::class)->create();
+    $flight = factory(\App\Models\Flight::class)->create([
         'airline_id' => $airline->id,
     ]);
 
@@ -21,10 +21,10 @@ $factory->define(App\Models\Pirep::class, function (Faker $faker) {
             return $airline->id;
         },
         'user_id' => function () {
-            return factory(App\Models\User::class)->create()->id;
+            return factory(\App\Models\User::class)->create()->id;
         },
         'aircraft_id' => function () {
-            return factory(App\Models\Aircraft::class)->create()->id;
+            return factory(\App\Models\Aircraft::class)->create()->id;
         },
         'flight_id' => function () use ($flight) {
             return $flight->id;

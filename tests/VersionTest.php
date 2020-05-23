@@ -1,5 +1,7 @@
 <?php
 
+namespace Tests;
+
 use App\Repositories\KvpRepository;
 use App\Services\VersionService;
 

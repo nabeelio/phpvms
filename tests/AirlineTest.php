@@ -1,5 +1,7 @@
 <?php
 
+namespace Tests;
+
 use App\Services\AirlineService;
 
 class AirlineTest extends TestCase
@@ -17,7 +19,7 @@ class AirlineTest extends TestCase
 
     public function testAddAirline()
     {
-        $attrs = factory(App\Models\Airline::class)->make([
+        $attrs = factory(\App\Models\Airline::class)->make([
             'iata' => '',
         ])->toArray();
 
@@ -25,7 +27,7 @@ class AirlineTest extends TestCase
         $this->assertNotNull($airline);
 
         // Add another airline, also blank IATA
-        $attrs = factory(App\Models\Airline::class)->make([
+        $attrs = factory(\App\Models\Airline::class)->make([
             'iata' => '',
         ])->toArray();
         $airline = $this->airlineSvc->createAirline($attrs);
@@ -37,8 +39,8 @@ class AirlineTest extends TestCase
      */
     public function testDeleteAirlineWithFlight()
     {
-        $airline = factory(App\Models\Airline::class)->create();
-        factory(App\Models\Flight::class)->create([
+        $airline = factory(\App\Models\Airline::class)->create();
+        factory(\App\Models\Flight::class)->create([
             'airline_id' => $airline->id,
         ]);
 
@@ -50,8 +52,8 @@ class AirlineTest extends TestCase
      */
     public function testDeleteAirlineWithPirep()
     {
-        $airline = factory(App\Models\Airline::class)->create();
-        factory(App\Models\Pirep::class)->create([
+        $airline = factory(\App\Models\Airline::class)->create();
+        factory(\App\Models\Pirep::class)->create([
             'airline_id' => $airline->id,
         ]);
 

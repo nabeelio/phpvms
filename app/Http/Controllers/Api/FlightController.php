@@ -78,29 +78,32 @@ class FlightController extends Controller
      */
     public function search(Request $request)
     {
+        /** @var \App\Models\User $user */
         $user = Auth::user();
+
         $where = [
             'active'  => true,
             'visible' => true,
         ];
 
         // Allow the option to bypass some of these restrictions for the searches
-        if (!$request->filled('ignore_restrictions')
-            || $request->get('ignore_restrictions') === '0'
-        ) {
+        if (!$request->filled('ignore_restrictions') || $request->get('ignore_restrictions') === '0') {
             if (setting('pilots.restrict_to_company')) {
-                $where['airline_id'] = Auth::user()->airline_id;
+                $where['airline_id'] = $user->airline_id;
             }
 
             if (setting('pilots.only_flights_from_current')) {
-                $where['dpt_airport_id'] = Auth::user()->curr_airport_id;
+                $where['dpt_airport_id'] = $user->curr_airport_id;
             }
         }
 
         try {
             $this->flightRepo->resetCriteria();
             $this->flightRepo->searchCriteria($request);
-            $this->flightRepo->pushCriteria(new WhereCriteria($request, $where));
+            $this->flightRepo->pushCriteria(new WhereCriteria($request, $where, [
+                'airline' => ['active' => true],
+            ]));
+
             $this->flightRepo->pushCriteria(new RequestCriteria($request));
 
             $flights = $this->flightRepo

@@ -7,8 +7,7 @@
          convertNoticesToExceptions="false"
          convertWarningsToExceptions="false"
          beStrictAboutOutputDuringTests="false"
-         beStrictAboutTestsThatDoNotTestAnything="false"
-         printerClass="Sempro\PHPUnitPrettyPrinter\PrettyPrinter">
+         beStrictAboutTestsThatDoNotTestAnything="false">
     <testsuites>
         <testsuite name="Application Test Suite">
             <directory suffix="Test.php">./tests</directory>
@@ -34,11 +33,14 @@
         <server name="APP_KEY" value="base64:ve66Z5Kt/zTN3p++0zOPu854PHfZkwJE5VuoFAlzHtI="/>
         <server name="APP_DEBUG" value="true"/>
         <server name="APP_LOG_LEVEL" value="error"/>
-        <server name="DB_CONNECTION" value="memory"/>
+        <server name="BCRYPT_ROUNDS" value="4"/>
         <server name="CACHE_DRIVER" value="array"/>
-        <server name="SESSION_DRIVER" value="array"/>
-        <server name="QUEUE_DRIVER" value="sync"/>
+        <server name="DB_CONNECTION" value="memory"/>
         <server name="DB_PREFIX" value="vmstest_"/>
+        <server name="MAIL_MAILER" value="array"/>
+        <server name="QUEUE_DRIVER" value="sync"/>
+        <server name="SESSION_DRIVER" value="array"/>
+        <server name="TELESCOPE_ENABLED" value="false"/>
         <server name="APP_CONFIG_CACHE" value="bootstrap/cache/config.phpunit.php"/>
         <server name="APP_SERVICES_CACHE" value="bootstrap/cache/services.phpunit.php"/>
         <server name="APP_PACKAGES_CACHE" value="bootstrap/cache/packages.phpunit.php"/>

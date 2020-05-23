@@ -1,5 +1,7 @@
 <?php
 
+namespace Tests;
+
 use App\Events\UserRegistered;
 use App\Models\Enums\UserState;
 use Illuminate\Support\Facades\Event;
@@ -11,7 +13,7 @@ class RegistrationTest extends TestCase
     /**
      * A basic test example.
      *
-     * @throws Exception
+     * @throws \Exception
      *
      * @return void
      */
@@ -24,7 +26,7 @@ class RegistrationTest extends TestCase
 
         setting('pilots.auto_accept', true);
 
-        $attrs = factory(App\Models\User::class)->make()->toArray();
+        $attrs = factory(\App\Models\User::class)->make()->toArray();
         $attrs['password'] = Hash::make('secret');
         $user = $userSvc->createUser($attrs);
 

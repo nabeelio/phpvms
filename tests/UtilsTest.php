@@ -1,5 +1,7 @@
 <?php
 
+namespace Tests;
+
 use App\Support\ICAO;
 use App\Support\Units\Time;
 use App\Support\Utils;
@@ -14,7 +16,7 @@ class UtilsTest extends TestCase
     }
 
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     public function testSecondsToTimeParts()
     {

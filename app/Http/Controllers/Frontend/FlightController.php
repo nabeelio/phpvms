@@ -75,8 +75,9 @@ class FlightController extends Controller
     public function search(Request $request)
     {
         $where = [
-            'active'  => true,
-            'visible' => true,
+            'active'          => true,
+            'visible'         => true,
+            'airlines.active' => true,
         ];
 
         if (setting('pilots.restrict_to_company')) {

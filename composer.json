@@ -69,7 +69,7 @@
         "friendsofphp/php-cs-fixer": "^2.16",
         "mockery/mockery": "0.9.*",
         "nunomaduro/collision": "^4.0",
-        "phpunit/phpunit": "~8.3",
+        "phpunit/phpunit": "~9.0",
         "squizlabs/php_codesniffer": "3.*",
         "sempro/phpunit-pretty-print": "^1.2"
     },
@@ -88,10 +88,7 @@
     "autoload-dev": {
         "psr-4": {
             "Tests\\": "tests/"
-        },
-        "classmap": [
-            "tests/TestCase.php"
-        ]
+        }
     },
      "extra": {
          "installer-types": ["phpvms-module"],

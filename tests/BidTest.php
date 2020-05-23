@@ -1,8 +1,11 @@
 <?php
 
+namespace Tests;
+
 use App\Exceptions\BidExistsForFlight;
 use App\Models\Bid;
 use App\Models\Flight;
+use App\Models\Subfleet;
 use App\Models\User;
 use App\Repositories\SettingRepository;
 use App\Services\BidService;
@@ -26,12 +29,12 @@ class BidTest extends TestCase
 
     public function addFlight($user)
     {
-        $flight = factory(App\Models\Flight::class)->create([
+        $flight = factory(Flight::class)->create([
             'airline_id' => $user->airline_id,
         ]);
 
         $flight->subfleets()->syncWithoutDetaching([
-            factory(App\Models\Subfleet::class)->create([
+            factory(Subfleet::class)->create([
                 'airline_id' => $user->airline_id,
             ])->id,
         ]);
