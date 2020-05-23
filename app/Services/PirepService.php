@@ -264,6 +264,18 @@ class PirepService extends Service
     }
 
     /**
+     * Alias to submit()
+     *
+     * @param \App\Models\Pirep $pirep
+     *
+     * @throws \Exception
+     */
+    public function file(Pirep $pirep)
+    {
+        return $this->submit($pirep);
+    }
+
+    /**
      * Submit the PIREP. Figure out its default state
      *
      * @param Pirep $pirep
