@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use App\Exceptions\Converters\GenericExceptionAbstract;
 use App\Exceptions\Converters\SymfonyException;
 use App\Exceptions\Converters\ValidationException;
+use App\Http\Middleware\SetActiveTheme;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
@@ -17,7 +18,6 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException as IlluminateValidationException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException as SymfonyHttpException;
-use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 use Whoops\Handler\HandlerInterface;
@@ -54,8 +54,8 @@ class Handler extends ExceptionHandler
             return $this->handleApiError($request, $exception);
         }
 
-        if ($exception instanceof AbstractHttpException
-            && $exception->getStatusCode() === 403) {
+        (new SetActiveTheme())->setTheme($request);
+        if ($exception instanceof AbstractHttpException && $exception->getStatusCode() === 403) {
             return redirect()->guest('login');
         }
 
@@ -119,36 +119,11 @@ class Handler extends ExceptionHandler
     {
         if ($request->expectsJson() || $request->is('api/*')) {
             $error = new Unauthenticated();
+
             return $error->getResponse();
         }
 
         return redirect()->guest('login');
-    }
-
-    /**
-     * Render the given HttpException.
-     *
-     * @param AbstractHttpException $e
-     *
-     * @return \Illuminate\Http\Response|Response
-     */
-    protected function renderHttpException(HttpExceptionInterface $e)
-    {
-        $status = $e->getStatusCode();
-        view()->replaceNamespace('errors', [
-            resource_path('views/layouts/'.setting('general.theme', 'default').'/errors'),
-            resource_path('views/errors'),
-            __DIR__.'/views',
-        ]);
-
-        if (view()->exists("errors::{$status}")) {
-            return response()->view("errors::{$status}", [
-                'exception' => $e,
-                'SKIN_NAME' => setting('general.theme', 'default'),
-            ], $status, $e->getHeaders());
-        }
-
-        return $this->convertExceptionToResponse($e);
     }
 
     /**

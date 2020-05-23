@@ -13,23 +13,42 @@ use Illuminate\Support\Facades\Log;
  */
 class SetActiveTheme implements Middleware
 {
+    private static $skip = [
+        'admin',
+        'admin/*',
+        'api',
+        'api/*',
+        'importer',
+        'importer/*',
+        'install',
+        'install/*',
+        'update',
+        'update/*',
+    ];
+
+    /**
+     * Handle the request
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure                 $next
+     *
+     * @return mixed
+     */
     public function handle(Request $request, Closure $next)
     {
-        $skip = [
-            'admin',
-            'admin/*',
-            'api',
-            'api/*',
-            'importer',
-            'importer/*',
-            'install',
-            'install/*',
-            'update',
-            'update/*',
-        ];
+        $this->setTheme($request);
+        return $next($request);
+    }
 
-        if ($request->is($skip)) {
-            return $next($request);
+    /**
+     * Set the theme for the current middleware
+     *
+     * @param \Illuminate\Http\Request $request
+     */
+    public function setTheme(Request $request)
+    {
+        if ($request->is(self::$skip)) {
+            return;
         }
 
         try {
@@ -42,7 +61,5 @@ class SetActiveTheme implements Middleware
         if (!empty($theme)) {
             Theme::set($theme);
         }
-
-        return $next($request);
     }
 }
