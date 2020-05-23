@@ -76,7 +76,7 @@ tests: test
 .PHONY: test
 test:
 	@#php artisan database:create --reset
-	@vendor/bin/phpunit --verbose --debug
+	@vendor/bin/phpunit --verbose
 
 .PHONY: phpcs
 phpcs:

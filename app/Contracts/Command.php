@@ -3,6 +3,7 @@
 namespace App\Contracts;
 
 use Illuminate\Support\Facades\Log;
+use function is_array;
 use Symfony\Component\Process\Process;
 
 /**
@@ -82,9 +83,9 @@ abstract class Command extends \Illuminate\Console\Command
     }
 
     /**
-     * @param       $cmd
-     * @param bool  $return
-     * @param mixed $verbose
+     * @param array|string $cmd
+     * @param bool         $return
+     * @param mixed        $verbose
      *
      * @throws \Symfony\Component\Process\Exception\RuntimeException
      * @throws \Symfony\Component\Process\Exception\LogicException
@@ -93,16 +94,16 @@ abstract class Command extends \Illuminate\Console\Command
      */
     public function runCommand($cmd, $return = false, $verbose = true): string
     {
-        if (!\is_array($cmd)) {
-            $cmd = explode(' ', $cmd);
+        if (is_array($cmd)) {
+            $cmd = implode(' ', $cmd);
         }
 
         if ($verbose) {
-            $this->info('Running "'.implode(' ', $cmd).'"');
+            $this->info('Running '.$cmd);
         }
 
         $val = '';
-        $process = new Process($cmd);
+        $process = Process::fromShellCommandline($cmd);
         $process->run(function ($type, $buffer) use ($return, &$val) {
             if ($return) {
                 $val .= $buffer;
