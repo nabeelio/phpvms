@@ -79,6 +79,13 @@ class CreateDatabase extends Command
      */
     protected function create_sqlite($dbkey)
     {
+        $dbPath = config($dbkey.'database');
+
+        // Skip if running in memory
+        if ($dbPath === ':memory:') {
+            return;
+        }
+
         $exec = 'sqlite3';
         if ($this->os->isWindowsLike()) {
             $exec = 'sqlite3.exe';
@@ -89,11 +96,11 @@ class CreateDatabase extends Command
             $this->runCommand($cmd);
         }
 
-        if (!file_exists(config($dbkey.'database'))) {
+        if (!file_exists($dbPath)) {
             $cmd = [
                 $exec,
-                config($dbkey.'database'),
-                '""',
+                $dbPath,
+                '".exit"',
             ];
 
             $this->runCommand($cmd);
