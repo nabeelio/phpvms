@@ -1,7 +1,10 @@
 <?php
 
+namespace Tests;
+
 use App\Contracts\ImportExport;
 use App\Models\Aircraft;
+use App\Models\Airline;
 use App\Models\Airport;
 use App\Models\Enums\AircraftStatus;
 use App\Models\Enums\Days;
@@ -18,6 +21,7 @@ use App\Services\ImportExport\AircraftExporter;
 use App\Services\ImportExport\AirportExporter;
 use App\Services\ImportExport\FlightExporter;
 use App\Services\ImportService;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 
 class ImporterTest extends TestCase
@@ -50,18 +54,18 @@ class ImporterTest extends TestCase
             'name' => 'phpVMS Airlines',
         ];
 
-        $airline = factory(App\Models\Airline::class)->create($al);
-        $subfleet = factory(App\Models\Subfleet::class)->create(['type' => 'A32X']);
+        $airline = factory(Airline::class)->create($al);
+        $subfleet = factory(Subfleet::class)->create(['type' => 'A32X']);
 
         // Add the economy class
-        $fare_economy = factory(App\Models\Fare::class)->create(['code' => 'Y', 'capacity' => 150]);
+        $fare_economy = factory(Fare::class)->create(['code' => 'Y', 'capacity' => 150]);
         $fare_svc->setForSubfleet($subfleet, $fare_economy);
 
-        $fare_business = factory(App\Models\Fare::class)->create(['code' => 'B', 'capacity' => 20]);
+        $fare_business = factory(Fare::class)->create(['code' => 'B', 'capacity' => 20]);
         $fare_svc->setForSubfleet($subfleet, $fare_business);
 
         // Add first class
-        $fare_first = factory(App\Models\Fare::class)->create(['code' => 'F', 'capacity' => 10]);
+        $fare_first = factory(Fare::class)->create(['code' => 'F', 'capacity' => 10]);
         $fare_svc->setForSubfleet($subfleet, $fare_first);
 
         return [$airline, $subfleet];
@@ -247,7 +251,7 @@ class ImporterTest extends TestCase
      */
     public function testAircraftExporter(): void
     {
-        $aircraft = factory(App\Models\Aircraft::class)->create();
+        $aircraft = factory(Aircraft::class)->create();
 
         $exporter = new AircraftExporter();
         $exported = $exporter->export($aircraft);
@@ -273,7 +277,7 @@ class ImporterTest extends TestCase
     {
         $airport_name = 'Adolfo Suárez Madrid–Barajas Airport';
 
-        $airport = factory(App\Models\Airport::class)->create([
+        $airport = factory(Airport::class)->create([
             'name' => $airport_name,
         ]);
 
@@ -301,12 +305,12 @@ class ImporterTest extends TestCase
         $fareSvc = app(FareService::class);
 
         [$airline, $subfleet] = $this->insertFlightsScaffoldData();
-        $subfleet2 = factory(App\Models\Subfleet::class)->create(['type' => 'B74X']);
+        $subfleet2 = factory(Subfleet::class)->create(['type' => 'B74X']);
 
         $fareY = Fare::where('code', 'Y')->first();
         $fareF = Fare::where('code', 'F')->first();
 
-        $flight = factory(App\Models\Flight::class)->create([
+        $flight = factory(Flight::class)->create([
             'airline_id'  => $airline->id,
             'flight_type' => 'J',
             'days'        => Days::getDaysMask([
@@ -384,9 +388,9 @@ class ImporterTest extends TestCase
      */
     public function testExpenseImporter(): void
     {
-        $airline = factory(App\Models\Airline::class)->create(['icao' => 'VMS']);
-        $subfleet = factory(App\Models\Subfleet::class)->create(['type' => '744-3X-RB211']);
-        $aircraft = factory(App\Models\Aircraft::class)->create([
+        $airline = factory(Airline::class)->create(['icao' => 'VMS']);
+        $subfleet = factory(Subfleet::class)->create(['type' => '744-3X-RB211']);
+        $aircraft = factory(Aircraft::class)->create([
             'subfleet_id'  => $subfleet->id,
             'registration' => '001Z',
         ]);
@@ -564,8 +568,8 @@ class ImporterTest extends TestCase
      */
     public function testAircraftImporter(): void
     {
-        factory(App\Models\Airline::class)->create();
-        // $subfleet = factory(App\Models\Subfleet::class)->create(['type' => 'A32X']);
+        factory(Airline::class)->create();
+        // $subfleet = factory(\App\Models\Subfleet::class)->create(['type' => 'A32X']);
 
         $file_path = base_path('tests/data/aircraft.csv');
         $status = $this->importSvc->importAircraft($file_path);
@@ -646,9 +650,9 @@ class ImporterTest extends TestCase
      */
     public function testSubfleetImporter(): void
     {
-        $fare_economy = factory(App\Models\Fare::class)->create(['code' => 'Y', 'capacity' => 150]);
-        $fare_business = factory(App\Models\Fare::class)->create(['code' => 'B', 'capacity' => 20]);
-        $airline = factory(App\Models\Airline::class)->create(['icao' => 'VMS']);
+        $fare_economy = factory(Fare::class)->create(['code' => 'Y', 'capacity' => 150]);
+        $fare_business = factory(Fare::class)->create(['code' => 'B', 'capacity' => 20]);
+        $airline = factory(Airline::class)->create(['icao' => 'VMS']);
 
         $file_path = base_path('tests/data/subfleets.csv');
         $status = $this->importSvc->importSubfleets($file_path);

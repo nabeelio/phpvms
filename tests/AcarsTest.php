@@ -1,11 +1,24 @@
 <?php
 
+namespace Tests;
+
+use App\Exceptions\AircraftNotAtAirport;
+use App\Exceptions\UserNotAtAirport;
+use App\Models\Acars;
+use App\Models\Aircraft;
+use App\Models\Airline;
+use App\Models\Airport;
 use App\Models\Enums\PirepState;
 use App\Models\Enums\PirepStatus;
+use App\Models\Fare;
+use App\Models\Navdata;
 use App\Models\PirepFare;
 use App\Models\PirepFieldValue;
+use App\Models\User;
 use App\Repositories\SettingRepository;
 use App\Support\Utils;
+use function count;
+use function random_int;
 
 /**
  * Test API calls and authentication, etc
@@ -43,7 +56,7 @@ class AcarsTest extends TestCase
             $addtl_fields
         );
 
-        $this->assertCount(\count($route), $points);
+        $this->assertCount(count($route), $points);
         foreach ($route as $idx => $point) {
             $this->assertHasKeys($points[$idx], $fields);
             foreach ($fields as $f) {
@@ -69,11 +82,11 @@ class AcarsTest extends TestCase
      */
     public function testPrefileErrors()
     {
-        $this->user = factory(App\Models\User::class)->create();
+        $this->user = factory(User::class)->create();
 
-        $airport = factory(App\Models\Airport::class)->create();
-        $airline = factory(App\Models\Airline::class)->create();
-        $aircraft = factory(App\Models\Aircraft::class)->create();
+        $airport = factory(Airport::class)->create();
+        $airline = factory(Airline::class)->create();
+        $aircraft = factory(Aircraft::class)->create();
 
         /**
          * INVALID AIRLINE_ID FIELD
@@ -96,10 +109,10 @@ class AcarsTest extends TestCase
 
     public function testBlankAirport()
     {
-        $this->user = factory(App\Models\User::class)->create();
+        $this->user = factory(User::class)->create();
 
-        $airline = factory(App\Models\Airline::class)->create();
-        $aircraft = factory(App\Models\Aircraft::class)->create();
+        $airline = factory(Airline::class)->create();
+        $aircraft = factory(Aircraft::class)->create();
 
         /**
          * INVALID AIRLINE_ID FIELD
@@ -134,13 +147,13 @@ class AcarsTest extends TestCase
         $this->settingsRepo->store('pilots.only_flights_from_current', true);
         $this->settingsRepo->store('pireps.restrict_aircraft_to_rank', false);
 
-        $this->user = factory(App\Models\User::class)->create([
+        $this->user = factory(User::class)->create([
             'curr_airport_id' => 'KJFK',
         ]);
 
-        $airport = factory(App\Models\Airport::class)->create();
-        $airline = factory(App\Models\Airline::class)->create();
-        $aircraft = factory(App\Models\Aircraft::class)->create();
+        $airport = factory(Airport::class)->create();
+        $airline = factory(Airline::class)->create();
+        $aircraft = factory(Aircraft::class)->create();
 
         /**
          * INVALID AIRLINE_ID FIELD
@@ -161,7 +174,7 @@ class AcarsTest extends TestCase
         $response = $this->post($uri, $pirep);
         $response->assertStatus(400);
         $body = $response->json();
-        $this->assertEquals(\App\Exceptions\UserNotAtAirport::MESSAGE, $body['error']['message']);
+        $this->assertEquals(UserNotAtAirport::MESSAGE, $body['error']['message']);
     }
 
     /**
@@ -173,13 +186,13 @@ class AcarsTest extends TestCase
         $this->settingsRepo->store('pireps.restrict_aircraft_to_rank', false);
         $this->settingsRepo->store('pireps.restrict_aircraft_to_rank', false);
 
-        $this->user = factory(App\Models\User::class)->create([
+        $this->user = factory(User::class)->create([
             'curr_airport_id' => 'KJFK',
         ]);
 
-        $airport = factory(App\Models\Airport::class)->create();
-        $airline = factory(App\Models\Airline::class)->create();
-        $aircraft = factory(App\Models\Aircraft::class)->create([
+        $airport = factory(Airport::class)->create();
+        $airline = factory(Airline::class)->create();
+        $aircraft = factory(Aircraft::class)->create([
             'airport_id' => 'KAUS',
         ]);
 
@@ -202,7 +215,7 @@ class AcarsTest extends TestCase
         $response = $this->post($uri, $pirep);
         $response->assertStatus(400);
         $body = $response->json();
-        $this->assertEquals(\App\Exceptions\AircraftNotAtAirport::MESSAGE, $body['error']['message']);
+        $this->assertEquals(AircraftNotAtAirport::MESSAGE, $body['error']['message']);
     }
 
     /**
@@ -212,16 +225,16 @@ class AcarsTest extends TestCase
     {
         $subfleet = $this->createSubfleetWithAircraft(2);
         $rank = $this->createRank(10, [$subfleet['subfleet']->id]);
-        $fare = factory(App\Models\Fare::class)->create();
+        $fare = factory(Fare::class)->create();
 
-        $this->user = factory(App\Models\User::class)->create(
+        $this->user = factory(User::class)->create(
             [
                 'rank_id' => $rank->id,
             ]
         );
 
-        $airport = factory(App\Models\Airport::class)->create();
-        $airline = factory(App\Models\Airline::class)->create();
+        $airport = factory(Airport::class)->create();
+        $airline = factory(Airline::class)->create();
         $aircraft = $subfleet['aircraft']->random();
 
         $uri = '/api/pireps/prefile';
@@ -312,12 +325,12 @@ class AcarsTest extends TestCase
         $subfleet = $this->createSubfleetWithAircraft(2);
         $rank = $this->createRank(10, [$subfleet['subfleet']->id]);
 
-        $this->user = factory(App\Models\User::class)->create([
+        $this->user = factory(User::class)->create([
             'rank_id' => $rank->id,
         ]);
 
-        $airport = factory(App\Models\Airport::class)->create();
-        $airline = factory(App\Models\Airline::class)->create();
+        $airport = factory(Airport::class)->create();
+        $airline = factory(Airline::class)->create();
         $aircraft = $subfleet['aircraft']->random();
 
         $uri = '/api/pireps/prefile';
@@ -361,14 +374,14 @@ class AcarsTest extends TestCase
         $subfleet = $this->createSubfleetWithAircraft(2);
         $rank = $this->createRank(10, [$subfleet['subfleet']->id]);
 
-        $this->user = factory(App\Models\User::class)->create(
+        $this->user = factory(User::class)->create(
             [
                 'rank_id' => $rank->id,
             ]
         );
 
-        $airport = factory(App\Models\Airport::class)->create();
-        $airline = factory(App\Models\Airline::class)->create();
+        $airport = factory(Airport::class)->create();
+        $airline = factory(Airline::class)->create();
         $aircraft = $subfleet['aircraft']->random();
 
         $uri = '/api/pireps/prefile';
@@ -438,7 +451,7 @@ class AcarsTest extends TestCase
         $response->assertStatus(400);
 
         // Post an ACARS update
-        $acars = factory(App\Models\Acars::class)->make(['pirep_id' => $pirep_id])->toArray();
+        $acars = factory(Acars::class)->make(['pirep_id' => $pirep_id])->toArray();
 
         $acars = $this->transformData($acars);
 
@@ -531,12 +544,12 @@ class AcarsTest extends TestCase
         $subfleet = $this->createSubfleetWithAircraft(2);
         $rank = $this->createRank(10, [$subfleet['subfleet']->id]);
 
-        $this->user = factory(App\Models\User::class)->create([
+        $this->user = factory(User::class)->create([
             'rank_id' => $rank->id,
         ]);
 
-        $airport = factory(App\Models\Airport::class)->create();
-        $airline = factory(App\Models\Airline::class)->create();
+        $airport = factory(Airport::class)->create();
+        $airline = factory(Airline::class)->create();
         $aircraft = $subfleet['aircraft']->random();
 
         $uri = '/api/pireps/prefile';
@@ -581,8 +594,8 @@ class AcarsTest extends TestCase
     {
         $this->settingsRepo->store('pireps.restrict_aircraft_to_rank', true);
 
-        $airport = factory(App\Models\Airport::class)->create();
-        $airline = factory(App\Models\Airline::class)->create();
+        $airport = factory(Airport::class)->create();
+        $airline = factory(Airline::class)->create();
 
         // Add subfleets and aircraft, but also add another set of subfleets
         $subfleetA = $this->createSubfleetWithAircraft(1);
@@ -592,7 +605,7 @@ class AcarsTest extends TestCase
 
         $rank = $this->createRank(10, [$subfleetA['subfleet']->id]);
 
-        $this->user = factory(App\Models\User::class)->create(
+        $this->user = factory(User::class)->create(
             [
                 'rank_id' => $rank->id,
             ]
@@ -627,8 +640,8 @@ class AcarsTest extends TestCase
     {
         $this->settingsRepo->store('pireps.restrict_aircraft_to_rank', false);
 
-        $airport = factory(App\Models\Airport::class)->create();
-        $airline = factory(App\Models\Airline::class)->create();
+        $airport = factory(Airport::class)->create();
+        $airline = factory(Airline::class)->create();
 
         // Add subfleets and aircraft, but also add another set of subfleets
         $subfleetA = $this->createSubfleetWithAircraft(1);
@@ -638,7 +651,7 @@ class AcarsTest extends TestCase
 
         $rank = $this->createRank(10, [$subfleetA['subfleet']->id]);
 
-        $this->user = factory(App\Models\User::class)->create(
+        $this->user = factory(User::class)->create(
             [
                 'rank_id' => $rank->id,
             ]
@@ -679,8 +692,8 @@ class AcarsTest extends TestCase
         $uri = '/api/pireps/'.$pirep_id.'/acars/position';
 
         // Post an ACARS update
-        $acars_count = \random_int(5, 10);
-        $acars = factory(App\Models\Acars::class, $acars_count)->make(['id' => ''])
+        $acars_count = random_int(5, 10);
+        $acars = factory(Acars::class, $acars_count)->make(['id' => ''])
             ->map(function ($point) {
                 $point['id'] = Utils::generateNewId();
                 return $point;
@@ -701,7 +714,7 @@ class AcarsTest extends TestCase
 
     public function testNonExistentPirepGet()
     {
-        $this->user = factory(App\Models\User::class)->create();
+        $this->user = factory(User::class)->create();
 
         $uri = '/api/pireps/DOESNTEXIST/acars';
         $response = $this->get($uri);
@@ -710,10 +723,10 @@ class AcarsTest extends TestCase
 
     public function testNonExistentPirepStore()
     {
-        $this->user = factory(App\Models\User::class)->create();
+        $this->user = factory(User::class)->create();
 
         $uri = '/api/pireps/DOESNTEXIST/acars/position';
-        $acars = factory(App\Models\Acars::class)->make()->toArray();
+        $acars = factory(Acars::class)->make()->toArray();
         $response = $this->post($uri, $acars);
         $response->assertStatus(404);
     }
@@ -728,7 +741,7 @@ class AcarsTest extends TestCase
 
         $dt = date('c');
         $uri = '/api/pireps/'.$pirep_id.'/acars/position';
-        $acars = factory(App\Models\Acars::class)->make([
+        $acars = factory(Acars::class)->make([
             'sim_time' => $dt,
         ])->toArray();
 
@@ -777,7 +790,7 @@ class AcarsTest extends TestCase
         $response = $this->post($uri, $pirep);
         $pirep_id = $response->json()['data']['id'];
 
-        $acars = factory(App\Models\Acars::class)->make();
+        $acars = factory(Acars::class)->make();
         $post_log = [
             'logs' => [
                 ['log' => $acars->log],
@@ -791,7 +804,7 @@ class AcarsTest extends TestCase
 
         $this->assertEquals(1, $body['count']);
 
-        $acars = factory(App\Models\Acars::class)->make();
+        $acars = factory(Acars::class)->make();
         $post_log = [
             'events' => [
                 ['event' => $acars->log],
@@ -816,9 +829,9 @@ class AcarsTest extends TestCase
 
         $order = 1;
         $post_route = [];
-        $route_count = \random_int(2, 10);
+        $route_count = random_int(2, 10);
 
-        $route = factory(App\Models\Navdata::class, $route_count)->create();
+        $route = factory(Navdata::class, $route_count)->create();
         foreach ($route as $position) {
             $post_route[] = [
                 'order' => $order,

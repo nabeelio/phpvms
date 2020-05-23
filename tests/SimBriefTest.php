@@ -1,8 +1,13 @@
 <?php
 
+namespace Tests;
+
 use App\Models\Acars;
 use App\Models\Enums\AcarsType;
+use App\Models\Flight;
+use App\Models\Pirep;
 use App\Models\SimBrief;
+use App\Models\User;
 use App\Services\SimBriefService;
 use App\Support\Utils;
 use Carbon\Carbon;
@@ -20,7 +25,7 @@ class SimBriefTest extends TestCase
      */
     protected function loadSimBrief($user): SimBrief
     {
-        $flight = factory(App\Models\Flight::class)->create([
+        $flight = factory(Flight::class)->create([
             'id'             => self::$simbrief_flight_id,
             'dpt_airport_id' => 'OMAA',
             'arr_airport_id' => 'OMDB',
@@ -42,7 +47,7 @@ class SimBriefTest extends TestCase
      */
     public function testReadSimbrief()
     {
-        $this->user = factory(App\Models\User::class)->create();
+        $this->user = factory(User::class)->create();
         $briefing = $this->loadSimBrief($this->user);
 
         $this->assertNotEmpty($briefing->ofp_xml);
@@ -81,7 +86,7 @@ class SimBriefTest extends TestCase
      */
     public function testApiCalls()
     {
-        $this->user = factory(App\Models\User::class)->create();
+        $this->user = factory(User::class)->create();
         $briefing = $this->loadSimBrief($this->user);
 
         // Check the flight API response
@@ -115,7 +120,7 @@ class SimBriefTest extends TestCase
      */
     public function testUserBidSimbrief()
     {
-        $this->user = factory(App\Models\User::class)->create();
+        $this->user = factory(User::class)->create();
         $this->loadSimBrief($this->user);
 
         // Find the flight
@@ -131,8 +136,8 @@ class SimBriefTest extends TestCase
 
     public function testAttachToPirep()
     {
-        $user = factory(App\Models\User::class)->create();
-        $pirep = factory(App\Models\Pirep::class)->create([
+        $user = factory(User::class)->create();
+        $pirep = factory(Pirep::class)->create([
             'user_id'        => $user->id,
             'dpt_airport_id' => 'OMAA',
             'arr_airport_id' => 'OMDB',
@@ -167,7 +172,7 @@ class SimBriefTest extends TestCase
      */
     public function testClearExpiredBriefs()
     {
-        $user = factory(App\Models\User::class)->create();
+        $user = factory(User::class)->create();
         $sb_ignored = factory(SimBrief::class)->create([
             'user_id'    => $user->id,
             'flight_id'  => 'a_flight_id',

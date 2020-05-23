@@ -1,5 +1,7 @@
 <?php
 
+namespace Tests;
+
 use App\Support\Math;
 use App\Support\Units\Distance;
 

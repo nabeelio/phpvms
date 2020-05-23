@@ -1,5 +1,9 @@
 <?php
 
+namespace Tests;
+
+use App\Models\Navdata;
+use Exception;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 
 class GeoTest extends TestCase
@@ -44,7 +48,7 @@ class GeoTest extends TestCase
 
         $route = [];
         $nav_count = random_int(5, 20);
-        $navpoints = factory(App\Models\Navdata::class, $nav_count)->create();
+        $navpoints = factory(Navdata::class, $nav_count)->create();
         foreach ($navpoints as $point) {
             $route[] = $point->id;
         }
