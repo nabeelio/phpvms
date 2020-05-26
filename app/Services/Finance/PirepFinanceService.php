@@ -80,6 +80,7 @@ class PirepFinanceService extends Service
         $this->payFaresForPirep($pirep);
         $this->payExpensesForSubfleet($pirep);
         $this->payExpensesForPirep($pirep);
+        $this->payAirportExpensesForPirep($pirep);
         $this->payExpensesEventsForPirep($pirep);
         $this->payGroundHandlingForPirep($pirep);
         $this->payPilotForPirep($pirep);
@@ -228,7 +229,12 @@ class PirepFinanceService extends Service
         /*
          * Go through the expenses and apply a mulitplier if present
          */
-        $expenses->map(function (/** @var \App\Models\Expense */ $expense, $i) use ($pirep) {
+        $expenses->map(function (Expense $expense, $i) use ($pirep) {
+            // Airport expenses are paid out separately
+            if ($expense->ref_model === Airport::class) {
+                return;
+            }
+
             Log::info('Finance: PIREP: '.$pirep->id.', expense:', $expense->toArray());
 
             // Check to see if there is a certain fleet or flight type set on this expense
@@ -251,13 +257,14 @@ class PirepFinanceService extends Service
             }
 
             // Form the memo, with some specific ones depending on the group
-            if ($expense->ref_model === Airport::class) {
-                $memo = "Airport Expense: {$expense->name} ({$expense->ref_model_id})";
-                $transaction_group = "Airport: {$expense->ref_model_id}";
-            } elseif ($expense->ref_model === Subfleet::class) {
+            if ($expense->ref_model === Subfleet::class
+                && $expense->ref_model_id === $pirep->aircraft->subfleet->id
+            ) {
                 $memo = "Subfleet Expense: {$expense->name} ({$pirep->aircraft->subfleet->name})";
                 $transaction_group = "Subfleet: {$expense->name} ({$pirep->aircraft->subfleet->name})";
-            } elseif ($expense->ref_model === Aircraft::class) {
+            } elseif ($expense->ref_model === Aircraft::class
+                      && $expense->ref_model_id === $pirep->aircraft->id
+            ) {
                 $memo = "Aircraft Expense: {$expense->name} ({$pirep->aircraft->name})";
                 $transaction_group = "Aircraft: {$expense->name} "
                     ."({$pirep->aircraft->name}-{$pirep->aircraft->registration})";
@@ -282,6 +289,44 @@ class PirepFinanceService extends Service
                 $memo,
                 $transaction_group,
                 strtolower($klass)
+            );
+        });
+    }
+
+    /**
+     * Pay the airport-specific expenses for a PIREP
+     *
+     * @param \App\Models\Pirep $pirep
+     */
+    public function payAirportExpensesForPirep(Pirep $pirep): void
+    {
+        $expenses = $this->expenseRepo->getAllForType(
+            ExpenseType::FLIGHT,
+            $pirep->airline_id,
+            Airport::class,
+            $pirep->arr_airport_id,
+        );
+
+        /*
+         * Go through the expenses and apply a mulitplier if present
+         */
+        $expenses->map(function (Expense $expense, $i) use ($pirep) {
+            Log::info('Finance: PIREP: '.$pirep->id.', airport expense:', $expense->toArray());
+
+            $memo = "Airport Expense: {$expense->name} ({$expense->ref_model_id})";
+            $transaction_group = "Airport: {$expense->ref_model_id}";
+
+            $debit = Money::createFromAmount($expense->amount);
+
+            // Charge to the airlines journal
+            $journal = $pirep->airline->journal;
+            $this->financeSvc->debitFromJournal(
+                $journal,
+                $debit,
+                $pirep,
+                $memo,
+                $transaction_group,
+                'airport'
             );
         });
     }

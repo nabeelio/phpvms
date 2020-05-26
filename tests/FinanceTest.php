@@ -26,10 +26,19 @@ use Exception;
 
 class FinanceTest extends TestCase
 {
+    /** @var \App\Repositories\ExpenseRepository */
     private $expenseRepo;
+
+    /** @var \App\Services\FareService */
     private $fareSvc;
+
+    /** @var \App\Services\FinanceService */
     private $financeSvc;
+
+    /** @var FleetService */
     private $fleetSvc;
+
+    /** @var PirepService */
     private $pirepSvc;
 
     /**
@@ -135,6 +144,19 @@ class FinanceTest extends TestCase
             'ref_model'    => Subfleet::class,
             'ref_model_id' => $subfleet['subfleet']->id,
             'amount'       => 200,
+        ]);
+
+        // Add expenses for airports
+        factory(Expense::class)->create([
+            'ref_model'    => Airport::class,
+            'ref_model_id' => $dpt_apt->id,
+            'amount'       => 50,
+        ]);
+
+        factory(Expense::class)->create([
+            'ref_model'    => Airport::class,
+            'ref_model_id' => $arr_apt->id,
+            'amount'       => 100,
         ]);
 
         $pirep = $this->pirepSvc->create($pirep, []);
@@ -694,6 +716,39 @@ class FinanceTest extends TestCase
         $this->assertEquals($obj->id, $expense->ref_model_id);
     }
 
+    public function testAirportExpenses()
+    {
+        $apt1 = factory(Airport::class)->create();
+        $apt2 = factory(Airport::class)->create();
+        $apt3 = factory(Airport::class)->create();
+
+        factory(Expense::class)->create([
+            'airline_id'   => null,
+            'ref_model'    => Airport::class,
+            'ref_model_id' => $apt1->id,
+        ]);
+
+        factory(Expense::class)->create([
+            'airline_id'   => null,
+            'ref_model'    => Airport::class,
+            'ref_model_id' => $apt2->id,
+        ]);
+
+        factory(Expense::class)->create([
+            'airline_id'   => null,
+            'ref_model'    => Airport::class,
+            'ref_model_id' => $apt3->id,
+        ]);
+
+        $expenses = $this->expenseRepo->getAllForType(
+            ExpenseType::FLIGHT,
+            null,
+            Airport::class
+        );
+
+        $this->assertCount(3, $expenses);
+    }
+
     /**
      * @throws Exception
      */
@@ -721,14 +776,15 @@ class FinanceTest extends TestCase
 
         $transactions = $journalRepo->getAllForObject($pirep);
 
-//        $this->assertCount(9, $transactions['transactions']);
+        // $this->assertCount(9, $transactions['transactions']);
         $this->assertEquals(3020, $transactions['credits']->getValue());
-        $this->assertEquals(1960, $transactions['debits']->getValue());
+        $this->assertEquals(2060, $transactions['debits']->getValue());
 
         // Check that all the different transaction types are there
         // test by the different groups that exist
         $transaction_tags = [
             'fuel'            => 1,
+            'airport'         => 1,
             'expense'         => 1,
             'subfleet'        => 2,
             'fare'            => 3,
@@ -778,12 +834,13 @@ class FinanceTest extends TestCase
 
 //        $this->assertCount(9, $transactions['transactions']);
         $this->assertEquals(3020, $transactions['credits']->getValue());
-        $this->assertEquals(1960, $transactions['debits']->getValue());
+        $this->assertEquals(2060, $transactions['debits']->getValue());
 
         // Check that all the different transaction types are there
         // test by the different groups that exist
         $transaction_tags = [
             'fuel'            => 1,
+            'airport'         => 1,
             'expense'         => 1,
             'subfleet'        => 2,
             'fare'            => 3,
@@ -816,12 +873,13 @@ class FinanceTest extends TestCase
 
         $transactions = $journalRepo->getAllForObject($pirep2);
         $this->assertEquals(3020, $transactions['credits']->getValue());
-        $this->assertEquals(2060, $transactions['debits']->getValue());
+        $this->assertEquals(2160, $transactions['debits']->getValue());
 
         // Check that all the different transaction types are there
         // test by the different groups that exist
         $transaction_tags = [
             'fuel'            => 1,
+            'airport'         => 1,
             'expense'         => 2,
             'subfleet'        => 2,
             'fare'            => 3,
