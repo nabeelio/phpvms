@@ -304,7 +304,7 @@ class PirepFinanceService extends Service
             ExpenseType::FLIGHT,
             $pirep->airline_id,
             Airport::class,
-            $pirep->arr_airport_id,
+            $pirep->arr_airport_id
         );
 
         /*
