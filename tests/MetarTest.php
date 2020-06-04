@@ -173,6 +173,14 @@ class MetarTest extends TestCase
         $this->assertInstanceOf(Metar::class, $airportSvc->getMetar('kjfk'));
     }
 
+    public function testHttpCallSuccessFullResponse()
+    {
+        $this->mockXmlResponse('aviationweather/kphx.xml');
+        $airportSvc = app(AirportService::class);
+
+        $this->assertInstanceOf(Metar::class, $airportSvc->getMetar('kphx'));
+    }
+
     public function testHttpCallEmpty()
     {
         $this->mockXmlResponse('aviationweather/empty.xml');

@@ -14,9 +14,7 @@ use Illuminate\Support\Facades\Log;
 class AviationWeather extends Metar
 {
     private const METAR_URL =
-        'https://www.aviationweather.gov/adds/dataserver_current/httpparam?'
-        .'dataSource=metars&requestType=retrieve&format=xml&hoursBeforeNow=3'
-        .'&mostRecent=true&fields=raw_text&stationString=';
+        'https://www.aviationweather.gov/adds/dataserver_current/httpparam?dataSource=metars&requestType=retrieve&format=xml&hoursBeforeNow=3&mostRecent=true&stationString=';
 
     private $httpClient;
 
