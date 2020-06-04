@@ -53,7 +53,6 @@
         "spatie/laravel-backup": "~6.9.0",
         "spatie/valuestore": "~1.2.3",
         "symfony/polyfill-iconv": "~1.17.0",
-        "theiconic/php-ga-measurement-protocol": "2.7.*",
         "tivie/php-os-detector": "~1.1.0",
         "vlucas/phpdotenv": "v4.0",
         "webpatser/laravel-uuid": "~3.0",

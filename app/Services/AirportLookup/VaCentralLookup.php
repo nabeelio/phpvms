@@ -21,13 +21,14 @@ class VaCentralLookup extends AirportLookup
      *
      * @param string $icao
      *
-     * @return array
+     * @return mixed
      */
     public function getAirport($icao)
     {
         try {
             $airport = $this->client->getAirport($icao);
             $airport->location = $airport->city;
+
             return $airport;
         } catch (HttpException $e) {
             Log::error($e);
