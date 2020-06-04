@@ -27,7 +27,7 @@ class AnalyticsService extends Service
         $props = [
             'php'     => PHP_VERSION,
             'db'      => strtolower($pdo->getAttribute(PDO::ATTR_SERVER_VERSION)),
-            'version' => $versionSvc->getCurrentVersion(false)
+            'version' => $versionSvc->getCurrentVersion(false),
         ];
 
         try {

@@ -32,7 +32,6 @@ class BindServiceProviders extends ServiceProvider
             IVaCentral::class,
             function ($app) {
                 $client = new VaCentral();
-                $client->setVaCentralUrl(config('vacentral.api_url'));
 
                 // Set API if exists
                 if (filled(config('vacentral.api_key'))) {

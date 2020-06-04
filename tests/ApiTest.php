@@ -36,7 +36,8 @@ class ApiTest extends TestCase
         $uri = '/api/user';
 
         // Missing auth header
-        $this->get($uri)->assertStatus(401);
+        $res = $this->get($uri);
+        $res->assertStatus(401);
 
         // Test invalid API key
         $this->withHeaders(['Authorization' => 'invalidKey'])->get($uri)
