@@ -1,4 +1,4 @@
-<div id="flash-overlay-modal" class="modal fade {{ $modalClass or '' }}">
+<div id="flash-overlay-modal" class="modal fade {{ isset($modalClass) ? $modalClass : '' }}">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -8,11 +8,11 @@
       </div>
 
       <div class="modal-body">
-        <p>{{ $body }}</p>
+        <p>{!! $body !!}</p>
       </div>
 
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">@lang('common.close')</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
