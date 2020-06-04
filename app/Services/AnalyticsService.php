@@ -3,25 +3,15 @@
 namespace App\Services;
 
 use App\Contracts\Service;
-use App\Models\Enums\AnalyticsDimensions;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Irazasyed\LaravelGAMP\Facades\GAMP;
 use PDO;
+use VaCentral\Models\Stat;
+use VaCentral\VaCentral;
 
 class AnalyticsService extends Service
 {
-    /**
-     * Create a GAMP instance with a random ID
-     *
-     * @return mixed
-     */
-    private function getGAMPInstance()
-    {
-        return GAMP::setClientId(uniqid('', true));
-    }
-
     /**
      * Send out some stats about the install, like the PHP and DB versions
      */
@@ -31,31 +21,39 @@ class AnalyticsService extends Service
             return;
         }
 
-        // Generate a random client ID
-        $gamp = $this->getGAMPInstance();
-
-        $gamp->setDocumentPath('/install');
-
-        // Send the PHP version
-        $gamp->setCustomDimension(PHP_VERSION, AnalyticsDimensions::PHPVMS_VERSION);
-
-        // Figure out the database version
-        $pdo = DB::connection()->getPdo();
-        $gamp->setCustomDimension(
-            strtolower($pdo->getAttribute(PDO::ATTR_SERVER_VERSION)),
-            AnalyticsDimensions::DATABASE_VERSION
-        );
-
-        // Send the PHPVMS Version
         $versionSvc = app(VersionService::class);
-        $gamp->setCustomDimension(
-            $versionSvc->getCurrentVersion(false),
-            AnalyticsDimensions::PHP_VERSION
-        );
+        $pdo = DB::connection()->getPdo();
 
-        // Send that an install was done
+        $props = [
+            'php'     => PHP_VERSION,
+            'db'      => strtolower($pdo->getAttribute(PDO::ATTR_SERVER_VERSION)),
+            'version' => $versionSvc->getCurrentVersion(false)
+        ];
+
         try {
-            $gamp->sendPageview();
+            $stat = Stat::new('event', 'install', $props);
+            $client = new VaCentral();
+            $client->postStat($stat);
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+        }
+    }
+
+    public function sendUpdate()
+    {
+        if (setting('general.telemetry') === false) {
+            return;
+        }
+
+        $versionSvc = app(VersionService::class);
+        $props = [
+            'version' => $versionSvc->getCurrentVersion(false),
+        ];
+
+        try {
+            $stat = Stat::new('event', 'update', $props);
+            $client = new VaCentral();
+            $client->postStat($stat);
         } catch (Exception $e) {
             Log::error($e->getMessage());
         }
