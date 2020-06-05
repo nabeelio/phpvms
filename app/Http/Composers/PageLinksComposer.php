@@ -28,10 +28,13 @@ class PageLinksComposer extends Composer
     public function compose(View $view)
     {
         try {
+            $w = [
+                'enabled' => true,
+            ];
+
             // If not logged in, then only get the public pages
-            $w = ['enabled' => true];
             if (!Auth::check()) {
-                $w = ['public' => true];
+                $w['public'] = true;
             }
 
             $pages = $this->pageRepo->findWhere($w, ['id', 'name', 'slug', 'icon']);
