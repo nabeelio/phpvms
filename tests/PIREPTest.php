@@ -312,7 +312,8 @@ class PIREPTest extends TestCase
         }
 
         $pilot = User::find($user->id);
-        $last_pirep = Pirep::where('id', $pilot->last_pirep_id)->first();
+        $last_pirep = $pilot->last_pirep;
+        $this->assertEquals($pilot->last_pirep_id, $last_pirep->id);
 
         // Make sure rank went up
         $this->assertGreaterThan($user->rank_id, $pilot->rank_id);
