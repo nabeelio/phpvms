@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Contracts\Controller;
+use App\Events\AcarsUpdate;
 use App\Exceptions\PirepCancelled;
 use App\Http\Requests\Acars\EventRequest;
 use App\Http\Requests\Acars\LogRequest;
@@ -197,6 +198,9 @@ class AcarsController extends Controller
         }
 
         $pirep->save();
+
+        // Post a new update for this ACARS position
+        event(new AcarsUpdate($pirep, $pirep->position));
 
         return $this->message($count.' positions added', $count);
     }
