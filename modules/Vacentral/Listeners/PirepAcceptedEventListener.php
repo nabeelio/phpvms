@@ -3,12 +3,14 @@
 namespace Modules\Vacentral\Listeners;
 
 use App\Events\PirepAccepted;
-use Log;
+use Illuminate\Support\Facades\Log;
 
 class PirepAcceptedEventListener
 {
     /**
      * Handle the event.
+     *
+     * @param PirepAccepted $pirep
      */
     public function handle(PirepAccepted $pirep)
     {
