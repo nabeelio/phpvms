@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Contracts\Controller;
 use App\Http\Requests\CreatePageRequest;
 use App\Http\Requests\UpdatePageRequest;
-use App\Models\Enums\PageType;
 use App\Repositories\PageRepository;
 use Illuminate\Http\Request;
 use Laracasts\Flash\Flash;
@@ -41,9 +40,7 @@ class PagesController extends Controller
      */
     public function create()
     {
-        return view('admin.pages.create', [
-            'page_types' => PageType::select(false),
-        ]);
+        return view('admin.pages.create');
     }
 
     /**
@@ -102,8 +99,7 @@ class PagesController extends Controller
         }
 
         return view('admin.pages.edit', [
-            'page'       => $page,
-            'page_types' => PageType::select(false),
+            'page' => $page,
         ]);
     }
 
