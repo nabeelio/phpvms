@@ -71,7 +71,7 @@
       @endability
 
       @ability('admin', 'pages')
-      <li><a href="{!! url('/admin/pages') !!}"><i class="pe-7s-note"></i>pages</a></li>
+      <li><a href="{!! url('/admin/pages') !!}"><i class="pe-7s-note"></i>pages/links</a></li>
       @endability
 
       @ability('admin', 'maintenance')

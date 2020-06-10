@@ -1,0 +1,36 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class PagesAddLink extends Migration
+{
+    /**
+     * Add a `link` column and make the body optional. Also add a "new_window" bool
+     * which determines if we open this link in a new window or not
+     */
+    public function up()
+    {
+        Schema::table('pages', function (Blueprint $table) {
+            $table->string('body')->change()->nullable();
+            $table->string('link')
+                ->default('')
+                ->nullable()
+                ->after('body');
+
+            $table->boolean('new_window')->default(false);
+        });
+    }
+
+    /**
+     * @return void
+     */
+    public function down()
+    {
+        Schema::table('fares', function (Blueprint $table) {
+            $table->dropColumn('link');
+            $table->dropColumn('new_window');
+        });
+    }
+}
