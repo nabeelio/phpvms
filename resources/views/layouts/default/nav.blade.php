@@ -36,7 +36,7 @@
 
       @foreach($page_links as $page)
         <li class="nav-item">
-          <a class="nav-link" href="{{ url(route('frontend.pages.show', ['slug' => $page->slug])) }}">
+          <a class="nav-link" href="{{ $page->url }}" target="{{ $page->new_window ? '_blank':'_self' }}">
             <i class="{{ $page['icon'] }}"></i>
             <p>{{ $page['name'] }}</p>
           </a>

@@ -6,6 +6,11 @@ use App\Contracts\Enum;
 
 class PageType extends Enum
 {
-    public const HTML = 0;
-    public const MARKDOWN = 1;
+    public const PAGE = 0;
+    public const LINK = 1;
+
+    public static $labels = [
+        self::PAGE => 'Page',
+        self::LINK => 'Link',
+    ];
 }

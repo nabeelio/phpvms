@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Contracts\Model;
+use App\Exceptions\UnknownPageType;
+use App\Models\Enums\PageType;
 
 /**
  * @property int    id
@@ -12,7 +14,9 @@ use App\Contracts\Model;
  * @property int    type
  * @property bool   public
  * @property bool   enabled
+ * @property bool   new_window
  * @property string body
+ * @property string link
  */
 class Page extends Model
 {
@@ -25,17 +29,39 @@ class Page extends Model
         'icon',
         'public',
         'body',
+        'link',
         'enabled',
+        'new_window',
     ];
 
     protected $casts = [
-        'type'    => 'integer',
-        'public'  => 'boolean',
-        'enabled' => 'boolean',
+        'type'       => 'integer',
+        'public'     => 'boolean',
+        'enabled'    => 'boolean',
+        'new_window' => 'boolean',
     ];
 
     public static $rules = [
         'name' => 'required|unique:pages,name',
-        'body' => 'required',
+        'body' => 'nullable',
+        'type' => 'required',
     ];
+
+    /**
+     * Return the full URL to this page; determines if it's internal or external
+     *
+     * @throws \App\Exceptions\UnknownPageType
+     */
+    public function getUrlAttribute(): string
+    {
+        if ($this->type === PageType::PAGE) {
+            return url(route('frontend.pages.show', ['slug' => $this->slug]));
+        }
+
+        if ($this->type === PageType::LINK) {
+            return $this->link;
+        }
+
+        throw new UnknownPageType($this);
+    }
 }
