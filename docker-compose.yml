@@ -36,6 +36,7 @@ services:
       MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
     volumes:
       - ./storage/docker/mysql:/var/lib/mysql
+      - ./resources/docker/mysql:/etc/mysql/conf.d
     ports:
       - 3306:3306
 
