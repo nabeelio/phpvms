@@ -126,7 +126,7 @@ class PirepFinanceService extends Service
 
             Log::info('Finance: Calculate: C='.$credit->toAmount().', D='.$debit->toAmount());
 
-            $memo = FareType::label($fare->type).' fare: '.$fare->code.$fare->count
+            $memo = FareType::label($fare->type).' fare: '.$fare->code.': '.$fare->count
                 .'; price: '.$fare->price.', cost: '.$fare->cost;
 
             $this->journalRepo->post(
