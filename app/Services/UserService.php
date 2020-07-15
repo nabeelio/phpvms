@@ -8,6 +8,7 @@ use App\Events\UserStateChanged;
 use App\Events\UserStatsChanged;
 use App\Exceptions\PilotIdNotFound;
 use App\Exceptions\UserPilotIdExists;
+use App\Models\Airline;
 use App\Models\Enums\PirepState;
 use App\Models\Enums\UserState;
 use App\Models\Pirep;
@@ -188,22 +189,33 @@ class UserService extends Service
      * Split a given pilot ID into an airline and ID portions
      *
      * @param string $pilot_id
+     *
+     * @return User
      */
-    public function findUserByPilotId(string $pilot_id)
+    public function findUserByPilotId(string $pilot_id): User
     {
+        $pilot_id = trim($pilot_id);
+        if (empty($pilot_id)) {
+            throw new PilotIdNotFound('');
+        }
+
         $airlines = $this->airlineRepo->all(['id', 'icao', 'iata']);
 
         $ident_str = null;
         $pilot_id = strtoupper($pilot_id);
+
+        /** @var Airline $airline */
         foreach ($airlines as $airline) {
             if (strpos($pilot_id, $airline->icao) !== false) {
                 $ident_str = $airline->icao;
                 break;
             }
 
-            if (strpos($pilot_id, $airline->iata) !== false) {
-                $ident_str = $airline->iata;
-                break;
+            if (!empty($airline->iata)) {
+                if (strpos($pilot_id, $airline->iata) !== false) {
+                    $ident_str = $airline->iata;
+                    break;
+                }
             }
         }
 
