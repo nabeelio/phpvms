@@ -4,6 +4,7 @@ namespace Tests;
 
 use App\Exceptions\PilotIdNotFound;
 use App\Exceptions\UserPilotIdExists;
+use App\Models\Airline;
 use App\Models\User;
 use App\Repositories\SettingRepository;
 use App\Services\UserService;
@@ -37,7 +38,7 @@ class UserTest extends TestCase
 
         $rank = $this->createRank(10, [$subfleetA['subfleet']->id]);
 
-        $user = factory(\App\Models\User::class)->create([
+        $user = factory(User::class)->create([
             'rank_id' => $rank->id,
         ]);
 
@@ -97,7 +98,7 @@ class UserTest extends TestCase
 
         $rank = $this->createRank(10, [$subfleetA['subfleet']->id]);
 
-        $user = factory(\App\Models\User::class)->create([
+        $user = factory(User::class)->create([
             'rank_id' => $rank->id,
         ]);
 
@@ -143,7 +144,7 @@ class UserTest extends TestCase
         $subfleetB = $this->createSubfleetWithAircraft(2);
 
         $rank = $this->createRank(10, [$subfleetA['subfleet']->id]);
-        $user = factory(\App\Models\User::class)->create([
+        $user = factory(User::class)->create([
             'curr_airport_id' => $airport->id,
             'rank_id'         => $rank->id,
         ]);
@@ -203,8 +204,8 @@ class UserTest extends TestCase
     public function testUserPilotIdChangeAlreadyExists()
     {
         $this->expectException(UserPilotIdExists::class);
-        $user1 = factory(\App\Models\User::class)->create(['id' => 1]);
-        $user2 = factory(\App\Models\User::class)->create(['id' => 2]);
+        $user1 = factory(User::class)->create(['id' => 1]);
+        $user2 = factory(User::class)->create(['id' => 2]);
 
         // Now try to change the original user's pilot_id to 2 (should conflict)
         $this->userSvc->changePilotId($user1, 2);
@@ -215,8 +216,8 @@ class UserTest extends TestCase
      */
     public function testUserPilotIdSplit(): void
     {
-        /** @var \App\Models\User $user */
-        $user = factory(\App\Models\User::class)->create();
+        /** @var User $user */
+        $user = factory(User::class)->create();
         $found_user = $this->userSvc->findUserByPilotId($user->ident);
         $this->assertEquals($user->id, $found_user->id);
 
@@ -230,11 +231,23 @@ class UserTest extends TestCase
      */
     public function testUserPilotIdSplitInvalidId(): void
     {
-        /** @var \App\Models\User $user */
-        $user = factory(\App\Models\User::class)->create();
+        /** @var User $user */
+        $user = factory(User::class)->create();
 
         $this->expectException(PilotIdNotFound::class);
         $this->userSvc->findUserByPilotId($user->airline->iata);
+    }
+
+    public function testUserPilotIdInvalidIATA(): void
+    {
+        /** @var Airline $airline */
+        $airline = factory(Airline::class)->create(['icao' => 'ABC', 'iata' => null]);
+
+        /** @var User $user */
+        $user = factory(User::class)->create(['airline_id' => $airline->id]);
+
+        $this->expectException(PilotIdNotFound::class);
+        $this->userSvc->findUserByPilotId('123');
     }
 
     /**
@@ -242,13 +255,13 @@ class UserTest extends TestCase
      */
     public function testUserPilotIdAdded()
     {
-        $new_user = factory(\App\Models\User::class)->make()->toArray();
+        $new_user = factory(User::class)->make()->toArray();
         $new_user['password'] = Hash::make('secret');
         $user = $this->userSvc->createUser($new_user);
         $this->assertEquals($user->id, $user->pilot_id);
 
         // Add a second user
-        $new_user = factory(\App\Models\User::class)->make()->toArray();
+        $new_user = factory(User::class)->make()->toArray();
         $new_user['password'] = Hash::make('secret');
         $user2 = $this->userSvc->createUser($new_user);
         $this->assertEquals($user2->id, $user2->pilot_id);
@@ -258,7 +271,7 @@ class UserTest extends TestCase
         $this->assertEquals(3, $user->pilot_id);
 
         // Create a new user and the pilot_id should be 4
-        $user3 = factory(\App\Models\User::class)->create();
+        $user3 = factory(User::class)->create();
         $this->assertEquals(4, $user3->pilot_id);
     }
 
