@@ -69,3 +69,19 @@ role_user:
   - user_id: 3
     role_id: 2
     user_type: App\Models\User
+
+user_fields:
+  - id: 1
+    name: 'VATSIM ID'
+    show_registration: false
+    required: false
+  - id: 2
+    name: 'Referral'
+    description: 'Who referred you'
+    show_on_registration: true
+    required: false
+
+user_field_values:
+  - id: 1
+    user_field_id: 1
+

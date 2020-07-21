@@ -212,6 +212,16 @@ class User extends Authenticatable
         return $this->hasMany(UserAward::class, 'user_id');
     }
 
+    /**
+     * The bid rows
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function bids()
+    {
+        return $this->hasMany(Bid::class, 'user_id');
+    }
+
     public function home_airport()
     {
         return $this->belongsTo(Airport::class, 'home_airport_id');
@@ -227,22 +237,9 @@ class User extends Authenticatable
         return $this->belongsTo(Pirep::class, 'last_pirep_id');
     }
 
-    /**
-     * These are the flights they've bid on
-     */
-    // public function flights()
-    // {
-    //     return $this->belongsToMany(Flight::class, 'bids');
-    // }
-
-    /**
-     * The bid rows
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function bids()
+    public function fields()
     {
-        return $this->hasMany(Bid::class, 'user_id');
+        return $this->hasMany(UserFieldValue::class, 'user_id');
     }
 
     public function pireps()
