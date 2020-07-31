@@ -17,9 +17,9 @@ class UserField extends Model
     protected $fillable = [
         'name',
         'description',
-        'show_on_registration',
-        'required',
-        'private',
+        'show_on_registration', # Show on the registration form?
+        'required',             # Required to be filled out in registration?
+        'private',              # Whether this is shown on the user's public profile
     ];
 
     protected $casts = [
@@ -32,4 +32,14 @@ class UserField extends Model
         'name'        => 'required',
         'description' => 'nullable',
     ];
+
+    /**
+     * Get the slug so we can use it in forms
+     *
+     * @return string
+     */
+    public function getSlugAttribute(): string
+    {
+        return str_slug($this->name, '_');
+    }
 }

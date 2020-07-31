@@ -73,15 +73,20 @@ role_user:
 user_fields:
   - id: 1
     name: 'VATSIM ID'
-    show_registration: false
-    required: false
+    show_on_registration: true
+    required: true
+    private: false
   - id: 2
     name: 'Referral'
     description: 'Who referred you'
     show_on_registration: true
     required: false
+    private: true
 
 user_field_values:
   - id: 1
     user_field_id: 1
-
+    value: 'My ID'
+  - id: 2
+    user_field_id: 2
+    value: 'Nobody did'
