@@ -6,8 +6,9 @@ use App\Contracts\Model;
 
 /**
  * @property string name
- * @property bool   show_registration
+ * @property bool   show_on_registration
  * @property bool   required
+ * @property bool   private
  */
 class UserField extends Model
 {
@@ -18,11 +19,13 @@ class UserField extends Model
         'description',
         'show_on_registration',
         'required',
+        'private',
     ];
 
     protected $casts = [
         'show_on_registration' => 'boolean',
         'required'             => 'boolean',
+        'private'              => 'boolean',
     ];
 
     public static $rules = [
