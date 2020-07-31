@@ -74,7 +74,7 @@ user_fields:
   - id: 1
     name: 'VATSIM ID'
     show_on_registration: true
-    required: true
+    required: false
     private: false
   - id: 2
     name: 'Referral'
@@ -86,7 +86,9 @@ user_fields:
 user_field_values:
   - id: 1
     user_field_id: 1
-    value: 'My ID'
+    user_id: 1
+    value: 'my vatsim id'
   - id: 2
     user_field_id: 2
+    user_id: 1
     value: 'Nobody did'

@@ -32,7 +32,7 @@ class CreateUserFields extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_field_id');
             $table->string('user_id', Model::ID_MAX_LENGTH);
-            $table->text('value');
+            $table->text('value')->nullable();
             $table->timestamps();
 
             $table->index(['user_field_id', 'user_id']);

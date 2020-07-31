@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Contracts\Controller;
 use App\Models\User;
+use App\Models\UserField;
+use App\Models\UserFieldValue;
 use App\Repositories\AirlineRepository;
 use App\Repositories\AirportRepository;
 use App\Repositories\UserRepository;
@@ -63,16 +65,22 @@ class ProfileController extends Controller
      */
     public function index()
     {
+        /** @var User $user */
+        $user = Auth::user();
+
         if (setting('pilots.home_hubs_only')) {
             $airports = $this->airportRepo->findWhere(['hub' => true]);
         } else {
             $airports = $this->airportRepo->all();
         }
 
+        $userFields = $this->userRepo->getUserFields($user);
+
         return view('profile.index', [
-            'acars'    => $this->acarsEnabled(),
-            'user'     => Auth::user(),
-            'airports' => $airports,
+            'acars'      => $this->acarsEnabled(),
+            'user'       => $user,
+            'airports'   => $airports,
+            'userFields' => $userFields,
         ]);
     }
 
@@ -83,10 +91,12 @@ class ProfileController extends Controller
      */
     public function show($id)
     {
-        $user = User::where('id', $id)->first();
+        $user = User::with(['fields', 'fields.field'])
+            ->where('id', $id)
+            ->first();
+
         if (empty($user)) {
             Flash::error('User not found!');
-
             return redirect(route('frontend.dashboard.index'));
         }
 
@@ -109,22 +119,27 @@ class ProfileController extends Controller
      */
     public function edit(Request $request)
     {
-        $user = User::where('id', Auth::user()->id)->first();
+        /** @var \App\Models\User $user */
+        $user = User::with(['fields', 'fields.field'])
+            ->where('id', Auth::user()->id)
+            ->first();
+
         if (empty($user)) {
             Flash::error('User not found!');
-
             return redirect(route('frontend.dashboard.index'));
         }
 
         $airlines = $this->airlineRepo->selectBoxList();
         $airports = $this->airportRepo->selectBoxList(false, setting('pilots.home_hubs_only'));
+        $userFields = $this->userRepo->getUserFields($user);
 
         return view('profile.edit', [
-            'user'      => $user,
-            'airlines'  => $airlines,
-            'airports'  => $airports,
-            'countries' => Countries::getSelectList(),
-            'timezones' => Timezonelist::toArray(),
+            'user'       => $user,
+            'airlines'   => $airlines,
+            'airports'   => $airports,
+            'countries'  => Countries::getSelectList(),
+            'timezones'  => Timezonelist::toArray(),
+            'userFields' => $userFields,
         ]);
     }
 
@@ -140,13 +155,20 @@ class ProfileController extends Controller
         $id = Auth::user()->id;
         $user = $this->userRepo->findWithoutFail($id);
 
-        $validator = Validator::make($request->toArray(), [
+        $rules = [
             'name'       => 'required',
             'email'      => 'required|unique:users,email,'.$id,
             'airline_id' => 'required',
             'password'   => 'confirmed',
             'avatar'     => 'nullable|mimes:jpeg,png,jpg',
-        ]);
+        ];
+
+        $userFields = UserField::where(['show_on_registration' => true, 'required' => true])->get();
+        foreach ($userFields as $field) {
+            $rules['field_'.$field->slug] = 'required';
+        }
+
+        $validator = Validator::make($request->toArray(), $rules);
 
         if ($validator->fails()) {
             Log::info('validator failed for user '.$user->ident);
@@ -167,6 +189,7 @@ class ProfileController extends Controller
         if (isset($req_data['avatar']) !== null) {
             Storage::delete($user->avatar);
         }
+
         if ($request->hasFile('avatar')) {
             $avatar = $request->file('avatar');
             $file_name = $user->ident.'.'.$avatar->getClientOriginalExtension();
@@ -189,6 +212,16 @@ class ProfileController extends Controller
         }
 
         $this->userRepo->update($req_data, $id);
+
+        // Save all of the user fields
+        $userFields = UserField::all();
+        foreach ($userFields as $field) {
+            $field_name = 'field_'.$field->slug;
+            UserFieldValue::updateOrCreate([
+                'user_field_id' => $field->id,
+                'user_id'       => $id,
+            ], ['value' => $request->get($field_name)]);
+        }
 
         Flash::success('Profile updated successfully!');
 

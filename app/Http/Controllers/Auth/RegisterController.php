@@ -6,6 +6,7 @@ use App\Contracts\Controller;
 use App\Models\Enums\UserState;
 use App\Models\User;
 use App\Models\UserField;
+use App\Models\UserFieldValue;
 use App\Repositories\AirlineRepository;
 use App\Repositories\AirportRepository;
 use App\Services\UserService;
@@ -127,6 +128,15 @@ class RegisterController extends Controller
 
         Log::info('User registered: ', $user->toArray());
 
+        $userFields = UserField::all();
+        foreach ($userFields as $field) {
+            $field_name = 'field_'.$field->slug;
+            UserFieldValue::updateOrCreate([
+                'user_field_id' => $field->id,
+                'user_id'       => $user->id,
+            ], ['value' => $opts[$field_name]]);
+        }
+
         return $user;
     }
 
@@ -143,7 +153,7 @@ class RegisterController extends Controller
     {
         $this->validator($request->all())->validate();
 
-        $user = $this->create($request);
+        $user = $this->create($request->all());
         if ($user->state === UserState::PENDING) {
             return view('auth.pending');
         }

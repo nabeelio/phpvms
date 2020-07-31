@@ -5,12 +5,11 @@ namespace App\Repositories;
 use App\Contracts\Repository;
 use App\Models\Enums\UserState;
 use App\Models\User;
+use App\Models\UserField;
 use App\Repositories\Criteria\WhereCriteria;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
-/**
- * Class UserRepository
- */
 class UserRepository extends Repository
 {
     protected $fieldSearchable = [
@@ -27,6 +26,26 @@ class UserRepository extends Repository
     public function model()
     {
         return User::class;
+    }
+
+    /**
+     * Get all of the fields which has the mapped values
+     *
+     * @param \App\Models\User $user
+     *
+     * @return \App\Models\UserField[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Support\Collection
+     */
+    public function getUserFields(User $user): Collection
+    {
+        return (UserField::all())->map(function ($field, $_) use ($user) {
+            foreach ($user->fields as $userFieldValue) {
+                if ($userFieldValue->field->slug === $field->slug) {
+                    $field->value = $userFieldValue->value;
+                }
+            }
+
+            return $field;
+        });
     }
 
     /**

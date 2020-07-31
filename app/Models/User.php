@@ -10,32 +10,33 @@ use Illuminate\Notifications\Notifiable;
 use Laratrust\Traits\LaratrustUserTrait;
 
 /**
- * @property int            id
- * @property int            pilot_id
- * @property int            airline_id
- * @property string         name
- * @property string         name_private Only first name, rest are initials
- * @property string         email
- * @property string         password
- * @property string         api_key
- * @property mixed          timezone
- * @property string         ident
- * @property string         curr_airport_id
- * @property string         home_airport_id
- * @property string         avatar
- * @property Airline        airline
- * @property Flight[]       flights
- * @property int            flight_time
- * @property int            transfer_time
- * @property string         remember_token
- * @property \Carbon\Carbon created_at
- * @property \Carbon\Carbon updated_at
- * @property Rank           rank
- * @property Journal        journal
- * @property int            rank_id
- * @property int            state
- * @property bool           opt_in
- * @property string         last_pirep_id
+ * @property int              id
+ * @property int              pilot_id
+ * @property int              airline_id
+ * @property string           name
+ * @property string           name_private Only first name, rest are initials
+ * @property string           email
+ * @property string           password
+ * @property string           api_key
+ * @property mixed            timezone
+ * @property string           ident
+ * @property string           curr_airport_id
+ * @property string           home_airport_id
+ * @property string           avatar
+ * @property Airline          airline
+ * @property Flight[]         flights
+ * @property int              flight_time
+ * @property int              transfer_time
+ * @property string           remember_token
+ * @property \Carbon\Carbon   created_at
+ * @property \Carbon\Carbon   updated_at
+ * @property Rank             rank
+ * @property Journal          journal
+ * @property int              rank_id
+ * @property int              state
+ * @property bool             opt_in
+ * @property string           last_pirep_id
+ * @property UserFieldValue[] fields
  *
  * @mixin \Illuminate\Database\Eloquent\Builder
  * @mixin \Illuminate\Notifications\Notifiable

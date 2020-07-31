@@ -6,6 +6,8 @@ use App\Contracts\Model;
 
 /**
  * @property string name
+ * @property string slug
+ * @property string value  Only set if "squashed"
  * @property bool   show_on_registration
  * @property bool   required
  * @property bool   private
@@ -17,9 +19,9 @@ class UserField extends Model
     protected $fillable = [
         'name',
         'description',
-        'show_on_registration', # Show on the registration form?
-        'required',             # Required to be filled out in registration?
-        'private',              # Whether this is shown on the user's public profile
+        'show_on_registration', // Show on the registration form?
+        'required',             // Required to be filled out in registration?
+        'private',              // Whether this is shown on the user's public profile
     ];
 
     protected $casts = [
