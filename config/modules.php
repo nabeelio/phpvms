@@ -35,31 +35,31 @@ return [
                 'MODULE_NAMESPACE',
                 'CLASS_NAMESPACE',
             ],
-            'listener-test'          => ['LOWER_NAME', 'STUDLY_NAME', 'MODULE_NAMESPACE'],
-            'views/index'            => ['LOWER_NAME'],
-            'views/index-admin'      => ['LOWER_NAME', 'STUDLY_NAME'],
-            'views/frontend'         => ['STUDLY_NAME'],
-            'views/admin'            => ['STUDLY_NAME'],
-            'controller-index'       => [
+            'listener-test'     => ['LOWER_NAME', 'STUDLY_NAME', 'MODULE_NAMESPACE'],
+            'views/index'       => ['LOWER_NAME'],
+            'views/index-admin' => ['LOWER_NAME', 'STUDLY_NAME'],
+            'views/frontend'    => ['STUDLY_NAME'],
+            'views/admin'       => ['STUDLY_NAME'],
+            'controller-index'  => [
                 'MODULE_NAMESPACE',
                 'STUDLY_NAME',
                 'CLASS_NAMESPACE',
                 'LOWER_NAME',
             ],
-            'controller-admin'       => [
+            'controller-admin' => [
                 'MODULE_NAMESPACE',
                 'STUDLY_NAME',
                 'CLASS_NAMESPACE',
                 'LOWER_NAME',
             ],
-            'controller-api'         => [
+            'controller-api' => [
                 'MODULE_NAMESPACE',
                 'STUDLY_NAME',
                 'CLASS_NAMESPACE',
                 'LOWER_NAME',
             ],
-            'config'                 => ['STUDLY_NAME'],
-            'composer'               => [
+            'config'   => ['STUDLY_NAME'],
+            'composer' => [
                 'LOWER_NAME',
                 'STUDLY_NAME',
                 'VENDOR',
