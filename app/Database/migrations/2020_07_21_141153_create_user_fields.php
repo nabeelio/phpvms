@@ -22,6 +22,7 @@ class CreateUserFields extends Migration
             $table->boolean('show_on_registration')->default(false)->nullable();
             $table->boolean('required')->default(false)->nullable();
             $table->boolean('private')->default(false)->nullable();
+            $table->boolean('active')->default(true)->nullable();
             $table->timestamps();
         });
 

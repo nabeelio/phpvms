@@ -10,6 +10,7 @@ use Prettus\Repository\Criteria\RequestCriteria;
 
 class UserFieldController extends Controller
 {
+    /** @var \App\Repositories\UserFieldRepository */
     private $userFieldRepo;
 
     /**
@@ -135,9 +136,13 @@ class UserFieldController extends Controller
     public function destroy($id)
     {
         $field = $this->userFieldRepo->findWithoutFail($id);
-
         if (empty($field)) {
             Flash::error('Field not found');
+            return redirect(route('admin.userfields.index'));
+        }
+
+        if ($this->userFieldRepo->isInUse($id)) {
+            Flash::error('This field cannot be deleted, it is in use. Deactivate it instead');
             return redirect(route('admin.userfields.index'));
         }
 

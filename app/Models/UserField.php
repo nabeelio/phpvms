@@ -22,12 +22,14 @@ class UserField extends Model
         'show_on_registration', // Show on the registration form?
         'required',             // Required to be filled out in registration?
         'private',              // Whether this is shown on the user's public profile
+        'active',
     ];
 
     protected $casts = [
         'show_on_registration' => 'boolean',
         'required'             => 'boolean',
         'private'              => 'boolean',
+        'active'               => 'boolean',
     ];
 
     public static $rules = [

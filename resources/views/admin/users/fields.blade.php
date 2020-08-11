@@ -94,10 +94,11 @@
 <div class="row">
   <div class="form-group col-sm-12">
     <table class="table table-hover">
-      {{--<tr>
-          <td>API Key</td>
-          <td>{{ $user->api_key }}</td>
-      </tr>--}}
+      <tr>
+          <td colspan="2">
+            <h5>User Details</h5>
+          </td>
+        </tr>
       <tr>
         <td>Total Flights</td>
         <td>{{ $user->flights }}</td>
@@ -126,6 +127,22 @@
         <td>@lang('profile.opt-in')</td>
         <td>{{ $user->opt_in ? __('common.yes') : __('common.no') }}</td>
       </tr>
+
+      @if($user->fields)
+        <tr>
+          <td colspan="2">
+            <h5>Custom Fields</h5>
+          </td>
+        </tr>
+
+        {{-- Custom Fields --}}
+        @foreach($user->fields as $field)
+          <tr>
+            <td>{{ $field->field->name }}</td>
+            <td>{{ $field->value }}</td>
+          </tr>
+        @endforeach
+      @endif
     </table>
   </div>
 </div>
