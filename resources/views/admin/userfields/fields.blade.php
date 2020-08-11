@@ -4,6 +4,12 @@
     {{ Form::text('name', null, ['class' => 'form-control']) }}
     <p class="text-danger">{{ $errors->first('name') }}</p>
   </div>
+
+  <div class="form-group col-sm-6">
+    {{ Form::label('description', 'Description:') }}
+    {{ Form::text('description', null, ['class' => 'form-control']) }}
+    <p class="text-danger">{{ $errors->first('description') }}</p>
+  </div>
 </div>
 <div class="row">
   <!-- Submit Field -->
