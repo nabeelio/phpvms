@@ -13,11 +13,11 @@ use Carbon\Carbon;
 /**
  * Class Ledger
  *
- * @property    Money  $balance
- * @property    string $currency
- * @property    Carbon $updated_at
- * @property    Carbon $post_date
- * @property    Carbon $created_at
+ * @property Money  $balance
+ * @property string $currency
+ * @property Carbon $updated_at
+ * @property Carbon $post_date
+ * @property Carbon $created_at
  */
 class Ledger extends Model
 {

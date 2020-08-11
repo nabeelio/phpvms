@@ -262,10 +262,10 @@ class RouteServiceProvider extends ServiceProvider
             Route::resource('flightfields', 'FlightFieldController')
                 ->middleware('ability:admin,flights');
 
-            // pirep related routes
-            Route::get('pireps/fares', 'PirepController@fares')
-                ->middleware('ability:admin,pireps');
+            Route::resource('userfields', 'UserFieldController')->middleware('ability:admin,users');
 
+            // pirep related routes
+            Route::get('pireps/fares', 'PirepController@fares')->middleware('ability:admin,pireps');
             Route::get('pireps/pending', 'PirepController@pending')
                 ->middleware('ability:admin,pireps');
 

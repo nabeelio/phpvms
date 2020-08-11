@@ -85,6 +85,18 @@
             <p class="text-danger">{{ $errors->first('password_confirmation') }}</p>
           @endif
 
+          @if($userFields)
+            @foreach($userFields as $field)
+              <label for="field_{{ $field->slug }}" class="control-label">{{ $field->name }}</label>
+              <div class="input-group form-group-no-border {{ $errors->has('field_'.$field->slug) ? 'has-danger' : '' }}">
+                {{ Form::text('field_'.$field->slug, null, ['class' => 'form-control']) }}
+              </div>
+              @if ($errors->has('field_'.$field->slug))
+                <p class="text-danger">{{ $errors->first('field_'.$field->slug) }}</p>
+              @endif
+            @endforeach
+          @endif
+
           @if(config('captcha.enabled'))
             <label for="g-recaptcha-response" class="control-label">@lang('auth.fillcaptcha')</label>
             <div

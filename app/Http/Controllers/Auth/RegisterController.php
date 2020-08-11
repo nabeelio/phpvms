@@ -3,19 +3,20 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Contracts\Controller;
-use App\Http\Requests\CreateUserRequest;
 use App\Models\Enums\UserState;
 use App\Models\User;
+use App\Models\UserField;
+use App\Models\UserFieldValue;
 use App\Repositories\AirlineRepository;
 use App\Repositories\AirportRepository;
 use App\Services\UserService;
 use App\Support\Countries;
 use App\Support\Timezonelist;
-use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
 {
@@ -61,12 +62,14 @@ class RegisterController extends Controller
     {
         $airports = $this->airportRepo->selectBoxList(false, setting('pilots.home_hubs_only'));
         $airlines = $this->airlineRepo->selectBoxList();
+        $userFields = UserField::where(['show_on_registration' => true])->get();
 
         return view('auth.register', [
-            'airports'  => $airports,
-            'airlines'  => $airlines,
-            'countries' => Countries::getSelectList(),
-            'timezones' => Timezonelist::toArray(),
+            'airports'   => $airports,
+            'airlines'   => $airlines,
+            'countries'  => Countries::getSelectList(),
+            'timezones'  => Timezonelist::toArray(),
+            'userFields' => $userFields,
         ]);
     }
 
@@ -87,6 +90,12 @@ class RegisterController extends Controller
             'password'        => 'required|min:5|confirmed',
             'toc_accepted'    => 'accepted',
         ];
+
+        // Dynamically add the required fields
+        $userFields = UserField::where(['show_on_registration' => true, 'required' => true])->get();
+        foreach ($userFields as $field) {
+            $rules['field_'.$field->slug] = 'required';
+        }
 
         if (config('captcha.enabled')) {
             $rules['g-recaptcha-response'] = 'required|captcha';
@@ -119,6 +128,15 @@ class RegisterController extends Controller
 
         Log::info('User registered: ', $user->toArray());
 
+        $userFields = UserField::all();
+        foreach ($userFields as $field) {
+            $field_name = 'field_'.$field->slug;
+            UserFieldValue::updateOrCreate([
+                'user_field_id' => $field->id,
+                'user_id'       => $user->id,
+            ], ['value' => $opts[$field_name]]);
+        }
+
         return $user;
     }
 
@@ -131,8 +149,10 @@ class RegisterController extends Controller
      *
      * @return mixed
      */
-    public function register(CreateUserRequest $request)
+    public function register(Request $request)
     {
+        $this->validator($request->all())->validate();
+
         $user = $this->create($request->all());
         if ($user->state === UserState::PENDING) {
             return view('auth.pending');

@@ -16,7 +16,7 @@ class FinalizeImporter extends BaseImporter
     {
         return [
             [
-                'importer' => get_class($this),
+                'importer' => static::class,
                 'start'    => 0,
                 'end'      => 1,
                 'message'  => 'Finalizing import',

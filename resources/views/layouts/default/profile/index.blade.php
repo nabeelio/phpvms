@@ -128,4 +128,20 @@
       </div>
     </div>
   @endif
+
+  <div class="clearfix" style="height: 50px;"></div>
+  <div class="row">
+    <div class="col-sm-12">
+      <table class="table table-full-width">
+        @foreach($userFields as $field)
+          @if($field->public === true)
+            <tr>
+              <td>{{ $field->name }}</td>
+              <td>{{ $field->value }}</td>
+            </tr>
+          @endif
+        @endforeach
+      </table>
+    </div>
+  </div>
 @endsection
