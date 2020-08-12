@@ -96,7 +96,7 @@ class RegisterController extends Controller
             'show_on_registration' => true,
             'required'             => true,
             'active'               => true,
-            ])->get();
+        ])->get();
 
         foreach ($userFields as $field) {
             $rules['field_'.$field->slug] = 'required';
