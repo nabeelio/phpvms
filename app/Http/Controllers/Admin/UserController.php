@@ -158,11 +158,12 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $user = $this->userRepo->findWithoutFail($id);
+        $user = $this->userRepo
+            ->with(['fields', 'rank'])
+            ->findWithoutFail($id);
 
         if (empty($user)) {
             Flash::error('User not found');
-
             return redirect(route('admin.users.index'));
         }
 

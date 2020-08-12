@@ -2,7 +2,7 @@
 
   <div class="header">
     @component('admin.components.info')
-      These are fields that can be filled out by users
+      These are custom fields that can be filled out by a user
     @endcomponent
   </div>
 

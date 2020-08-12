@@ -16,7 +16,7 @@ abstract class Listener
     public function subscribe(Dispatcher $events): void
     {
         foreach (static::$callbacks as $klass => $cb) {
-            $events->listen($klass, get_class($this).'@'.$cb);
+            $events->listen($klass, static::class.'@'.$cb);
         }
     }
 }

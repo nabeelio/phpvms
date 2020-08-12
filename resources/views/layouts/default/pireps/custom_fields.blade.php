@@ -16,6 +16,6 @@
         {{ $field->value }}
       @endif
     </div>
-    <p class="text-danger">{{ $errors->first($field->slug) }}</p>
+    <p class="text-danger">{{ $errors->first('field_'.$field->slug) }}</p>
   </td>
 </tr>

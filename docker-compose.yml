@@ -28,6 +28,7 @@ services:
 
   mysql:
     image: mysql:5.7.26
+    command: "--innodb_use_native_aio=0"
     environment:
       MYSQL_DATABASE: phpvms
       MYSQL_USER: phpvms

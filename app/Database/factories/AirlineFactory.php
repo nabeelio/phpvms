@@ -9,7 +9,7 @@ use Hashids\Hashids;
 $factory->define(App\Models\Airline::class, function (Faker $faker) {
     return [
         'id'   => null,
-        'icao' => function (array $apt) use ($faker) {
+        'icao' => function (array $apt) {
             $hashids = new Hashids(microtime(), 5);
             $mt = str_replace('.', '', microtime(true));
 

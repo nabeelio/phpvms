@@ -10,32 +10,33 @@ use Illuminate\Notifications\Notifiable;
 use Laratrust\Traits\LaratrustUserTrait;
 
 /**
- * @property int            id
- * @property int            pilot_id
- * @property int            airline_id
- * @property string         name
- * @property string         name_private Only first name, rest are initials
- * @property string         email
- * @property string         password
- * @property string         api_key
- * @property mixed          timezone
- * @property string         ident
- * @property string         curr_airport_id
- * @property string         home_airport_id
- * @property string         avatar
- * @property Airline        airline
- * @property Flight[]       flights
- * @property int            flight_time
- * @property int            transfer_time
- * @property string         remember_token
- * @property \Carbon\Carbon created_at
- * @property \Carbon\Carbon updated_at
- * @property Rank           rank
- * @property Journal        journal
- * @property int            rank_id
- * @property int            state
- * @property bool           opt_in
- * @property string         last_pirep_id
+ * @property int              id
+ * @property int              pilot_id
+ * @property int              airline_id
+ * @property string           name
+ * @property string           name_private Only first name, rest are initials
+ * @property string           email
+ * @property string           password
+ * @property string           api_key
+ * @property mixed            timezone
+ * @property string           ident
+ * @property string           curr_airport_id
+ * @property string           home_airport_id
+ * @property string           avatar
+ * @property Airline          airline
+ * @property Flight[]         flights
+ * @property int              flight_time
+ * @property int              transfer_time
+ * @property string           remember_token
+ * @property \Carbon\Carbon   created_at
+ * @property \Carbon\Carbon   updated_at
+ * @property Rank             rank
+ * @property Journal          journal
+ * @property int              rank_id
+ * @property int              state
+ * @property bool             opt_in
+ * @property string           last_pirep_id
+ * @property UserFieldValue[] fields
  *
  * @mixin \Illuminate\Database\Eloquent\Builder
  * @mixin \Illuminate\Notifications\Notifiable
@@ -212,6 +213,16 @@ class User extends Authenticatable
         return $this->hasMany(UserAward::class, 'user_id');
     }
 
+    /**
+     * The bid rows
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function bids()
+    {
+        return $this->hasMany(Bid::class, 'user_id');
+    }
+
     public function home_airport()
     {
         return $this->belongsTo(Airport::class, 'home_airport_id');
@@ -227,22 +238,9 @@ class User extends Authenticatable
         return $this->belongsTo(Pirep::class, 'last_pirep_id');
     }
 
-    /**
-     * These are the flights they've bid on
-     */
-    // public function flights()
-    // {
-    //     return $this->belongsToMany(Flight::class, 'bids');
-    // }
-
-    /**
-     * The bid rows
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function bids()
+    public function fields()
     {
-        return $this->hasMany(Bid::class, 'user_id');
+        return $this->hasMany(UserFieldValue::class, 'user_id');
     }
 
     public function pireps()

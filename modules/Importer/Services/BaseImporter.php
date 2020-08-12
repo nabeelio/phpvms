@@ -90,7 +90,7 @@ abstract class BaseImporter
             $idx = $start + 1;
 
             $manifest[] = [
-                'importer' => get_class($this),
+                'importer' => static::class,
                 'start'    => $start,
                 'end'      => $end,
                 'message'  => 'Importing '.$this->table.' ('.$idx.' - '.$end.' of '.$total_rows.')',

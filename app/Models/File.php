@@ -9,14 +9,14 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 /**
- * @property string  $name
- * @property string  $description
- * @property string  $disk
- * @property string  $path
- * @property bool $public
- * @property int     $download_count
- * @property string  $url
- * @property string  $filename
+ * @property string $name
+ * @property string $description
+ * @property string $disk
+ * @property string $path
+ * @property bool   $public
+ * @property int    $download_count
+ * @property string $url
+ * @property string $filename
  */
 class File extends Model
 {
