@@ -11,6 +11,7 @@ use App\Events\UserStatsChanged;
 use App\Exceptions\AircraftInvalid;
 use App\Exceptions\AircraftNotAtAirport;
 use App\Exceptions\AircraftPermissionDenied;
+use App\Exceptions\AirportNotFound;
 use App\Exceptions\PirepCancelNotAllowed;
 use App\Exceptions\UserNotAtAirport;
 use App\Models\Acars;
@@ -24,6 +25,7 @@ use App\Models\Navdata;
 use App\Models\Pirep;
 use App\Models\PirepFieldValue;
 use App\Models\User;
+use App\Repositories\AirportRepository;
 use App\Repositories\AircraftRepository;
 use App\Repositories\PirepRepository;
 use Carbon\Carbon;
@@ -34,22 +36,33 @@ use Illuminate\Support\Facades\Log;
 class PirepService extends Service
 {
     private $aircraftRepo;
+    private $airportRepo;
+    private $airportSvc;
     private $geoSvc;
-    private $userSvc;
     private $pirepRepo;
+    private $userSvc;
 
     /**
      * @param AircraftRepository $aircraftRepo
      * @param GeoService         $geoSvc
      * @param PirepRepository    $pirepRepo
      * @param UserService        $userSvc
+     * @param AirportRepository  $airportRepo
+     * @param AirportService     $airportSvc
+     * @param GeoService         $geoSvc
+     * @param PirepRepository    $pirepRepo
+     * @param UserService        $userSvc
      */
     public function __construct(
+        AirportRepository $airportRepo,
+        AirportService $airportSvc,
         AircraftRepository $aircraftRepo,
         GeoService $geoSvc,
         PirepRepository $pirepRepo,
         UserService $userSvc
     ) {
+        $this->airportRepo = $airportRepo;
+        $this->airportSvc = $airportSvc;
         $this->aircraftRepo = $aircraftRepo;
         $this->geoSvc = $geoSvc;
         $this->userSvc = $userSvc;
@@ -62,6 +75,7 @@ class PirepService extends Service
      * @param \App\Models\User $user
      * @param array            $attrs
      *
+     * @throws AirportNotFound If one of the departure or arrival airports isn't found locally
      * @throws \Exception
      *
      * @return \App\Models\Pirep
@@ -81,6 +95,23 @@ class PirepService extends Service
         }
 
         $pirep = new Pirep($attrs);
+
+        // Check if the airports listed actually exist or not. If they're not in the local DB
+        // throw an error which should bubble up to say that they don't
+        if (setting('general.allow_unadded_airports', false) === true) {
+            $this->airportSvc->lookupAirportIfNotFound($pirep->dpt_airport_id);
+            $this->airportSvc->lookupAirportIfNotFound($pirep->arr_airport_id);
+        } else {
+            $dptApt = $this->airportRepo->findWithoutFail($pirep->dpt_airport_id);
+            if (!$dptApt) {
+                throw new AirportNotFound($pirep->dpt_airport_id);
+            }
+
+            $arrApt = $this->airportRepo->findWithoutFail($pirep->arr_airport_id);
+            if (!$arrApt) {
+                throw new AirportNotFound($pirep->arr_airport_id);
+            }
+        }
 
         // See if this user is at the current airport
         /* @noinspection NotOptimalIfConditionsInspection */
