@@ -29,7 +29,7 @@ class UpdateServiceProvider extends ServiceProvider
             Route::get('/', 'UpdateController@index')->name('index');
 
             Route::get('/step1', 'UpdateController@step1')->name('step1');
-            Route::post('/step1', 'UpdateController@step1')->name('step1');
+            Route::post('/step1', 'UpdateController@step1')->name('step1post');
 
             Route::post('/run-migrations', 'UpdateController@run_migrations')->name('run_migrations');
             Route::get('/complete', 'UpdateController@complete')->name('complete');

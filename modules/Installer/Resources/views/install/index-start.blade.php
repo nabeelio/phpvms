@@ -3,7 +3,7 @@
 
 @section('content')
   <p>Press continue to start</p>
-  {{ Form::open(['route' => 'installer.step1', 'method' => 'post']) }}
+  {{ Form::open(['route' => 'installer.step1post', 'method' => 'post']) }}
   <p style="text-align: right">
     {{ Form::submit('Start >>', ['class' => 'btn btn-success']) }}
   </p>
