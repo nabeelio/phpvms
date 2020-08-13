@@ -92,7 +92,12 @@ class RegisterController extends Controller
         ];
 
         // Dynamically add the required fields
-        $userFields = UserField::where(['show_on_registration' => true, 'required' => true])->get();
+        $userFields = UserField::where([
+            'show_on_registration' => true,
+            'required'             => true,
+            'active'               => true,
+        ])->get();
+
         foreach ($userFields as $field) {
             $rules['field_'.$field->slug] = 'required';
         }
