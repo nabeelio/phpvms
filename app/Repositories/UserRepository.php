@@ -31,13 +31,15 @@ class UserRepository extends Repository
     /**
      * Get all of the fields which has the mapped values
      *
-     * @param \App\Models\User $user
+     * @param User $user
+     * @param bool $only_public_fields Only include the user's public fields
      *
      * @return \App\Models\UserField[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Support\Collection
      */
-    public function getUserFields(User $user): Collection
+    public function getUserFields(User $user, $only_public_fields = true): Collection
     {
-        return (UserField::all())->map(function ($field, $_) use ($user) {
+        $fields = UserField::where(['private' => !$only_public_fields])->get();
+        return $fields->map(function ($field, $_) use ($user) {
             foreach ($user->fields as $userFieldValue) {
                 if ($userFieldValue->field->slug === $field->slug) {
                     $field->value = $userFieldValue->value;
@@ -59,11 +61,9 @@ class UserRepository extends Repository
             'state' => UserState::PENDING,
         ];
 
-        $users = $this->orderBy('created_at', 'desc')
+        return $this->orderBy('created_at', 'desc')
             ->findWhere($where, ['id'])
             ->count();
-
-        return $users;
     }
 
     /**
