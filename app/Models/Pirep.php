@@ -43,7 +43,7 @@ use Illuminate\Support\Collection;
  * @property User        user
  * @property Flight|null flight
  * @property Collection  fields
- * @property int         status
+ * @property string      status
  * @property bool        state
  * @property string      source
  * @property Carbon      submitted_at
