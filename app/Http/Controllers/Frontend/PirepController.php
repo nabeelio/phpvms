@@ -318,7 +318,7 @@ class PirepController extends Controller
 
             // is the aircraft in the right place?
             /* @noinspection NotOptimalIfConditionsInspection */
-            # Get the aircraft
+            // Get the aircraft
             $aircraft = $this->aircraftRepo->findWithoutFail($pirep->aircraft_id);
             if ($aircraft === null) {
                 Log::error('Aircraft for PIREP not found, id='.$pirep->aircraft_id);
