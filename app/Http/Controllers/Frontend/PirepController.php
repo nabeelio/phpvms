@@ -10,6 +10,7 @@ use App\Models\Enums\PirepState;
 use App\Models\Enums\PirepStatus;
 use App\Models\Pirep;
 use App\Models\SimBrief;
+use App\Models\User;
 use App\Repositories\AircraftRepository;
 use App\Repositories\AirlineRepository;
 use App\Repositories\AirportRepository;
@@ -280,7 +281,9 @@ class PirepController extends Controller
      */
     public function store(CreatePirepRequest $request)
     {
-        // Create the main PIREP
+        /** @var User $user */
+        $user = Auth::user();
+
         $pirep = new Pirep($request->post());
         $pirep->user_id = Auth::user()->id;
 
@@ -290,8 +293,13 @@ class PirepController extends Controller
         if ($attrs['submit'] === 'submit') {
             // Are they allowed at this airport?
             if (setting('pilots.only_flights_from_current')
-                && Auth::user()->curr_airport_id !== $pirep->dpt_airport_id) {
-                Log::info('Pilot '.Auth::user()->id.' not at departure airport, erroring out');
+                && $user->curr_airport_id !== $pirep->dpt_airport_id) {
+                Log::info(
+                    'Pilot '.Auth::user()->id
+                    .' not at departure airport (curr='.$user->curr_airport_id
+                    .', dpt='.$pirep->dpt_airport_id.')'
+                );
+
                 return $this->flashError(
                     'You are currently not at the departure airport!',
                     'frontend.pireps.create'
@@ -300,7 +308,7 @@ class PirepController extends Controller
 
             // Can they fly this aircraft?
             if (setting('pireps.restrict_aircraft_to_rank', false)
-                && !$this->userSvc->aircraftAllowed(Auth::user(), $pirep->aircraft_id)) {
+                && !$this->userSvc->aircraftAllowed($user, $pirep->aircraft_id)) {
                 Log::info('Pilot '.Auth::user()->id.' not allowed to fly aircraft');
                 return $this->flashError(
                     'You are not allowed to fly this aircraft!',
