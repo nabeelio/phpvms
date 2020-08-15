@@ -99,6 +99,6 @@ class UtilsTest extends TestCase
 
         $this->assertEquals('phpvms.co.uk', Utils::getRootDomain('http://phpvms.co.uk'));
         $this->assertEquals('phpvms.co.uk', Utils::getRootDomain('http://www.phpvms.co.uk'));
-        $this->assertEquals('52.249.193.184', Utils::getRootDomain('http://52.249.193.184'));
+        $this->assertEquals('127.0.0.1', Utils::getRootDomain('http://127.0.0.1'));
     }
 }
