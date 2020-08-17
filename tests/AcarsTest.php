@@ -107,6 +107,50 @@ class AcarsTest extends TestCase
         $response->assertStatus(400);
     }
 
+    public function testPrefileAircraftNotAtAirport()
+    {
+        $this->settingsRepo->store('pilots.only_flights_from_current', false);
+        $this->settingsRepo->store('pireps.restrict_aircraft_to_rank', false);
+        $this->settingsRepo->store('pireps.only_aircraft_at_dpt_airport', true);
+
+        $this->user = factory(User::class)->create();
+
+        /** @var Airport $airport */
+        $airport = factory(Airport::class)->create();
+
+        /** @var Airport $airport */
+        $aircraft_airport = factory(Airport::class)->create();
+
+        /** @var Airline $airline */
+        $airline = factory(Airline::class)->create();
+
+        /** @var Aircraft $aircraft */
+        $aircraft = factory(Aircraft::class)->create(['airport_id' => $aircraft_airport->id]);
+
+        /**
+         * INVALID AIRLINE_ID FIELD
+         */
+        $uri = '/api/pireps/prefile';
+        $pirep = [
+            'airline_id'          => $airline->id,
+            'aircraft_id'         => $aircraft->id,
+            'dpt_airport_id'      => $airport->icao,
+            'arr_airport_id'      => $airport->icao,
+            'flight_number'       => '6000',
+            'level'               => 38000,
+            'planned_flight_time' => 120,
+            'route'               => 'POINTA POINTB',
+            'source_name'         => 'Tests',
+        ];
+
+        $response = $this->post($uri, $pirep);
+        $response->assertStatus(400);
+        $this->assertEquals(
+            'The aircraft is not at the departure airport',
+            $response->json('title')
+        );
+    }
+
     public function testBlankAirport()
     {
         $this->user = factory(User::class)->create();

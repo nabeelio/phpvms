@@ -285,7 +285,7 @@ class PirepController extends Controller
         $user = Auth::user();
 
         $pirep = new Pirep($request->post());
-        $pirep->user_id = Auth::user()->id;
+        $pirep->user_id = $user->id;
 
         $attrs = $request->all();
         $attrs['submit'] = strtolower($attrs['submit']);
@@ -295,7 +295,7 @@ class PirepController extends Controller
             if (setting('pilots.only_flights_from_current')
                 && $user->curr_airport_id !== $pirep->dpt_airport_id) {
                 Log::info(
-                    'Pilot '.Auth::user()->id
+                    'Pilot '.$user->id
                     .' not at departure airport (curr='.$user->curr_airport_id
                     .', dpt='.$pirep->dpt_airport_id.')'
                 );
@@ -309,7 +309,7 @@ class PirepController extends Controller
             // Can they fly this aircraft?
             if (setting('pireps.restrict_aircraft_to_rank', false)
                 && !$this->userSvc->aircraftAllowed($user, $pirep->aircraft_id)) {
-                Log::info('Pilot '.Auth::user()->id.' not allowed to fly aircraft');
+                Log::info('Pilot '.$user->id.' not allowed to fly aircraft');
                 return $this->flashError(
                     'You are not allowed to fly this aircraft!',
                     'frontend.pireps.create'
@@ -318,9 +318,20 @@ class PirepController extends Controller
 
             // is the aircraft in the right place?
             /* @noinspection NotOptimalIfConditionsInspection */
+            // Get the aircraft
+            $aircraft = $this->aircraftRepo->findWithoutFail($pirep->aircraft_id);
+            if ($aircraft === null) {
+                Log::error('Aircraft for PIREP not found, id='.$pirep->aircraft_id);
+                return $this->flashError(
+                    'The aircraft for the PIREP hasn\'t been found',
+                    'frontend.pireps.create'
+                );
+            }
+
             if (setting('pireps.only_aircraft_at_dpt_airport')
-                && $pirep->aircraft_id !== $pirep->dpt_airport_id) {
-                Log::info('Aircraft '.$pirep->aircraft_id.' not at departure airport '.$pirep->dpt_airport_id.', erroring out');
+                && $aircraft->airport_id !== $pirep->dpt_airport_id
+            ) {
+                Log::info('Aircraft '.$pirep->aircraft_id.' not at departure airport (curr='.$pirep->aircraft->airport_id.', apt='.$pirep->dpt_airport_id.')');
                 return $this->flashError(
                     'This aircraft is not positioned at the departure airport!',
                     'frontend.pireps.create'
