@@ -26,6 +26,13 @@
   options:
   type: boolean
   description: If an airport isn't added, try to look it up when adding schedules
+- key: general.allow_unadded_airports
+  name: 'Allow unadded airports'
+  group: general
+  value: false
+  options:
+  type: boolean
+  description: If an un-added airport is used, it is looked up and added
 - key: general.check_prerelease_version
   name: 'Pre-release versions in version check'
   group: general
