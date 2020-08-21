@@ -74,9 +74,9 @@ reload-db:
 tests: test
 
 .PHONY: test
-test: phpcs
-	#php artisan database:create --reset
-	vendor/bin/phpunit --debug --verbose
+test:
+	@#php artisan database:create --reset
+	@vendor/bin/phpunit --verbose
 
 .PHONY: phpcs
 phpcs:

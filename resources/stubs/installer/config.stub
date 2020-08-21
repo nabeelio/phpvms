@@ -80,15 +80,29 @@ return [
 
     // Overrides config/mail.php
     'mail' => [
-        'driver' => 'mail',
-        'host' => '',
-        'port' => 587,
+        'driver' => 'mail',  # Default is to use the mail() fn
+        'mailers' => [
+            'smtp' => [
+                'transport' => 'smtp',
+                'host' => '',
+                'port' => '',
+                'encryption' => '',
+                'username' => '',
+                'password' => '',
+                'timeout' => null,
+            ],
+            'mailgun' => [
+                'transport' => 'mailgun',
+            ],
+            'sendmail' => [
+                'transport' => 'sendmail',
+                'path' => '/usr/sbin/sendmail -bs',
+            ],
+        ],
         'from' => [
-            'name' => '',
+            'name' => 'phpVMS No-Reply',
             'address' => 'no-reply@phpvms.net',
         ],
-        'username' => '',
-        'password' => '',
     ],
 
     // Overrides config/session.php

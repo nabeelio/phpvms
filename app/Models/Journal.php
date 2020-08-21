@@ -14,11 +14,11 @@ use Carbon\Carbon;
  * Holds various journals, depending on the morphed_type and morphed_id columns
  *
  * @property mixed                         id
- * @property Money                         $balance
- * @property string                        $currency
- * @property Carbon                        $updated_at
- * @property Carbon                        $post_date
- * @property Carbon                        $created_at
+ * @property Money  $balance
+ * @property string $currency
+ * @property Carbon $updated_at
+ * @property Carbon $post_date
+ * @property Carbon $created_at
  * @property \App\Models\Enums\JournalType type
  * @property mixed                         morphed_type
  * @property mixed                         morphed_id

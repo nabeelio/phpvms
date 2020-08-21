@@ -5,8 +5,7 @@ namespace App\Exceptions;
 use App\Exceptions\Converters\GenericExceptionAbstract;
 use App\Exceptions\Converters\SymfonyException;
 use App\Exceptions\Converters\ValidationException;
-use Exception;
-use Illuminate\Auth\Access\AuthorizationException;
+use App\Http\Middleware\SetActiveTheme;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -15,10 +14,9 @@ use Illuminate\Http\Request;
 use Illuminate\Session\TokenMismatchException;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException as IlluminateValidationException;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException as SymfonyHttpException;
-use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Throwable;
 use Whoops\Handler\HandlerInterface;
 
 /**
@@ -42,19 +40,19 @@ class Handler extends ExceptionHandler
     /**
      * Render an exception into an HTTP response.
      *
-     * @param Request   $request
-     * @param Exception $exception
+     * @param Request    $request
+     * @param \Throwable $exception
      *
      * @return mixed
      */
-    public function render($request, Exception $exception)
+    public function render($request, Throwable $exception)
     {
         if ($request->is('api/*')) {
             return $this->handleApiError($request, $exception);
         }
 
-        if ($exception instanceof AbstractHttpException
-            && $exception->getStatusCode() === 403) {
+        (new SetActiveTheme())->setTheme($request);
+        if ($exception instanceof AbstractHttpException && $exception->getStatusCode() === 403) {
             return redirect()->guest('login');
         }
 
@@ -65,11 +63,11 @@ class Handler extends ExceptionHandler
      * Handle errors in the API
      *
      * @param            $request
-     * @param \Exception $exception
+     * @param \Throwable $exception
      *
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
      */
-    private function handleApiError($request, Exception $exception)
+    private function handleApiError($request, Throwable $exception)
     {
         Log::error('API Error', $exception->getTrace());
 
@@ -118,36 +116,11 @@ class Handler extends ExceptionHandler
     {
         if ($request->expectsJson() || $request->is('api/*')) {
             $error = new Unauthenticated();
+
             return $error->getResponse();
         }
 
         return redirect()->guest('login');
-    }
-
-    /**
-     * Render the given HttpException.
-     *
-     * @param AbstractHttpException $e
-     *
-     * @return \Illuminate\Http\Response|Response
-     */
-    protected function renderHttpException(HttpExceptionInterface $e)
-    {
-        $status = $e->getStatusCode();
-        view()->replaceNamespace('errors', [
-            resource_path('views/layouts/'.setting('general.theme', 'default').'/errors'),
-            resource_path('views/errors'),
-            __DIR__.'/views',
-        ]);
-
-        if (view()->exists("errors::{$status}")) {
-            return response()->view("errors::{$status}", [
-                'exception' => $e,
-                'SKIN_NAME' => setting('general.theme', 'default'),
-            ], $status, $e->getHeaders());
-        }
-
-        return $this->convertExceptionToResponse($e);
     }
 
     /**

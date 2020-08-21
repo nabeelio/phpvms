@@ -39,7 +39,7 @@ class RouteServiceProvider extends ServiceProvider
     private function mapWebRoutes()
     {
         Route::group([
-            'middleware' => ['web', 'theme'],
+            'middleware' => ['web'],
             'namespace'  => $this->namespace,
         ], function ($router) {
             Route::group([
@@ -59,8 +59,6 @@ class RouteServiceProvider extends ServiceProvider
                 Route::get('flights/bids', 'FlightController@bids')->name('flights.bids');
                 Route::get('flights/search', 'FlightController@search')->name('flights.search');
                 Route::resource('flights', 'FlightController');
-
-                Route::get('p/{slug}', 'PageController@show')->name('pages.show');
 
                 Route::get('pireps/fares', 'PirepController@fares');
                 Route::post('pireps/{id}/submit', 'PirepController@submit')->name('pireps.submit');
@@ -95,15 +93,18 @@ class RouteServiceProvider extends ServiceProvider
                 Route::get('users/{id}', 'ProfileController@show')->name('users.show.public');
                 Route::get('pilots/{id}', 'ProfileController@show')->name('pilots.show.public');
 
-                Route::get('p/{id}', 'ProfileController@show')->name('profile.show.public');
+                Route::get('page/{slug}', 'PageController@show')->name('pages.show');
+
+                Route::get('profile/{id}', 'ProfileController@show')->name('profile.show.public');
+
                 Route::get('users', 'UserController@index')->name('users.index');
                 Route::get('pilots', 'UserController@index')->name('pilots.index');
 
                 Route::get('livemap', 'LiveMapController@index')->name('livemap.index');
             });
 
+            Route::get('/logout', 'Auth\LoginController@logout')->name('auth.logout');
             Auth::routes(['verify' => true]);
-            Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
         });
     }
 
@@ -261,10 +262,10 @@ class RouteServiceProvider extends ServiceProvider
             Route::resource('flightfields', 'FlightFieldController')
                 ->middleware('ability:admin,flights');
 
-            // pirep related routes
-            Route::get('pireps/fares', 'PirepController@fares')
-                ->middleware('ability:admin,pireps');
+            Route::resource('userfields', 'UserFieldController')->middleware('ability:admin,users');
 
+            // pirep related routes
+            Route::get('pireps/fares', 'PirepController@fares')->middleware('ability:admin,pireps');
             Route::get('pireps/pending', 'PirepController@pending')
                 ->middleware('ability:admin,pireps');
 

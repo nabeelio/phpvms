@@ -27,6 +27,7 @@ class Bootstrap implements BeforeFirstTestHook, AfterLastTestHook
             'config:cache',
             'event:cache',
         ];
+
         foreach ($commands as $command) {
             $console->call($command);
         }

@@ -3,36 +3,98 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Contracts\Controller;
+use App\Exceptions\PilotIdNotFound;
 use App\Models\Enums\UserState;
+use App\Services\UserService;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
-/**
- * Class LoginController
- */
 class LoginController extends Controller
 {
     use AuthenticatesUsers;
 
     protected $redirectTo = '/dashboard';
 
+    /** @var UserService */
+    private $userSvc;
+
+    /** @var string */
+    private $loginFieldValue;
+
     /**
      * LoginController constructor.
+     *
+     * @param UserService $userSvc
      */
-    public function __construct()
+    public function __construct(UserService $userSvc)
     {
         $this->redirectTo = config('phpvms.login_redirect');
         $this->middleware('guest', ['except' => 'logout']);
+        $this->userSvc = $userSvc;
     }
 
     /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * Get the needed authorization credentials from the request.
+     * Overriding the value from the trait
+     *
+     * @override
+     *
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return array
      */
-    public function showLoginForm()
+    protected function credentials(Request $request)
     {
-        return view('auth/login');
+        return [
+            'email'    => $this->loginFieldValue,
+            'password' => $request->input('password'),
+        ];
+    }
+
+    /**
+     * Validate the user login request.
+     *
+     * @override
+     *
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return void
+     */
+    protected function validateLogin(Request $request)
+    {
+        $id_field = $request->input('email');
+        $validations = ['required', 'string'];
+
+        /*
+         * Trying to login by email or not?
+         *
+         * If not, run a validation rule which attempts to split the user by their VA and ID
+         * Then inject that user's email into the request
+         */
+        if (strpos($id_field, '@') !== false) {
+            $validations[] = 'email';
+            $this->loginFieldValue = $request->input('email');
+        } else {
+            $validations[] = function ($attr, $value, $fail) use ($request) {
+                try {
+                    $user = $this->userSvc->findUserByPilotId($value);
+                } catch (PilotIdNotFound $ex) {
+                    Log::warning('Error logging in, pilot_id not found, id='.$value);
+                    $fail('Pilot not found');
+                    return;
+                }
+
+                $request->email = $user->email;
+                $this->loginFieldValue = $user->email;
+            };
+        }
+
+        $request->validate([
+            'email'    => $validations,
+            'password' => 'required|string',
+        ]);
     }
 
     /**
@@ -47,8 +109,7 @@ class LoginController extends Controller
         $user->last_ip = $request->ip();
         $user->save();
 
-        // TODO: How to handle ON_LEAVE?
-        if ($user->state !== UserState::ACTIVE) {
+        if ($user->state !== UserState::ACTIVE && $user->state !== UserState::ON_LEAVE) {
             Log::info('Trying to login '.$user->ident.', state '
                 .UserState::label($user->state));
 

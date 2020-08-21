@@ -19,7 +19,7 @@ class UpdatePageRequest extends FormRequest
                 'required',
                 Rule::unique('pages')->ignore($this->id, 'id'),
             ],
-            'body' => 'required',
+            'body' => 'nullable',
         ];
     }
 }

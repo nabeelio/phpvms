@@ -55,9 +55,8 @@ class RequirementsService extends Service
         clearstatcache();
 
         $directories = [];
-        foreach (config('installer.permissions') as $dir) {
+        foreach (config('installer.permissions') as $path) {
             $pass = true;
-            $path = base_path($dir);
 
             if (!file_exists($path)) {
                 $pass = false;
@@ -68,7 +67,7 @@ class RequirementsService extends Service
             }
 
             $directories[] = [
-                'dir'    => $dir,
+                'dir'    => $path,
                 'passed' => $pass,
             ];
         }

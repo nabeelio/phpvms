@@ -1,14 +1,23 @@
 <?php
 
+namespace Tests;
+
 use App\Cron\Nightly\SetActiveFlights;
 use App\Events\CronNightly;
+use App\Models\Airline;
+use App\Models\Airport;
 use App\Models\Enums\Days;
 use App\Models\Enums\NavaidType;
 use App\Models\Flight;
+use App\Models\Navdata;
+use App\Models\Subfleet;
 use App\Models\User;
 use App\Repositories\SettingRepository;
 use App\Services\AirportService;
+use App\Services\FleetService;
 use App\Services\FlightService;
+use Carbon\Carbon;
+use Exception;
 
 class FlightTest extends TestCase
 {
@@ -38,10 +47,10 @@ class FlightTest extends TestCase
             'airline_id' => $user->airline_id,
         ], $flight_properties);
 
-        $flight = factory(App\Models\Flight::class)->create($opts);
+        $flight = factory(Flight::class)->create($opts);
 
         $flight->subfleets()->syncWithoutDetaching([
-            factory(App\Models\Subfleet::class)->create([
+            factory(Subfleet::class)->create([
                 'airline_id' => $user->airline_id,
             ])->id,
         ]);
@@ -59,7 +68,7 @@ class FlightTest extends TestCase
      */
     public function addFlightsForSubfleet($subfleet, $num_flights)
     {
-        return factory(App\Models\Flight::class, $num_flights)->create([
+        return factory(Flight::class, $num_flights)->create([
             'airline_id' => $subfleet->airline->id,
         ])->each(function (Flight $f) use ($subfleet) {
             $f->subfleets()->syncWithoutDetaching([
@@ -73,7 +82,7 @@ class FlightTest extends TestCase
      */
     public function testDuplicateFlight()
     {
-        $this->user = factory(App\Models\User::class)->create();
+        $this->user = factory(User::class)->create();
         $flight = $this->addFlight($this->user);
 
         // first flight shouldn't be a duplicate
@@ -89,7 +98,7 @@ class FlightTest extends TestCase
         $this->assertTrue($this->flightSvc->isFlightDuplicate($flight_dupe));
 
         // same flight but diff airline shouldn't be a dupe
-        $new_airline = factory(App\Models\Airline::class)->create();
+        $new_airline = factory(Airline::class)->create();
         $flight_dupe = new Flight([
             'airline_id'    => $new_airline->airline_id,
             'flight_number' => $flight->flight_number,
@@ -100,7 +109,7 @@ class FlightTest extends TestCase
         $this->assertFalse($this->flightSvc->isFlightDuplicate($flight_dupe));
 
         // add another flight with a code
-        $flight_leg = factory(App\Models\Flight::class)->create([
+        $flight_leg = factory(Flight::class)->create([
             'airline_id'    => $flight->airline_id,
             'flight_number' => $flight->flight_number,
             'route_code'    => 'A',
@@ -109,7 +118,7 @@ class FlightTest extends TestCase
         $this->assertFalse($this->flightSvc->isFlightDuplicate($flight_leg));
 
         // Add both a route and leg
-        $flight_leg = factory(App\Models\Flight::class)->create([
+        $flight_leg = factory(Flight::class)->create([
             'airline_id'    => $flight->airline_id,
             'flight_number' => $flight->flight_number,
             'route_code'    => 'A',
@@ -121,7 +130,7 @@ class FlightTest extends TestCase
 
     public function testGetFlight()
     {
-        $this->user = factory(App\Models\User::class)->create();
+        $this->user = factory(User::class)->create();
         $flight = $this->addFlight($this->user, [
             'load_factor'          => '',
             'load_factor_variance' => '',
@@ -148,13 +157,36 @@ class FlightTest extends TestCase
      */
     public function testSearchFlight()
     {
-        $this->user = factory(App\Models\User::class)->create();
+        $this->user = factory(User::class)->create();
         $flight = $this->addFlight($this->user);
 
         // search specifically for a flight ID
         $query = 'flight_id='.$flight->id;
         $req = $this->get('/api/flights/search?'.$query);
         $req->assertStatus(200);
+    }
+
+    public function testSearchFlightInactiveAirline()
+    {
+        /** @var \App\Models\Airline $airline_inactive */
+        $airline_inactive = factory(Airline::class)->create(['active' => 0]);
+
+        /** @var \App\Models\Airline $airline_active */
+        $airline_active = factory(Airline::class)->create(['active' => 1]);
+        $this->user = factory(User::class)->create([
+            'airline_id' => $airline_inactive->id,
+        ]);
+
+        $this->addFlight($this->user, ['airline_id' => $airline_inactive->id]);
+        $this->addFlight($this->user, ['airline_id' => $airline_active->id]);
+
+        // search specifically for a flight ID
+        $req = $this->get('/api/flights/search?ignore_restrictions=1');
+        $req->assertStatus(200);
+        $body = $req->json('data');
+
+        $this->assertEquals(1, count($body));
+        $this->assertEquals($airline_active->id, $body[0]['airline_id']);
     }
 
     /**
@@ -164,11 +196,11 @@ class FlightTest extends TestCase
      */
     public function testFlightRoute()
     {
-        $this->user = factory(App\Models\User::class)->create();
+        $this->user = factory(User::class)->create();
         $flight = $this->addFlight($this->user);
 
         $route_count = random_int(4, 6);
-        $route = factory(App\Models\Navdata::class, $route_count)->create();
+        $route = factory(Navdata::class, $route_count)->create();
         $route_text = implode(' ', $route->pluck('id')->toArray());
 
         $flight->route = $route_text;
@@ -198,8 +230,8 @@ class FlightTest extends TestCase
      */
     public function testFindAllFlights()
     {
-        $this->user = factory(App\Models\User::class)->create();
-        factory(App\Models\Flight::class, 20)->create([
+        $this->user = factory(User::class)->create();
+        factory(Flight::class, 20)->create([
             'airline_id' => $this->user->airline_id,
         ]);
 
@@ -217,12 +249,12 @@ class FlightTest extends TestCase
      */
     public function testSearchFlightBySubfleet()
     {
-        $airline = factory(App\Models\Airline::class)->create();
-        $subfleetA = factory(App\Models\Subfleet::class)->create(['airline_id' => $airline->id]);
-        $subfleetB = factory(App\Models\Subfleet::class)->create(['airline_id' => $airline->id]);
+        $airline = factory(Airline::class)->create();
+        $subfleetA = factory(Subfleet::class)->create(['airline_id' => $airline->id]);
+        $subfleetB = factory(Subfleet::class)->create(['airline_id' => $airline->id]);
 
         $rank = $this->createRank(0, [$subfleetB->id]);
-        $this->user = factory(App\Models\User::class)->create([
+        $this->user = factory(User::class)->create([
             'airline_id' => $airline->id,
             'rank_id'    => $rank->id,
         ]);
@@ -250,12 +282,12 @@ class FlightTest extends TestCase
      */
     public function testFindDaysOfWeek(): void
     {
-        $this->user = factory(App\Models\User::class)->create();
-        factory(App\Models\Flight::class, 20)->create([
+        $this->user = factory(User::class)->create();
+        factory(Flight::class, 20)->create([
             'airline_id' => $this->user->airline_id,
         ]);
 
-        $saved_flight = factory(App\Models\Flight::class)->create([
+        $saved_flight = factory(Flight::class)->create([
             'airline_id' => $this->user->airline_id,
             'days'       => Days::getDaysMask([
                 Days::SUNDAY,
@@ -283,7 +315,7 @@ class FlightTest extends TestCase
      */
     public function testDayOfWeekActive(): void
     {
-        $this->user = factory(App\Models\User::class)->create();
+        $this->user = factory(User::class)->create();
 
         // Set it to Monday or Tuesday, depending on what today is
         if (date('N') === '1') { // today is a monday
@@ -292,8 +324,8 @@ class FlightTest extends TestCase
             $days = Days::getDaysMask([Days::MONDAY]);
         }
 
-        factory(App\Models\Flight::class, 5)->create();
-        $flight = factory(App\Models\Flight::class)->create([
+        factory(Flight::class, 5)->create();
+        $flight = factory(Flight::class)->create([
             'days' => $days,
         ]);
 
@@ -331,17 +363,17 @@ class FlightTest extends TestCase
 
     public function testStartEndDate(): void
     {
-        $this->user = factory(App\Models\User::class)->create();
+        $this->user = factory(User::class)->create();
 
-        factory(App\Models\Flight::class, 5)->create();
-        $flight = factory(App\Models\Flight::class)->create([
-            'start_date' => Carbon\Carbon::now('UTC')->subDays(1),
-            'end_date'   => Carbon\Carbon::now('UTC')->addDays(1),
+        factory(Flight::class, 5)->create();
+        $flight = factory(Flight::class)->create([
+            'start_date' => Carbon::now('UTC')->subDays(1),
+            'end_date'   => Carbon::now('UTC')->addDays(1),
         ]);
 
-        $flight_not_active = factory(App\Models\Flight::class)->create([
-            'start_date' => Carbon\Carbon::now('UTC')->subDays(10),
-            'end_date'   => Carbon\Carbon::now('UTC')->subDays(2),
+        $flight_not_active = factory(Flight::class)->create([
+            'start_date' => Carbon::now('UTC')->subDays(10),
+            'end_date'   => Carbon::now('UTC')->subDays(2),
         ]);
 
         // Run the event that will enable/disable flights
@@ -360,7 +392,7 @@ class FlightTest extends TestCase
 
     public function testStartEndDateDayOfWeek(): void
     {
-        $this->user = factory(App\Models\User::class)->create();
+        $this->user = factory(User::class)->create();
 
         // Set it to Monday or Tuesday, depending on what today is
         if (date('N') === '1') { // today is a monday
@@ -369,17 +401,17 @@ class FlightTest extends TestCase
             $days = Days::getDaysMask([Days::MONDAY]);
         }
 
-        factory(App\Models\Flight::class, 5)->create();
-        $flight = factory(App\Models\Flight::class)->create([
-            'start_date' => Carbon\Carbon::now('UTC')->subDays(1),
-            'end_date'   => Carbon\Carbon::now('UTC')->addDays(1),
+        factory(Flight::class, 5)->create();
+        $flight = factory(Flight::class)->create([
+            'start_date' => Carbon::now('UTC')->subDays(1),
+            'end_date'   => Carbon::now('UTC')->addDays(1),
             'days'       => Days::$isoDayMap[date('N')],
         ]);
 
         // Not active because of days of week not today
-        $flight_not_active = factory(App\Models\Flight::class)->create([
-            'start_date' => Carbon\Carbon::now('UTC')->subDays(1),
-            'end_date'   => Carbon\Carbon::now('UTC')->addDays(1),
+        $flight_not_active = factory(Flight::class)->create([
+            'start_date' => Carbon::now('UTC')->subDays(1),
+            'end_date'   => Carbon::now('UTC')->addDays(1),
             'days'       => $days,
         ]);
 
@@ -399,8 +431,8 @@ class FlightTest extends TestCase
 
     public function testFlightSearchApi()
     {
-        $this->user = factory(App\Models\User::class)->create();
-        $flights = factory(App\Models\Flight::class, 10)->create([
+        $this->user = factory(User::class)->create();
+        $flights = factory(Flight::class, 10)->create([
             'airline_id' => $this->user->airline_id,
         ]);
 
@@ -415,12 +447,12 @@ class FlightTest extends TestCase
 
     public function testFlightSearchApiDepartureAirport()
     {
-        $this->user = factory(App\Models\User::class)->create();
-        factory(App\Models\Flight::class, 10)->create([
+        $this->user = factory(User::class)->create();
+        factory(Flight::class, 10)->create([
             'airline_id' => $this->user->airline_id,
         ]);
 
-        $flight = factory(App\Models\Flight::class)->create([
+        $flight = factory(Flight::class)->create([
             'airline_id'     => $this->user->airline_id,
             'dpt_airport_id' => 'KAUS',
         ]);
@@ -436,8 +468,8 @@ class FlightTest extends TestCase
     public function testFlightSearchApiDistance()
     {
         $total_flights = 10;
-        $this->user = factory(App\Models\User::class)->create();
-        $flights = factory(App\Models\Flight::class, $total_flights)->create([
+        $this->user = factory(User::class)->create();
+        $flights = factory(Flight::class, $total_flights)->create([
             'airline_id' => $this->user->airline_id,
         ]);
 
@@ -474,10 +506,10 @@ class FlightTest extends TestCase
 
     public function testAddSubfleet()
     {
-        $subfleet = factory(App\Models\Subfleet::class)->create();
-        $flight = factory(App\Models\Flight::class)->create();
+        $subfleet = factory(Subfleet::class)->create();
+        $flight = factory(Flight::class)->create();
 
-        $fleetSvc = app(App\Services\FleetService::class);
+        $fleetSvc = app(FleetService::class);
         $fleetSvc->addSubfleetToFlight($subfleet, $flight);
 
         $flight->refresh();
@@ -508,13 +540,13 @@ class FlightTest extends TestCase
     public function testAirportDistance()
     {
         // KJFK
-        $fromIcao = factory(App\Models\Airport::class)->create([
+        $fromIcao = factory(Airport::class)->create([
             'lat' => 40.6399257,
             'lon' => -73.7786950,
         ]);
 
         // KSFO
-        $toIcao = factory(App\Models\Airport::class)->create([
+        $toIcao = factory(Airport::class)->create([
             'lat' => 37.6188056,
             'lon' => -122.3754167,
         ]);
@@ -531,13 +563,13 @@ class FlightTest extends TestCase
         $headers = $this->headers($user);
 
         // KJFK
-        $fromIcao = factory(App\Models\Airport::class)->create([
+        $fromIcao = factory(Airport::class)->create([
             'lat' => 40.6399257,
             'lon' => -73.7786950,
         ]);
 
         // KSFO
-        $toIcao = factory(App\Models\Airport::class)->create([
+        $toIcao = factory(Airport::class)->create([
             'lat' => 37.6188056,
             'lon' => -122.3754167,
         ]);

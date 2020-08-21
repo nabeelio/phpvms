@@ -2,6 +2,10 @@
 
 @section('title', 'Users')
 @section('actions')
+  <li><a href="{{ route('admin.userfields.index') }}">
+      <i class="ti-user"></i>Profile Fields</a>
+  </li>
+
   <li><a href="{{ route('admin.users.index') }}?search=state:0">
       <i class="ti-user"></i>@lang(UserState::label(UserState::PENDING))</a>
   </li>

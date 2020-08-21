@@ -1,8 +1,14 @@
 <?php
 
+namespace Tests;
+
+use App\Models\Award;
+use App\Models\Pirep;
+use App\Models\User;
 use App\Models\UserAward;
 use App\Services\AwardService;
 use App\Services\PirepService;
+use Modules\Awards\Awards\PilotFlightAwards;
 
 class AwardsTest extends TestCase
 {
@@ -35,16 +41,16 @@ class AwardsTest extends TestCase
     public function testAwardsGiven()
     {
         // Create one award that's given out with one flight
-        $award = factory(App\Models\Award::class)->create([
-            'ref_model'        => Modules\Awards\Awards\PilotFlightAwards::class,
+        $award = factory(Award::class)->create([
+            'ref_model'        => PilotFlightAwards::class,
             'ref_model_params' => 1,
         ]);
 
-        $user = factory(App\Models\User::class)->create([
+        $user = factory(User::class)->create([
             'flights' => 0,
         ]);
 
-        $pirep = factory(App\Models\Pirep::class)->create([
+        $pirep = factory(Pirep::class)->create([
             'airline_id' => $user->airline->id,
             'user_id'    => $user->id,
         ]);

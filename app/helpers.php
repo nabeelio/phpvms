@@ -4,6 +4,7 @@ use App\Exceptions\SettingNotFound;
 use App\Repositories\SettingRepository;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\Factory;
+use Illuminate\Support\Facades\Auth;
 
 /*
  * array_key_first only exists in PHP 7.3+
@@ -266,17 +267,43 @@ if (!function_exists('show_date')) {
      * but convert it into the user's timezone
      *
      * @param \Carbon\Carbon $date
+     * @param string         $default_timezone Default timezone to use, defaults to UTC
      *
      * @return string
      */
-    function show_date(Carbon $date)
+    function show_date(Carbon $date, $default_timezone = 'UTC')
     {
-        $timezone = 'UTC';
+        $timezone = $default_timezone;
         if (Auth::check()) {
             $timezone = Auth::user()->timezone ?: $timezone;
         }
 
         return $date->timezone($timezone)->toFormattedDateString();
+    }
+}
+
+/*
+ * Show a date/time in the proper timezone for a user
+ */
+if (!function_exists('show_datetime_format')) {
+    /**
+     * Format the a Carbon date into the datetime string
+     * but convert it into the user's timezone
+     *
+     * @param \Carbon\Carbon $date
+     * @param string         $format
+     * @param string         $default_timezone A default timezone to use (UTC by default)
+     *
+     * @return string
+     */
+    function show_datetime_format(Carbon $date, $format, $default_timezone = 'UTC')
+    {
+        $timezone = $default_timezone;
+        if (Auth::check()) {
+            $timezone = Auth::user()->timezone ?: $timezone;
+        }
+
+        return $date->timezone($timezone)->format($format);
     }
 }
 

@@ -1,5 +1,7 @@
 <?php
 
+namespace Tests;
+
 use App\Repositories\SettingRepository;
 use App\Services\AirportService;
 use App\Support\Metar;
@@ -9,6 +11,7 @@ use App\Support\Metar;
  */
 class MetarTest extends TestCase
 {
+    /** @var SettingRepository */
     private $settingsRepo;
 
     public function setUp(): void
@@ -168,6 +171,14 @@ class MetarTest extends TestCase
         $airportSvc = app(AirportService::class);
 
         $this->assertInstanceOf(Metar::class, $airportSvc->getMetar('kjfk'));
+    }
+
+    public function testHttpCallSuccessFullResponse()
+    {
+        $this->mockXmlResponse('aviationweather/kphx.xml');
+        $airportSvc = app(AirportService::class);
+
+        $this->assertInstanceOf(Metar::class, $airportSvc->getMetar('kphx'));
     }
 
     public function testHttpCallEmpty()

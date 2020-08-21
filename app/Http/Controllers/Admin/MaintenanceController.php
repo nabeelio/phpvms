@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Log;
 use Laracasts\Flash\Flash;
+use Nwidart\Modules\Facades\Module;
 
 class MaintenanceController extends Controller
 {
@@ -36,7 +37,7 @@ class MaintenanceController extends Controller
         return view('admin.maintenance.index', [
             'cron_path'           => $this->cronSvc->getCronExecString(),
             'cron_problem_exists' => $this->cronSvc->cronProblemExists(),
-            'new_version'         => true, //$this->kvpRepo->get('new_version_available', false),
+            'new_version'         => $this->kvpRepo->get('new_version_available', false),
             'new_version_tag'     => $this->kvpRepo->get('latest_version_tag'),
         ]);
     }
@@ -110,6 +111,10 @@ class MaintenanceController extends Controller
     {
         $new_version_tag = $this->kvpRepo->get('latest_version_tag');
         Log::info('Attempting to update to '.$new_version_tag);
+
+        $module = Module::find('updater');
+        $module->enable();
+
         return redirect('/update/downloader');
     }
 }

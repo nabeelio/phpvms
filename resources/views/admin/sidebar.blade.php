@@ -22,9 +22,10 @@
     <div class="row" style="margin-bottom: 20px;">
       <div class="col-xs-12 text-center">
         <a class="small"
-            data-container="body"
-            data-toggle="popover"
-            data-placement="right"
+           style="cursor: pointer"
+           data-container="body"
+           data-toggle="popover"
+           data-placement="right"
            data-content="{{$version_full}}">
           version {{ $version }}
         </a>

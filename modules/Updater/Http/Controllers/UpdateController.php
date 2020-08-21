@@ -4,6 +4,7 @@ namespace Modules\Updater\Http\Controllers;
 
 use App\Contracts\Controller;
 use App\Repositories\KvpRepository;
+use App\Services\AnalyticsService;
 use App\Services\Installer\InstallerService;
 use App\Services\Installer\MigrationService;
 use App\Services\Installer\SeederService;
@@ -14,6 +15,7 @@ use Illuminate\Support\Facades\Log;
 
 class UpdateController extends Controller
 {
+    private $analyticsSvc;
     private $installerSvc;
     private $kvpRepo;
     private $migrationSvc;
@@ -21,19 +23,22 @@ class UpdateController extends Controller
     private $updateManager;
 
     /**
+     * @param AnalyticsService $analyticsSvc
      * @param InstallerService $installerSvc
+     * @param KvpRepository    $kvpRepo
      * @param MigrationService $migrationSvc
      * @param SeederService    $seederSvc
-     * @param KvpRepository    $kvpRepo
      * @param UpdaterManager   $updateManager
      */
     public function __construct(
+        AnalyticsService $analyticsSvc,
         InstallerService $installerSvc,
         KvpRepository $kvpRepo,
         MigrationService $migrationSvc,
         SeederService $seederSvc,
         UpdaterManager $updateManager
     ) {
+        $this->analyticsSvc = $analyticsSvc;
         $this->migrationSvc = $migrationSvc;
         $this->seederSvc = $seederSvc;
         $this->installerSvc = $installerSvc;
@@ -131,7 +136,13 @@ class UpdateController extends Controller
     public function update_download(Request $request)
     {
         $version = $this->kvpRepo->get('latest_version_tag');
-        $this->updateManager->source('github')->update($version);
+        if (empty($version)) {
+            return view('updater::steps/step1-no-update');
+        }
+
+        $release = $this->updateManager->source('github')->fetch($version);
+        $this->updateManager->source('github')->update($release);
+        $this->analyticsSvc->sendUpdate();
 
         Log::info('Update completed to '.$version.', redirecting');
         return redirect('/update');

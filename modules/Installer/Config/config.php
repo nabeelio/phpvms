@@ -2,7 +2,7 @@
 
 return [
     'php' => [
-        'version' => '7.2',
+        'version' => '7.3',
     ],
 
     'cache' => [
@@ -26,16 +26,16 @@ return [
 
     // Make sure these are writable
     'permissions' => [
-        'bootstrap/cache',
-        'public/uploads',
-        'storage',
-        'storage/app/public',
-        'storage/app/public/avatars',
-        'storage/app/public/uploads',
-        'storage/framework',
-        'storage/framework/cache',
-        'storage/framework/sessions',
-        'storage/framework/views',
-        'storage/logs',
+        base_path('bootstrap/cache'),
+        public_path('uploads'),
+        storage_path(),
+        storage_path('app/public'),
+        storage_path('app/public/avatars'),
+        storage_path('app/public/uploads'),
+        storage_path('framework'),
+        storage_path('framework/cache'),
+        storage_path('framework/sessions'),
+        storage_path('framework/views'),
+        storage_path('logs'),
     ],
 ];

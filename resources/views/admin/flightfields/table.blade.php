@@ -2,8 +2,7 @@
 
   <div class="header">
     @component('admin.components.info')
-      Flights fields that can be filled out. You can still add other custom fields
-      directly in the flight, but this provides a template for all flights.
+      These are fields that can be filled out by users
     @endcomponent
   </div>
 
@@ -17,8 +16,8 @@
       <tr>
         <td>{{ $field->name }}</td>
         <td class="text-right">
-          {{ Form::open(['route' => ['admin.flightfields.destroy', $field->id], 'method' => 'delete']) }}
-          <a href="{{ route('admin.flightfields.edit', [$field->id]) }}"
+          {{ Form::open(['route' => ['admin.userfields.destroy', $field->id], 'method' => 'delete']) }}
+          <a href="{{ route('admin.userfields.edit', [$field->id]) }}"
              class='btn btn-sm btn-success btn-icon'>
             <i class="fas fa-pencil-alt"></i></a>
 

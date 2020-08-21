@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Enums\PageType;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -22,7 +23,7 @@ class CreatePages extends Migration
             $table->string('name');
             $table->string('slug');
             $table->string('icon');
-            $table->unsignedSmallInteger('type');
+            $table->unsignedSmallInteger('type')->default(PageType::PAGE);
             $table->boolean('public');
             $table->boolean('enabled');
             $table->mediumText('body');

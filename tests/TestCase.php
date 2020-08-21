@@ -1,26 +1,36 @@
 <?php
 
+namespace Tests;
+
+use App\Contracts\Unit;
+use App\Exceptions\Handler;
 use App\Repositories\SettingRepository;
 use App\Services\DatabaseService;
+use Carbon\Carbon;
+use DateTimeImmutable;
+use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
+use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Routing\Middleware\ThrottleRequests;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
-use Tests\CreatesApplication;
-use Tests\TestData;
+use Illuminate\Testing\TestResponse;
+use ReflectionClass;
 
-class TestCase extends Illuminate\Foundation\Testing\TestCase
+/**
+ * Test cases should extend this class
+ */
+abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
 {
     use TestData;
     use CreatesApplication;
 
     /**
      * The base URL to use while testing the application.
-     *
-     * @var string
      */
     public static $prefix = '/api';
 
@@ -28,6 +38,7 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
     protected $baseUrl = 'http://localhost';
     protected $connectionsToTransact = ['test'];
 
+    /** @var \App\Models\User */
     protected $user;
 
     protected static $auth_headers = [
@@ -50,11 +61,31 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
 
         Artisan::call('database:create', ['--reset' => true]);
         Artisan::call('migrate:refresh', ['--env' => 'testing']);
+
+        // $this->disableExceptionHandling();
     }
 
-    public function tearDown(): void
+    /**
+     * https://stackoverflow.com/a/41945739
+     * https://gist.github.com/adamwathan/c9752f61102dc056d157
+     */
+    protected function disableExceptionHandling()
     {
-        parent::tearDown();
+        $this->app->instance(ExceptionHandler::class, new class() extends Handler {
+            public function __construct()
+            {
+            }
+
+            public function report(\Throwable $e)
+            {
+                // no-op
+            }
+
+            public function render($request, \Throwable $e)
+            {
+                throw $e;
+            }
+        });
     }
 
     /**
@@ -197,13 +228,13 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
      * @param       $methodName
      * @param array $parameters
      *
-     * @throws ReflectionException
+     * @throws \ReflectionException
      *
      * @return mixed
      */
     public function invokeMethod(&$object, $methodName, array $parameters = [])
     {
-        $reflection = new \ReflectionClass(get_class($object));
+        $reflection = new ReflectionClass(get_class($object));
         $method = $reflection->getMethod($methodName);
         $method->setAccessible(true);
 
@@ -225,7 +256,7 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
                 $this->transformData($value);
             }
 
-            if (is_subclass_of($value, App\Contracts\Unit::class)) {
+            if (is_subclass_of($value, Unit::class)) {
                 $data[$key] = $value->__toString();
             }
 
@@ -246,9 +277,9 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
      * @param array  $headers
      * @param null   $user
      *
-     * @return \Illuminate\Foundation\Testing\TestResponse
+     * @return \Illuminate\Testing\TestResponse
      */
-    public function get($uri, array $headers = [], $user = null): \Illuminate\Foundation\Testing\TestResponse
+    public function get($uri, array $headers = [], $user = null): TestResponse
     {
         $req = parent::get($uri, $this->headers($user, $headers));
         if ($req->isClientError() || $req->isServerError()) {
@@ -266,9 +297,9 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
      * @param array  $headers
      * @param null   $user
      *
-     * @return \Illuminate\Foundation\Testing\TestResponse
+     * @return TestResponse
      */
-    public function post($uri, array $data = [], array $headers = [], $user = null)
+    public function post($uri, array $data = [], array $headers = [], $user = null): TestResponse
     {
         $data = $this->transformData($data);
         $req = parent::post($uri, $data, $this->headers($user, $headers));
@@ -287,9 +318,9 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
      * @param array  $headers
      * @param null   $user
      *
-     * @return \Illuminate\Foundation\Testing\TestResponse
+     * @return TestResponse
      */
-    public function put($uri, array $data = [], array $headers = [], $user = null)
+    public function put($uri, array $data = [], array $headers = [], $user = null): TestResponse
     {
         $req = parent::put($uri, $this->transformData($data), $this->headers($user, $headers));
         if ($req->isClientError() || $req->isServerError()) {
@@ -307,9 +338,9 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
      * @param array  $headers
      * @param null   $user
      *
-     * @return \Illuminate\Foundation\Testing\TestResponse
+     * @return TestResponse
      */
-    public function delete($uri, array $data = [], array $headers = [], $user = null)
+    public function delete($uri, array $data = [], array $headers = [], $user = null): TestResponse
     {
         $req = parent::delete($uri, $this->transformData($data), $this->headers($user, $headers));
         if ($req->isClientError() || $req->isServerError()) {

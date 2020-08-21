@@ -10,6 +10,7 @@ return [
     'newestpilots'   => 'Newest Pilots',
     'profile'        => 'Profile',
     'email'          => 'Email',
+    'pilot_id'       => 'Pilot ID',
     'register'       => 'Register',
     'login'          => 'Log In',
     'logout'         => 'Log Out',
@@ -48,6 +49,7 @@ return [
     'inactive'       => 'Inactive',
     'yes'            => 'Yes',
     'no'             => 'No',
+    'or'             => 'or',
     'days'           => [
         'mon'   => 'Monday',
         'tues'  => 'Tuesday',
