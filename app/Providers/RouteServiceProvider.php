@@ -103,8 +103,8 @@ class RouteServiceProvider extends ServiceProvider
                 Route::get('livemap', 'LiveMapController@index')->name('livemap.index');
             });
 
+            Route::get('/logout', 'Auth\LoginController@logout')->name('auth.logout');
             Auth::routes(['verify' => true]);
-            Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
         });
     }
 

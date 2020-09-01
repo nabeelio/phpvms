@@ -86,6 +86,7 @@ class UtilsTest extends TestCase
         $tests = [
             'http://phpvms.net',
             'https://phpvms.net',
+            'https://phpvms.net/',
             'phpvms.net',
             'https://phpvms.net/index.php',
             'https://demo.phpvms.net',
@@ -98,5 +99,6 @@ class UtilsTest extends TestCase
 
         $this->assertEquals('phpvms.co.uk', Utils::getRootDomain('http://phpvms.co.uk'));
         $this->assertEquals('phpvms.co.uk', Utils::getRootDomain('http://www.phpvms.co.uk'));
+        $this->assertEquals('127.0.0.1', Utils::getRootDomain('http://127.0.0.1'));
     }
 }

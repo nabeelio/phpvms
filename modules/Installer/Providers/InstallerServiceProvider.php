@@ -33,7 +33,7 @@ class InstallerServiceProvider extends ServiceProvider
             Route::post('/dbtest', 'InstallerController@dbtest')->name('dbtest');
 
             Route::get('/step1', 'InstallerController@step1')->name('step1');
-            Route::post('/step1', 'InstallerController@step1')->name('step1');
+            Route::post('/step1', 'InstallerController@step1')->name('step1post');
 
             Route::get('/step2', 'InstallerController@step2')->name('step2');
             Route::post('/envsetup', 'InstallerController@envsetup')->name('envsetup');

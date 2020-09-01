@@ -118,6 +118,14 @@ class Utils
         $extract = new Extract();
         $result = $extract->parse($url);
 
-        return $result->getRegistrableDomain();
+        $val = $result->getRegistrableDomain();
+        if (!empty($val)) {
+            return $val;
+        }
+
+        // Couldn't validate a domain, see if this is an IP address?
+        if (filter_var($url, FILTER_VALIDATE_IP)) {
+            return $url;
+        }
     }
 }
