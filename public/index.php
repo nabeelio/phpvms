@@ -21,9 +21,9 @@ if (file_exists($path_to_phpvms_folder.'bootstrap/autoload.php')) {
 }
 
 // Look up one more folder up (outside of the Laravel root) and in the `phpvms` subfolder
-elseif (file_exists($path_to_phpvms_folder.'../phpvms/bootstrap/autoload.php')) {
-    require $path_to_phpvms_folder.'../phpvms/bootstrap/autoload.php';
-    $app = require_once $path_to_phpvms_folder.'../phpvms/bootstrap/app.php';
+elseif (file_exists($path_to_phpvms_folder.'phpvms/bootstrap/autoload.php')) {
+    require $path_to_phpvms_folder.'phpvms/bootstrap/autoload.php';
+    $app = require_once $path_to_phpvms_folder.'phpvms/bootstrap/app.php';
 }
 
 // Bail out
