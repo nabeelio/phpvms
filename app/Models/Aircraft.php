@@ -66,8 +66,8 @@ class Aircraft extends Model
         'name'         => 'required',
         'status'       => 'required',
         'registration' => 'required',
-        'mtow'         => 'nullable|number',
-        'zfw'          => 'nullable|number',
+        'mtow'         => 'nullable|numeric',
+        'zfw'          => 'nullable|numeric',
     ];
 
     /**
