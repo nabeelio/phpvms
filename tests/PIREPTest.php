@@ -236,7 +236,7 @@ class PIREPTest extends TestCase
 
         $pirep = factory(Pirep::class)->create([
             'airline_id' => 1,
-            'user_id'    => $user->id
+            'user_id'    => $user->id,
         ]);
 
         $this->pirepSvc->create($pirep);

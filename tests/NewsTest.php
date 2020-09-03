@@ -35,7 +35,7 @@ class NewsTest extends TestCase
         $this->newsSvc->addNews([
             'user_id' => $users_opt_out[0]->id,
             'subject' => 'News Item',
-            'body' => 'News!',
+            'body'    => 'News!',
         ]);
 
         Notification::assertSentTo($users_opt_in, NewsAdded::class);
