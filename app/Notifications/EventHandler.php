@@ -185,6 +185,6 @@ class EventHandler extends Listener
     public function onNewsAdded(NewsAdded $event): void
     {
         Log::info('NotificationEvents::onNewsAdded');
-        $this->notifyAllUsers(new Messages\NewsAdded($event->news), true);
+        $this->notifyAllUsers(new Messages\NewsAdded($event->news));
     }
 }
