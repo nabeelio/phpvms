@@ -2,15 +2,16 @@
 
 namespace App\Notifications\Messages;
 
+use App\Contracts\Notification;
 use App\Models\News;
-use App\Notifications\BaseNotification;
 use App\Notifications\Channels\MailChannel;
 
-class NewsAdded extends BaseNotification
+class NewsAdded extends Notification
 {
     use MailChannel;
 
     public $channels = ['mail'];
+    public $requires_opt_in = true;
 
     private $news;
 

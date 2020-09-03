@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Notifications;
+namespace App\Contracts;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Log;
 
-class BaseNotification extends Notification implements ShouldQueue
+class Notification extends \Illuminate\Notifications\Notification implements ShouldQueue
 {
     use Queueable;
 
     public $channels = [];
+    public $requires_opt_in = false;
 
     public function __construct()
     {

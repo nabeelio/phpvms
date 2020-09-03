@@ -2,9 +2,10 @@
 
 namespace App\Events;
 
+use App\Contracts\Event;
 use App\Models\Pirep;
 
-class PirepCancelled extends BaseEvent
+class PirepCancelled extends Event
 {
     public $pirep;
 

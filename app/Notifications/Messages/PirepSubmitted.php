@@ -2,11 +2,11 @@
 
 namespace App\Notifications\Messages;
 
+use App\Contracts\Notification;
 use App\Models\Pirep;
-use App\Notifications\BaseNotification;
 use App\Notifications\Channels\MailChannel;
 
-class PirepSubmitted extends BaseNotification
+class PirepSubmitted extends Notification
 {
     use MailChannel;
 

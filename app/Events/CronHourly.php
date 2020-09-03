@@ -2,6 +2,8 @@
 
 namespace App\Events;
 
-class CronHourly extends BaseEvent
+use App\Contracts\Event;
+
+class CronHourly extends Event
 {
 }

@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Contracts\Event;
 use App\Models\Pirep;
 
 /**
@@ -25,7 +26,7 @@ use App\Models\Pirep;
  *
  * The event will have a copy of the PIREP model, if it's applicable
  */
-class Expenses extends BaseEvent
+class Expenses extends Event
 {
     public $pirep;
 
