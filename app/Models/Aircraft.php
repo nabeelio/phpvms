@@ -16,6 +16,8 @@ use Carbon\Carbon;
  * @property string   icao
  * @property string   registration
  * @property int      flight_time
+ * @property float    mtow
+ * @property float    zfw
  * @property string   hex_code
  * @property Airport  airport
  * @property Subfleet subfleet
@@ -39,6 +41,7 @@ class Aircraft extends Model
         'registration',
         'hex_code',
         'flight_time',
+        'mtow',
         'zfw',
         'status',
         'state',
@@ -49,6 +52,7 @@ class Aircraft extends Model
      */
     protected $casts = [
         'subfleet_id' => 'integer',
+        'mtow'        => 'float',
         'zfw'         => 'float',
         'flight_time' => 'float',
         'state'       => 'integer',
@@ -62,6 +66,8 @@ class Aircraft extends Model
         'name'         => 'required',
         'status'       => 'required',
         'registration' => 'required',
+        'mtow'         => 'nullable|number',
+        'zfw'          => 'nullable|number',
     ];
 
     /**
