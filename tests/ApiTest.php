@@ -242,13 +242,17 @@ class ApiTest extends TestCase
 
         $fare_svc = app(FareService::class);
 
+        /** @var Subfleet $subfleet */
         $subfleet = factory(Subfleet::class)->create([
             'airline_id' => $this->user->airline_id,
         ]);
 
+        /** @var Fare $fare */
         $fare = factory(Fare::class)->create();
 
         $fare_svc->setForSubfleet($subfleet, $fare);
+
+        /** @var Aircraft $aircraft */
         $aircraft = factory(Aircraft::class)->create([
             'subfleet_id' => $subfleet->id,
         ]);
@@ -258,15 +262,27 @@ class ApiTest extends TestCase
          */
         $resp = $this->get('/api/fleet/aircraft/'.$aircraft->id);
         $body = $resp->json()['data'];
+
         $this->assertEquals($body['id'], $aircraft->id);
+        $this->assertEquals($body['name'], $aircraft->name);
+        $this->assertEquals($body['mtow'], $aircraft->mtow);
+        $this->assertEquals($body['zfw'], $aircraft->zfw);
 
         $resp = $this->get('/api/fleet/aircraft/'.$aircraft->id.'?registration='.$aircraft->registration);
         $body = $resp->json()['data'];
+
         $this->assertEquals($body['id'], $aircraft->id);
+        $this->assertEquals($body['name'], $aircraft->name);
+        $this->assertEquals($body['mtow'], $aircraft->mtow);
+        $this->assertEquals($body['zfw'], $aircraft->zfw);
 
         $resp = $this->get('/api/fleet/aircraft/'.$aircraft->id.'?icao='.$aircraft->icao);
         $body = $resp->json()['data'];
+
         $this->assertEquals($body['id'], $aircraft->id);
+        $this->assertEquals($body['name'], $aircraft->name);
+        $this->assertEquals($body['mtow'], $aircraft->mtow);
+        $this->assertEquals($body['zfw'], $aircraft->zfw);
     }
 
     public function testGetAllSettings()

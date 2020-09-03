@@ -16,6 +16,8 @@ use Carbon\Carbon;
  * @property string   icao
  * @property string   registration
  * @property int      flight_time
+ * @property float    mtow
+ * @property float    zfw
  * @property string   hex_code
  * @property Airport  airport
  * @property Subfleet subfleet
