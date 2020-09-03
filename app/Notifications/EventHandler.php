@@ -16,6 +16,7 @@ use App\Notifications\Messages\UserPending;
 use App\Notifications\Messages\UserRejected;
 use App\Notifications\Notifiables\Broadcast;
 use Exception;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
 
@@ -27,6 +28,7 @@ class EventHandler extends Listener
     private static $broadcastNotifyable;
 
     public static $callbacks = [
+        NewsAdded::class        => 'onNewsAdded',
         PirepAccepted::class    => 'onPirepAccepted',
         PirepFiled::class       => 'onPirepFile',
         PirepRejected::class    => 'onPirepRejected',
@@ -42,7 +44,7 @@ class EventHandler extends Listener
     /**
      * Send a notification to all of the admins
      *
-     * @param \Illuminate\Notifications\Notification $notification
+     * @param \App\Contracts\Notification $notification
      */
     protected function notifyAdmins($notification)
     {
@@ -56,8 +58,8 @@ class EventHandler extends Listener
     }
 
     /**
-     * @param User                                   $user
-     * @param \Illuminate\Notifications\Notification $notification
+     * @param User                        $user
+     * @param \App\Contracts\Notification $notification
      */
     protected function notifyUser($user, $notification)
     {
@@ -69,13 +71,25 @@ class EventHandler extends Listener
     }
 
     /**
-     * Send a notification to all users
+     * Send a notification to all users. Also can specify if a particular notification
+     * requires an opt-in
      *
-     * @param $notification
+     * @param \App\Contracts\Notification $notification
      */
-    protected function notifyAllUsers($notification)
+    protected function notifyAllUsers(\App\Contracts\Notification $notification)
     {
-        $users = User::all()->get();
+        $where = [];
+        if ($notification->requires_opt_in === true) {  // If the opt-in is required
+            $where['opt_in'] = true;
+        }
+
+        /** @var Collection $users */
+        $users = User::where($where)->get();
+        if (empty($users) || $users->count() === 0) {
+            return;
+        }
+
+        Log::info('Sending notification to '.$users->count().' users');
 
         try {
             Notification::send($users, $notification);
@@ -164,13 +178,13 @@ class EventHandler extends Listener
     }
 
     /**
-     * Notify all users of a news event
+     * Notify all users of a news event, but only the users which have opted in
      *
      * @param \App\Events\NewsAdded $event
      */
     public function onNewsAdded(NewsAdded $event): void
     {
         Log::info('NotificationEvents::onNewsAdded');
-        $this->notifyAllUsers(new Messages\NewsAdded($event->news));
+        $this->notifyAllUsers(new Messages\NewsAdded($event->news), true);
     }
 }

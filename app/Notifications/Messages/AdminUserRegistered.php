@@ -2,11 +2,11 @@
 
 namespace App\Notifications\Messages;
 
+use App\Contracts\Notification;
 use App\Models\User;
-use App\Notifications\BaseNotification;
 use App\Notifications\Channels\MailChannel;
 
-class AdminUserRegistered extends BaseNotification
+class AdminUserRegistered extends Notification
 {
     use MailChannel;
 

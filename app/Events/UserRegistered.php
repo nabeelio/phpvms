@@ -2,9 +2,10 @@
 
 namespace App\Events;
 
+use App\Contracts\Event;
 use App\Models\User;
 
-class UserRegistered extends BaseEvent
+class UserRegistered extends Event
 {
     public $user;
 

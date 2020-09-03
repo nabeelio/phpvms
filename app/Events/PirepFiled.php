@@ -2,9 +2,10 @@
 
 namespace App\Events;
 
+use App\Contracts\Event;
 use App\Models\Pirep;
 
-class PirepFiled extends BaseEvent
+class PirepFiled extends Event
 {
     public $pirep;
 
