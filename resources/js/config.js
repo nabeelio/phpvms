@@ -1,3 +1,9 @@
+/**
+ * Before you edit these, read the documentation on how these files are compiled:
+ * https://docs.phpvms.net/customize/building-assets
+ *
+ * Edits here don't take place until you compile these assets and then upload them.
+ */
 
 const base_url = document.head.querySelector('meta[name="base-url"]');
 const token = document.head.querySelector('meta[name="csrf-token"]');
