@@ -4,7 +4,7 @@
 @section('content')
   <div class="card border-blue-bottom">
     <div class="content">
-      {{ Form::model($subfleet, ['route' => ['admin.subfleets.update', $subfleet->id], 'method' => 'patch']) }}
+      {{ Form::model($subfleet, ['route' => ['admin.subfleets.update', $subfleet->id], 'method' => 'patch', 'autocomplete' => false]) }}
       @include('admin.subfleets.fields')
       {{ Form::close() }}
     </div>
