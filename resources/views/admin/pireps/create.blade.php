@@ -4,7 +4,7 @@
 <div class="content">
   <div class="card border-blue-bottom">
     <div class="content">
-      {{ Form::open(['route' => 'admin.pireps.store']) }}
+      {{ Form::open(['route' => 'admin.pireps.store', 'autocomplete' => false]) }}
       @include('admin.pireps.fields')
       {{ Form::close() }}
     </div>

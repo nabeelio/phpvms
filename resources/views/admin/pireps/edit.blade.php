@@ -22,7 +22,7 @@
           </div>
         </div>
 
-        {{ Form::model($pirep, ['route' => ['admin.pireps.update', $pirep->id], 'method' => 'patch']) }}
+        {{ Form::model($pirep, ['route' => ['admin.pireps.update', $pirep->id], 'method' => 'patch', 'autocomplete' => false]) }}
         @include('admin.pireps.fields')
         {{ Form::close() }}
       </div>
