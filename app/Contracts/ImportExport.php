@@ -3,9 +3,9 @@
 namespace App\Contracts;
 
 use App\Models\Airline;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
-use Log;
-use Validator;
 
 /**
  * Common functionality used across all of the importers
@@ -51,9 +51,9 @@ class ImportExport
      *
      * @param $code
      *
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return Airline
      */
-    public function getAirline($code)
+    public function getAirline($code): Airline
     {
         $airline = Airline::firstOrCreate([
             'icao' => $code,
