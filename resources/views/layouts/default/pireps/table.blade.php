@@ -30,7 +30,7 @@
         </td>
         <td>
           @if($pirep->aircraft)
-            {{ $pirep->aircraft->name }}
+            {{ optional($pirep->aircraft)->name }}
           @else
             -
           @endif
