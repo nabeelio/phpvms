@@ -94,7 +94,7 @@
           <div class="form-group col-sm-3">
             {{ Form::label('aircraft_id', 'Aircraft:') }}
             @if($pirep->read_only)
-              <p>{{ $pirep->aircraft->name }}</p>
+              <p>{{ optional($pirep->aircraft)->name }}</p>
               {{ Form::hidden('aircraft_id') }}
             @else
               {{ Form::select('aircraft_id', $aircraft_list, null, [
