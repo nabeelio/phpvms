@@ -2,7 +2,7 @@
 
 namespace Modules\Awards\Providers;
 
-use Illuminate\Support\ServiceProvider;
+use App\Contracts\Modules\ServiceProvider;
 
 class AwardServiceProvider extends ServiceProvider
 {

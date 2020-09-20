@@ -1,14 +1,15 @@
 <?php
 
-namespace $MODULE_NAMESPACE$\$STUDLY_NAME$\Http\Controllers\Admin;
+namespace $MODULE_NAMESPACE$\$STUDLY_NAME$\Http\Controllers\Frontend;
 
 use App\Contracts\Controller;
 use Illuminate\Http\Request;
 
 /**
- * Admin controller
+ * Class $CLASS$
+ * @package $CLASS_NAMESPACE$
  */
-class AdminController extends Controller
+class IndexController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,7 +20,7 @@ class AdminController extends Controller
      */
     public function index(Request $request)
     {
-        return view('$LOWER_NAME$::admin.index');
+        return view('$LOWER_NAME$::index');
     }
 
     /**
@@ -31,28 +32,18 @@ class AdminController extends Controller
      */
     public function create(Request $request)
     {
-        return view('$LOWER_NAME$::admin.create');
+        return view('$LOWER_NAME$::create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param Request $request
-     */
-    public function store(Request $request)
-    {
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param Request $request
      *
      * @return mixed
      */
-    public function edit(Request $request)
+    public function store(Request $request)
     {
-        return view('$LOWER_NAME$::admin.edit');
     }
 
     /**
@@ -64,7 +55,19 @@ class AdminController extends Controller
      */
     public function show(Request $request)
     {
-        return view('$LOWER_NAME$::admin.show');
+        return view('$LOWER_NAME$::show');
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param Request $request
+     *
+     * @return mixed
+     */
+    public function edit(Request $request)
+    {
+        return view('$LOWER_NAME$::edit');
     }
 
     /**

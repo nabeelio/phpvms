@@ -13,7 +13,9 @@ class ApiController extends Controller
 {
     /**
      * Just send out a message
+     *
      * @param Request $request
+     *
      * @return mixed
      */
     public function index(Request $request)
@@ -23,7 +25,9 @@ class ApiController extends Controller
 
     /**
      * Handles /hello
+     *
      * @param Request $request
+     *
      * @return mixed
      */
     public function hello(Request $request)

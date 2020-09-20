@@ -1,9 +1,11 @@
 <?php
 
-Route::group(['middleware' => [
-    'role:user' # leave blank to make this public
-]], function() {
-    # all your routes are prefixed with the above prefix
-    # e.g. yoursite.com/sample
-    Route::get('/', '$STUDLY_NAME$Controller@index');
-});
+Route::get('/', '$STUDLY_NAME$Controller@index');
+
+/*
+ * To register a route that needs to be authentication, wrap it in a
+ * Route::group() with the auth middleware
+ */
+// Route::group(['middleware' => 'auth'], function() {
+//     Route::get('/', '$STUDLY_NAME$Controller@index');
+// })

@@ -4,19 +4,19 @@ namespace $NAMESPACE$;
 
 use Illuminate\Routing\Router;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Route;
 
 /**
- * Class $CLASS$
- * @package $NAMESPACE$
+ * Register the routes required for your module here
  */
-class $CLASS$ extends ServiceProvider
+class RouteServiceProvider extends ServiceProvider
 {
     /**
      * The root namespace to assume when generating URLs to actions.
      *
      * @var string
      */
-    protected $rootUrlNamespace = '$MODULE_NAMESPACE$\$MODULE$\Http\Controllers';
+    protected $namespace = '$MODULE_NAMESPACE$\$MODULE$\$CONTROLLER_NAMESPACE$';
 
     /**
      * Called before routes are registered.
@@ -34,12 +34,62 @@ class $CLASS$ extends ServiceProvider
     /**
      * Define the routes for the application.
      *
+     * @param \Illuminate\Routing\Router $router
+     *
      * @return void
      */
     public function map(Router $router)
     {
-        // if (!app()->routesAreCached()) {
-        //    require __DIR__ . '$ROUTES_PATH$';
-        // }
+        $this->registerWebRoutes();
+        $this->registerAdminRoutes();
+        $this->registerApiRoutes();
+    }
+
+    /**
+     *
+     */
+    protected function registerWebRoutes(): void
+    {
+        $config = [
+            'as'         => '$LOWER_NAME$.',
+            'prefix'     => '$LOWER_NAME$',
+            'namespace'  => $this->namespace.'\Frontend',
+            'middleware' => ['web'],
+        ];
+
+        Route::group($config, function() {
+            $this->loadRoutesFrom(__DIR__.'/../Http/Routes/web.php');
+        });
+    }
+
+    protected function registerAdminRoutes(): void
+    {
+        $config = [
+            'as'         => 'admin.$LOWER_NAME$.',
+            'prefix'     => 'admin/$LOWER_NAME$',
+            'namespace'  => $this->namespace.'\Admin',
+            'middleware' => ['web', 'role:admin'],
+        ];
+
+        Route::group($config, function() {
+            $this->loadRoutesFrom(__DIR__.'/../Http/Routes/web.php');
+        });
+    }
+
+    /**
+     * Register any API routes your module has. Remove this if you aren't using any
+     */
+    protected function registerApiRoutes(): void
+    {
+        $config = [
+            'as'         => 'admin.$LOWER_NAME$.',
+            'prefix'     => 'admin/$LOWER_NAME$',
+            'namespace'  => $this->namespace.'\Api',
+            'middleware' => ['api'],
+        ];
+
+        Route::group($config, function() {
+            $this->loadRoutesFrom(__DIR__.'/../Http/Routes/api.php');
+        });
     }
 }
