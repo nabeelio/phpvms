@@ -34,7 +34,7 @@
         "joshbrw/laravel-module-installer": "0.1.*",
         "laracasts/flash": "^3.1",
         "laravel/helpers": "^1.2",
-        "laravelcollective/html": "~6.1.0",
+        "laravelcollective/html": "~6.2.0",
         "layershifter/tld-extract": "^2.0",
         "league/csv": "9.2.*",
         "league/geotools": "0.8.*",

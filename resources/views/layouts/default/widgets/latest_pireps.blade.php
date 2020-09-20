@@ -8,8 +8,8 @@
         <a href="{{route('frontend.airports.show', [$p->dpt_airport_id])}}">{{$p->dpt_airport_id}}</a>
         &nbsp;-&nbsp;
         <a href="{{route('frontend.airports.show', [$p->arr_airport_id])}}">{{$p->arr_airport_id}}</a>&nbsp;
-        @if($p->aircraft)
-          {{ $p->aircraft->name }}
+        @if(!empty($p->aircraft))
+          {{ optional($p->aircraft)->name }}
         @endif
       </td>
     </tr>

@@ -107,9 +107,9 @@ return [
      */
     'docs' => [
         'root'             => 'http://docs.phpvms.net',
-        'cron'             => '/configuration/cron',
+        'cron'             => '/installation/cron',
         'finances'         => '/concepts/finances',
-        'importing_legacy' => '/setup/importing-from-v2-v5',
+        'importing_legacy' => '/installation/importing',
         'load_factor'      => '/operations/flights#load-factor',
         'subfleets'        => '/concepts/basics#subfleets-and-aircraft',
     ],

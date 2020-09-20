@@ -2,12 +2,13 @@
 
 namespace App\Events;
 
+use App\Contracts\Event;
 use App\Models\User;
 
 /**
  * Event triggered when a user's state changes
  */
-class UserStateChanged extends BaseEvent
+class UserStateChanged extends Event
 {
     public $old_state;
     public $user;

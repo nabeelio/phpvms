@@ -3,6 +3,7 @@
 namespace App\Services\ImportExport;
 
 use App\Contracts\ImportExport;
+use App\Models\Airport;
 use App\Models\Enums\Days;
 use App\Models\Enums\FlightType;
 use App\Models\Fare;
@@ -11,7 +12,7 @@ use App\Models\Subfleet;
 use App\Services\AirportService;
 use App\Services\FareService;
 use App\Services\FlightService;
-use Log;
+use Illuminate\Support\Facades\Log;
 
 /**
  * The flight importer can be imported or export. Operates on rows
@@ -77,25 +78,14 @@ class FlightImporter extends ImportExport
         // Get the airline ID from the ICAO code
         $airline = $this->getAirline($row['airline']);
 
-        // Check if the imported flight is a duplicate
-        /*$temp_flight = new Flight([
-            'airline_id'    => $airline->id,
-            'flight_number' => $row['flight_number'],
-            'route_code'    => $row['route_code'],
-            'route_leg'     => $row['route_leg'],
-        ]);
-
-        if($this->flightSvc->isFlightDuplicate($temp_flight)) {
-            $this->errorLog('Error in row '.$index.': Duplicate flight number detected');
-            return false;
-        }*/
-
         // Try to find this flight
+        /** @var Flight $flight */
         $flight = Flight::firstOrNew([
             'airline_id'    => $airline->id,
             'flight_number' => $row['flight_number'],
             'route_code'    => $row['route_code'],
             'route_leg'     => $row['route_leg'],
+            'visible'       => true,
         ], $row);
 
         $row['dpt_airport'] = strtoupper($row['dpt_airport']);
@@ -200,9 +190,9 @@ class FlightImporter extends ImportExport
      *
      * @param $airport
      *
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return Airport
      */
-    protected function processAirport($airport)
+    protected function processAirport($airport): Airport
     {
         return $this->airportSvc->lookupAirportIfNotFound($airport);
     }

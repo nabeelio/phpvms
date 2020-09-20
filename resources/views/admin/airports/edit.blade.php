@@ -6,7 +6,9 @@
       {{ Form::model($airport, [
            'route' => ['admin.airports.update', $airport->id],
            'method' => 'patch',
-           'id' => 'airportForm'])
+           'id' => 'airportForm',
+           'autocomplete' => false,
+           ])
       }}
       @include('admin.airports.fields')
       {{ Form::close() }}

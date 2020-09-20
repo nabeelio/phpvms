@@ -4,7 +4,7 @@
 @section('content')
   <div class="card border-blue-bottom">
     <div class="content">
-      {{ Form::model($flight, ['route' => ['admin.flights.update', $flight->id], 'method' => 'patch']) }}
+      {{ Form::model($flight, ['route' => ['admin.flights.update', $flight->id], 'method' => 'patch', 'autocomplete' => false]) }}
       @include('admin.flights.fields')
       {{ Form::close() }}
     </div>

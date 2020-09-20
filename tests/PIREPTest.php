@@ -13,11 +13,13 @@ use App\Models\Navdata;
 use App\Models\Pirep;
 use App\Models\User;
 use App\Notifications\Messages\PirepAccepted;
+use App\Notifications\Messages\PirepSubmitted;
 use App\Repositories\SettingRepository;
 use App\Services\AircraftService;
 use App\Services\BidService;
 use App\Services\FlightService;
 use App\Services\PirepService;
+use App\Services\UserService;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Notification;
 
@@ -210,6 +212,38 @@ class PIREPTest extends TestCase
         $this->assertTrue($pirep_ids->contains($pirep_in_progress->id));
         $this->assertFalse($pirep_ids->contains($pirep_done->id));
         $this->assertFalse($pirep_ids->contains($pirep_cancelled->id));
+    }
+
+    /**
+     * Make sure that a notification has been sent out to admins when a PIREP is submitted
+     *
+     * @throws \Exception
+     */
+    public function testPirepNotifications()
+    {
+        /** @var User $user */
+        $user = factory(User::class)->create([
+            'flights'     => 0,
+            'flight_time' => 0,
+            'rank_id'     => 1,
+        ]);
+
+        $admin = factory(User::class)->create();
+
+        /** @var UserService $userSvc */
+        $userSvc = app(UserService::class);
+        $userSvc->addUserToRole($admin, 'admin');
+
+        $pirep = factory(Pirep::class)->create([
+            'airline_id' => 1,
+            'user_id'    => $user->id,
+        ]);
+
+        $this->pirepSvc->create($pirep);
+        $this->pirepSvc->submit($pirep);
+
+        // Make sure a notification was sent out to the admin
+        Notification::assertSentTo([$admin], PirepSubmitted::class);
     }
 
     /**

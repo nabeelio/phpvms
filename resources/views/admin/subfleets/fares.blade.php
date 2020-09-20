@@ -4,7 +4,7 @@
     @component('admin.components.info')
       Fares assigned to the current subfleet. These can be overridden,
       otherwise, the value used is the default, which comes from the fare.
-      The pay can be set as a fixed amount, or a percentage of the default rate
+      The pay can be set as a fixed amount, or a percentage of the base fare
     @endcomponent
   </div>
   <br/>

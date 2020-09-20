@@ -43,7 +43,7 @@ build:
 # This is to build all the stylesheets, etc
 .PHONY: build-assets
 build-assets:
-	yarn run production
+	npm run production
 
 .PHONY: install
 install: build

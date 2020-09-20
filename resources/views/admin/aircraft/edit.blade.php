@@ -3,7 +3,11 @@
 @section('content')
   <div class="card border-blue-bottom">
     <div class="content">
-      {{ Form::model($aircraft, ['route' => ['admin.aircraft.update', $aircraft->id], 'method' => 'patch']) }}
+      {{ Form::model($aircraft, [
+            'route' => ['admin.aircraft.update', $aircraft->id],
+            'method' => 'patch',
+            'autocomplete' => false,
+            ]) }}
       @include('admin.aircraft.fields')
       {{ Form::close() }}
     </div>

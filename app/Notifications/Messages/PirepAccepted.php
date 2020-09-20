@@ -2,14 +2,14 @@
 
 namespace App\Notifications\Messages;
 
+use App\Contracts\Notification;
 use App\Models\Pirep;
-use App\Notifications\BaseNotification;
 use App\Notifications\Channels\MailChannel;
 
 /**
  * Send the PIREP accepted message to a particular user
  */
-class PirepAccepted extends BaseNotification
+class PirepAccepted extends Notification
 {
     use MailChannel;
 

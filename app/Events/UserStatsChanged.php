@@ -2,9 +2,10 @@
 
 namespace App\Events;
 
+use App\Contracts\Event;
 use App\Models\User;
 
-class UserStatsChanged extends BaseEvent
+class UserStatsChanged extends Event
 {
     public $stat_name;
     public $old_value;

@@ -8,9 +8,6 @@ use Illuminate\Support\Collection;
 use Prettus\Repository\Contracts\CacheableInterface;
 use Prettus\Repository\Traits\CacheableRepository;
 
-/**
- * Class ExpenseRepository
- */
 class ExpenseRepository extends Repository implements CacheableInterface
 {
     use CacheableRepository;
@@ -34,7 +31,8 @@ class ExpenseRepository extends Repository implements CacheableInterface
     public function getAllForType($type, $airline_id = null, $ref_model = null, $ref_model_id = null)
     {
         $where = [
-            'type' => $type,
+            'type'   => $type,
+            'active' => true,
             ['airline_id', '=', null],
         ];
 
@@ -59,6 +57,7 @@ class ExpenseRepository extends Repository implements CacheableInterface
         if ($airline_id) {
             $where = [
                 'type'       => $type,
+                'active'     => true,
                 'airline_id' => $airline_id,
             ];
 

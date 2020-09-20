@@ -38,7 +38,6 @@ class EventServiceProvider extends ServiceProvider
 
         UpdateAvailable::class => [],
         UpdateSucceeded::class => [],
-
     ];
 
     protected $subscribe = [
