@@ -58,11 +58,7 @@
               <div class="icon-background">
                 <i class="fas fa-map-marker icon"></i>
               </div>
-              @if($user->current_airport)
-                <h3 class="header">{{ $user->curr_airport_id }}</h3>
-              @else
-                <h3 class="header">{{ $user->home_airport_id }}</h3>
-              @endif
+              <h3 class="header">{{ $current_airport }}</h3>
               <h5 class="description">@lang('airports.current')</h5>
             </div>
           </div>
