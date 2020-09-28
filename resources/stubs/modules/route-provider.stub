@@ -16,7 +16,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    protected $namespace = 'Modules\$MODULE$\Http\Controllers';
+    protected $namespace = '$MODULE_NAMESPACE$\$MODULE$\Http\Controllers';
 
     /**
      * Called before routes are registered.
