@@ -1,0 +1,136 @@
+[33m249107ec[m[33m ([m[1;36mHEAD -> [m[1;32mUPDATE_MODULE_FILES[m[33m)[m Not needed config file.
+[33me56ddda3[m Re-Inserted Module Namespace
+[33md6ac17fb[m Merge branch 'dev' into UPDATE_MODULE_FILES
+[33m0248b846[m Updated Module Files
+[33m5df28eb0[m Fix module main service provider name
+[33m0dbf8b86[m Public JS files Updated! (#839)
+[33m5856f88a[m[33m ([m[1;31morigin/dev[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mdev[m[33m)[m Updated index.js inside Map folder (#837)
+[33m5f9b9399[m Use $current_airport
+[33m77fe6679[m Update module generation #714 (#716)
+[33m435fa326[m Fix aircraft field name #824
+[33m78ca06e9[m Add optional() around aircraft info #824
+[33m2dd3dd58[m Make sure we're getting only active expenses
+[33mac7a5a65[m Update cron path
+[33mc5ab0978[m Force visible flag to true for imports #818
+[33m8398d94c[m Bump js-yaml from 3.11.0 to 3.13.1 (#810)
+[33m1db32952[m Disable autocomplete in admin forms #816 (#817)
+[33m5dcbd01c[m Update links to some docs
+[33mc6d12802[m Fix link to assets docs
+[33m07de3360[m Switch toolchain from yarn to npm
+[33mec9ef9c1[m Add notes to refer to docs when modifying the JS files
+[33m23962a1a[m Add `fileinfo` ext to requirements #735
+[33m9a735d29[m Update language for subfleet fare
+[33m51004b14[m Fix validator type for aircraft #805
+[33m50a0b89c[m Add MTOW and ZFW to aircraft editor #775 (#805)
+[33me99c22b0[m Notifications fixes (#804)
+[33m55fa0147[m Fix path for bootstrap file #798
+[33m552196ce[m Fix root detection #798
+[33m7aa089bd[m Update Laravel/composer dependencies (#803)
+[33m1e4b0d62[m Detect the phpvms folder one root level above #798 (#799)
+[33mfebfff5f[m Update MailChannel.php (#793)
+[33mcdf7b13b[m Allow any airport to be flown from #783 (#788)
+[33m51186bed[m Fix for aircraft not being detected at departure airport #781 (#789)
+[33mac1dc493[m Replace IP in test
+[33mbe725711[m Check if the root domain is an IP address
+[33md3e6d2c4[m Add extra logging for user not being at proper airport
+[33m4fa58cec[m Fix clear cache errors with duplicate route names #759 (#787)
+[33m27316f96[m Fix missing user fields #785 (#786)
+[33me5ed66b3[m Fix attribute type for PIREP status
+[33mee6982f5[m Build fix/StyleCI
+[33m4f46e755[m Check for active flag for user fields in registration
+[33m3ac03d97[m Bump elliptic from 6.5.2 to 6.5.3 (#780)
+[33mace7c425[m Fix typo for unique email check
+[33m3ebf4f29[m Custom user fields #711 (#772)
+[33m3739cc8e[m Bump lodash from 4.17.15 to 4.17.19 (#770)
+[33mbbb5f1d1[m Check for null values when checking pilot ID #760 (#768)
+[33m64e4c91e[m Check public pages for authorization #761
+[33m3e2b1fe4[m Add spacing to fare labels #763 (#766)
+[33m420bd7e4[m Add ability to use a link instead of a page #750 (#757)
+[33me4b1c238[m Add ACARS update event #755 (#756)
+[33m57e91027[m Fix the search route for pending PIREPs #752 (#754)
+[33m475ad3a6[m Bump websocket-extensions from 0.1.3 to 0.1.4 (#753)
+[33m340f5211[m Fix public pages not showing properly #708 (#749)
+[33mc6482bd1[m Add last_pirep test
+[33mdf15053b[m Remove trailing comma
+[33m04b8be16[m Add show_datetime_format(); optional default timezone parameter #741 (#746)
+[33m3d211535[m Remove Google Analytics #728 (#745)
+[33mc1408cb8[m Fleet properties not saving #731 (#744)
+[33m519ae600[m Fix METAR invalid parameter #738 (#743)
+[33m82bae9cc[m Update the flash messages #739 (#742)
+[33m3a07e342[m Add pt-br language #736 (#737)
+[33m89ca0b49[m Merge pull request #730 from nabeelio/729-Multi-Expenses
+[33m5b16c88b[m Fix for all airport expenses being applied #729
+[33mc67e45e9[m Merge pull request #727 from nabeelio/724-Db-Memory-Syntax-Error
+[33m688be6f7[m Fix params for launching process #724
+[33m8527b39f[m Merge pull request #725 from nabeelio/718-Airline-Active
+[33ma443908b[m Frontend flight controller for active airlines
+[33mc46fc917[m Check for airline being active; fix tests for L7 #718
+[33m71c09aae[m Merge pull request #721 from nabeelio/715-Error-Page-Skins
+[33m5046d260[m Explicitly set theme in error handler, refactor middleware #715
+[33m4cd7eef9[m Merge pull request #720 from nabeelio/719-Login-On-Leave
+[33mf17cd15b[m Allow on-leave user to login; show alert message and ensure status is updated #719
+[33m5f805322[m Merge pull request #717 from nabeelio/715-Theme
+[33m09cd7adb[m Apply theme globally; add mail templates into theme folder #715
+[33mfb7d9880[m Merge pull request #712 from nabeelio/707-Module-Enable
+[33meb90d087[m Make sure the Updater module is enabled #707
+[33m1ebb181c[m Merge pull request #710 from nabeelio/707-Update-Error
+[33m975ee9b8[m Fix for update showing available when one isn't #707
+[33m52379c37[m Merge pull request #705 from nabeelio/704-Acars-Map-Center
+[33mbcf7acf9[m Fix error with map centering on invalid layers #704
+[33m3b1936e1[m Merge pull request #699 from nabeelio/698-Login-Pilot-Id
+[33mb9aeda1c[m Enable logins using pilot ID #698
+[33m00505a16[m Merge pull request #697 from nabeelio/673-Laravel-7
+[33m6ebbe020[m Formatting
+[33m5754103a[m Bump minimum PHP version to 7.3
+[33m6078163d[m Initial pass at Laravel 7 support #673
+[33m885e1d59[m Merge pull request #696 from nabeelio/693-Public-Folder-Permissions
+[33m876457af[m Use absolute paths for permissions check #693
+[33m8c75bd09[m Merge pull request #695 from sebiecker/dev
+[33m585c9578[m Update Permissions Seed
+[33m78ee1a97[m[33m ([m[1;33mtag: 7.0.0-beta.4[m[33m, [m[1;31morigin/master[m[33m)[m Merge pull request #690 from nabeelio/7.0.0-beta.4
+[33m7cd01a24[m Update CHANGELOG
+[33md5ea0952[m Merge branch '7.0.0-beta.4' into dev
+[33m1054d538[m Emails/notifications not sending #675 (#686)
+[33m69fb5a53[m typo in dependency on 'leaflet.geodesic' (#687)
+[33m5b771be6[m Fix flight hours field #683 (#684)
+[33m91353371[m Blank/null IATA code isn't unique when added #679 (#681)
+[33m95608dbb[m Merge pull request #682 from nabeelio/680-METAR-Parse-Error
+[33ma8fb8e93[m METAR: KM as unit in visibility #680
+[33m2ea18ae1[m Fix airline creation logic in installer #677 (#678)
+[33m99f4f3b3[m Change currency from settings #671 (#672)
+[33m03cfc648[m Create journal when new airline is created #667 (#670)
+[33m866d95c9[m Check for SB being avail before filing #668 (#669)
+[33mb21201c1[m Fix test
+[33m209b2790[m Fix URL to briefing
+[33m90a0a8cf[m Add mock SB API key
+[33m8e97a7cc[m Load Simbrief and flight data when getting bids #664 (#665)
+[33mb1bdd40d[m Fix pilots page now showing up #655 (#660)
+[33m40a94cb9[m Add privatized version of name #656 (#658)
+[33m3c0cd340[m Trim list_to_assoc items
+[33m261984ee[m Fix PirepComment response; 201 to 200 (#654)
+[33me8037c7d[m Return full PIREP when updating
+[33m6f05dd6c[m Add full user response to PIREP API call
+[33m072d5f76[m Formatting for StyleCI
+[33md1d243ef[m Update response objects
+[33m819d3bcb[m Upgrade packages with security alerts (#653)
+[33m60f378f5[m Add Simbrief entries as sample data for load #651 (#652)
+[33m6978fbf2[m Fix API tests
+[33m11b1c2b7[m Fix tests for API
+[33m655ac66b[m Formatting
+[33me9b30fbe[m Make sure user and acars data is sent from API
+[33m82b873c0[m Domain detection failing for .co.uk, etc #647 (#648)
+[33m3e7d5f61[m Use theme check in all frontend routes #638 (#645)
+[33mba0ae05c[m Make icon column nullable #641
+[33m45873431[m Add public/private pages #641 (#644)
+[33m4a3ec389[m Option for SB only on bids; add the new file type #642 (#643)
+[33mf3fe3a56[m Don't return bids by default, fix user flight column #639 (#640)
+[33m88e8ea6e[m Add total flights
+[33mcce575c1[m Fix avatar/gravatar call throwing error
+[33meafea01e[m Fix gravatar url check
+[33m62cea3eb[m Load the user airline/bid ahead of time; SB XML name fix
+[33m3f7a7d0f[m Remove empty fields from user return, add avatar
+[33m877d5a54[m Account for admin role, don't error out on null rows #632 (#637)
+[33m9e538626[m SimBrief integration #405 (#635)
+[33m04b9e37e[m Fix formatting
+[33m8998dabb[m Drop the unique index from subfleets.type #628
+[33me458a761[m Include airline name in s
