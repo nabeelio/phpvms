@@ -6,5 +6,9 @@
   "Updater": true,
   "VMSAcars": true,
   "Vacentral": true,
+<<<<<<< HEAD
   "TestModule": true
+=======
+  "TestModule": true,
+>>>>>>> 6da017cc085bca62e20291a30435da86d742427e
 }
