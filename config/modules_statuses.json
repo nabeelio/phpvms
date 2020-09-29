@@ -6,5 +6,6 @@
     "Updater": true,
     "VMSAcars": true,
     "Vacentral": true,
-    "TestModule": true
+    "TestModule": true,
+    "ModulesManager": true
 }
