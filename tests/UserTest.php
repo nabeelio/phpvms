@@ -100,7 +100,7 @@ class UserTest extends TestCase
             'capacity' => 200,
         ]);
 
-        $overrides =  [
+        $overrides = [
             'price'    => 50,
             'capacity' => 400,
         ];

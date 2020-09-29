@@ -253,7 +253,7 @@ class UserService extends Service
         }
 
         // Map the subfleets with the proper fare information
-        return $subfleets->transform(function($sf, $key)  {
+        return $subfleets->transform(function ($sf, $key) {
             $sf->fares = $this->fareSvc->getForSubfleet($sf);
             return $sf;
         });
