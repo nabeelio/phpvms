@@ -29,25 +29,27 @@ class UserService extends Service
 {
     private $aircraftRepo;
     private $airlineRepo;
+    private $fareSvc;
     private $subfleetRepo;
     private $userRepo;
 
     /**
-     * UserService constructor.
-     *
      * @param AircraftRepository $aircraftRepo
      * @param AirlineRepository  $airlineRepo
+     * @param FareService        $fareSvc
      * @param SubfleetRepository $subfleetRepo
      * @param UserRepository     $userRepo
      */
     public function __construct(
         AircraftRepository $aircraftRepo,
         AirlineRepository $airlineRepo,
+        FareService $fareSvc,
         SubfleetRepository $subfleetRepo,
         UserRepository $userRepo
     ) {
         $this->aircraftRepo = $aircraftRepo;
         $this->airlineRepo = $airlineRepo;
+        $this->fareSvc = $fareSvc;
         $this->subfleetRepo = $subfleetRepo;
         $this->userRepo = $userRepo;
     }
@@ -243,11 +245,18 @@ class UserService extends Service
     public function getAllowableSubfleets($user)
     {
         if ($user === null || setting('pireps.restrict_aircraft_to_rank') === false) {
-            return $this->subfleetRepo->with('aircraft')->all();
+            /** @var Collection $subfleets */
+            $subfleets = $this->subfleetRepo->with('aircraft')->all();
+        } else {
+            /** @var Collection $subfleets */
+            $subfleets = $user->rank->subfleets()->with('aircraft')->get();
         }
 
-        $subfleets = $user->rank->subfleets();
-        return $subfleets->with('aircraft')->get();
+        // Map the subfleets with the proper fare information
+        return $subfleets->transform(function ($sf, $key) {
+            $sf->fares = $this->fareSvc->getForSubfleet($sf);
+            return $sf;
+        });
     }
 
     /**
