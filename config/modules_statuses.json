@@ -7,5 +7,6 @@
     "VMSAcars": true,
     "Vacentral": true,
     "TestModule": true,
-    "ModulesManager": true
+    "ModulesManager": true,
+    "AdvancedBooking": true
 }

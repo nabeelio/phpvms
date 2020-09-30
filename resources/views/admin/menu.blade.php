@@ -74,6 +74,10 @@
       <li><a href="{!! url('/admin/pages') !!}"><i class="pe-7s-note"></i>pages/links</a></li>
       @endability
 
+      @ability('admin', 'modules')
+      <li><a href="{!! url('/admin/modulesmanager') !!}"><i class="pe-7s-note"></i>Modules Manager</a></li>
+      @endability
+
       @ability('admin', 'maintenance')
       <li><a href="{{ url('/admin/maintenance') }}"><i class="pe-7s-tools"></i>maintenance</a></li>
       @endability

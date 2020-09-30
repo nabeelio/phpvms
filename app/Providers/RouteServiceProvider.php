@@ -378,6 +378,36 @@ class RouteServiceProvider extends ServiceProvider
                 'delete',
             ], 'dashboard/news', ['uses' => 'DashboardController@news'])
                 ->name('dashboard.news')->middleware('update_pending', 'ability:admin,admin-access');
+
+
+            //Modules
+            Route::as('modulesmanager.')->prefix('modulesmanager')
+                ->middleware(['ability:admin, modules'])
+                ->group(function () {
+
+                    //Modules Index
+                    Route::get('/', 'ModulesController@index')
+                        ->name('index');
+
+                    //Add Module
+                    Route::match([
+                        'get',
+                        'post',
+                    ], '/add', 'ModulesController@addModule')
+                        ->name('add');
+
+                    //Edit Module
+                    Route::match([
+                        'get',
+                        'post',
+                    ], '/{id}', 'ModulesController@editModule')
+                        ->name('edit');
+
+                    //Delete Module
+                    Route::delete('/{id}', 'ModulesController@deleteModule')
+                        ->name('delete');
+                });
+
         });
     }
 

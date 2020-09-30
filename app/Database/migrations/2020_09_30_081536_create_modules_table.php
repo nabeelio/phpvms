@@ -1,13 +1,10 @@
 <?php
 
-use App\Contracts\Migration;
-use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-/**
- * Class CreateModulesManagerTable
- */
-class CreateModulesManagerTable extends Migration
+class CreateModulesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -16,9 +13,9 @@ class CreateModulesManagerTable extends Migration
      */
     public function up()
     {
-        Schema::create('modules_manager', function (Blueprint $table) {
+        Schema::create('modules', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('module_name');
+            $table->string('name');
             $table->boolean('enabled')->default(1);
             $table->timestamps();
         });
@@ -31,6 +28,6 @@ class CreateModulesManagerTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('modules_manager');
+        Schema::dropIfExists('modules');
     }
 }
