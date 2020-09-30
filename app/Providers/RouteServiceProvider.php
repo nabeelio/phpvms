@@ -381,31 +381,27 @@ class RouteServiceProvider extends ServiceProvider
 
 
             //Modules
-            Route::as('modulesmanager.')->prefix('modulesmanager')
+            Route::as('modules.')->prefix('modules')
                 ->middleware(['ability:admin, modules'])
                 ->group(function () {
 
                     //Modules Index
-                    Route::get('/', 'ModulesController@index')
-                        ->name('index');
+                    Route::get('/', 'ModulesController@index')->name('index');
 
                     //Add Module
-                    Route::match([
-                        'get',
-                        'post',
-                    ], '/add', 'ModulesController@addModule')
-                        ->name('add');
+                    Route::get('/create','ModulesController@create')->name('create');
+
+                    //Store Module
+                    Route::post('/create', 'ModulesController@store')->name('store');
 
                     //Edit Module
-                    Route::match([
-                        'get',
-                        'post',
-                    ], '/{id}', 'ModulesController@editModule')
-                        ->name('edit');
+                    Route::get('/{id}/edit','ModulesController@edit')->name('edit');
+
+                    //Update Module
+                    Route::post('/{id}','ModulesController@update')->name('update');
 
                     //Delete Module
-                    Route::delete('/{id}', 'ModulesController@deleteModule')
-                        ->name('delete');
+                    Route::delete('/{id}', 'ModulesController@destroy')->name('destroy');
                 });
 
         });

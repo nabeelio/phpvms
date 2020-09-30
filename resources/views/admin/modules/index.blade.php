@@ -2,7 +2,7 @@
 @section('title', "Modules Manager")
 @section('actions')
   <li>
-    <a href="{{ route('admin.modulesmanager.add') }}">
+    <a href="{{ route('admin.modules.create') }}">
       <i class="ti-plus"></i>
       Add New</a>
   </li>
@@ -30,7 +30,7 @@
                   @endif
                 </td>
                 <td>
-                  <a class="btn btn-primary" href="{{ route('admin.modulesmanager.edit', [$module->id]) }}">Edit Module</a>
+                  <a class="btn btn-primary" href="{{ route('admin.modules.edit', [$module->id]) }}">Edit Module</a>
                 </td>
               </tr>
             @empty

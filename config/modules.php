@@ -1,5 +1,6 @@
 <?php
 
+use App\Support\Modules\DatabaseActivator;
 use Nwidart\Modules\Activators\FileActivator;
 
 return [
@@ -162,7 +163,7 @@ return [
         'translations' => true,
     ],
 
-    'activator'  => 'file',
+    'activator'  => 'database',
     'activators' => [
         'file' => [
             'class'          => FileActivator::class,
@@ -170,5 +171,8 @@ return [
             'cache-key'      => 'activator.installed',
             'cache-lifetime' => 0,
         ],
+        'database' => [
+            'class' => DatabaseActivator::class
+        ]
     ],
 ];

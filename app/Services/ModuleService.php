@@ -3,6 +3,12 @@
 namespace App\Services;
 
 use App\Contracts\Service;
+use App\Models\Module;
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Str;
+use Madnest\Madzipper\Madzipper;
 
 class ModuleService extends Service
 {
@@ -70,4 +76,54 @@ class ModuleService extends Service
     {
         return self::$adminLinks;
     }
+
+    public function createModule($request)
+    {
+        $zipper = new Madzipper;
+
+        $file = $request->file('module_file');
+
+        $temp = storage_path('/app/temp_modules');
+
+        $zipper->make($file)->extractTo($temp);
+
+        $module = '';
+
+        $root_files = scandir($temp);
+
+        if(!in_array( 'module.json', $root_files))
+        {
+            $temp .= '/'.$root_files[2];
+        }
+
+        foreach(glob($temp.'/*.json') as $file)
+        {
+            if(Str::contains($file, 'module.json'))
+            {
+                $json = json_decode(file_get_contents($file), true);
+                $module = $json['name'];
+            }
+        }
+
+        if($module === '')
+        {
+            return false;
+        } else {
+            $toCopy = base_path().'/modules/'.$module;
+            if(File::exists($toCopy))
+            {
+                return false;
+            }
+            File::copyDirectory($temp, $toCopy);
+
+            Artisan::call('config:cache');
+
+            Module::create([
+                'name' => $module,
+                'enabled' => $request->has('enabled') ? 1 : 0,
+            ]);
+            return true;
+        }
+    }
+
 }

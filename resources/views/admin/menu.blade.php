@@ -75,7 +75,7 @@
       @endability
 
       @ability('admin', 'modules')
-      <li><a href="{!! url('/admin/modulesmanager') !!}"><i class="pe-7s-note"></i>Modules Manager</a></li>
+      <li><a href="{!! url('/admin/modules') !!}"><i class="pe-7s-note"></i>Modules Manager</a></li>
       @endability
 
       @ability('admin', 'maintenance')

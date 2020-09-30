@@ -25,7 +25,7 @@
         </ul>
       </ul>
       <hr>
-      <form method="post" action="{{route('admin.modulesmanager.add')}}" enctype="multipart/form-data">
+      <form method="post" action="{{route('admin.modules.store')}}" enctype="multipart/form-data">
         @csrf
         <div class="form-group">
           <label>Module File : </label>

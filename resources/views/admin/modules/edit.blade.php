@@ -4,7 +4,7 @@
   <div class="card border-blue-bottom">
     <div class="content">
       <h5>Change Module Status : </h5>
-      {{Form::open(['route' => ['admin.modulesmanager.edit', $module->id]])}}
+      {{Form::open(['route' => ['admin.modules.update', $module->id]])}}
 
       <div class="form-group">
         {{Form::label('Enabled ?')}}
@@ -19,7 +19,7 @@
       <h5>Delete Module</h5>
       <div class="row">
         <div class="col-lg-6">
-          {{Form::open(['route' => ['admin.modulesmanager.delete', $module->id], 'method' => 'delete'])}}
+          {{Form::open(['route' => ['admin.modules.destroy', $module->id], 'method' => 'delete'])}}
 
           <div class="form-group">
             {{Form::label('Type in "'.$module->name.'" (without quotes) to Delete :')}}
