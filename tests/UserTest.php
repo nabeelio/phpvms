@@ -85,6 +85,7 @@ class UserTest extends TestCase
     /**
      * Flip the setting for getting all of the user's aircraft restricted
      * by rank. Make sure that they're all returned
+     *
      * @throws \Exception
      */
     public function testGetAllAircraft()
