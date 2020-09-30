@@ -85,6 +85,7 @@ class UserTest extends TestCase
     /**
      * Flip the setting for getting all of the user's aircraft restricted
      * by rank. Make sure that they're all returned
+     * @throws \Exception
      */
     public function testGetAllAircraft()
     {
@@ -135,7 +136,7 @@ class UserTest extends TestCase
         $this->assertEquals($subfleetACalled->fares[0]['capacity'], $overrides['capacity']);
 
         /**
-         * Check via API
+         * Check via API, but should only show the single subfleet being returned
          */
         $this->settingsRepo->store('pireps.restrict_aircraft_to_rank', true);
 
@@ -146,6 +147,18 @@ class UserTest extends TestCase
         $subfleetAFromApi = collect($body)->firstWhere('id', $subfleetA['subfleet']->id);
         $this->assertEquals($subfleetAFromApi['fares'][0]['price'], $overrides['price']);
         $this->assertEquals($subfleetAFromApi['fares'][0]['capacity'], $overrides['capacity']);
+
+        // Read the user's profile and make sure that subfleet C is not part of this
+        // Should only return a single subfleet (subfleet A)
+        $resp = $this->get('/api/user', [], $user);
+        $resp->assertStatus(200);
+
+        $body = $resp->json('data');
+        $subfleets = $body['rank']['subfleets'];
+
+        $this->assertEquals(1, count($subfleets));
+        $this->assertEquals($subfleets[0]['fares'][0]['price'], $overrides['price']);
+        $this->assertEquals($subfleets[0]['fares'][0]['capacity'], $overrides['capacity']);
     }
 
     /**

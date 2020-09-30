@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use App\Models\Aircraft;
 use App\Models\Subfleet;
 
 trait TestData
@@ -72,7 +73,7 @@ trait TestData
             $aircraft_count = \random_int(2, 10);
         }
 
-        $aircraft = factory(\App\Models\Aircraft::class, $aircraft_count)->create([
+        $aircraft = factory(Aircraft::class, $aircraft_count)->create([
             'subfleet_id' => $subfleet->id,
             'airport_id'  => $airport_id,
         ]);
