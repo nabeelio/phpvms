@@ -9,7 +9,6 @@ use Nwidart\Modules\Module;
 
 class DatabaseActivator implements ActivatorInterface
 {
-
     /**
      * Laravel config instance
      *
@@ -141,6 +140,4 @@ class DatabaseActivator implements ActivatorInterface
             ]);
         }
     }
-
-
 }

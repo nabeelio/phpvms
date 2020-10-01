@@ -6,7 +6,6 @@ use App\Contracts\Model;
 
 /**
  * Class ModuleManager
- * @package Modules\ModulesManager\Models
  */
 class Module extends Model
 {

@@ -65,19 +65,17 @@ class ModuleService extends Service
     {
         $orig_file = $array[0];
         $file_ext = $orig_file->getClientOriginalExtension();
-        if ($file_ext !== 'zip' || $file_ext !== 'tar')
-        {
+        if ($file_ext !== 'zip' || $file_ext !== 'tar') {
             return false;
         }
 
         $zipper = null;
-        if ($file_ext === 'tar')
-        {
+        if ($file_ext === 'tar') {
             $zipper = new PharData($orig_file);
         }
-        if ($file_ext === 'zip')
-        {
+        if ($file_ext === 'zip') {
             $madZipper = new Madzipper();
+
             try {
                 $zipper = $madZipper->make($orig_file);
             } catch (Exception $e) {
@@ -97,11 +95,11 @@ class ModuleService extends Service
 
         $root_files = scandir($temp);
 
-        if (!in_array( 'module.json', $root_files)) {
+        if (!in_array('module.json', $root_files)) {
             $temp .= '/'.$root_files[2];
         }
 
-        foreach(glob($temp.'/*.json') as $file) {
+        foreach (glob($temp.'/*.json') as $file) {
             if (Str::contains($file, 'module.json')) {
                 $json = json_decode(file_get_contents($file), true);
                 $module = $json['name'];
@@ -112,15 +110,14 @@ class ModuleService extends Service
             return false;
         }
         $toCopy = base_path().'/modules/'.$module;
-        if (File::exists($toCopy))
-        {
+        if (File::exists($toCopy)) {
             return false;
         }
         File::moveDirectory($temp, $toCopy);
 
         Artisan::call('config:cache');
 
-        (new Module)->create([
+        (new Module())->create([
             'name' => $module,
             'enabled' => $array[1],
         ]);
