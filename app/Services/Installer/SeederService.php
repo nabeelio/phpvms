@@ -5,6 +5,7 @@ namespace App\Services\Installer;
 use App\Contracts\Service;
 use App\Models\Setting;
 use App\Services\DatabaseService;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -42,6 +43,10 @@ class SeederService extends Service
             return true;
         }
 
+        if ($this->moduleSeedsPending()) {
+            return true;
+        }
+
         return false;
     }
 
@@ -54,6 +59,7 @@ class SeederService extends Service
         $this->syncAllYamlFileSeeds();
         $this->syncAllSettings();
         $this->syncAllPermissions();
+        $this->syncAllModules();
     }
 
     /**
@@ -81,6 +87,24 @@ class SeederService extends Service
                 Log::info('Seeding .'.$file);
                 $this->databaseSvc->seed_from_yaml_file($file);
             });
+    }
+
+    public function syncAllModules(): void
+    {
+        $data = file_get_contents(database_path('/seeds/modules.yml'));
+        $yml = Yaml::parse($data);
+        foreach ($yml as $module) {
+            $module['updated_at'] = Carbon::now();
+            $count = DB::table('modules')->where('name', $module['name'])->count('name');
+            if ($count === 0) {
+                $module['created_at'] = Carbon::now();
+                DB::table('modules')->insert($module);
+            } else {
+                DB::table('modules')
+                    ->where('name', $module['name'])
+                    ->update($module);
+            }
+        }
     }
 
     public function syncAllSettings(): void
@@ -278,6 +302,30 @@ class SeederService extends Service
 
             // See if any of these column values have changed
             foreach (['display_name', 'description'] as $column) {
+                if ($row->{$column} !== $perm[$column]) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    private function moduleSeedsPending(): bool
+    {
+        $all_modules = DB::table('modules')->get();
+
+        $data = file_get_contents(database_path('/seeds/modules.yml'));
+        $yml = Yaml::parse($data);
+
+        foreach ($yml as $perm) {
+            $row = $all_modules->firstWhere('name', $perm['name']);
+            if (!$row) {
+                return true;
+            }
+
+            // See if any of these column values have changed
+            foreach (['name', 'enabled'] as $column) {
                 if ($row->{$column} !== $perm[$column]) {
                     return true;
                 }
