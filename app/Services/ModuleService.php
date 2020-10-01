@@ -90,7 +90,7 @@ class ModuleService extends Service
         }
 
         $module = null;
-        $temp = storage_path('app/temp_modules');
+        $temp = storage_path('app/tmp');
         $zipper = null;
 
         if ($file_ext === 'tar' || $file_ext === 'gz') {
@@ -115,7 +115,7 @@ class ModuleService extends Service
         }
 
         if (!File::exists($temp.'/module.json')) {
-            $directories = Storage::directories('temp_modules');
+            $directories = Storage::directories('tmp');
             $temp = storage_path('app').'/'.$directories[0];
         }
 
