@@ -118,7 +118,7 @@ class ModuleService extends Service
         Artisan::call('config:cache');
 
         (new Module())->create([
-            'name' => $module,
+            'name'    => $module,
             'enabled' => $array[1],
         ]);
         return true;

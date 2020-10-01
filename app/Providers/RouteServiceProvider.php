@@ -379,7 +379,6 @@ class RouteServiceProvider extends ServiceProvider
             ], 'dashboard/news', ['uses' => 'DashboardController@news'])
                 ->name('dashboard.news')->middleware('update_pending', 'ability:admin,admin-access');
 
-
             //Modules
             Route::as('modules.')->prefix('modules')
                 ->middleware(['ability:admin, modules'])
@@ -403,7 +402,6 @@ class RouteServiceProvider extends ServiceProvider
                     //Delete Module
                     Route::delete('/{id}', 'ModulesController@destroy')->name('destroy');
                 });
-
         });
     }
 
