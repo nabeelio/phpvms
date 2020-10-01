@@ -30,7 +30,7 @@ class ModuleService extends Service
      * @param string $title
      * @param string $url
      * @param string $icon
-     * @param bool $logged_in
+     * @param bool   $logged_in
      */
     public function addFrontendLink(string $title, string $url, string $icon = 'pe-7s-users', $logged_in = true)
     {

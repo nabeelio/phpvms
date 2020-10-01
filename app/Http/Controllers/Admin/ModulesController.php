@@ -74,9 +74,8 @@ class ModulesController extends Controller
         if ($delete == true) {
             Flash::success('Module Deleted Successfully!');
             return redirect(route('admin.modules.index'));
-        } else {
-            Flash::error('Verification Failed!');
-            return redirect(route('admin.modules.edit', $id));
         }
+        Flash::error('Verification Failed!');
+        return redirect(route('admin.modules.edit', $id));
     }
 }
