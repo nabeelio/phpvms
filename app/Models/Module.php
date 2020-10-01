@@ -20,10 +20,10 @@ class Module extends Model
     ];
 
     protected $casts = [
-        'enabled' => 'boolean'
+        'enabled' => 'boolean',
     ];
 
     public static $rules = [
-        'module_name' => 'required'
+        'module_name' => 'required',
     ];
 }

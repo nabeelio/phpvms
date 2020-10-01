@@ -386,19 +386,19 @@ class RouteServiceProvider extends ServiceProvider
                 ->group(function () {
 
                     //Modules Index
-                    Route::get('/', 'ModulesController@index')->name('index');
+                    Route::get('/',  'ModulesController@index')->name('index');
 
                     //Add Module
-                    Route::get('/create','ModulesController@create')->name('create');
+                    Route::get('/create', 'ModulesController@create')->name('create');
 
                     //Store Module
-                    Route::post('/create', 'ModulesController@store')->name('store');
+                    Route::post('/create',  'ModulesController@store')->name('store');
 
                     //Edit Module
-                    Route::get('/{id}/edit','ModulesController@edit')->name('edit');
+                    Route::get('/{id}/edit', 'ModulesController@edit')->name('edit');
 
                     //Update Module
-                    Route::post('/{id}','ModulesController@update')->name('update');
+                    Route::post('/{id}', 'ModulesController@update')->name('update');
 
                     //Delete Module
                     Route::delete('/{id}', 'ModulesController@destroy')->name('destroy');

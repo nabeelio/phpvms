@@ -5,11 +5,12 @@ namespace App\Services;
 use App\Contracts\Service;
 use App\Models\Module;
 use Exception;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Madnest\Madzipper\Madzipper;
+use PharData;
 
 class ModuleService extends Service
 {
@@ -62,12 +63,32 @@ class ModuleService extends Service
 
     public function createModule($array)
     {
-        $zipper = new Madzipper;
+        $orig_file = $array[0];
+        $file_ext = $orig_file->getClientOriginalExtension();
+        if($file_ext !== 'zip' || $file_ext !== 'tar')
+        {
+            return false;
+        }
+
+        $zipper = null;
+        if($file_ext === 'tar')
+        {
+            $zipper = new PharData($orig_file);
+        }
+        if($file_ext === 'zip')
+        {
+            $madZipper = new Madzipper();
+            try {
+                $zipper = $madZipper->make($orig_file);
+            } catch (Exception $e) {
+                Log::emergency('Could not extract zip file.');
+            }
+        }
 
         $temp = storage_path('/app/temp_modules');
 
         try {
-            $zipper->make($array[0])->extractTo($temp);
+            $zipper->extractTo($temp);
         } catch (Exception $e) {
             Log::emergency('Cannot Extract Module!');
         }
@@ -76,39 +97,33 @@ class ModuleService extends Service
 
         $root_files = scandir($temp);
 
-        if(!in_array( 'module.json', $root_files))
-        {
+        if(!in_array( 'module.json', $root_files)) {
             $temp .= '/'.$root_files[2];
         }
 
-        foreach(glob($temp.'/*.json') as $file)
-        {
-            if(Str::contains($file, 'module.json'))
-            {
+        foreach(glob($temp.'/*.json') as $file) {
+            if(Str::contains($file, 'module.json')) {
                 $json = json_decode(file_get_contents($file), true);
                 $module = $json['name'];
             }
         }
 
-        if($module === '')
+        if($module === '') {
+            return false;
+        }
+        $toCopy = base_path().'/modules/'.$module;
+        if(File::exists($toCopy))
         {
             return false;
-        } else {
-            $toCopy = base_path().'/modules/'.$module;
-            if(File::exists($toCopy))
-            {
-                return false;
-            }
-            File::moveDirectory($temp, $toCopy);
-
-            Artisan::call('config:cache');
-
-            (new Module)->create([
-                'name' => $module,
-                'enabled' => $array[1],
-            ]);
-            return true;
         }
-    }
+        File::moveDirectory($temp, $toCopy);
 
+        Artisan::call('config:cache');
+
+        (new Module)->create([
+            'name' => $module,
+            'enabled' => $array[1],
+        ]);
+        return true;
+    }
 }

@@ -172,7 +172,7 @@ return [
             'cache-lifetime' => 0,
         ],
         'database' => [
-            'class' => DatabaseActivator::class
+            'class' => DatabaseActivator::class,
         ]
     ],
 ];

@@ -35,7 +35,7 @@ class DatabaseActivator implements ActivatorInterface
     {
         $this->config = $app['config'];
         $this->modulesStatuses = $this->getModulesStatuses();
-        $this->model = (new \App\Models\Module);
+        $this->model = (new \App\Models\Module());
     }
 
     /**
@@ -53,7 +53,7 @@ class DatabaseActivator implements ActivatorInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function reset(): void
     {
@@ -62,7 +62,7 @@ class DatabaseActivator implements ActivatorInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function enable(Module $module): void
     {
@@ -70,7 +70,7 @@ class DatabaseActivator implements ActivatorInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function disable(Module $module): void
     {
@@ -78,7 +78,7 @@ class DatabaseActivator implements ActivatorInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function hasStatus(Module $module, bool $status): bool
     {
@@ -90,7 +90,7 @@ class DatabaseActivator implements ActivatorInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function setActive(Module $module, bool $active): void
     {
@@ -98,7 +98,7 @@ class DatabaseActivator implements ActivatorInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function setActiveByName(string $name, bool $status): void
     {
@@ -107,7 +107,7 @@ class DatabaseActivator implements ActivatorInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function delete(Module $module): void
     {
@@ -127,16 +127,15 @@ class DatabaseActivator implements ActivatorInterface
      */
     private function writeDB($name, $status, $delete = ''): void
     {
-        if(!empty($delete))
-        {
+        if(!empty($delete)) {
             $this->model->where([
-                'name' => $name
+                'name' => $name,
             ])->delete();
         } else {
             $this->model->where([
-                'name' => $name
+                'name' => $name,
             ])->update([
-                'status' => $status
+                'status' => $status,
             ]);
         }
     }
