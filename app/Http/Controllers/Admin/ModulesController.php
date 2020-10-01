@@ -5,9 +5,14 @@ namespace App\Http\Controllers\Admin;
 use App\Contracts\Controller;
 use App\Models\Module;
 use App\Services\ModuleService;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Laracasts\Flash\Flash;
+use Madnest\Madzipper\Madzipper;
+use PharData;
 
 class ModulesController extends Controller
 {
@@ -40,14 +45,14 @@ class ModulesController extends Controller
 
     public function store(Request $request)
     {
-        $array = [];
-
-        array_push($array, $request->file('module_file'));
-        array_push($array, $request->has('enabled'));
+        $array = [
+            'file'    => $request->file('module_file'),
+            'enabled' => $request->has('enabled') ? 1 : 0,
+        ];
 
         $store = $this->moduleSvc->createModule($array);
 
-        if ($store) {
+        if ($store == true) {
             Flash::success('Module Installed Successfully!');
         } else {
             Flash::error('Something Went Wrong! Please check the structure again or the module already exists!');
@@ -65,29 +70,20 @@ class ModulesController extends Controller
 
     public function update($id, Request $request)
     {
-        $module = Module::find($id);
-        $module->update([
-            'enabled' => $request->has('enabled') ? 1 : 0,
-        ]);
+        $this->moduleSvc->updateModule($id, $request->has('enabled'));
         Flash::success('Module Status Changed!');
         return redirect(route('admin.modules.index'));
     }
 
     public function destroy($id, Request $request)
     {
-        $module = Module::find($id);
-        if ($request->input('verify') === $module->name) {
-            $module->delete();
-            $moduleDir = base_path().'/modules/'.$module->name;
-            if (File::exists($moduleDir)) {
-                File::deleteDirectory($moduleDir);
-                Flash::success('Module Deleted Successfully!');
-            } else {
-                Flash::error('Module Folder does not exists!');
-            }
+        $delete = $this->moduleSvc->deleteModule($id, $request->all());
+        if ($delete == true) {
+            Flash::success('Module Deleted Successfully!');
             return redirect(route('admin.modules.index'));
+        } else {
+            Flash::error('Verification Failed!');
+            return redirect(route('admin.modules.edit', $id));
         }
-        Flash::error('Verification Failed!');
-        return redirect(route('admin.modules.edit', $id));
     }
 }

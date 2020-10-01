@@ -8,6 +8,7 @@ use Exception;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Madnest\Madzipper\Madzipper;
 use PharData;
@@ -23,6 +24,23 @@ class ModuleService extends Service
         0 => [],
         1 => [],
     ];
+
+    /**
+    * Add a module link in the frontend
+    *
+    * @param string $title
+    * @param string $url
+    * @param string $icon
+    * @param mixed  $logged_in
+    */
+    public function addFrontendLink(string $title, string $url, string $icon = 'pe-7s-users', $logged_in = true)
+    {
+        self::$frontendLinks[$logged_in][] = [
+            'title' => $title,
+            'url'   => $url,
+            'icon'  => $icon,
+        ];
+    }
 
     /**
      * Get all of the frontend links
@@ -41,13 +59,14 @@ class ModuleService extends Service
      *
      * @param string $title
      * @param string $url
+     * @param string $icon
      */
-    public function addAdminLink(string $title, string $url)
+    public function addAdminLink(string $title, string $url, string $icon = 'pe-7s-users')
     {
         self::$adminLinks[] = [
             'title' => $title,
             'url'   => $url,
-            'icon'  => 'pe-7s-users',
+            'icon'  => $icon,
         ];
     }
 
@@ -61,18 +80,25 @@ class ModuleService extends Service
         return self::$adminLinks;
     }
 
-    public function createModule($array)
+    public function createModule($array): bool
     {
-        $orig_file = $array[0];
+        $orig_file = $array['file'];
         $file_ext = $orig_file->getClientOriginalExtension();
-        if ($file_ext !== 'zip' || $file_ext !== 'tar') {
+        $allowed_extensions = array('zip', 'tar', 'gz');
+
+        if (!in_array($file_ext, $allowed_extensions)) {
             return false;
         }
 
+        $module = null;
+        $temp = storage_path('app/temp_modules');
         $zipper = null;
-        if ($file_ext === 'tar') {
+
+        if ($file_ext === 'tar' || $file_ext === 'gz') {
             $zipper = new PharData($orig_file);
+            $zipper->decompress();
         }
+
         if ($file_ext === 'zip') {
             $madZipper = new Madzipper();
 
@@ -83,44 +109,72 @@ class ModuleService extends Service
             }
         }
 
-        $temp = storage_path('/app/temp_modules');
-
         try {
             $zipper->extractTo($temp);
         } catch (Exception $e) {
             Log::emergency('Cannot Extract Module!');
         }
 
-        $module = '';
-
-        $root_files = scandir($temp);
-
-        if (!in_array('module.json', $root_files)) {
-            $temp .= '/'.$root_files[2];
+        if (!File::exists($temp.'/module.json')) {
+            $directories = Storage::directories('temp_modules');
+            $temp = storage_path('app').'/'.$directories[0];
         }
 
-        foreach (glob($temp.'/*.json') as $file) {
-            if (Str::contains($file, 'module.json')) {
-                $json = json_decode(file_get_contents($file), true);
-                $module = $json['name'];
-            }
-        }
+        $file = $temp.'/module.json';
 
-        if ($module === '') {
+        if (File::exists($file)) {
+            $json = json_decode(file_get_contents($file), true);
+            $module = $json['name'];
+        } else {
             return false;
         }
+
+        if (!$module) {
+            return false;
+        }
+
         $toCopy = base_path().'/modules/'.$module;
+
         if (File::exists($toCopy)) {
             return false;
         }
-        File::moveDirectory($temp, $toCopy);
 
-        Artisan::call('config:cache');
+        File::moveDirectory($temp, $toCopy);
 
         (new Module())->create([
             'name'    => $module,
-            'enabled' => $array[1],
+            'enabled' => $array['enabled'],
+        ]);
+
+        Artisan::call('config:cache');
+        return true;
+    }
+
+    public function updateModule($id, $status): bool
+    {
+        $module = (new Module())->find($id);
+        $module->update([
+            'enabled' => $status,
         ]);
         return true;
+    }
+
+    public function deleteModule($id, $data): bool
+    {
+        $module = (new Module())->find($id);
+        if ($data['verify'] === $module->name) {
+            try {
+                $module->delete();
+            } catch (Exception $e) {
+                Log::emergency('Cannot Delete Module!');
+            }
+            $moduleDir = base_path().'/modules/'.$module->name;
+            if (File::exists($moduleDir)) {
+                File::deleteDirectory($moduleDir);
+            }
+            return true;
+        } else {
+            return false;
+        }
     }
 }
