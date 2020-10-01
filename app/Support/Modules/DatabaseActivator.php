@@ -18,6 +18,13 @@ class DatabaseActivator implements ActivatorInterface
     private $config;
 
     /**
+     * Module model instance
+     *
+     * @var Config
+     */
+    private $model;
+
+    /**
      * Array of modules activation statuses
      *
      * @var array
@@ -28,6 +35,7 @@ class DatabaseActivator implements ActivatorInterface
     {
         $this->config = $app['config'];
         $this->modulesStatuses = $this->getModulesStatuses();
+        $this->model = (new \App\Models\Module);
     }
 
     /**
@@ -49,7 +57,7 @@ class DatabaseActivator implements ActivatorInterface
      */
     public function reset(): void
     {
-        (new \App\Models\Module)->truncate();
+        $this->model->truncate();
         $this->modulesStatuses = [];
     }
 
@@ -108,28 +116,29 @@ class DatabaseActivator implements ActivatorInterface
             return;
         }
         unset($this->modulesStatuses[$module_name]);
-        $this->writeDB($module_name, false, 0);
+        $this->writeDB($module_name, false, 1);
     }
 
     /**
      * Writes the activation statuses in a file, as json
      * @param $name
      * @param $status
-     * @param null $delete
+     * @param string $delete
      */
-    private function writeDB($name, $status, $delete = null): void
+    private function writeDB($name, $status, $delete = ''): void
     {
-        if($delete == 0)
+        if(!empty($delete))
         {
-            (new \App\Models\Module)->where([
+            $this->model->where([
                 'name' => $name
             ])->delete();
+        } else {
+            $this->model->where([
+                'name' => $name
+            ])->update([
+                'status' => $status
+            ]);
         }
-        (new \App\Models\Module)->where([
-            'name' => $name
-        ])->update([
-            'status' => $status
-        ]);
     }
 
 

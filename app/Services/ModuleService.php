@@ -4,9 +4,10 @@ namespace App\Services;
 
 use App\Contracts\Service;
 use App\Models\Module;
-use Illuminate\Filesystem\Filesystem;
+use Exception;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Madnest\Madzipper\Madzipper;
 
@@ -21,23 +22,6 @@ class ModuleService extends Service
         0 => [],
         1 => [],
     ];
-
-    /**
-     * Add a module link in the frontend
-     *
-     * @param string $title
-     * @param string $url
-     * @param string $icon
-     * @param mixed  $logged_in
-     */
-    public function addFrontendLink(string $title, string $url, string $icon = '', $logged_in = true)
-    {
-        self::$frontendLinks[$logged_in][] = [
-            'title' => $title,
-            'url'   => $url,
-            'icon'  => 'pe-7s-users',
-        ];
-    }
 
     /**
      * Get all of the frontend links
@@ -56,9 +40,8 @@ class ModuleService extends Service
      *
      * @param string $title
      * @param string $url
-     * @param string $icon
      */
-    public function addAdminLink(string $title, string $url, string $icon = '')
+    public function addAdminLink(string $title, string $url)
     {
         self::$adminLinks[] = [
             'title' => $title,
@@ -77,15 +60,17 @@ class ModuleService extends Service
         return self::$adminLinks;
     }
 
-    public function createModule($request)
+    public function createModule($array)
     {
         $zipper = new Madzipper;
 
-        $file = $request->file('module_file');
-
         $temp = storage_path('/app/temp_modules');
 
-        $zipper->make($file)->extractTo($temp);
+        try {
+            $zipper->make($array[0])->extractTo($temp);
+        } catch (Exception $e) {
+            Log::emergency('Cannot Extract Module!');
+        }
 
         $module = '';
 
@@ -114,13 +99,13 @@ class ModuleService extends Service
             {
                 return false;
             }
-            File::copyDirectory($temp, $toCopy);
+            File::moveDirectory($temp, $toCopy);
 
             Artisan::call('config:cache');
 
-            Module::create([
+            (new Module)->create([
                 'name' => $module,
-                'enabled' => $request->has('enabled') ? 1 : 0,
+                'enabled' => $array[1],
             ]);
             return true;
         }

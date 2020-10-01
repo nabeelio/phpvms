@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Contracts\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 use Laracasts\Flash\Flash;
 use App\Services\ModuleService;
@@ -41,7 +40,13 @@ class ModulesController extends Controller
 
     public function store(Request $request)
     {
-        $store = $this->moduleSvc->createModule($request);
+        $array = array();
+
+        array_push($array, $request->file('module_file'));
+        array_push($array, $request->has('enabled'));
+
+        $store = $this->moduleSvc->createModule($array);
+
         if($store)
         {
             Flash::success('Module Installed Successfully!');
