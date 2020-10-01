@@ -17,13 +17,6 @@ class DatabaseActivator implements ActivatorInterface
     private $config;
 
     /**
-     * Module model instance
-     *
-     * @var Config
-     */
-    private $model;
-
-    /**
      * Array of modules activation statuses
      *
      * @var array
@@ -34,7 +27,6 @@ class DatabaseActivator implements ActivatorInterface
     {
         $this->config = $app['config'];
         $this->modulesStatuses = $this->getModulesStatuses();
-        $this->model = (new \App\Models\Module());
     }
 
     /**
@@ -57,7 +49,7 @@ class DatabaseActivator implements ActivatorInterface
      */
     public function reset(): void
     {
-        $this->model->truncate();
+        (new \App\Models\Module())->truncate();
         $this->modulesStatuses = [];
     }
 
@@ -129,11 +121,11 @@ class DatabaseActivator implements ActivatorInterface
     private function writeDB($name, $status, $delete = ''): void
     {
         if (!empty($delete)) {
-            $this->model->where([
+            (new \App\Models\Module())->where([
                 'name' => $name,
             ])->delete();
         } else {
-            $this->model->where([
+            (new \App\Models\Module())->where([
                 'name' => $name,
             ])->update([
                 'status' => $status,
