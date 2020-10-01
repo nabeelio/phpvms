@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Contracts\Controller;
-use App\Services\ModuleService;
 use App\Models\Module;
+use App\Services\ModuleService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Laracasts\Flash\Flash;
@@ -17,6 +17,7 @@ class ModulesController extends Controller
     {
         $this->moduleSvc = $moduleSvc;
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -24,7 +25,6 @@ class ModulesController extends Controller
      *
      * @return mixed
      */
-
     public function index()
     {
         $modules = Module::all();
@@ -47,8 +47,7 @@ class ModulesController extends Controller
 
         $store = $this->moduleSvc->createModule($array);
 
-        if ($store)
-        {
+        if ($store) {
             Flash::success('Module Installed Successfully!');
         } else {
             Flash::error('Something Went Wrong! Please check the structure again or the module already exists!');
@@ -59,7 +58,7 @@ class ModulesController extends Controller
     public function edit($id)
     {
         $module = Module::find($id);
-        return view('admin.modules.edit',[
+        return view('admin.modules.edit', [
             'module' => $module,
         ]);
     }
@@ -77,10 +76,10 @@ class ModulesController extends Controller
     public function destroy($id, Request $request)
     {
         $module = Module::find($id);
-        if($request->input('verify') === $module->name) {
+        if ($request->input('verify') === $module->name) {
             $module->delete();
             $moduleDir = base_path().'/modules/'.$module->name;
-            if(File::exists($moduleDir)) {
+            if (File::exists($moduleDir)) {
                 File::deleteDirectory($moduleDir);
                 Flash::success('Module Deleted Successfully!');
             } else {
@@ -91,5 +90,4 @@ class ModulesController extends Controller
         Flash::error('Verification Failed!');
         return redirect(route('admin.modules.edit', $id));
     }
-
 }

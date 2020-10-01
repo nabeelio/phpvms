@@ -173,6 +173,6 @@ return [
         ],
         'database' => [
             'class' => DatabaseActivator::class,
-        ]
+        ],
     ],
 ];

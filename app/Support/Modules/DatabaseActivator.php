@@ -40,6 +40,7 @@ class DatabaseActivator implements ActivatorInterface
 
     /**
      * Get modules statuses, from the database
+     *
      * @return array
      */
     private function getModulesStatuses(): array
@@ -121,13 +122,14 @@ class DatabaseActivator implements ActivatorInterface
 
     /**
      * Writes the activation statuses in a file, as json
+     *
      * @param $name
      * @param $status
      * @param string $delete
      */
     private function writeDB($name, $status, $delete = ''): void
     {
-        if(!empty($delete)) {
+        if (!empty($delete)) {
             $this->model->where([
                 'name' => $name,
             ])->delete();
