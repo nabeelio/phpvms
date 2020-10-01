@@ -5,14 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Contracts\Controller;
 use App\Models\Module;
 use App\Services\ModuleService;
-use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 use Laracasts\Flash\Flash;
-use Madnest\Madzipper\Madzipper;
-use PharData;
 
 class ModulesController extends Controller
 {
@@ -54,9 +48,8 @@ class ModulesController extends Controller
 
         if ($store == true) {
             Flash::success('Module Installed Successfully!');
-        } else {
-            Flash::error('Something Went Wrong! Please check the structure again or the module already exists!');
         }
+        Flash::error('Something Went Wrong! Please check the structure again or the module already exists!');
         return redirect(route('admin.modules.index'));
     }
 

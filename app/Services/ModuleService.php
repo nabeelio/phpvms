@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 use Madnest\Madzipper\Madzipper;
 use PharData;
 
@@ -26,13 +25,13 @@ class ModuleService extends Service
     ];
 
     /**
-    * Add a module link in the frontend
-    *
-    * @param string $title
-    * @param string $url
-    * @param string $icon
-    * @param mixed  $logged_in
-    */
+     * Add a module link in the frontend
+     *
+     * @param string $title
+     * @param string $url
+     * @param string $icon
+     * @param bool $logged_in
+     */
     public function addFrontendLink(string $title, string $url, string $icon = 'pe-7s-users', $logged_in = true)
     {
         self::$frontendLinks[$logged_in][] = [
@@ -84,7 +83,7 @@ class ModuleService extends Service
     {
         $orig_file = $array['file'];
         $file_ext = $orig_file->getClientOriginalExtension();
-        $allowed_extensions = array('zip', 'tar', 'gz');
+        $allowed_extensions = ['zip', 'tar', 'gz'];
 
         if (!in_array($file_ext, $allowed_extensions)) {
             return false;
@@ -173,8 +172,7 @@ class ModuleService extends Service
                 File::deleteDirectory($moduleDir);
             }
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 }
