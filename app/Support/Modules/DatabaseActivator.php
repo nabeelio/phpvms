@@ -232,7 +232,9 @@ class DatabaseActivator implements ActivatorInterface
         return $this->files;
     }
 
-
+    /**
+     * @param $name
+     */
     protected function createModule($name)
     {
         if (!(new \App\Models\Module())->where('name', $name)->exists()) {
