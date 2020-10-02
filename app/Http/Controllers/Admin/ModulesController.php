@@ -4,18 +4,16 @@ namespace App\Http\Controllers\Admin;
 
 use App\Contracts\Controller;
 use App\Models\Module;
-use Illuminate\Support\Str;
-use Nwidart\Modules\Json;
 use App\Services\ModuleService;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Laracasts\Flash\Flash;
+use Nwidart\Modules\Json;
 
 class ModulesController extends Controller
 {
     private $moduleSvc;
-
-    protected $paths = [];
 
     public function __construct(ModuleService $moduleSvc)
     {
@@ -99,11 +97,11 @@ class ModulesController extends Controller
     public function scan()
     {
         $modules_path = base_path('modules/*');
-        $path = Str::endsWith($modules_path, '/*') ?  $modules_path : Str::finish($modules_path, '/*');
+        $path = Str::endsWith($modules_path, '/*') ? $modules_path : Str::finish($modules_path, '/*');
 
         $modules = [];
 
-        $manifests = (new Filesystem)->glob("{$path}/module.json");
+        $manifests = (new Filesystem())->glob("{$path}/module.json");
 
         is_array($manifests) || $manifests = [];
 
