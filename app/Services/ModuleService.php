@@ -5,11 +5,14 @@ namespace App\Services;
 use App\Contracts\Service;
 use App\Models\Module;
 use Exception;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Madnest\Madzipper\Madzipper;
+use Nwidart\Modules\Json;
 use PharData;
 
 class ModuleService extends Service
@@ -185,5 +188,32 @@ class ModuleService extends Service
             'enabled' => $status,
         ]);
         return true;
+    }
+
+    /**
+     * Get & scan all modules.
+     *
+     * @return array
+     */
+    public function scan()
+    {
+        $modules_path = base_path('modules/*');
+        $path = Str::endsWith($modules_path, '/*') ? $modules_path : Str::finish($modules_path, '/*');
+
+        $modules = [];
+
+        $manifests = (new Filesystem())->glob("{$path}/module.json");
+
+        is_array($manifests) || $manifests = [];
+
+        foreach ($manifests as $manifest) {
+            $name = Json::make($manifest)->get('name');
+            $module = (new Module())->where('name', $name);
+            if (!$module->exists()) {
+                array_push($modules, $name);
+            }
+        }
+
+        return $modules;
     }
 }

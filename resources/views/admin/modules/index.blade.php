@@ -12,31 +12,6 @@
     <div class="content">
       <div class="row">
         <div class="col-lg-12">
-          @if($new_modules)
-            <h5>Not Installed Modules</h5>
-            <hr>
-            <table class="table table-bordered table-primary">
-              <thead>
-                <th>Module</th>
-                <th>Status</th>
-                <th>Actions</th>
-              </thead>
-              <tbody>
-                @foreach($new_modules as $module)
-                  <tr>
-                    <td>{{ $module }}</td>
-                    <td>Disabled</td>
-                    <td>
-                      {{Form::open(['route' => ['admin.modules.enable']])}}
-                        {{ Form::hidden('name', $module) }}
-                        {{ Form::button('Activate Module', ['type' => 'submit', 'class' => 'btn btn-success']) }}
-                      {{Form::close()}}
-                    </td>
-                  </tr>
-                @endforeach
-              </tbody>
-            </table>
-          @endif
           <h5>Installed Modules</h5>
           <hr>
           <table class="table table-bordered table-primary">
@@ -69,6 +44,32 @@
             @endforelse
             </tbody>
           </table>
+
+          @if($new_modules)
+            <h5>Not Installed Modules</h5>
+            <hr>
+            <table class="table table-bordered table-primary">
+              <thead>
+              <th>Module</th>
+              <th>Status</th>
+              <th>Actions</th>
+              </thead>
+              <tbody>
+              @foreach($new_modules as $module)
+                <tr>
+                  <td>{{ $module }}</td>
+                  <td>Disabled</td>
+                  <td>
+                    {{Form::open(['route' => ['admin.modules.enable']])}}
+                    {{ Form::hidden('name', $module) }}
+                    {{ Form::button('Activate Module', ['type' => 'submit', 'class' => 'btn btn-success']) }}
+                    {{Form::close()}}
+                  </td>
+                </tr>
+              @endforeach
+              </tbody>
+            </table>
+          @endif
         </div>
       </div>
     </div>

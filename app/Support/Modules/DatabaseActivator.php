@@ -72,7 +72,6 @@ class DatabaseActivator implements ActivatorInterface
     public function reset(): void
     {
         (new \App\Models\Module())->truncate();
-        $this->modulesStatuses = [];
     }
 
     /**
@@ -92,15 +91,17 @@ class DatabaseActivator implements ActivatorInterface
     }
 
     /**
+     * \Nwidart\Modules\Module instance passed
      * {@inheritdoc}
      */
     public function hasStatus(Module $module, bool $status): bool
     {
-        if (!isset($this->modulesStatuses[$module->getName()])) {
-            return $status === false;
+        $module = (new \App\Models\Module())->where('name', $module->getName());
+        if ($module->exists())
+        {
+            return $module->first()->enabled == 1;
         }
-
-        return $this->modulesStatuses[$module->getName()] === $status;
+        return false;
     }
 
     /**
@@ -116,7 +117,6 @@ class DatabaseActivator implements ActivatorInterface
      */
     public function setActiveByName(string $name, bool $status): void
     {
-        $this->modulesStatuses[$name] = $status;
         $this->writeDB($name, $status);
     }
 
@@ -125,12 +125,8 @@ class DatabaseActivator implements ActivatorInterface
      */
     public function delete(Module $module): void
     {
-        $module_name = $module->getName();
-        if (!isset($this->modulesStatuses[$module_name])) {
-            return;
-        }
-        unset($this->modulesStatuses[$module_name]);
-        $this->writeDB($module_name, false, 1);
+        $name = $module->getName();
+        $this->writeDB($name, false, 1);
     }
 
     /**
@@ -147,11 +143,13 @@ class DatabaseActivator implements ActivatorInterface
                 'name' => $name,
             ])->delete();
         } else {
-            (new \App\Models\Module())->where([
-                'name' => $name,
-            ])->update([
-                'status' => $status,
-            ]);
+            $module = (new \App\Models\Module())->where('name', $name);
+            if ($module->exists())
+            {
+                $module->update([
+                    'status' => $status,
+                ]);
+            }
         }
     }
 }

@@ -5,11 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Contracts\Controller;
 use App\Models\Module;
 use App\Services\ModuleService;
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Laracasts\Flash\Flash;
-use Nwidart\Modules\Json;
 
 class ModulesController extends Controller
 {
@@ -28,7 +25,7 @@ class ModulesController extends Controller
     public function index()
     {
         $modules = Module::all()->sortByDesc('id');
-        $new_modules = $this->scan();
+        $new_modules = $this->moduleSvc->scan();
         return view('admin.modules.index', [
             'modules'     => $modules,
             'new_modules' => $new_modules,
@@ -87,32 +84,5 @@ class ModulesController extends Controller
         }
         Flash::error('Verification Failed!');
         return redirect(route('admin.modules.edit', $id));
-    }
-
-    /**
-     * Get & scan all modules.
-     *
-     * @return array
-     */
-    public function scan()
-    {
-        $modules_path = base_path('modules/*');
-        $path = Str::endsWith($modules_path, '/*') ? $modules_path : Str::finish($modules_path, '/*');
-
-        $modules = [];
-
-        $manifests = (new Filesystem())->glob("{$path}/module.json");
-
-        is_array($manifests) || $manifests = [];
-
-        foreach ($manifests as $manifest) {
-            $name = Json::make($manifest)->get('name');
-            $module = (new Module())->where('name', $name);
-            if (!$module->exists()) {
-                array_push($modules, $name);
-            }
-        }
-
-        return $modules;
     }
 }
