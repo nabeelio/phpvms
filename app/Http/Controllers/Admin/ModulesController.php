@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Contracts\Controller;
 use App\Models\Module;
+use Illuminate\Support\Str;
+use Nwidart\Modules\Json;
 use App\Services\ModuleService;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Http\Request;
@@ -14,15 +16,10 @@ class ModulesController extends Controller
     private $moduleSvc;
 
     protected $paths = [];
-    /**
-     * @var Filesystem
-     */
-    private $files;
 
-    public function __construct(ModuleService $moduleSvc, Filesystem $files)
+    public function __construct(ModuleService $moduleSvc)
     {
         $this->moduleSvc = $moduleSvc;
-        $this->files = $files;
     }
 
     /**
@@ -33,8 +30,10 @@ class ModulesController extends Controller
     public function index()
     {
         $modules = Module::all()->sortByDesc('id');
+        $new_modules = $this->scan();
         return view('admin.modules.index', [
-            'modules' => $modules,
+            'modules'     => $modules,
+            'new_modules' => $new_modules,
         ]);
     }
 
@@ -47,7 +46,7 @@ class ModulesController extends Controller
     {
         $array = [
             'file'    => $request->file('module_file'),
-            'enabled' => $request->has('enabled') ? 1 : 0,
+            'enabled' => $request->has('enabled'),
         ];
 
         $store = $this->moduleSvc->createModule($array);
@@ -74,6 +73,13 @@ class ModulesController extends Controller
         return redirect(route('admin.modules.index'));
     }
 
+    public function enable(Request $request)
+    {
+        $this->moduleSvc->enableModule($request->input('name'));
+        Flash::success('Module Enabled!');
+        return redirect(route('admin.modules.index'));
+    }
+
     public function destroy($id, Request $request)
     {
         $delete = $this->moduleSvc->deleteModule($id, $request->all());
@@ -83,5 +89,32 @@ class ModulesController extends Controller
         }
         Flash::error('Verification Failed!');
         return redirect(route('admin.modules.edit', $id));
+    }
+
+    /**
+     * Get & scan all modules.
+     *
+     * @return array
+     */
+    public function scan()
+    {
+        $modules_path = base_path('modules/*');
+        $path = Str::endsWith($modules_path, '/*') ?  $modules_path : Str::finish($modules_path, '/*');
+
+        $modules = [];
+
+        $manifests = (new Filesystem)->glob("{$path}/module.json");
+
+        is_array($manifests) || $manifests = [];
+
+        foreach ($manifests as $manifest) {
+            $name = Json::make($manifest)->get('name');
+            $module = (new Module())->where('name', $name);
+            if (!$module->exists()) {
+                array_push($modules, $name);
+            }
+        }
+
+        return $modules;
     }
 }

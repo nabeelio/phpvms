@@ -140,10 +140,7 @@ class ModuleService extends Service
 
         File::moveDirectory($temp, $toCopy);
 
-        (new Module())->create([
-            'name'    => $module,
-            'enabled' => $array['enabled'],
-        ]);
+        $this->addModule($module, $array['enabled']);
 
         Artisan::call('config:cache');
         return true;
@@ -154,7 +151,6 @@ class ModuleService extends Service
         $module = (new Module())->find($id);
         $module->update([
             'enabled' => $status,
-            'is_new'  => 0,
         ]);
         return true;
     }
@@ -175,5 +171,19 @@ class ModuleService extends Service
             return true;
         }
         return false;
+    }
+
+    public function enableModule($name): bool
+    {
+        return $this->addModule($name, true);
+    }
+
+    public function addModule($name, $status): bool
+    {
+        (new Module())->create([
+            'name'    => $name,
+            'enabled' => $status,
+        ]);
+        return true;
     }
 }

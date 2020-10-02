@@ -393,6 +393,9 @@ class RouteServiceProvider extends ServiceProvider
                     //Store Module
                     Route::post('/create', 'ModulesController@store')->name('store');
 
+                    //Enable Module
+                    Route::post('/enable', 'ModulesController@enable')->name('enable');
+
                     //Edit Module
                     Route::get('/{id}/edit', 'ModulesController@edit')->name('edit');
 

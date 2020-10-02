@@ -12,6 +12,33 @@
     <div class="content">
       <div class="row">
         <div class="col-lg-12">
+          @if($new_modules)
+            <h5>Not Installed Modules</h5>
+            <hr>
+            <table class="table table-bordered table-primary">
+              <thead>
+                <th>Module</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </thead>
+              <tbody>
+                @foreach($new_modules as $module)
+                  <tr>
+                    <td>{{ $module }}</td>
+                    <td>Disabled</td>
+                    <td>
+                      {{Form::open(['route' => ['admin.modules.enable']])}}
+                        {{ Form::hidden('name', $module) }}
+                        {{ Form::button('Activate Module', ['type' => 'submit', 'class' => 'btn btn-success']) }}
+                      {{Form::close()}}
+                    </td>
+                  </tr>
+                @endforeach
+              </tbody>
+            </table>
+          @endif
+          <h5>Installed Modules</h5>
+          <hr>
           <table class="table table-bordered table-primary">
             <thead>
               <th>Module</th>
@@ -21,12 +48,7 @@
             <tbody>
             @forelse($modules as $module)
               <tr>
-                <td>
-                  {{$module->name}}
-                  @if($module->is_new == 1)
-                    <b class="text-danger">(Not Installed)</b>
-                  @endif
-                </td>
+                <td>{{$module->name}}</td>
                 <td>
                   @if($module->enabled == 1)
                     Enabled
@@ -35,14 +57,7 @@
                   @endif
                 </td>
                 <td>
-                  @if($module->is_new == 1)
-                    {{Form::open(['route' => ['admin.modules.update', $module->id]])}}
-                      {{Form::hidden('enabled', 0)}}
-                      {{ Form::button('Activate Module', ['type' => 'submit', 'class' => 'btn btn-success']) }}
-                    {{Form::close()}}
-                  @else
-                    <a class="btn btn-primary" href="{{ route('admin.modules.edit', [$module->id]) }}">Edit Module</a>
-                  @endif
+                  <a class="btn btn-primary" href="{{ route('admin.modules.edit', [$module->id]) }}">Edit Module</a>
                 </td>
               </tr>
             @empty

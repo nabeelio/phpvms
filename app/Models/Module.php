@@ -14,7 +14,6 @@ class Module extends Model
     public $fillable = [
         'name',
         'enabled',
-        'is_new',
         'created_at',
         'updated_at',
     ];
@@ -24,6 +23,6 @@ class Module extends Model
     ];
 
     public static $rules = [
-        'module_name' => 'required',
+        'name' => 'required',
     ];
 }
