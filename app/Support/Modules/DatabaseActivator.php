@@ -97,8 +97,7 @@ class DatabaseActivator implements ActivatorInterface
     public function hasStatus(Module $module, bool $status): bool
     {
         $module = (new \App\Models\Module())->where('name', $module->getName());
-        if ($module->exists())
-        {
+        if ($module->exists()) {
             return $module->first()->enabled == 1;
         }
         return false;
@@ -144,8 +143,7 @@ class DatabaseActivator implements ActivatorInterface
             ])->delete();
         } else {
             $module = (new \App\Models\Module())->where('name', $name);
-            if ($module->exists())
-            {
+            if ($module->exists()) {
                 $module->update([
                     'status' => $status,
                 ]);
