@@ -184,7 +184,7 @@ class DatabaseActivator implements ActivatorInterface
         return $modules;
     }
 
-    public function getPath() : string
+    public function getPath(): string
     {
         return base_path('modules/*');
     }
@@ -194,7 +194,7 @@ class DatabaseActivator implements ActivatorInterface
      *
      * @return array
      */
-    public function getPaths() : array
+    public function getPaths(): array
     {
         return $this->paths;
     }
@@ -204,7 +204,7 @@ class DatabaseActivator implements ActivatorInterface
      *
      * @return array
      */
-    public function getScanPaths() : array
+    public function getScanPaths(): array
     {
         $paths = $this->paths;
 
@@ -239,7 +239,7 @@ class DatabaseActivator implements ActivatorInterface
             (new \App\Models\Module())->create([
                 'name'    => $name,
                 'enabled' => 0,
-                'is_new'  => 1
+                'is_new'  => 1,
             ]);
         }
     }

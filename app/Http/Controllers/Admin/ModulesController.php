@@ -7,9 +7,7 @@ use App\Models\Module;
 use App\Services\ModuleService;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Laracasts\Flash\Flash;
-use Nwidart\Modules\Json;
 
 class ModulesController extends Controller
 {
@@ -63,7 +61,7 @@ class ModulesController extends Controller
 
     public function edit($id)
     {
-        $module = (new \App\Models\Module)->find($id);
+        $module = (new Module())->find($id);
         return view('admin.modules.edit', [
             'module' => $module,
         ]);

@@ -154,7 +154,7 @@ class ModuleService extends Service
         $module = (new Module())->find($id);
         $module->update([
             'enabled' => $status,
-            'is_new'  => 0
+            'is_new'  => 0,
         ]);
         return true;
     }
