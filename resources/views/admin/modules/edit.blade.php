@@ -22,7 +22,7 @@
           {{Form::open(['route' => ['admin.modules.destroy', $module->id], 'method' => 'delete'])}}
 
           <div class="form-group">
-            {{Form::label('Type in "'.$module->name.'" (without quotes) to Delete :')}}
+            Type in <b>{{strtoupper($module->name)}}</b> to Delete :
             {{Form::text('verify', '', ['class' => 'form-control', 'required' => 'required'])}}
           </div>
 

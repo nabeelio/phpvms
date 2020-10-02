@@ -154,6 +154,7 @@ class ModuleService extends Service
         $module = (new Module())->find($id);
         $module->update([
             'enabled' => $status,
+            'is_new'  => 0
         ]);
         return true;
     }
@@ -161,7 +162,7 @@ class ModuleService extends Service
     public function deleteModule($id, $data): bool
     {
         $module = (new Module())->find($id);
-        if ($data['verify'] === $module->name) {
+        if ($data['verify'] === strtoupper($module->name)) {
             try {
                 $module->delete();
             } catch (Exception $e) {

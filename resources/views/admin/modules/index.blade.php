@@ -21,7 +21,12 @@
             <tbody>
             @forelse($modules as $module)
               <tr>
-                <td>{{$module->name}}</td>
+                <td>
+                  {{$module->name}}
+                  @if($module->is_new == 1)
+                    <b class="text-danger">(Not Installed)</b>
+                  @endif
+                </td>
                 <td>
                   @if($module->enabled == 1)
                     Enabled
@@ -30,7 +35,14 @@
                   @endif
                 </td>
                 <td>
-                  <a class="btn btn-primary" href="{{ route('admin.modules.edit', [$module->id]) }}">Edit Module</a>
+                  @if($module->is_new == 1)
+                    {{Form::open(['route' => ['admin.modules.update', $module->id]])}}
+                      {{Form::hidden('enabled', 0)}}
+                      {{ Form::button('Activate Module', ['type' => 'submit', 'class' => 'btn btn-success']) }}
+                    {{Form::close()}}
+                  @else
+                    <a class="btn btn-primary" href="{{ route('admin.modules.edit', [$module->id]) }}">Edit Module</a>
+                  @endif
                 </td>
               </tr>
             @empty

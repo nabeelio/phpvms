@@ -34,8 +34,7 @@ class ModulesController extends Controller
      */
     public function index()
     {
-        //$this->scan();
-        $modules = Module::all();
+        $modules = Module::all()->sortByDesc('id');
         return view('admin.modules.index', [
             'modules' => $modules,
         ]);
@@ -64,7 +63,7 @@ class ModulesController extends Controller
 
     public function edit($id)
     {
-        $module = Module::find($id);
+        $module = (new \App\Models\Module)->find($id);
         return view('admin.modules.edit', [
             'module' => $module,
         ]);
@@ -87,44 +86,4 @@ class ModulesController extends Controller
         Flash::error('Verification Failed!');
         return redirect(route('admin.modules.edit', $id));
     }
-//    public function scan()
-//    {
-//        $paths = $this->paths;
-//
-//        $paths[] = base_path('Modules');
-//
-//        $paths = array_merge($paths, [
-//            base_path('vendor/*/*'),
-//            base_path('modules/*'),
-//        ]);
-//
-//        $paths = array_map(function ($path) {
-//            return Str::endsWith($path, '/*') ? $path : Str::finish($path, '/*');
-//        }, $paths);
-//
-//        $modules = [];
-//
-//        foreach ($paths as $key => $path) {
-//            $manifests = $this->files->glob("{$path}/module.json");
-//
-//            is_array($manifests) || $manifests = [];
-//
-//            foreach ($manifests as $manifest) {
-//                $name = Json::make($manifest)->get('name');
-//                $modules[$name] = $this->createModule($name);
-//            }
-//        }
-//
-//        return $modules;
-//    }
-//
-//    public function createModule($name)
-//    {
-//        if (!(new Module())->where('name', $name)->exists()) {
-//            (new Module())->create([
-//                'name'    => $name,
-//                'enabled' => 1,
-//            ]);
-//        }
-//    }
 }

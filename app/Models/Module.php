@@ -14,6 +14,7 @@ class Module extends Model
     public $fillable = [
         'name',
         'enabled',
+        'is_new',
         'created_at',
         'updated_at',
     ];

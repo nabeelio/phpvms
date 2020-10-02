@@ -4,7 +4,10 @@ namespace App\Support\Modules;
 
 use Illuminate\Config\Repository as Config;
 use Illuminate\Container\Container;
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Str;
 use Nwidart\Modules\Contracts\ActivatorInterface;
+use Nwidart\Modules\Json;
 use Nwidart\Modules\Module;
 
 class DatabaseActivator implements ActivatorInterface
@@ -17,16 +20,37 @@ class DatabaseActivator implements ActivatorInterface
     private $config;
 
     /**
+     * @var Filesystem
+     */
+    private $files;
+
+    /**
+     * The module path.
+     *
+     * @var string|null
+     */
+    protected $path;
+
+    /**
+     * The scanned paths.
+     *
+     * @var array
+     */
+    protected $paths = [];
+
+    /**
      * Array of modules activation statuses
      *
      * @var array
      */
     private $modulesStatuses;
 
-    public function __construct(Container $app)
+    public function __construct(Container $app, $path = null)
     {
         $this->config = $app['config'];
+        $this->files = $app['files'];
         $this->modulesStatuses = $this->getModulesStatuses();
+        $this->path = $path;
     }
 
     /**
@@ -36,6 +60,7 @@ class DatabaseActivator implements ActivatorInterface
      */
     private function getModulesStatuses(): array
     {
+        $this->scan();
         $modules = \App\Models\Module::all();
         $retVal = [];
         foreach ($modules as $i) {
@@ -129,6 +154,92 @@ class DatabaseActivator implements ActivatorInterface
                 'name' => $name,
             ])->update([
                 'status' => $status,
+            ]);
+        }
+    }
+
+    /**
+     * Get & scan all modules.
+     *
+     * @return array
+     */
+    public function scan()
+    {
+        $paths = $this->getScanPaths();
+
+        $modules = [];
+
+        foreach ($paths as $key => $path) {
+            $manifests = $this->getFiles()->glob("{$path}/module.json");
+
+            is_array($manifests) || $manifests = [];
+
+            foreach ($manifests as $manifest) {
+                $name = Json::make($manifest)->get('name');
+
+                $modules[$name] = $this->createModule($name);
+            }
+        }
+
+        return $modules;
+    }
+
+    public function getPath() : string
+    {
+        return base_path('modules/*');
+    }
+
+    /**
+     * Get all additional paths.
+     *
+     * @return array
+     */
+    public function getPaths() : array
+    {
+        return $this->paths;
+    }
+
+    /**
+     * Get scanned modules paths.
+     *
+     * @return array
+     */
+    public function getScanPaths() : array
+    {
+        $paths = $this->paths;
+
+        $paths[] = $this->getPath();
+
+        $paths = array_merge($paths, [
+            base_path('vendor/*/*'),
+            base_path('modules/*'),
+        ]);
+
+        $paths = array_map(function ($path) {
+            return Str::endsWith($path, '/*') ? $path : Str::finish($path, '/*');
+        }, $paths);
+
+        return $paths;
+    }
+
+    /**
+     * Get laravel filesystem instance.
+     *
+     * @return Filesystem
+     */
+    public function getFiles(): Filesystem
+    {
+        return $this->files;
+    }
+
+
+    protected function createModule($name)
+    {
+        if (!(new \App\Models\Module())->where('name', $name)->exists()) {
+            (new \App\Models\Module())->create([
+                'name'    => $name,
+                'enabled' => 0,
+                'is_new'  => 1
             ]);
         }
     }
