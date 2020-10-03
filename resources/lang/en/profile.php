@@ -6,6 +6,7 @@ return [
     'newapikey'       => 'New API Key',
     'yourprofile'     => 'Your Profile',
     'apikey'          => 'API Key',
+    'apikey-show'     => 'Show key',
     'dontshare'       => 'don\'t share this!',
     'changepassword'  => 'Change Password',
     'newpassword'     => 'New Password',
