@@ -21,13 +21,13 @@
       </p>
       <h6><span class="flag-icon flag-icon-{{ $user->country }}"></span></h6>
       <div class="social-description">
+        <img src="{{ $user->rank->image_url }}" style="width: 160px;">
         <h2>{{ $user->rank->name }}</h2>
-        <p>Rank</p>
       </div>
       @if($user->home_airport)
         <div class="social-description">
-          <h2>{{ $user->home_airport->icao }}</h2>
           <p>@lang('airports.home')</p>
+          <h2>{{ $user->home_airport->icao }}</h2>
         </div>
       @endif
     </div>
