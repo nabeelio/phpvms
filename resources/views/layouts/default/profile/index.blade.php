@@ -26,8 +26,8 @@
       </div>
       @if($user->home_airport)
         <div class="social-description">
-          <p>@lang('airports.home')</p>
           <h2>{{ $user->home_airport->icao }}</h2>
+          <p>@lang('airports.home')</p>
         </div>
       @endif
     </div>
