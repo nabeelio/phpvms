@@ -55,6 +55,26 @@ class UserService extends Service
     }
 
     /**
+     * Find the user and return them with all of the data properly attached
+     *
+     * @param $user_id
+     *
+     * @return User
+     */
+    public function getUser($user_id): User
+    {
+        $user = $this->userRepo
+            ->with(['airline', 'bids', 'rank'])
+            ->find($user_id);
+
+        // Load the proper subfleets to the rank
+        $user->rank->subfleets = $this->getAllowableSubfleets($user);
+        $user->subfleets = $user->rank->subfleets;
+
+        return $user;
+    }
+
+    /**
      * Register a pilot. Also attaches the initial roles
      * required, and then triggers the UserRegistered event
      *

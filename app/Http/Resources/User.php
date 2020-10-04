@@ -31,6 +31,7 @@ class User extends Resource
         $res['airline'] = Airline::make($this->whenLoaded('airline'));
         $res['bids'] = UserBid::collection($this->whenLoaded('bids'));
         $res['rank'] = Rank::make($this->whenLoaded('rank'));
+        $res['subfleets'] = Subfleet::make($this->whenLoaded('subfleets'));
 
         return $res;
     }

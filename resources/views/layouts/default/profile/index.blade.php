@@ -114,7 +114,7 @@
           </tr>
           <tr>
             <td>@lang('profile.apikey')&nbsp;&nbsp;<span class="description">(@lang('profile.dontshare'))</span></td>
-            <td>{{ $user->api_key }}</td>
+            <td><span id="apiKey_show" style="display: none">{{ $user->api_key }} <i class="fas fa-eye-slash" onclick="apiKeyHide()"></i></span><span id="apiKey_hide">@lang('profile.apikey-show') <i class="fas fa-eye" onclick="apiKeyShow()"></i></span></td>
           </tr>
           <tr>
             <td>@lang('common.timezone')</td>
@@ -144,4 +144,17 @@
       </table>
     </div>
   </div>
+@endsection
+
+@section('scripts')
+  <script>
+    function apiKeyShow(){
+      document.getElementById("apiKey_show").style = "display:block";
+      document.getElementById("apiKey_hide").style = "display:none";
+    }
+    function apiKeyHide(){
+      document.getElementById("apiKey_show").style = "display:none";
+      document.getElementById("apiKey_hide").style = "display:block";
+    }
+  </script>
 @endsection
