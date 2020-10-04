@@ -79,7 +79,6 @@ class ModulesController extends Controller
      * Update the specified Module in storage.
      *
      * @param $id
-     *
      * @param Request $request
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
@@ -94,7 +93,7 @@ class ModulesController extends Controller
     /**
      * Verify and Remove the specified Module from storage.
      *
-     * @param mixed $id
+     * @param mixed   $id
      * @param Request $request
      *
      * @return mixed

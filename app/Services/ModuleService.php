@@ -98,6 +98,7 @@ class ModuleService extends Service
      * Get Module Information from Database.
      *
      * @param $id
+     *
      * @return array
      */
     public function getModule($id): array
@@ -109,13 +110,13 @@ class ModuleService extends Service
      * Adding installed module to the database
      *
      * @param $module
+     *
      * @return bool
      */
     public function addModule($module): bool
     {
         /*Check if module already exists*/
-        if(Module::where('name', $module)->exists())
-        {
+        if (Module::where('name', $module)->exists()) {
             throw new ModuleExistsException($module);
         }
 
@@ -146,7 +147,7 @@ class ModuleService extends Service
         $module = null;
 
         $new_dir = File::makeDirectory(uniqid());
-        $temp_ext_folder = storage_path('app/tmp/modules/'. $new_dir);
+        $temp_ext_folder = storage_path('app/tmp/modules/'.$new_dir);
 
         $temp = $temp_ext_folder;
 
@@ -174,7 +175,7 @@ class ModuleService extends Service
         }
 
         if (!File::exists($temp.'/module.json')) {
-            $directories = Storage::directories('tmp/modules/'. $new_dir);
+            $directories = Storage::directories('tmp/modules/'.$new_dir);
             $temp = storage_path('app').'/'.$directories[0];
         }
 
@@ -229,6 +230,7 @@ class ModuleService extends Service
      *
      * @param $id
      * @param $data
+     *
      * @return bool
      */
     public function deleteModule($id, $data): bool
@@ -251,7 +253,6 @@ class ModuleService extends Service
         }
         return false;
     }
-
 
     /**
      * Get & scan all modules.
