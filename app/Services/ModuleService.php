@@ -85,8 +85,9 @@ class ModuleService extends Service
     }
 
     /**
-     * @return array
      * Get All modules from Database
+     *
+     * @return array
      */
     public function getAllModules(): array
     {
@@ -94,8 +95,9 @@ class ModuleService extends Service
     }
 
     /**
-     * @param $id
      * Get Module Information from Database.
+     *
+     * @param $id
      * @return array
      */
     public function getModule($id): array
@@ -104,8 +106,9 @@ class ModuleService extends Service
     }
 
     /**
-     * @param $module
      * Adding installed module to the database
+     *
+     * @param $module
      * @return bool
      */
     public function addModule($module): bool
@@ -125,9 +128,10 @@ class ModuleService extends Service
     }
 
     /**
-     * @param UploadedFile $file
      * User's uploaded file is passed into this method
-     * to install module in the system.
+     * to install module in the Storage.
+     *
+     * @param UploadedFile $file
      * @return bool
      */
     public function installModule(UploadedFile $file): bool
@@ -222,6 +226,7 @@ class ModuleService extends Service
 
     /**
      * Delete Module from the Storage & Database.
+     *
      * @param $id
      * @param $data
      * @return bool

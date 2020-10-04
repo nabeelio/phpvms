@@ -95,7 +95,6 @@ class ModulesController extends Controller
      * Verify and Remove the specified Module from storage.
      *
      * @param mixed $id
-     *
      * @param Request $request
      *
      * @return mixed
