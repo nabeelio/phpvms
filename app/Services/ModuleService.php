@@ -87,9 +87,9 @@ class ModuleService extends Service
     /**
      * Get All modules from Database
      *
-     * @return array
+     * @return object
      */
-    public function getAllModules(): array
+    public function getAllModules(): object
     {
         return Module::all();
     }
@@ -99,9 +99,9 @@ class ModuleService extends Service
      *
      * @param $id
      *
-     * @return array
+     * @return object
      */
-    public function getModule($id): array
+    public function getModule($id): object
     {
         return Module::find($id);
     }
@@ -133,6 +133,7 @@ class ModuleService extends Service
      * to install module in the Storage.
      *
      * @param UploadedFile $file
+     *
      * @return bool
      */
     public function installModule(UploadedFile $file): bool

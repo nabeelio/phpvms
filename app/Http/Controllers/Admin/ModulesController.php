@@ -91,6 +91,19 @@ class ModulesController extends Controller
     }
 
     /**
+     * Enabling Module Present in the Modules Folder
+     *
+     * @param Request $request
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function enable(Request $request)
+    {
+        $this->moduleSvc->addModule($request->input('name'));
+        return redirect(route('admin.modules.index'));
+    }
+
+    /**
      * Verify and Remove the specified Module from storage.
      *
      * @param mixed   $id
