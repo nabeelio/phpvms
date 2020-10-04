@@ -18,13 +18,13 @@ class ModulesController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Display a listing of the Module.
      *
      * @return mixed
      */
     public function index()
     {
-        $modules = Module::all()->sortByDesc('id');
+        $modules = $this->moduleSvc->getAllModules();
         $new_modules = $this->moduleSvc->scan();
         return view('admin.modules.index', [
             'modules'     => $modules,
@@ -32,35 +32,58 @@ class ModulesController extends Controller
         ]);
     }
 
+    /**
+     * Show the form for creating a new Module.
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function create()
     {
         return view('admin.modules.create');
     }
 
+    /**
+     * Store a newly Uploaded Module in the Storage.
+     *
+     * @param Request $request
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function store(Request $request)
     {
-        $array = [
-            'file'    => $request->file('module_file'),
-            'enabled' => $request->has('enabled'),
-        ];
+        $store = $this->moduleSvc->installModule($request->file('module_file'));
 
-        $store = $this->moduleSvc->createModule($array);
-
-        if ($store == true) {
+        if ($store) {
             Flash::success('Module Installed Successfully!');
         }
         Flash::error('Something Went Wrong! Please check the structure again or the module already exists!');
         return redirect(route('admin.modules.index'));
     }
 
+    /**
+     * Show the form for editing the specified Module.
+     *
+     * @param $id
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function edit($id)
     {
-        $module = (new Module())->find($id);
+        $module = $this->moduleSvc->getModule($id);
         return view('admin.modules.edit', [
             'module' => $module,
         ]);
     }
 
+    /**
+     * Update the specified Module in storage.
+     *
+     * @param $id
+     *
+     * @param Request $request
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function update($id, Request $request)
     {
         $this->moduleSvc->updateModule($id, $request->has('enabled'));
@@ -68,13 +91,15 @@ class ModulesController extends Controller
         return redirect(route('admin.modules.index'));
     }
 
-    public function enable(Request $request)
-    {
-        $this->moduleSvc->enableModule($request->input('name'));
-        Flash::success('Module Enabled!');
-        return redirect(route('admin.modules.index'));
-    }
-
+    /**
+     * Verify and Remove the specified Module from storage.
+     *
+     * @param mixed $id
+     *
+     * @param Request $request
+     *
+     * @return mixed
+     */
     public function destroy($id, Request $request)
     {
         $delete = $this->moduleSvc->deleteModule($id, $request->all());

@@ -3,9 +3,11 @@
 namespace App\Services;
 
 use App\Contracts\Service;
+use App\Exceptions\ModuleExistsException;
 use App\Models\Module;
 use Exception;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
@@ -82,10 +84,55 @@ class ModuleService extends Service
         return self::$adminLinks;
     }
 
-    public function createModule($array): bool
+    /**
+     * @return array
+     * Get All modules from Database
+     */
+    public function getAllModules(): array
     {
-        $orig_file = $array['file'];
-        $file_ext = $orig_file->getClientOriginalExtension();
+        return Module::all();
+    }
+
+    /**
+     * @param $id
+     * Get Module Information from Database.
+     * @return array
+     */
+    public function getModule($id): array
+    {
+        return Module::find($id);
+    }
+
+    /**
+     * @param $module
+     * Adding installed module to the database
+     * @return bool
+     */
+    public function addModule($module): bool
+    {
+        /*Check if module already exists*/
+        if(Module::where('name', $module)->exists())
+        {
+            throw new ModuleExistsException($module);
+        }
+
+        Module::create([
+            'name'    => $module,
+            'enabled' => 1,
+        ]);
+
+        return true;
+    }
+
+    /**
+     * @param UploadedFile $file
+     * User's uploaded file is passed into this method
+     * to install module in the system.
+     * @return bool
+     */
+    public function installModule(UploadedFile $file): bool
+    {
+        $file_ext = $file->getClientOriginalExtension();
         $allowed_extensions = ['zip', 'tar', 'gz'];
 
         if (!in_array($file_ext, $allowed_extensions)) {
@@ -93,11 +140,16 @@ class ModuleService extends Service
         }
 
         $module = null;
-        $temp = storage_path('app/tmp');
+
+        $new_dir = File::makeDirectory(uniqid());
+        $temp_ext_folder = storage_path('app/tmp/modules/'. $new_dir);
+
+        $temp = $temp_ext_folder;
+
         $zipper = null;
 
         if ($file_ext === 'tar' || $file_ext === 'gz') {
-            $zipper = new PharData($orig_file);
+            $zipper = new PharData($file);
             $zipper->decompress();
         }
 
@@ -105,7 +157,7 @@ class ModuleService extends Service
             $madZipper = new Madzipper();
 
             try {
-                $zipper = $madZipper->make($orig_file);
+                $zipper = $madZipper->make($file);
             } catch (Exception $e) {
                 Log::emergency('Could not extract zip file.');
             }
@@ -118,14 +170,14 @@ class ModuleService extends Service
         }
 
         if (!File::exists($temp.'/module.json')) {
-            $directories = Storage::directories('tmp');
+            $directories = Storage::directories('tmp/modules/'. $new_dir);
             $temp = storage_path('app').'/'.$directories[0];
         }
 
-        $file = $temp.'/module.json';
+        $json_file = $temp.'/module.json';
 
-        if (File::exists($file)) {
-            $json = json_decode(file_get_contents($file), true);
+        if (File::exists($json_file)) {
+            $json = json_decode(file_get_contents($json_file), true);
             $module = $json['name'];
         } else {
             return false;
@@ -138,29 +190,45 @@ class ModuleService extends Service
         $toCopy = base_path().'/modules/'.$module;
 
         if (File::exists($toCopy)) {
-            return false;
+            throw new ModuleExistsException($module);
         }
 
         File::moveDirectory($temp, $toCopy);
 
-        $this->addModule($module, $array['enabled']);
+        File::deleteDirectory($temp_ext_folder);
+
+        $this->addModule($module);
 
         Artisan::call('config:cache');
         return true;
     }
 
+    /**
+     * Update module with the status passed by user.
+     *
+     * @param $id
+     * @param $status
+     *
+     * @return bool
+     */
     public function updateModule($id, $status): bool
     {
-        $module = (new Module())->find($id);
+        $module = Module::find($id);
         $module->update([
             'enabled' => $status,
         ]);
         return true;
     }
 
+    /**
+     * Delete Module from the Storage & Database.
+     * @param $id
+     * @param $data
+     * @return bool
+     */
     public function deleteModule($id, $data): bool
     {
-        $module = (new Module())->find($id);
+        $module = Module::find($id);
         if ($data['verify'] === strtoupper($module->name)) {
             try {
                 $module->delete();
@@ -168,27 +236,17 @@ class ModuleService extends Service
                 Log::emergency('Cannot Delete Module!');
             }
             $moduleDir = base_path().'/modules/'.$module->name;
-            if (File::exists($moduleDir)) {
+
+            try {
                 File::deleteDirectory($moduleDir);
+            } catch (Exception $e) {
+                Log::emergency('Folder Deleted Manually!');
             }
             return true;
         }
         return false;
     }
 
-    public function enableModule($name): bool
-    {
-        return $this->addModule($name, true);
-    }
-
-    public function addModule($name, $status): bool
-    {
-        (new Module())->create([
-            'name'    => $name,
-            'enabled' => $status,
-        ]);
-        return true;
-    }
 
     /**
      * Get & scan all modules.
@@ -208,7 +266,7 @@ class ModuleService extends Service
 
         foreach ($manifests as $manifest) {
             $name = Json::make($manifest)->get('name');
-            $module = (new Module())->where('name', $name);
+            $module = Module::where('name', $name);
             if (!$module->exists()) {
                 array_push($modules, $name);
             }

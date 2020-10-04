@@ -31,10 +31,6 @@
           <label>Module File : </label>
           <input type="file" name="module_file" class="form-control" />
         </div>
-        <div class="form-group">
-          <label>Enabled? : </label>
-          <input type="checkbox" name="enabled" checked />
-        </div>
         <button class="btn btn-success" type="submit">Add Module</button>
       </form>
       <hr>
