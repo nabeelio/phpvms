@@ -109,19 +109,19 @@ class ModuleService extends Service
     /**
      * Adding installed module to the database
      *
-     * @param $module
+     * @param $module_name
      *
      * @return bool
      */
-    public function addModule($module): bool
+    public function addModule($module_name): bool
     {
         /*Check if module already exists*/
-        if (Module::where('name', $module)->exists()) {
-            throw new ModuleExistsException($module);
+        if (Module::where('name', $module_name)->exists()) {
+            throw new ModuleExistsException($module_name);
         }
 
         Module::create([
-            'name'    => $module,
+            'name'    => $module_name,
             'enabled' => 1,
         ]);
 
