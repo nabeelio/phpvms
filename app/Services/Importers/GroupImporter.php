@@ -115,7 +115,7 @@ class GroupImporter extends BaseImporter
                         $permName = $this->legacy_to_permission[$legacy_name];
                         if ($permName === 'admin') {
                             foreach ($permMappings as $name => $value) {
-                                if (!in_array($value, $permissions)) {
+                                if (!in_array($value, $permissions, true)) {
                                     $permissions[] = $value;
                                 }
                             }
@@ -124,7 +124,7 @@ class GroupImporter extends BaseImporter
                         }
 
                         $permMapId = $permMappings[$permName];
-                        if (!in_array($permMapId, $permissions)) {
+                        if (!in_array($permMapId, $permissions, true)) {
                             $permissions[] = $permMapId;
                         }
                     } catch (\Exception $e) {

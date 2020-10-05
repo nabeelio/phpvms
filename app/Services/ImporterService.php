@@ -110,7 +110,7 @@ class ImporterService extends Service
         $manifest = [];
 
         foreach ($this->importList as $importerKlass) {
-            /** @var \App\Services\BaseImporter $importer */
+            /** @var BaseImporter $importer */
             $importer = new $importerKlass();
             $manifest = array_merge($manifest, $importer->getManifest());
         }
@@ -130,11 +130,11 @@ class ImporterService extends Service
      */
     public function run($importer, $start = 0)
     {
-        if (!in_array($importer, $this->importList)) {
+        if (!in_array($importer, $this->importList, true)) {
             throw new Exception('Unknown importer "'.$importer.'"');
         }
 
-        /** @var $importerInst \App\Services\BaseImporter */
+        /** @var $importerInst BaseImporter */
         $importerInst = new $importer();
 
         try {

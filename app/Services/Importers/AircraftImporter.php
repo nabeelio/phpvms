@@ -26,11 +26,11 @@ class AircraftImporter extends BaseImporter
 
         // See if there is an airline column
         $columns = $this->db->getColumns($this->table);
-        if (in_array('airline', $columns)) {
+        if (in_array('airline', $columns, true)) {
             $fields[] = 'airline';
         }
 
-        if (in_array('location', $columns)) {
+        if (in_array('location', $columns, true)) {
             $fields[] = 'location';
         }
 

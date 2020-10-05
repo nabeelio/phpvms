@@ -37,7 +37,7 @@ class PirepImporter extends BaseImporter
 
         // See if there's a flightlevel column, export that if there is
         $columns = $this->db->getColumns($this->table);
-        if (in_array('flightlevel', $columns)) {
+        if (in_array('flightlevel', $columns, true)) {
             $fields[] = 'flightlevel';
         }
 
@@ -144,7 +144,7 @@ class PirepImporter extends BaseImporter
         ];
 
         $old_state = (int) $old_state;
-        if (!in_array($old_state, $map)) {
+        if (!in_array($old_state, $map, true)) {
             return PirepState::PENDING;
         }
 

@@ -3,9 +3,9 @@
 namespace App\Services\Importers;
 
 use App\Models\Airport;
+use App\Services\BaseImporter;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Log;
-use App\Services\BaseImporter;
 
 class AirportImporter extends BaseImporter
 {
