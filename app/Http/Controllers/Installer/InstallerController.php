@@ -7,7 +7,6 @@ use App\Services\AirlineService;
 use App\Services\AnalyticsService;
 use App\Services\Installer\ConfigService;
 use App\Services\Installer\DatabaseService;
-use App\Services\Installer\InstallerService;
 use App\Services\Installer\MigrationService;
 use App\Services\Installer\RequirementsService;
 use App\Services\Installer\SeederService;
@@ -24,9 +23,9 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
+use function in_array;
 use Laracasts\Flash\Flash;
 use RuntimeException;
-use function in_array;
 
 class InstallerController extends Controller
 {

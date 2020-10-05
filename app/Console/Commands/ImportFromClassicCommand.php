@@ -3,8 +3,8 @@
 namespace App\Console\Commands;
 
 use App\Contracts\Command;
-use Illuminate\Support\Facades\Log;
 use App\Services\ImporterService;
+use Illuminate\Support\Facades\Log;
 
 class ImportFromClassicCommand extends Command
 {

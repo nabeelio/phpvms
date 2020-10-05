@@ -17,12 +17,11 @@ use App\Models\JournalTransaction;
 use App\Models\Ledger;
 use App\Models\News;
 use App\Models\Pirep;
-use App\Models\Role;
 use App\Models\Subfleet;
 use App\Models\User;
 use App\Models\UserAward;
-use Illuminate\Support\Facades\DB;
 use App\Services\BaseImporter;
+use Illuminate\Support\Facades\DB;
 
 class ClearDatabase extends BaseImporter
 {

@@ -3,13 +3,13 @@
 namespace App\Services;
 
 use App\Services\Installer\LoggerTrait;
+use App\Utils\IdMapper;
+use App\Utils\ImporterDB;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Log;
-use App\Utils\IdMapper;
-use App\Utils\ImporterDB;
 
 abstract class BaseImporter
 {

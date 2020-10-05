@@ -9,11 +9,11 @@ use App\Services\Installer\InstallerService;
 use App\Services\Installer\MigrationService;
 use App\Services\Installer\SeederService;
 use Codedge\Updater\UpdaterManager;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\View\View;
 use function count;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\View\View;
 
 class UpdateController extends Controller
 {

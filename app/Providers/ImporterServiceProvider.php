@@ -2,10 +2,9 @@
 
 namespace App\Providers;
 
-use App\Contracts\Modules\ServiceProvider;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Route;
 use App\Console\Commands\ImportFromClassicCommand;
+use App\Contracts\Modules\ServiceProvider;
+use Illuminate\Support\Facades\Route;
 
 class ImporterServiceProvider extends ServiceProvider
 {
@@ -57,7 +56,7 @@ class ImporterServiceProvider extends ServiceProvider
      */
     protected function registerConfig()
     {
-        $this->mergeConfigFrom(__DIR__.'/../../Config/importer.php', 'importer');
+        $this->mergeConfigFrom(__DIR__.'/../../config/importer.php', 'importer');
     }
 
     /**

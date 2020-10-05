@@ -3,15 +3,14 @@
 namespace App\Services\Importers;
 
 use App\Models\Enums\UserState;
-use App\Models\Role;
 use App\Models\User;
+use App\Services\BaseImporter;
 use App\Services\UserService;
 use App\Support\Units\Time;
 use App\Support\Utils;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
-use App\Services\BaseImporter;
 
 class UserImport extends BaseImporter
 {

@@ -4,9 +4,6 @@ namespace App\Services;
 
 use App\Contracts\Service;
 use App\Repositories\KvpRepository;
-use Exception;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use App\Services\Importers\AircraftImporter;
 use App\Services\Importers\AirlineImporter;
 use App\Services\Importers\AirportImporter;
@@ -20,6 +17,9 @@ use App\Services\Importers\PirepImporter;
 use App\Services\Importers\RankImport;
 use App\Services\Importers\SettingsImporter;
 use App\Services\Importers\UserImport;
+use Exception;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class ImporterService extends Service
 {

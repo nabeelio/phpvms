@@ -4,7 +4,6 @@ namespace App\Services\Installer;
 
 use App\Contracts\Service;
 use Illuminate\Support\Facades\Artisan;
-use Nwidart\Modules\Facades\Module;
 
 class InstallerService extends Service
 {

@@ -386,27 +386,27 @@ class RouteServiceProvider extends ServiceProvider
                 'middleware' => ['ability:admin, modules'],
             ], function () {
 
-                    //Modules Index
-                    Route::get('/', 'ModulesController@index')->name('index');
+                //Modules Index
+                Route::get('/', 'ModulesController@index')->name('index');
 
-                    //Add Module
-                    Route::get('/create', 'ModulesController@create')->name('create');
+                //Add Module
+                Route::get('/create', 'ModulesController@create')->name('create');
 
-                    //Store Module
-                    Route::post('/create', 'ModulesController@store')->name('store');
+                //Store Module
+                Route::post('/create', 'ModulesController@store')->name('store');
 
-                    //Enable Module
-                    Route::post('/enable', 'ModulesController@enable')->name('enable');
+                //Enable Module
+                Route::post('/enable', 'ModulesController@enable')->name('enable');
 
-                    //Edit Module
-                    Route::get('/{id}/edit', 'ModulesController@edit')->name('edit');
+                //Edit Module
+                Route::get('/{id}/edit', 'ModulesController@edit')->name('edit');
 
-                    //Update Module
-                    Route::post('/{id}', 'ModulesController@update')->name('update');
+                //Update Module
+                Route::post('/{id}', 'ModulesController@update')->name('update');
 
-                    //Delete Module
-                    Route::delete('/{id}', 'ModulesController@destroy')->name('destroy');
-                });
+                //Delete Module
+                Route::delete('/{id}', 'ModulesController@destroy')->name('destroy');
+            });
         });
     }
 

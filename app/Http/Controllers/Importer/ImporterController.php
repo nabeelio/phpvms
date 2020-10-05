@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Importer;
 
 use App\Contracts\Controller;
+use App\Services\ImporterService;
 use App\Services\Installer\DatabaseService;
 use App\Services\Installer\InstallerService;
 use App\Support\Utils;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use App\Services\ImporterService;
 
 class ImporterController extends Controller
 {
@@ -112,9 +112,9 @@ class ImporterController extends Controller
      *
      * @param Request $request
      *
-     * @return mixed
-     *@throws Exception
+     * @throws Exception
      *
+     * @return mixed
      */
     public function run(Request $request)
     {

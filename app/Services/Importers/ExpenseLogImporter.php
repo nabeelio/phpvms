@@ -4,9 +4,10 @@ namespace App\Services\Importers;
 
 use App\Models\Airline;
 use App\Models\Expense;
+use App\Services\BaseImporter;
 use App\Services\FinanceService;
 use App\Support\Money;
-use App\Services\BaseImporter;
+use Prettus\Validator\Exceptions\ValidatorException;
 
 class ExpenseLogImporter extends BaseImporter
 {
@@ -15,7 +16,7 @@ class ExpenseLogImporter extends BaseImporter
     /**
      * {@inheritdoc}
      *
-     * @throws \Prettus\Validator\Exceptions\ValidatorException
+     * @throws ValidatorException
      */
     public function run($start = 0)
     {
