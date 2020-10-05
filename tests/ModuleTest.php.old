@@ -1,0 +1,36 @@
+<?php
+
+namespace Tests;
+
+use App\Services\ModuleService;
+
+class ModuleTest extends TestCase
+{
+    /** @var ModuleService */
+    protected $moduleSvc;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->addData('base');
+
+        $this->moduleSvc = app(ModuleService::class);
+    }
+
+    public function testAddModule()
+    {
+        $attrs = factory(\App\Models\Module::class)->make([
+            'name' => '',
+        ])->toArray();
+
+        $module = $this->moduleSvc->addModule($attrs);
+        $this->assertNotNull($module);
+
+        // Add another airline, also blank IATA
+        $attrs = factory(\App\Models\Module::class)->make([
+            'name' => '',
+        ])->toArray();
+        $airline = $this->moduleSvc->addModule($attrs);
+        $this->assertNotNull($airline);
+    }
+}

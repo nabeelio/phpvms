@@ -2,6 +2,7 @@
 
 namespace App\Support\Modules;
 
+use Exception;
 use Illuminate\Config\Repository as Config;
 use Illuminate\Container\Container;
 use Illuminate\Filesystem\Filesystem;
@@ -58,12 +59,16 @@ class DatabaseActivator implements ActivatorInterface
      */
     private function getModulesStatuses(): array
     {
-        $modules = \App\Models\Module::all();
-        $retVal = [];
-        foreach ($modules as $i) {
-            $retVal[$i->name] = $i->enabled;
+        try {
+            $modules = \App\Models\Module::all();
+            $retVal = [];
+            foreach ($modules as $i) {
+                $retVal[$i->name] = $i->enabled;
+            }
+            return $retVal;
+        } catch (Exception $e) {
+            return [];
         }
-        return $retVal;
     }
 
     /**
@@ -96,11 +101,15 @@ class DatabaseActivator implements ActivatorInterface
      */
     public function hasStatus(Module $module, bool $status): bool
     {
-        $module = (new \App\Models\Module())->where('name', $module->getName());
-        if ($module->exists()) {
-            return $module->first()->enabled == 1;
+        try {
+            $module = (new \App\Models\Module())->where('name', $module->getName());
+            if ($module->exists()) {
+                return $module->first()->enabled == 1;
+            }
+            return false;
+        } catch (Exception $e) {
+            return false;
         }
-        return false;
     }
 
     /**
