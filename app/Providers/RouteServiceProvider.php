@@ -41,7 +41,7 @@ class RouteServiceProvider extends ServiceProvider
         Route::group([
             'middleware' => ['web'],
             'namespace'  => $this->namespace,
-        ], function ($router) {
+        ], function () {
             Route::group([
                 'namespace'  => 'Frontend',
                 'prefix'     => '',
@@ -380,9 +380,11 @@ class RouteServiceProvider extends ServiceProvider
                 ->name('dashboard.news')->middleware('update_pending', 'ability:admin,admin-access');
 
             //Modules
-            Route::as('modules.')->prefix('modules')
-                ->middleware(['ability:admin, modules'])
-                ->group(function () {
+            Route::group([
+                'as'         => 'modules.',
+                'prefix'     => 'modules',
+                'middleware' => ['ability:admin, modules'],
+            ], function () {
 
                     //Modules Index
                     Route::get('/', 'ModulesController@index')->name('index');
@@ -422,7 +424,7 @@ class RouteServiceProvider extends ServiceProvider
             'namespace'  => $this->namespace.'\\Api',
             'prefix'     => 'api',
             'as'         => 'api.',
-        ], function ($router) {
+        ], function () {
             Route::group([], function () {
                 Route::get('acars', 'AcarsController@live_flights');
                 Route::get('acars/geojson', 'AcarsController@pireps_geojson');

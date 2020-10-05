@@ -1,12 +1,6 @@
 - name: 'Awards'
   enabled: 1
-- name: 'Importer'
-  enabled: 1
-- name: 'Installer'
-  enabled: 1
 - name: 'Sample'
-  enabled: 1
-- name: 'Updater'
   enabled: 1
 - name: 'VMSAcars'
   enabled: 1

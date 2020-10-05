@@ -44,27 +44,6 @@ class InstallerService extends Service
      */
     public function clearCaches(): void
     {
-        $commands = [
-            'clear-compiled',
-            'cache:clear',
-            'route:clear',
-            'view:clear',
-        ];
-
-        foreach ($commands as $cmd) {
-            Artisan::call($cmd);
-        }
-    }
-
-    /**
-     * Disable the installer and importer modules
-     */
-    public function disableInstallerModules()
-    {
-        $module = Module::find('installer');
-        $module->disable();
-
-        $module = Module::find('importer');
-        $module->disable();
+        Artisan::call('optimize:clear');
     }
 }
