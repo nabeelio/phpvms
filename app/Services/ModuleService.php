@@ -141,7 +141,7 @@ class ModuleService extends Service
         $file_ext = $file->getClientOriginalExtension();
         $allowed_extensions = ['zip', 'tar', 'gz'];
 
-        if (!in_array($file_ext, $allowed_extensions)) {
+        if (!in_array($file_ext, $allowed_extensions, true)) {
             return false;
         }
 
