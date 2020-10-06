@@ -128,7 +128,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $this->edit($id);
+        return $this->edit($id);
     }
 
     /**
