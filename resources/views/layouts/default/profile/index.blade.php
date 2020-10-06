@@ -49,8 +49,8 @@
             <div class="card text-center">
               <div class="card-body">
                 <div class="social-description">
-                  <h2>@minutestotime($user->flight_time)</h2>
-                  <p>@lang('flights.flighthours')</p>
+                  <h2 class="card-title">@minutestotime($user->flight_time)</h2>
+                  <p class="card-text">@lang('flights.flighthours')</p>
                 </div>
               </div>
             </div>
@@ -62,8 +62,8 @@
               <div class="card text-center">
                 <div class="card-body">
                   <div class="social-description">
-                    <h2>{{ $user->current_airport->icao }}</h2>
-                    <p>@lang('airports.current')</p>
+                    <h2 class="card-title">{{ $user->current_airport->icao }}</h2>
+                    <p class="card-text">@lang('airports.current')</p>
                   </div>
                 </div>
               </div>
@@ -76,8 +76,8 @@
               <div class="card text-center">
                 <div class="card-body">
                   <div class="social-description">
-                    <h2>@minutestohours($user->transfer_time)h</h2>
-                    <p>@lang('profile.transferhours')</p>
+                    <h2 class="card-title">@minutestohours($user->transfer_time)h</h2>
+                    <p class="card-text">@lang('profile.transferhours')</p>
                   </div>
                 </div>
               </div>
