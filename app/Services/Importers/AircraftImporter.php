@@ -5,7 +5,6 @@ namespace App\Services\Importers;
 use App\Models\Aircraft;
 use App\Models\Airline;
 use App\Models\Subfleet;
-use App\Services\Importers\BaseImporter;
 
 class AircraftImporter extends BaseImporter
 {

@@ -3,7 +3,6 @@
 namespace App\Services\Importers;
 
 use App\Models\Airport;
-use App\Services\Importers\BaseImporter;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Log;
 
@@ -59,5 +58,6 @@ class AirportImporter extends BaseImporter
         }
 
         $this->info('Imported '.$count.' airports');
+        return true;
     }
 }

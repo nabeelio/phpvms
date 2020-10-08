@@ -3,7 +3,6 @@
 namespace App\Services\Importers;
 
 use App\Repositories\SettingRepository;
-use App\Services\Importers\BaseImporter;
 
 class SettingsImporter extends BaseImporter
 {

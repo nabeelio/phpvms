@@ -3,7 +3,6 @@
 namespace App\Services\Importers;
 
 use App\Models\Airline;
-use App\Services\Importers\BaseImporter;
 use Illuminate\Support\Facades\Log;
 
 class AirlineImporter extends BaseImporter

@@ -96,6 +96,7 @@ class RouteServiceProvider extends ServiceProvider
             Route::post('/downloader', 'UpdateController@update_download')->name('update_download');
         });
     }
+
     /**
      * Define the "web" routes for the application.
      *

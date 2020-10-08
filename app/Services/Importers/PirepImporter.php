@@ -6,7 +6,6 @@ use App\Models\Enums\FlightType;
 use App\Models\Enums\PirepSource;
 use App\Models\Enums\PirepState;
 use App\Models\Pirep;
-use App\Services\Importers\BaseImporter;
 
 class PirepImporter extends BaseImporter
 {

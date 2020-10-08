@@ -4,7 +4,6 @@ namespace App\Services\Importers;
 
 use App\Models\Enums\ExpenseType;
 use App\Models\Expense;
-use App\Services\Importers\BaseImporter;
 
 class ExpenseImporter extends BaseImporter
 {

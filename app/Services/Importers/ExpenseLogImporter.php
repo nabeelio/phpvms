@@ -4,7 +4,6 @@ namespace App\Services\Importers;
 
 use App\Models\Airline;
 use App\Models\Expense;
-use App\Services\Importers\BaseImporter;
 use App\Services\FinanceService;
 use App\Support\Money;
 use Prettus\Validator\Exceptions\ValidatorException;
