@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Contracts\Controller;
-use App\Models\Module;
 use App\Services\ModuleService;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Laracasts\Flash\Flash;
+use Illuminate\Routing\Redirector;
+use Illuminate\View\View;
 
 class ModulesController extends Controller
 {
@@ -35,7 +38,7 @@ class ModulesController extends Controller
     /**
      * Show the form for creating a new Module.
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Application|Factory|View
      */
     public function create()
     {
@@ -47,16 +50,16 @@ class ModulesController extends Controller
      *
      * @param Request $request
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return Application|RedirectResponse|Redirector
      */
     public function store(Request $request)
     {
         $store = $this->moduleSvc->installModule($request->file('module_file'));
 
         if ($store) {
-            Flash::success('Module Installed Successfully!');
+            flash()->success('Module Installed Successfully!');
         }
-        Flash::error('Something Went Wrong! Please check the structure again or the module already exists!');
+        flash()->error('Something Went Wrong! Please check the structure again or the module already exists!');
         return redirect(route('admin.modules.index'));
     }
 
@@ -65,7 +68,7 @@ class ModulesController extends Controller
      *
      * @param $id
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Application|Factory|View
      */
     public function edit($id)
     {
@@ -81,12 +84,12 @@ class ModulesController extends Controller
      * @param $id
      * @param Request $request
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return Application|RedirectResponse|Redirector
      */
     public function update($id, Request $request)
     {
         $this->moduleSvc->updateModule($id, $request->has('enabled'));
-        Flash::success('Module Status Changed!');
+        flash()->success('Module Status Changed!');
         return redirect(route('admin.modules.index'));
     }
 
@@ -95,7 +98,7 @@ class ModulesController extends Controller
      *
      * @param Request $request
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return Application|RedirectResponse|Redirector
      */
     public function enable(Request $request)
     {
@@ -115,10 +118,10 @@ class ModulesController extends Controller
     {
         $delete = $this->moduleSvc->deleteModule($id, $request->all());
         if ($delete == true) {
-            Flash::success('Module Deleted Successfully!');
+            flash()->success('Module Deleted Successfully!');
             return redirect(route('admin.modules.index'));
         }
-        Flash::error('Verification Failed!');
+        flash()->error('Verification Failed!');
         return redirect(route('admin.modules.edit', $id));
     }
 }

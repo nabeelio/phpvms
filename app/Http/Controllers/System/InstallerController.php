@@ -14,6 +14,7 @@ use App\Services\UserService;
 use App\Support\Countries;
 use App\Support\Utils;
 use Exception;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\RedirectResponse;
@@ -78,10 +79,10 @@ class InstallerController extends Controller
     public function index()
     {
         if (config('app.key') !== 'base64:zdgcDqu9PM8uGWCtMxd74ZqdGJIrnw812oRMmwDF6KY=') {
-            return view('system/installer.errors/already-installed');
+            return view('system.installer.errors.already-installed');
         }
 
-        return view('system/installer/install/index-start');
+        return view('system.installer.install.index-start');
     }
 
     protected function testDb(Request $request)
@@ -98,6 +99,8 @@ class InstallerController extends Controller
 
     /**
      * Check the database connection
+     * @param Request $request
+     * @return Application|Factory|View
      */
     public function dbtest(Request $request)
     {
@@ -111,7 +114,7 @@ class InstallerController extends Controller
             $message = 'Failed! '.$e->getMessage();
         }
 
-        return view('system/installer/install/dbtest', [
+        return view('system.installer.install.dbtest', [
             'status'  => $status,
             'message' => $message,
         ]);
@@ -138,8 +141,6 @@ class InstallerController extends Controller
     /**
      * Step 1. Check the modules and permissions
      *
-     * @param Request $request
-     *
      * @return Factory|View
      */
     public function step1()
@@ -158,7 +159,7 @@ class InstallerController extends Controller
         // Make sure there are no false values
         $passed = !in_array(false, $statuses, true);
 
-        return view('system/installer/install/steps/step1-requirements', [
+        return view('system.installer.install.steps.step1-requirements', [
             'php'         => $php_version,
             'extensions'  => $extensions,
             'directories' => $directories,
@@ -169,14 +170,12 @@ class InstallerController extends Controller
     /**
      * Step 2. Database Setup
      *
-     * @param Request $request
-     *
      * @return Factory|View
      */
     public function step2()
     {
         $db_types = ['mysql' => 'mysql', 'sqlite' => 'sqlite'];
-        return view('system/installer/install/steps/step2-db', [
+        return view('system.installer.install.steps.step2-db', [
             'db_types' => $db_types,
         ]);
     }
@@ -262,7 +261,7 @@ class InstallerController extends Controller
 
         $console_out = trim($console_out);
 
-        return view('system/installer/install/steps/step2a-db_output', [
+        return view('system.installer.install.steps.step2a-db_output', [
             'console_output' => $console_out,
         ]);
     }
@@ -272,7 +271,7 @@ class InstallerController extends Controller
      */
     public function step3()
     {
-        return view('system/installer/install/steps/step3-user', [
+        return view('system.installer.install.steps.step3-user', [
             'countries' => Countries::getSelectList(),
         ]);
     }
@@ -340,7 +339,7 @@ class InstallerController extends Controller
         // Try sending telemetry info
         $this->analyticsSvc->sendInstall();
 
-        return view('system/installer/install/steps/step3a-completed', []);
+        return view('system.installer.install.steps.step3a-completed', []);
     }
 
     /**
