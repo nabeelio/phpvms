@@ -3,7 +3,7 @@
 namespace App\Services\Importers;
 
 use App\Models\Rank;
-use App\Services\BaseImporter;
+use App\Services\Importers\BaseImporter;
 
 class RankImport extends BaseImporter
 {

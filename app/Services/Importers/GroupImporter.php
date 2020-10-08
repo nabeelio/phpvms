@@ -4,7 +4,7 @@ namespace App\Services\Importers;
 
 use App\Models\Permission;
 use App\Models\Role;
-use App\Services\BaseImporter;
+use App\Services\Importers\BaseImporter;
 use App\Services\RoleService;
 use Illuminate\Support\Facades\Log;
 

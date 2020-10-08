@@ -20,7 +20,7 @@ use App\Models\Pirep;
 use App\Models\Subfleet;
 use App\Models\User;
 use App\Models\UserAward;
-use App\Services\BaseImporter;
+use App\Services\Importers\BaseImporter;
 use Illuminate\Support\Facades\DB;
 
 class ClearDatabase extends BaseImporter

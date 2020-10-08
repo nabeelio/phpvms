@@ -3,7 +3,7 @@
 namespace App\Services\Importers;
 
 use App\Models\Pirep;
-use App\Services\BaseImporter;
+use App\Services\Importers\BaseImporter;
 use App\Services\FinanceService;
 use App\Support\Money;
 

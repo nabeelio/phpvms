@@ -4,7 +4,7 @@ namespace App\Services\Importers;
 
 use App\Models\User;
 use App\Services\AircraftService;
-use App\Services\BaseImporter;
+use App\Services\Importers\BaseImporter;
 use App\Services\UserService;
 
 class FinalizeImporter extends BaseImporter

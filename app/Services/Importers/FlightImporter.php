@@ -3,7 +3,7 @@
 namespace App\Services\Importers;
 
 use App\Models\Flight;
-use App\Services\BaseImporter;
+use App\Services\Importers\BaseImporter;
 
 class FlightImporter extends BaseImporter
 {

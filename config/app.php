@@ -86,9 +86,6 @@ return [
         App\Providers\MeasurementsProvider::class,
         App\Providers\ObserverServiceProviders::class,
         App\Providers\RouteServiceProvider::class,
-        App\Providers\InstallerServiceProvider::class,
-        App\Providers\ImporterServiceProvider::class,
-        App\Providers\UpdateServiceProvider::class,
     ],
 
     'aliases' => [
