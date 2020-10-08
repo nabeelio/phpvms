@@ -99,7 +99,9 @@ class InstallerController extends Controller
 
     /**
      * Check the database connection
+     *
      * @param Request $request
+     *
      * @return Application|Factory|View
      */
     public function dbtest(Request $request)
