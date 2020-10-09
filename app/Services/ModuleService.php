@@ -206,7 +206,7 @@ class ModuleService extends Service
         $this->addModule($module);
 
         Artisan::call('config:cache');
-        Artisan::call('module:migrate '.$module);
+        Artisan::call('module:migrate  '.$module);
         return true;
     }
 
