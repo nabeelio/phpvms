@@ -21,8 +21,10 @@
       </p>
       <h6><span class="flag-icon flag-icon-{{ $user->country }}"></span></h6>
       <div class="social-description">
+        @if (!empty($user->rank->image_url))
+          <img src="{{ $user->rank->image_url }}" style="width: 160px;">
+        @endif
         <h2>{{ $user->rank->name }}</h2>
-        <p>Rank</p>
       </div>
       @if($user->home_airport)
         <div class="social-description">
