@@ -9,8 +9,8 @@ use App\Models\Pirep;
 use App\Models\PirepFare;
 use App\Models\Subfleet;
 use App\Support\Math;
-use Illuminate\Support\Collection;
 use function count;
+use Illuminate\Support\Collection;
 
 class FareService extends Service
 {
