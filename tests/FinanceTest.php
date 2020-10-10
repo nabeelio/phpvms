@@ -195,6 +195,46 @@ class FinanceTest extends TestCase
         $this->assertCount(0, $this->fareSvc->getForFlight($flight));
     }
 
+    public function testFlightFaresSetToNull()
+    {
+        /** @var Flight $flight */
+        $flight = factory(Flight::class)->create();
+
+        /** @var Fare $fare */
+        $fare = factory(Fare::class)->create();
+
+        $this->fareSvc->setForFlight($flight, $fare);
+        $subfleet_fares = $this->fareSvc->getForFlight($flight);
+
+        $this->assertCount(1, $subfleet_fares);
+        $this->assertEquals($fare->price, $subfleet_fares->get(0)->price);
+        $this->assertEquals($fare->capacity, $subfleet_fares->get(0)->capacity);
+
+        //
+        // set an override now
+        //
+        $this->fareSvc->setForFlight($flight, $fare, [
+            'price' => 50, 'capacity' => 400,
+        ]);
+
+        // look for them again
+        $subfleet_fares = $this->fareSvc->getForFlight($flight);
+
+        $this->assertCount(1, $subfleet_fares);
+        $this->assertEquals(50, $subfleet_fares[0]->price);
+        $this->assertEquals(400, $subfleet_fares[0]->capacity);
+
+        // Set back to null
+        $this->fareSvc->setForFlight($flight, $fare, [
+            'price' => null, 'capacity' => null,
+        ]);
+
+        // Get the original and check that it's being used
+        $subfleet_fares = $this->fareSvc->getForFlight($flight);
+        $this->assertEquals($fare->price, $subfleet_fares->get(0)->price);
+        $this->assertEquals($fare->capacity, $subfleet_fares->get(0)->capacity);
+    }
+
     /**
      * Assign percentage values and make sure they're valid
      */
