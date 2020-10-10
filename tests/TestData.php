@@ -2,6 +2,9 @@
 
 namespace Tests;
 
+use App\Models\Aircraft;
+use App\Models\Subfleet;
+
 trait TestData
 {
     /**
@@ -62,7 +65,7 @@ trait TestData
      */
     public function createSubfleetWithAircraft($aircraft_count = null, $airport_id = null)
     {
-        $subfleet = factory(\App\Models\Subfleet::class)->create([
+        $subfleet = factory(Subfleet::class)->create([
             'ground_handling_multiplier' => '100',
         ]);
 
@@ -70,7 +73,7 @@ trait TestData
             $aircraft_count = \random_int(2, 10);
         }
 
-        $aircraft = factory(\App\Models\Aircraft::class, $aircraft_count)->create([
+        $aircraft = factory(Aircraft::class, $aircraft_count)->create([
             'subfleet_id' => $subfleet->id,
             'airport_id'  => $airport_id,
         ]);

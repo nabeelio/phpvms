@@ -29,27 +29,49 @@ class UserService extends Service
 {
     private $aircraftRepo;
     private $airlineRepo;
+    private $fareSvc;
     private $subfleetRepo;
     private $userRepo;
 
     /**
-     * UserService constructor.
-     *
      * @param AircraftRepository $aircraftRepo
      * @param AirlineRepository  $airlineRepo
+     * @param FareService        $fareSvc
      * @param SubfleetRepository $subfleetRepo
      * @param UserRepository     $userRepo
      */
     public function __construct(
         AircraftRepository $aircraftRepo,
         AirlineRepository $airlineRepo,
+        FareService $fareSvc,
         SubfleetRepository $subfleetRepo,
         UserRepository $userRepo
     ) {
         $this->aircraftRepo = $aircraftRepo;
         $this->airlineRepo = $airlineRepo;
+        $this->fareSvc = $fareSvc;
         $this->subfleetRepo = $subfleetRepo;
         $this->userRepo = $userRepo;
+    }
+
+    /**
+     * Find the user and return them with all of the data properly attached
+     *
+     * @param $user_id
+     *
+     * @return User
+     */
+    public function getUser($user_id): User
+    {
+        $user = $this->userRepo
+            ->with(['airline', 'bids', 'rank'])
+            ->find($user_id);
+
+        // Load the proper subfleets to the rank
+        $user->rank->subfleets = $this->getAllowableSubfleets($user);
+        $user->subfleets = $user->rank->subfleets;
+
+        return $user;
     }
 
     /**
@@ -243,11 +265,18 @@ class UserService extends Service
     public function getAllowableSubfleets($user)
     {
         if ($user === null || setting('pireps.restrict_aircraft_to_rank') === false) {
-            return $this->subfleetRepo->with('aircraft')->all();
+            /** @var Collection $subfleets */
+            $subfleets = $this->subfleetRepo->with('aircraft')->all();
+        } else {
+            /** @var Collection $subfleets */
+            $subfleets = $user->rank->subfleets()->with('aircraft')->get();
         }
 
-        $subfleets = $user->rank->subfleets();
-        return $subfleets->with('aircraft')->get();
+        // Map the subfleets with the proper fare information
+        return $subfleets->transform(function ($sf, $key) {
+            $sf->fares = $this->fareSvc->getForSubfleet($sf);
+            return $sf;
+        });
     }
 
     /**

@@ -21,8 +21,10 @@
       </p>
       <h6><span class="flag-icon flag-icon-{{ $user->country }}"></span></h6>
       <div class="social-description">
+        @if (!empty($user->rank->image_url))
+          <img src="{{ $user->rank->image_url }}" style="width: 160px;">
+        @endif
         <h2>{{ $user->rank->name }}</h2>
-        <p>Rank</p>
       </div>
       @if($user->home_airport)
         <div class="social-description">
@@ -47,8 +49,8 @@
             <div class="card text-center">
               <div class="card-body">
                 <div class="social-description">
-                  <h2>@minutestotime($user->flight_time)</h2>
-                  <p>@lang('flights.flighthours')</p>
+                  <h2 class="card-title">@minutestotime($user->flight_time)</h2>
+                  <p class="card-text">@lang('flights.flighthours')</p>
                 </div>
               </div>
             </div>
@@ -60,8 +62,8 @@
               <div class="card text-center">
                 <div class="card-body">
                   <div class="social-description">
-                    <h2>{{ $user->current_airport->icao }}</h2>
-                    <p>@lang('airports.current')</p>
+                    <h2 class="card-title">{{ $user->current_airport->icao }}</h2>
+                    <p class="card-text">@lang('airports.current')</p>
                   </div>
                 </div>
               </div>
@@ -74,8 +76,8 @@
               <div class="card text-center">
                 <div class="card-body">
                   <div class="social-description">
-                    <h2>@minutestohours($user->transfer_time)h</h2>
-                    <p>@lang('profile.transferhours')</p>
+                    <h2 class="card-title">@minutestohours($user->transfer_time)h</h2>
+                    <p class="card-text">@lang('profile.transferhours')</p>
                   </div>
                 </div>
               </div>
@@ -114,7 +116,7 @@
           </tr>
           <tr>
             <td>@lang('profile.apikey')&nbsp;&nbsp;<span class="description">(@lang('profile.dontshare'))</span></td>
-            <td>{{ $user->api_key }}</td>
+            <td><span id="apiKey_show" style="display: none">{{ $user->api_key }} <i class="fas fa-eye-slash" onclick="apiKeyHide()"></i></span><span id="apiKey_hide">@lang('profile.apikey-show') <i class="fas fa-eye" onclick="apiKeyShow()"></i></span></td>
           </tr>
           <tr>
             <td>@lang('common.timezone')</td>
@@ -144,4 +146,17 @@
       </table>
     </div>
   </div>
+@endsection
+
+@section('scripts')
+  <script>
+    function apiKeyShow(){
+      document.getElementById("apiKey_show").style = "display:block";
+      document.getElementById("apiKey_hide").style = "display:none";
+    }
+    function apiKeyHide(){
+      document.getElementById("apiKey_show").style = "display:none";
+      document.getElementById("apiKey_hide").style = "display:block";
+    }
+  </script>
 @endsection

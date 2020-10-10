@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Laracasts\Flash\Flash;
+use League\ISO3166\ISO3166;
 use Prettus\Repository\Exceptions\RepositoryException;
 
 class UserController extends Controller
@@ -69,7 +70,7 @@ class UserController extends Controller
 
         return view('admin.users.index', [
             'users'   => $users,
-            'country' => new \League\ISO3166\ISO3166(),
+            'country' => new ISO3166(),
         ]);
     }
 
@@ -82,13 +83,18 @@ class UserController extends Controller
     {
         $airlines = $this->airlineRepo->selectBoxList();
         $airports = $this->airportRepo->selectBoxList(false);
+        $countries = collect((new ISO3166())->all())
+            ->mapWithKeys(function ($item, $key) {
+                return [strtolower($item['alpha2']) => $item['name']];
+            });
 
         return view('admin.users.create', [
             'user'      => null,
             'pireps'    => null,
             'airlines'  => $airlines,
             'timezones' => Timezonelist::toArray(),
-            'country'   => new \League\ISO3166\ISO3166(),
+            'country'   => new ISO3166(),
+            'countries' => $countries,
             'airports'  => $airports,
             'ranks'     => Rank::all()->pluck('name', 'id'),
             'roles'     => Role::all()->pluck('name', 'id'),
@@ -122,37 +128,15 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $user = $this->userRepo->findWithoutFail($id);
-
-        if (empty($user)) {
-            Flash::error('User not found');
-
-            return redirect(route('admin.users.index'));
-        }
-
-        $pireps = $this->pirepRepo
-            ->whereOrder(['user_id' => $id], 'created_at', 'desc')
-            ->paginate();
-
-        $airlines = $this->airlineRepo->selectBoxList();
-        $airports = $this->airportRepo->selectBoxList(false);
-
-        return view('admin.users.show', [
-            'user'      => $user,
-            'pireps'    => $pireps,
-            'airlines'  => $airlines,
-            'timezones' => Timezonelist::toArray(),
-            'country'   => new \League\ISO3166\ISO3166(),
-            'airports'  => $airports,
-            'ranks'     => Rank::all()->pluck('name', 'id'),
-            'roles'     => Role::all()->pluck('name', 'id'),
-        ]);
+        return $this->edit($id);
     }
 
     /**
      * Show the form for editing the specified User.
      *
      * @param int $id
+     *
+     * @throws RepositoryException
      *
      * @return mixed
      */
@@ -171,7 +155,7 @@ class UserController extends Controller
             ->whereOrder(['user_id' => $id], 'created_at', 'desc')
             ->paginate();
 
-        $countries = collect((new \League\ISO3166\ISO3166())->all())
+        $countries = collect((new ISO3166())->all())
             ->mapWithKeys(function ($item, $key) {
                 return [strtolower($item['alpha2']) => $item['name']];
             });
@@ -182,6 +166,7 @@ class UserController extends Controller
         return view('admin.users.edit', [
             'user'      => $user,
             'pireps'    => $pireps,
+            'country'   => new ISO3166(),
             'countries' => $countries,
             'timezones' => Timezonelist::toArray(),
             'airports'  => $airports,

@@ -5,8 +5,10 @@ namespace Tests;
 use App\Exceptions\PilotIdNotFound;
 use App\Exceptions\UserPilotIdExists;
 use App\Models\Airline;
+use App\Models\Fare;
 use App\Models\User;
 use App\Repositories\SettingRepository;
+use App\Services\FareService;
 use App\Services\UserService;
 use Illuminate\Support\Facades\Hash;
 
@@ -83,13 +85,29 @@ class UserTest extends TestCase
     /**
      * Flip the setting for getting all of the user's aircraft restricted
      * by rank. Make sure that they're all returned
+     *
+     * @throws \Exception
      */
     public function testGetAllAircraft()
     {
+        $fare_svc = app(FareService::class);
+
         // Add subfleets and aircraft, but also add another
         // set of subfleets
         $subfleetA = $this->createSubfleetWithAircraft();
         $subfleetB = $this->createSubfleetWithAircraft();
+
+        $fare = factory(Fare::class)->create([
+            'price'    => 20,
+            'capacity' => 200,
+        ]);
+
+        $overrides = [
+            'price'    => 50,
+            'capacity' => 400,
+        ];
+
+        $fare_svc->setForSubfleet($subfleetA['subfleet'], $fare, $overrides);
 
         $added_aircraft = array_merge(
             $subfleetA['aircraft']->pluck('id')->toArray(),
@@ -114,19 +132,34 @@ class UserTest extends TestCase
 
         $this->assertEquals($added_aircraft, $all_aircraft);
 
+        $subfleetACalled = collect($subfleets)->firstWhere('id', $subfleetA['subfleet']->id);
+        $this->assertEquals($subfleetACalled->fares[0]['price'], $overrides['price']);
+        $this->assertEquals($subfleetACalled->fares[0]['capacity'], $overrides['capacity']);
+
         /**
-         * Check via API
+         * Check via API, but should only show the single subfleet being returned
          */
+        $this->settingsRepo->store('pireps.restrict_aircraft_to_rank', true);
+
         $resp = $this->get('/api/user/fleet', [], $user)->assertStatus(200);
 
-        // Get all the aircraft from that subfleet
+        // Get all the aircraft from that subfleet, check the fares
         $body = $resp->json()['data'];
-        $aircraft_from_api = array_merge(
-            collect($body[0]['aircraft'])->pluck('id')->toArray(),
-            collect($body[1]['aircraft'])->pluck('id')->toArray()
-        );
+        $subfleetAFromApi = collect($body)->firstWhere('id', $subfleetA['subfleet']->id);
+        $this->assertEquals($subfleetAFromApi['fares'][0]['price'], $overrides['price']);
+        $this->assertEquals($subfleetAFromApi['fares'][0]['capacity'], $overrides['capacity']);
 
-        $this->assertEquals($added_aircraft, $aircraft_from_api);
+        // Read the user's profile and make sure that subfleet C is not part of this
+        // Should only return a single subfleet (subfleet A)
+        $resp = $this->get('/api/user', [], $user);
+        $resp->assertStatus(200);
+
+        $body = $resp->json('data');
+        $subfleets = $body['rank']['subfleets'];
+
+        $this->assertEquals(1, count($subfleets));
+        $this->assertEquals($subfleets[0]['fares'][0]['price'], $overrides['price']);
+        $this->assertEquals($subfleets[0]['fares'][0]['capacity'], $overrides['capacity']);
     }
 
     /**

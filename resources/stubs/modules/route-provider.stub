@@ -16,7 +16,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    protected $namespace = '$MODULE_NAMESPACE$\$MODULE$\$CONTROLLER_NAMESPACE$';
+    protected $namespace = '$MODULE_NAMESPACE$\$MODULE$\Http\Controllers';
 
     /**
      * Called before routes are registered.
@@ -72,7 +72,7 @@ class RouteServiceProvider extends ServiceProvider
         ];
 
         Route::group($config, function() {
-            $this->loadRoutesFrom(__DIR__.'/../Http/Routes/web.php');
+            $this->loadRoutesFrom(__DIR__.'/../Http/Routes/admin.php');
         });
     }
 
@@ -82,8 +82,8 @@ class RouteServiceProvider extends ServiceProvider
     protected function registerApiRoutes(): void
     {
         $config = [
-            'as'         => 'admin.$LOWER_NAME$.',
-            'prefix'     => 'admin/$LOWER_NAME$',
+            'as'         => 'api.$LOWER_NAME$.',
+            'prefix'     => 'api/$LOWER_NAME$',
             'namespace'  => $this->namespace.'\Api',
             'middleware' => ['api'],
         ];
