@@ -1487,7 +1487,6 @@ class Metar implements \ArrayAccess
 
         // Ignore trends
         return true;
-
         // Detects TAF on report
         if ($this->part <= 4) {
             $this->set_result_value('taf', true);
