@@ -8,7 +8,7 @@ use App\Contracts\Award;
  * Simple example of an awards class, where you can apply an award when a user
  * has 100 flights. All award classes need to extend Award and implement the check() method
  *
- * See: http://docs.phpvms.net/customizing/awards
+ * See: https://docs.phpvms.net/developers/awards
  */
 class PilotFlightAwards extends Award
 {
