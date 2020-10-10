@@ -173,6 +173,22 @@ class MetarTest extends TestCase
         $this->assertInstanceOf(Metar::class, $airportSvc->getMetar('kjfk'));
     }
 
+    /**
+     * TEMPO and trend causing issue with values being overwritten
+     * https://github.com/nabeelio/phpvms/issues/861
+     */
+    public function testLFRSCall()
+    {
+        $this->mockXmlResponse('aviationweather/lfrs.xml');
+
+        /** @var AirportService $airportSvc */
+        $airportSvc = app(AirportService::class);
+
+        $metar = $airportSvc->getMetar('lfrs');
+        $this->assertInstanceOf(Metar::class, $metar);
+        $this->assertTrue($metar['cavok']);
+    }
+
     public function testHttpCallSuccessFullResponse()
     {
         $this->mockXmlResponse('aviationweather/kphx.xml');

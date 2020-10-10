@@ -34,7 +34,7 @@
         <server name="APP_DEBUG" value="true"/>
         <server name="APP_LOG_LEVEL" value="error"/>
         <server name="BCRYPT_ROUNDS" value="4"/>
-        <server name="CACHE_DRIVER" value="array"/>
+        <server name="CACHE_DRIVER" value="none"/>
         <server name="DB_CONNECTION" value="memory"/>
         <server name="DB_PREFIX" value="vmstest_"/>
         <server name="MAIL_MAILER" value="array"/>
