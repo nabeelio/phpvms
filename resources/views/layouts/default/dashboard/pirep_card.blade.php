@@ -18,22 +18,18 @@
     </div>
     <div class="col-sm-2 float-right">
       <div class="col-sm-2 text-center">
-        <div>
           @if($pirep->state === PirepState::PENDING)
             <div class="badge badge-warning">
-         @elseif($pirep->state === PirepState::ACCEPTED)
-            <div class="badge badge-success">
-         @elseif($pirep->state === PirepState::REJECTED)
-            <div class="badge badge-danger">
-         @else
-           <div class="badge badge-info">
+          @elseif($pirep->state === PirepState::ACCEPTED)
+              <div class="badge badge-success">
+          @elseif($pirep->state === PirepState::REJECTED)
+              <div class="badge badge-danger">
+          @else
+             <div class="badge badge-info">
           @endif
-          {{ PirepState::label($pirep->state) }}</div>
-        </div>
-        <p class="float-right">
-        <a href="{{ route('frontend.pireps.edit', [$pirep->id]) }}"
-           class="btn btn-sm btn-info">@lang('common.edit')</a>
-        </p>   
+            {{ PirepState::label($pirep->state) }}</div>
+          <a href="{{ route('frontend.pireps.edit', [$pirep->id]) }}"
+            class="btn btn-sm btn-info">@lang('common.edit')</a> 
       </div>    
     </div>
   </div>
