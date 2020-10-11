@@ -42,9 +42,10 @@ class FlightRouteAwards extends Award
      * @return bool
      */
     public function check($dptarr = null): bool
+
     {   
         if (!$dptarr) {
-            $dptarr = "XXXX:YYYY";
+            $dptarr = 'XXXX:YYYY';
         }
 
         $pieces = explode(':', $dptarr);
@@ -52,8 +53,8 @@ class FlightRouteAwards extends Award
         $arr = $this->user->last_pirep->arr_airport_id;
 
         if (strcasecmp($dpt, $pieces[0]) == 0 && strcasecmp($arr, $pieces[1]) == 0) {
-          return true;
-         }
-          return false;
+            return true;
+        }
+        return false;
     }
 }
