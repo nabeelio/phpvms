@@ -14,24 +14,24 @@
       <div><br/></div>
       <div class="social-description">
         <h2>{{ $user->name_private }}</h2>
-        <p>{{ $user->ident }}</p>
+        <p>
+          {{ $user->ident }}
+          <span class="flag-icon flag-icon-{{ $user->country }}"></span>
+        </p>
       </div>
-      <p class="description" style="color: #9A9A9A;">
-        {{ $user->airline->name }}
-      </p>
-      <h6><span class="flag-icon flag-icon-{{ $user->country }}"></span></h6>
+        <p class="description" style="color: #9A9A9A;">
+          {{ $user->airline->name }}
+        </p>
       <div class="social-description">
         @if (!empty($user->rank->image_url))
           <img src="{{ $user->rank->image_url }}" style="width: 160px;">
         @endif
-        <h2>{{ $user->rank->name }}</h2>
+        <p>{{ $user->rank->name }} <br />
+          @if($user->home_airport)
+            @lang('airports.home'): {{ $user->home_airport->icao }}
+          @endif
+        </p>
       </div>
-      @if($user->home_airport)
-        <div class="social-description">
-          <h2>{{ $user->home_airport->icao }}</h2>
-          <p>@lang('airports.home')</p>
-        </div>
-      @endif
     </div>
     <div class="col-md-8  content-center">
       <div class="content">
@@ -88,6 +88,41 @@
     </div>
   </div>
 
+  {{-- Show the user's award if they have any --}}
+  @if ($user->awards)
+    <div class="clearfix" style="height: 50px;"></div>
+    <div class="row">
+      <div class="col-sm-12">
+        <h3 class="description">@lang('profile.your-awards')</h3>
+        @foreach($user->awards->chunk(3) as $awards)
+          <div class="row">
+            @foreach($awards as $award)
+              <div class="card card-signup">
+                <div class="header header-primary text-center">
+                  <h4 class="title title-up">{{ $award->name }}</h4>
+                  @if ($award->image_url)
+                    <div class="photo-container">
+                        <img src="{{ $award->image_url }}" alt="{{ $award->description }}" style="width: 123px;">
+                    </div>
+                  @endif
+                </div>
+                <div class="content content-center">
+                  <div class="social-description text-center">
+                    {{ $award->description }}
+                  </div>
+                </div>
+                <div class="footer text-center">
+                </div>
+              </div>
+            @endforeach
+          </div>
+          <div class="clearfix" style="height: 20px;"></div>
+        @endforeach
+      </div>
+    </div>
+
+  @endif
+
   {{--
       show the details/edit fields only for the currently logged in user
   --}}
@@ -108,7 +143,7 @@
              class="btn btn-primary">@lang('common.edit')</a>
         </div>
 
-        <h3 class="description">@lang('profile.yourprofile')</h3>
+        <h3 class="description">@lang('profile.your-profile')</h3>
         <table class="table table-full-width">
           <tr>
             <td>@lang('common.email')</td>
