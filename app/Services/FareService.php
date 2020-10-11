@@ -9,6 +9,7 @@ use App\Models\Pirep;
 use App\Models\PirepFare;
 use App\Models\Subfleet;
 use App\Support\Math;
+use function count;
 use Illuminate\Support\Collection;
 
 class FareService extends Service
@@ -66,27 +67,28 @@ class FareService extends Service
      */
     protected function getFares($fare)
     {
-        if (filled($fare->pivot->price)) {
+        $pivot = $fare->pivot;
+        if (filled($pivot->price)) {
             if (strpos($fare->pivot->price, '%', -1) !== false) {
-                $fare->price = Math::addPercent($fare->price, $fare->pivot->price);
+                $fare->price = Math::addPercent($fare->price, $pivot->price);
             } else {
                 $fare->price = $fare->pivot->price;
             }
         }
 
-        if (filled($fare->pivot->cost)) {
-            if (strpos($fare->pivot->cost, '%', -1) !== false) {
-                $fare->cost = Math::addPercent($fare->cost, $fare->pivot->cost);
+        if (filled($pivot->cost)) {
+            if (strpos($pivot->cost, '%', -1) !== false) {
+                $fare->cost = Math::addPercent($fare->cost, $pivot->cost);
             } else {
                 $fare->cost = $fare->pivot->cost;
             }
         }
 
-        if (filled($fare->pivot->capacity)) {
-            if (strpos($fare->pivot->capacity, '%', -1) !== false) {
-                $fare->capacity = Math::addPercent($fare->capacity, $fare->pivot->capacity);
+        if (filled($pivot->capacity)) {
+            if (strpos($pivot->capacity, '%', -1) !== false) {
+                $fare->capacity = Math::addPercent($fare->capacity, $pivot->capacity);
             } else {
-                $fare->capacity = $fare->pivot->capacity;
+                $fare->capacity = $pivot->capacity;
             }
         }
 
@@ -106,14 +108,8 @@ class FareService extends Service
     {
         $flight->fares()->syncWithoutDetaching([$fare->id]);
 
-        foreach ($override as $key => $item) {
-            if (!$item) {
-                unset($override[$key]);
-            }
-        }
-
         // modify any pivot values?
-        if (\count($override) > 0) {
+        if (count($override) > 0) {
             $flight->fares()->updateExistingPivot($fare->id, $override);
         }
 
@@ -169,7 +165,7 @@ class FareService extends Service
         $subfleet->fares()->syncWithoutDetaching([$fare->id]);
 
         // modify any pivot values?
-        if (\count($override) > 0) {
+        if (count($override) > 0) {
             $subfleet->fares()->updateExistingPivot($fare->id, $override);
         }
 

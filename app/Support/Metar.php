@@ -515,7 +515,7 @@ class Metar implements \ArrayAccess
         // Delete null values from the TAF report
         if ($this->result['taf'] === true) {
             foreach ($this->result as $parameter => $value) {
-                if (!$value) {
+                if ($value === null) {
                     unset($this->result[$parameter]);
                 }
             }
@@ -530,7 +530,8 @@ class Metar implements \ArrayAccess
         } else {
             /* @noinspection NestedPositiveIfStatementsInspection */
             if (array_key_exists('cloud_height', $this->result) && $this->result['cloud_height'] !== null) {
-                if ($this->result['cloud_height']['ft'] > 3000 && $this->result['visibility']['nmi'] > 5) {
+                if ($this->result['cloud_height']['ft'] > 3000
+                    && (empty($this->result['visibility']) || $this->result['visibility']['nmi'] > 5)) {
                     $this->result['category'] = 'VFR';
                 } else {
                     $this->result['category'] = 'IFR';
@@ -868,11 +869,11 @@ class Metar implements \ArrayAccess
         $this->set_result_value('cavok', false, true);
 
         // Cloud and visibilty OK or ICAO visibilty greater than 10 km
-        if ($found[1] === 'CAVOK' || $found[1] === '9999') {
+        if (strtoupper($found[1]) === 'CAVOK' || $found[1] === '9999') {
             $this->set_result_value('visibility', $this->createDistance(10000, 'm'));
             $this->set_result_value('visibility_report', 'Greater than 10 km');
             /* @noinspection NotOptimalIfConditionsInspection */
-            if ($found[1] === 'CAVOK') {
+            if (strtoupper($found[1]) === 'CAVOK') {
                 $this->set_result_value('cavok', true);
                 $this->method += 4; // can skip the next 4 methods: visibility_min, runway_vr, present_weather, clouds
             }
@@ -1484,6 +1485,8 @@ class Metar implements \ArrayAccess
             return false;
         }
 
+        // Ignore trends
+        return true;
         // Detects TAF on report
         if ($this->part <= 4) {
             $this->set_result_value('taf', true);

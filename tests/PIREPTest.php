@@ -11,6 +11,7 @@ use App\Models\Enums\UserState;
 use App\Models\Flight;
 use App\Models\Navdata;
 use App\Models\Pirep;
+use App\Models\Rank;
 use App\Models\User;
 use App\Notifications\Messages\PirepAccepted;
 use App\Notifications\Messages\PirepSubmitted;
@@ -315,6 +316,46 @@ class PIREPTest extends TestCase
 
         // Make sure latest PIREP was updated
         $this->assertNotEquals($last_pirep->id, $latest_pirep->id);
+    }
+
+    /**
+     * Assign a rank to a user which is not set to auto-promote; make that that the flight
+     * hours and submitted PIREP doesn't change the rank
+     *
+     * @throws \Exception
+     */
+    public function testPilotDontChangeRank()
+    {
+        /** @var Rank $rank */
+        $rank = factory(Rank::class)->create([
+            'hours'        => 15,
+            'auto_promote' => false,
+        ]);
+
+        // Set the user to the above rank, non-promote, they shouldn't bump down
+
+        /** @var User $user */
+        $user = factory(User::class)->create([
+            'flights'     => 0,
+            'flight_time' => 0,
+            'rank_id'     => $rank->id,
+        ]);
+
+        // Submit two PIREPs
+        $pirep = factory(Pirep::class)->create([
+            'airline_id'  => $user->airline_id,
+            'aircraft_id' => 1,
+            'user_id'     => $user->id,
+            'flight_time' => 10 * 60, // 10 hours, eligible for Junior First Officer
+        ]);
+
+        $this->pirepSvc->create($pirep);
+        $this->pirepSvc->accept($pirep);
+
+        $pilot = User::find($user->id);
+
+        // Make sure rank didn't change
+        $this->assertEquals($rank->id, $pilot->rank_id);
     }
 
     /**
