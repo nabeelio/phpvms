@@ -42,8 +42,7 @@ class FlightRouteAwards extends Award
      * @return bool
      */
     public function check($dptarr = null): bool
-
-    {   
+    {
         if (!$dptarr) {
             $dptarr = 'XXXX:YYYY';
         }
