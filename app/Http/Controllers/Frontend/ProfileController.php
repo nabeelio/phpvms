@@ -61,27 +61,14 @@ class ProfileController extends Controller
     }
 
     /**
+     * Redirect to show() since only a single page gets shown and the template controls
+     * the other items that are/aren't shown
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index()
     {
-        /** @var User $user */
-        $user = Auth::user();
-
-        if (setting('pilots.home_hubs_only')) {
-            $airports = $this->airportRepo->findWhere(['hub' => true]);
-        } else {
-            $airports = $this->airportRepo->all();
-        }
-
-        $userFields = $this->userRepo->getUserFields($user);
-
-        return view('profile.index', [
-            'acars'      => $this->acarsEnabled(),
-            'user'       => $user,
-            'airports'   => $airports,
-            'userFields' => $userFields,
-        ]);
+        return $this->show(Auth::user()->id);
     }
 
     /**
@@ -91,7 +78,8 @@ class ProfileController extends Controller
      */
     public function show($id)
     {
-        $user = User::with(['fields', 'fields.field'])
+        /** @var \App\Models\User $user */
+        $user = User::with(['awards', 'fields', 'fields.field'])
             ->where('id', $id)
             ->first();
 

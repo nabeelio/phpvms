@@ -3,7 +3,8 @@
 return [
     'avatarresize'    => 'Questo avatar sarà ridimensionato a :width x :height pixels',
     'newapikey'       => 'Nuova Chiave API',
-    'yourprofile'     => 'Il Tuo Profilo',
+    'your-profile'    => 'Il Tuo Profilo',
+    'your-awards'     => 'I Tuoi Premi',
     'apikey'          => 'Chiave API',
     'apikey-show'     => 'Mostra chiave',
     'dontshare'       => 'non condividerla!',
