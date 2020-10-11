@@ -37,26 +37,23 @@ class FlightRouteAwards extends Award
      * is a parameter or not. You can call it whatever you want, since that would make
      * sense with the $param_description.
      *
-     * @param int|null $number_of_flights The parameters passed in from the UI
+     * @param null|mixed $dptarr
      *
      * @return bool
      */
     public function check($dptarr = null): bool
     {   
-        
-        if(!$dptarr) {
-          $dptarr = "XXXX:YYYY";
+        if (!$dptarr) {
+            $dptarr = "XXXX:YYYY";
         }
 
-        $pieces = explode(":", $dptarr);
+        $pieces = explode(':', $dptarr);
         $dpt = $this->user->last_pirep->dpt_airport_id;
         $arr = $this->user->last_pirep->arr_airport_id;
 
-        if(strcasecmp($dpt, $pieces[0]) == 0 && strcasecmp($arr, $pieces[1]) == 0)
-        {
-             return true;
-        } else {
-             return false;
-        }
+        if (strcasecmp($dpt, $pieces[0]) == 0 && strcasecmp($arr, $pieces[1]) == 0) {
+          return true;
+         }
+          return false;
     }
 }
