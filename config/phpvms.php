@@ -106,7 +106,7 @@ return [
      * The links to various docs on the documentation site
      */
     'docs' => [
-        'root'             => 'http://docs.phpvms.net',
+        'root'             => 'https://docs.phpvms.net',
         'cron'             => '/installation/cron',
         'finances'         => '/concepts/finances',
         'importing_legacy' => '/installation/importing',
