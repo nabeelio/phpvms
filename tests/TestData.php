@@ -4,9 +4,30 @@ namespace Tests;
 
 use App\Models\Aircraft;
 use App\Models\Subfleet;
+use App\Models\User;
+use Exception;
 
 trait TestData
 {
+    /**
+     * @param array $attrs Additional user attributes
+     *
+     * @throws Exception
+     *
+     * @return User
+     */
+    public function createUser(array $attrs = []): User
+    {
+        $subfleet = $this->createSubfleetWithAircraft(1);
+        $rank = $this->createRank(2, [$subfleet['subfleet']->id]);
+        $user = factory(User::class)->create(array_merge([
+            'flight_time' => 1000,
+            'rank_id'     => $rank->id,
+        ], $attrs));
+
+        return $user;
+    }
+
     /**
      * Create a new PIREP with a proper subfleet/rank/user and an
      * aircraft that the user is allowed to fly
@@ -59,7 +80,7 @@ trait TestData
      * @param null $aircraft_count
      * @param null $airport_id
      *
-     * @throws \Exception
+     * @throws Exception
      *
      * @return mixed
      */
