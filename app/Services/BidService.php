@@ -44,15 +44,15 @@ class BidService extends Service
     public function findBidsForUser(User $user)
     {
         $bids = Bid::with([
-                'flight',
-                'flight.simbrief',
-                'flight.subfleets',
-                'flight.subfleets.aircraft',
-                'flight.subfleets.fares',
-            ])
+            'flight',
+            'flight.simbrief',
+            'flight.subfleets',
+            'flight.subfleets.aircraft',
+            'flight.subfleets.fares',
+        ])
             ->where(['user_id' => $user->id])->get();
 
-        foreach($bids as $bid) {
+        foreach ($bids as $bid) {
             $bid->flight = $this->flightSvc->filterSubfleets($user, $bid->flight);
         }
 
