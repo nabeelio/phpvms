@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Laracasts\Flash\FlashNotifier;
 use Madnest\Madzipper\Madzipper;
 use Nwidart\Modules\Json;
 use PharData;
@@ -118,16 +119,15 @@ class ModuleService extends Service
     public function addModule($module_name): bool
     {
         /*Check if module already exists*/
-        if (Module::where('name', $module_name)->exists()) {
-            flash()->error((new ModuleExistsException($module_name))->getMessage());
+        $module = Module::where('name', $module_name);
+        if (!$module->exists()) {
+            Module::create([
+                'name'    => $module_name,
+                'enabled' => 1,
+            ]);
+            return true;
         }
-
-        Module::create([
-            'name'    => $module_name,
-            'enabled' => 1,
-        ]);
-
-        return true;
+        return false;
     }
 
     /**
@@ -136,9 +136,9 @@ class ModuleService extends Service
      *
      * @param UploadedFile $file
      *
-     * @return bool
+     * @return FlashNotifier
      */
-    public function installModule(UploadedFile $file): bool
+    public function installModule(UploadedFile $file): FlashNotifier
     {
         $file_ext = $file->getClientOriginalExtension();
         $allowed_extensions = ['zip', 'tar', 'gz'];
@@ -188,28 +188,34 @@ class ModuleService extends Service
             $json = json_decode(file_get_contents($json_file), true);
             $module = $json['name'];
         } else {
-            return false;
+            return flash()->error('Module Structure Not Correct!');
         }
 
         if (!$module) {
-            return false;
+            return flash()->error('Not a Valid Module File.');
         }
 
         $toCopy = base_path().'/modules/'.$module;
 
         if (File::exists($toCopy)) {
-            throw new ModuleExistsException($module);
+            File::deleteDirectory($temp_ext_folder);
+            throw new ModuleExistsException();
         }
 
         File::moveDirectory($temp, $toCopy);
 
         File::deleteDirectory($temp_ext_folder);
 
-        $this->addModule($module);
+        try {
+            $this->addModule($module);
+        } catch (ModuleExistsException $e) {
+            return flash()->error($e->getMessage());
+        }
 
         Artisan::call('config:cache');
         Artisan::call('module:migrate '.$module);
-        return true;
+
+        return flash()->success('Module Installed');
     }
 
     /**

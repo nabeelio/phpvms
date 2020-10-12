@@ -54,13 +54,8 @@ class ModulesController extends Controller
      */
     public function store(Request $request)
     {
-        $store = $this->moduleSvc->installModule($request->file('module_file'));
-
-        if ($store) {
-            flash()->success('Module Installed Successfully!');
-        }
-        flash()->error('Something Went Wrong! Please check the structure again or the module already exists!');
-        return redirect(route('admin.modules.index'));
+        $this->moduleSvc->installModule($request->file('module_file'));
+        return $this->index();
     }
 
     /**
