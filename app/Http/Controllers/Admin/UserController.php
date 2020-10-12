@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateUserRequest;
 use App\Models\Rank;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\UserAward;
 use App\Repositories\AirlineRepository;
 use App\Repositories\AirportRepository;
 use App\Repositories\PirepRepository;
@@ -143,7 +144,7 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = $this->userRepo
-            ->with(['fields', 'rank'])
+            ->with(['awards', 'fields', 'rank'])
             ->findWithoutFail($id);
 
         if (empty($user)) {
@@ -263,6 +264,28 @@ class UserController extends Controller
         Flash::success('User deleted successfully.');
 
         return redirect(route('admin.users.index'));
+    }
+
+    /**
+     * Remove the award from a user
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param mixed                    $id
+     * @param mixed                    $award_id
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function destroy_user_award($id, $award_id, Request $request)
+    {
+        $userAward = UserAward::where(['user_id' => $id, 'award_id' => $award_id]);
+        if (empty($userAward)) {
+            Flash::error('The user award could not be found');
+            return redirect()->back();
+        }
+
+        $userAward->delete();
+
+        return redirect()->back();
     }
 
     /**

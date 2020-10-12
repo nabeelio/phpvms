@@ -92,3 +92,10 @@ user_field_values:
     user_field_id: 2
     user_id: 1
     value: 'Nobody did'
+
+user_awards:
+  - id: 1
+    user_id: 1
+    award_id: 1
+    created_at: now
+    updated_at: now

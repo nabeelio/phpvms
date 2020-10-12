@@ -12,6 +12,15 @@
   <div class="card border-blue-bottom">
     <div class="content">
       <div class="header">
+        <h3>Awards</h3>
+      </div>
+      @include('admin.users.awards')
+    </div>
+  </div>
+
+  <div class="card border-blue-bottom">
+    <div class="content">
+      <div class="header">
         <h3>PIREPs</h3>
       </div>
 

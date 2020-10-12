@@ -4,7 +4,8 @@ return [
     'avatarresize' => 'This avatar will be resized to :width x :height pixels',
 
     'newapikey'       => 'New API Key',
-    'yourprofile'     => 'Your Profile',
+    'your-profile'    => 'Your Profile',
+    'your-awards'     => 'Your Awards',
     'apikey'          => 'API Key',
     'apikey-show'     => 'Show key',
     'dontshare'       => 'don\'t share this!',

@@ -208,9 +208,12 @@ class User extends Authenticatable
         return $this->belongsTo(Airline::class, 'airline_id');
     }
 
+    /**
+     * @return \App\Models\Award[]|mixed
+     */
     public function awards()
     {
-        return $this->hasMany(UserAward::class, 'user_id');
+        return $this->belongsToMany(Award::class, 'user_awards');
     }
 
     /**

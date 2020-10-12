@@ -11,9 +11,6 @@
       <h2 class="description">@lang('common.newestpilots')</h2>
       @foreach($users as $user)
         <div class="card card-signup blue-bg">
-          {{--<div class="card-bg">--}}
-          {{--<i class="fa fa-user-o" style="opacity: .1;"></i>--}}
-          {{--</div>--}}
           <div class="header header-primary text-center blue-bg">
             <h3 class="title title-up text-white">
               <a href="{{ route('frontend.profile.show', [$user->id]) }}" class="text-white">{{ $user->name_private }}</a>

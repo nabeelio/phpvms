@@ -424,9 +424,16 @@ class RouteServiceProvider extends ServiceProvider
 
             Route::resource('subfleets', 'SubfleetController')->middleware('ability:admin,fleet');
 
-            Route::resource('users', 'UserController')->middleware('ability:admin,users');
+            /**
+             * USERS
+             */
+            Route::delete('users/{id}/award/{award_id}', 'UserController@destroy_user_award')
+                ->name('users.destroy_user_award')->middleware('ability:admin,users');
+
             Route::get('users/{id}/regen_apikey', 'UserController@regen_apikey')
                 ->name('users.regen_apikey')->middleware('ability:admin,users');
+
+            Route::resource('users', 'UserController')->middleware('ability:admin,users');
 
             // defaults
             Route::get('', ['uses' => 'DashboardController@index'])
