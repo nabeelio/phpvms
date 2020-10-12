@@ -8,8 +8,6 @@
         <li>Module Folder must be on top level of the zip.</li>
         <li>Name of the zip must be exactly equal to the name of the module folder inside.</li>
       </ul>
-
-
       <h5>Module Zip Structure : </h5>
       <ul>
         <li>

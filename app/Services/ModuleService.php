@@ -4,6 +4,8 @@ namespace App\Services;
 
 use App\Contracts\Service;
 use App\Exceptions\ModuleExistsException;
+use App\Exceptions\ModuleInstallationError;
+use App\Exceptions\ModuleInvalidFileType;
 use App\Models\Module;
 use Exception;
 use Illuminate\Filesystem\Filesystem;
@@ -117,7 +119,7 @@ class ModuleService extends Service
     {
         /*Check if module already exists*/
         if (Module::where('name', $module_name)->exists()) {
-            throw new ModuleExistsException($module_name);
+            flash()->error((new ModuleExistsException($module_name))->getMessage());
         }
 
         Module::create([
@@ -142,7 +144,7 @@ class ModuleService extends Service
         $allowed_extensions = ['zip', 'tar', 'gz'];
 
         if (!in_array($file_ext, $allowed_extensions, true)) {
-            return false;
+            throw new ModuleInvalidFileType();
         }
 
         $module = null;
@@ -165,14 +167,14 @@ class ModuleService extends Service
             try {
                 $zipper = $madZipper->make($file);
             } catch (Exception $e) {
-                Log::emergency('Could not extract zip file.');
+                throw new ModuleInstallationError();
             }
         }
 
         try {
             $zipper->extractTo($temp);
         } catch (Exception $e) {
-            Log::emergency('Cannot Extract Module!');
+            throw new ModuleInstallationError();
         }
 
         if (!File::exists($temp.'/module.json')) {
@@ -206,7 +208,7 @@ class ModuleService extends Service
         $this->addModule($module);
 
         Artisan::call('config:cache');
-        Artisan::call('module:migrate  '.$module);
+        Artisan::call('module:migrate '.$module);
         return true;
     }
 
@@ -249,7 +251,8 @@ class ModuleService extends Service
             try {
                 File::deleteDirectory($moduleDir);
             } catch (Exception $e) {
-                Log::emergency('Folder Deleted Manually!');
+                Log::info('Folder Deleted Manually for Module : '.$module->name);
+                return true;
             }
             return true;
         }

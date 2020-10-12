@@ -14,7 +14,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "$MODULE_NAMESPACE$\\$STUDLY_NAME$\\Providers\\AppServiceProvider",
+                "$MODULE_NAMESPACE$\\$STUDLY_NAME$\\Providers\\$STUDLY_NAME$ServiceProvider",
                 "$MODULE_NAMESPACE$\\$STUDLY_NAME$\\Providers\\EventServiceProvider",
                 "$MODULE_NAMESPACE$\\$STUDLY_NAME$\\Providers\\RouteServiceProvider"
             ],
