@@ -85,7 +85,7 @@ class UserService extends Service
      *
      * @return User
      */
-    public function createUser(array $attrs, array $roles = null): User
+    public function createUser(array $attrs, array $roles = []): User
     {
         $user = User::create($attrs);
         $user->api_key = Utils::generateApiKey();
