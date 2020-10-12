@@ -199,6 +199,7 @@ class ModuleService extends Service
 
         if (File::exists($toCopy)) {
             File::deleteDirectory($temp_ext_folder);
+
             throw new ModuleExistsException();
         }
 

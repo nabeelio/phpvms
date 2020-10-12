@@ -4,7 +4,6 @@ namespace App\Exceptions;
 
 class ModuleExistsException extends AbstractHttpException
 {
-
     public function __construct()
     {
         parent::__construct(
