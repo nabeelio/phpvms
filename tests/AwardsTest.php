@@ -32,7 +32,7 @@ class AwardsTest extends TestCase
     public function testGetAwardsClasses()
     {
         $classes = $this->awardSvc->findAllAwardClasses();
-        $this->assertCount(>=2, $classes);
+        $this->assertCount(3, $classes);
     }
 
     /**
