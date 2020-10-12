@@ -47,7 +47,7 @@ class SimBriefTest extends TestCase
      */
     public function testReadSimbrief()
     {
-        $this->user = factory(User::class)->create();
+        $this->user = $this->createUser();
         $briefing = $this->loadSimBrief($this->user);
 
         $this->assertNotEmpty($briefing->ofp_xml);
@@ -86,7 +86,7 @@ class SimBriefTest extends TestCase
      */
     public function testApiCalls()
     {
-        $this->user = factory(User::class)->create();
+        $this->user = $this->createUser();
         $briefing = $this->loadSimBrief($this->user);
 
         // Check the flight API response
@@ -120,7 +120,7 @@ class SimBriefTest extends TestCase
      */
     public function testUserBidSimbrief()
     {
-        $this->user = factory(User::class)->create();
+        $this->user = $this->createUser();
         $this->loadSimBrief($this->user);
 
         // Find the flight
@@ -136,7 +136,7 @@ class SimBriefTest extends TestCase
 
     public function testAttachToPirep()
     {
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
         $pirep = factory(Pirep::class)->create([
             'user_id'        => $user->id,
             'dpt_airport_id' => 'OMAA',
@@ -172,7 +172,7 @@ class SimBriefTest extends TestCase
      */
     public function testClearExpiredBriefs()
     {
-        $user = factory(User::class)->create();
+        $user = $this->createUser();
         $sb_ignored = factory(SimBrief::class)->create([
             'user_id'    => $user->id,
             'flight_id'  => 'a_flight_id',

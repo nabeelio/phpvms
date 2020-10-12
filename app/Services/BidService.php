@@ -13,6 +13,14 @@ use Illuminate\Support\Facades\Log;
 
 class BidService extends Service
 {
+    /** @var FlightService */
+    private $flightSvc;
+
+    public function __construct(FlightService $flightSvc)
+    {
+        $this->flightSvc = $flightSvc;
+    }
+
     /**
      * Get a specific bid for a user
      *
@@ -35,8 +43,20 @@ class BidService extends Service
      */
     public function findBidsForUser(User $user)
     {
-        return Bid::with(['flight', 'flight.simbrief'])
+        $bids = Bid::with([
+            'flight',
+            'flight.simbrief',
+            'flight.subfleets',
+            'flight.subfleets.aircraft',
+            'flight.subfleets.fares',
+        ])
             ->where(['user_id' => $user->id])->get();
+
+        foreach ($bids as $bid) {
+            $bid->flight = $this->flightSvc->filterSubfleets($user, $bid->flight);
+        }
+
+        return $bids;
     }
 
     /**
