@@ -105,7 +105,7 @@ class UserController extends Controller
      */
     public function bids(Request $request)
     {
-        $user = $this->userRepo->find($this->getUserId($request));
+        $user = $this->userSvc->getUser($this->getUserId($request));
 
         // Add a bid
         if ($request->isMethod('PUT') || $request->isMethod('POST')) {

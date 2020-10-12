@@ -4,17 +4,24 @@ namespace Tests;
 
 use App\Exceptions\BidExistsForFlight;
 use App\Models\Bid;
+use App\Models\Fare;
 use App\Models\Flight;
 use App\Models\Subfleet;
 use App\Models\User;
 use App\Repositories\SettingRepository;
 use App\Services\BidService;
+use App\Services\FareService;
 use App\Services\FlightService;
 
 class BidTest extends TestCase
 {
+    /** @var BidService */
     protected $bidSvc;
+
+    /** @var FlightService */
     protected $flightSvc;
+
+    /** @var SettingRepository */
     protected $settingsRepo;
 
     public function setUp(): void
@@ -27,17 +34,20 @@ class BidTest extends TestCase
         $this->settingsRepo = app(SettingRepository::class);
     }
 
-    public function addFlight($user)
+    public function addFlight($user, $subfleet = null)
     {
         $flight = factory(Flight::class)->create([
             'airline_id' => $user->airline_id,
         ]);
 
-        $flight->subfleets()->syncWithoutDetaching([
-            factory(Subfleet::class)->create([
+        if ($subfleet === null) {
+            /** @var Subfleet $subfleet */
+            $subfleet = factory(Subfleet::class)->create([
                 'airline_id' => $user->airline_id,
-            ])->id,
-        ]);
+            ])->id;
+        }
+
+        $flight->subfleets()->syncWithoutDetaching([$subfleet]);
 
         return $flight;
     }
@@ -45,18 +55,35 @@ class BidTest extends TestCase
     /**
      * Add/remove a bid, test the API, etc
      *
-     * @throws \App\Services\Exception
+     * @throws Exception|\Exception
      */
     public function testBids()
     {
         $this->settingsRepo->store('bids.allow_multiple_bids', true);
         $this->settingsRepo->store('bids.disable_flight_on_bid', false);
 
-        $user = factory(User::class)->create();
-        $user2 = factory(User::class)->create();
+        $subfleet = $this->createSubfleetWithAircraft(2);
+        $rank = $this->createRank(2, [$subfleet['subfleet']->id]);
+
+        /** @var FareService $fare_svc */
+        $fare_svc = app(FareService::class);
+
+        /** @var Fare $fare */
+        $fare = factory(Fare::class)->create();
+        $fare_svc->setForSubfleet($subfleet['subfleet'], $fare, [
+            'price' => 50, 'capacity' => 400,
+        ]);
+
+        /** @var User $user */
+        $user = factory(User::class)->create([
+            'flight_time' => 1000,
+            'rank_id'     => $rank->id,
+        ]);
+
         $headers = $this->headers($user);
 
-        $flight = $this->addFlight($user);
+        /** @var Flight $flight */
+        $flight = $this->addFlight($user, $subfleet['subfleet']->id);
 
         $bid = $this->bidSvc->addBid($flight, $user);
         $this->assertEquals($user->id, $bid->user_id);
@@ -78,11 +105,14 @@ class BidTest extends TestCase
         // Query the API and see that the user has the bids
         // And pull the flight details for the user/bids
         $req = $this->get('/api/user/bids', $headers);
-        $req->assertStatus(200);
 
         $body = $req->json()['data'];
         $req->assertStatus(200);
         $this->assertEquals($flight->id, $body[0]['flight_id']);
+
+        // Make sure subfleets and fares are included
+        $this->assertNotNull($body[0]['flight']['subfleets']);
+        $this->assertNotNull($body[0]['flight']['subfleets'][0]['fares']);
 
         $req = $this->get('/api/users/'.$user->id.'/bids', $headers);
 
@@ -91,6 +121,10 @@ class BidTest extends TestCase
         $this->assertEquals($flight->id, $body[0]['flight_id']);
 
         // have a second user bid on it
+
+        /** @var User $user */
+        $user2 = factory(User::class)->create(['rank_id' => $rank->id]);
+
         $bid_user2 = $this->bidSvc->addBid($flight, $user2);
         $this->assertNotNull($bid_user2);
         $this->assertNotEquals($bid_retrieved->id, $bid_user2->id);

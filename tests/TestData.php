@@ -37,7 +37,7 @@ trait TestData
      *
      * @return mixed
      */
-    public function createRank($hours, array $subfleet_ids)
+    public function createRank(int $hours, array $subfleet_ids)
     {
         $attrs = [];
 
@@ -65,6 +65,7 @@ trait TestData
      */
     public function createSubfleetWithAircraft($aircraft_count = null, $airport_id = null)
     {
+        /** @var Subfleet $subfleet */
         $subfleet = factory(Subfleet::class)->create([
             'ground_handling_multiplier' => '100',
         ]);
