@@ -8,6 +8,7 @@ use App\Models\Bid;
 use App\Models\Enums\Days;
 use App\Models\Flight;
 use App\Models\FlightFieldValue;
+use App\Models\User;
 use App\Repositories\FlightRepository;
 use App\Repositories\NavdataRepository;
 use App\Support\Units\Time;
@@ -123,12 +124,12 @@ class FlightService extends Service
     /**
      * Filter out subfleets to only include aircraft that a user has access to
      *
-     * @param $user
-     * @param $flight
+     * @param User   $user
+     * @param Flight $flight
      *
      * @return mixed
      */
-    public function filterSubfleets($user, $flight)
+    public function filterSubfleets(User $user, Flight $flight)
     {
         /** @var \Illuminate\Support\Collection $subfleets */
         $subfleets = $flight->subfleets;
