@@ -5,8 +5,12 @@ namespace Modules\Awards\Awards;
 use App\Contracts\Award;
 
 /**
- * Simple example of an awards class, where you can apply an award when a user
- * has 100 flights. All award classes need to extend Award and implement the check() method
+ * All award classes need to extend Award and implement the check() method
+ * This award is based on the original PilotFlightAwards.php file but
+ * changes the fields that it checks in the PIREP to confirm the Departure
+ * and Arrival Airport ICAO codes.
+ * This award means you can create an award for a pilot that complets a flight
+ * from one airport to another.
  *
  * See: https://docs.phpvms.net/developers/awards
  */
@@ -30,12 +34,9 @@ class FlightRouteAwards extends Award
     public $param_description = 'Departure Airport ICAO and Arrival Airport ICAO as XXXX:YYYY';
 
     /**
-     * If the user has over N flights, then we can give them this award. This method
-     * only needs to return a true or false of whether it should be awarded or not.
+     * This method only needs to return a true or false of whether it should be awarded or not.
      *
-     * If no parameter is passed in, just default it to 100. You should check if there
-     * is a parameter or not. You can call it whatever you want, since that would make
-     * sense with the $param_description.
+     * If no parameter is passed in, just default it to XXXX:YYYY.
      *
      * @param null|mixed $dptarr
      *
