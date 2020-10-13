@@ -32,7 +32,7 @@ return [
             'routes-api'             => ['LOWER_NAME', 'STUDLY_NAME', 'MODULE_NAMESPACE'],
             'json'                   => ['LOWER_NAME', 'STUDLY_NAME', 'MODULE_NAMESPACE'],
             'provider'               => ['LOWER_NAME', 'STUDLY_NAME', 'MODULE_NAMESPACE'],
-            'route-provider'               => ['LOWER_NAME', 'STUDLY_NAME', 'MODULE_NAMESPACE'],
+            'route-provider'         => ['LOWER_NAME', 'STUDLY_NAME', 'MODULE_NAMESPACE'],
             'event-service-provider' => [
                 'LOWER_NAME',
                 'STUDLY_NAME',
