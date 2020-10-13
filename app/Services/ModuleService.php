@@ -149,10 +149,15 @@ class ModuleService extends Service
 
         $module = null;
 
-        $new_dir = File::makeDirectory(uniqid());
-        $temp_ext_folder = storage_path('app/tmp/modules/'.$new_dir);
+        $new_dir = rand();
 
-        $temp = $temp_ext_folder;
+        File::makeDirectory(
+            storage_path('app/tmp/modules/'.$new_dir),
+            0777,
+            true
+        );
+        $temp_ext_folder = storage_path('app/tmp/modules/'.$new_dir);
+        $temp = storage_path('app/tmp/modules/'.$new_dir);
 
         $zipper = null;
 
@@ -179,7 +184,7 @@ class ModuleService extends Service
 
         if (!File::exists($temp.'/module.json')) {
             $directories = Storage::directories('tmp/modules/'.$new_dir);
-            $temp = storage_path('app').'/'.$directories[0];
+            $temp = storage_path('app/'.$directories[0]);
         }
 
         $json_file = $temp.'/module.json';
@@ -188,10 +193,12 @@ class ModuleService extends Service
             $json = json_decode(file_get_contents($json_file), true);
             $module = $json['name'];
         } else {
+            File::deleteDirectory($temp_ext_folder);
             return flash()->error('Module Structure Not Correct!');
         }
 
         if (!$module) {
+            File::deleteDirectory($temp_ext_folder);
             return flash()->error('Not a Valid Module File.');
         }
 

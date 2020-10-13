@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "862e854b8f836abcda330a8a86d5a3ac",
+    "content-hash": "6f5fb0bd12dc789b1ad1613ddf907a80",
     "packages": [
         {
             "name": "akaunting/money",
@@ -4016,27 +4016,27 @@
         },
         {
             "name": "nwidart/laravel-modules",
-            "version": "7.2.0",
+            "version": "8.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nWidart/laravel-modules.git",
-                "reference": "8980876d63096951e067bcaf8649d591d4c7f0da"
+                "reference": "7983e41c3832a13e521aa915532efdc7b67563af"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nWidart/laravel-modules/zipball/8980876d63096951e067bcaf8649d591d4c7f0da",
-                "reference": "8980876d63096951e067bcaf8649d591d4c7f0da",
+                "url": "https://api.github.com/repos/nWidart/laravel-modules/zipball/7983e41c3832a13e521aa915532efdc7b67563af",
+                "reference": "7983e41c3832a13e521aa915532efdc7b67563af",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
-                "php": ">=7.2.5"
+                "php": ">=7.3"
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^2.16",
-                "laravel/framework": "^7.0",
+                "laravel/framework": "^8.0",
                 "mockery/mockery": "~1.0",
-                "orchestra/testbench": "^5.0",
+                "orchestra/testbench": "^6.0",
                 "phpstan/phpstan": "^0.12.14",
                 "phpunit/phpunit": "^8.5",
                 "spatie/phpunit-snapshot-assertions": "^2.1.0"
@@ -4052,7 +4052,7 @@
                     }
                 },
                 "branch-alias": {
-                    "dev-master": "7.0-dev"
+                    "dev-master": "8.0-dev"
                 }
             },
             "autoload": {
@@ -4089,7 +4089,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-07-30T17:10:13+00:00"
+            "time": "2020-10-03T14:56:31+00:00"
         },
         {
             "name": "oomphinc/composer-installers-extender",

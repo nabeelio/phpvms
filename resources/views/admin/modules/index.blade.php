@@ -32,7 +32,9 @@
                   @endif
                 </td>
                 <td>
-                  <a class="btn btn-primary" href="{{ route('admin.modules.edit', [$module->id]) }}">Edit Module</a>
+                  <a class="btn btn-primary" href="{{ route('admin.modules.edit', $module->id) }}">Edit Module</a>
+                  <a class="btn btn-danger" href="/admin/{{ strtolower($module->name) }}">View Admin Module</a>
+                  <a class="btn btn-success" target="_blank" href="/{{ strtolower($module->name) }}">View Frontend Module</a>
                 </td>
               </tr>
             @empty

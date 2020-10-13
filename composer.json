@@ -42,7 +42,7 @@
         "markrogoyski/math-php": "^0.38.0",
         "myclabs/deep-copy": "~1.9.0",
         "nabeel/vacentral": "~2.0",
-        "nwidart/laravel-modules": "^7.0",
+        "nwidart/laravel-modules": "^8.0",
         "php-units-of-measure/php-units-of-measure": "~2.1.0",
         "phpvms/sample-module": "^1.0",
         "pragmarx/version": "^1.2.2",
