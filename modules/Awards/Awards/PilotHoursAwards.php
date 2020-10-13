@@ -36,19 +36,12 @@ class PilotHoursAwards extends Award
     /**
      * If the user has over N minutes of flights, then we can give them this award.
      *
-     * If no parameter is passed in, just default it to 99999. You should check if there
-     * is a parameter or not. You can call it whatever you want, since that would make
-     * sense with the $param_description.
-     *
      * @param int|null $flight_minutes The parameters passed in from the UI
      *
      * @return bool
      */
     public function check($flight_minutes = null): bool
     {
-        if (!$flight_minutes) {
-            $flight_minutes = 99999;
-        }
         if (!is_int($flight_minutes)) {
             Log::error('PilotHourAwards: Flight time "'.$flight_minutes.'" is not a valid flight time');
             return false;
