@@ -15,8 +15,8 @@
       <td>{{ $award->description }}</td>
       <td>
 
-        @if($award->image)
-          <img src="{{ $award->image }}" name="{{ $award->name }}" alt="No Image Available"/>
+        @if($award->image_url)
+          <img src="{{ $award->image_url }}" name="{{ $award->name }}" alt="No Image Available" style="height: 100px"/>
         @else
           -
         @endif
