@@ -48,6 +48,9 @@ class PilotHoursAwards extends Award
         if (!$flight_minutes) {
             $flight_minutes = 99999;
         }
+        if (!is_int($flight_minutes)) {
+            return false;
+        }
 
         return $this->user->flight_time >= (int) $flight_minutes;
     }
