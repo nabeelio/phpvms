@@ -9,6 +9,7 @@ use App\Models\Pirep;
 use App\Models\PirepFare;
 use App\Models\Subfleet;
 use App\Support\Math;
+use Illuminate\Support\Facades\Log;
 use function count;
 use Illuminate\Support\Collection;
 
@@ -106,6 +107,8 @@ class FareService extends Service
      */
     public function setForFlight(Flight $flight, Fare $fare, array $override = []): Flight
     {
+        Log::info('Setting fare "'.$fare->name.'" to flight "'.$flight->ident.'"');
+
         $flight->fares()->syncWithoutDetaching([$fare->id]);
 
         // modify any pivot values?
@@ -145,6 +148,8 @@ class FareService extends Service
      */
     public function delFareFromFlight(Flight $flight, Fare $fare)
     {
+        Log::info('Removing fare "'.$fare->name.'" to flight "'.$flight->ident.'"');
+
         $flight->fares()->detach($fare->id);
         $flight->refresh();
 
@@ -162,6 +167,8 @@ class FareService extends Service
      */
     public function setForSubfleet(Subfleet $subfleet, Fare $fare, array $override = []): Subfleet
     {
+        Log::info('Setting fare "'.$fare->name.'" to subfleet "'.$subfleet->name.'"');
+
         $subfleet->fares()->syncWithoutDetaching([$fare->id]);
 
         // modify any pivot values?
@@ -203,6 +210,8 @@ class FareService extends Service
      */
     public function delFareFromSubfleet(Subfleet &$subfleet, Fare &$fare)
     {
+        Log::info('Removing fare "'.$fare->name.'" from subfleet "'.$subfleet->name.'"');
+
         $subfleet->fares()->detach($fare->id);
         $subfleet->refresh();
 
@@ -219,7 +228,6 @@ class FareService extends Service
      */
     public function getForPirep(Pirep $pirep)
     {
-        $fares = [];
         $found_fares = PirepFare::where('pirep_id', $pirep->id)->get();
 
         return $found_fares;

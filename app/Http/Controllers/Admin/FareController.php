@@ -12,6 +12,7 @@ use App\Repositories\FareRepository;
 use App\Services\ExportService;
 use App\Services\ImportService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Laracasts\Flash\Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 
@@ -161,6 +162,8 @@ class FareController extends Controller
             Flash::error('Fare not found');
             return redirect(route('admin.fares.index'));
         }
+
+        Log::info('Deleting fare "'.$fare->name.'", id='.$fare->id);
 
         $this->fareRepo->delete($id);
 
