@@ -3,6 +3,7 @@
 namespace Modules\Awards\Awards;
 
 use App\Contracts\Award;
+use Log;
 
 /**
  * All award classes need to extend Award and implement the check() method
@@ -49,6 +50,7 @@ class PilotHoursAwards extends Award
             $flight_minutes = 99999;
         }
         if (!is_int($flight_minutes)) {
+            Log::error('PilotHourAwards: Flight time "'.$flight_minutes.'" is not a valid flight time');
             return false;
         }
 
