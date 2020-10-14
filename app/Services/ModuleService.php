@@ -207,7 +207,7 @@ class ModuleService extends Service
         if (File::exists($toCopy)) {
             File::deleteDirectory($temp_ext_folder);
 
-            throw new ModuleExistsException();
+            throw new ModuleExistsException($module);
         }
 
         File::moveDirectory($temp, $toCopy);
@@ -216,8 +216,8 @@ class ModuleService extends Service
 
         try {
             $this->addModule($module);
-        } catch (ModuleExistsException $e) {
-            return flash()->error($e->getMessage());
+        } catch (Exception $e) {
+            throw new ModuleExistsException($module);
         }
 
         Artisan::call('config:cache');
