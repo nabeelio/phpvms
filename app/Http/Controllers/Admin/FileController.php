@@ -30,8 +30,13 @@ class FileController extends Controller
      */
     public function store(Request $request)
     {
-        $attrs = $request->post();
-
+        $attrs = $request->all();
+        if (!$request->has('file_name')) {
+            $attrs['file_name'] = $request->input('name');
+        }
+        if (!$request->has('file_description')) {
+            $attrs['file_description'] = $request->input('description');
+        }
         /*
          * Not using a form validation here because when it redirects, it leaves
          * the parent forms all blank, even though it goes back to the right place.
@@ -44,11 +49,11 @@ class FileController extends Controller
          * to work properly with a file upload
          */
         $validator = Validator::make(
-            $request->all(),
+            $attrs,
             [
                 'file_name'        => 'required',
                 'file_description' => 'nullable',
-                'file'             => 'nullable|file',
+                'file'             => 'nullable|file|mimes:zip,pdf,jpeg,bmp,png',
                 'url'              => 'nullable|url',
                 /*'file'             => [
                     Rule::requiredIf(function () {
@@ -72,7 +77,7 @@ class FileController extends Controller
         if ($validator->fails()) {
             return redirect()
                 ->back()
-                ->withErrors($validator)
+                ->withErrors($validator->errors())
                 ->withInput($request->all());
         }
 
@@ -99,8 +104,27 @@ class FileController extends Controller
             $file->save();
         }
 
-        Flash::success('Files saved successfully');
+        flash()->success('Files saved successfully');
 
+        return redirect()->back();
+    }
+
+    /**
+     * Update the file in storage.
+     *
+     * @param $id
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function update($id, Request $request)
+    {
+        $update = $this->fileSvc->update($id, $request->all());
+        if ($update) {
+            flash()->success('File Edited successfully');
+        } else {
+            flash()->error('File Editing Failed');
+        }
         return redirect()->back();
     }
 
@@ -117,13 +141,13 @@ class FileController extends Controller
     {
         $file = File::find($id);
         if (!$file) {
-            Flash::error('File doesn\'t exist');
+            flash()->error('File doesn\'t exist');
             return redirect()->back();
         }
 
         $this->fileSvc->removeFile($file);
 
-        Flash::success('File deleted successfully.');
+        flash()->success('File deleted successfully.');
 
         return redirect()->back();
     }

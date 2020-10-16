@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Contracts\Service;
 use App\Models\File;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -13,15 +14,15 @@ class FileService extends Service
     /**
      * Save a file to disk and return a File asset
      *
-     * @param \Illuminate\Http\UploadedFile $file
-     * @param string                        $folder
-     * @param array                         $attrs
+     * @param UploadedFile $file
+     * @param string       $folder
+     * @param array        $attrs
      *
      * @throws \Hashids\HashidsException
      *
      * @return File
      */
-    public function saveFile($file, $folder, array $attrs)
+    public function saveFile($file, string $folder, array $attrs)
     {
         $attrs = array_merge([
             'name'         => '',
@@ -48,6 +49,21 @@ class FileService extends Service
         $asset->save();
 
         return $asset;
+    }
+
+    /**
+     * Edit a file, if it exists
+     *
+     * @param $id
+     * @param array $data
+     *
+     * @return bool
+     */
+    public function update($id, array $data): bool
+    {
+        $file = File::find($id);
+        $file->update($data);
+        return true;
     }
 
     /**
