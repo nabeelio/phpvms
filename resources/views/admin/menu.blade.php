@@ -66,6 +66,10 @@
       <li><a href="{!! url('/admin/awards') !!}"><i class="pe-7s-diamond"></i>awards</a></li>
       @endability
 
+      @ability('admin', 'downloads')
+      <li><a href="{!! url('/admin/downloads') !!}"><i class="pe-7s-download"></i>downloads</a></li>
+      @endability
+
       @ability('admin', 'users')
       <li><a href="{!! url('/admin/roles') !!}"><i class="pe-7s-network"></i>roles</a></li>
       @endability
