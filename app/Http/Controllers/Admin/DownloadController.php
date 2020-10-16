@@ -3,15 +3,15 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Contracts\Controller;
-use App\Models\Airport;
 use App\Models\Aircraft;
+use App\Models\Airport;
 use App\Models\File;
 
 class DownloadController extends Controller
 {
     public function index()
     {
-        $downloads = File::orderBy('ref_model', 'asc')->get();;
+        $downloads = File::orderBy('ref_model', 'asc')->get();
         return view('admin.downloads.index', [
             'downloads' => $downloads
         ]);
