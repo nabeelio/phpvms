@@ -17,7 +17,6 @@ use Illuminate\View\View;
 
 /**
  * Class DownloadController
- * @package App\Http\Controllers\Admin
  */
 class DownloadController extends Controller
 {
@@ -28,6 +27,7 @@ class DownloadController extends Controller
 
     /**
      * DownloadController constructor.
+     *
      * @param FileService $fileSvc
      */
     public function __construct(FileService $fileSvc)
@@ -57,9 +57,9 @@ class DownloadController extends Controller
     {
         $download = null;
         $ref_models = [
-            'App\Models\Aircraft'  => 'Aircraft',
-            'App\Models\Airport'   => 'Airport',
-            ''                     => 'Others',
+            'App\Models\Aircraft' => 'Aircraft',
+            'App\Models\Airport'  => 'Airport',
+            ''                    => 'Others',
         ];
         $ref_aircrafts = Aircraft::all()->pluck('icao', 'id')->toArray();
         $ref_airports = Airport::all()->pluck('id', 'id')->toArray();
