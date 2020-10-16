@@ -207,6 +207,20 @@ class RouteServiceProvider extends ServiceProvider
 
             Route::resource('fares', 'FareController')->middleware('ability:admin,finances');
 
+            // downloads
+            Route::group([
+                'as'         => 'downloads.',
+                'prefix'     => 'downloads',
+                'middleware' => ['ability:admin, files'],
+            ], function () {
+                Route::get('/', 'DownloadController@index')->name('index');
+                Route::get('/create', 'DownloadController@create')->name('create');
+                Route::get('/edit/{id}', 'DownloadController@edit')->name('edit');
+                Route::post('/', 'FileController@store')->name('store');
+                Route::patch('/{id}', 'FileController@update')->name('update');
+                Route::delete('/{id}', 'FileController@destroy')->name('destroy');
+            });
+
             // files
             Route::post('files', 'FileController@store')
                 ->name('files.store')
