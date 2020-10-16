@@ -215,10 +215,10 @@ class RouteServiceProvider extends ServiceProvider
             ], function () {
                 Route::get('/', 'DownloadController@index')->name('index');
                 Route::get('/create', 'DownloadController@create')->name('create');
-                Route::get('/edit/{id}', 'DownloadController@edit')->name('edit');
-                Route::post('/', 'FileController@store')->name('store');
-                Route::patch('/{id}', 'FileController@update')->name('update');
-                Route::delete('/{id}', 'FileController@destroy')->name('destroy');
+                Route::post('/', 'DownloadController@store')->name('store');
+                Route::get('/{id}/edit', 'DownloadController@edit')->name('edit');
+                Route::patch('/{id}', 'DownloadController@update')->name('update');
+                Route::delete('/{id}', 'DownloadController@destroy')->name('destroy');
             });
 
             // files

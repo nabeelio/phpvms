@@ -16,10 +16,10 @@
           <hr>
           <table class="table table-bordered table-primary">
             <thead>
-            <th>File</th>
-            <th>Description</th>
-            <th>Path</th>
-            <th>Actions</th>
+              <th>File</th>
+              <th>Description</th>
+              <th>Path</th>
+              <th>Actions</th>
             </thead>
             <tbody>
             @forelse($downloads as $download)
@@ -36,7 +36,7 @@
               </tr>
             @empty
               <tr>
-                <td colspan="3" class="text-center">
+                <td colspan="4" class="text-center">
                   No Downloads Added Yet!
                 </td>
               </tr>

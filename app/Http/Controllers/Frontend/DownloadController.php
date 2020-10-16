@@ -24,7 +24,7 @@ class DownloadController extends Controller
          * Group all the files but compound the model with the ID,
          * since we can have multiple files for every `ref_model`
          */
-        $grouped_files = $files->groupBy(function ($item, $key) {
+        $grouped_files = $files->groupBy(function ($item) {
             return $item['ref_model'].'_'.$item['ref_model_id'];
         });
 
@@ -35,15 +35,19 @@ class DownloadController extends Controller
          */
         $regrouped_files = [];
         foreach ($grouped_files as $group => $files) {
-            [$class, $id] = explode('_', $group);
-            $klass = new $class();
-            $obj = $klass->find($id);
+            if ($group === '_') {
+                $regrouped_files['Others'] = $files;
+            } else {
+                [$class, $id] = explode('_', $group);
+                $klass = new $class();
+                $obj = $klass->find($id);
 
-            $category = explode('\\', $class);
-            $category = end($category);
+                $category = explode('\\', $class);
+                $category = end($category);
 
-            $group_name = $category.' - '.$obj->name;
-            $regrouped_files[$group_name] = $files;
+                $group_name = $category . ' - ' . $obj->name;
+                $regrouped_files[$group_name] = $files;
+            }
         }
 
         return view('downloads.index', [

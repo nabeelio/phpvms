@@ -30,12 +30,6 @@ class FileController extends Controller
     public function store(Request $request)
     {
         $attrs = $request->all();
-        if (!$request->has('file_name')) {
-            $attrs['file_name'] = $request->input('name');
-        }
-        if (!$request->has('file_description')) {
-            $attrs['file_description'] = $request->input('description');
-        }
         /*
          * Not using a form validation here because when it redirects, it leaves
          * the parent forms all blank, even though it goes back to the right place.
