@@ -45,7 +45,7 @@ class DownloadController extends Controller
                 $category = explode('\\', $class);
                 $category = end($category);
 
-                $group_name = $category . ' - ' . $obj->name;
+                $group_name = $category.' - '.$obj->name;
                 $regrouped_files[$group_name] = $files;
             }
         }

@@ -136,9 +136,9 @@ class DownloadController extends Controller
     {
         $download = File::find($id);
         $ref_models = [
-            'App\Models\Aircraft'  => 'Aircraft',
-            'App\Models\Airport'   => 'Airport',
-            ''                     => 'Others',
+            'App\Models\Aircraft' => 'Aircraft',
+            'App\Models\Airport'  => 'Airport',
+            ''                    => 'Others',
         ];
         $ref_aircrafts = Aircraft::all()->pluck('icao', 'id')->toArray();
         $ref_airports = Airport::all()->pluck('id', 'id')->toArray();
