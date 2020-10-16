@@ -35,7 +35,8 @@ class DownloadController extends Controller
         ]);
     }
 
-    public function edit($id) {
+    public function edit($id)
+    {
         $download = File::find($id);
         $ref_models = [
             'App\Models\Aircraft'  => 'Aircraft',
