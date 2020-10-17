@@ -140,6 +140,7 @@ class DatabaseActivator implements ActivatorInterface
     public function delete(Module $module): void
     {
         $name = $module->getName();
+
         try {
             (new \App\Models\Module())->where([
                 'name' => $name,
