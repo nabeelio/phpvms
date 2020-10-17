@@ -53,7 +53,7 @@
           </div>
           <div class="card card-login card-plain" style="background: #FFF">
             <div class="card-body">
-              @include('importer::flash.message')
+              @include('system.importer.flash.message')
               @yield('content')
             </div>
           </div>

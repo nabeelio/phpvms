@@ -135,9 +135,6 @@ class ImporterController extends Controller
      */
     public function complete()
     {
-        $installerSvc = app(InstallerService::class);
-        $installerSvc->disableInstallerModules();
-
         return redirect('/');
     }
 }

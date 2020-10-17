@@ -6,6 +6,7 @@ use Exception;
 use Illuminate\Config\Repository as Config;
 use Illuminate\Container\Container;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Facades\Log;
 use Nwidart\Modules\Contracts\ActivatorInterface;
 use Nwidart\Modules\Module;
 
@@ -125,7 +126,12 @@ class DatabaseActivator implements ActivatorInterface
      */
     public function setActiveByName(string $name, bool $status): void
     {
-        $this->writeDB($name, $status);
+        $module = (new \App\Models\Module())->where('name', $name);
+        if ($module->exists()) {
+            $module->update([
+                'status' => $status,
+            ]);
+        }
     }
 
     /**
@@ -134,29 +140,13 @@ class DatabaseActivator implements ActivatorInterface
     public function delete(Module $module): void
     {
         $name = $module->getName();
-        $this->writeDB($name, false, 1);
-    }
-
-    /**
-     * Writes the activation statuses in a file, as json
-     *
-     * @param $name
-     * @param $status
-     * @param string $delete
-     */
-    private function writeDB($name, $status, $delete = ''): void
-    {
-        if (!empty($delete)) {
+        try {
             (new \App\Models\Module())->where([
                 'name' => $name,
             ])->delete();
-        } else {
-            $module = (new \App\Models\Module())->where('name', $name);
-            if ($module->exists()) {
-                $module->update([
-                    'status' => $status,
-                ]);
-            }
+        } catch (Exception $e) {
+            Log::error('Module '.$module.' Delete failed! Exception : '.$e->getMessage());
+            return;
         }
     }
 }
