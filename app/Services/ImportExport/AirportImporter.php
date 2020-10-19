@@ -44,13 +44,14 @@ class AirportImporter extends ImportExport
     {
         $row['id'] = $row['icao'];
         $row['hub'] = get_truth_state($row['hub']);
+        $row['ground_handling_cost'] = floatval($row['ground_handling_cost']);
 
         if ($row['ground_handling_cost'] === null && $row['ground_handling_cost'] !== 0) {
-            $row['ground_handling_cost'] = setting('general.default_ground_handling_cost');
+            $row['ground_handling_cost'] = setting('airports.default_ground_handling_cost');
         }
 
         if ($row['fuel_jeta_cost'] === null && $row['fuel_jeta_cost'] !== 0) {
-            $row['fuel_jeta_cost'] = setting('general.default_jetA_fuel_cost');
+            $row['fuel_jeta_cost'] = setting('airports.default_jet_a_fuel_cost');
         }
 
         try {

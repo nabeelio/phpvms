@@ -26,20 +26,6 @@
   options:
   type: boolean
   description: If an airport isn't added, try to look it up when adding schedules
-- key: general.default_ground_handling_cost
-  name: 'Default Ground Handling Cost'
-  group: general
-  value: 250
-  options:
-  type: int
-  description: If an airport's Ground Handling Cost Cost isn't added, set this value by default
-- key: general.default_jetA_fuel_cost
-  name: 'Default Jet A Fuel Cost'
-  group: general
-  value: 0.7
-  options:
-  type: text
-  description: If an airport's Jet A Fuel Cost isn't added, set this value by default
 - key: general.allow_unadded_airports
   name: 'Allow unadded airports'
   group: general
@@ -144,6 +130,20 @@
   options: ''
   type: int
   description: 'Initial zoom level on the map'
+- key: airports.default_ground_handling_cost
+  name: 'Default Ground Handling Cost'
+  group: general
+  value: 250
+  options:
+  type: int
+  description: If an airport's Ground Handling Cost Cost isn't added, set this value by default
+- key: airports.default_jet_a_fuel_cost
+  name: 'Default Jet A Fuel Cost'
+  group: general
+  value: 0.7
+  options:
+  type: text
+  description: If an airport's Jet A Fuel Cost isn't added, set this value by default
 - key: bids.disable_flight_on_bid
   name: 'Disable flight on bid'
   group: bids
