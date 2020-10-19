@@ -27,6 +27,74 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapWebRoutes();
         $this->mapAdminRoutes();
         $this->mapApiRoutes();
+        $this->mapImporterRoutes();
+        $this->mapInstallerRoutes();
+        $this->mapUpdaterRoutes();
+    }
+
+    private function mapImporterRoutes()
+    {
+        Route::group([
+            'as'         => 'importer.',
+            'prefix'     => 'importer',
+            'middleware' => ['web'],
+            'namespace'  => 'App\Http\Controllers\System',
+        ], function () {
+            Route::get('/', 'ImporterController@index')->name('index');
+            Route::post('/config', 'ImporterController@config')->name('config');
+            Route::post('/dbtest', 'ImporterController@dbtest')->name('dbtest');
+
+            // Run the actual importer process. Additional middleware
+            Route::post('/run', 'ImporterController@run')->middleware('api')->name('run');
+            Route::post('/complete', 'ImporterController@complete')->name('complete');
+        });
+    }
+
+    private function mapInstallerRoutes()
+    {
+        Route::group([
+            'as'         => 'installer.',
+            'prefix'     => 'install',
+            'middleware' => ['web'],
+            'namespace'  => 'App\Http\Controllers\System',
+        ], function () {
+            Route::get('/', 'InstallerController@index')->name('index');
+            Route::post('/dbtest', 'InstallerController@dbtest')->name('dbtest');
+
+            Route::get('/step1', 'InstallerController@step1')->name('step1');
+            Route::post('/step1', 'InstallerController@step1')->name('step1post');
+
+            Route::get('/step2', 'InstallerController@step2')->name('step2');
+            Route::post('/envsetup', 'InstallerController@envsetup')->name('envsetup');
+            Route::get('/dbsetup', 'InstallerController@dbsetup')->name('dbsetup');
+
+            Route::get('/step3', 'InstallerController@step3')->name('step3');
+            Route::post('/usersetup', 'InstallerController@usersetup')->name('usersetup');
+
+            Route::get('/complete', 'InstallerController@complete')->name('complete');
+        });
+    }
+
+    protected function mapUpdaterRoutes()
+    {
+        Route::group([
+            'as'         => 'update.',
+            'prefix'     => 'update',
+            'middleware' => ['web', 'auth', 'ability:admin,admin-access'],
+            'namespace'  => 'App\Http\Controllers\System',
+        ], function () {
+            Route::get('/', 'UpdateController@index')->name('index');
+
+            Route::get('/step1', 'UpdateController@step1')->name('step1');
+            Route::post('/step1', 'UpdateController@step1')->name('step1post');
+
+            Route::post('/run-migrations', 'UpdateController@run_migrations')->name('run_migrations');
+            Route::get('/complete', 'UpdateController@complete')->name('complete');
+
+            // Routes for the update downloader
+            Route::get('/downloader', 'UpdateController@updater')->name('updater');
+            Route::post('/downloader', 'UpdateController@update_download')->name('update_download');
+        });
     }
 
     /**
@@ -41,7 +109,7 @@ class RouteServiceProvider extends ServiceProvider
         Route::group([
             'middleware' => ['web'],
             'namespace'  => $this->namespace,
-        ], function ($router) {
+        ], function () {
             Route::group([
                 'namespace'  => 'Frontend',
                 'prefix'     => '',
@@ -385,6 +453,35 @@ class RouteServiceProvider extends ServiceProvider
                 'delete',
             ], 'dashboard/news', ['uses' => 'DashboardController@news'])
                 ->name('dashboard.news')->middleware('update_pending', 'ability:admin,admin-access');
+
+            //Modules
+            Route::group([
+                'as'         => 'modules.',
+                'prefix'     => 'modules',
+                'middleware' => ['ability:admin, modules'],
+            ], function () {
+
+                //Modules Index
+                Route::get('/', 'ModulesController@index')->name('index');
+
+                //Add Module
+                Route::get('/create', 'ModulesController@create')->name('create');
+
+                //Store Module
+                Route::post('/create', 'ModulesController@store')->name('store');
+
+                //Enable Module
+                Route::post('/enable', 'ModulesController@enable')->name('enable');
+
+                //Edit Module
+                Route::get('/{id}/edit', 'ModulesController@edit')->name('edit');
+
+                //Update Module
+                Route::post('/{id}', 'ModulesController@update')->name('update');
+
+                //Delete Module
+                Route::delete('/{id}', 'ModulesController@destroy')->name('destroy');
+            });
         });
     }
 
@@ -402,7 +499,7 @@ class RouteServiceProvider extends ServiceProvider
             'namespace'  => $this->namespace.'\\Api',
             'prefix'     => 'api',
             'as'         => 'api.',
-        ], function ($router) {
+        ], function () {
             Route::group([], function () {
                 Route::get('acars', 'AcarsController@live_flights');
                 Route::get('acars/geojson', 'AcarsController@pireps_geojson');

@@ -1,5 +1,7 @@
 @extends('$LOWER_NAME$::layouts.frontend')
 
+@section('title', '$STUDLY_NAME$')
+
 @section('content')
     <h1>Hello World</h1>
 

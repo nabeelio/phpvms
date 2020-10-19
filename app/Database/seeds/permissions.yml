@@ -51,3 +51,6 @@
 - name: maintenance
   display_name: Maintenance
   description: Run maintenance tasks
+- name: modules
+  display_name: Modules
+  description: Add/Edit Modules

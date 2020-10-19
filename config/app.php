@@ -7,6 +7,8 @@
  * your install. Otherwise, any changes here will get overridden in an update!
  */
 
+use Carbon\Carbon;
+
 return [
     'name'          => env('APP_NAME', 'phpvms'),
     'env'           => env('APP_ENV', 'dev'),
@@ -92,7 +94,7 @@ return [
         'Auth'         => Illuminate\Support\Facades\Auth::class,
         'Blade'        => Illuminate\Support\Facades\Blade::class,
         'Cache'        => Illuminate\Support\Facades\Cache::class,
-        'Carbon'       => \Carbon\Carbon::class,
+        'Carbon'       => Carbon::class,
         'Config'       => Illuminate\Support\Facades\Config::class,
         'Cookie'       => Illuminate\Support\Facades\Cookie::class,
         'Crypt'        => Illuminate\Support\Facades\Crypt::class,

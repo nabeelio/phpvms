@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1fa03b1b729d3f2f2dd04eba1c1749f0",
+    "content-hash": "6f5fb0bd12dc789b1ad1613ddf907a80",
     "packages": [
         {
             "name": "akaunting/money",
@@ -2925,28 +2925,28 @@
         },
         {
             "name": "laravelcollective/html",
-            "version": "v6.1.2",
+            "version": "v6.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/LaravelCollective/html.git",
-                "reference": "5ef9a3c9ae2423fe5618996f3cde375d461a3fc6"
+                "reference": "3bb99be7502feb2129b375cd026ccb0fa4b66628"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/LaravelCollective/html/zipball/5ef9a3c9ae2423fe5618996f3cde375d461a3fc6",
-                "reference": "5ef9a3c9ae2423fe5618996f3cde375d461a3fc6",
+                "url": "https://api.github.com/repos/LaravelCollective/html/zipball/3bb99be7502feb2129b375cd026ccb0fa4b66628",
+                "reference": "3bb99be7502feb2129b375cd026ccb0fa4b66628",
                 "shasum": ""
             },
             "require": {
-                "illuminate/http": "^6.0|^7.0",
-                "illuminate/routing": "^6.0|^7.0",
-                "illuminate/session": "^6.0|^7.0",
-                "illuminate/support": "^6.0|^7.0",
-                "illuminate/view": "^6.0|^7.0",
+                "illuminate/http": "^6.0|^7.0|^8.0",
+                "illuminate/routing": "^6.0|^7.0|^8.0",
+                "illuminate/session": "^6.0|^7.0|^8.0",
+                "illuminate/support": "^6.0|^7.0|^8.0",
+                "illuminate/view": "^6.0|^7.0|^8.0",
                 "php": ">=7.2.5"
             },
             "require-dev": {
-                "illuminate/database": "^6.0|^7.0",
+                "illuminate/database": "^6.0|^7.0|^8.0",
                 "mockery/mockery": "~1.0",
                 "phpunit/phpunit": "~7.1"
             },
@@ -2989,7 +2989,7 @@
             ],
             "description": "HTML and Form Builders for the Laravel Framework",
             "homepage": "https://laravelcollective.com",
-            "time": "2020-05-19T18:02:16+00:00"
+            "time": "2020-09-07T19:59:40+00:00"
         },
         {
             "name": "layershifter/tld-database",
@@ -3576,6 +3576,63 @@
             "time": "2020-08-09T10:34:01+00:00"
         },
         {
+            "name": "madnest/madzipper",
+            "version": "v1.0.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/madnest/madzipper.git",
+                "reference": "c9ee808506a5d53e28876580f98d57717e9b80af"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/madnest/madzipper/zipball/c9ee808506a5d53e28876580f98d57717e9b80af",
+                "reference": "c9ee808506a5d53e28876580f98d57717e9b80af",
+                "shasum": ""
+            },
+            "require": {
+                "ext-zip": "*",
+                "illuminate/filesystem": "^6.18|^7.0|^8.0",
+                "illuminate/support": "^6.18|^7.0|^8.0",
+                "laravel/framework": "~7.0|~8.0",
+                "php": ">=7.2.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.3",
+                "orchestra/testbench": "^5.1",
+                "phpunit/phpunit": "^8.0|^9.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Madnest\\Madzipper\\MadzipperServiceProvider"
+                    ],
+                    "aliases": {
+                        "Madzipper": "Madnest\\Madzipper\\Madzipper"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Madnest\\Madzipper\\": "src/Madnest/Madzipper"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jakub Theimer",
+                    "email": "theimer@madne.st",
+                    "homepage": "https://madne.st",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Wannabe successor of Chumper/Zipper package for Laravel",
+            "time": "2020-09-15T11:11:06+00:00"
+        },
+        {
             "name": "markrogoyski/math-php",
             "version": "v0.38.0",
             "source": {
@@ -3959,27 +4016,27 @@
         },
         {
             "name": "nwidart/laravel-modules",
-            "version": "7.2.0",
+            "version": "8.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nWidart/laravel-modules.git",
-                "reference": "8980876d63096951e067bcaf8649d591d4c7f0da"
+                "reference": "7983e41c3832a13e521aa915532efdc7b67563af"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nWidart/laravel-modules/zipball/8980876d63096951e067bcaf8649d591d4c7f0da",
-                "reference": "8980876d63096951e067bcaf8649d591d4c7f0da",
+                "url": "https://api.github.com/repos/nWidart/laravel-modules/zipball/7983e41c3832a13e521aa915532efdc7b67563af",
+                "reference": "7983e41c3832a13e521aa915532efdc7b67563af",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
-                "php": ">=7.2.5"
+                "php": ">=7.3"
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^2.16",
-                "laravel/framework": "^7.0",
+                "laravel/framework": "^8.0",
                 "mockery/mockery": "~1.0",
-                "orchestra/testbench": "^5.0",
+                "orchestra/testbench": "^6.0",
                 "phpstan/phpstan": "^0.12.14",
                 "phpunit/phpunit": "^8.5",
                 "spatie/phpunit-snapshot-assertions": "^2.1.0"
@@ -3995,7 +4052,7 @@
                     }
                 },
                 "branch-alias": {
-                    "dev-master": "7.0-dev"
+                    "dev-master": "8.0-dev"
                 }
             },
             "autoload": {
@@ -4032,7 +4089,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-07-30T17:10:13+00:00"
+            "time": "2020-10-03T14:56:31+00:00"
         },
         {
             "name": "oomphinc/composer-installers-extender",
