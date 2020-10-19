@@ -44,6 +44,10 @@ class ExpenseExporter extends ImportExport
             $ret['airline'] = $expense->airline->icao;
         }
 
+        if ($ret['flight_type']) {
+            $ret['flight_type'] = $ret['flight_type'][0];
+        }
+
         // For the different expense types, instead of exporting
         // the ID, export a specific column
         if ($expense->ref_model === Expense::class) {
@@ -67,6 +71,6 @@ class ExpenseExporter extends ImportExport
         // And convert the ref_model into the shorter name
         $ret['ref_model'] = str_replace('App\Models\\', '', $ret['ref_model']);
 
-        return $ret;
+        return array_values($ret);
     }
 }
