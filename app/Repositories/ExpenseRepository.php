@@ -21,10 +21,10 @@ class ExpenseRepository extends Repository implements CacheableInterface
      * Get all of the expenses for a given type, and also
      * include expenses for a given airline ID
      *
-     * @param        $type
-     * @param int    $airline_id
-     * @param string $ref_model
-     * @param mixed  $ref_model_id
+     * @param       $type
+     * @param null  $airline_id
+     * @param null  $ref_model
+     * @param mixed $ref_model_id
      *
      * @return Collection
      */
