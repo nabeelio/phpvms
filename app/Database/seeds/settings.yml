@@ -132,14 +132,14 @@
   description: 'Initial zoom level on the map'
 - key: airports.default_ground_handling_cost
   name: 'Default Ground Handling Cost'
-  group: general
+  group: airports
   value: 250
   options:
   type: int
   description: If an airport's Ground Handling Cost Cost isn't added, set this value by default
 - key: airports.default_jet_a_fuel_cost
   name: 'Default Jet A Fuel Cost'
-  group: general
+  group: airports
   value: 0.7
   options:
   type: text
