@@ -105,7 +105,7 @@ class UpdateController extends Controller
      */
     public function complete()
     {
-        return redirect('/login');
+        return redirect('/admin');
     }
 
     /**

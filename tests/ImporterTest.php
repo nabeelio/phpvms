@@ -633,6 +633,8 @@ class ImporterTest extends TestCase
         $this->assertEquals(true, $airport->hub);
         $this->assertEquals('30.1945', $airport->lat);
         $this->assertEquals('-97.6699', $airport->lon);
+        $this->assertEquals(0.0, $airport->ground_handling_cost);
+        $this->assertEquals(setting('airports.default_jet_a_fuel_cost'), $airport->fuel_jeta_cost);
 
         // See if it imported
         $airport = Airport::where([
@@ -641,6 +643,8 @@ class ImporterTest extends TestCase
 
         $this->assertNotNull($airport);
         $this->assertEquals(true, $airport->hub);
+        $this->assertEquals(0.9, $airport->fuel_jeta_cost);
+        $this->assertEquals(setting('airports.default_ground_handling_cost'), $airport->ground_handling_cost);
     }
 
     /**

@@ -21,19 +21,34 @@ class AirportImporter extends BaseImporter
             'lat',
             'lng',
             'hub',
+            'ground_handling_cost',
+            'fuel_jeta_cost',
         ];
 
         $count = 0;
         $rows = $this->db->readRows($this->table, $this->idField, $start, $fields);
         foreach ($rows as $row) {
+            $ground_handling_cost = (float) $row->ground_handling_cost;
+            $fuel_jetA_cost = (float) $row->fuel_jeta_cost;
+
+            if ($ground_handling_cost === null && $ground_handling_cost !== 0) {
+                $ground_handling_cost = (float) setting('general.default_ground_handling_cost');
+            }
+
+            if ($fuel_jetA_cost === null && $fuel_jetA_cost !== 0) {
+                $fuel_jetA_cost = (float) setting('general.default_jetA_fuel_cost');
+            }
+
             $attrs = [
-                'id'      => trim($row->icao),
-                'icao'    => trim($row->icao),
-                'name'    => $row->name,
-                'country' => $row->country,
-                'lat'     => $row->lat,
-                'lon'     => $row->lng,
-                'hub'     => $row->hub,
+                'id'                   => trim($row->icao),
+                'icao'                 => trim($row->icao),
+                'name'                 => $row->name,
+                'country'              => $row->country,
+                'lat'                  => $row->lat,
+                'lon'                  => $row->lng,
+                'hub'                  => $row->hub,
+                'ground_handling_cost' => $ground_handling_cost,
+                'fuel_jeta_cost'       => $fuel_jetA_cost,
             ];
 
             $w = ['id' => $attrs['id']];
