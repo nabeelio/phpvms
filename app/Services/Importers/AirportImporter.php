@@ -30,6 +30,7 @@ class AirportImporter extends BaseImporter
         foreach ($rows as $row) {
             $ground_handling_cost = $row->ground_handling_cost;
             $fuel_jetA_cost = $row->fuel_jeta_cost;
+
             if ($row->ground_handling_cost === null && $row->ground_handling_cost !== 0) {
                 $ground_handling_cost = setting('general.default_ground_handling_cost');
             }
@@ -46,8 +47,8 @@ class AirportImporter extends BaseImporter
                 'lat'                  => $row->lat,
                 'lon'                  => $row->lng,
                 'hub'                  => $row->hub,
-                'ground_handling_cost' => floatval($ground_handling_cost),
-                'fuel_jeta_cost'       => floatval($fuel_jetA_cost),
+                'ground_handling_cost' => (float) $ground_handling_cost,
+                'fuel_jeta_cost'       => (float) $fuel_jetA_cost,
             ];
 
             $w = ['id' => $attrs['id']];
