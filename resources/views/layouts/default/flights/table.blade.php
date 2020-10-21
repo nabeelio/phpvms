@@ -61,7 +61,7 @@
             {{ $flight->level }} {{ setting('units.altitude') }}
           @endif
           <br/>
-          @if(in_array($flight->id, $bids))
+          @if(in_array($flight->id, $all_bids))
             <span class="badge badge-info">{{ (__('flights.already_bidded')) }}</span>
           @endif
         </div>
