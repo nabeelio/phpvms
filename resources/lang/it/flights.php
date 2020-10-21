@@ -10,6 +10,7 @@ return [
     'addremovebid'     => 'Aggiungi/Rimuovi Prenotazione',
     'bidremoved'       => 'La tua prenotazione è stata rimossa.',
     'bidadded'         => 'La tua prenotazione è stata aggiunta.',
+    'already_bidded'   => 'Volo offerto da un altro pilota',
     'dep'              => 'Par',
     'arr'              => 'Arr',
     'level'            => 'Livello',

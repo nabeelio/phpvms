@@ -11,6 +11,7 @@ return [
     'addremovebid'     => 'Add/Remove Bid',
     'bidremoved'       => 'Your bid was removed.',
     'bidadded'         => 'Your bid was added.',
+    'already_bidded'   => 'Flight Bidded by another pilot',
     'dep'              => 'Dep',
     'arr'              => 'Arr',
     'level'            => 'Level',

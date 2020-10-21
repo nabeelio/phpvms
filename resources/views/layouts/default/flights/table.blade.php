@@ -60,6 +60,10 @@
             <span class="title">{{ strtoupper(__('flights.level')) }}&nbsp;</span>
             {{ $flight->level }} {{ setting('units.altitude') }}
           @endif
+          <br/>
+          @if(in_array($flight->id, $bids))
+            <span class="badge badge-info">{{ (__('flights.already_bidded')) }}</span>
+          @endif
         </div>
         <div class="col-sm-5">
           @if($flight->route)

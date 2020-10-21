@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Contracts\Controller;
 use App\Models\Bid;
+use App\Models\User;
 use App\Repositories\AirlineRepository;
 use App\Repositories\AirportRepository;
 use App\Repositories\Criteria\WhereCriteria;
@@ -79,7 +80,7 @@ class FlightController extends Controller
             'visible' => true,
         ];
 
-        /** @var \App\Models\User $user */
+        /** @var User $user */
         $user = Auth::user();
 
         if (setting('pilots.restrict_to_company')) {
@@ -113,6 +114,8 @@ class FlightController extends Controller
         $saved_flights = Bid::where('user_id', Auth::id())
             ->pluck('flight_id')->toArray();
 
+        $bids = Bid::all()->pluck('flight_id')->toArray();
+
         return view('flights.index', [
             'airlines'      => $this->airlineRepo->selectBoxList(true),
             'airports'      => $this->airportRepo->selectBoxList(true),
@@ -125,6 +128,7 @@ class FlightController extends Controller
             'subfleet_id'   => $request->input('subfleet_id'),
             'simbrief'      => !empty(setting('simbrief.api_key')),
             'simbrief_bids' => setting('simbrief.only_bids'),
+            'bids'          => $bids,
         ]);
     }
 

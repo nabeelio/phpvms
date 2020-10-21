@@ -11,6 +11,7 @@ return [
     'addremovebid'     => 'Añadir/Quitar reserva',
     'bidremoved'       => 'Tu reserva ha sido eliminada.',
     'bidadded'         => 'Tu reserva ha sido añadida.',
+    'already_bidded'   => 'Vuelo ofertado por otro piloto',
     'dep'              => 'Salida',
     'arr'              => 'Llegada',
     'level'            => 'Nivel',
