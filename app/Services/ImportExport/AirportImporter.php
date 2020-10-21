@@ -45,8 +45,20 @@ class AirportImporter extends ImportExport
         $row['id'] = $row['icao'];
         $row['hub'] = get_truth_state($row['hub']);
 
+        if ($row['ground_handling_cost'] === null && $row['ground_handling_cost'] !== 0.0) {
+            $row['ground_handling_cost'] = (float) setting('airports.default_ground_handling_cost');
+        } else {
+            $row['ground_handling_cost'] = (float) $row['ground_handling_cost'];
+        }
+
+        if ($row['fuel_jeta_cost'] === null && $row['fuel_jeta_cost'] !== 0.0) {
+            $row['fuel_jeta_cost'] = (float) setting('airports.default_jet_a_fuel_cost');
+        } else {
+            $row['fuel_jeta_cost'] = (float) $row['fuel_jeta_cost'];
+        }
+
         try {
-            $airport = Airport::updateOrCreate([
+            Airport::updateOrCreate([
                 'id' => $row['icao'],
             ], $row);
         } catch (\Exception $e) {
