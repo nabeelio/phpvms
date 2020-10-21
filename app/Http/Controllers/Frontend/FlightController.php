@@ -114,7 +114,7 @@ class FlightController extends Controller
         $saved_flights = Bid::where('user_id', Auth::id())
             ->pluck('flight_id')->toArray();
 
-        $bids = Bid::all()->pluck('flight_id')->toArray();
+        $all_bids = Bid::all()->pluck('flight_id')->toArray();
 
         return view('flights.index', [
             'airlines'      => $this->airlineRepo->selectBoxList(true),
@@ -128,7 +128,7 @@ class FlightController extends Controller
             'subfleet_id'   => $request->input('subfleet_id'),
             'simbrief'      => !empty(setting('simbrief.api_key')),
             'simbrief_bids' => setting('simbrief.only_bids'),
-            'bids'          => $bids,
+            'all_bids'      => $all_bids,
         ]);
     }
 
