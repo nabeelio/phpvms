@@ -52,7 +52,6 @@ abstract class Migration extends \Illuminate\Database\Migrations\Migration
         }
     }
 
-
     /**
      * Seed a YAML file into the database
      *

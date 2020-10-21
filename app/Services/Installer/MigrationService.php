@@ -52,9 +52,11 @@ class MigrationService extends Service
 
         $availMigrations = [];
         $runFiles = [];
+
         try {
             $runFiles = $migrator->getRepository()->getRan();
-        } catch (Exception $e) { } // Skip database run initialized
+        } catch (Exception $e) {
+        } // Skip database run initialized
 
         $files = $migrator->getMigrationFiles(array_values($migration_dirs));
 
@@ -94,6 +96,6 @@ class MigrationService extends Service
         $ret = $migrator->run($availMigrations);
         Log::info('Ran '.count($ret).' migrations');
 
-        return $output."\n".join("\n", $ret);
+        return $output."\n".implode("\n", $ret);
     }
 }
