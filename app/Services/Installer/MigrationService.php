@@ -3,13 +3,16 @@
 namespace App\Services\Installer;
 
 use App\Contracts\Service;
+use Exception;
+use Illuminate\Database\Migrations\Migrator;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Log;
 use Nwidart\Modules\Facades\Module;
 
 class MigrationService extends Service
 {
-    protected function getMigrator()
+    protected function getMigrator(): Migrator
     {
         $m = app('migrator');
         $m->setConnection(config('database.default'));
@@ -36,8 +39,6 @@ class MigrationService extends Service
             }
         }
 
-        // Log::info('Update - migration paths', $paths);
-
         return $paths;
     }
 
@@ -49,10 +50,23 @@ class MigrationService extends Service
         $migrator = $this->getMigrator();
         $migration_dirs = $this->getMigrationPaths();
 
-        $files = $migrator->getMigrationFiles(array_values($migration_dirs));
-        $availMigrations = array_diff(array_keys($files), $migrator->getRepository()->getRan());
+        $availMigrations = [];
+        $runFiles = [];
+        try {
+            $runFiles = $migrator->getRepository()->getRan();
+        } catch (Exception $e) { } // Skip database run initialized
 
-        // Log::info('Migrations available:', $availMigrations);
+        $files = $migrator->getMigrationFiles(array_values($migration_dirs));
+
+        foreach ($files as $filename => $filepath) {
+            if (in_array($filename, $runFiles)) {
+                continue;
+            }
+
+            $availMigrations[] = $filepath;
+        }
+
+        Log::info('Migrations available:', $availMigrations);
 
         return $availMigrations;
     }
@@ -63,11 +77,23 @@ class MigrationService extends Service
      */
     public function runAllMigrations()
     {
+        // A little ugly, run the main migration first, this makes sure the migration table is there
         $output = '';
 
         Artisan::call('migrate');
         $output .= trim(Artisan::output());
 
-        return $output;
+        // Then get any remaining migrations that are left over
+        // Due to caching or whatever reason, the migrations are not all loaded when Artisan first
+        // runs. This is likely a side effect of the database being used as the module activator,
+        // and the list of migrations being pulled before the initial modules are populated
+        $migrator = $this->getMigrator();
+        $availMigrations = $this->migrationsAvailable();
+
+        Log::info('Running '.count($availMigrations).' available migrations');
+        $ret = $migrator->run($availMigrations);
+        Log::info('Ran '.count($ret).' migrations');
+
+        return $output."\n".join("\n", $ret);
     }
 }

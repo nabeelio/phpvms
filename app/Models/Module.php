@@ -3,9 +3,13 @@
 namespace App\Models;
 
 use App\Contracts\Model;
+use Carbon\Carbon;
 
 /**
- * Class ModuleManager
+ * @property string name
+ * @property bool   enabled
+ * @property Carbon created_at
+ * @property Carbon updated_at
  */
 class Module extends Model
 {

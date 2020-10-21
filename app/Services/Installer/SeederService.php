@@ -56,10 +56,10 @@ class SeederService extends Service
      */
     public function syncAllSeeds(): void
     {
-        $this->syncAllYamlFileSeeds();
         $this->syncAllSettings();
         $this->syncAllPermissions();
         $this->syncAllModules();
+        $this->syncAllYamlFileSeeds();
     }
 
     /**

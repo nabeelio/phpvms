@@ -125,8 +125,12 @@ class ModuleService extends Service
                 'name'    => $module_name,
                 'enabled' => 1,
             ]);
+
+            Artisan::call('module:migrate '.$module_name);
+
             return true;
         }
+
         return false;
     }
 
@@ -240,6 +244,11 @@ class ModuleService extends Service
         $module->update([
             'enabled' => $status,
         ]);
+
+        if ($status === true) {
+            Artisan::call('module:migrate '.$module->name);
+        }
+
         return true;
     }
 
