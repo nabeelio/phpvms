@@ -6,7 +6,7 @@
         <table class="table table-hover" id="flights-table">
           <thead>
           <th colspan="2">
-            <h5>{{ $group }}</h5>
+            <h5>{{ ucfirst($group) }}</h5>
           </th>
           </thead>
 
