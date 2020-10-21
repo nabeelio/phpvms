@@ -50,11 +50,9 @@ class MigrationService extends Service
         $migration_dirs = $this->getMigrationPaths();
 
         $files = $migrator->getMigrationFiles(array_values($migration_dirs));
-        $availMigrations = array_diff(array_keys($files), $migrator->getRepository()->getRan());
-
         // Log::info('Migrations available:', $availMigrations);
 
-        return $availMigrations;
+        return array_diff(array_keys($files), $migrator->getRepository()->getRan());
     }
 
     /**
@@ -67,6 +65,15 @@ class MigrationService extends Service
 
         Artisan::call('migrate');
         $output .= trim(Artisan::output());
+
+        $modules = Module::allEnabled();
+        foreach ($modules as $module) {
+            $module_path = $module->getPath().'/Database/migrations';
+            if (file_exists($module_path)) {
+                Artisan::call('module:migrate '.$module->getName());
+                $output .= trim(Artisan::output());
+            }
+        }
 
         return $output;
     }

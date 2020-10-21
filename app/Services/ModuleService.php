@@ -125,7 +125,7 @@ class ModuleService extends Service
                 'name'    => $module_name,
                 'enabled' => 1,
             ]);
-            Artisan::call('module:migrate '.$module);
+            Artisan::call('module:migrate '.$module_name);
             return true;
         }
         return false;
@@ -240,8 +240,8 @@ class ModuleService extends Service
         $module->update([
             'enabled' => $status,
         ]);
-        if ($status === 1) {
-            Artisan::call('module:migrate '.$module);
+        if ($status === true) {
+            Artisan::call('module:migrate '.$module->name);
         }
         return true;
     }
@@ -257,6 +257,7 @@ class ModuleService extends Service
     public function deleteModule($id, $data): bool
     {
         $module = Module::find($id);
+        Artisan::call('module:migrate-rollback '.$module->name);
         if ($data['verify'] === strtoupper($module->name)) {
             try {
                 $module->delete();
