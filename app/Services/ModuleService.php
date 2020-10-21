@@ -125,6 +125,7 @@ class ModuleService extends Service
                 'name'    => $module_name,
                 'enabled' => 1,
             ]);
+            Artisan::call('module:migrate '.$module);
             return true;
         }
         return false;
@@ -221,7 +222,6 @@ class ModuleService extends Service
         }
 
         Artisan::call('config:cache');
-        Artisan::call('module:migrate '.$module);
 
         return flash()->success('Module Installed');
     }
@@ -240,6 +240,9 @@ class ModuleService extends Service
         $module->update([
             'enabled' => $status,
         ]);
+        if ($status === 1) {
+            Artisan::call('module:migrate '.$module);
+        }
         return true;
     }
 
