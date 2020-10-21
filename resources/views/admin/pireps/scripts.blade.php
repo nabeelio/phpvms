@@ -65,6 +65,23 @@
         changeStatus(values, (data) => {
           const destContainer = '#pirep_' + values.pirep_id + '_actionbar';
           $(destContainer).html(data);
+
+          const statusContainer = '#pirep_' + values.pirep_id + '_status_container';
+          let new_badge;
+          let new_badge_text;
+
+          if (values.new_status === '2') {
+            new_badge = 'badge badge-success';
+            new_badge_text = 'Accepted'
+          }
+
+          if (values.new_status === '6') {
+            new_badge = 'badge badge-danger';
+            new_badge_text = 'Rejected'
+          }
+
+          $(statusContainer).children(0).removeClass().addClass(new_badge);
+          $(statusContainer).children(0).html(new_badge_text);
         });
       });
 
