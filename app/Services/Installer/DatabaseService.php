@@ -47,6 +47,7 @@ class DatabaseService extends Service
         } catch (\PDOException $e) {
             throw $e;
         }
+
         return true;
     }
 
