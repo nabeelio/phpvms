@@ -61,7 +61,7 @@ class MigrationService extends Service
         $files = $migrator->getMigrationFiles(array_values($migration_dirs));
 
         foreach ($files as $filename => $filepath) {
-            if (in_array($filename, $runFiles)) {
+            if (in_array($filename, $runFiles, true)) {
                 continue;
             }
 
