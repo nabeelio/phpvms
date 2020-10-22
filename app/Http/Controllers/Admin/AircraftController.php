@@ -33,19 +33,19 @@ class AircraftController extends Controller
      *
      * @param AirportRepository $airportRepo
      * @param AircraftRepository $aircraftRepo
-     * @param ImportService $importSvc
      * @param FileService $fileSvc
+     * @param ImportService $importSvc
      */
     public function __construct(
         AirportRepository $airportRepo,
         AircraftRepository $aircraftRepo,
-        ImportService $importSvc,
-        FileService $fileSvc
+        FileService $fileSvc,
+        ImportService $importSvc
     ) {
         $this->aircraftRepo = $aircraftRepo;
         $this->airportRepo = $airportRepo;
-        $this->importSvc = $importSvc;
         $this->fileSvc = $fileSvc;
+        $this->importSvc = $importSvc;
     }
 
     /**

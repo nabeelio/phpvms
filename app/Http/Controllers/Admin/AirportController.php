@@ -28,17 +28,17 @@ class AirportController extends Controller
 
     /**
      * @param AirportRepository $airportRepo
-     * @param ImportService $importSvc
      * @param FileService $fileSvc
+     * @param ImportService $importSvc
      */
     public function __construct(
         AirportRepository $airportRepo,
-        ImportService $importSvc,
-        FileService $fileSvc
+        FileService $fileSvc,
+        ImportService $importSvc
     ) {
         $this->airportRepo = $airportRepo;
-        $this->importSvc = $importSvc;
         $this->fileSvc = $fileSvc;
+        $this->importSvc = $importSvc;
     }
 
     /**
