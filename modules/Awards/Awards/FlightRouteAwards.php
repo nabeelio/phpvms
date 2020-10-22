@@ -52,20 +52,20 @@ class FlightRouteAwards extends Award
 
         $dptarr = strtoupper(trim($dptarr));
         if (empty($dptarr)) {
-            Log::error("FlightRouteAwards: empty departure/arrival string");
+            Log::error('FlightRouteAwards: empty departure/arrival string');
             return false;
         }
 
         try {
             [$dpt_icao, $arr_icao] = explode(':', $dptarr);
         } catch (ErrorException $e) {
-            Log::error("FlightRouteAwards: Invalid departure/arrival, val=\"".$dptarr.'\"');
+            Log::error('FlightRouteAwards: Invalid departure/arrival, val="'.$dptarr.'\"');
             return false;
         }
 
         $dpt = $this->user->last_pirep->dpt_airport_id;
         $arr = $this->user->last_pirep->arr_airport_id;
 
-        return ($dpt === $dpt_icao && $arr === $arr_icao);
+        return $dpt === $dpt_icao && $arr === $arr_icao;
     }
 }
