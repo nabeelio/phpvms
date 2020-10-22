@@ -122,6 +122,7 @@ class AwardsTest extends TestCase
             'ABCD:EDFSDF',
             $pirep->dpt_airport_id.':',
             ':'.$pirep->arr_airport_id,
+            ':'.$pirep->arr_airport_id.':',
         ];
 
         foreach ($errStrs as $err) {
