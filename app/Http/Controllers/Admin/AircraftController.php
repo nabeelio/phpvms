@@ -31,10 +31,10 @@ class AircraftController extends Controller
     /**
      * AircraftController constructor.
      *
-     * @param AirportRepository $airportRepo
+     * @param AirportRepository  $airportRepo
      * @param AircraftRepository $aircraftRepo
-     * @param FileService $fileSvc
-     * @param ImportService $importSvc
+     * @param FileService        $fileSvc
+     * @param ImportService      $importSvc
      */
     public function __construct(
         AirportRepository $airportRepo,

@@ -28,8 +28,8 @@ class AirportController extends Controller
 
     /**
      * @param AirportRepository $airportRepo
-     * @param FileService $fileSvc
-     * @param ImportService $importSvc
+     * @param FileService       $fileSvc
+     * @param ImportService     $importSvc
      */
     public function __construct(
         AirportRepository $airportRepo,
