@@ -12,6 +12,7 @@ use App\Models\Expense;
 use App\Repositories\AirportRepository;
 use App\Repositories\Criteria\WhereCriteria;
 use App\Services\ExportService;
+use App\Services\FileService;
 use App\Services\ImportService;
 use App\Support\Timezonelist;
 use Illuminate\Http\Request;
@@ -23,17 +24,21 @@ class AirportController extends Controller
 
     private $airportRepo;
     private $importSvc;
+    private $fileSvc;
 
     /**
      * @param AirportRepository $airportRepo
-     * @param ImportService     $importSvc
+     * @param ImportService $importSvc
+     * @param FileService $fileSvc
      */
     public function __construct(
         AirportRepository $airportRepo,
-        ImportService $importSvc
+        ImportService $importSvc,
+        FileService $fileSvc
     ) {
         $this->airportRepo = $airportRepo;
         $this->importSvc = $importSvc;
+        $this->fileSvc = $fileSvc;
     }
 
     /**
@@ -182,6 +187,13 @@ class AirportController extends Controller
         }
 
         $this->airportRepo->delete($id);
+
+        $array = [
+            'ref_model'    => 'App\Models\Airport',
+            'ref_model_id' => $id,
+        ];
+
+        $this->fileSvc->removeModelFiles($array);
 
         Flash::success('Airport deleted successfully.');
         return redirect(route('admin.airports.index'));

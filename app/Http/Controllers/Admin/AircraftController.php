@@ -14,6 +14,7 @@ use App\Models\Subfleet;
 use App\Repositories\AircraftRepository;
 use App\Repositories\AirportRepository;
 use App\Services\ExportService;
+use App\Services\FileService;
 use App\Services\ImportService;
 use Illuminate\Http\Request;
 use Laracasts\Flash\Flash;
@@ -25,22 +26,26 @@ class AircraftController extends Controller
     private $aircraftRepo;
     private $airportRepo;
     private $importSvc;
+    private $fileSvc;
 
     /**
      * AircraftController constructor.
      *
-     * @param AirportRepository  $airportRepo
+     * @param AirportRepository $airportRepo
      * @param AircraftRepository $aircraftRepo
-     * @param ImportService      $importSvc
+     * @param ImportService $importSvc
+     * @param FileService $fileSvc
      */
     public function __construct(
         AirportRepository $airportRepo,
         AircraftRepository $aircraftRepo,
-        ImportService $importSvc
+        ImportService $importSvc,
+        FileService $fileSvc
     ) {
         $this->aircraftRepo = $aircraftRepo;
         $this->airportRepo = $airportRepo;
         $this->importSvc = $importSvc;
+        $this->fileSvc = $fileSvc;
     }
 
     /**
@@ -191,6 +196,13 @@ class AircraftController extends Controller
         }
 
         $this->aircraftRepo->delete($id);
+
+        $array = [
+            'ref_model'    => 'App\Models\Aircraft',
+            'ref_model_id' => $id,
+        ];
+
+        $this->fileSvc->removeModelFiles($array);
 
         Flash::success('Aircraft deleted successfully.');
         return redirect(route('admin.aircraft.index'));

@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Contracts\Service;
 use App\Models\File;
+use Exception;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -55,9 +56,9 @@ class FileService extends Service
      *
      * @param File $file
      *
-     * @throws \Exception
+     * @throws Exception
      */
-    public function removeFile($file)
+    public function removeFile(File $file)
     {
         if (!Str::startsWith($file->path, 'http')) {
             Storage::disk(config('filesystems.public_files'))
@@ -65,5 +66,29 @@ class FileService extends Service
         }
 
         $file->delete();
+    }
+
+    /**
+     * Remove all files related to a Model
+     *
+     * @param array $array
+     *
+     * @return bool
+     */
+    public function removeModelFiles(array $array): bool
+    {
+        // Get all files related to model
+        $files = File::where($array)->get();
+
+        foreach ($files as $file) {
+            try {
+                $this->removeFile($file);
+            } catch (Exception $e) {
+                Log::error('Cannot Delete File '.$file->name.'. Error: '.$e->getMessage());
+                return false;
+            }
+        }
+
+        return true;
     }
 }
