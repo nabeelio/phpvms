@@ -115,6 +115,9 @@ and being mindful of the rivets bindings
       zoom: '{{ $zoom }}',
       aircraft_icon: '{!! public_asset('/assets/img/acars/aircraft.png') !!}',
       units: '{{ setting('units.distance') }}',
+      leafletOptions: {
+        scrollWheelZoom: false,
+      }
     });
   </script>
 @endsection

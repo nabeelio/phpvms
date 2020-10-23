@@ -20,44 +20,16 @@ export default (_opts) => {
       'Esri.WorldStreetMap',
     ],
     tile_layers: [],
+    leafletOptions: {
+      scrollWheelZoom: false,
+    },
   }, _opts);
 
-  /*
-  let feature_groups = [];
-  const openaip_airspace_labels = new leaflet.TileLayer.WMS(
-      "http://{s}.tile.maps.openaip.net/geowebcache/service/wms", {
-          maxZoom: 14,
-          minZoom: 12,
-          layers: 'openaip_approved_airspaces_labels',
-          tileSize: 1024,
-          detectRetina: true,
-          subdomains: '12',
-          format: 'image/png',
-          transparent: true
-      });
-
-  openaip_airspace_labels.addTo(map); */
-
-  /*
-  const openaip_cached_basemap = new leaflet.TileLayer("http://{s}.tile.maps.openaip.net/geowebcache/service/tms/1.0.0/openaip_basemap@EPSG%3A900913@png/{z}/{x}/{y}.png", {
-      maxZoom: 14,
-      minZoom: 4,
-      tms: true,
-      detectRetina: true,
-      subdomains: '12',
-      format: 'image/png',
-      transparent: true
-  });
-
-  feature_groups.push(openaip_cached_basemap);
-  */
-
-  const map = leaflet.map('map', {
-    // layers: [openaip_basemap_phys_osm],
+  const map = leaflet.map('map', Object.assign({
     center: opts.center,
     zoom: opts.zoom,
     scrollWheelZoom: false,
-  });
+  }, opts.leafletOptions));
 
   // eslint-disable-next-line no-unused-vars
   opts.providers.forEach((p, idx) => {
