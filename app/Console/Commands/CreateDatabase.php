@@ -92,8 +92,9 @@ class CreateDatabase extends Command
         }
 
         if ($this->option('reset') === true) {
-            $cmd = ['rm', '-rf', config($dbkey.'database')];
-            $this->runCommand($cmd);
+            if (file_exists($dbPath)) {
+                unlink(config($dbkey.'database'));
+            }
         }
 
         if (!file_exists($dbPath)) {

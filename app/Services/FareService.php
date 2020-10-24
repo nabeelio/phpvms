@@ -60,13 +60,13 @@ class FareService extends Service
     }
 
     /**
-     * Get fares
+     * Get a fare with the proper prices/costs populated in the pivot
      *
      * @param $fare
      *
      * @return mixed
      */
-    protected function getFares($fare)
+    public function getFares($fare)
     {
         $pivot = $fare->pivot;
         if (filled($pivot->price)) {

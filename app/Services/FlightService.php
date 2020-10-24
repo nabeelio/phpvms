@@ -16,6 +16,7 @@ use App\Support\Units\Time;
 class FlightService extends Service
 {
     private $airportSvc;
+    private $fareSvc;
     private $flightRepo;
     private $navDataRepo;
     private $userSvc;
@@ -24,17 +25,20 @@ class FlightService extends Service
      * FlightService constructor.
      *
      * @param AirportService    $airportSvc
+     * @param FareService       $fareSvc
      * @param FlightRepository  $flightRepo
      * @param NavdataRepository $navdataRepo
      * @param UserService       $userSvc
      */
     public function __construct(
         AirportService $airportSvc,
+        FareService $fareSvc,
         FlightRepository $flightRepo,
         NavdataRepository $navdataRepo,
         UserService $userSvc
     ) {
         $this->airportSvc = $airportSvc;
+        $this->fareSvc = $fareSvc;
         $this->flightRepo = $flightRepo;
         $this->navDataRepo = $navdataRepo;
         $this->userSvc = $userSvc;

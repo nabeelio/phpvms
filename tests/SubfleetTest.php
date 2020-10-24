@@ -4,6 +4,7 @@ namespace Tests;
 
 use App\Models\Fare;
 use App\Models\Subfleet;
+use App\Models\User;
 use App\Services\FareService;
 
 class SubfleetTest extends TestCase
@@ -19,9 +20,15 @@ class SubfleetTest extends TestCase
 
     public function testSubfleetFaresNoOverride()
     {
+        /** @var FareService $fare_svc */
         $fare_svc = app(FareService::class);
 
-        $subfleet = factory(Subfleet::class)->create();
+        $subfleet_aircraft = $this->createSubfleetWithAircraft(1);
+
+        /** @var \App\Models\Subfleet $subfleet */
+        $subfleet = $subfleet_aircraft['subfleet'];
+
+        /** @var \App\Models\Fare $fare */
         $fare = factory(Fare::class)->create();
 
         $fare_svc->setForSubfleet($subfleet, $fare);
@@ -52,9 +59,13 @@ class SubfleetTest extends TestCase
 
     public function testSubfleetFaresOverride()
     {
+        /** @var FareService $fare_svc */
         $fare_svc = app(FareService::class);
 
+        /** @var Subfleet $subfleet */
         $subfleet = factory(Subfleet::class)->create();
+
+        /** @var \App\Models\Fare $fare */
         $fare = factory(Fare::class)->create();
 
         $fare_svc->setForSubfleet($subfleet, $fare, [

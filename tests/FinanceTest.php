@@ -236,11 +236,86 @@ class FinanceTest extends TestCase
     }
 
     /**
+     * Make sure that the API is returning the fares properly for a subfleet on a flight
+     * https://github.com/nabeelio/phpvms/issues/899
+     */
+    public function testFlightFaresOverAPI()
+    {
+        $this->updateSetting('pireps.only_aircraft_at_dpt_airport', false);
+        $this->updateSetting('pireps.restrict_aircraft_to_rank', false);
+
+        $this->user = factory(User::class)->create();
+
+        /** @var Flight $flight */
+        $flight = factory(Flight::class)->create();
+
+        /** @var Subfleet $subfleet */
+        $subfleet = factory(Subfleet::class)->create();
+        $this->fleetSvc->addSubfleetToFlight($subfleet, $flight);
+
+        /** @var Fare $fare */
+        $fare = factory(Fare::class)->create();
+
+        $this->fareSvc->setForFlight($flight, $fare);
+        $flight_fares = $this->fareSvc->getForFlight($flight);
+
+        $this->assertCount(1, $flight_fares);
+        $this->assertEquals($fare->price, $flight_fares->get(0)->price);
+        $this->assertEquals($fare->capacity, $flight_fares->get(0)->capacity);
+
+        //
+        // set an override now (but on the flight)
+        //
+        $this->fareSvc->setForFlight($flight, $fare, ['price' => 50]);
+
+        $req = $this->get('/api/flights/'.$flight->id);
+        $req->assertStatus(200);
+
+        $body = $req->json()['data'];
+        $this->assertEquals($flight->id, $body['id']);
+        $this->assertCount(1, $body['subfleets']);
+        $this->assertEquals(50, $body['fares'][0]['price']);
+        $this->assertEquals($fare->capacity, $body['fares'][0]['capacity']);
+    }
+
+    public function testSubfleetFaresOverAPI()
+    {
+        $this->updateSetting('pireps.only_aircraft_at_dpt_airport', false);
+        $this->updateSetting('pireps.restrict_aircraft_to_rank', false);
+
+        /**
+         * Add a user and flights
+         */
+        $this->user = factory(User::class)->create();
+        $flight = $this->addFlight($this->user);
+
+        /** @var FareService $fare_svc */
+        $fare_svc = app(FareService::class);
+
+        /** @var \App\Models\Fare $fare */
+        $fare = factory(Fare::class)->create();
+        $fare_svc->setForSubfleet($flight->subfleets[0], $fare, ['price' => 50]);
+
+        // Get from API
+        $req = $this->get('/api/flights/'.$flight->id);
+        $req->assertStatus(200);
+
+        $body = $req->json()['data'];
+        $this->assertEquals($flight->id, $body['id']);
+        $this->assertCount(1, $body['subfleets']);
+        $this->assertEquals(50, $body['subfleets'][0]['fares'][0]['price']);
+        $this->assertEquals($fare->capacity, $body['subfleets'][0]['fares'][0]['capacity']);
+    }
+
+    /**
      * Assign percentage values and make sure they're valid
      */
     public function testFlightFareOverrideAsPercent()
     {
+        /** @var Flight $flight */
         $flight = factory(Flight::class)->create();
+
+        /** @var \App\Models\Fare $fare */
         $fare = factory(Fare::class)->create();
 
         $percent_incr = '20%';

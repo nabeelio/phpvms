@@ -3,6 +3,7 @@
 namespace Tests;
 
 use App\Models\Aircraft;
+use App\Models\Flight;
 use App\Models\Subfleet;
 use App\Models\User;
 use Exception;
@@ -72,6 +73,50 @@ trait TestData
         }
 
         return $rank;
+    }
+
+
+    /**
+     * Add a single flight
+     *
+     * @param       $user
+     * @param array $flight_properties
+     *
+     * @return mixed
+     */
+    public function addFlight($user, $flight_properties = [])
+    {
+        $opts = array_merge([
+            'airline_id' => $user->airline_id,
+        ], $flight_properties);
+
+        $flight = factory(Flight::class)->create($opts);
+
+        $flight->subfleets()->syncWithoutDetaching([
+            factory(Subfleet::class)->create([
+                'airline_id' => $user->airline_id,
+            ])->id,
+        ]);
+
+        return $flight;
+    }
+
+    /**
+     * Add a given number of flights for a subfleet
+     *
+     * @param $subfleet
+     * @param $num_flights
+     *
+     * @return \App\Models\Flight[]
+     */
+    public function addFlightsForSubfleet($subfleet, $num_flights)
+    {
+        return factory(Flight::class, $num_flights)->create([
+            'airline_id' => $subfleet->airline->id,
+        ])->each(function (Flight $f) use ($subfleet) {
+            $f->subfleets()->syncWithoutDetaching([$subfleet->id]);
+            $f->refresh();
+        });
     }
 
     /**
