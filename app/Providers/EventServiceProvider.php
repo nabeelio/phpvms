@@ -5,7 +5,7 @@ namespace App\Providers;
 use App\Events\Expenses;
 use App\Events\PirepFiled;
 use App\Events\UserStatsChanged;
-use App\Listeners\AwardListener;
+use App\Listeners\AwardHandler;
 use App\Listeners\BidEventHandler;
 use App\Listeners\ExpenseListener;
 use App\Listeners\FinanceEventHandler;
@@ -33,7 +33,7 @@ class EventServiceProvider extends ServiceProvider
         ],
 
         UserStatsChanged::class => [
-            AwardListener::class,
+
         ],
 
         UpdateAvailable::class => [],
@@ -44,5 +44,6 @@ class EventServiceProvider extends ServiceProvider
         BidEventHandler::class,
         FinanceEventHandler::class,
         EventHandler::class,
+        AwardHandler::class,
     ];
 }

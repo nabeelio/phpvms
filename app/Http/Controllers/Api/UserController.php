@@ -61,7 +61,8 @@ class UserController extends Controller
      */
     protected function getUserId(Request $request)
     {
-        if ($request->get('id') === null) {
+        $id = $request->get('id');
+        if ($id === null || $id === 'me') {
             return Auth::user()->id;
         }
 

@@ -2,8 +2,10 @@
 
 namespace App\Contracts;
 
+use App\Models\Module;
 use App\Support\Database;
-use DB;
+use Exception;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
@@ -28,6 +30,29 @@ abstract class Migration extends \Illuminate\Database\Migrations\Migration
     }
 
     /**
+     * Add a module and enable it
+     *
+     * @param array $attrs
+     */
+    public function addModule(array $attrs)
+    {
+        $module = array_merge([
+            'enabled'    => true,
+            'created_at' => DB::raw('NOW()'),
+            'updated_at' => DB::raw('NOW()'),
+        ], $attrs);
+
+        try {
+            DB::table('modules')->insert($module);
+        } catch (Exception $e) {
+            // setting already exists, just ignore it
+            if ($e->getCode() === 23000) {
+                return;
+            }
+        }
+    }
+
+    /**
      * Seed a YAML file into the database
      *
      * @param string $file Full path to yml file to seed
@@ -37,7 +62,7 @@ abstract class Migration extends \Illuminate\Database\Migrations\Migration
         try {
             $path = base_path($file);
             Database::seed_from_yaml_file($path, false);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Log::error('Unable to load '.$file.' file');
             Log::error($e);
         }
@@ -54,7 +79,7 @@ abstract class Migration extends \Illuminate\Database\Migrations\Migration
         foreach ($rows as $row) {
             try {
                 DB::table($table)->insert($row);
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 // setting already exists, just ignore it
                 if ($e->getCode() === 23000) {
                     continue;

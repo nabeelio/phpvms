@@ -36,6 +36,7 @@ use Laratrust\Traits\LaratrustUserTrait;
  * @property int              state
  * @property bool             opt_in
  * @property string           last_pirep_id
+ * @property Pirep            last_pirep
  * @property UserFieldValue[] fields
  *
  * @mixin \Illuminate\Database\Eloquent\Builder
