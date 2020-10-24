@@ -56,44 +56,4 @@ class SubfleetTest extends TestCase
         $fare_svc->delFareFromSubfleet($subfleet, $fare);
         $this->assertCount(0, $fare_svc->getForSubfleet($subfleet));
     }
-
-    public function testSubfleetFaresOverride()
-    {
-        /** @var FareService $fare_svc */
-        $fare_svc = app(FareService::class);
-
-        /** @var Subfleet $subfleet */
-        $subfleet = factory(Subfleet::class)->create();
-
-        /** @var \App\Models\Fare $fare */
-        $fare = factory(Fare::class)->create();
-
-        $fare_svc->setForSubfleet($subfleet, $fare, [
-            'price' => 50, 'capacity' => 400,
-        ]);
-
-        $ac_fares = $fare_svc->getForSubfleet($subfleet);
-
-        $this->assertCount(1, $ac_fares);
-        $this->assertEquals(50, $ac_fares[0]->price);
-        $this->assertEquals(400, $ac_fares[0]->capacity);
-
-        //
-        // update the override to a different amount and make sure it updates
-        //
-
-        $fare_svc->setForSubfleet($subfleet, $fare, [
-            'price' => 150, 'capacity' => 50,
-        ]);
-
-        $ac_fares = $fare_svc->getForSubfleet($subfleet);
-
-        $this->assertCount(1, $ac_fares);
-        $this->assertEquals(150, $ac_fares[0]->price);
-        $this->assertEquals(50, $ac_fares[0]->capacity);
-
-        // delete
-        $fare_svc->delFareFromSubfleet($subfleet, $fare);
-        $this->assertCount(0, $fare_svc->getForSubfleet($subfleet));
-    }
 }
