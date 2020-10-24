@@ -45,6 +45,7 @@ class BidService extends Service
     {
         $bids = Bid::with([
             'flight',
+            'flight.fares',
             'flight.simbrief',
             'flight.subfleets',
             'flight.subfleets.aircraft',
