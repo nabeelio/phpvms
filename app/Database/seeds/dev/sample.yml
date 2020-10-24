@@ -116,34 +116,91 @@ airports:
     ground_handling_cost: 50
 #
 aircraft:
-  - id: 1
+  -
+    id: 1
     subfleet_id: 1
+    icao: null
+    iata: null
     airport_id: KJFK
-    name: Boeing 747-438
+    landing_time: '2020-10-23 07:50:16'
+    name: 'Boeing 747-438'
     registration: 001Z
-    flight_time: 360
+    hex_code: null
+    mtow: '0.00'
+    zfw: '0.00'
+    flight_time: 540
     status: A
-  - id: 2
+    state: 0
+    created_at: null
+    updated_at: '2020-10-23 07:50:16'
+  -
+    id: 2
     subfleet_id: 2
+    icao: null
+    iata: null
     airport_id: LGRP
-    name: Boeing 777-200
+    landing_time: null
+    name: 'Boeing 777-200'
     registration: C202
+    hex_code: null
+    mtow: '0.00'
+    zfw: '0.00'
     flight_time: 260
     status: A
-  - id: 3
+    state: 0
+    created_at: null
+    updated_at: null
+  -
+    id: 3
     subfleet_id: 1
+    icao: null
+    iata: null
     airport_id: KAUS
-    name: Boeing 747-412
+    landing_time: '2020-10-24 08:50:13'
+    name: 'Boeing 747-412'
     registration: S2333
-    flight_time: 0
+    hex_code: null
+    mtow: '0.00'
+    zfw: '0.00'
+    flight_time: 180
     status: A
-  - id: 4
+    state: 0
+    created_at: null
+    updated_at: '2020-10-24 08:50:13'
+  -
+    id: 4
     subfleet_id: 1
+    icao: null
+    iata: null
     airport_id: KAUS
-    name: Boeing 747-436 RETIRED
-    registration:
+    landing_time: null
+    name: 'Boeing 747-436 RETIRED'
+    registration: null
+    hex_code: null
+    mtow: '0.00'
+    zfw: '0.00'
     flight_time: 45
     status: R
+    state: 0
+    created_at: null
+    updated_at: null
+  -
+    id: 5
+    subfleet_id: 4
+    icao: A320
+    iata: '320'
+    airport_id: EGLL
+    landing_time: null
+    name: 'Airbus A320'
+    registration: N786DL
+    hex_code: b47165dd
+    mtow: '78800.00'
+    zfw: '62500.00'
+    flight_time: 0
+    status: A
+    state: 0
+    created_at: '2020-10-22 13:38:50'
+    updated_at: '2020-10-22 13:38:50'
 
 expenses:
   - name: Per-Flight (no muliplier)
@@ -200,68 +257,192 @@ expenses:
     updated_at: now
 
 fares:
-  - id: 1
-    code: Y
+  -
+    id: 1
+    code: 'Y'
     name: Economy
-    price: 100
+    price: '100.00'
+    cost: '0.00'
     capacity: 200
-  - id: 2
+    type: 0
+    notes: null
+    active: 1
+    created_at: null
+    updated_at: null
+  -
+    id: 2
     code: B
     name: Business
-    price: 500
+    price: '500.00'
+    cost: '0.00'
     capacity: 10
-  - id: 3
+    type: 0
+    notes: null
+    active: 1
+    created_at: null
+    updated_at: null
+  -
+    id: 3
     code: F
     name: First-Class
-    price: 800
+    price: '800.00'
+    cost: '0.00'
     capacity: 5
+    type: 0
+    notes: null
+    active: 1
+    created_at: null
+    updated_at: null
 
 subfleets:
-  - id: 1
+  -
+    id: 1
     airline_id: 1
-    name: 747-43X RB211-524G
     type: 744-3X-RB211
-    cost_block_hour: 1000
-    ground_handling_multiplier: 200
-  - id: 2
+    name: '747-43X RB211-524G'
+    cost_block_hour: '1000.00'
+    cost_delay_minute: '0.00'
+    fuel_type: null
+    ground_handling_multiplier: '200.00'
+    cargo_capacity: null
+    fuel_capacity: null
+    gross_weight: null
+    created_at: null
+    updated_at: null
+  -
+    id: 2
     airline_id: 1
-    name: 777-222ER GE90-76B
     type: 772-22ER-GE90-76B
-    cost_block_hour: 500
-    ground_handling_multiplier: 150
-  - id: 3
+    name: '777-222ER GE90-76B'
+    cost_block_hour: '500.00'
+    cost_delay_minute: '0.00'
+    fuel_type: null
+    ground_handling_multiplier: '150.00'
+    cargo_capacity: null
+    fuel_capacity: null
+    gross_weight: null
+    created_at: null
+    updated_at: null
+  -
+    id: 3
     airline_id: 1
-    name: 777-367 ER GE90-115B
     type: 772-36ER-GE90-115B
-    cost_block_hour: 100
-    ground_handling_multiplier: 150
+    name: '777-367 ER GE90-115B'
+    cost_block_hour: '100.00'
+    cost_delay_minute: '0.00'
+    fuel_type: null
+    ground_handling_multiplier: '150.00'
+    cargo_capacity: null
+    fuel_capacity: null
+    gross_weight: null
+    created_at: null
+    updated_at: null
+  -
+    id: 4
+    airline_id: 1
+    type: A320
+    name: A320
+    cost_block_hour: '2300.00'
+    cost_delay_minute: null
+    fuel_type: 1
+    ground_handling_multiplier: '100.00'
+    cargo_capacity: null
+    fuel_capacity: null
+    gross_weight: null
+    created_at: '2020-10-22 13:36:49'
+    updated_at: '2020-10-22 13:36:49'
 
-# add a few mods to aircraft and fares
 subfleet_fare:
-
-  # Fare classes on the 747
-  - subfleet_id: 1
+  -
+    subfleet_id: 1
     fare_id: 1
-    price: 200
-    capacity: 400
-  - subfleet_id: 1
+    price: '200'
+    cost: null
+    capacity: '400'
+    created_at: null
+    updated_at: null
+  -
+    subfleet_id: 1
     fare_id: 2
     price: 120%
-  - subfleet_id: 1
-    fare_id: 3
-    price: 1000
-    capacity: 110%
-
-  # Fare classes on the 777
-  - subfleet_id: 2
-    fare_id: 1
-  - subfleet_id: 2
-    fare_id: 3
-    capacity: 10
-
-subfleet_rank:
-  - rank_id: 1
+    cost: null
+    capacity: null
+    created_at: null
+    updated_at: null
+  -
     subfleet_id: 1
+    fare_id: 3
+    price: '1000'
+    cost: null
+    capacity: 110%
+    created_at: null
+    updated_at: null
+  -
+    subfleet_id: 2
+    fare_id: 1
+    price: null
+    cost: null
+    capacity: null
+    created_at: null
+    updated_at: null
+  -
+    subfleet_id: 2
+    fare_id: 3
+    price: null
+    cost: null
+    capacity: '10'
+    created_at: null
+    updated_at: null
+  -
+    subfleet_id: 4
+    fare_id: 1
+    price: null
+    cost: null
+    capacity: '123'
+    created_at: null
+    updated_at: null
+  -
+    subfleet_id: 4
+    fare_id: 2
+    price: null
+    cost: null
+    capacity: '8'
+    created_at: null
+    updated_at: null
+  -
+    subfleet_id: 4
+    fare_id: 3
+    price: null
+    cost: null
+    capacity: '2'
+    created_at: null
+    updated_at: null
+subfleet_rank:
+  -
+    rank_id: 1
+    subfleet_id: 1
+    acars_pay: null
+    manual_pay: null
+  -
+    rank_id: 1
+    subfleet_id: 4
+    acars_pay: null
+    manual_pay: null
+  -
+    rank_id: 2
+    subfleet_id: 4
+    acars_pay: null
+    manual_pay: null
+  -
+    rank_id: 3
+    subfleet_id: 4
+    acars_pay: null
+    manual_pay: null
+  -
+    rank_id: 4
+    subfleet_id: 4
+    acars_pay: null
+    manual_pay: null
 
 flights:
   - id: flightid_1
@@ -339,6 +520,35 @@ flights:
     route: 'MLY5 KEMBO UG442 SIA UG633 OTEKO UR640 NALRO GUBEL3'
     created_at: NOW
     updated_at: NOW
+  -
+    id: q8mvZ5vdExoy0mQG
+    airline_id: 1
+    flight_number: 3003
+    route_code: null
+    route_leg: null
+    dpt_airport_id: KSEA
+    arr_airport_id: KPAE
+    alt_airport_id: null
+    dpt_time: '8:00'
+    arr_time: '8:45'
+    level: null
+    distance: '27.51'
+    flight_time: 45
+    flight_type: J
+    load_factor: null
+    load_factor_variance: null
+    route: null
+    pilot_pay: null
+    notes: null
+    scheduled: 0
+    days: null
+    start_date: null
+    end_date: null
+    has_bid: 1
+    active: 1
+    visible: 1
+    created_at: now
+    updated_at: now
 
 flight_fields:
   - name: Departure Terminal
@@ -369,12 +579,24 @@ flight_subfleet:
     flight_id: flightid_4
 
 bids:
-  - id: 100
+  -
+    id: 100
     user_id: 1
     flight_id: flightid_1
-  - id: 101
+    created_at: now
+    updated_at: now
+  -
+    id: 101
     user_id: 1
     flight_id: flightid_3
+    created_at: now
+    updated_at: now
+  -
+    id: 102
+    user_id: 1
+    flight_id: q8mvZ5vdExoy0mQG
+    created_at: now
+    updated_at: now
 
 pireps:
   - id: pirepid_1

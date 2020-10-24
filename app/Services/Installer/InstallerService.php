@@ -4,6 +4,7 @@ namespace App\Services\Installer;
 
 use App\Contracts\Service;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Log;
 
 class InstallerService extends Service
 {
@@ -27,11 +28,14 @@ class InstallerService extends Service
      */
     public function isUpgradePending(): bool
     {
-        if (count($this->migrationSvc->migrationsAvailable()) > 0) {
+        $pendingMigrations = count($this->migrationSvc->migrationsAvailable());
+        if ($pendingMigrations > 0) {
+            Log::info('Found '.$pendingMigrations.' pending migrations, update available');
             return true;
         }
 
         if ($this->seederSvc->seedsPending()) {
+            Log::info('Found seeds pending, update available');
             return true;
         }
 

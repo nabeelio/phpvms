@@ -1,15 +1,21 @@
 <?php
 
+use App\Services\Installer\MigrationService;
 use App\Services\Installer\SeederService;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    private $seederService;
+    /** @var MigrationService */
+    private $migrationSvc;
+
+    /** @var SeederService */
+    private $seederSvc;
 
     public function __construct()
     {
-        $this->seederService = app(SeederService::class);
+        $this->migrationSvc = app(MigrationService::class);
+        $this->seederSvc = app(SeederService::class);
     }
 
     /**
@@ -19,6 +25,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->seederService->syncAllSeeds();
+        // Make sure any migrations that need to be run are run/cleared out
+        if ($this->migrationSvc->migrationsAvailable()) {
+            $this->migrationSvc->runAllMigrations();
+        }
+
+        // Then sync all of the seeds
+        $this->seederSvc->syncAllSeeds();
     }
 }

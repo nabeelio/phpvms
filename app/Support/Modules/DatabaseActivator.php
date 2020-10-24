@@ -54,6 +54,20 @@ class DatabaseActivator implements ActivatorInterface
     }
 
     /**
+     * @param string $name
+     *
+     * @return \App\Models\Module|null
+     */
+    public function getModuleByName(string $name): ?\App\Models\Module
+    {
+        try {
+            return \App\Models\Module::where(['name' => $name])->first();
+        } catch (Exception $e) { // Catch any database/connection errors
+            return null;
+        }
+    }
+
+    /**
      * Get modules statuses, from the database
      *
      * @return array
@@ -66,6 +80,7 @@ class DatabaseActivator implements ActivatorInterface
             foreach ($modules as $i) {
                 $retVal[$i->name] = $i->enabled;
             }
+
             return $retVal;
         } catch (Exception $e) {
             return [];
@@ -85,7 +100,7 @@ class DatabaseActivator implements ActivatorInterface
      */
     public function enable(Module $module): void
     {
-        $this->setActiveByName($module->getName(), true);
+        $this->setActive($module, true);
     }
 
     /**
@@ -93,7 +108,7 @@ class DatabaseActivator implements ActivatorInterface
      */
     public function disable(Module $module): void
     {
-        $this->setActiveByName($module->getName(), false);
+        $this->setActive($module, false);
     }
 
     /**
@@ -102,15 +117,12 @@ class DatabaseActivator implements ActivatorInterface
      */
     public function hasStatus(Module $module, bool $status): bool
     {
-        try {
-            $module = (new \App\Models\Module())->where('name', $module->getName());
-            if ($module->exists()) {
-                return $module->first()->enabled == 1;
-            }
-            return false;
-        } catch (Exception $e) {
+        $module = $this->getModuleByName($module->getName());
+        if (!$module) {
             return false;
         }
+
+        return $module->enabled;
     }
 
     /**
@@ -118,7 +130,13 @@ class DatabaseActivator implements ActivatorInterface
      */
     public function setActive(Module $module, bool $active): void
     {
-        $this->setActiveByName($module->getName(), $active);
+        $module = $this->getModuleByName($module->getName());
+        if (!$module) {
+            return;
+        }
+
+        $module->enabled = $active;
+        $module->save();
     }
 
     /**
@@ -126,12 +144,13 @@ class DatabaseActivator implements ActivatorInterface
      */
     public function setActiveByName(string $name, bool $status): void
     {
-        $module = (new \App\Models\Module())->where('name', $name);
-        if ($module->exists()) {
-            $module->update([
-                'status' => $status,
-            ]);
+        $module = $this->getModuleByName($name);
+        if (!$module) {
+            return;
         }
+
+        $module->enabled = $status;
+        $module->save();
     }
 
     /**

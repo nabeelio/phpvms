@@ -43,10 +43,6 @@ class SeederService extends Service
             return true;
         }
 
-        if ($this->moduleSeedsPending()) {
-            return true;
-        }
-
         return false;
     }
 
@@ -56,10 +52,10 @@ class SeederService extends Service
      */
     public function syncAllSeeds(): void
     {
-        $this->syncAllYamlFileSeeds();
         $this->syncAllSettings();
         $this->syncAllPermissions();
         $this->syncAllModules();
+        $this->syncAllYamlFileSeeds();
     }
 
     /**
@@ -302,30 +298,6 @@ class SeederService extends Service
 
             // See if any of these column values have changed
             foreach (['display_name', 'description'] as $column) {
-                if ($row->{$column} !== $perm[$column]) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
-    private function moduleSeedsPending(): bool
-    {
-        $all_modules = DB::table('modules')->get();
-
-        $data = file_get_contents(database_path('/seeds/modules.yml'));
-        $yml = Yaml::parse($data);
-
-        foreach ($yml as $perm) {
-            $row = $all_modules->firstWhere('name', $perm['name']);
-            if (!$row) {
-                return true;
-            }
-
-            // See if any of these column values have changed
-            foreach (['name', 'enabled'] as $column) {
                 if ($row->{$column} !== $perm[$column]) {
                     return true;
                 }

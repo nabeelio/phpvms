@@ -580,6 +580,7 @@ class RouteServiceProvider extends ServiceProvider
                 Route::post('user/bids', 'UserController@bids');
                 Route::delete('user/bids', 'UserController@bids');
 
+                Route::get('users/me', 'UserController@index');
                 Route::get('users/{id}', 'UserController@get');
                 Route::get('users/{id}/fleet', 'UserController@fleet');
                 Route::get('users/{id}/pireps', 'UserController@pireps');
