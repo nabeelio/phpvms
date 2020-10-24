@@ -58,6 +58,7 @@ class Flight extends Resource
 
         $res['airline'] = new Airline($this->airline);
         $res['subfleets'] = Subfleet::collection($this->whenLoaded('subfleets'));
+        $res['fares'] = Fare::collection($this->whenLoaded('fares'));
         $res['fields'] = $this->setFields();
 
         // Simbrief info

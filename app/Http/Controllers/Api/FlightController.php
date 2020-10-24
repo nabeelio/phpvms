@@ -54,9 +54,13 @@ class FlightController extends Controller
      */
     public function get($id)
     {
+        /** @var \App\Models\User $user */
         $user = Auth::user();
+
+        /** @var \App\Models\Flight $flight */
         $flight = $this->flightRepo->with([
             'airline',
+            'fares',
             'subfleets',
             'subfleets.aircraft',
             'subfleets.fares',
@@ -66,7 +70,7 @@ class FlightController extends Controller
             },
         ])->find($id);
 
-        $this->flightSvc->filterSubfleets(Auth::user(), $flight);
+        $flight = $this->flightSvc->filterSubfleets($user, $flight);
 
         return new FlightResource($flight);
     }
@@ -109,6 +113,7 @@ class FlightController extends Controller
             $flights = $this->flightRepo
                 ->with([
                     'airline',
+                    'fares',
                     'subfleets',
                     'subfleets.aircraft',
                     'subfleets.fares',
@@ -124,7 +129,7 @@ class FlightController extends Controller
 
         // TODO: Remove any flights here that a user doesn't have permissions to
         foreach ($flights as $flight) {
-            $this->flightSvc->filterSubfleets(Auth::user(), $flight);
+            $this->flightSvc->filterSubfleets($user, $flight);
         }
 
         return FlightResource::collection($flights);

@@ -68,7 +68,7 @@ class MigrationService extends Service
             $availMigrations[] = $filepath;
         }
 
-        Log::info('Migrations available:', $availMigrations);
+        Log::info('Migrations available: '.count($availMigrations));
 
         return $availMigrations;
     }

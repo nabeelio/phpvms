@@ -15,6 +15,9 @@
       actual_route_line: {!! json_encode($map_features['actual_route_line']) !!},
       actual_route_points: {!! json_encode($map_features['actual_route_points']) !!},
       aircraft_icon: '{!! public_asset('/assets/img/acars/aircraft.png') !!}',
+      leafletOptions: {
+        scrollWheelZoom: false,
+      }
     });
   </script>
 @endsection

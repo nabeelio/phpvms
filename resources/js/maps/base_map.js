@@ -3,6 +3,7 @@
  * https://docs.phpvms.net/developers/building-assets
  *
  * Edits here don't take place until you compile these assets and then upload them.
+ * Available providers: https://leaflet-extras.github.io/leaflet-providers/preview/
  */
 
 const leaflet = require('leaflet');
@@ -16,53 +17,31 @@ export default (_opts) => {
     maxZoom: 10,
     layers: [],
     set_marker: false,
-    providers: [
-      'Esri.WorldStreetMap',
-    ],
-    tile_layers: [],
+    leafletOptions: {},
   }, _opts);
 
-  /*
-  let feature_groups = [];
-  const openaip_airspace_labels = new leaflet.TileLayer.WMS(
-      "http://{s}.tile.maps.openaip.net/geowebcache/service/wms", {
-          maxZoom: 14,
-          minZoom: 12,
-          layers: 'openaip_approved_airspaces_labels',
-          tileSize: 1024,
-          detectRetina: true,
-          subdomains: '12',
-          format: 'image/png',
-          transparent: true
-      });
-
-  openaip_airspace_labels.addTo(map); */
-
-  /*
-  const openaip_cached_basemap = new leaflet.TileLayer("http://{s}.tile.maps.openaip.net/geowebcache/service/tms/1.0.0/openaip_basemap@EPSG%3A900913@png/{z}/{x}/{y}.png", {
-      maxZoom: 14,
-      minZoom: 4,
-      tms: true,
-      detectRetina: true,
-      subdomains: '12',
-      format: 'image/png',
-      transparent: true
-  });
-
-  feature_groups.push(openaip_cached_basemap);
-  */
-
-  const map = leaflet.map('map', {
-    // layers: [openaip_basemap_phys_osm],
+  const leafletOptions = Object.assign({
     center: opts.center,
     zoom: opts.zoom,
     scrollWheelZoom: false,
-  });
+    providers: {},
+  }, opts.leafletOptions);
 
-  // eslint-disable-next-line no-unused-vars
-  opts.providers.forEach((p, idx) => {
-    leaflet.tileLayer.provider(p).addTo(map);
-  });
+  // Check if any providers are listed; if not, set the default
+  if (Object.entries(leafletOptions.providers).length === 0) {
+    leafletOptions.providers = {
+      'Esri.WorldStreetMap': {},
+    };
+  }
+
+  const map = leaflet.map('map', leafletOptions);
+
+  // eslint-disable-next-line guard-for-in,no-restricted-syntax
+  for (const key in leafletOptions.providers) {
+    leaflet.tileLayer
+      .provider(key, leafletOptions.providers[key])
+      .addTo(map);
+  }
 
   return map;
 };

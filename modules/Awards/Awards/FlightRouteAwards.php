@@ -3,6 +3,8 @@
 namespace Modules\Awards\Awards;
 
 use App\Contracts\Award;
+use ErrorException;
+use Illuminate\Support\Facades\Log;
 
 /**
  * All award classes need to extend Award and implement the check() method
@@ -44,17 +46,26 @@ class FlightRouteAwards extends Award
      */
     public function check($dptarr = null): bool
     {
-        if (!$dptarr) {
-            $dptarr = 'XXXX:YYYY';
+        if ($this->user->last_pirep_id === null) {
+            return false;
         }
 
-        $pieces = explode(':', $dptarr);
+        $dptarr = strtoupper(trim($dptarr));
+        if (empty($dptarr)) {
+            Log::error('FlightRouteAwards: empty departure/arrival string');
+            return false;
+        }
+
+        try {
+            [$dpt_icao, $arr_icao] = explode(':', $dptarr);
+        } catch (ErrorException $e) {
+            Log::error('FlightRouteAwards: Invalid departure/arrival, val="'.$dptarr.'\"');
+            return false;
+        }
+
         $dpt = $this->user->last_pirep->dpt_airport_id;
         $arr = $this->user->last_pirep->arr_airport_id;
 
-        if (strcasecmp($dpt, $pieces[0]) == 0 && strcasecmp($arr, $pieces[1]) == 0) {
-            return true;
-        }
-        return false;
+        return $dpt === $dpt_icao && $arr === $arr_icao;
     }
 }

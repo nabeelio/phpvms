@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Contracts\Command;
-use DB;
+use Illuminate\Support\Facades\DB;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -23,6 +23,20 @@ class YamlExport extends Command
         if (empty($tables)) {
             $this->error('No tables specified');
             exit();
+        }
+
+        // A "preset" for exporting the base set of data
+        if ($tables[0] === 'base') {
+            $tables = [
+                'airlines',
+                'aircraft',
+                'subfleets',
+                'subfleet_fare',
+                'subfleet_rank',
+                'bids',
+                'fares',
+                'flights',
+            ];
         }
 
         $export_tables = [];

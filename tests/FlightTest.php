@@ -34,50 +34,6 @@ class FlightTest extends TestCase
     }
 
     /**
-     * Add a single flight
-     *
-     * @param       $user
-     * @param array $flight_properties
-     *
-     * @return mixed
-     */
-    public function addFlight($user, $flight_properties = [])
-    {
-        $opts = array_merge([
-            'airline_id' => $user->airline_id,
-        ], $flight_properties);
-
-        $flight = factory(Flight::class)->create($opts);
-
-        $flight->subfleets()->syncWithoutDetaching([
-            factory(Subfleet::class)->create([
-                'airline_id' => $user->airline_id,
-            ])->id,
-        ]);
-
-        return $flight;
-    }
-
-    /**
-     * Add a given number of flights for a subfleet
-     *
-     * @param $subfleet
-     * @param $num_flights
-     *
-     * @return \App\Models\Flight[]
-     */
-    public function addFlightsForSubfleet($subfleet, $num_flights)
-    {
-        return factory(Flight::class, $num_flights)->create([
-            'airline_id' => $subfleet->airline->id,
-        ])->each(function (Flight $f) use ($subfleet) {
-            $f->subfleets()->syncWithoutDetaching([
-                $subfleet->id,
-            ]);
-        });
-    }
-
-    /**
      * Test adding a flight and also if there are duplicates
      */
     public function testDuplicateFlight()
@@ -468,7 +424,11 @@ class FlightTest extends TestCase
     public function testFlightSearchApiDistance()
     {
         $total_flights = 10;
+
+        /** @var \App\Models\User user */
         $this->user = factory(User::class)->create();
+
+        /** @var \App\Models\Flight $flights */
         $flights = factory(Flight::class, $total_flights)->create([
             'airline_id' => $this->user->airline_id,
         ]);
