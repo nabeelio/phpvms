@@ -75,7 +75,6 @@ trait TestData
         return $rank;
     }
 
-
     /**
      * Add a single flight
      *

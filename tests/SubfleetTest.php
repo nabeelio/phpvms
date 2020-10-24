@@ -3,8 +3,6 @@
 namespace Tests;
 
 use App\Models\Fare;
-use App\Models\Subfleet;
-use App\Models\User;
 use App\Services\FareService;
 
 class SubfleetTest extends TestCase
