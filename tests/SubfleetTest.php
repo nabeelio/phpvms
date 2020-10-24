@@ -3,7 +3,6 @@
 namespace Tests;
 
 use App\Models\Fare;
-use App\Models\Subfleet;
 use App\Services\FareService;
 
 class SubfleetTest extends TestCase
@@ -19,9 +18,15 @@ class SubfleetTest extends TestCase
 
     public function testSubfleetFaresNoOverride()
     {
+        /** @var FareService $fare_svc */
         $fare_svc = app(FareService::class);
 
-        $subfleet = factory(Subfleet::class)->create();
+        $subfleet_aircraft = $this->createSubfleetWithAircraft(1);
+
+        /** @var \App\Models\Subfleet $subfleet */
+        $subfleet = $subfleet_aircraft['subfleet'];
+
+        /** @var \App\Models\Fare $fare */
         $fare = factory(Fare::class)->create();
 
         $fare_svc->setForSubfleet($subfleet, $fare);
@@ -44,42 +49,6 @@ class SubfleetTest extends TestCase
         $this->assertCount(1, $subfleet_fares);
         $this->assertEquals(50, $subfleet_fares[0]->price);
         $this->assertEquals(400, $subfleet_fares[0]->capacity);
-
-        // delete
-        $fare_svc->delFareFromSubfleet($subfleet, $fare);
-        $this->assertCount(0, $fare_svc->getForSubfleet($subfleet));
-    }
-
-    public function testSubfleetFaresOverride()
-    {
-        $fare_svc = app(FareService::class);
-
-        $subfleet = factory(Subfleet::class)->create();
-        $fare = factory(Fare::class)->create();
-
-        $fare_svc->setForSubfleet($subfleet, $fare, [
-            'price' => 50, 'capacity' => 400,
-        ]);
-
-        $ac_fares = $fare_svc->getForSubfleet($subfleet);
-
-        $this->assertCount(1, $ac_fares);
-        $this->assertEquals(50, $ac_fares[0]->price);
-        $this->assertEquals(400, $ac_fares[0]->capacity);
-
-        //
-        // update the override to a different amount and make sure it updates
-        //
-
-        $fare_svc->setForSubfleet($subfleet, $fare, [
-            'price' => 150, 'capacity' => 50,
-        ]);
-
-        $ac_fares = $fare_svc->getForSubfleet($subfleet);
-
-        $this->assertCount(1, $ac_fares);
-        $this->assertEquals(150, $ac_fares[0]->price);
-        $this->assertEquals(50, $ac_fares[0]->capacity);
 
         // delete
         $fare_svc->delFareFromSubfleet($subfleet, $fare);

@@ -36,7 +36,10 @@ abstract class Award
      * You don't really need to mess with anything below here
      */
 
+    /** @var \App\Models\Award|null */
     protected $award;
+
+    /** @var \App\Models\User|null */
     protected $user;
 
     public function __construct(AwardModel $award = null, User $user = null)
