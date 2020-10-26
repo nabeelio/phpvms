@@ -87,9 +87,9 @@ class FareService extends Service
 
         if (filled($pivot->capacity)) {
             if (strpos($pivot->capacity, '%', -1) !== false) {
-                $fare->capacity = Math::addPercent($fare->capacity, $pivot->capacity);
+                $fare->capacity = floor(Math::addPercent($fare->capacity, $pivot->capacity));
             } else {
-                $fare->capacity = $pivot->capacity;
+                $fare->capacity = floor($pivot->capacity);
             }
         }
 
