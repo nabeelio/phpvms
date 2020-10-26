@@ -9,7 +9,7 @@
               {{ $pirep->airline->code }}{{ $pirep->ident }}
             </a>
           </h5>
-          <div>
+          <div id="pirep_{{ $pirep->id }}_status_container">
             @if($pirep->state === PirepState::PENDING)
               <div class="badge badge-warning">
                 @elseif($pirep->state === PirepState::ACCEPTED)
@@ -82,3 +82,6 @@
           </div>
         </div>
       </div>
+    </div>
+  </div>
+</div>
