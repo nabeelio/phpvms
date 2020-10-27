@@ -3,7 +3,6 @@
 namespace App\Http\Resources;
 
 use App\Contracts\Resource;
-use App\Services\FareService;
 
 /**
  * @mixin \App\Models\Fare

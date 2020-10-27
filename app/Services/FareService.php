@@ -9,17 +9,17 @@ use App\Models\Pirep;
 use App\Models\PirepFare;
 use App\Models\Subfleet;
 use App\Support\Math;
-use Illuminate\Database\Eloquent\Relations\Pivot;
-use InvalidArgumentException;
 use function count;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
+use InvalidArgumentException;
 
 class FareService extends Service
 {
     /**
      * @param Collection[Fare] $subfleet_fares The fare for a subfleet
-     * @param Collection[Fare] $flight_fares The fares on a flight
+     * @param Collection[Fare] $flight_fares   The fares on a flight
      *
      * @return Collection[Fare] Collection of Fare
      */
@@ -37,7 +37,7 @@ class FareService extends Service
          * flight, no matter how rare that might be
          */
         if ($subfleet_fares === null || count($subfleet_fares) === 0) {
-            return $flight_fares->map(function($fare, $_) {
+            return $flight_fares->map(function ($fare, $_) {
                 return $this->getFareWithPivot($fare, $fare->pivot);
             });
         }
