@@ -9,6 +9,7 @@ use App\Http\Resources\Navdata as NavdataResource;
 use App\Models\SimBrief;
 use App\Repositories\Criteria\WhereCriteria;
 use App\Repositories\FlightRepository;
+use App\Services\FareService;
 use App\Services\FlightService;
 use Exception;
 use Illuminate\Http\Request;
@@ -18,19 +19,26 @@ use Prettus\Repository\Exceptions\RepositoryException;
 
 class FlightController extends Controller
 {
+    /** @var \App\Services\FareService */
+    private $fareSvc;
+
+    /** @var \App\Repositories\FlightRepository */
     private $flightRepo;
+
+    /** @var \App\Services\FlightService */
     private $flightSvc;
 
     /**
-     * FlightController constructor.
-     *
+     * @param FareService      $fareSvc
      * @param FlightRepository $flightRepo
      * @param FlightService    $flightSvc
      */
     public function __construct(
+        FareService $fareSvc,
         FlightRepository $flightRepo,
         FlightService $flightSvc
     ) {
+        $this->fareSvc = $fareSvc;
         $this->flightRepo = $flightRepo;
         $this->flightSvc = $flightSvc;
     }
@@ -71,6 +79,7 @@ class FlightController extends Controller
         ])->find($id);
 
         $flight = $this->flightSvc->filterSubfleets($user, $flight);
+        $flight = $this->fareSvc->getReconciledFaresForFlight($flight);
 
         return new FlightResource($flight);
     }
@@ -130,6 +139,7 @@ class FlightController extends Controller
         // TODO: Remove any flights here that a user doesn't have permissions to
         foreach ($flights as $flight) {
             $this->flightSvc->filterSubfleets($user, $flight);
+            $this->fareSvc->getReconciledFaresForFlight($flight);
         }
 
         return FlightResource::collection($flights);

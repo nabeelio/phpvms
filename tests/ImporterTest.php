@@ -476,6 +476,7 @@ class ImporterTest extends TestCase
         $this->assertCount(1, $status['errors']);
 
         // See if it imported
+        /** @var Flight $flight */
         $flight = Flight::where([
             'airline_id'    => $airline->id,
             'flight_number' => '1972',
@@ -514,7 +515,7 @@ class ImporterTest extends TestCase
         $this->assertEquals('C41', $dep_gate['value']);
 
         // Check the fare class
-        $fares = $this->fareSvc->getForFlight($flight);
+        $fares = $this->fareSvc->getFareWithOverrides(null, $flight->fares);
         $this->assertCount(3, $fares);
 
         $first = $fares->where('code', 'Y')->first();

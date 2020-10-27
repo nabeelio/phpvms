@@ -165,13 +165,13 @@ class FinanceTest extends TestCase
         return [$user, $pirep, $fares];
     }
 
-    public function testFlightFaresNoOverride()
+    /*public function testFlightFaresNoOverride()
     {
         $flight = factory(Flight::class)->create();
         $fare = factory(Fare::class)->create();
 
         $this->fareSvc->setForFlight($flight, $fare);
-        $subfleet_fares = $this->fareSvc->getForFlight($flight);
+        $subfleet_fares = $this->fareSvc->get($flight);
 
         $this->assertCount(1, $subfleet_fares);
         $this->assertEquals($fare->price, $subfleet_fares->get(0)->price);
@@ -194,51 +194,14 @@ class FinanceTest extends TestCase
         // delete
         $this->fareSvc->delFareFromFlight($flight, $fare);
         $this->assertCount(0, $this->fareSvc->getForFlight($flight));
-    }
-
-    public function testFlightFaresSetToNull()
-    {
-        /** @var Flight $flight */
-        $flight = factory(Flight::class)->create();
-
-        /** @var Fare $fare */
-        $fare = factory(Fare::class)->create();
-
-        $this->fareSvc->setForFlight($flight, $fare);
-        $subfleet_fares = $this->fareSvc->getForFlight($flight);
-
-        $this->assertCount(1, $subfleet_fares);
-        $this->assertEquals($fare->price, $subfleet_fares->get(0)->price);
-        $this->assertEquals($fare->capacity, $subfleet_fares->get(0)->capacity);
-
-        //
-        // set an override now
-        //
-        $this->fareSvc->setForFlight($flight, $fare, [
-            'price' => 50, 'capacity' => 400,
-        ]);
-
-        // look for them again
-        $subfleet_fares = $this->fareSvc->getForFlight($flight);
-
-        $this->assertCount(1, $subfleet_fares);
-        $this->assertEquals(50, $subfleet_fares[0]->price);
-        $this->assertEquals(400, $subfleet_fares[0]->capacity);
-
-        // Set back to null
-        $this->fareSvc->setForFlight($flight, $fare, [
-            'price' => null, 'capacity' => null,
-        ]);
-
-        // Get the original and check that it's being used
-        $subfleet_fares = $this->fareSvc->getForFlight($flight);
-        $this->assertEquals($fare->price, $subfleet_fares->get(0)->price);
-        $this->assertEquals($fare->capacity, $subfleet_fares->get(0)->capacity);
-    }
+    }*/
 
     /**
      * Make sure that the API is returning the fares properly for a subfleet on a flight
      * https://github.com/nabeelio/phpvms/issues/899
+     *
+     * The fares, etc for a subfleet has to be adjusted to the fleet
+     * https://github.com/nabeelio/phpvms/issues/905
      */
     public function testFlightFaresOverAPI()
     {
@@ -254,29 +217,60 @@ class FinanceTest extends TestCase
         $subfleet = factory(Subfleet::class)->create();
         $this->fleetSvc->addSubfleetToFlight($subfleet, $flight);
 
+        /**
+         * Set a base fare
+         * Then override on multiple layers - subfleet modifies the cost, the flight modifies
+         * the price. This should then all be reflected as we go down the chain. This is
+         * mostly for the output side
+         */
         /** @var Fare $fare */
-        $fare = factory(Fare::class)->create();
+        $fare = factory(Fare::class)->create([
+            'price'    => 10,
+            'cost'     => 20,
+            'capacity' => 100,
+        ]);
 
-        $this->fareSvc->setForFlight($flight, $fare);
-        $flight_fares = $this->fareSvc->getForFlight($flight);
+        $this->fareSvc->setForSubfleet($subfleet, $fare, [
+            'capacity' => 200,
+        ]);
 
-        $this->assertCount(1, $flight_fares);
-        $this->assertEquals($fare->price, $flight_fares->get(0)->price);
-        $this->assertEquals($fare->capacity, $flight_fares->get(0)->capacity);
+        $this->fareSvc->setForFlight($flight, $fare, [
+            'price' => 50,
+        ]);
+
+        $flight = $this->fareSvc->getReconciledFaresForFlight($flight);
+
+        $this->assertEquals(50, $flight->subfleets[0]->fares[0]->price);
+        $this->assertEquals(200, $flight->subfleets[0]->fares[0]->capacity);
+        $this->assertEquals(20, $flight->subfleets[0]->fares[0]->cost);
 
         //
         // set an override now (but on the flight)
         //
-        $this->fareSvc->setForFlight($flight, $fare, ['price' => 50]);
 
         $req = $this->get('/api/flights/'.$flight->id);
         $req->assertStatus(200);
 
         $body = $req->json()['data'];
         $this->assertEquals($flight->id, $body['id']);
+
+        // Fares, etc, should be adjusted, per-subfleet
         $this->assertCount(1, $body['subfleets']);
-        $this->assertEquals(50, $body['fares'][0]['price']);
-        $this->assertEquals($fare->capacity, $body['fares'][0]['capacity']);
+        $this->assertEquals(50, $body['subfleets'][0]['fares'][0]['price']);
+        $this->assertEquals(200, $body['subfleets'][0]['fares'][0]['capacity']);
+        $this->assertEquals(20, $body['subfleets'][0]['fares'][0]['cost']);
+
+        $req = $this->get('/api/flights/search?flight_id='.$flight->id);
+        $req->assertStatus(200);
+
+        $body = $req->json()['data'][0];
+        $this->assertEquals($flight->id, $body['id']);
+
+        // Fares, etc, should be adjusted, per-subfleet
+        $this->assertCount(1, $body['subfleets']);
+        $this->assertEquals(50, $body['subfleets'][0]['fares'][0]['price']);
+        $this->assertEquals(200, $body['subfleets'][0]['fares'][0]['capacity']);
+        $this->assertEquals(20, $body['subfleets'][0]['fares'][0]['cost']);
     }
 
     public function testFlightFaresOverAPIOnUserBids()
@@ -300,11 +294,6 @@ class FinanceTest extends TestCase
         $fare = factory(Fare::class)->create();
 
         $this->fareSvc->setForFlight($flight, $fare);
-        $flight_fares = $this->fareSvc->getForFlight($flight);
-
-        $this->assertCount(1, $flight_fares);
-        $this->assertEquals($fare->price, $flight_fares->get(0)->price);
-        $this->assertEquals($fare->capacity, $flight_fares->get(0)->capacity);
 
         //
         // set an override now (but on the flight)
@@ -362,6 +351,10 @@ class FinanceTest extends TestCase
         /** @var \App\Models\Fare $fare */
         $fare = factory(Fare::class)->create();
 
+        // Subfleet needs to be attached to a flight
+        $subfleet = factory(Subfleet::class)->create();
+        $this->fleetSvc->addSubfleetToFlight($subfleet, $flight);
+
         $percent_incr = '20%';
         $percent_decr = '-20%';
         $percent_200 = '200%';
@@ -376,7 +369,8 @@ class FinanceTest extends TestCase
             'capacity' => $percent_200,
         ]);
 
-        $ac_fares = $this->fareSvc->getAllFares($flight, null);
+        // A subfleet is required to be passed in
+        $ac_fares = $this->fareSvc->getAllFares($flight, $subfleet);
 
         $this->assertCount(1, $ac_fares);
         $this->assertEquals($new_price, $ac_fares[0]->price);

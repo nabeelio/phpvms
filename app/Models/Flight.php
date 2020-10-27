@@ -25,6 +25,10 @@ use Illuminate\Support\Collection;
  * @property int        distance
  * @property int        flight_time
  * @property string     route
+ * @property string     dpt_time
+ * @property string     arr_time
+ * @property string     flight_type
+ * @property string     notes
  * @property int        level
  * @property float      load_factor
  * @property float      load_factor_variance
