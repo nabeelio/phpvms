@@ -9,6 +9,8 @@ use App\Models\Pirep;
 use App\Models\PirepFare;
 use App\Models\Subfleet;
 use App\Support\Math;
+use Illuminate\Database\Eloquent\Relations\Pivot;
+use InvalidArgumentException;
 use function count;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
@@ -16,12 +18,90 @@ use Illuminate\Support\Facades\Log;
 class FareService extends Service
 {
     /**
-     * Get the fares for a particular flight, with an optional subfleet
-     * This will go through if there are any fares assigned to the flight,
-     * and then check the fares assigned on the subfleet, and give the
-     * final "authoritative" list of the fares for a flight.
+     * @param Collection[Fare] $subfleet_fares The fare for a subfleet
+     * @param Collection[Fare] $flight_fares The fares on a flight
      *
-     * If a subfleet is passed in,
+     * @return Collection[Fare] Collection of Fare
+     */
+    public function getFareWithOverrides($subfleet_fares, $flight_fares): Collection
+    {
+        /**
+         * Make sure we've got something in terms of fares on the subfleet or the flight
+         */
+        if (empty($subfleet_fares) && empty($flight_fares)) {
+            return collect();
+        }
+
+        /**
+         * Check to see if there are any subfleet fares. This might only have fares on the
+         * flight, no matter how rare that might be
+         */
+        if ($subfleet_fares === null || count($subfleet_fares) === 0) {
+            return $flight_fares->map(function($fare, $_) {
+                return $this->getFareWithPivot($fare, $fare->pivot);
+            });
+        }
+
+        return $subfleet_fares->map(function ($sf_fare, $_) use ($flight_fares) {
+            /**
+             * Get the fare, using the subfleet's pivot values. This will return
+             * the fares with all the costs, etc, that are overridden for the given subfleet
+             */
+            $fare = $this->getFareWithPivot($sf_fare, $sf_fare->pivot);
+
+            /**
+             * Now, using the fares that have already been used from the subfleet
+             * now pass those fares in for the flight to override.
+             *
+             * First look to see that there actually is an override for that fare that's on
+             * the flight
+             */
+            $flight_fare = $flight_fares->whereStrict('id', $fare->id)->first();
+            if ($flight_fare === null) {
+                return $fare;
+            }
+
+            /**
+             * Found an override on the flight for the given fare. Check to see if we
+             * have values there that can be used to override or act as a pivot
+             */
+            $fare = $this->getFareWithPivot($fare, $flight_fare->pivot);
+
+            /**
+             * Finally return the fare that we have, it should have gone through the
+             * multiple levels of reconciliation that were required
+             */
+            return $fare;
+        });
+    }
+
+    /**
+     * This will return the flight but all of the subfleets will have the corrected fares with the
+     * right amounts based on the pivots, and with the correct "inheritence" for the flights
+     *
+     * @param Flight $flight
+     *
+     * @return \App\Models\Flight
+     */
+    public function getReconciledFaresForFlight(Flight $flight): Flight
+    {
+        $subfleets = $flight->subfleets;
+        $flight_fares = $flight->fares;
+
+        /**
+         * @var int      $key
+         * @var Subfleet $subfleet
+         */
+        foreach ($subfleets as $key => $subfleet) {
+            $subfleet->fares = $this->getFareWithOverrides($subfleet->fares, $flight_fares);
+        }
+
+        $flight->subfleets = $subfleets;
+        return $flight;
+    }
+
+    /**
+     * Get the fares for a particular flight, with the subfleet that is in use being passed in
      *
      * @param Flight|null   $flight
      * @param Subfleet|null $subfleet
@@ -33,30 +113,14 @@ class FareService extends Service
         if (!$flight) {
             $flight_fares = collect();
         } else {
-            $flight_fares = $this->getForFlight($flight);
+            $flight_fares = $flight->fares;
         }
 
         if (empty($subfleet)) {
-            return $flight_fares;
+            throw new InvalidArgumentException('Subfleet argument missing');
         }
 
-        $subfleet_fares = $this->getForSubfleet($subfleet);
-        if (empty($subfleet_fares) || $subfleet_fares->count() === 0) {
-            return $flight_fares;
-        }
-
-        // Go through all of the fares assigned by the subfleet
-        // See if any of the same fares are assigned to the flight
-        $fares = $subfleet_fares->map(function ($fare, $idx) use ($flight_fares) {
-            $flight_fare = $flight_fares->whereStrict('id', $fare->id)->first();
-            if (!$flight_fare) {
-                return $fare;
-            }
-
-            return $flight_fare;
-        });
-
-        return $fares;
+        return $this->getFareWithOverrides($subfleet->fares, $flight_fares);
     }
 
     /**
@@ -68,12 +132,24 @@ class FareService extends Service
      */
     public function getFares($fare)
     {
-        $pivot = $fare->pivot;
+        return $this->getFareWithPivot($fare, $fare->pivot);
+    }
+
+    /**
+     * Get the correct price of something supplied with the correct pivot
+     *
+     * @param Fare  $fare
+     * @param Pivot $pivot
+     *
+     * @return \App\Models\Fare
+     */
+    public function getFareWithPivot(Fare $fare, Pivot $pivot)
+    {
         if (filled($pivot->price)) {
-            if (strpos($fare->pivot->price, '%', -1) !== false) {
+            if (strpos($pivot->price, '%', -1) !== false) {
                 $fare->price = Math::addPercent($fare->price, $pivot->price);
             } else {
-                $fare->price = $fare->pivot->price;
+                $fare->price = $pivot->price;
             }
         }
 
@@ -81,7 +157,7 @@ class FareService extends Service
             if (strpos($pivot->cost, '%', -1) !== false) {
                 $fare->cost = Math::addPercent($fare->cost, $pivot->cost);
             } else {
-                $fare->cost = $fare->pivot->cost;
+                $fare->cost = $pivot->cost;
             }
         }
 
@@ -120,24 +196,6 @@ class FareService extends Service
         $flight->refresh();
 
         return $flight;
-    }
-
-    /**
-     * return all the fares for a flight. check the pivot
-     * table to see if the price/cost/capacity has been overridden
-     * and return the correct amounts.
-     *
-     * @param Flight $flight
-     *
-     * @return Collection
-     */
-    public function getForFlight(Flight $flight)
-    {
-        $fares = $flight->fares->map(function ($fare) {
-            return $this->getFares($fare);
-        });
-
-        return $fares;
     }
 
     /**
