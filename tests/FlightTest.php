@@ -113,12 +113,20 @@ class FlightTest extends TestCase
      */
     public function testSearchFlight()
     {
+        /** @var \App\Models\User user */
         $this->user = factory(User::class)->create();
         $flight = $this->addFlight($this->user);
+
+        /** @var \App\Services\FlightService $flightSvc */
+        $flightSvc = app(FlightService::class);
+        $flightSvc->updateCustomFields($flight, [
+            ['name' => '0', 'value' => 'value'],
+        ]);
 
         // search specifically for a flight ID
         $query = 'flight_id='.$flight->id;
         $req = $this->get('/api/flights/search?'.$query);
+        $body = $req->json(['data']);
         $req->assertStatus(200);
     }
 

@@ -18,17 +18,17 @@ class Flight extends Resource
     private function setFields()
     {
         /** @var \Illuminate\Support\Collection $field_values */
+        $return_values = new stdClass();
         $field_values = $this->field_values;
         if (empty($field_values) || $field_values->count() === 0) {
-            return new stdClass();
+            return $return_values;
         }
 
-        $fields = [];
         foreach ($field_values as $field) {
-            $fields[$field->name] = $field->value;
+            $return_values->{$field->name} = $field->value;
         }
 
-        return $fields;
+        return $return_values;
     }
 
     /**
