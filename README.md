@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/nabeelio/phpvms.svg)](https://travis-ci.org/nabeelio/phpvms) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/d668bebb0a3c46bda381af16ce3d9450)](https://www.codacy.com/app/nabeelio/phpvms?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=nabeelio/phpvms&amp;utm_campaign=Badge_Grade) [![Latest Stable Version](https://poser.pugx.org/nabeel/phpvms/v/stable)](https://packagist.org/packages/nabeel/phpvms) ![StyleCI](https://github.styleci.io/repos/93688482/shield?branch=dev) [![License](https://poser.pugx.org/nabeel/phpvms/license)](https://packagist.org/packages/nabeel/phpvms)
 
-The next phpvms version built on the laravel framework. work in progress. The latest documentation, with installation instructions is available [on the phpVMS documentation](https://docs.phpvms.net/) page.
+The next phpvms version built on the laravel framework. work in progress. The latest documentation, with installation instructions is available [on the phpVMS documentation](https://docs.phpvms.net/) page. The phpVMS documentation is also in version control [here on github](https://github.com/phpvms/docs).
 
 ## Installation
 
@@ -14,12 +14,14 @@ A full distribution, with all of the composer dependencies, is available at this
 - PHP 7.3+, extensions:
   - cURL
   - JSON
+  - fileinfo
   - mbstring
   - openssl
   - pdo
   - tokenizer
+  - bcmath
 - Database:
-  - MySQL 5.5+ (or MySQL variant, including MariaDB and Percona)
+  - MySQL 5.7+ (or MySQL variant, including MariaDB and Percona)
 
 [View more details on requirements](https://docs.phpvms.net/requirements)
 
