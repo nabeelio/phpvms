@@ -69,4 +69,34 @@ class FleetController extends Controller
 
         return new AircraftResource($aircraft);
     }
+
+    /**
+     * Get aircrafts from actual airport.
+     * State and status are optional
+     * /api/aircraft/airport/ICAO?state=0&status=B
+     *
+     * @param         $id
+     * @param Request $request
+     *
+     * @return AircraftResource
+     */
+    public function get_airport($id, Request $request)
+    {
+        $where = ['airport_id'=>$id];
+        if ($request->filled('state')) {
+            $where['state'] = $request->get('state');
+        }
+        if ($request->filled('status')) {
+            $where['status'] = $request->get('status');
+        }
+
+        $aircrafts = $this->aircraftRepo
+            ->with(['subfleet', 'subfleet.fares'])
+            ->findWhere($where)
+            ;
+
+        return AircraftResource::collection($aircrafts);
+    }
+
+
 }
