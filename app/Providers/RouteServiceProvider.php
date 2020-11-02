@@ -526,6 +526,7 @@ class RouteServiceProvider extends ServiceProvider
                 Route::get('airports/{id}/distance/{to}', 'AirportController@distance');
 
                 Route::get('fleet', 'FleetController@index');
+                Route::get('fleet/airport/{id}', 'FleetController@get_airport');
                 Route::get('fleet/aircraft/{id}', 'FleetController@get_aircraft');
 
                 Route::get('flights', 'FlightController@index');
