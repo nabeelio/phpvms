@@ -89,10 +89,10 @@ class FleetController extends Controller
             $searchRank = function ($query) use ($request) {
                 $query->where('id', $request->get('rank'));
             };
-            $aircrafts->whereHas('subfleet.ranks',$searchRank);
+            $aircrafts->whereHas('subfleet.ranks', $searchRank);
         }
 
-        $where = ['airport_id'=>$id];
+        $where = ['airport_id' => $id];
         if ($request->filled('state')) {
             $where['state'] = $request->get('state');
         }
@@ -103,5 +103,4 @@ class FleetController extends Controller
 
         return AircraftResource::collection($aircrafts);
     }
-
 }
