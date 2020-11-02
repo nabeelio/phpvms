@@ -75,6 +75,7 @@ class Pirep extends Model
         'flight_number',
         'route_code',
         'route_leg',
+        'flight_id',
         'dpt_airport_id',
         'arr_airport_id',
         'alt_airport_id',
