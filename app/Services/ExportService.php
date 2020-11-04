@@ -27,6 +27,7 @@ class ExportService extends Service
     {
         $writer = Writer::createFromPath($path, 'w+');
         CharsetConverter::addTo($writer, 'utf-8', 'utf-8');
+        $writer->setDelimiter(';');
 
         return $writer;
     }
