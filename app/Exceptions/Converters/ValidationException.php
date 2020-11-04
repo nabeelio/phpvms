@@ -18,7 +18,7 @@ class ValidationException extends AbstractHttpException
 
         parent::__construct(
             400,
-            'Validation exception'
+            'Validation Error'
         );
     }
 
