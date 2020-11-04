@@ -24,7 +24,7 @@
         <div class="form-group col-sm-4">
           {{ Form::label('airport_id', 'Location:') }}
           {{ Form::select('airport_id', $airports, null, [
-              'class' => 'form-control select2'
+              'class' => 'form-control select2 airport'
               ]) }}
           <p class="text-danger">{{ $errors->first('airport_id') }}</p>
         </div>

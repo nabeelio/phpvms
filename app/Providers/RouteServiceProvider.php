@@ -510,6 +510,9 @@ class RouteServiceProvider extends ServiceProvider
                 Route::get('news', 'NewsController@index');
                 Route::get('status', 'StatusController@status');
                 Route::get('version', 'StatusController@status');
+
+                Route::get('airports/find', 'AirportController@find');
+
             });
 
             /*

@@ -105,7 +105,28 @@
    * Initialize any plugins on the page
    */
   const initPlugins = () => {
+    //Update this for others fileds as curr_airport dpt_ariport etc
     $('.select2').select2({width: 'resolve'});
+    $('.select2.airport').select2({
+      ajax:{
+        url:'/api/airports/find',
+        dataType: 'json',
+        processResults: function (data) {
+          let ret = [];
+          $.each(data.data,function(index,value){
+            var hub = "";
+            if(value.hub === true){
+              hub = " (hub)";
+            }
+            ret.push({'id':value.icao,'text':value.icao+" - "+value.name + hub});
+          });
+          return {
+            results: ret
+          };
+        }
+
+      }
+    });
     $('input').iCheck({
       checkboxClass: 'icheckbox_square-blue',
       radioClass: 'icheckbox_square-blue'

@@ -155,7 +155,7 @@ class FlightController extends Controller
             'days'          => [],
             'flight_fields' => $this->flightFieldRepo->all(),
             'airlines'      => $this->airlineRepo->selectBoxList(),
-            'airports'      => $this->airportRepo->selectBoxList(true, false),
+            'airports'      => $this->airportRepo->selectBoxList(true, false,''),
             'alt_airports'  => $this->airportRepo->selectBoxList(true),
             'flight_types'  => FlightType::select(true),
         ]);

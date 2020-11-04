@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Contracts\Controller;
 use App\Http\Resources\Airport as AirportResource;
 use App\Http\Resources\AirportDistance as AirportDistanceResource;
+use App\Models\Airport;
 use App\Repositories\AirportRepository;
 use App\Services\AirportService;
 use Illuminate\Http\Request;
@@ -115,4 +116,24 @@ class AirportController extends Controller
             'distance' => $distance,
         ]);
     }
+
+    /**
+     * Find airport based in ICAO pattern.
+     * Created for slect2 functions in airports
+     *
+     * @param $id
+     *
+     * @return AirportResource
+     */
+    public function find(Request $request)
+    {
+        if(strlen($request->get('term')) < 2){
+            return AirportResource::collection([]);
+        }
+        //@TODO Unir ambos resultados o find with OR
+        //airportsName =$this->airportRepo->findWhere([['name','like','%'.$request->get('term').'%']]);
+        $airportsICAO = $this->airportRepo->findWhere([['icao','like','%'.$request->get('term').'%']]);
+        return AirportResource::collection($airportsICAO);
+    }
+
 }

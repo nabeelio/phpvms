@@ -29,13 +29,16 @@ class AirportRepository extends Repository implements CacheableInterface
      *
      * @return array
      */
-    public function selectBoxList($add_blank = false, $only_hubs = false): array
+    public function selectBoxList($add_blank = false, $only_hubs = false,$icao=''): array
     {
         $retval = [];
         $where = [];
 
         if ($only_hubs) {
             $where['hub'] = 1;
+        }
+        if(!is_null($icao)){
+            $where['icao'] = $icao;
         }
 
         $items = $this->orderBy('icao', 'asc')->findWhere($where);

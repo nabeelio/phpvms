@@ -8,10 +8,10 @@
         {{ Form::text('flight_number', null, ['class' => 'form-control']) }}
         &nbsp;
         {{ Form::label('dpt_airport_id', 'Departure:') }}
-        {{ Form::select('dpt_airport_id', $airports, null , ['class' => 'form-control']) }}
+        {{ Form::select('dpt_airport_id', $airports, null , ['class' => 'form-control select2 airport','style'=>'width:150px']) }}
         &nbsp;
         {{ Form::label('arr_airport_id', 'Arrival:') }}
-        {{ Form::select('arr_airport_id', $airports, null , ['class' => 'form-control']) }}
+        {{ Form::select('arr_airport_id', $airports, null , ['class' => 'form-control select2 airport','style'=>'width:150px']) }}
         &nbsp;
         {{ Form::submit('find', ['class' => 'btn btn-primary']) }}
         &nbsp;
