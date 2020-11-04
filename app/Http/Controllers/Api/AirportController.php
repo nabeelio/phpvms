@@ -117,6 +117,7 @@ class AirportController extends Controller
             'distance' => $distance,
         ]);
     }
+
     /**
      * Get aircrafts from actual airport.
      * State, status and rank are optional
@@ -129,7 +130,6 @@ class AirportController extends Controller
      */
     public function get_fleet($id, Request $request, AircraftRepository $aircraftRepo)
     {
-
         $aircrafts = $aircraftRepo
             ->with(['subfleet', 'subfleet.fares', 'subfleet.ranks']);
 
@@ -152,5 +152,4 @@ class AirportController extends Controller
 
         return AircraftResource::collection($aircrafts);
     }
-
 }
