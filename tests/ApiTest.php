@@ -286,13 +286,6 @@ class ApiTest extends TestCase
         $this->assertEquals($body['name'], $aircraft->name);
         $this->assertEquals($body['mtow'], $aircraft->mtow);
         $this->assertEquals($body['zfw'], $aircraft->zfw);
-        $resp = $this->get('/api/airports/'.$this->user->curr_airport_id.'/fleet');
-        $body = $resp->json()['data'];
-
-        $this->assertEquals($body[0]['id'], $aircraft->id);
-        $this->assertEquals($body[0]['name'], $aircraft->name);
-        $this->assertEquals($body[0]['mtow'], $aircraft->mtow);
-        $this->assertEquals($body[0]['zfw'], $aircraft->zfw);
     }
 
     public function testGetAllSettings()
@@ -321,5 +314,42 @@ class ApiTest extends TestCase
         $user = $res->json('data');
         $this->assertNotNull($user);
         $this->assertTrue(strpos($user['avatar'], 'gravatar') !== -1);
+    }
+
+    /**
+     * Test search aircrafts positioned in a specific airport
+     * @TODO Evaluate the optionals parameters and his results.
+     */
+    public function testSearchAirportFleet()
+    {
+        $this->user = factory(User::class)->create([
+            'curr_airport_id' => 'KAUS',
+        ]);
+
+        $fare_svc = app(FareService::class);
+
+        /** @var Subfleet $subfleet */
+        $subfleet = factory(Subfleet::class)->create([
+            'airline_id' => $this->user->airline_id,
+        ]);
+
+        /** @var Fare $fare */
+        $fare = factory(Fare::class)->create();
+
+        $fare_svc->setForSubfleet($subfleet, $fare);
+
+        /** @var Aircraft $aircraft */
+        $aircraft = factory(Aircraft::class)->create([
+            'subfleet_id' => $subfleet->id,
+            'airport_id'  => $this->user->curr_airport_id,
+        ]);
+
+        $resp = $this->get('/api/airports/'.$this->user->curr_airport_id.'/fleet');
+        $body = $resp->json()['data'];
+
+        $this->assertEquals($body[0]['id'], $aircraft->id);
+        $this->assertEquals($body[0]['name'], $aircraft->name);
+        $this->assertEquals($body[0]['mtow'], $aircraft->mtow);
+        $this->assertEquals($body[0]['zfw'], $aircraft->zfw);
     }
 }
