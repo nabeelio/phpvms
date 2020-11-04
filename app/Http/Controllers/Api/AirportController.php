@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Contracts\Controller;
+use App\Http\Resources\Aircraft as AircraftResource;
 use App\Http\Resources\Airport as AirportResource;
 use App\Http\Resources\AirportDistance as AirportDistanceResource;
+use App\Repositories\AircraftRepository;
 use App\Repositories\AirportRepository;
 use App\Services\AirportService;
 use Illuminate\Http\Request;
@@ -115,4 +117,40 @@ class AirportController extends Controller
             'distance' => $distance,
         ]);
     }
+    /**
+     * Get aircrafts from actual airport.
+     * State, status and rank are optional
+     * /api/fleet/airport/ICAO?state=0&status=B&rank=idrank
+     *
+     * @param         $id
+     * @param Request $request
+     *
+     * @return AircraftResource
+     */
+    public function get_fleet($id, Request $request, AircraftRepository $aircraftRepo)
+    {
+
+        $aircrafts = $aircraftRepo
+            ->with(['subfleet', 'subfleet.fares', 'subfleet.ranks']);
+
+        if ($request->filled('rank')) {
+            $searchRank = function ($query) use ($request) {
+                $query->where('id', $request->get('rank'));
+            };
+            $aircrafts = $aircrafts->whereHas('subfleet.ranks', $searchRank);
+        }
+
+        $where = ['airport_id' => $id];
+        if ($request->filled('state')) {
+            $where['state'] = $request->get('state');
+        }
+        if ($request->filled('status')) {
+            $where['status'] = $request->get('status');
+        }
+
+        $aircrafts = $aircrafts->findWhere($where);
+
+        return AircraftResource::collection($aircrafts);
+    }
+
 }
