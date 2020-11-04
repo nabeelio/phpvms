@@ -524,10 +524,11 @@ class RouteServiceProvider extends ServiceProvider
                 Route::get('airports/{id}', 'AirportController@get');
                 Route::get('airports/{id}/lookup', 'AirportController@lookup');
                 Route::get('airports/{id}/distance/{to}', 'AirportController@distance');
+                Route::get('airports/{id}/fleet', 'AirportController@get_fleet');
+
 
                 Route::get('fleet', 'FleetController@index');
                 Route::get('fleet/airport/{id}', 'FleetController@get_airport');
-                Route::get('fleet/aircraft/{id}', 'FleetController@get_aircraft');
 
                 Route::get('flights', 'FlightController@index');
                 Route::get('flights/search', 'FlightController@search');
