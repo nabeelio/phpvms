@@ -113,7 +113,7 @@
               class="required">*</span>
             {{ Form::select('dpt_airport_id', $airports, null , [
                     'id'    => 'dpt_airport_id',
-                    'class' => 'form-control select2'
+                    'class' => 'form-control select2 airport'
                 ]) }}
             <p class="text-danger">{{ $errors->first('dpt_airport_id') }}</p>
           </div>
@@ -124,7 +124,7 @@
               class="required">*</span>
             {{ Form::select('arr_airport_id', $airports, null , [
                     'id'    => 'arr_airport_id',
-                    'class' => 'form-control select2 select2'
+                    'class' => 'form-control select2 airport'
                 ]) }}
             <p class="text-danger">{{ $errors->first('arr_airport_id') }}</p>
           </div>

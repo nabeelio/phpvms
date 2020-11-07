@@ -41,7 +41,7 @@
         <td>@lang('airports.home')</td>
         <td>
           <div class="input-group form-group-no-border{{ $errors->has('home_airport_id') ? ' has-danger' : '' }}">
-            {{ Form::select('home_airport_id', $airports, null , ['class' => 'form-control select2']) }}
+            {{ Form::select('home_airport_id', $airports, null , ['class' => 'form-control select2 airport']) }}
           </div>
           @if ($errors->has('home_airport_id'))
             <p class="text-danger">{{ $errors->first('home_airport_id') }}</p>
