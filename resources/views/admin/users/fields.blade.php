@@ -45,11 +45,11 @@
   </div>
   <div class="form-group col-sm-6">
     {{ Form::label('home_airport_id', 'Home Airport:') }}
-    {{ Form::select('home_airport_id', $airports, null , ['class' => 'form-control select2 airport']) }}
+    {{ Form::select('home_airport_id', $airports_home, null , ['class' => 'form-control select2 airport']) }}
     <p class="text-danger">{{ $errors->first('home_airport_id') }}</p>
     <br/><br/>
     {{ Form::label('curr_airport_id', 'Current Airport:') }}
-    {{ Form::select('curr_airport_id', $airports, null , ['class' => 'form-control select2 airport']) }}
+    {{ Form::select('curr_airport_id', $airports_current, null , ['class' => 'form-control select2 airport']) }}
     <p class="text-danger">{{ $errors->first('curr_airport_id') }}</p>
   </div>
 

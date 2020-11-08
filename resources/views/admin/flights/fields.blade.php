@@ -111,7 +111,7 @@
           <div class="form-group col-sm-6">
             {{ Form::label('dpt_airport_id', 'Departure Airport:') }}&nbsp;<span
               class="required">*</span>
-            {{ Form::select('dpt_airport_id', $airports, null , [
+            {{ Form::select('dpt_airport_id', $airports_dpt, null , [
                     'id'    => 'dpt_airport_id',
                     'class' => 'form-control select2 airport'
                 ]) }}
@@ -122,7 +122,7 @@
           <div class="form-group col-sm-6">
             {{ Form::label('arr_airport_id', 'Arrival Airport:') }}&nbsp;<span
               class="required">*</span>
-            {{ Form::select('arr_airport_id', $airports, null , [
+            {{ Form::select('arr_airport_id', $airports_arr, null , [
                     'id'    => 'arr_airport_id',
                     'class' => 'form-control select2 airport'
                 ]) }}

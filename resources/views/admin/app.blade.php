@@ -125,7 +125,9 @@
           };
         }
 
-      }
+      },
+      placeholder: 'Search an airport',
+      minimumInputLength: 2,
     });
     $('input').iCheck({
       checkboxClass: 'icheckbox_square-blue',
