@@ -29,7 +29,7 @@ class AirportRepository extends Repository implements CacheableInterface
      *
      * @return array
      */
-    public function selectBoxList($add_blank = false, $only_hubs = false,$icao=''): array
+    public function selectBoxList($add_blank = false, $only_hubs = false,$icao=null): array
     {
         $retval = [];
         $where = [];
