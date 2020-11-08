@@ -37,7 +37,7 @@
 
           <label for="home_airport" class="control-label">@lang('airports.home')</label>
           <div class="input-group form-group-no-border {{ $errors->has('home_airport') ? 'has-danger' : '' }}">
-            {{ Form::select('home_airport_id', $airports, null , ['class' => 'form-control select2 airport']) }}
+            {{ Form::select('home_airport_id', $airports, null , ['class' => 'form-control select2'.(config('pilots.home_hubs_only',false))?'':' airport']) }}
           </div>
           @if ($errors->has('home_airport_id'))
             <p class="text-danger">{{ $errors->first('home_airport_id') }}</p>
