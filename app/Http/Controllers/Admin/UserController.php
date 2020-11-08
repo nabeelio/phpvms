@@ -162,7 +162,8 @@ class UserController extends Controller
             });
 
         $airlines = $this->airlineRepo->selectBoxList();
-        $airports = $this->airportRepo->selectBoxList(false);
+        $airports_home = $this->airportRepo->selectBoxList(false,config('pilots.home_hubs_only',false),$user->home_airport_id);
+        $airports_current = $this->airportRepo->selectBoxList(false,null,$user->curr_airport_id);
 
         return view('admin.users.edit', [
             'user'      => $user,
@@ -170,7 +171,8 @@ class UserController extends Controller
             'country'   => new ISO3166(),
             'countries' => $countries,
             'timezones' => Timezonelist::toArray(),
-            'airports'  => $airports,
+            'airports_home'  => $airports_home,
+            'airports_current' => $airports_current,
             'airlines'  => $airlines,
             'ranks'     => Rank::all()->pluck('name', 'id'),
             'roles'     => Role::all()->pluck('name', 'id'),
