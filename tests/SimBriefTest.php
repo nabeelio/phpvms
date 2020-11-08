@@ -97,10 +97,10 @@ class SimBriefTest extends TestCase
         $this->assertNotNull($flight['simbrief']);
         $this->assertEquals($briefing->id, $flight['simbrief']['id']);
 
-        $url = str_replace('http://', 'https://', $flight['simbrief']['url']);
-        $this->assertEquals(
-            'https://localhost/api/flights/'.$briefing->flight_id.'/briefing',
-            $url
+        //$url = str_replace('http://', 'https://', $flight['simbrief']['url']);
+        $this->assertStringContainsString(
+            '/api/flights/'.$briefing->flight_id.'/briefing',
+            $flight['simbrief']['url']
         );
 
         // Retrieve the briefing via API, and then check the doctype
