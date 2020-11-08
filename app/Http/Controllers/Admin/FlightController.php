@@ -136,11 +136,13 @@ class FlightController extends Controller
             ->orderBy('flight_number', 'asc')
             ->paginate();
 
-        return view('admin.flights.index', [
+        return view(
+            'admin.flights.index', [
             'flights'  => $flights,
             'airlines' => $this->airlineRepo->selectBoxList(true),
             'airports' => $this->airportRepo->selectBoxList(true),
-        ]);
+            ]
+        );
     }
 
     /**
@@ -150,15 +152,18 @@ class FlightController extends Controller
      */
     public function create()
     {
-        return view('admin.flights.create', [
+        return view(
+            'admin.flights.create', [
             'flight'        => null,
             'days'          => [],
             'flight_fields' => $this->flightFieldRepo->all(),
             'airlines'      => $this->airlineRepo->selectBoxList(),
-            'airports'      => $this->airportRepo->selectBoxList(true, false),
-            'alt_airports'  => $this->airportRepo->selectBoxList(true,false),
+            'airports_dpt'  => $this->airportRepo->selectBoxList(false, false, $flight->dpt_airport_id),
+            'airports_arr'  => $this->airportRepo->selectBoxList(false, false, $flight->arr_airport_id),
+            'alt_airports'  => $this->airportRepo->selectBoxList(true, false, $flight->alt_airport_id),
             'flight_types'  => FlightType::select(true),
-        ]);
+            ]
+        );
     }
 
     /**
@@ -198,11 +203,13 @@ class FlightController extends Controller
 
         $avail_subfleets = $this->getAvailSubfleets($flight);
 
-        return view('admin.flights.show', [
+        return view(
+            'admin.flights.show', [
             'flight'          => $flight,
             'flight_fields'   => $this->flightFieldRepo->all(),
             'avail_subfleets' => $avail_subfleets,
-        ]);
+            ]
+        );
     }
 
     /**
@@ -224,22 +231,24 @@ class FlightController extends Controller
         $flight->hours = $time->hours;
         $flight->minutes = $time->minutes;
 
-        return view('admin.flights.edit', [
+        return view(
+            'admin.flights.edit', [
             'flight'          => $flight,
             'days'            => $flight->days,
             'flight_fields'   => $this->flightFieldRepo->all(),
             'airlines'        => $this->airlineRepo->selectBoxList(),
-            'airports_dpt'        => $this->airportRepo->selectBoxList(false,false,$flight->dpt_airport_id),
-            'airports_arr'        => $this->airportRepo->selectBoxList(false,false,$flight->arr_airport_id),
-            'alt_airports'    => $this->airportRepo->selectBoxList(true,false,$flight->alt_airport_id),
+            'airports_dpt'    => $this->airportRepo->selectBoxList(false, false, $flight->dpt_airport_id),
+            'airports_arr'    => $this->airportRepo->selectBoxList(false, false, $flight->arr_airport_id),
+            'alt_airports'    => $this->airportRepo->selectBoxList(true, false, $flight->alt_airport_id),
             'avail_fares'     => $this->getAvailFares($flight),
             'avail_subfleets' => $this->getAvailSubfleets($flight),
             'flight_types'    => FlightType::select(true),
-        ]);
+            ]
+        );
     }
 
     /**
-     * @param                     $id
+     * @param $id
      * @param UpdateFlightRequest $request
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
@@ -305,9 +314,11 @@ class FlightController extends Controller
 
         $path = $exporter->exportFlights($flights);
         return response()
-            ->download($path, 'flights.csv', [
+            ->download(
+                $path, 'flights.csv', [
                 'content-type' => 'text/csv',
-            ])
+                ]
+            )
             ->deleteFileAfterSend(true);
     }
 
@@ -329,9 +340,11 @@ class FlightController extends Controller
             $logs = $this->importFile($request, ImportExportType::FLIGHTS);
         }
 
-        return view('admin.flights.import', [
+        return view(
+            'admin.flights.import', [
             'logs' => $logs,
-        ]);
+            ]
+        );
     }
 
     /**
@@ -342,14 +355,16 @@ class FlightController extends Controller
     protected function return_fields_view($flight)
     {
         $flight->refresh();
-        return view('admin.flights.flight_fields', [
+        return view(
+            'admin.flights.flight_fields', [
             'flight'        => $flight,
             'flight_fields' => $this->flightFieldRepo->all(),
-        ]);
+            ]
+        );
     }
 
     /**
-     * @param         $flight_id
+     * @param $flight_id
      * @param Request $request
      *
      * @return mixed
@@ -373,10 +388,12 @@ class FlightController extends Controller
             $field->save();
         } elseif ($request->isMethod('put')) {
             Log::info('Updating flight field, flight: '.$flight_id, $request->input());
-            $field = FlightFieldValue::where([
+            $field = FlightFieldValue::where(
+                [
                 'name'      => $request->input('name'),
                 'flight_id' => $flight_id,
-            ])->first();
+                ]
+            )->first();
 
             if (!$field) {
                 Log::info('Field not found, creating new');
@@ -387,7 +404,7 @@ class FlightController extends Controller
             $field->flight_id = $flight_id;
             $field->value = $request->input('value');
             $field->save();
-        // update the field value
+            // update the field value
         } // remove custom field from flight
         elseif ($request->isMethod('delete')) {
             Log::info('Deleting flight field, flight: '.$flight_id, $request->input());
@@ -408,14 +425,16 @@ class FlightController extends Controller
     {
         $avail_subfleets = $this->getAvailSubfleets($flight);
 
-        return view('admin.flights.subfleets', [
+        return view(
+            'admin.flights.subfleets', [
             'flight'          => $flight,
             'avail_subfleets' => $avail_subfleets,
-        ]);
+            ]
+        );
     }
 
     /**
-     * @param         $id
+     * @param $id
      * @param Request $request
      *
      * @return mixed
@@ -475,10 +494,12 @@ class FlightController extends Controller
     {
         $flight->refresh();
 
-        return view('admin.flights.fares', [
+        return view(
+            'admin.flights.fares', [
             'flight'      => $flight,
             'avail_fares' => $this->getAvailFares($flight),
-        ]);
+            ]
+        );
     }
 
     /**
@@ -506,9 +527,11 @@ class FlightController extends Controller
             return $this->return_fares_view($flight);
         }
 
-        $this->validate($request, [
+        $this->validate(
+            $request, [
             'value' => 'nullable',  // regex:/([\d%]*)/
-        ]);
+            ]
+        );
 
         /*
          * update specific fare data
