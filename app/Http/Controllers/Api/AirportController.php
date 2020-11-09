@@ -127,13 +127,12 @@ class AirportController extends Controller
      */
     public function find(Request $request)
     {
-        if(strlen($request->get('term')) < 2){
+        if (strlen($request->get('term')) < 2) {
             return AirportResource::collection([]);
         }
         //@TODO Unir ambos resultados o find with OR
         //airportsName =$this->airportRepo->findWhere([['name','like','%'.$request->get('term').'%']]);
-        $airportsICAO = $this->airportRepo->findWhere([['icao','like','%'.$request->get('term').'%']]);
+        $airportsICAO = $this->airportRepo->findWhere([['icao', 'like', '%'.$request->get('term').'%']]);
         return AirportResource::collection($airportsICAO);
     }
-
 }

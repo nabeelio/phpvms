@@ -24,22 +24,23 @@ class AirportRepository extends Repository implements CacheableInterface
     /**
      * Return the list of airports formatted for a select box
      *
-     * @param bool $add_blank
-     * @param bool $only_hubs
+     * @param bool       $add_blank
+     * @param bool       $only_hubs
+     * @param null|mixed $icao
      *
      * @return array
      */
-    public function selectBoxList($add_blank = false, $only_hubs = false,$icao=null): array
+    public function selectBoxList($add_blank = false, $only_hubs = false, $icao = null): array
     {
         $retval = [];
         $where = [];
 
         if ($only_hubs) {
             $where['hub'] = 1;
-        }elseif(!is_null($icao)){
+        } elseif (!is_null($icao)) {
             $where['icao'] = $icao;
-        }else{
-            $where['icao'] = "";
+        } else {
+            $where['icao'] = '';
         }
 
         $items = $this->orderBy('icao', 'asc')->findWhere($where);

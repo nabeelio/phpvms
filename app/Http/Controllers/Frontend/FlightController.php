@@ -115,7 +115,7 @@ class FlightController extends Controller
 
         return view('flights.index', [
             'airlines'      => $this->airlineRepo->selectBoxList(true),
-            'airports'      => $this->airportRepo->selectBoxList(true,false,''),
+            'airports'      => $this->airportRepo->selectBoxList(true, false, ''),
             'flights'       => $flights,
             'saved'         => $saved_flights,
             'subfleets'     => $this->subfleetRepo->selectBoxList(true),

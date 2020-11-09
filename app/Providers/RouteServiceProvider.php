@@ -512,7 +512,6 @@ class RouteServiceProvider extends ServiceProvider
                 Route::get('version', 'StatusController@status');
 
                 Route::get('airports/find', 'AirportController@find');
-
             });
 
             /*
