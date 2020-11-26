@@ -31,7 +31,6 @@ class Subfleet extends Model
         'airline_id',
         'type',
         'name',
-        'turn_time',
         'fuel_type',
         'cost_block_hour',
         'cost_delay_minute',
