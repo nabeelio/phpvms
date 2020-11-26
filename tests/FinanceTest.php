@@ -355,13 +355,13 @@ class FinanceTest extends TestCase
         $subfleet = factory(Subfleet::class)->create();
         $this->fleetSvc->addSubfleetToFlight($subfleet, $flight);
 
-        $percent_incr = '20%';
-        $percent_decr = '-20%';
+        $percent_incr = '120%';
+        $percent_decr = '80%';
         $percent_200 = '200%';
 
-        $new_price = Math::addPercent($fare->price, $percent_incr);
-        $new_cost = Math::addPercent($fare->cost, $percent_decr);
-        $new_capacity = Math::addPercent($fare->capacity, $percent_200);
+        $new_price = Math::getPercent($fare->price, $percent_incr);
+        $new_cost = Math::getPercent($fare->cost, $percent_decr);
+        $new_capacity = Math::getPercent($fare->capacity, $percent_200);
 
         $this->fareSvc->setForFlight($flight, $fare, [
             'price'    => $percent_incr,
@@ -455,9 +455,9 @@ class FinanceTest extends TestCase
         $percent_decr = '-20%';
         $percent_200 = '200%';
 
-        $new_price = Math::addPercent($fare->price, $percent_incr);
-        $new_cost = Math::addPercent($fare->cost, $percent_decr);
-        $new_capacity = Math::addPercent($fare->capacity, $percent_200);
+        $new_price = Math::getPercent($fare->price, $percent_incr);
+        $new_cost = Math::getPercent($fare->cost, $percent_decr);
+        $new_capacity = Math::getPercent($fare->capacity, $percent_200);
 
         $this->fareSvc->setForSubfleet($subfleet, $fare, [
             'price'    => $percent_incr,
@@ -499,7 +499,7 @@ class FinanceTest extends TestCase
             'cost'  => 250,
         ]);
 
-        $fare3_price = Math::addPercent($fare3->price, 300);
+        $fare3_price = Math::getPercent($fare3->price, 300);
 
         // Assign another one to the flight, that's not on the subfleet
         // This one should NOT be returned in the list of fares
@@ -623,7 +623,7 @@ class FinanceTest extends TestCase
 
         // Change to a percentage
         $manual_pay_rate = '50%';
-        $manual_pay_adjusted = Math::addPercent(
+        $manual_pay_adjusted = Math::getPercent(
             $rank->manual_base_pay_rate,
             $manual_pay_rate
         );

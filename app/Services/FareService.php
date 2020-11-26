@@ -147,7 +147,7 @@ class FareService extends Service
     {
         if (filled($pivot->price)) {
             if (strpos($pivot->price, '%', -1) !== false) {
-                $fare->price = Math::addPercent($fare->price, $pivot->price);
+                $fare->price = Math::getPercent($fare->price, $pivot->price);
             } else {
                 $fare->price = $pivot->price;
             }
@@ -155,7 +155,7 @@ class FareService extends Service
 
         if (filled($pivot->cost)) {
             if (strpos($pivot->cost, '%', -1) !== false) {
-                $fare->cost = Math::addPercent($fare->cost, $pivot->cost);
+                $fare->cost = Math::getPercent($fare->cost, $pivot->cost);
             } else {
                 $fare->cost = $pivot->cost;
             }
@@ -163,7 +163,7 @@ class FareService extends Service
 
         if (filled($pivot->capacity)) {
             if (strpos($pivot->capacity, '%', -1) !== false) {
-                $fare->capacity = floor(Math::addPercent($fare->capacity, $pivot->capacity));
+                $fare->capacity = floor(Math::getPercent($fare->capacity, $pivot->capacity));
             } else {
                 $fare->capacity = floor($pivot->capacity);
             }

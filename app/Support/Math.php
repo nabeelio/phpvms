@@ -27,7 +27,7 @@ class Math
             return $override_rate;
         }
 
-        return static::addPercent($base_rate, $override_rate);
+        return static::getPercent($base_rate, $override_rate);
     }
 
     /**
@@ -38,7 +38,7 @@ class Math
      *
      * @return float
      */
-    public static function addPercent($number, $percent): float
+    public static function getPercent($number, $percent): float
     {
         if (!is_numeric($number)) {
             $number = (float) $number;
@@ -48,6 +48,6 @@ class Math
             $percent = (float) $percent;
         }
 
-        return $number + ($number * ($percent / 100));
+        return $number * ($percent / 100);
     }
 }
