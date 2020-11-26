@@ -1,17 +1,12 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
+use App\Contracts\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 class AddReadonlyToRoles extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up(): void
     {
         Schema::table('roles', static function (Blueprint $table) {
@@ -24,11 +19,6 @@ class AddReadonlyToRoles extends Migration
             ->update(['read_only' => true]);
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down(): void
     {
         Schema::table('roles', static function (Blueprint $table) {

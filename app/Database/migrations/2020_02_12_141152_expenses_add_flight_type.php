@@ -4,11 +4,11 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
+/**
+ * Add a `flight_type` column to the expenses table
+ */
 class ExpensesAddFlightType extends Migration
 {
-    /**
-     * Add a `flight_type` column to the expenses table
-     */
     public function up()
     {
         Schema::table('expenses', function (Blueprint $table) {
@@ -18,11 +18,6 @@ class ExpensesAddFlightType extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::table('expenses', function (Blueprint $table) {

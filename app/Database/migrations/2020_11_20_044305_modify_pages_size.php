@@ -9,24 +9,10 @@ use Illuminate\Support\Facades\Schema;
  */
 class ModifyPagesSize extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::table('pages', function (Blueprint $table) {
             $table->mediumText('body')->change()->nullable();
         });
-    }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
     }
 }

@@ -3,9 +3,6 @@
 use App\Contracts\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-/**
- * Class CreateSubfleetTables
- */
 class CreateSubfleetTables extends Migration
 {
     public function up()
@@ -48,11 +45,6 @@ class CreateSubfleetTables extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('subfleets');

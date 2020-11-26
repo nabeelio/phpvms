@@ -5,11 +5,11 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
+/**
+ * Add two tables for holding user fields and the values
+ */
 class CreateUserFields extends Migration
 {
-    /**
-     * Add two tables for holding user fields and the values
-     */
     public function up()
     {
         /*
@@ -38,12 +38,5 @@ class CreateUserFields extends Migration
 
             $table->index(['user_field_id', 'user_id']);
         });
-    }
-
-    /**
-     * @return void
-     */
-    public function down()
-    {
     }
 }
