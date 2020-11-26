@@ -165,37 +165,6 @@ class FinanceTest extends TestCase
         return [$user, $pirep, $fares];
     }
 
-    /*public function testFlightFaresNoOverride()
-    {
-        $flight = factory(Flight::class)->create();
-        $fare = factory(Fare::class)->create();
-
-        $this->fareSvc->setForFlight($flight, $fare);
-        $subfleet_fares = $this->fareSvc->get($flight);
-
-        $this->assertCount(1, $subfleet_fares);
-        $this->assertEquals($fare->price, $subfleet_fares->get(0)->price);
-        $this->assertEquals($fare->capacity, $subfleet_fares->get(0)->capacity);
-
-        //
-        // set an override now
-        //
-        $this->fareSvc->setForFlight($flight, $fare, [
-            'price' => 50, 'capacity' => 400,
-        ]);
-
-        // look for them again
-        $subfleet_fares = $this->fareSvc->getForFlight($flight);
-
-        $this->assertCount(1, $subfleet_fares);
-        $this->assertEquals(50, $subfleet_fares[0]->price);
-        $this->assertEquals(400, $subfleet_fares[0]->capacity);
-
-        // delete
-        $this->fareSvc->delFareFromFlight($flight, $fare);
-        $this->assertCount(0, $this->fareSvc->getForFlight($flight));
-    }*/
-
     /**
      * Make sure that the API is returning the fares properly for a subfleet on a flight
      * https://github.com/nabeelio/phpvms/issues/899
@@ -931,7 +900,7 @@ class FinanceTest extends TestCase
 
         // $this->assertCount(9, $transactions['transactions']);
         $this->assertEquals(3020, $transactions['credits']->getValue());
-        $this->assertEquals(2060, $transactions['debits']->getValue());
+        $this->assertEquals(2050, $transactions['debits']->getValue());
 
         // Check that all the different transaction types are there
         // test by the different groups that exist
@@ -987,7 +956,7 @@ class FinanceTest extends TestCase
 
 //        $this->assertCount(9, $transactions['transactions']);
         $this->assertEquals(3020, $transactions['credits']->getValue());
-        $this->assertEquals(2060, $transactions['debits']->getValue());
+        $this->assertEquals(2050, $transactions['debits']->getValue());
 
         // Check that all the different transaction types are there
         // test by the different groups that exist
@@ -1026,7 +995,7 @@ class FinanceTest extends TestCase
 
         $transactions = $journalRepo->getAllForObject($pirep2);
         $this->assertEquals(3020, $transactions['credits']->getValue());
-        $this->assertEquals(2160, $transactions['debits']->getValue());
+        $this->assertEquals(2150, $transactions['debits']->getValue());
 
         // Check that all the different transaction types are there
         // test by the different groups that exist
