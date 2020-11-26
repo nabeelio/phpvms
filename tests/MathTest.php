@@ -13,16 +13,16 @@ class MathTest extends TestCase
     public function testAddPercent()
     {
         $tests = [
-            ['expected' => 112, 'fn' => Math::addPercent(100, 12)],
-            ['expected' => 112, 'fn' => Math::addPercent(100, '12')],
-            ['expected' => 112, 'fn' => Math::addPercent(100, '12%')],
-            ['expected' => 112, 'fn' => Math::addPercent(100, '12 %')],
-            ['expected' => 112, 'fn' => Math::addPercent('100 ', '12')],
-            ['expected' => 112.5, 'fn' => Math::addPercent('100', '12.5')],
-            ['expected' => 88, 'fn' => Math::addPercent('100', -12)],
-            ['expected' => 88, 'fn' => Math::addPercent('100', '-12')],
-            ['expected' => 88, 'fn' => Math::addPercent('100', '-12 %')],
-            ['expected' => 88, 'fn' => Math::addPercent('100', '-12%')],
+            ['expected' => 112, 'fn' => Math::getPercent(100, 112)],
+            ['expected' => 112, 'fn' => Math::getPercent(100, '112')],
+            ['expected' => 112, 'fn' => Math::getPercent(100, '112%')],
+            ['expected' => 112, 'fn' => Math::getPercent(100, '112%')],
+            ['expected' => 112, 'fn' => Math::getPercent('100 ', '112')],
+            ['expected' => 112.5, 'fn' => Math::getPercent('100', '112.5')],
+            ['expected' => 88, 'fn' => Math::getPercent('100', 88)],
+            ['expected' => 88, 'fn' => Math::getPercent('100', '88')],
+            ['expected' => 88, 'fn' => Math::getPercent('100', '88 %')],
+            ['expected' => 88, 'fn' => Math::getPercent('100', '88%')],
         ];
 
         foreach ($tests as $test) {
