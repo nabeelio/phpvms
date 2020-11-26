@@ -9,7 +9,7 @@ class AirlineRemoveNullable extends Migration
     public function up()
     {
         Schema::table('airlines', function (Blueprint $table) {
-            $table->dropUnique('airlines_iata_unique');
+            $table->dropUnique(['iata']);
         });
     }
 
