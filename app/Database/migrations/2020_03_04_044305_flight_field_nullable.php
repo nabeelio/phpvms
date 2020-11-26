@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
+use App\Contracts\Migration;
 use Illuminate\Support\Facades\Schema;
 
 /**
@@ -8,24 +8,10 @@ use Illuminate\Support\Facades\Schema;
  */
 class FlightFieldNullable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::table('flight_field_values', function ($table) {
             $table->text('value')->change()->nullable();
         });
-    }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
     }
 }

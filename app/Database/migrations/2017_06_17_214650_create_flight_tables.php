@@ -7,11 +7,6 @@ use Illuminate\Database\Schema\Blueprint;
 
 class CreateFlightTables extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::create('flights', function (Blueprint $table) {

@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
+use App\Contracts\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
@@ -11,9 +11,5 @@ class PageIconNullable extends Migration
         Schema::table('pages', function (Blueprint $table) {
             $table->string('icon')->change()->nullable();
         });
-    }
-
-    public function down()
-    {
     }
 }

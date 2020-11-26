@@ -1,14 +1,14 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
+use App\Contracts\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
+/**
+ * Add a `pilot_pay` column for a fixed amount to pay to a pilot for a flight
+ */
 class FlightsAddPilotPay extends Migration
 {
-    /**
-     * Add a `pilot_pay` column for a fixed amount to pay to a pilot for a flight
-     */
     public function up()
     {
         Schema::table('flights', function (Blueprint $table) {
@@ -18,11 +18,6 @@ class FlightsAddPilotPay extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::table('flights', function (Blueprint $table) {

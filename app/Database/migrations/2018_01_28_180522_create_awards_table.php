@@ -7,13 +7,6 @@ use Modules\Awards\Awards\PilotFlightAwards;
 
 class CreateAwardsTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @throws \Illuminate\Validation\ValidationException
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::create('awards', function (Blueprint $table) {
@@ -54,11 +47,6 @@ class CreateAwardsTable extends Migration
         $this->addAward($award);
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('awards');
