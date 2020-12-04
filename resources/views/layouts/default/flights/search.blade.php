@@ -7,6 +7,11 @@
               'method' => 'GET',
               'class'=>'form-inline'
       ]) }}
+      <div class="mt-1">
+        <p>@lang('common.airline')</p>
+        {{ Form::select('airline_id', $airlines, null , ['class' => 'form-control select2']) }}
+      </div>
+      
       <div>
         <p>@lang('flights.flightnumber')</p>
         {{ Form::text('flight_number', null, ['class' => 'form-control']) }}
