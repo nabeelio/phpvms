@@ -172,11 +172,11 @@ class Metar implements \ArrayAccess
         'NSW'  => 'no significant weather are observed',
         'NSC'  => 'no significant clouds are observed',
         'NCD'  => 'nil cloud detected',
-        'SKC'  => 'no significant changes expected',
+        'SKC'  => 'sky is clear',
         'CLR'  => 'clear skies',
         'NOBS' => 'no observation',
         //
-        'FEW' => 'a few',
+        'FEW' => 'few',
         'SCT' => 'scattered',
         'BKN' => 'broken sky',
         'OVC' => 'overcast sky',
