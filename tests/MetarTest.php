@@ -64,7 +64,7 @@ class MetarTest extends TestCase
 
         $this->assertCount(4, $parsed['clouds']);
         $this->assertEquals(
-            'A few at 1676 meters; scattered at 2896 meters; broken sky at 3353 meters; broken sky at 7010 meters',
+            'Few at 1676 meters; scattered at 2896 meters; broken sky at 3353 meters; broken sky at 7010 meters',
             $parsed['clouds_report']
         );
         $this->assertEquals(1676.4, $parsed['cloud_height']['m']);
@@ -147,8 +147,8 @@ class MetarTest extends TestCase
         $metar = Metar::parse($metar);
 
         $this->assertEquals(2, count($metar['clouds']));
-        $this->assertEquals('A few at 457 meters; a few at 7620 meters', $metar['clouds_report']);
-        $this->assertEquals('A few at 1500 feet; a few at 25000 feet', $metar['clouds_report_ft']);
+        $this->assertEquals('Few at 457 meters; a few at 7620 meters', $metar['clouds_report']);
+        $this->assertEquals('Few at 1500 feet; a few at 25000 feet', $metar['clouds_report_ft']);
     }
 
     /**
