@@ -198,8 +198,10 @@
 				@php
 					$FKMin = $flight->load_factor - $flight->load_factor_variance ;
 					$FKMax = $flight->load_factor + $flight->load_factor_variance ;
+				  	if($FKMax > 100) { $FKMax = 100 ;}
+				  	if($FKMin <= 0) { $FKMin = 1 ;}
 					$FKRandomLoad = rand($FKMin, $FKMax);
-				@endphp	
+				@endphp
 				@foreach($flight->subfleets as $SUB)
 					<div class="row">
 						<div class="col-sm-8">Configuration and Load Figures for <b>&nbsp;{{ $SUB->name }}&nbsp;</b> ;</div>
@@ -233,14 +235,14 @@
 		<input id="LoadSF{{ $SubFleetIDs->subfleet_id }}" type="hidden" name="{{ $SimBriefLoadType }}" class="form-control" value="{{ $CalcRandomLoad }}" disabled/>
   @endforeach			
 		<input type="hidden" name="airline" value="{{ $flight->airline->icao }}">
-    <input type="hidden" name="fltnum" value="{{ $flight->flight_number }}">
-    <input type="hidden" id="date" name="date" maxlength="9">
+    	<input type="hidden" name="fltnum" value="{{ $flight->flight_number }}">
+    	<input type="hidden" id="date" name="date" maxlength="9">
 		<input type="hidden" id="deph" name="deph" maxlength="2">
-    <input type="hidden" id="depm" name="depm" maxlength="2">
+    	<input type="hidden" id="depm" name="depm" maxlength="2">
 		<input type="hidden" id="steh" name="steh" maxlength="2">
 		<input type="hidden" id="stem" name="stem" maxlength="2">
-    <input type="hidden" name="selcal" value="BK-FS">
-    <input type="hidden" name="planformat" value="lido">
+    	<input type="hidden" name="selcal" value="BK-FS">
+    	<input type="hidden" name="planformat" value="lido">
 		<input type="hidden" name="omit_sids" value="0">
 		<input type="hidden" name="omit_stars" value="0">
 		<input type="hidden" name="cruise" value="CI">
@@ -446,20 +448,20 @@
 				var SubFleetsSB = "LoadSF".concat({{ $SubFleets->id }});
 				document.getElementById(SubFleetsSB).disabled = true;
 			@endforeach
-			var str = document.getElementById("AircraftSelect").value;
+		var str = document.getElementById("AircraftSelect").value;
   		var d1 = str.search(",");
-			var d2 = str.search("#");
+		var d2 = str.search("#");
   		var icao = str.slice(0, d1);
   		var registration = str.slice(d1+1,d2);
-			var subfleetid = str.slice(d2+1);
-			var SelectedSubFleetSB = "LoadSF".concat(subfleetid);
-				if (icao == "A20N") {icao = "A320"}; // Correction for A320 NEO
-				if (icao == "A21N") {icao = "A321"}; // Correction for A321 NEO
-				if (icao == "B77L") {icao = "B77F"}; // Correction for B777 Freighter
-				if (icao == "B773") {icao = "B77W"}; // Correction for B777-300
+		var subfleetid = str.slice(d2+1);
+		var SelectedSubFleetSB = "LoadSF".concat(subfleetid);
+			if (icao == "A20N") {icao = "A320"}; // Correction for A320 NEO
+			if (icao == "A21N") {icao = "A321"}; // Correction for A321 NEO
+			if (icao == "B77L") {icao = "B77F"}; // Correction for B777 Freighter
+			if (icao == "B773") {icao = "B77W"}; // Correction for B777-300
   		document.getElementById("type").value = icao;
   		document.getElementById("reg").value = registration;
-			document.getElementById(SelectedSubFleetSB).disabled = false;
+		document.getElementById(SelectedSubFleetSB).disabled = false;
 		}
 	</script>
 @endsection
