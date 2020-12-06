@@ -141,8 +141,8 @@
                   <div><p class="small text-uppercase pb-sm-0 mb-sm-1">Destination TAF</p>
                     <p class="border border-dark rounded p-1 small text-monospace">{{ $simbrief->xml->weather->dest_taf }}</p>
                   </div>
-				          <hr/>
-				          <div><p class="small text-uppercase pb-sm-0 mb-sm-1">Alternate METAR</p>
+				  <hr/>
+				  <div><p class="small text-uppercase pb-sm-0 mb-sm-1">Alternate METAR</p>
                     <p class="border border-dark rounded p-1 small text-monospace">{{ $simbrief->xml->weather->altn_metar }}</p>
                   </div>
                   <div><p class="small text-uppercase pb-sm-0 mb-sm-1">Alternate TAF</p>
@@ -181,16 +181,21 @@
             <h6><i class="fas fa-info-circle"></i>&nbsp;Prefile ATC Flight Plan</h6>
             <div class="form-container-body">
               <div class="row">
-                <div class="col-6" align="center">
+                <div class="col-4" align="center">
 				          @php
-					          $str = $simbrief->xml->aircraft->equip ;
-					          $wc = stripos($str,"-");
-					          $tr = stripos($str,"/");
-					          $wakecat = substr($str,0,$wc);
-					          $equipment = substr($str,$wc+1,$tr-2);
-					          $transponder = substr($str,$tr+1);
+					        $str = $simbrief->xml->aircraft->equip ;
+					        $wc = stripos($str,"-");
+					        $tr = stripos($str,"/");
+					        $wakecat = substr($str,0,$wc);
+					        $equipment = substr($str,$wc+1,$tr-2);
+					        $transponder = substr($str,$tr+1);
+							    function secstohhmm($seconds) {
+                      			$seconds = round($seconds);
+                      			$hhmm = sprintf('%02d%02d', ($seconds/ 3600),($seconds/ 60 % 60));
+                      			echo $hhmm ;
+                    		}
 				          @endphp
-				        <form action="https://fpl.ivao.aero/api/fp/load" method="POST" target="_blank">
+				    <form action="https://fpl.ivao.aero/api/fp/load" method="POST" target="_blank">
             		  <input type="hidden" name="CALLSIGN" value="{{ $simbrief->xml->atc->callsign }}" />
             		  <input type="hidden" name="RULES" value="I" />
            			  <input type="hidden" name="FLIGHTTYPE" value="N" />
@@ -207,24 +212,27 @@
             		  <input type="hidden" name="LEVEL" value="{{ $simbrief->xml->atc->initial_alt }}" />
             		  <input type="hidden" name="ROUTE" value="{{ $simbrief->xml->general->route_ifps }}" />
             		  <input type="hidden" name="DESTICAO" value="{{ $simbrief->xml->destination->icao_code }}" />
-            		  <input type="hidden" name="EET" value="@minutestotime($simbrief->xml->times->est_time_enroute / 60)" />
+            		  <input type="hidden" name="EET" value="@php secstohhmm($simbrief->xml->times->est_time_enroute) @endphp" />
             		  <input type="hidden" name="ALTICAO" value="{{ $simbrief->xml->alternate->icao_code}}" />
             		  <input type="hidden" name="ALTICAO2" value="{{ $simbrief->xml->alternate2->icao_code}}" />
             		  <input type="hidden" name="OTHER" value="{{ $simbrief->xml->atc->section18 }}" />
-            		  <input type="hidden" name="ENDURANCE" value="@minutestotime($simbrief->xml->times->endurance / 60)" />
+            		  <input type="hidden" name="ENDURANCE" value="@php secstohhmm($simbrief->xml->times->endurance) @endphp" />
             		  <input type="hidden" name="POB" value="{{ $simbrief->xml->weights->pax_count }}" />
             		  <input id="ivao_prefile" type="submit" class="btn btn-primary" value="File ATC on IVAO" />
-				        </form>	
+				    </form>	
              </div>
-             <div class="col-6" align="center">
+             <div class="col-4" align="center">
 				      <form action="https://my.vatsim.net/pilots/flightplan" method="GET" target="_blank">
 					        <input type="hidden" name="raw" value="{{ $simbrief->xml->atc->flightplan_text }}">
-					        <input type="hidden" name="fuel_time" value="@minutestotime($simbrief->xml->times->endurance / 60)">
+					        <input type="hidden" name="fuel_time" value="@php secstohhmm($simbrief->xml->times->endurance) @endphp">
 					        <input type="hidden" name="speed" value="{{ $simbrief->xml->atc->initial_spd }}">
 					        <input type="hidden" name="altitude" value="{{ $simbrief->xml->atc->initial_alt }}">
 					        <input id="vatsim_prefile" type="submit" class="btn btn-primary" value="File ATC on VATSIM"/>
 				        </form>
-              </div>				
+            </div>
+			<div class="col-4" align="center">
+				<a href="http://skyvector.com/?chart=304&amp;fpl={{ $simbrief->xml->origin->icao_code}} {{ $simbrief->xml->general->route }} {{ $simbrief->xml->destination->icao_code}}" target="_blank" class="btn btn-info">View Route At SkyVector</a>
+			</div>
              </div>
            </div>
           </div>          
