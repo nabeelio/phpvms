@@ -956,7 +956,7 @@ class FinanceTest extends TestCase
 
 //        $this->assertCount(9, $transactions['transactions']);
         $this->assertEquals(3020, $transactions['credits']->getValue());
-        $this->assertEquals(2050, $transactions['debits']->getValue());
+        $this->assertEquals(2040, $transactions['debits']->getValue());
 
         // Check that all the different transaction types are there
         // test by the different groups that exist
@@ -995,7 +995,7 @@ class FinanceTest extends TestCase
 
         $transactions = $journalRepo->getAllForObject($pirep2);
         $this->assertEquals(3020, $transactions['credits']->getValue());
-        $this->assertEquals(2150, $transactions['debits']->getValue());
+        $this->assertEquals(2140, $transactions['debits']->getValue());
 
         // Check that all the different transaction types are there
         // test by the different groups that exist
