@@ -152,7 +152,7 @@ class PirepFinanceService extends Service
     public function payFuelCosts(Pirep $pirep): void
     {
         $ap = $pirep->dpt_airport;
-        $fuel_used = $pirep->block_fuel;
+        $fuel_used = $pirep->fuel_used;
 
         $debit = Money::createFromAmount($fuel_used * $ap->fuel_jeta_cost);
         Log::info('Finance: Fuel cost, (fuel='.$fuel_used.', cost='.$ap->fuel_jeta_cost.') D='
