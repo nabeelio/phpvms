@@ -1,269 +1,426 @@
 @extends('app')
-@section('title', 'Generate OFP')
+@section('title', 'SimBrief Flight Planning')
 
 @section('content')
-  <form id="sbapiform">
-    <div class="row">
-      <div class="col-md-12">
-        <h2>Create Flight Briefing</h2>
-        <div class="row">
-          <div class="col-8">
-            <div class="form-container">
-              <h6><i class="fas fa-info-circle"></i>
-                &nbsp;@lang('pireps.flightinformations')
-              </h6>
-              <div class="form-container-body">
-                <div class="row">
-                  <div class="col-sm-4">
-                    <label for="orig">Departure Airport</label>
-                    <input id="orig"
-                           name="orig"
-                           type="text"
-                           class="form-control"
-                           placeholder="ZZZZ"
-                           maxlength="4"
-                           value="{{ $flight->dpt_airport_id }}"/>
-                  </div>
 
-                  <div class="col-sm-4">
-                    <label for="dest">Arrival Airport</label>
-                    <input id="dest"
-                           name="dest"
-                           type="text"
-                           class="form-control"
-                           placeholder=""
-                           maxlength="4"
-                           value="{{ $flight->arr_airport_id }}"/>
-                  </div>
+@php
+	$fareSvc = app(App\Services\FareService::class);
+	$flight = $fareSvc->getReconciledFaresForFlight($flight);		
+@endphp
 
-                  <div class="col-sm-4">
-                    <label for="type">Aircraft</label>
-                    <select id="type" name="type" class="custom-select select2">
-                      <option value="A306" title="A306">A306 - A300F4-600</option>
-                      <option value="A310" title="A310 / CF6-80C2A2">A310 - A310-304</option>
-                      <option value="A318" title="A318 / CFM56-5B9/P">A318 - A318-100</option>
-                      <option value="A319" title="A319 / CFM56-5B6/2P">A319 - A319-100</option>
-                      <option value="A320" title="A320 / CFM56-5B4/P">A320 - A320-200</option>
-                      <option value="A321" title="A321 / CFM56-5B3/P">A321 - A321-200</option>
-                      <option value="A332" title="A332 / CF6-80E1A4">A332 - A330-200</option>
-                      <option value="A333" title="A333 / RR Trent 772B">A333 - A330-300</option>
-                      <option value="A342" title="A342 / CFM56-5C2">A342 - A340-200</option>
-                      <option value="A343" title="A343 / CFM56-5C4">A343 - A340-300</option>
-                      <option value="A345" title="A345 / RB211 Trent 556-61">A345 - A340-500</option>
-                      <option value="A346" title="A346 / RB211 Trent 556-61">A346 - A340-600</option>
-                      <option value="A359" title="A359 / TRENT XWB-84">A359 - A350-900</option>
-                      <option value="A35K" title="A35K / TRENT XWB-97">A35K - A350-1000</option>
-                      <option value="A388" title="A388">A388 - A380-800</option>
-                      <option value="AT72" title="AT72">AT72 - ATR72-500</option>
-                      <option value="B190" title="B190 / PT6A-67D">B190 - B1900D</option>
-                      <option value="B350" title="B350">B350 - KINGAIR</option>
-                      <option value="B463" title="B463">B463 - BAE-146</option>
-                      <option value="B703" title="B703">B703 - B707-320B</option>
-                      <option value="B712" title="B712 / BR715-C1-30">B712 - B717-200</option>
-                      <option value="B722" title="B722">B722 - B727-200</option>
-                      <option value="B732" title="B732 / JT8D-15A">B732 - B737-200</option>
-                      <option value="B733" title="B733 / CFM56-3C-1">B733 - B737-300</option>
-                      <option value="B734" title="B734">B734 - B737-400</option>
-                      <option value="B735" title="B735">B735 - B737-500</option>
-                      <option value="B736" title="B736 / CFM56-7B22">B736 - B737-600</option>
-                      <option value="BBJ1" title="B737 / CFM56-7B27">BBJ1 - B737 BBJ</option>
-                      <option value="B737" title="B737 / CFM56-7B24">B737 - B737-700</option>
-                      <option value="BBJ2" title="B738 / CFM56-7B27">BBJ2 - B737 BBJ2</option>
-                      <option value="B738" title="B738 / CFM56-7B26">B738 - B737-800</option>
-                      <option value="BBJ3" title="B739 / CFM56-7B27">BBJ3 - B737 BBJ3</option>
-                      <option value="B739" title="B739 / CFM56-7B26">B739 - B737-900</option>
-                      <option value="B742" title="B742 / JT9D-7F">B742 - B747-200B</option>
-                      <option value="B744" title="B744 / RB211-524G/H">B744 - B747-400</option>
-                      <option value="B74F" title="B744 / RB211-524G/H">B74F - B747-400F</option>
-                      <option value="B748" title="B748 / GENX-2B67">B748 - B747-8</option>
-                      <option value="B48F" title="B748 / GENX-2B67">B48F - B747-8F</option>
-                      <option value="B752" title="B752 / PW2037">B752 - B757-200</option>
-                      <option value="B75F" title="B752 / PW2037">B75F - B757-200PF</option>
-                      <option value="B753" title="B753 / PW2037">B753 - B757-300</option>
-                      <option value="B762" title="B762 / CF6-80C2-B2">B762 - B767-200ER</option>
-                      <option value="B763" title="B763 / CF6-80C2B6F">B763 - B767-300ER</option>
-                      <option value="B76F" title="B763 / CF6-80C2B6F">B76F - B767-300F</option>
-                      <option value="B764" title="B764">B764 - B767-400ER</option>
-                      <option value="B772" title="B772 / GE90-94B">B772 - B777-200ER</option>
-                      <option value="B77L" title="B77L / GE90-110B1">B77L - B777-200LR</option>
-                      <option value="B77F" title="B77L / GE90-110B1">B77F - B777-F</option>
-                      <option value="B77W" title="B77W / GE90-115BL2">B77W - B777-300ER</option>
-                      <option value="B788" title="B788 / GENX-1B70">B788 - B787-8</option>
-                      <option value="B789" title="B789 / GENX-1B74">B789 - B787-9</option>
-                      <option value="B78X" title="B78X / GENX-1B76">B78X - B787-10</option>
-                      <option value="BE20" title="BE20">BE20 - KINGAIR</option>
-                      <option value="C172" title="C172 / IO-360-L2A">C172 - CESSNA 172R</option>
-                      <option value="C208" title="C208">C208 - CESSNA 208</option>
-                      <option value="C25A" title="C25A / FJ44-2C">C25A - CITATION CJ2</option>
-                      <option value="C404" title="C404">C404 - C404 TITAN</option>
-                      <option value="C510" title="C510">C510 - C510 MUSTANG</option>
-                      <option value="C550" title="C550">C550 - CITATION</option>
-                      <option value="C56X" title="C56X / PW545A">C56X - CITATION 560XL</option>
-                      <option value="C750" title="C750">C750 - CITATION X</option>
-                      <option value="CL30" title="CL30 / HTF7350">CL30 - CHALLENGER</option>
-                      <option value="CRJ2" title="CRJ2 / CF34-3B1">CRJ2 - CRJ-200</option>
-                      <option value="CRJ7" title="CRJ7 / CF34-8C1">CRJ7 - CRJ-700</option>
-                      <option value="CRJ9" title="CRJ9 / CF34-8C5">CRJ9 - CRJ-900</option>
-                      <option value="CRJX" title="CRJX / CF34-8C5A1">CRJX - CRJ-1000</option>
-                      <option value="DC10" title="DC10">DC10 - DC-10-30</option>
-                      <option value="DC6" title="DC6 / R2800-CB16">DC6&nbsp; - DC-6</option>
-                      <option value="DC85" title="DC85 / JT3D-3B">DC85 - DC-8-55</option>
-                      <option value="DH8A" title="DH8A / PW120A">DH8A - DHC8-102</option>
-                      <option value="DH8B" title="DH8B / PW123C">DH8B - DHC8-200</option>
-                      <option value="DH8C" title="DH8C / PW123B">DH8C - DHC8-311</option>
-                      <option value="DH8D" title="DH8D / PW150A">DH8D - DHC8-402</option>
-                      <option value="DHC2" title="DHC2">DHC2 - BEAVER</option>
-                      <option value="DHC6" title="DHC6">DHC6 - TWIN OTTER</option>
-                      <option value="E13L" title="E135">E13L - EMB-135BJ</option>
-                      <option value="E135" title="E135 / AE3007-A1/3">E135 - EMB-135LR</option>
-                      <option value="E140" title="E135 / AE3007-A1/3">E140 - ERJ-140LR</option>
-                      <option value="E145" title="E145 / AE3007-A1">E145 - EMB-145LR</option>
-                      <option value="E170" title="E170 / CF34-8E5">E170 - EMB-170</option>
-                      <option value="E175" title="E170 / CF34-8E5">E175 - EMB-175</option>
-                      <option value="E190" title="E190 / CF34-10E6">E190 - EMB-190</option>
-                      <option value="E195" title="E190 / CF34-10E7">E195 - EMB-195</option>
-                      <option value="E50P" title="E50P / PW617F1-E">E50P - PHENOM 100</option>
-                      <option value="E55P" title="E55P / PW535E">E55P - PHENOM 300</option>
-                      <option value="EA50" title="EA50 / PW610F">EA50 - ECLIPSE 550</option>
-                      <option value="F50" title="F50">F50&nbsp; - FOKKER F50</option>
-                      <option value="FA50" title="FA50 / TFE 731-40">FA50 - FALCON 50EX</option>
-                      <option value="GLF4" title="GLF4">GLF4 - GULFSTREAM</option>
-                      <option value="H25B" title="H25B">H25B - HAWKER 800A</option>
-                      <option value="JS41" title="JS41">JS41 - BAE JS-41</option>
-                      <option value="L101" title="L101 / RB211-524B">L101 - L1011-500</option>
-                      <option value="LJ25" title="LJ25 / CJ-610-8A">LJ25 - LEARJET 25</option>
-                      <option value="LJ45" title="LJ45">LJ45 - LEARJET 45</option>
-                      <option value="MD11" title="MD11 / CF6-80C2D1F">MD11 - MD-11</option>
-                      <option value="MD1F" title="MD11 / CF6-80C2D1F">MD1F - MD-11F</option>
-                      <option value="MD82" title="MD82 / JT8D-217">MD82 - DC-9-82</option>
-                      <option value="MD83" title="MD83 / JT8D-219">MD83 - DC-9-83</option>
-                      <option value="MD88" title="MD88 / JT8D-219">MD88 - MD-88</option>
-                      <option value="MD90" title="MD90">MD90 - MD-90-30</option>
-                      <option value="PC12" title="PC12 / PT6A-66D">PC12 - PILATUS PC12</option>
-                      <option value="RJ1H" title="RJ1H">RJ1H - AVRO RJ100</option>
-                      <option value="RJ70" title="RJ70">RJ70 - AVRO RJ70</option>
-                      <option value="RJ85" title="RJ85">RJ85 - AVRO RJ85</option>
-                      <option value="SF34" title="SF34 / GE CT7-9B">SF34 - SAAB 340B</option>
-                      <option value="SF50" title="SF50 / FJ33-5A">SF50 - VISION JET</option>
-                      <option value="SW4" title="SW4 / TPE-331">SW4&nbsp; - METROLINER</option>
-                      <option value="T154" title="T154">T154 - TU-154B2</option>
-                      <option value="TBM9" title="TBM9 / PT6A-66D">TBM9 - TBM 900</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
+{{-- SIMPLE ERROR PROTECTION; If the Aircraft_ID is not passed stop procession code dispay an error message --}}
+@if(app('request')->input('aircraft_id'))
+
+@php 
+	$SelectedAircraft = app('request')->input('aircraft_id') ;
+	$AircraftDetails = DB::table('aircraft')->select('registration', 'icao', 'iata', 'subfleet_id')->where('id', $SelectedAircraft)->get() ;
+@endphp
+
+{{-- Get Aircraft Details and Apply ICAO Type Corrections For SimBrief --}}
+@foreach($AircraftDetails as $AcDetails)
+	@php 
+		$SimBriefType = $AcDetails->icao ;
+		$SubFLid = $AcDetails->subfleet_id ;
+		if($AcDetails->icao == 'A20N') { $SimBriefType = 'A320' ; }
+		if($AcDetails->icao == 'A21N') { $SimBriefType = 'A321' ; }
+		if($AcDetails->icao == 'B77L') { $SimBriefType = 'B77F' ; }
+		if($AcDetails->icao == 'B773') { $SimBriefType = 'B77W' ; }
+		if($AcDetails->icao == 'E35L') { $SimBriefType = 'E135' ; }
+	@endphp
+@endforeach
+
+@php if($flight->alt_airport_id) { $ALTN = $flight->alt_airport_id ; } else { $ALTN = 'AUTO' ; } @endphp
+
+{{-- Define The Random Load Factor, Get Max Capacity of Selected SubFleet and Generate Load --}}
+@php
+	$FKMin = $flight->load_factor - $flight->load_factor_variance ;
+	$FKMax = $flight->load_factor + $flight->load_factor_variance ;
+	if($FKMin < 1) { $FKMin = 1 ; }	
+	if($FKMax > 100) { $FKMax = 100 ; }
+	$FKRandomLoad = rand($FKMin, $FKMax);
+	$GetMaxCap = DB::table('subfleet_fare')->where('subfleet_id', $SubFLid)->sum('capacity') ;
+	
+@endphp
+
+<form id="sbapiform">
+<div class="row">
+<div class="card">
+	<div class="col-md-12">
+		<h2>Create Flight Briefing Package</h2>
+		<div class="row">
+			<div class="col-8">
+				<div class="form-container">
+					<div class="form-container-body">
+					<h6><i class="fas fa-info-circle"></i>&nbsp;Aircraft Details</h6>
+					<div class="row">
+						<div class="col-sm-4">
+							<label for="type">Type</label>
+							<input type="text" class="form-control" value="{{ $AcDetails->icao }}" maxlength="4" disabled/>
+							<input type="hidden" id="type" name="type"  class="form-control" value="{{ $SimBriefType }}" maxlength="4" />
+						</div>
+						<div class="col-sm-4">
+							<label for="reg">Registration</label>
+							<input type="text" class="form-control" value="{{ $AcDetails->registration }}" maxlength="6" disabled/>
+							<input type="hidden" id="reg" name="reg" value="{{ $AcDetails->registration }}" />
+						</div>
+					</div>
+					<br>
+					</div>
+					
+					<div class="form-container-body">
+					<h6><i class="fas fa-info-circle"></i>&nbsp;@lang('pireps.flightinformations') for <b>{{ $flight->airline->icao }} {{ $flight->flight_number }}</b></h6>
+					<div class="row">
+						<div class="col-sm-4">
+							<label for="dorig">Departure Airport</label>
+							<input id="dorig" type="text" class="form-control" maxlength="4" value="{{ $flight->dpt_airport_id }}" disabled/>
+							<input id="orig" name="orig" type="hidden" maxlength="4" value="{{ $flight->dpt_airport_id }}" />
+						</div>
+						<div class="col-sm-4">
+							<label for="ddest">Arrival Airport</label>
+							<input id="ddest" type="text" class="form-control" maxlength="4" value="{{ $flight->arr_airport_id }}" disabled/>
+							<input id="dest" name="dest" type="hidden" maxlength="4" value="{{ $flight->arr_airport_id }}" />
+						</div>
+						<div class="col-sm-4">
+							<label for="altn">Alternate Airport</label> 
+							<input id="altn" name="altn" type="text" class="form-control" maxlength="4" value="{{ $ALTN }}" />
+ 						</div>
+					</div>
+					<br>
+					<div class="row">
+						<div class="col-sm-8">
+							<label for="route">Preferred Company Route</label>
+							<input id="route" name="route" type="text" class="form-control" placeholder="" maxlength="1000" value="{{ $flight->route }}" />
+						</div>
+						<div class="col-sm-4">
+							<label for="fl">Preferred Flight Level</label>
+							<input id="fl" name="fl" type="text" class="form-control" placeholder="" maxlength="5" value="{{ $flight->level }}" />
+						</div>
+					</div>
+					<br>
+					<div class="row">
+						<div class="col-sm-4">
+							<label for="std">Scheduled Departure Time (UTC)</label>
+							<input id="std" type="text" class="form-control" placeholder="" maxlength="4" value="{{ $flight->dpt_time }}" disabled/>
+						</div>
+						<div class="col-sm-4">
+							<label for="etd">Estimated Departure Time (UTC)</label>
+							<input id="etd" type="text" class="form-control" placeholder="" maxlength="4" disabled/>
+						</div>
+						<div class="col-sm-4">
+							<label for="dof">Date Of Flight (UTC)</label>
+							<input id="dof" type="text" class="form-control" placeholder="" maxlength="4" disabled/>
+						</div>
+					</div>
+					<br>
+					</div>
+					
+					<div class="form-container-body">
+					{{-- Get All Subfleets from flight and generate random load for each fare type of selected SubFleet --}}
+					@foreach($flight->subfleets as $SUB)
+						@if($SUB->id == $SubFLid)
+						<h6><i class="fas fa-info-circle"></i>&nbsp;Configuration And Load Information For <b>{{ $SUB->name }} ; {{ $AcDetails->registration }}</b></h6>
+						{{-- Generate Load Figures --}}
+						<div class="row">
+						@php $LoadArray = [] ; @endphp
+						@foreach($SUB->fares as $SUBfares)
+							@if($SUBfares->capacity > 0)
+								@php 
+									$RandomLoadPerFare = ceil(($SUBfares->capacity * $FKRandomLoad) /100);
+									$LoadArray[] = ['SeatType' => $SUBfares->code];
+									$LoadArray[] = ['SeatLoad' => $RandomLoadPerFare];
+								@endphp
+								<div class="col-sm-4">
+									<label for="LoadFare{{ $SUBfares->id }}">{{ $SUBfares->name }} Load [ Max: {{ number_format($SUBfares->capacity) }} ]</label>
+									<input id="LoadFare{{ $SUBfares->id }}" type="text" class="form-control" value="{{ number_format($RandomLoadPerFare) }}" disabled/>
+								</div>
+							@endif
+						@endforeach
+						@php 
+							$LoadCollection = collect($LoadArray) ; 
+							$TotalGenLoad = $LoadCollection->sum('SeatLoad') ;
+						@endphp
+						</div>
+						{{-- End Generate Load Figures --}}
+												
+						@php $PxWeight = '208' ; @endphp {{-- Just For Safety  --}}
+						@if($TotalGenLoad < '900')
+							{{-- >Passenger Flight --}}
+							@if($flight->flight_type == 'C')
+								<input type="hidden" name="acdata" value="{'paxwgt':197}"> {{-- Use and Send Charter Pax Weights --}}
+								@php $PxWeight = '197' ; @endphp
+							@else
+								<input type="hidden" name="acdata" value="{'paxwgt':219}"> {{-- Use and Send Scheduled Pax Weights Type J/G and all the rest --}}
+								@php $PxWeight = '219' ; @endphp											
+							@endif
+							<br>
+							<div class="row">
+								<div class="col-sm-4">
+									@if(setting('units.weight') === 'kg')
+										@php $EstimatedPayload = number_format(round(($PxWeight * $TotalGenLoad) / 2.2)) ; @endphp
+									@else
+										@php $EstimatedPayload = number_format(round($PxWeight * $TotalGenLoad)) ; @endphp
+									@endif
+									<label for="EstimatedLoad">Estimated Load For {{ $TotalGenLoad }} Pax</label>
+									<input id="EstimatedLoad" type="text" class="form-control" value="{{ $EstimatedPayload }} {{ setting('units.weight') }}" disabled/>
+								</div>
+							</div>
+							<input type="hidden" id="pax" name="pax" class="form-control" value="{{ $TotalGenLoad }}"/>
+						@else
+							{{-- This is A Cargo Flight So Send Pax 0 to avoid SimBrief auto generation --}}
+							<input type='hidden' id="pax" name='pax' value='0' maxlength='3'>
+							<input type='hidden' id="cargo" name='cargo' value="{{ $TotalGenLoad }}" maxlength='7'>		
+						@endif
+						@endif		
+					@endforeach
+					{{-- END Get All Subfleets from flight And Generate Random Load For Each Fare Type of Selected SubFleet --}}
+					<br>
+						<div class="row">
+							@php
+							$FlightType = 'SimBrief Standart';
+							if($flight->flight_type == 'J') { $FlightType = 'Schedule All Adult Pax' ;}
+							if($flight->flight_type == 'G') { $FlightType = 'Schedule All Adult Pax' ;}
+							if($flight->flight_type == 'C') { $FlightType = 'Charter All Adult Pax' ;}
+							if($flight->flight_type == 'F') { $FlightType = 'Only Cargo' ;}
+							if($flight->flight_type == 'A') { $FlightType = 'Only Cargo' ;}
+							if($flight->flight_type == 'H') { $FlightType = 'Only Cargo' ;}
+							@endphp
+							<div class="col-sm-12">&bull; <b>{{ $FlightType }}</b> Weights Will Be Used For Flight Planning</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			{{-- Generate The MANUAL DISPATCH REMARK to send random load distribution to OFP --}}
+			@php
+				$LoadDistTxt =  "Load Distribution " ;
+				$LoadDist = implode(' ', array_map(
+    								function ($v, $k) {
+        								if(is_array($v)){
+            								return implode('&'.' '.':', $v);
+        								}else{
+            								return $k.':'.$v;
+        								}
+									}, 
+    							$LoadArray,	array_keys($LoadArray)
+							));
+			@endphp
+			{{-- END Generate The MANUAL DISPATCH REMARK to send random load distribution to OFP --}}		
+		
+			<input type="hidden" name="manualrmk" value="{{ $LoadDistTxt }}{{ $LoadDist }}">
+            <input type="hidden" name="airline" value="{{ $flight->airline->icao }}">
+            <input type="hidden" name="fltnum" value="{{ $flight->flight_number }}">
+			<input type="hidden" id="steh" name="steh" maxlength="2">
+			<input type="hidden" id="stem" name="stem" maxlength="2">
+			<input type="hidden" id="date" name="date" maxlength="9">
+			<input type="hidden" id="deph" name="deph" maxlength="2">
+            <input type="hidden" id="depm" name="depm" maxlength="2">
+            <input type="hidden" name="selcal" value="BK-FS">
+            <input type="hidden" name="planformat" value="lido">
+			<input type="hidden" name="omit_sids" value="0">
+			<input type="hidden" name="omit_stars" value="0">
+			<input type="hidden" name="cruise" value="CI">
+			<input type="hidden" name="civalue" value="AUTO">		
+			
+			{{-- END Generate The MANUAL DISPATCH REMARK to send random load distribution to OFP --}}
+			<div class="col-4">
+				<div class="form-container">
+				<div class="form-container-body">
+					<h6><i class="fas fa-info-circle"></i>&nbsp;Planning Options</h6>
+					<table class="table table-hover table-striped">
+						<tr>
+							<td>Cont Fuel:</td>
+							<td>
+							<select name="contpct" class="form-control">
+								<option value="auto">AUTO</option>
+								<option value="0">0 PCT</option>
+								<option value="0.02">2 PCT</option>
+								<option value="0.03">3 PCT</option>
+								<option value="0.05" selected>5 PCT</option>
+								<option value="0.1">10 PCT</option>
+								<option value="0.15">15 PCT</option>
+								<option value="0.2">20 PCT</option>
+							</select>
+							</td>
+						</tr>
+						<tr>
+							<td>Reserve Fuel:</td>
+							<td>
+							<select name="resvrule" class="form-control">
+								<option value="auto">AUTO</option>
+								<option value="0">0 MIN</option>
+								<option value="15">15 MIN</option>
+								<option value="30" selected>30 MIN</option>
+								<option value="45">45 MIN</option>
+								<option value="60">60 MIN</option>
+								<option value="75">75 MIN</option>
+								<option value="90">90 MIN</option>
+							</select>
+							</td>
+						</tr>
+						<tr>
+							<td>SID/STAR Type:</td>
+							<td>
+								<select name="find_sidstar" class="form-control">
+									<option value="C">Conventinoal</option>
+									<option value="R" selected>RNAV</option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td>Plan Stepclimbs:</td>
+							<td>
+								<select id="stepclimbs" name="stepclimbs" class="form-control" onchange="DisableFL()">
+									<option value="0" selected>Disabled</option>
+									<option value="1">Enabled</option>
+								</select>
+							</td>
+						</tr>				
+						<tr>
+						<td>ETOPS Planning:</td>
+							<td>
+								<select name="etops" class="form-control">
+									<option value="0" selected>Disabled</option>
+									<option value="1">Enabled</option>
+								</select>
+							</td>
+						</tr>							
+					</table>					
+				</div>
+				<br>
+				<div class="form-container-body">
+					<h6><i class="fas fa-info-circle"></i>&nbsp;@lang('stisla.briefingoptions')</h6>	
+					<table class="table table-hover table-striped">
+						<tr>
+							<td>Units:</td>
+							<td>
+								<select id="kgslbs" name="units" class="form-control">
+									@if(setting('units.weight') === 'kg')
+									<option value="KGS" selected>KGS</option>
+									<option value="LBS">LBS</option>
+									@else
+									<option value="KGS">KGS</option>
+									<option value="LBS" selected>LBS</option>
+									@endif
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td>Detailed Navlog:</td>
+							<td>
+								<select name="navlog" class="form-control">
+									<option value="0">Disabled</option>
+									<option value="1" selected>Enabled</option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td>Runway Analysis:</td>
+							<td>
+								<select name="tlr" class="form-control">
+									<option value="0">Disabled</option>
+									<option value="1" selected>Enabled</option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td>Include NOTAMS:</td>
+							<td>
+								<select name="notams" class="form-control">
+									<option value="0">Disabled</option>
+									<option value="1" selected>Enabled</option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td>FIR NOTAMS:</td>
+							<td>
+								<select name="firnot" class="form-control">
+									<option value="0" selected>Disabled</option>
+									<option value="1">Enabled</option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td>Flight Maps:</td>
+							<td>
+								<select name="maps" class="form-control">
+									<option value="detail" selected>Detailed</option>
+									<option value="simple">Simple</option>
+									<option value="none">None</option>
+								</select>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<br>
+				<div class="form-container-body">
+					<div class="float-right">
+						<div class="form-group">
+            				<input type="button" onclick="simbriefsubmit('{{ $flight->id }}', '{{ url(route('frontend.simbrief.briefing', [''])) }}');" class="btn btn-primary" value="Generate">
+						</div>
+					</div>	
+				</div>
+				</div>
             </div>
-          </div>
-          <div class="col-4">
-            <div class="form-container">
-              <h6><i class="fas fa-info-circle"></i>
-                &nbsp;Briefing Options
-              </h6>
-              <table class="table table-hover table-striped">
-                <tr>
-                  <td>Units:</td>
-                  <td><select name="units">
-                      <option value="KGS">KGS</option>
-                      <option value="LBS" selected>LBS</option>
-                    </select></td>
-                </tr>
-                <tr>
-                  <td>Cont Fuel:</td>
-                  <td><select name="contpct">
-                      <option value="auto" selected>AUTO</option>
-                      <option value="0">0 PCT</option>
-                      <option value="0.02">2 PCT</option>
-                      <option value="0.03">3 PCT</option>
-                      <option value="0.05">5 PCT</option>
-                      <option value="0.1">10 PCT</option>
-                      <option value="0.15">15 PCT</option>
-                      <option value="0.2">20 PCT</option>
-                    </select></td>
-                </tr>
-                <tr>
-                  <td>Reserve Fuel:</td>
-                  <td><select name="resvrule">
-                      <option value="auto">AUTO</option>
-                      <option value="0">0 MIN</option>
-                      <option value="15">15 MIN</option>
-                      <option value="30">30 MIN</option>
-                      <option value="45" selected>45 MIN</option>
-                      <option value="60">60 MIN</option>
-                      <option value="75">75 MIN</option>
-                      <option value="90">90 MIN</option>
-                    </select></td>
-                </tr>
-                <tr>
-                  <td>Detailed Navlog:</td>
-                  <td><input type="hidden" name="navlog" value="0"><input type="checkbox" name="navlog" value="1"
-                                                                          checked>
-                  </td>
-                </tr>
-                <tr>
-                  <td>ETOPS Planning:</td>
-                  <td><input type="hidden" name="etops" value="0"><input type="checkbox" name="etops" value="1"></td>
-                </tr>
-                <tr>
-                  <td>Plan Stepclimbs:</td>
-                  <td><input type="hidden" name="stepclimbs" value="0"><input type="checkbox" name="stepclimbs"
-                                                                              value="1"
-                                                                              checked>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Runway Analysis:</td>
-                  <td><input type="hidden" name="tlr" value="0"><input type="checkbox" name="tlr" value="1" checked>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Include NOTAMS:</td>
-                  <td><input type="hidden" name="notams" value="0"><input type="checkbox" name="notams" value="1"
-                                                                          checked>
-                  </td>
-                </tr>
-                <tr>
-                  <td>FIR NOTAMS:</td>
-                  <td><input type="hidden" name="firnot" value="0"><input type="checkbox" name="firnot" value="1"></td>
-                </tr>
-                <tr>
-                  <td>Flight Maps:</td>
-                  <td><select name="maps">
-                      <option value="detail">Detailed</option>
-                      <option value="simple">Simple</option>
-                      <option value="none">None</option>
-                    </select></td>
-                </tr>
-              </table>
-            </div>
-          </div>
-        </div>
-
-        <input type="hidden" name="airline" value="{{ $flight->airline->icao }}">
-        <input type="hidden" name="fltnum" value="{{ $flight->flight_number }}">
-        <input type="hidden" name="date" value="01JAN14">
-        <input type="hidden" name="deph" value="12">
-        <input type="hidden" name="depm" value="30">
-        <input type="hidden" name="steh" value="2">
-        <input type="hidden" name="stem" value="15">
-        {{--<input type="hidden" name="reg" value="N123SB">
-        <input type="hidden" name="selcal" value="GR-FS">--}}
-        <input type="hidden" name="planformat" value="lido">
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-sm-12">
-        <div class="float-right">
-          <div class="form-group">
-            <input type="button"
-                   onclick="simbriefsubmit('{{ $flight->id }}', '{{ url(route('frontend.simbrief.briefing', [''])) }}');"
-                   class="btn btn-outline-primary"
-                   value="Generate">
-          </div>
-        </div>
-      </div>
-    </div>
-  </form>
+		</div>
+	</div>
+</div>
+</div>
+</form>
+@else
+<div class="row">
+	<div class="card">
+		<div class="card-header"><h4>ERROR !!!</h4></div>
+		<div class="card-body">Aircraft ID not available !!! Please select an aircraft to proceed SimBrief Flight Planning.</div>
+	</div>
+</div>
+@endif
 @endsection
 @section('scripts')
-  <script src="{{public_asset('/assets/global/js/simbrief.apiv1.js')}}"></script>
+	<script src="{{public_asset('/assets/global/js/simbrief.apiv1.js')}}"></script>
+	<script type="text/javascript">
+		// ******
+		// Disable Submitting a fixed flight level for Stepclimb option to work
+		// Script is related to Plan Step Climbs selection
+		function DisableFL() {
+ 			var climb = document.getElementById("stepclimbs").value;
+			if (climb == "0") {document.getElementById("fl").disabled = false};
+			if (climb == "1") {document.getElementById("fl").disabled = true};	
+			}
+	</script>
+	<script type="text/javascript">
+		// ******
+		// Get current UTC time, add 45 minutes to it and format according to Simbrief API
+		// Script also rounds the minutes to nearest 5 to avoid a Departure time like 1538 ;)
+		// If you need to reduce the margin of 45 mins, change value below
+		var d = new Date() ;
+		var months = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"] ;
+		d.setMinutes(d.getMinutes() + 45) ; // Change the value here
+		var deph = ("0" + d.getUTCHours(d)).slice(-2) ;
+		var depm = d.getUTCMinutes(d);
+		if(depm < 55) { depm = Math.ceil(depm/5)*5;}
+		if(depm > 55) { depm = Math.floor(depm/5)*5;}
+		depm = ("0" + depm).slice(-2) ;
+		dept = deph + depm ;
+		var dof = ("0" + d.getUTCDate()).slice(-2) + months[d.getUTCMonth()] + d.getUTCFullYear() ;
+		document.getElementById("dof").setAttribute('value',dof) ;
+		document.getElementById("etd").setAttribute('value',dept) ;
+		document.getElementById("date").setAttribute('value',dof) ; // Sent to Simbrief
+		document.getElementById("deph").setAttribute('value',deph) ; // Sent to SimBrief
+		document.getElementById("depm").setAttribute('value',depm) ; // Sent to SimBrief
+	</script>
+	<script type="text/javascript">
+		// ******
+		// Calculate the Scheduled Enroute Time for Simbrief API
+		// Your PHPVMS flight_time value must be from BLOCK to BLOCK
+		// Including departure and arrival taxi times
+		// If this value is not correctly calculated and configured
+		// Simbrief CI (Cost Index) calculation will not provide realistic results
+		var num = {{ $flight->flight_time }} ;
+		var hours = (num / 60);
+		var rhours = Math.floor(hours);
+		var minutes = (hours - rhours) * 60;
+		var rminutes = Math.round(minutes);
+		document.getElementById("steh").setAttribute('value',rhours) ; // Sent to Simbrief
+		document.getElementById("stem").setAttribute('value',rminutes) ; // Sent to Simbrief
+	</script>
 @endsection
