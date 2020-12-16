@@ -12,34 +12,32 @@
 @if(app('request')->input('aircraft_id'))
 
 @php 
-	$SelectedAircraft = app('request')->input('aircraft_id') ;
-	$AircraftDetails = DB::table('aircraft')->select('registration', 'icao', 'iata', 'subfleet_id')->where('id', $SelectedAircraft)->get() ;
+	$selectedaircraft = app('request')->input('aircraft_id') ;
+	$aircraftdetails = DB::table('aircraft')->select('registration', 'icao', 'iata', 'subfleet_id')->where('id', $selectedaircraft)->get() ;
 @endphp
 
 {{-- Get Aircraft Details and Apply ICAO Type Corrections For SimBrief --}}
-@foreach($AircraftDetails as $AcDetails)
+@foreach($aircraftdetails as $acdetails)
 	@php 
-		$SimBriefType = $AcDetails->icao ;
-		$SubFLid = $AcDetails->subfleet_id ;
-		if($AcDetails->icao == 'A20N') { $SimBriefType = 'A320' ; }
-		if($AcDetails->icao == 'A21N') { $SimBriefType = 'A321' ; }
-		if($AcDetails->icao == 'B77L') { $SimBriefType = 'B77F' ; }
-		if($AcDetails->icao == 'B773') { $SimBriefType = 'B77W' ; }
-		if($AcDetails->icao == 'E35L') { $SimBriefType = 'E135' ; }
+		$simbrieftype = $acdetails->icao ;
+		$subflid = $acdetails->subfleet_id ;
+		if($acdetails->icao == 'A20N') { $simbrieftype = 'A320' ; }
+		if($acdetails->icao == 'A21N') { $simbrieftype = 'A321' ; }
+		if($acdetails->icao == 'B77L') { $simbrieftype = 'B77F' ; }
+		if($acdetails->icao == 'B773') { $simbrieftype = 'B77W' ; }
+		if($acdetails->icao == 'E35L') { $simbrieftype = 'E135' ; }
 	@endphp
 @endforeach
 
-@php if($flight->alt_airport_id) { $ALTN = $flight->alt_airport_id ; } else { $ALTN = 'AUTO' ; } @endphp
+@php if($flight->alt_airport_id) { $altn = $flight->alt_airport_id ; } else { $altn = 'AUTO' ; } @endphp
 
 {{-- Define The Random Load Factor, Get Max Capacity of Selected SubFleet and Generate Load --}}
 @php
-	$FKMin = $flight->load_factor - $flight->load_factor_variance ;
-	$FKMax = $flight->load_factor + $flight->load_factor_variance ;
-	if($FKMin < 1) { $FKMin = 1 ; }	
-	if($FKMax > 100) { $FKMax = 100 ; }
-	$FKRandomLoad = rand($FKMin, $FKMax);
-	$GetMaxCap = DB::table('subfleet_fare')->where('subfleet_id', $SubFLid)->sum('capacity') ;
-	
+	$fkmin = $flight->load_factor - $flight->load_factor_variance ;
+	$fkmax = $flight->load_factor + $flight->load_factor_variance ;
+	if($fkmin < 1) { $fkmin = 1 ; }	
+	if($fkmax > 100) { $fkmax = 100 ; }
+	$fkrandomload = rand($fkmin, $fkmax);	
 @endphp
 
 <form id="sbapiform">
@@ -55,13 +53,13 @@
 					<div class="row">
 						<div class="col-sm-4">
 							<label for="type">Type</label>
-							<input type="text" class="form-control" value="{{ $AcDetails->icao }}" maxlength="4" disabled/>
-							<input type="hidden" id="type" name="type"  class="form-control" value="{{ $SimBriefType }}" maxlength="4" />
+							<input type="text" class="form-control" value="{{ $acdetails->icao }}" maxlength="4" disabled/>
+							<input type="hidden" id="type" name="type"  class="form-control" value="{{ $simbrieftype }}" maxlength="4" />
 						</div>
 						<div class="col-sm-4">
 							<label for="reg">Registration</label>
-							<input type="text" class="form-control" value="{{ $AcDetails->registration }}" maxlength="6" disabled/>
-							<input type="hidden" id="reg" name="reg" value="{{ $AcDetails->registration }}" />
+							<input type="text" class="form-control" value="{{ $acdetails->registration }}" maxlength="6" disabled/>
+							<input type="hidden" id="reg" name="reg" value="{{ $acdetails->registration }}" />
 						</div>
 					</div>
 					<br>
@@ -82,7 +80,7 @@
 						</div>
 						<div class="col-sm-4">
 							<label for="altn">Alternate Airport</label> 
-							<input id="altn" name="altn" type="text" class="form-control" maxlength="4" value="{{ $ALTN }}" />
+							<input id="altn" name="altn" type="text" class="form-control" maxlength="4" value="{{ $altn }}" />
  						</div>
 					</div>
 					<br>
@@ -116,59 +114,59 @@
 					
 					<div class="form-container-body">
 					{{-- Get All Subfleets from flight and generate random load for each fare type of selected SubFleet --}}
-					@foreach($flight->subfleets as $SUB)
-						@if($SUB->id == $SubFLid)
-						<h6><i class="fas fa-info-circle"></i>&nbsp;Configuration And Load Information For <b>{{ $SUB->name }} ; {{ $AcDetails->registration }}</b></h6>
+					@foreach($flight->subfleets as $subfleet)
+						@if($subfleet->id == $subflid)
+						<h6><i class="fas fa-info-circle"></i>&nbsp;Configuration And Load Information For <b>{{ $subfleet->name }} ; {{ $acdetails->registration }}</b></h6>
 						{{-- Generate Load Figures --}}
 						<div class="row">
-						@php $LoadArray = [] ; @endphp
-						@foreach($SUB->fares as $SUBfares)
-							@if($SUBfares->capacity > 0)
+						@php $loadarray = [] ; @endphp
+						@foreach($subfleet->fares as $fare)
+							@if($fare->capacity > 0)
 								@php 
-									$RandomLoadPerFare = ceil(($SUBfares->capacity * $FKRandomLoad) /100);
-									$LoadArray[] = ['SeatType' => $SUBfares->code];
-									$LoadArray[] = ['SeatLoad' => $RandomLoadPerFare];
+									$randomloadperfare = ceil(($fare->capacity * $fkrandomload) /100);
+									$loadarray[] = ['SeatType' => $fare->code];
+									$loadarray[] = ['SeatLoad' => $randomloadperfare];
 								@endphp
 								<div class="col-sm-4">
-									<label for="LoadFare{{ $SUBfares->id }}">{{ $SUBfares->name }} Load [ Max: {{ number_format($SUBfares->capacity) }} ]</label>
-									<input id="LoadFare{{ $SUBfares->id }}" type="text" class="form-control" value="{{ number_format($RandomLoadPerFare) }}" disabled/>
+									<label for="LoadFare{{ $fare->id }}">{{ $fare->name }} Load [ Max: {{ number_format($fare->capacity) }} ]</label>
+									<input id="LoadFare{{ $fare->id }}" type="text" class="form-control" value="{{ number_format($randomloadperfare) }} @if($randomloadperfare > '900') {{ setting('units.weight') }} @endif" disabled/>
 								</div>
 							@endif
 						@endforeach
 						@php 
-							$LoadCollection = collect($LoadArray) ; 
-							$TotalGenLoad = $LoadCollection->sum('SeatLoad') ;
+							$loadcollection = collect($loadarray) ; 
+							$totalgenload = $loadcollection->sum('SeatLoad') ;
 						@endphp
 						</div>
 						{{-- End Generate Load Figures --}}
 												
-						@php $PxWeight = '208' ; @endphp {{-- Just For Safety  --}}
-						@if($TotalGenLoad < '900')
+						@php $pxweight = '208' ; @endphp {{-- Just For Safety  --}}
+						@if($totalgenload < '900')
 							{{-- >Passenger Flight --}}
 							@if($flight->flight_type == 'C')
 								<input type="hidden" name="acdata" value="{'paxwgt':197}"> {{-- Use and Send Charter Pax Weights --}}
-								@php $PxWeight = '197' ; @endphp
+								@php $pxweight = '197' ; @endphp
 							@else
 								<input type="hidden" name="acdata" value="{'paxwgt':219}"> {{-- Use and Send Scheduled Pax Weights Type J/G and all the rest --}}
-								@php $PxWeight = '219' ; @endphp											
+								@php $pxweight = '219' ; @endphp											
 							@endif
 							<br>
 							<div class="row">
 								<div class="col-sm-4">
 									@if(setting('units.weight') === 'kg')
-										@php $EstimatedPayload = number_format(round(($PxWeight * $TotalGenLoad) / 2.2)) ; @endphp
+										@php $estimatedpayload = number_format(round(($pxweight * $totalgenload) / 2.2)) ; @endphp
 									@else
-										@php $EstimatedPayload = number_format(round($PxWeight * $TotalGenLoad)) ; @endphp
+										@php $estimatedpayload = number_format(round($pxweight * $totalgenload)) ; @endphp
 									@endif
-									<label for="EstimatedLoad">Estimated Load For {{ $TotalGenLoad }} Pax</label>
-									<input id="EstimatedLoad" type="text" class="form-control" value="{{ $EstimatedPayload }} {{ setting('units.weight') }}" disabled/>
+									<label for="EstimatedLoad">Estimated Load For {{ $totalgenload }} Pax</label>
+									<input id="EstimatedLoad" type="text" class="form-control" value="{{ $estimatedpayload }} {{ setting('units.weight') }}" disabled/>
 								</div>
 							</div>
-							<input type="hidden" id="pax" name="pax" class="form-control" value="{{ $TotalGenLoad }}"/>
+							<input type="hidden" id="pax" name="pax" class="form-control" value="{{ $totalgenload }}"/>
 						@else
 							{{-- This is A Cargo Flight So Send Pax 0 to avoid SimBrief auto generation --}}
 							<input type='hidden' id="pax" name='pax' value='0' maxlength='3'>
-							<input type='hidden' id="cargo" name='cargo' value="{{ $TotalGenLoad }}" maxlength='7'>		
+							<input type='hidden' id="cargo" name='cargo' value="{{ $totalgenload }}" maxlength='7'>		
 						@endif
 						@endif		
 					@endforeach
@@ -176,23 +174,23 @@
 					<br>
 						<div class="row">
 							@php
-							$FlightType = 'SimBrief Standart';
-							if($flight->flight_type == 'J') { $FlightType = 'Schedule All Adult Pax' ;}
-							if($flight->flight_type == 'G') { $FlightType = 'Schedule All Adult Pax' ;}
-							if($flight->flight_type == 'C') { $FlightType = 'Charter All Adult Pax' ;}
-							if($flight->flight_type == 'F') { $FlightType = 'Only Cargo' ;}
-							if($flight->flight_type == 'A') { $FlightType = 'Only Cargo' ;}
-							if($flight->flight_type == 'H') { $FlightType = 'Only Cargo' ;}
+							$flightype = 'SimBrief Standard';
+							if($flight->flight_type == 'J') { $flightype = 'Schedule All Adult Pax' ;}
+							if($flight->flight_type == 'G') { $flightype = 'Schedule All Adult Pax' ;}
+							if($flight->flight_type == 'C') { $flightype = 'Charter All Adult Pax' ;}
+							if($flight->flight_type == 'F') { $flightype = 'Only Cargo' ;}
+							if($flight->flight_type == 'A') { $flightype = 'Only Cargo' ;}
+							if($flight->flight_type == 'H') { $flightype = 'Only Cargo' ;}
 							@endphp
-							<div class="col-sm-12">&bull; <b>{{ $FlightType }}</b> Weights Will Be Used For Flight Planning</div>
+							<div class="col-sm-12">&bull; <b>{{ $flightype }}</b> Weights Will Be Used For Flight Planning</div>
 						</div>
 					</div>
 				</div>
 			</div>
 			{{-- Generate The MANUAL DISPATCH REMARK to send random load distribution to OFP --}}
 			@php
-				$LoadDistTxt =  "Load Distribution " ;
-				$LoadDist = implode(' ', array_map(
+				$loaddisttxt =  "Load Distribution " ;
+				$loaddist = implode(' ', array_map(
     								function ($v, $k) {
         								if(is_array($v)){
             								return implode('&'.' '.':', $v);
@@ -200,12 +198,12 @@
             								return $k.':'.$v;
         								}
 									}, 
-    							$LoadArray,	array_keys($LoadArray)
+    							$loadarray,	array_keys($loadarray)
 							));
 			@endphp
 			{{-- END Generate The MANUAL DISPATCH REMARK to send random load distribution to OFP --}}		
 		
-			<input type="hidden" name="manualrmk" value="{{ $LoadDistTxt }}{{ $LoadDist }}">
+			<input type="hidden" name="manualrmk" value="{{ $loaddisttxt }}{{ $loaddist }}">
             <input type="hidden" name="airline" value="{{ $flight->airline->icao }}">
             <input type="hidden" name="fltnum" value="{{ $flight->flight_number }}">
 			<input type="hidden" id="steh" name="steh" maxlength="2">
