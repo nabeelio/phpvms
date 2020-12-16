@@ -9,9 +9,7 @@
     </div>
     <div class="col-sm-3">
       @if (empty($simbrief->pirep_id))
-        <a class="btn btn-outline-info pull-right btn-lg"
-           style="margin-top: -10px;margin-bottom: 5px"
-           href="{{ url(route('frontend.simbrief.prefile', [$simbrief->id])) }}">Prefile PIREP</a>
+        <a class="btn btn-info pull-right btn-lg" style="margin-top: -10px;margin-bottom: 5px" href="{{ url(route('frontend.simbrief.prefile', [$simbrief->id])) }}">Prefile PIREP</a>
       @endif
     </div>
   </div>
@@ -22,9 +20,7 @@
       <div class="row">
         <div class="col-6">
           <div class="form-container">
-            <h6><i class="fas fa-info-circle"></i>
-              &nbsp;Dispatch Information
-            </h6>
+            <h6><i class="fas fa-info-circle"></i>&nbsp;Dispatch Information</h6>
             <div class="form-container-body">
               <div class="row">
                 <div class="col-4 text-center">
@@ -58,7 +54,6 @@
               <hr/>
 
               <div class="row">
-
                 <div class="col-4 text-center">
                   <div><p class="small text-uppercase pb-sm-0 mb-sm-1">Aircraft</p>
                     <p class="border border-dark rounded p-1 small text-monospace">
@@ -69,7 +64,7 @@
                 <div class="col-4 text-center">
                   <div><p class="small text-uppercase pb-sm-0 mb-sm-1">Enroute Time</p>
                     <p class="border border-dark rounded p-1 small text-monospace">
-                      @minutestotime($simbrief->xml->times->sched_time_enroute / 60)</p>
+                      @minutestotime($simbrief->xml->times->est_time_enroute / 60)</p>
                   </div>
                 </div>
 
@@ -79,7 +74,6 @@
                       {{ $simbrief->xml->general->initial_altitude }}</p>
                   </div>
                 </div>
-
               </div>
 
               <hr/>
@@ -109,9 +103,7 @@
           </div>
 
           <div class="form-container">
-            <h6><i class="fas fa-info-circle"></i>
-              &nbsp;Flight Plan
-            </h6>
+            <h6><i class="fas fa-info-circle"></i>&nbsp;Flight Plan</h6>
             <div class="form-container-body">
               <div class="row">
                 <div class="col-12">
@@ -156,9 +148,7 @@
 
         <div class="col-6">
           <div class="form-container">
-            <h6><i class="fas fa-info-circle"></i>
-              &nbsp;Download Flight Plan
-            </h6>
+            <h6><i class="fas fa-info-circle"></i>&nbsp;Download Flight Plan</h6>
             <div class="form-container-body">
               <div class="row">
                 <div class="col-12">
@@ -168,10 +158,7 @@
                     @endforeach
                   </select>
                   <br/>
-                  <input id="download_fms"
-                         type="submit"
-                         class="btn btn-outline-primary pull-right"
-                         value="Download"/>
+                  <input id="download_fms" type="submit" class="btn btn-primary pull-right" value="Download"/>
                 </div>
               </div>
             </div>
@@ -231,18 +218,18 @@
 				        </form>
             </div>
 			<div class="col-4" align="center">
-				<a href="http://skyvector.com/?chart=304&amp;fpl={{ $simbrief->xml->origin->icao_code}} {{ $simbrief->xml->general->route }} {{ $simbrief->xml->destination->icao_code}}" target="_blank" class="btn btn-info">View Route At SkyVector</a>
+				<a href="http://skyvector.com/?chart=304&amp;fpl={{ $simbrief->xml->origin->icao_code}} {{ $simbrief->xml->general->route }} {{ $simbrief->xml->destination->icao_code}}" target="_blank" class="btn btn-info">
+					View Route At SkyVector</a>
 			</div>
              </div>
            </div>
           </div>          
           <div class="form-container">
-            <h6><i class="fas fa-info-circle"></i>
-              &nbsp;OFP
-            </h6>
+            <h6><i class="fas fa-info-circle"></i>&nbsp;OFP</h6>
             <div class="form-container-body border border-dark">
               <div class="overflow-auto" style="height: 750px;">
                 {!! $simbrief->xml->text->plan_html !!}
+
               </div>
             </div>
           </div>
@@ -252,9 +239,7 @@
       <div class="row">
         <div class="col-12">
           <div class="form-container">
-            <h6><i class="fas fa-info-circle"></i>
-              &nbsp;Flight Maps
-            </h6>
+            <h6><i class="fas fa-info-circle"></i>&nbsp;Flight Maps</h6>
             <div class="form-container-body">
               @foreach($simbrief->images->chunk(2) as $images)
                 <div class="row">
@@ -278,9 +263,7 @@
   <div class="row">
     <div class="col-12">
       @if (empty($simbrief->pirep_id))
-        <a class="btn btn-outline-info pull-right"
-           style="margin-top: -10px;margin-bottom: 5px"
-           href="{{ url(route('frontend.simbrief.prefile', [$simbrief->id])) }}">Prefile PIREP</a>
+        <a class="btn btn-info pull-right" style="margin-top: -10px;margin-bottom: 5px" href="{{ url(route('frontend.simbrief.prefile', [$simbrief->id])) }}">Prefile PIREP</a>
       @endif
     </div>
   </div>
