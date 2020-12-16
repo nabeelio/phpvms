@@ -64,19 +64,19 @@
 				@if ($simbrief !== false)
 					@if ($simbrief_bids === false || ($simbrief_bids === true && in_array($flight->id, $saved, true)))
 					<div class="col-sm-6 text-left" style="vertical-align: bottom">
-					<select id="AircraftSelection" class="form-control select2" onchange="OnChangeACSelection()">
+					<select id="aircraftselection" class="form-control select2" onchange="checkacselection()">
 						<option value="ZZZZZ">Please Select An Aircraft</option>
 						@if($flight->subfleets)
-							@foreach($flight->subfleets as $SubFleets)
-								@foreach($SubFleets->aircraft as $AC)
-									<option value="{{ $AC->id }}">[ {{ $AC->icao }} ] {{ $AC->registration }} @if($AC->registration <> $AC->name) '{{ $AC->name }}' @endif</option>
+							@foreach($flight->subfleets as $subfleet)
+								@foreach($subfleet->aircraft as $ac)
+									<option value="{{ $ac->id }}">[ {{ $ac->icao }} ] {{ $ac->registration }} @if($ac->registration <> $ac->name) '{{ $ac->name }}' @endif</option>
 								@endforeach
 							@endforeach
 						@endif
 					</select>
 					</div>
 					<div class="col-sm-3" style="vertical-align: middle">		
-						<a id="SbFormLink" style="visibility: hidden" href="{{ route('frontend.simbrief.generate') }}?flight_id={{ $flight->id }}" class="btn btn-sm btn-primary">Proceed To Flight Planning</a>
+						<a id="sbformlink" style="visibility: hidden" href="{{ route('frontend.simbrief.generate') }}?flight_id={{ $flight->id }}" class="btn btn-sm btn-primary">Proceed To Flight Planning</a>
 					</div>
 					<div class="col-sm-3" style="vertical-align: middle">
 						<a href="{{ route('frontend.pireps.create') }}?flight_id={{ $flight->id }}" class="btn btn-sm btn-info">{{ __('pireps.newpirep') }}</a>
@@ -98,16 +98,16 @@
 <script type="text/javascript">
 		// *** Simple Aircraft Selection With Dropdown Change
 		// *** Also keep Generate button hidden until a valid AC selection
-		function OnChangeACSelection() {
-			if (document.getElementById("AircraftSelection").value == "ZZZZZ") {
-					document.getElementById('SbFormLink').style.visibility = 'hidden';
+		const $oldlink = document.getElementById('sbformlink').href ;
+		function checkacselection() {
+			if (document.getElementById('aircraftselection').value == 'ZZZZZ') {
+					document.getElementById('sbformlink').style.visibility = 'hidden';
 				}else{
-					document.getElementById('SbFormLink').style.visibility = 'visible';
+					document.getElementById('sbformlink').style.visibility = 'visible';
 				}
-			var $OldLink = document.getElementById("SbFormLink").href ;
-			var $SelectedAC = document.getElementById("AircraftSelection").value ;
-			var $NewLink = "&aircraft_id=".concat($SelectedAC) ;
-			document.getElementById("SbFormLink").href = $OldLink.concat($NewLink) ;	
+			var $selectedac = document.getElementById('aircraftselection').value ;
+			var $newlink = '&aircraft_id='.concat($selectedac) ;
+			document.getElementById('sbformlink').href = $oldlink.concat($newlink) ;	
 		}
 </script>
 @endforeach
