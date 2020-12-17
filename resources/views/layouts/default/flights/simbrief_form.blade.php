@@ -5,20 +5,18 @@
 
 @php
 	$fareSvc = app(App\Services\FareService::class);
-	$flight = $fareSvc->getReconciledFaresForFlight($flight);		
+	$flight = $fareSvc->getReconciledFaresForFlight($flight);
+	
+	if($flight->alt_airport_id) { $altn = $flight->alt_airport_id ; } else { $altn = 'AUTO' ; } 
+
+	$loadmin = $flight->load_factor - $flight->load_factor_variance ;
+	$loadmax = $flight->load_factor + $flight->load_factor_variance ;
+	if($loadmin < 1) { $loadmin = 1 ; }	
+	if($loadmax > 100) { $loadmax = 100 ; }
 @endphp
-
-{{-- SIMPLE ERROR PROTECTION; If the Aircraft_ID is not passed stop procession code dispay an error message --}}
-@if(app('request')->input('aircraft_id'))
-
-@php 
-	$selectedaircraft = app('request')->input('aircraft_id') ;
-	$aircraftdetails = DB::table('aircraft')->select('registration', 'icao', 'iata', 'subfleet_id')->where('id', $selectedaircraft)->get() ;
-@endphp
-
-{{-- Get Aircraft Details and Apply ICAO Type Corrections For SimBrief --}}
-@foreach($aircraftdetails as $acdetails)
-	@php 
+		
+@foreach($aircraft as $acdetails)
+	@php
 		$simbrieftype = $acdetails->icao ;
 		$subflid = $acdetails->subfleet_id ;
 		if($acdetails->icao == 'A20N') { $simbrieftype = 'A320' ; }
@@ -28,17 +26,6 @@
 		if($acdetails->icao == 'E35L') { $simbrieftype = 'E135' ; }
 	@endphp
 @endforeach
-
-@php if($flight->alt_airport_id) { $altn = $flight->alt_airport_id ; } else { $altn = 'AUTO' ; } @endphp
-
-{{-- Define The Random Load Factor, Get Max Capacity of Selected SubFleet and Generate Load --}}
-@php
-	$fkmin = $flight->load_factor - $flight->load_factor_variance ;
-	$fkmax = $flight->load_factor + $flight->load_factor_variance ;
-	if($fkmin < 1) { $fkmin = 1 ; }	
-	if($fkmax > 100) { $fkmax = 100 ; }
-	$fkrandomload = rand($fkmin, $fkmax);	
-@endphp
 
 <form id="sbapiform">
 <div class="row">
@@ -113,9 +100,8 @@
 					</div>
 					
 					<div class="form-container-body">
-					{{-- Get All Subfleets from flight and generate random load for each fare type of selected SubFleet --}}
-					@foreach($flight->subfleets as $subfleet)
-						@if($subfleet->id == $subflid)
+				@foreach($flight->subfleets as $subfleet)
+					@if($subfleet->id == $subflid)
 						<h6><i class="fas fa-info-circle"></i>&nbsp;Configuration And Load Information For <b>{{ $subfleet->name }} ; {{ $acdetails->registration }}</b></h6>
 						{{-- Generate Load Figures --}}
 						<div class="row">
@@ -123,7 +109,7 @@
 						@foreach($subfleet->fares as $fare)
 							@if($fare->capacity > 0)
 								@php 
-									$randomloadperfare = ceil(($fare->capacity * $fkrandomload) /100);
+									$randomloadperfare = ceil(($fare->capacity * (rand($loadmin, $loadmax))) /100);
 									$loadarray[] = ['SeatType' => $fare->code];
 									$loadarray[] = ['SeatLoad' => $randomloadperfare];
 								@endphp
@@ -138,9 +124,8 @@
 							$totalgenload = $loadcollection->sum('SeatLoad') ;
 						@endphp
 						</div>
-						{{-- End Generate Load Figures --}}
 												
-						@php $pxweight = '208' ; @endphp {{-- Just For Safety  --}}
+						@php $pxweight = '208' ; @endphp
 						@if($totalgenload < '900')
 							{{-- >Passenger Flight --}}
 							@if($flight->flight_type == 'C')
@@ -158,36 +143,30 @@
 									@else
 										@php $estimatedpayload = number_format(round($pxweight * $totalgenload)) ; @endphp
 									@endif
-									<label for="EstimatedLoad">Estimated Load For {{ $totalgenload }} Pax</label>
+									<label for="EstimatedLoad">Estimated Payload For {{ $totalgenload }} Pax</label>
 									<input id="EstimatedLoad" type="text" class="form-control" value="{{ $estimatedpayload }} {{ setting('units.weight') }}" disabled/>
 								</div>
 							</div>
 							<input type="hidden" id="pax" name="pax" class="form-control" value="{{ $totalgenload }}"/>
 						@else
-							{{-- This is A Cargo Flight So Send Pax 0 to avoid SimBrief auto generation --}}
 							<input type='hidden' id="pax" name='pax' value='0' maxlength='3'>
 							<input type='hidden' id="cargo" name='cargo' value="{{ $totalgenload }}" maxlength='7'>		
 						@endif
-						@endif		
-					@endforeach
-					{{-- END Get All Subfleets from flight And Generate Random Load For Each Fare Type of Selected SubFleet --}}
+					@endif		
+				@endforeach
 					<br>
 						<div class="row">
 							@php
 							$flightype = 'SimBrief Standard';
-							if($flight->flight_type == 'J') { $flightype = 'Schedule All Adult Pax' ;}
-							if($flight->flight_type == 'G') { $flightype = 'Schedule All Adult Pax' ;}
 							if($flight->flight_type == 'C') { $flightype = 'Charter All Adult Pax' ;}
-							if($flight->flight_type == 'F') { $flightype = 'Only Cargo' ;}
-							if($flight->flight_type == 'A') { $flightype = 'Only Cargo' ;}
-							if($flight->flight_type == 'H') { $flightype = 'Only Cargo' ;}
+							if($flight->flight_type == 'J' || $flight->flight_type == 'G') { $flightype = 'Schedule All Adult Pax' ;}			
+							if($flight->flight_type == 'F' || $flight->flight_type == 'A' || $flight->flight_type == 'H') { $flightype = 'Only Cargo' ;}
 							@endphp
 							<div class="col-sm-12">&bull; <b>{{ $flightype }}</b> Weights Will Be Used For Flight Planning</div>
 						</div>
 					</div>
 				</div>
 			</div>
-			{{-- Generate The MANUAL DISPATCH REMARK to send random load distribution to OFP --}}
 			@php
 				$loaddisttxt =  "Load Distribution " ;
 				$loaddist = implode(' ', array_map(
@@ -200,8 +179,7 @@
 									}, 
     							$loadarray,	array_keys($loadarray)
 							));
-			@endphp
-			{{-- END Generate The MANUAL DISPATCH REMARK to send random load distribution to OFP --}}		
+			@endphp	
 		
 			<input type="hidden" name="manualrmk" value="{{ $loaddisttxt }}{{ $loaddist }}">
             <input type="hidden" name="airline" value="{{ $flight->airline->icao }}">
@@ -218,7 +196,6 @@
 			<input type="hidden" name="cruise" value="CI">
 			<input type="hidden" name="civalue" value="AUTO">		
 			
-			{{-- END Generate The MANUAL DISPATCH REMARK to send random load distribution to OFP --}}
 			<div class="col-4">
 				<div class="form-container">
 				<div class="form-container-body">
@@ -364,14 +341,7 @@
 </div>
 </div>
 </form>
-@else
-<div class="row">
-	<div class="card">
-		<div class="card-header"><h4>ERROR !!!</h4></div>
-		<div class="card-body">Aircraft ID not available !!! Please select an aircraft to proceed SimBrief Flight Planning.</div>
-	</div>
-</div>
-@endif
+
 @endsection
 @section('scripts')
 	<script src="{{public_asset('/assets/global/js/simbrief.apiv1.js')}}"></script>
