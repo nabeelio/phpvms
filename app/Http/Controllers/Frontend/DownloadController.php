@@ -49,6 +49,7 @@ class DownloadController extends Controller
             } else {
                 $group_name = $category.' > '.$obj->name;
             }
+
             $regrouped_files[$group_name] = $files;
         }
 
