@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Exceptions\AssetNotFound;
-use App\Models\SimBrief;
 use App\Models\Aircraft;
+use App\Models\SimBrief;
 use App\Repositories\FlightRepository;
 use App\Services\SimBriefService;
 use Exception;
@@ -34,15 +34,15 @@ class SimBriefController
     public function generate(Request $request)
     {
         $flight_id = $request->input('flight_id');
-		$aircraft_id = $request->input('aircraft_id');
+        $aircraft_id = $request->input('aircraft_id');
         $flight = $this->flightRepo->find($flight_id);
-		
+        
         if (!$flight) {
             flash()->error('Unknown flight');
             return redirect(route('frontend.flights.index'));
         }
 		
-		if (!$aircraft_id) {
+        if (!$aircraft_id) {
             flash()->error('Aircraft not selected');
             return redirect(route('frontend.flights.bids'));
         }
@@ -71,7 +71,7 @@ class SimBriefController
 
         return view('flights.simbrief_form', [
             'flight' => $flight,
-			'aircraft' => $aircraft,
+            'aircraft' => $aircraft,
         ]);
     }
 
