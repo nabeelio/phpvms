@@ -36,12 +36,12 @@ class SimBriefController
         $flight_id = $request->input('flight_id');
         $aircraft_id = $request->input('aircraft_id');
         $flight = $this->flightRepo->find($flight_id);
-        
+
         if (!$flight) {
             flash()->error('Unknown flight');
             return redirect(route('frontend.flights.index'));
         }
-		
+
         if (!$aircraft_id) {
             flash()->error('Aircraft not selected');
             return redirect(route('frontend.flights.bids'));
@@ -62,16 +62,16 @@ class SimBriefController
         if ($simbrief) {
             return redirect(route('frontend.simbrief.briefing', [$simbrief->id]));
         }
-		
-		if ($aircraft_id) {
-			$aircraft = Aircraft::select('registration', 'name', 'icao', 'iata', 'subfleet_id')
-				->where('id', $aircraft_id)
-				->get();
+
+        if ($aircraft_id) {
+            $aircraft = Aircraft::select('registration', 'name', 'icao', 'iata', 'subfleet_id')
+                ->where('id', $aircraft_id)
+                ->get();
 		}
 
         return view('flights.simbrief_form', [
-            'flight' => $flight,
-            'aircraft' => $aircraft,
+            'flight'    => $flight,
+            'aircraft'  => $aircraft,
         ]);
     }
 
