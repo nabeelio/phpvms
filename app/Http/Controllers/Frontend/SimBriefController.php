@@ -67,7 +67,7 @@ class SimBriefController
             $aircraft = Aircraft::select('registration', 'name', 'icao', 'iata', 'subfleet_id')
                 ->where('id', $aircraft_id)
                 ->get();
-            }
+        }
 
         return view('flights.simbrief_form', [
             'flight'   => $flight,
