@@ -53,6 +53,26 @@ class AirportService extends Service
     }
 
     /**
+     * Return the METAR for a given airport
+     *
+     * @param $icao
+     *
+     * @return Metar|null
+     */
+    public function getTaf($icao)
+    {
+        $icao = trim($icao);
+        if ($icao === '') {
+            return;
+        }
+
+        $raw_taf = $this->metarProvider->taf($icao);
+        if ($raw_taf && $raw_taf !== '') {
+            return new Metar($raw_taf, true);
+        }
+    }
+
+    /**
      * Lookup an airport's information from a remote provider. This handles caching
      * the data internally
      *
