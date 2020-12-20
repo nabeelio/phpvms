@@ -131,8 +131,7 @@
 						</div>
 												
 						@php $pxweight = '208' ; @endphp
-						@if($totalgenload < '900')
-							{{-- >Passenger Flight --}}
+						@if($totalgenload > 0 && $totalgenload < 900)
 							@if($flight->flight_type == 'C')
 								<input type="hidden" name="acdata" value="{'paxwgt':197}"> {{-- Use and Send Charter Pax Weights --}}
 								@php $pxweight = '197' ; @endphp
@@ -153,9 +152,9 @@
 								</div>
 							</div>
 							<input type="hidden" id="pax" name="pax" class="form-control" value="{{ $totalgenload }}"/>
-						@else
+						@elseif($totalgenload > 900)
 							<input type='hidden' id="pax" name='pax' value='0' maxlength='3'>
-							<input type='hidden' id="cargo" name='cargo' value="{{ $totalgenload }}" maxlength='7'>		
+							<input type='hidden' id="cargo" name='cargo' value="{{ $totalgenload }}" maxlength='7'>
 						@endif
 					@endif		
 				@endforeach
@@ -172,7 +171,8 @@
 					</div>
 				</div>
 			</div>
-			@php
+			@if($totalgenload > 0)
+				@php
 				$loaddisttxt =  "Load Distribution " ;
 				$loaddist = implode(' ', array_map(
     								function ($v, $k) {
@@ -184,9 +184,9 @@
 									}, 
     							$loadarray,	array_keys($loadarray)
 							));
-			@endphp	
-		
-			<input type="hidden" name="manualrmk" value="{{ $loaddisttxt }}{{ $loaddist }}">
+				@endphp	
+				<input type="hidden" name="manualrmk" value="{{ $loaddisttxt }}{{ $loaddist }}">
+			@endif
             <input type="hidden" name="airline" value="{{ $flight->airline->icao }}">
             <input type="hidden" name="fltnum" value="{{ $flight->flight_number }}">
 			<input type="hidden" id="steh" name="steh" maxlength="2">
