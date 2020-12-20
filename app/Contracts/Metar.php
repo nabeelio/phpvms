@@ -21,7 +21,6 @@ abstract class Metar
      */
     abstract protected function get_metar($icao): string;
 
-
     /**
      * Implement retrieving the TAF - return the string. Call `taf($icao)`. If not implemented,
      * return a blank string

@@ -80,6 +80,7 @@ class AviationWeather extends Metar
      * @param $icao
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
+     *
      * @return string
      */
     protected function get_taf($icao): string
