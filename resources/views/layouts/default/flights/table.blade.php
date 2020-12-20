@@ -66,13 +66,16 @@
 					<div class="col-sm-6 text-left" style="vertical-align: bottom">
 					<select id="aircraftselection" class="form-control select2" onchange="checkacselection()">
 						<option value="ZZZZZ">Please Select An Aircraft</option>
-						@if($flight->subfleets)
-							@foreach($flight->subfleets as $subfleet)
-								@foreach($subfleet->aircraft as $ac)
-									<option value="{{ $ac->id }}">[ {{ $ac->icao }} ] {{ $ac->registration }} @if($ac->registration <> $ac->name) '{{ $ac->name }}' @endif</option>
-								@endforeach
-							@endforeach
+						@if($flight->subfleets->isNotEmpty())
+							@php $subfleets = $flight->subfleets; @endphp
+						@else
+							@php $userm = Auth::user(); $userSvc = app(App\Services\UserService::class); $subfleets = $userSvc->getAllowableSubfleets($userm); @endphp
 						@endif
+						@foreach($subfleets as $subfleet)
+							@foreach($subfleet->aircraft as $ac)
+								<option value="{{ $ac->id }}">[ {{ $ac->icao }} ] {{ $ac->registration }}</option>
+							@endforeach
+						@endforeach
 					</select>
 					</div>
 					<div class="col-sm-3" style="vertical-align: middle">		
