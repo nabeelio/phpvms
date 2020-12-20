@@ -100,7 +100,12 @@
 					</div>
 					
 					<div class="form-container-body">
-				@foreach($flight->subfleets as $subfleet)
+				@if($flight->subfleets->count() > 0)
+					@php $subfleets = $flight->subfleets; @endphp
+				@else
+					@php $userm = Auth::user(); $userSvc = app(App\Services\UserService::class); $subfleets = $userSvc->getAllowableSubfleets($userm); @endphp
+				@endif
+				@foreach($subfleets as $subfleet)
 					@if($subfleet->id == $subflid)
 						<h6><i class="fas fa-info-circle"></i>&nbsp;Configuration And Load Information For <b>{{ $subfleet->name }} ; {{ $acdetails->registration }}</b></h6>
 						{{-- Generate Load Figures --}}
