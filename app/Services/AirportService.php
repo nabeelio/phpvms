@@ -46,7 +46,7 @@ class AirportService extends Service
             return;
         }
 
-        $raw_metar = $this->metarProvider->get_metar($icao);
+        $raw_metar = $this->metarProvider->metar($icao);
         if ($raw_metar && $raw_metar !== '') {
             return new Metar($raw_metar);
         }

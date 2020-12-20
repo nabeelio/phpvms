@@ -36,7 +36,7 @@ class AviationWeather extends Metar
      *
      * @return string
      */
-    protected function metar($icao): string
+    protected function get_metar($icao): string
     {
         if ($icao === '') {
             return '';
@@ -74,7 +74,15 @@ class AviationWeather extends Metar
         }
     }
 
-    public function taf($icao): string
+    /**
+     * Do the actual retrieval of the TAF
+     *
+     * @param $icao
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @return string
+     */
+    protected function get_taf($icao): string
     {
         if ($icao === '') {
             return '';

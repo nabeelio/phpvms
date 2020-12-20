@@ -12,13 +12,25 @@ abstract class Metar
 {
     /**
      * Implement retrieving the METAR - return the METAR string. Needs to be protected,
-     * since this shouldn't be directly called. Call `get_metar($icao)` instead
+     * since this shouldn't be directly called. Call `metar($icao)`. If not implemented,
+     * return a blank string
      *
      * @param $icao
      *
      * @return mixed
      */
-    abstract protected function metar($icao): string;
+    abstract protected function get_metar($icao): string;
+
+
+    /**
+     * Implement retrieving the TAF - return the string. Call `taf($icao)`. If not implemented,
+     * return a blank string
+     *
+     * @param $icao
+     *
+     * @return mixed
+     */
+    abstract protected function get_taf($icao): string;
 
     /**
      * Download the METAR, wrap in caching
@@ -27,9 +39,9 @@ abstract class Metar
      *
      * @return string
      */
-    public function get_metar($icao): string
+    public function metar($icao): string
     {
-        $cache = config('cache.keys.WEATHER_LOOKUP');
+        $cache = config('cache.keys.METAR_WEATHER_LOOKUP');
         $key = $cache['key'].$icao;
 
         if (Cache::has($key)) {
@@ -51,5 +63,38 @@ abstract class Metar
         }
 
         return $raw_metar;
+    }
+
+    /**
+     * Download the TAF, wrap in caching
+     *
+     * @param $icao
+     *
+     * @return string
+     */
+    public function taf($icao): string
+    {
+        $cache = config('cache.keys.TAF_WEATHER_LOOKUP');
+        $key = $cache['key'].$icao;
+
+        if (Cache::has($key)) {
+            $taf = Cache::get($key);
+            if ($taf !== '') {
+                return $taf;
+            }
+        }
+
+        try {
+            $taf = $this->taf($icao);
+        } catch (\Exception $e) {
+            Log::error('Error getting TAF: '.$e->getMessage(), $e->getTrace());
+            return '';
+        }
+
+        if ($taf !== '') {
+            Cache::put($key, $taf, $cache['time']);
+        }
+
+        return $taf;
     }
 }
