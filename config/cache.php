@@ -9,13 +9,17 @@ return [
             'key'  => 'airports.lookup:',
             'time' => 60 * 30,
         ],
-        'WEATHER_LOOKUP' => [
-            'key'  => 'airports.weather.', // append icao
+        'METAR_WEATHER_LOOKUP' => [
+            'key'  => 'airports.weather.metar.', // append icao
             'time' => 60 * 60,  // Cache for 60 minutes
         ],
         'RANKS_PILOT_LIST' => [
             'key'  => 'ranks.pilot_list',
             'time' => 60 * 10,
+        ],
+        'TAF_WEATHER_LOOKUP' => [
+            'key'  => 'airports.weather.taf.', // append icao
+            'time' => 60 * 60,  // Cache for 60 minutes
         ],
         'USER_API_KEY' => [
             'key'  => 'user.apikey',
