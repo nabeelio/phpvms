@@ -11,7 +11,7 @@ use App\Services\Metar\AviationWeather;
  */
 class Weather extends Widget
 {
-    protected $config = ['icao' => null,];
+    protected $config = ['icao' => null];
 
     /**
      * Attempt to get the data from the CheckWX API
@@ -20,7 +20,7 @@ class Weather extends Widget
     {
         /** @var \App\Services\AirportService $airportSvc */
         $addsSvc = app(AviationWeather::class);
-        $airportSvc = app(AirportService::class);     
+        $airportSvc = app(AirportService::class);
         $metar = $airportSvc->getMetar($this->config['icao']);
         $taf = $addsSvc->taf($this->config['icao']);
 
