@@ -523,6 +523,8 @@ class Metar implements \ArrayAccess
 
         // Finally determine if it's VFR or IFR conditions
         // https://www.aviationweather.gov/cva/help
+        // https://www.skybrary.aero/index.php/Visual_Meteorological_Conditions_(VMC)
+        // This may be changed to ICAO standards as VMC and IMC
         $this->result['category'] = 'VFR';
 
         if (array_key_exists('cavok', $this->result) && $this->result['cavok']) {
@@ -531,7 +533,7 @@ class Metar implements \ArrayAccess
             /* @noinspection NestedPositiveIfStatementsInspection */
             if (array_key_exists('cloud_height', $this->result) && $this->result['cloud_height'] !== null) {
                 if ($this->result['cloud_height']['ft'] > 3000
-                    && (empty($this->result['visibility']) || $this->result['visibility']['nmi'] > 5)) {
+                    && (empty($this->result['visibility']) || $this->result['visibility']['km'] > 5)) {
                     $this->result['category'] = 'VFR';
                 } else {
                     $this->result['category'] = 'IFR';
@@ -1231,9 +1233,10 @@ class Metar implements \ArrayAccess
         $pressure = (int) $found[2];
         if ($found[1] === 'A') {
             $pressure /= 100;
+            $this->set_result_value('barometer', $this->createPressure($pressure, 'inHg'));
+        } else {
+            $this->set_result_value('barometer', $this->createPressure($pressure, 'hPa'));
         }
-
-        $this->set_result_value('barometer', $this->createPressure($pressure, 'hPa'));
 
         $this->method++;
         return true;
