@@ -400,7 +400,7 @@
     // Including departure and arrival taxi times
     // If this value is not correctly calculated and configured
     // Simbrief CI (Cost Index) calculation will not provide realistic results
-    let num = {{ $flight->flight_time }} ;
+    let num = {{ $flight->flight_time }};
     let hours = (num / 60);
     let rhours = Math.floor(hours);
     let minutes = (hours - rhours) * 60;

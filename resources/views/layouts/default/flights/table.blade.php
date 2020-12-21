@@ -109,17 +109,18 @@
   <script type="text/javascript">
     // *** Simple Aircraft Selection With Dropdown Change
     // *** Also keep Generate button hidden until a valid AC selection
-    const $oldlink = document.getElementById('sbformlink').href;
+    let oldlink = document.getElementById('sbformlink').href;
 
     function checkacselection() {
-      if (document.getElementById('aircraftselection').value == 'ZZZZZ') {
+      if (document.getElementById('aircraftselection').value === 'ZZZZZ') {
         document.getElementById('sbformlink').style.visibility = 'hidden';
       } else {
         document.getElementById('sbformlink').style.visibility = 'visible';
       }
-      var $selectedac = document.getElementById('aircraftselection').value;
-      var $newlink = '&aircraft_id='.concat($selectedac);
-      document.getElementById('sbformlink').href = $oldlink.concat($newlink);
+
+      const selectedac = document.getElementById('aircraftselection').value;
+      const newlink = '&aircraft_id='.concat(selectedac);
+      document.getElementById('sbformlink').href = oldlink.concat(newlink);
     }
   </script>
 @endforeach

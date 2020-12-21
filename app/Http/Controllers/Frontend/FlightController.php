@@ -11,6 +11,7 @@ use App\Repositories\FlightRepository;
 use App\Repositories\SubfleetRepository;
 use App\Repositories\UserRepository;
 use App\Services\GeoService;
+use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -26,6 +27,7 @@ class FlightController extends Controller
     private $subfleetRepo;
     private $geoSvc;
     private $userRepo;
+    private $userSvc;
 
     /**
      * @param AirlineRepository  $airlineRepo
@@ -34,6 +36,7 @@ class FlightController extends Controller
      * @param GeoService         $geoSvc
      * @param SubfleetRepository $subfleetRepo
      * @param UserRepository     $userRepo
+     * @param UserService        $userSvc
      */
     public function __construct(
         AirlineRepository $airlineRepo,
@@ -41,7 +44,8 @@ class FlightController extends Controller
         FlightRepository $flightRepo,
         GeoService $geoSvc,
         SubfleetRepository $subfleetRepo,
-        UserRepository $userRepo
+        UserRepository $userRepo,
+        UserService $userSvc
     ) {
         $this->airlineRepo = $airlineRepo;
         $this->airportRepo = $airportRepo;
@@ -49,6 +53,7 @@ class FlightController extends Controller
         $this->geoSvc = $geoSvc;
         $this->subfleetRepo = $subfleetRepo;
         $this->userRepo = $userRepo;
+        $this->userSvc;
     }
 
     /**
