@@ -3,6 +3,7 @@
 use App\Exceptions\SettingNotFound;
 use App\Repositories\KvpRepository;
 use App\Repositories\SettingRepository;
+use App\Support\Units\Time;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Support\Facades\Auth;
@@ -303,6 +304,42 @@ if (!function_exists('show_datetime')) {
         }
 
         return $date->timezone($timezone)->toDayDateTimeString();
+    }
+}
+
+if (!function_exists('secstohhmm')) {
+    /**
+     * Convert seconds to a time string
+     *
+     * @param      $seconds
+     *
+     * @return string
+     */
+    function secstohhmm($seconds)
+    {
+        try {
+            return Time::secondsToTimeString($seconds, false);
+        } catch (Exception $e) {
+            return '';
+        }
+    }
+}
+
+if (!function_exists('secstohhmmss')) {
+    /**
+     * Convert seconds to a time string
+     *
+     * @param      $seconds
+     *
+     * @return string
+     */
+    function secstohhmmss($seconds)
+    {
+        try {
+            return Time::secondsToTimeString($seconds, true);
+        } catch (Exception $e) {
+            return '';
+        }
     }
 }
 

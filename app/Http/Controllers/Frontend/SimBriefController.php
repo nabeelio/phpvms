@@ -116,8 +116,18 @@ class SimBriefController
             return redirect(route('frontend.flights.index'));
         }
 
+        $str = $simbrief->xml->aircraft->equip ;
+        $wc = stripos($str, '-');
+        $tr = stripos($str, '/');
+        $wakecat = substr($str, 0, $wc);
+        $equipment = substr($str, $wc + 1, $tr - 2);
+        $transponder = substr($str, $tr + 1);
+
         return view('flights.simbrief_briefing', [
-            'simbrief' => $simbrief,
+            'simbrief'    => $simbrief,
+            'wakecat'     => $wakecat,
+            'equipment'   => $equipment,
+            'transponder' => $transponder,
         ]);
     }
 
