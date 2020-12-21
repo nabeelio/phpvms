@@ -311,7 +311,7 @@ if (!function_exists('secstohhmm')) {
     /**
      * Convert seconds to a time string
      *
-     * @param      $seconds
+     * @param $seconds
      *
      * @return string
      */
@@ -329,7 +329,7 @@ if (!function_exists('secstohhmmss')) {
     /**
      * Convert seconds to a time string
      *
-     * @param      $seconds
+     * @param $seconds
      *
      * @return string
      */
