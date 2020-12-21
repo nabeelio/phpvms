@@ -1,6 +1,7 @@
 <?php
 
 use App\Exceptions\SettingNotFound;
+use App\Repositories\KvpRepository;
 use App\Repositories\SettingRepository;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\Factory;
@@ -183,6 +184,53 @@ if (!function_exists('setting_save')) {
         $settingRepo = app(SettingRepository::class);
         $settingRepo->save($key, $value);
         return $value;
+    }
+}
+
+/*
+ * Shortcut for retrieving a KVP
+ */
+if (!function_exists('kvp')) {
+    /**
+     * Read a setting from the KVP repository
+     *
+     * @param string      $key
+     * @param string|null $default
+     *
+     * @return mixed|null
+     */
+    function kvp(string $key, $default = null)
+    {
+        /** @var KvpRepository $kvpRepo */
+        $kvpRepo = app(KvpRepository::class);
+
+        try {
+            $value = $kvpRepo->get($key, $default);
+        } catch (Exception $e) {
+            return $default;
+        }
+
+        return $value;
+    }
+}
+
+/*
+ * Shortcut for retrieving a KVP
+ */
+if (!function_exists('kvp_save')) {
+    /**
+     * Read a setting from the KVP repository
+     *
+     * @param string $key
+     * @param string $value
+     *
+     * @return mixed|null
+     */
+    function kvp_save(string $key, string $value)
+    {
+        /** @var KvpRepository $kvpRepo */
+        $kvpRepo = app(KvpRepository::class);
+        $kvpRepo->save($key, $value);
     }
 }
 

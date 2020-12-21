@@ -77,7 +77,7 @@ class MetarTest extends TestCase
         $this->assertEquals(24.8, $parsed['dew_point']['f']);
 
         $this->assertEquals(33, $parsed['humidity']);
-        $this->assertEquals(29.58, $parsed['barometer']['hPa']);
+        $this->assertEquals(29.58, $parsed['barometer']['inHg']);
 
         $this->assertEquals('AO2 PK WND 27045/2128 PRESRR SLP018 T01221044', $parsed['remarks']);
     }
