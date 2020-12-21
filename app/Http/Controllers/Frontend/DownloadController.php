@@ -42,9 +42,9 @@ class DownloadController extends Controller
             $category = explode('\\', $class);
             $category = end($category);
 
-            if ($category == 'Aircraft') {
+            if ($category === 'Aircraft') {
                 $group_name = $category.' > '.$obj->icao.' '.$obj->registration;
-            } elseif ($category == 'Airport') {
+            } elseif ($category === 'Airport') {
                 $group_name = $category.' > '.$obj->icao.' : '.$obj->name.' ('.$obj->country.')';
             } else {
                 $group_name = $category.' > '.$obj->name;
