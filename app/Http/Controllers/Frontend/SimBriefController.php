@@ -58,8 +58,8 @@ class SimBriefController
         }
 
         if (!$aircraft_id) {
-            flash()->error('Aircraft not selected');
-            return redirect(route('frontend.flights.bids'));
+            flash()->error('Aircraft not selected ! Please select an Aircraft to Proceed ...');
+            // return redirect(route('frontend.flights.bids'));
         }
 
         $apiKey = setting('simbrief.api_key');
@@ -88,9 +88,9 @@ class SimBriefController
         }
 
         if ($flight->flight_type === FlightType::CHARTER_PAX_ONLY) {
-            $pax_weight = 208;
-        } else {
             $pax_weight = 197;
+        } else {
+            $pax_weight = 208;
         }
 
         return view('flights.simbrief_form', [
