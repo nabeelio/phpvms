@@ -251,7 +251,7 @@
                       <td>SID/STAR Type:</td>
                       <td>
                         <select name="find_sidstar" class="form-control">
-                          <option value="C">Conventinoal</option>
+                          <option value="C">Conventional</option>
                           <option value="R" selected>RNAV</option>
                         </select>
                       </td>
