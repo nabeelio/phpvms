@@ -158,7 +158,7 @@
                       </div>
 
                       @if($totalgenload > 0 && $totalgenload < 900)
-                        <input type="hidden" name="acdata" value="{'paxwgt':{{ $pax_weight }}">
+                        <input type="hidden" name="acdata" value="{'paxwgt':{{ $pax_weight }}}">
                         <br>
                         <div class="row">
                           <div class="col-sm-4">
