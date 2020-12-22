@@ -62,65 +62,23 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-sm-12 text-center">
-          <br>
-          <div class="row">
-            @if ($simbrief !== false)
-              @if ($simbrief_bids === false || ($simbrief_bids === true && in_array($flight->id, $saved, true)))
-                <div class="col-sm-6 text-left" style="vertical-align: bottom">
-                  <select id="aircraftselection" class="form-control select2" onchange="checkacselection()">
-                    <option value="ZZZZZ">Please Select An Aircraft</option>
-                    @if($flight->subfleets->isNotEmpty())
-                      @php $subfleets = $flight->subfleets; @endphp
-                    @else
-                      @php $userm = Auth::user(); $userSvc = app(App\Services\UserService::class); $subfleets = $userSvc->getAllowableSubfleets($userm); @endphp
-                    @endif
-                    @foreach($subfleets as $subfleet)
-                      @foreach($subfleet->aircraft as $ac)
-                        <option value="{{ $ac->id }}">[ {{ $ac->icao }} ] {{ $ac->registration }}</option>
-                      @endforeach
-                    @endforeach
-                  </select>
-                </div>
-                <div class="col-sm-3" style="vertical-align: middle">
-                  <a id="sbformlink" style="visibility: hidden"
-                     href="{{ route('frontend.simbrief.generate') }}?flight_id={{ $flight->id }}"
-                     class="btn btn-sm btn-primary">Proceed To Flight Planning</a>
-                </div>
-                <div class="col-sm-3" style="vertical-align: middle">
-                  <a href="{{ route('frontend.pireps.create') }}?flight_id={{ $flight->id }}"
-                     class="btn btn-sm btn-info">{{ __('pireps.newpirep') }}</a>
-                </div>
-              @endif
-            @else
-              <hr>
-              <div class="col-sm-6" style="vertical-align: baseline">&nbsp;</div>
-              <div class="col-sm-3" style="vertical-align: baseline">&nbsp;</div>
-              <div class="col-sm-3" style="vertical-align: baseline">
-                <a href="{{ route('frontend.pireps.create') }}?flight_id={{ $flight->id }}"
-                   class="btn btn-sm btn-info">{{ __('pireps.newpirep') }}</a>
-              </div>
+        <div class="col-sm-12 text-right">
+          @if ($simbrief !== false)
+            @if ($simbrief_bids === false || ($simbrief_bids === true && in_array($flight->id, $saved, true)))
+              <a href="{{ route('frontend.simbrief.generate') }}?flight_id={{ $flight->id }}"
+                 class="btn btn-sm btn-outline-primary">
+                Create SimBrief Flight Plan
+              </a>
             @endif
-          </div>
+          @endif
+
+          <a href="{{ route('frontend.pireps.create') }}?flight_id={{ $flight->id }}"
+             class="btn btn-sm btn-outline-info">
+            {{ __('pireps.newpirep') }}
+          </a>
         </div>
       </div>
     </div>
   </div>
-  <script type="text/javascript">
-    // *** Simple Aircraft Selection With Dropdown Change
-    // *** Also keep Generate button hidden until a valid AC selection
-    let oldlink = document.getElementById('sbformlink').href;
-
-    function checkacselection() {
-      if (document.getElementById('aircraftselection').value === 'ZZZZZ') {
-        document.getElementById('sbformlink').style.visibility = 'hidden';
-      } else {
-        document.getElementById('sbformlink').style.visibility = 'visible';
-      }
-
-      const selectedac = document.getElementById('aircraftselection').value;
-      const newlink = '&aircraft_id='.concat(selectedac);
-      document.getElementById('sbformlink').href = oldlink.concat(newlink);
-    }
-  </script>
-@endforeach
+  @endforeach
+  
