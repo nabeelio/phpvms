@@ -3,6 +3,30 @@
 
 @section('content')
 
+@if(empty(request()->get('aircraft_id')))
+<div class="row">
+  <div class="col-md-12">
+    <h2>Aircraft Selection</h2>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-6">
+		  <select id="aircraftselection" class="form-control select2" onchange="checkacselection()">
+			<option value="ZZZZZ">Please Select An Aircraft</option>
+				@foreach($subfleets as $subfleet)
+					@foreach($subfleet->aircraft as $ac)
+						<option value="{{ $ac->id }}">[ {{ $ac->icao }} ] {{ $ac->registration }}</option>
+					@endforeach
+				@endforeach
+		  </select>
+  </div>
+  <div class="col-md-6">
+    <a id="mylink" style="visibility: hidden" href="{{ route('frontend.simbrief.generate') }}?flight_id={{ $flight->id }}" class="btn btn-primary">Proceed To Flight Planning</a>
+  </div>
+</div>
+@else
+
   @php
     $loadmin = $flight->load_factor - $flight->load_factor_variance ;
     $loadmax = $flight->load_factor + $flight->load_factor_variance ;
@@ -133,7 +157,6 @@
                         @endphp
                       </div>
 
-                      @php $pxweight = '208' ; @endphp
                       @if($totalgenload > 0 && $totalgenload < 900)
                         <input type="hidden" name="acdata" value="{'paxwgt':{{ $pax_weight }}">
                         <br>
@@ -156,16 +179,6 @@
                       @endif
                     @endif
                   @endforeach
-                  <br>
-                  <div class="row">
-                    @php
-                      $flightype = 'SimBrief Standard';
-                      if($flight->flight_type == 'C') { $flightype = 'Charter All Adult Pax' ;}
-                      if($flight->flight_type == 'J' || $flight->flight_type == 'G') { $flightype = 'Schedule All Adult Pax' ;}
-                      if($flight->flight_type == 'F' || $flight->flight_type == 'A' || $flight->flight_type == 'H') { $flightype = 'Only Cargo' ;}
-                    @endphp
-                    <div class="col-sm-12">&bull; <b>{{ $flightype }}</b> Weights Will Be Used For Flight Planning</div>
-                  </div>
                 </div>
               </div>
             </div>
@@ -346,7 +359,7 @@
       </div>
     </div>
   </form>
-
+@endif
 @endsection
 @section('scripts')
   <script src="{{public_asset('/assets/global/js/simbrief.apiv1.js')}}"></script>
@@ -408,4 +421,19 @@
     document.getElementById("steh").setAttribute('value', rhours.toString()); // Sent to Simbrief
     document.getElementById("stem").setAttribute('value', rminutes.toString()); // Sent to Simbrief
   </script>
+  <script type="text/javascript">
+		// *** Simple Aircraft Selection With Dropdown Change
+		// *** Also keep Generate button hidden until a valid AC selection
+		const $oldlink = document.getElementById("mylink").href ;
+		function checkacselection() {
+			if (document.getElementById("aircraftselection").value == "ZZZZZ") {
+					document.getElementById('mylink').style.visibility = 'hidden';
+				}else{
+					document.getElementById('mylink').style.visibility = 'visible';
+				}
+			var $selectedac = document.getElementById("aircraftselection").value ;
+			var $newlink = "&aircraft_id=".concat($selectedac) ;
+			document.getElementById("mylink").href = $oldlink.concat($newlink) ;	
+		}
+	</script>
 @endsection
