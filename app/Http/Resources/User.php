@@ -16,6 +16,7 @@ class User extends Resource
             'pilot_id'      => $this->pilot_id,
             'ident'         => $this->ident,
             'name'          => $this->name,
+            'name_private'  => $this->name_private,
             'email'         => $this->email,
             'avatar'        => $this->resolveAvatarUrl(),
             'rank_id'       => $this->rank_id,
