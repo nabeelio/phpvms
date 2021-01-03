@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Contracts\Command;
-use Modules\Installer\Services\ConfigService;
+use App\Services\Installer\ConfigService;
 
 /**
  * Create a fresh development install
