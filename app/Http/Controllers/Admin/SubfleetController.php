@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\Traits\Importable;
 use App\Http\Requests\CreateSubfleetRequest;
 use App\Http\Requests\UpdateSubfleetRequest;
 use App\Models\Airline;
+use App\Models\Airport;
 use App\Models\Enums\FareType;
 use App\Models\Enums\FuelType;
 use App\Models\Enums\ImportExportType;
@@ -133,6 +134,7 @@ class SubfleetController extends Controller
     {
         return view('admin.subfleets.create', [
             'airlines'   => Airline::all()->pluck('name', 'id'),
+            'hubs'       => Airport::where('hub', 1)->pluck('name', 'id'),
             'fuel_types' => FuelType::labels(),
         ]);
     }
@@ -203,6 +205,7 @@ class SubfleetController extends Controller
 
         return view('admin.subfleets.edit', [
             'airlines'    => Airline::all()->pluck('name', 'id'),
+            'hubs'        => Airport::where('hub', 1)->pluck('name', 'id'),
             'fuel_types'  => FuelType::labels(),
             'avail_fares' => $avail_fares,
             'avail_ranks' => $avail_ranks,
