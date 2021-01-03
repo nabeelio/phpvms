@@ -38,6 +38,7 @@ class Subfleet extends Model
         'cargo_capacity',
         'fuel_capacity',
         'gross_weight',
+        'hub_id',
     ];
 
     public $casts = [
@@ -79,6 +80,11 @@ class Subfleet extends Model
     public function airline()
     {
         return $this->belongsTo(Airline::class, 'airline_id');
+    }
+
+    public function airport()
+    {
+        return $this->hasOne(Airport::class, 'id', 'hub_id');
     }
 
     public function fares()
