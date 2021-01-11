@@ -64,6 +64,7 @@
   </div>
 </div>
 
+@if($config['table'] == 'on')
 <div class="clearfix" style="padding-top: 25px"></div>
 
 {{--
@@ -95,7 +96,7 @@ and being mindful of the rivets bindings
         {{-- Show the full airport name on hover --}}
         <td><span rv-title="pirep.dpt_airport.name">{ pirep.dpt_airport.icao }</span></td>
         <td><span rv-title="pirep.arr_airport.name">{ pirep.arr_airport.icao }</span></td>
-        <td>{ pirep.aircraft.name }</td>
+        <td>{ pirep.aircraft.registration }</td>
         <td>{ pirep.position.altitude }</td>
         <td>{ pirep.position.gs }</td>
         <td>{ pirep.position.distance.{{setting('units.distance')}} | fallback 0 } /
@@ -107,6 +108,7 @@ and being mindful of the rivets bindings
     </table>
   </div>
 </div>
+@endif
 
 @section('scripts')
   <script>
