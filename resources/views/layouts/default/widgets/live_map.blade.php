@@ -64,7 +64,7 @@
   </div>
 </div>
 
-@if($config['table'] == 'on')
+@if($config['table'] === true)
 <div class="clearfix" style="padding-top: 25px"></div>
 
 {{--
