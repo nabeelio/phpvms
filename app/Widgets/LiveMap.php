@@ -14,7 +14,7 @@ class LiveMap extends Widget
     protected $config = [
         'height' => '800px',
         'width'  => '100%',
-        'table'  => 1,
+        'table'  => true,
     ];
 
     /**
