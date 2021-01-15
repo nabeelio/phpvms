@@ -3,7 +3,7 @@
 
 @section('content')
   <div class="row">
-    <div class="col-sm-9">
+    <div class="col-sm-6">
       <h2>{{ $simbrief->xml->general->icao_airline }}{{ $simbrief->xml->general->flight_number }}
         : {{ $simbrief->xml->origin->icao_code }} to {{ $simbrief->xml->destination->icao_code }}</h2>
     </div>
@@ -13,6 +13,11 @@
            style="margin-top: -10px;margin-bottom: 5px"
            href="{{ url(route('frontend.simbrief.prefile', [$simbrief->id])) }}">Prefile PIREP</a>
       @endif
+    </div>
+    <div class="col-sm-3">
+        <a class="btn btn-primary pull-right btn-lg"
+           style="margin-top: -10px;margin-bottom: 5px"
+           href="{{ url(route('frontend.simbrief.remove', [$simbrief->id])) }}">Generate New OFP</a>
     </div>
   </div>
 
