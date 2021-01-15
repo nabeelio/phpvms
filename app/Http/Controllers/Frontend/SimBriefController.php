@@ -81,6 +81,30 @@ class SimBriefController
     }
 
     /**
+     * Remove the flight_id from the SimBrief Briefing (to a create a new one)
+     * or if no pirep_id is attached to the briefing delete it completely
+     *
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+
+    public function remove(Request $request)
+    {
+        $sb_pack = SimBrief::find($request->id);
+        if($sb_pack) {
+            if(!$sb_pack->pirep_id) { 
+                $sb_pack->delete();
+            } else {
+                $sb_pack->flight_id = NULL;
+                $sb_pack->save();
+            }
+        }
+
+        return redirect(route('frontend.flights.index'));
+    }
+
+    /**
      * Create a prefile of this PIREP with a given OFP. Then redirect the
      * user to the newly prefiled PIREP
      *
