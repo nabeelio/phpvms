@@ -86,3 +86,9 @@ jobs:
           sudo chmod +x ./.github/scripts/*
       - name: 'Build Distro'
         run: .github/scripts/build.sh
+      - name: 'Environs'
+        run: |
+          echo "Exported vars"
+          echo $FILE_NAME
+          echo $TAR_NAME
+          echo $ZIP_NAME

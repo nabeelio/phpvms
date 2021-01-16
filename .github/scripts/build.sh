@@ -27,9 +27,9 @@ else
   FULL_VERSION=$(php artisan phpvms:version)
 fi
 
-FILE_NAME="phpvms-${VERSION}"
-TAR_NAME="$FILE_NAME.tar.gz"
-ZIP_NAME="$FILE_NAME.zip"
+export FILE_NAME="phpvms-${VERSION}-test"
+export TAR_NAME="$FILE_NAME.tar.gz"
+export ZIP_NAME="$FILE_NAME.zip"
 PWD=`pwd`
 
 echo "Version: ${VERSION}"
@@ -42,7 +42,7 @@ echo "Cleaning files"
 # Leftover individual files to delete
 declare -a remove_files=(
   .git
-  #.github
+  .github
   .sass-cache
   .idea
   .travis
