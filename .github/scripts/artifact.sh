@@ -10,10 +10,10 @@ else
   BRANCH=${GITHUB_REF##*/}
   echo "On branch $BRANCH"
 
-  if [ "$BRANCH" != "master" ] && [ "$BRANCH" != "dev" ]; then
-    echo "Not on valid branch, exiting"
-    exit 0
-  fi
+#   if [ "$BRANCH" != "master" ] && [ "$BRANCH" != "dev" ]; then
+#     echo "Not on valid branch, exiting"
+#     exit 0
+#   fi
 
   # Write the version out but place the branch ID in there
   # This is only for the dev branch
