@@ -7,14 +7,30 @@ jobs:
       matrix:
         php-versions: ['7.4']
     name: PHP ${{ matrix.php-versions }}
+    env:
+      extensions: intl, pcov, mbstring
+      key: cache-v1 
     steps:
     - name: Checkout
       uses: actions/checkout@v2
+    - name: Setup cache environment
+      id: cache-env
+      uses: shivammathur/cache-extensions@v1
+      with:
+        php-version: ${{ matrix.php-versions }}
+        extensions: ${{ env.extensions }}
+        key: ${{ env.key }}
+    - name: Cache extensions
+      uses: actions/cache@v1
+      with:
+        path: ${{ steps.cache-env.outputs.dir }}
+        key: ${{ steps.cache-env.outputs.key }}
+        restore-keys: ${{ steps.cache-env.outputs.key }}
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ matrix.php-versions }}
-        extensions: mbstring, intl
+        extensions: ${{ env.extensions }}
         ini-values: post_max_size=256M, short_open_tag=On
         coverage: xdebug
         tools: php-cs-fixer, phpunit
