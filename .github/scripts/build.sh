@@ -1,36 +1,6 @@
 #!/usr/bin/env bash
 
-if test "$GIT_TAG_NAME"; then
-  VERSION=$GIT_TAG_NAME
-
-  # Pass in the tag as the version to write out
-  php artisan phpvms:version --write --write-full-version "${VERSION}"
-  FULL_VERSION=$(php artisan phpvms:version)
-else
-  BRANCH=${GITHUB_REF##*/}
-  echo "On branch $BRANCH"
-
-#   if [ "$BRANCH" != "master" ] && [ "$BRANCH" != "dev" ]; then
-#     echo "Not on valid branch, exiting"
-#     exit 0
-#   fi
-
-  # Write the version out but place the branch ID in there
-  # This is only for the dev branch
-  BASE_VERSION=$(php artisan phpvms:version --base-only)
-
-  # This now includes the pre-release version, so "-dev" by default
-  VERSION=${BASE_VERSION}
-
-  # Don't pass in a version here, just write out the latest hash
-  php artisan phpvms:version --write "${VERSION}"
-  FULL_VERSION=$(php artisan phpvms:version)
-fi
-
-export FILE_NAME="phpvms-${VERSION}-test"
-export TAR_NAME="$FILE_NAME.tar.gz"
-export ZIP_NAME="$FILE_NAME.zip"
-export BASE_DIR=`pwd`
+./version.sh
 
 echo "Version: ${VERSION}"
 echo "Full Version: ${FULL_VERSION}"
@@ -115,25 +85,4 @@ mkdir -p $BASE_DIR/dist
 cd $BASE_DIR/dist
 
 mv "/tmp/$TAR_NAME" "/tmp/$ZIP_NAME" "/tmp/$TAR_NAME.sha256" "/tmp/$ZIP_NAME.sha256" .
-#artifacts upload --target-paths "/" $ZIP_NAME $TAR_NAME $TRAVIS_BUILD_DIR/VERSION $TAR_NAME.sha256 $ZIP_NAME.sha256
 
-# Upload the version for a tagged release. Move to a version file in different
-# tags. Within phpVMS, we have an option of which version to track in the admin
-# if test "$TRAVIS_TAG"; then
-#   echo "Uploading release version file"
-#   cp "$TRAVIS_BUILD_DIR/VERSION" release_version
-#   artifacts upload --target-paths "/" release_version
-# else
-#   echo "Uploading ${TRAVIS_BRANCH}_version file"
-#   cp $TRAVIS_BUILD_DIR/VERSION ${TRAVIS_BRANCH}_version
-#   artifacts upload --target-paths "/" ${TRAVIS_BRANCH}_version
-# fi
-
-#if [ "$TRAVIS_BRANCH" != "master" ] && [ "$TRAVIS_BRANCH" != "dev" ]; then
-#  echo "Skipping Discord branch update broadcast"
-#else
-  # curl -X POST \
-  #      --data "{\"content\": \"A new build is available at http://downloads.phpvms.net/$TAR_NAME (${FULL_VERSION})\"}" \
-  #      -H "Content-Type: application/json" \
-  #      $DISCORD_WEBHOOK_URL
-#fi
