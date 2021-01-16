@@ -85,6 +85,6 @@ jobs:
           composer install --no-dev --prefer-dist --no-interaction --verbose
           sudo chmod +x ./.github/scripts/*
       - name: 'Cleanup'
-        run: ./.github/scripts/cleanup.sh
+        run: .github/scripts/cleanup.sh
       - name: 'Create Artifact'
-        run: ./.github/scripts/artifact.sh
+        run: .github/scripts/artifact.sh
