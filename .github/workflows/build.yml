@@ -94,8 +94,7 @@ jobs:
           aws_bucket: ${{ secrets.S3_BUCKET_NAME }}
           source_dir: 'dist'
           destination_dir: ''
-      - name: Notify
+      - name: Send Notifications
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-        uses: Ilshidur/action-discord@0.3.0
         run: .github/scripts/discord.sh
