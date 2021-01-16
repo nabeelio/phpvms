@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-./version.sh
+./.github/scripts/version.sh
 
 echo "Version: ${VERSION}"
 echo "Full Version: ${FULL_VERSION}"

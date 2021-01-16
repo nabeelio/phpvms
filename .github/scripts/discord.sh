@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-./version.sh
+./.github/scripts/version.sh
 
 curl -X POST \
   --data "{\"content\": \"A new build is available at http://downloads.phpvms.net/$TAR_NAME (${FULL_VERSION})\"}" \
