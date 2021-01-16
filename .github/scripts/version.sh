@@ -27,7 +27,8 @@ export TAR_NAME="$FILE_NAME.tar.gz"
 export ZIP_NAME="$FILE_NAME.zip"
 export BASE_DIR=`pwd`
 
-echo "::set-env name=FILE_NAME::${FILE_NAME}"
-echo "::set-env name=TAR_NAME::${TAR_NAME}"
-echo "::set-env name=ZIP_NAME::${ZIP_NAME}"
-echo "::set-env name=BASE_DIR::${BASE_DIR}"
+# https://docs.github.com/en/actions/reference/workflow-commands-for-github-actions#environment-files
+echo "FILE_NAME=${FILE_NAME}" >> $GITHUB_ENV
+echo "TAR_NAME=${TAR_NAME}" >> $GITHUB_ENV
+echo "ZIP_NAME=${ZIP_NAME}" >> $GITHUB_ENV
+echo "BASE_DIR=${BASE_DIR}" >> $GITHUB_ENV
