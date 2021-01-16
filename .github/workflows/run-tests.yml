@@ -1,11 +1,11 @@
-name: run-tests
+name: 'Run Tests'
 on: [push]
 jobs:
   run:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-versions: ['7.3', '7.4']
+        php-versions: ['7.4']
     name: PHP ${{ matrix.php-versions }}
     steps:
     - name: Checkout
@@ -25,9 +25,9 @@ jobs:
         character set server: 'utf8'
         collation server: 'utf8_general_ci'
         mysql database: 'phpvms'
-        mysql root password: ''
-        mysql user: 'root'
-        mysql password: ''
+        mysql root password: 'phpvms'
+        mysql user: 'phpvms'
+        mysql password: 'phpvms'
     - name: Configure Environment
       run: |
         php --version
