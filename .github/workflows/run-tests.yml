@@ -1,4 +1,4 @@
-name: 'Run Tests'
+name: 'Build'
 on: [push]
 jobs:
   build:
@@ -62,6 +62,8 @@ jobs:
         vendor/bin/php-cs-fixer fix --config=.php_cs -v --dry-run --diff --using-cache=no
         vendor/bin/phpunit --debug --verbose
 
+  # This runs after all of the tests, run have run. Creates a cleaned up version of the
+  # distro, and then creates the artifact to push up to S3 or wherever
   artifacts:
     name: 'Create artifacts'
     needs: build
