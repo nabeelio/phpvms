@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-./.github/scripts/version.sh
-
 echo "Version: ${VERSION}"
 echo "Full Version: ${FULL_VERSION}"
 echo "Package name: ${TAR_NAME}"

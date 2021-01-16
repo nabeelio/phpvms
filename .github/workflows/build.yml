@@ -98,7 +98,9 @@ jobs:
           composer install --no-dev --prefer-dist --no-interaction --verbose
           sudo chmod +x ./.github/scripts/*
       - name: Build Distro
-        run: .github/scripts/build.sh
+        run: |
+          .github/scripts/version.sh
+          .github/scripts/build.sh
       - name: Upload S3
         uses: shallwefootball/s3-upload-action@v1.1.3
         with:
@@ -110,4 +112,6 @@ jobs:
       - name: Send Notifications
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-        run: .github/scripts/discord.sh
+        run: |
+          .github/scripts/version.sh
+          .github/scripts/discord.sh
