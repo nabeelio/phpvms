@@ -1,7 +1,7 @@
 name: 'Run Tests'
 on: [push]
 jobs:
-  run:
+  build:
     runs-on: ubuntu-18.04
     strategy:
       matrix:
@@ -61,4 +61,16 @@ jobs:
       run: |
         vendor/bin/php-cs-fixer fix --config=.php_cs -v --dry-run --diff --using-cache=no
         vendor/bin/phpunit --debug --verbose
-
+  artifacts:
+    needs: build
+    runs-on: 'ubuntu-18.04'
+    #if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev'
+    steps:
+      - name: 'Cleanup'
+        run: ./.github/scripts/cleanup.sh
+      - name: 'Build Artifact'
+        uses: actions/upload-artifact@v2
+        with:
+          name: dist
+          path: |
+            **
