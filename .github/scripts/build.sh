@@ -110,9 +110,9 @@ sha256sum $ZIP_NAME >"$ZIP_NAME.sha256"
 
 ls -al /tmp
 
-echo "Uploading to S3"
-mkdir -p $BASE_DIR/build
-cd $BASE_DIR/build
+echo "Moving to dist"
+mkdir -p $BASE_DIR/dist
+cd $BASE_DIR/dist
 
 mv "/tmp/$TAR_NAME" "/tmp/$ZIP_NAME" "/tmp/$TAR_NAME.sha256" "/tmp/$ZIP_NAME.sha256" .
 #artifacts upload --target-paths "/" $ZIP_NAME $TAR_NAME $TRAVIS_BUILD_DIR/VERSION $TAR_NAME.sha256 $ZIP_NAME.sha256

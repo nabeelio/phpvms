@@ -49,8 +49,6 @@ jobs:
       run: |
         php --version
         mysql --version
-        # add npm packages
-        sudo npm i tar-to-zip -g
         # Downgrade composer version to 1.x
         composer self-update --1
         composer install --dev --no-interaction --verbose
@@ -82,6 +80,7 @@ jobs:
       - name: 'Install Release Dependencies'
         run: |
           rm -rf vendor
+          sudo npm i tar-to-zip -g
           composer self-update --1
           composer install --no-dev --prefer-dist --no-interaction --verbose
           sudo chmod +x ./.github/scripts/*
