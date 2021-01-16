@@ -61,11 +61,6 @@ jobs:
       run: |
         vendor/bin/php-cs-fixer fix --config=.php_cs -v --dry-run --diff --using-cache=no
         vendor/bin/phpunit --debug --verbose
-    - name: Upload build
-      uses: actions/upload-artifact@v2
-      with:
-        name: phpvms
-        path: '**'
 
   artifacts:
     name: 'Create artifacts'
@@ -73,12 +68,14 @@ jobs:
     runs-on: 'ubuntu-18.04'
     #if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev'
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
       - uses: olegtarasov/get-tag@v2.1
         id: tagName
-      - name: Download build
-        uses: actions/download-artifact@v2
-        with:
-          name: phpvms
+      - name: 'Install Release Dependencies'
+        run: |
+          rm -rf vendor
+          composer install --no-dev --prefer-dist --no-interaction --verbose
       - name: 'Cleanup'
         run: ./.github/scripts/cleanup.sh
       - name: 'Create Artifact'

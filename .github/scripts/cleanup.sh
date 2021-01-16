@@ -1,10 +1,6 @@
 #!/usr/bin/env bash
 
-
 echo "Cleaning files"
-
-rm -rf vendor
-composer install --no-dev --prefer-dist --no-interaction --verbose
 
 # Leftover individual files to delete
 declare -a remove_files=(
