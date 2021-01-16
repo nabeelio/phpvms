@@ -61,12 +61,22 @@ jobs:
       run: |
         vendor/bin/php-cs-fixer fix --config=.php_cs -v --dry-run --diff --using-cache=no
         vendor/bin/phpunit --debug --verbose
+    - name: Upload build
+      uses: actions/upload-artifact@v2
+      with:
+        name: phpvms
+        path: '**'
+
   artifacts:
     name: 'Create artifacts'
     needs: build
     runs-on: 'ubuntu-18.04'
     #if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev'
     steps:
+      - name: Download build
+        uses: actions/download-artifact@v2
+        with:
+          name: phpvms
       - name: 'Cleanup'
         run: ./.github/scripts/cleanup.sh
       - name: 'Build Artifact'
