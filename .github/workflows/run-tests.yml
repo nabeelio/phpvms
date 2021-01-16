@@ -1,0 +1,43 @@
+name: run-tests
+on: [push]
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-versions: ['7.3', '7.4']
+    name: PHP ${{ matrix.php-versions }}
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php-versions }}
+        extensions: mbstring, intl
+        ini-values: post_max_size=256M, short_open_tag=On
+        coverage: xdebug
+        tools: php-cs-fixer, phpunit
+    - name: Shutdown Ubuntu MySQL (SUDO)
+      run: sudo service mysql stop 
+    - uses: getong/mariadb-action@v1.1
+      with:
+        character set server: 'utf8'
+        collation server: 'utf8_general_ci'
+        mysql database: 'phpvms'
+        mysql root password: ''
+        mysql user: 'root'
+        mysql password: ''
+    - name: Configure Environment
+      run: |
+        php --version
+        mysql --version
+        # Downgrade composer version to 1.x
+        composer self-update --1
+        composer install --dev --no-interaction --verbose
+        npm i tar-to-zip -g
+        cp .travis/env.travis.php env.php
+        cp .travis/phpunit.travis.xml phpunit.xml
+        php artisan database:create --reset
+        php artisan migrate:refresh --seed
+
