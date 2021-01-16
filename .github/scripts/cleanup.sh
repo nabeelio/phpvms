@@ -5,7 +5,7 @@ echo "Cleaning files"
 # Leftover individual files to delete
 declare -a remove_files=(
   .git
-  .github
+  #.github
   .sass-cache
   .idea
   .travis
