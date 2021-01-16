@@ -62,6 +62,7 @@ jobs:
         vendor/bin/php-cs-fixer fix --config=.php_cs -v --dry-run --diff --using-cache=no
         vendor/bin/phpunit --debug --verbose
   artifacts:
+    name: 'Create artifacts'
     needs: build
     runs-on: 'ubuntu-18.04'
     #if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev'
