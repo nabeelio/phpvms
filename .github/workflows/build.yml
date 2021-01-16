@@ -34,9 +34,10 @@ jobs:
         ini-values: post_max_size=256M, short_open_tag=On
         coverage: xdebug
         tools: php-cs-fixer, phpunit
-    - name: Shutdown Ubuntu MySQL (SUDO)
+    - name: Shutdown Ubuntu MySQL
       run: sudo service mysql stop 
-    - uses: getong/mariadb-action@v1.1
+    - name: Install MariaDB
+      uses: getong/mariadb-action@v1.1
       with:
         character set server: 'utf8'
         collation server: 'utf8_general_ci'
@@ -86,9 +87,12 @@ jobs:
           sudo chmod +x ./.github/scripts/*
       - name: 'Build Distro'
         run: .github/scripts/build.sh
-      - name: 'Environs'
-        run: |
-          echo "Exported vars"
-          echo $FILE_NAME
-          echo $TAR_NAME
-          echo $ZIP_NAME
+      - name: Upload to S3
+        uses: medlypharmacy/s3-artifacts-action@master
+        with:
+          aws_access_key_id: ${{ secrets.S3_BUILD_ARTIFACTS_ACCESS_KEY_ID}}
+          aws_secret_access_key: ${{ secrets.S3_BUILD_ARTIFACTS_SECRET_ACCESS_KEY}}
+          aws_s3_bucket_name: ${{ secrets.S3_BUCKET_NAME }}
+          source_path: './dist'
+          destination_path: '/'
+          resource_type: 'DIRECTORY'

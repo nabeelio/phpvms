@@ -30,12 +30,12 @@ fi
 export FILE_NAME="phpvms-${VERSION}-test"
 export TAR_NAME="$FILE_NAME.tar.gz"
 export ZIP_NAME="$FILE_NAME.zip"
-PWD=`pwd`
+export BASE_DIR=`pwd`
 
 echo "Version: ${VERSION}"
 echo "Full Version: ${FULL_VERSION}"
 echo "Package name: ${TAR_NAME}"
-echo "Current directory: ${PWD}"
+echo "Current directory: ${BASE_DIR}"
 
 echo "Cleaning files"
 
@@ -99,4 +99,41 @@ mkdir -p storage/framework/cache
 mkdir -p storage/framework/sessions
 mkdir -p storage/framework/views
 
-# Done
+cd /tmp
+
+ls -al $BASE_DIR/../
+
+tar -czf $TAR_NAME -C $BASE_DIR .
+sha256sum $TAR_NAME >"$TAR_NAME.sha256"
+tar2zip $TAR_NAME
+sha256sum $ZIP_NAME >"$ZIP_NAME.sha256"
+
+ls -al /tmp
+
+echo "Uploading to S3"
+mkdir -p $BASE_DIR/build
+cd $BASE_DIR/build
+
+mv "/tmp/$TAR_NAME" "/tmp/$ZIP_NAME" "/tmp/$TAR_NAME.sha256" "/tmp/$ZIP_NAME.sha256" .
+#artifacts upload --target-paths "/" $ZIP_NAME $TAR_NAME $TRAVIS_BUILD_DIR/VERSION $TAR_NAME.sha256 $ZIP_NAME.sha256
+
+# Upload the version for a tagged release. Move to a version file in different
+# tags. Within phpVMS, we have an option of which version to track in the admin
+# if test "$TRAVIS_TAG"; then
+#   echo "Uploading release version file"
+#   cp "$TRAVIS_BUILD_DIR/VERSION" release_version
+#   artifacts upload --target-paths "/" release_version
+# else
+#   echo "Uploading ${TRAVIS_BRANCH}_version file"
+#   cp $TRAVIS_BUILD_DIR/VERSION ${TRAVIS_BRANCH}_version
+#   artifacts upload --target-paths "/" ${TRAVIS_BRANCH}_version
+# fi
+
+#if [ "$TRAVIS_BRANCH" != "master" ] && [ "$TRAVIS_BRANCH" != "dev" ]; then
+#  echo "Skipping Discord branch update broadcast"
+#else
+  # curl -X POST \
+  #      --data "{\"content\": \"A new build is available at http://downloads.phpvms.net/$TAR_NAME (${FULL_VERSION})\"}" \
+  #      -H "Content-Type: application/json" \
+  #      $DISCORD_WEBHOOK_URL
+#fi
