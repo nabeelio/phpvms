@@ -28,6 +28,7 @@ export ZIP_NAME="$FILE_NAME.zip"
 export BASE_DIR=`pwd`
 
 # https://docs.github.com/en/actions/reference/workflow-commands-for-github-actions#environment-files
+echo "BRANCH=${BRANCH}" >> $GITHUB_ENV
 echo "FILE_NAME=${FILE_NAME}" >> $GITHUB_ENV
 echo "TAR_NAME=${TAR_NAME}" >> $GITHUB_ENV
 echo "ZIP_NAME=${ZIP_NAME}" >> $GITHUB_ENV
