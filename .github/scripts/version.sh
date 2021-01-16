@@ -26,3 +26,8 @@ export FILE_NAME="phpvms-${VERSION}-test"
 export TAR_NAME="$FILE_NAME.tar.gz"
 export ZIP_NAME="$FILE_NAME.zip"
 export BASE_DIR=`pwd`
+
+echo "::set-env name=FILE_NAME::${FILE_NAME}"
+echo "::set-env name=TAR_NAME::${TAR_NAME}"
+echo "::set-env name=ZIP_NAME::${ZIP_NAME}"
+echo "::set-env name=BASE_DIR::${BASE_DIR}"
