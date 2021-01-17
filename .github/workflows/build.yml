@@ -1,5 +1,5 @@
 name: 'Build'
-on: ['push', 'workflow_dispatch', 'release']
+on: ['push', 'pull_request', 'workflow_dispatch', 'release']
 jobs:
   build:
     runs-on: ubuntu-18.04
