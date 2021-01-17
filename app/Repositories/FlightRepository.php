@@ -20,6 +20,7 @@ class FlightRepository extends Repository implements CacheableInterface
         'arr_airport_id',
         'distance',
         'dpt_airport_id',
+        'flight_type',
         'flight_number' => 'like',
         'route_code'    => 'like',
         'route_leg'     => 'like',
@@ -91,6 +92,10 @@ class FlightRepository extends Repository implements CacheableInterface
 
         if ($request->filled('flight_number')) {
             $where['flight_number'] = $request->input('flight_number');
+        }
+
+        if ($request->filled('flight_type')) {
+            $where['flight_type'] = $request->input('flight_type');
         }
 
         if ($request->filled('route_code')) {
