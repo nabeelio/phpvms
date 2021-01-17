@@ -6,7 +6,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        php-versions: ['7.4']
+        php-versions: ['7.3', '7.4', '8.0']
     name: PHP ${{ matrix.php-versions }}
     env:
       extensions: intl, pcov, mbstring
@@ -72,8 +72,8 @@ jobs:
         # Downgrade composer version to 1.x
         composer self-update --1
         composer install --dev --no-interaction --verbose
-        cp .travis/env.travis.php env.php
-        cp .travis/phpunit.travis.xml phpunit.xml
+        cp .github/scripts/env.php env.php
+        cp .github/scripts/phpunit.xml phpunit.xml
         php artisan database:create --reset
         php artisan migrate:refresh --seed
 
