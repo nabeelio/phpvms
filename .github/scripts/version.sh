@@ -22,7 +22,7 @@ else
   export FULL_VERSION=$(php artisan phpvms:version)
 fi
 
-export FILE_NAME="phpvms-${VERSION}-test"
+export FILE_NAME="phpvms-${VERSION}"
 export TAR_NAME="$FILE_NAME.tar.gz"
 export ZIP_NAME="$FILE_NAME.zip"
 export BASE_DIR=`pwd`
