@@ -38,11 +38,11 @@
     @php
       $simbrieftype = $acdetails->icao ;
       $subflid = $acdetails->subfleet_id ;
-      if($acdetails->icao == 'A20N') { $simbrieftype = 'A320' ; }
-      if($acdetails->icao == 'A21N') { $simbrieftype = 'A321' ; }
-      if($acdetails->icao == 'B77L') { $simbrieftype = 'B77F' ; }
-      if($acdetails->icao == 'B773') { $simbrieftype = 'B77W' ; }
-      if($acdetails->icao == 'E35L') { $simbrieftype = 'E135' ; }
+      if($acdetails->icao === 'A20N') { $simbrieftype = 'A320' ; }
+      if($acdetails->icao === 'A21N') { $simbrieftype = 'A321' ; }
+      if($acdetails->icao === 'B77L') { $simbrieftype = 'B77F' ; }
+      if($acdetails->icao === 'B773') { $simbrieftype = 'B77W' ; }
+      if($acdetails->icao === 'E35L') { $simbrieftype = 'E135' ; }
     @endphp
   @endforeach
 
@@ -131,6 +131,7 @@
                         <b>{{ $subfleet->name }} ; {{ $acdetails->registration }}</b></h6>
                       {{-- Generate Load Figures --}}
                       <div class="row">
+                      {{-- Create and send some data to the $loadarray for MANUALRMK generation --}}
                         @php $loadarray = [] ; @endphp
                         @foreach($subfleet->fares as $fare)
                           @if($fare->capacity > 0)
@@ -179,6 +180,10 @@
                 </div>
               </div>
             </div>
+            {{-- Here we generate the MANUALRMK which is sent to SimBrief and displayed in the generated ofp as Dispatch Remarks. --}}
+            {{-- $loadarray is created and filled with data during random load generation, it holds each fare's code and the generated load --}}
+            {{-- then we are imploding that array to get the fare codes and load counts --}}
+            {{-- Returned string will be like Load Distribution Y 132 C 12 F 4 --}}
             @if($totalgenload > 0)
               @php
                 $loaddisttxt =  "Load Distribution ";
