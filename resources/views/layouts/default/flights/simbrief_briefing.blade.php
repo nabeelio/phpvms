@@ -72,9 +72,9 @@
                 </div>
 
                 <div class="col-4 text-center">
-                  <div><p class="small text-uppercase pb-sm-0 mb-sm-1">Enroute Time</p>
+                  <div><p class="small text-uppercase pb-sm-0 mb-sm-1">Est. Enroute Time</p>
                     <p class="border border-dark rounded p-1 small text-monospace">
-                      @minutestotime($simbrief->xml->times->sched_time_enroute / 60)</p>
+                      @minutestotime($simbrief->xml->times->est_time_enroute / 60)</p>
                   </div>
                 </div>
 
