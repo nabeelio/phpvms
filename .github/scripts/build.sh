@@ -1,51 +1,11 @@
 #!/usr/bin/env bash
 
-if [ "$TRAVIS" != "true" ]; then
-  exit 0
-fi
-
-cd $TRAVIS_BUILD_DIR
-
-if test "$TRAVIS_TAG"; then
-  VERSION=$TRAVIS_TAG
-
-  # Pass in the tag as the version to write out
-  php artisan phpvms:version --write --write-full-version "${VERSION}"
-  FULL_VERSION=$(php artisan phpvms:version)
-else
-  echo "On branch $TRAVIS_BRANCH"
-
-  if [ "$TRAVIS_BRANCH" != "master" ] && [ "$TRAVIS_BRANCH" != "dev" ]; then
-    echo "Not on valid branch, exiting"
-    exit 0
-  fi
-
-  # Write the version out but place the branch ID in there
-  # This is only for the dev branch
-  BASE_VERSION=$(php artisan phpvms:version --base-only)
-
-  # This now includes the pre-release version, so "-dev" by default
-  VERSION=${BASE_VERSION}
-
-  # Don't pass in a version here, just write out the latest hash
-  php artisan phpvms:version --write "${VERSION}"
-  FULL_VERSION=$(php artisan phpvms:version)
-fi
-
-FILE_NAME="phpvms-${VERSION}"
-TAR_NAME="$FILE_NAME.tar.gz"
-ZIP_NAME="$FILE_NAME.zip"
-
 echo "Version: ${VERSION}"
 echo "Full Version: ${FULL_VERSION}"
 echo "Package name: ${TAR_NAME}"
-
-echo "==========================="
+echo "Current directory: ${BASE_DIR}"
 
 echo "Cleaning files"
-
-rm -rf vendor
-composer install --no-dev --prefer-dist --no-interaction --verbose
 
 # Leftover individual files to delete
 declare -a remove_files=(
@@ -107,44 +67,20 @@ mkdir -p storage/framework/cache
 mkdir -p storage/framework/sessions
 mkdir -p storage/framework/views
 
-# Regenerate the autoloader and classes
-composer dump-autoload
-make clean
-
 cd /tmp
-ls -al $TRAVIS_BUILD_DIR/../
 
-tar -czf $TAR_NAME -C $TRAVIS_BUILD_DIR .
+ls -al $BASE_DIR/../
+
+tar -czf $TAR_NAME -C $BASE_DIR .
 sha256sum $TAR_NAME >"$TAR_NAME.sha256"
 tar2zip $TAR_NAME
 sha256sum $ZIP_NAME >"$ZIP_NAME.sha256"
 
 ls -al /tmp
 
-echo "Uploading to S3"
-mkdir -p $TRAVIS_BUILD_DIR/build
-cd $TRAVIS_BUILD_DIR/build
+echo "Moving to dist"
+mkdir -p $BASE_DIR/dist
+cd $BASE_DIR/dist
 
 mv "/tmp/$TAR_NAME" "/tmp/$ZIP_NAME" "/tmp/$TAR_NAME.sha256" "/tmp/$ZIP_NAME.sha256" .
-artifacts upload --target-paths "/" $ZIP_NAME $TAR_NAME $TRAVIS_BUILD_DIR/VERSION $TAR_NAME.sha256 $ZIP_NAME.sha256
 
-# Upload the version for a tagged release. Move to a version file in different
-# tags. Within phpVMS, we have an option of which version to track in the admin
-if test "$TRAVIS_TAG"; then
-  echo "Uploading release version file"
-  cp "$TRAVIS_BUILD_DIR/VERSION" release_version
-  artifacts upload --target-paths "/" release_version
-else
-  echo "Uploading ${TRAVIS_BRANCH}_version file"
-  cp $TRAVIS_BUILD_DIR/VERSION ${TRAVIS_BRANCH}_version
-  artifacts upload --target-paths "/" ${TRAVIS_BRANCH}_version
-fi
-
-#if [ "$TRAVIS_BRANCH" != "master" ] && [ "$TRAVIS_BRANCH" != "dev" ]; then
-#  echo "Skipping Discord branch update broadcast"
-#else
-  curl -X POST \
-       --data "{\"content\": \"A new build is available at http://downloads.phpvms.net/$TAR_NAME (${FULL_VERSION})\"}" \
-       -H "Content-Type: application/json" \
-       $DISCORD_WEBHOOK_URL
-#fi
