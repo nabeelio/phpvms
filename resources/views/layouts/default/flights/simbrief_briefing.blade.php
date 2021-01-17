@@ -193,14 +193,6 @@
             <div class="form-container-body">
               <div class="row">
                 <div class="col-4" align="center">
-                  @php
-                    $str = $simbrief->xml->aircraft->equip ;
-                    $wc = stripos($str,"-");
-                    $tr = stripos($str,"/");
-                    $wakecat = substr($str,0,$wc);
-                    $equipment = substr($str,$wc+1,$tr-2);
-                    $transponder = substr($str,$tr+1);
-                  @endphp
                   <form action="https://fpl.ivao.aero/api/fp/load" method="POST" target="_blank">
                     <input type="hidden" name="CALLSIGN" value="{{ $simbrief->xml->atc->callsign }}"/>
                     <input type="hidden" name="RULES" value="I"/>
@@ -211,8 +203,7 @@
                     <input type="hidden" name="EQUIPMENT" value="{{ $equipment }}"/>
                     <input type="hidden" name="TRANSPONDER" value="{{ $transponder }}"/>
                     <input type="hidden" name="DEPICAO" value="{{ $simbrief->xml->origin->icao_code}}"/>
-                    <input type="hidden" name="DEPTIME"
-                           value="{{ date('Hi', $simbrief->xml->times->est_out->__toString())."" }}"/>
+                    <input type="hidden" name="DEPTIME" value="{{ date('Hi', $simbrief->xml->times->est_out->__toString()) }}"/>
                     <input type="hidden" name="SPEEDTYPE" value="{{ $simbrief->xml->atc->initial_spd_unit }}"/>
                     <input type="hidden" name="SPEED" value="{{ $simbrief->xml->atc->initial_spd }}"/>
                     <input type="hidden" name="LEVELTYPE" value="{{ $simbrief->xml->atc->initial_alt_unit }}"/>
