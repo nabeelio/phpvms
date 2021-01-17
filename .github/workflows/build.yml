@@ -88,7 +88,7 @@ jobs:
     name: 'Create artifacts'
     needs: build
     runs-on: 'ubuntu-18.04'
-    #if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev' || startsWith(github.ref, 'refs/tags/')
+    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev' || startsWith(github.ref, 'refs/tags/')
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -136,9 +136,11 @@ jobs:
           aws_bucket: ${{ secrets.S3_BUCKET_NAME }}
           source_dir: 'dist'
           destination_dir: ''
+
       - name: Discord notification
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-        uses: Ilshidur/action-discord@master
+        uses: Ilshidur/action-discord@0.3.0
         with:
+          # DISCORD_MSG is defined in versions.sh
           args: '{{ DISCORD_MSG }}'
