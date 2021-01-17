@@ -3,6 +3,7 @@ on: ['push', 'workflow_dispatch', 'release']
 jobs:
   build:
     runs-on: ubuntu-18.04
+    if: github.repository == 'nabeelio/phpvms'
     strategy:
       fail-fast: true
       matrix:
@@ -10,7 +11,7 @@ jobs:
     name: PHP ${{ matrix.php-versions }}
     env:
       extensions: intl, pcov, mbstring
-      key: cache-v1 
+      key: cache-v1
     steps:
     - name: Checkout
       uses: actions/checkout@v2
@@ -53,7 +54,7 @@ jobs:
         tools: php-cs-fixer, phpunit
 
     - name: Shutdown Ubuntu MySQL
-      run: sudo service mysql stop 
+      run: sudo service mysql stop
 
     - name: Install MariaDB
       uses: getong/mariadb-action@v1.1
@@ -112,7 +113,7 @@ jobs:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: ${{ runner.os }}-composer-
-            
+
         # Dependencies
       - name: 'Install Release Dependencies'
         run: |
@@ -176,7 +177,7 @@ jobs:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: ${{ runner.os }}-composer-
-            
+
         # Dependencies
       - name: 'Install Release Dependencies'
         run: |
