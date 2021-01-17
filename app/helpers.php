@@ -355,6 +355,19 @@ if (!function_exists('show_datetime_format')) {
     }
 }
 
+if (!function_exists('secstohhmm')) {
+    /**
+     * Convert seconds to hhmm format
+     *
+     * @param $seconds
+     */
+    function secstohhmm($seconds) {
+        $seconds = round($seconds);
+        $hhmm = sprintf('%02d%02d', ($seconds/ 3600),($seconds/ 60 % 60));
+        echo $hhmm ;
+    }
+}
+
 if (!function_exists('_fmt')) {
     /**
      * Replace strings
