@@ -361,10 +361,11 @@ if (!function_exists('secstohhmm')) {
      *
      * @param $seconds
      */
-    function secstohhmm($seconds) {
+    function secstohhmm($seconds)
+    {
         $seconds = round($seconds);
-        $hhmm = sprintf('%02d%02d', ($seconds/ 3600),($seconds/ 60 % 60));
-        echo $hhmm ;
+        $hhmm = sprintf('%02d%02d', ($seconds / 3600), ($seconds / 60 % 60));
+        echo $hhmm;
     }
 }
 
