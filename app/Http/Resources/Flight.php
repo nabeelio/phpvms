@@ -18,17 +18,17 @@ class Flight extends Resource
     private function setFields()
     {
         /** @var \Illuminate\Support\Collection $field_values */
+        $return_values = new stdClass();
         $field_values = $this->field_values;
         if (empty($field_values) || $field_values->count() === 0) {
-            return new stdClass();
+            return $return_values;
         }
 
-        $fields = [];
         foreach ($field_values as $field) {
-            $fields[$field->name] = $field->value;
+            $return_values->{$field->name} = $field->value;
         }
 
-        return $fields;
+        return $return_values;
     }
 
     /**
@@ -58,7 +58,6 @@ class Flight extends Resource
 
         $res['airline'] = new Airline($this->airline);
         $res['subfleets'] = Subfleet::collection($this->whenLoaded('subfleets'));
-        $res['fares'] = Fare::collection($this->whenLoaded('fares'));
         $res['fields'] = $this->setFields();
 
         // Simbrief info

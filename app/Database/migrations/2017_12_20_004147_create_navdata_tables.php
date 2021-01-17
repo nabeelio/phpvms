@@ -6,11 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateNavdataTables extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         /*
@@ -31,11 +26,6 @@ class CreateNavdataTables extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('navdata');

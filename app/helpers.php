@@ -1,6 +1,7 @@
 <?php
 
 use App\Exceptions\SettingNotFound;
+use App\Repositories\KvpRepository;
 use App\Repositories\SettingRepository;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\Factory;
@@ -187,6 +188,53 @@ if (!function_exists('setting_save')) {
 }
 
 /*
+ * Shortcut for retrieving a KVP
+ */
+if (!function_exists('kvp')) {
+    /**
+     * Read a setting from the KVP repository
+     *
+     * @param string      $key
+     * @param string|null $default
+     *
+     * @return mixed|null
+     */
+    function kvp(string $key, $default = null)
+    {
+        /** @var KvpRepository $kvpRepo */
+        $kvpRepo = app(KvpRepository::class);
+
+        try {
+            $value = $kvpRepo->get($key, $default);
+        } catch (Exception $e) {
+            return $default;
+        }
+
+        return $value;
+    }
+}
+
+/*
+ * Shortcut for retrieving a KVP
+ */
+if (!function_exists('kvp_save')) {
+    /**
+     * Read a setting from the KVP repository
+     *
+     * @param string $key
+     * @param string $value
+     *
+     * @return mixed|null
+     */
+    function kvp_save(string $key, string $value)
+    {
+        /** @var KvpRepository $kvpRepo */
+        $kvpRepo = app(KvpRepository::class);
+        $kvpRepo->save($key, $value);
+    }
+}
+
+/*
  * Wrap the asset URL in the publicBaseUrl that's been
  * set
  */
@@ -304,6 +352,20 @@ if (!function_exists('show_datetime_format')) {
         }
 
         return $date->timezone($timezone)->format($format);
+    }
+}
+
+if (!function_exists('secstohhmm')) {
+    /**
+     * Convert seconds to hhmm format
+     *
+     * @param $seconds
+     */
+    function secstohhmm($seconds)
+    {
+        $seconds = round($seconds);
+        $hhmm = sprintf('%02d%02d', ($seconds / 3600), ($seconds / 60 % 60));
+        echo $hhmm;
     }
 }
 

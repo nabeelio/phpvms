@@ -13,11 +13,15 @@ use Illuminate\Support\Facades\Log;
 
 class BidService extends Service
 {
+    /** @var FareService */
+    private $fareSvc;
+
     /** @var FlightService */
     private $flightSvc;
 
-    public function __construct(FlightService $flightSvc)
+    public function __construct(FareService $fareSvc, FlightService $flightSvc)
     {
+        $this->fareSvc = $fareSvc;
         $this->flightSvc = $flightSvc;
     }
 
@@ -26,7 +30,7 @@ class BidService extends Service
      *
      * @param $bid_id
      *
-     * @return \App\Models\Bid|\Illuminate\Database\Eloquent\Model|object|null
+     * @return \App\Models\Bid|\Illuminate\Database\Eloquent\Model|tests/ImporterTest.php:521object|null
      */
     public function getBid($bid_id)
     {
@@ -55,6 +59,7 @@ class BidService extends Service
 
         foreach ($bids as $bid) {
             $bid->flight = $this->flightSvc->filterSubfleets($user, $bid->flight);
+            $bid->flight = $this->fareSvc->getReconciledFaresForFlight($bid->flight);
         }
 
         return $bids;

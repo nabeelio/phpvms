@@ -5,14 +5,16 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 /**
- * Remove the unique index from subfleets.type
+ * Add a hub to the subfleet is
  */
-class RemoveSubfleetTypeIndex extends Migration
+class AddHubToSubfleets extends Migration
 {
     public function up()
     {
         Schema::table('subfleets', function (Blueprint $table) {
-            $table->dropUnique(['type']);
+            $table->string('hub_id', 4)
+                ->nullable()
+                ->after('airline_id');
         });
     }
 }

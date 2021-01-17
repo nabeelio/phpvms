@@ -11,7 +11,7 @@ class PrefileRequest extends FormRequest
         return [
             'airline_id'          => 'required|exists:airlines,id',
             'aircraft_id'         => 'required|exists:aircraft,id',
-            'flight_id'           => 'sometimes|exists:flights,id',
+            'flight_id'           => 'sometimes|nullable|exists:flights,id',
             'flight_number'       => 'required',
             'dpt_airport_id'      => 'required',
             'arr_airport_id'      => 'required',

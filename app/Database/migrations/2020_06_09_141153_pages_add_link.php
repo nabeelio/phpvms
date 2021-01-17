@@ -1,15 +1,15 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
+use App\Contracts\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
+/**
+ * Add a `link` column and make the body optional. Also add a "new_window" bool
+ * which determines if we open this link in a new window or not
+ */
 class PagesAddLink extends Migration
 {
-    /**
-     * Add a `link` column and make the body optional. Also add a "new_window" bool
-     * which determines if we open this link in a new window or not
-     */
     public function up()
     {
         Schema::table('pages', function (Blueprint $table) {
@@ -23,9 +23,6 @@ class PagesAddLink extends Migration
         });
     }
 
-    /**
-     * @return void
-     */
     public function down()
     {
         Schema::table('fares', function (Blueprint $table) {

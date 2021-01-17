@@ -5,11 +5,6 @@ use Illuminate\Database\Schema\Blueprint;
 
 class RolesPermissionsTables extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         // Create table for storing roles
@@ -79,11 +74,6 @@ class RolesPermissionsTables extends Migration
         $this->addData('roles', $roles);
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('permission_user');

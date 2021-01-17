@@ -196,6 +196,7 @@ class ProfileController extends Controller
             });
 
             $canvas->insert($image);
+            Log::info('Uploading avatar into folder '.public_path('uploads/avatars'));
             $canvas->save(public_path('uploads/avatars/'.$file_name));
 
             $req_data['avatar'] = $path;

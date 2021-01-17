@@ -2,7 +2,6 @@
 
 namespace App\Contracts;
 
-use App\Models\Module;
 use App\Support\Database;
 use Exception;
 use Illuminate\Support\Facades\DB;

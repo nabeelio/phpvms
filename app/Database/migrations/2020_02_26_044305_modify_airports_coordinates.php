@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
+use App\Contracts\Migration;
 use Illuminate\Support\Facades\Schema;
 
 /**
@@ -24,14 +24,5 @@ class ModifyAirportsCoordinates extends Migration
             $table->decimal('lat', 10, 5)->change()->default(0.0)->nullable();
             $table->decimal('lon', 11, 5)->change()->default(0.0)->nullable();
         });
-    }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
     }
 }

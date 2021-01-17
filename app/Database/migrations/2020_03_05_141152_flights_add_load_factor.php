@@ -1,14 +1,14 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
+use App\Contracts\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
+/**
+ * Add a `load_factor` and `load_factor_variance` columns to the expenses table
+ */
 class FlightsAddLoadFactor extends Migration
 {
-    /**
-     * Add a `load_factor` and `load_factor_variance` columns to the expenses table
-     */
     public function up()
     {
         Schema::table('flights', function (Blueprint $table) {
@@ -22,11 +22,6 @@ class FlightsAddLoadFactor extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::table('flights', function (Blueprint $table) {

@@ -123,6 +123,7 @@ class FlightController extends Controller
             'saved'         => $saved_flights,
             'subfleets'     => $this->subfleetRepo->selectBoxList(true),
             'flight_number' => $request->input('flight_number'),
+            'flight_type'   => $request->input('flight_type'),
             'arr_icao'      => $request->input('arr_icao'),
             'dep_icao'      => $request->input('dep_icao'),
             'subfleet_id'   => $request->input('subfleet_id'),

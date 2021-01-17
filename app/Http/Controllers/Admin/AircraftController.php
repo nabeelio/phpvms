@@ -160,6 +160,7 @@ class AircraftController extends Controller
      */
     public function update($id, UpdateAircraftRequest $request)
     {
+        /** @var \App\Models\Aircraft $aircraft */
         $aircraft = $this->aircraftRepo->findWithoutFail($id);
 
         if (empty($aircraft)) {
@@ -171,7 +172,7 @@ class AircraftController extends Controller
         $this->aircraftRepo->update($attrs, $id);
 
         Flash::success('Aircraft updated successfully.');
-        return redirect(route('admin.aircraft.index'));
+        return redirect(route('admin.aircraft.index').'?subfleet='.$aircraft->subfleet_id);
     }
 
     /**
@@ -183,6 +184,7 @@ class AircraftController extends Controller
      */
     public function destroy($id)
     {
+        /** @var \App\Models\Aircraft $aircraft */
         $aircraft = $this->aircraftRepo->findWithoutFail($id);
 
         if (empty($aircraft)) {

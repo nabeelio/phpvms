@@ -1,18 +1,16 @@
 <?php
 
+use App\Contracts\Migration;
 use App\Models\Enums\PirepState;
-use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
+/**
+ * Change the PIREP state column to be a TINYINT
+ */
 class PirepsChangeStateType extends Migration
 {
-    /**
-     * Change the PIREP state column to be a TINYINT
-     *
-     * @return void
-     */
     public function up()
     {
         // Migrate the old rejected state
@@ -24,14 +22,5 @@ class PirepsChangeStateType extends Migration
         Schema::table('pireps', function (Blueprint $table) {
             $table->unsignedSmallInteger('state')->change();
         });
-    }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
     }
 }
