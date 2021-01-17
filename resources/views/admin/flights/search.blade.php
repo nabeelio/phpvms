@@ -3,7 +3,9 @@
     <div class="col-sm-12">
       <div class="form-group">
         {{ Form::open(['route' => 'admin.flights.index', 'method' => 'GET', 'class'=>'form-inline pull-right']) }}
-
+        &nbsp;&nbsp;
+        {{ Form::label('airlines', 'Airline:') }}
+        {{ Form::select('airline_id', $airlines, null , ['class' => 'form-control select2']) }}
         {{ Form::label('flight_number', 'Flight Number:') }}
         {{ Form::text('flight_number', null, ['class' => 'form-control']) }}
         &nbsp;
