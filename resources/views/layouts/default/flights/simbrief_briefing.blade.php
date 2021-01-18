@@ -10,14 +10,14 @@
     <div class="col-sm-3">
       @if (empty($simbrief->pirep_id))
         <a class="btn btn-outline-info pull-right btn-lg"
-           style="margin-top: -10px;margin-bottom: 5px"
+           style="margin-top: -10px; margin-bottom: 5px"
            href="{{ url(route('frontend.simbrief.prefile', [$simbrief->id])) }}">Prefile PIREP</a>
       @endif
     </div>
     <div class="col-sm-3">
       <a class="btn btn-primary pull-right btn-lg"
-         style="margin-top: -10px;margin-bottom: 5px"
-         href="{{ url(route('frontend.simbrief.remove', [$simbrief->id])) }}">Generate New OFP</a>
+         style="margin-top: -10px; margin-bottom: 5px"
+         href="{{ url(route('frontend.simbrief.generate_new', [$simbrief->id])) }}">Generate New OFP</a>
     </div>
   </div>
 

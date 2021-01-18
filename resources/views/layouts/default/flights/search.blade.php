@@ -10,7 +10,7 @@
       <div class="mt-1">
         <div class="form-group">
           <p>@lang('common.airline')</p>
-          {{ Form::select('airline_id', $airlines, null , ['class' => 'form-control form-control-sm select2']) }}
+          {{ Form::select('airline_id', $airlines, null , ['class' => 'form-control select2']) }}
         </div>
       </div>
 
