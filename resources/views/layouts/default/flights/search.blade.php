@@ -1,40 +1,25 @@
-<h3 class="description">@lang('flights.search')</h3>
-<div class="card border-blue-bottom">
-  <div class="card-body ml-1 mr-1" style="min-height: 0px; display: flex; justify-content: center; align-items: center;">
+<h4 class="description">@lang('flights.search')</h4>
+<div class="row">
+  <div class="col-12">
     <div class="form-group search-form">
       {{ Form::open([
               'route' => 'frontend.flights.search',
               'method' => 'GET',
-              'class'=>'form-inline'
       ]) }}
+
       <div class="mt-1">
-        <p>@lang('common.airline')</p>
-        {{ Form::select('airline_id', $airlines, null , ['class' => 'form-control select2']) }}
+        <div class="form-group">
+          <p>@lang('common.airline')</p>
+          {{ Form::select('airline_id', $airlines, null , ['class' => 'form-control form-control-sm select2']) }}
+        </div>
       </div>
 
-      <div class="form-group">
-        <label>@lang('flights.flighttype')</label>
-        <select id="flight_type" name="flight_type" class="custom-select select2">
-          <option value=""></option>
-          <option value="J">@lang('flights.type.pass_scheduled')</option>
-          <option value="G">@lang('flights.type.pass_addtl')</option>
-          <option value="C">@lang('flights.type.charter_pass_only')</option>
-          <option value="O">@lang('flights.type.charter_special')</option>
-          <option value="E">@lang('flights.type.special_vip')</option>
-          <option value="F">@lang('flights.type.cargo_scheduled')</option>
-          <option value="A">@lang('flights.type.addtl_cargo_mail')</option>
-          <option value="H">@lang('flights.type.charter_cargo')</option>
-          <option value="M">@lang('flights.type.mail_service')</option>
-          <option value="I">@lang('flights.type.ambulance')</option>
-          <option value="K">@lang('flights.type.training_flight')</option>
-          <option value="P">@lang('flights.type.positioning')</option>
-          <option value="T">@lang('flights.type.technical_test')</option>
-          <option value="X">@lang('flights.type.technical_stop')</option>
-          <option value="W">@lang('flights.type.military')</option>
-        </select>
+      <div class="mt-1">
+        <p>@lang('flights.flighttype')</p>
+        {{ Form::select('flight_type', $flight_types, null , ['class' => 'form-control select2']) }}
       </div>
 
-      <div>
+      <div class="mt-1">
         <p>@lang('flights.flightnumber')</p>
         {{ Form::text('flight_number', null, ['class' => 'form-control']) }}
       </div>
