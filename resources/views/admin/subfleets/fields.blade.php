@@ -12,19 +12,25 @@
       </div>
     </div>
     <div class="row">
-      <div class="form-group col-sm-4">
+      <div class="form-group col-sm-3">
         {{ Form::label('airline_id', 'Airline:') }}
         {{ Form::select('airline_id', $airlines, null , ['class' => 'form-control select2']) }}
         <p class="text-danger">{{ $errors->first('airline_id') }}</p>
       </div>
 
-      <div class="form-group col-sm-4">
+      <div class="form-group col-sm-3">
+        {{ Form::label('hub_id', 'Main Hub:') }}
+        {{ Form::select('hub_id', $hubs, null , ['class' => 'form-control select2']) }}
+        <p class="text-danger">{{ $errors->first('hub_id') }}</p>
+      </div>
+
+      <div class="form-group col-sm-3">
         {{ Form::label('type', 'Type:') }}
         {{ Form::text('type', null, ['class' => 'form-control']) }}
         <p class="text-danger">{{ $errors->first('type') }}</p>
       </div>
 
-      <div class="form-group col-sm-4">
+      <div class="form-group col-sm-3">
         {{ Form::label('name', 'Name:') }}
         {{ Form::text('name', null, ['class' => 'form-control']) }}
         <p class="text-danger">{{ $errors->first('name') }}</p>

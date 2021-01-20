@@ -1,18 +1,25 @@
-<h3 class="description">@lang('flights.search')</h3>
-<div class="card border-blue-bottom">
-  <div class="card-body ml-1 mr-1" style="min-height: 0px; display: flex; justify-content: center; align-items: center;">
+<h4 class="description">@lang('flights.search')</h4>
+<div class="row">
+  <div class="col-12">
     <div class="form-group search-form">
       {{ Form::open([
               'route' => 'frontend.flights.search',
               'method' => 'GET',
-              'class'=>'form-inline'
       ]) }}
+
       <div class="mt-1">
-        <p>@lang('common.airline')</p>
-        {{ Form::select('airline_id', $airlines, null , ['class' => 'form-control select2']) }}
+        <div class="form-group">
+          <p>@lang('common.airline')</p>
+          {{ Form::select('airline_id', $airlines, null , ['class' => 'form-control select2']) }}
+        </div>
       </div>
-      
-      <div>
+
+      <div class="mt-1">
+        <p>@lang('flights.flighttype')</p>
+        {{ Form::select('flight_type', $flight_types, null , ['class' => 'form-control select2']) }}
+      </div>
+
+      <div class="mt-1">
         <p>@lang('flights.flightnumber')</p>
         {{ Form::text('flight_number', null, ['class' => 'form-control']) }}
       </div>

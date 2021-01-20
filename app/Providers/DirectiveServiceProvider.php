@@ -19,5 +19,9 @@ class DirectiveServiceProvider extends ServiceProvider
         Blade::directive('minutestohours', function ($expr) {
             return "<?php echo \App\Support\Units\Time::minutesToHours($expr); ?>";
         });
+
+        Blade::directive('secstohhmm', function ($expr) {
+            return "<?php echo secstohhmm($expr); ?>";
+        });
     }
 }
