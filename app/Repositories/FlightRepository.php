@@ -94,7 +94,7 @@ class FlightRepository extends Repository implements CacheableInterface
             $where['flight_number'] = $request->input('flight_number');
         }
 
-        if ($request->filled('flight_type')) {
+        if ($request->filled('flight_type') && $request->input('flight_type') !== '0') {
             $where['flight_type'] = $request->input('flight_type');
         }
 
