@@ -42,6 +42,9 @@ class SetActiveFlights extends Listener
                 continue;
             }
 
+            // Set to visible by default
+            $flight->visible = true;
+
             // dates aren't set, so just save if there were any changes above
             // and move onto the next one
             if ($flight->start_date === null || $flight->end_date === null) {
@@ -56,9 +59,6 @@ class SetActiveFlights extends Listener
                                 .Days::in($flight->days, Days::$isoDayMap[(int) date('N')]));
                         }
                     }
-                } else {
-                    Log::info('Toggling flight '.$flight->ident.' to visible');
-                    $flight->visible = true;
                 }
 
                 $flight->save();
@@ -82,9 +82,6 @@ class SetActiveFlights extends Listener
                                 .Days::in($flight->days, Days::$isoDayMap[(int) date('N')]));
                         }
                     }
-                } else {
-                    Log::info('Toggling flight '.$flight->ident.' to visible');
-                    $flight->visible = true;
                 }
             } else {
                 $flight->visible = false;
