@@ -154,7 +154,9 @@ class PirepService extends Service
         // Check of there is a simbrief_id
         if (array_key_exists('simbrief_id', $attrs)) {
             $simbrief = SimBrief::find($attrs['simbrief_id']);
-            $this->simbriefSvc->attachSimbriefToPirep($pirep, $simbrief);
+            if ($simbrief) {
+                $this->simbriefSvc->attachSimbriefToPirep($pirep, $simbrief);
+            }
         }
 
         return $pirep;
