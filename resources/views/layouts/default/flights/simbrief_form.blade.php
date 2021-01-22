@@ -2,15 +2,6 @@
 @section('title', 'SimBrief Flight Planning')
 
 @section('content')
-  @php
-    if($flight->load_factor) { $lfactor = $flight->load_factor ;} else { $lfactor = setting('flights.default_load_factor') ;}
-    if($flight->load_factor_variance) { $lfactorv = $flight->load_factor_variance ;} else { $lfactorv = setting('flights.load_factor_variance') ;}
-    $loadmin = $lfactor - $lfactorv ;
-    $loadmax = $lfactor + $lfactorv ;
-    if($loadmin < 0) { $loadmin = 0; }
-    if($loadmax > 100) { $loadmax = 100; }
-  @endphp
-  
   @foreach($aircraft as $acdetails)
     @php
       $simbrieftype = $acdetails->icao ;
