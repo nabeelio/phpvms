@@ -147,6 +147,7 @@ class RouteServiceProvider extends ServiceProvider
                 Route::get('simbrief/{id}', 'SimBriefController@briefing')->name('simbrief.briefing');
                 Route::get('simbrief/{id}/prefile', 'SimBriefController@prefile')->name('simbrief.prefile');
                 Route::get('simbrief/{id}/cancel', 'SimBriefController@cancel')->name('simbrief.cancel');
+                Route::get('simbrief/{id}/generate_new', 'SimBriefController@generate_new')->name('simbrief.generate_new');
             });
 
             Route::group([

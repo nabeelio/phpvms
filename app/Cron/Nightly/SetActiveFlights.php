@@ -42,23 +42,18 @@ class SetActiveFlights extends Listener
                 continue;
             }
 
+            // Set to visible by default
+            $flight->visible = true;
+
             // dates aren't set, so just save if there were any changes above
             // and move onto the next one
             if ($flight->start_date === null || $flight->end_date === null) {
                 if ($flight->days !== null && $flight->days > 0) {
-                    $visible = Days::isToday($flight->days);
-                    if ($flight->visible !== $visible) {
-                        Log::info('Flight '.$flight->ident.' to '.($visible ? 'shown' : 'hidden'));
-
-                        $flight->visible = $visible;
-                        if ($visible === false) {
-                            Log::info('Today='.date('N').', start=no, mask='.$flight->days.', in='
-                                .Days::in($flight->days, Days::$isoDayMap[(int) date('N')]));
-                        }
+                    $flight->visible = Days::isToday($flight->days);
+                    if (!$flight->visible) {
+                        Log::info('Today='.date('N').', start=no, mask='.$flight->days.', in='
+                            .Days::in($flight->days, Days::$isoDayMap[(int) date('N')]));
                     }
-                } else {
-                    Log::info('Toggling flight '.$flight->ident.' to visible');
-                    $flight->visible = true;
                 }
 
                 $flight->save();
@@ -71,20 +66,11 @@ class SetActiveFlights extends Listener
             // and then make sure if days of the week are specified, check that too
             if ($today->gte($flight->start_date) && $today->lte($flight->end_date)) {
                 if ($flight->days !== null && $flight->days > 0) {
-                    $visible = Days::isToday($flight->days);
-                    if ($flight->visible !== $visible) {
-                        Log::info('Toggling flight '.$flight->ident.' to '.($visible ? 'shown' : 'hidden').'');
-
-                        $flight->visible = $visible;
-                        if ($visible === false) {
-                            Log::info('Today='.date('N').', start='.$flight->start_date
-                                .', end='.$flight->end_date.', mask='.$flight->days.', in='
+                    $flight->visible = Days::isToday($flight->days);
+                    if (!$flight->visible) {
+                        Log::info('Today='.date('N').', start=no, mask='.$flight->days.', in='
                                 .Days::in($flight->days, Days::$isoDayMap[(int) date('N')]));
-                        }
                     }
-                } else {
-                    Log::info('Toggling flight '.$flight->ident.' to visible');
-                    $flight->visible = true;
                 }
             } else {
                 $flight->visible = false;

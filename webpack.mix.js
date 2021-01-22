@@ -79,7 +79,7 @@ function buildAdminAssets()
     'node_modules/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.js',
     'node_modules/eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js',
     'node_modules/jquery-pjax/jquery.pjax.js',
-    'node_modues/paper-dashboard/assets/js/paper-dashboard.js',
+    'node_modules/paper-dashboard/assets/js/paper-dashboard.js',
   ], 'public/assets/admin/js/vendor.js');
 
   mix.copy('node_modules/ckeditor4', 'public/assets/vendor/ckeditor4/');

@@ -24,6 +24,7 @@ use App\Models\Enums\PirepStatus;
 use App\Models\Navdata;
 use App\Models\Pirep;
 use App\Models\PirepFieldValue;
+use App\Models\SimBrief;
 use App\Models\User;
 use App\Repositories\AircraftRepository;
 use App\Repositories\AirportRepository;
@@ -40,17 +41,16 @@ class PirepService extends Service
     private $airportSvc;
     private $geoSvc;
     private $pirepRepo;
+    private $simbriefSvc;
     private $userSvc;
 
     /**
      * @param AircraftRepository $aircraftRepo
      * @param GeoService         $geoSvc
-     * @param PirepRepository    $pirepRepo
-     * @param UserService        $userSvc
      * @param AirportRepository  $airportRepo
      * @param AirportService     $airportSvc
-     * @param GeoService         $geoSvc
      * @param PirepRepository    $pirepRepo
+     * @param SimBriefService    $simbriefSvc
      * @param UserService        $userSvc
      */
     public function __construct(
@@ -59,14 +59,16 @@ class PirepService extends Service
         AircraftRepository $aircraftRepo,
         GeoService $geoSvc,
         PirepRepository $pirepRepo,
+        SimBriefService $simbriefSvc,
         UserService $userSvc
     ) {
         $this->airportRepo = $airportRepo;
         $this->airportSvc = $airportSvc;
         $this->aircraftRepo = $aircraftRepo;
         $this->geoSvc = $geoSvc;
-        $this->userSvc = $userSvc;
         $this->pirepRepo = $pirepRepo;
+        $this->simbriefSvc = $simbriefSvc;
+        $this->userSvc = $userSvc;
     }
 
     /**
@@ -148,6 +150,14 @@ class PirepService extends Service
         }
 
         $pirep->save();
+
+        // Check of there is a simbrief_id
+        if (array_key_exists('simbrief_id', $attrs)) {
+            $simbrief = SimBrief::find($attrs['simbrief_id']);
+            if ($simbrief) {
+                $this->simbriefSvc->attachSimbriefToPirep($pirep, $simbrief);
+            }
+        }
 
         return $pirep;
     }

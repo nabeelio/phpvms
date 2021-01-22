@@ -92,9 +92,5 @@ https://api.checkwx.com/#metar-decoded
       <td>@lang('common.metar')</td>
       <td>{{ $metar['raw'] }}</td>
     </tr>
-    <tr>
-      <td>@lang('common.taf')</td>
-      <td>{{ $taf['raw'] }}</td>
-    </tr>
   </table>
 @endif
