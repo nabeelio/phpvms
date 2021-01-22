@@ -100,12 +100,24 @@ class SimBriefController
             ]);
         }
 
+        // Get the correct load factors
+        $lfactor = $flight->load_factor ?? setting('flights.default_load_factor');
+        $lfactorv = $flight->load_factor_variance ?? setting('flights.load_factor_variance');
+
+        $loadmin = $lfactor - $lfactorv;
+        $loadmin = $loadmin < 0 ? 0 : $loadmin;
+
+        $loadmax = $lfactor + $lfactorv;
+        $loadmax = $loadmax > 100 ? 100 : $loadmax;
+
         // Show the main simbrief form
         return view('flights.simbrief_form', [
             'flight'     => $flight,
             'aircraft'   => $aircraft,
             'subfleets'  => $subfleets,
             'pax_weight' => $pax_weight,
+            'loadmin'    => $loadmin,
+            'loadmax'    => $loadmax,
         ]);
     }
 
