@@ -33,4 +33,4 @@ echo "FILE_NAME=${FILE_NAME}" >> $GITHUB_ENV
 echo "TAR_NAME=${TAR_NAME}" >> $GITHUB_ENV
 echo "ZIP_NAME=${ZIP_NAME}" >> $GITHUB_ENV
 echo "BASE_DIR=${BASE_DIR}" >> $GITHUB_ENV
-echo "DISCORD_MSG=A new build is available. [Zip](http://downloads.phpvms.net/$ZIP_NAME) [Tar](http://downloads.phpvms.net/$TAR_NAME) (${FULL_VERSION})" >> $GITHUB_ENV
+echo "DISCORD_MSG=Version ${FULL_VERSION} is available, download: [zip](http://downloads.phpvms.net/$ZIP_NAME) | [tar](http://downloads.phpvms.net/$TAR_NAME)" >> $GITHUB_ENV
