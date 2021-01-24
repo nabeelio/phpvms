@@ -211,8 +211,8 @@ class PirepService extends Service
     /**
      * Finalize a PIREP (meaning it's been filed)
      *
-     * @param Pirep $pirep
-     * @param array $attrs
+     * @param Pirep                   $pirep
+     * @param array                   $attrs
      * @param array PirepFieldValue[] $field_values
      *
      * @throws \Exception
