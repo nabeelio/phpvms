@@ -232,7 +232,7 @@ class SimBriefController
         $ofp_id = $request->input('ofp_id');
         $flight_id = $request->input('flight_id');
 
-        $simbrief = $this->simBriefSvc->checkForOfp(Auth::user()->id, $ofp_id, $flight_id);
+        $simbrief = $this->simBriefSvc->downloadOfp(Auth::user()->id, $ofp_id, $flight_id);
         if ($simbrief === null) {
             $error = new AssetNotFound(new Exception('Simbrief OFP not found'));
             return $error->getResponse();

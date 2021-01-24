@@ -32,7 +32,7 @@ class SimBriefService extends Service
      *
      * @return SimBrief|null
      */
-    public function checkForOfp(string $user_id, string $ofp_id, string $flight_id)
+    public function downloadOfp(string $user_id, string $ofp_id, string $flight_id)
     {
         $uri = str_replace('{id}', $ofp_id, config('phpvms.simbrief_url'));
 
