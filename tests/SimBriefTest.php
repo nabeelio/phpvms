@@ -7,7 +7,6 @@ use App\Models\Enums\AcarsType;
 use App\Models\Flight;
 use App\Models\Pirep;
 use App\Models\SimBrief;
-use App\Models\User;
 use App\Services\SimBriefService;
 use App\Support\Utils;
 use Carbon\Carbon;
@@ -99,12 +98,12 @@ class SimBriefTest extends TestCase
 
         $url = str_replace('http://', 'https://', $flight['simbrief']['url']);
         $this->assertEquals(
-            'https://localhost/api/flights/'.$briefing->flight_id.'/briefing',
+            'https://localhost/api/flights/'.$briefing->id.'/briefing',
             $url
         );
 
         // Retrieve the briefing via API, and then check the doctype
-        $response = $this->get('/api/flights/'.$briefing->flight_id.'/briefing');
+        $response = $this->get('/api/flights/'.$briefing->id.'/briefing');
         $response->assertOk();
         // $response->assertHeader('Content-Type', 'application/xml');
 
