@@ -41,7 +41,7 @@ class PirepService extends Service
     private $airportSvc;
     private $geoSvc;
     private $pirepRepo;
-    private $simbriefSvc;
+    private $simBriefSvc;
     private $userSvc;
 
     /**
@@ -50,7 +50,7 @@ class PirepService extends Service
      * @param AirportRepository  $airportRepo
      * @param AirportService     $airportSvc
      * @param PirepRepository    $pirepRepo
-     * @param SimBriefService    $simbriefSvc
+     * @param SimBriefService    $simBriefSvc
      * @param UserService        $userSvc
      */
     public function __construct(
@@ -59,7 +59,7 @@ class PirepService extends Service
         AircraftRepository $aircraftRepo,
         GeoService $geoSvc,
         PirepRepository $pirepRepo,
-        SimBriefService $simbriefSvc,
+        SimBriefService $simBriefSvc,
         UserService $userSvc
     ) {
         $this->airportRepo = $airportRepo;
@@ -67,7 +67,7 @@ class PirepService extends Service
         $this->aircraftRepo = $aircraftRepo;
         $this->geoSvc = $geoSvc;
         $this->pirepRepo = $pirepRepo;
-        $this->simbriefSvc = $simbriefSvc;
+        $this->simBriefSvc = $simBriefSvc;
         $this->userSvc = $userSvc;
     }
 
@@ -151,14 +151,6 @@ class PirepService extends Service
 
         $pirep->save();
 
-        // Check of there is a simbrief_id
-        if (array_key_exists('simbrief_id', $attrs)) {
-            $simbrief = SimBrief::find($attrs['simbrief_id']);
-            if ($simbrief) {
-                $this->simbriefSvc->attachSimbriefToPirep($pirep, $simbrief);
-            }
-        }
-
         return $pirep;
     }
 
@@ -199,6 +191,72 @@ class PirepService extends Service
         }
 
         $pirep->status = PirepStatus::ARRIVED;
+
+        // Copy some fields over from Flight if we have it
+        if ($pirep->flight) {
+            $pirep->planned_distance = $pirep->flight->distance;
+            $pirep->planned_flight_time = $pirep->flight->flight_time;
+        }
+
+        $pirep->save();
+        $pirep->refresh();
+
+        if (count($field_values) > 0) {
+            $this->updateCustomFields($pirep->id, $field_values);
+        }
+
+        return $pirep;
+    }
+
+    /**
+     * Finalize a PIREP (meaning it's been filed)
+     *
+     * @param Pirep $pirep
+     * @param array $attrs
+     * @param array PirepFieldValue[] $field_values
+     *
+     * @throws \Exception
+     *
+     * @return Pirep
+     */
+    public function file(Pirep $pirep, array $attrs = [], array $field_values = []): Pirep
+    {
+        if (empty($field_values)) {
+            $field_values = [];
+        }
+
+        $attrs['state'] = PirepState::PENDING;
+        $attrs['status'] = PirepStatus::ARRIVED;
+        $attrs['submitted_at'] = Carbon::now('UTC');
+
+        $this->pirepRepo->update($attrs, $pirep->id);
+        $pirep->refresh();
+
+        // Check if there is a simbrief_id, change it to be set to the PIREP
+        // at the end of the flight when it's been filed
+        if (array_key_exists('simbrief_id', $attrs)) {
+            /** @var SimBrief $simbrief */
+            $simbrief = SimBrief::find($attrs['simbrief_id']);
+            if ($simbrief) {
+                $this->simBriefSvc->attachSimbriefToPirep($pirep, $simbrief);
+            }
+        }
+
+        // Check the block times. If a block on (arrival) time isn't
+        // specified, then use the time that it was submitted. It won't
+        // be the most accurate, but that might be OK
+        if (!$pirep->block_on_time) {
+            if ($pirep->submitted_at) {
+                $pirep->block_on_time = $pirep->submitted_at;
+            } else {
+                $pirep->block_on_time = Carbon::now('UTC');
+            }
+        }
+
+        // Check that there's a submit time
+        if (!$pirep->submitted_at) {
+            $pirep->submitted_at = Carbon::now('UTC');
+        }
 
         // Copy some fields over from Flight if we have it
         if ($pirep->flight) {
@@ -314,18 +372,6 @@ class PirepService extends Service
         }
 
         return $pirep;
-    }
-
-    /**
-     * Alias to submit()
-     *
-     * @param \App\Models\Pirep $pirep
-     *
-     * @throws \Exception
-     */
-    public function file(Pirep $pirep)
-    {
-        return $this->submit($pirep);
     }
 
     /**

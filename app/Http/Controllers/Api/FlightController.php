@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Api;
 
 use App\Contracts\Controller;
 use App\Exceptions\AssetNotFound;
+use App\Exceptions\Unauthorized;
 use App\Http\Resources\Flight as FlightResource;
 use App\Http\Resources\Navdata as NavdataResource;
 use App\Models\SimBrief;
+use App\Models\User;
 use App\Repositories\Criteria\WhereCriteria;
 use App\Repositories\FlightRepository;
 use App\Services\FareService;
@@ -152,18 +154,23 @@ class FlightController extends Controller
      *
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
-    public function briefing($id)
+    public function briefing(string $id)
     {
+        /** @var User $user */
         $user = Auth::user();
         $w = [
-            'user_id'   => $user->id,
-            'flight_id' => $id,
+            'id' => $id,
         ];
 
+        /** @var SimBrief $simbrief */
         $simbrief = SimBrief::where($w)->first();
 
         if ($simbrief === null) {
             throw new AssetNotFound(new Exception('Flight briefing not found'));
+        }
+
+        if ($simbrief->user_id !== $user->id) {
+            throw new Unauthorized(new Exception('User cannot access another user\'s simbrief'));
         }
 
         return response($simbrief->acars_xml, 200, [
