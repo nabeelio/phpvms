@@ -51,8 +51,13 @@ class FlightImporter extends ImportExport
         'fields'               => 'nullable',
     ];
 
+    /** @var AirportService */
     private $airportSvc;
+
+    /** @var FareService */
     private $fareSvc;
+
+    /** @var FlightService  */
     private $flightSvc;
 
     /**

@@ -467,6 +467,11 @@ class ImporterTest extends TestCase
      */
     public function testFlightImporter(): void
     {
+        $this->updateSetting('general.auto_airport_lookup', false);
+
+        factory(Airport::class)->create(['icao' => 'KAUS']);
+        factory(Airport::class)->create(['icao' => 'KJFK']);
+
         [$airline, $subfleet] = $this->insertFlightsScaffoldData();
 
         $file_path = base_path('tests/data/flights.csv');
@@ -531,6 +536,19 @@ class ImporterTest extends TestCase
         // Check the subfleets
         $subfleets = $flight->subfleets;
         $this->assertCount(1, $subfleets);
+
+        // Reimport, see that data updates
+        $file_path = base_path('tests/data/flights-update.csv');
+        $status = $this->importSvc->importFlights($file_path);
+
+        $flight = Flight::where([
+            'airline_id'    => $airline->id,
+            'flight_number' => '1972',
+        ])->first();
+
+        $this->assertCount(1, $status['success']);
+        $this->assertEquals('12:00 CST', $flight->dpt_time);
+        $this->assertEquals('18:35 EST', $flight->arr_time);
     }
 
     /**

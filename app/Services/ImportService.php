@@ -117,12 +117,7 @@ class ImportService extends Service
 
             // turn it into a collection and run some filtering
             $row = collect($row)->map(function ($val, $index) {
-                $val = trim($val);
-                if ($val === '') {
-                    return;
-                }
-
-                return $val;
+                return trim($val);
             })->toArray();
 
             // Try to validate

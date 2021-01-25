@@ -101,7 +101,7 @@ class AirportService extends Service
         }
 
         // Don't lookup the airport, so just add in something generic
-        if (!setting('general.auto_airport_lookup')) {
+        if (!setting('general.auto_airport_lookup', false)) {
             $airport = new Airport([
                 'id'   => $icao,
                 'icao' => $icao,
