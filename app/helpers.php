@@ -161,6 +161,7 @@ if (!function_exists('setting')) {
      */
     function setting($key, $default = null)
     {
+        /** @var \App\Repositories\SettingRepository $settingRepo */
         $settingRepo = app(SettingRepository::class);
 
         try {
@@ -181,6 +182,7 @@ if (!function_exists('setting')) {
 if (!function_exists('setting_save')) {
     function setting_save($key, $value)
     {
+        /** @var \App\Repositories\SettingRepository $settingRepo */
         $settingRepo = app(SettingRepository::class);
         $settingRepo->save($key, $value);
         return $value;
