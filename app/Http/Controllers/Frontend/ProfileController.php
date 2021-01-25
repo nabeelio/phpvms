@@ -52,7 +52,7 @@ class ProfileController extends Controller
     {
         // Is the ACARS module enabled?
         $acars_enabled = false;
-        $acars = Module::find('VMSACARS');
+        $acars = Module::find('VMSAcars');
         if ($acars) {
             $acars_enabled = $acars->isEnabled();
         }
@@ -95,6 +95,7 @@ class ProfileController extends Controller
             'user'       => $user,
             'userFields' => $userFields,
             'airports'   => $airports,
+            'acars'      => $this->acarsEnabled(),
         ]);
     }
 

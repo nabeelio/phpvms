@@ -6,6 +6,7 @@ use App\Contracts\ImportExport;
 use App\Contracts\Service;
 use App\Models\Airport;
 use App\Models\Expense;
+use App\Models\Fare;
 use App\Models\Flight;
 use App\Models\FlightFieldValue;
 use App\Repositories\FlightRepository;
@@ -211,7 +212,7 @@ class ImportService extends Service
     public function importFares($csv_file, bool $delete_previous = true)
     {
         if ($delete_previous) {
-            // TODO: Delete all from: fares
+            Fare::truncate();
         }
 
         $importer = new FareImporter();

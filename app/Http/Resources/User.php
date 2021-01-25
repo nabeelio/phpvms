@@ -25,6 +25,7 @@ class User extends Resource
             'last_pirep_id' => $this->last_pirep_id,
             'flights'       => $this->flights,
             'flight_time'   => $this->flight_time,
+            'transfer_time' => $this->transfer_time,
             'timezone'      => $this->timezone,
             'state'         => $this->state,
         ];

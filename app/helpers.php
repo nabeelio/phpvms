@@ -161,6 +161,7 @@ if (!function_exists('setting')) {
      */
     function setting($key, $default = null)
     {
+        /** @var \App\Repositories\SettingRepository $settingRepo */
         $settingRepo = app(SettingRepository::class);
 
         try {
@@ -181,6 +182,7 @@ if (!function_exists('setting')) {
 if (!function_exists('setting_save')) {
     function setting_save($key, $value)
     {
+        /** @var \App\Repositories\SettingRepository $settingRepo */
         $settingRepo = app(SettingRepository::class);
         $settingRepo->save($key, $value);
         return $value;
@@ -352,6 +354,20 @@ if (!function_exists('show_datetime_format')) {
         }
 
         return $date->timezone($timezone)->format($format);
+    }
+}
+
+if (!function_exists('secstohhmm')) {
+    /**
+     * Convert seconds to hhmm format
+     *
+     * @param $seconds
+     */
+    function secstohhmm($seconds)
+    {
+        $seconds = round($seconds);
+        $hhmm = sprintf('%02d%02d', ($seconds / 3600), ($seconds / 60 % 60));
+        echo $hhmm;
     }
 }
 

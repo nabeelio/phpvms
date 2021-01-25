@@ -230,12 +230,18 @@ class AcarsTest extends TestCase
         $this->settingsRepo->store('pireps.restrict_aircraft_to_rank', false);
         $this->settingsRepo->store('pireps.restrict_aircraft_to_rank', false);
 
+        /** @var User user */
         $this->user = factory(User::class)->create([
             'curr_airport_id' => 'KJFK',
         ]);
 
+        /** @var Airport $airport */
         $airport = factory(Airport::class)->create();
+
+        /** @var Airline $airline */
         $airline = factory(Airline::class)->create();
+
+        /** @var Aircraft $aircraft */
         $aircraft = factory(Aircraft::class)->create([
             'airport_id' => 'KAUS',
         ]);
