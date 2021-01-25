@@ -22,8 +22,6 @@ use App\Models\Acars;
 use App\Models\Enums\AcarsType;
 use App\Models\Enums\PirepFieldSource;
 use App\Models\Enums\PirepSource;
-use App\Models\Enums\PirepState;
-use App\Models\Enums\PirepStatus;
 use App\Models\Pirep;
 use App\Models\PirepComment;
 use App\Repositories\AcarsRepository;
@@ -38,9 +36,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
-/**
- * Class PirepController
- */
 class PirepController extends Controller
 {
     private $acarsRepo;
@@ -91,6 +86,10 @@ class PirepController extends Controller
 
         if (array_key_exists('created_at', $attrs)) {
             $attrs['created_at'] = Carbon::createFromTimeString($attrs['created_at']);
+        }
+
+        if (array_key_exists('submitted_at', $attrs)) {
+            $attrs['submitted_at'] = Carbon::createFromTimeString($attrs['submitted_at']);
         }
 
         if (array_key_exists('updated_at', $attrs)) {
@@ -306,14 +305,8 @@ class PirepController extends Controller
             }
         }
 
-        $attrs['state'] = PirepState::PENDING;
-        $attrs['status'] = PirepStatus::ARRIVED;
-        $attrs['submitted_at'] = Carbon::now('UTC');
-
-        $pirep = $this->pirepRepo->update($attrs, $pirep_id);
-
         try {
-            $pirep = $this->pirepSvc->create($pirep);
+            $pirep = $this->pirepSvc->file($pirep, $attrs);
             $this->updateFields($pirep, $request);
             $this->updateFares($pirep, $request);
         } catch (\Exception $e) {
