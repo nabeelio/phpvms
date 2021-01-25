@@ -169,9 +169,9 @@ class FlightController extends Controller
             throw new AssetNotFound(new Exception('Flight briefing not found'));
         }
 
-        if ($simbrief->user_id !== $user->id) {
+        /*if ($simbrief->user_id !== $user->id) {
             throw new Unauthorized(new Exception('User cannot access another user\'s simbrief'));
-        }
+        }*/
 
         return response($simbrief->acars_xml, 200, [
             'Content-Type' => 'application/xml',
