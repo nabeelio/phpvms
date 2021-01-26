@@ -186,13 +186,13 @@ class AwardController extends Controller
     {
         $award = $this->awardRepository->findWithoutFail($id);
         if (empty($award)) {
-            Flash::error('Fare not found');
+            Flash::error('Award not found');
 
             return redirect(route('admin.awards.index'));
         }
 
         $this->awardRepository->delete($id);
-        Flash::success('Fare deleted successfully.');
+        Flash::success('Award deleted successfully.');
 
         return redirect(route('admin.awards.index'));
     }
