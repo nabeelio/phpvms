@@ -42,7 +42,7 @@ class PilotHoursAwards extends Award
      */
     public function check($flight_minutes = null): bool
     {
-        if (!is_int($flight_minutes)) {
+        if (!is_numeric($flight_minutes)) {
             Log::error('PilotHourAwards: Flight time "'.$flight_minutes.'" is not a valid flight time');
             return false;
         }
