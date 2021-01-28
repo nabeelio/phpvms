@@ -171,7 +171,7 @@
     <div class="col-sm-12">
       <table class="table table-full-width">
         @foreach($userFields as $field)
-          @if($field->private == 0)
+          @if(!$field->private)
             <tr>
               <td>{{ $field->name }}</td>
               <td>{{ $field->value }}</td>
