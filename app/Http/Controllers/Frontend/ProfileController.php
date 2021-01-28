@@ -122,7 +122,7 @@ class ProfileController extends Controller
 
         $airlines = $this->airlineRepo->selectBoxList();
         $airports = $this->airportRepo->selectBoxList(false, setting('pilots.home_hubs_only'));
-        $userFields = $this->userRepo->getUserFields($user, false);
+        $userFields = $this->userRepo->getUserFields($user, true);
 
         return view('profile.edit', [
             'user'       => $user,
