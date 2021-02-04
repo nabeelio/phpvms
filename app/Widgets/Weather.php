@@ -11,7 +11,8 @@ use App\Services\AirportService;
 class Weather extends Widget
 {
     protected $config = [
-        'icao' => null,
+        'icao'     => null,
+        'raw_only' => null,
     ];
 
     /**
