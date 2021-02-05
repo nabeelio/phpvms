@@ -130,3 +130,11 @@
     border-radius: 5px;
     width: 250px;
 }
+
+/*
+*   fix the dropdown menu on mobile view
+*/
+.dropdown-menu:not(.show) {
+    display: none;
+}
+
