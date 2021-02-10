@@ -80,7 +80,7 @@ return [
 
     // Overrides config/mail.php
     'mail' => [
-        'driver' => 'mail',  # Default is to use the mail() fn
+        'default' => 'mail',  # Default is to use the mail() fn
         'mailers' => [
             'smtp' => [
                 'transport' => 'smtp',
