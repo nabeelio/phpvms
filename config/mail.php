@@ -15,8 +15,7 @@ return [
     |
     */
 
-    'driver' => env('MAIL_DRIVER', 'smtp'),
-
+    'default' => env('MAIL_DRIVER', 'smtp'),
     'mailers' => [
         'smtp' => [
             'transport'  => 'smtp',
@@ -71,4 +70,21 @@ return [
         'address' => env('MAIL_FROM_ADDRESS', 'no-reply@phpvms.net'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Markdown Mail Settings
+    |--------------------------------------------------------------------------
+    |
+    | If you are using Markdown based email rendering, you may configure your
+    | theme and component paths here, allowing you to customize the design
+    | of the emails. Or, you may simply stick with the Laravel defaults!
+    |
+    */
+
+    'markdown' => [
+        'theme' => 'default',
+        'paths' => [
+            resource_path('views/vendor/mail'),
+        ],
+    ],
 ];
