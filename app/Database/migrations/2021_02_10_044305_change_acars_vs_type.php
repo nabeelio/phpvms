@@ -12,7 +12,7 @@ class ChangeAcarsVsType extends Migration
     public function up()
     {
         Schema::table('acars', function (Blueprint $table) {
-            $table->double('vs')->change()->default(0.0)->nullable();
+            $table->float('vs')->change()->default(0.0)->nullable();
         });
     }
 }
