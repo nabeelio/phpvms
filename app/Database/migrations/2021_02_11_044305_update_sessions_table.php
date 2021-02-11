@@ -12,7 +12,6 @@ class UpdateSessionsTable extends Migration
     public function up()
     {
         Schema::table('sessions', function (Blueprint $table) {
-            $table->string('id')->change()->primary();
             $table->index('user_id');
             $table->index('last_activity');
         });
