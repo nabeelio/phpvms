@@ -107,7 +107,7 @@ return [
 
     // Overrides config/session.php
     'session' => [
-        'default' => 'file',
+        'default' => 'database',
         'lifetime' => 60 * 24,  # 24 hours
     ],
 ];
