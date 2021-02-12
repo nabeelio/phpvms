@@ -107,7 +107,8 @@ return [
 
     // Overrides config/session.php
     'session' => [
-        'default' => 'database',
+        'driver' => 'database',
+        'connection' => 'mysql',
         'lifetime' => 60 * 24,  # 24 hours
     ],
 ];
