@@ -92,6 +92,6 @@ class CronService extends Service
 
         // More than 5 minutes... there's a problem
         $diff = $dt_now->diff($dt);
-        return $diff->i > 5;
+        return $diff->i > 60 * 12;  // Hasn't run for 12 hours
     }
 }
