@@ -286,9 +286,7 @@ class FareService extends Service
      */
     public function getForPirep(Pirep $pirep)
     {
-        $found_fares = PirepFare::where('pirep_id', $pirep->id)->get();
-
-        return $found_fares;
+        return PirepFare::where('pirep_id', $pirep->id)->get();
     }
 
     /**
@@ -312,6 +310,8 @@ class FareService extends Service
         foreach ($fares as $fare) {
             $fare['pirep_id'] = $pirep->id;
             // other fields: ['fare_id', 'count']
+
+            Log::info('Saving fare pirep='.$pirep->id.', fare='.$fare['count']);
 
             $field = new PirepFare($fare);
             $field->save();
