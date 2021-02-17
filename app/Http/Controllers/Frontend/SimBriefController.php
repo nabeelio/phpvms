@@ -109,6 +109,7 @@ class SimBriefController
 
         $loadmax = $lfactor + $lfactorv;
         $loadmax = $loadmax > 100 ? 100 : $loadmax;
+
         // Failsafe for admins not defining load values for their flights
         // and also leave the general settings empty, set loadmax to 100
         if ($loadmax === 0) {

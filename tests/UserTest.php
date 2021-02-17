@@ -5,11 +5,14 @@ namespace Tests;
 use App\Exceptions\PilotIdNotFound;
 use App\Exceptions\UserPilotIdExists;
 use App\Models\Airline;
+use App\Models\Enums\UserState;
 use App\Models\Fare;
+use App\Models\Pirep;
 use App\Models\User;
 use App\Repositories\SettingRepository;
 use App\Services\FareService;
 use App\Services\UserService;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 
 class UserTest extends TestCase
@@ -323,5 +326,49 @@ class UserTest extends TestCase
             $user = new User(['name' => $input]);
             $this->assertEquals($expected, $user->name_private);
         }
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function testUserLeave(): void
+    {
+        $this->createUser(['status' => UserState::ACTIVE]);
+
+        $users_on_leave = $this->userSvc->findUsersOnLeave();
+        $this->assertEquals(0, count($users_on_leave));
+
+        $this->updateSetting('pilots.auto_leave_days', 1);
+        $user = $this->createUser([
+            'status'     => UserState::ACTIVE,
+            'created_at' => Carbon::now('UTC')->subDays(5),
+        ]);
+
+        $users_on_leave = $this->userSvc->findUsersOnLeave();
+        $this->assertEquals(1, count($users_on_leave));
+        $this->assertEquals($user->id, $users_on_leave[0]->id);
+
+        // Give that user a new PIREP, still old
+        /** @var \App\Models\Pirep $pirep */
+        $pirep = factory(Pirep::class)->create(['submitted_at' => Carbon::now('UTC')->subDays(5)]);
+
+        $user->last_pirep_id = $pirep->id;
+        $user->save();
+        $user->refresh();
+
+        $users_on_leave = $this->userSvc->findUsersOnLeave();
+        $this->assertEquals(1, count($users_on_leave));
+        $this->assertEquals($user->id, $users_on_leave[0]->id);
+
+        // Create a new PIREP
+        /** @var \App\Models\Pirep $pirep */
+        $pirep = factory(Pirep::class)->create(['submitted_at' => Carbon::now('UTC')]);
+
+        $user->last_pirep_id = $pirep->id;
+        $user->save();
+        $user->refresh();
+
+        $users_on_leave = $this->userSvc->findUsersOnLeave();
+        $this->assertEquals(0, count($users_on_leave));
     }
 }

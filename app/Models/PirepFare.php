@@ -4,6 +4,14 @@ namespace App\Models;
 
 use App\Contracts\Model;
 
+/**
+ * @property int    id
+ * @property string pirep_id
+ * @property int    fare_id
+ * @property int    count
+ * @property Pirep  pirep
+ * @property Fare   fare
+ */
 class PirepFare extends Model
 {
     public $table = 'pirep_fares';
