@@ -8,6 +8,7 @@ use App\Models\Enums\UserState;
 use App\Models\User;
 use App\Services\UserService;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Determine if any pilots should be set to ON LEAVE status
@@ -18,6 +19,8 @@ class PilotLeave extends Listener
 
     /**
      * PilotLeave constructor.
+     *
+     * @param UserService $userSvc
      */
     public function __construct(UserService $userSvc)
     {
@@ -34,14 +37,7 @@ class PilotLeave extends Listener
      */
     public function handle(CronNightly $event): void
     {
-        if (setting('pilots.auto_leave_days') === 0) {
-            return;
-        }
-
-        $date = Carbon::now()->subDay(setting('pilots.auto_leave_days'));
-        $users = User::where('status', UserState::ACTIVE)
-           ->whereDate('updated_at', '<', $date);
-
+        $users = $this->userSvc->findUsersOnLeave();
         foreach ($users as $user) {
             Log::info('Setting user '.$user->ident.' to ON LEAVE status');
             $this->userSvc->setStatusOnLeave($user);
