@@ -4,10 +4,7 @@ namespace App\Cron\Nightly;
 
 use App\Contracts\Listener;
 use App\Events\CronNightly;
-use App\Models\Enums\UserState;
-use App\Models\User;
 use App\Services\UserService;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 
 /**
