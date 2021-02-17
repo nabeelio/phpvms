@@ -462,7 +462,7 @@ class UserService extends Service
         $user->state = UserState::ON_LEAVE;
         $user->save();
 
-        event(new UserStateChanged($user, UserState::ACTIVE));
+        event(new UserStateChanged($user, UserState::ON_LEAVE));
 
         $user->refresh();
         return $user;
