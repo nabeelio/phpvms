@@ -10,7 +10,10 @@ use App\Services\AirportService;
  */
 class Weather extends Widget
 {
-    protected $config = ['icao' => null];
+    protected $config = [
+        'icao'     => null,
+        'raw_only' => null,
+    ];
 
     /**
      * Attempt to get the data from the CheckWX API
@@ -24,7 +27,6 @@ class Weather extends Widget
 
         return view('widgets.weather', [
             'config'    => $this->config,
-            'icao'      => $this->config['icao'],
             'metar'     => $metar,
             'taf'       => $taf,
             'unit_alt'  => setting('units.altitude'),
