@@ -123,6 +123,10 @@ class Utils
             return $val;
         }
 
+        if ($result->hostname === 'localhost') {
+            return 'localhost';
+        }
+
         // Couldn't validate a domain, see if this is an IP address?
         if (filter_var($url, FILTER_VALIDATE_IP)) {
             return $url;

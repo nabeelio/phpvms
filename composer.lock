@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6f5fb0bd12dc789b1ad1613ddf907a80",
+    "content-hash": "5bd282b9602f7922883277e45c82603e",
     "packages": [
         {
             "name": "akaunting/money",
@@ -1654,6 +1654,63 @@
                 "validator"
             ],
             "time": "2020-08-08T21:28:19+00:00"
+        },
+        {
+            "name": "elcobvg/laravel-opcache",
+            "version": "0.4.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/elcobvg/laravel-opcache.git",
+                "reference": "a9af6d12f8bda562dd187f6d5368c647c1f02a44"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/elcobvg/laravel-opcache/zipball/a9af6d12f8bda562dd187f6d5368c647c1f02a44",
+                "reference": "a9af6d12f8bda562dd187f6d5368c647c1f02a44",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "1.0",
+                "orchestra/testbench": "3.5",
+                "phpunit/phpunit": "6.5",
+                "squizlabs/php_codesniffer": "3.2"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "ElcoBvg\\Opcache\\ServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "ElcoBvg\\Opcache\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Elco Brouwer von Gonzenbach",
+                    "email": "elco.brouwer@gmail.com"
+                }
+            ],
+            "description": "Custom OPcache Cache Driver for Laravel. Faster than Redis or memcached.",
+            "homepage": "https://github.com/elcobvg/laravel-opcache",
+            "keywords": [
+                "Opcache",
+                "cache",
+                "driver",
+                "laravel",
+                "webprofiler"
+            ],
+            "time": "2020-05-16T00:51:29+00:00"
         },
         {
             "name": "facade/flare-client-php",

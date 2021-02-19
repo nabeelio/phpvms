@@ -4,7 +4,7 @@
   <div class="content">
     @if($cron_problem_exists)
       <div class="alert alert-danger" role="alert">
-        There was a problem running the cron; make sure it's setup and check logs at
+        The cron has not run in more than 12 hours; make sure it's setup and check logs at
         <span class="text-monospace bg-gradient-dark">storage/logs/cron.log</span>.
         <a href="{{ docs_link('cron') }}" target="_blank">See the docs</a>
       </div>

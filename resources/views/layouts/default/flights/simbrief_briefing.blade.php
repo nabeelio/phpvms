@@ -223,8 +223,8 @@
                   <form action="https://my.vatsim.net/pilots/flightplan" method="GET" target="_blank">
                     <input type="hidden" name="raw" value="{{ $simbrief->xml->atc->flightplan_text }}">
                     <input type="hidden" name="fuel_time" value="@secstohhmm($simbrief->xml->times->endurance)">
-                    <input type="hidden" name="speed" value="{{ $simbrief->xml->atc->initial_spd }}">
-                    <input type="hidden" name="altitude" value="{{ $simbrief->xml->atc->initial_alt }}">
+                    <input type="hidden" name="speed" value="@if(substr($simbrief->xml->atc->initial_spd,0,1) === '0') {{ substr($simbrief->xml->atc->initial_spd,1) }} @else {{ $simbrief->xml->atc->initial_spd }} @endif">
+                    <input type="hidden" name="altitude" value="{{ $simbrief->xml->general->initial_altitude }}">
                     <input id="vatsim_prefile" type="submit" class="btn btn-primary" value="File ATC on VATSIM"/>
                   </form>
                 </div>

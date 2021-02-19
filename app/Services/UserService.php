@@ -21,6 +21,7 @@ use App\Repositories\SubfleetRepository;
 use App\Repositories\UserRepository;
 use App\Support\Units\Time;
 use App\Support\Utils;
+use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use function is_array;
@@ -255,6 +256,41 @@ class UserService extends Service
     }
 
     /**
+     * Return all of the users that are determined to be on leave. Only goes through the
+     * currently active users. If the user doesn't have a PIREP, then the creation date
+     * of the user record is used to determine the difference
+     */
+    public function findUsersOnLeave(): array
+    {
+        $leave_days = setting('pilots.auto_leave_days');
+        if ($leave_days === 0) {
+            return [];
+        }
+
+        $return_users = [];
+
+        $date = Carbon::now('UTC');
+        $users = User::with(['last_pirep'])->where('status', UserState::ACTIVE)->get();
+
+        /** @var User $user */
+        foreach ($users as $user) {
+            // If they haven't submitted a PIREP, use the date that the user was created
+            if (!$user->last_pirep) {
+                $diff_date = $user->created_at;
+            } else {
+                $diff_date = $user->last_pirep->submitted_at;
+            }
+
+            // See if the difference is larger than what the setting calls for
+            if ($date->diffInDays($diff_date) > $leave_days) {
+                $return_users[] = $user;
+            }
+        }
+
+        return $return_users;
+    }
+
+    /**
      * Return the subfleets this user is allowed access to,
      * based on their current rank
      *
@@ -426,7 +462,7 @@ class UserService extends Service
         $user->state = UserState::ON_LEAVE;
         $user->save();
 
-        event(new UserStateChanged($user, UserState::ACTIVE));
+        event(new UserStateChanged($user, UserState::ON_LEAVE));
 
         $user->refresh();
         return $user;
