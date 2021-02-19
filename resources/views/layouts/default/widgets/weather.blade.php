@@ -4,10 +4,8 @@ If you want to edit this, you can reference the CheckWX API docs:
 https://api.checkwx.com/#metar-decoded
 
 --}}
-@if(!$metar)
-  <p>@lang('widgets.weather.nometar')</p>
-@else
-  <table class="table table-striped">
+<table class="table table-striped">
+  @if($config['raw_only'] != true && $metar)
     <tr>
       <td>@lang('widgets.weather.conditions')</td>
       <td>{{ $metar['category'] }}</td>
@@ -20,35 +18,35 @@ https://api.checkwx.com/#metar-decoded
       </td>
     </tr>
     @if($metar['visibility'])
-    <tr>
-      <td>Visibility</td>
-      <td>{{ $metar['visibility'][$unit_dist] }} {{$unit_dist}}</td>
-    </tr>
+     <tr>
+       <td>Visibility</td>
+       <td>{{ $metar['visibility'][$unit_dist] }} {{$unit_dist}}</td>
+     </tr>
     @endif
     @if($metar['runways_visual_range'])
-		<tr>
+		 <tr>
 			<td>Runway Visual Range</td>
 			<td>
 			  @foreach($metar['runways_visual_range'] as $rvr)
 			    <b>RWY{{ $rvr['runway'] }}</b>; {{ $rvr['report'] }}<br>
 			  @endforeach
 			</td>
-		</tr>
+		 </tr>
 		@endif
     @if($metar['present_weather_report'] <> 'Dry')
-		<tr>
+		 <tr>
 			<td>Phenomena</td>
 			<td>{{ $metar['present_weather_report'] }}</td>
-		</tr>
+		 </tr>
 		@endif
     @if($metar['clouds'] || $metar['cavok'])
-		<tr>
+		 <tr>
 			<td>@lang('widgets.weather.clouds')</td>
 			<td>
 				@if($unit_alt === 'ft') {{ $metar['clouds_report_ft'] }} @else {{ $metar['clouds_report'] }} @endif 
 				@if($metar['cavok'] == 1) Ceiling and Visibility OK @endif
 			</td>
-		</tr>
+		 </tr>
 		@endif
     <tr>
 			<td>Temperature</td>
@@ -63,20 +61,20 @@ https://api.checkwx.com/#metar-decoded
       <td>{{ number_format($metar['barometer']['hPa']) }} hPa / {{ number_format($metar['barometer']['inHg'], 2) }} inHg</td>
     </tr>
     @if($metar['recent_weather_report'])
-		<tr>
+		 <tr>
 			<td>Recent Phenomena</td>
 			<td>{{ $metar['recent_weather_report'] }}</td>
-		</tr>
+		 </tr>
 		@endif
 		@if($metar['runways_report'])
-		<tr>
+		 <tr>
 			<td>Runway Condition</td>
 			<td>
 			  @foreach($metar['runways_report'] as $runway)
 			    <b>RWY{{ $runway['runway'] }}</b>; {{ $runway['report'] }}<br>
 			  @endforeach
 			</td>
-		</tr>	
+		 </tr>	
 		@endif
     @if($metar['remarks'])
       <tr>
@@ -88,9 +86,13 @@ https://api.checkwx.com/#metar-decoded
       <td>@lang('widgets.weather.updated')</td>
       <td>{{$metar['observed_time']}} ({{$metar['observed_age']}})</td>
     </tr>
+  @endif
     <tr>
       <td>@lang('common.metar')</td>
-      <td>{{ $metar['raw'] }}</td>
+      <td>@if($metar) {{ $metar['raw'] }} @else @lang('widgets.weather.nometar') @endif</td>
     </tr>
-  </table>
-@endif
+    <tr>
+      <td>TAF</td>
+      <td>@if($taf) {{ $taf['raw'] }} @else @lang('widgets.weather.nometar') @endif</td>
+    </tr>
+</table>
