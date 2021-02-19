@@ -3,7 +3,9 @@
 namespace Tests;
 
 use App\Models\Aircraft;
+use App\Models\Enums\UserState;
 use App\Models\Flight;
+use App\Models\Pirep;
 use App\Models\Subfleet;
 use App\Models\User;
 use Exception;
@@ -21,34 +23,37 @@ trait TestData
     {
         $subfleet = $this->createSubfleetWithAircraft(1);
         $rank = $this->createRank(2, [$subfleet['subfleet']->id]);
-        $user = factory(User::class)->create(array_merge([
+
+        return factory(User::class)->create(array_merge([
             'flight_time' => 1000,
             'rank_id'     => $rank->id,
+            'state'       => UserState::ACTIVE,
         ], $attrs));
-
-        return $user;
     }
 
     /**
      * Create a new PIREP with a proper subfleet/rank/user and an
      * aircraft that the user is allowed to fly
      *
+     * @param array $user_attrs  Additional attributes for the user
+     * @param array $pirep_attrs Additional attributes for the PIREP
+     *
+     * @throws \Exception
+     *
      * @return \App\Models\Pirep
      */
-    protected function createPirep()
+    protected function createPirep(array $user_attrs = [], array $pirep_attrs = [])
     {
         $subfleet = $this->createSubfleetWithAircraft(2);
         $rank = $this->createRank(10, [$subfleet['subfleet']->id]);
-        $this->user = factory(\App\Models\User::class)->create([
+        $this->user = factory(\App\Models\User::class)->create(array_merge([
             'rank_id' => $rank->id,
-        ]);
+        ], $user_attrs));
 
         // Return a Pirep model
-        $pirep = factory(\App\Models\Pirep::class)->make([
+        return factory(Pirep::class)->make(array_merge([
             'aircraft_id' => $subfleet['aircraft']->random()->id,
-        ]);
-
-        return $pirep;
+        ], $pirep_attrs));
     }
 
     /**

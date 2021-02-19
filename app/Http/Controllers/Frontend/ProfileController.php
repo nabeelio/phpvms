@@ -52,7 +52,7 @@ class ProfileController extends Controller
     {
         // Is the ACARS module enabled?
         $acars_enabled = false;
-        $acars = Module::find('VMSACARS');
+        $acars = Module::find('VMSAcars');
         if ($acars) {
             $acars_enabled = $acars->isEnabled();
         }
@@ -95,6 +95,7 @@ class ProfileController extends Controller
             'user'       => $user,
             'userFields' => $userFields,
             'airports'   => $airports,
+            'acars'      => $this->acarsEnabled(),
         ]);
     }
 
@@ -121,7 +122,7 @@ class ProfileController extends Controller
 
         $airlines = $this->airlineRepo->selectBoxList();
         $airports = $this->airportRepo->selectBoxList(false, setting('pilots.home_hubs_only'));
-        $userFields = $this->userRepo->getUserFields($user, false);
+        $userFields = $this->userRepo->getUserFields($user, true);
 
         return view('profile.edit', [
             'user'       => $user,

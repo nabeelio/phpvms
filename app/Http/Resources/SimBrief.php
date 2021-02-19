@@ -13,7 +13,7 @@ class SimBrief extends Resource
     {
         return [
             'id'  => $this->id,
-            'url' => url(route('api.flights.briefing', ['id' => $this->flight_id])),
+            'url' => url(route('api.flights.briefing', ['id' => $this->id])),
         ];
     }
 }

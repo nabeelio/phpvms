@@ -133,11 +133,11 @@
         <div class="text-right">
           @if (isset($acars) && $acars === true)
           <a href="{{ route('frontend.profile.acars') }}" class="btn btn-primary"
-             onclick="alert('Save to \'My Documents/phpVMS\'')">ACARS Config</a>
+             onclick="alert('Copy or Save to \'My Documents/phpVMS\'')">ACARS Config</a>
           &nbsp;
           @endif
           <a href="{{ route('frontend.profile.regen_apikey') }}" class="btn btn-warning"
-             onclick="return confirm({{ __('Are you sure? This will reset your API key.') }})">@lang('profile.newapikey')</a>
+             onclick="return confirm('Are you sure? This will reset your API key!')">@lang('profile.newapikey')</a>
           &nbsp;
           <a href="{{ route('frontend.profile.edit', [$user->id]) }}"
              class="btn btn-primary">@lang('common.edit')</a>
@@ -171,7 +171,7 @@
     <div class="col-sm-12">
       <table class="table table-full-width">
         @foreach($userFields as $field)
-          @if($field->public === true)
+          @if(!$field->private)
             <tr>
               <td>{{ $field->name }}</td>
               <td>{{ $field->value }}</td>

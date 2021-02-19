@@ -137,6 +137,13 @@ class FlightService extends Service
     {
         /** @var \Illuminate\Support\Collection $subfleets */
         $subfleets = $flight->subfleets;
+
+        // If no subfleets assigned to a flight get users allowed subfleets
+        if ($subfleets === null || $subfleets->count() === 0) {
+            $subfleets = $this->userSvc->getAllowableSubfleets($user);
+        }
+
+        // If subfleets are still empty return the flight
         if ($subfleets === null || $subfleets->count() === 0) {
             return $flight;
         }

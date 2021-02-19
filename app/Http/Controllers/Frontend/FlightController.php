@@ -147,6 +147,12 @@ class FlightController extends Controller
         $flights = collect();
         $saved_flights = [];
         foreach ($user->bids as $bid) {
+            // Remove any invalid bids (flight doesn't exist or something)
+            if (!$bid->flight) {
+                $bid->delete();
+                continue;
+            }
+
             $flights->add($bid->flight);
             $saved_flights[] = $bid->flight->id;
         }

@@ -423,14 +423,16 @@ class PIREPTest extends TestCase
 
         // Submit two PIREPs
         // 1 hour flight times, but the rank should bump up because of the transfer hours
+        /** @var Pirep $pirep */
         $pirep = factory(Pirep::class)->create([
             'airline_id' => $user->airline_id,
             'user_id'    => $user->id,
         ]);
 
         $this->pirepSvc->create($pirep);
-        $this->pirepSvc->file($pirep);
+        $this->pirepSvc->submit($pirep);
 
+        /** @var User $user */
         $user = User::find($user->id);
         $this->assertEquals(UserState::ACTIVE, $user->state);
     }

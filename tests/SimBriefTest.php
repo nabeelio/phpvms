@@ -23,8 +23,9 @@ class SimBriefTest extends TestCase
      *
      * @return \App\Models\SimBrief
      */
-    protected function loadSimBrief($user): SimBrief
+    protected function loadSimBrief(User $user): SimBrief
     {
+        /** @var \App\Models\Flight $flight */
         $flight = factory(Flight::class)->create([
             'id'             => self::$simbrief_flight_id,
             'dpt_airport_id' => 'OMAA',
@@ -39,7 +40,7 @@ class SimBriefTest extends TestCase
         /** @var SimBriefService $sb */
         $sb = app(SimBriefService::class);
 
-        return $sb->checkForOfp($user->id, Utils::generateNewId(), $flight->id);
+        return $sb->downloadOfp($user->id, Utils::generateNewId(), $flight->id);
     }
 
     /**
@@ -99,14 +100,13 @@ class SimBriefTest extends TestCase
 
         $url = str_replace('http://', 'https://', $flight['simbrief']['url']);
         $this->assertEquals(
-            'https://localhost/api/flights/'.$briefing->flight_id.'/briefing',
+            'https://localhost/api/flights/'.$briefing->id.'/briefing',
             $url
         );
 
         // Retrieve the briefing via API, and then check the doctype
-        $response = $this->get('/api/flights/'.$briefing->flight_id.'/briefing');
+        $response = $this->get('/api/flights/'.$briefing->id.'/briefing', [], $this->user);
         $response->assertOk();
-        // $response->assertHeader('Content-Type', 'application/xml');
 
         $xml = simplexml_load_string($response->content());
         $this->assertNotNull($xml);

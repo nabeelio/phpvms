@@ -27,6 +27,7 @@ class Pirep extends Resource
     {
         $res = parent::toArray($request);
         $res['ident'] = $this->ident;
+        $res['phase'] = $this->status;
         $res['status_text'] = PirepStatus::label($this->status);
 
         // Set these to the response units

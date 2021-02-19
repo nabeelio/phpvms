@@ -58,7 +58,8 @@
         "webpatser/laravel-uuid": "~3.0",
         "oomphinc/composer-installers-extender": "^1.1",
         "laravel/ui": "^2.0",
-        "madnest/madzipper": "^1.0"
+        "madnest/madzipper": "^1.0",
+        "elcobvg/laravel-opcache": "^0.4.1"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.0",
