@@ -9,12 +9,15 @@ use Exception;
 use Illuminate\Support\Facades\Log;
 
 /**
- * Return the raw METAR string from the NOAA Aviation Weather Service
+ * Return the raw METAR/TAF string from the NOAA Aviation Weather Service
  */
 class AviationWeather extends Metar
 {
     private const METAR_URL =
         'https://www.aviationweather.gov/adds/dataserver_current/httpparam?dataSource=metars&requestType=retrieve&format=xml&hoursBeforeNow=3&mostRecent=true&stationString=';
+
+    private const TAF_URL =
+        'https://www.aviationweather.gov/adds/dataserver_current/httpparam?dataSource=tafs&requestType=retrieve&format=xml&hoursBeforeNow=3&mostRecent=true&stationString=';
 
     private $httpClient;
 
@@ -33,7 +36,7 @@ class AviationWeather extends Metar
      *
      * @return string
      */
-    protected function metar($icao): string
+    protected function get_metar($icao): string
     {
         if ($icao === '') {
             return '';
@@ -67,7 +70,53 @@ class AviationWeather extends Metar
             return $xml->data->METAR->raw_text->__toString();
         } catch (Exception $e) {
             Log::error('Error reading METAR: '.$e->getMessage());
+            return '';
+        }
+    }
 
+    /**
+     * Do the actual retrieval of the TAF
+     *
+     * @param $icao
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     *
+     * @return string
+     */
+    protected function get_taf($icao): string
+    {
+        if ($icao === '') {
+            return '';
+        }
+
+        $tafurl = static::TAF_URL.$icao;
+
+        try {
+            $tafres = $this->httpClient->get($tafurl, []);
+            $tafxml = simplexml_load_string($tafres);
+
+            $tafattrs = $tafxml->data->attributes();
+            if (!isset($tafattrs['num_results'])) {
+                return '';
+            }
+
+            $tafnum_results = $tafattrs['num_results'];
+            if (empty($tafnum_results)) {
+                return '';
+            }
+
+            $tafnum_results = (int) $tafnum_results;
+            if ($tafnum_results === 0) {
+                return '';
+            }
+
+            if (count($tafxml->data->TAF->raw_text) === 0) {
+                return '';
+            }
+
+            return $tafxml->data->TAF->raw_text->__toString();
+        } catch (Exception $e) {
+            Log::error('Error reading TAF: '.$e->getMessage());
             return '';
         }
     }

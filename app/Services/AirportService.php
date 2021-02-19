@@ -46,9 +46,29 @@ class AirportService extends Service
             return;
         }
 
-        $raw_metar = $this->metarProvider->get_metar($icao);
+        $raw_metar = $this->metarProvider->metar($icao);
         if ($raw_metar && $raw_metar !== '') {
             return new Metar($raw_metar);
+        }
+    }
+
+    /**
+     * Return the METAR for a given airport
+     *
+     * @param $icao
+     *
+     * @return Metar|null
+     */
+    public function getTaf($icao)
+    {
+        $icao = trim($icao);
+        if ($icao === '') {
+            return;
+        }
+
+        $raw_taf = $this->metarProvider->taf($icao);
+        if ($raw_taf && $raw_taf !== '') {
+            return new Metar($raw_taf, true);
         }
     }
 
