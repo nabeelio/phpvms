@@ -23,6 +23,7 @@ return [
         'tokenizer',
         'json',
         'curl',
+        'dom',
     ],
 
     // Make sure these are writable
