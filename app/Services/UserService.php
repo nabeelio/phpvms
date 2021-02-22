@@ -270,7 +270,7 @@ class UserService extends Service
         $return_users = [];
 
         $date = Carbon::now('UTC');
-        $users = User::with(['last_pirep'])->where('status', UserState::ACTIVE)->get();
+        $users = User::with(['last_pirep'])->where('state', UserState::ACTIVE)->get();
 
         /** @var User $user */
         foreach ($users as $user) {
