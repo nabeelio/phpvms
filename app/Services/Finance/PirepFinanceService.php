@@ -157,18 +157,20 @@ class PirepFinanceService extends Service
           // Reading second row by skip(1) to reach the previous accepted pirep. Current pirep is at the first row
           $prev_flight = Pirep::where('aircraft_id', $ac->id)->where('state', 2)->where('status', 'ONB')->orderby('submitted_at', 'desc')->skip(1)->first();
           if ($prev_flight) {
-            // If there is a pirep use its value to calculate the remaining fuel
-            // and calculate the uplifted fuel amount for this pirep
-            $fuel_amount = $pirep->block_fuel - ($prev_flight->block_fuel - $prev_flight->fuel_used);
-            // Aircraft has more than enough fuel in its tanks, no uplift necessary
-            if ($fuel_amount < 0) { $fuel_amount = 0; }
+              // If there is a pirep use its value to calculate the remaining fuel
+              // and calculate the uplifted fuel amount for this pirep
+              $fuel_amount = $pirep->block_fuel - ($prev_flight->block_fuel - $prev_flight->fuel_used);
+              // Aircraft has more than enough fuel in its tanks, no uplift necessary
+              if ($fuel_amount < 0) {
+                  $fuel_amount = 0;
+              }
           } else {
-            // No pirep found for aircraft, debit full block fuel
-            $fuel_amount = $pirep->block_fuel;
+              // No pirep found for aircraft, debit full block fuel
+              $fuel_amount = $pirep->block_fuel;
           }
         } else {
-          // Setting is false, switch back to basic calculation
-          $fuel_amount = $pirep->fuel_used;
+            // Setting is false, switch back to basic calculation
+            $fuel_amount = $pirep->fuel_used;
         }
 
         $debit = Money::createFromAmount($fuel_amount * $ap->fuel_jeta_cost);
