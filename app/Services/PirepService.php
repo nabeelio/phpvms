@@ -539,6 +539,7 @@ class PirepService extends Service
         $pirep->aircraft->flight_time = $pirep->aircraft->flight_time + $pirep->flight_time;
         $pirep->aircraft->airport_id = $pirep->arr_airport_id;
         $pirep->aircraft->landing_time = $pirep->updated_at;
+        $pirep->aircraft->fuel_onboard = $pirep->block_fuel - $pirep->fuel_used;
         $pirep->aircraft->save();
 
         $pirep->refresh();

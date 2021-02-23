@@ -305,3 +305,11 @@
   options: ''
   type: 'text'
   description: 'Discord public channel ID for broadcasat notifications'
+- key: pireps.advanced_fuel
+  name: 'Advanced Fuel Calculations'
+  group: pireps
+  value: false
+  options: ''
+  type: boolean
+  description: 'Enables remaining fuel amounts to be considered for fuel expenses'
+  
