@@ -150,7 +150,7 @@ class SeederService extends Service
                 'order'       => $order,
                 'name'        => '',
                 'group'       => $group,
-                'value'       => '',
+                'value'       => $attrs['value'],
                 'default'     => $attrs['value'],
                 'options'     => '',
                 'type'        => 'hidden',
@@ -161,7 +161,6 @@ class SeederService extends Service
 
         $count = DB::table('settings')->where('id', $id)->count('id');
         if ($count === 0) {
-            $attrs['value'] = $attrs['default'];
             DB::table('settings')->insert($attrs);
         } else {
             unset($attrs['value']);  // Don't overwrite this
