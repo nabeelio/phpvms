@@ -150,7 +150,7 @@ class SeederService extends Service
                 'order'       => $order,
                 'name'        => '',
                 'group'       => $group,
-                'value'       => '',
+                'value'       => $attrs['value'],
                 'default'     => $attrs['value'],
                 'options'     => '',
                 'type'        => 'hidden',
