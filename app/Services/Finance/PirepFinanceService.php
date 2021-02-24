@@ -152,10 +152,29 @@ class PirepFinanceService extends Service
     public function payFuelCosts(Pirep $pirep): void
     {
         $ap = $pirep->dpt_airport;
-        $fuel_used = $pirep->fuel_used;
+        if (setting('pirep.advanced_fuel', false)) {
+            $ac = $pirep->aircraft;
+            // Reading second row by skip(1) to reach the previous accepted pirep. Current pirep is at the first row
+            $prev_flight = Pirep::where('aircraft_id', $ac->id)->where('state', 2)->where('status', 'ONB')->orderby('submitted_at', 'desc')->skip(1)->first();
+            if ($prev_flight) {
+                // If there is a pirep use its values to calculate the remaining fuel
+                // and calculate the uplifted fuel amount for this pirep
+                $fuel_amount = $pirep->block_fuel - ($prev_flight->block_fuel - $prev_flight->fuel_used);
+                // Aircraft has more than enough fuel in its tanks, no uplift necessary
+                if ($fuel_amount < 0) {
+                    $fuel_amount = 0;
+                }
+            } else {
+                // No pirep found for aircraft, debit full block fuel
+                $fuel_amount = $pirep->block_fuel;
+            }
+        } else {
+            // Setting is false, switch back to basic calculation
+            $fuel_amount = $pirep->fuel_used;
+        }
 
-        $debit = Money::createFromAmount($fuel_used * $ap->fuel_jeta_cost);
-        Log::info('Finance: Fuel cost, (fuel='.$fuel_used.', cost='.$ap->fuel_jeta_cost.') D='
+        $debit = Money::createFromAmount($fuel_amount * $ap->fuel_jeta_cost);
+        Log::info('Finance: Fuel cost, (fuel='.$fuel_amount.', cost='.$ap->fuel_jeta_cost.') D='
             .$debit->getAmount());
 
         $this->financeSvc->debitFromJournal(
