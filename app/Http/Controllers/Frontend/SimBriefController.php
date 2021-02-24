@@ -50,7 +50,7 @@ class SimBriefController
         $flight_id = $request->input('flight_id');
         $aircraft_id = $request->input('aircraft_id');
         $flight = $this->flightRepo->with(['subfleets'])->find($flight_id);
-        $flight = $this->fareSvc->getReconciledFaresForFlight($flight);
+        // $flight = $this->fareSvc->getReconciledFaresForFlight($flight);
 
         if (!$flight) {
             flash()->error('Unknown flight');
