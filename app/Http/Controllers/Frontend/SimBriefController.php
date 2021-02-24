@@ -84,7 +84,7 @@ class SimBriefController
 
         if ($flight->flight_type === FlightType::CHARTER_PAX_ONLY) {
             $pax_weight = setting('simbrief.charter_pax_weight') ?? 168;
-            $bag_weight = setting('simbrief.charter_baggage_weight') ?? 28; 
+            $bag_weight = setting('simbrief.charter_baggage_weight') ?? 28;
         } else {
             $pax_weight = setting('simbrief.noncharter_pax_weight') ?? 185;
             $bag_weight = setting('simbrief.noncharter_baggage_weight') ?? 35;
