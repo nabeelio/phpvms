@@ -50,7 +50,7 @@ class SimBriefController
         $flight_id = $request->input('flight_id');
         $aircraft_id = $request->input('aircraft_id');
         $flight = $this->flightRepo->with(['subfleets'])->find($flight_id);
-        $flight = $this->fareSvc->getReconciledFaresForFlight($flight);
+        // $flight = $this->fareSvc->getReconciledFaresForFlight($flight);
 
         if (!$flight) {
             flash()->error('Unknown flight');
@@ -63,6 +63,21 @@ class SimBriefController
             return redirect(route('frontend.flights.index'));
         }
 
+        // If no subfleets defined for flight get them from user
+        if ($flight->subfleets->count() > 0) {
+            $subfleets = $flight->subfleets;
+        } else {
+            $subfleets = $this->userSvc->getAllowableSubfleets($user);
+        }
+
+        // No aircraft selected, show selection form
+        if (!$aircraft_id) {
+            return view('flights.simbrief_aircraft', [
+                'flight'    => $flight,
+                'subfleets' => $subfleets,
+            ]);
+        }
+
         // Check if a Simbrief profile already exists
         $simbrief = SimBrief::select('id')->where([
             'flight_id' => $flight_id,
@@ -73,34 +88,20 @@ class SimBriefController
             return redirect(route('frontend.simbrief.briefing', [$simbrief->id]));
         }
 
-        // Simbrief Profile doesn't exist; prompt the user to create a new one
-        $aircraft = Aircraft::select('registration', 'name', 'icao', 'iata', 'subfleet_id')
-            ->where('id', $aircraft_id)
-            ->get();
+        // SimBrief profile does not exists and everything else is ok
+        // Select aircraft which will be used for calculations and details
+        $aircraft = Aircraft::where('id', $aircraft_id)->first();
 
-        if ($flight->subfleets->count() > 0) {
-            $subfleets = $flight->subfleets;
-        } else {
-            $subfleets = $this->userSvc->getAllowableSubfleets($user);
-        }
-
+        // Get passenger and baggage weights with failsafe defaults
         if ($flight->flight_type === FlightType::CHARTER_PAX_ONLY) {
-            $pax_weight = 197;
+            $pax_weight = setting('simbrief.charter_pax_weight', 168);
+            $bag_weight = setting('simbrief.charter_baggage_weight', 28);
         } else {
-            $pax_weight = 208;
+            $pax_weight = setting('simbrief.noncharter_pax_weight', 185);
+            $bag_weight = setting('simbrief.noncharter_baggage_weight', 35);
         }
 
-        // No aircraft selected, show that form
-        if (!$aircraft_id) {
-            return view('flights.simbrief_aircraft', [
-                'flight'     => $flight,
-                'aircraft'   => $aircraft,
-                'subfleets'  => $subfleets,
-                'pax_weight' => $pax_weight,
-            ]);
-        }
-
-        // Get the correct load factors
+        // Get the load factors with failsafe for loadmax if nothing is defined
         $lfactor = $flight->load_factor ?? setting('flights.default_load_factor');
         $lfactorv = $flight->load_factor_variance ?? setting('flights.load_factor_variance');
 
@@ -110,8 +111,6 @@ class SimBriefController
         $loadmax = $lfactor + $lfactorv;
         $loadmax = $loadmax > 100 ? 100 : $loadmax;
 
-        // Failsafe for admins not defining load values for their flights
-        // and also leave the general settings empty, set loadmax to 100
         if ($loadmax === 0) {
             $loadmax = 100;
         }
@@ -120,8 +119,8 @@ class SimBriefController
         return view('flights.simbrief_form', [
             'flight'     => $flight,
             'aircraft'   => $aircraft,
-            'subfleets'  => $subfleets,
             'pax_weight' => $pax_weight,
+            'bag_weight' => $bag_weight,
             'loadmin'    => $loadmin,
             'loadmax'    => $loadmax,
         ]);

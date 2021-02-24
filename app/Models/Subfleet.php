@@ -10,6 +10,7 @@ use App\Models\Traits\FilesTrait;
 /**
  * @property int     id
  * @property string  type
+ * @property string  simbrief_type
  * @property string  name
  * @property int     airline_id
  * @property int     hub_id
@@ -29,6 +30,7 @@ class Subfleet extends Model
         'airline_id',
         'hub_id',
         'type',
+        'simbrief_type',
         'name',
         'fuel_type',
         'cost_block_hour',
