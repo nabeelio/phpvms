@@ -73,10 +73,8 @@ class SimBriefController
             return redirect(route('frontend.simbrief.briefing', [$simbrief->id]));
         }
 
-        // Simbrief Profile doesn't exist; prompt the user to create a new one
-        $aircraft = Aircraft::select('registration', 'name', 'icao', 'iata', 'subfleet_id')
-            ->where('id', $aircraft_id)
-            ->get();
+        // Select aircraft which will be used for calculations and details
+        $aircraft = Aircraft::where('id', $aircraft_id)->first();
 
         if ($flight->subfleets->count() > 0) {
             $subfleets = $flight->subfleets;
@@ -85,9 +83,11 @@ class SimBriefController
         }
 
         if ($flight->flight_type === FlightType::CHARTER_PAX_ONLY) {
-            $pax_weight = 197;
+            $pax_weight = setting('simbrief.charter_pax_weight') ?? 168;
+            $bag_weight = setting('simbrief.charter_baggage_weight') ?? 28; 
         } else {
-            $pax_weight = 208;
+            $pax_weight = setting('simbrief.noncharter_pax_weight') ?? 185;
+            $bag_weight = setting('simbrief.noncharter_baggage_weight') ?? 35;
         }
 
         // No aircraft selected, show that form
@@ -122,6 +122,7 @@ class SimBriefController
             'aircraft'   => $aircraft,
             'subfleets'  => $subfleets,
             'pax_weight' => $pax_weight,
+            'bag_weight' => $bag_weight,
             'loadmin'    => $loadmin,
             'loadmax'    => $loadmax,
         ]);

@@ -200,6 +200,41 @@
   options: ''
   type: number
   description: 'Days after how long to remove unused briefs'
+- key: simbrief.noncharter_pax_weight
+  name: 'SimBrief Passenger Weight for Non-Charter (Scheduled etc) Flights'
+  group: simbrief
+  value: 185
+  options: ''
+  type: number
+  description: 'Passenger weight for Non-Charter flights excluding baggage (lbs)'
+- key: simbrief.noncharter_baggage_weight
+  name: 'SimBrief Baggage Weight per Pax for Non-Charter (Scheduled etc) Flights'
+  group: simbrief
+  value: 35
+  options: ''
+  type: number
+  description: 'Passenger baggage weight for Non-Charter flights (lbs)'
+- key: simbrief.charter_pax_weight
+  name: 'SimBrief Passenger Weight for Charter Flights'
+  group: simbrief
+  value: 168
+  options: ''
+  type: number
+  description: 'Passenger weight for Charter flights excluding baggage (lbs)'
+- key: simbrief.charter_baggage_weight
+  name: 'SimBrief Baggage Weight per Pax for Charter Flights'
+  group: simbrief
+  value: 28
+  options: ''
+  type: number
+  description: 'Passenger baggage weight for Charter flights (lbs)'
+- key: simbrief.callsign
+  name: 'SimBrief ATC Callsign'
+  group: simbrief
+  value: false
+  options: ''
+  type: boolean
+  description: 'Use pilot ident as SimBrief ATC Callsign'
 - key: pireps.duplicate_check_time
   name: 'PIREP duplicate time check'
   group: pireps
