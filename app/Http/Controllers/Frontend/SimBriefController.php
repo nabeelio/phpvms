@@ -73,8 +73,8 @@ class SimBriefController
         // No aircraft selected, show selection form
         if (!$aircraft_id) {
             return view('flights.simbrief_aircraft', [
-                'flight'     => $flight,
-                'subfleets'  => $subfleets,
+                'flight'    => $flight,
+                'subfleets' => $subfleets,
             ]);
         }
 
