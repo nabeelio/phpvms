@@ -198,7 +198,7 @@
               @endif
               <input type="hidden" name="airline" value="{{ $flight->airline->icao }}">
               <input type="hidden" name="fltnum" value="{{ $flight->flight_number }}">
-              @if(setting('simbrief.callsign') && setting('simbrief.callsign', true))
+              @if(setting('simbrief.callsign', false))
                 <input type="hidden" name="callsign" value="{{ Auth::user()->ident }}">
               @endif
               <input type="hidden" id="steh" name="steh" maxlength="2">
