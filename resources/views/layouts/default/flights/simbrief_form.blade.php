@@ -2,17 +2,6 @@
 @section('title', 'SimBrief Flight Planning')
 
 @section('content')
-  @foreach($aircraft as $acdetails)
-    @php
-      $simbrieftype = $acdetails->icao ;
-      $subflid = $acdetails->subfleet_id ;
-      if($acdetails->icao === 'A20N') { $simbrieftype = 'A320'; }
-      if($acdetails->icao === 'A21N') { $simbrieftype = 'A321'; }
-      if($acdetails->icao === 'B77L') { $simbrieftype = 'B77F'; }
-      if($acdetails->icao === 'B773') { $simbrieftype = 'B77W'; }
-      if($acdetails->icao === 'E35L') { $simbrieftype = 'E135'; }
-    @endphp
-  @endforeach
 
   <form id="sbapiform">
     <div class="row">
@@ -22,190 +11,228 @@
           <div class="row">
             <div class="col-8">
               <div class="form-container">
+
                 <div class="form-container-body">
                   <h6><i class="fas fa-info-circle"></i>&nbsp;Aircraft Details</h6>
                   <div class="row">
                     <div class="col-sm-4">
                       <label for="type">Type</label>
-                      <input type="text" class="form-control" value="{{ $acdetails->icao }}" maxlength="4" disabled/>
-                      <input type="hidden" id="type" name="type" class="form-control" value="{{ $simbrieftype }}"
-                             maxlength="4"/>
+                      <input type="text" class="form-control" value="{{ $aircraft->icao }}" maxlength="4" disabled>
+                      <input type="hidden" name="type" value="{{ $aircraft->subfleet->simbrief_type ?? $aircraft->icao }}">
                     </div>
                     <div class="col-sm-4">
                       <label for="reg">Registration</label>
-                      <input type="text" class="form-control" value="{{ $acdetails->registration }}" maxlength="6"
-                             disabled/>
-                      <input type="hidden" id="reg" name="reg" value="{{ $acdetails->registration }}"/>
+                      <input type="text" class="form-control" value="{{ $aircraft->registration }}" maxlength="6" disabled>
+                      <input type="hidden" name="reg" value="{{ $aircraft->registration }}">
                     </div>
                   </div>
                   <br>
                 </div>
 
                 <div class="form-container-body">
-                  <h6><i class="fas fa-info-circle"></i>&nbsp;@lang('pireps.flightinformations') for
-                    <b>{{ $flight->airline->icao }} {{ $flight->flight_number }}</b></h6>
+                  <h6><i class="fas fa-info-circle"></i>&nbsp;@lang('pireps.flightinformations') For
+                  <b>{{ $flight->airline->icao }}{{ $flight->flight_number }} ({{ \App\Models\Enums\FlightType::label($flight->flight_type) }})</b></h6>
                   <div class="row">
                     <div class="col-sm-4">
                       <label for="dorig">Departure Airport</label>
-                      <input id="dorig" type="text" class="form-control" maxlength="4"
-                             value="{{ $flight->dpt_airport_id }}" disabled/>
-                      <input id="orig" name="orig" type="hidden" maxlength="4" value="{{ $flight->dpt_airport_id }}"/>
+                      <input id="dorig" type="text" class="form-control" maxlength="4" value="{{ $flight->dpt_airport_id }}" disabled>
+                      <input name="orig" type="hidden" maxlength="4" value="{{ $flight->dpt_airport_id }}">
                     </div>
                     <div class="col-sm-4">
                       <label for="ddest">Arrival Airport</label>
-                      <input id="ddest" type="text" class="form-control" maxlength="4"
-                             value="{{ $flight->arr_airport_id }}" disabled/>
-                      <input id="dest" name="dest" type="hidden" maxlength="4" value="{{ $flight->arr_airport_id }}"/>
+                      <input id="ddest" type="text" class="form-control" maxlength="4" value="{{ $flight->arr_airport_id }}" disabled>
+                      <input name="dest" type="hidden" maxlength="4" value="{{ $flight->arr_airport_id }}">
                     </div>
                     <div class="col-sm-4">
                       <label for="altn">Alternate Airport</label>
-                      <input id="altn" name="altn" type="text" class="form-control" maxlength="4"
-                             value="{{ $flight->alt_airport_id ?? 'AUTO' }}"/>
+                      <input name="altn" type="text" class="form-control" maxlength="4" value="{{ $flight->alt_airport_id ?? 'AUTO' }}">
                     </div>
                   </div>
                   <br>
                   <div class="row">
                     <div class="col-sm-8">
                       <label for="route">Preferred Company Route</label>
-                      <input id="route" name="route" type="text" class="form-control" placeholder="" maxlength="1000"
-                             value="{{ $flight->route }}"/>
+                      <input name="route" type="text" class="form-control" value="{{ $flight->route }}">
                     </div>
                     <div class="col-sm-4">
                       <label for="fl">Preferred Flight Level</label>
-                      <input id="fl" name="fl" type="text" class="form-control" placeholder="" maxlength="5"
-                             value="{{ $flight->level }}"/>
+                      <input id="fl" name="fl" type="text" class="form-control" maxlength="5" value="{{ $flight->level }}">
                     </div>
                   </div>
                   <br>
                   <div class="row">
                     <div class="col-sm-4">
-                      <label for="std">Scheduled Departure Time (UTC)</label>
-                      <input id="std" type="text" class="form-control" placeholder="" maxlength="4"
-                             value="{{ $flight->dpt_time }}" disabled/>
+                      @if($flight->dpt_time)
+                        <label for="std">Scheduled Departure Time (UTC)</label>
+                        <input id="std" type="text" class="form-control" maxlength="4" value="{{ $flight->dpt_time }}" disabled>
+                      @endif
                     </div>
                     <div class="col-sm-4">
                       <label for="etd">Estimated Departure Time (UTC)</label>
-                      <input id="etd" type="text" class="form-control" placeholder="" maxlength="4" disabled/>
+                      <input id="etd" type="text" class="form-control" maxlength="4" disabled>
                     </div>
                     <div class="col-sm-4">
                       <label for="dof">Date Of Flight (UTC)</label>
-                      <input id="dof" type="text" class="form-control" placeholder="" maxlength="4" disabled/>
+                      <input id="dof" type="text" class="form-control" maxlength="4" disabled>
                     </div>
                   </div>
                   <br>
                 </div>
 
                 <div class="form-container-body">
-                  @foreach($subfleets as $subfleet)
-                    @if($subfleet->id == $subflid)
-                      <h6><i class="fas fa-info-circle"></i>&nbsp;Configuration And Load Information For
-                        <b>{{ $subfleet->name }} ; {{ $acdetails->registration }}</b></h6>
-                      {{-- Generate Load Figures --}}
-                      <div class="row">
-                        {{-- Create and send some data to the $loadarray for MANUALRMK generation --}}
-                        @php $loadarray = [] ; @endphp
-                        @foreach($subfleet->fares as $fare)
-                          @if($fare->capacity > 0)
-                            @php
-                              $randomloadperfare = ceil(($fare->capacity * (rand($loadmin, $loadmax))) /100);
-                              $loadarray[] = ['SeatType' => $fare->code];
-                              $loadarray[] = ['SeatLoad' => $randomloadperfare];
-                            @endphp
-                            <div class="col-sm-4">
-                              <label for="LoadFare{{ $fare->id }}">{{ $fare->name }} Load [
-                                Max: {{ number_format($fare->capacity) }} ]</label>
-                              <input id="LoadFare{{ $fare->id }}" type="text" class="form-control"
-                                     value="{{ number_format($randomloadperfare) }} @if($randomloadperfare > '900') {{ setting('units.weight') }} @endif"
-                                     disabled/>
-                            </div>
-                          @endif
-                        @endforeach
+                  <h6><i class="fas fa-info-circle"></i>&nbsp;Configuration And Load Information For
+                  <b>{{ $aircraft->registration }} ({{ $aircraft->subfleet->name }})</b></h6>
+                  <div class="row">
+                    @php $loadarray = [] ; @endphp
+                    {{-- Generate Load Figures For Pax Fares --}}
+                      @foreach($aircraft->subfleet->fares->where('type', 0) as $fare)
                         @php
-                          $loadcollection = collect($loadarray) ;
-                          $totalgenload = $loadcollection->sum('SeatLoad') ;
+                          $randompaxperfare = floor(($fare->pivot->capacity * rand($loadmin, $loadmax)) /100);
+                          $loadarray[] = ['LoadType' => $fare->code];
+                          $loadarray[] = ['LoadFigure' => $randompaxperfare];
                         @endphp
-                      </div>
-
-                      @if($totalgenload > 0 && $totalgenload < 900)
-                        <input type="hidden" name="acdata" value="{'paxwgt':{{ $pax_weight }}}">
-                        <br>
-                        <div class="row">
-                          <div class="col-sm-4">
-                            @if(setting('units.weight') === 'kg')
-                              @php $estimatedpayload = number_format(round(($pax_weight * $totalgenload) / 2.2)) ; @endphp
-                            @else
-                              @php $estimatedpayload = number_format(round($pax_weight * $totalgenload)) ; @endphp
-                            @endif
-                            <label for="EstimatedLoad">Estimated Payload For {{ $totalgenload }} Pax</label>
-                            <input id="EstimatedLoad" type="text" class="form-control"
-                                   value="{{ $estimatedpayload }} {{ setting('units.weight') }}" disabled/>
-                          </div>
+                        <div class="col-sm-3">
+                          <label for="LoadFare{{ $fare->id }}">{{ $fare->name }} [Max: {{ number_format($fare->pivot->capacity) }}]</label>
+                          <input id="LoadFare{{ $fare->id }}" type="text" class="form-control" value="{{ number_format($randompaxperfare) }}" disabled>
                         </div>
-                        <input type="hidden" id="pax" name="pax" class="form-control" value="{{ $totalgenload }}"/>
-                      @elseif($totalgenload > 900)
-                        <input type='hidden' id="pax" name='pax' value='0' maxlength='3'>
-                        <input type='hidden' id="cargo" name='cargo' value="{{ $totalgenload }}" maxlength='7'>
+                      @endforeach
+                    {{-- Calculate weights for Pax Loads Before moving to Cargo Fares --}}
+                      @php
+                        $paxcollection = collect($loadarray);
+                        $tpaxfig = $paxcollection->sum('LoadFigure');
+
+                        if(setting('units.weight') === 'kg') {
+                          $tpaxload = round(($pax_weight * $tpaxfig) / 2.205);
+                          $tbagload = round(($bag_weight * $tpaxfig) / 2.205);
+                        } else {
+                          $tpaxload = round($pax_weight * $tpaxfig);
+                          $tbagload = round($bag_weight * $tpaxfig);
+                        }
+                      @endphp
+                    {{-- Generate Load Figures For Cargo Fares --}}
+                      @foreach($aircraft->subfleet->fares->where('type', 1) as $fare)
+                        @php
+                          $randomcargoperfare = ceil((($fare->pivot->capacity - $tbagload) * rand($loadmin, $loadmax)) /100);
+                          $loadarray[] = ['LoadType' => $fare->code];
+                          $loadarray[] = ['CargoFigure' => $randomcargoperfare];
+                        @endphp
+                        <div class="col-sm-3">
+                          <label for="LoadFare{{ $fare->id }}">{{ $fare->name }} [Max: {{ number_format($fare->pivot->capacity - $tbagload) }} {{ setting('units.weight') }}]</label>
+                          <input id="LoadFare{{ $fare->id }}" type="text" class="form-control" value="{{ number_format($randomcargoperfare) }}" disabled>
+                        </div>
+                      @endforeach
+                      @php
+                        $loadcollection = collect($loadarray);
+                        $tcargoload = $loadcollection->sum('CargoFigure');
+                        $tpayload = $tpaxload + $tbagload + $tcargoload;
+                      @endphp
+                  </div>
+                  @if(isset($tpayload) && $tpayload > 0)
+                    {{-- Display The Weights Generated --}}
+                    <br>
+                    <div class="row">
+                      @if($tpaxload)
+                        <div class="col-sm-3">
+                          <label for="tdPaxLoad">Pax Weight</label>
+                          <input id="tdPaxLoad" type="text" class="form-control" value="{{ number_format($tpaxload) }} {{ setting('units.weight') }}" disabled>
+                        </div>
+                        <div class="col-sm-3">
+                          <label for="tBagLoad">Baggage Weight</label>
+                          <input id="tBagLoad" type="text" class="form-control" value="{{ number_format($tbagload) }} {{ setting('units.weight') }}" disabled>
+                        </div>
                       @endif
-                    @endif
-                  @endforeach
+                      @if($tpaxload && $tcargoload)
+                        <div class="col-sm-3">
+                          <label for="tCargoload">Cargo Weight</label>
+                          <input id="tCargoload" type="text" class="form-control" value="{{ number_format($tcargoload) }} {{ setting('units.weight') }}" disabled>
+                        </div>
+                      @endif
+                      <div class="col-sm-3">
+                        <label for="tPayload">Total Payload</label>
+                        <input id="tPayload" type="text" class="form-control" value="{{ number_format($tpayload) }} {{ setting('units.weight') }}" disabled>
+                      </div>
+                    </div>
+                  @endif
                 </div>
               </div>
-            </div>
-            {{--
-            Here we generate the MANUALRMK which is sent to SimBrief and displayed in the generated
-            ofp as Dispatch Remarks. $loadarray is created and filled with data during random load
-            generation, it holds each fare's code and the generated load then we are imploding that
-            array to get the fare codes and load counts.
 
-            Returned string will be like Load Distribution Y 132 C 12 F 4
-            --}}
-            @if($totalgenload > 0)
-              @php
-                $loaddisttxt =  "Load Distribution ";
-                $loaddist = implode(' ', array_map(
-                            function ($v, $k) {
+              {{-- Prepare Form Fields For SimBrief --}}
+                <input type="hidden" name="acdata" value="{'paxwgt':{{ round($pax_weight + $bag_weight) }}}">
+                @if($tpaxfig)
+                  <input type="hidden" name="pax" value="{{ $tpaxfig }}">
+                @elseif(!$tpaxfig && $tcargoload)
+                  <input type="hidden" name="pax" value="0">
+                @endif
+                @if($tcargoload)
+                  <input type='hidden' name='cargo' value="{{ number_format(($tcargoload / 1000),1) }}">
+                @endif
+              {{--
+                Generate the MANUALRMK which is sent to SimBrief and displayed as Dispatch Remark.
+                $loadarray is created and filled with data during random load generation,
+                it holds each fare's code and the generated load.
+                Returned string will be "FixedText eachFareCode eachFareLoad"
+                Example Remark ; Load Distribution Y 132 J 12 F 4 C 2800
+              --}}
+              @if(isset($tpayload) && $tpayload > 0)
+                @php
+                  $loaddisttxt =  "Load Distribution ";
+                  $loaddist = implode(' ', array_map(
+                              function ($v, $k) {
                                 if(is_array($v)){
                                     return implode('&'.' '.':', $v);
                                 }else{
                                     return $k.':'.$v;
                                 }
-                          },
-                          $loadarray,	array_keys($loadarray)
-                      ));
-              @endphp
-              <input type="hidden" name="manualrmk" value="{{ $loaddisttxt }}{{ $loaddist }}">
-            @endif
-            <input type="hidden" name="airline" value="{{ $flight->airline->icao }}">
-            <input type="hidden" name="fltnum" value="{{ $flight->flight_number }}">
-            <input type="hidden" id="steh" name="steh" maxlength="2">
-            <input type="hidden" id="stem" name="stem" maxlength="2">
-            <input type="hidden" id="date" name="date" maxlength="9">
-            <input type="hidden" id="deph" name="deph" maxlength="2">
-            <input type="hidden" id="depm" name="depm" maxlength="2">
-            <input type="hidden" name="selcal" value="BK-FS">
-            <input type="hidden" name="planformat" value="lido">
-            <input type="hidden" name="omit_sids" value="0">
-            <input type="hidden" name="omit_stars" value="0">
-            <input type="hidden" name="cruise" value="CI">
-            <input type="hidden" name="civalue" value="AUTO">
-
+                            },
+                            $loadarray,	array_keys($loadarray)
+                        ));
+                @endphp
+                <input type="hidden" name="manualrmk" value="{{ $loaddisttxt }}{{ $loaddist }}">
+              @endif
+              <input type="hidden" name="airline" value="{{ $flight->airline->icao }}">
+              <input type="hidden" name="fltnum" value="{{ $flight->flight_number }}">
+              @if(setting('simbrief.callsign', false))
+                <input type="hidden" name="callsign" value="{{ Auth::user()->ident }}">
+              @endif
+              <input type="hidden" id="steh" name="steh" maxlength="2">
+              <input type="hidden" id="stem" name="stem" maxlength="2">
+              <input type="hidden" id="date" name="date" maxlength="9">
+              <input type="hidden" id="deph" name="deph" maxlength="2">
+              <input type="hidden" id="depm" name="depm" maxlength="2">
+              <input type="hidden" name="selcal" value="BK-FS">
+              <input type="hidden" name="planformat" value="lido">
+              <input type="hidden" name="omit_sids" value="0">
+              <input type="hidden" name="omit_stars" value="0">
+              <input type="hidden" name="cruise" value="CI">
+              <input type="hidden" name="civalue" value="AUTO">
+              {{-- For more info about form fields and their details check SimBrief Forum / API Support --}}
+            </div>
             <div class="col-4">
               <div class="form-container">
                 <div class="form-container-body">
                   <h6><i class="fas fa-info-circle"></i>&nbsp;Planning Options</h6>
-                  <table class="table table-hover table-striped">
+                  <table class="table table-sm table-striped">
                     <tr>
                       <td>Cont Fuel:</td>
                       <td>
                         <select name="contpct" class="form-control">
+                          <option value="0">None</option>
                           <option value="auto">AUTO</option>
-                          <option value="0">0 PCT</option>
-                          <option value="0.02">2 PCT</option>
-                          <option value="0.03">3 PCT</option>
-                          <option value="0.05" selected>5 PCT</option>
-                          <option value="0.1">10 PCT</option>
-                          <option value="0.15">15 PCT</option>
-                          <option value="0.2">20 PCT</option>
+                          <option value="easa">EASA</option>
+                          <option value="0.03/5">3% or 05 MIN</option>
+                          <option value="0.03/10">3% or 10 MIN</option>
+                          <option value="0.03/15">3% or 15 MIN</option>
+                          <option value="0.05/5" selected>5% or 05 MIN</option>
+                          <option value="0.05/10">5% or 10 MIN</option>
+                          <option value="0.05/15">5% or 15 MIN</option>
+                          <option value="0.03">3%</option>
+                          <option value="0.05">5%</option>
+                          <option value="0.1">10%</option>
+                          <option value="0.15">15%</option>
+                          <option value="3">03 MIN</option>
+                          <option value="5">05 MIN</option>
+                          <option value="10">10 MIN</option>
+                          <option value="15">15 MIN</option>
                         </select>
                       </td>
                     </tr>
@@ -255,8 +282,8 @@
                 </div>
                 <br>
                 <div class="form-container-body">
-                  <h6><i class="fas fa-info-circle"></i>&nbsp;@lang('stisla.briefingoptions')</h6>
-                  <table class="table table-hover table-striped">
+                  <h6><i class="fas fa-info-circle"></i>&nbsp;Briefing Options</h6>
+                  <table class="table table-sm table-striped">
                     <tr>
                       <td>Units:</td>
                       <td>
@@ -373,7 +400,7 @@
   }
 
   depm = ("0" + depm).slice(-2);
-  dept = deph + depm;
+  dept = deph + ":" + depm;
   let dof = ("0" + d.getUTCDate()).slice(-2) + months[d.getUTCMonth()] + d.getUTCFullYear();
 
   document.getElementById("dof").setAttribute('value', dof);
@@ -396,21 +423,5 @@
   let rminutes = Math.round(minutes);
   document.getElementById("steh").setAttribute('value', rhours.toString()); // Sent to Simbrief
   document.getElementById("stem").setAttribute('value', rminutes.toString()); // Sent to Simbrief
-</script>
-<script type="text/javascript">
-  // *** Simple Aircraft Selection With Dropdown Change
-  // *** Also keep Generate button hidden until a valid AC selection
-  const $oldlink = document.getElementById("mylink").href;
-
-  function checkacselection() {
-    if (document.getElementById("aircraftselection").value === "ZZZZZ") {
-      document.getElementById('mylink').style.visibility = 'hidden';
-    } else {
-      document.getElementById('mylink').style.visibility = 'visible';
-    }
-    var $selectedac = document.getElementById("aircraftselection").value;
-    var $newlink = "&aircraft_id=".concat($selectedac);
-    document.getElementById("mylink").href = $oldlink.concat($newlink);
-  }
 </script>
 @endsection
