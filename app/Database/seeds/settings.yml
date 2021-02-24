@@ -228,7 +228,7 @@
   options: ''
   type: boolean
   description: 'When a PIREP is accepted, remove the bid, if it exists'
-  - key: pireps.advanced_fuel
+- key: pireps.advanced_fuel
   name: 'Advanced Fuel Calculations'
   group: pireps
   value: false
