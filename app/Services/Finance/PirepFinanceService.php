@@ -152,6 +152,8 @@ class PirepFinanceService extends Service
     public function payFuelCosts(Pirep $pirep): void
     {
         $ap = $pirep->dpt_airport;
+        // Get Airport Fuel Cost or revert back to settings
+        $fuel_cost = $ap->fuel_jeta_cost ?? setting('airports.default_jet_a_fuel_cost');
         if (setting('pirep.advanced_fuel', false)) {
             $ac = $pirep->aircraft;
             // Reading second row by skip(1) to reach the previous accepted pirep. Current pirep is at the first row
@@ -173,15 +175,15 @@ class PirepFinanceService extends Service
             $fuel_amount = $pirep->fuel_used;
         }
 
-        $debit = Money::createFromAmount($fuel_amount * $ap->fuel_jeta_cost);
-        Log::info('Finance: Fuel cost, (fuel='.$fuel_amount.', cost='.$ap->fuel_jeta_cost.') D='
+        $debit = Money::createFromAmount($fuel_amount * $fuel_cost);
+        Log::info('Finance: Fuel cost, (fuel='.$fuel_amount.', cost='.$fuel_cost.') D='
             .$debit->getAmount());
 
         $this->financeSvc->debitFromJournal(
             $pirep->airline->journal,
             $debit,
             $pirep,
-            'Fuel Cost ('.$ap->fuel_jeta_cost.'/'.config('phpvms.internal_units.fuel').')',
+            'Fuel Cost ('.$fuel_cost.'/'.config('phpvms.internal_units.fuel').')',
             'Fuel',
             'fuel'
         );
@@ -531,17 +533,21 @@ class PirepFinanceService extends Service
      */
     public function getGroundHandlingCost(Pirep $pirep)
     {
+        // Get Airport GH Costs for Departure and Arrival or revert back to settings
+        $dpt_gh_cost = $pirep->dpt_airport->ground_handling_cost ?? setting('airports.default_ground_handling_cost');
+        $arr_gh_cost = $pirep->arr_airport->ground_handling_cost ?? setting('airports.default_ground_handling_cost');
+        $gh_cost = $dpt_gh_cost + $arr_gh_cost;
         if (filled($pirep->aircraft->subfleet->ground_handling_multiplier)) {
             // force into percent mode
             $multiplier = $pirep->aircraft->subfleet->ground_handling_multiplier.'%';
 
             return Math::applyAmountOrPercent(
-                $pirep->arr_airport->ground_handling_cost,
+                $gh_cost,
                 $multiplier
             );
         }
 
-        return $pirep->arr_airport->ground_handling_cost;
+        return $gh_cost;
     }
 
     /**
