@@ -306,7 +306,7 @@ class Pirep extends Model
     {
         $custom_fields = PirepField::all();
         $field_values = PirepFieldValue::where('pirep_id', $this->id)
-            ->orderBy('created_at', 'desc')
+            ->orderBy('created_at', 'asc')
             ->get();
 
         // Merge the field values into $fields

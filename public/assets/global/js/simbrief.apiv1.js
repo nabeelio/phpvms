@@ -89,6 +89,7 @@ async function do_simbriefsubmit(outputpage) {
         data: {
           api_req,
           flight_id,
+          aircraft_id,
         }
       });
     } catch (e) {
