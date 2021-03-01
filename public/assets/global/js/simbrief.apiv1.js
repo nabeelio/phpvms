@@ -58,6 +58,10 @@ function simbriefsubmit(_flight_id, _aircraft_id, outputpage) {
   outputpage_save = null;
   outputpage_calc = null;
 
+  console.log('Flight ID', _flight_id);
+  console.log('Aircraft ID', _aircraft_id);
+  console.log('Output Page', outputpage);
+
   do_simbriefsubmit(outputpage);
 }
 
