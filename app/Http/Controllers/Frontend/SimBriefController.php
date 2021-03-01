@@ -4,8 +4,12 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Exceptions\AssetNotFound;
 use App\Models\Aircraft;
+use App\Models\Enums\FareType;
 use App\Models\Enums\FlightType;
+use App\Models\Fare;
+use App\Models\Flight;
 use App\Models\SimBrief;
+use App\Models\User;
 use App\Repositories\FlightRepository;
 use App\Services\FareService;
 use App\Services\SimBriefService;
@@ -49,8 +53,9 @@ class SimBriefController
 
         $flight_id = $request->input('flight_id');
         $aircraft_id = $request->input('aircraft_id');
-        $flight = $this->flightRepo->with(['subfleets'])->find($flight_id);
-        // $flight = $this->fareSvc->getReconciledFaresForFlight($flight);
+
+        /** @var Flight $flight */
+        $flight = $this->flightRepo->with(['fares', 'subfleets'])->find($flight_id);
 
         if (!$flight) {
             flash()->error('Unknown flight');
@@ -63,15 +68,15 @@ class SimBriefController
             return redirect(route('frontend.flights.index'));
         }
 
-        // If no subfleets defined for flight get them from user
-        if ($flight->subfleets->count() > 0) {
-            $subfleets = $flight->subfleets;
-        } else {
-            $subfleets = $this->userSvc->getAllowableSubfleets($user);
-        }
-
         // No aircraft selected, show selection form
         if (!$aircraft_id) {
+            // If no subfleets defined for flight get them from user
+            if ($flight->subfleets->count() > 0) {
+                $subfleets = $flight->subfleets;
+            } else {
+                $subfleets = $this->userSvc->getAllowableSubfleets($user);
+            }
+
             return view('flights.simbrief_aircraft', [
                 'flight'    => $flight,
                 'subfleets' => $subfleets,
@@ -90,7 +95,13 @@ class SimBriefController
 
         // SimBrief profile does not exists and everything else is ok
         // Select aircraft which will be used for calculations and details
+        /** @var Aircraft $aircraft */
         $aircraft = Aircraft::where('id', $aircraft_id)->first();
+
+        // Figure out the proper fares to use for this flight/aircraft
+        $all_fares = $this->fareSvc->getFareWithOverrides($aircraft->subfleet->fares, $flight->fares);
+
+        // TODO: Reconcile the fares for this aircraft w/ proper for the flight/subfleet
 
         // Get passenger and baggage weights with failsafe defaults
         if ($flight->flight_type === FlightType::CHARTER_PAX_ONLY) {
@@ -115,14 +126,86 @@ class SimBriefController
             $loadmax = 100;
         }
 
+        // Load fares for passengers
+
+        $loaddist = []; // The load distribution string
+
+        $pax_load_sheet = [];
+        $tpaxfig = 0;
+
+        /** @var Fare $fare */
+        foreach ($all_fares as $fare) {
+            if ($fare->type !== FareType::PASSENGER || empty($fare->capacity)) {
+                continue;
+            }
+
+            $count = floor(((int) $fare->capacity * rand($loadmin, $loadmax)) / 100);
+            $tpaxfig += $count;
+            $pax_load_sheet[] = [
+                'id'       => $fare->id,
+                'code'     => $fare->code,
+                'name'     => $fare->name,
+                'type'     => $fare->type,
+                'capacity' => $fare->capacity,
+                'count'    => $count,
+            ];
+
+            $loaddist[] = $fare->code.' '.$count;
+        }
+
+        // Calculate total weights
+        if (setting('units.weight') === 'kg') {
+            $tpaxload = round(($pax_weight * $tpaxfig) / 2.205);
+            $tbagload = round(($bag_weight * $tpaxfig) / 2.205);
+        } else {
+            $tpaxload = round($pax_weight * $tpaxfig);
+            $tbagload = round($bag_weight * $tpaxfig);
+        }
+
+        // Load up fares for cargo
+
+        $tcargoload = 0;
+        $cargo_load_sheet = [];
+        foreach ($all_fares as $fare) {
+            if ($fare->type !== FareType::CARGO || empty($fare->capacity)) {
+                continue;
+            }
+
+            $count = ceil((($fare->capacity - $tbagload) * rand($loadmin, $loadmax)) / 100);
+            $tcargoload += $count;
+            $cargo_load_sheet[] = [
+                'id'       => $fare->id,
+                'code'     => $fare->code,
+                'name'     => $fare->name,
+                'type'     => $fare->type,
+                'capacity' => $fare->capacity,
+                'count'    => $count,
+            ];
+
+            $loaddist[] = $fare->code.' '.$tpaxload;
+        }
+
+        $tpayload = $tpaxload + $tbagload + $tcargoload;
+
+        // TODO: Save fares into the session to load up later
+
         // Show the main simbrief form
         return view('flights.simbrief_form', [
-            'flight'     => $flight,
-            'aircraft'   => $aircraft,
-            'pax_weight' => $pax_weight,
-            'bag_weight' => $bag_weight,
-            'loadmin'    => $loadmin,
-            'loadmax'    => $loadmax,
+            'user'             => Auth::user(),
+            'flight'           => $flight,
+            'aircraft'         => $aircraft,
+            'pax_weight'       => $pax_weight,
+            'bag_weight'       => $bag_weight,
+            'loadmin'          => $loadmin,
+            'loadmax'          => $loadmax,
+            'pax_load_sheet'   => $pax_load_sheet,
+            'cargo_load_sheet' => $cargo_load_sheet,
+            'tpaxfig'          => $tpaxfig,
+            'tpaxload'         => $tpaxload,
+            'tbagload'         => $tbagload,
+            'tpayload'         => $tpayload,
+            'tcargoload'       => $tcargoload,
+            'loaddist'         => implode(' ', $loaddist),
         ]);
     }
 
@@ -227,6 +310,7 @@ class SimBriefController
 
     /**
      * Check whether the OFP was generated. Pass in two items, the flight_id and ofp_id
+     * This does the actual "attachment" of the Simbrief to the flight
      *
      * @param \Illuminate\Http\Request $request
      *
@@ -234,10 +318,13 @@ class SimBriefController
      */
     public function check_ofp(Request $request)
     {
+        /** @var User $user */
+        $user = Auth::user();
         $ofp_id = $request->input('ofp_id');
         $flight_id = $request->input('flight_id');
+        $aircraft_id = $request->input('aircraft_id');
 
-        $simbrief = $this->simBriefSvc->downloadOfp(Auth::user()->id, $ofp_id, $flight_id);
+        $simbrief = $this->simBriefSvc->downloadOfp($user->id, $ofp_id, $flight_id, $aircraft_id);
         if ($simbrief === null) {
             $error = new AssetNotFound(new Exception('Simbrief OFP not found'));
             return $error->getResponse();

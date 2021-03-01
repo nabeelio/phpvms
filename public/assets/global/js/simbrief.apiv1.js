@@ -29,6 +29,7 @@ let SBloop;
 
 let ofp_id;
 let flight_id;
+let aircraft_id;
 
 let outputpage_save;
 let outputpage_calc;
@@ -38,8 +39,9 @@ let timestamp;
 let api_code;
 
 
-function simbriefsubmit(_flight_id, outputpage) {
+function simbriefsubmit(_flight_id, _aircraft_id, outputpage) {
   flight_id = _flight_id;
+  aircraft_id = _aircraft_id;
 
   if (sbworker) {
     sbworker.close();
@@ -110,7 +112,6 @@ async function do_simbriefsubmit(outputpage) {
   input.setAttribute("name", "apicode");
   input.setAttribute("value", api_code);
   apiform.appendChild(input);
-
 
   var input = document.createElement("input");
   input.setAttribute("type", "hidden");
@@ -184,6 +185,7 @@ async function Redirect_caller() {
       method: 'GET',
       url: '/simbrief/check_ofp',
       params: {
+        aircraft_id,
         flight_id,
         ofp_id,
       }

@@ -29,9 +29,11 @@ class SimBrief extends Model
         'id',
         'user_id',
         'flight_id',
+        'aircraft_id',
         'pirep_id',
         'acars_xml',
         'ofp_xml',
+        'fare_data',
         'created_at',
         'updated_at',
     ];
