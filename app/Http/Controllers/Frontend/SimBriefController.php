@@ -187,7 +187,7 @@ class SimBriefController
 
         $tpayload = $tpaxload + $tbagload + $tcargoload;
 
-        // TODO: Save fares into the session to load up later
+        $request->session()->put('simbrief_fares', array_merge($pax_load_sheet, $cargo_load_sheet));
 
         // Show the main simbrief form
         return view('flights.simbrief_form', [
@@ -323,8 +323,9 @@ class SimBriefController
         $ofp_id = $request->input('ofp_id');
         $flight_id = $request->input('flight_id');
         $aircraft_id = $request->input('aircraft_id');
+        $fares = $request->session()->get('simbrief_fares', []);
 
-        $simbrief = $this->simBriefSvc->downloadOfp($user->id, $ofp_id, $flight_id, $aircraft_id);
+        $simbrief = $this->simBriefSvc->downloadOfp($user->id, $ofp_id, $flight_id, $aircraft_id, $fares);
         if ($simbrief === null) {
             $error = new AssetNotFound(new Exception('Simbrief OFP not found'));
             return $error->getResponse();
