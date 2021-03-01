@@ -12,8 +12,8 @@ class SimBrief extends Resource
     public function toArray($request)
     {
         $data = [
-            'id'       => $this->id,
-            'url'      => url(route('api.flights.briefing', ['id' => $this->id])),
+            'id'  => $this->id,
+            'url' => url(route('api.flights.briefing', ['id' => $this->id])),
         ];
 
         try {

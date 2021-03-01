@@ -53,7 +53,7 @@ class SimBriefTest extends TestCase
      *
      * @return \App\Models\SimBrief
      */
-    protected function loadSimBrief(User $user, Aircraft $aircraft, $fares=[]): SimBrief
+    protected function loadSimBrief(User $user, Aircraft $aircraft, $fares = []): SimBrief
     {
         /** @var \App\Models\Flight $flight */
         $flight = factory(Flight::class)->create([
@@ -128,7 +128,7 @@ class SimBriefTest extends TestCase
                 'type'     => 'P',
                 'capacity' => 100,
                 'count'    => 99,
-            ]
+            ],
         ]);
 
         // Check the flight API response
@@ -169,7 +169,7 @@ class SimBriefTest extends TestCase
                 'type'     => FareType::PASSENGER,
                 'capacity' => 100,
                 'count'    => 99,
-            ]
+            ],
         ];
 
         $userinfo = $this->createUserData();
@@ -211,7 +211,7 @@ class SimBriefTest extends TestCase
                 'type'     => 'P',
                 'capacity' => 100,
                 'count'    => 99,
-            ]
+            ],
         ]);
 
         /** @var SimBriefService $sb */
