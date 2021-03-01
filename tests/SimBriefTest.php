@@ -5,6 +5,7 @@ namespace Tests;
 use App\Models\Acars;
 use App\Models\Aircraft;
 use App\Models\Enums\AcarsType;
+use App\Models\Enums\FareType;
 use App\Models\Enums\UserState;
 use App\Models\Flight;
 use App\Models\Pirep;
@@ -160,18 +161,20 @@ class SimBriefTest extends TestCase
      */
     public function testUserBidSimbrief()
     {
-        $userinfo = $this->createUserData();
-        $this->user = $userinfo['user'];
-        $this->loadSimBrief($this->user, $userinfo['aircraft']->first(), [
+        $fares = [
             [
                 'id'       => 100,
                 'code'     => 'F',
                 'name'     => 'Test Fare',
-                'type'     => 'P',
+                'type'     => FareType::PASSENGER,
                 'capacity' => 100,
                 'count'    => 99,
             ]
-        ]);
+        ];
+
+        $userinfo = $this->createUserData();
+        $this->user = $userinfo['user'];
+        $this->loadSimBrief($this->user, $userinfo['aircraft']->first(), $fares);
 
         // Find the flight
         $uri = '/api/user/bids';
@@ -182,6 +185,11 @@ class SimBriefTest extends TestCase
 
         // Make sure Simbrief is there
         $this->assertNotNull($body['flight']['simbrief']['id']);
+        $this->assertNotNull($body['flight']['simbrief']['subfleet']['fares']);
+
+        $subfleet = $body['flight']['simbrief']['subfleet'];
+        $this->assertEquals($fares[0]['id'], $subfleet['fares'][0]['id']);
+        $this->assertEquals($fares[0]['count'], $subfleet['fares'][0]['count']);
     }
 
     public function testAttachToPirep()

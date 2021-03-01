@@ -82,6 +82,11 @@ class SimBrief extends Model
      * Relationships
      */
 
+    public function aircraft()
+    {
+        return $this->belongsTo(Aircraft::class, 'aircraft_id');
+    }
+
     public function flight()
     {
         if (!empty($this->attributes['flight_id'])) {

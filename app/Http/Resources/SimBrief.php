@@ -11,9 +11,27 @@ class SimBrief extends Resource
 {
     public function toArray($request)
     {
-        return [
-            'id'  => $this->id,
-            'url' => url(route('api.flights.briefing', ['id' => $this->id])),
+        $data = [
+            'id'       => $this->id,
+            'url'      => url(route('api.flights.briefing', ['id' => $this->id])),
         ];
+
+        try {
+            if (!empty($this->fare_data)) {
+                $fares = [];
+                $fare_data = json_decode($this->fare_data, true);
+                foreach ($fare_data as $fare) {
+                    $fares[] = new \App\Models\Fare($fare);
+                }
+
+                $this->aircraft->subfleet->fares = collect($fares);
+            }
+        } catch (\Exception $e) {
+            // Invalid fare data
+        }
+
+        $data['subfleet'] = new Subfleet($this->aircraft->subfleet);
+
+        return $data;
     }
 }
