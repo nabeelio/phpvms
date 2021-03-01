@@ -152,7 +152,7 @@ class PirepFinanceService extends Service
     public function payFuelCosts(Pirep $pirep): void
     {
         $ap = $pirep->dpt_airport;
-        if (setting('pirep.advanced_fuel', false)) {
+        if (setting('pireps.advanced_fuel', false)) {
             $ac = $pirep->aircraft;
             // Reading second row by skip(1) to reach the previous accepted pirep. Current pirep is at the first row
             $prev_flight = Pirep::where('aircraft_id', $ac->id)->where('state', 2)->where('status', 'ONB')->orderby('submitted_at', 'desc')->skip(1)->first();
