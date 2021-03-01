@@ -139,14 +139,14 @@ class SimBriefController
                 continue;
             }
 
-            $count = floor(((int) $fare->capacity * rand($loadmin, $loadmax)) / 100);
+            $count = floor(($fare->capacity * rand($loadmin, $loadmax)) / 100);
             $tpaxfig += $count;
             $pax_load_sheet[] = [
                 'id'       => $fare->id,
                 'code'     => $fare->code,
                 'name'     => $fare->name,
                 'type'     => $fare->type,
-                'capacity' => $fare->capacity,
+                'capacity' => (int) $fare->capacity,
                 'count'    => $count,
             ];
 
@@ -182,7 +182,7 @@ class SimBriefController
                 'count'    => $count,
             ];
 
-            $loaddist[] = $fare->code.' '.$tpaxload;
+            $loaddist[] = $fare->code.' '.$count;
         }
 
         $tpayload = $tpaxload + $tbagload + $tcargoload;

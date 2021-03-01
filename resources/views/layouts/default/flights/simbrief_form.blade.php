@@ -85,8 +85,8 @@
                   <div class="row">
                     @foreach($pax_load_sheet as $fare)
                       <div class="col-sm-3">
-                          <label for="LoadFare{{ $fare['id'] }}">{{ $fare['name'] }} [Max: {{ number_format($fare['capacity'], 2) }}]</label>
-                          <input id="LoadFare{{ $fare['id'] }}" type="text" class="form-control" value="{{ number_format($fare['count']) }}" disabled>
+                          <label for="LoadFare{{ $fare['id'] }}">{{ $fare['name'] }} [Max: {{ $fare['capacity'] }}]</label>
+                          <input id="LoadFare{{ $fare['id'] }}" type="text" class="form-control" value="{{ $fare['count'] }}" disabled>
                       </div>
                     @endforeach
                     {{-- Generate Load Figures For Cargo Fares --}}

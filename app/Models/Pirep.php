@@ -305,7 +305,9 @@ class Pirep extends Model
     public function getFieldsAttribute()
     {
         $custom_fields = PirepField::all();
-        $field_values = PirepFieldValue::where('pirep_id', $this->id)->get();
+        $field_values = PirepFieldValue::where('pirep_id', $this->id)
+            ->orderBy('created_at', 'desc')
+            ->get();
 
         // Merge the field values into $fields
         foreach ($custom_fields as $field) {
@@ -321,7 +323,7 @@ class Pirep extends Model
             }
         }
 
-        return $field_values->sortBy('source');
+        return $field_values;
     }
 
     /**
