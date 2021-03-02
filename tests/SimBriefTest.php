@@ -195,7 +195,7 @@ class SimBriefTest extends TestCase
     public function testAttachToPirep()
     {
         $userinfo = $this->createUserData();
-        $user = $userinfo['user'];
+        $this->user = $userinfo['user'];
 
         $pirep = factory(Pirep::class)->create([
             'user_id'        => $user->id,
