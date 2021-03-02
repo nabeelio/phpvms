@@ -31,6 +31,7 @@ class SimBriefTest extends TestCase
         $subfleet = $this->createSubfleetWithAircraft(1);
         $rank = $this->createRank(2, [$subfleet['subfleet']->id]);
 
+        /** @var User $user */
         $user = factory(User::class)->create(array_merge([
             'flight_time' => 1000,
             'rank_id'     => $rank->id,
@@ -198,7 +199,7 @@ class SimBriefTest extends TestCase
         $this->user = $userinfo['user'];
 
         $pirep = factory(Pirep::class)->create([
-            'user_id'        => $user->id,
+            'user_id'        => $this->user->id,
             'dpt_airport_id' => 'OMAA',
             'arr_airport_id' => 'OMDB',
         ]);
