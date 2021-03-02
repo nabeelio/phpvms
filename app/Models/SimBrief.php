@@ -13,11 +13,13 @@ use Illuminate\Support\Collection;
  * @property string      $acars_xml
  * @property string      $ofp_xml
  * @property string      $ofp_html
+ * @property string      $fare_data            JSON string of the fare data that was generated
  * @property Collection  $images
  * @property Collection  $files
  * @property Flight      $flight
  * @property User        $user
  * @property SimBriefXML $xml
+ * @property Aircraft    $aircraft
  * @property string      $acars_flightplan_url
  */
 class SimBrief extends Model

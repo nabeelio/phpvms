@@ -8,6 +8,7 @@ use App\Http\Requests\UpdatePirepRequest;
 use App\Models\Enums\PirepSource;
 use App\Models\Enums\PirepState;
 use App\Models\Enums\PirepStatus;
+use App\Models\Fare;
 use App\Models\Pirep;
 use App\Models\SimBrief;
 use App\Models\User;
@@ -253,23 +254,49 @@ class PirepController extends Controller
         /**
          * They have a SimBrief ID, load that up and figure out the flight that it's from
          */
+        $fare_values = [];
+        $simbrief = null;
         $simbrief_id = null;
+        $aircraft = null;
         if ($request->has('sb_id')) {
             $simbrief_id = $request->input('sb_id');
-            $brief = SimBrief::find($simbrief_id);
-            $pirep = Pirep::fromSimBrief($brief);
+            $simbrief = SimBrief::find($simbrief_id);
+            $pirep = Pirep::fromSimBrief($simbrief);
+
+            $aircraft = $simbrief->aircraft;
+            $aircraft_list[$aircraft->subfleet->name] = [];
+            $aircraft_list[$aircraft->subfleet->name][$aircraft->id] = $aircraft->name.' - '.$aircraft->registration;
+
+            // Convert the fare data into the expected output format
+            if (!empty($simbrief->fare_data)) {
+                $fare_values = json_decode($simbrief->fare_data, true);
+                $fares = [];
+                $fare_data = json_decode($simbrief->fare_data, true);
+                foreach ($fare_data as $fare) {
+                    $fares[] = new Fare($fare);
+                }
+
+                $aircraft->subfleet->fares = collect($fares);
+            }
+
+            // TODO: Set more fields from the Simbrief to the PIREP form
+
+        } else {
+            $aircraft_list = $this->aircraftList(true);
         }
 
         return view('pireps.create', [
-            'aircraft'      => null,
+            'aircraft'      => $aircraft,
             'pirep'         => $pirep,
             'read_only'     => false,
             'airline_list'  => $this->airlineRepo->selectBoxList(true),
-            'aircraft_list' => $this->aircraftList(true),
+            'aircraft_list' => $aircraft_list,
             'airport_list'  => $this->airportRepo->selectBoxList(true),
             'pirep_fields'  => $this->pirepFieldRepo->all(),
             'field_values'  => [],
+            'fare_values'   => $fare_values,
             'simbrief_id'   => $simbrief_id,
+            'simbrief'      => $simbrief,
         ]);
     }
 
