@@ -447,7 +447,7 @@ class PirepService extends Service
      * bids
      * pirep_comments
      * pirep_fares
-     * pirep_fields
+     * pirep_field_values
      * simbrief
      *
      * @param Pirep $pirep
@@ -457,7 +457,6 @@ class PirepService extends Service
         $w = ['pirep_id' => $pirep->id];
         PirepComment::where($w)->forceDelete();
         PirepFare::where($w)->forceDelete();
-        PirepField::where($w)->forceDelete();
         PirepFieldValue::where($w)->forceDelete();
         SimBrief::where($w)->forceDelete();
         $pirep->forceDelete();

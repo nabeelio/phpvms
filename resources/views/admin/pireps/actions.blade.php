@@ -23,11 +23,19 @@
                         'pirep_id' => $pirep->id,
                         'new_status' => PirepState::REJECTED,
                         'class' => $on_edit_page ? 'pirep_change_status': 'pirep_submit_status']) }}
-        {{ Form::button('Reject', ['type' => 'submit', 'class' => 'btn btn-danger']) }}
+        {{ Form::button('Reject', ['type' => 'submit', 'class' => 'btn btn-warning']) }}
         {{ Form::close() }}
       @endif
     </td>
-    <td>&nbsp;</td>
+    <td>
+      {{ Form::open(['url' => route('admin.pireps.destroy', [$pirep->id]),
+            'method' => 'delete',
+            'name' => 'delete_'.$pirep->id,
+            'id' => $pirep->id.'_delete'
+            ]) }}
+        {{ Form::button('Delete', ['type' => 'submit', 'class' => 'btn btn-danger']) }}
+        {{ Form::close() }}
+    </td>
     @if ($on_edit_page === false)
       <td>
         <form action="{{ route('admin.pireps.edit', [$pirep->id]) }}">
