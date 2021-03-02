@@ -4,7 +4,6 @@ namespace App\Cron\Hourly;
 
 use App\Contracts\Listener;
 use App\Events\CronHourly;
-use App\Models\Bid;
 use App\Models\Enums\PirepState;
 use App\Models\Pirep;
 use App\Services\PirepService;

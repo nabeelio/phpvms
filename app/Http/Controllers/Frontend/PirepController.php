@@ -7,7 +7,6 @@ use App\Http\Requests\CreatePirepRequest;
 use App\Http\Requests\UpdatePirepRequest;
 use App\Models\Enums\PirepSource;
 use App\Models\Enums\PirepState;
-use App\Models\Enums\PirepStatus;
 use App\Models\Fare;
 use App\Models\Pirep;
 use App\Models\SimBrief;
