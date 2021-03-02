@@ -66,6 +66,10 @@ class RecurringFinanceService extends Service
             $obj = $expense->getReferencedObject();
         }
 
+        if (empty($obj)) {
+            return [null, null];
+        }
+
         if ($klass === 'Airport') {
             $memo = "Airport Expense: {$expense->name} ({$expense->ref_model_id})";
             $transaction_group = "Airport: {$expense->ref_model_id}";
@@ -128,6 +132,9 @@ class RecurringFinanceService extends Service
                 }
 
                 [$memo, $ta_group] = $this->getMemoAndGroup($expense);
+                if (empty($memo) || empty($ta_group)) {
+                    continue;
+                }
 
                 $this->financeSvc->debitFromJournal(
                     $journal,
