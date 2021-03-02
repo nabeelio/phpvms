@@ -25,7 +25,6 @@ use App\Models\Navdata;
 use App\Models\Pirep;
 use App\Models\PirepComment;
 use App\Models\PirepFare;
-use App\Models\PirepField;
 use App\Models\PirepFieldValue;
 use App\Models\SimBrief;
 use App\Models\User;
