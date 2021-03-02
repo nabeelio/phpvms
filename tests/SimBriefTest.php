@@ -198,13 +198,14 @@ class SimBriefTest extends TestCase
         $userinfo = $this->createUserData();
         $this->user = $userinfo['user'];
 
+        /** @var Pirep $pirep */
         $pirep = factory(Pirep::class)->create([
             'user_id'        => $this->user->id,
             'dpt_airport_id' => 'OMAA',
             'arr_airport_id' => 'OMDB',
         ]);
 
-        $briefing = $this->loadSimBrief($this->user, $userinfo['aircraft'], [
+        $briefing = $this->loadSimBrief($this->user, $userinfo['aircraft']->first(), [
             [
                 'id'       => 100,
                 'code'     => 'F',
