@@ -34,7 +34,10 @@ class PilotLeave extends Listener
      */
     public function handle(CronNightly $event): void
     {
+        Log::info('Cron: Running pilot leave check');
         $users = $this->userSvc->findUsersOnLeave();
+        Log::info('Found '.count($users).' users on leave');
+
         foreach ($users as $user) {
             Log::info('Setting user '.$user->ident.' to ON LEAVE status');
             $this->userSvc->setStatusOnLeave($user);
