@@ -23,6 +23,8 @@ use App\Models\Enums\PirepState;
 use App\Models\Enums\PirepStatus;
 use App\Models\Navdata;
 use App\Models\Pirep;
+use App\Models\PirepComment;
+use App\Models\PirepFare;
 use App\Models\PirepFieldValue;
 use App\Models\SimBrief;
 use App\Models\User;
@@ -434,6 +436,29 @@ class PirepService extends Service
         event(new PirepCancelled($pirep));
 
         return $pirep;
+    }
+
+    /**
+     * Delete the PIREP and all of the associated data. Does a force delete to make sure that we
+     * don't run into problems with foreign keys. Models/tables affected:
+     *
+     * acars
+     * bids
+     * pirep_comments
+     * pirep_fares
+     * pirep_field_values
+     * simbrief
+     *
+     * @param Pirep $pirep
+     */
+    public function delete(Pirep $pirep): void
+    {
+        $w = ['pirep_id' => $pirep->id];
+        PirepComment::where($w)->forceDelete();
+        PirepFare::where($w)->forceDelete();
+        PirepFieldValue::where($w)->forceDelete();
+        SimBrief::where($w)->forceDelete();
+        $pirep->forceDelete();
     }
 
     /**

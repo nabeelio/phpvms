@@ -7,7 +7,6 @@ use App\Http\Requests\CreatePirepRequest;
 use App\Http\Requests\UpdatePirepRequest;
 use App\Models\Enums\PirepSource;
 use App\Models\Enums\PirepState;
-use App\Models\Enums\PirepStatus;
 use App\Models\Fare;
 use App\Models\Pirep;
 use App\Models\SimBrief;
@@ -519,12 +518,8 @@ class PirepController extends Controller
             $this->pirepSvc->submit($pirep);
             Flash::success('PIREP submitted!');
         } elseif ($attrs['submit'] === 'delete' || $attrs['submit'] === 'cancel') {
-            $this->pirepRepo->update([
-                'state'  => PirepState::CANCELLED,
-                'status' => PirepStatus::CANCELLED,
-            ], $pirep->id);
-
-            Flash::success('PIREP cancelled!');
+            $this->pirepSvc->delete($pirep);
+            Flash::success('PIREP deleted!');
             return redirect(route('frontend.pireps.index'));
         }
 

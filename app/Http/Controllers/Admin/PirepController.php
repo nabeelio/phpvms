@@ -394,10 +394,10 @@ class PirepController extends Controller
             return redirect(route('admin.pireps.index'));
         }
 
-        $this->pirepRepo->delete($id);
+        $this->pirepSvc->delete($pirep);
 
         Flash::success('Pirep deleted successfully.');
-        return redirect(route('admin.pireps.index'));
+        return redirect()->back();
     }
 
     /**

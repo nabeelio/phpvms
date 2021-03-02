@@ -19,6 +19,8 @@ class SetActiveFlights extends Listener
      */
     public function handle(CronNightly $event): void
     {
+        Log::info('Nightly: Setting active flights');
+
         $this->checkFlights();
     }
 
