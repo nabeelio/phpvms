@@ -3,7 +3,10 @@
 namespace Tests;
 
 use App\Models\Acars;
+use App\Models\Aircraft;
 use App\Models\Enums\AcarsType;
+use App\Models\Enums\FareType;
+use App\Models\Enums\UserState;
 use App\Models\Flight;
 use App\Models\Pirep;
 use App\Models\SimBrief;
@@ -17,13 +20,41 @@ class SimBriefTest extends TestCase
     private static $simbrief_flight_id = 'simbriefflightid';
 
     /**
+     * @param array $attrs Additional user attributes
+     *
+     * @throws \Exception
+     *
+     * @return array
+     */
+    public function createUserData(array $attrs = []): array
+    {
+        $subfleet = $this->createSubfleetWithAircraft(1);
+        $rank = $this->createRank(2, [$subfleet['subfleet']->id]);
+
+        /** @var User $user */
+        $user = factory(User::class)->create(array_merge([
+            'flight_time' => 1000,
+            'rank_id'     => $rank->id,
+            'state'       => UserState::ACTIVE,
+        ], $attrs));
+
+        return [
+            'subfleet' => $subfleet['subfleet'],
+            'aircraft' => $subfleet['aircraft'],
+            'user'     => $user,
+        ];
+    }
+
+    /**
      * Load SimBrief
      *
-     * @param \App\Models\User $user
+     * @param \App\Models\User          $user
+     * @param \App\Models\Aircraft|null $aircraft
+     * @param array                     $fares
      *
      * @return \App\Models\SimBrief
      */
-    protected function loadSimBrief(User $user): SimBrief
+    protected function loadSimBrief(User $user, Aircraft $aircraft, $fares = []): SimBrief
     {
         /** @var \App\Models\Flight $flight */
         $flight = factory(Flight::class)->create([
@@ -40,7 +71,7 @@ class SimBriefTest extends TestCase
         /** @var SimBriefService $sb */
         $sb = app(SimBriefService::class);
 
-        return $sb->downloadOfp($user->id, Utils::generateNewId(), $flight->id);
+        return $sb->downloadOfp($user->id, Utils::generateNewId(), $flight->id, $aircraft->id, $fares);
     }
 
     /**
@@ -48,8 +79,9 @@ class SimBriefTest extends TestCase
      */
     public function testReadSimbrief()
     {
-        $this->user = $this->createUser();
-        $briefing = $this->loadSimBrief($this->user);
+        $userinfo = $this->createUserData();
+        $this->user = $userinfo['user'];
+        $briefing = $this->loadSimBrief($this->user, $userinfo['aircraft']->first(), []);
 
         $this->assertNotEmpty($briefing->ofp_xml);
         $this->assertNotNull($briefing->xml);
@@ -87,8 +119,18 @@ class SimBriefTest extends TestCase
      */
     public function testApiCalls()
     {
-        $this->user = $this->createUser();
-        $briefing = $this->loadSimBrief($this->user);
+        $userinfo = $this->createUserData();
+        $this->user = $userinfo['user'];
+        $briefing = $this->loadSimBrief($this->user, $userinfo['aircraft']->first(), [
+            [
+                'id'       => 100,
+                'code'     => 'F',
+                'name'     => 'Test Fare',
+                'type'     => 'P',
+                'capacity' => 100,
+                'count'    => 99,
+            ],
+        ]);
 
         // Check the flight API response
         $response = $this->get('/api/flights/'.$briefing->flight_id);
@@ -120,8 +162,20 @@ class SimBriefTest extends TestCase
      */
     public function testUserBidSimbrief()
     {
-        $this->user = $this->createUser();
-        $this->loadSimBrief($this->user);
+        $fares = [
+            [
+                'id'       => 100,
+                'code'     => 'F',
+                'name'     => 'Test Fare',
+                'type'     => FareType::PASSENGER,
+                'capacity' => 100,
+                'count'    => 99,
+            ],
+        ];
+
+        $userinfo = $this->createUserData();
+        $this->user = $userinfo['user'];
+        $this->loadSimBrief($this->user, $userinfo['aircraft']->first(), $fares);
 
         // Find the flight
         $uri = '/api/user/bids';
@@ -132,18 +186,35 @@ class SimBriefTest extends TestCase
 
         // Make sure Simbrief is there
         $this->assertNotNull($body['flight']['simbrief']['id']);
+        $this->assertNotNull($body['flight']['simbrief']['subfleet']['fares']);
+
+        $subfleet = $body['flight']['simbrief']['subfleet'];
+        $this->assertEquals($fares[0]['id'], $subfleet['fares'][0]['id']);
+        $this->assertEquals($fares[0]['count'], $subfleet['fares'][0]['count']);
     }
 
     public function testAttachToPirep()
     {
-        $user = $this->createUser();
+        $userinfo = $this->createUserData();
+        $this->user = $userinfo['user'];
+
+        /** @var Pirep $pirep */
         $pirep = factory(Pirep::class)->create([
-            'user_id'        => $user->id,
+            'user_id'        => $this->user->id,
             'dpt_airport_id' => 'OMAA',
             'arr_airport_id' => 'OMDB',
         ]);
 
-        $briefing = $this->loadSimBrief($user);
+        $briefing = $this->loadSimBrief($this->user, $userinfo['aircraft']->first(), [
+            [
+                'id'       => 100,
+                'code'     => 'F',
+                'name'     => 'Test Fare',
+                'type'     => 'P',
+                'capacity' => 100,
+                'count'    => 99,
+            ],
+        ]);
 
         /** @var SimBriefService $sb */
         $sb = app(SimBriefService::class);
@@ -172,7 +243,9 @@ class SimBriefTest extends TestCase
      */
     public function testClearExpiredBriefs()
     {
-        $user = $this->createUser();
+        $userinfo = $this->createUserData();
+        $user = $userinfo['user'];
+
         $sb_ignored = factory(SimBrief::class)->create([
             'user_id'    => $user->id,
             'flight_id'  => 'a_flight_id',

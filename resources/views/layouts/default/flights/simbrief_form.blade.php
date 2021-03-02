@@ -83,49 +83,19 @@
                   <h6><i class="fas fa-info-circle"></i>&nbsp;Configuration And Load Information For
                   <b>{{ $aircraft->registration }} ({{ $aircraft->subfleet->name }})</b></h6>
                   <div class="row">
-                    @php $loadarray = [] ; @endphp
-                    {{-- Generate Load Figures For Pax Fares --}}
-                      @foreach($aircraft->subfleet->fares->where('type', 0) as $fare)
-                        @php
-                          $randompaxperfare = floor(($fare->pivot->capacity * rand($loadmin, $loadmax)) /100);
-                          $loadarray[] = ['LoadType' => $fare->code];
-                          $loadarray[] = ['LoadFigure' => $randompaxperfare];
-                        @endphp
-                        <div class="col-sm-3">
-                          <label for="LoadFare{{ $fare->id }}">{{ $fare->name }} [Max: {{ number_format($fare->pivot->capacity) }}]</label>
-                          <input id="LoadFare{{ $fare->id }}" type="text" class="form-control" value="{{ number_format($randompaxperfare) }}" disabled>
-                        </div>
-                      @endforeach
-                    {{-- Calculate weights for Pax Loads Before moving to Cargo Fares --}}
-                      @php
-                        $paxcollection = collect($loadarray);
-                        $tpaxfig = $paxcollection->sum('LoadFigure');
-
-                        if(setting('units.weight') === 'kg') {
-                          $tpaxload = round(($pax_weight * $tpaxfig) / 2.205);
-                          $tbagload = round(($bag_weight * $tpaxfig) / 2.205);
-                        } else {
-                          $tpaxload = round($pax_weight * $tpaxfig);
-                          $tbagload = round($bag_weight * $tpaxfig);
-                        }
-                      @endphp
+                    @foreach($pax_load_sheet as $fare)
+                      <div class="col-sm-3">
+                          <label for="LoadFare{{ $fare['id'] }}">{{ $fare['name'] }} [Max: {{ $fare['capacity'] }}]</label>
+                          <input id="LoadFare{{ $fare['id'] }}" type="text" class="form-control" value="{{ $fare['count'] }}" disabled>
+                      </div>
+                    @endforeach
                     {{-- Generate Load Figures For Cargo Fares --}}
-                      @foreach($aircraft->subfleet->fares->where('type', 1) as $fare)
-                        @php
-                          $randomcargoperfare = ceil((($fare->pivot->capacity - $tbagload) * rand($loadmin, $loadmax)) /100);
-                          $loadarray[] = ['LoadType' => $fare->code];
-                          $loadarray[] = ['CargoFigure' => $randomcargoperfare];
-                        @endphp
-                        <div class="col-sm-3">
-                          <label for="LoadFare{{ $fare->id }}">{{ $fare->name }} [Max: {{ number_format($fare->pivot->capacity - $tbagload) }} {{ setting('units.weight') }}]</label>
-                          <input id="LoadFare{{ $fare->id }}" type="text" class="form-control" value="{{ number_format($randomcargoperfare) }}" disabled>
-                        </div>
-                      @endforeach
-                      @php
-                        $loadcollection = collect($loadarray);
-                        $tcargoload = $loadcollection->sum('CargoFigure');
-                        $tpayload = $tpaxload + $tbagload + $tcargoload;
-                      @endphp
+                    @foreach($cargo_load_sheet as $fare)
+                      <div class="col-sm-3">
+                        <label for="LoadFare{{ $fare['id'] }}">{{ $fare['name'] }} [Max: {{ number_format($fare['capacity'] - $tbagload) }} {{ setting('units.weight') }}]</label>
+                        <input id="LoadFare{{ $fare['id'] }}" type="text" class="form-control" value="{{ number_format($fare['count']) }}" disabled>
+                      </div>
+                    @endforeach
                   </div>
                   @if(isset($tpayload) && $tpayload > 0)
                     {{-- Display The Weights Generated --}}
@@ -166,33 +136,13 @@
                 @if($tcargoload)
                   <input type='hidden' name='cargo' value="{{ number_format(($tcargoload / 1000),1) }}">
                 @endif
-              {{--
-                Generate the MANUALRMK which is sent to SimBrief and displayed as Dispatch Remark.
-                $loadarray is created and filled with data during random load generation,
-                it holds each fare's code and the generated load.
-                Returned string will be "FixedText eachFareCode eachFareLoad"
-                Example Remark ; Load Distribution Y 132 J 12 F 4 C 2800
-              --}}
               @if(isset($tpayload) && $tpayload > 0)
-                @php
-                  $loaddisttxt =  "Load Distribution ";
-                  $loaddist = implode(' ', array_map(
-                              function ($v, $k) {
-                                if(is_array($v)){
-                                    return implode('&'.' '.':', $v);
-                                }else{
-                                    return $k.':'.$v;
-                                }
-                            },
-                            $loadarray,	array_keys($loadarray)
-                        ));
-                @endphp
-                <input type="hidden" name="manualrmk" value="{{ $loaddisttxt }}{{ $loaddist }}">
+                <input type="hidden" name="manualrmk" value="Load Distribution {{ $loaddist }}">
               @endif
               <input type="hidden" name="airline" value="{{ $flight->airline->icao }}">
               <input type="hidden" name="fltnum" value="{{ $flight->flight_number }}">
-              @if(setting('simbrief.callsign', false))
-                <input type="hidden" name="callsign" value="{{ Auth::user()->ident }}">
+              @if(setting('simbrief.callsign', true))
+                <input type="hidden" name="callsign" value="{{ $user->ident }}">
               @endif
               <input type="hidden" id="steh" name="steh" maxlength="2">
               <input type="hidden" id="stem" name="stem" maxlength="2">
@@ -351,8 +301,8 @@
                   <div class="float-right">
                     <div class="form-group">
                       <input type="button"
-                             onclick="simbriefsubmit('{{ $flight->id }}', '{{ url(route('frontend.simbrief.briefing', [''])) }}');"
-                             class="btn btn-primary" value="Generate">
+                         onclick="simbriefsubmit('{{ $flight->id }}', '{{ $aircraft->id }}', '{{ url(route('frontend.simbrief.briefing', [''])) }}');"
+                         class="btn btn-primary" value="Generate">
                     </div>
                   </div>
                 </div>

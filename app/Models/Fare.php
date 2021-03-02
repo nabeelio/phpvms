@@ -20,12 +20,14 @@ class Fare extends Model
     public $table = 'fares';
 
     protected $fillable = [
+        'id',
         'code',
         'name',
         'type',
         'price',
         'cost',
         'capacity',
+        'count',
         'notes',
         'active',
     ];
@@ -34,6 +36,7 @@ class Fare extends Model
         'price'    => 'float',
         'cost'     => 'float',
         'capacity' => 'integer',
+        'count'    => 'integer',
         'type'     => 'integer',
         'active'   => 'boolean',
     ];

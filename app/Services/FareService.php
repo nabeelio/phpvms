@@ -173,6 +173,24 @@ class FareService extends Service
     }
 
     /**
+     * Return all the fares for an aircraft. check the pivot
+     * table to see if the price/cost/capacity has been overridden
+     * and return the correct amounts.
+     *
+     * @param Subfleet $subfleet
+     *
+     * @return Collection
+     */
+    public function getForSubfleet(Subfleet $subfleet)
+    {
+        $fares = $subfleet->fares->map(function ($fare) {
+            return $this->getFares($fare);
+        });
+
+        return $fares;
+    }
+
+    /**
      * Attach a fare to an flight
      *
      * @param Flight $flight
@@ -238,24 +256,6 @@ class FareService extends Service
         $subfleet->refresh();
 
         return $subfleet;
-    }
-
-    /**
-     * return all the fares for an aircraft. check the pivot
-     * table to see if the price/cost/capacity has been overridden
-     * and return the correct amounts.
-     *
-     * @param Subfleet $subfleet
-     *
-     * @return Collection
-     */
-    public function getForSubfleet(Subfleet $subfleet)
-    {
-        $fares = $subfleet->fares->map(function ($fare) {
-            return $this->getFares($fare);
-        });
-
-        return $fares;
     }
 
     /**

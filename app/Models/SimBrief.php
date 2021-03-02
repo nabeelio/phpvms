@@ -13,11 +13,13 @@ use Illuminate\Support\Collection;
  * @property string      $acars_xml
  * @property string      $ofp_xml
  * @property string      $ofp_html
+ * @property string      $fare_data            JSON string of the fare data that was generated
  * @property Collection  $images
  * @property Collection  $files
  * @property Flight      $flight
  * @property User        $user
  * @property SimBriefXML $xml
+ * @property Aircraft    $aircraft
  * @property string      $acars_flightplan_url
  */
 class SimBrief extends Model
@@ -29,9 +31,11 @@ class SimBrief extends Model
         'id',
         'user_id',
         'flight_id',
+        'aircraft_id',
         'pirep_id',
         'acars_xml',
         'ofp_xml',
+        'fare_data',
         'created_at',
         'updated_at',
     ];
@@ -79,6 +83,11 @@ class SimBrief extends Model
     /*
      * Relationships
      */
+
+    public function aircraft()
+    {
+        return $this->belongsTo(Aircraft::class, 'aircraft_id');
+    }
 
     public function flight()
     {
