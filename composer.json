@@ -46,7 +46,7 @@
         "nwidart/laravel-modules": "^8.2",
         "php-units-of-measure/php-units-of-measure": "~2.1.0",
         "phpvms/sample-module": "^1.0",
-        "pragmarx/version": "^1.2",
+        "pragmarx/version": ">=v1.2.3",
         "prettus/l5-repository": "~2.7.0",
         "santigarcor/laratrust": "~6.3",
         "sebastiaanluca/laravel-helpers": "~6.0",
