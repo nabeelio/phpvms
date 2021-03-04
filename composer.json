@@ -60,14 +60,14 @@
         "laravel/ui": "^3.2.0",
         "madnest/madzipper": "^1.1.0",
         "elcobvg/laravel-opcache": "^0.4.1",
-        "laravel/legacy-factories": "^1.1"
+        "laravel/legacy-factories": "^1.1",
+        "fakerphp/faker": "^1.13"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.5",
         "barryvdh/laravel-ide-helper": "^2.9",
         "bpocallaghan/generators": "~7.0",
         "filp/whoops": "~2.0",
-        "fzaninotto/faker": "~1.9.0",
         "friendsofphp/php-cs-fixer": "^2.16",
         "mockery/mockery": "^1.4.0",
         "nunomaduro/collision": "^5.3.0",
