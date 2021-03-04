@@ -5,10 +5,8 @@ namespace App\Support;
 use App\Contracts\Model;
 use Hashids\Hashids;
 use Illuminate\Contracts\Container\BindingResolutionException;
-use Illuminate\Support\Str;
 use Nwidart\Modules\Facades\Module;
 use Pdp\Rules;
-use Pdp\TopLevelDomains;
 
 /**
  * Global utilities
@@ -111,11 +109,6 @@ class Utils
      */
     public static function getRootDomain(string $url): string
     {
-        /*if (Str::contains($url, ['https://', 'http://'])) {
-            $url = str_replace('https://', '', $url);
-            $url = str_replace('http://', '', $url);
-        }*/
-
         if (!str_starts_with($url, 'http')) {
             $url = 'http://'.$url;
         }
