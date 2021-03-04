@@ -118,7 +118,6 @@ jobs:
         run: |
           rm -rf vendor
           sudo npm i tar-to-zip -g
-          composer self-update --1
           composer install --no-dev --prefer-dist --no-interaction --verbose
           sudo chmod +x ./.github/scripts/*
 
@@ -182,7 +181,6 @@ jobs:
         run: |
           rm -rf vendor
           sudo npm i tar-to-zip -g
-          composer self-update --1
           composer install --no-dev --prefer-dist --no-interaction --verbose
           sudo chmod +x ./.github/scripts/*
 
