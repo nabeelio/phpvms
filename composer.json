@@ -22,7 +22,7 @@
         "appstract/laravel-opcache": "^4.0",
         "arrilot/laravel-widgets": "~3.13.0",
         "codedge/laravel-selfupdater": "~3.2.0",
-        "doctrine/dbal": "~2.9.2",
+        "doctrine/dbal": "^3.0.0",
         "facade/ignition": "^2.5",
         "fideloper/proxy": "^4.4",
         "guzzlehttp/guzzle": "~6.5",
