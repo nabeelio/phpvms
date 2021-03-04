@@ -1,7 +1,3 @@
-<?php
-exit();
-?>
-
 APP_ENV="dev"
 APP_KEY="base64:zdgcDqu9PM8uGWCtMxd74ZqdGJIrnw812oRMmwDF6KY="
 APP_URL="http://localhost"

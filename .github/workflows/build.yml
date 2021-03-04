@@ -71,7 +71,6 @@ jobs:
         php --version
         mysql --version
         # Downgrade composer version to 1.x
-        composer self-update --1
         composer install --dev --no-interaction --verbose
         cp .github/scripts/env.php env.php
         cp .github/scripts/phpunit.xml phpunit.xml

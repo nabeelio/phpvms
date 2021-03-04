@@ -19,6 +19,7 @@ return [
         'fileinfo',
         'openssl',
         'pdo',
+        'intl',
         'mbstring',
         'tokenizer',
         'json',
