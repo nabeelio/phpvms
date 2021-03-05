@@ -56,7 +56,7 @@ return [
     */
 
     'ignored_solution_providers' => [
-         MissingPackageSolutionProvider::class,
+        MissingPackageSolutionProvider::class,
     ],
 
     /*
