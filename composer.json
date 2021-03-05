@@ -51,7 +51,6 @@
         "santigarcor/laratrust": "~6.3",
         "sebastiaanluca/laravel-helpers": "~6.0",
         "semver/semver": "~1.1.0",
-        "spatie/laravel-backup": "~6.15.0",
         "spatie/valuestore": "~1.2",
         "symfony/polyfill-iconv": "~1.22.0",
         "tivie/php-os-detector": "~1.1.0",
