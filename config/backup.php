@@ -13,7 +13,7 @@ use Spatie\Backup\Tasks\Monitor\HealthChecks\MaximumStorageInMegabytes;
 
 return [
     'backup' => [
-        'name'    => config('app.name', 'phpvms-backup'),
+        'name'    => 'backups',
         'enabled' => false,
         'source'  => [
             'files' => [
