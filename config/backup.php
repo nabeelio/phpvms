@@ -13,8 +13,9 @@ use Spatie\Backup\Tasks\Monitor\HealthChecks\MaximumStorageInMegabytes;
 
 return [
     'backup' => [
-        'name'   => config('app.name', 'phpvms-backup'),
-        'source' => [
+        'name'    => config('app.name', 'phpvms-backup'),
+        'enabled' => false,
+        'source'  => [
             'files' => [
                 'include' => [
                     base_path(),
@@ -72,7 +73,7 @@ return [
          *
          * If you do not want any compressor at all, set it to null.
          */
-        'database_dump_compressor' => null,
+        'database_dump_compressor' => Spatie\DbDumper\Compressors\GzipCompressor::class,
 
         'destination' => [
 
