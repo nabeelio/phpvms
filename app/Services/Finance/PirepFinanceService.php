@@ -154,7 +154,7 @@ class PirepFinanceService extends Service
         $ap = $pirep->dpt_airport;
         // Get Airport Fuel Cost or revert back to settings
         $fuel_cost = $ap->fuel_jeta_cost ?? setting('airports.default_jet_a_fuel_cost');
-        if (setting('pirep.advanced_fuel', false)) {
+        if (setting('pireps.advanced_fuel', false)) {
             $ac = $pirep->aircraft;
             // Reading second row by skip(1) to reach the previous accepted pirep. Current pirep is at the first row
             $prev_flight = Pirep::where('aircraft_id', $ac->id)->where('state', 2)->where('status', 'ONB')->orderby('submitted_at', 'desc')->skip(1)->first();
