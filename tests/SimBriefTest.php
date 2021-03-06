@@ -55,7 +55,7 @@ class SimBriefTest extends TestCase
      *
      * @return \App\Models\SimBrief
      */
-    protected function loadSimBrief(User $user, Aircraft $aircraft, $fares = [], $flight_id=null): SimBrief
+    protected function loadSimBrief(User $user, Aircraft $aircraft, $fares = [], $flight_id = null): SimBrief
     {
         if (empty($flight_id)) {
             $flight_id = self::$simbrief_flight_id;
