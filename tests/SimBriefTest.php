@@ -51,18 +51,38 @@ class SimBriefTest extends TestCase
      * @param \App\Models\User          $user
      * @param \App\Models\Aircraft|null $aircraft
      * @param array                     $fares
+     * @param string|null               $flight_id
      *
      * @return \App\Models\SimBrief
      */
-    protected function loadSimBrief(User $user, Aircraft $aircraft, $fares = []): SimBrief
+    protected function loadSimBrief(User $user, Aircraft $aircraft, $fares = [], $flight_id=null): SimBrief
     {
+        if (empty($flight_id)) {
+            $flight_id = self::$simbrief_flight_id;
+        }
+
         /** @var \App\Models\Flight $flight */
         $flight = factory(Flight::class)->create([
-            'id'             => self::$simbrief_flight_id,
+            'id'             => $flight_id,
             'dpt_airport_id' => 'OMAA',
             'arr_airport_id' => 'OMDB',
         ]);
 
+        return $this->downloadOfp($user, $flight, $aircraft, $fares);
+    }
+
+    /**
+     * Download an OFP file
+     *
+     * @param $user
+     * @param $flight
+     * @param $aircraft
+     * @param $fares
+     *
+     * @return \App\Models\SimBrief|null
+     */
+    protected function downloadOfp($user, $flight, $aircraft, $fares)
+    {
         $this->mockXmlResponse([
             'simbrief/briefing.xml',
             'simbrief/acars_briefing.xml',
@@ -188,6 +208,62 @@ class SimBriefTest extends TestCase
         // Make sure Simbrief is there
         $this->assertNotNull($body['flight']['simbrief']['id']);
         $this->assertNotNull($body['flight']['simbrief']['subfleet']['fares']);
+
+        $subfleet = $body['flight']['simbrief']['subfleet'];
+        $this->assertEquals($fares[0]['id'], $subfleet['fares'][0]['id']);
+        $this->assertEquals($fares[0]['count'], $subfleet['fares'][0]['count']);
+    }
+
+    /**
+     * Make sure that the bids/simbrief created for the same flight by two different
+     * users doesn't leak across users
+     *
+     * @throws \Exception
+     */
+    public function testUserBidSimbriefDoesntLeak()
+    {
+        $this->updateSetting('bids.disable_flight_on_bid', false);
+        $fares = [
+            [
+                'id'       => 100,
+                'code'     => 'F',
+                'name'     => 'Test Fare',
+                'type'     => FareType::PASSENGER,
+                'capacity' => 100,
+                'count'    => 99,
+            ],
+        ];
+
+        /** @var \App\Models\Flight $flight */
+        $flight = factory(Flight::class)->create();
+
+        // Create two briefings and make sure it doesn't leak
+        $userinfo2 = $this->createUserData();
+        $user2 = $userinfo2['user'];
+        $this->downloadOfp($user2, $flight, $userinfo2['aircraft']->first(), $fares);
+
+        $userinfo = $this->createUserData();
+        $user = $userinfo['user'];
+        $briefing = $this->downloadOfp($user, $flight, $userinfo['aircraft']->first(), $fares);
+
+        // Add the flight to the user's bids
+        $uri = '/api/user/bids';
+        $data = ['flight_id' => $flight->id];
+
+        // add for both users
+        $body = $this->put($uri, $data, [], $user2)->json('data');
+        $this->assertNotEmpty($body);
+
+        $body = $this->put($uri, $data, [], $user)->json('data');
+        $this->assertNotEmpty($body);
+
+        $body = $this->get('/api/user/bids', [], $user);
+        $body = $body->json('data')[0];
+
+        // Make sure Simbrief is there
+        $this->assertNotNull($body['flight']['simbrief']['id']);
+        $this->assertNotNull($body['flight']['simbrief']['subfleet']['fares']);
+        $this->assertEquals($body['flight']['simbrief']['id'], $briefing->id);
 
         $subfleet = $body['flight']['simbrief']['subfleet'];
         $this->assertEquals($fares[0]['id'], $subfleet['fares'][0]['id']);
