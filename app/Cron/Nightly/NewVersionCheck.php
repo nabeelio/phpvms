@@ -5,6 +5,7 @@ namespace App\Cron\Nightly;
 use App\Contracts\Listener;
 use App\Events\CronNightly;
 use App\Services\VersionService;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Determine if any pilots should be set to ON LEAVE status
@@ -28,6 +29,7 @@ class NewVersionCheck extends Listener
      */
     public function handle(CronNightly $event): void
     {
+        Log::info('Nightly: Checking for new version');
         $this->versionSvc->isNewVersionAvailable();
     }
 }

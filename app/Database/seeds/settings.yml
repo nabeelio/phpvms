@@ -180,12 +180,12 @@
   type: number
   description: 'How much the load factor can vary per-flight'
 - key: simbrief.api_key
-  name: 'SimBrief API Key'
+  name: 'Simbrief API Key'
   group: simbrief
   value: ''
   options: ''
   type: string
-  description: 'Your SimBrief API key'
+  description: 'Your Simbrief API key'
 - key: simbrief.only_bids
   name: 'Only allow for bids'
   group: simbrief
@@ -194,47 +194,47 @@
   type: boolean
   description: 'Only allow briefs to be created for bidded flights'
 - key: simbrief.expire_days
-  name: 'SimBrief Expire Time'
+  name: 'Simbrief Expire Time'
   group: simbrief
   value: 5
   options: ''
   type: number
   description: 'Days after how long to remove unused briefs'
 - key: simbrief.noncharter_pax_weight
-  name: 'SimBrief Passenger Weight for Non-Charter (Scheduled etc) Flights'
+  name: 'Non-Charter Passenger Weight'
   group: simbrief
   value: 185
   options: ''
   type: number
-  description: 'Passenger weight for Non-Charter flights excluding baggage (lbs)'
+  description: 'Passenger weight for non-charter flights excluding baggage (lbs)'
 - key: simbrief.noncharter_baggage_weight
-  name: 'SimBrief Baggage Weight per Pax for Non-Charter (Scheduled etc) Flights'
+  name: 'Non-Charter Baggage Weight'
   group: simbrief
   value: 35
   options: ''
   type: number
-  description: 'Passenger baggage weight for Non-Charter flights (lbs)'
+  description: 'Passenger baggage weight for non-charter flights (lbs)'
 - key: simbrief.charter_pax_weight
-  name: 'SimBrief Passenger Weight for Charter Flights'
+  name: 'Charter Passenger Weight'
   group: simbrief
   value: 168
   options: ''
   type: number
-  description: 'Passenger weight for Charter flights excluding baggage (lbs)'
+  description: 'Passenger weight for charter flights excluding baggage (lbs)'
 - key: simbrief.charter_baggage_weight
-  name: 'SimBrief Baggage Weight per Pax for Charter Flights'
+  name: 'Charter Baggage Weight'
   group: simbrief
   value: 28
   options: ''
   type: number
-  description: 'Passenger baggage weight for Charter flights (lbs)'
+  description: 'Passenger baggage weight for charter flights (lbs)'
 - key: simbrief.callsign
-  name: 'SimBrief ATC Callsign'
+  name: 'Use ATC Callsign'
   group: simbrief
   value: false
   options: ''
   type: boolean
-  description: 'Use pilot ident as SimBrief ATC Callsign'
+  description: 'Use pilot ident as Simbrief ATC Callsign'
 - key: pireps.duplicate_check_time
   name: 'PIREP duplicate time check'
   group: pireps
@@ -270,6 +270,20 @@
   options: ''
   type: boolean
   description: 'Enables remaining fuel amounts to be considered for fuel expenses'
+- key: pireps.delete_cancelled_hours
+  name: 'Delete cancelled PIREPs'
+  group: pireps
+  value: 12
+  options: ''
+  type: int
+  description: 'The time in hours to delete a cancelled PIREP'
+- key: pireps.delete_rejected_hours
+  name: 'Delete rejected PIREPs'
+  group: pireps
+  value: 12
+  options: ''
+  type: int
+  description: 'The time in hours to delete a rejected PIREP'
 - key: pilots.id_length
   name: 'Pilot ID Length'
   group: pilots
@@ -347,4 +361,3 @@
   options: ''
   type: 'text'
   description: 'Discord public channel ID for broadcasat notifications'
-  

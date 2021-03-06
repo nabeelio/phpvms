@@ -1,5 +1,7 @@
 <?php
 
+use Facade\Ignition\SolutionProviders\MissingPackageSolutionProvider;
+
 return [
     /*
     |--------------------------------------------------------------------------
@@ -54,7 +56,7 @@ return [
     */
 
     'ignored_solution_providers' => [
-        //
+        MissingPackageSolutionProvider::class,
     ],
 
     /*
@@ -68,7 +70,7 @@ return [
     |
     */
 
-    'enable_runnable_solutions' => env('IGNITION_ENABLE_RUNNABLE_SOLUTIONS', null),
+    'enable_runnable_solutions' => false,
 
     /*
     |--------------------------------------------------------------------------

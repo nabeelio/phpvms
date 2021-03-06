@@ -5,6 +5,7 @@ namespace App\Cron\Nightly;
 use App\Contracts\Listener;
 use App\Events\CronNightly;
 use App\Services\SimBriefService;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Clear any expired SimBrief flight briefs that aren't attached to a PIREP
@@ -23,6 +24,7 @@ class ClearExpiredSimbrief extends Listener
      */
     public function handle(CronNightly $event): void
     {
+        Log::info('Nightly: Removing expired Simbrief entries');
         $this->simbriefSvc->removeExpiredEntries();
     }
 }

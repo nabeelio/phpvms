@@ -28,7 +28,10 @@ class DashboardController extends Controller
      */
     public function index()
     {
+        //dd(config('backup'));
         $last_pirep = null;
+
+        /** @var \App\Models\User $user */
         $user = Auth::user();
 
         try {

@@ -32,10 +32,10 @@ class RecalculateStats extends Listener
      */
     public function handle(CronNightly $event): void
     {
-        Log::info('Recalculating user stats');
+        Log::info('Nightly: Recalculating user stats');
         $this->userSvc->recalculateAllUserStats();
 
-        Log::info('Recalcuating aircraft status');
+        Log::info('Nightly: Recalcuating aircraft status');
         $this->aircraftSvc->recalculateStats();
     }
 }

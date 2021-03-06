@@ -35,7 +35,7 @@ class RecalculateBalances extends Listener
      */
     public function handle(CronNightly $event): void
     {
-        Log::info('Recalculating balances');
+        Log::info('Nightly: Recalculating balances');
 
         $journals = Journal::all();
         foreach ($journals as $journal) {

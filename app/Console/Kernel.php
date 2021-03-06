@@ -13,7 +13,11 @@ use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 class Kernel extends ConsoleKernel
 {
     /**
-     * Define the application's command schedule.
+     * Define the application's command schedule. How this works... according to the command
+     * time, an event gets send out with the appropriate time (e.g, hourly sends an hourly event)
+     *
+     * Then the CronServiceProvider has the list of cronjobs which then run according to the events
+     * and then calls those at the proper times.
      *
      * @param \Illuminate\Console\Scheduling\Schedule $schedule
      *
@@ -27,10 +31,13 @@ class Kernel extends ConsoleKernel
         $schedule->command(Hourly::class)->hourly();
 
         // When spatie-backups runs
-        $schedule->command('backup:clean')->daily()->at('01:00');
-        $schedule->command('backup:run')->daily()->at('02:00');
+        /*if (config('backup.backup.enabled', false) === true) {
+            $schedule->command('backup:clean')->daily()->at('01:00');
+            $schedule->command('backup:run')->daily()->at('02:00');
+        }*/
 
         // Update the last time the cron was run
+        /** @var CronService $cronSvc */
         $cronSvc = app(CronService::class);
         $cronSvc->updateLastRunTime();
     }

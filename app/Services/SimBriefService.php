@@ -29,11 +29,18 @@ class SimBriefService extends Service
      * @param string $user_id   User who generated this
      * @param string $ofp_id    The SimBrief OFP ID
      * @param string $flight_id The flight ID
+     * @param string $ac_id     The aircraft ID
+     * @param array  $fares     Full list of fares for the flightß
      *
      * @return SimBrief|null
      */
-    public function downloadOfp(string $user_id, string $ofp_id, string $flight_id)
-    {
+    public function downloadOfp(
+        string $user_id,
+        string $ofp_id,
+        string $flight_id,
+        string $ac_id,
+        array $fares = []
+    ) {
         $uri = str_replace('{id}', $ofp_id, config('phpvms.simbrief_url'));
 
         $opts = [
@@ -57,10 +64,16 @@ class SimBriefService extends Service
         $ofp = simplexml_load_string($body, SimBriefXML::class);
 
         $attrs = [
-            'user_id'   => $user_id,
-            'flight_id' => $flight_id,
-            'ofp_xml'   => $ofp->asXML(),
+            'user_id'     => $user_id,
+            'flight_id'   => $flight_id,
+            'aircraft_id' => $ac_id,
+            'ofp_xml'     => $ofp->asXML(),
         ];
+
+        // encode the fares data to JSONß
+        if (!empty($fares)) {
+            $attrs['fare_data'] = json_encode($fares);
+        }
 
         // Try to download the XML file for ACARS. If it doesn't work, try to modify the main OFP
         $acars_xml = $this->getAcarsOFP($ofp);
