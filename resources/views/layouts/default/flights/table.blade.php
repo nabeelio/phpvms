@@ -82,7 +82,7 @@
             @endif
 
             <!-- If this flight has a briefing, show the link to view it-->
-            @if ($flight->simbrief)
+            @if ($flight->simbrief && $flight->simbrief->user_id === $user->id)
               <a href="{{ route('frontend.simbrief.briefing', $flight->simbrief->id) }}"
                  class="btn btn-sm btn-outline-primary">
                 View Simbrief Flight Plan
