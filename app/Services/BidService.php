@@ -50,7 +50,7 @@ class BidService extends Service
         $bids = Bid::with([
             'flight',
             'flight.fares',
-            'flight.simbrief' => function($query) use ($user) {
+            'flight.simbrief' => function ($query) use ($user) {
                 $query->where('user_id', $user->id);
             },
             'flight.simbrief.aircraft',

@@ -110,9 +110,9 @@ class FlightController extends Controller
                 'dpt_airport',
                 'arr_airport',
                 'airline',
-                'simbrief' => function($query) use ($user) {
+                'simbrief' => function ($query) use ($user) {
                     $query->where('user_id', $user->id);
-                }])
+                }, ])
             ->orderBy('flight_number', 'asc')
             ->orderBy('route_leg', 'asc')
             ->paginate();
