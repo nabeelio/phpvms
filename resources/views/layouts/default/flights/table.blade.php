@@ -72,21 +72,20 @@
         <div class="col-sm-12 text-right">
           <!-- Simbrief enabled -->
           @if ($simbrief !== false)
-
-            <!-- Show button if the bids-only is disable, or if bids-only is enabled, they've saved it -->
-            @if ($simbrief_bids === false || ($simbrief_bids === true && in_array($flight->id, $saved, true)))
-              <a href="{{ route('frontend.simbrief.generate') }}?flight_id={{ $flight->id }}"
-                 class="btn btn-sm btn-outline-primary">
-                Create Simbrief Flight Plan
-              </a>
-            @endif
-
             <!-- If this flight has a briefing, show the link to view it-->
             @if ($flight->simbrief && $flight->simbrief->user_id === $user->id)
               <a href="{{ route('frontend.simbrief.briefing', $flight->simbrief->id) }}"
                  class="btn btn-sm btn-outline-primary">
                 View Simbrief Flight Plan
               </a>
+            @else
+              <!-- Show button if the bids-only is disable, or if bids-only is enabled, they've saved it -->
+              @if ($simbrief_bids === false || ($simbrief_bids === true && in_array($flight->id, $saved, true)))
+                <a href="{{ route('frontend.simbrief.generate') }}?flight_id={{ $flight->id }}"
+                   class="btn btn-sm btn-outline-primary">
+                  Create Simbrief Flight Plan
+                </a>
+              @endif
             @endif
           @endif
 
