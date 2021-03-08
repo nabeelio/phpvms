@@ -6,6 +6,7 @@
 namespace App\Http\Middleware;
 
 use App\Contracts\Middleware;
+use App\Models\Enums\UserState;
 use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
@@ -36,6 +37,10 @@ class ApiAuth implements Middleware
         $user = User::where('api_key', $api_key)->first();
         if ($user === null) {
             return $this->unauthorized('User not found with key "'.$api_key.'"');
+        }
+
+        if ($user->state !== UserState::ACTIVE && $user->state !== UserState::ON_LEAVE) {
+            return $this->unauthorized('User is not ACTIVE, please contact an administrator');
         }
 
         // Set the user to the request
