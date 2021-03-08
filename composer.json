@@ -61,7 +61,8 @@
         "madnest/madzipper": "^1.1.0",
         "elcobvg/laravel-opcache": "^0.4.1",
         "laravel/legacy-factories": "^1.1",
-        "fakerphp/faker": "^1.13"
+        "fakerphp/faker": "^1.13",
+        "wildbit/swiftmailer-postmark": "^3.3"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.5",
