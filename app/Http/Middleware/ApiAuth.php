@@ -6,7 +6,6 @@
 namespace App\Http\Middleware;
 
 use App\Contracts\Middleware;
-use App\Models\Enums\UserState;
 use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
