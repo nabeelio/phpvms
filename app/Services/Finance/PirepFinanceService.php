@@ -533,10 +533,9 @@ class PirepFinanceService extends Service
      */
     public function getGroundHandlingCost(Pirep $pirep)
     {
-        // Get Airport GH Costs for Departure and Arrival or revert back to settings
-        $dpt_gh_cost = $pirep->dpt_airport->ground_handling_cost ?? setting('airports.default_ground_handling_cost');
-        $arr_gh_cost = $pirep->arr_airport->ground_handling_cost ?? setting('airports.default_ground_handling_cost');
-        $gh_cost = $dpt_gh_cost + $arr_gh_cost;
+        // Get Airport GH Costs for Arrival Aerodrome or revert back to settings
+        // ToDo: Apply GH Costs for both aerodromes
+        $gh_cost = $pirep->arr_airport->ground_handling_cost ?? setting('airports.default_ground_handling_cost');
         if (filled($pirep->aircraft->subfleet->ground_handling_multiplier)) {
             // force into percent mode
             $multiplier = $pirep->aircraft->subfleet->ground_handling_multiplier.'%';
