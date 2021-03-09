@@ -2,13 +2,15 @@
 
 namespace App\Repositories;
 
-use App\Models\Kvp;
-use Illuminate\Support\Facades\Cache;
+use Spatie\Valuestore\Valuestore;
 
 class KvpRepository
 {
+    private $valueStore;
+
     public function __construct()
     {
+        $this->valueStore = Valuestore::make(config('phpvms.kvp_storage_path'));
     }
 
     /**
@@ -32,34 +34,36 @@ class KvpRepository
      */
     public function get($key, $default = null)
     {
-        $value = Kvp::where(['key' => $key])->first(['value']);
-        return optional($value)->value ?? $default;
+        if (!$this->valueStore->has($key)) {
+            return $default;
+        }
+
+        return $this->valueStore->get($key);
     }
 
     /**
      * @alias store($key,$value)
      *
      * @param string $key
-     * @param string $value
+     * @param mixed  $value
      *
-     * @return void
+     * @return null
      */
-    public function save(string $key, $value): void
+    public function save($key, $value)
     {
-        Kvp::updateOrCreate(
-            ['key' => $key],
-            ['value' => $value]
-        );
+        return $this->store($key, $value);
     }
 
     /**
      * Save a value to the KVP store
      *
-     * @param string $key
-     * @param string $value
+     * @param $key
+     * @param $value
+     *
+     * @return null
      */
-    public function store($key, $value): void
+    public function store($key, $value)
     {
-        $this->save($key, $value);
+        return $this->valueStore->put($key, $value);
     }
 }
