@@ -134,7 +134,7 @@ class MaintenanceController extends Controller
         $id = Utils::generateNewId(24);
         setting_save('cron.random_id', $id);
 
-        Flash::success('Cron ID renewed!');
+        Flash::success('Web cron refreshed!');
         return redirect(route('admin.maintenance.index'));
     }
 
@@ -149,7 +149,7 @@ class MaintenanceController extends Controller
     {
         setting_save('cron.random_id', '');
 
-        Flash::success('Web cron ID disabled!');
+        Flash::success('Web cron disabled!');
         return redirect(route('admin.maintenance.index'));
     }
 }
