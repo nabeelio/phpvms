@@ -10,6 +10,7 @@ use Illuminate\Support\Collection;
  * @property int         $user_id              The user that generated this
  * @property string      $flight_id            Optional, if attached to a flight, removed if attached to PIREP
  * @property string      $pirep_id             Optional, if attached to a PIREP, removed if attached to flight
+ * @property string      $aircraft_id          The aircraft this is for
  * @property string      $acars_xml
  * @property string      $ofp_xml
  * @property string      $ofp_html

@@ -392,6 +392,12 @@ class RouteServiceProvider extends ServiceProvider
             Route::match(['post'], 'maintenance/forcecheck', 'MaintenanceController@forcecheck')
                 ->name('maintenance.forcecheck')->middleware('ability:admin,maintenance');
 
+            Route::match(['post'], 'maintenance/cron_enable', 'MaintenanceController@cron_enable')
+                ->name('maintenance.cron_enable')->middleware('ability:admin,maintenance');
+
+            Route::match(['post'], 'maintenance/cron_disable', 'MaintenanceController@cron_disable')
+                ->name('maintenance.cron_disable')->middleware('ability:admin,maintenance');
+
             // subfleet
             Route::get('subfleets/export', 'SubfleetController@export')
                 ->name('subfleets.export')->middleware('ability:admin,fleet');
@@ -507,6 +513,8 @@ class RouteServiceProvider extends ServiceProvider
 
                 Route::get('pireps/{pirep_id}', 'PirepController@get');
                 Route::get('pireps/{pirep_id}/acars/geojson', 'AcarsController@acars_geojson');
+
+                Route::get('cron/{id}', 'MaintenanceController@cron')->name('maintenance.cron');
 
                 Route::get('news', 'NewsController@index');
                 Route::get('status', 'StatusController@status');
