@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use App\Repositories\KvpRepository;
 use App\Support\ICAO;
 use App\Support\Units\Time;
 use App\Support\Utils;
@@ -13,6 +14,24 @@ class UtilsTest extends TestCase
     {
         $carbon = new Carbon('2018-04-28T12:55:40Z');
         $this->assertNotNull($carbon);
+    }
+
+    /**
+     * Simple test for KVP
+     */
+    public function testKvp()
+    {
+        /** @var KvpRepository $kvpRepo */
+        $kvpRepo = app(KvpRepository::class);
+        $kvpRepo->save('testkey', 'some value');
+        $this->assertEquals('some value', $kvpRepo->get('testkey'));
+
+        // test that default value is working
+        $this->assertEquals('default value', $kvpRepo->get('unknownkey', 'default value'));
+
+        // try saving an integer
+        $kvpRepo->save('intval', 1);
+        $this->assertEquals(1, $kvpRepo->get('intval'));
     }
 
     /**
