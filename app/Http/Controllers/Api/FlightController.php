@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api;
 
 use App\Contracts\Controller;
 use App\Exceptions\AssetNotFound;
-use App\Exceptions\Unauthorized;
 use App\Http\Resources\Flight as FlightResource;
 use App\Http\Resources\Navdata as NavdataResource;
 use App\Models\SimBrief;

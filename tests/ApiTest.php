@@ -12,6 +12,7 @@ use App\Models\News;
 use App\Models\Subfleet;
 use App\Models\User;
 use App\Services\FareService;
+use App\Support\Utils;
 use Exception;
 use function random_int;
 
@@ -311,5 +312,22 @@ class ApiTest extends TestCase
         $user = $res->json('data');
         $this->assertNotNull($user);
         $this->assertTrue(strpos($user['avatar'], 'gravatar') !== -1);
+    }
+
+    /**
+     * Test that the web cron runs
+     */
+    public function testWebCron()
+    {
+        $this->updateSetting('cron.random_id', '');
+        $this->get('/api/cron/sdf')->assertStatus(400);
+
+        $id = Utils::generateNewId(24);
+        $this->updateSetting('cron.random_id', $id);
+
+        $this->get('/api/cron/sdf')->assertStatus(400);
+
+        $res = $this->get('/api/cron/'.$id);
+        $res->assertStatus(200);
     }
 }
