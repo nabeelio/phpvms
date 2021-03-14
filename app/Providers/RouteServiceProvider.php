@@ -465,7 +465,7 @@ class RouteServiceProvider extends ServiceProvider
             Route::group([
                 'as'         => 'modules.',
                 'prefix'     => 'modules',
-                'middleware' => ['ability:admin, modules'],
+                'middleware' => ['ability:admin,modules'],
             ], function () {
 
                 //Modules Index
