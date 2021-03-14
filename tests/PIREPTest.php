@@ -21,8 +21,10 @@ use App\Services\BidService;
 use App\Services\FlightService;
 use App\Services\PirepService;
 use App\Services\UserService;
+use App\Support\Units\Fuel;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Notification;
+use MathPHP\Probability\Distribution\Continuous\F;
 
 class PIREPTest extends TestCase
 {
@@ -164,6 +166,8 @@ class PIREPTest extends TestCase
         $body = $response->json('data');
 
         // Check that it has the fuel units
+        $this->assertHasKeys($body['block_fuel'], ['lbs', 'kg']);
+        $this->assertEquals($pirep->block_fuel, $body['block_fuel']['lbs']);
         $this->assertHasKeys($body['fuel_used'], ['lbs', 'kg']);
         $this->assertEquals($pirep->fuel_used, $body['fuel_used']['lbs']);
 
@@ -174,6 +178,24 @@ class PIREPTest extends TestCase
         // Check the planned_distance field
         $this->assertHasKeys($body['planned_distance'], ['km', 'nmi', 'mi']);
         $this->assertEquals($pirep->planned_distance, $body['planned_distance']['nmi']);
+
+        //Check conversion on save
+        $val = random_int(1000, 9999999);
+        $pirep->block_fuel = $val;
+        $pirep->fuel_used = $val;
+        // no conversion with plain numbers
+        $this->assertEquals($pirep->block_fuel, $val);
+        $this->assertEquals($pirep->fuel_used, $val);
+        // no conversion with lbs
+        $pirep->block_fuel = new Fuel($val, 'lbs');
+        $this->assertEquals($pirep->block_fuel, $val);
+        $pirep->fuel_used = new Fuel($val, 'lbs');
+        $this->assertEquals($pirep->fuel_used, $val);
+        // conversion of kg to lbs
+        $pirep->block_fuel = new Fuel($val, 'kg');
+        $this->assertEquals($pirep->block_fuel, (new Fuel($val, 'kg'))->toUnit('lbs'));
+        $pirep->fuel_used = new Fuel($val, 'kg');
+        $this->assertEquals($pirep->fuel_used, (new Fuel($val, 'kg'))->toUnit('lbs'));
     }
 
     public function testGetUserPireps()
