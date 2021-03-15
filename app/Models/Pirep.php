@@ -327,6 +327,22 @@ class Pirep extends Model
     }
 
     /**
+     * Set the amount of block fuel
+     *
+     * @param $value
+     */
+    public function setBlockFuelAttribute($value): void
+    {
+        if ($value instanceof Fuel) {
+            $this->attributes['block_fuel'] = $value->toUnit(
+                config('phpvms.internal_units.fuel')
+            );
+        } else {
+            $this->attributes['block_fuel'] = $value;
+        }
+    }
+
+    /**
      * Set the amount of fuel used
      *
      * @param $value

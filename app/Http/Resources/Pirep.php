@@ -38,6 +38,13 @@ class Pirep extends Resource
         $distance = new Distance($res['distance'], config('phpvms.internal_units.distance'));
         $res['distance'] = $distance->getResponseUnits();
 
+        if (!array_key_exists('block_fuel', $res)) {
+            $res['block_fuel'] = 0;
+        }
+
+        $block_fuel = new Fuel($res['block_fuel'], config('phpvms.internal_units.fuel'));
+        $res['block_fuel'] = $block_fuel->getResponseUnits();
+
         if (!array_key_exists('fuel_used', $res)) {
             $res['fuel_used'] = 0;
         }
