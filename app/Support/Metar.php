@@ -1772,7 +1772,7 @@ class Metar implements \ArrayAccess
      */
     private function calculate_wind_chill($temperature_f): void
     {
-        if ($temperature_f < 51 && $this->result['wind_speed'] !== 0) {
+        if ($temperature_f < 51 && $this->result['wind_speed'] && $this->result['wind_speed'] !== 0) {
             $windspeed = $this->result['wind_speed']->toUnit('mph');
             if ($windspeed > 3) {
                 $chill_f = 35.74 + 0.6215 * $temperature_f - 35.75 * ($windspeed ** 0.16);
