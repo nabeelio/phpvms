@@ -178,6 +178,15 @@ class MetarTest extends TestCase
         $this->assertEquals('38 km', $metar['visibility_report']);
     }
 
+    public function testLGKL()
+    {
+        $metar = 'LGKL 160320Z AUTO VRB02KT //// -RA ////// 07/04 Q1008 RE//';
+        $metar = Metar::parse($metar);
+
+        $this->assertEquals(2, $metar['wind_speed']['knots']);
+        $this->assertEquals('Light rain', $metar['present_weather_report']);
+    }
+
     public function testHttpCallSuccess()
     {
         $this->mockXmlResponse('aviationweather/kjfk.xml');

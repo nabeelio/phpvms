@@ -879,8 +879,8 @@ class Metar implements \ArrayAccess
                 $this->set_result_value('cavok', true);
                 $this->method += 4; // can skip the next 4 methods: visibility_min, runway_vr, present_weather, clouds
             }
-        } /*elseif ($found[1] === '////') {
-        }*/ // information not available
+        } elseif ($found[1] === '////') {
+        } // information not available
 
         else {
             $prefix = '';
