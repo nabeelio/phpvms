@@ -131,28 +131,33 @@
 
         <tr>
           <td>@lang('pireps.filedroute')</td>
-          <td>
-            {{ $pirep->route }}
-          </td>
+          <td>{{ $pirep->route }}</td>
         </tr>
 
         <tr>
           <td>{{ trans_choice('common.note', 2) }}</td>
-          <td>
-            {{ $pirep->notes }}
-          </td>
+          <td>{{ $pirep->notes }}</td>
         </tr>
+
+        @if($pirep->score && $pirep->landing_rate)
+          <tr>
+            <td>Score</td>
+            <td>{{ $pirep->score }}</td>
+          </tr>
+          <tr>
+            <td>Landing Rate</td>
+            <td>{{ number_format($pirep->landing_rate) }}</td>
+          </tr>
+        @endif
 
         <tr>
           <td>@lang('pireps.filedon')</td>
-          <td>
-            {{ show_datetime($pirep->created_at) }}
-          </td>
+          <td>{{ show_datetime($pirep->created_at) }}</td>
         </tr>
 
       </table>
 
-      @if(count($pirep->fields) > 0 || count($pirep->fares) > 0)
+      @if(count($pirep->fields) > 0)
         <div class="separator"></div>
       @endif
 
@@ -214,7 +219,7 @@
       <div class="col-12">
         <table class="table table-hover table-condensed" id="users-table">
           <tbody>
-          @foreach($pirep->acars_logs as $log)
+          @foreach($pirep->acars_logs->sortBy('created_at') as $log)
             <tr>
               <td nowrap="true">{{ show_datetime($log->created_at) }}</td>
               <td>{{ $log->log }}</td>
