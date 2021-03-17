@@ -879,8 +879,8 @@ class Metar implements \ArrayAccess
                 $this->set_result_value('cavok', true);
                 $this->method += 4; // can skip the next 4 methods: visibility_min, runway_vr, present_weather, clouds
             }
-        } /*elseif ($found[1] === '////') {
-        }*/ // information not available
+        } elseif ($found[1] === '////') {
+        } // information not available
 
         else {
             $prefix = '';
@@ -994,8 +994,10 @@ class Metar implements \ArrayAccess
         }
 
         $unit = 'meter';
+        $report_unit = 'm';
         if (isset($found[6]) && $found[6] === 'FT') {
             $unit = 'feet';
+            $report_unit = 'nmi';
         }
 
         $observed = [
@@ -1030,15 +1032,15 @@ class Metar implements \ArrayAccess
         if (!empty($observed['runway'])) {
             $report = [];
             if ($observed['variable'] !== null) {
-                $report[] = $observed['variable']['nmi'].' nmi';
+                $report[] = $observed['variable'][$report_unit].$report_unit;
             } elseif ($observed['interval_min'] !== null && $observed['interval_max'] !== null) {
                 if (isset(static::$rvr_prefix_codes[$observed['variable_prefix']])) {
-                    $report[] = 'varying from a min. of '.$observed['interval_min']['nmi'].' nmi until a max. of '.
+                    $report[] = 'varying from a min. of '.$observed['interval_min'][$report_unit].$report_unit.' until a max. of '.
                         static::$rvr_prefix_codes[$observed['variable_prefix']].' that '.
-                        $observed['interval_max']['nmi'].' nmi';
+                        $observed['interval_max'][$report_unit].' '.$report_unit;
                 } else {
-                    $report[] = 'varying from a min. of '.$observed['interval_min']['nmi'].' nmi until a max. of '.
-                        $observed['interval_max']['nmi'].' nmi';
+                    $report[] = 'varying from a min. of '.$observed['interval_min'][$report_unit].$report_unit.' until a max. of '.
+                        $observed['interval_max'][$report_unit].$report_unit;
                 }
             }
 
