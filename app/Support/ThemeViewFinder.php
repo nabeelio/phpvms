@@ -79,7 +79,7 @@ class ThemeViewFinder extends \Igaster\LaravelTheme\themeViewFinder
 
         // Add new paths in the beggin of the search paths array
         foreach (array_reverse($newPaths) as $path) {
-            if (!in_array($path, $paths)) {
+            if (!in_array($path, $paths, true)) {
                 $paths = Arr::prepend($paths, $path);
             }
         }
