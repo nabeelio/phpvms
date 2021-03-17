@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Support;
-
 
 use Igaster\LaravelTheme\Facades\Theme;
 use Illuminate\Filesystem\Filesystem;
@@ -40,7 +38,7 @@ class ThemeViewFinder extends \Igaster\LaravelTheme\themeViewFinder
         // will be maped to path 'THEMENAME/vendor' (relative to current theme views-path)
         $pathsMap = [
             // 'resources/views/vendor/mail' => 'mail',
-            'resources/views/vendor' => 'vendor',
+            'resources/views/vendor'  => 'vendor',
             'resources/views/modules' => 'modules',
         ];
 
@@ -75,7 +73,7 @@ class ThemeViewFinder extends \Igaster\LaravelTheme\themeViewFinder
         $searchPaths = array_diff($this->paths, Theme::getLaravelViewPaths());
         foreach ($searchPaths as $path1) {
             foreach ($themeSubPaths as $path2) {
-                $newPaths[] = $path1 . '/' . $path2;
+                $newPaths[] = $path1.'/'.$path2;
             }
         }
 
