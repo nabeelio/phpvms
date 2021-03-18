@@ -541,6 +541,7 @@ class PirepFinanceService extends Service
      *
      * @param Pirep   $pirep
      * @param Airport $airport
+     *
      * @return float|null
      */
     public function getGroundHandlingCost(Pirep $pirep, Airport $airport): ?float
