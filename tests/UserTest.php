@@ -8,6 +8,7 @@ use App\Models\Airline;
 use App\Models\Enums\UserState;
 use App\Models\Fare;
 use App\Models\Pirep;
+use App\Models\Role;
 use App\Models\User;
 use App\Repositories\SettingRepository;
 use App\Services\FareService;
@@ -367,6 +368,20 @@ class UserTest extends TestCase
         $user->last_pirep_id = $pirep->id;
         $user->save();
         $user->refresh();
+
+        $users_on_leave = $this->userSvc->findUsersOnLeave();
+        $this->assertEquals(0, count($users_on_leave));
+
+        // Check disable_activity_checks
+        $user = $this->createUser([
+            'status'     => UserState::ACTIVE,
+            'created_at' => Carbon::now('UTC')->subDays(5),
+        ]);
+        $role = $this->createRole([
+            'disable_activity_checks' => true
+        ]);
+        $user->attachRole($role);
+        $user->save();
 
         $users_on_leave = $this->userSvc->findUsersOnLeave();
         $this->assertEquals(0, count($users_on_leave));
