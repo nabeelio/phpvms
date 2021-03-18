@@ -152,6 +152,8 @@ class PirepFinanceService extends Service
     public function payFuelCosts(Pirep $pirep): void
     {
         $ap = $pirep->dpt_airport;
+        // Get Airport Fuel Cost or revert back to settings
+        $fuel_cost = $ap->fuel_jeta_cost ?? setting('airports.default_jet_a_fuel_cost');
         if (setting('pireps.advanced_fuel', false)) {
             $ac = $pirep->aircraft;
             // Reading second row by skip(1) to reach the previous accepted pirep. Current pirep is at the first row
@@ -173,15 +175,15 @@ class PirepFinanceService extends Service
             $fuel_amount = $pirep->fuel_used;
         }
 
-        $debit = Money::createFromAmount($fuel_amount * $ap->fuel_jeta_cost);
-        Log::info('Finance: Fuel cost, (fuel='.$fuel_amount.', cost='.$ap->fuel_jeta_cost.') D='
+        $debit = Money::createFromAmount($fuel_amount * $fuel_cost);
+        Log::info('Finance: Fuel cost, (fuel='.$fuel_amount.', cost='.$fuel_cost.') D='
             .$debit->getAmount());
 
         $this->financeSvc->debitFromJournal(
             $pirep->airline->journal,
             $debit,
             $pirep,
-            'Fuel Cost ('.$ap->fuel_jeta_cost.'/'.config('phpvms.internal_units.fuel').')',
+            'Fuel Cost ('.$fuel_cost.'/'.config('phpvms.internal_units.fuel').')',
             'Fuel',
             'fuel'
         );
@@ -415,14 +417,26 @@ class PirepFinanceService extends Service
      */
     public function payGroundHandlingForPirep(Pirep $pirep): void
     {
-        $ground_handling_cost = $this->getGroundHandlingCost($pirep);
-        Log::info('Finance: PIREP: '.$pirep->id.'; ground handling: '.$ground_handling_cost);
+        $ground_handling_cost = $this->getGroundHandlingCost($pirep, $pirep->dpt_airport);
+        Log::info('Finance: PIREP: '.$pirep->id.'; dpt ground handling: '.$ground_handling_cost);
 
         $this->financeSvc->debitFromJournal(
             $pirep->airline->journal,
             Money::createFromAmount($ground_handling_cost),
             $pirep,
+            'Ground Handling (Departure)',
             'Ground Handling',
+            'ground_handling'
+        );
+
+        $ground_handling_cost = $this->getGroundHandlingCost($pirep, $pirep->arr_airport);
+        Log::info('Finance: PIREP: '.$pirep->id.'; arrival ground handling: '.$ground_handling_cost);
+
+        $this->financeSvc->debitFromJournal(
+            $pirep->airline->journal,
+            Money::createFromAmount($ground_handling_cost),
+            $pirep,
+            'Ground Handling (Departure)',
             'Ground Handling',
             'ground_handling'
         );
@@ -525,23 +539,21 @@ class PirepFinanceService extends Service
      * Return the costs for the ground handling, with the multiplier
      * being applied from the subfleet
      *
-     * @param Pirep $pirep
+     * @param Pirep   $pirep
+     * @param Airport $airport
      *
      * @return float|null
      */
-    public function getGroundHandlingCost(Pirep $pirep)
+    public function getGroundHandlingCost(Pirep $pirep, Airport $airport): ?float
     {
-        if (filled($pirep->aircraft->subfleet->ground_handling_multiplier)) {
-            // force into percent mode
-            $multiplier = $pirep->aircraft->subfleet->ground_handling_multiplier.'%';
-
-            return Math::applyAmountOrPercent(
-                $pirep->arr_airport->ground_handling_cost,
-                $multiplier
-            );
+        $gh_cost = $airport->ground_handling_cost ?? setting('airports.default_ground_handling_cost');
+        if (!filled($pirep->aircraft->subfleet->ground_handling_multiplier)) {
+            return $gh_cost;
         }
 
-        return $pirep->arr_airport->ground_handling_cost;
+        // force into percent mode
+        $multiplier = $pirep->aircraft->subfleet->ground_handling_multiplier.'%';
+        return Math::applyAmountOrPercent($gh_cost, $multiplier);
     }
 
     /**
