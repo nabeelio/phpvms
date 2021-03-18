@@ -417,14 +417,26 @@ class PirepFinanceService extends Service
      */
     public function payGroundHandlingForPirep(Pirep $pirep): void
     {
-        $ground_handling_cost = $this->getGroundHandlingCost($pirep);
-        Log::info('Finance: PIREP: '.$pirep->id.'; ground handling: '.$ground_handling_cost);
+        $ground_handling_cost = $this->getGroundHandlingCost($pirep, $pirep->dpt_airport);
+        Log::info('Finance: PIREP: '.$pirep->id.'; dpt ground handling: '.$ground_handling_cost);
 
         $this->financeSvc->debitFromJournal(
             $pirep->airline->journal,
             Money::createFromAmount($ground_handling_cost),
             $pirep,
+            'Ground Handling (Departure)',
             'Ground Handling',
+            'ground_handling'
+        );
+
+        $ground_handling_cost = $this->getGroundHandlingCost($pirep, $pirep->arr_airport);
+        Log::info('Finance: PIREP: '.$pirep->id.'; arrival ground handling: '.$ground_handling_cost);
+
+        $this->financeSvc->debitFromJournal(
+            $pirep->airline->journal,
+            Money::createFromAmount($ground_handling_cost),
+            $pirep,
+            'Ground Handling (Departure)',
             'Ground Handling',
             'ground_handling'
         );
@@ -527,26 +539,20 @@ class PirepFinanceService extends Service
      * Return the costs for the ground handling, with the multiplier
      * being applied from the subfleet
      *
-     * @param Pirep $pirep
-     *
+     * @param Pirep   $pirep
+     * @param Airport $airport
      * @return float|null
      */
-    public function getGroundHandlingCost(Pirep $pirep)
+    public function getGroundHandlingCost(Pirep $pirep, Airport $airport): ?float
     {
-        // Get Airport GH Costs for Arrival Aerodrome or revert back to settings
-        // ToDo: Apply GH Costs for both aerodromes
-        $gh_cost = $pirep->arr_airport->ground_handling_cost ?? setting('airports.default_ground_handling_cost');
-        if (filled($pirep->aircraft->subfleet->ground_handling_multiplier)) {
-            // force into percent mode
-            $multiplier = $pirep->aircraft->subfleet->ground_handling_multiplier.'%';
-
-            return Math::applyAmountOrPercent(
-                $gh_cost,
-                $multiplier
-            );
+        $gh_cost = $airport->ground_handling_cost ?? setting('airports.default_ground_handling_cost');
+        if (!filled($pirep->aircraft->subfleet->ground_handling_multiplier)) {
+            return $gh_cost;
         }
 
-        return $gh_cost;
+        // force into percent mode
+        $multiplier = $pirep->aircraft->subfleet->ground_handling_multiplier.'%';
+        return Math::applyAmountOrPercent($gh_cost, $multiplier);
     }
 
     /**

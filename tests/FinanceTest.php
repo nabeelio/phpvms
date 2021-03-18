@@ -900,7 +900,7 @@ class FinanceTest extends TestCase
 
         // $this->assertCount(9, $transactions['transactions']);
         $this->assertEquals(3020, $transactions['credits']->getValue());
-        $this->assertEquals(2040, $transactions['debits']->getValue());
+        $this->assertEquals(2050.0, $transactions['debits']->getValue());
 
         // Check that all the different transaction types are there
         // test by the different groups that exist
@@ -910,7 +910,7 @@ class FinanceTest extends TestCase
             'expense'         => 1,
             'subfleet'        => 2,
             'fare'            => 3,
-            'ground_handling' => 1,
+            'ground_handling' => 2,
             'pilot_pay'       => 2, // debit on the airline, credit to the pilot
         ];
 
