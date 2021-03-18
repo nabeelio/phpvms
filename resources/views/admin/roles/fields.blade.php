@@ -22,7 +22,8 @@
         <div class="row">
           <div class="form-group col-sm-12">
             <div class="checkbox">
-              {{ Form::checkbox('disable_activity_checks', null) }}
+              {{ Form::hidden('disable_activity_checks', 0) }}
+              {{ Form::checkbox('disable_activity_checks', 1) }}
               {{ Form::label('disable_activity_checks', 'disable activity checks') }}
               <p class="text-danger">{{ $errors->first('disable_activity_checks') }}</p>
             </div>
