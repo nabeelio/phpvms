@@ -378,7 +378,7 @@ class UserTest extends TestCase
             'created_at' => Carbon::now('UTC')->subDays(5),
         ]);
         $role = $this->createRole([
-            'disable_activity_checks' => true
+            'disable_activity_checks' => true,
         ]);
         $user->attachRole($role);
         $user->save();

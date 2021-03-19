@@ -160,6 +160,7 @@ trait TestData
      * Create a role
      *
      * @param array $attrs Additional role attributes
+     *
      * @return Role
      */
     public function createRole(array $attrs = []): Role

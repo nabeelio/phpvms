@@ -20,12 +20,12 @@ class Role extends LaratrustRole
         'name',
         'display_name',
         'read_only',
-        'disable_activity_checks'
+        'disable_activity_checks',
     ];
 
     protected $casts = [
         'read_only'               => 'boolean',
-        'disable_activity_checks' => 'boolean'
+        'disable_activity_checks' => 'boolean',
     ];
 
     /**
