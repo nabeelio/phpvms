@@ -18,6 +18,7 @@ class SimBrief extends Resource
         ];
 
         $fares = [];
+
         try {
             if (!empty($this->fare_data)) {
                 $fare_data = json_decode($this->fare_data, true);

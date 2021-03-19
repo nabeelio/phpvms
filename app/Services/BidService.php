@@ -57,7 +57,7 @@ class BidService extends Service
             'flight.simbrief.aircraft.subfleet',
             'flight.subfleets',
             'flight.subfleets.aircraft',
-            'flight.subfleets.fares'
+            'flight.subfleets.fares',
         ];
 
         $bids = Bid::with($with)->where(['user_id' => $user->id])->get();
