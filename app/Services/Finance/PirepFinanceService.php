@@ -546,7 +546,12 @@ class PirepFinanceService extends Service
      */
     public function getGroundHandlingCost(Pirep $pirep, Airport $airport): ?float
     {
-        $gh_cost = $airport->ground_handling_cost ?? setting('airports.default_ground_handling_cost');
+        if (empty($airport->ground_handling_cost)) {
+            $gh_cost = setting('airports.default_ground_handling_cost');
+        } else {
+            $gh_cost = $airport->ground_handling_cost;
+        }
+
         if (!filled($pirep->aircraft->subfleet->ground_handling_multiplier)) {
             return $gh_cost;
         }
