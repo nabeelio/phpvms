@@ -28,7 +28,7 @@ class SimBriefTest extends TestCase
      */
     public function createUserData(array $attrs = []): array
     {
-        $subfleet = $this->createSubfleetWithAircraft(1);
+        $subfleet = $this->createSubfleetWithAircraft(2);
         $rank = $this->createRank(2, [$subfleet['subfleet']->id]);
 
         /** @var User $user */
@@ -141,7 +141,8 @@ class SimBriefTest extends TestCase
     {
         $userinfo = $this->createUserData();
         $this->user = $userinfo['user'];
-        $briefing = $this->loadSimBrief($this->user, $userinfo['aircraft']->first(), [
+        $aircraft = $userinfo['aircraft']->random();
+        $briefing = $this->loadSimBrief($this->user, $aircraft, [
             [
                 'id'       => 100,
                 'code'     => 'F',
@@ -196,22 +197,30 @@ class SimBriefTest extends TestCase
 
         $userinfo = $this->createUserData();
         $this->user = $userinfo['user'];
-        $this->loadSimBrief($this->user, $userinfo['aircraft']->first(), $fares);
+        $aircraft = $userinfo['aircraft']->random();
+        $this->loadSimBrief($this->user, $aircraft, $fares);
 
-        // Find the flight
+        // Add the flight to the bid and then
         $uri = '/api/user/bids';
         $data = ['flight_id' => self::$simbrief_flight_id];
 
-        $body = $this->put($uri, $data);
-        $body = $body->json('data');
+        $this->put($uri, $data);
+
+        // Retrieve it
+        $body = $this->get($uri);
+        $body = $body->json('data')[0];
 
         // Make sure Simbrief is there
+        $this->assertNotNull($body['flight']['simbrief']['id']);
         $this->assertNotNull($body['flight']['simbrief']['id']);
         $this->assertNotNull($body['flight']['simbrief']['subfleet']['fares']);
 
         $subfleet = $body['flight']['simbrief']['subfleet'];
         $this->assertEquals($fares[0]['id'], $subfleet['fares'][0]['id']);
         $this->assertEquals($fares[0]['count'], $subfleet['fares'][0]['count']);
+
+        $this->assertCount(1, $subfleet['aircraft']);
+        $this->assertEquals($aircraft->id, $subfleet['aircraft'][0]['id']);
     }
 
     /**
