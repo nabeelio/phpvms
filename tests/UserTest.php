@@ -8,7 +8,6 @@ use App\Models\Airline;
 use App\Models\Enums\UserState;
 use App\Models\Fare;
 use App\Models\Pirep;
-use App\Models\Role;
 use App\Models\User;
 use App\Repositories\SettingRepository;
 use App\Services\FareService;
