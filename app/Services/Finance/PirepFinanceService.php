@@ -430,13 +430,13 @@ class PirepFinanceService extends Service
         );
 
         $ground_handling_cost = $this->getGroundHandlingCost($pirep, $pirep->arr_airport);
-        Log::info('Finance: PIREP: '.$pirep->id.'; arrival ground handling: '.$ground_handling_cost);
+        Log::info('Finance: PIREP: '.$pirep->id.'; arr ground handling: '.$ground_handling_cost);
 
         $this->financeSvc->debitFromJournal(
             $pirep->airline->journal,
             Money::createFromAmount($ground_handling_cost),
             $pirep,
-            'Ground Handling (Departure)',
+            'Ground Handling (Arrival)',
             'Ground Handling',
             'ground_handling'
         );
