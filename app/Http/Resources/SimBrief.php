@@ -30,7 +30,9 @@ class SimBrief extends Resource
             // Invalid fare data
         }
 
-        $data['subfleet'] = new Subfleet($this->aircraft->subfleet);
+        if ($this->aircraft->subfleet) {
+            $data['subfleet'] = new Subfleet($this->aircraft->subfleet);
+        }
 
         return $data;
     }
