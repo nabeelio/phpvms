@@ -6,6 +6,7 @@ use App\Models\Aircraft;
 use App\Models\Enums\UserState;
 use App\Models\Flight;
 use App\Models\Pirep;
+use App\Models\Role;
 use App\Models\Subfleet;
 use App\Models\User;
 use Exception;
@@ -153,5 +154,17 @@ trait TestData
             'subfleet' => $subfleet,
             'aircraft' => $aircraft,
         ];
+    }
+
+    /**
+     * Create a role
+     *
+     * @param array $attrs Additional role attributes
+     *
+     * @return Role
+     */
+    public function createRole(array $attrs = []): Role
+    {
+        return factory(Role::class)->create($attrs);
     }
 }

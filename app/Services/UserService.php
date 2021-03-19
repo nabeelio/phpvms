@@ -282,9 +282,24 @@ class UserService extends Service
             }
 
             // See if the difference is larger than what the setting calls for
-            if ($date->diffInDays($diff_date) > $leave_days) {
-                $return_users[] = $user;
+            if ($date->diffInDays($diff_date) <= $leave_days) {
+                continue;
             }
+
+            $skip = false;
+            // If any role for this user has the "disable_activity_check" feature activated, skip this user
+            foreach ($user->roles()->get() as $role) {
+                /** @var Role $role */
+                if ($role->disable_activity_checks) {
+                    $skip = true;
+                    break;
+                }
+            }
+
+            if ($skip) {
+                continue;
+            }
+            $return_users[] = $user;
         }
 
         return $return_users;

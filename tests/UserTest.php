@@ -370,5 +370,19 @@ class UserTest extends TestCase
 
         $users_on_leave = $this->userSvc->findUsersOnLeave();
         $this->assertEquals(0, count($users_on_leave));
+
+        // Check disable_activity_checks
+        $user = $this->createUser([
+            'status'     => UserState::ACTIVE,
+            'created_at' => Carbon::now('UTC')->subDays(5),
+        ]);
+        $role = $this->createRole([
+            'disable_activity_checks' => true,
+        ]);
+        $user->attachRole($role);
+        $user->save();
+
+        $users_on_leave = $this->userSvc->findUsersOnLeave();
+        $this->assertEquals(0, count($users_on_leave));
     }
 }
