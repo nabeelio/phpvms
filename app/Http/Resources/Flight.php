@@ -15,7 +15,7 @@ class Flight extends Resource
     /**
      * Set the fields on the flight object
      */
-    private function setFields()
+    protected function setFields()
     {
         /** @var \Illuminate\Support\Collection $field_values */
         $return_values = new stdClass();

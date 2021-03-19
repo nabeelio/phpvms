@@ -47,22 +47,26 @@ class BidService extends Service
      */
     public function findBidsForUser(User $user)
     {
-        $bids = Bid::with([
+        $with = [
             'flight',
             'flight.fares',
             'flight.simbrief' => function ($query) use ($user) {
                 $query->where('user_id', $user->id);
             },
             'flight.simbrief.aircraft',
+            'flight.simbrief.aircraft.subfleet',
             'flight.subfleets',
             'flight.subfleets.aircraft',
-            'flight.subfleets.fares',
-        ])
-            ->where(['user_id' => $user->id])->get();
+            'flight.subfleets.fares'
+        ];
+
+        $bids = Bid::with($with)->where(['user_id' => $user->id])->get();
 
         foreach ($bids as $bid) {
-            $bid->flight = $this->flightSvc->filterSubfleets($user, $bid->flight);
-            $bid->flight = $this->fareSvc->getReconciledFaresForFlight($bid->flight);
+            if (empty($bid->flight->simbrief)) {
+                $bid->flight = $this->flightSvc->filterSubfleets($user, $bid->flight);
+                $bid->flight = $this->fareSvc->getReconciledFaresForFlight($bid->flight);
+            }
         }
 
         return $bids;

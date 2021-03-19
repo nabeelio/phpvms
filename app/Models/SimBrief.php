@@ -49,7 +49,7 @@ class SimBrief extends Model
      *
      * @return \App\Models\SimBriefXML|null
      */
-    public function getXmlAttribute(): SimBriefXML
+    public function getXmlAttribute(): ?SimBriefXML
     {
         if (empty($this->attributes['ofp_xml'])) {
             return null;

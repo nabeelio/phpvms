@@ -135,6 +135,9 @@ class FlightService extends Service
      */
     public function filterSubfleets(User $user, Flight $flight)
     {
+        // Eager load some of the relationships needed
+        //$flight->load(['flight.subfleets', 'flight.subfleets.aircraft', 'flight.subfleets.fares']);
+
         /** @var \Illuminate\Support\Collection $subfleets */
         $subfleets = $flight->subfleets;
 
