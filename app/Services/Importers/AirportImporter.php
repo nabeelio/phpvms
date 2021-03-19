@@ -31,12 +31,12 @@ class AirportImporter extends BaseImporter
             $ground_handling_cost = (float) $row->ground_handling_cost;
             $fuel_jetA_cost = (float) $row->fuel_jeta_cost;
 
-            if ($ground_handling_cost === null && $ground_handling_cost !== 0) {
-                $ground_handling_cost = (float) setting('general.default_ground_handling_cost');
+            if (empty($ground_handling_cost)) {
+                $ground_handling_cost = 0;
             }
 
-            if ($fuel_jetA_cost === null && $fuel_jetA_cost !== 0) {
-                $fuel_jetA_cost = (float) setting('general.default_jetA_fuel_cost');
+            if (empty($fuel_jetA_cost)) {
+                $fuel_jetA_cost = 0;
             }
 
             $attrs = [
