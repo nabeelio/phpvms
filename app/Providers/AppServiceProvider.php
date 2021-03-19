@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Services\ModuleService;
+use App\Support\ThemeViewFinder;
 use App\Support\Utils;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Schema;
@@ -23,6 +24,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        $this->app->singleton('view.finder', function ($app) {
+            return new ThemeViewFinder(
+                $app['files'],
+                $app['config']['view.paths'],
+                null
+            );
+        });
+
         // Only load the IDE helper if it's included and enabled
         if (config('app.debug') === true) {
             /* @noinspection NestedPositiveIfStatementsInspection */
