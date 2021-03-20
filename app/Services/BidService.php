@@ -64,8 +64,8 @@ class BidService extends Service
 
         foreach ($bids as $bid) {
             // if (empty($bid->flight->simbrief)) {
-                $bid->flight = $this->flightSvc->filterSubfleets($user, $bid->flight);
-                $bid->flight = $this->fareSvc->getReconciledFaresForFlight($bid->flight);
+            $bid->flight = $this->flightSvc->filterSubfleets($user, $bid->flight);
+            $bid->flight = $this->fareSvc->getReconciledFaresForFlight($bid->flight);
             // }
         }
 
