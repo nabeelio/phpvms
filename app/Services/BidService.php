@@ -63,10 +63,10 @@ class BidService extends Service
         $bids = Bid::with($with)->where(['user_id' => $user->id])->get();
 
         foreach ($bids as $bid) {
-            if (empty($bid->flight->simbrief)) {
+            // if (empty($bid->flight->simbrief)) {
                 $bid->flight = $this->flightSvc->filterSubfleets($user, $bid->flight);
                 $bid->flight = $this->fareSvc->getReconciledFaresForFlight($bid->flight);
-            }
+            // }
         }
 
         return $bids;
