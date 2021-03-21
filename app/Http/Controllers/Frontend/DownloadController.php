@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Contracts\Controller;
+use App\Models\Airline;
 use App\Models\File;
 use Auth;
 use Flash;
@@ -18,6 +19,7 @@ class DownloadController extends Controller
      */
     public function index()
     {
+        $airlines = Airline::where('active', 1)->count();
         $files = File::orderBy('ref_model', 'asc')->get();
 
         /**
@@ -42,10 +44,14 @@ class DownloadController extends Controller
             $category = explode('\\', $class);
             $category = end($category);
 
-            if ($category == 'Aircraft') {
+            if ($category == 'Aircraft' && $airlines > 1) {
+                $group_name = $category.' > '.$obj->subfleet->airline->name.' '.$obj->icao.' '.$obj->registration;
+            } elseif ($category == 'Aircraft') {
                 $group_name = $category.' > '.$obj->icao.' '.$obj->registration;
             } elseif ($category == 'Airport') {
                 $group_name = $category.' > '.$obj->icao.' : '.$obj->name.' ('.$obj->country.')';
+            } elseif ($category == 'Subfleet' && $airlines > 1) {
+                $group_name = $category.' > '.$obj->airline->name.' '.$obj->name;
             } else {
                 $group_name = $category.' > '.$obj->name;
             }
@@ -53,13 +59,15 @@ class DownloadController extends Controller
             $regrouped_files[$group_name] = $files;
         }
 
+        ksort($regrouped_files, SORT_STRING);
+
         return view('downloads.index', [
             'grouped_files' => $regrouped_files,
         ]);
     }
 
     /**
-     * Show the application dashboard.
+     * Show the application dashboard
      *
      * @param string $id
      *
