@@ -67,7 +67,7 @@ class DownloadController extends Controller
     }
 
     /**
-     * Show the application dashboard.
+     * Show the application dashboard
      *
      * @param string $id
      *
