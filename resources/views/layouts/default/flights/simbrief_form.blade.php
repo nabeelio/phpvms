@@ -144,6 +144,9 @@
               @if(setting('simbrief.callsign', true))
                 <input type="hidden" name="callsign" value="{{ $user->ident }}">
               @endif
+              @if(setting('simbrief.name_private', true))
+                <input type="hidden" name="cpt" value="{{ $user->name_private }}">
+              @endif
               <input type="hidden" id="steh" name="steh" maxlength="2">
               <input type="hidden" id="stem" name="stem" maxlength="2">
               <input type="hidden" id="date" name="date" maxlength="9">
