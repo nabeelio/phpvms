@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Exceptions\AssetNotFound;
 use App\Models\Aircraft;
+use App\Models\Enums\AircraftState;
+use App\Models\Enums\AircraftStatus;
 use App\Models\Enums\FareType;
 use App\Models\Enums\FlightType;
 use App\Models\Fare;
