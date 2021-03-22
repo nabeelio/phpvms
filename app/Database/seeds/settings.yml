@@ -235,6 +235,13 @@
   options: ''
   type: boolean
   description: 'Use pilot ident as Simbrief ATC Callsign'
+- key: simbrief.name_private
+  name: 'Use Privatized Name at OFPs'
+  group: simbrief
+  value: false
+  options: ''
+  type: boolean
+  description: 'Use privatized user name as SimBrief OFP captain name'
 - key: pireps.duplicate_check_time
   name: 'PIREP duplicate time check'
   group: pireps
