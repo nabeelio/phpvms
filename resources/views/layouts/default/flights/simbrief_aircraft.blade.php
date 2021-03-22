@@ -12,13 +12,9 @@
     <div class="col-md-12">
       <select id="aircraftselection" class="form-control select2" onchange="checkacselection()">
         <option value="ZZZZZ">Please Select An Aircraft</option>
-        @foreach($subfleets as $subfleet)
-          @foreach($subfleet->aircraft as $ac)
-            @if(setting('pireps.only_aircraft_at_dpt_airport') && $flight->dpt_airport_id == $ac->airport_id || !setting('pireps.only_aircraft_at_dpt_airport') 
-            <option value="{{ $ac->id }}">[ {{ $ac->icao }} ] {{ $ac->registration }}</option>
-            @endif
+          @foreach($aircrafts as $ac)
+            <option value="{{ $ac->id }}">[{{ $ac->icao }}] {{ $ac->registration }} @if($ac->registration != $ac->name)'{{ $ac->name }}'@endif</option>
           @endforeach
-        @endforeach
       </select>
     </div>
     <div class="col-md-12 text-right">
