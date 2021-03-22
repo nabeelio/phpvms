@@ -90,6 +90,8 @@ class SimBriefController
             $aircrafts = Aircraft::whereIn('subfleet_id', $sf_ids)
                                 ->where('state', AircraftState::PARKED)
                                 ->where('status', AircraftStatus::ACTIVE)
+                                ->orderby('icao')
+                                ->orderby('registration')
                                 ->get();
 
             if (setting('pireps.only_aircraft_at_dpt_airport')) {
