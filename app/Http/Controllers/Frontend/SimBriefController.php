@@ -76,10 +76,10 @@ class SimBriefController
             } else {
                 $subfleets = $this->userSvc->getAllowableSubfleets($user);
             }
-            
+
             // Build an array of subfleet id's from the subfleets collection
             $sf_ids = $subfleets->map(function ($subfleets) {
-              return collect($subfleets->toArray())
+                return collect($subfleets->toArray())
                   ->only(['id'])
                   ->all();
             });
@@ -92,8 +92,8 @@ class SimBriefController
                                 ->where('status', AircraftStatus::ACTIVE)
                                 ->get();
 
-            if(setting('pireps.only_aircraft_at_dpt_airport')) {
-              $aircrafts = $aircrafts->where('airport_id', $flight->dpt_airport_id);
+            if (setting('pireps.only_aircraft_at_dpt_airport')) {
+                $aircrafts = $aircrafts->where('airport_id', $flight->dpt_airport_id);
             }
 
             return view('flights.simbrief_aircraft', [
