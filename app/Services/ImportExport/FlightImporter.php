@@ -209,7 +209,7 @@ class FlightImporter extends ImportExport
         $count = 0;
         $subfleets = $this->parseMultiColumnValues($col);
         foreach ($subfleets as $subfleet_type) {
-            $subfleet = Subfleet::updateOrCreate(
+            $subfleet = Subfleet::firstOrCreate(
                 ['type' => $subfleet_type],
                 ['name' => $subfleet_type]
             );
