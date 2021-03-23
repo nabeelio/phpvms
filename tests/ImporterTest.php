@@ -472,7 +472,7 @@ class ImporterTest extends TestCase
         $file_path = base_path('tests/data/flights.csv');
         $status = $this->importSvc->importFlights($file_path);
 
-        $this->assertCount(2, $status['success']);
+        $this->assertCount(3, $status['success']);
         $this->assertCount(1, $status['errors']);
 
         // See if it imported
@@ -531,6 +531,16 @@ class ImporterTest extends TestCase
         // Check the subfleets
         $subfleets = $flight->subfleets;
         $this->assertCount(1, $subfleets);
+        $this->assertNotEquals('A32X', $subfleets[0]->name);
+
+        $flight = Flight::where([
+            'airline_id'    => $airline->id,
+            'flight_number' => '999',
+        ])->first();
+        $subfleets = $flight->subfleets;
+        $this->assertCount(2, $subfleets);
+        $this->assertEquals('B737', $subfleets[1]->type);
+        $this->assertEquals('B737', $subfleets[1]->name);
     }
 
     /**
