@@ -125,7 +125,7 @@ class RouteServiceProvider extends ServiceProvider
                 Route::get('downloads/{id}', 'DownloadController@show')->name('downloads.download');
 
                 Route::get('flights/bids', 'FlightController@bids')->name('flights.bids');
-                Route::get('flights/search', 'FlightController@search')->name('flights.search');
+                Route::get('flights/search', 'FlightController@search')->name('flights.search');               
                 Route::resource('flights', 'FlightController');
 
                 Route::get('pireps/fares', 'PirepController@fares');
@@ -170,6 +170,9 @@ class RouteServiceProvider extends ServiceProvider
                 Route::get('pilots', 'UserController@index')->name('pilots.index');
 
                 Route::get('livemap', 'LiveMapController@index')->name('livemap.index');
+                
+                Route::get('showFleet', 'FleetController@showFleet')->name('fleet.show');
+
             });
 
             Route::get('/logout', 'Auth\LoginController@logout')->name('auth.logout');
