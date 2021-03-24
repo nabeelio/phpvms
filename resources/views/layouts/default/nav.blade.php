@@ -20,7 +20,7 @@
       <li class="nav-item">
         <a class="nav-link" href="{{ route('frontend.fleet.show') }}">
           
-          <p>Fleet</p>
+          <p>@lang('common.fleet')</p>
         </a>
       </li>
       

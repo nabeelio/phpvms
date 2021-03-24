@@ -75,3 +75,6 @@ error_log
 .DS_Store
 /config.php
 /VERSION
+/nbproject/private/
+nbproject/project.xml
+nbproject/project.properties

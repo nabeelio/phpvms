@@ -171,7 +171,7 @@ class RouteServiceProvider extends ServiceProvider
 
                 Route::get('livemap', 'LiveMapController@index')->name('livemap.index');
                 
-                Route::get('showFleet', 'FleetController@showFleet')->name('fleet.show');
+                Route::get('show_fleet', 'FleetController@showFleet')->name('fleet.show');
 
             });
 
