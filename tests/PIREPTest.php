@@ -166,35 +166,41 @@ class PIREPTest extends TestCase
 
         // Check that it has the fuel units
         $this->assertHasKeys($body['block_fuel'], ['lbs', 'kg']);
-        $this->assertEquals($pirep->block_fuel, $body['block_fuel']['lbs']);
+        $this->assertEquals(round($pirep->block_fuel), round($body['block_fuel']['lbs']));
+
         $this->assertHasKeys($body['fuel_used'], ['lbs', 'kg']);
-        $this->assertEquals($pirep->fuel_used, $body['fuel_used']['lbs']);
+        $this->assertEquals(round($pirep->fuel_used), round($body['fuel_used']['lbs']));
 
         // Check that it has the distance units
         $this->assertHasKeys($body['distance'], ['km', 'nmi', 'mi']);
-        $this->assertEquals($pirep->distance, $body['distance']['nmi']);
+        $this->assertEquals(round($pirep->distance), round($body['distance']['nmi']));
 
         // Check the planned_distance field
         $this->assertHasKeys($body['planned_distance'], ['km', 'nmi', 'mi']);
-        $this->assertEquals($pirep->planned_distance, $body['planned_distance']['nmi']);
+        $this->assertEquals(round($pirep->planned_distance), round($body['planned_distance']['nmi']));
 
         //Check conversion on save
         $val = random_int(1000, 9999999);
         $pirep->block_fuel = $val;
         $pirep->fuel_used = $val;
+
         // no conversion with plain numbers
         $this->assertEquals($pirep->block_fuel, $val);
         $this->assertEquals($pirep->fuel_used, $val);
+
         // no conversion with lbs
         $pirep->block_fuel = new Fuel($val, 'lbs');
-        $this->assertEquals($pirep->block_fuel, $val);
+        $this->assertEquals(round($pirep->block_fuel), round($val));
+
         $pirep->fuel_used = new Fuel($val, 'lbs');
-        $this->assertEquals($pirep->fuel_used, $val);
+        $this->assertEquals(round($pirep->fuel_used), round($val));
+
         // conversion of kg to lbs
         $pirep->block_fuel = new Fuel($val, 'kg');
-        $this->assertEquals($pirep->block_fuel, (new Fuel($val, 'kg'))->toUnit('lbs'));
+        $this->assertEquals(round($pirep->block_fuel), round((new Fuel($val, 'kg'))->toUnit('lbs')));
+
         $pirep->fuel_used = new Fuel($val, 'kg');
-        $this->assertEquals($pirep->fuel_used, (new Fuel($val, 'kg'))->toUnit('lbs'));
+        $this->assertEquals(round($pirep->fuel_used), round((new Fuel($val, 'kg'))->toUnit('lbs')));
     }
 
     public function testGetUserPireps()

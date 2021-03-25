@@ -8,6 +8,7 @@ use App\Repositories\PirepRepository;
 
 /**
  * Show the latest PIREPs in a view
+ * sorted nicely by their submit time
  */
 class LatestPireps extends Widget
 {
@@ -28,7 +29,7 @@ class LatestPireps extends Widget
                 PirepState::CANCELLED,
                 PirepState::DRAFT,
                 PirepState::IN_PROGRESS,
-            ], 'created_at', 'desc')
+            ], 'submitted_at', 'desc')
             ->recent($this->config['count']);
 
         return view('widgets.latest_pireps', [
