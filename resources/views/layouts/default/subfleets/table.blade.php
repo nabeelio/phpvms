@@ -32,7 +32,7 @@
       </td>
       <td>
         @if($aircraft->fuel_onboard > 0)
-          @if(setting('units.fuel') == 'kg')
+          @if(setting('units.fuel') === 'kg')
             {{ number_format($aircraft->fuel_onboard / 2.205) }}
           @else
             {{ number_format($aircraft->fuel_onboard) }}

@@ -10,7 +10,7 @@
         @if(!$loop->first) &bull; @endif
         {{ $fare->name }}
         {{ number_format($fare->pivot->capacity) }}
-        @if($fare->type == 1) {{ setting('units.weight') }} @else Pax @endif
+        @if($fare->type === 1) {{ setting('units.weight') }} @else Pax @endif
       @endforeach
     </td>
   </tr>
@@ -50,7 +50,7 @@
     <tr>
       <th>@lang('common.fuelonboard')</th>
       <td>
-        @if(setting('units.fuel') == 'kg')
+        @if(setting('units.fuel') === 'kg')
           {{ number_format($aircraft->fuel_onboard / 2.205) }}
         @else
           {{ number_format($aircraft->fuel_onboard) }}

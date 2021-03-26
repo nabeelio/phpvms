@@ -16,9 +16,9 @@
       <td><a href="{{ route('frontend.airports.show', [$pirep->arr_airport_id]) }}">{{ $pirep->arr_airport_id }}</a></td>
       <td>
         @if($pirep->distance > 0)
-          @if(setting('units.distance') == 'km')
+          @if(setting('units.distance') === 'km')
             {{ number_format($pirep->distance * 1.852) }}
-          @elseif(setting('units.distance') == 'mi')
+          @elseif(setting('units.distance') === 'mi')
             {{ number_format($pirep->distance * 1.151) }}
           @else
             {{ number_format($pirep->distance) }}
@@ -32,7 +32,7 @@
       </td>
       <td>
         @if($pirep->fuel_used > 0)
-          @if(setting('units.fuel') == 'kg')
+          @if(setting('units.fuel') === 'kg')
             {{ number_format($pirep->fuel_used / 2.205) }}
           @else
             {{ number_format($pirep->fuel_used) }}
