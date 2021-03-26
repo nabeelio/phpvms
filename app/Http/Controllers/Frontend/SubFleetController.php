@@ -30,8 +30,8 @@ class SubFleetController extends Controller
         }
 
         return view('subfleets.subfleet', [
-          'subfleet' => $subfleet,
-          ]);
+            'subfleet' => $subfleet,
+        ]);
     }
 
     public function aircraft($id)
