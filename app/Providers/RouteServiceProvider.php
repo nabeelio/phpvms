@@ -129,9 +129,9 @@ class RouteServiceProvider extends ServiceProvider
                 Route::resource('flights', 'FlightController');
 
                 // Subfleets
-                Route::get('subfleets', 'SubFleetController@index')->name('subfleets.index');
-                Route::get('subfleets/show/{id}', 'SubFleetController@subfleet')->name('subfleets.subfleet');
-                Route::get('aircrafts/{id}', 'SubFleetController@aircraft')->name('subfleets.aircraft');
+                Route::get('subfleets', 'SubfleetController@index')->name('subfleets.index');
+                Route::get('subfleets/show/{id}', 'SubfleetController@subfleet')->name('subfleets.subfleet');
+                Route::get('aircrafts/{id}', 'SubfleetController@aircraft')->name('subfleets.aircraft');
 
                 Route::get('pireps/fares', 'PirepController@fares');
                 Route::post('pireps/{id}/submit', 'PirepController@submit')->name('pireps.submit');

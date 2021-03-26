@@ -9,7 +9,7 @@ use App\Models\Pirep;
 use App\Models\Subfleet;
 use Illuminate\Http\Request;
 
-class SubFleetController extends Controller
+class SubfleetController extends Controller
 {
     public function index(Request $request)
     {
