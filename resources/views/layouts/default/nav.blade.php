@@ -58,6 +58,12 @@
         </li>
       @else
         <li class="nav-item">
+          <a class="nav-link" href="{{ route('frontend.subfleets.index') }}">
+            <i class="far fa-paper-plane"></i>
+            <p>@lang('common.fleet')</p>
+          </a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" href="{{ route('frontend.flights.index') }}">
             <i class="fab fa-avianex"></i>
             <p>{{ trans_choice('common.flight', 2) }}</p>

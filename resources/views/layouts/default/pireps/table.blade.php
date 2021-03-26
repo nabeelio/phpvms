@@ -30,9 +30,9 @@
         </td>
         <td>
           @if($pirep->aircraft)
-            {{ optional($pirep->aircraft)->name }}
+            <a href="{{ route('frontend.subfleets.aircraft', [$pirep->aircraft->id]) }}">{{ optional($pirep->aircraft)->registration }}
           @else
-            -
+            --
           @endif
         </td>
         <td class="text-center">
