@@ -4,11 +4,10 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Contracts\Controller;
 use App\Models\Aircraft;
-use App\Models\Pirep;
 use App\Models\Enums\PirepState;
+use App\Models\Pirep;
 use App\Models\Subfleet;
 use Illuminate\Http\Request;
-use Laracasts\Flash\Flash;
 
 class SubFleetController extends Controller
 {
@@ -19,15 +18,15 @@ class SubFleetController extends Controller
             ->get();
 
         return view('subfleets.index', [
-          'subfleets' => $subfleets,
-          ]);
+            'subfleets' => $subfleets,
+        ]);
     }
 
     public function subfleet($id)
     {
         $subfleet = Subfleet::find($id);
-        if(!$subfleet) {
-          return redirect(route('frontend.subfleets.index'));
+        if (!$subfleet) {
+            return redirect(route('frontend.subfleets.index'));
         }
 
         return view('subfleets.subfleet', [
@@ -38,8 +37,8 @@ class SubFleetController extends Controller
     public function aircraft($id)
     {
         $aircraft = Aircraft::find($id);
-        if(!$aircraft) {
-          return redirect(route('frontend.subfleets.index'));
+        if (!$aircraft) {
+            return redirect(route('frontend.subfleets.index'));
         }
 
         $pireps = Pirep::where('aircraft_id', $id)->where('state', PirepState::ACCEPTED)
@@ -48,8 +47,8 @@ class SubFleetController extends Controller
             ->get();
 
         return view('subfleets.aircraft', [
-          'aircraft' => $aircraft,
-          'pireps'   => $pireps,
-          ]);
+            'aircraft' => $aircraft,
+            'pireps'   => $pireps,
+        ]);
     }
 }
