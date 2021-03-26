@@ -18,7 +18,7 @@
         </a>
       </td>
       <td>{{ $aircraft->icao }}</td>
-      <td>{{ $subfleetfleet->hub_id ?? '--'}}</td>
+      <td>{{ $subfleet->hub_id ?? '--'}}</td>
       <td><a href="{{ route('frontend.airports.show', [$aircraft->airport_id]) }}">{{ $aircraft->airport_id }}</a></td>
       <td>
         @if($aircraft->flight_time)
