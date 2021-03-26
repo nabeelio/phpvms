@@ -34,7 +34,7 @@ return [
     'location'       => 'Posizione',
     'registration'   => 'Registrazione',
     'hub'            => 'Hub',
-    'fleet'          => 'Fleet',
+    'fleet'          => 'Flotta',
     'taf'            => 'TAF',
     'metar'          => 'METAR',
     'hour'           => 'Ora|Ore',
