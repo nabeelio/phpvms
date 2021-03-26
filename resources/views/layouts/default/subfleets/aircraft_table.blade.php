@@ -50,11 +50,11 @@
     <tr>
       <th>@lang('common.fuelonboard')</th>
       <td>
-        @if(setting('units.weight') == 'kg')
+        @if(setting('units.fuel') == 'kg')
           {{ number_format($aircraft->fuel_onboard / 2.205) }}
         @else
           {{ number_format($aircraft->fuel_onboard) }}
-        @endif {{ setting('units.weight') }}
+        @endif {{ setting('units.fuel') }}
       </td>
     </tr>
   @endif

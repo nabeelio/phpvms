@@ -32,11 +32,11 @@
       </td>
       <td>
         @if($aircraft->fuel_onboard > 0)
-          @if(setting('units.weight') == 'kg')
+          @if(setting('units.fuel') == 'kg')
             {{ number_format($aircraft->fuel_onboard / 2.205) }}
           @else
             {{ number_format($aircraft->fuel_onboard) }}
-          @endif {{ setting('units.weight') }}
+          @endif {{ setting('units.fuel') }}
         @endif
       </td>
       <td><span class="badge badge-sm badge-info">{{ \App\Models\Enums\AircraftState::label($aircraft->state) }}</span></td>
