@@ -528,7 +528,6 @@ class PIREPTest extends TestCase
     {
         $bidSvc = app(BidService::class);
         $flightSvc = app(FlightService::class);
-        $this->settingsRepo->store('pireps.remove_bid_on_accept', true);
 
         $user = factory(User::class)->create([
             'flight_time' => 0,
@@ -549,7 +548,7 @@ class PIREPTest extends TestCase
         ]);
 
         $pirep = $this->pirepSvc->create($pirep, []);
-        $this->pirepSvc->changeState($pirep, PirepState::ACCEPTED);
+        $this->pirepSvc->submit($pirep);
 
         $user_bid = Bid::where([
             'user_id'   => $user->id,
