@@ -3,8 +3,7 @@
 namespace App\Listeners;
 
 use App\Contracts\Listener;
-use App\Events\PirepAccepted;
-use App\Events\PirepRejected;
+use App\Events\PirepFiled;
 use App\Services\BidService;
 
 /**
@@ -13,8 +12,7 @@ use App\Services\BidService;
 class BidEventHandler extends Listener
 {
     public static $callbacks = [
-        PirepAccepted::class => 'onPirepAccept',
-        PirepRejected::class => 'onPirepReject',
+        PirepFiled::class => 'onPirepFiled',
     ];
 
     private $bidSvc;
@@ -25,29 +23,15 @@ class BidEventHandler extends Listener
     }
 
     /**
-     * When a PIREP is accepted, remove any bids
+     * When a PIREP is filed, remove any bids
      *
-     * @param PirepAccepted $event
-     *
-     * @throws \UnexpectedValueException
-     * @throws \InvalidArgumentException
-     * @throws \Exception
-     */
-    public function onPirepAccept(PirepAccepted $event): void
-    {
-        $this->bidSvc->removeBidForPirep($event->pirep);
-    }
-
-    /**
-     * When a PIREP is accepted, remove any bids
-     *
-     * @param PirepRejected $event
+     * @param PirepFiled $event
      *
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
      * @throws \Exception
      */
-    public function onPirepReject(PirepRejected $event): void
+    public function onPirepFiled(PirepFiled $event): void
     {
         $this->bidSvc->removeBidForPirep($event->pirep);
     }
