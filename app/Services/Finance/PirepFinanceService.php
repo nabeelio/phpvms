@@ -299,6 +299,15 @@ class PirepFinanceService extends Service
                 $transaction_group = "Expense: {$expense->name}";
             }
 
+            if (filled($pirep->aircraft->subfleet->ground_handling_multiplier)
+                && $expense->multiplier
+                && $expense->multiplier == 1) {
+                // force into percent mode
+                $multiplier = $pirep->aircraft->subfleet->ground_handling_multiplier.'%';
+                // do the math and return
+                $expense->amount = Math::applyAmountOrPercent($expense->amount,$multiplier);
+            }
+
             $debit = Money::createFromAmount($expense->amount);
 
             // If the expense is marked to charge it to a user (only applicable to Flight)
