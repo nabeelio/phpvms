@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Contracts\Controller;
+use App\Exceptions\Unauthorized;
 use App\Http\Requests\CreatePirepRequest;
 use App\Http\Requests\UpdatePirepRequest;
 use App\Models\Enums\PirepSource;
@@ -433,6 +434,9 @@ class PirepController extends Controller
             Flash::error('Pirep not found');
             return redirect(route('frontend.pireps.index'));
         }
+        if ($pirep->user_id !== Auth::id()) {
+            throw new Unauthorized(new Exception('You may not edit the PIREP of other users'));
+        }
 
         // Eager load the subfleet and fares under it
         if ($pirep->aircraft) {
@@ -491,6 +495,9 @@ class PirepController extends Controller
             Flash::error('Pirep not found');
             return redirect(route('admin.pireps.index'));
         }
+        if ($pirep->user_id !== Auth::id()) {
+            throw new Unauthorized(new Exception('You may not update the PIREP of other users'));
+        }
 
         $orig_route = $pirep->route;
         $attrs = $request->all();
@@ -542,6 +549,9 @@ class PirepController extends Controller
         if (empty($pirep)) {
             Flash::error('PIREP not found');
             return redirect(route('admin.pireps.index'));
+        }
+        if ($pirep->user_id !== Auth::id()) {
+            throw new Unauthorized(new Exception('You may not submit the PIREP of other users'));
         }
 
         $this->pirepSvc->submit($pirep);
