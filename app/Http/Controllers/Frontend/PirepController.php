@@ -213,6 +213,7 @@ class PirepController extends Controller
         return view('pireps.show', [
             'pirep'        => $pirep,
             'map_features' => $map_features,
+            'user'         => Auth::user(),
         ]);
     }
 
@@ -495,9 +496,6 @@ class PirepController extends Controller
         if (empty($pirep)) {
             Flash::error('Pirep not found');
             return redirect(route('admin.pireps.index'));
-        }
-        if ($pirep->user_id !== Auth::id()) {
-            throw new Unauthorized(new Exception('You may not update the PIREP of other users'));
         }
 
         $orig_route = $pirep->route;
