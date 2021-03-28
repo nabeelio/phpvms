@@ -301,7 +301,7 @@ class PirepFinanceService extends Service
 
             if (filled($pirep->aircraft->subfleet->ground_handling_multiplier)
                 && $expense->multiplier
-                && $expense->multiplier == 1) {
+                && $expense->multiplier === 1) {
                 // force into percent mode
                 $multiplier = $pirep->aircraft->subfleet->ground_handling_multiplier.'%';
                 // do the math and return
