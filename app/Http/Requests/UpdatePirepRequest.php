@@ -5,10 +5,20 @@ namespace App\Http\Requests;
 use App\Contracts\FormRequest;
 use App\Models\Pirep;
 use App\Repositories\PirepFieldRepository;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class UpdatePirepRequest extends FormRequest
 {
+    /**
+     * Is the user allowed to do this?
+     */
+    public function authorize(): bool
+    {
+        $pirep = Pirep::findOrFail($this->route('id'), ['user_id']);
+        return $pirep->user_id === Auth::id();
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
