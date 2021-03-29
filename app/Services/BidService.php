@@ -169,10 +169,6 @@ class BidService extends Service
      */
     public function removeBidForPirep(Pirep $pirep)
     {
-        if (!setting('pireps.remove_bid_on_accept')) {
-            return;
-        }
-
         $flight = $pirep->flight;
         if (!$flight) {
             return;

@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Contracts\AirportLookup as AirportLookupProvider;
+use App\Contracts\AirportLookup;
 use App\Contracts\Metar as MetarProvider;
 use App\Contracts\Service;
 use App\Exceptions\AirportNotFound;
@@ -23,7 +23,7 @@ class AirportService extends Service
     private $metarProvider;
 
     public function __construct(
-        AirportLookupProvider $lookupProvider,
+        AirportLookup $lookupProvider,
         AirportRepository $airportRepo,
         MetarProvider $metarProvider
     ) {

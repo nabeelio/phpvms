@@ -46,6 +46,7 @@ class Airport extends Model
         'lon',
         'hub',
         'timezone',
+        'tz',
         'ground_handling_cost',
         'fuel_100ll_cost',
         'fuel_jeta_cost',

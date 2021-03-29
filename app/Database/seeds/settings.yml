@@ -263,13 +263,6 @@
   options: ''
   type: boolean
   description: 'Only allow aircraft that are at the departure airport'
-- key: pireps.remove_bid_on_accept
-  name: 'Remove bid on accept'
-  group: pireps
-  value: false
-  options: ''
-  type: boolean
-  description: 'When a PIREP is accepted, remove the bid, if it exists'
 - key: pireps.advanced_fuel
   name: 'Advanced Fuel Calculations'
   group: pireps
