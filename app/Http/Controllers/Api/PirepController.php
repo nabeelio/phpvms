@@ -219,8 +219,6 @@ class PirepController extends Controller
         $this->updateFields($pirep, $request);
         $this->updateFares($pirep, $request);
 
-        event(new PirepPrefiled($pirep));
-
         return $this->get($pirep->id);
     }
 
