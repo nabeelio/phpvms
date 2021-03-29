@@ -5,7 +5,7 @@
         
         
 <div class="row">
-  <div class="col-sm-6">
+  <div class="col-sm-12">
     <h2 class="description">@lang('common.fleet')</h2>
       <table class="table table-hover table-responsive" id="aircrafts-table">
         <thead>
@@ -18,7 +18,7 @@
             <th style="text-align: right;"></th>
         </thead>
         <tbody>
-            @foreach($aircraft as $ac)
+            @foreach($aircrafts as $ac)
                 <tr>
                     <td>{{ $ac->name }}</td>
                     <td style="text-align: center;">{{ $ac->registration }}</td>
@@ -48,10 +48,7 @@
       </table>
   </div>
      
-    <div class="col-sm-6">
-      <h2 class="description">@lang('common.destinations')</h2>
-        <a href="Routes.pdf" title="Click for zoom"><img src="Routes.png"></a>
-    </div>  
+   
 </div>        
 @endsection
 

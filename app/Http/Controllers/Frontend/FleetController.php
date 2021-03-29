@@ -23,11 +23,11 @@ class FleetController extends Controller
     public function showFleet()
     {
         $w = [];
-        $aircraft = $this->aircraftRepo->with(['subfleet'])->whereOrder($w, 'registration', 'asc');
-        $aircraft = $aircraft->all();
+        $aircrafts = $this->aircraftRepo->with(['subfleet'])->whereOrder($w, 'registration', 'asc');
+        $aircrafts = $aircrafts->all();
         
         return view('flights.fleet', [
-            'aircraft' => $aircraft
+            'aircrafts' => $aircrafts
         ]);
     }
 }
