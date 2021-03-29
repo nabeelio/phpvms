@@ -11,6 +11,7 @@
         </div>
       </div>
     </div>
+    {{-- Show Downloads Of Aircraft --}}
     <div class="col-md-4">
       @if(count($aircraft->files) > 0)
         <h4 class="mt-2">{{ trans_choice('common.download', 2) }}</h4>
@@ -21,6 +22,7 @@
     </div>
   </div>
 
+  {{-- Show Last 5 Pireps Of Aircraft --}}
   @if($pireps->count())
     <div class="row">
       <div class="col-md-8">

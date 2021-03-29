@@ -39,7 +39,7 @@
           @endif {{ setting('units.fuel') }}
         @endif
       </td>
-      <td>{{ $pirep->submitted_at->diffForHumans() }}</td>
+      <td>@if($pirep->submitted_at){{ $pirep->submitted_at->diffForHumans() }}@endif</td>
       <td><a href="{{ route('frontend.users.show.public', [$pirep->user_id]) }}">{{ $pirep->user->name_private }}</a></td>
     </tr>
   @endforeach

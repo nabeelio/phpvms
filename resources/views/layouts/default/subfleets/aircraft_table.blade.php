@@ -24,7 +24,7 @@
   </tr>
   <tr>
     <th>@lang('common.airline')</th>
-    <td>{{ $aircraft->subfleet->airline->name }}</td>
+    <td><a href="{{ route('frontend.airlines.airline', [$aircraft->subfleet->airline->id]) }}">{{ $aircraft->subfleet->airline->name }}</a></td>
   </tr>
   <tr>
     <th>@lang('common.subfleet')</th>

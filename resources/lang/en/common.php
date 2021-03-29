@@ -26,6 +26,7 @@ return [
     'arrival'        => 'Arrival',
     'aircraft'       => 'Aircraft',
     'airline'        => 'Airline',
+    'airlines'       => 'Airlines',
     'subfleet'       => 'Subfleet',
     'distance'       => 'Distance',
     'fuel'           => 'Fuel',

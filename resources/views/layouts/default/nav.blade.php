@@ -58,6 +58,12 @@
         </li>
       @else
         <li class="nav-item">
+          <a class="nav-link" href="{{ route('frontend.airlines.index') }}">
+            <i class="fas fa-plane"></i>
+            <p>@lang('common.airlines')</p>
+          </a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" href="{{ route('frontend.subfleets.index') }}">
             <i class="far fa-paper-plane"></i>
             <p>@lang('common.fleet')</p>
