@@ -6,6 +6,7 @@ use App\Contracts\Service;
 use App\Events\PirepAccepted;
 use App\Events\PirepCancelled;
 use App\Events\PirepFiled;
+use App\Events\PirepPrefiled;
 use App\Events\PirepRejected;
 use App\Events\UserStatsChanged;
 use App\Exceptions\AircraftInvalid;
@@ -150,6 +151,8 @@ class PirepService extends Service
                 throw new \App\Exceptions\PirepCancelled($pirep);
             }
         }
+
+        event(new PirepPrefiled($pirep));
 
         $pirep->save();
 

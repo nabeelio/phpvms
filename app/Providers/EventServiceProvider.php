@@ -9,6 +9,7 @@ use App\Listeners\AwardHandler;
 use App\Listeners\BidEventHandler;
 use App\Listeners\ExpenseListener;
 use App\Listeners\FinanceEventHandler;
+use App\Listeners\PirepEventsHandler;
 use App\Listeners\UserStateListener;
 use App\Notifications\EventHandler;
 use Codedge\Updater\Events\UpdateAvailable;
@@ -45,5 +46,6 @@ class EventServiceProvider extends ServiceProvider
         FinanceEventHandler::class,
         EventHandler::class,
         AwardHandler::class,
+        PirepEventsHandler::class,
     ];
 }
