@@ -15,7 +15,7 @@ class PirepEventsHandler extends Listener
 {
     /** The events and the callback */
     public static $callbacks = [
-        PirepPrefiled::class    => 'onPirepPrefile',
+        PirepPrefiled::class => 'onPirepPrefile',
     ];
 
     /**
