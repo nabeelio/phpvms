@@ -24,7 +24,7 @@ class AirlineController extends Controller
             ->orderBy('name')
             ->get();
 
-        if($airlines->count() === 1) {
+        if ($airlines->count() === 1) {
             return redirect(route('frontend.airlines.airline', [$airlines->first()->id]));
         }
 
