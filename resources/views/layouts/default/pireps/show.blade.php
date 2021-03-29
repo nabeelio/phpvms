@@ -15,7 +15,7 @@
            class="btn btn-outline-info">View SimBrief</a>
       @endif
 
-      @if(!$pirep->read_only)
+      @if(!$pirep->read_only && $pirep->user_id === $user->id)
         <div class="float-right" style="margin-bottom: 10px;">
           <form method="get"
                 action="{{ route('frontend.pireps.edit', $pirep->id) }}"

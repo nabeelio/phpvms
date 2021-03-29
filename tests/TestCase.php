@@ -89,6 +89,16 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
     }
 
     /**
+     * @param $mocks
+     */
+    protected function addMocks($mocks)
+    {
+        $handler = HandlerStack::create($mocks);
+        $client = new Client(['handler' => $handler]);
+        $this->client->httpClient = $client;
+    }
+
+    /**
      * @param $user
      * @param array $headers
      *
