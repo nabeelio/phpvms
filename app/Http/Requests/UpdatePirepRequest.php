@@ -15,7 +15,7 @@ class UpdatePirepRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        $pirep = Pirep::findOrFail($this->route('id'), ['user_id']);
+        $pirep = Pirep::findOrFail($this->route('pirep'), ['user_id']);
         return $pirep->user_id === Auth::id();
     }
 
