@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Contracts\Controller;
-use App\Exceptions\Unauthorized;
 use App\Http\Requests\CreatePirepRequest;
 use App\Http\Requests\UpdatePirepRequest;
 use App\Models\Enums\PirepSource;
@@ -27,7 +26,6 @@ use App\Services\UserService;
 use App\Support\Units\Fuel;
 use App\Support\Units\Time;
 use Carbon\Carbon;
-use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -431,13 +429,16 @@ class PirepController extends Controller
      */
     public function edit($id)
     {
+        /** @var Pirep $pirep */
         $pirep = $this->pirepRepo->findWithoutFail($id);
         if (empty($pirep)) {
             Flash::error('Pirep not found');
             return redirect(route('frontend.pireps.index'));
         }
+
         if ($pirep->user_id !== Auth::id()) {
-            throw new Unauthorized(new Exception('You may not edit the PIREP of other users'));
+            Flash::error('Cannot edit someone else\'s PIREP!');
+            return redirect(route('admin.pireps.index'));
         }
 
         // Eager load the subfleet and fares under it
@@ -492,9 +493,18 @@ class PirepController extends Controller
      */
     public function update($id, UpdatePirepRequest $request)
     {
+        /** @var User $user */
+        $user = Auth::user();
+
+        /** @var Pirep $pirep */
         $pirep = $this->pirepRepo->findWithoutFail($id);
         if (empty($pirep)) {
             Flash::error('Pirep not found');
+            return redirect(route('admin.pireps.index'));
+        }
+
+        if ($user->id !== $pirep->user_id) {
+            Flash::error('Cannot edit someone else\'s PIREP!');
             return redirect(route('admin.pireps.index'));
         }
 
@@ -549,8 +559,10 @@ class PirepController extends Controller
             Flash::error('PIREP not found');
             return redirect(route('admin.pireps.index'));
         }
+
         if ($pirep->user_id !== Auth::id()) {
-            throw new Unauthorized(new Exception('You may not submit the PIREP of other users'));
+            Flash::error('Cannot edit someone else\'s PIREP!');
+            return redirect(route('admin.pireps.index'));
         }
 
         $this->pirepSvc->submit($pirep);
