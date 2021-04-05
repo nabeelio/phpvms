@@ -51,14 +51,20 @@
               ])}}">{{$flight->arr_airport_id}}</a>)
           @if($flight->arr_time), {{ $flight->arr_time }}@endif
           <br/>
+          @if(filled($flight->callsign))
+            <span class="title">{{ strtoupper(__('flights.callsign')) }}&nbsp;</span>
+            {{ $flight->airline->icao }} {{ $flight->callsign }}
+            <br/>
+          @endif
           @if($flight->distance)
             <span class="title">{{ strtoupper(__('common.distance')) }}&nbsp;</span>
             {{ $flight->distance }} {{ setting('units.distance') }}
+            <br/>
           @endif
-          <br/>
           @if($flight->level)
             <span class="title">{{ strtoupper(__('flights.level')) }}&nbsp;</span>
             {{ $flight->level }} {{ setting('units.altitude') }}
+            <br/>
           @endif
         </div>
         <div class="col-sm-5">

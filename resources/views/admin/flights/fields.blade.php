@@ -29,15 +29,22 @@
 
           </div>
 
-          <!-- Route Code Field -->
-          <div class="form-group col-sm-3">
+          <!-- Callsign Field -->
+          <div class="form-group input-group-sm col-sm-2">
+            {{ Form::label('callsign', 'Callsign:') }}
+            {{ Form::text('callsign', null, ['class'=>'form-control', 'placeholder'=>'optional', 'maxlength' => 4]) }}
+            <p class="text-danger">{{ $errors->first('callsign') }}</p>
+          </div>
+
+          <!-- Flight Type Field -->
+          <div class="form-group col-sm-2">
             {{ Form::label('level', 'Flight Type:') }}&nbsp;<span class="required">*</span>
             {{ Form::select('flight_type', $flight_types, null, ['class' => 'form-control select2']) }}
             <p class="text-danger">{{ $errors->first('flight_type') }}</p>
           </div>
 
-          <!-- Route Leg Field -->
-          <div class="form-group col-sm-3">
+          <!-- Flight Time Field -->
+          <div class="form-group col-sm-2">
             {{ Form::label('flight_time', 'Flight Time (hours & minutes)') }}
 
             <div class="input-group input-group-sm mb3">
