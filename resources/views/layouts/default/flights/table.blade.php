@@ -51,9 +51,9 @@
               ])}}">{{$flight->arr_airport_id}}</a>)
           @if($flight->arr_time), {{ $flight->arr_time }}@endif
           <br/>
-          @if(filled($flight->anumeric_callsign))
+          @if(filled($flight->callsign))
             <span class="title">{{ strtoupper(__('flights.callsign')) }}&nbsp;</span>
-            {{ $flight->airline->icao }} {{ $flight->anumeric_callsign }}
+            {{ $flight->airline->icao }} {{ $flight->callsign }}
             <br/>
           @endif
           @if($flight->distance)
