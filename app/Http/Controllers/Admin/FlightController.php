@@ -115,7 +115,7 @@ class FlightController extends Controller
         $avail_fleets = $all_aircraft->except($flight->subfleets->modelKeys());
 
         foreach ($avail_fleets as $ac) {
-            $retval[$ac->id] = '['.$ac->airline->icao.']&nbsp;'. $ac->type.' - '.$ac->name;
+            $retval[$ac->id] = '['.$ac->airline->icao.']&nbsp;'.$ac->type.' - '.$ac->name;
         }
 
         return $retval;
