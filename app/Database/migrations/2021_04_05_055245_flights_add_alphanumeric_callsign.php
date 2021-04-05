@@ -15,7 +15,7 @@ class FlightsAddAlphanumericCallsign extends Migration
     public function up()
     {
         Schema::table('flights', function (Blueprint $table) {
-            $table->string('anumeric_callsign', 4)
+            $table->string('callsign', 4)
                 ->nullable()
                 ->after('flight_number');
         });
@@ -24,7 +24,7 @@ class FlightsAddAlphanumericCallsign extends Migration
     public function down()
     {
         Schema::table('flights', function (Blueprint $table) {
-            $table->dropColumn('anumeric_callsign');
+            $table->dropColumn('callsign');
         });
     }
 }
