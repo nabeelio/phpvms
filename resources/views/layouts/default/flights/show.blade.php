@@ -49,10 +49,10 @@
                 <td>{{ $flight->route }}</td>
               </tr>
             @endif
-            @if(filled($flight->anumeric_callsign))
+            @if(filled($flight->callsign))
               <tr>
                 <td>@lang('flights.callsign')</td>
-                <td>{{ $flight->airline->icao }} {{ $flight->anumeric_callsign }}</td>
+                <td>{{ $flight->airline->icao }} {{ $flight->callsign }}</td>
               </tr>
             @endif
             @if(filled($flight->notes))
