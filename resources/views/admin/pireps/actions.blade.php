@@ -46,5 +46,13 @@
         </form>
       </td>
     @endif
+        <td>
+        <form action="{{ route('frontend.pireps.show', [$pirep->id]) }}" target="_blank">
+          <button type="submit"
+                  class='btn btn-success'>
+            <i class="fas fa-eye"></i>&nbsp;&nbsp; View Pirep
+          </button>
+        </form>
+      </td>
   </tr>
 </table>
