@@ -52,7 +52,7 @@ class SetActiveTheme implements Middleware
         }
 
         try {
-            $theme = setting('general.theme');
+            $theme = setting('general.theme', 'default');
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             $theme = 'default';
