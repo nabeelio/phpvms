@@ -29,11 +29,11 @@
 
           </div>
 
-          <!-- Alphanumeric Callsign Field -->
+          <!-- Callsign Field -->
           <div class="form-group input-group-sm col-sm-2">
-            {{ Form::label('anumeric_callsign', 'Alphanumeric Callsign:') }}
-            {{ Form::text('anumeric_callsign', null, ['class'=>'form-control', 'placeholder'=>'optional', 'maxlength' => 4]) }}
-            <p class="text-danger">{{ $errors->first('anumeric_callsign') }}</p>
+            {{ Form::label('callsign', 'Callsign:') }}
+            {{ Form::text('callsign', null, ['class'=>'form-control', 'placeholder'=>'optional', 'maxlength' => 4]) }}
+            <p class="text-danger">{{ $errors->first('callsign') }}</p>
           </div>
 
           <!-- Flight Type Field -->
