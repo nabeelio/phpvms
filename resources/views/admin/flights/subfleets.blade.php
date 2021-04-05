@@ -13,6 +13,7 @@
   <table class="table table-responsive" id="aircrafts-table">
     @if(count($flight->subfleets))
       <thead>
+      <th>Airline</th>
       <th>Type</th>
       <th>Name</th>
       <th style="text-align: center;">Actions</th>
@@ -21,6 +22,12 @@
     <tbody>
     @foreach($flight->subfleets as $sf)
       <tr>
+        <td>@if ($sf->airline->logo) 
+              <img src="{{ $sf->airline->logo }}" style="max-width: 60px; width: 55%; height: auto;">
+            @else
+               &nbsp;{{ $sf->airline->icao }} 
+            @endif
+        </td>
         <td>{{ $sf->type }}</td>
         <td>{{ $sf->name }}</td>
         <td style="width: 10%; text-align: center;" class="form-inline">

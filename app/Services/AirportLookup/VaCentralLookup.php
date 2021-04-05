@@ -28,6 +28,7 @@ class VaCentralLookup extends AirportLookup
         try {
             $airport = $this->client->getAirport($icao);
             $airport->location = $airport->city;
+            $airport->timezone = $airport->tz;
 
             return $airport;
         } catch (HttpException $e) {

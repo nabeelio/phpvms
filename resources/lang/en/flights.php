@@ -5,6 +5,7 @@ return [
     'flighttime'       => 'Flight Time',
     'flighttype'       => 'Flight Type',
     'flighthours'      => 'Flight Hours',
+    'callsign'         => 'Callsign',
     'route'            => 'Route',
     'mybid'            => 'My Bids',
     'search'           => 'Search',
