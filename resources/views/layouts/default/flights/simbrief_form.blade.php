@@ -143,6 +143,8 @@
               <input type="hidden" name="fltnum" value="{{ $flight->flight_number }}">
               @if(setting('simbrief.callsign', true))
                 <input type="hidden" name="callsign" value="{{ $user->ident }}">
+              @else
+                <input type="hidden" name="callsign" value="{{ $flight->airline->icao }}{{ $flight->callsign ?? $flight->flight_number }}">
               @endif
               @if(setting('simbrief.name_private', true))
                 <input type="hidden" name="cpt" value="{{ $user->name_private }}">

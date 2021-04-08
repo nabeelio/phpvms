@@ -15,6 +15,7 @@ use Illuminate\Support\Collection;
  * @property Airline    airline
  * @property int        airline_id
  * @property mixed      flight_number
+ * @property mixed      callsign
  * @property mixed      route_code
  * @property int        route_leg
  * @property bool       has_bid
@@ -60,6 +61,7 @@ class Flight extends Model
         'id',
         'airline_id',
         'flight_number',
+        'callsign',
         'route_code',
         'route_leg',
         'dpt_airport_id',
@@ -104,6 +106,7 @@ class Flight extends Model
     public static $rules = [
         'airline_id'           => 'required|exists:airlines,id',
         'flight_number'        => 'required',
+        'callsign'             => 'string|max:4|nullable',
         'route_code'           => 'nullable',
         'route_leg'            => 'nullable',
         'dpt_airport_id'       => 'required|exists:airports,id',

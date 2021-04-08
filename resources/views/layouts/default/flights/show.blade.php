@@ -43,12 +43,18 @@
                 </td>
               </tr>
             @endif
-
-            <tr>
-              <td>@lang('flights.route')</td>
-              <td>{{ $flight->route }}</td>
-            </tr>
-
+            @if(filled($flight->route))
+              <tr>
+                <td>@lang('flights.route')</td>
+                <td>{{ $flight->route }}</td>
+              </tr>
+            @endif
+            @if(filled($flight->callsign))
+              <tr>
+                <td>@lang('flights.callsign')</td>
+                <td>{{ $flight->airline->icao }} {{ $flight->callsign }}</td>
+              </tr>
+            @endif
             @if(filled($flight->notes))
               <tr>
                 <td>{{ trans_choice('common.note', 2) }}</td>
