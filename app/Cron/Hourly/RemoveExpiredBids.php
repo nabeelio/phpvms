@@ -26,6 +26,6 @@ class RemoveExpiredBids extends Listener
         }
 
         $date = Carbon::now()->subHours(setting('bids.expire_time'));
-        Bid::whereDate('created_at', '<', $date)->delete();
+        Bid::where('created_at', '<', $date)->delete();
     }
 }
