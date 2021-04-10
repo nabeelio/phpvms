@@ -2,7 +2,7 @@ FROM php:7.4-fpm-alpine
 
 WORKDIR /var/www/
 
-RUN apk add gmp-dev
+RUN apk add gmp-dev icu-dev
 RUN curl --silent --show-error https://getcomposer.org/installer | php
 
 # Copy any config files in
@@ -12,6 +12,7 @@ RUN ln -sf /dev/stderr /var/log/fpm-error.log
 
 RUN docker-php-ext-install \
   calendar \
+  intl \
   pdo_mysql \
   gmp \
   opcache && \

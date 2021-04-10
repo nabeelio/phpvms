@@ -8,7 +8,7 @@ APP_LOCALE="en"
 PHPVMS_INSTALLED="true"
 
 APP_LOG="daily"
-APP_LOG_LEVEL="debug"
+LOG_LEVEL="debug"
 APP_LOG_MAX_FILES="3"
 
 DB_CONNECTION="mysql"

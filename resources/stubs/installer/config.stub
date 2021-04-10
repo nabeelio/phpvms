@@ -60,9 +60,9 @@ return [
             'mysql' => [
                 'host'           => env('DB_HOST', '$DB_HOST$'),
                 'port'           => $DB_PORT$,
-                'database'       => '$DB_NAME$',
-                'username'       => '$DB_USER$',
-                'password'       => '$DB_PASS$',
+                'database'       => '$DB_DATABASE$',
+                'username'       => '$DB_USERNAME$',
+                'password'       => '$DB_PASSWORD$',
                 'prefix'         => '$DB_PREFIX$',
                 'prefix_indexes' => true,
             ],
