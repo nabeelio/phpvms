@@ -47,9 +47,9 @@ class ConfigService extends Service
      *
      * @param $attrs
      *
-     * @return bool
      * @throws FileException
      *
+     * @return bool
      */
     public function createConfigFiles($attrs): bool
     {
@@ -290,6 +290,7 @@ class ConfigService extends Service
         $env_file = App::environmentFilePath();
         if (file_exists($env_file) && !is_writable($env_file)) {
             Log::error('Permissions on existing env.php is not writable');
+
             throw new FileException('Can\'t write to the env.php file! Check the permissions');
         }
 

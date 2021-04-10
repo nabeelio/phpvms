@@ -4,12 +4,9 @@ namespace App\Console\Commands;
 
 use App\Contracts\Command;
 use App\Services\Installer\ConfigService;
-use PDO;
 
 /**
  * Command to rewrite the config files
- *
- * @package App\Console\Commands
  */
 class RewriteConfigs extends Command
 {
