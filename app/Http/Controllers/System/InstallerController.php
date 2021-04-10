@@ -203,7 +203,7 @@ class InstallerController extends Controller
             Log::error('Testing db before writing configs failed');
             Log::error($e->getMessage());
 
-            Flash::error($e->getMessage());
+            flash()->error($e->getMessage());
             return redirect(route('installer.step2'))->withInput();
         }
 
@@ -231,7 +231,7 @@ class InstallerController extends Controller
             Log::error('Config files failed to write');
             Log::error($e->getMessage());
 
-            Flash::error($e->getMessage());
+            flash()->error($e->getMessage());
             return redirect(route('installer.step2'))->withInput();
         }
 
@@ -257,7 +257,7 @@ class InstallerController extends Controller
             Log::error('Error on db setup: '.$e->getMessage());
             //dd($e);
             $this->envSvc->removeConfigFiles();
-            Flash::error($e->getMessage());
+            flash()->error($e->getMessage());
             return redirect(route('installer.step2'))->withInput();
         }
 

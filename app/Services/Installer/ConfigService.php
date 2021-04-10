@@ -19,6 +19,7 @@ class ConfigService extends Service
         'APP_ENV'             => 'dev',
         'APP_KEY'             => '',
         'APP_DEBUG'           => true,
+        'APP_LOCALE'          => 'en',
         'DEBUG_TOOLBAR'       => false,
         'SITE_NAME'           => '',
         'SITE_URL'            => 'http://phpvms.test',
@@ -73,8 +74,6 @@ class ConfigService extends Service
      * the config.php files to config.bak.php
      *
      * This is called from the migrations which removes the old config.php file
-     *
-     * @param array $attrs
      */
     public function rewriteConfigFiles()
     {
@@ -188,7 +187,7 @@ class ConfigService extends Service
         $dsn = "mysql:host=$opts[DB_HOST];port=$opts[DB_PORT];";
         Log::info('Connection string: '.$dsn);
 
-        $conn = new PDO($dsn, $opts['DB_USER'], $opts['DB_PASS']);
+        $conn = new PDO($dsn, $opts['DB_USERNAME'], $opts['DB_PASSWORD']);
         $version = strtolower($conn->getAttribute(PDO::ATTR_SERVER_VERSION));
         Log::info('Detected DB Version: '.$version);
 
@@ -242,7 +241,7 @@ class ConfigService extends Service
     {
         // If we're setting up a database, then also setup
         // the default queue driver to use the database
-        if ($opts['DB_CONN'] === 'mysql' || $opts['DB_CONN'] === 'postgres') {
+        if ($opts['DB_CONNECTION'] === 'mysql' || $opts['DB_CONNECTION'] === 'postgres') {
             $opts['QUEUE_DRIVER'] = 'database';
         } else {
             $opts['QUEUE_DRIVER'] = 'sync';
