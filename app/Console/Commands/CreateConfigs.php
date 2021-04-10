@@ -85,9 +85,9 @@ class CreateConfigs extends Command
             'SITE_NAME'     => $this->argument('name'),
             'DB_CONNECTION' => 'mysql',
             'DB_HOST'       => $this->argument('db_host'),
-            'DB_NAME'       => $this->argument('db_name'),
-            'DB_USER'       => $this->argument('db_user'),
-            'DB_PASS'       => $this->argument('db_pass'),
+            'DB_DATABASE'   => $this->argument('db_name'),
+            'DB_USERNAME'   => $this->argument('db_user'),
+            'DB_PASSWORD'   => $this->argument('db_pass'),
         ]);
 
         $this->info('Config files generated!');
