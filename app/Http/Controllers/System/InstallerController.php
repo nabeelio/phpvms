@@ -209,15 +209,15 @@ class InstallerController extends Controller
 
         // Now write out the env file
         $attrs = [
-            'SITE_NAME' => $request->post('site_name'),
-            'SITE_URL'  => $request->post('site_url'),
-            'DB_CONN'   => $request->post('db_conn'),
-            'DB_HOST'   => $request->post('db_host'),
-            'DB_PORT'   => $request->post('db_port'),
-            'DB_NAME'   => $request->post('db_name'),
-            'DB_USER'   => $request->post('db_user'),
-            'DB_PASS'   => $request->post('db_pass'),
-            'DB_PREFIX' => $request->post('db_prefix'),
+            'SITE_NAME'     => $request->post('site_name'),
+            'SITE_URL'      => $request->post('site_url'),
+            'DB_CONNECTION' => $request->post('db_conn'),
+            'DB_HOST'       => $request->post('db_host'),
+            'DB_PORT'       => $request->post('db_port'),
+            'DB_DATABASE'   => $request->post('db_name'),
+            'DB_USERNAME'   => $request->post('db_user'),
+            'DB_PASSWORD'   => $request->post('db_pass'),
+            'DB_PREFIX'     => $request->post('db_prefix'),
         ];
 
         /*

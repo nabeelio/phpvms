@@ -15,34 +15,48 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class ConfigService extends Service
 {
+    protected static $defaultValues = [
+        'APP_ENV'             => 'dev',
+        'APP_KEY'             => '',
+        'APP_DEBUG'           => true,
+        'DEBUG_TOOLBAR'       => false,
+        'SITE_NAME'           => '',
+        'SITE_URL'            => 'http://phpvms.test',
+        'DB_CONNECTION'       => '',
+        'DB_HOST'             => '',
+        'DB_PORT'             => 3306,
+        'DB_DATABASE'         => '',
+        'DB_USERNAME'         => '',
+        'DB_PASSWORD'         => '',
+        'DB_PREFIX'           => '',
+        'DB_EMULATE_PREPARES' => false,
+        'CACHE_DRIVER'        => 'array',
+        'CACHE_PREFIX'        => '',
+        'MAIL_DRIVER'         => 'smtp',
+        'MAIL_HOST'           => '',
+        'MAIL_PORT'           => 587,
+        'MAIL_ENCRYPTION'     => '',
+        'MAIL_USERNAME'       => '',
+        'MAIL_PASSWORD'       => '',
+        'MAIL_FROM_NAME'      => 'phpVMS Admin',
+        'MAIL_FROM_ADDRESS'   => 'no-reply@phpvms.net',
+    ];
+
     /**
-     * Create the .env file
+     * Create the .env file. This is called by an initial install
      *
      * @param $attrs
      *
-     * @throws \Symfony\Component\HttpFoundation\File\Exception\FileException
-     *
      * @return bool
+     * @throws FileException
+     *
      */
     public function createConfigFiles($attrs): bool
     {
-        $opts = [
-            'APP_ENV'             => 'dev',
-            'APP_KEY'             => $this->createAppKey(),
-            'SITE_NAME'           => '',
-            'SITE_URL'            => 'http://phpvms.test',
-            'CACHE_PREFIX'        => '',
-            'DB_CONN'             => '',
-            'DB_HOST'             => '',
-            'DB_PORT'             => 3306,
-            'DB_NAME'             => '',
-            'DB_USER'             => '',
-            'DB_PASS'             => '',
-            'DB_PREFIX'           => '',
-            'DB_EMULATE_PREPARES' => false,
-        ];
-
-        $opts = array_merge($opts, $attrs);
+        $opts = array_merge(static::$defaultValues, $attrs);
+        if (empty($opts['APP_KEY'])) {
+            $opts['APP_KEY'] = $this->createAppKey();
+        }
 
         $opts = $this->determinePdoOptions($opts);
         $opts = $this->configCacheDriver($opts);
@@ -51,6 +65,63 @@ class ConfigService extends Service
         $this->writeConfigFiles($opts);
 
         return true;
+    }
+
+    /**
+     * Rewrite the config files - this means mapping the values that are currently
+     * loaded in the config and rewriting them into the env.php file, and then renaming
+     * the config.php files to config.bak.php
+     *
+     * This is called from the migrations which removes the old config.php file
+     *
+     * @param array $attrs
+     */
+    public function rewriteConfigFiles()
+    {
+        /*$cfg_file = App::environmentPath().'/config.php';
+        if (!file_exists($cfg_file)) {
+            Log::info('Main config.php file is missing, migration already completed');
+            return;
+        }*/
+
+        $db_opts = config('database.connections.mysql.options');
+        $emulate_prepares = $db_opts[PDO::ATTR_EMULATE_PREPARES] ? 'true' : 'false';
+
+        $opts = array_merge(static::$defaultValues, [
+            'APP_ENV'             => config('app.env'),
+            'APP_KEY'             => config('app.key'),
+            'APP_DEBUG'           => config('app.debug') ? 'true' : 'false',
+            'APP_LOCALE'          => config('app.locale'),
+            'DEBUG_TOOLBAR'       => config('app.debug_toolbar') ? 'true' : 'false',
+            'SITE_NAME'           => config('app.name'),
+            'SITE_URL'            => config('app.url'),
+            'DB_CONNECTION'       => config('database.default'),
+            'DB_HOST'             => config('database.connections.mysql.host'),
+            'DB_PORT'             => config('database.connections.mysql.port'),
+            'DB_DATABASE'         => config('database.connections.mysql.database'),
+            'DB_USERNAME'         => config('database.connections.mysql.username'),
+            'DB_PASSWORD'         => config('database.connections.mysql.password'),
+            'DB_PREFIX'           => config('database.connections.mysql.prefix'),
+            'DB_EMULATE_PREPARES' => $emulate_prepares,
+            'CACHE_DRIVER'        => config('cache.default'),
+            'CACHE_PREFIX'        => config('cache.prefix'),
+            'MAIL_DRIVER'         => config('mail.default'),
+            'MAIL_HOST'           => config('mail.mailers.smtp.host'),
+            'MAIL_PORT'           => config('mail.mailers.smtp.port'),
+            'MAIL_ENCRYPTION'     => config('mail.mailers.smtp.encryption'),
+            'MAIL_USERNAME'       => config('mail.mailers.smtp.username'),
+            'MAIL_PASSWORD'       => config('mail.mailers.smtp.password'),
+            'MAIL_FROM_NAME'      => config('mail.from.name'),
+            'MAIL_FROM_ADDRESS'   => config('mail.from.address'),
+        ]);
+
+        $this->writeConfigFiles($opts);
+
+        // Rename the old config file
+        $cfg_file = App::environmentPath().'/config.php';
+        if (file_exists($cfg_file)) {
+            rename($cfg_file, App::environmentPath().'/config.bak.php');
+        }
     }
 
     /**
@@ -97,7 +168,7 @@ class ConfigService extends Service
      */
     protected function createAppKey(): string
     {
-        return base64_encode(Encrypter::generateKey(config('app.cipher')));
+        return 'base64:'.base64_encode(Encrypter::generateKey(config('app.cipher')));
     }
 
     /**
@@ -110,7 +181,7 @@ class ConfigService extends Service
      */
     protected function determinePdoOptions($opts)
     {
-        if ($opts['DB_CONN'] !== 'mysql') {
+        if ($opts['DB_CONNECTION'] !== 'mysql') {
             return $opts;
         }
 
@@ -210,17 +281,15 @@ class ConfigService extends Service
      *
      * @param $opts
      *
-     * @throws \Symfony\Component\HttpFoundation\File\Exception\FileException
+     * @throws FileException
      */
     protected function writeConfigFiles($opts)
     {
         Stub::setBasePath(resource_path('/stubs/installer'));
 
         $env_file = App::environmentFilePath();
-
         if (file_exists($env_file) && !is_writable($env_file)) {
             Log::error('Permissions on existing env.php is not writable');
-
             throw new FileException('Can\'t write to the env.php file! Check the permissions');
         }
 
@@ -239,7 +308,7 @@ class ConfigService extends Service
          * Next write out the config file. If there's an error here,
          * then throw an exception but delete the env file first
          */
-        try {
+        /*try {
             $stub = new Stub('/config.stub', $opts);
             $stub->render();
             $stub->saveTo(App::environmentPath(), 'config.php');
@@ -247,6 +316,6 @@ class ConfigService extends Service
             unlink(App::environmentPath().'/'.App::environmentFile());
 
             throw new FileException('Couldn\'t write config.php. ('.$e.')');
-        }
+        }*/
     }
 }

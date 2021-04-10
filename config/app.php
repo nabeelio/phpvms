@@ -15,7 +15,7 @@ return [
     'debug'         => env('APP_DEBUG', true),
     'url'           => env('APP_URL', ''),
     'version'       => '7.0.0',
-    'debug_toolbar' => false,
+    'debug_toolbar' => env('DEBUG_TOOLBAR', false),
 
     'locale'          => env('APP_LOCALE', 'en'),
     'fallback_locale' => 'en',
