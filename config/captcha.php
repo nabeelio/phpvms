@@ -14,10 +14,10 @@ return [
     // Attributes can be found here:
     // https://developers.google.com/recaptcha/docs/display#render_param
     'attributes' => [
-        'data-theme' => 'light',
+        'data-theme' => env('CAPTCHA_DATATHEME', 'light'),
     ],
 
     'options' => [
-        'timeout' => 2.0,
+        'timeout' => env('CAPTCHA_TIMEOUT', '2.0'),
     ],
 ];
