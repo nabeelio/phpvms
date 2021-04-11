@@ -74,4 +74,5 @@ error_log
 .sass-cache
 .DS_Store
 /config.php
+/config.bak.php
 /VERSION
