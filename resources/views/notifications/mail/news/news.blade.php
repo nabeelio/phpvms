@@ -1,11 +1,7 @@
 @component('mail::message')
   # {{ $news->subject }}
 
-  $news->body
-
-  @component('mail::button', ['url' => route('frontend.pireps.show', [$pirep->id])])
-    View PIREP
-  @endcomponent
+  {{ $news->body }}
 
   Thanks,<br>
   {{ config('app.name') }}

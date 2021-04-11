@@ -22,7 +22,7 @@ class NewsAdded extends Notification
         $this->news = $news;
         $this->setMailable(
             $news->subject,
-            'notifications.mail.news',
+            'notifications.mail.news.news',
             ['news' => $news]
         );
     }
