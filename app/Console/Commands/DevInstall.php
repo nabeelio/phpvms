@@ -79,9 +79,9 @@ class DevInstall extends Command
 
         $this->info('Regenerating the config files');
         $cfgSvc->createConfigFiles([
-            'APP_ENV'   => 'dev',
-            'SITE_NAME' => 'phpvms test',
-            'DB_CONN'   => 'sqlite',
+            'APP_ENV'       => 'dev',
+            'SITE_NAME'     => 'phpvms test',
+            'DB_CONNECTION' => 'sqlite',
         ]);
 
         $this->info('Config files generated!');
