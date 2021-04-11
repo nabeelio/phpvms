@@ -50,10 +50,16 @@ class EventHandler extends Listener
     {
         $admin_users = User::whereRoleIs('admin')->get();
 
-        try {
-            Notification::send($admin_users, $notification);
-        } catch (Exception $e) {
-            Log::emergency('Error emailing admins, malformed email='.$e->getMessage());
+        foreach ($admin_users as $user) {
+            if (empty($user->email)) {
+                continue;
+            }
+
+            try {
+                Notification::send([$user], $notification);
+            } catch (Exception $e) {
+                Log::emergency('Error emailing admin ('.$user->email.'). Error='.$e->getMessage());
+            }
         }
     }
 
@@ -66,7 +72,7 @@ class EventHandler extends Listener
         try {
             $user->notify($notification);
         } catch (Exception $e) {
-            Log::emergency('Error emailing admins, malformed email='.$e->getMessage());
+            Log::emergency('Error emailing user, '.$user->ident.'='.$user->email.', error='.$e->getMessage());
         }
     }
 
@@ -91,10 +97,8 @@ class EventHandler extends Listener
 
         Log::info('Sending notification to '.$users->count().' users');
 
-        try {
-            Notification::send($users, $notification);
-        } catch (Exception $e) {
-            Log::emergency('Error emailing admins, malformed email='.$e->getMessage());
+        foreach ($users as $user) {
+            $this->notifyUser($user, $notification);
         }
     }
 
