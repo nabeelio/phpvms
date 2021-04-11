@@ -33,7 +33,7 @@ class ConfigService extends Service
         'DB_EMULATE_PREPARES' => false,
         'CACHE_DRIVER'        => 'array',
         'CACHE_PREFIX'        => '',
-        'MAIL_DRIVER'         => 'smtp',
+        'MAIL_DRIVER'         => 'mail',
         'MAIL_HOST'           => '',
         'MAIL_PORT'           => 587,
         'MAIL_ENCRYPTION'     => '',
