@@ -33,7 +33,7 @@ class ConfigService extends Service
         'DB_EMULATE_PREPARES' => false,
         'CACHE_DRIVER'        => 'array',
         'CACHE_PREFIX'        => '',
-        'MAIL_DRIVER'         => 'smtp',
+        'MAIL_DRIVER'         => 'mail',
         'MAIL_HOST'           => '',
         'MAIL_PORT'           => 587,
         'MAIL_ENCRYPTION'     => '',
@@ -212,7 +212,8 @@ class ConfigService extends Service
     protected function configCacheDriver($opts)
     {
         // Set the cache prefix
-        $opts['CACHE_PREFIX'] = uniqid($opts['SITE_NAME'].'_');
+        $prefix = substr(str_slug($opts['SITE_NAME'], '_'), 0, 8);
+        $opts['CACHE_PREFIX'] = strtolower(uniqid($prefix.'_'));
 
         // Figure out what cache driver to initially use, depending on
         // what is installed. It won't detect redis or anything, though
