@@ -7,7 +7,7 @@
  * Don't edit this file directly, add the section to your config.php
  */
 return [
-    'enabled' => env('CAPTCHA_ENABLED', 'false'),
+    'enabled' => env('CAPTCHA_ENABLED', false),
     'sitekey' => env('CAPTCHA_SITEKEY', ''),
     'secret'  => env('CAPTCHA_SECRET', ''),
 
