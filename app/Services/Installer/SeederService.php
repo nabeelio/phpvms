@@ -90,10 +90,10 @@ class SeederService extends Service
         $data = file_get_contents(database_path('/seeds/modules.yml'));
         $yml = Yaml::parse($data);
         foreach ($yml as $module) {
-            $module['updated_at'] = Carbon::now();
+            $module['updated_at'] = Carbon::now('UTC');
             $count = DB::table('modules')->where('name', $module['name'])->count('name');
             if ($count === 0) {
-                $module['created_at'] = Carbon::now();
+                $module['created_at'] = Carbon::now('UTC');
                 DB::table('modules')->insert($module);
             } else {
                 DB::table('modules')
