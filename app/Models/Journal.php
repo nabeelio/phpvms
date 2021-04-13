@@ -186,7 +186,7 @@ class Journal extends Model
      */
     public function getCurrentBalance()
     {
-        return $this->getBalanceOn(Carbon::now());
+        return $this->getBalanceOn(Carbon::now('UTC'));
     }
 
     /**

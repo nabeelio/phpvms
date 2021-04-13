@@ -484,7 +484,7 @@ class PIREPTest extends TestCase
          */
         $minutes = setting('pireps.duplicate_check_time') + 1;
         $pirep = factory(Pirep::class)->create([
-            'created_at' => Carbon::now()->subMinutes($minutes)->toDateTimeString(),
+            'created_at' => Carbon::now('UTC')->subMinutes($minutes)->toDateTimeString(),
         ]);
 
         // This should find itself...
