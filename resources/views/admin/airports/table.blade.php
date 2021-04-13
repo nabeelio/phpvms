@@ -8,6 +8,7 @@
     <th style="text-align: center;">GH Cost</th>
     <th style="text-align: center;">JetA</th>
     <th style="text-align: center;">100LL</th>
+    <th style="text-align: center;">MOGAS</th>
     <th></th>
     </thead>
     <tbody>
@@ -31,6 +32,10 @@
         <td style="text-align: center;">
           <a class="inline" href="#" data-pk="{{ $airport->id }}"
              data-name="fuel_100ll_cost">{{ $airport->fuel_100ll_cost }}</a>
+        </td>
+        <td style="text-align: center;">
+          <a class="inline" href="#" data-pk="{{ $airport->id }}"
+             data-name="fuel_mogas_cost">{{ $airport->fuel_mogas_cost }}</a>
         </td>
         <td style="text-align: right;">
           {{ Form::open(['route' => ['admin.airports.destroy', $airport->id], 'method' => 'delete']) }}
