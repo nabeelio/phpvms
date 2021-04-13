@@ -290,7 +290,7 @@ class PirepService extends Service
     public function findDuplicate(Pirep $pirep)
     {
         $minutes = setting('pireps.duplicate_check_time', 10);
-        $time_limit = Carbon::now()->subMinutes($minutes)->toDateTimeString();
+        $time_limit = Carbon::now('UTC')->subMinutes($minutes)->toDateTimeString();
 
         $where = [
             'user_id'       => $pirep->user_id,

@@ -147,7 +147,7 @@ class JournalRepository extends Repository implements CacheableInterface
         $journal->refresh();
 
         if (!$date) {
-            $date = Carbon::now();
+            $date = Carbon::now('UTC');
         }
 
         $credit = $this->getCreditBalanceBetween($date, $journal);
