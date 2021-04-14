@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Log;
 class DeletePireps extends Listener
 {
     /**
-     * Remove expired bids
+     * Delete old rejected PIREPs
      *
      * @param CronHourly $event
      *
