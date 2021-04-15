@@ -31,7 +31,8 @@
       {{ Form::open(['url' => route('admin.pireps.destroy', [$pirep->id]),
             'method' => 'delete',
             'name' => 'delete_'.$pirep->id,
-            'id' => $pirep->id.'_delete'
+            'id' => $pirep->id.'_delete',
+            'onclick' => "return confirm('Are you sure?')"
             ]) }}
         {{ Form::button('Delete', ['type' => 'submit', 'class' => 'btn btn-danger']) }}
         {{ Form::close() }}

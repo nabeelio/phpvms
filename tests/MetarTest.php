@@ -247,4 +247,15 @@ class MetarTest extends TestCase
         $metar = $airportSvc->getMetar('7AK4');
         $this->assertNull($metar);
     }
+
+    public function testHttpCallNoResults()
+    {
+        $this->mockXmlResponse('aviationweather/no_results.xml');
+
+        /** @var AirportService $airportSvc */
+        $airportSvc = app(AirportService::class);
+
+        $metar = $airportSvc->getMetar('AYMR');
+        $this->assertNull($metar);
+    }
 }
