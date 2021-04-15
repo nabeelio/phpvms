@@ -12,7 +12,7 @@
           <p class="category">{{ $item->user->name }} - {{ show_datetime($item->created_at) }}</p>
         </div>
 
-        {{ $item->body }}
+        {!! $item->body !!}
 
         <div class="text-right">
           {{ Form::open(['route' => 'admin.dashboard.news',
@@ -49,7 +49,7 @@
 
         <tr>
           <td>{{ Form::label('body', 'Body:') }}</td>
-          <td>{{ Form::textarea('body', '', ['class' => 'form-control']) }}</td>
+          <td>{{ Form::textarea('body', null, ['id' => 'editor', 'class' => 'editor']) }}</td>
         </tr>
       </table>
       <div class="text-right">
@@ -64,3 +64,9 @@
     </div>
   </div>
 </div>
+<script src="{{ public_asset('assets/vendor/ckeditor4/ckeditor.js') }}"></script>
+<script>
+  $(document).ready(function () {
+    CKEDITOR.replace('editor');
+  });
+</script>
