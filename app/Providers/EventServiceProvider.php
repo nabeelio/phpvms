@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Events\Expenses;
 use App\Events\PirepFiled;
+use App\Events\ProfileUpdated;
 use App\Events\UserStatsChanged;
 use App\Listeners\AwardHandler;
 use App\Listeners\BidEventHandler;
@@ -39,6 +40,8 @@ class EventServiceProvider extends ServiceProvider
 
         UpdateAvailable::class => [],
         UpdateSucceeded::class => [],
+
+        ProfileUpdated::class => [],
     ];
 
     protected $subscribe = [
