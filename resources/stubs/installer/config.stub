@@ -10,7 +10,7 @@ return [
     // Overrides config/app.php
     'app' => [
         'name' => '$SITE_NAME$',
-        'url'  => '$SITE_URL$',
+        'url'  => '$APP_URL$',
 
         // When live, 'env' should be 'prod'
         'env'   => 'prod',
