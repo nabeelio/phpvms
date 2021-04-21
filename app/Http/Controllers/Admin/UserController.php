@@ -252,15 +252,12 @@ class UserController extends Controller
     public function destroy($id)
     {
         $user = $this->userRepo->findWithoutFail($id);
-
         if (empty($user)) {
             Flash::error('User not found');
-
             return redirect(route('admin.users.index'));
         }
 
-        $this->userRepo->delete($id);
-
+        $this->userSvc->removeUser($user);
         Flash::success('User deleted successfully.');
 
         return redirect(route('admin.users.index'));

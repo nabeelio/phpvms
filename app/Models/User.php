@@ -38,6 +38,7 @@ use Laratrust\Traits\LaratrustUserTrait;
  * @property string           last_pirep_id
  * @property Pirep            last_pirep
  * @property UserFieldValue[] fields
+ * @property Role[]           roles
  *
  * @mixin \Illuminate\Database\Eloquent\Builder
  * @mixin \Illuminate\Notifications\Notifiable
