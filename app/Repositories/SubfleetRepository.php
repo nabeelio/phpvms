@@ -41,7 +41,7 @@ class SubfleetRepository extends Repository implements CacheableInterface
         }
 
         foreach ($items as $i) {
-            $retval[$i->id] = $i->name." | ".$i->airline->icao;
+            $retval[$i->id] = $i->name.' | '.$i->airline->icao;
         }
 
         return $retval;
