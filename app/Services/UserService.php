@@ -72,6 +72,10 @@ class UserService extends Service
             ->with(['airline', 'bids', 'rank'])
             ->find($user_id);
 
+        if (empty($user)) {
+            return null;
+        }
+
         if ($user->state === UserState::DELETED) {
             return null;
         }
