@@ -46,7 +46,7 @@ class EventHandler extends Listener
      *
      * @param \App\Contracts\Notification $notification
      */
-    protected function notifyAdmins($notification)
+    protected function notifyAdmins(\App\Contracts\Notification $notification)
     {
         $admin_users = User::whereRoleIs('admin')->get();
 
@@ -67,8 +67,12 @@ class EventHandler extends Listener
      * @param User                        $user
      * @param \App\Contracts\Notification $notification
      */
-    protected function notifyUser($user, $notification)
+    protected function notifyUser(User $user, \App\Contracts\Notification $notification)
     {
+        if ($user->state === UserState::DELETED) {
+            return;
+        }
+
         try {
             $user->notify($notification);
         } catch (Exception $e) {
@@ -90,7 +94,7 @@ class EventHandler extends Listener
         }
 
         /** @var Collection $users */
-        $users = User::where($where)->get();
+        $users = User::where($where)->where('state', '<>', UserState::DELETED)->get();
         if (empty($users) || $users->count() === 0) {
             return;
         }

@@ -9,12 +9,14 @@ use App\Events\UserStatsChanged;
 use App\Exceptions\PilotIdNotFound;
 use App\Exceptions\UserPilotIdExists;
 use App\Models\Airline;
+use App\Models\Bid;
 use App\Models\Enums\PirepState;
 use App\Models\Enums\UserState;
 use App\Models\Pirep;
 use App\Models\Rank;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\UserFieldValue;
 use App\Repositories\AircraftRepository;
 use App\Repositories\AirlineRepository;
 use App\Repositories\SubfleetRepository;
@@ -23,6 +25,7 @@ use App\Support\Units\Time;
 use App\Support\Utils;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use function is_array;
 
@@ -60,13 +63,18 @@ class UserService extends Service
      *
      * @param $user_id
      *
-     * @return User
+     * @return User|null
      */
-    public function getUser($user_id): User
+    public function getUser($user_id): ?User
     {
+        /** @var User $user */
         $user = $this->userRepo
             ->with(['airline', 'bids', 'rank'])
             ->find($user_id);
+
+        if ($user->state === UserState::DELETED) {
+            return null;
+        }
 
         // Load the proper subfleets to the rank
         $user->rank->subfleets = $this->getAllowableSubfleets($user);
@@ -118,6 +126,33 @@ class UserService extends Service
     }
 
     /**
+     * Remove the user. But don't actually delete them - set the name to deleted, email to
+     * something random
+     *
+     * @param User $user
+     *
+     * @throws \Exception
+     */
+    public function removeUser(User $user)
+    {
+        $user->name = 'Deleted User';
+        $user->email = Utils::generateApiKey().'@deleted-user.com';
+        $user->api_key = Utils::generateApiKey();
+        $user->password = Hash::make(Utils::generateApiKey());
+        $user->state = UserState::DELETED;
+        $user->save();
+
+        // Detach all roles from this user
+        $user->detachRoles($user->roles);
+
+        // Delete any fields which might have personal information
+        UserFieldValue::where('user_id', $user->id)->delete();
+
+        // Remove any bids
+        Bid::where('user_id', $user->id)->delete();
+    }
+
+    /**
      * Add a user to a given role
      *
      * @param User   $user
@@ -125,7 +160,7 @@ class UserService extends Service
      *
      * @return User
      */
-    public function addUserToRole(User $user, $roleName): User
+    public function addUserToRole(User $user, string $roleName): User
     {
         $role = Role::where(['name' => $roleName])->first();
         $user->attachRole($role);
