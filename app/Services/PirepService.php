@@ -298,7 +298,7 @@ class PirepService extends Service
             'airline_id'     => $pirep->airline_id,
             'flight_number'  => $pirep->flight_number,
             'dpt_airport_id' => $pirep->dpt_airport_id,
-            'arr_airport_id' => $pirep->arr_airport_id
+            'arr_airport_id' => $pirep->arr_airport_id,
         ];
 
         if (filled($pirep->route_code)) {
