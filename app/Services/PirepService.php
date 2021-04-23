@@ -147,6 +147,7 @@ class PirepService extends Service
         $dupe_pirep = $this->findDuplicate($pirep);
         if ($dupe_pirep !== false) {
             $pirep = $dupe_pirep;
+            Log::info('Found duplicate PIREP, id='.$dupe_pirep->id);
             if ($pirep->cancelled) {
                 throw new \App\Exceptions\PirepCancelled($pirep);
             }
@@ -293,9 +294,11 @@ class PirepService extends Service
         $time_limit = Carbon::now('UTC')->subMinutes($minutes)->toDateTimeString();
 
         $where = [
-            'user_id'       => $pirep->user_id,
-            'airline_id'    => $pirep->airline_id,
-            'flight_number' => $pirep->flight_number,
+            'user_id'        => $pirep->user_id,
+            'airline_id'     => $pirep->airline_id,
+            'flight_number'  => $pirep->flight_number,
+            'dpt_airport_id' => $pirep->dpt_airport_id,
+            'arr_airport_id' => $pirep->arr_airport_id
         ];
 
         if (filled($pirep->route_code)) {

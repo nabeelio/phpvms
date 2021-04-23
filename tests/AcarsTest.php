@@ -418,20 +418,26 @@ class AcarsTest extends TestCase
 
     /**
      * Post a PIREP into a PREFILE state and post ACARS
+     *
+     * @throws \Exception
      */
     public function testAcarsUpdates()
     {
         $subfleet = $this->createSubfleetWithAircraft(2);
         $rank = $this->createRank(10, [$subfleet['subfleet']->id]);
 
-        $this->user = factory(User::class)->create(
-            [
-                'rank_id' => $rank->id,
-            ]
-        );
+        /** @var User user */
+        $this->user = factory(User::class)->create([
+            'rank_id' => $rank->id,
+        ]);
 
+        /** @var Airport $airport */
         $airport = factory(Airport::class)->create();
+
+        /** @var Airline $airline */
         $airline = factory(Airline::class)->create();
+
+        /** @var Aircraft $aircraft */
         $aircraft = $subfleet['aircraft']->random();
 
         $uri = '/api/pireps/prefile';

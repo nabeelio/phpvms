@@ -9,6 +9,7 @@ use App\Events\UserStatsChanged;
 use App\Exceptions\PilotIdNotFound;
 use App\Exceptions\UserPilotIdExists;
 use App\Models\Airline;
+use App\Models\Bid;
 use App\Models\Enums\PirepState;
 use App\Models\Enums\UserState;
 use App\Models\Pirep;
@@ -62,13 +63,18 @@ class UserService extends Service
      *
      * @param $user_id
      *
-     * @return User
+     * @return User|null
      */
-    public function getUser($user_id): User
+    public function getUser($user_id): ?User
     {
+        /** @var User $user */
         $user = $this->userRepo
             ->with(['airline', 'bids', 'rank'])
             ->find($user_id);
+
+        if ($user->state === UserState::DELETED) {
+            return null;
+        }
 
         // Load the proper subfleets to the rank
         $user->rank->subfleets = $this->getAllowableSubfleets($user);
@@ -141,6 +147,9 @@ class UserService extends Service
 
         // Delete any fields which might have personal information
         UserFieldValue::where('user_id', $user->id)->delete();
+
+        // Remove any bids
+        Bid::where('user_id', $user->id)->delete();
     }
 
     /**

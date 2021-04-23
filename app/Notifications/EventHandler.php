@@ -3,7 +3,6 @@
 namespace App\Notifications;
 
 use App\Contracts\Listener;
-use App\Contracts\Notification;
 use App\Events\NewsAdded;
 use App\Events\PirepAccepted;
 use App\Events\PirepFiled;
@@ -19,6 +18,7 @@ use App\Notifications\Notifiables\Broadcast;
 use Exception;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Notification;
 
 /**
  * Listen for different events and map them to different notifications
@@ -46,7 +46,7 @@ class EventHandler extends Listener
      *
      * @param \App\Contracts\Notification $notification
      */
-    protected function notifyAdmins($notification)
+    protected function notifyAdmins(\App\Contracts\Notification $notification)
     {
         $admin_users = User::whereRoleIs('admin')->get();
 
@@ -64,10 +64,10 @@ class EventHandler extends Listener
     }
 
     /**
-     * @param User         $user
-     * @param Notification $notification
+     * @param User                        $user
+     * @param \App\Contracts\Notification $notification
      */
-    protected function notifyUser(User $user, Notification $notification)
+    protected function notifyUser(User $user, \App\Contracts\Notification $notification)
     {
         if ($user->state === UserState::DELETED) {
             return;
@@ -84,9 +84,9 @@ class EventHandler extends Listener
      * Send a notification to all users. Also can specify if a particular notification
      * requires an opt-in
      *
-     * @param Notification $notification
+     * @param \App\Contracts\Notification $notification
      */
-    protected function notifyAllUsers(Notification $notification)
+    protected function notifyAllUsers(\App\Contracts\Notification $notification)
     {
         $where = [];
         if ($notification->requires_opt_in === true) {  // If the opt-in is required
