@@ -45,7 +45,7 @@ use Illuminate\Support\Collection;
  * @property Collection  fields
  * @property string      status
  * @property PirepState  state
- * @property integer     source
+ * @property int     source
  * @property string      source_name
  * @property Carbon      submitted_at
  * @property Carbon      created_at
