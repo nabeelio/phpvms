@@ -6,6 +6,7 @@ use App\Contracts\Controller;
 use App\Events\PirepUpdated;
 use App\Exceptions\AircraftPermissionDenied;
 use App\Exceptions\PirepCancelled;
+use App\Exceptions\PirepError;
 use App\Http\Requests\Acars\CommentRequest;
 use App\Http\Requests\Acars\FieldsRequest;
 use App\Http\Requests\Acars\FileRequest;
@@ -21,6 +22,7 @@ use App\Models\Acars;
 use App\Models\Enums\AcarsType;
 use App\Models\Enums\PirepFieldSource;
 use App\Models\Enums\PirepSource;
+use App\Models\Enums\PirepState;
 use App\Models\Pirep;
 use App\Models\PirepComment;
 use App\Repositories\AcarsRepository;
@@ -308,6 +310,7 @@ class PirepController extends Controller
             $this->updateFares($pirep, $request);
         } catch (\Exception $e) {
             Log::error($e);
+            throw $e;
         }
 
         // See if there there is any route data posted
