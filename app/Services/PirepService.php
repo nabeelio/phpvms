@@ -14,6 +14,7 @@ use App\Exceptions\AircraftNotAtAirport;
 use App\Exceptions\AircraftPermissionDenied;
 use App\Exceptions\AirportNotFound;
 use App\Exceptions\PirepCancelNotAllowed;
+use App\Exceptions\PirepError;
 use App\Exceptions\UserNotAtAirport;
 use App\Models\Acars;
 use App\Models\Aircraft;
@@ -229,6 +230,18 @@ class PirepService extends Service
     {
         if (empty($field_values)) {
             $field_values = [];
+        }
+
+        // Check if the PIREP has already been submitted
+        $is_already_submitted = in_array($pirep->state, [
+            PirepState::PENDING,
+            PirepState::ACCEPTED,
+            PirepState::CANCELLED,
+            PirepState::REJECTED,
+        ], true);
+
+        if ($is_already_submitted) {
+            throw new PirepError($pirep, 'PIREP has already been submitted');
         }
 
         $attrs['state'] = PirepState::PENDING;
