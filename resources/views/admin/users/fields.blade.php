@@ -8,7 +8,7 @@
 
   <div class="form-group col-sm-3">
     {{ Form::label('name', 'Name:') }}
-    {{ Form::text('name', null, ['class' => 'form-control']) }}
+    {{ Form::text('name', null, ['class' => 'form-control', 'autocomplete' => 'off']) }}
     <p class="text-danger">{{ $errors->first('name') }}</p>
   </div>
 
@@ -20,7 +20,7 @@
 
   <div class="form-group col-sm-3">
     {{ Form::label('password', 'Password:') }}
-    {{ Form::password('password', ['class' => 'form-control']) }}
+    {{ Form::password('password', ['class' => 'form-control', 'autocomplete' => 'off']) }}
     <p class="text-danger">{{ $errors->first('password') }}</p>
   </div>
 </div>
