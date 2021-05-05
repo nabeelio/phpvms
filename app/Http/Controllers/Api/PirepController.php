@@ -308,6 +308,8 @@ class PirepController extends Controller
             $this->updateFares($pirep, $request);
         } catch (\Exception $e) {
             Log::error($e);
+
+            throw $e;
         }
 
         // See if there there is any route data posted

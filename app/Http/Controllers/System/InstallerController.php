@@ -210,7 +210,7 @@ class InstallerController extends Controller
         // Now write out the env file
         $attrs = [
             'SITE_NAME'     => $request->post('site_name'),
-            'SITE_URL'      => $request->post('site_url'),
+            'APP_URL'       => $request->post('app_url'),
             'DB_CONNECTION' => $request->post('db_conn'),
             'DB_HOST'       => $request->post('db_host'),
             'DB_PORT'       => $request->post('db_port'),

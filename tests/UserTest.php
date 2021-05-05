@@ -311,6 +311,29 @@ class UserTest extends TestCase
         $this->assertEquals(4, $user3->pilot_id);
     }
 
+    public function testUserPilotDeleted()
+    {
+        $new_user = factory(User::class)->make()->toArray();
+        $new_user['password'] = Hash::make('secret');
+        $admin_user = $this->userSvc->createUser($new_user);
+
+        $new_user = factory(User::class)->make()->toArray();
+        $new_user['password'] = Hash::make('secret');
+        $user = $this->userSvc->createUser($new_user);
+        $this->assertEquals($user->id, $user->pilot_id);
+
+        // Delete the user
+        $this->userSvc->removeUser($user);
+
+        $response = $this->get('/api/user/'.$user->id, [], $admin_user);
+        $response->assertStatus(404);
+
+        // Get from the DB
+        $user = User::find($user->id);
+        $this->assertEquals('Deleted User', $user->name);
+        $this->assertNotEquals($new_user['password'], $user->password);
+    }
+
     /**
      * Test that a user's name is private
      */

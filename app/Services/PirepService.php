@@ -14,6 +14,7 @@ use App\Exceptions\AircraftNotAtAirport;
 use App\Exceptions\AircraftPermissionDenied;
 use App\Exceptions\AirportNotFound;
 use App\Exceptions\PirepCancelNotAllowed;
+use App\Exceptions\PirepError;
 use App\Exceptions\UserNotAtAirport;
 use App\Models\Acars;
 use App\Models\Aircraft;
@@ -147,6 +148,7 @@ class PirepService extends Service
         $dupe_pirep = $this->findDuplicate($pirep);
         if ($dupe_pirep !== false) {
             $pirep = $dupe_pirep;
+            Log::info('Found duplicate PIREP, id='.$dupe_pirep->id);
             if ($pirep->cancelled) {
                 throw new \App\Exceptions\PirepCancelled($pirep);
             }
@@ -230,6 +232,18 @@ class PirepService extends Service
             $field_values = [];
         }
 
+        // Check if the PIREP has already been submitted
+        $is_already_submitted = in_array($pirep->state, [
+            PirepState::PENDING,
+            PirepState::ACCEPTED,
+            PirepState::CANCELLED,
+            PirepState::REJECTED,
+        ], true);
+
+        if ($is_already_submitted) {
+            throw new PirepError($pirep, 'PIREP has already been submitted');
+        }
+
         $attrs['state'] = PirepState::PENDING;
         $attrs['status'] = PirepStatus::ARRIVED;
         $attrs['submitted_at'] = Carbon::now('UTC');
@@ -293,9 +307,11 @@ class PirepService extends Service
         $time_limit = Carbon::now('UTC')->subMinutes($minutes)->toDateTimeString();
 
         $where = [
-            'user_id'       => $pirep->user_id,
-            'airline_id'    => $pirep->airline_id,
-            'flight_number' => $pirep->flight_number,
+            'user_id'        => $pirep->user_id,
+            'airline_id'     => $pirep->airline_id,
+            'flight_number'  => $pirep->flight_number,
+            'dpt_airport_id' => $pirep->dpt_airport_id,
+            'arr_airport_id' => $pirep->arr_airport_id,
         ];
 
         if (filled($pirep->route_code)) {

@@ -24,6 +24,7 @@ use Carbon\Carbon;
  * @property int      status
  * @property int      state
  * @property Carbon   landing_time
+ * @property float    fuel_onboard
  */
 class Aircraft extends Model
 {
