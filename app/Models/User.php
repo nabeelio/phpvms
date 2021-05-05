@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Models\Enums\JournalType;
-use App\Models\Enums\PirepState;
 use App\Models\Traits\JournalTrait;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;

@@ -346,7 +346,7 @@ class UserTest extends TestCase
 
         /** @var Pirep $pirep */
         factory(Pirep::class)->create([
-            'user_id' => $user->id
+            'user_id' => $user->id,
         ]);
 
         // Delete the user
@@ -404,7 +404,7 @@ class UserTest extends TestCase
         $pirep = factory(Pirep::class)->create([
             'user_id'      => $user->id,
             'created_at'   => Carbon::now('UTC')->subDays(5),
-            'submitted_at' => Carbon::now('UTC')->subDays(5)
+            'submitted_at' => Carbon::now('UTC')->subDays(5),
         ]);
 
         $user->last_pirep_id = $pirep->id;
@@ -420,7 +420,7 @@ class UserTest extends TestCase
         $pirep = factory(Pirep::class)->create([
             'user_id'      => $user->id,
             'created_at'   => Carbon::now('UTC'),
-            'submitted_at' => Carbon::now('UTC')
+            'submitted_at' => Carbon::now('UTC'),
         ]);
 
         $user->last_pirep_id = $pirep->id;
