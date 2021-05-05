@@ -35,6 +35,7 @@ use Laratrust\Traits\LaratrustUserTrait;
  * @property int              rank_id
  * @property int              state
  * @property bool             opt_in
+ * @property Pirep[]          pireps
  * @property string           last_pirep_id
  * @property Pirep            last_pirep
  * @property UserFieldValue[] fields
@@ -251,8 +252,7 @@ class User extends Authenticatable
 
     public function pireps()
     {
-        return $this->hasMany(Pirep::class, 'user_id')
-            ->where('state', '!=', PirepState::CANCELLED);
+        return $this->hasMany(Pirep::class, 'user_id');
     }
 
     public function rank()

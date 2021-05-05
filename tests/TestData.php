@@ -47,12 +47,15 @@ trait TestData
     {
         $subfleet = $this->createSubfleetWithAircraft(2);
         $rank = $this->createRank(10, [$subfleet['subfleet']->id]);
-        $this->user = factory(\App\Models\User::class)->create(array_merge([
+
+        /** @var User user */
+        $this->user = factory(User::class)->create(array_merge([
             'rank_id' => $rank->id,
         ], $user_attrs));
 
         // Return a Pirep model
         return factory(Pirep::class)->make(array_merge([
+            'user_id'     => $this->user->id,
             'aircraft_id' => $subfleet['aircraft']->random()->id,
         ], $pirep_attrs));
     }
