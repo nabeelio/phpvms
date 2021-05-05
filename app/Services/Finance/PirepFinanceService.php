@@ -8,6 +8,7 @@ use App\Models\Aircraft;
 use App\Models\Airport;
 use App\Models\Enums\ExpenseType;
 use App\Models\Enums\FareType;
+use App\Models\Enums\FuelType;
 use App\Models\Enums\PirepSource;
 use App\Models\Expense;
 use App\Models\Pirep;
@@ -151,12 +152,40 @@ class PirepFinanceService extends Service
      */
     public function payFuelCosts(Pirep $pirep): void
     {
+
+        // Get Airport Fuel Prices or Use Defaults
         $ap = $pirep->dpt_airport;
-        // Get Airport Fuel Cost or revert back to settings
-        if (empty($ap->fuel_jeta_cost)) {
-            $fuel_cost = setting('airports.default_jet_a_fuel_cost');
+        if (empty($ap->fuel_100ll_cost)) {
+            $lowlead_cost = setting('airports.default_100ll_fuel_cost');
         } else {
-            $fuel_cost = $ap->fuel_jeta_cost;
+            $lowlead_cost = $ap->fuel_100ll_cost;
+        }
+        if (empty($ap->fuel_jeta_cost)) {
+            $jeta_cost = setting('airports.default_jet_a_fuel_cost');
+        } else {
+            $jeta_cost = $ap->fuel_jeta_cost;
+        }
+        if (empty($ap->fuel_mogas_cost)) {
+            $mogas_cost = setting('airports.default_mogas_fuel_cost');
+        } else {
+            $mogas_cost = $ap->fuel_mogas_cost;
+        }
+
+        // Get Aircraft Fuel Type from Subfleet
+        // And set $fuel_cost according to type (Failsafe is Jet A)
+        $sf = $pirep->aircraft->subfleet;
+        if ($sf) {
+            $fuel_type = $sf->fuel_type;
+        } else {
+            $fuel_type = FuelType::JET_A;
+        }
+
+        if ($fuel_type === FuelType::LOW_LEAD) {
+            $fuel_cost = $lowlead_cost;
+        } elseif ($fuel_type === FuelType::JET_A) {
+            $fuel_cost = $jeta_cost;
+        } elseif ($fuel_type === FuelType::MOGAS) {
+            $fuel_cost = $mogas_cost;
         }
 
         if (setting('pireps.advanced_fuel', false)) {
