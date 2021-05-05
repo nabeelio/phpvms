@@ -180,11 +180,11 @@ class PirepFinanceService extends Service
             $fuel_type = FuelType::JET_A;
         }
 
-        if ($fuel_type === FuelType::LOW_LEAD) {
+        if ($fuel_type == FuelType::LOW_LEAD) {
             $fuel_cost = $lowlead_cost;
-        } elseif ($fuel_type === FuelType::JET_A) {
+        } elseif ($fuel_type == FuelType::JET_A) {
             $fuel_cost = $jeta_cost;
-        } elseif ($fuel_type === FuelType::MOGAS) {
+        } elseif ($fuel_type == FuelType::MOGAS) {
             $fuel_cost = $mogas_cost;
         }
 
