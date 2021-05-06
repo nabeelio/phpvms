@@ -144,6 +144,20 @@
   options:
   type: text
   description: If an airport's Jet A Fuel Cost isn't added, set this value by default
+- key: airports.default_100ll_fuel_cost
+  name: 'Default 100LL Fuel Cost'
+  group: airports
+  value: 0.9
+  options:
+  type: text
+  description: If an airport's 100LL Fuel Cost isn't added, set this value by default
+- key: airports.default_mogas_fuel_cost
+  name: 'Default MOGAS Fuel Cost'
+  group: airports
+  value: 0.8
+  options:
+  type: text
+  description: If an airport's MOGAS Fuel Cost isn't added, set this value by default
 - key: bids.disable_flight_on_bid
   name: 'Disable flight on bid'
   group: bids
