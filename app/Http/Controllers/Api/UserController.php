@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Contracts\Controller;
+use App\Exceptions\UserNotFound;
 use App\Http\Resources\Bid as BidResource;
 use App\Http\Resources\Pirep as PirepResource;
 use App\Http\Resources\Subfleet as SubfleetResource;
@@ -91,6 +92,10 @@ class UserController extends Controller
     public function get($id)
     {
         $user = $this->userSvc->getUser($id);
+        if ($user === null) {
+            throw new UserNotFound();
+        }
+
         return new UserResource($user);
     }
 
@@ -108,6 +113,9 @@ class UserController extends Controller
     {
         $user_id = $this->getUserId($request);
         $user = $this->userSvc->getUser($user_id);
+        if ($user === null) {
+            throw new UserNotFound();
+        }
 
         // Add a bid
         if ($request->isMethod('PUT') || $request->isMethod('POST')) {
@@ -146,6 +154,10 @@ class UserController extends Controller
     public function fleet(Request $request)
     {
         $user = $this->userRepo->find($this->getUserId($request));
+        if ($user === null) {
+            throw new UserNotFound();
+        }
+
         $subfleets = $this->userSvc->getAllowableSubfleets($user);
 
         return SubfleetResource::collection($subfleets);

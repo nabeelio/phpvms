@@ -48,6 +48,10 @@ class AviationWeather extends Metar
             $res = $this->httpClient->get($url, []);
             $xml = simplexml_load_string($res);
 
+            if ($xml->errors && count($xml->errors->children()) > 0) {
+                return '';
+            }
+
             $attrs = $xml->data->attributes();
             if (!isset($attrs['num_results'])) {
                 return '';

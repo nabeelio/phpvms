@@ -20,6 +20,7 @@ use App\Models\Traits\FilesTrait;
  * @property float   cost_delay_minute
  * @property Airline airline
  * @property Airport hub
+ * @property int     fuel_type
  */
 class Subfleet extends Model
 {

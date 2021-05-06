@@ -418,20 +418,26 @@ class AcarsTest extends TestCase
 
     /**
      * Post a PIREP into a PREFILE state and post ACARS
+     *
+     * @throws \Exception
      */
     public function testAcarsUpdates()
     {
         $subfleet = $this->createSubfleetWithAircraft(2);
         $rank = $this->createRank(10, [$subfleet['subfleet']->id]);
 
-        $this->user = factory(User::class)->create(
-            [
-                'rank_id' => $rank->id,
-            ]
-        );
+        /** @var User user */
+        $this->user = factory(User::class)->create([
+            'rank_id' => $rank->id,
+        ]);
 
+        /** @var Airport $airport */
         $airport = factory(Airport::class)->create();
+
+        /** @var Airline $airline */
         $airline = factory(Airline::class)->create();
+
+        /** @var Aircraft $aircraft */
         $aircraft = $subfleet['aircraft']->random();
 
         $uri = '/api/pireps/prefile';
@@ -598,8 +604,13 @@ class AcarsTest extends TestCase
             'rank_id' => $rank->id,
         ]);
 
+        /** @var Airport $airport */
         $airport = factory(Airport::class)->create();
+
+        /** @var Airline $airline */
         $airline = factory(Airline::class)->create();
+
+        /** @var Aircraft $aircraft */
         $aircraft = $subfleet['aircraft']->random();
 
         $uri = '/api/pireps/prefile';
@@ -633,8 +644,18 @@ class AcarsTest extends TestCase
 
         // Check the block_off_time and block_on_time being set
         $body = $this->get('/api/pireps/'.$pirep_id)->json('data');
+        $this->assertEquals(PirepState::PENDING, $body['state']);
         $this->assertNotNull($body['block_off_time']);
         $this->assertNotNull($body['block_on_time']);
+
+        // Try to refile, should be blocked
+        $response = $this->post($uri, [
+            'flight_time' => 130,
+            'fuel_used'   => 8000.19,
+            'distance'    => 400,
+        ]);
+
+        $response->assertStatus(400);
     }
 
     /**

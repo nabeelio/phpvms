@@ -327,7 +327,8 @@ flight reports that have been filed. You've been warned!
               'name' => 'submit',
               'value' => 'Delete',
               'class' => 'btn btn-warning',
-              'type' => 'submit'])
+              'type' => 'submit',
+              'onclick' => "return confirm('Are you sure you want to delete this PIREP?')"])
               }}
         @endif
 

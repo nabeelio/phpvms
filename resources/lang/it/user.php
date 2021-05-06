@@ -8,5 +8,6 @@ return [
         'rejected'  => 'Rifiutato',
         'on_leave'  => 'In Ferie',
         'suspended' => 'Sospeso',
+        'deleted'   => 'Cancellato',
     ],
 ];
