@@ -11,6 +11,7 @@ use App\Models\Expense;
 use App\Models\Fare;
 use App\Models\Flight;
 use App\Models\Journal;
+use App\Models\JournalTransaction;
 use App\Models\Pirep;
 use App\Models\Subfleet;
 use App\Models\User;
@@ -81,28 +82,31 @@ class FinanceTest extends TestCase
 
         $this->fleetSvc->addSubfleetToRank($subfleet['subfleet'], $rank);
 
+        /** @var Airport $dpt_apt */
         $dpt_apt = factory(Airport::class)->create([
             'ground_handling_cost' => 10,
             'fuel_jeta_cost'       => 10,
         ]);
 
+        /** @var Airport $arr_apt */
         $arr_apt = factory(Airport::class)->create([
             'ground_handling_cost' => 10,
             'fuel_jeta_cost'       => 10,
         ]);
 
-        /** @var \App\Models\User $user */
+        /** @var User $user */
         $user = factory(User::class)->create([
             'rank_id' => $rank->id,
         ]);
 
-        /** @var \App\Models\Flight $flight */
+        /** @var Flight $flight */
         $flight = factory(Flight::class)->create([
             'airline_id'     => $user->airline_id,
             'dpt_airport_id' => $dpt_apt->icao,
             'arr_airport_id' => $arr_apt->icao,
         ]);
 
+        /** @var Pirep $pirep */
         $pirep = factory(Pirep::class)->create([
             'flight_number'  => $flight->flight_number,
             'flight_type'    => FlightType::SCHED_PAX,
@@ -124,6 +128,7 @@ class FinanceTest extends TestCase
          * Add fares to the subfleet, and then add the fares
          * to the PIREP when it's saved, and set the capacity
          */
+        /** @var Fare $fares */
         $fares = factory(Fare::class, 3)->create([
             'price'    => 100,
             'cost'     => 50,
@@ -781,7 +786,10 @@ class FinanceTest extends TestCase
      */
     public function testPirepExpenses()
     {
+        /** @var Airline $airline */
         $airline = factory(Airline::class)->create();
+
+        /** @var Airline $airline2 */
         $airline2 = factory(Airline::class)->create();
 
         factory(Expense::class)->create([
@@ -1013,5 +1021,97 @@ class FinanceTest extends TestCase
             $find = $transactions['transactions']->where('tags', $type);
             $this->assertEquals($count, $find->count());
         }
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testPirepFinancesExpensesMultiAirline()
+    {
+        /** @var Airline $airline */
+        $airline = factory(Airline::class)->create();
+
+        $journalRepo = app(JournalRepository::class);
+
+        // Add an expense that's only for a cargo flight
+        factory(Expense::class)->create(
+            [
+                'airline_id'  => null,
+                'amount'      => 100,
+                'flight_type' => FlightType::SCHED_CARGO,
+            ]
+        );
+
+        [$user, $pirep, $fares] = $this->createFullPirep();
+        $user->airline->initJournal(setting('units.currency', 'USD'));
+
+        factory(Expense::class)->create(
+            [
+                'airline_id'  => $user->airline->id,
+                'amount'      => 100,
+                'flight_type' => FlightType::SCHED_CARGO,
+            ]
+        );
+
+        factory(Expense::class)->create(
+            [
+                'airline_id'  => $airline->id,
+                'amount'      => 100,
+                'flight_type' => FlightType::SCHED_CARGO,
+            ]
+        );
+
+        // There shouldn't be an expense from this subfleet
+        /** @var Subfleet $subfleet */
+        $subfleet = factory(Subfleet::class)->create();
+        factory(Expense::class)->create([
+            'airline_id'   => null,
+            'amount'       => 100,
+            'ref_model'    => Subfleet::class,
+            'ref_model_id' => $subfleet->id,
+        ]);
+
+        // Override the fares
+        $fare_counts = [];
+        foreach ($fares as $fare) {
+            $fare_counts[] = [
+                'fare_id' => $fare->id,
+                'price'   => $fare->price,
+                'count'   => 100,
+            ];
+        }
+
+        $this->fareSvc->saveForPirep($pirep, $fare_counts);
+
+        // This should process all of the
+        $pirep = $this->pirepSvc->accept($pirep);
+
+        $transactions = $journalRepo->getAllForObject($pirep);
+
+        /** @var JournalTransaction $transaction */
+        /*foreach ($transactions['transactions'] as $transaction) {
+            echo $transaction->memo."-"."\n";
+        }*/
+
+        // Check that all the different transaction types are there
+        // test by the different groups that exist
+        $transaction_tags = [
+            'fuel'            => 1,
+            'airport'         => 1,
+            'expense'         => 1,
+            'subfleet'        => 2,
+            'fare'            => 3,
+            'ground_handling' => 2,
+            'pilot_pay'       => 2, // debit on the airline, credit to the pilot
+        ];
+
+        foreach ($transaction_tags as $type => $count) {
+            $find = $transactions['transactions']->where('tags', $type);
+            $this->assertEquals($count, $find->count(), $type);
+        }
+
+        //        $this->assertCount(9, $transactions['transactions']);
+        $this->assertEquals(3020, $transactions['credits']->getValue());
+        $this->assertEquals(2050.0, $transactions['debits']->getValue());
     }
 }
