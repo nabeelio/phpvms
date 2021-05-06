@@ -304,20 +304,29 @@ class PirepFinanceService extends Service
             }
 
             // Form the memo, with some specific ones depending on the group
-            if ($expense->ref_model === Subfleet::class
-                && $expense->ref_model_id === $pirep->aircraft->subfleet->id
-            ) {
-                $memo = "Subfleet Expense: {$expense->name} ({$pirep->aircraft->subfleet->name})";
-                $transaction_group = "Subfleet: {$expense->name} ({$pirep->aircraft->subfleet->name})";
-            } elseif ($expense->ref_model === Aircraft::class
-                      && $expense->ref_model_id === $pirep->aircraft->id
-            ) {
-                $memo = "Aircraft Expense: {$expense->name} ({$pirep->aircraft->name})";
-                $transaction_group = "Aircraft: {$expense->name} "
-                    ."({$pirep->aircraft->name}-{$pirep->aircraft->registration})";
+            if ($expense->ref_model === Subfleet::class) {
+                if (intval($expense->ref_model_id) === $pirep->aircraft->subfleet->id) {
+                    $memo = "Subfleet Expense: $expense->name ({$pirep->aircraft->subfleet->name}) dd";
+                    $transaction_group = "Subfleet: $expense->name ({$pirep->aircraft->subfleet->name})";
+                } else { // Skip any subfleets that weren't used for this flight
+                    return;
+                }
+            } elseif ($expense->ref_model === Aircraft::class) {
+                if (intval($expense->ref_model_id) === $pirep->aircraft->id) {
+                    $memo = "Aircraft Expense: $expense->name ({$pirep->aircraft->name})";
+                    $transaction_group = "Aircraft: $expense->name "
+                        ."({$pirep->aircraft->name}-{$pirep->aircraft->registration})";
+                } else { // Skip any aircraft expenses that weren't used for this flight
+                    return;
+                }
             } else {
-                $memo = "Expense: {$expense->name}";
-                $transaction_group = "Expense: {$expense->name}";
+                // Skip any expenses that aren't for the airline this flight was for
+                if ($expense->airline_id && $expense->airline_id !== $pirep->airline_id) {
+                    return;
+                }
+
+                $memo = "Expense: $expense->name";
+                $transaction_group = "Expense: $expense->name";
             }
 
             $debit = Money::createFromAmount($expense->amount);
@@ -360,8 +369,8 @@ class PirepFinanceService extends Service
         $expenses->map(function (Expense $expense, $i) use ($pirep) {
             Log::info('Finance: PIREP: '.$pirep->id.', airport expense:', $expense->toArray());
 
-            $memo = "Airport Expense: {$expense->name} ({$expense->ref_model_id})";
-            $transaction_group = "Airport: {$expense->ref_model_id}";
+            $memo = "Airport Expense: $expense->name ($expense->ref_model_id)";
+            $transaction_group = "Airport: $expense->ref_model_id";
 
             $debit = Money::createFromAmount($expense->amount);
 
