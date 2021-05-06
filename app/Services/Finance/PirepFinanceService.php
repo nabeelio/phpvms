@@ -167,11 +167,11 @@ class PirepFinanceService extends Service
         }
 
         if ($fuel_type === FuelType::LOW_LEAD) {
-            $fuel_cost = empty($ap->fuel_100ll_cost) ? setting('airports.default_100ll_fuel_cost') : $ap->fuel_100ll_cost;
+            $fuel_cost = !empty($ap->fuel_100ll_cost) ? $ap->fuel_100ll_cost : setting('airports.default_100ll_fuel_cost');
         } elseif ($fuel_type === FuelType::MOGAS) {
-            $fuel_cost = empty($ap->fuel_mogas_cost) ? setting('airports.default_mogas_fuel_cost') : $ap->fuel_mogas_cost;
+            $fuel_cost = !empty($ap->fuel_mogas_cost) ? $ap->fuel_mogas_cost : setting('airports.default_mogas_fuel_cost');
         } else { // Default to JetA
-            $fuel_cost = empty($ap->fuel_jeta_cost) ? setting('airports.default_jet_a_fuel_cost') : $ap->fuel_jeta_cost;
+            $fuel_cost = !empty($ap->fuel_jeta_cost) ? $ap->fuel_jeta_cost : setting('airports.default_jet_a_fuel_cost');
         }
 
         if (setting('pireps.advanced_fuel', false)) {
