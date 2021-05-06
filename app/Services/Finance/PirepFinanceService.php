@@ -305,14 +305,14 @@ class PirepFinanceService extends Service
 
             // Form the memo, with some specific ones depending on the group
             if ($expense->ref_model === Subfleet::class) {
-                if (intval($expense->ref_model_id) === $pirep->aircraft->subfleet->id) {
+                if ((int) ($expense->ref_model_id) === $pirep->aircraft->subfleet->id) {
                     $memo = "Subfleet Expense: $expense->name ({$pirep->aircraft->subfleet->name}) dd";
                     $transaction_group = "Subfleet: $expense->name ({$pirep->aircraft->subfleet->name})";
                 } else { // Skip any subfleets that weren't used for this flight
                     return;
                 }
             } elseif ($expense->ref_model === Aircraft::class) {
-                if (intval($expense->ref_model_id) === $pirep->aircraft->id) {
+                if ((int) ($expense->ref_model_id) === $pirep->aircraft->id) {
                     $memo = "Aircraft Expense: $expense->name ({$pirep->aircraft->name})";
                     $transaction_group = "Aircraft: $expense->name "
                         ."({$pirep->aircraft->name}-{$pirep->aircraft->registration})";
