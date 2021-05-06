@@ -14,7 +14,6 @@ class ProcessQueue extends Command
 
     /**
      * Run the queue tasks
-     *
      */
     public function handle()
     {

@@ -3,9 +3,9 @@
 namespace App\Console;
 
 use App\Console\Cron\Hourly;
+use App\Console\Cron\JobQueue;
 use App\Console\Cron\Monthly;
 use App\Console\Cron\Nightly;
-use App\Console\Cron\JobQueue;
 use App\Console\Cron\Weekly;
 use App\Services\CronService;
 use Illuminate\Console\Scheduling\Schedule;
