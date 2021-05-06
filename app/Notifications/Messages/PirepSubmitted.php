@@ -5,9 +5,12 @@ namespace App\Notifications\Messages;
 use App\Contracts\Notification;
 use App\Models\Pirep;
 use App\Notifications\Channels\MailChannel;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class PirepSubmitted extends Notification
+class PirepSubmitted extends Notification implements ShouldQueue
 {
+    use Queueable;
     use MailChannel;
 
     public $channels = ['mail'];

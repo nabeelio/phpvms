@@ -5,9 +5,12 @@ namespace App\Notifications\Messages;
 use App\Contracts\Notification;
 use App\Models\User;
 use App\Notifications\Channels\MailChannel;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class UserPending extends Notification
+class UserPending extends Notification implements ShouldQueue
 {
+    use Queueable;
     use MailChannel;
 
     public $channels = ['mail'];
