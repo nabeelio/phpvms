@@ -31,7 +31,7 @@ class RemoveExpiredLiveFlights extends Listener
         $pireps = Pirep::where('updated_at', '<', $date)
             ->where('state', PirepState::IN_PROGRESS)
             ->get();
-        foreach($pireps as $pirep) {
+        foreach ($pireps as $pirep) {
             event(new PirepCancelled($pirep));
             Log::info('Cron: Deleting Expired Live PIREP id='.$pirep->id.', state='.PirepState::label($pirep->state));
             $pirep->delete();
