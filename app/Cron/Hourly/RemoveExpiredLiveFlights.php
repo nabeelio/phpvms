@@ -8,6 +8,7 @@ use App\Events\PirepCancelled;
 use App\Models\Enums\PirepState;
 use App\Models\Pirep;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Remove expired live flights
