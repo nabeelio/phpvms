@@ -4,6 +4,7 @@ namespace App\Cron\Hourly;
 
 use App\Contracts\Listener;
 use App\Events\CronHourly;
+use App\Events\PirepCancelled;
 use App\Models\Enums\PirepState;
 use App\Models\Pirep;
 use Carbon\Carbon;
@@ -27,8 +28,13 @@ class RemoveExpiredLiveFlights extends Listener
         }
 
         $date = Carbon::now('UTC')->subHours(setting('acars.live_time'));
-        Pirep::where('updated_at', '<', $date)
+        $pireps = Pirep::where('updated_at', '<', $date)
             ->where('state', PirepState::IN_PROGRESS)
-            ->delete();
+            ->get();
+        $foreach($pireps as $pirep) {
+            event(new PirepCancelled($pirep));
+            Log::info('Cron: Deleting Expired Live PIREP id='.$pirep->id.', state='.PirepState::label($pirep->state));
+            $pirep->delete();
+        }
     }
 }
