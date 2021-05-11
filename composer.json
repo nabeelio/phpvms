@@ -49,7 +49,6 @@
         "pragmarx/version": ">=v1.2.3",
         "prettus/l5-repository": "~2.7.0",
         "santigarcor/laratrust": "~6.3",
-        "sebastiaanluca/laravel-helpers": "~6.0",
         "semver/semver": "~1.1.0",
         "spatie/valuestore": "~1.2",
         "symfony/polyfill-iconv": "~1.22.0",
