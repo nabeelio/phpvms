@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4180601e7a77313a007604954b01f071",
+    "content-hash": "96fa30e3513fff205da4a374dd799994",
     "packages": [
         {
             "name": "akaunting/money",
@@ -2783,16 +2783,16 @@
         },
         {
             "name": "intervention/image",
-            "version": "2.4.3",
+            "version": "2.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Intervention/image.git",
-                "reference": "5f5e1c8768d6bb41a7f23706af754b92541de485"
+                "reference": "abbf18d5ab8367f96b3205ca3c89fb2fa598c69e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Intervention/image/zipball/5f5e1c8768d6bb41a7f23706af754b92541de485",
-                "reference": "5f5e1c8768d6bb41a7f23706af754b92541de485",
+                "url": "https://api.github.com/repos/Intervention/image/zipball/abbf18d5ab8367f96b3205ca3c89fb2fa598c69e",
+                "reference": "abbf18d5ab8367f96b3205ca3c89fb2fa598c69e",
                 "shasum": ""
             },
             "require": {
@@ -2851,9 +2851,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Intervention/image/issues",
-                "source": "https://github.com/Intervention/image/tree/2.4.3"
+                "source": "https://github.com/Intervention/image/tree/master"
             },
-            "time": "2019-05-31T17:08:36+00:00"
+            "time": "2019-11-02T09:15:47+00:00"
         },
         {
             "name": "irazasyed/laravel-gamp",
@@ -6025,76 +6025,6 @@
                 }
             ],
             "time": "2021-03-03T13:34:32+00:00"
-        },
-        {
-            "name": "sebastiaanluca/laravel-helpers",
-            "version": "6.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/sebastiaanluca/laravel-helpers.git",
-                "reference": "379748c1b4c4e1576a561383f746578fde133fcd"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/sebastiaanluca/laravel-helpers/zipball/379748c1b4c4e1576a561383f746578fde133fcd",
-                "reference": "379748c1b4c4e1576a561383f746578fde133fcd",
-                "shasum": ""
-            },
-            "require": {
-                "laravel/framework": "^7.0|^8.0",
-                "php": "^7.3"
-            },
-            "require-dev": {
-                "kint-php/kint": "^3.3",
-                "nesbot/carbon": "^1.0|^2.0",
-                "orchestra/testbench": "^5.1|^6.0",
-                "phpunit/phpunit": "^8.5"
-            },
-            "suggest": {
-                "kint-php/kint": "A powerful and modern PHP debugging tool. Required for the debug collection macros.",
-                "nesbot/carbon": "A simple PHP API extension for DateTime. Required for the carbonize collection macro."
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "SebastiaanLuca\\Helpers\\Collections\\CollectionMacrosServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "SebastiaanLuca\\Helpers\\": "src"
-                },
-                "files": [
-                    "src/Methods/helpers.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Sebastiaan Luca",
-                    "email": "hello@sebastiaanluca.com",
-                    "homepage": "https://www.sebastiaanluca.com",
-                    "role": "Author"
-                }
-            ],
-            "description": "An extensive set of Laravel framework helper functions and collection macros.",
-            "homepage": "https://github.com/sebastiaanluca/laravel-helpers",
-            "keywords": [
-                "collections",
-                "helpers",
-                "laravel",
-                "macros"
-            ],
-            "support": {
-                "issues": "https://github.com/sebastiaanluca/laravel-helpers/issues",
-                "source": "https://github.com/sebastiaanluca/laravel-helpers/tree/6.0.0"
-            },
-            "time": "2020-10-19T15:36:34+00:00"
         },
         {
             "name": "seld/jsonlint",
