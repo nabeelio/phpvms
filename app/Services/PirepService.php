@@ -11,6 +11,7 @@ use App\Events\PirepRejected;
 use App\Events\UserStatsChanged;
 use App\Exceptions\AircraftInvalid;
 use App\Exceptions\AircraftNotAtAirport;
+use App\Exceptions\AircraftNotAvailable;
 use App\Exceptions\AircraftPermissionDenied;
 use App\Exceptions\AirportNotFound;
 use App\Exceptions\PirepCancelNotAllowed;
@@ -19,6 +20,7 @@ use App\Exceptions\UserNotAtAirport;
 use App\Models\Acars;
 use App\Models\Aircraft;
 use App\Models\Enums\AcarsType;
+use App\Models\Enums\AircraftState;
 use App\Models\Enums\FlightType;
 use App\Models\Enums\PirepSource;
 use App\Models\Enums\PirepState;
@@ -132,13 +134,21 @@ class PirepService extends Service
             throw new AircraftPermissionDenied($user, $pirep->aircraft);
         }
 
-        // See if this aircraft is at the departure airport
+        // See if this aircraft is valid
         /** @var Aircraft $aircraft */
         $aircraft = $this->aircraftRepo->findWithoutFail($pirep->aircraft_id);
         if ($aircraft === null) {
             throw new AircraftInvalid($aircraft);
         }
 
+        // See if this aircraft is available for flight
+        /** @var Aircraft $aircraft */
+        $aircraft = $this->aircraftRepo->where('id', $pirep->aircraft_id)->where('state', AircraftState::PARKED)->first();
+        if ($aircraft === null) {
+            throw new AircraftNotAvailable($pirep->aircraft);
+        }
+
+        // See if this aircraft is at the departure airport
         /* @noinspection NotOptimalIfConditionsInspection */
         if (setting('pireps.only_aircraft_at_dpt_airport') && $aircraft->airport_id !== $pirep->dpt_airport_id) {
             throw new AircraftNotAtAirport($pirep->aircraft);
