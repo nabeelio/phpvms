@@ -3,11 +3,13 @@
 namespace App\Providers;
 
 use App\Events\Expenses;
+use App\Events\Fares;
 use App\Events\PirepFiled;
 use App\Events\UserStatsChanged;
 use App\Listeners\AwardHandler;
 use App\Listeners\BidEventHandler;
 use App\Listeners\ExpenseListener;
+use App\Listeners\FareListener;
 use App\Listeners\FinanceEventHandler;
 use App\Listeners\PirepEventsHandler;
 use App\Listeners\UserStateListener;
@@ -23,6 +25,10 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         Expenses::class => [
             ExpenseListener::class,
+        ],
+
+        Fares::class => [
+            FareListener::class,
         ],
 
         PirepFiled::class => [
