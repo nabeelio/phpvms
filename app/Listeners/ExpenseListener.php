@@ -4,6 +4,8 @@ namespace App\Listeners;
 
 use App\Contracts\Listener;
 use App\Events\Expenses;
+use App\Models\Enums\ExpenseType;
+use App\Models\Expense;
 
 class ExpenseListener extends Listener
 {
@@ -23,7 +25,7 @@ class ExpenseListener extends Listener
         // The transaction group is how it will show as a line item
         /*$expenses[] = new Expense([
             'type' => ExpenseType::FLIGHT,
-            'amount' => 15000,  # $150
+            'amount' => 150,  # $150
             'transaction_group' => '',
             'charge_to_user' => true|false
         ]);*/
