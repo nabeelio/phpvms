@@ -15,7 +15,8 @@ use App\Models\Pirep;
  *   new Fare([
  *      'name'  => '', # displayed as the memo
  *      'type'  => [INTEGER], # from FareType enum class
- *      'price' => [INTEGER],
+ *      'price' => [DECIMAL],
+ *      'cost'  => [DECIMAL], # optional
  *      'notes' => '', # used as Transaction Group
  *   ]);
  *
