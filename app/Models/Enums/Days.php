@@ -77,7 +77,7 @@ class Days extends Enum
      */
     public static function in($mask, $day): bool
     {
-        return ($mask & $day) === $day;
+        return in_mask($mask, $day);
     }
 
     /**
