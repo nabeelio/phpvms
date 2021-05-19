@@ -152,7 +152,7 @@ class FlightController extends Controller
     {
         return view('admin.flights.create', [
             'flight'        => null,
-            'days'          => [],
+            'days'          => 0,
             'flight_fields' => $this->flightFieldRepo->all(),
             'airlines'      => $this->airlineRepo->selectBoxList(),
             'airports'      => $this->airportRepo->selectBoxList(true, false),
