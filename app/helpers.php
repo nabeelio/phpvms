@@ -30,6 +30,10 @@ if (!function_exists('in_mask')) {
      */
     function in_mask($mask, $value)
     {
+        if (empty($mask)) {
+            $mask = 0;
+        }
+
         return ($mask & $value) === $value;
     }
 }
