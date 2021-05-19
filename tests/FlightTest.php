@@ -279,6 +279,7 @@ class FlightTest extends TestCase
      */
     public function testDayOfWeekActive(): void
     {
+        /** @var User user */
         $this->user = factory(User::class)->create();
 
         // Set it to Monday or Tuesday, depending on what today is
@@ -289,6 +290,8 @@ class FlightTest extends TestCase
         }
 
         factory(Flight::class, 5)->create();
+
+        /** @var Flight $flight */
         $flight = factory(Flight::class)->create([
             'days' => $days,
         ]);
@@ -323,6 +326,12 @@ class FlightTest extends TestCase
         $this->assertTrue(Days::in($mask, Days::$isoDayMap[5]));
         $this->assertTrue(Days::in($mask, Days::$isoDayMap[6]));
         $this->assertTrue(Days::in($mask, Days::$isoDayMap[7]));
+
+        $mask = [];
+        $this->assertFalse(Days::in($mask, Days::$isoDayMap[1]));
+
+        $mask = 0;
+        $this->assertFalse(Days::in($mask, Days::$isoDayMap[1]));
     }
 
     public function testStartEndDate(): void
