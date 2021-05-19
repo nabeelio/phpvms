@@ -313,6 +313,56 @@ class UserTest extends TestCase
         $this->assertEquals(4, $user3->pilot_id);
     }
 
+    public function testUserPilotDeleted()
+    {
+        $new_user = factory(User::class)->make()->toArray();
+        $new_user['password'] = Hash::make('secret');
+        $admin_user = $this->userSvc->createUser($new_user);
+
+        $new_user = factory(User::class)->make()->toArray();
+        $new_user['password'] = Hash::make('secret');
+        $user = $this->userSvc->createUser($new_user);
+        $this->assertEquals($user->id, $user->pilot_id);
+
+        // Delete the user
+        $this->userSvc->removeUser($user);
+
+        $response = $this->get('/api/user/'.$user->id, [], $admin_user);
+        $response->assertStatus(404);
+
+        // Get from the DB
+        $user = User::find($user->id);
+        $this->assertNull($user);
+    }
+
+    public function testUserPilotDeletedWithPireps()
+    {
+        $new_user = factory(User::class)->make()->toArray();
+        $new_user['password'] = Hash::make('secret');
+        $admin_user = $this->userSvc->createUser($new_user);
+
+        $new_user = factory(User::class)->make()->toArray();
+        $new_user['password'] = Hash::make('secret');
+        $user = $this->userSvc->createUser($new_user);
+        $this->assertEquals($user->id, $user->pilot_id);
+
+        /** @var Pirep $pirep */
+        factory(Pirep::class)->create([
+            'user_id' => $user->id,
+        ]);
+
+        // Delete the user
+        $this->userSvc->removeUser($user);
+
+        $response = $this->get('/api/user/'.$user->id, [], $admin_user);
+        $response->assertStatus(404);
+
+        // Get from the DB
+        $user = User::find($user->id);
+        $this->assertEquals('Deleted User', $user->name);
+        $this->assertNotEquals($new_user['password'], $user->password);
+    }
+
     /**
      * Test that a user's name is private
      */
@@ -338,54 +388,65 @@ class UserTest extends TestCase
         $this->createUser(['status' => UserState::ACTIVE]);
 
         $users_on_leave = $this->userSvc->findUsersOnLeave();
-        $this->assertEquals(0, count($users_on_leave));
+        $this->assertCount(0, $users_on_leave);
 
         $this->updateSetting('pilots.auto_leave_days', 1);
         $user = $this->createUser([
+            'state'      => UserState::ACTIVE,
             'status'     => UserState::ACTIVE,
             'created_at' => Carbon::now('UTC')->subDays(5),
         ]);
 
         $users_on_leave = $this->userSvc->findUsersOnLeave();
-        $this->assertEquals(1, count($users_on_leave));
-        $this->assertEquals($user->id, $users_on_leave[0]->id);
+        $this->assertCount(1, $users_on_leave);
+        $this->assertEquals($user->id, $users_on_leave->first()->id);
 
         // Give that user a new PIREP, still old
-        /** @var \App\Models\Pirep $pirep */
-        $pirep = factory(Pirep::class)->create(['submitted_at' => Carbon::now('UTC')->subDays(5)]);
+        /** @var Pirep $pirep */
+        $pirep = factory(Pirep::class)->create([
+            'user_id'      => $user->id,
+            'created_at'   => Carbon::now('UTC')->subDays(5),
+            'submitted_at' => Carbon::now('UTC')->subDays(5),
+        ]);
 
         $user->last_pirep_id = $pirep->id;
         $user->save();
         $user->refresh();
 
         $users_on_leave = $this->userSvc->findUsersOnLeave();
-        $this->assertEquals(1, count($users_on_leave));
-        $this->assertEquals($user->id, $users_on_leave[0]->id);
+        $this->assertCount(1, $users_on_leave);
+        $this->assertEquals($user->id, $users_on_leave->first()->id);
 
         // Create a new PIREP
-        /** @var \App\Models\Pirep $pirep */
-        $pirep = factory(Pirep::class)->create(['submitted_at' => Carbon::now('UTC')]);
+        /** @var Pirep $pirep */
+        $pirep = factory(Pirep::class)->create([
+            'user_id'      => $user->id,
+            'created_at'   => Carbon::now('UTC'),
+            'submitted_at' => Carbon::now('UTC'),
+        ]);
 
         $user->last_pirep_id = $pirep->id;
         $user->save();
         $user->refresh();
 
         $users_on_leave = $this->userSvc->findUsersOnLeave();
-        $this->assertEquals(0, count($users_on_leave));
+        $this->assertCount(0, $users_on_leave);
 
         // Check disable_activity_checks
         $user = $this->createUser([
             'status'     => UserState::ACTIVE,
             'created_at' => Carbon::now('UTC')->subDays(5),
         ]);
+
         $role = $this->createRole([
             'disable_activity_checks' => true,
         ]);
+
         $user->attachRole($role);
         $user->save();
 
         $users_on_leave = $this->userSvc->findUsersOnLeave();
-        $this->assertEquals(0, count($users_on_leave));
+        $this->assertCount(0, $users_on_leave);
     }
 
     public function testEventCalledWhenProfileUpdated()

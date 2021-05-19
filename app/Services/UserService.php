@@ -9,12 +9,14 @@ use App\Events\UserStatsChanged;
 use App\Exceptions\PilotIdNotFound;
 use App\Exceptions\UserPilotIdExists;
 use App\Models\Airline;
+use App\Models\Bid;
 use App\Models\Enums\PirepState;
 use App\Models\Enums\UserState;
 use App\Models\Pirep;
 use App\Models\Rank;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\UserFieldValue;
 use App\Repositories\AircraftRepository;
 use App\Repositories\AirlineRepository;
 use App\Repositories\SubfleetRepository;
@@ -23,6 +25,7 @@ use App\Support\Units\Time;
 use App\Support\Utils;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use function is_array;
 
@@ -60,13 +63,22 @@ class UserService extends Service
      *
      * @param $user_id
      *
-     * @return User
+     * @return User|null
      */
-    public function getUser($user_id): User
+    public function getUser($user_id): ?User
     {
+        /** @var User $user */
         $user = $this->userRepo
             ->with(['airline', 'bids', 'rank'])
             ->find($user_id);
+
+        if (empty($user)) {
+            return null;
+        }
+
+        if ($user->state === UserState::DELETED) {
+            return null;
+        }
 
         // Load the proper subfleets to the rank
         $user->rank->subfleets = $this->getAllowableSubfleets($user);
@@ -118,6 +130,38 @@ class UserService extends Service
     }
 
     /**
+     * Remove the user. But don't actually delete them - set the name to deleted, email to
+     * something random
+     *
+     * @param User $user
+     *
+     * @throws \Exception
+     */
+    public function removeUser(User $user)
+    {
+        // Detach all roles from this user
+        $user->detachRoles($user->roles);
+
+        // Delete any fields which might have personal information
+        UserFieldValue::where('user_id', $user->id)->delete();
+
+        // Remove any bids
+        Bid::where('user_id', $user->id)->delete();
+
+        // If this user has PIREPs, do a soft delete. Otherwise, just delete them outright
+        if ($user->pireps->count() > 0) {
+            $user->name = 'Deleted User';
+            $user->email = Utils::generateApiKey().'@deleted-user.com';
+            $user->api_key = Utils::generateApiKey();
+            $user->password = Hash::make(Utils::generateApiKey());
+            $user->state = UserState::DELETED;
+            $user->save();
+        } else {
+            $user->delete();
+        }
+    }
+
+    /**
      * Add a user to a given role
      *
      * @param User   $user
@@ -125,7 +169,7 @@ class UserService extends Service
      *
      * @return User
      */
-    public function addUserToRole(User $user, $roleName): User
+    public function addUserToRole(User $user, string $roleName): User
     {
         $role = Role::where(['name' => $roleName])->first();
         $user->attachRole($role);
@@ -260,49 +304,41 @@ class UserService extends Service
      * currently active users. If the user doesn't have a PIREP, then the creation date
      * of the user record is used to determine the difference
      */
-    public function findUsersOnLeave(): array
+    public function findUsersOnLeave()
     {
         $leave_days = setting('pilots.auto_leave_days');
         if ($leave_days === 0) {
             return [];
         }
 
-        $return_users = [];
-
         $date = Carbon::now('UTC');
-        $users = User::with(['last_pirep'])->where('state', UserState::ACTIVE)->get();
+        $users = User::where('state', UserState::ACTIVE)->get();
 
         /** @var User $user */
-        foreach ($users as $user) {
-            // If they haven't submitted a PIREP, use the date that the user was created
-            if (!$user->last_pirep) {
-                $diff_date = $user->created_at;
-            } else {
-                $diff_date = $user->last_pirep->submitted_at;
-            }
-
-            // See if the difference is larger than what the setting calls for
-            if ($date->diffInDays($diff_date) <= $leave_days) {
-                continue;
-            }
-
-            $skip = false;
+        return $users->filter(function ($user, $i) use ($date, $leave_days) {
             // If any role for this user has the "disable_activity_check" feature activated, skip this user
             foreach ($user->roles()->get() as $role) {
                 /** @var Role $role */
                 if ($role->disable_activity_checks) {
-                    $skip = true;
-                    break;
+                    return false;
                 }
             }
 
-            if ($skip) {
-                continue;
+            // If they haven't submitted a PIREP, use the date that the user was created
+            $last_pirep = Pirep::where(['user_id' => $user->id])->latest('submitted_at')->first();
+            if (!$last_pirep) {
+                $diff_date = $user->created_at;
+            } else {
+                $diff_date = $last_pirep->created_at;
             }
-            $return_users[] = $user;
-        }
 
-        return $return_users;
+            // See if the difference is larger than what the setting calls for
+            if ($date->diffInDays($diff_date) <= $leave_days) {
+                return false;
+            }
+
+            return true;
+        });
     }
 
     /**

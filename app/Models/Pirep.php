@@ -44,8 +44,9 @@ use Illuminate\Support\Collection;
  * @property Flight|null flight
  * @property Collection  fields
  * @property string      status
- * @property bool        state
- * @property string      source
+ * @property PirepState  state
+ * @property int     source
+ * @property string      source_name
  * @property Carbon      submitted_at
  * @property Carbon      created_at
  * @property Carbon      updated_at

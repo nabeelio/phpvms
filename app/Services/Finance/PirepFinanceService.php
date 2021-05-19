@@ -8,7 +8,10 @@ use App\Models\Aircraft;
 use App\Models\Airport;
 use App\Models\Enums\ExpenseType;
 use App\Models\Enums\FareType;
+use App\Models\Enums\FuelType;
 use App\Models\Enums\PirepSource;
+use App\Models\Enums\PirepState;
+use App\Models\Enums\PirepStatus;
 use App\Models\Expense;
 use App\Models\Pirep;
 use App\Models\Subfleet;
@@ -151,18 +154,37 @@ class PirepFinanceService extends Service
      */
     public function payFuelCosts(Pirep $pirep): void
     {
+        // Get Airport Fuel Prices or Use Defaults
         $ap = $pirep->dpt_airport;
-        // Get Airport Fuel Cost or revert back to settings
-        if (empty($ap->fuel_jeta_cost)) {
-            $fuel_cost = setting('airports.default_jet_a_fuel_cost');
+
+        // Get Aircraft Fuel Type from Subfleet
+        // And set $fuel_cost according to type (Failsafe is Jet A)
+        $sf = $pirep->aircraft->subfleet;
+        if ($sf) {
+            $fuel_type = $sf->fuel_type;
         } else {
-            $fuel_cost = $ap->fuel_jeta_cost;
+            $fuel_type = FuelType::JET_A;
+        }
+
+        if ($fuel_type === FuelType::LOW_LEAD) {
+            $fuel_cost = !empty($ap->fuel_100ll_cost) ? $ap->fuel_100ll_cost : setting('airports.default_100ll_fuel_cost');
+        } elseif ($fuel_type === FuelType::MOGAS) {
+            $fuel_cost = !empty($ap->fuel_mogas_cost) ? $ap->fuel_mogas_cost : setting('airports.default_mogas_fuel_cost');
+        } else { // Default to JetA
+            $fuel_cost = !empty($ap->fuel_jeta_cost) ? $ap->fuel_jeta_cost : setting('airports.default_jet_a_fuel_cost');
         }
 
         if (setting('pireps.advanced_fuel', false)) {
-            $ac = $pirep->aircraft;
             // Reading second row by skip(1) to reach the previous accepted pirep. Current pirep is at the first row
-            $prev_flight = Pirep::where('aircraft_id', $ac->id)->where('state', 2)->where('status', 'ONB')->orderby('submitted_at', 'desc')->skip(1)->first();
+            $prev_flight = Pirep::where([
+                'aircraft_id' => $pirep->aircraft->id,
+                'state'       => PirepState::ACCEPTED,
+                'status'      => PirepStatus::ARRIVED,
+            ])
+                ->orderby('submitted_at', 'desc')
+                ->skip(1)
+                ->first();
+
             if ($prev_flight) {
                 // If there is a pirep use its values to calculate the remaining fuel
                 // and calculate the uplifted fuel amount for this pirep
@@ -181,8 +203,7 @@ class PirepFinanceService extends Service
         }
 
         $debit = Money::createFromAmount($fuel_amount * $fuel_cost);
-        Log::info('Finance: Fuel cost, (fuel='.$fuel_amount.', cost='.$fuel_cost.') D='
-            .$debit->getAmount());
+        Log::info('Finance: Fuel cost, (fuel='.$fuel_amount.', cost='.$fuel_cost.') D='.$debit->getAmount());
 
         $this->financeSvc->debitFromJournal(
             $pirep->airline->journal,
@@ -283,20 +304,29 @@ class PirepFinanceService extends Service
             }
 
             // Form the memo, with some specific ones depending on the group
-            if ($expense->ref_model === Subfleet::class
-                && $expense->ref_model_id === $pirep->aircraft->subfleet->id
-            ) {
-                $memo = "Subfleet Expense: {$expense->name} ({$pirep->aircraft->subfleet->name})";
-                $transaction_group = "Subfleet: {$expense->name} ({$pirep->aircraft->subfleet->name})";
-            } elseif ($expense->ref_model === Aircraft::class
-                      && $expense->ref_model_id === $pirep->aircraft->id
-            ) {
-                $memo = "Aircraft Expense: {$expense->name} ({$pirep->aircraft->name})";
-                $transaction_group = "Aircraft: {$expense->name} "
-                    ."({$pirep->aircraft->name}-{$pirep->aircraft->registration})";
+            if ($expense->ref_model === Subfleet::class) {
+                if ((int) ($expense->ref_model_id) === $pirep->aircraft->subfleet->id) {
+                    $memo = "Subfleet Expense: $expense->name ({$pirep->aircraft->subfleet->name}) dd";
+                    $transaction_group = "Subfleet: $expense->name ({$pirep->aircraft->subfleet->name})";
+                } else { // Skip any subfleets that weren't used for this flight
+                    return;
+                }
+            } elseif ($expense->ref_model === Aircraft::class) {
+                if ((int) ($expense->ref_model_id) === $pirep->aircraft->id) {
+                    $memo = "Aircraft Expense: $expense->name ({$pirep->aircraft->name})";
+                    $transaction_group = "Aircraft: $expense->name "
+                        ."({$pirep->aircraft->name}-{$pirep->aircraft->registration})";
+                } else { // Skip any aircraft expenses that weren't used for this flight
+                    return;
+                }
             } else {
-                $memo = "Expense: {$expense->name}";
-                $transaction_group = "Expense: {$expense->name}";
+                // Skip any expenses that aren't for the airline this flight was for
+                if ($expense->airline_id && $expense->airline_id !== $pirep->airline_id) {
+                    return;
+                }
+
+                $memo = "Expense: $expense->name";
+                $transaction_group = "Expense: $expense->name";
             }
 
             $debit = Money::createFromAmount($expense->amount);
@@ -339,8 +369,8 @@ class PirepFinanceService extends Service
         $expenses->map(function (Expense $expense, $i) use ($pirep) {
             Log::info('Finance: PIREP: '.$pirep->id.', airport expense:', $expense->toArray());
 
-            $memo = "Airport Expense: {$expense->name} ({$expense->ref_model_id})";
-            $transaction_group = "Airport: {$expense->ref_model_id}";
+            $memo = "Airport Expense: $expense->name ($expense->ref_model_id)";
+            $transaction_group = "Airport: $expense->ref_model_id";
 
             $debit = Money::createFromAmount($expense->amount);
 
