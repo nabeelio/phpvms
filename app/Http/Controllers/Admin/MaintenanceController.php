@@ -7,29 +7,24 @@ use App\Repositories\KvpRepository;
 use App\Services\CronService;
 use App\Services\VersionService;
 use App\Support\Utils;
-use Codedge\Updater\UpdaterManager;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Log;
 use Laracasts\Flash\Flash;
-use Nwidart\Modules\Facades\Module;
 
 class MaintenanceController extends Controller
 {
     private $cronSvc;
     private $kvpRepo;
-    private $updateManager;
     private $versionSvc;
 
     public function __construct(
         CronService $cronSvc,
         KvpRepository $kvpRepo,
-        UpdaterManager $updateManager,
         VersionService $versionSvc
     ) {
         $this->cronSvc = $cronSvc;
         $this->kvpRepo = $kvpRepo;
-        $this->updateManager = $updateManager;
         $this->versionSvc = $versionSvc;
     }
 
@@ -104,24 +99,6 @@ class MaintenanceController extends Controller
         }
 
         return redirect(route('admin.maintenance.index'));
-    }
-
-    /**
-     * Update the phpVMS install
-     *
-     * @param \Illuminate\Http\Request $request
-     *
-     * @return mixed
-     */
-    public function update(Request $request)
-    {
-        $new_version_tag = $this->kvpRepo->get('latest_version_tag');
-        Log::info('Attempting to update to '.$new_version_tag);
-
-        $module = Module::find('updater');
-        $module->enable();
-
-        return redirect('/update/downloader');
     }
 
     /**
