@@ -5,8 +5,11 @@ namespace App\Models;
 use App\Contracts\Model;
 
 /**
- * @property string subject
- * @property string body
+ * @property int       id
+ * @property int|mixed user_id
+ * @property string    subject
+ * @property string    body
+ * @property User      user
  */
 class News extends Model
 {

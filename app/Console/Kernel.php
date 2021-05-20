@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use App\Console\Cron\Hourly;
+use App\Console\Cron\JobQueue;
 use App\Console\Cron\Monthly;
 use App\Console\Cron\Nightly;
 use App\Console\Cron\Weekly;
@@ -25,6 +26,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
+        $schedule->command(JobQueue::class)
+            ->everyMinute()
+            ->withoutOverlapping();
+
         $schedule->command(Nightly::class)->dailyAt('01:00');
         $schedule->command(Weekly::class)->weeklyOn(0);
         $schedule->command(Monthly::class)->monthlyOn(1);
