@@ -7,9 +7,6 @@ use App\Events\CronNightly;
 use App\Services\VersionService;
 use Illuminate\Support\Facades\Log;
 
-/**
- * Determine if any pilots should be set to ON LEAVE status
- */
 class NewVersionCheck extends Listener
 {
     private $versionSvc;

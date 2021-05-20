@@ -90,10 +90,6 @@ class RouteServiceProvider extends ServiceProvider
 
             Route::post('/run-migrations', 'UpdateController@run_migrations')->name('run_migrations');
             Route::get('/complete', 'UpdateController@complete')->name('complete');
-
-            // Routes for the update downloader
-            Route::get('/downloader', 'UpdateController@updater')->name('updater');
-            Route::post('/downloader', 'UpdateController@update_download')->name('update_download');
         });
     }
 
