@@ -19,7 +19,7 @@ class FileRequest extends FormRequest
         return [
             'distance'            => 'required|numeric',
             'flight_time'         => 'required|integer',
-            'fuel_used'           => 'required|numeric',
+            'fuel_used'           => 'sometimes|numeric',
             'block_time'          => 'sometimes|integer',
             'airline_id'          => 'sometimes|exists:airlines,id',
             'aircraft_id'         => 'sometimes|exists:aircraft,id',
