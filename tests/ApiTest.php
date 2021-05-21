@@ -167,6 +167,24 @@ class ApiTest extends TestCase
     }
 
     /**
+     * Make sure the airport data is returned
+     */
+    public function testAirportRequest5Char()
+    {
+        $this->user = factory(User::class)->create();
+
+        /** @var Airport $airport */
+        $airport = factory(Airport::class)->create(['icao' => '5Char']);
+
+        $response = $this->get('/api/airports/'.$airport->icao);
+
+        $response->assertStatus(200);
+        $response->assertJson(['data' => ['icao' => $airport->icao]]);
+
+        $this->get('/api/airports/UNK')->assertStatus(404);
+    }
+
+    /**
      * Get all the airports, test the pagination
      */
     public function testGetAllAirports()
