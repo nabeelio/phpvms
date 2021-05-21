@@ -14,7 +14,7 @@ class MessageLoggedListener
 {
     public function handle(MessageLogged $event)
     {
-        if (app()->runningInConsole()) {
+        if (app()->runningInConsole() && app()->environment() !== 'testing') {
             $output = new ConsoleOutput();
             $output->writeln("<$event->level>$event->message</$event->level>");
         }
