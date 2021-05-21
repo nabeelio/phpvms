@@ -26,9 +26,12 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        $schedule->command(JobQueue::class)
-            ->everyMinute()
-            ->withoutOverlapping();
+        // If not using the queue worker then run those via cron
+        if (!config('queue.worker', false)) {
+            $schedule->command(JobQueue::class)
+                ->everyMinute()
+                ->withoutOverlapping();
+        }
 
         $schedule->command(Nightly::class)->dailyAt('01:00');
         $schedule->command(Weekly::class)->weeklyOn(0);

@@ -16,6 +16,11 @@ return [
 
     'default' => env('QUEUE_DRIVER', 'sync'),
 
+    /**
+     * If you're using the queue worker, then disable running queued tasks via cron
+     */
+    'worker' => env('QUEUE_WORKER', false),
+
     /*
     |--------------------------------------------------------------------------
     | Queue Connections
