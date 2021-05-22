@@ -186,13 +186,13 @@
           <div class="col-sm-4">
             {{ Form::label('start_date', 'Start Date') }}
             <span class="description small">optional</span>
-            {{ Form::text('start_date', null, ['id' => 'start_date', 'class' => 'form-control']) }}
+            {{ Form::text('start_date', null, ['id' => 'start_date', 'class' => 'form-control', 'placeholder'=>'2021-03-25']) }}
           </div>
 
           <div class="col-sm-4">
             {{ Form::label('end_date', 'End Date') }}
             <span class="description small">optional</span>
-            {{ Form::text('end_date', null, ['id' => 'end_date', 'class' => 'form-control']) }}
+            {{ Form::text('end_date', null, ['id' => 'end_date', 'class' => 'form-control', 'placeholder'=>'2021-06-30']) }}
           </div>
 
           <div class="form-group col-sm-4">
