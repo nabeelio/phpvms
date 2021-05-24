@@ -85,7 +85,6 @@ class FlightImporter extends ImportExport
             'flight_number' => $row['flight_number'],
             'route_code'    => $row['route_code'],
             'route_leg'     => $row['route_leg'],
-            'visible'       => true,
         ], $row);
 
         $row['dpt_airport'] = strtoupper($row['dpt_airport']);
@@ -98,6 +97,10 @@ class FlightImporter extends ImportExport
         if ($row['alt_airport']) {
             $flight->setAttribute('alt_airport_id', $row['alt_airport']);
         }
+
+        // Handle Route and Level Fields
+        $flight->setAttribute('route', strtoupper($row['route']));
+        $flight->setAttribute('level', $row['level']);
 
         // Any specific transformations
 
