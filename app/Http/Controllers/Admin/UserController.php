@@ -92,7 +92,7 @@ class UserController extends Controller
             ->mapWithKeys(function ($item, $key) {
                 return [strtolower($item['alpha2']) => $item['name']];
             });
-        $roles = $this->roleRepo->selectBoxList(false,true);
+        $roles = $this->roleRepo->selectBoxList(false, true);
 
         return view('admin.users.create', [
             'user'      => null,
@@ -168,7 +168,7 @@ class UserController extends Controller
 
         $airlines = $this->airlineRepo->selectBoxList();
         $airports = $this->airportRepo->selectBoxList(false);
-        $roles = $this->roleRepo->selectBoxList(false,true);
+        $roles = $this->roleRepo->selectBoxList(false, true);
 
         return view('admin.users.edit', [
             'user'      => $user,
