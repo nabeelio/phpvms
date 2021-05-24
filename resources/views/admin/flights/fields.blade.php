@@ -199,6 +199,7 @@
             {{ Form::label('days', 'Days of Week') }}
             <span class="description small">optional</span>
             <select id="days_of_week" name="days[]" multiple="multiple" size="7" style="width: 100%;">
+              <option value="">Select Days</option>
               <option value="{{\App\Models\Enums\Days::MONDAY}}"
                 {{in_mask($days, \App\Models\Enums\Days::MONDAY) ? 'selected':'' }}>
                 @lang('common.days.mon')

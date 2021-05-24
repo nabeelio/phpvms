@@ -6,12 +6,12 @@ use App\Contracts\Controller;
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\Rank;
-use App\Models\Role;
 use App\Models\User;
 use App\Models\UserAward;
 use App\Repositories\AirlineRepository;
 use App\Repositories\AirportRepository;
 use App\Repositories\PirepRepository;
+use App\Repositories\RoleRepository;
 use App\Repositories\UserRepository;
 use App\Services\UserService;
 use App\Support\Timezonelist;
@@ -29,6 +29,7 @@ class UserController extends Controller
     private $airlineRepo;
     private $airportRepo;
     private $pirepRepo;
+    private $roleRepo;
     private $userRepo;
     private $userSvc;
 
@@ -38,6 +39,7 @@ class UserController extends Controller
      * @param AirlineRepository $airlineRepo
      * @param AirportRepository $airportRepo
      * @param PirepRepository   $pirepRepo
+     * @param RoleRepository    $roleRepo
      * @param UserRepository    $userRepo
      * @param UserService       $userSvc
      */
@@ -45,12 +47,14 @@ class UserController extends Controller
         AirlineRepository $airlineRepo,
         AirportRepository $airportRepo,
         PirepRepository $pirepRepo,
+        RoleRepository $roleRepo,
         UserRepository $userRepo,
         UserService $userSvc
     ) {
         $this->airlineRepo = $airlineRepo;
         $this->airportRepo = $airportRepo;
         $this->pirepRepo = $pirepRepo;
+        $this->roleRepo = $roleRepo;
         $this->userSvc = $userSvc;
         $this->userRepo = $userRepo;
     }
@@ -88,6 +92,7 @@ class UserController extends Controller
             ->mapWithKeys(function ($item, $key) {
                 return [strtolower($item['alpha2']) => $item['name']];
             });
+        $roles = $this->roleRepo->selectBoxList(false, true);
 
         return view('admin.users.create', [
             'user'      => null,
@@ -98,7 +103,7 @@ class UserController extends Controller
             'countries' => $countries,
             'airports'  => $airports,
             'ranks'     => Rank::all()->pluck('name', 'id'),
-            'roles'     => Role::all()->pluck('name', 'id'),
+            'roles'     => $roles,
         ]);
     }
 
@@ -163,6 +168,7 @@ class UserController extends Controller
 
         $airlines = $this->airlineRepo->selectBoxList();
         $airports = $this->airportRepo->selectBoxList(false);
+        $roles = $this->roleRepo->selectBoxList(false, true);
 
         return view('admin.users.edit', [
             'user'      => $user,
@@ -173,7 +179,7 @@ class UserController extends Controller
             'airports'  => $airports,
             'airlines'  => $airlines,
             'ranks'     => Rank::all()->pluck('name', 'id'),
-            'roles'     => Role::all()->pluck('name', 'id'),
+            'roles'     => $roles,
         ]);
     }
 
