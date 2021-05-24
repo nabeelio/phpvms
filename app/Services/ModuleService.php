@@ -126,7 +126,7 @@ class ModuleService extends Service
                 'enabled' => 1,
             ]);
 
-            Artisan::call('module:migrate '.$module_name);
+            Artisan::call('module:migrate '.$module_name, ['--force' => true]);
 
             return true;
         }
@@ -225,7 +225,7 @@ class ModuleService extends Service
         }
 
         Artisan::call('config:cache');
-        Artisan::call('module:migrate '.$module);
+        Artisan::call('module:migrate '.$module, ['--force' => true]);
 
         return flash()->success('Module Installed');
     }
@@ -246,7 +246,7 @@ class ModuleService extends Service
         ]);
 
         if ($status === true) {
-            Artisan::call('module:migrate '.$module->name);
+            Artisan::call('module:migrate '.$module->name, ['--force' => true]);
         }
 
         return true;
