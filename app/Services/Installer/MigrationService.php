@@ -82,7 +82,7 @@ class MigrationService extends Service
         // A little ugly, run the main migration first, this makes sure the migration table is there
         $output = '';
 
-        Artisan::call('migrate');
+        Artisan::call('migrate', ['--force' => true]);
         $output .= trim(Artisan::output());
 
         // Then get any remaining migrations that are left over

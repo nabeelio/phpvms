@@ -60,7 +60,7 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
         Notification::fake();
 
         Artisan::call('database:create', ['--reset' => true]);
-        Artisan::call('migrate:refresh', ['--env' => 'testing']);
+        Artisan::call('migrate:refresh', ['--env' => 'testing', '--force' => true]);
 
         // $this->disableExceptionHandling();
     }
