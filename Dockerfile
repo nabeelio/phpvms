@@ -26,4 +26,6 @@ RUN php composer.phar install \
     --no-scripts \
     --prefer-dist
 
+RUN chown -R www-data:www-data /var/www
+
 EXPOSE 9000
