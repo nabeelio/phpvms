@@ -2,15 +2,11 @@
 version: '3'
 services:
   app:
-    # For your own docker-compose, use `image: phpvms:latest` instead of the build/context block
-    build:
-      context: .
+    image: phpvms:latest
     environment:
       DB_HOST: mysql
       REDIS_HOST: redis
     volumes:
-      # Uncomment this line if you want to use this for local testing
-#      - ./:/var/www
       - ./resources/docker/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
     depends_on:
       - mysql
