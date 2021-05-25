@@ -109,17 +109,9 @@ reset-installer:
 	@php artisan database:create --reset
 	@php artisan migrate:refresh --seed
 
-.PHONY: docker
-docker:
-	@mkdir -p $(CURR_PATH)/tmp/mysql
-
-	-docker rm -f phpvms
-	docker build -t phpvms .
-	docker run --name=phpvms \
-       -v $(CURR_PATH):/var/www/ \
-       -v $(CURR_PATH)/tmp/mysql:/var/lib/mysql \
-       -p 8080:80 \
-       phpvms
+.PHONY: docker-test
+docker-test:
+	@docker-compose -f docker-compose.yml -f docker-compose.local.yml up
 
 .PHONY: docker-clean
 docker-clean:

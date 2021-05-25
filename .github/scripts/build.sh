@@ -30,6 +30,7 @@ declare -a remove_files=(
   intellij_style.xml
   config.php
   docker-compose.yml
+  docker-compose.local.yml
   Makefile
   phpcs.xml
   phpunit.xml
