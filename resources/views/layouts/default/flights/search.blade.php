@@ -25,7 +25,7 @@
       </div>
 
       <div class="mt-1">
-        <p>@lang('flights.flightcode')</p>
+        <p>@lang('flights.code')</p>
         {{ Form::text('route_code', null, ['class' => 'form-control']) }}
       </div>
 
