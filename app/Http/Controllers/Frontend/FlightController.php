@@ -110,16 +110,16 @@ class FlightController extends Controller
         // And filter according to settings
         $usedtypes = DB::table('flights')->select('flight_type')->groupby('flight_type')->orderby('flight_type', 'asc');
         if (setting('pilots.restrict_to_company')) {
-          $usedtypes = $usedtypes->where('airline_id', $user->airline_id);
+            $usedtypes = $usedtypes->where('airline_id', $user->airline_id);
         }
         if (setting('pilots.only_flights_from_current')) {
-          $usedtypes = $usedtypes->where('dpt_airport_id', $user->curr_airport_id);
+            $usedtypes = $usedtypes->where('dpt_airport_id', $user->curr_airport_id);
         }
         $usedtypes = $usedtypes->get();
         // Build collection with type codes and labels
         $flight_types = collect('', '');
         foreach ($usedtypes as $ftype) {
-          $flight_types->put($ftype->flight_type, FlightType::label($ftype->flight_type));
+            $flight_types->put($ftype->flight_type, FlightType::label($ftype->flight_type));
         }
 
         $flights = $this->flightRepo->searchCriteria($request)
