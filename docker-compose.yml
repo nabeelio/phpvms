@@ -9,7 +9,8 @@ services:
       DB_HOST: mysql
       REDIS_HOST: redis
     volumes:
-      - ./:/var/www
+      # Uncomment this line if you want to use this for local testing
+#      - ./:/var/www
       - ./resources/docker/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
     depends_on:
       - mysql
