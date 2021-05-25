@@ -5,6 +5,7 @@ return [
     'flighttime'       => 'Tempo do Voo',
     'flighttype'       => 'Tipo de Voo',
     'flighthours'      => 'Horas de Voo',
+    'code'             => 'Código',
     'callsign'         => 'Indicativo',
     'route'            => 'Rota',
     'mybid'            => 'Minhas Reservas',

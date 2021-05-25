@@ -25,6 +25,11 @@
       </div>
 
       <div class="mt-1">
+        <p>@lang('flights.code')</p>
+        {{ Form::text('route_code', null, ['class' => 'form-control']) }}
+      </div>
+
+      <div class="mt-1">
         <p>@lang('airports.departure')</p>
         {{ Form::select('dep_icao', $airports, null , ['class' => 'form-control select2']) }}
       </div>
