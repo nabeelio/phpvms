@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Contracts\Controller;
 use App\Models\Bid;
 use App\Models\Enums\FlightType;
+use App\Models\Flight;
 use App\Repositories\AirlineRepository;
 use App\Repositories\AirportRepository;
 use App\Repositories\Criteria\WhereCriteria;
@@ -14,7 +15,6 @@ use App\Repositories\UserRepository;
 use App\Services\GeoService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Laracasts\Flash\Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
@@ -108,14 +108,7 @@ class FlightController extends Controller
 
         // Get only used Flight Types for the search form
         // And filter according to settings
-        $usedtypes = DB::table('flights')->select('flight_type')->groupby('flight_type')->orderby('flight_type', 'asc');
-        if (setting('pilots.restrict_to_company')) {
-            $usedtypes = $usedtypes->where('airline_id', $user->airline_id);
-        }
-        if (setting('pilots.only_flights_from_current')) {
-            $usedtypes = $usedtypes->where('dpt_airport_id', $user->curr_airport_id);
-        }
-        $usedtypes = $usedtypes->get();
+        $usedtypes = Flight::select('flight_type')->where($where)->groupby('flight_type')->orderby('flight_type', 'asc')->get();
         // Build collection with type codes and labels
         $flight_types = collect('', '');
         foreach ($usedtypes as $ftype) {
