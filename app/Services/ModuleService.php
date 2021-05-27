@@ -126,7 +126,11 @@ class ModuleService extends Service
                 'enabled' => 1,
             ]);
 
-            Artisan::call('module:migrate '.$module_name, ['--force' => true]);
+            try {
+                Artisan::call('module:migrate '.$module_name, ['--force' => true]);
+            } catch (Exception $e) {
+                Log::error('Error running migration for '.$module_name.'; error='.$e);
+            }
 
             return true;
         }
