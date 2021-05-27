@@ -132,7 +132,8 @@ class SimBriefService extends Service
      *
      * 1. Read from the XML the basic PIREP info (dep, arr), and then associate the PIREP
      *    to the flight ID
-     * 2. Remove the flight ID from the SimBrief field and assign the pirep_id to the row
+     * 2. Remove the flight ID from the SimBrief model and assign the pirep ID to the row
+     *    at the end of the flight. Keep flight ID until the flight ends (pirep file).
      * 3. Update the planned flight route in the acars table
      * 4. Add additional flight fields (ones which match ACARS)
      *
@@ -141,12 +142,12 @@ class SimBriefService extends Service
      *
      * @return \App\Models\Pirep
      */
-    public function attachSimbriefToPirep($pirep, SimBrief $simBrief): Pirep
+    public function attachSimbriefToPirep($pirep, SimBrief $simBrief, $keep_flight = false): Pirep
     {
         $this->addRouteToPirep($pirep, $simBrief);
 
         $simBrief->pirep_id = $pirep->id;
-        $simBrief->flight_id = null;
+        $simBrief->flight_id = !empty($keep_flight) ? $pirep->flight_id : null;
         $simBrief->save();
 
         return $pirep;
@@ -185,9 +186,9 @@ class SimBriefService extends Service
     }
 
     /**
-     * Remove any expired entries from the SimBrief table. Expired means there's
-     * a flight_id attached to it, but no pirep_id (meaning it was never used for
-     * an actual flight)
+     * Remove any expired entries from the SimBrief table.
+     * Expired means there's a flight_id attached to it, but no pirep_id
+     * (meaning it was never used for an actual flight)
      */
     public function removeExpiredEntries(): void
     {
@@ -203,6 +204,25 @@ class SimBriefService extends Service
             $brief->delete();
 
             // TODO: Delete any assets
+        }
+    }
+
+    /**
+     * Remove any expired entries from the SimBrief table.
+     * Expired means there's a flight_id attached to it, but no pirep_id
+     * (meaning it was never used for an actual flight)
+     * Used by Hourly Cron
+     */
+    public function removeExpiredBriefings(): void
+    {
+        $expire_hours = setting('simbrief.expire_hours', 6);
+
+        if ($expire_hours != 0) {
+            $expire_time = Carbon::now('UTC')->subHours($expire_hours);
+            $briefs = SimBrief::where('pirep_id', null)->where('created_at', '<', $expire_time)->get();
+            foreach ($briefs as $brief) {
+                $brief->delete();
+            }
         }
     }
 }

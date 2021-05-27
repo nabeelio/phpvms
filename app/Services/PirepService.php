@@ -148,6 +148,18 @@ class PirepService extends Service
             throw new AircraftNotAvailable($pirep->aircraft);
         }
 
+        // See if this aircraft is being used by another user's active simbrief ofp
+        if (setting('simbrief.block_aircraft')) {
+            $sb_aircraft = SimBrief::select('aircraft_id')
+                ->where('aircraft_id', $pirep->aircraft_id)
+                ->where('user_id', '!=', $pirep->user_id)
+                ->whereNotNull('flight_id')
+                ->get();
+            if ($sb_aircraft) {
+                throw new AircraftNotAvailable($pirep->aircraft);
+            }
+        }
+
         // See if this aircraft is at the departure airport
         /* @noinspection NotOptimalIfConditionsInspection */
         if (setting('pireps.only_aircraft_at_dpt_airport') && $aircraft->airport_id !== $pirep->dpt_airport_id) {
@@ -164,9 +176,20 @@ class PirepService extends Service
             }
         }
 
-        event(new PirepPrefiled($pirep));
-
         $pirep->save();
+        $pirep->refresh();
+
+        // Check if there is a simbrief_id, update it to have the pirep_id
+        // Keep the flight_id until the end of flight (pirep file)
+        if (array_key_exists('simbrief_id', $attrs)) {
+            /** @var SimBrief $simbrief */
+            $simbrief = SimBrief::find($attrs['simbrief_id']);
+            if ($simbrief) {
+                $this->simBriefSvc->attachSimbriefToPirep($pirep, $simbrief, true);
+            }
+        }
+
+        event(new PirepPrefiled($pirep));
 
         return $pirep;
     }
