@@ -336,14 +336,13 @@ class SimBriefTest extends TestCase
             'user_id'    => $user->id,
             'flight_id'  => 'a_flight_id',
             'pirep_id'   => 'a_pirep_id',
-            'created_at' => Carbon::now('UTC')->subDays(6)->toDateTimeString(),
+            'created_at' => Carbon::now('UTC')->subDays(6),
         ]);
 
         factory(SimBrief::class)->create([
             'user_id'    => $user->id,
             'flight_id'  => 'a_flight_Id',
-            'pirep_id'   => '',
-            'created_at' => Carbon::now('UTC')->subDays(6)->toDateTimeString(),
+            'created_at' => Carbon::now('UTC')->subDays(6),
         ]);
 
         /** @var SimBriefService $sb */

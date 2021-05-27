@@ -192,11 +192,11 @@ class SimBriefService extends Service
     public function removeExpiredEntries(): void
     {
         $expire_days = setting('simbrief.expire_days', 5);
-        $expire_time = Carbon::now('UTC')->subDays($expire_days)->toDateTimeString();
+        $expire_time = Carbon::now('UTC')->subDays($expire_days);
 
         $briefs = SimBrief::where([
-            ['pirep_id', '=', ''],
-            ['created_at', '<', $expire_time],
+            ['pirep_id', null],
+            ['created_at', '<=', $expire_time],
         ])->get();
 
         foreach ($briefs as $brief) {
