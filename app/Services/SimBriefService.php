@@ -138,7 +138,8 @@ class SimBriefService extends Service
      * 4. Add additional flight fields (ones which match ACARS)
      *
      * @param          $pirep
-     * @param SimBrief $simBrief The briefing to create the PIREP from
+     * @param SimBrief $simBrief    The briefing to create the PIREP from
+     * @param boolean  $keep_flight True keeps the flight_id, default is false
      *
      * @return \App\Models\Pirep
      */
