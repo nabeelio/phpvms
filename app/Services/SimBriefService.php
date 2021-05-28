@@ -192,8 +192,8 @@ class SimBriefService extends Service
      */
     public function removeExpiredEntries(): void
     {
-        $expire_days = setting('simbrief.expire_days', 5);
-        $expire_time = Carbon::now('UTC')->subDays($expire_days);
+        $expire_hours = setting('simbrief.expire_hours', 6);
+        $expire_time = Carbon::now('UTC')->subHours($expire_hours);
 
         $briefs = SimBrief::where([
             ['pirep_id', null],
@@ -203,26 +203,7 @@ class SimBriefService extends Service
         foreach ($briefs as $brief) {
             $brief->delete();
 
-            // TODO: Delete any assets
-        }
-    }
-
-    /**
-     * Remove any expired entries from the SimBrief table.
-     * Expired means there's a flight_id attached to it, but no pirep_id
-     * (meaning it was never used for an actual flight)
-     * Used by Hourly Cron
-     */
-    public function removeExpiredBriefings(): void
-    {
-        $expire_hours = setting('simbrief.expire_hours', 6);
-
-        if ($expire_hours != 0) {
-            $expire_time = Carbon::now('UTC')->subHours($expire_hours);
-            $briefs = SimBrief::where('pirep_id', null)->where('created_at', '<', $expire_time)->get();
-            foreach ($briefs as $brief) {
-                $brief->delete();
-            }
+            // TODO: Delete any assets (Which assets ?)
         }
     }
 }
