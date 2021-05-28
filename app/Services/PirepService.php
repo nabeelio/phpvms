@@ -450,6 +450,19 @@ class PirepService extends Service
             }
         }
 
+        // Check if there is a simbrief_id, change it to be set to the PIREP
+        // at the end of the flight when it's been submitted finally.
+        // Prefile, Save (as draft) and File already have this but the Submit button
+        // visible at pireps.show blade uses this function so Simbrief also needs to
+        // checked here too (to remove the flight_id and release the aircraft)
+        if (!empty($pirep->simbrief)) {
+            /** @var SimBrief $simbrief */
+            $simbrief = SimBrief::find($pirep->simbrief->id);
+            if ($simbrief) {
+                $this->simBriefSvc->attachSimbriefToPirep($pirep, $simbrief);
+            }
+        }
+
         Log::info('New PIREP filed', [$pirep]);
         event(new PirepFiled($pirep));
 
