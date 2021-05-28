@@ -14,6 +14,7 @@ RUN docker-php-ext-install \
   calendar \
   intl \
   pdo_mysql \
+  gd \
   gmp \
   opcache && \
   docker-php-ext-enable pdo_mysql opcache
