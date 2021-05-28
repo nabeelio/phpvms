@@ -154,8 +154,8 @@ class PirepService extends Service
                 ->where('aircraft_id', $pirep->aircraft_id)
                 ->where('user_id', '!=', $pirep->user_id)
                 ->whereNotNull('flight_id')
-                ->get();
-            if ($sb_aircraft) {
+                ->count();
+            if ($sb_aircraft > 0) {
                 throw new AircraftNotAvailable($pirep->aircraft);
             }
         }
