@@ -399,7 +399,13 @@ class PirepController extends Controller
             if ($brief !== null) {
                 /** @var SimBriefService $sbSvc */
                 $sbSvc = app(SimBriefService::class);
-                $sbSvc->attachSimbriefToPirep($pirep, $brief);
+                // Keep the flight_id with SimBrief depending on the button selected
+                // Save = Keep the flight_id , Submit = Remove the flight_id
+                if ($attrs['submit'] === 'save') {
+                    $sbSvc->attachSimbriefToPirep($pirep, $brief, true);
+                } elseif ($attrs['submit'] === 'submit') {
+                    $sbSvc->attachSimbriefToPirep($pirep, $brief);
+                }
             }
         }
 
