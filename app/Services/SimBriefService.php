@@ -139,7 +139,7 @@ class SimBriefService extends Service
      *
      * @param          $pirep
      * @param SimBrief $simBrief    The briefing to create the PIREP from
-     * @param boolean  $keep_flight True keeps the flight_id, default is false
+     * @param bool     $keep_flight True keeps the flight_id, default is false
      *
      * @return \App\Models\Pirep
      */
