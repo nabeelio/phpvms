@@ -43,7 +43,7 @@ class PirepStatusChanged extends Notification implements ShouldQueue
      *
      * @return DiscordMessage
      */
-    public function toDiscordChannel($pirep)
+    public function toDiscordChannel($pirep): DiscordMessage
     {
         $title = 'Flight '.$pirep->airline->code.$pirep->ident.' is now '.PirepStatus::label($pirep->status);
         $fields = [

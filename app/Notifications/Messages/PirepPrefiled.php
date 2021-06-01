@@ -42,7 +42,7 @@ class PirepPrefiled extends Notification implements ShouldQueue
      *
      * @return DiscordMessage
      */
-    public function toDiscordChannel($pirep)
+    public function toDiscordChannel($pirep): DiscordMessage
     {
         $fields = [
             'Flight'                => $pirep->airline->code.$pirep->ident,

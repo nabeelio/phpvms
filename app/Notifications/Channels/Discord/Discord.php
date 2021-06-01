@@ -19,12 +19,15 @@ class Discord
 
     public function send($notifiable, Notification $notification)
     {
-        /** @var DiscordMessage $message */
         $message = $notification->toDiscordChannel($notifiable);
-        $data = $message->toArray();
 
-        // Send notification to the $notifiable instance...
+        if (empty($message->webhook_url)) {
+            Log::debug('Discord notifications not configured, skipping');
+            return;
+        }
+
         try {
+            $data = $message->toArray();
             $this->httpClient->post($message->webhook_url, $data);
         } catch (RequestException $e) {
             $response = Psr7\Message::toString($e->getResponse());

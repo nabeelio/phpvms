@@ -2,6 +2,7 @@
 
 namespace App\Contracts;
 
+use App\Notifications\Channels\Discord\DiscordMessage;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
@@ -38,8 +39,8 @@ class Notification extends \Illuminate\Notifications\Notification implements Sho
         return $this->channels;
     }*/
 
-    public function toDiscordChannel($notifiable)
+    public function toDiscordChannel($notifiable): DiscordMessage
     {
-        return [];
+        return new DiscordMessage();
     }
 }
