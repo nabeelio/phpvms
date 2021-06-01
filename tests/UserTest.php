@@ -458,7 +458,7 @@ class UserTest extends TestCase
         $body = [
             'name'       => 'Test User',
             'email'      => $user->email,
-            'airline_id' => 1
+            'airline_id' => 1,
         ];
 
         $resp = $this->actingAs($user)->put('/profile/'.$user->id, $body);
