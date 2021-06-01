@@ -245,7 +245,6 @@ class PirepController extends Controller
         $pirep = Pirep::find($pirep_id);
         $this->checkCancelled($pirep);
 
-        $old_status = $pirep->status;
         $attrs = $this->parsePirep($request);
         $attrs['user_id'] = Auth::id();
 

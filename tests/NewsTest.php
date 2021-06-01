@@ -38,6 +38,6 @@ class NewsTest extends TestCase
             'body'    => 'News!',
         ]);
 
-        // Notification::assertSentTo($users_opt_in, NewsAdded::class);
+        Notification::assertSentTo($users_opt_in, NewsAdded::class);
     }
 }
