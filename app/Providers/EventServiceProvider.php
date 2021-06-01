@@ -47,7 +47,6 @@ class EventServiceProvider extends ServiceProvider
         'Illuminate\Log\Events\MessageLogged' => [
             'App\Listeners\MessageLoggedListener',
         ],
-
     ];
 
     protected $subscribe = [
