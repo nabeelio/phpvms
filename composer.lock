@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8ab12b349948ff95fed99c6e898f1a89",
+    "content-hash": "64f4e06461590e9a54fdc9bdc219c010",
     "packages": [
         {
             "name": "akaunting/money",
@@ -3114,6 +3114,58 @@
                 "source": "https://github.com/joshbrw/laravel-module-installer/tree/v2.0.1"
             },
             "time": "2021-01-17T21:51:00+00:00"
+        },
+        {
+            "name": "jpkleemans/attribute-events",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jpkleemans/attribute-events.git",
+                "reference": "adfbd627d4012a6a907849c9ea510a1651e961bc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jpkleemans/attribute-events/zipball/adfbd627d4012a6a907849c9ea510a1651e961bc",
+                "reference": "adfbd627d4012a6a907849c9ea510a1651e961bc",
+                "shasum": ""
+            },
+            "require-dev": {
+                "illuminate/database": "^8.0",
+                "illuminate/events": "^8.0",
+                "phpunit/phpunit": "^9.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Kleemans\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jan-Paul Kleemans",
+                    "email": "jpkleemans@gmail.com"
+                }
+            ],
+            "description": "🔥 Fire events on attribute changes of your Eloquent model",
+            "homepage": "https://attribute.events/",
+            "keywords": [
+                "attributes",
+                "ddd",
+                "domain events",
+                "eloquent",
+                "events",
+                "laravel",
+                "model events"
+            ],
+            "support": {
+                "issues": "https://github.com/jpkleemans/attribute-events/issues",
+                "source": "https://github.com/jpkleemans/attribute-events/tree/1.1.0"
+            },
+            "time": "2020-11-21T14:52:35+00:00"
         },
         {
             "name": "justinrainbow/json-schema",

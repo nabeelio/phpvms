@@ -10,10 +10,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 
 class PirepSubmitted extends Notification implements ShouldQueue
 {
-    use Queueable;
     use MailChannel;
-
-    public $channels = ['mail'];
 
     private $pirep;
 
@@ -33,6 +30,11 @@ class PirepSubmitted extends Notification implements ShouldQueue
             'notifications.mail.admin.pirep.submitted',
             ['pirep' => $this->pirep]
         );
+    }
+
+    public function via($notifiable)
+    {
+        return ['mail'];
     }
 
     /**

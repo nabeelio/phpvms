@@ -17,7 +17,7 @@ trait MailChannel
      * @param string $template Markdown template to use
      * @param array  $args     Arguments to pass to the template
      */
-    public function setMailable($subject, $template, $args)
+    public function setMailable(string $subject, string $template, array $args)
     {
         $this->mailSubject = $subject;
         $this->mailTemplate = $template;

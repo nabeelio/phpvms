@@ -3,6 +3,10 @@
 namespace App\Models;
 
 use App\Contracts\Model;
+use App\Events\PirepAccepted;
+use App\Events\PirepFiled;
+use App\Events\PirepStateChange;
+use App\Events\PirepStatusChange;
 use App\Models\Enums\AcarsType;
 use App\Models\Enums\PirepFieldSource;
 use App\Models\Enums\PirepState;
@@ -10,7 +14,9 @@ use App\Models\Traits\HashIdTrait;
 use App\Support\Units\Distance;
 use App\Support\Units\Fuel;
 use Carbon\Carbon;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
+use Kleemans\AttributeEvents;
 
 /**
  * @property string      id
@@ -44,8 +50,8 @@ use Illuminate\Support\Collection;
  * @property Flight|null flight
  * @property Collection  fields
  * @property string      status
- * @property PirepState  state
- * @property int     source
+ * @property int         state
+ * @property int         source
  * @property string      source_name
  * @property Carbon      submitted_at
  * @property Carbon      created_at
@@ -57,7 +63,9 @@ use Illuminate\Support\Collection;
  */
 class Pirep extends Model
 {
+    use AttributeEvents;
     use HashIdTrait;
+    use Notifiable;
 
     public $table = 'pireps';
 
@@ -135,6 +143,14 @@ class Pirep extends Model
         'level'          => 'nullable|numeric',
         'notes'          => 'nullable',
         'route'          => 'nullable',
+    ];
+
+    /**
+     * Auto-dispatch events for lifecycle state changes
+     */
+    protected $dispatchesEvents = [
+        'status:*'         => PirepStatusChange::class,
+        'state:*'          => PirepStateChange::class,
     ];
 
     /*

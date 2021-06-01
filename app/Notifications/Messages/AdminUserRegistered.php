@@ -3,17 +3,17 @@
 namespace App\Notifications\Messages;
 
 use App\Contracts\Notification;
+use App\Models\Pirep;
 use App\Models\User;
+use App\Notifications\Channels\Discord\Discord;
+use App\Notifications\Channels\Discord\DiscordMessage;
 use App\Notifications\Channels\MailChannel;
-use Illuminate\Bus\Queueable;
+use App\Support\Units\Time;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
 class AdminUserRegistered extends Notification implements ShouldQueue
 {
-    use Queueable;
     use MailChannel;
-
-    public $channels = ['mail'];
 
     private $user;
 
@@ -32,6 +32,27 @@ class AdminUserRegistered extends Notification implements ShouldQueue
             'notifications.mail.admin.user.registered',
             ['user' => $user]
         );
+    }
+
+    public function via($notifiable)
+    {
+        return ['mail', Discord::class];
+    }
+
+    /**
+     * Send a Discord notification
+     *
+     * @param User $pirep
+     *
+     * @return DiscordMessage
+     */
+    public function toDiscordChannel($user)
+    {
+        $dm = new DiscordMessage();
+        return $dm->webhook(setting('notifications.discord_private_webhook_url'))
+            ->success()
+            ->title('New User Registered: '.$user->ident)
+            ->fields([]);
     }
 
     public function toArray($notifiable)

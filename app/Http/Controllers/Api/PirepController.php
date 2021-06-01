@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Contracts\Controller;
+use App\Events\PirepStatusChange;
 use App\Events\PirepUpdated;
 use App\Exceptions\AircraftPermissionDenied;
 use App\Exceptions\PirepCancelled;
@@ -245,6 +246,7 @@ class PirepController extends Controller
         $pirep = Pirep::find($pirep_id);
         $this->checkCancelled($pirep);
 
+        $old_status = $pirep->status;
         $attrs = $this->parsePirep($request);
         $attrs['user_id'] = Auth::id();
 
@@ -258,7 +260,9 @@ class PirepController extends Controller
             }
         }
 
+        /** @var Pirep $pirep */
         $pirep = $this->pirepRepo->update($attrs, $pirep_id);
+
         $this->updateFields($pirep, $request);
         $this->updateFares($pirep, $request);
 

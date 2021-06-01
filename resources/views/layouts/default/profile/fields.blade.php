@@ -2,7 +2,7 @@
   <div class="col-md-12">
     <table class="table">
       <tr>
-        <td>@lang('common.name')</td>
+        <td>{{ __('common.name') }}</td>
         <td>
           <div class="input-group form-group-no-border{{ $errors->has('name') ? ' has-danger' : '' }}">
             {{ Form::text('name', null, ['class' => 'form-control']) }}
@@ -14,7 +14,7 @@
       </tr>
 
       <tr>
-        <td>@lang('common.email')</td>
+        <td>{{ __('common.email') }}</td>
         <td>
           <div class="input-group form-group-no-border{{ $errors->has('email') ? ' has-danger' : '' }}">
             {{ Form::text('email', null, ['class' => 'form-control']) }}
@@ -26,7 +26,19 @@
       </tr>
 
       <tr>
-        <td>@lang('common.airline')</td>
+        <td>Discord ID</td>
+        <td>
+          <div class="input-group form-group-no-border{{ $errors->has('discord_id') ? ' has-danger' : '' }}">
+            {{ Form::text('discord_id', null, ['class' => 'form-control']) }}
+          </div>
+          @if ($errors->has('discord_id'))
+            <p class="text-danger">{{ $errors->first('discord_id') }}</p>
+          @endif
+        </td>
+      </tr>
+
+      <tr>
+        <td>{{ __('common.airline') }}</td>
         <td>
           <div class="input-group form-group-no-border{{ $errors->has('airline') ? ' has-danger' : '' }}">
             {{ Form::select('airline_id', $airlines, null , ['class' => 'form-control select2']) }}
@@ -38,7 +50,7 @@
       </tr>
 
       <tr>
-        <td>@lang('airports.home')</td>
+        <td>{{ __('airports.home') }}</td>
         <td>
           <div class="input-group form-group-no-border{{ $errors->has('home_airport_id') ? ' has-danger' : '' }}">
             {{ Form::select('home_airport_id', $airports, null , ['class' => 'form-control select2']) }}
@@ -50,7 +62,7 @@
       </tr>
 
       <tr>
-        <td>@lang('common.country')</td>
+        <td>{{ __('common.country') }}</td>
         <td>
           <div class="input-group form-group-no-border{{ $errors->has('country') ? ' has-danger' : '' }}">
             {{ Form::select('country', $countries, null, ['class' => 'form-control select2' ]) }}
@@ -62,7 +74,7 @@
       </tr>
 
       <tr>
-        <td>@lang('common.timezone')</td>
+        <td>{{ __('common.timezone') }}</td>
         <td>
           <div class="input-group form-group-no-border{{ $errors->has('timezone') ? ' has-danger' : '' }}">
             {{ Form::select('timezone', $timezones, null, ['class' => 'form-control select2' ]) }}
@@ -74,9 +86,9 @@
       </tr>
 
       <tr>
-        <td>@lang('profile.changepassword')</td>
+        <td>{{ __('profile.changepassword') }}</td>
         <td>
-          <p>@lang('profile.newpassword'):</p>
+          <p>{{ __('profile.newpassword') }}:</p>
           <div class="input-group form-group-no-border{{ $errors->has('password') ? ' has-danger' : '' }}">
             {{ Form::password('password', ['class' => 'form-control']) }}
           </div>
@@ -84,7 +96,7 @@
             <p class="text-danger">{{ $errors->first('password') }}</p>
           @endif
 
-          <p>@lang('passwords.confirm'):</p>
+          <p>{{ __('passwords.confirm') }}:</p>
           <div class="input-group form-group-no-border{{ $errors->has('password_confirmation') ? ' has-danger' : '' }}">
             {{ Form::password('password_confirmation', ['class' => 'form-control']) }}
           </div>
@@ -94,14 +106,14 @@
         </td>
       </tr>
       <tr>
-        <td>@lang('profile.avatar')</td>
+        <td>{{ __('profile.avatar') }}</td>
         <td>
           <div class="input-group form-group-no-border{{ $errors->has('avatar') ? ' has-danger' : '' }}">
             {{ Form::file('avatar', null) }}
           </div>
-          <p class="small">@lang('profile.avatarresize', [
+          <p class="small">{{ __('profile.avatarresize', [
                         'width' => config('phpvms.avatar.width'),
-                        'height' => config('phpvms.avatar.height')])
+                        'height' => config('phpvms.avatar.height')]) }}
           </p>
           @if ($errors->has('avatar'))
             <p class="text-danger">{{ $errors->first('avatar') }}</p>
@@ -130,13 +142,13 @@
       @endforeach
 
       <tr>
-        <td>@lang('profile.opt-in')</td>
+        <td>{{ __('profile.opt-in') }}</td>
         <td>
           <div class="input-group form-group-no-border">
             {{ Form::hidden('opt_in', 0, false) }}
             {{ Form::checkbox('opt_in', 1, null) }}
           </div>
-          <p class="small">@lang('profile.opt-in-descrip')
+          <p class="small">{{ __('profile.opt-in-descrip') }}
           </p>
         </td>
       </tr>

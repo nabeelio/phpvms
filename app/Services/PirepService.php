@@ -176,6 +176,7 @@ class PirepService extends Service
             }
         }
 
+        $pirep->status = PirepStatus::INITIATED;
         $pirep->save();
         $pirep->refresh();
 

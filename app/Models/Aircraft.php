@@ -12,6 +12,7 @@ use Carbon\Carbon;
  * @property int      id
  * @property mixed    subfleet_id
  * @property string   airport_id   The apt where the aircraft is
+ * @property string   ident
  * @property string   name
  * @property string   icao
  * @property string   registration
@@ -70,6 +71,14 @@ class Aircraft extends Model
         'mtow'         => 'nullable|numeric',
         'zfw'          => 'nullable|numeric',
     ];
+
+    /**
+     * @return string
+     */
+    public function getIdentAttribute(): string
+    {
+        return $this->registration.' ('.$this->icao.')';
+    }
 
     /**
      * See if this aircraft is active

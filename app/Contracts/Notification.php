@@ -4,7 +4,6 @@ namespace App\Contracts;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Support\Facades\Log;
 
 class Notification extends \Illuminate\Notifications\Notification implements ShouldQueue
 {
@@ -17,14 +16,14 @@ class Notification extends \Illuminate\Notifications\Notification implements Sho
     {
         // Look in the notifications.channels config and see where this particular
         // notification can go. Map it to $channels
-        $klass = static::class;
+        /*$klass = static::class;
         $notif_config = config('notifications.channels', []);
         if (!array_key_exists($klass, $notif_config)) {
             Log::error('Notification type '.$klass.' missing from notifications config, defaulting to mail');
             return;
         }
 
-        $this->channels = $notif_config[$klass];
+        $this->channels = $notif_config[$klass];*/
     }
 
     /**
@@ -34,8 +33,13 @@ class Notification extends \Illuminate\Notifications\Notification implements Sho
      *
      * @return array
      */
-    public function via($notifiable)
+    /*public function via($notifiable)
     {
         return $this->channels;
+    }*/
+
+    public function toDiscordChannel($notifiable)
+    {
+        return [];
     }
 }

@@ -6,7 +6,9 @@ use App\Contracts\Listener;
 use App\Events\NewsAdded;
 use App\Events\PirepAccepted;
 use App\Events\PirepFiled;
+use App\Events\PirepPrefiled;
 use App\Events\PirepRejected;
+use App\Events\PirepStatusChange;
 use App\Events\UserRegistered;
 use App\Events\UserStateChanged;
 use App\Models\Enums\UserState;
@@ -28,12 +30,14 @@ class EventHandler extends Listener
     private static $broadcastNotifyable;
 
     public static $callbacks = [
-        NewsAdded::class        => 'onNewsAdded',
-        PirepAccepted::class    => 'onPirepAccepted',
-        PirepFiled::class       => 'onPirepFile',
-        PirepRejected::class    => 'onPirepRejected',
-        UserRegistered::class   => 'onUserRegister',
-        UserStateChanged::class => 'onUserStateChange',
+        NewsAdded::class         => 'onNewsAdded',
+        PirepPrefiled::class     => 'onPirepPrefile',
+        PirepStatusChange::class => 'onPirepStatusChange',
+        PirepAccepted::class     => 'onPirepAccepted',
+        PirepFiled::class        => 'onPirepFile',
+        PirepRejected::class     => 'onPirepRejected',
+        UserRegistered::class    => 'onUserRegister',
+        UserStateChanged::class  => 'onUserStateChange',
     ];
 
     public function __construct()
@@ -153,13 +157,31 @@ class EventHandler extends Listener
     }
 
     /**
+     * Prefile notification
+     */
+    public function onPirepPrefile(PirepPrefiled $event): void
+    {
+        Log::info('NotificationEvents::onPirepPrefile: '.$event->pirep->id.' prefiled');
+        Notification::send([$event->pirep], new Messages\PirepPrefiled($event->pirep));
+    }
+
+    /**
+     * Status Change notification
+     */
+    public function onPirepStatusChange(PirepStatusChange $event): void
+    {
+        Log::info('NotificationEvents::onPirepStatusChange: '.$event->pirep->id.' prefiled');
+        Notification::send([$event->pirep], new Messages\PirepStatusChanged($event->pirep));
+    }
+
+    /**
      * Notify the admins that a new PIREP has been filed
      *
-     * @param \App\Events\PirepFiled $event
+     * @param PirepFiled $event
      */
     public function onPirepFile(PirepFiled $event): void
     {
-        Log::info('NotificationEvents::onPirepFile: '.$event->pirep->id.' filed ');
+        Log::info('NotificationEvents::onPirepFile: '.$event->pirep->id.' filed');
         $this->notifyAdmins(new PirepSubmitted($event->pirep));
     }
 
@@ -194,5 +216,6 @@ class EventHandler extends Listener
     {
         Log::info('NotificationEvents::onNewsAdded');
         $this->notifyAllUsers(new Messages\NewsAdded($event->news));
+        Notification::send([$event->news], new Messages\NewsAdded($event->news));
     }
 }
