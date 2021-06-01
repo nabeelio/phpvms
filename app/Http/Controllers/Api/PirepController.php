@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Contracts\Controller;
-use App\Events\PirepStatusChange;
 use App\Events\PirepUpdated;
 use App\Exceptions\AircraftPermissionDenied;
 use App\Exceptions\PirepCancelled;

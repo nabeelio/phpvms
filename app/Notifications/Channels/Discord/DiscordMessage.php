@@ -6,8 +6,6 @@ use Carbon\Carbon;
 
 /**
  * Original is from https://gist.github.com/freekmurze/e4415090f650e070d3de8b905875cf78
- *
- * @package App\Notifications\Channels\Discord
  */
 class DiscordMessage
 {
@@ -52,7 +50,6 @@ class DiscordMessage
 
     /**
      * @param array|string $descriptionLines
-     *
      */
     public function description($descriptionLines): self
     {
@@ -128,9 +125,9 @@ class DiscordMessage
                     'type'        => 'rich',
                     'description' => $this->description,
                     // 'color'       => hexdec($this->color),
-                    'author'      => $this->author,
-                    'fields'      => $this->fields,
-                    'footer'      => [
+                    'author' => $this->author,
+                    'fields' => $this->fields,
+                    'footer' => [
                         'text' => $this->footer ?? '',
                     ],
                     'timestamp' => Carbon::now('UTC'),

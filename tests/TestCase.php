@@ -2,7 +2,6 @@
 
 namespace Tests;
 
-use App\Contracts\Model;
 use App\Contracts\Unit;
 use App\Exceptions\Handler;
 use App\Repositories\SettingRepository;
@@ -17,7 +16,6 @@ use GuzzleHttp\Psr7\Response;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Routing\Middleware\ThrottleRequests;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Testing\TestResponse;

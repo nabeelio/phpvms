@@ -3,12 +3,10 @@
 namespace App\Notifications\Messages;
 
 use App\Contracts\Notification;
-use App\Models\Pirep;
 use App\Models\User;
 use App\Notifications\Channels\Discord\Discord;
 use App\Notifications\Channels\Discord\DiscordMessage;
 use App\Notifications\Channels\MailChannel;
-use App\Support\Units\Time;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
 class AdminUserRegistered extends Notification implements ShouldQueue
@@ -42,7 +40,8 @@ class AdminUserRegistered extends Notification implements ShouldQueue
     /**
      * Send a Discord notification
      *
-     * @param User $pirep
+     * @param User  $pirep
+     * @param mixed $user
      *
      * @return DiscordMessage
      */

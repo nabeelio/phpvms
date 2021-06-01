@@ -4,8 +4,8 @@ namespace App\Notifications\Channels\Discord;
 
 use App\Contracts\Notification;
 use App\Support\HttpClient;
-use GuzzleHttp\Psr7;
 use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Psr7;
 use Illuminate\Support\Facades\Log;
 
 class Discord

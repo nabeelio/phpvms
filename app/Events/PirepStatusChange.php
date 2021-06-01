@@ -7,8 +7,6 @@ use App\Models\Pirep;
 
 /**
  * Status change like Boarding, Taxi, etc
- *
- * @package App\Events
  */
 class PirepStatusChange extends Event
 {

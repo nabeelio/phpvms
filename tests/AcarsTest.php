@@ -2,8 +2,6 @@
 
 namespace Tests;
 
-use App\Events\PirepPrefiled;
-use App\Events\PirepStatusChange;
 use App\Exceptions\AircraftNotAtAirport;
 use App\Exceptions\UserNotAtAirport;
 use App\Models\Acars;

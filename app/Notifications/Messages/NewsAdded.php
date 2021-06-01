@@ -3,12 +3,10 @@
 namespace App\Notifications\Messages;
 
 use App\Contracts\Notification;
-use App\Models\Enums\PirepStatus;
 use App\Models\News;
 use App\Notifications\Channels\Discord\Discord;
 use App\Notifications\Channels\Discord\DiscordMessage;
 use App\Notifications\Channels\MailChannel;
-use App\Support\Units\Time;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
 class NewsAdded extends Notification implements ShouldQueue

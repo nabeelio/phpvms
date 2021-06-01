@@ -3,8 +3,6 @@
 namespace App\Models;
 
 use App\Contracts\Model;
-use App\Events\PirepAccepted;
-use App\Events\PirepFiled;
 use App\Events\PirepStateChange;
 use App\Events\PirepStatusChange;
 use App\Models\Enums\AcarsType;
@@ -149,8 +147,8 @@ class Pirep extends Model
      * Auto-dispatch events for lifecycle state changes
      */
     protected $dispatchesEvents = [
-        'status:*'         => PirepStatusChange::class,
-        'state:*'          => PirepStateChange::class,
+        'status:*' => PirepStatusChange::class,
+        'state:*'  => PirepStateChange::class,
     ];
 
     /*
