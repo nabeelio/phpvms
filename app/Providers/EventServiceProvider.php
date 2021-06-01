@@ -40,7 +40,7 @@ class EventServiceProvider extends ServiceProvider
 
         UpdateAvailable::class => [],
         UpdateSucceeded::class => [],
-        ProfileUpdated::class => [],
+        ProfileUpdated::class  => [],
         
         // Log messages out to the console if running there
         'Illuminate\Log\Events\MessageLogged' => [
