@@ -176,11 +176,13 @@ class PirepFinanceService extends Service
 
         if (setting('pireps.advanced_fuel', false)) {
             // Reading second row by skip(1) to reach the previous accepted pirep. Current pirep is at the first row
+            // To get proper fuel values, we need to fetch current pirep and older ones only. Scenario: ReCalculating finances
             $prev_flight = Pirep::where([
                 'aircraft_id' => $pirep->aircraft->id,
                 'state'       => PirepState::ACCEPTED,
                 'status'      => PirepStatus::ARRIVED,
             ])
+                ->where('submitted_at', '<=', $pirep->submitted_at)
                 ->orderby('submitted_at', 'desc')
                 ->skip(1)
                 ->first();

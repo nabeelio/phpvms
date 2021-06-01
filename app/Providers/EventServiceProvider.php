@@ -42,6 +42,12 @@ class EventServiceProvider extends ServiceProvider
         UpdateSucceeded::class => [],
 
         ProfileUpdated::class => [],
+      
+        // Log messages out to the console if running there
+        'Illuminate\Log\Events\MessageLogged' => [
+            'App\Listeners\MessageLoggedListener',
+        ],
+
     ];
 
     protected $subscribe = [

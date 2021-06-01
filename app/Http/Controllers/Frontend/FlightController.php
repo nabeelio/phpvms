@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Contracts\Controller;
 use App\Models\Bid;
 use App\Models\Enums\FlightType;
+use App\Models\Flight;
 use App\Repositories\AirlineRepository;
 use App\Repositories\AirportRepository;
 use App\Repositories\Criteria\WhereCriteria;
@@ -105,6 +106,15 @@ class FlightController extends Controller
             Log::emergency($e);
         }
 
+        // Get only used Flight Types for the search form
+        // And filter according to settings
+        $usedtypes = Flight::select('flight_type')->where($where)->groupby('flight_type')->orderby('flight_type', 'asc')->get();
+        // Build collection with type codes and labels
+        $flight_types = collect('', '');
+        foreach ($usedtypes as $ftype) {
+            $flight_types->put($ftype->flight_type, FlightType::label($ftype->flight_type));
+        }
+
         $flights = $this->flightRepo->searchCriteria($request)
             ->with([
                 'dpt_airport',
@@ -128,7 +138,7 @@ class FlightController extends Controller
             'saved'         => $saved_flights,
             'subfleets'     => $this->subfleetRepo->selectBoxList(true),
             'flight_number' => $request->input('flight_number'),
-            'flight_types'  => FlightType::select(true),
+            'flight_types'  => $flight_types,
             'flight_type'   => $request->input('flight_type'),
             'arr_icao'      => $request->input('arr_icao'),
             'dep_icao'      => $request->input('dep_icao'),

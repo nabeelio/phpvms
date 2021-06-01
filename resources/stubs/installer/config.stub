@@ -13,11 +13,11 @@ return [
         'url'  => '$APP_URL$',
 
         // When live, 'env' should be 'prod'
-        'env'   => 'prod',
+        'env'   => 'production',
 
         // debug as true shows the Laravel debug bar, which is helpful for
         // debugging templates and other internals
-        'debug'         => true,
+        'debug'         => false,
         'debug_toolbar' => false,
     ],
 

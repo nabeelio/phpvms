@@ -11,7 +11,7 @@ if (!function_exists('createFactoryICAO')) {
         $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
         $max = strlen($characters) - 1;
         $string = '';
-        for ($i = 0; $i < 4; $i++) {
+        for ($i = 0; $i < 5; $i++) {
             try {
                 $string .= $characters[random_int(0, $max)];
             } catch (Exception $e) {

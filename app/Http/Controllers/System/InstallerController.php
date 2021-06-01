@@ -25,7 +25,6 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
 use function in_array;
-use Laracasts\Flash\Flash;
 use RuntimeException;
 
 class InstallerController extends Controller

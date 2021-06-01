@@ -14,6 +14,7 @@ RUN docker-php-ext-install \
   calendar \
   intl \
   pdo_mysql \
+  gd \
   gmp \
   opcache && \
   docker-php-ext-enable pdo_mysql opcache
@@ -25,5 +26,7 @@ RUN php composer.phar install \
     --no-plugins \
     --no-scripts \
     --prefer-dist
+
+RUN chown -R www-data:www-data /var/www
 
 EXPOSE 9000
