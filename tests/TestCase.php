@@ -60,16 +60,7 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
         Artisan::call('database:create', ['--reset' => true]);
         Artisan::call('migrate:refresh', ['--env' => 'testing', '--force' => true]);
 
-        // Notification::fake();
-        $this->updateSetting(
-            'notifications.discord_public_webhook_url',
-            'https://discord.com/api/webhooks/849318832114761729/okyDg4Q5yhk8w9w9K0bj7D7FegxUCT1_MFVxuHNQbJzw0KkmmhSofj8BWaW2C-_5WoSJ'
-        );
-
-        $this->updateSetting(
-            'notifications.discord_private_webhook_url',
-            'https://discord.com/api/webhooks/849318832114761729/okyDg4Q5yhk8w9w9K0bj7D7FegxUCT1_MFVxuHNQbJzw0KkmmhSofj8BWaW2C-_5WoSJ'
-        );
+        Notification::fake();
         // $this->disableExceptionHandling();
     }
 

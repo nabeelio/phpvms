@@ -89,6 +89,7 @@ class PirepStatusChanged extends Notification implements ShouldQueue
         // Show the distance, but include the planned distance if it's been set
         if ($pirep->distance) {
             $unit = config('phpvms.internal_units.distance');
+
             try {
                 $planned_distance = new Distance($pirep->distance, $unit);
                 $pd = $planned_distance[$planned_distance->unit];

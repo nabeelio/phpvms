@@ -42,7 +42,6 @@ class PirepSubmitted extends Notification implements ShouldQueue
         return ['mail', Discord::class];
     }
 
-
     /**
      * Send a Discord notification
      *

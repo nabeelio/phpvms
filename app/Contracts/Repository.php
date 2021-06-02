@@ -4,9 +4,9 @@ namespace App\Contracts;
 
 use Exception;
 use Illuminate\Validation\Validator;
+use function is_array;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Exceptions\RepositoryException;
-use function is_array;
 
 /**
  * @mixin BaseRepository
