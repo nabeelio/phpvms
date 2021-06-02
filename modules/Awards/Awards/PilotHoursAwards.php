@@ -3,7 +3,7 @@
 namespace Modules\Awards\Awards;
 
 use App\Contracts\Award;
-use Log;
+use Illuminate\Support\Facades\Log;
 
 /**
  * All award classes need to extend Award and implement the check() method

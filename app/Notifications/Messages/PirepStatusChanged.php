@@ -20,6 +20,33 @@ class PirepStatusChanged extends Notification implements ShouldQueue
 {
     private $pirep;
 
+    // TODO: Int'l languages for these
+    protected static $verbs = [
+        PirepStatus::INITIATED     => 'is initialized',
+        PirepStatus::SCHEDULED     => 'is scheduled',
+        PirepStatus::BOARDING      => 'is boarding',
+        PirepStatus::RDY_START     => 'is ready for status',
+        PirepStatus::PUSHBACK_TOW  => 'is pushing back',
+        PirepStatus::DEPARTED      => 'has departed',
+        PirepStatus::RDY_DEICE     => 'is ready for de-icing',
+        PirepStatus::STRT_DEICE    => 'is de-icing',
+        PirepStatus::GRND_RTRN     => 'on ground return',
+        PirepStatus::TAXI          => 'is taxiing',
+        PirepStatus::TAKEOFF       => 'has taken off',
+        PirepStatus::INIT_CLIM     => 'in initial climb',
+        PirepStatus::AIRBORNE      => 'is enroute',
+        PirepStatus::ENROUTE       => 'is enroute',
+        PirepStatus::DIVERTED      => 'has diverted',
+        PirepStatus::APPROACH      => 'on approach',
+        PirepStatus::APPROACH_ICAO => 'on approach',
+        PirepStatus::ON_FINAL      => 'on final approach',
+        PirepStatus::LANDING       => 'is landing',
+        PirepStatus::LANDED        => 'has landed',
+        PirepStatus::ARRIVED       => 'has arrived',
+        PirepStatus::CANCELLED     => 'has cancelled',
+        PirepStatus::EMERG_DESCENT => 'in emergency descent',
+    ];
+
     /**
      * Create a new notification instance.
      *
@@ -41,11 +68,16 @@ class PirepStatusChanged extends Notification implements ShouldQueue
      *
      * @param Pirep $pirep
      *
-     * @return DiscordMessage
+     * @return DiscordMessage|null
      */
-    public function toDiscordChannel($pirep): DiscordMessage
+    public function toDiscordChannel($pirep): ?DiscordMessage
     {
-        $title = 'Flight '.$pirep->airline->code.$pirep->ident.' is now '.PirepStatus::label($pirep->status);
+        if (empty(setting('notifications.discord_public_webhook_url'))) {
+            return null;
+        }
+
+        $title = 'Flight '.$pirep->airline->code.$pirep->ident.' '.self::$verbs[$pirep->status];
+
         $fields = [
             'Flight'            => $pirep->airline->code.$pirep->ident,
             'Departure Airport' => $pirep->dpt_airport_id,
@@ -54,34 +86,26 @@ class PirepStatusChanged extends Notification implements ShouldQueue
             'Flight Time'       => Time::minutesToTimeString($pirep->flight_time),
         ];
 
+        // Show the distance, but include the planned distance if it's been set
         if ($pirep->distance) {
+            $unit = config('phpvms.internal_units.distance');
             try {
-                $planned_distance = new Distance(
-                    $pirep->distance,
-                    config('phpvms.internal_units.distance')
-                );
-
+                $planned_distance = new Distance($pirep->distance, $unit);
                 $pd = $planned_distance[$planned_distance->unit];
                 $fields['Distance'] = $pd;
 
                 // Add the planned distance in
                 if ($pirep->planned_distance) {
                     try {
-                        $planned_distance = new Distance(
-                            $pirep->planned_distance,
-                            config('phpvms.internal_units.distance')
-                        );
-
+                        $planned_distance = new Distance($pirep->planned_distance, $unit);
                         $pd = $planned_distance[$planned_distance->unit];
                         $fields['Distance'] .= '/'.$pd;
-                    } catch (NonNumericValue $e) {
-                    } catch (NonStringUnitName $e) {
+                    } catch (NonNumericValue | NonStringUnitName $e) {
                     }
                 }
 
                 $fields['Distance'] .= ' '.$planned_distance->unit;
-            } catch (NonNumericValue $e) {
-            } catch (NonStringUnitName $e) {
+            } catch (NonNumericValue | NonStringUnitName $e) {
             }
         }
 
@@ -89,6 +113,7 @@ class PirepStatusChanged extends Notification implements ShouldQueue
         return $dm->webhook(setting('notifications.discord_public_webhook_url'))
             ->success()
             ->title($title)
+            ->description($pirep->user->discord_id ? 'Flight by <@'.$pirep->user->discord_id.'>' : '')
             ->url(route('frontend.pireps.show', [$pirep->id]))
             ->author([
                 'name'     => $pirep->user->ident.' - '.$pirep->user->name_private,

@@ -13,8 +13,6 @@ use App\Events\UserRegistered;
 use App\Events\UserStateChanged;
 use App\Models\Enums\UserState;
 use App\Models\User;
-use App\Notifications\Messages\PirepSubmitted;
-use App\Notifications\Messages\UserPending;
 use App\Notifications\Messages\UserRejected;
 use App\Notifications\Notifiables\Broadcast;
 use Exception;
@@ -25,7 +23,7 @@ use Illuminate\Support\Facades\Notification;
 /**
  * Listen for different events and map them to different notifications
  */
-class EventHandler extends Listener
+class NotificationEventsHandler extends Listener
 {
     private static $broadcastNotifyable;
 
@@ -60,7 +58,8 @@ class EventHandler extends Listener
             }
 
             try {
-                Notification::send([$user], $notification);
+                $this->notifyUser($user, $notification);
+                // Notification::send([$user], $notification);
             } catch (Exception $e) {
                 Log::emergency('Error emailing admin ('.$user->email.'). Error='.$e->getMessage());
             }
@@ -122,18 +121,23 @@ class EventHandler extends Listener
             .UserState::label($event->user->state).', sending active email');
 
         /*
-         * Send all of the admins a notification that a new user registered
-         */
-        $this->notifyAdmins(new Messages\AdminUserRegistered($event->user));
-
-        /*
          * Send the user a confirmation email
          */
         if ($event->user->state === UserState::ACTIVE) {
             $this->notifyUser($event->user, new Messages\UserRegistered($event->user));
         } elseif ($event->user->state === UserState::PENDING) {
-            $this->notifyUser($event->user, new UserPending($event->user));
+            $this->notifyUser($event->user, new Messages\UserPending($event->user));
         }
+
+        /*
+         * Send all of the admins a notification that a new user registered
+         */
+        $this->notifyAdmins(new Messages\AdminUserRegistered($event->user));
+
+        /**
+         * Discord and other notifications
+         */
+        Notification::send([$event->user], new Messages\AdminUserRegistered($event->user));
     }
 
     /**
@@ -182,7 +186,8 @@ class EventHandler extends Listener
     public function onPirepFile(PirepFiled $event): void
     {
         Log::info('NotificationEvents::onPirepFile: '.$event->pirep->id.' filed');
-        $this->notifyAdmins(new PirepSubmitted($event->pirep));
+        $this->notifyAdmins(new Messages\PirepSubmitted($event->pirep));
+        Notification::send([$event->pirep], new Messages\PirepSubmitted($event->pirep));
     }
 
     /**

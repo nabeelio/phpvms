@@ -6,6 +6,8 @@ use Carbon\Carbon;
 
 /**
  * Original is from https://gist.github.com/freekmurze/e4415090f650e070d3de8b905875cf78
+ *
+ * Markdown guide: https://birdie0.github.io/discord-webhooks-guide/other/discord_markdown.html
  */
 class DiscordMessage
 {
@@ -82,7 +84,7 @@ class DiscordMessage
         $this->fields = [];
         foreach ($fields as $name => $value) {
             $this->fields[] = [
-                'name'   => '__'.$name.'__', // bold
+                'name'   => '**'.$name.'**', // bold
                 'value'  => $value,
                 'inline' => true,
             ];

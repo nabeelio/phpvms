@@ -20,8 +20,7 @@ class Discord
     public function send($notifiable, Notification $notification)
     {
         $message = $notification->toDiscordChannel($notifiable);
-
-        if (empty($message->webhook_url)) {
+        if ($message === null || empty($message->webhook_url)) {
             Log::debug('Discord notifications not configured, skipping');
             return;
         }

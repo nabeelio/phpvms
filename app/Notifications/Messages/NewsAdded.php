@@ -12,6 +12,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 class NewsAdded extends Notification implements ShouldQueue
 {
     use MailChannel;
+
     public $requires_opt_in = true;
 
     private $news;
@@ -36,10 +37,14 @@ class NewsAdded extends Notification implements ShouldQueue
     /**
      * @param News $news
      *
-     * @return DiscordMessage|array
+     * @return DiscordMessage|null
      */
-    public function toDiscordChannel($news): DiscordMessage
+    public function toDiscordChannel($news): ?DiscordMessage
     {
+        if (empty(setting('notifications.discord_public_webhook_url'))) {
+            return null;
+        }
+
         $dm = new DiscordMessage();
         return $dm->webhook(setting('notifications.discord_public_webhook_url'))
             ->success()

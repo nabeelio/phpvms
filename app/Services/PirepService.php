@@ -519,12 +519,23 @@ class PirepService extends Service
      */
     public function delete(Pirep $pirep): void
     {
+        $user_id = $pirep->user_id;
+
         $w = ['pirep_id' => $pirep->id];
         PirepComment::where($w)->forceDelete();
         PirepFare::where($w)->forceDelete();
         PirepFieldValue::where($w)->forceDelete();
         SimBrief::where($w)->forceDelete();
         $pirep->forceDelete();
+
+        // Update the user's last PIREP
+        $last_pirep = Pirep::where(['user_id' => $user_id, 'state' => PirepState::ACCEPTED])
+            ->latest('submitted_at')
+            ->first();
+
+        $user = User::find($user_id);
+        $user->last_pirep_id = !empty($last_pirep) ? $last_pirep->id : null;
+        $user->save();
     }
 
     /**

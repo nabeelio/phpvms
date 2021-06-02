@@ -26,7 +26,10 @@
       </tr>
 
       <tr>
-        <td>Discord ID</td>
+        <td>Discord ID <span class="small">
+            <a href="https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID-" target="_blank">
+              How to find your ID</a></span>
+        </td>
         <td>
           <div class="input-group form-group-no-border{{ $errors->has('discord_id') ? ' has-danger' : '' }}">
             {{ Form::text('discord_id', null, ['class' => 'form-control']) }}

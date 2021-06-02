@@ -43,10 +43,14 @@ class AdminUserRegistered extends Notification implements ShouldQueue
      * @param User  $pirep
      * @param mixed $user
      *
-     * @return DiscordMessage
+     * @return DiscordMessage|null
      */
-    public function toDiscordChannel($user): DiscordMessage
+    public function toDiscordChannel($user): ?DiscordMessage
     {
+        if (empty(setting('notifications.discord_private_webhook_url'))) {
+            return null;
+        }
+
         $dm = new DiscordMessage();
         return $dm->webhook(setting('notifications.discord_private_webhook_url'))
             ->success()

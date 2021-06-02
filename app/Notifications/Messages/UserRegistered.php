@@ -4,6 +4,7 @@ namespace App\Notifications\Messages;
 
 use App\Contracts\Notification;
 use App\Models\User;
+use App\Notifications\Channels\Discord\Discord;
 use App\Notifications\Channels\MailChannel;
 use Illuminate\Contracts\Queue\ShouldQueue;
 

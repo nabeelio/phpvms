@@ -40,10 +40,14 @@ class PirepPrefiled extends Notification implements ShouldQueue
      *
      * @param Pirep $pirep
      *
-     * @return DiscordMessage
+     * @return DiscordMessage|null
      */
-    public function toDiscordChannel($pirep): DiscordMessage
+    public function toDiscordChannel($pirep): ?DiscordMessage
     {
+        if (empty(setting('notifications.discord_public_webhook_url'))) {
+            return null;
+        }
+
         $title = 'Flight '.$pirep->airline->code.$pirep->ident.' Prefiled';
         $fields = [
             'Flight'                => $pirep->airline->code.$pirep->ident,
@@ -71,6 +75,7 @@ class PirepPrefiled extends Notification implements ShouldQueue
         return $dm->webhook(setting('notifications.discord_public_webhook_url'))
             ->success()
             ->title($title)
+            ->description($pirep->user->discord_id ? 'Flight by <@'.$pirep->user->discord_id.'>' : '')
             ->url(route('frontend.pireps.show', [$pirep->id]))
             ->author([
                 'name'     => $pirep->user->ident.' - '.$pirep->user->name_private,

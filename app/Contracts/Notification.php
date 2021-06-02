@@ -39,8 +39,11 @@ class Notification extends \Illuminate\Notifications\Notification implements Sho
         return $this->channels;
     }*/
 
-    public function toDiscordChannel($notifiable): DiscordMessage
+    /**
+     * @return DiscordMessage|null
+     */
+    public function toDiscordChannel($notifiable): ?DiscordMessage
     {
-        return new DiscordMessage();
+        return null;
     }
 }
