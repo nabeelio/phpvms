@@ -25,7 +25,7 @@ class PirepStatusChanged extends Notification implements ShouldQueue
         PirepStatus::INITIATED     => 'is initialized',
         PirepStatus::SCHEDULED     => 'is scheduled',
         PirepStatus::BOARDING      => 'is boarding',
-        PirepStatus::RDY_START     => 'is ready for status',
+        PirepStatus::RDY_START     => 'is ready for start',
         PirepStatus::PUSHBACK_TOW  => 'is pushing back',
         PirepStatus::DEPARTED      => 'has departed',
         PirepStatus::RDY_DEICE     => 'is ready for de-icing',
