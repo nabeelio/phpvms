@@ -149,7 +149,7 @@ class PirepService extends Service
         }
 
         // See if this aircraft is being used by another user's active simbrief ofp
-        if (setting('simbrief.block_aircraft')) {
+        if (setting('simbrief.block_aircraft', false)) {
             $sb_aircraft = SimBrief::select('aircraft_id')
                 ->where('aircraft_id', $pirep->aircraft_id)
                 ->where('user_id', '!=', $pirep->user_id)
