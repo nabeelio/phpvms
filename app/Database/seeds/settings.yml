@@ -207,13 +207,13 @@
   options: ''
   type: boolean
   description: 'Only allow briefs to be created for bidded flights'
-- key: simbrief.expire_days
+- key: simbrief.expire_hours
   name: 'Simbrief Expire Time'
   group: simbrief
-  value: 5
+  value: 6
   options: ''
   type: number
-  description: 'Days after how long to remove unused briefs'
+  description: 'Hours after how long to remove unused briefs'
 - key: simbrief.noncharter_pax_weight
   name: 'Non-Charter Passenger Weight'
   group: simbrief
@@ -256,6 +256,13 @@
   options: ''
   type: boolean
   description: 'Use privatized user name as SimBrief OFP captain name'
+- key: simbrief.block_aircraft
+  name: 'Restrict Aircraft'
+  group: simbrief
+  value: false
+  options: ''
+  type: boolean
+  description: 'When enabled, an aircraft can only be used for one active SimBrief OFP and Flight/Pirep'
 - key: pireps.duplicate_check_time
   name: 'PIREP duplicate time check'
   group: pireps

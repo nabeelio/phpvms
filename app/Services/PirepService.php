@@ -148,6 +148,18 @@ class PirepService extends Service
             throw new AircraftNotAvailable($pirep->aircraft);
         }
 
+        // See if this aircraft is being used by another user's active simbrief ofp
+        if (setting('simbrief.block_aircraft', false)) {
+            $sb_aircraft = SimBrief::select('aircraft_id')
+                ->where('aircraft_id', $pirep->aircraft_id)
+                ->where('user_id', '!=', $pirep->user_id)
+                ->whereNotNull('flight_id')
+                ->count();
+            if ($sb_aircraft > 0) {
+                throw new AircraftNotAvailable($pirep->aircraft);
+            }
+        }
+
         // See if this aircraft is at the departure airport
         /* @noinspection NotOptimalIfConditionsInspection */
         if (setting('pireps.only_aircraft_at_dpt_airport') && $aircraft->airport_id !== $pirep->dpt_airport_id) {
@@ -164,9 +176,20 @@ class PirepService extends Service
             }
         }
 
-        event(new PirepPrefiled($pirep));
-
         $pirep->save();
+        $pirep->refresh();
+
+        // Check if there is a simbrief_id, update it to have the pirep_id
+        // Keep the flight_id until the end of flight (pirep file)
+        if (array_key_exists('simbrief_id', $attrs)) {
+            /** @var SimBrief $simbrief */
+            $simbrief = SimBrief::find($attrs['simbrief_id']);
+            if ($simbrief) {
+                $this->simBriefSvc->attachSimbriefToPirep($pirep, $simbrief, true);
+            }
+        }
+
+        event(new PirepPrefiled($pirep));
 
         return $pirep;
     }
@@ -424,6 +447,19 @@ class PirepService extends Service
         } else {
             if ($pirep->user->rank->auto_approve_manual) {
                 $default_state = PirepState::ACCEPTED;
+            }
+        }
+
+        // Check if there is a simbrief_id, change it to be set to the PIREP
+        // at the end of the flight when it's been submitted finally.
+        // Prefile, Save (as draft) and File already have this but the Submit button
+        // visible at pireps.show blade uses this function so Simbrief also needs to
+        // checked here too (to remove the flight_id and release the aircraft)
+        if (!empty($pirep->simbrief)) {
+            /** @var SimBrief $simbrief */
+            $simbrief = SimBrief::find($pirep->simbrief->id);
+            if ($simbrief) {
+                $this->simBriefSvc->attachSimbriefToPirep($pirep, $simbrief);
             }
         }
 
