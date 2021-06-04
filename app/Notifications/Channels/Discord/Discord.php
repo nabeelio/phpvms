@@ -29,8 +29,10 @@ class Discord
             $data = $message->toArray();
             $this->httpClient->post($message->webhook_url, $data);
         } catch (RequestException $e) {
+            $request = Psr7\Message::toString($e->getRequest());
             $response = Psr7\Message::toString($e->getResponse());
-            Log::error('Error sending Discord notification: '.$e->getMessage().', '.$response);
+            Log::error('Error sending Discord notification: request: '.$e->getMessage().', '.$request);
+            Log::error('Error sending Discord notification: response: '.$response);
         }
     }
 }
