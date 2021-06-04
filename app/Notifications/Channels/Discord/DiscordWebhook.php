@@ -8,7 +8,7 @@ use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7;
 use Illuminate\Support\Facades\Log;
 
-class Discord
+class DiscordWebhook
 {
     private $httpClient;
 
