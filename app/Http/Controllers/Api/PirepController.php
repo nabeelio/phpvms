@@ -25,10 +25,8 @@ use App\Models\Pirep;
 use App\Models\PirepComment;
 use App\Models\PirepFare;
 use App\Models\PirepFieldValue;
-use App\Repositories\AcarsRepository;
 use App\Repositories\JournalRepository;
 use App\Repositories\PirepRepository;
-use App\Services\FareService;
 use App\Services\Finance\PirepFinanceService;
 use App\Services\PirepService;
 use App\Services\UserService;
@@ -39,8 +37,6 @@ use Illuminate\Support\Facades\Log;
 
 class PirepController extends Controller
 {
-    private $acarsRepo;
-    private $fareSvc;
     private $financeSvc;
     private $journalRepo;
     private $pirepRepo;
@@ -48,8 +44,6 @@ class PirepController extends Controller
     private $userSvc;
 
     /**
-     * @param AcarsRepository     $acarsRepo
-     * @param FareService         $fareSvc
      * @param PirepFinanceService $financeSvc
      * @param JournalRepository   $journalRepo
      * @param PirepRepository     $pirepRepo
@@ -57,16 +51,12 @@ class PirepController extends Controller
      * @param UserService         $userSvc
      */
     public function __construct(
-        AcarsRepository $acarsRepo,
-        FareService $fareSvc,
         PirepFinanceService $financeSvc,
         JournalRepository $journalRepo,
         PirepRepository $pirepRepo,
         PirepService $pirepSvc,
         UserService $userSvc
     ) {
-        $this->acarsRepo = $acarsRepo;
-        $this->fareSvc = $fareSvc;
         $this->financeSvc = $financeSvc;
         $this->journalRepo = $journalRepo;
         $this->pirepRepo = $pirepRepo;
@@ -103,7 +93,7 @@ class PirepController extends Controller
     /**
      * Check if a PIREP is cancelled
      *
-     * @param $pirep
+     * @param Pirep $pirep
      *
      * @throws \App\Exceptions\PirepCancelled
      */
