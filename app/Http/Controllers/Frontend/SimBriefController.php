@@ -100,6 +100,13 @@ class SimBriefController
                 $aircrafts = $aircrafts->where('airport_id', $flight->dpt_airport_id);
             }
 
+            if (setting('simbrief.block_aircraft')) {
+                // Build a list of aircraft_id's being used for active sb packs
+                $sb_aircraft = SimBrief::whereNotNull('flight_id')->pluck('aircraft_id');
+                // Filter aircraft list to non used/blocked ones
+                $aircrafts = $aircrafts->whereNotIn('id', $sb_aircraft);
+            }
+
             return view('flights.simbrief_aircraft', [
                 'flight'    => $flight,
                 'aircrafts' => $aircrafts,

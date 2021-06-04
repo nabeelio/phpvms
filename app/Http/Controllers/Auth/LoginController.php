@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Contracts\Controller;
 use App\Exceptions\PilotIdNotFound;
 use App\Models\Enums\UserState;
+use App\Models\User;
 use App\Services\UserService;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
@@ -104,14 +105,16 @@ class LoginController extends Controller
      */
     protected function sendLoginResponse(Request $request)
     {
+        /** @var User $user */
         $user = Auth::user();
 
-        $user->last_ip = $request->ip();
-        $user->save();
+        if (setting('general.record_user_ip', true)) {
+            $user->last_ip = $request->ip();
+            $user->save();
+        }
 
         if ($user->state !== UserState::ACTIVE && $user->state !== UserState::ON_LEAVE) {
-            Log::info('Trying to login '.$user->ident.', state '
-                .UserState::label($user->state));
+            Log::info('Trying to login '.$user->ident.', state '.UserState::label($user->state));
 
             // Log them out
             $this->guard()->logout();

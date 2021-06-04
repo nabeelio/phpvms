@@ -292,14 +292,14 @@ class FareService extends Service
     /**
      * Save the list of fares
      *
-     * @param Pirep $pirep
-     * @param array $fares ['fare_id', 'count']
+     * @param Pirep       $pirep
+     * @param PirepFare[] $fares
      *
      * @throws \Exception
      */
     public function saveForPirep(Pirep $pirep, array $fares)
     {
-        if (!$fares) {
+        if (!$fares || empty($fares)) {
             return;
         }
 
@@ -308,13 +308,9 @@ class FareService extends Service
 
         // Add them in
         foreach ($fares as $fare) {
-            $fare['pirep_id'] = $pirep->id;
-            // other fields: ['fare_id', 'count']
-
+            $fare->pirep_id = $pirep->id;
             Log::info('Saving fare pirep='.$pirep->id.', fare='.$fare['count']);
-
-            $field = new PirepFare($fare);
-            $field->save();
+            $fare->save();
         }
     }
 }

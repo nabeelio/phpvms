@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Contracts\Model;
+use Illuminate\Notifications\Notifiable;
 
 /**
  * @property int       id
@@ -13,6 +14,8 @@ use App\Contracts\Model;
  */
 class News extends Model
 {
+    use Notifiable;
+
     public $table = 'news';
 
     protected $fillable = [
