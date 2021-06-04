@@ -13,6 +13,7 @@ use App\Models\Flight;
 use App\Models\Journal;
 use App\Models\JournalTransaction;
 use App\Models\Pirep;
+use App\Models\PirepFare;
 use App\Models\Subfleet;
 use App\Models\User;
 use App\Repositories\ExpenseRepository;
@@ -25,6 +26,7 @@ use App\Services\PirepService;
 use App\Support\Math;
 use App\Support\Money;
 use Exception;
+use Illuminate\Database\Eloquent\Model;
 
 class FinanceTest extends TestCase
 {
@@ -763,11 +765,10 @@ class FinanceTest extends TestCase
         // Override the fares
         $fare_counts = [];
         foreach ($fares as $fare) {
-            $fare_counts[] = [
+            $fare_counts[] = new PirepFare([
                 'fare_id' => $fare->id,
-                'price'   => $fare->price,
                 'count'   => round($fare->capacity / 2),
-            ];
+            ]);
         }
 
         $this->fareSvc->saveForPirep($pirep, $fare_counts);
@@ -777,7 +778,7 @@ class FinanceTest extends TestCase
         foreach ($all_fares as $fare) {
             $set_fare = $fare_counts->where('fare_id', $fare->id)->first();
             $this->assertEquals($set_fare['count'], $fare->count);
-            $this->assertEquals($set_fare['price'], $fare->price);
+            $this->assertNotEmpty($fare->price);
         }
     }
 
@@ -892,11 +893,10 @@ class FinanceTest extends TestCase
         // Override the fares
         $fare_counts = [];
         foreach ($fares as $fare) {
-            $fare_counts[] = [
+            $fare_counts[] = new PirepFare([
                 'fare_id' => $fare->id,
-                'price'   => $fare->price,
                 'count'   => 100,
-            ];
+            ]);
         }
 
         $this->fareSvc->saveForPirep($pirep, $fare_counts);
@@ -948,11 +948,10 @@ class FinanceTest extends TestCase
         // Override the fares
         $fare_counts = [];
         foreach ($fares as $fare) {
-            $fare_counts[] = [
+            $fare_counts[] = new PirepFare([
                 'fare_id' => $fare->id,
-                'price'   => $fare->price,
                 'count'   => 100,
-            ];
+            ]);
         }
 
         $this->fareSvc->saveForPirep($pirep, $fare_counts);
@@ -1074,11 +1073,11 @@ class FinanceTest extends TestCase
         // Override the fares
         $fare_counts = [];
         foreach ($fares as $fare) {
-            $fare_counts[] = [
+            $fare_counts[] = new PirepFare([
                 'fare_id' => $fare->id,
                 'price'   => $fare->price,
                 'count'   => 100,
-            ];
+            ]);
         }
 
         $this->fareSvc->saveForPirep($pirep, $fare_counts);

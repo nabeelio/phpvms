@@ -23,6 +23,8 @@ use App\Models\Enums\PirepFieldSource;
 use App\Models\Enums\PirepSource;
 use App\Models\Pirep;
 use App\Models\PirepComment;
+use App\Models\PirepFare;
+use App\Models\PirepFieldValue;
 use App\Repositories\AcarsRepository;
 use App\Repositories\JournalRepository;
 use App\Repositories\PirepRepository;
@@ -113,50 +115,52 @@ class PirepController extends Controller
     }
 
     /**
-     * @param         $pirep
      * @param Request $request
+     *
+     * @return PirepFieldValue[]
      */
-    protected function updateFields($pirep, Request $request)
+    protected function getFields(Request $request): ?array
     {
         if (!$request->filled('fields')) {
-            return;
+            return [];
         }
 
         $pirep_fields = [];
         foreach ($request->input('fields') as $field_name => $field_value) {
-            $pirep_fields[] = [
+            $pirep_fields[] = new PirepFieldValue([
                 'name'   => $field_name,
                 'value'  => $field_value,
                 'source' => PirepFieldSource::ACARS,
-            ];
+            ]);
         }
 
-        $this->pirepSvc->updateCustomFields($pirep->id, $pirep_fields);
+        return $pirep_fields;
     }
 
     /**
      * Save the fares
      *
-     * @param         $pirep
      * @param Request $request
+     *
+     * @return PirepFare[]
      *
      * @throws \Exception
      */
-    protected function updateFares($pirep, Request $request)
+    protected function getFares(Request $request): ?array
     {
         if (!$request->filled('fares')) {
-            return;
+            return [];
         }
 
         $fares = [];
         foreach ($request->post('fares') as $fare) {
-            $fares[] = [
+            $fares[] = new PirepFare([
                 'fare_id' => $fare['id'],
                 'count'   => $fare['count'],
-            ];
+            ]);
         }
 
-        $this->fareSvc->saveForPirep($pirep, $fares);
+        return $fares;
     }
 
     /**
@@ -210,13 +214,12 @@ class PirepController extends Controller
         $attrs = $this->parsePirep($request);
         $attrs['source'] = PirepSource::ACARS;
 
-        $pirep = $this->pirepSvc->prefile($user, $attrs);
+        $fields = $this->getFields($request);
+        $fares = $this->getFares($request);
+        $pirep = $this->pirepSvc->prefile($user, $attrs, $fields, $fares);
 
         Log::info('PIREP PREFILED');
         Log::info($pirep->id);
-
-        $this->updateFields($pirep, $request);
-        $this->updateFares($pirep, $request);
 
         return $this->get($pirep->id);
     }
@@ -258,11 +261,9 @@ class PirepController extends Controller
             }
         }
 
-        /** @var Pirep $pirep */
-        $pirep = $this->pirepRepo->update($attrs, $pirep_id);
-
-        $this->updateFields($pirep, $request);
-        $this->updateFares($pirep, $request);
+        $fields = $this->getFields($request);
+        $fares = $this->getFares($request);
+        $pirep = $this->pirepSvc->update($pirep_id, $attrs, $fields, $fares);
 
         event(new PirepUpdated($pirep));
 
@@ -305,9 +306,9 @@ class PirepController extends Controller
         }
 
         try {
-            $pirep = $this->pirepSvc->file($pirep, $attrs);
-            $this->updateFields($pirep, $request);
-            $this->updateFares($pirep, $request);
+            $fields = $this->getFields($request);
+            $fares = $this->getFares($request);
+            $pirep = $this->pirepSvc->file($pirep, $attrs, $fields, $fares);
         } catch (\Exception $e) {
             Log::error($e);
 
@@ -413,7 +414,8 @@ class PirepController extends Controller
         $pirep = Pirep::find($pirep_id);
         $this->checkCancelled($pirep);
 
-        $this->updateFields($pirep, $request);
+        $fields = $this->getFields($request);
+        $this->pirepSvc->updateCustomFields($pirep_id, $fields);
 
         return new PirepFieldCollection($pirep->fields);
     }

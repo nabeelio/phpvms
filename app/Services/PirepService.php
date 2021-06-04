@@ -45,16 +45,18 @@ class PirepService extends Service
     private $aircraftRepo;
     private $airportRepo;
     private $airportSvc;
+    private $fareSvc;
     private $geoSvc;
     private $pirepRepo;
     private $simBriefSvc;
     private $userSvc;
 
     /**
-     * @param AircraftRepository $aircraftRepo
-     * @param GeoService         $geoSvc
      * @param AirportRepository  $airportRepo
      * @param AirportService     $airportSvc
+     * @param AircraftRepository $aircraftRepo
+     * @param FareService        $fareSvc
+     * @param GeoService         $geoSvc
      * @param PirepRepository    $pirepRepo
      * @param SimBriefService    $simBriefSvc
      * @param UserService        $userSvc
@@ -63,6 +65,7 @@ class PirepService extends Service
         AirportRepository $airportRepo,
         AirportService $airportSvc,
         AircraftRepository $aircraftRepo,
+        FareService $fareSvc,
         GeoService $geoSvc,
         PirepRepository $pirepRepo,
         SimBriefService $simBriefSvc,
@@ -71,6 +74,7 @@ class PirepService extends Service
         $this->airportRepo = $airportRepo;
         $this->airportSvc = $airportSvc;
         $this->aircraftRepo = $aircraftRepo;
+        $this->fareSvc = $fareSvc;
         $this->geoSvc = $geoSvc;
         $this->pirepRepo = $pirepRepo;
         $this->simBriefSvc = $simBriefSvc;
@@ -80,15 +84,17 @@ class PirepService extends Service
     /**
      * Create a prefiled PIREP
      *
-     * @param \App\Models\User $user
-     * @param array            $attrs
+     * @param User              $user
+     * @param array             $attrs
+     * @param PirepFieldValue[] $fields
+     * @param PirepFare[]       $fares
      *
      * @throws AirportNotFound If one of the departure or arrival airports isn't found locally
      * @throws \Exception
      *
      * @return \App\Models\Pirep
      */
-    public function prefile(User $user, array $attrs): Pirep
+    public function prefile(User $user, array $attrs, array $fields = [], array $fares = []): Pirep
     {
         $attrs['user_id'] = $user->id;
         $attrs['state'] = PirepState::IN_PROGRESS;
@@ -190,6 +196,9 @@ class PirepService extends Service
             }
         }
 
+        $this->updateCustomFields($pirep->id, $fields);
+        $this->fareSvc->saveForPirep($pirep, $fares);
+
         event(new PirepPrefiled($pirep));
 
         return $pirep;
@@ -203,10 +212,10 @@ class PirepService extends Service
      *
      * @return Pirep
      */
-    public function create(Pirep $pirep, array $field_values = []): Pirep
+    public function create(Pirep $pirep, array $fields = []): Pirep
     {
-        if (empty($field_values)) {
-            $field_values = [];
+        if (empty($fields)) {
+            $fields = [];
         }
 
         // Check the block times. If a block on (arrival) time isn't
@@ -242,9 +251,23 @@ class PirepService extends Service
         $pirep->save();
         $pirep->refresh();
 
-        if (count($field_values) > 0) {
-            $this->updateCustomFields($pirep->id, $field_values);
-        }
+        $this->updateCustomFields($pirep->id, $fields);
+
+        return $pirep;
+    }
+
+    /**
+     * @param PirepFieldValue[] $fields
+     * @param PirepFare[]       $fares
+     *
+     * @throws \Prettus\Validator\Exceptions\ValidatorException
+     * @throws \Exception
+     */
+    public function update(string $pirep_id, array $attrs, array $fields = [], array $fares = []): Pirep
+    {
+        $pirep = $this->pirepRepo->update($attrs, $pirep_id);
+        $this->updateCustomFields($pirep_id, $fields);
+        $this->fareSvc->saveForPirep($pirep, $fares);
 
         return $pirep;
     }
@@ -252,18 +275,19 @@ class PirepService extends Service
     /**
      * Finalize a PIREP (meaning it's been filed)
      *
-     * @param Pirep                   $pirep
-     * @param array                   $attrs
-     * @param array PirepFieldValue[] $field_values
+     * @param Pirep             $pirep
+     * @param array             $attrs
+     * @param PirepFieldValue[] $fields
+     * @param PirepFare[]       $fares
      *
      * @throws \Exception
      *
      * @return Pirep
      */
-    public function file(Pirep $pirep, array $attrs = [], array $field_values = []): Pirep
+    public function file(Pirep $pirep, array $attrs = [], array $fields = [], array $fares = []): Pirep
     {
-        if (empty($field_values)) {
-            $field_values = [];
+        if (empty($fields)) {
+            $fields = [];
         }
 
         // Check if the PIREP has already been submitted
@@ -320,9 +344,8 @@ class PirepService extends Service
         $pirep->save();
         $pirep->refresh();
 
-        if (count($field_values) > 0) {
-            $this->updateCustomFields($pirep->id, $field_values);
-        }
+        $this->updateCustomFields($pirep->id, $fields);
+        $this->fareSvc->saveForPirep($pirep, $fares);
 
         return $pirep;
     }
@@ -541,19 +564,19 @@ class PirepService extends Service
     /**
      * Update any custom PIREP fields
      *
-     * @param       $pirep_id
-     * @param array $field_values
+     * @param string            $pirep_id
+     * @param PirepFieldValue[] $field_values
      */
-    public function updateCustomFields($pirep_id, array $field_values)
+    public function updateCustomFields(string $pirep_id, array $field_values): void
     {
+        if (!$field_values || empty($field_values)) {
+            return;
+        }
+
         foreach ($field_values as $fv) {
             PirepFieldValue::updateOrCreate(
-                ['pirep_id' => $pirep_id,
-                    'name'  => $fv['name'],
-                ],
-                ['value'     => $fv['value'],
-                    'source' => $fv['source'],
-                ]
+                ['pirep_id' => $pirep_id, 'name'  => $fv->name],
+                ['value'     => $fv->value, 'source' => $fv->source]
             );
         }
     }
@@ -566,7 +589,7 @@ class PirepService extends Service
      *
      * @return Pirep
      */
-    public function changeState(Pirep $pirep, int $new_state)
+    public function changeState(Pirep $pirep, int $new_state): Pirep
     {
         Log::info('PIREP '.$pirep->id.' state change from '.$pirep->state.' to '.$new_state);
 
