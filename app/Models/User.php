@@ -69,6 +69,7 @@ class User extends Authenticatable
         'airline_id',
         'rank_id',
         'discord_id',
+        'discord_private_channel_id',
         'api_key',
         'country',
         'home_airport_id',

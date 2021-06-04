@@ -10,6 +10,7 @@ use App\Repositories\AirlineRepository;
 use App\Repositories\AirportRepository;
 use App\Repositories\UserRepository;
 use App\Support\Countries;
+use App\Support\Discord;
 use App\Support\Timezonelist;
 use App\Support\Utils;
 use Illuminate\Http\Request;
@@ -180,6 +181,16 @@ class ProfileController extends Controller
         if (isset($req_data['avatar']) !== null) {
             Storage::delete($user->avatar);
         }
+
+        // Find out the user's private channel id
+        /*
+        // TODO: Uncomment when Discord API functionality is enabled
+        if ($request->filled('discord_id')) {
+            $discord_id = $request->post('discord_id');
+            if ($discord_id !== $user->discord_id) {
+                $req_data['discord_private_channel_id'] = Discord::getPrivateChannelId($discord_id);
+            }
+        }*/
 
         if ($request->hasFile('avatar')) {
             $avatar = $request->file('avatar');

@@ -28,9 +28,7 @@
 
         A couple of places (like the distance) use both to output the correct bindings.
         --}}
-        <div id="map-info-box" class="map-info-box"
-             rv-show="pirep.id"
-             style="width: {{ $config['width'] }};">
+        <div id="map-info-box" class="map-info-box" rv-show="pirep.id" style="width: {{ $config['width'] }};">
           <div style="float: left; width: 50%;">
             <h3 style="margin: 0" id="map_flight_id">
               <a rv-href="pirep.id | prepend '{{url('/pireps/')}}/'" target="_blank">

@@ -5,7 +5,7 @@ namespace App\Notifications\Messages;
 use App\Contracts\Notification;
 use App\Models\Enums\PirepStatus;
 use App\Models\Pirep;
-use App\Notifications\Channels\Discord\Discord;
+use App\Notifications\Channels\Discord\DiscordWebhook;
 use App\Notifications\Channels\Discord\DiscordMessage;
 use App\Support\Units\Distance;
 use App\Support\Units\Time;
@@ -60,7 +60,7 @@ class PirepStatusChanged extends Notification implements ShouldQueue
 
     public function via($notifiable)
     {
-        return [Discord::class];
+        return [DiscordWebhook::class];
     }
 
     /**

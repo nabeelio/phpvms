@@ -167,6 +167,7 @@ class PirepController extends Controller
             'comments',
             'flight',
             'simbrief',
+            'position',
             'user',
         ];
 
