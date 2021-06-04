@@ -6,10 +6,7 @@ use App\Contracts\Listener;
 use App\Events\PirepPrefiled;
 
 /**
- * Look for and run any of the award classes. Don't modify this.
- * See the documentation on creating awards:
- *
- * @url http://docs.phpvms.net/customizing/awards
+ * Handler for PIREP events
  */
 class PirepEventsHandler extends Listener
 {

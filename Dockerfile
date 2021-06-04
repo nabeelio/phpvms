@@ -2,7 +2,7 @@ FROM php:7.4-fpm-alpine
 
 WORKDIR /var/www/
 
-RUN apk add gmp-dev icu-dev
+RUN apk add gmp-dev icu-dev zlib-dev libpng-dev
 RUN curl --silent --show-error https://getcomposer.org/installer | php
 
 # Copy any config files in

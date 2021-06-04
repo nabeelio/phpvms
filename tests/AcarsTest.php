@@ -450,6 +450,7 @@ class AcarsTest extends TestCase
             'level'               => 38000,
             'planned_distance'    => 400,
             'planned_flight_time' => 120,
+            'status'              => PirepStatus::BOARDING,
             'route'               => 'POINTA POINTB',
             'source_name'         => 'AcarsTest::testAcarsUpdates',
             'fields'              => [
@@ -487,6 +488,8 @@ class AcarsTest extends TestCase
         $uri = '/api/pireps/'.$pirep_id.'/update';
         $this->post($uri, [
             'flight_time' => 60,
+            'distance'    => 20,
+            'status'      => PirepStatus::AIRBORNE,
             'fields'      => [
                 'custom_field' => 'custom_value_changed',
             ],

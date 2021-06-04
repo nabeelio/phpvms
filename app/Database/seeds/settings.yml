@@ -368,20 +368,20 @@
   options: ''
   type: boolean
   description: 'Count transfer hours in calculations, like ranks and the total hours'
-- key: notifications.discord_api_key
-  name: Discord API token
+- key: notifications.discord_public_webhook_url
+  name: Discord Public Webhook URL
   group: notifications
   value: ''
   options: ''
   type: text
-  description: Discord API token for notifications
-- key: 'notifications.discord_public_channel_id'
-  name: 'Discord Public Channel ID'
-  group: 'notifications'
+  description: The Discord Webhook URL for public notifications
+- key: notifications.discord_private_webhook_url
+  name: Discord Private Webhook URL
+  group: notifications
   value: ''
   options: ''
-  type: 'text'
-  description: 'Discord public channel ID for broadcasat notifications'
+  type: text
+  description: The Discord Webhook URL for private notifications
 - key: 'cron.random_id'
   name: 'Cron Randomized ID'
   group: 'cron'
