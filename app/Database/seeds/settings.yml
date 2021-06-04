@@ -54,6 +54,13 @@
   options: ''
   type: text
   description: 'Enter your Google Analytics Tracking ID'
+- key: general.record_user_ip
+  name: 'Record user IP address'
+  group: general
+  value: true
+  options: ''
+  type: boolean
+  description: Record the user's IP address on register/login
 - key: units.currency
   name: 'Currency'
   group: units
