@@ -132,9 +132,9 @@ class PirepController extends Controller
      *
      * @param Request $request
      *
-     * @return PirepFare[]
-     *
      * @throws \Exception
+     *
+     * @return PirepFare[]
      */
     protected function getFares(Request $request): ?array
     {

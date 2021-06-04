@@ -26,7 +26,6 @@ use App\Services\PirepService;
 use App\Support\Math;
 use App\Support\Money;
 use Exception;
-use Illuminate\Database\Eloquent\Model;
 
 class FinanceTest extends TestCase
 {
