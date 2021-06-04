@@ -4,8 +4,8 @@ namespace App\Notifications\Messages;
 
 use App\Contracts\Notification;
 use App\Models\News;
-use App\Notifications\Channels\Discord\DiscordWebhook;
 use App\Notifications\Channels\Discord\DiscordMessage;
+use App\Notifications\Channels\Discord\DiscordWebhook;
 use App\Notifications\Channels\MailChannel;
 use Illuminate\Contracts\Queue\ShouldQueue;
 

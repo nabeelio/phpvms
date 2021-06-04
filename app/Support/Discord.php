@@ -1,7 +1,4 @@
 <?php
-/**
- *
- */
 
 namespace App\Support;
 
@@ -18,6 +15,7 @@ class Discord
     {
         /** @var HttpClient $httpClient */
         $httpClient = app(HttpClient::class);
+
         try {
             $response = $httpClient->post(
                 'https://discord.com/api/users/@me/channels',
