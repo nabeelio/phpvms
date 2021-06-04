@@ -34,6 +34,7 @@ use Laratrust\Traits\LaratrustUserTrait;
  * @property int              rank_id
  * @property string           discord_id
  * @property int              state
+ * @property string           last_ip
  * @property bool             opt_in
  * @property Pirep[]          pireps
  * @property string           last_pirep_id
@@ -82,6 +83,7 @@ class User extends Authenticatable
         'status',
         'toc_accepted',
         'opt_in',
+        'last_ip',
         'created_at',
         'updated_at',
     ];
@@ -93,6 +95,7 @@ class User extends Authenticatable
         'api_key',
         'discord_id',
         'password',
+        'last_ip',
         'remember_token',
     ];
 

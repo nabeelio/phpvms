@@ -108,6 +108,10 @@
         <td>@minutestotime($user->flight_time)</td>
       </tr>
       <tr>
+        <td>IP Address</td>
+        <td>{{ $user->last_ip ?? '-' }}</td>
+      </tr>
+      <tr>
         <td>Registered On</td>
         <td>{{ show_datetime($user->created_at) }}</td>
       </tr>
