@@ -119,22 +119,27 @@ class DiscordMessage
 
     public function toArray(): array
     {
+        $embeds = [
+            'title'       => $this->title,
+            'url'         => $this->url,
+            'type'        => 'rich',
+            'description' => $this->description,
+            'author'      => $this->author,
+            'timestamp'   => Carbon::now('UTC'),
+        ];
+
+        if (!empty($this->fields)) {
+            $embeds['fields'] = $this->fields;
+        }
+
+        if (!empty($this->footer)) {
+            $embeds['footer'] = [
+                'text' => $this->footer,
+            ];
+        }
+
         return [
-            'embeds' => [
-                [
-                    'title'       => $this->title,
-                    'url'         => $this->url,
-                    'type'        => 'rich',
-                    'description' => $this->description,
-                    // 'color'       => hexdec($this->color),
-                    'author' => $this->author,
-                    'fields' => $this->fields,
-                    'footer' => [
-                        'text' => $this->footer ?? '',
-                    ],
-                    'timestamp' => Carbon::now('UTC'),
-                ],
-            ],
+            'embeds' => [$embeds],
         ];
     }
 }
