@@ -9,6 +9,7 @@ use App\Models\Enums\PirepSource;
 use App\Models\Enums\PirepState;
 use App\Models\Fare;
 use App\Models\Pirep;
+use App\Models\PirepFare;
 use App\Models\SimBrief;
 use App\Models\User;
 use App\Repositories\AircraftRepository;
@@ -112,19 +113,18 @@ class PirepController extends Controller
     /**
      * Save any custom fields found
      *
-     * @param Pirep   $pirep
      * @param Request $request
      */
-    protected function saveCustomFields(Pirep $pirep, Request $request)
+    protected function saveCustomFields(Request $request): array
     {
-        $custom_fields = [];
+        $fields = [];
         $pirep_fields = $this->pirepFieldRepo->all();
         foreach ($pirep_fields as $field) {
             if (!$request->filled($field->slug)) {
                 continue;
             }
 
-            $custom_fields[] = [
+            $fields[] = [
                 'name'   => $field->name,
                 'slug'   => $field->slug,
                 'value'  => $request->input($field->slug),
@@ -132,8 +132,9 @@ class PirepController extends Controller
             ];
         }
 
-        Log::info('PIREP Custom Fields', $custom_fields);
-        $this->pirepSvc->updateCustomFields($pirep->id, $custom_fields);
+        Log::info('PIREP Custom Fields', $fields);
+
+        return $fields;
     }
 
     /**
@@ -159,10 +160,10 @@ class PirepController extends Controller
                 $count = $request->input($field_name);
             }
 
-            $fares[] = [
+            $fares[] = new PirepFare([
                 'fare_id' => $fare->id,
                 'count'   => $count,
-            ];
+            ]);
         }
 
         $this->fareSvc->saveForPirep($pirep, $fares);
@@ -389,8 +390,8 @@ class PirepController extends Controller
         $attrs['submitted_at'] = Carbon::now('UTC');
         $pirep->submitted_at = Carbon::now('UTC');
 
-        $pirep = $this->pirepSvc->create($pirep);
-        $this->saveCustomFields($pirep, $request);
+        $fields = $this->saveCustomFields($request);
+        $pirep = $this->pirepSvc->create($pirep, $fields);
         $this->saveFares($pirep, $request);
         $this->pirepSvc->saveRoute($pirep);
 
@@ -531,7 +532,8 @@ class PirepController extends Controller
             $this->pirepSvc->saveRoute($pirep);
         }
 
-        $this->saveCustomFields($pirep, $request);
+        $fields = $this->saveCustomFields($request);
+        $this->pirepSvc->updateCustomFields($pirep->id, $fields);
         $this->saveFares($pirep, $request);
 
         if ($attrs['submit'] === 'save') {
