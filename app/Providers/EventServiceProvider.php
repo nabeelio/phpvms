@@ -11,7 +11,7 @@ use App\Listeners\ExpenseListener;
 use App\Listeners\FinanceEventHandler;
 use App\Listeners\PirepEventsHandler;
 use App\Listeners\UserStateListener;
-use App\Notifications\EventHandler;
+use App\Notifications\NotificationEventsHandler;
 use Codedge\Updater\Events\UpdateAvailable;
 use Codedge\Updater\Events\UpdateSucceeded;
 use Illuminate\Auth\Events\Registered;
@@ -49,7 +49,7 @@ class EventServiceProvider extends ServiceProvider
     protected $subscribe = [
         BidEventHandler::class,
         FinanceEventHandler::class,
-        EventHandler::class,
+        NotificationEventsHandler::class,
         AwardHandler::class,
         PirepEventsHandler::class,
     ];

@@ -119,10 +119,15 @@ class RegisterController extends Controller
      *
      * @return User
      */
-    protected function create(array $opts)
+    protected function create(Request $request): User
     {
         // Default options
+        $opts = $request->all();
         $opts['password'] = Hash::make($opts['password']);
+
+        if (setting('general.record_user_ip', true)) {
+            $opts['last_ip'] = $request->ip();
+        }
 
         // Convert transfer hours into minutes
         if (isset($opts['transfer_time'])) {
@@ -158,7 +163,7 @@ class RegisterController extends Controller
     {
         $this->validator($request->all())->validate();
 
-        $user = $this->create($request->all());
+        $user = $this->create($request);
         if ($user->state === UserState::PENDING) {
             return view('auth.pending');
         }

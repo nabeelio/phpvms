@@ -32,7 +32,9 @@ use Laratrust\Traits\LaratrustUserTrait;
  * @property Rank             rank
  * @property Journal          journal
  * @property int              rank_id
+ * @property string           discord_id
  * @property int              state
+ * @property string           last_ip
  * @property bool             opt_in
  * @property Pirep[]          pireps
  * @property string           last_pirep_id
@@ -66,6 +68,7 @@ class User extends Authenticatable
         'pilot_id',
         'airline_id',
         'rank_id',
+        'discord_id',
         'api_key',
         'country',
         'home_airport_id',
@@ -80,6 +83,7 @@ class User extends Authenticatable
         'status',
         'toc_accepted',
         'opt_in',
+        'last_ip',
         'created_at',
         'updated_at',
     ];
@@ -89,7 +93,9 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'api_key',
+        'discord_id',
         'password',
+        'last_ip',
         'remember_token',
     ];
 

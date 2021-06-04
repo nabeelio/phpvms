@@ -54,6 +54,13 @@
   options: ''
   type: text
   description: 'Enter your Google Analytics Tracking ID'
+- key: general.record_user_ip
+  name: 'Record user IP address'
+  group: general
+  value: true
+  options: ''
+  type: boolean
+  description: Record the user's IP address on register/login
 - key: units.currency
   name: 'Currency'
   group: units
@@ -207,13 +214,13 @@
   options: ''
   type: boolean
   description: 'Only allow briefs to be created for bidded flights'
-- key: simbrief.expire_days
+- key: simbrief.expire_hours
   name: 'Simbrief Expire Time'
   group: simbrief
-  value: 5
+  value: 6
   options: ''
   type: number
-  description: 'Days after how long to remove unused briefs'
+  description: 'Hours after how long to remove unused briefs'
 - key: simbrief.noncharter_pax_weight
   name: 'Non-Charter Passenger Weight'
   group: simbrief
@@ -256,6 +263,13 @@
   options: ''
   type: boolean
   description: 'Use privatized user name as SimBrief OFP captain name'
+- key: simbrief.block_aircraft
+  name: 'Restrict Aircraft'
+  group: simbrief
+  value: false
+  options: ''
+  type: boolean
+  description: 'When enabled, an aircraft can only be used for one active SimBrief OFP and Flight/Pirep'
 - key: pireps.duplicate_check_time
   name: 'PIREP duplicate time check'
   group: pireps
@@ -361,20 +375,20 @@
   options: ''
   type: boolean
   description: 'Count transfer hours in calculations, like ranks and the total hours'
-- key: notifications.discord_api_key
-  name: Discord API token
+- key: notifications.discord_public_webhook_url
+  name: Discord Public Webhook URL
   group: notifications
   value: ''
   options: ''
   type: text
-  description: Discord API token for notifications
-- key: 'notifications.discord_public_channel_id'
-  name: 'Discord Public Channel ID'
-  group: 'notifications'
+  description: The Discord Webhook URL for public notifications
+- key: notifications.discord_private_webhook_url
+  name: Discord Private Webhook URL
+  group: notifications
   value: ''
   options: ''
-  type: 'text'
-  description: 'Discord public channel ID for broadcasat notifications'
+  type: text
+  description: The Discord Webhook URL for private notifications
 - key: 'cron.random_id'
   name: 'Cron Randomized ID'
   group: 'cron'

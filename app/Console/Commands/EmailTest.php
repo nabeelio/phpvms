@@ -17,8 +17,8 @@ class EmailTest extends Command
      */
     public function handle()
     {
-        /** @var App\Notifications\EventHandler $eventHandler */
-        $eventHandler = app(App\Notifications\EventHandler::class);
+        /** @var App\Notifications\NotificationEventsHandler $eventHandler */
+        $eventHandler = app(App\Notifications\NotificationEventsHandler::class);
 
         $news = new App\Models\News();
         $news->user_id = 1;

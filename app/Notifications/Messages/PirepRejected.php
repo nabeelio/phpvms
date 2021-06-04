@@ -5,22 +5,18 @@ namespace App\Notifications\Messages;
 use App\Contracts\Notification;
 use App\Models\Pirep;
 use App\Notifications\Channels\MailChannel;
-use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
 class PirepRejected extends Notification implements ShouldQueue
 {
-    use Queueable;
     use MailChannel;
-
-    public $channels = ['mail'];
 
     private $pirep;
 
     /**
      * Create a new notification instance.
      *
-     * @param \App\Models\Pirep $pirep
+     * @param Pirep $pirep
      */
     public function __construct(Pirep $pirep)
     {
@@ -33,6 +29,11 @@ class PirepRejected extends Notification implements ShouldQueue
             'notifications.mail.pirep.rejected',
             ['pirep' => $this->pirep]
         );
+    }
+
+    public function via($notifiable)
+    {
+        return ['mail'];
     }
 
     /**

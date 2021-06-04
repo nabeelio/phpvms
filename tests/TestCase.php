@@ -57,11 +57,10 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
             ThrottleRequests::class
         );
 
-        Notification::fake();
-
         Artisan::call('database:create', ['--reset' => true]);
         Artisan::call('migrate:refresh', ['--env' => 'testing', '--force' => true]);
 
+        Notification::fake();
         // $this->disableExceptionHandling();
     }
 

@@ -11,6 +11,7 @@ use App\Models\Enums\PirepFieldSource;
  * @property string slug
  * @property string value
  * @property string source
+ * @property Pirep  pirep
  *
  * @method static updateOrCreate(array $array, array $array1)
  */

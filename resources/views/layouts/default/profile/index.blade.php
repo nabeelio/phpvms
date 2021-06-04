@@ -154,6 +154,10 @@
             <td><span id="apiKey_show" style="display: none">{{ $user->api_key }} <i class="fas fa-eye-slash" onclick="apiKeyHide()"></i></span><span id="apiKey_hide">@lang('profile.apikey-show') <i class="fas fa-eye" onclick="apiKeyShow()"></i></span></td>
           </tr>
           <tr>
+            <td>Discord ID</td>
+            <td>{{ $user->discord_id ?? '-' }}</td>
+          </tr>
+          <tr>
             <td>@lang('common.timezone')</td>
             <td>{{ $user->timezone }}</td>
           </tr>
@@ -174,7 +178,7 @@
           @if(!$field->private)
             <tr>
               <td>{{ $field->name }}</td>
-              <td>{{ $field->value }}</td>
+              <td>{{ $field->value ?? '-'}}</td>
             </tr>
           @endif
         @endforeach

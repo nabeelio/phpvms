@@ -13,8 +13,6 @@ class UserRejected extends Notification implements ShouldQueue
     use Queueable;
     use MailChannel;
 
-    public $channels = ['mail'];
-
     private $user;
 
     /**
@@ -31,6 +29,11 @@ class UserRejected extends Notification implements ShouldQueue
             'notifications.mail.user.rejected',
             ['user' => $this->user]
         );
+    }
+
+    public function via($notifiable)
+    {
+        return ['mail'];
     }
 
     /**

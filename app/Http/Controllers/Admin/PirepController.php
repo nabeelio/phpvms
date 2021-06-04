@@ -100,7 +100,7 @@ class PirepController extends Controller
                 $tmp[$ac->id] = $ac['name'].' - '.$ac['registration'];
             }
 
-            $aircraft[$subfleet->name] = $tmp;
+            $aircraft[$subfleet->type] = $tmp;
         }
 
         return $aircraft;
