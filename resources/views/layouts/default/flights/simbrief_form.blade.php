@@ -160,7 +160,7 @@
               <input type="hidden" name="omit_stars" value="0">
               <input type="hidden" name="cruise" value="CI">
               <input type="hidden" name="civalue" value="AUTO">
-              <input type="hidden" name="static_id" value="{{ $user->ident.'_'.$flight->airline->icao.$flight->flight_number }}">
+              <input type="hidden" name="static_id" value="{{ $user->ident.'_'.$flight->id }}">
               {{-- For more info about form fields and their details check SimBrief Forum / API Support --}}
             </div>
             <div class="col-4">
