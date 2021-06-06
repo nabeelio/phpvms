@@ -53,6 +53,13 @@ return [
     'simbrief_url' => 'https://www.simbrief.com/ofp/flightplans/xml/{id}.xml',
 
     /*
+     * URL for updating a generated Simbrief flight plan
+     * Needs Simbrief userid and static_id of the OFP as query strings
+     * api/xml.fethcer.php?userid={userid}&static_id={static_id}
+     */
+    'simbrief_update_url' => 'https://www.simbrief.com/api/xml.fetcher.php',
+
+    /*
      * Your vaCentral API key
      */
     'vacentral_api_key' => env('VACENTRAL_API_KEY', ''),

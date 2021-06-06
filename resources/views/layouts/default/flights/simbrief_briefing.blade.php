@@ -7,14 +7,22 @@
       <h2>{{ $simbrief->xml->general->icao_airline }}{{ $simbrief->xml->general->flight_number }}
         : {{ $simbrief->xml->origin->icao_code }} to {{ $simbrief->xml->destination->icao_code }}</h2>
     </div>
-    <div class="col-sm-3">
+    <div class="col-sm-2">
       @if (empty($simbrief->pirep_id))
         <a class="btn btn-outline-info pull-right btn-lg"
            style="margin-top: -10px; margin-bottom: 5px"
            href="{{ url(route('frontend.simbrief.prefile', [$simbrief->id])) }}">Prefile PIREP</a>
       @endif
     </div>
-    <div class="col-sm-3">
+    <div class="col-sm-2">
+      @if (!empty($simbrief->xml->params->static_id) && Auth::id() == $simbrief->user_id)
+        <a class="btn btn-secondary pull-right btn-lg"
+           style="margin-top: -10px; margin-bottom: 5px"
+           href="#"
+           data-toggle="modal" data-target="#OFP_Edit">Edit OFP</a>
+      @endif
+    </div>
+    <div class="col-sm-2">
       <a class="btn btn-primary pull-right btn-lg"
          style="margin-top: -10px; margin-bottom: 5px"
          href="{{ url(route('frontend.simbrief.generate_new', [$simbrief->id])) }}">Generate New OFP</a>
@@ -284,6 +292,31 @@
       @endif
     </div>
   </div>
+
+  {{-- SimBrief Edit Modal --}}
+  @if(!empty($simbrief->xml->params->static_id))
+    <div class="modal fade" id="OFP_Edit" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog" style="max-width: 1020px;">
+        <div class="modal-content p-0" style="border-radius: 5px;">
+          <div class="modal-header border-0 p-1">
+            <h5 class="modal-title m-1 p-0">SimBrief</h5>
+            <span class="close"><i class="fas fa-times-circle" data-dismiss="modal" aria-label="Close" aria-hidden="true"></i></span>
+          </div>
+          <div class="modal-body border-0 p-0">
+            <iframe src="https://www.simbrief.com/system/dispatch.php?editflight=last&static_id={{ $simbrief->xml->params->static_id }}" style="width: 100%; height: 80vh;" frameBorder="0" title="SimBrief"></iframe>
+          </div>
+          <div class="modal-footer border-0 text-right p-1">
+            <a
+              class="btn btn-secondary btn-sm m-0 p-0 mr-1 ml-2 pl-2 pr-2" 
+              href="{{ route('frontend.simbrief.update_ofp') }}?ofp_id={{ $simbrief->id }}&flight_id={{ $simbrief->flight_id }}&aircraft_id={{ $simbrief->aircraft_id }}&sb_userid={{ $simbrief->xml->params->user_id }}&sb_static_id={{ $simbrief->xml->params->static_id }}">
+              Download Updated OFP & Close
+            </a>
+            <button type="button" class="btn btn-secondary btn-sm m-0 p-0 mr-1 ml-2 pl-2 pr-2" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  @endif
 @endsection
 
 @section('scripts')

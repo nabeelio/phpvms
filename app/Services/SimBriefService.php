@@ -26,11 +26,13 @@ class SimBriefService extends Service
      * Check to see if the OFP exists server-side. If it does, download it and
      * cache it immediately
      *
-     * @param string $user_id   User who generated this
-     * @param string $ofp_id    The SimBrief OFP ID
-     * @param string $flight_id The flight ID
-     * @param string $ac_id     The aircraft ID
-     * @param array  $fares     Full list of fares for the flightß
+     * @param string $user_id      User who generated this
+     * @param string $ofp_id       The SimBrief OFP ID
+     * @param string $flight_id    The flight ID
+     * @param string $ac_id        The aircraft ID
+     * @param array  $fares        Full list of fares for the flight
+     * @param string $sb_userid    User's Simbrief ID (Used for Update)
+     * @param string $sb_static_id Static ID for the generated OFP (Used for Update)
      *
      * @return SimBrief|null
      */
@@ -39,9 +41,15 @@ class SimBriefService extends Service
         string $ofp_id,
         string $flight_id,
         string $ac_id,
-        array $fares = []
+        array $fares = [],
+        string $sb_userid = null,
+        string $sb_static_id = null
     ) {
         $uri = str_replace('{id}', $ofp_id, config('phpvms.simbrief_url'));
+
+        if ($sb_userid && $sb_static_id) {
+            $uri = config('phpvms.simbrief_update_url').'?userid='.$sb_userid.'&static_id='.$sb_static_id;
+        }
 
         $opts = [
             'connect_timeout' => 2, // wait two seconds by default
