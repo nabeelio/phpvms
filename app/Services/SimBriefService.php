@@ -48,7 +48,8 @@ class SimBriefService extends Service
         $uri = str_replace('{id}', $ofp_id, config('phpvms.simbrief_url'));
 
         if ($sb_userid && $sb_static_id) {
-            $uri = config('phpvms.simbrief_update_url').'?userid='.$sb_userid.'&static_id='.$sb_static_id;
+            $uri = str_replace('{sb_userid}', $sb_userid, config('phpvms.simbrief_update_url'));
+            $uri = str_replace('{sb_static_id}', $sb_static_id, $uri);
         }
 
         $opts = [
