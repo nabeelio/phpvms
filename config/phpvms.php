@@ -55,7 +55,7 @@ return [
     /*
      * URL for fetching an updated Simbrief flight plan via API
      */
-    'simbrief_update_url' => 'https://www.simbrief.com/api/xml.fetcher.php?userid={sb_userid}&static_id={sb_static_id}',
+    'simbrief_update_url' => 'https://www.simbrief.com/api/xml.fetcher.php?userid={sb_user_id}&static_id={sb_static_id}',
 
     /*
      * Your vaCentral API key
