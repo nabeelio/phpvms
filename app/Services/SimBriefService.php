@@ -42,15 +42,15 @@ class SimBriefService extends Service
         string $flight_id,
         string $ac_id,
         array $fares = [],
-        string $sb_userid = null,
+        string $sb_user_id = null,
         string $sb_static_id = null
     ) {
         $uri = str_replace('{id}', $ofp_id, config('phpvms.simbrief_url'));
 
-        if ($sb_userid && $sb_static_id) {
-            // $uri = str_replace('{sb_userid}', $sb_userid, config('phpvms.simbrief_update_url'));
+        if ($sb_user_id && $sb_static_id) {
+            // $uri = str_replace('{sb_user_id}', $sb_user_id, config('phpvms.simbrief_update_url'));
             // $uri = str_replace('{sb_static_id}', $sb_static_id, $uri);
-            $uri = 'https://www.simbrief.com/api/xml.fetcher.php?userid='.$sb_userid.'&static_id='.$sb_static_id;
+            $uri = 'https://www.simbrief.com/api/xml.fetcher.php?userid='.$sb_user_id.'&static_id='.$sb_static_id;
         }
 
         $opts = [
