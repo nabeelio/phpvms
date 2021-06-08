@@ -85,7 +85,7 @@ class Airline extends Model
      */
     public function setIataAttribute($iata)
     {
-        $this->attributes['iata'] = Str::upper($iata);;
+        $this->attributes['iata'] = Str::upper($iata);
     }
 
     /**
