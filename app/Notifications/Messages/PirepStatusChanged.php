@@ -43,7 +43,7 @@ class PirepStatusChanged extends Notification implements ShouldQueue
         PirepStatus::LANDING       => 'is landing',
         PirepStatus::LANDED        => 'has landed',
         PirepStatus::ARRIVED       => 'has arrived',
-        PirepStatus::CANCELLED     => 'has cancelled',
+        PirepStatus::CANCELLED     => 'is cancelled',
         PirepStatus::EMERG_DESCENT => 'in emergency descent',
     ];
 
