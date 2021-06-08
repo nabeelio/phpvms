@@ -69,9 +69,9 @@ class SimBriefController
             flash()->error('Invalid SimBrief API key!');
             return redirect(route('frontend.flights.index'));
         }
-        
+
         // Generate SimBrief Static ID
-        $static_id = $user->ident."_".$flight->id;
+        $static_id = $user->ident.'_'.$flight->id;
 
         // No aircraft selected, show selection form
         if (!$aircraft_id) {
