@@ -104,6 +104,36 @@ class ApiTest extends TestCase
              ->assertJson(['data' => ['name' => $airline->name]]);
     }
 
+    public function testGetAirlinesChineseChars()
+    {
+        $this->user = factory(User::class)->create([
+            'airline_id' => 0,
+        ]);
+
+        factory(Airline::class)->create([
+            'icao' => 'DKH',
+            'name' => '吉祥航空',
+        ]);
+
+        factory(Airline::class)->create([
+            'icao' => 'CSZ',
+            'name' => '深圳航空',
+        ]);
+
+        factory(Airline::class)->create([
+            'icao' => 'CCA',
+            'name' => '中国国际航空',
+        ]);
+
+        factory(Airline::class)->create([
+            'icao' => 'CXA',
+            'name' => '厦门航空',
+        ]);
+
+        $res = $this->get('/api/airlines');
+        $this->assertTrue($res->isOk());
+    }
+
     /**
      * @throws Exception
      */
