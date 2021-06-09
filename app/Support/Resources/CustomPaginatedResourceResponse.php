@@ -14,17 +14,13 @@ class CustomPaginatedResourceResponse extends PaginatedResourceResponse
 
     protected function meta($paginated)
     {
-        $meta = ['pagination' => Arr::except($paginated, [
+        return Arr::except($paginated, [
             'data',
             'first_page_url',
             'last_page_url',
             'prev_page_url',
             'next_page_url',
             'links',
-        ])];
-
-        $meta['pagination']['total_pages'] = $paginated['last_page'];
-
-        return $meta;
+        ]);
     }
 }
