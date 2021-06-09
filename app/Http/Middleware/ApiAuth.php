@@ -50,6 +50,9 @@ class ApiAuth implements Middleware
             return $user;
         });
 
+        // Force english locale for API
+        app()->setLocale('en');
+
         return $next($request);
     }
 

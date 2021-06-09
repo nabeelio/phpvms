@@ -2,10 +2,13 @@
 
 namespace App\Http\Resources;
 
+use App\Models\PirepField;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class PirepFieldCollection extends ResourceCollection
 {
+    public $collects = PirepField::class;
+
     public function toArray($request)
     {
         $res = [];
