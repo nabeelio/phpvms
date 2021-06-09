@@ -85,7 +85,7 @@ class PirepSubmitted extends Notification implements ShouldQueue
             ->url(route('frontend.pireps.show', [$pirep->id]))
             ->author([
                 'name'     => $pirep->user->ident.' - '.$pirep->user->name_private,
-                'url'      => route('frontend.pireps.show', [$pirep->id]),
+                'url'      => route('frontend.profile.show', [$pirep->user_id]),
                 'icon_url' => $pirep->user->resolveAvatarUrl(),
             ])
             ->fields($fields);
