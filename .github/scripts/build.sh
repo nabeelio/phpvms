@@ -74,7 +74,8 @@ ls -al $BASE_DIR/../
 
 tar -czf $TAR_NAME -C $BASE_DIR .
 sha256sum $TAR_NAME >"$TAR_NAME.sha256"
-tar2zip $TAR_NAME
+cd $BASE_DIR; zip -r $TAR_NAME *
+#tar2zip $TAR_NAME
 sha256sum $ZIP_NAME >"$ZIP_NAME.sha256"
 
 ls -al /tmp
