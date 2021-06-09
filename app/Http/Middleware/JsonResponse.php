@@ -15,6 +15,7 @@ class JsonResponse implements Middleware
     {
         $response = $next($request);
         $response->headers->set('Content-Type', 'application/json');
+        $response->headers->set('charset', 'utf-8');
 
         return $response;
     }
