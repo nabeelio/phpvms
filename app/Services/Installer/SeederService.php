@@ -22,7 +22,8 @@ class SeederService extends Service
 
     // Map an environment to a seeder directory, if we want to share
     public static $seed_mapper = [
-        'local' => 'dev',
+        'local'      => 'dev',
+        'production' => 'prod',
     ];
 
     public function __construct(DatabaseService $databaseSvc)

@@ -70,6 +70,9 @@ class SimBriefController
             return redirect(route('frontend.flights.index'));
         }
 
+        // Generate SimBrief Static ID
+        $static_id = $user->ident.'_'.$flight->id;
+
         // No aircraft selected, show selection form
         if (!$aircraft_id) {
             // If no subfleets defined for flight get them from user
@@ -237,6 +240,7 @@ class SimBriefController
             'tpayload'         => $tpayload,
             'tcargoload'       => $tcargoload,
             'loaddist'         => implode(' ', $loaddist),
+            'static_id'        => $static_id,
         ]);
     }
 
@@ -365,6 +369,31 @@ class SimBriefController
         return response()->json([
             'id' => $simbrief->id,
         ]);
+    }
+
+    /**
+     * Get the latest generated OFP. Pass in two additional items, the Simbrief userid and static_id
+     * This will get the latest edited/regenerated of from Simbrief and update our records
+     * We do not need to send the fares again, so used an empty array
+     */
+    public function update_ofp(Request $request)
+    {
+        /** @var User $user */
+        $user = Auth::user();
+        $ofp_id = $request->input('ofp_id');
+        $flight_id = $request->input('flight_id');
+        $aircraft_id = $request->input('aircraft_id');
+        $sb_userid = $request->input('sb_userid');
+        $sb_static_id = $request->input('sb_static_id');
+        $fares = [];
+
+        $simbrief = $this->simBriefSvc->downloadOfp($user->id, $ofp_id, $flight_id, $aircraft_id, $fares, $sb_userid, $sb_static_id);
+        if ($simbrief === null) {
+            $error = new AssetNotFound(new Exception('Simbrief OFP not found'));
+            return $error->getResponse();
+        }
+
+        return redirect(route('frontend.simbrief.briefing', [$ofp_id]));
     }
 
     /**
