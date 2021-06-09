@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Support\Resources;
 
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
