@@ -144,14 +144,14 @@ class ApiTest extends TestCase
             'airline_id' => 0,
         ]);
 
-        factory(Airline::class, $size)->create();
+        factory(Subfleet::class, $size)->create();
 
         /*
          * Page 0 and page 1 should return the same thing
          */
 
         // Test pagination
-        $res = $this->get('/api/airlines?limit=1&page=0');
+        $res = $this->get('/api/fleet?limit=1&page=0');
         $this->assertTrue($res->isOk());
         $body = $res->json('data');
 
@@ -159,7 +159,7 @@ class ApiTest extends TestCase
 
         $id_first = $body[0]['id'];
 
-        $res = $this->get('/api/airlines?limit=1&page=1');
+        $res = $this->get('/api/fleet?limit=1&page=1');
         $this->assertTrue($res->isOk());
         $body = $res->json('data');
 
@@ -171,7 +171,7 @@ class ApiTest extends TestCase
          * Page 2 should be different from page 1
          */
 
-        $res = $this->get('/api/airlines?limit=1&page=2');
+        $res = $this->get('/api/fleet?limit=1&page=2');
         $this->assertTrue($res->isOk());
         $body = $res->json('data');
 

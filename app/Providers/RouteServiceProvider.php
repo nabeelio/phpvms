@@ -534,6 +534,9 @@ class RouteServiceProvider extends ServiceProvider
                 Route::get('fleet', 'FleetController@index');
                 Route::get('fleet/aircraft/{id}', 'FleetController@get_aircraft');
 
+                Route::get('subfleet', 'FleetController@index');
+                Route::get('subfleet/aircraft/{id}', 'FleetController@get_aircraft');
+
                 Route::get('flights', 'FlightController@index');
                 Route::get('flights/search', 'FlightController@search');
                 Route::get('flights/{id}', 'FlightController@get');
