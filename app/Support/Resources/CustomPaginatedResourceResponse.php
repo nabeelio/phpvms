@@ -20,15 +20,15 @@ class CustomPaginatedResourceResponse extends PaginatedResourceResponse
             'last_page_url',
             'prev_page_url',
             'next_page_url',
-            'links',
+            // 'links',
         ]);
 
-        $arr['links'] = [
+        /*$arr['links'] = [
             'first' => '',
             'last'  => '',
             'next'  => '',
             'prev'  => ','
-        ];
+        ];*/
 
         return $arr;
     }
