@@ -16,9 +16,8 @@ class AirlineController extends Controller
      *
      * @param AirlineRepository $airlineRepo
      */
-    public function __construct(
-        AirlineRepository $airlineRepo
-    ) {
+    public function __construct(AirlineRepository $airlineRepo)
+    {
         $this->airlineRepo = $airlineRepo;
     }
 
@@ -31,9 +30,7 @@ class AirlineController extends Controller
      */
     public function index(Request $request)
     {
-        $airports = $this->airlineRepo
-            ->whereOrder(['active' => true], 'name', 'asc')
-            ->paginate();
+        $airports = $this->airlineRepo->whereOrder(['active' => true], 'name');
 
         return AirlineResource::collection($airports);
     }
