@@ -23,7 +23,6 @@
         "composer/composer": "~1.0",
         "composer/installers": "~1.0",
         "laravel/framework": "~8.0",
-        "akaunting/money": "^1.0",
         "anhskohbo/no-captcha": "^3.0",
         "appstract/laravel-opcache": "^4.0",
         "arrilot/laravel-widgets": "~3.13.0",
@@ -68,7 +67,8 @@
         "fakerphp/faker": "^v1.14",
         "wildbit/swiftmailer-postmark": "^3.3",
         "queueworker/sansdaemon": "^1.2",
-        "jpkleemans/attribute-events": "^1.1"
+        "jpkleemans/attribute-events": "^1.1",
+        "akaunting/laravel-money": "^1.2"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.5",
