@@ -26,7 +26,7 @@ services:
       - ./composer-lock.json:/var/www/composer-lock.json
       - ./env.php:/var/www/env.php
       - ./resources/docker/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
-      - ./vendor/var/www/vendor
+      - ./vendor:/var/www/vendor
     depends_on:
       - mysql
       - redis
