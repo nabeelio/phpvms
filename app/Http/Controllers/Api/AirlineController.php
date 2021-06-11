@@ -30,9 +30,9 @@ class AirlineController extends Controller
      */
     public function index(Request $request)
     {
-        $airports = $this->airlineRepo->whereOrder(['active' => true], 'name')->get();
+        $airlines = $this->airlineRepo->whereOrder(['active' => true], 'name')->paginate();
 
-        return AirlineResource::collection($airports);
+        return AirlineResource::collection($airlines);
     }
 
     /**
