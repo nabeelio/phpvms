@@ -70,7 +70,7 @@ class AcarsRepository extends Repository
 
         if ($live_time !== null && $live_time > 0) {
             $st = Carbon::now('UTC')->subHours($live_time);
-            $q = $q->whereDate('created_at', '>=', $st);
+            $q = $q->where('created_at', '>=', $st);
         }
 
         $q = $q->orderBy('created_at', 'desc');
