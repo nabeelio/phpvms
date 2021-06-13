@@ -193,9 +193,9 @@ class AcarsController extends Controller
         }
 
         // Change the PIREP status if it's as SCHEDULED before
-        if ($pirep->status === PirepStatus::INITIATED) {
+        /*if ($pirep->status === PirepStatus::INITIATED) {
             $pirep->status = PirepStatus::AIRBORNE;
-        }
+        }*/
 
         $pirep->save();
 
