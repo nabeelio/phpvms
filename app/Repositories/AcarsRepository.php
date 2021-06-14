@@ -69,11 +69,11 @@ class AcarsRepository extends Repository
             ->where(['state' => PirepState::IN_PROGRESS]);
 
         if ($live_time !== null && $live_time > 0) {
-            $st = Carbon::now('UTC')->subHours($live_time);
-            $q = $q->where('created_at', '>=', $st);
+            $st = Carbon::now()->subHours($live_time);
+            $q = $q->where('updated_at', '>=', $st);
         }
 
-        $q = $q->orderBy('created_at', 'desc');
+        $q = $q->orderBy('updated_at', 'desc');
         return $q->get();
     }
 
