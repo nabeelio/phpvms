@@ -30,12 +30,24 @@ class BidService extends Service
      *
      * @param $bid_id
      *
-     * @return \App\Models\Bid|\Illuminate\Database\Eloquent\Model|tests/ImporterTest.php:521object|null
+     * @return \App\Models\Bid|\Illuminate\Database\Eloquent\Model|object|null
      */
-    public function getBid($bid_id)
+    public function getBid(User $user, $bid_id): Bid
     {
-        return Bid::with(['flight', 'flight.simbrief'])
-            ->where(['id' => $bid_id])->first();
+        $with = [
+            'flight',
+            'flight.fares',
+            'flight.simbrief' => function ($query) use ($user) {
+                $query->where('user_id', $user->id);
+            },
+            'flight.simbrief.aircraft',
+            'flight.simbrief.aircraft.subfleet',
+            'flight.subfleets',
+            'flight.subfleets.aircraft',
+            'flight.subfleets.fares',
+        ];
+
+        return Bid::with($with)->where(['id' => $bid_id])->first();
     }
 
     /**
@@ -132,7 +144,7 @@ class BidService extends Service
         $flight->has_bid = true;
         $flight->save();
 
-        return $this->getBid($bid->id);
+        return $this->getBid($user, $bid->id);
     }
 
     /**
