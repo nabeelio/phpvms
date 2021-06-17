@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Contracts\Controller;
+use App\Exceptions\Unauthorized;
 use App\Exceptions\UserNotFound;
 use App\Http\Resources\Bid as BidResource;
 use App\Http\Resources\Pirep as PirepResource;
@@ -142,6 +143,28 @@ class UserController extends Controller
         $bids = $this->bidSvc->findBidsForUser($user);
 
         return BidResource::collection($bids);
+    }
+
+    /**
+     * Get a particular bid for a user
+     *
+     * @param                          $bid_id
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \App\Http\Resources\Bid
+     */
+    public function get_bid($bid_id, Request $request)
+    {
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+
+        // Return the current bid
+        $bid = $this->bidSvc->getBid($user, $bid_id);
+        if ($bid->user_id !== $user->id) {
+            throw new Unauthorized(new \Exception('Bid not not belong to authenticated user'));
+        }
+
+        return new BidResource($bid);
     }
 
     /**
