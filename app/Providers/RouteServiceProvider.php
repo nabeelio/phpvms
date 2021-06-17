@@ -588,6 +588,7 @@ class RouteServiceProvider extends ServiceProvider
                 Route::get('bids/{id}', 'UserController@get_bid');
                 Route::get('user/bids/{id}', 'UserController@get_bid');
 
+                Route::get('user/bids', 'UserController@bids');
                 Route::put('user/bids', 'UserController@bids');
                 Route::post('user/bids', 'UserController@bids');
                 Route::delete('user/bids', 'UserController@bids');
