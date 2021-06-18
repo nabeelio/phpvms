@@ -1,5 +1,5 @@
 @component('mail::message')
-  # PIREP Accepted!
+  # PIREP Rejected!
 
   Your PIREP has been rejected
 
