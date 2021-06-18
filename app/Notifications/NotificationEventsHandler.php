@@ -58,8 +58,8 @@ class NotificationEventsHandler extends Listener
             }
 
             try {
-                $this->notifyUser($user, $notification);
-                // Notification::send([$user], $notification);
+                // $this->notifyUser($user, $notification);
+                Notification::send([$user], $notification);
             } catch (Exception $e) {
                 Log::emergency('Error emailing admin ('.$user->email.'). Error='.$e->getMessage());
             }
