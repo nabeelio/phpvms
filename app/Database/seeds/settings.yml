@@ -311,7 +311,13 @@
   value: 12
   options: ''
   type: int
-  description: 'The time in hours to delete a rejected PIREP'
+- key: pireps.allow_only_flights
+  name: 'Allow only Flights'
+  group: pireps
+  value: false
+  options: ''
+  type: boolean
+  description: 'When enabled Free Flights will NOT be allowed to be prefiled/filed (vmsAcars -> New Flight Form)'
 - key: pilots.id_length
   name: 'Pilot ID Length'
   group: pilots
