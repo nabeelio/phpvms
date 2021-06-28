@@ -181,13 +181,13 @@ class PirepService extends Service
 
         // See if the flight is present
         if (setting('pireps.allow_only_flights', false)) {
-            $flight = $this->flightRepo->where([
+            $flight_check = $this->flightRepo->where([
                 'airline_id'     => $pirep->airline_id,
                 'flight_number'  => $pirep->flight_number,
                 'dpt_airport_id' => $pirep->dpt_airport_id,
                 'arr_airport_id' => $pirep->arr_airport_id,
             ])->first();
-            if ($flight === null) {
+            if ($flight_check === null) {
                 Log::info('Pirep details do not match any flights, '.$pirep->user->name_private.' not allowed to start flight');
                 throw new FlightNotFound($pirep);
             }
