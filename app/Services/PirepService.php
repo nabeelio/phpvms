@@ -157,6 +157,7 @@ class PirepService extends Service
         $aircraft = $this->aircraftRepo->where('id', $pirep->aircraft_id)->where('state', AircraftState::PARKED)->first();
         if ($aircraft === null) {
             Log::info('Aircraft not PARKED (On Ground), '.$pirep->user->name_private.' not allowed to start flight');
+
             throw new AircraftNotAvailable($pirep->aircraft);
         }
 
@@ -169,6 +170,7 @@ class PirepService extends Service
                 ->count();
             if ($sb_aircraft > 0) {
                 Log::info('Aircraft blocked by SimBrief OFP, '.$pirep->user->name_private.' not allowed to start flight');
+
                 throw new AircraftNotAvailable($pirep->aircraft);
             }
         }
@@ -189,6 +191,7 @@ class PirepService extends Service
             ])->first();
             if ($flight_check === null) {
                 Log::info('Pirep details do not match any flights, '.$pirep->user->name_private.' not allowed to start flight');
+
                 throw new FlightNotFound($pirep);
             }
         }
