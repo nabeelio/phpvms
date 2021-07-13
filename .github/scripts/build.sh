@@ -76,7 +76,7 @@ tar -czf $TAR_NAME -C $BASE_DIR .
 sha256sum $TAR_NAME >"$TAR_NAME.sha256"
 
 cd $BASE_DIR;
-zip -r $ZIP_NAME *
+zip -r $ZIP_NAME .* *
 sha256sum $ZIP_NAME >"$ZIP_NAME.sha256"
 mv $ZIP_NAME /tmp
 mv "$ZIP_NAME.sha256" /tmp
