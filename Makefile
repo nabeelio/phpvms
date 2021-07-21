@@ -82,10 +82,6 @@ test:
 phpcs:
 	@vendor/bin/php-cs-fixer fix --config=.php_cs -v --diff --diff-format=udiff --dry-run
 
-#.PHONY: phpstan
-#phpstan:
-#	vendor/bin/phpstan analyse -c phpstan.neon -v --level 2 app
-
 .PHONY: replay-acars
 replay-acars:
 	#@php artisan phpvms:replay AAL10,AAL3113,BAW172,DAL988,FIN6,MSR986 --manual
@@ -94,11 +90,6 @@ replay-acars:
 .PHONY: sass-watch
 sass-watch:
 	sass --watch public/assets/admin/sass/paper-dashboard.scss:public/assets/admin/css/paper-dashboard.css
-
-.PHONY: schema
-schema:
-	#php artisan infyom:scaffold Aircraft --fieldsFile=database/schema/aircraft.json
-	echo ""
 
 .PHONY: deploy-package
 deploy-package:
