@@ -43,6 +43,7 @@ return [
         'cancelled'   => 'Cancelado',
         'deleted'     => 'Eliminado',
         'draft'       => 'Borrador',
+        'paused'      => 'Pausado',
     ],
     'status' => [
         'initialized'  => 'Iniciado',
