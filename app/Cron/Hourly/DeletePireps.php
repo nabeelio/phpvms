@@ -5,6 +5,7 @@ namespace App\Cron\Hourly;
 use App\Contracts\Listener;
 use App\Events\CronHourly;
 use App\Models\Enums\PirepState;
+use App\Models\Enums\PirepStatus;
 use App\Models\Pirep;
 use App\Services\PirepService;
 use Carbon\Carbon;
@@ -38,7 +39,10 @@ class DeletePireps extends Listener
     protected function deletePireps(int $expire_time_hours, int $state)
     {
         $dt = Carbon::now('UTC')->subHours($expire_time_hours);
-        $pireps = Pirep::where('created_at', '<', $dt)->where(['state' => $state])->get();
+        $pireps = Pirep::where('created_at', '<', $dt)
+            ->where(['state' => $state])
+            ->where(['status', '<>', PirepStatus::PAUSED])
+            ->get();
 
         /** @var PirepService $pirepSvc */
         $pirepSvc = app(PirepService::class);

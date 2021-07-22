@@ -34,6 +34,7 @@ class PirepStatus extends Enum
     public const ARRIVED = 'ONB'; // On block
     public const CANCELLED = 'DX';
     public const EMERG_DESCENT = 'EMG';
+    public const PAUSED = 'PSD';
 
     protected static $labels = [
         self::INITIATED     => 'pireps.status.initialized',
@@ -59,5 +60,6 @@ class PirepStatus extends Enum
         self::ARRIVED       => 'pireps.status.arrived',
         self::CANCELLED     => 'pireps.status.cancelled',
         self::EMERG_DESCENT => 'pireps.status.emerg_decent',
+        self::PAUSED        => 'pireps.status.paused',
     ];
 }

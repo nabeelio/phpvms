@@ -4,9 +4,6 @@ namespace App\Models\Enums;
 
 use App\Contracts\Enum;
 
-/**
- * Class PirepState
- */
 class PirepState extends Enum
 {
     public const IN_PROGRESS = 0;  // flight is ongoing
@@ -16,6 +13,7 @@ class PirepState extends Enum
     public const DELETED = 4;
     public const DRAFT = 5;
     public const REJECTED = 6;
+    public const PAUSED = 7;
 
     protected static $labels = [
         self::IN_PROGRESS => 'pireps.state.in_progress',
@@ -25,5 +23,6 @@ class PirepState extends Enum
         self::DELETED     => 'pireps.state.deleted',
         self::DRAFT       => 'pireps.state.draft',
         self::REJECTED    => 'pireps.state.rejected',
+        self::PAUSED      => 'pireps.state.paused',
     ];
 }
