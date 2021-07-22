@@ -41,7 +41,7 @@ class DeletePireps extends Listener
         $dt = Carbon::now('UTC')->subHours($expire_time_hours);
         $pireps = Pirep::where('created_at', '<', $dt)
             ->where(['state' => $state])
-            ->where(['status', '<>', PirepStatus::PAUSED])
+            ->where('status', '<>', PirepStatus::PAUSED)
             ->get();
 
         /** @var PirepService $pirepSvc */
