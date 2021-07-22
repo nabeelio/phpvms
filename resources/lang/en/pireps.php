@@ -67,5 +67,6 @@ return [
         'arrived'      => 'Arrived',
         'cancelled'    => 'Cancelled',
         'emerg_decent' => 'Emergency decent',
+        'paused'       => 'Paused',
     ],
 ];
