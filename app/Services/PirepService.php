@@ -599,8 +599,8 @@ class PirepService extends Service
 
         foreach ($field_values as $fv) {
             PirepFieldValue::updateOrCreate(
-                ['pirep_id' => $pirep_id, 'name' => $fv->name],
-                ['value' => $fv->value, 'source' => $fv->source]
+                ['pirep_id' => $pirep_id, 'name' => $fv['name']],
+                ['value' => $fv['value'], 'source' => $fv['source']]
             );
         }
     }

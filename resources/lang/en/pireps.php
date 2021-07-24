@@ -43,6 +43,7 @@ return [
         'cancelled'   => 'Cancelled',
         'deleted'     => 'Deleted',
         'draft'       => 'Draft',
+        'paused'      => 'Paused',
     ],
     'status' => [
         'initialized'  => 'Initiated',
@@ -66,5 +67,6 @@ return [
         'arrived'      => 'Arrived',
         'cancelled'    => 'Cancelled',
         'emerg_decent' => 'Emergency decent',
+        'paused'       => 'Paused',
     ],
 ];

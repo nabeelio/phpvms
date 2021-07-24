@@ -170,6 +170,11 @@ class ImportExport
         }
 
         foreach ($split_values as $value) {
+            $value = trim($value);
+            if ($value === '') {
+                continue;
+            }
+
             // This isn't in the query string format, so it's
             // just a straight key-value pair set
             if (strpos($value, '?') === false) {
