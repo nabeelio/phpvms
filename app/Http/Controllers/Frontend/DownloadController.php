@@ -41,6 +41,7 @@ class DownloadController extends Controller
             $klass = new $class();
             $obj = $klass->find($id);
 
+            // Check if the object is there first
             if (isset($obj)) {
 
                 $category = explode('\\', $class);
