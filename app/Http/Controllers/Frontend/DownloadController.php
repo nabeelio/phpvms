@@ -40,7 +40,7 @@ class DownloadController extends Controller
             [$class, $id] = explode('_', $group);
             $klass = new $class();
             $obj = $klass->find($id);
-            
+
             if (isset($obj)) {
 
                 $category = explode('\\', $class);
