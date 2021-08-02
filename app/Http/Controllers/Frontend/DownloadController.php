@@ -43,7 +43,6 @@ class DownloadController extends Controller
 
             // Check if the object is there first
             if (isset($obj)) {
-
                 $category = explode('\\', $class);
                 $category = end($category);
 
