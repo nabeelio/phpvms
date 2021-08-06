@@ -22,9 +22,9 @@
            "x-saved-class" is the class to add/remove if the bid exists or not
            If you change it, remember to change it in the in-array line as well
           --}}
-          @if (!setting('pilots.only_flights_from_current') || $flight->dpt_airport_id == Auth::user()->current_airport->icao)
+          @if (!setting('pilots.only_flights_from_current') || $flight->dpt_airport_id == $user->current_airport->icao)
             <button class="btn btn-round btn-icon btn-icon-mini save_flight
-                           {{ in_array($flight->id, $saved, true) ? 'btn-info':'' }}"
+                           {{ isset($saved[$flight->id]) ? 'btn-info':'' }}"
                     x-id="{{ $flight->id }}"
                     x-saved-class="btn-info"
                     type="button"
@@ -39,16 +39,12 @@
           {{--<table class="table-condensed"></table>--}}
           <span class="title">{{ strtoupper(__('flights.dep')) }}&nbsp;</span>
           {{ optional($flight->dpt_airport)->name ?? $flight->dpt_airport_id }}
-          (<a href="{{route('frontend.airports.show', [
-                'id' => $flight->dpt_airport_id
-              ])}}">{{$flight->dpt_airport_id}}</a>)
+          (<a href="{{route('frontend.airports.show', ['id' => $flight->dpt_airport_id])}}">{{$flight->dpt_airport_id}}</a>)
           @if($flight->dpt_time), {{ $flight->dpt_time }}@endif
           <br/>
           <span class="title">{{ strtoupper(__('flights.arr')) }}&nbsp;</span>
           {{ optional($flight->arr_airport)->name ?? $flight->arr_airport_id }}
-          (<a href="{{route('frontend.airports.show', [
-                'id' => $flight->arr_airport_id
-              ])}}">{{$flight->arr_airport_id}}</a>)
+          (<a href="{{route('frontend.airports.show', ['id' => $flight->arr_airport_id])}}">{{$flight->arr_airport_id}}</a>)
           @if($flight->arr_time), {{ $flight->arr_time }}@endif
           <br/>
           @if(filled($flight->callsign))
@@ -76,6 +72,17 @@
       </div>
       <div class="row">
         <div class="col-sm-12 text-right">
+          @if ($acars_plugin)
+            @if (isset($saved[$flight->id]))
+              <a href="vmsacars:bid/{{ $saved[$flight->id] }}" class="btn btn-sm btn-outline-primary">
+                  Load in vmsACARS
+              </a>
+            @else
+              <a href="vmsacars:flight/{{ $flight->id }}" class="btn btn-sm btn-outline-primary">
+                  Load in vmsACARS
+              </a>
+            @endif
+          @endif
           <!-- Simbrief enabled -->
           @if ($simbrief !== false)
             <!-- If this flight has a briefing, show the link to view it-->
@@ -86,7 +93,7 @@
               </a>
             @else
               <!-- Show button if the bids-only is disable, or if bids-only is enabled, they've saved it -->
-              @if ($simbrief_bids === false || ($simbrief_bids === true && in_array($flight->id, $saved, true)))
+              @if ($simbrief_bids === false || ($simbrief_bids === true && isset($saved[$flight->id])))
                 <a href="{{ route('frontend.simbrief.generate') }}?flight_id={{ $flight->id }}"
                    class="btn btn-sm btn-outline-primary">
                   Create Simbrief Flight Plan
@@ -94,7 +101,6 @@
               @endif
             @endif
           @endif
-
           <a href="{{ route('frontend.pireps.create') }}?flight_id={{ $flight->id }}"
              class="btn btn-sm btn-outline-info">
             {{ __('pireps.newpirep') }}
