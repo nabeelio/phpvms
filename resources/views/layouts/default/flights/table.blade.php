@@ -74,13 +74,9 @@
         <div class="col-sm-12 text-right">
           @if ($acars_plugin)
             @if (isset($saved[$flight->id]))
-              <a href="vmsacars:bid/{{ $saved[$flight->id] }}" class="btn btn-sm btn-outline-primary">
-                  Load in vmsACARS
-              </a>
+              <a href="vmsacars:bid/{{ $saved[$flight->id] }}" class="btn btn-sm btn-outline-primary">Load in vmsACARS</a>
             @else
-              <a href="vmsacars:flight/{{ $flight->id }}" class="btn btn-sm btn-outline-primary">
-                  Load in vmsACARS
-              </a>
+              <a href="vmsacars:flight/{{ $flight->id }}" class="btn btn-sm btn-outline-primary">Load in vmsACARS</a>
             @endif
           @endif
           <!-- Simbrief enabled -->
