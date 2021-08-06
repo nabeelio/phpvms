@@ -137,7 +137,7 @@ class ModuleService extends Service
             return false;
         }
 
-        return true;
+        return $moduleInstance->isEnabled();
     }
 
     /**
