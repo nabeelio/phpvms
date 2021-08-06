@@ -13,6 +13,7 @@ use App\Repositories\FlightRepository;
 use App\Repositories\SubfleetRepository;
 use App\Repositories\UserRepository;
 use App\Services\GeoService;
+use App\Services\ModuleService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -25,6 +26,7 @@ class FlightController extends Controller
     private $airlineRepo;
     private $airportRepo;
     private $flightRepo;
+    private $moduleSvc;
     private $subfleetRepo;
     private $geoSvc;
     private $userRepo;
@@ -34,6 +36,7 @@ class FlightController extends Controller
      * @param AirportRepository  $airportRepo
      * @param FlightRepository   $flightRepo
      * @param GeoService         $geoSvc
+     * @param ModuleService      $moduleSvc
      * @param SubfleetRepository $subfleetRepo
      * @param UserRepository     $userRepo
      */
@@ -42,6 +45,7 @@ class FlightController extends Controller
         AirportRepository $airportRepo,
         FlightRepository $flightRepo,
         GeoService $geoSvc,
+        ModuleService $moduleSvc,
         SubfleetRepository $subfleetRepo,
         UserRepository $userRepo
     ) {
@@ -49,6 +53,7 @@ class FlightController extends Controller
         $this->airportRepo = $airportRepo;
         $this->flightRepo = $flightRepo;
         $this->geoSvc = $geoSvc;
+        $this->moduleSvc = $moduleSvc;
         $this->subfleetRepo = $subfleetRepo;
         $this->userRepo = $userRepo;
     }
@@ -108,7 +113,12 @@ class FlightController extends Controller
 
         // Get only used Flight Types for the search form
         // And filter according to settings
-        $usedtypes = Flight::select('flight_type')->where($where)->groupby('flight_type')->orderby('flight_type', 'asc')->get();
+        $usedtypes = Flight::select('flight_type')
+            ->where($where)
+            ->groupby('flight_type')
+            ->orderby('flight_type')
+            ->get();
+
         // Build collection with type codes and labels
         $flight_types = collect('', '');
         foreach ($usedtypes as $ftype) {
@@ -123,12 +133,20 @@ class FlightController extends Controller
                 'simbrief' => function ($query) use ($user) {
                     $query->where('user_id', $user->id);
                 }, ])
-            ->orderBy('flight_number', 'asc')
-            ->orderBy('route_leg', 'asc')
+            ->orderBy('flight_number')
+            ->orderBy('route_leg')
             ->paginate();
 
-        $saved_flights = Bid::where('user_id', Auth::id())
-            ->pluck('flight_id')->toArray();
+        $saved_flights = [];
+        $bids = Bid::where('user_id', Auth::id())->get();
+        foreach ($bids as $bid) {
+            if (!$bid->flight) {
+                $bid->delete();
+                continue;
+            }
+
+            $saved_flights[$bid->flight_id] = $bid->id;
+        }
 
         return view('flights.index', [
             'user'          => $user,
@@ -145,6 +163,7 @@ class FlightController extends Controller
             'subfleet_id'   => $request->input('subfleet_id'),
             'simbrief'      => !empty(setting('simbrief.api_key')),
             'simbrief_bids' => setting('simbrief.only_bids'),
+            'acars_plugin'  => $this->moduleSvc->isModuleActive('VMSAcars'),
         ]);
     }
 
@@ -171,7 +190,7 @@ class FlightController extends Controller
             }
 
             $flights->add($bid->flight);
-            $saved_flights[] = $bid->flight->id;
+            $saved_flights[$bid->flight_id] = $bid->id;
         }
 
         return view('flights.bids', [
@@ -183,6 +202,7 @@ class FlightController extends Controller
             'subfleets'     => $this->subfleetRepo->selectBoxList(true),
             'simbrief'      => !empty(setting('simbrief.api_key')),
             'simbrief_bids' => setting('simbrief.only_bids'),
+            'acars_plugin'  => $this->moduleSvc->isModuleActive('VMSAcars'),
         ]);
     }
 
@@ -206,6 +226,7 @@ class FlightController extends Controller
         return view('flights.show', [
             'flight'       => $flight,
             'map_features' => $map_features,
+            'acars_plugin' => $this->moduleSvc->isModuleActive('VMSAcars'),
         ]);
     }
 }

@@ -120,13 +120,14 @@ class ModuleService extends Service
      *
      * @return bool
      */
-    public function moduleActive(string $name): bool
+    public function isModuleActive(string $name): bool
     {
-        $module = Module::where('name', $name);
-        if (!$module->exists()) {
+        $module = Module::where('name', $name)->first();
+        if (empty($module)) {
             return false;
         }
 
+        /** @var \Nwidart\Modules\Module $moduleInstance */
         $moduleInstance = \Nwidart\Modules\Facades\Module::find($module->name);
         if (empty($moduleInstance)) {
             return false;
@@ -136,7 +137,7 @@ class ModuleService extends Service
             return false;
         }
 
-        return true;
+        return $moduleInstance->isEnabled();
     }
 
     /**
@@ -144,7 +145,7 @@ class ModuleService extends Service
      *
      * @param $id
      *
-     * @return object
+     * @return Module
      */
     public function getModule($id): Module
     {
@@ -190,17 +191,14 @@ class ModuleService extends Service
      */
     public function installModule(UploadedFile $file): FlashNotifier
     {
-        $file_ext = $file->getClientOriginalExtension();
+        $file_ext = strtolower($file->getClientOriginalExtension());
         $allowed_extensions = ['zip', 'tar', 'gz'];
 
         if (!in_array($file_ext, $allowed_extensions, true)) {
             throw new ModuleInvalidFileType();
         }
 
-        $module = null;
-
         $new_dir = rand();
-
         File::makeDirectory(
             storage_path('app/tmp/modules/'.$new_dir),
             0777,
