@@ -88,13 +88,55 @@ class ModuleService extends Service
     }
 
     /**
-     * Get All modules from Database
+     * Get all of the modules from database but make sure they also exist on disk
      *
      * @return object
      */
-    public function getAllModules(): object
+    public function getAllModules(): array
     {
-        return Module::all();
+        $modules = [];
+        $moduleList = Module::all();
+
+        /** @var Module $module */
+        foreach ($moduleList as $module) {
+            /** @var \Nwidart\Modules\Module $moduleInstance */
+            $moduleInstance = \Nwidart\Modules\Facades\Module::find($module->name);
+            if (empty($moduleInstance)) {
+                continue;
+            }
+
+            if (file_exists($moduleInstance->getPath())) {
+                $modules[] = $module;
+            }
+        }
+
+        return $modules;
+    }
+
+    /**
+     * Determine if a module is active - also checks that the module exists properly
+     *
+     * @param string $name
+     *
+     * @return bool
+     */
+    public function moduleActive(string $name): bool
+    {
+        $module = Module::where('name', $name);
+        if (!$module->exists()) {
+            return false;
+        }
+
+        $moduleInstance = \Nwidart\Modules\Facades\Module::find($module->name);
+        if (empty($moduleInstance)) {
+            return false;
+        }
+
+        if (!file_exists($moduleInstance->getPath())) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -104,7 +146,7 @@ class ModuleService extends Service
      *
      * @return object
      */
-    public function getModule($id): object
+    public function getModule($id): Module
     {
         return Module::find($id);
     }
@@ -164,6 +206,7 @@ class ModuleService extends Service
             0777,
             true
         );
+
         $temp_ext_folder = storage_path('app/tmp/modules/'.$new_dir);
         $temp = storage_path('app/tmp/modules/'.$new_dir);
 
@@ -219,7 +262,6 @@ class ModuleService extends Service
         }
 
         File::moveDirectory($temp, $toCopy);
-
         File::deleteDirectory($temp_ext_folder);
 
         try {
