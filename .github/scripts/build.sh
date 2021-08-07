@@ -79,8 +79,7 @@ ls -al $BASE_DIR/../
 echo "Calling find"
 find $BASE_DIR/../ -type d -maxdepth 2
 
-shopt -s dotglob
-tar -czf $TAR_NAME -C $BASE_DIR *
+tar -czf $TAR_NAME -C $BASE_DIR --xform 's:^\./::' . [--show-transformed-names|--show-stored-names]
 sha256sum $TAR_NAME >"$TAR_NAME.sha256"
 
 cd $BASE_DIR;
