@@ -70,12 +70,19 @@ mkdir -p storage/framework/views
 
 cd /tmp
 
+echo "Current directory contents"
+ls -al $BASE_DIR
+
+echo "Parent directory contents"
 ls -al $BASE_DIR/../
+
+echo "Calling find"
+find $BASE_DIR/../ -type d -maxdepth 2
 
 tar -czf $TAR_NAME -C $BASE_DIR .
 sha256sum $TAR_NAME >"$TAR_NAME.sha256"
 
-cd $BASE_DIR;
+cd $BASE_DIR/phpvms;
 zip -r $ZIP_NAME .* *
 sha256sum $ZIP_NAME >"$ZIP_NAME.sha256"
 mv $ZIP_NAME /tmp
