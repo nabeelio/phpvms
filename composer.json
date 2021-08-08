@@ -41,6 +41,7 @@
         "laravel/helpers": "^1.4",
         "laravelcollective/html": "~6.2.0",
         "jeremykendall/php-domain-parser": "~5.7.2",
+        "league/commonmark": "~1.6",
         "league/csv": "9.2.*",
         "league/geotools": "0.8.*",
         "league/iso3166": "^3.0.0",
