@@ -41,6 +41,10 @@ class SimBrief extends Model
         'updated_at',
     ];
 
+    protected $casts = [
+        'user_id' => 'integer',
+    ];
+
     /** @var \App\Models\SimBriefXML Store a cached version of the XML object */
     private $xml_instance;
 
