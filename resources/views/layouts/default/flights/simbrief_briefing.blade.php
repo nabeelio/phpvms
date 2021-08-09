@@ -14,7 +14,7 @@
            href="{{ url(route('frontend.simbrief.prefile', [$simbrief->id])) }}">Prefile PIREP</a>
       @endif
     </div>
-    @if (!empty($simbrief->xml->params->static_id) && $user === $simbrief->user_id)
+    @if (!empty($simbrief->xml->params->static_id) && $user->id === $simbrief->user_id)
     <div class="col">
         <a class="btn btn-secondary btn-lg"
            style="margin-top: -10px; margin-bottom: 5px"
