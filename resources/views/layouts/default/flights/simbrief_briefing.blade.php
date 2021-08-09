@@ -7,25 +7,38 @@
       <h2>{{ $simbrief->xml->general->icao_airline }}{{ $simbrief->xml->general->flight_number }}
         : {{ $simbrief->xml->origin->icao_code }} to {{ $simbrief->xml->destination->icao_code }}</h2>
     </div>
-    <div class="col-sm-2">
+    <div class="col">
       @if (empty($simbrief->pirep_id))
         <a class="btn btn-outline-info pull-right btn-lg"
            style="margin-top: -10px; margin-bottom: 5px"
            href="{{ url(route('frontend.simbrief.prefile', [$simbrief->id])) }}">Prefile PIREP</a>
       @endif
     </div>
-    <div class="col-sm-2">
-      @if (!empty($simbrief->xml->params->static_id) && Auth::id() == $simbrief->user_id)
-        <a class="btn btn-secondary pull-right btn-lg"
+    @if (!empty($simbrief->xml->params->static_id) && $user === $simbrief->user_id)
+    <div class="col">
+        <a class="btn btn-secondary btn-lg"
            style="margin-top: -10px; margin-bottom: 5px"
            href="#"
            data-toggle="modal" data-target="#OFP_Edit">Edit OFP</a>
-      @endif
     </div>
-    <div class="col-sm-2">
-      <a class="btn btn-primary pull-right btn-lg"
+    @endif
+    <div class="col">
+      <a class="btn btn-primary btn-lg"
          style="margin-top: -10px; margin-bottom: 5px"
          href="{{ url(route('frontend.simbrief.generate_new', [$simbrief->id])) }}">Generate New OFP</a>
+    </div>
+    <div class="col">
+      @if ($acars_plugin)
+        @if ($bid)
+          <a href="vmsacars:bid/{{$bid->id}}"
+             style="margin-top: -10px; margin-bottom: 5px"
+             class="btn btn-info btn-lg">Load in vmsACARS</a>
+        @else
+          <a href="vmsacars:flight/{{$flight->id}}"
+             style="margin-top: -10px; margin-bottom: 5px"
+             class="btn btn-info btn-lg">Load in vmsACARS</a>
+        @endif
+      @endif
     </div>
   </div>
 
@@ -307,7 +320,7 @@
           </div>
           <div class="modal-footer text-right p-1">
             <a
-              class="btn btn-success btn-sm m-1 p-1" 
+              class="btn btn-success btn-sm m-1 p-1"
               href="{{ route('frontend.simbrief.update_ofp') }}?ofp_id={{ $simbrief->id }}&flight_id={{ $simbrief->flight_id }}&aircraft_id={{ $simbrief->aircraft_id }}&sb_userid={{ $simbrief->xml->params->user_id }}&sb_static_id={{ $simbrief->xml->params->static_id }}">
               Download Updated OFP & Close
             </a>

@@ -92,13 +92,12 @@ class SimBrief extends Model
 
     public function flight()
     {
-        if (!empty($this->attributes['flight_id'])) {
-            return $this->belongsTo(Flight::class, 'flight_id');
-        }
+        return $this->belongsTo(Flight::class, 'flight_id');
+    }
 
-        if (!empty($this->attributes['pirep_id'])) {
-            return $this->belongsTo(Pirep::class, 'pirep_id');
-        }
+    public function pirep()
+    {
+        return $this->belongsTo(Pirep::class, 'pirep_id');
     }
 
     public function user()

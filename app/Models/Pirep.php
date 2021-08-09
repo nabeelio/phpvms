@@ -195,22 +195,22 @@ class Pirep extends Model
     /**
      * Create a new PIREP from a SimBrief instance
      *
-     * @param \App\Models\SimBrief $simBrief
+     * @param \App\Models\SimBrief $simbrief
      *
      * @return \App\Models\Pirep
      */
-    public static function fromSimBrief(SimBrief $simBrief): self
+    public static function fromSimBrief(SimBrief $simbrief): self
     {
         return new self([
-            'flight_id'      => $simBrief->flight->id,
-            'airline_id'     => $simBrief->flight->airline_id,
-            'flight_number'  => $simBrief->flight->flight_number,
-            'route_code'     => $simBrief->flight->route_code,
-            'route_leg'      => $simBrief->flight->route_leg,
-            'dpt_airport_id' => $simBrief->flight->dpt_airport_id,
-            'arr_airport_id' => $simBrief->flight->arr_airport_id,
-            'route'          => $simBrief->xml->getRouteString(),
-            'level'          => $simBrief->xml->getFlightLevel(),
+            'flight_id'      => $simbrief->flight->id,
+            'airline_id'     => $simbrief->flight->airline_id,
+            'flight_number'  => $simbrief->flight->flight_number,
+            'route_code'     => $simbrief->flight->route_code,
+            'route_leg'      => $simbrief->flight->route_leg,
+            'dpt_airport_id' => $simbrief->flight->dpt_airport_id,
+            'arr_airport_id' => $simbrief->flight->arr_airport_id,
+            'route'          => $simbrief->xml->getRouteString(),
+            'level'          => $simbrief->xml->getFlightLevel(),
         ]);
     }
 
