@@ -6,7 +6,14 @@
     <div class="col-8">
       <div class="row">
         <div class="col-12">
-          <h2>{{ $flight->ident }}</h2>
+          <h2>
+            {{ $flight->ident }}
+            @if ($acars_plugin && $bid)
+              <a href="vmsacars:bid/{{$bid->id}}" class="btn btn-info btn-sm float-right">Load in vmsACARS</a>
+            @elseif ($acars_plugin)
+              <a href="vmsacars:flight/{{$flight->id}}" class="btn btn-info btn-sm float-right">Load in vmsACARS</a>
+            @endif
+          </h2>
         </div>
       </div>
       <div class="row">
