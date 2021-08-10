@@ -223,9 +223,13 @@ class FlightController extends Controller
 
         $map_features = $this->geoSvc->flightGeoJson($flight);
 
+        // See if the user has a bid for this flight
+        $bid = Bid::where(['user_id' => Auth::id(), 'flight_id' => $flight->id])->first();
+
         return view('flights.show', [
             'flight'       => $flight,
             'map_features' => $map_features,
+            'bid'          => $bid,
             'acars_plugin' => $this->moduleSvc->isModuleActive('VMSAcars'),
         ]);
     }
