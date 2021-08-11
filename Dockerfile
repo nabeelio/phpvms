@@ -1,8 +1,8 @@
-FROM php:7.4-fpm-alpine
+FROM 8.0.9-fpm-alpine3.14
 
 WORKDIR /var/www/
 
-RUN apk add gmp-dev icu-dev zlib-dev libpng-dev
+RUN apk add gmp-dev icu-dev zlib-dev libpng-dev libzip-dev zip
 RUN curl --silent --show-error https://getcomposer.org/installer | php
 
 # Copy any config files in
@@ -16,8 +16,9 @@ RUN docker-php-ext-install \
   pdo_mysql \
   gd \
   gmp \
+  bcmath \
   opcache && \
-  docker-php-ext-enable pdo_mysql opcache
+  docker-php-ext-enable pdo_mysql opcache bcmath zip
 
 COPY . /var/www/
 RUN php composer.phar install \
