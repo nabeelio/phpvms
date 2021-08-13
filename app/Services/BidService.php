@@ -170,11 +170,7 @@ class BidService extends Service
             $simbrief = SimBrief::where([
                 'user_id'   => $user->id,
                 'flight_id' => $flight->id,
-            ])->whereNull('pirep_id')->first();
-
-            if ($simbrief) {
-                $simbrief->delete();
-            }
+            ])->whereNull('pirep_id')->delete();
         }
 
         // Only flip the flag if there are no bids left for this flight
