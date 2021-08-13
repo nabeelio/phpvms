@@ -8,6 +8,7 @@ use App\Exceptions\UserBidLimit;
 use App\Models\Bid;
 use App\Models\Flight;
 use App\Models\Pirep;
+use App\Models\SimBrief;
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
 
@@ -162,6 +163,18 @@ class BidService extends Service
 
         foreach ($bids as $bid) {
             $bid->forceDelete();
+        }
+
+        // Remove SimBrief OFP when removing the bid if it is not flown
+        if (setting('simbrief.only_bids')) {
+            $simbrief = SimBrief::where([
+                'user_id'   => $user->id,
+                'flight_id' => $flight->id,
+            ])->whereNull('pirep_id')->first();
+
+            if ($simbrief) {
+                $simbrief->delete();
+            }
         }
 
         // Only flip the flag if there are no bids left for this flight
