@@ -24,7 +24,7 @@ services:
       - ./tests:/var/www/tests
       - ./composer.json:/var/www/composer.json
       - ./composer-lock.json:/var/www/composer-lock.json
-      - ./env.php:/var/www/env.php
+      #- ./env.php:/var/www/env.php
       - ./resources/docker/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
     depends_on:
       - mysql
