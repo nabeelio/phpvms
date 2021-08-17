@@ -17,7 +17,8 @@ RUN docker-php-ext-install \
   gd \
   gmp \
   bcmath \
-  opcache && \
+  opcache \
+  zip && \
   docker-php-ext-enable pdo_mysql opcache bcmath zip
 
 COPY . /var/www/
