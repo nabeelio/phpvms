@@ -39,12 +39,11 @@ class UserRepository extends Repository
     public function getUserFields(User $user, $only_public_fields = null): Collection
     {
         if (is_bool($only_public_fields)) {
-            $fields = UserField::where('private', !$only_public_fields)->get();
+            $fields = UserField::where(['private' => !$only_public_fields])->get();
         } else {
             $fields = UserField::get();
         }
 
-        $fields = UserField::where(['private' => !$only_public_fields])->get();
         return $fields->map(function ($field, $_) use ($user) {
             foreach ($user->fields as $userFieldValue) {
                 if ($userFieldValue->field->slug === $field->slug) {
