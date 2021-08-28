@@ -308,13 +308,9 @@ class FareService extends Service
 
         // Add them in
         foreach ($fares as $fare) {
-            $fare['pirep_id'] = $pirep->id;
-            Log::info('Saving fare pirep='.$pirep->id.', fare='.$fare['fare_id'].', count='.$fare['count']);
-            PirepFare::create([
-                'pirep_id' => $fare['pirep_id'],
-                'fare_id'  => $fare['fare_id'],
-                'count'    => $fare['count'],
-            ]);
+            $fare->pirep_id = $pirep->id;
+            Log::info('Saving fare pirep='.$pirep->id.', fare='.$fare['count']);
+            $fare->save();
         }
     }
 }
