@@ -70,14 +70,22 @@ mkdir -p storage/framework/views
 
 cd /tmp
 
+echo "Current directory contents"
+ls -al $BASE_DIR
+
+echo "Parent directory contents"
 ls -al $BASE_DIR/../
 
-tar -czf $TAR_NAME -C $BASE_DIR .
+echo "Calling find"
+find $BASE_DIR/../ -type d -maxdepth 2
+
+tar -czf $TAR_NAME -C $BASE_DIR --xform 's:^\./::' . [--show-transformed-names|--show-stored-names]
 sha256sum $TAR_NAME >"$TAR_NAME.sha256"
 
 cd $BASE_DIR;
-zip -r $ZIP_NAME .* *
+zip -r $ZIP_NAME ./
 sha256sum $ZIP_NAME >"$ZIP_NAME.sha256"
+
 mv $ZIP_NAME /tmp
 mv "$ZIP_NAME.sha256" /tmp
 

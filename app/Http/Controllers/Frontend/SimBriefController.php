@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Exceptions\AssetNotFound;
 use App\Models\Aircraft;
+use App\Models\Bid;
 use App\Models\Enums\AircraftState;
 use App\Models\Enums\AircraftStatus;
 use App\Models\Enums\FareType;
@@ -14,6 +15,7 @@ use App\Models\SimBrief;
 use App\Models\User;
 use App\Repositories\FlightRepository;
 use App\Services\FareService;
+use App\Services\ModuleService;
 use App\Services\SimBriefService;
 use App\Services\UserService;
 use Exception;
@@ -24,17 +26,20 @@ class SimBriefController
 {
     private $fareSvc;
     private $flightRepo;
+    private $moduleSvc;
     private $simBriefSvc;
     private $userSvc;
 
     public function __construct(
         FareService $fareSvc,
         FlightRepository $flightRepo,
+        ModuleService $moduleSvc,
         SimBriefService $simBriefSvc,
         UserService $userSvc
     ) {
         $this->fareSvc = $fareSvc;
         $this->flightRepo = $flightRepo;
+        $this->moduleSvc = $moduleSvc;
         $this->simBriefSvc = $simBriefSvc;
         $this->userSvc = $userSvc;
     }
@@ -106,6 +111,7 @@ class SimBriefController
             if (setting('simbrief.block_aircraft')) {
                 // Build a list of aircraft_id's being used for active sb packs
                 $sb_aircraft = SimBrief::whereNotNull('flight_id')->pluck('aircraft_id');
+
                 // Filter aircraft list to non used/blocked ones
                 $aircrafts = $aircrafts->whereNotIn('id', $sb_aircraft);
             }
@@ -225,7 +231,7 @@ class SimBriefController
 
         // Show the main simbrief form
         return view('flights.simbrief_form', [
-            'user'             => Auth::user(),
+            'user'             => $user,
             'flight'           => $flight,
             'aircraft'         => $aircraft,
             'pax_weight'       => $pax_weight,
@@ -253,7 +259,11 @@ class SimBriefController
      */
     public function briefing($id)
     {
-        $simbrief = SimBrief::find($id);
+        /** @var User $user */
+        $user = Auth::user();
+
+        /** @var SimBrief $simbrief */
+        $simbrief = SimBrief::with(['flight'])->find($id);
         if (!$simbrief) {
             flash()->error('SimBrief briefing not found');
             return redirect(route('frontend.flights.index'));
@@ -266,11 +276,18 @@ class SimBriefController
         $equipment = substr($str, $wc + 1, $tr - 2);
         $transponder = substr($str, $tr + 1);
 
+        // See if a bid exists for this flight
+        $bid = Bid::where(['user_id' => $user->id, 'flight_id' => $simbrief->flight_id])->first();
+
         return view('flights.simbrief_briefing', [
-            'simbrief'    => $simbrief,
-            'wakecat'     => $wakecat,
-            'equipment'   => $equipment,
-            'transponder' => $transponder,
+            'user'         => $user,
+            'simbrief'     => $simbrief,
+            'wakecat'      => $wakecat,
+            'equipment'    => $equipment,
+            'transponder'  => $transponder,
+            'bid'          => $bid,
+            'flight'       => $simbrief->flight,
+            'acars_plugin' => $this->moduleSvc->isModuleActive('VMSAcars'),
         ]);
     }
 

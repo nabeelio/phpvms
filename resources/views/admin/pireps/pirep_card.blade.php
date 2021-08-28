@@ -18,6 +18,11 @@
 					<div class="col-sm-6">
 						<div>
 							<span class="description">
+								<b>Pilot</b>&nbsp;{{ $pirep->user->name }}&nbsp;
+							</span>
+						</div>
+            <div>
+							<span class="description">
 								<b>DEP</b>&nbsp;{{ $pirep->dpt_airport_id }}&nbsp;
 								<b>ARR</b>&nbsp;{{ $pirep->arr_airport_id }}&nbsp;
 							</span>

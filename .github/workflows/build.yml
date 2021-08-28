@@ -116,7 +116,6 @@ jobs:
       - name: 'Install Release Dependencies'
         run: |
           rm -rf vendor
-          sudo npm i tar-to-zip -g
           composer install --no-dev --prefer-dist --no-interaction --verbose
           sudo chmod +x ./.github/scripts/*
 
@@ -179,7 +178,6 @@ jobs:
       - name: 'Install Release Dependencies'
         run: |
           rm -rf vendor
-          sudo npm i tar-to-zip -g
           composer install --no-dev --prefer-dist --no-interaction --verbose
           sudo chmod +x ./.github/scripts/*
 
