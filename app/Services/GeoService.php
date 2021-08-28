@@ -369,7 +369,7 @@ class GeoService extends Service
             $actual->addPoint($point->lat, $point->lon, [
                 'pirep_id' => $pirep->id,
                 'name'     => $point->altitude,
-                'popup'    => 'GS: '.$point->gs.' kts<br />Alt: '.$point->altitude.' ft<br />Pos: '.$point->lat.', '.$point->lon,
+                'popup'    => 'Spd: '.$point->gs.' kts<br />Alt: '.$point->altitude.' ft<br />Pos: '.$point->lat.', '.$point->lon,
             ]);
         }
 
