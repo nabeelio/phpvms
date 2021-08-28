@@ -153,8 +153,8 @@ class PirepController extends Controller
             }
 
             $fares[] = new PirepFare([
-                'fare_id'  => $fare->id,
-                'count'    => $count,
+                'fare_id' => $fare->id,
+                'count'   => $count,
             ]);
         }
 
