@@ -309,7 +309,7 @@ class GeoService extends Service
             foreach ($all_route_points as $point) {
                 $route->addPoint($point->lat, $point->lon, [
                     'name'  => $point->name,
-                    'popup' => $point->name.' ('.$point->name.')',
+                    'popup' => $point->name.' ('.$point->lat.', '.$point->lon.')',
                     'icon'  => '',
                 ]);
             }
@@ -351,7 +351,7 @@ class GeoService extends Service
         foreach ($planned_route as $point) {
             $planned->addPoint($point->lat, $point->lon, [
                 'name'  => $point->name,
-                'popup' => $point->name.' ('.$point->name.')',
+                'popup' => $point->name.' ('.$point->lat.', '.$point->lon.')',
             ]);
         }
 
@@ -369,7 +369,7 @@ class GeoService extends Service
             $actual->addPoint($point->lat, $point->lon, [
                 'pirep_id' => $pirep->id,
                 'name'     => $point->altitude,
-                'popup'    => 'GS: '.$point->gs.'<br />Alt: '.$point->altitude,
+                'popup'    => 'Spd: '.$point->gs.' kts<br />Alt: '.$point->altitude.' ft<br />Pos: '.$point->lat.', '.$point->lon,
             ]);
         }
 
