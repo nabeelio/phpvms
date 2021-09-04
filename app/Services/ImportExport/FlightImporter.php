@@ -29,6 +29,7 @@ class FlightImporter extends ImportExport
         'airline'              => 'required',
         'flight_number'        => 'required',
         'route_code'           => 'nullable',
+        'callsign'             => 'nullable', 
         'route_leg'            => 'nullable',
         'dpt_airport'          => 'required',
         'arr_airport'          => 'required',
