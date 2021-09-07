@@ -53,7 +53,7 @@ class FlightImporter extends ImportExport
         'fares'                => 'nullable',
         'fields'               => 'nullable',
     ];
-   
+
     private $airportSvc;
     private $fareSvc;
     private $flightSvc;
