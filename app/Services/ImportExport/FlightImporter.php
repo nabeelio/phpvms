@@ -25,11 +25,11 @@ class FlightImporter extends ImportExport
      * All of the columns that are in the CSV import
      * Should match the database fields, for the most part
      */
-     public static $columns = [
+    public static $columns = [
         'airline'              => 'required',
         'flight_number'        => 'required',
         'route_code'           => 'nullable',
-        'callsign'             => 'nullable', 
+        'callsign'             => 'nullable',
         'route_leg'            => 'nullable',
         'dpt_airport'          => 'required',
         'arr_airport'          => 'required',
