@@ -25,9 +25,11 @@ class AircraftImporter extends ImportExport
         'subfleet'     => 'required',
         'iata'         => 'nullable',
         'icao'         => 'nullable',
+        'airport_id'   => 'nullable',
         'name'         => 'required',
         'registration' => 'required',
         'hex_code'     => 'nullable',
+        'mtow'         => 'nullable|numeric',
         'zfw'          => 'nullable|numeric',
         'status'       => 'nullable',
     ];
