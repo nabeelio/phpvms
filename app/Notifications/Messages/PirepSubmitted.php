@@ -73,7 +73,7 @@ class PirepSubmitted extends Notification implements ShouldQueue
 
                 $pd = $planned_distance[$planned_distance->unit].' '.$planned_distance->unit;
                 $fields['Distance (Planned)'] = $pd;
-            } catch (NonNumericValue | NonStringUnitName $e) {
+            } catch (NonNumericValue|NonStringUnitName $e) {
             }
         }
 
