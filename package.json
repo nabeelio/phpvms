@@ -63,6 +63,6 @@
     "tailwindcss": "^0.5.3",
     "vue-template-compiler": "^2.6.12",
     "webpack-bundle-analyzer": "^3.9.0",
-    "webpack-dev-server": "^1.16.5"
+    "webpack-dev-server": "^3.1.11"
   }
 }
