@@ -102,7 +102,7 @@ reset-installer:
 
 .PHONY: docker-test
 docker-test:
-	@docker-compose -f docker-compose.yml -f docker-compose.local.yml up
+	@docker compose -f docker-compose.yml -f docker-compose.local.yml up
 
 .PHONY: docker-clean
 docker-clean:
