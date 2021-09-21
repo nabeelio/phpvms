@@ -20,7 +20,7 @@ class SubfleetImporter extends ImportExport
      */
     public static $columns = [
         'airline'                    => 'required',
-        'hub_id'                     => 'required',
+        'hub_id'                     => 'nullable',
         'type'                       => 'required',
         'simbrief_type'              => 'nullable',
         'name'                       => 'required',
