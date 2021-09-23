@@ -479,7 +479,7 @@ class PirepService extends Service
         $pirep->refresh();
 
         // Figure out what pirep state should be, if nothing provided yet.
-        if ($pirep->state != PirepState::ACCEPTED || $pirep->state != PirepState::REJECTED) {
+        if ($pirep->state != PirepState::ACCEPTED && $pirep->state != PirepState::REJECTED) {
             $default_state = PirepState::PENDING;
         } else {
             $default_state = $pirep->state;
