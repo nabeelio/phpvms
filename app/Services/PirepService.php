@@ -476,6 +476,8 @@ class PirepService extends Service
         Log::info('New PIREP filed', [$pirep]);
         event(new PirepFiled($pirep));
 
+        $pirep->refresh();
+
         // Figure out what pirep state should be, if nothing provided yet.
         if ($pirep->state != PirepState::ACCEPTED || $pirep->state != PirepState::REJECTED) {
             $default_state = PirepState::PENDING;
