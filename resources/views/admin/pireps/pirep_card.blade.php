@@ -18,7 +18,7 @@
 					<div class="col-sm-6">
 						<div>
 							<span class="description">
-								<b>Pilot</b>&nbsp;{{ $pirep->user->name }}&nbsp;
+								<b>Pilot</b>&nbsp;{{ '('.$pirep->user_id.') '.optional($pirep->user)->name }}
 							</span>
 						</div>
             <div>
@@ -35,11 +35,11 @@
 						@if($pirep->aircraft)
 						<div>
 							<span class="description">
-								<b>Aircraft</b>&nbsp;{{ $pirep->aircraft->registration }} ({{ $pirep->aircraft->name }})
+								<b>Aircraft</b>&nbsp;{{ $pirep->aircraft->registration }} @if($pirep->aircraft->registration != $pirep->aircraft->name) '{{ $pirep->aircraft->name }}' @endif
 							</span>
 						</div>
 						@endif
-						@if(filled($pirep->level))
+						@if(filled($pirep->level) && $pirep->level > 10)
 						<div>
 							<span class="description">
 								<b>Flight Level</b>&nbsp;{{ $pirep->level }}
