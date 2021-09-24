@@ -47,7 +47,7 @@
     "ssri": "^8.0.1",
     "tar": ">=4.4.2",
     "webpack": "^5.45.1",
-    "webpack-cli": "^3.3.12",
+    "webpack-cli": "^4.0.0",
     "x-editable": "1.5.1"
   },
   "devDependencies": {
