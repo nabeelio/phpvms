@@ -222,7 +222,10 @@ class FlightImporter extends ImportExport
 
             $subfleet = Subfleet::firstOrCreate(
                 ['type' => $subfleet_type],
-                ['name' => $subfleet_type]
+                [
+                    'name'       => $subfleet_type,
+                    'airline_id' => $flight->airline_id,
+                ]
             );
 
             $subfleet->save();
