@@ -206,7 +206,7 @@ class PirepService extends Service
     /**
      * Create a new PIREP with some given fields
      *
-     * @param Pirep                   $pirep
+     * @param Pirep $pirep
      * @param array PirepFieldValue[] $field_values
      *
      * @return Pirep
@@ -460,19 +460,6 @@ class PirepService extends Service
      */
     public function submit(Pirep $pirep)
     {
-        // Figure out what default state should be. Look at the default
-        // behavior from the rank that the pilot is assigned to
-        $default_state = PirepState::PENDING;
-        if ($pirep->source === PirepSource::ACARS) {
-            if ($pirep->user->rank->auto_approve_acars) {
-                $default_state = PirepState::ACCEPTED;
-            }
-        } else {
-            if ($pirep->user->rank->auto_approve_manual) {
-                $default_state = PirepState::ACCEPTED;
-            }
-        }
-
         // Check if there is a simbrief_id, change it to be set to the PIREP
         // at the end of the flight when it's been submitted finally.
         // Prefile, Save (as draft) and File already have this but the Submit button
@@ -488,6 +475,24 @@ class PirepService extends Service
 
         Log::info('New PIREP filed', [$pirep]);
         event(new PirepFiled($pirep));
+
+        $pirep->refresh();
+
+        // Figure out what pirep state should be, if nothing provided yet.
+        if ($pirep->state != PirepState::ACCEPTED && $pirep->state != PirepState::REJECTED) {
+            $default_state = PirepState::PENDING;
+        } else {
+            $default_state = $pirep->state;
+        }
+
+        // If pirep is still at PENDING state decide the default behavior by looking at rank settings
+        if ($pirep->state === PirepState::PENDING) {
+            if ($pirep->source === PirepSource::ACARS && $pirep->user->rank->auto_approve_acars) {
+                $default_state = PirepState::ACCEPTED;
+            } elseif ($pirep->source === PirepSource::MANUAL && $pirep->user->rank->auto_approve_manual) {
+                $default_state = PirepState::ACCEPTED;
+            }
+        }
 
         // only update the pilot last state if they are accepted
         if ($default_state === PirepState::ACCEPTED) {

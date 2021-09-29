@@ -29,6 +29,7 @@ class FlightImporter extends ImportExport
         'airline'              => 'required',
         'flight_number'        => 'required',
         'route_code'           => 'nullable',
+        'callsign'             => 'nullable',
         'route_leg'            => 'nullable',
         'dpt_airport'          => 'required',
         'arr_airport'          => 'required',
@@ -45,6 +46,8 @@ class FlightImporter extends ImportExport
         'pilot_pay'            => 'nullable',
         'route'                => 'nullable',
         'notes'                => 'nullable',
+        'start_date'           => 'nullable|date',
+        'end_date'             => 'nullable|date',
         'active'               => 'nullable|boolean',
         'subfleets'            => 'nullable',
         'fares'                => 'nullable',
@@ -219,7 +222,10 @@ class FlightImporter extends ImportExport
 
             $subfleet = Subfleet::firstOrCreate(
                 ['type' => $subfleet_type],
-                ['name' => $subfleet_type]
+                [
+                    'name'       => $subfleet_type,
+                    'airline_id' => $flight->airline_id,
+                ]
             );
 
             $subfleet->save();
