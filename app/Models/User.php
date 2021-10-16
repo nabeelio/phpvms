@@ -29,6 +29,7 @@ use Laratrust\Traits\LaratrustUserTrait;
  * @property string           remember_token
  * @property \Carbon\Carbon   created_at
  * @property \Carbon\Carbon   updated_at
+ * @property \Carbon\Carbon   deleted_at
  * @property Rank             rank
  * @property Journal          journal
  * @property int              rank_id
@@ -87,6 +88,7 @@ class User extends Authenticatable
         'last_ip',
         'created_at',
         'updated_at',
+        'deleted_at',
     ];
 
     /**
@@ -98,6 +100,15 @@ class User extends Authenticatable
         'password',
         'last_ip',
         'remember_token',
+    ];
+
+    /**
+     * The attributes that should be mutated to dates.
+     */
+    protected $dates = [
+        'created_at',
+        'updated_at',
+        'deleted_at',
     ];
 
     protected $casts = [
