@@ -50,6 +50,15 @@ class Aircraft extends Model
     ];
 
     /**
+     * The attributes that should be mutated to dates.
+     */
+    protected $dates = [
+        'landing_time',
+        'created_at',
+        'updated_at',
+    ];
+
+    /**
      * The attributes that should be casted to native types.
      */
     protected $casts = [
