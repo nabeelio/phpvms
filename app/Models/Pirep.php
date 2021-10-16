@@ -111,6 +111,17 @@ class Pirep extends Model
         'updated_at',
     ];
 
+    /**
+     * The attributes that should be mutated to dates.
+     */
+    protected $dates = [
+        'block_off_time',
+        'block_on_time',
+        'submitted_at',
+        'created_at',
+        'updated_at',
+    ];
+
     protected $casts = [
         'user_id'             => 'integer',
         'airline_id'          => 'integer',
@@ -233,42 +244,6 @@ class Pirep extends Model
         }
 
         return $flight_id;
-    }
-
-    /**
-     * Return the block off time in carbon format
-     *
-     * @return Carbon|null
-     */
-    public function getBlockOffTimeAttribute()
-    {
-        if (array_key_exists('block_off_time', $this->attributes)) {
-            return new Carbon($this->attributes['block_off_time']);
-        }
-    }
-
-    /**
-     * Return the block on time
-     *
-     * @return Carbon|null
-     */
-    public function getBlockOnTimeAttribute()
-    {
-        if (array_key_exists('block_on_time', $this->attributes)) {
-            return new Carbon($this->attributes['block_on_time']);
-        }
-    }
-
-    /**
-     * Return the block on time
-     *
-     * @return Carbon
-     */
-    public function getSubmittedAtAttribute()
-    {
-        if (array_key_exists('submitted_at', $this->attributes)) {
-            return new Carbon($this->attributes['submitted_at']);
-        }
     }
 
     /**
