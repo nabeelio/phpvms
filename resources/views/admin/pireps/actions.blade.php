@@ -12,7 +12,8 @@
         {{ Form::button('Accept', ['type' => 'submit', 'class' => 'btn btn-success']) }}
         {{ Form::close() }}
       </td>
-    @elseif ($pirep->state === PirepState::PENDING || $pirep->state === PirepState::ACCEPTED)
+    @endif
+    @if ($pirep->state === PirepState::PENDING || $pirep->state === PirepState::ACCEPTED)
       <td>
         {{ Form::open(['url' => route('admin.pirep.status', [$pirep->id]),
                         'method' => 'post',
