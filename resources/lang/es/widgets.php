@@ -18,9 +18,10 @@ return [
     'weather' => [
         'nometar'    => 'No se han encontrado datos METAR/TAF',
         'conditions' => 'Condiciones',
-        'visibility' => 'visibilidad',
-        'humidity'   => 'humedad',
-        'dewpoint'   => 'punto de rocío',
+        'visibility' => 'Visibilidad',
+        'temp'       => 'Temperatura',
+        'humidity'   => 'Humedad',
+        'dewpoint'   => 'Punto de rocío',
         'barometer'  => 'Barometro',
         'clouds'     => 'Nubes',
         'wind'       => 'Viento',

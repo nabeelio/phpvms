@@ -51,7 +51,7 @@ https://api.checkwx.com/#metar-decoded
     <tr>
 			<td>Temperature</td>
 			<td>
-        @if($metar['temperature'][$unit_temp]) {{ $metar['temperature'][$unit_temp] }} @else 0 @endif °{{strtoupper($unit_temp)}}
+        @if($metar['temperature'][$unit_temp]), @lang('widgets.weather.temp') {{ $metar['temperature'][$unit_temp] }} @else 0 @endif °{{strtoupper($unit_temp)}}
 				@if($metar['dew_point']), @lang('widgets.weather.dewpoint') @if($metar['dew_point'][$unit_temp]) {{ $metar['dew_point'][$unit_temp] }} @else 0 @endif °{{strtoupper($unit_temp)}} @endif 
 				@if($metar['humidity']), @lang('widgets.weather.humidity') {{ $metar['humidity'] }}%  @endif
 			</td>
