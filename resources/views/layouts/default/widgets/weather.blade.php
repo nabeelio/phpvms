@@ -13,7 +13,7 @@ https://api.checkwx.com/#metar-decoded
     <tr>
       <td>@lang('widgets.weather.wind')</td>
       <td>
-        @if($metar['wind_speed'] < '1') Calm @else {{ $metar['wind_speed'] }} kts @lang('common.from') {{ $metar['wind_direction_label'] }} ({{ $metar['wind_direction']}}°) @endif
+        @if($metar['wind_speed'] < '1') Calm @else {{ $metar['wind_speed'] }} kts @lang('common.from') {{ $metar['wind_direction_label'] }} ({{ $metar['wind_direction']}}&deg;) @endif
 				@if($metar['wind_gust_speed']) @lang('widgets.weather.guststo') {{ $metar['wind_gust_speed'] }} @endif
       </td>
     </tr>
@@ -51,8 +51,8 @@ https://api.checkwx.com/#metar-decoded
     <tr>
 			<td>@lang('widgets.weather.temp')</td>
 			<td>
-        @if($metar['temperature'][$unit_temp]) {{ $metar['temperature'][$unit_temp] }} @else 0 @endif °{{strtoupper($unit_temp)}}
-				@if($metar['dew_point']), @lang('widgets.weather.dewpoint') @if($metar['dew_point'][$unit_temp]) {{ $metar['dew_point'][$unit_temp] }} @else 0 @endif °{{strtoupper($unit_temp)}} @endif 
+        @if($metar['temperature'][$unit_temp]) {{ $metar['temperature'][$unit_temp] }} @else 0 @endif &deg;{{strtoupper($unit_temp)}}
+				@if($metar['dew_point']), @lang('widgets.weather.dewpoint') @if($metar['dew_point'][$unit_temp]) {{ $metar['dew_point'][$unit_temp] }} @else 0 @endif &deg;{{strtoupper($unit_temp)}} @endif 
 				@if($metar['humidity']), @lang('widgets.weather.humidity') {{ $metar['humidity'] }}%  @endif
 			</td>
 		</tr>
