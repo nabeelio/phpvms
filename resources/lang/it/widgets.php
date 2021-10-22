@@ -18,9 +18,10 @@ return [
     'weather' => [
         'nometar'    => 'I dati METAR/TAF non possono essere recuperati',
         'conditions' => 'Condizioni',
-        'visibility' => 'visibilità',
-        'humidity'   => 'umidità',
-        'dewpoint'   => 'punto di rugiada',
+        'visibility' => 'Visibilità',
+        'temp'       => 'Temperatura',
+        'humidity'   => 'Umidità',
+        'dewpoint'   => 'Punto di rugiada',
         'barometer'  => 'Barometro',
         'clouds'     => 'Nuvole',
         'wind'       => 'Vento',

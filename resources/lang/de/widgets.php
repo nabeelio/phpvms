@@ -19,6 +19,7 @@ return [
         'nometar'    => 'METAR/TAF Daten konnten nicht abgerufen werden',
         'conditions' => 'Bedingungen',
         'visibility' => 'Sichtbarkeit',
+        'temp'       => 'Temperatur',
         'humidity'   => 'Feuchtigkeit',
         'dewpoint'   => 'Taupunkt',
         'barometer'  => 'Barometer',
