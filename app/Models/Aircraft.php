@@ -100,6 +100,18 @@ class Aircraft extends Model
         $this->attributes['icao'] = strtoupper($icao);
     }
 
+     /**
+     * Return the landing time in carbon format if provided
+     *
+     * @return Carbon|null
+     */
+    public function getLandingTimeAttribute()
+    {
+        if (array_key_exists('landing_time', $this->attributes) && filled($this->attributes['landing_time'])) {
+            return new Carbon($this->attributes['landing_time']);
+        }
+    }
+
     /**
      * foreign keys
      */
