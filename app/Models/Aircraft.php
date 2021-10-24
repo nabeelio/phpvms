@@ -100,7 +100,7 @@ class Aircraft extends Model
         $this->attributes['icao'] = strtoupper($icao);
     }
 
-     /**
+    /**
      * Return the landing time in carbon format if provided
      *
      * @return Carbon|null
