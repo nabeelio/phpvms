@@ -69,7 +69,8 @@
         "wildbit/swiftmailer-postmark": "^3.3",
         "queueworker/sansdaemon": "^1.2",
         "jpkleemans/attribute-events": "^1.1",
-        "akaunting/laravel-money": "^1.2"
+        "akaunting/laravel-money": "^1.2",
+        "staudenmeir/belongs-to-through": "^2.5"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.5",
