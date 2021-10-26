@@ -129,4 +129,14 @@ class Aircraft extends Model
     {
         return $this->belongsToThrough(Airline::class, Subfleet::class);
     }
+    
+    public function flights()
+    {
+        return $this->hasManyThrough(Flight::class, Subfleet::class);
+    }
+
+    public function pireps()
+    {
+        return $this->hasMany(Pirep::class, 'aircraft_id');
+    }
 }
