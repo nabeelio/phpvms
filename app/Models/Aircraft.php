@@ -124,4 +124,9 @@ class Aircraft extends Model
     {
         return $this->belongsTo(Subfleet::class, 'subfleet_id');
     }
+
+    public function airline()
+    {
+        return $this->belongsToThrough(Airline::class, Subfleet::class);
+    }
 }
