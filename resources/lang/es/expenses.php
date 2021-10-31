@@ -2,7 +2,7 @@
 
 return [
     'type' => [
-        'flight'  => 'Vuelo',
+        'flight'  => 'Por vuelo',
         'daily'   => 'Diario',
         'monthly' => 'Mensual',
     ],

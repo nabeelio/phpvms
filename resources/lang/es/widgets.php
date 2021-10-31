@@ -11,7 +11,7 @@ return [
         'altitude'    => 'Altitud',
         'heading'     => 'Rumbo',
         'distance'    => 'Distancía',
-        'noflights'   => 'No hay vuelos.',
+        'noflights'   => 'No hay vuelos',
         'gs'          => 'GS',
     ],
 
