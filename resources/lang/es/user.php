@@ -6,7 +6,7 @@ return [
         'pending'   => 'Pendiente',
         'active'    => 'Activo',
         'rejected'  => 'Rechazado',
-        'on_leave'  => 'De vacaciones',
+        'on_leave'  => 'En excedencia',
         'suspended' => 'Suspendido',
         'deleted'   => 'Borrar',
     ],
