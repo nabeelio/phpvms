@@ -21,6 +21,14 @@ class UserFieldValue extends Model
     ];
 
     public static $rules = [];
+    
+    /**
+     * Return related field's name along with field values
+     */
+    public function getNameAttribute(): string
+    {
+        return $this->field->name;
+    }
 
     /**
      * Foreign Keys
