@@ -130,6 +130,11 @@ class Aircraft extends Model
         return $this->hasMany(Pirep::class, 'aircraft_id');
     }
 
+    public function simbriefs()
+    {
+        return $this->hasMany(Simbrief::class, 'aircraft_id');
+    }
+
     public function subfleet()
     {
         return $this->belongsTo(Subfleet::class, 'subfleet_id');
