@@ -215,21 +215,19 @@ class Pirep extends Model
     }
 
     /**
-     * Get the flight ident, e.,g JBU1900
-     *
-     * @return string
+     * Get the flight ident, e.,g JBU1900/C.nn/L.yy
      */
     public function getIdentAttribute(): string
     {
-        //$flight_id = $this->airline->code;
+        $flight_id = $this->airline->code;
         $flight_id = $this->flight_number;
 
         if (filled($this->route_code)) {
-            $flight_id .= '/C'.$this->route_code;
+            $flight_id .= '/C.'.$this->route_code;
         }
 
         if (filled($this->route_leg)) {
-            $flight_id .= '/L'.$this->route_leg;
+            $flight_id .= '/L.'.$this->route_leg;
         }
 
         return $flight_id;
