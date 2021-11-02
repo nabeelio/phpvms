@@ -27,7 +27,7 @@ class UserFieldValue extends Model
      */
     public function getNameAttribute(): string
     {
-        return $this->field->name;
+        return isset($this->field) ? $this->field->name : null;
     }
 
     /**
