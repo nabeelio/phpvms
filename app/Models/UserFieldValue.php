@@ -21,7 +21,7 @@ class UserFieldValue extends Model
     ];
 
     public static $rules = [];
-    
+
     /**
      * Return related field's name along with field values
      */
