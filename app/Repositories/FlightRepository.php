@@ -18,6 +18,7 @@ class FlightRepository extends Repository implements CacheableInterface
 
     protected $fieldSearchable = [
         'arr_airport_id',
+        'callsign',
         'distance',
         'dpt_airport_id',
         'flight_type',
@@ -92,6 +93,10 @@ class FlightRepository extends Repository implements CacheableInterface
 
         if ($request->filled('flight_number')) {
             $where['flight_number'] = $request->input('flight_number');
+        }
+
+        if ($request->filled('callsign')) {
+            $where['callsign'] = $request->input('callsign');
         }
 
         if ($request->filled('flight_type') && $request->input('flight_type') !== '0') {
