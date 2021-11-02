@@ -115,9 +115,19 @@ class Aircraft extends Model
     /**
      * foreign keys
      */
+    public function airline()
+    {
+        return $this->belongsToThrough(Airline::class, Subfleet::class);
+    }
+
     public function airport()
     {
         return $this->belongsTo(Airport::class, 'airport_id');
+    }
+
+    public function pireps()
+    {
+        return $this->hasMany(Pirep::class, 'aircraft_id');
     }
 
     public function subfleet()
