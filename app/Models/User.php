@@ -126,7 +126,7 @@ class User extends Authenticatable
     {
         $length = setting('pilots.id_length');
 
-        return $this->airline->icao.str_pad($this->pilot_id, $length, '0', STR_PAD_LEFT);
+        return optional($this->airline)->icao.str_pad($this->pilot_id, $length, '0', STR_PAD_LEFT);
     }
 
     /**
