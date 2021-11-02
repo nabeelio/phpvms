@@ -7,7 +7,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        php-versions: ['7.3', '7.4']
+        php-versions: ['7.3', '7.4', '8.0']
     name: PHP ${{ matrix.php-versions }}
     env:
       extensions: intl, pcov, mbstring
@@ -41,7 +41,6 @@ jobs:
       with:
         path: ${{ steps.composer-cache.outputs.dir }}
         key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-        restore-keys: ${{ runner.os }}-composer-
 
     # Configure PHP
     - name: Setup PHP
@@ -117,7 +116,6 @@ jobs:
       - name: 'Install Release Dependencies'
         run: |
           rm -rf vendor
-          sudo npm i tar-to-zip -g
           composer install --no-dev --prefer-dist --no-interaction --verbose
           sudo chmod +x ./.github/scripts/*
 
@@ -180,7 +178,6 @@ jobs:
       - name: 'Install Release Dependencies'
         run: |
           rm -rf vendor
-          sudo npm i tar-to-zip -g
           composer install --no-dev --prefer-dist --no-interaction --verbose
           sudo chmod +x ./.github/scripts/*
 

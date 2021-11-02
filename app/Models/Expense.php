@@ -13,6 +13,7 @@ use App\Models\Traits\ReferenceTrait;
  * @property string flight_type
  * @property string ref_model
  * @property string ref_model_id
+ * @property bool   charge_to_user
  *
  * @mixin \Illuminate\Database\Eloquent\Builder
  */
@@ -36,7 +37,7 @@ class Expense extends Model
     ];
 
     public static $rules = [
-        'active'         => 'boolean',
+        'active'         => 'bool',
         'airline_id'     => 'integer',
         'amount'         => 'float',
         'multiplier'     => 'bool',

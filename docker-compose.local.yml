@@ -1,0 +1,31 @@
+#
+# Run with either `make docker-test` or the following Docker command:
+# docker-compose -f docker-compose.yml -f docker-compose.local.yml up
+#
+---
+version: '3'
+services:
+  # This is overriding the docker-compose.yaml file to have a localized version
+  # of the contianer that you can use for building/testing
+  app:
+    build:
+      context: .
+    environment:
+      DB_HOST: mysql
+      REDIS_HOST: redis
+    volumes:
+      - ./app:/var/www/app
+      - ./bootstrap:/var/www/bootstrap
+      - ./config:/var/www/config
+      - ./modules:/var/www/modules
+      - ./public:/var/www/public
+      - ./resources:/var/www/resources
+      - ./storage:/var/www/storage
+      - ./tests:/var/www/tests
+      - ./composer.json:/var/www/composer.json
+      - ./composer-lock.json:/var/www/composer-lock.json
+      #- ./env.php:/var/www/env.php
+      - ./resources/docker/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
+    depends_on:
+      - mysql
+      - redis

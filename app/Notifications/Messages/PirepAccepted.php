@@ -5,15 +5,14 @@ namespace App\Notifications\Messages;
 use App\Contracts\Notification;
 use App\Models\Pirep;
 use App\Notifications\Channels\MailChannel;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
 /**
- * Send the PIREP accepted message to a particular user
+ * Send the PIREP accepted message to a particular user, can also be sent to Discord
  */
-class PirepAccepted extends Notification
+class PirepAccepted extends Notification implements ShouldQueue
 {
     use MailChannel;
-
-    public $channels = ['mail'];
 
     private $pirep;
 
@@ -33,6 +32,11 @@ class PirepAccepted extends Notification
             'notifications.mail.pirep.accepted',
             ['pirep' => $this->pirep]
         );
+    }
+
+    public function via($notifiable)
+    {
+        return ['mail'];
     }
 
     /**

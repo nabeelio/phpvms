@@ -109,7 +109,7 @@
       </tr>
       <tr>
         <td>IP Address</td>
-        <td>{{ $user->last_ip }}</td>
+        <td>{{ $user->last_ip ?? '-' }}</td>
       </tr>
       <tr>
         <td>Registered On</td>

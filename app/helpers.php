@@ -30,6 +30,10 @@ if (!function_exists('in_mask')) {
      */
     function in_mask($mask, $value)
     {
+        if (empty($mask)) {
+            $mask = 0;
+        }
+
         return ($mask & $value) === $value;
     }
 }
@@ -365,7 +369,7 @@ if (!function_exists('secstohhmm')) {
      */
     function secstohhmm($seconds)
     {
-        $seconds = round($seconds);
+        $seconds = round((float) $seconds);
         $hhmm = sprintf('%02d%02d', ($seconds / 3600), ($seconds / 60 % 60));
         echo $hhmm;
     }

@@ -12,6 +12,7 @@ use Carbon\Carbon;
  * @property int      id
  * @property mixed    subfleet_id
  * @property string   airport_id   The apt where the aircraft is
+ * @property string   ident
  * @property string   name
  * @property string   icao
  * @property string   registration
@@ -72,6 +73,14 @@ class Aircraft extends Model
     ];
 
     /**
+     * @return string
+     */
+    public function getIdentAttribute(): string
+    {
+        return $this->registration.' ('.$this->icao.')';
+    }
+
+    /**
      * See if this aircraft is active
      *
      * @return bool
@@ -92,11 +101,33 @@ class Aircraft extends Model
     }
 
     /**
+     * Return the landing time in carbon format if provided
+     *
+     * @return Carbon|null
+     */
+    public function getLandingTimeAttribute()
+    {
+        if (array_key_exists('landing_time', $this->attributes) && filled($this->attributes['landing_time'])) {
+            return new Carbon($this->attributes['landing_time']);
+        }
+    }
+
+    /**
      * foreign keys
      */
+    public function airline()
+    {
+        return $this->belongsToThrough(Airline::class, Subfleet::class);
+    }
+
     public function airport()
     {
         return $this->belongsTo(Airport::class, 'airport_id');
+    }
+
+    public function pireps()
+    {
+        return $this->hasMany(Pirep::class, 'aircraft_id');
     }
 
     public function subfleet()

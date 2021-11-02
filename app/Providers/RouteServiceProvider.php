@@ -90,10 +90,6 @@ class RouteServiceProvider extends ServiceProvider
 
             Route::post('/run-migrations', 'UpdateController@run_migrations')->name('run_migrations');
             Route::get('/complete', 'UpdateController@complete')->name('complete');
-
-            // Routes for the update downloader
-            Route::get('/downloader', 'UpdateController@updater')->name('updater');
-            Route::post('/downloader', 'UpdateController@update_download')->name('update_download');
         });
     }
 
@@ -142,6 +138,7 @@ class RouteServiceProvider extends ServiceProvider
                 Route::get('simbrief/generate', 'SimBriefController@generate')->name('simbrief.generate');
                 Route::post('simbrief/apicode', 'SimBriefController@api_code')->name('simbrief.api_code');
                 Route::get('simbrief/check_ofp', 'SimBriefController@check_ofp')->name('simbrief.check_ofp');
+                Route::get('simbrief/update_ofp', 'SimBriefController@update_ofp')->name('simbrief.update_ofp');
                 Route::get('simbrief/{id}', 'SimBriefController@briefing')->name('simbrief.briefing');
                 Route::get('simbrief/{id}/prefile', 'SimBriefController@prefile')->name('simbrief.prefile');
                 Route::get('simbrief/{id}/cancel', 'SimBriefController@cancel')->name('simbrief.cancel');
@@ -533,6 +530,9 @@ class RouteServiceProvider extends ServiceProvider
                 Route::get('fleet', 'FleetController@index');
                 Route::get('fleet/aircraft/{id}', 'FleetController@get_aircraft');
 
+                Route::get('subfleet', 'FleetController@index');
+                Route::get('subfleet/aircraft/{id}', 'FleetController@get_aircraft');
+
                 Route::get('flights', 'FlightController@index');
                 Route::get('flights/search', 'FlightController@search');
                 Route::get('flights/{id}', 'FlightController@get');
@@ -579,6 +579,10 @@ class RouteServiceProvider extends ServiceProvider
                 Route::get('user', 'UserController@index');
                 Route::get('user/fleet', 'UserController@fleet');
                 Route::get('user/pireps', 'UserController@pireps');
+
+                Route::get('bids', 'UserController@bids');
+                Route::get('bids/{id}', 'UserController@get_bid');
+                Route::get('user/bids/{id}', 'UserController@get_bid');
 
                 Route::get('user/bids', 'UserController@bids');
                 Route::put('user/bids', 'UserController@bids');

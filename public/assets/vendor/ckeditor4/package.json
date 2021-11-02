@@ -1,10 +1,4 @@
 {
-  "_args": [
-    [
-      "ckeditor4@4.14.0",
-      "C:\\Users\\Yash\\Documents\\phpvms\\phpvms"
-    ]
-  ],
   "_from": "ckeditor4@4.14.0",
   "_id": "ckeditor4@4.14.0",
   "_inBundle": false,
@@ -22,11 +16,13 @@
     "fetchSpec": "4.14.0"
   },
   "_requiredBy": [
+    "#USER",
     "/"
   ],
   "_resolved": "https://registry.npmjs.org/ckeditor4/-/ckeditor4-4.14.0.tgz",
-  "_spec": "4.14.0",
-  "_where": "C:\\Users\\Yash\\Documents\\phpvms\\phpvms",
+  "_shasum": "bfcbe942599fa0c6f488309ecbfe38b2519f919b",
+  "_spec": "ckeditor4@4.14.0",
+  "_where": "/Users/a206675592/dev/nabeelio/phpvms",
   "author": {
     "name": "CKSource",
     "url": "https://cksource.com/"
@@ -34,6 +30,8 @@
   "bugs": {
     "url": "https://github.com/ckeditor/ckeditor4/issues"
   },
+  "bundleDependencies": false,
+  "deprecated": false,
   "description": "JavaScript WYSIWYG web text editor.",
   "homepage": "https://ckeditor.com/ckeditor-4/",
   "keywords": [

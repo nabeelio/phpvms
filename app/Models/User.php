@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Models\Enums\JournalType;
-use App\Models\Enums\PirepState;
 use App\Models\Traits\JournalTrait;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -33,8 +32,11 @@ use Laratrust\Traits\LaratrustUserTrait;
  * @property Rank             rank
  * @property Journal          journal
  * @property int              rank_id
+ * @property string           discord_id
  * @property int              state
+ * @property string           last_ip
  * @property bool             opt_in
+ * @property Pirep[]          pireps
  * @property string           last_pirep_id
  * @property Pirep            last_pirep
  * @property UserFieldValue[] fields
@@ -66,6 +68,8 @@ class User extends Authenticatable
         'pilot_id',
         'airline_id',
         'rank_id',
+        'discord_id',
+        'discord_private_channel_id',
         'api_key',
         'country',
         'home_airport_id',
@@ -80,6 +84,7 @@ class User extends Authenticatable
         'status',
         'toc_accepted',
         'opt_in',
+        'last_ip',
         'created_at',
         'updated_at',
     ];
@@ -89,7 +94,9 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'api_key',
+        'discord_id',
         'password',
+        'last_ip',
         'remember_token',
     ];
 
@@ -251,8 +258,7 @@ class User extends Authenticatable
 
     public function pireps()
     {
-        return $this->hasMany(Pirep::class, 'user_id')
-            ->where('state', '!=', PirepState::CANCELLED);
+        return $this->hasMany(Pirep::class, 'user_id');
     }
 
     public function rank()

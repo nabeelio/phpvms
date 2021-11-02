@@ -3,6 +3,7 @@
 namespace App\Support;
 
 use GuzzleHttp\Client as GuzzleClient;
+use GuzzleHttp\RequestOptions;
 
 /**
  * Helper for HTTP stuff
@@ -11,9 +12,8 @@ class HttpClient
 {
     private $httpClient;
 
-    public function __construct(
-        GuzzleClient $httpClient
-    ) {
+    public function __construct(GuzzleClient $httpClient)
+    {
         $this->httpClient = $httpClient;
     }
 
@@ -37,6 +37,29 @@ class HttpClient
         $response = $this->httpClient->request('GET', $uri, $opts);
 
         $body = $response->getBody()->getContents();
+        $content_type = $response->getHeaderLine('content-type');
+        if (strpos($content_type, 'application/json') !== false) {
+            $body = \GuzzleHttp\json_decode($body, true);
+        }
+
+        return $body;
+    }
+
+    /**
+     * @param       $uri
+     * @param       $body
+     * @param array $opts
+     *
+     * @return mixed
+     */
+    public function post($uri, $body, array $opts = [])
+    {
+        $opts = array_merge([
+            'connect_timeout'    => 2,
+            RequestOptions::JSON => $body,
+        ], $opts);
+
+        $response = $this->httpClient->post($uri, $opts);
         $content_type = $response->getHeaderLine('content-type');
         if (strpos($content_type, 'application/json') !== false) {
             $body = \GuzzleHttp\json_decode($body, true);

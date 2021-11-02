@@ -1,5 +1,5 @@
 @extends('admin.app')
-@section('title', "Modules Manager")
+@section('title', 'modules')
 @section('actions')
   <li>
     <a href="{{ route('admin.modules.create') }}">

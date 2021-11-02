@@ -185,6 +185,8 @@ class BidTest extends TestCase
     {
         $this->user = factory(User::class)->create();
         $user2 = factory(User::class)->create();
+
+        /** @var \App\Models\Flight $flight */
         $flight = $this->addFlight($this->user);
 
         $uri = '/api/user/bids';
@@ -194,6 +196,14 @@ class BidTest extends TestCase
         $body = $body->json('data');
 
         $this->assertEquals($body['flight_id'], $flight->id);
+        $this->assertNotEmpty($body['flight']);
+
+        $res = $this->get('/api/bids/'.$body['id']);
+        $res->assertOk();
+
+        $body = $res->json('data');
+        $this->assertEquals($body['flight_id'], $flight->id);
+        $this->assertNotEmpty($body['flight']);
 
         // Now try to have the second user bid on it
         // Should return a 409 error

@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Contracts\Model;
+use App\Events\PirepStateChange;
+use App\Events\PirepStatusChange;
 use App\Models\Enums\AcarsType;
 use App\Models\Enums\PirepFieldSource;
 use App\Models\Enums\PirepState;
@@ -10,7 +12,9 @@ use App\Models\Traits\HashIdTrait;
 use App\Support\Units\Distance;
 use App\Support\Units\Fuel;
 use Carbon\Carbon;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
+use Kleemans\AttributeEvents;
 
 /**
  * @property string      id
@@ -44,8 +48,8 @@ use Illuminate\Support\Collection;
  * @property Flight|null flight
  * @property Collection  fields
  * @property string      status
- * @property PirepState  state
- * @property int     source
+ * @property int         state
+ * @property int         source
  * @property string      source_name
  * @property Carbon      submitted_at
  * @property Carbon      created_at
@@ -57,7 +61,9 @@ use Illuminate\Support\Collection;
  */
 class Pirep extends Model
 {
+    use AttributeEvents;
     use HashIdTrait;
+    use Notifiable;
 
     public $table = 'pireps';
 
@@ -137,6 +143,14 @@ class Pirep extends Model
         'route'          => 'nullable',
     ];
 
+    /**
+     * Auto-dispatch events for lifecycle state changes
+     */
+    protected $dispatchesEvents = [
+        'status:*' => PirepStatusChange::class,
+        'state:*'  => PirepStateChange::class,
+    ];
+
     /*
      * If a PIREP is in these states, then it can't be changed.
      */
@@ -181,22 +195,22 @@ class Pirep extends Model
     /**
      * Create a new PIREP from a SimBrief instance
      *
-     * @param \App\Models\SimBrief $simBrief
+     * @param \App\Models\SimBrief $simbrief
      *
      * @return \App\Models\Pirep
      */
-    public static function fromSimBrief(SimBrief $simBrief): self
+    public static function fromSimBrief(SimBrief $simbrief): self
     {
         return new self([
-            'flight_id'      => $simBrief->flight->id,
-            'airline_id'     => $simBrief->flight->airline_id,
-            'flight_number'  => $simBrief->flight->flight_number,
-            'route_code'     => $simBrief->flight->route_code,
-            'route_leg'      => $simBrief->flight->route_leg,
-            'dpt_airport_id' => $simBrief->flight->dpt_airport_id,
-            'arr_airport_id' => $simBrief->flight->arr_airport_id,
-            'route'          => $simBrief->xml->getRouteString(),
-            'level'          => $simBrief->xml->getFlightLevel(),
+            'flight_id'      => $simbrief->flight->id,
+            'airline_id'     => $simbrief->flight->airline_id,
+            'flight_number'  => $simbrief->flight->flight_number,
+            'route_code'     => $simbrief->flight->route_code,
+            'route_leg'      => $simbrief->flight->route_leg,
+            'dpt_airport_id' => $simbrief->flight->dpt_airport_id,
+            'arr_airport_id' => $simbrief->flight->arr_airport_id,
+            'route'          => $simbrief->xml->getRouteString(),
+            'level'          => $simbrief->xml->getFlightLevel(),
         ]);
     }
 

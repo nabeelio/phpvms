@@ -41,22 +41,25 @@ class DownloadController extends Controller
             $klass = new $class();
             $obj = $klass->find($id);
 
-            $category = explode('\\', $class);
-            $category = end($category);
+            // Check if the object is there first
+            if (isset($obj)) {
+                $category = explode('\\', $class);
+                $category = end($category);
 
-            if ($category == 'Aircraft' && $airlines > 1) {
-                $group_name = $category.' > '.$obj->subfleet->airline->name.' '.$obj->icao.' '.$obj->registration;
-            } elseif ($category == 'Aircraft') {
-                $group_name = $category.' > '.$obj->icao.' '.$obj->registration;
-            } elseif ($category == 'Airport') {
-                $group_name = $category.' > '.$obj->icao.' : '.$obj->name.' ('.$obj->country.')';
-            } elseif ($category == 'Subfleet' && $airlines > 1) {
-                $group_name = $category.' > '.$obj->airline->name.' '.$obj->name;
-            } else {
-                $group_name = $category.' > '.$obj->name;
+                if ($category == 'Aircraft' && $airlines > 1) {
+                    $group_name = $category.' > '.$obj->subfleet->airline->name.' '.$obj->icao.' '.$obj->registration;
+                } elseif ($category == 'Aircraft') {
+                    $group_name = $category.' > '.$obj->icao.' '.$obj->registration;
+                } elseif ($category == 'Airport') {
+                    $group_name = $category.' > '.$obj->icao.' : '.$obj->name.' ('.$obj->country.')';
+                } elseif ($category == 'Subfleet' && $airlines > 1) {
+                    $group_name = $category.' > '.$obj->airline->name.' '.$obj->name;
+                } else {
+                    $group_name = $category.' > '.$obj->name;
+                }
+
+                $regrouped_files[$group_name] = $files;
             }
-
-            $regrouped_files[$group_name] = $files;
         }
 
         ksort($regrouped_files, SORT_STRING);

@@ -4,9 +4,6 @@ namespace Tests;
 
 use App\Models\Airport;
 
-/**
- * Test the parsing/support class of the metar
- */
 class AirportTest extends TestCase
 {
     public function testSavingAirportFromApiResponse()

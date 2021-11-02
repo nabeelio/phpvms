@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Cron\Nightly;
+namespace App\Cron\Hourly;
 
 use App\Contracts\Listener;
-use App\Events\CronNightly;
+use App\Events\CronHourly;
 use App\Services\SimBriefService;
 use Illuminate\Support\Facades\Log;
 
@@ -22,9 +22,9 @@ class ClearExpiredSimbrief extends Listener
     /**
      * @param \App\Events\CronNightly $event
      */
-    public function handle(CronNightly $event): void
+    public function handle(CronHourly $event): void
     {
-        Log::info('Nightly: Removing expired Simbrief entries');
+        Log::info('Hourly: Removing expired Simbrief entries');
         $this->simbriefSvc->removeExpiredEntries();
     }
 }

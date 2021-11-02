@@ -24,9 +24,9 @@ abstract class Command extends \Illuminate\Console\Command
         parent::__construct();
 
         // Running in the console but not in the tests
-        if (app()->runningInConsole() && env('APP_ENV') !== 'testing') {
+        /*if (app()->runningInConsole() && env('APP_ENV') !== 'testing') {
             $this->redirectLoggingToFile('stdout');
-        }
+        }*/
     }
 
     /**

@@ -19,6 +19,7 @@ return [
         'nometar'    => 'METAR/TAF não podem ser identificados.',
         'conditions' => 'Condições',
         'visibility' => 'Visibilidade',
+        'temp'       => 'Temperatura',
         'humidity'   => 'Umidade',
         'dewpoint'   => 'Ponto de orvalho',
         'barometer'  => 'Barômetro',

@@ -68,7 +68,7 @@ class MigrationService extends Service
             $availMigrations[] = $filepath;
         }
 
-        Log::info('Migrations available: '.count($availMigrations));
+        //Log::info('Migrations available: '.count($availMigrations));
 
         return $availMigrations;
     }
@@ -77,12 +77,12 @@ class MigrationService extends Service
      * Run all of the migrations that are available. Just call artisan since
      * it looks into all of the module directories, etc
      */
-    public function runAllMigrations()
+    public function runAllMigrations(): string
     {
         // A little ugly, run the main migration first, this makes sure the migration table is there
         $output = '';
 
-        Artisan::call('migrate');
+        Artisan::call('migrate', ['--force' => true]);
         $output .= trim(Artisan::output());
 
         // Then get any remaining migrations that are left over
@@ -92,10 +92,14 @@ class MigrationService extends Service
         $migrator = $this->getMigrator();
         $availMigrations = $this->migrationsAvailable();
 
-        Log::info('Running '.count($availMigrations).' available migrations');
-        $ret = $migrator->run($availMigrations);
-        Log::info('Ran '.count($ret).' migrations');
+        if (count($availMigrations) > 0) {
+            Log::info('Running '.count($availMigrations).' available migrations');
+            $ret = $migrator->run($availMigrations);
+            Log::info('Ran '.count($ret).' migrations');
 
-        return $output."\n".implode("\n", $ret);
+            return $output."\n".implode("\n", $ret);
+        }
+
+        return $output;
     }
 }

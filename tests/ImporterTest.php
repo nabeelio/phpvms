@@ -149,6 +149,13 @@ class ImporterTest extends TestCase
                     'Arrival Gate'   => 'C61',
                 ],
             ],
+            // Blank values omitted
+            [
+                'input'    => 'gate; ',
+                'expected' => [
+                    'gate',
+                ],
+            ],
         ];
 
         foreach ($tests as $test) {

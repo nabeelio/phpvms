@@ -38,12 +38,15 @@
         <td style="text-align: center;">{{ $atf->code }}</td>
         <td>
           <a href="#" data-pk="{{ $atf->id }}" data-name="capacity">{{ $atf->pivot->capacity }}</a>
+          <span class="small background-color-grey-light">({{ $atf->capacity }})</span>
         </td>
         <td>
           <a href="#" data-pk="{{ $atf->id }}" data-name="price">{{ $atf->pivot->price }}</a>
+          <span class="small background-color-grey-light">({{ $atf->price }})</span>
         </td>
         <td>
           <a href="#" data-pk="{{ $atf->id }}" data-name="cost">{{ $atf->pivot->cost }}</a>
+          <span class="small background-color-grey-light">({{ $atf->cost }})</span>
         </td>
         <td style="text-align: center; width:3%;">
           {{ Form::open(['url' => '/admin/flights/'.$flight->id.'/fares',

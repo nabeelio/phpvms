@@ -6,6 +6,7 @@ use App\Contracts\Model;
 use App\Models\Enums\JournalType;
 use App\Models\Traits\FilesTrait;
 use App\Models\Traits\JournalTrait;
+use Illuminate\Support\Str;
 
 /**
  * Class Airline
@@ -84,7 +85,7 @@ class Airline extends Model
      */
     public function setIataAttribute($iata)
     {
-        $this->attributes['iata'] = strtoupper($iata);
+        $this->attributes['iata'] = Str::upper($iata);
     }
 
     /**
@@ -94,12 +95,17 @@ class Airline extends Model
      */
     public function setIcaoAttribute($icao): void
     {
-        $this->attributes['icao'] = strtoupper($icao);
+        $this->attributes['icao'] = Str::upper($icao);
     }
 
     public function subfleets()
     {
         return $this->hasMany(Subfleet::class, 'airline_id');
+    }
+
+    public function aircraft()
+    {
+        return $this->hasManyThrough(Aircraft::class, Subfleet::class);
     }
 
     public function flights()

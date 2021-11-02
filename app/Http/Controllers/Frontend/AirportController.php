@@ -36,8 +36,8 @@ class AirportController extends Controller
     {
         $id = strtoupper($id);
 
-        $airport = $this->airportRepo->find($id);
-        if (empty($airport)) {
+        $airport = $this->airportRepo->where('id', $id)->first();
+        if (!$airport) {
             Flash::error('Airport not found!');
             return redirect(route('frontend.dashboard.index'));
         }
@@ -46,12 +46,14 @@ class AirportController extends Controller
             ->with(['dpt_airport', 'arr_airport', 'airline'])
             ->findWhere([
                 'arr_airport_id' => $id,
+                'active'         => 1,
             ])->all();
 
         $outbound_flights = $this->flightRepo
             ->with(['dpt_airport', 'arr_airport', 'airline'])
             ->findWhere([
                 'dpt_airport_id' => $id,
+                'active'         => 1,
             ])->all();
 
         return view('airports.show', [

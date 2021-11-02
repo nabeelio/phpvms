@@ -26,11 +26,13 @@ class SimBriefService extends Service
      * Check to see if the OFP exists server-side. If it does, download it and
      * cache it immediately
      *
-     * @param string $user_id   User who generated this
-     * @param string $ofp_id    The SimBrief OFP ID
-     * @param string $flight_id The flight ID
-     * @param string $ac_id     The aircraft ID
-     * @param array  $fares     Full list of fares for the flightß
+     * @param string $user_id      User who generated this
+     * @param string $ofp_id       The SimBrief OFP ID
+     * @param string $flight_id    The flight ID
+     * @param string $ac_id        The aircraft ID
+     * @param array  $fares        Full list of fares for the flight
+     * @param string $sb_userid    User's Simbrief ID (Used for Update)
+     * @param string $sb_static_id Static ID for the generated OFP (Used for Update)
      *
      * @return SimBrief|null
      */
@@ -39,9 +41,17 @@ class SimBriefService extends Service
         string $ofp_id,
         string $flight_id,
         string $ac_id,
-        array $fares = []
+        array $fares = [],
+        string $sb_user_id = null,
+        string $sb_static_id = null
     ) {
         $uri = str_replace('{id}', $ofp_id, config('phpvms.simbrief_url'));
+
+        if ($sb_user_id && $sb_static_id) {
+            // $uri = str_replace('{sb_user_id}', $sb_user_id, config('phpvms.simbrief_update_url'));
+            // $uri = str_replace('{sb_static_id}', $sb_static_id, $uri);
+            $uri = 'https://www.simbrief.com/api/xml.fetcher.php?userid='.$sb_user_id.'&static_id='.$sb_static_id;
+        }
 
         $opts = [
             'connect_timeout' => 2, // wait two seconds by default
@@ -132,21 +142,23 @@ class SimBriefService extends Service
      *
      * 1. Read from the XML the basic PIREP info (dep, arr), and then associate the PIREP
      *    to the flight ID
-     * 2. Remove the flight ID from the SimBrief field and assign the pirep_id to the row
+     * 2. Remove the flight ID from the SimBrief model and assign the pirep ID to the row
+     *    at the end of the flight. Keep flight ID until the flight ends (pirep file).
      * 3. Update the planned flight route in the acars table
      * 4. Add additional flight fields (ones which match ACARS)
      *
      * @param          $pirep
-     * @param SimBrief $simBrief The briefing to create the PIREP from
+     * @param SimBrief $simBrief    The briefing to create the PIREP from
+     * @param bool     $keep_flight True keeps the flight_id, default is false
      *
      * @return \App\Models\Pirep
      */
-    public function attachSimbriefToPirep($pirep, SimBrief $simBrief): Pirep
+    public function attachSimbriefToPirep($pirep, SimBrief $simBrief, $keep_flight = false): Pirep
     {
         $this->addRouteToPirep($pirep, $simBrief);
 
         $simBrief->pirep_id = $pirep->id;
-        $simBrief->flight_id = null;
+        $simBrief->flight_id = !empty($keep_flight) ? $pirep->flight_id : null;
         $simBrief->save();
 
         return $pirep;
@@ -185,24 +197,24 @@ class SimBriefService extends Service
     }
 
     /**
-     * Remove any expired entries from the SimBrief table. Expired means there's
-     * a flight_id attached to it, but no pirep_id (meaning it was never used for
-     * an actual flight)
+     * Remove any expired entries from the SimBrief table.
+     * Expired means there's a flight_id attached to it, but no pirep_id
+     * (meaning it was never used for an actual flight)
      */
     public function removeExpiredEntries(): void
     {
-        $expire_days = setting('simbrief.expire_days', 5);
-        $expire_time = Carbon::now('UTC')->subDays($expire_days)->toDateTimeString();
+        $expire_hours = setting('simbrief.expire_hours', 6);
+        $expire_time = Carbon::now('UTC')->subHours($expire_hours);
 
         $briefs = SimBrief::where([
-            ['pirep_id', '=', ''],
-            ['created_at', '<', $expire_time],
+            ['pirep_id', null],
+            ['created_at', '<=', $expire_time],
         ])->get();
 
         foreach ($briefs as $brief) {
             $brief->delete();
 
-            // TODO: Delete any assets
+            // TODO: Delete any assets (Which assets ?)
         }
     }
 }

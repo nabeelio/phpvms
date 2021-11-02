@@ -8,6 +8,7 @@ use App\Exceptions\UserBidLimit;
 use App\Models\Bid;
 use App\Models\Flight;
 use App\Models\Pirep;
+use App\Models\SimBrief;
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
 
@@ -30,12 +31,24 @@ class BidService extends Service
      *
      * @param $bid_id
      *
-     * @return \App\Models\Bid|\Illuminate\Database\Eloquent\Model|tests/ImporterTest.php:521object|null
+     * @return \App\Models\Bid|\Illuminate\Database\Eloquent\Model|object|null
      */
-    public function getBid($bid_id)
+    public function getBid(User $user, $bid_id): Bid
     {
-        return Bid::with(['flight', 'flight.simbrief'])
-            ->where(['id' => $bid_id])->first();
+        $with = [
+            'flight',
+            'flight.fares',
+            'flight.simbrief' => function ($query) use ($user) {
+                $query->where('user_id', $user->id);
+            },
+            'flight.simbrief.aircraft',
+            'flight.simbrief.aircraft.subfleet',
+            'flight.subfleets',
+            'flight.subfleets.aircraft',
+            'flight.subfleets.fares',
+        ];
+
+        return Bid::with($with)->where(['id' => $bid_id])->first();
     }
 
     /**
@@ -132,7 +145,7 @@ class BidService extends Service
         $flight->has_bid = true;
         $flight->save();
 
-        return $this->getBid($bid->id);
+        return $this->getBid($user, $bid->id);
     }
 
     /**
@@ -150,6 +163,14 @@ class BidService extends Service
 
         foreach ($bids as $bid) {
             $bid->forceDelete();
+        }
+
+        // Remove SimBrief OFP when removing the bid if it is not flown
+        if (setting('simbrief.only_bids')) {
+            $simbrief = SimBrief::where([
+                'user_id'   => $user->id,
+                'flight_id' => $flight->id,
+            ])->whereNull('pirep_id')->delete();
         }
 
         // Only flip the flag if there are no bids left for this flight

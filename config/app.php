@@ -66,7 +66,6 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         Laracasts\Flash\FlashServiceProvider::class,
         Prettus\Repository\Providers\RepositoryServiceProvider::class,
-        SebastiaanLuca\Helpers\Collections\CollectionMacrosServiceProvider::class,
         Irazasyed\LaravelGAMP\LaravelGAMPServiceProvider::class,
         Igaster\LaravelTheme\themeServiceProvider::class,
         Nwidart\Modules\LaravelModulesServiceProvider::class,

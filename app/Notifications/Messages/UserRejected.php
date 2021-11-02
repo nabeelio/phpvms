@@ -5,12 +5,13 @@ namespace App\Notifications\Messages;
 use App\Contracts\Notification;
 use App\Models\User;
 use App\Notifications\Channels\MailChannel;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class UserRejected extends Notification
+class UserRejected extends Notification implements ShouldQueue
 {
+    use Queueable;
     use MailChannel;
-
-    public $channels = ['mail'];
 
     private $user;
 
@@ -28,6 +29,11 @@ class UserRejected extends Notification
             'notifications.mail.user.rejected',
             ['user' => $this->user]
         );
+    }
+
+    public function via($notifiable)
+    {
+        return ['mail'];
     }
 
     /**

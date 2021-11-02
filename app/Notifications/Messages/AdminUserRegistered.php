@@ -4,13 +4,14 @@ namespace App\Notifications\Messages;
 
 use App\Contracts\Notification;
 use App\Models\User;
+use App\Notifications\Channels\Discord\DiscordMessage;
+use App\Notifications\Channels\Discord\DiscordWebhook;
 use App\Notifications\Channels\MailChannel;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class AdminUserRegistered extends Notification
+class AdminUserRegistered extends Notification implements ShouldQueue
 {
     use MailChannel;
-
-    public $channels = ['mail'];
 
     private $user;
 
@@ -29,6 +30,32 @@ class AdminUserRegistered extends Notification
             'notifications.mail.admin.user.registered',
             ['user' => $user]
         );
+    }
+
+    public function via($notifiable)
+    {
+        return ['mail', DiscordWebhook::class];
+    }
+
+    /**
+     * Send a Discord notification
+     *
+     * @param User  $pirep
+     * @param mixed $user
+     *
+     * @return DiscordMessage|null
+     */
+    public function toDiscordChannel($user): ?DiscordMessage
+    {
+        if (empty(setting('notifications.discord_private_webhook_url'))) {
+            return null;
+        }
+
+        $dm = new DiscordMessage();
+        return $dm->webhook(setting('notifications.discord_private_webhook_url'))
+            ->success()
+            ->title('New User Registered: '.$user->ident)
+            ->fields([]);
     }
 
     public function toArray($notifiable)
