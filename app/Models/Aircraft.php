@@ -7,6 +7,7 @@ use App\Models\Enums\AircraftStatus;
 use App\Models\Traits\ExpensableTrait;
 use App\Models\Traits\FilesTrait;
 use Carbon\Carbon;
+use \Znck\Eloquent\Traits\BelongsToThrough;
 
 /**
  * @property int      id
@@ -31,6 +32,7 @@ class Aircraft extends Model
 {
     use ExpensableTrait;
     use FilesTrait;
+    use BelongsToThrough;
 
     public $table = 'aircraft';
 
