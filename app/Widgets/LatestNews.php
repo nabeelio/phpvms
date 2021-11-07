@@ -23,7 +23,7 @@ class LatestNews extends Widget
 
         return view('widgets.latest_news', [
             'config' => $this->config,
-            'news'   => $newsRepo->recent($this->config['count']),
+            'news'   => $newsRepo->with('user')->recent($this->config['count']),
         ]);
     }
 }
