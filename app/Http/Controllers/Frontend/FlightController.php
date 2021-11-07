@@ -219,18 +219,18 @@ class FlightController extends Controller
     public function show($id)
     {
         $user_id = Auth::id(); 
-        $eager_load_flight = array(
+        $with_flight = [
             'airline',
-            'alt_airport', 
-            'arr_airport', 
-            'dpt_airport', 
-            'subfleets.airline', 
+            'alt_airport',
+            'arr_airport',
+            'dpt_airport',
+            'subfleets.airline',
             'simbrief' => function ($query) use ($user_id) {
-                    $query->where('user_id', $user_id);
-                }
-        );
+                $query->where('user_id', $user_id);
+            },
+        ];
 
-        $flight = $this->flightRepo->with($eager_load_flight)->find($id);
+        $flight = $this->flightRepo->with($with_flight)->find($id);
         if (empty($flight)) {
             Flash::error('Flight not found!');
             return redirect(route('frontend.dashboard.index'));
