@@ -80,7 +80,7 @@ class ProfileController extends Controller
     public function show($id)
     {
         /** @var \App\Models\User $user */
-        $user = User::with('airline', 'awards', 'current_airport', 'home_airport', 'fields.field', 'rank')
+        $user = User::with('airline', 'awards', 'current_airport', 'fields.field', 'home_airport', 'last_pirep', 'rank')
             ->where('id', $id)
             ->first();
 
