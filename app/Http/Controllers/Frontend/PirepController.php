@@ -182,7 +182,7 @@ class PirepController extends Controller
 
         $where = [['user_id', $user->id]];
         $where[] = ['state', '<>', PirepState::CANCELLED];
-        $with = ['airline', 'aircraft', 'dpt_airport', 'arr_airport', 'fares', 'comments'];
+        $with = ['aircraft', 'airline', 'arr_airport', 'comments', 'dpt_airport'];
 
         $this->pirepRepo->with($with)
             ->pushCriteria(new WhereCriteria($request, $where));
