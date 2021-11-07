@@ -28,14 +28,15 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        //dd(config('backup'));
         $last_pirep = null;
+        $eager_load_pirep = array('aircraft', 'arr_airport', 'comments', 'dpt_airport');
 
         /** @var \App\Models\User $user */
         $user = Auth::user();
+        $user->loadMissing('journal');
 
         try {
-            $last_pirep = $this->pirepRepo->find($user->last_pirep_id);
+            $last_pirep = $this->pirepRepo->with($eager_load_pirep)->find($user->last_pirep_id);
         } catch (\Exception $e) {
         }
 
