@@ -111,9 +111,7 @@ class ProfileController extends Controller
     public function edit(Request $request)
     {
         /** @var \App\Models\User $user */
-        $user = User::with(['fields', 'fields.field'])
-            ->where('id', Auth::user()->id)
-            ->first();
+        $user = User::with('fields.field')->where('id', Auth::id())->first();
 
         if (empty($user)) {
             Flash::error('User not found!');
