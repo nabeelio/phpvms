@@ -218,7 +218,7 @@ class FlightController extends Controller
      */
     public function show($id)
     {
-        $user_id = Auth::id(); 
+        $user_id = Auth::id();
         $with_flight = [
             'airline',
             'alt_airport',
