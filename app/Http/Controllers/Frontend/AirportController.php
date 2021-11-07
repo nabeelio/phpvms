@@ -35,7 +35,7 @@ class AirportController extends Controller
     public function show($id, Request $request)
     {
         $id = strtoupper($id);
-        $eager_load_flights = array('airline', 'arr_airport', 'dpt_airport');
+        $with_flights = ['airline', 'arr_airport', 'dpt_airport'];
 
         $airport = $this->airportRepo->with('files')->where('id', $id)->first();
         if (!$airport) {
@@ -44,14 +44,14 @@ class AirportController extends Controller
         }
 
         $inbound_flights = $this->flightRepo
-            ->with($eager_load_flights)
+            ->with($with_flights)
             ->findWhere([
                 'arr_airport_id' => $id,
                 'active'         => 1,
             ])->all();
 
         $outbound_flights = $this->flightRepo
-            ->with($eager_load_flights)
+            ->with($with_flights)
             ->findWhere([
                 'dpt_airport_id' => $id,
                 'active'         => 1,
