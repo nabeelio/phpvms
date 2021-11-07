@@ -201,7 +201,20 @@ class PirepController extends Controller
      */
     public function show($id)
     {
-        $pirep = $this->pirepRepo->with(['simbrief'])->find($id);
+        $with = [
+            'acars_logs',
+            'aircraft.airline',
+            'airline.journal',
+            'arr_airport',
+            'comments',
+            'dpt_airport',
+            'fares.fare',
+            'transactions',
+            'simbrief',
+            'user.rank',
+        ];
+
+        $pirep = $this->pirepRepo->with($with)->find($id);
         if (empty($pirep)) {
             Flash::error('Pirep not found');
             return redirect(route('frontend.pirep.index'));
