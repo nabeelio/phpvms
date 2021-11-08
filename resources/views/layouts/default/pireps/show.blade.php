@@ -4,8 +4,7 @@
 @section('content')
   <div class="row">
     <div class="col-sm-8">
-      <h2>{{ $pirep->airline->icao }}{{ $pirep->ident }}
-        : {{ $pirep->dpt_airport_id }} to {{ $pirep->arr_airport_id }}</h2>
+      <h2>{{ $pirep->ident }} : {{ $pirep->dpt_airport_id }} to {{ $pirep->arr_airport_id }}</h2>
     </div>
 
     <div class="col-sm-4">
