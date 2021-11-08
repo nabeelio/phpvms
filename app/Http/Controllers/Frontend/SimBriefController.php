@@ -263,7 +263,7 @@ class SimBriefController
         $user = Auth::user();
 
         /** @var SimBrief $simbrief */
-        $simbrief = SimBrief::with(['flight'])->find($id);
+        $simbrief = SimBrief::with(['flight.airline'])->find($id);
         if (!$simbrief) {
             flash()->error('SimBrief briefing not found');
             return redirect(route('frontend.flights.index'));
