@@ -88,13 +88,11 @@ class ProfileController extends Controller
             return redirect(route('frontend.dashboard.index'));
         }
 
-        $airports = $this->airportRepo->all();
         $userFields = $this->userRepo->getUserFields($user, true);
 
         return view('profile.index', [
             'user'       => $user,
             'userFields' => $userFields,
-            'airports'   => $airports,
             'acars'      => $this->acarsEnabled(),
         ]);
     }
