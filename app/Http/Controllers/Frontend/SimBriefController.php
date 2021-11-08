@@ -62,7 +62,7 @@ class SimBriefController
         $aircraft_id = $request->input('aircraft_id');
 
         /** @var Flight $flight */
-        $flight = $this->flightRepo->with(['fares', 'subfleets'])->find($flight_id);
+        $flight = $this->flightRepo->with(['airline', 'arr_airport', 'dpt_airport', 'fares.fare', 'subfleets'])->find($flight_id);
 
         if (!$flight) {
             flash()->error('Unknown flight');
@@ -136,7 +136,7 @@ class SimBriefController
         // SimBrief profile does not exists and everything else is ok
         // Select aircraft which will be used for calculations and details
         /** @var Aircraft $aircraft */
-        $aircraft = Aircraft::where('id', $aircraft_id)->first();
+        $aircraft = Aircraft::with(['airline'])->where('id', $aircraft_id)->first();
 
         // Figure out the proper fares to use for this flight/aircraft
         $all_fares = $this->fareSvc->getFareWithOverrides($aircraft->subfleet->fares, $flight->fares);
