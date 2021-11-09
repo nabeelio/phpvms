@@ -2,7 +2,7 @@
 	<div class="card-block" style="min-height: 0px">
 		<div class="row">
       <div class="col-sm-2 text-center">
-      <h5><a class="text-c" href="{{ route('admin.pireps.edit', [$pirep->id]) }}">{{ $pirep->airline->code }}{{ $pirep->ident }}</a></h5>
+      <h5><a class="text-c" href="{{ route('admin.pireps.edit', [$pirep->id]) }}">{{ $pirep->ident }}</a></h5>
         <div id="pirep_{{ $pirep->id }}_status_container">
 				@php 
 				$PirepStateClass = "badge badge-info" ; 
