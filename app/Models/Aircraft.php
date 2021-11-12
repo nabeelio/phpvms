@@ -134,7 +134,7 @@ class Aircraft extends Model
 
     public function simbriefs()
     {
-        return $this->hasMany(Simbrief::class, 'aircraft_id');
+        return $this->hasMany(SimBrief::class, 'aircraft_id');
     }
 
     public function subfleet()
