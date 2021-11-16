@@ -77,10 +77,10 @@ class PirepStatusChanged extends Notification implements ShouldQueue
             return null;
         }
 
-        $title = 'Flight '.$pirep->airline->code.$pirep->ident.' '.self::$verbs[$pirep->status];
+        $title = 'Flight '.$pirep->ident.' '.self::$verbs[$pirep->status];
 
         $fields = [
-            'Flight'            => $pirep->airline->code.$pirep->ident,
+            'Flight'            => $pirep->ident,
             'Departure Airport' => $pirep->dpt_airport_id,
             'Arrival Airport'   => $pirep->arr_airport_id,
             'Equipment'         => $pirep->aircraft->ident,
