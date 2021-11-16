@@ -62,7 +62,7 @@ class SimBriefController
         $aircraft_id = $request->input('aircraft_id');
 
         /** @var Flight $flight */
-        $flight = $this->flightRepo->with(['airline', 'arr_airport', 'dpt_airport', 'fares.fare', 'subfleets'])->find($flight_id);
+        $flight = $this->flightRepo->with(['airline', 'arr_airport', 'dpt_airport', 'fares', 'subfleets'])->find($flight_id);
 
         if (!$flight) {
             flash()->error('Unknown flight');
