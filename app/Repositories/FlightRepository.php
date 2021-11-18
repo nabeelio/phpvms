@@ -21,6 +21,7 @@ class FlightRepository extends Repository implements CacheableInterface
         'callsign',
         'distance',
         'dpt_airport_id',
+        'flight_time',
         'flight_type',
         'flight_number' => 'like',
         'route_code'    => 'like',
@@ -131,6 +132,16 @@ class FlightRepository extends Repository implements CacheableInterface
         // Distance, less than
         if ($request->filled('dlt')) {
             $where[] = ['distance', '<=', $request->input('dlt')];
+        }
+
+        // Time, greater than
+        if ($request->filled('tgt')) {
+            $where[] = ['flight_time', '>=', $request->input('tgt')];
+        }
+
+        // Time, less than
+        if ($request->filled('tlt')) {
+            $where[] = ['flight_time', '<=', $request->input('tlt')];
         }
 
         // Do a special query for finding the child subfleets
