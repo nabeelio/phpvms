@@ -283,14 +283,14 @@
   value: true
   options: ''
   type: boolean
-  description: 'Aircraft that can be flown are restricted to a user''s rank' 
+  description: 'Aircraft restricted to user''s rank'
 - key: pireps.restrict_aircraft_to_typerating
   name: 'Restrict Aircraft by Type Ratings'
   group: pireps
   value: false
   options: ''
   type: boolean
-  description: 'Aircraft that can be flown are restricted to Type Ratings user holds'
+  description: 'Aircraft restricted to user type ratings'
 - key: pireps.only_aircraft_at_dpt_airport
   name: 'Restrict Aircraft At Departure'
   group: pireps
