@@ -7,7 +7,7 @@ use App\Models\Traits\JournalTrait;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laratrust\Traits\LaratrustUserTrait;
-use \Staudenmeir\EloquentHasManyDeep\HasRelationships;
+use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 
 /**
  * @property int              id
@@ -129,7 +129,7 @@ class User extends Authenticatable
     {
         $length = setting('pilots.id_length');
 
-        return optional($this->airline)->icao . str_pad($this->pilot_id, $length, '0', STR_PAD_LEFT);
+        return optional($this->airline)->icao.str_pad($this->pilot_id, $length, '0', STR_PAD_LEFT);
     }
 
     /**
@@ -148,7 +148,7 @@ class User extends Authenticatable
         $first_name = $name_parts[0];
         $last_name = $name_parts[$count - 1];
 
-        return $first_name . ' ' . $last_name[0];
+        return $first_name.' '.$last_name[0];
     }
 
     /**
@@ -194,11 +194,10 @@ class User extends Authenticatable
     {
         $default = config('gravatar.default');
 
-        $uri = config('gravatar.url')
-            . md5(strtolower(trim($this->email))) . '?d=' . urlencode($default);
+        $uri = config('gravatar.url').md5(strtolower(trim($this->email))).'?d='.urlencode($default);
 
         if ($size !== null) {
-            $uri .= '&s=' . $size;
+            $uri .= '&s='.$size;
         }
 
         return $uri;

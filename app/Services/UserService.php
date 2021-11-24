@@ -152,7 +152,7 @@ class UserService extends Service
         // If this user has PIREPs, do a soft delete. Otherwise, just delete them outright
         if ($user->pireps->count() > 0) {
             $user->name = 'Deleted User';
-            $user->email = Utils::generateApiKey() . '@deleted-user.com';
+            $user->email = Utils::generateApiKey().'@deleted-user.com';
             $user->api_key = Utils::generateApiKey();
             $user->password = Hash::make(Utils::generateApiKey());
             $user->state = UserState::DELETED;
@@ -205,7 +205,7 @@ class UserService extends Service
         $user->pilot_id = $this->getNextAvailablePilotId();
         $user->save();
 
-        Log::info('Set pilot ID for user ' . $user->id . ' to ' . $user->pilot_id);
+        Log::info('Set pilot ID for user '.$user->id.' to '.$user->pilot_id);
 
         return $user;
     }
@@ -239,7 +239,7 @@ class UserService extends Service
         }
 
         if ($this->isPilotIdAlreadyUsed($pilot_id)) {
-            Log::error('User with id ' . $pilot_id . ' already exists');
+            Log::error('User with id '.$pilot_id.' already exists');
 
             throw new UserPilotIdExists($user);
         }
@@ -248,7 +248,7 @@ class UserService extends Service
         $user->pilot_id = $pilot_id;
         $user->save();
 
-        Log::info('Changed pilot ID for user ' . $user->id . ' from ' . $old_id . ' to ' . $user->pilot_id);
+        Log::info('Changed pilot ID for user '.$user->id.' from '.$old_id.' to '.$user->pilot_id);
 
         return $user;
     }
@@ -416,9 +416,7 @@ class UserService extends Service
             return $user;
         }
 
-        Log::info('User ' . $user->ident . ' state changing from '
-            . UserState::label($old_state) . ' to '
-            . UserState::label($user->state));
+        Log::info('User '.$user->ident.' state changing from '.UserState::label($old_state).' to '.UserState::label($user->state));
 
         event(new UserStateChanged($user, $old_state));
 
@@ -579,9 +577,7 @@ class UserService extends Service
         // Recalc the rank
         $this->calculatePilotRank($user);
 
-        Log::info('User ' . $user->ident . ' updated; pirep count=' . $pirep_count
-            . ', rank=' . $user->rank->name
-            . ', flight_time=' . $user->flight_time . ' minutes');
+        Log::info('User '.$user->ident.' updated; pirep count='.$pirep_count.', rank='.$user->rank->name.', flight_time='.$user->flight_time.' minutes');
 
         $user->save();
         return $user;

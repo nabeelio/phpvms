@@ -311,7 +311,7 @@ class UserController extends Controller
     public function regen_apikey($id, Request $request)
     {
         $user = User::find($id);
-        Log::info('Regenerating API key "' . $user->ident . '"');
+        Log::info('Regenerating API key "'.$user->ident.'"');
 
         $user->api_key = Utils::generateApiKey();
         $user->save();
@@ -334,7 +334,7 @@ class UserController extends Controller
         $all_ratings = $this->typeratingRepo->all();
         $avail_ratings = $all_ratings->except($user->typeratings->modelKeys());
         foreach ($avail_ratings as $tr) {
-            $retval[$tr->id] = $tr->name . ' (' . $tr->type . ')';
+            $retval[$tr->id] = $tr->name.' ('.$tr->type.')';
         }
 
         return $retval;

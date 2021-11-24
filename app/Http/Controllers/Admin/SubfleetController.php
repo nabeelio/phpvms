@@ -253,7 +253,7 @@ class SubfleetController extends Controller
 
         $path = $exporter->exportSubfleets($subfleets);
 
-        return response()->download($path, 'subfleets.csv', ['content-type' => 'text/csv',])->deleteFileAfterSend(true);
+        return response()->download($path, 'subfleets.csv', ['content-type' => 'text/csv'])->deleteFileAfterSend(true);
     }
 
     /**
@@ -292,11 +292,11 @@ class SubfleetController extends Controller
         $all_fares = $this->fareRepo->all();
         $avail_fares = $all_fares->except($subfleet->fares->modelKeys());
         foreach ($avail_fares as $fare) {
-            $retval[$fare->id] = $fare->name .
-                ' (price: ' . $fare->price .
-                ', type: ' . FareType::label($fare->type) .
-                ', cost: ' . $fare->cost .
-                ', capacity: ' . $fare->capacity . ')';
+            $retval[$fare->id] = $fare->name.
+                ' (price: '.$fare->price.
+                ', type: '.FareType::label($fare->type).
+                ', cost: '.$fare->cost.
+                ', capacity: '.$fare->capacity.')';
         }
 
         return $retval;
@@ -334,7 +334,7 @@ class SubfleetController extends Controller
         $all_ratings = $this->typeratingRepo->all();
         $avail_ratings = $all_ratings->except($subfleet->typeratings->modelKeys());
         foreach ($avail_ratings as $tr) {
-            $retval[$tr->id] = $tr->name . ' (' . $tr->type . ')';
+            $retval[$tr->id] = $tr->name.' ('.$tr->type.')';
         }
 
         return $retval;

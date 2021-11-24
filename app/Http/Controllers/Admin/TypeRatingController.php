@@ -128,8 +128,7 @@ class TypeRatingController extends Controller
         $all_subfleets = $this->subfleetRepo->all();
         $avail_subfleets = $all_subfleets->except($typerating->subfleets->modelKeys());
         foreach ($avail_subfleets as $subfleet) {
-            $retval[$subfleet->id] = $subfleet->name .
-                ' (Airline: ' . $subfleet->airline->code . ')';
+            $retval[$subfleet->id] = $subfleet->name.' (Airline: '.$subfleet->airline->code.')';
         }
 
         return $retval;
