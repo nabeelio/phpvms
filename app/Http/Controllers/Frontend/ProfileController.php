@@ -80,7 +80,7 @@ class ProfileController extends Controller
     public function show($id)
     {
         /** @var \App\Models\User $user */
-        $with = ['airline', 'awards', 'current_airport', 'fields.field', 'home_airport', 'last_pirep', 'rank'];
+        $with = ['airline', 'awards', 'current_airport', 'fields.field', 'home_airport', 'last_pirep', 'rank', 'typeratings'];
         $user = User::with($with)->where('id', $id)->first();
 
         if (empty($user)) {
