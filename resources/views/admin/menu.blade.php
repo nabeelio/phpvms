@@ -62,6 +62,10 @@
       <li><a href="{{ url('/admin/ranks') }}"><i class="pe-7s-graph1"></i>ranks</a></li>
       @endability
 
+      @ability('admin', 'typeratings')
+      <li><a href="{{ url('/admin/typeratings') }}"><i class="pe-7s-plane"></i>type ratings</a></li>
+      @endability
+
       @ability('admin', 'awards')
       <li><a href="{!! url('/admin/awards') !!}"><i class="pe-7s-diamond"></i>awards</a></li>
       @endability

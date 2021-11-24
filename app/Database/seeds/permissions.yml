@@ -42,6 +42,9 @@
 - name: ranks
   display_name: Ranks
   description: Create/edit ranks
+- name: typeratings
+  display_name: Type Ratings
+  description: Create/edit type ratings
 - name: users
   display_name: Users
   description: Create/edit users

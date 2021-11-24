@@ -7,6 +7,7 @@ use App\Models\Traits\JournalTrait;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laratrust\Traits\LaratrustUserTrait;
+use \Staudenmeir\EloquentHasManyDeep\HasRelationships;
 
 /**
  * @property int              id
@@ -42,6 +43,7 @@ use Laratrust\Traits\LaratrustUserTrait;
  * @property UserFieldValue[] fields
  * @property Role[]           roles
  * @property Subfleet[]       subfleets
+ * @property TypeRating[]     typeratings
  *
  * @mixin \Illuminate\Database\Eloquent\Builder
  * @mixin \Illuminate\Notifications\Notifiable
@@ -52,6 +54,7 @@ class User extends Authenticatable
     use JournalTrait;
     use LaratrustUserTrait;
     use Notifiable;
+    use HasRelationships;
 
     public $table = 'users';
 
@@ -126,7 +129,7 @@ class User extends Authenticatable
     {
         $length = setting('pilots.id_length');
 
-        return optional($this->airline)->icao.str_pad($this->pilot_id, $length, '0', STR_PAD_LEFT);
+        return optional($this->airline)->icao . str_pad($this->pilot_id, $length, '0', STR_PAD_LEFT);
     }
 
     /**
@@ -145,7 +148,7 @@ class User extends Authenticatable
         $first_name = $name_parts[0];
         $last_name = $name_parts[$count - 1];
 
-        return $first_name.' '.$last_name[0];
+        return $first_name . ' ' . $last_name[0];
     }
 
     /**
@@ -192,10 +195,10 @@ class User extends Authenticatable
         $default = config('gravatar.default');
 
         $uri = config('gravatar.url')
-            .md5(strtolower(trim($this->email))).'?d='.urlencode($default);
+            . md5(strtolower(trim($this->email))) . '?d=' . urlencode($default);
 
         if ($size !== null) {
-            $uri .= '&s='.$size;
+            $uri .= '&s=' . $size;
         }
 
         return $uri;
@@ -264,5 +267,15 @@ class User extends Authenticatable
     public function rank()
     {
         return $this->belongsTo(Rank::class, 'rank_id');
+    }
+
+    public function typeratings()
+    {
+        return $this->belongsToMany(Typerating::class, 'typerating_user', 'user_id', 'typerating_id');
+    }
+
+    public function rated_subfleets()
+    {
+        return $this->hasManyDeep(Subfleet::class, ['typerating_user', Typerating::class, 'typerating_subfleet']);
     }
 }

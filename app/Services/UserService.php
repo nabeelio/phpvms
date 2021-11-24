@@ -15,6 +15,7 @@ use App\Models\Enums\UserState;
 use App\Models\Pirep;
 use App\Models\Rank;
 use App\Models\Role;
+use App\Models\Typerating;
 use App\Models\User;
 use App\Models\UserFieldValue;
 use App\Repositories\AircraftRepository;
@@ -151,7 +152,7 @@ class UserService extends Service
         // If this user has PIREPs, do a soft delete. Otherwise, just delete them outright
         if ($user->pireps->count() > 0) {
             $user->name = 'Deleted User';
-            $user->email = Utils::generateApiKey().'@deleted-user.com';
+            $user->email = Utils::generateApiKey() . '@deleted-user.com';
             $user->api_key = Utils::generateApiKey();
             $user->password = Hash::make(Utils::generateApiKey());
             $user->state = UserState::DELETED;
@@ -204,7 +205,7 @@ class UserService extends Service
         $user->pilot_id = $this->getNextAvailablePilotId();
         $user->save();
 
-        Log::info('Set pilot ID for user '.$user->id.' to '.$user->pilot_id);
+        Log::info('Set pilot ID for user ' . $user->id . ' to ' . $user->pilot_id);
 
         return $user;
     }
@@ -238,7 +239,7 @@ class UserService extends Service
         }
 
         if ($this->isPilotIdAlreadyUsed($pilot_id)) {
-            Log::error('User with id '.$pilot_id.' already exists');
+            Log::error('User with id ' . $pilot_id . ' already exists');
 
             throw new UserPilotIdExists($user);
         }
@@ -247,7 +248,7 @@ class UserService extends Service
         $user->pilot_id = $pilot_id;
         $user->save();
 
-        Log::info('Changed pilot ID for user '.$user->id.' from '.$old_id.' to '.$user->pilot_id);
+        Log::info('Changed pilot ID for user ' . $user->id . ' from ' . $old_id . ' to ' . $user->pilot_id);
 
         return $user;
     }
@@ -343,7 +344,7 @@ class UserService extends Service
 
     /**
      * Return the subfleets this user is allowed access to,
-     * based on their current rank
+     * based on their current Rank and/or by Type Rating
      *
      * @param $user
      *
@@ -351,13 +352,30 @@ class UserService extends Service
      */
     public function getAllowableSubfleets($user)
     {
-        if ($user === null || setting('pireps.restrict_aircraft_to_rank') === false) {
-            /** @var Collection $subfleets */
-            $subfleets = $this->subfleetRepo->with('aircraft')->all();
+        $restrict_rank = setting('pireps.restrict_aircraft_to_rank', true);
+        $restrict_type = setting('pireps.restrict_aircraft_to_typerating', false);
+        $restricted_to = [];
+
+        if ($user) {
+            $rank_sf_array = $restrict_rank ? $user->rank->subfleets()->pluck('id')->toArray() : [];
+            $type_sf_array = $restrict_type ? $user->rated_subfleets->pluck('id')->toArray() : [];
+
+            if ($restrict_rank && !$restrict_type) {
+                $restricted_to = $rank_sf_array;
+            } elseif (!$restrict_rank && $restrict_type) {
+                $restricted_to = $type_sf_array;
+            } elseif ($restrict_rank && $restrict_type) {
+                $restricted_to = array_intersect($rank_sf_array, $type_sf_array);
+            }
         } else {
-            /** @var Collection $subfleets */
-            $subfleets = $user->rank->subfleets()->with('aircraft')->get();
+            $restrict_rank = false;
+            $restrict_type = false;
         }
+
+        // @var Collection $subfleets
+        $subfleets = $this->subfleetRepo->when(($restrict_rank || $restrict_type), function ($query) use ($restricted_to) {
+            return $query->whereIn('id', $restricted_to);
+        })->with('aircraft')->get();
 
         // Map the subfleets with the proper fare information
         return $subfleets->transform(function ($sf, $key) {
@@ -398,9 +416,9 @@ class UserService extends Service
             return $user;
         }
 
-        Log::info('User '.$user->ident.' state changing from '
-            .UserState::label($old_state).' to '
-            .UserState::label($user->state));
+        Log::info('User ' . $user->ident . ' state changing from '
+            . UserState::label($old_state) . ' to '
+            . UserState::label($user->state));
 
         event(new UserStateChanged($user, $old_state));
 
@@ -561,11 +579,41 @@ class UserService extends Service
         // Recalc the rank
         $this->calculatePilotRank($user);
 
-        Log::info('User '.$user->ident.' updated; pirep count='.$pirep_count
-            .', rank='.$user->rank->name
-            .', flight_time='.$user->flight_time.' minutes');
+        Log::info('User ' . $user->ident . ' updated; pirep count=' . $pirep_count
+            . ', rank=' . $user->rank->name
+            . ', flight_time=' . $user->flight_time . ' minutes');
 
         $user->save();
+        return $user;
+    }
+
+    /**
+     * Attach a type rating to the user
+     *
+     * @param User       $user
+     * @param Typerating $typerating
+     */
+    public function addUserToTypeRating(User $user, Typerating $typerating)
+    {
+        $user->typeratings()->syncWithoutDetaching([$typerating->id]);
+        $user->save();
+        $user->refresh();
+
+        return $user;
+    }
+
+    /**
+     * Detach a type rating from the user
+     *
+     * @param User       $user
+     * @param Typerating $typerating
+     */
+    public function removeUserFromTypeRating(User $user, Typerating $typerating)
+    {
+        $user->typeratings()->detach($typerating->id);
+        $user->save();
+        $user->refresh();
+
         return $user;
     }
 }
