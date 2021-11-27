@@ -79,6 +79,7 @@ class AircraftController extends Controller
     {
         return view('admin.aircraft.create', [
             'airports'    => $this->airportRepo->selectBoxList(),
+            'hubs'        => $this->airportRepo->selectBoxList(true, true),
             'subfleets'   => Subfleet::all()->pluck('name', 'id'),
             'statuses'    => AircraftStatus::select(false),
             'subfleet_id' => $request->query('subfleet'),
@@ -143,6 +144,7 @@ class AircraftController extends Controller
         return view('admin.aircraft.edit', [
             'aircraft'  => $aircraft,
             'airports'  => $this->airportRepo->selectBoxList(),
+            'hubs'      => $this->airportRepo->selectBoxList(true, true),
             'subfleets' => Subfleet::all()->pluck('name', 'id'),
             'statuses'  => AircraftStatus::select(false),
         ]);

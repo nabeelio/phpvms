@@ -5,7 +5,7 @@
         &nbsp;Subfleet and Status
       </h6>
       <div class="form-container-body row">
-        <div class="form-group col-sm-4">
+        <div class="form-group col-sm-3">
           {{ Form::label('subfleet_id', 'Subfleet:') }}
           {{ Form::select('subfleet_id', $subfleets, $subfleet_id ?? null, [
               'class' => 'form-control select2',
@@ -15,17 +15,21 @@
           <p class="text-danger">{{ $errors->first('subfleet_id') }}</p>
         </div>
 
-        <div class="form-group col-sm-4">
+        <div class="form-group col-sm-3">
           {{ Form::label('status', 'Status:') }}
           {{ Form::select('status', $statuses, null, ['class' => 'form-control select2', 'placeholder' => 'Select Status']) }}
           <p class="text-danger">{{ $errors->first('subfleet_id') }}</p>
         </div>
 
-        <div class="form-group col-sm-4">
+        <div class="form-group col-sm-3">
+          {{ Form::label('hub_id', 'Hub:') }}
+          {{ Form::select('hub_id', $hubs, null, ['class' => 'form-control select2']) }}
+          <p class="text-danger">{{ $errors->first('hub_id') }}</p>
+        </div>
+
+        <div class="form-group col-sm-3">
           {{ Form::label('airport_id', 'Location:') }}
-          {{ Form::select('airport_id', $airports, null, [
-              'class' => 'form-control select2'
-              ]) }}
+          {{ Form::select('airport_id', $airports, null, ['class' => 'form-control select2']) }}
           <p class="text-danger">{{ $errors->first('airport_id') }}</p>
         </div>
       </div>

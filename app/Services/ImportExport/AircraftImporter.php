@@ -25,6 +25,7 @@ class AircraftImporter extends ImportExport
         'subfleet'     => 'required',
         'iata'         => 'nullable',
         'icao'         => 'nullable',
+        'hub_id'       => 'nullable',
         'airport_id'   => 'nullable',
         'name'         => 'required',
         'registration' => 'required',
@@ -53,7 +54,7 @@ class AircraftImporter extends ImportExport
     }
 
     /**
-     * Import a flight, parse out the different rows
+     * Import an aircraft, parse out the different rows
      *
      * @param array $row
      * @param int   $index

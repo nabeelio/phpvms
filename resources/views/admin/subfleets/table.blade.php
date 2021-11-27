@@ -4,6 +4,7 @@
     <th>Name</th>
     <th>Airline</th>
     <th>Type</th>
+    <th>Hub</th>
     <th>Aircraft</th>
     <th></th>
     </thead>
@@ -17,6 +18,7 @@
         </td>
         <td>{{ optional($subfleet->airline)->name }}</td>
         <td>{{ $subfleet->type }}</td>
+        <td>{{ $subfleet->hub_id }}</td>
         <td>{{ $subfleet->aircraft->count() }}</td>
         <td class="text-right">
           {{ Form::open(['route' => ['admin.subfleets.destroy', $subfleet->id], 'method' => 'delete']) }}
