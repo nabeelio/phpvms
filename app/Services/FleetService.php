@@ -6,6 +6,7 @@ use App\Contracts\Service;
 use App\Models\Flight;
 use App\Models\Rank;
 use App\Models\Subfleet;
+use App\Models\Typerating;
 
 class FleetService extends Service
 {
@@ -33,7 +34,36 @@ class FleetService extends Service
     public function removeSubfleetFromRank(Subfleet $subfleet, Rank $rank)
     {
         $subfleet->ranks()->detach($rank->id);
+        $subfleet->save();
+        $subfleet->refresh();
 
+        return $subfleet;
+    }
+
+    /**
+     * Add the subfleet to a type rating
+     *
+     * @param Subfleet   $subfleet
+     * @param Typerating $typerating
+     */
+    public function addSubfleetToTypeRating(Subfleet $subfleet, Typerating $typerating)
+    {
+        $subfleet->typeratings()->syncWithoutDetaching([$typerating->id]);
+        $subfleet->save();
+        $subfleet->refresh();
+
+        return $subfleet;
+    }
+
+    /**
+     * Remove the subfleet from a type rating
+     *
+     * @param Subfleet   $subfleet
+     * @param Typerating $typerating
+     */
+    public function removeSubfleetFromTypeRating(Subfleet $subfleet, Typerating $typerating)
+    {
+        $subfleet->typeratings()->detach($typerating->id);
         $subfleet->save();
         $subfleet->refresh();
 

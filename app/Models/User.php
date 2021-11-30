@@ -7,6 +7,7 @@ use App\Models\Traits\JournalTrait;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laratrust\Traits\LaratrustUserTrait;
+use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 
 /**
  * @property int              id
@@ -42,6 +43,7 @@ use Laratrust\Traits\LaratrustUserTrait;
  * @property UserFieldValue[] fields
  * @property Role[]           roles
  * @property Subfleet[]       subfleets
+ * @property TypeRating[]     typeratings
  *
  * @mixin \Illuminate\Database\Eloquent\Builder
  * @mixin \Illuminate\Notifications\Notifiable
@@ -52,6 +54,7 @@ class User extends Authenticatable
     use JournalTrait;
     use LaratrustUserTrait;
     use Notifiable;
+    use HasRelationships;
 
     public $table = 'users';
 
@@ -191,8 +194,7 @@ class User extends Authenticatable
     {
         $default = config('gravatar.default');
 
-        $uri = config('gravatar.url')
-            .md5(strtolower(trim($this->email))).'?d='.urlencode($default);
+        $uri = config('gravatar.url').md5(strtolower(trim($this->email))).'?d='.urlencode($default);
 
         if ($size !== null) {
             $uri .= '&s='.$size;
@@ -264,5 +266,15 @@ class User extends Authenticatable
     public function rank()
     {
         return $this->belongsTo(Rank::class, 'rank_id');
+    }
+
+    public function typeratings()
+    {
+        return $this->belongsToMany(Typerating::class, 'typerating_user', 'user_id', 'typerating_id');
+    }
+
+    public function rated_subfleets()
+    {
+        return $this->hasManyDeep(Subfleet::class, ['typerating_user', Typerating::class, 'typerating_subfleet']);
     }
 }
