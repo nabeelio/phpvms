@@ -114,6 +114,12 @@
         $.pjax.submit(event, '#subfleet_ranks_wrapper', {push: false});
       });
 
+      $(document).on('submit', 'form.modify_typerating', function (event) {
+        event.preventDefault();
+        console.log(event);
+        $.pjax.submit(event, '#subfleet_typeratings_wrapper', {push: false});
+      });
+
       $(document).on('submit', 'form.modify_expense', function (event) {
         event.preventDefault();
         console.log(event);

@@ -12,6 +12,15 @@
   <div class="card border-blue-bottom">
     <div class="content">
       <div class="header">
+        <h3>Type Ratings</h3>
+      </div>
+      @include('admin.users.type_ratings')
+    </div>
+  </div>
+
+  <div class="card border-blue-bottom">
+    <div class="content">
+      <div class="header">
         <h3>Awards</h3>
       </div>
       @include('admin.users.awards')
@@ -34,3 +43,4 @@
     </div>
   </div>
 @endsection
+@include('admin.users.script')

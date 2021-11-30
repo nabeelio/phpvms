@@ -376,6 +376,21 @@ class RouteServiceProvider extends ServiceProvider
             ], 'settings', 'SettingsController@update')
                 ->name('settings.update')->middleware('ability:admin,settings');
 
+            // Type Ratings
+            Route::resource('typeratings', 'TypeRatingController')->middleware('ability:admin,typeratings');
+            Route::match([
+                'get',
+                'post',
+                'put',
+                'delete',
+            ], 'typeratings/{id}/subfleets', 'TypeRatingController@subfleets')->middleware('ability:admin,typeratings');
+            Route::match([
+                'get',
+                'post',
+                'put',
+                'delete',
+            ], 'typeratings/{id}/users', 'TypeRatingController@users')->middleware('ability:admin,typeratings');
+
             // maintenance
             Route::match(['get'], 'maintenance', 'MaintenanceController@index')
                 ->name('maintenance.index')->middleware('ability:admin,maintenance');
@@ -426,6 +441,13 @@ class RouteServiceProvider extends ServiceProvider
                 'delete',
             ], 'subfleets/{id}/ranks', 'SubfleetController@ranks')->middleware('ability:admin,fleet');
 
+            Route::match([
+                'get',
+                'post',
+                'put',
+                'delete',
+            ], 'subfleets/{id}/typeratings', 'SubfleetController@typeratings')->middleware('ability:admin,fleet');
+
             Route::resource('subfleets', 'SubfleetController')->middleware('ability:admin,fleet');
 
             /**
@@ -438,6 +460,13 @@ class RouteServiceProvider extends ServiceProvider
                 ->name('users.regen_apikey')->middleware('ability:admin,users');
 
             Route::resource('users', 'UserController')->middleware('ability:admin,users');
+
+            Route::match([
+                'get',
+                'post',
+                'put',
+                'delete',
+            ], 'users/{id}/typeratings', 'UserController@typeratings')->middleware('ability:admin,users');
 
             // defaults
             Route::get('', ['uses' => 'DashboardController@index'])

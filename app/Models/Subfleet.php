@@ -107,4 +107,9 @@ class Subfleet extends Model
         return $this->belongsToMany(Rank::class, 'subfleet_rank')
             ->withPivot('acars_pay', 'manual_pay');
     }
+
+    public function typeratings()
+    {
+        return $this->belongsToMany(Typerating::class, 'typerating_subfleet', 'subfleet_id', 'typerating_id');
+    }
 }
