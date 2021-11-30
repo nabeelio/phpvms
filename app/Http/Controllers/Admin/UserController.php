@@ -12,6 +12,7 @@ use App\Repositories\AirlineRepository;
 use App\Repositories\AirportRepository;
 use App\Repositories\PirepRepository;
 use App\Repositories\RoleRepository;
+use App\Repositories\TypeRatingRepository;
 use App\Repositories\UserRepository;
 use App\Services\UserService;
 use App\Support\Timezonelist;
@@ -30,24 +31,27 @@ class UserController extends Controller
     private $airportRepo;
     private $pirepRepo;
     private $roleRepo;
+    private $typeratingRepo;
     private $userRepo;
     private $userSvc;
 
     /**
      * UserController constructor.
      *
-     * @param AirlineRepository $airlineRepo
-     * @param AirportRepository $airportRepo
-     * @param PirepRepository   $pirepRepo
-     * @param RoleRepository    $roleRepo
-     * @param UserRepository    $userRepo
-     * @param UserService       $userSvc
+     * @param AirlineRepository    $airlineRepo
+     * @param AirportRepository    $airportRepo
+     * @param PirepRepository      $pirepRepo
+     * @param RoleRepository       $roleRepo
+     * @param TypeRatingRepository $typeratingRepo
+     * @param UserRepository       $userRepo
+     * @param UserService          $userSvc
      */
     public function __construct(
         AirlineRepository $airlineRepo,
         AirportRepository $airportRepo,
         PirepRepository $pirepRepo,
         RoleRepository $roleRepo,
+        TypeRatingRepository $typeratingRepo,
         UserRepository $userRepo,
         UserService $userSvc
     ) {
@@ -55,6 +59,7 @@ class UserController extends Controller
         $this->airportRepo = $airportRepo;
         $this->pirepRepo = $pirepRepo;
         $this->roleRepo = $roleRepo;
+        $this->typeratingRepo = $typeratingRepo;
         $this->userSvc = $userSvc;
         $this->userRepo = $userRepo;
     }
@@ -149,7 +154,7 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = $this->userRepo
-            ->with(['awards', 'fields', 'rank'])
+            ->with(['awards', 'fields', 'rank', 'typeratings'])
             ->findWithoutFail($id);
 
         if (empty($user)) {
@@ -169,17 +174,19 @@ class UserController extends Controller
         $airlines = $this->airlineRepo->selectBoxList();
         $airports = $this->airportRepo->selectBoxList(false);
         $roles = $this->roleRepo->selectBoxList(false, true);
+        $avail_ratings = $this->getAvailTypeRatings($user);
 
         return view('admin.users.edit', [
-            'user'      => $user,
-            'pireps'    => $pireps,
-            'country'   => new ISO3166(),
-            'countries' => $countries,
-            'timezones' => Timezonelist::toArray(),
-            'airports'  => $airports,
-            'airlines'  => $airlines,
-            'ranks'     => Rank::all()->pluck('name', 'id'),
-            'roles'     => $roles,
+            'user'          => $user,
+            'pireps'        => $pireps,
+            'country'       => new ISO3166(),
+            'countries'     => $countries,
+            'timezones'     => Timezonelist::toArray(),
+            'airports'      => $airports,
+            'airlines'      => $airlines,
+            'ranks'         => Rank::all()->pluck('name', 'id'),
+            'roles'         => $roles,
+            'avail_ratings' => $avail_ratings,
         ]);
     }
 
@@ -260,6 +267,7 @@ class UserController extends Controller
         $user = $this->userRepo->findWithoutFail($id);
         if (empty($user)) {
             Flash::error('User not found');
+
             return redirect(route('admin.users.index'));
         }
 
@@ -283,6 +291,7 @@ class UserController extends Controller
         $userAward = UserAward::where(['user_id' => $id, 'award_id' => $award_id]);
         if (empty($userAward)) {
             Flash::error('The user award could not be found');
+
             return redirect()->back();
         }
 
@@ -310,5 +319,74 @@ class UserController extends Controller
         flash('New API key generated!')->success();
 
         return redirect(route('admin.users.edit', [$id]));
+    }
+
+    /**
+     * Get the type ratings that are available to the user
+     *
+     * @param $user
+     *
+     * @return array
+     */
+    protected function getAvailTypeRatings($user)
+    {
+        $retval = [];
+        $all_ratings = $this->typeratingRepo->all();
+        $avail_ratings = $all_ratings->except($user->typeratings->modelKeys());
+        foreach ($avail_ratings as $tr) {
+            $retval[$tr->id] = $tr->name.' ('.$tr->type.')';
+        }
+
+        return $retval;
+    }
+
+    /**
+     * @param User $user
+     *
+     * @return mixed
+     */
+    protected function return_typeratings_view(?User $user)
+    {
+        $user->refresh();
+
+        $avail_ratings = $this->getAvailTypeRatings($user);
+        return view('admin.users.type_ratings', [
+            'user'          => $user,
+            'avail_ratings' => $avail_ratings,
+        ]);
+    }
+
+    /**
+     * Operations for associating type ratings to the user
+     *
+     * @param         $id
+     * @param Request $request
+     *
+     * @return mixed
+     */
+    public function typeratings($id, Request $request)
+    {
+        $user = $this->userRepo->findWithoutFail($id);
+        if (empty($user)) {
+            return $this->return_typeratings_view($user);
+        }
+
+        if ($request->isMethod('get')) {
+            return $this->return_typeratings_view($user);
+        }
+
+        // associate user with type rating
+        if ($request->isMethod('post')) {
+            $typerating = $this->typeratingRepo->find($request->input('typerating_id'));
+            $this->userSvc->addUserToTypeRating($user, $typerating);
+        } // dissassociate user from the type rating
+        elseif ($request->isMethod('delete')) {
+            $typerating = $this->typeratingRepo->find($request->input('typerating_id'));
+            $this->userSvc->removeUserFromTypeRating($user, $typerating);
+        }
+
+        $user->save();
+
+        return $this->return_typeratings_view($user);
     }
 }

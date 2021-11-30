@@ -70,7 +70,8 @@
         "queueworker/sansdaemon": "^1.2",
         "jpkleemans/attribute-events": "^1.1",
         "akaunting/laravel-money": "^1.2",
-        "staudenmeir/belongs-to-through": "^2.5"
+        "staudenmeir/belongs-to-through": "^2.5",
+        "staudenmeir/eloquent-has-many-deep": "1.14.3"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.5",

@@ -62,7 +62,7 @@ class RegisterController extends Controller
     {
         $airports = $this->airportRepo->selectBoxList(false, setting('pilots.home_hubs_only'));
         $airlines = $this->airlineRepo->selectBoxList();
-        $userFields = UserField::where(['show_on_registration' => true])->get();
+        $userFields = UserField::where(['show_on_registration' => true, 'active' => true])->get();
 
         return view('auth.register', [
             'airports'   => $airports,
