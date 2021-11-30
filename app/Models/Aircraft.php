@@ -13,6 +13,7 @@ use Znck\Eloquent\Traits\BelongsToThrough;
  * @property int      id
  * @property mixed    subfleet_id
  * @property string   airport_id   The apt where the aircraft is
+ * @property string   hub_id       The apt where the aircraft is based
  * @property string   ident
  * @property string   name
  * @property string   icao
@@ -22,6 +23,7 @@ use Znck\Eloquent\Traits\BelongsToThrough;
  * @property float    zfw
  * @property string   hex_code
  * @property Airport  airport
+ * @property Airport  hub
  * @property Subfleet subfleet
  * @property int      status
  * @property int      state
@@ -39,6 +41,7 @@ class Aircraft extends Model
     protected $fillable = [
         'subfleet_id',
         'airport_id',
+        'hub_id',
         'iata',
         'icao',
         'name',
@@ -125,6 +128,11 @@ class Aircraft extends Model
     public function airport()
     {
         return $this->belongsTo(Airport::class, 'airport_id');
+    }
+
+    public function hub()
+    {
+        return $this->hasOne(Airport::class, 'id', 'hub_id');
     }
 
     public function pireps()
