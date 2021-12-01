@@ -23,7 +23,8 @@ EOF;
 $finder = PhpCsFixer\Finder::create()
     ->ignoreVCSIgnored(true)
     ->exclude('tests/data')
-->exclude('storage')
+    ->exclude('storage')
+    ->exclude('resources')
     ->in(__DIR__)
     ->append([
         __DIR__.'/dev-tools/doc.php',
