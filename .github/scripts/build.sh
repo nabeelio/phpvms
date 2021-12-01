@@ -23,6 +23,7 @@ declare -a remove_files=(
   .eslintrc
   .php_cs
   .php_cs.cache
+  .php-cs-fixer.php
   .phpstorm.meta.php
   .styleci.yml
   .phpunit.result.cache

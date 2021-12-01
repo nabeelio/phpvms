@@ -78,7 +78,7 @@ jobs:
 
     - name: Run Tests
       run: |
-        vendor/bin/php-cs-fixer fix --config=.php_cs -v --dry-run --diff --using-cache=no
+        vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php -v --dry-run --diff --using-cache=no
         vendor/bin/phpunit --debug --verbose
 
   # This runs after all of the tests, run have run. Creates a cleaned up version of the
