@@ -21,6 +21,8 @@
         "symfony/polyfill-php74": "*",
         "symfony/polyfill-php80": "*",
         "symfony/polyfill-php81": "*",
+        "symfony/property-info": "^5.4",
+        "symfony/string": "^5.4",
         "psr/container": "1.1.1",
         "composer/composer": "~1.0",
         "composer/installers": "~1.0",
@@ -108,7 +110,10 @@
          "installer-paths": {
              "modules/{$name}/": ["type:phpvms-module"]
          },
-         "module-dir": "modules"
+         "module-dir": "modules",
+         "symfony": {
+            "require": "^5.4"
+         }
     },
     "scripts": {
         "pre-package-uninstall": [
