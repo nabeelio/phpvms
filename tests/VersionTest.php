@@ -38,7 +38,7 @@ class VersionTest extends TestCase
 
             $this->assertTrue(
                 $versionSvc->isGreaterThan($newVersion, $currentVersion),
-                "{$newVersion} not greater than ${currentVersion}"
+                "$newVersion not greater than $currentVersion"
             );
         }
     }
