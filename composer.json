@@ -20,7 +20,12 @@
         "symfony/polyfill-mbstring": "*",
         "symfony/polyfill-php74": "*",
         "symfony/polyfill-php80": "*",
-        "composer/composer": "~1.0",
+        "symfony/polyfill-php81": "*",
+        "symfony/event-dispatcher-contracts": "^2",
+        "symfony/property-info": "^5.4",
+        "symfony/string": "^5.4",
+        "psr/container": "1.1.1",
+        "composer/composer": "~2.0",
         "composer/installers": "~1.0",
         "laravel/framework": "~8.0",
         "anhskohbo/no-captcha": "^3.0",
@@ -42,7 +47,7 @@
         "laravelcollective/html": "~6.2.0",
         "jeremykendall/php-domain-parser": "~5.7.2",
         "league/commonmark": "~1.6",
-        "league/csv": "9.2.*",
+        "league/csv": "9.7.*",
         "league/geotools": "0.8.*",
         "league/iso3166": "^3.0.0",
         "markrogoyski/math-php": "^1.10",
@@ -75,10 +80,10 @@
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.5",
-        "barryvdh/laravel-ide-helper": "^2.9",
+        "barryvdh/laravel-ide-helper": "^2.10",
         "bpocallaghan/generators": "~7.0",
         "filp/whoops": "~2.0",
-        "friendsofphp/php-cs-fixer": "^2.16",
+        "friendsofphp/php-cs-fixer": "^3.3",
         "mockery/mockery": "^1.4.0",
         "nunomaduro/collision": "^5.3.0",
         "phpunit/phpunit": "~9.0",
@@ -106,7 +111,10 @@
          "installer-paths": {
              "modules/{$name}/": ["type:phpvms-module"]
          },
-         "module-dir": "modules"
+         "module-dir": "modules",
+         "symfony": {
+            "require": "^5.4"
+         }
     },
     "scripts": {
         "pre-package-uninstall": [

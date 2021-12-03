@@ -2,12 +2,12 @@ name: 'Build'
 on: ['push', 'pull_request', 'workflow_dispatch', 'release']
 jobs:
   build:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     if: github.repository == 'nabeelio/phpvms'
     strategy:
       fail-fast: true
       matrix:
-        php-versions: ['7.3', '7.4', '8.0']
+        php-versions: ['7.3', '7.4', '8.0', '8.1']
     name: PHP ${{ matrix.php-versions }}
     env:
       extensions: intl, pcov, mbstring
@@ -78,7 +78,8 @@ jobs:
 
     - name: Run Tests
       run: |
-        vendor/bin/php-cs-fixer fix --config=.php_cs -v --dry-run --diff --using-cache=no
+        export PHP_CS_FIXER_IGNORE_ENV=1
+        vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php -v --dry-run --diff --using-cache=no
         vendor/bin/phpunit --debug --verbose
 
   # This runs after all of the tests, run have run. Creates a cleaned up version of the
