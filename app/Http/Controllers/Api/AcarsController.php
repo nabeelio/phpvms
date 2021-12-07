@@ -148,10 +148,10 @@ class AcarsController extends Controller
         $pirep = Pirep::find($id);
         $this->checkCancelled($pirep);
 
-        Log::debug(
+        /*Log::debug(
             'Posting ACARS update (user: '.Auth::user()->ident.', pirep id :'.$id.'): ',
             $request->post()
-        );
+        );*/
 
         $count = 0;
         $positions = $request->post('positions');
@@ -223,7 +223,7 @@ class AcarsController extends Controller
         $pirep = Pirep::find($id);
         $this->checkCancelled($pirep);
 
-        Log::debug('Posting ACARS log, PIREP: '.$id, $request->post());
+        // Log::debug('Posting ACARS log, PIREP: '.$id, $request->post());
 
         $count = 0;
         $logs = $request->post('logs');
