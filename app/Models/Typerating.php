@@ -13,6 +13,7 @@ class Typerating extends Model
         'type',
         'description',
         'image_url',
+        'active',
     ];
 
     // Validation
