@@ -138,7 +138,7 @@
   type: int
   description: 'Initial zoom level on the map'
 - key: acars.update_interval
-  name: 'Default Zoom'
+  name: 'Refresh Interval'
   group: acars
   value: 60
   options: ''
