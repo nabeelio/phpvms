@@ -137,6 +137,13 @@
   options: ''
   type: int
   description: 'Initial zoom level on the map'
+- key: acars.update_interval
+  name: 'Default Zoom'
+  group: acars
+  value: 60
+  options: ''
+  type: int
+  description: 'How often the live map updates its data'
 - key: airports.default_ground_handling_cost
   name: 'Default Ground Handling Cost'
   group: airports
