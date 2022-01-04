@@ -138,7 +138,7 @@ class RegisterController extends Controller
 
         Log::info('User registered: ', $user->toArray());
 
-        $userFields = UserField::all();
+        $userFields = UserField::where(['show_on_registration' => true, 'active' => true])->get();
         foreach ($userFields as $field) {
             $field_name = 'field_'.$field->slug;
             UserFieldValue::updateOrCreate([
