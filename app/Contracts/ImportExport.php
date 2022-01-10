@@ -184,10 +184,10 @@ class ImportExport
                 $ret[$parent] = $children;
 
                 return $ret;
-            } else {
-                // This is not a query string, return it back untouched
-                return [$split_values[0]];
             }
+
+            // This is not a query string, return it back untouched
+            return [$split_values[0]];
         }
 
         foreach ($split_values as $value) {
