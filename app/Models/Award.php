@@ -21,6 +21,7 @@ class Award extends Model
         'image_url',
         'ref_model',
         'ref_model_params',
+        'active',
     ];
 
     public static $rules = [
@@ -29,6 +30,7 @@ class Award extends Model
         'image_url'        => 'nullable',
         'ref_model'        => 'required',
         'ref_model_params' => 'nullable',
+        'active'           => 'nullable',
     ];
 
     /**
