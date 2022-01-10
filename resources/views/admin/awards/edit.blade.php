@@ -1,5 +1,5 @@
 @extends('admin.app')
-@section('title', "Edit \"$award->title\" Award")
+@section('title', "Edit \"$award->name\" Award")
 @section('content')
   <div class="card border-blue-bottom">
     <div class="content">
