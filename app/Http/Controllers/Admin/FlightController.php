@@ -300,14 +300,18 @@ class FlightController extends Controller
     public function export(Request $request)
     {
         $exporter = app(ExportService::class);
-        $flights = $this->flightRepo->all();
+
+        $where = [];
+        $file_name = 'flights.csv';
+        if ($request->input('airline_id')) {
+            $airline_id = $request->input('airline_id');
+            $where['airline_id'] = $airline_id;
+            $file_name = 'flights-'.$airline_id.'.csv';
+        }
+        $flights = $this->flightRepo->where($where)->get();
 
         $path = $exporter->exportFlights($flights);
-        return response()
-            ->download($path, 'flights.csv', [
-                'content-type' => 'text/csv',
-            ])
-            ->deleteFileAfterSend(true);
+        return response()->download($path, $file_name, ['content-type' => 'text/csv',])->deleteFileAfterSend(true);
     }
 
     /**
