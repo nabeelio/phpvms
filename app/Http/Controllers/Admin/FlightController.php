@@ -311,7 +311,7 @@ class FlightController extends Controller
         $flights = $this->flightRepo->where($where)->get();
 
         $path = $exporter->exportFlights($flights);
-        return response()->download($path, $file_name, ['content-type' => 'text/csv',])->deleteFileAfterSend(true);
+        return response()->download($path, $file_name, ['content-type' => 'text/csv'])->deleteFileAfterSend(true);
     }
 
     /**
