@@ -91,8 +91,12 @@ class PirepController extends Controller
      */
     public function aircraftList($add_blank = false)
     {
+        $user = Auth::user();
+        $user_loc = filled($user->curr_airport_id) ? $user->curr_airport_id : $user->home_airport_id;
+        $location_check = setting('pireps.only_aircraft_at_dpt_airport', false);
+
         $aircraft = [];
-        $subfleets = $this->userSvc->getAllowableSubfleets(Auth::user());
+        $subfleets = $this->userSvc->getAllowableSubfleets($user);
 
         if ($add_blank) {
             $aircraft[''] = '';
@@ -100,7 +104,9 @@ class PirepController extends Controller
 
         foreach ($subfleets as $subfleet) {
             $tmp = [];
-            foreach ($subfleet->aircraft as $ac) {
+            foreach ($subfleet->aircraft->when($location_check, function ($query) use ($user_loc) {
+                return $query->where('airport_id', $user_loc);
+            }) as $ac) {
                 $tmp[$ac->id] = $ac['name'].' - '.$ac['registration'];
             }
 
