@@ -166,6 +166,27 @@ class ImportExport
                 return [];
             }
 
+            if (strpos($split_values[0], '?') !== false) {
+                // This contains the query string, which turns it into a multi-level array
+                $query_str = explode('?', $split_values[0]);
+                $parent = trim($query_str[0]);
+
+                $children = [];
+                $kvp = explode('&', trim($query_str[1]));
+                foreach ($kvp as $items) {
+                    if (!$items) {
+                        continue;
+                    }
+
+                    $this->kvpToArray($items, $children);
+                }
+
+                $ret[$parent] = $children;
+
+                return $ret;
+            }
+
+            // This is not a query string, return it back untouched
             return [$split_values[0]];
         }
 

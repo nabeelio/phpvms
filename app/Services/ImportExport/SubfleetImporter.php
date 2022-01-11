@@ -84,8 +84,9 @@ class SubfleetImporter extends ImportExport
                 $fare_attributes = [];
             }
 
-            $fare = Fare::updateOrCreate(['code' => $fare_code], ['name' => $fare_code]);
+            $fare = Fare::firstOrCreate(['code' => $fare_code], ['name' => $fare_code]);
             $this->fareSvc->setForSubfleet($subfleet, $fare, $fare_attributes);
+            $fare->save();
         }
     }
 }
