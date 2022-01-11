@@ -2,7 +2,7 @@
 version: '3'
 services:
   app:
-    image: nabeelio/phpvms
+    image: nabeelio/phpvms:dev
     environment:
       DB_HOST: mysql
       REDIS_HOST: redis
