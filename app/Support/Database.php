@@ -134,6 +134,11 @@ class Database
                     ->where($id_col, $row[$id_col])
                     ->update($row);
             } else {
+                // Remove ID column if it exists and its empty, let the DB set it
+                if (array_key_exists($id_col, $row) && empty($row[$id_col])) {
+                    unset($row[$id_col]);
+                }
+
                 DB::table($table)->insert($row);
             }
         } catch (QueryException $e) {

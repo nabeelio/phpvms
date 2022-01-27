@@ -34,6 +34,17 @@ airports:
     lon: -97.6698889
     hub: 1
     ground_handling_cost: 100
+  - id: KPHN
+    iata: HPN
+    icao: KAUS
+    name: Westchester County Airport
+    location: White Plains
+    country: United States
+    timezone: America/New_York
+    lat: 41.067
+    lon: -73.7076
+    hub: 1
+    ground_handling_cost: 100
   - id: KJFK
     iata: JFK
     icao: KJFK
@@ -448,6 +459,21 @@ flights:
   - id: flightid_1
     airline_id: 1
     flight_number: 100
+    dpt_airport_id: KHPN
+    arr_airport_id: KJFK
+    route: DCT CMK V374 DENNA V44 BELTT/N0346F140 V44 DPK DCT
+    distance: 113
+    level: 110
+    dpt_time: 6PM CST
+    arr_time: 11PM EST
+    flight_time: 240
+    flight_type: J
+    load_factor: 100
+    created_at: NOW
+    updated_at: NOW
+  - id: flightid_2
+    airline_id: 1
+    flight_number: 101
     dpt_airport_id: KAUS
     arr_airport_id: KJFK
     route: KAUS SID TNV J87 IAH J2 LCH J22 MEI J239 ATL J52 AJFEB J14 BYJAC Q60 JAXSN J14 COLIN J61 HUBBS J55 SIE STAR KJFK

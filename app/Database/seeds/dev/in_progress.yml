@@ -36,7 +36,8 @@ acars:
     sim_time: now
     created_at: 'now'
     updated_at: 'now'
-  - pirep_id: b68R5gwVzpVe
+  - id: 9aAN4mxlK9zb1
+    pirep_id: b68R5gwVzpVe
     type: '0'
     nav_type: null
     order: '0'
@@ -54,7 +55,8 @@ acars:
     sim_time: now
     created_at: 'now'
     updated_at: 'now'
-  - pirep_id: b68R5gwVzpVe
+  - id: 9aAN4mxlK9zb2
+    pirep_id: b68R5gwVzpVe
     type: '0'
     nav_type: null
     order: '0'
@@ -72,7 +74,8 @@ acars:
     sim_time: now
     created_at: 'now'
     updated_at: 'now'
-  - pirep_id: b68R5gwVzpVe
+  - id: 9aAN4mxlK9zb3
+    pirep_id: b68R5gwVzpVe
     type: '0'
     nav_type: null
     order: '0'
@@ -90,7 +93,8 @@ acars:
     sim_time: now
     created_at: 'now'
     updated_at: 'now'
-  - pirep_id: b68R5gwVzpVe
+  - id: 9aAN4mxlK9zb34
+    pirep_id: b68R5gwVzpVe
     type: '0'
     nav_type: null
     order: '0'
@@ -108,7 +112,8 @@ acars:
     sim_time: now
     created_at: 'now'
     updated_at: 'now'
-  - pirep_id: b68R5gwVzpVe
+  - id: 9aAN4mxlK9zb35
+    pirep_id: b68R5gwVzpVe
     type: '0'
     nav_type: null
     order: '0'
@@ -126,7 +131,8 @@ acars:
     sim_time: now
     created_at: 'now'
     updated_at: 'now'
-  - pirep_id: b68R5gwVzpVe
+  - id: 9aAN4mxlK9zb36
+    pirep_id: b68R5gwVzpVe
     type: '0'
     nav_type: null
     order: '0'
@@ -144,7 +150,8 @@ acars:
     sim_time: now
     created_at: 'now'
     updated_at: 'now'
-  - pirep_id: b68R5gwVzpVe
+  - id: 9aAN4mxlK9zb37
+    pirep_id: b68R5gwVzpVe
     type: '0'
     nav_type: null
     order: '0'
@@ -162,7 +169,8 @@ acars:
     sim_time: now
     created_at: 'now'
     updated_at: 'now'
-  - pirep_id: b68R5gwVzpVe
+  - id: 9aAN4mxlK9zb38
+    pirep_id: b68R5gwVzpVe
     type: '0'
     nav_type: null
     order: '0'
@@ -180,7 +188,8 @@ acars:
     sim_time: now
     created_at: 'now'
     updated_at: 'now'
-  - pirep_id: b68R5gwVzpVe
+  - id: 9aAN4mxlK9zb39
+    pirep_id: b68R5gwVzpVe
     type: '0'
     nav_type: null
     order: '0'
