@@ -76,3 +76,4 @@ error_log
 /config.php
 /config.bak.php
 /VERSION
+sync.sh
