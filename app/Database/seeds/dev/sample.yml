@@ -34,9 +34,9 @@ airports:
     lon: -97.6698889
     hub: 1
     ground_handling_cost: 100
-  - id: KPHN
+  - id: KHPN
     iata: HPN
-    icao: KPHN
+    icao: KHPN
     name: Westchester County Airport
     location: White Plains
     country: United States
