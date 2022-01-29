@@ -45,6 +45,17 @@ airports:
     lon: -73.7076
     hub: 1
     ground_handling_cost: 100
+  - id: KLGA
+    iata: LGA
+    icao: KLGA
+    name: La Guardia Airport
+    location: New York, New York, USA
+    country: United States
+    timezone: America/New_York
+    lat: 40.7772
+    lon: -73.8726
+    hub: 1
+    ground_handling_cost: 250
   - id: KJFK
     iata: JFK
     icao: KJFK
@@ -575,6 +586,21 @@ flights:
     visible: 1
     created_at: now
     updated_at: now
+  - id: flightid_4
+    airline_id: 1
+    flight_number: 100
+    dpt_airport_id: KHPN
+    arr_airport_id: KLGA
+    route: DCT CMK V374 DENNA V44 BELTT/N0346F140 V44 DPK DCT
+    distance: 75
+    level: 110
+    dpt_time: 6PM CST
+    arr_time: 11PM EST
+    flight_time: 240
+    flight_type: J
+    load_factor: 100
+    created_at: NOW
+    updated_at: NOW
 
 flight_fields:
   - name: Departure Terminal
