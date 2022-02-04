@@ -19,7 +19,7 @@ return [
     'count'                => 'Nombre',
     'flighttime'           => 'Temps de vol',
     'flightlevel'          => 'Niveau de vol',
-    'fieldsreadonly'       => 'Une fois que le PIREP a été soumis,lecture seule uniquement',
+    'fieldsreadonly'       => 'Une fois que le PIREP a été soumis, lecture seule uniquement',
     'flightinformations'   => 'Information de vol',
     'flightident'          => 'Numéro de vol/Code/Leg',
     'block_fuel'           => 'Carburant on Block',

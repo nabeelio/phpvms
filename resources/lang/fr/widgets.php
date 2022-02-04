@@ -16,7 +16,7 @@ return [
     ],
 
     'weather' => [
-        'nometar'    => 'les données METAR/TAF n\'ont pas pu être récupérées ',
+        'nometar'    => 'les données METAR/TAF n\'ont pas pu être récupérées',
         'conditions' => 'Conditions',
         'visibility' => 'visibilité',
         'temp'       => 'Température',
