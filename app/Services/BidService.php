@@ -50,6 +50,9 @@ class BidService extends Service
 
         /** @var Bid $bid */
         $bid = Bid::with($with)->where(['id' => $bid_id])->first();
+        if ($bid === null) {
+            return null;
+        }
 
         // Reconcile the aircraft for this bid
         // TODO: Only do this if there isn't a Simbrief attached?

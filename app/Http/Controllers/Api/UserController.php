@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Contracts\Controller;
+use App\Exceptions\BidNotFound;
 use App\Exceptions\Unauthorized;
 use App\Exceptions\UserNotFound;
 use App\Http\Resources\Bid as BidResource;
@@ -160,6 +161,10 @@ class UserController extends Controller
 
         // Return the current bid
         $bid = $this->bidSvc->getBid($user, $bid_id);
+        if ($bid === null) {
+            throw new BidNotFound($bid_id);
+        }
+
         if ($bid->user_id !== $user->id) {
             throw new Unauthorized(new \Exception('Bid not not belong to authenticated user'));
         }
