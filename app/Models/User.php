@@ -97,7 +97,10 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'api_key',
+        'email',
+        'name',
         'discord_id',
+        'discord_private_channel_id',
         'password',
         'last_ip',
         'remember_token',
