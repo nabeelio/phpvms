@@ -1,20 +1,21 @@
 <?php
 
 return [
-    'avatarresize'    => 'This avatar will be resized to :width x :height pixels',
+    'avatarresize' => 'Cet avatar sera redimensionné pour :width x :height pixels',
+
     'newapikey'       => 'Nouvelle clé API ',
-    'your-profile'    => 'Mon Profil',
-    'your-awards'     => 'Mes Récompenses',
+    'your-profile'    => 'Votre Profil',
+    'your-awards'     => 'Vos Récompenses ',
     'apikey'          => 'Clé API',
-    'apikey-show'     => 'Voir Clé',
+    'apikey-show'     => 'Voir la clé',
     'dontshare'       => 'Ne pas partager!',
-    'changepassword'  => 'Changer le mot de passe',
-    'newpassword'     => 'Nouveau mot de passe',
+    'changepassword'  => 'Changer le mot de passe ',
+    'newpassword'     => 'Nouveau mot de passe ',
     'avatar'          => 'Avatar',
-    'updateprofile'   => 'Mettre à jour le Profil',
-    'editprofile'     => 'Editer le Profil',
-    'edityourprofile' => 'Editer mon Profil',
-    'transferhours'   => 'Heures de Transfert',
-    'opt-in'          => 'Opt-In',
+    'updateprofile'   => 'Mettre à jour le profil',
+    'editprofile'     => 'Editer le profil',
+    'edityourprofile' => 'Editer votre profil',
+    'transferhours'   => 'Heures transférées',
+    'opt-in'          => 'Adhésion',
     'opt-in-descrip'  => 'Oui, recevoir les courriels non administratifs.',
 ];
