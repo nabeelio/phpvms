@@ -48,7 +48,15 @@ class BidService extends Service
             'flight.subfleets.fares',
         ];
 
-        return Bid::with($with)->where(['id' => $bid_id])->first();
+        /** @var Bid $bid */
+        $bid = Bid::with($with)->where(['id' => $bid_id])->first();
+
+        // Reconcile the aircraft for this bid
+        // TODO: Only do this if there isn't a Simbrief attached?
+        $bid->flight = $this->flightSvc->filterSubfleets($user, $bid->flight);
+        $bid->flight = $this->fareSvc->getReconciledFaresForFlight($bid->flight);
+
+        return $bid;
     }
 
     /**

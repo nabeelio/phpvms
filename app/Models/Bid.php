@@ -10,6 +10,8 @@ use Carbon\Carbon;
  * @property string flight_id
  * @property Carbon created_at
  * @property Carbon updated_at
+ * @property Flight flight
+ * @property User   user
  */
 class Bid extends Model
 {
