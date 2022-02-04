@@ -15,7 +15,7 @@ return [
     'pendingmessage'           => 'Votre enregistrement et en attente. Veuillez vérifier vos emails!',
     'registrationsubmitted'    => 'Votre Enregistrement à été transmis',
     'registrationconfirmation' => 'Confirmation inscription',
-    'confirmationmessage'      => 'Votre demande a été transmise. Elle nécessite une approbation par un administrateur. Apès examin de votre demande, vous recevrez un courriel de confirmation.',
+    'confirmationmessage'      => 'Votre demande a été transmise. Elle nécessite une approbation par un administrateur. Après examin de votre demande, vous recevrez un courriel de confirmation.',
     'registrationdenied'       => 'Inscription rejetée',
     'deniedmessage'            => 'votre inscription à été rejetée.Veuillez contacter un administrateur.',
     'accountsuspended'         => 'Compte Suspendu',
