@@ -3,6 +3,6 @@
 return [
     'welcome' => [
         'title'   => 'Bienvenue!',
-        'message' => 'Bienvenue à :appname',
+        'message' => 'Bienvenue sur :appname',
     ],
 ];
