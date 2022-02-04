@@ -33,7 +33,7 @@ class BidService extends Service
      *
      * @return \App\Models\Bid|\Illuminate\Database\Eloquent\Model|object|null
      */
-    public function getBid(User $user, $bid_id): Bid
+    public function getBid(User $user, $bid_id): ?Bid
     {
         $with = [
             'flight',
