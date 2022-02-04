@@ -3,7 +3,7 @@
 return [
     'latestnews' => [
         'news'        => 'News',
-        'nonewsfound' => 'pas de News Trouvé',
+        'nonewsfound' => 'Aucune News trouvée',
     ],
 
     'livemap' => [
@@ -16,13 +16,13 @@ return [
     ],
 
     'weather' => [
-        'nometar'    => 'METAR/TAF les données ont pas pu être récupérées',
+        'nometar'    => 'les données METAR/TAF n\'ont pas pu être récupérées ',
         'conditions' => 'Conditions',
-        'visibility' => 'visibilité',
-        'temp'       => 'Temperature',
+        'visibility' => 'visibilité ',
+        'temp'       => 'Température',
         'humidity'   => 'humidité',
         'dewpoint'   => 'point de rosée',
-        'barometer'  => 'Barometre',
+        'barometer'  => 'Baromètre',
         'clouds'     => 'Nuages',
         'wind'       => 'Vent',
         'remarks'    => 'Remarques',
