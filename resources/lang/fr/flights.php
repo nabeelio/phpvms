@@ -9,7 +9,7 @@ return [
     'callsign'         => 'Callsign',
     'route'            => 'Route',
     'mybid'            => 'Mes enchères',
-    'search'           => 'rechercher',
+    'search'           => 'Rechercher',
     'addremovebid'     => 'Ajouter/Retirer Enchère',
     'bidremoved'       => 'Votre enchère a été supprimée',
     'bidadded'         => 'Votre enchère a été ajoutée',
