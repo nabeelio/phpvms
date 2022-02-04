@@ -291,13 +291,13 @@ class UserTest extends TestCase
      */
     public function testUserPilotIdAdded()
     {
-        $new_user = factory(User::class)->make()->toArray();
+        $new_user = factory(User::class)->make()->makeVisible(['api_key', 'name', 'email'])->toArray();
         $new_user['password'] = Hash::make('secret');
         $user = $this->userSvc->createUser($new_user);
         $this->assertEquals($user->id, $user->pilot_id);
 
         // Add a second user
-        $new_user = factory(User::class)->make()->toArray();
+        $new_user = factory(User::class)->make()->makeVisible(['api_key', 'name', 'email'])->toArray();
         $new_user['password'] = Hash::make('secret');
         $user2 = $this->userSvc->createUser($new_user);
         $this->assertEquals($user2->id, $user2->pilot_id);
@@ -313,11 +313,11 @@ class UserTest extends TestCase
 
     public function testUserPilotDeleted()
     {
-        $new_user = factory(User::class)->make()->toArray();
+        $new_user = factory(User::class)->make()->makeVisible(['api_key', 'name', 'email'])->toArray();
         $new_user['password'] = Hash::make('secret');
         $admin_user = $this->userSvc->createUser($new_user);
 
-        $new_user = factory(User::class)->make()->toArray();
+        $new_user = factory(User::class)->make()->makeVisible(['api_key', 'name', 'email'])->toArray();
         $new_user['password'] = Hash::make('secret');
         $user = $this->userSvc->createUser($new_user);
         $this->assertEquals($user->id, $user->pilot_id);
@@ -335,11 +335,11 @@ class UserTest extends TestCase
 
     public function testUserPilotDeletedWithPireps()
     {
-        $new_user = factory(User::class)->make()->toArray();
+        $new_user = factory(User::class)->make()->makeVisible(['api_key', 'name', 'email'])->toArray();
         $new_user['password'] = Hash::make('secret');
         $admin_user = $this->userSvc->createUser($new_user);
 
-        $new_user = factory(User::class)->make()->toArray();
+        $new_user = factory(User::class)->make()->makeVisible(['api_key', 'name', 'email'])->toArray();
         $new_user['password'] = Hash::make('secret');
         $user = $this->userSvc->createUser($new_user);
         $this->assertEquals($user->id, $user->pilot_id);
