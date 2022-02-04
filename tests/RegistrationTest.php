@@ -5,6 +5,7 @@ namespace Tests;
 use App\Events\UserRegistered;
 use App\Models\Enums\UserState;
 use App\Models\User;
+use App\Services\UserService;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;
@@ -23,11 +24,12 @@ class RegistrationTest extends TestCase
         Event::fake();
         Notification::fake();
 
-        $userSvc = app('App\Services\UserService');
+        /** @var UserService $userSvc */
+        $userSvc = app(UserService::class);
 
         setting('pilots.auto_accept', true);
 
-        $attrs = factory(User::class)->make()->toArray();
+        $attrs = factory(User::class)->make()->makeVisible(['api_key', 'name', 'email'])->toArray();
         $attrs['password'] = Hash::make('secret');
         $user = $userSvc->createUser($attrs);
 
