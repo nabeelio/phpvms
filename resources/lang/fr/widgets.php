@@ -2,8 +2,8 @@
 
 return [
     'latestnews' => [
-        'news'        => 'News',
-        'nonewsfound' => 'pas de News Trouvé',
+        'news'        => 'Actualités',
+        'nonewsfound' => 'Aucune actualité trouvée',
     ],
 
     'livemap' => [
@@ -11,24 +11,24 @@ return [
         'altitude'    => 'Altitude',
         'heading'     => 'Cap',
         'distance'    => 'Distance',
-        'noflights'   => 'Aucun vol en cours.',
+        'noflights'   => 'Il n\'y a pas de vols.',
         'gs'          => 'GS',
     ],
 
     'weather' => [
-        'nometar'    => 'METAR/TAF les données ont pas pu être récupérées',
+        'nometar'    => 'METAR/TAF n\'ont pas pu être récupérés',
         'conditions' => 'Conditions',
-        'visibility' => 'visibilité',
-        'temp'       => 'Temperature',
-        'humidity'   => 'humidité',
-        'dewpoint'   => 'point de rosée',
-        'barometer'  => 'Barometre',
+        'visibility' => 'Visibilité',
+        'temp'       => 'Température',
+        'humidity'   => 'Humidité',
+        'dewpoint'   => 'Point de rosée',
+        'barometer'  => 'Baromètre',
         'clouds'     => 'Nuages',
         'wind'       => 'Vent',
         'remarks'    => 'Remarques',
-        'guststo'    => 'Rafales de vent jusqu à',
-        'updated'    => 'Actualisé',
-        'hrago'      => 'heure précédente|heures précédentes',
-        'minago'     => 'minute précédente|minutes précédentes',
+        'guststo'    => 'Rafales à',
+        'updated'    => 'Mis à jour il y a ',
+        'hrago'      => 'heure|heures',
+        'minago'     => 'minute|minutes',
     ],
 ];

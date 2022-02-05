@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'title' => 'Termes et Conditions',
+    'title' => 'Conditions Générales d\'Utilisations',
 ];
