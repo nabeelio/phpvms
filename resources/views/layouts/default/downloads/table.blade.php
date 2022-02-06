@@ -1,6 +1,9 @@
 <ul class="list-group">
   @foreach($files as $file)
     <li class="list-group-item">
+      @if($file->thumbnail)
+        <img class="img-thumbnail img-fluid" style="max-width: 250px;" src="{{ Storage::disk($file->disk)->url($file->thumbnail) }}" alt="">
+      @endif
       <a href="{{route('frontend.downloads.download', [$file->id])}}" target="_blank">
         {{ $file->name }}
       </a>

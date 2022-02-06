@@ -67,6 +67,7 @@ Pass in:
         {{ Form::text('file_name', null, ['class' => 'form-control', 'placeholder' => 'Name']) }}
         {{ Form::text('file_description', null, ['class' => 'form-control', 'placeholder' => 'Description']) }}
         {{ Form::text('url', null, ['class' => 'form-control', 'placeholder' => 'URL']) }}
+        {{ Form::file('file_thumbnail', ['class' => 'form-control']) }}
         {{ Form::file('file', ['class' => 'form-control']) }}
 
         {{-- Fields for the model --}}

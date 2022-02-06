@@ -13,6 +13,7 @@ use Illuminate\Support\Str;
  * @property string $description
  * @property string $disk
  * @property string $path
+ * @property string $thumbnail
  * @property bool   $public
  * @property int    $download_count
  * @property string $url
@@ -33,6 +34,7 @@ class File extends Model
         'description',
         'disk',
         'path',
+        'thumbnail',
         'public',
         'ref_model',
         'ref_model_id',

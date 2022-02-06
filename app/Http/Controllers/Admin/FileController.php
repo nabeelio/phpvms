@@ -85,6 +85,7 @@ class FileController extends Controller
 
         $attrs['name'] = $attrs['file_name'];
         $attrs['description'] = $attrs['file_description'];
+        $attrs['thumbnail'] = $request->file('file_thumbnail');
 
         if ($request->hasFile('file')) {
             $file = $request->file('file');

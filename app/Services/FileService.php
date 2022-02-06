@@ -26,6 +26,7 @@ class FileService extends Service
         $attrs = array_merge([
             'name'         => '',
             'description'  => '',
+            'thumbnail'    => '',
             'public'       => false,
             'ref_model'    => '',
             'ref_model_id' => '',
@@ -40,11 +41,19 @@ class FileService extends Service
         $filename = $id.'_'.str_slug(trim($path_info['filename'])).'.'.$path_info['extension'];
         $file_path = $file->storeAs($folder, $filename, $attrs['disk']);
 
+        if ($attrs['thumbnail']) {
+            $thumbnail = $attrs['thumbnail'];
+            $thumbnail_info = pathinfo($thumbnail->getClientOriginalName());
+            $thumbnail_name = $id.'_'.str_slug(trim($path_info['filename'])).'_thumbnail.'.$thumbnail_info['extension'];
+            $thumbnail_path = $thumbnail->storeAs($folder . '/thumbnail/', $thumbnail_name, $attrs['disk']);
+        }
+
         Log::info('File saved to '.$file_path);
 
         $asset = new File($attrs);
         $asset->id = $id;
         $asset->path = $file_path;
+        $asset->thumbnail = $thumbnail_path ?? null;
         $asset->save();
 
         return $asset;
