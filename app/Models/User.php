@@ -131,7 +131,7 @@ class User extends Authenticatable
     public function getIdentAttribute(): string
     {
         $length = setting('pilots.id_length');
-        $ident_code = filled(setting('pilots.id_code')) ? setting('pilots.id_code') :  optional($this->airline)->icao;
+        $ident_code = filled(setting('pilots.id_code')) ? setting('pilots.id_code') : optional($this->airline)->icao;
 
         return $ident_code.str_pad($this->pilot_id, $length, '0', STR_PAD_LEFT);
     }
