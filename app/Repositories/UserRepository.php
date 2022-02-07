@@ -90,11 +90,11 @@ class UserRepository extends Repository
         }
 
         if ($request->filled('name')) {
-            $where['name'] = $request->name;
+            $where[] = ['name', 'LIKE', '%'.$request->name.'%'];
         }
 
         if ($request->filled('email')) {
-            $where['email'] = $request->email;
+            $where[] = ['email', 'LIKE', '%'.$request->email.'%'];
         }
 
         if ($request->filled('state')) {
