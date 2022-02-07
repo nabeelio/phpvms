@@ -333,6 +333,13 @@
   options: ''
   type: int
   description: 'The length of a pilot''s ID'
+- key: pilots.id_code
+  name: 'Pilot ID Code'
+  group: pilots
+  value: ''
+  options: ''
+  type: text
+  description: 'Fixed ICAO code for pilot IDs'
 - key: pilots.auto_accept
   name: 'Auto Accept New Pilot'
   group: pilots
