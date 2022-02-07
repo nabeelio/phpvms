@@ -151,7 +151,7 @@ class User extends Authenticatable
         $first_name = $name_parts[0];
         $last_name = $name_parts[$count - 1];
 
-        return $first_name.' '.$last_name[0];
+        return $first_name.' '.mb_substr($last_name, 0, 1);
     }
 
     /**

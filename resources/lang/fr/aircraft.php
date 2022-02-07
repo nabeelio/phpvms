@@ -6,7 +6,7 @@ return [
         'maintenance' => 'Maintenance',
         'stored'      => 'Stocké',
         'retired'     => 'Retiré',
-        'scrapped'    => 'A la casse',
-        'written'     => 'Désenregitré',
+        'scrapped'    => 'Démantelé',
+        'written'     => 'Désaffecté',
     ],
 ];
