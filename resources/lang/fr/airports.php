@@ -2,8 +2,8 @@
 
 return [
     'ident'     => 'Identification',
-    'home'      => 'Aéroport Initial',
+    'home'      => 'Aéroport d\'Attache',
     'current'   => 'Aéroport Actuel',
-    'departure' => 'Aéroport Départ',
-    'arrival'   => 'Aéroport Arrivée',
+    'departure' => 'Aéroport de Départ',
+    'arrival'   => 'Aéroport d\'Arrivée',
 ];
