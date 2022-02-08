@@ -20,14 +20,23 @@ class DiscordWebhook
     public function send($notifiable, Notification $notification)
     {
         $message = $notification->toDiscordChannel($notifiable);
-        if ($message === null || empty($message->webhook_url)) {
-            Log::debug('Discord notifications not configured, skipping');
+        if ($message === null) {
+            //Log::debug('Discord notifications not configured, skipping');
             return;
+        }
+
+        $webhook_url = $message->webhook_url;
+        if (empty($webhook_url)) {
+            $webhook_url = setting('notifications.discord_private_webhook_url');
+            if (empty($webhook_url)) {
+                //Log::debug('Discord notifications not configured, skipping');
+                return;
+            }
         }
 
         try {
             $data = $message->toArray();
-            $this->httpClient->post($message->webhook_url, $data);
+            $this->httpClient->post($webhook_url, $data);
         } catch (RequestException $e) {
             $request = Psr7\Message::toString($e->getRequest());
             $response = Psr7\Message::toString($e->getResponse());

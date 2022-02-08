@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Notifications\Messages;
+namespace App\Notifications\Messages\Broadcast;
 
 use App\Contracts\Notification;
 use App\Models\Enums\PirepStatus;
@@ -12,6 +12,9 @@ use App\Support\Units\Time;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use PhpUnitsOfMeasure\Exception\NonNumericValue;
 use PhpUnitsOfMeasure\Exception\NonStringUnitName;
+use function config;
+use function route;
+use function setting;
 
 /**
  * Send the PIREP accepted message to a particular user, can also be sent to Discord
@@ -73,10 +76,6 @@ class PirepStatusChanged extends Notification implements ShouldQueue
      */
     public function toDiscordChannel($pirep): ?DiscordMessage
     {
-        if (empty(setting('notifications.discord_public_webhook_url'))) {
-            return null;
-        }
-
         $title = 'Flight '.$pirep->ident.' '.self::$verbs[$pirep->status];
 
         $fields = [
@@ -97,9 +96,9 @@ class PirepStatusChanged extends Notification implements ShouldQueue
                 $fields['Distance'] = $pd;
 
                 // Add the planned distance in
-                if ($pirep->planned_distance) {
+                if ($pirep->distance) {
                     try {
-                        $planned_distance = new Distance($pirep->planned_distance, $unit);
+                        $planned_distance = new Distance($pirep->distance, $unit);
                         $pd = $planned_distance[$planned_distance->unit];
                         $fields['Distance'] .= '/'.$pd;
                     } catch (NonNumericValue|NonStringUnitName $e) {
@@ -112,8 +111,7 @@ class PirepStatusChanged extends Notification implements ShouldQueue
         }
 
         $dm = new DiscordMessage();
-        return $dm->webhook(setting('notifications.discord_public_webhook_url'))
-            ->success()
+        return $dm->success()
             ->title($title)
             ->description($pirep->user->discord_id ? 'Flight by <@'.$pirep->user->discord_id.'>' : '')
             ->url(route('frontend.pireps.show', [$pirep->id]))

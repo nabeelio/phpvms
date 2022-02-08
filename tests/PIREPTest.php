@@ -14,13 +14,12 @@ use App\Models\Pirep;
 use App\Models\Rank;
 use App\Models\User;
 use App\Notifications\Messages\PirepAccepted;
-use App\Notifications\Messages\PirepSubmitted;
+use App\Notifications\Messages\PirepFiled;
 use App\Repositories\SettingRepository;
 use App\Services\AircraftService;
 use App\Services\BidService;
 use App\Services\FlightService;
 use App\Services\PirepService;
-use App\Services\UserService;
 use App\Support\Units\Fuel;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Notification;
@@ -156,6 +155,7 @@ class PIREPTest extends TestCase
      */
     public function testUnitFields()
     {
+        /** @var Pirep $pirep */
         $pirep = $this->createPirep();
         $pirep->save();
 
@@ -251,16 +251,13 @@ class PIREPTest extends TestCase
     {
         /** @var User $user */
         $user = factory(User::class)->create([
+            'name'        => 'testPirepNotifications user',
             'flights'     => 0,
             'flight_time' => 0,
             'rank_id'     => 1,
         ]);
 
-        $admin = factory(User::class)->create();
-
-        /** @var UserService $userSvc */
-        $userSvc = app(UserService::class);
-        $userSvc->addUserToRole($admin, 'admin');
+        $admin = $this->createAdminUser(['name' => 'testPirepNotifications Admin']);
 
         $pirep = factory(Pirep::class)->create([
             'airline_id' => 1,
@@ -271,7 +268,8 @@ class PIREPTest extends TestCase
         $this->pirepSvc->submit($pirep);
 
         // Make sure a notification was sent out to the admin
-        Notification::assertSentTo([$admin], PirepSubmitted::class);
+        Notification::assertSentTo([$admin], PirepFiled::class);
+        Notification::assertNotSentTo([$user], PirepFiled::class);
     }
 
     /**
@@ -281,6 +279,7 @@ class PIREPTest extends TestCase
     {
         $this->updateSetting('pilots.count_transfer_hours', false);
 
+        /** @var User $user */
         $user = factory(User::class)->create([
             'flights'     => 0,
             'flight_time' => 0,
@@ -304,6 +303,7 @@ class PIREPTest extends TestCase
             $this->pirepSvc->accept($pirep);
         }
 
+        /** @var User $pilot */
         $pilot = User::find($user->id);
         $last_pirep = Pirep::where('id', $pilot->last_pirep_id)->first();
 

@@ -58,7 +58,7 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
         );
 
         Artisan::call('database:create', ['--reset' => true]);
-        Artisan::call('migrate:refresh', ['--env' => 'testing', '--force' => true]);
+        Artisan::call('migrate', ['--env' => 'testing', '--force' => true]);
 
         Notification::fake();
         // $this->disableExceptionHandling();
@@ -71,6 +71,7 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
     protected function disableExceptionHandling()
     {
         $this->app->instance(ExceptionHandler::class, new class() extends Handler {
+            /** @noinspection PhpMissingParentConstructorInspection */
             public function __construct()
             {
             }

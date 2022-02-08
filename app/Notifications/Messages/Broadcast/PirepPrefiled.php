@@ -1,45 +1,38 @@
 <?php
 
-namespace App\Notifications\Messages;
+namespace App\Notifications\Messages\Broadcast;
 
 use App\Contracts\Notification;
 use App\Models\Pirep;
 use App\Notifications\Channels\Discord\DiscordMessage;
 use App\Notifications\Channels\Discord\DiscordWebhook;
-use App\Notifications\Channels\MailChannel;
 use App\Support\Units\Distance;
 use App\Support\Units\Time;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use PhpUnitsOfMeasure\Exception\NonNumericValue;
 use PhpUnitsOfMeasure\Exception\NonStringUnitName;
 
-class PirepSubmitted extends Notification implements ShouldQueue
+/**
+ * Send the PIREP accepted message to a particular user, can also be sent to Discord
+ */
+class PirepPrefiled extends Notification implements ShouldQueue
 {
-    use MailChannel;
-
     private $pirep;
 
     /**
      * Create a new notification instance.
      *
-     * @param \App\Models\Pirep $pirep
+     * @param Pirep $pirep
      */
     public function __construct(Pirep $pirep)
     {
         parent::__construct();
-
         $this->pirep = $pirep;
-
-        $this->setMailable(
-            'New PIREP Submitted',
-            'notifications.mail.admin.pirep.submitted',
-            ['pirep' => $this->pirep]
-        );
     }
 
     public function via($notifiable)
     {
-        return ['mail', DiscordWebhook::class];
+        return [DiscordWebhook::class];
     }
 
     /**
@@ -55,7 +48,7 @@ class PirepSubmitted extends Notification implements ShouldQueue
             return null;
         }
 
-        $title = 'Flight '.$pirep->ident.' Filed';
+        $title = 'Flight '.$pirep->ident.' Prefiled';
         $fields = [
             'Flight'                => $pirep->ident,
             'Departure Airport'     => $pirep->dpt_airport_id,
@@ -64,16 +57,17 @@ class PirepSubmitted extends Notification implements ShouldQueue
             'Flight Time (Planned)' => Time::minutesToTimeString($pirep->planned_flight_time),
         ];
 
-        if ($pirep->planned_distance) {
+        if ($pirep->distance) {
             try {
                 $planned_distance = new Distance(
-                    $pirep->planned_distance,
+                    $pirep->distance,
                     config('phpvms.internal_units.distance')
                 );
 
                 $pd = $planned_distance[$planned_distance->unit].' '.$planned_distance->unit;
                 $fields['Distance (Planned)'] = $pd;
-            } catch (NonNumericValue|NonStringUnitName $e) {
+            } catch (NonNumericValue $e) {
+            } catch (NonStringUnitName $e) {
             }
         }
 
