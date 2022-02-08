@@ -243,7 +243,7 @@ class PirepService extends Service
 
         // Copy some fields over from Flight if we have it
         if ($pirep->flight) {
-            $pirep->planned_distance = $pirep->flight->distance;
+            $pirep->planned_distance = $pirep->flight->planned_distance;
             $pirep->planned_flight_time = $pirep->flight->flight_time;
         }
 
@@ -336,7 +336,7 @@ class PirepService extends Service
 
         // Copy some fields over from Flight if we have it
         if ($pirep->flight) {
-            $pirep->planned_distance = $pirep->flight->distance;
+            $pirep->distance = $pirep->flight->distance;
             $pirep->planned_flight_time = $pirep->flight->flight_time;
         }
 

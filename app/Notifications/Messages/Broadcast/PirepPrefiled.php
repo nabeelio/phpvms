@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Notifications\Messages;
+namespace App\Notifications\Messages\Broadcast;
 
 use App\Contracts\Notification;
 use App\Models\Pirep;

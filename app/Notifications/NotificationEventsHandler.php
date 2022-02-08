@@ -134,10 +134,10 @@ class NotificationEventsHandler extends Listener
          */
         $this->notifyAdmins(new Messages\AdminUserRegistered($event->user));
 
-        /**
-         * Discord and other notifications
+        /*
+         * Broadcast notifications
          */
-        Notification::send([$event->user], new Messages\AdminUserRegistered($event->user));
+        Notification::send([$event->user], new Messages\Broadcast\UserRegistered($event->user));
     }
 
     /**
@@ -166,16 +166,20 @@ class NotificationEventsHandler extends Listener
     public function onPirepPrefile(PirepPrefiled $event): void
     {
         Log::info('NotificationEvents::onPirepPrefile: '.$event->pirep->id.' prefiled');
-        Notification::send([$event->pirep], new Messages\PirepPrefiled($event->pirep));
+
+        /*
+         * Broadcast notifications
+         */
+        Notification::send([$event->pirep], new Messages\Broadcast\PirepPrefiled($event->pirep));
     }
 
     /**
-     * Status Change notification
+     * Status Change notification. Disabled for now, too noisy
      */
     public function onPirepStatusChange(PirepStatusChange $event): void
     {
-        Log::info('NotificationEvents::onPirepStatusChange: '.$event->pirep->id.' prefiled');
-        Notification::send([$event->pirep], new Messages\PirepStatusChanged($event->pirep));
+        // Log::info('NotificationEvents::onPirepStatusChange: '.$event->pirep->id.' prefiled');
+        // Notification::send([$event->pirep], new Messages\Discord\PirepStatusChanged($event->pirep));
     }
 
     /**
@@ -186,8 +190,12 @@ class NotificationEventsHandler extends Listener
     public function onPirepFile(PirepFiled $event): void
     {
         Log::info('NotificationEvents::onPirepFile: '.$event->pirep->id.' filed');
-        $this->notifyAdmins(new Messages\PirepSubmitted($event->pirep));
-        Notification::send([$event->pirep], new Messages\PirepSubmitted($event->pirep));
+        $this->notifyAdmins(new Messages\PirepFiled($event->pirep));
+
+        /*
+         * Broadcast notifications
+         */
+        Notification::send([$event->pirep], new Messages\Broadcast\PirepFiled($event->pirep));
     }
 
     /**
@@ -221,6 +229,10 @@ class NotificationEventsHandler extends Listener
     {
         Log::info('NotificationEvents::onNewsAdded');
         $this->notifyAllUsers(new Messages\NewsAdded($event->news));
-        Notification::send([$event->news], new Messages\NewsAdded($event->news));
+
+        /*
+         * Broadcast notifications
+         */
+        Notification::send([$event->news], new Messages\Broadcast\NewsAdded($event->news));
     }
 }

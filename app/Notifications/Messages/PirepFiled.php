@@ -3,52 +3,51 @@
 namespace App\Notifications\Messages;
 
 use App\Contracts\Notification;
-use App\Models\User;
+use App\Models\Pirep;
 use App\Notifications\Channels\MailChannel;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class AdminUserRegistered extends Notification implements ShouldQueue
+class PirepFiled extends Notification implements ShouldQueue
 {
     use MailChannel;
 
-    private $user;
+    private $pirep;
 
     /**
      * Create a new notification instance.
      *
-     * @param \App\Models\User $user
+     * @param \App\Models\Pirep $pirep
      */
-    public function __construct(User $user)
+    public function __construct(Pirep $pirep)
     {
         parent::__construct();
 
-        $this->user = $user;
+        $this->pirep = $pirep;
+
         $this->setMailable(
-            'A new user registered',
-            'notifications.mail.admin.user.registered',
-            ['user' => $user]
+            'New PIREP Submitted',
+            'notifications.mail.admin.pirep.submitted',
+            ['pirep' => $this->pirep]
         );
     }
 
-    /**
-     * @param $notifiable
-     *
-     * @return string[]
-     */
     public function via($notifiable)
     {
         return ['mail'];
     }
 
     /**
-     * @param $notifiable
+     * Get the array representation of the notification.
+     *
+     * @param mixed $notifiable
      *
      * @return array
      */
     public function toArray($notifiable)
     {
         return [
-            'user_id' => $this->user->id,
+            'pirep_id' => $this->pirep->id,
+            'user_id'  => $this->pirep->user_id,
         ];
     }
 }

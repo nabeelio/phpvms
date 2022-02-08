@@ -9,6 +9,7 @@ use App\Models\Pirep;
 use App\Models\Role;
 use App\Models\Subfleet;
 use App\Models\User;
+use App\Services\UserService;
 use Exception;
 
 trait TestData
@@ -30,6 +31,25 @@ trait TestData
             'rank_id'     => $rank->id,
             'state'       => UserState::ACTIVE,
         ], $attrs));
+    }
+
+    /**
+     * Create an admin user
+     *
+     * @param array $attrs
+     *
+     * @return User
+     */
+    public function createAdminUser(array $attrs = []): User
+    {
+        /** @var User $admin */
+        $admin = factory(User::class)->create($attrs);
+
+        /** @var UserService $userSvc */
+        $userSvc = app(UserService::class);
+        $userSvc->addUserToRole($admin, 'admin');
+
+        return $admin;
     }
 
     /**
