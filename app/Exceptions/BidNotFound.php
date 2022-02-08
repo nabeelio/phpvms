@@ -37,7 +37,7 @@ class BidNotFound extends AbstractHttpException
     public function getErrorMetadata(): array
     {
         return [
-            'bid_id' => $this->bid_id
+            'bid_id' => $this->bid_id,
         ];
     }
 }

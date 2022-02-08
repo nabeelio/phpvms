@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f6d90c7b4a73a589ec0692a8f04956bd",
+    "content-hash": "d754100c7ae8d869361d53fb398017da",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -6489,20 +6489,20 @@
         },
         {
             "name": "spatie/valuestore",
-            "version": "1.3.1",
+            "version": "1.2.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/valuestore.git",
-                "reference": "85144129c7c4611c0e95ef9558cac20fba12cb48"
+                "reference": "eafde51f0068bcbb605fdf589a952677ada74a33"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/valuestore/zipball/85144129c7c4611c0e95ef9558cac20fba12cb48",
-                "reference": "85144129c7c4611c0e95ef9558cac20fba12cb48",
+                "url": "https://api.github.com/repos/spatie/valuestore/zipball/eafde51f0068bcbb605fdf589a952677ada74a33",
+                "reference": "eafde51f0068bcbb605fdf589a952677ada74a33",
                 "shasum": ""
             },
             "require": {
-                "php": "^8.0|^8.1"
+                "php": "^7.3|^8.0"
             },
             "require-dev": {
                 "phpunit/phpunit": "^9.3"
@@ -6540,7 +6540,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/valuestore/issues",
-                "source": "https://github.com/spatie/valuestore/tree/1.3.1"
+                "source": "https://github.com/spatie/valuestore/tree/1.2.5"
             },
             "funding": [
                 {
@@ -6552,7 +6552,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-12-03T16:51:45+00:00"
+            "time": "2020-11-30T16:21:03+00:00"
         },
         {
             "name": "staudenmeir/belongs-to-through",

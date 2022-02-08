@@ -62,7 +62,7 @@
         "prettus/l5-repository": "~2.7.0",
         "santigarcor/laratrust": "~6.3",
         "semver/semver": "~1.1.0",
-        "spatie/valuestore": "~1.2",
+        "spatie/valuestore": "~1.2.0",
         "symfony/polyfill-iconv": "~1.22.0",
         "tivie/php-os-detector": "~1.1.0",
         "vlucas/phpdotenv": "^5.3.0",
