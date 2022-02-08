@@ -15,7 +15,10 @@ declare -a remove_files=(
   .idea
   .travis
   docker
+  node_modules
+  vendor/willdurand/geocoder/tests
   _ide_helper.php
+  .env
   .dockerignore
   .dpl
   .editorconfig
@@ -38,9 +41,8 @@ declare -a remove_files=(
   phpvms.iml
   Procfile
   phpstan.neon
-  node_modules
+  symfony.lock
   composer.phar
-  vendor/willdurand/geocoder/tests
 )
 
 for file in "${remove_files[@]}"; do
