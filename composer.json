@@ -15,6 +15,7 @@
         "ext-bcmath": "*",
         "ext-pdo": "*",
         "ext-intl": "*",
+        "symfony/flex": "^1.0",
         "symfony/polyfill-intl-icu": "*",
         "symfony/polyfill-intl-idn": "*",
         "symfony/polyfill-mbstring": "*",
@@ -115,7 +116,7 @@
          "module-dir": "modules",
          "symfony": {
             "require": "^5.4"
-         }
+        }
     },
     "scripts": {
         "pre-package-uninstall": [
