@@ -24,6 +24,7 @@
         "symfony/event-dispatcher-contracts": "^2",
         "symfony/property-info": "^5.4",
         "symfony/string": "^5.4",
+        "symfony/translation": "^5.4",
         "psr/container": "1.1.1",
         "composer/composer": "~2.0",
         "composer/installers": "~1.0",
