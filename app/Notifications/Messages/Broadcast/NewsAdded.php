@@ -9,7 +9,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 
 class NewsAdded extends Notification implements ShouldQueue
 {
-
     private $news;
 
     public function __construct(News $news)

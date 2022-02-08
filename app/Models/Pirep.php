@@ -40,7 +40,7 @@ use Kleemans\AttributeEvents;
  * @property float       block_fuel
  * @property float       fuel_used
  * @property float       distance
- * @property float       $distance
+ * @property float $distance
  * @property int         level
  * @property string      route
  * @property int         score
