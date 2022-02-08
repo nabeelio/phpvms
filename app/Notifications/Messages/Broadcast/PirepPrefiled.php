@@ -57,10 +57,10 @@ class PirepPrefiled extends Notification implements ShouldQueue
             'Flight Time (Planned)' => Time::minutesToTimeString($pirep->planned_flight_time),
         ];
 
-        if ($pirep->distance) {
+        if ($pirep->planned_distance) {
             try {
                 $planned_distance = new Distance(
-                    $pirep->distance,
+                    $pirep->planned_distance,
                     config('phpvms.internal_units.distance')
                 );
 

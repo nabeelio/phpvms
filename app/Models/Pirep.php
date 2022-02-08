@@ -40,7 +40,7 @@ use Kleemans\AttributeEvents;
  * @property float       block_fuel
  * @property float       fuel_used
  * @property float       distance
- * @property float $distance
+ * @property float       planned_distance
  * @property int         level
  * @property string      route
  * @property int         score
@@ -301,8 +301,8 @@ class Pirep extends Model
         $distance = $this->distance;
 
         $upper_bound = $distance;
-        if ($this->distance) {
-            $upper_bound = $this->distance;
+        if ($this->planned_distance) {
+            $upper_bound = $this->planned_distance;
         }
 
         $upper_bound = empty($upper_bound) ? 1 : $upper_bound;
