@@ -24,6 +24,7 @@ use Illuminate\Support\Collection;
  * @property Collection subfleets
  * @property int        days
  * @property int        distance
+ * @property int        planned_distance
  * @property int        flight_time
  * @property string     route
  * @property string     dpt_time
