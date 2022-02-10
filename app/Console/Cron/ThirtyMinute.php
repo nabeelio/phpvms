@@ -11,7 +11,7 @@ use App\Events\CronThirtyMinute;
 class ThirtyMinute extends CronCommand
 {
     protected $signature = 'cron:thirty';
-    protected $description = 'Run the 15 minute cron tasks';
+    protected $description = 'Run the 30 minute cron tasks';
     protected $schedule;
 
     public function handle(): void
