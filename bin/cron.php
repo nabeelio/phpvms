@@ -4,7 +4,6 @@
  * THIS CRON FILE IS A BACKUP METHOD IF YOUR SERVER DOES NOT HAVE PROC_OPEN ENABLED
  * YOU SHOULD TRY USING THE DEFAULT INSTRUCTIONS OF USING ARTISAN SCHEDULE:RUN
  */
-
 define('LARAVEL_START', microtime(true));
 
 use App\Console\Cron;
@@ -21,8 +20,8 @@ $kernel = $app->make(Kernel::class);
 // Run a null artisan thing just so Laravel internals can be setup properly
 $status = $kernel->handle(
     $input = new Symfony\Component\Console\Input\ArrayInput([
-		 'command' => 'version',
-	]),
+        'command' => 'version',
+    ]),
     new Symfony\Component\Console\Output\NullOutput()
 );
 

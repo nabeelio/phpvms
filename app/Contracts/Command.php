@@ -34,7 +34,8 @@ abstract class Command extends \Illuminate\Console\Command
      *
      * @return string
      */
-    public function getSignature(): string {
+    public function getSignature(): string
+    {
         return $this->signature;
     }
 

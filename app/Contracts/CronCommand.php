@@ -2,9 +2,6 @@
 
 namespace App\Contracts;
 
-/**
- *
- */
 abstract class CronCommand extends Command
 {
     /**

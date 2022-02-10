@@ -13,9 +13,6 @@ use App\Console\Cron\Weekly;
 use App\Contracts\Command;
 use Illuminate\Console\Scheduling\Schedule;
 
-/**
- *
- */
 class Cron
 {
     /** @var Schedule */
@@ -43,7 +40,7 @@ class Cron
     public function __construct(Schedule $scheduler)
     {
         $this->scheduler = $scheduler;
-        foreach($this->cronTasks as $task) {
+        foreach ($this->cronTasks as $task) {
             /** @var Command $cronTask */
             $cronTask = app($task);
             $this->cronRunners[$cronTask->getSignature()] = $cronTask;

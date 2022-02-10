@@ -32,7 +32,8 @@ class MaintenanceController extends Controller
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
-    public function runCron() {
+    public function runCron()
+    {
         $output = '';
         Artisan::call('schedule:run');
         $output .= trim(Artisan::output());
