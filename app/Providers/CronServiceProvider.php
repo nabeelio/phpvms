@@ -36,7 +36,7 @@ class CronServiceProvider extends ServiceProvider
             RemoveExpiredLiveFlights::class,
             ClearExpiredSimbrief::class,
         ],
-        CronNightly::class       => [
+        CronNightly::class => [
             ApplyExpenses::class,
             RecalculateBalances::class,
             PilotLeave::class,

@@ -51,7 +51,7 @@ class Cron
             $cronTask = app($task);
             $signature = $cronTask->getSignature();
 
-            if(empty($signature)) {
+            if (empty($signature)) {
                 continue;
             }
 
