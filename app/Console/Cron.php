@@ -5,10 +5,13 @@
 
 namespace App\Console;
 
+use App\Console\Cron\FifteenMinute;
+use App\Console\Cron\FiveMinute;
 use App\Console\Cron\Hourly;
 use App\Console\Cron\JobQueue;
 use App\Console\Cron\Monthly;
 use App\Console\Cron\Nightly;
+use App\Console\Cron\ThirtyMinute;
 use App\Console\Cron\Weekly;
 use App\Contracts\Command;
 use Illuminate\Console\Scheduling\Schedule;
@@ -22,11 +25,14 @@ class Cron
      * @var string[] The cron tasks which get called/run
      */
     private $cronTasks = [
-        Hourly::class,
         JobQueue::class,
-        Monthly::class,
+        FiveMinute::class,
+        FifteenMinute::class,
+        ThirtyMinute::class,
+        Hourly::class,
         Nightly::class,
         Weekly::class,
+        Monthly::class,
     ];
 
     /**
@@ -43,7 +49,13 @@ class Cron
         foreach ($this->cronTasks as $task) {
             /** @var Command $cronTask */
             $cronTask = app($task);
-            $this->cronRunners[$cronTask->getSignature()] = $cronTask;
+            $signature = $cronTask->getSignature();
+
+            if(empty($signature)) {
+                continue;
+            }
+
+            $this->cronRunners[$signature] = $cronTask;
         }
     }
 

@@ -22,7 +22,11 @@ class ProcessQueue extends Command
             '--stop-when-empty' => null,
         ]);
 
-        Log::info(Artisan::output());
+        $jobOutput = trim(Artisan::output());
+        if (!empty($jobOutput)) {
+            Log::info($jobOutput);
+        }
+
         ///** @var App\Support\WorkCommand $queueWorker */
         //$queueWorker = new App\Support\WorkCommand(app('queue.worker'), app('cache.store'));
 

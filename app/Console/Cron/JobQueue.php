@@ -18,7 +18,11 @@ class JobQueue extends CronCommand
     public function handle(): void
     {
         $this->callEvent();
-        $this->info(Artisan::output());
+
+        $queueOutput = trim(Artisan::output());
+        if (!empty($queueOutput)) {
+            $this->info($queueOutput);
+        }
     }
 
     public function callEvent()

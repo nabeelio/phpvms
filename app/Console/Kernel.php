@@ -2,10 +2,13 @@
 
 namespace App\Console;
 
+use App\Console\Cron\FifteenMinute;
+use App\Console\Cron\FiveMinute;
 use App\Console\Cron\Hourly;
 use App\Console\Cron\JobQueue;
 use App\Console\Cron\Monthly;
 use App\Console\Cron\Nightly;
+use App\Console\Cron\ThirtyMinute;
 use App\Console\Cron\Weekly;
 use App\Services\CronService;
 use Illuminate\Console\Scheduling\Schedule;
@@ -36,10 +39,13 @@ class Kernel extends ConsoleKernel
         /*
          * NOTE: IF MORE TASKS ARE ADDED, THEY ALSO MUST BE ADDED TO THE CRON.PHP
          */
+        $schedule->command(FiveMinute::class)->everyFiveMinutes();
+        $schedule->command(FifteenMinute::class)->everyFifteenMinutes();
+        $schedule->command(ThirtyMinute::class)->everyThirtyMinutes();
         $schedule->command(Nightly::class)->dailyAt('01:00');
+        $schedule->command(Hourly::class)->hourly();
         $schedule->command(Weekly::class)->weeklyOn(0);
         $schedule->command(Monthly::class)->monthlyOn(1);
-        $schedule->command(Hourly::class)->hourly();
 
         // When spatie-backups runs
         /*if (config('backup.backup.enabled', false) === true) {
