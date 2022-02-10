@@ -24,6 +24,15 @@ class MaintenanceController extends Controller
             throw new CronInvalid();
         }
 
+        return $this->runCron();
+    }
+
+    /**
+     * Actuall run the cron
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     */
+    public function runCron() {
         $output = '';
         Artisan::call('schedule:run');
         $output .= trim(Artisan::output());

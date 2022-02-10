@@ -33,6 +33,9 @@ class Kernel extends ConsoleKernel
                 ->withoutOverlapping();
         }
 
+        /*
+         * NOTE: IF MORE TASKS ARE ADDED, THEY ALSO MUST BE ADDED TO THE CRON.PHP
+         */
         $schedule->command(Nightly::class)->dailyAt('01:00');
         $schedule->command(Weekly::class)->weeklyOn(0);
         $schedule->command(Monthly::class)->monthlyOn(1);
