@@ -2,7 +2,7 @@
 
 namespace App\Console\Cron;
 
-use App\Contracts\Command;
+use App\Contracts\CronCommand;
 use App\Events\CronMonthly;
 
 /**
@@ -11,7 +11,7 @@ use App\Events\CronMonthly;
  *
  * The actual cron tasks are in app/Cron
  */
-class Monthly extends Command
+class Monthly extends CronCommand
 {
     protected $signature = 'cron:monthly';
     protected $description = 'Run the monthly cron tasks';
@@ -19,7 +19,11 @@ class Monthly extends Command
 
     public function handle(): void
     {
-        $this->redirectLoggingToFile('cron');
+        $this->callEvent();
+    }
+
+    public function callEvent()
+    {
         event(new CronMonthly());
     }
 }

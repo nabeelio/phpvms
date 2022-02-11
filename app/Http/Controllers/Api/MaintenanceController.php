@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Console\Cron;
 use App\Contracts\Controller;
 use App\Exceptions\CronInvalid;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Artisan;
 
 class MaintenanceController extends Controller
 {
@@ -24,12 +24,12 @@ class MaintenanceController extends Controller
             throw new CronInvalid();
         }
 
-        $output = '';
-        Artisan::call('schedule:run');
-        $output .= trim(Artisan::output());
+        $cron = app(Cron::class);
+        $run = $cron->run();
 
-        return response([
-            'content' => $output,
+        return response()->json([
+            'count' => count($run),
+            'tasks' => $run,
         ]);
     }
 }

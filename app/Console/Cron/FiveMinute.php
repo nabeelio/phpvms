@@ -3,7 +3,7 @@
 namespace App\Console\Cron;
 
 use App\Contracts\CronCommand;
-use App\Events\CronNightly;
+use App\Events\CronFiveMinute;
 
 /**
  * This just calls the CronNightly event, so all of the
@@ -11,10 +11,10 @@ use App\Events\CronNightly;
  *
  * The actual cron tasks are in app/Cron
  */
-class Nightly extends CronCommand
+class FiveMinute extends CronCommand
 {
-    protected $signature = 'cron:nightly';
-    protected $description = 'Run the nightly cron tasks';
+    protected $signature = 'cron:five';
+    protected $description = 'Run the 5 minute cron tasks';
     protected $schedule;
 
     public function handle(): void
@@ -24,6 +24,6 @@ class Nightly extends CronCommand
 
     public function callEvent()
     {
-        event(new CronNightly());
+        event(new CronFiveMinute());
     }
 }

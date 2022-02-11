@@ -20,7 +20,7 @@ class ClearExpiredSimbrief extends Listener
     }
 
     /**
-     * @param \App\Events\CronNightly $event
+     * @param CronHourly $event
      */
     public function handle(CronHourly $event): void
     {
