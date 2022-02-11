@@ -68,13 +68,13 @@
 </div>
 
 <div class="row">
-  <div class="form-group col-sm-4">
+  <div class="form-group col-md-4">
     {{ Form::label('state', 'State:') }}
     {{-- <label class="checkbox-inline"> --}}
-      {{ Form::select('state', UserState::labels(), null, ['class' => 'form-control select2']) }}
+      {{ Form::select('state', UserState::labels(), null, ['class' => 'form-control select2', 'style' => 'width: 100%;']) }}
     {{-- </label> --}}
   </div>
-  <div class="form-group col-sm-8">
+  <div class="form-group col-md-8">
     {{ Form::label('notes', 'Management Notes:') }}
     {{ Form::textarea('notes', null, ['class' => 'form-control', 'rows' => 4, 'autocomplete' => 'off']) }}
   </div>
