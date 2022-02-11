@@ -105,6 +105,7 @@ class User extends Authenticatable
         'password',
         'last_ip',
         'remember_token',
+        'notes',
     ];
 
     protected $casts = [
