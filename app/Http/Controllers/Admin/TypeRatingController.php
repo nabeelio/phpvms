@@ -32,7 +32,7 @@ class TypeRatingController extends Controller
     public function index(Request $request)
     {
         $this->typeratingRepo->pushCriteria(new RequestCriteria($request));
-        $typeratings = $this->typeratingRepo->all();
+        $typeratings = $this->typeratingRepo->orderby('type', 'asc')->get();
 
         return view('admin.typeratings.index', [
             'typeratings' => $typeratings,
@@ -50,7 +50,6 @@ class TypeRatingController extends Controller
 
         $model = $this->typeratingRepo->create($input);
         Flash::success('Type Rating saved successfully.');
-        // Cache::forget(config('cache.keys.RANKS_PILOT_LIST.key'));
 
         return redirect(route('admin.typeratings.edit', [$model->id]));
     }

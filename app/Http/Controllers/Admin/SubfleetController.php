@@ -83,7 +83,7 @@ class SubfleetController extends Controller
     public function index(Request $request)
     {
         $this->subfleetRepo->with(['airline'])->pushCriteria(new RequestCriteria($request));
-        $subfleets = $this->subfleetRepo->all();
+        $subfleets = $this->subfleetRepo->orderby('name', 'asc')->get();
 
         return view('admin.subfleets.index', [
             'subfleets' => $subfleets,
