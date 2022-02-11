@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Console\Cron;
 use App\Contracts\Controller;
 use App\Exceptions\CronInvalid;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Artisan;
 
 class MaintenanceController extends Controller
 {
@@ -24,22 +24,7 @@ class MaintenanceController extends Controller
             throw new CronInvalid();
         }
 
-        return $this->runCron();
-    }
-
-    /**
-     * Actuall run the cron
-     *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
-     */
-    public function runCron()
-    {
-        $output = '';
-        Artisan::call('schedule:run');
-        $output .= trim(Artisan::output());
-
-        return response([
-            'content' => $output,
-        ]);
+        $cron = app(Cron::class);
+        $cron->run();
     }
 }
