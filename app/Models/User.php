@@ -88,6 +88,7 @@ class User extends Authenticatable
         'toc_accepted',
         'opt_in',
         'last_ip',
+        'notes',
         'created_at',
         'updated_at',
     ];

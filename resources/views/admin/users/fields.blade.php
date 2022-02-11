@@ -5,19 +5,16 @@
     {{ Form::number('pilot_id', null, ['class' => 'form-control']) }}
     <p class="text-danger">{{ $errors->first('pilot_id') }}</p>
   </div>
-
   <div class="form-group col-sm-3">
     {{ Form::label('name', 'Name:') }}
     {{ Form::text('name', null, ['class' => 'form-control', 'autocomplete' => 'off']) }}
     <p class="text-danger">{{ $errors->first('name') }}</p>
   </div>
-
   <div class="form-group col-sm-3">
     {{ Form::label('email', 'Email:') }}
     {{ Form::text('email', null, ['class' => 'form-control', 'autocomplete' => 'off']) }}
     <p class="text-danger">{{ $errors->first('email') }}</p>
   </div>
-
   <div class="form-group col-sm-3">
     {{ Form::label('password', 'Password:') }}
     {{ Form::password('password', ['class' => 'form-control', 'autocomplete' => 'off']) }}
@@ -52,7 +49,6 @@
     {{ Form::select('curr_airport_id', $airports, null , ['class' => 'form-control select2']) }}
     <p class="text-danger">{{ $errors->first('curr_airport_id') }}</p>
   </div>
-
 </div>
 
 <div class="row">
@@ -60,12 +56,10 @@
     {{ Form::label('airline_id', 'Airline:') }}
     {{ Form::select('airline_id', $airlines, null, ['class' => 'form-control select2', 'placeholder' => 'Select Airline']) }}
   </div>
-
   <div class="form-group col-sm-4">
     {{ Form::label('rank_id', 'Rank:') }}
     {{ Form::select('rank_id', $ranks, null, ['class' => 'form-control select2', 'placeholder' => 'Select Rank']) }}
   </div>
-
   <div class="form-group col-sm-4">
     {{ Form::label('roles', 'Roles:') }}
     {{ Form::select('roles[]', $roles, $user->roles->pluck('id'),
@@ -74,17 +68,21 @@
 </div>
 
 <div class="row">
-  <div class="form-group col-sm-6">
+  <div class="form-group col-sm-4">
     {{ Form::label('state', 'State:') }}
-    <label class="checkbox-inline">
+    {{-- <label class="checkbox-inline"> --}}
       {{ Form::select('state', UserState::labels(), null, ['class' => 'form-control select2']) }}
-    </label>
+    {{-- </label> --}}
   </div>
+  <div class="form-group col-sm-8">
+    {{ Form::label('notes', 'Management Notes:') }}
+    {{ Form::textarea('notes', null, ['class' => 'form-control', 'rows' => 4, 'autocomplete' => 'off']) }}
+  </div>
+</div>
 
-  <!-- Submit Field -->
-  <div class="form-group col-sm-6 text-right">
-    {{--<a href="{{ route('admin.users.regen_apikey', [$user->id]) }}" class="btn btn-warning"
-       onclick="return confirm('Are you sure? This will reset this user\'s API key.')">new api key</a>--}}
+<div class="row">
+  <div class="form-group col-sm-12 text-right">
+    {{-- <a href="{{ route('admin.users.regen_apikey', [$user->id]) }}" class="btn btn-warning" onclick="return confirm('Are you sure? This will reset this user\'s API key.')">New API Key</a> --}}
     &nbsp;
     {{ Form::button('Save', ['type' => 'submit', 'class' => 'btn btn-success']) }}
     <a href="{{ route('admin.users.index') }}" class="btn btn-default">Cancel</a>
@@ -95,10 +93,8 @@
   <div class="form-group col-sm-12">
     <table class="table table-hover">
       <tr>
-          <td colspan="2">
-            <h5>User Details</h5>
-          </td>
-        </tr>
+        <td colspan="2"><h5>User Details</h5></td>
+      </tr>
       <tr>
         <td>Total Flights</td>
         <td>{{ $user->flights }}</td>
@@ -127,14 +123,10 @@
         <td>@lang('profile.opt-in')</td>
         <td>{{ $user->opt_in ? __('common.yes') : __('common.no') }}</td>
       </tr>
-
       @if($user->fields)
         <tr>
-          <td colspan="2">
-            <h5>Custom Fields</h5>
-          </td>
+          <td colspan="2"><h5>Custom Fields</h5></td>
         </tr>
-
         {{-- Custom Fields --}}
         @foreach($user->fields as $field)
           <tr>
