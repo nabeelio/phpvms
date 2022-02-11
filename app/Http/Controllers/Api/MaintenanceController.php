@@ -25,6 +25,11 @@ class MaintenanceController extends Controller
         }
 
         $cron = app(Cron::class);
-        $cron->run();
+        $run = $cron->run();
+
+        return response()->json([
+            'count' => count($run),
+            'tasks' => $run,
+        ]);
     }
 }

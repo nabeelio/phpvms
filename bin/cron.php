@@ -27,4 +27,9 @@ $status = $kernel->handle(
 
 /** @var Cron $cron */
 $cron = app(Cron::class);
-$cron->run();
+$run = $cron->run();
+
+echo json_encode([
+    'count' => count($run),
+    'tasks' => $run,
+]);

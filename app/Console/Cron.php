@@ -62,11 +62,16 @@ class Cron
     /**
      * Try to figure out which commands are supposed to run right now
      *
-     * @return void
+     * @return array string of tasks that were run
      */
-    public function run()
+    public function run(): array
     {
         $events = $this->scheduler->dueEvents(app());
+        if (empty($events)) {
+            return [];
+        }
+
+        $run = [];
 
         /** @var \Illuminate\Console\Scheduling\Event $event */
         foreach ($events as $event) {
@@ -75,14 +80,11 @@ class Cron
                     continue;
                 }
 
-                break;
+                $task->callEvent();
+                $run[] = $signature;
             }
-
-            if (empty($task)) {
-                continue;
-            }
-
-            $task->callEvent();
         }
+
+        return $run;
     }
 }
