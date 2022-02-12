@@ -115,7 +115,6 @@ class PirepStatusChanged extends Notification implements ShouldQueue
             ->success()
             ->title($title)
             ->description($pirep->user->discord_id ? 'Flight by <@'.$pirep->user->discord_id.'>' : '')
-            // ->url(route('frontend.pireps.show', [$pirep->id]))
             ->author([
                 'name'     => $pirep->user->ident.' - '.$pirep->user->name_private,
                 'url'      => route('frontend.profile.show', [$pirep->user_id]),

@@ -64,7 +64,7 @@ class PirepFiled extends Notification implements ShouldQueue
         }
 
         $dm = new DiscordMessage();
-        return $dm->url(setting('notifications.discord_public_webhook_url'))
+        return $dm->webhook(setting('notifications.discord_public_webhook_url'))
             ->success()
             ->title($title)
             ->description($pirep->user->discord_id ? 'Flight by <@'.$pirep->user->discord_id.'>' : '')
