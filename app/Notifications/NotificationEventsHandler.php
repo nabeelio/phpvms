@@ -185,7 +185,7 @@ class NotificationEventsHandler extends Listener
 
         $message_types = [PirepStatus::BOARDING, PirepStatus::TAKEOFF, PirepStatus::LANDED, PirepStatus::CANCELLED];
 
-        if (in_array($event->pirep->status, $message_types)) {
+        if (in_array($event->pirep->status, $message_types, true)) {
             Notification::send([$event->pirep], new Messages\Broadcast\PirepStatusChanged($event->pirep));
         }
     }
