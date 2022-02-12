@@ -175,7 +175,7 @@ class NotificationEventsHandler extends Listener
     }
 
     /**
-     * Status Change notification. 
+     * Status Change notification.
      * Reduced the messages slightly (Boarding, TakeOff, Landing, Cancelled)
      * Array should be tied to a setting at admin side for further customization
      */
