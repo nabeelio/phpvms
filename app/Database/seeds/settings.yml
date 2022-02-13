@@ -410,6 +410,13 @@
   options: ''
   type: text
   description: The Discord Webhook URL for private notifications
+- key: notifications.discord_pirep_status
+  name: Discord Pirep Messages (Public)
+  group: notifications
+  value: true
+  options: ''
+  type: boolean
+  description: Pirep status messages (Only key events are being sent)
 - key: notifications.mail_pirep_admin
   name: Pirep Filed (Admin)
   group: notifications

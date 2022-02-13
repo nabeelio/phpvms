@@ -175,17 +175,27 @@ class NotificationEventsHandler extends Listener
     }
 
     /**
-     * Status Change notification.
-     * Reduced the messages slightly (Boarding, TakeOff, Landing, Cancelled)
-     * Array should be tied to a setting at admin side for further customization
+     * Status Change notification. 
+     * Reduced the messages (Boarding, Pushback, TakeOff, Landing and non-normals only)
+     * If needed array can be tied to a setting at admin side for further customization
      */
     public function onPirepStatusChange(PirepStatusChange $event): void
     {
         Log::info('NotificationEvents::onPirepStatusChange: '.$event->pirep->id.' status changed');
 
-        $message_types = [PirepStatus::BOARDING, PirepStatus::TAKEOFF, PirepStatus::LANDED, PirepStatus::CANCELLED];
+        $message_types = [
+            PirepStatus::BOARDING,
+            PirepStatus::PUSHBACK_TOW,
+            PirepStatus::GRND_RTRN,
+            PirepStatus::TAKEOFF,
+            PirepStatus::LANDED,
+            PirepStatus::DIVERTED,
+            PirepStatus::CANCELLED,
+            PirepStatus::PAUSED,
+            PirepStatus::EMERG_DESCENT,
+        ];
 
-        if (in_array($event->pirep->status, $message_types, true)) {
+        if (setting('notifications.discord_pirep_status', true) && in_array($event->pirep->status, $message_types, true)) {
             Notification::send([$event->pirep], new Messages\Broadcast\PirepStatusChanged($event->pirep));
         }
     }
