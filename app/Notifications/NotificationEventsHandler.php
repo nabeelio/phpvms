@@ -175,7 +175,7 @@ class NotificationEventsHandler extends Listener
     }
 
     /**
-     * Status Change notification. 
+     * Status Change notification.
      * Reduced the messages (Boarding, Pushback, TakeOff, Landing and non-normals only)
      * If needed array can be tied to a setting at admin side for further customization
      */
