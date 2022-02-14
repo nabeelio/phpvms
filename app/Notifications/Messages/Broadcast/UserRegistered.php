@@ -49,7 +49,7 @@ class UserRegistered extends Notification implements ShouldQueue
     public function toDiscordChannel($notifiable): ?DiscordMessage
     {
         $dm = new DiscordMessage();
-        return $dm->url(setting('notifications.discord_private_webhook_url'))
+        return $dm->webhook(setting('notifications.discord_private_webhook_url'))
             ->success()
             ->title('New User Registered: '.$this->user->ident)
             ->author([

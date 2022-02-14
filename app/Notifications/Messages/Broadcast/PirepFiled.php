@@ -43,11 +43,10 @@ class PirepFiled extends Notification implements ShouldQueue
     {
         $title = 'Flight '.$pirep->ident.' Filed';
         $fields = [
-            'Flight'            => $pirep->ident,
-            'Departure Airport' => $pirep->dpt_airport_id,
-            'Arrival Airport'   => $pirep->arr_airport_id,
-            'Equipment'         => $pirep->aircraft->ident,
-            'Flight Time'       => Time::minutesToTimeString($pirep->flight_time),
+            'Dep.Airport' => $pirep->dpt_airport_id,
+            'Arr.Airport' => $pirep->arr_airport_id,
+            'Equipment'   => $pirep->aircraft->ident,
+            'Flight Time' => Time::minutesToTimeString($pirep->flight_time),
         ];
 
         if ($pirep->distance) {
@@ -63,16 +62,19 @@ class PirepFiled extends Notification implements ShouldQueue
             }
         }
 
+        // User avatar, somehow $pirep->user->resolveAvatarUrl() is not being accepted by Discord as thumbnail
+        $user_avatar = !empty($pirep->user->avatar) ? $pirep->user->avatar->url : $pirep->user->gravatar(256);
+
         $dm = new DiscordMessage();
-        return $dm->url(setting('notifications.discord_public_webhook_url'))
+        return $dm->webhook(setting('notifications.discord_public_webhook_url'))
             ->success()
             ->title($title)
             ->description($pirep->user->discord_id ? 'Flight by <@'.$pirep->user->discord_id.'>' : '')
-            ->url(route('frontend.pireps.show', [$pirep->id]))
+            ->thumbnail(['url' => $user_avatar])
+            ->image(['url' => $pirep->airline->logo])
             ->author([
-                'name'     => $pirep->user->ident.' - '.$pirep->user->name_private,
-                'url'      => route('frontend.profile.show', [$pirep->user_id]),
-                'icon_url' => $pirep->user->resolveAvatarUrl(),
+                'name' => $pirep->user->ident.' - '.$pirep->user->name_private,
+                'url'  => route('frontend.profile.show', [$pirep->user_id]),
             ])
             ->fields($fields);
     }

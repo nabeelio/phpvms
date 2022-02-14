@@ -174,7 +174,6 @@
   </div>
 </div>
 
-
 <div class="row">
   <div class="col-12">
     <div class="form-container">
@@ -260,8 +259,9 @@
         <div class="row">
           <div class="form-group col-sm-12">
             {{ Form::textarea('notes', null, [
-                'class' => 'form-control input-text',
-                'style' => 'padding: 10px',
+                'id'    => 'editor',
+                'class' => 'editor',
+                'style' => 'padding: 5px',
             ]) }}
             <p class="text-danger">{{ $errors->first('notes') }}</p>
           </div>
@@ -288,3 +288,10 @@
     </div>
   </div>
 </div>
+@section('scripts')
+  @parent
+  <script src="{{ public_asset('assets/vendor/ckeditor4/ckeditor.js') }}"></script>
+  <script>
+    $(document).ready(function () { CKEDITOR.replace('editor'); });
+  </script>
+@endsection

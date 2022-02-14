@@ -410,6 +410,41 @@
   options: ''
   type: text
   description: The Discord Webhook URL for private notifications
+- key: notifications.discord_pirep_status
+  name: Discord Pirep Messages (Public)
+  group: notifications
+  value: true
+  options: ''
+  type: boolean
+  description: Pirep status messages (Only key events are being sent)
+- key: notifications.mail_pirep_admin
+  name: Pirep Filed (Admin)
+  group: notifications
+  value: true
+  options: ''
+  type: boolean
+  description: Pirep filed mails sent to admins
+- key: notifications.mail_pirep_user_ack
+  name: Pirep Accepted (Pilot)
+  group: notifications
+  value: true
+  options: ''
+  type: boolean
+  description: Pirep Accepted mails sent to pilots
+- key: notifications.mail_pirep_user_rej
+  name: Pirep Rejected (Pilot)
+  group: notifications
+  value: true
+  options: ''
+  type: boolean
+  description: Pirep Rejected mails sent to pilots
+- key: notifications.mail_news
+  name: News Mails
+  group: notifications
+  value: true
+  options: ''
+  type: boolean
+  description: News mails sent to all members
 - key: 'cron.random_id'
   name: 'Cron Randomized ID'
   group: 'cron'

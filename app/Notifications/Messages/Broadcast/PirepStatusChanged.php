@@ -9,11 +9,9 @@ use App\Notifications\Channels\Discord\DiscordMessage;
 use App\Notifications\Channels\Discord\DiscordWebhook;
 use App\Support\Units\Distance;
 use App\Support\Units\Time;
-use function config;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use PhpUnitsOfMeasure\Exception\NonNumericValue;
 use PhpUnitsOfMeasure\Exception\NonStringUnitName;
-use function route;
 
 /**
  * Send the PIREP accepted message to a particular user, can also be sent to Discord
@@ -75,14 +73,16 @@ class PirepStatusChanged extends Notification implements ShouldQueue
      */
     public function toDiscordChannel($pirep): ?DiscordMessage
     {
-        $title = 'Flight '.$pirep->ident.' '.self::$verbs[$pirep->status];
+        if (empty(setting('notifications.discord_public_webhook_url'))) {
+            return null;
+        }
 
+        $title = 'Flight '.$pirep->ident.' '.self::$verbs[$pirep->status];
         $fields = [
-            'Flight'            => $pirep->ident,
-            'Departure Airport' => $pirep->dpt_airport_id,
-            'Arrival Airport'   => $pirep->arr_airport_id,
-            'Equipment'         => $pirep->aircraft->ident,
-            'Flight Time'       => Time::minutesToTimeString($pirep->flight_time),
+            'Dep.Airport' => $pirep->dpt_airport_id,
+            'Arr.Airport' => $pirep->arr_airport_id,
+            'Equipment'   => $pirep->aircraft->ident,
+            'Flight Time' => Time::minutesToTimeString($pirep->flight_time),
         ];
 
         // Show the distance, but include the planned distance if it's been set
@@ -109,16 +109,29 @@ class PirepStatusChanged extends Notification implements ShouldQueue
             }
         }
 
+        // User avatar, somehow $pirep->user->resolveAvatarUrl() is not being accepted by Discord as thumbnail
+        $user_avatar = !empty($pirep->user->avatar) ? $pirep->user->avatar->url : $pirep->user->gravatar(256);
+
+        // Proper coloring for the messages
+        // Pirep Filed > success, normals > warning, non-normals > error
+        $danger_types = [
+            PirepStatus::GRND_RTRN,
+            PirepStatus::DIVERTED,
+            PirepStatus::CANCELLED,
+            PirepStatus::PAUSED,
+            PirepStatus::EMERG_DESCENT,
+        ];
+        $color = in_array($pirep->status, $danger_types, true) ? 'ED2939' : 'FD6A02';
+
         $dm = new DiscordMessage();
-        return $dm->url(setting('notifications.discord_public_webhook_url'))
-            ->success()
+        return $dm->webhook(setting('notifications.discord_public_webhook_url'))
+            ->color($color)
             ->title($title)
             ->description($pirep->user->discord_id ? 'Flight by <@'.$pirep->user->discord_id.'>' : '')
-            ->url(route('frontend.pireps.show', [$pirep->id]))
+            ->thumbnail(['url' => $user_avatar])
             ->author([
-                'name'     => $pirep->user->ident.' - '.$pirep->user->name_private,
-                'url'      => route('frontend.profile.show', [$pirep->user_id]),
-                'icon_url' => $pirep->user->resolveAvatarUrl(),
+                'name' => $pirep->user->ident.' - '.$pirep->user->name_private,
+                'url'  => route('frontend.profile.show', [$pirep->user_id]),
             ])
             ->fields($fields);
     }
