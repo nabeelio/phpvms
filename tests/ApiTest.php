@@ -279,6 +279,9 @@ class ApiTest extends TestCase
             }
 
             $this->assertCount($size, $subfleet['aircraft']);
+            foreach ($subfleet['aircraft'] as $aircraft) {
+                $this->assertNotEmpty($aircraft['ident']);
+            }
         }
     }
 
@@ -314,6 +317,7 @@ class ApiTest extends TestCase
 
         $this->assertEquals($body['id'], $aircraft->id);
         $this->assertEquals($body['name'], $aircraft->name);
+        $this->assertNotEmpty($body['ident']);
         $this->assertEquals($body['mtow'], $aircraft->mtow);
         $this->assertEquals($body['zfw'], $aircraft->zfw);
 
@@ -324,6 +328,9 @@ class ApiTest extends TestCase
         $this->assertEquals($body['name'], $aircraft->name);
         $this->assertEquals($body['mtow'], $aircraft->mtow);
         $this->assertEquals($body['zfw'], $aircraft->zfw);
+
+        $this->assertNotEmpty($body['ident']);
+        $this->assertEquals($body['ident'], $aircraft->ident);
 
         $resp = $this->get('/api/fleet/aircraft/'.$aircraft->id.'?icao='.$aircraft->icao);
         $body = $resp->json()['data'];
