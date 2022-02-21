@@ -39,8 +39,7 @@ class CronService extends Service
 
         $path = [
             $php_exec,
-            base_path('artisan'),
-            'schedule:run',
+            base_path('bin/cron'),
         ];
 
         return implode(' ', $path);
