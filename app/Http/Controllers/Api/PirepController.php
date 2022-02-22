@@ -334,16 +334,18 @@ class PirepController extends Controller
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      *
-     * @return PirepResource
+     * @return mixed
      */
     public function cancel($pirep_id, Request $request)
     {
         Log::info('PIREP '.$pirep_id.' Cancel, user '.Auth::id(), $request->post());
 
         $pirep = Pirep::find($pirep_id);
-        $this->pirepSvc->cancel($pirep);
+        if (!empty($pirep)) {
+            $this->pirepSvc->cancel($pirep);
+        }
 
-        return new PirepResource($pirep);
+        return $this->message('PIREP '.$pirep_id.' cancelled');
     }
 
     /**
