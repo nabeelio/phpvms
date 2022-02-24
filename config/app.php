@@ -66,7 +66,6 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         Laracasts\Flash\FlashServiceProvider::class,
         Prettus\Repository\Providers\RepositoryServiceProvider::class,
-        Irazasyed\LaravelGAMP\LaravelGAMPServiceProvider::class,
         Igaster\LaravelTheme\themeServiceProvider::class,
         Nwidart\Modules\LaravelModulesServiceProvider::class,
         Anhskohbo\NoCaptcha\NoCaptchaServiceProvider::class,
@@ -122,10 +121,8 @@ return [
         'Session'      => Illuminate\Support\Facades\Session::class,
         'Storage'      => Illuminate\Support\Facades\Storage::class,
         'Theme'        => Igaster\LaravelTheme\Facades\Theme::class,
-        'Updater'      => Codedge\Updater\UpdaterFacade::class,
         'URL'          => Illuminate\Support\Facades\URL::class,
         'Validator'    => Illuminate\Support\Facades\Validator::class,
-        'Version'      => PragmaRX\Version\Package\Facade::class,
         'View'         => Illuminate\Support\Facades\View::class,
         'Yaml'         => Symfony\Component\Yaml\Yaml::class,
 
