@@ -478,6 +478,12 @@
             ".env"
         ]
     },
+    "symfony/http-client": {
+        "version": "v6.0.3"
+    },
+    "symfony/http-client-contracts": {
+        "version": "v3.0.0"
+    },
     "symfony/http-foundation": {
         "version": "v6.0.3"
     },
@@ -495,6 +501,15 @@
         "files": [
             "config/packages/mailer.yaml"
         ]
+    },
+    "symfony/mailgun-mailer": {
+        "version": "6.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "4.4",
+            "ref": "addcb559b32d9dbb4843826b063565e1b15a2a57"
+        }
     },
     "symfony/mime": {
         "version": "v6.0.3"
