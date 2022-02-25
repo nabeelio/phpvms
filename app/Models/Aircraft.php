@@ -7,6 +7,7 @@ use App\Models\Enums\AircraftStatus;
 use App\Models\Traits\ExpensableTrait;
 use App\Models\Traits\FilesTrait;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Znck\Eloquent\Traits\BelongsToThrough;
 
@@ -80,45 +81,51 @@ class Aircraft extends Model
     ];
 
     /**
-     * @return string
+     * @return Attribute
      */
-    public function getIdentAttribute(): string
+    public function active(): Attribute
     {
-        return $this->registration.' ('.$this->icao.')';
+        return new Attribute(
+            get: fn($_, $attr) => $attr['status'] === AircraftStatus::ACTIVE
+        );
     }
 
     /**
-     * See if this aircraft is active
-     *
-     * @return bool
+     * @return Attribute
      */
-    public function getActiveAttribute(): bool
+    public function icao(): Attribute
     {
-        return $this->status === AircraftStatus::ACTIVE;
+        return new Attribute(
+            set: fn($value) => strtoupper($value)
+        );
     }
 
     /**
-     * Capitalize the ICAO when set
-     *
-     * @param $icao
+     * @return Attribute
      */
-    public function setIcaoAttribute($icao): void
+    public function ident(): Attribute
     {
-        $this->attributes['icao'] = strtoupper($icao);
+        return new Attribute(
+            get: fn($_, $attrs) => $attrs['registration'].' ('.$attrs['icao'].')'
+        );
     }
 
     /**
-     * Return the landing time in carbon format if provided
+     * Return the landing time
      *
-     * @return Carbon|null
+     * @return Attribute
      */
-    public function getLandingTimeAttribute()
+    public function landingTime(): Attribute
     {
-        if (array_key_exists('landing_time', $this->attributes) && filled(
-                $this->attributes['landing_time']
-            )) {
-            return new Carbon($this->attributes['landing_time']);
-        }
+        return new Attribute(
+            get: function ($_, $attrs) {
+                if (array_key_exists('landing_time', $attrs) && filled($attrs['landing_time'])) {
+                    return new Carbon($attrs['landing_time']);
+                }
+
+                return $attrs['landing_time'];
+            }
+        );
     }
 
     /**

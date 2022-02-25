@@ -6,6 +6,7 @@ use App\Contracts\Model;
 use App\Models\Traits\HashIdTrait;
 use App\Support\Units\Distance;
 use App\Support\Units\Fuel;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
@@ -29,6 +30,7 @@ class Acars extends Model
     public $table = 'acars';
 
     protected $keyType = 'string';
+
     public $incrementing = false;
 
     public $fillable = [
@@ -78,33 +80,37 @@ class Acars extends Model
     /**
      * Set the distance unit, convert to our internal default unit
      *
-     * @param $value
+     * @return \Illuminate\Database\Eloquent\Casts\Attribute
      */
-    public function setDistanceAttribute($value): void
+    public function distance(): Attribute
     {
-        if ($value instanceof Distance) {
-            $this->attributes['distance'] = $value->toUnit(
-                config('phpvms.internal_units.distance')
-            );
-        } else {
-            $this->attributes['distance'] = $value;
-        }
+        return new Attribute(
+            set: function ($value) {
+                if ($value instanceof Distance) {
+                    return $value->toUnit(config('phpvms.internal_units.distance'));
+                }
+
+                return $value;
+            }
+        );
     }
 
     /**
      * Set the amount of fuel
      *
-     * @param $value
+     * @return Attribute
      */
-    public function setFuelAttribute($value)
+    public function fuel(): Attribute
     {
-        if ($value instanceof Fuel) {
-            $this->attributes['fuel'] = $value->toUnit(
-                config('phpvms.internal_units.fuel')
-            );
-        } else {
-            $this->attributes['fuel'] = $value;
-        }
+        return new Attribute(
+            set: function ($value) {
+                if ($value instanceof Fuel) {
+                    return $value->toUnit(config('phpvms.internal_units.fuel'));
+                }
+
+                return $value;
+            }
+        );
     }
 
     /**

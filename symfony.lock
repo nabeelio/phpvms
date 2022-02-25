@@ -427,9 +427,6 @@
     "staudenmeir/eloquent-has-many-deep": {
         "version": "v1.15"
     },
-    "swiftmailer/swiftmailer": {
-        "version": "v6.3.0"
-    },
     "symfony/console": {
         "version": "6.0",
         "recipe": {
@@ -626,9 +623,6 @@
     },
     "webpatser/laravel-uuid": {
         "version": "4.0.1"
-    },
-    "wildbit/swiftmailer-postmark": {
-        "version": "3.3.0"
     },
     "willdurand/geocoder": {
         "version": "4.5.0"
