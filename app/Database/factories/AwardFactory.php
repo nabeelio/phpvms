@@ -5,7 +5,7 @@ namespace App\Database\Factories;
 use App\Contracts\Factory;
 use App\Models\Award;
 
-class AwardsFactory extends Factory
+class AwardFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.

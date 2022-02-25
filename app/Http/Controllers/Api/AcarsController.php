@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Contracts\Controller;
 use App\Events\AcarsUpdate;
 use App\Exceptions\PirepCancelled;
+use App\Exceptions\PirepNotFound;
 use App\Http\Requests\Acars\EventRequest;
 use App\Http\Requests\Acars\LogRequest;
 use App\Http\Requests\Acars\PositionRequest;
@@ -102,6 +103,10 @@ class AcarsController extends Controller
     public function acars_geojson($pirep_id, Request $request)
     {
         $pirep = Pirep::find($pirep_id);
+        if (empty($pirep)) {
+            throw new PirepNotFound($pirep_id);
+        }
+
         $geodata = $this->geoSvc->getFeatureFromAcars($pirep);
 
         return response()->json([
@@ -119,7 +124,11 @@ class AcarsController extends Controller
      */
     public function acars_get($id, Request $request)
     {
-        $this->pirepRepo->find($id);
+        $pirep = $this->pirepRepo->find($id);
+        if (empty($pirep)) {
+            throw new PirepNotFound($id);
+        }
+
         $acars = Acars::with(['pirep'])
             ->where([
                 'pirep_id' => $id,
@@ -146,6 +155,10 @@ class AcarsController extends Controller
     {
         // Check if the status is cancelled...
         $pirep = Pirep::find($id);
+        if (empty($pirep)) {
+            throw new PirepNotFound($id);
+        }
+
         $this->checkCancelled($pirep);
 
         /*Log::debug(
@@ -221,6 +234,10 @@ class AcarsController extends Controller
     {
         // Check if the status is cancelled...
         $pirep = Pirep::find($id);
+        if (empty($pirep)) {
+            throw new PirepNotFound($id);
+        }
+
         $this->checkCancelled($pirep);
 
         // Log::debug('Posting ACARS log, PIREP: '.$id, $request->post());
@@ -275,6 +292,10 @@ class AcarsController extends Controller
     {
         // Check if the status is cancelled...
         $pirep = Pirep::find($id);
+        if (empty($pirep)) {
+            throw new PirepNotFound($id);
+        }
+
         $this->checkCancelled($pirep);
 
         Log::debug('Posting ACARS event, PIREP: '.$id, $request->post());

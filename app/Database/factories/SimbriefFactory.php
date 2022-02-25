@@ -1,21 +1,37 @@
-<?php
+<?php /** @noinspection PhpIllegalPsrClassPathInspection */
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace App\Database\Factories;
 
+use App\Contracts\Factory;
+use App\Models\SimBrief;
 use Carbon\Carbon;
-use Faker\Generator as Faker;
 
-$factory->define(App\Models\SimBrief::class, function (Faker $faker) {
-    return [
-        'id'         => $faker->unique()->numberBetween(10, 10000000),
-        'user_id'    => null,
-        'flight_id'  => null,
-        'pirep_id'   => null,
-        'acars_xml'  => '',
-        'ofp_xml'    => '',
-        'created_at' => Carbon::now('UTC')->toDateTimeString(),
-        'updated_at' => function (array $sb) {
-            return $sb['created_at'];
-        },
-    ];
-});
+class SimbriefFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = SimBrief::class;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
+    public function definition()
+    {
+        return [
+            'id'         => $this->faker->unique()->numberBetween(10, 10000000),
+            'user_id'    => null,
+            'flight_id'  => null,
+            'pirep_id'   => null,
+            'acars_xml'  => '',
+            'ofp_xml'    => '',
+            'created_at' => Carbon::now('UTC')->toDateTimeString(),
+            'updated_at' => fn(array $sb) => $sb['created_at'],
+        ];
+    }
+}
+

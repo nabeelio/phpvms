@@ -3,13 +3,18 @@
 namespace App\Models;
 
 use App\Contracts\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Navdata extends Model
 {
+    use HasFactory;
+
     public $table = 'navdata';
 
     protected $keyType = 'string';
+
     public $timestamps = false;
+
     public $incrementing = false;
 
     protected $fillable = [

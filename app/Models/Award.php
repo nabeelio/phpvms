@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Contracts\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * The Award model
@@ -13,6 +14,8 @@ use App\Contracts\Model;
  */
 class Award extends Model
 {
+    use HasFactory;
+
     public $table = 'awards';
 
     protected $fillable = [

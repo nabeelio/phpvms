@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Contracts\Model;
 use App\Models\Traits\ReferenceTrait;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * @property int    airline_id
@@ -19,6 +20,7 @@ use App\Models\Traits\ReferenceTrait;
  */
 class Expense extends Model
 {
+    use HasFactory;
     use ReferenceTrait;
 
     public $table = 'expenses';

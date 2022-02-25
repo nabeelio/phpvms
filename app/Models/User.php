@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Enums\JournalType;
 use App\Models\Traits\JournalTrait;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laratrust\Traits\LaratrustUserTrait;
@@ -51,10 +52,11 @@ use Staudenmeir\EloquentHasManyDeep\HasRelationships;
  */
 class User extends Authenticatable
 {
+    use HasFactory;
+    use HasRelationships;
     use JournalTrait;
     use LaratrustUserTrait;
     use Notifiable;
-    use HasRelationships;
 
     public $table = 'users';
 

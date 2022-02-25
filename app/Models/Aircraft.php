@@ -7,6 +7,7 @@ use App\Models\Enums\AircraftStatus;
 use App\Models\Traits\ExpensableTrait;
 use App\Models\Traits\FilesTrait;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Znck\Eloquent\Traits\BelongsToThrough;
 
 /**
@@ -32,9 +33,10 @@ use Znck\Eloquent\Traits\BelongsToThrough;
  */
 class Aircraft extends Model
 {
+    use BelongsToThrough;
     use ExpensableTrait;
     use FilesTrait;
-    use BelongsToThrough;
+    use HasFactory;
 
     public $table = 'aircraft';
 
@@ -112,7 +114,9 @@ class Aircraft extends Model
      */
     public function getLandingTimeAttribute()
     {
-        if (array_key_exists('landing_time', $this->attributes) && filled($this->attributes['landing_time'])) {
+        if (array_key_exists('landing_time', $this->attributes) && filled(
+                $this->attributes['landing_time']
+            )) {
             return new Carbon($this->attributes['landing_time']);
         }
     }

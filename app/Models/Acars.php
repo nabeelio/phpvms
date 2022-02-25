@@ -6,6 +6,7 @@ use App\Contracts\Model;
 use App\Models\Traits\HashIdTrait;
 use App\Support\Units\Distance;
 use App\Support\Units\Fuel;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * @property string id
@@ -23,6 +24,7 @@ use App\Support\Units\Fuel;
 class Acars extends Model
 {
     use HashIdTrait;
+    use HasFactory;
 
     public $table = 'acars';
 

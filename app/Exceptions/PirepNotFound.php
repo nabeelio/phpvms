@@ -2,16 +2,16 @@
 
 namespace App\Exceptions;
 
-class PilotIdNotFound extends AbstractHttpException
+class PirepNotFound extends AbstractHttpException
 {
-    private $pilot_id;
+    private $pirep_id;
 
-    public function __construct($pilot_id)
+    public function __construct($pirep_id)
     {
-        $this->pilot_id = $pilot_id;
+        $this->pirep_id = $pirep_id;
         parent::__construct(
             404,
-            'Pilot '.$pilot_id.' not found'
+            'PIREP '.$pirep_id.' not found'
         );
     }
 
@@ -20,7 +20,7 @@ class PilotIdNotFound extends AbstractHttpException
      */
     public function getErrorType(): string
     {
-        return 'pilot-id-not-found';
+        return 'pirep-not-found';
     }
 
     /**
@@ -37,7 +37,7 @@ class PilotIdNotFound extends AbstractHttpException
     public function getErrorMetadata(): array
     {
         return [
-            'pilot_id' => $this->pilot_id,
+            'pirep_id' => $this->pirep_id,
         ];
     }
 }

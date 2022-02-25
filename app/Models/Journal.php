@@ -9,6 +9,7 @@ namespace App\Models;
 use App\Contracts\Model;
 use App\Support\Money;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * Holds various journals, depending on the morphed_type and morphed_id columns
@@ -25,6 +26,8 @@ use Carbon\Carbon;
  */
 class Journal extends Model
 {
+    use HasFactory;
+
     protected $table = 'journals';
 
     protected $fillable = [

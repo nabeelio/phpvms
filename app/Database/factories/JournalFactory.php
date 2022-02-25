@@ -1,9 +1,28 @@
-<?php
+<?php /** @noinspection PhpIllegalPsrClassPathInspection */
 
-use Faker\Generator as Faker;
+namespace App\Database\Factories;
 
-$factory->define(App\Models\Journal::class, function (Faker $faker) {
-    return [
-        'currency' => 'USD',
-    ];
-});
+use App\Contracts\Factory;
+use App\Models\Journal;
+
+class JournalFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = Journal::class;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
+    public function definition(): array
+    {
+        return [
+            'currency' => 'USD',
+        ];
+    }
+}

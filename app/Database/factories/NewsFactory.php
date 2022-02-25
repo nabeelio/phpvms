@@ -1,14 +1,31 @@
-<?php
+<?php /** @noinspection PhpIllegalPsrClassPathInspection */
 
-use Faker\Generator as Faker;
+namespace App\Database\Factories;
 
-$factory->define(App\Models\News::class, function (Faker $faker) {
-    return [
-        'id'      => null,
-        'user_id' => function () {
-            return factory(\App\Models\User::class)->create()->id;
-        },
-        'subject' => $faker->text(),
-        'body'    => $faker->sentence,
-    ];
-});
+use App\Contracts\Factory;
+use App\Models\News;
+
+class NewsFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = News::class;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
+    public function definition(): array
+    {
+        return [
+            'id'      => null,
+            'user_id' => fn() => \App\Models\User::factory()->create()->id,
+            'subject' => $this->faker->text(),
+            'body'    => $this->faker->sentence,
+        ];
+    }
+}

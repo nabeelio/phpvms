@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Contracts\Model;
 use App\Models\Traits\ExpensableTrait;
 use App\Models\Traits\FilesTrait;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * Class Airport
@@ -28,6 +29,7 @@ class Airport extends Model
 {
     use ExpensableTrait;
     use FilesTrait;
+    use HasFactory;
 
     public $table = 'airports';
 

@@ -12,6 +12,7 @@ use App\Models\Traits\HashIdTrait;
 use App\Support\Units\Distance;
 use App\Support\Units\Fuel;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
 use Kleemans\AttributeEvents;
@@ -63,6 +64,7 @@ class Pirep extends Model
 {
     use AttributeEvents;
     use HashIdTrait;
+    use HasFactory;
     use Notifiable;
 
     public $table = 'pireps';

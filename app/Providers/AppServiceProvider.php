@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Contracts\Factory;
 use App\Notifications\Channels\Discord\DiscordWebhook;
 use App\Services\ModuleService;
 use App\Support\ThemeViewFinder;

@@ -6,6 +6,7 @@ use App\Contracts\Model;
 use App\Models\Enums\JournalType;
 use App\Models\Traits\FilesTrait;
 use App\Models\Traits\JournalTrait;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Str;
 
 /**
@@ -23,6 +24,7 @@ use Illuminate\Support\Str;
 class Airline extends Model
 {
     use FilesTrait;
+    use HasFactory;
     use JournalTrait;
 
     public $table = 'airlines';
@@ -75,6 +77,7 @@ class Airline extends Model
         if ($this->iata && $this->iata !== '') {
             return $this->iata;
         }
+
         return $this->icao;
     }
 

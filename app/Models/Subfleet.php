@@ -6,6 +6,7 @@ use App\Contracts\Model;
 use App\Models\Enums\AircraftStatus;
 use App\Models\Traits\ExpensableTrait;
 use App\Models\Traits\FilesTrait;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * @property int     id
@@ -26,6 +27,7 @@ class Subfleet extends Model
 {
     use ExpensableTrait;
     use FilesTrait;
+    use HasFactory;
 
     public $fillable = [
         'airline_id',
