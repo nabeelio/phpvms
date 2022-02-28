@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Contracts\Model;
 use App\Models\Traits\HashIdTrait;
 use App\Models\Traits\ReferenceTrait;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -26,9 +27,11 @@ class File extends Model
     public $table = 'files';
 
     protected $keyType = 'string';
+
     public $incrementing = false;
 
     protected $fillable = [
+        'id',
         'name',
         'description',
         'disk',
@@ -51,52 +54,64 @@ class File extends Model
     /**
      * Return the file extension
      *
-     * @return string
+     * @return Attribute
      */
-    public function getExtensionAttribute(): string
+    public function extension(): Attribute
     {
-        if (!$this->pathinfo) {
-            $this->pathinfo = pathinfo($this->path);
-        }
+        return Attribute::make(
+            get: function ($_, $attrs) {
+                if (!$this->pathinfo) {
+                    $this->pathinfo = pathinfo($this->path);
+                }
 
-        return $this->pathinfo['extension'];
+                return $this->pathinfo['extension'];
+            }
+        );
     }
 
     /**
      * Get just the filename
      *
-     * @return string
+     * @return Attribute
      */
-    public function getFilenameAttribute(): string
+    public function filename(): Attribute
     {
-        if (!$this->pathinfo) {
-            $this->pathinfo = pathinfo($this->path);
-        }
+        return Attribute::make(
+            get: function ($_, $attrs) {
+                if (!$this->pathinfo) {
+                    $this->pathinfo = pathinfo($this->path);
+                }
 
-        return $this->pathinfo['filename'].'.'.$this->pathinfo['extension'];
+                return $this->pathinfo['filename'].'.'.$this->pathinfo['extension'];
+            }
+        );
     }
 
     /**
      * Get the full URL to this attribute
      *
-     * @return string
+     * @return Attribute
      */
-    public function getUrlAttribute(): string
+    public function url(): Attribute
     {
-        if (Str::startsWith($this->path, 'http')) {
-            return $this->path;
-        }
+        return Attribute::make(
+            get: function ($_, $attrs) {
+                if (Str::startsWith($this->path, 'http')) {
+                    return $this->path;
+                }
 
-        $disk = $this->disk ?? config('filesystems.public_files');
+                $disk = $this->disk ?? config('filesystems.public_files');
 
-        // If the disk isn't stored in public (S3 or something),
-        // just pass through the URL call
-        if ($disk !== 'public') {
-            return Storage::disk(config('filesystems.public_files'))
-                ->url($this->path);
-        }
+                // If the disk isn't stored in public (S3 or something),
+                // just pass through the URL call
+                if ($disk !== 'public') {
+                    return Storage::disk(config('filesystems.public_files'))
+                        ->url($this->path);
+                }
 
-        // Otherwise, figure out the public URL and save there
-        return public_asset(Storage::disk('public')->url($this->path));
+                // Otherwise, figure out the public URL and save there
+                return public_asset(Storage::disk('public')->url($this->path));
+            }
+        );
     }
 }

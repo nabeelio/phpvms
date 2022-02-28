@@ -5,9 +5,12 @@ namespace App\Http\Controllers\Frontend;
 use App\Contracts\Controller;
 use App\Models\Airline;
 use App\Models\File;
-use Auth;
-use Flash;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Laracasts\Flash\Flash;
+use Nwidart\Modules\Exceptions\ModuleNotFoundException;
+use Nwidart\Modules\Facades\Module;
 
 /**
  * Class DownloadController
@@ -62,6 +65,19 @@ class DownloadController extends Controller
             }
         }
 
+        // See if they inserted a link to the ACARS download
+        try {
+            Module::find('VMSAcars');
+            $downloadUrl = DB::table('vmsacars_config')->where(['id' => 'download_url'])->first();
+            if (!empty($downloadUrl) && !empty($downloadUrl->value)) {
+                $regrouped_files['ACARS'] = collect([
+                    new File(['id' => 'vmsacars', 'name' => 'ACARS Client']),
+                ]);
+            }
+        } catch (ModuleNotFoundException) {
+            // noop, don't insert the ACARS download
+        }
+
         ksort($regrouped_files, SORT_STRING);
 
         return view('downloads.index', [
@@ -79,12 +95,30 @@ class DownloadController extends Controller
      */
     public function show($id)
     {
+        // See if they're trying to download the ACARS client
+        if ($id === 'vmsacars' && Auth::check()) {
+            try {
+                Module::find('VMSAcars');
+                $downloadUrl = DB::table('vmsacars_config')
+                    ->where(['id' => 'download_url'])
+                    ->first();
+
+                if (!empty($downloadUrl) && !empty($downloadUrl->value)) {
+                    return redirect()->to($downloadUrl->value);
+                }
+            } catch (ModuleNotFoundException) {
+            }
+
+            return redirect()->back();
+        }
+
         /**
          * @var File $file
          */
         $file = File::find($id);
         if (!$file) {
             Flash::error('File doesn\'t exist');
+
             return redirect()->back();
         }
 
@@ -98,6 +132,7 @@ class DownloadController extends Controller
 
         if ($file->disk === 'public') {
             $storage = Storage::disk('public');
+
             return $storage->download($file->path, $file->filename);
         }
 
