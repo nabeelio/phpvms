@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "012f249a3068f78f07898ce45ffec181",
+    "content-hash": "e67b09afa9ff36c24ebc0937400cf7a6",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -2066,6 +2066,71 @@
                 "source": "https://github.com/FakerPHP/Faker/tree/v1.19.0"
             },
             "time": "2022-02-02T17:38:57+00:00"
+        },
+        {
+            "name": "fisharebest/ext-calendar",
+            "version": "2.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fisharebest/ext-calendar.git",
+                "reference": "155a2d3f5713e1e1805d68cdb42a28ca842e7329"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fisharebest/ext-calendar/zipball/155a2d3f5713e1e1805d68cdb42a28ca842e7329",
+                "reference": "155a2d3f5713e1e1805d68cdb42a28ca842e7329",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "<6",
+                "satooshi/php-coveralls": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/shims.php"
+                ],
+                "psr-4": {
+                    "Fisharebest\\ExtCalendar\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Greg Roach",
+                    "email": "fisharebest@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Implementation of the Arabic (Hijri), French, Gregorian, Jewish, Julian and Persian (Jalali) calendars.  Also provides a replacement for the PHP ext/calendar extension.",
+            "homepage": "https://github.com/fisharebest/ext-calendar",
+            "keywords": [
+                "Jalali",
+                "arabic",
+                "calendar",
+                "ext-calendar",
+                "french",
+                "gregorian",
+                "hebrew",
+                "hijri",
+                "jewish",
+                "julian",
+                "julian day",
+                "julian day number",
+                "persian",
+                "shamsi"
+            ],
+            "support": {
+                "issues": "https://github.com/fisharebest/ext-calendar/issues",
+                "source": "https://github.com/fisharebest/ext-calendar/tree/develop"
+            },
+            "time": "2018-09-17T20:40:07+00:00"
         },
         {
             "name": "fruitcake/php-cors",

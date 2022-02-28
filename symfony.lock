@@ -101,6 +101,9 @@
     "filp/whoops": {
         "version": "2.14.5"
     },
+    "fisharebest/ext-calendar": {
+        "version": "2.5.0"
+    },
     "friendsofphp/php-cs-fixer": {
         "version": "3.6",
         "recipe": {

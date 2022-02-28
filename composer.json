@@ -15,6 +15,7 @@
         "ext-bcmath": "*",
         "ext-pdo": "*",
         "ext-intl": "*",
+        "fisharebest/ext-calendar": "^2.5",
         "symfony/flex": "^1.0",
         "symfony/polyfill-iconv": "~1.22.0",
         "symfony/polyfill-intl-icu": "*",
