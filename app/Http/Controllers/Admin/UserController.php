@@ -27,13 +27,13 @@ use Prettus\Repository\Exceptions\RepositoryException;
 
 class UserController extends Controller
 {
-    private $airlineRepo;
-    private $airportRepo;
-    private $pirepRepo;
-    private $roleRepo;
-    private $typeratingRepo;
-    private $userRepo;
-    private $userSvc;
+    private AirlineRepository $airlineRepo;
+    private AirportRepository $airportRepo;
+    private PirepRepository $pirepRepo;
+    private RoleRepository $roleRepo;
+    private TypeRatingRepository $typeratingRepo;
+    private UserRepository $userRepo;
+    private UserService $userSvc;
 
     /**
      * UserController constructor.

@@ -9,7 +9,7 @@ use App\Repositories\PirepRepository;
 
 class AircraftService extends Service
 {
-    private $pirepRepo;
+    private PirepRepository $pirepRepo;
 
     public function __construct(PirepRepository $pirepRepo)
     {

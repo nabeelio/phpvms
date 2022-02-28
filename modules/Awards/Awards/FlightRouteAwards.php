@@ -24,7 +24,7 @@ class FlightRouteAwards extends Award
      *
      * @var string
      */
-    public $name = 'Flight Route Award';
+    public string $name = 'Flight Route Award';
 
     /**
      * The description to show under the parameters field, so the admin knows
@@ -33,7 +33,7 @@ class FlightRouteAwards extends Award
      *
      * @var string
      */
-    public $param_description = 'Departure Airport ICAO and Arrival Airport ICAO as XXXX:YYYY';
+    public string $param_description = 'Departure Airport ICAO and Arrival Airport ICAO as XXXX:YYYY';
 
     /**
      * This method only needs to return a true or false of whether it should be awarded or not.

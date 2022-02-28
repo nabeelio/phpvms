@@ -30,14 +30,14 @@ class SubfleetController extends Controller
 {
     use Importable;
 
-    private $aircraftRepo;
-    private $fareRepo;
-    private $fareSvc;
-    private $fleetSvc;
-    private $importSvc;
-    private $rankRepo;
-    private $subfleetRepo;
-    private $typeratingRepo;
+    private AircraftRepository $aircraftRepo;
+    private FareRepository $fareRepo;
+    private FareService $fareSvc;
+    private FleetService $fleetSvc;
+    private ImportService $importSvc;
+    private RankRepository $rankRepo;
+    private SubfleetRepository $subfleetRepo;
+    private TypeRatingRepository $typeratingRepo;
 
     /**
      * SubfleetController constructor.

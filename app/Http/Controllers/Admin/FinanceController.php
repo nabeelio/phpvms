@@ -12,8 +12,8 @@ use Illuminate\Http\Request;
 
 class FinanceController extends Controller
 {
-    private $airlineRepo;
-    private $financeSvc;
+    private AirlineRepository $airlineRepo;
+    private FinanceService $financeSvc;
 
     /**
      * @param AirlineRepository $airlineRepo

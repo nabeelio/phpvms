@@ -11,10 +11,10 @@ use App\Repositories\SubfleetRepository;
 
 class AirlineService extends Service
 {
-    private $airlineRepo;
-    private $flightRepo;
-    private $pirepRepo;
-    private $subfleetRepo;
+    private AirlineRepository $airlineRepo;
+    private FlightRepository $flightRepo;
+    private PirepRepository $pirepRepo;
+    private SubfleetRepository $subfleetRepo;
 
     public function __construct(
         AirlineRepository $airlineRepo,
@@ -34,6 +34,8 @@ class AirlineService extends Service
      * @param array $attr
      *
      * @return \App\Models\Airline
+     *
+     * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
     public function createAirline(array $attr): Airline
     {

@@ -30,7 +30,7 @@ class NavaidType extends Enum
      *
      * @var array
      */
-    public static $labels = [
+    public static array $labels = [
         self::VOR     => 'VOR',
         self::VOR_DME => 'VOR DME',
         self::LOC     => 'Localizer',

@@ -19,8 +19,8 @@ use Illuminate\Support\Facades\Log;
  */
 abstract class Award
 {
-    public $name = '';
-    public $param_description = '';
+    public string $name = '';
+    public string $param_description = '';
 
     /**
      * Each award class just needs to return true or false if it should actually
@@ -37,10 +37,10 @@ abstract class Award
      */
 
     /** @var \App\Models\Award|null */
-    protected $award;
+    protected ?AwardModel $award;
 
     /** @var \App\Models\User|null */
-    protected $user;
+    protected ?User $user;
 
     public function __construct(AwardModel $award = null, User $user = null)
     {
@@ -69,9 +69,9 @@ abstract class Award
     /**
      * Add the award to this user, if they don't already have it
      *
-     * @return bool|UserAward
+     * @return bool|UserAward|null
      */
-    protected function addAward()
+    protected function addAward(): bool|UserAward|null
     {
         $w = [
             'user_id'  => $this->user->id,

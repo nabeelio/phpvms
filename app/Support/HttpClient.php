@@ -10,7 +10,7 @@ use GuzzleHttp\RequestOptions;
  */
 class HttpClient
 {
-    private $httpClient;
+    private GuzzleClient $httpClient;
 
     public function __construct(GuzzleClient $httpClient)
     {

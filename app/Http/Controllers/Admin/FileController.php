@@ -12,7 +12,7 @@ use Laracasts\Flash\Flash;
 
 class FileController extends Controller
 {
-    private $fileSvc;
+    private FileService $fileSvc;
 
     public function __construct(FileService $fileSvc)
     {

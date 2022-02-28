@@ -18,8 +18,8 @@ use League\Geotools\Geotools;
 
 class GeoService extends Service
 {
-    private $acarsRepo;
-    private $navRepo;
+    private AcarsRepository $acarsRepo;
+    private NavdataRepository $navRepo;
 
     /**
      * GeoService constructor.

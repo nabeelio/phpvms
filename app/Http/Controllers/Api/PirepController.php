@@ -38,11 +38,11 @@ use Illuminate\Support\Facades\Log;
 
 class PirepController extends Controller
 {
-    private $financeSvc;
-    private $journalRepo;
-    private $pirepRepo;
-    private $pirepSvc;
-    private $userSvc;
+    private PirepFinanceService $financeSvc;
+    private JournalRepository $journalRepo;
+    private PirepRepository $pirepRepo;
+    private PirepService $pirepSvc;
+    private UserService $userSvc;
 
     /**
      * @param PirepFinanceService $financeSvc

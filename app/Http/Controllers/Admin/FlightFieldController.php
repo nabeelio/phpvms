@@ -10,7 +10,7 @@ use Prettus\Repository\Criteria\RequestCriteria;
 
 class FlightFieldController extends Controller
 {
-    private $flightFieldRepo;
+    private FlightFieldRepository $flightFieldRepo;
 
     /**
      * FlightFieldController constructor.

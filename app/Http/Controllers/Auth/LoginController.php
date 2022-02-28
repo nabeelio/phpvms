@@ -16,13 +16,16 @@ class LoginController extends Controller
 {
     use AuthenticatesUsers;
 
-    protected $redirectTo = '/dashboard';
+    /**
+     * Where to redirect after logging in
+     */
+    protected mixed $redirectTo = '/dashboard';
 
     /** @var UserService */
-    private $userSvc;
+    private UserService $userSvc;
 
     /** @var string */
-    private $loginFieldValue;
+    private string $loginFieldValue;
 
     /**
      * LoginController constructor.

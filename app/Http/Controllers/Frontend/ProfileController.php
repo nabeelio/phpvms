@@ -10,7 +10,6 @@ use App\Repositories\AirlineRepository;
 use App\Repositories\AirportRepository;
 use App\Repositories\UserRepository;
 use App\Support\Countries;
-use App\Support\Discord;
 use App\Support\Timezonelist;
 use App\Support\Utils;
 use Illuminate\Http\Request;
@@ -25,9 +24,9 @@ use Nwidart\Modules\Facades\Module;
 
 class ProfileController extends Controller
 {
-    private $airlineRepo;
-    private $airportRepo;
-    private $userRepo;
+    private AirlineRepository $airlineRepo;
+    private AirportRepository $airportRepo;
+    private UserRepository $userRepo;
 
     /**
      * ProfileController constructor.
@@ -80,11 +79,21 @@ class ProfileController extends Controller
     public function show($id)
     {
         /** @var \App\Models\User $user */
-        $with = ['airline', 'awards', 'current_airport', 'fields.field', 'home_airport', 'last_pirep', 'rank', 'typeratings'];
+        $with = [
+            'airline',
+            'awards',
+            'current_airport',
+            'fields.field',
+            'home_airport',
+            'last_pirep',
+            'rank',
+            'typeratings',
+        ];
         $user = User::with($with)->where('id', $id)->first();
 
         if (empty($user)) {
             Flash::error('User not found!');
+
             return redirect(route('frontend.dashboard.index'));
         }
 
@@ -102,9 +111,9 @@ class ProfileController extends Controller
      *
      * @param Request $request
      *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
      * @throws \Exception
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
      */
     public function edit(Request $request)
     {
@@ -113,6 +122,7 @@ class ProfileController extends Controller
 
         if (empty($user)) {
             Flash::error('User not found!');
+
             return redirect(route('frontend.dashboard.index'));
         }
 
@@ -133,9 +143,9 @@ class ProfileController extends Controller
     /**
      * @param Request $request
      *
+     * @return mixed
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      *
-     * @return mixed
      */
     public function update(Request $request)
     {

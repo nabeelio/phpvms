@@ -42,14 +42,14 @@ use Illuminate\Support\Facades\Log;
 
 class PirepService extends Service
 {
-    private $aircraftRepo;
-    private $airportRepo;
-    private $airportSvc;
-    private $fareSvc;
-    private $geoSvc;
-    private $pirepRepo;
-    private $simBriefSvc;
-    private $userSvc;
+    private AircraftRepository $aircraftRepo;
+    private AirportRepository $airportRepo;
+    private AirportService $airportSvc;
+    private FareService $fareSvc;
+    private GeoService $geoSvc;
+    private PirepRepository $pirepRepo;
+    private SimBriefService $simBriefSvc;
+    private UserService $userSvc;
 
     /**
      * @param AirportRepository  $airportRepo

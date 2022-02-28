@@ -11,7 +11,7 @@ use Laracasts\Flash\Flash;
 
 class PagesController extends Controller
 {
-    private $pageRepo;
+    private PageRepository $pageRepo;
 
     /**
      * @param PageRepository $pageRepo

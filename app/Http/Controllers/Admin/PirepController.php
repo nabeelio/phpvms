@@ -29,16 +29,16 @@ use Prettus\Repository\Criteria\RequestCriteria;
 
 class PirepController extends Controller
 {
-    private $airportRepo;
-    private $airlineRepo;
-    private $aircraftRepo;
-    private $fareSvc;
-    private $journalRepo;
-    private $pirepSvc;
-    private $pirepRepo;
-    private $pirepFieldRepo;
-    private $subfleetRepo;
-    private $userSvc;
+    private AirportRepository $airportRepo;
+    private AirlineRepository $airlineRepo;
+    private AircraftRepository $aircraftRepo;
+    private FareService $fareSvc;
+    private JournalRepository $journalRepo;
+    private PirepService $pirepSvc;
+    private PirepRepository $pirepRepo;
+    private PirepFieldRepository $pirepFieldRepo;
+    private SubfleetRepository $subfleetRepo;
+    private UserService $userSvc;
 
     /**
      * PirepController constructor.

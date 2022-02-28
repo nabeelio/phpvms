@@ -32,11 +32,11 @@ use function is_array;
 
 class UserService extends Service
 {
-    private $aircraftRepo;
-    private $airlineRepo;
-    private $fareSvc;
-    private $subfleetRepo;
-    private $userRepo;
+    private AircraftRepository $aircraftRepo;
+    private AirlineRepository $airlineRepo;
+    private FareService $fareSvc;
+    private SubfleetRepository $subfleetRepo;
+    private UserRepository $userRepo;
 
     /**
      * @param AircraftRepository $aircraftRepo

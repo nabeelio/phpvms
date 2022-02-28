@@ -13,8 +13,8 @@ use Request;
  */
 class AirportController extends Controller
 {
-    private $airportRepo;
-    private $flightRepo;
+    private AirportRepository $airportRepo;
+    private FlightRepository $flightRepo;
 
     public function __construct(
         AirportRepository $airportRepo,

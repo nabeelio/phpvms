@@ -14,8 +14,8 @@ use Prettus\Repository\Criteria\RequestCriteria;
 class AwardController extends Controller
 {
     /** @var AwardRepository */
-    private $awardRepository;
-    private $awardSvc;
+    private AwardRepository $awardRepository;
+    private AwardService $awardSvc;
 
     /**
      * AwardController constructor.

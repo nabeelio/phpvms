@@ -27,10 +27,10 @@ use Illuminate\Support\Facades\Log;
 
 class PirepFinanceService extends Service
 {
-    private $expenseRepo;
-    private $fareSvc;
-    private $financeSvc;
-    private $journalRepo;
+    private ExpenseRepository $expenseRepo;
+    private FareService $fareSvc;
+    private FinanceService $financeSvc;
+    private JournalRepository $journalRepo;
 
     /**
      * FinanceService constructor.

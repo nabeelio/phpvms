@@ -22,9 +22,9 @@ class AircraftController extends Controller
 {
     use Importable;
 
-    private $aircraftRepo;
-    private $airportRepo;
-    private $importSvc;
+    private AircraftRepository $aircraftRepo;
+    private AirportRepository $airportRepo;
+    private ImportService $importSvc;
 
     /**
      * AircraftController constructor.

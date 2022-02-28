@@ -21,8 +21,8 @@ class AirportController extends Controller
 {
     use Importable;
 
-    private $airportRepo;
-    private $importSvc;
+    private AirportRepository $airportRepo;
+    private ImportService $importSvc;
 
     /**
      * @param AirportRepository $airportRepo

@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 
 class PageController extends Controller
 {
-    private $pageRepo;
+    private PageRepository $pageRepo;
 
     /**
      * @param \App\Repositories\PageRepository $pageRepo

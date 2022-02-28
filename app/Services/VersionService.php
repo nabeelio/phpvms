@@ -12,8 +12,8 @@ use Symfony\Component\Yaml\Yaml;
 
 class VersionService extends Service
 {
-    private $httpClient;
-    private $kvpRepo;
+    private HttpClient $httpClient;
+    private KvpRepository $kvpRepo;
 
     public function __construct(
         HttpClient $httpClient,

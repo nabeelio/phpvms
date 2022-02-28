@@ -13,8 +13,8 @@ use App\Support\Money;
 
 class FinanceService extends Service
 {
-    private $airlineRepo;
-    private $journalRepo;
+    private AirlineRepository $airlineRepo;
+    private JournalRepository $journalRepo;
 
     public function __construct(
         AirlineRepository $airlineRepo,

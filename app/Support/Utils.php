@@ -20,7 +20,7 @@ class Utils
      *
      * @return string
      */
-    public static function generateNewId(int $length = null)
+    public static function generateNewId(int $length = null): string
     {
         if (!$length) {
             $length = Model::ID_MAX_LENGTH;
@@ -38,8 +38,7 @@ class Utils
      */
     public static function generateApiKey(): string
     {
-        $key = substr(sha1(time().mt_rand()), 0, 20);
-        return $key;
+        return substr(sha1(time().mt_rand()), 0, 20);
     }
 
     /**

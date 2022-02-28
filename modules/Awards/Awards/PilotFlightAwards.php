@@ -18,7 +18,7 @@ class PilotFlightAwards extends Award
      *
      * @var string
      */
-    public $name = 'Pilot Flights';
+    public string $name = 'Pilot Flights';
 
     /**
      * The description to show under the parameters field, so the admin knows
@@ -27,7 +27,7 @@ class PilotFlightAwards extends Award
      *
      * @var string
      */
-    public $param_description = 'The number of flights at which to give this award';
+    public string $param_description = 'The number of flights at which to give this award';
 
     /**
      * If the user has over N flights, then we can give them this award. This method

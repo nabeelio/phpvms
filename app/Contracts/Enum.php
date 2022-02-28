@@ -7,14 +7,14 @@ namespace App\Contracts;
  */
 abstract class Enum
 {
-    protected static $cache = [];
-    protected static $codes = [];
-    protected static $labels = [];
+    protected static array $cache = [];
+    protected static array $codes = [];
+    protected static array $labels = [];
 
     /**
      * @var int
      */
-    protected $value;
+    protected int $value;
 
     /**
      * Create an instance of this Enum
@@ -29,9 +29,9 @@ abstract class Enum
     /**
      * Return the value that's been set if this is an instance
      *
-     * @return mixed
+     * @return int|null
      */
-    final public function getValue()
+    final public function getValue(): ?int
     {
         return $this->value;
     }
@@ -41,9 +41,9 @@ abstract class Enum
      *
      * @param $value
      *
-     * @return mixed
+     * @return string
      */
-    final public static function label($value)
+    final public static function label($value): string
     {
         if (isset(static::$labels[$value])) {
             $val = static::$labels[$value];
@@ -53,6 +53,8 @@ abstract class Enum
 
             return $val;
         }
+
+        return $value;
     }
 
     /**
@@ -87,11 +89,11 @@ abstract class Enum
      *
      * @return false|int|string
      */
-    public static function convertToCode($value)
+    public static function convertToCode($value): bool|int|string|null
     {
         $value = (int) $value;
         if (!array_key_exists($value, static::$codes)) {
-            return;
+            return null;
         }
 
         return static::$codes[$value];

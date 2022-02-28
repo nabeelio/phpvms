@@ -10,7 +10,7 @@ use Akaunting\Money\Money as MoneyBase;
  */
 class Money
 {
-    public $money;
+    public MoneyBase $money;
     public $subunit_amount;
     public static $iso_currencies;
     public static $subunit_multiplier;

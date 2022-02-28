@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class ConfigService extends Service
 {
-    protected static $defaultValues = [
+    protected static array $defaultValues = [
         'APP_ENV'             => 'production',
         'APP_KEY'             => '',
         'APP_DEBUG'           => false,

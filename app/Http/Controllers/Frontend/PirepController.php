@@ -34,16 +34,16 @@ use Laracasts\Flash\Flash;
 
 class PirepController extends Controller
 {
-    private $aircraftRepo;
-    private $airlineRepo;
-    private $fareSvc;
-    private $flightRepo;
-    private $geoSvc;
-    private $pirepRepo;
-    private $airportRepo;
-    private $pirepFieldRepo;
-    private $pirepSvc;
-    private $userSvc;
+    private AircraftRepository $aircraftRepo;
+    private AirlineRepository $airlineRepo;
+    private FareService $fareSvc;
+    private FlightRepository $flightRepo;
+    private GeoService $geoSvc;
+    private PirepRepository $pirepRepo;
+    private AirportRepository $airportRepo;
+    private PirepFieldRepository $pirepFieldRepo;
+    private PirepService $pirepSvc;
+    private UserService $userSvc;
 
     /**
      * @param AircraftRepository   $aircraftRepo

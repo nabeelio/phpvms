@@ -6,14 +6,14 @@ use App\Contracts\Listener;
 use App\Events\CronNightly;
 use App\Models\Journal;
 use App\Repositories\JournalRepository;
-use Log;
+use Illuminate\Support\Facades\Log;
 
 /**
  * This recalculates the balances on all of the journals
  */
 class RecalculateBalances extends Listener
 {
-    private $journalRepo;
+    private JournalRepository $journalRepo;
 
     /**
      * Nightly constructor.

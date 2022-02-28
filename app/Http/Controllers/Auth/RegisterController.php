@@ -29,9 +29,9 @@ class RegisterController extends Controller
      */
     protected $redirectTo = '/';
 
-    private $airlineRepo;
-    private $airportRepo;
-    private $userService;
+    private AirlineRepository $airlineRepo;
+    private AirportRepository $airportRepo;
+    private UserService $userService;
 
     /**
      * RegisterController constructor.
@@ -48,6 +48,7 @@ class RegisterController extends Controller
         $this->airlineRepo = $airlineRepo;
         $this->airportRepo = $airportRepo;
         $this->userService = $userService;
+
         $this->middleware('guest');
 
         $this->redirectTo = config('phpvms.registration_redirect');

@@ -13,7 +13,7 @@ class AircraftStatus extends Enum
     public const SCRAPPED = 'C';
     public const WRITTEN_OFF = 'W';
 
-    public static $labels = [
+    public static array $labels = [
         self::ACTIVE      => 'aircraft.status.active',
         self::MAINTENANCE => 'aircraft.status.maintenance',
         self::STORED      => 'aircraft.status.stored',

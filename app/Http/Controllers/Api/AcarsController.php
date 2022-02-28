@@ -13,7 +13,6 @@ use App\Http\Resources\AcarsRoute as AcarsRouteResource;
 use App\Http\Resources\Pirep as PirepResource;
 use App\Models\Acars;
 use App\Models\Enums\AcarsType;
-use App\Models\Enums\PirepStatus;
 use App\Models\Pirep;
 use App\Repositories\AcarsRepository;
 use App\Repositories\PirepRepository;
@@ -21,14 +20,13 @@ use App\Services\GeoService;
 use Carbon\Carbon;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class AcarsController extends Controller
 {
-    private $acarsRepo;
-    private $geoSvc;
-    private $pirepRepo;
+    private AcarsRepository $acarsRepo;
+    private GeoService $geoSvc;
+    private PirepRepository $pirepRepo;
 
     /**
      * AcarsController constructor.
@@ -68,9 +66,11 @@ class AcarsController extends Controller
      */
     public function live_flights()
     {
-        $pireps = $this->acarsRepo->getPositions(setting('acars.live_time'))->filter(function ($pirep) {
-            return $pirep->position !== null;
-        });
+        $pireps = $this->acarsRepo->getPositions(setting('acars.live_time'))->filter(
+            function ($pirep) {
+                return $pirep->position !== null;
+            }
+        );
 
         return PirepResource::collection($pireps);
     }
@@ -146,10 +146,10 @@ class AcarsController extends Controller
      * @param                 $id
      * @param PositionRequest $request
      *
-     * @throws \App\Exceptions\PirepCancelled
+     * @return \Illuminate\Http\JsonResponse
      * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @throws \App\Exceptions\PirepCancelled
      */
     public function acars_store($id, PositionRequest $request)
     {
@@ -225,10 +225,10 @@ class AcarsController extends Controller
      * @param            $id
      * @param LogRequest $request
      *
-     * @throws \App\Exceptions\PirepCancelled
+     * @return \Illuminate\Http\JsonResponse
      * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @throws \App\Exceptions\PirepCancelled
      */
     public function acars_logs($id, LogRequest $request)
     {
@@ -283,10 +283,10 @@ class AcarsController extends Controller
      * @param              $id
      * @param EventRequest $request
      *
-     * @throws \App\Exceptions\PirepCancelled
+     * @return \Illuminate\Http\JsonResponse
      * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @throws \App\Exceptions\PirepCancelled
      */
     public function acars_events($id, EventRequest $request)
     {

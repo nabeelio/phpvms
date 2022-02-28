@@ -18,9 +18,9 @@ use PhpUnitsOfMeasure\Exception\NonStringUnitName;
 
 class AirportService extends Service
 {
-    private $airportRepo;
-    private $lookupProvider;
-    private $metarProvider;
+    private AirportRepository $airportRepo;
+    private AirportLookup $lookupProvider;
+    private MetarProvider $metarProvider;
 
     public function __construct(
         AirportLookup $lookupProvider,
@@ -39,17 +39,19 @@ class AirportService extends Service
      *
      * @return Metar|null
      */
-    public function getMetar($icao)
+    public function getMetar($icao): ?Metar
     {
         $icao = trim($icao);
         if ($icao === '') {
-            return;
+            return null;
         }
 
         $raw_metar = $this->metarProvider->metar($icao);
         if ($raw_metar && $raw_metar !== '') {
             return new Metar($raw_metar);
         }
+
+        return null;
     }
 
     /**
@@ -59,17 +61,19 @@ class AirportService extends Service
      *
      * @return Metar|null
      */
-    public function getTaf($icao)
+    public function getTaf($icao): ?Metar
     {
         $icao = trim($icao);
         if ($icao === '') {
-            return;
+            return null;
         }
 
         $raw_taf = $this->metarProvider->taf($icao);
         if ($raw_taf && $raw_taf !== '') {
             return new Metar($raw_taf, true);
         }
+
+        return null;
     }
 
     /**

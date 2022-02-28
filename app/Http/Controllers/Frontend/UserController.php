@@ -13,7 +13,7 @@ use Prettus\Repository\Exceptions\RepositoryException;
 
 class UserController extends Controller
 {
-    private $userRepo;
+    private UserRepository $userRepo;
 
     /**
      * @param UserRepository $userRepo
