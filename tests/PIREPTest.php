@@ -190,17 +190,17 @@ class PIREPTest extends TestCase
 
         // no conversion with lbs
         $pirep->block_fuel = new Fuel($val, 'lbs');
-        $this->assertEquals(round($pirep->block_fuel->value()), round($val));
+        $this->assertEquals(round($pirep->block_fuel->value(), 2), round($val, 2));
 
         $pirep->fuel_used = new Fuel($val, 'lbs');
-        $this->assertEquals(round($pirep->fuel_used->value()), round($val));
+        $this->assertEquals(round($pirep->fuel_used->value(), 2), round($val, 2));
 
         // conversion of kg to lbs
         $pirep->block_fuel = new Fuel($val, 'kg');
-        $this->assertEquals(round($pirep->block_fuel->value()), round((new Fuel($val, 'kg'))->toUnit('lbs')));
+        $this->assertEquals(round($pirep->block_fuel->value(), 2), round((new Fuel($val, 'kg'))->toUnit('lbs'), 2));
 
         $pirep->fuel_used = new Fuel($val, 'kg');
-        $this->assertEquals(round($pirep->fuel_used->value()), round((new Fuel($val, 'kg'))->toUnit('lbs')));
+        $this->assertEquals(round($pirep->fuel_used->value(), 2), round((new Fuel($val, 'kg'))->toUnit('lbs'), 2));
     }
 
     public function testGetUserPireps()
