@@ -28,7 +28,7 @@ class Altitude extends Unit
 
         $this->unit = setting('units.altitude');
 
-        if ($value instanceof Altitude) {
+        if ($value instanceof self) {
             $value->toUnit($unit);
             $this->instance = $value;
         } else {

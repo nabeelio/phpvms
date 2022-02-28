@@ -7,9 +7,6 @@ use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 use PhpUnitsOfMeasure\Exception\NonNumericValue;
 use PhpUnitsOfMeasure\Exception\NonStringUnitName;
 
-/**
- *
- */
 class FuelCast implements CastsAttributes
 {
     /**
@@ -19,6 +16,7 @@ class FuelCast implements CastsAttributes
      * @param string                              $key
      * @param mixed                               $value
      * @param array                               $attributes
+     *
      * @return mixed
      */
     public function get($model, string $key, $value, array $attributes)
@@ -44,6 +42,7 @@ class FuelCast implements CastsAttributes
      * @param string                              $key
      * @param mixed                               $value
      * @param array                               $attributes
+     *
      * @return mixed
      */
     public function set($model, string $key, $value, array $attributes)

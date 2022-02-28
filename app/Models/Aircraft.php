@@ -89,7 +89,7 @@ class Aircraft extends Model
     public function active(): Attribute
     {
         return Attribute::make(
-            get: fn($_, $attr) => $attr['status'] === AircraftStatus::ACTIVE
+            get: fn ($_, $attr) => $attr['status'] === AircraftStatus::ACTIVE
         );
     }
 
@@ -99,7 +99,7 @@ class Aircraft extends Model
     public function icao(): Attribute
     {
         return Attribute::make(
-            set: fn($value) => strtoupper($value)
+            set: fn ($value) => strtoupper($value)
         );
     }
 
@@ -109,7 +109,7 @@ class Aircraft extends Model
     public function ident(): Attribute
     {
         return Attribute::make(
-            get: fn($_, $attrs) => $attrs['registration'].' ('.$attrs['icao'].')'
+            get: fn ($_, $attrs) => $attrs['registration'].' ('.$attrs['icao'].')'
         );
     }
 

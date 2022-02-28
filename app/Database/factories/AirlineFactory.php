@@ -1,4 +1,6 @@
-<?php /** @noinspection PhpIllegalPsrClassPathInspection */
+<?php
+
+/** @noinspection PhpIllegalPsrClassPathInspection */
 
 namespace App\Database\Factories;
 
@@ -23,14 +25,14 @@ class AirlineFactory extends Factory
     public function definition(): array
     {
         return [
-            'id'      => null,
-            'icao'    => function (array $apt): string {
+            'id'   => null,
+            'icao' => function (array $apt): string {
                 $hashids = new Hashids(microtime(), 5);
                 $mt = str_replace('.', '', microtime(true));
 
                 return $hashids->encode($mt);
             },
-            'iata'    => fn(array $apt) => $apt['icao'],
+            'iata'    => fn (array $apt)    => $apt['icao'],
             'name'    => $this->faker->sentence(3),
             'country' => $this->faker->country,
             'active'  => 1,

@@ -42,7 +42,7 @@ class Navdata extends Model
     public function id(): Attribute
     {
         return Attribute::make(
-            set: fn($id) => strtoupper($id)
+            set: fn ($id) => strtoupper($id)
         );
     }
 }

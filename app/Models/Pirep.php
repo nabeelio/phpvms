@@ -254,7 +254,7 @@ class Pirep extends Model
     public function readOnly(): Attribute
     {
         return Attribute::make(
-            get: fn($_, $attrs) => \in_array($this->state, static::$read_only_states, true)
+            get: fn ($_, $attrs) => \in_array($this->state, static::$read_only_states, true)
         );
     }
 
@@ -322,7 +322,7 @@ class Pirep extends Model
     public function route(): Attribute
     {
         return Attribute::make(
-            set: fn($route) => strtoupper(trim($route))
+            set: fn ($route) => strtoupper(trim($route))
         );
     }
 
@@ -332,7 +332,7 @@ class Pirep extends Model
     public function cancelled(): Attribute
     {
         return Attribute::make(
-            get: fn($_, $attrs) => $this->state === PirepState::CANCELLED
+            get: fn ($_, $attrs) => $this->state === PirepState::CANCELLED
         );
     }
 

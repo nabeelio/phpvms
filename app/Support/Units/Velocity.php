@@ -30,7 +30,7 @@ class Velocity extends Unit
 
         $this->unit = setting('units.speed');
 
-        if ($value instanceof Velocity) {
+        if ($value instanceof self) {
             $value->toUnit($unit);
             $this->instance = $value;
         } else {

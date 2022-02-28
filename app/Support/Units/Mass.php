@@ -27,7 +27,7 @@ class Mass extends Unit
 
         $this->unit = setting('units.weight');
 
-        if ($value instanceof Mass) {
+        if ($value instanceof self) {
             $value->toUnit($unit);
             $this->instance = $value;
         } else {

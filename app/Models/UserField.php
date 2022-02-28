@@ -46,7 +46,7 @@ class UserField extends Model
     public function slug(): Attribute
     {
         return Attribute::make(
-            get: fn($_, $attrs) => str_slug($attrs['name'], '_')
+            get: fn ($_, $attrs) => str_slug($attrs['name'], '_')
         );
     }
 }

@@ -72,7 +72,7 @@ class Subfleet extends Model
     public function type(): Attribute
     {
         return Attribute::make(
-            set: fn($type) => str_replace([' ', ','], ['-', ''], $type)
+            set: fn ($type) => str_replace([' ', ','], ['-', ''], $type)
         );
     }
 

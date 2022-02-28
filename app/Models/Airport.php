@@ -82,7 +82,7 @@ class Airport extends Model
         'fuel_100ll_cost'      => 'nullable|numeric',
         'fuel_jeta_cost'       => 'nullable|numeric',
 
-        'fuel_mogas_cost'      => 'nullable|numeric',
+        'fuel_mogas_cost' => 'nullable|numeric',
     ];
 
     /**
@@ -91,7 +91,7 @@ class Airport extends Model
     public function icao(): Attribute
     {
         return Attribute::make(
-            set: fn($icao) => [
+            set: fn ($icao) => [
                 'id'   => strtoupper($icao),
                 'icao' => strtoupper($icao),
             ]
@@ -104,7 +104,7 @@ class Airport extends Model
     public function iata(): Attribute
     {
         return Attribute::make(
-            set: fn($iata) => strtoupper($iata)
+            set: fn ($iata) => strtoupper($iata)
         );
     }
 
@@ -117,7 +117,7 @@ class Airport extends Model
     public function fullName(): Attribute
     {
         return Attribute::make(
-            get: fn($_, $attrs) => $this->icao.' - '.$this->name
+            get: fn ($_, $attrs) => $this->icao.' - '.$this->name
         );
     }
 
@@ -129,9 +129,9 @@ class Airport extends Model
     public function tz(): Attribute
     {
         return Attribute::make(
-            get: fn($_, $attrs) => $attrs['timezone'],
-            set: fn($value) => [
-                'timezone' => $value
+            get: fn ($_, $attrs) => $attrs['timezone'],
+            set: fn ($value) => [
+                'timezone' => $value,
             ]
         );
     }

@@ -30,7 +30,7 @@ class Temperature extends Unit
 
         $this->unit = setting('units.temperature');
 
-        if ($value instanceof Temperature) {
+        if ($value instanceof self) {
             $value->toUnit($unit);
             $this->instance = $value;
         } else {

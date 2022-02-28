@@ -29,7 +29,7 @@ class UserFieldValue extends Model
     public function name(): Attribute
     {
         return Attribute::make(
-            get: fn($_, $attrs) => optional($this->field)->name
+            get: fn ($_, $attrs) => optional($this->field)->name
         );
     }
 

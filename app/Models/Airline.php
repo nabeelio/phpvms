@@ -68,14 +68,13 @@ class Airline extends Model
         'name'    => 'required',
     ];
 
-
     /**
      * For backwards compatibility
      */
     public function code(): Attribute
     {
         return Attribute::make(
-            get: function($_, $attrs) {
+            get: function ($_, $attrs) {
                 if ($this->iata && $this->iata !== '') {
                     return $this->iata;
                 }
@@ -87,23 +86,21 @@ class Airline extends Model
 
     /**
      * Capitalize the IATA code when set
-     *
      */
     public function iata(): Attribute
     {
         return Attribute::make(
-            set: fn($iata) => Str::upper($iata)
+            set: fn ($iata) => Str::upper($iata)
         );
     }
 
     /**
      * Capitalize the ICAO when set
-     *
      */
     public function icao(): Attribute
     {
         return Attribute::make(
-            set: fn($icao) => Str::upper($icao)
+            set: fn ($icao) => Str::upper($icao)
         );
     }
 

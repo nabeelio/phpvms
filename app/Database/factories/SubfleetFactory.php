@@ -1,4 +1,6 @@
-<?php /** @noinspection PhpIllegalPsrClassPathInspection */
+<?php
+
+/** @noinspection PhpIllegalPsrClassPathInspection */
 
 namespace App\Database\Factories;
 
@@ -23,7 +25,7 @@ class SubfleetFactory extends Factory
     {
         return [
             'id'                         => null,
-            'airline_id'                 => fn() => \App\Models\Airline::factory()->create()->id,
+            'airline_id'                 => fn ()                 => \App\Models\Airline::factory()->create()->id,
             'name'                       => $this->faker->unique()->text(50),
             'type'                       => $this->faker->unique()->text(7),
             'ground_handling_multiplier' => $this->faker->numberBetween(50, 200),

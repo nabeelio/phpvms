@@ -56,19 +56,21 @@ class Setting extends Model
     public function id(): Attribute
     {
         return Attribute::make(
-            get: fn($id, $attrs) => self::formatKey(strtolower($id))
+            get: fn ($id, $attrs) => self::formatKey(strtolower($id))
         );
     }
 
     /**
      * Set the key to lowercase
      *
+     * @param mixed $key
+     *
      * @return Attribute
      */
     public function key($key): Attribute
     {
         return Attribute::make(
-            set: fn($key) => strtolower($key)
+            set: fn ($key) => strtolower($key)
         );
     }
 }

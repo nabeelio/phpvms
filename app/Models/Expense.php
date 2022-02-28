@@ -5,7 +5,6 @@ namespace App\Models;
 use App\Contracts\Model;
 use App\Models\Casts\CommaDelimitedCast;
 use App\Models\Traits\ReferenceTrait;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**

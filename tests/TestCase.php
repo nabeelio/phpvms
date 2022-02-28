@@ -66,7 +66,7 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
 
         Factory::guessFactoryNamesUsing(function (string $modelName) {
             return 'App\\Database\\Factories\\'.class_basename($modelName).'Factory';
-        }) ;
+        });
     }
 
     /**

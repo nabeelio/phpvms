@@ -1,4 +1,6 @@
-<?php /** @noinspection PhpIllegalPsrClassPathInspection */
+<?php
+
+/** @noinspection PhpIllegalPsrClassPathInspection */
 
 namespace App\Database\Factories;
 
@@ -23,7 +25,7 @@ class NewsFactory extends Factory
     {
         return [
             'id'      => null,
-            'user_id' => fn() => \App\Models\User::factory()->create()->id,
+            'user_id' => fn () => \App\Models\User::factory()->create()->id,
             'subject' => $this->faker->text(),
             'body'    => $this->faker->sentence,
         ];

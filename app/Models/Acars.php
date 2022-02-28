@@ -6,9 +6,6 @@ use App\Contracts\Model;
 use App\Models\Casts\DistanceCast;
 use App\Models\Casts\FuelCast;
 use App\Models\Traits\HashIdTrait;
-use App\Support\Units\Distance;
-use App\Support\Units\Fuel;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**

@@ -1,4 +1,6 @@
-<?php /** @noinspection PhpIllegalPsrClassPathInspection */
+<?php
+
+/** @noinspection PhpIllegalPsrClassPathInspection */
 
 namespace App\Database\Factories;
 
@@ -29,8 +31,8 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
-        if (empty(UserFactory::$password)) {
-            UserFactory::$password = Hash::make('secret');
+        if (empty(self::$password)) {
+            self::$password = Hash::make('secret');
         }
 
         return [
@@ -38,9 +40,9 @@ class UserFactory extends Factory
             'pilot_id'       => null,
             'name'           => $this->faker->name,
             'email'          => $this->faker->safeEmail,
-            'password'       => UserFactory::$password,
+            'password'       => self::$password,
             'api_key'        => $this->faker->sha1,
-            'airline_id'     => fn() => Airline::factory()->create()->id,
+            'airline_id'     => fn ()     => Airline::factory()->create()->id,
             'rank_id'        => 1,
             'flights'        => $this->faker->numberBetween(0, 1000),
             'flight_time'    => $this->faker->numberBetween(0, 10000),

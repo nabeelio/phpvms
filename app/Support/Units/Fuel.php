@@ -27,7 +27,7 @@ class Fuel extends Unit
 
         $this->unit = setting('units.fuel');
 
-        if ($value instanceof Fuel) {
+        if ($value instanceof self) {
             $value->toUnit($unit);
             $this->instance = $value;
         } else {

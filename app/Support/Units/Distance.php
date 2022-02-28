@@ -31,7 +31,7 @@ class Distance extends Unit
 
         $this->unit = setting('units.distance');
 
-        if ($value instanceof Distance) {
+        if ($value instanceof self) {
             $value->toUnit($unit);
             $this->instance = $value;
         } else {

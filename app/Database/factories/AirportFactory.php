@@ -1,4 +1,6 @@
-<?php /** @noinspection PhpIllegalPsrClassPathInspection */
+<?php
+
+/** @noinspection PhpIllegalPsrClassPathInspection */
 
 namespace App\Database\Factories;
 
@@ -19,9 +21,9 @@ class AirportFactory extends Factory
     /**
      * Generate a fake ICAO
      *
-     * @return string
-     *
      * @throws \Exception
+     *
+     * @return string
      */
     protected function createFactoryICAO(): string
     {
@@ -46,15 +48,15 @@ class AirportFactory extends Factory
     public function definition(): array
     {
         return [
-            'id'                   => function () {
+            'id' => function () {
                 do {
                     $airport = $this->createFactoryICAO();
                 } while (in_array($airport, $this->usedIcaos, true));
 
                 return $airport;
             },
-            'icao'                 => fn(array $apt) => $apt['id'],
-            'iata'                 => fn(array $apt) => $apt['id'],
+            'icao'                 => fn (array $apt)                 => $apt['id'],
+            'iata'                 => fn (array $apt)                 => $apt['id'],
             'name'                 => $this->faker->sentence(3),
             'country'              => $this->faker->country,
             'timezone'             => $this->faker->timezone,

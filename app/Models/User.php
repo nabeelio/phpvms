@@ -181,8 +181,8 @@ class User extends Authenticatable
     public function tz(): Attribute
     {
         return Attribute::make(
-            get: fn($_, $attrs) => $attrs['timezone'],
-            set: fn($value) => [
+            get: fn ($_, $attrs) => $attrs['timezone'],
+            set: fn ($value) => [
                 'timezone' => $value,
             ]
         );

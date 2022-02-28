@@ -1,4 +1,6 @@
-<?php /** @noinspection PhpIllegalPsrClassPathInspection */
+<?php
+
+/** @noinspection PhpIllegalPsrClassPathInspection */
 
 namespace App\Database\Factories;
 
@@ -23,16 +25,16 @@ class AircraftFactory extends Factory
     /**
      * Define the model's default state.
      *
-     * @return array<string, mixed>
      * @throws \Exception
      *
+     * @return array<string, mixed>
      */
     public function definition(): array
     {
         return [
             'id'           => null,
-            'subfleet_id'  => fn() => Subfleet::factory()->create()->id,
-            'airport_id'   => fn() => Airport::factory()->create()->id,
+            'subfleet_id'  => fn ()  => Subfleet::factory()->create()->id,
+            'airport_id'   => fn ()   => Airport::factory()->create()->id,
             'iata'         => $this->faker->unique()->text(5),
             'icao'         => $this->faker->unique()->text(5),
             'name'         => $this->faker->text(50),
@@ -43,7 +45,7 @@ class AircraftFactory extends Factory
             'status'       => AircraftStatus::ACTIVE,
             'state'        => AircraftState::PARKED,
             'created_at'   => $this->faker->dateTimeBetween('-1 week')->format(DateTime::ATOM),
-            'updated_at'   => fn(array $pirep) => $pirep['created_at'],
+            'updated_at'   => fn (array $pirep)   => $pirep['created_at'],
         ];
     }
 }

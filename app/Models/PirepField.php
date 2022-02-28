@@ -36,9 +36,9 @@ class PirepField extends Model
     public function name(): Attribute
     {
         return Attribute::make(
-            set: fn($name) => [
+            set: fn ($name) => [
                 'name' => $name,
-                'slug' => str_slug($name)
+                'slug' => str_slug($name),
             ]
         );
     }

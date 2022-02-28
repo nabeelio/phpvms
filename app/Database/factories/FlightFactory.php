@@ -1,4 +1,6 @@
-<?php /** @noinspection PhpIllegalPsrClassPathInspection */
+<?php
+
+/** @noinspection PhpIllegalPsrClassPathInspection */
 
 namespace App\Database\Factories;
 
@@ -8,7 +10,7 @@ use DateTime;
 
 class FlightFactory extends Factory
 {
-        /**
+    /**
      * The name of the factory's corresponding model.
      *
      * @var string
@@ -23,16 +25,16 @@ class FlightFactory extends Factory
     public function definition(): array
     {
         return [
-            'id'                   => $this->faker->unique()->numberBetween(10, 10000000),
-            'airline_id'           => fn() => \App\Models\Airline::factory()->create()->id,
-            'flight_number'        => $this->faker->unique()->numberBetween(10, 1000000),
-            'route_code'           => $this->faker->randomElement(['', $this->faker->text(5)]),
-            'route_leg'            => $this->faker->randomElement(
+            'id'            => $this->faker->unique()->numberBetween(10, 10000000),
+            'airline_id'    => fn ()    => \App\Models\Airline::factory()->create()->id,
+            'flight_number' => $this->faker->unique()->numberBetween(10, 1000000),
+            'route_code'    => $this->faker->randomElement(['', $this->faker->text(5)]),
+            'route_leg'     => $this->faker->randomElement(
                 ['', $this->faker->numberBetween(0, 1000)]
             ),
-            'dpt_airport_id'       => static fn() => \App\Models\Airport::factory()->create()->id,
-            'arr_airport_id'       => static fn() => \App\Models\Airport::factory()->create()->id,
-            'alt_airport_id'       => static fn() => \App\Models\Airport::factory()->create()->id,
+            'dpt_airport_id'       => static fn ()       => \App\Models\Airport::factory()->create()->id,
+            'arr_airport_id'       => static fn ()       => \App\Models\Airport::factory()->create()->id,
+            'alt_airport_id'       => static fn ()       => \App\Models\Airport::factory()->create()->id,
             'distance'             => $this->faker->numberBetween(1, 1000),
             'route'                => null,
             'level'                => 0,
@@ -50,7 +52,7 @@ class FlightFactory extends Factory
             'created_at'           => $this->faker->dateTimeBetween('-1 week')->format(
                 DateTime::ATOM
             ),
-            'updated_at'           => static fn(array $flight) => $flight['created_at'],
+            'updated_at' => static fn (array $flight) => $flight['created_at'],
         ];
     }
 }

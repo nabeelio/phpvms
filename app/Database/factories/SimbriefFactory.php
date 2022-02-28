@@ -1,4 +1,6 @@
-<?php /** @noinspection PhpIllegalPsrClassPathInspection */
+<?php
+
+/** @noinspection PhpIllegalPsrClassPathInspection */
 
 namespace App\Database\Factories;
 
@@ -30,8 +32,7 @@ class SimbriefFactory extends Factory
             'acars_xml'  => '',
             'ofp_xml'    => '',
             'created_at' => Carbon::now('UTC')->toDateTimeString(),
-            'updated_at' => fn(array $sb) => $sb['created_at'],
+            'updated_at' => fn (array $sb) => $sb['created_at'],
         ];
     }
 }
-
