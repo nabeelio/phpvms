@@ -69,6 +69,7 @@ jobs:
       run: |
         php --version
         mysql --version
+        ping -c 3 mysql
         # Downgrade composer version to 1.x
         composer install --dev --no-interaction --verbose
         cp .github/scripts/env.php env.php
