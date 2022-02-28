@@ -246,11 +246,14 @@ class FlightTest extends TestCase
      */
     public function testFindDaysOfWeek(): void
     {
+        /** @var User user */
         $this->user = User::factory()->create();
+
         Flight::factory()->count(20)->create([
             'airline_id' => $this->user->airline_id,
         ]);
 
+        /** @var Flight $saved_flight */
         $saved_flight = Flight::factory()->create([
             'airline_id' => $this->user->airline_id,
             'days'       => Days::getDaysMask([
@@ -259,6 +262,7 @@ class FlightTest extends TestCase
             ]),
         ]);
 
+        /** @var Flight $flight */
         $flight = Flight::findByDays([Days::SUNDAY])->first();
         $this->assertTrue($flight->on_day(Days::SUNDAY));
         $this->assertTrue($flight->on_day(Days::THURSDAY));

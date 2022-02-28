@@ -26,6 +26,12 @@ class Fuel extends Unit
         }
 
         $this->unit = setting('units.fuel');
-        $this->instance = new Mass($value, $unit);
+
+        if ($value instanceof Fuel) {
+            $value->toUnit($unit);
+            $this->instance = $value;
+        } else {
+            $this->instance = new Mass($value, $unit);
+        }
     }
 }

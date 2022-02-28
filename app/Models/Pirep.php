@@ -5,6 +5,9 @@ namespace App\Models;
 use App\Contracts\Model;
 use App\Events\PirepStateChange;
 use App\Events\PirepStatusChange;
+use App\Models\Casts\CarbonCast;
+use App\Models\Casts\DistanceCast;
+use App\Models\Casts\FuelCast;
 use App\Models\Enums\AcarsType;
 use App\Models\Enums\PirepFieldSource;
 use App\Models\Enums\PirepState;
@@ -12,6 +15,7 @@ use App\Models\Traits\HashIdTrait;
 use App\Support\Units\Distance;
 use App\Support\Units\Fuel;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
@@ -38,10 +42,10 @@ use Kleemans\AttributeEvents;
  * @property int         block_time
  * @property int         flight_time    In minutes
  * @property int         planned_flight_time
- * @property float       block_fuel
- * @property float       fuel_used
- * @property float       distance
- * @property float       planned_distance
+ * @property Fuel        block_fuel
+ * @property Fuel        fuel_used
+ * @property Distance    distance
+ * @property Distance    planned_distance
  * @property int         level
  * @property string      route
  * @property int         score
@@ -70,10 +74,12 @@ class Pirep extends Model
     public $table = 'pireps';
 
     protected $keyType = 'string';
+
     public $incrementing = false;
 
     /** The form wants this */
     public $hours;
+
     public $minutes;
 
     protected $fillable = [
@@ -118,18 +124,21 @@ class Pirep extends Model
         'airline_id'          => 'integer',
         'aircraft_id'         => 'integer',
         'level'               => 'integer',
-        'distance'            => 'float',
-        'planned_distance'    => 'float',
+        'distance'            => DistanceCast::class,
+        'planned_distance'    => DistanceCast::class,
         'block_time'          => 'integer',
+        'block_off_time'      => CarbonCast::class,
+        'block_on_time'       => CarbonCast::class,
         'flight_time'         => 'integer',
         'planned_flight_time' => 'integer',
         'zfw'                 => 'float',
-        'block_fuel'          => 'float',
-        'fuel_used'           => 'float',
+        'block_fuel'          => FuelCast::class,
+        'fuel_used'           => FuelCast::class,
         'landing_rate'        => 'float',
         'score'               => 'integer',
         'source'              => 'integer',
         'state'               => 'integer',
+        'submitted_at'        => CarbonCast::class,
     ];
 
     public static $rules = [
@@ -219,193 +228,112 @@ class Pirep extends Model
     /**
      * Get the flight ident, e.,g JBU1900/C.nn/L.yy
      */
-    public function getIdentAttribute(): string
+    public function ident(): Attribute
     {
-        $flight_id = optional($this->airline)->code;
-        $flight_id .= $this->flight_number;
+        return Attribute::make(
+            get: function ($value, $attrs) {
+                $flight_id = optional($this->airline)->code;
+                $flight_id .= $this->flight_number;
 
-        if (filled($this->route_code)) {
-            $flight_id .= '/C.'.$this->route_code;
-        }
+                if (filled($this->route_code)) {
+                    $flight_id .= '/C.'.$this->route_code;
+                }
 
-        if (filled($this->route_leg)) {
-            $flight_id .= '/L.'.$this->route_leg;
-        }
+                if (filled($this->route_leg)) {
+                    $flight_id .= '/L.'.$this->route_leg;
+                }
 
-        return $flight_id;
-    }
-
-    /**
-     * Return the block off time in carbon format
-     *
-     * @return Carbon|null
-     */
-    public function getBlockOffTimeAttribute()
-    {
-        if (array_key_exists('block_off_time', $this->attributes)) {
-            return new Carbon($this->attributes['block_off_time']);
-        }
-    }
-
-    /**
-     * Return the block on time
-     *
-     * @return Carbon|null
-     */
-    public function getBlockOnTimeAttribute()
-    {
-        if (array_key_exists('block_on_time', $this->attributes)) {
-            return new Carbon($this->attributes['block_on_time']);
-        }
-    }
-
-    /**
-     * Return the block on time
-     *
-     * @return Carbon
-     */
-    public function getSubmittedAtAttribute()
-    {
-        if (array_key_exists('submitted_at', $this->attributes)) {
-            return new Carbon($this->attributes['submitted_at']);
-        }
-    }
-
-    /**
-     * Set the distance unit, convert to our internal default unit
-     *
-     * @param $value
-     */
-    public function setDistanceAttribute($value): void
-    {
-        if ($value instanceof Distance) {
-            $this->attributes['distance'] = $value->toUnit(
-                config('phpvms.internal_units.distance')
-            );
-        } else {
-            $this->attributes['distance'] = $value;
-        }
+                return $flight_id;
+            }
+        );
     }
 
     /**
      * Return if this PIREP can be edited or not
      */
-    public function getReadOnlyAttribute(): bool
+    public function readOnly(): Attribute
     {
-        return \in_array($this->state, static::$read_only_states, true);
+        return Attribute::make(
+            get: fn($_, $attrs) => \in_array($this->state, static::$read_only_states, true)
+        );
     }
 
     /**
      * Return the flight progress in a percent.
      */
-    public function getProgressPercentAttribute()
+    public function progressPercent(): Attribute
     {
-        $distance = $this->distance;
+        return Attribute::make(
+            get: function ($_, $attrs) {
+                $distance = $this->distance;
 
-        $upper_bound = $distance;
-        if ($this->planned_distance) {
-            $upper_bound = $this->planned_distance;
-        }
+                $upper_bound = $distance;
+                if ($this->planned_distance) {
+                    $upper_bound = $this->planned_distance;
+                }
 
-        $upper_bound = empty($upper_bound) ? 1 : $upper_bound;
-        $distance = empty($distance) ? $upper_bound : $distance;
+                $upper_bound = empty($upper_bound) ? 1 : $upper_bound;
+                $distance = empty($distance) ? $upper_bound : $distance;
 
-        return round(($distance / $upper_bound) * 100, 0);
+                return round(($distance / $upper_bound) * 100, 0);
+            }
+        );
     }
 
     /**
      * Get the pirep_fields and then the pirep_field_values and
      * merge them together. If a field value doesn't exist then add in a fake one
      */
-    public function getFieldsAttribute()
+    public function fields(): Attribute
     {
-        $custom_fields = PirepField::all();
-        $field_values = PirepFieldValue::where('pirep_id', $this->id)
-            ->orderBy('created_at', 'asc')
-            ->get();
+        return Attribute::make(
+            get: function ($_, $attrs) {
+                $custom_fields = PirepField::all();
+                $field_values = PirepFieldValue::where('pirep_id', $this->id)
+                    ->orderBy('created_at', 'asc')
+                    ->get();
 
-        // Merge the field values into $fields
-        foreach ($custom_fields as $field) {
-            $has_value = $field_values->firstWhere('slug', $field->slug);
-            if (!$has_value) {
-                $field_values->push(new PirepFieldValue([
-                    'pirep_id' => $this->id,
-                    'name'     => $field->name,
-                    'slug'     => $field->slug,
-                    'value'    => '',
-                    'source'   => PirepFieldSource::MANUAL,
-                ]));
+                // Merge the field values into $fields
+                foreach ($custom_fields as $field) {
+                    $has_value = $field_values->firstWhere('slug', $field->slug);
+                    if (!$has_value) {
+                        $field_values->push(
+                            new PirepFieldValue([
+                                'pirep_id' => $this->id,
+                                'name'     => $field->name,
+                                'slug'     => $field->slug,
+                                'value'    => '',
+                                'source'   => PirepFieldSource::MANUAL,
+                            ])
+                        );
+                    }
+                }
+
+                return $field_values;
             }
-        }
-
-        return $field_values;
-    }
-
-    /**
-     * Set the amount of block fuel
-     *
-     * @param $value
-     */
-    public function setBlockFuelAttribute($value): void
-    {
-        if ($value instanceof Fuel) {
-            $this->attributes['block_fuel'] = $value->toUnit(
-                config('phpvms.internal_units.fuel')
-            );
-        } else {
-            $this->attributes['block_fuel'] = $value;
-        }
-    }
-
-    /**
-     * Set the amount of fuel used
-     *
-     * @param $value
-     */
-    public function setFuelUsedAttribute($value): void
-    {
-        if ($value instanceof Fuel) {
-            $this->attributes['fuel_used'] = $value->toUnit(
-                config('phpvms.internal_units.fuel')
-            );
-        } else {
-            $this->attributes['fuel_used'] = $value;
-        }
-    }
-
-    /**
-     * Set the distance unit, convert to our internal default unit
-     *
-     * @param $value
-     */
-    public function setPlannedDistanceAttribute($value): void
-    {
-        if ($value instanceof Distance) {
-            $this->attributes['planned_distance'] = $value->toUnit(
-                config('phpvms.internal_units.distance')
-            );
-        } else {
-            $this->attributes['planned_distance'] = $value;
-        }
+        );
     }
 
     /**
      * Do some cleanup on the route
      *
-     * @param $route
+     * @return Attribute
      */
-    public function setRouteAttribute($route): void
+    public function route(): Attribute
     {
-        $route = strtoupper(trim($route));
-        $this->attributes['route'] = $route;
+        return Attribute::make(
+            set: fn($route) => strtoupper(trim($route))
+        );
     }
 
     /**
      * Return if this is cancelled or not
      */
-    public function getCancelledAttribute(): bool
+    public function cancelled(): Attribute
     {
-        return $this->state === PirepState::CANCELLED;
+        return Attribute::make(
+            get: fn($_, $attrs) => $this->state === PirepState::CANCELLED
+        );
     }
 
     /**

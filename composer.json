@@ -30,7 +30,7 @@
         "psr/container": "1.1.1",
         "composer/composer": "~2.2",
         "composer/installers": "~1.12.0",
-        "laravel/framework": "~v9.1.0",
+        "laravel/framework": "~v9.2",
         "anhskohbo/no-captcha": "^3.0",
         "arrilot/laravel-widgets": "~3.13.0",
         "doctrine/dbal": "^3.3.2",
@@ -74,7 +74,6 @@
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.6.7",
-        "barryvdh/laravel-ide-helper": "^2.12.2",
         "filp/whoops": "~2.14.5",
         "friendsofphp/php-cs-fixer": "^3.6.0",
         "mockery/mockery": "^1.5.0",

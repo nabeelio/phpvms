@@ -275,6 +275,8 @@ class AcarsTest extends TestCase
     {
         $subfleet = $this->createSubfleetWithAircraft(2);
         $rank = $this->createRank(10, [$subfleet['subfleet']->id]);
+
+        /** @var Fare $fare */
         $fare = Fare::factory()->create();
 
         $this->user = User::factory()->create(
@@ -313,6 +315,14 @@ class AcarsTest extends TestCase
         $response = $this->post($uri, $pirep);
         $response->assertStatus(200);
         $pirep = $response->json('data');
+
+        $this->assertEquals(400, $pirep['planned_distance']['nmi']);
+        $this->assertEquals(460.31, $pirep['planned_distance']['mi']);
+        $this->assertEquals(740.8, $pirep['planned_distance']['km']);
+        $this->assertEquals(740800, $pirep['planned_distance']['m']);
+
+        // Are date times in UTC?
+        $this->assertTrue(str_ends_with($pirep['submitted_at'], 'Z'));
 
         // See that the fields and fares were set
         $fares = PirepFare::where('pirep_id', $pirep['id'])->get();

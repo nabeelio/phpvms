@@ -30,6 +30,12 @@ class Distance extends Unit
         }
 
         $this->unit = setting('units.distance');
-        $this->instance = new Length($value, $unit);
+
+        if ($value instanceof Distance) {
+            $value->toUnit($unit);
+            $this->instance = $value;
+        } else {
+            $this->instance = new Length($value, $unit);
+        }
     }
 }

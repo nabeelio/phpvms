@@ -240,18 +240,18 @@ class PirepFinanceService extends Service
             if ($prev_flight) {
                 // If there is a pirep use its values to calculate the remaining fuel
                 // and calculate the uplifted fuel amount for this pirep
-                $fuel_amount = $pirep->block_fuel - ($prev_flight->block_fuel - $prev_flight->fuel_used);
+                $fuel_amount = $pirep->block_fuel->value() - ($prev_flight->block_fuel->value() - $prev_flight->fuel_used->value());
                 // Aircraft has more than enough fuel in its tanks, no uplift necessary
                 if ($fuel_amount < 0) {
                     $fuel_amount = 0;
                 }
             } else {
                 // No pirep found for aircraft, debit full block fuel
-                $fuel_amount = $pirep->block_fuel;
+                $fuel_amount = $pirep->block_fuel->value();
             }
         } else {
             // Setting is false, switch back to basic calculation
-            $fuel_amount = $pirep->fuel_used;
+            $fuel_amount = $pirep->fuel_used->value();
         }
 
         $debit = Money::createFromAmount($fuel_amount * $fuel_cost);

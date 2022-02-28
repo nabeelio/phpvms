@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Contracts\Model;
+use App\Models\Casts\DistanceCast;
+use App\Models\Casts\FuelCast;
 use App\Models\Traits\HashIdTrait;
 use App\Support\Units\Distance;
 use App\Support\Units\Fuel;
@@ -63,55 +65,19 @@ class Acars extends Model
         'nav_type'    => 'integer',
         'lat'         => 'float',
         'lon'         => 'float',
-        'distance'    => 'integer',
+        'distance'    => DistanceCast::class,
         'heading'     => 'integer',
         'altitude'    => 'float',
         'vs'          => 'float',
         'gs'          => 'float',
         'transponder' => 'integer',
-        'fuel'        => 'float',
+        'fuel'        => FuelCast::class,
         'fuel_flow'   => 'float',
     ];
 
     public static $rules = [
         'pirep_id' => 'required',
     ];
-
-    /**
-     * Set the distance unit, convert to our internal default unit
-     *
-     * @return \Illuminate\Database\Eloquent\Casts\Attribute
-     */
-    public function distance(): Attribute
-    {
-        return new Attribute(
-            set: function ($value) {
-                if ($value instanceof Distance) {
-                    return $value->toUnit(config('phpvms.internal_units.distance'));
-                }
-
-                return $value;
-            }
-        );
-    }
-
-    /**
-     * Set the amount of fuel
-     *
-     * @return Attribute
-     */
-    public function fuel(): Attribute
-    {
-        return new Attribute(
-            set: function ($value) {
-                if ($value instanceof Fuel) {
-                    return $value->toUnit(config('phpvms.internal_units.fuel'));
-                }
-
-                return $value;
-            }
-        );
-    }
 
     /**
      * FKs

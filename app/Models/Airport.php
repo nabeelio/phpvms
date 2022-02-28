@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Contracts\Model;
 use App\Models\Traits\ExpensableTrait;
 use App\Models\Traits\FilesTrait;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
@@ -34,7 +35,9 @@ class Airport extends Model
     public $table = 'airports';
 
     protected $keyType = 'string';
+
     public $incrementing = false;
+
     public $timestamps = false;
 
     protected $fillable = [
@@ -78,26 +81,31 @@ class Airport extends Model
         'ground_handling_cost' => 'nullable|numeric',
         'fuel_100ll_cost'      => 'nullable|numeric',
         'fuel_jeta_cost'       => 'nullable|numeric',
+
         'fuel_mogas_cost'      => 'nullable|numeric',
     ];
 
     /**
-     * @param $icao
+     * Capitalize the ICAO
      */
-    public function setIcaoAttribute($icao)
+    public function icao(): Attribute
     {
-        $icao = strtoupper($icao);
-        $this->attributes['id'] = $icao;
-        $this->attributes['icao'] = $icao;
+        return Attribute::make(
+            set: fn($icao) => [
+                'id'   => strtoupper($icao),
+                'icao' => strtoupper($icao),
+            ]
+        );
     }
 
     /**
-     * @param $iata
+     * Capitalize the IATA code
      */
-    public function setIataAttribute($iata): void
+    public function iata(): Attribute
     {
-        $iata = strtoupper($iata);
-        $this->attributes['iata'] = $iata;
+        return Attribute::make(
+            set: fn($iata) => strtoupper($iata)
+        );
     }
 
     /**
@@ -106,28 +114,25 @@ class Airport extends Model
      *
      * @return string
      */
-    public function getFullNameAttribute(): string
+    public function fullName(): Attribute
     {
-        return $this->icao.' - '.$this->name;
+        return Attribute::make(
+            get: fn($_, $attrs) => $this->icao.' - '.$this->name
+        );
     }
 
     /**
-     * Shorthand for getting the timezone
+     * Shortcut for timezone
      *
-     * @return string
+     * @return Attribute
      */
-    public function getTzAttribute(): string
+    public function tz(): Attribute
     {
-        return $this->attributes['timezone'];
-    }
-
-    /**
-     * Shorthand for setting the timezone
-     *
-     * @param $value
-     */
-    public function setTzAttribute($value): void
-    {
-        $this->attributes['timezone'] = $value;
+        return Attribute::make(
+            get: fn($_, $attrs) => $attrs['timezone'],
+            set: fn($value) => [
+                'timezone' => $value
+            ]
+        );
     }
 }

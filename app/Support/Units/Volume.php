@@ -29,6 +29,12 @@ class Volume extends Unit
         }
 
         $this->unit = setting('units.volume');
-        $this->instance = new VolumeUnit($value, $unit);
+
+        if ($value instanceof Volume) {
+            $value->toUnit($unit);
+            $this->instance = $value;
+        } else {
+            $this->instance = new VolumeUnit($value, $unit);
+        }
     }
 }

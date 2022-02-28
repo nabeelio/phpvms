@@ -27,6 +27,12 @@ class Altitude extends Unit
         }
 
         $this->unit = setting('units.altitude');
-        $this->instance = new Length($value, $unit);
+
+        if ($value instanceof Altitude) {
+            $value->toUnit($unit);
+            $this->instance = $value;
+        } else {
+            $this->instance = new Length($value, $unit);
+        }
     }
 }

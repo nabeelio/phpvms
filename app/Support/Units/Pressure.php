@@ -29,6 +29,12 @@ class Pressure extends Unit
         }
 
         $this->unit = setting('units.temperature');
-        $this->instance = new PressureUnit($value, $unit);
+
+        if ($value instanceof Pressure) {
+            $value->toUnit($unit);
+            $this->instance = $value;
+        } else {
+            $this->instance = new PressureUnit($value, $unit);
+        }
     }
 }

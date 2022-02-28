@@ -11,12 +11,6 @@
     "barryvdh/laravel-debugbar": {
         "version": "v3.6.7"
     },
-    "barryvdh/laravel-ide-helper": {
-        "version": "v2.12.2"
-    },
-    "barryvdh/reflection-docblock": {
-        "version": "v2.0.6"
-    },
     "brick/math": {
         "version": "0.9.3"
     },
@@ -119,6 +113,9 @@
             ".php-cs-fixer.dist.php"
         ]
     },
+    "fruitcake/php-cors": {
+        "version": "v1.2.0"
+    },
     "graham-campbell/result-type": {
         "version": "v1.0.4"
     },
@@ -169,9 +166,6 @@
     },
     "laravel/helpers": {
         "version": "v1.5.0"
-    },
-    "laravel/legacy-factories": {
-        "version": "v1.3.0"
     },
     "laravel/serializable-closure": {
         "version": "v1.1.1"

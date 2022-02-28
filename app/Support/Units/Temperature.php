@@ -29,6 +29,12 @@ class Temperature extends Unit
         }
 
         $this->unit = setting('units.temperature');
-        $this->instance = new TemperatureUnit($value, $unit);
+
+        if ($value instanceof Temperature) {
+            $value->toUnit($unit);
+            $this->instance = $value;
+        } else {
+            $this->instance = new TemperatureUnit($value, $unit);
+        }
     }
 }

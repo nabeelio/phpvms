@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Contracts\Model;
+use App\Models\Casts\FuelCast;
 use App\Models\Enums\AircraftStatus;
 use App\Models\Traits\ExpensableTrait;
 use App\Models\Traits\FilesTrait;
@@ -53,6 +54,7 @@ class Aircraft extends Model
         'flight_time',
         'mtow',
         'zfw',
+        'fuel_onboard',
         'status',
         'state',
     ];
@@ -61,11 +63,12 @@ class Aircraft extends Model
      * The attributes that should be casted to native types.
      */
     protected $casts = [
-        'subfleet_id' => 'integer',
-        'mtow'        => 'float',
-        'zfw'         => 'float',
-        'flight_time' => 'float',
-        'state'       => 'integer',
+        'subfleet_id'  => 'integer',
+        'mtow'         => 'float',
+        'zfw'          => 'float',
+        'flight_time'  => 'float',
+        'fuel_onboard' => FuelCast::class,
+        'state'        => 'integer',
     ];
 
     /**
@@ -85,7 +88,7 @@ class Aircraft extends Model
      */
     public function active(): Attribute
     {
-        return new Attribute(
+        return Attribute::make(
             get: fn($_, $attr) => $attr['status'] === AircraftStatus::ACTIVE
         );
     }
@@ -95,7 +98,7 @@ class Aircraft extends Model
      */
     public function icao(): Attribute
     {
-        return new Attribute(
+        return Attribute::make(
             set: fn($value) => strtoupper($value)
         );
     }
@@ -105,7 +108,7 @@ class Aircraft extends Model
      */
     public function ident(): Attribute
     {
-        return new Attribute(
+        return Attribute::make(
             get: fn($_, $attrs) => $attrs['registration'].' ('.$attrs['icao'].')'
         );
     }
@@ -117,7 +120,7 @@ class Aircraft extends Model
      */
     public function landingTime(): Attribute
     {
-        return new Attribute(
+        return Attribute::make(
             get: function ($_, $attrs) {
                 if (array_key_exists('landing_time', $attrs) && filled($attrs['landing_time'])) {
                     return new Carbon($attrs['landing_time']);

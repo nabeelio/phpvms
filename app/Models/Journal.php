@@ -7,6 +7,7 @@
 namespace App\Models;
 
 use App\Contracts\Model;
+use App\Models\Casts\MoneyCast;
 use App\Support\Money;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -37,6 +38,10 @@ class Journal extends Model
         'currency',
         'morphed_type',
         'morphed_id',
+    ];
+
+    public $casts = [
+        'balance' => MoneyCast::class,
     ];
 
     protected $dates = [
@@ -101,34 +106,6 @@ class Journal extends Model
     {
         $this->balance = $this->getBalance();
         $this->save();
-    }
-
-    /**
-     * @param $value
-     *
-     * @throws \UnexpectedValueException
-     * @throws \InvalidArgumentException
-     *
-     * @return Money
-     */
-    public function getBalanceAttribute($value): Money
-    {
-        return new Money($value);
-    }
-
-    /**
-     * @param $value
-     *
-     * @throws \UnexpectedValueException
-     * @throws \InvalidArgumentException
-     */
-    public function setBalanceAttribute($value): void
-    {
-        $value = ($value instanceof Money)
-            ? $value
-            : new Money($value);
-
-        $this->attributes['balance'] = $value ? (int) $value->getAmount() : null;
     }
 
     /**

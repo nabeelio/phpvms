@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Enums\JournalType;
 use App\Models\Traits\JournalTrait;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -130,67 +131,79 @@ class User extends Authenticatable
     ];
 
     /**
-     * @return string
+     * Format the pilot ID/ident
+     *
+     * @return Attribute
      */
-    public function getIdentAttribute(): string
+    public function ident(): Attribute
     {
-        $length = setting('pilots.id_length');
-        $ident_code = filled(setting('pilots.id_code')) ? setting('pilots.id_code') : optional($this->airline)->icao;
+        return Attribute::make(
+            get: function ($_, $attrs) {
+                $length = setting('pilots.id_length');
+                $ident_code = filled(setting('pilots.id_code')) ? setting(
+                    'pilots.id_code'
+                ) : optional($this->airline)->icao;
 
-        return $ident_code.str_pad($this->pilot_id, $length, '0', STR_PAD_LEFT);
+                return $ident_code.str_pad($attrs['pilot_id'], $length, '0', STR_PAD_LEFT);
+            }
+        );
     }
 
     /**
-     * Return a "privatized" version of someones name - First name full, rest of the names are initials
+     * Return a "privateized" version of someones name - First name full, rest of the names are
+     * initials
      *
-     * @return string
+     * @return Attribute
      */
-    public function getNamePrivateAttribute(): string
+    public function namePrivate(): Attribute
     {
-        $name_parts = explode(' ', $this->attributes['name']);
-        $count = count($name_parts);
-        if ($count === 1) {
-            return $name_parts[0];
-        }
+        return Attribute::make(
+            get: function ($_, $attrs) {
+                $name_parts = explode(' ', $attrs['name']);
+                $count = count($name_parts);
+                if ($count === 1) {
+                    return $name_parts[0];
+                }
 
-        $first_name = $name_parts[0];
-        $last_name = $name_parts[$count - 1];
+                $first_name = $name_parts[0];
+                $last_name = $name_parts[$count - 1];
 
-        return $first_name.' '.mb_substr($last_name, 0, 1);
+                return $first_name.' '.mb_substr($last_name, 0, 1);
+            }
+        );
     }
 
     /**
-     * Shorthand for getting the timezone
+     * Shortcut for timezone
      *
-     * @return string
+     * @return Attribute
      */
-    public function getTzAttribute(): string
+    public function tz(): Attribute
     {
-        return $this->timezone;
-    }
-
-    /**
-     * Shorthand for setting the timezone
-     *
-     * @param $value
-     */
-    public function setTzAttribute($value)
-    {
-        $this->attributes['timezone'] = $value;
+        return Attribute::make(
+            get: fn($_, $attrs) => $attrs['timezone'],
+            set: fn($value) => [
+                'timezone' => $value,
+            ]
+        );
     }
 
     /**
      * Return a File model
      */
-    public function getAvatarAttribute()
+    public function avatar(): Attribute
     {
-        if (!$this->attributes['avatar']) {
-            return null;
-        }
+        return Attribute::make(
+            get: function ($_, $attrs) {
+                if (!$attrs['avatar']) {
+                    return null;
+                }
 
-        return new File([
-            'path' => $this->attributes['avatar'],
-        ]);
+                return new File([
+                    'path' => $attrs['avatar'],
+                ]);
+            }
+        );
     }
 
     /**
@@ -213,10 +226,12 @@ class User extends Authenticatable
 
     public function resolveAvatarUrl()
     {
-        $avatar = $this->getAvatarAttribute();
+        /** @var File $avatar */
+        $avatar = $this->avatar;
         if (empty($avatar)) {
             return $this->gravatar();
         }
+
         return $avatar->url;
     }
 
@@ -278,11 +293,19 @@ class User extends Authenticatable
 
     public function typeratings()
     {
-        return $this->belongsToMany(Typerating::class, 'typerating_user', 'user_id', 'typerating_id');
+        return $this->belongsToMany(
+            Typerating::class,
+            'typerating_user',
+            'user_id',
+            'typerating_id'
+        );
     }
 
     public function rated_subfleets()
     {
-        return $this->hasManyDeep(Subfleet::class, ['typerating_user', Typerating::class, 'typerating_subfleet']);
+        return $this->hasManyDeep(
+            Subfleet::class,
+            ['typerating_user', Typerating::class, 'typerating_subfleet']
+        );
     }
 }

@@ -29,6 +29,12 @@ class Velocity extends Unit
         }
 
         $this->unit = setting('units.speed');
-        $this->instance = new VelocityUnit($value, $unit);
+
+        if ($value instanceof Velocity) {
+            $value->toUnit($unit);
+            $this->instance = $value;
+        } else {
+            $this->instance = new VelocityUnit($value, $unit);
+        }
     }
 }
