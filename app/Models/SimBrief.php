@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Contracts\Model;
-use App\Database\Factories\SimBriefFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Collection;
 
