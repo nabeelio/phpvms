@@ -138,8 +138,10 @@ class BidService extends Service
                 throw new BidExistsForFlight($flight);
             }
 
+            // This is already controlled above at line 114 with user bid count,
+            // To prevent or allow multiple bids. Should not be here at all
             if (setting('bids.allow_multiple_bids') === false) {
-                throw new BidExistsForFlight($flight);
+                // throw new BidExistsForFlight($flight);
             }
         } else {
             /* @noinspection NestedPositiveIfStatementsInspection */
