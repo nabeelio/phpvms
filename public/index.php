@@ -9,6 +9,10 @@
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Http\Request;
 
+if (!defined('DS')) {
+    define('DS', DIRECTORY_SEPARATOR);
+}
+
 /**
  * NOTE!!
  *
@@ -17,13 +21,13 @@ use Illuminate\Http\Request;
  *
  * https://docs.phpvms.net/installation/uploading
  */
-$path_to_phpvms_folder = __DIR__.'/../';
-if (file_exists($path_to_phpvms_folder.'bootstrap/autoload.php')) {
+$path_to_phpvms_folder = __DIR__.DS.'..'.DS;
+if (file_exists($path_to_phpvms_folder.'bootstrap'.DS.'autoload.php')) {
     // noop
 }
 
 // Look up one more folder up (outside of the Laravel root) and in the `phpvms` subfolder
-elseif (file_exists($path_to_phpvms_folder.'phpvms/bootstrap/autoload.php')) {
+elseif (file_exists($path_to_phpvms_folder.'phpvms'.DS.'bootstrap'.DS.'autoload.php')) {
     $path_to_phpvms_folder = $path_to_phpvms_folder.'phpvms';
 }
 
@@ -33,8 +37,8 @@ else {
     exit();
 }
 
-require $path_to_phpvms_folder.'/bootstrap/autoload.php';
-$app = require_once $path_to_phpvms_folder.'/bootstrap/app.php';
+require $path_to_phpvms_folder.DS.'bootstrap'.DS.'autoload.php';
+$app = require_once $path_to_phpvms_folder.DS.'bootstrap'.DS.'app.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -47,8 +51,8 @@ $app = require_once $path_to_phpvms_folder.'/bootstrap/app.php';
 |
 */
 
-if (file_exists($path_to_phpvms_folder.'/storage/framework/maintenance.php')) {
-    require $path_to_phpvms_folder.'/storage/framework/maintenance.php';
+if (file_exists($path_to_phpvms_folder.DS.'storage'.DS.'framework'.DS.'maintenance.php')) {
+    require $path_to_phpvms_folder.DS.'storage'.DS.'framework'.DS.'maintenance.php';
 }
 
 $app->setPublicPath(__DIR__);
