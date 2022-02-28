@@ -33,9 +33,9 @@ class AirlineService extends Service
      *
      * @param array $attr
      *
-     * @return \App\Models\Airline
-     *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
+     *
+     * @return \App\Models\Airline
      */
     public function createAirline(array $attr): Airline
     {

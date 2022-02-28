@@ -111,9 +111,9 @@ class ProfileController extends Controller
      *
      * @param Request $request
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
      * @throws \Exception
      *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
      */
     public function edit(Request $request)
     {
@@ -143,9 +143,9 @@ class ProfileController extends Controller
     /**
      * @param Request $request
      *
-     * @return mixed
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      *
+     * @return mixed
      */
     public function update(Request $request)
     {

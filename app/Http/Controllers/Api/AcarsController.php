@@ -146,10 +146,10 @@ class AcarsController extends Controller
      * @param                 $id
      * @param PositionRequest $request
      *
-     * @return \Illuminate\Http\JsonResponse
      * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
-     *
      * @throws \App\Exceptions\PirepCancelled
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function acars_store($id, PositionRequest $request)
     {
@@ -225,10 +225,10 @@ class AcarsController extends Controller
      * @param            $id
      * @param LogRequest $request
      *
-     * @return \Illuminate\Http\JsonResponse
      * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
-     *
      * @throws \App\Exceptions\PirepCancelled
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function acars_logs($id, LogRequest $request)
     {
@@ -283,10 +283,10 @@ class AcarsController extends Controller
      * @param              $id
      * @param EventRequest $request
      *
-     * @return \Illuminate\Http\JsonResponse
      * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
-     *
      * @throws \App\Exceptions\PirepCancelled
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function acars_events($id, EventRequest $request)
     {
