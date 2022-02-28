@@ -385,4 +385,13 @@ class ApiTest extends TestCase
         $res = $this->get('/api/cron/'.$id);
         $res->assertStatus(200);
     }
+
+    public function testStatus()
+    {
+        $res = $this->get('/api/status');
+        $status = $res->json();
+
+        $this->assertNotEmpty($status['version']);
+        $this->assertNotEmpty($status['php']);
+    }
 }
