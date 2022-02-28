@@ -8,7 +8,7 @@ use App\Contracts\Factory;
 use App\Models\SimBrief;
 use Carbon\Carbon;
 
-class SimbriefFactory extends Factory
+class SimBriefFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
