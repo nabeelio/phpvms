@@ -19,8 +19,8 @@ use Illuminate\Support\Facades\Log;
  */
 abstract class Award
 {
-    public string $name = '';
-    public string $param_description = '';
+    public $name = '';
+    public $param_description = '';
 
     /**
      * Each award class just needs to return true or false if it should actually
