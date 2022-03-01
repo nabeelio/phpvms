@@ -78,9 +78,9 @@ class RegisterController extends Controller
             'timezones'  => Timezonelist::toArray(),
             'userFields' => $userFields,
             'captcha'    => [
-                'enabled'    => setting('captcha.enabled'),
-                'site_key'   => setting('captcha.site_key'),
-                'secret_key' => setting('captcha.secret_key'),
+                'enabled'    => setting('captcha.enabled', env('CAPTCHA_ENABLED', false)),
+                'site_key'   => setting('captcha.site_key', env('CAPTCHA_SITE_KEY')),
+                'secret_key' => setting('captcha.secret_key', env('CAPTCHA_SECRET_KEY')),
             ],
         ]);
     }
@@ -117,13 +117,13 @@ class RegisterController extends Controller
         /*
          * Validation for hcaptcha
          */
-        $captcha_enabled = setting('captcha.enabled', false);
+        $captcha_enabled = setting('captcha.enabled', env('CAPTCHA_ENABLED', false));
         if ($captcha_enabled === true) {
             $rules['h-captcha-response'] = [
                 'required',
                 function ($attribute, $value, $fail) {
                     $response = $this->httpClient->form_post('https://hcaptcha.com/siteverify', [
-                        'secret'   => setting('captcha.secret_key', false),
+                        'secret'   => setting('captcha.secret_key', env('CAPTCHA_SECRET_KEY')),
                         'response' => $value,
                     ]);
 

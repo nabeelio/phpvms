@@ -2,9 +2,6 @@
     "akaunting/laravel-money": {
         "version": "2.0.1"
     },
-    "anhskohbo/no-captcha": {
-        "version": "3.4.0"
-    },
     "arrilot/laravel-widgets": {
         "version": "3.13.1"
     },
