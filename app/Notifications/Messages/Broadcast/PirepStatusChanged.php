@@ -91,20 +91,20 @@ class PirepStatusChanged extends Notification implements ShouldQueue
 
             try {
                 $planned_distance = new Distance($pirep->distance, $unit);
-                $pd = $planned_distance[$planned_distance->unit];
+                $pd = $planned_distance[$planned_distance->localUnit];
                 $fields['Distance'] = $pd;
 
                 // Add the planned distance in
                 if ($pirep->planned_distance) {
                     try {
                         $planned_distance = new Distance($pirep->planned_distance, $unit);
-                        $pd = $planned_distance[$planned_distance->unit];
+                        $pd = $planned_distance[$planned_distance->localUnit];
                         $fields['Distance'] .= '/'.$pd;
                     } catch (NonNumericValue|NonStringUnitName $e) {
                     }
                 }
 
-                $fields['Distance'] .= ' '.$planned_distance->unit;
+                $fields['Distance'] .= ' '.$planned_distance->localUnit;
             } catch (NonNumericValue|NonStringUnitName $e) {
             }
         }
@@ -121,6 +121,7 @@ class PirepStatusChanged extends Notification implements ShouldQueue
             PirepStatus::PAUSED,
             PirepStatus::EMERG_DESCENT,
         ];
+
         $color = in_array($pirep->status, $danger_types, true) ? 'ED2939' : 'FD6A02';
 
         $dm = new DiscordMessage();

@@ -279,6 +279,8 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
                 $data[$key] = $value->format(DATE_ATOM);
             } elseif ($value instanceof Carbon) {
                 $data[$key] = $value->toIso8601ZuluString();
+            } else if ($value instanceof Unit) {
+                $data[$key] = (float) $value->internal(2);
             }
         }
 

@@ -285,8 +285,13 @@ class AcarsTest extends TestCase
             ]
         );
 
+        /** @var Airport $airport */
         $airport = Airport::factory()->create();
+
+        /** @var Airline $airline */
         $airline = Airline::factory()->create();
+
+        /** @var Aircraft $aircraft */
         $aircraft = $subfleet['aircraft']->random();
 
         $uri = '/api/pireps/prefile';

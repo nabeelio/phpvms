@@ -402,8 +402,8 @@ class PirepController extends Controller
         $pirep->flight_time = Time::hoursToMinutes($hours) + $minutes;
 
         // Set the correct fuel units
-        $pirep->block_fuel = new Fuel((float) $request->input('block_fuel'), setting('units.fuel'));
-        $pirep->fuel_used = new Fuel((float) $request->input('fuel_used'), setting('units.fuel'));
+        $pirep->block_fuel = Fuel::make((float) $request->input('block_fuel'), setting('units.fuel'));
+        $pirep->fuel_used = Fuel::make((float) $request->input('fuel_used'), setting('units.fuel'));
 
         // Put the time that this is currently submitted
         $attrs['submitted_at'] = Carbon::now('UTC');

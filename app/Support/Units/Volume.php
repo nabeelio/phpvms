@@ -10,7 +10,7 @@ use PhpUnitsOfMeasure\PhysicalQuantity\Volume as VolumeUnit;
  */
 class Volume extends Unit
 {
-    public $responseUnits = [
+    public array $responseUnits = [
         'gal',
         'liters',
     ];
@@ -28,11 +28,12 @@ class Volume extends Unit
             $value = 0;
         }
 
-        $this->unit = setting('units.volume');
+        $this->localUnit = setting('units.volume');
+        $this->internalUnit = config('phpvms.internal_units.volume');
 
         if ($value instanceof self) {
             $value->toUnit($unit);
-            $this->instance = $value;
+            $this->instance = $value->instance;
         } else {
             $this->instance = new VolumeUnit($value, $unit);
         }

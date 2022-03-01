@@ -265,17 +265,17 @@ class Pirep extends Model
     {
         return Attribute::make(
             get: function ($_, $attrs) {
-                $distance = $this->distance;
+                $distance = $attrs['distance'];
 
                 $upper_bound = $distance;
-                if ($this->planned_distance) {
-                    $upper_bound = $this->planned_distance;
+                if ($attrs['planned_distance']) {
+                    $upper_bound = $attrs['planned_distance'];
                 }
 
                 $upper_bound = empty($upper_bound) ? 1 : $upper_bound;
                 $distance = empty($distance) ? $upper_bound : $distance;
 
-                return round(($distance / $upper_bound) * 100, 0);
+                return round(($distance / $upper_bound) * 100);
             }
         );
     }

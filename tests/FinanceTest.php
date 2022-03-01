@@ -848,8 +848,13 @@ class FinanceTest extends TestCase
 
     public function testAirportExpenses()
     {
+        /** @var Airport $apt1 */
         $apt1 = Airport::factory()->create();
+
+        /** @var Airport $apt2 */
         $apt2 = Airport::factory()->create();
+
+        /** @var Airport $apt3 */
         $apt3 = Airport::factory()->create();
 
         Expense::factory()->create([

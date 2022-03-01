@@ -18,9 +18,6 @@ class Pirep extends Resource
      *
      * @param \Illuminate\Http\Request $request
      *
-     * @throws \PhpUnitsOfMeasure\Exception\NonNumericValue
-     * @throws \PhpUnitsOfMeasure\Exception\NonStringUnitName
-     *
      * @return array
      */
     public function toArray($request)
@@ -35,28 +32,28 @@ class Pirep extends Resource
             $res['distance'] = 0;
         }
 
-        $distance = new Distance($res['distance'], config('phpvms.internal_units.distance'));
+        $distance = Distance::make($res['distance'], config('phpvms.internal_units.distance'));
         $res['distance'] = $distance->getResponseUnits();
 
         if (!array_key_exists('block_fuel', $res)) {
             $res['block_fuel'] = 0;
         }
 
-        $block_fuel = new Fuel($res['block_fuel'], config('phpvms.internal_units.fuel'));
+        $block_fuel = Fuel::make($res['block_fuel'], config('phpvms.internal_units.fuel'));
         $res['block_fuel'] = $block_fuel->getResponseUnits();
 
         if (!array_key_exists('fuel_used', $res)) {
             $res['fuel_used'] = 0;
         }
 
-        $fuel_used = new Fuel($res['fuel_used'], config('phpvms.internal_units.fuel'));
+        $fuel_used = Fuel::make($res['fuel_used'], config('phpvms.internal_units.fuel'));
         $res['fuel_used'] = $fuel_used->getResponseUnits();
 
         if (!array_key_exists('planned_distance', $res)) {
             $res['planned_distance'] = 0;
         }
 
-        $planned_dist = new Distance($res['planned_distance'], config('phpvms.internal_units.distance'));
+        $planned_dist = Distance::make($res['planned_distance'], config('phpvms.internal_units.distance'));
         $res['planned_distance'] = $planned_dist->getResponseUnits();
 
         /*

@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
  * @property string group
  * @property string type
  * @property string options
+ * @property int    order
  * @property string description
  */
 class Setting extends Model

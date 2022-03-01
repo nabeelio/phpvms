@@ -56,7 +56,7 @@ class PirepFiled extends Notification implements ShouldQueue
                     config('phpvms.internal_units.distance')
                 );
 
-                $pd = $distance[$distance->unit].' '.$distance->unit;
+                $pd = $distance[$distance->localUnit].' '.$distance->localUnit;
                 $fields['Distance'] = $pd;
             } catch (NonNumericValue|NonStringUnitName $e) {
             }

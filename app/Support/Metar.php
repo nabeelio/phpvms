@@ -400,32 +400,26 @@ class Metar implements \ArrayAccess
      * Return an Altitude value or object
      *
      * @param int|float $value
-     * @param string    $unit  "feet" or "meters"
-     *
-     * @throws NonStringUnitName
-     * @throws NonNumericValue
+     * @param string    $unit "feet" or "meters"
      *
      * @return Altitude
      */
     protected function createAltitude($value, $unit)
     {
-        return new Altitude((float) $value, $unit);
+        return Altitude::make((float) $value, $unit);
     }
 
     /**
      * Return a Distance value or object
      *
      * @param int|float $value
-     * @param string    $unit  "m" (meters) or "mi" (miles)
-     *
-     * @throws NonNumericValue
-     * @throws NonStringUnitName
+     * @param string    $unit "m" (meters) or "mi" (miles)
      *
      * @return Distance
      */
     protected function createDistance($value, $unit)
     {
-        return new Distance((float) $value, $unit);
+        return Distance::make((float) $value, $unit);
     }
 
     /**
@@ -441,7 +435,7 @@ class Metar implements \ArrayAccess
      */
     protected function createPressure($value, $unit)
     {
-        return new Pressure((float) $value, $unit);
+        return Pressure::make((float) $value, $unit);
     }
 
     /**
@@ -457,7 +451,7 @@ class Metar implements \ArrayAccess
      */
     protected function createTemperature($value, $unit)
     {
-        return new Temperature((float) $value, $unit);
+        return Temperature::make((float) $value, $unit);
     }
 
     /**
@@ -473,7 +467,7 @@ class Metar implements \ArrayAccess
      */
     protected function createVelocity($value, $unit)
     {
-        return new Velocity((float) $value, $unit);
+        return Velocity::make((float) $value, $unit);
     }
 
     /**

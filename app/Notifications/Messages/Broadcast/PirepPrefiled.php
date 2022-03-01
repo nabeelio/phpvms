@@ -64,7 +64,7 @@ class PirepPrefiled extends Notification implements ShouldQueue
                     config('phpvms.internal_units.distance')
                 );
 
-                $pd = $planned_distance[$planned_distance->unit].' '.$planned_distance->unit;
+                $pd = $planned_distance[$planned_distance->localUnit].' '.$planned_distance->localUnit;
                 $fields['Distance (Planned)'] = $pd;
             } catch (NonNumericValue $e) {
             } catch (NonStringUnitName $e) {
