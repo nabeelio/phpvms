@@ -61,9 +61,9 @@ class RegisterController extends Controller
     }
 
     /**
-     * @return mixed
      * @throws \Exception
      *
+     * @return mixed
      */
     public function showRegistrationForm()
     {
@@ -123,11 +123,11 @@ class RegisterController extends Controller
                 'required',
                 function ($attribute, $value, $fail) {
                     $response = $this->httpClient->form_post('https://hcaptcha.com/siteverify', [
-                        'secret' => setting('captcha.secret_key', false),
-                        'response' => $value
+                        'secret'   => setting('captcha.secret_key', false),
+                        'response' => $value,
                     ]);
 
-                    if($response['success'] !== true) {
+                    if ($response['success'] !== true) {
                         Log::error('Captcha failed '.json_encode($response));
                         $fail('Captcha verification failed, please try again.');
                     }
@@ -143,10 +143,10 @@ class RegisterController extends Controller
      *
      * @param array $opts
      *
-     * @return User
      * @throws \Exception
-     *
      * @throws \RuntimeException
+     *
+     * @return User
      */
     protected function create(Request $request): User
     {
@@ -184,9 +184,9 @@ class RegisterController extends Controller
      *
      * @param Request $request
      *
-     * @return mixed
      * @throws \Exception
      *
+     * @return mixed
      */
     public function register(Request $request)
     {

@@ -24,9 +24,9 @@ class HttpClient
      * @param       $uri
      * @param array $opts
      *
-     * @return string
      * @throws \GuzzleHttp\Exception\GuzzleException
      *
+     * @return string
      */
     public function get($uri, array $opts = [])
     {
@@ -50,9 +50,9 @@ class HttpClient
      * @param       $body
      * @param array $opts
      *
-     * @return mixed
      * @throws \GuzzleHttp\Exception\GuzzleException
      *
+     * @return mixed
      */
     public function post($uri, $body, array $opts = []): mixed
     {
@@ -77,10 +77,9 @@ class HttpClient
      * @param       $body
      * @param array $opts
      *
-     * @return mixed
-     *
      * @throws \GuzzleHttp\Exception\GuzzleException
      *
+     * @return mixed
      */
     public function form_post($uri, $body, array $opts = []): mixed
     {
