@@ -40,13 +40,13 @@ class Unit implements ArrayAccess
      * @param mixed  $value
      * @param string $unit
      *
-     * @return Unit
-     *
      * @throws \Exception
+     *
+     * @return Unit
      */
     public static function make(mixed $value, string $unit): self
     {
-        if ($value instanceof Unit) {
+        if ($value instanceof self) {
             return $value;
         }
 
@@ -82,6 +82,7 @@ class Unit implements ArrayAccess
      *
      * @param string   $unit
      * @param int|null $round Optional value to round to
+     *
      * @return float|null
      */
     public function toUnit(string $unit, ?int $round = null): ?float

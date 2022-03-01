@@ -400,7 +400,7 @@ class Metar implements \ArrayAccess
      * Return an Altitude value or object
      *
      * @param int|float $value
-     * @param string    $unit "feet" or "meters"
+     * @param string    $unit  "feet" or "meters"
      *
      * @return Altitude
      */
@@ -413,7 +413,7 @@ class Metar implements \ArrayAccess
      * Return a Distance value or object
      *
      * @param int|float $value
-     * @param string    $unit "m" (meters) or "mi" (miles)
+     * @param string    $unit  "m" (meters) or "mi" (miles)
      *
      * @return Distance
      */
