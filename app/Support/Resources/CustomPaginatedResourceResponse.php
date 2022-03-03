@@ -28,7 +28,7 @@ class CustomPaginatedResourceResponse extends PaginatedResourceResponse
             'links',
         ]);
 
-        $arr['prev_page'] =$paginated['prev_page_url'];
+        $arr['prev_page'] = $paginated['prev_page_url'];
         $arr['next_page'] = $paginated['next_page_url'];
 
         return $arr;

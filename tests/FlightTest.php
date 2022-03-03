@@ -244,7 +244,7 @@ class FlightTest extends TestCase
         });
     }
 
-        /**
+    /**
      * Search for flights based on a subfleet. If subfleet is blank
      */
     public function testSearchFlightBySubfleetPagination()
