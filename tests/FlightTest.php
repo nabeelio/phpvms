@@ -126,8 +126,10 @@ class FlightTest extends TestCase
         // search specifically for a flight ID
         $query = 'flight_id='.$flight->id;
         $req = $this->get('/api/flights/search?'.$query);
-        $body = $req->json(['data']);
         $req->assertStatus(200);
+
+        $data = $req->json('data');
+        $this->assertEquals(1, count($data));
     }
 
     public function testSearchFlightInactiveAirline()
@@ -232,6 +234,51 @@ class FlightTest extends TestCase
         $res = $this->get('/api/flights/search?'.$query);
         $res->assertStatus(200);
         $res->assertJsonCount(10, 'data');
+
+        $meta = $res->json('meta');
+
+        $body = $res->json('data');
+        collect($body)->each(function ($flight) use ($subfleetB) {
+            self::assertNotEmpty($flight['subfleets']);
+            self::assertEquals($subfleetB->id, $flight['subfleets'][0]['id']);
+        });
+    }
+
+        /**
+     * Search for flights based on a subfleet. If subfleet is blank
+     */
+    public function testSearchFlightBySubfleetPagination()
+    {
+        /** @var Airline $airline */
+        $airline = Airline::factory()->create();
+
+        /** @var Subfleet $subfleetA */
+        $subfleetA = Subfleet::factory()->create(['airline_id' => $airline->id]);
+
+        /** @var Subfleet $subfleetB */
+        $subfleetB = Subfleet::factory()->create(['airline_id' => $airline->id]);
+
+        $rank = $this->createRank(0, [$subfleetB->id]);
+        $this->user = User::factory()->create([
+            'airline_id' => $airline->id,
+            'rank_id'    => $rank->id,
+        ]);
+
+        $this->addFlightsForSubfleet($subfleetA, 5);
+        $this->addFlightsForSubfleet($subfleetB, 10);
+
+        // search specifically for a given subfleet
+        //$query = 'subfleet_id='.$subfleetB->id;
+        $query = 'subfleet_id='.$subfleetB->id.'&limit=2';
+        $res = $this->get('/api/flights/search?'.$query);
+        $res->assertStatus(200);
+        $res->assertJsonCount(2, 'data');
+
+        $meta = $res->json('meta');
+        $this->assertNull($meta['prev_page']);
+        $this->assertNotNull($meta['next_page']);
+        $this->assertEquals(1, $meta['current_page']);
+        $this->assertEquals(10, $meta['total']);
 
         $body = $res->json('data');
         collect($body)->each(function ($flight) use ($subfleetB) {
