@@ -64,11 +64,9 @@ class Setting extends Model
     /**
      * Set the key to lowercase
      *
-     * @param mixed $key
-     *
      * @return Attribute
      */
-    public function key($key): Attribute
+    public function key(): Attribute
     {
         return Attribute::make(
             set: fn ($key) => strtolower($key)
