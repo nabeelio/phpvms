@@ -169,11 +169,11 @@ class User extends Authenticatable
                 $loop_count = 0;
 
                 while ($loop_count < ($count - 1)) {
-                    $gdpr_name .= ' '.$name_parts[$loop_count];
+                    $gdpr_name .= $name_parts[$loop_count].' ';
                     $loop_count++;
                 }
 
-                $gdpr_name .= ' '.mb_substr($last_name, 0, 1);
+                $gdpr_name .= mb_substr($last_name, 0, 1);
 
                 return mb_convert_case($gdpr_name, MB_CASE_TITLE);
             }
