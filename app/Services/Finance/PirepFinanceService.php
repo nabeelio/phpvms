@@ -240,7 +240,7 @@ class PirepFinanceService extends Service
             if ($prev_flight) {
                 // If there is a pirep use its values to calculate the remaining fuel
                 // and calculate the uplifted fuel amount for this pirep
-                $fuel_amount = $pirep->block_fuel->internal() - ($prev_flight->block_fuel->value() - $prev_flight->fuel_used->internal());
+                $fuel_amount = $pirep->block_fuel->internal() - ($prev_flight->block_fuel->internal() - $prev_flight->fuel_used->internal());
                 // Aircraft has more than enough fuel in its tanks, no uplift necessary
                 if ($fuel_amount < 0) {
                     $fuel_amount = 0;
