@@ -67,7 +67,7 @@ class DownloadController extends Controller
 
         // See if they inserted a link to the ACARS download
         try {
-            Module::find('VMSAcars');
+            Module::findOrFail('VMSAcars');
             $downloadUrl = DB::table('vmsacars_config')->where(['id' => 'download_url'])->first();
             if (!empty($downloadUrl) && !empty($downloadUrl->value)) {
                 $regrouped_files['ACARS'] = collect([
