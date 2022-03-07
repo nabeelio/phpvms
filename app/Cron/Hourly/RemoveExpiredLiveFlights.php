@@ -6,6 +6,7 @@ use App\Contracts\Listener;
 use App\Events\CronHourly;
 use App\Events\PirepCancelled;
 use App\Models\Enums\PirepState;
+use App\Models\Enums\PirepStatus;
 use App\Models\Pirep;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
@@ -31,6 +32,7 @@ class RemoveExpiredLiveFlights extends Listener
         $date = Carbon::now('UTC')->subHours(setting('acars.live_time'));
         $pireps = Pirep::where('updated_at', '<', $date)
             ->where('state', PirepState::IN_PROGRESS)
+            ->where('status', '<>', PirepStatus::PAUSED)
             ->get();
 
         foreach ($pireps as $pirep) {
