@@ -74,7 +74,7 @@ class Unit implements ArrayAccess
      */
     public function local(?int $round = null): ?float
     {
-        return $this->instance->toUnit($this->localUnit, $round);
+        return $this->toUnit($this->localUnit, $round);
     }
 
     /**
@@ -88,11 +88,11 @@ class Unit implements ArrayAccess
     public function toUnit(string $unit, ?int $round = null): ?float
     {
         $val = $this->instance->toUnit($unit);
-        if ($round !== null) {
-            return round($val, $round);
+        if ($round === null) {
+            return $val;
         }
 
-        return $val;
+        return round($val, $round);
     }
 
     /**
