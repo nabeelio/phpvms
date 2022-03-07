@@ -88,7 +88,7 @@ jobs:
   artifacts:
     name: 'Create dev build'
     needs: build
-    runs-on: 'ubuntu-18.04'
+    runs-on: ubuntu-20.04
     if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev'
     steps:
       - name: Checkout
@@ -97,7 +97,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '7.4'
+          php-version: '8.0'
 
       - uses: olegtarasov/get-tag@v2.1
         id: tagName
@@ -150,7 +150,7 @@ jobs:
   release:
     name: 'Create Release'
     needs: build
-    runs-on: 'ubuntu-18.04'
+    runs-on: ubuntu-20.04
     if: startsWith(github.ref, 'refs/tags/')
     steps:
       - name: Checkout
@@ -159,7 +159,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '7.4'
+          php-version: 8.0
 
       - uses: olegtarasov/get-tag@v2.1
         id: tagName
