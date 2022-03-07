@@ -183,10 +183,6 @@ class ProfileController extends Controller
             $req_data['password'] = Hash::make($req_data['password']);
         }
 
-        if (isset($req_data['avatar']) !== null) {
-            Storage::delete($user->avatar);
-        }
-
         // Find out the user's private channel id
         /*
         // TODO: Uncomment when Discord API functionality is enabled
@@ -198,9 +194,13 @@ class ProfileController extends Controller
         }*/
 
         if ($request->hasFile('avatar')) {
+            if ($user->avatar !== null) {
+                Storage::delete($user->avatar);
+            }
+
             $avatar = $request->file('avatar');
             $file_name = $user->ident.'.'.$avatar->getClientOriginalExtension();
-            $path = "avatars/{$file_name}";
+            $path = "avatars/$file_name";
 
             // Create the avatar, resizing it and keeping the aspect ratio.
             // https://stackoverflow.com/a/26892028
