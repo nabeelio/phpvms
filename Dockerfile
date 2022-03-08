@@ -3,7 +3,7 @@ FROM php:8.0.9-fpm-alpine3.14
 WORKDIR /var/www/
 
 # Setup composer
-COPY --from=composer:2.1.5 /usr/bin/composer /usr/local/bin/composer
+COPY --from=composer:2.2.7 /usr/bin/composer /usr/local/bin/composer
 
 RUN apk add gmp-dev icu-dev zlib-dev libpng-dev libzip-dev zip
 RUN curl --silent --show-error https://getcomposer.org/installer | php

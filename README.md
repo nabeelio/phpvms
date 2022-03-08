@@ -11,7 +11,7 @@ A full distribution, with all of the composer dependencies, is available at this
 
 ### Requirements
 
-- PHP 7.3+, extensions:
+- PHP 8.0+, extensions:
   - cURL
   - JSON
   - mbstring
