@@ -30,27 +30,28 @@
         @endcomponent
       </div>
     </div>
+
     <div class="row">
       <div class="col-md-6">
-        {{--@include('admin.dashboard.pirep_chart')--}}
+        {{-- @include('admin.dashboard.pirep_chart') --}}
       </div>
       <div class="col-md-6">
-
+        {{-- Intentionally Left Blank --}}
       </div>
     </div>
 
-
     <div class="row">
       <div class="col-md-6">
-
+        {{-- Intentionally Left Blank --}}
       </div>
       <div class="col-md-6">
-
+        {{-- Intentionally Left Blank --}}
       </div>
     </div>
   </div>
 @endsection
 @section('scripts')
+  @parent
   <script>
     $(document).ready(function () {
       $(document).on('submit', 'form.pjax_news_form', function (event) {
