@@ -369,7 +369,8 @@ class UserTest extends TestCase
         $vals = [
             'Firstname'                     => 'Firstname',
             'Firstname Lastname'            => 'Firstname L',
-            'Firstname Middlename Lastname' => 'Firstname L',
+            'Firstname Middlename Lastname' => 'Firstname Middlename L',
+            'First Mid1 mid2 last'          => 'First Mid1 Mid2 L',
         ];
 
         foreach ($vals as $input => $expected) {
