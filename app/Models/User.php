@@ -150,8 +150,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Return a "privateized" version of someones name - First name full, rest of the names are
-     * initials
+     * Return a "privatized" version of someones name - First and middle names full, last name initials
      *
      * @return Attribute
      */
@@ -165,10 +164,18 @@ class User extends Authenticatable
                     return $name_parts[0];
                 }
 
-                $first_name = $name_parts[0];
+                $gdpr_name = '';
                 $last_name = $name_parts[$count - 1];
+                $loop_count = 0;
 
-                return $first_name.' '.mb_substr($last_name, 0, 1);
+                while ($loop_count < ($count - 1)) {
+                    $gdpr_name .= $name_parts[$loop_count].' ';
+                    $loop_count++;
+                }
+
+                $gdpr_name .= mb_substr($last_name, 0, 1);
+
+                return mb_convert_case($gdpr_name, MB_CASE_TITLE);
             }
         );
     }
