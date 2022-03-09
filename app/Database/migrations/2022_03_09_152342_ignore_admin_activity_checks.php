@@ -1,9 +1,10 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
+use App\Contracts\Migration;
 use Illuminate\Support\Facades\DB;
 
-return new class extends Migration {
+class IgnoreAdminActivityChecks extends Migration
+{
     /**
      * Run the migrations.
      *
@@ -25,4 +26,4 @@ return new class extends Migration {
     {
         //
     }
-};
+}
