@@ -17,7 +17,7 @@ return [
             'timezone'       => '+00:00',
             'charset'        => 'utf8',
             'collation'      => 'utf8_unicode_ci',
-            'strict'         => false,
+            'strict'         => true,
             'engine'         => null,
             'options'        => [
                 PDO::ATTR_EMULATE_PREPARES => env('DB_EMULATE_PREPARES', false),
@@ -29,7 +29,7 @@ return [
         ],
         'sqlite' => [
             'driver'         => 'sqlite',
-            'database'       => storage_path('db.sqlite'),
+            'database'       => env('DB_DATABASE', storage_path('db.sqlite')),
             'timezone'       => '+00:00',
             'prefix'         => '',
             'prefix_indexes' => true,
