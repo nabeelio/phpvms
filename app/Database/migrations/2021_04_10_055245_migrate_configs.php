@@ -6,8 +6,7 @@ use App\Services\Installer\ConfigService;
 /**
  * Migrate the configuration files
  */
-class MigrateConfigs extends Migration
-{
+return new class() extends Migration {
     public function up()
     {
         /** @var ConfigService $configSvc */
@@ -18,4 +17,4 @@ class MigrateConfigs extends Migration
     public function down()
     {
     }
-}
+};

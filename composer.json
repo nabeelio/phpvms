@@ -29,7 +29,7 @@
         "symfony/http-client": "^6.0",
         "symfony/yaml": "^6.0",
         "psr/container": "1.1.1",
-        "composer/composer": "~2.2",
+        "composer/composer": "^2.2.7",
         "composer/installers": "~1.12.0",
         "laravel/framework": "~v9.2",
         "arrilot/laravel-widgets": "~3.13.0",
@@ -127,6 +127,12 @@
         ]
     },
     "config": {
-        "bin-dir": "vendor/bin/"
+        "bin-dir": "vendor/bin/",
+        "allow-plugins": {
+            "composer/installers": true,
+            "joshbrw/laravel-module-installer": true,
+            "oomphinc/composer-installers-extender": true,
+            "symfony/flex": true
+        }
     }
 }

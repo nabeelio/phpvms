@@ -4,8 +4,7 @@ use App\Contracts\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateExpensesTable extends Migration
-{
+return new class() extends Migration {
     public function up()
     {
         Schema::create('expenses', function (Blueprint $table) {
@@ -34,4 +33,4 @@ class CreateExpensesTable extends Migration
     {
         Schema::dropIfExists('expenses');
     }
-}
+};

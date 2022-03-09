@@ -12,8 +12,7 @@ use Illuminate\Support\Facades\Schema;
  * 3. Iterate through all of the users and set their `id` to the `pilot_id`
  * 4. Change the other tables column types that reference `user_id`
  */
-class UsersAddPilotId extends Migration
-{
+return new class() extends Migration {
     public function up()
     {
         Schema::table('users', static function (Blueprint $table) {
@@ -33,4 +32,4 @@ class UsersAddPilotId extends Migration
             $table->dropColumn('pilot_id');
         });
     }
-}
+};

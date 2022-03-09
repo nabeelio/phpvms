@@ -8,12 +8,11 @@ use Illuminate\Support\Facades\Schema;
 /**
  * Add a `flight_id` column to the PIREPs table
  */
-class PirepsAddFlightId extends Migration
-{
+return new class() extends Migration {
     public function up()
     {
         Schema::table('pireps', function (Blueprint $table) {
             $table->string('flight_id', Model::ID_MAX_LENGTH)->nullable()->after('aircraft_id');
         });
     }
-}
+};

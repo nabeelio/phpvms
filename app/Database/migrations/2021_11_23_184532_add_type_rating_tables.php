@@ -4,8 +4,7 @@ use App\Contracts\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddTypeRatingTables extends Migration
-{
+return new class() extends Migration {
     public function up()
     {
         if (!Schema::hasTable('typeratings')) {
@@ -50,4 +49,4 @@ class AddTypeRatingTables extends Migration
         Schema::dropIfExists('typerating_user');
         Schema::dropIfExists('typerating_subfleet');
     }
-}
+};

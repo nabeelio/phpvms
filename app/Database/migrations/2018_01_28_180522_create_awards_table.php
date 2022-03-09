@@ -5,8 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Modules\Awards\Awards\PilotFlightAwards;
 
-class CreateAwardsTable extends Migration
-{
+return new class() extends Migration {
     public function up()
     {
         Schema::create('awards', function (Blueprint $table) {
@@ -52,4 +51,4 @@ class CreateAwardsTable extends Migration
         Schema::dropIfExists('awards');
         Schema::dropIfExists('user_awards');
     }
-}
+};

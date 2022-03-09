@@ -9,8 +9,7 @@ use Illuminate\Support\Facades\Schema;
 /**
  * Change the PIREP state column to be a TINYINT
  */
-class PirepsChangeStateType extends Migration
-{
+return new class() extends Migration {
     public function up()
     {
         // Migrate the old rejected state
@@ -23,4 +22,4 @@ class PirepsChangeStateType extends Migration
             $table->unsignedSmallInteger('state')->change();
         });
     }
-}
+};

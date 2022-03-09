@@ -7,8 +7,7 @@ use Illuminate\Support\Facades\Schema;
 /**
  * Add a `mtow` column for the max takeoff weight
  */
-class AircraftAddMtow extends Migration
-{
+return new class() extends Migration {
     public function up()
     {
         Schema::table('aircraft', function (Blueprint $table) {
@@ -25,4 +24,4 @@ class AircraftAddMtow extends Migration
             $table->dropColumn('mtow');
         });
     }
-}
+};

@@ -6,8 +6,7 @@ use Illuminate\Support\Facades\Schema;
 /**
  * Turn the airport coordinates and other lat/lon coords into decimal type
  */
-class ModifyAirportsCoordinates extends Migration
-{
+return new class() extends Migration {
     /**
      * Run the migrations.
      *
@@ -25,4 +24,4 @@ class ModifyAirportsCoordinates extends Migration
             $table->decimal('lon', 11, 5)->change()->default(0.0)->nullable();
         });
     }
-}
+};

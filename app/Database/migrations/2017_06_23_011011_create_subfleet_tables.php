@@ -3,8 +3,7 @@
 use App\Contracts\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateSubfleetTables extends Migration
-{
+return new class() extends Migration {
     public function up()
     {
         Schema::create('subfleets', function (Blueprint $table) {
@@ -51,4 +50,4 @@ class CreateSubfleetTables extends Migration
         Schema::dropIfExists('subfleet_fare');
         Schema::dropIfExists('subfleet_rank');
     }
-}
+};
