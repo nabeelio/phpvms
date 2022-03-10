@@ -326,6 +326,7 @@ class InstallerController extends Controller
             'api_key'    => Utils::generateApiKey(),
             'airline_id' => $airline->id,
             'password'   => Hash::make($request->get('password')),
+            'opt_in'     => true,
         ];
 
         $user = $this->userService->createUser($attrs, ['admin']);
