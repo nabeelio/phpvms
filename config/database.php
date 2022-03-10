@@ -20,7 +20,7 @@ return [
             'strict'         => false,
             'engine'         => null,
             'options'        => [
-                PDO::ATTR_EMULATE_PREPARES => env('DB_EMULATE_PREPARES', false),
+                PDO::ATTR_EMULATE_PREPARES => boolval(env('DB_EMULATE_PREPARES', false)),
             ],
             'dump'           => [
                 'timeout' => 60 * 5, // 5 minute timeout
