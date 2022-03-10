@@ -19,6 +19,9 @@ return [
             'collation'      => 'utf8_unicode_ci',
             'strict'         => false,
             'engine'         => null,
+            'options'        => [
+                PDO::ATTR_EMULATE_PREPARES => env('DB_EMULATE_PREPARES', false),
+            ],
             'dump'           => [
                 'timeout' => 60 * 5, // 5 minute timeout
             ],
