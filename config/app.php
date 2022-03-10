@@ -2,9 +2,8 @@
 
 /**
  * DO NOT EDIT THIS OR ANY OF THE CONFIG FILES DIRECTLY
+ * IF YOU DO, YOU NEED TO RESTORE THOSE CHANGES AFTER AN UPDATE
  *
- * Set your override options in the config.php file that's in the root of
- * your install. Otherwise, any changes here will get overridden in an update!
  */
 
 use Carbon\Carbon;
