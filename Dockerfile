@@ -1,4 +1,4 @@
-FROM php:8.0.9-fpm-alpine3.14
+FROM php:8.1-fpm-alpine3.15
 
 WORKDIR /var/www/
 
@@ -6,12 +6,10 @@ WORKDIR /var/www/
 COPY --from=composer:2.2.7 /usr/bin/composer /usr/local/bin/composer
 
 RUN apk add gmp-dev icu-dev zlib-dev libpng-dev libzip-dev zip
-RUN curl --silent --show-error https://getcomposer.org/installer | php
 
 # Copy any config files in
 COPY resources/docker/php/ext-opcache.ini $PHP_INI_DIR/conf.d/
 COPY resources/docker/php/www.conf /usr/local/etc/php-fpm.d/www.conf
-RUN ln -sf /dev/stderr /var/log/fpm-error.log
 
 RUN docker-php-ext-install \
   calendar \
@@ -22,7 +20,7 @@ RUN docker-php-ext-install \
   bcmath \
   opcache \
   zip && \
-  docker-php-ext-enable pdo_mysql opcache bcmath zip
+  docker-php-ext-enable pdo_mysql opcache bcmath zip intl
 
 COPY . /var/www/
 RUN composer install \
