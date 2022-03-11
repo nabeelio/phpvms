@@ -38,7 +38,7 @@ class ExpenseExporter extends ImportExport
             if ($col === 'airline') {
                 $ret['airline'] = optional($expense->airline)->icao;
             } elseif ($col === 'flight_type') {
-                $ret['flight_type'] = join(',', $expense->flight_type);
+                $ret['flight_type'] = implode(',', $expense->flight_type);
             } else {
                 $ret[$col] = $expense->{$col};
             }
