@@ -271,7 +271,10 @@ class ImporterTest extends TestCase
 
         $importer = app(ImportService::class);
         $exporter = app(ExportService::class);
-        $file = $exporter->exportAircraft(collect([$aircraft]));
+
+        $collection = collect([$aircraft]);
+        $file = $exporter->exportAircraft($collection);
+
         $status = $importer->importAircraft($file);
         $this->assertCount(1, $status['success']);
         $this->assertCount(0, $status['errors']);

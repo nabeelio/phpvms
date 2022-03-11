@@ -36,9 +36,9 @@ class ExpenseExporter extends ImportExport
 
         foreach (self::$columns as $col) {
             if ($col === 'airline') {
-                $ret['airline'] = $expense->airline->icao;
+                $ret['airline'] = optional($expense->airline)->icao;
             } elseif ($col === 'flight_type') {
-                $ret['flight_type'] = $ret['flight_type'][0];
+                $ret['flight_type'] = join(',', $expense->flight_type);
             } else {
                 $ret[$col] = $expense->{$col};
             }
