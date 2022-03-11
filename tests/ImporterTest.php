@@ -389,6 +389,20 @@ class ImporterTest extends TestCase
     }
 
     /**
+     * @throws \League\Csv\CannotInsertRecord
+     *
+     * @return void
+     */
+    public function testExpenseExporter(): void
+    {
+        $expenses = Expense::factory(10)->create();
+
+        /** @var ExportService $exporter */
+        $exporter = app(ExportService::class);
+        $exporter->exportExpenses($expenses);
+    }
+
+    /**
      * Test the importing of expenses
      *
      * @throws \Illuminate\Validation\ValidationException

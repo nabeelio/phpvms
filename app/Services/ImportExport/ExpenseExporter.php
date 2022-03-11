@@ -35,17 +35,13 @@ class ExpenseExporter extends ImportExport
         $ret = [];
 
         foreach (self::$columns as $col) {
-            $ret[$col] = $expense->{$col};
-        }
-
-        // Special fields
-
-        if ($ret['airline']) {
-            $ret['airline'] = $expense->airline->icao;
-        }
-
-        if ($ret['flight_type']) {
-            $ret['flight_type'] = $ret['flight_type'][0];
+            if ($col === 'airline') {
+                $ret['airline'] = $expense->airline->icao;
+            } elseif ($col === 'flight_type') {
+                $ret['flight_type'] = $ret['flight_type'][0];
+            } else {
+                $ret[$col] = $expense->{$col};
+            }
         }
 
         // For the different expense types, instead of exporting

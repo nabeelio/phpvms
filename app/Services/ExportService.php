@@ -58,7 +58,13 @@ class ExportService extends Service
 
         // Write the rest of the rows
         foreach ($collection as $row) {
-            $writer->insertOne($exporter->export($row));
+            try {
+                $arr = $row->toArray();
+                $ins = $exporter->export($arr);
+                $writer->insertOne($ins);
+            } catch (\Exception $e) {
+                Log::error('Error exporting');
+            }
         }
 
         return $path;
