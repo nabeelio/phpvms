@@ -15,9 +15,9 @@ use Prettus\Repository\Criteria\RequestCriteria;
 
 class TypeRatingController extends Controller
 {
-    private $fleetSvc;
-    private $subfleetRepo;
-    private $typeratingRepo;
+    private FleetService $fleetSvc;
+    private SubfleetRepository $subfleetRepo;
+    private TypeRatingRepository $typeratingRepo;
 
     public function __construct(
         FleetService $fleetSvc,

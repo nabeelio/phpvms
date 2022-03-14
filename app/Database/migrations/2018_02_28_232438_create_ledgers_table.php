@@ -4,8 +4,7 @@ use App\Contracts\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateLedgersTable extends Migration
-{
+return new class() extends Migration {
     /**
      * Run the migrations.
      *
@@ -30,4 +29,4 @@ class CreateLedgersTable extends Migration
     {
         Schema::dropIfExists('ledgers');
     }
-}
+};

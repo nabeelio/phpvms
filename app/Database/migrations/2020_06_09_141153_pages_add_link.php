@@ -8,8 +8,7 @@ use Illuminate\Support\Facades\Schema;
  * Add a `link` column and make the body optional. Also add a "new_window" bool
  * which determines if we open this link in a new window or not
  */
-class PagesAddLink extends Migration
-{
+return new class() extends Migration {
     public function up()
     {
         Schema::table('pages', function (Blueprint $table) {
@@ -30,4 +29,4 @@ class PagesAddLink extends Migration
             $table->dropColumn('new_window');
         });
     }
-}
+};

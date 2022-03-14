@@ -7,8 +7,7 @@ use Illuminate\Support\Facades\Schema;
 /**
  * Add a hub to the subfleet is
  */
-class AddAircraftToSimbrief extends Migration
-{
+return new class() extends Migration {
     public function up()
     {
         Schema::table('simbrief', function (Blueprint $table) {
@@ -21,4 +20,4 @@ class AddAircraftToSimbrief extends Migration
             $table->mediumText('fare_data')->nullable()->after('ofp_xml');
         });
     }
-}
+};

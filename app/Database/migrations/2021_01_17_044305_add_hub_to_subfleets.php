@@ -7,8 +7,7 @@ use Illuminate\Support\Facades\Schema;
 /**
  * Add a hub to the subfleet is
  */
-class AddHubToSubfleets extends Migration
-{
+return new class() extends Migration {
     public function up()
     {
         Schema::table('subfleets', function (Blueprint $table) {
@@ -17,4 +16,4 @@ class AddHubToSubfleets extends Migration
                 ->after('airline_id');
         });
     }
-}
+};

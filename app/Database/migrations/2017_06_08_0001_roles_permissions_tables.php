@@ -2,9 +2,9 @@
 
 use App\Contracts\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-class RolesPermissionsTables extends Migration
-{
+return new class() extends Migration {
     public function up()
     {
         // Create table for storing roles
@@ -82,4 +82,4 @@ class RolesPermissionsTables extends Migration
         Schema::dropIfExists('role_user');
         Schema::dropIfExists('roles');
     }
-}
+};

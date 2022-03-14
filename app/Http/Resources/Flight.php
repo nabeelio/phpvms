@@ -53,7 +53,7 @@ class Flight extends Resource
             $res['load_factor_variance'] = setting('flights.load_factor_variance');
         }
 
-        $distance = new Distance($res['distance'], config('phpvms.internal_units.distance'));
+        $distance = Distance::make($res['distance'], config('phpvms.internal_units.distance'));
         $res['distance'] = $distance->getResponseUnits();
 
         $res['airline'] = new Airline($this->airline);

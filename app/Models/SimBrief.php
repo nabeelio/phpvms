@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Contracts\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Collection;
 
 /**
@@ -25,6 +26,8 @@ use Illuminate\Support\Collection;
  */
 class SimBrief extends Model
 {
+    use HasFactory;
+
     public $table = 'simbrief';
     public $incrementing = false;
 

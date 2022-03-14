@@ -10,7 +10,7 @@ use PhpUnitsOfMeasure\PhysicalQuantity\Pressure as PressureUnit;
  */
 class Pressure extends Unit
 {
-    public $responseUnits = [
+    public array $responseUnits = [
         'atm',
         'hPa',
     ];
@@ -28,7 +28,14 @@ class Pressure extends Unit
             $value = 0;
         }
 
-        $this->unit = setting('units.temperature');
-        $this->instance = new PressureUnit($value, $unit);
+        $this->localUnit = setting('units.temperature');
+        $this->internalUnit = config('phpvms.internal_units.temperature');
+
+        if ($value instanceof self) {
+            $value->toUnit($unit);
+            $this->instance = $value->instance;
+        } else {
+            $this->instance = new PressureUnit($value, $unit);
+        }
     }
 }

@@ -7,7 +7,7 @@ use App\Models\Pirep;
 
 class PirepRejected extends Event
 {
-    public $pirep;
+    public Pirep $pirep;
 
     public function __construct(Pirep $pirep)
     {

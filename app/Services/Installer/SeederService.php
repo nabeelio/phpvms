@@ -15,10 +15,10 @@ use function trim;
 
 class SeederService extends Service
 {
-    private $databaseSvc;
+    private DatabaseService $databaseSvc;
 
-    private $counters = [];
-    private $offsets = [];
+    private array $counters = [];
+    private array $offsets = [];
 
     // Map an environment to a seeder directory, if we want to share
     public static $seed_mapper = [

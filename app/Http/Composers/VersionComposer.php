@@ -8,7 +8,7 @@ use Illuminate\View\View;
 
 class VersionComposer extends Composer
 {
-    protected $versionSvc;
+    protected VersionService $versionSvc;
 
     public function __construct(VersionService $versionSvc)
     {

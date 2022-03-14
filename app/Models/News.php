@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Contracts\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
 
 /**
@@ -14,6 +15,7 @@ use Illuminate\Notifications\Notifiable;
  */
 class News extends Model
 {
+    use HasFactory;
     use Notifiable;
 
     public $table = 'news';

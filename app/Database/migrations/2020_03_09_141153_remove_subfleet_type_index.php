@@ -7,12 +7,11 @@ use Illuminate\Support\Facades\Schema;
 /**
  * Remove the unique index from subfleets.type
  */
-class RemoveSubfleetTypeIndex extends Migration
-{
+return new class() extends Migration {
     public function up()
     {
         Schema::table('subfleets', function (Blueprint $table) {
             $table->dropUnique(['type']);
         });
     }
-}
+};

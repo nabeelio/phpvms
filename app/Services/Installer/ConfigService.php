@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class ConfigService extends Service
 {
-    protected static $defaultValues = [
+    protected static array $defaultValues = [
         'APP_ENV'             => 'production',
         'APP_KEY'             => '',
         'APP_DEBUG'           => false,
@@ -194,10 +194,10 @@ class ConfigService extends Service
         // If it's mariadb, enable the emulation for prepared statements
         // seems to be throwing a problem on 000webhost
         // https://github.com/nabeelio/phpvms/issues/132
-        if (strpos($version, 'mariadb') !== false) {
+        /*if (strpos($version, 'mariadb') !== false) {
             Log::info('Detected MariaDB, setting DB_EMULATE_PREPARES to true');
             $opts['DB_EMULATE_PREPARES'] = true;
-        }
+        }*/
 
         return $opts;
     }

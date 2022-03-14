@@ -2,6 +2,9 @@
 
 namespace App\Http\Resources;
 
+/**
+ * @mixin \App\Models\Subfleet
+ */
 class BidSubfleet extends Subfleet
 {
     protected $aircraft;

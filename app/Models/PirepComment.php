@@ -3,12 +3,15 @@
 namespace App\Models;
 
 use App\Contracts\Model;
+use Carbon\Carbon;
 
 /**
  * @property string $pirep_id
+ * @property string $comment
  * @property int    $user_id
  * @property Pirep  $pirep
  * @property User   $user
+ * @property Carbon $created_at
  */
 class PirepComment extends Model
 {

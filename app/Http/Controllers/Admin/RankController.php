@@ -15,9 +15,9 @@ use Prettus\Repository\Criteria\RequestCriteria;
 
 class RankController extends Controller
 {
-    private $fleetSvc;
-    private $rankRepository;
-    private $subfleetRepo;
+    private FleetService $fleetSvc;
+    private RankRepository $rankRepository;
+    private SubfleetRepository $subfleetRepo;
 
     /**
      * RankController constructor.

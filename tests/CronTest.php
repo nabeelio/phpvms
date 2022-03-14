@@ -22,10 +22,10 @@ class CronTest extends TestCase
     protected static function getPirep($subtractTime): Pirep
     {
         /** @var User $user */
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         /** @var Pirep $pirep */
-        return factory(Pirep::class)->create([
+        return Pirep::factory()->create([
             'user_id'    => $user->id,
             'state'      => PirepState::IN_PROGRESS,
             'updated_at' => Carbon::now('UTC')->subHours($subtractTime),

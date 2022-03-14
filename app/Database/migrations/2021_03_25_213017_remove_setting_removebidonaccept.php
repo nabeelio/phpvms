@@ -3,8 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 
-class RemoveSettingRemoveBidOnAccept extends Migration
-{
+return new class() extends Migration {
     /**
      * Run the migrations.
      *
@@ -16,4 +15,4 @@ class RemoveSettingRemoveBidOnAccept extends Migration
             ->where(['key' => 'pireps.remove_bid_on_accept'])
             ->delete();
     }
-}
+};

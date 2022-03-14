@@ -5,8 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
-class DiscordFields extends Migration
-{
+return new class() extends Migration {
     public function up()
     {
         // Delete the old Discord fields and then a webhook will get added
@@ -29,4 +28,4 @@ class DiscordFields extends Migration
                 ->after('rank_id');
         });
     }
-}
+};

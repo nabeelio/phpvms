@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use App\Contracts\Factory;
 use App\Contracts\Unit;
 use App\Exceptions\Handler;
 use App\Repositories\SettingRepository;
@@ -62,6 +63,10 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
 
         Notification::fake();
         // $this->disableExceptionHandling();
+
+        Factory::guessFactoryNamesUsing(function (string $modelName) {
+            return 'App\\Database\\Factories\\'.class_basename($modelName).'Factory';
+        });
     }
 
     /**
@@ -274,6 +279,8 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
                 $data[$key] = $value->format(DATE_ATOM);
             } elseif ($value instanceof Carbon) {
                 $data[$key] = $value->toIso8601ZuluString();
+            } elseif ($value instanceof Unit) {
+                $data[$key] = (float) $value->internal(2);
             }
         }
 

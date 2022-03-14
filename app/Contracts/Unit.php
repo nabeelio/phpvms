@@ -3,7 +3,6 @@
 namespace App\Contracts;
 
 use ArrayAccess;
-use PhpUnitsOfMeasure\Exception\UnknownUnitOfMeasure;
 
 /**
  * Abstract unit wrapper
@@ -11,45 +10,89 @@ use PhpUnitsOfMeasure\Exception\UnknownUnitOfMeasure;
 class Unit implements ArrayAccess
 {
     /**
-     * The unit this is kept as
+     * The localized unit the user wants it displayed in
      */
-    public $unit;
+    public string $localUnit;
 
     /**
-     * All of the units of this class
+     * The unit that this value is stored in locally
      */
-    public $units;
+    public string $internalUnit;
+
+    /**
+     * All of the units of this class which are reported in an API response
+     */
+    public array $units;
 
     /**
      * Holds an instance of the PhpUnit type
-     *
-     * @var \PhpUnitsOfMeasure\AbstractPhysicalQuantity
      */
-    protected $instance;
+    protected mixed $instance;
 
     /**
      * Units that are included as part of the REST response
      */
-    public $responseUnits = [];
+    public array $responseUnits = [];
 
     /**
-     * @return mixed
+     * Factory method for creating a new unit type
+     *
+     * @param mixed  $value
+     * @param string $unit
+     *
+     * @throws \Exception
+     *
+     * @return Unit
      */
-    public function value()
+    public static function make(mixed $value, string $unit): self
     {
-        return $this->__toString();
+        if ($value instanceof self) {
+            return $value;
+        }
+
+        return new static($value, $unit);
+    }
+
+    /**
+     * Return the value in an internal format
+     *
+     * @param int|null $round Optional value to round to
+     *
+     * @return float|null
+     */
+    public function internal(?int $round = null): ?float
+    {
+        return $this->toUnit($this->internalUnit, $round);
+    }
+
+    /**
+     * Return the value in the localized format
+     *
+     * @param int|null $round Optional value to round to
+     *
+     * @return float|null
+     */
+    public function local(?int $round = null): ?float
+    {
+        return $this->toUnit($this->localUnit, $round);
     }
 
     /**
      * Just call toUnit() on the PhpUnitOfMeasure instance
      *
-     * @param string $unit
+     * @param string   $unit
+     * @param int|null $round Optional value to round to
      *
-     * @return mixed
+     * @return float|null
      */
-    public function toUnit($unit)
+    public function toUnit(string $unit, ?int $round = null): ?float
     {
-        return $this->instance->toUnit($unit);
+        $val = $this->instance->toUnit($unit);
+        if ($round === null) {
+            return $val;
+        }
+
+        return round($val, $round);
     }
 
     /**
@@ -59,7 +102,7 @@ class Unit implements ArrayAccess
     {
         $response = [];
         foreach ($this->responseUnits as $unit) {
-            $response[$unit] = $this[$unit] ?? 0;
+            $response[$unit] = round($this->instance->toUnit($unit), 2);
         }
 
         return $response;
@@ -72,7 +115,7 @@ class Unit implements ArrayAccess
      *
      * @return bool
      */
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return $this->offsetGet($offset) !== null;
     }
@@ -80,19 +123,15 @@ class Unit implements ArrayAccess
     /**
      * Implements ArrayAccess
      *
-     * @param $offset
+     * @param $unit
      *
-     * @return mixed
+     * @return float|null
      */
-    public function offsetGet($offset)
+    public function offsetGet($unit): ?float
     {
-        try {
-            $value = $this->instance->toUnit($offset);
-            if (!$value) {
-                return;
-            }
-        } catch (UnknownUnitOfMeasure $e) {
-            return;
+        $value = $this->instance->toUnit($unit);
+        if (!$value) {
+            return null;
         }
 
         return round($value, 2);
@@ -124,6 +163,6 @@ class Unit implements ArrayAccess
      */
     public function __toString()
     {
-        return (string) $this->offsetGet($this->unit);
+        return (string) $this->offsetGet($this->localUnit);
     }
 }

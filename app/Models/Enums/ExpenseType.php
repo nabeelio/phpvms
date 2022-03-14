@@ -10,13 +10,13 @@ class ExpenseType extends Enum
     public const DAILY = 'D';
     public const MONTHLY = 'M';
 
-    protected static $labels = [
+    protected static array $labels = [
         self::FLIGHT  => 'expenses.type.flight',
         self::DAILY   => 'expenses.type.daily',
         self::MONTHLY => 'expenses.type.monthly',
     ];
 
-    protected static $codes = [
+    protected static array $codes = [
         self::FLIGHT  => 'F',
         self::DAILY   => 'D',
         self::MONTHLY => 'M',

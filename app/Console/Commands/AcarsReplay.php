@@ -17,25 +17,25 @@ class AcarsReplay extends Command
      *
      * @var string
      */
-    protected $apiKey = 'testadminapikey';
+    protected string $apiKey = 'testadminapikey';
 
     /**
      * For automatic updates, how many seconds to sleep between updates
      *
      * @var int
      */
-    protected $sleepTime = 10;
+    protected int $sleepTime = 10;
 
     /**
      * @var array key == update[callsign]
      *            value == PIREP ID
      */
-    protected $pirepList = [];
+    protected array $pirepList = [];
 
     /**
      * @var Client
      */
-    protected $httpClient;
+    protected Client $httpClient;
 
     /**
      * Return an instance of an HTTP client all ready to post

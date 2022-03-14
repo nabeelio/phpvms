@@ -10,7 +10,7 @@ use PhpUnitsOfMeasure\PhysicalQuantity\Velocity as VelocityUnit;
  */
 class Velocity extends Unit
 {
-    public $responseUnits = [
+    public array $responseUnits = [
         'km/h',
         'knots',
     ];
@@ -28,7 +28,14 @@ class Velocity extends Unit
             $value = 0;
         }
 
-        $this->unit = setting('units.speed');
-        $this->instance = new VelocityUnit($value, $unit);
+        $this->localUnit = setting('units.speed');
+        $this->internalUnit = config('phpvms.internal_units.velocity');
+
+        if ($value instanceof self) {
+            $value->toUnit($unit);
+            $this->instance = $value->instance;
+        } else {
+            $this->instance = new VelocityUnit($value, $unit);
+        }
     }
 }

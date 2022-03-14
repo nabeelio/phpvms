@@ -2,11 +2,11 @@
 
 namespace App\Console\Commands;
 
-use App;
 use App\Contracts\Command;
 use App\Services\Installer\ConfigService;
 use App\Services\Installer\SeederService;
 use DatabaseSeeder;
+use Illuminate\Support\Facades\App;
 
 /**
  * Create the config files
@@ -16,8 +16,8 @@ class CreateConfigs extends Command
     protected $signature = 'phpvms:config {db_host} {db_name} {db_user} {db_pass}';
     protected $description = 'Create the config files';
 
-    private $databaseSeeder;
-    private $seederSvc;
+    private DatabaseSeeder $databaseSeeder;
+    private SeederService $seederSvc;
 
     public function __construct(DatabaseSeeder $databaseSeeder, SeederService $seederSvc)
     {

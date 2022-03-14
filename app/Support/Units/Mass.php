@@ -7,7 +7,7 @@ use PhpUnitsOfMeasure\PhysicalQuantity\Mass as MassUnit;
 
 class Mass extends Unit
 {
-    public $responseUnits = [
+    public array $responseUnits = [
         'kg',
         'lbs',
     ];
@@ -25,7 +25,14 @@ class Mass extends Unit
             $value = 0;
         }
 
-        $this->unit = setting('units.weight');
-        $this->instance = new MassUnit($value, $unit);
+        $this->localUnit = setting('units.weight');
+        $this->internalUnit = config('phpvms.internal_units.mass');
+
+        if ($value instanceof self) {
+            $value->toUnit($unit);
+            $this->instance = $value->instance;
+        } else {
+            $this->instance = new MassUnit($value, $unit);
+        }
     }
 }

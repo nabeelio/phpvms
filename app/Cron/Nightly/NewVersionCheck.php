@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Log;
 
 class NewVersionCheck extends Listener
 {
-    private $versionSvc;
+    private VersionService $versionSvc;
 
     /**
      * @param VersionService $versionSvc

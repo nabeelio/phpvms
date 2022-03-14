@@ -7,7 +7,6 @@ use App\Models\Airline;
 use App\Models\Enums\ExpenseType;
 use App\Models\Expense;
 use App\Models\JournalTransaction;
-use App\Repositories\JournalRepository;
 use App\Services\FinanceService;
 use App\Support\Money;
 use Carbon\Carbon;
@@ -18,13 +17,11 @@ use Illuminate\Support\Facades\Log;
  */
 class RecurringFinanceService extends Service
 {
-    private $financeSvc;
-    private $journalRepo;
+    private FinanceService $financeSvc;
 
-    public function __construct(JournalRepository $journalRepo, FinanceService $financeSvc)
+    public function __construct(FinanceService $financeSvc)
     {
         $this->financeSvc = $financeSvc;
-        $this->journalRepo = $journalRepo;
     }
 
     /**

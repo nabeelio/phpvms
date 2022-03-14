@@ -27,7 +27,7 @@ class RegistrationTest extends TestCase
 
         $this->updateSetting('pilots.auto_accept', true);
 
-        $attrs = factory(User::class)->make()->makeVisible(['api_key', 'name', 'email'])->toArray();
+        $attrs = User::factory()->make()->makeVisible(['api_key', 'name', 'email'])->toArray();
         $attrs['password'] = Hash::make('secret');
         $user = $userSvc->createUser($attrs);
 

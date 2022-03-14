@@ -31,15 +31,15 @@ class FlightController extends Controller
 {
     use Importable;
 
-    private $airlineRepo;
-    private $airportRepo;
-    private $fareRepo;
-    private $flightRepo;
-    private $flightFieldRepo;
-    private $fareSvc;
-    private $flightSvc;
-    private $importSvc;
-    private $subfleetRepo;
+    private AirlineRepository $airlineRepo;
+    private AirportRepository $airportRepo;
+    private FareRepository $fareRepo;
+    private FlightRepository $flightRepo;
+    private FlightFieldRepository $flightFieldRepo;
+    private FareService $fareSvc;
+    private FlightService $flightSvc;
+    private ImportService $importSvc;
+    private SubfleetRepository $subfleetRepo;
 
     /**
      * FlightController constructor.

@@ -5,11 +5,8 @@ namespace App\Notifications\Messages\Broadcast;
 use App\Contracts\Notification;
 use App\Models\Pirep;
 use App\Notifications\Channels\Discord\DiscordMessage;
-use App\Support\Units\Distance;
 use App\Support\Units\Time;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use PhpUnitsOfMeasure\Exception\NonNumericValue;
-use PhpUnitsOfMeasure\Exception\NonStringUnitName;
 
 class PirepFiled extends Notification implements ShouldQueue
 {
@@ -42,25 +39,7 @@ class PirepFiled extends Notification implements ShouldQueue
     public function toDiscordChannel($pirep): ?DiscordMessage
     {
         $title = 'Flight '.$pirep->ident.' Filed';
-        $fields = [
-            'Dep.Airport' => $pirep->dpt_airport_id,
-            'Arr.Airport' => $pirep->arr_airport_id,
-            'Equipment'   => $pirep->aircraft->ident,
-            'Flight Time' => Time::minutesToTimeString($pirep->flight_time),
-        ];
-
-        if ($pirep->distance) {
-            try {
-                $distance = new Distance(
-                    $pirep->distance,
-                    config('phpvms.internal_units.distance')
-                );
-
-                $pd = $distance[$distance->unit].' '.$distance->unit;
-                $fields['Distance'] = $pd;
-            } catch (NonNumericValue|NonStringUnitName $e) {
-            }
-        }
+        $fields = $this->createFields($pirep);
 
         // User avatar, somehow $pirep->user->resolveAvatarUrl() is not being accepted by Discord as thumbnail
         $user_avatar = !empty($pirep->user->avatar) ? $pirep->user->avatar->url : $pirep->user->gravatar(256);
@@ -77,6 +56,27 @@ class PirepFiled extends Notification implements ShouldQueue
                 'url'  => route('frontend.profile.show', [$pirep->user_id]),
             ])
             ->fields($fields);
+    }
+
+    /**
+     * @param Pirep $pirep
+     *
+     * @return array
+     */
+    public function createFields(Pirep $pirep): array
+    {
+        $fields = [
+            'Dep.Airport' => $pirep->dpt_airport_id,
+            'Arr.Airport' => $pirep->arr_airport_id,
+            'Equipment'   => $pirep->aircraft->ident,
+            'Flight Time' => Time::minutesToTimeString($pirep->flight_time),
+        ];
+
+        if ($pirep->distance) {
+            $fields['Distance'] = $pirep->distance->local(2).' '.setting('units.distance');
+        }
+
+        return $fields;
     }
 
     /**

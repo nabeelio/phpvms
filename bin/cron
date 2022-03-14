@@ -20,7 +20,7 @@ $kernel = $app->make(Kernel::class);
 // Run a null artisan thing just so Laravel internals can be setup properly
 $status = $kernel->handle(
     $input = new Symfony\Component\Console\Input\ArrayInput([
-        'command' => 'version',
+        'command' => 'phpvms:version',
     ]),
     new Symfony\Component\Console\Output\NullOutput()
 );

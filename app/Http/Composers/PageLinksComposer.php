@@ -13,7 +13,7 @@ class PageLinksComposer extends Composer
     private static $fields = ['id', 'name', 'slug', 'icon', 'type', 'link', 'new_window'];
 
     /** @var \App\Repositories\PageRepository */
-    private $pageRepo;
+    private PageRepository $pageRepo;
 
     /**
      * PageLinksComposer constructor.

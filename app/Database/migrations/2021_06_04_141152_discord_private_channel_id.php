@@ -4,8 +4,7 @@ use App\Contracts\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class DiscordPrivateChannelId extends Migration
-{
+return new class() extends Migration {
     public function up()
     {
         // Add a field to the user to enter their own Discord ID
@@ -15,4 +14,4 @@ class DiscordPrivateChannelId extends Migration
                 ->after('discord_id');
         });
     }
-}
+};

@@ -10,15 +10,13 @@ use App\Models\Flight;
 use App\Models\Pirep;
 use App\Models\SimBrief;
 use App\Models\User;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 
 class BidService extends Service
 {
-    /** @var FareService */
-    private $fareSvc;
-
-    /** @var FlightService */
-    private $flightSvc;
+    private FareService $fareSvc;
+    private FlightService $flightSvc;
 
     public function __construct(FareService $fareSvc, FlightService $flightSvc)
     {
@@ -29,9 +27,10 @@ class BidService extends Service
     /**
      * Get a specific bid for a user
      *
-     * @param $bid_id
+     * @param User $user
+     * @param      $bid_id
      *
-     * @return \App\Models\Bid|\Illuminate\Database\Eloquent\Model|object|null
+     * @return Bid|null
      */
     public function getBid(User $user, $bid_id): ?Bid
     {
@@ -67,9 +66,9 @@ class BidService extends Service
      *
      * @param \App\Models\User $user
      *
-     * @return mixed
+     * @return Bid[]
      */
-    public function findBidsForUser(User $user)
+    public function findBidsForUser(User $user): Collection|array|null
     {
         $with = [
             'flight',

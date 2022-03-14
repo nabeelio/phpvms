@@ -97,14 +97,11 @@
             @endforeach
           @endif
 
-          @if(config('captcha.enabled'))
-            <label for="g-recaptcha-response" class="control-label">@lang('auth.fillcaptcha')</label>
-            <div
-              class="input-group form-group-no-border {{ $errors->has('g-recaptcha-response') ? 'has-danger' : '' }}">
-              {!! NoCaptcha::display(config('captcha.attributes')) !!}
-            </div>
-            @if ($errors->has('g-recaptcha-response'))
-              <p class="text-danger">{{ $errors->first('g-recaptcha-response') }}</p>
+          @if($captcha['enabled'] === true)
+            <label for="h-captcha" class="control-label">@lang('auth.fillcaptcha')</label>
+            <div class="h-captcha" data-sitekey="{{ $captcha['site_key'] }}"></div>
+            @if ($errors->has('h-captcha-response'))
+              <p class="text-danger">{{ $errors->first('h-captcha-response') }}</p>
             @endif
           @endif
 
@@ -158,7 +155,9 @@
 @endsection
 
 @section('scripts')
-  {!! NoCaptcha::renderJs(config('app.locale')) !!}
+  @if ($captcha['enabled'])
+    <script src="https://hcaptcha.com/1/api.js" async defer></script>
+  @endif
 
   <script>
     $('#toc_accepted').click(function () {

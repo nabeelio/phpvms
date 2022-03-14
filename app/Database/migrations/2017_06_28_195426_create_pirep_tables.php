@@ -7,8 +7,7 @@ use App\Models\Enums\PirepState;
 use App\Models\Enums\PirepStatus;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreatePirepTables extends Migration
-{
+return new class() extends Migration {
     /**
      * Run the migrations.
      *
@@ -106,4 +105,4 @@ class CreatePirepTables extends Migration
         Schema::dropIfExists('pirep_fields');
         Schema::dropIfExists('pirep_field_values');
     }
-}
+};

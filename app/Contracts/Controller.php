@@ -84,6 +84,7 @@ abstract class Controller extends \Illuminate\Routing\Controller
      *
      * @param $message
      * @param null|mixed $count
+     * @param mixed      $attrs
      *
      * @return \Illuminate\Http\JsonResponse
      */

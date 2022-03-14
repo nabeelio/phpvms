@@ -22,7 +22,7 @@ class FlightType extends Enum
     public const MILITARY = 'W';
     public const TECHNICAL_STOP = 'X';
 
-    protected static $labels = [
+    protected static array $labels = [
         self::SCHED_PAX          => 'flights.type.pass_scheduled',
         self::SCHED_CARGO        => 'flights.type.cargo_scheduled',
         self::CHARTER_PAX_ONLY   => 'flights.type.charter_pass_only',

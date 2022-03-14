@@ -6,11 +6,8 @@ use App\Contracts\Notification;
 use App\Models\Pirep;
 use App\Notifications\Channels\Discord\DiscordMessage;
 use App\Notifications\Channels\Discord\DiscordWebhook;
-use App\Support\Units\Distance;
 use App\Support\Units\Time;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use PhpUnitsOfMeasure\Exception\NonNumericValue;
-use PhpUnitsOfMeasure\Exception\NonStringUnitName;
 
 /**
  * Send the PIREP accepted message to a particular user, can also be sent to Discord
@@ -49,6 +46,32 @@ class PirepPrefiled extends Notification implements ShouldQueue
         }
 
         $title = 'Flight '.$pirep->ident.' Prefiled';
+        $fields = $this->createFields($pirep);
+
+        $dm = new DiscordMessage();
+
+        return $dm->webhook(setting('notifications.discord_public_webhook_url'))
+            ->success()
+            ->title($title)
+            ->description(
+                $pirep->user->discord_id ? 'Flight by <@'.$pirep->user->discord_id.'>' : ''
+            )
+            ->url(route('frontend.pireps.show', [$pirep->id]))
+            ->author([
+                'name'     => $pirep->user->ident.' - '.$pirep->user->name_private,
+                'url'      => route('frontend.profile.show', [$pirep->user_id]),
+                'icon_url' => $pirep->user->resolveAvatarUrl(),
+            ])
+            ->fields($fields);
+    }
+
+    /**
+     * @param Pirep $pirep
+     *
+     * @return array
+     */
+    public function createFields(Pirep $pirep): array
+    {
         $fields = [
             'Flight'                => $pirep->ident,
             'Departure Airport'     => $pirep->dpt_airport_id,
@@ -58,31 +81,10 @@ class PirepPrefiled extends Notification implements ShouldQueue
         ];
 
         if ($pirep->planned_distance) {
-            try {
-                $planned_distance = new Distance(
-                    $pirep->planned_distance,
-                    config('phpvms.internal_units.distance')
-                );
-
-                $pd = $planned_distance[$planned_distance->unit].' '.$planned_distance->unit;
-                $fields['Distance (Planned)'] = $pd;
-            } catch (NonNumericValue $e) {
-            } catch (NonStringUnitName $e) {
-            }
+            $fields['Distance'] = $pirep->planned_distance->local(2).' '.setting('units.distance');
         }
 
-        $dm = new DiscordMessage();
-        return $dm->webhook(setting('notifications.discord_public_webhook_url'))
-            ->success()
-            ->title($title)
-            ->description($pirep->user->discord_id ? 'Flight by <@'.$pirep->user->discord_id.'>' : '')
-            ->url(route('frontend.pireps.show', [$pirep->id]))
-            ->author([
-                'name'     => $pirep->user->ident.' - '.$pirep->user->name_private,
-                'url'      => route('frontend.profile.show', [$pirep->user_id]),
-                'icon_url' => $pirep->user->resolveAvatarUrl(),
-            ])
-            ->fields($fields);
+        return $fields;
     }
 
     /**

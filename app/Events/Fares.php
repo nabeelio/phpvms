@@ -27,7 +27,7 @@ use App\Models\Pirep;
  */
 class Fares extends Event
 {
-    public $pirep;
+    public ?Pirep $pirep;
 
     /**
      * @param Pirep|null $pirep

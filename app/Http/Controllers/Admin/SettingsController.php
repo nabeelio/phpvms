@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Log;
 
 class SettingsController extends Controller
 {
-    private $financeSvc;
+    private FinanceService $financeSvc;
 
     /**
      * @param FinanceService $financeSvc

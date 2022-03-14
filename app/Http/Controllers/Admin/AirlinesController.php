@@ -15,8 +15,8 @@ use Prettus\Repository\Criteria\RequestCriteria;
 
 class AirlinesController extends Controller
 {
-    private $airlineRepo;
-    private $airlineSvc;
+    private AirlineRepository $airlineRepo;
+    private AirlineService $airlineSvc;
 
     /**
      * AirlinesController constructor.

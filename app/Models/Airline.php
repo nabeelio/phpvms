@@ -6,11 +6,11 @@ use App\Contracts\Model;
 use App\Models\Enums\JournalType;
 use App\Models\Traits\FilesTrait;
 use App\Models\Traits\JournalTrait;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Str;
 
 /**
- * Class Airline
- *
  * @property mixed   id
  * @property string  code
  * @property string  icao
@@ -23,6 +23,7 @@ use Illuminate\Support\Str;
 class Airline extends Model
 {
     use FilesTrait;
+    use HasFactory;
     use JournalTrait;
 
     public $table = 'airlines';
@@ -70,33 +71,42 @@ class Airline extends Model
     /**
      * For backwards compatibility
      */
-    public function getCodeAttribute()
+    public function code(): Attribute
     {
-        if ($this->iata && $this->iata !== '') {
-            return $this->iata;
-        }
-        return $this->icao;
+        return Attribute::make(
+            get: function ($_, $attrs) {
+                if ($this->iata && $this->iata !== '') {
+                    return $this->iata;
+                }
+
+                return $this->icao;
+            }
+        );
     }
 
     /**
      * Capitalize the IATA code when set
-     *
-     * @param $iata
      */
-    public function setIataAttribute($iata)
+    public function iata(): Attribute
     {
-        $this->attributes['iata'] = Str::upper($iata);
+        return Attribute::make(
+            set: fn ($iata) => Str::upper($iata)
+        );
     }
 
     /**
      * Capitalize the ICAO when set
-     *
-     * @param $icao
      */
-    public function setIcaoAttribute($icao): void
+    public function icao(): Attribute
     {
-        $this->attributes['icao'] = Str::upper($icao);
+        return Attribute::make(
+            set: fn ($icao) => Str::upper($icao)
+        );
     }
+
+    /*
+     * FKs
+     */
 
     public function subfleets()
     {

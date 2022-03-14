@@ -15,7 +15,7 @@ class PirepState extends Enum
     public const REJECTED = 6;
     public const PAUSED = 7;
 
-    protected static $labels = [
+    protected static array $labels = [
         self::IN_PROGRESS => 'pireps.state.in_progress',
         self::PENDING     => 'pireps.state.pending',
         self::ACCEPTED    => 'pireps.state.accepted',

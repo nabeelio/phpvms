@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Log;
  */
 class ClearExpiredSimbrief extends Listener
 {
-    private $simbriefSvc;
+    private SimBriefService $simbriefSvc;
 
     public function __construct(SimBriefService $simbriefSvc)
     {

@@ -8,6 +8,7 @@ namespace App\Models;
 
 use App\Contracts\Model;
 use App\Models\Traits\ReferenceTrait;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * @property string  id  UUID type
@@ -23,6 +24,7 @@ use App\Models\Traits\ReferenceTrait;
  */
 class JournalTransaction extends Model
 {
+    use HasFactory;
     use ReferenceTrait;
 
     protected $table = 'journal_transactions';

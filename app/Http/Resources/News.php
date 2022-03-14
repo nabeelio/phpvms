@@ -4,6 +4,9 @@ namespace App\Http\Resources;
 
 use App\Contracts\Resource;
 
+/**
+ * @mixin \App\Models\News
+ */
 class News extends Resource
 {
     /**

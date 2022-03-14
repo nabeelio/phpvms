@@ -1,23 +1,37 @@
 <?php
 
-use Faker\Generator as Faker;
+/** @noinspection PhpIllegalPsrClassPathInspection */
 
-/*
- * id: 2
-    name: Junior First Officer
-    hours: 10
-    auto_approve_acars: 1
-    auto_approve_manual: 1
- */
-$factory->define(App\Models\Rank::class, function (Faker $faker) {
-    return [
-        'id'                   => null,
-        'name'                 => $faker->unique()->text(50),
-        'hours'                => $faker->numberBetween(10, 50),
-        'acars_base_pay_rate'  => $faker->numberBetween(10, 100),
-        'manual_base_pay_rate' => $faker->numberBetween(10, 100),
-        'auto_approve_acars'   => 0,
-        'auto_approve_manual'  => 0,
-        'auto_promote'         => 0,
-    ];
-});
+namespace App\Database\Factories;
+
+use App\Contracts\Factory;
+use App\Models\Rank;
+
+class RankFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = Rank::class;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
+    public function definition(): array
+    {
+        return [
+            'id'                   => null,
+            'name'                 => $this->faker->unique()->text(50),
+            'hours'                => $this->faker->numberBetween(10, 50),
+            'acars_base_pay_rate'  => $this->faker->numberBetween(10, 100),
+            'manual_base_pay_rate' => $this->faker->numberBetween(10, 100),
+            'auto_approve_acars'   => 0,
+            'auto_approve_manual'  => 0,
+            'auto_promote'         => 0,
+        ];
+    }
+}

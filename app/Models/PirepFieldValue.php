@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Contracts\Model;
 use App\Models\Enums\PirepFieldSource;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 /**
  * @property string pirep_id
@@ -36,22 +37,30 @@ class PirepFieldValue extends Model
     ];
 
     /**
+     * When setting the name attribute, also set the slug
+     *
+     * @return Attribute
+     */
+    public function name(): Attribute
+    {
+        return Attribute::make(
+            set: fn ($name) => [
+                'name' => $name,
+                'slug' => str_slug($name),
+            ]
+        );
+    }
+
+    /**
      * If it was filled in from ACARS, then it's read only
      *
      * @return bool
      */
-    public function getReadOnlyAttribute()
+    public function readOnly(): Attribute
     {
-        return $this->source === PirepFieldSource::ACARS;
-    }
-
-    /**
-     * @param $name
-     */
-    public function setNameAttribute($name): void
-    {
-        $this->attributes['name'] = $name;
-        $this->attributes['slug'] = str_slug($name);
+        return Attribute::make(
+            get: fn ($_, $attrs) => $this->source === PirepFieldSource::ACARS
+        );
     }
 
     /**

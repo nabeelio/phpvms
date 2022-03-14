@@ -6,6 +6,8 @@ use App\Contracts\Model;
 use App\Models\Enums\AircraftStatus;
 use App\Models\Traits\ExpensableTrait;
 use App\Models\Traits\FilesTrait;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * @property int     id
@@ -26,6 +28,7 @@ class Subfleet extends Model
 {
     use ExpensableTrait;
     use FilesTrait;
+    use HasFactory;
 
     public $fillable = [
         'airline_id',
@@ -64,12 +67,13 @@ class Subfleet extends Model
     ];
 
     /**
-     * @param $type
+     * @return Attribute
      */
-    public function setTypeAttribute($type)
+    public function type(): Attribute
     {
-        $type = str_replace([' ', ','], ['-', ''], $type);
-        $this->attributes['type'] = $type;
+        return Attribute::make(
+            set: fn ($type) => str_replace([' ', ','], ['-', ''], $type)
+        );
     }
 
     /**

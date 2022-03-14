@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Log;
  */
 class PilotLeave extends Listener
 {
-    private $userSvc;
+    private UserService $userSvc;
 
     /**
      * PilotLeave constructor.

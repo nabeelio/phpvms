@@ -24,11 +24,11 @@ use Illuminate\Support\Facades\Auth;
 
 class SimBriefController
 {
-    private $fareSvc;
-    private $flightRepo;
-    private $moduleSvc;
-    private $simBriefSvc;
-    private $userSvc;
+    private FareService $fareSvc;
+    private FlightRepository $flightRepo;
+    private ModuleService $moduleSvc;
+    private SimBriefService $simBriefSvc;
+    private UserService $userSvc;
 
     public function __construct(
         FareService $fareSvc,

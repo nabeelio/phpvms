@@ -12,7 +12,7 @@ use Symfony\Component\Process\PhpExecutableFinder;
 
 class CronService extends Service
 {
-    private $kvpRepo;
+    private KvpRepository $kvpRepo;
 
     public function __construct(
         KvpRepository $kvpRepo

@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
  */
 class DashboardController extends Controller
 {
-    private $pirepRepo;
+    private PirepRepository $pirepRepo;
 
     /**
      * DashboardController constructor.

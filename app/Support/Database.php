@@ -26,9 +26,10 @@ class Database
      *
      * @return array
      */
-    public static function seed_from_yaml_file($yaml_file, $ignore_errors = false): array
+    public static function seed_from_yaml_file($yaml_file, bool $ignore_errors = false): array
     {
         $yml = file_get_contents($yaml_file);
+
         return static::seed_from_yaml($yml, $ignore_errors);
     }
 
@@ -40,7 +41,7 @@ class Database
      *
      * @return array
      */
-    public static function seed_from_yaml($yml, $ignore_errors = false): array
+    public static function seed_from_yaml($yml, bool $ignore_errors = false): array
     {
         $imported = [];
         $yml = Yaml::parse($yml);
@@ -95,11 +96,11 @@ class Database
      * @return mixed
      */
     public static function insert_row(
-        $table,
-        $row,
-        $id_col = 'id',
-        $ignore_on_updates = [],
-        $ignore_errors = true
+        string $table,
+        array $row = [],
+        string $id_col = 'id',
+        array $ignore_on_updates = [],
+        bool $ignore_errors = true
     ) {
         // encrypt any password fields
         if (array_key_exists('password', $row)) {
@@ -112,7 +113,7 @@ class Database
 
         // if any time fields are == to "now", then insert the right time
         foreach ($row as $column => $value) {
-            if (strtolower($value) === 'now') {
+            if (!empty($value) && strtolower($value) === 'now') {
                 $row[$column] = static::time();
             }
         }

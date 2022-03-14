@@ -5,8 +5,7 @@ use App\Contracts\Model;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAcarsTables extends Migration
-{
+return new class() extends Migration {
     public function up()
     {
         Schema::create('acars', function (Blueprint $table) {
@@ -43,4 +42,4 @@ class CreateAcarsTables extends Migration
     {
         Schema::dropIfExists('acars');
     }
-}
+};

@@ -7,8 +7,7 @@ use Illuminate\Support\Facades\Schema;
 /**
  * Add a `fuel_onboard` column for recording what is left in tanks
  */
-class AircraftAddFuelonboard extends Migration
-{
+return new class() extends Migration {
     public function up()
     {
         Schema::table('aircraft', function (Blueprint $table) {
@@ -18,4 +17,4 @@ class AircraftAddFuelonboard extends Migration
                 ->after('zfw');
         });
     }
-}
+};

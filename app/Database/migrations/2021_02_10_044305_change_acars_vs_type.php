@@ -7,12 +7,11 @@ use Illuminate\Support\Facades\Schema;
 /**
  * Change the vertical speed for the acars table to a double
  */
-class ChangeAcarsVsType extends Migration
-{
+return new class() extends Migration {
     public function up()
     {
         Schema::table('acars', function (Blueprint $table) {
             $table->float('vs')->change()->default(0.0)->nullable();
         });
     }
-}
+};

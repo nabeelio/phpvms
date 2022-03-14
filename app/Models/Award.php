@@ -3,16 +3,23 @@
 namespace App\Models;
 
 use App\Contracts\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * The Award model
  *
  * @property mixed      id
+ * @property string     name
+ * @property string     description
+ * @property string     title
+ * @property string     image
  * @property mixed      ref_model
  * @property mixed|null ref_model_params
  */
 class Award extends Model
 {
+    use HasFactory;
+
     public $table = 'awards';
 
     protected $fillable = [

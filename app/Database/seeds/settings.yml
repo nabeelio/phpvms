@@ -61,6 +61,27 @@
   options: ''
   type: boolean
   description: Record the user's IP address on register/login
+- key: captcha.enabled
+  name: 'hCaptcha Enabled'
+  group: captcha
+  value: false
+  options: ''
+  type: boolean
+  description: Is hCaptcha enabled
+- key: captcha.site_key
+  name: 'hCaptcha Site Key'
+  group: captcha
+  value: ''
+  options: ''
+  type: text
+  description: Your hCaptcha Site Key
+- key: captcha.secret_key
+  name: 'hCaptcha Secret Key'
+  group: captcha
+  value: ''
+  options: ''
+  type: text
+  description: Your hCaptcha Secret Key
 - key: units.currency
   name: 'Currency'
   group: units
