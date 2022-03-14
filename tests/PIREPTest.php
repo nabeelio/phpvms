@@ -13,6 +13,8 @@ use App\Models\Navdata;
 use App\Models\Pirep;
 use App\Models\Rank;
 use App\Models\User;
+use App\Notifications\Messages\Broadcast\PirepPrefiled;
+use App\Notifications\Messages\Broadcast\PirepStatusChanged;
 use App\Notifications\Messages\PirepAccepted;
 use App\Notifications\Messages\PirepFiled;
 use App\Repositories\SettingRepository;
@@ -109,7 +111,7 @@ class PIREPTest extends TestCase
 
         // Also check via API:
         $this->get('/api/fleet/aircraft/'.$pirep->aircraft_id, [], $user)
-             ->assertJson(['data' => ['airport_id' => $pirep->arr_airport_id]]);
+            ->assertJson(['data' => ['airport_id' => $pirep->arr_airport_id]]);
 
         // Make sure a notification was sent out to both the user and the admin(s)
         Notification::assertSentTo([$user], PirepAccepted::class);
@@ -166,18 +168,30 @@ class PIREPTest extends TestCase
 
         // Check that it has the fuel units
         $this->assertHasKeys($body['block_fuel'], ['lbs', 'kg']);
-        $this->assertEquals(round($pirep->block_fuel->toUnit('lbs')), round($body['block_fuel']['lbs']));
+        $this->assertEquals(
+            round($pirep->block_fuel->toUnit('lbs')),
+            round($body['block_fuel']['lbs'])
+        );
 
         $this->assertHasKeys($body['fuel_used'], ['lbs', 'kg']);
-        $this->assertEquals(round($pirep->fuel_used->toUnit('lbs')), round($body['fuel_used']['lbs']));
+        $this->assertEquals(
+            round($pirep->fuel_used->toUnit('lbs')),
+            round($body['fuel_used']['lbs'])
+        );
 
         // Check that it has the distance units
         $this->assertHasKeys($body['distance'], ['km', 'nmi', 'mi']);
-        $this->assertEquals(round($pirep->distance->toUnit('nmi')), round($body['distance']['nmi']));
+        $this->assertEquals(
+            round($pirep->distance->toUnit('nmi')),
+            round($body['distance']['nmi'])
+        );
 
         // Check the planned_distance field
         $this->assertHasKeys($body['planned_distance'], ['km', 'nmi', 'mi']);
-        $this->assertEquals(round($pirep->planned_distance->toUnit('nmi')), round($body['planned_distance']['nmi']));
+        $this->assertEquals(
+            round($pirep->planned_distance->toUnit('nmi')),
+            round($body['planned_distance']['nmi'])
+        );
 
         //Check conversion on save
         $val = random_int(1000, 9999999);
@@ -197,10 +211,16 @@ class PIREPTest extends TestCase
 
         // conversion of kg to lbs
         $pirep->block_fuel = new Fuel($val, 'kg');
-        $this->assertEquals($pirep->block_fuel->internal(2), Fuel::make($val, 'kg')->toUnit('lbs', 2));
+        $this->assertEquals(
+            $pirep->block_fuel->internal(2),
+            Fuel::make($val, 'kg')->toUnit('lbs', 2)
+        );
 
         $pirep->fuel_used = new Fuel($val, 'kg');
-        $this->assertEquals($pirep->fuel_used->internal(2), Fuel::make($val, 'kg')->toUnit('lbs', 2));
+        $this->assertEquals(
+            $pirep->fuel_used->internal(2),
+            Fuel::make($val, 'kg')->toUnit('lbs', 2)
+        );
     }
 
     public function testGetUserPireps()
@@ -222,8 +242,8 @@ class PIREPTest extends TestCase
         ]);
 
         $pireps = $this->get('/api/user/pireps')
-                    ->assertStatus(200)
-                    ->json();
+            ->assertStatus(200)
+            ->json();
 
         $pirep_ids = collect($pireps['data'])->pluck('id');
 
@@ -321,8 +341,8 @@ class PIREPTest extends TestCase
         // it should automatically be accepted
         //
         $pirep = Pirep::factory()->create([
-            'airline_id' => 1,
-            'user_id'    => $user->id,
+            'airline_id'  => 1,
+            'user_id'     => $user->id,
             // 120min == 2 hours, currently at 9 hours
             // Rank bumps up at 10 hours
             'flight_time' => 120,
@@ -556,5 +576,40 @@ class PIREPTest extends TestCase
         ])->first();
 
         $this->assertNull($user_bid);
+    }
+
+    /**
+     * See that the notifications are properly formatted
+     */
+    public function testNotificationFormatting()
+    {
+        $this->updateSetting('units.distance', 'km');
+
+        /** @var User $user */
+        $user = User::factory()->create();
+
+        /** @var Pirep $pirep */
+        $pirep = Pirep::factory()->create([
+            'user_id'             => $user->id,
+            'distance'            => 100,
+            'planned_distance'    => 200,
+            'flight_time'         => 60,
+            'planned_flight_time' => 90,
+        ]);
+
+        $discordNotif = new PirepPrefiled($pirep);
+        $fields = $discordNotif->createFields($pirep);
+        $this->assertEquals('1h 30m', $fields['Flight Time (Planned)']);
+        $this->assertEquals('370.4 km', $fields['Distance']);
+
+        $discordNotif = new PirepStatusChanged($pirep);
+        $fields = $discordNotif->createFields($pirep);
+        $this->assertEquals('1h 0m', $fields['Flight Time']);
+        $this->assertEquals('185.2/370.4 km', $fields['Distance']);
+
+        $discordNotif = new \App\Notifications\Messages\Broadcast\PirepFiled($pirep);
+        $fields = $discordNotif->createFields($pirep);
+        $this->assertEquals('1h 0m', $fields['Flight Time']);
+        $this->assertEquals('185.2 km', $fields['Distance']);
     }
 }

@@ -78,36 +78,7 @@ class PirepStatusChanged extends Notification implements ShouldQueue
         }
 
         $title = 'Flight '.$pirep->ident.' '.self::$verbs[$pirep->status];
-        $fields = [
-            'Dep.Airport' => $pirep->dpt_airport_id,
-            'Arr.Airport' => $pirep->arr_airport_id,
-            'Equipment'   => $pirep->aircraft->ident,
-            'Flight Time' => Time::minutesToTimeString($pirep->flight_time),
-        ];
-
-        // Show the distance, but include the planned distance if it's been set
-        if ($pirep->distance) {
-            $unit = config('phpvms.internal_units.distance');
-
-            try {
-                $planned_distance = new Distance($pirep->distance, $unit);
-                $pd = $planned_distance[$planned_distance->localUnit];
-                $fields['Distance'] = $pd;
-
-                // Add the planned distance in
-                if ($pirep->planned_distance) {
-                    try {
-                        $planned_distance = new Distance($pirep->planned_distance, $unit);
-                        $pd = $planned_distance[$planned_distance->localUnit];
-                        $fields['Distance'] .= '/'.$pd;
-                    } catch (NonNumericValue|NonStringUnitName $e) {
-                    }
-                }
-
-                $fields['Distance'] .= ' '.$planned_distance->localUnit;
-            } catch (NonNumericValue|NonStringUnitName $e) {
-            }
-        }
+        $fields = $this->createFields($pirep);
 
         // User avatar, somehow $pirep->user->resolveAvatarUrl() is not being accepted by Discord as thumbnail
         $user_avatar = !empty($pirep->user->avatar) ? $pirep->user->avatar->url : $pirep->user->gravatar(256);
@@ -135,6 +106,39 @@ class PirepStatusChanged extends Notification implements ShouldQueue
                 'url'  => route('frontend.profile.show', [$pirep->user_id]),
             ])
             ->fields($fields);
+    }
+
+    /**
+     * @param Pirep $pirep
+     *
+     * @return array
+     */
+    public function createFields(Pirep $pirep): array
+    {
+        $fields = [
+            'Dep.Airport' => $pirep->dpt_airport_id,
+            'Arr.Airport' => $pirep->arr_airport_id,
+            'Equipment'   => $pirep->aircraft->ident,
+            'Flight Time' => Time::minutesToTimeString($pirep->flight_time),
+        ];
+
+        // Show the distance, but include the planned distance if it's been set
+        $fields['Distance'] = [];
+        if ($pirep->distance) {
+            $fields['Distance'][] = $pirep->distance->local(2);
+
+        }
+
+        if ($pirep->planned_distance) {
+            $fields['Distance'][] = $pirep->planned_distance->local(2);
+        }
+
+        if (!empty($fields['Distance'])) {
+            $fields['Distance'] = implode('/', $fields['Distance']);
+            $fields['Distance'] .= ' '.setting('units.distance');
+        }
+
+        return $fields;
     }
 
     /**
