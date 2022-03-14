@@ -10,8 +10,6 @@ use App\Notifications\Channels\Discord\DiscordWebhook;
 use App\Support\Units\Distance;
 use App\Support\Units\Time;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use PhpUnitsOfMeasure\Exception\NonNumericValue;
-use PhpUnitsOfMeasure\Exception\NonStringUnitName;
 
 /**
  * Send the PIREP accepted message to a particular user, can also be sent to Discord
