@@ -341,8 +341,8 @@ class PIREPTest extends TestCase
         // it should automatically be accepted
         //
         $pirep = Pirep::factory()->create([
-            'airline_id'  => 1,
-            'user_id'     => $user->id,
+            'airline_id' => 1,
+            'user_id'    => $user->id,
             // 120min == 2 hours, currently at 9 hours
             // Rank bumps up at 10 hours
             'flight_time' => 120,

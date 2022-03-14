@@ -126,7 +126,6 @@ class PirepStatusChanged extends Notification implements ShouldQueue
         $fields['Distance'] = [];
         if ($pirep->distance) {
             $fields['Distance'][] = $pirep->distance->local(2);
-
         }
 
         if ($pirep->planned_distance) {

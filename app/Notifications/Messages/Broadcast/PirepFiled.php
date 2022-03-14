@@ -77,7 +77,6 @@ class PirepFiled extends Notification implements ShouldQueue
 
         if ($pirep->distance) {
             $fields['Distance'] = $pirep->distance->local(2).' '.setting('units.distance');
-
         }
 
         return $fields;
