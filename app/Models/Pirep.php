@@ -225,11 +225,11 @@ class Pirep extends Model
             $flight_id = optional($this->airline)->code;
             $flight_id .= $this->flight_number;
 
-            if(filled($this->route_code)) {
+            if (filled($this->route_code)) {
                 $flight_id .= '/C.'.$this->route_code;
             }
 
-            if(filled($this->route_leg)) {
+            if (filled($this->route_leg)) {
                 $flight_id .= '/L.'.$this->route_leg;
             }
 
@@ -242,7 +242,7 @@ class Pirep extends Model
      */
     public function readOnly(): Attribute
     {
-        return Attribute::make(get: fn($_, $attrs) => \in_array($this->state, static::$read_only_states, true));
+        return Attribute::make(get: fn ($_, $attrs) => \in_array($this->state, static::$read_only_states, true));
     }
 
     /**
@@ -254,7 +254,7 @@ class Pirep extends Model
             $distance = $attrs['distance'];
 
             $upper_bound = $distance;
-            if(!empty($attrs['planned_distance']) && $attrs['planned_distance'] > 0) {
+            if (!empty($attrs['planned_distance']) && $attrs['planned_distance'] > 0) {
                 $upper_bound = $attrs['planned_distance'];
             }
 
@@ -278,7 +278,7 @@ class Pirep extends Model
             // Merge the field values into $fields
             foreach ($custom_fields as $field) {
                 $has_value = $field_values->firstWhere('slug', $field->slug);
-                if(!$has_value) {
+                if (!$has_value) {
                     $field_values->push(new PirepFieldValue([
                         'pirep_id' => $this->id,
                         'name'     => $field->name,
@@ -300,7 +300,7 @@ class Pirep extends Model
      */
     public function route(): Attribute
     {
-        return Attribute::make(set: fn($route) => strtoupper(trim($route)));
+        return Attribute::make(set: fn ($route) => strtoupper(trim($route)));
     }
 
     /**
@@ -308,7 +308,7 @@ class Pirep extends Model
      */
     public function cancelled(): Attribute
     {
-        return Attribute::make(get: fn($_, $attrs) => $this->state === PirepState::CANCELLED);
+        return Attribute::make(get: fn ($_, $attrs) => $this->state === PirepState::CANCELLED);
     }
 
     /**
@@ -331,7 +331,7 @@ class Pirep extends Model
     public function field($field_name): string
     {
         $field = $this->fields->where('name', $field_name)->first();
-        if($field) {
+        if ($field) {
             return $field['value'];
         }
 
@@ -374,7 +374,7 @@ class Pirep extends Model
     public function arr_airport()
     {
         return $this->belongsTo(Airport::class, 'arr_airport_id')->withDefault(function ($model) {
-            if(!empty($this->attributes['arr_airport_id'])) {
+            if (!empty($this->attributes['arr_airport_id'])) {
                 $model->id = $this->attributes['arr_airport_id'];
                 $model->icao = $this->attributes['arr_airport_id'];
                 $model->name = $this->attributes['arr_airport_id'];
@@ -392,7 +392,7 @@ class Pirep extends Model
     public function dpt_airport()
     {
         return $this->belongsTo(Airport::class, 'dpt_airport_id')->withDefault(function ($model) {
-            if(!empty($this->attributes['dpt_airport_id'])) {
+            if (!empty($this->attributes['dpt_airport_id'])) {
                 $model->id = $this->attributes['dpt_airport_id'];
                 $model->icao = $this->attributes['dpt_airport_id'];
                 $model->name = $this->attributes['dpt_airport_id'];
