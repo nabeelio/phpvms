@@ -578,6 +578,34 @@ class PIREPTest extends TestCase
         $this->assertNull($user_bid);
     }
 
+    public function testPirepProgressPercent()
+    {
+        $this->updateSetting('units.distance', 'km');
+
+        /** @var User $user */
+        $user = User::factory()->create();
+
+        /** @var Pirep $pirep */
+        $pirep = Pirep::factory()->create([
+            'user_id'             => $user->id,
+            'distance'            => 100,
+            'planned_distance'    => 200,
+            'flight_time'         => 60,
+            'planned_flight_time' => 90,
+        ]);
+
+        $progress = $pirep->progress_percent;
+        $this->assertEquals(50, $progress);
+
+        $pirep->planned_distance = null;
+        $progress = $pirep->progress_percent;
+        $this->assertEquals(100, $progress);
+
+        $pirep->planned_distance = 0;
+        $progress = $pirep->progress_percent;
+        $this->assertEquals(100, $progress);
+    }
+
     /**
      * See that the notifications are properly formatted
      */

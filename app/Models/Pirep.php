@@ -46,6 +46,7 @@ use Kleemans\AttributeEvents;
  * @property Fuel        fuel_used
  * @property Distance    distance
  * @property Distance    planned_distance
+ * @property float       progress_percent
  * @property int         level
  * @property string      route
  * @property int         score
@@ -72,16 +73,11 @@ class Pirep extends Model
     use Notifiable;
 
     public $table = 'pireps';
-
     protected $keyType = 'string';
-
     public $incrementing = false;
-
     /** The form wants this */
     public $hours;
-
     public $minutes;
-
     protected $fillable = [
         'id',
         'user_id',
@@ -118,7 +114,6 @@ class Pirep extends Model
         'created_at',
         'updated_at',
     ];
-
     protected $casts = [
         'user_id'             => 'integer',
         'airline_id'          => 'integer',
@@ -140,7 +135,6 @@ class Pirep extends Model
         'state'               => 'integer',
         'submitted_at'        => CarbonCast::class,
     ];
-
     public static $rules = [
         'airline_id'     => 'required|exists:airlines,id',
         'aircraft_id'    => 'required|exists:aircraft,id',
@@ -153,7 +147,6 @@ class Pirep extends Model
         'notes'          => 'nullable',
         'route'          => 'nullable',
     ];
-
     /**
      * Auto-dispatch events for lifecycle state changes
      */
@@ -161,7 +154,6 @@ class Pirep extends Model
         'status:*' => PirepStatusChange::class,
         'state:*'  => PirepStateChange::class,
     ];
-
     /*
      * If a PIREP is in these states, then it can't be changed.
      */
@@ -170,7 +162,6 @@ class Pirep extends Model
         PirepState::REJECTED,
         PirepState::CANCELLED,
     ];
-
     /*
      * If a PIREP is in one of these states, it can't be cancelled
      */
@@ -230,22 +221,20 @@ class Pirep extends Model
      */
     public function ident(): Attribute
     {
-        return Attribute::make(
-            get: function ($value, $attrs) {
-                $flight_id = optional($this->airline)->code;
-                $flight_id .= $this->flight_number;
+        return Attribute::make(get: function ($value, $attrs) {
+            $flight_id = optional($this->airline)->code;
+            $flight_id .= $this->flight_number;
 
-                if (filled($this->route_code)) {
-                    $flight_id .= '/C.'.$this->route_code;
-                }
-
-                if (filled($this->route_leg)) {
-                    $flight_id .= '/L.'.$this->route_leg;
-                }
-
-                return $flight_id;
+            if(filled($this->route_code)) {
+                $flight_id .= '/C.'.$this->route_code;
             }
-        );
+
+            if(filled($this->route_leg)) {
+                $flight_id .= '/L.'.$this->route_leg;
+            }
+
+            return $flight_id;
+        });
     }
 
     /**
@@ -253,9 +242,7 @@ class Pirep extends Model
      */
     public function readOnly(): Attribute
     {
-        return Attribute::make(
-            get: fn ($_, $attrs) => \in_array($this->state, static::$read_only_states, true)
-        );
+        return Attribute::make(get: fn($_, $attrs) => \in_array($this->state, static::$read_only_states, true));
     }
 
     /**
@@ -263,21 +250,19 @@ class Pirep extends Model
      */
     public function progressPercent(): Attribute
     {
-        return Attribute::make(
-            get: function ($_, $attrs) {
-                $distance = $attrs['distance'];
+        return Attribute::make(get: function ($_, $attrs) {
+            $distance = $attrs['distance'];
 
-                $upper_bound = $distance;
-                if ($attrs['planned_distance']) {
-                    $upper_bound = $attrs['planned_distance'];
-                }
-
-                $upper_bound = empty($upper_bound) ? 1 : $upper_bound;
-                $distance = empty($distance) ? $upper_bound : $distance;
-
-                return round(($distance / $upper_bound) * 100);
+            $upper_bound = $distance;
+            if(!empty($attrs['planned_distance']) && $attrs['planned_distance'] > 0) {
+                $upper_bound = $attrs['planned_distance'];
             }
-        );
+
+            $upper_bound = empty($upper_bound) ? 1 : $upper_bound;
+            $distance = empty($distance) ? $upper_bound : $distance;
+
+            return round(($distance / $upper_bound) * 100);
+        });
     }
 
     /**
@@ -286,32 +271,26 @@ class Pirep extends Model
      */
     public function fields(): Attribute
     {
-        return Attribute::make(
-            get: function ($_, $attrs) {
-                $custom_fields = PirepField::all();
-                $field_values = PirepFieldValue::where('pirep_id', $this->id)
-                    ->orderBy('created_at', 'asc')
-                    ->get();
+        return Attribute::make(get: function ($_, $attrs) {
+            $custom_fields = PirepField::all();
+            $field_values = PirepFieldValue::where('pirep_id', $this->id)->orderBy('created_at', 'asc')->get();
 
-                // Merge the field values into $fields
-                foreach ($custom_fields as $field) {
-                    $has_value = $field_values->firstWhere('slug', $field->slug);
-                    if (!$has_value) {
-                        $field_values->push(
-                            new PirepFieldValue([
-                                'pirep_id' => $this->id,
-                                'name'     => $field->name,
-                                'slug'     => $field->slug,
-                                'value'    => '',
-                                'source'   => PirepFieldSource::MANUAL,
-                            ])
-                        );
-                    }
+            // Merge the field values into $fields
+            foreach ($custom_fields as $field) {
+                $has_value = $field_values->firstWhere('slug', $field->slug);
+                if(!$has_value) {
+                    $field_values->push(new PirepFieldValue([
+                        'pirep_id' => $this->id,
+                        'name'     => $field->name,
+                        'slug'     => $field->slug,
+                        'value'    => '',
+                        'source'   => PirepFieldSource::MANUAL,
+                    ]));
                 }
-
-                return $field_values;
             }
-        );
+
+            return $field_values;
+        });
     }
 
     /**
@@ -321,9 +300,7 @@ class Pirep extends Model
      */
     public function route(): Attribute
     {
-        return Attribute::make(
-            set: fn ($route) => strtoupper(trim($route))
-        );
+        return Attribute::make(set: fn($route) => strtoupper(trim($route)));
     }
 
     /**
@@ -331,9 +308,7 @@ class Pirep extends Model
      */
     public function cancelled(): Attribute
     {
-        return Attribute::make(
-            get: fn ($_, $attrs) => $this->state === PirepState::CANCELLED
-        );
+        return Attribute::make(get: fn($_, $attrs) => $this->state === PirepState::CANCELLED);
     }
 
     /**
@@ -356,7 +331,7 @@ class Pirep extends Model
     public function field($field_name): string
     {
         $field = $this->fields->where('name', $field_name)->first();
-        if ($field) {
+        if($field) {
             return $field['value'];
         }
 
@@ -368,25 +343,17 @@ class Pirep extends Model
      */
     public function acars()
     {
-        return $this->hasMany(Acars::class, 'pirep_id')
-            ->where('type', AcarsType::FLIGHT_PATH)
-            ->orderBy('created_at', 'asc')
-            ->orderBy('sim_time', 'asc');
+        return $this->hasMany(Acars::class, 'pirep_id')->where('type', AcarsType::FLIGHT_PATH)->orderBy('created_at', 'asc')->orderBy('sim_time', 'asc');
     }
 
     public function acars_logs()
     {
-        return $this->hasMany(Acars::class, 'pirep_id')
-            ->where('type', AcarsType::LOG)
-            ->orderBy('created_at', 'desc')
-            ->orderBy('sim_time', 'asc');
+        return $this->hasMany(Acars::class, 'pirep_id')->where('type', AcarsType::LOG)->orderBy('created_at', 'desc')->orderBy('sim_time', 'asc');
     }
 
     public function acars_route()
     {
-        return $this->hasMany(Acars::class, 'pirep_id')
-            ->where('type', AcarsType::ROUTE)
-            ->orderBy('order', 'asc');
+        return $this->hasMany(Acars::class, 'pirep_id')->where('type', AcarsType::ROUTE)->orderBy('order', 'asc');
     }
 
     public function aircraft()
@@ -406,16 +373,15 @@ class Pirep extends Model
 
     public function arr_airport()
     {
-        return $this->belongsTo(Airport::class, 'arr_airport_id')
-            ->withDefault(function ($model) {
-                if (!empty($this->attributes['arr_airport_id'])) {
-                    $model->id = $this->attributes['arr_airport_id'];
-                    $model->icao = $this->attributes['arr_airport_id'];
-                    $model->name = $this->attributes['arr_airport_id'];
-                }
+        return $this->belongsTo(Airport::class, 'arr_airport_id')->withDefault(function ($model) {
+            if(!empty($this->attributes['arr_airport_id'])) {
+                $model->id = $this->attributes['arr_airport_id'];
+                $model->icao = $this->attributes['arr_airport_id'];
+                $model->name = $this->attributes['arr_airport_id'];
+            }
 
-                return $model;
-            });
+            return $model;
+        });
     }
 
     public function alt_airport()
@@ -425,22 +391,20 @@ class Pirep extends Model
 
     public function dpt_airport()
     {
-        return $this->belongsTo(Airport::class, 'dpt_airport_id')
-            ->withDefault(function ($model) {
-                if (!empty($this->attributes['dpt_airport_id'])) {
-                    $model->id = $this->attributes['dpt_airport_id'];
-                    $model->icao = $this->attributes['dpt_airport_id'];
-                    $model->name = $this->attributes['dpt_airport_id'];
-                }
+        return $this->belongsTo(Airport::class, 'dpt_airport_id')->withDefault(function ($model) {
+            if(!empty($this->attributes['dpt_airport_id'])) {
+                $model->id = $this->attributes['dpt_airport_id'];
+                $model->icao = $this->attributes['dpt_airport_id'];
+                $model->name = $this->attributes['dpt_airport_id'];
+            }
 
-                return $model;
-            });
+            return $model;
+        });
     }
 
     public function comments()
     {
-        return $this->hasMany(PirepComment::class, 'pirep_id')
-            ->orderBy('created_at', 'desc');
+        return $this->hasMany(PirepComment::class, 'pirep_id')->orderBy('created_at', 'desc');
     }
 
     public function fares()
@@ -464,9 +428,7 @@ class Pirep extends Model
      */
     public function position()
     {
-        return $this->hasOne(Acars::class, 'pirep_id')
-            ->where('type', AcarsType::FLIGHT_PATH)
-            ->latest();
+        return $this->hasOne(Acars::class, 'pirep_id')->where('type', AcarsType::FLIGHT_PATH)->latest();
     }
 
     public function simbrief()
@@ -476,10 +438,7 @@ class Pirep extends Model
 
     public function transactions()
     {
-        return $this->hasMany(JournalTransaction::class, 'ref_model_id')
-            ->where('ref_model', __CLASS__)
-            ->orderBy('credit', 'desc')
-            ->orderBy('debit', 'desc');
+        return $this->hasMany(JournalTransaction::class, 'ref_model_id')->where('ref_model', __CLASS__)->orderBy('credit', 'desc')->orderBy('debit', 'desc');
     }
 
     public function user()
