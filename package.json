@@ -35,7 +35,7 @@
     "leaflet.geodesic": "^2.5.2",
     "lodash": ">=4.17.19",
     "marked": "^2.1.3",
-    "minimist": "^1.2.2",
+    "minimist": "^1.2.6",
     "moment": "^2.29.1",
     "paper-dashboard": "^1.1.0",
     "pe7-icon": "^1.0.4",
