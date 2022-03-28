@@ -169,6 +169,9 @@ class FareService extends Service
             }
         }
 
+        $fare->notes = '';
+        $fare->active = true;
+
         return $fare;
     }
 
