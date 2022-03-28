@@ -55,8 +55,8 @@ class AirportFactory extends Factory
 
                 return $airport;
             },
-            'icao'                 => fn (array $apt)                 => $apt['id'],
-            'iata'                 => fn (array $apt)                 => $apt['id'],
+            'icao'                 => fn (array $apt) => $apt['id'],
+            'iata'                 => fn (array $apt) => $apt['id'],
             'name'                 => $this->faker->sentence(3),
             'country'              => $this->faker->country,
             'timezone'             => $this->faker->timezone,

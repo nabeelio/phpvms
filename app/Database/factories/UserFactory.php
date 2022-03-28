@@ -42,7 +42,7 @@ class UserFactory extends Factory
             'email'          => $this->faker->safeEmail,
             'password'       => self::$password,
             'api_key'        => $this->faker->sha1,
-            'airline_id'     => fn ()     => Airline::factory()->create()->id,
+            'airline_id'     => fn () => Airline::factory()->create()->id,
             'rank_id'        => 1,
             'flights'        => $this->faker->numberBetween(0, 1000),
             'flight_time'    => $this->faker->numberBetween(0, 10000),

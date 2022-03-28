@@ -92,7 +92,7 @@ class Airport extends Model
     {
         return Attribute::make(
             set: fn ($icao) => [
-                'id'   => strtoupper($icao),
+                'id' => strtoupper($icao),
                 'icao' => strtoupper($icao),
             ]
         );
