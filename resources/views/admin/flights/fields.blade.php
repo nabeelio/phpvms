@@ -86,7 +86,7 @@
             {{ Form::number('load_factor', null, ['class' => 'form-control', 'min' => 0, 'max' => 100]) }}
             <p class="text-danger">{{ $errors->first('load_factor') }}</p>
             @component('admin.components.info')
-              Percentage value between 1 and 100 of load, leave blank to use the default value.
+              Percentage value for pax/cargo load, leave blank to use the default value.
             @endcomponent
           </div>
 
@@ -95,7 +95,7 @@
             {{ Form::number('load_factor_variance', null, ['class' => 'form-control', 'min' => 0, 'max' => 100]) }}
             <p class="text-danger">{{ $errors->first('load_factor_variance') }}</p>
             @component('admin.components.info')
-              Percentage for how much the load factor can vary per flight (+/-). Leave blank to use the default value.
+              Percentage of how much the load can vary (+/-), leave blank to use the default value.
             @endcomponent
           </div>
         </div>
