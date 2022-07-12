@@ -100,7 +100,13 @@
           This is the cost per {{ config('phpvms.internal_units.fuel') }}
         @endcomponent
       </div>
+    </div>
 
+    <div class="row">
+      <div class="form-group col-md-12">
+        {{ Form::label('notes', 'Remarks / Notes:') }}
+        {{ Form::textarea('notes', null, ['id' => 'editor', 'class' => 'editor', 'style' => 'padding: 5px']) }}
+      </div>
     </div>
 
     <div class="row">
@@ -119,3 +125,10 @@
     </div>
   </div>
 </div>
+@section('scripts')
+  @parent
+  <script src="{{ public_asset('assets/vendor/ckeditor4/ckeditor.js') }}"></script>
+  <script>
+    $(document).ready(function () { CKEDITOR.replace('editor'); });
+  </script>
+@endsection
