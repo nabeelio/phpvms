@@ -212,7 +212,7 @@ class AircraftController extends Controller
     public function export(Request $request)
     {
         $exporter = app(ExportService::class);
-        
+
         $where = [];
         $file_name = 'aircraft.csv';
         if ($request->input('subfleet')) {
