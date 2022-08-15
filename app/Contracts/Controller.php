@@ -84,19 +84,21 @@ abstract class Controller extends \Illuminate\Routing\Controller
      *
      * @param $message
      * @param null|mixed $count
+     * @param mixed      $attrs
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function message($message, $count = null)
+    public function message($message, $count = null, $attrs = [])
     {
-        $attrs = [
+        $ret = [
             'message' => $message,
+            'attrs'   => $attrs,
         ];
 
         if ($count !== null) {
-            $attrs['count'] = $count;
+            $ret['count'] = $count;
         }
 
-        return response()->json($attrs);
+        return response()->json($ret);
     }
 }

@@ -13,7 +13,7 @@ class DevInstall extends Command
     protected $signature = 'phpvms:dev-install {--reset-db} {--reset-configs}';
     protected $description = 'Run a developer install and run the sample migration';
 
-    private $databaseSeeder;
+    private \DatabaseSeeder $databaseSeeder;
 
     public function __construct(\DatabaseSeeder $databaseSeeder)
     {

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Contracts\Model;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 /**
  * @property string name
@@ -40,10 +41,12 @@ class UserField extends Model
     /**
      * Get the slug so we can use it in forms
      *
-     * @return string
+     * @return Attribute
      */
-    public function getSlugAttribute(): string
+    public function slug(): Attribute
     {
-        return str_slug($this->name, '_');
+        return Attribute::make(
+            get: fn ($_, $attrs) => str_slug($attrs['name'], '_')
+        );
     }
 }

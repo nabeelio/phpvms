@@ -14,7 +14,7 @@ use Illuminate\View\View;
 
 class ModulesController extends Controller
 {
-    private $moduleSvc;
+    private ModuleService $moduleSvc;
 
     public function __construct(ModuleService $moduleSvc)
     {

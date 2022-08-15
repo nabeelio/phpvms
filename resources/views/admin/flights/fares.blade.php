@@ -6,7 +6,7 @@
       the values used come from the subfleet of the aircraft that the flight is
       filed with. Only assign the fares you want to override. They can be set as
       a monetary amount, or a percentage.
-      <a href="{{ docs_link('finances') }}" target="_blank">Read documentation about finances</a>.
+      <a href="https://docs.phpvms.net/guides/finances" target="_blank">Read documentation about finances</a>.
     @endcomponent
 
     <p class="text-danger">{{ $errors->first('value') }}</p>

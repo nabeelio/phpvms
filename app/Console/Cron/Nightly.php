@@ -2,7 +2,7 @@
 
 namespace App\Console\Cron;
 
-use App\Contracts\Command;
+use App\Contracts\CronCommand;
 use App\Events\CronNightly;
 
 /**
@@ -11,7 +11,7 @@ use App\Events\CronNightly;
  *
  * The actual cron tasks are in app/Cron
  */
-class Nightly extends Command
+class Nightly extends CronCommand
 {
     protected $signature = 'cron:nightly';
     protected $description = 'Run the nightly cron tasks';
@@ -19,7 +19,11 @@ class Nightly extends Command
 
     public function handle(): void
     {
-        $this->redirectLoggingToFile('cron');
+        $this->callEvent();
+    }
+
+    public function callEvent()
+    {
         event(new CronNightly());
     }
 }

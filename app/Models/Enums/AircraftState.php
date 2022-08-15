@@ -10,7 +10,7 @@ class AircraftState extends Enum
     public const IN_USE = 1;
     public const IN_AIR = 2;
 
-    public static $labels = [
+    public static array $labels = [
         self::PARKED => 'On Ground',
         self::IN_USE => 'In Use',
         self::IN_AIR => 'In Air',

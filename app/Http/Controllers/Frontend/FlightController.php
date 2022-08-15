@@ -23,13 +23,13 @@ use Prettus\Repository\Exceptions\RepositoryException;
 
 class FlightController extends Controller
 {
-    private $airlineRepo;
-    private $airportRepo;
-    private $flightRepo;
-    private $moduleSvc;
-    private $subfleetRepo;
-    private $geoSvc;
-    private $userRepo;
+    private AirlineRepository $airlineRepo;
+    private AirportRepository $airportRepo;
+    private FlightRepository $flightRepo;
+    private ModuleService $moduleSvc;
+    private SubfleetRepository $subfleetRepo;
+    private GeoService $geoSvc;
+    private UserRepository $userRepo;
 
     /**
      * @param AirlineRepository  $airlineRepo

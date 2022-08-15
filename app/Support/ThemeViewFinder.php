@@ -18,12 +18,13 @@ class ThemeViewFinder extends \Igaster\LaravelTheme\themeViewFinder
      * Override findNamespacedView() to add "Theme/vendor/..." paths
      *
      * @param  string  $name
+     *
      * @return string
      */
-    protected function findNamespacedView($name)
+    protected function findNamespacedView($name): string
     {
         // Extract the $view and the $namespace parts
-        list($namespace, $view) = $this->parseNamespaceSegments($name);
+        [$namespace, $view] = $this->parseNamespaceSegments($name);
 
         $paths = $this->addThemeNamespacePaths($namespace);
 
@@ -84,6 +85,7 @@ class ThemeViewFinder extends \Igaster\LaravelTheme\themeViewFinder
                 $paths = Arr::prepend($paths, $path);
             }
         }
+
         return $paths;
     }
 }

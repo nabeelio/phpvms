@@ -4,8 +4,7 @@ use App\Contracts\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateStatsTable extends Migration
-{
+return new class() extends Migration {
     public function up()
     {
         Schema::create('stats', function (Blueprint $table) {
@@ -24,4 +23,4 @@ class CreateStatsTable extends Migration
     {
         Schema::dropIfExists('stats');
     }
-}
+};

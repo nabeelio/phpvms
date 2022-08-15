@@ -12,9 +12,9 @@ use Illuminate\Support\Facades\Log;
 
 class UpdateController extends Controller
 {
-    private $installerSvc;
-    private $migrationSvc;
-    private $seederSvc;
+    private InstallerService $installerSvc;
+    private MigrationService $migrationSvc;
+    private SeederService $seederSvc;
 
     /**
      * @param InstallerService $installerSvc

@@ -22,6 +22,7 @@ storage/*.sqlite
 .env.*.php
 .env.php
 .env
+.env.*
 .env.bak
 env.php
 .env.generated
@@ -77,3 +78,13 @@ error_log
 /config.bak.php
 /VERSION
 sync.sh
+
+###> friendsofphp/php-cs-fixer ###
+/.php-cs-fixer.php
+/.php-cs-fixer.cache
+###< friendsofphp/php-cs-fixer ###
+
+###> phpunit/phpunit ###
+/phpunit.xml
+.phpunit.result.cache
+###< phpunit/phpunit ###

@@ -11,6 +11,7 @@ use App\Repositories\AirlineRepository;
 use App\Repositories\AirportRepository;
 use App\Services\UserService;
 use App\Support\Countries;
+use App\Support\HttpClient;
 use App\Support\Timezonelist;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
@@ -29,9 +30,10 @@ class RegisterController extends Controller
      */
     protected $redirectTo = '/';
 
-    private $airlineRepo;
-    private $airportRepo;
-    private $userService;
+    private AirlineRepository $airlineRepo;
+    private AirportRepository $airportRepo;
+    private HttpClient $httpClient;
+    private UserService $userService;
 
     /**
      * RegisterController constructor.
@@ -39,18 +41,23 @@ class RegisterController extends Controller
      * @param AirlineRepository $airlineRepo
      * @param AirportRepository $airportRepo
      * @param UserService       $userService
+     * @param HttpClient        $httpClient
      */
     public function __construct(
         AirlineRepository $airlineRepo,
         AirportRepository $airportRepo,
-        UserService $userService
+        HttpClient $httpClient,
+        UserService $userService,
     ) {
         $this->airlineRepo = $airlineRepo;
         $this->airportRepo = $airportRepo;
+        $this->httpClient = $httpClient;
         $this->userService = $userService;
+
         $this->middleware('guest');
 
         $this->redirectTo = config('phpvms.registration_redirect');
+        $this->httpClient = $httpClient;
     }
 
     /**
@@ -70,6 +77,11 @@ class RegisterController extends Controller
             'countries'  => Countries::getSelectList(),
             'timezones'  => Timezonelist::toArray(),
             'userFields' => $userFields,
+            'captcha'    => [
+                'enabled'    => setting('captcha.enabled', env('CAPTCHA_ENABLED', false)),
+                'site_key'   => setting('captcha.site_key', env('CAPTCHA_SITE_KEY')),
+                'secret_key' => setting('captcha.secret_key', env('CAPTCHA_SECRET_KEY')),
+            ],
         ]);
     }
 
@@ -102,8 +114,25 @@ class RegisterController extends Controller
             $rules['field_'.$field->slug] = 'required';
         }
 
-        if (config('captcha.enabled')) {
-            $rules['g-recaptcha-response'] = 'required|captcha';
+        /*
+         * Validation for hcaptcha
+         */
+        $captcha_enabled = setting('captcha.enabled', env('CAPTCHA_ENABLED', false));
+        if ($captcha_enabled === true) {
+            $rules['h-captcha-response'] = [
+                'required',
+                function ($attribute, $value, $fail) {
+                    $response = $this->httpClient->form_post('https://hcaptcha.com/siteverify', [
+                        'secret'   => setting('captcha.secret_key', env('CAPTCHA_SECRET_KEY')),
+                        'response' => $value,
+                    ]);
+
+                    if ($response['success'] !== true) {
+                        Log::error('Captcha failed '.json_encode($response));
+                        $fail('Captcha verification failed, please try again.');
+                    }
+                },
+            ];
         }
 
         return Validator::make($data, $rules);
@@ -114,8 +143,8 @@ class RegisterController extends Controller
      *
      * @param array $opts
      *
-     * @throws \RuntimeException
      * @throws \Exception
+     * @throws \RuntimeException
      *
      * @return User
      */

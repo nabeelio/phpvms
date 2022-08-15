@@ -13,8 +13,8 @@ use Illuminate\Support\Facades\Log;
  */
 class RecalculateStats extends Listener
 {
-    private $aircraftSvc;
-    private $userSvc;
+    private AircraftService $aircraftSvc;
+    private UserService $userSvc;
 
     public function __construct(AircraftService $aircraftSvc, UserService $userSvc)
     {

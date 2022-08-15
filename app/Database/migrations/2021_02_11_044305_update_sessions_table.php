@@ -7,8 +7,7 @@ use Illuminate\Support\Facades\Schema;
 /**
  * Bring the sessions table in line with the latest
  */
-class UpdateSessionsTable extends Migration
-{
+return new class() extends Migration {
     public function up()
     {
         Schema::table('sessions', function (Blueprint $table) {
@@ -16,4 +15,4 @@ class UpdateSessionsTable extends Migration
             $table->index('last_activity');
         });
     }
-}
+};

@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 class NewsController extends Controller
 {
-    private $newsRepo;
+    private NewsRepository $newsRepo;
 
     /**
      * AirlineController constructor.

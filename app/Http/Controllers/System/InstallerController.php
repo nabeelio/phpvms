@@ -29,14 +29,14 @@ use RuntimeException;
 
 class InstallerController extends Controller
 {
-    private $airlineSvc;
-    private $analyticsSvc;
-    private $dbSvc;
-    private $envSvc;
-    private $migrationSvc;
-    private $reqSvc;
-    private $seederSvc;
-    private $userService;
+    private AirlineService $airlineSvc;
+    private AnalyticsService $analyticsSvc;
+    private DatabaseService $dbSvc;
+    private ConfigService $envSvc;
+    private MigrationService $migrationSvc;
+    private RequirementsService $reqSvc;
+    private SeederService $seederSvc;
+    private UserService $userService;
 
     /**
      * InstallerController constructor.
@@ -326,6 +326,7 @@ class InstallerController extends Controller
             'api_key'    => Utils::generateApiKey(),
             'airline_id' => $airline->id,
             'password'   => Hash::make($request->get('password')),
+            'opt_in'     => true,
         ];
 
         $user = $this->userService->createUser($attrs, ['admin']);

@@ -32,7 +32,7 @@ class SimBriefTest extends TestCase
         $rank = $this->createRank(2, [$subfleet['subfleet']->id]);
 
         /** @var User $user */
-        $user = factory(User::class)->create(array_merge([
+        $user = User::factory()->create(array_merge([
             'flight_time' => 1000,
             'rank_id'     => $rank->id,
             'state'       => UserState::ACTIVE,
@@ -62,7 +62,7 @@ class SimBriefTest extends TestCase
         }
 
         /** @var \App\Models\Flight $flight */
-        $flight = factory(Flight::class)->create([
+        $flight = Flight::factory()->create([
             'id'             => $flight_id,
             'dpt_airport_id' => 'OMAA',
             'arr_airport_id' => 'OMDB',
@@ -244,7 +244,7 @@ class SimBriefTest extends TestCase
         ];
 
         /** @var \App\Models\Flight $flight */
-        $flight = factory(Flight::class)->create();
+        $flight = Flight::factory()->create();
 
         // Create two briefings and make sure it doesn't leak
         $userinfo2 = $this->createUserData();
@@ -285,7 +285,7 @@ class SimBriefTest extends TestCase
         $this->user = $userinfo['user'];
 
         /** @var Pirep $pirep */
-        $pirep = factory(Pirep::class)->create([
+        $pirep = Pirep::factory()->create([
             'user_id'        => $this->user->id,
             'dpt_airport_id' => 'OMAA',
             'arr_airport_id' => 'OMDB',
@@ -332,14 +332,14 @@ class SimBriefTest extends TestCase
         $userinfo = $this->createUserData();
         $user = $userinfo['user'];
 
-        $sb_ignored = factory(SimBrief::class)->create([
+        $sb_ignored = SimBrief::factory()->create([
             'user_id'    => $user->id,
             'flight_id'  => 'a_flight_id',
             'pirep_id'   => 'a_pirep_id',
             'created_at' => Carbon::now('UTC')->subDays(6),
         ]);
 
-        factory(SimBrief::class)->create([
+        SimBrief::factory()->create([
             'user_id'    => $user->id,
             'flight_id'  => 'a_flight_Id',
             'created_at' => Carbon::now('UTC')->subDays(6),

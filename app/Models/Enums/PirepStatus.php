@@ -36,7 +36,7 @@ class PirepStatus extends Enum
     public const EMERG_DESCENT = 'EMG';
     public const PAUSED = 'PSD';
 
-    protected static $labels = [
+    protected static array $labels = [
         self::INITIATED     => 'pireps.status.initialized',
         self::SCHEDULED     => 'pireps.status.scheduled',
         self::BOARDING      => 'pireps.status.boarding',

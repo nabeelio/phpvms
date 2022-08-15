@@ -80,7 +80,7 @@ test:
 
 .PHONY: phpcs
 phpcs:
-	@vendor/bin/php-cs-fixer fix --config=.php_cs -v --diff --diff-format=udiff --dry-run
+	@PHP_CS_FIXER_IGNORE_ENV=1 vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php -v --dry-run --diff --using-cache=no
 
 .PHONY: replay-acars
 replay-acars:
@@ -102,7 +102,7 @@ reset-installer:
 
 .PHONY: docker-test
 docker-test:
-	@docker compose -f docker-compose.yml -f docker-compose.local.yml up
+	@docker compose -f docker-compose.dev.yml up
 
 .PHONY: docker-clean
 docker-clean:

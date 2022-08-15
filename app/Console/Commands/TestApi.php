@@ -8,7 +8,11 @@ use GuzzleHttp\Client;
 class TestApi extends Command
 {
     protected $signature = 'phpvms:test-api {apikey} {url}';
-    protected $httpClient;
+
+    /**
+     * @var Client
+     */
+    protected Client $httpClient;
 
     /**
      * Run dev related commands

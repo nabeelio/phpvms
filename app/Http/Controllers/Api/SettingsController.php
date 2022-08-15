@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
  */
 class SettingsController extends Controller
 {
-    private $settingRepo;
+    private SettingRepository $settingRepo;
 
     /**
      * SettingsController constructor.

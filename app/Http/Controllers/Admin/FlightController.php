@@ -31,15 +31,15 @@ class FlightController extends Controller
 {
     use Importable;
 
-    private $airlineRepo;
-    private $airportRepo;
-    private $fareRepo;
-    private $flightRepo;
-    private $flightFieldRepo;
-    private $fareSvc;
-    private $flightSvc;
-    private $importSvc;
-    private $subfleetRepo;
+    private AirlineRepository $airlineRepo;
+    private AirportRepository $airportRepo;
+    private FareRepository $fareRepo;
+    private FlightRepository $flightRepo;
+    private FlightFieldRepository $flightFieldRepo;
+    private FareService $fareSvc;
+    private FlightService $flightSvc;
+    private ImportService $importSvc;
+    private SubfleetRepository $subfleetRepo;
 
     /**
      * FlightController constructor.
@@ -308,7 +308,7 @@ class FlightController extends Controller
             $where['airline_id'] = $airline_id;
             $file_name = 'flights-'.$airline_id.'.csv';
         }
-        $flights = $this->flightRepo->where($where)->get();
+        $flights = $this->flightRepo->where($where)->orderBy('airline_id')->orderBy('flight_number')->orderBy('route_code')->orderBy('route_leg')->get();
 
         $path = $exporter->exportFlights($flights);
         return response()->download($path, $file_name, ['content-type' => 'text/csv'])->deleteFileAfterSend(true);

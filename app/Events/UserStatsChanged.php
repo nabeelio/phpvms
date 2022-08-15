@@ -7,9 +7,9 @@ use App\Models\User;
 
 class UserStatsChanged extends Event
 {
+    public User $user;
     public $stat_name;
     public $old_value;
-    public $user;
 
     /*
      * When a user's stats change. Stats changed match the field name:

@@ -61,11 +61,11 @@ class Dates
     /**
      * Return the start/end dates for a given month/year
      *
-     * @param $month YYYY-MM
+     * @param string $month In "YYYY-MM" format
      *
      * @return array
      */
-    public static function getMonthBoundary($month): array
+    public static function getMonthBoundary(string $month): array
     {
         [$year, $month] = explode('-', $month);
         $days = static::getDaysInMonth($month, $year);

@@ -30,6 +30,16 @@ abstract class Command extends \Illuminate\Console\Command
     }
 
     /**
+     * Return the signature of the command
+     *
+     * @return string
+     */
+    public function getSignature(): string
+    {
+        return $this->signature;
+    }
+
+    /**
      * Splice the logger and replace the active handlers with the handlers from the
      * a stack in config/logging.php
      *

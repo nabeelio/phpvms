@@ -9,7 +9,7 @@ use VaCentral\Exceptions\HttpException;
 
 class VaCentralLookup extends AirportLookup
 {
-    private $client;
+    private IVaCentral $client;
 
     public function __construct(IVaCentral $client)
     {

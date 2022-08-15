@@ -1,5 +1,5 @@
 <h4>@lang('toc.title')</h4>
-<textarea class="form-control" style="height: 150px; border: 1px #ccc solid;">
+<textarea readonly class="form-control" style="height: 150px; border: 1px #ccc solid;">
 {{ config('app.name') }} offers this Web site, including all information, software,
 products and services available from this Web site or offered as part of or in conjunction
 with this Web site (the “Web site”), to you, the user, conditioned upon your acceptance of

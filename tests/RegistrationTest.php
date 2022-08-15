@@ -2,11 +2,10 @@
 
 namespace Tests;
 
-use App\Events\UserRegistered;
 use App\Models\Enums\UserState;
 use App\Models\User;
+use App\Notifications\Messages\AdminUserRegistered;
 use App\Services\UserService;
-use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;
 
@@ -21,28 +20,20 @@ class RegistrationTest extends TestCase
      */
     public function testRegistration()
     {
-        Event::fake();
-        Notification::fake();
+        $admin = $this->createAdminUser(['name' => 'testRegistration Admin']);
 
         /** @var UserService $userSvc */
         $userSvc = app(UserService::class);
 
-        setting('pilots.auto_accept', true);
+        $this->updateSetting('pilots.auto_accept', true);
 
-        $attrs = factory(User::class)->make()->makeVisible(['api_key', 'name', 'email'])->toArray();
+        $attrs = User::factory()->make()->makeVisible(['api_key', 'name', 'email'])->toArray();
         $attrs['password'] = Hash::make('secret');
         $user = $userSvc->createUser($attrs);
 
         $this->assertEquals(UserState::ACTIVE, $user->state);
 
-        Event::assertDispatched(UserRegistered::class, function ($e) use ($user) {
-            return $e->user->id === $user->id
-                && $e->user->state === $user->state;
-        });
-
-        /*Notification::assertSentTo(
-            [$user],
-            \App\Notifications\Messages\UserRegistered::class
-        );*/
+        Notification::assertSentTo([$admin], AdminUserRegistered::class);
+        Notification::assertNotSentTo([$user], AdminUserRegistered::class);
     }
 }

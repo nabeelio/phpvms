@@ -24,7 +24,7 @@ use League\Csv\Reader;
 
 class ImportService extends Service
 {
-    protected $flightRepo;
+    protected FlightRepository $flightRepo;
 
     /**
      * ImporterService constructor.

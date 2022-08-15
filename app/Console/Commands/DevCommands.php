@@ -24,7 +24,8 @@ class DevCommands extends Command
 {
     protected $signature = 'phpvms {cmd} {param?}';
     protected $description = 'Developer commands';
-    protected $dbSvc;
+
+    protected DatabaseService $dbSvc;
 
     /**
      * DevCommands constructor.

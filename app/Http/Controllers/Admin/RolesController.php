@@ -15,9 +15,9 @@ use Prettus\Repository\Criteria\RequestCriteria;
 
 class RolesController extends Controller
 {
-    private $permsRepo;
-    private $rolesRepo;
-    private $roleSvc;
+    private PermissionsRepository $permsRepo;
+    private RoleRepository $rolesRepo;
+    private RoleService $roleSvc;
 
     /**
      * AirlinesController constructor.

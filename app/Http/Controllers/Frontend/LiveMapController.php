@@ -9,8 +9,8 @@ use Illuminate\Http\Request;
 
 class LiveMapController extends Controller
 {
-    private $acarsRepo;
-    private $geoSvc;
+    private AcarsRepository $acarsRepo;
+    private GeoService $geoSvc;
 
     /**
      * AcarsController constructor.

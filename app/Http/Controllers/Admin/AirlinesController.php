@@ -15,8 +15,8 @@ use Prettus\Repository\Criteria\RequestCriteria;
 
 class AirlinesController extends Controller
 {
-    private $airlineRepo;
-    private $airlineSvc;
+    private AirlineRepository $airlineRepo;
+    private AirlineService $airlineSvc;
 
     /**
      * AirlinesController constructor.
@@ -38,7 +38,7 @@ class AirlinesController extends Controller
     public function index(Request $request)
     {
         $this->airlineRepo->pushCriteria(new RequestCriteria($request));
-        $airlines = $this->airlineRepo->all();
+        $airlines = $this->airlineRepo->orderby('name', 'asc')->get();
 
         return view('admin.airlines.index', [
             'airlines' => $airlines,

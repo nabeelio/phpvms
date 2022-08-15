@@ -12,7 +12,11 @@ class YamlImport extends Command
 {
     protected $signature = 'phpvms:yaml-import {files*}';
     protected $description = 'Developer commands';
-    protected $dbSvc;
+
+    /**
+     * @var DatabaseService
+     */
+    protected DatabaseService $dbSvc;
 
     /**
      * YamlImport constructor.

@@ -4,8 +4,7 @@ use App\Contracts\Migration;
 use App\Services\Installer\SeederService;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateSettingsTable extends Migration
-{
+return new class() extends Migration {
     private $seederSvc;
 
     public function __construct()
@@ -50,4 +49,4 @@ class CreateSettingsTable extends Migration
     {
         Schema::dropIfExists('settings');
     }
-}
+};

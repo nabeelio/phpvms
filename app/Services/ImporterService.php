@@ -23,17 +23,17 @@ use Illuminate\Support\Facades\Log;
 
 class ImporterService extends Service
 {
-    private $CREDENTIALS_KEY = 'legacy.importer.db';
+    private string $CREDENTIALS_KEY = 'legacy.importer.db';
 
     /**
      * @var KvpRepository
      */
-    private $kvpRepo;
+    private mixed $kvpRepo;
 
     /**
      * The list of importers, in proper order
      */
-    private $importList = [
+    private array $importList = [
         ClearDatabase::class,
         RankImport::class,
         GroupImporter::class,

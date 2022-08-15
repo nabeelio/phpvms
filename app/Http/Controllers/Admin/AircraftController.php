@@ -22,9 +22,9 @@ class AircraftController extends Controller
 {
     use Importable;
 
-    private $aircraftRepo;
-    private $airportRepo;
-    private $importSvc;
+    private AircraftRepository $aircraftRepo;
+    private AirportRepository $airportRepo;
+    private ImportService $importSvc;
 
     /**
      * AircraftController constructor.
@@ -212,14 +212,19 @@ class AircraftController extends Controller
     public function export(Request $request)
     {
         $exporter = app(ExportService::class);
-        $aircraft = $this->aircraftRepo->all();
+
+        $where = [];
+        $file_name = 'aircraft.csv';
+        if ($request->input('subfleet')) {
+            $subfleet_id = $request->input('subfleet');
+            $where['subfleet_id'] = $subfleet_id;
+            $file_name = 'aircraft-'.$subfleet_id.'.csv';
+        }
+
+        $aircraft = $this->aircraftRepo->where($where)->orderBy('registration')->get();
 
         $path = $exporter->exportAircraft($aircraft);
-        return response()
-            ->download($path, 'aircraft.csv', [
-                'content-type' => 'text/csv',
-            ])
-            ->deleteFileAfterSend(true);
+        return response()->download($path, $file_name, ['content-type' => 'text/csv'])->deleteFileAfterSend(true);
     }
 
     /**

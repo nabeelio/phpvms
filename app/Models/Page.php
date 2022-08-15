@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Contracts\Model;
 use App\Exceptions\UnknownPageType;
 use App\Models\Enums\PageType;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 /**
  * @property int    id
@@ -52,16 +53,20 @@ class Page extends Model
      *
      * @throws \App\Exceptions\UnknownPageType
      */
-    public function getUrlAttribute(): string
+    public function url(): Attribute
     {
-        if ($this->type === PageType::PAGE) {
-            return url(route('frontend.pages.show', ['slug' => $this->slug]));
-        }
+        return Attribute::make(
+            get: function ($value, $attrs) {
+                if ($this->type === PageType::PAGE) {
+                    return url(route('frontend.pages.show', ['slug' => $this->slug]));
+                }
 
-        if ($this->type === PageType::LINK) {
-            return $this->link;
-        }
+                if ($this->type === PageType::LINK) {
+                    return $this->link;
+                }
 
-        throw new UnknownPageType($this);
+                throw new UnknownPageType($this);
+            }
+        );
     }
 }

@@ -205,6 +205,36 @@
           </div>
         </div>
 
+        <div class="row">
+          <div class="form-group col-sm-2">
+            {{ Form::label('distance', 'Distance:') }}
+            <div class="row">
+              <div class="col-sm-12">
+                {{ Form::number('distance', null, [
+                    'class' => 'form-control',
+                    'min' => 0,
+                    'step' => '0.01'
+                    ]) }}
+                <p class="text-danger">{{ $errors->first('distance') }}</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group col-sm-2">
+            {{ Form::label('distance', 'Planned Distance:') }}
+            <div class="row">
+              <div class="col-sm-12">
+                {{ Form::number('planned_distance', null, [
+                    'class' => 'form-control',
+                    'min' => 0,
+                    'step' => '0.01'
+                    ]) }}
+                <p class="text-danger">{{ $errors->first('planned_distance') }}</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
 
         <div class="row">
           <!-- Route Field -->

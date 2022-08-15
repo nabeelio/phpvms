@@ -15,11 +15,11 @@ use App\Support\Units\Time;
 
 class FlightService extends Service
 {
-    private $airportSvc;
-    private $fareSvc;
-    private $flightRepo;
-    private $navDataRepo;
-    private $userSvc;
+    private AirportService $airportSvc;
+    private FareService $fareSvc;
+    private FlightRepository $flightRepo;
+    private NavdataRepository $navDataRepo;
+    private UserService $userSvc;
 
     /**
      * FlightService constructor.

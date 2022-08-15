@@ -1,12 +1,31 @@
 <?php
 
-use Faker\Generator as Faker;
+/** @noinspection PhpIllegalPsrClassPathInspection */
 
-/*
- * Create an ICAO for use in the factory.
- */
-if (!function_exists('createFactoryICAO')) {
-    function createFactoryICAO(): string
+namespace App\Database\Factories;
+
+use App\Contracts\Factory;
+use App\Models\Airport;
+
+class AirportFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = Airport::class;
+
+    protected array $usedIcaos = [];
+
+    /**
+     * Generate a fake ICAO
+     *
+     * @throws \Exception
+     *
+     * @return string
+     */
+    protected function createFactoryICAO(): string
     {
         $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
         $max = strlen($characters) - 1;
@@ -20,37 +39,35 @@ if (!function_exists('createFactoryICAO')) {
 
         return $string;
     }
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
+    public function definition(): array
+    {
+        return [
+            'id' => function () {
+                do {
+                    $airport = $this->createFactoryICAO();
+                } while (in_array($airport, $this->usedIcaos, true));
+
+                return $airport;
+            },
+            'icao'                 => fn (array $apt) => $apt['id'],
+            'iata'                 => fn (array $apt) => $apt['id'],
+            'name'                 => $this->faker->sentence(3),
+            'country'              => $this->faker->country,
+            'timezone'             => $this->faker->timezone,
+            'lat'                  => $this->faker->latitude,
+            'lon'                  => $this->faker->longitude,
+            'hub'                  => false,
+            'notes'                => null,
+            'ground_handling_cost' => $this->faker->randomFloat(2, 0, 500),
+            'fuel_100ll_cost'      => $this->faker->randomFloat(2, 1, 10),
+            'fuel_jeta_cost'       => $this->faker->randomFloat(2, 1, 10),
+            'fuel_mogas_cost'      => $this->faker->randomFloat(2, 1, 10),
+        ];
+    }
 }
-
-/*
- * Add any number of airports. Don't really care if they're real or not
- */
-$factory->define(App\Models\Airport::class, function (Faker $faker) {
-    $usedIcaos = [];
-
-    return [
-        'id' => function () use ($usedIcaos) {
-            do {
-                $airport = createFactoryICAO();
-            } while (in_array($airport, $usedIcaos, true));
-
-            return $airport;
-        },
-        'icao' => function (array $apt) {
-            return $apt['id'];
-        },
-        'iata' => function (array $apt) {
-            return $apt['id'];
-        },
-        'name'                 => $faker->sentence(3),
-        'country'              => $faker->country,
-        'timezone'             => $faker->timezone,
-        'lat'                  => $faker->latitude,
-        'lon'                  => $faker->longitude,
-        'hub'                  => false,
-        'ground_handling_cost' => $faker->randomFloat(2, 0, 500),
-        'fuel_100ll_cost'      => $faker->randomFloat(2, 1, 10),
-        'fuel_jeta_cost'       => $faker->randomFloat(2, 1, 10),
-        'fuel_mogas_cost'      => $faker->randomFloat(2, 1, 10),
-    ];
-});

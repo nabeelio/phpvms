@@ -1,28 +1,54 @@
 <?php
 
+/** @noinspection PhpIllegalPsrClassPathInspection */
+
+namespace App\Database\Factories;
+
+use App\Contracts\Factory;
 use App\Models\Airline;
 use App\Models\Enums\UserState;
-use Faker\Generator as Faker;
+use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
-$factory->define(App\Models\User::class, function (Faker $faker) {
-    static $password;
+class UserFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = User::class;
 
-    return [
-        'id'         => null,
-        'pilot_id'   => null,
-        'name'       => $faker->name,
-        'email'      => $faker->safeEmail,
-        'password'   => $password ?: $password = Hash::make('secret'),
-        'api_key'    => $faker->sha1,
-        'airline_id' => function () {
-            return factory(Airline::class)->create()->id;
-        },
-        'rank_id'        => 1,
-        'flights'        => $faker->numberBetween(0, 1000),
-        'flight_time'    => $faker->numberBetween(0, 10000),
-        'transfer_time'  => $faker->numberBetween(0, 10000),
-        'state'          => UserState::ACTIVE,
-        'remember_token' => $faker->unique()->text(5),
-    ];
-});
+    /**
+     * @var string
+     */
+    private static string $password;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
+    public function definition(): array
+    {
+        if (empty(self::$password)) {
+            self::$password = Hash::make('secret');
+        }
+
+        return [
+            'id'             => null,
+            'pilot_id'       => null,
+            'name'           => $this->faker->name,
+            'email'          => $this->faker->safeEmail,
+            'password'       => self::$password,
+            'api_key'        => $this->faker->sha1,
+            'airline_id'     => fn () => Airline::factory()->create()->id,
+            'rank_id'        => 1,
+            'flights'        => $this->faker->numberBetween(0, 1000),
+            'flight_time'    => $this->faker->numberBetween(0, 10000),
+            'transfer_time'  => $this->faker->numberBetween(0, 10000),
+            'state'          => UserState::ACTIVE,
+            'remember_token' => $this->faker->unique()->text(5),
+        ];
+    }
+}

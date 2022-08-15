@@ -17,7 +17,7 @@ class Days extends Enum
     public const SATURDAY = 1 << 5;
     public const SUNDAY = 1 << 6;
 
-    public static $labels = [
+    public static array $labels = [
         self::MONDAY    => 'common.days.mon',
         self::TUESDAY   => 'common.days.tues',
         self::WEDNESDAY => 'common.days.wed',
@@ -27,7 +27,7 @@ class Days extends Enum
         self::SUNDAY    => 'common.days.sun',
     ];
 
-    public static $codes = [
+    public static array $codes = [
         'M'  => self::MONDAY,
         'T'  => self::TUESDAY,
         'W'  => self::WEDNESDAY,

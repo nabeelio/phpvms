@@ -10,12 +10,12 @@ use App\Models\User;
  */
 class UserStateChanged extends Event
 {
+    public User $user;
     public $old_state;
-    public $user;
 
     public function __construct(User $user, $old_state)
     {
-        $this->old_state = $old_state;
         $this->user = $user;
+        $this->old_state = $old_state;
     }
 }

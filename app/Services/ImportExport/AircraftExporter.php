@@ -31,11 +31,12 @@ class AircraftExporter extends ImportExport
     {
         $ret = [];
         foreach (self::$columns as $column) {
-            $ret[$column] = $aircraft->{$column};
+            if ($column === 'subfleet') {
+                $ret['subfleet'] = $aircraft->subfleet->type;
+            } else {
+                $ret[$column] = $aircraft->{$column};
+            }
         }
-
-        // Modify special fields
-        $ret['subfleet'] = $aircraft->subfleet->type;
 
         return $ret;
     }

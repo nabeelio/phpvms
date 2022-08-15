@@ -93,12 +93,13 @@ return [
      * under settings, for the display units
      */
     'internal_units' => [
-        'altitude' => 'feet',
-        'distance' => 'nmi',
-        'fuel'     => 'lbs',
-        'mass'     => 'lbs',
-        'velocity' => 'knots',
-        'volume'   => 'gallons',
+        'altitude'    => 'feet',
+        'distance'    => 'nmi',
+        'fuel'        => 'lbs',
+        'mass'        => 'lbs',
+        'temperature' => 'celsius',
+        'velocity'    => 'knots',
+        'volume'      => 'gallons',
     ],
 
     /*

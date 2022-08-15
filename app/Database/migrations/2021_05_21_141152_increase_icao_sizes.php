@@ -8,8 +8,7 @@ use Illuminate\Support\Facades\Schema;
  * Increase Airport ICAO size to 5 chars
  * https://github.com/nabeelio/phpvms/issues/1052
  */
-class IncreaseIcaoSizes extends Migration
-{
+return new class() extends Migration {
     public function up()
     {
         Schema::table('airports', function (Blueprint $table) {
@@ -23,4 +22,4 @@ class IncreaseIcaoSizes extends Migration
             $table->string('alt_airport_id', 5)->change();
         });
     }
-}
+};

@@ -61,6 +61,27 @@
   options: ''
   type: boolean
   description: Record the user's IP address on register/login
+- key: captcha.enabled
+  name: 'hCaptcha Enabled'
+  group: captcha
+  value: false
+  options: ''
+  type: boolean
+  description: Is hCaptcha enabled
+- key: captcha.site_key
+  name: 'hCaptcha Site Key'
+  group: captcha
+  value: ''
+  options: ''
+  type: text
+  description: Your hCaptcha Site Key
+- key: captcha.secret_key
+  name: 'hCaptcha Secret Key'
+  group: captcha
+  value: ''
+  options: ''
+  type: text
+  description: Your hCaptcha Secret Key
 - key: units.currency
   name: 'Currency'
   group: units
@@ -410,6 +431,41 @@
   options: ''
   type: text
   description: The Discord Webhook URL for private notifications
+- key: notifications.discord_pirep_status
+  name: Discord Pirep Messages (Public)
+  group: notifications
+  value: true
+  options: ''
+  type: boolean
+  description: Pirep status messages (Only key events are being sent)
+- key: notifications.mail_pirep_admin
+  name: Pirep Filed (Admin)
+  group: notifications
+  value: true
+  options: ''
+  type: boolean
+  description: Pirep filed mails sent to admins
+- key: notifications.mail_pirep_user_ack
+  name: Pirep Accepted (Pilot)
+  group: notifications
+  value: true
+  options: ''
+  type: boolean
+  description: Pirep Accepted mails sent to pilots
+- key: notifications.mail_pirep_user_rej
+  name: Pirep Rejected (Pilot)
+  group: notifications
+  value: true
+  options: ''
+  type: boolean
+  description: Pirep Rejected mails sent to pilots
+- key: notifications.mail_news
+  name: News Mails
+  group: notifications
+  value: true
+  options: ''
+  type: boolean
+  description: News mails sent to all members
 - key: 'cron.random_id'
   name: 'Cron Randomized ID'
   group: 'cron'

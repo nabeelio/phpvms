@@ -38,11 +38,11 @@ use Illuminate\Support\Facades\Log;
 
 class PirepController extends Controller
 {
-    private $financeSvc;
-    private $journalRepo;
-    private $pirepRepo;
-    private $pirepSvc;
-    private $userSvc;
+    private PirepFinanceService $financeSvc;
+    private JournalRepository $journalRepo;
+    private PirepRepository $pirepRepo;
+    private PirepService $pirepSvc;
+    private UserService $userSvc;
 
     /**
      * @param PirepFinanceService $financeSvc
@@ -334,16 +334,18 @@ class PirepController extends Controller
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      *
-     * @return PirepResource
+     * @return mixed
      */
     public function cancel($pirep_id, Request $request)
     {
         Log::info('PIREP '.$pirep_id.' Cancel, user '.Auth::id(), $request->post());
 
         $pirep = Pirep::find($pirep_id);
-        $this->pirepSvc->cancel($pirep);
+        if (!empty($pirep)) {
+            $this->pirepSvc->cancel($pirep);
+        }
 
-        return new PirepResource($pirep);
+        return $this->message('PIREP '.$pirep_id.' cancelled');
     }
 
     /**

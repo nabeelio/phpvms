@@ -20,8 +20,8 @@ class FareController extends Controller
 {
     use Importable;
 
-    private $fareRepo;
-    private $importSvc;
+    private FareRepository $fareRepo;
+    private ImportService $importSvc;
 
     /**
      * FareController constructor.

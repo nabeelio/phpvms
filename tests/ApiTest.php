@@ -32,7 +32,7 @@ class ApiTest extends TestCase
      */
     public function testApiAuthentication()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $uri = '/api/user';
 
@@ -64,7 +64,7 @@ class ApiTest extends TestCase
 
     public function testApiDeniedOnInactiveUser()
     {
-        $this->user = factory(User::class)->create([
+        $this->user = User::factory()->create([
             'state' => UserState::PENDING,
         ]);
 
@@ -77,7 +77,7 @@ class ApiTest extends TestCase
      */
     public function testGetNews(): void
     {
-        factory(News::class)->create();
+        News::factory()->create();
         $response = $this->get('/api/news')->json();
 
         $this->assertCount(1, $response['data']);
@@ -90,11 +90,11 @@ class ApiTest extends TestCase
     public function testGetAirlines()
     {
         $size = random_int(5, 10);
-        $this->user = factory(User::class)->create([
+        $this->user = User::factory()->create([
             'airline_id' => 0,
         ]);
 
-        $airlines = factory(Airline::class, $size)->create();
+        $airlines = Airline::factory()->count($size)->create();
 
         $res = $this->get('/api/airlines');
         $this->assertTrue($res->isOk());
@@ -106,26 +106,26 @@ class ApiTest extends TestCase
 
     public function testGetAirlinesChineseChars()
     {
-        $this->user = factory(User::class)->create([
+        $this->user = User::factory()->create([
             'airline_id' => 0,
         ]);
 
-        factory(Airline::class)->create([
+        Airline::factory()->create([
             'icao' => 'DKH',
             'name' => '吉祥航空',
         ]);
 
-        factory(Airline::class)->create([
+        Airline::factory()->create([
             'icao' => 'CSZ',
             'name' => '深圳航空',
         ]);
 
-        factory(Airline::class)->create([
+        Airline::factory()->create([
             'icao' => 'CCA',
             'name' => '中国国际航空',
         ]);
 
-        factory(Airline::class)->create([
+        Airline::factory()->create([
             'icao' => 'CXA',
             'name' => '厦门航空',
         ]);
@@ -140,11 +140,11 @@ class ApiTest extends TestCase
     public function testPagination()
     {
         $size = random_int(5, 10);
-        $this->user = factory(User::class)->create([
+        $this->user = User::factory()->create([
             'airline_id' => 0,
         ]);
 
-        factory(Subfleet::class, $size)->create();
+        Subfleet::factory()->count($size)->create();
 
         /*
          * Page 0 and page 1 should return the same thing
@@ -185,8 +185,8 @@ class ApiTest extends TestCase
      */
     public function testAirportRequest()
     {
-        $this->user = factory(User::class)->create();
-        $airport = factory(Airport::class)->create();
+        $this->user = User::factory()->create();
+        $airport = Airport::factory()->create();
 
         $response = $this->get('/api/airports/'.$airport->icao);
 
@@ -201,10 +201,10 @@ class ApiTest extends TestCase
      */
     public function testAirportRequest5Char()
     {
-        $this->user = factory(User::class)->create();
+        $this->user = User::factory()->create();
 
         /** @var Airport $airport */
-        $airport = factory(Airport::class)->create(['icao' => '5Char']);
+        $airport = Airport::factory()->create(['icao' => '5Char']);
 
         $response = $this->get('/api/airports/'.$airport->icao);
 
@@ -219,8 +219,8 @@ class ApiTest extends TestCase
      */
     public function testGetAllAirports()
     {
-        $this->user = factory(User::class)->create();
-        factory(Airport::class, 70)->create();
+        $this->user = User::factory()->create();
+        Airport::factory()->count(70)->create();
 
         $response = $this->get('/api/airports/')
                          ->assertStatus(200);
@@ -231,9 +231,9 @@ class ApiTest extends TestCase
 
     public function testGetAllAirportsHubs()
     {
-        $this->user = factory(User::class)->create();
-        factory(Airport::class, 10)->create();
-        factory(Airport::class)->create(['hub' => 1]);
+        $this->user = User::factory()->create();
+        Airport::factory()->count(10)->create();
+        Airport::factory()->create(['hub' => 1]);
 
         $this->get('/api/airports/hubs')
              ->assertStatus(200)
@@ -247,23 +247,23 @@ class ApiTest extends TestCase
      */
     public function testGetSubfleets()
     {
-        $this->user = factory(User::class)->create();
+        $this->user = User::factory()->create();
 
-        $subfleetA = factory(Subfleet::class)->create([
+        $subfleetA = Subfleet::factory()->create([
             'airline_id' => $this->user->airline_id,
         ]);
 
-        $subfleetB = factory(Subfleet::class)->create([
+        $subfleetB = Subfleet::factory()->create([
             'airline_id' => $this->user->airline_id,
         ]);
 
         $subfleetA_size = random_int(2, 10);
         $subfleetB_size = random_int(2, 10);
-        factory(Aircraft::class, $subfleetA_size)->create([
+        Aircraft::factory()->count($subfleetA_size)->create([
             'subfleet_id' => $subfleetA->id,
         ]);
 
-        factory(Aircraft::class, $subfleetB_size)->create([
+        Aircraft::factory()->count($subfleetB_size)->create([
             'subfleet_id' => $subfleetB->id,
         ]);
 
@@ -279,6 +279,9 @@ class ApiTest extends TestCase
             }
 
             $this->assertCount($size, $subfleet['aircraft']);
+            foreach ($subfleet['aircraft'] as $aircraft) {
+                $this->assertNotEmpty($aircraft['ident']);
+            }
         }
     }
 
@@ -287,22 +290,22 @@ class ApiTest extends TestCase
      */
     public function testGetAircraft()
     {
-        $this->user = factory(User::class)->create();
+        $this->user = User::factory()->create();
 
         $fare_svc = app(FareService::class);
 
         /** @var Subfleet $subfleet */
-        $subfleet = factory(Subfleet::class)->create([
+        $subfleet = Subfleet::factory()->create([
             'airline_id' => $this->user->airline_id,
         ]);
 
         /** @var Fare $fare */
-        $fare = factory(Fare::class)->create();
+        $fare = Fare::factory()->create();
 
         $fare_svc->setForSubfleet($subfleet, $fare);
 
         /** @var Aircraft $aircraft */
-        $aircraft = factory(Aircraft::class)->create([
+        $aircraft = Aircraft::factory()->create([
             'subfleet_id' => $subfleet->id,
         ]);
 
@@ -314,6 +317,7 @@ class ApiTest extends TestCase
 
         $this->assertEquals($body['id'], $aircraft->id);
         $this->assertEquals($body['name'], $aircraft->name);
+        $this->assertNotEmpty($body['ident']);
         $this->assertEquals($body['mtow'], $aircraft->mtow);
         $this->assertEquals($body['zfw'], $aircraft->zfw);
 
@@ -324,6 +328,9 @@ class ApiTest extends TestCase
         $this->assertEquals($body['name'], $aircraft->name);
         $this->assertEquals($body['mtow'], $aircraft->mtow);
         $this->assertEquals($body['zfw'], $aircraft->zfw);
+
+        $this->assertNotEmpty($body['ident']);
+        $this->assertEquals($body['ident'], $aircraft->ident);
 
         $resp = $this->get('/api/fleet/aircraft/'.$aircraft->id.'?icao='.$aircraft->icao);
         $body = $resp->json()['data'];
@@ -336,14 +343,14 @@ class ApiTest extends TestCase
 
     public function testGetAllSettings()
     {
-        $this->user = factory(User::class)->create();
+        $this->user = User::factory()->create();
         $res = $this->get('/api/settings')->assertStatus(200);
         $settings = $res->json();
     }
 
     public function testGetUser()
     {
-        $this->user = factory(User::class)->create([
+        $this->user = User::factory()->create([
             'avatar' => '/assets/avatar.jpg',
         ]);
 
@@ -354,7 +361,7 @@ class ApiTest extends TestCase
 
         // Should go to gravatar
 
-        $this->user = factory(User::class)->create();
+        $this->user = User::factory()->create();
 
         $res = $this->get('/api/user')->assertStatus(200);
         $user = $res->json('data');
@@ -377,5 +384,14 @@ class ApiTest extends TestCase
 
         $res = $this->get('/api/cron/'.$id);
         $res->assertStatus(200);
+    }
+
+    public function testStatus()
+    {
+        $res = $this->get('/api/status');
+        $status = $res->json();
+
+        $this->assertNotEmpty($status['version']);
+        $this->assertNotEmpty($status['php']);
     }
 }

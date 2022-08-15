@@ -8,8 +8,7 @@ use Illuminate\Support\Facades\Schema;
 /**
  * Add a `pilot_pay` column for a fixed amount to pay to a pilot for a flight
  */
-class FaresAddType extends Migration
-{
+return new class() extends Migration {
     public function up()
     {
         Schema::table('fares', function (Blueprint $table) {
@@ -19,4 +18,4 @@ class FaresAddType extends Migration
                 ->after('capacity');
         });
     }
-}
+};

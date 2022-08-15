@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Log;
  */
 class ApplyExpenses extends Listener
 {
-    private $financeSvc;
+    private RecurringFinanceService $financeSvc;
 
     /**
      * ApplyExpenses constructor.

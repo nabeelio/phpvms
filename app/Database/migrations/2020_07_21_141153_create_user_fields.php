@@ -8,8 +8,7 @@ use Illuminate\Support\Facades\Schema;
 /**
  * Add two tables for holding user fields and the values
  */
-class CreateUserFields extends Migration
-{
+return new class() extends Migration {
     public function up()
     {
         /*
@@ -39,4 +38,4 @@ class CreateUserFields extends Migration
             $table->index(['user_field_id', 'user_id']);
         });
     }
-}
+};

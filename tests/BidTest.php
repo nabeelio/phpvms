@@ -36,13 +36,13 @@ class BidTest extends TestCase
 
     public function addFlight($user, $subfleet = null)
     {
-        $flight = factory(Flight::class)->create([
+        $flight = Flight::factory()->create([
             'airline_id' => $user->airline_id,
         ]);
 
         if ($subfleet === null) {
             /** @var Subfleet $subfleet */
-            $subfleet = factory(Subfleet::class)->create([
+            $subfleet = Subfleet::factory()->create([
                 'airline_id' => $user->airline_id,
             ])->id;
         }
@@ -69,13 +69,13 @@ class BidTest extends TestCase
         $fare_svc = app(FareService::class);
 
         /** @var Fare $fare */
-        $fare = factory(Fare::class)->create();
+        $fare = Fare::factory()->create();
         $fare_svc->setForSubfleet($subfleet['subfleet'], $fare, [
             'price' => 50, 'capacity' => 400,
         ]);
 
         /** @var User $user */
-        $user = factory(User::class)->create([
+        $user = User::factory()->create([
             'flight_time' => 1000,
             'rank_id'     => $rank->id,
         ]);
@@ -123,7 +123,7 @@ class BidTest extends TestCase
         // have a second user bid on it
 
         /** @var User $user */
-        $user2 = factory(User::class)->create(['rank_id' => $rank->id]);
+        $user2 = User::factory()->create(['rank_id' => $rank->id]);
 
         $bid_user2 = $this->bidSvc->addBid($flight, $user2);
         $this->assertNotNull($bid_user2);
@@ -163,8 +163,8 @@ class BidTest extends TestCase
     {
         $this->settingsRepo->store('bids.disable_flight_on_bid', true);
 
-        $user1 = factory(User::class)->create();
-        $user2 = factory(User::class)->create([
+        $user1 = User::factory()->create();
+        $user2 = User::factory()->create([
             'airline_id' => $user1->airline_id,
         ]);
 
@@ -183,8 +183,8 @@ class BidTest extends TestCase
      */
     public function testAddBidApi()
     {
-        $this->user = factory(User::class)->create();
-        $user2 = factory(User::class)->create();
+        $this->user = User::factory()->create();
+        $user2 = User::factory()->create();
 
         /** @var \App\Models\Flight $flight */
         $flight = $this->addFlight($this->user);
@@ -221,7 +221,7 @@ class BidTest extends TestCase
      */
     public function testDeleteFlightWithBids()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $headers = $this->headers($user);
 
         $flight = $this->addFlight($user);

@@ -19,8 +19,14 @@ class AviationWeather extends Metar
     private const TAF_URL =
         'https://www.aviationweather.gov/adds/dataserver_current/httpparam?dataSource=tafs&requestType=retrieve&format=xml&hoursBeforeNow=3&mostRecent=true&stationString=';
 
-    private $httpClient;
+    /**
+     * @var HttpClient
+     */
+    private HttpClient $httpClient;
 
+    /**
+     * @param HttpClient $httpClient
+     */
     public function __construct(HttpClient $httpClient)
     {
         $this->httpClient = $httpClient;

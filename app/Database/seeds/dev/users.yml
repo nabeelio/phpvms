@@ -56,6 +56,12 @@ users:
     opt_in: 0
     toc_accepted: 1
 
+roles:
+  - id: 2
+    name: pilot
+    display_name: Pilot
+    description: A regular pilot
+
 role_user:
   - user_id: 1
     role_id: 1

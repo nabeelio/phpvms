@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use App\Contracts\Factory;
 use App\Contracts\Unit;
 use App\Exceptions\Handler;
 use App\Repositories\SettingRepository;
@@ -58,10 +59,14 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
         );
 
         Artisan::call('database:create', ['--reset' => true]);
-        Artisan::call('migrate:refresh', ['--env' => 'testing', '--force' => true]);
+        Artisan::call('migrate', ['--env' => 'testing', '--force' => true]);
 
         Notification::fake();
         // $this->disableExceptionHandling();
+
+        Factory::guessFactoryNamesUsing(function (string $modelName) {
+            return 'App\\Database\\Factories\\'.class_basename($modelName).'Factory';
+        });
     }
 
     /**
@@ -71,6 +76,7 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
     protected function disableExceptionHandling()
     {
         $this->app->instance(ExceptionHandler::class, new class() extends Handler {
+            /** @noinspection PhpMissingParentConstructorInspection */
             public function __construct()
             {
             }
@@ -273,6 +279,8 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
                 $data[$key] = $value->format(DATE_ATOM);
             } elseif ($value instanceof Carbon) {
                 $data[$key] = $value->toIso8601ZuluString();
+            } elseif ($value instanceof Unit) {
+                $data[$key] = (float) $value->internal(2);
             }
         }
 

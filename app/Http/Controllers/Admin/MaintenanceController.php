@@ -14,9 +14,9 @@ use Laracasts\Flash\Flash;
 
 class MaintenanceController extends Controller
 {
-    private $cronSvc;
-    private $kvpRepo;
-    private $versionSvc;
+    private CronService $cronSvc;
+    private KvpRepository $kvpRepo;
+    private VersionService $versionSvc;
 
     public function __construct(
         CronService $cronSvc,

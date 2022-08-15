@@ -7,8 +7,7 @@ use Illuminate\Support\Facades\Schema;
 /**
  * Add a SimBrief Type to subfleet
  */
-class AddSbtypeToSubfleets extends Migration
-{
+return new class() extends Migration {
     public function up()
     {
         Schema::table('subfleets', function (Blueprint $table) {
@@ -17,4 +16,4 @@ class AddSbtypeToSubfleets extends Migration
                 ->after('type');
         });
     }
-}
+};

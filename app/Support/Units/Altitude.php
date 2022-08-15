@@ -7,7 +7,7 @@ use PhpUnitsOfMeasure\PhysicalQuantity\Length;
 
 class Altitude extends Unit
 {
-    public $responseUnits = [
+    public array $responseUnits = [
         'ft',
         'km',
         'm',
@@ -26,7 +26,14 @@ class Altitude extends Unit
             $value = 0;
         }
 
-        $this->unit = setting('units.altitude');
-        $this->instance = new Length($value, $unit);
+        $this->localUnit = setting('units.altitude');
+        $this->internalUnit = config('phpvms.internal_units.altitude');
+
+        if ($value instanceof self) {
+            $value->toUnit($unit);
+            $this->instance = $value->instance;
+        } else {
+            $this->instance = new Length($value, $unit);
+        }
     }
 }

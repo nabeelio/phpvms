@@ -18,11 +18,15 @@ class ProcessQueue extends Command
     public function handle()
     {
         Artisan::call('queue:work', [
-            '--sansdaemon'      => null,
+            //'--sansdaemon'      => null,
             '--stop-when-empty' => null,
         ]);
 
-        Log::info(Artisan::output());
+        $jobOutput = trim(Artisan::output());
+        if (!empty($jobOutput)) {
+            Log::info($jobOutput);
+        }
+
         ///** @var App\Support\WorkCommand $queueWorker */
         //$queueWorker = new App\Support\WorkCommand(app('queue.worker'), app('cache.store'));
 

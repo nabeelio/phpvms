@@ -10,7 +10,7 @@ class ImportCsv extends Command
     protected $signature = 'phpvms:csv-import {type} {file}';
     protected $description = 'Import from a CSV file';
 
-    private $importer;
+    private ImportService $importer;
 
     /**
      * Import constructor.

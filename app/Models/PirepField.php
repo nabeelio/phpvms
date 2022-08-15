@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Contracts\Model;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 /**
  * @property string name
@@ -30,11 +31,15 @@ class PirepField extends Model
     /**
      * When setting the name attribute, also set the slug
      *
-     * @param $name
+     * @return Attribute
      */
-    public function setNameAttribute($name): void
+    public function name(): Attribute
     {
-        $this->attributes['name'] = $name;
-        $this->attributes['slug'] = str_slug($name);
+        return Attribute::make(
+            set: fn ($name) => [
+                'name' => $name,
+                'slug' => str_slug($name),
+            ]
+        );
     }
 }

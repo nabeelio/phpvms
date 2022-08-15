@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Log;
  */
 class ClearExpiredSimbrief extends Listener
 {
-    private $simbriefSvc;
+    private SimBriefService $simbriefSvc;
 
     public function __construct(SimBriefService $simbriefSvc)
     {
@@ -20,7 +20,7 @@ class ClearExpiredSimbrief extends Listener
     }
 
     /**
-     * @param \App\Events\CronNightly $event
+     * @param CronHourly $event
      */
     public function handle(CronHourly $event): void
     {

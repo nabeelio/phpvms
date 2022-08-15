@@ -4,6 +4,9 @@ namespace App\Http\Resources;
 
 use App\Contracts\Resource;
 
+/**
+ * @mixin \App\Models\Airline
+ */
 class Airline extends Resource
 {
     public function toArray($request)

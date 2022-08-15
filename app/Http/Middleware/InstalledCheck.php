@@ -19,7 +19,8 @@ class InstalledCheck implements Middleware
 {
     public function handle(Request $request, Closure $next)
     {
-        if (config('app.key') === 'base64:zdgcDqu9PM8uGWCtMxd74ZqdGJIrnw812oRMmwDF6KY='
+        $key = config('app.key');
+        if ((empty($key) || $key === 'base64:zdgcDqu9PM8uGWCtMxd74ZqdGJIrnw812oRMmwDF6KY=')
             && !$request->is(['install', 'install/*'])
             && !$request->is(['update', 'update/*'])
         ) {
