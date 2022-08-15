@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Contracts\Controller;
 use App\Events\AcarsUpdate;
 use App\Exceptions\PirepCancelled;
+use App\Exceptions\PirepNotFound;
 use App\Http\Requests\Acars\EventRequest;
 use App\Http\Requests\Acars\LogRequest;
 use App\Http\Requests\Acars\PositionRequest;
@@ -12,7 +13,6 @@ use App\Http\Resources\AcarsRoute as AcarsRouteResource;
 use App\Http\Resources\Pirep as PirepResource;
 use App\Models\Acars;
 use App\Models\Enums\AcarsType;
-use App\Models\Enums\PirepStatus;
 use App\Models\Pirep;
 use App\Repositories\AcarsRepository;
 use App\Repositories\PirepRepository;
@@ -20,14 +20,13 @@ use App\Services\GeoService;
 use Carbon\Carbon;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class AcarsController extends Controller
 {
-    private $acarsRepo;
-    private $geoSvc;
-    private $pirepRepo;
+    private AcarsRepository $acarsRepo;
+    private GeoService $geoSvc;
+    private PirepRepository $pirepRepo;
 
     /**
      * AcarsController constructor.
@@ -67,9 +66,11 @@ class AcarsController extends Controller
      */
     public function live_flights()
     {
-        $pireps = $this->acarsRepo->getPositions(setting('acars.live_time'))->filter(function ($pirep) {
-            return $pirep->position !== null;
-        });
+        $pireps = $this->acarsRepo->getPositions(setting('acars.live_time'))->filter(
+            function ($pirep) {
+                return $pirep->position !== null;
+            }
+        );
 
         return PirepResource::collection($pireps);
     }
@@ -102,6 +103,10 @@ class AcarsController extends Controller
     public function acars_geojson($pirep_id, Request $request)
     {
         $pirep = Pirep::find($pirep_id);
+        if (empty($pirep)) {
+            throw new PirepNotFound($pirep_id);
+        }
+
         $geodata = $this->geoSvc->getFeatureFromAcars($pirep);
 
         return response()->json([
@@ -119,7 +124,11 @@ class AcarsController extends Controller
      */
     public function acars_get($id, Request $request)
     {
-        $this->pirepRepo->find($id);
+        $pirep = $this->pirepRepo->find($id);
+        if (empty($pirep)) {
+            throw new PirepNotFound($id);
+        }
+
         $acars = Acars::with(['pirep'])
             ->where([
                 'pirep_id' => $id,
@@ -137,8 +146,8 @@ class AcarsController extends Controller
      * @param                 $id
      * @param PositionRequest $request
      *
-     * @throws \App\Exceptions\PirepCancelled
      * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
+     * @throws \App\Exceptions\PirepCancelled
      *
      * @return \Illuminate\Http\JsonResponse
      */
@@ -146,12 +155,16 @@ class AcarsController extends Controller
     {
         // Check if the status is cancelled...
         $pirep = Pirep::find($id);
+        if (empty($pirep)) {
+            throw new PirepNotFound($id);
+        }
+
         $this->checkCancelled($pirep);
 
-        Log::debug(
+        /*Log::debug(
             'Posting ACARS update (user: '.Auth::user()->ident.', pirep id :'.$id.'): ',
             $request->post()
-        );
+        );*/
 
         $count = 0;
         $positions = $request->post('positions');
@@ -193,9 +206,9 @@ class AcarsController extends Controller
         }
 
         // Change the PIREP status if it's as SCHEDULED before
-        if ($pirep->status === PirepStatus::INITIATED) {
+        /*if ($pirep->status === PirepStatus::INITIATED) {
             $pirep->status = PirepStatus::AIRBORNE;
-        }
+        }*/
 
         $pirep->save();
 
@@ -212,8 +225,8 @@ class AcarsController extends Controller
      * @param            $id
      * @param LogRequest $request
      *
-     * @throws \App\Exceptions\PirepCancelled
      * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
+     * @throws \App\Exceptions\PirepCancelled
      *
      * @return \Illuminate\Http\JsonResponse
      */
@@ -221,9 +234,13 @@ class AcarsController extends Controller
     {
         // Check if the status is cancelled...
         $pirep = Pirep::find($id);
+        if (empty($pirep)) {
+            throw new PirepNotFound($id);
+        }
+
         $this->checkCancelled($pirep);
 
-        Log::debug('Posting ACARS log, PIREP: '.$id, $request->post());
+        // Log::debug('Posting ACARS log, PIREP: '.$id, $request->post());
 
         $count = 0;
         $logs = $request->post('logs');
@@ -266,8 +283,8 @@ class AcarsController extends Controller
      * @param              $id
      * @param EventRequest $request
      *
-     * @throws \App\Exceptions\PirepCancelled
      * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
+     * @throws \App\Exceptions\PirepCancelled
      *
      * @return \Illuminate\Http\JsonResponse
      */
@@ -275,6 +292,10 @@ class AcarsController extends Controller
     {
         // Check if the status is cancelled...
         $pirep = Pirep::find($id);
+        if (empty($pirep)) {
+            throw new PirepNotFound($id);
+        }
+
         $this->checkCancelled($pirep);
 
         Log::debug('Posting ACARS event, PIREP: '.$id, $request->post());

@@ -1,5 +1,7 @@
 <?php
 
+use App\Console\Logger;
+
 return [
     /*
     |--------------------------------------------------------------------------
@@ -38,24 +40,24 @@ return [
             'driver'   => 'stack',
             'channels' => [
                 'cron_rotating',
-                'stdout',
+                //'stdout',
             ],
         ],
         'single' => [
             'driver' => 'single',
             'path'   => storage_path('logs/laravel.log'),
-            'level'  => 'debug',
+            'level'  => env('LOG_LEVEL', 'debug'),
         ],
         'daily' => [
             'driver' => 'daily',
             'path'   => storage_path('logs/laravel.log'),
-            'level'  => 'debug',
+            'level'  => env('LOG_LEVEL', 'debug'),
             'days'   => 3,
         ],
         'cron_rotating' => [
             'driver' => 'daily',
             'path'   => storage_path('logs/cron.log'),
-            'level'  => 'debug',
+            'level'  => env('LOG_LEVEL', 'debug'),
             'days'   => 3,
         ],
         'slack' => [
@@ -67,15 +69,15 @@ return [
         ],
         'stdout' => [
             'driver' => 'custom',
-            'via'    => \App\Console\Logger::class,
+            'via'    => Logger::class,
         ],
         'syslog' => [
             'driver' => 'syslog',
-            'level'  => 'debug',
+            'level'  => env('LOG_LEVEL', 'debug'),
         ],
         'errorlog' => [
             'driver' => 'errorlog',
-            'level'  => 'debug',
+            'level'  => env('LOG_LEVEL', 'debug'),
         ],
     ],
 ];

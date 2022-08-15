@@ -2,11 +2,11 @@
 
 namespace App\Console\Commands;
 
-use App;
 use App\Contracts\Command;
+use App\Services\Installer\ConfigService;
 use App\Services\Installer\SeederService;
 use DatabaseSeeder;
-use Modules\Installer\Services\ConfigService;
+use Illuminate\Support\Facades\App;
 
 /**
  * Create the config files
@@ -16,8 +16,8 @@ class CreateConfigs extends Command
     protected $signature = 'phpvms:config {db_host} {db_name} {db_user} {db_pass}';
     protected $description = 'Create the config files';
 
-    private $databaseSeeder;
-    private $seederSvc;
+    private DatabaseSeeder $databaseSeeder;
+    private SeederService $seederSvc;
 
     public function __construct(DatabaseSeeder $databaseSeeder, SeederService $seederSvc)
     {
@@ -81,13 +81,13 @@ class CreateConfigs extends Command
 
         $this->info('Regenerating the config files');
         $cfgSvc->createConfigFiles([
-            'APP_ENV'   => 'dev',
-            'SITE_NAME' => $this->argument('name'),
-            'DB_CONN'   => 'mysql',
-            'DB_HOST'   => $this->argument('db_host'),
-            'DB_NAME'   => $this->argument('db_name'),
-            'DB_USER'   => $this->argument('db_user'),
-            'DB_PASS'   => $this->argument('db_pass'),
+            'APP_ENV'       => 'dev',
+            'SITE_NAME'     => $this->argument('name'),
+            'DB_CONNECTION' => 'mysql',
+            'DB_HOST'       => $this->argument('db_host'),
+            'DB_DATABASE'   => $this->argument('db_name'),
+            'DB_USERNAME'   => $this->argument('db_user'),
+            'DB_PASSWORD'   => $this->argument('db_pass'),
         ]);
 
         $this->info('Config files generated!');

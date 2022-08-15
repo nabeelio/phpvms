@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Contracts\Model;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 /**
  * @property string id
@@ -12,6 +13,7 @@ use App\Contracts\Model;
  * @property string group
  * @property string type
  * @property string options
+ * @property int    order
  * @property string description
  */
 class Setting extends Model
@@ -40,9 +42,9 @@ class Setting extends Model
     /**
      * @param $key
      *
-     * @return mixed
+     * @return string
      */
-    public static function formatKey($key)
+    public static function formatKey($key): string
     {
         return str_replace('.', '_', strtolower($key));
     }
@@ -50,21 +52,24 @@ class Setting extends Model
     /**
      * Force formatting the key
      *
-     * @param $id
+     * @return Attribute
      */
-    public function setIdAttribute($id): void
+    public function id(): Attribute
     {
-        $id = strtolower($id);
-        $this->attributes['id'] = self::formatKey($id);
+        return Attribute::make(
+            get: fn ($id, $attrs) => self::formatKey(strtolower($id))
+        );
     }
 
     /**
      * Set the key to lowercase
      *
-     * @param $key
+     * @return Attribute
      */
-    public function setKeyAttribute($key): void
+    public function key(): Attribute
     {
-        $this->attributes['key'] = strtolower($key);
+        return Attribute::make(
+            set: fn ($key) => strtolower($key)
+        );
     }
 }

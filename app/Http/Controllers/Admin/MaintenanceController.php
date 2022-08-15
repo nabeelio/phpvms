@@ -6,35 +6,36 @@ use App\Contracts\Controller;
 use App\Repositories\KvpRepository;
 use App\Services\CronService;
 use App\Services\VersionService;
-use Codedge\Updater\UpdaterManager;
+use App\Support\Utils;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Log;
 use Laracasts\Flash\Flash;
-use Nwidart\Modules\Facades\Module;
 
 class MaintenanceController extends Controller
 {
-    private $cronSvc;
-    private $kvpRepo;
-    private $updateManager;
-    private $versionSvc;
+    private CronService $cronSvc;
+    private KvpRepository $kvpRepo;
+    private VersionService $versionSvc;
 
     public function __construct(
         CronService $cronSvc,
         KvpRepository $kvpRepo,
-        UpdaterManager $updateManager,
         VersionService $versionSvc
     ) {
         $this->cronSvc = $cronSvc;
         $this->kvpRepo = $kvpRepo;
-        $this->updateManager = $updateManager;
         $this->versionSvc = $versionSvc;
     }
 
     public function index()
     {
+        // Get the cron URL
+        $cron_id = setting('cron.random_id');
+        $cron_url = empty($cron_id) ? 'Not enabled' : url(route('api.maintenance.cron', $cron_id));
+
         return view('admin.maintenance.index', [
+            'cron_url'            => $cron_url,
             'cron_path'           => $this->cronSvc->getCronExecString(),
             'cron_problem_exists' => $this->cronSvc->cronProblemExists(),
             'new_version'         => $this->kvpRepo->get('new_version_available', false),
@@ -101,20 +102,31 @@ class MaintenanceController extends Controller
     }
 
     /**
-     * Update the phpVMS install
+     * Enable the cron, or if it's enabled, change the ID that is used
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
+     */
+    public function cron_enable(Request $request)
+    {
+        $id = Utils::generateNewId(24);
+        setting_save('cron.random_id', $id);
+
+        Flash::success('Web cron refreshed!');
+        return redirect(route('admin.maintenance.index'));
+    }
+
+    /**
+     * Disable the web cron
+     *
+     * @param Request $request
      *
      * @return mixed
      */
-    public function update(Request $request)
+    public function cron_disable(Request $request)
     {
-        $new_version_tag = $this->kvpRepo->get('latest_version_tag');
-        Log::info('Attempting to update to '.$new_version_tag);
+        setting_save('cron.random_id', '');
 
-        $module = Module::find('updater');
-        $module->enable();
-
-        return redirect('/update/downloader');
+        Flash::success('Web cron disabled!');
+        return redirect(route('admin.maintenance.index'));
     }
 }

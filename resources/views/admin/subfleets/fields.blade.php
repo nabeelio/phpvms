@@ -20,17 +20,23 @@
 
       <div class="form-group col-sm-3">
         {{ Form::label('hub_id', 'Main Hub:') }}
-        {{ Form::select('hub_id', $hubs, null , ['class' => 'form-control select2']) }}
+        {{ Form::select('hub_id', $hubs, null , ['class' => 'form-control select2', 'placeholder' => '']) }}
         <p class="text-danger">{{ $errors->first('hub_id') }}</p>
       </div>
 
-      <div class="form-group col-sm-3">
+      <div class="form-group col-sm-2">
         {{ Form::label('type', 'Type:') }}
         {{ Form::text('type', null, ['class' => 'form-control']) }}
         <p class="text-danger">{{ $errors->first('type') }}</p>
       </div>
 
-      <div class="form-group col-sm-3">
+      <div class="form-group col-sm-2">
+        {{ Form::label('simbrief_type', 'SimBrief Type:') }}
+        {{ Form::text('simbrief_type', null, ['class' => 'form-control']) }}
+        <p class="text-danger">{{ $errors->first('simbrief_type') }}</p>
+      </div>
+
+      <div class="form-group col-sm-2">
         {{ Form::label('name', 'Name:') }}
         {{ Form::text('name', null, ['class' => 'form-control']) }}
         <p class="text-danger">{{ $errors->first('name') }}</p>

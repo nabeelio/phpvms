@@ -7,8 +7,7 @@ use Illuminate\Support\Facades\Schema;
 /**
  * Change the downloads link size
  */
-class ModifyDownloadLinkSize extends Migration
-{
+return new class() extends Migration {
     public function up()
     {
         Schema::table('files', function (Blueprint $table) {
@@ -16,4 +15,4 @@ class ModifyDownloadLinkSize extends Migration
             $table->mediumText('path')->change()->nullable();
         });
     }
-}
+};

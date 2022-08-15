@@ -13,7 +13,7 @@ use Prettus\Repository\Exceptions\RepositoryException;
 
 class UserController extends Controller
 {
-    private $userRepo;
+    private UserRepository $userRepo;
 
     /**
      * @param UserRepository $userRepo
@@ -30,6 +30,9 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
+        $with = ['airline', 'current_airport', 'fields.field', 'home_airport', 'rank'];
+        $with_count = ['awards'];
+
         $where = [];
 
         if (setting('pilots.hide_inactive')) {
@@ -43,7 +46,8 @@ class UserController extends Controller
         }
 
         $users = $this->userRepo
-            ->with(['airline', 'current_airport'])
+            ->withCount($with_count)
+            ->with($with)
             ->orderBy('pilot_id', 'asc')
             ->paginate();
 

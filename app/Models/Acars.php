@@ -3,9 +3,10 @@
 namespace App\Models;
 
 use App\Contracts\Model;
+use App\Models\Casts\DistanceCast;
+use App\Models\Casts\FuelCast;
 use App\Models\Traits\HashIdTrait;
-use App\Support\Units\Distance;
-use App\Support\Units\Fuel;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * @property string id
@@ -23,10 +24,12 @@ use App\Support\Units\Fuel;
 class Acars extends Model
 {
     use HashIdTrait;
+    use HasFactory;
 
     public $table = 'acars';
 
     protected $keyType = 'string';
+
     public $incrementing = false;
 
     public $fillable = [
@@ -59,51 +62,19 @@ class Acars extends Model
         'nav_type'    => 'integer',
         'lat'         => 'float',
         'lon'         => 'float',
-        'distance'    => 'integer',
+        'distance'    => DistanceCast::class,
         'heading'     => 'integer',
         'altitude'    => 'float',
         'vs'          => 'float',
         'gs'          => 'float',
         'transponder' => 'integer',
-        'fuel'        => 'float',
+        'fuel'        => FuelCast::class,
         'fuel_flow'   => 'float',
     ];
 
     public static $rules = [
         'pirep_id' => 'required',
     ];
-
-    /**
-     * Set the distance unit, convert to our internal default unit
-     *
-     * @param $value
-     */
-    public function setDistanceAttribute($value): void
-    {
-        if ($value instanceof Distance) {
-            $this->attributes['distance'] = $value->toUnit(
-                config('phpvms.internal_units.distance')
-            );
-        } else {
-            $this->attributes['distance'] = $value;
-        }
-    }
-
-    /**
-     * Set the amount of fuel
-     *
-     * @param $value
-     */
-    public function setFuelAttribute($value)
-    {
-        if ($value instanceof Fuel) {
-            $this->attributes['fuel'] = $value->toUnit(
-                config('phpvms.internal_units.fuel')
-            );
-        } else {
-            $this->attributes['fuel'] = $value;
-        }
-    }
 
     /**
      * FKs

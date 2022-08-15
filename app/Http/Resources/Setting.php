@@ -4,6 +4,9 @@ namespace App\Http\Resources;
 
 use App\Contracts\Resource;
 
+/**
+ * @mixin \App\Models\Setting
+ */
 class Setting extends Resource
 {
     public function toArray($request)

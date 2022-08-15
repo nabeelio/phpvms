@@ -36,7 +36,7 @@ class FlightExporter extends ImportExport
         }
 
         // Modify special fields
-        $ret['airline'] = $ret['airline']->icao;
+        $ret['airline'] = $flight->airline->icao;
         $ret['dpt_airport'] = $flight->dpt_airport_id;
         $ret['arr_airport'] = $flight->arr_airport_id;
 

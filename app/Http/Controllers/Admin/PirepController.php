@@ -9,6 +9,7 @@ use App\Models\Enums\PirepSource;
 use App\Models\Enums\PirepState;
 use App\Models\Pirep;
 use App\Models\PirepComment;
+use App\Models\PirepFare;
 use App\Repositories\AircraftRepository;
 use App\Repositories\AirlineRepository;
 use App\Repositories\AirportRepository;
@@ -28,16 +29,16 @@ use Prettus\Repository\Criteria\RequestCriteria;
 
 class PirepController extends Controller
 {
-    private $airportRepo;
-    private $airlineRepo;
-    private $aircraftRepo;
-    private $fareSvc;
-    private $journalRepo;
-    private $pirepSvc;
-    private $pirepRepo;
-    private $pirepFieldRepo;
-    private $subfleetRepo;
-    private $userSvc;
+    private AirportRepository $airportRepo;
+    private AirlineRepository $airlineRepo;
+    private AircraftRepository $aircraftRepo;
+    private FareService $fareSvc;
+    private JournalRepository $journalRepo;
+    private PirepService $pirepSvc;
+    private PirepRepository $pirepRepo;
+    private PirepFieldRepository $pirepFieldRepo;
+    private SubfleetRepository $subfleetRepo;
+    private UserService $userSvc;
 
     /**
      * PirepController constructor.
@@ -100,7 +101,7 @@ class PirepController extends Controller
                 $tmp[$ac->id] = $ac['name'].' - '.$ac['registration'];
             }
 
-            $aircraft[$subfleet->name] = $tmp;
+            $aircraft[$subfleet->type] = $tmp;
         }
 
         return $aircraft;
@@ -151,10 +152,10 @@ class PirepController extends Controller
                 $count = $request->input($field_name);
             }
 
-            $fares[] = [
+            $fares[] = new PirepFare([
                 'fare_id' => $fare->id,
                 'count'   => $count,
-            ];
+            ]);
         }
 
         $this->fareSvc->saveForPirep($pirep, $fares);
@@ -394,10 +395,10 @@ class PirepController extends Controller
             return redirect(route('admin.pireps.index'));
         }
 
-        $this->pirepRepo->delete($id);
+        $this->pirepSvc->delete($pirep);
 
         Flash::success('Pirep deleted successfully.');
-        return redirect(route('admin.pireps.index'));
+        return redirect()->back();
     }
 
     /**

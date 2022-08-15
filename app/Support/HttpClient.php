@@ -3,17 +3,17 @@
 namespace App\Support;
 
 use GuzzleHttp\Client as GuzzleClient;
+use GuzzleHttp\RequestOptions;
 
 /**
  * Helper for HTTP stuff
  */
 class HttpClient
 {
-    private $httpClient;
+    private GuzzleClient $httpClient;
 
-    public function __construct(
-        GuzzleClient $httpClient
-    ) {
+    public function __construct(GuzzleClient $httpClient)
+    {
         $this->httpClient = $httpClient;
     }
 
@@ -43,6 +43,60 @@ class HttpClient
         }
 
         return $body;
+    }
+
+    /**
+     * @param       $uri
+     * @param       $body
+     * @param array $opts
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     *
+     * @return mixed
+     */
+    public function post($uri, $body, array $opts = []): mixed
+    {
+        $opts = array_merge([
+            'connect_timeout'    => 2,
+            RequestOptions::JSON => $body,
+        ], $opts);
+
+        $response = $this->httpClient->post($uri, $opts);
+        $content_type = $response->getHeaderLine('content-type');
+        $content = $response->getBody()->getContents();
+
+        if (str_contains($content_type, 'application/json') !== false) {
+            $content = \GuzzleHttp\json_decode($content, true);
+        }
+
+        return $content;
+    }
+
+    /**
+     * @param       $uri
+     * @param       $body
+     * @param array $opts
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     *
+     * @return mixed
+     */
+    public function form_post($uri, $body, array $opts = []): mixed
+    {
+        $opts = array_merge([
+            'connect_timeout' => 2,
+            'form_params'     => $body,
+        ], $opts);
+
+        $response = $this->httpClient->request('POST', $uri, $opts);
+        $content_type = $response->getHeaderLine('content-type');
+        $content = $response->getBody()->getContents();
+
+        if (str_contains($content_type, 'application/json') !== false) {
+            $content = \GuzzleHttp\json_decode($content, true);
+        }
+
+        return $content;
     }
 
     /**

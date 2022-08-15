@@ -12,7 +12,7 @@ use Symfony\Component\Process\PhpExecutableFinder;
 
 class CronService extends Service
 {
-    private $kvpRepo;
+    private KvpRepository $kvpRepo;
 
     public function __construct(
         KvpRepository $kvpRepo
@@ -39,8 +39,7 @@ class CronService extends Service
 
         $path = [
             $php_exec,
-            base_path('artisan'),
-            'schedule:run',
+            base_path('bin/cron'),
         ];
 
         return implode(' ', $path);
@@ -92,6 +91,6 @@ class CronService extends Service
 
         // More than 5 minutes... there's a problem
         $diff = $dt_now->diff($dt);
-        return $diff->i > 5;
+        return $diff->i > 60 * 12;  // Hasn't run for 12 hours
     }
 }

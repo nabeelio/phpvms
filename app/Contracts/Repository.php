@@ -2,11 +2,14 @@
 
 namespace App\Contracts;
 
+use Exception;
 use Illuminate\Validation\Validator;
+use function is_array;
 use Prettus\Repository\Eloquent\BaseRepository;
+use Prettus\Repository\Exceptions\RepositoryException;
 
 /**
- * @mixin \Prettus\Repository\Eloquent\BaseRepository
+ * @mixin BaseRepository
  */
 abstract class Repository extends BaseRepository
 {
@@ -20,8 +23,8 @@ abstract class Repository extends BaseRepository
     {
         try {
             return $this->find($id, $columns);
-        } catch (\Exception $e) {
-            return;
+        } catch (Exception $e) {
+            return null;
         }
     }
 
@@ -32,11 +35,7 @@ abstract class Repository extends BaseRepository
      */
     public function validate($values)
     {
-        $validator = Validator::make(
-            $values,
-            $this->model()->rules
-        );
-
+        $validator = Validator::make($values, $this->model()->rules);
         if ($validator->fails()) {
             return $validator->messages();
         }
@@ -49,6 +48,8 @@ abstract class Repository extends BaseRepository
      *
      * @param int    $count
      * @param string $sort_by created_at (default) or updated_at
+     *
+     * @throws RepositoryException
      *
      * @return mixed
      */
@@ -71,7 +72,7 @@ abstract class Repository extends BaseRepository
         return $this->scopeQuery(function ($query) use ($where, $sort_by, $order_by) {
             $q = $query->where($where);
             // See if there are multi-column sorts
-            if (\is_array($sort_by)) {
+            if (is_array($sort_by)) {
                 foreach ($sort_by as $key => $sort) {
                     $q = $q->orderBy($key, $sort);
                 }
@@ -98,7 +99,7 @@ abstract class Repository extends BaseRepository
         return $this->scopeQuery(function ($query) use ($col, $values, $sort_by, $order_by) {
             $q = $query->whereNotIn($col, $values);
             // See if there are multi-column sorts
-            if (\is_array($sort_by)) {
+            if (is_array($sort_by)) {
                 foreach ($sort_by as $key => $sort) {
                     $q = $q->orderBy($key, $sort);
                 }
@@ -118,7 +119,7 @@ abstract class Repository extends BaseRepository
      * @param array  $columns
      * @param string $method
      *
-     * @throws \Prettus\Repository\Exceptions\RepositoryException
+     * @throws RepositoryException
      *
      * @return mixed
      */
@@ -132,7 +133,10 @@ abstract class Repository extends BaseRepository
         $page = (int) request()->query('page', 1);
 
         $results = $this->model->{$method}($limit, $columns, 'page', $page);
-        $results->appends(app('request')->query());
+
+        $qs = request()->except(['page', 'user']);
+        $results->appends($qs);
+
         $this->resetModel();
 
         return $this->parserResult($results);

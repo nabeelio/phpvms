@@ -9,7 +9,7 @@ class Bid extends Resource
     public function toArray($request)
     {
         $res = parent::toArray($request);
-        $res['flight'] = new Flight($this->flight);
+        $res['flight'] = new BidFlight($this->flight);
 
         return $res;
     }

@@ -27,10 +27,10 @@ class NewsTest extends TestCase
     public function testNewsNotifications()
     {
         /** @var User[] $users */
-        $users_opt_in = factory(User::class, 5)->create(['opt_in' => true]);
+        $users_opt_in = User::factory()->count(5)->create(['opt_in' => true]);
 
         /** @var User[] $users */
-        $users_opt_out = factory(User::class, 5)->create(['opt_in' => false]);
+        $users_opt_out = User::factory()->count(5)->create(['opt_in' => false]);
 
         $this->newsSvc->addNews([
             'user_id' => $users_opt_out[0]->id,

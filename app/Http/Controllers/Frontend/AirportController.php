@@ -13,8 +13,8 @@ use Request;
  */
 class AirportController extends Controller
 {
-    private $airportRepo;
-    private $flightRepo;
+    private AirportRepository $airportRepo;
+    private FlightRepository $flightRepo;
 
     public function __construct(
         AirportRepository $airportRepo,
@@ -35,23 +35,26 @@ class AirportController extends Controller
     public function show($id, Request $request)
     {
         $id = strtoupper($id);
+        $with_flights = ['airline', 'arr_airport', 'dpt_airport'];
 
-        $airport = $this->airportRepo->find($id);
-        if (empty($airport)) {
+        $airport = $this->airportRepo->with('files')->where('id', $id)->first();
+        if (!$airport) {
             Flash::error('Airport not found!');
             return redirect(route('frontend.dashboard.index'));
         }
 
         $inbound_flights = $this->flightRepo
-            ->with(['dpt_airport', 'arr_airport', 'airline'])
+            ->with($with_flights)
             ->findWhere([
                 'arr_airport_id' => $id,
+                'active'         => 1,
             ])->all();
 
         $outbound_flights = $this->flightRepo
-            ->with(['dpt_airport', 'arr_airport', 'airline'])
+            ->with($with_flights)
             ->findWhere([
                 'dpt_airport_id' => $id,
+                'active'         => 1,
             ])->all();
 
         return view('airports.show', [

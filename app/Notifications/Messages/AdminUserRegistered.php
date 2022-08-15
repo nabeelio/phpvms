@@ -5,12 +5,11 @@ namespace App\Notifications\Messages;
 use App\Contracts\Notification;
 use App\Models\User;
 use App\Notifications\Channels\MailChannel;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class AdminUserRegistered extends Notification
+class AdminUserRegistered extends Notification implements ShouldQueue
 {
     use MailChannel;
-
-    public $channels = ['mail'];
 
     private $user;
 
@@ -31,6 +30,21 @@ class AdminUserRegistered extends Notification
         );
     }
 
+    /**
+     * @param $notifiable
+     *
+     * @return string[]
+     */
+    public function via($notifiable)
+    {
+        return ['mail'];
+    }
+
+    /**
+     * @param $notifiable
+     *
+     * @return array
+     */
     public function toArray($notifiable)
     {
         return [

@@ -4,9 +4,12 @@
     <th>ICAO</th>
     <th>Name</th>
     <th>Location</th>
-    <th>Hub</th>
+    <th style="text-align: center;">Hub</th>
+    <th style="text-align: center;">Notes</th>
     <th style="text-align: center;">GH Cost</th>
     <th style="text-align: center;">JetA</th>
+    <th style="text-align: center;">100LL</th>
+    <th style="text-align: center;">MOGAS</th>
     <th></th>
     </thead>
     <tbody>
@@ -21,11 +24,24 @@
           @endif
         </td>
         <td style="text-align: center;">
+          @if(filled($airport->notes))
+            <span class="label label-info" title="{{ $airport->notes }}">Notes</span>
+          @endif
+        </td>
+        <td style="text-align: center;">
           {{ $airport->ground_handling_cost }}
         </td>
         <td style="text-align: center;">
           <a class="inline" href="#" data-pk="{{ $airport->id }}"
              data-name="fuel_jeta_cost">{{ $airport->fuel_jeta_cost }}</a>
+        </td>
+        <td style="text-align: center;">
+          <a class="inline" href="#" data-pk="{{ $airport->id }}"
+             data-name="fuel_100ll_cost">{{ $airport->fuel_100ll_cost }}</a>
+        </td>
+        <td style="text-align: center;">
+          <a class="inline" href="#" data-pk="{{ $airport->id }}"
+             data-name="fuel_mogas_cost">{{ $airport->fuel_mogas_cost }}</a>
         </td>
         <td style="text-align: right;">
           {{ Form::open(['route' => ['admin.airports.destroy', $airport->id], 'method' => 'delete']) }}

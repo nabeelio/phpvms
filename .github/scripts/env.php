@@ -1,7 +1,3 @@
-<?php
-exit();
-?>
-
 APP_ENV="dev"
 APP_KEY="base64:zdgcDqu9PM8uGWCtMxd74ZqdGJIrnw812oRMmwDF6KY="
 APP_URL="http://localhost"
@@ -12,7 +8,7 @@ APP_LOCALE="en"
 PHPVMS_INSTALLED="true"
 
 APP_LOG="daily"
-APP_LOG_LEVEL="debug"
+LOG_LEVEL="debug"
 APP_LOG_MAX_FILES="3"
 
 DB_CONNECTION="mysql"

@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Log;
 
 class SettingsController extends Controller
 {
-    private $financeSvc;
+    private FinanceService $financeSvc;
 
     /**
      * @param FinanceService $financeSvc
@@ -62,7 +62,7 @@ class SettingsController extends Controller
      */
     public function index()
     {
-        $settings = Setting::orderBy('order', 'asc')->get();
+        $settings = Setting::where('type', '!=', 'hidden')->orderBy('order')->get();
         $settings = $settings->groupBy('group');
 
         return view('admin.settings.index', [

@@ -15,8 +15,8 @@ use Prettus\Repository\Criteria\RequestCriteria;
  */
 class AirportController extends Controller
 {
-    private $airportRepo;
-    private $airportSvc;
+    private AirportRepository $airportRepo;
+    private AirportService $airportSvc;
 
     /**
      * AirportController constructor.

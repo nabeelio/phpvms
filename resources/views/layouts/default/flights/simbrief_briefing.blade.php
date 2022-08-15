@@ -7,17 +7,38 @@
       <h2>{{ $simbrief->xml->general->icao_airline }}{{ $simbrief->xml->general->flight_number }}
         : {{ $simbrief->xml->origin->icao_code }} to {{ $simbrief->xml->destination->icao_code }}</h2>
     </div>
-    <div class="col-sm-3">
+    <div class="col">
       @if (empty($simbrief->pirep_id))
         <a class="btn btn-outline-info pull-right btn-lg"
            style="margin-top: -10px; margin-bottom: 5px"
            href="{{ url(route('frontend.simbrief.prefile', [$simbrief->id])) }}">Prefile PIREP</a>
       @endif
     </div>
-    <div class="col-sm-3">
-      <a class="btn btn-primary pull-right btn-lg"
+    @if (!empty($simbrief->xml->params->static_id) && $user->id === $simbrief->user_id)
+    <div class="col">
+        <a class="btn btn-secondary btn-lg"
+           style="margin-top: -10px; margin-bottom: 5px"
+           href="#"
+           data-toggle="modal" data-target="#OFP_Edit">Edit OFP</a>
+    </div>
+    @endif
+    <div class="col">
+      <a class="btn btn-primary btn-lg"
          style="margin-top: -10px; margin-bottom: 5px"
          href="{{ url(route('frontend.simbrief.generate_new', [$simbrief->id])) }}">Generate New OFP</a>
+    </div>
+    <div class="col">
+      @if ($acars_plugin)
+        @if ($bid)
+          <a href="vmsacars:bid/{{$bid->id}}"
+             style="margin-top: -10px; margin-bottom: 5px"
+             class="btn btn-info btn-lg">Load in vmsACARS</a>
+        @else
+          <a href="vmsacars:flight/{{$flight->id}}"
+             style="margin-top: -10px; margin-bottom: 5px"
+             class="btn btn-info btn-lg">Load in vmsACARS</a>
+        @endif
+      @endif
     </div>
   </div>
 
@@ -223,8 +244,8 @@
                   <form action="https://my.vatsim.net/pilots/flightplan" method="GET" target="_blank">
                     <input type="hidden" name="raw" value="{{ $simbrief->xml->atc->flightplan_text }}">
                     <input type="hidden" name="fuel_time" value="@secstohhmm($simbrief->xml->times->endurance)">
-                    <input type="hidden" name="speed" value="{{ $simbrief->xml->atc->initial_spd }}">
-                    <input type="hidden" name="altitude" value="{{ $simbrief->xml->atc->initial_alt }}">
+                    <input type="hidden" name="speed" value="@if(substr($simbrief->xml->atc->initial_spd,0,1) === '0') {{ substr($simbrief->xml->atc->initial_spd,1) }} @else {{ $simbrief->xml->atc->initial_spd }} @endif">
+                    <input type="hidden" name="altitude" value="{{ $simbrief->xml->general->initial_altitude }}">
                     <input id="vatsim_prefile" type="submit" class="btn btn-primary" value="File ATC on VATSIM"/>
                   </form>
                 </div>
@@ -284,6 +305,31 @@
       @endif
     </div>
   </div>
+
+  {{-- SimBrief Edit Modal --}}
+  @if(!empty($simbrief->xml->params->static_id))
+    <div class="modal fade" id="OFP_Edit" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog" style="max-width: 1020px;">
+        <div class="modal-content p-0" style="border-radius: 5px;">
+          <div class="modal-header p-1">
+            <h5 class="modal-title m-1 p-0">SimBrief</h5>
+            <span class="close"><i class="fas fa-times-circle" data-dismiss="modal" aria-label="Close" aria-hidden="true"></i></span>
+          </div>
+          <div class="modal-body p-0">
+            <iframe src="https://www.simbrief.com/system/dispatch.php?editflight=last&static_id={{ $simbrief->xml->params->static_id }}" style="width: 100%; height: 80vh;" frameBorder="0" title="SimBrief"></iframe>
+          </div>
+          <div class="modal-footer text-right p-1">
+            <a
+              class="btn btn-success btn-sm m-1 p-1"
+              href="{{ route('frontend.simbrief.update_ofp') }}?ofp_id={{ $simbrief->id }}&flight_id={{ $simbrief->flight_id }}&aircraft_id={{ $simbrief->aircraft_id }}&sb_userid={{ $simbrief->xml->params->user_id }}&sb_static_id={{ $simbrief->xml->params->static_id }}">
+              Download Updated OFP & Close
+            </a>
+            <button type="button" class="btn btn-danger btn-sm m-1 p-1" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  @endif
 @endsection
 
 @section('scripts')

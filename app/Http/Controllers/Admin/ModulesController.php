@@ -9,11 +9,12 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 
 class ModulesController extends Controller
 {
-    private $moduleSvc;
+    private ModuleService $moduleSvc;
 
     public function __construct(ModuleService $moduleSvc)
     {
@@ -29,6 +30,7 @@ class ModulesController extends Controller
     {
         $modules = $this->moduleSvc->getAllModules();
         $new_modules = $this->moduleSvc->scan();
+
         return view('admin.modules.index', [
             'modules'     => $modules,
             'new_modules' => $new_modules,
@@ -97,7 +99,14 @@ class ModulesController extends Controller
      */
     public function enable(Request $request)
     {
-        $this->moduleSvc->addModule($request->input('name'));
+        $moduleName = $request->input('name');
+
+        try {
+            $this->moduleSvc->addModule($moduleName);
+        } catch (\Exception $e) {
+            Log::error('Error activating module '.$moduleName);
+        }
+
         return redirect(route('admin.modules.index'));
     }
 

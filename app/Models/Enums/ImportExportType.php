@@ -14,7 +14,7 @@ class ImportExportType extends Enum
     public const FLIGHTS = 6;
     public const SUBFLEETS = 7;
 
-    public static $labels = [
+    public static array $labels = [
         self::AIRLINE   => 'airline',
         self::AIRCRAFT  => 'aircraft',
         self::AIRPORT   => 'airport',

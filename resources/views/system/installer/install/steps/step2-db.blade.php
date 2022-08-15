@@ -22,7 +22,7 @@
         <td>Site URL</td>
         <td style="text-align:center;">
           <div class="form-group">
-            {{ Form::input('text', 'site_url', Request::root(), ['class' => 'form-control']) }}
+            {{ Form::input('text', 'app_url', Request::root(), ['class' => 'form-control']) }}
           </div>
         </td>
       </tr>

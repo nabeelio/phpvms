@@ -3,14 +3,17 @@
 namespace App\Providers;
 
 use App\Events\Expenses;
+use App\Events\Fares;
 use App\Events\PirepFiled;
 use App\Events\UserStatsChanged;
 use App\Listeners\AwardHandler;
 use App\Listeners\BidEventHandler;
 use App\Listeners\ExpenseListener;
+use App\Listeners\FareListener;
 use App\Listeners\FinanceEventHandler;
+use App\Listeners\PirepEventsHandler;
 use App\Listeners\UserStateListener;
-use App\Notifications\EventHandler;
+use App\Notifications\NotificationEventsHandler;
 use Codedge\Updater\Events\UpdateAvailable;
 use Codedge\Updater\Events\UpdateSucceeded;
 use Illuminate\Auth\Events\Registered;
@@ -22,6 +25,10 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         Expenses::class => [
             ExpenseListener::class,
+        ],
+
+        Fares::class => [
+            FareListener::class,
         ],
 
         PirepFiled::class => [
@@ -38,12 +45,18 @@ class EventServiceProvider extends ServiceProvider
 
         UpdateAvailable::class => [],
         UpdateSucceeded::class => [],
+
+        // Log messages out to the console if running there
+        'Illuminate\Log\Events\MessageLogged' => [
+            'App\Listeners\MessageLoggedListener',
+        ],
     ];
 
     protected $subscribe = [
         BidEventHandler::class,
         FinanceEventHandler::class,
-        EventHandler::class,
+        NotificationEventsHandler::class,
         AwardHandler::class,
+        PirepEventsHandler::class,
     ];
 }

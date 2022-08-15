@@ -53,6 +53,11 @@ return [
     'simbrief_url' => 'https://www.simbrief.com/ofp/flightplans/xml/{id}.xml',
 
     /*
+     * URL for fetching an updated Simbrief flight plan via API
+     */
+    'simbrief_update_url' => 'https://www.simbrief.com/api/xml.fetcher.php?userid={sb_user_id}&static_id={sb_static_id}',
+
+    /*
      * Your vaCentral API key
      */
     'vacentral_api_key' => env('VACENTRAL_API_KEY', ''),
@@ -88,12 +93,13 @@ return [
      * under settings, for the display units
      */
     'internal_units' => [
-        'altitude' => 'feet',
-        'distance' => 'nmi',
-        'fuel'     => 'lbs',
-        'mass'     => 'lbs',
-        'velocity' => 'knots',
-        'volume'   => 'gallons',
+        'altitude'    => 'feet',
+        'distance'    => 'nmi',
+        'fuel'        => 'lbs',
+        'mass'        => 'lbs',
+        'temperature' => 'celsius',
+        'velocity'    => 'knots',
+        'volume'      => 'gallons',
     ],
 
     /*

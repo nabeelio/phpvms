@@ -6,10 +6,13 @@ use App\Contracts\Model;
 use App\Models\Enums\AircraftStatus;
 use App\Models\Traits\ExpensableTrait;
 use App\Models\Traits\FilesTrait;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * @property int     id
  * @property string  type
+ * @property string  simbrief_type
  * @property string  name
  * @property int     airline_id
  * @property int     hub_id
@@ -19,16 +22,19 @@ use App\Models\Traits\FilesTrait;
  * @property float   cost_delay_minute
  * @property Airline airline
  * @property Airport hub
+ * @property int     fuel_type
  */
 class Subfleet extends Model
 {
     use ExpensableTrait;
     use FilesTrait;
+    use HasFactory;
 
     public $fillable = [
         'airline_id',
         'hub_id',
         'type',
+        'simbrief_type',
         'name',
         'fuel_type',
         'cost_block_hour',
@@ -61,12 +67,13 @@ class Subfleet extends Model
     ];
 
     /**
-     * @param $type
+     * @return Attribute
      */
-    public function setTypeAttribute($type)
+    public function type(): Attribute
     {
-        $type = str_replace([' ', ','], ['-', ''], $type);
-        $this->attributes['type'] = $type;
+        return Attribute::make(
+            set: fn ($type) => str_replace([' ', ','], ['-', ''], $type)
+        );
     }
 
     /**
@@ -103,5 +110,10 @@ class Subfleet extends Model
     {
         return $this->belongsToMany(Rank::class, 'subfleet_rank')
             ->withPivot('acars_pay', 'manual_pay');
+    }
+
+    public function typeratings()
+    {
+        return $this->belongsToMany(Typerating::class, 'typerating_subfleet', 'subfleet_id', 'typerating_id');
     }
 }

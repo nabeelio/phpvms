@@ -11,7 +11,7 @@ A full distribution, with all of the composer dependencies, is available at this
 
 ### Requirements
 
-- PHP 7.3+, extensions:
+- PHP 8.0+, extensions:
   - cURL
   - JSON
   - mbstring
@@ -30,15 +30,16 @@ A full distribution, with all of the composer dependencies, is available at this
 
 [View installation details](https://docs.phpvms.net/installation/installation)
 
-## Development Environment
+## Development Environment with Docker
 
-A full development environment can be brought up using Docker:
+A full development environment can be brought up using Docker, without having to install composer/npm locally
 
 ```bash
-composer install
-yarn install
-docker-compose build
-docker-compose up
+make docker-test
+
+# **OR** with docker-compose directly
+
+docker-compose -f docker-compose.yml -f docker-compose.dev.yml up
 ```
 
 Then go to `http://localhost`. If you're using dnsmasq, the `app` container is listening on `phpvms.test`, or you can add to your `/etc/hosts` file:
@@ -46,6 +47,8 @@ Then go to `http://localhost`. If you're using dnsmasq, the `app` container is l
 ```
 127.0.0.1   phpvms.test
 ```
+
+The `docker-compose.local.yml` overrides the `app` section in `docker-compose.yml`. The standard `docker-compose.yml` can be used if you want to deploy from the image, or as a template for your own Dockerized deployments.
 
 ### Building JS/CSS assets
 

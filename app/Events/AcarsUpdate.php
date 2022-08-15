@@ -9,10 +9,10 @@ use App\Models\Pirep;
 class AcarsUpdate extends Event
 {
     /** @var Pirep */
-    public $pirep;
+    public Pirep $pirep;
 
     /** @var Acars */
-    public $acars;
+    public Acars $acars;
 
     public function __construct(Pirep $pirep, Acars $acars)
     {

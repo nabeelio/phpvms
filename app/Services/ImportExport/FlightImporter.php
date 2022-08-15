@@ -29,6 +29,7 @@ class FlightImporter extends ImportExport
         'airline'              => 'required',
         'flight_number'        => 'required',
         'route_code'           => 'nullable',
+        'callsign'             => 'nullable',
         'route_leg'            => 'nullable',
         'dpt_airport'          => 'required',
         'arr_airport'          => 'required',
@@ -45,6 +46,8 @@ class FlightImporter extends ImportExport
         'pilot_pay'            => 'nullable',
         'route'                => 'nullable',
         'notes'                => 'nullable',
+        'start_date'           => 'nullable|date',
+        'end_date'             => 'nullable|date',
         'active'               => 'nullable|boolean',
         'subfleets'            => 'nullable',
         'fares'                => 'nullable',
@@ -85,7 +88,6 @@ class FlightImporter extends ImportExport
             'flight_number' => $row['flight_number'],
             'route_code'    => $row['route_code'],
             'route_leg'     => $row['route_leg'],
-            'visible'       => true,
         ], $row);
 
         $row['dpt_airport'] = strtoupper($row['dpt_airport']);
@@ -98,6 +100,10 @@ class FlightImporter extends ImportExport
         if ($row['alt_airport']) {
             $flight->setAttribute('alt_airport_id', $row['alt_airport']);
         }
+
+        // Handle Route and Level Fields
+        $flight->setAttribute('route', strtoupper($row['route']));
+        $flight->setAttribute('level', $row['level']);
 
         // Any specific transformations
 
@@ -209,9 +215,17 @@ class FlightImporter extends ImportExport
         $count = 0;
         $subfleets = $this->parseMultiColumnValues($col);
         foreach ($subfleets as $subfleet_type) {
-            $subfleet = Subfleet::updateOrCreate(
+            $subfleet_type = trim($subfleet_type);
+            if (empty($subfleet_type)) {
+                continue;
+            }
+
+            $subfleet = Subfleet::firstOrCreate(
                 ['type' => $subfleet_type],
-                ['name' => $subfleet_type]
+                [
+                    'name'       => $subfleet_type,
+                    'airline_id' => $flight->airline_id,
+                ]
             );
 
             $subfleet->save();
@@ -239,8 +253,9 @@ class FlightImporter extends ImportExport
                 $fare_attributes = [];
             }
 
-            $fare = Fare::updateOrCreate(['code' => $fare_code], ['name' => $fare_code]);
+            $fare = Fare::firstOrCreate(['code' => $fare_code], ['name' => $fare_code]);
             $this->fareSvc->setForFlight($flight, $fare, $fare_attributes);
+            $fare->save();
         }
     }
 

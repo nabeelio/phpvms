@@ -169,7 +169,28 @@ class FareService extends Service
             }
         }
 
+        $fare->notes = '';
+        $fare->active = true;
+
         return $fare;
+    }
+
+    /**
+     * Return all the fares for an aircraft. check the pivot
+     * table to see if the price/cost/capacity has been overridden
+     * and return the correct amounts.
+     *
+     * @param Subfleet $subfleet
+     *
+     * @return Collection
+     */
+    public function getForSubfleet(Subfleet $subfleet)
+    {
+        $fares = $subfleet->fares->map(function ($fare) {
+            return $this->getFares($fare);
+        });
+
+        return $fares;
     }
 
     /**
@@ -241,24 +262,6 @@ class FareService extends Service
     }
 
     /**
-     * return all the fares for an aircraft. check the pivot
-     * table to see if the price/cost/capacity has been overridden
-     * and return the correct amounts.
-     *
-     * @param Subfleet $subfleet
-     *
-     * @return Collection
-     */
-    public function getForSubfleet(Subfleet $subfleet)
-    {
-        $fares = $subfleet->fares->map(function ($fare) {
-            return $this->getFares($fare);
-        });
-
-        return $fares;
-    }
-
-    /**
      * Delete the fare from a subfleet
      *
      * @param Subfleet $subfleet
@@ -286,22 +289,20 @@ class FareService extends Service
      */
     public function getForPirep(Pirep $pirep)
     {
-        $found_fares = PirepFare::where('pirep_id', $pirep->id)->get();
-
-        return $found_fares;
+        return PirepFare::where('pirep_id', $pirep->id)->get();
     }
 
     /**
      * Save the list of fares
      *
-     * @param Pirep $pirep
-     * @param array $fares ['fare_id', 'count']
+     * @param Pirep       $pirep
+     * @param PirepFare[] $fares
      *
      * @throws \Exception
      */
     public function saveForPirep(Pirep $pirep, array $fares)
     {
-        if (!$fares) {
+        if (!$fares || empty($fares)) {
             return;
         }
 
@@ -310,11 +311,9 @@ class FareService extends Service
 
         // Add them in
         foreach ($fares as $fare) {
-            $fare['pirep_id'] = $pirep->id;
-            // other fields: ['fare_id', 'count']
-
-            $field = new PirepFare($fare);
-            $field->save();
+            $fare->pirep_id = $pirep->id;
+            Log::info('Saving fare pirep='.$pirep->id.', fare='.$fare['count']);
+            $fare->save();
         }
     }
 }

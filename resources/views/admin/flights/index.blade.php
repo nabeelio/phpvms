@@ -2,8 +2,15 @@
 @section('title', 'Flights')
 
 @section('actions')
-  <li><a href="{{ route('admin.flights.export') }}"><i class="ti-plus"></i>Export to CSV</a></li>
-  <li><a href="{{ route('admin.flights.import') }}"><i class="ti-plus"></i>Import from CSV</a></li>
+  <li>
+    <a href="{{ route('admin.flights.export') }}@if(request()->get('airline_id')){{ '?airline_id='.request()->get('airline_id') }}@endif">
+      <i class="ti-plus"></i>
+      Export to CSV @if(request()->get('airline_id')) (Selected Airline) @endif
+    </a>
+  </li>
+  <li>
+    <a href="{{ route('admin.flights.import') }}"><i class="ti-plus"></i>Import from CSV</a>
+  </li>
   <li>
     <a href="{{ route('admin.flights.create') }}">
       <i class="ti-plus"></i>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Contracts\Controller;
+use App\Models\Enums\UserState;
 use App\Models\User;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Log;
@@ -15,7 +16,7 @@ class HomeController extends Controller
     public function index()
     {
         try {
-            $users = User::orderBy('created_at', 'desc')->take(4)->get();
+            $users = User::with('home_airport')->where('state', '!=', UserState::DELETED)->orderBy('created_at', 'desc')->take(4)->get();
         } catch (\PDOException $e) {
             Log::emergency($e);
             return view('system/errors/database_error', [

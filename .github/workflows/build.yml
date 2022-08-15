@@ -2,12 +2,12 @@ name: 'Build'
 on: ['push', 'pull_request', 'workflow_dispatch', 'release']
 jobs:
   build:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     if: github.repository == 'nabeelio/phpvms'
     strategy:
       fail-fast: true
       matrix:
-        php-versions: ['7.3', '7.4']
+        php-versions: ['8.0', '8.1']
     name: PHP ${{ matrix.php-versions }}
     env:
       extensions: intl, pcov, mbstring
@@ -41,7 +41,6 @@ jobs:
       with:
         path: ${{ steps.composer-cache.outputs.dir }}
         key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-        restore-keys: ${{ runner.os }}-composer-
 
     # Configure PHP
     - name: Setup PHP
@@ -70,8 +69,8 @@ jobs:
       run: |
         php --version
         mysql --version
+        sleep 15
         # Downgrade composer version to 1.x
-        composer self-update --1
         composer install --dev --no-interaction --verbose
         cp .github/scripts/env.php env.php
         cp .github/scripts/phpunit.xml phpunit.xml
@@ -80,7 +79,8 @@ jobs:
 
     - name: Run Tests
       run: |
-        vendor/bin/php-cs-fixer fix --config=.php_cs -v --dry-run --diff --using-cache=no
+        export PHP_CS_FIXER_IGNORE_ENV=1
+        #vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php -v --dry-run --diff --using-cache=no
         vendor/bin/phpunit --debug --verbose
 
   # This runs after all of the tests, run have run. Creates a cleaned up version of the
@@ -88,7 +88,7 @@ jobs:
   artifacts:
     name: 'Create dev build'
     needs: build
-    runs-on: 'ubuntu-18.04'
+    runs-on: ubuntu-20.04
     if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev'
     steps:
       - name: Checkout
@@ -97,7 +97,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '7.4'
+          php-version: '8.0'
 
       - uses: olegtarasov/get-tag@v2.1
         id: tagName
@@ -118,8 +118,6 @@ jobs:
       - name: 'Install Release Dependencies'
         run: |
           rm -rf vendor
-          sudo npm i tar-to-zip -g
-          composer self-update --1
           composer install --no-dev --prefer-dist --no-interaction --verbose
           sudo chmod +x ./.github/scripts/*
 
@@ -152,7 +150,7 @@ jobs:
   release:
     name: 'Create Release'
     needs: build
-    runs-on: 'ubuntu-18.04'
+    runs-on: ubuntu-20.04
     if: startsWith(github.ref, 'refs/tags/')
     steps:
       - name: Checkout
@@ -161,7 +159,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '7.4'
+          php-version: 8.0
 
       - uses: olegtarasov/get-tag@v2.1
         id: tagName
@@ -182,8 +180,6 @@ jobs:
       - name: 'Install Release Dependencies'
         run: |
           rm -rf vendor
-          sudo npm i tar-to-zip -g
-          composer self-update --1
           composer install --no-dev --prefer-dist --no-interaction --verbose
           sudo chmod +x ./.github/scripts/*
 

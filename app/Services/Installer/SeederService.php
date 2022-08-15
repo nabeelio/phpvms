@@ -15,13 +15,15 @@ use function trim;
 
 class SeederService extends Service
 {
-    private $databaseSvc;
+    private DatabaseService $databaseSvc;
 
-    private $counters = [];
-    private $offsets = [];
+    private array $counters = [];
+    private array $offsets = [];
 
     // Map an environment to a seeder directory, if we want to share
-    public static $seed_mapper = [];
+    public static $seed_mapper = [
+        'production' => 'prod',
+    ];
 
     public function __construct(DatabaseService $databaseSvc)
     {
@@ -90,10 +92,10 @@ class SeederService extends Service
         $data = file_get_contents(database_path('/seeds/modules.yml'));
         $yml = Yaml::parse($data);
         foreach ($yml as $module) {
-            $module['updated_at'] = Carbon::now();
+            $module['updated_at'] = Carbon::now('UTC');
             $count = DB::table('modules')->where('name', $module['name'])->count('name');
             if ($count === 0) {
-                $module['created_at'] = Carbon::now();
+                $module['created_at'] = Carbon::now('UTC');
                 DB::table('modules')->insert($module);
             } else {
                 DB::table('modules')
@@ -150,7 +152,7 @@ class SeederService extends Service
                 'order'       => $order,
                 'name'        => '',
                 'group'       => $group,
-                'value'       => '',
+                'value'       => $attrs['value'],
                 'default'     => $attrs['value'],
                 'options'     => '',
                 'type'        => 'hidden',

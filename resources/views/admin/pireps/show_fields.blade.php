@@ -63,6 +63,10 @@
         <td>{{ $pirep->level }}</td>
       </tr>
       <tr>
+        <td>Distance</td>
+        <td>{{ $pirep->distance }}</td>
+      </tr>
+      <tr>
         <td>Route</td>
         <td>{{ $pirep->route }}</td>
       </tr>

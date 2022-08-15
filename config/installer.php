@@ -19,10 +19,12 @@ return [
         'fileinfo',
         'openssl',
         'pdo',
+        'intl',
         'mbstring',
         'tokenizer',
         'json',
         'curl',
+        'dom',
     ],
 
     // Make sure these are writable

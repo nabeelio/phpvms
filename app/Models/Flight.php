@@ -3,10 +3,13 @@
 namespace App\Models;
 
 use App\Contracts\Model;
+use App\Models\Casts\DistanceCast;
 use App\Models\Enums\Days;
 use App\Models\Traits\HashIdTrait;
 use App\Support\Units\Distance;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Collection;
 
 /**
@@ -15,6 +18,7 @@ use Illuminate\Support\Collection;
  * @property Airline    airline
  * @property int        airline_id
  * @property mixed      flight_number
+ * @property mixed      callsign
  * @property mixed      route_code
  * @property int        route_leg
  * @property bool       has_bid
@@ -22,7 +26,8 @@ use Illuminate\Support\Collection;
  * @property Collection fares
  * @property Collection subfleets
  * @property int        days
- * @property int        distance
+ * @property Distance   distance
+ * @property Distance   planned_distance
  * @property int        flight_time
  * @property string     route
  * @property string     dpt_time
@@ -46,20 +51,24 @@ use Illuminate\Support\Collection;
 class Flight extends Model
 {
     use HashIdTrait;
+    use HasFactory;
 
     public $table = 'flights';
 
     /** The form wants this */
     public $hours;
+
     public $minutes;
 
     protected $keyType = 'string';
+
     public $incrementing = false;
 
     protected $fillable = [
         'id',
         'airline_id',
         'flight_number',
+        'callsign',
         'route_code',
         'route_leg',
         'dpt_airport_id',
@@ -88,7 +97,7 @@ class Flight extends Model
         'flight_number'        => 'integer',
         'days'                 => 'integer',
         'level'                => 'integer',
-        'distance'             => 'float',
+        'distance'             => DistanceCast::class,
         'flight_time'          => 'integer',
         'start_date'           => 'date',
         'end_date'             => 'date',
@@ -104,6 +113,7 @@ class Flight extends Model
     public static $rules = [
         'airline_id'           => 'required|exists:airlines,id',
         'flight_number'        => 'required',
+        'callsign'             => 'string|max:4|nullable',
         'route_code'           => 'nullable',
         'route_leg'            => 'nullable',
         'dpt_airport_id'       => 'required|exists:airports,id',
@@ -133,38 +143,26 @@ class Flight extends Model
     }
 
     /**
-     * Get the flight ident, e.,g JBU1900
+     * Get the flight ident, e.,g JBU1900/C.nn/L.yy
      */
-    public function getIdentAttribute(): string
+    public function ident(): Attribute
     {
-        $flight_id = $this->airline->code;
-        $flight_id .= $this->flight_number;
+        return Attribute::make(
+            get: function ($_, $attrs) {
+                $flight_id = optional($this->airline)->code;
+                $flight_id .= $this->flight_number;
 
-        if (filled($this->route_code)) {
-            $flight_id .= '-'.$this->route_code;
-        }
+                if (filled($this->route_code)) {
+                    $flight_id .= '/C.'.$this->route_code;
+                }
 
-        if (filled($this->route_leg)) {
-            $flight_id .= '-'.$this->route_leg;
-        }
+                if (filled($this->route_leg)) {
+                    $flight_id .= '/L.'.$this->route_leg;
+                }
 
-        return $flight_id;
-    }
-
-    /**
-     * Set the distance unit, convert to our internal default unit
-     *
-     * @param $value
-     */
-    public function setDistanceAttribute($value): void
-    {
-        if ($value instanceof Distance) {
-            $this->attributes['distance'] = $value->toUnit(
-                config('phpvms.internal_units.distance')
-            );
-        } else {
-            $this->attributes['distance'] = $value;
-        }
+                return $flight_id;
+            }
+        );
     }
 
     /**
@@ -198,20 +196,25 @@ class Flight extends Model
      * Set the days parameter. If an array is passed, it's
      * AND'd together to create the mask value
      *
-     * @param array|int $val
+     * @return Attribute
      */
-    public function setDaysAttribute($val): void
+    public function days(): Attribute
     {
-        if (\is_array($val)) {
-            $val = Days::getDaysMask($val);
-        }
+        return Attribute::make(
+            set: function ($value) {
+                if (\is_array($value)) {
+                    $value = Days::getDaysMask($value);
+                }
 
-        $this->attributes['days'] = $val;
+                return $value;
+            }
+        );
     }
 
-    /**
-     * Relationship
+    /*
+     * Relationships
      */
+
     public function airline()
     {
         return $this->belongsTo(Airline::class, 'airline_id');

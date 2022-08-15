@@ -15,7 +15,10 @@ declare -a remove_files=(
   .idea
   .travis
   docker
+  node_modules
+  vendor/willdurand/geocoder/tests
   _ide_helper.php
+  .env
   .dockerignore
   .dpl
   .editorconfig
@@ -23,6 +26,7 @@ declare -a remove_files=(
   .eslintrc
   .php_cs
   .php_cs.cache
+  .php-cs-fixer.php
   .phpstorm.meta.php
   .styleci.yml
   .phpunit.result.cache
@@ -30,15 +34,15 @@ declare -a remove_files=(
   intellij_style.xml
   config.php
   docker-compose.yml
+  docker-compose.local.yml
   Makefile
   phpcs.xml
   phpunit.xml
   phpvms.iml
   Procfile
   phpstan.neon
-  node_modules
+  symfony.lock
   composer.phar
-  vendor/willdurand/geocoder/tests
 )
 
 for file in "${remove_files[@]}"; do
@@ -69,12 +73,24 @@ mkdir -p storage/framework/views
 
 cd /tmp
 
+echo "Current directory contents"
+ls -al $BASE_DIR
+
+echo "Parent directory contents"
 ls -al $BASE_DIR/../
 
-tar -czf $TAR_NAME -C $BASE_DIR .
+echo "Calling find"
+find $BASE_DIR/../ -type d -maxdepth 2
+
+tar -czf $TAR_NAME -C $BASE_DIR --xform 's:^\./::' . [--show-transformed-names|--show-stored-names]
 sha256sum $TAR_NAME >"$TAR_NAME.sha256"
-tar2zip $TAR_NAME
+
+cd $BASE_DIR;
+zip -r $ZIP_NAME ./
 sha256sum $ZIP_NAME >"$ZIP_NAME.sha256"
+
+mv $ZIP_NAME /tmp
+mv "$ZIP_NAME.sha256" /tmp
 
 ls -al /tmp
 

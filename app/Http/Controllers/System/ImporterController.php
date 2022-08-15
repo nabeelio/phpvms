@@ -12,8 +12,8 @@ use Illuminate\Support\Facades\Log;
 
 class ImporterController extends Controller
 {
-    private $dbSvc;
-    private $importerSvc;
+    private DatabaseService $dbSvc;
+    private ImporterService $importerSvc;
 
     public function __construct(DatabaseService $dbSvc, ImporterService $importerSvc)
     {

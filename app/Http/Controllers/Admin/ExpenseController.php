@@ -20,9 +20,9 @@ class ExpenseController extends Controller
 {
     use Importable;
 
-    private $airlineRepo;
-    private $expenseRepo;
-    private $importSvc;
+    private AirlineRepository $airlineRepo;
+    private ExpenseRepository $expenseRepo;
+    private ImportService $importSvc;
 
     /**
      * expensesController constructor.

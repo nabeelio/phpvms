@@ -9,16 +9,15 @@ use Illuminate\Http\Request;
 
 class AirlineController extends Controller
 {
-    private $airlineRepo;
+    private AirlineRepository $airlineRepo;
 
     /**
      * AirlineController constructor.
      *
      * @param AirlineRepository $airlineRepo
      */
-    public function __construct(
-        AirlineRepository $airlineRepo
-    ) {
+    public function __construct(AirlineRepository $airlineRepo)
+    {
         $this->airlineRepo = $airlineRepo;
     }
 
@@ -31,11 +30,9 @@ class AirlineController extends Controller
      */
     public function index(Request $request)
     {
-        $airports = $this->airlineRepo
-            ->whereOrder(['active' => true], 'name', 'asc')
-            ->paginate();
+        $airlines = $this->airlineRepo->whereOrder(['active' => true], 'name')->paginate();
 
-        return AirlineResource::collection($airports);
+        return AirlineResource::collection($airlines);
     }
 
     /**

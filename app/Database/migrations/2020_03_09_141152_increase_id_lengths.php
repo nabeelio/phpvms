@@ -7,8 +7,7 @@ use Illuminate\Support\Facades\Schema;
 /**
  * Increase string ID lengths because of collisions
  */
-class IncreaseIdLengths extends Migration
-{
+return new class() extends Migration {
     public function up()
     {
         $tables = [
@@ -33,4 +32,4 @@ class IncreaseIdLengths extends Migration
             });
         }
     }
-}
+};

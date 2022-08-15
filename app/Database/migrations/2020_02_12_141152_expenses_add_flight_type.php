@@ -7,8 +7,7 @@ use Illuminate\Support\Facades\Schema;
 /**
  * Add a `flight_type` column to the expenses table
  */
-class ExpensesAddFlightType extends Migration
-{
+return new class() extends Migration {
     public function up()
     {
         Schema::table('expenses', function (Blueprint $table) {
@@ -24,4 +23,4 @@ class ExpensesAddFlightType extends Migration
             $table->dropColumn('flight_type');
         });
     }
-}
+};

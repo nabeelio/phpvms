@@ -5,11 +5,14 @@ namespace Tests;
 use App\Exceptions\PilotIdNotFound;
 use App\Exceptions\UserPilotIdExists;
 use App\Models\Airline;
+use App\Models\Enums\UserState;
 use App\Models\Fare;
+use App\Models\Pirep;
 use App\Models\User;
 use App\Repositories\SettingRepository;
 use App\Services\FareService;
 use App\Services\UserService;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 
 class UserTest extends TestCase
@@ -40,7 +43,7 @@ class UserTest extends TestCase
 
         $rank = $this->createRank(10, [$subfleetA['subfleet']->id]);
 
-        $user = factory(User::class)->create([
+        $user = User::factory()->create([
             'rank_id' => $rank->id,
         ]);
 
@@ -97,7 +100,7 @@ class UserTest extends TestCase
         $subfleetA = $this->createSubfleetWithAircraft();
         $subfleetB = $this->createSubfleetWithAircraft();
 
-        $fare = factory(Fare::class)->create([
+        $fare = Fare::factory()->create([
             'price'    => 20,
             'capacity' => 200,
         ]);
@@ -116,7 +119,7 @@ class UserTest extends TestCase
 
         $rank = $this->createRank(10, [$subfleetA['subfleet']->id]);
 
-        $user = factory(User::class)->create([
+        $user = User::factory()->create([
             'rank_id' => $rank->id,
         ]);
 
@@ -172,17 +175,17 @@ class UserTest extends TestCase
     {
         // Add subfleets and aircraft, but also add another
         // set of subfleets
-        $airport = factory(\App\Models\Airport::class)->create();
+        $airport = \App\Models\Airport::factory()->create();
         $subfleetA = $this->createSubfleetWithAircraft(2, $airport->id);
         $subfleetB = $this->createSubfleetWithAircraft(2);
 
         $rank = $this->createRank(10, [$subfleetA['subfleet']->id]);
-        $user = factory(User::class)->create([
+        $user = User::factory()->create([
             'curr_airport_id' => $airport->id,
             'rank_id'         => $rank->id,
         ]);
 
-        $flight = factory(\App\Models\Flight::class)->create([
+        $flight = \App\Models\Flight::factory()->create([
             'airline_id'     => $user->airline_id,
             'dpt_airport_id' => $airport->id,
         ]);
@@ -237,8 +240,8 @@ class UserTest extends TestCase
     public function testUserPilotIdChangeAlreadyExists()
     {
         $this->expectException(UserPilotIdExists::class);
-        $user1 = factory(User::class)->create(['id' => 1]);
-        $user2 = factory(User::class)->create(['id' => 2]);
+        $user1 = User::factory()->create(['id' => 1]);
+        $user2 = User::factory()->create(['id' => 2]);
 
         // Now try to change the original user's pilot_id to 2 (should conflict)
         $this->userSvc->changePilotId($user1, 2);
@@ -250,7 +253,7 @@ class UserTest extends TestCase
     public function testUserPilotIdSplit(): void
     {
         /** @var User $user */
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $found_user = $this->userSvc->findUserByPilotId($user->ident);
         $this->assertEquals($user->id, $found_user->id);
 
@@ -265,7 +268,7 @@ class UserTest extends TestCase
     public function testUserPilotIdSplitInvalidId(): void
     {
         /** @var User $user */
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $this->expectException(PilotIdNotFound::class);
         $this->userSvc->findUserByPilotId($user->airline->iata);
@@ -274,10 +277,10 @@ class UserTest extends TestCase
     public function testUserPilotIdInvalidIATA(): void
     {
         /** @var Airline $airline */
-        $airline = factory(Airline::class)->create(['icao' => 'ABC', 'iata' => null]);
+        $airline = Airline::factory()->create(['icao' => 'ABC', 'iata' => null]);
 
         /** @var User $user */
-        $user = factory(User::class)->create(['airline_id' => $airline->id]);
+        $user = User::factory()->create(['airline_id' => $airline->id]);
 
         $this->expectException(PilotIdNotFound::class);
         $this->userSvc->findUserByPilotId('123');
@@ -288,13 +291,13 @@ class UserTest extends TestCase
      */
     public function testUserPilotIdAdded()
     {
-        $new_user = factory(User::class)->make()->toArray();
+        $new_user = User::factory()->make()->makeVisible(['api_key', 'name', 'email'])->toArray();
         $new_user['password'] = Hash::make('secret');
         $user = $this->userSvc->createUser($new_user);
         $this->assertEquals($user->id, $user->pilot_id);
 
         // Add a second user
-        $new_user = factory(User::class)->make()->toArray();
+        $new_user = User::factory()->make()->makeVisible(['api_key', 'name', 'email'])->toArray();
         $new_user['password'] = Hash::make('secret');
         $user2 = $this->userSvc->createUser($new_user);
         $this->assertEquals($user2->id, $user2->pilot_id);
@@ -304,8 +307,58 @@ class UserTest extends TestCase
         $this->assertEquals(3, $user->pilot_id);
 
         // Create a new user and the pilot_id should be 4
-        $user3 = factory(User::class)->create();
+        $user3 = User::factory()->create();
         $this->assertEquals(4, $user3->pilot_id);
+    }
+
+    public function testUserPilotDeleted()
+    {
+        $new_user = User::factory()->make()->makeVisible(['api_key', 'name', 'email'])->toArray();
+        $new_user['password'] = Hash::make('secret');
+        $admin_user = $this->userSvc->createUser($new_user);
+
+        $new_user = User::factory()->make()->makeVisible(['api_key', 'name', 'email'])->toArray();
+        $new_user['password'] = Hash::make('secret');
+        $user = $this->userSvc->createUser($new_user);
+        $this->assertEquals($user->id, $user->pilot_id);
+
+        // Delete the user
+        $this->userSvc->removeUser($user);
+
+        $response = $this->get('/api/user/'.$user->id, [], $admin_user);
+        $response->assertStatus(404);
+
+        // Get from the DB
+        $user = User::find($user->id);
+        $this->assertNull($user);
+    }
+
+    public function testUserPilotDeletedWithPireps()
+    {
+        $new_user = User::factory()->make()->makeVisible(['api_key', 'name', 'email'])->toArray();
+        $new_user['password'] = Hash::make('secret');
+        $admin_user = $this->userSvc->createUser($new_user);
+
+        $new_user = User::factory()->make()->makeVisible(['api_key', 'name', 'email'])->toArray();
+        $new_user['password'] = Hash::make('secret');
+        $user = $this->userSvc->createUser($new_user);
+        $this->assertEquals($user->id, $user->pilot_id);
+
+        /** @var Pirep $pirep */
+        Pirep::factory()->create([
+            'user_id' => $user->id,
+        ]);
+
+        // Delete the user
+        $this->userSvc->removeUser($user);
+
+        $response = $this->get('/api/user/'.$user->id, [], $admin_user);
+        $response->assertStatus(404);
+
+        // Get from the DB
+        $user = User::find($user->id);
+        $this->assertEquals('Deleted User', $user->name);
+        $this->assertNotEquals($new_user['password'], $user->password);
     }
 
     /**
@@ -316,12 +369,82 @@ class UserTest extends TestCase
         $vals = [
             'Firstname'                     => 'Firstname',
             'Firstname Lastname'            => 'Firstname L',
-            'Firstname Middlename Lastname' => 'Firstname L',
+            'Firstname Middlename Lastname' => 'Firstname Middlename L',
+            'First Mid1 mid2 last'          => 'First Mid1 Mid2 L',
         ];
 
         foreach ($vals as $input => $expected) {
             $user = new User(['name' => $input]);
             $this->assertEquals($expected, $user->name_private);
         }
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function testUserLeave(): void
+    {
+        $this->createUser(['status' => UserState::ACTIVE]);
+
+        $users_on_leave = $this->userSvc->findUsersOnLeave();
+        $this->assertCount(0, $users_on_leave);
+
+        $this->updateSetting('pilots.auto_leave_days', 1);
+        $user = $this->createUser([
+            'state'      => UserState::ACTIVE,
+            'status'     => UserState::ACTIVE,
+            'created_at' => Carbon::now('UTC')->subDays(5),
+        ]);
+
+        $users_on_leave = $this->userSvc->findUsersOnLeave();
+        $this->assertCount(1, $users_on_leave);
+        $this->assertEquals($user->id, $users_on_leave->first()->id);
+
+        // Give that user a new PIREP, still old
+        /** @var Pirep $pirep */
+        $pirep = Pirep::factory()->create([
+            'user_id'      => $user->id,
+            'created_at'   => Carbon::now('UTC')->subDays(5),
+            'submitted_at' => Carbon::now('UTC')->subDays(5),
+        ]);
+
+        $user->last_pirep_id = $pirep->id;
+        $user->save();
+        $user->refresh();
+
+        $users_on_leave = $this->userSvc->findUsersOnLeave();
+        $this->assertCount(1, $users_on_leave);
+        $this->assertEquals($user->id, $users_on_leave->first()->id);
+
+        // Create a new PIREP
+        /** @var Pirep $pirep */
+        $pirep = Pirep::factory()->create([
+            'user_id'      => $user->id,
+            'created_at'   => Carbon::now('UTC'),
+            'submitted_at' => Carbon::now('UTC'),
+        ]);
+
+        $user->last_pirep_id = $pirep->id;
+        $user->save();
+        $user->refresh();
+
+        $users_on_leave = $this->userSvc->findUsersOnLeave();
+        $this->assertCount(0, $users_on_leave);
+
+        // Check disable_activity_checks
+        $user = $this->createUser([
+            'status'     => UserState::ACTIVE,
+            'created_at' => Carbon::now('UTC')->subDays(5),
+        ]);
+
+        $role = $this->createRole([
+            'disable_activity_checks' => true,
+        ]);
+
+        $user->attachRole($role);
+        $user->save();
+
+        $users_on_leave = $this->userSvc->findUsersOnLeave();
+        $this->assertCount(0, $users_on_leave);
     }
 }

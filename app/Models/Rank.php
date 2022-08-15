@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Contracts\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * @property string name
@@ -15,6 +16,8 @@ use App\Contracts\Model;
  */
 class Rank extends Model
 {
+    use HasFactory;
+
     public $table = 'ranks';
 
     protected $fillable = [

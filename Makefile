@@ -80,11 +80,7 @@ test:
 
 .PHONY: phpcs
 phpcs:
-	@vendor/bin/php-cs-fixer fix --config=.php_cs -v --diff --diff-format=udiff --dry-run
-
-#.PHONY: phpstan
-#phpstan:
-#	vendor/bin/phpstan analyse -c phpstan.neon -v --level 2 app
+	@PHP_CS_FIXER_IGNORE_ENV=1 vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php -v --dry-run --diff --using-cache=no
 
 .PHONY: replay-acars
 replay-acars:
@@ -95,11 +91,6 @@ replay-acars:
 sass-watch:
 	sass --watch public/assets/admin/sass/paper-dashboard.scss:public/assets/admin/css/paper-dashboard.css
 
-.PHONY: schema
-schema:
-	#php artisan infyom:scaffold Aircraft --fieldsFile=database/schema/aircraft.json
-	echo ""
-
 .PHONY: deploy-package
 deploy-package:
 	./.travis/deploy_script.sh
@@ -109,17 +100,9 @@ reset-installer:
 	@php artisan database:create --reset
 	@php artisan migrate:refresh --seed
 
-.PHONY: docker
-docker:
-	@mkdir -p $(CURR_PATH)/tmp/mysql
-
-	-docker rm -f phpvms
-	docker build -t phpvms .
-	docker run --name=phpvms \
-       -v $(CURR_PATH):/var/www/ \
-       -v $(CURR_PATH)/tmp/mysql:/var/lib/mysql \
-       -p 8080:80 \
-       phpvms
+.PHONY: docker-test
+docker-test:
+	@docker compose -f docker-compose.dev.yml up
 
 .PHONY: docker-clean
 docker-clean:

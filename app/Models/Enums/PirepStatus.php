@@ -33,9 +33,10 @@ class PirepStatus extends Enum
     public const LANDED = 'LAN';
     public const ARRIVED = 'ONB'; // On block
     public const CANCELLED = 'DX';
-    public const EMERG_DECENT = 'EMG';
+    public const EMERG_DESCENT = 'EMG';
+    public const PAUSED = 'PSD';
 
-    protected static $labels = [
+    protected static array $labels = [
         self::INITIATED     => 'pireps.status.initialized',
         self::SCHEDULED     => 'pireps.status.scheduled',
         self::BOARDING      => 'pireps.status.boarding',
@@ -58,6 +59,7 @@ class PirepStatus extends Enum
         self::LANDED        => 'pireps.status.landed',
         self::ARRIVED       => 'pireps.status.arrived',
         self::CANCELLED     => 'pireps.status.cancelled',
-        self::EMERG_DECENT  => 'pireps.status.emerg_decent',
+        self::EMERG_DESCENT => 'pireps.status.emerg_decent',
+        self::PAUSED        => 'pireps.status.paused',
     ];
 }

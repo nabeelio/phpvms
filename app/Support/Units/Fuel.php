@@ -7,7 +7,7 @@ use PhpUnitsOfMeasure\PhysicalQuantity\Mass;
 
 class Fuel extends Unit
 {
-    public $responseUnits = [
+    public array $responseUnits = [
         'kg',
         'lbs',
     ];
@@ -25,7 +25,14 @@ class Fuel extends Unit
             $value = 0;
         }
 
-        $this->unit = setting('units.fuel');
-        $this->instance = new Mass($value, $unit);
+        $this->localUnit = setting('units.fuel');
+        $this->internalUnit = config('phpvms.internal_units.fuel');
+
+        if ($value instanceof self) {
+            $value->toUnit($unit);
+            $this->instance = $value->instance;
+        } else {
+            $this->instance = new Mass($value, $unit);
+        }
     }
 }

@@ -6,7 +6,14 @@
     <div class="col-8">
       <div class="row">
         <div class="col-12">
-          <h2>{{ $flight->ident }}</h2>
+          <h2>
+            {{ $flight->ident }}
+            @if ($acars_plugin && $bid)
+              <a href="vmsacars:bid/{{$bid->id}}" class="btn btn-info btn-sm float-right">Load in vmsACARS</a>
+            @elseif ($acars_plugin)
+              <a href="vmsacars:flight/{{$flight->id}}" class="btn btn-info btn-sm float-right">Load in vmsACARS</a>
+            @endif
+          </h2>
         </div>
       </div>
       <div class="row">
@@ -43,12 +50,18 @@
                 </td>
               </tr>
             @endif
-
-            <tr>
-              <td>@lang('flights.route')</td>
-              <td>{{ $flight->route }}</td>
-            </tr>
-
+            @if(filled($flight->route))
+              <tr>
+                <td>@lang('flights.route')</td>
+                <td>{{ $flight->route }}</td>
+              </tr>
+            @endif
+            @if(filled($flight->callsign))
+              <tr>
+                <td>@lang('flights.callsign')</td>
+                <td>{{ $flight->airline->icao }} {{ $flight->callsign }}</td>
+              </tr>
+            @endif
             @if(filled($flight->notes))
               <tr>
                 <td>{{ trans_choice('common.note', 2) }}</td>

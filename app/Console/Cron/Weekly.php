@@ -2,7 +2,7 @@
 
 namespace App\Console\Cron;
 
-use App\Contracts\Command;
+use App\Contracts\CronCommand;
 use App\Events\CronWeekly;
 
 /**
@@ -11,7 +11,7 @@ use App\Events\CronWeekly;
  *
  * The actual cron tasks are in app/Cron
  */
-class Weekly extends Command
+class Weekly extends CronCommand
 {
     protected $signature = 'cron:weekly';
     protected $description = 'Run the weekly cron tasks';
@@ -19,7 +19,11 @@ class Weekly extends Command
 
     public function handle(): void
     {
-        $this->redirectLoggingToFile('cron');
+        $this->callEvent();
+    }
+
+    public function callEvent()
+    {
         event(new CronWeekly());
     }
 }

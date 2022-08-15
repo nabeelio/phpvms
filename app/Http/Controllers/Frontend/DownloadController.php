@@ -3,10 +3,14 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Contracts\Controller;
+use App\Models\Airline;
 use App\Models\File;
-use Auth;
-use Flash;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Laracasts\Flash\Flash;
+use Nwidart\Modules\Exceptions\ModuleNotFoundException;
+use Nwidart\Modules\Facades\Module;
 
 /**
  * Class DownloadController
@@ -18,6 +22,7 @@ class DownloadController extends Controller
      */
     public function index()
     {
+        $airlines = Airline::where('active', 1)->count();
         $files = File::orderBy('ref_model', 'asc')->get();
 
         /**
@@ -39,19 +44,41 @@ class DownloadController extends Controller
             $klass = new $class();
             $obj = $klass->find($id);
 
-            $category = explode('\\', $class);
-            $category = end($category);
+            // Check if the object is there first
+            if (isset($obj)) {
+                $category = explode('\\', $class);
+                $category = end($category);
 
-            if ($category == 'Aircraft') {
-                $group_name = $category.' > '.$obj->icao.' '.$obj->registration;
-            } elseif ($category == 'Airport') {
-                $group_name = $category.' > '.$obj->icao.' : '.$obj->name.' ('.$obj->country.')';
-            } else {
-                $group_name = $category.' > '.$obj->name;
+                if ($category == 'Aircraft' && $airlines > 1) {
+                    $group_name = $category.' > '.$obj->subfleet->airline->name.' '.$obj->icao.' '.$obj->registration;
+                } elseif ($category == 'Aircraft') {
+                    $group_name = $category.' > '.$obj->icao.' '.$obj->registration;
+                } elseif ($category == 'Airport') {
+                    $group_name = $category.' > '.$obj->icao.' : '.$obj->name.' ('.$obj->country.')';
+                } elseif ($category == 'Subfleet' && $airlines > 1) {
+                    $group_name = $category.' > '.$obj->airline->name.' '.$obj->name;
+                } else {
+                    $group_name = $category.' > '.$obj->name;
+                }
+
+                $regrouped_files[$group_name] = $files;
             }
-
-            $regrouped_files[$group_name] = $files;
         }
+
+        // See if they inserted a link to the ACARS download
+        try {
+            Module::findOrFail('VMSAcars');
+            $downloadUrl = DB::table('vmsacars_config')->where(['id' => 'download_url'])->first();
+            if (!empty($downloadUrl) && !empty($downloadUrl->value)) {
+                $regrouped_files['ACARS'] = collect([
+                    new File(['id' => 'vmsacars', 'name' => 'ACARS Client']),
+                ]);
+            }
+        } catch (ModuleNotFoundException) {
+            // noop, don't insert the ACARS download
+        }
+
+        ksort($regrouped_files, SORT_STRING);
 
         return view('downloads.index', [
             'grouped_files' => $regrouped_files,
@@ -59,7 +86,7 @@ class DownloadController extends Controller
     }
 
     /**
-     * Show the application dashboard.
+     * Show the application dashboard
      *
      * @param string $id
      *
@@ -68,12 +95,30 @@ class DownloadController extends Controller
      */
     public function show($id)
     {
+        // See if they're trying to download the ACARS client
+        if ($id === 'vmsacars' && Auth::check()) {
+            try {
+                Module::find('VMSAcars');
+                $downloadUrl = DB::table('vmsacars_config')
+                    ->where(['id' => 'download_url'])
+                    ->first();
+
+                if (!empty($downloadUrl) && !empty($downloadUrl->value)) {
+                    return redirect()->to($downloadUrl->value);
+                }
+            } catch (ModuleNotFoundException) {
+            }
+
+            return redirect()->back();
+        }
+
         /**
          * @var File $file
          */
         $file = File::find($id);
         if (!$file) {
             Flash::error('File doesn\'t exist');
+
             return redirect()->back();
         }
 
@@ -87,6 +132,7 @@ class DownloadController extends Controller
 
         if ($file->disk === 'public') {
             $storage = Storage::disk('public');
+
             return $storage->download($file->path, $file->filename);
         }
 

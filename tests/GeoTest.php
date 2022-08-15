@@ -48,7 +48,7 @@ class GeoTest extends TestCase
 
         $route = [];
         $nav_count = random_int(5, 20);
-        $navpoints = factory(Navdata::class, $nav_count)->create();
+        $navpoints = Navdata::factory()->count($nav_count)->create();
         foreach ($navpoints as $point) {
             $route[] = $point->id;
         }

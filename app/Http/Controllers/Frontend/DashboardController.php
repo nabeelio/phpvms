@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
  */
 class DashboardController extends Controller
 {
-    private $pirepRepo;
+    private PirepRepository $pirepRepo;
 
     /**
      * DashboardController constructor.
@@ -29,10 +29,14 @@ class DashboardController extends Controller
     public function index()
     {
         $last_pirep = null;
+        $with_pirep = ['aircraft', 'arr_airport', 'comments', 'dpt_airport'];
+
+        /** @var \App\Models\User $user */
         $user = Auth::user();
+        $user->loadMissing('journal');
 
         try {
-            $last_pirep = $this->pirepRepo->find($user->last_pirep_id);
+            $last_pirep = $this->pirepRepo->with($with_pirep)->find($user->last_pirep_id);
         } catch (\Exception $e) {
         }
 

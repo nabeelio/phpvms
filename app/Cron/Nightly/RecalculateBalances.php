@@ -6,14 +6,14 @@ use App\Contracts\Listener;
 use App\Events\CronNightly;
 use App\Models\Journal;
 use App\Repositories\JournalRepository;
-use Log;
+use Illuminate\Support\Facades\Log;
 
 /**
  * This recalculates the balances on all of the journals
  */
 class RecalculateBalances extends Listener
 {
-    private $journalRepo;
+    private JournalRepository $journalRepo;
 
     /**
      * Nightly constructor.
@@ -35,7 +35,7 @@ class RecalculateBalances extends Listener
      */
     public function handle(CronNightly $event): void
     {
-        Log::info('Recalculating balances');
+        Log::info('Nightly: Recalculating balances');
 
         $journals = Journal::all();
         foreach ($journals as $journal) {

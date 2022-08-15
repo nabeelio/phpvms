@@ -25,19 +25,18 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
 use function in_array;
-use Laracasts\Flash\Flash;
 use RuntimeException;
 
 class InstallerController extends Controller
 {
-    private $airlineSvc;
-    private $analyticsSvc;
-    private $dbSvc;
-    private $envSvc;
-    private $migrationSvc;
-    private $reqSvc;
-    private $seederSvc;
-    private $userService;
+    private AirlineService $airlineSvc;
+    private AnalyticsService $analyticsSvc;
+    private DatabaseService $dbSvc;
+    private ConfigService $envSvc;
+    private MigrationService $migrationSvc;
+    private RequirementsService $reqSvc;
+    private SeederService $seederSvc;
+    private UserService $userService;
 
     /**
      * InstallerController constructor.
@@ -203,21 +202,21 @@ class InstallerController extends Controller
             Log::error('Testing db before writing configs failed');
             Log::error($e->getMessage());
 
-            Flash::error($e->getMessage());
+            flash()->error($e->getMessage());
             return redirect(route('installer.step2'))->withInput();
         }
 
         // Now write out the env file
         $attrs = [
-            'SITE_NAME' => $request->post('site_name'),
-            'SITE_URL'  => $request->post('site_url'),
-            'DB_CONN'   => $request->post('db_conn'),
-            'DB_HOST'   => $request->post('db_host'),
-            'DB_PORT'   => $request->post('db_port'),
-            'DB_NAME'   => $request->post('db_name'),
-            'DB_USER'   => $request->post('db_user'),
-            'DB_PASS'   => $request->post('db_pass'),
-            'DB_PREFIX' => $request->post('db_prefix'),
+            'SITE_NAME'     => $request->post('site_name'),
+            'APP_URL'       => $request->post('app_url'),
+            'DB_CONNECTION' => $request->post('db_conn'),
+            'DB_HOST'       => $request->post('db_host'),
+            'DB_PORT'       => $request->post('db_port'),
+            'DB_DATABASE'   => $request->post('db_name'),
+            'DB_USERNAME'   => $request->post('db_user'),
+            'DB_PASSWORD'   => $request->post('db_pass'),
+            'DB_PREFIX'     => $request->post('db_prefix'),
         ];
 
         /*
@@ -231,7 +230,7 @@ class InstallerController extends Controller
             Log::error('Config files failed to write');
             Log::error($e->getMessage());
 
-            Flash::error($e->getMessage());
+            flash()->error($e->getMessage());
             return redirect(route('installer.step2'))->withInput();
         }
 
@@ -257,7 +256,7 @@ class InstallerController extends Controller
             Log::error('Error on db setup: '.$e->getMessage());
             //dd($e);
             $this->envSvc->removeConfigFiles();
-            Flash::error($e->getMessage());
+            flash()->error($e->getMessage());
             return redirect(route('installer.step2'))->withInput();
         }
 
@@ -327,6 +326,7 @@ class InstallerController extends Controller
             'api_key'    => Utils::generateApiKey(),
             'airline_id' => $airline->id,
             'password'   => Hash::make($request->get('password')),
+            'opt_in'     => true,
         ];
 
         $user = $this->userService->createUser($attrs, ['admin']);

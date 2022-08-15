@@ -28,9 +28,7 @@
 
         A couple of places (like the distance) use both to output the correct bindings.
         --}}
-        <div id="map-info-box" class="map-info-box"
-             rv-show="pirep"
-             style="width: {{ $config['width'] }};">
+        <div id="map-info-box" class="map-info-box" rv-show="pirep.id" style="width: {{ $config['width'] }};">
           <div style="float: left; width: 50%;">
             <h3 style="margin: 0" id="map_flight_id">
               <a rv-href="pirep.id | prepend '{{url('/pireps/')}}/'" target="_blank">
@@ -92,7 +90,7 @@ and being mindful of the rivets bindings
       </thead>
       <tbody>
       <tr rv-each-pirep="pireps">
-        <td><a href="#top_anchor" rv-on-click="controller.focusMarker">{ pirep.airline.icao }{ pirep.ident}</a></td>
+        <td><a href="#top_anchor" rv-on-click="controller.focusMarker">{ pirep.ident }</a></td>
         {{-- Show the full airport name on hover --}}
         <td><span rv-title="pirep.dpt_airport.name">{ pirep.dpt_airport.icao }</span></td>
         <td><span rv-title="pirep.arr_airport.name">{ pirep.arr_airport.icao }</span></td>
@@ -116,6 +114,7 @@ and being mindful of the rivets bindings
       center: ['{{ $center[0] }}', '{{ $center[1] }}'],
       zoom: '{{ $zoom }}',
       aircraft_icon: '{!! public_asset('/assets/img/acars/aircraft.png') !!}',
+      refresh_interval: {{ setting('acars.update_interval', 60) }},
       units: '{{ setting('units.distance') }}',
       leafletOptions: {
         scrollWheelZoom: false,

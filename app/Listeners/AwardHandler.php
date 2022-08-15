@@ -60,7 +60,7 @@ class AwardHandler extends Listener
      */
     public function checkForAwards($user)
     {
-        $awards = Award::all();
+        $awards = Award::where('active', 1)->get();
         foreach ($awards as $award) {
             $klass = $award->getReference($award, $user);
             if ($klass) {

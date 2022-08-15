@@ -4,7 +4,7 @@
   <div class="content">
     @if($cron_problem_exists)
       <div class="alert alert-danger" role="alert">
-        There was a problem running the cron; make sure it's setup and check logs at
+        The cron has not run in more than 12 hours; make sure it's setup and check logs at
         <span class="text-monospace bg-gradient-dark">storage/logs/cron.log</span>.
         <a href="{{ docs_link('cron') }}" target="_blank">See the docs</a>
       </div>
@@ -30,27 +30,28 @@
         @endcomponent
       </div>
     </div>
+
     <div class="row">
       <div class="col-md-6">
-        {{--@include('admin.dashboard.pirep_chart')--}}
+        {{-- @include('admin.dashboard.pirep_chart') --}}
       </div>
       <div class="col-md-6">
-
+        {{-- Intentionally Left Blank --}}
       </div>
     </div>
 
-
     <div class="row">
       <div class="col-md-6">
-
+        {{-- Intentionally Left Blank --}}
       </div>
       <div class="col-md-6">
-
+        {{-- Intentionally Left Blank --}}
       </div>
     </div>
   </div>
 @endsection
 @section('scripts')
+  @parent
   <script>
     $(document).ready(function () {
       $(document).on('submit', 'form.pjax_news_form', function (event) {

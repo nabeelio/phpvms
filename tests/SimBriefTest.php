@@ -3,7 +3,10 @@
 namespace Tests;
 
 use App\Models\Acars;
+use App\Models\Aircraft;
 use App\Models\Enums\AcarsType;
+use App\Models\Enums\FareType;
+use App\Models\Enums\UserState;
 use App\Models\Flight;
 use App\Models\Pirep;
 use App\Models\SimBrief;
@@ -17,21 +20,69 @@ class SimBriefTest extends TestCase
     private static $simbrief_flight_id = 'simbriefflightid';
 
     /**
+     * @param array $attrs Additional user attributes
+     *
+     * @throws \Exception
+     *
+     * @return array
+     */
+    public function createUserData(array $attrs = []): array
+    {
+        $subfleet = $this->createSubfleetWithAircraft(2);
+        $rank = $this->createRank(2, [$subfleet['subfleet']->id]);
+
+        /** @var User $user */
+        $user = User::factory()->create(array_merge([
+            'flight_time' => 1000,
+            'rank_id'     => $rank->id,
+            'state'       => UserState::ACTIVE,
+        ], $attrs));
+
+        return [
+            'subfleet' => $subfleet['subfleet'],
+            'aircraft' => $subfleet['aircraft'],
+            'user'     => $user,
+        ];
+    }
+
+    /**
      * Load SimBrief
      *
-     * @param \App\Models\User $user
+     * @param \App\Models\User          $user
+     * @param \App\Models\Aircraft|null $aircraft
+     * @param array                     $fares
+     * @param string|null               $flight_id
      *
      * @return \App\Models\SimBrief
      */
-    protected function loadSimBrief(User $user): SimBrief
+    protected function loadSimBrief(User $user, Aircraft $aircraft, $fares = [], $flight_id = null): SimBrief
     {
+        if (empty($flight_id)) {
+            $flight_id = self::$simbrief_flight_id;
+        }
+
         /** @var \App\Models\Flight $flight */
-        $flight = factory(Flight::class)->create([
-            'id'             => self::$simbrief_flight_id,
+        $flight = Flight::factory()->create([
+            'id'             => $flight_id,
             'dpt_airport_id' => 'OMAA',
             'arr_airport_id' => 'OMDB',
         ]);
 
+        return $this->downloadOfp($user, $flight, $aircraft, $fares);
+    }
+
+    /**
+     * Download an OFP file
+     *
+     * @param $user
+     * @param $flight
+     * @param $aircraft
+     * @param $fares
+     *
+     * @return \App\Models\SimBrief|null
+     */
+    protected function downloadOfp($user, $flight, $aircraft, $fares)
+    {
         $this->mockXmlResponse([
             'simbrief/briefing.xml',
             'simbrief/acars_briefing.xml',
@@ -40,7 +91,7 @@ class SimBriefTest extends TestCase
         /** @var SimBriefService $sb */
         $sb = app(SimBriefService::class);
 
-        return $sb->downloadOfp($user->id, Utils::generateNewId(), $flight->id);
+        return $sb->downloadOfp($user->id, Utils::generateNewId(), $flight->id, $aircraft->id, $fares);
     }
 
     /**
@@ -48,8 +99,9 @@ class SimBriefTest extends TestCase
      */
     public function testReadSimbrief()
     {
-        $this->user = $this->createUser();
-        $briefing = $this->loadSimBrief($this->user);
+        $userinfo = $this->createUserData();
+        $this->user = $userinfo['user'];
+        $briefing = $this->loadSimBrief($this->user, $userinfo['aircraft']->first(), []);
 
         $this->assertNotEmpty($briefing->ofp_xml);
         $this->assertNotNull($briefing->xml);
@@ -87,8 +139,19 @@ class SimBriefTest extends TestCase
      */
     public function testApiCalls()
     {
-        $this->user = $this->createUser();
-        $briefing = $this->loadSimBrief($this->user);
+        $userinfo = $this->createUserData();
+        $this->user = $userinfo['user'];
+        $aircraft = $userinfo['aircraft']->random();
+        $briefing = $this->loadSimBrief($this->user, $aircraft, [
+            [
+                'id'       => 100,
+                'code'     => 'F',
+                'name'     => 'Test Fare',
+                'type'     => 'P',
+                'capacity' => 100,
+                'count'    => 99,
+            ],
+        ]);
 
         // Check the flight API response
         $response = $this->get('/api/flights/'.$briefing->flight_id);
@@ -99,10 +162,11 @@ class SimBriefTest extends TestCase
         $this->assertEquals($briefing->id, $flight['simbrief']['id']);
 
         $url = str_replace('http://', 'https://', $flight['simbrief']['url']);
-        $this->assertEquals(
+        /*$this->assertEquals(
             'https://localhost/api/flights/'.$briefing->id.'/briefing',
             $url
-        );
+        );*/
+        $this->assertTrue(str_ends_with($url, $briefing->id.'/briefing'));
 
         // Retrieve the briefing via API, and then check the doctype
         $response = $this->get('/api/flights/'.$briefing->id.'/briefing', [], $this->user);
@@ -120,30 +184,123 @@ class SimBriefTest extends TestCase
      */
     public function testUserBidSimbrief()
     {
-        $this->user = $this->createUser();
-        $this->loadSimBrief($this->user);
+        $fares = [
+            [
+                'id'       => 100,
+                'code'     => 'F',
+                'name'     => 'Test Fare',
+                'type'     => FareType::PASSENGER,
+                'capacity' => 100,
+                'count'    => 99,
+            ],
+        ];
 
-        // Find the flight
+        $userinfo = $this->createUserData();
+        $this->user = $userinfo['user'];
+        $aircraft = $userinfo['aircraft']->random();
+        $this->loadSimBrief($this->user, $aircraft, $fares);
+
+        // Add the flight to the bid and then
         $uri = '/api/user/bids';
         $data = ['flight_id' => self::$simbrief_flight_id];
 
-        $body = $this->put($uri, $data);
-        $body = $body->json('data');
+        $this->put($uri, $data);
+
+        // Retrieve it
+        $body = $this->get($uri);
+        $body = $body->json('data')[0];
 
         // Make sure Simbrief is there
         $this->assertNotNull($body['flight']['simbrief']['id']);
+        $this->assertNotNull($body['flight']['simbrief']['id']);
+        $this->assertNotNull($body['flight']['simbrief']['subfleet']['fares']);
+
+        $subfleet = $body['flight']['simbrief']['subfleet'];
+        $this->assertEquals($fares[0]['id'], $subfleet['fares'][0]['id']);
+        $this->assertEquals($fares[0]['count'], $subfleet['fares'][0]['count']);
+
+        $this->assertCount(1, $subfleet['aircraft']);
+        $this->assertEquals($aircraft->id, $subfleet['aircraft'][0]['id']);
+    }
+
+    /**
+     * Make sure that the bids/simbrief created for the same flight by two different
+     * users doesn't leak across users
+     *
+     * @throws \Exception
+     */
+    public function testUserBidSimbriefDoesntLeak()
+    {
+        $this->updateSetting('bids.disable_flight_on_bid', false);
+        $fares = [
+            [
+                'id'       => 100,
+                'code'     => 'F',
+                'name'     => 'Test Fare',
+                'type'     => FareType::PASSENGER,
+                'capacity' => 100,
+                'count'    => 99,
+            ],
+        ];
+
+        /** @var \App\Models\Flight $flight */
+        $flight = Flight::factory()->create();
+
+        // Create two briefings and make sure it doesn't leak
+        $userinfo2 = $this->createUserData();
+        $user2 = $userinfo2['user'];
+        $this->downloadOfp($user2, $flight, $userinfo2['aircraft']->first(), $fares);
+
+        $userinfo = $this->createUserData();
+        $user = $userinfo['user'];
+        $briefing = $this->downloadOfp($user, $flight, $userinfo['aircraft']->first(), $fares);
+
+        // Add the flight to the user's bids
+        $uri = '/api/user/bids';
+        $data = ['flight_id' => $flight->id];
+
+        // add for both users
+        $body = $this->put($uri, $data, [], $user2)->json('data');
+        $this->assertNotEmpty($body);
+
+        $body = $this->put($uri, $data, [], $user)->json('data');
+        $this->assertNotEmpty($body);
+
+        $body = $this->get('/api/user/bids', [], $user);
+        $body = $body->json('data')[0];
+
+        // Make sure Simbrief is there
+        $this->assertNotNull($body['flight']['simbrief']['id']);
+        $this->assertNotNull($body['flight']['simbrief']['subfleet']['fares']);
+        $this->assertEquals($body['flight']['simbrief']['id'], $briefing->id);
+
+        $subfleet = $body['flight']['simbrief']['subfleet'];
+        $this->assertEquals($fares[0]['id'], $subfleet['fares'][0]['id']);
+        $this->assertEquals($fares[0]['count'], $subfleet['fares'][0]['count']);
     }
 
     public function testAttachToPirep()
     {
-        $user = $this->createUser();
-        $pirep = factory(Pirep::class)->create([
-            'user_id'        => $user->id,
+        $userinfo = $this->createUserData();
+        $this->user = $userinfo['user'];
+
+        /** @var Pirep $pirep */
+        $pirep = Pirep::factory()->create([
+            'user_id'        => $this->user->id,
             'dpt_airport_id' => 'OMAA',
             'arr_airport_id' => 'OMDB',
         ]);
 
-        $briefing = $this->loadSimBrief($user);
+        $briefing = $this->loadSimBrief($this->user, $userinfo['aircraft']->first(), [
+            [
+                'id'       => 100,
+                'code'     => 'F',
+                'name'     => 'Test Fare',
+                'type'     => 'P',
+                'capacity' => 100,
+                'count'    => 99,
+            ],
+        ]);
 
         /** @var SimBriefService $sb */
         $sb = app(SimBriefService::class);
@@ -172,19 +329,20 @@ class SimBriefTest extends TestCase
      */
     public function testClearExpiredBriefs()
     {
-        $user = $this->createUser();
-        $sb_ignored = factory(SimBrief::class)->create([
+        $userinfo = $this->createUserData();
+        $user = $userinfo['user'];
+
+        $sb_ignored = SimBrief::factory()->create([
             'user_id'    => $user->id,
             'flight_id'  => 'a_flight_id',
             'pirep_id'   => 'a_pirep_id',
-            'created_at' => Carbon::now('UTC')->subDays(6)->toDateTimeString(),
+            'created_at' => Carbon::now('UTC')->subDays(6),
         ]);
 
-        factory(SimBrief::class)->create([
+        SimBrief::factory()->create([
             'user_id'    => $user->id,
             'flight_id'  => 'a_flight_Id',
-            'pirep_id'   => '',
-            'created_at' => Carbon::now('UTC')->subDays(6)->toDateTimeString(),
+            'created_at' => Carbon::now('UTC')->subDays(6),
         ]);
 
         /** @var SimBriefService $sb */

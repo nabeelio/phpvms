@@ -5,17 +5,16 @@ namespace App\Notifications\Messages;
 use App\Contracts\Notification;
 use App\Models\User;
 use App\Notifications\Channels\MailChannel;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class UserPending extends Notification
+class UserPending extends Notification implements ShouldQueue
 {
     use MailChannel;
-
-    public $channels = ['mail'];
 
     private $user;
 
     /**
-     * @param \App\Models\User $user
+     * @param User $user
      */
     public function __construct(User $user)
     {
@@ -28,6 +27,11 @@ class UserPending extends Notification
             'notifications.mail.user.pending',
             ['user' => $this->user]
         );
+    }
+
+    public function via($notifiable)
+    {
+        return ['mail'];
     }
 
     /**

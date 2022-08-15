@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Contracts\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * @property string  name
@@ -17,15 +18,19 @@ use App\Contracts\Model;
  */
 class Fare extends Model
 {
+    use HasFactory;
+
     public $table = 'fares';
 
     protected $fillable = [
+        'id',
         'code',
         'name',
         'type',
         'price',
         'cost',
         'capacity',
+        'count',
         'notes',
         'active',
     ];
@@ -34,6 +39,7 @@ class Fare extends Model
         'price'    => 'float',
         'cost'     => 'float',
         'capacity' => 'integer',
+        'count'    => 'integer',
         'type'     => 'integer',
         'active'   => 'boolean',
     ];

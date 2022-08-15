@@ -23,10 +23,12 @@ class Weather extends Widget
         /** @var \App\Services\AirportService $airportSvc */
         $airportSvc = app(AirportService::class);
         $metar = $airportSvc->getMetar($this->config['icao']);
+        $taf = $airportSvc->getTaf($this->config['icao']);
 
         return view('widgets.weather', [
             'config'    => $this->config,
             'metar'     => $metar,
+            'taf'       => $taf,
             'unit_alt'  => setting('units.altitude'),
             'unit_dist' => setting('units.distance'),
             'unit_temp' => setting('units.temperature'),

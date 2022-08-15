@@ -34,6 +34,28 @@ airports:
     lon: -97.6698889
     hub: 1
     ground_handling_cost: 100
+  - id: KHPN
+    iata: HPN
+    icao: KHPN
+    name: Westchester County Airport
+    location: White Plains
+    country: United States
+    timezone: America/New_York
+    lat: 41.067
+    lon: -73.7076
+    hub: 1
+    ground_handling_cost: 100
+  - id: KLGA
+    iata: LGA
+    icao: KLGA
+    name: La Guardia Airport
+    location: New York, New York, USA
+    country: United States
+    timezone: America/New_York
+    lat: 40.7772
+    lon: -73.8726
+    hub: 1
+    ground_handling_cost: 250
   - id: KJFK
     iata: JFK
     icao: KJFK
@@ -119,8 +141,8 @@ aircraft:
   -
     id: 1
     subfleet_id: 1
-    icao: null
-    iata: null
+    icao: B744
+    iata: 744
     airport_id: KJFK
     landing_time: '2020-10-23 07:50:16'
     name: 'Boeing 747-438'
@@ -136,8 +158,8 @@ aircraft:
   -
     id: 2
     subfleet_id: 2
-    icao: null
-    iata: null
+    icao: B777
+    iata: 777
     airport_id: LGRP
     landing_time: null
     name: 'Boeing 777-200'
@@ -153,8 +175,8 @@ aircraft:
   -
     id: 3
     subfleet_id: 1
-    icao: null
-    iata: null
+    icao: B744
+    iata: 744
     airport_id: KAUS
     landing_time: '2020-10-24 08:50:13'
     name: 'Boeing 747-412'
@@ -170,8 +192,8 @@ aircraft:
   -
     id: 4
     subfleet_id: 1
-    icao: null
-    iata: null
+    icao: B744
+    iata: 744
     airport_id: KAUS
     landing_time: null
     name: 'Boeing 747-436 RETIRED'
@@ -187,7 +209,7 @@ aircraft:
   -
     id: 5
     subfleet_id: 4
-    icao: A320
+    icao: 'A320'
     iata: '320'
     airport_id: EGLL
     landing_time: null
@@ -448,6 +470,21 @@ flights:
   - id: flightid_1
     airline_id: 1
     flight_number: 100
+    dpt_airport_id: KHPN
+    arr_airport_id: KJFK
+    route: DCT CMK V374 DENNA V44 BELTT/N0346F140 V44 DPK DCT
+    distance: 113
+    level: 110
+    dpt_time: 6PM CST
+    arr_time: 11PM EST
+    flight_time: 240
+    flight_type: J
+    load_factor: 100
+    created_at: NOW
+    updated_at: NOW
+  - id: flightid_2
+    airline_id: 1
+    flight_number: 101
     dpt_airport_id: KAUS
     arr_airport_id: KJFK
     route: KAUS SID TNV J87 IAH J2 LCH J22 MEI J239 ATL J52 AJFEB J14 BYJAC Q60 JAXSN J14 COLIN J61 HUBBS J55 SIE STAR KJFK
@@ -549,6 +586,21 @@ flights:
     visible: 1
     created_at: now
     updated_at: now
+  - id: flightid_4
+    airline_id: 1
+    flight_number: 100
+    dpt_airport_id: KHPN
+    arr_airport_id: KLGA
+    route: DCT CMK V374 DENNA V44 BELTT/N0346F140 V44 DPK DCT
+    distance: 75
+    level: 110
+    dpt_time: 6PM CST
+    arr_time: 11PM EST
+    flight_time: 240
+    flight_type: J
+    load_factor: 100
+    created_at: NOW
+    updated_at: NOW
 
 flight_fields:
   - name: Departure Terminal

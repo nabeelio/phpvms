@@ -13,8 +13,8 @@ use Illuminate\Support\Facades\Log;
  */
 class RecalculateStats extends Listener
 {
-    private $aircraftSvc;
-    private $userSvc;
+    private AircraftService $aircraftSvc;
+    private UserService $userSvc;
 
     public function __construct(AircraftService $aircraftSvc, UserService $userSvc)
     {
@@ -32,10 +32,10 @@ class RecalculateStats extends Listener
      */
     public function handle(CronNightly $event): void
     {
-        Log::info('Recalculating user stats');
+        Log::info('Nightly: Recalculating user stats');
         $this->userSvc->recalculateAllUserStats();
 
-        Log::info('Recalcuating aircraft status');
+        Log::info('Nightly: Recalcuating aircraft status');
         $this->aircraftSvc->recalculateStats();
     }
 }

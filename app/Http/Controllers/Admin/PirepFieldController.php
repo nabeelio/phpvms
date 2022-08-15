@@ -12,7 +12,7 @@ use Prettus\Repository\Criteria\RequestCriteria;
 
 class PirepFieldController extends Controller
 {
-    private $pirepFieldRepo;
+    private PirepFieldRepository $pirepFieldRepo;
 
     /**
      * PirepFieldController constructor.

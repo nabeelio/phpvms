@@ -1,15 +1,34 @@
 <?php
 
-use Faker\Generator as Faker;
+/** @noinspection PhpIllegalPsrClassPathInspection */
 
-$factory->define(App\Models\Subfleet::class, function (Faker $faker) {
-    return [
-        'id'         => null,
-        'airline_id' => function () {
-            return factory(\App\Models\Airline::class)->create()->id;
-        },
-        'name'                       => $faker->unique()->text(50),
-        'type'                       => $faker->unique()->text(7),
-        'ground_handling_multiplier' => $faker->numberBetween(50, 200),
-    ];
-});
+namespace App\Database\Factories;
+
+use App\Contracts\Factory;
+use App\Models\Subfleet;
+
+class SubfleetFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = Subfleet::class;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
+    public function definition(): array
+    {
+        return [
+            'id'                         => null,
+            'airline_id'                 => fn () => \App\Models\Airline::factory()->create()->id,
+            'name'                       => $this->faker->unique()->text(50),
+            'type'                       => $this->faker->unique()->text(7),
+            'ground_handling_multiplier' => $this->faker->numberBetween(50, 200),
+        ];
+    }
+}

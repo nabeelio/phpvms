@@ -39,7 +39,7 @@ class ApiAuth implements Middleware
             return $this->unauthorized('User not found with key "'.$api_key.'"');
         }
 
-        if ($user->state !== UserState::ACTIVE) {
+        if ($user->state !== UserState::ACTIVE && $user->state !== UserState::ON_LEAVE) {
             return $this->unauthorized('User is not ACTIVE, please contact an administrator');
         }
 
@@ -49,6 +49,9 @@ class ApiAuth implements Middleware
         $request->setUserResolver(function () use ($user) {
             return $user;
         });
+
+        // Force english locale for API
+        app()->setLocale('en');
 
         return $next($request);
     }

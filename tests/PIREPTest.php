@@ -13,14 +13,16 @@ use App\Models\Navdata;
 use App\Models\Pirep;
 use App\Models\Rank;
 use App\Models\User;
+use App\Notifications\Messages\Broadcast\PirepPrefiled;
+use App\Notifications\Messages\Broadcast\PirepStatusChanged;
 use App\Notifications\Messages\PirepAccepted;
-use App\Notifications\Messages\PirepSubmitted;
+use App\Notifications\Messages\PirepFiled;
 use App\Repositories\SettingRepository;
 use App\Services\AircraftService;
 use App\Services\BidService;
 use App\Services\FlightService;
 use App\Services\PirepService;
-use App\Services\UserService;
+use App\Support\Units\Fuel;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Notification;
 
@@ -45,7 +47,7 @@ class PIREPTest extends TestCase
     protected function createNewRoute()
     {
         $route = [];
-        $navpoints = factory(Navdata::class, 5)->create();
+        $navpoints = Navdata::factory()->count(5)->create();
         foreach ($navpoints as $point) {
             $route[] = $point->id;
         }
@@ -72,10 +74,10 @@ class PIREPTest extends TestCase
      */
     public function testAddPirep()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $route = $this->createNewRoute();
-        $pirep = factory(Pirep::class)->create([
+        $pirep = Pirep::factory()->create([
             'user_id' => $user->id,
             'route'   => implode(' ', $route),
         ]);
@@ -109,7 +111,7 @@ class PIREPTest extends TestCase
 
         // Also check via API:
         $this->get('/api/fleet/aircraft/'.$pirep->aircraft_id, [], $user)
-             ->assertJson(['data' => ['airport_id' => $pirep->arr_airport_id]]);
+            ->assertJson(['data' => ['airport_id' => $pirep->arr_airport_id]]);
 
         // Make sure a notification was sent out to both the user and the admin(s)
         Notification::assertSentTo([$user], PirepAccepted::class);
@@ -155,6 +157,7 @@ class PIREPTest extends TestCase
      */
     public function testUnitFields()
     {
+        /** @var Pirep $pirep */
         $pirep = $this->createPirep();
         $pirep->save();
 
@@ -164,39 +167,83 @@ class PIREPTest extends TestCase
         $body = $response->json('data');
 
         // Check that it has the fuel units
+        $this->assertHasKeys($body['block_fuel'], ['lbs', 'kg']);
+        $this->assertEquals(
+            round($pirep->block_fuel->toUnit('lbs')),
+            round($body['block_fuel']['lbs'])
+        );
+
         $this->assertHasKeys($body['fuel_used'], ['lbs', 'kg']);
-        $this->assertEquals($pirep->fuel_used, $body['fuel_used']['lbs']);
+        $this->assertEquals(
+            round($pirep->fuel_used->toUnit('lbs')),
+            round($body['fuel_used']['lbs'])
+        );
 
         // Check that it has the distance units
         $this->assertHasKeys($body['distance'], ['km', 'nmi', 'mi']);
-        $this->assertEquals($pirep->distance, $body['distance']['nmi']);
+        $this->assertEquals(
+            round($pirep->distance->toUnit('nmi')),
+            round($body['distance']['nmi'])
+        );
 
         // Check the planned_distance field
         $this->assertHasKeys($body['planned_distance'], ['km', 'nmi', 'mi']);
-        $this->assertEquals($pirep->planned_distance, $body['planned_distance']['nmi']);
+        $this->assertEquals(
+            round($pirep->planned_distance->toUnit('nmi')),
+            round($body['planned_distance']['nmi'])
+        );
+
+        //Check conversion on save
+        $val = random_int(1000, 9999999);
+        $pirep->block_fuel = $val;
+        $pirep->fuel_used = $val;
+
+        // no conversion with plain numbers
+        $this->assertEquals($pirep->block_fuel->internal(2), $val);
+        $this->assertEquals($pirep->fuel_used->internal(2), $val);
+
+        // no conversion with lbs
+        $pirep->block_fuel = new Fuel($val, 'lbs');
+        $this->assertEquals($pirep->block_fuel->internal(2), round($val, 2));
+
+        $pirep->fuel_used = new Fuel($val, 'lbs');
+        $this->assertEquals($pirep->fuel_used->internal(2), round($val, 2));
+
+        // conversion of kg to lbs
+        $pirep->block_fuel = new Fuel($val, 'kg');
+        $this->assertEquals(
+            $pirep->block_fuel->internal(2),
+            Fuel::make($val, 'kg')->toUnit('lbs', 2)
+        );
+
+        $pirep->fuel_used = new Fuel($val, 'kg');
+        $this->assertEquals(
+            $pirep->fuel_used->internal(2),
+            Fuel::make($val, 'kg')->toUnit('lbs', 2)
+        );
     }
 
     public function testGetUserPireps()
     {
-        $this->user = factory(User::class)->create();
-        $pirep_done = factory(Pirep::class)->create([
+        $this->user = User::factory()->create();
+        $pirep_done = Pirep::factory()->create([
             'user_id' => $this->user->id,
             'state'   => PirepState::ACCEPTED,
         ]);
 
-        $pirep_in_progress = factory(Pirep::class)->create([
+        $pirep_in_progress = Pirep::factory()->create([
             'user_id' => $this->user->id,
             'state'   => PirepState::IN_PROGRESS,
         ]);
 
-        $pirep_cancelled = factory(Pirep::class)->create([
+        $pirep_cancelled = Pirep::factory()->create([
             'user_id' => $this->user->id,
             'state'   => PirepState::CANCELLED,
         ]);
 
         $pireps = $this->get('/api/user/pireps')
-                    ->assertStatus(200)
-                    ->json();
+            ->assertStatus(200)
+            ->json();
 
         $pirep_ids = collect($pireps['data'])->pluck('id');
 
@@ -223,19 +270,16 @@ class PIREPTest extends TestCase
     public function testPirepNotifications()
     {
         /** @var User $user */
-        $user = factory(User::class)->create([
+        $user = User::factory()->create([
+            'name'        => 'testPirepNotifications user',
             'flights'     => 0,
             'flight_time' => 0,
             'rank_id'     => 1,
         ]);
 
-        $admin = factory(User::class)->create();
+        $admin = $this->createAdminUser(['name' => 'testPirepNotifications Admin']);
 
-        /** @var UserService $userSvc */
-        $userSvc = app(UserService::class);
-        $userSvc->addUserToRole($admin, 'admin');
-
-        $pirep = factory(Pirep::class)->create([
+        $pirep = Pirep::factory()->create([
             'airline_id' => 1,
             'user_id'    => $user->id,
         ]);
@@ -244,7 +288,8 @@ class PIREPTest extends TestCase
         $this->pirepSvc->submit($pirep);
 
         // Make sure a notification was sent out to the admin
-        Notification::assertSentTo([$admin], PirepSubmitted::class);
+        Notification::assertSentTo([$admin], PirepFiled::class);
+        Notification::assertNotSentTo([$user], PirepFiled::class);
     }
 
     /**
@@ -254,14 +299,15 @@ class PIREPTest extends TestCase
     {
         $this->updateSetting('pilots.count_transfer_hours', false);
 
-        $user = factory(User::class)->create([
+        /** @var User $user */
+        $user = User::factory()->create([
             'flights'     => 0,
             'flight_time' => 0,
             'rank_id'     => 1,
         ]);
 
         // Submit two PIREPs
-        $pireps = factory(Pirep::class, 2)->create([
+        $pireps = Pirep::factory()->count(2)->create([
             'airline_id'  => $user->airline_id,
             'aircraft_id' => 1,
             'user_id'     => $user->id,
@@ -277,6 +323,7 @@ class PIREPTest extends TestCase
             $this->pirepSvc->accept($pirep);
         }
 
+        /** @var User $pilot */
         $pilot = User::find($user->id);
         $last_pirep = Pirep::where('id', $pilot->last_pirep_id)->first();
 
@@ -293,7 +340,7 @@ class PIREPTest extends TestCase
         // Submit another PIREP, adding another 6 hours
         // it should automatically be accepted
         //
-        $pirep = factory(Pirep::class)->create([
+        $pirep = Pirep::factory()->create([
             'airline_id' => 1,
             'user_id'    => $user->id,
             // 120min == 2 hours, currently at 9 hours
@@ -327,7 +374,7 @@ class PIREPTest extends TestCase
     public function testPilotDontChangeRank()
     {
         /** @var Rank $rank */
-        $rank = factory(Rank::class)->create([
+        $rank = Rank::factory()->create([
             'hours'        => 15,
             'auto_promote' => false,
         ]);
@@ -335,14 +382,14 @@ class PIREPTest extends TestCase
         // Set the user to the above rank, non-promote, they shouldn't bump down
 
         /** @var User $user */
-        $user = factory(User::class)->create([
+        $user = User::factory()->create([
             'flights'     => 0,
             'flight_time' => 0,
             'rank_id'     => $rank->id,
         ]);
 
         // Submit two PIREPs
-        $pirep = factory(Pirep::class)->create([
+        $pirep = Pirep::factory()->create([
             'airline_id'  => $user->airline_id,
             'aircraft_id' => 1,
             'user_id'     => $user->id,
@@ -365,7 +412,7 @@ class PIREPTest extends TestCase
     {
         $this->updateSetting('pilots.count_transfer_hours', true);
 
-        $user = factory(User::class)->create([
+        $user = User::factory()->create([
             'flights'       => 0,
             'flight_time'   => 0,
             'transfer_time' => 720,
@@ -374,7 +421,7 @@ class PIREPTest extends TestCase
 
         // Submit two PIREPs
         // 1 hour flight times, but the rank should bump up because of the transfer hours
-        $pireps = factory(Pirep::class, 2)->create([
+        $pireps = Pirep::factory()->count(2)->create([
             'airline_id'  => $user->airline_id,
             'aircraft_id' => 1,
             'user_id'     => $user->id,
@@ -417,14 +464,14 @@ class PIREPTest extends TestCase
     public function testPilotStatusChange()
     {
         /** @var \App\Models\User $user */
-        $user = factory(User::class)->create([
+        $user = User::factory()->create([
             'state' => UserState::ON_LEAVE,
         ]);
 
         // Submit two PIREPs
         // 1 hour flight times, but the rank should bump up because of the transfer hours
         /** @var Pirep $pirep */
-        $pirep = factory(Pirep::class)->create([
+        $pirep = Pirep::factory()->create([
             'airline_id' => $user->airline_id,
             'user_id'    => $user->id,
         ]);
@@ -442,8 +489,8 @@ class PIREPTest extends TestCase
      */
     public function testDuplicatePireps()
     {
-        $user = factory(User::class)->create();
-        $pirep = factory(Pirep::class)->create([
+        $user = User::factory()->create();
+        $pirep = Pirep::factory()->create([
             'user_id' => $user->id,
         ]);
 
@@ -456,8 +503,8 @@ class PIREPTest extends TestCase
          * Create a PIREP outside of the check time interval
          */
         $minutes = setting('pireps.duplicate_check_time') + 1;
-        $pirep = factory(Pirep::class)->create([
-            'created_at' => Carbon::now()->subMinutes($minutes)->toDateTimeString(),
+        $pirep = Pirep::factory()->create([
+            'created_at' => Carbon::now('UTC')->subMinutes($minutes)->toDateTimeString(),
         ]);
 
         // This should find itself...
@@ -474,7 +521,7 @@ class PIREPTest extends TestCase
         $pirep_id = $response->json()['data']['id'];
 
         $uri = '/api/pireps/'.$pirep_id.'/acars/position';
-        $acars = factory(Acars::class)->make()->toArray();
+        $acars = Acars::factory()->make()->toArray();
         $response = $this->post($uri, [
             'positions' => [$acars],
         ]);
@@ -488,7 +535,7 @@ class PIREPTest extends TestCase
 
         // Should get a 400 when posting an ACARS update
         $uri = '/api/pireps/'.$pirep_id.'/acars/position';
-        $acars = factory(Acars::class)->make()->toArray();
+        $acars = Acars::factory()->make()->toArray();
 
         $response = $this->post($uri, $acars);
         $response->assertStatus(400);
@@ -501,20 +548,19 @@ class PIREPTest extends TestCase
     {
         $bidSvc = app(BidService::class);
         $flightSvc = app(FlightService::class);
-        $this->settingsRepo->store('pireps.remove_bid_on_accept', true);
 
-        $user = factory(User::class)->create([
+        $user = User::factory()->create([
             'flight_time' => 0,
         ]);
 
-        $flight = factory(Flight::class)->create([
+        $flight = Flight::factory()->create([
             'route_code' => null,
             'route_leg'  => null,
         ]);
 
         $bidSvc->addBid($flight, $user);
 
-        $pirep = factory(Pirep::class)->create([
+        $pirep = Pirep::factory()->create([
             'user_id'       => $user->id,
             'airline_id'    => $flight->airline_id,
             'flight_id'     => $flight->id,
@@ -522,7 +568,7 @@ class PIREPTest extends TestCase
         ]);
 
         $pirep = $this->pirepSvc->create($pirep, []);
-        $this->pirepSvc->changeState($pirep, PirepState::ACCEPTED);
+        $this->pirepSvc->submit($pirep);
 
         $user_bid = Bid::where([
             'user_id'   => $user->id,
@@ -530,5 +576,68 @@ class PIREPTest extends TestCase
         ])->first();
 
         $this->assertNull($user_bid);
+    }
+
+    public function testPirepProgressPercent()
+    {
+        $this->updateSetting('units.distance', 'km');
+
+        /** @var User $user */
+        $user = User::factory()->create();
+
+        /** @var Pirep $pirep */
+        $pirep = Pirep::factory()->create([
+            'user_id'             => $user->id,
+            'distance'            => 100,
+            'planned_distance'    => 200,
+            'flight_time'         => 60,
+            'planned_flight_time' => 90,
+        ]);
+
+        $progress = $pirep->progress_percent;
+        $this->assertEquals(50, $progress);
+
+        $pirep->planned_distance = null;
+        $progress = $pirep->progress_percent;
+        $this->assertEquals(100, $progress);
+
+        $pirep->planned_distance = 0;
+        $progress = $pirep->progress_percent;
+        $this->assertEquals(100, $progress);
+    }
+
+    /**
+     * See that the notifications are properly formatted
+     */
+    public function testNotificationFormatting()
+    {
+        $this->updateSetting('units.distance', 'km');
+
+        /** @var User $user */
+        $user = User::factory()->create();
+
+        /** @var Pirep $pirep */
+        $pirep = Pirep::factory()->create([
+            'user_id'             => $user->id,
+            'distance'            => 100,
+            'planned_distance'    => 200,
+            'flight_time'         => 60,
+            'planned_flight_time' => 90,
+        ]);
+
+        $discordNotif = new PirepPrefiled($pirep);
+        $fields = $discordNotif->createFields($pirep);
+        $this->assertEquals('1h 30m', $fields['Flight Time (Planned)']);
+        $this->assertEquals('370.4 km', $fields['Distance']);
+
+        $discordNotif = new PirepStatusChanged($pirep);
+        $fields = $discordNotif->createFields($pirep);
+        $this->assertEquals('1h 0m', $fields['Flight Time']);
+        $this->assertEquals('185.2/370.4 km', $fields['Distance']);
+
+        $discordNotif = new \App\Notifications\Messages\Broadcast\PirepFiled($pirep);
+        $fields = $discordNotif->createFields($pirep);
+        $this->assertEquals('1h 0m', $fields['Flight Time']);
+        $this->assertEquals('185.2 km', $fields['Distance']);
     }
 }

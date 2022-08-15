@@ -28,7 +28,7 @@ use App\Models\Pirep;
  */
 class Expenses extends Event
 {
-    public $pirep;
+    public ?Pirep $pirep;
 
     /**
      * @param Pirep|null $pirep

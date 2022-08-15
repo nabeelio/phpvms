@@ -3,8 +3,7 @@
 use App\Contracts\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateRanksTable extends Migration
-{
+return new class() extends Migration {
     public function up()
     {
         Schema::create('ranks', function (Blueprint $table) {
@@ -29,4 +28,4 @@ class CreateRanksTable extends Migration
     {
         Schema::dropIfExists('ranks');
     }
-}
+};

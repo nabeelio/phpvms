@@ -39,7 +39,7 @@ class application extends Illuminate\Foundation\Application
         $bootstrappers = array_replace(
             $bootstrappers,
             array_fill_keys(
-                array_keys($bootstrappers, $find),
+                array_keys($bootstrappers, $find, true),
                 $replace
             )
         );
@@ -104,7 +104,7 @@ class application extends Illuminate\Foundation\Application
         return $this->basePath.DS.'config'.($path ? DS.$path : $path);
     }
 
-    public function langPath()
+    public function langPath($path = '')
     {
         return $this->resourcePath().DS.'lang';
     }

@@ -20,15 +20,14 @@ class SubfleetImporter extends ImportExport
      */
     public static $columns = [
         'airline'                    => 'required',
+        'hub_id'                     => 'nullable',
         'type'                       => 'required',
+        'simbrief_type'              => 'nullable',
         'name'                       => 'required',
         'fuel_type'                  => 'nullable',
         'cost_block_hour'            => 'nullable',
         'cost_delay_minute'          => 'nullable',
         'ground_handling_multiplier' => 'nullable',
-        'cargo_capacity'             => 'nullable',
-        'fuel_capacity'              => 'nullable',
-        'gross_weight'               => 'nullable',
         'fares'                      => 'nullable',
     ];
 
@@ -85,8 +84,9 @@ class SubfleetImporter extends ImportExport
                 $fare_attributes = [];
             }
 
-            $fare = Fare::updateOrCreate(['code' => $fare_code], ['name' => $fare_code]);
+            $fare = Fare::firstOrCreate(['code' => $fare_code], ['name' => $fare_code]);
             $this->fareSvc->setForSubfleet($subfleet, $fare, $fare_attributes);
+            $fare->save();
         }
     }
 }

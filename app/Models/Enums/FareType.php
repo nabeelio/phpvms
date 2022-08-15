@@ -9,7 +9,7 @@ class FareType extends Enum
     public const PASSENGER = 0;
     public const CARGO = 1;
 
-    public static $labels = [
+    public static array $labels = [
         self::PASSENGER => 'Passenger',
         self::CARGO     => 'Cargo',
     ];

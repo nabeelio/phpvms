@@ -4,8 +4,7 @@ use App\Contracts\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateNavdataTables extends Migration
-{
+return new class() extends Migration {
     public function up()
     {
         /*
@@ -30,4 +29,4 @@ class CreateNavdataTables extends Migration
     {
         Schema::dropIfExists('navdata');
     }
-}
+};

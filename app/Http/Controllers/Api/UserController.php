@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Contracts\Controller;
+use App\Exceptions\BidNotFound;
+use App\Exceptions\Unauthorized;
+use App\Exceptions\UserNotFound;
 use App\Http\Resources\Bid as BidResource;
 use App\Http\Resources\Pirep as PirepResource;
 use App\Http\Resources\Subfleet as SubfleetResource;
@@ -14,7 +17,6 @@ use App\Repositories\FlightRepository;
 use App\Repositories\PirepRepository;
 use App\Repositories\UserRepository;
 use App\Services\BidService;
-use App\Services\FlightService;
 use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,17 +25,15 @@ use Prettus\Repository\Exceptions\RepositoryException;
 
 class UserController extends Controller
 {
-    private $bidSvc;
-    private $flightRepo;
-    private $flightSvc;
-    private $pirepRepo;
-    private $userRepo;
-    private $userSvc;
+    private BidService $bidSvc;
+    private FlightRepository $flightRepo;
+    private PirepRepository $pirepRepo;
+    private UserRepository $userRepo;
+    private UserService $userSvc;
 
     /**
      * @param BidService       $bidSvc
      * @param FlightRepository $flightRepo
-     * @param FlightService    $flightSvc
      * @param PirepRepository  $pirepRepo
      * @param UserRepository   $userRepo
      * @param UserService      $userSvc
@@ -41,14 +41,12 @@ class UserController extends Controller
     public function __construct(
         BidService $bidSvc,
         FlightRepository $flightRepo,
-        FlightService $flightSvc,
         PirepRepository $pirepRepo,
         UserRepository $userRepo,
         UserService $userSvc
     ) {
         $this->bidSvc = $bidSvc;
         $this->flightRepo = $flightRepo;
-        $this->flightSvc = $flightSvc;
         $this->pirepRepo = $pirepRepo;
         $this->userRepo = $userRepo;
         $this->userSvc = $userSvc;
@@ -91,6 +89,10 @@ class UserController extends Controller
     public function get($id)
     {
         $user = $this->userSvc->getUser($id);
+        if ($user === null) {
+            throw new UserNotFound();
+        }
+
         return new UserResource($user);
     }
 
@@ -106,7 +108,11 @@ class UserController extends Controller
      */
     public function bids(Request $request)
     {
-        $user = $this->userSvc->getUser($this->getUserId($request));
+        $user_id = $this->getUserId($request);
+        $user = $this->userSvc->getUser($user_id);
+        if ($user === null) {
+            throw new UserNotFound();
+        }
 
         // Add a bid
         if ($request->isMethod('PUT') || $request->isMethod('POST')) {
@@ -136,6 +142,32 @@ class UserController extends Controller
     }
 
     /**
+     * Get a particular bid for a user
+     *
+     * @param                          $bid_id
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \App\Http\Resources\Bid
+     */
+    public function get_bid($bid_id, Request $request)
+    {
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+
+        // Return the current bid
+        $bid = $this->bidSvc->getBid($user, $bid_id);
+        if ($bid === null) {
+            throw new BidNotFound($bid_id);
+        }
+
+        if ($bid->user_id !== $user->id) {
+            throw new Unauthorized(new \Exception('Bid not not belong to authenticated user'));
+        }
+
+        return new BidResource($bid);
+    }
+
+    /**
      * Return the fleet that this user is allowed to
      *
      * @param Request $request
@@ -145,6 +177,10 @@ class UserController extends Controller
     public function fleet(Request $request)
     {
         $user = $this->userRepo->find($this->getUserId($request));
+        if ($user === null) {
+            throw new UserNotFound();
+        }
+
         $subfleets = $this->userSvc->getAllowableSubfleets($user);
 
         return SubfleetResource::collection($subfleets);

@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api;
 
 use App\Contracts\Controller;
 use App\Exceptions\AssetNotFound;
-use App\Exceptions\Unauthorized;
 use App\Http\Resources\Flight as FlightResource;
 use App\Http\Resources\Navdata as NavdataResource;
 use App\Models\SimBrief;
@@ -21,14 +20,9 @@ use Prettus\Repository\Exceptions\RepositoryException;
 
 class FlightController extends Controller
 {
-    /** @var \App\Services\FareService */
-    private $fareSvc;
-
-    /** @var \App\Repositories\FlightRepository */
-    private $flightRepo;
-
-    /** @var \App\Services\FlightService */
-    private $flightSvc;
+    private FareService $fareSvc;
+    private FlightRepository $flightRepo;
+    private FlightService $flightSvc;
 
     /**
      * @param FareService      $fareSvc

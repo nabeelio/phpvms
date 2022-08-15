@@ -10,14 +10,14 @@ return [
     // Overrides config/app.php
     'app' => [
         'name' => '$SITE_NAME$',
-        'url'  => '$SITE_URL$',
+        'url'  => '$APP_URL$',
 
         // When live, 'env' should be 'prod'
-        'env'   => 'prod',
+        'env'   => 'production',
 
         // debug as true shows the Laravel debug bar, which is helpful for
         // debugging templates and other internals
-        'debug'         => true,
+        'debug'         => false,
         'debug_toolbar' => false,
         
         // set default locale and default fallback locale 
@@ -65,9 +65,9 @@ return [
             'mysql' => [
                 'host'           => env('DB_HOST', '$DB_HOST$'),
                 'port'           => $DB_PORT$,
-                'database'       => '$DB_NAME$',
-                'username'       => '$DB_USER$',
-                'password'       => '$DB_PASS$',
+                'database'       => '$DB_DATABASE$',
+                'username'       => '$DB_USERNAME$',
+                'password'       => '$DB_PASSWORD$',
                 'prefix'         => '$DB_PREFIX$',
                 'prefix_indexes' => true,
             ],
@@ -85,7 +85,7 @@ return [
 
     // Overrides config/mail.php
     'mail' => [
-        'driver' => 'mail',  # Default is to use the mail() fn
+        'default' => 'mail',  # Default is to use the mail() fn
         'mailers' => [
             'smtp' => [
                 'transport' => 'smtp',
@@ -112,7 +112,8 @@ return [
 
     // Overrides config/session.php
     'session' => [
-        'default' => 'file',
+        'driver' => 'file',
+        'connection' => 'mysql',
         'lifetime' => 60 * 24,  # 24 hours
     ],
 ];

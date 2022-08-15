@@ -54,18 +54,18 @@ class ImporterTest extends TestCase
             'name' => 'phpVMS Airlines',
         ];
 
-        $airline = factory(Airline::class)->create($al);
-        $subfleet = factory(Subfleet::class)->create(['type' => 'A32X']);
+        $airline = Airline::factory()->create($al);
+        $subfleet = Subfleet::factory()->create(['type' => 'A32X']);
 
         // Add the economy class
-        $fare_economy = factory(Fare::class)->create(['code' => 'Y', 'capacity' => 150]);
+        $fare_economy = Fare::factory()->create(['code' => 'Y', 'capacity' => 150]);
         $fare_svc->setForSubfleet($subfleet, $fare_economy);
 
-        $fare_business = factory(Fare::class)->create(['code' => 'B', 'capacity' => 20]);
+        $fare_business = Fare::factory()->create(['code' => 'B', 'capacity' => 20]);
         $fare_svc->setForSubfleet($subfleet, $fare_business);
 
         // Add first class
-        $fare_first = factory(Fare::class)->create(['code' => 'F', 'capacity' => 10]);
+        $fare_first = Fare::factory()->create(['code' => 'F', 'capacity' => 10]);
         $fare_svc->setForSubfleet($subfleet, $fare_first);
 
         return [$airline, $subfleet];
@@ -147,6 +147,13 @@ class ImporterTest extends TestCase
                 'expected' => [
                     'Departure Gate' => '4',
                     'Arrival Gate'   => 'C61',
+                ],
+            ],
+            // Blank values omitted
+            [
+                'input'    => 'gate; ',
+                'expected' => [
+                    'gate',
                 ],
             ],
         ];
@@ -251,7 +258,7 @@ class ImporterTest extends TestCase
      */
     public function testAircraftExporter(): void
     {
-        $aircraft = factory(Aircraft::class)->create();
+        $aircraft = Aircraft::factory()->create();
 
         $exporter = new AircraftExporter();
         $exported = $exporter->export($aircraft);
@@ -264,7 +271,10 @@ class ImporterTest extends TestCase
 
         $importer = app(ImportService::class);
         $exporter = app(ExportService::class);
-        $file = $exporter->exportAircraft(collect([$aircraft]));
+
+        $collection = collect([$aircraft]);
+        $file = $exporter->exportAircraft($collection);
+
         $status = $importer->importAircraft($file);
         $this->assertCount(1, $status['success']);
         $this->assertCount(0, $status['errors']);
@@ -277,7 +287,7 @@ class ImporterTest extends TestCase
     {
         $airport_name = 'Adolfo Suárez Madrid–Barajas Airport';
 
-        $airport = factory(Airport::class)->create([
+        $airport = Airport::factory()->create([
             'name' => $airport_name,
         ]);
 
@@ -305,12 +315,12 @@ class ImporterTest extends TestCase
         $fareSvc = app(FareService::class);
 
         [$airline, $subfleet] = $this->insertFlightsScaffoldData();
-        $subfleet2 = factory(Subfleet::class)->create(['type' => 'B74X']);
+        $subfleet2 = Subfleet::factory()->create(['type' => 'B74X']);
 
         $fareY = Fare::where('code', 'Y')->first();
         $fareF = Fare::where('code', 'F')->first();
 
-        $flight = factory(Flight::class)->create([
+        $flight = Flight::factory()->create([
             'airline_id'  => $airline->id,
             'flight_type' => 'J',
             'days'        => Days::getDaysMask([
@@ -382,15 +392,29 @@ class ImporterTest extends TestCase
     }
 
     /**
+     * @throws \League\Csv\CannotInsertRecord
+     *
+     * @return void
+     */
+    public function testExpenseExporter(): void
+    {
+        $expenses = Expense::factory(10)->create();
+
+        /** @var ExportService $exporter */
+        $exporter = app(ExportService::class);
+        $exporter->exportExpenses($expenses);
+    }
+
+    /**
      * Test the importing of expenses
      *
      * @throws \Illuminate\Validation\ValidationException
      */
     public function testExpenseImporter(): void
     {
-        $airline = factory(Airline::class)->create(['icao' => 'VMS']);
-        $subfleet = factory(Subfleet::class)->create(['type' => '744-3X-RB211']);
-        $aircraft = factory(Aircraft::class)->create([
+        $airline = Airline::factory()->create(['icao' => 'VMS']);
+        $subfleet = Subfleet::factory()->create(['type' => '744-3X-RB211']);
+        $aircraft = Aircraft::factory()->create([
             'subfleet_id'  => $subfleet->id,
             'registration' => '001Z',
         ]);
@@ -472,7 +496,7 @@ class ImporterTest extends TestCase
         $file_path = base_path('tests/data/flights.csv');
         $status = $this->importSvc->importFlights($file_path);
 
-        $this->assertCount(2, $status['success']);
+        $this->assertCount(3, $status['success']);
         $this->assertCount(1, $status['errors']);
 
         // See if it imported
@@ -490,7 +514,7 @@ class ImporterTest extends TestCase
         $this->assertEquals('0810 CST', $flight->dpt_time);
         $this->assertEquals('1235 EST', $flight->arr_time);
         $this->assertEquals('350', $flight->level);
-        $this->assertEquals(1477, $flight->distance);
+        $this->assertEquals(1477, $flight->distance->internal());
         $this->assertEquals('207', $flight->flight_time);
         $this->assertEquals(FlightType::SCHED_PAX, $flight->flight_type);
         $this->assertEquals('ILEXY2 ZENZI LFK ELD J29 MEM Q29 JHW J70 STENT J70 MAGIO J70 LVZ LENDY6', $flight->route);
@@ -531,6 +555,16 @@ class ImporterTest extends TestCase
         // Check the subfleets
         $subfleets = $flight->subfleets;
         $this->assertCount(1, $subfleets);
+        $this->assertNotEquals('A32X', $subfleets[0]->name);
+
+        $flight = Flight::where([
+            'airline_id'    => $airline->id,
+            'flight_number' => '999',
+        ])->first();
+        $subfleets = $flight->subfleets;
+        $this->assertCount(2, $subfleets);
+        $this->assertEquals('B737', $subfleets[1]->type);
+        $this->assertEquals('B737', $subfleets[1]->name);
     }
 
     /**
@@ -569,8 +603,8 @@ class ImporterTest extends TestCase
      */
     public function testAircraftImporter(): void
     {
-        factory(Airline::class)->create();
-        // $subfleet = factory(\App\Models\Subfleet::class)->create(['type' => 'A32X']);
+        Airline::factory()->create();
+        // $subfleet = \App\Models\Subfleet::factory()->create(['type' => 'A32X']);
 
         $file_path = base_path('tests/data/aircraft.csv');
         $status = $this->importSvc->importAircraft($file_path);
@@ -636,6 +670,7 @@ class ImporterTest extends TestCase
         $this->assertEquals('-97.6699', $airport->lon);
         $this->assertEquals(0.0, $airport->ground_handling_cost);
         $this->assertEquals(setting('airports.default_jet_a_fuel_cost'), $airport->fuel_jeta_cost);
+        $this->assertEquals('Test Note', $airport->notes);
 
         // See if it imported
         $airport = Airport::where([
@@ -655,9 +690,9 @@ class ImporterTest extends TestCase
      */
     public function testSubfleetImporter(): void
     {
-        $fare_economy = factory(Fare::class)->create(['code' => 'Y', 'capacity' => 150]);
-        $fare_business = factory(Fare::class)->create(['code' => 'B', 'capacity' => 20]);
-        $airline = factory(Airline::class)->create(['icao' => 'VMS']);
+        $fare_economy = Fare::factory()->create(['code' => 'Y', 'capacity' => 150]);
+        $fare_business = Fare::factory()->create(['code' => 'B', 'capacity' => 20]);
+        $airline = Airline::factory()->create(['icao' => 'VMS']);
 
         $file_path = base_path('tests/data/subfleets.csv');
         $status = $this->importSvc->importSubfleets($file_path);

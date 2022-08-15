@@ -16,12 +16,12 @@ use Laracasts\Flash\Flash;
 
 class DashboardController extends Controller
 {
-    private $cronSvc;
-    private $kvpRepo;
-    private $newsRepo;
-    private $newsSvc;
-    private $pirepRepo;
-    private $userRepo;
+    private CronService $cronSvc;
+    private KvpRepository $kvpRepo;
+    private NewsRepository $newsRepo;
+    private NewsService $newsSvc;
+    private PirepRepository $pirepRepo;
+    private UserRepository $userRepo;
 
     /**
      * DashboardController constructor.

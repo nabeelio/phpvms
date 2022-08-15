@@ -46,7 +46,7 @@ class FlightRouteAwards extends Award
      */
     public function check($dptarr = null): bool
     {
-        if ($this->user->last_pirep_id === null) {
+        if ($this->user->last_pirep_id === null || empty($this->user->last_pirep)) {
             return false;
         }
 

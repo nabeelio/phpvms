@@ -27,7 +27,7 @@ class SubfleetTest extends TestCase
         $subfleet = $subfleet_aircraft['subfleet'];
 
         /** @var \App\Models\Fare $fare */
-        $fare = factory(Fare::class)->create();
+        $fare = Fare::factory()->create();
 
         $fare_svc->setForSubfleet($subfleet, $fare);
         $subfleet_fares = $fare_svc->getForSubfleet($subfleet);

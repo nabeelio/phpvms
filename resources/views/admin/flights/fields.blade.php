@@ -29,15 +29,22 @@
 
           </div>
 
-          <!-- Route Code Field -->
-          <div class="form-group col-sm-3">
+          <!-- Callsign Field -->
+          <div class="form-group input-group-sm col-sm-2">
+            {{ Form::label('callsign', 'Callsign:') }}
+            {{ Form::text('callsign', null, ['class'=>'form-control', 'placeholder'=>'optional', 'maxlength' => 4]) }}
+            <p class="text-danger">{{ $errors->first('callsign') }}</p>
+          </div>
+
+          <!-- Flight Type Field -->
+          <div class="form-group col-sm-2">
             {{ Form::label('level', 'Flight Type:') }}&nbsp;<span class="required">*</span>
             {{ Form::select('flight_type', $flight_types, null, ['class' => 'form-control select2']) }}
             <p class="text-danger">{{ $errors->first('flight_type') }}</p>
           </div>
 
-          <!-- Route Leg Field -->
-          <div class="form-group col-sm-3">
+          <!-- Flight Time Field -->
+          <div class="form-group col-sm-2">
             {{ Form::label('flight_time', 'Flight Time (hours & minutes)') }}
 
             <div class="input-group input-group-sm mb3">
@@ -76,22 +83,19 @@
 
           <div class="form-group col-sm-4">
             {{ Form::label('load_factor', 'Load Factor:') }}
-            {{ Form::text('load_factor', null, ['class' => 'form-control']) }}
+            {{ Form::number('load_factor', null, ['class' => 'form-control', 'min' => 0, 'max' => 100]) }}
             <p class="text-danger">{{ $errors->first('load_factor') }}</p>
             @component('admin.components.info')
-              Value between 1 and 100. See
-              <a href="{{ docs_link('load_factor') }}" target="_blank">docs</a>.
-              Leave blank to use the default value.
+              Percentage value for pax/cargo load, leave blank to use the default value.
             @endcomponent
           </div>
 
           <div class="form-group col-sm-4">
             {{ Form::label('load_factor_variance', 'Load Factor Variance:') }}
-            {{ Form::text('load_factor_variance', null, ['class' => 'form-control']) }}
+            {{ Form::number('load_factor_variance', null, ['class' => 'form-control', 'min' => 0, 'max' => 100]) }}
             <p class="text-danger">{{ $errors->first('load_factor_variance') }}</p>
             @component('admin.components.info')
-              How much the load factor can vary per flight (+ or -). Leave blank to
-              use the default value.
+              Percentage of how much the load can vary (+/-), leave blank to use the default value.
             @endcomponent
           </div>
         </div>
@@ -167,7 +171,6 @@
   </div>
 </div>
 
-
 <div class="row">
   <div class="col-12">
     <div class="form-container">
@@ -179,19 +182,20 @@
           <div class="col-sm-4">
             {{ Form::label('start_date', 'Start Date') }}
             <span class="description small">optional</span>
-            {{ Form::text('start_date', null, ['id' => 'start_date', 'class' => 'form-control']) }}
+            {{ Form::text('start_date', null, ['id' => 'start_date', 'class' => 'form-control', 'placeholder'=>'2021-03-25']) }}
           </div>
 
           <div class="col-sm-4">
             {{ Form::label('end_date', 'End Date') }}
             <span class="description small">optional</span>
-            {{ Form::text('end_date', null, ['id' => 'end_date', 'class' => 'form-control']) }}
+            {{ Form::text('end_date', null, ['id' => 'end_date', 'class' => 'form-control', 'placeholder'=>'2021-06-30']) }}
           </div>
 
           <div class="form-group col-sm-4">
             {{ Form::label('days', 'Days of Week') }}
             <span class="description small">optional</span>
             <select id="days_of_week" name="days[]" multiple="multiple" size="7" style="width: 100%;">
+              <option value="">Select Days</option>
               <option value="{{\App\Models\Enums\Days::MONDAY}}"
                 {{in_mask($days, \App\Models\Enums\Days::MONDAY) ? 'selected':'' }}>
                 @lang('common.days.mon')
@@ -252,8 +256,9 @@
         <div class="row">
           <div class="form-group col-sm-12">
             {{ Form::textarea('notes', null, [
-                'class' => 'form-control input-text',
-                'style' => 'padding: 10px',
+                'id'    => 'editor',
+                'class' => 'editor',
+                'style' => 'padding: 5px',
             ]) }}
             <p class="text-danger">{{ $errors->first('notes') }}</p>
           </div>
@@ -280,3 +285,10 @@
     </div>
   </div>
 </div>
+@section('scripts')
+  @parent
+  <script src="{{ public_asset('assets/vendor/ckeditor4/ckeditor.js') }}"></script>
+  <script>
+    $(document).ready(function () { CKEDITOR.replace('editor'); });
+  </script>
+@endsection

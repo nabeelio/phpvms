@@ -22,12 +22,12 @@ use PharData;
 
 class ModuleService extends Service
 {
-    protected static $adminLinks = [];
+    protected static array $adminLinks = [];
 
     /**
      * @var array 0 == logged out, 1 == logged in
      */
-    protected static $frontendLinks = [
+    protected static array $frontendLinks = [
         0 => [],
         1 => [],
     ];
@@ -40,7 +40,7 @@ class ModuleService extends Service
      * @param string $icon
      * @param bool   $logged_in
      */
-    public function addFrontendLink(string $title, string $url, string $icon = 'pe-7s-users', $logged_in = true)
+    public function addFrontendLink(string $title, string $url, string $icon = 'pe-7s-users', bool $logged_in = true)
     {
         self::$frontendLinks[$logged_in][] = [
             'title' => $title,
@@ -56,7 +56,7 @@ class ModuleService extends Service
      *
      * @return array
      */
-    public function getFrontendLinks($logged_in): array
+    public function getFrontendLinks(mixed $logged_in): array
     {
         return self::$frontendLinks[$logged_in];
     }
@@ -88,13 +88,56 @@ class ModuleService extends Service
     }
 
     /**
-     * Get All modules from Database
+     * Get all of the modules from database but make sure they also exist on disk
      *
      * @return object
      */
-    public function getAllModules(): object
+    public function getAllModules(): array
     {
-        return Module::all();
+        $modules = [];
+        $moduleList = Module::all();
+
+        /** @var Module $module */
+        foreach ($moduleList as $module) {
+            /** @var \Nwidart\Modules\Module $moduleInstance */
+            $moduleInstance = \Nwidart\Modules\Facades\Module::find($module->name);
+            if (empty($moduleInstance)) {
+                continue;
+            }
+
+            if (file_exists($moduleInstance->getPath())) {
+                $modules[] = $module;
+            }
+        }
+
+        return $modules;
+    }
+
+    /**
+     * Determine if a module is active - also checks that the module exists properly
+     *
+     * @param string $name
+     *
+     * @return bool
+     */
+    public function isModuleActive(string $name): bool
+    {
+        $module = Module::where('name', $name)->first();
+        if (empty($module)) {
+            return false;
+        }
+
+        /** @var \Nwidart\Modules\Module $moduleInstance */
+        $moduleInstance = \Nwidart\Modules\Facades\Module::find($module->name);
+        if (empty($moduleInstance)) {
+            return false;
+        }
+
+        if (!file_exists($moduleInstance->getPath())) {
+            return false;
+        }
+
+        return $moduleInstance->isEnabled();
     }
 
     /**
@@ -102,9 +145,9 @@ class ModuleService extends Service
      *
      * @param $id
      *
-     * @return object
+     * @return Module
      */
-    public function getModule($id): object
+    public function getModule($id): Module
     {
         return Module::find($id);
     }
@@ -126,7 +169,11 @@ class ModuleService extends Service
                 'enabled' => 1,
             ]);
 
-            Artisan::call('module:migrate '.$module_name);
+            try {
+                Artisan::call('module:migrate '.$module_name, ['--force' => true]);
+            } catch (Exception $e) {
+                Log::error('Error running migration for '.$module_name.'; error='.$e);
+            }
 
             return true;
         }
@@ -144,22 +191,20 @@ class ModuleService extends Service
      */
     public function installModule(UploadedFile $file): FlashNotifier
     {
-        $file_ext = $file->getClientOriginalExtension();
+        $file_ext = strtolower($file->getClientOriginalExtension());
         $allowed_extensions = ['zip', 'tar', 'gz'];
 
         if (!in_array($file_ext, $allowed_extensions, true)) {
             throw new ModuleInvalidFileType();
         }
 
-        $module = null;
-
         $new_dir = rand();
-
         File::makeDirectory(
             storage_path('app/tmp/modules/'.$new_dir),
             0777,
             true
         );
+
         $temp_ext_folder = storage_path('app/tmp/modules/'.$new_dir);
         $temp = storage_path('app/tmp/modules/'.$new_dir);
 
@@ -215,7 +260,6 @@ class ModuleService extends Service
         }
 
         File::moveDirectory($temp, $toCopy);
-
         File::deleteDirectory($temp_ext_folder);
 
         try {
@@ -225,7 +269,7 @@ class ModuleService extends Service
         }
 
         Artisan::call('config:cache');
-        Artisan::call('module:migrate '.$module);
+        Artisan::call('module:migrate '.$module, ['--force' => true]);
 
         return flash()->success('Module Installed');
     }
@@ -246,7 +290,7 @@ class ModuleService extends Service
         ]);
 
         if ($status === true) {
-            Artisan::call('module:migrate '.$module->name);
+            Artisan::call('module:migrate '.$module->name, ['--force' => true]);
         }
 
         return true;

@@ -20,8 +20,7 @@ return [
             'strict'         => false,
             'engine'         => null,
             'options'        => [
-                PDO::ATTR_EMULATE_PREPARES => env('DB_EMULATE_PREPARES', false),
-                //PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                PDO::ATTR_EMULATE_PREPARES => get_truth_state(env('DB_EMULATE_PREPARES', false)),
             ],
             'dump' => [
                 'timeout' => 60 * 5, // 5 minute timeout
@@ -29,7 +28,7 @@ return [
         ],
         'sqlite' => [
             'driver'         => 'sqlite',
-            'database'       => storage_path('db.sqlite'),
+            'database'       => env('DB_DATABASE', storage_path('db.sqlite')),
             'timezone'       => '+00:00',
             'prefix'         => '',
             'prefix_indexes' => true,

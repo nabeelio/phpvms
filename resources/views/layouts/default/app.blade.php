@@ -22,13 +22,8 @@
 
   {{-- Start of the required files in the head block --}}
   <link href="{{ public_mix('/assets/global/css/vendor.css') }}" rel="stylesheet"/>
-  <style type="text/css">
-    @yield('css')
-  </style>
-
-  <script>
-    @yield('scripts_head')
-  </script>
+  @yield('css')
+  @yield('scripts_head')
   {{-- End of the required stuff in the head block --}}
 
 </head>
@@ -64,8 +59,9 @@
     <div class="container">
       <div class="copyright">
         {{--
-        Please keep the copyright message somewhere, as-per the LICENSE file
-                Thanks!!
+        This "powered by phpVMS" must be kept visible. as-per the the license
+        If you want to remove the attribution, a license can be purchased
+        https://docs.phpvms.net/#license
         --}}
         powered by <a href="http://www.phpvms.net" target="_blank">phpvms</a>
       </div>

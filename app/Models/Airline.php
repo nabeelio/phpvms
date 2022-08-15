@@ -6,10 +6,11 @@ use App\Contracts\Model;
 use App\Models\Enums\JournalType;
 use App\Models\Traits\FilesTrait;
 use App\Models\Traits\JournalTrait;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Str;
 
 /**
- * Class Airline
- *
  * @property mixed   id
  * @property string  code
  * @property string  icao
@@ -22,6 +23,7 @@ use App\Models\Traits\JournalTrait;
 class Airline extends Model
 {
     use FilesTrait;
+    use HasFactory;
     use JournalTrait;
 
     public $table = 'airlines';
@@ -69,37 +71,51 @@ class Airline extends Model
     /**
      * For backwards compatibility
      */
-    public function getCodeAttribute()
+    public function code(): Attribute
     {
-        if ($this->iata && $this->iata !== '') {
-            return $this->iata;
-        }
-        return $this->icao;
+        return Attribute::make(
+            get: function ($_, $attrs) {
+                if ($this->iata && $this->iata !== '') {
+                    return $this->iata;
+                }
+
+                return $this->icao;
+            }
+        );
     }
 
     /**
      * Capitalize the IATA code when set
-     *
-     * @param $iata
      */
-    public function setIataAttribute($iata)
+    public function iata(): Attribute
     {
-        $this->attributes['iata'] = strtoupper($iata);
+        return Attribute::make(
+            set: fn ($iata) => Str::upper($iata)
+        );
     }
 
     /**
      * Capitalize the ICAO when set
-     *
-     * @param $icao
      */
-    public function setIcaoAttribute($icao): void
+    public function icao(): Attribute
     {
-        $this->attributes['icao'] = strtoupper($icao);
+        return Attribute::make(
+            set: fn ($icao) => Str::upper($icao)
+        );
     }
+
+    /*
+     * FKs
+     */
 
     public function subfleets()
     {
         return $this->hasMany(Subfleet::class, 'airline_id');
+    }
+
+    public function aircraft()
+    {
+        return $this->hasManyThrough(Aircraft::class, Subfleet::class);
     }
 
     public function flights()

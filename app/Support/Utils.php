@@ -5,9 +5,8 @@ namespace App\Support;
 use App\Contracts\Model;
 use Hashids\Hashids;
 use Illuminate\Contracts\Container\BindingResolutionException;
-use Illuminate\Support\Str;
-use LayerShifter\TLDExtract\Extract;
 use Nwidart\Modules\Facades\Module;
+use Pdp\Rules;
 
 /**
  * Global utilities
@@ -21,7 +20,7 @@ class Utils
      *
      * @return string
      */
-    public static function generateNewId(int $length = null)
+    public static function generateNewId(int $length = null): string
     {
         if (!$length) {
             $length = Model::ID_MAX_LENGTH;
@@ -39,8 +38,7 @@ class Utils
      */
     public static function generateApiKey(): string
     {
-        $key = substr(sha1(time().mt_rand()), 0, 20);
-        return $key;
+        return substr(sha1(time().mt_rand()), 0, 20);
     }
 
     /**
@@ -110,22 +108,36 @@ class Utils
      */
     public static function getRootDomain(string $url): string
     {
-        if (Str::contains($url, ['https://', 'http://'])) {
-            $url = str_replace('https://', '', $url);
-            $url = str_replace('http://', '', $url);
+        if (!str_starts_with($url, 'http')) {
+            $url = 'http://'.$url;
         }
 
-        $extract = new Extract();
-        $result = $extract->parse($url);
+        $parsed_url = parse_url($url, PHP_URL_HOST);
+        if (empty($parsed_url)) {
+            return '';
+        }
 
-        $val = $result->getRegistrableDomain();
+        if (str_ends_with($parsed_url, 'localhost')) {
+            return 'localhost';
+        }
+
+        if (str_ends_with($parsed_url, '/')) {
+            $parsed_url = substr($parsed_url, 0, strlen($parsed_url) - 1);
+        }
+
+        $rules = Rules::createFromPath(resource_path('tld/public_suffix_list.dat'));
+        $domain = $rules->resolve($parsed_url);
+
+        $val = $domain->getRegistrableDomain();
         if (!empty($val)) {
             return $val;
         }
 
         // Couldn't validate a domain, see if this is an IP address?
-        if (filter_var($url, FILTER_VALIDATE_IP)) {
-            return $url;
+        if (filter_var($parsed_url, FILTER_VALIDATE_IP)) {
+            return $parsed_url;
         }
+
+        return '';
     }
 }

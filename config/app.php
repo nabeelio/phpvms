@@ -2,9 +2,7 @@
 
 /**
  * DO NOT EDIT THIS OR ANY OF THE CONFIG FILES DIRECTLY
- *
- * Set your override options in the config.php file that's in the root of
- * your install. Otherwise, any changes here will get overridden in an update!
+ * IF YOU DO, YOU NEED TO RESTORE THOSE CHANGES AFTER AN UPDATE
  */
 
 use Carbon\Carbon;
@@ -15,7 +13,7 @@ return [
     'debug'         => env('APP_DEBUG', true),
     'url'           => env('APP_URL', ''),
     'version'       => '7.0.0',
-    'debug_toolbar' => false,
+    'debug_toolbar' => env('DEBUG_TOOLBAR', false),
 
     // set normal locale and default fallback locale 
 	//to get strings from when no transation exists
@@ -68,11 +66,8 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         Laracasts\Flash\FlashServiceProvider::class,
         Prettus\Repository\Providers\RepositoryServiceProvider::class,
-        SebastiaanLuca\Helpers\Collections\CollectionMacrosServiceProvider::class,
-        Irazasyed\LaravelGAMP\LaravelGAMPServiceProvider::class,
         Igaster\LaravelTheme\themeServiceProvider::class,
         Nwidart\Modules\LaravelModulesServiceProvider::class,
-        Anhskohbo\NoCaptcha\NoCaptchaServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -112,7 +107,6 @@ return [
         'Lang'         => Illuminate\Support\Facades\Lang::class,
         'Log'          => Illuminate\Support\Facades\Log::class,
         'Mail'         => Illuminate\Support\Facades\Mail::class,
-        'NoCaptcha'    => Anhskohbo\NoCaptcha\Facades\NoCaptcha::class,
         'Notification' => Illuminate\Support\Facades\Notification::class,
         'Password'     => Illuminate\Support\Facades\Password::class,
         'Queue'        => Illuminate\Support\Facades\Queue::class,
@@ -125,10 +119,8 @@ return [
         'Session'      => Illuminate\Support\Facades\Session::class,
         'Storage'      => Illuminate\Support\Facades\Storage::class,
         'Theme'        => Igaster\LaravelTheme\Facades\Theme::class,
-        'Updater'      => Codedge\Updater\UpdaterFacade::class,
         'URL'          => Illuminate\Support\Facades\URL::class,
         'Validator'    => Illuminate\Support\Facades\Validator::class,
-        'Version'      => PragmaRX\Version\Package\Facade::class,
         'View'         => Illuminate\Support\Facades\View::class,
         'Yaml'         => Symfony\Component\Yaml\Yaml::class,
 

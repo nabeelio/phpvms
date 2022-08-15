@@ -8,7 +8,7 @@ use App\Repositories\NewsRepository;
 
 class NewsService extends Service
 {
-    private $newsRepo;
+    private NewsRepository $newsRepo;
 
     public function __construct(NewsRepository $newsRepo)
     {

@@ -2,8 +2,7 @@
   <div class="row">
     <div class="col-sm-10">
       <p>
-        <a href="{{ route('frontend.pireps.show', [$pirep->id]) }}">
-          {{ $pirep->airline->code }}{{ $pirep->ident }}</a>
+        <a href="{{ route('frontend.pireps.show', [$pirep->id]) }}">{{ $pirep->ident }}</a>
         -
         {{ $pirep->dpt_airport->name }}
         (<a href="{{route('frontend.airports.show', [

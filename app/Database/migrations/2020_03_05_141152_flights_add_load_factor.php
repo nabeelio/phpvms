@@ -7,8 +7,7 @@ use Illuminate\Support\Facades\Schema;
 /**
  * Add a `load_factor` and `load_factor_variance` columns to the expenses table
  */
-class FlightsAddLoadFactor extends Migration
-{
+return new class() extends Migration {
     public function up()
     {
         Schema::table('flights', function (Blueprint $table) {
@@ -29,4 +28,4 @@ class FlightsAddLoadFactor extends Migration
             $table->dropColumn('load_factor_variance');
         });
     }
-}
+};

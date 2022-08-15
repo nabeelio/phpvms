@@ -2,12 +2,26 @@
 
 @section('title', 'Users')
 @section('actions')
-  <li><a href="{{ route('admin.userfields.index') }}">
-      <i class="ti-user"></i>Profile Fields</a>
+  <li>
+    <a href="{{ route('admin.userfields.index') }}"></i>Profile Fields</a>
   </li>
-
-  <li><a href="{{ route('admin.users.index') }}?search=state:0">
-      <i class="ti-user"></i>@lang(UserState::label(UserState::PENDING))</a>
+  <li>
+    <a href="{{ route('admin.users.index') }}?state=0">@lang(UserState::label(UserState::PENDING))</a>
+  </li>
+  <li>
+    <a href="{{ route('admin.users.index') }}?state=1">@lang(UserState::label(UserState::ACTIVE))</a>
+  </li>
+  <li>
+    <a href="{{ route('admin.users.index') }}?state=2">@lang(UserState::label(UserState::REJECTED))</a>
+  </li>
+  <li>
+    <a href="{{ route('admin.users.index') }}?state=3">@lang(UserState::label(UserState::ON_LEAVE))</a>
+  </li>
+  <li>
+    <a href="{{ route('admin.users.index') }}?state=4">@lang(UserState::label(UserState::SUSPENDED))</a>
+  </li>
+  <li>
+    <a href="{{ route('admin.users.index') }}?state=5">@lang(UserState::label(UserState::DELETED))</a>
   </li>
 @endsection
 

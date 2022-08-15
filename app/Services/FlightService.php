@@ -15,11 +15,11 @@ use App\Support\Units\Time;
 
 class FlightService extends Service
 {
-    private $airportSvc;
-    private $fareSvc;
-    private $flightRepo;
-    private $navDataRepo;
-    private $userSvc;
+    private AirportService $airportSvc;
+    private FareService $fareSvc;
+    private FlightRepository $flightRepo;
+    private NavdataRepository $navDataRepo;
+    private UserService $userSvc;
 
     /**
      * FlightService constructor.
@@ -135,8 +135,18 @@ class FlightService extends Service
      */
     public function filterSubfleets(User $user, Flight $flight)
     {
+        // Eager load some of the relationships needed
+        //$flight->load(['flight.subfleets', 'flight.subfleets.aircraft', 'flight.subfleets.fares']);
+
         /** @var \Illuminate\Support\Collection $subfleets */
         $subfleets = $flight->subfleets;
+
+        // If no subfleets assigned to a flight get users allowed subfleets
+        if ($subfleets === null || $subfleets->count() === 0) {
+            $subfleets = $this->userSvc->getAllowableSubfleets($user);
+        }
+
+        // If subfleets are still empty return the flight
         if ($subfleets === null || $subfleets->count() === 0) {
             return $flight;
         }

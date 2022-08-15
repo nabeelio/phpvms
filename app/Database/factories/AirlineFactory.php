@@ -1,25 +1,41 @@
 <?php
 
-use Faker\Generator as Faker;
+/** @noinspection PhpIllegalPsrClassPathInspection */
+
+namespace App\Database\Factories;
+
+use App\Contracts\Factory;
+use App\Models\Airline;
 use Hashids\Hashids;
 
-/*
- * Add any number of airports. Don't really care if they're real or not
- */
-$factory->define(App\Models\Airline::class, function (Faker $faker) {
-    return [
-        'id'   => null,
-        'icao' => function (array $apt) {
-            $hashids = new Hashids(microtime(), 5);
-            $mt = str_replace('.', '', microtime(true));
+class AirlineFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = Airline::class;
 
-            return $hashids->encode($mt);
-        },
-        'iata' => function (array $apt) {
-            return $apt['icao'];
-        },
-        'name'    => $faker->sentence(3),
-        'country' => $faker->country,
-        'active'  => 1,
-    ];
-});
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
+    public function definition(): array
+    {
+        return [
+            'id'   => null,
+            'icao' => function (array $apt): string {
+                $hashids = new Hashids(microtime(), 5);
+                $mt = str_replace('.', '', microtime(true));
+
+                return $hashids->encode($mt);
+            },
+            'iata'    => fn (array $apt) => $apt['icao'],
+            'name'    => $this->faker->sentence(3),
+            'country' => $this->faker->country,
+            'active'  => 1,
+        ];
+    }
+}

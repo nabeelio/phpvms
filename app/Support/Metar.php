@@ -8,7 +8,6 @@ use App\Support\Units\Pressure;
 use App\Support\Units\Temperature;
 use App\Support\Units\Velocity;
 use function count;
-use Illuminate\Support\Facades\Log;
 use PhpUnitsOfMeasure\Exception\NonNumericValue;
 use PhpUnitsOfMeasure\Exception\NonStringUnitName;
 
@@ -403,14 +402,11 @@ class Metar implements \ArrayAccess
      * @param int|float $value
      * @param string    $unit  "feet" or "meters"
      *
-     * @throws NonStringUnitName
-     * @throws NonNumericValue
-     *
      * @return Altitude
      */
     protected function createAltitude($value, $unit)
     {
-        return new Altitude((float) $value, $unit);
+        return Altitude::make((float) $value, $unit);
     }
 
     /**
@@ -419,14 +415,11 @@ class Metar implements \ArrayAccess
      * @param int|float $value
      * @param string    $unit  "m" (meters) or "mi" (miles)
      *
-     * @throws NonNumericValue
-     * @throws NonStringUnitName
-     *
      * @return Distance
      */
     protected function createDistance($value, $unit)
     {
-        return new Distance((float) $value, $unit);
+        return Distance::make((float) $value, $unit);
     }
 
     /**
@@ -442,7 +435,7 @@ class Metar implements \ArrayAccess
      */
     protected function createPressure($value, $unit)
     {
-        return new Pressure((float) $value, $unit);
+        return Pressure::make((float) $value, $unit);
     }
 
     /**
@@ -458,7 +451,7 @@ class Metar implements \ArrayAccess
      */
     protected function createTemperature($value, $unit)
     {
-        return new Temperature((float) $value, $unit);
+        return Temperature::make((float) $value, $unit);
     }
 
     /**
@@ -474,7 +467,7 @@ class Metar implements \ArrayAccess
      */
     protected function createVelocity($value, $unit)
     {
-        return new Velocity((float) $value, $unit);
+        return Velocity::make((float) $value, $unit);
     }
 
     /**
@@ -879,8 +872,8 @@ class Metar implements \ArrayAccess
                 $this->set_result_value('cavok', true);
                 $this->method += 4; // can skip the next 4 methods: visibility_min, runway_vr, present_weather, clouds
             }
-        } /*elseif ($found[1] === '////') {
-        }*/ // information not available
+        } elseif ($found[1] === '////') {
+        } // information not available
 
         else {
             $prefix = '';
@@ -994,8 +987,10 @@ class Metar implements \ArrayAccess
         }
 
         $unit = 'meter';
+        $report_unit = 'm';
         if (isset($found[6]) && $found[6] === 'FT') {
             $unit = 'feet';
+            $report_unit = 'nmi';
         }
 
         $observed = [
@@ -1030,15 +1025,15 @@ class Metar implements \ArrayAccess
         if (!empty($observed['runway'])) {
             $report = [];
             if ($observed['variable'] !== null) {
-                $report[] = $observed['variable']['nmi'].' nmi';
+                $report[] = $observed['variable'][$report_unit].$report_unit;
             } elseif ($observed['interval_min'] !== null && $observed['interval_max'] !== null) {
                 if (isset(static::$rvr_prefix_codes[$observed['variable_prefix']])) {
-                    $report[] = 'varying from a min. of '.$observed['interval_min']['nmi'].' nmi until a max. of '.
+                    $report[] = 'varying from a min. of '.$observed['interval_min'][$report_unit].$report_unit.' until a max. of '.
                         static::$rvr_prefix_codes[$observed['variable_prefix']].' that '.
-                        $observed['interval_max']['nmi'].' nmi';
+                        $observed['interval_max'][$report_unit].' '.$report_unit;
                 } else {
-                    $report[] = 'varying from a min. of '.$observed['interval_min']['nmi'].' nmi until a max. of '.
-                        $observed['interval_max']['nmi'].' nmi';
+                    $report[] = 'varying from a min. of '.$observed['interval_min'][$report_unit].$report_unit.' until a max. of '.
+                        $observed['interval_max'][$report_unit].$report_unit;
                 }
             }
 
@@ -1772,7 +1767,7 @@ class Metar implements \ArrayAccess
      */
     private function calculate_wind_chill($temperature_f): void
     {
-        if ($temperature_f < 51 && $this->result['wind_speed'] !== 0) {
+        if ($temperature_f < 51 && $this->result['wind_speed'] && $this->result['wind_speed'] !== 0) {
             $windspeed = $this->result['wind_speed']->toUnit('mph');
             if ($windspeed > 3) {
                 $chill_f = 35.74 + 0.6215 * $temperature_f - 35.75 * ($windspeed ** 0.16);

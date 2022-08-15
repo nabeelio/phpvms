@@ -9,7 +9,7 @@ use VaCentral\Exceptions\HttpException;
 
 class VaCentralLookup extends AirportLookup
 {
-    private $client;
+    private IVaCentral $client;
 
     public function __construct(IVaCentral $client)
     {
@@ -28,6 +28,7 @@ class VaCentralLookup extends AirportLookup
         try {
             $airport = $this->client->getAirport($icao);
             $airport->location = $airport->city;
+            $airport->timezone = $airport->tz;
 
             return $airport;
         } catch (HttpException $e) {

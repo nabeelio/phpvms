@@ -5,8 +5,7 @@ use App\Contracts\Model;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFilesTable extends Migration
-{
+return new class() extends Migration {
     /**
      * Create the files table. Acts as a morphable
      *
@@ -40,4 +39,4 @@ class CreateFilesTable extends Migration
     {
         Schema::dropIfExists('files');
     }
-}
+};

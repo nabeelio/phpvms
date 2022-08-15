@@ -8,5 +8,6 @@ return [
         'rejected'  => 'Rejected',
         'on_leave'  => 'On Leave',
         'suspended' => 'Suspended',
+        'deleted'   => 'Deleted',
     ],
 ];

@@ -11,7 +11,11 @@ class CreateDatabase extends Command
 {
     protected $signature = 'database:create {--reset} {--migrate} {--conn=?}';
     protected $description = 'Create a database';
-    protected $os;
+
+    /**
+     * @var Detector
+     */
+    protected Detector $os;
 
     /**
      * CreateDatabase constructor.

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Contracts\Controller;
-use App\Events\PirepPrefiled;
 use App\Events\PirepUpdated;
 use App\Exceptions\AircraftPermissionDenied;
 use App\Exceptions\PirepCancelled;
@@ -24,10 +23,11 @@ use App\Models\Enums\PirepFieldSource;
 use App\Models\Enums\PirepSource;
 use App\Models\Pirep;
 use App\Models\PirepComment;
-use App\Repositories\AcarsRepository;
+use App\Models\PirepFare;
+use App\Models\PirepFieldValue;
+use App\Models\User;
 use App\Repositories\JournalRepository;
 use App\Repositories\PirepRepository;
-use App\Services\FareService;
 use App\Services\Finance\PirepFinanceService;
 use App\Services\PirepService;
 use App\Services\UserService;
@@ -38,17 +38,13 @@ use Illuminate\Support\Facades\Log;
 
 class PirepController extends Controller
 {
-    private $acarsRepo;
-    private $fareSvc;
-    private $financeSvc;
-    private $journalRepo;
-    private $pirepRepo;
-    private $pirepSvc;
-    private $userSvc;
+    private PirepFinanceService $financeSvc;
+    private JournalRepository $journalRepo;
+    private PirepRepository $pirepRepo;
+    private PirepService $pirepSvc;
+    private UserService $userSvc;
 
     /**
-     * @param AcarsRepository     $acarsRepo
-     * @param FareService         $fareSvc
      * @param PirepFinanceService $financeSvc
      * @param JournalRepository   $journalRepo
      * @param PirepRepository     $pirepRepo
@@ -56,16 +52,12 @@ class PirepController extends Controller
      * @param UserService         $userSvc
      */
     public function __construct(
-        AcarsRepository $acarsRepo,
-        FareService $fareSvc,
         PirepFinanceService $financeSvc,
         JournalRepository $journalRepo,
         PirepRepository $pirepRepo,
         PirepService $pirepSvc,
         UserService $userSvc
     ) {
-        $this->acarsRepo = $acarsRepo;
-        $this->fareSvc = $fareSvc;
         $this->financeSvc = $financeSvc;
         $this->journalRepo = $journalRepo;
         $this->pirepRepo = $pirepRepo;
@@ -102,7 +94,7 @@ class PirepController extends Controller
     /**
      * Check if a PIREP is cancelled
      *
-     * @param $pirep
+     * @param Pirep $pirep
      *
      * @throws \App\Exceptions\PirepCancelled
      */
@@ -114,50 +106,52 @@ class PirepController extends Controller
     }
 
     /**
-     * @param         $pirep
      * @param Request $request
+     *
+     * @return PirepFieldValue[]
      */
-    protected function updateFields($pirep, Request $request)
+    protected function getFields(Request $request): ?array
     {
         if (!$request->filled('fields')) {
-            return;
+            return [];
         }
 
         $pirep_fields = [];
         foreach ($request->input('fields') as $field_name => $field_value) {
-            $pirep_fields[] = [
+            $pirep_fields[] = new PirepFieldValue([
                 'name'   => $field_name,
                 'value'  => $field_value,
                 'source' => PirepFieldSource::ACARS,
-            ];
+            ]);
         }
 
-        $this->pirepSvc->updateCustomFields($pirep->id, $pirep_fields);
+        return $pirep_fields;
     }
 
     /**
      * Save the fares
      *
-     * @param         $pirep
      * @param Request $request
      *
      * @throws \Exception
+     *
+     * @return PirepFare[]
      */
-    protected function updateFares($pirep, Request $request)
+    protected function getFares(Request $request): ?array
     {
         if (!$request->filled('fares')) {
-            return;
+            return [];
         }
 
         $fares = [];
         foreach ($request->post('fares') as $fare) {
-            $fares[] = [
+            $fares[] = new PirepFare([
                 'fare_id' => $fare['id'],
                 'count'   => $fare['count'],
-            ];
+            ]);
         }
 
-        $this->fareSvc->saveForPirep($pirep, $fares);
+        return $fares;
     }
 
     /**
@@ -174,6 +168,7 @@ class PirepController extends Controller
             'comments',
             'flight',
             'simbrief',
+            'position',
             'user',
         ];
 
@@ -211,15 +206,12 @@ class PirepController extends Controller
         $attrs = $this->parsePirep($request);
         $attrs['source'] = PirepSource::ACARS;
 
-        $pirep = $this->pirepSvc->prefile($user, $attrs);
+        $fields = $this->getFields($request);
+        $fares = $this->getFares($request);
+        $pirep = $this->pirepSvc->prefile($user, $attrs, $fields, $fares);
 
         Log::info('PIREP PREFILED');
         Log::info($pirep->id);
-
-        $this->updateFields($pirep, $request);
-        $this->updateFares($pirep, $request);
-
-        event(new PirepPrefiled($pirep));
 
         return $this->get($pirep->id);
     }
@@ -244,8 +236,12 @@ class PirepController extends Controller
         Log::info('PIREP Update, user '.Auth::id());
         Log::info($request->getContent());
 
+        /** @var User $user */
         $user = Auth::user();
+
+        /** @var Pirep $pirep */
         $pirep = Pirep::find($pirep_id);
+
         $this->checkCancelled($pirep);
 
         $attrs = $this->parsePirep($request);
@@ -261,9 +257,9 @@ class PirepController extends Controller
             }
         }
 
-        $pirep = $this->pirepRepo->update($attrs, $pirep_id);
-        $this->updateFields($pirep, $request);
-        $this->updateFares($pirep, $request);
+        $fields = $this->getFields($request);
+        $fares = $this->getFares($request);
+        $pirep = $this->pirepSvc->update($pirep_id, $attrs, $fields, $fares);
 
         event(new PirepUpdated($pirep));
 
@@ -287,6 +283,7 @@ class PirepController extends Controller
     {
         Log::info('PIREP file, user '.Auth::id(), $request->post());
 
+        /** @var User $user */
         $user = Auth::user();
 
         // Check if the status is cancelled...
@@ -306,11 +303,13 @@ class PirepController extends Controller
         }
 
         try {
-            $pirep = $this->pirepSvc->file($pirep, $attrs);
-            $this->updateFields($pirep, $request);
-            $this->updateFares($pirep, $request);
+            $fields = $this->getFields($request);
+            $fares = $this->getFares($request);
+            $pirep = $this->pirepSvc->file($pirep, $attrs, $fields, $fares);
         } catch (\Exception $e) {
             Log::error($e);
+
+            throw $e;
         }
 
         // See if there there is any route data posted
@@ -335,16 +334,18 @@ class PirepController extends Controller
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      *
-     * @return PirepResource
+     * @return mixed
      */
     public function cancel($pirep_id, Request $request)
     {
-        Log::info('PIREP Cancel, user '.Auth::id(), $request->post());
+        Log::info('PIREP '.$pirep_id.' Cancel, user '.Auth::id(), $request->post());
 
         $pirep = Pirep::find($pirep_id);
-        $this->pirepSvc->cancel($pirep);
+        if (!empty($pirep)) {
+            $this->pirepSvc->cancel($pirep);
+        }
 
-        return new PirepResource($pirep);
+        return $this->message('PIREP '.$pirep_id.' cancelled');
     }
 
     /**
@@ -412,7 +413,8 @@ class PirepController extends Controller
         $pirep = Pirep::find($pirep_id);
         $this->checkCancelled($pirep);
 
-        $this->updateFields($pirep, $request);
+        $fields = $this->getFields($request);
+        $this->pirepSvc->updateCustomFields($pirep_id, $fields);
 
         return new PirepFieldCollection($pirep->fields);
     }
