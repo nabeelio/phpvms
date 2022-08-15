@@ -4,7 +4,8 @@
     <th>ICAO</th>
     <th>Name</th>
     <th>Location</th>
-    <th>Hub</th>
+    <th style="text-align: center;">Hub</th>
+    <th style="text-align: center;">Notes</th>
     <th style="text-align: center;">GH Cost</th>
     <th style="text-align: center;">JetA</th>
     <th style="text-align: center;">100LL</th>
@@ -20,6 +21,11 @@
         <td style="text-align: center;">
           @if($airport->hub === true)
             <span class="label label-success">Hub</span>
+          @endif
+        </td>
+        <td style="text-align: center;">
+          @if(filled($airport->notes))
+            <span class="label label-info" title="{{ $airport->notes }}">Notes</span>
           @endif
         </td>
         <td style="text-align: center;">
