@@ -28,7 +28,7 @@ class JournalTransactionsFactory extends Factory
     {
         return [
             'transaction_group' => Uuid::uuid4()->toString(),
-            'journal_id'        => fn () => Journal::factory()->create()->id,
+            'journal_id'        => fn ()        => Journal::factory()->create()->id,
             'credit'            => $this->faker->numberBetween(100, 10000),
             'debit'             => $this->faker->numberBetween(100, 10000),
             'currency'          => 'USD',

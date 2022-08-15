@@ -32,7 +32,7 @@ class AirlineFactory extends Factory
 
                 return $hashids->encode($mt);
             },
-            'iata'    => fn (array $apt) => $apt['icao'],
+            'iata'    => fn (array $apt)    => $apt['icao'],
             'name'    => $this->faker->sentence(3),
             'country' => $this->faker->country,
             'active'  => 1,
