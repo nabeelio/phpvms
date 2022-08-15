@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property string location
  * @property string country
  * @property string timezone
+ * @property string notes
  * @property float  ground_handling_cost
  * @property float  fuel_100ll_cost
  * @property float  fuel_jeta_cost
@@ -56,6 +57,7 @@ class Airport extends Model
         'fuel_100ll_cost',
         'fuel_jeta_cost',
         'fuel_mogas_cost',
+        'notes',
     ];
 
     protected $casts = [
@@ -81,8 +83,7 @@ class Airport extends Model
         'ground_handling_cost' => 'nullable|numeric',
         'fuel_100ll_cost'      => 'nullable|numeric',
         'fuel_jeta_cost'       => 'nullable|numeric',
-
-        'fuel_mogas_cost' => 'nullable|numeric',
+        'fuel_mogas_cost'      => 'nullable|numeric',
     ];
 
     /**

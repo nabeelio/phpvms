@@ -39,7 +39,7 @@ make docker-test
 
 # **OR** with docker-compose directly
 
-docker-compose -f docker-compose.yml -f docker-compose.local.yml up
+docker-compose -f docker-compose.yml -f docker-compose.dev.yml up
 ```
 
 Then go to `http://localhost`. If you're using dnsmasq, the `app` container is listening on `phpvms.test`, or you can add to your `/etc/hosts` file:
