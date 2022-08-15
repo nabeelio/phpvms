@@ -26,15 +26,15 @@ class FlightFactory extends Factory
     {
         return [
             'id'            => $this->faker->unique()->numberBetween(10, 10000000),
-            'airline_id'    => fn ()    => \App\Models\Airline::factory()->create()->id,
+            'airline_id'    => fn () => \App\Models\Airline::factory()->create()->id,
             'flight_number' => $this->faker->unique()->numberBetween(10, 1000000),
             'route_code'    => $this->faker->randomElement(['', $this->faker->text(5)]),
             'route_leg'     => $this->faker->randomElement(
                 ['', $this->faker->numberBetween(0, 1000)]
             ),
-            'dpt_airport_id'       => static fn ()       => \App\Models\Airport::factory()->create()->id,
-            'arr_airport_id'       => static fn ()       => \App\Models\Airport::factory()->create()->id,
-            'alt_airport_id'       => static fn ()       => \App\Models\Airport::factory()->create()->id,
+            'dpt_airport_id'       => static fn () => \App\Models\Airport::factory()->create()->id,
+            'arr_airport_id'       => static fn () => \App\Models\Airport::factory()->create()->id,
+            'alt_airport_id'       => static fn () => \App\Models\Airport::factory()->create()->id,
             'distance'             => $this->faker->numberBetween(1, 1000),
             'route'                => null,
             'level'                => 0,
