@@ -124,7 +124,8 @@
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi",
             "@php artisan phpvms:caches"
-        ]
+        ],
+        "test": "phpunit --verbose"
     },
     "config": {
         "bin-dir": "vendor/bin/",
