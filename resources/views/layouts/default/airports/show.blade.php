@@ -16,12 +16,11 @@
 
     {{-- Show the airspace map in the other column --}}
     <div class="col-7">
-      {{ Widget::AirspaceMap([
-          'width' => '100%',
-          'height' => '400px',
-          'lat' => $airport->lat,
-          'lon' => $airport->lon,
-        ]) }}
+      {{ Widget::AirspaceMap(['width' => '100%', 'height' => '400px', 'lat' => $airport->lat, 'lon' => $airport->lon]) }}
+      @if(filled($airport->notes))
+        <hr>
+        {!! $airport->notes !!}
+      @endif
     </div>
   </div>
   <div class="row">

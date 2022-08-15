@@ -63,6 +63,7 @@ class AirportFactory extends Factory
             'lat'                  => $this->faker->latitude,
             'lon'                  => $this->faker->longitude,
             'hub'                  => false,
+            'notes'                => null,
             'ground_handling_cost' => $this->faker->randomFloat(2, 0, 500),
             'fuel_100ll_cost'      => $this->faker->randomFloat(2, 1, 10),
             'fuel_jeta_cost'       => $this->faker->randomFloat(2, 1, 10),
