@@ -1,12 +1,14 @@
 <table class="table table-hover table-responsive" id="roles-table">
   <thead>
   <th>Name</th>
-  <th></th>
+  <th class="text-center">Members</th>
+  <th class="text-right">Actions</th>
   </thead>
   <tbody>
   @foreach($roles as $role)
     <tr>
       <td>{{ $role->display_name }}</td>
+      <td class="text-center">{{ $role->users_count }}</td>
       <td class="text-right">
         {{ Form::open(['route' => ['admin.roles.destroy', $role->id], 'method' => 'delete']) }}
         <a href="{{ route('admin.roles.edit', [$role->id]) }}"
