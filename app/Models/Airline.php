@@ -16,6 +16,7 @@ use Illuminate\Support\Str;
  * @property string  icao
  * @property string  iata
  * @property string  name
+ * @property string  callsign
  * @property string  logo
  * @property string  country
  * @property Journal journal
@@ -37,6 +38,7 @@ class Airline extends Model
         'icao',
         'iata',
         'name',
+        'callsign',
         'logo',
         'country',
         'total_flights',
@@ -61,11 +63,12 @@ class Airline extends Model
      * @var array
      */
     public static $rules = [
-        'country' => 'nullable',
-        'iata'    => 'nullable|max:5',
-        'icao'    => 'required|max:5',
-        'logo'    => 'nullable',
-        'name'    => 'required',
+        'country'  => 'nullable',
+        'iata'     => 'nullable|max:5',
+        'icao'     => 'required|max:5',
+        'logo'     => 'nullable',
+        'name'     => 'required',
+        'callsign' => 'nullable',
     ];
 
     /**
