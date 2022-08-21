@@ -48,7 +48,7 @@ class RolesController extends Controller
     public function index(Request $request)
     {
         $this->rolesRepo->pushCriteria(new RequestCriteria($request));
-        $roles = $this->rolesRepo->findWhere(['read_only' => false]);
+        $roles = $this->rolesRepo->withCount('users')->findWhere(['read_only' => false]);
 
         return view('admin.roles.index', [
             'roles' => $roles,
@@ -117,7 +117,7 @@ class RolesController extends Controller
      */
     public function edit($id)
     {
-        $role = $this->rolesRepo->findWithoutFail($id);
+        $role = $this->rolesRepo->withCount('users')->with('users')->findWithoutFail($id);
 
         if (empty($role)) {
             Flash::error('Role not found');
@@ -126,6 +126,8 @@ class RolesController extends Controller
 
         return view('admin.roles.edit', [
             'role'        => $role,
+            'users'       => $role->users,
+            'users_count' => $role->users_count,
             'permissions' => $this->permsRepo->all(),
         ]);
     }
