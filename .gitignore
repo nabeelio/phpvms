@@ -30,6 +30,8 @@ env.php
 Homestead.json
 LocalValetDriver.php
 docker-compose-profiler.yml
+sync.sh
+.env.*
 
 # Rocketeer PHP task runner and deployment package. https://github.com/rocketeers/rocketeer
 .rocketeer/
