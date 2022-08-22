@@ -1,4 +1,3 @@
-
 import draw_base_map from './base_map';
 
 import { ACTUAL_ROUTE_COLOR } from './config';
@@ -26,6 +25,7 @@ export default (_opts) => {
     positions: null,
     render_elem: 'map',
     aircraft_icon: '/assets/img/acars/aircraft.png',
+    flown_route_color: ACTUAL_ROUTE_COLOR,
     units: 'nmi',
   }, _opts);
 
@@ -67,7 +67,7 @@ export default (_opts) => {
     layerSelFlight = new L.Geodesic([], {
       weight: 5,
       opacity: 0.9,
-      color: ACTUAL_ROUTE_COLOR,
+      color: opts.flown_route_color,
       wrap: false,
     }).addTo(map);
 
