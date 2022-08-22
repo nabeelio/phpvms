@@ -15,9 +15,12 @@
       actual_route_line: {!! json_encode($map_features['actual_route_line']) !!},
       actual_route_points: {!! json_encode($map_features['actual_route_points']) !!},
       aircraft_icon: '{!! public_asset('/assets/img/acars/aircraft.png') !!}',
+      flown_route_color: '#067ec1',
+      circle_color: '#056093',
+      flightplan_route_color: '#8B008B',
       leafletOptions: {
         scrollWheelZoom: false,
-      }
+      },
     });
   </script>
 @endsection
