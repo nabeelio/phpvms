@@ -127,7 +127,7 @@
               </div>
 
               {{-- Prepare Form Fields For SimBrief --}}
-                <input type="hidden" name="acdata" value="{'paxwgt':{{ round($pax_weight + $bag_weight) }}}">
+                <input type="hidden" name="acdata" value="{'paxwgt':{{ round($pax_weight) }}, 'bagwgt': {{ round($bag_weight) }}}">
                 @if($tpaxfig)
                   <input type="hidden" name="pax" value="{{ $tpaxfig }}">
                 @elseif(!$tpaxfig && $tcargoload)

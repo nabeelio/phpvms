@@ -116,6 +116,7 @@ and being mindful of the rivets bindings
       aircraft_icon: '{!! public_asset('/assets/img/acars/aircraft.png') !!}',
       refresh_interval: {{ setting('acars.update_interval', 60) }},
       units: '{{ setting('units.distance') }}',
+      flown_route_color: '#067ec1',
       leafletOptions: {
         scrollWheelZoom: false,
       }

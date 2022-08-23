@@ -27,20 +27,6 @@ export const onFeaturePointClick = (feature, layer) => {
   layer.bindPopup(popup_html);
 };
 
-/**
- * Show each point as a marker
- * @param feature
- * @param latlng
- * @returns {*}
- */
-export const pointToLayer = (feature, latlng) => leaflet.circleMarker(latlng, {
-  radius: 5,
-  fillColor: CIRCLE_COLOR,
-  color: '#000',
-  weight: 1,
-  opacity: 1,
-  fillOpacity: 0.8,
-});
 
 /**
  *
@@ -57,11 +43,29 @@ export default (_opts) => {
     live_map: false,
     aircraft_icon: '/assets/img/acars/aircraft.png',
     refresh_interval: 10,
+    flown_route_color: ACTUAL_ROUTE_COLOR,
+    circle_color: CIRCLE_COLOR,
+    flightplan_route_color: PLAN_ROUTE_COLOR,
     metar_wms: {
       url: '',
       params: {},
     },
   }, _opts);
+
+  /**
+   * Show each point as a marker
+   * @param feature
+   * @param latlng
+   * @returns {*}
+   */
+  const pointToLayer = (feature, latlng) => leaflet.circleMarker(latlng, {
+    radius: 5,
+    fillColor: opts.circle_color,
+    color: '#000',
+    weight: 1,
+    opacity: 1,
+    fillOpacity: 0.8,
+  });
 
   const aircraftIcon = leaflet.icon({
     iconUrl: opts.aircraft_icon,
@@ -79,7 +83,7 @@ export default (_opts) => {
   const plannedRouteLayer = new L.Geodesic([], {
     weight: 4,
     opacity: 0.9,
-    color: PLAN_ROUTE_COLOR,
+    color: opts.flightplan_route_color,
     steps: 50,
     wrap: false,
   }).addTo(map);
@@ -98,7 +102,7 @@ export default (_opts) => {
       onEachFeature: onFeaturePointClick,
       pointToLayer,
       style: {
-        color: PLAN_ROUTE_COLOR,
+        color: opts.flightplan_route_color,
         weight: 3,
         opacity: 0.65,
       },
@@ -115,7 +119,7 @@ export default (_opts) => {
     const actualRouteLayer = new L.Geodesic([], {
       weight: 3,
       opacity: 0.9,
-      color: ACTUAL_ROUTE_COLOR,
+      color: opts.flown_route_color,
       steps: 50,
       wrap: false,
     }).addTo(map);
@@ -134,7 +138,7 @@ export default (_opts) => {
       onEachFeature: onFeaturePointClick,
       pointToLayer,
       style: {
-        color: ACTUAL_ROUTE_COLOR,
+        color: opts.flown_route_color,
         weight: 3,
         opacity: 0.65,
       },
