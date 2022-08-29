@@ -18,7 +18,7 @@ class AirportImporter extends ImportExport
      */
     public static $columns = [
         'icao'                 => 'required',
-        'iata'                 => 'required',
+        'iata'                 => 'nullable',
         'name'                 => 'required',
         'location'             => 'nullable',
         'country'              => 'nullable',
