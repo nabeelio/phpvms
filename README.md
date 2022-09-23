@@ -37,9 +37,6 @@ A full development environment can be brought up using Docker, without having to
 ```bash
 make docker-test
 
-# **OR** with docker-compose directly
-
-docker-compose -f docker-compose.yml -f docker-compose.dev.yml up
 ```
 
 Then go to `http://localhost`. If you're using dnsmasq, the `app` container is listening on `phpvms.test`, or you can add to your `/etc/hosts` file:
@@ -48,14 +45,29 @@ Then go to `http://localhost`. If you're using dnsmasq, the `app` container is l
 127.0.0.1   phpvms.test
 ```
 
-The `docker-compose.local.yml` overrides the `app` section in `docker-compose.yml`. The standard `docker-compose.yml` can be used if you want to deploy from the image, or as a template for your own Dockerized deployments.
+### Accessing npm or composer with Docker
+
+You can access to npm and composer by going into the Docker comtainer:
+
+```
+$ docker compose -f docker-compose.dev.yml exec -it app /bin/sh
+/var/www #
+```
+
+Run `composer install` if this is your first bootup of the Docker environment
+
 
 ### Building JS/CSS assets
 
-Yarn is required, run:
+Install frontend dependencies:
+
+```
+npm install
+```
+
+Build all of the assets according to the webpack file:
 
 ```bash
 make build-assets
 ```
 
-This will build all of the assets according to the webpack file.

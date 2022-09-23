@@ -1,6 +1,5 @@
 #
-# Run with either `make docker-test` or the following Docker command:
-# docker-compose -f docker-compose.yml -f docker-compose.dev.yml up
+# Run with `make docker-test`
 #
 ---
 services:
@@ -54,3 +53,12 @@ services:
       - ./resources/docker/mysql:/etc/mysql/conf.d
     ports:
       - 3306:3306
+
+  redis:
+    image: redis:5.0.4-alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - ./storage/docker/redis:/data
+    ports:
+      - 6379:6379
+    restart: always
