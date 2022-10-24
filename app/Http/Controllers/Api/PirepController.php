@@ -119,8 +119,6 @@ class PirepController extends Controller
         $request_fields = $request->input('fields');
         if (array_key_exists('fields', $request_fields)) {
             $request_fields = $request_fields['fields'];
-        } else {
-            return [];
         }
 
         $pirep_fields = [];
