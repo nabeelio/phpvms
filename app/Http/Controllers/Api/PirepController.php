@@ -117,16 +117,13 @@ class PirepController extends Controller
         }
 
         $request_fields = $request->input('fields');
+        if (array_key_exists('fields', $request_fields)) {
+            $request_fields = $request_fields['fields'];
+        } else {
+            return [];
+        }
 
         $pirep_fields = [];
-        $fillable = (new PirepFieldValue())->getFillable();
-        if (!empty(array_diff($fillable, $request_fields))) {
-            if (array_key_exists('fields', $request_fields)) {
-                $request_fields = $request->input('fields')['fields'];
-            } else {
-                return [];
-            }
-        }
         foreach ($request_fields as $field_name => $field_value) {
             $pirep_fields[] = new PirepFieldValue([
                 'name'   => $field_name,
