@@ -120,7 +120,7 @@ class PirepController extends Controller
 
         $pirep_fields = [];
         $fillable = (new PirepFieldValue())->getFillable();
-        if (! empty(array_diff($fillable, $request_fields))) {
+        if (!empty(array_diff($fillable, $request_fields))) {
             if (array_key_exists('fields', $request_fields)) {
                 $request_fields = $request->input('fields')['fields'];
             } else {
