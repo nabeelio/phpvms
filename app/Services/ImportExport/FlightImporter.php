@@ -124,22 +124,10 @@ class FlightImporter extends ImportExport
         }
 
         // Create/check that they exist
-        $process_dep = $this->processAirport($row['dpt_airport']);
-        if (is_null($process_dep)) {
-            $this->log('Could not import row '.$index.'. Departure Airport not found!');
-            return false;
-        }
-        $process_arr = $this->processAirport($row['arr_airport']);
-        if (is_null($process_arr)) {
-            $this->log('Could not import row '.$index.'. Arrival Airport not found!');
-            return false;
-        }
+        $this->processAirport($row['dpt_airport']);
+        $this->processAirport($row['arr_airport']);
         if ($row['alt_airport']) {
-            $process_alt = $this->processAirport($row['alt_airport']);
-            if (is_null($process_alt)) {
-                $this->log('Could not import row '.$index.'. Alternate Airport not found!');
-                return false;
-            }
+            $this->processAirport($row['alt_airport']);
         }
 
         // Check/calculate the distance
@@ -210,7 +198,7 @@ class FlightImporter extends ImportExport
      *
      * @return Airport
      */
-    protected function processAirport($airport): Airport|null
+    protected function processAirport($airport): Airport
     {
         return $this->airportSvc->lookupAirportIfNotFound($airport);
     }
