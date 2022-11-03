@@ -72,16 +72,18 @@
         </div>
       </div>
 
-      <div class="row">
-        <div class="col-12">
-          <div class="progress" style="margin: 20px 0;">
-            <div class="progress-bar progress-bar-success" role="progressbar"
-                 aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"
-                 style="width: {{$pirep->progress_percent}}%;">
+      @if($pirep->distance != "0" || !$pirep->distance)
+        <div class="row">
+          <div class="col-12">
+            <div class="progress" style="margin: 20px 0;">
+              <div class="progress-bar progress-bar-success" role="progressbar"
+                  aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"
+                  style="width: {{$pirep->progress_percent}}%;">
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      @endif
 
       <div class="row">
         <div class="col-12">
