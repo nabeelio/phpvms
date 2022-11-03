@@ -72,7 +72,7 @@
         </div>
       </div>
 
-      @if($pirep->distance || $pirep->distance !== "0")
+      @if(!empty($pirep->distance))
         <div class="row">
           <div class="col-12">
             <div class="progress" style="margin: 20px 0;">
