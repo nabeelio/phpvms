@@ -116,13 +116,6 @@ class FlightImporter extends ImportExport
         $flight->setAttribute('flight_type', $flight_type);
         $flight->setAttribute('active', get_truth_state($row['active']));
 
-        try {
-            $flight->save();
-        } catch (\Exception $e) {
-            $this->errorLog('Error in row '.$index.': '.$e->getMessage());
-            return false;
-        }
-
         // Create/check that they exist
         $process_dep = $this->processAirport($row['dpt_airport']);
         if (is_null($process_dep)) {
@@ -140,6 +133,13 @@ class FlightImporter extends ImportExport
                 $this->log('Could not import row '.$index.'. Alternate Airport not found!');
                 return false;
             }
+        }
+
+        try {
+            $flight->save();
+        } catch (\Exception $e) {
+            $this->errorLog('Error in row '.$index.': '.$e->getMessage());
+            return false;
         }
 
         // Check/calculate the distance
