@@ -9,6 +9,7 @@
     <th>Arr Time</th>
     <th>Notes</th>
     <th style="text-align: center;">Active</th>
+    <th style="text-align: center;">Visible</th>
     <th colspan="3" style="text-align: right;">Action</th>
     </thead>
     <tbody>
@@ -35,6 +36,13 @@
             <span class="label label-success">@lang('common.active')</span>
           @else
             <span class="label label-default">@lang('common.inactive')</span>
+          @endif
+        </td>
+        <td style="text-align: center;">
+          @if($flight->visible == 1)
+            <span class="text-success"><i class="fas fa-check fa2x" title="Visible"></i></span>
+          @else
+            <span class="text-danger"><i class="fas fa-times fa2x" title="Hidden"></i></span>
           @endif
         </td>
         <td style="text-align: right;">
