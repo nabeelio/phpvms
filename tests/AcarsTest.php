@@ -19,7 +19,6 @@ use App\Repositories\SettingRepository;
 use App\Support\Utils;
 use Illuminate\Support\Collection;
 use Illuminate\Testing\TestResponse;
-
 use function count;
 use function random_int;
 
@@ -74,7 +73,7 @@ class AcarsTest extends TestCase
 
     protected function getPirep(string $pirep_id): array
     {
-        return $this->get('/api/pireps/' . $pirep_id)->assertOk()->json('data');
+        return $this->get('/api/pireps/'.$pirep_id)->assertOk()->json('data');
     }
 
     /**
@@ -88,14 +87,14 @@ class AcarsTest extends TestCase
          * INVALID AIRLINE_ID FIELD
          */
         $this->createPirepResponse([
-            '_airline_id' => Airline::factory()->create()->id,
-            'aircraft_id' => Aircraft::factory()->create()->id,
-            'dpt_airport_id' =>  $airportICAO = Airport::factory()->create()->icao,
-            'arr_airport_id' => $airportICAO,
-            'flight_number' => '6000',
-            'level' => 38000,
-            'planned_flight_time' => 120,
-            'route' => 'POINTA POINTB'
+            '_airline_id'                           => Airline::factory()->create()->id,
+            'aircraft_id'                           => Aircraft::factory()->create()->id,
+            'dpt_airport_id'                   =>  $airportICAO = Airport::factory()->create()->icao,
+            'arr_airport_id'                    => $airportICAO,
+            'flight_number'                   => '6000',
+            'level'                                    => 38000,
+            'planned_flight_time'        => 120,
+            'route'                                  => 'POINTA POINTB'
         ])
             ->assertJsonValidationErrorFor('airline_id')
             ->assertStatus(400);
@@ -113,15 +112,15 @@ class AcarsTest extends TestCase
         $aircraftID = Aircraft::factory()->create(['airport_id' => Airport::factory()->create()->id])->id;
 
         $this->createPirepResponse([
-            'airline_id' => Airline::factory()->create()->id,
-            'aircraft_id' => $aircraftID,
-            'dpt_airport_id' => $airportICAO,
-            'arr_airport_id' => $airportICAO,
-            'flight_number' => '6000',
-            'level' => 38000,
+            'airline_id'                     => Airline::factory()->create()->id,
+            'aircraft_id'                   => $aircraftID,
+            'dpt_airport_id'            => $airportICAO,
+            'arr_airport_id'             => $airportICAO,
+            'flight_number'            => '6000',
+            'level'                             => 38000,
             'planned_flight_time' => 120,
-            'route' => 'POINTA POINTB',
-            'source_name' => 'Tests'
+            'route'                            => 'POINTA POINTB',
+            'source_name'             => 'Tests'
         ])->assertStatus(400)
             ->assertJsonPath('title', 'The aircraft is not at the departure airport');
     }
@@ -131,15 +130,15 @@ class AcarsTest extends TestCase
         $this->user = User::factory()->create();
 
         $this->createPirepResponse([
-            'airline_id' => Airline::factory()->create()->id,
-            'aircraft_id' => Aircraft::factory()->create()->id,
-            'dpt_airport_id' => null,
-            'arr_airport_id' => null,
-            'flight_number' => '6000',
-            'level' => 38000,
+            'airline_id'                      => Airline::factory()->create()->id,
+            'aircraft_id'                    => Aircraft::factory()->create()->id,
+            'dpt_airport_id'            => null,
+            'arr_airport_id'             => null,
+            'flight_number'            => '6000',
+            'level'                             => 38000,
             'planned_flight_time' => 120,
-            'source_name' => 'ACARSTESTS',
-            'route' => 'POINTA POINTB',
+            'source_name'             => 'ACARSTESTS',
+            'route'                            => 'POINTA POINTB',
         ])->assertStatus(400)
             ->assertJsonValidationErrors(['dpt_airport_id', 'arr_airport_id'])
             ->assertJsonPath('details', 'A departure airport is required, An arrival airport is required');
@@ -156,15 +155,15 @@ class AcarsTest extends TestCase
         $this->user = User::factory()->create(['curr_airport_id' => 'KJFK']);
 
         $this->createPirepResponse([
-            'airline_id' => Airline::factory()->create()->id,
-            'aircraft_id' => Aircraft::factory()->create()->id,
-            'dpt_airport_id' => $airportICAO = Airport::factory()->create()->icao,
-            'arr_airport_id' => $airportICAO,
-            'flight_number' => '6000',
-            'level' => 38000,
+            'airline_id'                     => Airline::factory()->create()->id,
+            'aircraft_id'                   => Aircraft::factory()->create()->id,
+            'dpt_airport_id'            => $airportICAO = Airport::factory()->create()->icao,
+            'arr_airport_id'             => $airportICAO,
+            'flight_number'            => '6000',
+            'level'                             => 38000,
             'planned_flight_time' => 120,
-            'route' => 'POINTA POINTB',
-            'source_name' => 'phpunit',
+            'route'                            => 'POINTA POINTB',
+            'source_name'             => 'phpunit',
         ])->assertStatus(400)
             ->assertJsonPath('error.message', UserNotAtAirport::MESSAGE);
     }
@@ -182,15 +181,15 @@ class AcarsTest extends TestCase
         $this->user = User::factory()->create(['curr_airport_id' => 'KJFK']);
 
         $this->createPirepResponse([
-            'airline_id' => Airline::factory()->create()->id,
-            'aircraft_id' => Aircraft::factory()->create(['airport_id' => 'KAUS'])->id,
-            'dpt_airport_id' => $airportICAO = Airport::factory()->create()->icao,
-            'arr_airport_id' => $airportICAO,
-            'flight_number' => '6000',
-            'level' => 38000,
+            'airline_id'                      => Airline::factory()->create()->id,
+            'aircraft_id'                    => Aircraft::factory()->create(['airport_id' => 'KAUS'])->id,
+            'dpt_airport_id'            => $airportICAO = Airport::factory()->create()->icao,
+            'arr_airport_id'             => $airportICAO,
+            'flight_number'            => '6000',
+            'level'                             => 38000,
             'planned_flight_time' => 120,
-            'route' => 'POINTA POINTB',
-            'source_name' => 'phpunit',
+            'route'                            => 'POINTA POINTB',
+            'source_name'             => 'phpunit',
         ])->assertStatus(400)
             ->assertJsonPath('error.message', AircraftNotAtAirport::MESSAGE);
     }
@@ -212,22 +211,22 @@ class AcarsTest extends TestCase
         $this->user = User::factory()->create(['rank_id' => $rank->id]);
 
         $pirepID = $this->createPirepResponse([
-            'airline_id' => Airline::factory()->create()->id,
-            'aircraft_id' => $aircraft->id,
-            'dpt_airport_id' => $airportICAO = Airport::factory()->create()->icao,
-            'arr_airport_id' => $airportICAO,
-            'flight_number' => '6000',
-            'level' => 38000,
-            'planned_distance' => 400,
+            'airline_id'                     => Airline::factory()->create()->id,
+            'aircraft_id'                   => $aircraft->id,
+            'dpt_airport_id'            => $airportICAO = Airport::factory()->create()->icao,
+            'arr_airport_id'             => $airportICAO,
+            'flight_number'            => '6000',
+            'level'                             => 38000,
+            'planned_distance'     => 400,
             'planned_flight_time' => 120,
-            'route' => 'POINTA POINTB',
-            'source_name' => 'UnitTest',
-            'fields' => [
+            'route'                            => 'POINTA POINTB',
+            'source_name'             => 'UnitTest',
+            'fields'                            => [
                 'custom_field' => 'custom_value',
             ],
             'fares' => [
                 [
-                    'id' => $fare->id,
+                    'id'        => $fare->id,
                     'count' => $fare->capacity,
                 ],
             ],
@@ -250,7 +249,7 @@ class AcarsTest extends TestCase
         $this->assertEquals('custom_value', $field['value']);
 
         //Try to update fields
-        $this->post('/api/pireps/' . $pirepID . '/update', [
+        $this->post('/api/pireps/'.$pirepID.'/update', [
             'fares' => [
                 [
                     'id'    => $fare->id,
@@ -265,10 +264,10 @@ class AcarsTest extends TestCase
         $this->assertEquals($fare->capacity, $saved_fare['count']);
 
         //Try cancelling the PIREP now
-        $this->put('/api/pireps/' . $pirepID . '/cancel', [])->assertOk();
+        $this->put('/api/pireps/'.$pirepID.'/cancel', [])->assertOk();
 
         // Read it
-        $this->get('/api/pireps/' . $pirepID)
+        $this->get('/api/pireps/'.$pirepID)
             ->assertOk()
             ->assertJsonPath('data.state', PirepState::CANCELLED);
     }
@@ -283,21 +282,21 @@ class AcarsTest extends TestCase
         $this->user = User::factory()->create(['rank_id' => $rank->id]);
 
         $pirep = $this->createPirepResponse([
-            'airline_id' => Airline::factory()->create()->id,
-            'aircraft_id' => $aircraft->id,
-            'dpt_airport_id' => $airportICAO = Airport::factory()->create()->icao,
-            'arr_airport_id' => $airportICAO,
-            'flight_number' => '6000',
-            'level' => 38000,
-            'planned_distance' => 400,
+            'airline_id'                     => Airline::factory()->create()->id,
+            'aircraft_id'                   => $aircraft->id,
+            'dpt_airport_id'           => $airportICAO = Airport::factory()->create()->icao,
+            'arr_airport_id'            => $airportICAO,
+            'flight_number'            => '6000',
+            'level'                             => 38000,
+            'planned_distance'     => 400,
             'planned_flight_time' => 120,
-            'route' => 'POINTA POINTB',
-            'source_name' => 'UnitTest',
+            'route'                            => 'POINTA POINTB',
+            'source_name'             => 'UnitTest',
         ])->assertStatus(200)
             ->json('data');
 
         //Try to update fields
-        $this->post('/api/pireps/' . $pirep['id'] . '/update', ['dpt_airport_id' => ''])
+        $this->post('/api/pireps/'.$pirep['id'].'/update', ['dpt_airport_id' => ''])
             ->assertStatus(400)
             ->assertJsonPath('details', 'A departure airport is required')
             ->json('details');
@@ -305,6 +304,7 @@ class AcarsTest extends TestCase
 
     /**
      * Post a PIREP into a PREFILE state and post ACARS
+     *
      * @throws \Exception
      */
     public function testAcarsUpdates()
@@ -319,18 +319,18 @@ class AcarsTest extends TestCase
         $this->user = User::factory()->create(['rank_id' => $rank->id]);
 
         $pirep_create = [
-            'airline_id' => Airline::factory()->create()->id,
-            'aircraft_id' => $aircraft->id,
-            'dpt_airport_id' => $airportICAO = Airport::factory()->create()->icao,
-            'arr_airport_id' => $airportICAO,
-            'flight_number' => '6000',
-            'level' => 38000,
-            'planned_distance' => 400,
+            'airline_id'                      => Airline::factory()->create()->id,
+            'aircraft_id'                    => $aircraft->id,
+            'dpt_airport_id'            => $airportICAO = Airport::factory()->create()->icao,
+            'arr_airport_id'             => $airportICAO,
+            'flight_number'            => '6000',
+            'level'                             => 38000,
+            'planned_distance'     => 400,
             'planned_flight_time' => 120,
-            'status' => PirepStatus::BOARDING,
-            'route' => 'POINTA POINTB',
-            'source_name' => 'AcarsTest::testAcarsUpdates',
-            'fields' => [
+            'status'                          => PirepStatus::BOARDING,
+            'route'                            => 'POINTA POINTB',
+            'source_name'             => 'AcarsTest::testAcarsUpdates',
+            'fields'                           => [
                 'custom_field' => 'custom_value',
             ],
         ];
@@ -358,11 +358,11 @@ class AcarsTest extends TestCase
         $this->assertHasKeys($pirep['planned_distance'], ['mi', 'nmi', 'km']);
 
         //Update the custom field
-        $this->post('/api/pireps/' . $pirep_id . '/update', [
+        $this->post('/api/pireps/'.$pirep_id.'/update', [
             'flight_time' => 60,
-            'distance' => 20,
-            'status' => PirepStatus::AIRBORNE,
-            'fields' => [
+            'distance'     => 20,
+            'status'         => PirepStatus::AIRBORNE,
+            'fields'          => [
                 'custom_field' => 'custom_value_changed',
             ],
         ]);
@@ -371,7 +371,7 @@ class AcarsTest extends TestCase
         $this->assertEquals('custom_value_changed', $pirep['fields']['custom_field']);
 
         //Add some position updates
-        $uri = '/api/pireps/' . $pirep_id . '/acars/position';
+        $uri = '/api/pireps/'.$pirep_id.'/acars/position';
 
         // Test missing positions field
         // Post an ACARS update
@@ -400,7 +400,7 @@ class AcarsTest extends TestCase
             ->assertJsonPath('data.0.lon', fn (float $longitude) => round($longitude, 2) === round($acars['lon'], 2));
 
         // Update fields standalone
-        $this->post('/api/pireps/' . $pirep_id . '/fields', [
+        $this->post('/api/pireps/'.$pirep_id.'/fields', [
             'fields' => [
                 'Departure Gate' => 'G26',
             ],
@@ -420,7 +420,7 @@ class AcarsTest extends TestCase
 
 
         //File the PIREP
-        $filePirepUri = '/api/pireps/' . $pirep_id . '/file';
+        $filePirepUri = '/api/pireps/'.$pirep_id.'/file';
         $this->post($filePirepUri, [])
             ->assertJsonValidationErrors(['flight_time'])
             ->assertStatus(400); // missing field
@@ -436,7 +436,7 @@ class AcarsTest extends TestCase
         ])->assertOk();
 
         // Add a comment
-        $commentUri = '/api/pireps/' . $pirep_id . '/comments';
+        $commentUri = '/api/pireps/'.$pirep_id.'/comments';
         $this->post($commentUri, ['comment' => 'A comment'])->assertCreated();
         $this->get($commentUri)->assertOk(200)->assertJsonCount(1);
     }
@@ -456,18 +456,18 @@ class AcarsTest extends TestCase
 
         // Get the PIREP ID
         $pirep_id = $this->createPirepResponse([
-            'airline_id' => Airline::factory()->create()->id,
-            'aircraft_id' => $aircraft->id,
+            'airline_id'          => Airline::factory()->create()->id,
+            'aircraft_id'        => $aircraft->id,
             'dpt_airport_id' => $airportICAO = Airport::factory()->create()->icao,
-            'arr_airport_id' => $airportICAO,
+            'arr_airport_id'  => $airportICAO,
             'flight_number'  => '6000',
-            'level' => 38000,
-            'source_name' => 'AcarsTest::testFilePirepApi',
+            'level'                   => 38000,
+            'source_name'   => 'AcarsTest::testFilePirepApi',
         ])->assertOk()
             ->json('data.id');
 
         // File the PIREP now
-        $filePirepUri = '/api/pireps/' . $pirep_id . '/file';
+        $filePirepUri = '/api/pireps/'.$pirep_id.'/file';
         $this->post($filePirepUri, [
             'flight_time' => 130,
             'fuel_used'   => 8000.19,
@@ -475,7 +475,7 @@ class AcarsTest extends TestCase
         ])->assertStatus(200);
 
         // Check the block_off_time and block_on_time being set
-        $this->get('/api/pireps/' . $pirep_id)
+        $this->get('/api/pireps/'.$pirep_id)
             ->assertJsonPath('data.state', PirepState::PENDING)
             ->assertJsonPath('data.block_off_time', fn (?string $dateTime) => $dateTime !== null)
             ->assertJsonPath('data.block_on_time', fn (?string $dateTime) => $dateTime !== null);
@@ -505,15 +505,15 @@ class AcarsTest extends TestCase
         $this->user = User::factory()->create(['rank_id' => $rank->id]);
 
         $data = [
-            'airline_id' => Airline::factory()->create()->id,
-            'aircraft_id' => $subfleetB['aircraft']->random()->id,
-            'dpt_airport_id' => $airportICAO = Airport::factory()->create()->icao,
-            'arr_airport_id' => $airportICAO,
-            'flight_number' => '6000',
-            'level' => 38000,
+            'airline_id'                     => Airline::factory()->create()->id,
+            'aircraft_id'                   => $subfleetB['aircraft']->random()->id,
+            'dpt_airport_id'           => $airportICAO = Airport::factory()->create()->icao,
+            'arr_airport_id'            => $airportICAO,
+            'flight_number'            => '6000',
+            'level'                             => 38000,
             'planned_flight_time' => 120,
-            'route' => 'POINTA POINTB',
-            'source_name' => 'Unit test',
+            'route'                            => 'POINTA POINTB',
+            'source_name'             => 'Unit test',
         ];
 
         $this->createPirepResponse($data)->assertStatus(400);
@@ -541,15 +541,15 @@ class AcarsTest extends TestCase
         $this->user = User::factory()->create(['rank_id' => $rank->id]);
 
         $this->createPirepResponse([
-            'airline_id' => Airline::factory()->create()->id,
-            'aircraft_id' => $subfleetB['aircraft']->random()->id,
-            'dpt_airport_id' => $airportICAO = Airport::factory()->create()->icao,
-            'arr_airport_id' => $airportICAO,
-            'flight_number' => '6000',
-            'level' => 38000,
+            'airline_id'                      => Airline::factory()->create()->id,
+            'aircraft_id'                    => $subfleetB['aircraft']->random()->id,
+            'dpt_airport_id'            => $airportICAO = Airport::factory()->create()->icao,
+            'arr_airport_id'             => $airportICAO,
+            'flight_number'            => '6000',
+            'level'                             => 38000,
             'planned_flight_time' => 120,
-            'route' => 'POINTA POINTB',
-            'source_name' => 'Unit test',
+            'route'                            => 'POINTA POINTB',
+            'source_name'             => 'Unit test',
         ])->assertOk();
     }
 
@@ -564,7 +564,7 @@ class AcarsTest extends TestCase
             ->assertStatus(200)
             ->json('data.id');
 
-        $uri = '/api/pireps/' . $pirep_id . '/acars/position';
+        $uri = '/api/pireps/'.$pirep_id.'/acars/position';
 
         // Post an ACARS update
         $acars_count = random_int(5, 10);
@@ -611,7 +611,7 @@ class AcarsTest extends TestCase
         $pirep_id = $this->createPirepResponse($this->createPirep()->toArray())->assertOk()->json('data.id');
         $acars = Acars::factory()->make(['sim_time' => date('c')])->toArray();
 
-        $this->post('/api/pireps/' . $pirep_id . '/acars/position', ['positions' => [$acars]])->assertOk();
+        $this->post('/api/pireps/'.$pirep_id.'/acars/position', ['positions' => [$acars]])->assertOk();
     }
 
     /**
@@ -622,7 +622,7 @@ class AcarsTest extends TestCase
         $pirep_id = $this->createPirepResponse($this->createPirep()->toArray())->assertOk()->json('data.id');
 
         // Missing lat/lon
-        $uri = '/api/pireps/' . $pirep_id . '/route';
+        $uri = '/api/pireps/'.$pirep_id.'/route';
         $this->post($uri, ['order' => 1, 'name' => 'NAVPOINT'])->assertStatus(400);
 
         $this->post($uri, [
@@ -643,14 +643,14 @@ class AcarsTest extends TestCase
     {
         $pirep_id = $this->createPirepResponse($this->createPirep()->toArray())->json('data.id');
 
-        $this->post('/api/pireps/' . $pirep_id . '/acars/logs', [
+        $this->post('/api/pireps/'.$pirep_id.'/acars/logs', [
             'logs' => [
                 ['log' => Acars::factory()->make()->log],
             ],
         ])->assertOk()
             ->assertJsonPath('count', 1);
 
-        $this->post('/api/pireps/' . $pirep_id . '/acars/events', [
+        $this->post('/api/pireps/'.$pirep_id.'/acars/events', [
             'events' => [
                 ['event' => Acars::factory()->make()->log],
             ],
@@ -661,7 +661,7 @@ class AcarsTest extends TestCase
     public function testAcarsRoutePost()
     {
         $pirep_id = $this->createPirepResponse($this->createPirep()->toArray())->assertOk()->json('data.id');
-        $uri = '/api/pireps/' . $pirep_id . '/route';
+        $uri = '/api/pireps/'.$pirep_id.'/route';
 
         $order = 1;
         $post_route = [];
@@ -670,11 +670,11 @@ class AcarsTest extends TestCase
 
         foreach ($route as $position) {
             $post_route[] = [
-                'order' => $order,
-                'id'    => $position->id,
+                'order'  => $order,
+                'id'        => $position->id,
                 'name'  => $position->id,
-                'lat'   => $position->lat,
-                'lon'   => $position->lon,
+                'lat'       => $position->lat,
+                'lon'      => $position->lon,
             ];
 
             $order++;
