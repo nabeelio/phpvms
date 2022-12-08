@@ -81,7 +81,8 @@
         "mockery/mockery": "^1.5.0",
         "nunomaduro/collision": "^v6.1.0",
         "phpunit/phpunit": "~9.5.14",
-        "sempro/phpunit-pretty-print": "^1.4.0"
+        "sempro/phpunit-pretty-print": "^1.4.0",
+        "laravel/pint": "^1.2"
     },
     "autoload": {
         "classmap": [
