@@ -80,7 +80,7 @@ test:
 
 .PHONY: phpcs
 phpcs:
-	@PHP_CS_FIXER_IGNORE_ENV=1 vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php -v --dry-run --diff --using-cache=no
+	@vendor/bin/pint
 
 .PHONY: replay-acars
 replay-acars:
