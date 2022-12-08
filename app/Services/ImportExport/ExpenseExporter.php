@@ -26,8 +26,7 @@ class ExpenseExporter extends ImportExport
     /**
      * Import a flight, parse out the different rows
      *
-     * @param Expense $expense
-     *
+     * @param  Expense  $expense
      * @return array
      */
     public function export($expense): array
@@ -51,7 +50,7 @@ class ExpenseExporter extends ImportExport
             $ret['ref_model_id'] = '';
         } else {
             $obj = $expense->getReferencedObject();
-            if (!$obj) { // bail out
+            if (! $obj) { // bail out
                 return $ret;
             }
 

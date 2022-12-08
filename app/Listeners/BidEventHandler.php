@@ -25,7 +25,7 @@ class BidEventHandler extends Listener
     /**
      * When a PIREP is filed, remove any bids
      *
-     * @param PirepFiled $event
+     * @param  PirepFiled  $event
      *
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException

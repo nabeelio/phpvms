@@ -37,6 +37,7 @@ class Timezonelist
      * Whitespace seperate
      */
     const WHITESPACE_SEP = '&nbsp;&nbsp;&nbsp;&nbsp;';
+
     /**
      * Popular timezones
      *
@@ -46,31 +47,31 @@ class Timezonelist
         'GMT' => 'GMT timezone',
         'UTC' => 'UTC timezone',
     ];
+
     /**
      * All continents of the world
      *
      * @var array
      */
     protected static $continents = [
-        'Africa'     => DateTimeZone::AFRICA,
-        'America'    => DateTimeZone::AMERICA,
+        'Africa' => DateTimeZone::AFRICA,
+        'America' => DateTimeZone::AMERICA,
         'Antarctica' => DateTimeZone::ANTARCTICA,
-        'Arctic'     => DateTimeZone::ARCTIC,
-        'Asia'       => DateTimeZone::ASIA,
-        'Atlantic'   => DateTimeZone::ATLANTIC,
-        'Australia'  => DateTimeZone::AUSTRALIA,
-        'Europe'     => DateTimeZone::EUROPE,
-        'Indian'     => DateTimeZone::INDIAN,
-        'Pacific'    => DateTimeZone::PACIFIC,
+        'Arctic' => DateTimeZone::ARCTIC,
+        'Asia' => DateTimeZone::ASIA,
+        'Atlantic' => DateTimeZone::ATLANTIC,
+        'Australia' => DateTimeZone::AUSTRALIA,
+        'Europe' => DateTimeZone::EUROPE,
+        'Indian' => DateTimeZone::INDIAN,
+        'Pacific' => DateTimeZone::PACIFIC,
     ];
 
     /**
      * Format to display timezones
      *
-     * @param string $timezone
-     * @param string $continent
-     * @param bool   $htmlencode
-     *
+     * @param  string  $timezone
+     * @param  string  $continent
+     * @param  bool  $htmlencode
      * @return string
      */
     public static function formatTimezone($timezone, $continent, $htmlencode = true)
@@ -79,6 +80,7 @@ class Timezonelist
             $time = new \DateTimeImmutable(null, new DateTimeZone($timezone));
         } catch (\Exception $e) {
             Log::error($e->getMessage());
+
             return '';
         }
 
@@ -95,20 +97,19 @@ class Timezonelist
     /**
      * Create a GMT timezone select element for form
      *
-     * @param string $name
-     * @param string $selected
-     * @param mixed  $attr
-     * @param bool   $htmlencode
+     * @param  string  $name
+     * @param  string  $selected
+     * @param  mixed  $attr
+     * @param  bool  $htmlencode
+     * @return string
      *
      * @throws \Exception
-     *
-     * @return string
      */
     public static function create($name, $selected = '', $attr = '', $htmlencode = true)
     {
         // Attributes for select element
         $attrSet = '';
-        if (!empty($attr)) {
+        if (! empty($attr)) {
             if (\is_array($attr)) {
                 foreach ($attr as $attr_name => $attr_value) {
                     $attrSet .= ' '.$attr_name.'="'.$attr_value.'"';
@@ -143,14 +144,14 @@ class Timezonelist
         }
         // end select element
         $listbox .= '</select>';
+
         return $listbox;
     }
 
     /**
      * Create a timezone array
      *
-     * @param bool $htmlencode
-     *
+     * @param  bool  $htmlencode
      * @return mixed
      */
     public static function toArray($htmlencode = false)
@@ -167,6 +168,7 @@ class Timezonelist
                 $list[$continent][$timezone] = self::formatTimezone($timezone, $continent, $htmlencode);
             }
         }
+
         return $list;
     }
 }

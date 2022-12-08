@@ -19,7 +19,7 @@ class PirepAccepted extends Notification implements ShouldQueue
     /**
      * Create a new notification instance.
      *
-     * @param \App\Models\Pirep $pirep
+     * @param  \App\Models\Pirep  $pirep
      */
     public function __construct(Pirep $pirep)
     {
@@ -42,15 +42,14 @@ class PirepAccepted extends Notification implements ShouldQueue
     /**
      * Get the array representation of the notification.
      *
-     * @param mixed $notifiable
-     *
+     * @param  mixed  $notifiable
      * @return array
      */
     public function toArray($notifiable)
     {
         return [
             'pirep_id' => $this->pirep->id,
-            'user_id'  => $this->pirep->user_id,
+            'user_id' => $this->pirep->user_id,
         ];
     }
 }

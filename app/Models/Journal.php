@@ -79,7 +79,7 @@ class Journal extends Model
     }
 
     /**
-     * @param string $currency
+     * @param  string  $currency
      */
     public function setCurrency($currency)
     {
@@ -87,8 +87,7 @@ class Journal extends Model
     }
 
     /**
-     * @param Ledger $ledger
-     *
+     * @param  Ledger  $ledger
      * @return Journal
      */
     public function assignToLedger(Ledger $ledger)
@@ -109,8 +108,7 @@ class Journal extends Model
     }
 
     /**
-     * @param Journal $object
-     *
+     * @param  Journal  $object
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function transactionsReferencingObjectQuery($object)
@@ -124,12 +122,11 @@ class Journal extends Model
     /**
      * Get the credit only balance of the journal based on a given date.
      *
-     * @param Carbon $date
+     * @param  Carbon  $date
+     * @return Money
      *
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
-     *
-     * @return Money
      */
     public function getCreditBalanceOn(Carbon $date)
     {
@@ -143,12 +140,11 @@ class Journal extends Model
     /**
      * Get the balance of the journal based on a given date.
      *
-     * @param Carbon $date
+     * @param  Carbon  $date
+     * @return Money
      *
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
-     *
-     * @return Money
      */
     public function getBalanceOn(Carbon $date)
     {
@@ -159,10 +155,10 @@ class Journal extends Model
     /**
      * Get the balance of the journal as of right now, excluding future transactions.
      *
+     * @return Money
+     *
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
-     *
-     * @return Money
      */
     public function getCurrentBalance()
     {
@@ -172,10 +168,10 @@ class Journal extends Model
     /**
      * Get the balance of the journal.  This "could" include future dates.
      *
+     * @return Money
+     *
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
-     *
-     * @return Money
      */
     public function getBalance()
     {

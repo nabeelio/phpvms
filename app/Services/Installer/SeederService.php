@@ -18,6 +18,7 @@ class SeederService extends Service
     private DatabaseService $databaseSvc;
 
     private array $counters = [];
+
     private array $offsets = [];
 
     // Map an environment to a seeder directory, if we want to share
@@ -79,6 +80,7 @@ class SeederService extends Service
             })
             ->filter(function ($file) {
                 $info = pathinfo($file);
+
                 return $info['extension'] === 'yml';
             })
             ->each(function ($file) {
@@ -146,16 +148,16 @@ class SeederService extends Service
 
         $attrs = array_merge(
             [
-                'id'          => $id,
-                'key'         => $key,
-                'offset'      => $this->offsets[$group],
-                'order'       => $order,
-                'name'        => '',
-                'group'       => $group,
-                'value'       => $attrs['value'],
-                'default'     => $attrs['value'],
-                'options'     => '',
-                'type'        => 'hidden',
+                'id' => $id,
+                'key' => $key,
+                'offset' => $this->offsets[$group],
+                'order' => $order,
+                'name' => '',
+                'group' => $group,
+                'value' => $attrs['value'],
+                'default' => $attrs['value'],
+                'options' => '',
+                'type' => 'hidden',
                 'description' => '',
             ],
             $attrs
@@ -177,9 +179,9 @@ class SeederService extends Service
      * This way we don't need to mess with how to order things
      * When calling getNextOrderNumber(users) 31, will be returned, then 32, and so on
      *
-     * @param      $name
-     * @param null $offset
-     * @param int  $start_offset
+     * @param    $name
+     * @param  null  $offset
+     * @param  int  $start_offset
      */
     private function addCounterGroup($name, $offset = null, $start_offset = 0): void
     {
@@ -218,12 +220,11 @@ class SeederService extends Service
      * Get the next increment number from a group
      *
      * @param $group
-     *
      * @return int
      */
     private function getNextOrderNumber($group): int
     {
-        if (!\in_array($group, $this->counters, true)) {
+        if (! \in_array($group, $this->counters, true)) {
             $this->addCounterGroup($group);
         }
 
@@ -254,8 +255,9 @@ class SeederService extends Service
             $row = $all_settings->firstWhere('id', $id);
 
             // Doesn't exist in the table, quit early and say there is stuff pending
-            if (!$row) {
+            if (! $row) {
                 Log::info('Setting '.$id.' missing, update available');
+
                 return true;
             }
 
@@ -270,8 +272,9 @@ class SeederService extends Service
 
             // See if any of the options have changed
             if ($row->type === 'select') {
-                if (!empty($row->options) && $row->options !== $setting['options']) {
+                if (! empty($row->options) && $row->options !== $setting['options']) {
                     Log::info('Options for '.$id.' changed, update available');
+
                     return true;
                 }
             }
@@ -294,7 +297,7 @@ class SeederService extends Service
 
         foreach ($yml as $perm) {
             $row = $all_permissions->firstWhere('name', $perm['name']);
-            if (!$row) {
+            if (! $row) {
                 return true;
             }
 

@@ -23,6 +23,7 @@ use Symfony\Component\Yaml\Yaml;
 class DevCommands extends Command
 {
     protected $signature = 'phpvms {cmd} {param?}';
+
     protected $description = 'Developer commands';
 
     protected DatabaseService $dbSvc;
@@ -30,7 +31,7 @@ class DevCommands extends Command
     /**
      * DevCommands constructor.
      *
-     * @param DatabaseService $dbSvc
+     * @param  DatabaseService  $dbSvc
      */
     public function __construct(DatabaseService $dbSvc)
     {
@@ -46,27 +47,27 @@ class DevCommands extends Command
     {
         $command = trim($this->argument('cmd'));
 
-        if (!$command) {
+        if (! $command) {
             $this->error('No command specified!');
             exit();
         }
 
         $commands = [
-            'clear-acars'       => 'clearAcars',
-            'clear-users'       => 'clearUsers',
-            'compile-assets'    => 'compileAssets',
-            'db-attrs'          => 'dbAttrs',
-            'list-awards'       => 'listAwardClasses',
-            'live-flights'      => 'liveFlights',
-            'manual-insert'     => 'manualInsert',
-            'metar'             => 'getMetar',
+            'clear-acars' => 'clearAcars',
+            'clear-users' => 'clearUsers',
+            'compile-assets' => 'compileAssets',
+            'db-attrs' => 'dbAttrs',
+            'list-awards' => 'listAwardClasses',
+            'live-flights' => 'liveFlights',
+            'manual-insert' => 'manualInsert',
+            'metar' => 'getMetar',
             'recalculate-stats' => 'recalculateStats',
-            'reset-install'     => 'resetInstall',
-            'new-user-email'    => 'newUserEmail',
-            'xml-to-yaml'       => 'xmlToYaml',
+            'reset-install' => 'resetInstall',
+            'new-user-email' => 'newUserEmail',
+            'xml-to-yaml' => 'xmlToYaml',
         ];
 
-        if (!array_key_exists($command, $commands)) {
+        if (! array_key_exists($command, $commands)) {
             $this->error('Command not found!');
             exit();
         }
@@ -197,7 +198,7 @@ class DevCommands extends Command
     protected function getMetar(): void
     {
         $icao = $this->argument('param');
-        if (!$icao) {
+        if (! $icao) {
             $this->error('Enter an ICAO!');
             exit();
         }
@@ -215,7 +216,7 @@ class DevCommands extends Command
         $file = $this->argument('param');
         $this->info('Reading '.$file);
 
-        if (!file_exists($file)) {
+        if (! file_exists($file)) {
             $this->error('File '.$file.' doesn\'t exist');
             exit;
         }

@@ -17,7 +17,7 @@ class SettingsController extends Controller
     /**
      * SettingsController constructor.
      *
-     * @param SettingRepository $settingRepo
+     * @param  SettingRepository  $settingRepo
      */
     public function __construct(
         SettingRepository $settingRepo
@@ -28,8 +28,7 @@ class SettingsController extends Controller
     /**
      * Return all the airlines, paginated
      *
-     * @param Request $request
-     *
+     * @param  Request  $request
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index(Request $request)

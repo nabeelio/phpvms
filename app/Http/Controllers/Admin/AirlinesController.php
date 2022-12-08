@@ -16,13 +16,14 @@ use Prettus\Repository\Criteria\RequestCriteria;
 class AirlinesController extends Controller
 {
     private AirlineRepository $airlineRepo;
+
     private AirlineService $airlineSvc;
 
     /**
      * AirlinesController constructor.
      *
-     * @param AirlineRepository $airlinesRepo
-     * @param                   $airlineSvc
+     * @param  AirlineRepository  $airlinesRepo
+     * @param    $airlineSvc
      */
     public function __construct(AirlineRepository $airlinesRepo, AirlineService $airlineSvc)
     {
@@ -66,14 +67,14 @@ class AirlinesController extends Controller
         $this->airlineSvc->createAirline($input);
 
         Flash::success('Airlines saved successfully.');
+
         return redirect(route('admin.airlines.index'));
     }
 
     /**
      * Display the specified Airlines.
      *
-     * @param int $id
-     *
+     * @param  int  $id
      * @return mixed
      */
     public function show($id)
@@ -82,6 +83,7 @@ class AirlinesController extends Controller
 
         if (empty($airlines)) {
             Flash::error('Airlines not found');
+
             return redirect(route('admin.airlines.index'));
         }
 
@@ -93,8 +95,7 @@ class AirlinesController extends Controller
     /**
      * Show the form for editing the specified Airlines.
      *
-     * @param int $id
-     *
+     * @param  int  $id
      * @return Response
      */
     public function edit($id)
@@ -103,11 +104,12 @@ class AirlinesController extends Controller
 
         if (empty($airline)) {
             Flash::error('Airline not found');
+
             return redirect(route('admin.airlines.index'));
         }
 
         return view('admin.airlines.edit', [
-            'airline'   => $airline,
+            'airline' => $airline,
             'countries' => Countries::getSelectList(),
         ]);
     }
@@ -115,12 +117,11 @@ class AirlinesController extends Controller
     /**
      * Update the specified Airlines in storage.
      *
-     * @param int                  $id
-     * @param UpdateAirlineRequest $request
+     * @param  int  $id
+     * @param  UpdateAirlineRequest  $request
+     * @return Response
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
-     *
-     * @return Response
      */
     public function update($id, UpdateAirlineRequest $request)
     {
@@ -128,20 +129,21 @@ class AirlinesController extends Controller
 
         if (empty($airlines)) {
             Flash::error('Airlines not found');
+
             return redirect(route('admin.airlines.index'));
         }
 
         $airlines = $this->airlineRepo->update($request->all(), $id);
 
         Flash::success('Airlines updated successfully.');
+
         return redirect(route('admin.airlines.index'));
     }
 
     /**
      * Remove the specified Airlines from storage.
      *
-     * @param int $id
-     *
+     * @param  int  $id
      * @return Response
      */
     public function destroy($id)
@@ -150,17 +152,20 @@ class AirlinesController extends Controller
 
         if (empty($airline)) {
             Flash::error('Airlines not found');
+
             return redirect(route('admin.airlines.index'));
         }
 
-        if (!$this->airlineSvc->canDeleteAirline($airline)) {
+        if (! $this->airlineSvc->canDeleteAirline($airline)) {
             Flash::error('Airlines cannot be deleted; flights/PIREPs/subfleets exist');
+
             return redirect(route('admin.airlines.index'));
         }
 
         $this->airlineRepo->delete($id);
 
         Flash::success('Airlines deleted successfully.');
+
         return redirect(route('admin.airlines.index'));
     }
 }

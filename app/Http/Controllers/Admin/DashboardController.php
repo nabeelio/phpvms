@@ -17,21 +17,26 @@ use Laracasts\Flash\Flash;
 class DashboardController extends Controller
 {
     private CronService $cronSvc;
+
     private KvpRepository $kvpRepo;
+
     private NewsRepository $newsRepo;
+
     private NewsService $newsSvc;
+
     private PirepRepository $pirepRepo;
+
     private UserRepository $userRepo;
 
     /**
      * DashboardController constructor.
      *
-     * @param CronService     $cronSvc
-     * @param KvpRepository   $kvpRepo
-     * @param NewsRepository  $newsRepo
-     * @param NewsService     $newsSvc
-     * @param PirepRepository $pirepRepo
-     * @param UserRepository  $userRepo
+     * @param  CronService  $cronSvc
+     * @param  KvpRepository  $kvpRepo
+     * @param  NewsRepository  $newsRepo
+     * @param  NewsService  $newsSvc
+     * @param  PirepRepository  $pirepRepo
+     * @param  UserRepository  $userRepo
      */
     public function __construct(
         CronService $cronSvc,
@@ -72,31 +77,29 @@ class DashboardController extends Controller
     /**
      * Show the admin dashboard
      *
-     * @param Request $request
-     *
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     *
+     * @param  Request  $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function index(Request $request)
     {
         $this->checkNewVersion();
 
         return view('admin.dashboard.index', [
-            'news'                => $this->newsRepo->getLatest(),
-            'pending_pireps'      => $this->pirepRepo->getPendingCount(),
-            'pending_users'       => $this->userRepo->getPendingCount(),
+            'news' => $this->newsRepo->getLatest(),
+            'pending_pireps' => $this->pirepRepo->getPendingCount(),
+            'pending_users' => $this->userRepo->getPendingCount(),
             'cron_problem_exists' => $this->cronSvc->cronProblemExists(),
         ]);
     }
 
     /**
-     * @param Request $request
+     * @param  Request  $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function news(Request $request)
     {

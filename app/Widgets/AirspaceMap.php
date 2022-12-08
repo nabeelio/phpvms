@@ -11,9 +11,9 @@ class AirspaceMap extends Widget
 {
     protected $config = [
         'height' => '800px',
-        'width'  => '100%',
-        'lat'    => 0,
-        'lon'    => 0,
+        'width' => '100%',
+        'lat' => 0,
+        'lon' => 0,
     ];
 
     /**

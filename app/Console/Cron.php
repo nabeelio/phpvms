@@ -41,7 +41,7 @@ class Cron
     private $cronRunners = [];
 
     /**
-     * @param Schedule $scheduler
+     * @param  Schedule  $scheduler
      */
     public function __construct(Schedule $scheduler)
     {
@@ -76,7 +76,7 @@ class Cron
         /** @var \Illuminate\Console\Scheduling\Event $event */
         foreach ($events as $event) {
             foreach ($this->cronRunners as $signature => $task) {
-                if (!str_contains($event->command, $signature)) {
+                if (! str_contains($event->command, $signature)) {
                     continue;
                 }
 

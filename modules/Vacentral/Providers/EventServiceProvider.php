@@ -11,7 +11,7 @@ use Modules\Vacentral\Listeners\PirepAcceptedEventListener;
 class EventServiceProvider extends ServiceProvider
 {
     protected $listen = [
-        AcarsUpdate::class   => [AcarsUpdateListener::class],
+        AcarsUpdate::class => [AcarsUpdateListener::class],
         PirepAccepted::class => [PirepAcceptedEventListener::class],
     ];
 }

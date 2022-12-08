@@ -22,17 +22,17 @@ class AircraftImporter extends ImportExport
      * Should match the database fields, for the most part
      */
     public static $columns = [
-        'subfleet'     => 'required',
-        'iata'         => 'nullable',
-        'icao'         => 'nullable',
-        'hub_id'       => 'nullable',
-        'airport_id'   => 'nullable',
-        'name'         => 'required',
+        'subfleet' => 'required',
+        'iata' => 'nullable',
+        'icao' => 'nullable',
+        'hub_id' => 'nullable',
+        'airport_id' => 'nullable',
+        'name' => 'required',
         'registration' => 'required',
-        'hex_code'     => 'nullable',
-        'mtow'         => 'nullable|numeric',
-        'zfw'          => 'nullable|numeric',
-        'status'       => 'nullable',
+        'hex_code' => 'nullable',
+        'mtow' => 'nullable|numeric',
+        'zfw' => 'nullable|numeric',
+        'status' => 'nullable',
     ];
 
     /**
@@ -40,7 +40,6 @@ class AircraftImporter extends ImportExport
      * first airline that's been found
      *
      * @param $type
-     *
      * @return Subfleet|\Illuminate\Database\Eloquent\Model|null|object|static
      */
     protected function getSubfleet($type)
@@ -48,7 +47,7 @@ class AircraftImporter extends ImportExport
         return Subfleet::firstOrCreate([
             'type' => $type,
         ], [
-            'name'       => $type,
+            'name' => $type,
             'airline_id' => Airline::where('active', true)->first()->id,
         ]);
     }
@@ -56,12 +55,11 @@ class AircraftImporter extends ImportExport
     /**
      * Import an aircraft, parse out the different rows
      *
-     * @param array $row
-     * @param int   $index
+     * @param  array  $row
+     * @param  int  $index
+     * @return bool
      *
      * @throws \Exception
-     *
-     * @return bool
      */
     public function import(array $row, $index): bool
     {
@@ -69,7 +67,7 @@ class AircraftImporter extends ImportExport
         $row['subfleet_id'] = $subfleet->id;
 
         // Generate a hex code
-        if (!$row['hex_code']) {
+        if (! $row['hex_code']) {
             $row['hex_code'] = ICAO::createHexCode();
         }
 
@@ -89,10 +87,12 @@ class AircraftImporter extends ImportExport
             ], $row);
         } catch (\Exception $e) {
             $this->errorLog('Error in row '.$index.': '.$e->getMessage());
+
             return false;
         }
 
         $this->log('Imported '.$row['registration'].' '.$row['name']);
+
         return true;
     }
 }

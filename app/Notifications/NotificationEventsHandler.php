@@ -29,14 +29,14 @@ class NotificationEventsHandler extends Listener
     private static $broadcastNotifyable;
 
     public static $callbacks = [
-        NewsAdded::class         => 'onNewsAdded',
-        PirepPrefiled::class     => 'onPirepPrefile',
+        NewsAdded::class => 'onNewsAdded',
+        PirepPrefiled::class => 'onPirepPrefile',
         PirepStatusChange::class => 'onPirepStatusChange',
-        PirepAccepted::class     => 'onPirepAccepted',
-        PirepFiled::class        => 'onPirepFile',
-        PirepRejected::class     => 'onPirepRejected',
-        UserRegistered::class    => 'onUserRegister',
-        UserStateChanged::class  => 'onUserStateChange',
+        PirepAccepted::class => 'onPirepAccepted',
+        PirepFiled::class => 'onPirepFile',
+        PirepRejected::class => 'onPirepRejected',
+        UserRegistered::class => 'onUserRegister',
+        UserStateChanged::class => 'onUserStateChange',
     ];
 
     public function __construct()
@@ -47,7 +47,7 @@ class NotificationEventsHandler extends Listener
     /**
      * Send a notification to all of the admins
      *
-     * @param \App\Contracts\Notification $notification
+     * @param  \App\Contracts\Notification  $notification
      */
     protected function notifyAdmins(\App\Contracts\Notification $notification)
     {
@@ -68,8 +68,8 @@ class NotificationEventsHandler extends Listener
     }
 
     /**
-     * @param User                        $user
-     * @param \App\Contracts\Notification $notification
+     * @param  User  $user
+     * @param  \App\Contracts\Notification  $notification
      */
     protected function notifyUser(User $user, \App\Contracts\Notification $notification)
     {
@@ -88,7 +88,7 @@ class NotificationEventsHandler extends Listener
      * Send a notification to all users. Also can specify if a particular notification
      * requires an opt-in
      *
-     * @param \App\Contracts\Notification $notification
+     * @param  \App\Contracts\Notification  $notification
      */
     protected function notifyAllUsers(\App\Contracts\Notification $notification)
     {
@@ -113,7 +113,7 @@ class NotificationEventsHandler extends Listener
     /**
      * Send an email when the user registered
      *
-     * @param UserRegistered $event
+     * @param  UserRegistered  $event
      */
     public function onUserRegister(UserRegistered $event): void
     {
@@ -144,7 +144,7 @@ class NotificationEventsHandler extends Listener
     /**
      * When a user's state changes, send an email out
      *
-     * @param UserStateChanged $event
+     * @param  UserStateChanged  $event
      */
     public function onUserStateChange(UserStateChanged $event): void
     {
@@ -203,7 +203,7 @@ class NotificationEventsHandler extends Listener
     /**
      * Notify the admins that a new PIREP has been filed
      *
-     * @param PirepFiled $event
+     * @param  PirepFiled  $event
      */
     public function onPirepFile(PirepFiled $event): void
     {
@@ -221,7 +221,7 @@ class NotificationEventsHandler extends Listener
     /**
      * Notify the user that their PIREP has been accepted
      *
-     * @param \App\Events\PirepAccepted $event
+     * @param  \App\Events\PirepAccepted  $event
      */
     public function onPirepAccepted(PirepAccepted $event): void
     {
@@ -234,7 +234,7 @@ class NotificationEventsHandler extends Listener
     /**
      * Notify the user that their PIREP has been accepted
      *
-     * @param \App\Events\PirepRejected $event
+     * @param  \App\Events\PirepRejected  $event
      */
     public function onPirepRejected(PirepRejected $event): void
     {
@@ -247,7 +247,7 @@ class NotificationEventsHandler extends Listener
     /**
      * Notify all users of a news event, but only the users which have opted in
      *
-     * @param \App\Events\NewsAdded $event
+     * @param  \App\Events\NewsAdded  $event
      */
     public function onNewsAdded(NewsAdded $event): void
     {

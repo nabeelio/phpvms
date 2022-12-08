@@ -18,7 +18,7 @@ class PirepEventsHandler extends Listener
     /**
      * Called when a PIREP is prefiled
      *
-     * @param PirepPrefiled $event
+     * @param  PirepPrefiled  $event
      */
     public function onPirepPrefile(PirepPrefiled $event)
     {

@@ -2,11 +2,11 @@
 
 return [
     'status' => [
-        'active'      => 'Active',
+        'active' => 'Active',
         'maintenance' => 'Maintenance',
-        'stored'      => 'Stored',
-        'retired'     => 'Retired',
-        'scrapped'    => 'Scrapped',
-        'written'     => 'Written Off',
+        'stored' => 'Stored',
+        'retired' => 'Retired',
+        'scrapped' => 'Scrapped',
+        'written' => 'Written Off',
     ],
 ];

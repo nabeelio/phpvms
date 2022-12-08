@@ -73,7 +73,6 @@ class ImporterDB
      * Return the table name with the prefix
      *
      * @param $table
-     *
      * @return string
      */
     public function tableName($table)
@@ -90,7 +89,6 @@ class ImporterDB
      * The result will be 'false' if that table isn't there
      *
      * @param $table
-     *
      * @return bool
      */
     public function tableExists($table): bool
@@ -99,7 +97,7 @@ class ImporterDB
 
         $sql = 'SHOW COLUMNS FROM '.$this->tableName($table);
         $result = $this->conn->query($sql);
-        if (!$result) {
+        if (! $result) {
             return false;
         }
 
@@ -110,7 +108,6 @@ class ImporterDB
      * Get the names of the columns for a particular table
      *
      * @param $table
-     *
      * @return mixed
      */
     public function getColumns($table)
@@ -130,7 +127,6 @@ class ImporterDB
 
     /**
      * @param $table
-     *
      * @return mixed
      */
     public function getTotalRows($table)
@@ -148,9 +144,8 @@ class ImporterDB
     /**
      * Read rows from a table with a given assoc array. Simple
      *
-     * @param string $table
-     * @param array  $attrs
-     *
+     * @param  string  $table
+     * @param  array  $attrs
      * @return false|\PDOStatement
      */
     public function findBy($table, array $attrs)
@@ -179,11 +174,10 @@ class ImporterDB
     /**
      * Read all the rows in a table, but read them in a batched manner
      *
-     * @param string $table        The name of the table
-     * @param string $order_by     Column to order by
-     * @param int    $start_offset
-     * @param string $fields
-     *
+     * @param  string  $table        The name of the table
+     * @param  string  $order_by     Column to order by
+     * @param  int  $start_offset
+     * @param  string  $fields
      * @return array
      */
     public function readRows($table, $order_by = 'id', $start_offset = 0, $fields = '*')
@@ -211,12 +205,11 @@ class ImporterDB
     }
 
     /**
-     * @param string $table
-     * @param int    $limit    Number of rows to read
-     * @param int    $offset   Where to start from
-     * @param        $order_by
-     * @param string $fields
-     *
+     * @param  string  $table
+     * @param  int  $limit    Number of rows to read
+     * @param  int  $offset   Where to start from
+     * @param    $order_by
+     * @param  string  $fields
      * @return false|\PDOStatement|void
      */
     public function readRowsOffset($table, $limit, $offset, $order_by, $fields = '*')
@@ -237,7 +230,7 @@ class ImporterDB
 
         try {
             $result = $this->conn->query($sql);
-            if (!$result || $result->rowCount() === 0) {
+            if (! $result || $result->rowCount() === 0) {
                 return;
             }
 

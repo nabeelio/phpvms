@@ -16,6 +16,7 @@ class MigrationService extends Service
     {
         $m = app('migrator');
         $m->setConnection(config('database.default'));
+
         return $m;
     }
 

@@ -39,12 +39,12 @@ class ThemeViewFinder extends \Igaster\LaravelTheme\themeViewFinder
         // will be maped to path 'THEMENAME/vendor' (relative to current theme views-path)
         $pathsMap = [
             // 'resources/views/vendor/mail' => 'mail',
-            'resources/views/vendor'  => 'vendor',
+            'resources/views/vendor' => 'vendor',
             'resources/views/modules' => 'modules',
         ];
 
         // Does $namespace exists?
-        if (!isset($this->hints[$namespace])) {
+        if (! isset($this->hints[$namespace])) {
             return [];
         }
 
@@ -81,7 +81,7 @@ class ThemeViewFinder extends \Igaster\LaravelTheme\themeViewFinder
 
         // Add new paths in the beggin of the search paths array
         foreach (array_reverse($newPaths) as $path) {
-            if (!in_array($path, $paths, true)) {
+            if (! in_array($path, $paths, true)) {
                 $paths = Arr::prepend($paths, $path);
             }
         }

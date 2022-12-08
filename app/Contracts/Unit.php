@@ -37,12 +37,11 @@ class Unit implements ArrayAccess
     /**
      * Factory method for creating a new unit type
      *
-     * @param mixed  $value
-     * @param string $unit
+     * @param  mixed  $value
+     * @param  string  $unit
+     * @return Unit
      *
      * @throws \Exception
-     *
-     * @return Unit
      */
     public static function make(mixed $value, string $unit): self
     {
@@ -56,8 +55,7 @@ class Unit implements ArrayAccess
     /**
      * Return the value in an internal format
      *
-     * @param int|null $round Optional value to round to
-     *
+     * @param  int|null  $round Optional value to round to
      * @return float|null
      */
     public function internal(?int $round = null): ?float
@@ -68,8 +66,7 @@ class Unit implements ArrayAccess
     /**
      * Return the value in the localized format
      *
-     * @param int|null $round Optional value to round to
-     *
+     * @param  int|null  $round Optional value to round to
      * @return float|null
      */
     public function local(?int $round = null): ?float
@@ -80,9 +77,8 @@ class Unit implements ArrayAccess
     /**
      * Just call toUnit() on the PhpUnitOfMeasure instance
      *
-     * @param string   $unit
-     * @param int|null $round Optional value to round to
-     *
+     * @param  string  $unit
+     * @param  int|null  $round Optional value to round to
      * @return float|null
      */
     public function toUnit(string $unit, ?int $round = null): ?float
@@ -112,7 +108,6 @@ class Unit implements ArrayAccess
      * Implements ArrayAccess
      *
      * @param $offset
-     *
      * @return bool
      */
     public function offsetExists($offset): bool
@@ -124,13 +119,12 @@ class Unit implements ArrayAccess
      * Implements ArrayAccess
      *
      * @param $unit
-     *
      * @return float|null
      */
     public function offsetGet($unit): ?float
     {
         $value = $this->instance->toUnit($unit);
-        if (!$value) {
+        if (! $value) {
             return null;
         }
 

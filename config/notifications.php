@@ -15,12 +15,12 @@ return [
      */
     'channels' => [
         AdminUserRegistered::class => ['mail'],
-        NewsAdded::class           => ['mail'],
-        PirepAccepted::class       => ['mail'],
-        PirepRejected::class       => ['mail'],
-        PirepFiled::class          => ['mail'],
-        UserPending::class         => ['mail'],
-        UserRegistered::class      => ['mail'],
-        UserRejected::class        => ['mail'],
+        NewsAdded::class => ['mail'],
+        PirepAccepted::class => ['mail'],
+        PirepRejected::class => ['mail'],
+        PirepFiled::class => ['mail'],
+        UserPending::class => ['mail'],
+        UserRegistered::class => ['mail'],
+        UserRejected::class => ['mail'],
     ],
 ];

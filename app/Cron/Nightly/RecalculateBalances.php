@@ -18,7 +18,7 @@ class RecalculateBalances extends Listener
     /**
      * Nightly constructor.
      *
-     * @param JournalRepository $journalRepo
+     * @param  JournalRepository  $journalRepo
      */
     public function __construct(JournalRepository $journalRepo)
     {
@@ -28,7 +28,7 @@ class RecalculateBalances extends Listener
     /**
      * Recalculate all the balances for the different ledgers
      *
-     * @param CronNightly $event
+     * @param  CronNightly  $event
      *
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException

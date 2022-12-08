@@ -18,6 +18,7 @@ abstract class BaseImporter
     use Dispatchable;
     use InteractsWithQueue;
     use Queueable;
+
     /**
      * Holds the connection to the legacy database
      *
@@ -56,8 +57,7 @@ abstract class BaseImporter
     /**
      * The start method. Takes the offset to start from
      *
-     * @param int $start
-     *
+     * @param  int  $start
      * @return mixed
      */
     abstract public function run($start = 0);
@@ -73,8 +73,9 @@ abstract class BaseImporter
         $manifest = [];
 
         // Ensure that the table exists; if it doesn't skip it from the manifest
-        if (!$this->db->tableExists($this->table)) {
+        if (! $this->db->tableExists($this->table)) {
             Log::info('Table '.$this->table.' doesn\'t exist');
+
             return [];
         }
 
@@ -92,9 +93,9 @@ abstract class BaseImporter
 
             $manifest[] = [
                 'importer' => static::class,
-                'start'    => $start,
-                'end'      => $end,
-                'message'  => 'Importing '.$this->table.' ('.$idx.' - '.$end.' of '.$total_rows.')',
+                'start' => $start,
+                'end' => $end,
+                'message' => 'Importing '.$this->table.' ('.$idx.' - '.$end.' of '.$total_rows.')',
             ];
 
             $start += $this->db->batchSize;
@@ -115,7 +116,6 @@ abstract class BaseImporter
 
     /**
      * @param $date
-     *
      * @return Carbon
      */
     protected function parseDate($date)
@@ -127,7 +127,6 @@ abstract class BaseImporter
      * Take a decimal duration and convert it to minutes
      *
      * @param $duration
-     *
      * @return float|int
      */
     protected function convertDuration($duration)

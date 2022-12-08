@@ -25,15 +25,15 @@ class ExpenseFactory extends Factory
     public function definition(): array
     {
         return [
-            'id'           => null,
-            'airline_id'   => null,
-            'name'         => $this->faker->text(20),
-            'amount'       => $this->faker->randomFloat(2, 100, 1000),
-            'type'         => ExpenseType::FLIGHT,
-            'multiplier'   => false,
-            'ref_model'    => \App\Models\Expense::class,
+            'id' => null,
+            'airline_id' => null,
+            'name' => $this->faker->text(20),
+            'amount' => $this->faker->randomFloat(2, 100, 1000),
+            'type' => ExpenseType::FLIGHT,
+            'multiplier' => false,
+            'ref_model' => \App\Models\Expense::class,
             'ref_model_id' => null,
-            'active'       => true,
+            'active' => true,
         ];
     }
 }

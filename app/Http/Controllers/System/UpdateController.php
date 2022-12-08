@@ -13,13 +13,15 @@ use Illuminate\Support\Facades\Log;
 class UpdateController extends Controller
 {
     private InstallerService $installerSvc;
+
     private MigrationService $migrationSvc;
+
     private SeederService $seederSvc;
 
     /**
-     * @param InstallerService $installerSvc
-     * @param MigrationService $migrationSvc
-     * @param SeederService    $seederSvc
+     * @param  InstallerService  $installerSvc
+     * @param  MigrationService  $migrationSvc
+     * @param  SeederService  $seederSvc
      */
     public function __construct(
         InstallerService $installerSvc,
@@ -59,8 +61,7 @@ class UpdateController extends Controller
     /**
      * Step 2 Run all of the migrations
      *
-     * @param Request $request
-     *
+     * @param  Request  $request
      * @return mixed
      */
     public function run_migrations(Request $request)
@@ -70,6 +71,7 @@ class UpdateController extends Controller
         $migrations = $this->migrationSvc->migrationsAvailable();
         if (count($migrations) === 0) {
             $this->seederSvc->syncAllSeeds();
+
             return view('system.updater.steps.step3-update-complete');
         }
 

@@ -24,10 +24,10 @@ class NewsFactory extends Factory
     public function definition(): array
     {
         return [
-            'id'      => null,
+            'id' => null,
             'user_id' => fn () => \App\Models\User::factory()->create()->id,
             'subject' => $this->faker->text(),
-            'body'    => $this->faker->sentence,
+            'body' => $this->faker->sentence,
         ];
     }
 }

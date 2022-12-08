@@ -11,8 +11,8 @@ class LoadConfiguration extends \Illuminate\Foundation\Bootstrap\LoadConfigurati
      * Load the configuration items from all of the files. This reads the config.php from
      * that's sitting in the root, and then recursively merges it with the current configs
      *
-     * @param \Illuminate\Contracts\Foundation\Application $app
-     * @param \Illuminate\Contracts\Config\Repository      $repository
+     * @param  \Illuminate\Contracts\Foundation\Application  $app
+     * @param  \Illuminate\Contracts\Config\Repository  $repository
      *
      * @throws \Exception
      */

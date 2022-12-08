@@ -16,7 +16,7 @@ class UserRegistered extends Notification implements ShouldQueue
     /**
      * Create a new notification instance.
      *
-     * @param User $user
+     * @param  User  $user
      */
     public function __construct(User $user)
     {

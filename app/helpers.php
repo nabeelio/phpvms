@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 /*
  * array_key_first only exists in PHP 7.3+
  */
-if (!function_exists('array_key_first')) {
+if (! function_exists('array_key_first')) {
     function array_key_first(array $arr)
     {
         foreach ($arr as $key => $unused) {
@@ -19,13 +19,12 @@ if (!function_exists('array_key_first')) {
     }
 }
 
-if (!function_exists('in_mask')) {
+if (! function_exists('in_mask')) {
     /**
      * Return true/false if a value exists in a mask
      *
      * @param $mask
      * @param $value
-     *
      * @return bool
      */
     function in_mask($mask, $value)
@@ -38,13 +37,12 @@ if (!function_exists('in_mask')) {
     }
 }
 
-if (!function_exists('get_truth_state')) {
+if (! function_exists('get_truth_state')) {
     /**
      * Check if the passed state matches any of the states that
      * we regard as being true or false
      *
      * @param $state
-     *
      * @return bool
      */
     function get_truth_state($state)
@@ -66,7 +64,7 @@ if (!function_exists('get_truth_state')) {
     }
 }
 
-if (!function_exists('list_to_assoc')) {
+if (! function_exists('list_to_assoc')) {
     /**
      * Converts a straight list into an assoc array with
      * key and value being the same. Mainly for a select box
@@ -76,8 +74,7 @@ if (!function_exists('list_to_assoc')) {
      * to:
      *    ['item1' => 'item1', 'item2' => 'item2']
      *
-     * @param array $list
-     *
+     * @param  array  $list
      * @return array
      */
     function list_to_assoc(array $list)
@@ -100,7 +97,7 @@ if (!function_exists('list_to_assoc')) {
     }
 }
 
-if (!function_exists('list_to_editable')) {
+if (! function_exists('list_to_editable')) {
     /**
      * Convert a list (select box) into an editable list
      * https://vitalets.github.io/x-editable/docs.html#select
@@ -109,8 +106,7 @@ if (!function_exists('list_to_editable')) {
      * Return:
      *    [{value: 1, text: "text1"}, {value: 2, text: "text2"}, ...]
      *
-     * @param array $list
-     *
+     * @param  array  $list
      * @return array
      */
     function list_to_editable(array $list)
@@ -118,7 +114,7 @@ if (!function_exists('list_to_editable')) {
         $editable = [];
         foreach ($list as $value => $key) {
             $editable[] = [
-                'text'  => $key,
+                'text' => $key,
                 'value' => $value,
             ];
         }
@@ -127,14 +123,13 @@ if (!function_exists('list_to_editable')) {
     }
 }
 
-if (!function_exists('skin_view')) {
+if (! function_exists('skin_view')) {
     /**
      * Render a skin
      *
-     * @param       $template
-     * @param array $vars
-     * @param array $merge_data
-     *
+     * @param    $template
+     * @param  array  $vars
+     * @param  array  $merge_data
      * @return Factory|\Illuminate\View\View
      */
     function skin_view($template, array $vars = [], array $merge_data = [])
@@ -154,13 +149,12 @@ if (!function_exists('skin_view')) {
 /*
  * Shortcut for retrieving a setting value
  */
-if (!function_exists('setting')) {
+if (! function_exists('setting')) {
     /**
      * Read a setting from the settings table
      *
-     * @param       $key
-     * @param mixed $default
-     *
+     * @param    $key
+     * @param  mixed  $default
      * @return mixed|null
      */
     function setting($key, $default = null)
@@ -183,12 +177,13 @@ if (!function_exists('setting')) {
 /*
  * Shortcut for retrieving a setting value
  */
-if (!function_exists('setting_save')) {
+if (! function_exists('setting_save')) {
     function setting_save($key, $value)
     {
         /** @var \App\Repositories\SettingRepository $settingRepo */
         $settingRepo = app(SettingRepository::class);
         $settingRepo->save($key, $value);
+
         return $value;
     }
 }
@@ -196,13 +191,12 @@ if (!function_exists('setting_save')) {
 /*
  * Shortcut for retrieving a KVP
  */
-if (!function_exists('kvp')) {
+if (! function_exists('kvp')) {
     /**
      * Read a setting from the KVP repository
      *
-     * @param string      $key
-     * @param string|null $default
-     *
+     * @param  string  $key
+     * @param  string|null  $default
      * @return mixed|null
      */
     function kvp(string $key, $default = null)
@@ -223,13 +217,12 @@ if (!function_exists('kvp')) {
 /*
  * Shortcut for retrieving a KVP
  */
-if (!function_exists('kvp_save')) {
+if (! function_exists('kvp_save')) {
     /**
      * Read a setting from the KVP repository
      *
-     * @param string $key
-     * @param string $value
-     *
+     * @param  string  $key
+     * @param  string  $value
      * @return mixed|null
      */
     function kvp_save(string $key, string $value)
@@ -244,7 +237,7 @@ if (!function_exists('kvp_save')) {
  * Wrap the asset URL in the publicBaseUrl that's been
  * set
  */
-if (!function_exists('public_asset')) {
+if (! function_exists('public_asset')) {
     function public_asset($path, array $parameters = [])
     {
         $publicBaseUrl = app()->publicUrlPath();
@@ -258,7 +251,7 @@ if (!function_exists('public_asset')) {
 /*
  * Call mix() and then prepend the proper public URL
  */
-if (!function_exists('public_mix')) {
+if (! function_exists('public_mix')) {
     function public_mix($path, array $parameters = [])
     {
         try {
@@ -273,7 +266,7 @@ if (!function_exists('public_mix')) {
 /**
  * Wrap a call to url() and append the public folder before it
  */
-if (!function_exists('public_url')) {
+if (! function_exists('public_url')) {
     function public_url($path, array $parameters = [])
     {
         $publicBaseUrl = app()->publicUrlPath();
@@ -288,13 +281,12 @@ if (!function_exists('public_url')) {
 /*
  * Show a date/time in the proper timezone for a user
  */
-if (!function_exists('show_datetime')) {
+if (! function_exists('show_datetime')) {
     /**
      * Format the a Carbon date into the datetime string
      * but convert it into the user's timezone
      *
-     * @param Carbon $date
-     *
+     * @param  Carbon  $date
      * @return string
      */
     function show_datetime(Carbon $date = null)
@@ -315,14 +307,13 @@ if (!function_exists('show_datetime')) {
 /*
  * Show a date/time in the proper timezone for a user
  */
-if (!function_exists('show_date')) {
+if (! function_exists('show_date')) {
     /**
      * Format the a Carbon date into the datetime string
      * but convert it into the user's timezone
      *
-     * @param \Carbon\Carbon $date
-     * @param string         $default_timezone Default timezone to use, defaults to UTC
-     *
+     * @param  \Carbon\Carbon  $date
+     * @param  string  $default_timezone Default timezone to use, defaults to UTC
      * @return string
      */
     function show_date(Carbon $date, $default_timezone = 'UTC')
@@ -339,15 +330,14 @@ if (!function_exists('show_date')) {
 /*
  * Show a date/time in the proper timezone for a user
  */
-if (!function_exists('show_datetime_format')) {
+if (! function_exists('show_datetime_format')) {
     /**
      * Format the a Carbon date into the datetime string
      * but convert it into the user's timezone
      *
-     * @param \Carbon\Carbon $date
-     * @param string         $format
-     * @param string         $default_timezone A default timezone to use (UTC by default)
-     *
+     * @param  \Carbon\Carbon  $date
+     * @param  string  $format
+     * @param  string  $default_timezone A default timezone to use (UTC by default)
      * @return string
      */
     function show_datetime_format(Carbon $date, $format, $default_timezone = 'UTC')
@@ -361,7 +351,7 @@ if (!function_exists('show_datetime_format')) {
     }
 }
 
-if (!function_exists('secstohhmm')) {
+if (! function_exists('secstohhmm')) {
     /**
      * Convert seconds to hhmm format
      *
@@ -375,13 +365,12 @@ if (!function_exists('secstohhmm')) {
     }
 }
 
-if (!function_exists('_fmt')) {
+if (! function_exists('_fmt')) {
     /**
      * Replace strings
      *
-     * @param       $line    "Hi, my name is :name"
-     * @param array $replace ['name' => 'Nabeel']
-     *
+     * @param    $line    "Hi, my name is :name"
+     * @param  array  $replace ['name' => 'Nabeel']
      * @return mixed
      */
     function _fmt($line, array $replace)
@@ -403,12 +392,11 @@ if (!function_exists('_fmt')) {
     }
 }
 
-if (!function_exists('docs_link')) {
+if (! function_exists('docs_link')) {
     /**
      * Return a link to the docs
      *
-     * @param string $key Key from phpvms.config.docs
-     *
+     * @param  string  $key Key from phpvms.config.docs
      * @return string
      */
     function docs_link($key)

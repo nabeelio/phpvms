@@ -17,28 +17,27 @@ class AirportImporter extends ImportExport
      * Should match the database fields, for the most part
      */
     public static $columns = [
-        'icao'                 => 'required',
-        'iata'                 => 'nullable',
-        'name'                 => 'required',
-        'location'             => 'nullable',
-        'country'              => 'nullable',
-        'timezone'             => 'nullable',
-        'hub'                  => 'nullable|boolean',
-        'lat'                  => 'required|numeric',
-        'lon'                  => 'required|numeric',
+        'icao' => 'required',
+        'iata' => 'nullable',
+        'name' => 'required',
+        'location' => 'nullable',
+        'country' => 'nullable',
+        'timezone' => 'nullable',
+        'hub' => 'nullable|boolean',
+        'lat' => 'required|numeric',
+        'lon' => 'required|numeric',
         'ground_handling_cost' => 'nullable|numeric',
-        'fuel_100ll_cost'      => 'nullable|numeric',
-        'fuel_jeta_cost'       => 'nullable|numeric',
-        'fuel_mogas_cost'      => 'nullable|numeric',
-        'notes'                => 'nullable',
+        'fuel_100ll_cost' => 'nullable|numeric',
+        'fuel_jeta_cost' => 'nullable|numeric',
+        'fuel_mogas_cost' => 'nullable|numeric',
+        'notes' => 'nullable',
     ];
 
     /**
      * Import a flight, parse out the different rows
      *
-     * @param array $row
-     * @param int   $index
-     *
+     * @param  array  $row
+     * @param  int  $index
      * @return bool
      */
     public function import(array $row, $index): bool
@@ -64,10 +63,12 @@ class AirportImporter extends ImportExport
             ], $row);
         } catch (\Exception $e) {
             $this->errorLog('Error in row '.$index.': '.$e->getMessage());
+
             return false;
         }
 
         $this->log('Imported '.$row['icao']);
+
         return true;
     }
 }

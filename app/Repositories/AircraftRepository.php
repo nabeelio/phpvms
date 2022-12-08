@@ -15,7 +15,7 @@ class AircraftRepository extends Repository implements CacheableInterface
     use CacheableRepository;
 
     protected $fieldSearchable = [
-        'name'         => 'like',
+        'name' => 'like',
         'registration' => 'like',
         'active',
     ];

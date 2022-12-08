@@ -18,7 +18,7 @@ class PageLinksComposer extends Composer
     /**
      * PageLinksComposer constructor.
      *
-     * @param \App\Repositories\PageRepository $pageRepo
+     * @param  \App\Repositories\PageRepository  $pageRepo
      */
     public function __construct(PageRepository $pageRepo)
     {
@@ -26,7 +26,7 @@ class PageLinksComposer extends Composer
     }
 
     /**
-     * @param \Illuminate\View\View $view
+     * @param  \Illuminate\View\View  $view
      */
     public function compose(View $view)
     {
@@ -36,7 +36,7 @@ class PageLinksComposer extends Composer
             ];
 
             // If not logged in, then only get the public pages
-            if (!Auth::check()) {
+            if (! Auth::check()) {
                 $w['public'] = true;
             }
 

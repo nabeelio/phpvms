@@ -35,10 +35,10 @@ class RouteServiceProvider extends ServiceProvider
     private function mapImporterRoutes()
     {
         Route::group([
-            'as'         => 'importer.',
-            'prefix'     => 'importer',
+            'as' => 'importer.',
+            'prefix' => 'importer',
             'middleware' => ['web'],
-            'namespace'  => 'App\Http\Controllers\System',
+            'namespace' => 'App\Http\Controllers\System',
         ], function () {
             Route::get('/', 'ImporterController@index')->name('index');
             Route::post('/config', 'ImporterController@config')->name('config');
@@ -53,10 +53,10 @@ class RouteServiceProvider extends ServiceProvider
     private function mapInstallerRoutes()
     {
         Route::group([
-            'as'         => 'installer.',
-            'prefix'     => 'install',
+            'as' => 'installer.',
+            'prefix' => 'install',
             'middleware' => ['web'],
-            'namespace'  => 'App\Http\Controllers\System',
+            'namespace' => 'App\Http\Controllers\System',
         ], function () {
             Route::get('/', 'InstallerController@index')->name('index');
             Route::post('/dbtest', 'InstallerController@dbtest')->name('dbtest');
@@ -78,10 +78,10 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapUpdaterRoutes()
     {
         Route::group([
-            'as'         => 'update.',
-            'prefix'     => 'update',
+            'as' => 'update.',
+            'prefix' => 'update',
             'middleware' => ['web', 'auth', 'ability:admin,admin-access'],
-            'namespace'  => 'App\Http\Controllers\System',
+            'namespace' => 'App\Http\Controllers\System',
         ], function () {
             Route::get('/', 'UpdateController@index')->name('index');
 
@@ -104,12 +104,12 @@ class RouteServiceProvider extends ServiceProvider
     {
         Route::group([
             'middleware' => ['web'],
-            'namespace'  => $this->namespace,
+            'namespace' => $this->namespace,
         ], function () {
             Route::group([
-                'namespace'  => 'Frontend',
-                'prefix'     => '',
-                'as'         => 'frontend.',
+                'namespace' => 'Frontend',
+                'prefix' => '',
+                'as' => 'frontend.',
                 'middleware' => ['auth'],
             ], function () {
                 Route::resource('dashboard', 'DashboardController');
@@ -149,8 +149,8 @@ class RouteServiceProvider extends ServiceProvider
 
             Route::group([
                 'namespace' => 'Frontend',
-                'prefix'    => '',
-                'as'        => 'frontend.',
+                'prefix' => '',
+                'as' => 'frontend.',
             ], function () {
                 Route::get('/', 'HomeController@index')->name('home');
                 Route::get('r/{id}', 'PirepController@show')->name('pirep.show.public');
@@ -177,9 +177,9 @@ class RouteServiceProvider extends ServiceProvider
     private function mapAdminRoutes()
     {
         Route::group([
-            'namespace'  => $this->namespace.'\\Admin',
-            'prefix'     => 'admin',
-            'as'         => 'admin.',
+            'namespace' => $this->namespace.'\\Admin',
+            'prefix' => 'admin',
+            'as' => 'admin.',
             'middleware' => ['web', 'auth', 'ability:admin,admin-access'],
         ], static function () {
             // CRUD for airlines
@@ -489,11 +489,10 @@ class RouteServiceProvider extends ServiceProvider
 
             //Modules
             Route::group([
-                'as'         => 'modules.',
-                'prefix'     => 'modules',
+                'as' => 'modules.',
+                'prefix' => 'modules',
                 'middleware' => ['ability:admin,modules'],
             ], function () {
-
                 //Modules Index
                 Route::get('/', 'ModulesController@index')->name('index');
 
@@ -529,9 +528,9 @@ class RouteServiceProvider extends ServiceProvider
     {
         Route::group([
             'middleware' => ['api'],
-            'namespace'  => $this->namespace.'\\Api',
-            'prefix'     => 'api',
-            'as'         => 'api.',
+            'namespace' => $this->namespace.'\\Api',
+            'prefix' => 'api',
+            'as' => 'api.',
         ], function () {
             Route::group([], function () {
                 Route::get('acars', 'AcarsController@live_flights');

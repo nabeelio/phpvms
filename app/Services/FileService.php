@@ -13,23 +13,22 @@ class FileService extends Service
     /**
      * Save a file to disk and return a File asset
      *
-     * @param \Illuminate\Http\UploadedFile $file
-     * @param string                        $folder
-     * @param array                         $attrs
+     * @param  \Illuminate\Http\UploadedFile  $file
+     * @param  string  $folder
+     * @param  array  $attrs
+     * @return File
      *
      * @throws \Hashids\HashidsException
-     *
-     * @return File
      */
     public function saveFile($file, $folder, array $attrs)
     {
         $attrs = array_merge([
-            'name'         => '',
-            'description'  => '',
-            'public'       => false,
-            'ref_model'    => '',
+            'name' => '',
+            'description' => '',
+            'public' => false,
+            'ref_model' => '',
             'ref_model_id' => '',
-            'disk'         => config('filesystems.public_files'),
+            'disk' => config('filesystems.public_files'),
         ], $attrs);
 
         $id = File::createNewHashId();
@@ -53,13 +52,13 @@ class FileService extends Service
     /**
      * Remove a file, if it exists on disk
      *
-     * @param File $file
+     * @param  File  $file
      *
      * @throws \Exception
      */
     public function removeFile($file)
     {
-        if (!Str::startsWith($file->path, 'http')) {
+        if (! Str::startsWith($file->path, 'http')) {
             Storage::disk(config('filesystems.public_files'))
                 ->delete($file->path);
         }

@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Log;
 class ImporterController extends Controller
 {
     private DatabaseService $dbSvc;
+
     private ImporterService $importerSvc;
 
     public function __construct(DatabaseService $dbSvc, ImporterService $importerSvc)
@@ -49,8 +50,7 @@ class ImporterController extends Controller
     /**
      * Check the database connection
      *
-     * @param Request $request
-     *
+     * @param  Request  $request
      * @return mixed
      */
     public function dbtest(Request $request)
@@ -66,7 +66,7 @@ class ImporterController extends Controller
         }
 
         return view('system.importer.dbtest', [
-            'status'  => $status,
+            'status' => $status,
             'message' => $message,
         ]);
     }
@@ -74,8 +74,7 @@ class ImporterController extends Controller
     /**
      * The post from the above
      *
-     * @param Request $request
-     *
+     * @param  Request  $request
      * @return mixed
      */
     public function config(Request $request)
@@ -109,11 +108,10 @@ class ImporterController extends Controller
      * stage=STAGE NAME
      * start=record_start
      *
-     * @param Request $request
+     * @param  Request  $request
+     * @return mixed
      *
      * @throws Exception
-     *
-     * @return mixed
      */
     public function run(Request $request)
     {

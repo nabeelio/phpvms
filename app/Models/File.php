@@ -60,7 +60,7 @@ class File extends Model
     {
         return Attribute::make(
             get: function ($_, $attrs) {
-                if (!$this->pathinfo) {
+                if (! $this->pathinfo) {
                     $this->pathinfo = pathinfo($this->path);
                 }
 
@@ -78,7 +78,7 @@ class File extends Model
     {
         return Attribute::make(
             get: function ($_, $attrs) {
-                if (!$this->pathinfo) {
+                if (! $this->pathinfo) {
                     $this->pathinfo = pathinfo($this->path);
                 }
 

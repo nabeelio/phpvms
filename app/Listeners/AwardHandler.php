@@ -18,7 +18,7 @@ class AwardHandler extends Listener
 {
     /** The events and the callback */
     public static $callbacks = [
-        PirepAccepted::class    => 'onPirepAccept',
+        PirepAccepted::class => 'onPirepAccept',
         UserStatsChanged::class => 'onUserStatsChanged',
         UserStateChanged::class => 'onUserStateChanged',
     ];
@@ -26,7 +26,7 @@ class AwardHandler extends Listener
     /**
      * Called when a PIREP is accepted
      *
-     * @param \App\Events\PirepAccepted $event
+     * @param  \App\Events\PirepAccepted  $event
      */
     public function onPirepAccept(PirepAccepted $event)
     {
@@ -36,7 +36,7 @@ class AwardHandler extends Listener
     /**
      * When the user's state has changed
      *
-     * @param \App\Events\UserStateChanged $event
+     * @param  \App\Events\UserStateChanged  $event
      */
     public function onUserStateChanged(UserStateChanged $event): void
     {
@@ -46,7 +46,7 @@ class AwardHandler extends Listener
     /**
      * Called when any of the user's states have changed
      *
-     * @param UserStatsChanged $event
+     * @param  UserStatsChanged  $event
      */
     public function onUserStatsChanged(UserStatsChanged $event): void
     {
@@ -56,7 +56,7 @@ class AwardHandler extends Listener
     /**
      * Check for any awards to be run and test them against the user
      *
-     * @param \App\Models\User $user
+     * @param  \App\Models\User  $user
      */
     public function checkForAwards($user)
     {

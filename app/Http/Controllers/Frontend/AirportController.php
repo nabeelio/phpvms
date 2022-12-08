@@ -14,6 +14,7 @@ use Request;
 class AirportController extends Controller
 {
     private AirportRepository $airportRepo;
+
     private FlightRepository $flightRepo;
 
     public function __construct(
@@ -27,8 +28,7 @@ class AirportController extends Controller
     /**
      * Show the airport
      *
-     * @param mixed $id
-     *
+     * @param  mixed  $id
      * @return mixed
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
      */
@@ -38,8 +38,9 @@ class AirportController extends Controller
         $with_flights = ['airline', 'arr_airport', 'dpt_airport'];
 
         $airport = $this->airportRepo->with('files')->where('id', $id)->first();
-        if (!$airport) {
+        if (! $airport) {
             Flash::error('Airport not found!');
+
             return redirect(route('frontend.dashboard.index'));
         }
 
@@ -47,19 +48,19 @@ class AirportController extends Controller
             ->with($with_flights)
             ->findWhere([
                 'arr_airport_id' => $id,
-                'active'         => 1,
+                'active' => 1,
             ])->all();
 
         $outbound_flights = $this->flightRepo
             ->with($with_flights)
             ->findWhere([
                 'dpt_airport_id' => $id,
-                'active'         => 1,
+                'active' => 1,
             ])->all();
 
         return view('airports.show', [
-            'airport'          => $airport,
-            'inbound_flights'  => $inbound_flights,
+            'airport' => $airport,
+            'inbound_flights' => $inbound_flights,
             'outbound_flights' => $outbound_flights,
         ]);
     }

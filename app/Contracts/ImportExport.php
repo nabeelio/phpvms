@@ -13,9 +13,10 @@ use Illuminate\Validation\ValidationException;
 class ImportExport
 {
     public $assetType;
+
     public $status = [
         'success' => [],
-        'errors'  => [],
+        'errors' => [],
     ];
 
     /**
@@ -24,8 +25,7 @@ class ImportExport
     public static $columns = [];
 
     /**
-     * @param mixed $row
-     *
+     * @param  mixed  $row
      * @return array
      */
     public function export($row): array
@@ -34,12 +34,11 @@ class ImportExport
     }
 
     /**
-     * @param array $row
-     * @param mixed $index
+     * @param  array  $row
+     * @param  mixed  $index
+     * @return bool
      *
      * @throws \RuntimeException
-     *
-     * @return bool
      */
     public function import(array $row, $index): bool
     {
@@ -50,7 +49,6 @@ class ImportExport
      * Get the airline from the ICAO. Create it if it doesn't exist
      *
      * @param $code
-     *
      * @return Airline
      */
     public function getAirline($code): Airline
@@ -74,7 +72,6 @@ class ImportExport
      * Do a basic check that the number of columns match
      *
      * @param $row
-     *
      * @return bool
      */
     public function checkColumns($row): bool
@@ -128,8 +125,8 @@ class ImportExport
     /**
      * Set a key-value pair to an array
      *
-     * @param       $kvp_str
-     * @param array $arr
+     * @param    $kvp_str
+     * @param  array  $arr
      */
     protected function kvpToArray($kvp_str, array &$arr)
     {
@@ -152,7 +149,6 @@ class ImportExport
      * Converted into a multi-dimensional array
      *
      * @param $field
-     *
      * @return array|string
      */
     public function parseMultiColumnValues($field)
@@ -174,7 +170,7 @@ class ImportExport
                 $children = [];
                 $kvp = explode('&', trim($query_str[1]));
                 foreach ($kvp as $items) {
-                    if (!$items) {
+                    if (! $items) {
                         continue;
                     }
 
@@ -200,6 +196,7 @@ class ImportExport
             // just a straight key-value pair set
             if (strpos($value, '?') === false) {
                 $this->kvpToArray($value, $ret);
+
                 continue;
             }
 
@@ -212,7 +209,7 @@ class ImportExport
             $children = [];
             $kvp = explode('&', trim($query_str[1]));
             foreach ($kvp as $items) {
-                if (!$items) {
+                if (! $items) {
                     continue;
                 }
 
@@ -227,25 +224,25 @@ class ImportExport
 
     /**
      * @param $obj
-     *
      * @return mixed
      */
     public function objectToMultiString($obj)
     {
-        if (!\is_array($obj)) {
+        if (! \is_array($obj)) {
             return $obj;
         }
 
         $ret_list = [];
         foreach ($obj as $key => $val) {
-            if (is_numeric($key) && !\is_array($val)) {
+            if (is_numeric($key) && ! \is_array($val)) {
                 $ret_list[] = $val;
+
                 continue;
             }
 
             $key = trim($key);
 
-            if (!\is_array($val)) {
+            if (! \is_array($val)) {
                 $val = trim($val);
                 $ret_list[] = "{$key}={$val}";
             } else {
@@ -259,7 +256,7 @@ class ImportExport
                 }
 
                 $q = implode('&', $q);
-                if (!empty($q)) {
+                if (! empty($q)) {
                     $ret_list[] = "{$key}?{$q}";
                 } else {
                     $ret_list[] = $key;

@@ -14,15 +14,15 @@ class CreateUserRequest extends FormRequest
     public function rules(): array
     {
         $rules = [
-            'name'            => 'required',
-            'email'           => 'required|email|unique:users,email',
-            'airline_id'      => 'required',
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email',
+            'airline_id' => 'required',
             'home_airport_id' => 'required',
-            'password'        => 'required|confirmed',
-            'timezone'        => 'required',
-            'country'         => 'required',
-            'transfer_time'   => 'sometimes|integer|min:0',
-            'toc_accepted'    => 'accepted',
+            'password' => 'required|confirmed',
+            'timezone' => 'required',
+            'country' => 'required',
+            'transfer_time' => 'sometimes|integer|min:0',
+            'toc_accepted' => 'accepted',
         ];
 
         if (config('captcha.enabled')) {

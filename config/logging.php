@@ -30,14 +30,14 @@ return [
     */
     'channels' => [
         'stack' => [
-            'driver'   => 'stack',
+            'driver' => 'stack',
             'channels' => [
                 'daily',
                 // PHP_SAPI === 'cli' ? 'console' : 'daily',
             ],
         ],
         'cron' => [
-            'driver'   => 'stack',
+            'driver' => 'stack',
             'channels' => [
                 'cron_rotating',
                 //'stdout',
@@ -45,39 +45,39 @@ return [
         ],
         'single' => [
             'driver' => 'single',
-            'path'   => storage_path('logs/laravel.log'),
-            'level'  => env('LOG_LEVEL', 'debug'),
+            'path' => storage_path('logs/laravel.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
         ],
         'daily' => [
             'driver' => 'daily',
-            'path'   => storage_path('logs/laravel.log'),
-            'level'  => env('LOG_LEVEL', 'debug'),
-            'days'   => 3,
+            'path' => storage_path('logs/laravel.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+            'days' => 3,
         ],
         'cron_rotating' => [
             'driver' => 'daily',
-            'path'   => storage_path('logs/cron.log'),
-            'level'  => env('LOG_LEVEL', 'debug'),
-            'days'   => 3,
+            'path' => storage_path('logs/cron.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+            'days' => 3,
         ],
         'slack' => [
-            'driver'   => 'slack',
-            'url'      => env('LOG_SLACK_WEBHOOK_URL'),
+            'driver' => 'slack',
+            'url' => env('LOG_SLACK_WEBHOOK_URL'),
             'username' => 'Laravel Log',
-            'emoji'    => ':boom:',
-            'level'    => 'critical',
+            'emoji' => ':boom:',
+            'level' => 'critical',
         ],
         'stdout' => [
             'driver' => 'custom',
-            'via'    => Logger::class,
+            'via' => Logger::class,
         ],
         'syslog' => [
             'driver' => 'syslog',
-            'level'  => env('LOG_LEVEL', 'debug'),
+            'level' => env('LOG_LEVEL', 'debug'),
         ],
         'errorlog' => [
             'driver' => 'errorlog',
-            'level'  => env('LOG_LEVEL', 'debug'),
+            'level' => env('LOG_LEVEL', 'debug'),
         ],
     ],
 ];

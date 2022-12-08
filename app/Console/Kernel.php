@@ -23,14 +23,13 @@ class Kernel extends ConsoleKernel
      * Then the CronServiceProvider has the list of cronjobs which then run according to the events
      * and then calls those at the proper times.
      *
-     * @param \Illuminate\Console\Scheduling\Schedule $schedule
-     *
+     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
      * @return void
      */
     protected function schedule(Schedule $schedule): void
     {
         // If not using the queue worker then run those via cron
-        if (!config('queue.worker', false)) {
+        if (! config('queue.worker', false)) {
             $schedule->command(JobQueue::class)
                 ->everyMinute()
                 ->withoutOverlapping();

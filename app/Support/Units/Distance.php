@@ -17,8 +17,8 @@ class Distance extends Unit
     /**
      * Distance constructor.
      *
-     * @param Distance|float $value
-     * @param string         $unit  The unit of $value
+     * @param  Distance|float  $value
+     * @param  string  $unit  The unit of $value
      *
      * @throws \PhpUnitsOfMeasure\Exception\NonNumericValue
      * @throws \PhpUnitsOfMeasure\Exception\NonStringUnitName

@@ -22,8 +22,8 @@ class TestApi extends Command
         $this->httpClient = new Client([
             'headers' => [
                 'Authorization' => $this->argument('apikey'),
-                'Content-type'  => 'application/json',
-                'X-API-Key'     => $this->argument('apikey'),
+                'Content-type' => 'application/json',
+                'X-API-Key' => $this->argument('apikey'),
             ],
         ]);
 

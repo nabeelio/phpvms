@@ -11,10 +11,9 @@ use App\Models\Typerating;
 class FleetService extends Service
 {
     /**
-     * @param Subfleet $subfleet
-     * @param Rank     $rank
-     * @param array    $overrides
-     *
+     * @param  Subfleet  $subfleet
+     * @param  Rank  $rank
+     * @param  array  $overrides
      * @return Subfleet
      */
     public function addSubfleetToRank(Subfleet $subfleet, Rank $rank, array $overrides = [])
@@ -43,8 +42,8 @@ class FleetService extends Service
     /**
      * Add the subfleet to a type rating
      *
-     * @param Subfleet   $subfleet
-     * @param Typerating $typerating
+     * @param  Subfleet  $subfleet
+     * @param  Typerating  $typerating
      */
     public function addSubfleetToTypeRating(Subfleet $subfleet, Typerating $typerating)
     {
@@ -58,8 +57,8 @@ class FleetService extends Service
     /**
      * Remove the subfleet from a type rating
      *
-     * @param Subfleet   $subfleet
-     * @param Typerating $typerating
+     * @param  Subfleet  $subfleet
+     * @param  Typerating  $typerating
      */
     public function removeSubfleetFromTypeRating(Subfleet $subfleet, Typerating $typerating)
     {
@@ -73,8 +72,8 @@ class FleetService extends Service
     /**
      * Add the subfleet to a flight
      *
-     * @param Subfleet $subfleet
-     * @param Flight   $flight
+     * @param  Subfleet  $subfleet
+     * @param  Flight  $flight
      */
     public function addSubfleetToFlight(Subfleet $subfleet, Flight $flight)
     {
@@ -86,8 +85,8 @@ class FleetService extends Service
     /**
      * Remove the subfleet from a flight
      *
-     * @param Subfleet $subfleet
-     * @param Flight   $flight
+     * @param  Subfleet  $subfleet
+     * @param  Flight  $flight
      */
     public function removeSubfleetFromFlight(Subfleet $subfleet, Flight $flight)
     {

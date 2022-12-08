@@ -9,12 +9,13 @@ use App\Models\Navdata;
 class NavdataImport extends Command
 {
     protected $signature = 'phpvms:navdata';
+
     protected $description = '';
 
     /**
-     * @throws \League\Geotools\Exception\InvalidArgumentException
-     *
      * @return void
+     *
+     * @throws \League\Geotools\Exception\InvalidArgumentException
      */
     public function handle()
     {
@@ -29,9 +30,9 @@ class NavdataImport extends Command
     /**
      * Read and parse in the navaid file
      *
-     * @throws \League\Geotools\Exception\InvalidArgumentException
-     *
      * @return void
+     *
+     * @throws \League\Geotools\Exception\InvalidArgumentException
      */
     public function read_wp_nav_aid(): void
     {
@@ -65,8 +66,9 @@ class NavdataImport extends Command
          */
 
         $file_path = storage_path('/navdata/WPNAVAID.txt');
-        if (!file_exists($file_path)) {
+        if (! file_exists($file_path)) {
             $this->error('WPNAVAID.txt not found in storage/navdata');
+
             return;
         }
 
@@ -77,12 +79,12 @@ class NavdataImport extends Command
 
         foreach ($generator as $line) {
             $navaid = [
-                'id'    => trim(substr($line, 24, 4)), // ident column
-                'name'  => trim(substr($line, 0, 24)),
-                'type'  => trim(substr($line, 29, 4)),
-                'lat'   => trim(substr($line, 33, 9)),
-                'lon'   => trim(substr($line, 43, 11)),
-                'freq'  => trim(substr($line, 54, 6)),
+                'id' => trim(substr($line, 24, 4)), // ident column
+                'name' => trim(substr($line, 0, 24)),
+                'type' => trim(substr($line, 29, 4)),
+                'lat' => trim(substr($line, 33, 9)),
+                'lon' => trim(substr($line, 43, 11)),
+                'freq' => trim(substr($line, 54, 6)),
                 'class' => trim($line[60]),
             ];
 
@@ -153,8 +155,9 @@ class NavdataImport extends Command
          */
 
         $file_path = storage_path('/navdata/WPNAVFIX.txt');
-        if (!file_exists($file_path)) {
+        if (! file_exists($file_path)) {
             $this->error('WPNAVFIX.txt not found in storage/navdata');
+
             return;
         }
 
@@ -164,11 +167,11 @@ class NavdataImport extends Command
         $imported = 0;
         foreach ($generator as $line) {
             $navfix = [
-                'id'   => trim(substr($line, 0, 4)), // ident column
+                'id' => trim(substr($line, 0, 4)), // ident column
                 'name' => trim(substr($line, 24, 6)),
                 'type' => NavaidType::FIX,
-                'lat'  => trim(substr($line, 30, 10)),
-                'lon'  => trim(substr($line, 40, 11)),
+                'lat' => trim(substr($line, 30, 10)),
+                'lon' => trim(substr($line, 40, 11)),
             ];
 
             Navdata::updateOrCreate([

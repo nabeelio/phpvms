@@ -11,9 +11,9 @@ class CustomPaginatedResourceResponse extends PaginatedResourceResponse
     {
         return [
             'first' => null,
-            'last'  => null,
-            'prev'  => null,
-            'next'  => null,
+            'last' => null,
+            'prev' => null,
+            'next' => null,
         ];
     }
 

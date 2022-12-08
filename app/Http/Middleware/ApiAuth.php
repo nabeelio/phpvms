@@ -17,9 +17,8 @@ class ApiAuth implements Middleware
     /**
      * Handle an incoming request.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \Closure                 $next
-     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
      * @return mixed
      */
     public function handle(Request $request, Closure $next)
@@ -59,17 +58,16 @@ class ApiAuth implements Middleware
     /**
      * Return an unauthorized message
      *
-     * @param mixed $details
-     *
+     * @param  mixed  $details
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      */
     private function unauthorized($details = '')
     {
         return response([
             'error' => [
-                'code'      => '401',
+                'code' => '401',
                 'http_code' => 'Unauthorized',
-                'message'   => 'Invalid or missing API key ('.$details.')',
+                'message' => 'Invalid or missing API key ('.$details.')',
             ],
         ], 401);
     }

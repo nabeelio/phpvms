@@ -24,7 +24,7 @@ class StatusController extends Controller
     {
         return response()->json([
             'version' => $this->versionSvc->getCurrentVersion(true),
-            'php'     => PHP_VERSION,
+            'php' => PHP_VERSION,
         ]);
     }
 }

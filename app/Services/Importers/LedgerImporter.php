@@ -26,7 +26,7 @@ class LedgerImporter extends BaseImporter
      */
     public function run($start = 0)
     {
-        if (!$this->db->tableExists('ledger')) {
+        if (! $this->db->tableExists('ledger')) {
             return;
         }
 
@@ -39,7 +39,7 @@ class LedgerImporter extends BaseImporter
         $rows = $this->db->readRows($this->table, $this->idField, $start);
         foreach ($rows as $row) {
             $pirep = Pirep::find($this->idMapper->getMapping('pireps', $row->pirepid));
-            if (!$pirep) {
+            if (! $pirep) {
                 continue;
             }
 

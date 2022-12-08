@@ -21,7 +21,7 @@ return [
      * Both parameters are in px.
      */
     'avatar' => [
-        'width'  => '200',
+        'width' => '200',
         'height' => '200',
     ],
 
@@ -93,13 +93,13 @@ return [
      * under settings, for the display units
      */
     'internal_units' => [
-        'altitude'    => 'feet',
-        'distance'    => 'nmi',
-        'fuel'        => 'lbs',
-        'mass'        => 'lbs',
+        'altitude' => 'feet',
+        'distance' => 'nmi',
+        'fuel' => 'lbs',
+        'mass' => 'lbs',
         'temperature' => 'celsius',
-        'velocity'    => 'knots',
-        'volume'      => 'gallons',
+        'velocity' => 'knots',
+        'volume' => 'gallons',
     ],
 
     /*
@@ -112,11 +112,11 @@ return [
      * The links to various docs on the documentation site
      */
     'docs' => [
-        'root'             => 'https://docs.phpvms.net',
-        'cron'             => '/installation/cron',
-        'finances'         => '/concepts/finances',
+        'root' => 'https://docs.phpvms.net',
+        'cron' => '/installation/cron',
+        'finances' => '/concepts/finances',
         'importing_legacy' => '/installation/importing',
-        'load_factor'      => '/operations/flights#load-factor',
-        'subfleets'        => '/concepts/basics#subfleets-and-aircraft',
+        'load_factor' => '/operations/flights#load-factor',
+        'subfleets' => '/concepts/basics#subfleets-and-aircraft',
     ],
 ];

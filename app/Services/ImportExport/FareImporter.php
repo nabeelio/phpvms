@@ -17,21 +17,20 @@ class FareImporter extends ImportExport
      * Should match the database fields, for the most part
      */
     public static $columns = [
-        'code'     => 'required',
-        'name'     => 'required',
-        'price'    => 'nullable|numeric',
-        'cost'     => 'nullable|numeric',
+        'code' => 'required',
+        'name' => 'required',
+        'price' => 'nullable|numeric',
+        'cost' => 'nullable|numeric',
         'capacity' => 'required|integer',
-        'notes'    => 'nullable',
-        'active'   => 'nullable|boolean',
+        'notes' => 'nullable',
+        'active' => 'nullable|boolean',
     ];
 
     /**
      * Import a flight, parse out the different rows
      *
-     * @param array $row
-     * @param int   $index
-     *
+     * @param  array  $row
+     * @param  int  $index
      * @return bool
      */
     public function import(array $row, $index): bool
@@ -43,10 +42,12 @@ class FareImporter extends ImportExport
             ], $row);
         } catch (\Exception $e) {
             $this->errorLog('Error in row '.$index.': '.$e->getMessage());
+
             return false;
         }
 
         $this->log('Imported '.$row['code'].' '.$row['name']);
+
         return true;
     }
 }

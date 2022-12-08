@@ -40,15 +40,15 @@ class AirportImporter extends BaseImporter
             }
 
             $attrs = [
-                'id'                   => trim($row->icao),
-                'icao'                 => trim($row->icao),
-                'name'                 => $row->name,
-                'country'              => $row->country,
-                'lat'                  => $row->lat,
-                'lon'                  => $row->lng,
-                'hub'                  => $row->hub,
+                'id' => trim($row->icao),
+                'icao' => trim($row->icao),
+                'name' => $row->name,
+                'country' => $row->country,
+                'lat' => $row->lat,
+                'lon' => $row->lng,
+                'hub' => $row->hub,
                 'ground_handling_cost' => $ground_handling_cost,
-                'fuel_jeta_cost'       => $fuel_jetA_cost,
+                'fuel_jeta_cost' => $fuel_jetA_cost,
             ];
 
             $w = ['id' => $attrs['id']];
@@ -61,6 +61,7 @@ class AirportImporter extends BaseImporter
                 $errorCode = $e->errorInfo[1];
                 if ($sqlState === '23000' && $errorCode === 1062) {
                     Log::info('Found duplicate for '.$row->icao.', ignoring');
+
                     return true;
                 }
 
@@ -73,6 +74,7 @@ class AirportImporter extends BaseImporter
         }
 
         $this->info('Imported '.$count.' airports');
+
         return true;
     }
 }

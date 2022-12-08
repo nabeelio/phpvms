@@ -29,15 +29,14 @@ trait JournalTrait
     /**
      * Initialize a journal for a given model object
      *
-     * @param string $currency_code
+     * @param  string  $currency_code
+     * @return Journal
      *
      * @throws \Exception
-     *
-     * @return Journal
      */
     public function initJournal($currency_code = 'USD')
     {
-        if (!$this->journal) {
+        if (! $this->journal) {
             $journal = new Journal();
             $journal->type = $this->journal_type;
             $journal->currency = $currency_code;

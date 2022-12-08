@@ -18,7 +18,6 @@ class DatabaseService extends Service
      * @param $name
      * @param $user
      * @param $pass
-     *
      * @return bool
      */
     public function checkDbConnection($driver, $host, $port, $name, $user, $pass)

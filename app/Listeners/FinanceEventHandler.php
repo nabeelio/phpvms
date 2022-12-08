@@ -28,7 +28,7 @@ class FinanceEventHandler extends Listener
     /**
      * Kick off the finance events when a PIREP is accepted
      *
-     * @param PirepAccepted $event
+     * @param  PirepAccepted  $event
      *
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
@@ -43,7 +43,7 @@ class FinanceEventHandler extends Listener
     /**
      * Delete all finances in the journal for a given PIREP
      *
-     * @param PirepRejected $event
+     * @param  PirepRejected  $event
      *
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException

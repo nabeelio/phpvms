@@ -32,25 +32,24 @@ class Award extends Model
     ];
 
     public static $rules = [
-        'name'             => 'required',
-        'description'      => 'nullable',
-        'image_url'        => 'nullable',
-        'ref_model'        => 'required',
+        'name' => 'required',
+        'description' => 'nullable',
+        'image_url' => 'nullable',
+        'ref_model' => 'required',
         'ref_model_params' => 'nullable',
-        'active'           => 'nullable',
+        'active' => 'nullable',
     ];
 
     /**
      * Get the referring object
      *
-     * @param self      $award
-     * @param User|null $user
-     *
+     * @param  self  $award
+     * @param  User|null  $user
      * @return null
      */
     public function getReference(self $award = null, User $user = null)
     {
-        if (!$this->ref_model) {
+        if (! $this->ref_model) {
             return;
         }
 

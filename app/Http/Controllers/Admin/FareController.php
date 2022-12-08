@@ -21,13 +21,14 @@ class FareController extends Controller
     use Importable;
 
     private FareRepository $fareRepo;
+
     private ImportService $importSvc;
 
     /**
      * FareController constructor.
      *
-     * @param FareRepository $fareRepo
-     * @param ImportService  $importSvc
+     * @param  FareRepository  $fareRepo
+     * @param  ImportService  $importSvc
      */
     public function __construct(
         FareRepository $fareRepo,
@@ -40,11 +41,10 @@ class FareController extends Controller
     /**
      * Display a listing of the Fare.
      *
-     * @param Request $request
+     * @param  Request  $request
+     * @return mixed
      *
      * @throws \Prettus\Repository\Exceptions\RepositoryException
-     *
-     * @return mixed
      */
     public function index(Request $request)
     {
@@ -68,11 +68,10 @@ class FareController extends Controller
     /**
      * Store a newly created Fare in storage.
      *
-     * @param CreateFareRequest $request
+     * @param  CreateFareRequest  $request
+     * @return mixed
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
-     *
-     * @return mixed
      */
     public function store(CreateFareRequest $request)
     {
@@ -80,14 +79,14 @@ class FareController extends Controller
         $fare = $this->fareRepo->create($input);
 
         Flash::success('Fare saved successfully.');
+
         return redirect(route('admin.fares.index'));
     }
 
     /**
      * Display the specified Fare.
      *
-     * @param int $id
-     *
+     * @param  int  $id
      * @return mixed
      */
     public function show($id)
@@ -95,6 +94,7 @@ class FareController extends Controller
         $fare = $this->fareRepo->findWithoutFail($id);
         if (empty($fare)) {
             Flash::error('Fare not found');
+
             return redirect(route('admin.fares.index'));
         }
 
@@ -106,8 +106,7 @@ class FareController extends Controller
     /**
      * Show the form for editing the specified Fare.
      *
-     * @param int $id
-     *
+     * @param  int  $id
      * @return mixed
      */
     public function edit($id)
@@ -115,11 +114,12 @@ class FareController extends Controller
         $fare = $this->fareRepo->findWithoutFail($id);
         if (empty($fare)) {
             Flash::error('Fare not found');
+
             return redirect(route('admin.fares.index'));
         }
 
         return view('admin.fares.edit', [
-            'fare'       => $fare,
+            'fare' => $fare,
             'fare_types' => FareType::select(),
         ]);
     }
@@ -127,32 +127,32 @@ class FareController extends Controller
     /**
      * Update the specified Fare in storage.
      *
-     * @param int               $id
-     * @param UpdateFareRequest $request
+     * @param  int  $id
+     * @param  UpdateFareRequest  $request
+     * @return mixed
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
-     *
-     * @return mixed
      */
     public function update($id, UpdateFareRequest $request)
     {
         $fare = $this->fareRepo->findWithoutFail($id);
         if (empty($fare)) {
             Flash::error('Fare not found');
+
             return redirect(route('admin.fares.index'));
         }
 
         $fare = $this->fareRepo->update($request->all(), $id);
 
         Flash::success('Fare updated successfully.');
+
         return redirect(route('admin.fares.index'));
     }
 
     /**
      * Remove the specified Fare from storage.
      *
-     * @param int $id
-     *
+     * @param  int  $id
      * @return mixed
      */
     public function destroy($id)
@@ -160,6 +160,7 @@ class FareController extends Controller
         $fare = $this->fareRepo->findWithoutFail($id);
         if (empty($fare)) {
             Flash::error('Fare not found');
+
             return redirect(route('admin.fares.index'));
         }
 
@@ -168,17 +169,17 @@ class FareController extends Controller
         $this->fareRepo->delete($id);
 
         Flash::success('Fare deleted successfully.');
+
         return redirect(route('admin.fares.index'));
     }
 
     /**
      * Run the aircraft exporter
      *
-     * @param Request $request
+     * @param  Request  $request
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
      *
      * @throws \League\Csv\Exception
-     *
-     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
      */
     public function export(Request $request)
     {
@@ -186,6 +187,7 @@ class FareController extends Controller
         $fares = $this->fareRepo->all();
 
         $path = $exporter->exportFares($fares);
+
         return response()
             ->download($path, 'fares.csv', [
                 'content-type' => 'text/csv',
@@ -194,17 +196,16 @@ class FareController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param  Request  $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      *
      * @throws \Illuminate\Validation\ValidationException
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function import(Request $request)
     {
         $logs = [
             'success' => [],
-            'errors'  => [],
+            'errors' => [],
         ];
 
         if ($request->isMethod('post')) {

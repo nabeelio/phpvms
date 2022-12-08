@@ -32,7 +32,7 @@ class ModulesController extends Controller
         $new_modules = $this->moduleSvc->scan();
 
         return view('admin.modules.index', [
-            'modules'     => $modules,
+            'modules' => $modules,
             'new_modules' => $new_modules,
         ]);
     }
@@ -50,13 +50,13 @@ class ModulesController extends Controller
     /**
      * Store a newly Uploaded Module in the Storage.
      *
-     * @param Request $request
-     *
+     * @param  Request  $request
      * @return Application|RedirectResponse|Redirector
      */
     public function store(Request $request)
     {
         $this->moduleSvc->installModule($request->file('module_file'));
+
         return $this->index();
     }
 
@@ -64,12 +64,12 @@ class ModulesController extends Controller
      * Show the form for editing the specified Module.
      *
      * @param $id
-     *
      * @return Application|Factory|View
      */
     public function edit($id)
     {
         $module = $this->moduleSvc->getModule($id);
+
         return view('admin.modules.edit', [
             'module' => $module,
         ]);
@@ -79,22 +79,21 @@ class ModulesController extends Controller
      * Update the specified Module in storage.
      *
      * @param $id
-     * @param Request $request
-     *
+     * @param  Request  $request
      * @return Application|RedirectResponse|Redirector
      */
     public function update($id, Request $request)
     {
         $this->moduleSvc->updateModule($id, $request->has('enabled'));
         flash()->success('Module Status Changed!');
+
         return redirect(route('admin.modules.index'));
     }
 
     /**
      * Enabling Module Present in the Modules Folder
      *
-     * @param Request $request
-     *
+     * @param  Request  $request
      * @return Application|RedirectResponse|Redirector
      */
     public function enable(Request $request)
@@ -113,9 +112,8 @@ class ModulesController extends Controller
     /**
      * Verify and Remove the specified Module from storage.
      *
-     * @param mixed   $id
-     * @param Request $request
-     *
+     * @param  mixed  $id
+     * @param  Request  $request
      * @return mixed
      */
     public function destroy($id, Request $request)
@@ -123,9 +121,11 @@ class ModulesController extends Controller
         $delete = $this->moduleSvc->deleteModule($id, $request->all());
         if ($delete == true) {
             flash()->success('Module Deleted Successfully!');
+
             return redirect(route('admin.modules.index'));
         }
         flash()->error('Verification Failed!');
+
         return redirect(route('admin.modules.edit', $id));
     }
 }

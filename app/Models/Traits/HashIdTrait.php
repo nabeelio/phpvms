@@ -7,9 +7,9 @@ use App\Support\Utils;
 trait HashIdTrait
 {
     /**
-     * @throws \Hashids\HashidsException
-     *
      * @return string
+     *
+     * @throws \Hashids\HashidsException
      */
     final protected static function createNewHashId(): string
     {

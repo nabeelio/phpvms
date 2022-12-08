@@ -10,30 +10,36 @@ use App\Contracts\Enum;
 class Days extends Enum
 {
     public const MONDAY = 1 << 0;
+
     public const TUESDAY = 1 << 1;
+
     public const WEDNESDAY = 1 << 2;
+
     public const THURSDAY = 1 << 3;
+
     public const FRIDAY = 1 << 4;
+
     public const SATURDAY = 1 << 5;
+
     public const SUNDAY = 1 << 6;
 
     public static array $labels = [
-        self::MONDAY    => 'common.days.mon',
-        self::TUESDAY   => 'common.days.tues',
+        self::MONDAY => 'common.days.mon',
+        self::TUESDAY => 'common.days.tues',
         self::WEDNESDAY => 'common.days.wed',
-        self::THURSDAY  => 'common.days.thurs',
-        self::FRIDAY    => 'common.days.fri',
-        self::SATURDAY  => 'common.days.sat',
-        self::SUNDAY    => 'common.days.sun',
+        self::THURSDAY => 'common.days.thurs',
+        self::FRIDAY => 'common.days.fri',
+        self::SATURDAY => 'common.days.sat',
+        self::SUNDAY => 'common.days.sun',
     ];
 
     public static array $codes = [
-        'M'  => self::MONDAY,
-        'T'  => self::TUESDAY,
-        'W'  => self::WEDNESDAY,
+        'M' => self::MONDAY,
+        'T' => self::TUESDAY,
+        'W' => self::WEDNESDAY,
         'Th' => self::THURSDAY,
-        'F'  => self::FRIDAY,
-        'S'  => self::SATURDAY,
+        'F' => self::FRIDAY,
+        'S' => self::SATURDAY,
         'Su' => self::SUNDAY,
     ];
 
@@ -53,8 +59,7 @@ class Days extends Enum
     /**
      * Create the masked value for the days of week
      *
-     * @param array $days
-     *
+     * @param  array  $days
      * @return int|mixed
      */
     public static function getDaysMask(array $days)
@@ -72,7 +77,6 @@ class Days extends Enum
      *
      * @param $mask
      * @param $day
-     *
      * @return bool
      */
     public static function in($mask, $day): bool
@@ -84,7 +88,6 @@ class Days extends Enum
      * Does the mask contain today?
      *
      * @param $val
-     *
      * @return bool
      */
     public static function isToday($val): bool

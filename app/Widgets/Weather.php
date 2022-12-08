@@ -11,7 +11,7 @@ use App\Services\AirportService;
 class Weather extends Widget
 {
     protected $config = [
-        'icao'     => null,
+        'icao' => null,
         'raw_only' => null,
     ];
 
@@ -26,10 +26,10 @@ class Weather extends Widget
         $taf = $airportSvc->getTaf($this->config['icao']);
 
         return view('widgets.weather', [
-            'config'    => $this->config,
-            'metar'     => $metar,
-            'taf'       => $taf,
-            'unit_alt'  => setting('units.altitude'),
+            'config' => $this->config,
+            'metar' => $metar,
+            'taf' => $taf,
+            'unit_alt' => setting('units.altitude'),
             'unit_dist' => setting('units.distance'),
             'unit_temp' => setting('units.temperature'),
         ]);

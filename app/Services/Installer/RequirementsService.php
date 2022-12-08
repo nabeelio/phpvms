@@ -31,12 +31,12 @@ class RequirementsService extends Service
         $extensions = [];
         foreach (config('installer.extensions') as $ext) {
             $pass = true;
-            if (!\extension_loaded($ext)) {
+            if (! \extension_loaded($ext)) {
                 $pass = false;
             }
 
             $extensions[] = [
-                'ext'    => $ext,
+                'ext' => $ext,
                 'passed' => $pass,
             ];
         }
@@ -58,16 +58,16 @@ class RequirementsService extends Service
         foreach (config('installer.permissions') as $path) {
             $pass = true;
 
-            if (!file_exists($path)) {
+            if (! file_exists($path)) {
                 $pass = false;
             }
 
-            if (!is_writable($path)) {
+            if (! is_writable($path)) {
                 $pass = false;
             }
 
             $directories[] = [
-                'dir'    => $path,
+                'dir' => $path,
                 'passed' => $pass,
             ];
         }

@@ -27,8 +27,7 @@ class SubfleetRepository extends Repository implements CacheableInterface
     /**
      * Return the list of aircraft formatted for a select box
      *
-     * @param bool $add_blank
-     *
+     * @param  bool  $add_blank
      * @return array
      */
     public function selectBoxList($add_blank = false): array

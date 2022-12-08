@@ -23,8 +23,7 @@ class AirportExporter extends ImportExport
     /**
      * Import a flight, parse out the different rows
      *
-     * @param Airport $airport
-     *
+     * @param  Airport  $airport
      * @return array
      */
     public function export($airport): array

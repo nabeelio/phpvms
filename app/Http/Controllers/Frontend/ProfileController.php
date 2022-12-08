@@ -25,15 +25,17 @@ use Nwidart\Modules\Facades\Module;
 class ProfileController extends Controller
 {
     private AirlineRepository $airlineRepo;
+
     private AirportRepository $airportRepo;
+
     private UserRepository $userRepo;
 
     /**
      * ProfileController constructor.
      *
-     * @param AirlineRepository $airlineRepo
-     * @param AirportRepository $airportRepo
-     * @param UserRepository    $userRepo
+     * @param  AirlineRepository  $airlineRepo
+     * @param  AirportRepository  $airportRepo
+     * @param  UserRepository  $userRepo
      */
     public function __construct(
         AirlineRepository $airlineRepo,
@@ -73,7 +75,6 @@ class ProfileController extends Controller
 
     /**
      * @param $id
-     *
      * @return mixed
      */
     public function show($id)
@@ -100,20 +101,19 @@ class ProfileController extends Controller
         $userFields = $this->userRepo->getUserFields($user, true);
 
         return view('profile.index', [
-            'user'       => $user,
+            'user' => $user,
             'userFields' => $userFields,
-            'acars'      => $this->acarsEnabled(),
+            'acars' => $this->acarsEnabled(),
         ]);
     }
 
     /**
      * Show the edit for form the user's profile
      *
-     * @param Request $request
+     * @param  Request  $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
      *
      * @throws \Exception
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
      */
     public function edit(Request $request)
     {
@@ -131,21 +131,20 @@ class ProfileController extends Controller
         $userFields = $this->userRepo->getUserFields($user);
 
         return view('profile.edit', [
-            'user'       => $user,
-            'airlines'   => $airlines,
-            'airports'   => $airports,
-            'countries'  => Countries::getSelectList(),
-            'timezones'  => Timezonelist::toArray(),
+            'user' => $user,
+            'airlines' => $airlines,
+            'airports' => $airports,
+            'countries' => Countries::getSelectList(),
+            'timezones' => Timezonelist::toArray(),
             'userFields' => $userFields,
         ]);
     }
 
     /**
-     * @param Request $request
+     * @param  Request  $request
+     * @return mixed
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
-     *
-     * @return mixed
      */
     public function update(Request $request)
     {
@@ -153,11 +152,11 @@ class ProfileController extends Controller
         $user = $this->userRepo->findWithoutFail($id);
 
         $rules = [
-            'name'       => 'required',
-            'email'      => 'required|unique:users,email,'.$id,
+            'name' => 'required',
+            'email' => 'required|unique:users,email,'.$id,
             'airline_id' => 'required',
-            'password'   => 'confirmed',
-            'avatar'     => 'nullable|mimes:jpeg,png,jpg',
+            'password' => 'confirmed',
+            'avatar' => 'nullable|mimes:jpeg,png,jpg',
         ];
 
         $userFields = UserField::where(['show_on_registration' => true, 'required' => true])->get();
@@ -177,7 +176,7 @@ class ProfileController extends Controller
         }
 
         $req_data = $request->all();
-        if (!$request->filled('password')) {
+        if (! $request->filled('password')) {
             unset($req_data['password']);
         } else {
             $req_data['password'] = Hash::make($req_data['password']);
@@ -227,7 +226,7 @@ class ProfileController extends Controller
             $field_name = 'field_'.$field->slug;
             UserFieldValue::updateOrCreate([
                 'user_field_id' => $field->id,
-                'user_id'       => $id,
+                'user_id' => $id,
             ], ['value' => $request->get($field_name)]);
         }
 
@@ -239,8 +238,7 @@ class ProfileController extends Controller
     /**
      * Regenerate the user's API key
      *
-     * @param Request $request
-     *
+     * @param  Request  $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function regen_apikey(Request $request)
@@ -259,8 +257,7 @@ class ProfileController extends Controller
     /**
      * Generate the ACARS config and send it to download
      *
-     * @param \Illuminate\Http\Request $request
-     *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
     public function acars(Request $request)
@@ -269,9 +266,9 @@ class ProfileController extends Controller
         $config = view('system.acars.config', ['user' => $user])->render();
 
         return response($config)->withHeaders([
-            'Content-Type'        => 'text/xml',
-            'Content-Length'      => strlen($config),
-            'Cache-Control'       => 'no-store, no-cache',
+            'Content-Type' => 'text/xml',
+            'Content-Length' => strlen($config),
+            'Cache-Control' => 'no-store, no-cache',
             'Content-Disposition' => 'attachment; filename="settings.xml',
         ]);
     }

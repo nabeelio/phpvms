@@ -19,16 +19,16 @@ class SubfleetImporter extends ImportExport
      * Should match the database fields, for the most part
      */
     public static $columns = [
-        'airline'                    => 'required',
-        'hub_id'                     => 'nullable',
-        'type'                       => 'required',
-        'simbrief_type'              => 'nullable',
-        'name'                       => 'required',
-        'fuel_type'                  => 'nullable',
-        'cost_block_hour'            => 'nullable',
-        'cost_delay_minute'          => 'nullable',
+        'airline' => 'required',
+        'hub_id' => 'nullable',
+        'type' => 'required',
+        'simbrief_type' => 'nullable',
+        'name' => 'required',
+        'fuel_type' => 'nullable',
+        'cost_block_hour' => 'nullable',
+        'cost_delay_minute' => 'nullable',
         'ground_handling_multiplier' => 'nullable',
-        'fares'                      => 'nullable',
+        'fares' => 'nullable',
     ];
 
     private $fareSvc;
@@ -44,9 +44,8 @@ class SubfleetImporter extends ImportExport
     /**
      * Import a flight, parse out the different rows
      *
-     * @param array $row
-     * @param int   $index
-     *
+     * @param  array  $row
+     * @param  int  $index
      * @return bool
      */
     public function import(array $row, $index): bool
@@ -60,20 +59,22 @@ class SubfleetImporter extends ImportExport
             ], $row);
         } catch (\Exception $e) {
             $this->errorLog('Error in row '.$index.': '.$e->getMessage());
+
             return false;
         }
 
         $this->processFares($subfleet, $row['fares']);
 
         $this->log('Imported '.$row['type']);
+
         return true;
     }
 
     /**
      * Parse all of the fares in the multi-format
      *
-     * @param Subfleet $subfleet
-     * @param          $col
+     * @param  Subfleet  $subfleet
+     * @param    $col
      */
     protected function processFares(Subfleet &$subfleet, $col): void
     {

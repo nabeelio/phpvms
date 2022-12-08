@@ -16,6 +16,7 @@ class CreateAirportRequest extends FormRequest
     {
         $rules = Airport::$rules;
         $rules['icao'] .= '|unique:airports';
+
         return $rules;
     }
 }

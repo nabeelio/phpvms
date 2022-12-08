@@ -112,21 +112,21 @@ class User extends Authenticatable
     ];
 
     protected $casts = [
-        'id'            => 'integer',
-        'pilot_id'      => 'integer',
-        'flights'       => 'integer',
-        'flight_time'   => 'integer',
+        'id' => 'integer',
+        'pilot_id' => 'integer',
+        'flights' => 'integer',
+        'flight_time' => 'integer',
         'transfer_time' => 'integer',
-        'balance'       => 'double',
-        'state'         => 'integer',
-        'status'        => 'integer',
-        'toc_accepted'  => 'boolean',
-        'opt_in'        => 'boolean',
+        'balance' => 'double',
+        'state' => 'integer',
+        'status' => 'integer',
+        'toc_accepted' => 'boolean',
+        'opt_in' => 'boolean',
     ];
 
     public static $rules = [
-        'name'     => 'required',
-        'email'    => 'required|email',
+        'name' => 'required',
+        'email' => 'required|email',
         'pilot_id' => 'required|integer',
     ];
 
@@ -202,7 +202,7 @@ class User extends Authenticatable
     {
         return Attribute::make(
             get: function ($_, $attrs) {
-                if (!$attrs['avatar']) {
+                if (! $attrs['avatar']) {
                     return null;
                 }
 
@@ -214,8 +214,7 @@ class User extends Authenticatable
     }
 
     /**
-     * @param mixed $size Size of the gravatar, in pixels
-     *
+     * @param  mixed  $size Size of the gravatar, in pixels
      * @return string
      */
     public function gravatar($size = null)

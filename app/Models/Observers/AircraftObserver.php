@@ -8,13 +8,13 @@ use App\Support\ICAO;
 class AircraftObserver
 {
     /**
-     * @param Aircraft $aircraft
+     * @param  Aircraft  $aircraft
      *
      * @throws \Exception
      */
     public function creating(Aircraft $aircraft): void
     {
-        if (!empty($aircraft->airport_id)) {
+        if (! empty($aircraft->airport_id)) {
             $aircraft->airport_id = strtoupper($aircraft->airport_id);
         }
 

@@ -14,7 +14,7 @@ class AirlineController extends Controller
     /**
      * AirlineController constructor.
      *
-     * @param AirlineRepository $airlineRepo
+     * @param  AirlineRepository  $airlineRepo
      */
     public function __construct(AirlineRepository $airlineRepo)
     {
@@ -24,8 +24,7 @@ class AirlineController extends Controller
     /**
      * Return all the airlines, paginated
      *
-     * @param Request $request
-     *
+     * @param  Request  $request
      * @return mixed
      */
     public function index(Request $request)
@@ -39,7 +38,6 @@ class AirlineController extends Controller
      * Do a lookup, via vaCentral, for the airport information
      *
      * @param $id
-     *
      * @return AirlineResource
      */
     public function get($id)

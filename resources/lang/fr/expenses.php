@@ -2,8 +2,8 @@
 
 return [
     'type' => [
-        'flight'  => 'Vol',
-        'daily'   => 'Quotidien',
+        'flight' => 'Vol',
+        'daily' => 'Quotidien',
         'monthly' => 'Mensuel',
     ],
 ];

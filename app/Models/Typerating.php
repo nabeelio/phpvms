@@ -18,10 +18,10 @@ class Typerating extends Model
 
     // Validation
     public static $rules = [
-        'name'        => 'required',
-        'type'        => 'required',
+        'name' => 'required',
+        'type' => 'required',
         'description' => 'nullable',
-        'image_url'   => 'nullable',
+        'image_url' => 'nullable',
     ];
 
     // Relationships

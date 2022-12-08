@@ -9,6 +9,7 @@ use Symfony\Component\Yaml\Yaml;
 class PirepExport extends Command
 {
     protected $signature = 'phpvms:pirep-export {id}';
+
     protected $description = 'PIREP table export';
 
     /**
@@ -24,12 +25,12 @@ class PirepExport extends Command
 
         // List the tables to export and the column name for the pirep id
         $tables = [
-            'pireps'               => 'id',
-            'acars'                => 'pirep_id',
-            'pirep_comments'       => 'pirep_id',
-            'pirep_fares'          => 'pirep_id',
-            'pirep_field_values'   => 'pirep_id',
-            'expenses'             => 'ref_model_id',
+            'pireps' => 'id',
+            'acars' => 'pirep_id',
+            'pirep_comments' => 'pirep_id',
+            'pirep_fares' => 'pirep_id',
+            'pirep_field_values' => 'pirep_id',
+            'expenses' => 'ref_model_id',
             'journal_transactions' => 'ref_model_id',
         ];
 

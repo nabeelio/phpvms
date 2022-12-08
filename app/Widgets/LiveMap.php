@@ -13,8 +13,8 @@ class LiveMap extends Widget
 {
     protected $config = [
         'height' => '800px',
-        'width'  => '100%',
-        'table'  => true,
+        'width' => '100%',
+        'table' => true,
     ];
 
     /**
@@ -34,11 +34,11 @@ class LiveMap extends Widget
         }, explode(',', $center_coords));
 
         return view('widgets.live_map', [
-            'config'    => $this->config,
-            'pireps'    => $pireps,
+            'config' => $this->config,
+            'pireps' => $pireps,
             'positions' => $positions,
-            'center'    => $center_coords,
-            'zoom'      => setting('acars.default_zoom', 5),
+            'center' => $center_coords,
+            'zoom' => setting('acars.default_zoom', 5),
         ]);
     }
 }

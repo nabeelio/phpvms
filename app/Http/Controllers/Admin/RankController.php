@@ -16,15 +16,17 @@ use Prettus\Repository\Criteria\RequestCriteria;
 class RankController extends Controller
 {
     private FleetService $fleetSvc;
+
     private RankRepository $rankRepository;
+
     private SubfleetRepository $subfleetRepo;
 
     /**
      * RankController constructor.
      *
-     * @param FleetService       $fleetSvc
-     * @param RankRepository     $rankingRepo
-     * @param SubfleetRepository $subfleetRepo
+     * @param  FleetService  $fleetSvc
+     * @param  RankRepository  $rankingRepo
+     * @param  SubfleetRepository  $subfleetRepo
      */
     public function __construct(
         FleetService $fleetSvc,
@@ -40,7 +42,6 @@ class RankController extends Controller
      * Get the available subfleets for a rank
      *
      * @param $rank
-     *
      * @return array
      */
     protected function getAvailSubfleets($rank)
@@ -59,11 +60,10 @@ class RankController extends Controller
     /**
      * Display a listing of the Ranking.
      *
-     * @param Request $request
+     * @param  Request  $request
+     * @return mixed
      *
      * @throws \Prettus\Repository\Exceptions\RepositoryException
-     *
-     * @return mixed
      */
     public function index(Request $request)
     {
@@ -88,11 +88,10 @@ class RankController extends Controller
     /**
      * Store a newly created Ranking in storage.
      *
-     * @param CreateRankRequest $request
+     * @param  CreateRankRequest  $request
+     * @return mixed
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
-     *
-     * @return mixed
      */
     public function store(CreateRankRequest $request)
     {
@@ -109,8 +108,7 @@ class RankController extends Controller
     /**
      * Display the specified Ranking.
      *
-     * @param int $id
-     *
+     * @param  int  $id
      * @return mixed
      */
     public function show($id)
@@ -131,8 +129,7 @@ class RankController extends Controller
     /**
      * Show the form for editing the specified Ranking.
      *
-     * @param int $id
-     *
+     * @param  int  $id
      * @return mixed
      */
     public function edit($id)
@@ -148,7 +145,7 @@ class RankController extends Controller
         $avail_subfleets = $this->getAvailSubfleets($rank);
 
         return view('admin.ranks.edit', [
-            'rank'            => $rank,
+            'rank' => $rank,
             'avail_subfleets' => $avail_subfleets,
         ]);
     }
@@ -156,12 +153,11 @@ class RankController extends Controller
     /**
      * Update the specified Ranking in storage.
      *
-     * @param int               $id
-     * @param UpdateRankRequest $request
+     * @param  int  $id
+     * @param  UpdateRankRequest  $request
+     * @return mixed
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
-     *
-     * @return mixed
      */
     public function update($id, UpdateRankRequest $request)
     {
@@ -184,8 +180,7 @@ class RankController extends Controller
     /**
      * Remove the specified Ranking from storage.
      *
-     * @param int $id
-     *
+     * @param  int  $id
      * @return mixed
      */
     public function destroy($id)
@@ -207,7 +202,6 @@ class RankController extends Controller
 
     /**
      * @param $rank
-     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     protected function return_subfleet_view($rank)
@@ -215,7 +209,7 @@ class RankController extends Controller
         $avail_subfleets = $this->getAvailSubfleets($rank);
 
         return view('admin.ranks.subfleets', [
-            'rank'            => $rank,
+            'rank' => $rank,
             'avail_subfleets' => $avail_subfleets,
         ]);
     }
@@ -223,9 +217,8 @@ class RankController extends Controller
     /**
      * Subfleet operations on a rank
      *
-     * @param         $id
-     * @param Request $request
-     *
+     * @param    $id
+     * @param  Request  $request
      * @return mixed
      */
     public function subfleets($id, Request $request)
@@ -233,6 +226,7 @@ class RankController extends Controller
         $rank = $this->rankRepository->findWithoutFail($id);
         if (empty($rank)) {
             Flash::error('Rank not found!');
+
             return redirect(route('admin.ranks.index'));
         }
 

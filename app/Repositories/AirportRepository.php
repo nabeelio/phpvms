@@ -24,9 +24,8 @@ class AirportRepository extends Repository implements CacheableInterface
     /**
      * Return the list of airports formatted for a select box
      *
-     * @param bool $add_blank
-     * @param bool $only_hubs
-     *
+     * @param  bool  $add_blank
+     * @param  bool  $only_hubs
      * @return array
      */
     public function selectBoxList($add_blank = false, $only_hubs = false): array
@@ -46,7 +45,7 @@ class AirportRepository extends Repository implements CacheableInterface
 
         foreach ($items as $i) {
             $s = $i->icao.' - '.$i->name;
-            if (!$only_hubs && $i->hub) {
+            if (! $only_hubs && $i->hub) {
                 $s .= ' (hub)';
             }
 

@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Collection;
 class AcarsReplay extends Command
 {
     protected $signature = 'phpvms:replay {files} {--manual} {--write-all} {--no-submit}';
+
     protected $description = 'Replay an ACARS file';
 
     /**
@@ -46,7 +47,7 @@ class AcarsReplay extends Command
 
         $this->httpClient = new Client([
             'base_uri' => config('app.url'),
-            'headers'  => [
+            'headers' => [
                 'Authorization' => $this->apiKey,
             ],
         ]);
@@ -55,11 +56,10 @@ class AcarsReplay extends Command
     /**
      * Make a request to start a PIREP
      *
-     * @param \stdClass $flight
+     * @param  \stdClass  $flight
+     * @return string
      *
      * @throws \RuntimeException
-     *
-     * @return string
      */
     protected function startPirep($flight): string
     {
@@ -73,14 +73,14 @@ class AcarsReplay extends Command
 
         $response = $this->httpClient->post('/api/pireps/prefile', [
             'json' => [
-                'airline_id'          => 1,
-                'flight_number'       => $flight_number,
-                'aircraft_id'         => 1,
-                'dpt_airport_id'      => $flight->planned_depairport,
-                'arr_airport_id'      => $flight->planned_destairport,
-                'level'               => $flight->planned_altitude,
+                'airline_id' => 1,
+                'flight_number' => $flight_number,
+                'aircraft_id' => 1,
+                'dpt_airport_id' => $flight->planned_depairport,
+                'arr_airport_id' => $flight->planned_destairport,
+                'level' => $flight->planned_altitude,
                 'planned_flight_time' => $pft,
-                'route'               => $flight->planned_route,
+                'route' => $flight->planned_route,
             ],
         ]);
 
@@ -93,10 +93,9 @@ class AcarsReplay extends Command
      * Mark the PIREP as filed
      *
      * @param $pirep_id
+     * @return mixed
      *
      * @throws \RuntimeException
-     *
-     * @return mixed
      */
     protected function filePirep($pirep_id)
     {
@@ -112,22 +111,21 @@ class AcarsReplay extends Command
     /**
      * @param $pirep_id
      * @param $data
+     * @return array
      *
      * @throws \RuntimeException
-     *
-     * @return array
      */
     protected function postUpdate($pirep_id, $data)
     {
         $uri = '/api/pireps/'.$pirep_id.'/acars/position';
 
         $position = [
-            'log'         => '',
-            'lat'         => $data->latitude,
-            'lon'         => $data->longitude,
-            'heading'     => $data->heading,
-            'altitude'    => $data->altitude,
-            'gs'          => $data->groundspeed,
+            'log' => '',
+            'lat' => $data->latitude,
+            'lon' => $data->longitude,
+            'heading' => $data->heading,
+            'altitude' => $data->altitude,
+            'gs' => $data->groundspeed,
             'transponder' => $data->transponder,
         ];
 
@@ -159,7 +157,7 @@ class AcarsReplay extends Command
     /**
      * Parse this file and run the updates
      *
-     * @param array $files
+     * @param  array  $files
      *
      * @throws \RuntimeException
      */
@@ -214,15 +212,15 @@ class AcarsReplay extends Command
                 $this->postUpdate($pirep_id, $update);
 
                 // we're done and don't put the "no-submit" option
-                if ($updates->count() === 0 && !$this->option('no-submit')) {
+                if ($updates->count() === 0 && ! $this->option('no-submit')) {
                     $this->filePirep($pirep_id);
                 }
             })->filter(function ($updates, $idx) {
                 return $updates->count() > 0;
             });
 
-            if (!$this->option('write-all')) {
-                if (!$this->option('manual')) {
+            if (! $this->option('write-all')) {
+                if (! $this->option('manual')) {
                     sleep($this->sleepTime);
                 } else {
                     $this->confirm('Send next batch of updates?', true);
@@ -234,9 +232,9 @@ class AcarsReplay extends Command
     /**
      * Execute the console command.
      *
-     * @throws \RuntimeException
-     *
      * @return mixed
+     *
+     * @throws \RuntimeException
      */
     public function handle(): void
     {
@@ -247,7 +245,7 @@ class AcarsReplay extends Command
             $this->info('In "dump-all" mode, just writing it all in');
         } else {
             /* @noinspection NestedPositiveIfStatementsInspection */
-            if (!$manual_mode) {
+            if (! $manual_mode) {
                 $this->info('Going to send updates every 10s');
             } else {
                 $this->info('In "manual advance" mode');

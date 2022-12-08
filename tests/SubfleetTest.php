@@ -8,6 +8,7 @@ use App\Services\FareService;
 class SubfleetTest extends TestCase
 {
     protected $ac_svc;
+
     protected $ICAO = 'B777';
 
     public function setUp(): void

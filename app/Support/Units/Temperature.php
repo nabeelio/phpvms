@@ -16,8 +16,8 @@ class Temperature extends Unit
     ];
 
     /**
-     * @param float  $value
-     * @param string $unit
+     * @param  float  $value
+     * @param  string  $unit
      *
      * @throws \PhpUnitsOfMeasure\Exception\NonNumericValue
      * @throws \PhpUnitsOfMeasure\Exception\NonStringUnitName

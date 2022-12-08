@@ -1,6 +1,6 @@
 <?php
 
-if (!defined('LUMEN_START')) {
+if (! defined('LUMEN_START')) {
     define('LUMEN_START', microtime(true));
 }
 

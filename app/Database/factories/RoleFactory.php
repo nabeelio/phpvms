@@ -24,10 +24,10 @@ class RoleFactory extends Factory
     public function definition(): array
     {
         return [
-            'id'                      => null,
-            'name'                    => $this->faker->name,
-            'display_name'            => $this->faker->name,
-            'read_only'               => false,
+            'id' => null,
+            'name' => $this->faker->name,
+            'display_name' => $this->faker->name,
+            'read_only' => false,
             'disable_activity_checks' => $this->faker->boolean(),
         ];
     }

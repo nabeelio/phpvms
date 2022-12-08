@@ -15,7 +15,7 @@ class PirepFiled extends Notification implements ShouldQueue
     /**
      * Create a new notification instance.
      *
-     * @param \App\Models\Pirep $pirep
+     * @param  \App\Models\Pirep  $pirep
      */
     public function __construct(Pirep $pirep)
     {
@@ -32,8 +32,7 @@ class PirepFiled extends Notification implements ShouldQueue
     /**
      * Send a Discord notification
      *
-     * @param Pirep $pirep
-     *
+     * @param  Pirep  $pirep
      * @return DiscordMessage|null
      */
     public function toDiscordChannel($pirep): ?DiscordMessage
@@ -42,9 +41,10 @@ class PirepFiled extends Notification implements ShouldQueue
         $fields = $this->createFields($pirep);
 
         // User avatar, somehow $pirep->user->resolveAvatarUrl() is not being accepted by Discord as thumbnail
-        $user_avatar = !empty($pirep->user->avatar) ? $pirep->user->avatar->url : $pirep->user->gravatar(256);
+        $user_avatar = ! empty($pirep->user->avatar) ? $pirep->user->avatar->url : $pirep->user->gravatar(256);
 
         $dm = new DiscordMessage();
+
         return $dm->webhook(setting('notifications.discord_public_webhook_url'))
             ->success()
             ->title($title)
@@ -53,14 +53,13 @@ class PirepFiled extends Notification implements ShouldQueue
             ->image(['url' => $pirep->airline->logo])
             ->author([
                 'name' => $pirep->user->ident.' - '.$pirep->user->name_private,
-                'url'  => route('frontend.profile.show', [$pirep->user_id]),
+                'url' => route('frontend.profile.show', [$pirep->user_id]),
             ])
             ->fields($fields);
     }
 
     /**
-     * @param Pirep $pirep
-     *
+     * @param  Pirep  $pirep
      * @return array
      */
     public function createFields(Pirep $pirep): array
@@ -68,7 +67,7 @@ class PirepFiled extends Notification implements ShouldQueue
         $fields = [
             'Dep.Airport' => $pirep->dpt_airport_id,
             'Arr.Airport' => $pirep->arr_airport_id,
-            'Equipment'   => $pirep->aircraft->ident,
+            'Equipment' => $pirep->aircraft->ident,
             'Flight Time' => Time::minutesToTimeString($pirep->flight_time),
         ];
 
@@ -82,15 +81,14 @@ class PirepFiled extends Notification implements ShouldQueue
     /**
      * Get the array representation of the notification.
      *
-     * @param mixed $notifiable
-     *
+     * @param  mixed  $notifiable
      * @return array
      */
     public function toArray($notifiable)
     {
         return [
             'pirep_id' => $this->pirep->id,
-            'user_id'  => $this->pirep->user_id,
+            'user_id' => $this->pirep->user_id,
         ];
     }
 }

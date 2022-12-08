@@ -73,11 +73,16 @@ class Pirep extends Model
     use Notifiable;
 
     public $table = 'pireps';
+
     protected $keyType = 'string';
+
     public $incrementing = false;
+
     /** The form wants this */
     public $hours;
+
     public $minutes;
+
     protected $fillable = [
         'id',
         'user_id',
@@ -114,46 +119,50 @@ class Pirep extends Model
         'created_at',
         'updated_at',
     ];
+
     protected $casts = [
-        'user_id'             => 'integer',
-        'airline_id'          => 'integer',
-        'aircraft_id'         => 'integer',
-        'level'               => 'integer',
-        'distance'            => DistanceCast::class,
-        'planned_distance'    => DistanceCast::class,
-        'block_time'          => 'integer',
-        'block_off_time'      => CarbonCast::class,
-        'block_on_time'       => CarbonCast::class,
-        'flight_time'         => 'integer',
+        'user_id' => 'integer',
+        'airline_id' => 'integer',
+        'aircraft_id' => 'integer',
+        'level' => 'integer',
+        'distance' => DistanceCast::class,
+        'planned_distance' => DistanceCast::class,
+        'block_time' => 'integer',
+        'block_off_time' => CarbonCast::class,
+        'block_on_time' => CarbonCast::class,
+        'flight_time' => 'integer',
         'planned_flight_time' => 'integer',
-        'zfw'                 => 'float',
-        'block_fuel'          => FuelCast::class,
-        'fuel_used'           => FuelCast::class,
-        'landing_rate'        => 'float',
-        'score'               => 'integer',
-        'source'              => 'integer',
-        'state'               => 'integer',
-        'submitted_at'        => CarbonCast::class,
+        'zfw' => 'float',
+        'block_fuel' => FuelCast::class,
+        'fuel_used' => FuelCast::class,
+        'landing_rate' => 'float',
+        'score' => 'integer',
+        'source' => 'integer',
+        'state' => 'integer',
+        'submitted_at' => CarbonCast::class,
     ];
+
     public static $rules = [
-        'airline_id'     => 'required|exists:airlines,id',
-        'aircraft_id'    => 'required|exists:aircraft,id',
-        'flight_number'  => 'required',
+        'airline_id' => 'required|exists:airlines,id',
+        'aircraft_id' => 'required|exists:aircraft,id',
+        'flight_number' => 'required',
         'dpt_airport_id' => 'required',
         'arr_airport_id' => 'required',
-        'block_fuel'     => 'nullable|numeric',
-        'fuel_used'      => 'nullable|numeric',
-        'level'          => 'nullable|numeric',
-        'notes'          => 'nullable',
-        'route'          => 'nullable',
+        'block_fuel' => 'nullable|numeric',
+        'fuel_used' => 'nullable|numeric',
+        'level' => 'nullable|numeric',
+        'notes' => 'nullable',
+        'route' => 'nullable',
     ];
+
     /**
      * Auto-dispatch events for lifecycle state changes
      */
     protected $dispatchesEvents = [
         'status:*' => PirepStatusChange::class,
-        'state:*'  => PirepStateChange::class,
+        'state:*' => PirepStateChange::class,
     ];
+
     /*
      * If a PIREP is in these states, then it can't be changed.
      */
@@ -162,6 +171,7 @@ class Pirep extends Model
         PirepState::REJECTED,
         PirepState::CANCELLED,
     ];
+
     /*
      * If a PIREP is in one of these states, it can't be cancelled
      */
@@ -175,44 +185,42 @@ class Pirep extends Model
     /**
      * Create a new PIREP model from a given flight. Pre-populates the fields
      *
-     * @param \App\Models\Flight $flight
-     *
+     * @param  \App\Models\Flight  $flight
      * @return \App\Models\Pirep
      */
     public static function fromFlight(Flight $flight): self
     {
         return new self([
-            'flight_id'      => $flight->id,
-            'airline_id'     => $flight->airline_id,
-            'flight_number'  => $flight->flight_number,
-            'route_code'     => $flight->route_code,
-            'route_leg'      => $flight->route_leg,
+            'flight_id' => $flight->id,
+            'airline_id' => $flight->airline_id,
+            'flight_number' => $flight->flight_number,
+            'route_code' => $flight->route_code,
+            'route_leg' => $flight->route_leg,
             'dpt_airport_id' => $flight->dpt_airport_id,
             'arr_airport_id' => $flight->arr_airport_id,
-            'route'          => $flight->route,
-            'level'          => $flight->level,
+            'route' => $flight->route,
+            'level' => $flight->level,
         ]);
     }
 
     /**
      * Create a new PIREP from a SimBrief instance
      *
-     * @param \App\Models\SimBrief $simbrief
-     *
+     * @param  \App\Models\SimBrief  $simbrief
      * @return \App\Models\Pirep
      */
     public static function fromSimBrief(SimBrief $simbrief): self
     {
         return new self([
-            'flight_id'      => $simbrief->flight->id,
-            'airline_id'     => $simbrief->flight->airline_id,
-            'flight_number'  => $simbrief->flight->flight_number,
-            'route_code'     => $simbrief->flight->route_code,
-            'route_leg'      => $simbrief->flight->route_leg,
+            'flight_id' => $simbrief->flight->id,
+            'airline_id' => $simbrief->flight->airline_id,
+            'flight_number' => $simbrief->flight->flight_number,
+            'route_code' => $simbrief->flight->route_code,
+            'route_leg' => $simbrief->flight->route_leg,
             'dpt_airport_id' => $simbrief->flight->dpt_airport_id,
             'arr_airport_id' => $simbrief->flight->arr_airport_id,
-            'route'          => $simbrief->xml->getRouteString(),
-            'level'          => $simbrief->xml->getFlightLevel(),
+            'route' => $simbrief->xml->getRouteString(),
+            'level' => $simbrief->xml->getFlightLevel(),
         ]);
     }
 
@@ -254,7 +262,7 @@ class Pirep extends Model
             $distance = $attrs['distance'];
 
             $upper_bound = $distance;
-            if (!empty($attrs['planned_distance']) && $attrs['planned_distance'] > 0) {
+            if (! empty($attrs['planned_distance']) && $attrs['planned_distance'] > 0) {
                 $upper_bound = $attrs['planned_distance'];
             }
 
@@ -278,13 +286,13 @@ class Pirep extends Model
             // Merge the field values into $fields
             foreach ($custom_fields as $field) {
                 $has_value = $field_values->firstWhere('slug', $field->slug);
-                if (!$has_value) {
+                if (! $has_value) {
                     $field_values->push(new PirepFieldValue([
                         'pirep_id' => $this->id,
-                        'name'     => $field->name,
-                        'slug'     => $field->slug,
-                        'value'    => '',
-                        'source'   => PirepFieldSource::MANUAL,
+                        'name' => $field->name,
+                        'slug' => $field->slug,
+                        'value' => '',
+                        'source' => PirepFieldSource::MANUAL,
                     ]));
                 }
             }
@@ -318,14 +326,13 @@ class Pirep extends Model
      */
     public function allowedUpdates(): bool
     {
-        return !$this->getReadOnlyAttribute();
+        return ! $this->getReadOnlyAttribute();
     }
 
     /**
      * Return a custom field value
      *
      * @param $field_name
-     *
      * @return string
      */
     public function field($field_name): string
@@ -374,7 +381,7 @@ class Pirep extends Model
     public function arr_airport()
     {
         return $this->belongsTo(Airport::class, 'arr_airport_id')->withDefault(function ($model) {
-            if (!empty($this->attributes['arr_airport_id'])) {
+            if (! empty($this->attributes['arr_airport_id'])) {
                 $model->id = $this->attributes['arr_airport_id'];
                 $model->icao = $this->attributes['arr_airport_id'];
                 $model->name = $this->attributes['arr_airport_id'];
@@ -392,7 +399,7 @@ class Pirep extends Model
     public function dpt_airport()
     {
         return $this->belongsTo(Airport::class, 'dpt_airport_id')->withDefault(function ($model) {
-            if (!empty($this->attributes['dpt_airport_id'])) {
+            if (! empty($this->attributes['dpt_airport_id'])) {
                 $model->id = $this->attributes['dpt_airport_id'];
                 $model->icao = $this->attributes['dpt_airport_id'];
                 $model->name = $this->attributes['dpt_airport_id'];

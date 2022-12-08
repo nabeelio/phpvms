@@ -10,6 +10,7 @@ class UserNotAtAirport extends AbstractHttpException
     public const MESSAGE = 'Pilot is not at the departure airport';
 
     private $airport;
+
     private $user;
 
     public function __construct(User $user, Airport $airport)
@@ -46,7 +47,7 @@ class UserNotAtAirport extends AbstractHttpException
     {
         return [
             'airport_id' => $this->airport->id,
-            'user_id'    => $this->user->id,
+            'user_id' => $this->user->id,
         ];
     }
 }

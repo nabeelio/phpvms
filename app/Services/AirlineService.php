@@ -12,8 +12,11 @@ use App\Repositories\SubfleetRepository;
 class AirlineService extends Service
 {
     private AirlineRepository $airlineRepo;
+
     private FlightRepository $flightRepo;
+
     private PirepRepository $pirepRepo;
+
     private SubfleetRepository $subfleetRepo;
 
     public function __construct(
@@ -31,11 +34,10 @@ class AirlineService extends Service
     /**
      * Create a new airline, and initialize the journal
      *
-     * @param array $attr
+     * @param  array  $attr
+     * @return \App\Models\Airline
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
-     *
-     * @return \App\Models\Airline
      */
     public function createAirline(array $attr): Airline
     {
@@ -48,8 +50,7 @@ class AirlineService extends Service
     /**
      * Can the airline be deleted? Check if there are flights, etc associated with it
      *
-     * @param Airline $airline
-     *
+     * @param  Airline  $airline
      * @return bool
      */
     public function canDeleteAirline(Airline $airline): bool

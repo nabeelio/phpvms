@@ -16,6 +16,7 @@ class CreateSubfleetRequest extends FormRequest
     {
         $rules = Subfleet::$rules;
         $rules['type'] .= '|unique:subfleets';
+
         return $rules;
     }
 }

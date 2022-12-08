@@ -30,25 +30,32 @@ use RuntimeException;
 class InstallerController extends Controller
 {
     private AirlineService $airlineSvc;
+
     private AnalyticsService $analyticsSvc;
+
     private DatabaseService $dbSvc;
+
     private ConfigService $envSvc;
+
     private MigrationService $migrationSvc;
+
     private RequirementsService $reqSvc;
+
     private SeederService $seederSvc;
+
     private UserService $userService;
 
     /**
      * InstallerController constructor.
      *
-     * @param AirlineService      $airlineSvc
-     * @param AnalyticsService    $analyticsSvc
-     * @param DatabaseService     $dbService
-     * @param ConfigService       $envService
-     * @param MigrationService    $migrationSvc
-     * @param RequirementsService $reqSvc
-     * @param SeederService       $seederSvc
-     * @param UserService         $userService
+     * @param  AirlineService  $airlineSvc
+     * @param  AnalyticsService  $analyticsSvc
+     * @param  DatabaseService  $dbService
+     * @param  ConfigService  $envService
+     * @param  MigrationService  $migrationSvc
+     * @param  RequirementsService  $reqSvc
+     * @param  SeederService  $seederSvc
+     * @param  UserService  $userService
      */
     public function __construct(
         AirlineService $airlineSvc,
@@ -99,8 +106,7 @@ class InstallerController extends Controller
     /**
      * Check the database connection
      *
-     * @param Request $request
-     *
+     * @param  Request  $request
      * @return Application|Factory|View
      */
     public function dbtest(Request $request)
@@ -116,7 +122,7 @@ class InstallerController extends Controller
         }
 
         return view('system.installer.install.dbtest', [
-            'status'  => $status,
+            'status' => $status,
             'message' => $message,
         ]);
     }
@@ -124,8 +130,7 @@ class InstallerController extends Controller
     /**
      * Check if any of the items has been marked as failed
      *
-     * @param array $arr
-     *
+     * @param  array  $arr
      * @return bool
      */
     protected function allPassed(array $arr): bool
@@ -158,13 +163,13 @@ class InstallerController extends Controller
         ];
 
         // Make sure there are no false values
-        $passed = !in_array(false, $statuses, true);
+        $passed = ! in_array(false, $statuses, true);
 
         return view('system.installer.install.steps.step1-requirements', [
-            'php'         => $php_version,
-            'extensions'  => $extensions,
+            'php' => $php_version,
+            'extensions' => $extensions,
             'directories' => $directories,
-            'passed'      => $passed,
+            'passed' => $passed,
         ]);
     }
 
@@ -176,6 +181,7 @@ class InstallerController extends Controller
     public function step2()
     {
         $db_types = ['mysql' => 'mysql', 'sqlite' => 'sqlite'];
+
         return view('system.installer.install.steps.step2-db', [
             'db_types' => $db_types,
         ]);
@@ -184,8 +190,7 @@ class InstallerController extends Controller
     /**
      * Step 2a. Create the .env
      *
-     * @param Request $request
-     *
+     * @param  Request  $request
      * @return RedirectResponse|Redirector
      */
     public function envsetup(Request $request)
@@ -203,20 +208,21 @@ class InstallerController extends Controller
             Log::error($e->getMessage());
 
             flash()->error($e->getMessage());
+
             return redirect(route('installer.step2'))->withInput();
         }
 
         // Now write out the env file
         $attrs = [
-            'SITE_NAME'     => $request->post('site_name'),
-            'APP_URL'       => $request->post('app_url'),
+            'SITE_NAME' => $request->post('site_name'),
+            'APP_URL' => $request->post('app_url'),
             'DB_CONNECTION' => $request->post('db_conn'),
-            'DB_HOST'       => $request->post('db_host'),
-            'DB_PORT'       => $request->post('db_port'),
-            'DB_DATABASE'   => $request->post('db_name'),
-            'DB_USERNAME'   => $request->post('db_user'),
-            'DB_PASSWORD'   => $request->post('db_pass'),
-            'DB_PREFIX'     => $request->post('db_prefix'),
+            'DB_HOST' => $request->post('db_host'),
+            'DB_PORT' => $request->post('db_port'),
+            'DB_DATABASE' => $request->post('db_name'),
+            'DB_USERNAME' => $request->post('db_user'),
+            'DB_PASSWORD' => $request->post('db_pass'),
+            'DB_PREFIX' => $request->post('db_prefix'),
         ];
 
         /*
@@ -231,11 +237,13 @@ class InstallerController extends Controller
             Log::error($e->getMessage());
 
             flash()->error($e->getMessage());
+
             return redirect(route('installer.step2'))->withInput();
         }
 
         // Needs to redirect so it can load the new .env
         Log::info('Redirecting to database setup');
+
         return redirect(route('installer.dbsetup'));
     }
 
@@ -257,6 +265,7 @@ class InstallerController extends Controller
             //dd($e);
             $this->envSvc->removeConfigFiles();
             flash()->error($e->getMessage());
+
             return redirect(route('installer.step2'))->withInput();
         }
 
@@ -280,22 +289,21 @@ class InstallerController extends Controller
     /**
      * Step 3 submit
      *
-     * @param Request $request
+     * @param  Request  $request
+     * @return mixed
      *
      * @throws RuntimeException
      * @throws Exception
-     *
-     * @return mixed
      */
     public function usersetup(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'airline_name'    => 'required',
-            'airline_icao'    => 'required|size:3|unique:airlines,icao',
+            'airline_name' => 'required',
+            'airline_icao' => 'required|size:3|unique:airlines,icao',
             'airline_country' => 'required',
-            'name'            => 'required',
-            'email'           => 'required|email|unique:users,email',
-            'password'        => 'required|confirmed',
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|confirmed',
         ]);
 
         if ($validator->fails()) {
@@ -308,8 +316,8 @@ class InstallerController extends Controller
          * Create the first airline
          */
         $attrs = [
-            'icao'    => $request->get('airline_icao'),
-            'name'    => $request->get('airline_name'),
+            'icao' => $request->get('airline_icao'),
+            'name' => $request->get('airline_name'),
             'country' => $request->get('airline_country'),
         ];
 
@@ -321,12 +329,12 @@ class InstallerController extends Controller
          * KAUS, for giggles, though.
          */
         $attrs = [
-            'name'       => $request->get('name'),
-            'email'      => $request->get('email'),
-            'api_key'    => Utils::generateApiKey(),
+            'name' => $request->get('name'),
+            'email' => $request->get('email'),
+            'api_key' => Utils::generateApiKey(),
             'airline_id' => $airline->id,
-            'password'   => Hash::make($request->get('password')),
-            'opt_in'     => true,
+            'password' => Hash::make($request->get('password')),
+            'opt_in' => true,
         ];
 
         $user = $this->userService->createUser($attrs, ['admin']);

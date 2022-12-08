@@ -29,9 +29,9 @@ class GeoJson
     protected $point_coords = [];
 
     /**
-     * @param       $lat
-     * @param       $lon
-     * @param array $attrs Attributes of the Feature
+     * @param    $lat
+     * @param    $lon
+     * @param  array  $attrs Attributes of the Feature
      */
     public function addPoint($lat, $lon, array $attrs)
     {

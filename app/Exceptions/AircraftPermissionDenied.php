@@ -10,6 +10,7 @@ class AircraftPermissionDenied extends AbstractHttpException
     public const MESSAGE = 'User is not allowed to fly this aircraft';
 
     private $aircraft;
+
     private $user;
 
     public function __construct(User $user, Aircraft $aircraft)
@@ -46,7 +47,7 @@ class AircraftPermissionDenied extends AbstractHttpException
     {
         return [
             'aircraft_id' => $this->aircraft->id,
-            'user_id'     => $this->user->id,
+            'user_id' => $this->user->id,
         ];
     }
 }

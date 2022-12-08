@@ -33,8 +33,9 @@ class SimBriefXML extends SimpleXMLElement
      */
     public function getAcarsXmlUrl()
     {
-        if (!empty($this->fms_downloads->vms)) {
+        if (! empty($this->fms_downloads->vms)) {
             $base_url = $this->fms_downloads->directory;
+
             return $base_url.$this->fms_downloads->vms->link;
         }
 
@@ -52,10 +53,10 @@ class SimBriefXML extends SimpleXMLElement
         $base_url = $this->fms_downloads->directory;
 
         // TODO: Put vmsACARS on top
-        if (!empty($this->fms_downloads->vms)) {
+        if (! empty($this->fms_downloads->vms)) {
             $fps[] = [
                 'name' => $this->fms_downloads->vms->name->__toString(),
-                'url'  => $base_url.$this->fms_downloads->vms->link,
+                'url' => $base_url.$this->fms_downloads->vms->link,
             ];
         }
 
@@ -66,7 +67,7 @@ class SimBriefXML extends SimpleXMLElement
 
             $fps[] = [
                 'name' => $child->name->__toString(),
-                'url'  => $base_url.$child->link,
+                'url' => $base_url.$child->link,
             ];
         }
 
@@ -103,7 +104,7 @@ class SimBriefXML extends SimpleXMLElement
      */
     public function getRouteString(): string
     {
-        if (!empty($this->general->route)) {
+        if (! empty($this->general->route)) {
             return $this->general->route->__toString();
         }
 
@@ -127,7 +128,7 @@ class SimBriefXML extends SimpleXMLElement
         foreach ($this->images->map as $image) {
             $images[] = [
                 'name' => $image->name->__toString(),
-                'url'  => $base_url.$image->link,
+                'url' => $base_url.$image->link,
             ];
         }
 

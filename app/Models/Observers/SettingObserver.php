@@ -10,11 +10,11 @@ use App\Models\Setting;
 class SettingObserver
 {
     /**
-     * @param Setting $model
+     * @param  Setting  $model
      */
     public function creating(Setting $model): void
     {
-        if (!empty($model->id)) {
+        if (! empty($model->id)) {
             $model->id = Setting::formatKey($model->id);
         }
     }

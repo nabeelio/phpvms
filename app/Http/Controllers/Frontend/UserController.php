@@ -16,7 +16,7 @@ class UserController extends Controller
     private UserRepository $userRepo;
 
     /**
-     * @param UserRepository $userRepo
+     * @param  UserRepository  $userRepo
      */
     public function __construct(UserRepository $userRepo)
     {
@@ -24,8 +24,7 @@ class UserController extends Controller
     }
 
     /**
-     * @param Request $request
-     *
+     * @param  Request  $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index(Request $request)
@@ -53,7 +52,7 @@ class UserController extends Controller
 
         return view('users.index', [
             'country' => new ISO3166(),
-            'users'   => $users,
+            'users' => $users,
         ]);
     }
 }

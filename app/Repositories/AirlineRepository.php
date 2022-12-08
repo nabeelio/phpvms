@@ -27,9 +27,8 @@ class AirlineRepository extends Repository implements CacheableInterface
     /**
      * Return the list of airline formatted for a select box
      *
-     * @param bool $add_blank
-     * @param bool $only_active
-     *
+     * @param  bool  $add_blank
+     * @param  bool  $only_active
      * @return array
      */
     public function selectBoxList($add_blank = false, $only_active = true): array

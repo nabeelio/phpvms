@@ -28,8 +28,7 @@ class RecurringFinanceService extends Service
      * Determine the journal to charge to, otherwise, it's charged
      * to every airline journal
      *
-     * @param Expense $expense
-     *
+     * @param  Expense  $expense
      * @return \Generator
      */
     protected function findJournals(Expense $expense)
@@ -50,8 +49,7 @@ class RecurringFinanceService extends Service
     /**
      * Get the name of the transaction group from the expense
      *
-     * @param Expense $expense
-     *
+     * @param  Expense  $expense
      * @return array
      */
     protected function getMemoAndGroup(Expense $expense): array
@@ -87,7 +85,7 @@ class RecurringFinanceService extends Service
     /**
      * Run all of the daily expense/financials
      *
-     * @param string $type
+     * @param  string  $type
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
@@ -114,8 +112,8 @@ class RecurringFinanceService extends Service
                 // Has this expense already been charged? Check
                 // against this specific journal, on today
                 $w = [
-                    'journal_id'   => $journal->id,
-                    'ref_model'    => Expense::class,
+                    'journal_id' => $journal->id,
+                    'ref_model' => Expense::class,
                     'ref_model_id' => $expense->id,
                 ];
 
@@ -125,6 +123,7 @@ class RecurringFinanceService extends Service
 
                 if ($found > 0) {
                     Log::info('Expense "'.$expense->name.'" already charged for today, skipping');
+
                     continue;
                 }
 

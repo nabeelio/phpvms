@@ -50,14 +50,14 @@ class Kernel extends HttpKernel
     ];
 
     protected $routeMiddleware = [
-        'api.auth'       => ApiAuth::class,
-        'auth'           => Authenticate::class,
-        'bindings'       => SubstituteBindings::class,
-        'can'            => Authorize::class,
-        'guest'          => RedirectIfAuthenticated::class,
-        'json'           => JsonResponse::class,
-        'theme'          => SetActiveTheme::class,
-        'throttle'       => ThrottleRequests::class,
+        'api.auth' => ApiAuth::class,
+        'auth' => Authenticate::class,
+        'bindings' => SubstituteBindings::class,
+        'can' => Authorize::class,
+        'guest' => RedirectIfAuthenticated::class,
+        'json' => JsonResponse::class,
+        'theme' => SetActiveTheme::class,
+        'throttle' => ThrottleRequests::class,
         'update_pending' => UpdatePending::class,
     ];
 }

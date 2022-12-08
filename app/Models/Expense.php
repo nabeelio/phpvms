@@ -45,10 +45,10 @@ class Expense extends Model
     ];
 
     public static $rules = [
-        'active'         => 'bool',
-        'airline_id'     => 'integer',
-        'amount'         => 'float',
-        'multiplier'     => 'bool',
+        'active' => 'bool',
+        'airline_id' => 'integer',
+        'amount' => 'float',
+        'multiplier' => 'bool',
         'charge_to_user' => 'bool',
     ];
 

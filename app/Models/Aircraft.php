@@ -63,24 +63,24 @@ class Aircraft extends Model
      * The attributes that should be casted to native types.
      */
     protected $casts = [
-        'subfleet_id'  => 'integer',
-        'mtow'         => 'float',
-        'zfw'          => 'float',
-        'flight_time'  => 'float',
+        'subfleet_id' => 'integer',
+        'mtow' => 'float',
+        'zfw' => 'float',
+        'flight_time' => 'float',
         'fuel_onboard' => FuelCast::class,
-        'state'        => 'integer',
+        'state' => 'integer',
     ];
 
     /**
      * Validation rules
      */
     public static $rules = [
-        'subfleet_id'  => 'required',
-        'name'         => 'required',
-        'status'       => 'required',
+        'subfleet_id' => 'required',
+        'name' => 'required',
+        'status' => 'required',
         'registration' => 'required',
-        'mtow'         => 'nullable|numeric',
-        'zfw'          => 'nullable|numeric',
+        'mtow' => 'nullable|numeric',
+        'zfw' => 'nullable|numeric',
     ];
 
     /**

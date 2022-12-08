@@ -22,6 +22,7 @@ use Exception;
 class FlightTest extends TestCase
 {
     protected $flightSvc;
+
     protected $settingsRepo;
 
     public function setUp(): void
@@ -45,10 +46,10 @@ class FlightTest extends TestCase
         $this->assertFalse($this->flightSvc->isFlightDuplicate($flight));
 
         $flight_dupe = new Flight([
-            'airline_id'    => $flight->airline_id,
+            'airline_id' => $flight->airline_id,
             'flight_number' => $flight->flight_number,
-            'route_code'    => $flight->route_code,
-            'route_leg'     => $flight->route_leg,
+            'route_code' => $flight->route_code,
+            'route_leg' => $flight->route_leg,
         ]);
 
         $this->assertTrue($this->flightSvc->isFlightDuplicate($flight_dupe));
@@ -56,29 +57,29 @@ class FlightTest extends TestCase
         // same flight but diff airline shouldn't be a dupe
         $new_airline = Airline::factory()->create();
         $flight_dupe = new Flight([
-            'airline_id'    => $new_airline->airline_id,
+            'airline_id' => $new_airline->airline_id,
             'flight_number' => $flight->flight_number,
-            'route_code'    => $flight->route_code,
-            'route_leg'     => $flight->route_leg,
+            'route_code' => $flight->route_code,
+            'route_leg' => $flight->route_leg,
         ]);
 
         $this->assertFalse($this->flightSvc->isFlightDuplicate($flight_dupe));
 
         // add another flight with a code
         $flight_leg = Flight::factory()->create([
-            'airline_id'    => $flight->airline_id,
+            'airline_id' => $flight->airline_id,
             'flight_number' => $flight->flight_number,
-            'route_code'    => 'A',
+            'route_code' => 'A',
         ]);
 
         $this->assertFalse($this->flightSvc->isFlightDuplicate($flight_leg));
 
         // Add both a route and leg
         $flight_leg = Flight::factory()->create([
-            'airline_id'    => $flight->airline_id,
+            'airline_id' => $flight->airline_id,
             'flight_number' => $flight->flight_number,
-            'route_code'    => 'A',
-            'route_leg'     => 1,
+            'route_code' => 'A',
+            'route_leg' => 1,
         ]);
 
         $this->assertFalse($this->flightSvc->isFlightDuplicate($flight_leg));
@@ -88,7 +89,7 @@ class FlightTest extends TestCase
     {
         $this->user = User::factory()->create();
         $flight = $this->addFlight($this->user, [
-            'load_factor'          => '',
+            'load_factor' => '',
             'load_factor_variance' => '',
         ]);
 
@@ -222,7 +223,7 @@ class FlightTest extends TestCase
         $rank = $this->createRank(0, [$subfleetB->id]);
         $this->user = User::factory()->create([
             'airline_id' => $airline->id,
-            'rank_id'    => $rank->id,
+            'rank_id' => $rank->id,
         ]);
 
         $this->addFlightsForSubfleet($subfleetA, 5);
@@ -261,7 +262,7 @@ class FlightTest extends TestCase
         $rank = $this->createRank(0, [$subfleetB->id]);
         $this->user = User::factory()->create([
             'airline_id' => $airline->id,
-            'rank_id'    => $rank->id,
+            'rank_id' => $rank->id,
         ]);
 
         $this->addFlightsForSubfleet($subfleetA, 5);
@@ -303,7 +304,7 @@ class FlightTest extends TestCase
         /** @var Flight $saved_flight */
         $saved_flight = Flight::factory()->create([
             'airline_id' => $this->user->airline_id,
-            'days'       => Days::getDaysMask([
+            'days' => Days::getDaysMask([
                 Days::SUNDAY,
                 Days::THURSDAY,
             ]),
@@ -392,12 +393,12 @@ class FlightTest extends TestCase
         Flight::factory()->count(5)->create();
         $flight = Flight::factory()->create([
             'start_date' => Carbon::now('UTC')->subDays(1),
-            'end_date'   => Carbon::now('UTC')->addDays(1),
+            'end_date' => Carbon::now('UTC')->addDays(1),
         ]);
 
         $flight_not_active = Flight::factory()->create([
             'start_date' => Carbon::now('UTC')->subDays(10),
-            'end_date'   => Carbon::now('UTC')->subDays(2),
+            'end_date' => Carbon::now('UTC')->subDays(2),
         ]);
 
         // Run the event that will enable/disable flights
@@ -428,15 +429,15 @@ class FlightTest extends TestCase
         Flight::factory()->count(5)->create();
         $flight = Flight::factory()->create([
             'start_date' => Carbon::now('UTC')->subDays(1),
-            'end_date'   => Carbon::now('UTC')->addDays(1),
-            'days'       => Days::$isoDayMap[date('N')],
+            'end_date' => Carbon::now('UTC')->addDays(1),
+            'days' => Days::$isoDayMap[date('N')],
         ]);
 
         // Not active because of days of week not today
         $flight_not_active = Flight::factory()->create([
             'start_date' => Carbon::now('UTC')->subDays(1),
-            'end_date'   => Carbon::now('UTC')->addDays(1),
-            'days'       => $days,
+            'end_date' => Carbon::now('UTC')->addDays(1),
+            'days' => $days,
         ]);
 
         // Run the event that will enable/disable flights
@@ -477,7 +478,7 @@ class FlightTest extends TestCase
         ]);
 
         $flight = Flight::factory()->create([
-            'airline_id'     => $this->user->airline_id,
+            'airline_id' => $this->user->airline_id,
             'dpt_airport_id' => 'KAUS',
         ]);
 

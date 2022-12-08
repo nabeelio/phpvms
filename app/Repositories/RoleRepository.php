@@ -26,9 +26,8 @@ class RoleRepository extends Repository implements CacheableInterface
     /**
      * Return the list of roles formatted for a select box
      *
-     * @param bool $include_read_only
-     * @param bool $add_blank
-     *
+     * @param  bool  $include_read_only
+     * @param  bool  $add_blank
      * @return array
      */
     public function selectBoxList($include_read_only = true, $add_blank = false): array

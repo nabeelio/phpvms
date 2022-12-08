@@ -15,6 +15,7 @@ use App\Contracts\Model;
 class PirepFare extends Model
 {
     public $table = 'pirep_fares';
+
     public $timestamps = false;
 
     protected $fillable = [

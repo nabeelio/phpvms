@@ -79,7 +79,7 @@ class PIREPTest extends TestCase
         $route = $this->createNewRoute();
         $pirep = Pirep::factory()->create([
             'user_id' => $user->id,
-            'route'   => implode(' ', $route),
+            'route' => implode(' ', $route),
         ]);
 
         $pirep = $this->pirepSvc->create($pirep, []);
@@ -228,17 +228,17 @@ class PIREPTest extends TestCase
         $this->user = User::factory()->create();
         $pirep_done = Pirep::factory()->create([
             'user_id' => $this->user->id,
-            'state'   => PirepState::ACCEPTED,
+            'state' => PirepState::ACCEPTED,
         ]);
 
         $pirep_in_progress = Pirep::factory()->create([
             'user_id' => $this->user->id,
-            'state'   => PirepState::IN_PROGRESS,
+            'state' => PirepState::IN_PROGRESS,
         ]);
 
         $pirep_cancelled = Pirep::factory()->create([
             'user_id' => $this->user->id,
-            'state'   => PirepState::CANCELLED,
+            'state' => PirepState::CANCELLED,
         ]);
 
         $pireps = $this->get('/api/user/pireps')
@@ -271,17 +271,17 @@ class PIREPTest extends TestCase
     {
         /** @var User $user */
         $user = User::factory()->create([
-            'name'        => 'testPirepNotifications user',
-            'flights'     => 0,
+            'name' => 'testPirepNotifications user',
+            'flights' => 0,
             'flight_time' => 0,
-            'rank_id'     => 1,
+            'rank_id' => 1,
         ]);
 
         $admin = $this->createAdminUser(['name' => 'testPirepNotifications Admin']);
 
         $pirep = Pirep::factory()->create([
             'airline_id' => 1,
-            'user_id'    => $user->id,
+            'user_id' => $user->id,
         ]);
 
         $this->pirepSvc->create($pirep);
@@ -301,16 +301,16 @@ class PIREPTest extends TestCase
 
         /** @var User $user */
         $user = User::factory()->create([
-            'flights'     => 0,
+            'flights' => 0,
             'flight_time' => 0,
-            'rank_id'     => 1,
+            'rank_id' => 1,
         ]);
 
         // Submit two PIREPs
         $pireps = Pirep::factory()->count(2)->create([
-            'airline_id'  => $user->airline_id,
+            'airline_id' => $user->airline_id,
             'aircraft_id' => 1,
-            'user_id'     => $user->id,
+            'user_id' => $user->id,
             // 360min == 6 hours, rank should bump up
             'flight_time' => 360,
         ]);
@@ -342,7 +342,7 @@ class PIREPTest extends TestCase
         //
         $pirep = Pirep::factory()->create([
             'airline_id' => 1,
-            'user_id'    => $user->id,
+            'user_id' => $user->id,
             // 120min == 2 hours, currently at 9 hours
             // Rank bumps up at 10 hours
             'flight_time' => 120,
@@ -375,7 +375,7 @@ class PIREPTest extends TestCase
     {
         /** @var Rank $rank */
         $rank = Rank::factory()->create([
-            'hours'        => 15,
+            'hours' => 15,
             'auto_promote' => false,
         ]);
 
@@ -383,16 +383,16 @@ class PIREPTest extends TestCase
 
         /** @var User $user */
         $user = User::factory()->create([
-            'flights'     => 0,
+            'flights' => 0,
             'flight_time' => 0,
-            'rank_id'     => $rank->id,
+            'rank_id' => $rank->id,
         ]);
 
         // Submit two PIREPs
         $pirep = Pirep::factory()->create([
-            'airline_id'  => $user->airline_id,
+            'airline_id' => $user->airline_id,
             'aircraft_id' => 1,
-            'user_id'     => $user->id,
+            'user_id' => $user->id,
             'flight_time' => 10 * 60, // 10 hours, eligible for Junior First Officer
         ]);
 
@@ -413,18 +413,18 @@ class PIREPTest extends TestCase
         $this->updateSetting('pilots.count_transfer_hours', true);
 
         $user = User::factory()->create([
-            'flights'       => 0,
-            'flight_time'   => 0,
+            'flights' => 0,
+            'flight_time' => 0,
             'transfer_time' => 720,
-            'rank_id'       => 1,
+            'rank_id' => 1,
         ]);
 
         // Submit two PIREPs
         // 1 hour flight times, but the rank should bump up because of the transfer hours
         $pireps = Pirep::factory()->count(2)->create([
-            'airline_id'  => $user->airline_id,
+            'airline_id' => $user->airline_id,
             'aircraft_id' => 1,
-            'user_id'     => $user->id,
+            'user_id' => $user->id,
             'flight_time' => 60,
         ]);
 
@@ -473,7 +473,7 @@ class PIREPTest extends TestCase
         /** @var Pirep $pirep */
         $pirep = Pirep::factory()->create([
             'airline_id' => $user->airline_id,
-            'user_id'    => $user->id,
+            'user_id' => $user->id,
         ]);
 
         $this->pirepSvc->create($pirep);
@@ -555,15 +555,15 @@ class PIREPTest extends TestCase
 
         $flight = Flight::factory()->create([
             'route_code' => null,
-            'route_leg'  => null,
+            'route_leg' => null,
         ]);
 
         $bidSvc->addBid($flight, $user);
 
         $pirep = Pirep::factory()->create([
-            'user_id'       => $user->id,
-            'airline_id'    => $flight->airline_id,
-            'flight_id'     => $flight->id,
+            'user_id' => $user->id,
+            'airline_id' => $flight->airline_id,
+            'flight_id' => $flight->id,
             'flight_number' => $flight->flight_number,
         ]);
 
@@ -571,7 +571,7 @@ class PIREPTest extends TestCase
         $this->pirepSvc->submit($pirep);
 
         $user_bid = Bid::where([
-            'user_id'   => $user->id,
+            'user_id' => $user->id,
             'flight_id' => $flight->id,
         ])->first();
 
@@ -587,10 +587,10 @@ class PIREPTest extends TestCase
 
         /** @var Pirep $pirep */
         $pirep = Pirep::factory()->create([
-            'user_id'             => $user->id,
-            'distance'            => 100,
-            'planned_distance'    => 200,
-            'flight_time'         => 60,
+            'user_id' => $user->id,
+            'distance' => 100,
+            'planned_distance' => 200,
+            'flight_time' => 60,
             'planned_flight_time' => 90,
         ]);
 
@@ -618,10 +618,10 @@ class PIREPTest extends TestCase
 
         /** @var Pirep $pirep */
         $pirep = Pirep::factory()->create([
-            'user_id'             => $user->id,
-            'distance'            => 100,
-            'planned_distance'    => 200,
-            'flight_time'         => 60,
+            'user_id' => $user->id,
+            'distance' => 100,
+            'planned_distance' => 200,
+            'flight_time' => 60,
             'planned_flight_time' => 90,
         ]);
 

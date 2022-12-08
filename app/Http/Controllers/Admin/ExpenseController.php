@@ -21,15 +21,17 @@ class ExpenseController extends Controller
     use Importable;
 
     private AirlineRepository $airlineRepo;
+
     private ExpenseRepository $expenseRepo;
+
     private ImportService $importSvc;
 
     /**
      * expensesController constructor.
      *
-     * @param AirlineRepository $airlineRepo
-     * @param ExpenseRepository $expenseRepo
-     * @param ImportService     $importSvc
+     * @param  AirlineRepository  $airlineRepo
+     * @param  ExpenseRepository  $expenseRepo
+     * @param  ImportService  $importSvc
      */
     public function __construct(
         AirlineRepository $airlineRepo,
@@ -44,11 +46,10 @@ class ExpenseController extends Controller
     /**
      * Display a listing of the expenses.
      *
-     * @param Request $request
+     * @param  Request  $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      *
      * @throws \Prettus\Repository\Exceptions\RepositoryException
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index(Request $request)
     {
@@ -70,18 +71,17 @@ class ExpenseController extends Controller
         return view('admin.expenses.create', [
             'airlines_list' => $this->airlineRepo->selectBoxList(true),
             'expense_types' => ExpenseType::select(),
-            'flight_types'  => FlightType::select(),
+            'flight_types' => FlightType::select(),
         ]);
     }
 
     /**
      * Store a newly created expenses in storage.
      *
-     * @param Request $request
+     * @param  Request  $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
-     *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function store(Request $request)
     {
@@ -97,8 +97,7 @@ class ExpenseController extends Controller
     /**
      * Display the specified expenses.
      *
-     * @param int $id
-     *
+     * @param  int  $id
      * @return mixed
      */
     public function show($id)
@@ -119,8 +118,7 @@ class ExpenseController extends Controller
     /**
      * Show the form for editing the specified expenses.
      *
-     * @param int $id
-     *
+     * @param  int  $id
      * @return mixed
      */
     public function edit($id)
@@ -134,22 +132,21 @@ class ExpenseController extends Controller
         }
 
         return view('admin.expenses.edit', [
-            'expense'       => $expense,
+            'expense' => $expense,
             'airlines_list' => $this->airlineRepo->selectBoxList(true),
             'expense_types' => ExpenseType::select(),
-            'flight_types'  => FlightType::select(),
+            'flight_types' => FlightType::select(),
         ]);
     }
 
     /**
      * Update the specified expenses in storage.
      *
-     * @param int     $id
-     * @param Request $request
+     * @param  int  $id
+     * @param  Request  $request
+     * @return mixed
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
-     *
-     * @return mixed
      */
     public function update($id, Request $request)
     {
@@ -157,20 +154,21 @@ class ExpenseController extends Controller
 
         if (empty($expenses)) {
             Flash::error('Expense not found');
+
             return redirect(route('admin.expenses.index'));
         }
 
         $this->expenseRepo->update($request->all(), $id);
 
         Flash::success('Expense updated successfully.');
+
         return redirect(route('admin.expenses.index'));
     }
 
     /**
      * Remove the specified expenses from storage.
      *
-     * @param int $id
-     *
+     * @param  int  $id
      * @return mixed
      */
     public function destroy($id)
@@ -179,23 +177,24 @@ class ExpenseController extends Controller
 
         if (empty($expenses)) {
             Flash::error('Expense not found');
+
             return redirect(route('admin.expenses.index'));
         }
 
         $this->expenseRepo->delete($id);
 
         Flash::success('Expense deleted successfully.');
+
         return redirect(route('admin.expenses.index'));
     }
 
     /**
      * Run the airport exporter
      *
-     * @param Request $request
+     * @param  Request  $request
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
      *
      * @throws \League\Csv\Exception
-     *
-     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
      */
     public function export(Request $request)
     {
@@ -203,6 +202,7 @@ class ExpenseController extends Controller
         $expenses = $this->expenseRepo->all();
 
         $path = $exporter->exportExpenses($expenses);
+
         return response()
             ->download($path, 'expenses.csv', [
                 'content-type' => 'text/csv',
@@ -211,17 +211,16 @@ class ExpenseController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param  Request  $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      *
      * @throws \Illuminate\Validation\ValidationException
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function import(Request $request)
     {
         $logs = [
             'success' => [],
-            'errors'  => [],
+            'errors' => [],
         ];
 
         if ($request->isMethod('post')) {

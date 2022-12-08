@@ -53,8 +53,8 @@ class Airline extends Model
      */
     protected $casts = [
         'total_flights' => 'int',
-        'total_time'    => 'int',
-        'active'        => 'boolean',
+        'total_time' => 'int',
+        'active' => 'boolean',
     ];
 
     /**
@@ -63,11 +63,11 @@ class Airline extends Model
      * @var array
      */
     public static $rules = [
-        'country'  => 'nullable',
-        'iata'     => 'nullable|max:5',
-        'icao'     => 'required|max:5',
-        'logo'     => 'nullable',
-        'name'     => 'required',
+        'country' => 'nullable',
+        'iata' => 'nullable|max:5',
+        'icao' => 'required|max:5',
+        'logo' => 'nullable',
+        'name' => 'required',
         'callsign' => 'nullable',
     ];
 

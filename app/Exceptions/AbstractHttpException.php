@@ -39,7 +39,7 @@ abstract class AbstractHttpException extends SymfonyHttpException implements Htt
 
         // For backwards compatibility
         $response['error'] = [
-            'status'  => $this->getStatusCode(),
+            'status' => $this->getStatusCode(),
             'message' => $this->getErrorDetails(),
         ];
 

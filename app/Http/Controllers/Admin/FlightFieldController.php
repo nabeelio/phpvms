@@ -15,7 +15,7 @@ class FlightFieldController extends Controller
     /**
      * FlightFieldController constructor.
      *
-     * @param FlightFieldRepository $flightFieldRepository
+     * @param  FlightFieldRepository  $flightFieldRepository
      */
     public function __construct(
         FlightFieldRepository $flightFieldRepository
@@ -26,11 +26,10 @@ class FlightFieldController extends Controller
     /**
      * Display a listing of the FlightField.
      *
-     * @param Request $request
+     * @param  Request  $request
+     * @return mixed
      *
      * @throws \Prettus\Repository\Exceptions\RepositoryException
-     *
-     * @return mixed
      */
     public function index(Request $request)
     {
@@ -53,11 +52,10 @@ class FlightFieldController extends Controller
     /**
      * Store a newly created FlightField in storage.
      *
-     * @param Request $request
+     * @param  Request  $request
+     * @return mixed
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
-     *
-     * @return mixed
      */
     public function store(Request $request)
     {
@@ -67,14 +65,14 @@ class FlightFieldController extends Controller
         $this->flightFieldRepo->create($attrs);
 
         Flash::success('Field added successfully.');
+
         return redirect(route('admin.flightfields.index'));
     }
 
     /**
      * Display the specified FlightField.
      *
-     * @param int $id
-     *
+     * @param  int  $id
      * @return mixed
      */
     public function show($id)
@@ -83,6 +81,7 @@ class FlightFieldController extends Controller
 
         if (empty($field)) {
             Flash::error('Flight field not found');
+
             return redirect(route('admin.flightfields.index'));
         }
 
@@ -94,8 +93,7 @@ class FlightFieldController extends Controller
     /**
      * Show the form for editing the specified FlightField.
      *
-     * @param int $id
-     *
+     * @param  int  $id
      * @return mixed
      */
     public function edit($id)
@@ -104,6 +102,7 @@ class FlightFieldController extends Controller
 
         if (empty($field)) {
             Flash::error('Field not found');
+
             return redirect(route('admin.flightfields.index'));
         }
 
@@ -115,12 +114,11 @@ class FlightFieldController extends Controller
     /**
      * Update the specified FlightField in storage.
      *
-     * @param         $id
-     * @param Request $request
+     * @param    $id
+     * @param  Request  $request
+     * @return mixed
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
-     *
-     * @return mixed
      */
     public function update($id, Request $request)
     {
@@ -128,6 +126,7 @@ class FlightFieldController extends Controller
 
         if (empty($field)) {
             Flash::error('FlightField not found');
+
             return redirect(route('admin.flightfields.index'));
         }
 
@@ -136,14 +135,14 @@ class FlightFieldController extends Controller
         $this->flightFieldRepo->update($attrs, $id);
 
         Flash::success('Field updated successfully.');
+
         return redirect(route('admin.flightfields.index'));
     }
 
     /**
      * Remove the specified FlightField from storage.
      *
-     * @param int $id
-     *
+     * @param  int  $id
      * @return mixed
      */
     public function destroy($id)
@@ -152,12 +151,14 @@ class FlightFieldController extends Controller
 
         if (empty($field)) {
             Flash::error('Field not found');
+
             return redirect(route('admin.flightfields.index'));
         }
 
         $this->flightFieldRepo->delete($id);
 
         Flash::success('Field deleted successfully.');
+
         return redirect(route('admin.flightfields.index'));
     }
 }

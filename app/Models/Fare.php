@@ -36,12 +36,12 @@ class Fare extends Model
     ];
 
     protected $casts = [
-        'price'    => 'float',
-        'cost'     => 'float',
+        'price' => 'float',
+        'cost' => 'float',
         'capacity' => 'integer',
-        'count'    => 'integer',
-        'type'     => 'integer',
-        'active'   => 'boolean',
+        'count' => 'integer',
+        'type' => 'integer',
+        'active' => 'boolean',
     ];
 
     public static $rules = [

@@ -33,17 +33,21 @@ use function is_array;
 class UserService extends Service
 {
     private AircraftRepository $aircraftRepo;
+
     private AirlineRepository $airlineRepo;
+
     private FareService $fareSvc;
+
     private SubfleetRepository $subfleetRepo;
+
     private UserRepository $userRepo;
 
     /**
-     * @param AircraftRepository $aircraftRepo
-     * @param AirlineRepository  $airlineRepo
-     * @param FareService        $fareSvc
-     * @param SubfleetRepository $subfleetRepo
-     * @param UserRepository     $userRepo
+     * @param  AircraftRepository  $aircraftRepo
+     * @param  AirlineRepository  $airlineRepo
+     * @param  FareService  $fareSvc
+     * @param  SubfleetRepository  $subfleetRepo
+     * @param  UserRepository  $userRepo
      */
     public function __construct(
         AircraftRepository $aircraftRepo,
@@ -63,7 +67,6 @@ class UserService extends Service
      * Find the user and return them with all of the data properly attached
      *
      * @param $user_id
-     *
      * @return User|null
      */
     public function getUser($user_id): ?User
@@ -92,12 +95,11 @@ class UserService extends Service
      * Register a pilot. Also attaches the initial roles
      * required, and then triggers the UserRegistered event
      *
-     * @param array $attrs Array with the user data
-     * @param array $roles List of "display_name" of groups to assign
+     * @param  array  $attrs Array with the user data
+     * @param  array  $roles List of "display_name" of groups to assign
+     * @return User
      *
      * @throws \Exception
-     *
-     * @return User
      */
     public function createUser(array $attrs, array $roles = []): User
     {
@@ -115,7 +117,7 @@ class UserService extends Service
         $user->save();
 
         // Attach any additional roles
-        if (!empty($roles) && is_array($roles)) {
+        if (! empty($roles) && is_array($roles)) {
             foreach ($roles as $role) {
                 $this->addUserToRole($user, $role);
             }
@@ -134,7 +136,7 @@ class UserService extends Service
      * Remove the user. But don't actually delete them - set the name to deleted, email to
      * something random
      *
-     * @param User $user
+     * @param  User  $user
      *
      * @throws \Exception
      */
@@ -165,9 +167,8 @@ class UserService extends Service
     /**
      * Add a user to a given role
      *
-     * @param User   $user
-     * @param string $roleName
-     *
+     * @param  User  $user
+     * @param  string  $roleName
      * @return User
      */
     public function addUserToRole(User $user, string $roleName): User
@@ -192,8 +193,7 @@ class UserService extends Service
      * Find the next available pilot ID and set the current user's pilot_id to that +1
      * Called from UserObserver right now after a record is created
      *
-     * @param User $user
-     *
+     * @param  User  $user
      * @return User
      */
     public function findAndSetPilotId(User $user): User
@@ -213,8 +213,7 @@ class UserService extends Service
     /**
      * Return true or false if a pilot ID already exists
      *
-     * @param int $pilot_id
-     *
+     * @param  int  $pilot_id
      * @return bool
      */
     public function isPilotIdAlreadyUsed(int $pilot_id): bool
@@ -225,12 +224,11 @@ class UserService extends Service
     /**
      * Change a user's pilot ID
      *
-     * @param User $user
-     * @param int  $pilot_id
+     * @param  User  $user
+     * @param  int  $pilot_id
+     * @return User
      *
      * @throws UserPilotIdExists
-     *
-     * @return User
      */
     public function changePilotId(User $user, int $pilot_id): User
     {
@@ -256,8 +254,7 @@ class UserService extends Service
     /**
      * Split a given pilot ID into an airline and ID portions
      *
-     * @param string $pilot_id
-     *
+     * @param  string  $pilot_id
      * @return User
      */
     public function findUserByPilotId(string $pilot_id): User
@@ -279,7 +276,7 @@ class UserService extends Service
                 break;
             }
 
-            if (!empty($airline->iata)) {
+            if (! empty($airline->iata)) {
                 if (strpos($pilot_id, $airline->iata) !== false) {
                     $ident_str = $airline->iata;
                     break;
@@ -327,7 +324,7 @@ class UserService extends Service
 
             // If they haven't submitted a PIREP, use the date that the user was created
             $last_pirep = Pirep::where(['user_id' => $user->id])->latest('submitted_at')->first();
-            if (!$last_pirep) {
+            if (! $last_pirep) {
                 $diff_date = $user->created_at;
             } else {
                 $diff_date = $last_pirep->created_at;
@@ -347,7 +344,6 @@ class UserService extends Service
      * based on their current Rank and/or by Type Rating
      *
      * @param $user
-     *
      * @return Collection
      */
     public function getAllowableSubfleets($user)
@@ -360,9 +356,9 @@ class UserService extends Service
             $rank_sf_array = $restrict_rank ? $user->rank->subfleets()->pluck('id')->toArray() : [];
             $type_sf_array = $restrict_type ? $user->rated_subfleets->pluck('id')->toArray() : [];
 
-            if ($restrict_rank && !$restrict_type) {
+            if ($restrict_rank && ! $restrict_type) {
                 $restricted_to = $rank_sf_array;
-            } elseif (!$restrict_rank && $restrict_type) {
+            } elseif (! $restrict_rank && $restrict_type) {
                 $restricted_to = $type_sf_array;
             } elseif ($restrict_rank && $restrict_type) {
                 $restricted_to = array_intersect($rank_sf_array, $type_sf_array);
@@ -380,6 +376,7 @@ class UserService extends Service
         // Map the subfleets with the proper fare information
         return $subfleets->transform(function ($sf, $key) {
             $sf->fares = $this->fareSvc->getForSubfleet($sf);
+
             return $sf;
         });
     }
@@ -389,7 +386,6 @@ class UserService extends Service
      *
      * @param $user
      * @param $aircraft_id
-     *
      * @return bool
      */
     public function aircraftAllowed($user, $aircraft_id)
@@ -405,9 +401,8 @@ class UserService extends Service
      * Change the user's state. PENDING to ACCEPTED, etc
      * Send out an email
      *
-     * @param User $user
-     * @param      $old_state
-     *
+     * @param  User  $user
+     * @param    $old_state
      * @return User
      */
     public function changeUserState(User $user, $old_state): User
@@ -427,9 +422,8 @@ class UserService extends Service
      * Adjust the number of flights a user has. Triggers
      * UserStatsChanged event
      *
-     * @param User $user
-     * @param int  $count
-     *
+     * @param  User  $user
+     * @param  int  $count
      * @return User
      */
     public function adjustFlightCount(User $user, int $count): User
@@ -447,9 +441,8 @@ class UserService extends Service
     /**
      * Update a user's flight times
      *
-     * @param User $user
-     * @param int  $minutes
-     *
+     * @param  User  $user
+     * @param  int  $minutes
      * @return User
      */
     public function adjustFlightTime(User $user, int $minutes): User
@@ -464,8 +457,7 @@ class UserService extends Service
     /**
      * See if a pilot's rank has change. Triggers the UserStatsChanged event
      *
-     * @param User $user
-     *
+     * @param  User  $user
      * @return User
      */
     public function calculatePilotRank(User $user): User
@@ -519,8 +511,7 @@ class UserService extends Service
     /**
      * Set the user's status to being on leave
      *
-     * @param User $user
-     *
+     * @param  User  $user
      * @return User
      */
     public function setStatusOnLeave(User $user): User
@@ -532,6 +523,7 @@ class UserService extends Service
         event(new UserStateChanged($user, UserState::ON_LEAVE));
 
         $user->refresh();
+
         return $user;
     }
 
@@ -554,8 +546,7 @@ class UserService extends Service
     /**
      * Recount/update all of the stats for a user
      *
-     * @param User $user
-     *
+     * @param  User  $user
      * @return User
      */
     public function recalculateStats(User $user): User
@@ -563,7 +554,7 @@ class UserService extends Service
         // Recalc their hours
         $w = [
             'user_id' => $user->id,
-            'state'   => PirepState::ACCEPTED,
+            'state' => PirepState::ACCEPTED,
         ];
 
         $pirep_count = Pirep::where($w)->count();
@@ -580,14 +571,15 @@ class UserService extends Service
         Log::info('User '.$user->ident.' updated; pirep count='.$pirep_count.', rank='.$user->rank->name.', flight_time='.$user->flight_time.' minutes');
 
         $user->save();
+
         return $user;
     }
 
     /**
      * Attach a type rating to the user
      *
-     * @param User       $user
-     * @param Typerating $typerating
+     * @param  User  $user
+     * @param  Typerating  $typerating
      */
     public function addUserToTypeRating(User $user, Typerating $typerating)
     {
@@ -601,8 +593,8 @@ class UserService extends Service
     /**
      * Detach a type rating from the user
      *
-     * @param User       $user
-     * @param Typerating $typerating
+     * @param  User  $user
+     * @param  Typerating  $typerating
      */
     public function removeUserFromTypeRating(User $user, Typerating $typerating)
     {

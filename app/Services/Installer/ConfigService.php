@@ -16,41 +16,40 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 class ConfigService extends Service
 {
     protected static array $defaultValues = [
-        'APP_ENV'             => 'production',
-        'APP_KEY'             => '',
-        'APP_DEBUG'           => false,
-        'APP_LOCALE'          => 'en',
-        'DEBUG_TOOLBAR'       => false,
-        'SITE_NAME'           => '',
-        'APP_URL'             => 'http://phpvms.test',
-        'DB_CONNECTION'       => '',
-        'DB_HOST'             => '',
-        'DB_PORT'             => 3306,
-        'DB_DATABASE'         => '',
-        'DB_USERNAME'         => '',
-        'DB_PASSWORD'         => '',
-        'DB_PREFIX'           => '',
+        'APP_ENV' => 'production',
+        'APP_KEY' => '',
+        'APP_DEBUG' => false,
+        'APP_LOCALE' => 'en',
+        'DEBUG_TOOLBAR' => false,
+        'SITE_NAME' => '',
+        'APP_URL' => 'http://phpvms.test',
+        'DB_CONNECTION' => '',
+        'DB_HOST' => '',
+        'DB_PORT' => 3306,
+        'DB_DATABASE' => '',
+        'DB_USERNAME' => '',
+        'DB_PASSWORD' => '',
+        'DB_PREFIX' => '',
         'DB_EMULATE_PREPARES' => false,
-        'CACHE_DRIVER'        => 'array',
-        'CACHE_PREFIX'        => '',
-        'MAIL_DRIVER'         => 'log',
-        'MAIL_HOST'           => '',
-        'MAIL_PORT'           => 587,
-        'MAIL_ENCRYPTION'     => '',
-        'MAIL_USERNAME'       => '',
-        'MAIL_PASSWORD'       => '',
-        'MAIL_FROM_NAME'      => 'phpVMS Admin',
-        'MAIL_FROM_ADDRESS'   => 'no-reply@phpvms.net',
+        'CACHE_DRIVER' => 'array',
+        'CACHE_PREFIX' => '',
+        'MAIL_DRIVER' => 'log',
+        'MAIL_HOST' => '',
+        'MAIL_PORT' => 587,
+        'MAIL_ENCRYPTION' => '',
+        'MAIL_USERNAME' => '',
+        'MAIL_PASSWORD' => '',
+        'MAIL_FROM_NAME' => 'phpVMS Admin',
+        'MAIL_FROM_ADDRESS' => 'no-reply@phpvms.net',
     ];
 
     /**
      * Create the .env file. This is called by an initial install
      *
      * @param $attrs
+     * @return bool
      *
      * @throws FileException
-     *
-     * @return bool
      */
     public function createConfigFiles($attrs): bool
     {
@@ -87,31 +86,31 @@ class ConfigService extends Service
         $emulate_prepares = $db_opts[PDO::ATTR_EMULATE_PREPARES] ? 'true' : 'false';
 
         $opts = array_merge(static::$defaultValues, [
-            'APP_ENV'             => config('app.env'),
-            'APP_KEY'             => config('app.key'),
-            'APP_DEBUG'           => config('app.debug') ? 'true' : 'false',
-            'APP_LOCALE'          => config('app.locale'),
-            'DEBUG_TOOLBAR'       => config('app.debug_toolbar') ? 'true' : 'false',
-            'SITE_NAME'           => config('app.name'),
-            'APP_URL'             => config('app.url'),
-            'DB_CONNECTION'       => config('database.default'),
-            'DB_HOST'             => config('database.connections.mysql.host'),
-            'DB_PORT'             => config('database.connections.mysql.port'),
-            'DB_DATABASE'         => config('database.connections.mysql.database'),
-            'DB_USERNAME'         => config('database.connections.mysql.username'),
-            'DB_PASSWORD'         => config('database.connections.mysql.password'),
-            'DB_PREFIX'           => config('database.connections.mysql.prefix'),
+            'APP_ENV' => config('app.env'),
+            'APP_KEY' => config('app.key'),
+            'APP_DEBUG' => config('app.debug') ? 'true' : 'false',
+            'APP_LOCALE' => config('app.locale'),
+            'DEBUG_TOOLBAR' => config('app.debug_toolbar') ? 'true' : 'false',
+            'SITE_NAME' => config('app.name'),
+            'APP_URL' => config('app.url'),
+            'DB_CONNECTION' => config('database.default'),
+            'DB_HOST' => config('database.connections.mysql.host'),
+            'DB_PORT' => config('database.connections.mysql.port'),
+            'DB_DATABASE' => config('database.connections.mysql.database'),
+            'DB_USERNAME' => config('database.connections.mysql.username'),
+            'DB_PASSWORD' => config('database.connections.mysql.password'),
+            'DB_PREFIX' => config('database.connections.mysql.prefix'),
             'DB_EMULATE_PREPARES' => $emulate_prepares,
-            'CACHE_DRIVER'        => config('cache.default'),
-            'CACHE_PREFIX'        => config('cache.prefix'),
-            'MAIL_DRIVER'         => config('mail.default'),
-            'MAIL_HOST'           => config('mail.mailers.smtp.host'),
-            'MAIL_PORT'           => config('mail.mailers.smtp.port'),
-            'MAIL_ENCRYPTION'     => config('mail.mailers.smtp.encryption'),
-            'MAIL_USERNAME'       => config('mail.mailers.smtp.username'),
-            'MAIL_PASSWORD'       => config('mail.mailers.smtp.password'),
-            'MAIL_FROM_NAME'      => config('mail.from.name'),
-            'MAIL_FROM_ADDRESS'   => config('mail.from.address'),
+            'CACHE_DRIVER' => config('cache.default'),
+            'CACHE_PREFIX' => config('cache.prefix'),
+            'MAIL_DRIVER' => config('mail.default'),
+            'MAIL_HOST' => config('mail.mailers.smtp.host'),
+            'MAIL_PORT' => config('mail.mailers.smtp.port'),
+            'MAIL_ENCRYPTION' => config('mail.mailers.smtp.encryption'),
+            'MAIL_USERNAME' => config('mail.mailers.smtp.username'),
+            'MAIL_PASSWORD' => config('mail.mailers.smtp.password'),
+            'MAIL_FROM_NAME' => config('mail.from.name'),
+            'MAIL_FROM_ADDRESS' => config('mail.from.address'),
         ]);
 
         $this->writeConfigFiles($opts);
@@ -126,8 +125,7 @@ class ConfigService extends Service
     /**
      * Update the environment file and update certain keys/values
      *
-     * @param array $kvp
-     *
+     * @param  array  $kvp
      * @return void
      */
     public function updateKeysInEnv(array $kvp)
@@ -175,7 +173,6 @@ class ConfigService extends Service
      * of mysql/maria, etc used. ATM, only make a change for MariaDB
      *
      * @param $opts
-     *
      * @return mixed
      */
     protected function determinePdoOptions($opts)
@@ -206,7 +203,6 @@ class ConfigService extends Service
      * Determine is APC is installed, if so, then use it as a cache driver
      *
      * @param $opts
-     *
      * @return mixed
      */
     protected function configCacheDriver($opts)
@@ -221,12 +217,14 @@ class ConfigService extends Service
             if (extension_loaded($ext)) {
                 Log::info('Detected extension "'.$ext.'", setting driver to "'.$driver.'"');
                 $opts['CACHE_DRIVER'] = $driver;
+
                 return $opts;
             }
         }
 
         Log::info('No extension detected, using file cache');
         $opts['CACHE_DRIVER'] = config('installer.cache.default');
+
         return $opts;
     }
 
@@ -235,7 +233,6 @@ class ConfigService extends Service
      * driver, if a database is being used
      *
      * @param $opts
-     *
      * @return mixed
      */
     protected function configQueueDriver($opts)
@@ -288,7 +285,7 @@ class ConfigService extends Service
         Stub::setBasePath(resource_path('/stubs/installer'));
 
         $env_file = App::environmentFilePath();
-        if (file_exists($env_file) && !is_writable($env_file)) {
+        if (file_exists($env_file) && ! is_writable($env_file)) {
             Log::error('Permissions on existing env.php is not writable');
 
             throw new FileException('Can\'t write to the env.php file! Check the permissions');

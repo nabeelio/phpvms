@@ -25,9 +25,13 @@ use Illuminate\Support\Facades\Auth;
 class SimBriefController
 {
     private FareService $fareSvc;
+
     private FlightRepository $flightRepo;
+
     private ModuleService $moduleSvc;
+
     private SimBriefService $simBriefSvc;
+
     private UserService $userSvc;
 
     public function __construct(
@@ -47,11 +51,10 @@ class SimBriefController
     /**
      * Show the main OFP form
      *
-     * @param Request $request
+     * @param  Request  $request
+     * @return mixed
      *
      * @throws \Exception
-     *
-     * @return mixed
      */
     public function generate(Request $request)
     {
@@ -64,14 +67,16 @@ class SimBriefController
         /** @var Flight $flight */
         $flight = $this->flightRepo->with(['airline', 'arr_airport', 'dpt_airport', 'fares', 'subfleets'])->find($flight_id);
 
-        if (!$flight) {
+        if (! $flight) {
             flash()->error('Unknown flight');
+
             return redirect(route('frontend.flights.index'));
         }
 
         $apiKey = setting('simbrief.api_key');
         if (empty($apiKey)) {
             flash()->error('Invalid SimBrief API key!');
+
             return redirect(route('frontend.flights.index'));
         }
 
@@ -79,8 +84,7 @@ class SimBriefController
         $static_id = $user->ident.'_'.$flight->id;
 
         // No aircraft selected, show selection form
-        if (!$aircraft_id) {
-
+        if (! $aircraft_id) {
             // Get user's allowed subfleets and intersect it with flight subfleets
             // so we will have a proper list which the user is allowed to fly
             $user_subfleets = $this->userSvc->getAllowableSubfleets($user)->pluck('id')->toArray();
@@ -111,7 +115,7 @@ class SimBriefController
                 ->get();
 
             return view('flights.simbrief_aircraft', [
-                'flight'    => $flight,
+                'flight' => $flight,
                 'aircrafts' => $aircraft,
             ]);
         }
@@ -119,7 +123,7 @@ class SimBriefController
         // Check if a Simbrief profile already exists
         $simbrief = SimBrief::select('id')->where([
             'flight_id' => $flight_id,
-            'user_id'   => $user->id,
+            'user_id' => $user->id,
         ])->first();
 
         if ($simbrief) {
@@ -175,12 +179,12 @@ class SimBriefController
             $count = floor(($fare->capacity * rand($loadmin, $loadmax)) / 100);
             $tpaxfig += $count;
             $pax_load_sheet[] = [
-                'id'       => $fare->id,
-                'code'     => $fare->code,
-                'name'     => $fare->name,
-                'type'     => $fare->type,
+                'id' => $fare->id,
+                'code' => $fare->code,
+                'name' => $fare->name,
+                'type' => $fare->type,
                 'capacity' => (int) $fare->capacity,
-                'count'    => $count,
+                'count' => $count,
             ];
 
             $loaddist[] = $fare->code.' '.$count;
@@ -207,12 +211,12 @@ class SimBriefController
             $count = ceil((($fare->capacity - $tbagload) * rand($loadmin, $loadmax)) / 100);
             $tcargoload += $count;
             $cargo_load_sheet[] = [
-                'id'       => $fare->id,
-                'code'     => $fare->code,
-                'name'     => $fare->name,
-                'type'     => $fare->type,
+                'id' => $fare->id,
+                'code' => $fare->code,
+                'name' => $fare->name,
+                'type' => $fare->type,
                 'capacity' => $fare->capacity,
-                'count'    => $count,
+                'count' => $count,
             ];
 
             $loaddist[] = $fare->code.' '.$count;
@@ -224,30 +228,29 @@ class SimBriefController
 
         // Show the main simbrief form
         return view('flights.simbrief_form', [
-            'user'             => $user,
-            'flight'           => $flight,
-            'aircraft'         => $aircraft,
-            'pax_weight'       => $pax_weight,
-            'bag_weight'       => $bag_weight,
-            'loadmin'          => $loadmin,
-            'loadmax'          => $loadmax,
-            'pax_load_sheet'   => $pax_load_sheet,
+            'user' => $user,
+            'flight' => $flight,
+            'aircraft' => $aircraft,
+            'pax_weight' => $pax_weight,
+            'bag_weight' => $bag_weight,
+            'loadmin' => $loadmin,
+            'loadmax' => $loadmax,
+            'pax_load_sheet' => $pax_load_sheet,
             'cargo_load_sheet' => $cargo_load_sheet,
-            'tpaxfig'          => $tpaxfig,
-            'tpaxload'         => $tpaxload,
-            'tbagload'         => $tbagload,
-            'tpayload'         => $tpayload,
-            'tcargoload'       => $tcargoload,
-            'loaddist'         => implode(' ', $loaddist),
-            'static_id'        => $static_id,
+            'tpaxfig' => $tpaxfig,
+            'tpaxload' => $tpaxload,
+            'tbagload' => $tbagload,
+            'tpayload' => $tpayload,
+            'tcargoload' => $tcargoload,
+            'loaddist' => implode(' ', $loaddist),
+            'static_id' => $static_id,
         ]);
     }
 
     /**
      * Show the briefing
      *
-     * @param string $id The OFP ID
-     *
+     * @param  string  $id The OFP ID
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
      */
     public function briefing($id)
@@ -257,8 +260,9 @@ class SimBriefController
 
         /** @var SimBrief $simbrief */
         $simbrief = SimBrief::with(['flight.airline', 'pirep.airline'])->find($id);
-        if (!$simbrief) {
+        if (! $simbrief) {
             flash()->error('SimBrief briefing not found');
+
             return redirect(route('frontend.flights.index'));
         }
 
@@ -273,13 +277,13 @@ class SimBriefController
         $bid = Bid::where(['user_id' => $user->id, 'flight_id' => $simbrief->flight_id])->first();
 
         return view('flights.simbrief_briefing', [
-            'user'         => $user,
-            'simbrief'     => $simbrief,
-            'wakecat'      => $wakecat,
-            'equipment'    => $equipment,
-            'transponder'  => $transponder,
-            'bid'          => $bid,
-            'flight'       => $simbrief->flight,
+            'user' => $user,
+            'simbrief' => $simbrief,
+            'wakecat' => $wakecat,
+            'equipment' => $equipment,
+            'transponder' => $transponder,
+            'bid' => $bid,
+            'flight' => $simbrief->flight,
             'acars_plugin' => $this->moduleSvc->isModuleActive('VMSAcars'),
         ]);
     }
@@ -288,25 +292,24 @@ class SimBriefController
      * Remove the flight_id from the SimBrief Briefing (to a create a new one)
      * or if no pirep_id is attached to the briefing delete it completely
      *
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      *
      * @throws \Exception
-     *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function generate_new(Request $request)
     {
         $simbrief = SimBrief::find($request->id);
 
         // Invalid Simbrief ID/profile, go back to the main flight index
-        if (!$simbrief) {
+        if (! $simbrief) {
             return redirect(route('frontend.flights.index'));
         }
 
         // Cleanup the current Simbrief entry and redirect to the new generation form
         // If there isn't a PIREP ID, then delete the entry, otherwise, remove the flight
         $flight_id = $simbrief->flight_id;
-        if (!$simbrief->pirep_id) {
+        if (! $simbrief->pirep_id) {
             $simbrief->delete();
         } else {
             $simbrief->flight_id = null;
@@ -320,33 +323,32 @@ class SimBriefController
      * Create a prefile of this PIREP with a given OFP. Then redirect the
      * user to the newly prefiled PIREP
      *
-     * @param \Illuminate\Http\Request $request
-     *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function prefile(Request $request)
     {
         $sb = SimBrief::find($request->id);
-        if (!$sb) {
+        if (! $sb) {
             return redirect(route('frontend.flights.index'));
         }
 
         // Redirect to the prefile page, with the flight_id and a simbrief_id
         $rd = route('frontend.pireps.create').'?sb_id='.$sb->id;
+
         return redirect($rd);
     }
 
     /**
      * Cancel the SimBrief request
      *
-     * @param \Illuminate\Http\Request $request
-     *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function cancel(Request $request)
     {
         $sb = SimBrief::find($request->id);
-        if (!$sb) {
+        if (! $sb) {
             $sb->delete();
         }
 
@@ -357,8 +359,7 @@ class SimBriefController
      * Check whether the OFP was generated. Pass in two items, the flight_id and ofp_id
      * This does the actual "attachment" of the Simbrief to the flight
      *
-     * @param \Illuminate\Http\Request $request
-     *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function check_ofp(Request $request)
@@ -373,6 +374,7 @@ class SimBriefController
         $simbrief = $this->simBriefSvc->downloadOfp($user->id, $ofp_id, $flight_id, $aircraft_id, $fares);
         if ($simbrief === null) {
             $error = new AssetNotFound(new Exception('Simbrief OFP not found'));
+
             return $error->getResponse();
         }
 
@@ -400,6 +402,7 @@ class SimBriefController
         $simbrief = $this->simBriefSvc->downloadOfp($user->id, $ofp_id, $flight_id, $aircraft_id, $fares, $sb_userid, $sb_static_id);
         if ($simbrief === null) {
             $error = new AssetNotFound(new Exception('Simbrief OFP not found'));
+
             return $error->getResponse();
         }
 
@@ -409,17 +412,17 @@ class SimBriefController
     /**
      * Generate the API code
      *
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      *
      * @throws \Exception
-     *
-     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function api_code(Request $request)
     {
         $apiKey = setting('simbrief.api_key', null);
         if (empty($apiKey)) {
             flash()->error('Invalid SimBrief API key!');
+
             return redirect(route('frontend.flights.index'));
         }
 

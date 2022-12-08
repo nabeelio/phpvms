@@ -16,7 +16,9 @@ use Prettus\Repository\Criteria\RequestCriteria;
 class TypeRatingController extends Controller
 {
     private FleetService $fleetSvc;
+
     private SubfleetRepository $subfleetRepo;
+
     private TypeRatingRepository $typeratingRepo;
 
     public function __construct(
@@ -82,7 +84,7 @@ class TypeRatingController extends Controller
         $avail_subfleets = $this->getAvailSubfleets($typerating);
 
         return view('admin.typeratings.edit', [
-            'typerating'      => $typerating,
+            'typerating' => $typerating,
             'avail_subfleets' => $avail_subfleets,
         ]);
     }
@@ -138,7 +140,7 @@ class TypeRatingController extends Controller
         $avail_subfleets = $this->getAvailSubfleets($typerating);
 
         return view('admin.typeratings.subfleets', [
-            'typerating'      => $typerating,
+            'typerating' => $typerating,
             'avail_subfleets' => $avail_subfleets,
         ]);
     }
@@ -148,6 +150,7 @@ class TypeRatingController extends Controller
         $typerating = $this->typeratingRepo->findWithoutFail($id);
         if (empty($typerating)) {
             Flash::error('Type Rating not found!');
+
             return redirect(route('admin.typeratings.index'));
         }
 

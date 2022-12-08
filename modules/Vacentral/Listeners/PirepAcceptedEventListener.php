@@ -10,7 +10,7 @@ class PirepAcceptedEventListener
     /**
      * Handle the event.
      *
-     * @param PirepAccepted $pirep
+     * @param  PirepAccepted  $pirep
      */
     public function handle(PirepAccepted $pirep)
     {

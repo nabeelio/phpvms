@@ -11,6 +11,7 @@ use App\Services\DatabaseService;
 class YamlImport extends Command
 {
     protected $signature = 'phpvms:yaml-import {files*}';
+
     protected $description = 'Developer commands';
 
     /**
@@ -21,7 +22,7 @@ class YamlImport extends Command
     /**
      * YamlImport constructor.
      *
-     * @param DatabaseService $dbSvc
+     * @param  DatabaseService  $dbSvc
      */
     public function __construct(DatabaseService $dbSvc)
     {
@@ -46,7 +47,7 @@ class YamlImport extends Command
         $ignore_errors = true;
 
         foreach ($files as $file) {
-            if (!file_exists($file)) {
+            if (! file_exists($file)) {
                 $this->error('File '.$file.' doesn\'t exist');
                 exit;
             }

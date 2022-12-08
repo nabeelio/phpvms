@@ -10,13 +10,14 @@ use Illuminate\Http\Request;
 class LiveMapController extends Controller
 {
     private AcarsRepository $acarsRepo;
+
     private GeoService $geoSvc;
 
     /**
      * AcarsController constructor.
      *
-     * @param AcarsRepository $acarsRepo
-     * @param GeoService      $geoSvc
+     * @param  AcarsRepository  $acarsRepo
+     * @param  GeoService  $geoSvc
      */
     public function __construct(
         AcarsRepository $acarsRepo,
@@ -27,8 +28,7 @@ class LiveMapController extends Controller
     }
 
     /**
-     * @param Request $request
-     *
+     * @param  Request  $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index(Request $request)
@@ -37,7 +37,7 @@ class LiveMapController extends Controller
         $positions = $this->geoSvc->getFeatureForLiveFlights($pireps);
 
         return view('livemap.index', [
-            'pireps'    => $pireps,
+            'pireps' => $pireps,
             'positions' => $positions,
         ]);
     }

@@ -37,13 +37,12 @@ class PilotFlightAwards extends Award
      * is a parameter or not. You can call it whatever you want, since that would make
      * sense with the $param_description.
      *
-     * @param int|null $number_of_flights The parameters passed in from the UI
-     *
+     * @param  int|null  $number_of_flights The parameters passed in from the UI
      * @return bool
      */
     public function check($number_of_flights = null): bool
     {
-        if (!$number_of_flights) {
+        if (! $number_of_flights) {
             $number_of_flights = 100;
         }
 

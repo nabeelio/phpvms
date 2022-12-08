@@ -17,7 +17,6 @@ abstract class RouteFinder
      *
      * @param $dptIcao
      * @param $arrIcao
-     *
      * @return string
      */
     abstract public function findRoute($dptIcao, $arrIcao): string;

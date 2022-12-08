@@ -29,7 +29,7 @@ class ImportService extends Service
     /**
      * ImporterService constructor.
      *
-     * @param FlightRepository $flightRepo
+     * @param  FlightRepository  $flightRepo
      */
     public function __construct(FlightRepository $flightRepo)
     {
@@ -60,10 +60,9 @@ class ImportService extends Service
 
     /**
      * @param $csv_file
+     * @return Reader
      *
      * @throws ValidationException
-     *
-     * @return Reader
      */
     public function openCsv($csv_file)
     {
@@ -71,6 +70,7 @@ class ImportService extends Service
             $reader = Reader::createFromPath($csv_file);
             $reader->setDelimiter(',');
             $reader->setEnclosure('"');
+
             return $reader;
         } catch (Exception $e) {
             $this->throwError('Error opening CSV: '.$e->getMessage(), $e);
@@ -81,12 +81,11 @@ class ImportService extends Service
      * Run the actual importer, pass in one of the Import classes which implements
      * the ImportExport interface
      *
-     * @param              $file_path
-     * @param ImportExport $importer
+     * @param    $file_path
+     * @param  ImportExport  $importer
+     * @return array
      *
      * @throws ValidationException
-     *
-     * @return array
      */
     protected function runImport($file_path, ImportExport $importer): array
     {
@@ -110,8 +109,9 @@ class ImportService extends Service
             }
 
             // Do a sanity check on the number of columns first
-            if (!$importer->checkColumns($row)) {
+            if (! $importer->checkColumns($row)) {
                 $importer->errorLog('Number of columns in row doesn\'t match');
+
                 continue;
             }
 
@@ -130,6 +130,7 @@ class ImportService extends Service
             if ($validator->fails()) {
                 $errors = 'Error in row '.$offset.','.implode(';', $validator->errors()->all());
                 $importer->errorLog($errors);
+
                 continue;
             }
 
@@ -142,12 +143,11 @@ class ImportService extends Service
     /**
      * Import aircraft
      *
-     * @param string $csv_file
-     * @param bool   $delete_previous
+     * @param  string  $csv_file
+     * @param  bool  $delete_previous
+     * @return mixed
      *
      * @throws ValidationException
-     *
-     * @return mixed
      */
     public function importAircraft($csv_file, bool $delete_previous = true)
     {
@@ -156,18 +156,18 @@ class ImportService extends Service
         }
 
         $importer = new AircraftImporter();
+
         return $this->runImport($csv_file, $importer);
     }
 
     /**
      * Import airports
      *
-     * @param string $csv_file
-     * @param bool   $delete_previous
+     * @param  string  $csv_file
+     * @param  bool  $delete_previous
+     * @return mixed
      *
      * @throws ValidationException
-     *
-     * @return mixed
      */
     public function importAirports($csv_file, bool $delete_previous = true)
     {
@@ -176,18 +176,18 @@ class ImportService extends Service
         }
 
         $importer = new AirportImporter();
+
         return $this->runImport($csv_file, $importer);
     }
 
     /**
      * Import expenses
      *
-     * @param string $csv_file
-     * @param bool   $delete_previous
+     * @param  string  $csv_file
+     * @param  bool  $delete_previous
+     * @return mixed
      *
      * @throws ValidationException
-     *
-     * @return mixed
      */
     public function importExpenses($csv_file, bool $delete_previous = true)
     {
@@ -196,18 +196,18 @@ class ImportService extends Service
         }
 
         $importer = new ExpenseImporter();
+
         return $this->runImport($csv_file, $importer);
     }
 
     /**
      * Import fares
      *
-     * @param string $csv_file
-     * @param bool   $delete_previous
+     * @param  string  $csv_file
+     * @param  bool  $delete_previous
+     * @return mixed
      *
      * @throws ValidationException
-     *
-     * @return mixed
      */
     public function importFares($csv_file, bool $delete_previous = true)
     {
@@ -216,18 +216,18 @@ class ImportService extends Service
         }
 
         $importer = new FareImporter();
+
         return $this->runImport($csv_file, $importer);
     }
 
     /**
      * Import flights
      *
-     * @param string $csv_file
-     * @param bool   $delete_previous
+     * @param  string  $csv_file
+     * @param  bool  $delete_previous
+     * @return mixed
      *
      * @throws ValidationException
-     *
-     * @return mixed
      */
     public function importFlights($csv_file, bool $delete_previous = true)
     {
@@ -237,18 +237,18 @@ class ImportService extends Service
         }
 
         $importer = new FlightImporter();
+
         return $this->runImport($csv_file, $importer);
     }
 
     /**
      * Import subfleets
      *
-     * @param string $csv_file
-     * @param bool   $delete_previous
+     * @param  string  $csv_file
+     * @param  bool  $delete_previous
+     * @return mixed
      *
      * @throws ValidationException
-     *
-     * @return mixed
      */
     public function importSubfleets($csv_file, bool $delete_previous = true)
     {
@@ -257,6 +257,7 @@ class ImportService extends Service
         }
 
         $importer = new SubfleetImporter();
+
         return $this->runImport($csv_file, $importer);
     }
 }

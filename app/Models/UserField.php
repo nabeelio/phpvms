@@ -28,13 +28,13 @@ class UserField extends Model
 
     protected $casts = [
         'show_on_registration' => 'boolean',
-        'required'             => 'boolean',
-        'private'              => 'boolean',
-        'active'               => 'boolean',
+        'required' => 'boolean',
+        'private' => 'boolean',
+        'active' => 'boolean',
     ];
 
     public static $rules = [
-        'name'        => 'required',
+        'name' => 'required',
         'description' => 'nullable',
     ];
 

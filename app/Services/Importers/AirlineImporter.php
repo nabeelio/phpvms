@@ -10,7 +10,7 @@ class AirlineImporter extends BaseImporter
     public $table = 'airlines';
 
     /**
-     * @param int $start
+     * @param  int  $start
      */
     public function run($start = 0)
     {
@@ -20,8 +20,8 @@ class AirlineImporter extends BaseImporter
         $rows = $this->db->readRows($this->table, $this->idField, $start);
         foreach ($rows as $row) {
             $attrs = [
-                'iata'   => $row->code,
-                'name'   => $row->name,
+                'iata' => $row->code,
+                'name' => $row->name,
                 'active' => $row->enabled,
             ];
 

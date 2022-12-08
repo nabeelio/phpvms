@@ -15,13 +15,14 @@ use Illuminate\Http\Request;
 class FleetController extends Controller
 {
     private $aircraftRepo;
+
     private $subfleetRepo;
 
     /**
      * FleetController constructor.
      *
-     * @param AircraftRepository $aircraftRepo
-     * @param SubfleetRepository $subfleetRepo
+     * @param  AircraftRepository  $aircraftRepo
+     * @param  SubfleetRepository  $subfleetRepo
      */
     public function __construct(
         AircraftRepository $aircraftRepo,
@@ -48,9 +49,8 @@ class FleetController extends Controller
      * Get a specific aircraft. Query string required to specify the tail
      * /api/aircraft/XYZ?type=registration
      *
-     * @param         $id
-     * @param Request $request
-     *
+     * @param    $id
+     * @param  Request  $request
      * @return AircraftResource
      */
     public function get_aircraft($id, Request $request)

@@ -38,7 +38,7 @@ class AcarsTest extends TestCase
     /**
      * @param $route
      * @param $points
-     * @param array $addtl_fields
+     * @param  array  $addtl_fields
      */
     protected function allPointsInRoute($route, $points, array $addtl_fields = [])
     {
@@ -93,14 +93,14 @@ class AcarsTest extends TestCase
          */
         $uri = '/api/pireps/prefile';
         $pirep = [
-            '_airline_id'         => $airline->id,
-            'aircraft_id'         => $aircraft->id,
-            'dpt_airport_id'      => $airport->icao,
-            'arr_airport_id'      => $airport->icao,
-            'flight_number'       => '6000',
-            'level'               => 38000,
+            '_airline_id' => $airline->id,
+            'aircraft_id' => $aircraft->id,
+            'dpt_airport_id' => $airport->icao,
+            'arr_airport_id' => $airport->icao,
+            'flight_number' => '6000',
+            'level' => 38000,
             'planned_flight_time' => 120,
-            'route'               => 'POINTA POINTB',
+            'route' => 'POINTA POINTB',
         ];
 
         $response = $this->post($uri, $pirep);
@@ -132,15 +132,15 @@ class AcarsTest extends TestCase
          */
         $uri = '/api/pireps/prefile';
         $pirep = [
-            'airline_id'          => $airline->id,
-            'aircraft_id'         => $aircraft->id,
-            'dpt_airport_id'      => $airport->icao,
-            'arr_airport_id'      => $airport->icao,
-            'flight_number'       => '6000',
-            'level'               => 38000,
+            'airline_id' => $airline->id,
+            'aircraft_id' => $aircraft->id,
+            'dpt_airport_id' => $airport->icao,
+            'arr_airport_id' => $airport->icao,
+            'flight_number' => '6000',
+            'level' => 38000,
             'planned_flight_time' => 120,
-            'route'               => 'POINTA POINTB',
-            'source_name'         => 'Tests',
+            'route' => 'POINTA POINTB',
+            'source_name' => 'Tests',
         ];
 
         $response = $this->post($uri, $pirep);
@@ -163,15 +163,15 @@ class AcarsTest extends TestCase
          */
         $uri = '/api/pireps/prefile';
         $pirep = [
-            'airline_id'          => $airline->id,
-            'aircraft_id'         => $aircraft->id,
-            'dpt_airport_id'      => null,
-            'arr_airport_id'      => null,
-            'flight_number'       => '6000',
-            'level'               => 38000,
+            'airline_id' => $airline->id,
+            'aircraft_id' => $aircraft->id,
+            'dpt_airport_id' => null,
+            'arr_airport_id' => null,
+            'flight_number' => '6000',
+            'level' => 38000,
             'planned_flight_time' => 120,
-            'source_name'         => 'ACARSTESTS',
-            'route'               => 'POINTA POINTB',
+            'source_name' => 'ACARSTESTS',
+            'route' => 'POINTA POINTB',
         ];
 
         $response = $this->post($uri, $pirep);
@@ -204,15 +204,15 @@ class AcarsTest extends TestCase
          */
         $uri = '/api/pireps/prefile';
         $pirep = [
-            'airline_id'          => $airline->id,
-            'aircraft_id'         => $aircraft->id,
-            'dpt_airport_id'      => $airport->icao,
-            'arr_airport_id'      => $airport->icao,
-            'flight_number'       => '6000',
-            'level'               => 38000,
+            'airline_id' => $airline->id,
+            'aircraft_id' => $aircraft->id,
+            'dpt_airport_id' => $airport->icao,
+            'arr_airport_id' => $airport->icao,
+            'flight_number' => '6000',
+            'level' => 38000,
             'planned_flight_time' => 120,
-            'route'               => 'POINTA POINTB',
-            'source_name'         => 'phpunit',
+            'route' => 'POINTA POINTB',
+            'source_name' => 'phpunit',
         ];
 
         $response = $this->post($uri, $pirep);
@@ -251,15 +251,15 @@ class AcarsTest extends TestCase
          */
         $uri = '/api/pireps/prefile';
         $pirep = [
-            'airline_id'          => $airline->id,
-            'aircraft_id'         => $aircraft->id,
-            'dpt_airport_id'      => $airport->icao,
-            'arr_airport_id'      => $airport->icao,
-            'flight_number'       => '6000',
-            'level'               => 38000,
+            'airline_id' => $airline->id,
+            'aircraft_id' => $aircraft->id,
+            'dpt_airport_id' => $airport->icao,
+            'arr_airport_id' => $airport->icao,
+            'flight_number' => '6000',
+            'level' => 38000,
             'planned_flight_time' => 120,
-            'route'               => 'POINTA POINTB',
-            'source_name'         => 'phpunit',
+            'route' => 'POINTA POINTB',
+            'source_name' => 'phpunit',
         ];
 
         $response = $this->post($uri, $pirep);
@@ -296,22 +296,22 @@ class AcarsTest extends TestCase
 
         $uri = '/api/pireps/prefile';
         $pirep = [
-            'airline_id'          => $airline->id,
-            'aircraft_id'         => $aircraft->id,
-            'dpt_airport_id'      => $airport->icao,
-            'arr_airport_id'      => $airport->icao,
-            'flight_number'       => '6000',
-            'level'               => 38000,
-            'planned_distance'    => 400,
+            'airline_id' => $airline->id,
+            'aircraft_id' => $aircraft->id,
+            'dpt_airport_id' => $airport->icao,
+            'arr_airport_id' => $airport->icao,
+            'flight_number' => '6000',
+            'level' => 38000,
+            'planned_distance' => 400,
             'planned_flight_time' => 120,
-            'route'               => 'POINTA POINTB',
-            'source_name'         => 'UnitTest',
-            'fields'              => [
+            'route' => 'POINTA POINTB',
+            'source_name' => 'UnitTest',
+            'fields' => [
                 'custom_field' => 'custom_value',
             ],
             'fares' => [
                 [
-                    'id'    => $fare->id,
+                    'id' => $fare->id,
                     'count' => $fare->capacity,
                 ],
             ],
@@ -352,7 +352,7 @@ class AcarsTest extends TestCase
         $update = [
             'fares' => [
                 [
-                    'id'    => $fare->id,
+                    'id' => $fare->id,
                     'count' => $fare->capacity,
                 ],
             ],
@@ -400,16 +400,16 @@ class AcarsTest extends TestCase
 
         $uri = '/api/pireps/prefile';
         $pirep = [
-            'airline_id'          => $airline->id,
-            'aircraft_id'         => $aircraft->id,
-            'dpt_airport_id'      => $airport->icao,
-            'arr_airport_id'      => $airport->icao,
-            'flight_number'       => '6000',
-            'level'               => 38000,
-            'planned_distance'    => 400,
+            'airline_id' => $airline->id,
+            'aircraft_id' => $aircraft->id,
+            'dpt_airport_id' => $airport->icao,
+            'arr_airport_id' => $airport->icao,
+            'flight_number' => '6000',
+            'level' => 38000,
+            'planned_distance' => 400,
             'planned_flight_time' => 120,
-            'route'               => 'POINTA POINTB',
-            'source_name'         => 'UnitTest',
+            'route' => 'POINTA POINTB',
+            'source_name' => 'UnitTest',
         ];
 
         $response = $this->post($uri, $pirep);
@@ -457,18 +457,18 @@ class AcarsTest extends TestCase
 
         $uri = '/api/pireps/prefile';
         $pirep_create = [
-            'airline_id'          => $airline->id,
-            'aircraft_id'         => $aircraft->id,
-            'dpt_airport_id'      => $airport->icao,
-            'arr_airport_id'      => $airport->icao,
-            'flight_number'       => '6000',
-            'level'               => 38000,
-            'planned_distance'    => 400,
+            'airline_id' => $airline->id,
+            'aircraft_id' => $aircraft->id,
+            'dpt_airport_id' => $airport->icao,
+            'arr_airport_id' => $airport->icao,
+            'flight_number' => '6000',
+            'level' => 38000,
+            'planned_distance' => 400,
             'planned_flight_time' => 120,
-            'status'              => PirepStatus::BOARDING,
-            'route'               => 'POINTA POINTB',
-            'source_name'         => 'AcarsTest::testAcarsUpdates',
-            'fields'              => [
+            'status' => PirepStatus::BOARDING,
+            'route' => 'POINTA POINTB',
+            'source_name' => 'AcarsTest::testAcarsUpdates',
+            'fields' => [
                 'custom_field' => 'custom_value',
             ],
         ];
@@ -503,9 +503,9 @@ class AcarsTest extends TestCase
         $uri = '/api/pireps/'.$pirep_id.'/update';
         $this->post($uri, [
             'flight_time' => 60,
-            'distance'    => 20,
-            'status'      => PirepStatus::AIRBORNE,
-            'fields'      => [
+            'distance' => 20,
+            'status' => PirepStatus::AIRBORNE,
+            'fields' => [
                 'custom_field' => 'custom_value_changed',
             ],
         ]);
@@ -591,8 +591,8 @@ class AcarsTest extends TestCase
 
         $response = $this->post($uri, [
             'flight_time' => 130,
-            'fuel_used'   => 8000.19,
-            'distance'    => 400,
+            'fuel_used' => 8000.19,
+            'distance' => 400,
         ]);
 
         $response->assertStatus(200);
@@ -633,13 +633,13 @@ class AcarsTest extends TestCase
 
         $uri = '/api/pireps/prefile';
         $pirep = [
-            'airline_id'     => $airline->id,
-            'aircraft_id'    => $aircraft->id,
+            'airline_id' => $airline->id,
+            'aircraft_id' => $aircraft->id,
             'dpt_airport_id' => $airport->icao,
             'arr_airport_id' => $airport->icao,
-            'flight_number'  => '6000',
-            'level'          => 38000,
-            'source_name'    => 'AcarsTest::testFilePirepApi',
+            'flight_number' => '6000',
+            'level' => 38000,
+            'source_name' => 'AcarsTest::testFilePirepApi',
         ];
 
         $response = $this->post($uri, $pirep);
@@ -654,8 +654,8 @@ class AcarsTest extends TestCase
 
         $response = $this->post($uri, [
             'flight_time' => 130,
-            'fuel_used'   => 8000.19,
-            'distance'    => 400,
+            'fuel_used' => 8000.19,
+            'distance' => 400,
         ]);
 
         $response->assertStatus(200);
@@ -669,8 +669,8 @@ class AcarsTest extends TestCase
         // Try to refile, should be blocked
         $response = $this->post($uri, [
             'flight_time' => 130,
-            'fuel_used'   => 8000.19,
-            'distance'    => 400,
+            'fuel_used' => 8000.19,
+            'distance' => 400,
         ]);
 
         $response->assertStatus(400);
@@ -702,15 +702,15 @@ class AcarsTest extends TestCase
 
         $uri = '/api/pireps/prefile';
         $pirep = [
-            'airline_id'          => $airline->id,
-            'aircraft_id'         => $subfleetB['aircraft']->random()->id,
-            'dpt_airport_id'      => $airport->icao,
-            'arr_airport_id'      => $airport->icao,
-            'flight_number'       => '6000',
-            'level'               => 38000,
+            'airline_id' => $airline->id,
+            'aircraft_id' => $subfleetB['aircraft']->random()->id,
+            'dpt_airport_id' => $airport->icao,
+            'arr_airport_id' => $airport->icao,
+            'flight_number' => '6000',
+            'level' => 38000,
             'planned_flight_time' => 120,
-            'route'               => 'POINTA POINTB',
-            'source_name'         => 'Unit test',
+            'route' => 'POINTA POINTB',
+            'source_name' => 'Unit test',
         ];
 
         $response = $this->post($uri, $pirep);
@@ -748,15 +748,15 @@ class AcarsTest extends TestCase
 
         $uri = '/api/pireps/prefile';
         $pirep = [
-            'airline_id'          => $airline->id,
-            'aircraft_id'         => $subfleetB['aircraft']->random()->id,
-            'dpt_airport_id'      => $airport->icao,
-            'arr_airport_id'      => $airport->icao,
-            'flight_number'       => '6000',
-            'level'               => 38000,
+            'airline_id' => $airline->id,
+            'aircraft_id' => $subfleetB['aircraft']->random()->id,
+            'dpt_airport_id' => $airport->icao,
+            'arr_airport_id' => $airport->icao,
+            'flight_number' => '6000',
+            'level' => 38000,
             'planned_flight_time' => 120,
-            'route'               => 'POINTA POINTB',
-            'source_name'         => 'Unit test',
+            'route' => 'POINTA POINTB',
+            'source_name' => 'Unit test',
         ];
 
         $response = $this->post($uri, $pirep);
@@ -785,6 +785,7 @@ class AcarsTest extends TestCase
         $acars = Acars::factory()->count($acars_count)->make(['id' => ''])
             ->map(function ($point) {
                 $point['id'] = Utils::generateNewId();
+
                 return $point;
             })
             ->toArray();
@@ -858,11 +859,11 @@ class AcarsTest extends TestCase
 
         $post_route = [
             [
-                'id'    => 'NAVPOINT',
+                'id' => 'NAVPOINT',
                 'order' => 1,
-                'name'  => 'NAVPOINT',
-                'lat'   => 'notanumber',
-                'lon'   => 34.11,
+                'name' => 'NAVPOINT',
+                'lat' => 'notanumber',
+                'lon' => 34.11,
             ],
         ];
 
@@ -924,10 +925,10 @@ class AcarsTest extends TestCase
         foreach ($route as $position) {
             $post_route[] = [
                 'order' => $order,
-                'id'    => $position->id,
-                'name'  => $position->id,
-                'lat'   => $position->lat,
-                'lon'   => $position->lon,
+                'id' => $position->id,
+                'name' => $position->id,
+                'lat' => $position->lat,
+                'lon' => $position->lon,
             ];
 
             $order++;

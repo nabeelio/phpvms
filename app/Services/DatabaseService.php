@@ -29,12 +29,11 @@ class DatabaseService extends Service
     }
 
     /**
-     * @param      $yaml_file
-     * @param bool $ignore_errors
+     * @param    $yaml_file
+     * @param  bool  $ignore_errors
+     * @return array
      *
      * @throws \Exception
-     *
-     * @return array
      */
     public function seed_from_yaml_file($yaml_file, $ignore_errors = false): array
     {
@@ -42,12 +41,11 @@ class DatabaseService extends Service
     }
 
     /**
-     * @param      $yml
-     * @param bool $ignore_errors
+     * @param    $yml
+     * @param  bool  $ignore_errors
+     * @return array
      *
      * @throws \Exception
-     *
-     * @return array
      */
     public function seed_from_yaml($yml, $ignore_errors = false): array
     {
@@ -57,10 +55,9 @@ class DatabaseService extends Service
     /**
      * @param $table
      * @param $row
+     * @return mixed
      *
      * @throws \Exception
-     *
-     * @return mixed
      */
     public function insert_row($table, $row)
     {
@@ -68,7 +65,7 @@ class DatabaseService extends Service
         // if no ID is specified
         if (\in_array($table, $this->uuid_tables, true)) {
             /* @noinspection NestedPositiveIfStatementsInspection */
-            if (!array_key_exists('id', $row)) {
+            if (! array_key_exists('id', $row)) {
                 $row['id'] = Uuid::generate()->string;
             }
         }

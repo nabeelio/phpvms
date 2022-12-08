@@ -94,41 +94,40 @@ class Flight extends Model
     ];
 
     protected $casts = [
-        'flight_number'        => 'integer',
-        'days'                 => 'integer',
-        'level'                => 'integer',
-        'distance'             => DistanceCast::class,
-        'flight_time'          => 'integer',
-        'start_date'           => 'date',
-        'end_date'             => 'date',
-        'load_factor'          => 'double',
+        'flight_number' => 'integer',
+        'days' => 'integer',
+        'level' => 'integer',
+        'distance' => DistanceCast::class,
+        'flight_time' => 'integer',
+        'start_date' => 'date',
+        'end_date' => 'date',
+        'load_factor' => 'double',
         'load_factor_variance' => 'double',
-        'pilot_pay'            => 'float',
-        'has_bid'              => 'boolean',
-        'route_leg'            => 'integer',
-        'active'               => 'boolean',
-        'visible'              => 'boolean',
+        'pilot_pay' => 'float',
+        'has_bid' => 'boolean',
+        'route_leg' => 'integer',
+        'active' => 'boolean',
+        'visible' => 'boolean',
     ];
 
     public static $rules = [
-        'airline_id'           => 'required|exists:airlines,id',
-        'flight_number'        => 'required',
-        'callsign'             => 'string|max:4|nullable',
-        'route_code'           => 'nullable',
-        'route_leg'            => 'nullable',
-        'dpt_airport_id'       => 'required|exists:airports,id',
-        'arr_airport_id'       => 'required|exists:airports,id',
-        'load_factor'          => 'nullable|numeric',
+        'airline_id' => 'required|exists:airlines,id',
+        'flight_number' => 'required',
+        'callsign' => 'string|max:4|nullable',
+        'route_code' => 'nullable',
+        'route_leg' => 'nullable',
+        'dpt_airport_id' => 'required|exists:airports,id',
+        'arr_airport_id' => 'required|exists:airports,id',
+        'load_factor' => 'nullable|numeric',
         'load_factor_variance' => 'nullable|numeric',
-        'level'                => 'nullable',
+        'level' => 'nullable',
     ];
 
     /**
      * Return all of the flights on any given day(s) of the week
      * Search using bitmasks
      *
-     * @param Days[] $days List of the enumerated values
-     *
+     * @param  Days[]  $days List of the enumerated values
      * @return Flight
      */
     public static function findByDays(array $days)
@@ -167,7 +166,6 @@ class Flight extends Model
 
     /**
      * @param $day
-     *
      * @return bool
      */
     public function on_day($day): bool
@@ -179,7 +177,6 @@ class Flight extends Model
      * Return a custom field value
      *
      * @param $field_name
-     *
      * @return string
      */
     public function field($field_name): string

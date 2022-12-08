@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Log;
 class BidService extends Service
 {
     private FareService $fareSvc;
+
     private FlightService $flightSvc;
 
     public function __construct(FareService $fareSvc, FlightService $flightSvc)
@@ -27,9 +28,8 @@ class BidService extends Service
     /**
      * Get a specific bid for a user
      *
-     * @param User $user
-     * @param      $bid_id
-     *
+     * @param  User  $user
+     * @param    $bid_id
      * @return Bid|null
      */
     public function getBid(User $user, $bid_id): ?Bid
@@ -64,8 +64,7 @@ class BidService extends Service
     /**
      * Find all of the bids for a given user
      *
-     * @param \App\Models\User $user
-     *
+     * @param  \App\Models\User  $user
      * @return Bid[]
      */
     public function findBidsForUser(User $user): Collection|array|null
@@ -98,12 +97,11 @@ class BidService extends Service
     /**
      * Allow a user to bid on a flight. Check settings and all that good stuff
      *
-     * @param Flight $flight
-     * @param User   $user
+     * @param  Flight  $flight
+     * @param  User  $user
+     * @return mixed
      *
      * @throws \App\Exceptions\BidExistsForFlight
-     *
-     * @return mixed
      */
     public function addBid(Flight $flight, User $user)
     {
@@ -150,7 +148,7 @@ class BidService extends Service
         }
 
         $bid = Bid::firstOrCreate([
-            'user_id'   => $user->id,
+            'user_id' => $user->id,
             'flight_id' => $flight->id,
         ]);
 
@@ -163,14 +161,14 @@ class BidService extends Service
     /**
      * Remove a bid from a given flight
      *
-     * @param Flight $flight
-     * @param User   $user
+     * @param  Flight  $flight
+     * @param  User  $user
      */
     public function removeBid(Flight $flight, User $user)
     {
         $bids = Bid::where([
             'flight_id' => $flight->id,
-            'user_id'   => $user->id,
+            'user_id' => $user->id,
         ])->get();
 
         foreach ($bids as $bid) {
@@ -180,7 +178,7 @@ class BidService extends Service
         // Remove SimBrief OFP when removing the bid if it is not flown
         if (setting('simbrief.only_bids')) {
             $simbrief = SimBrief::where([
-                'user_id'   => $user->id,
+                'user_id' => $user->id,
                 'flight_id' => $flight->id,
             ])->whereNull('pirep_id')->delete();
         }
@@ -196,19 +194,19 @@ class BidService extends Service
     /**
      * If the setting is enabled, remove the bid
      *
-     * @param Pirep $pirep
+     * @param  Pirep  $pirep
      *
      * @throws \Exception
      */
     public function removeBidForPirep(Pirep $pirep)
     {
         $flight = $pirep->flight;
-        if (!$flight) {
+        if (! $flight) {
             return;
         }
 
         $bid = Bid::where([
-            'user_id'   => $pirep->user->id,
+            'user_id' => $pirep->user->id,
             'flight_id' => $flight->id,
         ]);
 

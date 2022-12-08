@@ -20,7 +20,6 @@ class FareService extends Service
     /**
      * @param Collection[Fare] $subfleet_fares The fare for a subfleet
      * @param Collection[Fare] $flight_fares   The fares on a flight
-     *
      * @return Collection[Fare] Collection of Fare
      */
     public function getFareWithOverrides($subfleet_fares, $flight_fares): Collection
@@ -79,8 +78,7 @@ class FareService extends Service
      * This will return the flight but all of the subfleets will have the corrected fares with the
      * right amounts based on the pivots, and with the correct "inheritence" for the flights
      *
-     * @param Flight $flight
-     *
+     * @param  Flight  $flight
      * @return \App\Models\Flight
      */
     public function getReconciledFaresForFlight(Flight $flight): Flight
@@ -97,20 +95,20 @@ class FareService extends Service
         }
 
         $flight->subfleets = $subfleets;
+
         return $flight;
     }
 
     /**
      * Get the fares for a particular flight, with the subfleet that is in use being passed in
      *
-     * @param Flight|null   $flight
-     * @param Subfleet|null $subfleet
-     *
+     * @param  Flight|null  $flight
+     * @param  Subfleet|null  $subfleet
      * @return Collection
      */
     public function getAllFares($flight, $subfleet)
     {
-        if (!$flight) {
+        if (! $flight) {
             $flight_fares = collect();
         } else {
             $flight_fares = $flight->fares;
@@ -127,7 +125,6 @@ class FareService extends Service
      * Get a fare with the proper prices/costs populated in the pivot
      *
      * @param $fare
-     *
      * @return mixed
      */
     public function getFares($fare)
@@ -138,9 +135,8 @@ class FareService extends Service
     /**
      * Get the correct price of something supplied with the correct pivot
      *
-     * @param Fare  $fare
-     * @param Pivot $pivot
-     *
+     * @param  Fare  $fare
+     * @param  Pivot  $pivot
      * @return \App\Models\Fare
      */
     public function getFareWithPivot(Fare $fare, Pivot $pivot)
@@ -180,8 +176,7 @@ class FareService extends Service
      * table to see if the price/cost/capacity has been overridden
      * and return the correct amounts.
      *
-     * @param Subfleet $subfleet
-     *
+     * @param  Subfleet  $subfleet
      * @return Collection
      */
     public function getForSubfleet(Subfleet $subfleet)
@@ -196,10 +191,9 @@ class FareService extends Service
     /**
      * Attach a fare to an flight
      *
-     * @param Flight $flight
-     * @param Fare   $fare
+     * @param  Flight  $flight
+     * @param  Fare  $fare
      * @param array    set the price/cost/capacity
-     *
      * @return Flight
      */
     public function setForFlight(Flight $flight, Fare $fare, array $override = []): Flight
@@ -220,9 +214,8 @@ class FareService extends Service
     }
 
     /**
-     * @param Flight $flight
-     * @param Fare   $fare
-     *
+     * @param  Flight  $flight
+     * @param  Fare  $fare
      * @return Flight
      */
     public function delFareFromFlight(Flight $flight, Fare $fare)
@@ -238,10 +231,9 @@ class FareService extends Service
     /**
      * Attach a fare to a subfleet
      *
-     * @param Subfleet $subfleet
-     * @param Fare     $fare
+     * @param  Subfleet  $subfleet
+     * @param  Fare  $fare
      * @param array    set the price/cost/capacity
-     *
      * @return Subfleet
      */
     public function setForSubfleet(Subfleet $subfleet, Fare $fare, array $override = []): Subfleet
@@ -264,9 +256,8 @@ class FareService extends Service
     /**
      * Delete the fare from a subfleet
      *
-     * @param Subfleet $subfleet
-     * @param Fare     $fare
-     *
+     * @param  Subfleet  $subfleet
+     * @param  Fare  $fare
      * @return Subfleet|null|static
      */
     public function delFareFromSubfleet(Subfleet &$subfleet, Fare &$fare)
@@ -283,8 +274,7 @@ class FareService extends Service
      * Get the fares for a PIREP, this just returns the PirepFare
      * model which includes the counts for that particular fare
      *
-     * @param Pirep $pirep
-     *
+     * @param  Pirep  $pirep
      * @return Collection
      */
     public function getForPirep(Pirep $pirep)
@@ -295,14 +285,14 @@ class FareService extends Service
     /**
      * Save the list of fares
      *
-     * @param Pirep       $pirep
-     * @param PirepFare[] $fares
+     * @param  Pirep  $pirep
+     * @param  PirepFare[]  $fares
      *
      * @throws \Exception
      */
     public function saveForPirep(Pirep $pirep, array $fares)
     {
-        if (!$fares || empty($fares)) {
+        if (! $fares || empty($fares)) {
             return;
         }
 

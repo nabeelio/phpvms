@@ -13,12 +13,11 @@ class Math
      *
      * @param $base_rate
      * @param $override_rate
-     *
      * @return float|null
      */
     public static function applyAmountOrPercent($base_rate, $override_rate = null): ?float
     {
-        if (!$override_rate) {
+        if (! $override_rate) {
             return $base_rate;
         }
 
@@ -36,16 +35,15 @@ class Math
      *
      * @param $number
      * @param $percent
-     *
      * @return float
      */
     public static function getPercent($number, $percent): float
     {
-        if (!is_numeric($number)) {
+        if (! is_numeric($number)) {
             $number = (float) $number;
         }
 
-        if (!is_numeric($percent)) {
+        if (! is_numeric($percent)) {
             $percent = (float) $percent;
         }
 

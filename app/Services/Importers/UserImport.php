@@ -14,6 +14,7 @@ use Illuminate\Support\Str;
 class UserImport extends BaseImporter
 {
     protected $table = 'pilots';
+
     protected $idField = 'pilotid';
 
     /**
@@ -60,19 +61,19 @@ class UserImport extends BaseImporter
             }
 
             $attrs = [
-                'pilot_id'        => $pilot_id,
-                'name'            => $name,
-                'password'        => Hash::make($new_password),
-                'api_key'         => Utils::generateApiKey(),
-                'airline_id'      => $airline_id,
-                'rank_id'         => $rank_id,
+                'pilot_id' => $pilot_id,
+                'name' => $name,
+                'password' => Hash::make($new_password),
+                'api_key' => Utils::generateApiKey(),
+                'airline_id' => $airline_id,
+                'rank_id' => $rank_id,
                 'home_airport_id' => $row->hub,
                 'curr_airport_id' => $row->hub,
-                'country'         => $row->location,
-                'flights'         => (int) $row->totalflights,
-                'flight_time'     => Time::hoursToMinutes($row->totalhours),
-                'state'           => $state,
-                'created_at'      => $this->parseDate($row->joindate),
+                'country' => $row->location,
+                'flights' => (int) $row->totalflights,
+                'flight_time' => Time::hoursToMinutes($row->totalhours),
+                'state' => $state,
+                'created_at' => $this->parseDate($row->joindate),
             ];
 
             $user = User::updateOrCreate(['email' => $row->email], $attrs);
@@ -91,8 +92,8 @@ class UserImport extends BaseImporter
     /**
      * Update a user's roles and add them to the proper ones
      *
-     * @param User   $user
-     * @param string $old_pilot_id
+     * @param  User  $user
+     * @param  string  $old_pilot_id
      */
     protected function updateUserRoles(User $user, $old_pilot_id)
     {
@@ -122,7 +123,6 @@ class UserImport extends BaseImporter
      * Get the user's new state from their original state
      *
      * @param $state
-     *
      * @return int
      */
     protected function getUserState($state)

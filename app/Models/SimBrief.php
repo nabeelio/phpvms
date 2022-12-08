@@ -29,6 +29,7 @@ class SimBrief extends Model
     use HasFactory;
 
     public $table = 'simbrief';
+
     public $incrementing = false;
 
     protected $fillable = [
@@ -62,7 +63,7 @@ class SimBrief extends Model
             return null;
         }
 
-        if (!$this->xml_instance) {
+        if (! $this->xml_instance) {
             $this->xml_instance = simplexml_load_string(
                 $this->attributes['ofp_xml'],
                 SimBriefXML::class

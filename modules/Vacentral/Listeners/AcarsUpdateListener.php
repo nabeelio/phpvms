@@ -16,7 +16,7 @@ class AcarsUpdateListener
     }
 
     /**
-     * @param AcarsUpdate $event
+     * @param  AcarsUpdate  $event
      */
     public function handle(AcarsUpdate $event)
     {

@@ -31,25 +31,32 @@ class SubfleetController extends Controller
     use Importable;
 
     private AircraftRepository $aircraftRepo;
+
     private FareRepository $fareRepo;
+
     private FareService $fareSvc;
+
     private FleetService $fleetSvc;
+
     private ImportService $importSvc;
+
     private RankRepository $rankRepo;
+
     private SubfleetRepository $subfleetRepo;
+
     private TypeRatingRepository $typeratingRepo;
 
     /**
      * SubfleetController constructor.
      *
-     * @param AircraftRepository   $aircraftRepo
-     * @param FareRepository       $fareRepo
-     * @param FareService          $fareSvc
-     * @param FleetService         $fleetSvc
-     * @param ImportService        $importSvc
-     * @param RankRepository       $rankRepo
-     * @param SubfleetRepository   $subfleetRepo
-     * @param TypeRatingRepository $typeratingRepo
+     * @param  AircraftRepository  $aircraftRepo
+     * @param  FareRepository  $fareRepo
+     * @param  FareService  $fareSvc
+     * @param  FleetService  $fleetSvc
+     * @param  ImportService  $importSvc
+     * @param  RankRepository  $rankRepo
+     * @param  SubfleetRepository  $subfleetRepo
+     * @param  TypeRatingRepository  $typeratingRepo
      */
     public function __construct(
         AircraftRepository $aircraftRepo,
@@ -74,11 +81,10 @@ class SubfleetController extends Controller
     /**
      * Display a listing of the Subfleet.
      *
-     * @param Request $request
+     * @param  Request  $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      *
      * @throws \Prettus\Repository\Exceptions\RepositoryException
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index(Request $request)
     {
@@ -96,8 +102,8 @@ class SubfleetController extends Controller
     public function create()
     {
         return view('admin.subfleets.create', [
-            'airlines'   => Airline::all()->pluck('name', 'id'),
-            'hubs'       => Airport::where('hub', 1)->pluck('name', 'id'),
+            'airlines' => Airline::all()->pluck('name', 'id'),
+            'hubs' => Airport::where('hub', 1)->pluck('name', 'id'),
             'fuel_types' => FuelType::labels(),
         ]);
     }
@@ -105,11 +111,10 @@ class SubfleetController extends Controller
     /**
      * Store a newly created Subfleet in storage.
      *
-     * @param CreateSubfleetRequest $request
+     * @param  CreateSubfleetRequest  $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
-     *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function store(CreateSubfleetRequest $request)
     {
@@ -123,8 +128,7 @@ class SubfleetController extends Controller
     /**
      * Display the specified Subfleet.
      *
-     * @param int $id
-     *
+     * @param  int  $id
      * @return mixed
      */
     public function show($id)
@@ -142,7 +146,7 @@ class SubfleetController extends Controller
         $avail_fares = $this->getAvailFares($subfleet);
 
         return view('admin.subfleets.show', [
-            'subfleet'    => $subfleet,
+            'subfleet' => $subfleet,
             'avail_fares' => $avail_fares,
         ]);
     }
@@ -150,8 +154,7 @@ class SubfleetController extends Controller
     /**
      * Show the form for editing the specified Subfleet.
      *
-     * @param int $id
-     *
+     * @param  int  $id
      * @return mixed
      */
     public function edit($id)
@@ -171,25 +174,24 @@ class SubfleetController extends Controller
         $avail_ratings = $this->getAvailTypeRatings($subfleet);
 
         return view('admin.subfleets.edit', [
-            'airlines'      => Airline::all()->pluck('name', 'id'),
-            'hubs'          => Airport::where('hub', 1)->pluck('name', 'id'),
-            'fuel_types'    => FuelType::labels(),
-            'avail_fares'   => $avail_fares,
-            'avail_ranks'   => $avail_ranks,
+            'airlines' => Airline::all()->pluck('name', 'id'),
+            'hubs' => Airport::where('hub', 1)->pluck('name', 'id'),
+            'fuel_types' => FuelType::labels(),
+            'avail_fares' => $avail_fares,
+            'avail_ranks' => $avail_ranks,
             'avail_ratings' => $avail_ratings,
-            'subfleet'      => $subfleet,
+            'subfleet' => $subfleet,
         ]);
     }
 
     /**
      * Update the specified Subfleet in storage.
      *
-     * @param int                   $id
-     * @param UpdateSubfleetRequest $request
+     * @param  int  $id
+     * @param  UpdateSubfleetRequest  $request
+     * @return mixed
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
-     *
-     * @return mixed
      */
     public function update($id, UpdateSubfleetRequest $request)
     {
@@ -210,8 +212,7 @@ class SubfleetController extends Controller
     /**
      * Remove the specified Subfleet from storage.
      *
-     * @param int $id
-     *
+     * @param  int  $id
      * @return mixed
      */
     public function destroy($id)
@@ -242,8 +243,7 @@ class SubfleetController extends Controller
     /**
      * Run the subfleet exporter
      *
-     * @param Request $request
-     *
+     * @param  Request  $request
      * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
      */
     public function export(Request $request)
@@ -257,17 +257,16 @@ class SubfleetController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param  Request  $request
+     * @return mixed
      *
      * @throws \Illuminate\Validation\ValidationException
-     *
-     * @return mixed
      */
     public function import(Request $request)
     {
         $logs = [
             'success' => [],
-            'errors'  => [],
+            'errors' => [],
         ];
 
         if ($request->isMethod('post')) {
@@ -282,8 +281,7 @@ class SubfleetController extends Controller
     /**
      * Get all the fares that haven't been assigned to a given subfleet
      *
-     * @param mixed $subfleet
-     *
+     * @param  mixed  $subfleet
      * @return array
      */
     protected function getAvailFares($subfleet)
@@ -306,7 +304,6 @@ class SubfleetController extends Controller
      * Get the ranks that are available to the subfleet
      *
      * @param $subfleet
-     *
      * @return array
      */
     protected function getAvailRanks($subfleet)
@@ -325,7 +322,6 @@ class SubfleetController extends Controller
      * Get the type ratings that are available to the subfleet
      *
      * @param $subfleet
-     *
      * @return array
      */
     protected function getAvailTypeRatings($subfleet)
@@ -341,21 +337,20 @@ class SubfleetController extends Controller
     }
 
     /**
-     * @param Subfleet $subfleet
-     *
+     * @param  Subfleet  $subfleet
      * @return mixed
      */
     protected function return_expenses_view(?Subfleet $subfleet)
     {
         $subfleet->refresh();
+
         return view('admin.subfleets.expenses', [
             'subfleet' => $subfleet,
         ]);
     }
 
     /**
-     * @param Subfleet $subfleet
-     *
+     * @param  Subfleet  $subfleet
      * @return mixed
      */
     protected function return_fares_view(?Subfleet $subfleet)
@@ -364,14 +359,13 @@ class SubfleetController extends Controller
         $avail_fares = $this->getAvailFares($subfleet);
 
         return view('admin.subfleets.fares', [
-            'subfleet'    => $subfleet,
+            'subfleet' => $subfleet,
             'avail_fares' => $avail_fares,
         ]);
     }
 
     /**
-     * @param Subfleet $subfleet
-     *
+     * @param  Subfleet  $subfleet
      * @return mixed
      */
     protected function return_ranks_view(?Subfleet $subfleet)
@@ -380,14 +374,13 @@ class SubfleetController extends Controller
         $avail_ranks = $this->getAvailRanks($subfleet);
 
         return view('admin.subfleets.ranks', [
-            'subfleet'    => $subfleet,
+            'subfleet' => $subfleet,
             'avail_ranks' => $avail_ranks,
         ]);
     }
 
     /**
-     * @param Subfleet $subfleet
-     *
+     * @param  Subfleet  $subfleet
      * @return mixed
      */
     protected function return_typeratings_view(?Subfleet $subfleet)
@@ -396,7 +389,7 @@ class SubfleetController extends Controller
         $avail_ratings = $this->getAvailTypeRatings($subfleet);
 
         return view('admin.subfleets.type_ratings', [
-            'subfleet'      => $subfleet,
+            'subfleet' => $subfleet,
             'avail_ratings' => $avail_ratings,
         ]);
     }
@@ -404,12 +397,11 @@ class SubfleetController extends Controller
     /**
      * Operations for associating ranks to the subfleet
      *
-     * @param         $id
-     * @param Request $request
+     * @param    $id
+     * @param  Request  $request
+     * @return mixed
      *
      * @throws \Exception
-     *
-     * @return mixed
      */
     public function expenses($id, Request $request)
     {
@@ -446,9 +438,8 @@ class SubfleetController extends Controller
     /**
      * Operations on fares to the subfleet
      *
-     * @param         $id
-     * @param Request $request
-     *
+     * @param    $id
+     * @param  Request  $request
      * @return mixed
      */
     public function fares($id, Request $request)
@@ -486,9 +477,8 @@ class SubfleetController extends Controller
     /**
      * Operations for associating ranks to the subfleet
      *
-     * @param         $id
-     * @param Request $request
-     *
+     * @param    $id
+     * @param  Request  $request
      * @return mixed
      */
     public function ranks($id, Request $request)
@@ -527,9 +517,8 @@ class SubfleetController extends Controller
     /**
      * Operations for associating type ratings to the subfleet
      *
-     * @param         $id
-     * @param Request $request
-     *
+     * @param    $id
+     * @param  Request  $request
      * @return mixed
      */
     public function typeratings($id, Request $request)

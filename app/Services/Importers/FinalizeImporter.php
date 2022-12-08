@@ -16,9 +16,9 @@ class FinalizeImporter extends BaseImporter
         return [
             [
                 'importer' => static::class,
-                'start'    => 0,
-                'end'      => 1,
-                'message'  => 'Finalizing import',
+                'start' => 0,
+                'end' => 1,
+                'message' => 'Finalizing import',
             ],
         ];
     }
@@ -26,8 +26,7 @@ class FinalizeImporter extends BaseImporter
     /**
      * The start method. Takes the offset to start from
      *
-     * @param int $start
-     *
+     * @param  int  $start
      * @return mixed
      */
     public function run($start = 0)

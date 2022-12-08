@@ -36,7 +36,9 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
     public static $prefix = '/api';
 
     protected $app;
+
     protected $baseUrl = 'http://localhost';
+
     protected $connectionsToTransact = ['test'];
 
     /** @var \App\Models\User */
@@ -75,7 +77,8 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
      */
     protected function disableExceptionHandling()
     {
-        $this->app->instance(ExceptionHandler::class, new class() extends Handler {
+        $this->app->instance(ExceptionHandler::class, new class() extends Handler
+        {
             /** @noinspection PhpMissingParentConstructorInspection */
             public function __construct()
             {
@@ -105,14 +108,14 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
 
     /**
      * @param $user
-     * @param array $headers
-     *
+     * @param  array  $headers
      * @return array
      */
     public function headers($user = null, array $headers = []): array
     {
         if ($user !== null) {
             $headers['x-api-key'] = $user->api_key;
+
             return $headers;
         }
 
@@ -143,7 +146,7 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
      * Make sure an object has the list of keys
      *
      * @param $obj
-     * @param array $keys
+     * @param  array  $keys
      */
     public function assertHasKeys($obj, array $keys = []): void
     {
@@ -156,7 +159,6 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
      * Read a file from the data directory
      *
      * @param $filename
-     *
      * @return false|string
      */
     public function readDataFile($filename)
@@ -178,11 +180,11 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
     /**
      * Return a mock Guzzle Client with a response loaded from $mockFile
      *
-     * @param array|string $files
+     * @param  array|string  $files
      */
     public function mockGuzzleClient($files): void
     {
-        if (!is_array($files)) {
+        if (! is_array($files)) {
             $files = [$files];
         }
 
@@ -201,11 +203,11 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
     }
 
     /**
-     * @param array|string $files The filename or files to respond with
+     * @param  array|string  $files The filename or files to respond with
      */
     public function mockXmlResponse($files)
     {
-        if (!is_array($files)) {
+        if (! is_array($files)) {
             $files = [$files];
         }
 
@@ -239,13 +241,12 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
      * So we can test private/protected methods
      * http://bit.ly/1mr5hMq
      *
-     * @param       $object
-     * @param       $methodName
-     * @param array $parameters
+     * @param    $object
+     * @param    $methodName
+     * @param  array  $parameters
+     * @return mixed
      *
      * @throws \ReflectionException
-     *
-     * @return mixed
      */
     public function invokeMethod(&$object, $methodName, array $parameters = [])
     {
@@ -260,8 +261,7 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
      * Transform any data that's passed in. E.g, make sure that any mutator
      * classes (e.g, units) are not passed in as the mutator class
      *
-     * @param array $data
-     *
+     * @param  array  $data
      * @return array
      */
     protected function transformData(&$data)
@@ -290,10 +290,9 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
     /**
      * Override the GET call to inject the user API key
      *
-     * @param string $uri
-     * @param array  $headers
-     * @param null   $user
-     *
+     * @param  string  $uri
+     * @param  array  $headers
+     * @param  null  $user
      * @return \Illuminate\Testing\TestResponse
      */
     public function get($uri, array $headers = [], $user = null): TestResponse
@@ -309,11 +308,10 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
     /**
      * Override the POST calls to inject the user API key
      *
-     * @param string $uri
-     * @param array  $data
-     * @param array  $headers
-     * @param null   $user
-     *
+     * @param  string  $uri
+     * @param  array  $data
+     * @param  array  $headers
+     * @param  null  $user
      * @return TestResponse
      */
     public function post($uri, array $data = [], array $headers = [], $user = null): TestResponse
@@ -330,11 +328,10 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
     /**
      * Override the PUT calls to inject the user API key
      *
-     * @param string $uri
-     * @param array  $data
-     * @param array  $headers
-     * @param null   $user
-     *
+     * @param  string  $uri
+     * @param  array  $data
+     * @param  array  $headers
+     * @param  null  $user
      * @return TestResponse
      */
     public function put($uri, array $data = [], array $headers = [], $user = null): TestResponse
@@ -350,11 +347,10 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
     /**
      * Override the DELETE calls to inject the user API key
      *
-     * @param string $uri
-     * @param array  $data
-     * @param array  $headers
-     * @param null   $user
-     *
+     * @param  string  $uri
+     * @param  array  $data
+     * @param  array  $headers
+     * @param  null  $user
      * @return TestResponse
      */
     public function delete($uri, array $data = [], array $headers = [], $user = null): TestResponse

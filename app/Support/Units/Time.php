@@ -7,12 +7,12 @@ use Illuminate\Contracts\Support\Arrayable;
 class Time implements Arrayable
 {
     public $hours;
+
     public $minutes;
 
     /**
      * @param $minutes
      * @param $hours
-     *
      * @return static
      */
     public static function init($minutes, $hours)
@@ -31,7 +31,7 @@ class Time implements Arrayable
     {
         $minutes = (int) $minutes;
 
-        if (!empty($hours)) {
+        if (! empty($hours)) {
             $this->hours = (int) $hours;
         } else {
             $this->hours = floor($minutes / 60);
@@ -89,8 +89,7 @@ class Time implements Arrayable
     }
 
     /**
-     * @param string $minutes
-     *
+     * @param  string  $minutes
      * @return array
      */
     public static function minutesToTimeParts($minutes): array
@@ -104,17 +103,17 @@ class Time implements Arrayable
     public static function minutesToTimeString($minutes): string
     {
         $hm = self::minutesToTimeParts($minutes);
+
         return $hm['h'].'h '.$hm['m'].'m';
     }
 
     /**
      * Convert seconds to an array of hours, minutes, seconds
      *
-     * @param int $seconds
+     * @param  int  $seconds
+     * @return array['h', 'm', 's']
      *
      * @throws \Exception
-     *
-     * @return array['h', 'm', 's']
      */
     public static function secondsToTimeParts($seconds): array
     {
@@ -134,12 +133,11 @@ class Time implements Arrayable
     /**
      * Convert seconds to HH MM format
      *
-     * @param int  $seconds
-     * @param bool $incl_sec
+     * @param  int  $seconds
+     * @param  bool  $incl_sec
+     * @return string
      *
      * @throws \Exception
-     *
-     * @return string
      */
     public static function secondsToTimeString($seconds, $incl_sec = false): string
     {
@@ -154,7 +152,6 @@ class Time implements Arrayable
 
     /**
      * @param $minutes
-     *
      * @return float|int
      */
     public static function minutesToSeconds($minutes)
@@ -166,7 +163,6 @@ class Time implements Arrayable
      * Convert the seconds to minutes and then round it up
      *
      * @param $seconds
-     *
      * @return float|int
      */
     public static function secondsToMinutes($seconds)
@@ -178,7 +174,6 @@ class Time implements Arrayable
      * Convert hours to minutes. Pretty complex
      *
      * @param $minutes
-     *
      * @return float|int
      */
     public static function minutesToHours($minutes)
@@ -187,9 +182,8 @@ class Time implements Arrayable
     }
 
     /**
-     * @param      $hours
-     * @param null $minutes
-     *
+     * @param    $hours
+     * @param  null  $minutes
      * @return float|int
      */
     public static function hoursToMinutes($hours, $minutes = null)

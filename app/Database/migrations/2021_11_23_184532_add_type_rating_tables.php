@@ -4,10 +4,11 @@ use App\Contracts\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class() extends Migration {
+return new class() extends Migration
+{
     public function up()
     {
-        if (!Schema::hasTable('typeratings')) {
+        if (! Schema::hasTable('typeratings')) {
             Schema::create('typeratings', function (Blueprint $table) {
                 $table->increments('id');
                 $table->string('name');
@@ -22,7 +23,7 @@ return new class() extends Migration {
             });
         }
 
-        if (!Schema::hasTable('typerating_user')) {
+        if (! Schema::hasTable('typerating_user')) {
             Schema::create('typerating_user', function (Blueprint $table) {
                 $table->unsignedInteger('typerating_id');
                 $table->unsignedInteger('user_id');
@@ -32,7 +33,7 @@ return new class() extends Migration {
             });
         }
 
-        if (!Schema::hasTable('typerating_subfleet')) {
+        if (! Schema::hasTable('typerating_subfleet')) {
             Schema::create('typerating_subfleet', function (Blueprint $table) {
                 $table->unsignedInteger('typerating_id');
                 $table->unsignedInteger('subfleet_id');

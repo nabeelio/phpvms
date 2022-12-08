@@ -12,8 +12,7 @@ class FareListener extends Listener
     /**
      * Return a list of additional fares/income items
      *
-     * @param Fares $event
-     *
+     * @param  Fares  $event
      * @return mixed
      */
     public function handle(Fares $event)

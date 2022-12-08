@@ -15,7 +15,7 @@ class MeasureExecutionTime implements Middleware
     {
         // Get the response
         $response = $next($request);
-        if (!\defined('LUMEN_START')) {
+        if (! \defined('LUMEN_START')) {
             return $response;
         }
 

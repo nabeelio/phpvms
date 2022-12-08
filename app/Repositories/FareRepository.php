@@ -15,8 +15,8 @@ class FareRepository extends Repository implements CacheableInterface
     use CacheableRepository;
 
     protected $fieldSearchable = [
-        'code'  => 'like',
-        'name'  => 'like',
+        'code' => 'like',
+        'name' => 'like',
         'notes' => 'like',
     ];
 

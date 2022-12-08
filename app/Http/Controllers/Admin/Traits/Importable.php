@@ -15,12 +15,11 @@ trait Importable
     /**
      * Import a file, passing in the import/export type
      *
-     * @param Request $request    Request object
-     * @param int     $importType Refer to \App\Models\Enums\ImportExportType
+     * @param  Request  $request    Request object
+     * @param  int  $importType Refer to \App\Models\Enums\ImportExportType
+     * @return mixed
      *
      * @throws \Illuminate\Validation\ValidationException
-     *
-     * @return mixed
      */
     public function importFile(Request $request, int $importType)
     {

@@ -20,7 +20,7 @@ class DeletePireps extends Listener
     /**
      * Delete old rejected PIREPs
      *
-     * @param CronHourly $event
+     * @param  CronHourly  $event
      *
      * @throws \Exception
      */
@@ -33,8 +33,8 @@ class DeletePireps extends Listener
     /**
      * Look for and delete PIREPs which match the criteria
      *
-     * @param int $expire_time_hours The time in hours to look for PIREPs
-     * @param int $state             The PirepState enum value
+     * @param  int  $expire_time_hours The time in hours to look for PIREPs
+     * @param  int  $state             The PirepState enum value
      */
     protected function deletePireps(int $expire_time_hours, int $state)
     {

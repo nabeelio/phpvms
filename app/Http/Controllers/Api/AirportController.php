@@ -16,13 +16,14 @@ use Prettus\Repository\Criteria\RequestCriteria;
 class AirportController extends Controller
 {
     private AirportRepository $airportRepo;
+
     private AirportService $airportSvc;
 
     /**
      * AirportController constructor.
      *
-     * @param AirportRepository $airportRepo
-     * @param AirportService    $airportSvc
+     * @param  AirportRepository  $airportRepo
+     * @param  AirportService  $airportSvc
      */
     public function __construct(
         AirportRepository $airportRepo,
@@ -35,8 +36,7 @@ class AirportController extends Controller
     /**
      * Return all the airports, paginated
      *
-     * @param Request $request
-     *
+     * @param  Request  $request
      * @return mixed
      */
     public function index(Request $request)
@@ -75,7 +75,6 @@ class AirportController extends Controller
      * Do a lookup, via vaCentral, for the airport information
      *
      * @param $id
-     *
      * @return AirportResource
      */
     public function get($id)
@@ -89,12 +88,12 @@ class AirportController extends Controller
      * Do a lookup, via vaCentral, for the airport information
      *
      * @param $id
-     *
      * @return AirportResource
      */
     public function lookup($id)
     {
         $airport = $this->airportSvc->lookupAirport($id);
+
         return new AirportResource(collect($airport));
     }
 
@@ -103,15 +102,15 @@ class AirportController extends Controller
      *
      * @param $fromIcao
      * @param $toIcao
-     *
      * @return AirportDistanceResource
      */
     public function distance($fromIcao, $toIcao)
     {
         $distance = $this->airportSvc->calculateDistance($fromIcao, $toIcao);
+
         return new AirportDistanceResource([
             'fromIcao' => $fromIcao,
-            'toIcao'   => $toIcao,
+            'toIcao' => $toIcao,
             'distance' => $distance,
         ]);
     }

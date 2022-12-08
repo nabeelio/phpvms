@@ -10,6 +10,7 @@ use Tivie\OS\Detector;
 class CreateDatabase extends Command
 {
     protected $signature = 'database:create {--reset} {--migrate} {--conn=?}';
+
     protected $description = 'Create a database';
 
     /**
@@ -30,7 +31,6 @@ class CreateDatabase extends Command
      * Create the mysql database
      *
      * @param $dbkey
-     *
      * @return bool
      */
     protected function create_mysql($dbkey)
@@ -101,7 +101,7 @@ class CreateDatabase extends Command
             }
         }
 
-        if (!file_exists($dbPath)) {
+        if (! file_exists($dbPath)) {
             $cmd = [
                 $exec,
                 $dbPath,

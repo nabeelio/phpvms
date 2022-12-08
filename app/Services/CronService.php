@@ -86,11 +86,13 @@ class CronService extends Service
             $dt_now = new DateTime('now', new DateTimeZone('UTC'));
         } catch (Exception $e) {
             Log::error('Error checking for cron problem: '.$e->getMessage());
+
             return true;
         }
 
         // More than 5 minutes... there's a problem
         $diff = $dt_now->diff($dt);
+
         return $diff->i > 60 * 12;  // Hasn't run for 12 hours
     }
 }

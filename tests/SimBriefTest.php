@@ -20,11 +20,10 @@ class SimBriefTest extends TestCase
     private static $simbrief_flight_id = 'simbriefflightid';
 
     /**
-     * @param array $attrs Additional user attributes
+     * @param  array  $attrs Additional user attributes
+     * @return array
      *
      * @throws \Exception
-     *
-     * @return array
      */
     public function createUserData(array $attrs = []): array
     {
@@ -34,25 +33,24 @@ class SimBriefTest extends TestCase
         /** @var User $user */
         $user = User::factory()->create(array_merge([
             'flight_time' => 1000,
-            'rank_id'     => $rank->id,
-            'state'       => UserState::ACTIVE,
+            'rank_id' => $rank->id,
+            'state' => UserState::ACTIVE,
         ], $attrs));
 
         return [
             'subfleet' => $subfleet['subfleet'],
             'aircraft' => $subfleet['aircraft'],
-            'user'     => $user,
+            'user' => $user,
         ];
     }
 
     /**
      * Load SimBrief
      *
-     * @param \App\Models\User          $user
-     * @param \App\Models\Aircraft|null $aircraft
-     * @param array                     $fares
-     * @param string|null               $flight_id
-     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Aircraft|null  $aircraft
+     * @param  array  $fares
+     * @param  string|null  $flight_id
      * @return \App\Models\SimBrief
      */
     protected function loadSimBrief(User $user, Aircraft $aircraft, $fares = [], $flight_id = null): SimBrief
@@ -63,7 +61,7 @@ class SimBriefTest extends TestCase
 
         /** @var \App\Models\Flight $flight */
         $flight = Flight::factory()->create([
-            'id'             => $flight_id,
+            'id' => $flight_id,
             'dpt_airport_id' => 'OMAA',
             'arr_airport_id' => 'OMDB',
         ]);
@@ -78,7 +76,6 @@ class SimBriefTest extends TestCase
      * @param $flight
      * @param $aircraft
      * @param $fares
-     *
      * @return \App\Models\SimBrief|null
      */
     protected function downloadOfp($user, $flight, $aircraft, $fares)
@@ -144,12 +141,12 @@ class SimBriefTest extends TestCase
         $aircraft = $userinfo['aircraft']->random();
         $briefing = $this->loadSimBrief($this->user, $aircraft, [
             [
-                'id'       => 100,
-                'code'     => 'F',
-                'name'     => 'Test Fare',
-                'type'     => 'P',
+                'id' => 100,
+                'code' => 'F',
+                'name' => 'Test Fare',
+                'type' => 'P',
                 'capacity' => 100,
-                'count'    => 99,
+                'count' => 99,
             ],
         ]);
 
@@ -186,12 +183,12 @@ class SimBriefTest extends TestCase
     {
         $fares = [
             [
-                'id'       => 100,
-                'code'     => 'F',
-                'name'     => 'Test Fare',
-                'type'     => FareType::PASSENGER,
+                'id' => 100,
+                'code' => 'F',
+                'name' => 'Test Fare',
+                'type' => FareType::PASSENGER,
                 'capacity' => 100,
-                'count'    => 99,
+                'count' => 99,
             ],
         ];
 
@@ -234,12 +231,12 @@ class SimBriefTest extends TestCase
         $this->updateSetting('bids.disable_flight_on_bid', false);
         $fares = [
             [
-                'id'       => 100,
-                'code'     => 'F',
-                'name'     => 'Test Fare',
-                'type'     => FareType::PASSENGER,
+                'id' => 100,
+                'code' => 'F',
+                'name' => 'Test Fare',
+                'type' => FareType::PASSENGER,
                 'capacity' => 100,
-                'count'    => 99,
+                'count' => 99,
             ],
         ];
 
@@ -286,19 +283,19 @@ class SimBriefTest extends TestCase
 
         /** @var Pirep $pirep */
         $pirep = Pirep::factory()->create([
-            'user_id'        => $this->user->id,
+            'user_id' => $this->user->id,
             'dpt_airport_id' => 'OMAA',
             'arr_airport_id' => 'OMDB',
         ]);
 
         $briefing = $this->loadSimBrief($this->user, $userinfo['aircraft']->first(), [
             [
-                'id'       => 100,
-                'code'     => 'F',
-                'name'     => 'Test Fare',
-                'type'     => 'P',
+                'id' => 100,
+                'code' => 'F',
+                'name' => 'Test Fare',
+                'type' => 'P',
                 'capacity' => 100,
-                'count'    => 99,
+                'count' => 99,
             ],
         ]);
 
@@ -333,15 +330,15 @@ class SimBriefTest extends TestCase
         $user = $userinfo['user'];
 
         $sb_ignored = SimBrief::factory()->create([
-            'user_id'    => $user->id,
-            'flight_id'  => 'a_flight_id',
-            'pirep_id'   => 'a_pirep_id',
+            'user_id' => $user->id,
+            'flight_id' => 'a_flight_id',
+            'pirep_id' => 'a_pirep_id',
             'created_at' => Carbon::now('UTC')->subDays(6),
         ]);
 
         SimBrief::factory()->create([
-            'user_id'    => $user->id,
-            'flight_id'  => 'a_flight_Id',
+            'user_id' => $user->id,
+            'flight_id' => 'a_flight_Id',
             'created_at' => Carbon::now('UTC')->subDays(6),
         ]);
 

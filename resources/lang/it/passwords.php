@@ -13,9 +13,9 @@ return [
     */
 
     'password' => 'Le password devono essere lunghe almeno sei caratteri ed essere identiche al campo di conferma password.',
-    'reset'    => 'La tua password è stata resettata!',
-    'sent'     => 'Ti abbiamo inviato via email il link per resettare la password!',
-    'token'    => 'Questo token per resettare la password non è valido.',
-    'user'     => 'Non ci è stato possibile trovare un utente con questo indirizzo email.',
-    'confirm'  => 'Conferma Password',
+    'reset' => 'La tua password è stata resettata!',
+    'sent' => 'Ti abbiamo inviato via email il link per resettare la password!',
+    'token' => 'Questo token per resettare la password non è valido.',
+    'user' => 'Non ci è stato possibile trovare un utente con questo indirizzo email.',
+    'confirm' => 'Conferma Password',
 ];

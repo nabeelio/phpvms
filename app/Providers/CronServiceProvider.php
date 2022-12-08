@@ -27,10 +27,10 @@ use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvi
 class CronServiceProvider extends ServiceProvider
 {
     protected $listen = [
-        CronFiveMinute::class    => [],
+        CronFiveMinute::class => [],
         CronFifteenMinute::class => [],
-        CronThirtyMinute::class  => [],
-        CronHourly::class        => [
+        CronThirtyMinute::class => [],
+        CronHourly::class => [
             DeletePireps::class,
             RemoveExpiredBids::class,
             RemoveExpiredLiveFlights::class,

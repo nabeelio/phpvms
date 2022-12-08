@@ -159,10 +159,10 @@ return [
     ],
 
     'foreign_keys' => [
-        'user'       => 'user_id',
-        'role'       => 'role_id',
+        'user' => 'user_id',
+        'role' => 'role_id',
         'permission' => 'permission_id',
-        'team'       => 'team_id',
+        'team' => 'team_id',
     ],
 
     'middleware' => [
@@ -177,7 +177,7 @@ return [
              * Aborts the execution with a 403 code and allows you to provide the response text
              */
             'abort' => [
-                'code'    => 403,
+                'code' => 403,
                 'message' => 'User does not have any of the necessary access rights.',
             ],
             /**
@@ -187,9 +187,9 @@ return [
              * If the message content is empty it won't be added to the redirection.
              */
             'redirect' => [
-                'url'     => '/',
+                'url' => '/',
                 'message' => [
-                    'key'     => 'flash_notification.message',
+                    'key' => 'flash_notification.message',
                     'content' => 'User does not have any of the necessary access rights.',
                 ],
             ],

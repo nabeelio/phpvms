@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 class FlightField extends Model
 {
     public $table = 'flight_fields';
+
     public $timestamps = false;
 
     protected $fillable = [

@@ -12,7 +12,9 @@ use Illuminate\Support\Facades\Artisan;
 class JobQueue extends CronCommand
 {
     protected $signature = 'cron:queue';
+
     protected $description = 'Run the cron queue tasks';
+
     protected $schedule;
 
     public function handle(): void
@@ -20,7 +22,7 @@ class JobQueue extends CronCommand
         $this->callEvent();
 
         $queueOutput = trim(Artisan::output());
-        if (!empty($queueOutput)) {
+        if (! empty($queueOutput)) {
             $this->info($queueOutput);
         }
     }

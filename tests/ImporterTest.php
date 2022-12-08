@@ -27,7 +27,9 @@ use Illuminate\Validation\ValidationException;
 class ImporterTest extends TestCase
 {
     private $importBaseClass;
+
     private $importSvc;
+
     private $fareSvc;
 
     public function setUp(): void
@@ -79,33 +81,33 @@ class ImporterTest extends TestCase
     {
         $tests = [
             [
-                'input'    => '',
+                'input' => '',
                 'expected' => [],
             ],
             [
-                'input'    => 'gate',
+                'input' => 'gate',
                 'expected' => ['gate'],
             ],
             [
-                'input'    => 'gate;cost index',
+                'input' => 'gate;cost index',
                 'expected' => [
                     'gate',
                     'cost index',
                 ],
             ],
             [
-                'input'    => 'gate=B32;cost index=100',
+                'input' => 'gate=B32;cost index=100',
                 'expected' => [
-                    'gate'       => 'B32',
+                    'gate' => 'B32',
                     'cost index' => '100',
                 ],
             ],
             [
-                'input'    => 'Y?price=200&cost=100; F?price=1200',
+                'input' => 'Y?price=200&cost=100; F?price=1200',
                 'expected' => [
                     'Y' => [
                         'price' => 200,
-                        'cost'  => 100,
+                        'cost' => 100,
                     ],
                     'F' => [
                         'price' => 1200,
@@ -113,7 +115,7 @@ class ImporterTest extends TestCase
                 ],
             ],
             [
-                'input'    => 'Y?price&cost; F?price=1200',
+                'input' => 'Y?price&cost; F?price=1200',
                 'expected' => [
                     'Y' => [
                         'price',
@@ -125,16 +127,16 @@ class ImporterTest extends TestCase
                 ],
             ],
             [
-                'input'    => 'Y; F?price=1200',
+                'input' => 'Y; F?price=1200',
                 'expected' => [
-                    0   => 'Y',
+                    0 => 'Y',
                     'F' => [
                         'price' => 1200,
                     ],
                 ],
             ],
             [
-                'input'    => 'Y?;F?price=1200',
+                'input' => 'Y?;F?price=1200',
                 'expected' => [
                     'Y' => [],
                     'F' => [
@@ -143,15 +145,15 @@ class ImporterTest extends TestCase
                 ],
             ],
             [
-                'input'    => 'Departure Gate=4;Arrival Gate=C61',
+                'input' => 'Departure Gate=4;Arrival Gate=C61',
                 'expected' => [
                     'Departure Gate' => '4',
-                    'Arrival Gate'   => 'C61',
+                    'Arrival Gate' => 'C61',
                 ],
             ],
             // Blank values omitted
             [
-                'input'    => 'gate; ',
+                'input' => 'gate; ',
                 'expected' => [
                     'gate',
                 ],
@@ -172,11 +174,11 @@ class ImporterTest extends TestCase
     {
         $tests = [
             [
-                'input'    => '',
+                'input' => '',
                 'expected' => '',
             ],
             [
-                'input'    => ['gate'],
+                'input' => ['gate'],
                 'expected' => 'gate',
             ],
             [
@@ -188,7 +190,7 @@ class ImporterTest extends TestCase
             ],
             [
                 'input' => [
-                    'gate'       => 'B32',
+                    'gate' => 'B32',
                     'cost index' => '100',
                 ],
                 'expected' => 'gate=B32;cost index=100',
@@ -197,7 +199,7 @@ class ImporterTest extends TestCase
                 'input' => [
                     'Y' => [
                         'price' => 200,
-                        'cost'  => 100,
+                        'cost' => 100,
                     ],
                     'F' => [
                         'price' => 1200,
@@ -229,7 +231,7 @@ class ImporterTest extends TestCase
             ],
             [
                 'input' => [
-                    0   => 'Y',
+                    0 => 'Y',
                     'F' => [
                         'price' => 1200,
                     ],
@@ -239,7 +241,7 @@ class ImporterTest extends TestCase
             [
                 'input' => [
                     'Departure Gate' => '4',
-                    'Arrival Gate'   => 'C61',
+                    'Arrival Gate' => 'C61',
                 ],
                 'expected' => 'Departure Gate=4;Arrival Gate=C61',
             ],
@@ -321,9 +323,9 @@ class ImporterTest extends TestCase
         $fareF = Fare::where('code', 'F')->first();
 
         $flight = Flight::factory()->create([
-            'airline_id'  => $airline->id,
+            'airline_id' => $airline->id,
             'flight_type' => 'J',
-            'days'        => Days::getDaysMask([
+            'days' => Days::getDaysMask([
                 Days::TUESDAY,
                 Days::SUNDAY,
             ]),
@@ -338,14 +340,14 @@ class ImporterTest extends TestCase
         // Add some custom fields
         FlightFieldValue::create([
             'flight_id' => $flight->id,
-            'name'      => 'Departure Gate',
-            'value'     => '4',
+            'name' => 'Departure Gate',
+            'value' => '4',
         ]);
 
         FlightFieldValue::create([
             'flight_id' => $flight->id,
-            'name'      => 'Arrival Gate',
-            'value'     => 'C41',
+            'name' => 'Arrival Gate',
+            'value' => 'C41',
         ]);
 
         // Test the conversion
@@ -392,9 +394,9 @@ class ImporterTest extends TestCase
     }
 
     /**
-     * @throws \League\Csv\CannotInsertRecord
-     *
      * @return void
+     *
+     * @throws \League\Csv\CannotInsertRecord
      */
     public function testExpenseExporter(): void
     {
@@ -415,7 +417,7 @@ class ImporterTest extends TestCase
         $airline = Airline::factory()->create(['icao' => 'VMS']);
         $subfleet = Subfleet::factory()->create(['type' => '744-3X-RB211']);
         $aircraft = Aircraft::factory()->create([
-            'subfleet_id'  => $subfleet->id,
+            'subfleet_id' => $subfleet->id,
             'registration' => '001Z',
         ]);
 
@@ -502,7 +504,7 @@ class ImporterTest extends TestCase
         // See if it imported
         /** @var Flight $flight */
         $flight = Flight::where([
-            'airline_id'    => $airline->id,
+            'airline_id' => $airline->id,
             'flight_number' => '1972',
         ])->first();
 
@@ -558,7 +560,7 @@ class ImporterTest extends TestCase
         $this->assertNotEquals('A32X', $subfleets[0]->name);
 
         $flight = Flight::where([
-            'airline_id'    => $airline->id,
+            'airline_id' => $airline->id,
             'flight_number' => '999',
         ])->first();
         $subfleets = $flight->subfleets;
@@ -584,7 +586,7 @@ class ImporterTest extends TestCase
 
         // See if it imported
         $flight = Flight::where([
-            'airline_id'    => $airline->id,
+            'airline_id' => $airline->id,
             'flight_number' => '1972',
         ])->first();
 

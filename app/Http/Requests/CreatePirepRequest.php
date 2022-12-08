@@ -19,8 +19,8 @@ class CreatePirepRequest extends FormRequest
         $action = strtolower(request('submit', 'submit'));
         if ($action === 'save') {
             return [
-                'airline_id'     => 'required|exists:airlines,id',
-                'flight_number'  => 'required',
+                'airline_id' => 'required|exists:airlines,id',
+                'flight_number' => 'required',
                 'dpt_airport_id' => 'required',
                 'arr_airport_id' => 'required',
             ];

@@ -7,15 +7,17 @@ use Illuminate\Notifications\Messages\MailMessage;
 trait MailChannel
 {
     protected $mailSubject;
+
     protected $mailTemplate;
+
     protected $mailTemplateArgs;
 
     /**
      * Set the arguments for the toMail() method
      *
-     * @param string $subject  Email subject
-     * @param string $template Markdown template to use
-     * @param array  $args     Arguments to pass to the template
+     * @param  string  $subject  Email subject
+     * @param  string  $template Markdown template to use
+     * @param  array  $args     Arguments to pass to the template
      */
     public function setMailable(string $subject, string $template, array $args)
     {
@@ -27,8 +29,7 @@ trait MailChannel
     /**
      * Get the mail representation of the notification.
      *
-     * @param mixed $notifiable
-     *
+     * @param  mixed  $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail($notifiable)

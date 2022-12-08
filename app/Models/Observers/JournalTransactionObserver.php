@@ -12,11 +12,11 @@ class JournalTransactionObserver
     /**
      * Set the ID to a UUID
      *
-     * @param JournalTransaction $transaction
+     * @param  JournalTransaction  $transaction
      */
     public function creating(JournalTransaction $transaction): void
     {
-        if (!$transaction->id) {
+        if (! $transaction->id) {
             $transaction->id = \Ramsey\Uuid\Uuid::uuid4()->toString();
         }
     }
@@ -24,7 +24,7 @@ class JournalTransactionObserver
     /**
      * After transaction is saved, adjust the journal balance
      *
-     * @param JournalTransaction $transaction
+     * @param  JournalTransaction  $transaction
      */
     public function saved(JournalTransaction $transaction): void
     {
@@ -45,7 +45,7 @@ class JournalTransactionObserver
     /**
      * After transaction is deleted, adjust the balance on the journal
      *
-     * @param JournalTransaction $transaction
+     * @param  JournalTransaction  $transaction
      */
     public function deleted(JournalTransaction $transaction): void
     {

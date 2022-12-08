@@ -21,24 +21,23 @@ class ExpenseImporter extends ImportExport
      * Should match the database fields, for the most part
      */
     public static $columns = [
-        'airline'        => 'nullable',
-        'name'           => 'required',
-        'amount'         => 'required|numeric',
-        'type'           => 'required',
-        'flight_type'    => 'nullable',
+        'airline' => 'nullable',
+        'name' => 'required',
+        'amount' => 'required|numeric',
+        'type' => 'required',
+        'flight_type' => 'nullable',
         'charge_to_user' => 'nullable|boolean',
-        'multiplier'     => 'nullable|numeric',
-        'active'         => 'nullable|boolean',
-        'ref_model'      => 'nullable',
-        'ref_model_id'   => 'nullable',
+        'multiplier' => 'nullable|numeric',
+        'active' => 'nullable|boolean',
+        'ref_model' => 'nullable',
+        'ref_model_id' => 'nullable',
     ];
 
     /**
      * Import a flight, parse out the different rows
      *
-     * @param array $row
-     * @param int   $index
-     *
+     * @param  array  $row
+     * @param  int  $index
      * @return bool
      */
     public function import(array $row, $index): bool
@@ -50,7 +49,7 @@ class ExpenseImporter extends ImportExport
         // Figure out what this is referring to
         $row = $this->getRefClassInfo($row);
 
-        if (!$row['active']) {
+        if (! $row['active']) {
             $row['active'] = true;
         }
 
@@ -60,18 +59,19 @@ class ExpenseImporter extends ImportExport
             ], $row);
         } catch (\Exception $e) {
             $this->errorLog('Error in row '.$index.': '.$e->getMessage());
+
             return false;
         }
 
         $this->log('Imported '.$row['name']);
+
         return true;
     }
 
     /**
      * See if this expense refers to a ref_model
      *
-     * @param array $row
-     *
+     * @param  array  $row
      * @return array
      */
     protected function getRefClassInfo(array $row)
@@ -86,6 +86,7 @@ class ExpenseImporter extends ImportExport
             }
         } else {
             $row['ref_model'] = Expense::class;
+
             return $row;
         }
 
@@ -106,11 +107,12 @@ class ExpenseImporter extends ImportExport
             $this->errorLog('Unknown/unsupported Expense class: '.$class);
         }
 
-        if (!$obj) {
+        if (! $obj) {
             return $row;
         }
 
         $row['ref_model_id'] = $obj->id;
+
         return $row;
     }
 }

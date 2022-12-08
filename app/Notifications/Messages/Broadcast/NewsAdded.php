@@ -24,19 +24,19 @@ class NewsAdded extends Notification implements ShouldQueue
     }
 
     /**
-     * @param News $news
-     *
+     * @param  News  $news
      * @return DiscordMessage|null
      */
     public function toDiscordChannel($news): ?DiscordMessage
     {
         $dm = new DiscordMessage();
+
         return $dm->webhook(setting('notifications.discord_public_webhook_url'))
             ->success()
             ->title('News: '.$news->subject)
             ->author([
-                'name'     => $news->user->ident.' - '.$news->user->name_private,
-                'url'      => '',
+                'name' => $news->user->ident.' - '.$news->user->name_private,
+                'url' => '',
                 'icon_url' => $news->user->resolveAvatarUrl(),
             ])
             ->description($news->body);
@@ -45,8 +45,7 @@ class NewsAdded extends Notification implements ShouldQueue
     /**
      * Get the array representation of the notification.
      *
-     * @param mixed $notifiable
-     *
+     * @param  mixed  $notifiable
      * @return array
      */
     public function toArray($notifiable)

@@ -16,7 +16,7 @@ class Version extends Command
     private VersionService $versionSvc;
 
     /**
-     * @param VersionService $versionSvc
+     * @param  VersionService  $versionSvc
      */
     public function __construct(VersionService $versionSvc)
     {

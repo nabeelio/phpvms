@@ -61,29 +61,29 @@ class Airport extends Model
     ];
 
     protected $casts = [
-        'lat'                  => 'float',
-        'lon'                  => 'float',
-        'hub'                  => 'boolean',
+        'lat' => 'float',
+        'lon' => 'float',
+        'hub' => 'boolean',
         'ground_handling_cost' => 'float',
-        'fuel_100ll_cost'      => 'float',
-        'fuel_jeta_cost'       => 'float',
-        'fuel_mogas_cost'      => 'float',
+        'fuel_100ll_cost' => 'float',
+        'fuel_jeta_cost' => 'float',
+        'fuel_mogas_cost' => 'float',
     ];
 
     /**
      * Validation rules
      */
     public static $rules = [
-        'icao'                 => 'required',
-        'iata'                 => 'sometimes|nullable',
-        'name'                 => 'required',
-        'location'             => 'sometimes',
-        'lat'                  => 'required|numeric',
-        'lon'                  => 'required|numeric',
+        'icao' => 'required',
+        'iata' => 'sometimes|nullable',
+        'name' => 'required',
+        'location' => 'sometimes',
+        'lat' => 'required|numeric',
+        'lon' => 'required|numeric',
         'ground_handling_cost' => 'nullable|numeric',
-        'fuel_100ll_cost'      => 'nullable|numeric',
-        'fuel_jeta_cost'       => 'nullable|numeric',
-        'fuel_mogas_cost'      => 'nullable|numeric',
+        'fuel_100ll_cost' => 'nullable|numeric',
+        'fuel_jeta_cost' => 'nullable|numeric',
+        'fuel_mogas_cost' => 'nullable|numeric',
     ];
 
     /**

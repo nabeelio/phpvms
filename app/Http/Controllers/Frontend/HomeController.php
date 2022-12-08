@@ -19,6 +19,7 @@ class HomeController extends Controller
             $users = User::with('home_airport')->where('state', '!=', UserState::DELETED)->orderBy('created_at', 'desc')->take(4)->get();
         } catch (\PDOException $e) {
             Log::emergency($e);
+
             return view('system/errors/database_error', [
                 'error' => $e->getMessage(),
             ]);
@@ -27,7 +28,7 @@ class HomeController extends Controller
         }
 
         // No users
-        if (!$users) {
+        if (! $users) {
             return view('system/errors/not_installed');
         }
 

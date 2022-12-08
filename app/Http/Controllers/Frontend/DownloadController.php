@@ -69,7 +69,7 @@ class DownloadController extends Controller
         try {
             Module::findOrFail('VMSAcars');
             $downloadUrl = DB::table('vmsacars_config')->where(['id' => 'download_url'])->first();
-            if (!empty($downloadUrl) && !empty($downloadUrl->value)) {
+            if (! empty($downloadUrl) && ! empty($downloadUrl->value)) {
                 $regrouped_files['ACARS'] = collect([
                     new File(['id' => 'vmsacars', 'name' => 'ACARS Client']),
                 ]);
@@ -88,8 +88,7 @@ class DownloadController extends Controller
     /**
      * Show the application dashboard
      *
-     * @param string $id
-     *
+     * @param  string  $id
      * @return mixed
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Symfony\Component\HttpFoundation\StreamedResponse
      */
@@ -103,7 +102,7 @@ class DownloadController extends Controller
                     ->where(['id' => 'download_url'])
                     ->first();
 
-                if (!empty($downloadUrl) && !empty($downloadUrl->value)) {
+                if (! empty($downloadUrl) && ! empty($downloadUrl->value)) {
                     return redirect()->to($downloadUrl->value);
                 }
             } catch (ModuleNotFoundException) {
@@ -116,14 +115,14 @@ class DownloadController extends Controller
          * @var File $file
          */
         $file = File::find($id);
-        if (!$file) {
+        if (! $file) {
             Flash::error('File doesn\'t exist');
 
             return redirect()->back();
         }
 
         // Allowed to download? If not, direct to login
-        if (!$file->public && !Auth::check()) {
+        if (! $file->public && ! Auth::check()) {
             return redirect(config('phpvms.login_redirect'));
         }
 

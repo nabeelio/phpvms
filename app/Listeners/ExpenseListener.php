@@ -12,8 +12,7 @@ class ExpenseListener extends Listener
     /**
      * Return a list of additional expenses
      *
-     * @param Expenses $event
-     *
+     * @param  Expenses  $event
      * @return mixed
      */
     public function handle(Expenses $event)

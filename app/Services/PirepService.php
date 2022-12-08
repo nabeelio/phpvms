@@ -43,23 +43,30 @@ use Illuminate\Support\Facades\Log;
 class PirepService extends Service
 {
     private AircraftRepository $aircraftRepo;
+
     private AirportRepository $airportRepo;
+
     private AirportService $airportSvc;
+
     private FareService $fareSvc;
+
     private GeoService $geoSvc;
+
     private PirepRepository $pirepRepo;
+
     private SimBriefService $simBriefSvc;
+
     private UserService $userSvc;
 
     /**
-     * @param AirportRepository  $airportRepo
-     * @param AirportService     $airportSvc
-     * @param AircraftRepository $aircraftRepo
-     * @param FareService        $fareSvc
-     * @param GeoService         $geoSvc
-     * @param PirepRepository    $pirepRepo
-     * @param SimBriefService    $simBriefSvc
-     * @param UserService        $userSvc
+     * @param  AirportRepository  $airportRepo
+     * @param  AirportService  $airportSvc
+     * @param  AircraftRepository  $aircraftRepo
+     * @param  FareService  $fareSvc
+     * @param  GeoService  $geoSvc
+     * @param  PirepRepository  $pirepRepo
+     * @param  SimBriefService  $simBriefSvc
+     * @param  UserService  $userSvc
      */
     public function __construct(
         AirportRepository $airportRepo,
@@ -84,27 +91,26 @@ class PirepService extends Service
     /**
      * Create a prefiled PIREP
      *
-     * @param User              $user
-     * @param array             $attrs
-     * @param PirepFieldValue[] $fields
-     * @param PirepFare[]       $fares
+     * @param  User  $user
+     * @param  array  $attrs
+     * @param  PirepFieldValue[]  $fields
+     * @param  PirepFare[]  $fares
+     * @return \App\Models\Pirep
      *
      * @throws AirportNotFound If one of the departure or arrival airports isn't found locally
      * @throws \Exception
-     *
-     * @return \App\Models\Pirep
      */
     public function prefile(User $user, array $attrs, array $fields = [], array $fares = []): Pirep
     {
         $attrs['user_id'] = $user->id;
         $attrs['state'] = PirepState::IN_PROGRESS;
 
-        if (!array_key_exists('status', $attrs)) {
+        if (! array_key_exists('status', $attrs)) {
             $attrs['status'] = PirepStatus::INITIATED;
         }
 
         // Default to a scheduled passenger flight
-        if (!array_key_exists('flight_type', $attrs)) {
+        if (! array_key_exists('flight_type', $attrs)) {
             $attrs['flight_type'] = FlightType::SCHED_PAX;
         }
 
@@ -117,12 +123,12 @@ class PirepService extends Service
             $this->airportSvc->lookupAirportIfNotFound($pirep->arr_airport_id);
         } else {
             $dptApt = $this->airportRepo->findWithoutFail($pirep->dpt_airport_id);
-            if (!$dptApt) {
+            if (! $dptApt) {
                 throw new AirportNotFound($pirep->dpt_airport_id);
             }
 
             $arrApt = $this->airportRepo->findWithoutFail($pirep->arr_airport_id);
-            if (!$arrApt) {
+            if (! $arrApt) {
                 throw new AirportNotFound($pirep->arr_airport_id);
             }
         }
@@ -136,7 +142,7 @@ class PirepService extends Service
 
         // See if this user is allowed to fly this aircraft
         if (setting('pireps.restrict_aircraft_to_rank', false)
-            && !$this->userSvc->aircraftAllowed($user, $pirep->aircraft_id)) {
+            && ! $this->userSvc->aircraftAllowed($user, $pirep->aircraft_id)) {
             throw new AircraftPermissionDenied($user, $pirep->aircraft);
         }
 
@@ -207,9 +213,8 @@ class PirepService extends Service
     /**
      * Create a new PIREP with some given fields
      *
-     * @param Pirep $pirep
+     * @param  Pirep  $pirep
      * @param array PirepFieldValue[] $field_values
-     *
      * @return Pirep
      */
     public function create(Pirep $pirep, array $fields = []): Pirep
@@ -221,7 +226,7 @@ class PirepService extends Service
         // Check the block times. If a block on (arrival) time isn't
         // specified, then use the time that it was submitted. It won't
         // be the most accurate, but that might be OK
-        if (!$pirep->block_on_time) {
+        if (! $pirep->block_on_time) {
             if ($pirep->submitted_at) {
                 $pirep->block_on_time = $pirep->submitted_at;
             } else {
@@ -231,12 +236,12 @@ class PirepService extends Service
 
         // If the depart time isn't set, then try to calculate it by
         // subtracting the flight time from the block_on (arrival) time
-        if (!$pirep->block_off_time && $pirep->flight_time > 0) {
+        if (! $pirep->block_off_time && $pirep->flight_time > 0) {
             $pirep->block_off_time = $pirep->block_on_time->subMinutes($pirep->flight_time);
         }
 
         // Check that there's a submit time
-        if (!$pirep->submitted_at) {
+        if (! $pirep->submitted_at) {
             $pirep->submitted_at = Carbon::now('UTC');
         }
 
@@ -257,8 +262,8 @@ class PirepService extends Service
     }
 
     /**
-     * @param PirepFieldValue[] $fields
-     * @param PirepFare[]       $fares
+     * @param  PirepFieldValue[]  $fields
+     * @param  PirepFare[]  $fares
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      * @throws \Exception
@@ -275,14 +280,13 @@ class PirepService extends Service
     /**
      * Finalize a PIREP (meaning it's been filed)
      *
-     * @param Pirep             $pirep
-     * @param array             $attrs
-     * @param PirepFieldValue[] $fields
-     * @param PirepFare[]       $fares
+     * @param  Pirep  $pirep
+     * @param  array  $attrs
+     * @param  PirepFieldValue[]  $fields
+     * @param  PirepFare[]  $fares
+     * @return Pirep
      *
      * @throws \Exception
-     *
-     * @return Pirep
      */
     public function file(Pirep $pirep, array $attrs = [], array $fields = [], array $fares = []): Pirep
     {
@@ -322,7 +326,7 @@ class PirepService extends Service
         // Check the block times. If a block on (arrival) time isn't
         // specified, then use the time that it was submitted. It won't
         // be the most accurate, but that might be OK
-        if (!$pirep->block_on_time) {
+        if (! $pirep->block_on_time) {
             if ($pirep->submitted_at) {
                 $pirep->block_on_time = $pirep->submitted_at;
             } else {
@@ -331,7 +335,7 @@ class PirepService extends Service
         }
 
         // Check that there's a submit time
-        if (!$pirep->submitted_at) {
+        if (! $pirep->submitted_at) {
             $pirep->submitted_at = Carbon::now('UTC');
         }
 
@@ -354,8 +358,7 @@ class PirepService extends Service
      * Find if there are duplicates to a given PIREP. Ideally, the passed
      * in PIREP hasn't been saved or gone through the create() method
      *
-     * @param Pirep $pirep
-     *
+     * @param  Pirep  $pirep
      * @return bool|Pirep
      */
     public function findDuplicate(Pirep $pirep)
@@ -364,9 +367,9 @@ class PirepService extends Service
         $time_limit = Carbon::now('UTC')->subMinutes($minutes)->toDateTimeString();
 
         $where = [
-            'user_id'        => $pirep->user_id,
-            'airline_id'     => $pirep->airline_id,
-            'flight_number'  => $pirep->flight_number,
+            'user_id' => $pirep->user_id,
+            'airline_id' => $pirep->airline_id,
+            'flight_number' => $pirep->flight_number,
             'dpt_airport_id' => $pirep->dpt_airport_id,
             'arr_airport_id' => $pirep->arr_airport_id,
         ];
@@ -400,27 +403,27 @@ class PirepService extends Service
      * This attempts to create the route from the navdata and the route
      * entered into the PIREP's route field
      *
-     * @param Pirep $pirep
+     * @param  Pirep  $pirep
+     * @return Pirep
      *
      * @throws \Exception
-     *
-     * @return Pirep
      */
     public function saveRoute(Pirep $pirep): Pirep
     {
         // Delete all the existing nav points
         Acars::where([
             'pirep_id' => $pirep->id,
-            'type'     => AcarsType::ROUTE,
+            'type' => AcarsType::ROUTE,
         ])->delete();
 
         // See if a route exists
-        if (!filled($pirep->route)) {
+        if (! filled($pirep->route)) {
             return $pirep;
         }
 
-        if (!filled($pirep->dpt_airport)) {
+        if (! filled($pirep->dpt_airport)) {
             Log::error('saveRoute: dpt_airport not found: '.$pirep->dpt_airport_id);
+
             return $pirep;
         }
 
@@ -455,7 +458,7 @@ class PirepService extends Service
     /**
      * Submit the PIREP. Figure out its default state
      *
-     * @param Pirep $pirep
+     * @param  Pirep  $pirep
      *
      * @throws \Exception
      */
@@ -466,7 +469,7 @@ class PirepService extends Service
         // Prefile, Save (as draft) and File already have this but the Submit button
         // visible at pireps.show blade uses this function so Simbrief also needs to
         // checked here too (to remove the flight_id and release the aircraft)
-        if (!empty($pirep->simbrief)) {
+        if (! empty($pirep->simbrief)) {
             /** @var SimBrief $simbrief */
             $simbrief = SimBrief::find($pirep->simbrief->id);
             if ($simbrief) {
@@ -508,11 +511,10 @@ class PirepService extends Service
     /**
      * Cancel a PIREP
      *
-     * @param Pirep $pirep
+     * @param  Pirep  $pirep
+     * @return Pirep
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
-     *
-     * @return Pirep
      */
     public function cancel(Pirep $pirep): Pirep
     {
@@ -523,7 +525,7 @@ class PirepService extends Service
         }
 
         $pirep = $this->pirepRepo->update([
-            'state'  => PirepState::CANCELLED,
+            'state' => PirepState::CANCELLED,
             'status' => PirepStatus::CANCELLED,
         ], $pirep->id);
 
@@ -543,7 +545,7 @@ class PirepService extends Service
      * pirep_field_values
      * simbrief
      *
-     * @param Pirep $pirep
+     * @param  Pirep  $pirep
      */
     public function delete(Pirep $pirep): void
     {
@@ -562,19 +564,19 @@ class PirepService extends Service
             ->first();
 
         $user = User::find($user_id);
-        $user->last_pirep_id = !empty($last_pirep) ? $last_pirep->id : null;
+        $user->last_pirep_id = ! empty($last_pirep) ? $last_pirep->id : null;
         $user->save();
     }
 
     /**
      * Update any custom PIREP fields
      *
-     * @param string            $pirep_id
-     * @param PirepFieldValue[] $field_values
+     * @param  string  $pirep_id
+     * @param  PirepFieldValue[]  $field_values
      */
     public function updateCustomFields(string $pirep_id, array $field_values): void
     {
-        if (!$field_values || empty($field_values)) {
+        if (! $field_values || empty($field_values)) {
             return;
         }
 
@@ -587,12 +589,11 @@ class PirepService extends Service
     }
 
     /**
-     * @param Pirep $pirep
-     * @param int   $new_state
+     * @param  Pirep  $pirep
+     * @param  int  $new_state
+     * @return Pirep
      *
      * @throws \Exception
-     *
-     * @return Pirep
      */
     public function changeState(Pirep $pirep, int $new_state): Pirep
     {
@@ -622,6 +623,7 @@ class PirepService extends Service
          */
         if ($pirep->state === PirepState::ACCEPTED) {
             $pirep = $this->reject($pirep);
+
             return $pirep;
         }
 
@@ -630,6 +632,7 @@ class PirepService extends Service
          */
         if ($pirep->state === PirepState::REJECTED) {
             $pirep = $this->accept($pirep);
+
             return $pirep;
         }
 
@@ -637,11 +640,10 @@ class PirepService extends Service
     }
 
     /**
-     * @param Pirep $pirep
+     * @param  Pirep  $pirep
+     * @return Pirep
      *
      * @throws \Exception
-     *
-     * @return Pirep
      */
     public function accept(Pirep $pirep): Pirep
     {
@@ -684,8 +686,7 @@ class PirepService extends Service
     }
 
     /**
-     * @param Pirep $pirep
-     *
+     * @param  Pirep  $pirep
      * @return Pirep
      */
     public function reject(Pirep $pirep): Pirep
@@ -718,8 +719,8 @@ class PirepService extends Service
     }
 
     /**
-     * @param User  $pilot
-     * @param Pirep $pirep
+     * @param  User  $pilot
+     * @param  Pirep  $pirep
      */
     public function setPilotState(User $pilot, Pirep $pirep)
     {

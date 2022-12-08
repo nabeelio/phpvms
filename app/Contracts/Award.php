@@ -20,14 +20,14 @@ use Illuminate\Support\Facades\Log;
 abstract class Award
 {
     public $name = '';
+
     public $param_description = '';
 
     /**
      * Each award class just needs to return true or false if it should actually
      * be awarded to a user. This is the only method that needs to be implemented
      *
-     * @param null $parameter Optional parameters that are passed in from the UI
-     *
+     * @param  null  $parameter Optional parameters that are passed in from the UI
      * @return bool
      */
     abstract public function check($parameter = null): bool;
@@ -74,7 +74,7 @@ abstract class Award
     protected function addAward(): bool|UserAward|null
     {
         $w = [
-            'user_id'  => $this->user->id,
+            'user_id' => $this->user->id,
             'award_id' => $this->award->id,
         ];
 

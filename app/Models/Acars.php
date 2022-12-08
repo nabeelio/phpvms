@@ -57,19 +57,19 @@ class Acars extends Model
     ];
 
     public $casts = [
-        'type'        => 'integer',
-        'order'       => 'integer',
-        'nav_type'    => 'integer',
-        'lat'         => 'float',
-        'lon'         => 'float',
-        'distance'    => DistanceCast::class,
-        'heading'     => 'integer',
-        'altitude'    => 'float',
-        'vs'          => 'float',
-        'gs'          => 'float',
+        'type' => 'integer',
+        'order' => 'integer',
+        'nav_type' => 'integer',
+        'lat' => 'float',
+        'lon' => 'float',
+        'distance' => DistanceCast::class,
+        'heading' => 'integer',
+        'altitude' => 'float',
+        'vs' => 'float',
+        'gs' => 'float',
         'transponder' => 'integer',
-        'fuel'        => FuelCast::class,
-        'fuel_flow'   => 'float',
+        'fuel' => FuelCast::class,
+        'fuel_flow' => 'float',
     ];
 
     public static $rules = [

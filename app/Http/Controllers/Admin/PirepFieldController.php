@@ -17,7 +17,7 @@ class PirepFieldController extends Controller
     /**
      * PirepFieldController constructor.
      *
-     * @param PirepFieldRepository $pirepFieldRepo
+     * @param  PirepFieldRepository  $pirepFieldRepo
      */
     public function __construct(
         PirepFieldRepository $pirepFieldRepo
@@ -28,11 +28,10 @@ class PirepFieldController extends Controller
     /**
      * Display a listing of the PirepField.
      *
-     * @param Request $request
+     * @param  Request  $request
+     * @return mixed
      *
      * @throws \Prettus\Repository\Exceptions\RepositoryException
-     *
-     * @return mixed
      */
     public function index(Request $request)
     {
@@ -57,11 +56,10 @@ class PirepFieldController extends Controller
     /**
      * Store a newly created PirepField in storage.
      *
-     * @param CreatePirepFieldRequest $request
+     * @param  CreatePirepFieldRequest  $request
+     * @return mixed
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
-     *
-     * @return mixed
      */
     public function store(CreatePirepFieldRequest $request)
     {
@@ -79,8 +77,7 @@ class PirepFieldController extends Controller
     /**
      * Display the specified PirepField.
      *
-     * @param int $id
-     *
+     * @param  int  $id
      * @return mixed
      */
     public function show($id)
@@ -101,8 +98,7 @@ class PirepFieldController extends Controller
     /**
      * Show the form for editing the specified PirepField.
      *
-     * @param int $id
-     *
+     * @param  int  $id
      * @return mixed
      */
     public function edit($id)
@@ -123,11 +119,10 @@ class PirepFieldController extends Controller
     /**
      * Update the specified PirepField in storage.
      *
-     * @param mixed $id
+     * @param  mixed  $id
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
-     *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function update($id, UpdatePirepFieldRequest $request)
     {
@@ -152,8 +147,7 @@ class PirepFieldController extends Controller
     /**
      * Remove the specified PirepField from storage.
      *
-     * @param int $id
-     *
+     * @param  int  $id
      * @return mixed
      */
     public function destroy($id)

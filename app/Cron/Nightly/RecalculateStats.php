@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Log;
 class RecalculateStats extends Listener
 {
     private AircraftService $aircraftSvc;
+
     private UserService $userSvc;
 
     public function __construct(AircraftService $aircraftSvc, UserService $userSvc)
@@ -25,7 +26,7 @@ class RecalculateStats extends Listener
     /**
      * Recalculate the stats for active users
      *
-     * @param CronNightly $event
+     * @param  CronNightly  $event
      *
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException

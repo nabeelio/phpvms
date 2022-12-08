@@ -38,14 +38,14 @@ class FlightImporter extends BaseImporter
             $attrs = [
                 'dpt_airport_id' => $row->depicao,
                 'arr_airport_id' => $row->arricao,
-                'route'          => $row->route ?: '',
-                'distance'       => round($row->distance ?: 0, 2),
-                'level'          => $row->flightlevel ?: 0,
-                'dpt_time'       => $row->deptime ?: '',
-                'arr_time'       => $row->arrtime ?: '',
-                'flight_time'    => $this->convertDuration($row->flighttime) ?: '',
-                'notes'          => $row->notes ?: '',
-                'active'         => $row->enabled ?: true,
+                'route' => $row->route ?: '',
+                'distance' => round($row->distance ?: 0, 2),
+                'level' => $row->flightlevel ?: 0,
+                'dpt_time' => $row->deptime ?: '',
+                'arr_time' => $row->arrtime ?: '',
+                'flight_time' => $this->convertDuration($row->flighttime) ?: '',
+                'notes' => $row->notes ?: '',
+                'active' => $row->enabled ?: true,
             ];
 
             try {

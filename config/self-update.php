@@ -1,24 +1,24 @@
 <?php
 
 return [
-    'default'           => 'vms',
+    'default' => 'vms',
     'version_installed' => '',
 
     'repository_types' => [
         'github' => [
-            'type'                 => 'github',
-            'repository_vendor'    => 'nabeelio',
-            'repository_name'      => 'phpvms',
-            'repository_url'       => 'https://github.com/nabeelio/phpvms',
-            'download_path'        => storage_path('app'),
+            'type' => 'github',
+            'repository_vendor' => 'nabeelio',
+            'repository_name' => 'phpvms',
+            'repository_url' => 'https://github.com/nabeelio/phpvms',
+            'download_path' => storage_path('app'),
             'private_access_token' => '',
-            'use_branch'           => '',
+            'use_branch' => '',
         ],
     ],
 
     'mail_to' => [
-        'address'                  => 'no-reply@phpvms.net',
-        'name'                     => 'no name',
+        'address' => 'no-reply@phpvms.net',
+        'name' => 'no name',
         'subject_update_available' => 'Update available',
         'subject_update_succeeded' => 'Update succeeded',
     ],

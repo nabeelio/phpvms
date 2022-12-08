@@ -23,15 +23,17 @@ class AircraftController extends Controller
     use Importable;
 
     private AircraftRepository $aircraftRepo;
+
     private AirportRepository $airportRepo;
+
     private ImportService $importSvc;
 
     /**
      * AircraftController constructor.
      *
-     * @param AirportRepository  $airportRepo
-     * @param AircraftRepository $aircraftRepo
-     * @param ImportService      $importSvc
+     * @param  AirportRepository  $airportRepo
+     * @param  AircraftRepository  $aircraftRepo
+     * @param  ImportService  $importSvc
      */
     public function __construct(
         AirportRepository $airportRepo,
@@ -46,8 +48,7 @@ class AircraftController extends Controller
     /**
      * Display a listing of the Aircraft.
      *
-     * @param Request $request
-     *
+     * @param  Request  $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index(Request $request)
@@ -63,7 +64,7 @@ class AircraftController extends Controller
         $aircraft = $aircraft->all();
 
         return view('admin.aircraft.index', [
-            'aircraft'    => $aircraft,
+            'aircraft' => $aircraft,
             'subfleet_id' => $request->input('subfleet'),
         ]);
     }
@@ -71,17 +72,16 @@ class AircraftController extends Controller
     /**
      * Show the form for creating a new Aircraft.
      *
-     * @param Request $request
-     *
+     * @param  Request  $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function create(Request $request)
     {
         return view('admin.aircraft.create', [
-            'airports'    => $this->airportRepo->selectBoxList(),
-            'hubs'        => $this->airportRepo->selectBoxList(true, true),
-            'subfleets'   => Subfleet::all()->pluck('name', 'id'),
-            'statuses'    => AircraftStatus::select(false),
+            'airports' => $this->airportRepo->selectBoxList(),
+            'hubs' => $this->airportRepo->selectBoxList(true, true),
+            'subfleets' => Subfleet::all()->pluck('name', 'id'),
+            'statuses' => AircraftStatus::select(false),
             'subfleet_id' => $request->query('subfleet'),
         ]);
     }
@@ -89,11 +89,10 @@ class AircraftController extends Controller
     /**
      * Store a newly created Aircraft in storage.
      *
-     * @param \App\Http\Requests\CreateAircraftRequest $request
+     * @param  \App\Http\Requests\CreateAircraftRequest  $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
-     *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function store(CreateAircraftRequest $request)
     {
@@ -101,14 +100,14 @@ class AircraftController extends Controller
         $aircraft = $this->aircraftRepo->create($attrs);
 
         Flash::success('Aircraft saved successfully.');
+
         return redirect(route('admin.aircraft.edit', [$aircraft->id]));
     }
 
     /**
      * Display the specified Aircraft.
      *
-     * @param mixed $id
-     *
+     * @param  mixed  $id
      * @return mixed
      */
     public function show($id)
@@ -117,6 +116,7 @@ class AircraftController extends Controller
 
         if (empty($aircraft)) {
             Flash::error('Aircraft not found');
+
             return redirect(route('admin.aircraft.index'));
         }
 
@@ -128,8 +128,7 @@ class AircraftController extends Controller
     /**
      * Show the form for editing the specified Aircraft.
      *
-     * @param mixed $id
-     *
+     * @param  mixed  $id
      * @return mixed
      */
     public function edit($id)
@@ -138,27 +137,27 @@ class AircraftController extends Controller
 
         if (empty($aircraft)) {
             Flash::error('Aircraft not found');
+
             return redirect(route('admin.aircraft.index'));
         }
 
         return view('admin.aircraft.edit', [
-            'aircraft'  => $aircraft,
-            'airports'  => $this->airportRepo->selectBoxList(),
-            'hubs'      => $this->airportRepo->selectBoxList(true, true),
+            'aircraft' => $aircraft,
+            'airports' => $this->airportRepo->selectBoxList(),
+            'hubs' => $this->airportRepo->selectBoxList(true, true),
             'subfleets' => Subfleet::all()->pluck('name', 'id'),
-            'statuses'  => AircraftStatus::select(false),
+            'statuses' => AircraftStatus::select(false),
         ]);
     }
 
     /**
      * Update the specified Aircraft in storage.
      *
-     * @param mixed                 $id
-     * @param UpdateAircraftRequest $request
+     * @param  mixed  $id
+     * @param  UpdateAircraftRequest  $request
+     * @return mixed
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
-     *
-     * @return mixed
      */
     public function update($id, UpdateAircraftRequest $request)
     {
@@ -167,6 +166,7 @@ class AircraftController extends Controller
 
         if (empty($aircraft)) {
             Flash::error('Aircraft not found');
+
             return redirect(route('admin.aircraft.index'));
         }
 
@@ -174,14 +174,14 @@ class AircraftController extends Controller
         $this->aircraftRepo->update($attrs, $id);
 
         Flash::success('Aircraft updated successfully.');
+
         return redirect(route('admin.aircraft.index').'?subfleet='.$aircraft->subfleet_id);
     }
 
     /**
      * Remove the specified Aircraft from storage.
      *
-     * @param mixed $id
-     *
+     * @param  mixed  $id
      * @return mixed
      */
     public function destroy($id)
@@ -191,23 +191,24 @@ class AircraftController extends Controller
 
         if (empty($aircraft)) {
             Flash::error('Aircraft not found');
+
             return redirect(route('admin.aircraft.index'));
         }
 
         $this->aircraftRepo->delete($id);
 
         Flash::success('Aircraft deleted successfully.');
+
         return redirect(route('admin.aircraft.index'));
     }
 
     /**
      * Run the aircraft exporter
      *
-     * @param Request $request
+     * @param  Request  $request
+     * @return mixed
      *
      * @throws \League\Csv\Exception
-     *
-     * @return mixed
      */
     public function export(Request $request)
     {
@@ -224,19 +225,19 @@ class AircraftController extends Controller
         $aircraft = $this->aircraftRepo->where($where)->orderBy('registration')->get();
 
         $path = $exporter->exportAircraft($aircraft);
+
         return response()->download($path, $file_name, ['content-type' => 'text/csv'])->deleteFileAfterSend(true);
     }
 
     /**
-     * @param Request $request
-     *
+     * @param  Request  $request
      * @return mixed
      */
     public function import(Request $request)
     {
         $logs = [
             'success' => [],
-            'errors'  => [],
+            'errors' => [],
         ];
 
         if ($request->isMethod('post')) {
@@ -249,8 +250,7 @@ class AircraftController extends Controller
     }
 
     /**
-     * @param Aircraft|null $aircraft
-     *
+     * @param  Aircraft|null  $aircraft
      * @return mixed
      */
     protected function return_expenses_view(Aircraft $aircraft)
@@ -265,12 +265,11 @@ class AircraftController extends Controller
     /**
      * Operations for associating ranks to the subfleet
      *
-     * @param         $id
-     * @param Request $request
+     * @param    $id
+     * @param  Request  $request
+     * @return mixed
      *
      * @throws \Exception
-     *
-     * @return mixed
      */
     public function expenses($id, Request $request)
     {

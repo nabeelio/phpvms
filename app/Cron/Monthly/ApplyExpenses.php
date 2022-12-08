@@ -18,7 +18,7 @@ class ApplyExpenses extends Listener
     /**
      * ApplyExpenses constructor.
      *
-     * @param RecurringFinanceService $financeSvc
+     * @param  RecurringFinanceService  $financeSvc
      */
     public function __construct(RecurringFinanceService $financeSvc)
     {
@@ -28,7 +28,7 @@ class ApplyExpenses extends Listener
     /**
      * Apply all of the expenses for a month
      *
-     * @param CronMonthly $event
+     * @param  CronMonthly  $event
      *
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException

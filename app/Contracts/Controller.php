@@ -22,25 +22,24 @@ abstract class Controller extends \Illuminate\Routing\Controller
      *
      * @param $message
      * @param $route
-     *
      * @return mixed
      */
     public function flashError($message, $route)
     {
         Flash::error($message);
+
         return redirect(route($route))->withInput();
     }
 
     /**
      * Shortcut function to get the attributes from a request while running the validations
      *
-     * @param Request $request
-     * @param array   $attrs_or_validations
-     * @param array   $addtl_fields
+     * @param  Request  $request
+     * @param  array  $attrs_or_validations
+     * @param  array  $addtl_fields
+     * @return array
      *
      * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
-     *
-     * @return array
      */
     public function getFromReq($request, $attrs_or_validations, $addtl_fields = null)
     {
@@ -72,7 +71,7 @@ abstract class Controller extends \Illuminate\Routing\Controller
             }
         }
 
-        if (!empty($addtl_fields) && \is_array($addtl_fields)) {
+        if (! empty($addtl_fields) && \is_array($addtl_fields)) {
             $fields = array_merge($fields, $addtl_fields);
         }
 
@@ -83,16 +82,15 @@ abstract class Controller extends \Illuminate\Routing\Controller
      * Simple normalized method for forming the JSON responses
      *
      * @param $message
-     * @param null|mixed $count
-     * @param mixed      $attrs
-     *
+     * @param  null|mixed  $count
+     * @param  mixed  $attrs
      * @return \Illuminate\Http\JsonResponse
      */
     public function message($message, $count = null, $attrs = [])
     {
         $ret = [
             'message' => $message,
-            'attrs'   => $attrs,
+            'attrs' => $attrs,
         ];
 
         if ($count !== null) {

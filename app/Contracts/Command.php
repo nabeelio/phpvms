@@ -43,7 +43,7 @@ abstract class Command extends \Illuminate\Console\Command
      * Splice the logger and replace the active handlers with the handlers from the
      * a stack in config/logging.php
      *
-     * @param string $channel_name Channel name from config/logging.php
+     * @param  string  $channel_name Channel name from config/logging.php
      */
     public function redirectLoggingToFile($channel_name): void
     {
@@ -74,7 +74,6 @@ abstract class Command extends \Illuminate\Console\Command
      * Streaming file reader
      *
      * @param $filename
-     *
      * @return \Generator
      */
     public function readFile($filename): ?\Generator
@@ -93,14 +92,13 @@ abstract class Command extends \Illuminate\Console\Command
     }
 
     /**
-     * @param array|string $cmd
-     * @param bool         $return
-     * @param mixed        $verbose
+     * @param  array|string  $cmd
+     * @param  bool  $return
+     * @param  mixed  $verbose
+     * @return string
      *
      * @throws \Symfony\Component\Process\Exception\RuntimeException
      * @throws \Symfony\Component\Process\Exception\LogicException
-     *
-     * @return string
      */
     public function runCommand($cmd, $return = false, $verbose = true): string
     {

@@ -96,7 +96,7 @@ return [
     */
 
     'remote_sites_path' => env('IGNITION_REMOTE_SITES_PATH', ''),
-    'local_sites_path'  => env('IGNITION_LOCAL_SITES_PATH', ''),
+    'local_sites_path' => env('IGNITION_LOCAL_SITES_PATH', ''),
 
     /*
     |--------------------------------------------------------------------------

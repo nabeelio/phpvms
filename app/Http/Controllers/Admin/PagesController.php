@@ -14,7 +14,7 @@ class PagesController extends Controller
     private PageRepository $pageRepo;
 
     /**
-     * @param PageRepository $pageRepo
+     * @param  PageRepository  $pageRepo
      */
     public function __construct(PageRepository $pageRepo)
     {
@@ -22,8 +22,7 @@ class PagesController extends Controller
     }
 
     /**
-     * @param Request $request
-     *
+     * @param  Request  $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index(Request $request)
@@ -46,11 +45,10 @@ class PagesController extends Controller
     /**
      * Store a newly created Airlines in storage.
      *
-     * @param \App\Http\Requests\CreatePageRequest $request
+     * @param  \App\Http\Requests\CreatePageRequest  $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
-     *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function store(CreatePageRequest $request)
     {
@@ -58,14 +56,14 @@ class PagesController extends Controller
         $this->pageRepo->create($input);
 
         Flash::success('Page saved successfully.');
+
         return redirect(route('admin.pages.index'));
     }
 
     /**
      * Display the specified page
      *
-     * @param int $id
-     *
+     * @param  int  $id
      * @return mixed
      */
     public function show($id)
@@ -74,6 +72,7 @@ class PagesController extends Controller
 
         if (empty($pages)) {
             Flash::error('Page not found');
+
             return redirect(route('admin.page.index'));
         }
 
@@ -85,8 +84,7 @@ class PagesController extends Controller
     /**
      * Show the form for editing the specified pages
      *
-     * @param int $id
-     *
+     * @param  int  $id
      * @return mixed
      */
     public function edit($id)
@@ -95,6 +93,7 @@ class PagesController extends Controller
 
         if (empty($page)) {
             Flash::error('Page not found');
+
             return redirect(route('admin.pages.index'));
         }
 
@@ -106,12 +105,11 @@ class PagesController extends Controller
     /**
      * Update the specified Airlines in storage.
      *
-     * @param int               $id
-     * @param UpdatePageRequest $request
+     * @param  int  $id
+     * @param  UpdatePageRequest  $request
+     * @return mixed
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
-     *
-     * @return mixed
      */
     public function update($id, UpdatePageRequest $request)
     {
@@ -119,20 +117,21 @@ class PagesController extends Controller
 
         if (empty($page)) {
             Flash::error('page not found');
+
             return redirect(route('admin.pages.index'));
         }
 
         $this->pageRepo->update($request->all(), $id);
 
         Flash::success('pages updated successfully.');
+
         return redirect(route('admin.pages.index'));
     }
 
     /**
      * Remove the specified Airlines from storage.
      *
-     * @param int $id
-     *
+     * @param  int  $id
      * @return mixed
      */
     public function destroy($id)
@@ -141,12 +140,14 @@ class PagesController extends Controller
 
         if (empty($pages)) {
             Flash::error('Page not found');
+
             return redirect(route('admin.pages.index'));
         }
 
         $this->pageRepo->delete($id);
 
         Flash::success('page deleted successfully.');
+
         return redirect(route('admin.pages.index'));
     }
 }

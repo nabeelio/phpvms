@@ -11,6 +11,7 @@ use App\Services\Installer\ConfigService;
 class DevInstall extends Command
 {
     protected $signature = 'phpvms:dev-install {--reset-db} {--reset-configs}';
+
     protected $description = 'Run a developer install and run the sample migration';
 
     private \DatabaseSeeder $databaseSeeder;
@@ -79,8 +80,8 @@ class DevInstall extends Command
 
         $this->info('Regenerating the config files');
         $cfgSvc->createConfigFiles([
-            'APP_ENV'       => 'dev',
-            'SITE_NAME'     => 'phpvms test',
+            'APP_ENV' => 'dev',
+            'SITE_NAME' => 'phpvms test',
             'DB_CONNECTION' => 'sqlite',
         ]);
 

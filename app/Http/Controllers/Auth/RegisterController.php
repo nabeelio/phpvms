@@ -31,17 +31,20 @@ class RegisterController extends Controller
     protected $redirectTo = '/';
 
     private AirlineRepository $airlineRepo;
+
     private AirportRepository $airportRepo;
+
     private HttpClient $httpClient;
+
     private UserService $userService;
 
     /**
      * RegisterController constructor.
      *
-     * @param AirlineRepository $airlineRepo
-     * @param AirportRepository $airportRepo
-     * @param UserService       $userService
-     * @param HttpClient        $httpClient
+     * @param  AirlineRepository  $airlineRepo
+     * @param  AirportRepository  $airportRepo
+     * @param  UserService  $userService
+     * @param  HttpClient  $httpClient
      */
     public function __construct(
         AirlineRepository $airlineRepo,
@@ -61,9 +64,9 @@ class RegisterController extends Controller
     }
 
     /**
-     * @throws \Exception
-     *
      * @return mixed
+     *
+     * @throws \Exception
      */
     public function showRegistrationForm()
     {
@@ -72,14 +75,14 @@ class RegisterController extends Controller
         $userFields = UserField::where(['show_on_registration' => true, 'active' => true])->get();
 
         return view('auth.register', [
-            'airports'   => $airports,
-            'airlines'   => $airlines,
-            'countries'  => Countries::getSelectList(),
-            'timezones'  => Timezonelist::toArray(),
+            'airports' => $airports,
+            'airlines' => $airlines,
+            'countries' => Countries::getSelectList(),
+            'timezones' => Timezonelist::toArray(),
             'userFields' => $userFields,
-            'captcha'    => [
-                'enabled'    => setting('captcha.enabled', env('CAPTCHA_ENABLED', false)),
-                'site_key'   => setting('captcha.site_key', env('CAPTCHA_SITE_KEY')),
+            'captcha' => [
+                'enabled' => setting('captcha.enabled', env('CAPTCHA_ENABLED', false)),
+                'site_key' => setting('captcha.site_key', env('CAPTCHA_SITE_KEY')),
                 'secret_key' => setting('captcha.secret_key', env('CAPTCHA_SECRET_KEY')),
             ],
         ]);
@@ -88,26 +91,25 @@ class RegisterController extends Controller
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param array $data
-     *
+     * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
     {
         $rules = [
-            'name'            => 'required|max:255',
-            'email'           => 'required|email|max:255|unique:users,email',
-            'airline_id'      => 'required',
+            'name' => 'required|max:255',
+            'email' => 'required|email|max:255|unique:users,email',
+            'airline_id' => 'required',
             'home_airport_id' => 'required',
-            'password'        => 'required|min:5|confirmed',
-            'toc_accepted'    => 'accepted',
+            'password' => 'required|min:5|confirmed',
+            'toc_accepted' => 'accepted',
         ];
 
         // Dynamically add the required fields
         $userFields = UserField::where([
             'show_on_registration' => true,
-            'required'             => true,
-            'active'               => true,
+            'required' => true,
+            'active' => true,
         ])->get();
 
         foreach ($userFields as $field) {
@@ -123,7 +125,7 @@ class RegisterController extends Controller
                 'required',
                 function ($attribute, $value, $fail) {
                     $response = $this->httpClient->form_post('https://hcaptcha.com/siteverify', [
-                        'secret'   => setting('captcha.secret_key', env('CAPTCHA_SECRET_KEY')),
+                        'secret' => setting('captcha.secret_key', env('CAPTCHA_SECRET_KEY')),
                         'response' => $value,
                     ]);
 
@@ -141,12 +143,11 @@ class RegisterController extends Controller
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param array $opts
+     * @param  array  $opts
+     * @return User
      *
      * @throws \Exception
      * @throws \RuntimeException
-     *
-     * @return User
      */
     protected function create(Request $request): User
     {
@@ -172,7 +173,7 @@ class RegisterController extends Controller
             $field_name = 'field_'.$field->slug;
             UserFieldValue::updateOrCreate([
                 'user_field_id' => $field->id,
-                'user_id'       => $user->id,
+                'user_id' => $user->id,
             ], ['value' => $opts[$field_name]]);
         }
 
@@ -182,11 +183,10 @@ class RegisterController extends Controller
     /**
      * Handle a registration request for the application.
      *
-     * @param Request $request
+     * @param  Request  $request
+     * @return mixed
      *
      * @throws \Exception
-     *
-     * @return mixed
      */
     public function register(Request $request)
     {

@@ -26,36 +26,38 @@ class FlightImporter extends ImportExport
      * Should match the database fields, for the most part
      */
     public static $columns = [
-        'airline'              => 'required',
-        'flight_number'        => 'required',
-        'route_code'           => 'nullable',
-        'callsign'             => 'nullable',
-        'route_leg'            => 'nullable',
-        'dpt_airport'          => 'required',
-        'arr_airport'          => 'required',
-        'alt_airport'          => 'nullable',
-        'days'                 => 'nullable',
-        'dpt_time'             => 'nullable',
-        'arr_time'             => 'nullable',
-        'level'                => 'nullable|integer',
-        'distance'             => 'nullable|numeric',
-        'flight_time'          => 'required|integer',
-        'flight_type'          => 'required|alpha',
-        'load_factor'          => 'nullable',
+        'airline' => 'required',
+        'flight_number' => 'required',
+        'route_code' => 'nullable',
+        'callsign' => 'nullable',
+        'route_leg' => 'nullable',
+        'dpt_airport' => 'required',
+        'arr_airport' => 'required',
+        'alt_airport' => 'nullable',
+        'days' => 'nullable',
+        'dpt_time' => 'nullable',
+        'arr_time' => 'nullable',
+        'level' => 'nullable|integer',
+        'distance' => 'nullable|numeric',
+        'flight_time' => 'required|integer',
+        'flight_type' => 'required|alpha',
+        'load_factor' => 'nullable',
         'load_factor_variance' => 'nullable',
-        'pilot_pay'            => 'nullable',
-        'route'                => 'nullable',
-        'notes'                => 'nullable',
-        'start_date'           => 'nullable|date',
-        'end_date'             => 'nullable|date',
-        'active'               => 'nullable|boolean',
-        'subfleets'            => 'nullable',
-        'fares'                => 'nullable',
-        'fields'               => 'nullable',
+        'pilot_pay' => 'nullable',
+        'route' => 'nullable',
+        'notes' => 'nullable',
+        'start_date' => 'nullable|date',
+        'end_date' => 'nullable|date',
+        'active' => 'nullable|boolean',
+        'subfleets' => 'nullable',
+        'fares' => 'nullable',
+        'fields' => 'nullable',
     ];
 
     private $airportSvc;
+
     private $fareSvc;
+
     private $flightSvc;
 
     /**
@@ -71,9 +73,8 @@ class FlightImporter extends ImportExport
     /**
      * Import a flight, parse out the different rows
      *
-     * @param array $row
-     * @param int   $index
-     *
+     * @param  array  $row
+     * @param  int  $index
      * @return bool
      */
     public function import(array $row, $index): bool
@@ -84,10 +85,10 @@ class FlightImporter extends ImportExport
         // Try to find this flight
         /** @var Flight $flight */
         $flight = Flight::firstOrNew([
-            'airline_id'    => $airline->id,
+            'airline_id' => $airline->id,
             'flight_number' => $row['flight_number'],
-            'route_code'    => $row['route_code'],
-            'route_leg'     => $row['route_leg'],
+            'route_code' => $row['route_code'],
+            'route_leg' => $row['route_leg'],
         ], $row);
 
         $row['dpt_airport'] = strtoupper($row['dpt_airport']);
@@ -109,7 +110,7 @@ class FlightImporter extends ImportExport
 
         // Check for a valid value
         $flight_type = $row['flight_type'];
-        if (!array_key_exists($flight_type, FlightType::labels())) {
+        if (! array_key_exists($flight_type, FlightType::labels())) {
             $flight_type = FlightType::SCHED_PAX;
         }
 
@@ -120,6 +121,7 @@ class FlightImporter extends ImportExport
             $flight->save();
         } catch (\Exception $e) {
             $this->errorLog('Error in row '.$index.': '.$e->getMessage());
+
             return false;
         }
 
@@ -143,6 +145,7 @@ class FlightImporter extends ImportExport
         $this->processFields($flight, $row['fields']);
 
         $this->log('Imported row '.$index);
+
         return true;
     }
 
@@ -150,12 +153,11 @@ class FlightImporter extends ImportExport
      * Return the mask of the days
      *
      * @param $day_str
-     *
      * @return int|mixed
      */
     protected function setDays($day_str)
     {
-        if (!$day_str) {
+        if (! $day_str) {
             return 0;
         }
 
@@ -195,7 +197,6 @@ class FlightImporter extends ImportExport
      * Process the airport
      *
      * @param $airport
-     *
      * @return Airport
      */
     protected function processAirport($airport): Airport
@@ -207,8 +208,8 @@ class FlightImporter extends ImportExport
      * Parse out all of the subfleets and associate them to the flight
      * The subfleet is created if it doesn't exist
      *
-     * @param Flight $flight
-     * @param        $col
+     * @param  Flight  $flight
+     * @param    $col
      */
     protected function processSubfleets(Flight &$flight, $col): void
     {
@@ -223,7 +224,7 @@ class FlightImporter extends ImportExport
             $subfleet = Subfleet::firstOrCreate(
                 ['type' => $subfleet_type],
                 [
-                    'name'       => $subfleet_type,
+                    'name' => $subfleet_type,
                     'airline_id' => $flight->airline_id,
                 ]
             );
@@ -241,8 +242,8 @@ class FlightImporter extends ImportExport
     /**
      * Parse all of the fares in the multi-format
      *
-     * @param Flight $flight
-     * @param        $col
+     * @param  Flight  $flight
+     * @param    $col
      */
     protected function processFares(Flight &$flight, $col): void
     {
@@ -262,8 +263,8 @@ class FlightImporter extends ImportExport
     /**
      * Parse all of the subfields
      *
-     * @param Flight $flight
-     * @param        $col
+     * @param  Flight  $flight
+     * @param    $col
      */
     protected function processFields(Flight &$flight, $col): void
     {
@@ -271,7 +272,7 @@ class FlightImporter extends ImportExport
         $fields = $this->parseMultiColumnValues($col);
         foreach ($fields as $field_name => $field_value) {
             $pass_fields[] = [
-                'name'  => $field_name,
+                'name' => $field_name,
                 'value' => $field_value,
             ];
         }

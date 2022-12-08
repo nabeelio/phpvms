@@ -5,7 +5,8 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Modules\Awards\Awards\PilotFlightAwards;
 
-return new class() extends Migration {
+return new class() extends Migration
+{
     public function up()
     {
         Schema::create('awards', function (Blueprint $table) {
@@ -37,9 +38,9 @@ return new class() extends Migration {
          * Add a default, sample award
          */
         $award = [
-            'name'             => 'Pilot 50 flights',
-            'description'      => 'When a pilot has 50 flights, give this award',
-            'ref_model'        => PilotFlightAwards::class,
+            'name' => 'Pilot 50 flights',
+            'description' => 'When a pilot has 50 flights, give this award',
+            'ref_model' => PilotFlightAwards::class,
             'ref_model_params' => 50,
         ];
 

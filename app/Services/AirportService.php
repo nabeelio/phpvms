@@ -19,7 +19,9 @@ use PhpUnitsOfMeasure\Exception\NonStringUnitName;
 class AirportService extends Service
 {
     private AirportRepository $airportRepo;
+
     private AirportLookup $lookupProvider;
+
     private MetarProvider $metarProvider;
 
     public function __construct(
@@ -36,7 +38,6 @@ class AirportService extends Service
      * Return the METAR for a given airport
      *
      * @param $icao
-     *
      * @return Metar|null
      */
     public function getMetar($icao): ?Metar
@@ -58,7 +59,6 @@ class AirportService extends Service
      * Return the METAR for a given airport
      *
      * @param $icao
-     *
      * @return Metar|null
      */
     public function getTaf($icao): ?Metar
@@ -80,8 +80,7 @@ class AirportService extends Service
      * Lookup an airport's information from a remote provider. This handles caching
      * the data internally
      *
-     * @param string $icao ICAO
-     *
+     * @param  string  $icao ICAO
      * @return mixed
      */
     public function lookupAirport($icao)
@@ -112,8 +111,7 @@ class AirportService extends Service
     /**
      * Lookup an airport and save it if it hasn't been found
      *
-     * @param string $icao
-     *
+     * @param  string  $icao
      * @return \Illuminate\Database\Eloquent\Model|null
      */
     public function lookupAirportIfNotFound($icao)
@@ -125,13 +123,13 @@ class AirportService extends Service
         }
 
         // Don't lookup the airport, so just add in something generic
-        if (!setting('general.auto_airport_lookup')) {
+        if (! setting('general.auto_airport_lookup')) {
             $airport = new Airport([
-                'id'   => $icao,
+                'id' => $icao,
                 'icao' => $icao,
                 'name' => $icao,
-                'lat'  => 0,
-                'lon'  => 0,
+                'lat' => 0,
+                'lon' => 0,
             ]);
 
             $airport->save();
@@ -153,9 +151,8 @@ class AirportService extends Service
     /**
      * Calculate the distance from one airport to another
      *
-     * @param string $fromIcao
-     * @param string $toIcao
-     *
+     * @param  string  $fromIcao
+     * @param  string  $toIcao
      * @return Distance
      */
     public function calculateDistance($fromIcao, $toIcao)
@@ -163,11 +160,11 @@ class AirportService extends Service
         $from = $this->airportRepo->find($fromIcao, ['lat', 'lon']);
         $to = $this->airportRepo->find($toIcao, ['lat', 'lon']);
 
-        if (!$from) {
+        if (! $from) {
             throw new AirportNotFound($fromIcao);
         }
 
-        if (!$to) {
+        if (! $to) {
             throw new AirportNotFound($toIcao);
         }
 
@@ -180,6 +177,7 @@ class AirportService extends Service
         // Convert into a Distance object
         try {
             $distance = new Distance($dist->in('mi')->greatCircle(), 'mi');
+
             return $distance;
         } catch (NonNumericValue $e) {
             return;

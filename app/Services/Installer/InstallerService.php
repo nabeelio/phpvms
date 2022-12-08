@@ -9,11 +9,12 @@ use Illuminate\Support\Facades\Log;
 class InstallerService extends Service
 {
     private MigrationService $migrationSvc;
+
     private SeederService $seederSvc;
 
     /**
-     * @param MigrationService $migrationSvc
-     * @param SeederService    $seederSvc
+     * @param  MigrationService  $migrationSvc
+     * @param  SeederService  $seederSvc
      */
     public function __construct(MigrationService $migrationSvc, SeederService $seederSvc)
     {
@@ -31,11 +32,13 @@ class InstallerService extends Service
         $pendingMigrations = count($this->migrationSvc->migrationsAvailable());
         if ($pendingMigrations > 0) {
             Log::info('Found '.$pendingMigrations.' pending migrations, update available');
+
             return true;
         }
 
         if ($this->seederSvc->seedsPending()) {
             Log::info('Found seeds pending, update available');
+
             return true;
         }
 

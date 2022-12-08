@@ -28,23 +28,29 @@ use Prettus\Repository\Exceptions\RepositoryException;
 class UserController extends Controller
 {
     private AirlineRepository $airlineRepo;
+
     private AirportRepository $airportRepo;
+
     private PirepRepository $pirepRepo;
+
     private RoleRepository $roleRepo;
+
     private TypeRatingRepository $typeratingRepo;
+
     private UserRepository $userRepo;
+
     private UserService $userSvc;
 
     /**
      * UserController constructor.
      *
-     * @param AirlineRepository    $airlineRepo
-     * @param AirportRepository    $airportRepo
-     * @param PirepRepository      $pirepRepo
-     * @param RoleRepository       $roleRepo
-     * @param TypeRatingRepository $typeratingRepo
-     * @param UserRepository       $userRepo
-     * @param UserService          $userSvc
+     * @param  AirlineRepository  $airlineRepo
+     * @param  AirportRepository  $airportRepo
+     * @param  PirepRepository  $pirepRepo
+     * @param  RoleRepository  $roleRepo
+     * @param  TypeRatingRepository  $typeratingRepo
+     * @param  UserRepository  $userRepo
+     * @param  UserService  $userSvc
      */
     public function __construct(
         AirlineRepository $airlineRepo,
@@ -65,8 +71,7 @@ class UserController extends Controller
     }
 
     /**
-     * @param Request $request
-     *
+     * @param  Request  $request
      * @return mixed
      */
     public function index(Request $request)
@@ -79,7 +84,7 @@ class UserController extends Controller
         }
 
         return view('admin.users.index', [
-            'users'   => $users,
+            'users' => $users,
             'country' => new ISO3166(),
         ]);
     }
@@ -100,26 +105,25 @@ class UserController extends Controller
         $roles = $this->roleRepo->selectBoxList(false, true);
 
         return view('admin.users.create', [
-            'user'      => null,
-            'pireps'    => null,
-            'airlines'  => $airlines,
+            'user' => null,
+            'pireps' => null,
+            'airlines' => $airlines,
             'timezones' => Timezonelist::toArray(),
-            'country'   => new ISO3166(),
+            'country' => new ISO3166(),
             'countries' => $countries,
-            'airports'  => $airports,
-            'ranks'     => Rank::all()->pluck('name', 'id'),
-            'roles'     => $roles,
+            'airports' => $airports,
+            'ranks' => Rank::all()->pluck('name', 'id'),
+            'roles' => $roles,
         ]);
     }
 
     /**
      * Store a newly created User in storage.
      *
-     * @param CreateUserRequest $request
+     * @param  CreateUserRequest  $request
+     * @return mixed
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
-     *
-     * @return mixed
      */
     public function store(CreateUserRequest $request)
     {
@@ -127,14 +131,14 @@ class UserController extends Controller
         $user = $this->userRepo->create($input);
 
         Flash::success('User saved successfully.');
+
         return redirect(route('admin.users.index'));
     }
 
     /**
      * Display the specified User.
      *
-     * @param int $id
-     *
+     * @param  int  $id
      * @return mixed
      */
     public function show($id)
@@ -145,11 +149,10 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified User.
      *
-     * @param int $id
+     * @param  int  $id
+     * @return mixed
      *
      * @throws RepositoryException
-     *
-     * @return mixed
      */
     public function edit($id)
     {
@@ -159,6 +162,7 @@ class UserController extends Controller
 
         if (empty($user)) {
             Flash::error('User not found');
+
             return redirect(route('admin.users.index'));
         }
 
@@ -177,15 +181,15 @@ class UserController extends Controller
         $avail_ratings = $this->getAvailTypeRatings($user);
 
         return view('admin.users.edit', [
-            'user'          => $user,
-            'pireps'        => $pireps,
-            'country'       => new ISO3166(),
-            'countries'     => $countries,
-            'timezones'     => Timezonelist::toArray(),
-            'airports'      => $airports,
-            'airlines'      => $airlines,
-            'ranks'         => Rank::all()->pluck('name', 'id'),
-            'roles'         => $roles,
+            'user' => $user,
+            'pireps' => $pireps,
+            'country' => new ISO3166(),
+            'countries' => $countries,
+            'timezones' => Timezonelist::toArray(),
+            'airports' => $airports,
+            'airlines' => $airlines,
+            'ranks' => Rank::all()->pluck('name', 'id'),
+            'roles' => $roles,
             'avail_ratings' => $avail_ratings,
         ]);
     }
@@ -193,12 +197,11 @@ class UserController extends Controller
     /**
      * Update the specified User in storage.
      *
-     * @param int               $id
-     * @param UpdateUserRequest $request
+     * @param  int  $id
+     * @param  UpdateUserRequest  $request
+     * @return mixed
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
-     *
-     * @return mixed
      */
     public function update($id, UpdateUserRequest $request)
     {
@@ -211,7 +214,7 @@ class UserController extends Controller
         }
 
         $req_data = $request->all();
-        if (!$request->filled('password')) {
+        if (! $request->filled('password')) {
             unset($req_data['password']);
         } else {
             $req_data['password'] = Hash::make($req_data['password']);
@@ -243,7 +246,7 @@ class UserController extends Controller
         }
 
         // Delete all of the roles and then re-attach the valid ones
-        if (!empty($request->input('roles'))) {
+        if (! empty($request->input('roles'))) {
             DB::table('role_user')->where('user_id', $id)->delete();
             foreach ($request->input('roles') as $key => $value) {
                 $user->attachRole($value);
@@ -258,8 +261,7 @@ class UserController extends Controller
     /**
      * Remove the specified User from storage.
      *
-     * @param int $id
-     *
+     * @param  int  $id
      * @return mixed
      */
     public function destroy($id)
@@ -280,10 +282,9 @@ class UserController extends Controller
     /**
      * Remove the award from a user
      *
-     * @param \Illuminate\Http\Request $request
-     * @param mixed                    $id
-     * @param mixed                    $award_id
-     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  mixed  $id
+     * @param  mixed  $award_id
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy_user_award($id, $award_id, Request $request)
@@ -303,9 +304,8 @@ class UserController extends Controller
     /**
      * Regenerate the user's API key
      *
-     * @param         $id
-     * @param Request $request
-     *
+     * @param    $id
+     * @param  Request  $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function regen_apikey($id, Request $request)
@@ -325,7 +325,6 @@ class UserController extends Controller
      * Get the type ratings that are available to the user
      *
      * @param $user
-     *
      * @return array
      */
     protected function getAvailTypeRatings($user)
@@ -341,8 +340,7 @@ class UserController extends Controller
     }
 
     /**
-     * @param User $user
-     *
+     * @param  User  $user
      * @return mixed
      */
     protected function return_typeratings_view(?User $user)
@@ -350,8 +348,9 @@ class UserController extends Controller
         $user->refresh();
 
         $avail_ratings = $this->getAvailTypeRatings($user);
+
         return view('admin.users.type_ratings', [
-            'user'          => $user,
+            'user' => $user,
             'avail_ratings' => $avail_ratings,
         ]);
     }
@@ -359,9 +358,8 @@ class UserController extends Controller
     /**
      * Operations for associating type ratings to the user
      *
-     * @param         $id
-     * @param Request $request
-     *
+     * @param    $id
+     * @param  Request  $request
      * @return mixed
      */
     public function typeratings($id, Request $request)

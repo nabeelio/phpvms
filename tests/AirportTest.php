@@ -10,14 +10,14 @@ class AirportTest extends TestCase
     {
         // This is the response from the API
         $airportResponse = [
-            'icao'    => 'KJFK',
-            'iata'    => 'JFK',
-            'name'    => 'John F Kennedy International Airport',
-            'city'    => 'New York',
+            'icao' => 'KJFK',
+            'iata' => 'JFK',
+            'name' => 'John F Kennedy International Airport',
+            'city' => 'New York',
             'country' => 'United States',
-            'tz'      => 'America/New_York',
-            'lat'     => 40.63980103,
-            'lon'     => -73.77890015,
+            'tz' => 'America/New_York',
+            'lat' => 40.63980103,
+            'lon' => -73.77890015,
         ];
 
         $airport = new Airport($airportResponse);

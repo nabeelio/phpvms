@@ -2,7 +2,7 @@
 
 use App\Bootstrap\LoadConfiguration;
 
-if (!defined('DS')) {
+if (! defined('DS')) {
     define('DS', DIRECTORY_SEPARATOR);
 }
 
@@ -13,6 +13,7 @@ if (!defined('DS')) {
 class application extends Illuminate\Foundation\Application
 {
     private $publicDirPath;
+
     private $publicUrlPath = '/';
 
     public function __construct(string $basePath = null)
@@ -29,7 +30,7 @@ class application extends Illuminate\Foundation\Application
      * class, which looks for any configurations that have been overridden
      * in the root's config.php file
      *
-     * @param array $bootstrappers
+     * @param  array  $bootstrappers
      */
     public function bootstrapWith(array $bootstrappers)
     {
@@ -68,7 +69,7 @@ class application extends Illuminate\Foundation\Application
     /**
      * Override paths
      *
-     * @param mixed $publicDirPath
+     * @param  mixed  $publicDirPath
      */
     public function setPublicPath($publicDirPath)
     {

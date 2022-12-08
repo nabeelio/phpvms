@@ -30,7 +30,7 @@ class Fares extends Event
     public ?Pirep $pirep;
 
     /**
-     * @param Pirep|null $pirep
+     * @param  Pirep|null  $pirep
      */
     public function __construct(Pirep $pirep = null)
     {

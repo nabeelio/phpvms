@@ -1,9 +1,9 @@
 <?php
 
 return [
-    'ident'     => 'Identification',
-    'home'      => 'Aéroport d\'Attache',
-    'current'   => 'Aéroport Actuel',
+    'ident' => 'Identification',
+    'home' => 'Aéroport d\'Attache',
+    'current' => 'Aéroport Actuel',
     'departure' => 'Aéroport de Départ',
-    'arrival'   => 'Aéroport d\'Arrivée',
+    'arrival' => 'Aéroport d\'Arrivée',
 ];

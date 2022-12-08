@@ -14,9 +14,8 @@ abstract class Widget extends AbstractWidget
     /**
      * Render the template
      *
-     * @param string $template
-     * @param array  $vars
-     *
+     * @param  string  $template
+     * @param  array  $vars
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function view(string $template, array $vars = [])

@@ -32,16 +32,16 @@ class Rank extends Model
     ];
 
     protected $casts = [
-        'hours'               => 'integer',
-        'auto_approve_acars'  => 'bool',
+        'hours' => 'integer',
+        'auto_approve_acars' => 'bool',
         'auto_approve_manual' => 'bool',
-        'auto_promote'        => 'bool',
+        'auto_promote' => 'bool',
     ];
 
     public static $rules = [
-        'name'                 => 'required',
-        'hours'                => 'required|integer',
-        'acars_base_pay_rate'  => 'nullable|numeric',
+        'name' => 'required',
+        'hours' => 'required|integer',
+        'acars_base_pay_rate' => 'nullable|numeric',
         'manual_base_pay_rate' => 'nullable|numeric',
     ];
 

@@ -16,19 +16,23 @@ use App\Support\Units\Time;
 class FlightService extends Service
 {
     private AirportService $airportSvc;
+
     private FareService $fareSvc;
+
     private FlightRepository $flightRepo;
+
     private NavdataRepository $navDataRepo;
+
     private UserService $userSvc;
 
     /**
      * FlightService constructor.
      *
-     * @param AirportService    $airportSvc
-     * @param FareService       $fareSvc
-     * @param FlightRepository  $flightRepo
-     * @param NavdataRepository $navdataRepo
-     * @param UserService       $userSvc
+     * @param  AirportService  $airportSvc
+     * @param  FareService  $fareSvc
+     * @param  FlightRepository  $flightRepo
+     * @param  NavdataRepository  $navdataRepo
+     * @param  UserService  $userSvc
      */
     public function __construct(
         AirportService $airportSvc,
@@ -47,11 +51,10 @@ class FlightService extends Service
     /**
      * Create a new flight
      *
-     * @param array $fields
+     * @param  array  $fields
+     * @return \Illuminate\Http\RedirectResponse
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
-     *
-     * @return \Illuminate\Http\RedirectResponse
      */
     public function createFlight($fields)
     {
@@ -75,12 +78,11 @@ class FlightService extends Service
     /**
      * Update a flight with values from the given fields
      *
-     * @param Flight $flight
-     * @param array  $fields
+     * @param  Flight  $flight
+     * @param  array  $fields
+     * @return \App\Models\Flight|mixed
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
-     *
-     * @return \App\Models\Flight|mixed
      */
     public function updateFlight($flight, $fields)
     {
@@ -101,8 +103,7 @@ class FlightService extends Service
     /**
      * Check the fields for a flight and transform them
      *
-     * @param array $fields
-     *
+     * @param  array  $fields
      * @return array
      */
     protected function transformFlightFields($fields)
@@ -128,9 +129,8 @@ class FlightService extends Service
     /**
      * Filter out subfleets to only include aircraft that a user has access to
      *
-     * @param User   $user
-     * @param Flight $flight
-     *
+     * @param  User  $user
+     * @param  Flight  $flight
      * @return mixed
      */
     public function filterSubfleets(User $user, Flight $flight)
@@ -186,15 +186,14 @@ class FlightService extends Service
     /**
      * Check if this flight has a duplicate already
      *
-     * @param Flight $flight
-     *
+     * @param  Flight  $flight
      * @return bool
      */
     public function isFlightDuplicate(Flight $flight)
     {
         $where = [
             ['id', '<>', $flight->id],
-            'airline_id'    => $flight->airline_id,
+            'airline_id' => $flight->airline_id,
             'flight_number' => $flight->flight_number,
         ];
 
@@ -211,13 +210,13 @@ class FlightService extends Service
                 && $flight->route_leg === $value->route_leg;
         });
 
-        return !($found_flights->count() === 0);
+        return ! ($found_flights->count() === 0);
     }
 
     /**
      * Delete a flight, and all the user bids, etc associated with it
      *
-     * @param Flight $flight
+     * @param  Flight  $flight
      *
      * @throws \Exception
      */
@@ -231,8 +230,8 @@ class FlightService extends Service
     /**
      * Update any custom PIREP fields
      *
-     * @param Flight $flight
-     * @param array  $field_values
+     * @param  Flight  $flight
+     * @param  array  $field_values
      */
     public function updateCustomFields(Flight $flight, array $field_values): void
     {
@@ -240,7 +239,7 @@ class FlightService extends Service
             FlightFieldValue::updateOrCreate(
                 [
                     'flight_id' => $flight->id,
-                    'name'      => $fv['name'],
+                    'name' => $fv['name'],
                 ],
                 [
                     'value' => $fv['value'],
@@ -252,13 +251,12 @@ class FlightService extends Service
     /**
      * Return all of the navaid points as a collection
      *
-     * @param Flight $flight
-     *
+     * @param  Flight  $flight
      * @return \Illuminate\Support\Collection
      */
     public function getRoute(Flight $flight)
     {
-        if (!$flight->route) {
+        if (! $flight->route) {
             return collect();
         }
 

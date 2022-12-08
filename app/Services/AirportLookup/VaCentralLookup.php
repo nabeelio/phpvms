@@ -19,8 +19,7 @@ class VaCentralLookup extends AirportLookup
     /**
      * Lookup the information for an airport
      *
-     * @param string $icao
-     *
+     * @param  string  $icao
      * @return mixed
      */
     public function getAirport($icao)
@@ -33,6 +32,7 @@ class VaCentralLookup extends AirportLookup
             return $airport;
         } catch (HttpException $e) {
             Log::error($e);
+
             return [];
         }
     }

@@ -10,6 +10,7 @@ use App\Models\Pirep;
 class PirepImporter extends BaseImporter
 {
     protected $table = 'pireps';
+
     protected $idField = 'pirepid';
 
     public function run($start = 0)
@@ -49,18 +50,18 @@ class PirepImporter extends BaseImporter
             $aircraft_id = $this->idMapper->getMapping('aircraft', $row->aircraft);
 
             $attrs = [
-                'user_id'        => $user_id,
-                'airline_id'     => $airline_id,
-                'aircraft_id'    => $aircraft_id,
-                'flight_number'  => $row->flightnum ?: '',
+                'user_id' => $user_id,
+                'airline_id' => $airline_id,
+                'aircraft_id' => $aircraft_id,
+                'flight_number' => $row->flightnum ?: '',
                 'dpt_airport_id' => $row->depicao,
                 'arr_airport_id' => $row->arricao,
-                'block_fuel'     => $row->fuelused,
-                'route'          => $row->route ?: '',
-                'source_name'    => $row->source,
-                'state'          => $this->mapState($row->accepted),
-                'created_at'     => $this->parseDate($row->submitdate),
-                'updated_at'     => $this->parseDate($row->submitdate),
+                'block_fuel' => $row->fuelused,
+                'route' => $row->route ?: '',
+                'source_name' => $row->source,
+                'state' => $this->mapState($row->accepted),
+                'created_at' => $this->parseDate($row->submitdate),
+                'updated_at' => $this->parseDate($row->submitdate),
             ];
 
             // Set the distance
@@ -129,8 +130,7 @@ class PirepImporter extends BaseImporter
      * Map the old status to the current
      * https://github.com/nabeelio/phpvms_v2/blob/master/core/app.config.php#L450
      *
-     * @param int $old_state
-     *
+     * @param  int  $old_state
      * @return int
      */
     private function mapState($old_state)
@@ -143,7 +143,7 @@ class PirepImporter extends BaseImporter
         ];
 
         $old_state = (int) $old_state;
-        if (!in_array($old_state, $map, true)) {
+        if (! in_array($old_state, $map, true)) {
             return PirepState::PENDING;
         }
 

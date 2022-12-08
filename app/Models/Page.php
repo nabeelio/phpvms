@@ -36,9 +36,9 @@ class Page extends Model
     ];
 
     protected $casts = [
-        'type'       => 'integer',
-        'public'     => 'boolean',
-        'enabled'    => 'boolean',
+        'type' => 'integer',
+        'public' => 'boolean',
+        'enabled' => 'boolean',
         'new_window' => 'boolean',
     ];
 

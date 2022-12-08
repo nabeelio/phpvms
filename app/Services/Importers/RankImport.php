@@ -7,6 +7,7 @@ use App\Models\Rank;
 class RankImport extends BaseImporter
 {
     protected $table = 'ranks';
+
     protected $idField = 'rankid';
 
     public function run($start = 0)
@@ -17,9 +18,9 @@ class RankImport extends BaseImporter
         $rows = $this->db->readRows($this->table, $this->idField, $start);
         foreach ($rows as $row) {
             $rank = Rank::updateOrCreate(['name' => $row->rank], [
-                'image_url'           => $row->rankimage,
-                'hours'               => $row->minhours,
-                'acars_base_payrate'  => $row->payrate,
+                'image_url' => $row->rankimage,
+                'hours' => $row->minhours,
+                'acars_base_payrate' => $row->payrate,
                 'manual_base_payrate' => $row->payrate,
             ]);
 

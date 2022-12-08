@@ -17,14 +17,14 @@ class IdMapper extends Service
     /**
      * Create a new mapping between an old ID and the new one
      *
-     * @param string $entity Name of the entity (e,g table)
-     * @param string $old_id
-     * @param string $new_id
+     * @param  string  $entity Name of the entity (e,g table)
+     * @param  string  $old_id
+     * @param  string  $new_id
      */
     public function addMapping(string $entity, string $old_id, string $new_id)
     {
         $key_name = $entity.'_'.$old_id;
-        if (!$this->valueStore->has($key_name)) {
+        if (! $this->valueStore->has($key_name)) {
             $this->valueStore->put($key_name, $new_id);
         }
     }
@@ -34,13 +34,12 @@ class IdMapper extends Service
      *
      * @param $entity
      * @param $old_id
-     *
      * @return bool
      */
     public function getMapping($entity, $old_id): bool|int
     {
         $key_name = $entity.'_'.$old_id;
-        if (!$this->valueStore->has($key_name)) {
+        if (! $this->valueStore->has($key_name)) {
             return 0;
         }
 

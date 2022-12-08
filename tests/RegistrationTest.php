@@ -14,9 +14,9 @@ class RegistrationTest extends TestCase
     /**
      * A basic test example.
      *
-     * @throws \Exception
-     *
      * @return void
+     *
+     * @throws \Exception
      */
     public function testRegistration()
     {

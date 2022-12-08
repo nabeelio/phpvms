@@ -10,7 +10,7 @@ use App\Models\Airport;
 class AirportObserver
 {
     /**
-     * @param Airport $airport
+     * @param  Airport  $airport
      */
     public function creating(Airport $airport): void
     {
@@ -23,7 +23,7 @@ class AirportObserver
     }
 
     /**
-     * @param Airport $airport
+     * @param  Airport  $airport
      */
     public function updating(Airport $airport): void
     {

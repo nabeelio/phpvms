@@ -22,11 +22,10 @@ class FileController extends Controller
     /**
      * Store a newly file
      *
-     * @param Request $request
+     * @param  Request  $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      *
      * @throws \Hashids\HashidsException
-     *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function store(Request $request)
     {
@@ -46,10 +45,10 @@ class FileController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'file_name'        => 'required',
+                'file_name' => 'required',
                 'file_description' => 'nullable',
-                'file'             => 'nullable|file',
-                'url'              => 'nullable|url',
+                'file' => 'nullable|file',
+                'url' => 'nullable|url',
                 /*'file'             => [
                     Rule::requiredIf(function () {
                         return request()->filled('url') === false;
@@ -65,7 +64,7 @@ class FileController extends Controller
             ],
             [
                 'file.required' => 'File or URL are required',
-                'url.required'  => 'File or URL are required',
+                'url.required' => 'File or URL are required',
             ]
         );
 
@@ -76,8 +75,9 @@ class FileController extends Controller
                 ->withInput($request->all());
         }
 
-        if (!$request->hasFile('file') && !$request->filled('url')) {
+        if (! $request->hasFile('file') && ! $request->filled('url')) {
             $validator->errors()->add('url', 'A URL or file must be uploaded!');
+
             return redirect()->back()->withErrors($validator)->withInput($request->all());
         }
 
@@ -108,16 +108,16 @@ class FileController extends Controller
      * Remove the file from storage.
      *
      * @param $id
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      *
      * @throws \Exception
-     *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function destroy($id)
     {
         $file = File::find($id);
-        if (!$file) {
+        if (! $file) {
             Flash::error('File doesn\'t exist');
+
             return redirect()->back();
         }
 

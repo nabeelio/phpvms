@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Log;
 class ProcessQueue extends Command
 {
     protected $signature = 'queue:cron';
+
     protected $description = 'Process the queue from a cron job';
 
     /**
@@ -23,7 +24,7 @@ class ProcessQueue extends Command
         ]);
 
         $jobOutput = trim(Artisan::output());
-        if (!empty($jobOutput)) {
+        if (! empty($jobOutput)) {
             Log::info($jobOutput);
         }
 

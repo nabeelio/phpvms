@@ -25,7 +25,7 @@ class AviationWeather extends Metar
     private HttpClient $httpClient;
 
     /**
-     * @param HttpClient $httpClient
+     * @param  HttpClient  $httpClient
      */
     public function __construct(HttpClient $httpClient)
     {
@@ -36,11 +36,10 @@ class AviationWeather extends Metar
      * Implement the METAR - Return the string
      *
      * @param $icao
+     * @return string
      *
      * @throws \Exception
      * @throws \GuzzleHttp\Exception\GuzzleException
-     *
-     * @return string
      */
     protected function get_metar($icao): string
     {
@@ -59,7 +58,7 @@ class AviationWeather extends Metar
             }
 
             $attrs = $xml->data->attributes();
-            if (!isset($attrs['num_results'])) {
+            if (! isset($attrs['num_results'])) {
                 return '';
             }
 
@@ -80,6 +79,7 @@ class AviationWeather extends Metar
             return $xml->data->METAR->raw_text->__toString();
         } catch (Exception $e) {
             Log::error('Error reading METAR: '.$e->getMessage());
+
             return '';
         }
     }
@@ -88,10 +88,9 @@ class AviationWeather extends Metar
      * Do the actual retrieval of the TAF
      *
      * @param $icao
+     * @return string
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
-     *
-     * @return string
      */
     protected function get_taf($icao): string
     {
@@ -106,7 +105,7 @@ class AviationWeather extends Metar
             $tafxml = simplexml_load_string($tafres);
 
             $tafattrs = $tafxml->data->attributes();
-            if (!isset($tafattrs['num_results'])) {
+            if (! isset($tafattrs['num_results'])) {
                 return '';
             }
 
@@ -127,6 +126,7 @@ class AviationWeather extends Metar
             return $tafxml->data->TAF->raw_text->__toString();
         } catch (Exception $e) {
             Log::error('Error reading TAF: '.$e->getMessage());
+
             return '';
         }
     }

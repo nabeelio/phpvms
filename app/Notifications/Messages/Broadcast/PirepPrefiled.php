@@ -19,7 +19,7 @@ class PirepPrefiled extends Notification implements ShouldQueue
     /**
      * Create a new notification instance.
      *
-     * @param Pirep $pirep
+     * @param  Pirep  $pirep
      */
     public function __construct(Pirep $pirep)
     {
@@ -35,8 +35,7 @@ class PirepPrefiled extends Notification implements ShouldQueue
     /**
      * Send a Discord notification
      *
-     * @param Pirep $pirep
-     *
+     * @param  Pirep  $pirep
      * @return DiscordMessage|null
      */
     public function toDiscordChannel($pirep): ?DiscordMessage
@@ -58,25 +57,24 @@ class PirepPrefiled extends Notification implements ShouldQueue
             )
             ->url(route('frontend.pireps.show', [$pirep->id]))
             ->author([
-                'name'     => $pirep->user->ident.' - '.$pirep->user->name_private,
-                'url'      => route('frontend.profile.show', [$pirep->user_id]),
+                'name' => $pirep->user->ident.' - '.$pirep->user->name_private,
+                'url' => route('frontend.profile.show', [$pirep->user_id]),
                 'icon_url' => $pirep->user->resolveAvatarUrl(),
             ])
             ->fields($fields);
     }
 
     /**
-     * @param Pirep $pirep
-     *
+     * @param  Pirep  $pirep
      * @return array
      */
     public function createFields(Pirep $pirep): array
     {
         $fields = [
-            'Flight'                => $pirep->ident,
-            'Departure Airport'     => $pirep->dpt_airport_id,
-            'Arrival Airport'       => $pirep->arr_airport_id,
-            'Equipment'             => $pirep->aircraft->ident,
+            'Flight' => $pirep->ident,
+            'Departure Airport' => $pirep->dpt_airport_id,
+            'Arrival Airport' => $pirep->arr_airport_id,
+            'Equipment' => $pirep->aircraft->ident,
             'Flight Time (Planned)' => Time::minutesToTimeString($pirep->planned_flight_time),
         ];
 
@@ -90,15 +88,14 @@ class PirepPrefiled extends Notification implements ShouldQueue
     /**
      * Get the array representation of the notification.
      *
-     * @param mixed $notifiable
-     *
+     * @param  mixed  $notifiable
      * @return array
      */
     public function toArray($notifiable)
     {
         return [
             'pirep_id' => $this->pirep->id,
-            'user_id'  => $this->pirep->user_id,
+            'user_id' => $this->pirep->user_id,
         ];
     }
 }

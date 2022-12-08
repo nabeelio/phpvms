@@ -57,16 +57,16 @@ class ImporterService extends Service
     /**
      * Save the credentials from a request
      *
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      */
     public function saveCredentialsFromRequest(Request $request)
     {
         $creds = [
-            'host'         => $request->post('db_host'),
-            'port'         => $request->post('db_port'),
-            'name'         => $request->post('db_name'),
-            'user'         => $request->post('db_user'),
-            'pass'         => $request->post('db_pass'),
+            'host' => $request->post('db_host'),
+            'port' => $request->post('db_port'),
+            'name' => $request->post('db_name'),
+            'user' => $request->post('db_user'),
+            'pass' => $request->post('db_pass'),
             'table_prefix' => $request->post('db_prefix'),
         ];
 
@@ -76,17 +76,17 @@ class ImporterService extends Service
     /**
      * Save the given credentials
      *
-     * @param array $creds
+     * @param  array  $creds
      */
     public function saveCredentials(array $creds)
     {
         $creds = array_merge([
-            'admin_email'  => '',
-            'host'         => '',
-            'port'         => '',
-            'name'         => '',
-            'user'         => '',
-            'pass'         => 3306,
+            'admin_email' => '',
+            'host' => '',
+            'port' => '',
+            'name' => '',
+            'user' => '',
+            'pass' => 3306,
             'table_prefix' => 'phpvms_',
         ], $creds);
 
@@ -121,16 +121,15 @@ class ImporterService extends Service
     /**
      * Run a given stage
      *
-     * @param     $importer
-     * @param int $start
+     * @param    $importer
+     * @param  int  $start
+     * @return int|void
      *
      * @throws \Exception
-     *
-     * @return int|void
      */
     public function run($importer, $start = 0)
     {
-        if (!in_array($importer, $this->importList, true)) {
+        if (! in_array($importer, $this->importList, true)) {
             throw new Exception('Unknown importer "'.$importer.'"');
         }
 

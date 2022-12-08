@@ -35,25 +35,24 @@ class ModuleService extends Service
     /**
      * Add a module link in the frontend
      *
-     * @param string $title
-     * @param string $url
-     * @param string $icon
-     * @param bool   $logged_in
+     * @param  string  $title
+     * @param  string  $url
+     * @param  string  $icon
+     * @param  bool  $logged_in
      */
     public function addFrontendLink(string $title, string $url, string $icon = 'pe-7s-users', bool $logged_in = true)
     {
         self::$frontendLinks[$logged_in][] = [
             'title' => $title,
-            'url'   => $url,
-            'icon'  => $icon,
+            'url' => $url,
+            'icon' => $icon,
         ];
     }
 
     /**
      * Get all of the frontend links
      *
-     * @param mixed $logged_in
-     *
+     * @param  mixed  $logged_in
      * @return array
      */
     public function getFrontendLinks(mixed $logged_in): array
@@ -64,16 +63,16 @@ class ModuleService extends Service
     /**
      * Add a module link in the admin panel
      *
-     * @param string $title
-     * @param string $url
-     * @param string $icon
+     * @param  string  $title
+     * @param  string  $url
+     * @param  string  $icon
      */
     public function addAdminLink(string $title, string $url, string $icon = 'pe-7s-users')
     {
         self::$adminLinks[] = [
             'title' => $title,
-            'url'   => $url,
-            'icon'  => $icon,
+            'url' => $url,
+            'icon' => $icon,
         ];
     }
 
@@ -116,8 +115,7 @@ class ModuleService extends Service
     /**
      * Determine if a module is active - also checks that the module exists properly
      *
-     * @param string $name
-     *
+     * @param  string  $name
      * @return bool
      */
     public function isModuleActive(string $name): bool
@@ -133,7 +131,7 @@ class ModuleService extends Service
             return false;
         }
 
-        if (!file_exists($moduleInstance->getPath())) {
+        if (! file_exists($moduleInstance->getPath())) {
             return false;
         }
 
@@ -144,7 +142,6 @@ class ModuleService extends Service
      * Get Module Information from Database.
      *
      * @param $id
-     *
      * @return Module
      */
     public function getModule($id): Module
@@ -156,16 +153,15 @@ class ModuleService extends Service
      * Adding installed module to the database
      *
      * @param $module_name
-     *
      * @return bool
      */
     public function addModule($module_name): bool
     {
         /*Check if module already exists*/
         $module = Module::where('name', $module_name);
-        if (!$module->exists()) {
+        if (! $module->exists()) {
             Module::create([
-                'name'    => $module_name,
+                'name' => $module_name,
                 'enabled' => 1,
             ]);
 
@@ -185,8 +181,7 @@ class ModuleService extends Service
      * User's uploaded file is passed into this method
      * to install module in the Storage.
      *
-     * @param UploadedFile $file
-     *
+     * @param  UploadedFile  $file
      * @return FlashNotifier
      */
     public function installModule(UploadedFile $file): FlashNotifier
@@ -194,7 +189,7 @@ class ModuleService extends Service
         $file_ext = strtolower($file->getClientOriginalExtension());
         $allowed_extensions = ['zip', 'tar', 'gz'];
 
-        if (!in_array($file_ext, $allowed_extensions, true)) {
+        if (! in_array($file_ext, $allowed_extensions, true)) {
             throw new ModuleInvalidFileType();
         }
 
@@ -231,7 +226,7 @@ class ModuleService extends Service
             throw new ModuleInstallationError();
         }
 
-        if (!File::exists($temp.'/module.json')) {
+        if (! File::exists($temp.'/module.json')) {
             $directories = Storage::directories('tmp/modules/'.$new_dir);
             $temp = storage_path('app/'.$directories[0]);
         }
@@ -243,11 +238,13 @@ class ModuleService extends Service
             $module = $json['name'];
         } else {
             File::deleteDirectory($temp_ext_folder);
+
             return flash()->error('Module Structure Not Correct!');
         }
 
-        if (!$module) {
+        if (! $module) {
             File::deleteDirectory($temp_ext_folder);
+
             return flash()->error('Not a Valid Module File.');
         }
 
@@ -279,7 +276,6 @@ class ModuleService extends Service
      *
      * @param $id
      * @param $status
-     *
      * @return bool
      */
     public function updateModule($id, $status): bool
@@ -301,7 +297,6 @@ class ModuleService extends Service
      *
      * @param $id
      * @param $data
-     *
      * @return bool
      */
     public function deleteModule($id, $data): bool
@@ -319,10 +314,13 @@ class ModuleService extends Service
                 File::deleteDirectory($moduleDir);
             } catch (Exception $e) {
                 Log::info('Folder Deleted Manually for Module : '.$module->name);
+
                 return true;
             }
+
             return true;
         }
+
         return false;
     }
 
@@ -345,7 +343,7 @@ class ModuleService extends Service
         foreach ($manifests as $manifest) {
             $name = Json::make($manifest)->get('name');
             $module = Module::where('name', $name);
-            if (!$module->exists()) {
+            if (! $module->exists()) {
                 array_push($modules, $name);
             }
         }

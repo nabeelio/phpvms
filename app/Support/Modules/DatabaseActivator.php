@@ -54,8 +54,7 @@ class DatabaseActivator implements ActivatorInterface
     }
 
     /**
-     * @param string $name
-     *
+     * @param  string  $name
      * @return \App\Models\Module|null
      */
     public function getModuleByName(string $name): ?\App\Models\Module
@@ -118,7 +117,7 @@ class DatabaseActivator implements ActivatorInterface
     public function hasStatus(Module $module, bool $status): bool
     {
         $module = $this->getModuleByName($module->getName());
-        if (!$module) {
+        if (! $module) {
             return false;
         }
 
@@ -131,7 +130,7 @@ class DatabaseActivator implements ActivatorInterface
     public function setActive(Module $module, bool $active): void
     {
         $module = $this->getModuleByName($module->getName());
-        if (!$module) {
+        if (! $module) {
             return;
         }
 
@@ -145,7 +144,7 @@ class DatabaseActivator implements ActivatorInterface
     public function setActiveByName(string $name, bool $status): void
     {
         $module = $this->getModuleByName($name);
-        if (!$module) {
+        if (! $module) {
             return;
         }
 
@@ -166,6 +165,7 @@ class DatabaseActivator implements ActivatorInterface
             ])->delete();
         } catch (Exception $e) {
             Log::error('Module '.$module.' Delete failed! Exception : '.$e->getMessage());
+
             return;
         }
     }

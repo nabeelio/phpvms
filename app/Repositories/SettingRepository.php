@@ -31,18 +31,17 @@ class SettingRepository extends Repository implements CacheableInterface
     /**
      * Get a setting, reading it from the cache possibly
      *
-     * @param string $key
+     * @param  string  $key
+     * @return mixed
      *
      * @throws SettingNotFound
-     *
-     * @return mixed
      */
     public function retrieve($key)
     {
         $key = Setting::formatKey($key);
         $setting = $this->findWhere(['id' => $key], ['type', 'value'])->first();
 
-        if (!$setting) {
+        if (! $setting) {
             throw new SettingNotFound($key.' not found');
         }
 
@@ -51,6 +50,7 @@ class SettingRepository extends Repository implements CacheableInterface
             case 'bool':
             case 'boolean':
                 $value = $setting->value;
+
                 return $value === 'true' || $value === '1' || $value === 1;
             case 'date':
                 return Carbon::parse($setting->value);
@@ -68,9 +68,8 @@ class SettingRepository extends Repository implements CacheableInterface
     /**
      * @alias store($key,$value)
      *
-     * @param mixed $key
-     * @param mixed $value
-     *
+     * @param  mixed  $key
+     * @param  mixed  $value
      * @return null
      */
     public function save($key, $value)
@@ -84,7 +83,6 @@ class SettingRepository extends Repository implements CacheableInterface
      *
      * @param $key
      * @param $value
-     *
      * @return null
      */
     public function store($key, $value)
@@ -95,7 +93,7 @@ class SettingRepository extends Repository implements CacheableInterface
             ['id', 'value'] // only get these columns
         )->first();
 
-        if (!$setting) {
+        if (! $setting) {
             return;
         }
 

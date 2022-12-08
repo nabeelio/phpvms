@@ -11,19 +11,21 @@ use Akaunting\Money\Money as MoneyBase;
 class Money
 {
     public MoneyBase $money;
+
     public $subunit_amount;
+
     public static $iso_currencies;
+
     public static $subunit_multiplier;
 
     /**
      * Create a new Money instance, passing in the amount in pennies
      *
-     * @param mixed $amount The amount, in pennies
+     * @param  mixed  $amount The amount, in pennies
+     * @return MoneyBase
      *
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
-     *
-     * @return MoneyBase
      */
     public static function create($amount)
     {
@@ -33,12 +35,11 @@ class Money
     /**
      * Create from a dollar amount
      *
-     * @param mixed $amount The amount in dollar
+     * @param  mixed  $amount The amount in dollar
+     * @return Money
      *
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
-     *
-     * @return Money
      */
     public static function createFromAmount($amount)
     {
@@ -50,13 +51,13 @@ class Money
     /**
      * Convert a whole unit into it's subunit, e,g: dollar to cents
      *
-     * @param mixed $amount
-     *
+     * @param  mixed  $amount
      * @return int
      */
     public static function convertToSubunit($amount)
     {
         $currency = setting('units.currency', 'USD');
+
         return (int) ($amount * config('money.'.$currency.'.subunit'));
     }
 
@@ -64,9 +65,9 @@ class Money
      * Create a new currency object using the currency setting
      * Fall back to USD if it's not valid
      *
-     * @throws \OutOfBoundsException
-     *
      * @return Currency
+     *
+     * @throws \OutOfBoundsException
      */
     public static function currency()
     {
@@ -80,7 +81,7 @@ class Money
     /**
      * Money constructor.
      *
-     * @param mixed $amount
+     * @param  mixed  $amount
      *
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
@@ -154,16 +155,15 @@ class Money
     /**
      * Add an amount
      *
-     * @param mixed $amount
+     * @param  mixed  $amount
+     * @return Money
      *
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
-     *
-     * @return Money
      */
     public function add($amount)
     {
-        if (!($amount instanceof self)) {
+        if (! ($amount instanceof self)) {
             $amount = static::createFromAmount($amount);
         }
 
@@ -173,16 +173,15 @@ class Money
     }
 
     /**
-     * @param mixed $percent
+     * @param  mixed  $percent
+     * @return $this
      *
      * @throws \OutOfBoundsException
      * @throws \InvalidArgumentException
-     *
-     * @return $this
      */
     public function addPercent($percent)
     {
-        if (!is_numeric($percent)) {
+        if (! is_numeric($percent)) {
             $percent = (float) $percent;
         }
 
@@ -196,15 +195,14 @@ class Money
      * Subtract an amount
      *
      * @param $amount
+     * @return Money
      *
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
-     *
-     * @return Money
      */
     public function subtract($amount)
     {
-        if (!($amount instanceof self)) {
+        if (! ($amount instanceof self)) {
             $amount = static::createFromAmount($amount);
         }
 
@@ -217,16 +215,15 @@ class Money
      * Multiply by an amount
      *
      * @param $amount
+     * @return Money
      *
      * @throws \UnexpectedValueException
      * @throws \OutOfBoundsException
      * @throws \InvalidArgumentException
-     *
-     * @return Money
      */
     public function multiply($amount)
     {
-        if (!($amount instanceof self)) {
+        if (! ($amount instanceof self)) {
             $amount = static::createFromAmount($amount);
         }
 
@@ -239,25 +236,24 @@ class Money
      * Divide by an amount
      *
      * @param $amount
+     * @return Money
      *
      * @throws \OutOfBoundsException
      * @throws \InvalidArgumentException
-     *
-     * @return Money
      */
     public function divide($amount)
     {
         $this->money = $this->money->divide($amount, PHP_ROUND_HALF_EVEN);
+
         return $this;
     }
 
     /**
      * @param $money
+     * @return bool
      *
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
-     *
-     * @return bool
      */
     public function equals($money)
     {

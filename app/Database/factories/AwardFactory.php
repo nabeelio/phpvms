@@ -24,10 +24,10 @@ class AwardFactory extends Factory
     public function definition(): array
     {
         return [
-            'id'               => null,
-            'name'             => $this->faker->name,
-            'description'      => $this->faker->text(10),
-            'ref_model'        => null,
+            'id' => null,
+            'name' => $this->faker->name,
+            'description' => $this->faker->text(10),
+            'ref_model' => null,
             'ref_model_params' => null,
         ];
     }

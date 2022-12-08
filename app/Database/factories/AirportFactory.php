@@ -21,9 +21,9 @@ class AirportFactory extends Factory
     /**
      * Generate a fake ICAO
      *
-     * @throws \Exception
-     *
      * @return string
+     *
+     * @throws \Exception
      */
     protected function createFactoryICAO(): string
     {
@@ -55,19 +55,19 @@ class AirportFactory extends Factory
 
                 return $airport;
             },
-            'icao'                 => fn (array $apt) => $apt['id'],
-            'iata'                 => fn (array $apt) => $apt['id'],
-            'name'                 => $this->faker->sentence(3),
-            'country'              => $this->faker->country,
-            'timezone'             => $this->faker->timezone,
-            'lat'                  => $this->faker->latitude,
-            'lon'                  => $this->faker->longitude,
-            'hub'                  => false,
-            'notes'                => null,
+            'icao' => fn (array $apt) => $apt['id'],
+            'iata' => fn (array $apt) => $apt['id'],
+            'name' => $this->faker->sentence(3),
+            'country' => $this->faker->country,
+            'timezone' => $this->faker->timezone,
+            'lat' => $this->faker->latitude,
+            'lon' => $this->faker->longitude,
+            'hub' => false,
+            'notes' => null,
             'ground_handling_cost' => $this->faker->randomFloat(2, 0, 500),
-            'fuel_100ll_cost'      => $this->faker->randomFloat(2, 1, 10),
-            'fuel_jeta_cost'       => $this->faker->randomFloat(2, 1, 10),
-            'fuel_mogas_cost'      => $this->faker->randomFloat(2, 1, 10),
+            'fuel_100ll_cost' => $this->faker->randomFloat(2, 1, 10),
+            'fuel_jeta_cost' => $this->faker->randomFloat(2, 1, 10),
+            'fuel_mogas_cost' => $this->faker->randomFloat(2, 1, 10),
         ];
     }
 }

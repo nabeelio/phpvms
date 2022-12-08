@@ -23,8 +23,7 @@ class AircraftExporter extends ImportExport
     /**
      * Import a flight, parse out the different rows
      *
-     * @param Aircraft $aircraft
-     *
+     * @param  Aircraft  $aircraft
      * @return array
      */
     public function export($aircraft): array

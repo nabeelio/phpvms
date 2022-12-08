@@ -28,7 +28,6 @@ class FormRequest extends \Illuminate\Foundation\Http\FormRequest
      * Set a given column as being unique
      *
      * @param $table
-     *
      * @return array
      */
     public function unique($table)

@@ -29,8 +29,8 @@ class Navdata extends Model
 
     protected $casts = [
         'type' => 'integer',
-        'lat'  => 'float',
-        'lon'  => 'float',
+        'lat' => 'float',
+        'lon' => 'float',
         'freq' => 'float',
     ];
 

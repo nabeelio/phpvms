@@ -14,9 +14,11 @@ use Illuminate\Support\Facades\App;
 class CreateConfigs extends Command
 {
     protected $signature = 'phpvms:config {db_host} {db_name} {db_user} {db_pass}';
+
     protected $description = 'Create the config files';
 
     private DatabaseSeeder $databaseSeeder;
+
     private SeederService $seederSvc;
 
     public function __construct(DatabaseSeeder $databaseSeeder, SeederService $seederSvc)
@@ -81,13 +83,13 @@ class CreateConfigs extends Command
 
         $this->info('Regenerating the config files');
         $cfgSvc->createConfigFiles([
-            'APP_ENV'       => 'dev',
-            'SITE_NAME'     => $this->argument('name'),
+            'APP_ENV' => 'dev',
+            'SITE_NAME' => $this->argument('name'),
             'DB_CONNECTION' => 'mysql',
-            'DB_HOST'       => $this->argument('db_host'),
-            'DB_DATABASE'   => $this->argument('db_name'),
-            'DB_USERNAME'   => $this->argument('db_user'),
-            'DB_PASSWORD'   => $this->argument('db_pass'),
+            'DB_HOST' => $this->argument('db_host'),
+            'DB_DATABASE' => $this->argument('db_name'),
+            'DB_USERNAME' => $this->argument('db_user'),
+            'DB_PASSWORD' => $this->argument('db_pass'),
         ]);
 
         $this->info('Config files generated!');

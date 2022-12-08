@@ -15,11 +15,10 @@ use Exception;
 trait TestData
 {
     /**
-     * @param array $attrs Additional user attributes
+     * @param  array  $attrs Additional user attributes
+     * @return User
      *
      * @throws Exception
-     *
-     * @return User
      */
     public function createUser(array $attrs = []): User
     {
@@ -28,16 +27,15 @@ trait TestData
 
         return User::factory()->create(array_merge([
             'flight_time' => 1000,
-            'rank_id'     => $rank->id,
-            'state'       => UserState::ACTIVE,
+            'rank_id' => $rank->id,
+            'state' => UserState::ACTIVE,
         ], $attrs));
     }
 
     /**
      * Create an admin user
      *
-     * @param array $attrs
-     *
+     * @param  array  $attrs
      * @return User
      */
     public function createAdminUser(array $attrs = []): User
@@ -56,12 +54,11 @@ trait TestData
      * Create a new PIREP with a proper subfleet/rank/user and an
      * aircraft that the user is allowed to fly
      *
-     * @param array $user_attrs  Additional attributes for the user
-     * @param array $pirep_attrs Additional attributes for the PIREP
+     * @param  array  $user_attrs  Additional attributes for the user
+     * @param  array  $pirep_attrs Additional attributes for the PIREP
+     * @return \App\Models\Pirep
      *
      * @throws \Exception
-     *
-     * @return \App\Models\Pirep
      */
     protected function createPirep(array $user_attrs = [], array $pirep_attrs = [])
     {
@@ -75,7 +72,7 @@ trait TestData
 
         // Return a Pirep model
         return Pirep::factory()->make(array_merge([
-            'user_id'     => $this->user->id,
+            'user_id' => $this->user->id,
             'aircraft_id' => $subfleet['aircraft']->random()->id,
         ], $pirep_attrs));
     }
@@ -83,9 +80,8 @@ trait TestData
     /**
      * Create a rank and associate the given subfleet IDs with it
      *
-     * @param int   $hours
-     * @param array $subfleet_ids
-     *
+     * @param  int  $hours
+     * @param  array  $subfleet_ids
      * @return mixed
      */
     public function createRank(int $hours, array $subfleet_ids)
@@ -97,7 +93,7 @@ trait TestData
         }
 
         $rank = \App\Models\Rank::factory()->create($attrs);
-        if (!empty($subfleet_ids)) {
+        if (! empty($subfleet_ids)) {
             $rank->subfleets()->syncWithoutDetaching($subfleet_ids);
         }
 
@@ -107,9 +103,8 @@ trait TestData
     /**
      * Add a single flight
      *
-     * @param       $user
-     * @param array $flight_properties
-     *
+     * @param    $user
+     * @param  array  $flight_properties
      * @return mixed
      */
     public function addFlight($user, $flight_properties = [])
@@ -134,7 +129,6 @@ trait TestData
      *
      * @param $subfleet
      * @param $num_flights
-     *
      * @return \App\Models\Flight[]
      */
     public function addFlightsForSubfleet($subfleet, $num_flights)
@@ -150,12 +144,11 @@ trait TestData
     /**
      * Create a subfleet with a number of aircraft assigned
      *
-     * @param null $aircraft_count
-     * @param null $airport_id
+     * @param  null  $aircraft_count
+     * @param  null  $airport_id
+     * @return mixed
      *
      * @throws Exception
-     *
-     * @return mixed
      */
     public function createSubfleetWithAircraft($aircraft_count = null, $airport_id = null)
     {
@@ -170,7 +163,7 @@ trait TestData
 
         $aircraft = Aircraft::factory()->count($aircraft_count)->create([
             'subfleet_id' => $subfleet->id,
-            'airport_id'  => $airport_id,
+            'airport_id' => $airport_id,
         ]);
 
         return [
@@ -182,8 +175,7 @@ trait TestData
     /**
      * Create a role
      *
-     * @param array $attrs Additional role attributes
-     *
+     * @param  array  $attrs Additional role attributes
      * @return Role
      */
     public function createRole(array $attrs = []): Role

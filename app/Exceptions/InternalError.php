@@ -14,13 +14,14 @@ use Illuminate\Validation\ValidationException;
 class InternalError extends ValidationException
 {
     public const FIELD = 'internal_error_message';
+
     public const MESSAGE = '';
 
     /**
      * InternalError constructor.
      *
-     * @param string|null $message
-     * @param null        $field
+     * @param  string|null  $message
+     * @param  null  $field
      */
     public function __construct(string $message = null, $field = null)
     {

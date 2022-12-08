@@ -20,36 +20,36 @@ class PirepStatusChanged extends Notification implements ShouldQueue
 
     // TODO: Int'l languages for these
     protected static $verbs = [
-        PirepStatus::INITIATED     => 'is initialized',
-        PirepStatus::SCHEDULED     => 'is scheduled',
-        PirepStatus::BOARDING      => 'is boarding',
-        PirepStatus::RDY_START     => 'is ready for start',
-        PirepStatus::PUSHBACK_TOW  => 'is pushing back',
-        PirepStatus::DEPARTED      => 'has departed',
-        PirepStatus::RDY_DEICE     => 'is ready for de-icing',
-        PirepStatus::STRT_DEICE    => 'is de-icing',
-        PirepStatus::GRND_RTRN     => 'on ground return',
-        PirepStatus::TAXI          => 'is taxiing',
-        PirepStatus::TAKEOFF       => 'has taken off',
-        PirepStatus::INIT_CLIM     => 'in initial climb',
-        PirepStatus::AIRBORNE      => 'is enroute',
-        PirepStatus::ENROUTE       => 'is enroute',
-        PirepStatus::DIVERTED      => 'has diverted',
-        PirepStatus::APPROACH      => 'on approach',
+        PirepStatus::INITIATED => 'is initialized',
+        PirepStatus::SCHEDULED => 'is scheduled',
+        PirepStatus::BOARDING => 'is boarding',
+        PirepStatus::RDY_START => 'is ready for start',
+        PirepStatus::PUSHBACK_TOW => 'is pushing back',
+        PirepStatus::DEPARTED => 'has departed',
+        PirepStatus::RDY_DEICE => 'is ready for de-icing',
+        PirepStatus::STRT_DEICE => 'is de-icing',
+        PirepStatus::GRND_RTRN => 'on ground return',
+        PirepStatus::TAXI => 'is taxiing',
+        PirepStatus::TAKEOFF => 'has taken off',
+        PirepStatus::INIT_CLIM => 'in initial climb',
+        PirepStatus::AIRBORNE => 'is enroute',
+        PirepStatus::ENROUTE => 'is enroute',
+        PirepStatus::DIVERTED => 'has diverted',
+        PirepStatus::APPROACH => 'on approach',
         PirepStatus::APPROACH_ICAO => 'on approach',
-        PirepStatus::ON_FINAL      => 'on final approach',
-        PirepStatus::LANDING       => 'is landing',
-        PirepStatus::LANDED        => 'has landed',
-        PirepStatus::ARRIVED       => 'has arrived',
-        PirepStatus::CANCELLED     => 'is cancelled',
-        PirepStatus::PAUSED        => 'is paused',
+        PirepStatus::ON_FINAL => 'on final approach',
+        PirepStatus::LANDING => 'is landing',
+        PirepStatus::LANDED => 'has landed',
+        PirepStatus::ARRIVED => 'has arrived',
+        PirepStatus::CANCELLED => 'is cancelled',
+        PirepStatus::PAUSED => 'is paused',
         PirepStatus::EMERG_DESCENT => 'in emergency descent',
     ];
 
     /**
      * Create a new notification instance.
      *
-     * @param Pirep $pirep
+     * @param  Pirep  $pirep
      */
     public function __construct(Pirep $pirep)
     {
@@ -65,8 +65,7 @@ class PirepStatusChanged extends Notification implements ShouldQueue
     /**
      * Send a Discord notification
      *
-     * @param Pirep $pirep
-     *
+     * @param  Pirep  $pirep
      * @return DiscordMessage|null
      */
     public function toDiscordChannel($pirep): ?DiscordMessage
@@ -79,7 +78,7 @@ class PirepStatusChanged extends Notification implements ShouldQueue
         $fields = $this->createFields($pirep);
 
         // User avatar, somehow $pirep->user->resolveAvatarUrl() is not being accepted by Discord as thumbnail
-        $user_avatar = !empty($pirep->user->avatar) ? $pirep->user->avatar->url : $pirep->user->gravatar(256);
+        $user_avatar = ! empty($pirep->user->avatar) ? $pirep->user->avatar->url : $pirep->user->gravatar(256);
 
         // Proper coloring for the messages
         // Pirep Filed > success, normals > warning, non-normals > error
@@ -94,6 +93,7 @@ class PirepStatusChanged extends Notification implements ShouldQueue
         $color = in_array($pirep->status, $danger_types, true) ? 'ED2939' : 'FD6A02';
 
         $dm = new DiscordMessage();
+
         return $dm->webhook(setting('notifications.discord_public_webhook_url'))
             ->color($color)
             ->title($title)
@@ -101,14 +101,13 @@ class PirepStatusChanged extends Notification implements ShouldQueue
             ->thumbnail(['url' => $user_avatar])
             ->author([
                 'name' => $pirep->user->ident.' - '.$pirep->user->name_private,
-                'url'  => route('frontend.profile.show', [$pirep->user_id]),
+                'url' => route('frontend.profile.show', [$pirep->user_id]),
             ])
             ->fields($fields);
     }
 
     /**
-     * @param Pirep $pirep
-     *
+     * @param  Pirep  $pirep
      * @return array
      */
     public function createFields(Pirep $pirep): array
@@ -116,7 +115,7 @@ class PirepStatusChanged extends Notification implements ShouldQueue
         $fields = [
             'Dep.Airport' => $pirep->dpt_airport_id,
             'Arr.Airport' => $pirep->arr_airport_id,
-            'Equipment'   => $pirep->aircraft->ident,
+            'Equipment' => $pirep->aircraft->ident,
             'Flight Time' => Time::minutesToTimeString($pirep->flight_time),
         ];
 
@@ -130,7 +129,7 @@ class PirepStatusChanged extends Notification implements ShouldQueue
             $fields['Distance'][] = $pirep->planned_distance->local(2);
         }
 
-        if (!empty($fields['Distance'])) {
+        if (! empty($fields['Distance'])) {
             $fields['Distance'] = implode('/', $fields['Distance']);
             $fields['Distance'] .= ' '.setting('units.distance');
         }
@@ -141,15 +140,14 @@ class PirepStatusChanged extends Notification implements ShouldQueue
     /**
      * Get the array representation of the notification.
      *
-     * @param mixed $notifiable
-     *
+     * @param  mixed  $notifiable
      * @return array
      */
     public function toArray($notifiable)
     {
         return [
             'pirep_id' => $this->pirep->id,
-            'user_id'  => $this->pirep->user_id,
+            'user_id' => $this->pirep->user_id,
         ];
     }
 }

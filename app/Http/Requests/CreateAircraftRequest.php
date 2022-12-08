@@ -26,6 +26,7 @@ class CreateAircraftRequest extends FormRequest
     {
         $rules = Aircraft::$rules;
         $rules['registration'] .= '|unique:aircraft';
+
         return $rules;
     }
 }

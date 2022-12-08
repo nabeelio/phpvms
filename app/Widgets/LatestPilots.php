@@ -25,7 +25,7 @@ class LatestPilots extends Widget
 
         return view('widgets.latest_pilots', [
             'config' => $this->config,
-            'users'  => $userRepo,
+            'users' => $userRepo,
         ]);
     }
 }

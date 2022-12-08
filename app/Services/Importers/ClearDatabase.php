@@ -32,9 +32,9 @@ class ClearDatabase extends BaseImporter
         return [
             [
                 'importer' => static::class,
-                'start'    => 0,
-                'end'      => 1,
-                'message'  => 'Clearing database',
+                'start' => 0,
+                'end' => 1,
+                'message' => 'Clearing database',
             ],
         ];
     }

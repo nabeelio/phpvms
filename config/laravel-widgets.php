@@ -10,6 +10,6 @@ return [
     */
     'route_middleware' => ['web'],
 
-    'widget_stub'       => 'resources/stubs/widgets/widget.stub',
+    'widget_stub' => 'resources/stubs/widgets/widget.stub',
     'widget_plain_stub' => 'resources/stubs/widgets/widget_plain.stub',
 ];

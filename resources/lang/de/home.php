@@ -2,7 +2,7 @@
 
 return [
     'welcome' => [
-        'title'   => 'Willkommen!',
+        'title' => 'Willkommen!',
         'message' => 'Willkommen bei :appname',
     ],
 ];

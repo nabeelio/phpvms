@@ -21,13 +21,15 @@ use Prettus\Repository\Exceptions\RepositoryException;
 class FlightController extends Controller
 {
     private FareService $fareSvc;
+
     private FlightRepository $flightRepo;
+
     private FlightService $flightSvc;
 
     /**
-     * @param FareService      $fareSvc
-     * @param FlightRepository $flightRepo
-     * @param FlightService    $flightSvc
+     * @param  FareService  $fareSvc
+     * @param  FlightRepository  $flightRepo
+     * @param  FlightService  $flightSvc
      */
     public function __construct(
         FareService $fareSvc,
@@ -42,8 +44,7 @@ class FlightController extends Controller
     /**
      * Return all the flights, paginated
      *
-     * @param Request $request
-     *
+     * @param  Request  $request
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index(Request $request)
@@ -53,7 +54,6 @@ class FlightController extends Controller
 
     /**
      * @param $id
-     *
      * @return FlightResource
      */
     public function get($id)
@@ -81,8 +81,7 @@ class FlightController extends Controller
     }
 
     /**
-     * @param Request $request
-     *
+     * @param  Request  $request
      * @return mixed
      */
     public function search(Request $request)
@@ -91,12 +90,12 @@ class FlightController extends Controller
         $user = Auth::user();
 
         $where = [
-            'active'  => true,
+            'active' => true,
             'visible' => true,
         ];
 
         // Allow the option to bypass some of these restrictions for the searches
-        if (!$request->filled('ignore_restrictions') || $request->get('ignore_restrictions') === '0') {
+        if (! $request->filled('ignore_restrictions') || $request->get('ignore_restrictions') === '0') {
             if (setting('pilots.restrict_to_company')) {
                 $where['airline_id'] = $user->airline_id;
             }
@@ -144,8 +143,7 @@ class FlightController extends Controller
     /**
      * Output the flight briefing from simbrief or whatever other format
      *
-     * @param string $id The flight ID
-     *
+     * @param  string  $id The flight ID
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
     public function briefing(string $id)
@@ -175,9 +173,8 @@ class FlightController extends Controller
     /**
      * Get a flight's route
      *
-     * @param         $id
-     * @param Request $request
-     *
+     * @param    $id
+     * @param  Request  $request
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function route($id, Request $request)

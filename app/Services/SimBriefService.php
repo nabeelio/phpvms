@@ -18,7 +18,7 @@ class SimBriefService extends Service
     private GuzzleClient $httpClient;
 
     /**
-     * @param GuzzleClient $httpClient
+     * @param  GuzzleClient  $httpClient
      */
     public function __construct(GuzzleClient $httpClient)
     {
@@ -29,14 +29,13 @@ class SimBriefService extends Service
      * Check to see if the OFP exists server-side. If it does, download it and
      * cache it immediately
      *
-     * @param string      $user_id      User who generated this
-     * @param string      $ofp_id       The SimBrief OFP ID
-     * @param string      $flight_id    The flight ID
-     * @param string      $ac_id        The aircraft ID
-     * @param array       $fares        Full list of fares for the flight
-     * @param string|null $sb_user_id
-     * @param string|null $sb_static_id Static ID for the generated OFP (Used for Update)
-     *
+     * @param  string  $user_id      User who generated this
+     * @param  string  $ofp_id       The SimBrief OFP ID
+     * @param  string  $flight_id    The flight ID
+     * @param  string  $ac_id        The aircraft ID
+     * @param  array  $fares        Full list of fares for the flight
+     * @param  string|null  $sb_user_id
+     * @param  string|null  $sb_static_id Static ID for the generated OFP (Used for Update)
      * @return SimBrief|null
      */
     public function downloadOfp(
@@ -68,6 +67,7 @@ class SimBriefService extends Service
             }
         } catch (GuzzleException $e) {
             Log::error('Simbrief HTTP Error: '.$e->getMessage());
+
             return null;
         }
 
@@ -77,14 +77,14 @@ class SimBriefService extends Service
         $ofp = simplexml_load_string($body, SimBriefXML::class);
 
         $attrs = [
-            'user_id'     => $user_id,
-            'flight_id'   => $flight_id,
+            'user_id' => $user_id,
+            'flight_id' => $flight_id,
             'aircraft_id' => $ac_id,
-            'ofp_xml'     => $ofp->asXML(),
+            'ofp_xml' => $ofp->asXML(),
         ];
 
         // encode the fares data to JSONß
-        if (!empty($fares)) {
+        if (! empty($fares)) {
             $attrs['fare_data'] = json_encode($fares);
         }
 
@@ -109,8 +109,7 @@ class SimBriefService extends Service
     }
 
     /**
-     * @param \App\Models\SimBriefXML $ofp
-     *
+     * @param  \App\Models\SimBriefXML  $ofp
      * @return \SimpleXMLElement|null
      */
     public function getAcarsOFP(SimBriefXML $ofp)
@@ -133,10 +132,12 @@ class SimBriefService extends Service
         } catch (GuzzleException $e) {
             Log::error('Simbrief HTTP Error: '.$e->getMessage());
             dd($e);
+
             return null;
         }
 
         $body = $response->getBody()->getContents();
+
         return simplexml_load_string($body);
     }
 
@@ -150,10 +151,9 @@ class SimBriefService extends Service
      * 3. Update the planned flight route in the acars table
      * 4. Add additional flight fields (ones which match ACARS)
      *
-     * @param          $pirep
-     * @param SimBrief $simBrief    The briefing to create the PIREP from
-     * @param bool     $keep_flight True keeps the flight_id, default is false
-     *
+     * @param    $pirep
+     * @param  SimBrief  $simBrief    The briefing to create the PIREP from
+     * @param  bool  $keep_flight True keeps the flight_id, default is false
      * @return \App\Models\Pirep
      */
     public function attachSimbriefToPirep($pirep, SimBrief $simBrief, $keep_flight = false): Pirep
@@ -161,7 +161,7 @@ class SimBriefService extends Service
         $this->addRouteToPirep($pirep, $simBrief);
 
         $simBrief->pirep_id = $pirep->id;
-        $simBrief->flight_id = !empty($keep_flight) ? $pirep->flight_id : null;
+        $simBrief->flight_id = ! empty($keep_flight) ? $pirep->flight_id : null;
         $simBrief->save();
 
         return $pirep;
@@ -170,9 +170,8 @@ class SimBriefService extends Service
     /**
      * Add the route from a SimBrief flight plan to a PIREP
      *
-     * @param Pirep    $pirep
-     * @param SimBrief $simBrief
-     *
+     * @param  Pirep  $pirep
+     * @param  SimBrief  $simBrief
      * @return Pirep
      */
     protected function addRouteToPirep($pirep, SimBrief $simBrief): Pirep
@@ -184,12 +183,12 @@ class SimBriefService extends Service
         $order = 1;
         foreach ($simBrief->xml->getRoute() as $fix) {
             $position = [
-                'name'     => $fix->ident,
+                'name' => $fix->ident,
                 'pirep_id' => $pirep->id,
-                'type'     => AcarsType::ROUTE,
-                'order'    => $order++,
-                'lat'      => $fix->pos_lat,
-                'lon'      => $fix->pos_long,
+                'type' => AcarsType::ROUTE,
+                'order' => $order++,
+                'lat' => $fix->pos_lat,
+                'lon' => $fix->pos_long,
             ];
 
             $acars = new Acars($position);

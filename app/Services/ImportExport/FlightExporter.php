@@ -24,8 +24,7 @@ class FlightExporter extends ImportExport
     /**
      * Import a flight, parse out the different rows
      *
-     * @param Flight $flight
-     *
+     * @param  Flight  $flight
      * @return array
      */
     public function export($flight): array
@@ -55,8 +54,7 @@ class FlightExporter extends ImportExport
     /**
      * Return the days string
      *
-     * @param Flight $flight
-     *
+     * @param  Flight  $flight
      * @return string
      */
     protected function getDays(Flight &$flight)
@@ -97,8 +95,7 @@ class FlightExporter extends ImportExport
     /**
      * Return any custom fares that have been made to this flight
      *
-     * @param Flight $flight
-     *
+     * @param  Flight  $flight
      * @return string
      */
     protected function getFares(Flight &$flight): string
@@ -127,8 +124,7 @@ class FlightExporter extends ImportExport
     /**
      * Parse all of the subfields
      *
-     * @param Flight $flight
-     *
+     * @param  Flight  $flight
      * @return string
      */
     protected function getFields(Flight &$flight): string
@@ -144,8 +140,7 @@ class FlightExporter extends ImportExport
     /**
      * Create the list of subfleets that are associated here
      *
-     * @param Flight $flight
-     *
+     * @param  Flight  $flight
      * @return string
      */
     protected function getSubfleets(Flight &$flight): string

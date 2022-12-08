@@ -14,7 +14,7 @@ class PageController extends Controller
     private PageRepository $pageRepo;
 
     /**
-     * @param \App\Repositories\PageRepository $pageRepo
+     * @param  \App\Repositories\PageRepository  $pageRepo
      */
     public function __construct(PageRepository $pageRepo)
     {
@@ -25,18 +25,17 @@ class PageController extends Controller
      * Show the page
      *
      * @param $slug
-     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function show($slug)
     {
         /** @var \App\Models\Page $page */
         $page = $this->pageRepo->findWhere(['slug' => $slug])->first();
-        if (!$page) {
+        if (! $page) {
             throw new PageNotFound(new Exception('Page not found'));
         }
 
-        if (!$page->public && !Auth::check()) {
+        if (! $page->public && ! Auth::check()) {
             throw new Unauthorized(new Exception('You must be logged in to view this page'));
         }
 

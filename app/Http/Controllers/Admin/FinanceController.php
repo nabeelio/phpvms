@@ -13,11 +13,12 @@ use Illuminate\Http\Request;
 class FinanceController extends Controller
 {
     private AirlineRepository $airlineRepo;
+
     private FinanceService $financeSvc;
 
     /**
-     * @param AirlineRepository $airlineRepo
-     * @param FinanceService    $financeSvc
+     * @param  AirlineRepository  $airlineRepo
+     * @param  FinanceService  $financeSvc
      */
     public function __construct(
         AirlineRepository $airlineRepo,
@@ -30,12 +31,11 @@ class FinanceController extends Controller
     /**
      * Display the summation tables for a given month by airline
      *
-     * @param Request $request
+     * @param  Request  $request
+     * @return mixed
      *
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
-     *
-     * @return mixed
      */
     public function index(Request $request)
     {
@@ -49,8 +49,8 @@ class FinanceController extends Controller
             ->first();
 
         return view('admin.finances.index', [
-            'current_month'      => $month,
-            'months_list'        => Dates::getMonthsList($first_journal->created_at),
+            'current_month' => $month,
+            'months_list' => Dates::getMonthsList($first_journal->created_at),
             'transaction_groups' => $transaction_groups,
         ]);
     }
@@ -58,7 +58,7 @@ class FinanceController extends Controller
     /**
      * Show a month
      *
-     * @param mixed $id
+     * @param  mixed  $id
      */
     public function show($id)
     {

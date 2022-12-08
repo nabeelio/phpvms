@@ -21,8 +21,8 @@ class InstalledCheck implements Middleware
     {
         $key = config('app.key');
         if ((empty($key) || $key === 'base64:zdgcDqu9PM8uGWCtMxd74ZqdGJIrnw812oRMmwDF6KY=')
-            && !$request->is(['install', 'install/*'])
-            && !$request->is(['update', 'update/*'])
+            && ! $request->is(['install', 'install/*'])
+            && ! $request->is(['update', 'update/*'])
         ) {
             return response(view('system.errors.not_installed'));
         }

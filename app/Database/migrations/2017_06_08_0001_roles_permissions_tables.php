@@ -4,7 +4,8 @@ use App\Contracts\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class() extends Migration {
+return new class() extends Migration
+{
     public function up()
     {
         // Create table for storing roles
@@ -65,8 +66,8 @@ return new class() extends Migration {
         // create a default user/role
         $roles = [
             [
-                'id'           => 1,
-                'name'         => 'admin',
+                'id' => 1,
+                'name' => 'admin',
                 'display_name' => 'Administrators',
             ],
         ];

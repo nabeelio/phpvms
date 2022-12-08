@@ -45,10 +45,10 @@ class JournalTransaction extends Model
     ];
 
     protected $casts = [
-        'credits'   => 'integer',
-        'debit'     => 'integer',
+        'credits' => 'integer',
+        'debit' => 'integer',
         'post_date' => 'datetime',
-        'tags'      => 'array',
+        'tags' => 'array',
     ];
 
     //protected $dateFormat = 'Y-m-d';
@@ -67,7 +67,7 @@ class JournalTransaction extends Model
     }
 
     /**
-     * @param string $currency
+     * @param  string  $currency
      */
     public function setCurrency($currency)
     {

@@ -21,6 +21,7 @@ class Setting extends Model
     public $table = 'settings';
 
     protected $keyType = 'string';
+
     public $incrementing = false;
 
     protected $fillable = [
@@ -34,14 +35,13 @@ class Setting extends Model
     ];
 
     public static $rules = [
-        'name'  => 'required',
-        'key'   => 'required',
+        'name' => 'required',
+        'key' => 'required',
         'group' => 'required',
     ];
 
     /**
      * @param $key
-     *
      * @return string
      */
     public static function formatKey($key): string

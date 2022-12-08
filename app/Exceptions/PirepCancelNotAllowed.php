@@ -34,7 +34,7 @@ class PirepCancelNotAllowed extends AbstractHttpException
     {
         return [
             'pirep_id' => $this->pirep->id,
-            'state'    => $this->pirep->state,
+            'state' => $this->pirep->state,
         ];
     }
 }

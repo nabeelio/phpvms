@@ -15,13 +15,14 @@ class AwardController extends Controller
 {
     /** @var AwardRepository */
     private AwardRepository $awardRepository;
+
     private AwardService $awardSvc;
 
     /**
      * AwardController constructor.
      *
-     * @param AwardRepository $awardRepo
-     * @param AwardService    $awardSvc
+     * @param  AwardRepository  $awardRepo
+     * @param  AwardService  $awardSvc
      */
     public function __construct(
         AwardRepository $awardRepo,
@@ -49,7 +50,7 @@ class AwardController extends Controller
         }
 
         return [
-            'awards'       => $awards,
+            'awards' => $awards,
             'descriptions' => $descriptions,
         ];
     }
@@ -57,11 +58,10 @@ class AwardController extends Controller
     /**
      * Display a listing of the Fare.
      *
-     * @param Request $request
+     * @param  Request  $request
+     * @return mixed
      *
      * @throws \Prettus\Repository\Exceptions\RepositoryException
-     *
-     * @return mixed
      */
     public function index(Request $request)
     {
@@ -81,7 +81,7 @@ class AwardController extends Controller
         $class_refs = $this->getAwardClassesAndDescriptions();
 
         return view('admin.awards.create', [
-            'award_classes'      => $class_refs['awards'],
+            'award_classes' => $class_refs['awards'],
             'award_descriptions' => $class_refs['descriptions'],
         ]);
     }
@@ -89,11 +89,10 @@ class AwardController extends Controller
     /**
      * Store a newly created Fare in storage.
      *
-     * @param CreateAwardRequest $request
+     * @param  CreateAwardRequest  $request
+     * @return mixed
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
-     *
-     * @return mixed
      */
     public function store(CreateAwardRequest $request)
     {
@@ -107,8 +106,7 @@ class AwardController extends Controller
     /**
      * Display the specified Fare.
      *
-     * @param int $id
-     *
+     * @param  int  $id
      * @return mixed
      */
     public function show($id)
@@ -128,8 +126,7 @@ class AwardController extends Controller
     /**
      * Show the form for editing the specified award.
      *
-     * @param int $id
-     *
+     * @param  int  $id
      * @return mixed
      */
     public function edit($id)
@@ -144,8 +141,8 @@ class AwardController extends Controller
         $class_refs = $this->getAwardClassesAndDescriptions();
 
         return view('admin.awards.edit', [
-            'award'              => $award,
-            'award_classes'      => $class_refs['awards'],
+            'award' => $award,
+            'award_classes' => $class_refs['awards'],
             'award_descriptions' => $class_refs['descriptions'],
         ]);
     }
@@ -153,12 +150,11 @@ class AwardController extends Controller
     /**
      * Update the specified award in storage.
      *
-     * @param int                $id
-     * @param UpdateAwardRequest $request
+     * @param  int  $id
+     * @param  UpdateAwardRequest  $request
+     * @return mixed
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
-     *
-     * @return mixed
      */
     public function update($id, UpdateAwardRequest $request)
     {
@@ -178,8 +174,7 @@ class AwardController extends Controller
     /**
      * Remove the specified Fare from storage.
      *
-     * @param int $id
-     *
+     * @param  int  $id
      * @return mixed
      */
     public function destroy($id)

@@ -43,7 +43,7 @@ class AwardsTest extends TestCase
     {
         // Create one award that's given out with one flight
         $award = Award::factory()->create([
-            'ref_model'        => PilotFlightAwards::class,
+            'ref_model' => PilotFlightAwards::class,
             'ref_model_params' => 1,
         ]);
 
@@ -53,14 +53,14 @@ class AwardsTest extends TestCase
 
         $pirep = Pirep::factory()->create([
             'airline_id' => $user->airline->id,
-            'user_id'    => $user->id,
+            'user_id' => $user->id,
         ]);
 
         $this->pirepSvc->create($pirep);
         $this->pirepSvc->accept($pirep);
 
         $w = [
-            'user_id'  => $user->id,
+            'user_id' => $user->id,
             'award_id' => $award->id,
         ];
 
@@ -83,14 +83,14 @@ class AwardsTest extends TestCase
 
         /** @var \App\Models\Award $award */
         $award = Award::factory()->create([
-            'ref_model'        => FlightRouteAwards::class,
+            'ref_model' => FlightRouteAwards::class,
             'ref_model_params' => 1,
         ]);
 
         /** @var Pirep $pirep */
         $pirep = Pirep::factory()->create([
             'airline_id' => $user->airline->id,
-            'user_id'    => $user->id,
+            'user_id' => $user->id,
         ]);
 
         $flightAward = new FlightRouteAwards($award, $user);

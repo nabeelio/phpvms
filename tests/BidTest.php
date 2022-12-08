@@ -77,7 +77,7 @@ class BidTest extends TestCase
         /** @var User $user */
         $user = User::factory()->create([
             'flight_time' => 1000,
-            'rank_id'     => $rank->id,
+            'rank_id' => $rank->id,
         ]);
 
         $headers = $this->headers($user);

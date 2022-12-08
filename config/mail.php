@@ -4,13 +4,13 @@ return [
     'default' => env('MAIL_MAILER', 'smtp'),
     'mailers' => [
         'smtp' => [
-            'transport'  => 'smtp',
-            'host'       => env('MAIL_HOST', 'smtp.mailgun.org'),
-            'port'       => env('MAIL_PORT', 587),
+            'transport' => 'smtp',
+            'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
+            'port' => env('MAIL_PORT', 587),
             'encryption' => env('MAIL_ENCRYPTION', 'tls'),
-            'username'   => env('MAIL_USERNAME'),
-            'password'   => env('MAIL_PASSWORD'),
-            'timeout'    => null,
+            'username' => env('MAIL_USERNAME'),
+            'password' => env('MAIL_PASSWORD'),
+            'timeout' => null,
         ],
 
         'ses' => [
@@ -27,12 +27,12 @@ return [
 
         'sendmail' => [
             'transport' => 'sendmail',
-            'path'      => '/usr/sbin/sendmail -bs',
+            'path' => '/usr/sbin/sendmail -bs',
         ],
 
         'log' => [
             'transport' => 'log',
-            'channel'   => env('MAIL_LOG_CHANNEL', 'stack'),
+            'channel' => env('MAIL_LOG_CHANNEL', 'stack'),
         ],
 
         'array' => [
@@ -52,7 +52,7 @@ return [
     */
 
     'from' => [
-        'name'    => env('MAIL_FROM_NAME', 'phpVMS Admin'),
+        'name' => env('MAIL_FROM_NAME', 'phpVMS Admin'),
         'address' => env('MAIL_FROM_ADDRESS', 'no-reply@phpvms.net'),
     ],
 

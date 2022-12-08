@@ -39,7 +39,7 @@ class UnknownPageType extends AbstractHttpException
     public function getErrorMetadata(): array
     {
         return [
-            'id'   => $this->page->id,
+            'id' => $this->page->id,
             'type' => $this->page->type,
         ];
     }

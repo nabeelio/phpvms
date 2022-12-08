@@ -14,7 +14,7 @@ class SettingsController extends Controller
     private FinanceService $financeSvc;
 
     /**
-     * @param FinanceService $financeSvc
+     * @param  FinanceService  $financeSvc
      */
     public function __construct(FinanceService $financeSvc)
     {
@@ -32,7 +32,7 @@ class SettingsController extends Controller
         $themes = Theme::all();
         $theme_list = [];
         foreach ($themes as $t) {
-            if (!$t || !$t->name || $t->name === 'false') {
+            if (! $t || ! $t->name || $t->name === 'false') {
                 continue;
             }
             $theme_list[] = $t->name;
@@ -66,24 +66,23 @@ class SettingsController extends Controller
         $settings = $settings->groupBy('group');
 
         return view('admin.settings.index', [
-            'currencies'       => $this->getCurrencyList(),
+            'currencies' => $this->getCurrencyList(),
             'grouped_settings' => $settings,
-            'themes'           => $this->getThemes(),
+            'themes' => $this->getThemes(),
         ]);
     }
 
     /**
      * Update the specified setting in storage.
      *
-     * @param Request $request
-     *
+     * @param  Request  $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function update(Request $request)
     {
         foreach ($request->post() as $id => $value) {
             $setting = Setting::find($id);
-            if (!$setting) {
+            if (! $setting) {
                 continue;
             }
 

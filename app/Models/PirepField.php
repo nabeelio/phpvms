@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 class PirepField extends Model
 {
     public $table = 'pirep_fields';
+
     public $timestamps = false;
 
     protected $fillable = [

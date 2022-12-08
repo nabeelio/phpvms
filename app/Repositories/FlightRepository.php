@@ -24,10 +24,10 @@ class FlightRepository extends Repository implements CacheableInterface
         'flight_time',
         'flight_type',
         'flight_number' => 'like',
-        'route_code'    => 'like',
-        'route_leg'     => 'like',
-        'route'         => 'like',
-        'notes'         => 'like',
+        'route_code' => 'like',
+        'route_leg' => 'like',
+        'route' => 'like',
+        'notes' => 'like',
     ];
 
     public function model(): string
@@ -38,19 +38,18 @@ class FlightRepository extends Repository implements CacheableInterface
     /**
      * Find a flight based on the given criterea
      *
-     * @param      $airline_id
-     * @param      $flight_num
-     * @param null $route_code
-     * @param null $route_leg
-     *
+     * @param    $airline_id
+     * @param    $flight_num
+     * @param  null  $route_code
+     * @param  null  $route_leg
      * @return mixed
      */
     public function findFlight($airline_id, $flight_num, $route_code = null, $route_leg = null)
     {
         $where = [
-            'airline_id'    => $airline_id,
+            'airline_id' => $airline_id,
             'flight_number' => $flight_num,
-            'active'        => true,
+            'active' => true,
         ];
 
         if (filled($route_code)) {
@@ -67,12 +66,11 @@ class FlightRepository extends Repository implements CacheableInterface
     /**
      * Create the search criteria and return this with the stuff pushed
      *
-     * @param Request $request
-     * @param bool    $only_active
+     * @param  Request  $request
+     * @param  bool  $only_active
+     * @return $this
      *
      * @throws \Prettus\Repository\Exceptions\RepositoryException
-     *
-     * @return $this
      */
     public function searchCriteria(Request $request, bool $only_active = true): self
     {

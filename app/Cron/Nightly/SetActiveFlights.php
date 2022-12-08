@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Log;
 class SetActiveFlights extends Listener
 {
     /**
-     * @param CronNightly $event
+     * @param  CronNightly  $event
      */
     public function handle(CronNightly $event): void
     {
@@ -40,7 +40,7 @@ class SetActiveFlights extends Listener
          * @var Flight $flight
          */
         foreach ($flights as $flight) {
-            if (!$flight->active) {
+            if (! $flight->active) {
                 continue;
             }
 
@@ -52,13 +52,14 @@ class SetActiveFlights extends Listener
             if ($flight->start_date === null || $flight->end_date === null) {
                 if ($flight->days !== null && $flight->days > 0) {
                     $flight->visible = Days::isToday($flight->days);
-                    if (!$flight->visible) {
+                    if (! $flight->visible) {
                         Log::info('Today='.date('N').', start=no, mask='.$flight->days.', in='
                             .Days::in($flight->days, Days::$isoDayMap[(int) date('N')]));
                     }
                 }
 
                 $flight->save();
+
                 continue;
             }
 
@@ -69,7 +70,7 @@ class SetActiveFlights extends Listener
             if ($today->gte($flight->start_date) && $today->lte($flight->end_date)) {
                 if ($flight->days !== null && $flight->days > 0) {
                     $flight->visible = Days::isToday($flight->days);
-                    if (!$flight->visible) {
+                    if (! $flight->visible) {
                         Log::info('Today='.date('N').', start=no, mask='.$flight->days.', in='
                                 .Days::in($flight->days, Days::$isoDayMap[(int) date('N')]));
                     }

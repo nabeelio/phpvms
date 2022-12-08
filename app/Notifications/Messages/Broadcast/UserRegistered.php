@@ -20,7 +20,7 @@ class UserRegistered extends Notification implements ShouldQueue
     /**
      * Create a new notification instance.
      *
-     * @param \App\Models\User $user
+     * @param  \App\Models\User  $user
      */
     public function __construct(User $user)
     {
@@ -31,7 +31,6 @@ class UserRegistered extends Notification implements ShouldQueue
 
     /**
      * @param $notifiable
-     *
      * @return string[]
      */
     public function via($notifiable)
@@ -43,18 +42,18 @@ class UserRegistered extends Notification implements ShouldQueue
      * Send a Discord notification
      *
      * @param $notifiable
-     *
      * @return DiscordMessage|null
      */
     public function toDiscordChannel($notifiable): ?DiscordMessage
     {
         $dm = new DiscordMessage();
+
         return $dm->webhook(setting('notifications.discord_private_webhook_url'))
             ->success()
             ->title('New User Registered: '.$this->user->ident)
             ->author([
-                'name'     => $this->user->ident.' - '.$this->user->name_private,
-                'url'      => '',
+                'name' => $this->user->ident.' - '.$this->user->name_private,
+                'url' => '',
                 'icon_url' => $this->user->resolveAvatarUrl(),
             ])
             ->fields([]);
@@ -62,7 +61,6 @@ class UserRegistered extends Notification implements ShouldQueue
 
     /**
      * @param $notifiable
-     *
      * @return array
      */
     public function toArray($notifiable)

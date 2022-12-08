@@ -17,17 +17,17 @@ class Utils
      * Generate a new ID with a given length
      *
      * @param int [$length]
-     *
      * @return string
      */
     public static function generateNewId(int $length = null): string
     {
-        if (!$length) {
+        if (! $length) {
             $length = Model::ID_MAX_LENGTH;
         }
 
         $hashids = new Hashids(uniqid(), $length);
         $mt = str_replace('.', '', microtime(true));
+
         return $hashids->encode($mt);
     }
 
@@ -45,12 +45,11 @@ class Utils
      * Simple check on the first character if it's an object or not
      *
      * @param $obj
-     *
      * @return bool
      */
     public static function isObject($obj): bool
     {
-        if (!$obj) {
+        if (! $obj) {
             return false;
         }
 
@@ -92,7 +91,7 @@ class Utils
     {
         /** @var \Nwidart\Modules\Module $installer */
         $installer = Module::find('installer');
-        if (!$installer) {
+        if (! $installer) {
             return false;
         }
 
@@ -102,13 +101,12 @@ class Utils
     /**
      * Get the domain from a URL
      *
-     * @param string $url
-     *
+     * @param  string  $url
      * @return string
      */
     public static function getRootDomain(string $url): string
     {
-        if (!str_starts_with($url, 'http')) {
+        if (! str_starts_with($url, 'http')) {
             $url = 'http://'.$url;
         }
 
@@ -129,7 +127,7 @@ class Utils
         $domain = $rules->resolve($parsed_url);
 
         $val = $domain->getRegistrableDomain();
-        if (!empty($val)) {
+        if (! empty($val)) {
             return $val;
         }
 

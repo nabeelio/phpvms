@@ -21,12 +21,11 @@ class HttpClient
      * Download a URI. If a file is given, it will save the downloaded
      * content into that file
      *
-     * @param       $uri
-     * @param array $opts
+     * @param    $uri
+     * @param  array  $opts
+     * @return string
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
-     *
-     * @return string
      */
     public function get($uri, array $opts = [])
     {
@@ -46,18 +45,17 @@ class HttpClient
     }
 
     /**
-     * @param       $uri
-     * @param       $body
-     * @param array $opts
+     * @param    $uri
+     * @param    $body
+     * @param  array  $opts
+     * @return mixed
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
-     *
-     * @return mixed
      */
     public function post($uri, $body, array $opts = []): mixed
     {
         $opts = array_merge([
-            'connect_timeout'    => 2,
+            'connect_timeout' => 2,
             RequestOptions::JSON => $body,
         ], $opts);
 
@@ -73,19 +71,18 @@ class HttpClient
     }
 
     /**
-     * @param       $uri
-     * @param       $body
-     * @param array $opts
+     * @param    $uri
+     * @param    $body
+     * @param  array  $opts
+     * @return mixed
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
-     *
-     * @return mixed
      */
     public function form_post($uri, $body, array $opts = []): mixed
     {
         $opts = array_merge([
             'connect_timeout' => 2,
-            'form_params'     => $body,
+            'form_params' => $body,
         ], $opts);
 
         $response = $this->httpClient->request('POST', $uri, $opts);
@@ -104,7 +101,6 @@ class HttpClient
      *
      * @param $uri
      * @param $local_path
-     *
      * @return string
      */
     public function download($uri, $local_path)

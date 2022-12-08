@@ -31,12 +31,12 @@ abstract class Migration extends \Illuminate\Database\Migrations\Migration
     /**
      * Add a module and enable it
      *
-     * @param array $attrs
+     * @param  array  $attrs
      */
     public function addModule(array $attrs)
     {
         $module = array_merge([
-            'enabled'    => true,
+            'enabled' => true,
             'created_at' => DB::raw('NOW()'),
             'updated_at' => DB::raw('NOW()'),
         ], $attrs);
@@ -54,7 +54,7 @@ abstract class Migration extends \Illuminate\Database\Migrations\Migration
     /**
      * Seed a YAML file into the database
      *
-     * @param string $file Full path to yml file to seed
+     * @param  string  $file Full path to yml file to seed
      */
     public function seedFile($file): void
     {
@@ -90,7 +90,7 @@ abstract class Migration extends \Illuminate\Database\Migrations\Migration
     /**
      * Add an award from the migrations (for example, if you're adding an award module)
      *
-     * @param array $award See \App\Models\Awardv
+     * @param  array  $award See \App\Models\Awardv
      *
      * @throws \Illuminate\Validation\ValidationException
      */

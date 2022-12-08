@@ -1,11 +1,11 @@
 <?php
 
 return [
-    'totalhours'     => 'Ore Totali',
-    'yourbalance'    => 'Bilancio',
+    'totalhours' => 'Ore Totali',
+    'yourbalance' => 'Bilancio',
     'yourlastreport' => 'Ultimo Rapporto',
-    'noreportsyet'   => 'Ancora nessun rapporto.',
-    'fileonenow'     => 'Inseriscine uno ora.',
-    'weatherat'      => 'Tempo a :ICAO',
-    'recentreports'  => 'Rapporti Recenti',
+    'noreportsyet' => 'Ancora nessun rapporto.',
+    'fileonenow' => 'Inseriscine uno ora.',
+    'weatherat' => 'Tempo a :ICAO',
+    'recentreports' => 'Rapporti Recenti',
 ];

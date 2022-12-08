@@ -101,12 +101,12 @@ class UserTest extends TestCase
         $subfleetB = $this->createSubfleetWithAircraft();
 
         $fare = Fare::factory()->create([
-            'price'    => 20,
+            'price' => 20,
             'capacity' => 200,
         ]);
 
         $overrides = [
-            'price'    => 50,
+            'price' => 50,
             'capacity' => 400,
         ];
 
@@ -182,11 +182,11 @@ class UserTest extends TestCase
         $rank = $this->createRank(10, [$subfleetA['subfleet']->id]);
         $user = User::factory()->create([
             'curr_airport_id' => $airport->id,
-            'rank_id'         => $rank->id,
+            'rank_id' => $rank->id,
         ]);
 
         $flight = \App\Models\Flight::factory()->create([
-            'airline_id'     => $user->airline_id,
+            'airline_id' => $user->airline_id,
             'dpt_airport_id' => $airport->id,
         ]);
 
@@ -367,10 +367,10 @@ class UserTest extends TestCase
     public function testUserNamePrivate()
     {
         $vals = [
-            'Firstname'                     => 'Firstname',
-            'Firstname Lastname'            => 'Firstname L',
+            'Firstname' => 'Firstname',
+            'Firstname Lastname' => 'Firstname L',
             'Firstname Middlename Lastname' => 'Firstname Middlename L',
-            'First Mid1 mid2 last'          => 'First Mid1 Mid2 L',
+            'First Mid1 mid2 last' => 'First Mid1 Mid2 L',
         ];
 
         foreach ($vals as $input => $expected) {
@@ -391,8 +391,8 @@ class UserTest extends TestCase
 
         $this->updateSetting('pilots.auto_leave_days', 1);
         $user = $this->createUser([
-            'state'      => UserState::ACTIVE,
-            'status'     => UserState::ACTIVE,
+            'state' => UserState::ACTIVE,
+            'status' => UserState::ACTIVE,
             'created_at' => Carbon::now('UTC')->subDays(5),
         ]);
 
@@ -403,8 +403,8 @@ class UserTest extends TestCase
         // Give that user a new PIREP, still old
         /** @var Pirep $pirep */
         $pirep = Pirep::factory()->create([
-            'user_id'      => $user->id,
-            'created_at'   => Carbon::now('UTC')->subDays(5),
+            'user_id' => $user->id,
+            'created_at' => Carbon::now('UTC')->subDays(5),
             'submitted_at' => Carbon::now('UTC')->subDays(5),
         ]);
 
@@ -419,8 +419,8 @@ class UserTest extends TestCase
         // Create a new PIREP
         /** @var Pirep $pirep */
         $pirep = Pirep::factory()->create([
-            'user_id'      => $user->id,
-            'created_at'   => Carbon::now('UTC'),
+            'user_id' => $user->id,
+            'created_at' => Carbon::now('UTC'),
             'submitted_at' => Carbon::now('UTC'),
         ]);
 
@@ -433,7 +433,7 @@ class UserTest extends TestCase
 
         // Check disable_activity_checks
         $user = $this->createUser([
-            'status'     => UserState::ACTIVE,
+            'status' => UserState::ACTIVE,
             'created_at' => Carbon::now('UTC')->subDays(5),
         ]);
 

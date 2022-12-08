@@ -14,7 +14,7 @@ class UserFieldController extends Controller
     private UserFieldRepository $userFieldRepo;
 
     /**
-     * @param UserFieldRepository $userFieldRepo
+     * @param  UserFieldRepository  $userFieldRepo
      */
     public function __construct(UserFieldRepository $userFieldRepo)
     {
@@ -24,11 +24,10 @@ class UserFieldController extends Controller
     /**
      * Display a listing of the UserField.
      *
-     * @param Request $request
+     * @param  Request  $request
+     * @return mixed
      *
      * @throws \Prettus\Repository\Exceptions\RepositoryException
-     *
-     * @return mixed
      */
     public function index(Request $request)
     {
@@ -49,25 +48,24 @@ class UserFieldController extends Controller
     /**
      * Store a newly created UserField in storage.
      *
-     * @param Request $request
+     * @param  Request  $request
+     * @return mixed
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
-     *
-     * @return mixed
      */
     public function store(Request $request)
     {
         $this->userFieldRepo->create($request->all());
 
         Flash::success('Field added successfully.');
+
         return redirect(route('admin.userfields.index'));
     }
 
     /**
      * Display the specified UserField.
      *
-     * @param int $id
-     *
+     * @param  int  $id
      * @return mixed
      */
     public function show($id)
@@ -76,6 +74,7 @@ class UserFieldController extends Controller
 
         if (empty($field)) {
             Flash::error('Flight field not found');
+
             return redirect(route('admin.userfields.index'));
         }
 
@@ -85,8 +84,7 @@ class UserFieldController extends Controller
     /**
      * Show the form for editing the specified UserField.
      *
-     * @param int $id
-     *
+     * @param  int  $id
      * @return mixed
      */
     public function edit($id)
@@ -95,6 +93,7 @@ class UserFieldController extends Controller
 
         if (empty($field)) {
             Flash::error('Field not found');
+
             return redirect(route('admin.userfields.index'));
         }
 
@@ -104,12 +103,11 @@ class UserFieldController extends Controller
     /**
      * Update the specified UserField in storage.
      *
-     * @param         $id
-     * @param Request $request
+     * @param    $id
+     * @param  Request  $request
+     * @return mixed
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
-     *
-     * @return mixed
      */
     public function update($id, Request $request)
     {
@@ -117,20 +115,21 @@ class UserFieldController extends Controller
 
         if (empty($field)) {
             Flash::error('UserField not found');
+
             return redirect(route('admin.userfields.index'));
         }
 
         $this->userFieldRepo->update($request->all(), $id);
 
         Flash::success('Field updated successfully.');
+
         return redirect(route('admin.userfields.index'));
     }
 
     /**
      * Remove the specified UserField from storage.
      *
-     * @param int $id
-     *
+     * @param  int  $id
      * @return mixed
      */
     public function destroy($id)
@@ -138,17 +137,20 @@ class UserFieldController extends Controller
         $field = $this->userFieldRepo->findWithoutFail($id);
         if (empty($field)) {
             Flash::error('Field not found');
+
             return redirect(route('admin.userfields.index'));
         }
 
         if ($this->userFieldRepo->isInUse($id)) {
             Flash::error('This field cannot be deleted, it is in use. Deactivate it instead');
+
             return redirect(route('admin.userfields.index'));
         }
 
         $this->userFieldRepo->delete($id);
 
         Flash::success('Field deleted successfully.');
+
         return redirect(route('admin.userfields.index'));
     }
 }

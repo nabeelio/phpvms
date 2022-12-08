@@ -25,27 +25,27 @@ class AircraftFactory extends Factory
     /**
      * Define the model's default state.
      *
-     * @throws \Exception
-     *
      * @return array<string, mixed>
+     *
+     * @throws \Exception
      */
     public function definition(): array
     {
         return [
-            'id'           => null,
-            'subfleet_id'  => fn () => Subfleet::factory()->create()->id,
-            'airport_id'   => fn () => Airport::factory()->create()->id,
-            'iata'         => $this->faker->unique()->text(5),
-            'icao'         => $this->faker->unique()->text(5),
-            'name'         => $this->faker->text(50),
+            'id' => null,
+            'subfleet_id' => fn () => Subfleet::factory()->create()->id,
+            'airport_id' => fn () => Airport::factory()->create()->id,
+            'iata' => $this->faker->unique()->text(5),
+            'icao' => $this->faker->unique()->text(5),
+            'name' => $this->faker->text(50),
             'registration' => $this->faker->unique()->text(10),
-            'hex_code'     => ICAO::createHexCode(),
-            'mtow'         => $this->faker->randomFloat(2, 0, 50000),
-            'zfw'          => $this->faker->randomFloat(2, 0, 50000),
-            'status'       => AircraftStatus::ACTIVE,
-            'state'        => AircraftState::PARKED,
-            'created_at'   => $this->faker->dateTimeBetween('-1 week')->format(DateTime::ATOM),
-            'updated_at'   => fn (array $pirep) => $pirep['created_at'],
+            'hex_code' => ICAO::createHexCode(),
+            'mtow' => $this->faker->randomFloat(2, 0, 50000),
+            'zfw' => $this->faker->randomFloat(2, 0, 50000),
+            'status' => AircraftStatus::ACTIVE,
+            'state' => AircraftState::PARKED,
+            'created_at' => $this->faker->dateTimeBetween('-1 week')->format(DateTime::ATOM),
+            'updated_at' => fn (array $pirep) => $pirep['created_at'],
         ];
     }
 }

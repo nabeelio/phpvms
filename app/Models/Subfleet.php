@@ -48,21 +48,21 @@ class Subfleet extends Model
     public $table = 'subfleets';
 
     public $casts = [
-        'airline_id'                 => 'integer',
-        'turn_time'                  => 'integer',
-        'cost_block_hour'            => 'float',
-        'cost_delay_minute'          => 'float',
-        'fuel_type'                  => 'integer',
+        'airline_id' => 'integer',
+        'turn_time' => 'integer',
+        'cost_block_hour' => 'float',
+        'cost_delay_minute' => 'float',
+        'fuel_type' => 'integer',
         'ground_handling_multiplier' => 'float',
-        'cargo_capacity'             => 'float',
-        'fuel_capacity'              => 'float',
-        'gross_weight'               => 'float',
+        'cargo_capacity' => 'float',
+        'fuel_capacity' => 'float',
+        'gross_weight' => 'float',
     ];
 
     public static $rules = [
-        'type'                       => 'required',
-        'name'                       => 'required',
-        'hub_id'                     => 'nullable',
+        'type' => 'required',
+        'name' => 'required',
+        'hub_id' => 'nullable',
         'ground_handling_multiplier' => 'nullable|numeric',
     ];
 

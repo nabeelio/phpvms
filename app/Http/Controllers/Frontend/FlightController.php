@@ -24,21 +24,27 @@ use Prettus\Repository\Exceptions\RepositoryException;
 class FlightController extends Controller
 {
     private AirlineRepository $airlineRepo;
+
     private AirportRepository $airportRepo;
+
     private FlightRepository $flightRepo;
+
     private ModuleService $moduleSvc;
+
     private SubfleetRepository $subfleetRepo;
+
     private GeoService $geoSvc;
+
     private UserRepository $userRepo;
 
     /**
-     * @param AirlineRepository  $airlineRepo
-     * @param AirportRepository  $airportRepo
-     * @param FlightRepository   $flightRepo
-     * @param GeoService         $geoSvc
-     * @param ModuleService      $moduleSvc
-     * @param SubfleetRepository $subfleetRepo
-     * @param UserRepository     $userRepo
+     * @param  AirlineRepository  $airlineRepo
+     * @param  AirportRepository  $airportRepo
+     * @param  FlightRepository  $flightRepo
+     * @param  GeoService  $geoSvc
+     * @param  ModuleService  $moduleSvc
+     * @param  SubfleetRepository  $subfleetRepo
+     * @param  UserRepository  $userRepo
      */
     public function __construct(
         AirlineRepository $airlineRepo,
@@ -59,11 +65,10 @@ class FlightController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param  Request  $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      *
      * @throws \Prettus\Repository\Exceptions\RepositoryException
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index(Request $request)
     {
@@ -73,16 +78,15 @@ class FlightController extends Controller
     /**
      * Make a search request using the Repository search
      *
-     * @param Request $request
+     * @param  Request  $request
+     * @return mixed
      *
      * @throws \Prettus\Repository\Exceptions\RepositoryException
-     *
-     * @return mixed
      */
     public function search(Request $request)
     {
         $where = [
-            'active'  => true,
+            'active' => true,
             'visible' => true,
         ];
 
@@ -143,8 +147,9 @@ class FlightController extends Controller
         $saved_flights = [];
         $bids = Bid::where('user_id', Auth::id())->get();
         foreach ($bids as $bid) {
-            if (!$bid->flight) {
+            if (! $bid->flight) {
                 $bid->delete();
+
                 continue;
             }
 
@@ -152,29 +157,28 @@ class FlightController extends Controller
         }
 
         return view('flights.index', [
-            'user'          => $user,
-            'airlines'      => $this->airlineRepo->selectBoxList(true),
-            'airports'      => $this->airportRepo->selectBoxList(true),
-            'flights'       => $flights,
-            'saved'         => $saved_flights,
-            'subfleets'     => $this->subfleetRepo->selectBoxList(true),
+            'user' => $user,
+            'airlines' => $this->airlineRepo->selectBoxList(true),
+            'airports' => $this->airportRepo->selectBoxList(true),
+            'flights' => $flights,
+            'saved' => $saved_flights,
+            'subfleets' => $this->subfleetRepo->selectBoxList(true),
             'flight_number' => $request->input('flight_number'),
-            'flight_types'  => $flight_types,
-            'flight_type'   => $request->input('flight_type'),
-            'arr_icao'      => $request->input('arr_icao'),
-            'dep_icao'      => $request->input('dep_icao'),
-            'subfleet_id'   => $request->input('subfleet_id'),
-            'simbrief'      => !empty(setting('simbrief.api_key')),
+            'flight_types' => $flight_types,
+            'flight_type' => $request->input('flight_type'),
+            'arr_icao' => $request->input('arr_icao'),
+            'dep_icao' => $request->input('dep_icao'),
+            'subfleet_id' => $request->input('subfleet_id'),
+            'simbrief' => ! empty(setting('simbrief.api_key')),
             'simbrief_bids' => setting('simbrief.only_bids'),
-            'acars_plugin'  => $this->moduleSvc->isModuleActive('VMSAcars'),
+            'acars_plugin' => $this->moduleSvc->isModuleActive('VMSAcars'),
         ]);
     }
 
     /**
      * Find the user's bids and display them
      *
-     * @param Request $request
-     *
+     * @param  Request  $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function bids(Request $request)
@@ -187,8 +191,9 @@ class FlightController extends Controller
         $saved_flights = [];
         foreach ($user->bids as $bid) {
             // Remove any invalid bids (flight doesn't exist or something)
-            if (!$bid->flight) {
+            if (! $bid->flight) {
                 $bid->delete();
+
                 continue;
             }
 
@@ -197,15 +202,15 @@ class FlightController extends Controller
         }
 
         return view('flights.bids', [
-            'user'          => $user,
-            'airlines'      => $this->airlineRepo->selectBoxList(true),
-            'airports'      => $this->airportRepo->selectBoxList(true),
-            'flights'       => $flights,
-            'saved'         => $saved_flights,
-            'subfleets'     => $this->subfleetRepo->selectBoxList(true),
-            'simbrief'      => !empty(setting('simbrief.api_key')),
+            'user' => $user,
+            'airlines' => $this->airlineRepo->selectBoxList(true),
+            'airports' => $this->airportRepo->selectBoxList(true),
+            'flights' => $flights,
+            'saved' => $saved_flights,
+            'subfleets' => $this->subfleetRepo->selectBoxList(true),
+            'simbrief' => ! empty(setting('simbrief.api_key')),
             'simbrief_bids' => setting('simbrief.only_bids'),
-            'acars_plugin'  => $this->moduleSvc->isModuleActive('VMSAcars'),
+            'acars_plugin' => $this->moduleSvc->isModuleActive('VMSAcars'),
         ]);
     }
 
@@ -213,7 +218,6 @@ class FlightController extends Controller
      * Show the flight information page
      *
      * @param $id
-     *
      * @return mixed
      */
     public function show($id)
@@ -233,6 +237,7 @@ class FlightController extends Controller
         $flight = $this->flightRepo->with($with_flight)->find($id);
         if (empty($flight)) {
             Flash::error('Flight not found!');
+
             return redirect(route('frontend.dashboard.index'));
         }
 
@@ -242,9 +247,9 @@ class FlightController extends Controller
         $bid = Bid::where(['user_id' => $user_id, 'flight_id' => $flight->id])->first();
 
         return view('flights.show', [
-            'flight'       => $flight,
+            'flight' => $flight,
             'map_features' => $map_features,
-            'bid'          => $bid,
+            'bid' => $bid,
             'acars_plugin' => $this->moduleSvc->isModuleActive('VMSAcars'),
         ]);
     }

@@ -13,7 +13,7 @@ use Illuminate\Support\Collection;
 class UserRepository extends Repository
 {
     protected $fieldSearchable = [
-        'name'  => 'like',
+        'name' => 'like',
         'email' => 'like',
         'home_airport_id',
         'curr_airport_id',
@@ -31,15 +31,14 @@ class UserRepository extends Repository
     /**
      * Get all of the fields which has the mapped values
      *
-     * @param User $user
-     * @param bool $only_public_fields Only include the user's public fields
-     *
+     * @param  User  $user
+     * @param  bool  $only_public_fields Only include the user's public fields
      * @return \App\Models\UserField[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Support\Collection
      */
     public function getUserFields(User $user, $only_public_fields = null): Collection
     {
         if (is_bool($only_public_fields)) {
-            $fields = UserField::where(['private' => !$only_public_fields])->get();
+            $fields = UserField::where(['private' => ! $only_public_fields])->get();
         } else {
             $fields = UserField::get();
         }
@@ -74,12 +73,11 @@ class UserRepository extends Repository
     /**
      * Create the search criteria and return this with the stuff pushed
      *
-     * @param Request $request
-     * @param bool    $only_active
+     * @param  Request  $request
+     * @param  bool  $only_active
+     * @return $this
      *
      * @throws \Prettus\Repository\Exceptions\RepositoryException
-     *
-     * @return $this
      */
     public function searchCriteria(Request $request, bool $only_active = true)
     {

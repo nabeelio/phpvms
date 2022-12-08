@@ -15,7 +15,9 @@ use Laracasts\Flash\Flash;
 class MaintenanceController extends Controller
 {
     private CronService $cronSvc;
+
     private KvpRepository $kvpRepo;
+
     private VersionService $versionSvc;
 
     public function __construct(
@@ -35,19 +37,18 @@ class MaintenanceController extends Controller
         $cron_url = empty($cron_id) ? 'Not enabled' : url(route('api.maintenance.cron', $cron_id));
 
         return view('admin.maintenance.index', [
-            'cron_url'            => $cron_url,
-            'cron_path'           => $this->cronSvc->getCronExecString(),
+            'cron_url' => $cron_url,
+            'cron_path' => $this->cronSvc->getCronExecString(),
             'cron_problem_exists' => $this->cronSvc->cronProblemExists(),
-            'new_version'         => $this->kvpRepo->get('new_version_available', false),
-            'new_version_tag'     => $this->kvpRepo->get('latest_version_tag'),
+            'new_version' => $this->kvpRepo->get('new_version_available', false),
+            'new_version_tag' => $this->kvpRepo->get('latest_version_tag'),
         ]);
     }
 
     /**
      * Clear caches depending on the type passed in
      *
-     * @param \Illuminate\Http\Request $request
-     *
+     * @param  \Illuminate\Http\Request  $request
      * @return mixed
      */
     public function cache(Request $request)
@@ -73,14 +74,14 @@ class MaintenanceController extends Controller
         }
 
         Flash::success('Cache cleared!');
+
         return redirect(route('admin.maintenance.index'));
     }
 
     /**
      * Force an update check
      *
-     * @param \Illuminate\Http\Request $request
-     *
+     * @param  \Illuminate\Http\Request  $request
      * @return mixed
      */
     public function forcecheck(Request $request)
@@ -92,7 +93,7 @@ class MaintenanceController extends Controller
 
         Log::info('Force check, available='.$new_version_avail.', tag='.$new_version_tag);
 
-        if (!$new_version_avail) {
+        if (! $new_version_avail) {
             Flash::success('No new version available');
         } else {
             Flash::success('New version available: '.$new_version_tag);
@@ -104,7 +105,7 @@ class MaintenanceController extends Controller
     /**
      * Enable the cron, or if it's enabled, change the ID that is used
      *
-     * @param Request $request
+     * @param  Request  $request
      */
     public function cron_enable(Request $request)
     {
@@ -112,14 +113,14 @@ class MaintenanceController extends Controller
         setting_save('cron.random_id', $id);
 
         Flash::success('Web cron refreshed!');
+
         return redirect(route('admin.maintenance.index'));
     }
 
     /**
      * Disable the web cron
      *
-     * @param Request $request
-     *
+     * @param  Request  $request
      * @return mixed
      */
     public function cron_disable(Request $request)
@@ -127,6 +128,7 @@ class MaintenanceController extends Controller
         setting_save('cron.random_id', '');
 
         Flash::success('Web cron disabled!');
+
         return redirect(route('admin.maintenance.index'));
     }
 }

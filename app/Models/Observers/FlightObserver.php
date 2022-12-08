@@ -10,7 +10,7 @@ use App\Models\Flight;
 class FlightObserver
 {
     /**
-     * @param Flight $flight
+     * @param  Flight  $flight
      */
     public function creating(Flight $flight): void
     {
@@ -19,7 +19,7 @@ class FlightObserver
     }
 
     /**
-     * @param Flight $flight
+     * @param  Flight  $flight
      */
     public function updating(Flight $flight): void
     {

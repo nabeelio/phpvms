@@ -16,6 +16,7 @@ class CreateFareRequest extends FormRequest
     {
         $rules = Fare::$rules;
         $rules['code'] .= '|unique:fares';
+
         return $rules;
     }
 }

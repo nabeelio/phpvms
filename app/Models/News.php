@@ -28,7 +28,7 @@ class News extends Model
 
     public static $rules = [
         'subject' => 'required',
-        'body'    => 'required',
+        'body' => 'required',
     ];
 
     /**

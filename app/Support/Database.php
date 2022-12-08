@@ -19,12 +19,11 @@ class Database
     }
 
     /**
-     * @param      $yaml_file
-     * @param bool $ignore_errors
+     * @param    $yaml_file
+     * @param  bool  $ignore_errors
+     * @return array
      *
      * @throws \Exception
-     *
-     * @return array
      */
     public static function seed_from_yaml_file($yaml_file, bool $ignore_errors = false): array
     {
@@ -34,12 +33,11 @@ class Database
     }
 
     /**
-     * @param      $yml
-     * @param bool $ignore_errors
+     * @param    $yml
+     * @param  bool  $ignore_errors
+     * @return array
      *
      * @throws \Exception
-     *
-     * @return array
      */
     public static function seed_from_yaml($yml, bool $ignore_errors = false): array
     {
@@ -87,12 +85,11 @@ class Database
     }
 
     /**
-     * @param string $table
-     * @param array  $row
-     * @param string $id_col            The ID column to use for update/insert
-     * @param array  $ignore_on_updates
-     * @param bool   $ignore_errors
-     *
+     * @param  string  $table
+     * @param  array  $row
+     * @param  string  $id_col            The ID column to use for update/insert
+     * @param  array  $ignore_on_updates
+     * @param  bool  $ignore_errors
      * @return mixed
      */
     public static function insert_row(
@@ -113,7 +110,7 @@ class Database
 
         // if any time fields are == to "now", then insert the right time
         foreach ($row as $column => $value) {
-            if (!empty($value) && strtolower($value) === 'now') {
+            if (! empty($value) && strtolower($value) === 'now') {
                 $row[$column] = static::time();
             }
         }
@@ -144,7 +141,7 @@ class Database
             }
         } catch (QueryException $e) {
             Log::error($e);
-            if (!$ignore_errors) {
+            if (! $ignore_errors) {
                 throw $e;
             }
         }

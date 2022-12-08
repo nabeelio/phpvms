@@ -30,7 +30,7 @@ class LoginController extends Controller
     /**
      * LoginController constructor.
      *
-     * @param UserService $userSvc
+     * @param  UserService  $userSvc
      */
     public function __construct(UserService $userSvc)
     {
@@ -45,14 +45,13 @@ class LoginController extends Controller
      *
      * @override
      *
-     * @param \Illuminate\Http\Request $request
-     *
+     * @param  \Illuminate\Http\Request  $request
      * @return array
      */
     protected function credentials(Request $request)
     {
         return [
-            'email'    => $this->loginFieldValue,
+            'email' => $this->loginFieldValue,
             'password' => $request->input('password'),
         ];
     }
@@ -62,8 +61,7 @@ class LoginController extends Controller
      *
      * @override
      *
-     * @param \Illuminate\Http\Request $request
-     *
+     * @param  \Illuminate\Http\Request  $request
      * @return void
      */
     protected function validateLogin(Request $request)
@@ -87,6 +85,7 @@ class LoginController extends Controller
                 } catch (PilotIdNotFound $ex) {
                     Log::warning('Error logging in, pilot_id not found, id='.$value);
                     $fail('Pilot not found');
+
                     return;
                 }
 
@@ -96,14 +95,13 @@ class LoginController extends Controller
         }
 
         $request->validate([
-            'email'    => $validations,
+            'email' => $validations,
             'password' => 'required|string',
         ]);
     }
 
     /**
-     * @param Request $request
-     *
+     * @param  Request  $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
     protected function sendLoginResponse(Request $request)

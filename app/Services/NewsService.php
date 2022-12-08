@@ -18,11 +18,10 @@ class NewsService extends Service
     /**
      * Add a news item
      *
-     * @param array $attrs
+     * @param  array  $attrs
+     * @return mixed
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
-     *
-     * @return mixed
      */
     public function addNews(array $attrs)
     {
@@ -35,7 +34,7 @@ class NewsService extends Service
     /**
      * Delete something from the news items
      *
-     * @param int $id ID of the news row to delete
+     * @param  int  $id ID of the news row to delete
      */
     public function deleteNews($id)
     {
