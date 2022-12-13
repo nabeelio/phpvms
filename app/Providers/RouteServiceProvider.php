@@ -167,6 +167,8 @@ class RouteServiceProvider extends ServiceProvider
                 Route::get('pilots', 'UserController@index')->name('pilots.index');
 
                 Route::get('livemap', 'LiveMapController@index')->name('livemap.index');
+
+                Route::get('lang/{lang}', 'LanguageController@switchLang')->name('lang.switch');
             });
 
             Route::get('/logout', 'Auth\LoginController@logout')->name('auth.logout');
