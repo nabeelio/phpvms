@@ -712,20 +712,20 @@ class FinanceTest extends TestCase
 
         $journalRepo->post(
             $journal,
-            Money::createFromAmount(100),
+            Money::createFromAmount(100.5),
             null,
             $user
         );
 
         $balance = $journalRepo->getBalance($journal);
-        $this->assertEquals(100, $balance->getValue());
-        $this->assertEquals(100, $journal->balance->getValue());
+        $this->assertEquals(100.5, $balance->getValue());
+        $this->assertEquals(100.5, $journal->balance->getValue());
 
         // add another transaction
 
         $journalRepo->post(
             $journal,
-            Money::createFromAmount(25),
+            Money::createFromAmount(24.5),
             null,
             $user
         );
@@ -912,7 +912,7 @@ class FinanceTest extends TestCase
 
         // $this->assertCount(9, $transactions['transactions']);
         $this->assertEquals(3020, $transactions['credits']->getValue());
-        $this->assertEquals(2050.0, $transactions['debits']->getValue());
+        $this->assertEquals(2050.4, $transactions['debits']->getValue());
 
         // Check that all the different transaction types are there
         // test by the different groups that exist
@@ -967,7 +967,7 @@ class FinanceTest extends TestCase
 
 //        $this->assertCount(9, $transactions['transactions']);
         $this->assertEquals(3020, $transactions['credits']->getValue());
-        $this->assertEquals(2050.0, $transactions['debits']->getValue());
+        $this->assertEquals(2050.4, $transactions['debits']->getValue());
 
         // Check that all the different transaction types are there
         // test by the different groups that exist
@@ -1006,7 +1006,7 @@ class FinanceTest extends TestCase
 
         $transactions = $journalRepo->getAllForObject($pirep2);
         $this->assertEquals(3020, $transactions['credits']->getValue());
-        $this->assertEquals(2150.0, $transactions['debits']->getValue());
+        $this->assertEquals(2150.4, $transactions['debits']->getValue());
 
         // Check that all the different transaction types are there
         // test by the different groups that exist
@@ -1115,6 +1115,6 @@ class FinanceTest extends TestCase
 
         //        $this->assertCount(9, $transactions['transactions']);
         $this->assertEquals(3020, $transactions['credits']->getValue());
-        $this->assertEquals(2050.0, $transactions['debits']->getValue());
+        $this->assertEquals(2050.4, $transactions['debits']->getValue());
     }
 }
