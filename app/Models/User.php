@@ -15,6 +15,7 @@ use Staudenmeir\EloquentHasManyDeep\HasRelationships;
  * @property int              id
  * @property int              pilot_id
  * @property int              airline_id
+ * @property string           callsign
  * @property string           name
  * @property string           name_private Only first name, rest are initials
  * @property string           email
@@ -72,6 +73,7 @@ class User extends Authenticatable
         'email',
         'password',
         'pilot_id',
+        'callsign',
         'airline_id',
         'rank_id',
         'discord_id',
@@ -128,6 +130,7 @@ class User extends Authenticatable
         'name'     => 'required',
         'email'    => 'required|email',
         'pilot_id' => 'required|integer',
+        'callsign' => 'nullable|max:4',
     ];
 
     /**
