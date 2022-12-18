@@ -86,15 +86,20 @@
           </li>
         @endforeach
 
+        @php
+          // Get Languages and Locale once
+          $languages = Config::get('languages');
+          $locale = App::getLocale();
+        @endphp
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" data-boundary="viewport" aria-haspopup="true" aria-expanded="false">
-            <span class="flag-icon flag-icon-{{Config::get('languages')[App::getLocale()]['flag-icon']}}"></span>&nbsp;&nbsp;{{ Config::get('languages')[App::getLocale()]['display'] }}
+            <span class="flag-icon flag-icon-{{ $languages[$locale]['flag-icon'] }}"></span>&nbsp;&nbsp;{{ $languages[$locale]['display'] }}
           </a>
           <div class="dropdown-menu dropdown-menu-right">
-          @foreach (Config::get('languages') as $lang => $language)
-              @if ($lang != App::getLocale())
+          @foreach ($languages as $lang => $language)
+              @if ($lang != $locale)
                 <a class="dropdown-item" href="{{ route('frontend.lang.switch', $lang) }}">
-                  <span class="flag-icon flag-icon-{{$language['flag-icon']}}"></span>&nbsp;&nbsp;{{$language['display']}}
+                  <span class="flag-icon flag-icon-{{ $language['flag-icon'] }}"></span>&nbsp;&nbsp;{{ $language['display'] }}
                 </a>
               @endif
           @endforeach
