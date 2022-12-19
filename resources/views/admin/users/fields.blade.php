@@ -1,9 +1,14 @@
 <div class="row">
   {{ Form::hidden('id') }}
-  <div class="form-group col-sm-3">
+  <div class="form-group col-sm-2">
     {{ Form::label('pilot_id', 'Pilot ID:') }}
     {{ Form::number('pilot_id', null, ['class' => 'form-control']) }}
     <p class="text-danger">{{ $errors->first('pilot_id') }}</p>
+  </div>
+  <div class="form-group col-sm-2">
+    {{ Form::label('callsign', 'Callsign:') }}
+    {{ Form::text('callsign', null, ['class' => 'form-control', 'autocomplete' => 'off', 'maxlength' => 4]) }}
+    <p class="text-danger">{{ $errors->first('callsign') }}</p>
   </div>
   <div class="form-group col-sm-3">
     {{ Form::label('name', 'Name:') }}
@@ -15,7 +20,7 @@
     {{ Form::text('email', null, ['class' => 'form-control', 'autocomplete' => 'off']) }}
     <p class="text-danger">{{ $errors->first('email') }}</p>
   </div>
-  <div class="form-group col-sm-3">
+  <div class="form-group col-sm-2">
     {{ Form::label('password', 'Password:') }}
     {{ Form::password('password', ['class' => 'form-control', 'autocomplete' => 'off']) }}
     <p class="text-danger">{{ $errors->first('password') }}</p>

@@ -16,6 +16,9 @@
         <h2>{{ $user->name_private }}</h2>
         <p>
           {{ $user->ident }}
+          @if(filled($user->callsign))
+            {{ ' | '.$user->callsign }}&nbsp;
+          @endif
           <span class="flag-icon flag-icon-{{ $user->country }}"></span>
         </p>
       </div>
