@@ -86,6 +86,21 @@
           </li>
         @endforeach
 
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" data-boundary="viewport" aria-haspopup="true" aria-expanded="false">
+            <span class="flag-icon flag-icon-{{ $languages[$locale]['flag-icon'] }}"></span>&nbsp;&nbsp;{{ $languages[$locale]['display'] }}
+          </a>
+          <div class="dropdown-menu dropdown-menu-right">
+          @foreach ($languages as $lang => $language)
+              @if ($lang != $locale)
+                <a class="dropdown-item" href="{{ route('frontend.lang.switch', $lang) }}">
+                  <span class="flag-icon flag-icon-{{ $language['flag-icon'] }}"></span>&nbsp;&nbsp;{{ $language['display'] }}
+                </a>
+              @endif
+          @endforeach
+          </div>
+        </li>
+
         <li class="nav-item dropdown ">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
              data-toggle="dropdown" data-boundary="viewport" aria-haspopup="true" aria-expanded="false">

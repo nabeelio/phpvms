@@ -7,6 +7,7 @@ use App\Http\Middleware\EncryptCookies;
 use App\Http\Middleware\InstalledCheck;
 use App\Http\Middleware\JsonResponse;
 use App\Http\Middleware\RedirectIfAuthenticated;
+use App\Http\Middleware\SetActiveLanguage;
 use App\Http\Middleware\SetActiveTheme;
 use App\Http\Middleware\TrustProxies;
 use App\Http\Middleware\UpdatePending;
@@ -46,6 +47,7 @@ class Kernel extends HttpKernel
             // VerifyCsrfToken::class,
             SubstituteBindings::class,
             SetActiveTheme::class,
+            SetActiveLanguage::class,
         ],
     ];
 
