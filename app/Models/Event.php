@@ -19,12 +19,12 @@ class Event extends Model
 
     // Validation
     public static $rules = [
-        'type'         => 'required|numeric',
-        'name'         => 'required|max:250',
-        'description'  => 'nullable',
-        'start_date'   => 'required',
-        'end_date'     => 'required',
-        'active'       => 'nullable',
+        'type'        => 'required|numeric',
+        'name'        => 'required|max:250',
+        'description' => 'nullable',
+        'start_date'  => 'required',
+        'end_date'    => 'required',
+        'active'      => 'nullable',
     ];
 
     // Carbon Coverted Dates
