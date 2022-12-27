@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Http\Composers\PageLinksComposer;
 use App\Http\Composers\VersionComposer;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -13,5 +15,9 @@ class ViewComposerServiceProvider extends ServiceProvider
     {
         View::composer('*', PageLinksComposer::class);
         View::composer('admin.sidebar', VersionComposer::class);
+        View::composer('nav', function ($view) {
+            $view->share('languages', Config::get('languages'));
+            $view->share('locale', App::getLocale());
+        });
     }
 }

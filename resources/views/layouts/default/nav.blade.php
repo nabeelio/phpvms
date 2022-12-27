@@ -86,11 +86,6 @@
           </li>
         @endforeach
 
-        @php
-          // Get Languages and Locale once
-          $languages = Config::get('languages');
-          $locale = App::getLocale();
-        @endphp
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" data-boundary="viewport" aria-haspopup="true" aria-expanded="false">
             <span class="flag-icon flag-icon-{{ $languages[$locale]['flag-icon'] }}"></span>&nbsp;&nbsp;{{ $languages[$locale]['display'] }}
