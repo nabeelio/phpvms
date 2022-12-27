@@ -31,6 +31,7 @@ use Kleemans\AttributeEvents;
  * @property int         airline_id
  * @property int         user_id
  * @property int         aircraft_id
+ * @property int         event_id
  * @property Aircraft    aircraft
  * @property Airline     airline
  * @property Airport     arr_airport
@@ -83,6 +84,7 @@ class Pirep extends Model
         'user_id',
         'airline_id',
         'aircraft_id',
+        'event_id',
         'flight_number',
         'route_code',
         'route_leg',
@@ -118,6 +120,7 @@ class Pirep extends Model
         'user_id'             => 'integer',
         'airline_id'          => 'integer',
         'aircraft_id'         => 'integer',
+        'event_id'            => 'integer',
         'level'               => 'integer',
         'distance'            => DistanceCast::class,
         'planned_distance'    => DistanceCast::class,
@@ -138,6 +141,7 @@ class Pirep extends Model
     public static $rules = [
         'airline_id'     => 'required|exists:airlines,id',
         'aircraft_id'    => 'required|exists:aircraft,id',
+        'event_id'       => 'nullable|numeric',
         'flight_number'  => 'required',
         'dpt_airport_id' => 'required',
         'arr_airport_id' => 'required',
@@ -184,6 +188,7 @@ class Pirep extends Model
         return new self([
             'flight_id'      => $flight->id,
             'airline_id'     => $flight->airline_id,
+            'event_id'       => $flight->event_id,
             'flight_number'  => $flight->flight_number,
             'route_code'     => $flight->route_code,
             'route_leg'      => $flight->route_leg,
@@ -206,6 +211,7 @@ class Pirep extends Model
         return new self([
             'flight_id'      => $simbrief->flight->id,
             'airline_id'     => $simbrief->flight->airline_id,
+            'event_id'       => $simbrief->flight->event_id,
             'flight_number'  => $simbrief->flight->flight_number,
             'route_code'     => $simbrief->flight->route_code,
             'route_leg'      => $simbrief->flight->route_leg,
