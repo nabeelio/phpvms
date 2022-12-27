@@ -31,7 +31,7 @@
 
                 <div class="form-container-body">
                   <h6><i class="fas fa-info-circle"></i>&nbsp;@lang('pireps.flightinformations') For
-                  <b>{{ $flight->airline->icao }}{{ $flight->flight_number }} ({{ \App\Models\Enums\FlightType::label($flight->flight_type) }})</b></h6>
+                  <b>{{ $flight->airline->code }}{{ $flight->flight_number }} ({{ \App\Models\Enums\FlightType::label($flight->flight_type) }})</b></h6>
                   <div class="row">
                     <div class="col-sm-4">
                       <label for="dorig">Departure Airport</label>
@@ -141,11 +141,6 @@
               @endif
               <input type="hidden" name="airline" value="{{ $flight->airline->icao }}">
               <input type="hidden" name="fltnum" value="{{ $flight->flight_number }}">
-              @if(setting('simbrief.callsign', true))
-                <input type="hidden" name="callsign" value="{{ $user->ident }}">
-              @else
-                <input type="hidden" name="callsign" value="{{ $flight->airline->icao }}{{ $flight->callsign ?? $flight->flight_number }}">
-              @endif
               @if(setting('simbrief.name_private', true))
                 <input type="hidden" name="cpt" value="{{ $user->name_private }}">
               @endif
@@ -168,6 +163,26 @@
                 <div class="form-container-body">
                   <h6><i class="fas fa-info-circle"></i>&nbsp;Planning Options</h6>
                   <table class="table table-sm table-striped">
+                    <tr>
+                      <td>ATC Callsign:</td>
+                      <td>
+                        @if(setting('simbrief.callsign', true))
+                          {{ $user->ident }}
+                          <input type="hidden" name="callsign" value="{{ $user->ident }}">
+                        @else
+                          <select name="callsign" class="form-control">
+                            @if(filled($flight->callsign))
+                              <option value="{{ optional($flight->airline)->icao.$flight->callsign }}" selected>{{ optional($flight->airline)->icao.$flight->callsign }}</option>
+                            @endif
+                              <option value="{{ optional($flight->airline)->icao.$flight->flight_number }}">{{ optional($flight->airline)->icao.$flight->flight_number }}</option>
+                            @if(filled($user->callsign))
+                              <option value="{{ optional($flight->airline)->icao.$user->callsign }}">{{ optional($flight->airline)->icao.$user->callsign }}</option>
+                            @endif
+                              <option value="{{ $user->ident }}">{{ $user->ident }}</option>
+                          </select>
+                        @endif
+                      </td>
+                    </tr>
                     <tr>
                       <td>Cont Fuel:</td>
                       <td>
