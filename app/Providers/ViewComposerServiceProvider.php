@@ -16,8 +16,8 @@ class ViewComposerServiceProvider extends ServiceProvider
         View::composer('*', PageLinksComposer::class);
         View::composer('admin.sidebar', VersionComposer::class);
         View::composer('nav', function ($view) {
-            $view->share('languages', Config::get('languages'));
-            $view->share('locale', App::getLocale());
+            $view->with('languages', Config::get('languages'));
+            $view->with('locale', App::getLocale());
         });
     }
 }
