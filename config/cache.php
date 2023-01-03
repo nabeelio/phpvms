@@ -17,6 +17,10 @@ return [
             'key'  => 'ranks.pilot_list',
             'time' => 60 * 10,
         ],
+        'SETTINGS'  => [
+            'key'   => 'settings.', //append setting key
+            'time'  => 60 * 60 * 24, // Cache for 1 day
+        ],
         'TAF_WEATHER_LOOKUP' => [
             'key'  => 'airports.weather.taf.', // append icao
             'time' => 60 * 60,  // Cache for 60 minutes
