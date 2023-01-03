@@ -170,7 +170,7 @@ if (!function_exists('setting')) {
         $settingRepo = app(SettingRepository::class);
 
         try {
-            if (app()->environment('production')){
+            if (app()->environment('production')) {
                 $cache = config('cache.keys.SETTINGS');
 
                 $value = Cache::remember($cache['key'].$key, $cache['time'], function () use ($key, $settingRepo) {
