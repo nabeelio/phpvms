@@ -21,7 +21,7 @@ class LatestPilots extends Widget
     public function run()
     {
         $userRepo = app(UserRepository::class);
-        $userRepo = $userRepo->with('home_airport')->where('state', '!=', UserState::DELETED)->orderby('created_at', 'desc')->take($this->config['count'])->get();
+        $userRepo = $userRepo->with(['airline', 'home_airport'])->where('state', '!=', UserState::DELETED)->orderby('created_at', 'desc')->take($this->config['count'])->get();
 
         return view('widgets.latest_pilots', [
             'config' => $this->config,
