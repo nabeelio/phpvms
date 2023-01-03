@@ -13,7 +13,7 @@ class ViewComposerServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-        View::composer('*', PageLinksComposer::class);
+        View::composer('nav', PageLinksComposer::class);
         View::composer('admin.sidebar', VersionComposer::class);
         View::composer('nav', function ($view) {
             $view->with('languages', Config::get('languages'));
