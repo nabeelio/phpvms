@@ -289,7 +289,7 @@ class ModuleService extends Service
 
         if (app()->environment('production')) {
             $cache = config('cache.keys.MODULES');
-            Cache::forget($cache['key']. '.' .$module->name);
+            Cache::forget($cache['key'].'.'.$module->name);
         }
 
         $module->update([

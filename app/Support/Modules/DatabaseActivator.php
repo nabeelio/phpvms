@@ -64,7 +64,7 @@ class DatabaseActivator implements ActivatorInterface
         try {
             if (app()->environment('production')) {
                 $cache = config('cache.keys.MODULES');
-                return Cache::remember($cache['key']. '.' .$name, $cache['time'], function () use ($name) {
+                return Cache::remember($cache['key'].'.'.$name, $cache['time'], function () use ($name) {
                     return \App\Models\Module::where(['name' => $name])->first();
                 });
             } else {
