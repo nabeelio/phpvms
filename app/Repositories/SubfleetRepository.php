@@ -34,7 +34,7 @@ class SubfleetRepository extends Repository implements CacheableInterface
     public function selectBoxList($add_blank = false): array
     {
         $retval = [];
-        $items = $this->all();
+        $items = $this->with('airline')->all();
 
         if ($add_blank) {
             $retval[''] = '';
