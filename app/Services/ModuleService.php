@@ -287,10 +287,8 @@ class ModuleService extends Service
     {
         $module = Module::find($id);
 
-        if (app()->environment('production')) {
-            $cache = config('cache.keys.MODULES');
-            Cache::forget($cache['key'].'.'.$module->name);
-        }
+        $cache = config('cache.keys.MODULES');
+        Cache::forget($cache['key'].'.'.$module->name);
 
         $module->update([
             'enabled' => $status,

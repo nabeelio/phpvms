@@ -96,10 +96,8 @@ class SettingsController extends Controller
             $setting->value = $value;
             $setting->save();
 
-            if (app()->environment('production')) {
-                $cache = config('cache.keys.SETTINGS');
-                Cache::forget($cache['key'].$setting->key);
-            }
+            $cache = config('cache.keys.SETTINGS');
+            Cache::forget($cache['key'].$setting->key);
         }
 
         $this->financeSvc->changeJournalCurrencies();
