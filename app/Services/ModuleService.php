@@ -11,6 +11,7 @@ use Exception;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -285,6 +286,10 @@ class ModuleService extends Service
     public function updateModule($id, $status): bool
     {
         $module = Module::find($id);
+
+        $cache = config('cache.keys.MODULES');
+        Cache::forget($cache['key'].'.'.$module->name);
+
         $module->update([
             'enabled' => $status,
         ]);

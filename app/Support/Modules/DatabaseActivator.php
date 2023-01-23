@@ -6,6 +6,7 @@ use Exception;
 use Illuminate\Config\Repository as Config;
 use Illuminate\Container\Container;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Nwidart\Modules\Contracts\ActivatorInterface;
 use Nwidart\Modules\Module;
@@ -61,7 +62,14 @@ class DatabaseActivator implements ActivatorInterface
     public function getModuleByName(string $name): ?\App\Models\Module
     {
         try {
-            return \App\Models\Module::where(['name' => $name])->first();
+            if (app()->environment('production')) {
+                $cache = config('cache.keys.MODULES');
+                return Cache::remember($cache['key'].'.'.$name, $cache['time'], function () use ($name) {
+                    return \App\Models\Module::where(['name' => $name])->first();
+                });
+            } else {
+                return \App\Models\Module::where(['name' => $name])->first();
+            }
         } catch (Exception $e) { // Catch any database/connection errors
             return null;
         }
@@ -75,7 +83,14 @@ class DatabaseActivator implements ActivatorInterface
     private function getModulesStatuses(): array
     {
         try {
-            $modules = \App\Models\Module::all();
+            if (app()->environment('production')) {
+                $cache = config('cache.keys.MODULES');
+                $modules = Cache::remember($cache['key'], $cache['time'], function () {
+                    \App\Models\Module::all();
+                });
+            } else {
+                $modules = \App\Models\Module::all();
+            }
             $retVal = [];
             foreach ($modules as $i) {
                 $retVal[$i->name] = $i->enabled;

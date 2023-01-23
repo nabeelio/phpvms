@@ -7,6 +7,7 @@ use App\Models\Setting;
 use App\Services\FinanceService;
 use Igaster\LaravelTheme\Facades\Theme;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
 class SettingsController extends Controller
@@ -94,6 +95,9 @@ class SettingsController extends Controller
             Log::info('Updating "'.$setting->id.'" from "'.$setting->value.'" to "'.$value.'"');
             $setting->value = $value;
             $setting->save();
+
+            $cache = config('cache.keys.SETTINGS');
+            Cache::forget($cache['key'].$setting->key);
         }
 
         $this->financeSvc->changeJournalCurrencies();
