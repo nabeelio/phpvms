@@ -39,6 +39,7 @@ use Staudenmeir\EloquentHasManyDeep\HasRelationships;
  * @property string           discord_id
  * @property int              state
  * @property string           last_ip
+ * @property \Carbon\Carbon   lastlogin_at
  * @property bool             opt_in
  * @property Pirep[]          pireps
  * @property string           last_pirep_id
@@ -93,6 +94,7 @@ class User extends Authenticatable
         'toc_accepted',
         'opt_in',
         'last_ip',
+        'lastlogin_at',
         'notes',
         'created_at',
         'updated_at',
@@ -131,6 +133,13 @@ class User extends Authenticatable
         'email'    => 'required|email',
         'pilot_id' => 'required|integer',
         'callsign' => 'nullable|max:4',
+    ];
+
+    public $dates = [
+        'lastlogin_at',
+        'created_at',
+        'updated_at',
+        'deleted_at',
     ];
 
     /**
