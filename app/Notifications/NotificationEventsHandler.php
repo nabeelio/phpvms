@@ -98,7 +98,7 @@ class NotificationEventsHandler extends Listener
         }
 
         /** @var Collection $users */
-        $users = User::where($where)->where('state', '<>', UserState::DELETED)->get();
+        $users = User::where($where)->whereIn('state', [UserState::ACTIVE, UserState::ON_LEAVE])->get();
         if (empty($users) || $users->count() === 0) {
             return;
         }

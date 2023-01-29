@@ -14,8 +14,10 @@ use App\Repositories\SubfleetRepository;
 use App\Repositories\UserRepository;
 use App\Services\GeoService;
 use App\Services\ModuleService;
+use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Laracasts\Flash\Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
@@ -26,10 +28,11 @@ class FlightController extends Controller
     private AirlineRepository $airlineRepo;
     private AirportRepository $airportRepo;
     private FlightRepository $flightRepo;
+    private GeoService $geoSvc;
     private ModuleService $moduleSvc;
     private SubfleetRepository $subfleetRepo;
-    private GeoService $geoSvc;
     private UserRepository $userRepo;
+    private UserService $userSvc;
 
     /**
      * @param AirlineRepository  $airlineRepo
@@ -39,6 +42,7 @@ class FlightController extends Controller
      * @param ModuleService      $moduleSvc
      * @param SubfleetRepository $subfleetRepo
      * @param UserRepository     $userRepo
+     * @param UserService        $userSvc
      */
     public function __construct(
         AirlineRepository $airlineRepo,
@@ -47,7 +51,8 @@ class FlightController extends Controller
         GeoService $geoSvc,
         ModuleService $moduleSvc,
         SubfleetRepository $subfleetRepo,
-        UserRepository $userRepo
+        UserRepository $userRepo,
+        UserService $userSvc
     ) {
         $this->airlineRepo = $airlineRepo;
         $this->airportRepo = $airportRepo;
@@ -56,6 +61,7 @@ class FlightController extends Controller
         $this->moduleSvc = $moduleSvc;
         $this->subfleetRepo = $subfleetRepo;
         $this->userRepo = $userRepo;
+        $this->userSvc = $userSvc;
     }
 
     /**
@@ -112,6 +118,23 @@ class FlightController extends Controller
             Log::emergency($e);
         }
 
+        // Filter flights according to user capabilities (by rank or by type rating etc)
+        $filter_by_user = (setting('pireps.restrict_aircraft_to_rank', true) || setting('pireps.restrict_aircraft_to_typerating', false)) ? true : false;
+
+        if ($filter_by_user) {
+            // Get allowed subfleets for the user
+            $user_subfleets = $this->userSvc->getAllowableSubfleets($user)->pluck('id')->toArray();
+            // Get flight_id's from relationships (group by flight id to reduce the array size)
+            $allowed_flights = DB::table('flight_subfleet')
+            ->select('flight_id')
+            ->whereIn('subfleet_id', $user_subfleets)
+                ->groupBy('flight_id')
+                ->pluck('flight_id')
+                ->toArray();
+        } else {
+            $allowed_flights = [];
+        }
+
         // Get only used Flight Types for the search form
         // And filter according to settings
         $usedtypes = Flight::select('flight_type')
@@ -135,7 +158,11 @@ class FlightController extends Controller
                 'subfleets.airline',
                 'simbrief' => function ($query) use ($user) {
                     $query->where('user_id', $user->id);
-                }, ])
+                },
+            ])
+            ->when($filter_by_user, function ($query) use ($allowed_flights) {
+                return $query->whereIn('id', $allowed_flights);
+            })
             ->orderBy('flight_number')
             ->orderBy('route_leg')
             ->paginate();
