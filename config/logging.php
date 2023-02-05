@@ -52,13 +52,13 @@ return [
             'driver' => 'daily',
             'path'   => storage_path('logs/laravel.log'),
             'level'  => env('LOG_LEVEL', 'debug'),
-            'days'   => 3,
+            'days'   => env('LOG_DAYS', 3),
         ],
         'cron_rotating' => [
             'driver' => 'daily',
             'path'   => storage_path('logs/cron.log'),
             'level'  => env('LOG_LEVEL', 'debug'),
-            'days'   => 3,
+            'days'   => env('LOG_DAYS', 3),
         ],
         'slack' => [
             'driver'   => 'slack',
