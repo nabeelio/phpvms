@@ -10,7 +10,7 @@ return new class() extends Migration {
     {
         // Create events table
         Schema::create('events', function (Blueprint $table) {
-            $table->primary('id');
+            $table->integer('id');
             $table->unsignedInteger('type')->default(0);
             $table->string('name', 250);
             $table->text('description')->nullable();
@@ -18,6 +18,8 @@ return new class() extends Migration {
             $table->date('end_date');
             $table->boolean('active')->default(false)->nullable();
             $table->timestamps();
+            // Add index
+            $table->primary('id');
         });
 
         // Update flights table
