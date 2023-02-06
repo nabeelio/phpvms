@@ -52,6 +52,8 @@ class FlightImporter extends ImportExport
         'subfleets'            => 'nullable',
         'fares'                => 'nullable',
         'fields'               => 'nullable',
+        'event_id'             => 'nullable|integer',
+        'user_id'              => 'nullable|integer',
     ];
 
     private $airportSvc;

@@ -44,6 +44,8 @@ use Illuminate\Support\Collection;
  * @property string     dpt_airport_id
  * @property string     arr_airport_id
  * @property string     alt_airport_id
+ * @property int        event_id
+ * @property int        user_id
  * @property int        active
  * @property Carbon     start_date
  * @property Carbon     end_date
@@ -91,6 +93,8 @@ class Flight extends Model
         'has_bid',
         'active',
         'visible',
+        'event_id',
+        'user_id',
     ];
 
     protected $casts = [
@@ -108,6 +112,8 @@ class Flight extends Model
         'route_leg'            => 'integer',
         'active'               => 'boolean',
         'visible'              => 'boolean',
+        'event_id'             => 'integer',
+        'user_id'              => 'integer',
     ];
 
     public static $rules = [
@@ -121,6 +127,8 @@ class Flight extends Model
         'load_factor'          => 'nullable|numeric',
         'load_factor_variance' => 'nullable|numeric',
         'level'                => 'nullable',
+        'event_id'             => 'nullable|numeric',
+        'user_id'              => 'nullable|numeric',
     ];
 
     /**
