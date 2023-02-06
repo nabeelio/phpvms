@@ -7,6 +7,7 @@ use App\Exceptions\PilotIdNotFound;
 use App\Models\Enums\UserState;
 use App\Models\User;
 use App\Services\UserService;
+use Carbon\Carbon;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -113,6 +114,7 @@ class LoginController extends Controller
 
         if (setting('general.record_user_ip', true)) {
             $user->last_ip = $request->ip();
+            $user->lastlogin_at = Carbon::now();
             $user->save();
         }
 
