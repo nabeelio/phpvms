@@ -109,16 +109,20 @@
         <td>@minutestotime($user->flight_time)</td>
       </tr>
       <tr>
-        <td>IP Address</td>
-        <td>{{ $user->last_ip ?? '-' }}</td>
-      </tr>
-      <tr>
         <td>Registered On</td>
         <td>{{ show_datetime($user->created_at) }}</td>
       </tr>
       <tr>
         <td>Last Login</td>
-        <td>{{ show_datetime($user->updated_at) }}</td>
+        <td>
+          @if(filled($user->lastlogin_at))
+            {{ show_datetime($user->lastlogin_at) }}
+          @endif
+        </td>
+      </tr>
+      <tr>
+        <td>IP Address</td>
+        <td>{{ $user->last_ip ?? '-' }}</td>
       </tr>
       <tr>
         <td>@lang('toc.title')</td>
