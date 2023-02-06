@@ -10,7 +10,7 @@ return new class() extends Migration {
     {
         // Create events table
         Schema::create('events', function (Blueprint $table) {
-            $table->increments('id');
+            $table->primary('id');
             $table->unsignedInteger('type')->default(0);
             $table->string('name', 250);
             $table->text('description')->nullable();
