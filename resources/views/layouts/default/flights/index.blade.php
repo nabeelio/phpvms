@@ -15,7 +15,7 @@
   </div>
   <div class="row">
     <div class="col-12 text-center">
-      {{ $flights->links('pagination.default') }}
+      {{ $flights->appends(\Illuminate\Support\Facades\Request::except('page'))->links('pagination.default') }}
     </div>
   </div>
 @endsection
