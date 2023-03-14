@@ -28,7 +28,7 @@ A full distribution, with all of the composer dependencies, is available at this
 1. Upload to your server
 1. Visit the site, and follow the link to the installer
 
-[View installation details](https://docs.phpvms.net/installation/installation)
+[View installation details](https://docs.phpvms.net/installation)
 
 ## Development Environment with Docker
 
