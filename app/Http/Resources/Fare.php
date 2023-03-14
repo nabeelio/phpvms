@@ -17,7 +17,7 @@ class Fare extends Resource
             'name'     => $this->name,
             'capacity' => $this->capacity,
             'cost'     => $this->cost,
-            'count'    => $this->count ?? 0,
+            'count'    => ($this->count >= 0) ? $this->count : 0,
             'price'    => $this->price,
             'type'     => $this->type,
             'notes'    => $this->notes,
