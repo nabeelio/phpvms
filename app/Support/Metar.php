@@ -7,9 +7,10 @@ use App\Support\Units\Distance;
 use App\Support\Units\Pressure;
 use App\Support\Units\Temperature;
 use App\Support\Units\Velocity;
-use function count;
 use PhpUnitsOfMeasure\Exception\NonNumericValue;
 use PhpUnitsOfMeasure\Exception\NonStringUnitName;
+
+use function count;
 
 /**
  * Class Metar

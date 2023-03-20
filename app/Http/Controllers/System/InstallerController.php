@@ -24,8 +24,9 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
-use function in_array;
 use RuntimeException;
+
+use function in_array;
 
 class InstallerController extends Controller
 {

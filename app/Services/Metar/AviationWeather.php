@@ -4,9 +4,10 @@ namespace App\Services\Metar;
 
 use App\Contracts\Metar;
 use App\Support\HttpClient;
-use function count;
 use Exception;
 use Illuminate\Support\Facades\Log;
+
+use function count;
 
 /**
  * Return the raw METAR/TAF string from the NOAA Aviation Weather Service

@@ -34,7 +34,7 @@ elseif (file_exists($path_to_phpvms_folder.'phpvms'.DS.'bootstrap'.DS.'autoload.
 // Bail out
 else {
     echo 'Cannot find path to bootstrap/autoload.php. Modify this file to the proper path';
-    exit();
+    exit;
 }
 
 require $path_to_phpvms_folder.DS.'bootstrap'.DS.'autoload.php';

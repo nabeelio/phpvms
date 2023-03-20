@@ -4,14 +4,15 @@ namespace App\Services\Installer;
 
 use App\Contracts\Service;
 use Exception;
-use function extension_loaded;
 use Illuminate\Encryption\Encrypter;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
-use function is_bool;
 use Nwidart\Modules\Support\Stub;
 use PDO;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+
+use function extension_loaded;
+use function is_bool;
 
 class ConfigService extends Service
 {
