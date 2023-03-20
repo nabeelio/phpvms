@@ -134,7 +134,8 @@
             "composer/installers": true,
             "joshbrw/laravel-module-installer": true,
             "oomphinc/composer-installers-extender": true,
-            "symfony/flex": true
+            "symfony/flex": true,
+            "php-http/discovery": true
         }
     }
 }
