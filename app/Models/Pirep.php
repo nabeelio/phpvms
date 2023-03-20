@@ -61,7 +61,7 @@ use Kleemans\AttributeEvents;
  * @property Carbon      submitted_at
  * @property Carbon      created_at
  * @property Carbon      updated_at
- * @property bool        read_only
+ * @property bool        read_only Attribute
  * @property Acars       position
  * @property Acars[]     acars
  * @property mixed       cancelled
@@ -116,6 +116,7 @@ class Pirep extends Model
         'created_at',
         'updated_at',
     ];
+
     protected $casts = [
         'user_id'             => 'integer',
         'airline_id'          => 'integer',
@@ -138,6 +139,7 @@ class Pirep extends Model
         'state'               => 'integer',
         'submitted_at'        => CarbonCast::class,
     ];
+
     public static $rules = [
         'airline_id'     => 'required|exists:airlines,id',
         'aircraft_id'    => 'required|exists:aircraft,id',

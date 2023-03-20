@@ -583,6 +583,7 @@ class RouteServiceProvider extends ServiceProvider
                 Route::post('pireps/prefile', 'PirepController@prefile');
                 Route::post('pireps/{pirep_id}', 'PirepController@update');
                 Route::patch('pireps/{pirep_id}', 'PirepController@update');
+                Route::put('pireps/{pirep_id}/update', 'PirepController@update');
                 Route::post('pireps/{pirep_id}/update', 'PirepController@update');
                 Route::post('pireps/{pirep_id}/file', 'PirepController@file');
                 Route::post('pireps/{pirep_id}/comments', 'PirepController@comments_post');
