@@ -495,7 +495,6 @@ class RouteServiceProvider extends ServiceProvider
                 'prefix'     => 'modules',
                 'middleware' => ['ability:admin,modules'],
             ], function () {
-
                 //Modules Index
                 Route::get('/', 'ModulesController@index')->name('index');
 
