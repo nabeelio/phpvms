@@ -22,7 +22,7 @@ class YamlExport extends Command
         $tables = $this->argument('tables');
         if (empty($tables)) {
             $this->error('No tables specified');
-            exit();
+            exit;
         }
 
         // A "preset" for exporting the base set of data

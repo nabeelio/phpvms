@@ -379,7 +379,7 @@ if (!function_exists('secstohhmm')) {
     function secstohhmm($seconds)
     {
         $seconds = round((float) $seconds);
-        $hhmm = sprintf('%02d%02d', ($seconds / 3600), ($seconds / 60 % 60));
+        $hhmm = sprintf('%02d%02d', $seconds / 3600, $seconds / 60 % 60);
         echo $hhmm;
     }
 }

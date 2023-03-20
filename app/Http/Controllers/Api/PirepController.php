@@ -6,6 +6,7 @@ use App\Contracts\Controller;
 use App\Events\PirepUpdated;
 use App\Exceptions\AircraftPermissionDenied;
 use App\Exceptions\PirepCancelled;
+use App\Exceptions\PirepError;
 use App\Http\Requests\Acars\CommentRequest;
 use App\Http\Requests\Acars\FieldsRequest;
 use App\Http\Requests\Acars\FileRequest;
@@ -106,6 +107,20 @@ class PirepController extends Controller
     }
 
     /**
+     * Check if a PIREP is cancelled
+     *
+     * @param Pirep $pirep
+     *
+     * @throws \App\Exceptions\PirepCancelled
+     */
+    protected function checkReadOnly(Pirep $pirep)
+    {
+        if ($pirep->read_only) {
+            throw new PirepError($pirep, 'PIREP is read-only');
+        }
+    }
+
+    /**
      * @param Request $request
      *
      * @return PirepFieldValue[]
@@ -194,7 +209,7 @@ class PirepController extends Controller
      *
      * @return PirepResource
      */
-    public function prefile(PrefileRequest $request)
+    public function prefile(PrefileRequest $request): PirepResource
     {
         Log::info('PIREP Prefile, user '.Auth::id(), $request->post());
 
@@ -231,7 +246,7 @@ class PirepController extends Controller
      *
      * @return PirepResource
      */
-    public function update($pirep_id, UpdateRequest $request)
+    public function update($pirep_id, UpdateRequest $request): PirepResource
     {
         Log::info('PIREP Update, user '.Auth::id());
         Log::info($request->getContent());
@@ -241,8 +256,8 @@ class PirepController extends Controller
 
         /** @var Pirep $pirep */
         $pirep = Pirep::find($pirep_id);
-
         $this->checkCancelled($pirep);
+        $this->checkReadOnly($pirep);
 
         $attrs = $this->parsePirep($request);
         $attrs['user_id'] = Auth::id();
@@ -279,7 +294,7 @@ class PirepController extends Controller
      *
      * @return PirepResource
      */
-    public function file($pirep_id, FileRequest $request)
+    public function file($pirep_id, FileRequest $request): PirepResource
     {
         Log::info('PIREP file, user '.Auth::id(), $request->post());
 
@@ -289,6 +304,7 @@ class PirepController extends Controller
         // Check if the status is cancelled...
         $pirep = Pirep::find($pirep_id);
         $this->checkCancelled($pirep);
+        $this->checkReadOnly($pirep);
 
         $attrs = $this->parsePirep($request);
 

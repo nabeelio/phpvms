@@ -19,7 +19,7 @@ class PirepExport extends Command
         $pirep_id = $this->argument('id');
         if (empty($pirep_id)) {
             $this->error('No PIREP ID specified');
-            exit();
+            exit;
         }
 
         // List the tables to export and the column name for the pirep id

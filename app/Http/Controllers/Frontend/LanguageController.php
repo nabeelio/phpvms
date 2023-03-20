@@ -9,7 +9,7 @@ class LanguageController extends Controller
 {
     public function switchLang($lang)
     {
-        $cookie = Cookie::make('lang', $lang, (60 * 24 * 365));
+        $cookie = Cookie::make('lang', $lang, 60 * 24 * 365);
         return back()->withCookie($cookie);
     }
 }

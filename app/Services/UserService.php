@@ -28,6 +28,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+
 use function is_array;
 
 class UserService extends Service
@@ -373,7 +374,7 @@ class UserService extends Service
         }
 
         // @var Collection $subfleets
-        $subfleets = $this->subfleetRepo->when(($restrict_rank || $restrict_type), function ($query) use ($restricted_to) {
+        $subfleets = $this->subfleetRepo->when($restrict_rank || $restrict_type, function ($query) use ($restricted_to) {
             return $query->whereIn('id', $restricted_to);
         })->with('aircraft')->get();
 

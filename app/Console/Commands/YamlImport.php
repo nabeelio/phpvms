@@ -40,7 +40,7 @@ class YamlImport extends Command
         $files = $this->argument('files');
         if (empty($files)) {
             $this->error('No files to import specified!');
-            exit();
+            exit;
         }
 
         $ignore_errors = true;

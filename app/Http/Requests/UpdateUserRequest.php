@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Contracts\FormRequest;
 use App\Models\User;
+
 use function request;
 
 class UpdateUserRequest extends FormRequest

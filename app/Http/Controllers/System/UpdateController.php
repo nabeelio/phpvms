@@ -6,9 +6,10 @@ use App\Contracts\Controller;
 use App\Services\Installer\InstallerService;
 use App\Services\Installer\MigrationService;
 use App\Services\Installer\SeederService;
-use function count;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+
+use function count;
 
 class UpdateController extends Controller
 {

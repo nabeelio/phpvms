@@ -80,7 +80,6 @@ class SimBriefController
 
         // No aircraft selected, show selection form
         if (!$aircraft_id) {
-
             // Get user's allowed subfleets and intersect it with flight subfleets
             // so we will have a proper list which the user is allowed to fly
             $user_subfleets = $this->userSvc->getAllowableSubfleets($user)->pluck('id')->toArray();

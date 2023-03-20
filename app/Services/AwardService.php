@@ -4,8 +4,9 @@ namespace App\Services;
 
 use App\Contracts\Service;
 use App\Support\ClassLoader;
-use function get_class;
 use Nwidart\Modules\Facades\Module;
+
+use function get_class;
 
 class AwardService extends Service
 {

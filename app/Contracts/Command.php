@@ -3,8 +3,9 @@
 namespace App\Contracts;
 
 use Illuminate\Support\Facades\Log;
-use function is_array;
 use Symfony\Component\Process\Process;
+
+use function is_array;
 
 /**
  * Class BaseCommand

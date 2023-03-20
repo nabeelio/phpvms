@@ -14,6 +14,7 @@ use App\Models\User;
 use App\Services\FareService;
 use App\Support\Utils;
 use Exception;
+
 use function random_int;
 
 /**
