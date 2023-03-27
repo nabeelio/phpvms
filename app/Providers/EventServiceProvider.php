@@ -11,14 +11,14 @@ use App\Listeners\BidEventHandler;
 use App\Listeners\ExpenseListener;
 use App\Listeners\FareListener;
 use App\Listeners\FinanceEventHandler;
+use App\Listeners\MessageLoggedListener;
 use App\Listeners\PirepEventsHandler;
 use App\Listeners\UserStateListener;
 use App\Notifications\NotificationEventsHandler;
-use Codedge\Updater\Events\UpdateAvailable;
-use Codedge\Updater\Events\UpdateSucceeded;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+use Illuminate\Log\Events\MessageLogged;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -43,12 +43,9 @@ class EventServiceProvider extends ServiceProvider
 
         ],
 
-        UpdateAvailable::class => [],
-        UpdateSucceeded::class => [],
-
         // Log messages out to the console if running there
-        'Illuminate\Log\Events\MessageLogged' => [
-            'App\Listeners\MessageLoggedListener',
+        MessageLogged::class => [
+            MessageLoggedListener::class,
         ],
     ];
 
