@@ -715,7 +715,6 @@ class PirepService extends Service
         Log::info('PIREP '.$pirep->id.' state change to REJECTED');
 
         event(new PirepRejected($pirep));
-        event(new ProcessAward($pirep->user));
 
         return $pirep;
     }
