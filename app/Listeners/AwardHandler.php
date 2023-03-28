@@ -3,9 +3,7 @@
 namespace App\Listeners;
 
 use App\Contracts\Listener;
-use App\Events\PirepAccepted;
-use App\Events\UserStateChanged;
-use App\Events\UserStatsChanged;
+use App\Events\ProcessAward;
 use App\Models\Award;
 
 /**
@@ -18,37 +16,15 @@ class AwardHandler extends Listener
 {
     /** The events and the callback */
     public static $callbacks = [
-        PirepAccepted::class    => 'onPirepAccept',
-        UserStatsChanged::class => 'onUserStatsChanged',
-        UserStateChanged::class => 'onUserStateChanged',
+        ProcessAward::class => 'processAward',
     ];
 
     /**
-     * Called when a PIREP is accepted
+     * @param ProcessAward $event
      *
-     * @param \App\Events\PirepAccepted $event
+     * @return void
      */
-    public function onPirepAccept(PirepAccepted $event)
-    {
-        $this->checkForAwards($event->pirep->user);
-    }
-
-    /**
-     * When the user's state has changed
-     *
-     * @param \App\Events\UserStateChanged $event
-     */
-    public function onUserStateChanged(UserStateChanged $event): void
-    {
-        $this->checkForAwards($event->user);
-    }
-
-    /**
-     * Called when any of the user's states have changed
-     *
-     * @param UserStatsChanged $event
-     */
-    public function onUserStatsChanged(UserStatsChanged $event): void
+    public function processAward(ProcessAward $event): void
     {
         $this->checkForAwards($event->user);
     }
@@ -58,14 +34,14 @@ class AwardHandler extends Listener
      *
      * @param \App\Models\User $user
      */
-    public function checkForAwards($user)
+    public function checkForAwards($user): void
     {
+        /** @var Award[] $awards */
         $awards = Award::where('active', 1)->get();
         foreach ($awards as $award) {
+            /** @var \App\Contracts\Award $klass */
             $klass = $award->getReference($award, $user);
-            if ($klass) {
-                $klass->handle();
-            }
+            $klass?->handle();
         }
     }
 }
