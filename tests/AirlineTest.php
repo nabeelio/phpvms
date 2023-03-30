@@ -2,6 +2,8 @@
 
 namespace Tests;
 
+use App\Models\Airline;
+use App\Models\Journal;
 use App\Services\AirlineService;
 
 class AirlineTest extends TestCase
@@ -25,6 +27,14 @@ class AirlineTest extends TestCase
 
         $airline = $this->airlineSvc->createAirline($attrs);
         $this->assertNotNull($airline);
+
+        // Ensure only a single journal is created
+        $journals = Journal::where([
+            'morphed_type' => Airline::class,
+            'morphed_id'   => $airline->id,
+        ])->get();
+
+        $this->assertCount(1, $journals);
 
         // Add another airline, also blank IATA
         $attrs = \App\Models\Airline::factory()->make([

@@ -39,8 +39,9 @@ class AirlineService extends Service
      */
     public function createAirline(array $attr): Airline
     {
+        /** @var Airline $airline */
         $airline = $this->airlineRepo->create($attr);
-        $airline->initJournal(setting('units.currency'));
+        $airline->refresh();
 
         return $airline;
     }
