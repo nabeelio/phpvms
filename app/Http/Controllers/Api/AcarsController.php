@@ -189,7 +189,7 @@ class AcarsController extends Controller
             }
 
             try {
-                if (isset($position['id'])) {
+                if (!empty($position['id'])) {
                     Acars::updateOrInsert(
                         ['id' => $position['id']],
                         $position
