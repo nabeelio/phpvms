@@ -3,7 +3,6 @@
 namespace App\Events;
 
 use App\Contracts\Event;
-use App\Models\User;
 use App\Models\UserAward;
 
 class AwardAwarded extends Event
