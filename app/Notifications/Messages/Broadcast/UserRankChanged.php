@@ -25,7 +25,7 @@ class UserRankChanged extends Notification implements ShouldQueue
 
     public function via($notifiable)
     {
-        return ['discord_webhook'];
+        return ["discord_webhook"];
     }
 
     /**
@@ -38,23 +38,30 @@ class UserRankChanged extends Notification implements ShouldQueue
      */
     public function toDiscordChannel($user): ?DiscordMessage
     {
-        $title = 'Rank changed '.$user->rank->name;
+        $title = "Rank changed " . $user->rank->name;
         //$fields = $this->createFields($user);
 
         // User avatar, somehow $pirep->user->resolveAvatarUrl() is not being accepted by Discord as thumbnail
-        $user_avatar = !empty($user->avatar) ? $user->avatar->url : $user->gravatar(256);
+        $user_avatar = !empty($user->avatar)
+            ? $user->avatar->url
+            : $user->gravatar(256);
 
         $dm = new DiscordMessage();
-        return $dm->webhook(setting('notifications.discord_public_webhook_url'))
-          ->success()
-          ->title($title)
-          ->description($user->discord_id ? 'Rank changed for <@'.$user->discord_id.'>' : '')
-          ->thumbnail(['url' => $user_avatar])
-          ->image(['url' => $user->rank->image_url])
-          ->author([
-              'name' => $user->ident.' - '.$user->name_private,
-              'url'  => route('frontend.profile.show', [$user->id]),
-          ]);
+        return $dm
+            ->webhook(setting("notifications.discord_public_webhook_url"))
+            ->success()
+            ->title($title)
+            ->description(
+                $user->discord_id
+                    ? "Rank changed for <@" . $user->discord_id . ">"
+                    : ""
+            )
+            ->thumbnail(["url" => $user_avatar])
+            ->image(["url" => $user->rank->image_url])
+            ->author([
+                "name" => $user->ident . " - " . $user->name_private,
+                "url" => route("frontend.profile.show", [$user->id]),
+            ]);
     }
 
     /**
@@ -67,7 +74,7 @@ class UserRankChanged extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
-            'user_id' => $this->user->id,
+            "user_id" => $this->user->id,
         ];
     }
 }
