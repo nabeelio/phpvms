@@ -39,7 +39,7 @@ class NotificationEventsHandler extends Listener
         PirepRejected::class     => 'onPirepRejected',
         UserRegistered::class    => 'onUserRegister',
         UserStateChanged::class  => 'onUserStateChange',
-        UserStatsChanged::class  => 'onUserStatsChanged'
+        UserStatsChanged::class  => 'onUserStatsChanged',
     ];
 
     public function __construct()
