@@ -3,6 +3,7 @@
 namespace App\Notifications;
 
 use App\Contracts\Listener;
+use App\Events\AwardAwarded;
 use App\Events\NewsAdded;
 use App\Events\PirepAccepted;
 use App\Events\PirepFiled;
@@ -29,6 +30,7 @@ class NotificationEventsHandler extends Listener
     private static $broadcastNotifyable;
 
     public static $callbacks = [
+        AwardAwarded::class      => 'onAwardAwarded',
         NewsAdded::class         => 'onNewsAdded',
         PirepPrefiled::class     => 'onPirepPrefile',
         PirepStatusChange::class => 'onPirepStatusChange',
@@ -37,6 +39,7 @@ class NotificationEventsHandler extends Listener
         PirepRejected::class     => 'onPirepRejected',
         UserRegistered::class    => 'onUserRegister',
         UserStateChanged::class  => 'onUserStateChange',
+        UserStatsChanged::class  => 'onUserStatsChanged'
     ];
 
     public function __construct()
@@ -232,7 +235,7 @@ class NotificationEventsHandler extends Listener
     }
 
     /**
-     * Notify the user that their PIREP has been accepted
+     * Notify the user that their PIREP has been rejected
      *
      * @param \App\Events\PirepRejected $event
      */
@@ -260,5 +263,35 @@ class NotificationEventsHandler extends Listener
          * Broadcast notifications
          */
         Notification::send([$event->news], new Messages\Broadcast\NewsAdded($event->news));
+    }
+
+    /**
+     * Notify all users that user has awarded a new award
+     *
+     * @param \App\Events\AwardAwarded $event
+     */
+    public function onAwardAwarded(AwardAwarded $event): void
+    {
+        /*
+         * Broadcast notifications
+         */
+        if (setting('notifications.discord_award_awarded', true)) {
+            Notification::send([$event->userAward], new Messages\Broadcast\AwardAwarded($event->userAward));
+        }
+    }
+
+    /**
+     * Notify all users of a user rank change
+     *
+     * @param \App\Events\UserStatsChanged $event
+     */
+    public function onUserStatsChanged(UserStatsChanged $event): void
+    {
+        /*
+         * Broadcast notifications
+         */
+        if (setting('notifications.discord_user_rank_changed', true)) {
+            Notification::send([$event->user], new Messages\Broadcast\UserRankChanged($event->user));
+        }
     }
 }

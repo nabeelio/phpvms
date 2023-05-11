@@ -13,6 +13,10 @@ class UserAward extends Model
         'award_id',
     ];
 
+    protected $dispatchesEvents = [
+        'created' => AwardAwarded::class,
+    ];
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
