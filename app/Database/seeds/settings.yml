@@ -478,9 +478,11 @@
   value: true
   options: ''
   type: boolean
+  description: Send out a discord notification when a user is awarded
 - key: notifications.discord_user_rank_changed
   name: Discord User Rank Changed (Public)
   group: notifications
   value: true
   options: ''
   type: boolean
+  description: Send out a discord notification when a user's rank is changed
