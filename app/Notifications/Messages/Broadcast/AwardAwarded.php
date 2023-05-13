@@ -27,7 +27,7 @@ class AwardAwarded extends Notification implements ShouldQueue
 
     public function via($notifiable)
     {
-        return ["discord_webhook"];
+        return ['discord_webhook'];
     }
 
     /**
@@ -40,11 +40,11 @@ class AwardAwarded extends Notification implements ShouldQueue
      */
     public function toDiscordChannel($userAward): ?DiscordMessage
     {
-        $award = Award::where("id", $userAward->award_id)->first();
+        $award = Award::where('id', $userAward->award_id)->first();
 
-        $user = User::where("id", $userAward->user_id)->first();
+        $user = User::where('id', $userAward->user_id)->first();
 
-        $title = "Received award " . $award->name;
+        $title = 'Received award '.$award->name;
         //$fields = $this->createFields($user);
 
         // User avatar, somehow $pirep->user->resolveAvatarUrl() is not being accepted by Discord as thumbnail
@@ -54,19 +54,19 @@ class AwardAwarded extends Notification implements ShouldQueue
 
         $dm = new DiscordMessage();
         return $dm
-            ->webhook(setting("notifications.discord_public_webhook_url"))
+            ->webhook(setting('notifications.discord_public_webhook_url'))
             ->success()
             ->title($title)
             ->description(
                 $user->discord_id
-                    ? "Awarded by <@" . $user->discord_id . ">"
-                    : ""
+                    ? 'Awarded by <@'.$user->discord_id.'>'
+                    : ''
             )
-            ->thumbnail(["url" => $user_avatar])
-            ->image(["url" => $award->image_url])
+            ->thumbnail(['url' => $user_avatar])
+            ->image(['url' => $award->image_url])
             ->author([
-                "name" => $user->ident . " - " . $user->name_private,
-                "url" => route("frontend.profile.show", [$user->id]),
+                'name' => $user->ident.' - '.$user->name_private,
+                'url'  => route('frontend.profile.show', [$user->id]),
             ]);
     }
 
@@ -80,7 +80,7 @@ class AwardAwarded extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
-            "user_id" => $this->userAward->user_id,
+            'user_id' => $this->userAward->user_id,
         ];
     }
 }
