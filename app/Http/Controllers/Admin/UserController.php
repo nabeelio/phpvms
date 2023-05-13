@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Contracts\Controller;
+use App\Events\UserStatsChanged;
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\Rank;
@@ -236,10 +237,16 @@ class UserController extends Controller
         // Convert transferred hours to minutes
         $req_data['transfer_time'] *= 60;
 
+        $original_user_rank = $user->rank_id;
+
         $user = $this->userRepo->update($req_data, $id);
 
         if ($original_user_state !== $user->state) {
             $this->userSvc->changeUserState($user, $original_user_state);
+        }
+
+        if ($original_user_rank != $user->rank_id) {
+            event(new UserStatsChanged($user, 'rank', $user->rank_id));
         }
 
         // Delete all of the roles and then re-attach the valid ones

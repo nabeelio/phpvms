@@ -472,3 +472,15 @@
   value: ''
   type: 'hidden'
   description: ''
+- key: notifications.discord_award_awarded
+  name: Discord Award Message (Public)
+  group: notifications
+  value: true
+  options: ''
+  type: boolean
+- key: notifications.discord_user_rank_changed
+  name: Discord User Rank Changed (Public)
+  group: notifications
+  value: true
+  options: ''
+  type: boolean

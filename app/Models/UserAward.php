@@ -3,14 +3,21 @@
 namespace App\Models;
 
 use App\Contracts\Model;
+use App\Events\AwardAwarded;
+use Illuminate\Notifications\Notifiable;
 
 class UserAward extends Model
 {
+    use Notifiable;
     public $table = 'user_awards';
 
     protected $fillable = [
         'user_id',
         'award_id',
+    ];
+
+    protected $dispatchesEvents = [
+        'created' => AwardAwarded::class,
     ];
 
     /**
