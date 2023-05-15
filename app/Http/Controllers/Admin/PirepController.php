@@ -85,7 +85,7 @@ class PirepController extends Controller
      *
      * @return array
      */
-    public function aircraftList($user = null)
+    public function aircraftList($user = null): array
     {
         $aircraft = [];
 
@@ -144,21 +144,27 @@ class PirepController extends Controller
     protected function saveFares(Pirep $pirep, Request $request)
     {
         $fares = [];
+        $fields = ['count', 'price'];
         foreach ($pirep->aircraft->subfleet->fares as $fare) {
-            $field_name = 'fare_'.$fare->id;
-            if (!$request->filled($field_name)) {
-                $count = 0;
-            } else {
-                $count = $request->input($field_name);
+            $fare_fields = [
+                'fare_id' => $fare->id,
+            ];
+
+            foreach ($fields as $f) {
+                $field_name = 'fare_'.$fare->id.'_'.$f;
+                if (!$request->filled($field_name)) {
+                    $val = 0;
+                } else {
+                    $val = $request->input($field_name);
+                }
+
+                $fare_fields[$f] = $val;
             }
 
-            $fares[] = new PirepFare([
-                'fare_id' => $fare->id,
-                'count'   => $count,
-            ]);
+            $fares[] = new PirepFare($fare_fields);
         }
 
-        $this->fareSvc->saveForPirep($pirep, $fares);
+        $this->fareSvc->saveToPirep($pirep, $fares);
     }
 
     /**

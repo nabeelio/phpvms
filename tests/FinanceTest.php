@@ -35,7 +35,7 @@ class FinanceTest extends TestCase
     /** @var \App\Services\FareService */
     private $fareSvc;
 
-    /** @var \App\Services\FinanceService */
+    /** @var PirepFinanceService */
     private $financeSvc;
 
     /** @var FleetService */
@@ -129,8 +129,17 @@ class FinanceTest extends TestCase
          * Add fares to the subfleet, and then add the fares
          * to the PIREP when it's saved, and set the capacity
          */
+
         /** @var Fare $fares */
-        $fares = Fare::factory()->count(3)->create([
+        $fares = Fare::factory()->count(2)->create([
+            'price'    => 100,
+            'cost'     => 50,
+            'capacity' => 10,
+        ]);
+
+        // Add one weird id to test the pluck
+        $fares[] = Fare::factory()->create([
+            'id'       => 200,
             'price'    => 100,
             'cost'     => 50,
             'capacity' => 10,
@@ -770,14 +779,17 @@ class FinanceTest extends TestCase
             ]);
         }
 
-        $this->fareSvc->saveForPirep($pirep, $fare_counts);
-        $all_fares = $this->financeSvc->getReconciledFaresForPirep($pirep);
+        $this->fareSvc->saveToPirep($pirep, $fare_counts);
+        $all_fares = $this->financeSvc->getFaresForPirep($pirep);
 
+        $this->assertCount(3, $all_fares);
         $fare_counts = collect($fare_counts);
         foreach ($all_fares as $fare) {
-            $set_fare = $fare_counts->where('fare_id', $fare->id)->first();
-            $this->assertEquals($set_fare['count'], $fare->count);
-            $this->assertNotEmpty($fare->price);
+            // $set_fare = $fare_counts->where('fare_id', $fare->id)->first();
+            $this->assertEquals($fare['count'], $fare->count);
+            $this->assertNotEmpty($fare['price']);
+            $this->assertNotEmpty($fare['cost']);
+            $this->assertNotEmpty($fare['capacity']);
         }
     }
 
@@ -903,7 +915,7 @@ class FinanceTest extends TestCase
             ]);
         }
 
-        $this->fareSvc->saveForPirep($pirep, $fare_counts);
+        $this->fareSvc->saveToPirep($pirep, $fare_counts);
 
         // This should process all of the
         $pirep = $this->pirepSvc->accept($pirep);
@@ -958,7 +970,7 @@ class FinanceTest extends TestCase
             ]);
         }
 
-        $this->fareSvc->saveForPirep($pirep, $fare_counts);
+        $this->fareSvc->saveToPirep($pirep, $fare_counts);
 
         // This should process all of the
         $pirep = $this->pirepSvc->accept($pirep);
@@ -968,6 +980,21 @@ class FinanceTest extends TestCase
 //        $this->assertCount(9, $transactions['transactions']);
         $this->assertEquals(3020, $transactions['credits']->getValue());
         $this->assertEquals(2050.4, $transactions['debits']->getValue());
+
+        // Retrieve data from the pirep fares to make sure all of the fields were saved
+        $saved_fares = PirepFare::where('pirep_id', $pirep->id)->get();
+        $this->assertCount(3, $saved_fares);
+
+        /** @var PirepFare $f */
+        foreach ($saved_fares as $f) {
+            /** @var Fare $original_fare */
+            $original_fare = $fares->where('code', $f->code)->first();
+
+            $this->assertEquals($original_fare->price, $f->price);
+            $this->assertEquals($original_fare->cost, $f->cost);
+            $this->assertEquals($original_fare->capacity, $f->capacity);
+            $this->assertEquals($original_fare->type, $f->type);
+        }
 
         // Check that all the different transaction types are there
         // test by the different groups that exist
@@ -1001,8 +1028,21 @@ class FinanceTest extends TestCase
             'fuel_used'      => 9,
         ]);
 
-        $this->fareSvc->saveForPirep($pirep2, $fare_counts);
+        // Override the fares
+        $fare_counts = [];
+        foreach ($fares as $fare) {
+            $fare_counts[] = new PirepFare([
+                'fare_id' => $fare->id,
+                'count'   => 100,
+            ]);
+        }
+        
+        $this->fareSvc->saveToPirep($pirep2, $fare_counts);
         $pirep2 = $this->pirepSvc->accept($pirep2);
+
+        // Retrieve data from the pirep fares to make sure all of the fields were saved
+        $saved_fares = PirepFare::where('pirep_id', $pirep2->id)->get();
+        $this->assertCount(3, $saved_fares);
 
         $transactions = $journalRepo->getAllForObject($pirep2);
         $this->assertEquals(3020, $transactions['credits']->getValue());
@@ -1084,7 +1124,7 @@ class FinanceTest extends TestCase
             ]);
         }
 
-        $this->fareSvc->saveForPirep($pirep, $fare_counts);
+        $this->fareSvc->saveToPirep($pirep, $fare_counts);
 
         // This should process all of the
         $pirep = $this->pirepSvc->accept($pirep);

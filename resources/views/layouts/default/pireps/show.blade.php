@@ -180,14 +180,11 @@
         </table>
       @endif
 
-      @if(count($pirep->fares) > 0)
-        <div class="separator"></div>
-      @endif
-
       {{--
           Show the fares that have been entered
       --}}
       @if(count($pirep->fares) > 0)
+        <div class="separator"></div>
         <div class="row">
           <div class="col-12">
             <h5>{{ trans_choice('pireps.fare', 2) }}</h5>
@@ -199,7 +196,7 @@
               <tbody>
               @foreach($pirep->fares as $fare)
                 <tr>
-                  <td>{{ $fare->fare->name }} ({{ $fare->fare->code }})</td>
+                  <td>{{ $fare->name }} ({{ $fare->code }})</td>
                   <td>{{ $fare->count }}</td>
                 </tr>
               @endforeach

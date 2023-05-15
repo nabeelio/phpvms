@@ -747,23 +747,43 @@ pirep_fares:
   - id: 1
     pirep_id: pirepid_1
     fare_id: 1
+    code: 'Y'
+    name: Economy
     count: 300
+    price: 100
+    type: 0
   - id: 2
     pirep_id: pirepid_1
     fare_id: 2
+    code: B
+    name: Business
     count: 25
+    price: 500
+    type: 0
   - id: 3
     pirep_id: pirepid_1
-    fare_id: 3
+    fare_id:
+    code: F
+    name: First-Class
     count: 10
+    price: 800
+    type: 0
   - id: 4
     pirep_id: pirepid_2
-    fare_id: 1
+    fare_id:
+    code: 'Y'
+    name: Economy
     count: 200
+    price: 800
+    type: 0
   - id: 5
     pirep_id: pirepid_2
-    fare_id: 3
+    fare_id:
+    code: F
+    name: First-Class
     count: 15
+    price: 800
+    type: 0
 
 pirep_fields:
   - id: 1

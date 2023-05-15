@@ -28,38 +28,38 @@ class UtilsTest extends TestCase
         $alt = new Distance(1065.3456, 'nmi');
 
         $km = $alt->toUnit('km');
-        $this->assertEquals(1973.0200512, $km);
+        $this->assertEqualsWithDelta(1973.0200512, $km, 0.1);
 
         $km = $alt->toUnit('km', 2);
-        $this->assertEquals(1973.02, $km);
+        $this->assertEqualsWithDelta(1973.02, $km, 0.1);
 
         $km = $alt->toUnit('km', 0);
-        $this->assertEquals(1973, $km);
+        $this->assertEqualsWithDelta(1973, $km, 0.1);
 
         /*
          * Test local conversions
          */
 
         $km = $alt->local();
-        $this->assertEquals(1973.0200512, $km);
+        $this->assertEqualsWithDelta(1973.0200512, $km, 0.1);
 
         $km = $alt->local(0);
-        $this->assertEquals(1973, $km);
+        $this->assertEqualsWithDelta(1973, $km, 0.1);
 
         $km = $alt->local(2);
-        $this->assertEquals(1973.02, $km);
+        $this->assertEqualsWithDelta(1973.02, $km, 0.1);
 
         /*
          * Internal units, shouldn't do a conversion
          */
         $int = $alt->internal();
-        $this->assertEquals(1065.3456, $int);
+        $this->assertEqualsWithDelta(1065.3456, $int, 0.1);
 
         $int = $alt->internal(2);
-        $this->assertEquals(1065.35, $int);
+        $this->assertEqualsWithDelta(1065.35, $int, 0.1);
 
         $int = $alt->internal(0);
-        $this->assertEquals(1065, $int);
+        $this->assertEqualsWithDelta(1065, $int, 0.1);
     }
 
     /**

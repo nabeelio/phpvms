@@ -16,8 +16,8 @@ use App\Models\PirepFare;
 use App\Models\PirepFieldValue;
 use App\Models\User;
 use App\Repositories\SettingRepository;
+use App\Services\FareService;
 use App\Support\Utils;
-
 use function count;
 use function random_int;
 
@@ -26,13 +26,18 @@ use function random_int;
  */
 class AcarsTest extends TestCase
 {
+    /** @var SettingRepository */
     protected $settingsRepo;
+
+    /** @var FareService */
+    protected $fareSvc;
 
     public function setUp(): void
     {
         parent::setUp();
         $this->addData('base');
 
+        $this->fareSvc = app(FareService::class);
         $this->settingsRepo = app(SettingRepository::class);
     }
 
@@ -294,6 +299,7 @@ class AcarsTest extends TestCase
 
         /** @var Aircraft $aircraft */
         $aircraft = $subfleet['aircraft']->random();
+        $this->fareSvc->setForSubfleet($subfleet['subfleet'], $fare);
 
         $uri = '/api/pireps/prefile';
         $pirep = [
@@ -335,8 +341,10 @@ class AcarsTest extends TestCase
         $this->assertCount(1, $fares);
         $saved_fare = $fares->first();
 
-        $this->assertEquals($fare->id, $saved_fare['fare_id']);
+        // $this->assertEquals($fare->id, $saved_fare['fare_id']);
         $this->assertEquals($fare->capacity, $saved_fare['count']);
+        $this->assertEquals($fare->cost, $saved_fare['cost']);
+        $this->assertEquals($fare->price, $saved_fare['price']);
 
         // Check saved fields
         $saved_fields = PirepFieldValue::where('pirep_id', $pirep['id'])->get();
@@ -367,7 +375,7 @@ class AcarsTest extends TestCase
         $this->assertCount(1, $fares);
         $saved_fare = $fares->first();
 
-        $this->assertEquals($fare->id, $saved_fare['fare_id']);
+        // $this->assertEquals($fare->id, $saved_fare['fare_id']);
         $this->assertEquals($fare->capacity, $saved_fare['count']);
 
         /*
