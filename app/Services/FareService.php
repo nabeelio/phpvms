@@ -13,7 +13,6 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use InvalidArgumentException;
-use function count;
 
 class FareService extends Service
 {
