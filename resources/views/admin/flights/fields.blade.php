@@ -162,7 +162,11 @@
           <div class="form-group col-sm-4">
             {{ Form::label('distance', 'Distance:') }} <span class="description small">in nautical miles</span>
             <a href="#" class="airport_distance_lookup">Calculate</a>
-            {{ Form::text('distance', null, ['id' => 'distance', 'class' => 'form-control']) }}
+            @if(isset($flight->distance))
+              {{ Form::text('distance', $flight->distance['nmi'], null, ['id' => 'distance', 'class' => 'form-control']) }}
+            @else
+              {{ Form::text('distance', null, ['id' => 'distance', 'class' => 'form-control']) }}
+            @endif
             <p class="text-danger">{{ $errors->first('distance') }}</p>
           </div>
         </div>
