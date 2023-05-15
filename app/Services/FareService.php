@@ -96,6 +96,9 @@ class FareService extends Service
     }
 
     /**
+     * Determine the correct fares to use between a subfleet and flight. You probably aren't
+     * looking to call this one directly, but instead, call getReconciledFaresForFlight()
+     *
      * @param Collection[Fare] $subfleet_fares The fare for a subfleet
      * @param Collection[Fare] $flight_fares   The fares on a flight
      *
