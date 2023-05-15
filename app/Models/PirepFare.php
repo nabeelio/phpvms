@@ -13,8 +13,8 @@ use App\Models\Enums\FareType;
  * @property string    name
  * @property int       count
  * @property float     price
- * @property float     $cost
- * @property int       $capacity
+ * @property float $cost
+ * @property int   $capacity
  * @property Pirep     pirep
  * @property Fare|null fare
  * @property FareType  type

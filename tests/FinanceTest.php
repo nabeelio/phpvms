@@ -1036,7 +1036,7 @@ class FinanceTest extends TestCase
                 'count'   => 100,
             ]);
         }
-        
+
         $this->fareSvc->saveToPirep($pirep2, $fare_counts);
         $pirep2 = $this->pirepSvc->accept($pirep2);
 

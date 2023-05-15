@@ -178,8 +178,8 @@ class PirepController extends Controller
             }
 
             $fares[] = new PirepFare([
-                'fare_id'  => $fare->id,
-                'count'    => $count,
+                'fare_id' => $fare->id,
+                'count'   => $count,
             ]);
         }
 
@@ -189,9 +189,9 @@ class PirepController extends Controller
     /**
      * @param Request $request
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      * @throws \Prettus\Repository\Exceptions\RepositoryException
      *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index(Request $request)
     {
@@ -310,7 +310,7 @@ class PirepController extends Controller
 
                 $aircraft->subfleet->fares = collect($fares);
             }
-            // TODO: Set more fields from the Simbrief to the PIREP form
+        // TODO: Set more fields from the Simbrief to the PIREP form
         } else {
             $aircraft_list = $this->aircraftList(true);
         }
@@ -333,9 +333,9 @@ class PirepController extends Controller
     /**
      * @param CreatePirepRequest $request
      *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      * @throws \Exception
      *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function store(CreatePirepRequest $request)
     {
@@ -414,16 +414,16 @@ class PirepController extends Controller
         }
 
         // Any special fields
-        $hours = (int)$request->input('hours', 0);
-        $minutes = (int)$request->input('minutes', 0);
+        $hours = (int) $request->input('hours', 0);
+        $minutes = (int) $request->input('minutes', 0);
         $pirep->flight_time = Time::hoursToMinutes($hours) + $minutes;
 
         // Set the correct fuel units
         $pirep->block_fuel = Fuel::make(
-            (float)$request->input('block_fuel'),
+            (float) $request->input('block_fuel'),
             setting('units.fuel')
         );
-        $pirep->fuel_used = Fuel::make((float)$request->input('fuel_used'), setting('units.fuel'));
+        $pirep->fuel_used = Fuel::make((float) $request->input('fuel_used'), setting('units.fuel'));
 
         // Put the time that this is currently submitted
         $attrs['submitted_at'] = Carbon::now('UTC');
@@ -534,10 +534,10 @@ class PirepController extends Controller
      * @param                    $id
      * @param UpdatePirepRequest $request
      *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      * @throws \Exception
-     *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function update($id, UpdatePirepRequest $request)
     {
@@ -600,9 +600,9 @@ class PirepController extends Controller
      * @param         $id
      * @param Request $request
      *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      * @throws \Exception
      *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function submit($id, Request $request)
     {

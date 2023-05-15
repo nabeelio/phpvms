@@ -13,11 +13,11 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use InvalidArgumentException;
+
 use function count;
 
 class FareService extends Service
 {
-
     /**
      * Save the list of fares, reconcile the proper pricing and save it to the PIREP.
      * Get the fares that have been filled out for the PIREP, and then get the fares for
@@ -51,6 +51,7 @@ class FareService extends Service
         $all_fares->map(function ($fare, $i) use ($fares, $pirep) {
             /**
              * See if there's match with the provided fares, so we can copy the information over
+             *
              * @var PirepFare $pirep_fare
              */
             $pirep_fare = $fares->where('fare_id', $fare->id)->first();
@@ -357,5 +358,4 @@ class FareService extends Service
     {
         return PirepFare::where('pirep_id', $pirep->id)->get();
     }
-
 }
