@@ -47,7 +47,7 @@ class FareService extends Service
 
         // Read the original fare and get this information from it
         $all_fares = $this->getAllFares($pirep->flight, $pirep->aircraft->subfleet);
-        $all_fares->map(function ($fare, $i) use ($fares, $pirep) {
+        $all_fares->map(function ($fare, $_) use ($fares, $pirep) {
             /**
              * See if there's match with the provided fares, so we can copy the information over
              *
@@ -62,21 +62,20 @@ class FareService extends Service
 
             Log::info('Finance: PIREP: '.$pirep->id.', fare count: '.$pirep_fare);
 
-            // If the count is greater than capacity, then just set it
-            // to the maximum amount
             $pirep_fare->pirep_id = $pirep->id;
             $pirep_fare->code = $fare->code;
             $pirep_fare->name = $fare->name;
             $pirep_fare->type = $fare->type;
 
-            // Only copy over fields which don't have values passed in
-
-            if (empty($pirep_fare->count)) {
-                $pirep_fare->count = min($pirep_fare->count, $fare->capacity);
-            }
+            // Only copy over fields which don't already have values
 
             if (empty($pirep_fare->capacity)) {
                 $pirep_fare->capacity = $fare->capacity;
+            }
+
+            if (empty($pirep_fare->count)) {
+                // If the count is greater than capacity, set it to the smaller amount
+                $pirep_fare->count = min($pirep_fare->count, $pirep_fare->capacity);
             }
 
             if (empty($pirep_fare->price)) {
