@@ -13,7 +13,6 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use InvalidArgumentException;
-
 use function count;
 
 class FareService extends Service
@@ -68,11 +67,25 @@ class FareService extends Service
             $pirep_fare->pirep_id = $pirep->id;
             $pirep_fare->code = $fare->code;
             $pirep_fare->name = $fare->name;
-            $pirep_fare->count = min($pirep_fare->count, $fare->capacity);
-            $pirep_fare->capacity = $fare->capacity;
-            $pirep_fare->price = $fare->price;
-            $pirep_fare->cost = $fare->cost;
             $pirep_fare->type = $fare->type;
+
+            // Only copy over fields which don't have values passed in
+
+            if (empty($pirep_fare->count)) {
+                $pirep_fare->count = min($pirep_fare->count, $fare->capacity);
+            }
+
+            if (empty($pirep_fare->capacity)) {
+                $pirep_fare->capacity = $fare->capacity;
+            }
+
+            if (empty($pirep_fare->price)) {
+                $pirep_fare->price = $fare->price;
+            }
+
+            if (empty($pirep_fare->cost)) {
+                $pirep_fare->cost = $fare->cost;
+            }
 
             $pirep_fare->fare_id = null; // Remove the index to it
         });
