@@ -14,8 +14,7 @@
         <td>
           <div class="form-group">
             @if(isset($pirep) && $pirep->read_only)
-              <p>{{ $pirep->{'fare_'.$fare->id} }}</p>
-              {{ Form::hidden('fare_'.$fare->id) }}
+              <p>{{ $pirep->fare->count }}</p>
             @else
               {{ Form::number('fare_'.$fare->id.'_count', $fare->count, [
                   'class' => 'form-control',
@@ -26,7 +25,15 @@
           </div>
         </td>
         <td>
-          {{ $fare->price }}
+          @if(isset($pirep) && $pirep->read_only)
+              <p>{{ $pirep->fare->price }}</p>
+            @else
+              {{ Form::number('fare_'.$fare->id.'_price', $fare->price, [
+                  'class' => 'form-control',
+                  'min' => 0,
+                  'step' => '0.01',
+                  ]) }}
+            @endif
         </td>
         <td>
           {{ $fare->capacity }}

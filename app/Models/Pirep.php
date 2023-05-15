@@ -61,10 +61,11 @@ use Kleemans\AttributeEvents;
  * @property Carbon      submitted_at
  * @property Carbon      created_at
  * @property Carbon      updated_at
- * @property bool        read_only Attribute
+ * @property bool        read_only      Attribute
  * @property Acars       position
  * @property Acars[]     acars
  * @property mixed       cancelled
+ * @property PirepFare[] $fares
  */
 class Pirep extends Model
 {
@@ -74,11 +75,16 @@ class Pirep extends Model
     use Notifiable;
 
     public $table = 'pireps';
+
     protected $keyType = 'string';
+
     public $incrementing = false;
+
     /** The form wants this */
     public $hours;
+
     public $minutes;
+
     protected $fillable = [
         'id',
         'user_id',
@@ -153,6 +159,7 @@ class Pirep extends Model
         'notes'          => 'nullable',
         'route'          => 'nullable',
     ];
+
     /**
      * Auto-dispatch events for lifecycle state changes
      */
@@ -160,6 +167,7 @@ class Pirep extends Model
         'status:*' => PirepStatusChange::class,
         'state:*'  => PirepStateChange::class,
     ];
+
     /*
      * If a PIREP is in these states, then it can't be changed.
      */
@@ -168,6 +176,7 @@ class Pirep extends Model
         PirepState::REJECTED,
         PirepState::CANCELLED,
     ];
+
     /*
      * If a PIREP is in one of these states, it can't be cancelled
      */
@@ -250,7 +259,11 @@ class Pirep extends Model
      */
     public function readOnly(): Attribute
     {
-        return Attribute::make(get: fn ($_, $attrs) => \in_array($this->state, static::$read_only_states, true));
+        return Attribute::make(get: fn($_, $attrs) => \in_array(
+            $this->state,
+            static::$read_only_states,
+            true
+        ));
     }
 
     /**
@@ -281,19 +294,24 @@ class Pirep extends Model
     {
         return Attribute::make(get: function ($_, $attrs) {
             $custom_fields = PirepField::all();
-            $field_values = PirepFieldValue::where('pirep_id', $this->id)->orderBy('created_at', 'asc')->get();
+            $field_values = PirepFieldValue::where('pirep_id', $this->id)->orderBy(
+                'created_at',
+                'asc'
+            )->get();
 
             // Merge the field values into $fields
             foreach ($custom_fields as $field) {
                 $has_value = $field_values->firstWhere('slug', $field->slug);
                 if (!$has_value) {
-                    $field_values->push(new PirepFieldValue([
-                        'pirep_id' => $this->id,
-                        'name'     => $field->name,
-                        'slug'     => $field->slug,
-                        'value'    => '',
-                        'source'   => PirepFieldSource::MANUAL,
-                    ]));
+                    $field_values->push(
+                        new PirepFieldValue([
+                            'pirep_id' => $this->id,
+                            'name'     => $field->name,
+                            'slug'     => $field->slug,
+                            'value'    => '',
+                            'source'   => PirepFieldSource::MANUAL,
+                        ])
+                    );
                 }
             }
 
@@ -308,7 +326,7 @@ class Pirep extends Model
      */
     public function route(): Attribute
     {
-        return Attribute::make(set: fn ($route) => strtoupper(trim($route)));
+        return Attribute::make(set: fn($route) => strtoupper(trim($route)));
     }
 
     /**
@@ -316,7 +334,7 @@ class Pirep extends Model
      */
     public function cancelled(): Attribute
     {
-        return Attribute::make(get: fn ($_, $attrs) => $this->state === PirepState::CANCELLED);
+        return Attribute::make(get: fn($_, $attrs) => $this->state === PirepState::CANCELLED);
     }
 
     /**
@@ -351,17 +369,26 @@ class Pirep extends Model
      */
     public function acars()
     {
-        return $this->hasMany(Acars::class, 'pirep_id')->where('type', AcarsType::FLIGHT_PATH)->orderBy('created_at', 'asc')->orderBy('sim_time', 'asc');
+        return $this->hasMany(Acars::class, 'pirep_id')->where(
+            'type',
+            AcarsType::FLIGHT_PATH
+        )->orderBy('created_at', 'asc')->orderBy('sim_time', 'asc');
     }
 
     public function acars_logs()
     {
-        return $this->hasMany(Acars::class, 'pirep_id')->where('type', AcarsType::LOG)->orderBy('created_at', 'desc')->orderBy('sim_time', 'asc');
+        return $this->hasMany(Acars::class, 'pirep_id')->where('type', AcarsType::LOG)->orderBy(
+            'created_at',
+            'desc'
+        )->orderBy('sim_time', 'asc');
     }
 
     public function acars_route()
     {
-        return $this->hasMany(Acars::class, 'pirep_id')->where('type', AcarsType::ROUTE)->orderBy('order', 'asc');
+        return $this->hasMany(Acars::class, 'pirep_id')->where('type', AcarsType::ROUTE)->orderBy(
+            'order',
+            'asc'
+        );
     }
 
     public function aircraft()
@@ -436,7 +463,10 @@ class Pirep extends Model
      */
     public function position()
     {
-        return $this->hasOne(Acars::class, 'pirep_id')->where('type', AcarsType::FLIGHT_PATH)->latest();
+        return $this->hasOne(Acars::class, 'pirep_id')->where(
+            'type',
+            AcarsType::FLIGHT_PATH
+        )->latest();
     }
 
     public function simbrief()
@@ -446,7 +476,10 @@ class Pirep extends Model
 
     public function transactions()
     {
-        return $this->hasMany(JournalTransaction::class, 'ref_model_id')->where('ref_model', __CLASS__)->orderBy('credit', 'desc')->orderBy('debit', 'desc');
+        return $this->hasMany(JournalTransaction::class, 'ref_model_id')->where(
+            'ref_model',
+            __CLASS__
+        )->orderBy('credit', 'desc')->orderBy('debit', 'desc');
     }
 
     public function user()
