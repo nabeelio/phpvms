@@ -142,7 +142,7 @@ class UserService extends Service
     public function removeUser(User $user)
     {
         // Detach all roles from this user
-        $user->detachRoles($user->roles);
+        $user->removeRoles($user->roles);
 
         // Delete any fields which might have personal information
         UserFieldValue::where('user_id', $user->id)->delete();
@@ -174,7 +174,7 @@ class UserService extends Service
     public function addUserToRole(User $user, string $roleName): User
     {
         $role = Role::where(['name' => $roleName])->first();
-        $user->attachRole($role);
+        $user->addRole($role);
 
         return $user;
     }
