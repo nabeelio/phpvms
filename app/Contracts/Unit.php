@@ -143,7 +143,7 @@ class Unit implements ArrayAccess
      * @param $offset
      * @param $value
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         // $this->units[$offset] = $value;
     }
@@ -153,7 +153,7 @@ class Unit implements ArrayAccess
      *
      * @param $offset
      */
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         // $this->units[$offset] = null;
     }
