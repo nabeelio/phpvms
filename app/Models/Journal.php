@@ -41,13 +41,8 @@ class Journal extends Model
     ];
 
     public $casts = [
-        'balance' => MoneyCast::class,
-    ];
-
-    protected $dates = [
-        'created_at',
-        'deleted_at',
-        'updated_at',
+        'balance'    => MoneyCast::class,
+        'deleted_at' => 'datetime',
     ];
 
     /**

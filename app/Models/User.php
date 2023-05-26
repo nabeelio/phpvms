@@ -127,6 +127,8 @@ class User extends Authenticatable implements LaratrustUser
         'status'        => 'integer',
         'toc_accepted'  => 'boolean',
         'opt_in'        => 'boolean',
+        'lastlogin_at'  => 'datetime',
+        'deleted_at'    => 'datetime',
     ];
 
     public static $rules = [
@@ -134,13 +136,6 @@ class User extends Authenticatable implements LaratrustUser
         'email'    => 'required|email',
         'pilot_id' => 'required|integer',
         'callsign' => 'nullable|max:4',
-    ];
-
-    public $dates = [
-        'lastlogin_at',
-        'created_at',
-        'updated_at',
-        'deleted_at',
     ];
 
     /**

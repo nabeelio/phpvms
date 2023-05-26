@@ -27,12 +27,9 @@ class Event extends Model
         'active'      => 'nullable',
     ];
 
-    // Carbon Coverted Dates
-    public $dates = [
-        'start_date',
-        'end_date',
-        'created_at',
-        'updated_at',
+    protected $casts = [
+        'start_date' => 'datetime',
+        'end_date'   => 'datetime',
     ];
 
     // Attributes may be defined later if necessary
