@@ -13,7 +13,6 @@ use Laracasts\Flash\Flash;
 
 class PagesController extends Controller
 {
-
     /**
      * @param PageRepository $pageRepo
      */

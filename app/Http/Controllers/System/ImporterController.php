@@ -15,7 +15,6 @@ use Illuminate\View\View;
 
 class ImporterController extends Controller
 {
-
     public function __construct(
         private readonly DatabaseService $dbSvc,
         private readonly ImporterService $importerSvc
@@ -131,6 +130,7 @@ class ImporterController extends Controller
 
     /**
      * Complete the import
+     *
      * @return RedirectResponse
      */
     public function complete(): RedirectResponse

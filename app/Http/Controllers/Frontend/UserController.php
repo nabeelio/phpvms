@@ -25,8 +25,9 @@ class UserController extends Controller
     /**
      * @param Request $request
      *
-     * @return View
      * @throws RepositoryException
+     *
+     * @return View
      */
     public function index(Request $request): View
     {

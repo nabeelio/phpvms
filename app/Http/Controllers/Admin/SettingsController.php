@@ -14,7 +14,6 @@ use Illuminate\View\View;
 
 class SettingsController extends Controller
 {
-
     /**
      * @param FinanceService $financeSvc
      */

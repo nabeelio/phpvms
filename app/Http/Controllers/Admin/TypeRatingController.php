@@ -20,10 +20,9 @@ use Prettus\Validator\Exceptions\ValidatorException;
 
 class TypeRatingController extends Controller
 {
-
     /**
-     * @param FleetService $fleetSvc
-     * @param SubfleetRepository $subfleetRepo
+     * @param FleetService         $fleetSvc
+     * @param SubfleetRepository   $subfleetRepo
      * @param TypeRatingRepository $typeratingRepo
      */
     public function __construct(
@@ -35,8 +34,10 @@ class TypeRatingController extends Controller
 
     /**
      * @param Request $request
-     * @return View
+     *
      * @throws RepositoryException
+     *
+     * @return View
      */
     public function index(Request $request): View
     {
@@ -58,8 +59,10 @@ class TypeRatingController extends Controller
 
     /**
      * @param CreateTypeRatingRequest $request
-     * @return RedirectResponse
+     *
      * @throws ValidatorException
+     *
+     * @return RedirectResponse
      */
     public function store(CreateTypeRatingRequest $request): RedirectResponse
     {
@@ -92,6 +95,7 @@ class TypeRatingController extends Controller
 
     /**
      * @param int $id
+     *
      * @return RedirectResponse|View
      */
     public function edit(int $id): RedirectResponse|View
@@ -115,8 +119,10 @@ class TypeRatingController extends Controller
     /**
      * @param int $id
      * @param UpdateTypeRatingRequest $request
-     * @return RedirectResponse
+     *
      * @throws ValidatorException
+     *
+     * @return RedirectResponse
      */
     public function update(int $id, UpdateTypeRatingRequest $request): RedirectResponse
     {
@@ -137,6 +143,7 @@ class TypeRatingController extends Controller
 
     /**
      * @param int $id
+     *
      * @return RedirectResponse
      */
     public function destroy(int $id): RedirectResponse
@@ -158,6 +165,7 @@ class TypeRatingController extends Controller
 
     /**
      * @param Typerating $typerating
+     *
      * @return array
      */
     protected function getAvailSubfleets(Typerating $typerating): array
@@ -174,6 +182,7 @@ class TypeRatingController extends Controller
 
     /**
      * @param Typerating $typerating
+     *
      * @return View
      */
     protected function return_subfleet_view(Typerating $typerating): View
@@ -187,8 +196,9 @@ class TypeRatingController extends Controller
     }
 
     /**
-     * @param int $id
+     * @param int     $id
      * @param Request $request
+     *
      * @return RedirectResponse|View
      */
     public function subfleets(int $id, Request $request): RedirectResponse|View

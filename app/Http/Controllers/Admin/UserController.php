@@ -83,7 +83,7 @@ class UserController extends Controller
         $airlines = $this->airlineRepo->selectBoxList();
         $airports = $this->airportRepo->selectBoxList(false);
         $countries = collect((new ISO3166())->all())
-            ->mapWithKeys(fn($item, $key) => [strtolower($item['alpha2']) => $item['name']]);
+            ->mapWithKeys(fn ($item, $key) => [strtolower($item['alpha2']) => $item['name']]);
         $roles = $this->roleRepo->selectBoxList(false, true);
 
         return view('admin.users.create', [
@@ -122,8 +122,9 @@ class UserController extends Controller
      *
      * @param int $id
      *
-     * @return View
      * @throws RepositoryException
+     *
+     * @return View
      */
     public function show(int $id): View
     {
@@ -155,7 +156,7 @@ class UserController extends Controller
             ->paginate();
 
         $countries = collect((new ISO3166())->all())
-            ->mapWithKeys(fn($item, $key) => [strtolower($item['alpha2']) => $item['name']]);
+            ->mapWithKeys(fn ($item, $key) => [strtolower($item['alpha2']) => $item['name']]);
 
         $airlines = $this->airlineRepo->selectBoxList();
         $airports = $this->airportRepo->selectBoxList(false);

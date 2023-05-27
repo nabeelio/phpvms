@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 
 class AirlineController extends Controller
 {
-
     /**
      * AirlineController constructor.
      *

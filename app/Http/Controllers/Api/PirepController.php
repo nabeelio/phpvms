@@ -41,7 +41,6 @@ use Illuminate\Support\Facades\Log;
 
 class PirepController extends Controller
 {
-
     /**
      * @param PirepFinanceService $financeSvc
      * @param JournalRepository   $journalRepo
@@ -90,6 +89,7 @@ class PirepController extends Controller
      * @param Pirep $pirep
      *
      * @throws \App\Exceptions\PirepCancelled
+     *
      * @return void
      */
     protected function checkCancelled(Pirep $pirep): void
@@ -105,6 +105,7 @@ class PirepController extends Controller
      * @param Pirep $pirep
      *
      * @throws \App\Exceptions\PirepCancelled
+     *
      * @return void
      */
     protected function checkReadOnly(Pirep $pirep): void

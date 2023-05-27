@@ -27,7 +27,6 @@ use Nwidart\Modules\Facades\Module;
 
 class ProfileController extends Controller
 {
-
     /**
      * ProfileController constructor.
      *

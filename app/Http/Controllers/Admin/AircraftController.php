@@ -34,8 +34,8 @@ class AircraftController extends Controller
      */
     public function __construct(
         private readonly AirportRepository $airportRepo,
-        private readonly AircraftRepository         $aircraftRepo,
-        private readonly ImportService              $importSvc
+        private readonly AircraftRepository $aircraftRepo,
+        private readonly ImportService $importSvc
     ) {
     }
 

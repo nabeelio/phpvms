@@ -46,7 +46,6 @@ class RegisterController extends Controller
         private readonly HttpClient $httpClient,
         private readonly UserService $userService,
     ) {
-
         $this->middleware('guest');
 
         $this->redirectTo = config('phpvms.registration_redirect');

@@ -14,7 +14,6 @@ use Illuminate\Http\Request;
  */
 class FleetController extends Controller
 {
-
     /**
      * FleetController constructor.
      *

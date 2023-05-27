@@ -17,7 +17,6 @@ use Laracasts\Flash\Flash;
 
 class DashboardController extends Controller
 {
-
     /**
      * DashboardController constructor.
      *

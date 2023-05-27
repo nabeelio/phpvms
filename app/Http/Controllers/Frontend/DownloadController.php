@@ -22,6 +22,7 @@ class DownloadController extends Controller
 {
     /**
      * Show all of the available files
+     *
      * @return View
      */
     public function index(): View

@@ -14,7 +14,6 @@ use Prettus\Repository\Criteria\RequestCriteria;
 
 class PirepFieldController extends Controller
 {
-
     /**
      * PirepFieldController constructor.
      *

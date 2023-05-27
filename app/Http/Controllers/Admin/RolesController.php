@@ -10,14 +10,12 @@ use App\Repositories\RoleRepository;
 use App\Services\RoleService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\View\View;
 use Laracasts\Flash\Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 
 class RolesController extends Controller
 {
-
     /**
      * AirlinesController constructor.
      *

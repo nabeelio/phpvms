@@ -12,7 +12,6 @@ use Illuminate\View\View;
  */
 class DashboardController extends Controller
 {
-
     /**
      * DashboardController constructor.
      *
@@ -25,6 +24,7 @@ class DashboardController extends Controller
 
     /**
      * Show the application dashboard.
+     *
      * @return View
      */
     public function index(): View

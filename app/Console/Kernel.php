@@ -38,7 +38,7 @@ class Kernel extends ConsoleKernel
 
         // Laravel 10 redis cache
         $schedule->command('cache:prune-stale-tags')->hourly();
-        
+
         /*
          * NOTE: IF MORE TASKS ARE ADDED, THEY ALSO MUST BE ADDED TO THE CRON.PHP
          */

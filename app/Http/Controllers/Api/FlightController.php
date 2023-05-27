@@ -21,7 +21,6 @@ use Prettus\Repository\Exceptions\RepositoryException;
 
 class FlightController extends Controller
 {
-
     /**
      * @param FareService      $fareSvc
      * @param FlightRepository $flightRepo

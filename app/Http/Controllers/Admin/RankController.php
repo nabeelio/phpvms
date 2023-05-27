@@ -18,7 +18,6 @@ use Prettus\Repository\Criteria\RequestCriteria;
 
 class RankController extends Controller
 {
-
     /**
      * RankController constructor.
      *
@@ -27,8 +26,8 @@ class RankController extends Controller
      * @param SubfleetRepository $subfleetRepo
      */
     public function __construct(
-        private readonly FleetService       $fleetSvc,
-        private readonly RankRepository     $rankRepo,
+        private readonly FleetService $fleetSvc,
+        private readonly RankRepository $rankRepo,
         private readonly SubfleetRepository $subfleetRepo
     ) {
     }

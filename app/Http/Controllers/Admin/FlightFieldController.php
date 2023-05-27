@@ -12,7 +12,6 @@ use Prettus\Repository\Criteria\RequestCriteria;
 
 class FlightFieldController extends Controller
 {
-
     /**
      * FlightFieldController constructor.
      *

@@ -14,8 +14,6 @@ use App\Services\UserService;
 use App\Support\Countries;
 use App\Support\Utils;
 use Exception;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -30,7 +28,6 @@ use function in_array;
 
 class InstallerController extends Controller
 {
-
     /**
      * InstallerController constructor.
      *
@@ -253,6 +250,7 @@ class InstallerController extends Controller
 
     /**
      * Step 3. Setup the admin user and initial settings
+     *
      * @return View
      */
     public function step3(): View

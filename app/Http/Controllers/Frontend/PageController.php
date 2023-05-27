@@ -12,7 +12,6 @@ use Illuminate\View\View;
 
 class PageController extends Controller
 {
-
     /**
      * @param \App\Repositories\PageRepository $pageRepo
      */

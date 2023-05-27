@@ -15,7 +15,6 @@ use Prettus\Repository\Criteria\RequestCriteria;
 
 class AwardController extends Controller
 {
-
     /**
      * AwardController constructor.
      *

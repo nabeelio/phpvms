@@ -32,7 +32,6 @@ use Prettus\Repository\Criteria\RequestCriteria;
 
 class PirepController extends Controller
 {
-
     /**
      * PirepController constructor.
      *

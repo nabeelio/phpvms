@@ -24,7 +24,6 @@ class AirportController extends Controller
 {
     use Importable;
 
-
     /**
      * @param AirportRepository $airportRepo
      * @param ImportService     $importSvc
@@ -117,7 +116,7 @@ class AirportController extends Controller
     /**
      * Show the form for editing the specified Airport.
      *
-     * @param string  $id
+     * @param string $id
      *
      * @return View
      */

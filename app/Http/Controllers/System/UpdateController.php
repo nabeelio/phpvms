@@ -9,13 +9,12 @@ use App\Services\Installer\SeederService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-
 use Illuminate\View\View;
+
 use function count;
 
 class UpdateController extends Controller
 {
-
     /**
      * @param InstallerService $installerSvc
      * @param MigrationService $migrationSvc
@@ -30,6 +29,7 @@ class UpdateController extends Controller
 
     /**
      * Display a listing of the resource.
+     *
      * @return View
      */
     public function index(): View

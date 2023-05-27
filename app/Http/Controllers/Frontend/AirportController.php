@@ -15,7 +15,6 @@ use Request;
  */
 class AirportController extends Controller
 {
-
     public function __construct(
         private readonly AirportRepository $airportRepo,
         private readonly FlightRepository $flightRepo
@@ -25,8 +24,9 @@ class AirportController extends Controller
     /**
      * Show the airport
      *
-     * @param string $id
+     * @param string  $id
      * @param Request $request
+     *
      * @return RedirectResponse|View
      */
     public function show(string $id, Request $request): RedirectResponse|View

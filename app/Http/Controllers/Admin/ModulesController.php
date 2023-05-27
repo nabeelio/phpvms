@@ -8,13 +8,11 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 
 class ModulesController extends Controller
 {
-
     public function __construct(
         private readonly ModuleService $moduleSvc
     ) {
@@ -77,7 +75,7 @@ class ModulesController extends Controller
     /**
      * Update the specified Module in storage.
      *
-     * @param int $id
+     * @param int     $id
      * @param Request $request
      *
      * @return RedirectResponse

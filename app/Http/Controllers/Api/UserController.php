@@ -26,7 +26,6 @@ use Prettus\Repository\Exceptions\RepositoryException;
 
 class UserController extends Controller
 {
-
     /**
      * @param BidService       $bidSvc
      * @param FlightRepository $flightRepo

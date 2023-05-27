@@ -27,7 +27,6 @@ use Illuminate\View\View;
 
 class SimBriefController
 {
-
     public function __construct(
         private readonly FareService $fareSvc,
         private readonly FlightRepository $flightRepo,

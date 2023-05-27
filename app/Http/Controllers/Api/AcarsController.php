@@ -46,6 +46,7 @@ class AcarsController extends Controller
      * @param Pirep $pirep
      *
      * @throws \App\Exceptions\PirepCancelled
+     *
      * @return void
      */
     protected function checkCancelled(Pirep $pirep): void

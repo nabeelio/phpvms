@@ -16,7 +16,6 @@ use Prettus\Repository\Criteria\RequestCriteria;
  */
 class AirportController extends Controller
 {
-
     /**
      * AirportController constructor.
      *

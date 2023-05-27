@@ -36,7 +36,6 @@ use Laracasts\Flash\Flash;
 
 class PirepController extends Controller
 {
-
     /**
      * @param AircraftRepository   $aircraftRepo
      * @param AirlineRepository    $airlineRepo
@@ -101,6 +100,7 @@ class PirepController extends Controller
      * Save any custom fields found
      *
      * @param Request $request
+     *
      * @return array
      */
     protected function saveCustomFields(Request $request): array
@@ -132,6 +132,7 @@ class PirepController extends Controller
      * @param Request $request
      *
      * @throws \Exception
+     *
      * @return void
      */
     protected function saveFares(Pirep $pirep, Request $request): void

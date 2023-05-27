@@ -13,7 +13,6 @@ use Illuminate\View\View;
 
 class FinanceController extends Controller
 {
-
     /**
      * @param AirlineRepository $airlineRepo
      * @param FinanceService    $financeSvc

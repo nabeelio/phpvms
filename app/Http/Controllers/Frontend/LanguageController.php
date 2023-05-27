@@ -10,6 +10,7 @@ class LanguageController extends Controller
 {
     /**
      * @param string $lang
+     *
      * @return RedirectResponse
      */
     public function switchLang(string $lang): RedirectResponse

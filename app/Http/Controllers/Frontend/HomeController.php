@@ -13,6 +13,7 @@ class HomeController extends Controller
 {
     /**
      * Show the application dashboard.
+     *
      * @return View
      */
     public function index(): View
