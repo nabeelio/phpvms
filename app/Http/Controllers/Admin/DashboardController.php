@@ -12,16 +12,11 @@ use App\Services\NewsService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\View\View;
 use Laracasts\Flash\Flash;
 
 class DashboardController extends Controller
 {
-    private CronService $cronSvc;
-    private KvpRepository $kvpRepo;
-    private NewsRepository $newsRepo;
-    private NewsService $newsSvc;
-    private PirepRepository $pirepRepo;
-    private UserRepository $userRepo;
 
     /**
      * DashboardController constructor.
@@ -34,19 +29,13 @@ class DashboardController extends Controller
      * @param UserRepository  $userRepo
      */
     public function __construct(
-        CronService $cronSvc,
-        KvpRepository $kvpRepo,
-        NewsRepository $newsRepo,
-        NewsService $newsSvc,
-        PirepRepository $pirepRepo,
-        UserRepository $userRepo
+        private readonly CronService $cronSvc,
+        private readonly KvpRepository $kvpRepo,
+        private readonly NewsRepository $newsRepo,
+        private readonly NewsService $newsSvc,
+        private readonly PirepRepository $pirepRepo,
+        private readonly UserRepository $userRepo
     ) {
-        $this->cronSvc = $cronSvc;
-        $this->kvpRepo = $kvpRepo;
-        $this->newsRepo = $newsRepo;
-        $this->newsSvc = $newsSvc;
-        $this->pirepRepo = $pirepRepo;
-        $this->userRepo = $userRepo;
     }
 
     /**
@@ -77,9 +66,9 @@ class DashboardController extends Controller
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \GuzzleHttp\Exception\GuzzleException
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return View
      */
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         $this->checkNewVersion();
 
@@ -96,9 +85,9 @@ class DashboardController extends Controller
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return View
      */
-    public function news(Request $request)
+    public function news(Request $request): View
     {
         if ($request->isMethod('post')) {
             $attrs = $request->post();

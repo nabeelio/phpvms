@@ -12,17 +12,16 @@ use App\Repositories\AirlineRepository;
 use App\Repositories\ExpenseRepository;
 use App\Services\ExportService;
 use App\Services\ImportService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 use Laracasts\Flash\Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class ExpenseController extends Controller
 {
     use Importable;
-
-    private AirlineRepository $airlineRepo;
-    private ExpenseRepository $expenseRepo;
-    private ImportService $importSvc;
 
     /**
      * expensesController constructor.
@@ -32,13 +31,10 @@ class ExpenseController extends Controller
      * @param ImportService     $importSvc
      */
     public function __construct(
-        AirlineRepository $airlineRepo,
-        ExpenseRepository $expenseRepo,
-        ImportService $importSvc
+        private readonly AirlineRepository $airlineRepo,
+        private readonly ExpenseRepository $expenseRepo,
+        private readonly ImportService $importSvc
     ) {
-        $this->airlineRepo = $airlineRepo;
-        $this->expenseRepo = $expenseRepo;
-        $this->importSvc = $importSvc;
     }
 
     /**
@@ -48,9 +44,9 @@ class ExpenseController extends Controller
      *
      * @throws \Prettus\Repository\Exceptions\RepositoryException
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return View
      */
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         $this->expenseRepo->pushCriteria(new RequestCriteria($request));
         $expenses = $this->expenseRepo->findWhere([
@@ -65,7 +61,7 @@ class ExpenseController extends Controller
     /**
      * Show the form for creating a new expenses.
      */
-    public function create()
+    public function create(): View
     {
         return view('admin.expenses.create', [
             'airlines_list' => $this->airlineRepo->selectBoxList(true),
@@ -81,9 +77,9 @@ class ExpenseController extends Controller
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return RedirectResponse
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $input = $request->all();
         $input['ref_model'] = Expense::class;
@@ -99,9 +95,9 @@ class ExpenseController extends Controller
      *
      * @param int $id
      *
-     * @return mixed
+     * @return View
      */
-    public function show($id)
+    public function show(int $id): View
     {
         $expenses = $this->expenseRepo->findWithoutFail($id);
 
@@ -121,9 +117,9 @@ class ExpenseController extends Controller
      *
      * @param int $id
      *
-     * @return mixed
+     * @return View
      */
-    public function edit($id)
+    public function edit(int $id): View
     {
         $expense = $this->expenseRepo->findWithoutFail($id);
 
@@ -149,9 +145,9 @@ class ExpenseController extends Controller
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      *
-     * @return mixed
+     * @return RedirectResponse
      */
-    public function update($id, Request $request)
+    public function update(int $id, Request $request): RedirectResponse
     {
         $expenses = $this->expenseRepo->findWithoutFail($id);
 
@@ -171,9 +167,9 @@ class ExpenseController extends Controller
      *
      * @param int $id
      *
-     * @return mixed
+     * @return RedirectResponse
      */
-    public function destroy($id)
+    public function destroy(int $id): RedirectResponse
     {
         $expenses = $this->expenseRepo->findWithoutFail($id);
 
@@ -195,9 +191,9 @@ class ExpenseController extends Controller
      *
      * @throws \League\Csv\Exception
      *
-     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     * @return BinaryFileResponse
      */
-    public function export(Request $request)
+    public function export(Request $request): BinaryFileResponse
     {
         $exporter = app(ExportService::class);
         $expenses = $this->expenseRepo->all();
@@ -215,9 +211,9 @@ class ExpenseController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return View
      */
-    public function import(Request $request)
+    public function import(Request $request): View
     {
         $logs = [
             'success' => [],

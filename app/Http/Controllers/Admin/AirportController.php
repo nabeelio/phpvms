@@ -14,26 +14,25 @@ use App\Repositories\Criteria\WhereCriteria;
 use App\Services\ExportService;
 use App\Services\ImportService;
 use App\Support\Timezonelist;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 use Laracasts\Flash\Flash;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class AirportController extends Controller
 {
     use Importable;
 
-    private AirportRepository $airportRepo;
-    private ImportService $importSvc;
 
     /**
      * @param AirportRepository $airportRepo
      * @param ImportService     $importSvc
      */
     public function __construct(
-        AirportRepository $airportRepo,
-        ImportService $importSvc
+        private readonly AirportRepository $airportRepo,
+        private readonly ImportService $importSvc
     ) {
-        $this->airportRepo = $airportRepo;
-        $this->importSvc = $importSvc;
     }
 
     /**
@@ -43,9 +42,9 @@ class AirportController extends Controller
      *
      * @throws \Prettus\Repository\Exceptions\RepositoryException
      *
-     * @return mixed
+     * @return View
      */
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         $where = [];
         if ($request->has('icao')) {
@@ -65,9 +64,9 @@ class AirportController extends Controller
     /**
      * Show the form for creating a new Airport.
      *
-     * @return mixed
+     * @return View
      */
-    public function create()
+    public function create(): View
     {
         return view('admin.airports.create', [
             'timezones' => Timezonelist::toArray(),
@@ -81,9 +80,9 @@ class AirportController extends Controller
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      *
-     * @return mixed
+     * @return RedirectResponse
      */
-    public function store(CreateAirportRequest $request)
+    public function store(CreateAirportRequest $request): RedirectResponse
     {
         $input = $request->all();
         $input['hub'] = get_truth_state($input['hub']);
@@ -97,11 +96,11 @@ class AirportController extends Controller
     /**
      * Display the specified Airport.
      *
-     * @param int $id
+     * @param string $id
      *
-     * @return mixed
+     * @return View
      */
-    public function show($id)
+    public function show(string $id): View
     {
         $airport = $this->airportRepo->findWithoutFail($id);
 
@@ -118,11 +117,11 @@ class AirportController extends Controller
     /**
      * Show the form for editing the specified Airport.
      *
-     * @param int $id
+     * @param string  $id
      *
-     * @return mixed
+     * @return View
      */
-    public function edit($id)
+    public function edit(string $id): View
     {
         $airport = $this->airportRepo->findWithoutFail($id);
 
@@ -140,14 +139,14 @@ class AirportController extends Controller
     /**
      * Update the specified Airport in storage.
      *
-     * @param int                  $id
+     * @param string               $id
      * @param UpdateAirportRequest $request
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      *
-     * @return mixed
+     * @return RedirectResponse
      */
-    public function update($id, UpdateAirportRequest $request)
+    public function update(string $id, UpdateAirportRequest $request): RedirectResponse
     {
         $airport = $this->airportRepo->findWithoutFail($id);
 
@@ -168,11 +167,11 @@ class AirportController extends Controller
     /**
      * Remove the specified Airport from storage.
      *
-     * @param int $id
+     * @param string $id
      *
-     * @return mixed
+     * @return RedirectResponse
      */
-    public function destroy($id)
+    public function destroy(string $id): RedirectResponse
     {
         $airport = $this->airportRepo->findWithoutFail($id);
 
@@ -194,9 +193,9 @@ class AirportController extends Controller
      *
      * @throws \League\Csv\Exception
      *
-     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     * @return BinaryFileResponse
      */
-    public function export(Request $request)
+    public function export(Request $request): BinaryFileResponse
     {
         $exporter = app(ExportService::class);
         $airports = $this->airportRepo->all();
@@ -214,9 +213,9 @@ class AirportController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return View
      */
-    public function import(Request $request)
+    public function import(Request $request): View
     {
         $logs = [
             'success' => [],
@@ -235,9 +234,9 @@ class AirportController extends Controller
     /**
      * @param Airport $airport
      *
-     * @return mixed
+     * @return View
      */
-    protected function return_expenses_view(Airport $airport)
+    protected function return_expenses_view(Airport $airport): View
     {
         $airport->refresh();
         return view('admin.airports.expenses', [
@@ -248,14 +247,14 @@ class AirportController extends Controller
     /**
      * Operations for associating ranks to the subfleet
      *
-     * @param         $id
+     * @param string  $id
      * @param Request $request
      *
      * @throws \Exception
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return View
      */
-    public function expenses($id, Request $request)
+    public function expenses(string $id, Request $request): View
     {
         $airport = $this->airportRepo->findWithoutFail($id);
         if (empty($airport)) {
@@ -289,9 +288,9 @@ class AirportController extends Controller
      *
      * @param Request $request
      *
-     * @return mixed
+     * @return RedirectResponse|null
      */
-    public function fuel(Request $request)
+    public function fuel(Request $request): RedirectResponse|null
     {
         $id = $request->id;
 
@@ -308,5 +307,6 @@ class AirportController extends Controller
         }
 
         $airport->save();
+        return null;
     }
 }

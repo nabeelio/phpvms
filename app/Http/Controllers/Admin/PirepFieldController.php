@@ -6,13 +6,14 @@ use App\Contracts\Controller;
 use App\Http\Requests\CreatePirepFieldRequest;
 use App\Http\Requests\UpdatePirepFieldRequest;
 use App\Repositories\PirepFieldRepository;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 use Laracasts\Flash\Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 
 class PirepFieldController extends Controller
 {
-    private PirepFieldRepository $pirepFieldRepo;
 
     /**
      * PirepFieldController constructor.
@@ -20,9 +21,8 @@ class PirepFieldController extends Controller
      * @param PirepFieldRepository $pirepFieldRepo
      */
     public function __construct(
-        PirepFieldRepository $pirepFieldRepo
+        private readonly PirepFieldRepository $pirepFieldRepo
     ) {
-        $this->pirepFieldRepo = $pirepFieldRepo;
     }
 
     /**
@@ -32,9 +32,9 @@ class PirepFieldController extends Controller
      *
      * @throws \Prettus\Repository\Exceptions\RepositoryException
      *
-     * @return mixed
+     * @return View
      */
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         $this->pirepFieldRepo->pushCriteria(new RequestCriteria($request));
         $fields = $this->pirepFieldRepo->all();
@@ -47,9 +47,9 @@ class PirepFieldController extends Controller
     /**
      * Show the form for creating a new PirepField.
      *
-     * @return mixed
+     * @return View
      */
-    public function create()
+    public function create(): View
     {
         return view('admin.pirepfields.create');
     }
@@ -61,9 +61,9 @@ class PirepFieldController extends Controller
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      *
-     * @return mixed
+     * @return RedirectResponse
      */
-    public function store(CreatePirepFieldRequest $request)
+    public function store(CreatePirepFieldRequest $request): RedirectResponse
     {
         $attrs = $request->all();
         $attrs['slug'] = str_slug($attrs['name']);
@@ -81,9 +81,9 @@ class PirepFieldController extends Controller
      *
      * @param int $id
      *
-     * @return mixed
+     * @return RedirectResponse|View
      */
-    public function show($id)
+    public function show(int $id): RedirectResponse|View
     {
         $field = $this->pirepFieldRepo->findWithoutFail($id);
 
@@ -103,9 +103,9 @@ class PirepFieldController extends Controller
      *
      * @param int $id
      *
-     * @return mixed
+     * @return RedirectResponse|View
      */
-    public function edit($id)
+    public function edit(int $id): RedirectResponse|View
     {
         $field = $this->pirepFieldRepo->findWithoutFail($id);
 
@@ -123,13 +123,13 @@ class PirepFieldController extends Controller
     /**
      * Update the specified PirepField in storage.
      *
-     * @param mixed $id
+     * @param int $id
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return RedirectResponse
      */
-    public function update($id, UpdatePirepFieldRequest $request)
+    public function update(int $id, UpdatePirepFieldRequest $request): RedirectResponse
     {
         $field = $this->pirepFieldRepo->findWithoutFail($id);
 
@@ -154,9 +154,9 @@ class PirepFieldController extends Controller
      *
      * @param int $id
      *
-     * @return mixed
+     * @return RedirectResponse
      */
-    public function destroy($id)
+    public function destroy(int $id): RedirectResponse
     {
         $field = $this->pirepFieldRepo->findWithoutFail($id);
 

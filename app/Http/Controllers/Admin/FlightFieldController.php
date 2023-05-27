@@ -4,23 +4,23 @@ namespace App\Http\Controllers\Admin;
 
 use App\Contracts\Controller;
 use App\Repositories\FlightFieldRepository;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 use Laracasts\Flash\Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 
 class FlightFieldController extends Controller
 {
-    private FlightFieldRepository $flightFieldRepo;
 
     /**
      * FlightFieldController constructor.
      *
-     * @param FlightFieldRepository $flightFieldRepository
+     * @param FlightFieldRepository $flightFieldRepo
      */
     public function __construct(
-        FlightFieldRepository $flightFieldRepository
+        private readonly FlightFieldRepository $flightFieldRepo
     ) {
-        $this->flightFieldRepo = $flightFieldRepository;
     }
 
     /**
@@ -30,9 +30,9 @@ class FlightFieldController extends Controller
      *
      * @throws \Prettus\Repository\Exceptions\RepositoryException
      *
-     * @return mixed
+     * @return View
      */
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         $this->flightFieldRepo->pushCriteria(new RequestCriteria($request));
         $fields = $this->flightFieldRepo->all();
@@ -45,7 +45,7 @@ class FlightFieldController extends Controller
     /**
      * Show the form for creating a new FlightField.
      */
-    public function create()
+    public function create(): View
     {
         return view('admin.flightfields.create');
     }
@@ -57,9 +57,9 @@ class FlightFieldController extends Controller
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      *
-     * @return mixed
+     * @return RedirectResponse
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $attrs = $request->all();
         $attrs['slug'] = str_slug($attrs['name']);
@@ -75,9 +75,9 @@ class FlightFieldController extends Controller
      *
      * @param int $id
      *
-     * @return mixed
+     * @return RedirectResponse|View
      */
-    public function show($id)
+    public function show(int $id): RedirectResponse|View
     {
         $field = $this->flightFieldRepo->findWithoutFail($id);
 
@@ -96,9 +96,9 @@ class FlightFieldController extends Controller
      *
      * @param int $id
      *
-     * @return mixed
+     * @return RedirectResponse|View
      */
-    public function edit($id)
+    public function edit(int $id): RedirectResponse|View
     {
         $field = $this->flightFieldRepo->findWithoutFail($id);
 
@@ -115,14 +115,14 @@ class FlightFieldController extends Controller
     /**
      * Update the specified FlightField in storage.
      *
-     * @param         $id
+     * @param int     $id
      * @param Request $request
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      *
-     * @return mixed
+     * @return RedirectResponse
      */
-    public function update($id, Request $request)
+    public function update(int $id, Request $request): RedirectResponse
     {
         $field = $this->flightFieldRepo->findWithoutFail($id);
 
@@ -144,9 +144,9 @@ class FlightFieldController extends Controller
      *
      * @param int $id
      *
-     * @return mixed
+     * @return RedirectResponse
      */
-    public function destroy($id)
+    public function destroy(int $id): RedirectResponse
     {
         $field = $this->flightFieldRepo->findWithoutFail($id);
 

@@ -9,16 +9,14 @@ use Illuminate\Http\Request;
 
 class NewsController extends Controller
 {
-    private NewsRepository $newsRepo;
-
     /**
      * AirlineController constructor.
      *
      * @param NewsRepository $newsRepo
      */
-    public function __construct(NewsRepository $newsRepo)
-    {
-        $this->newsRepo = $newsRepo;
+    public function __construct(
+        private readonly NewsRepository $newsRepo
+    ) {
     }
 
     /**

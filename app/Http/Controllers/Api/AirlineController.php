@@ -9,16 +9,15 @@ use Illuminate\Http\Request;
 
 class AirlineController extends Controller
 {
-    private AirlineRepository $airlineRepo;
 
     /**
      * AirlineController constructor.
      *
      * @param AirlineRepository $airlineRepo
      */
-    public function __construct(AirlineRepository $airlineRepo)
-    {
-        $this->airlineRepo = $airlineRepo;
+    public function __construct(
+        private readonly AirlineRepository $airlineRepo
+    ) {
     }
 
     /**
@@ -36,16 +35,14 @@ class AirlineController extends Controller
     }
 
     /**
-     * Do a lookup, via vaCentral, for the airport information
+     * Return a specific airline
      *
-     * @param $id
+     * @param int $id
      *
      * @return AirlineResource
      */
-    public function get($id)
+    public function get(int $id): AirlineResource
     {
-        $id = strtoupper($id);
-
         return new AirlineResource($this->airlineRepo->find($id));
     }
 }

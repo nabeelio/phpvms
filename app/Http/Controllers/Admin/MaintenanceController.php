@@ -7,28 +7,23 @@ use App\Repositories\KvpRepository;
 use App\Services\CronService;
 use App\Services\VersionService;
 use App\Support\Utils;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Log;
+use Illuminate\View\View;
 use Laracasts\Flash\Flash;
 
 class MaintenanceController extends Controller
 {
-    private CronService $cronSvc;
-    private KvpRepository $kvpRepo;
-    private VersionService $versionSvc;
-
     public function __construct(
-        CronService $cronSvc,
-        KvpRepository $kvpRepo,
-        VersionService $versionSvc
+        private readonly CronService $cronSvc,
+        private readonly KvpRepository $kvpRepo,
+        private readonly VersionService $versionSvc
     ) {
-        $this->cronSvc = $cronSvc;
-        $this->kvpRepo = $kvpRepo;
-        $this->versionSvc = $versionSvc;
     }
 
-    public function index()
+    public function index(): View
     {
         // Get the cron URL
         $cron_id = setting('cron.random_id');
@@ -48,9 +43,9 @@ class MaintenanceController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      *
-     * @return mixed
+     * @return RedirectResponse
      */
-    public function cache(Request $request)
+    public function cache(Request $request): RedirectResponse
     {
         $calls = [];
         $type = $request->get('type');
@@ -81,9 +76,9 @@ class MaintenanceController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      *
-     * @return mixed
+     * @return RedirectResponse
      */
-    public function forcecheck(Request $request)
+    public function forcecheck(Request $request): RedirectResponse
     {
         $this->versionSvc->isNewVersionAvailable();
 
@@ -106,7 +101,7 @@ class MaintenanceController extends Controller
      *
      * @param Request $request
      */
-    public function cron_enable(Request $request)
+    public function cron_enable(Request $request): RedirectResponse
     {
         $id = Utils::generateNewId(24);
         setting_save('cron.random_id', $id);
@@ -120,9 +115,9 @@ class MaintenanceController extends Controller
      *
      * @param Request $request
      *
-     * @return mixed
+     * @return RedirectResponse
      */
-    public function cron_disable(Request $request)
+    public function cron_disable(Request $request): RedirectResponse
     {
         setting_save('cron.random_id', '');
 

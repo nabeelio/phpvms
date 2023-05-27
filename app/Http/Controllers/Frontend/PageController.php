@@ -8,27 +8,27 @@ use App\Exceptions\Unauthorized;
 use App\Repositories\PageRepository;
 use Exception;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
 class PageController extends Controller
 {
-    private PageRepository $pageRepo;
 
     /**
      * @param \App\Repositories\PageRepository $pageRepo
      */
-    public function __construct(PageRepository $pageRepo)
-    {
-        $this->pageRepo = $pageRepo;
+    public function __construct(
+        private readonly PageRepository $pageRepo
+    ) {
     }
 
     /**
      * Show the page
      *
-     * @param $slug
+     * @param string $slug
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return View
      */
-    public function show($slug)
+    public function show(string $slug): View
     {
         /** @var \App\Models\Page $page */
         $page = $this->pageRepo->findWhere(['slug' => $slug])->first();

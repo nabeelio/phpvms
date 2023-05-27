@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Console\Cron;
 use App\Contracts\Controller;
 use App\Exceptions\CronInvalid;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class MaintenanceController extends Controller
@@ -15,9 +16,9 @@ class MaintenanceController extends Controller
      * @param Request $request
      * @param string  $id      The ID passed in for the cron
      *
-     * @return mixed
+     * @return JsonResponse
      */
-    public function cron(Request $request, string $id)
+    public function cron(Request $request, string $id): JsonResponse
     {
         $cron_id = setting('cron.random_id');
         if (empty($cron_id) || $id !== $cron_id) {

@@ -8,26 +8,26 @@ use App\Http\Requests\UpdateAirlineRequest;
 use App\Repositories\AirlineRepository;
 use App\Services\AirlineService;
 use App\Support\Countries;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\View\View;
 use Laracasts\Flash\Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 
 class AirlinesController extends Controller
 {
-    private AirlineRepository $airlineRepo;
-    private AirlineService $airlineSvc;
 
     /**
      * AirlinesController constructor.
      *
      * @param AirlineRepository $airlinesRepo
-     * @param                   $airlineSvc
+     * @param AirlineService    $airlineSvc
      */
-    public function __construct(AirlineRepository $airlinesRepo, AirlineService $airlineSvc)
-    {
-        $this->airlineRepo = $airlinesRepo;
-        $this->airlineSvc = $airlineSvc;
+    public function __construct(
+        private readonly AirlineRepository $airlinesRepo,
+        private readonly AirlineService $airlineSvc
+    ) {
     }
 
     /**
@@ -35,7 +35,7 @@ class AirlinesController extends Controller
      *
      * @throws \Prettus\Repository\Exceptions\RepositoryException
      */
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         $this->airlineRepo->pushCriteria(new RequestCriteria($request));
         $airlines = $this->airlineRepo->orderby('name', 'asc')->get();
@@ -48,7 +48,7 @@ class AirlinesController extends Controller
     /**
      * Show the form for creating a new Airlines.
      */
-    public function create()
+    public function create(): View
     {
         return view('admin.airlines.create', [
             'countries' => Countries::getSelectList(),
@@ -60,7 +60,7 @@ class AirlinesController extends Controller
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
-    public function store(CreateAirlineRequest $request)
+    public function store(CreateAirlineRequest $request): RedirectResponse
     {
         $input = $request->all();
         $this->airlineSvc->createAirline($input);
@@ -76,7 +76,7 @@ class AirlinesController extends Controller
      *
      * @return mixed
      */
-    public function show($id)
+    public function show(int $id): View
     {
         $airlines = $this->airlineRepo->findWithoutFail($id);
 
@@ -95,9 +95,9 @@ class AirlinesController extends Controller
      *
      * @param int $id
      *
-     * @return Response
+     * @return View
      */
-    public function edit($id)
+    public function edit(int $id): View
     {
         $airline = $this->airlineRepo->findWithoutFail($id);
 
@@ -120,9 +120,9 @@ class AirlinesController extends Controller
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      *
-     * @return Response
+     * @return RedirectResponse
      */
-    public function update($id, UpdateAirlineRequest $request)
+    public function update(int $id, UpdateAirlineRequest $request): RedirectResponse
     {
         $airlines = $this->airlineRepo->findWithoutFail($id);
 
@@ -142,9 +142,9 @@ class AirlinesController extends Controller
      *
      * @param int $id
      *
-     * @return Response
+     * @return RedirectResponse
      */
-    public function destroy($id)
+    public function destroy(int $id): RedirectResponse
     {
         $airline = $this->airlineRepo->findWithoutFail($id);
 

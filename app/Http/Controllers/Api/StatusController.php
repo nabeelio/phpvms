@@ -4,23 +4,23 @@ namespace App\Http\Controllers\Api;
 
 use App\Contracts\Controller;
 use App\Services\VersionService;
+use Illuminate\Http\JsonResponse;
 
 /**
  * Class StatusController
  */
 class StatusController extends Controller
 {
-    private VersionService $versionSvc;
 
-    public function __construct(VersionService $versionSvc)
-    {
-        $this->versionSvc = $versionSvc;
+    public function __construct(
+        private readonly VersionService $versionSvc
+    ) {
     }
 
     /**
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function status()
+    public function status(): JsonResponse
     {
         return response()->json([
             'version' => $this->versionSvc->getCurrentVersion(true),

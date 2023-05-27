@@ -14,19 +14,18 @@ use Illuminate\View\View;
 
 class ModulesController extends Controller
 {
-    private ModuleService $moduleSvc;
 
-    public function __construct(ModuleService $moduleSvc)
-    {
-        $this->moduleSvc = $moduleSvc;
+    public function __construct(
+        private readonly ModuleService $moduleSvc
+    ) {
     }
 
     /**
      * Display a listing of the Module.
      *
-     * @return mixed
+     * @return View
      */
-    public function index()
+    public function index(): View
     {
         $modules = $this->moduleSvc->getAllModules();
         $new_modules = $this->moduleSvc->scan();
@@ -52,9 +51,9 @@ class ModulesController extends Controller
      *
      * @param Request $request
      *
-     * @return Application|RedirectResponse|Redirector
+     * @return View
      */
-    public function store(Request $request)
+    public function store(Request $request): View
     {
         $this->moduleSvc->installModule($request->file('module_file'));
         return $this->index();
@@ -63,11 +62,11 @@ class ModulesController extends Controller
     /**
      * Show the form for editing the specified Module.
      *
-     * @param $id
+     * @param int $id
      *
-     * @return Application|Factory|View
+     * @return View
      */
-    public function edit($id)
+    public function edit(int $id): View
     {
         $module = $this->moduleSvc->getModule($id);
         return view('admin.modules.edit', [
@@ -78,12 +77,12 @@ class ModulesController extends Controller
     /**
      * Update the specified Module in storage.
      *
-     * @param $id
+     * @param int $id
      * @param Request $request
      *
-     * @return Application|RedirectResponse|Redirector
+     * @return RedirectResponse
      */
-    public function update($id, Request $request)
+    public function update(int $id, Request $request): RedirectResponse
     {
         $this->moduleSvc->updateModule($id, $request->has('enabled'));
         flash()->success('Module Status Changed!');
@@ -95,9 +94,9 @@ class ModulesController extends Controller
      *
      * @param Request $request
      *
-     * @return Application|RedirectResponse|Redirector
+     * @return RedirectResponse
      */
-    public function enable(Request $request)
+    public function enable(Request $request): RedirectResponse
     {
         $moduleName = $request->input('name');
 
@@ -113,12 +112,12 @@ class ModulesController extends Controller
     /**
      * Verify and Remove the specified Module from storage.
      *
-     * @param mixed   $id
+     * @param int     $id
      * @param Request $request
      *
-     * @return mixed
+     * @return RedirectResponse
      */
-    public function destroy($id, Request $request)
+    public function destroy(int $id, Request $request): RedirectResponse
     {
         $delete = $this->moduleSvc->deleteModule($id, $request->all());
         if ($delete == true) {

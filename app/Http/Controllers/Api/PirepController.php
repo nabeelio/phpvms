@@ -33,17 +33,14 @@ use App\Services\Finance\PirepFinanceService;
 use App\Services\PirepService;
 use App\Services\UserService;
 use Carbon\Carbon;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class PirepController extends Controller
 {
-    private PirepFinanceService $financeSvc;
-    private JournalRepository $journalRepo;
-    private PirepRepository $pirepRepo;
-    private PirepService $pirepSvc;
-    private UserService $userSvc;
 
     /**
      * @param PirepFinanceService $financeSvc
@@ -53,17 +50,12 @@ class PirepController extends Controller
      * @param UserService         $userSvc
      */
     public function __construct(
-        PirepFinanceService $financeSvc,
-        JournalRepository $journalRepo,
-        PirepRepository $pirepRepo,
-        PirepService $pirepSvc,
-        UserService $userSvc
+        private readonly PirepFinanceService $financeSvc,
+        private readonly JournalRepository $journalRepo,
+        private readonly PirepRepository $pirepRepo,
+        private readonly PirepService $pirepSvc,
+        private readonly UserService $userSvc
     ) {
-        $this->financeSvc = $financeSvc;
-        $this->journalRepo = $journalRepo;
-        $this->pirepRepo = $pirepRepo;
-        $this->pirepSvc = $pirepSvc;
-        $this->userSvc = $userSvc;
     }
 
     /**
@@ -71,9 +63,9 @@ class PirepController extends Controller
      *
      * @param Request $request
      *
-     * @return array|null|string
+     * @return ?array
      */
-    protected function parsePirep(Request $request)
+    protected function parsePirep(Request $request): ?array
     {
         $attrs = $request->input();
 
@@ -98,8 +90,9 @@ class PirepController extends Controller
      * @param Pirep $pirep
      *
      * @throws \App\Exceptions\PirepCancelled
+     * @return void
      */
-    protected function checkCancelled(Pirep $pirep)
+    protected function checkCancelled(Pirep $pirep): void
     {
         if ($pirep->cancelled) {
             throw new PirepCancelled($pirep);
@@ -112,8 +105,9 @@ class PirepController extends Controller
      * @param Pirep $pirep
      *
      * @throws \App\Exceptions\PirepCancelled
+     * @return void
      */
-    protected function checkReadOnly(Pirep $pirep)
+    protected function checkReadOnly(Pirep $pirep): void
     {
         if ($pirep->read_only) {
             throw new PirepError($pirep, 'PIREP is read-only');
@@ -123,7 +117,7 @@ class PirepController extends Controller
     /**
      * @param Request $request
      *
-     * @return PirepFieldValue[]
+     * @return ?PirepFieldValue[]
      */
     protected function getFields(Request $request): ?array
     {
@@ -150,7 +144,7 @@ class PirepController extends Controller
      *
      * @throws \Exception
      *
-     * @return PirepFare[]
+     * @return ?PirepFare[]
      */
     protected function getFares(Request $request): ?array
     {
@@ -174,7 +168,7 @@ class PirepController extends Controller
      *
      * @return PirepResource
      */
-    public function get($id)
+    public function get(string $id): PirepResource
     {
         $with = [
             'acars',
@@ -236,7 +230,7 @@ class PirepController extends Controller
      * Once ACARS updates are being processed, then it can go into an 'ENROUTE'
      * status, and whatever other statuses may be defined
      *
-     * @param               $pirep_id
+     * @param string        $pirep_id
      * @param UpdateRequest $request
      *
      * @throws \App\Exceptions\PirepCancelled
@@ -246,7 +240,7 @@ class PirepController extends Controller
      *
      * @return PirepResource
      */
-    public function update($pirep_id, UpdateRequest $request): PirepResource
+    public function update(string $pirep_id, UpdateRequest $request): PirepResource
     {
         Log::info('PIREP Update, user '.Auth::id());
         Log::info($request->getContent());
@@ -284,7 +278,7 @@ class PirepController extends Controller
     /**
      * File the PIREP
      *
-     * @param             $pirep_id
+     * @param string      $pirep_id
      * @param FileRequest $request
      *
      * @throws \App\Exceptions\PirepCancelled
@@ -294,7 +288,7 @@ class PirepController extends Controller
      *
      * @return PirepResource
      */
-    public function file($pirep_id, FileRequest $request): PirepResource
+    public function file(string $pirep_id, FileRequest $request): PirepResource
     {
         Log::info('PIREP file, user '.Auth::id(), $request->post());
 
@@ -345,14 +339,14 @@ class PirepController extends Controller
     /**
      * Cancel the PIREP
      *
-     * @param         $pirep_id
+     * @param string  $pirep_id
      * @param Request $request
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      *
      * @return mixed
      */
-    public function cancel($pirep_id, Request $request)
+    public function cancel(string $pirep_id, Request $request)
     {
         Log::info('PIREP '.$pirep_id.' Cancel, user '.Auth::id(), $request->post());
 
@@ -367,11 +361,11 @@ class PirepController extends Controller
     /**
      * Add a new comment
      *
-     * @param $id
+     * @param string $id
      *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @return AnonymousResourceCollection
      */
-    public function comments_get($id)
+    public function comments_get(string $id): AnonymousResourceCollection
     {
         $pirep = Pirep::find($id);
         return PirepCommentResource::collection($pirep->comments);
@@ -380,14 +374,14 @@ class PirepController extends Controller
     /**
      * Add a new comment
      *
-     * @param                $id
+     * @param string         $id
      * @param CommentRequest $request
      *
      * @throws \App\Exceptions\PirepCancelled
      *
      * @return PirepCommentResource
      */
-    public function comments_post($id, CommentRequest $request)
+    public function comments_post(string $id, CommentRequest $request): PirepCommentResource
     {
         $pirep = Pirep::find($id);
         $this->checkCancelled($pirep);
@@ -406,11 +400,11 @@ class PirepController extends Controller
     /**
      * Get all of the fields for a PIREP
      *
-     * @param $pirep_id
+     * @param string $pirep_id
      *
      * @return PirepFieldCollection
      */
-    public function fields_get($pirep_id)
+    public function fields_get(string $pirep_id): PirepFieldCollection
     {
         $pirep = Pirep::find($pirep_id);
         return new PirepFieldCollection($pirep->fields);
@@ -424,7 +418,7 @@ class PirepController extends Controller
      *
      * @return PirepFieldCollection
      */
-    public function fields_post($pirep_id, FieldsRequest $request)
+    public function fields_post(string $pirep_id, FieldsRequest $request): PirepFieldCollection
     {
         $pirep = Pirep::find($pirep_id);
         $this->checkCancelled($pirep);
@@ -436,14 +430,14 @@ class PirepController extends Controller
     }
 
     /**
-     * @param $id
+     * @param string $id
      *
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
      *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @return AnonymousResourceCollection
      */
-    public function finances_get($id)
+    public function finances_get(string $id): AnonymousResourceCollection
     {
         $pirep = Pirep::find($id);
         $transactions = $this->journalRepo->getAllForObject($pirep);
@@ -451,7 +445,7 @@ class PirepController extends Controller
     }
 
     /**
-     * @param         $id
+     * @param string  $id
      * @param Request $request
      *
      * @throws \UnexpectedValueException
@@ -459,9 +453,9 @@ class PirepController extends Controller
      * @throws \Exception
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @return AnonymousResourceCollection
      */
-    public function finances_recalculate($id, Request $request)
+    public function finances_recalculate(string $id, Request $request): AnonymousResourceCollection
     {
         $pirep = Pirep::find($id);
         $this->financeSvc->processFinancesForPirep($pirep);
@@ -473,12 +467,12 @@ class PirepController extends Controller
     }
 
     /**
-     * @param         $id
+     * @param string  $id
      * @param Request $request
      *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @return AnonymousResourceCollection
      */
-    public function route_get($id, Request $request)
+    public function route_get(string $id, Request $request): AnonymousResourceCollection
     {
         $pirep = Pirep::find($id);
 
@@ -491,16 +485,16 @@ class PirepController extends Controller
     /**
      * Post the ROUTE for a PIREP, can be done from the ACARS log
      *
-     * @param              $id
+     * @param string       $id
      * @param RouteRequest $request
      *
      * @throws \App\Exceptions\PirepCancelled
      * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
      * @throws \Exception
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function route_post($id, RouteRequest $request)
+    public function route_post(string $id, RouteRequest $request): JsonResponse
     {
         // Check if the status is cancelled...
         $pirep = Pirep::find($id);
@@ -538,14 +532,14 @@ class PirepController extends Controller
     }
 
     /**
-     * @param         $id
+     * @param string  $id
      * @param Request $request
      *
      * @throws \Exception
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function route_delete($id, Request $request)
+    public function route_delete(string $id, Request $request): JsonResponse
     {
         $pirep = Pirep::find($id);
 

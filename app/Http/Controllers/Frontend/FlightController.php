@@ -19,20 +19,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\View\View;
 use Laracasts\Flash\Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Prettus\Repository\Exceptions\RepositoryException;
 
 class FlightController extends Controller
 {
-    private AirlineRepository $airlineRepo;
-    private AirportRepository $airportRepo;
-    private FlightRepository $flightRepo;
-    private GeoService $geoSvc;
-    private ModuleService $moduleSvc;
-    private SubfleetRepository $subfleetRepo;
-    private UserRepository $userRepo;
-    private UserService $userSvc;
 
     /**
      * @param AirlineRepository  $airlineRepo
@@ -45,23 +38,15 @@ class FlightController extends Controller
      * @param UserService        $userSvc
      */
     public function __construct(
-        AirlineRepository $airlineRepo,
-        AirportRepository $airportRepo,
-        FlightRepository $flightRepo,
-        GeoService $geoSvc,
-        ModuleService $moduleSvc,
-        SubfleetRepository $subfleetRepo,
-        UserRepository $userRepo,
-        UserService $userSvc
+        private readonly AirlineRepository $airlineRepo,
+        private readonly AirportRepository $airportRepo,
+        private readonly FlightRepository $flightRepo,
+        private readonly GeoService $geoSvc,
+        private readonly ModuleService $moduleSvc,
+        private readonly SubfleetRepository $subfleetRepo,
+        private readonly UserRepository $userRepo,
+        private readonly UserService $userSvc
     ) {
-        $this->airlineRepo = $airlineRepo;
-        $this->airportRepo = $airportRepo;
-        $this->flightRepo = $flightRepo;
-        $this->geoSvc = $geoSvc;
-        $this->moduleSvc = $moduleSvc;
-        $this->subfleetRepo = $subfleetRepo;
-        $this->userRepo = $userRepo;
-        $this->userSvc = $userSvc;
     }
 
     /**
@@ -69,9 +54,9 @@ class FlightController extends Controller
      *
      * @throws \Prettus\Repository\Exceptions\RepositoryException
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return View
      */
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         return $this->search($request);
     }
@@ -83,9 +68,9 @@ class FlightController extends Controller
      *
      * @throws \Prettus\Repository\Exceptions\RepositoryException
      *
-     * @return mixed
+     * @return View
      */
-    public function search(Request $request)
+    public function search(Request $request): View
     {
         $where = [
             'active'  => true,
@@ -202,9 +187,9 @@ class FlightController extends Controller
      *
      * @param Request $request
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return View
      */
-    public function bids(Request $request)
+    public function bids(Request $request): View
     {
         $user = $this->userRepo
             ->with(['bids', 'bids.flight'])
@@ -239,11 +224,11 @@ class FlightController extends Controller
     /**
      * Show the flight information page
      *
-     * @param $id
+     * @param string $id
      *
      * @return mixed
      */
-    public function show($id)
+    public function show(string $id): View
     {
         $user_id = Auth::id();
         $with_flight = [

@@ -11,17 +11,17 @@ use App\Models\Enums\ImportExportType;
 use App\Repositories\FareRepository;
 use App\Services\ExportService;
 use App\Services\ImportService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\View\View;
 use Laracasts\Flash\Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class FareController extends Controller
 {
     use Importable;
-
-    private FareRepository $fareRepo;
-    private ImportService $importSvc;
 
     /**
      * FareController constructor.
@@ -30,11 +30,9 @@ class FareController extends Controller
      * @param ImportService  $importSvc
      */
     public function __construct(
-        FareRepository $fareRepo,
-        ImportService $importSvc
+        private readonly FareRepository $fareRepo,
+        private readonly ImportService $importSvc
     ) {
-        $this->fareRepo = $fareRepo;
-        $this->importSvc = $importSvc;
     }
 
     /**
@@ -44,9 +42,9 @@ class FareController extends Controller
      *
      * @throws \Prettus\Repository\Exceptions\RepositoryException
      *
-     * @return mixed
+     * @return View
      */
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         $this->fareRepo->pushCriteria(new RequestCriteria($request));
         $fares = $this->fareRepo->all();
@@ -58,7 +56,7 @@ class FareController extends Controller
     /**
      * Show the form for creating a new Fare.
      */
-    public function create()
+    public function create(): View
     {
         return view('admin.fares.create', [
             'fare_types' => FareType::select(),
@@ -72,9 +70,9 @@ class FareController extends Controller
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      *
-     * @return mixed
+     * @return RedirectResponse
      */
-    public function store(CreateFareRequest $request)
+    public function store(CreateFareRequest $request): RedirectResponse
     {
         $input = $request->all();
         $fare = $this->fareRepo->create($input);
@@ -88,9 +86,9 @@ class FareController extends Controller
      *
      * @param int $id
      *
-     * @return mixed
+     * @return RedirectResponse|View
      */
-    public function show($id)
+    public function show(int $id): RedirectResponse|View
     {
         $fare = $this->fareRepo->findWithoutFail($id);
         if (empty($fare)) {
@@ -108,9 +106,9 @@ class FareController extends Controller
      *
      * @param int $id
      *
-     * @return mixed
+     * @return RedirectResponse|View
      */
-    public function edit($id)
+    public function edit(int $id): RedirectResponse|View
     {
         $fare = $this->fareRepo->findWithoutFail($id);
         if (empty($fare)) {
@@ -132,9 +130,9 @@ class FareController extends Controller
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      *
-     * @return mixed
+     * @return RedirectResponse
      */
-    public function update($id, UpdateFareRequest $request)
+    public function update(int $id, UpdateFareRequest $request): RedirectResponse
     {
         $fare = $this->fareRepo->findWithoutFail($id);
         if (empty($fare)) {
@@ -155,7 +153,7 @@ class FareController extends Controller
      *
      * @return mixed
      */
-    public function destroy($id)
+    public function destroy(int $id): RedirectResponse
     {
         $fare = $this->fareRepo->findWithoutFail($id);
         if (empty($fare)) {
@@ -178,9 +176,9 @@ class FareController extends Controller
      *
      * @throws \League\Csv\Exception
      *
-     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     * @return BinaryFileResponse
      */
-    public function export(Request $request)
+    public function export(Request $request): BinaryFileResponse
     {
         $exporter = app(ExportService::class);
         $fares = $this->fareRepo->all();
@@ -198,9 +196,9 @@ class FareController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return View
      */
-    public function import(Request $request)
+    public function import(Request $request): View
     {
         $logs = [
             'success' => [],

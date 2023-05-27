@@ -7,19 +7,19 @@ use App\Services\ImporterService;
 use App\Services\Installer\DatabaseService;
 use App\Support\Utils;
 use Exception;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\View\View;
 
 class ImporterController extends Controller
 {
-    private DatabaseService $dbSvc;
-    private ImporterService $importerSvc;
 
-    public function __construct(DatabaseService $dbSvc, ImporterService $importerSvc)
-    {
-        $this->dbSvc = $dbSvc;
-        $this->importerSvc = $importerSvc;
-
+    public function __construct(
+        private readonly DatabaseService $dbSvc,
+        private readonly ImporterService $importerSvc
+    ) {
         Utils::disableDebugToolbar();
     }
 
@@ -27,14 +27,14 @@ class ImporterController extends Controller
      * Show the main page for the importer; show form for the admin email
      * and the credentials for the other database
      *
-     * @return mixed
+     * @return View
      */
-    public function index()
+    public function index(): View
     {
         return view('system.importer.step1-configure');
     }
 
-    protected function testDb(Request $request)
+    protected function testDb(Request $request): void
     {
         $this->dbSvc->checkDbConnection(
             $request->post('db_conn'),
@@ -51,9 +51,9 @@ class ImporterController extends Controller
      *
      * @param Request $request
      *
-     * @return mixed
+     * @return View
      */
-    public function dbtest(Request $request)
+    public function dbtest(Request $request): View
     {
         $status = 'success';  // success|warn|danger
         $message = 'Database connection looks good!';
@@ -76,9 +76,9 @@ class ImporterController extends Controller
      *
      * @param Request $request
      *
-     * @return mixed
+     * @return View
      */
-    public function config(Request $request)
+    public function config(Request $request): View
     {
         try {
             $this->testDb($request);
@@ -113,9 +113,9 @@ class ImporterController extends Controller
      *
      * @throws Exception
      *
-     * @return mixed
+     * @return JsonResponse
      */
-    public function run(Request $request)
+    public function run(Request $request): JsonResponse
     {
         $importer = $request->input('importer');
         $start = $request->input('start');
@@ -131,8 +131,9 @@ class ImporterController extends Controller
 
     /**
      * Complete the import
+     * @return RedirectResponse
      */
-    public function complete()
+    public function complete(): RedirectResponse
     {
         return redirect('/');
     }

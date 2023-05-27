@@ -22,7 +22,7 @@ trait Importable
      *
      * @return mixed
      */
-    public function importFile(Request $request, int $importType)
+    public function importFile(Request $request, int $importType): mixed
     {
         ImportRequest::validate($request);
         $path = Storage::putFileAs(
