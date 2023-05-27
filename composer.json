@@ -34,7 +34,7 @@
         "composer/installers": "~1.12.0",
         "laravel/framework": "~v10.0",
         "arrilot/laravel-widgets": "~3.13.0",
-        "doctrine/dbal": "~3.3.2",
+        "doctrine/dbal": "^3.0",
         "guzzlehttp/guzzle": "~7.4.1",
         "hashids/hashids": "~4.1.0",
         "igaster/laravel-theme": "~2.0.19",
