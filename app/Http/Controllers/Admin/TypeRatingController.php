@@ -158,9 +158,9 @@ class TypeRatingController extends Controller
 
     /**
      * @param Typerating $typerating
-     * @return arary
+     * @return array
      */
-    protected function getAvailSubfleets(Typerating $typerating): arary
+    protected function getAvailSubfleets(Typerating $typerating): array
     {
         $retval = [];
         $all_subfleets = $this->subfleetRepo->all();

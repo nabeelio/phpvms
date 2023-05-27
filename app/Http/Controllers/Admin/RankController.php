@@ -40,7 +40,7 @@ class RankController extends Controller
      *
      * @return array
      */
-    protected function getAvailSubfleets(Rank $rank): arary
+    protected function getAvailSubfleets(Rank $rank): array
     {
         $retval = [];
         $all_subfleets = $this->subfleetRepo->all();
