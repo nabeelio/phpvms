@@ -30,7 +30,6 @@ use Prettus\Repository\Exceptions\RepositoryException;
 
 class UserController extends Controller
 {
-
     /**
      * UserController constructor.
      *
@@ -253,8 +252,9 @@ class UserController extends Controller
      *
      * @param int $id
      *
-     * @return mixed
      * @throws \Exception
+     *
+     * @return RedirectResponse
      */
     public function destroy(int $id): RedirectResponse
     {

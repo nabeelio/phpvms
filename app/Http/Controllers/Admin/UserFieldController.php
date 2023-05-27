@@ -12,7 +12,6 @@ use Prettus\Repository\Criteria\RequestCriteria;
 
 class UserFieldController extends Controller
 {
-
     /**
      * @param UserFieldRepository $userFieldRepo
      */

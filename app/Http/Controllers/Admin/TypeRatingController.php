@@ -76,6 +76,7 @@ class TypeRatingController extends Controller
 
     /**
      * @param int $id
+     *
      * @return RedirectResponse|View
      */
     public function show(int $id): RedirectResponse|View
@@ -117,7 +118,7 @@ class TypeRatingController extends Controller
     }
 
     /**
-     * @param int $id
+     * @param int                     $id
      * @param UpdateTypeRatingRequest $request
      *
      * @throws ValidatorException

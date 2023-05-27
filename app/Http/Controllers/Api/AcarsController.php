@@ -25,7 +25,6 @@ use Illuminate\Support\Facades\Log;
 
 class AcarsController extends Controller
 {
-
     /**
      * AcarsController constructor.
      *
