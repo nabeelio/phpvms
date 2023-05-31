@@ -111,11 +111,7 @@ class application extends Illuminate\Foundation\Application
 
     public function publicPath($path = '')
     {
-        if (empty($this->publicDirPath)) {
-            return $this->basePath.DS.'public';
-        }
-
-        return $this->publicDirPath;
+        return $this->joinPaths($this->publicDirPath ?: $this->basePath.DS.'public', $path);
     }
 
     public function resourcePath($path = '')
