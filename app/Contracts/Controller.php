@@ -82,7 +82,7 @@ abstract class Controller extends \Illuminate\Routing\Controller
     /**
      * Simple normalized method for forming the JSON responses
      *
-     * @param $message
+     * @param            $message
      * @param null|mixed $count
      * @param mixed      $attrs
      *

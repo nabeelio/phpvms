@@ -104,7 +104,7 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
     }
 
     /**
-     * @param $user
+     * @param       $user
      * @param array $headers
      *
      * @return array
@@ -142,7 +142,7 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
     /**
      * Make sure an object has the list of keys
      *
-     * @param $obj
+     * @param       $obj
      * @param array $keys
      */
     public function assertHasKeys($obj, array $keys = []): void

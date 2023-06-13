@@ -7,7 +7,6 @@ use App\Models\Enums\PirepStatus;
 use App\Models\Pirep;
 use App\Notifications\Channels\Discord\DiscordMessage;
 use App\Notifications\Channels\Discord\DiscordWebhook;
-use App\Support\Units\Distance;
 use App\Support\Units\Time;
 use Illuminate\Contracts\Queue\ShouldQueue;
 

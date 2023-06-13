@@ -14,7 +14,7 @@ class KvpRepository
     }
 
     /**
-     * @param $key
+     * @param      $key
      * @param null $default
      *
      * @return array|string|null
