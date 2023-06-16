@@ -907,24 +907,35 @@ class FinanceTest extends TestCase
         $user->airline->initJournal(setting('units.currency', 'USD'));
 
         // Override the fares
-        $fare_counts = [];
+        $fareTotal = 0;
+        $fareCounts = [];
         foreach ($fares as $fare) {
-            $fare_counts[] = new PirepFare([
+            $fareCounts[] = new PirepFare([
                 'fare_id' => $fare->id,
-                'count'   => 100,
+                'count'   => 10,
             ]);
+
+            $fareTotal += $fare->price * 100;
         }
 
-        $this->fareSvc->saveToPirep($pirep, $fare_counts);
+
+        $this->fareSvc->saveToPirep($pirep, $fareCounts);
 
         // This should process all of the
         $pirep = $this->pirepSvc->accept($pirep);
 
         $transactions = $journalRepo->getAllForObject($pirep);
 
+
+        /** @var Money $credits */
+        $credits = $transactions['credits'];
+
+        /** @var Money $credits */
+        $debits = $transactions['debits'];
+
         // $this->assertCount(9, $transactions['transactions']);
-        $this->assertEquals(3020, $transactions['credits']->getValue());
-        $this->assertEquals(2050.4, $transactions['debits']->getValue());
+        $this->assertEquals(3020, $credits->getValue());
+        $this->assertEquals(2050.4, $debits->getValue());
 
         // Check that all the different transaction types are there
         // test by the different groups that exist
@@ -966,7 +977,7 @@ class FinanceTest extends TestCase
         foreach ($fares as $fare) {
             $fare_counts[] = new PirepFare([
                 'fare_id' => $fare->id,
-                'count'   => 100,
+                'count'   => 10,
             ]);
         }
 
@@ -1033,7 +1044,7 @@ class FinanceTest extends TestCase
         foreach ($fares as $fare) {
             $fare_counts[] = new PirepFare([
                 'fare_id' => $fare->id,
-                'count'   => 100,
+                'count'   => 10,
             ]);
         }
 
@@ -1120,7 +1131,7 @@ class FinanceTest extends TestCase
             $fare_counts[] = new PirepFare([
                 'fare_id' => $fare->id,
                 'price'   => $fare->price,
-                'count'   => 100,
+                'count'   => 10,
             ]);
         }
 
