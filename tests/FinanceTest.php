@@ -1178,7 +1178,7 @@ class FinanceTest extends TestCase
             $fare_counts[] = new PirepFare([
                 'fare_id'  => $fare->id,
                 'count'    => 10,
-                'capacity' => 0
+                'capacity' => 0,
             ]);
         }
 
