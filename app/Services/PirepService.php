@@ -198,7 +198,7 @@ class PirepService extends Service
         }
 
         $this->updateCustomFields($pirep->id, $fields);
-        $this->fareSvc->saveForPirep($pirep, $fares);
+        $this->fareSvc->saveToPirep($pirep, $fares);
 
         event(new PirepPrefiled($pirep));
 
@@ -268,7 +268,7 @@ class PirepService extends Service
     {
         $pirep = $this->pirepRepo->update($attrs, $pirep_id);
         $this->updateCustomFields($pirep_id, $fields);
-        $this->fareSvc->saveForPirep($pirep, $fares);
+        $this->fareSvc->saveToPirep($pirep, $fares);
 
         return $pirep;
     }
@@ -346,7 +346,7 @@ class PirepService extends Service
         $pirep->refresh();
 
         $this->updateCustomFields($pirep->id, $fields);
-        $this->fareSvc->saveForPirep($pirep, $fares);
+        $this->fareSvc->saveToPirep($pirep, $fares);
 
         return $pirep;
     }

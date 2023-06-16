@@ -14,11 +14,91 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use InvalidArgumentException;
 
-use function count;
-
 class FareService extends Service
 {
     /**
+     * Save the list of fares, reconcile the proper pricing and save it to the PIREP.
+     * Get the fares that have been filled out for the PIREP, and then get the fares for
+     * the flight and subfleet. Then merge them together, and return the final list of:
+     *
+     *      count       = number of pax
+     *      price       = how much each pax unit paid
+     *      capacity    = max number of pax units
+     *
+     * If count > capacity, count will be adjusted to capacity
+     *
+     * @param Pirep       $pirep
+     * @param PirepFare[] $fares
+     *
+     * @throws \Exception
+     */
+    public function saveToPirep(Pirep $pirep, array $fares)
+    {
+        if (empty($fares)) {
+            return;
+        }
+
+        // Remove all the previous fares
+        PirepFare::where('pirep_id', $pirep->id)->delete();
+
+        $fares = collect($fares);
+        Log::info('Finance: PIREP: '.$pirep->id.', flight fares: ', $fares->toArray());
+
+        // Read the original fare and get this information from it
+        $all_fares = $this->getAllFares($pirep->flight, $pirep->aircraft->subfleet);
+        $all_fares->map(function ($fare, $_) use ($fares, $pirep) {
+            /**
+             * See if there's match with the provided fares, so we can copy the information over
+             *
+             * @var PirepFare $pirep_fare
+             */
+            $pirep_fare = $fares->where('fare_id', $fare->id)->first();
+
+            if (!$pirep_fare) {
+                Log::info('Finance: PIREP: '.$pirep->id.', original fare not found', $fare->toArray());
+                return;
+            }
+
+            Log::info('Finance: PIREP: '.$pirep->id.', fare count: '.$pirep_fare);
+
+            $pirep_fare->pirep_id = $pirep->id;
+            $pirep_fare->code = $fare->code;
+            $pirep_fare->name = $fare->name;
+            $pirep_fare->type = $fare->type;
+
+            // Only copy over fields which don't already have values
+
+            if (empty($pirep_fare->capacity)) {
+                $pirep_fare->capacity = $fare->capacity;
+            }
+
+            if (empty($pirep_fare->count)) {
+                // If the count is greater than capacity, set it to the smaller amount
+                $pirep_fare->count = min($pirep_fare->count, $pirep_fare->capacity);
+            }
+
+            if (empty($pirep_fare->price)) {
+                $pirep_fare->price = $fare->price;
+            }
+
+            if (empty($pirep_fare->cost)) {
+                $pirep_fare->cost = $fare->cost;
+            }
+
+            $pirep_fare->fare_id = null; // Remove the index to it
+        });
+
+        // Save all of the fares; they might have been modded above, or from the caller
+        // (e.g, if it was edited on the admin page)
+        foreach ($fares as $fare) {
+            $fare->save();
+        }
+    }
+
+    /**
+     * Determine the correct fares to use between a subfleet and flight. You probably aren't
+     * looking to call this one directly, but instead, call getReconciledFaresForFlight()
+     *
      * @param Collection[Fare] $subfleet_fares The fare for a subfleet
      * @param Collection[Fare] $flight_fares   The fares on a flight
      *
@@ -144,7 +224,7 @@ class FareService extends Service
      *
      * @return \App\Models\Fare
      */
-    public function getFareWithPivot(Fare $fare, Pivot $pivot)
+    public function getFareWithPivot(Fare $fare, Pivot $pivot): Fare
     {
         if (filled($pivot->price)) {
             if (strpos($pivot->price, '%', -1) !== false) {
@@ -291,30 +371,5 @@ class FareService extends Service
     public function getForPirep(Pirep $pirep)
     {
         return PirepFare::where('pirep_id', $pirep->id)->get();
-    }
-
-    /**
-     * Save the list of fares
-     *
-     * @param Pirep       $pirep
-     * @param PirepFare[] $fares
-     *
-     * @throws \Exception
-     */
-    public function saveForPirep(Pirep $pirep, array $fares)
-    {
-        if (!$fares || empty($fares)) {
-            return;
-        }
-
-        // Remove all the previous fares
-        PirepFare::where('pirep_id', $pirep->id)->delete();
-
-        // Add them in
-        foreach ($fares as $fare) {
-            $fare->pirep_id = $pirep->id;
-            Log::info('Saving fare pirep='.$pirep->id.', fare='.$fare['count']);
-            $fare->save();
-        }
     }
 }

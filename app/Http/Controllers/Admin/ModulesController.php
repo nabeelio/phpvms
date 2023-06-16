@@ -78,7 +78,7 @@ class ModulesController extends Controller
     /**
      * Update the specified Module in storage.
      *
-     * @param $id
+     * @param         $id
      * @param Request $request
      *
      * @return Application|RedirectResponse|Redirector

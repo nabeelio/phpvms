@@ -3,28 +3,46 @@
 namespace App\Models;
 
 use App\Contracts\Model;
+use App\Models\Enums\FareType;
 
 /**
- * @property int    id
- * @property string pirep_id
- * @property int    fare_id
- * @property int    count
- * @property Pirep  pirep
- * @property Fare   fare
+ * @property int       id
+ * @property string    pirep_id
+ * @property int       fare_id
+ * @property string    code
+ * @property string    name
+ * @property int       count
+ * @property float     price
+ * @property float $cost
+ * @property int   $capacity
+ * @property Pirep     pirep
+ * @property Fare|null fare
+ * @property FareType  type
  */
 class PirepFare extends Model
 {
     public $table = 'pirep_fares';
+
     public $timestamps = false;
 
     protected $fillable = [
         'pirep_id',
         'fare_id',
+        'code',
+        'name',
         'count',
+        'price',
+        'cost',
+        'capacity',
+        'type',
     ];
 
     protected $casts = [
-        'count' => 'integer',
+        'count'    => 'integer',
+        'price'    => 'float',
+        'cost'     => 'float',
+        'capacity' => 'integer',
+        'type'     => 'integer',
     ];
 
     public static $rules = [

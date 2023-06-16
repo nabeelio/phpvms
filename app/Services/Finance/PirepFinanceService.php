@@ -16,6 +16,7 @@ use App\Models\Enums\PirepStatus;
 use App\Models\Expense;
 use App\Models\Fare;
 use App\Models\Pirep;
+use App\Models\PirepFare;
 use App\Models\Subfleet;
 use App\Repositories\ExpenseRepository;
 use App\Repositories\JournalRepository;
@@ -121,9 +122,9 @@ class PirepFinanceService extends Service
      */
     public function payFaresForPirep($pirep): void
     {
-        $fares = $this->getReconciledFaresForPirep($pirep);
+        $fares = $this->getFaresForPirep($pirep);
 
-        /** @var \App\Models\Fare $fare */
+        /** @var PirepFare $fare */
         foreach ($fares as $fare) {
             Log::info('Finance: PIREP: '.$pirep->id.', Fare:', $fare->toArray());
 
@@ -575,51 +576,16 @@ class PirepFinanceService extends Service
     }
 
     /**
-     * Return all of the fares for the PIREP. Reconcile the list;
-     * Get the fares that have been filled out for the PIREP, and
-     * then get the fares for the flight and subfleet. Then merge
-     * them together, and return the final list of:
-     *      count       = number of pax
-     *      price       = how much each pax unit paid
-     *      capacity    = max number of pax units
-     *
-     * If count > capacity, count will be adjusted to capacity
+     * Return all of the fares for the PIREP
      *
      * @param $pirep
      *
      * @return \Illuminate\Support\Collection
      */
-    public function getReconciledFaresForPirep($pirep)
+    public function getFaresForPirep($pirep)
     {
         // Collect all of the fares and prices
-        $flight_fares = $this->fareSvc->getForPirep($pirep);
-        Log::info('Finance: PIREP: '.$pirep->id.', flight fares: ', $flight_fares->toArray());
-
-        $all_fares = $this->fareSvc->getAllFares($pirep->flight, $pirep->aircraft->subfleet);
-
-        $fares = $all_fares->map(function ($fare, $i) use ($flight_fares, $pirep) {
-            $fare_count = $flight_fares
-                ->where('fare_id', $fare->id)
-                ->first();
-
-            if ($fare_count) {
-                Log::info('Finance: PIREP: '.$pirep->id.', fare count: '.$fare_count);
-
-                // If the count is greater than capacity, then just set it
-                // to the maximum amount
-                if ($fare_count->count > $fare->capacity) {
-                    $fare->count = $fare->capacity;
-                } else {
-                    $fare->count = $fare_count->count;
-                }
-            } else {
-                Log::info('Finance: PIREP: '.$pirep->id.', no fare count found', $fare->toArray());
-            }
-
-            return $fare;
-        });
-
-        return $fares;
+        return $this->fareSvc->getForPirep($pirep);
     }
 
     /**

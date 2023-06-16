@@ -12,7 +12,7 @@ services:
       - redis
 
   nginx:
-    image: nginx:1.15.12-alpine
+    image: nginx
     command: /bin/sh -c "exec nginx -g 'daemon off;'"
     volumes:
       - ./:/var/www
@@ -23,7 +23,7 @@ services:
       - app
 
   mysql:
-    image: mysql:5.7
+    image: mysql:8
     command: "--innodb_use_native_aio=0"
     environment:
       MYSQL_DATABASE: phpvms

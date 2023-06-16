@@ -9,7 +9,6 @@ use App\Models\Enums\PirepSource;
 use App\Models\Enums\PirepState;
 use App\Models\Pirep;
 use App\Models\PirepComment;
-use App\Models\PirepFare;
 use App\Repositories\AircraftRepository;
 use App\Repositories\AirlineRepository;
 use App\Repositories\AirportRepository;
@@ -85,7 +84,7 @@ class PirepController extends Controller
      *
      * @return array
      */
-    public function aircraftList($user = null)
+    public function aircraftList($user = null): array
     {
         $aircraft = [];
 
@@ -143,22 +142,18 @@ class PirepController extends Controller
      */
     protected function saveFares(Pirep $pirep, Request $request)
     {
-        $fares = [];
-        foreach ($pirep->aircraft->subfleet->fares as $fare) {
-            $field_name = 'fare_'.$fare->id;
-            if (!$request->filled($field_name)) {
-                $count = 0;
-            } else {
-                $count = $request->input($field_name);
+        $fields = ['count', 'price'];
+        foreach ($pirep->fares as $fare) {
+            foreach ($fields as $f) {
+                $field_name = 'fare_'.$fare->id.'_'.$f;
+                if ($request->filled($field_name)) {
+                    $val = $request->input($field_name);
+                    $fare->{$f} = $val;
+                }
             }
 
-            $fares[] = new PirepFare([
-                'fare_id' => $fare->id,
-                'count'   => $count,
-            ]);
+            $fare->save();
         }
-
-        $this->fareSvc->saveForPirep($pirep, $fares);
     }
 
     /**
