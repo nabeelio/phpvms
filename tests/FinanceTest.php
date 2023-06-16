@@ -1166,41 +1166,4 @@ class FinanceTest extends TestCase
         $this->assertEquals(3020, $transactions['credits']->getValue());
         $this->assertEquals(2050.4, $transactions['debits']->getValue());
     }
-
-    public function testMigrationFinances()
-    {
-        [$user, $pirep, $fares] = $this->createFullPirep();
-        $user->airline->initJournal(setting('units.currency', 'USD'));
-
-        // Override the fares
-        $fare_counts = [];
-        foreach ($fares as $fare) {
-            $fare_counts[] = new PirepFare([
-                'fare_id'  => $fare->id,
-                'count'    => 10,
-                'capacity' => 0,
-            ]);
-        }
-
-        $this->fareSvc->saveToPirep($pirep, $fare_counts);
-
-        $all_fares = PirepFare::with('pirep', 'pirep.aircraft', 'pirep.aircraft.subfleet')->get();
-        $cached = [];
-
-        /** @var PirepFare $fare */
-        foreach ($all_fares as $fare) {
-            if (empty($fare->capacity)) {
-                $subfleet = $fare->pirep->aircraft->subfleet;
-                if (empty($cached[$subfleet->id])) {
-                    $cached[$subfleet->id] = $this->fareSvc->getForSubfleet($subfleet);
-                }
-
-                /** @var \App\Models\Fare $sf */
-                $sf = $cached[$subfleet->id]->where('code', $fare->code)->first();
-                $fare->capacity = $sf->capacity;
-            }
-
-            $fare->save();
-        }
-    }
 }

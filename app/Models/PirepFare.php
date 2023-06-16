@@ -18,7 +18,6 @@ use App\Models\Enums\FareType;
  * @property Pirep     pirep
  * @property Fare|null fare
  * @property FareType  type
- * @property string $notes
  */
 class PirepFare extends Model
 {
