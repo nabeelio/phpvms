@@ -69,7 +69,7 @@ class FareService extends Service
             // Only copy over fields which don't already have values
 
             if (empty($pirep_fare->capacity)) {
-               $pirep_fare->capacity = $fare->capacity;
+                $pirep_fare->capacity = $fare->capacity;
             }
 
             if (empty($pirep_fare->count)) {
