@@ -918,14 +918,12 @@ class FinanceTest extends TestCase
             $fareTotal += $fare->price * 100;
         }
 
-
         $this->fareSvc->saveToPirep($pirep, $fareCounts);
 
         // This should process all of the
         $pirep = $this->pirepSvc->accept($pirep);
 
         $transactions = $journalRepo->getAllForObject($pirep);
-
 
         /** @var Money $credits */
         $credits = $transactions['credits'];
