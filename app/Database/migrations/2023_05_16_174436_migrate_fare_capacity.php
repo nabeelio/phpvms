@@ -15,7 +15,7 @@ return new class() extends Migration {
 
         /** @var PirepFare $fare */
         foreach ($all_fares as $fare) {
-            if (!empty($fare->capacity)) { // has capacity, skip
+            if (empty($fare->pirep) || !empty($fare->capacity)) { // has capacity, skip
                 continue;
             }
 
