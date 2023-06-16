@@ -14,7 +14,7 @@
         <td>
           <div class="form-group">
             @if(isset($pirep) && $pirep->read_only)
-              <p>{{ $pirep->fare->count }}</p>
+              <p>{{ $fare->count }}</p>
             @else
               {{ Form::number('fare_'.$fare->id.'_count', $fare->count, [
                   'class' => 'form-control',
@@ -26,7 +26,7 @@
         </td>
         <td>
           @if(isset($pirep) && $pirep->read_only)
-              <p>{{ $pirep->fare->price }}</p>
+              <p>{{ $fare->price }}</p>
             @else
               {{ Form::number('fare_'.$fare->id.'_price', $fare->price, [
                   'class' => 'form-control',
