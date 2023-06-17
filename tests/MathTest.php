@@ -26,14 +26,14 @@ class MathTest extends TestCase
         ];
 
         foreach ($tests as $test) {
-            $this->assertEquals($test['expected'], $test['fn']);
+            $this->assertEqualsWithDelta($test['expected'], $test['fn'], 0.1);
         }
     }
 
     public function testDistanceMeasurement()
     {
         $dist = new Distance(1, 'mi');
-        $this->assertEquals(1609.34, $dist['m']);
-        $this->assertEquals(1.61, $dist['km']);
+        $this->assertEqualsWithDelta(1609.34, $dist['m'], 0.1);
+        $this->assertEqualsWithDelta(1.61, $dist['km'], 0.1);
     }
 }

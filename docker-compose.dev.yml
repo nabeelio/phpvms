@@ -5,7 +5,7 @@
 ---
 services:
   # This is overriding the docker-compose.yaml file to have a localized version
-  # of the contianer that you can use for building/testing
+  # of the container that you can use for building/testing
   app:
     build:
       context: .
@@ -30,7 +30,7 @@ services:
       - redis
 
   nginx:
-    image: nginx:1.15.12-alpine
+    image: nginx
     command: /bin/sh -c "exec nginx -g 'daemon off;'"
     volumes:
       - ./:/var/www
@@ -41,7 +41,7 @@ services:
       - app
 
   mysql:
-    image: mysql:5.7
+    image: mysql:8
     command: "--innodb_use_native_aio=0"
     environment:
       MYSQL_DATABASE: phpvms
