@@ -125,10 +125,10 @@ class Utils
             $parsed_url = substr($parsed_url, 0, strlen($parsed_url) - 1);
         }
 
-        $rules = Rules::createFromPath(resource_path('tld/public_suffix_list.dat'));
+        $rules = Rules::fromPath(resource_path('tld/public_suffix_list.dat'));
         $domain = $rules->resolve($parsed_url);
 
-        $val = $domain->getRegistrableDomain();
+        $val = $domain->registrableDomain()->toString();
         if (!empty($val)) {
             return $val;
         }
