@@ -6,6 +6,7 @@ use App\Contracts\Metar;
 use App\Support\HttpClient;
 use Exception;
 use Illuminate\Support\Facades\Log;
+
 use function count;
 
 /**

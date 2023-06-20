@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
 use RuntimeException;
+
 use function in_array;
 
 class InstallerController extends Controller

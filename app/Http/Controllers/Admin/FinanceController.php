@@ -13,7 +13,7 @@ use Illuminate\View\View;
 class FinanceController extends Controller
 {
     /**
-     * @param FinanceService    $financeSvc
+     * @param FinanceService $financeSvc
      */
     public function __construct(
         private readonly FinanceService $financeSvc

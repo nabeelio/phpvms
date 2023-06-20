@@ -35,7 +35,7 @@ class AirportNotFound extends AbstractHttpException
     public function getErrorMetadata(): array
     {
         return [
-            'icao' => $this->icao
+            'icao' => $this->icao,
         ];
     }
 }
